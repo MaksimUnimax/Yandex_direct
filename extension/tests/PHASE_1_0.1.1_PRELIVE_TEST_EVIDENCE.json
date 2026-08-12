@@ -1,0 +1,44 @@
+{
+  "product": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
+  "version": "0.1.1",
+  "date": "2026-08-12",
+  "status": "PRELIVE_CANDIDATE_PASS__PRODUCTION_CHATGPT_LIVE_PENDING",
+  "artifact": {
+    "name": "yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip",
+    "sha256": "2bdc7523e290a7be7d2d3304853c6c113d4a2518375113c9049be7cdf4010e03",
+    "bytes": 172222,
+    "files": 41
+  },
+  "tests": {
+    "source": {"total": 309, "pass": 309, "fail": 0},
+    "fresh_zip": {"total": 309, "pass": 309, "fail": 0},
+    "source_zip_byte_identity": {"identical": 41, "total": 41, "mismatches": 0},
+    "js_mjs_syntax": {"pass": 36, "total": 36},
+    "json_parse": {"pass": 2, "total": 2, "manifest_version": "0.1.1", "package_version": "0.1.1"},
+    "chromium_load": {"chromium": "144.0.7559.96", "status": "PASS", "extension_manifest_service_worker_errors": 0}
+  },
+  "repaired_contract": [
+    "no mandatory job_id in extension runtime",
+    "no GitHub/workspace coupling in extension runtime",
+    "one RUN has one active service",
+    "legacy wsmb_api_key and other proven wsmb storage keys preserved",
+    "Export settings / Import settings includes secrets intentionally and validates canonical SHA-256",
+    "Import merge preserves active RUN/manual-operation binding, service context and manual-mode safety state",
+    "all errors are automatically delivered to the bound ChatGPT conversation regardless of Debug Mode",
+    "Debug Mode only adds additional redacted diagnostics",
+    "recoverable Autorun errors continue toward WAITING_COMMAND when safe",
+    "unknown request outcome is never automatically retried",
+    "error delivery has durable claim/commit/reconciliation fencing",
+    "Manual invalid command parse errors also reach ChatGPT",
+    "error_report_queued response matches durable queue state",
+    "reference Copy/Autorun/conversation/owner-tab/single-flight protections retained"
+  ],
+  "not_yet_proven": [
+    "real user Chrome + current production ChatGPT live acceptance of 0.1.1",
+    "real Yandex Wordstat request through 0.1.1 with owner credentials",
+    "real visual/toast behavior in current production ChatGPT DOM",
+    "real Export/Import migration between two unpacked installation folders in owner Chrome"
+  ],
+  "gate": "DO_NOT_START_SEARCH_PHASE_UNTIL_CONTROLLED_PRODUCTION_LIVE_ACCEPTANCE_PASSES",
+  "paid_external_requests_during_development": 0
+}
