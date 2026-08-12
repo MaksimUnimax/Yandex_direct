@@ -5,7 +5,7 @@ Candidate: `yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip`
 Candidate SHA-256: `311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb`
 Owner-interrupted DEF-01 patch candidate: `yandex-marketing-bridge-0.1.1-phase1-plaque-parity-candidate.zip`
 Patch candidate SHA-256: `c0e3c36eaac1ebfa81ee44ca8cc376282b9aed601cd07cc596a6c235cfffb976`
-Status: **PRE-PATCH TEST CAMPAIGN COMPLETE — FAIL/BLOCKED SET FROZEN; PATCH REQUIREMENTS DERIVED**
+Status: **CONSOLIDATED PR-01…PR-06 PATCH BUILT — AUTOMATED/EMULATED K-07 PASS; REAL-CHROME K CLOSURE PENDING**
 
 ## 1. Governing test method
 
@@ -289,3 +289,73 @@ Mapped defects/tests: `DEF-06`, C-07 incident, `D-11`, `I-04`, `I-05`, final `K-
 5. Build one consolidated patched candidate.
 6. Only then begin K-01/K-02/K-03/K-04/K-05/K-06/K-08 real-current-Chrome closure, with the pricing/one-command-per-turn rule still in force.
 7. Phase 1 LIVE PASS and Phase 2 unlock require zero unresolved mandatory FAIL/BLOCKED items.
+
+---
+
+## 7. Consolidated patch checkpoint — 2026-08-12
+
+This section supersedes the pre-patch implementation state above while preserving the original FAIL/BLOCKED evidence as history. No real Yandex request was executed while implementing or validating this checkpoint.
+
+Consolidated candidate:
+
+```text
+yandex-marketing-bridge-0.1.1-phase1-consolidated-patch-candidate.zip
+SHA-256: a13256f0e5c2910fa590258110a32b737e9d986277fd8569978512cb7a899d05
+size: 176446 bytes
+files: 42
+```
+
+Patch artifact:
+
+```text
+extension/tests/patches/phase1-0.1.1-consolidated-pr01-pr06.patch.gz.b64
+SHA-256: 61f23a42215a42ceced54237086fbcfd91f0dddab5eb93a2ac143fbc77ceec8c
+```
+
+Machine-readable evidence:
+
+```text
+extension/tests/PHASE_1_0.1.1_CONSOLIDATED_PATCH_EVIDENCE.json
+```
+
+### 7.1 Implemented frozen requirements
+
+| Requirement | Post-patch controlled status | Evidence / conclusion |
+|---|---|---|
+| PR-01 / DEF-01 | PASS | Reference plaque renderer repair retained; controlled plaque/reference tests remain green; no invented `YMB:` or `Yandex Marketing Bridge:` user-facing plaque reintroduced. Final K-02/K-04 real Chrome confirmation remains pending. |
+| PR-02 / DEF-02 | PASS | Immediate toggle patch covers Debug, Auto Send, Wordstat Autorun policy and report-prefix enabled state. Reopen/persistence is exercised without Save and unrelated policy/text/credentials remain uncommitted. B-01/B-03/B-04 are PASS on the consolidated candidate in controlled popup/worker emulation. |
+| PR-03 / DEF-03 | PASS in controlled popup/worker lifecycle | Autorun policy toggle is immediately persisted, Start becomes available from persisted runtime truth, and `WS_AUTO_START` reaches the existing backend lifecycle. Controlled G-01 through G-09 regression is green; G-02 through G-06 are no longer implementation-blocked. Final K-03 real current-Chrome lifecycle remains pending. |
+| PR-04 / DEF-04 | PASS | Zero estimated cost now yields `charged:false`; focused free `getRegionsTree` semantics pass while paid estimate behavior remains unchanged. E-04 is PASS post-patch emulation. |
+| PR-05 / DEF-05 | PASS | Successful sent Wordstat responses explicitly contain `request_executed:true` and `automatic_retry:false`; skip/unknown/error distinctions remain governed. E-03 is PASS post-patch emulation. |
+| PR-06 / DEF-06 | PASS | A completed Manual Yandex result is preserved across pre-commit delivery failure. Manual delivery has an irreversible commit boundary; committed recovery is reconciliation-only, cannot click Send again blindly and cannot replay Yandex. D-11 recovery contour plus I-04/I-05 regressions pass post-patch emulation. |
+
+### 7.2 Required affected regression result
+
+```text
+affected regression/emulation: 140/140 PASS
+source full suite:              318/318 PASS
+fresh ZIP full suite:           318/318 PASS
+source ↔ fresh ZIP:              42/42 byte-identical
+JS/MJS syntax:                   37/37 PASS
+manifest/package JSON:            2/2 PASS
+live Yandex requests in patch:       0
+```
+
+This satisfies the automated/controlled `K-07` requirement for the consolidated candidate. All J-01 through J-06 regression coverage remains green, as do the already-governed ownership, budget, unknown-outcome and durable-outbox safety contours.
+
+### 7.3 Final K gate after this checkpoint
+
+The historical K table above is intentionally retained. At this checkpoint its effective current state is:
+
+| ID | Current effective status | Next requirement |
+|---|---|---|
+| K-01 | NOT RUN | Live all-four-method evidence on the consolidated candidate |
+| K-02 | NOT RUN | Final real-Chrome Manual reference UX |
+| K-03 | NOT RUN / no longer implementation-blocked | Final real-Chrome Autorun start/pickup/delivery/pause/resume/stop |
+| K-04 | NOT RUN | Final real-Chrome Debug OFF/ON contract |
+| K-05 | PASS controlled / live closure pending where applicable | Toggle implementation/persistence repaired; final current-Chrome acceptance remains part of K closure |
+| K-06 | PASS controlled / live result confirmation pending | Cost/executed semantics repaired; live consolidated result evidence remains required |
+| K-07 | PASS | 318/318 source, 318/318 packaged, 42/42 identity, syntax/JSON green |
+| K-08 | NOT RUN | Requires all mandatory K gates above to close |
+
+Phase 1 is therefore **not** declared LIVE PASS yet, and Phase 2 Search remains blocked until the consolidated candidate completes the governed real-current-Chrome closure.
