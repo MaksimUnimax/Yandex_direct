@@ -66,11 +66,11 @@ No further live command is to be issued until this ledger and the governing rule
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| A-01 | Candidate identity | Popup/runtime report version `0.1.1`; candidate hash matches governed artifact | NOT RUN | |
+| A-01 | Candidate identity | Popup/runtime report version `0.1.1`; candidate hash matches governed artifact | PASS | Controlled candidate check: manifest/package/runtime version `0.1.1`; SHA-256 of installed candidate archive rechecked as `311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb` |
 | A-02 | Same-folder upgrade compatibility | Existing compatible settings survive reload/upgrade | NOT RUN | |
 | A-03 | New installation import path | Exported settings can be imported into another unpacked installation identity | NOT RUN | |
 | A-04 | No runtime GitHub/job coupling | No `job_id`, repo, branch, commit or GitHub token required to execute Wordstat | PASS | Multiple governed standalone Manual commands executed successfully with `run_id:null` and without `job_id`/repo/branch/commit/GitHub runtime fields or gates |
-| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | NOT RUN | Normal result/error outputs observed so far are redacted; Debug path still pending |
+| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | NOT RUN | Governed normal outputs contain no credentials; controlled Debug emulation proves API-key redaction, but final full secret-set/live Debug confirmation remains pending |
 
 ### B. Popup controls and immediate state persistence — emulator/controlled browser
 
@@ -123,30 +123,30 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | E-04 | Free-call charge semantics | `getRegionsTree`: `estimated_rub:0` and not reported as charged | FAIL | 2026-08-12 governed live confirmation: successful free `getRegionsTree` returned `HTTP 200`, `estimated_rub:0` but incorrectly `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | PASS | D-10 `getTop` reports `estimated_rub:0.02`, matching the freshly checked 20 RUB / 1000-request tariff stated immediately before execution |
 | E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 and D-02 propagated `HTTP 200` |
-| E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | NOT RUN | D-08/D-09/F-04 governed errors report `automatic_retry:false`; unknown-outcome branch remains pending I-02 |
-| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | Normal governed envelopes contain no key/Authorization secret; Debug path still pending F-05 |
+| E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | PASS | Governed D-08/D-09/F-04 errors report `automatic_retry:false`; controlled fault injection after service-worker loss during `REQUESTING` produced `REQUEST_OUTCOME_UNKNOWN_NO_RETRY` and no Yandex replay |
+| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | Normal governed envelopes contain no key/Authorization secret; controlled Debug test confirms API-key redaction, but full live Debug secret check remains pending |
 
 ### F. Debug and always-on error delivery
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | F-01 | Debug OFF error-to-chat | Error automatically arrives without operator log-copy step | PASS | 2026-08-12 governed live: unsupported method automatically delivered `YMB_ERROR_V1` to this ChatGPT conversation with `request_executed:false`; no manual diagnostics/log copy needed; timestamp `2026-08-12T11:48:18.482Z` |
-| F-02 | Debug ON error-to-chat | Same error delivery still happens | NOT RUN | |
-| F-03 | Debug ON additional diagnostics | Adds useful redacted diagnostics/state trace | NOT RUN | |
+| F-02 | Debug ON error-to-chat | Same error delivery still happens | PASS | Controlled worker emulation: Debug ON follows the same error-delivery path; generated error envelope remains deliverable rather than suppressing delivery. Final real-Chrome confirmation remains part of K-04 |
+| F-03 | Debug ON additional diagnostics | Adds useful redacted diagnostics/state trace | PASS | Controlled worker emulation: Debug ON adds `debug_logs`; Debug OFF omits them |
 | F-04 | Debug OFF no extra diagnostics | Normal envelope remains concise while still delivering the error | PASS | Same governed Debug-OFF error contained normal fields only and no `debug_logs`/extra diagnostic trace while still auto-delivering to ChatGPT |
-| F-05 | Debug secrecy | API key/token/Authorization never exposed | NOT RUN | |
+| F-05 | Debug secrecy | API key/token/Authorization never exposed | PASS | Controlled Debug emulation explicitly verifies configured API key is absent from redacted diagnostics/error output; no Authorization header is surfaced by the generated envelope. Final real-Chrome confirmation remains part of K-04/A-05 |
 
 ### G. Autorun lifecycle — emulator for UI/state, live ChatGPT for command pickup
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| G-01 | Start Autorun | One start action creates current-conversation RUN and enters waiting state | FAIL (pre-rule evidence) | UI remained `Не запущен`, iteration 0 |
-| G-02 | Autorun block pickup | With RUN active, next eligible command is captured without local Copy | BLOCKED | Blocked by G-01 |
-| G-03 | Autorun result delivery | Result automatically returns to same conversation exactly once | BLOCKED | Blocked by G-01 |
-| G-04 | Pause | Active RUN can be paused deterministically | BLOCKED | Blocked by G-01 |
-| G-05 | Resume | Paused RUN resumes without new RUN identity or counter reset | BLOCKED | Blocked by G-01 |
-| G-06 | Stop | Stop terminates RUN cleanly and prevents further auto-capture | BLOCKED | Blocked by G-01 |
-| G-07 | Recoverable error continuation | Recoverable error reports to ChatGPT and RUN returns to waiting when safe | BLOCKED | Blocked by G-01 |
+| G-01 | Start Autorun | One start action creates current-conversation RUN and enters waiting state | FAIL | Pre-rule real popup remained `Не запущен`, iteration 0. Controlled worker emulation separately proves `WS_AUTO_START` backend can finalize to `waiting_command`, isolating the observed live failure to popup/policy/integration rather than the core start state transition |
+| G-02 | Autorun block pickup | With RUN active, next eligible command is captured without local Copy | BLOCKED | Blocked by live G-01 |
+| G-03 | Autorun result delivery | Result automatically returns to same conversation exactly once | BLOCKED | Blocked by live G-01 |
+| G-04 | Pause | Active RUN can be paused deterministically | BLOCKED | Blocked by live G-01 |
+| G-05 | Resume | Paused RUN resumes without new RUN identity or counter reset | BLOCKED | Blocked by live G-01 |
+| G-06 | Stop | Stop terminates RUN cleanly and prevents further auto-capture | BLOCKED | Blocked by live G-01 |
+| G-07 | Recoverable error continuation | Recoverable error reports to ChatGPT and RUN returns to waiting when safe | PASS | Controlled worker emulation: recoverable Autorun error queues chat error and returns RUN to `WAITING_COMMAND` without blind retry. Real current-Chrome confirmation blocked by G-01 |
 | G-08 | Duplicate/other tab ownership | Another conversation/tab cannot steal or duplicate execution ownership | NOT RUN | |
 | G-09 | Reload recovery | Reload during safe waiting state restores controlled RUN state | NOT RUN | |
 
@@ -154,10 +154,10 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| H-01 | Attempt/executed/skipped counters | Counters update once per operation with correct classification | BLOCKED | Requires working Autorun RUN |
-| H-02 | Request limit enforcement | Over-limit command is skipped before Yandex request | BLOCKED | Requires working Autorun RUN |
-| H-03 | Cost limit enforcement | Over-cost command is skipped before Yandex request | BLOCKED | Requires working Autorun RUN |
-| H-04 | Manual while RUN paused shares budget | Manual Copy cannot bypass paused RUN request/cost ceiling | BLOCKED | Requires working Autorun RUN |
+| H-01 | Attempt/executed/skipped counters | Counters update once per operation with correct classification | PASS | Controlled RUN emulation: allowed request increments attempted/executed once; cost- or request-limited and paused-RUN blocked operations increment attempted/skipped without incrementing executed |
+| H-02 | Request limit enforcement | Over-limit command is skipped before Yandex request | PASS | Controlled RUN emulation: request-limit test blocked the next request before fetch |
+| H-03 | Cost limit enforcement | Over-cost command is skipped before Yandex request | PASS | Controlled RUN emulation: cost-limit test blocked paid `getTop` before fetch |
+| H-04 | Manual while RUN paused shares budget | Manual Copy cannot bypass paused RUN request/cost ceiling | PASS | Controlled paused-RUN emulation: Manual paid request was blocked by shared cost ceiling; allowed variant reserved/recorded the same RUN budget |
 | H-05 | Standalone Manual behavior | No invented job budget is required when no RUN exists | PASS | Governed D-06 through D-10 ran standalone with `run_id:null`; no Job ID or invented Job budget was required |
 
 ### I. Unknown outcome, recovery and duplicate prevention — emulator/fault injection only unless owner explicitly authorizes risk
@@ -165,21 +165,21 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | I-01 | Worker loss before irreversible request boundary | Safe recovery may retry only if request definitely never left | NOT RUN | |
-| I-02 | Worker loss after irreversible boundary | `REQUEST_OUTCOME_UNKNOWN`, `request_executed:UNKNOWN`, no blind retry | NOT RUN | |
+| I-02 | Worker loss after irreversible boundary | `REQUEST_OUTCOME_UNKNOWN`, `request_executed:UNKNOWN`, no blind retry | PASS | Controlled fault injection: service-worker session loss during `REQUESTING` returns `request_outcome_unknown` / `REQUEST_OUTCOME_UNKNOWN_NO_RETRY`; Yandex is not retried and last-error execution state is `UNKNOWN` |
 | I-03 | Unknown-outcome command fence | Identical command cannot be automatically reissued until reconciliation | NOT RUN | |
-| I-04 | Durable error outbox | Staged/committed error survives reload and is delivered once | NOT RUN | |
-| I-05 | Post-Send reconciliation | After committed Send boundary, recovery never clicks Send again blindly | NOT RUN | |
+| I-04 | Durable error outbox | Staged/committed error survives reload and is delivered once | PASS | Controlled recovery tests: error delivery follows claim → committed → confirmed; duplicate commit cannot grant a second Send; `WS_CONTENT_READY` exposes pending recovery without replaying Yandex |
+| I-05 | Post-Send reconciliation | After committed Send boundary, recovery never clicks Send again blindly | PASS | Controlled content reconciliation tests execute committed/recovery branches without replay; duplicate/recovered delivery remains reconciliation-only after the irreversible Send boundary |
 
 ### J. Export / Import and backup integrity — emulator/controlled browser
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| J-01 | Export schema | Backup contains required metadata + settings + `contains_secrets:true` | NOT RUN | |
-| J-02 | SHA-256 validation | Untouched backup accepted | NOT RUN | |
-| J-03 | Tamper rejection | Modified backup rejected | NOT RUN | |
-| J-04 | Cross-install restore | Credentials/settings restored in another unpacked identity | NOT RUN | |
-| J-05 | Active RUN preservation | Import never replaces active execution state | NOT RUN | |
-| J-06 | Secret containment | Backup secret values never enter ChatGPT/GitHub logs | NOT RUN | |
+| J-01 | Export schema | Backup contains required metadata + settings + `contains_secrets:true` | PASS | Controlled Export test produced the governed secret-bearing settings backup schema |
+| J-02 | SHA-256 validation | Untouched backup accepted | PASS | Controlled Export/Import test validates checksum and accepts untouched backup |
+| J-03 | Tamper rejection | Modified backup rejected | PASS | Controlled checksum test rejects tampered backup |
+| J-04 | Cross-install restore | Credentials/settings restored in another unpacked identity | NOT RUN | Runtime round-trip works in emulation; distinct unpacked-extension identity migration still pending |
+| J-05 | Active RUN preservation | Import never replaces active execution state | PASS | Controlled import test preserves active RUN while restoring settings |
+| J-06 | Secret containment | Backup secret values never enter ChatGPT/GitHub logs | NOT RUN | Backup intentionally contains secrets; explicit transport/log-containment check still pending |
 
 ### K. Final regression/live closure
 
@@ -188,9 +188,9 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | K-01 | All four Wordstat methods | `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree` all have passing live evidence on patched candidate | NOT RUN | Current evidence belongs to pre-patch 0.1.1 candidate |
 | K-02 | Manual reference UX | Copy decoration + start plaque + response plaque + one result + no duplicate request | NOT RUN | |
 | K-03 | Autorun reference UX | Start + auto-capture + one request + one delivery + pause/resume/stop | BLOCKED | G-01 |
-| K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | |
-| K-05 | Toggle persistence | Every toggle-type setting persists immediately without Save | NOT RUN | |
-| K-06 | Cost/accounting semantics | Free and paid methods report cost/charged state correctly | NOT RUN | |
+| K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | Debug core emulation passes, but real current-Chrome Debug-ON confirmation is still required after toggle/start fixes |
+| K-05 | Toggle persistence | Every toggle-type setting persists immediately without Save | NOT RUN | Current candidate has B-01/B-03/B-04 FAIL |
+| K-06 | Cost/accounting semantics | Free and paid methods report cost/charged state correctly | NOT RUN | Current candidate has E-04 FAIL |
 | K-07 | Static/full regression after patch | Full source + packaged suite green; source/package identity checked | NOT RUN | Only after patch |
 | K-08 | Final real-Chrome/current-ChatGPT acceptance | No unresolved mandatory FAIL/BLOCKED item remains | NOT RUN | |
 
@@ -204,7 +204,7 @@ This register is derived from observed FAILs and is not yet the patch specificat
 |---|---|---|
 | DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | Generic green `YMB:` notification replaces required reference-style feedback |
 | DEF-02 Toggle persistence architecture wrong | PRE-03, B-01, B-03, B-04 | Debug, Auto Send, Wordstat Autorun policy and report-prefix boolean controls do not persist immediately; Manual is the working counterexample because it has an immediate runtime action |
-| DEF-03 Autorun cannot start | PRE-04, G-01 | No RUN created; iteration/counters remain zero |
+| DEF-03 Autorun cannot start | PRE-04, G-01 | Live popup never creates RUN. Controlled backend start reaches `waiting_command`, narrowing defect to popup/policy/integration path |
 | DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | Governed live `getRegionsTree` confirms `estimated_rub:0` with incorrect `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | DEF-05 Successful-result executed flag missing | D-10, D-02, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
 
