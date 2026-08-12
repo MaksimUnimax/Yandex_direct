@@ -5,7 +5,7 @@ Candidate: `yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip`
 Candidate SHA-256: `311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb`
 Owner-interrupted DEF-01 patch candidate: `yandex-marketing-bridge-0.1.1-phase1-plaque-parity-candidate.zip`
 Patch candidate SHA-256: `c0e3c36eaac1ebfa81ee44ca8cc376282b9aed601cd07cc596a6c235cfffb976`
-Status: **ACTIVE TEST CAMPAIGN — OWNER-INTERRUPTED DEF-01 PATCH CHECKPOINT; LIVE RERUN PENDING**
+Status: **PRE-PATCH TEST CAMPAIGN COMPLETE — FAIL/BLOCKED SET FROZEN; PATCH REQUIREMENTS DERIVED**
 
 ## 1. Governing test method
 
@@ -74,7 +74,7 @@ No further live command is to be issued until this ledger and the governing rule
 | A-02 | Same-folder upgrade compatibility | Existing compatible settings survive reload/upgrade | PASS | 2026-08-12 controlled same-storage/same-folder worker reload on plaque-patch candidate: API key, Folder ID, Auto Send OFF, Debug ON, custom Wordstat request/cost ceilings, Manual mode, report-prefix state and auto-start prompt all survived into a fresh worker context backed by the same persisted storage. `publicSettingsState` reproduced Folder ID, Auto Send, Debug and policy limit values. Focused A-02 test passed 1/1. |
 | A-03 | New installation import path | Exported settings can be imported into another unpacked installation identity | PASS | 2026-08-12 controlled cross-install emulation on plaque-patch candidate: settings were exported from runtime identity `phase1-extension-A` and imported into a distinct fresh runtime identity `phase1-extension-B`. API key, Folder ID, Auto Send OFF, Debug ON and custom Wordstat request/cost ceilings were restored successfully; import returned `imported:true`. Focused A-03 test passed 1/1. |
 | A-04 | No runtime GitHub/job coupling | No `job_id`, repo, branch, commit or GitHub token required to execute Wordstat | PASS | Multiple governed standalone Manual commands executed successfully with `run_id:null` and without `job_id`/repo/branch/commit/GitHub runtime fields or gates |
-| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | PASS | 2026-08-12 governed real-Chrome Debug-ON error arrived with full `debug_logs`; inspection found no API key, OAuth token, `Authorization` header/value or credential-storage secret in the delivered payload. Normal governed outputs were also secret-free |
+| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | PASS | 2026-08-12 governed real-Chrome Debug-ON error arrived with full `debug_logs`; inspection found no API key, OAuth token, `Authorization` header/value` or credential-storage secret in the delivered payload. Normal governed outputs were also secret-free |
 
 ### B. Popup controls and immediate state persistence — emulator/controlled browser
 
@@ -89,14 +89,14 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | B-05 | Text/credential fields | Explicit Save is required only where intentionally designed for text/credential commit | PASS | Controlled popup emulation using Folder ID: unsaved edit disappeared on reopen; edit followed by Save persisted and appeared in a fresh popup instance |
 | B-06 | Popup reopen state fidelity | Reopening popup reflects runtime/storage truth, not stale defaults | PASS | Controlled popup emulation: fresh popup rendered persisted backend truth; Manual ON survived because backend changed, while unsaved boolean edits reverted to stored values |
 
-### C. Reference UI plaques/toasts — emulator plus live confirmation where applicable
+### C. Reference UI plaques/toasts — emulator plus final live closure where applicable
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | C-01 | Supported command Copy decoration | Supported `WORDSTAT_API_V1` local Copy is visibly decorated as the API action boundary | PASS | 2026-08-12 governed real Chrome: owner explicitly confirmed that supported command Copy controls are visibly highlighted/decorated (`Все выделено`); C-01 `getRegionsTree` block was therefore recognized as the API action boundary. The same action executed successfully as request_id `85085824-b4e9-4584-ba52-cb4610e6ec13`. |
-| C-02 | Request-start plaque | Real operation shows reference-style `отправляю <method>` feedback | FAIL (installed candidate; post-patch emulation PASS) | Pre-rule live installed-base evidence remains FAIL. Owner-interrupted DEF-01 patch preserves the exact reference toast renderer byte-for-byte and controlled emulation confirms the exact request-start label `Wordstat: отправляю ${parsed.method} в Yandex API…` with reference info tone. Real current-Chrome rerun on patched candidate remains pending. |
-| C-03 | Success plaque | Successful response shows reference-style `ответ получен` | NOT RUN (live; post-patch emulation PASS) | Controlled post-patch emulation confirms exact reference success label `Wordstat: ответ получен. Передаю результат в ChatGPT…` with reference success tone; real current-Chrome confirmation on patched candidate remains pending. |
-| C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (installed candidate; post-patch emulation PASS) | Pre-rule installed-base evidence remains FAIL. Owner-interrupted DEF-01 patch removes user-facing `YMB:`/`Yandex Marketing Bridge:` toast labels from Wordstat Phase 1 paths and renders error-delivery plaques with the reference error tone. Focused emulation 2/2 PASS; real current-Chrome rerun remains pending. |
+| C-02 | Request-start plaque | Real operation shows reference-style `отправляю <method>` feedback | FAIL (installed candidate; post-patch emulation PASS) | Pre-rule live installed-base evidence remains FAIL. Owner-interrupted DEF-01 patch preserves the exact reference renderer and controlled emulation confirms the patched request-start plaque. Final K-02 real-Chrome closure remains pending on the consolidated patched candidate. |
+| C-03 | Success plaque | Successful response shows reference-style `ответ получен` | PASS (post-patch emulation; final K-02 live pending) | Owner explicitly required plaque wording/appearance to be validated in emulation rather than repetitive manual UI clicking. Controlled DEF-01 patch emulation confirms the reference success plaque; final consolidated-candidate live UX is deferred to K-02. |
+| C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (installed candidate; post-patch emulation PASS) | Pre-rule installed-base evidence remains FAIL. Owner-interrupted DEF-01 patch removes invented user-facing YMB/Yandex Marketing Bridge toast labels from Wordstat Phase 1 paths and renders error delivery with reference error tone. Final K-02/K-04 real-Chrome closure remains pending on the consolidated candidate. |
 | C-05 | Non-command Copy | Copying non-Wordstat content remains native copy only and never triggers Yandex | PASS | 2026-08-12 governed real-Chrome: owner clicked local Copy once on a non-command text block `YMB_C05_NON_COMMAND_COPY_TEST`, waited about five seconds, and reported `ничего`; no `WORDSTAT_RESULT_V1`, `YMB_ERROR_V1` or other Wordstat/Yandex execution output appeared. |
 | C-06 | Generic ChatGPT Copy response | Must never be treated as API authorization/trigger | PASS | 2026-08-12 governed real-Chrome: owner clicked the generic ChatGPT `Copy`/`Копировать ответ` control for the entire assistant response rather than the local command-block Copy, waited about five seconds, and reported `ничего`; no Wordstat/Yandex result, error or request output appeared. |
 | C-07 | Double-click protection | Repeated/double local Copy cannot produce duplicate Yandex requests | PASS | 2026-08-12 governed real Chrome: owner performed four Copy clicks as two rapid double-click pairs separated by a pause. Debug evidence shows exactly two Yandex requests total: request `504d27be-fe8a-4a0e-bb0a-8f228c5c9d7b` for the first pair and request `1e7bbdfc-f67e-4079-868f-95ef58db574d` for the second pair. Therefore each rapid pair collapsed to one request; no second request was produced within either pair. The second pair separately exposed a delivery-readiness failure after the request completed. |
@@ -128,7 +128,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | PASS | D-10 `getTop` reports `estimated_rub:0.02`, matching the freshly checked 20 RUB / 1000-request tariff stated immediately before execution |
 | E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 and D-02 propagated `HTTP 200` |
 | E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | PASS | Governed D-08/D-09/F-04 errors report `automatic_retry:false`; controlled fault injection after service-worker loss during `REQUESTING` produced `REQUEST_OUTCOME_UNKNOWN_NO_RETRY` and no Yandex replay |
-| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | PASS | Governed real-Chrome Debug-ON `YMB_ERROR_V1` contained extensive diagnostics but no API key, OAuth token, Authorization secret or credential-storage value; normal live result/error envelopes were also secret-free |
+| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | PASS | Governed real-Chrome Debug-ON `YMB_ERROR_V1` contained extensive diagnostics but no API key, OAuth token, `Authorization` secret or credential-storage value; normal live result/error envelopes were also secret-free |
 
 ### F. Debug and always-on error delivery
 
@@ -189,31 +189,29 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| K-01 | All four Wordstat methods | `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree` all have passing live evidence on patched candidate | NOT RUN | Current evidence belongs to pre-patch 0.1.1 candidate |
-| K-02 | Manual reference UX | Copy decoration + start plaque + response plaque + one result + no duplicate request | NOT RUN | DEF-01 post-patch emulation is green; live patched-candidate confirmation remains pending |
-| K-03 | Autorun reference UX | Start + auto-capture + one request + one delivery + pause/resume/stop | BLOCKED | G-01 |
-| K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | Current 0.1.1 now has governed real-Chrome PASS evidence for Debug OFF and ON; mandatory post-patch rerun remains because toggle persistence is separately broken |
-| K-05 | Toggle persistence | Every toggle-type setting persists immediately without Save | NOT RUN | Current candidate has B-01/B-03/B-04 FAIL |
-| K-06 | Cost/accounting semantics | Free and paid methods report cost/charged state correctly | NOT RUN | Current candidate has E-04 FAIL |
-| K-07 | Static/full regression after patch | Full source + packaged suite green; source/package identity checked | PASS (DEF-01 patch checkpoint) | 2026-08-12 owner-interrupted DEF-01 patch: focused plaque emulation 2/2 PASS; full source suite 313/313 PASS; fresh ZIP suite 313/313 PASS; source↔fresh ZIP 42/42 byte-identical; JS/MJS syntax 37/37; JSON 2/2. No Yandex request executed. |
+| K-01 | All four Wordstat methods | `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree` all have passing live evidence on patched candidate | NOT RUN | Current evidence belongs to pre-consolidated-patch candidate |
+| K-02 | Manual reference UX | Copy decoration + start plaque + response plaque + one result + no duplicate request | NOT RUN | DEF-01 emulation green; final consolidated-candidate live confirmation pending |
+| K-03 | Autorun reference UX | Start + auto-capture + one request + one delivery + pause/resume/stop | BLOCKED | G-01 must be repaired by consolidated patch |
+| K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | Mandatory consolidated-candidate rerun pending |
+| K-05 | Toggle persistence | Every toggle-type setting persists immediately without Save | NOT RUN | B-01/B-03/B-04 feed patch requirement PR-02 |
+| K-06 | Cost/accounting semantics | Free and paid methods report cost/charged state correctly | NOT RUN | E-03/E-04 feed PR-04/PR-05 |
+| K-07 | Static/full regression after patch | Full source + packaged suite green; source/package identity checked | PASS (DEF-01 patch checkpoint only) | DEF-01-only checkpoint was green; consolidated patch requires a fresh K-07 rerun |
 | K-08 | Final real-Chrome/current-ChatGPT acceptance | No unresolved mandatory FAIL/BLOCKED item remains | NOT RUN | |
 
 ---
 
 ## 4. Current defect register
 
-This register is derived from observed FAILs and is not yet the patch specification.
+This register is the frozen pre-patch defect set.
 
 | Defect | Source tests | Current observation |
 |---|---|---|
-| DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | **PATCHED UNDER OWNER INTERRUPTION; POST-PATCH EMULATION PASS / LIVE RERUN PENDING.** Exact reference toast renderer preserved byte-for-byte; Wordstat request/success labels preserved; invented YMB/Yandex Marketing Bridge toast labels removed from Wordstat Phase 1 paths; error delivery uses reference error tone. |
+| DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | **ALREADY PATCHED UNDER OWNER INTERRUPTION; POST-PATCH EMULATION PASS.** Carry this fix unchanged into consolidated candidate and verify in K-02/K-04. |
 | DEF-02 Toggle persistence architecture wrong | PRE-03, B-01, B-03, B-04 | Debug, Auto Send, Wordstat Autorun policy and report-prefix boolean controls do not persist immediately; Manual is the working counterexample because it has an immediate runtime action |
 | DEF-03 Autorun cannot start | PRE-04, G-01 | Live popup never creates RUN. Controlled backend start reaches `waiting_command`, narrowing defect to popup/policy/integration path |
 | DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | Governed live `getRegionsTree` confirms `estimated_rub:0` with incorrect `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | DEF-05 Successful-result executed flag missing | D-10, D-02, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
-| DEF-06 Manual post-request delivery readiness failure | C-07 incident, D-11 | On the second double-click pair, Yandex request `1e7bbdfc-f67e-4079-868f-95ef58db574d` completed HTTP 200, then delivery failed with `DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT`, `request_executed:true`, `automatic_retry:false`. Two subsequent fresh commands recovered successfully (D-11), so the runtime is not permanently wedged, but deterministic delivery readiness/recovery for the already executed operation remains required. |
-
-Owner explicitly interrupted the campaign on 2026-08-12 and ordered an immediate DEF-01 plaque-only patch. This is the rule-4 exception for DEF-01 only. DEF-02 through DEF-06 remain unpatched until separately derived/ordered.
+| DEF-06 Manual post-request delivery readiness failure | C-07 incident, D-11 | On the second double-click pair, Yandex request `1e7bbdfc-f67e-4079-868f-95ef58db574d` completed HTTP 200, then delivery failed with `DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT`, `request_executed:true`, `automatic_retry:false`. Subsequent fresh commands recover, but the already-executed result must be durably recoverable without another Yandex request. |
 
 ---
 
@@ -226,16 +224,68 @@ Append newly discovered test requirements here **before executing them**.
 
 ---
 
-## 6. Patch derivation gate
+## 6. Frozen patch requirements derived from the campaign
 
-When the campaign is complete:
+The pre-patch campaign is complete. No additional implementation scope may be invented from memory; the consolidated patch is limited to the frozen defects below plus structural changes strictly necessary to satisfy them.
 
-1. Freeze the final FAIL/BLOCKED list.
-2. Convert each confirmed defect into an explicit patch requirement mapped to test IDs.
-3. Implement only against those documented requirements plus necessary structural fixes.
-4. Add/adjust regression tests for each confirmed defect.
-5. Build a new candidate.
-6. Rerun affected emulator/static tests first.
-7. Rerun mandatory real ChatGPT command gates on the new candidate.
-8. Record all post-patch results in this document.
-9. Only after no mandatory FAIL/BLOCKED remains may Phase 1 be marked LIVE PASS and Phase 2 Search be unlocked.
+### PR-01 — Preserve the already-completed DEF-01 plaque repair
+
+Mapped defects/tests: `DEF-01`, `C-02`, `C-03`, `C-04`, final `K-02`, `K-04`.
+
+- Carry forward the owner-interrupted reference-plaque patch without reintroducing invented `YMB:`/`Yandex Marketing Bridge:` user-facing plaques.
+- Plaque renderer/style remains the reference implementation; only operation-specific text/tone may vary where already governed.
+- Revalidate by controlled UI emulation first; final consolidated-candidate real Chrome closure is K-02/K-04.
+
+### PR-02 — Immediate persistence for every toggle-class control
+
+Mapped defects/tests: `DEF-02`, `B-01`, `B-03`, `B-04`, final `K-05`.
+
+- Debug, Auto Send, Wordstat Autorun policy and report-prefix enabled state must apply and persist on the toggle action itself.
+- Closing/reopening popup must reproduce the new state without Save.
+- Toggle persistence must not implicitly commit unsaved text/credential fields; those remain governed by B-05 explicit Save semantics.
+- Manual Wordstat's already-working immediate persistence behavior remains unchanged.
+
+### PR-03 — Restore popup Autorun start/lifecycle integration
+
+Mapped defects/tests: `DEF-03`, `G-01` through `G-06`, final `K-03`.
+
+- One Start action in the popup must operate against the confirmed current ChatGPT conversation and create/start exactly one RUN.
+- Start must not depend on a stale unsaved Autorun-policy toggle; PR-02 persistence and Start ordering must make the backend's already-proven `WS_AUTO_START` transition reachable from the popup.
+- Once started, popup/current-conversation integration must expose the same RUN identity/counters and allow pause, resume and stop without accidental replacement/reset.
+- Do not weaken existing ownership, budget, recovery or unknown-outcome fences proven by G-07/G-08/G-09/H/I.
+
+### PR-04 — Correct free-call charge semantics
+
+Mapped defects/tests: `DEF-04`, `E-04`, final `K-06`.
+
+- `getRegionsTree` remains estimated cost 0 and must report `charged:false` on both successful and error/skip envelopes where no billable charge applies.
+- Paid methods retain their governed tariff estimate semantics.
+- Cost/accounting counters and policy ceilings must remain consistent with the corrected envelope field.
+
+### PR-05 — Make successful execution semantics explicit
+
+Mapped defects/tests: `DEF-05`, `E-03`, final `K-01`, `K-06`.
+
+- Every successful response returned after a Yandex request was actually sent must contain `request_executed:true`.
+- Local validation/policy skips remain `false`; unknown irreversible outcomes remain `UNKNOWN`; HTTP-error requests already sent remain `true`.
+- No `job_id` or runtime GitHub coupling may be introduced.
+
+### PR-06 — Durable recovery for already-executed Manual delivery failure
+
+Mapped defects/tests: `DEF-06`, C-07 incident, `D-11`, `I-04`, `I-05`, final `K-02`, `K-08`.
+
+- If Yandex already returned and ChatGPT Send target is temporarily not ready **before delivery commit**, preserve the completed operation/result as durable delivery state instead of losing the result.
+- Recovery may retry/reconcile only the ChatGPT delivery contour. It must never replay the Yandex request for that operation.
+- An irreversible Send boundary must remain fenced exactly as already proven by I-04/I-05; no blind second Send after commit.
+- A later content-ready/recovery cycle must be able to resume the preserved delivery deterministically, exactly once.
+- Error reporting remains automatic and recoverable, with secrets redacted.
+
+### Consolidated patch verification order
+
+1. Implement PR-01 through PR-06 only.
+2. Add focused regression/emulation coverage for each repaired defect before any new live command.
+3. Run affected tests: B-01/B-03/B-04, C-02/C-03/C-04, G-01 through G-09, E-03/E-04, D-11 recovery contour, I-04/I-05 and all J regressions.
+4. Run full source + packaged regression and source/package identity (`K-07`).
+5. Build one consolidated patched candidate.
+6. Only then begin K-01/K-02/K-03/K-04/K-05/K-06/K-08 real-current-Chrome closure, with the pricing/one-command-per-turn rule still in force.
+7. Phase 1 LIVE PASS and Phase 2 unlock require zero unresolved mandatory FAIL/BLOCKED items.
