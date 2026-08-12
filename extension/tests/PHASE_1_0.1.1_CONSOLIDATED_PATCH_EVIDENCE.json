@@ -1,0 +1,108 @@
+{
+  "schema": "YMB_PHASE1_CONSOLIDATED_PATCH_EVIDENCE_V1",
+  "created_at": "2026-08-12T14:14:00Z",
+  "base_candidate": "yandex-marketing-bridge-0.1.1-phase1-plaque-parity-candidate.zip",
+  "base_candidate_sha256": "c0e3c36eaac1ebfa81ee44ca8cc376282b9aed601cd07cc596a6c235cfffb976",
+  "consolidated_candidate": "yandex-marketing-bridge-0.1.1-phase1-consolidated-patch-candidate.zip",
+  "consolidated_candidate_sha256": "a13256f0e5c2910fa590258110a32b737e9d986277fd8569978512cb7a899d05",
+  "patch_requirements": [
+    "PR-01",
+    "PR-02",
+    "PR-03",
+    "PR-04",
+    "PR-05",
+    "PR-06"
+  ],
+  "changed_files": [
+    {
+      "path": "content_script.js",
+      "sha256_before": "de968edd94a4ea4e0998530fed3844172a56a00aa4ce8aeb6f26b441686c1f49",
+      "sha256_after": "148c8205bc360ba0e08a07945c3f283c5ca83eab81332c92ab8606e16d6b4f01",
+      "bytes_after": 93487
+    },
+    {
+      "path": "popup.js",
+      "sha256_before": "4e3e99a9da591bd13d4de34e6fc86213764f8990ce323014b7302138dec6f90b",
+      "sha256_after": "f668ec90c8519d89d0c1b3d3b011e5908ac1a5d7335519091d22119d838ddde4",
+      "bytes_after": 33932
+    },
+    {
+      "path": "service_worker.js",
+      "sha256_before": "43a8eec926232235e8a526cd2f00e8a5728fd342d2154a70b707dd4f6ee93aee",
+      "sha256_after": "9bc2d122906fff6080068d13418f8a0e7d4a35891d8bc18c15079b8f0efb58c0",
+      "bytes_after": 157035
+    },
+    {
+      "path": "tests/content_runtime_exhaustive.test.mjs",
+      "sha256_before": "44edc6b78a35a6e50d23760876b0951f5f23c3fc6ad6ab1bdfd444a7504ceb90",
+      "sha256_after": "3234069686d1742ac019622a498cf57ba665f3d5fd1b017e220a6a27cc0bf8eb",
+      "bytes_after": 59840
+    },
+    {
+      "path": "tests/phase1_unified_core.test.mjs",
+      "sha256_before": "0fac55ad6c59f3981e5ca6375ab78235ab3e8fb6ef46696250ef1080b7575fd3",
+      "sha256_after": "7e1f9e28631e66ec531b8d66b968c9006043e053781597a7924ca5390f842883",
+      "bytes_after": 37894
+    },
+    {
+      "path": "tests/popup_runtime_exhaustive.test.mjs",
+      "sha256_before": "c3bfd5a3e6575b7e75803e44235d5b2b1ecfc1fa0850487898b26112e7183b8d",
+      "sha256_after": "5f5c9c1bd5e8e3545ddb6e611bf7d32a34c983a5052de245c525f4e8a7d9abbc",
+      "bytes_after": 20250
+    },
+    {
+      "path": "tests/worker_every_function.test.mjs",
+      "sha256_before": "d881e75b29905b910e276f1153ab4c2dbfdcd16b4b5cfa4b5353da60dedbbeb2",
+      "sha256_after": "8668e34a29693f9f56c3ea23967060e662036a1ece8a4a38c1244782f2ed001c",
+      "bytes_after": 66869
+    }
+  ],
+  "verification": {
+    "affected_regression": {
+      "tests": 140,
+      "pass": 140,
+      "fail": 0
+    },
+    "source_full": {
+      "tests": 318,
+      "pass": 318,
+      "fail": 0
+    },
+    "packaged_full": {
+      "tests": 318,
+      "pass": 318,
+      "fail": 0
+    },
+    "source_package_identity": {
+      "files": 42,
+      "identical": 42
+    },
+    "syntax": {
+      "files": 37,
+      "pass": 37
+    },
+    "json_parse": {
+      "files": 2,
+      "pass": 2
+    },
+    "live_yandex_requests_during_patch": 0
+  },
+  "patch_artifact": {
+    "filename": "phase1_0.1.1_consolidated_pr01_pr06.patch",
+    "sha256": "6cf154efcf9ec8b24d64b846532c185980919296a2919eed0e61842ac1c367ee",
+    "bytes": 49076
+  },
+  "patch_gzip_base64_artifact": {
+    "filename": "phase1_0.1.1_consolidated_pr01_pr06.patch.gz.b64",
+    "sha256": "61f23a42215a42ceced54237086fbcfd91f0dddab5eb93a2ac143fbc77ceec8c",
+    "bytes": 14072
+  },
+  "notes": [
+    "PR-01 reference plaque repair preserved; no invented YMB/Yandex Marketing Bridge user-facing plaque reintroduced.",
+    "PR-02 adds immediate toggle persistence for Debug, Auto Send, Wordstat Autorun policy, and report-prefix enabled state without committing unsaved text/credentials.",
+    "PR-03 couples immediate Autorun policy persistence to Start availability so WS_AUTO_START reaches the existing backend lifecycle.",
+    "PR-04 reports charged=false when estimated cost is zero, including getRegionsTree.",
+    "PR-05 successful sent Wordstat responses explicitly carry request_executed=true and automatic_retry=false.",
+    "PR-06 preserves already-executed Manual delivery state across pre-commit Send-target failure, adds a durable Manual commit boundary, and makes committed recovery reconciliation-only with no second Send/Yandex replay."
+  ]
+}
