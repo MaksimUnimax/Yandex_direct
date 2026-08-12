@@ -398,3 +398,144 @@ Phase 0 produced:
 Decision: Phase 0 design/reference gate is PASS. Phase 1 may begin with **Wordstat as the only executable service**.
 
 No Search/Webmaster/Metrika/Direct implementation is authorized until Phase 1 reaches its own acceptance gate.
+
+---
+
+# ENTRY 0017 — 2026-08-12 — PHASE 1 UNIFIED PRODUCT IDENTITY AND ROUTING
+
+Phase 1 implementation began from the audited Wordstat lifecycle rather than a blank rewrite.
+
+New product identity:
+
+```text
+Yandex Marketing Bridge — ChatGPT ↔ Yandex
+version 0.1.0
+bridge id: yandex-marketing-bridge
+```
+
+A single shared product version now drives result provenance, eliminating the known stale Wordstat 1.1.5 report-version defect.
+
+Phase 1 registry intentionally contains exactly one executable signature:
+
+```text
+WORDSTAT_API_V1 → wordstat
+```
+
+No Search/Webmaster/Metrika/Direct executable adapter was added. Future protocol signatures are not registered and cannot create a network side effect in Phase 1.
+
+---
+
+# ENTRY 0018 — 2026-08-12 — JOB, ACTIVE SERVICE, CREDENTIAL CAPABILITY, POLICY AND COST GUARDS
+
+Phase 1 added generic CORE models for:
+
+- trusted Job ID;
+- immutable active service per run;
+- credential capability state;
+- operator policy;
+- request/cost ledger.
+
+Job ID is locally/operator controlled and rejects path separators/traversal.
+
+Start binds:
+
+```text
+job_id
+active_service = wordstat
+```
+
+and those values cannot be changed by assistant text during an active run.
+
+Credential presence is now independent from Autorun permission. Missing Wordstat credentials no longer need to stop the Job/run startup merely because the evidence source is unavailable. A valid command can produce:
+
+```text
+WORDSTAT_RESULT_V1
+status = SKIPPED
+reason = NO_CREDENTIALS
+```
+
+with zero external Yandex request.
+
+Operator policy controls method allowlist, request ceilings and estimated-ruble ceilings per run/job. ChatGPT commands cannot change those settings.
+
+For paid initiation, budget/accounting reservation occurs before network initiation. If the browser/worker crashes afterward, accounting may conservatively over-count but must not under-count and accidentally permit another paid attempt.
+
+---
+
+# ENTRY 0019 — 2026-08-12 — MANUAL MODE ALSO OBEYS JOB COST LIMITS
+
+A safety gap was identified during Phase 1 design: if hard money/request limits protected only Autorun, an operator or workflow could bypass those ceilings simply by switching to Manual Copy.
+
+Decision and implementation:
+
+- Manual remains an explicit native-Copy authorization surface;
+- Manual does not require the Autorun-enabled bit;
+- but Manual **does** obey service/method policy and per-Job hard request/cost ceilings;
+- missing credentials in Manual produce a durable SKIPPED result with zero fetch;
+- a Manual paid request reserves Job budget before initiation;
+- Manual cannot be used as a cost-limit bypass.
+
+Manual currently has no durable RUN of its own, so per-run counters are an Autorun concept; the per-Job ceiling is the common hard protection across both channels.
+
+---
+
+# ENTRY 0020 — 2026-08-12 — PHASE 1 SOURCE AND EXACT ZIP PRE-LIVE ACCEPTANCE
+
+After migration and test-harness updates, the final Phase 1 pre-live candidate reached:
+
+```text
+source full suite:        299/299 PASS
+fresh ZIP full suite:     299/299 PASS
+source ↔ fresh ZIP:        41/41 files byte-identical
+fresh ZIP JS/MJS syntax:   36/36 PASS
+manifest/package JSON:      2/2 PASS
+Chromium 144 load smoke:   PASS
+```
+
+The 299 tests consist of migrated reference regression coverage plus 16 new unified-core tests covering Job/service/policy/cost/missing-credential/manual safeguards and result provenance.
+
+Exact candidate artifact:
+
+```text
+yandex-marketing-bridge-0.1.0-phase1-wordstat-candidate.zip
+SHA-256 79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a
+```
+
+Four Business Bridge common shared modules remain at their exact reference hashes.
+
+Chromium smoke proves the exact unpacked candidate loads without observed manifest/extension/service-worker errors in the test environment. It does **not** claim current production ChatGPT live acceptance.
+
+Machine-readable evidence is stored under `extension/tests/`.
+
+---
+
+# ENTRY 0021 — 2026-08-12 — PHASE 1 LIVE GATE BLOCKS SEARCH DEVELOPMENT
+
+A controlled production test procedure was created:
+
+```text
+extension/docs/PHASE_1_LIVE_ACCEPTANCE.md
+```
+
+It requires proof of:
+
+- current production ChatGPT writing-block/Copy behavior;
+- missing-credential SKIP with zero request;
+- operator-disabled/cost-limit SKIP paths;
+- one real free Wordstat network request if current official pricing still marks the chosen operation free;
+- one minimal intentional paid Wordstat request only after fresh official tariff verification;
+- exactly-once request and delivery;
+- correct 0.1.0 + Job/Run/cost provenance;
+- immediate GitHub persistence of paid raw evidence;
+- Manual cost guard;
+- Pause/Resume/Finish and ownership/isolation controls.
+
+Current lifecycle status:
+
+```text
+PHASE 0: PASS
+PHASE 1: PRE-LIVE PASS / PRODUCTION LIVE PENDING
+PHASE 2 SEARCH: BLOCKED
+```
+
+No Search implementation is authorized until the operator live acceptance for Phase 1 passes and the result is appended here.
