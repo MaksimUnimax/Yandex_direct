@@ -91,7 +91,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| C-01 | Supported command Copy decoration | Supported `WORDSTAT_API_V1` local Copy is visibly decorated as the API action boundary | NOT RUN | |
+| C-01 | Supported command Copy decoration | Supported `WORDSTAT_API_V1` local Copy is visibly decorated as the API action boundary | PASS | 2026-08-12 governed real Chrome: owner explicitly confirmed that supported command Copy controls are visibly highlighted/decorated (`Все выделено`); C-01 `getRegionsTree` block was therefore recognized as the API action boundary. The same action executed successfully as request_id `85085824-b4e9-4584-ba52-cb4610e6ec13`. |
 | C-02 | Request-start plaque | Real operation shows reference-style `отправляю <method>` feedback | FAIL (pre-rule evidence for generic replacement UI) | Existing generic YMB notification is not acceptable |
 | C-03 | Success plaque | Successful response shows reference-style `ответ получен` | NOT RUN | |
 | C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (pre-rule evidence) | Generic green YMB plaque observed |
