@@ -235,3 +235,21 @@ The ledger also carries forward pre-rule live evidence already observed in the i
 - successful live execution evidence for the core Wordstat methods already exercised.
 
 Search remains blocked until the governed ledger has no unresolved mandatory FAIL/BLOCKED acceptance item on the patched candidate.
+
+---
+
+# ENTRY 0030 — 2026-08-12 — CONTINUOUS NEXT-COMMAND TESTING / OWNER-ACTION VISIBILITY
+
+The owner further clarified the live-test interaction protocol.
+
+Mandatory rule for governed ChatGPT live testing:
+
+1. While there are still relevant live command tests to execute, every assistant turn that processes a test result must end with the **next executable test command**. Do not stop at a status recap while pending live command gates remain.
+2. Continue issuing one next command per turn until the required command-test sequence is exhausted, blocked by a confirmed dependency, or the owner explicitly stops the campaign.
+3. If the owner must perform **any action other than the ordinary command-send/trigger step**, that action must be presented before the command in a highly visible, large bold Markdown warning/heading so it cannot be missed.
+4. Extra owner actions must be minimal and only requested when genuinely required for a real-Chrome/live gate. Repetitive popup/UI testing remains the assistant's emulation responsibility under ENTRY 0029.
+5. The assistant must not bury required owner interaction inside normal prose.
+
+Examples of extra actions that require prominent treatment include changing Debug/Autorun state, pressing a popup Save button only when the current broken candidate requires it for a specific live gate, reloading the extension, importing/exporting a backup, or any other manual setup beyond the normal test-command trigger.
+
+This rule does not relax the one-executable-Yandex-command-per-turn limit or the requirement to freshly verify pricing before any request that can reach Yandex.
