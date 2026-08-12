@@ -1,4 +1,4 @@
-# ROADMAP v0.1 — Yandex Marketing Bridge
+# ROADMAP v0.2 — Yandex Marketing Bridge
 
 Status: active roadmap.
 Date: 2026-08-12.
@@ -7,49 +7,52 @@ Date: 2026-08-12.
 
 **One phase = one service = one controlled live acceptance.**
 
-No combined multi-service autorun is implemented as the development shortcut.
-
-Within production use, one RUN is permanently bound to one active service. Sequential service runs belong to one JOB.
-
-Every phase follows:
+Within production use:
 
 ```text
-research official API
-→ define allowlist/protocol/policy
-→ implement adapter
-→ source/static tests
+one RUN = one immutable active SERVICE
+multiple sequential RUNs = one JOB/order
+```
+
+No new service starts until the current service passes:
+
+```text
+official API research
+→ protocol/allowlist/policy definition
+→ implementation
+→ source tests
 → exact packaged-extension tests
-→ controlled real Chrome + production ChatGPT test
-→ regression of previous accepted phases
+→ controlled real Chrome + production ChatGPT acceptance
+→ regression of all earlier accepted services
 → PASS gate
-→ only then next phase
 ```
 
 ## PHASE 0 — REPOSITORY + REFERENCE + CORE DESIGN
 
-Goal: establish source of truth and extract the generic architecture from the supplied Wordstat Bridge 1.1.5 reference without changing proven behavior.
+**Status: PASS — completed 2026-08-12.**
 
-Deliverables:
+Completed:
 
-- repository structure `extension/` + `work/`;
-- `extension/docs/` canonical documentation;
-- immutable reference baseline stored under `extension/reference/`;
-- documented hashes/provenance;
-- unified CORE design;
-- JOB/RUN workspace contract;
-- policy/cost/quota abstractions;
-- protocol detector/router skeleton design.
+- repository source of truth `MaksimUnimax/Yandex_direct`;
+- permanent `extension/` and temporary `work/` split;
+- canonical documentation under `extension/docs/`;
+- append-only development context;
+- exact owner-supplied reference identification and hashes;
+- fresh reference extraction and 283/283 test PASS;
+- exact 41-file reference inventory;
+- known stale 1.1.5 result-version defect documented;
+- CORE extraction map;
+- Job/Run/policy/cost architecture;
+- Phase 1 implementation plan.
 
-Gate:
+Reference authority:
 
-- reference fully preserved and reproducible;
-- no ambiguity about source of truth;
-- no client secrets in repository;
-- Phase 1 implementation plan approved by evidence/tests.
+```text
+wordstat-bridge-v1.1.5-full-function-environment-audit(4).zip
+SHA-256 a39bbe65b046ef6eac5a7890b8afd84e69550db34debf271b7c373d08a1fef1a
+```
 
 ## PHASE 1 — WORDSTAT ADAPTER + UNIFIED CORE
-
-Goal: migrate the already working Wordstat capability onto the unified Yandex Marketing Bridge CORE while preserving behavior.
 
 Service:
 
@@ -57,53 +60,94 @@ Service:
 active_service = wordstat
 ```
 
-Methods:
+Supported methods:
 
 - getTop;
 - getDynamics;
 - getRegionsDistribution;
 - getRegionsTree.
 
-New common mechanisms exercised first on Wordstat:
+### Phase 1 implementation scope
 
-- protocol detector;
-- immutable active_service per run;
-- credential-present vs autorun-enabled separation;
-- missing credential → SKIPPED;
-- request limit;
-- money/cost limit;
-- per-run/job accounting;
-- persistent run event/cost evidence;
-- workspace persistence for paid results;
-- service-mismatch block.
+Implemented in the pre-live candidate:
 
-Acceptance matrix includes:
+- unified product identity/version `0.1.0`;
+- service registry with **Wordstat only**;
+- trusted Job ID;
+- immutable active service per run;
+- credential capability separated from autorun permission;
+- missing credentials → controlled `SKIPPED / NO_CREDENTIALS`, zero fetch;
+- operator-controlled Wordstat Autorun permission;
+- allowed-method policy;
+- hard request limits per run/job;
+- hard estimated-cost limits per run/job;
+- method tariff snapshot/configuration;
+- run/job request and cost accounting;
+- result provenance: product/service/operation/job/run/cost;
+- corrected authoritative result version `0.1.0`;
+- Manual cost guard so Manual cannot bypass Job ceilings;
+- reference conversation binding, owner-tab, single-flight, commit/reconciliation and no-retry semantics retained;
+- four proven Business Bridge common modules preserved by exact hash.
 
-- valid credential;
-- missing credential;
-- invalid command;
-- unsupported method;
-- autorun disabled;
-- request limit;
-- cost limit;
-- duplicate block;
-- duplicate tab;
-- conversation isolation;
-- Pause / Resume / Finish;
-- occupied composer handling;
-- uncertain request outcome no retry;
-- exact result delivery;
-- persistence of raw paid evidence.
+### Pre-live evidence
 
-GATE 1:
+Exact candidate:
 
-`WORDSTAT + UNIFIED CORE = LIVE PASS`.
+```text
+yandex-marketing-bridge-0.1.0-phase1-wordstat-candidate.zip
+SHA-256 79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a
+```
 
-No Search development before this gate.
+Automated/pre-live status:
+
+```text
+source full suite:          299/299 PASS
+fresh ZIP full suite:       299/299 PASS
+source ↔ fresh ZIP:          41/41 byte-identical
+fresh ZIP JS/MJS syntax:     36/36 PASS
+manifest/package JSON:        2/2 PASS
+Chromium 144 load smoke:     PASS
+```
+
+The full 299 consists of migrated reference regression coverage plus 16 new Phase 1 unified-core tests.
+
+### Phase 1 current gate
+
+**Status: PRE-LIVE PASS / PRODUCTION CHATGPT LIVE ACCEPTANCE PENDING.**
+
+Required live procedure is canonicalized in:
+
+```text
+extension/docs/PHASE_1_LIVE_ACCEPTANCE.md
+```
+
+It must prove at minimum:
+
+- current production ChatGPT Copy/writing-block behavior;
+- missing-credential SKIP with zero Yandex request;
+- operator-disabled/cost-limit guards with zero request;
+- one real free Wordstat network request if still officially free at test time;
+- one minimal paid Wordstat request after fresh official price check;
+- exactly-once request/delivery;
+- correct version/job/run/cost provenance;
+- immediate persistence of paid raw evidence to `work/<job_id>/` through connected GitHub;
+- Pause/Resume/Finish;
+- duplicate-tab/conversation ownership;
+- Manual cannot bypass Job cost ceiling.
+
+### GATE 1
+
+```text
+WORDSTAT + UNIFIED CORE = LIVE PASS
+```
+
+**Not passed yet. Search development is blocked until the operator live test passes.**
 
 ## PHASE 2 — YANDEX SEARCH / SERP
 
-Goal: add real Yandex SERP collection needed for semantic clustering, intent analysis and competitor/result overlap.
+**Status: BLOCKED BY PHASE 1 LIVE GATE.**
+
+Goal after unlock: add real Yandex SERP evidence for semantic clustering, intent analysis and competitor/result overlap.
 
 Service:
 
@@ -111,45 +155,33 @@ Service:
 active_service = search
 ```
 
-Subphases:
+Planned subphases:
 
 ### 2A — basic text search
 
 - query;
 - region;
 - supported pagination/result count;
-- normalized SERP evidence;
-- raw response persistence.
+- raw + normalized SERP evidence.
 
 ### 2B — deferred search
 
-- submit logical operation once;
+- submit billable logical operation once;
 - persist operation identity;
 - documented status/result polling;
-- no duplicate billable initiation;
-- resume/recovery after extension/browser interruption where provable.
+- never duplicate paid initiation during recovery.
 
-### 2C — Search policy classes
+### 2C — operation-cost classes
 
-Separate operator toggles and limits for materially different priced/risk operation classes, including at minimum:
+Separate operator toggles/limits for materially different priced classes such as deferred, synchronous and any later generative operation.
 
-- deferred text;
-- synchronous text;
-- generative search if later enabled;
-- other expensive classes only when explicitly added.
+Expensive optional classes default OFF.
 
-Default: expensive optional classes OFF.
-
-GATE 2:
-
-- Search live PASS;
-- cost guard PASS;
-- deferred single-initiation PASS;
-- Wordstat full regression PASS.
+GATE 2 requires Search live PASS + cost guard PASS + deferred single-initiation PASS + Wordstat regression PASS.
 
 ## PHASE 3 — WEBMASTER
 
-Goal: add real organic-search evidence from the customer site immediately, not as a later optional project.
+**Status: BLOCKED.**
 
 Service:
 
@@ -157,39 +189,26 @@ Service:
 active_service = webmaster
 ```
 
-Initial scope: READ-first.
+READ-first scope:
 
-Planned capability groups:
-
-- user/account identity needed for API use;
+- user/account identity;
 - hosts/sites;
-- host/site summary;
-- search queries;
-- query history / metrics;
+- host summary;
+- search queries and history/metrics;
 - indexing/statistics;
 - diagnostics;
-- URLs / search URL status where useful;
-- sitemaps where useful;
-- basic vs extended/export analytics kept as distinct policy classes.
+- useful URL/sitemap data;
+- basic and extended/export analytics as separate policy classes.
 
 Required behavior:
 
-- OAuth missing → SKIPPED, not global job failure;
-- basic READ independent from expensive/extended access;
-- extended export has separate quota/unit guard and default OFF when costly;
-- raw and normalized evidence persisted to `work/<job_id>/`.
-
-GATE 3:
-
-- Webmaster live READ PASS;
-- missing OAuth PASS;
-- quota guard PASS;
-- extended-operation block PASS;
-- Wordstat/Search regressions PASS.
+- OAuth missing → SKIPPED, not Job failure;
+- extended/costly access separate and default-protected;
+- raw/normalized evidence persisted to `work/<job_id>/`.
 
 ## PHASE 4 — METRIKA
 
-Goal: add conversion and behavioral evidence required to judge campaign effectiveness instead of relying only on CTR/CPC.
+**Status: BLOCKED.**
 
 Service:
 
@@ -197,36 +216,15 @@ Service:
 active_service = metrika
 ```
 
-Subphases:
+Order:
 
-### 4A — READ
-
-- counters available to current credential;
-- goals;
-- reports;
-- traffic/source dimensions as required by orders;
-- conversions;
-- ecommerce when present and requested.
-
-### 4B — async/large data capability where justified
-
-Logs or other async workflows are separate operation classes with their own limits.
-
-### 4C — WRITE only after READ is accepted
-
-Management/write operations are separate permission profile and are never implied by Metrika READ autorun.
-
-GATE 4:
-
-- Metrika READ live PASS;
-- rate/quota guard PASS;
-- optional async workflow PASS if implemented;
-- WRITE disabled-by-policy test PASS;
-- regressions of phases 1–3 PASS.
+1. READ — counters, goals, reports, sources, conversions, ecommerce when present;
+2. async/large-data operations as a separate limited class if justified;
+3. WRITE only after READ acceptance and under a separate permission profile.
 
 ## PHASE 5 — DIRECT READ
 
-Goal: safely inspect and audit real Yandex Direct accounts before introducing any mutation.
+**Status: BLOCKED.**
 
 Service:
 
@@ -235,34 +233,22 @@ active_service = direct
 permission_profile = READ
 ```
 
-Planned capabilities:
+Planned:
 
 - campaigns;
-- ad groups;
+- groups;
 - ads;
-- keywords;
-- negatives/settings relevant to audit;
-- targeting/autotargeting where officially exposed;
+- keywords/negatives/settings;
+- targeting/autotargeting when officially exposed;
 - reports;
 - actual search-query performance;
-- API units/quota accounting.
+- Direct units/quota guard.
 
-Special requirement:
-
-If reports are asynchronous, treat request initiation and report polling as one logical operation while forbidding blind duplicate initiation.
-
-GATE 5:
-
-- real/test account READ PASS;
-- reports PASS;
-- search-query report PASS;
-- Direct units reserve/guard PASS;
-- zero account mutation proven;
-- previous-service regressions PASS.
+Zero account mutation must be proven before write development begins.
 
 ## PHASE 6 — DIRECT DRAFT / PRE-LIVE WRITE
 
-Goal: create campaign structures under a controlled write profile without unrestricted live advertising mutation.
+**Status: BLOCKED.**
 
 Service:
 
@@ -273,119 +259,104 @@ permission_profile = DRAFT_WRITE
 
 Implementation order:
 
-1. campaign object creation in supported safe state;
-2. groups;
-3. ads;
-4. keywords;
-5. negative keywords;
-6. required settings;
-7. read-back verification.
+```text
+campaign
+→ groups
+→ ads
+→ keywords
+→ negative keywords
+→ settings
+→ READ BACK verification
+```
 
-Every write operation must follow:
+Every write:
 
 ```text
 validated expected changes
 → one initiation
-→ API result
-→ READ BACK
+→ result
+→ read back
 → compare expected vs actual
 → persist evidence
 ```
 
-GATE 6:
-
-- minimal test campaign PASS;
-- larger structured campaign PASS;
-- no accidental live spend/start PASS;
-- read-back consistency PASS;
-- all previous regressions PASS.
-
 ## PHASE 7 — DIRECT LIVE WRITE
 
-Goal: support production changes only behind an explicit human approval gate.
+**Status: BLOCKED.**
 
 No unrestricted live-write autorun.
 
-Workflow:
+Required flow:
 
 ```text
-ChatGPT analysis
-→ proposed CHANGESET
-→ bridge validates affected client/account and operations
-→ operator reviews diff
-→ explicit approval for that transaction
+ChatGPT proposed CHANGESET
+→ bridge validates client/account/operations
+→ operator reviews exact diff
+→ explicit transaction approval
 → execute once
 → verification READ
 → persist before/after evidence
 ```
 
-Includes only methods individually researched, documented, allowlisted and tested.
-
-GATE 7:
-
-- safety review PASS;
-- approval binding PASS;
-- wrong-client protection PASS;
-- replay protection PASS;
-- post-write verification PASS;
-- controlled live/test acceptance PASS.
-
 ## PHASE 8 — FULL KWORK ORDER E2E
 
-Goal: execute one realistic order using sequential single-service runs and persistent GitHub evidence.
+**Status: BLOCKED.**
 
-Example lifecycle:
+Target lifecycle:
 
 ```text
 create work/<job_id>/
 ↓
-RUN Wordstat
-↓ Finish
-RUN Search
-↓ Finish
-RUN Webmaster (if credential available)
-↓ Finish
-RUN Metrika (if available/required)
-↓ Finish
-RUN Direct READ (if account exists)
-↓ Finish
+RUN Wordstat → Finish
+RUN Search → Finish
+RUN Webmaster if available → Finish
+RUN Metrika if available/needed → Finish
+RUN Direct READ if available → Finish
+↓
 ChatGPT analysis + deliverables
 ↓
-RUN Direct DRAFT_WRITE if order requires campaign build
-↓ Finish
-final verification
+RUN Direct DRAFT_WRITE if required
 ↓
-deliverables committed
+final verification and delivery
 ↓
-customer delivery/acceptance
+customer accepts
 ↓
 remove work/<job_id>/ from current tree
 ```
 
-E2E acceptance must prove that losing/restarting the ChatGPT run does not require recollecting already persisted paid evidence.
+E2E must prove previously persisted paid evidence survives chat/browser/context loss and is reused instead of recollected.
 
 ## Regression gate after every phase
 
-Minimum checks:
+Minimum:
 
 - source tests PASS;
 - syntax/static PASS;
 - exact packaged artifact PASS;
-- Chrome extension load PASS;
+- source↔package identity evidence;
+- Chromium extension load PASS;
 - current production ChatGPT writing-block capture PASS;
-- Manual operation PASS where supported;
-- Autorun PASS;
-- Pause / Resume / Finish PASS;
+- Manual/Autorun lifecycle PASS where supported;
+- Pause/Resume/Finish PASS;
 - duplicate-tab/owner protection PASS;
 - conversation isolation PASS;
-- missing credentials semantics PASS;
+- missing-credential semantics PASS;
 - disabled autorun semantics PASS;
 - cost/quota guard PASS where relevant;
 - result delivery PASS;
 - paid/raw evidence persistence PASS where relevant;
 - all previously accepted service regressions PASS.
 
-## Current status
+## Current status summary
 
-- Phase 0: IN PROGRESS.
-- Phase 1+: NOT STARTED.
+```text
+PHASE 0  PASS
+PHASE 1  PRE-LIVE PASS / PRODUCTION LIVE PENDING
+PHASE 2  BLOCKED
+PHASE 3  BLOCKED
+PHASE 4  BLOCKED
+PHASE 5  BLOCKED
+PHASE 6  BLOCKED
+PHASE 7  BLOCKED
+PHASE 8  BLOCKED
+```
