@@ -123,17 +123,17 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | E-04 | Free-call charge semantics | `getRegionsTree`: `estimated_rub:0` and not reported as charged | FAIL (pre-rule evidence) | `charged:true` observed |
 | E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | PASS | D-10 `getTop` reports `estimated_rub:0.02`, matching the freshly checked 20 RUB / 1000-request tariff stated immediately before execution |
 | E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 propagated `HTTP 200` |
-| E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | NOT RUN | D-08/D-09 observed errors report `automatic_retry:false`; unknown-outcome branch remains pending I-02 |
+| E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | NOT RUN | D-08/D-09/F-04 governed errors report `automatic_retry:false`; unknown-outcome branch remains pending I-02 |
 | E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | Normal governed envelopes contain no key/Authorization secret; Debug path still pending F-05 |
 
 ### F. Debug and always-on error delivery
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| F-01 | Debug OFF error-to-chat | Error automatically arrives without operator log-copy step | PASS (pre-rule evidence for unsupported method) | |
+| F-01 | Debug OFF error-to-chat | Error automatically arrives without operator log-copy step | PASS | 2026-08-12 governed live: unsupported method automatically delivered `YMB_ERROR_V1` to this ChatGPT conversation with `request_executed:false`; no manual diagnostics/log copy needed; timestamp `2026-08-12T11:48:18.482Z` |
 | F-02 | Debug ON error-to-chat | Same error delivery still happens | NOT RUN | |
 | F-03 | Debug ON additional diagnostics | Adds useful redacted diagnostics/state trace | NOT RUN | |
-| F-04 | Debug OFF no extra diagnostics | Normal envelope remains concise while still delivering the error | NOT RUN | |
+| F-04 | Debug OFF no extra diagnostics | Normal envelope remains concise while still delivering the error | PASS | Same governed Debug-OFF error contained normal fields only and no `debug_logs`/extra diagnostic trace while still auto-delivering to ChatGPT |
 | F-05 | Debug secrecy | API key/token/Authorization never exposed | NOT RUN | |
 
 ### G. Autorun lifecycle — emulator for UI/state, live ChatGPT for command pickup
