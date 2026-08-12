@@ -5,13 +5,13 @@
   "status": "PRELIVE_CANDIDATE_PASS__PRODUCTION_CHATGPT_LIVE_PENDING",
   "artifact": {
     "name": "yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip",
-    "sha256": "2bdc7523e290a7be7d2d3304853c6c113d4a2518375113c9049be7cdf4010e03",
-    "bytes": 172222,
+    "sha256": "311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb",
+    "bytes": 172705,
     "files": 41
   },
   "tests": {
-    "source": {"total": 309, "pass": 309, "fail": 0},
-    "fresh_zip": {"total": 309, "pass": 309, "fail": 0},
+    "source": {"total": 311, "pass": 311, "fail": 0},
+    "fresh_zip": {"total": 311, "pass": 311, "fail": 0},
     "source_zip_byte_identity": {"identical": 41, "total": 41, "mismatches": 0},
     "js_mjs_syntax": {"pass": 36, "total": 36},
     "json_parse": {"pass": 2, "total": 2, "manifest_version": "0.1.1", "package_version": "0.1.1"},
@@ -31,6 +31,7 @@
     "error delivery has durable claim/commit/reconciliation fencing",
     "Manual invalid command parse errors also reach ChatGPT",
     "error_report_queued response matches durable queue state",
+    "Manual on a paused RUN shares that RUN request/cost budget and cannot bypass it",
     "reference Copy/Autorun/conversation/owner-tab/single-flight protections retained"
   ],
   "not_yet_proven": [
