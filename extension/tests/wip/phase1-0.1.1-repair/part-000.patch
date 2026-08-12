@@ -1,0 +1,278 @@
+diff -ruN '--exclude=*.tap' ymb_phase1/content_script.js ymb_phase1_011/content_script.js
+--- ymb_phase1/content_script.js	2026-08-12 09:17:42.650231168 +0000
++++ ymb_phase1_011/content_script.js	2026-08-12 10:21:47.510767920 +0000
+@@ -990,6 +990,126 @@
+     };
+   }
+ 
++
++  async function deliverErrorReport(reportText, autoSend, { confirmUserTurn = false, runId = "manual", deliveryId = "", requestId = "", requireCommit = false, conversationKey = "" } = {}) {
++    const assistantBaselineIds = assistantTurnIds();
++    const baselineUsers = new Set(userTurnIds());
++    const context = primaryComposerContext();
++    if (!context) throw new Error("Не найдено нижнее поле ChatGPT для error delivery.");
++    const existing = canonicalText(composerText(context.composer));
++    const existingStage = context.composer.getAttribute(STAGE_DELIVERY_ATTR) || "";
++    const ownsStage = context.composer.getAttribute(STAGE_ATTR) === "1" && Boolean(deliveryId) && existingStage === deliveryId;
++    if (existing && !ownsStage && normalizedDeliveryText(existing) !== normalizedDeliveryText(reportText)) {
++      throw new Error("В поле ChatGPT уже есть неотправленный текст до подготовки error report.");
++    }
++    if (!existing || !ownsStage) setComposerText(context.composer, reportText);
++    recordContentDiagnostic(existing && ownsStage ? "DELIVERY_TEXT_REUSED" : "DELIVERY_TEXT_STAGED", { run_id: runId, delivery_id: deliveryId || null });
++    if (deliveryId) {
++      context.composer.setAttribute(STAGE_ATTR, "1");
++      context.composer.setAttribute(STAGE_DELIVERY_ATTR, deliveryId);
++    }
++    if (!autoSend) {
++      toast("YMB: ошибка помещена в composer. Нажмите Send вручную.", "success", 8000);
++      return { sent: false, delivery_confirmed: false, composer_empty: false, click_attempts: 0, assistant_baseline_ids: assistantBaselineIds };
++    }
++    await stabilizeComposerForSend(reportText, "ERROR_DELIVERY", { run_id: runId, delivery_id: deliveryId || null, reused_existing_text: Boolean(existing && ownsStage) });
++    const preCommitTarget = await waitForStableSendTarget(10000, reportText);
++    if (!preCommitTarget) throw Object.assign(new Error("Send-кнопка не готова до error delivery commit."), { code: "DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT" });
++    if (requireCommit) {
++      const commit = await sendRuntime("WS_ERROR_DELIVERY_COMMIT_REQUEST", {
++        run_id: runId,
++        delivery_id: deliveryId,
++        conversation_key: conversationKey,
++        baseline_user_turn_ids: [...baselineUsers],
++        actor_id: runtimeId
++      });
++      if (!commit.ok || !commit.committed) throw Object.assign(new Error(commit.error || "YMB error delivery commit rejected."), { code: commit.code || "ERROR_DELIVERY_COMMIT_REJECTED" });
++      if (commit.click_allowed !== true) {
++        recordContentDiagnostic("ERROR_DELIVERY_COMMITTED_BY_OTHER_RUNTIME", { run_id: runId, delivery_id: deliveryId || null, actor_id: runtimeId });
++        return { sent: false, committed_elsewhere: true, commit_recovery: commit.recovery || null, delivery_confirmed: false, composer_empty: false, click_attempts: 0, assistant_baseline_ids: assistantBaselineIds };
++      }
++    }
++    const sent = await clickComposerUntilEmpty({ area: "ERROR_DELIVERY", runId, details: { delivery_id: deliveryId || null } });
++    const currentContext = primaryComposerContext();
++    if (currentContext && deliveryId) {
++      currentContext.composer.removeAttribute(STAGE_ATTR);
++      currentContext.composer.removeAttribute(STAGE_DELIVERY_ATTR);
++    }
++    let confirmedUserTurnId = null;
++    if (confirmUserTurn) confirmedUserTurnId = await waitForMatchingNewUserTurn(baselineUsers, reportText, requestId, 15000);
++    const confirmed = confirmUserTurn ? Boolean(confirmedUserTurnId) : sent.composer_empty === true;
++    recordContentDiagnostic("ERROR_DELIVERY_USER_TURN_CONFIRMATION", { run_id: runId, delivery_id: deliveryId || null, confirmed, confirmed_user_turn_id: confirmedUserTurnId || null, composer_empty: sent.composer_empty === true, click_attempts: sent.click_attempts });
++    if (confirmed) toast("YMB: ошибка и диагностика отправлены в этот чат.", "success", 5000);
++    else toast("YMB: error delivery committed, но matching user-turn не подтверждён; повторный Send запрещён, выполняется только reconciliation.", "error", 9000);
++    return {
++      sent: true,
++      delivery_confirmed: confirmed,
++      confirmed_user_turn_id: confirmedUserTurnId,
++      composer_empty: sent.composer_empty === true,
++      click_attempts: sent.click_attempts,
++      assistant_baseline_ids: assistantBaselineIds
++    };
++  }
++
++
++  async function reconcileCommittedErrorDelivery(recovery) {
++    const baseline = new Set(Array.isArray(recovery.baseline_user_turn_ids) ? recovery.baseline_user_turn_ids : []);
++    const match = await waitForMatchingNewUserTurn(baseline, String(recovery.outgoing_text || ""), "", 15000);
++    if (!match) {
++      recordContentDiagnostic("ERROR_DELIVERY_RECONCILIATION_PENDING", { run_id: recovery.run_id || null, delivery_id: recovery.delivery_id || null });
++      toast("YMB: ошибка уже committed, но user-turn пока не подтверждён. Повторный Send запрещён; выполняется только reconciliation.", "error", 9000);
++      return false;
++    }
++    const completion = await sendRuntime("WS_ERROR_DELIVERY_COMPLETE", {
++      conversation_key: recovery.conversation_key,
++      delivery_id: recovery.delivery_id,
++      confirmed_user_turn_id: match.getAttribute?.("data-turn-id") || null
++    });
++    if (!completion?.ok) throw Object.assign(new Error(completion?.error || "Error delivery reconciliation rejected."), { code: completion?.code || "ERROR_DELIVERY_RECONCILIATION_REJECTED" });
++    toast("YMB: диагностическая ошибка подтверждена в чате.", "success", 5000);
++    return true;
++  }
++
++  async function performErrorDelivery(recovery) {
++    if (!recovery || !["deliver_error", "reconcile_error"].includes(recovery.type)) return { ok: false, code: "ERROR_RECOVERY_INVALID" };
++    if (recovery.conversation_key !== conversationKeyFromLocation()) return { ok: false, code: "CONVERSATION_MISMATCH", error: "Error delivery адресована другому диалогу." };
++    if (recovery.type === "reconcile_error") return { ok: true, reconciled: await reconcileCommittedErrorDelivery(recovery) };
++    const delivery = await deliverErrorReport(String(recovery.outgoing_text || ""), true, {
++      confirmUserTurn: true,
++      runId: recovery.run_id || `error:${recovery.delivery_id}`,
++      deliveryId: recovery.delivery_id,
++      requestId: "",
++      requireCommit: true,
++      conversationKey: recovery.conversation_key
++    });
++    if (delivery.committed_elsewhere) {
++      const latest = delivery.commit_recovery || recovery;
++      if (latest?.type === "reconcile_error") await reconcileCommittedErrorDelivery(latest);
++      return { ok: true, committed_elsewhere: true };
++    }
++    const completion = await sendRuntime("WS_ERROR_DELIVERY_COMPLETE", {
++      conversation_key: recovery.conversation_key,
++      delivery_id: recovery.delivery_id,
++      confirmed_user_turn_id: delivery.confirmed_user_turn_id || null
++    });
++    if (!completion?.ok) throw Object.assign(new Error(completion?.error || "Не удалось подтвердить error delivery."), { code: completion?.code || "ERROR_DELIVERY_CONFIRMATION_REJECTED" });
++    return { ok: true, sent: true };
++  }
++
++  async function reportContentError({ code, message, stage, runId = null, conversationKey = conversationKeyFromLocation(), requestExecuted = false, autorunContinues = false, operation = null } = {}) {
++    if (!conversationKey) return { ok: false, code: "CONVERSATION_NOT_CONFIRMED" };
++    return sendRuntime("WS_REPORT_CONTENT_ERROR", {
++      conversation_key: conversationKey,
++      run_id: runId,
++      stage: stage || "CONTENT",
++      code: code || "CONTENT_ERROR",
++      error: message || "Content error",
++      request_executed: requestExecuted,
++      autorun_continues: autorunContinues,
++      operation
++    });
++  }
++
+   async function sendAutoStart(messageText, runId, conversationKey = conversationKeyFromLocation()) {
+     const initialContext = primaryComposerContext();
+     if (!initialContext) throw Object.assign(new Error("Не найдено нижнее поле ChatGPT."), { code: "COMPOSER_NOT_FOUND" });
+@@ -1230,8 +1350,10 @@
+     autoTimer = setTimeout(() => {
+       autoTimer = null;
+       autoTick().catch((error) => {
++        const watch = activeAutoWatch;
+         toast(`Wordstat Autorun: ошибка watcher — ${error.message}`, "error", 9000);
+-        stopAutoWatch("tick_error");
++        void reportContentError({ code: error.code || "WATCHER_ERROR", message: error.message || String(error), stage: "WATCHER", runId: watch?.run_id || null, conversationKey: watch?.conversation_key || conversationKeyFromLocation(), requestExecuted: false, autorunContinues: true }).catch(() => null);
++        if (watch) scheduleAutoTick(1000);
+       });
+     }, delay);
+   }
+@@ -1307,7 +1429,10 @@
+       try { parsed = WordstatProtocol.parseCommand(localPayload.text); }
+       catch (error) {
+         toast(`Wordstat Autorun: блок WORDSTAT_API_V1 невалиден — ${error.message}`, "error", 9000);
+-        stopAutoWatch("invalid_command");
++        activeAutoWatch.assistant_baseline_ids.add(candidate.assistant_turn_id);
++        autoFirstSeen = null;
++        await reportContentError({ code: error.code || "INVALID_COMMAND", message: error.message || String(error), stage: "COMMAND_PARSE", runId: activeAutoWatch.run_id, conversationKey: activeAutoWatch.conversation_key, requestExecuted: false, autorunContinues: true });
++        scheduleAutoTick(1000);
+         return;
+       }
+       recordContentDiagnostic("PROMPT_ACCEPTED", { run_id: activeAutoWatch.run_id, assistant_turn_id: candidate.assistant_turn_id, method: parsed.method, phrase: parsed.phrase || null, command_fingerprint: WordstatProtocol.commandFingerprint(parsed) });
+@@ -1332,7 +1457,12 @@
+         else if (response?.ignored) scheduleAutoTick(1000);
+         else {
+           toast(`Wordstat Autorun: ${response?.error || "команда не принята"}`, "error", 9000);
+-          stopAutoWatch("command_rejected");
++          activeAutoWatch.assistant_baseline_ids.add(candidate.assistant_turn_id);
++          autoFirstSeen = null;
++          if (!response?.error_report_queued) {
++            await reportContentError({ code: response?.code || "COMMAND_REJECTED", message: response?.error || "команда не принята", stage: "COMMAND_REJECTED", runId: activeAutoWatch.run_id, conversationKey: activeAutoWatch.conversation_key, requestExecuted: false, autorunContinues: true, operation: parsed.method });
++          }
++          scheduleAutoTick(1000);
+         }
+         return;
+       }
+@@ -1395,6 +1525,12 @@
+     if (response?.ok && response.owner !== false && response.recovery) {
+       queueMicrotask(() => { void runRecoveryOnce(response.recovery); });
+     }
++    if (response?.ok && response.error_recovery) {
++      queueMicrotask(() => { void performErrorDelivery(response.error_recovery).catch((error) => {
++        recordContentDiagnostic("ERROR_DELIVERY_RECOVERY_FAILED", { delivery_id: response.error_recovery.delivery_id || null, code: error.code || "ERROR_DELIVERY_RECOVERY_FAILED", error: error.message || String(error) });
++        toast(`YMB error recovery: ${error.message}`, "error", 9000);
++      }); });
++    }
+     return response;
+   }
+ 
+@@ -1540,10 +1676,19 @@
+       (async () => {
+         const recovery = message.recovery || null;
+         if (!recovery || recovery.conversation_key !== conversationKeyFromLocation()) return { ok: false, code: "CONVERSATION_MISMATCH", error: "Delivery push адресован другому диалогу." };
++        if (recovery.type === "deliver_claimed") toast("Wordstat: ответ получен. Передаю результат в ChatGPT…", "success", 5000);
+         return await runRecoveryOnce(recovery, { propagate: true });
+       })().then(sendResponse).catch((error) => sendResponse({ ok: false, code: error.code || "DELIVERY_RECOVERY_FAILED", error: error.message || String(error) }));
+       return true;
+     }
++    if (message?.type === "WS_ERROR_DELIVERY_AVAILABLE") {
++      (async () => {
++        const recovery = message.recovery || null;
++        if (!recovery || recovery.conversation_key !== conversationKeyFromLocation()) return { ok: false, code: "CONVERSATION_MISMATCH", error: "Error delivery push адресован другому диалогу." };
++        return await performErrorDelivery(recovery);
++      })().then(sendResponse).catch((error) => sendResponse({ ok: false, code: error.code || "ERROR_DELIVERY_FAILED", error: error.message || String(error) }));
++      return true;
++    }
+     if (message?.type === "WS_AUTO_BEGIN_WATCH") {
+       sendResponse({ ok: true, started: beginAutoWatch(message), identity: conversationIdentity() });
+       return false;
+     }
+diff -ruN '--exclude=*.tap' ymb_phase1/manifest.json ymb_phase1_011/manifest.json
+--- ymb_phase1/manifest.json	2026-08-12 09:03:34.063588674 +0000
++++ ymb_phase1_011/manifest.json	2026-08-12 10:21:00.995091346 +0000
+@@ -1,7 +1,7 @@
+ {
+   "manifest_version": 3,
+   "name": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
+-  "version": "0.1.0",
++  "version": "0.1.1",
+   "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Phase 1: Wordstat + unified CORE, Job/Run, policy and cost guards.",
+   "permissions": [
+     "storage",
+diff -ruN '--exclude=*.tap' ymb_phase1/package.json ymb_phase1_011/package.json
+--- ymb_phase1/package.json	2026-08-12 09:03:34.063724866 +0000
++++ ymb_phase1_011/package.json	2026-08-12 10:21:00.995230382 +0000
+@@ -1,6 +1,6 @@
+ {
+   "name": "yandex-marketing-bridge-extension",
+-  "version": "0.1.0",
++  "version": "0.1.1",
+   "private": true,
+   "scripts": {
+     "test": "node --test tests/*.test.mjs"
+diff -ruN '--exclude=*.tap' ymb_phase1/popup.html ymb_phase1_011/popup.html
+--- ymb_phase1/popup.html	2026-08-12 09:04:12.846525062 +0000
++++ ymb_phase1_011/popup.html	2026-08-12 10:19:20.230229477 +0000
+@@ -13,7 +13,7 @@
+         <h1>Yandex Marketing Bridge</h1>
+         <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Phase 1: Wordstat + unified CORE.</p>
+       </div>
+-      <span class="badge" id="versionBadge">v0.1.0</span>
++      <span class="badge" id="versionBadge">v0.1.1</span>
+     </header>
+ 
+     <section class="priority-section">
+@@ -27,20 +27,14 @@
+       </div>
+ 
+       <div class="run-context-panel">
+-        <h2>Текущий заказ / RUN</h2>
+-        <label>Job ID
+-          <input id="jobId" type="text" maxlength="120" spellcheck="false" placeholder="например: kwork-2026-001">
+-        </label>
+-        <p class="meta">Связывает результат с <code>work/&lt;job_id&gt;/</code>. Слеши запрещены. Во время активного RUN менять Job ID нельзя.</p>
++        <h2>Текущий RUN</h2>
+         <label>Активный сервис
+           <select id="activeService"><option value="wordstat">Wordstat</option></select>
+         </label>
+-        <p class="meta">Phase 1: исполняется только Wordstat. Для другого сервиса нужен Finish и отдельный RUN после его будущего acceptance.</p>
++        <p class="meta">Phase 1: исполняется только Wordstat. Расширение не знает о заказах, Job ID или GitHub; сервис фиксируется только на время RUN.</p>
+         <div class="run-summary">
+           <div class="row"><span>RUN запросы attempted / executed / skipped</span><strong id="runRequests">0 / 0 / 0</strong></div>
+           <div class="row"><span>RUN оценочный расход</span><strong id="runCost">0 ₽</strong></div>
+-          <div class="row"><span>JOB запросы attempted / executed / skipped</span><strong id="jobRequests">0 / 0 / 0</strong></div>
+-          <div class="row"><span>JOB оценочный расход</span><strong id="jobCost">0 ₽</strong></div>
+         </div>
+       </div>
+ 
+@@ -102,8 +96,6 @@
+       <div class="policy-grid">
+         <label>Max запросов / RUN<input id="maxRequestsRun" type="number" min="1" max="100000" value="500"></label>
+         <label>Max ₽ / RUN<input id="maxCostRun" type="number" min="0" step="0.01" value="25"></label>
+-        <label>Max запросов / JOB<input id="maxRequestsJob" type="number" min="1" max="1000000" value="5000"></label>
+-        <label>Max ₽ / JOB<input id="maxCostJob" type="number" min="0" step="0.01" value="250"></label>
+       </div>
+       <h3>Тарифный snapshot hard guard</h3>
+       <div class="policy-grid">
+@@ -155,6 +147,26 @@
+     </section>
+ 
+     <section>
++      <h2>Ошибки / Debug Mode</h2>
++      <label class="switch-row" for="debugMode">
++        <span><strong>Debug Mode</strong><small>Все ошибки всегда автоматически отправляются в этот ChatGPT-диалог. Debug Mode дополнительно прикладывает расширенные redacted runtime-логи.</small></span>
++        <span class="switch"><input id="debugMode" type="checkbox"><span class="slider"></span></span>
++      </label>
