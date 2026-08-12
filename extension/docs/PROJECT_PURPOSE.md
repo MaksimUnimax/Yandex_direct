@@ -1,75 +1,133 @@
 # PROJECT PURPOSE — Yandex Marketing Bridge
 
+Status: current purpose contract.
+Updated: 2026-08-12.
+
 ## 1. Цель
 
-Создать единое Chrome/Chromium-расширение, через которое ChatGPT сможет безопасно и воспроизводимо выполнять маркетинговые заказы, прежде всего с Kwork, используя официальные сервисы Яндекса.
+Создать одно Chrome/Chromium-расширение **Yandex Marketing Bridge**, через которое ChatGPT сможет безопасно и воспроизводимо работать с официальными маркетинговыми API Яндекса.
 
-Расширение должно превратить ChatGPT из консультанта, который только описывает действия, в управляемого исполнителя, способного:
+Планируемые сервисы:
 
-- собирать фактический поисковый спрос;
-- снимать и анализировать выдачу Яндекса;
-- получать данные Яндекс Вебмастера;
-- получать данные Яндекс Метрики;
-- читать, аудировать и позднее безопасно изменять Яндекс Директ;
-- сохранять весь существенный прогресс и результаты API-съёмов в GitHub workspace конкретного заказа;
-- продолжать работу после смены ChatGPT-диалога или сбоя без повторной оплаты уже полученных данных.
+- Wordstat;
+- Yandex Search / SERP;
+- Webmaster;
+- Metrika;
+- Direct.
 
-## 2. Целевая связка
+Расширение отвечает за локальное безопасное исполнение API-команд, credential storage, Manual/Autorun lifecycle, conversation ownership, policy/cost guards, result/error delivery и recovery.
+
+## 2. Критическое разделение Bridge и GitHub
+
+GitHub **не является runtime-сервисом расширения**.
+
+Правильная архитектура:
 
 ```text
-ChatGPT
-  ↕
+ChatGPT conversation
+        ↕
 Yandex Marketing Bridge
-  ├─ Wordstat
-  ├─ Yandex Search / SERP
-  ├─ Webmaster
-  ├─ Metrika
-  └─ Direct
-  ↕
-GitHub work/<job_id>/
+        ↕
+Yandex APIs
+
+ChatGPT / development workflow
+        ↕
+GitHub repository MaksimUnimax/Yandex_direct
 ```
 
-## 3. Что проект НЕ должен делать
+В расширении запрещены как обязательный runtime-контракт:
 
-- Не создавать пять независимых Chrome-расширений по одному на сервис.
-- Не давать ChatGPT произвольный HTTP-доступ.
-- Не передавать API keys/OAuth tokens через ChatGPT-команды или результаты.
-- Не позволять ChatGPT самостоятельно повышать денежные/квотные лимиты.
-- Не останавливать весь заказ из-за отсутствия credentials одного необязательного сервиса.
-- Не выполнять бесконтрольные live-write операции в Direct.
-- Не хранить рабочие данные заказа только в истории чата или только в памяти расширения.
+- `job_id`;
+- GitHub token;
+- GitHub API;
+- repository/branch/commit metadata;
+- `work/<job_id>/` path;
+- требование существования заказа в GitHub перед API-вызовом.
 
-## 4. Основной рабочий принцип
+GitHub используется **снаружи расширения** самим ChatGPT/development workflow для сохранения кода, документации, тестовых checkpoint и рабочих данных заказов.
 
-Один физический Bridge содержит единое ядро Copy/Autorun/Conversation/Delivery/Policy и отдельные сервисные adapters.
+## 3. Один RUN = один SERVICE
 
-**Один autorun RUN всегда относится ровно к одному service.**
-
-Переход между сервисами осуществляется завершением текущего run и запуском нового run того же JOB.
+Каждый Autorun RUN принадлежит одному `active_service`.
 
 ```text
-JOB
- ├─ RUN-001 Wordstat
- ├─ RUN-002 Search
- ├─ RUN-003 Webmaster
- ├─ RUN-004 Metrika
- ├─ RUN-005 Direct READ
- └─ RUN-006 Direct DRAFT_WRITE
+Start Wordstat RUN
+→ Wordstat commands
+→ Finish
+→ Start Search RUN
+→ ...
 ```
 
-## 5. GitHub как рабочая память
+Чтобы сменить сервис, текущий RUN завершается. Assistant text не может сам переключить `active_service`.
 
-Репозиторий делится на две постоянные зоны:
+`run_id` — внутренний идентификатор безопасного lifecycle расширения. Он не является Job ID и не связывает Bridge с GitHub.
 
-- `extension/` — код и документация Bridge;
-- `work/` — временные каталоги активных заказов.
+## 4. Manual / Autorun
 
-Каждый новый заказ получает `work/<job_id>/`. Туда должны сохраняться raw evidence, нормализованные данные, промежуточные выводы, manifests, cost ledger и deliverables.
+Bridge сохраняет доказанные reference-механизмы Wordstat/Business Bridge:
 
-После сдачи заказа директория удаляется из актуального дерева репозитория. Git history при обычном удалении сохраняет предыдущие коммиты; это осознанная модель сохранения рабочего прогресса.
+- native local Copy остаётся native Copy;
+- generic `Copy response` не является API trigger;
+- Manual и Autorun взаимно безопасны;
+- owner-tab и conversation binding fail-closed;
+- один принятый command/transaction не создаёт второй внешний initiation;
+- user composer не перезаписывается молча;
+- после необратимой границы нет blind retry;
+- Pause / Resume / Finish сохраняют lifecycle semantics reference.
 
-## 6. Source of truth
+Manual на PAUSED RUN использует тот же request/cost budget этого RUN и не может обходить лимит переключением режима.
 
-Для разработки этого проекта source of truth — live GitHub repository `MaksimUnimax/Yandex_direct` плюс сохранённый в нём reference baseline.
+## 5. Ошибки и Debug Mode
 
-История одного ChatGPT-диалога не является единственным источником истины.
+**Любая обнаруженная ошибка во всех режимах автоматически доставляется в связанный ChatGPT conversation.**
+
+Это не зависит от Debug Mode.
+
+- Debug OFF → обязательный компактный `YMB_ERROR_V1`;
+- Debug ON → тот же error delivery + дополнительные redacted diagnostic logs.
+
+Recoverable error не должен молча завершать Autorun. Если продолжение безопасно, Bridge возвращает RUN к ожиданию следующей команды.
+
+Если исход внешнего запроса неизвестен, automatic retry запрещён; в ChatGPT отправляется диагностика для reconciliation.
+
+## 6. Credentials и перенос настроек
+
+Credentials хранятся локально в `chrome.storage.local` и не включаются в обычные команды, результаты или error/debug reports.
+
+Для переноса между unpacked installations Bridge должен иметь:
+
+```text
+Export settings
+Import settings
+```
+
+Export intentionally содержит secrets и является секретным backup-файлом.
+
+Import обязан:
+
+- проверять format/version;
+- проверять canonical SHA-256;
+- merge-ить совместимые настройки;
+- сохранять активные RUN/manual-operation safety bindings;
+- не заменять активный RUN импортированным состоянием.
+
+При обычном in-place upgrade должны сохраняться proven legacy `wsmb_*` storage keys, включая `wsmb_api_key`.
+
+## 7. GitHub как рабочая память проекта и заказов
+
+Репозиторий делится на:
+
+```text
+extension/  — код, reference, tests, docs
+work/       — рабочие каталоги реальных заказов
+```
+
+Создание и ведение `work/<job_id>/` выполняет ChatGPT/development workflow через подключённый GitHub, **не Chrome extension**.
+
+Туда можно сохранять raw evidence, normalized data, analysis, deliverables и cost/run logs, но никогда secret credentials.
+
+## 8. Source of truth
+
+Для разработки продукта source of truth — live GitHub repository `MaksimUnimax/Yandex_direct` плюс owner-supplied reference artifacts.
+
+Перед продолжением разработки необходимо проверить live HEAD и актуальные docs/gates. Chat history или remembered SHA не заменяют live GitHub.
