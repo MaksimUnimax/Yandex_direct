@@ -3,7 +3,9 @@
 Date created: 2026-08-12
 Candidate: `yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip`
 Candidate SHA-256: `311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb`
-Status: **ACTIVE TEST CAMPAIGN — PATCHING FORBIDDEN UNTIL LEDGER REVIEW**
+Owner-interrupted DEF-01 patch candidate: `yandex-marketing-bridge-0.1.1-phase1-plaque-parity-candidate.zip`
+Patch candidate SHA-256: `c0e3c36eaac1ebfa81ee44ca8cc376282b9aed601cd07cc596a6c235cfffb976`
+Status: **ACTIVE TEST CAMPAIGN — OWNER-INTERRUPTED DEF-01 PATCH CHECKPOINT; LIVE RERUN PENDING**
 
 ## 1. Governing test method
 
@@ -92,9 +94,9 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | C-01 | Supported command Copy decoration | Supported `WORDSTAT_API_V1` local Copy is visibly decorated as the API action boundary | PASS | 2026-08-12 governed real Chrome: owner explicitly confirmed that supported command Copy controls are visibly highlighted/decorated (`Все выделено`); C-01 `getRegionsTree` block was therefore recognized as the API action boundary. The same action executed successfully as request_id `85085824-b4e9-4584-ba52-cb4610e6ec13`. |
-| C-02 | Request-start plaque | Real operation shows reference-style `отправляю <method>` feedback | FAIL (pre-rule evidence for generic replacement UI) | Existing generic YMB notification is not acceptable |
-| C-03 | Success plaque | Successful response shows reference-style `ответ получен` | NOT RUN | |
-| C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (pre-rule evidence) | Generic green YMB plaque observed |
+| C-02 | Request-start plaque | Real operation shows reference-style `отправляю <method>` feedback | FAIL (installed candidate; post-patch emulation PASS) | Pre-rule live installed-base evidence remains FAIL. Owner-interrupted DEF-01 patch preserves the exact reference toast renderer byte-for-byte and controlled emulation confirms the exact request-start label `Wordstat: отправляю ${parsed.method} в Yandex API…` with reference info tone. Real current-Chrome rerun on patched candidate remains pending. |
+| C-03 | Success plaque | Successful response shows reference-style `ответ получен` | NOT RUN (live; post-patch emulation PASS) | Controlled post-patch emulation confirms exact reference success label `Wordstat: ответ получен. Передаю результат в ChatGPT…` with reference success tone; real current-Chrome confirmation on patched candidate remains pending. |
+| C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (installed candidate; post-patch emulation PASS) | Pre-rule installed-base evidence remains FAIL. Owner-interrupted DEF-01 patch removes user-facing `YMB:`/`Yandex Marketing Bridge:` toast labels from Wordstat Phase 1 paths and renders error-delivery plaques with the reference error tone. Focused emulation 2/2 PASS; real current-Chrome rerun remains pending. |
 | C-05 | Non-command Copy | Copying non-Wordstat content remains native copy only and never triggers Yandex | PASS | 2026-08-12 governed real-Chrome: owner clicked local Copy once on a non-command text block `YMB_C05_NON_COMMAND_COPY_TEST`, waited about five seconds, and reported `ничего`; no `WORDSTAT_RESULT_V1`, `YMB_ERROR_V1` or other Wordstat/Yandex execution output appeared. |
 | C-06 | Generic ChatGPT Copy response | Must never be treated as API authorization/trigger | PASS | 2026-08-12 governed real-Chrome: owner clicked the generic ChatGPT `Copy`/`Копировать ответ` control for the entire assistant response rather than the local command-block Copy, waited about five seconds, and reported `ничего`; no Wordstat/Yandex result, error or request output appeared. |
 | C-07 | Double-click protection | Repeated/double local Copy cannot produce duplicate Yandex requests | PASS | 2026-08-12 governed real Chrome: owner performed four Copy clicks as two rapid double-click pairs separated by a pause. Debug evidence shows exactly two Yandex requests total: request `504d27be-fe8a-4a0e-bb0a-8f228c5c9d7b` for the first pair and request `1e7bbdfc-f67e-4079-868f-95ef58db574d` for the second pair. Therefore each rapid pair collapsed to one request; no second request was produced within either pair. The second pair separately exposed a delivery-readiness failure after the request completed. |
@@ -188,12 +190,12 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | K-01 | All four Wordstat methods | `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree` all have passing live evidence on patched candidate | NOT RUN | Current evidence belongs to pre-patch 0.1.1 candidate |
-| K-02 | Manual reference UX | Copy decoration + start plaque + response plaque + one result + no duplicate request | NOT RUN | |
+| K-02 | Manual reference UX | Copy decoration + start plaque + response plaque + one result + no duplicate request | NOT RUN | DEF-01 post-patch emulation is green; live patched-candidate confirmation remains pending |
 | K-03 | Autorun reference UX | Start + auto-capture + one request + one delivery + pause/resume/stop | BLOCKED | G-01 |
 | K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | Current 0.1.1 now has governed real-Chrome PASS evidence for Debug OFF and ON; mandatory post-patch rerun remains because toggle persistence is separately broken |
 | K-05 | Toggle persistence | Every toggle-type setting persists immediately without Save | NOT RUN | Current candidate has B-01/B-03/B-04 FAIL |
 | K-06 | Cost/accounting semantics | Free and paid methods report cost/charged state correctly | NOT RUN | Current candidate has E-04 FAIL |
-| K-07 | Static/full regression after patch | Full source + packaged suite green; source/package identity checked | NOT RUN | Only after patch |
+| K-07 | Static/full regression after patch | Full source + packaged suite green; source/package identity checked | PASS (DEF-01 patch checkpoint) | 2026-08-12 owner-interrupted DEF-01 patch: focused plaque emulation 2/2 PASS; full source suite 313/313 PASS; fresh ZIP suite 313/313 PASS; source↔fresh ZIP 42/42 byte-identical; JS/MJS syntax 37/37; JSON 2/2. No Yandex request executed. |
 | K-08 | Final real-Chrome/current-ChatGPT acceptance | No unresolved mandatory FAIL/BLOCKED item remains | NOT RUN | |
 
 ---
@@ -204,14 +206,14 @@ This register is derived from observed FAILs and is not yet the patch specificat
 
 | Defect | Source tests | Current observation |
 |---|---|---|
-| DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | Generic green `YMB:` notification replaces required reference-style feedback |
+| DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | **PATCHED UNDER OWNER INTERRUPTION; POST-PATCH EMULATION PASS / LIVE RERUN PENDING.** Exact reference toast renderer preserved byte-for-byte; Wordstat request/success labels preserved; invented YMB/Yandex Marketing Bridge toast labels removed from Wordstat Phase 1 paths; error delivery uses reference error tone. |
 | DEF-02 Toggle persistence architecture wrong | PRE-03, B-01, B-03, B-04 | Debug, Auto Send, Wordstat Autorun policy and report-prefix boolean controls do not persist immediately; Manual is the working counterexample because it has an immediate runtime action |
 | DEF-03 Autorun cannot start | PRE-04, G-01 | Live popup never creates RUN. Controlled backend start reaches `waiting_command`, narrowing defect to popup/policy/integration path |
 | DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | Governed live `getRegionsTree` confirms `estimated_rub:0` with incorrect `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | DEF-05 Successful-result executed flag missing | D-10, D-02, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
 | DEF-06 Manual post-request delivery readiness failure | C-07 incident, D-11 | On the second double-click pair, Yandex request `1e7bbdfc-f67e-4079-868f-95ef58db574d` completed HTTP 200, then delivery failed with `DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT`, `request_executed:true`, `automatic_retry:false`. Two subsequent fresh commands recovered successfully (D-11), so the runtime is not permanently wedged, but deterministic delivery readiness/recovery for the already executed operation remains required. |
 
-No patch is to be derived until the remaining planned tests are executed or explicitly marked blocked/waived by the owner.
+Owner explicitly interrupted the campaign on 2026-08-12 and ordered an immediate DEF-01 plaque-only patch. This is the rule-4 exception for DEF-01 only. DEF-02 through DEF-06 remain unpatched until separately derived/ordered.
 
 ---
 
@@ -220,6 +222,7 @@ No patch is to be derived until the remaining planned tests are executed or expl
 Append newly discovered test requirements here **before executing them**.
 
 - 2026-08-12 — Add `D-11 Recovery after post-request delivery failure` after C-07 incident. The incidental failure is already evidence for DEF-06; D-11 is the first governed follow-up and is added before execution. Use free `getRegionsTree`; acceptance requires a fresh request to deliver normally without replaying request `1e7bbdfc-f67e-4079-868f-95ef58db574d`.
+- 2026-08-12 — Owner explicitly interrupted the remaining campaign and ordered immediate DEF-01 plaque repair with controlled emulation, not repetitive owner UI clicking. No new test ID was introduced: existing C-02/C-03/C-04 and K-07 cover the patch. Scope is limited to reference toast/plaque renderer parity and labels/tones; no other defect is patched in this interruption.
 
 ---
 
