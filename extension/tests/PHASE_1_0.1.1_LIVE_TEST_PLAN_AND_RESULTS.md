@@ -183,7 +183,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | J-03 | Tamper rejection | Modified backup rejected | PASS | Controlled checksum test rejects tampered backup |
 | J-04 | Cross-install restore | Credentials/settings restored in another unpacked identity | PASS | 2026-08-12 corrected controlled cross-install restore on plaque-patch candidate: backup exported with `extension_id:j04-source-extension` and imported into distinct `j04-target-extension`; `imported:true`. Restored API key, Folder ID, Auto Send OFF, Debug ON, Wordstat request/cost ceilings, Manual mode, report-prefix config, auto-start prompt and conversation binding. Focused corrected J-04 test passed 1/1. The preceding wrong-key harness assertion was TEST ERROR and is superseded by this rerun. |
 | J-05 | Active RUN preservation | Import never replaces active execution state | PASS | Controlled import test preserves active RUN while restoring settings |
-| J-06 | Secret containment | Backup secret values never enter ChatGPT/GitHub logs | NOT RUN | Backup intentionally contains secrets; explicit transport/log-containment check still pending |
+| J-06 | Secret containment | Backup secret values never enter ChatGPT/GitHub logs | PASS | 2026-08-12 controlled export/import secrecy test with unique secret markers: backup intentionally contained API key and Folder ID, but source and target ChatGPT-facing error-delivery queues, diagnostics and content-send message traces contained neither secret value nor `Authorization`. Import completed successfully. Focused J-06 test passed 1/1. Backup storage itself remains intentionally secret-bearing by design. |
 
 ### K. Final regression/live closure
 
