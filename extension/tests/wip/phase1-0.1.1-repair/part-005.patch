@@ -1,0 +1,266 @@
+           auto_run: publicRun(run),
+           recovery,
+           auto_watch: owner && run?.status === WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND ? {
+@@ -2333,7 +2691,7 @@
+         return { ok: true, state: await publicGlobalSettingsState(message.page_context_error || null) };
+       }
+       case "WS_TEST_CONNECTION":
+-        return await testConnection();
++        return await testConnection({ conversation_key: message.conversation_key || null, tab_id: message.tab_id || null });
+       case "WS_EXECUTE_COMMAND":
+         return await executeManualCommand(String(message.command_text || ""), message.conversation_key, sender, message.manual_request_id);
+       case "WS_MANUAL_DELIVERY_COMPLETE":
+@@ -2379,6 +2737,10 @@
+         return { ok: true, run: await completeAutoDelivery(message, sender) };
+       case "WS_AUTO_DELIVERY_FAILED":
+         return { ok: true, run: await failAutoDelivery(message, sender) };
++      case "WS_ERROR_DELIVERY_COMMIT_REQUEST":
++        return await commitErrorDelivery(message, sender);
++      case "WS_ERROR_DELIVERY_COMPLETE":
++        return await completeErrorDelivery(message, sender);
+       case "WS_GET_SEND_BUTTON_PROFILE": {
+         const data = await storageGet(KEYS.SEND_BUTTON_PROFILE);
+         return { ok: true, profile: data[KEYS.SEND_BUTTON_PROFILE] || null };
+@@ -2415,6 +2777,22 @@
+         await diagnostic("COPY_BUTTON_PROFILES_CLEARED", { builtin_adapter_count: BB2ManualControls.BUILTIN_MANUAL_COPY_ADAPTER_COUNT });
+         return { ok: true, profiles, builtin_adapter_count: BB2ManualControls.BUILTIN_MANUAL_COPY_ADAPTER_COUNT };
+       }
++      case "WS_REPORT_CONTENT_ERROR": {
++        const key = normalizeConversationKey(message.conversation_key);
++        const senderTabId = Number(sender?.tab?.id || message.tab_id || 0);
++        if (!Number.isInteger(senderTabId) || senderTabId <= 0) throw Object.assign(new Error("Content error пришёл без ChatGPT tab."), { code: "CONTENT_ERROR_TAB_MISSING" });
++        await assertTabConversation(senderTabId, key);
++        await strictBindingForIdentity(await tabIdentity(senderTabId));
++        const run = await getAutoRun(key).catch(() => null);
++        const record = await safeEnqueueChatError({
++          conversation_key: key, tab_id: senderTabId, run_id: message.run_id || run?.run_id || null, service: run?.active_service || "wordstat",
++          channel: message.channel || (run ? "autorun" : "runtime"), stage: message.stage || "CONTENT_SCRIPT", code: message.code || "CONTENT_SCRIPT_ERROR",
++          message: message.error || message.message || "Content script error", recoverable: message.recoverable !== false,
++          request_executed: message.request_executed === undefined ? false : message.request_executed,
++          autorun_continues: message.autorun_continues === true || run?.status === WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND, operation: message.operation || run?.last_method || null
++        });
++        return { ok: Boolean(record), error_report_queued: Boolean(record), delivery_id: record?.delivery_id || null };
++      }
+       case "WS_GET_DIAGNOSTICS": {
+         const data = await storageGet(KEYS.DIAGNOSTICS);
+         return { ok: true, diagnostics: data[KEYS.DIAGNOSTICS] || [] };
+@@ -2432,7 +2810,34 @@
+     const code = String(error?.code || (error?.name === "AbortError" ? "REQUEST_TIMEOUT" : "EXTENSION_ERROR"));
+     const text = String(error?.message || error || "Unknown error");
+     await setStatus({ ok: false, code, message: text }).catch(() => null);
+-    sendResponse({ ok: false, code, error: text });
++    let errorReportQueued = false;
++    if (error?.error_report_queued !== true && !String(message?.type || "").startsWith("WS_ERROR_DELIVERY_")) {
++      let conversationKey = typeof message?.conversation_key === "string" && message.conversation_key.trim() ? message.conversation_key : null;
++      let tabId = Number(sender?.tab?.id || message?.tab_id || 0);
++      if (!conversationKey && Number.isInteger(tabId) && tabId > 0) {
++        const identity = await tabIdentity(tabId).catch(() => null);
++        conversationKey = identity ? conversationKeyFromIdentity(identity) : null;
++      }
++      if (conversationKey) {
++        const run = await getAutoRun(conversationKey).catch(() => null);
++        const report = await safeEnqueueChatError({
++          conversation_key: conversationKey,
++          tab_id: tabId || run?.tab_id || null,
++          run_id: run?.run_id || null,
++          service: run?.active_service || "wordstat",
++          channel: String(message?.type || "").includes("AUTO") ? "autorun" : (String(message?.type || "").includes("EXECUTE") ? "manual" : "runtime"),
++          stage: String(message?.type || "RUNTIME_MESSAGE"),
++          code,
++          message: text,
++          recoverable: true,
++          request_executed: code === "REQUEST_OUTCOME_UNKNOWN_NO_RETRY" ? "UNKNOWN" : false,
++          autorun_continues: run?.status === WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND || run?.status === WordstatAutorunModel.RUN_STATUSES.DELIVERING || run?.status === WordstatAutorunModel.RUN_STATUSES.STARTING,
++          operation: run?.last_method || null
++        });
++        errorReportQueued = Boolean(report);
++      }
++    }
++    sendResponse({ ok: false, code, error: text, error_report_queued: errorReportQueued });
+   });
+   return true;
+ });
+diff -ruN '--exclude=*.tap' ymb_phase1/shared/job_model.js ymb_phase1_011/shared/job_model.js
+--- ymb_phase1/shared/job_model.js	2026-08-12 09:00:16.880036809 +0000
++++ ymb_phase1_011/shared/job_model.js	2026-08-12 10:10:44.748616692 +0000
+@@ -1,26 +1,12 @@
+ (() => {
+   "use strict";
+ 
+-  const JOB_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$/;
+-
+   function fail(code, message) {
+     const error = new Error(message || code);
+     error.code = code;
+     throw error;
+   }
+ 
+-  function normalizeJobId(value, { required = false } = {}) {
+-    const text = String(value || "").trim();
+-    if (!text) {
+-      if (required) fail("JOB_ID_MISSING", "Укажите Job ID текущего заказа.");
+-      return "";
+-    }
+-    if (!JOB_ID_RE.test(text)) {
+-      fail("INVALID_JOB_ID", "Job ID: только A-Z/a-z/0-9, точка, подчёркивание и дефис; максимум 120 символов, без слешей.");
+-    }
+-    return text;
+-  }
+-
+   function normalizeActiveService(value, registry, { required = false } = {}) {
+     const service = String(value || "").trim().toLowerCase();
+     if (!service) {
+@@ -40,18 +26,14 @@
+     return true;
+   }
+ 
+-  function makeRunIdentity({ jobId, activeService, registry }) {
++  function makeRunIdentity({ activeService, registry }) {
+     return Object.freeze({
+-      job_id: normalizeJobId(jobId, { required: true }),
+       active_service: normalizeActiveService(activeService, registry, { required: true })
+     });
+   }
+ 
+-  globalThis.YMBJobModel = Object.freeze({
+-    JOB_ID_RE,
+-    normalizeJobId,
+-    normalizeActiveService,
+-    assertServiceMatch,
+-    makeRunIdentity
+-  });
++  const model = Object.freeze({ normalizeActiveService, assertServiceMatch, makeRunIdentity });
++  globalThis.YMBRunContextModel = model;
++  // Compatibility alias for the 0.1.0 source/test harness. There is no Job ID in 0.1.1 runtime.
++  globalThis.YMBJobModel = model;
+ })();
+diff -ruN '--exclude=*.tap' ymb_phase1/shared/policy_model.js ymb_phase1_011/shared/policy_model.js
+--- ymb_phase1/shared/policy_model.js	2026-08-12 09:00:16.881434445 +0000
++++ ymb_phase1_011/shared/policy_model.js	2026-08-12 10:10:44.748674928 +0000
+@@ -15,19 +15,16 @@
+     const n = Number(value);
+     return Number.isFinite(n) ? n : fallback;
+   }
+-
+   function clampInteger(value, min, max, fallback) {
+     const n = Number(value);
+     if (!Number.isFinite(n)) return fallback;
+     return Math.max(min, Math.min(max, Math.trunc(n)));
+   }
+-
+   function normalizeAllowedMethods(value) {
+     const input = Array.isArray(value) ? value.map(String) : WORDSTAT_METHODS;
+     const set = new Set(input.filter((method) => WORDSTAT_METHODS.includes(method)));
+     return WORDSTAT_METHODS.filter((method) => set.has(method));
+   }
+-
+   function normalizeTariffs(raw = {}) {
+     const result = {};
+     for (const method of WORDSTAT_METHODS) {
+@@ -36,7 +33,6 @@
+     }
+     return Object.freeze(result);
+   }
+-
+   function normalizeWordstatPolicy(raw = {}) {
+     return Object.freeze({
+       autorun_enabled: raw.autorun_enabled === true,
+@@ -44,21 +40,17 @@
+       allowed_methods: Object.freeze(normalizeAllowedMethods(raw.allowed_methods)),
+       max_requests_per_run: clampInteger(raw.max_requests_per_run, 1, 100000, 500),
+       max_cost_rub_per_run: Math.max(0, Math.min(1_000_000, finiteNumber(raw.max_cost_rub_per_run, 25))),
+-      max_requests_per_job: clampInteger(raw.max_requests_per_job, 1, 1_000_000, 5000),
+-      max_cost_rub_per_job: Math.max(0, Math.min(10_000_000, finiteNumber(raw.max_cost_rub_per_job, 250))),
+       method_cost_rub: normalizeTariffs(raw.method_cost_rub),
+       tariff_source: String(raw.tariff_source || DEFAULT_TARIFF_SOURCE).slice(0, 1000),
+       tariff_checked_at: String(raw.tariff_checked_at || DEFAULT_TARIFF_CHECKED_AT).slice(0, 80)
+     });
+   }
+-
+   function costForMethod(policy, method) {
+     const normalized = normalizeWordstatPolicy(policy);
+     if (!WORDSTAT_METHODS.includes(method)) return null;
+     return Number(normalized.method_cost_rub[method] || 0);
+   }
+-
+-  function decision({ policy, channel = "autorun", method, credentialState = "PRESENT", run = {}, jobTotals = {} } = {}) {
++  function decision({ policy, channel = "autorun", method, credentialState = "PRESENT", run = {} } = {}) {
+     const normalized = normalizeWordstatPolicy(policy);
+     const cost = costForMethod(normalized, method);
+     if (cost === null) return Object.freeze({ allow: false, reason: "OPERATION_DISABLED", estimated_cost_rub: 0, policy: normalized });
+@@ -66,27 +58,14 @@
+     if (channel === "autorun" && normalized.autorun_enabled !== true) return Object.freeze({ allow: false, reason: "AUTORUN_DISABLED", estimated_cost_rub: cost, policy: normalized });
+     if (channel === "manual" && normalized.manual_enabled !== true) return Object.freeze({ allow: false, reason: "MANUAL_DISABLED", estimated_cost_rub: cost, policy: normalized });
+     if (!normalized.allowed_methods.includes(method)) return Object.freeze({ allow: false, reason: "OPERATION_DISABLED", estimated_cost_rub: cost, policy: normalized });
+-
+     const runRequests = Math.max(0, finiteNumber(run.requests_executed, 0));
+     const runCost = Math.max(0, finiteNumber(run.estimated_cost_rub, 0));
+-    const jobRequests = Math.max(0, finiteNumber(jobTotals.requests_executed, 0));
+-    const jobCost = Math.max(0, finiteNumber(jobTotals.estimated_cost_rub, 0));
+-
+-    if (runRequests + 1 > normalized.max_requests_per_run) return Object.freeze({ allow: false, reason: "REQUEST_LIMIT", estimated_cost_rub: cost, policy: normalized });
+-    if (jobRequests + 1 > normalized.max_requests_per_job) return Object.freeze({ allow: false, reason: "JOB_REQUEST_LIMIT", estimated_cost_rub: cost, policy: normalized });
+-    if (runCost + cost > normalized.max_cost_rub_per_run + 1e-9) return Object.freeze({ allow: false, reason: "COST_LIMIT", estimated_cost_rub: cost, policy: normalized });
+-    if (jobCost + cost > normalized.max_cost_rub_per_job + 1e-9) return Object.freeze({ allow: false, reason: "JOB_COST_LIMIT", estimated_cost_rub: cost, policy: normalized });
+-
++    if (channel === "autorun" && runRequests + 1 > normalized.max_requests_per_run) return Object.freeze({ allow: false, reason: "REQUEST_LIMIT", estimated_cost_rub: cost, policy: normalized });
++    if (channel === "autorun" && runCost + cost > normalized.max_cost_rub_per_run + 1e-9) return Object.freeze({ allow: false, reason: "COST_LIMIT", estimated_cost_rub: cost, policy: normalized });
+     return Object.freeze({ allow: true, reason: null, estimated_cost_rub: cost, policy: normalized });
+   }
+-
+   globalThis.YMBPolicyModel = Object.freeze({
+-    DEFAULT_TARIFF_SOURCE,
+-    DEFAULT_TARIFF_CHECKED_AT,
+-    DEFAULT_METHOD_COST_RUB,
+-    WORDSTAT_METHODS,
+-    normalizeWordstatPolicy,
+-    costForMethod,
+-    decision
++    DEFAULT_TARIFF_SOURCE, DEFAULT_TARIFF_CHECKED_AT, DEFAULT_METHOD_COST_RUB, WORDSTAT_METHODS,
++    normalizeWordstatPolicy, costForMethod, decision
+   });
+ })();
+diff -ruN '--exclude=*.tap' ymb_phase1/shared/product.js ymb_phase1_011/shared/product.js
+--- ymb_phase1/shared/product.js	2026-08-12 09:00:16.878647892 +0000
++++ ymb_phase1_011/shared/product.js	2026-08-12 10:10:44.748506848 +0000
+@@ -4,7 +4,7 @@
+   const PRODUCT = Object.freeze({
+     NAME: "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
+     BRIDGE_ID: "yandex-marketing-bridge",
+-    VERSION: "0.1.0"
++    VERSION: "0.1.1"
+   });
+ 
+   globalThis.YMBProduct = PRODUCT;
+diff -ruN '--exclude=*.tap' ymb_phase1/shared/wordstat_protocol.js ymb_phase1_011/shared/wordstat_protocol.js
+--- ymb_phase1/shared/wordstat_protocol.js	2026-08-12 09:00:37.896588456 +0000
++++ ymb_phase1_011/shared/wordstat_protocol.js	2026-08-12 10:21:00.995369559 +0000
+@@ -2,7 +2,7 @@
+   "use strict";
+ 
+   const PREFIX = "WORDSTAT_API_V1";
+-  function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.0"); }
++  function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.1"); }
+   const DEFAULT_FOLDER_ID = "b1gqfm5c5vn6aingakbe";
+   const DEVICES = new Set(["DEVICE_ALL", "DEVICE_DESKTOP", "DEVICE_PHONE", "DEVICE_TABLET"]);
+   const PERIODS = new Set(["PERIOD_MONTHLY", "PERIOD_WEEKLY", "PERIOD_DAILY"]);
+@@ -130,7 +130,6 @@
+       operation: command?.method || null,
+       request_id: requestId,
+       run_id: metadata.run_id || null,
+-      job_id: metadata.job_id || null,
+       status: metadata.status || (Number(httpStatus || 0) >= 200 && Number(httpStatus || 0) < 300 ? "OK" : "ERROR"),
+       reason: metadata.reason || null,
+       cost_estimate: metadata.cost_estimate || null,
+@@ -138,7 +137,10 @@
+       command,
+       http_status: httpStatus,
+       elapsed_ms: elapsedMs,
+-      result
++      result,
++      ...(metadata.debug_logs ? { debug_logs: metadata.debug_logs } : {}),
++      ...(metadata.request_executed !== undefined ? { request_executed: metadata.request_executed } : {}),
++      ...(metadata.automatic_retry !== undefined ? { automatic_retry: metadata.automatic_retry } : {})
+     };
+     return `WORDSTAT_RESULT_V1\n${JSON.stringify(envelope, null, 2)}`;
+   }
