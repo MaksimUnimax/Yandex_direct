@@ -1,0 +1,175 @@
++      autorun_continues: run.status === WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND || run.status === WordstatAutorunModel.RUN_STATUSES.DELIVERING || run.status === WordstatAutorunModel.RUN_STATUSES.STARTING,
++      operation: options.operation || run.last_method || null
++    });
++    if (shouldBeginWatch && run.status === WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND) {
++      await beginWatch(run).catch(async (error) => {
++        await diagnostic("AUTO_WATCH_RESTART_AFTER_ERROR_FAILED", { run_id: run.run_id, code: error.code || "WATCH_RESTART_FAILED", error: error.message || String(error) }, { level: "warning" });
++      });
++    }
++  }
+   return run;
+ }
+ 
+@@ -1564,7 +1903,7 @@
+   await assertRunBinding(run);
+   const decision = WordstatAutorunModel.recoveryDecision(run, WORKER_SESSION_ID);
+   if (decision.type === "unsafe_request_outcome") {
+-    const failed = await markRunError(run.conversation_key, decision.code, "Service worker перезапустился во время Yandex API request. Исход запроса неизвестен; автоматический повтор запрещён, чтобы не создать второй платный API-вызов.");
++    const failed = await markRunError(run.conversation_key, decision.code, "Service worker перезапустился во время Yandex API request. Исход запроса неизвестен; автоматический повтор запрещён, чтобы не создать второй платный API-вызов.", { stage: "REQUEST_RECOVERY", request_executed: "UNKNOWN", operation: run.last_method || null });
+     await diagnostic("REQUEST_RECOVERY_BLOCKED_NO_RETRY", { run_id: run.run_id, previous_worker_session_id: run.request_worker_session_id || null, worker_session_id: WORKER_SESSION_ID }, { level: "error" });
+     return { type: "request_outcome_unknown", code: decision.code, run: publicRun(failed) };
+   }
+@@ -1590,8 +1929,8 @@
+   await migrateLegacyConversationStorage(liveIdentity);
+   const binding = await strictBindingForIdentity(liveIdentity);
+   const settings = await getSettings();
+-  const jobContext = await getJobContext(key);
+-  const runIdentity = YMBJobModel.makeRunIdentity({ jobId: jobContext.job_id, activeService: jobContext.active_service, registry: YMBServiceRegistry });
++  const serviceContext = await getServiceContext(key);
++  const runIdentity = YMBJobModel.makeRunIdentity({ activeService: serviceContext.active_service, registry: YMBServiceRegistry });
+   if (runIdentity.active_service !== YMBServiceRegistry.SERVICES.WORDSTAT) throw Object.assign(new Error("В Phase 1 разрешён только Wordstat."), { code: "SERVICE_NOT_AVAILABLE" });
+   const policy = await getWordstatPolicy();
+   if (policy.autorun_enabled !== true) throw Object.assign(new Error("Wordstat отключён оператором для Autorun в настройках расширения."), { code: "AUTORUN_DISABLED" });
+@@ -1611,7 +1950,6 @@
+   const now = new Date().toISOString();
+   let run = {
+     run_id: `ymbrun-${crypto.randomUUID()}`,
+-    job_id: runIdentity.job_id,
+     active_service: runIdentity.active_service,
+     permission_profile: "WORDSTAT",
+     requests_attempted: 0,
+@@ -1637,8 +1975,8 @@
+     start_delivery: {
+       phase: WordstatAutorunModel.START_PHASES.NONE,
+       message_text: [
+-      `YMB RUN CONTEXT: job_id=${runIdentity.job_id}; active_service=${runIdentity.active_service}; credentials=${capability.state}; autorun_enabled=${policy.autorun_enabled}; max_requests_run=${policy.max_requests_per_run}; max_cost_run_rub=${policy.max_cost_rub_per_run}.`,
+-      "Отсутствие credentials не является причиной останавливать весь заказ: недоступные Wordstat-команды будут возвращены как SKIPPED / NO_CREDENTIALS без внешнего запроса.",
++      `YMB RUN CONTEXT: active_service=${runIdentity.active_service}; credentials=${capability.state}; autorun_enabled=${policy.autorun_enabled}; max_requests_run=${policy.max_requests_per_run}; max_cost_run_rub=${policy.max_cost_rub_per_run}.`,
++      "Отсутствие credentials не останавливает autorun: недоступная команда возвращается как SKIPPED / NO_CREDENTIALS без внешнего запроса, после чего цикл продолжает ждать следующую команду.",
+       "",
+       String(startPrompt.text || "")
+     ].join("\n"),
+@@ -1692,7 +2030,7 @@
+   }
+   if (!response?.ok) {
+     if ((run.start_delivery?.phase || WordstatAutorunModel.START_PHASES.NONE) === WordstatAutorunModel.START_PHASES.NONE) {
+-      run = await markRunError(key, response?.code || "AUTO_START_FAILED", response?.error || "Не удалось подготовить/отправить стартовое сообщение autorun.");
++      run = await markRunError(key, response?.code || "AUTO_START_FAILED", response?.error || "Не удалось подготовить/отправить стартовое сообщение autorun.", { stage: "START", request_executed: false });
+       throw Object.assign(new Error(response?.error || "Не удалось отправить стартовое сообщение autorun."), { code: response?.code || "AUTO_START_FAILED" });
+     }
+@@ -1728,24 +2066,26 @@
+ 
+ async function buildAutoSkippedResult({ key, run, parsed, reason, estimatedCostRub, policy }) {
+   const requestId = `skip-${crypto.randomUUID()}`;
++  const debugLogs = await debugLogsForError(key, run.run_id);
+   const reportText = WordstatProtocol.formatSkippedReport({
+     requestId,
+     command: parsed,
+     reason,
+     metadata: {
+       run_id: run.run_id,
+-      job_id: run.job_id,
+       cost_estimate: {
+         estimated_rub: Number(estimatedCostRub || 0),
+         charged: false,
+         tariff_checked_at: policy?.tariff_checked_at || null,
+         tariff_source: policy?.tariff_source || null
+       },
+-      policy: { active_service: run.active_service, reason }
++      policy: { active_service: run.active_service, reason },
++      request_executed: false,
++      automatic_retry: false,
++      ...(debugLogs ? { debug_logs: debugLogs } : {})
+     }
+   });
+-  await mutateJobTotals(run.job_id, (totals) => YMBCostLedgerModel.noteSkipped(YMBCostLedgerModel.noteAttempt(totals)));
+-  await diagnostic("AUTO_COMMAND_SKIPPED", { run_id: run.run_id, job_id: run.job_id, method: parsed.method, phrase: parsed.phrase || null, reason, estimated_cost_rub: Number(estimatedCostRub || 0) }, { level: "warning" });
++  await diagnostic("AUTO_COMMAND_SKIPPED", { run_id: run.run_id, method: parsed.method, phrase: parsed.phrase || null, reason, estimated_cost_rub: Number(estimatedCostRub || 0) }, { level: "warning" });
+   const delivery = await claimAutoReportDelivery({ key, runId: run.run_id, reportText, requestId, resultMeta: { requests_skipped_delta: 1 } });
+@@ -1757,7 +2097,6 @@
+     report_text: reportText,
+     accepted: true,
+     run_id: run.run_id,
+-    job_id: run.job_id,
+     delivery_id: delivery.deliveryId,
+@@ -1791,6 +2130,12 @@
+   try { parsed = WordstatProtocol.parseCommand(commandText); }
+   catch (error) { return { ok: false, accepted: false, code: error.code || "INVALID_COMMAND", error: error.message }; }
+   const fingerprint = WordstatProtocol.commandFingerprint(parsed);
++  if (currentRun.last_error?.request_executed === "UNKNOWN" && currentRun.last_command_fingerprint === fingerprint) {
++    const code = "REQUEST_OUTCOME_UNKNOWN_NO_RETRY";
++    const text = "Предыдущий такой же Yandex request имеет неизвестный исход. Автоматический повтор этой команды запрещён; требуется reconciliation или другая команда.";
++    await safeEnqueueChatError({ conversation_key: key, tab_id: senderTabId, run_id: currentRun.run_id, service: currentRun.active_service || "wordstat", channel: "autorun", stage: "REQUEST_FENCE", code, message: text, recoverable: true, request_executed: "UNKNOWN", autorun_continues: true, operation: parsed.method });
++    return { ok: false, accepted: false, code, error: text, error_report_queued: true, autorun_continues: true, request_executed: "UNKNOWN", automatic_retry: false };
++  }
+ 
+@@ -1818,12 +2163,11 @@
+-  await diagnostic("AUTO_COMMAND_ACCEPTED", { run_id: runId, job_id: run.job_id || null, active_service: run.active_service || null, tab_id: senderTabId, assistant_turn_id: assistantTurnId, method: parsed.method, phrase: parsed.phrase || null, command_fingerprint: fingerprint });
++  await diagnostic("AUTO_COMMAND_ACCEPTED", { run_id: runId, active_service: run.active_service || null, tab_id: senderTabId, assistant_turn_id: assistantTurnId, method: parsed.method, phrase: parsed.phrase || null, command_fingerprint: fingerprint });
+ 
+-  const [settings, policy, jobTotals] = await Promise.all([
++  const [settings, policy] = await Promise.all([
+     getSettings(),
+-    getWordstatPolicy(),
+-    getJobTotals(run.job_id)
++    getWordstatPolicy()
+   ]);
+@@ -1831,8 +2175,7 @@
+     channel: "autorun",
+     method: parsed.method,
+     credentialState: capability.state,
+-    run,
+-    jobTotals
++    run
+   });
+@@ -1854,13 +2197,12 @@
+-  await mutateJobTotals(run.job_id, (totals) => YMBCostLedgerModel.noteExecuted(YMBCostLedgerModel.noteAttempt(totals), policyDecision.estimated_cost_rub));
+ 
+   let result;
+   try {
+     result = await executeWordstatCore(commandText, {
++      conversation_key: key,
+       run_id: run.run_id,
+-      job_id: run.job_id,
+@@ -1874,8 +2216,12 @@
+   } catch (error) {
+-    await markRunError(key, error.code || "AUTO_REQUEST_FAILED", error.message || String(error));
+-    throw error;
++    const continuedRun = await markRunError(key, error.code || "AUTO_REQUEST_FAILED", error.message || String(error), { stage: "EXECUTING", request_executed: "UNKNOWN", operation: parsed.method });
++    return {
++      ok: false, accepted: false, code: error.code || "AUTO_REQUEST_FAILED", error: error.message || String(error),
++      error_report_queued: true, autorun_continues: continuedRun?.status === WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND,
++      request_executed: "UNKNOWN", automatic_retry: false, run_id: runId, status: continuedRun?.status || null
++    };
+   }
+@@ -1890,7 +2236,6 @@
+     ...delivery.prefixed,
+     accepted: true,
+     run_id: runId,
+-    job_id: run.job_id,
+@@ -2080,7 +2425,7 @@
+-  const failed = await markRunError(key, message.code || "DELIVERY_FAILED", message.error || "Не удалось доставить Wordstat result в ChatGPT.");
++  const failed = await markRunError(key, message.code || "DELIVERY_FAILED", message.error || "Не удалось доставить Wordstat result в ChatGPT.", { stage: "DELIVERING", request_executed: true, operation: run.last_method || null });
+@@ -2111,8 +2456,6 @@
+-  const settings = await getSettings();
+-  if (!settings.apiKey) throw Object.assign(new Error("API key не сохранён."), { code: "API_KEY_MISSING" });
+@@ -2163,7 +2506,7 @@
+-async function testConnection() {
++async function testConnection(context = {}) {
+@@ -2172,7 +2515,10 @@
+-    return { ok: false, ...payload };
++    if (context.conversation_key) {
++      await safeEnqueueChatError({ conversation_key: context.conversation_key, tab_id: context.tab_id || null, service: "wordstat", channel: "runtime", stage: "TEST_CONNECTION", code: payload.code || "YANDEX_HTTP_ERROR", message: payload.message || "Yandex API test failed", recoverable: true, request_executed: true, autorun_continues: false, operation: "getRegionsTree" });
++    }
++    return { ok: false, ...payload, error_report_queued: Boolean(context.conversation_key) };
+@@ -2194,13 +2540,21 @@
++      case "WS_EXPORT_SETTINGS":
++        return { ok: true, backup: await exportSettingsBackup() };
++      case "WS_IMPORT_SETTINGS": {
++        const result = await importSettingsBackup(message.backup);
++        return { ok: true, ...result };
++      }
+@@ -2298,6 +2654,7 @@
++        const errorRecovery = binding ? await pendingErrorRecovery(key, senderTabId) : null;
+@@ -2311,6 +2668,7 @@
++          error_recovery: errorRecovery,
