@@ -1,0 +1,358 @@
++    map[key] = { active_service: activeService, updated_at: new Date().toISOString() };
++    await storageSet({ [KEYS.SERVICE_CONTEXTS]: map });
+     return map[key];
+   });
+ }
+ 
+-function getJobTotals(jobId) {
+-  const id = YMBJobModel.normalizeJobId(jobId, { required: true });
+-  const data = await storageGet(KEYS.JOB_TOTALS);
+-  return YMBCostLedgerModel.normalizeTotals((data[KEYS.JOB_TOTALS] || {})[id] || {});
+-}
+-
+-async function mutateJobTotals(jobId, mutator) {
+-  const id = YMBJobModel.normalizeJobId(jobId, { required: true });
+-  return withJobTotalsWrite(async () => {
+-    const data = await storageGet(KEYS.JOB_TOTALS);
+-    const map = { ...(data[KEYS.JOB_TOTALS] || {}) };
+-    const current = YMBCostLedgerModel.normalizeTotals(map[id] || {});
+-    const next = YMBCostLedgerModel.normalizeTotals(await mutator(current));
+-    map[id] = { ...next, updated_at: new Date().toISOString() };
+-    await storageSet({ [KEYS.JOB_TOTALS]: map });
+-    return map[id];
+-  });
+-}
+-
+ function publicPolicy(policy) {
+   const normalized = YMBPolicyModel.normalizeWordstatPolicy(policy || {});
+   return {
+@@ -580,8 +860,6 @@
+     allowed_methods: [...normalized.allowed_methods],
+     max_requests_per_run: normalized.max_requests_per_run,
+     max_cost_rub_per_run: normalized.max_cost_rub_per_run,
+-    max_requests_per_job: normalized.max_requests_per_job,
+-    max_cost_rub_per_job: normalized.max_cost_rub_per_job,
+     method_cost_rub: { ...normalized.method_cost_rub },
+     tariff_source: normalized.tariff_source,
+     tariff_checked_at: normalized.tariff_checked_at
+@@ -593,11 +871,12 @@
+ }
+ 
+ async function getSettings() {
+-  const data = await storageGet([KEYS.API_KEY, KEYS.FOLDER_ID, KEYS.AUTO_SEND, KEYS.LAST_STATUS]);
++  const data = await storageGet([KEYS.API_KEY, KEYS.FOLDER_ID, KEYS.AUTO_SEND, KEYS.LAST_STATUS, KEYS.DEBUG_MODE]);
+   return {
+     apiKey: String(data[KEYS.API_KEY] || ""),
+     folderId: String(data[KEYS.FOLDER_ID] || WordstatProtocol.DEFAULT_FOLDER_ID),
+     autoSend: data[KEYS.AUTO_SEND] !== false,
++    debugMode: data[KEYS.DEBUG_MODE] === true,
+     lastStatus: data[KEYS.LAST_STATUS] || null
+   };
+ }
+@@ -818,7 +1097,6 @@
+   if (!run) return null;
+   return {
+     run_id: run.run_id,
+-    job_id: run.job_id || null,
+     active_service: run.active_service || null,
+     permission_profile: run.permission_profile || null,
+     status: run.status,
+@@ -859,6 +1137,7 @@
+     credential_capability: publicCapability(settings),
+     wordstat_policy: publicPolicy(wordstatPolicy),
+     auto_send: settings.autoSend,
++    debug_mode: settings.debugMode === true,
+     send_button_profile: sendData[KEYS.SEND_BUTTON_PROFILE] || null,
+     copy_button_profiles: copyProfiles,
+     copy_button_profile_count: copyProfiles.profiles.length,
+@@ -870,14 +1149,12 @@
+ async function publicSettingsState(conversationKey) {
+   const key = normalizeConversationKey(conversationKey);
+   const common = await commonPublicSettingsFields();
+-  const [manualMode, manualOperation, run, prefix, startPrompt, binding, jobContext] = await Promise.all([
+-    getManualMode(key), getManualOperation(key), getAutoRun(key), getReportPrefix(key), getAutoStartPrompt(key), bindingForConversationKey(key), getJobContext(key)
++  const [manualMode, manualOperation, run, prefix, startPrompt, binding, serviceContext] = await Promise.all([
++    getManualMode(key), getManualOperation(key), getAutoRun(key), getReportPrefix(key), getAutoStartPrompt(key), bindingForConversationKey(key), getServiceContext(key)
+   ]);
+-  const jobTotals = jobContext.job_id ? await getJobTotals(jobContext.job_id) : YMBCostLedgerModel.normalizeTotals({});
+   return {
+     ...common,
+-    job_context: jobContext,
+-    job_totals: jobTotals,
++    service_context: serviceContext,
+     page_context_available: true,
+     conversation_key: key,
+     binding: binding ? { bound: true, ...binding } : { bound: false, binding_id: null, revision: null },
+@@ -1002,13 +1279,14 @@
+   if (!response.ok) {
+     const errorPayload = WordstatProtocol.safeErrorPayload(response.status, response.rawText, response.parsed);
+     await setStatus({ ok: false, ...errorPayload });
++    const debugLogs = metadata.conversation_key ? await debugLogsForError(metadata.conversation_key, metadata.run_id || null) : null;
+     reportText = WordstatProtocol.formatResultReport({
+       requestId,
+       command,
+       httpStatus: response.status,
+       elapsedMs: response.elapsedMs,
+       result: { error: errorPayload },
+-      metadata
++      metadata: { ...metadata, request_executed: true, automatic_retry: false, ...(debugLogs ? { debug_logs: debugLogs } : {}) }
+     });
+   } else {
+     await setStatus({ ok: true, code: "CONNECTED", message: "Последний Wordstat API запрос выполнен успешно.", http_status: response.status });
+@@ -1055,13 +1333,12 @@
+     throw Object.assign(new Error("Авторежим активен. Ручной API-вызов разрешён только когда run на паузе."), { code: "AUTO_MODE_ACTIVE" });
+   }
+ 
+-  const jobContext = await getJobContext(key);
+-  const jobId = YMBJobModel.normalizeJobId(jobContext.job_id || "", { required: true });
+-  YMBJobModel.assertServiceMatch(jobContext.active_service, YMBServiceRegistry.SERVICES.WORDSTAT);
++  const serviceContext = await getServiceContext(key);
++  YMBJobModel.assertServiceMatch(serviceContext.active_service, YMBServiceRegistry.SERVICES.WORDSTAT);
+ 
+   const detected = YMBServiceRegistry.detect(commandText);
+   if (!detected) throw Object.assign(new Error("Блок не относится ни к одному зарегистрированному сервису Phase 1."), { code: "UNKNOWN_SERVICE_PROTOCOL" });
+-  YMBJobModel.assertServiceMatch(jobContext.active_service, detected.service);
++  YMBJobModel.assertServiceMatch(serviceContext.active_service, detected.service);
+   const parsed = WordstatProtocol.parseCommand(commandText);
+ 
+   let duplicateOperation = null;
+@@ -1082,7 +1359,6 @@
+       binding_snapshot: bindingSnapshot(binding),
+       tab_id: senderTabId,
+       status: MANUAL_OPERATION_STATUSES.REQUESTING,
+-      job_id: jobId,
+       active_service: YMBServiceRegistry.SERVICES.WORDSTAT,
+       method: parsed.method,
+       phrase: parsed.phrase || null,
+@@ -1109,7 +1385,6 @@
+   await diagnostic("MANUAL_OPERATION_CLAIMED", {
+     operation_id: operationId,
+     manual_request_id: requestToken,
+-    job_id: jobId,
+     active_service: YMBServiceRegistry.SERVICES.WORDSTAT,
+     conversation_id: liveIdentity.conversation_id,
+     tab_id: senderTabId,
+@@ -1118,38 +1393,32 @@
+   });
+ 
+   try {
+-    const [settings, policy, jobTotals] = await Promise.all([
++    const [settings, policy] = await Promise.all([
+       getSettings(),
+-      getWordstatPolicy(),
+-      getJobTotals(jobId)
++      getWordstatPolicy()
+     ]);
+     const capability = publicCapability(settings);
+     // Manual Copy is an explicit operator authorization per command. There is no durable Manual RUN,
+-    // so per-run counters start at zero; the durable per-JOB ceilings prevent switching to Manual
+-    // from bypassing the global request/cost budget.
++    // so the policy decision applies to this one explicit command. No Job/GitHub accounting exists inside the extension.
+     const policyDecision = YMBPolicyModel.decision({
+       policy,
+       channel: "manual",
+       method: parsed.method,
+       credentialState: capability.state,
+-      run: {},
+-      jobTotals
++      run: {}
+     });
+ 
+-    await mutateJobTotals(jobId, (totals) => YMBCostLedgerModel.noteAttempt(totals));
+-
+     let result;
+     if (!policyDecision.allow) {
+-      await mutateJobTotals(jobId, (totals) => YMBCostLedgerModel.noteSkipped(totals));
+       const requestId = `skipped-${crypto.randomUUID()}`;
++      const debugLogs = await debugLogsForError(key, null);
+       const reportText = WordstatProtocol.formatSkippedReport({
+         requestId,
+         command: parsed,
+         reason: policyDecision.reason,
+         metadata: {
+           run_id: null,
+-          job_id: jobId,
+-          cost_estimate: {
++              cost_estimate: {
+             estimated_rub: policyDecision.estimated_cost_rub,
+             charged: false,
+             tariff_checked_at: policyDecision.policy.tariff_checked_at,
+@@ -1157,10 +1426,11 @@
+           },
+           policy: {
+             channel: "manual",
+-            active_service: YMBServiceRegistry.SERVICES.WORDSTAT,
+-            max_requests_per_job: policyDecision.policy.max_requests_per_job,
+-            max_cost_rub_per_job: policyDecision.policy.max_cost_rub_per_job
+-          }
++            active_service: YMBServiceRegistry.SERVICES.WORDSTAT
++          },
++          request_executed: false,
++          automatic_retry: false,
++          ...(debugLogs ? { debug_logs: debugLogs } : {})
+         }
+       });
+       result = {
+@@ -1173,24 +1443,21 @@
+         http_status: 0,
+         report_text: reportText,
+         auto_send: settings.autoSend,
++    debug_mode: settings.debugMode === true,
+         estimated_cost_rub: policyDecision.estimated_cost_rub
+       };
+       await diagnostic("MANUAL_COMMAND_SKIPPED", {
+         operation_id: operationId,
+-        job_id: jobId,
+-        method: parsed.method,
++          method: parsed.method,
+         phrase: parsed.phrase || null,
+         reason: policyDecision.reason,
+         estimated_cost_rub: policyDecision.estimated_cost_rub
+       }, { level: "warning" });
+     } else {
+-      // Reserve the durable JOB budget before paid initiation. A crash can conservatively
+-      // over-count, but can never under-count and silently permit another paid attempt.
+-      await mutateJobTotals(jobId, (totals) => YMBCostLedgerModel.noteExecuted(totals, policyDecision.estimated_cost_rub));
+       result = await executeWordstatCore(commandText, {
++        conversation_key: key,
+         run_id: null,
+-        job_id: jobId,
+-        cost_estimate: {
++          cost_estimate: {
+           estimated_rub: policyDecision.estimated_cost_rub,
+           charged: true,
+           tariff_checked_at: policyDecision.policy.tariff_checked_at,
+@@ -1199,8 +1466,6 @@
+         policy: {
+           channel: "manual",
+           active_service: YMBServiceRegistry.SERVICES.WORDSTAT,
+-          max_requests_per_job: policyDecision.policy.max_requests_per_job,
+-          max_cost_rub_per_job: policyDecision.policy.max_cost_rub_per_job,
+         }
+       });
+       result.estimated_cost_rub = policyDecision.estimated_cost_rub;
+@@ -1224,7 +1489,6 @@
+     });
+     await diagnostic("MANUAL_OPERATION_DELIVERING", {
+       operation_id: operationId,
+-      job_id: jobId,
+       delivery_id: deliveryId,
+       request_id: result.request_id || null,
+       skipped: result.skipped === true,
+@@ -1234,7 +1498,6 @@
+     return {
+       ...result,
+       ...prefixed,
+-      job_id: jobId,
+       active_service: YMBServiceRegistry.SERVICES.WORDSTAT,
+       manual_operation_id: operationId,
+       manual_request_id: requestToken,
+@@ -1245,7 +1508,14 @@
+       if (!current || current.operation_id !== operationId) return current;
+       return { ...current, status: MANUAL_OPERATION_STATUSES.FAILED, completed_at: new Date().toISOString(), last_error: { code: error.code || "MANUAL_OPERATION_FAILED", message: String(error.message || error) } };
+     });
+-    await diagnostic("MANUAL_OPERATION_FAILED", { operation_id: operationId, job_id: jobId, code: error.code || "MANUAL_OPERATION_FAILED", error: String(error.message || error) }, { level: "error" });
++    await diagnostic("MANUAL_OPERATION_FAILED", { operation_id: operationId, code: error.code || "MANUAL_OPERATION_FAILED", error: String(error.message || error) }, { level: "error" });
++    const queued = await safeEnqueueChatError({
++      conversation_key: key, tab_id: senderTabId, run_id: run?.run_id || null, service: "wordstat", channel: "manual",
++      stage: "MANUAL_EXECUTION", code: error.code || "MANUAL_OPERATION_FAILED", message: error.message || String(error),
++      recoverable: true, request_executed: error.code === "REQUEST_OUTCOME_UNKNOWN_NO_RETRY" ? "UNKNOWN" : (error.code === "REQUEST_TIMEOUT" || error.code === "NETWORK_ERROR" ? "UNKNOWN" : false),
++      autorun_continues: false, operation: parsed?.method || null
++    });
++    if (queued) error.error_report_queued = true;
+     throw error;
+   }
+ }
+@@ -1310,6 +1580,11 @@
+         };
+       });
+       await diagnostic("MANUAL_REQUEST_RECOVERY_BLOCKED_NO_RETRY", { operation_id: current?.operation_id || operation.operation_id, previous_worker_session_id: operation.request_worker_session_id || null, worker_session_id: WORKER_SESSION_ID }, { level: "error" });
++      await safeEnqueueChatError({
++        conversation_key: current.conversation_key, tab_id: current.tab_id, service: "wordstat", channel: "manual", stage: "REQUEST_RECOVERY",
++        code: "MANUAL_REQUEST_OUTCOME_UNKNOWN", message: current.last_error?.message || "Исход ручного Yandex request неизвестен; автоматический повтор запрещён.",
++        recoverable: true, request_executed: "UNKNOWN", autorun_continues: false, operation: current.method || null
++      });
+       return { owner: true, rebound: owner.rebound === true, operation: current, recovery: null };
+     }
+     return { owner: true, rebound: owner.rebound === true, operation: current, recovery: null };
+@@ -1345,6 +1620,13 @@
+   if (!operation || operation.operation_id !== operationId) return { ok: false, code: "MANUAL_OPERATION_NOT_FOUND", error: "Manual operation не найдена или не принадлежит этой вкладке." };
+   if (!transitioned && manualOperationActive(operation)) return { ok: false, code: "MANUAL_OPERATION_STATE_MISMATCH", error: "Manual operation не может быть завершена из текущего состояния." };
+   await diagnostic(failed ? "MANUAL_OPERATION_DELIVERY_FAILED" : "MANUAL_OPERATION_COMPLETED", { operation_id: operationId, delivery_id: operation.delivery_id || null, request_id: operation.request_id || null, delivery_confirmed: operation.delivery_confirmed === true, composer_empty: operation.composer_empty === true, click_attempts: Number(operation.click_attempts || 0) }, { level: failed ? "error" : "info" });
++  if (failed) {
++    await safeEnqueueChatError({
++      conversation_key: key, tab_id: senderTabId, service: "wordstat", channel: "manual", stage: "DELIVERING",
++      code: String(message.code || "MANUAL_DELIVERY_FAILED"), message: String(message.error || "Manual result delivery failed"),
++      recoverable: true, request_executed: true, autorun_continues: false, operation: operation.method || null
++    });
++  }
+   return { ok: true, operation: publicManualOperation(operation) };
+ }
+ 
+@@ -1384,14 +1666,71 @@
+   });
+ }
+ 
+-async function markRunError(conversationKey, code, message) {
++async function markRunError(conversationKey, code, message, options = {}) {
+   const key = normalizeConversationKey(conversationKey);
+-  const run = await mutateAutoRun(key, (current) => current ? {
+-    ...current,
+-    status: WordstatAutorunModel.RUN_STATUSES.ERROR,
+-    last_error: { code: String(code || "AUTO_RUN_ERROR"), message: String(message || "Autorun error"), at: new Date().toISOString() }
+-  } : null);
+-  if (run) await stopWatch(run, "run_error");
++  let shouldBeginWatch = false;
++  const run = await mutateAutoRun(key, (current) => {
++    if (!current) return null;
++    const now = new Date().toISOString();
++    const lastError = {
++      code: String(code || "AUTO_RUN_ERROR"),
++      message: String(message || "Autorun error"),
++      at: now,
++      recoverable: options.recoverable !== false,
++      request_executed: options.request_executed === undefined ? false : options.request_executed,
++      automatic_retry: false
++    };
++    if (current.status === WordstatAutorunModel.RUN_STATUSES.DELIVERING && current.delivery) {
++      return { ...current, last_error: lastError, updated_at: now };
++    }
++    if (current.status === WordstatAutorunModel.RUN_STATUSES.STARTING && current.start_delivery?.phase === WordstatAutorunModel.START_PHASES.COMMITTED) {
++      return { ...current, last_error: lastError, updated_at: now };
++    }
++    if (current.finish_requested === true) {
++      return { ...current, status: WordstatAutorunModel.RUN_STATUSES.STOPPED, finish_requested: false, pause_requested: false, last_error: lastError, updated_at: now };
++    }
++    if (current.pause_requested === true || current.status === WordstatAutorunModel.RUN_STATUSES.PAUSED) {
++      return { ...current, status: WordstatAutorunModel.RUN_STATUSES.PAUSED, pause_requested: false, last_error: lastError, updated_at: now };
++    }
++    shouldBeginWatch = true;
++    return {
++      ...current,
++      status: WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND,
++      request_worker_session_id: null,
++      request_started_at: null,
++      watch_id: `watch-${crypto.randomUUID()}`,
++      last_error: lastError,
++      updated_at: now
++    };
++  });
++  if (run) {
++    await diagnostic("AUTO_RUN_ERROR_REPORTED_CONTINUING", {
++      run_id: run.run_id,
++      code: code || "AUTO_RUN_ERROR",
++      stage: options.stage || null,
++      request_executed: options.request_executed === undefined ? false : options.request_executed,
++      status_after_error: run.status
++    }, { level: "error" });
++    await safeEnqueueChatError({
++      conversation_key: key,
++      tab_id: run.tab_id,
++      run_id: run.run_id,
++      service: run.active_service || "wordstat",
++      channel: "autorun",
++      stage: options.stage || "AUTORUN",
++      code: code || "AUTO_RUN_ERROR",
++      message: message || "Autorun error",
++      recoverable: options.recoverable !== false,
++      request_executed: options.request_executed === undefined ? false : options.request_executed,
