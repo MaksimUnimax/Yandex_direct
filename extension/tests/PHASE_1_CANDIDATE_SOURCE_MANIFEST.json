@@ -1,0 +1,30 @@
+{
+  "schema": "ymb-candidate-source-manifest-v1",
+  "product": "Yandex Marketing Bridge",
+  "version": "0.1.0",
+  "phase": "wordstat-unified-core",
+  "artifact": "yandex-marketing-bridge-0.1.0-phase1-wordstat-candidate.zip",
+  "artifact_sha256": "79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a",
+  "file_count": 41,
+  "key_files": {
+    "manifest.json": "7183c6537f89099f7dac0a9eecdcd5bb09eaf6277f9467e5f8b9ba9980c7194e",
+    "popup.js": "116de917d4754f7d1b812fce38d4c20668a2a93b7a97c3fb88d6c200fc98dc5c",
+    "content_script.js": "c73a5bd025af5bc7464eee59a482875f544fd2ea72739f428d9d3b3ebc273150",
+    "service_worker.js": "53010a1f6448755310b878310de18036f6e7d75e26d4edf57539e9a7cddb2f71",
+    "shared/autorun_model.js": "04ab8ebf7605f48c570a7f5e69682e67a97438e00a33cef2b65bfe3a16024fb0",
+    "shared/composer_send.js": "a6a2b25ea29637b76250a9f29fdcb177b52824a16a193b44ca5603df2494da79",
+    "shared/conversation_identity.js": "e56a9f352c4668f47a0f72c2044a943a88457024c4400fa878a974551518114a",
+    "shared/cost_ledger_model.js": "2f0ce23465ff90d519067be7c82af4130a7070f0c7ae3f2f109a2469fbebb18a",
+    "shared/credential_registry.js": "abf7dd1565043b60c973bcc8ca0d82a0716f72635a45e3fa0d357f0bddf8fc19",
+    "shared/job_model.js": "43805785920e5670758e96da229480cdde3e8c4cfdf795656b91d0e02eed0dcf",
+    "shared/manual_controls.js": "81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e",
+    "shared/policy_model.js": "951e7b93090921b8566d1ae59af85425c803514a7449cdb8d4acb07926f8faa3",
+    "shared/product.js": "898a21bbe8d6567f7d797bcac428276b3fd0b804f27f29c07ed67f68fa165bbd",
+    "shared/proven_writing_block_capture.js": "5b0eaac9619cb827d1e74c61f53e2755c084a1d4b60c64d23f5fd4a5354c3aef",
+    "shared/service_registry.js": "e0f5ae54bc98d6fc787ddc9de72256ac10d0418d74cb04ac7244f5486a93c839",
+    "shared/wordstat_protocol.js": "e7e9a85cd30ce43c457644fe550b8ce9ef19bf687e11b2497eb716f360b8d076",
+    "tests/phase1_unified_core.test.mjs": "7c60d88936eca9943a074f6f6c606ec7e4f64c05f0fcee2f39b5a37498353e05"
+  },
+  "full_manifest_local_evidence_path": "/mnt/data/PHASE_1_CANDIDATE_SOURCE_MANIFEST.json",
+  "note": "This concise GitHub manifest records the exact artifact identity and all security-critical candidate file hashes. The complete local manifest enumerates all 41 packaged files."
+}
