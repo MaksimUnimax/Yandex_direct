@@ -1,21 +1,25 @@
 # ORDER WORKSPACE LIFECYCLE
 
-Status: canonical operational contract.
-Date: 2026-08-12.
+Status: canonical external operational contract.
+Updated: 2026-08-12.
 
 ## 1. Purpose
 
-Every real customer order must have a durable GitHub working directory so that research progress and API evidence do not depend on one ChatGPT conversation.
+Every real customer order may have a durable GitHub working directory so research progress and API evidence do not depend on one ChatGPT conversation.
+
+**This lifecycle is executed by ChatGPT/development workflow through connected GitHub capabilities. It is not a Chrome-extension runtime feature.**
+
+The Yandex Marketing Bridge does not know or require `job_id`, GitHub token, repository, branch, commit or workspace path.
 
 ## 2. Creation
 
-Before collecting material evidence for a new order, create:
+When a real order needs durable workspace evidence, ChatGPT/development workflow creates:
 
 ```text
 work/<job_id>/
 ```
 
-Start from `work/_template/` and fill in `JOB.md` and `manifest.json`.
+This step is outside the Bridge and must never block a valid Bridge API command merely because the workspace does not yet exist.
 
 ## 3. Evidence classes
 
@@ -33,13 +37,11 @@ raw/metrika/
 raw/direct/
 ```
 
-Raw evidence should preserve request parameters, timestamps and external response identity sufficient to understand what was collected.
+Raw evidence should preserve request parameters, timestamps and response identity sufficient to understand what was collected.
 
 ### Normalized
 
-Machine-friendly tables/JSON/CSV derived from raw evidence.
-
-Raw evidence is not replaced by normalized data.
+Machine-friendly tables/JSON/CSV derived from raw evidence. Raw evidence is not replaced by normalized data.
 
 ### Analysis
 
@@ -47,15 +49,15 @@ Intermediate ChatGPT conclusions, clustering decisions, negative-keyword decisio
 
 ### Deliverables
 
-Only customer-facing final or near-final artifacts.
+Customer-facing final or near-final artifacts.
 
 ### Logs
 
-Run records and cost/quota ledgers.
+External workflow run notes and cost/quota ledgers as useful. These are not the extension's internal secret/runtime storage.
 
 ## 4. Paid evidence rule
 
-A successfully received paid result must be persisted in the job workspace as soon as practical, before the workflow intentionally abandons its only runtime/chat copy.
+A successfully received paid result should be persisted in the order workspace as soon as practical before the workflow intentionally abandons its only usable copy.
 
 The same paid collection should not be repeated merely because:
 
@@ -63,57 +65,59 @@ The same paid collection should not be repeated merely because:
 - context window changed;
 - browser/extension restarted;
 - the operator opened another conversation;
-- analysis is being resumed later.
+- analysis is resumed later.
 
-Before recollecting paid data, check the job workspace for equivalent existing evidence and decide whether freshness/parameter mismatch genuinely requires a new request.
+Before recollecting paid data, check existing order evidence and decide whether freshness/parameter mismatch genuinely requires another paid request.
 
 ## 5. Commit cadence
 
-Commit meaningful checkpoints rather than waiting until the end of the entire order.
+Commit meaningful recovery checkpoints rather than waiting until the end of the entire order.
 
 Recommended checkpoints:
 
 ```text
-job initialized
-service run completed
+order initialized
+service collection completed
 paid evidence persisted
 normalization completed
 major analysis milestone
-customer deliverable created/updated
+deliverable created/updated
 order completion cleanup
 ```
 
-Do not create a commit for every trivial local transformation when it adds no recovery value.
+Do not create a commit for every trivial transformation when it adds no recovery value.
 
 ## 6. Service-run boundary
 
-One run equals one service, but all runs for the order use the same job workspace.
+The extension's one-RUN-one-service rule is independent from the external order workspace.
 
-Example:
+Example external organization:
 
 ```text
-RUN Wordstat  → raw/wordstat + logs
-RUN Search    → raw/search + logs
-RUN Webmaster → raw/webmaster + logs
-RUN Metrika   → raw/metrika + logs
-RUN Direct    → raw/direct + logs
+Wordstat RUN evidence  → raw/wordstat + logs
+Search RUN evidence    → raw/search + logs
+Webmaster evidence     → raw/webmaster + logs
+Metrika evidence       → raw/metrika + logs
+Direct evidence        → raw/direct + logs
 ```
+
+The Bridge itself does not receive the workspace path.
 
 ## 7. Missing service access
 
-If the customer did not provide access to a service:
+If customer access to a service is unavailable:
 
 - do not fabricate evidence;
-- record the service as unavailable/not collected;
+- record it as unavailable/not collected where relevant;
 - continue with available sources;
-- do not block unrelated runs;
-- clearly state any resulting limitation in analysis/deliverables when material.
+- do not block unrelated Bridge RUNs;
+- state material limitations in analysis/deliverables.
 
 ## 8. Secrets
 
-Never write secret values to the job workspace.
+Never write secret values to the GitHub order workspace.
 
-Allowed:
+Allowed examples:
 
 ```text
 credential_available = true
@@ -132,6 +136,7 @@ API key
 password
 session cookie
 authorization header
+Export settings backup containing secrets
 ```
 
 ## 9. Completion
@@ -141,13 +146,11 @@ Before cleanup:
 1. verify deliverables are complete;
 2. verify customer delivery/acceptance state as applicable;
 3. ensure the final useful checkpoint is committed;
-4. update job status to COMPLETE if using a final completion commit;
+4. update order status to COMPLETE if used;
 5. remove `work/<job_id>/` from current HEAD.
 
 ## 10. Git-history semantics
 
-Normal `git rm`/GitHub deletion removes the directory only from current and future trees. Prior commits continue to contain the historical working data.
+Normal Git deletion removes the directory only from current/future trees; earlier commits remain in repository history.
 
-This is intentional for the default workflow because the primary requirement is loss prevention and auditability during active work.
-
-If a customer/project requires full historical deletion, stop normal cleanup and use a separately authorized repository-history purge procedure. Do not assume normal folder deletion provides that property.
+Full historical purge is a separate exceptional procedure and is not implied by ordinary cleanup.
