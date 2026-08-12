@@ -69,8 +69,8 @@ No further live command is to be issued until this ledger and the governing rule
 | A-01 | Candidate identity | Popup/runtime report version `0.1.1`; candidate hash matches governed artifact | NOT RUN | |
 | A-02 | Same-folder upgrade compatibility | Existing compatible settings survive reload/upgrade | NOT RUN | |
 | A-03 | New installation import path | Exported settings can be imported into another unpacked installation identity | NOT RUN | |
-| A-04 | No runtime GitHub/job coupling | No `job_id`, repo, branch, commit or GitHub token required to execute Wordstat | NOT RUN | |
-| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | NOT RUN | |
+| A-04 | No runtime GitHub/job coupling | No `job_id`, repo, branch, commit or GitHub token required to execute Wordstat | PASS | Multiple governed standalone Manual commands executed successfully with `run_id:null` and without `job_id`/repo/branch/commit/GitHub runtime fields or gates |
+| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | NOT RUN | Normal result/error outputs observed so far are redacted; Debug path still pending |
 
 ### B. Popup controls and immediate state persistence — emulator/controlled browser
 
@@ -111,20 +111,20 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | D-07 | `getTop` boundary `numPhrases=1` | One result max, no parameter rewriting | PASS | 2026-08-12 live: `HTTP 200`, `status:OK`; command echoed `numPhrases:1`, `regions:["213"]`, `devices:["DEVICE_PHONE"]`; exactly one result returned; request_id `fda97b60-571e-4e82-a344-c388c077a898` |
 | D-08 | Validation failure before network | Invalid local parameter yields error and `request_executed:false` | PASS | 2026-08-12 live: `numPhrases:0` rejected locally with `YMB_ERROR_V1`, `stage:MANUAL_COMMAND_PARSE`, `code:INVALID_NUM_PHRASES`, `request_executed:false`, `automatic_retry:false`; no Yandex request executed; timestamp `2026-08-12T11:33:30.690Z` |
 | D-09 | Yandex HTTP 4xx path | One request, error returned to ChatGPT, no automatic retry | PASS | 2026-08-12 governed live negative test: intentionally server-invalid monthly `getDynamics` passed local parsing and produced exactly one Yandex response `HTTP 400`; result returned to ChatGPT with `status:ERROR`, `request_executed:true`, `automatic_retry:false`; Yandex error `InvalidArgument: The to field value should be the last day of the month`; request_id `b6237a6d-f933-4a2f-9929-eda537a8a409` |
-| D-10 | Result delivery exactly once | Exactly one user-turn/result per successful command | NOT RUN | |
+| D-10 | Result delivery exactly once | Exactly one user-turn/result per successful command | PASS | 2026-08-12 governed live: one `getTop` command produced one visible `WORDSTAT_RESULT_V1` user-turn with request_id `5bebe196-2a48-47c2-b52d-c447a9406338`; no duplicate user-turn/result with that request_id observed |
 
 ### E. Result/error envelope semantics
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
-| E-01 | Required identity fields | `bridge`, `version`, `service`, `operation`, `request_id` correct | NOT RUN | |
-| E-02 | No obsolete `job_id` | `job_id` absent from runtime result/error contracts | NOT RUN | |
-| E-03 | Executed flag semantics | `request_executed` accurately distinguishes local skip vs sent request | NOT RUN | |
+| E-01 | Required identity fields | `bridge`, `version`, `service`, `operation`, `request_id` correct | PASS | D-10 result reports `yandex-marketing-bridge`, `0.1.1`, `wordstat`, `getTop`, unique request_id `5bebe196-2a48-47c2-b52d-c447a9406338` |
+| E-02 | No obsolete `job_id` | `job_id` absent from runtime result/error contracts | PASS | Governed successful and error envelopes contain no `job_id` field |
+| E-03 | Executed flag semantics | `request_executed` accurately distinguishes local skip vs sent request | FAIL | Local validation D-08 correctly reports `false` and HTTP-4xx D-09 reports `true`, but successful executed D-10 omits `request_executed` entirely; successful sent requests are therefore not explicitly distinguishable by this field |
 | E-04 | Free-call charge semantics | `getRegionsTree`: `estimated_rub:0` and not reported as charged | FAIL (pre-rule evidence) | `charged:true` observed |
-| E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | NOT RUN | |
-| E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | NOT RUN | |
-| E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | NOT RUN | |
-| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | |
+| E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | PASS | D-10 `getTop` reports `estimated_rub:0.02`, matching the freshly checked 20 RUB / 1000-request tariff stated immediately before execution |
+| E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 propagated `HTTP 200` |
+| E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | NOT RUN | D-08/D-09 observed errors report `automatic_retry:false`; unknown-outcome branch remains pending I-02 |
+| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | Normal governed envelopes contain no key/Authorization secret; Debug path still pending F-05 |
 
 ### F. Debug and always-on error delivery
 
@@ -158,7 +158,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | H-02 | Request limit enforcement | Over-limit command is skipped before Yandex request | BLOCKED | Requires working Autorun RUN |
 | H-03 | Cost limit enforcement | Over-cost command is skipped before Yandex request | BLOCKED | Requires working Autorun RUN |
 | H-04 | Manual while RUN paused shares budget | Manual Copy cannot bypass paused RUN request/cost ceiling | BLOCKED | Requires working Autorun RUN |
-| H-05 | Standalone Manual behavior | No invented job budget is required when no RUN exists | NOT RUN | |
+| H-05 | Standalone Manual behavior | No invented job budget is required when no RUN exists | PASS | Governed D-06 through D-10 ran standalone with `run_id:null`; no Job ID or invented Job budget was required |
 
 ### I. Unknown outcome, recovery and duplicate prevention — emulator/fault injection only unless owner explicitly authorizes risk
 
@@ -206,6 +206,7 @@ This register is derived from observed FAILs and is not yet the patch specificat
 | DEF-02 Toggle persistence architecture wrong | PRE-03, B-01, B-03, B-04 | Debug, Auto Send, Wordstat Autorun policy and report-prefix boolean controls do not persist immediately; Manual is the working counterexample because it has an immediate runtime action |
 | DEF-03 Autorun cannot start | PRE-04, G-01 | No RUN created; iteration/counters remain zero |
 | DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | `getRegionsTree` returns `estimated_rub:0` with `charged:true` |
+| DEF-05 Successful-result executed flag missing | D-10, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
 
 No patch is to be derived until the remaining planned tests are executed or explicitly marked blocked/waived by the owner.
 
