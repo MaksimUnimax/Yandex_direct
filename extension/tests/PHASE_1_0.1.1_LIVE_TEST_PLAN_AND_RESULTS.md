@@ -109,7 +109,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | D-05 | `getRegionsDistribution` | Exactly one request; HTTP 200; regional distribution | PASS (pre-rule evidence) | HTTP 200 |
 | D-06 | `getTop` filter propagation: Moscow + phone + 10 results | Envelope echoes exact filters; result respects request; one request only | PASS | 2026-08-12 live: `HTTP 200`, `status:OK`, command echoed `phrase:"оберег в машину"`, `numPhrases:10`, `regions:["213"]`, `devices:["DEVICE_PHONE"]`; exactly 10 results returned; request_id `09cb5b8a-94ea-4e2b-b8fa-6b90e081ee46` |
 | D-07 | `getTop` boundary `numPhrases=1` | One result max, no parameter rewriting | PASS | 2026-08-12 live: `HTTP 200`, `status:OK`; command echoed `numPhrases:1`, `regions:["213"]`, `devices:["DEVICE_PHONE"]`; exactly one result returned; request_id `fda97b60-571e-4e82-a344-c388c077a898` |
-| D-08 | Validation failure before network | Invalid local parameter yields error and `request_executed:false` | NOT RUN | |
+| D-08 | Validation failure before network | Invalid local parameter yields error and `request_executed:false` | PASS | 2026-08-12 live: `numPhrases:0` rejected locally with `YMB_ERROR_V1`, `stage:MANUAL_COMMAND_PARSE`, `code:INVALID_NUM_PHRASES`, `request_executed:false`, `automatic_retry:false`; no Yandex request executed; timestamp `2026-08-12T11:33:30.690Z` |
 | D-09 | Yandex HTTP 4xx path | One request, error returned to ChatGPT, no automatic retry | PASS only for pre-rule malformed Dynamics request; governed rerun still NOT RUN | Need controlled valid negative case |
 | D-10 | Result delivery exactly once | Exactly one user-turn/result per successful command | NOT RUN | |
 
