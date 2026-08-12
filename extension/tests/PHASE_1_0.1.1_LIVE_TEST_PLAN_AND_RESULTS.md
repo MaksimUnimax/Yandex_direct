@@ -107,7 +107,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | D-03 | `getTop` standard | Exactly one request; HTTP 200; result + associations | PASS (pre-rule evidence) | HTTP 200 |
 | D-04 | `getDynamics` valid monthly range | Exactly one request; HTTP 200; expected monthly series | PASS (pre-rule evidence) | HTTP 200, 12 points |
 | D-05 | `getRegionsDistribution` | Exactly one request; HTTP 200; regional distribution | PASS (pre-rule evidence) | HTTP 200 |
-| D-06 | `getTop` filter propagation: Moscow + phone + 10 results | Envelope echoes exact filters; result respects request; one request only | NOT RUN | Previously drafted command was not accepted as completed evidence |
+| D-06 | `getTop` filter propagation: Moscow + phone + 10 results | Envelope echoes exact filters; result respects request; one request only | PASS | 2026-08-12 live: `HTTP 200`, `status:OK`, command echoed `phrase:"оберег в машину"`, `numPhrases:10`, `regions:["213"]`, `devices:["DEVICE_PHONE"]`; exactly 10 results returned; request_id `09cb5b8a-94ea-4e2b-b8fa-6b90e081ee46` |
 | D-07 | `getTop` boundary `numPhrases=1` | One result max, no parameter rewriting | NOT RUN | |
 | D-08 | Validation failure before network | Invalid local parameter yields error and `request_executed:false` | NOT RUN | |
 | D-09 | Yandex HTTP 4xx path | One request, error returned to ChatGPT, no automatic retry | PASS only for pre-rule malformed Dynamics request; governed rerun still NOT RUN | Need controlled valid negative case |
