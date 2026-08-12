@@ -1,0 +1,67 @@
+{
+  "schema": "ymb-phase1-prelive-evidence-v1",
+  "created_at": "2026-08-12T09:25:00Z",
+  "product": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
+  "version": "0.1.0",
+  "phase": "PHASE_1_WORDSTAT_UNIFIED_CORE",
+  "status": "PRELIVE_CANDIDATE_PASS__PRODUCTION_CHATGPT_LIVE_PENDING",
+  "reference": {
+    "artifact": "wordstat-bridge-v1.1.5-full-function-environment-audit(4).zip",
+    "sha256": "a39bbe65b046ef6eac5a7890b8afd84e69550db34debf271b7c373d08a1fef1a",
+    "fresh_reference_tests": {"passed": 283, "failed": 0}
+  },
+  "candidate": {
+    "artifact": "yandex-marketing-bridge-0.1.0-phase1-wordstat-candidate.zip",
+    "sha256": "79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a",
+    "packaged_file_count": 41,
+    "source_to_fresh_zip_byte_identity": {"identical": 41, "total": 41, "extra": 0}
+  },
+  "tests": {
+    "source_full_suite": {"passed": 299, "failed": 0},
+    "fresh_zip_full_suite": {"passed": 299, "failed": 0},
+    "reference_regression_tests_migrated": 283,
+    "new_phase1_unified_core_tests": 16,
+    "fresh_zip_js_mjs_syntax": {"passed": 36, "failed": 0},
+    "fresh_zip_json_parse": {"passed": 2, "failed": 0},
+    "chromium_version": "144.0.7559.96",
+    "fresh_zip_chromium_load_smoke": {
+      "status": "PASS_FOR_LOAD_SMOKE",
+      "window_seconds": 12,
+      "manifest_extension_service_worker_errors_observed": 0,
+      "environment_notes": "Only container DBus/UPower stderr messages were observed; no extension/manifest/service-worker/runtime syntax errors were found."
+    }
+  },
+  "security_critical_regressions": {
+    "conversation_binding": "PASS",
+    "duplicate_tab_owner_protection": "PASS",
+    "atomic_paid_request_grant": "PASS",
+    "delivery_singleflight_50_scenarios": "PASS",
+    "worker_request_outcome_unknown_no_retry": "PASS",
+    "start_commit_before_click": "PASS",
+    "delivery_commit_before_click": "PASS",
+    "user_composer_overwrite_protection": "PASS",
+    "manual_autorun_mutual_exclusion": "PASS",
+    "missing_credentials_autorun_skip_without_fetch": "PASS",
+    "missing_credentials_manual_skip_without_fetch": "PASS",
+    "autorun_operator_permission_guard": "PASS",
+    "run_request_cost_limits": "PASS",
+    "job_request_cost_limits": "PASS",
+    "manual_cannot_bypass_job_cost_limit": "PASS",
+    "job_active_service_immutable_during_run": "PASS",
+    "future_service_protocols_not_registered_in_phase1": "PASS",
+    "result_product_version_consistency": "PASS",
+    "job_run_service_cost_provenance": "PASS"
+  },
+  "frozen_common_module_hashes": {
+    "shared/composer_send.js": "a6a2b25ea29637b76250a9f29fdcb177b52824a16a193b44ca5603df2494da79",
+    "shared/conversation_identity.js": "e56a9f352c4668f47a0f72c2044a943a88457024c4400fa878a974551518114a",
+    "shared/manual_controls.js": "81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e",
+    "shared/proven_writing_block_capture.js": "5b0eaac9619cb827d1e74c61f53e2755c084a1d4b60c64d23f5fd4a5354c3aef"
+  },
+  "not_proven": [
+    "Real user Chrome + current production ChatGPT DOM end-to-end acceptance for Yandex Marketing Bridge 0.1.0",
+    "Real Yandex Wordstat request using the owner's credentials through this new 0.1.0 candidate",
+    "Real paid-result persistence workflow ChatGPT -> GitHub work/<job_id>/ using the new candidate"
+  ],
+  "gate": "DO_NOT_START_SEARCH_PHASE_UNTIL_CONTROLLED_PRODUCTION_LIVE_ACCEPTANCE_PASSES"
+}
