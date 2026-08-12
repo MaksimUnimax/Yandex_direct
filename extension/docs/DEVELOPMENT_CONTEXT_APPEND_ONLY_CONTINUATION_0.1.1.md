@@ -253,3 +253,62 @@ Mandatory rule for governed ChatGPT live testing:
 Examples of extra actions that require prominent treatment include changing Debug/Autorun state, pressing a popup Save button only when the current broken candidate requires it for a specific live gate, reloading the extension, importing/exporting a backup, or any other manual setup beyond the normal test-command trigger.
 
 This rule does not relax the one-executable-Yandex-command-per-turn limit or the requirement to freshly verify pricing before any request that can reach Yandex.
+
+---
+
+# ENTRY 0031 — 2026-08-12 — CONSOLIDATED PR-01…PR-06 PATCH CHECKPOINT
+
+The frozen pre-patch defect set was patched without adding implementation scope beyond PR-01 through PR-06.
+
+Consolidated candidate:
+
+```text
+yandex-marketing-bridge-0.1.1-phase1-consolidated-patch-candidate.zip
+SHA-256 a13256f0e5c2910fa590258110a32b737e9d986277fd8569978512cb7a899d05
+size 176446 bytes
+files 42
+```
+
+Implemented requirements:
+
+- PR-01 — preserve the reference plaque/toast repair; no invented `YMB:` / `Yandex Marketing Bridge:` user-facing plaque was reintroduced;
+- PR-02 — Debug, Auto Send, Wordstat Autorun policy and report-prefix enabled state now persist immediately on toggle without implicitly committing unsaved text/credential fields;
+- PR-03 — popup Autorun start availability now follows the immediately persisted policy and reaches the existing `WS_AUTO_START` lifecycle for the confirmed current conversation;
+- PR-04 — zero-cost operations, including `getRegionsTree`, report `charged:false` while paid operations retain their governed cost semantics;
+- PR-05 — successful responses after an actually sent Yandex request now explicitly report `request_executed:true` and `automatic_retry:false`;
+- PR-06 — already-executed Manual results survive a pre-commit ChatGPT Send-target failure as durable delivery state; committed recovery is reconciliation-only and cannot replay Yandex or blindly click Send again.
+
+Automated/controlled verification completed before any new live command:
+
+```text
+affected regression/emulation: 140/140 PASS
+source full suite:              318/318 PASS
+fresh ZIP full suite:           318/318 PASS
+source ↔ fresh ZIP:              42/42 byte-identical
+JS/MJS syntax:                   37/37 PASS
+manifest/package JSON:            2/2 PASS
+live Yandex requests in patch:       0
+```
+
+Machine-readable evidence:
+
+```text
+extension/tests/PHASE_1_0.1.1_CONSOLIDATED_PATCH_EVIDENCE.json
+```
+
+Stored patch artifact:
+
+```text
+extension/tests/patches/phase1-0.1.1-consolidated-pr01-pr06.patch.gz.b64
+SHA-256 61f23a42215a42ceced54237086fbcfd91f0dddab5eb93a2ac143fbc77ceec8c
+```
+
+Current gate:
+
+```text
+PHASE 0: PASS
+PHASE 1: CONSOLIDATED PATCH AUTOMATED/EMULATED PASS — REAL CURRENT-CHROME K CLOSURE PENDING
+PHASE 2 SEARCH: BLOCKED
+```
+
+The next step is not more implementation. The consolidated candidate must be loaded in the owner's real Chrome and the governed K-01/K-02/K-03/K-04/K-05/K-06/K-08 closure must be recorded before Phase 1 LIVE PASS can be declared.
