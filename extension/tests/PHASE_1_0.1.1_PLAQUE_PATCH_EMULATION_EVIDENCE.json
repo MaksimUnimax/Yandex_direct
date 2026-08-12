@@ -1,0 +1,58 @@
+{
+  "date": "2026-08-12",
+  "owner_interrupt": true,
+  "scope": "DEF-01 reference plaque/toast parity only",
+  "base_candidate": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip",
+    "sha256": "311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb"
+  },
+  "patch": {
+    "repository_path": "extension/tests/patches/phase1-0.1.1-plaque-reference-parity.patch.gz.b64",
+    "decoded_patch_sha256": "9dbd8def6b852b520b57923c0b8136c93b0056c2ac95a797a248cdc14f2548ad",
+    "stored_b64_sha256": "13543416bc5133e2cd7a7b0b186e23a144251a0a6b3e1506fde0625928a9aaea",
+    "decoded_patch_bytes": 14015,
+    "decoded_patch_lines": 227,
+    "reconstruction": "base64 -d | gzip -d, then apply decoded unified diff to the governed base candidate source"
+  },
+  "implementation": {
+    "toast_renderer_changed": false,
+    "reference_renderer_byte_identical": true,
+    "reference_renderer_sha256": "7ea5c26887b40412c16ab155730f9185dde5fce5643ad2194b5fd6f34bde7119",
+    "changes": [
+      "preserve exact Wordstat reference toast root/layout/style renderer",
+      "replace invented YMB/Yandex Marketing Bridge toast labels in Wordstat Phase 1 paths with Wordstat/Wordstat Bridge labels",
+      "render error-delivery status plaques with reference error tone instead of generic green success tone",
+      "keep request-start plaque as Wordstat: отправляю <method> в Yandex API…",
+      "keep success plaque as Wordstat: ответ получен. Передаю результат в ChatGPT…"
+    ]
+  },
+  "emulation": {
+    "test_file": "tests/reference_toast_emulation.test.mjs",
+    "focused_tests": "2/2 PASS",
+    "checks": [
+      "single toast root and exact reference root style",
+      "info/success/error style snapshots",
+      "request-start and success reference labels",
+      "error labels use Wordstat and error tone",
+      "no user-facing toast call contains YMB: or Yandex Marketing Bridge:"
+    ]
+  },
+  "regression": {
+    "source_suite": "313/313 PASS",
+    "fresh_zip_suite": "313/313 PASS",
+    "source_fresh_zip_byte_identity": "42/42",
+    "js_mjs_syntax": "37/37 PASS",
+    "json_parse": "2/2 PASS"
+  },
+  "patched_candidate": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-plaque-parity-candidate.zip",
+    "sha256": "c0e3c36eaac1ebfa81ee44ca8cc376282b9aed601cd07cc596a6c235cfffb976",
+    "files": 42,
+    "version": "0.1.1"
+  },
+  "network": {
+    "real_yandex_requests_executed_for_this_patch": 0,
+    "cost_rub": 0
+  },
+  "live_status": "post-patch emulation PASS; real Chrome/current ChatGPT plaque confirmation still pending before final C-02/C-03/C-04 closure"
+}
