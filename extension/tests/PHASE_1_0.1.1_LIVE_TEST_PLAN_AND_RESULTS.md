@@ -103,7 +103,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | D-01 | Unsupported method | Error auto-delivered; zero Yandex request | PASS (pre-rule evidence) | `UNSUPPORTED_METHOD`, `request_executed:false` |
-| D-02 | `getRegionsTree` | Exactly one request; HTTP 200; result returns to same conversation | PASS (pre-rule evidence) | HTTP 200 |
+| D-02 | `getRegionsTree` | Exactly one request; HTTP 200; result returns to same conversation | PASS | 2026-08-12 governed live: `getRegionsTree` returned once to this conversation with `HTTP 200`, `status:OK`, region tree payload and request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | D-03 | `getTop` standard | Exactly one request; HTTP 200; result + associations | PASS (pre-rule evidence) | HTTP 200 |
 | D-04 | `getDynamics` valid monthly range | Exactly one request; HTTP 200; expected monthly series | PASS (pre-rule evidence) | HTTP 200, 12 points |
 | D-05 | `getRegionsDistribution` | Exactly one request; HTTP 200; regional distribution | PASS (pre-rule evidence) | HTTP 200 |
@@ -119,10 +119,10 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 |---|---|---|---|---|
 | E-01 | Required identity fields | `bridge`, `version`, `service`, `operation`, `request_id` correct | PASS | D-10 result reports `yandex-marketing-bridge`, `0.1.1`, `wordstat`, `getTop`, unique request_id `5bebe196-2a48-47c2-b52d-c447a9406338` |
 | E-02 | No obsolete `job_id` | `job_id` absent from runtime result/error contracts | PASS | Governed successful and error envelopes contain no `job_id` field |
-| E-03 | Executed flag semantics | `request_executed` accurately distinguishes local skip vs sent request | FAIL | Local validation D-08 correctly reports `false` and HTTP-4xx D-09 reports `true`, but successful executed D-10 omits `request_executed` entirely; successful sent requests are therefore not explicitly distinguishable by this field |
-| E-04 | Free-call charge semantics | `getRegionsTree`: `estimated_rub:0` and not reported as charged | FAIL (pre-rule evidence) | `charged:true` observed |
+| E-03 | Executed flag semantics | `request_executed` accurately distinguishes local skip vs sent request | FAIL | Local validation D-08 correctly reports `false` and HTTP-4xx D-09 reports `true`, but successful executed D-10 and governed successful `getRegionsTree` D-02 omit `request_executed` entirely; successful sent requests are therefore not explicitly distinguishable by this field |
+| E-04 | Free-call charge semantics | `getRegionsTree`: `estimated_rub:0` and not reported as charged | FAIL | 2026-08-12 governed live confirmation: successful free `getRegionsTree` returned `HTTP 200`, `estimated_rub:0` but incorrectly `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | PASS | D-10 `getTop` reports `estimated_rub:0.02`, matching the freshly checked 20 RUB / 1000-request tariff stated immediately before execution |
-| E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 propagated `HTTP 200` |
+| E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 and D-02 propagated `HTTP 200` |
 | E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | NOT RUN | D-08/D-09/F-04 governed errors report `automatic_retry:false`; unknown-outcome branch remains pending I-02 |
 | E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | Normal governed envelopes contain no key/Authorization secret; Debug path still pending F-05 |
 
@@ -205,8 +205,8 @@ This register is derived from observed FAILs and is not yet the patch specificat
 | DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | Generic green `YMB:` notification replaces required reference-style feedback |
 | DEF-02 Toggle persistence architecture wrong | PRE-03, B-01, B-03, B-04 | Debug, Auto Send, Wordstat Autorun policy and report-prefix boolean controls do not persist immediately; Manual is the working counterexample because it has an immediate runtime action |
 | DEF-03 Autorun cannot start | PRE-04, G-01 | No RUN created; iteration/counters remain zero |
-| DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | `getRegionsTree` returns `estimated_rub:0` with `charged:true` |
-| DEF-05 Successful-result executed flag missing | D-10, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
+| DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | Governed live `getRegionsTree` confirms `estimated_rub:0` with incorrect `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
+| DEF-05 Successful-result executed flag missing | D-10, D-02, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
 
 No patch is to be derived until the remaining planned tests are executed or explicitly marked blocked/waived by the owner.
 
