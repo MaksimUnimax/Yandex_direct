@@ -1,267 +1,86 @@
-# SPECIFICATION v0.1 — Yandex Marketing Bridge
+# SPECIFICATION v0.2 — Yandex Marketing Bridge
 
-Status: initial architecture specification.
-Date: 2026-08-12.
+Status: current technical specification.
+Updated: 2026-08-12.
 
-## 1. Product architecture
+## 1. Product boundary
 
-Create one Chrome/Chromium extension: **Yandex Marketing Bridge**.
+One Chrome/Chromium extension: **Yandex Marketing Bridge**.
 
-Persistent modules:
+Runtime architecture:
 
 ```text
 CORE
 ├─ writing-block capture
-├─ manual Copy integration
+├─ manual native-Copy integration
 ├─ autorun state machine
 ├─ conversation identity/binding
 ├─ owner-tab protection
 ├─ composer delivery
 ├─ protocol detector/router
-├─ credential abstraction
-├─ policy/cost/quota engine
-├─ run/job accounting
-├─ pending-result safety
-└─ audit/event log
+├─ credential storage/capability
+├─ policy/cost guards
+├─ RUN accounting
+├─ durable pending-result/error delivery
+├─ recovery/reconciliation
+├─ settings export/import
+└─ diagnostic event log
 
 ADAPTERS
-├─ Wordstat
-├─ Search / SERP
-├─ Webmaster
-├─ Metrika
-└─ Direct
+├─ Wordstat      [Phase 1]
+├─ Search        [blocked]
+├─ Webmaster     [blocked]
+├─ Metrika       [blocked]
+└─ Direct        [blocked]
 ```
 
-The current Wordstat Bridge 1.1.5 is the reference baseline for CORE behavior. New services are added incrementally without replacing proven mechanisms unless a documented incompatibility requires it.
+The audited Wordstat Bridge 1.1.5 and proven Business Bridge 2 mechanisms are the behavior references. Proven common mechanisms are preserved unless a documented incompatibility requires change.
 
-## 2. Protocol routing
+## 2. GitHub is outside extension runtime
 
-There is no generic executable `ROUTER_API` protocol.
-
-The router identifies the target adapter from the service protocol signature of the extracted executable block:
-
-```text
-WORDSTAT_API_V1   → WordstatAdapter
-SEARCH_API_V1     → SearchAdapter
-WEBMASTER_API_V1  → WebmasterAdapter
-METRIKA_API_V1    → MetrikaAdapter
-DIRECT_API_V1     → DirectAdapter
-```
-
-Unknown blocks are ignored and cause no network side effect.
-
-Service-specific protocol parsing and allowlisting remain inside the corresponding adapter/protocol module.
-
-## 3. One RUN = one SERVICE
-
-A run record contains immutable `active_service`.
-
-After `Start`, the active service cannot be changed until `Finish`.
-
-If the assistant emits a valid command for another service during the run, the bridge must not execute it. It returns a safe skipped/blocked result such as:
-
-```text
-status = SKIPPED
-reason = SERVICE_NOT_ACTIVE
-active_service = <current service>
-```
-
-Switching service requires:
-
-```text
-Finish current RUN
-→ operator selects another service
-→ Start new RUN
-```
-
-Multiple service runs can belong to the same JOB.
-
-## 4. Manual and Autorun modes
-
-Preserve proven reference semantics:
-
-- local native Copy remains native Copy;
-- generic assistant-level Copy Response is never an API trigger;
-- manual and autorun execution are mutually controlled;
-- autorun watches stable new assistant writing/code blocks;
-- exactly-once fences are based on assistant turn / command fingerprint / transaction identity;
-- Pause, Resume and Finish are conversation scoped;
-- user composer is never silently overwritten;
-- Send is performed once without blind click retry loops;
-- irreversible/paid operations are never blindly retried after uncertain worker state.
-
-## 5. Credential model
-
-Credentials are independent per adapter or credential family.
-
-Minimum states:
-
-```text
-PRESENT
-MISSING
-INVALID_OR_EXPIRED
-NO_ACCESS
-```
-
-Absence of credentials for one service does not disable other services or the JOB.
-
-A command that requires missing credentials must produce a safe result:
-
-```text
-status = SKIPPED
-reason = NO_CREDENTIALS
-```
-
-The pipeline continues on available evidence.
-
-Credentials must never appear in:
-
-- ChatGPT executable commands;
-- result envelopes;
-- GitHub repository;
-- logs committed to `work/`;
-- packaged extension artifacts.
-
-## 6. Operator-controlled Autorun permissions
-
-Credential presence and Autorun permission are separate concepts.
-
-For every service/operation class the operator controls:
-
-- enabled in autorun: yes/no;
-- allowed operation classes;
-- request limit per run;
-- request limit per job where relevant;
-- money limit per run/job for billable APIs;
-- quota/unit reserve where the API uses non-monetary quotas;
-- risk profile for write operations.
-
-ChatGPT commands cannot alter these policy values.
-
-## 7. Paid request guard
-
-Before any billable initiation, PolicyEngine must evaluate at minimum:
-
-```text
-credential available
-AND service is active
-AND autorun enabled
-AND operation is allowlisted
-AND operation class enabled
-AND request_count + expected_requests <= request_limit
-AND spent_cost + estimated_cost <= cost_limit
-```
-
-If not allowed, do not call the external API and return a safe result:
-
-```text
-status = SKIPPED
-reason = COST_LIMIT | REQUEST_LIMIT | AUTORUN_DISABLED | OPERATION_DISABLED
-```
-
-Expensive operation classes must have separate toggles. A broad `Search API enabled` switch is insufficient when deferred, synchronous, generative and other operations have materially different prices.
-
-## 8. Cost evidence
-
-For paid APIs maintain a per-run and per-job cost ledger with:
-
-- service;
-- operation;
-- command/transaction id;
-- tariff snapshot/source metadata when available;
-- estimated cost before execution;
-- actual charged cost if the API exposes it;
-- timestamp;
-- cumulative run cost;
-- cumulative job cost.
-
-Paid raw data must be persisted into the current order workspace before it is considered safely reusable.
-
-## 9. Quota guard
-
-Non-monetary APIs still require guards.
-
-Examples of policy concepts:
-
-- Direct units reserve;
-- Metrika request/rate quotas;
-- Webmaster unit/export quota;
-- Search deferred submission/result quotas.
-
-Quota exhaustion should stop only the affected service/run or operation class, not destroy the entire JOB.
-
-## 10. Logical operation vs HTTP request
-
-Global invariant:
-
-**One accepted ChatGPT command = one logical external operation.**
-
-If an official API requires documented polling to retrieve the result of that same submitted operation, polling may occur inside the same transaction.
-
-The bridge must distinguish:
-
-- billable/side-effect initiation;
-- status/result polling.
-
-An initiation must not be repeated automatically after an uncertain outcome.
-
-## 11. Result envelopes
-
-Each service keeps its own result signature:
-
-```text
-WORDSTAT_RESULT_V1
-SEARCH_RESULT_V1
-WEBMASTER_RESULT_V1
-METRIKA_RESULT_V1
-DIRECT_RESULT_V1
-```
-
-Common metadata should include where applicable:
-
-```text
-bridge
-version
-service
-operation
-request_id / transaction_id
-run_id
-job_id
-status
-reason
-http_status
-elapsed_ms
-cost_estimate
-quota metadata
-result
-```
-
-No credentials may be included.
-
-## 12. JOB model
-
-A Kwork/customer order is represented by a JOB.
-
-Minimum fields:
+The extension MUST NOT require or implement:
 
 ```text
 job_id
-client_alias
-type
-created_at
-status
-workspace_path
+GitHub token
+GitHub API
+repository/branch/commit
+work/<job_id>/
 ```
 
-A JOB may contain many service-specific runs.
+No API command may be rejected because a GitHub/order Job ID is absent.
 
-## 13. RUN model
+GitHub order persistence is an external ChatGPT/development workflow:
 
-Minimum fields:
+```text
+Bridge delivers result to ChatGPT
+→ ChatGPT may persist evidence to GitHub work/<job_id>/
+```
+
+This separation is mandatory.
+
+## 3. Protocol routing
+
+No generic executable router protocol exists.
+
+```text
+WORDSTAT_API_V1   → Wordstat adapter
+SEARCH_API_V1     → Search adapter
+WEBMASTER_API_V1  → Webmaster adapter
+METRIKA_API_V1    → Metrika adapter
+DIRECT_API_V1     → Direct adapter
+```
+
+Only adapters registered for the accepted phase may execute. Phase 1 registers **Wordstat only**. Unknown/future prefixes cause no network side effect.
+
+## 4. One RUN = one SERVICE
+
+Autorun RUN has immutable `active_service` until Finish.
+
+Minimum runtime fields:
 
 ```text
 run_id
-job_id
 conversation_key
 owner_tab_id
 active_service
@@ -271,128 +90,331 @@ sequence
 requests_attempted
 requests_executed
 requests_skipped
-estimated_cost
-actual_cost_if_known
+estimated_cost_rub
 created_at
 updated_at
 last_error
 ```
 
-Recommended state machine:
+`job_id` is explicitly absent.
+
+Recommended states retain reference semantics:
 
 ```text
 STOPPED
-→ STARTING
-→ WAITING_COMMAND
-→ VALIDATING
-→ EXECUTING
-→ POLLING (only when required)
-→ DELIVERING
-→ WAITING_COMMAND
-
-PAUSED / FINISHED / ERROR as controlled terminal or suspended states.
+STARTING
+WAITING_COMMAND
+REQUESTING
+DELIVERING
+PAUSED
+ERROR      # only when a truly terminal/suspended condition requires it
 ```
 
-## 14. Direct risk profiles
+Recoverable ordinary failures should return toward `WAITING_COMMAND` when safe instead of killing Autorun.
 
-Direct is divided into at least three permission profiles:
+## 5. Manual / Autorun reference semantics
 
-### DIRECT_READ
-Read campaigns, groups, ads, keywords, settings, reports and search-query performance.
+Required invariants:
 
-### DIRECT_DRAFT_WRITE
-Create or modify only operations explicitly accepted as safe draft/pre-launch preparation by the implementation spec. Every write must be followed by read-back verification.
+- native local Copy remains native Copy;
+- generic assistant-level Copy Response is never an API trigger;
+- Manual and Autorun are mutually controlled;
+- watcher accepts only stable new assistant writing/code blocks;
+- exactly-once fences use command/assistant/delivery identities;
+- owner-tab and conversation binding are fail-closed;
+- composer text is never silently overwritten;
+- Start and result/error Send are committed before the one browser click where reference requires it;
+- recovery after a committed click is reconciliation-only;
+- billable/irreversible initiation is never blindly retried after uncertain outcome.
 
-### DIRECT_LIVE_WRITE
-Operations that can affect active advertising, spending, moderation, live bids/strategies, suspension/resume, deletion/archive or other production state.
+## 6. Manual budget semantics
 
-`DIRECT_LIVE_WRITE` is not unrestricted autorun. It requires an explicit operator-approved changeset/transaction gate and post-write verification.
+Manual Copy is an explicit per-command operator authorization.
 
-## 15. GitHub workspace integration
+If there is **no active paused RUN**, standalone Manual has no invented JOB budget.
 
-Repository layout:
+If Manual is used while the current Autorun RUN is **PAUSED**, the request must use the same RUN request/cost counters and ceilings:
 
 ```text
-extension/
-  docs/
-  reference/
-  src/
-  tests/
-
-work/
-  <job_id>/
+Pause RUN
+→ Manual Copy
+→ same RUN budget
 ```
 
-The bridge/development workflow must treat GitHub `work/<job_id>/` as durable job evidence, not as optional export.
+Switching to Manual must not bypass an active RUN limit.
 
-No secret values may be persisted there.
+## 7. Credential model
 
-## 16. Order workspace minimum contents
+Credentials are local trusted operator data.
 
-Each active job should be able to contain:
+Minimum capability states:
+
+```text
+PRESENT
+MISSING
+INVALID_OR_EXPIRED
+NO_ACCESS
+```
+
+Credential presence is separate from Manual/Autorun permission.
+
+Missing credentials for an executable command produce a controlled result with zero external request, for example:
+
+```text
+status = SKIPPED
+reason = NO_CREDENTIALS
+request_executed = false
+```
+
+Missing credentials do not terminate the whole workflow.
+
+Credentials must not appear in ordinary ChatGPT executable commands, result envelopes, error/debug reports or GitHub.
+
+## 8. Storage compatibility
+
+Phase 1 must preserve proven Wordstat storage continuity, including the existing keys used by the reference such as:
+
+```text
+wsmb_api_key
+wsmb_folder_id
+wsmb_auto_send
+wsmb_conversation_bindings
+wsmb_manual_modes
+wsmb_auto_runs
+wsmb_report_prefix_configs
+wsmb_auto_start_prompts
+wsmb_send_button_profile
+wsmb_copy_button_profiles
+```
+
+In-place unpacked upgrade + Reload must retain those values through normal Chrome extension storage continuity.
+
+## 9. Export settings / Import settings
+
+The popup must provide explicit settings backup/restore.
+
+Backup is versioned and intentionally secret-bearing:
+
+```text
+format
+backup_version
+settings_schema_version
+exported_at
+extension_version
+extension_id
+contains_secrets = true
+settings_sha256
+settings
+```
+
+`settings_sha256` is canonical SHA-256 over the settings payload.
+
+Import requirements:
+
+- supported format/version only;
+- checksum verification before mutation;
+- reject tampered backup;
+- validate credentials/settings;
+- merge compatible state;
+- create a local migration rollback backup;
+- preserve active RUN records;
+- preserve binding/service/manual-mode safety state for active RUN/manual operations;
+- never import active execution transactions from the backup.
+
+The exported file itself contains secrets and must be treated like a credential file.
+
+## 10. Always-on ChatGPT error delivery
+
+Every detected extension failure that can be associated with a bound ChatGPT conversation must be delivered automatically to that conversation.
+
+This applies to:
+
+- Manual;
+- Autorun;
+- command parsing/validation;
+- credential/policy rejection where represented as error rather than result;
+- network/runtime errors;
+- watcher/content errors;
+- result/error delivery errors;
+- recovery/reconciliation problems.
+
+Canonical error signature:
+
+```text
+YMB_ERROR_V1
+```
+
+Minimum useful metadata:
+
+```text
+bridge
+version
+service
+channel
+stage
+code
+message
+recoverable
+request_executed
+automatic_retry
+run_id
+operation
+autorun_continues
+timestamp
+```
+
+No secrets.
+
+## 11. Debug Mode
+
+Debug Mode controls **additional diagnostics only**.
+
+```text
+Debug OFF → error still automatically goes to ChatGPT
+Debug ON  → same error + extra redacted diagnostic events
+```
+
+Debug Mode must never be required for error delivery.
+
+Redaction must exclude at minimum:
+
+- API key;
+- OAuth/access/refresh tokens;
+- Authorization header;
+- passwords/cookies;
+- complete secret backup contents.
+
+## 12. Durable error delivery
+
+Error delivery uses a worker-owned durable outbox lifecycle analogous to proven result delivery:
+
+```text
+claimed
+→ staged in composer
+→ committed before Send click
+→ one Send click
+→ confirmed
+```
+
+If the worker/content reloads after commit, recovery is reconciliation-only. It must not repeat Send blindly and must never repeat the original Yandex request.
+
+## 13. Wordstat Phase 1 policy
+
+Supported methods:
+
+```text
+getTop
+getDynamics
+getRegionsDistribution
+getRegionsTree
+```
+
+Operator controls:
+
+- Autorun enabled;
+- Manual enabled;
+- allowed methods;
+- max requests per RUN;
+- max estimated RUB per RUN;
+- tariff snapshot/source metadata.
+
+ChatGPT cannot raise these limits by command.
+
+Before an Autorun billable initiation, Bridge reserves the RUN budget before the external initiation. Conservative over-count after a crash is acceptable; under-count that enables an unsafe duplicate is not.
+
+## 14. Result envelope
+
+Service-specific signatures remain:
+
+```text
+WORDSTAT_RESULT_V1
+SEARCH_RESULT_V1
+WEBMASTER_RESULT_V1
+METRIKA_RESULT_V1
+DIRECT_RESULT_V1
+```
+
+Wordstat common metadata includes where applicable:
+
+```text
+bridge
+version
+service
+operation
+request_id
+run_id
+status
+reason
+cost_estimate
+policy
+command
+http_status
+elapsed_ms
+result
+request_executed
+automatic_retry
+```
+
+`job_id` is not a Bridge result field.
+
+## 15. HTTP/error semantics
+
+One accepted command = one logical external initiation.
+
+- HTTP 2xx → normal result.
+- HTTP 4xx/5xx received from the one request → deliver ERROR result/evidence; do not automatically replay.
+- validation/no credential/policy limit before fetch → zero request.
+- timeout/network/session-loss where initiation outcome is uncertain → report `request_executed = UNKNOWN`, `automatic_retry = false`; fence identical retry until reconciliation/operator/assistant chooses a safe path.
+
+## 16. Visual feedback
+
+Reference-compatible visible feedback is required in the ChatGPT page/popup.
+
+At minimum, user must see clear state around request initiation/response/error. Wordstat-local Copy remains Yandex-yellow reference style where supported by current DOM.
+
+A valid API block must not fail silently.
+
+## 17. GitHub order workspace workflow
+
+Outside the extension, project workflow may use:
 
 ```text
 work/<job_id>/
-  JOB.md
-  manifest.json
-  context/
-  raw/
-    wordstat/
-    search/
-    webmaster/
-    metrika/
-    direct/
-  normalized/
-  analysis/
-  deliverables/
-  logs/
-    runs/
-    cost-ledger/
 ```
 
-Only directories actually used by the order need to contain files.
+for raw evidence, normalized data, analysis, deliverables and logs.
 
-## 17. Paid evidence persistence invariant
+No secret values may be stored there.
 
-After a paid API result is successfully received, it must be written to the job workspace as raw evidence before the workflow intentionally discards the only local/runtime copy.
+This workspace is not a prerequisite for Bridge execution and is not accessed by the extension.
 
-The purpose is to prevent duplicate paid collection caused by:
+## 18. Direct risk profiles
 
-- chat loss;
-- browser reload;
-- extension restart;
-- context-window loss;
-- operator switching conversations.
+Future Direct implementation remains separated into at least:
 
-A previously persisted paid result should be reused when its parameters and freshness requirements match the current need.
+```text
+DIRECT_READ
+DIRECT_DRAFT_WRITE
+DIRECT_LIVE_WRITE
+```
 
-## 18. Order close lifecycle
+No unrestricted live-write Autorun.
 
-After the customer accepts/delivery is complete:
+## 19. Development gate
 
-1. verify final deliverables exist;
-2. verify required working evidence is committed;
-3. mark JOB complete;
-4. delete `work/<job_id>/` from the current repository tree as the normal cleanup action.
+Strict order:
 
-Normal Git deletion does not erase previous Git history. Full historical purge is a separate exceptional procedure and is not implied by ordinary order cleanup.
+```text
+one service
+→ implementation
+→ source tests
+→ exact packaged tests
+→ source/package identity
+→ syntax/static checks
+→ Chromium load smoke
+→ controlled real Chrome + production ChatGPT acceptance
+→ PASS
+→ next service
+```
 
-## 19. Security invariants
-
-- No arbitrary URL transport.
-- Hardcoded/validated service endpoints and methods.
-- No secret material in ChatGPT.
-- No secret material in GitHub.
-- Content script must not receive API secrets when avoidable.
-- Client/account binding must come from trusted local operator configuration, not assistant text.
-- ChatGPT cannot switch client/account by command.
-- ChatGPT cannot raise cost/quota permissions.
-- No blind retry of irreversible or billable initiation.
-- Unknown blocks do nothing.
-- Service mismatch does nothing externally.
-
-## 20. Development gate
-
-One new service is developed and accepted at a time.
-
-No next service starts until the current phase has source tests, packaged tests and controlled live Chrome/ChatGPT acceptance PASS, with regression PASS for all previously accepted services.
+Search remains blocked until Wordstat 0.1.1 production live acceptance passes.
