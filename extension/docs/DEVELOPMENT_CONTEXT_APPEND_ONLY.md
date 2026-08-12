@@ -265,3 +265,136 @@ DEVELOPMENT_CONTEXT_APPEND_ONLY.md
 ```
 
 This entry establishes the append-only rule for the last file.
+
+---
+
+# ENTRY 0012 — 2026-08-12 — PHASE 0 EXACT REFERENCE VERIFICATION
+
+The exact owner-supplied reference ZIP was independently hashed, freshly extracted and executed during Phase 0.
+
+Verified artifact:
+
+```text
+wordstat-bridge-v1.1.5-full-function-environment-audit(4).zip
+SHA-256 a39bbe65b046ef6eac5a7890b8afd84e69550db34debf271b7c373d08a1fef1a
+```
+
+Canonical documentation:
+
+```text
+WORDSTAT_BRIDGE_DOCUMENTATION_APPEND_ONLY_FULL_FUNCTION_ENVIRONMENT_AUDIT(4).md
+SHA-256 437a69022b31621d7a749e3b92c0faf0c45f3d7be60e1a901cda65c3faf0a25a
+```
+
+Fresh extracted artifact results obtained in the current development session:
+
+```text
+npm test: 283/283 PASS
+node --check: PASS for all production/shared JS files checked
+```
+
+The supplied reference's own full-function audit records 21/21 real Chromium E2E checks with ChatGPT DOM/Yandex HTTPS mocks and source↔ZIP byte identity. This is strong reference evidence but does not replace later production ChatGPT acceptance of Yandex Marketing Bridge.
+
+---
+
+# ENTRY 0013 — 2026-08-12 — REFERENCE 1.1.5 VS HISTORICAL 1.1.6
+
+During Phase 0 the canonical append-only document was read through its final line.
+
+It contains a historical `1.1.6` narrow provenance/version patch, but later append-only entries intentionally continue a manifest/runtime `1.1.5` line for Start parity, single-flight/concurrency repairs and the final full-function/environment audit.
+
+The owner supplied the final audited `1.1.5` ZIP identified by the final append-only entry, so that exact ZIP is the behavioral reference authority for migration.
+
+A known defect is preserved in that artifact:
+
+```text
+shared/wordstat_protocol.js
+const VERSION = "1.1.1"
+```
+
+while package/manifest are `1.1.5`.
+
+The historical 1.1.6 entry proves this is a stale result-provenance defect. Decision: do not silently replace the owner-supplied reference; instead explicitly fix version consistency in the new product and add an executable regression test so the defect cannot recur.
+
+---
+
+# ENTRY 0014 — 2026-08-12 — CORE EXTRACTION CLASSIFICATION
+
+Phase 0 classified reference code into four tiers.
+
+Tier A — freeze/copy byte-identically first:
+
+```text
+shared/composer_send.js
+shared/conversation_identity.js
+shared/manual_controls.js
+shared/proven_writing_block_capture.js
+```
+
+These are proven byte-identical to Business Bridge 2.0.0.22.
+
+Tier B — generic lifecycle semantics but Wordstat-named export:
+
+```text
+shared/autorun_model.js
+```
+
+It may be genericized under differential tests.
+
+Tier C — service-specific:
+
+```text
+shared/wordstat_protocol.js
+```
+
+It remains the Wordstat adapter/protocol boundary.
+
+Tier D — mixed generic + Wordstat-specific orchestration requiring controlled extraction:
+
+```text
+service_worker.js
+content_script.js
+popup.*
+```
+
+Detailed boundaries are recorded in `CORE_EXTRACTION_MAP.md`.
+
+---
+
+# ENTRY 0015 — 2026-08-12 — GITHUB PERSISTENCE IS A CHATGPT WORKFLOW, NOT AN EXTENSION SECRET SURFACE
+
+Clarification made during Phase 0:
+
+The extension itself will not receive/store a GitHub token merely to satisfy order evidence persistence.
+
+The required workflow is:
+
+```text
+API result delivered durably to ChatGPT
+→ ChatGPT uses its connected GitHub capability
+→ exact raw evidence is committed into work/<job_id>/
+→ then the workflow proceeds to the next paid collection step when persistence/reuse matters
+```
+
+The bridge may stamp trusted local `job_id`, `run_id`, service, operation and request identifiers into the result so GitHub evidence can be named and audited deterministically.
+
+This keeps GitHub credentials outside the Chrome extension while preserving the owner's requirement that paid evidence is not lost with chat/browser context.
+
+---
+
+# ENTRY 0016 — 2026-08-12 — PHASE 0 GATE AND PHASE 1 START AUTHORIZATION
+
+Phase 0 produced:
+
+- repository split `extension/` + `work/`;
+- canonical documentation area;
+- reference baseline/hashes and exact 41-file inventory;
+- fresh reference test verification;
+- reference authority decision;
+- known-defect record;
+- CORE extraction map;
+- detailed `PHASE_1_WORDSTAT_IMPLEMENTATION_PLAN.md`.
+
+Decision: Phase 0 design/reference gate is PASS. Phase 1 may begin with **Wordstat as the only executable service**.
+
+No Search/Webmaster/Metrika/Direct implementation is authorized until Phase 1 reaches its own acceptance gate.
