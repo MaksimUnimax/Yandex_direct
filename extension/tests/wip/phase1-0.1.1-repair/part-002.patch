@@ -1,0 +1,339 @@
++        api_key: String(data[KEYS.API_KEY] || ""),
++        folder_id: String(data[KEYS.FOLDER_ID] || WordstatProtocol.DEFAULT_FOLDER_ID)
++      }
++    },
++    auto_send: data[KEYS.AUTO_SEND] !== false,
++    conversation_bindings: data[KEYS.CONVERSATION_BINDINGS] || {},
++    manual_modes: data[KEYS.MANUAL_MODES] || {},
++    report_prefixes: data[KEYS.REPORT_PREFIXES] || {},
++    auto_start_prompts: data[KEYS.AUTO_START_PROMPTS] || {},
++    send_button_profile: data[KEYS.SEND_BUTTON_PROFILE] || null,
++    copy_button_profiles: copyProfileCollection(data[KEYS.COPY_BUTTON_PROFILES] || null),
++    service_contexts: data[KEYS.SERVICE_CONTEXTS] || {},
++    wordstat_policy: publicPolicy(data[KEYS.WORDSTAT_POLICY] || {}),
++    debug_mode: data[KEYS.DEBUG_MODE] === true
++  };
++  return {
++    format: "yandex-marketing-bridge-settings-backup",
++    backup_version: SETTINGS_BACKUP_VERSION,
++    settings_schema_version: SETTINGS_SCHEMA_VERSION,
++    exported_at: new Date().toISOString(),
++    extension_version: VERSION,
++    extension_id: chrome.runtime.id || null,
++    contains_secrets: true,
++    settings_sha256: await sha256Hex(JSON.stringify(canonicalBackupValue(settings))),
++    settings
++  };
++}
++
++function validateImportedBindingMap(value) {
++  const out = {};
++  for (const [key, raw] of Object.entries(value && typeof value === "object" ? value : {})) {
++    try {
++      const normalizedKey = normalizeConversationKey(key);
++      const record = normalizeBindingRecord(raw, normalizedKey);
++      if (record) out[normalizedKey] = record;
++    } catch (_) {}
++  }
++  return out;
++}
++
++async function importSettingsBackup(backup) {
++  const backupVersion = Number(backup?.backup_version || 0);
++  if (!backup || backup.format !== "yandex-marketing-bridge-settings-backup" || backupVersion !== SETTINGS_BACKUP_VERSION) {
++    throw Object.assign(new Error("Это не поддерживаемый backup Yandex Marketing Bridge."), { code: "UNSUPPORTED_SETTINGS_BACKUP" });
++  }
++  const incoming = backup.settings || {};
++  const actual = await sha256Hex(JSON.stringify(canonicalBackupValue(incoming)));
++  if (!backup.settings_sha256 || actual !== String(backup.settings_sha256).toLowerCase()) {
++    throw Object.assign(new Error("Контрольная сумма backup не совпала."), { code: "SETTINGS_BACKUP_CHECKSUM_MISMATCH" });
++  }
++  const wordstat = incoming.credentials?.wordstat || {};
++  const importedApiKey = normalizeApiKey(wordstat.api_key || "", { required: false });
++  const importedFolderId = String(wordstat.folder_id || WordstatProtocol.DEFAULT_FOLDER_ID).trim();
++  if (!importedFolderId || importedFolderId.length > 50) throw Object.assign(new Error("Backup содержит некорректный Folder ID."), { code: "INVALID_FOLDER_ID" });
++  const importedPolicy = YMBPolicyModel.normalizeWordstatPolicy(incoming.wordstat_policy || {});
++  const importedBindings = validateImportedBindingMap(incoming.conversation_bindings || {});
++  const importedCopyProfiles = copyProfileCollection(incoming.copy_button_profiles || null);
++
++  return withSettingsImportWrite(async () => {
++    const rollback = await exportSettingsBackup();
++    const current = await storageGet(exportedSettingsKeys());
++    const mergedCopy = mergeCopyProfilesWithoutLoss(current[KEYS.COPY_BUTTON_PROFILES] || null, importedCopyProfiles);
++    await storageSet({
++      [KEYS.MIGRATION_BACKUP]: rollback,
++      [KEYS.API_KEY]: importedApiKey || String(current[KEYS.API_KEY] || ""),
++      [KEYS.FOLDER_ID]: importedFolderId,
++      [KEYS.AUTO_SEND]: incoming.auto_send !== false,
++      [KEYS.CONVERSATION_BINDINGS]: { ...(current[KEYS.CONVERSATION_BINDINGS] || {}), ...importedBindings },
++      [KEYS.MANUAL_MODES]: { ...(current[KEYS.MANUAL_MODES] || {}), ...(incoming.manual_modes || {}) },
++      [KEYS.REPORT_PREFIXES]: { ...(current[KEYS.REPORT_PREFIXES] || {}), ...(incoming.report_prefixes || {}) },
++      [KEYS.AUTO_START_PROMPTS]: { ...(current[KEYS.AUTO_START_PROMPTS] || {}), ...(incoming.auto_start_prompts || {}) },
++      [KEYS.SEND_BUTTON_PROFILE]: incoming.send_button_profile || current[KEYS.SEND_BUTTON_PROFILE] || null,
++      [KEYS.COPY_BUTTON_PROFILES]: mergedCopy,
++      [KEYS.SERVICE_CONTEXTS]: { ...(current[KEYS.SERVICE_CONTEXTS] || {}), ...(incoming.service_contexts || {}) },
++      [KEYS.WORDSTAT_POLICY]: importedPolicy,
++      [KEYS.DEBUG_MODE]: incoming.debug_mode === true,
++      [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION
++    });
++    await diagnostic("SETTINGS_IMPORTED", {
++      contains_secrets: backup.contains_secrets === true,
++      preserved_active_runs: Object.keys((await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {}).length,
++      imported_binding_count: Object.keys(importedBindings).length,
++      imported_copy_profile_count: importedCopyProfiles.profiles.length
++    });
++    return {
++      imported: true,
++      preserved_active_runs: Object.keys((await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {}).length,
++      settings_schema_version: SETTINGS_SCHEMA_VERSION
++    };
++  });
++}
++
++async function getErrorDeliveries(conversationKey) {
++  const key = normalizeConversationKey(conversationKey);
++  const data = await storageGet(KEYS.ERROR_DELIVERIES);
++  return Array.isArray((data[KEYS.ERROR_DELIVERIES] || {})[key]) ? (data[KEYS.ERROR_DELIVERIES] || {})[key] : [];
++}
++
++async function mutateErrorDeliveries(conversationKey, mutator) {
++  const key = normalizeConversationKey(conversationKey);
++  return withErrorDeliveriesWrite(async () => {
++    const data = await storageGet(KEYS.ERROR_DELIVERIES);
++    const map = { ...(data[KEYS.ERROR_DELIVERIES] || {}) };
++    const current = Array.isArray(map[key]) ? map[key] : [];
++    const next = await mutator(current.map((item) => ({ ...item })));
++    map[key] = (Array.isArray(next) ? next : current).slice(-80);
++    await storageSet({ [KEYS.ERROR_DELIVERIES]: map });
++    return map[key];
++  });
++}
++
++async function debugLogsForError(conversationKey, runId = null, limit = 40) {
++  const settings = await getSettings();
++  if (!settings.debugMode) return null;
++  const data = await storageGet(KEYS.DIAGNOSTICS);
++  const all = Array.isArray(data[KEYS.DIAGNOSTICS]) ? data[KEYS.DIAGNOSTICS] : [];
++  const filtered = all.filter((item) => !runId || !item.run_id || item.run_id === runId);
++  return filtered.slice(-Math.max(1, Math.min(80, Number(limit || 40)))).map((item) => safeDiagnosticDetails(item));
++}
++
++async function makeErrorEnvelope(details = {}) {
++  const logs = await debugLogsForError(details.conversation_key, details.run_id || null);
++  const envelope = {
++    bridge: YMBProduct.BRIDGE_ID,
++    version: VERSION,
++    service: details.service || "wordstat",
++    channel: details.channel || "runtime",
++    stage: details.stage || "UNKNOWN",
++    code: String(details.code || "EXTENSION_ERROR").slice(0, 160),
++    message: String(details.message || "Unknown extension error").slice(0, 2000),
++    recoverable: details.recoverable !== false,
++    request_executed: details.request_executed === undefined ? false : details.request_executed,
++    automatic_retry: false,
++    autorun_continues: details.autorun_continues === true,
++    run_id: details.run_id || null,
++    operation: details.operation || null,
++    timestamp: new Date().toISOString(),
++    ...(logs ? { debug_logs: logs } : {})
++  };
++  return `YMB_ERROR_V1\n${JSON.stringify(envelope, null, 2)}`;
++}
++
++function errorRecoveryPayload(record) {
++  if (!record || !record.delivery_id || !record.outgoing_text) return null;
++  return {
++    type: record.phase === "committed" ? "reconcile_error" : "deliver_error",
++    delivery_id: record.delivery_id,
++    conversation_key: record.conversation_key,
++    run_id: record.run_id || null,
++    outgoing_text: record.outgoing_text,
++    outgoing_hash: record.outgoing_hash,
++    baseline_user_turn_ids: Array.isArray(record.baseline_user_turn_ids) ? record.baseline_user_turn_ids : [],
++    phase: record.phase,
++    tab_id: record.tab_id
++  };
++}
++
++async function pendingErrorRecovery(conversationKey, tabId = null) {
++  const list = await getErrorDeliveries(conversationKey);
++  const record = list.find((item) => ["claimed", "committed"].includes(item.phase) && (!tabId || Number(item.tab_id) === Number(tabId))) || null;
++  return errorRecoveryPayload(record);
++}
++
++async function enqueueChatError(details = {}) {
++  const key = normalizeConversationKey(details.conversation_key);
++  let tabId = Number(details.tab_id || 0);
++  if (!Number.isInteger(tabId) || tabId <= 0) {
++    const run = await getAutoRun(key).catch(() => null);
++    const manual = await getManualOperation(key).catch(() => null);
++    tabId = Number(run?.tab_id || manual?.tab_id || 0);
++  }
++  if (!Number.isInteger(tabId) || tabId <= 0) throw Object.assign(new Error("Нет owner ChatGPT tab для автоматической доставки ошибки."), { code: "ERROR_DELIVERY_TAB_MISSING" });
++  const outgoingText = await makeErrorEnvelope({ ...details, conversation_key: key });
++  const deliveryId = `error-${crypto.randomUUID()}`;
++  const record = {
++    delivery_id: deliveryId,
++    conversation_key: key,
++    tab_id: tabId,
++    run_id: details.run_id || null,
++    phase: "claimed",
++    outgoing_text: outgoingText,
++    outgoing_hash: await sha256Hex(outgoingText),
++    baseline_user_turn_ids: [],
++    commit_actor_id: null,
++    created_at: new Date().toISOString(),
++    confirmed_at: null
++  };
++  await mutateErrorDeliveries(key, (list) => [...list, record]);
++  await diagnostic("CHAT_ERROR_CLAIMED", { delivery_id: deliveryId, run_id: details.run_id || null, tab_id: tabId, code: details.code || "EXTENSION_ERROR", stage: details.stage || null }, { level: "error" });
++  setTimeout(() => { void attemptErrorDelivery(key, deliveryId); }, 0);
++  return record;
++}
++
++async function safeEnqueueChatError(details = {}) {
++  try { return await enqueueChatError(details); }
++  catch (error) {
++    await diagnostic("CHAT_ERROR_ENQUEUE_FAILED", { code: error.code || "ERROR_DELIVERY_FAILED", error: error.message || String(error), original_code: details.code || null }, { level: "error" });
++    return null;
++  }
++}
++
++function attemptErrorDelivery(conversationKey, deliveryId) {
++  const key = normalizeConversationKey(conversationKey);
++  return singleFlight(errorDeliveryAttemptRequests, String(deliveryId || ""), async () => {
++    const list = await getErrorDeliveries(key);
++    const record = list.find((item) => item.delivery_id === deliveryId);
++    if (!record || !["claimed", "committed"].includes(record.phase)) return { ok: true, ignored: true };
++    const recovery = errorRecoveryPayload(record);
++    const response = await tabMessage(record.tab_id, { type: "WS_ERROR_DELIVERY_AVAILABLE", recovery });
++    await diagnostic("CHAT_ERROR_PUSH_RESPONSE", { delivery_id: deliveryId, run_id: record.run_id || null, phase: record.phase, ok: response?.ok === true, code: response?.code || null, error: response?.error || null }, { level: response?.ok === true ? "info" : "warning" });
++    return response;
++  });
++}
++
++async function commitErrorDelivery(message, sender) {
++  const key = normalizeConversationKey(message.conversation_key);
++  const deliveryId = String(message.delivery_id || "");
++  const senderTabId = Number(sender?.tab?.id || 0);
++  const actorId = String(message.actor_id || "");
++  if (!deliveryId || !Number.isInteger(senderTabId) || senderTabId <= 0) return { ok: false, code: "ERROR_DELIVERY_COMMIT_INVALID", error: "Некорректный error delivery commit." };
++  await assertTabConversation(senderTabId, key);
++  await strictBindingForIdentity(await tabIdentity(senderTabId));
++  let clickAllowed = false;
++  let currentRecord = null;
++  await mutateErrorDeliveries(key, (list) => list.map((item) => {
++    if (item.delivery_id !== deliveryId) return item;
++    currentRecord = item;
++    if (Number(item.tab_id) !== senderTabId || item.phase !== "claimed") return item;
++    clickAllowed = true;
++    currentRecord = { ...item, phase: "committed", commit_actor_id: actorId || null, baseline_user_turn_ids: Array.isArray(message.baseline_user_turn_ids) ? message.baseline_user_turn_ids : [], committed_at: new Date().toISOString() };
++    return currentRecord;
++  }));
++  if (!currentRecord) return { ok: false, code: "ERROR_DELIVERY_NOT_FOUND", error: "Error delivery не найдена." };
++  if (!clickAllowed) return { ok: true, committed: currentRecord.phase === "committed", click_allowed: false, recovery: errorRecoveryPayload(currentRecord) };
++  await diagnostic("CHAT_ERROR_COMMITTED_BEFORE_CLICK", { delivery_id: deliveryId, run_id: currentRecord.run_id || null, tab_id: senderTabId });
++  return { ok: true, committed: true, click_allowed: true };
++}
++
++async function completeErrorDelivery(message, sender) {
++  const key = normalizeConversationKey(message.conversation_key);
++  const deliveryId = String(message.delivery_id || "");
++  const senderTabId = Number(sender?.tab?.id || 0);
++  if (!deliveryId || !Number.isInteger(senderTabId) || senderTabId <= 0) return { ok: false, code: "ERROR_DELIVERY_COMPLETE_INVALID", error: "Некорректное подтверждение error delivery." };
++  let confirmed = false;
++  await mutateErrorDeliveries(key, (list) => list.map((item) => {
++    if (item.delivery_id !== deliveryId) return item;
++    if (Number(item.tab_id) !== senderTabId || !["committed", "confirmed"].includes(item.phase)) return item;
++    confirmed = true;
++    return { ...item, phase: "confirmed", confirmed_user_turn_id: message.confirmed_user_turn_id || item.confirmed_user_turn_id || null, confirmed_at: item.confirmed_at || new Date().toISOString() };
++  }));
++  if (confirmed) await diagnostic("CHAT_ERROR_DELIVERY_COMPLETED", { delivery_id: deliveryId, tab_id: senderTabId });
++  return { ok: confirmed, confirmed };
++}
++
+ function normalizeConversationKey(value) {
+   const key = String(value || "").trim();
+   if (!key || key.length > 300) {
+@@ -489,15 +790,9 @@
+   return { tab_id: tab, conversation_key: key, identity: live };
+ }
+ 
+-function withJobContextsWrite(fn) {
+-  const next = jobContextsWriteLock.then(fn, fn);
+-  jobContextsWriteLock = next.catch(() => null);
+-  return next;
+-}
+-
+-function withJobTotalsWrite(fn) {
+-  const next = jobTotalsWriteLock.then(fn, fn);
+-  jobTotalsWriteLock = next.catch(() => null);
++function withServiceContextsWrite(fn) {
++  const next = serviceContextsWriteLock.then(fn, fn);
++  serviceContextsWriteLock = next.catch(() => null);
+   return next;
+ }
+ 
+@@ -507,6 +802,18 @@
+   return next;
+ }
+ 
++function withErrorDeliveriesWrite(fn) {
++  const next = errorDeliveriesWriteLock.then(fn, fn);
++  errorDeliveriesWriteLock = next.catch(() => null);
++  return next;
++}
++
++function withSettingsImportWrite(fn) {
++  const next = settingsImportWriteLock.then(fn, fn);
++  settingsImportWriteLock = next.catch(() => null);
++  return next;
++}
++
+ async function getWordstatPolicy() {
+   const data = await storageGet(KEYS.WORDSTAT_POLICY);
+   return YMBPolicyModel.normalizeWordstatPolicy(data[KEYS.WORDSTAT_POLICY] || {});
+@@ -520,58 +827,31 @@
+   });
+ }
+ 
+-async function getJobContext(conversationKey) {
++async function getServiceContext(conversationKey) {
+   const key = normalizeConversationKey(conversationKey);
+-  const data = await storageGet(KEYS.JOB_CONTEXTS);
+-  const record = (data[KEYS.JOB_CONTEXTS] || {})[key] || null;
+-  if (!record) return { job_id: "", active_service: YMBServiceRegistry.SERVICES.WORDSTAT };
+-  let jobId = "";
++  const data = await storageGet(KEYS.SERVICE_CONTEXTS);
++  const record = (data[KEYS.SERVICE_CONTEXTS] || {})[key] || null;
+   let activeService = YMBServiceRegistry.SERVICES.WORDSTAT;
+-  try { jobId = YMBJobModel.normalizeJobId(record.job_id || ""); } catch (_) {}
+-  try { activeService = YMBJobModel.normalizeActiveService(record.active_service || YMBServiceRegistry.SERVICES.WORDSTAT, YMBServiceRegistry); } catch (_) {}
+-  return { job_id: jobId, active_service: activeService };
++  try { activeService = YMBJobModel.normalizeActiveService(record?.active_service || activeService, YMBServiceRegistry); } catch (_) {}
++  return { active_service: activeService };
+ }
+ 
+-async function saveJobContext(conversationKey, raw) {
++async function saveServiceContext(conversationKey, raw) {
+   const key = normalizeConversationKey(conversationKey);
+-  const jobId = YMBJobModel.normalizeJobId(raw?.job_id || "", { required: true });
+   const activeService = YMBJobModel.normalizeActiveService(raw?.active_service || YMBServiceRegistry.SERVICES.WORDSTAT, YMBServiceRegistry, { required: true });
+-  return withJobContextsWrite(async () => {
+-    const data = await storageGet(KEYS.JOB_CONTEXTS);
+-    const map = { ...(data[KEYS.JOB_CONTEXTS] || {}) };
++  return withServiceContextsWrite(async () => {
++    const data = await storageGet(KEYS.SERVICE_CONTEXTS);
++    const map = { ...(data[KEYS.SERVICE_CONTEXTS] || {}) };
+     const currentRun = await getAutoRun(key);
+-    if (currentRun && !WordstatAutorunModel.isTerminalStatus(currentRun.status)) {
+-      const currentJob = String(currentRun.job_id || "");
+-      const currentService = String(currentRun.active_service || "");
+-      if (currentJob !== jobId || currentService !== activeService) {
+-        throw Object.assign(new Error("Job ID и активный сервис нельзя менять до Finish текущего RUN."), { code: "RUN_CONTEXT_IMMUTABLE" });
+-      }
++    if (currentRun && !WordstatAutorunModel.isTerminalStatus(currentRun.status) && String(currentRun.active_service || "") !== activeService) {
++      throw Object.assign(new Error("Активный сервис нельзя менять до Finish текущего RUN."), { code: "RUN_CONTEXT_IMMUTABLE" });
+     }
+-    map[key] = { job_id: jobId, active_service: activeService, updated_at: new Date().toISOString() };
+-    await storageSet({ [KEYS.JOB_CONTEXTS]: map });
