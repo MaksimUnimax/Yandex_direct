@@ -1,0 +1,20 @@
+# Secrets / local credentials
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+*credentials*.json
+*token*.json
+*oauth*.json
+*secrets*.json
+
+# Local extension settings / runtime state
+extension/local/
+extension/.runtime/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
