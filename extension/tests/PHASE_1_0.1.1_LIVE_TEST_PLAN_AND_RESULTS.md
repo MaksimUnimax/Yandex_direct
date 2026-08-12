@@ -151,7 +151,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | G-05 | Resume | Paused RUN resumes without new RUN identity or counter reset | BLOCKED | Blocked by live G-01 |
 | G-06 | Stop | Stop terminates RUN cleanly and prevents further auto-capture | BLOCKED | Blocked by live G-01 |
 | G-07 | Recoverable error continuation | Recoverable error reports to ChatGPT and RUN returns to waiting when safe | PASS | Controlled worker emulation: recoverable Autorun error queues chat error and returns RUN to `WAITING_COMMAND` without blind retry. Real current-Chrome confirmation blocked by G-01 |
-| G-08 | Duplicate/other tab ownership | Another conversation/tab cannot steal or duplicate execution ownership | NOT RUN | |
+| G-08 | Duplicate/other tab ownership | Another conversation/tab cannot steal or duplicate execution ownership | PASS | 2026-08-12 controlled ownership emulation on plaque-patch candidate: five duplicate-tab cases (tabs 2–6) all PASS; each `WS_CONTENT_READY` from a non-owner tab returned `owner:false`, preserved `owner_tab_id:1`, and did not take over the live delivery owner. Focused `differential ownership` suite passed 5/5. |
 | G-09 | Reload recovery | Reload during safe waiting state restores controlled RUN state | NOT RUN | |
 
 ### H. RUN accounting and policy ceilings
