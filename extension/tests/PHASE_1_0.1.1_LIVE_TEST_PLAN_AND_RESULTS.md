@@ -24,7 +24,9 @@ From this checkpoint forward:
 - **Real command/API behavior** is tested in the current ChatGPT conversation through actual `WORDSTAT_API_V1` commands.
 - Maximum one executable Yandex command per assistant turn.
 - Before every command that can execute a real Yandex request, current official Yandex pricing is freshly verified and the exact estimated cost is stated.
-- **Popup/UI/toggle/state-machine behavior** is tested in controlled browser/emulation by the assistant. The owner is not used as a manual click-through test runner for those checks.
+- While live command tests remain, every result-review turn immediately supplies the next required command/test instead of stopping at commentary.
+- If the owner must do anything beyond the ordinary send/command flow, that action must be displayed as a prominent bold heading before the next command so it cannot be missed.
+- **Popup/UI/toggle/state-machine behavior** is tested in controlled browser/emulation by the assistant. The owner is not used as a manual click-through test runner for repetitive checks; owner interaction is requested only when a real current-Chrome gate cannot be reproduced by emulation.
 - Static/unit/regression tests are supporting evidence, not a substitute for live command gates.
 
 ### Result statuses
@@ -70,7 +72,7 @@ No further live command is to be issued until this ledger and the governing rule
 | A-02 | Same-folder upgrade compatibility | Existing compatible settings survive reload/upgrade | NOT RUN | |
 | A-03 | New installation import path | Exported settings can be imported into another unpacked installation identity | NOT RUN | |
 | A-04 | No runtime GitHub/job coupling | No `job_id`, repo, branch, commit or GitHub token required to execute Wordstat | PASS | Multiple governed standalone Manual commands executed successfully with `run_id:null` and without `job_id`/repo/branch/commit/GitHub runtime fields or gates |
-| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | NOT RUN | Governed normal outputs contain no credentials; controlled Debug emulation proves API-key redaction, but final full secret-set/live Debug confirmation remains pending |
+| A-05 | Secret containment | API key/folder secret never appears in ChatGPT result/error/debug payload | PASS | 2026-08-12 governed real-Chrome Debug-ON error arrived with full `debug_logs`; inspection found no API key, OAuth token, `Authorization` header/value or credential-storage secret in the delivered payload. Normal governed outputs were also secret-free |
 
 ### B. Popup controls and immediate state persistence — emulator/controlled browser
 
@@ -124,17 +126,17 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | E-05 | Paid estimate semantics | Paid method estimate matches freshly checked tariff for exact run | PASS | D-10 `getTop` reports `estimated_rub:0.02`, matching the freshly checked 20 RUB / 1000-request tariff stated immediately before execution |
 | E-06 | HTTP status propagation | Yandex HTTP status preserved accurately | PASS | Governed D-09 propagated `HTTP 400`; governed D-10 and D-02 propagated `HTTP 200` |
 | E-07 | Automatic retry field | Errors/unknown outcomes never claim an automatic retry that did not occur | PASS | Governed D-08/D-09/F-04 errors report `automatic_retry:false`; controlled fault injection after service-worker loss during `REQUESTING` produced `REQUEST_OUTCOME_UNKNOWN_NO_RETRY` and no Yandex replay |
-| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | NOT RUN | Normal governed envelopes contain no key/Authorization secret; controlled Debug test confirms API-key redaction, but full live Debug secret check remains pending |
+| E-08 | Secret redaction | No credentials/Authorization in normal or debug envelope | PASS | Governed real-Chrome Debug-ON `YMB_ERROR_V1` contained extensive diagnostics but no API key, OAuth token, Authorization secret or credential-storage value; normal live result/error envelopes were also secret-free |
 
 ### F. Debug and always-on error delivery
 
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | F-01 | Debug OFF error-to-chat | Error automatically arrives without operator log-copy step | PASS | 2026-08-12 governed live: unsupported method automatically delivered `YMB_ERROR_V1` to this ChatGPT conversation with `request_executed:false`; no manual diagnostics/log copy needed; timestamp `2026-08-12T11:48:18.482Z` |
-| F-02 | Debug ON error-to-chat | Same error delivery still happens | PASS | Controlled worker emulation: Debug ON follows the same error-delivery path; generated error envelope remains deliverable rather than suppressing delivery. Final real-Chrome confirmation remains part of K-04 |
-| F-03 | Debug ON additional diagnostics | Adds useful redacted diagnostics/state trace | PASS | Controlled worker emulation: Debug ON adds `debug_logs`; Debug OFF omits them |
+| F-02 | Debug ON error-to-chat | Same error delivery still happens | PASS | 2026-08-12 governed real-Chrome: after Debug was enabled and saved, unsupported method automatically delivered `YMB_ERROR_V1` to the same conversation; `request_executed:false`; timestamp `2026-08-12T12:04:03.276Z` |
+| F-03 | Debug ON additional diagnostics | Adds useful redacted diagnostics/state trace | PASS | Same governed live Debug-ON error included a populated `debug_logs` array with service-worker/content-script request and delivery state; Debug-OFF governed control omitted it |
 | F-04 | Debug OFF no extra diagnostics | Normal envelope remains concise while still delivering the error | PASS | Same governed Debug-OFF error contained normal fields only and no `debug_logs`/extra diagnostic trace while still auto-delivering to ChatGPT |
-| F-05 | Debug secrecy | API key/token/Authorization never exposed | PASS | Controlled Debug emulation explicitly verifies configured API key is absent from redacted diagnostics/error output; no Authorization header is surfaced by the generated envelope. Final real-Chrome confirmation remains part of K-04/A-05 |
+| F-05 | Debug secrecy | API key/token/Authorization never exposed | PASS | Governed real-Chrome Debug-ON payload contained no API key, OAuth token or Authorization secret; controlled emulation independently confirmed configured-key redaction |
 
 ### G. Autorun lifecycle — emulator for UI/state, live ChatGPT for command pickup
 
@@ -188,7 +190,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | K-01 | All four Wordstat methods | `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree` all have passing live evidence on patched candidate | NOT RUN | Current evidence belongs to pre-patch 0.1.1 candidate |
 | K-02 | Manual reference UX | Copy decoration + start plaque + response plaque + one result + no duplicate request | NOT RUN | |
 | K-03 | Autorun reference UX | Start + auto-capture + one request + one delivery + pause/resume/stop | BLOCKED | G-01 |
-| K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | Debug core emulation passes, but real current-Chrome Debug-ON confirmation is still required after toggle/start fixes |
+| K-04 | Debug contract | OFF and ON both auto-deliver errors; ON adds redacted detail only | NOT RUN | Current 0.1.1 now has governed real-Chrome PASS evidence for Debug OFF and ON; mandatory post-patch rerun remains because toggle persistence is separately broken |
 | K-05 | Toggle persistence | Every toggle-type setting persists immediately without Save | NOT RUN | Current candidate has B-01/B-03/B-04 FAIL |
 | K-06 | Cost/accounting semantics | Free and paid methods report cost/charged state correctly | NOT RUN | Current candidate has E-04 FAIL |
 | K-07 | Static/full regression after patch | Full source + packaged suite green; source/package identity checked | NOT RUN | Only after patch |
