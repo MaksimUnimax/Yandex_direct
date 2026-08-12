@@ -1,0 +1,21 @@
+{
+  "schema": "yandex-marketing-job-v1",
+  "job_id": "",
+  "client_alias": "",
+  "source": "kwork",
+  "status": "ACTIVE",
+  "created_at": "",
+  "services": {
+    "wordstat": {"credential_available": false, "planned": false},
+    "search": {"credential_available": false, "planned": false},
+    "webmaster": {"credential_available": false, "planned": false},
+    "metrika": {"credential_available": false, "planned": false},
+    "direct": {"credential_available": false, "planned": false}
+  },
+  "runs": [],
+  "cost_summary": {
+    "estimated_rub": 0,
+    "actual_rub": null
+  },
+  "deliverables": []
+}
