@@ -58,6 +58,7 @@ exported_at
 extension_version
 extension_id
 contains_secrets = true
+profile_count
 settings_sha256
 settings
 ```
@@ -195,3 +196,42 @@ PHASE 2 SEARCH: BLOCKED
 ```
 
 Production live acceptance in the owner's real Chrome remains mandatory before Search development.
+
+---
+
+# ENTRY 0029 — 2026-08-12 — GOVERNED TEST-PLAN-FIRST / PATCH-AFTER-LEDGER RULE
+
+The owner changed the Phase 1 live-testing method after repeated defect discovery during ad-hoc testing.
+
+Mandatory rule from this checkpoint forward:
+
+1. **Before additional test execution begins, create and commit one explicit test-plan/result ledger containing the complete intended test set.**
+2. Execute tests against that ledger, marking each test `PASS`, `FAIL`, `BLOCKED`, `TEST ERROR` or `NOT RUN` and recording actual versus expected behavior.
+3. Newly discovered test requirements must be appended to the ledger before they are executed.
+4. **Do not begin the implementation patch while the test campaign is still discovering defects**, unless the owner explicitly orders an immediate interruption and patch.
+5. When the campaign is complete, derive the patch scope from the documented FAIL/BLOCKED defect set rather than from memory or ad-hoc conversation state.
+6. After patching, rerun affected tests plus the required full regression set and update the same ledger with post-patch evidence.
+
+Execution-channel clarification:
+
+- real Yandex/extension command behavior is tested in the current ChatGPT conversation through actual `WORDSTAT_API_V1` commands;
+- maximum one executable Yandex command per assistant turn;
+- current official Yandex pricing is freshly checked before every command that can make a real Yandex request;
+- popup/UI/toggle/state-machine behavior is tested in controlled browser/emulation by the assistant and is not offloaded to the owner as repetitive manual UI testing;
+- static/unit/regression tests remain supporting evidence only and do not replace mandatory live command gates.
+
+Authoritative active ledger:
+
+```text
+extension/tests/PHASE_1_0.1.1_LIVE_TEST_PLAN_AND_RESULTS.md
+```
+
+The ledger also carries forward pre-rule live evidence already observed in the installed 0.1.1 candidate, including:
+
+- generic/non-reference YMB plaque behavior;
+- Debug toggle persistence failure;
+- Autorun start failure;
+- incorrect `charged:true` semantics for zero-cost `getRegionsTree`;
+- successful live execution evidence for the core Wordstat methods already exercised.
+
+Search remains blocked until the governed ledger has no unresolved mandatory FAIL/BLOCKED acceptance item on the patched candidate.
