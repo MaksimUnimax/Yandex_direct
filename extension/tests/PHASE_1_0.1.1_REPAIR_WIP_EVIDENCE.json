@@ -1,0 +1,64 @@
+{
+  "kind": "PHASE_1_REPAIR_WIP_CHECKPOINT",
+  "date": "2026-08-12",
+  "base_candidate": {
+    "version": "0.1.0",
+    "zip_sha256": "79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a"
+  },
+  "wip_version": "0.1.1",
+  "status": "WIP_NOT_RELEASE_CANDIDATE",
+  "implemented_so_far": [
+    "remove mandatory job_id from extension execution/run/result path",
+    "remove GitHub/workspace coupling from popup/runtime path",
+    "replace job-level policy accounting with run-level limits in extension",
+    "add debug-mode setting scaffold",
+    "add versioned settings export/import with secret-bearing backup/checksum scaffold",
+    "add durable error delivery/outbox scaffold for ChatGPT delivery",
+    "change recoverable errors toward waiting_command continuation instead of terminal run error"
+  ],
+  "not_yet_complete": [
+    "final exhaustive error-delivery integration",
+    "test migration from old job-based assertions to corrected runtime contract",
+    "full new emulation matrix",
+    "final append-only documentation patch",
+    "final packaged ZIP and live acceptance"
+  ],
+  "current_test_runs": {
+    "first_after_patch": {
+      "tests": 299,
+      "pass": 277,
+      "fail": 22,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "after_reference_restore": {
+      "tests": 299,
+      "pass": 280,
+      "fail": 19,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "interpretation": "Expected red suite while legacy assertions still require job_id/job ceilings/terminal ERROR; failures are being classified, not accepted."
+  },
+  "wip_patch": {
+    "path": "extension/tests/PHASE_1_0.1.1_REPAIR_WIP_2026-08-12.patch",
+    "sha256": "594d13d01db858ff5a944abbaef5616a33163669b39a13b9ea87ba8ab3416ecb",
+    "bytes": 104230,
+    "lines": 1782
+  },
+  "changed_file_sha256": {
+    "manifest.json": "a91d6bff606a8bd2e440543392e61692b107dabd81978b7323d7c5f9afb61ddb",
+    "package.json": "2c2893f009c894858366ce74b89dfb54e68d22dfccc59541eca1bfb2fa08412e",
+    "content_script.js": "54832342f003ddefd6f029f02ba4d4b17068001dc7d6edcccd0990ae0fe94ac6",
+    "popup.html": "af3ae634104a17bc1341e1dfea38eb908ca76f350754c78821defd10948989a4",
+    "popup.js": "4e3e99a9da591bd13d4de34e6fc86213764f8990ce323014b7302138dec6f90b",
+    "service_worker.js": "03172e12228ac0a9ffc683a93b0e4c5c36f7482a9bdde979f2aac11e25cb881a",
+    "shared/job_model.js": "3581d69c4e17225935bddaa02e62b186d909650b0f2f8d533d89028ca9856010",
+    "shared/policy_model.js": "7dc6c809b7f81b01d3ffc95ecb558747d50f3512df7dc361955a2cab56532063",
+    "shared/product.js": "f5257f3dc5512f1f4ebfc9f6ca22a012817afca3f35cafb2f22cf057d3b94c34",
+    "shared/wordstat_protocol.js": "34cf8e36d513269deabd41c80da9126fc4a6c8fe1e66c3efeae50266caf621bc"
+  },
+  "safety_note": "No Search implementation started. No paid Yandex request executed by this development checkpoint."
+}
