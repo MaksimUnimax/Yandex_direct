@@ -95,7 +95,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | C-02 | Request-start plaque | Real operation shows reference-style `отправляю <method>` feedback | FAIL (pre-rule evidence for generic replacement UI) | Existing generic YMB notification is not acceptable |
 | C-03 | Success plaque | Successful response shows reference-style `ответ получен` | NOT RUN | |
 | C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (pre-rule evidence) | Generic green YMB plaque observed |
-| C-05 | Non-command Copy | Copying non-Wordstat content remains native copy only and never triggers Yandex | NOT RUN | |
+| C-05 | Non-command Copy | Copying non-Wordstat content remains native copy only and never triggers Yandex | PASS | 2026-08-12 governed real-Chrome: owner clicked local Copy once on a non-command text block `YMB_C05_NON_COMMAND_COPY_TEST`, waited about five seconds, and reported `ничего`; no `WORDSTAT_RESULT_V1`, `YMB_ERROR_V1` or other Wordstat/Yandex execution output appeared. |
 | C-06 | Generic ChatGPT Copy response | Must never be treated as API authorization/trigger | NOT RUN | |
 | C-07 | Double-click protection | Repeated/double local Copy cannot produce duplicate Yandex requests | PASS | 2026-08-12 governed real Chrome: owner performed four Copy clicks as two rapid double-click pairs separated by a pause. Debug evidence shows exactly two Yandex requests total: request `504d27be-fe8a-4a0e-bb0a-8f228c5c9d7b` for the first pair and request `1e7bbdfc-f67e-4079-868f-95ef58db574d` for the second pair. Therefore each rapid pair collapsed to one request; no second request was produced within either pair. The second pair separately exposed a delivery-readiness failure after the request completed. |
 | C-08 | DOM mismatch fail-safe | If expected ChatGPT command DOM cannot be safely identified, no Yandex request is issued | NOT RUN | |
@@ -117,7 +117,6 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | D-11 | Recovery after post-request delivery failure | After `DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT` on a completed request, a fresh subsequent Manual command must still execute and deliver normally without replaying the failed request | PASS | Governed real-Chrome recovery confirmed twice after failed-delivery request `1e7bbdfc-f67e-4079-868f-95ef58db574d`: first fresh `getRegionsTree` returned `status:OK`, `HTTP 200`, request_id `644570e1-816b-441f-906d-932c29fec7d9`; second fresh confirmation returned `status:OK`, `HTTP 200`, `elapsed_ms:475`, request_id `8f6ff02d-93ea-4b1d-b804-2d1879965e63`, `run_id:null`. No replay/result for the failed request appeared in the conversation. Existing free-call `charged:true` defect remains separately tracked by E-04/DEF-04. |
 
 ### E. Result/error envelope semantics
-
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | E-01 | Required identity fields | `bridge`, `version`, `service`, `operation`, `request_id` correct | PASS | D-10 result reports `yandex-marketing-bridge`, `0.1.1`, `wordstat`, `getTop`, unique request_id `5bebe196-2a48-47c2-b52d-c447a9406338` |
