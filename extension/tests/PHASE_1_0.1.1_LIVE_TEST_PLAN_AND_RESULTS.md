@@ -97,7 +97,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | C-04 | Error plaque | Error shows explicit reference-consistent error feedback, not a green generic success-style plaque | FAIL (pre-rule evidence) | Generic green YMB plaque observed |
 | C-05 | Non-command Copy | Copying non-Wordstat content remains native copy only and never triggers Yandex | NOT RUN | |
 | C-06 | Generic ChatGPT Copy response | Must never be treated as API authorization/trigger | NOT RUN | |
-| C-07 | Double-click protection | Repeated/double local Copy cannot produce duplicate Yandex requests | NOT RUN | |
+| C-07 | Double-click protection | Repeated/double local Copy cannot produce duplicate Yandex requests | PASS | 2026-08-12 governed real Chrome: owner performed four Copy clicks as two rapid double-click pairs separated by a pause. Debug evidence shows exactly two Yandex requests total: request `504d27be-fe8a-4a0e-bb0a-8f228c5c9d7b` for the first pair and request `1e7bbdfc-f67e-4079-868f-95ef58db574d` for the second pair. Therefore each rapid pair collapsed to one request; no second request was produced within either pair. The second pair separately exposed a delivery-readiness failure after the request completed. |
 | C-08 | DOM mismatch fail-safe | If expected ChatGPT command DOM cannot be safely identified, no Yandex request is issued | NOT RUN | |
 
 ### D. Manual command execution — live ChatGPT command gates
@@ -114,6 +114,7 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | D-08 | Validation failure before network | Invalid local parameter yields error and `request_executed:false` | PASS | 2026-08-12 live: `numPhrases:0` rejected locally with `YMB_ERROR_V1`, `stage:MANUAL_COMMAND_PARSE`, `code:INVALID_NUM_PHRASES`, `request_executed:false`, `automatic_retry:false`; no Yandex request executed; timestamp `2026-08-12T11:33:30.690Z` |
 | D-09 | Yandex HTTP 4xx path | One request, error returned to ChatGPT, no automatic retry | PASS | 2026-08-12 governed live negative test: intentionally server-invalid monthly `getDynamics` passed local parsing and produced exactly one Yandex response `HTTP 400`; result returned to ChatGPT with `status:ERROR`, `request_executed:true`, `automatic_retry:false`; Yandex error `InvalidArgument: The to field value should be the last day of the month`; request_id `b6237a6d-f933-4a2f-9929-eda537a8a409` |
 | D-10 | Result delivery exactly once | Exactly one user-turn/result per successful command | PASS | 2026-08-12 governed live: one `getTop` command produced one visible `WORDSTAT_RESULT_V1` user-turn with request_id `5bebe196-2a48-47c2-b52d-c447a9406338`; no duplicate user-turn/result with that request_id observed |
+| D-11 | Recovery after post-request delivery failure | After `DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT` on a completed request, a fresh subsequent Manual command must still execute and deliver normally without replaying the failed request | NOT RUN | Added after C-07 incident; use free `getRegionsTree` for governed recovery check |
 
 ### E. Result/error envelope semantics
 
@@ -209,6 +210,7 @@ This register is derived from observed FAILs and is not yet the patch specificat
 | DEF-03 Autorun cannot start | PRE-04, G-01 | Live popup never creates RUN. Controlled backend start reaches `waiting_command`, narrowing defect to popup/policy/integration path |
 | DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | Governed live `getRegionsTree` confirms `estimated_rub:0` with incorrect `charged:true`; request_id `5afde028-66f9-488f-bbdf-e30649432d24` |
 | DEF-05 Successful-result executed flag missing | D-10, D-02, E-03 | Successful sent `WORDSTAT_RESULT_V1` envelopes omit `request_executed`, while local skips and HTTP-error results include it; execution semantics are inconsistent |
+| DEF-06 Manual post-request delivery readiness failure | C-07 incident, D-11 | On the second double-click pair, Yandex request `1e7bbdfc-f67e-4079-868f-95ef58db574d` completed HTTP 200, then delivery failed with `DELIVERY_SEND_TARGET_NOT_READY_BEFORE_COMMIT`, `request_executed:true`, `automatic_retry:false`. Need deterministic recovery and no replay of the already executed request. |
 
 No patch is to be derived until the remaining planned tests are executed or explicitly marked blocked/waived by the owner.
 
@@ -218,7 +220,7 @@ No patch is to be derived until the remaining planned tests are executed or expl
 
 Append newly discovered test requirements here **before executing them**.
 
-- None yet after creation of this governed ledger.
+- 2026-08-12 — Add `D-11 Recovery after post-request delivery failure` after C-07 incident. The incidental failure is already evidence for DEF-06; D-11 is the first governed follow-up and is added before execution. Use free `getRegionsTree`; acceptance requires a fresh request to deliver normally without replaying request `1e7bbdfc-f67e-4079-868f-95ef58db574d`.
 
 ---
 
