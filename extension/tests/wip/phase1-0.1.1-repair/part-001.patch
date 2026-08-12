@@ -1,0 +1,272 @@
++      <p class="warning">Debug Mode не управляет отправкой ошибок: error delivery включён всегда. API key, Authorization, credentials, полный command/result и другие секреты в debug-логи не попадают.</p>
++    </section>
++
++    <section>
++      <h2>Перенос настроек</h2>
++      <p class="warning">Export settings содержит API key и другие будущие credentials. Файл является секретным: не публикуйте и не коммитьте его.</p>
++      <div class="buttons">
++        <button id="exportSettings" class="secondary">Экспортировать настройки</button>
++        <button id="importSettings" class="secondary">Импортировать настройки</button>
++        <input id="importSettingsFile" type="file" accept="application/json,.json" hidden>
++      </div>
++      <p class="meta">Import проверяет формат и SHA-256, merge-ит совместимые настройки и не заменяет активный RUN.</p>
++    </section>
++
++    <section>
+       <h2>Диагностика Autorun / Send</h2>
+       <p class="meta">Как в Business Bridge reference: журнал хранится локально, автоматически обновляется и не содержит API key, полного WORDSTAT_API_V1 или полного WORDSTAT_RESULT_V1.</p>
+       <div class="row"><span>Событий в журнале</span><strong id="diagnosticsCount">0</strong></div>
+@@ -185,11 +197,12 @@
+         <li><strong>Autorun:</strong> нажимаете «Авторежим» → расширение отправляет сохранённый стартовый prompt без report-prefix → ждёт новый устойчивый WORDSTAT_API_V1 writing/code block только в owner-вкладке этого conversation → делает один запрос → возвращает результат → снова ждёт следующий block.</li>
+         <li><strong>Пауза:</strong> если запрос уже выполняется, он не отменяется; результат доводится до доставки, затем run останавливается на паузе.</li>
+         <li><strong>Префикс:</strong> добавляется только после Yandex API к outgoing result text; к стартовому prompt не применяется. Чистый WORDSTAT_RESULT_V1 остаётся отдельной неизменённой сущностью.</li>
++        <li><strong>Ошибки:</strong> в любом режиме автоматически доставляются в этот ChatGPT-диалог как YMB_ERROR_V1. Recoverable error не завершает Autorun; при Debug Mode дополнительно прикладываются redacted логи.</li>
+         <li><strong>Завершить:</strong> новые API-вызовы прекращаются; уже начатый запрос не дублируется.</li>
+       </ol>
+     </details>
+ 
+-    <p class="security">API key хранится только в <code>chrome.storage.local</code>, не передаётся content script и не включается в результаты.</p>
++    <p class="security">API key хранится только в <code>chrome.storage.local</code>, не передаётся content script и не включается в результаты/ошибки/diagnostics. Export settings — единственный намеренно секретный переносимый файл.</p>
+   </main>
+   <script src="popup.js"></script>
+ </body>
+diff -ruN '--exclude=*.tap' ymb_phase1/popup.js ymb_phase1_011/popup.js
+--- ymb_phase1/popup.js	2026-08-12 09:11:06.985038353 +0000
++++ ymb_phase1_011/popup.js	2026-08-12 10:19:47.104122373 +0000
+@@ -102,24 +102,22 @@
+   lastState = state;
+   const pageAvailable = state.page_context_available !== false;
+   const bound = pageAvailable && state.binding?.bound === true;
+-  $("versionBadge").textContent = `v${state.version || "0.1.0"}`;
++  $("versionBadge").textContent = `v${state.version || "0.1.1"}`;
+   $("folderId").value = state.folder_id || "b1gqfm5c5vn6aingakbe";
+   $("autoSend").checked = state.auto_send !== false;
+   $("manualMode").checked = pageAvailable && state.manual_mode === true;
+   $("keyState").textContent = state.has_api_key
+     ? "Ключ сохранён локально. Для замены вставьте новый и нажмите «Сохранить»."
+-    : "Ключ не сохранён. Это не ломает JOB: Wordstat-команды в Autorun будут SKIPPED / NO_CREDENTIALS без запроса.";
++    : "Ключ не сохранён. Wordstat-команды будут SKIPPED / NO_CREDENTIALS без Yandex request; Autorun останется управляемым.";
+ 
+-  const jobContext = state.job_context || {};
+-  $("jobId").value = jobContext.job_id || "";
+-  $("activeService").value = jobContext.active_service || "wordstat";
++  const serviceContext = state.service_context || {};
++  $("activeService").value = serviceContext.active_service || "wordstat";
++  $("debugMode").checked = state.debug_mode === true;
+ 
+   const policy = state.wordstat_policy || {};
+   $("wordstatAutorunEnabled").checked = policy.autorun_enabled === true;
+   $("maxRequestsRun").value = String(policy.max_requests_per_run || 500);
+   $("maxCostRun").value = String(policy.max_cost_rub_per_run ?? 25);
+-  $("maxRequestsJob").value = String(policy.max_requests_per_job || 5000);
+-  $("maxCostJob").value = String(policy.max_cost_rub_per_job ?? 250);
+   const costs = policy.method_cost_rub || {};
+   $("costGetTop").value = String(costs.getTop ?? 0.02);
+   $("costGetDynamics").value = String(costs.getDynamics ?? 0.02);
+@@ -143,9 +141,6 @@
+   $("lastCommand").textContent = run?.last_method ? `${run.last_method}${run.last_phrase ? `: ${run.last_phrase}` : ""}` : "—";
+   $("runRequests").textContent = `${Number(run?.requests_attempted || 0)} / ${Number(run?.requests_executed || 0)} / ${Number(run?.requests_skipped || 0)}`;
+   $("runCost").textContent = `${Number(run?.estimated_cost_rub || 0).toFixed(3)} ₽`;
+-  const jobTotals = state.job_totals || {};
+-  $("jobRequests").textContent = `${Number(jobTotals.requests_attempted || 0)} / ${Number(jobTotals.requests_executed || 0)} / ${Number(jobTotals.requests_skipped || 0)}`;
+-  $("jobCost").textContent = `${Number(jobTotals.estimated_cost_rub || 0).toFixed(3)} ₽`;
+   const active = run && !["stopped", "error"].includes(run.status);
+   const busy = run && ["starting", "waiting_command", "requesting", "delivering"].includes(run.status);
+   const paused = run?.status === "paused";
+@@ -164,9 +159,7 @@
+   $("bindConversation").textContent = bound ? "Перепривязать диалог" : "Привязать диалог";
+   $("bindConversation").disabled = !pageAvailable;
+ 
+-  const validJob = /^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$/.test(String(jobContext.job_id || ""));
+-  $("startAuto").disabled = !pageAvailable || !bound || Boolean(active) || state.manual_mode === true || manualOperationActive || policy.autorun_enabled !== true || !validJob;
+-  $("jobId").disabled = !pageAvailable || Boolean(active);
++  $("startAuto").disabled = !pageAvailable || !bound || Boolean(active) || state.manual_mode === true || manualOperationActive || policy.autorun_enabled !== true;
+   $("activeService").disabled = !pageAvailable || Boolean(active);
+   $("pauseAuto").disabled = !pageAvailable || !bound || !busy;
+   $("resumeAuto").disabled = !pageAvailable || !bound || !paused || state.manual_mode === true || manualOperationActive;
+@@ -237,8 +230,6 @@
+     allowed_methods: ["getTop", "getDynamics", "getRegionsDistribution", "getRegionsTree"],
+     max_requests_per_run: Number($("maxRequestsRun").value || 0),
+     max_cost_rub_per_run: Number($("maxCostRun").value || 0),
+-    max_requests_per_job: Number($("maxRequestsJob").value || 0),
+-    max_cost_rub_per_job: Number($("maxCostJob").value || 0),
+     method_cost_rub: {
+       getTop: Number($("costGetTop").value || 0),
+       getDynamics: Number($("costGetDynamics").value || 0),
+@@ -252,6 +243,7 @@
+     api_key: includeKey ? $("apiKey").value : "",
+     folder_id: $("folderId").value,
+     auto_send: $("autoSend").checked,
++    debug_mode: $("debugMode").checked,
+     wordstat_policy: wordstatPolicy
+   };
+   const response = context.available
+@@ -261,7 +253,6 @@
+       report_prefix_text: $("reportPrefixText").value,
+       report_prefix_interval: Number($("reportPrefixInterval").value || 1),
+       auto_start_prompt_text: $("autoStartPromptText").value,
+-      job_id: $("jobId").value,
+       active_service: $("activeService").value,
+       conversation_key: context.conversation_key
+     })
+@@ -329,7 +320,8 @@
+   $("test").textContent = "Проверяю…";
+   try {
+     await saveAll();
+-    const response = await send("WS_TEST_CONNECTION");
++    const context = await resolvePopupContext({ required: false });
++    const response = await send("WS_TEST_CONNECTION", context.available ? { conversation_key: context.conversation_key, tab_id: context.tab_id } : {});
+     if (!response.ok) {
+       await refresh();
+       return status(`${response.code || "ERROR"}: ${response.error || response.message || "Проверка не пройдена."}`, "error");
+@@ -354,7 +346,7 @@
+   try {
+     const saved = await saveAll();
+     if (!saved.page_context_available) throw new Error("Autorun нельзя запустить без доступного контекста ChatGPT.");
+-    const approved = confirm(`Запустить Wordstat Autorun для Job ${$("jobId").value}?\n\nРасширение будет исполнять только WORDSTAT_API_V1 этого RUN. Hard limits: ${$("maxRequestsRun").value} запросов / ${$("maxCostRun").value} ₽ на RUN. Если credential отсутствует, команда будет SKIPPED / NO_CREDENTIALS без Yandex request. Используйте «Пауза» или «Завершить» для остановки.`);
++    const approved = confirm(`Запустить Wordstat Autorun?\n\nРасширение будет исполнять только WORDSTAT_API_V1 этого RUN. Hard limits: ${$("maxRequestsRun").value} запросов / ${$("maxCostRun").value} ₽ на RUN. Любая ошибка автоматически придёт в этот ChatGPT-диалог; Debug Mode дополнительно приложит redacted логи. Если credential отсутствует, команда будет SKIPPED / NO_CREDENTIALS без Yandex request. Используйте «Пауза» или «Завершить» для остановки.`);
+     if (!approved) return status("Autorun не запущен.");
+     const context = await resolvePopupContext();
+     const response = await send("WS_AUTO_START", { conversation_key: context.conversation_key, tab_id: context.tab_id });
+@@ -414,6 +406,49 @@
+   $("reportPrefixHint").textContent = n === 1 ? "N = 1 — перед каждым подтверждённо доставленным результатом. Чистый WORDSTAT_RESULT_V1 внутри не изменяется." : `Префикс будет применяться примерно раз в ${n} подтверждённых результатов. Счётчик увеличивается только после подтверждённой доставки.`;
+ });
+ 
++function downloadSettingsBackup(backup) {
++  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
++  const url = URL.createObjectURL(blob);
++  const link = document.createElement("a");
++  link.href = url;
++  link.download = `yandex-marketing-bridge-settings-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
++  link.click();
++  setTimeout(() => URL.revokeObjectURL(url), 1000);
++}
++
++async function importSettingsFile(file) {
++  if (!file) throw new Error("Файл backup не выбран.");
++  if (file.size > 5 * 1024 * 1024) throw new Error("Backup слишком большой.");
++  const text = await file.text();
++  let backup;
++  try { backup = JSON.parse(text); }
++  catch (_) { throw new Error("Backup не является валидным JSON."); }
++  const response = await send("WS_IMPORT_SETTINGS", { backup });
++  if (!response.ok) throw Object.assign(new Error(response.error || "Import settings не выполнен."), { code: response.code });
++  return response;
++}
++
++$("exportSettings").addEventListener("click", () => busy($("exportSettings"), async () => {
++  if (!confirm("Экспортировать секретный backup настроек? JSON будет содержать сохранённый Yandex API key.")) return;
++  const response = await send("WS_EXPORT_SETTINGS");
++  if (!response.ok || !response.backup) throw new Error(response.error || "Export settings не выполнен.");
++  downloadSettingsBackup(response.backup);
++  status("Секретный backup настроек экспортирован. Храните его как credential-файл.", "ok");
++}));
++
++$("importSettings").addEventListener("click", () => $("importSettingsFile").click());
++$("importSettingsFile").addEventListener("change", () => busy($("importSettings"), async () => {
++  const file = $("importSettingsFile").files?.[0] || null;
++  try {
++    if (!confirm("Импортировать секретный backup? Совместимые настройки будут merge-нуты; активный RUN не заменяется.")) return;
++    await importSettingsFile(file);
++    await refresh();
++    status("Backup проверен по SHA-256 и импортирован. Активный RUN сохранён.", "ok");
++  } finally {
++    $("importSettingsFile").value = "";
++  }
++}));
++
+ function diagnosticsForFilter() {
+   const filter = $("diagnosticsFilter")?.value || "current";
+   const currentRunId = lastState?.auto_run?.run_id || null;
+@@ -449,7 +484,7 @@
+   const payload = {
+     format: "wordstat-bridge-diagnostics",
+     exported_at: new Date().toISOString(),
+-    extension_version: lastState?.version || "0.1.0",
++    extension_version: lastState?.version || "0.1.1",
+     current_run_id: lastState?.auto_run?.run_id || null,
+     events: lastDiagnostics
+   };
+diff -ruN '--exclude=*.tap' ymb_phase1/service_worker.js ymb_phase1_011/service_worker.js
+--- ymb_phase1/service_worker.js	2026-08-12 09:16:12.545160382 +0000
++++ ymb_phase1_011/service_worker.js	2026-08-12 10:21:55.255908147 +0000
+@@ -28,10 +28,15 @@
+   DIAGNOSTICS: "wsmb_diagnostics",
+   DIAGNOSTIC_SEQ: "wsmb_diagnostic_sequence",
+   LAST_STATUS: "wsmb_last_status",
+-  JOB_CONTEXTS: "ymb_job_contexts",
++  SERVICE_CONTEXTS: "ymb_service_contexts",
+   WORDSTAT_POLICY: "ymb_wordstat_policy",
+-  JOB_TOTALS: "ymb_job_totals"
++  DEBUG_MODE: "ymb_debug_mode",
++  SETTINGS_SCHEMA: "ymb_settings_schema_version",
++  MIGRATION_BACKUP: "ymb_last_settings_migration_backup",
++  ERROR_DELIVERIES: "ymb_error_deliveries"
+ });
++const SETTINGS_SCHEMA_VERSION = 2;
++const SETTINGS_BACKUP_VERSION = 1;
+ const FETCH_TIMEOUT_MS = 30000;
+ const MAX_RESPONSE_BYTES = 1_500_000;
+ const MAX_DIAGNOSTICS = 1500;
+@@ -66,13 +71,15 @@
+ let migrationWriteLock = Promise.resolve();
+ let diagnosticsWriteLock = Promise.resolve();
+ let copyProfilesWriteLock = Promise.resolve();
+-let jobContextsWriteLock = Promise.resolve();
+-let jobTotalsWriteLock = Promise.resolve();
++let serviceContextsWriteLock = Promise.resolve();
+ let policyWriteLock = Promise.resolve();
++let errorDeliveriesWriteLock = Promise.resolve();
++let settingsImportWriteLock = Promise.resolve();
+ 
+ // Reference-parity single-flight: one worker-owned browser delivery attempt per run.
+ // This is deliberately the same primitive used by Business Bridge 2.0.0.22.
+ const deliveryAttemptRequests = new Map();
++const errorDeliveryAttemptRequests = new Map();
+ function singleFlight(map, key, fn) {
+   if (map.has(key)) return map.get(key);
+   const request = Promise.resolve().then(fn).finally(() => {
+@@ -219,6 +226,300 @@
+   }
+ }
+ 
++
++function canonicalBackupValue(value) {
++  if (Array.isArray(value)) return value.map(canonicalBackupValue);
++  if (value && typeof value === "object") {
++    return Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonicalBackupValue(value[key])]));
++  }
++  return value;
++}
++
++function exportedSettingsKeys() {
++  return [
++    KEYS.API_KEY, KEYS.FOLDER_ID, KEYS.AUTO_SEND, KEYS.CONVERSATION_BINDINGS,
++    KEYS.MANUAL_MODES, KEYS.REPORT_PREFIXES, KEYS.AUTO_START_PROMPTS,
++    KEYS.SEND_BUTTON_PROFILE, KEYS.COPY_BUTTON_PROFILES, KEYS.SERVICE_CONTEXTS,
++    KEYS.WORDSTAT_POLICY, KEYS.DEBUG_MODE
++  ];
++}
++
++function mergeCopyProfilesWithoutLoss(currentRaw, incomingRaw) {
++  const current = copyProfileCollection(currentRaw);
++  const incoming = copyProfileCollection(incomingRaw);
++  const seen = new Set();
++  const profiles = [];
++  for (const profile of [...current.profiles, ...incoming.profiles]) {
++    const key = BB2ManualControls.copyButtonProfileKey(profile);
++    if (!key || seen.has(key)) continue;
++    seen.add(key);
++    profiles.push(profile);
++  }
++  if (profiles.length > BB2ManualControls.MAX_CUSTOM_COPY_BUTTON_PROFILES) {
++    throw Object.assign(new Error(`Backup содержит больше ${BB2ManualControls.MAX_CUSTOM_COPY_BUTTON_PROFILES} уникальных пользовательских Copy-профилей.`), { code: "COPY_PROFILE_LIMIT" });
++  }
++  return copyProfileCollection({ kind: "bb2_manual_copy_profiles_v2", profiles });
++}
++
++async function exportSettingsBackup() {
++  const data = await storageGet(exportedSettingsKeys());
++  const settings = {
++    credentials: {
++      wordstat: {
