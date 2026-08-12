@@ -79,11 +79,11 @@ All ON/OFF controls in this class must commit immediately when switched. A separ
 | ID | Test | Acceptance condition | Status | Actual / evidence |
 |---|---|---|---|---|
 | B-01 | Debug toggle immediate persistence | Toggle → close popup → reopen; state preserved without Save | FAIL (pre-rule evidence) | Debug reverted OFF without extra Save |
-| B-02 | Manual Wordstat toggle immediate persistence | Same immediate-persistence rule | NOT RUN | |
-| B-03 | Auto Send toggle immediate persistence | Same immediate-persistence rule | NOT RUN | |
-| B-04 | Any other boolean toggle in popup | Every toggle of same UI class persists immediately | NOT RUN | |
-| B-05 | Text/credential fields | Explicit Save is required only where intentionally designed for text/credential commit | NOT RUN | |
-| B-06 | Popup reopen state fidelity | Reopening popup reflects runtime/storage truth, not stale defaults | NOT RUN | |
+| B-02 | Manual Wordstat toggle immediate persistence | Same immediate-persistence rule | PASS | 2026-08-12 controlled popup emulation: toggling Manual emitted `WS_SET_MANUAL_MODE`; shared backend changed `manual_mode:false→true`; fresh popup instance reopened with Manual ON without Save |
+| B-03 | Auto Send toggle immediate persistence | Same immediate-persistence rule | FAIL | 2026-08-12 controlled popup emulation: toggling Auto Send emitted no settings message; backend remained `auto_send:false`; fresh popup reopened OFF despite visible toggle having been changed ON |
+| B-04 | Any other boolean toggle in popup | Every toggle of same UI class persists immediately | FAIL | Controlled popup emulation: `wordstatAutorunEnabled` emitted no persistence message and reopened OFF; `reportPrefixEnabled` changed locally but backend was unchanged and fresh popup reopened to stored value. Same defect class as Debug/Auto Send |
+| B-05 | Text/credential fields | Explicit Save is required only where intentionally designed for text/credential commit | PASS | Controlled popup emulation using Folder ID: unsaved edit disappeared on reopen; edit followed by Save persisted and appeared in a fresh popup instance |
+| B-06 | Popup reopen state fidelity | Reopening popup reflects runtime/storage truth, not stale defaults | PASS | Controlled popup emulation: fresh popup rendered persisted backend truth; Manual ON survived because backend changed, while unsaved boolean edits reverted to stored values |
 
 ### C. Reference UI plaques/toasts — emulator plus live confirmation where applicable
 
@@ -203,7 +203,7 @@ This register is derived from observed FAILs and is not yet the patch specificat
 | Defect | Source tests | Current observation |
 |---|---|---|
 | DEF-01 Reference plaque/toast parity broken | PRE-02, C-02, C-04 | Generic green `YMB:` notification replaces required reference-style feedback |
-| DEF-02 Toggle persistence architecture wrong | PRE-03, B-01 | Debug toggle requires extra Save / does not persist immediately |
+| DEF-02 Toggle persistence architecture wrong | PRE-03, B-01, B-03, B-04 | Debug, Auto Send, Wordstat Autorun policy and report-prefix boolean controls do not persist immediately; Manual is the working counterexample because it has an immediate runtime action |
 | DEF-03 Autorun cannot start | PRE-04, G-01 | No RUN created; iteration/counters remain zero |
 | DEF-04 Free-call charge semantic wrong | PRE-07, E-04 | `getRegionsTree` returns `estimated_rub:0` with `charged:true` |
 
