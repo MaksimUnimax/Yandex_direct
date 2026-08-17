@@ -2,117 +2,57 @@
 
 Date: 2026-08-17
 Status: PATCH IN CONTROLLED VERIFICATION — LIVE K-02 STILL PENDING.
-Authority: owner explicitly interrupted the K campaign and ordered an immediate patch after the governed K-02/C-01 real-current-Chrome FAIL recorded in `PHASE_1_0.1.1_LIVE_TEST_PLAN_AND_RESULTS.md` section 8.4.
+Authority: owner explicitly interrupted the K campaign and ordered an immediate patch after the governed K-02/C-01 real-current-Chrome FAIL in the authoritative ledger section 8.4.
 
-## Root cause already established before patch
+## Root cause
 
-The consolidated Yandex candidate inherited the Wordstat 1.1.5 DOM adapter. It accepts the special writing-block families and legacy `<pre>` only when `#code-block-viewer` exists. A current ordinary assistant `<pre><code>...</code></pre>` therefore has no binding and is omitted from initial/manual MutationObserver discovery. Ozon Bridge v0.1.11 independently records and corrects the same live failure class: Manual READY while the visible local Copy remains native/gray because generic assistant `<pre><code>` is not a supported root.
+The consolidated Yandex candidate inherited the Wordstat 1.1.5 DOM adapter: special writing-block families plus legacy `<pre>` only when `#code-block-viewer` exists. Current ordinary assistant `<pre><code>...</code></pre>` therefore has no binding and is omitted from initial/manual MutationObserver discovery. Ozon Bridge v0.1.11 independently records/corrects the same live failure class.
 
-## Authorized implementation scope
+## Authorized production scope
 
-Production changes are limited to the dependency closure required by this K-02 FAIL:
+1. `content_script.js`: support historical assistant sections plus `[data-message-author-role="assistant"]`; add fail-closed generic assistant `<pre><code>` binding; preserve legacy precedence; include generic roots in initial/MutationObserver discovery; use existing locality algorithm for sibling Copy; preserve native Copy, generic response Copy exclusion, conversation scoping and duplicate fences.
+2. `shared/manual_controls.js`: register `generic_pre_code_v1` so copy-profile fallback/picker supports the new binding family; keep locality and normalization rules unchanged.
 
-1. `content_script.js`
-   - resolve assistant containers from both the historical `section[data-turn="assistant"][data-turn-id]` family and current `[data-message-author-role="assistant"]` family;
-   - add a fail-closed generic assistant `<pre><code>` binding only when one unambiguous `code` body exists;
-   - preserve legacy `#code-block-viewer` precedence;
-   - include generic pre/code roots in initial reverse scan and MutationObserver candidate discovery;
-   - make late-added sibling Copy controls re-resolve through the existing locality algorithm;
-   - preserve native Copy, generic assistant Copy exclusion, Manual conversation scoping, duplicate fences, and zero provider execution before an actual local Copy click.
-2. `shared/manual_controls.js`
-   - register the generic adapter id so custom Copy profile normalization/picker fallback remains compatible with the new binding family;
-   - do not change locality ranking or any run/policy/provider behavior.
+No worker, popup, provider, pricing, request/result, delivery, credential, permission or Autorun execution semantics are authorized.
 
-No worker, popup, provider, pricing, request, result, delivery, credential, permission, or Autorun execution semantics are authorized by this patch.
+## Mandatory regression matrix defined before execution
 
-## Mandatory pre/post regression matrix
-
-### DOM families
-
-- historical current writing-block family remains decorated and executes one Manual admission;
-- legacy `<pre>#code-block-viewer</pre>` remains decorated and executes one Manual admission;
-- current generic assistant `<pre><code>WORDSTAT_API_V1...</code></pre>` becomes decorated and executes one Manual admission;
-- generic assistant container may be `[data-message-author-role="assistant"]` without requiring `section[data-turn]`;
-- generic pre with zero `code` children is rejected;
-- generic pre with multiple `code` descendants is rejected as ambiguous;
-- non-assistant `<pre><code>` is rejected.
-
-### Copy locality / safety
-
-- local Copy inside the block works;
-- local Copy in a sibling toolbar resolves to the correct single block;
-- two equally local Copy candidates remain fail-closed/no decoration;
-- generic assistant-level `copy-turn-action-button` remains excluded;
-- non-command code block may keep native Copy but must not submit a Yandex command;
-- native Copy event is never prevented;
-- rapid duplicate clicks preserve the existing in-flight/dedup contour.
-
-### Discovery lifecycle
-
-- initial reverse scan finds generic pre/code roots;
-- MutationObserver discovers a newly added generic block;
-- MutationObserver discovers a Copy button added after the generic block and re-evaluates locality;
-- Manual OFF removes decoration and click handler;
-- Manual ON re-scan decorates existing supported blocks;
-- conversation mismatch/resync behavior remains fail-closed.
-
-### Adapter profile dependency
-
-- `generic_pre_code_v1` is accepted by copy-profile normalization;
-- profile signature matches only the same adapter family;
-- existing legacy/current profile IDs remain accepted unchanged;
-- unknown adapter IDs remain rejected;
-- existing profile count/dedup limits remain unchanged.
-
-### Whole-system regression / packaging
-
-- execute every changed/new production function branch reachable in the controlled DOM harness;
-- map every added production line to runtime execution or exact-source assertion;
-- full existing source suite must remain green;
-- repeat full suite against a fresh extraction of the final ZIP;
-- all production JS/MJS syntax checks pass;
-- manifest/package JSON parse pass;
-- production file count remains 42;
-- source ↔ fresh ZIP is byte-identical for all 42 files;
-- only the two authorized production files may differ from the consolidated base candidate;
-- no live Yandex request is permitted during patch/emulation.
+- historical current writing-block and legacy `#code-block-viewer` remain working;
+- generic assistant `<pre><code>` works with both assistant container families;
+- zero/multiple-code and non-assistant roots fail closed;
+- inside-block and sibling-toolbar Copy locality work; ambiguous Copy fails closed;
+- generic assistant response Copy excluded; non-command remains native-only; native Copy never prevented; duplicate click fence retained;
+- initial reverse scan, dynamic pre/code, late Copy and wrapper MutationObserver discovery work;
+- Manual OFF restores and ON rescans; conversation mismatch remains fail closed;
+- `generic_pre_code_v1` profile accepted; old IDs preserved; unknown IDs rejected; profile limits unchanged;
+- every changed production line must execute or be exact-source asserted;
+- full source and fresh-ZIP suites; syntax/JSON; 42-file package; byte identity; only two authorized production files differ; zero live Yandex requests.
 
 ## Execution results
 
-### R1 — focused touched-dependency / VM DOM emulation — PASS
+### R1 — focused touched-dependency VM emulation — PASS
 
 ```text
 node --test tests/content_runtime_exhaustive.test.mjs tests/shared_every_function.test.mjs
-32/32 PASS
-fail: 0
-skipped: 0
-cancelled: 0
+32/32 PASS; fail 0; skipped 0; cancelled 0
 ```
 
-The focused run executes the actual patched production source used by those harnesses and covers the direct dependency closure introduced by this patch: generic assistant `<pre><code>` binding, historical writing-block binding, legacy `#code-block-viewer` precedence, sibling-toolbar locality, ambiguity fail-closed behavior, generic assistant-level Copy exclusion, native Copy preservation, non-command behavior, rapid duplicate admission fence, initial/manual root discovery, MutationObserver discovery including a late-added Copy button, Manual ON decoration/OFF restoration, and the `generic_pre_code_v1` adapter-profile dependency in `shared/manual_controls.js` while retaining existing adapter IDs and limits.
-
-No live Yandex request was issued. `WS_EXECUTE_COMMAND` in this focused run is a mocked content→worker boundary inside the controlled VM harness; provider/network execution is absent.
+Covers generic/current/legacy binding, locality, ambiguity, response-Copy exclusion, native/non-command/double-click behavior, initial + MutationObserver discovery, Manual ON/OFF and adapter-profile dependency. `WS_EXECUTE_COMMAND` is mocked; Yandex network 0.
 
 ### R2 — real local Chromium baseline-versus-patch DOM comparison — PASS
 
-The exact consolidated candidate production scripts and the patched production scripts were executed in Chromium against the same controlled DOM families. Network/provider execution was mocked out completely.
-
-| Production tree | DOM family | Copy decoration | Two immediate native clicks | `WS_EXECUTE_COMMAND` admissions | Native click prevented? |
+| Tree | DOM | Decoration | 2 native clicks | Bridge admissions | prevented? |
 |---|---|---|---:|---:|---|
-| consolidated baseline | generic assistant `<pre><code>` | ordinary / no yellow style | 2 | 0 | no |
-| patched | generic assistant `<pre><code>` | yellow Wordstat style | 2 | exactly 1 | no |
-| consolidated baseline | legacy `#code-block-viewer` | yellow | 2 | exactly 1 | no |
-| patched | legacy `#code-block-viewer` | yellow | 2 | exactly 1 | no |
-| consolidated baseline | historical writing-block | yellow | 2 | exactly 1 | no |
-| patched | historical writing-block | yellow | 2 | exactly 1 | no |
+| consolidated | generic `<pre><code>` | no | 2 | 0 | no |
+| patched | generic `<pre><code>` | yellow | 2 | 1 | no |
+| consolidated | legacy | yellow | 2 | 1 | no |
+| patched | legacy | yellow | 2 | 1 | no |
+| consolidated | historical writing-block | yellow | 2 | 1 | no |
+| patched | historical writing-block | yellow | 2 | 1 | no |
 
-This directly reproduces the field defect on unchanged consolidated bytes and proves the patch changes the missing generic DOM contour without regressing the two previously supported contours. Harness navigation/secure-context preliminary failures are classified as infrastructure TEST ERROR; the accepted run had no page/runtime error and supplied only confirmed conversation identity plus `crypto.randomUUID`, capabilities available on production `https://chatgpt.com`.
-
-No live Yandex request was issued.
+Accepted Chromium run had page/runtime errors 0. Sandbox navigation and insecure-context preliminary harness attempts were infrastructure TEST ERROR before accepted production execution. Yandex network 0.
 
 ### R3 — Chromium CDP precise changed-line coverage — PASS
-
-The complete patched production files were injected without source extraction/wrapping and measured with Chromium `Profiler.startPreciseCoverage`. The controlled page exercised the initial generic/legacy/writing families plus non-assistant and ambiguous code roots, direct dynamic `<pre>`, dynamic `<code>`, wrapper insertion containing descendant `pre`/button, late sibling-button insertion, Manual OFF/ON restoration/rescan, native click behavior and new copy-profile normalization.
 
 ```text
 content_script.js changed/new lines:       31/31 EXECUTED
@@ -123,14 +63,36 @@ browser/page errors:                         0
 live Yandex requests:                        0
 ```
 
-This is execution evidence, not merely a textual assertion: every new or replacement production line identified by an exact consolidated-base → patched-tree diff had a positive precise-coverage count. Representative counts include `assistantContainerFromNode` 58 executions, `genericCodeBodyFromPre` 39 executions, generic/legacy binding lines up to 48 executions, MutationObserver candidate additions 5 executions, reverse-scan generic pre/code branches 53/42 executions, and all three `manual_controls.js` adapter/count changes executed at module initialization.
+Full production files were measured without source extraction/wrapping while exercising initial generic/legacy/writing roots, non-assistant/ambiguous roots, dynamic pre/code, wrapper insertion, late button, Manual OFF/ON rescan and new profile normalization. An earlier wrapper-offset Node coverage dump was rejected as attribution evidence; R3 uses direct full-source CDP offsets.
 
-The earlier Node coverage dump that did not attribute some content-script lines was rejected as evidence because one VM harness used shifted wrapper offsets. R3 deliberately replaces that ambiguous attribution with full-source Chromium CDP offsets.
+### R4 — complete patched source suite — FAIL (provenance invariant only)
 
-No live Yandex request was issued.
+```text
+npm test
+319 tests
+317 PASS
+2 FAIL
+0 skipped
+0 cancelled
+```
 
-Next governed verification step: complete source regression suite on the patched tree, then syntax/JSON and production-surface diff checks.
+Both failures are the same intentionally affected dependency assertion:
+
+- test 162 `four proven shared modules remain byte-identical to the audited reference hashes`;
+- test 242 `manual-controls module is byte-identical to supplied Business Bridge 2 v2.0.0.22 reference`.
+
+Expected old `shared/manual_controls.js` SHA-256:
+`81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e`
+
+Actual intentionally patched SHA-256:
+`241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`
+
+No runtime/behavior test failed. This is a real regression-suite FAIL because the old provenance contract says four common modules must remain byte-identical, while the owner-authorized K-02 dependency closure deliberately changes `manual_controls.js`. It must not be silenced by merely replacing the expected hash. Required test correction: retain exact reference byte-identity for the other three common modules and replace the obsolete `manual_controls.js` byte-identity assertion with an audited-delta assertion proving the only semantic source delta is addition of `GENERIC_PRE_CODE: "generic_pre_code_v1"` and builtin adapter count `2 → 3`; locality/normalization code must remain byte-equivalent after normalizing those two authorized lines.
+
+This R4 FAIL is recorded before altering the provenance tests. No additional production-code scope is created. Live Yandex requests remain 0.
+
+Next: update only the affected provenance test expectations/audit logic, rerun those tests, record result, then rerun complete source suite.
 
 ## Acceptance boundary
 
-Passing this amendment closes only the controlled/static implementation side of the current K-02 DOM defect. K-02 remains live-pending until the final patched ZIP is installed in real current Chrome and the visible supported Copy is confirmed decorated there. K-01/K-03/K-04/K-05/K-06/K-08 retain their governed status.
+Controlled/static PASS does not make K-02 live PASS. Final patched ZIP must still be installed in real current Chrome and visibly decorate the supported Copy. Other K gates retain their governed state.
