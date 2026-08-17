@@ -17,40 +17,22 @@ No worker, popup, provider, pricing, request/result, delivery, credential, permi
 
 ## Mandatory regression matrix defined before execution
 
-- historical current writing-block and legacy `#code-block-viewer` remain working;
-- generic assistant `<pre><code>` works with both assistant container families;
-- zero/multiple-code and non-assistant roots fail closed;
-- inside-block and sibling-toolbar Copy locality work; ambiguous Copy fails closed;
-- generic assistant response Copy excluded; non-command remains native-only; native Copy never prevented; duplicate click fence retained;
-- initial reverse scan, dynamic pre/code, late Copy and wrapper MutationObserver discovery work;
-- Manual OFF restores and ON rescans; conversation mismatch remains fail closed;
-- `generic_pre_code_v1` profile accepted; old IDs preserved; unknown IDs rejected; profile limits unchanged;
-- every changed production line must execute or be exact-source asserted;
-- full source and fresh-ZIP suites; syntax/JSON; 42-file package; byte identity; only two authorized production files differ; zero live Yandex requests.
+Historical current/legacy/generic DOM families; assistant-container variants; zero/multiple-code/non-assistant fail-closed cases; local/sibling/ambiguous Copy locality; response-Copy exclusion; native/non-command/double-click safety; initial and MutationObserver discovery; Manual OFF/ON; profile adapter compatibility; changed-line execution; full source/fresh-ZIP suites; syntax/JSON; 42-file identity; only two authorized production-file deltas; zero live Yandex requests.
 
 ## Execution results
 
 ### R1 — focused touched-dependency VM emulation — PASS
 
-```text
-node --test tests/content_runtime_exhaustive.test.mjs tests/shared_every_function.test.mjs
-32/32 PASS; fail 0; skipped 0; cancelled 0
-```
-
-Covers generic/current/legacy binding, locality, ambiguity, response-Copy exclusion, native/non-command/double-click behavior, initial + MutationObserver discovery, Manual ON/OFF and adapter-profile dependency. `WS_EXECUTE_COMMAND` is mocked; Yandex network 0.
+`32/32 PASS`; content and manual-controls dependency contours; provider/Yandex network 0.
 
 ### R2 — real local Chromium baseline-versus-patch DOM comparison — PASS
 
-| Tree | DOM | Decoration | 2 native clicks | Bridge admissions | prevented? |
-|---|---|---|---:|---:|---|
-| consolidated | generic `<pre><code>` | no | 2 | 0 | no |
-| patched | generic `<pre><code>` | yellow | 2 | 1 | no |
-| consolidated | legacy | yellow | 2 | 1 | no |
-| patched | legacy | yellow | 2 | 1 | no |
-| consolidated | historical writing-block | yellow | 2 | 1 | no |
-| patched | historical writing-block | yellow | 2 | 1 | no |
+- consolidated + generic `<pre><code>`: no yellow decoration, 0 bridge admissions;
+- patch + identical generic DOM: yellow decoration, two native clicks → exactly 1 admission, neither click prevented;
+- legacy and historical writing-block: yellow + exactly 1 admission on both consolidated and patch;
+- accepted browser run errors 0; Yandex network 0.
 
-Accepted Chromium run had page/runtime errors 0. Sandbox navigation and insecure-context preliminary harness attempts were infrastructure TEST ERROR before accepted production execution. Yandex network 0.
+Preliminary sandbox-navigation/insecure-context harness attempts were infrastructure TEST ERROR before the accepted run.
 
 ### R3 — Chromium CDP precise changed-line coverage — PASS
 
@@ -63,35 +45,40 @@ browser/page errors:                         0
 live Yandex requests:                        0
 ```
 
-Full production files were measured without source extraction/wrapping while exercising initial generic/legacy/writing roots, non-assistant/ambiguous roots, dynamic pre/code, wrapper insertion, late button, Manual OFF/ON rescan and new profile normalization. An earlier wrapper-offset Node coverage dump was rejected as attribution evidence; R3 uses direct full-source CDP offsets.
+Full production files were measured directly, without source extraction/wrapping. An ambiguous wrapper-offset Node coverage dump was rejected and not used as evidence.
 
-### R4 — complete patched source suite — FAIL (provenance invariant only)
+### R4 — first complete patched source suite — FAIL (provenance invariant only)
 
 ```text
 npm test
-319 tests
-317 PASS
-2 FAIL
-0 skipped
-0 cancelled
+319 tests; 317 PASS; 2 FAIL; 0 skipped/cancelled
 ```
 
-Both failures are the same intentionally affected dependency assertion:
+Only failures: old assertions that `shared/manual_controls.js` must remain byte-identical to Business Bridge reference SHA `81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e`. Actual intentionally patched SHA is `241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`. No runtime/behavior test failed. Result was recorded before test correction.
 
-- test 162 `four proven shared modules remain byte-identical to the audited reference hashes`;
-- test 242 `manual-controls module is byte-identical to supplied Business Bridge 2 v2.0.0.22 reference`.
+Required correction was deliberately not a new expected-hash substitution: keep exact byte identity for the other three proven shared modules and prove `manual_controls.js` differs from its old reference by only the authorized K-02 adapter delta.
 
-Expected old `shared/manual_controls.js` SHA-256:
-`81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e`
+### R5 — affected provenance dependency correction/rerun — PASS
 
-Actual intentionally patched SHA-256:
-`241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`
+```text
+node --test tests/phase1_unified_core.test.mjs tests/reference_provenance.test.mjs
+35/35 PASS
+fail: 0
+skipped: 0
+cancelled: 0
+```
 
-No runtime/behavior test failed. This is a real regression-suite FAIL because the old provenance contract says four common modules must remain byte-identical, while the owner-authorized K-02 dependency closure deliberately changes `manual_controls.js`. It must not be silenced by merely replacing the expected hash. Required test correction: retain exact reference byte-identity for the other three common modules and replace the obsolete `manual_controls.js` byte-identity assertion with an audited-delta assertion proving the only semantic source delta is addition of `GENERIC_PRE_CODE: "generic_pre_code_v1"` and builtin adapter count `2 → 3`; locality/normalization code must remain byte-equivalent after normalizing those two authorized lines.
+The corrected provenance tests now enforce all of the following:
 
-This R4 FAIL is recorded before altering the provenance tests. No additional production-code scope is created. Live Yandex requests remain 0.
+- `composer_send.js`, `conversation_identity.js`, and `proven_writing_block_capture.js` retain their exact original reference hashes;
+- current `manual_controls.js` must have exact patched SHA-256 `241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`;
+- `GENERIC_PRE_CODE: "generic_pre_code_v1"` occurs exactly once;
+- builtin adapter count `3` occurs exactly once;
+- after mechanically removing only the new adapter line and normalizing count `3 → 2`, the complete module must hash exactly to the old reference SHA-256 `81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e`.
 
-Next: update only the affected provenance test expectations/audit logic, rerun those tests, record result, then rerun complete source suite.
+Therefore any third/unrelated change in `manual_controls.js` fails the provenance audit instead of being hidden by an updated expected hash. No production code was changed by R5. Yandex network remains 0.
+
+Next: rerun the complete patched source suite. If green, record it before syntax/JSON/surface checks.
 
 ## Acceptance boundary
 
