@@ -57,7 +57,7 @@ These observations occurred before the governed test method above was adopted.
 | PRE-07 | Free-call charge semantics | PRE-RULE EVIDENCE / FAIL | `estimated_rub:0` with `charged:true` | A non-billable method must not report itself as charged |
 | PRE-08 | Real `getTop` — phrase `печать велеса`, Russia, all devices, 100 | PRE-RULE EVIDENCE / PASS | `HTTP 200`, `status:OK`, results + associations returned | Core `getTop` request path works |
 | PRE-09 | First monthly `getDynamics` attempt | PRE-RULE EVIDENCE / TEST ERROR | Yandex returned HTTP 400 because test used `toDate` on the first, not last, day of month | Test input error, not extension defect; no automatic retry occurred |
-| PRE-10 | Corrected real monthly `getDynamics` | PRE-RULE EVIDENCE / PASS | `HTTP 200`, 12 monthly points returned | Core `getDynamics` request path works |
+| PRE-10 | Corrected real monthly `getDynamics` | PRE-RULE EVIDENCE / PASS | `HTTP 200`, 12 points returned | Core `getDynamics` request path works |
 | PRE-11 | Real `getRegionsDistribution` | PRE-RULE EVIDENCE / PASS | `HTTP 200`, regional distribution returned | Core `getRegionsDistribution` request path works |
 
 No further live command is to be issued until this ledger and the governing rule are committed to GitHub.
@@ -359,3 +359,50 @@ The historical K table above is intentionally retained. At this checkpoint its e
 | K-08 | NOT RUN | Requires all mandatory K gates above to close |
 
 Phase 1 is therefore **not** declared LIVE PASS yet, and Phase 2 Search remains blocked until the consolidated candidate completes the governed real-current-Chrome closure.
+
+---
+
+## 8. Real current-Chrome K closure — 2026-08-17
+
+This section supersedes section 7.3 for current effective K status while preserving all earlier evidence as history.
+
+Candidate integrity was rechecked from the owner-attached archive before live closure:
+
+```text
+yandex-marketing-bridge-0.1.1-phase1-consolidated-patch-candidate.zip
+SHA-256: a13256f0e5c2910fa590258110a32b737e9d986277fd8569978512cb7a899d05
+size: 176446 bytes
+files: 42
+```
+
+### 8.1 K-02 / C-01 consolidated-candidate real-Chrome regression
+
+Status: **FAIL**.
+
+Actual evidence supplied from the owner's current Chrome after loading/reloading the consolidated candidate:
+
+- content runtime reports `runtime_version: 0.1.1`;
+- current ChatGPT conversation identity is confirmed and `CONVERSATION_BOUND` is present;
+- settings import completed (`SETTINGS_IMPORTED`);
+- the supported `WORDSTAT_API_V1` command Copy control did **not** change color / become visibly decorated as the API action boundary;
+- supplied logs contain runtime start/binding/import events but no command-recognition/decorated-action event for the displayed supported command;
+- the owner did not trigger the command after observing the missing decoration, so **zero new Yandex request** is attributed to this failed acceptance attempt.
+
+Expected: existing C-01/K-02 requirement — a supported `WORDSTAT_API_V1` local Copy control is visibly decorated before execution, preserving the governed reference UX and making the API action boundary unambiguous.
+
+Conclusion: historical C-01 PASS belongs to the earlier installed candidate and does not satisfy consolidated-candidate closure. The consolidated candidate has a real-current-Chrome C-01/K-02 regression that controlled emulation/K-07 did not catch. This is a documented live FAIL; no implementation change is authorized merely by recording it.
+
+### 8.2 Effective K state after this result
+
+| ID | Current effective status | Evidence / next requirement |
+|---|---|---|
+| K-01 | NOT RUN | No consolidated-candidate Yandex command executed yet; all-four-method live evidence still required. |
+| K-02 | **FAIL** | Real current Chrome: supported command Copy decoration missing on consolidated candidate before first K-01 command. Remaining K-02 subchecks are not treated as passed by this failed attempt. |
+| K-03 | NOT RUN / no longer implementation-blocked | Final real-Chrome Autorun lifecycle still pending. |
+| K-04 | NOT RUN | Final Debug OFF/ON contract still pending. |
+| K-05 | PASS controlled / live closure pending where applicable | No new real-Chrome result yet. |
+| K-06 | PASS controlled / live result confirmation pending | No consolidated-candidate live result yet. |
+| K-07 | PASS | Consolidated automated/controlled evidence remains 318/318 source, 318/318 packaged, 42/42 identity, syntax/JSON green; this does not override the new real-Chrome K-02 FAIL. |
+| K-08 | NOT RUN / blocked by unresolved K-02 FAIL | Cannot become PASS while mandatory K-02 FAIL remains unresolved. |
+
+Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains blocked. Continue the governed test campaign; do not derive or implement a new patch until the campaign has formed the documented post-consolidated FAIL/BLOCKED set, unless the owner explicitly interrupts and orders immediate patching.
