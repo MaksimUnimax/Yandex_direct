@@ -1,0 +1,76 @@
+{
+  "schema": "YMB_PHASE1_MANUAL_SURFACE_V2_PATCH_PARTS_V1",
+  "date": "2026-08-17",
+  "status": "VERIFIED_EXACT_PARTS",
+  "governed_base": {
+    "artifact": "yandex-marketing-bridge-0.1.1-phase1-fse-manual-popup-patch-candidate.zip",
+    "sha256": "f06a16780bed8a1aedb6726c25baaa0667145d4adb14553868b294f95e807cc3",
+    "files": 42
+  },
+  "reconstruction_order": [
+    {
+      "path": "extension/tests/patches/phase1-0.1.1-manual-surface-v2.patch.gz.b64.part01",
+      "bytes": 14000,
+      "git_blob_sha": "5b145082c3e5fbe9de10945ba578d661b710bf8a",
+      "sha256": "6dbb59388a8260e5671211dca84cb109645f97e8fe18f71596b6a1d826bce8e4"
+    },
+    {
+      "path": "extension/tests/patches/phase1-0.1.1-manual-surface-v2.patch.gz.b64.part02a",
+      "note": "Despite the corrective suffix, this is the exact complete original logical part02; verified by byte count and Git blob SHA.",
+      "bytes": 14000,
+      "git_blob_sha": "a992169495c97149ea1fb30f49eceaffc8ad4b25",
+      "sha256": "8931c07fee5ef6c838ecc9900fc0949a14d85c137374012d00c39cc3473112ad"
+    },
+    {
+      "path": "extension/tests/patches/phase1-0.1.1-manual-surface-v2.patch.gz.b64.part03",
+      "bytes": 14000,
+      "git_blob_sha": "611aac7e30cae93dc2fd914fb9b4bd19458f3286",
+      "sha256": "2a5f78ae418a5d6941d48e2f3c689206be26c5e9cc5fbe5b5401a1d1cc2f8ca4"
+    },
+    {
+      "path": "extension/tests/patches/phase1-0.1.1-manual-surface-v2.patch.gz.b64.part04",
+      "bytes": 14000,
+      "git_blob_sha": "98cd3ad28f0014452afbb2c567effe4e3e3e5c57",
+      "sha256": "ee6beb58f2800c77a0bae59702d811186f2b3e2a8a6ffb3c8f028fb4d1206aeb"
+    },
+    {
+      "path": "extension/tests/patches/phase1-0.1.1-manual-surface-v2.patch.gz.b64.part05",
+      "bytes": 9812,
+      "git_blob_sha": "037f8f83193104751666dcc123941f9f2f982b92",
+      "sha256": "1da342a207aa368583562529e7e9903626d251fdd7af0e64cd9ed5d7a3ee537c"
+    }
+  ],
+  "concatenated_base64": {
+    "bytes": 65812,
+    "sha256": "e0a2483dc6a3a0461a672e95b66b1a68b4ef74b5938c66e7f7da11e44b2dffbc"
+  },
+  "decoded_gzip": {
+    "bytes": 49359,
+    "sha256": "4b3092a3080fb9c8a3ead7e72af96a4221f231404b8cccc63fa04aeab9820c5a"
+  },
+  "gunzipped_raw_patch": {
+    "bytes": 225938,
+    "sha256": "717b0abb25fc9bbb17ad544ec3eb3ada1eca8d5fe7bf5834fbfde49edaf6f70f"
+  },
+  "application_verification": {
+    "apply_to_exact_governed_base": "PASS",
+    "final_tree_byte_identity": "45/45",
+    "final_candidate": "yandex-marketing-bridge-0.1.1-phase1-manual-surface-v2-candidate.zip",
+    "final_candidate_sha256": "2f47178892a309f468d3488626b9e1ee6bd9758cbff934d046bf7bd326ce14fe",
+    "final_candidate_bytes": 197699,
+    "final_candidate_files": 45
+  },
+  "upload_correction_history": [
+    {
+      "artifact": "phase1-0.1.1-manual-surface-v2.patch.gz.b64.part02",
+      "status": "INVALID_AND_DELETED",
+      "reason": "GitHub stored 13999 bytes instead of the expected exact 14000-byte logical part02; it was excluded and deleted."
+    },
+    {
+      "artifact": "phase1-0.1.1-manual-surface-v2.patch.gz.b64.part02b",
+      "status": "REDUNDANT_AND_DELETED",
+      "reason": "After Git-blob verification showed part02a already equals the complete exact 14000-byte logical part02, part02b was excluded and deleted."
+    }
+  ],
+  "trust_rule": "Only the five paths listed in reconstruction_order are authoritative for reconstruction. Their live GitHub sizes and Git blob SHAs were verified before this manifest was written."
+}
