@@ -81,8 +81,6 @@ No worker, popup, provider, pricing, request, result, delivery, credential, perm
 
 ### R1 — focused touched-dependency / VM DOM emulation — PASS
 
-Executed after the amendment was committed:
-
 ```text
 node --test tests/content_runtime_exhaustive.test.mjs tests/shared_every_function.test.mjs
 32/32 PASS
@@ -95,7 +93,28 @@ The focused run executes the actual patched production source used by those harn
 
 No live Yandex request was issued. `WS_EXECUTE_COMMAND` in this focused run is a mocked content→worker boundary inside the controlled VM harness; provider/network execution is absent.
 
-Next governed verification step: exact consolidated baseline versus patched source in real local Chromium DOM emulation, followed by changed-line execution mapping. No live Yandex request is authorized for that step.
+### R2 — real local Chromium baseline-versus-patch DOM comparison — PASS
+
+The exact consolidated candidate production scripts and the patched production scripts were executed in Chromium against the same controlled DOM families. Network/provider execution was mocked out completely.
+
+Final accepted browser harness result:
+
+| Production tree | DOM family | Copy decoration | Two immediate native clicks | `WS_EXECUTE_COMMAND` admissions | Native click prevented? |
+|---|---|---|---:|---:|---|
+| consolidated baseline | generic assistant `<pre><code>` | ordinary / no yellow style | 2 | 0 | no |
+| patched | generic assistant `<pre><code>` | yellow Wordstat style | 2 | exactly 1 | no |
+| consolidated baseline | legacy `#code-block-viewer` | yellow | 2 | exactly 1 | no |
+| patched | legacy `#code-block-viewer` | yellow | 2 | exactly 1 | no |
+| consolidated baseline | historical writing-block | yellow | 2 | exactly 1 | no |
+| patched | historical writing-block | yellow | 2 | exactly 1 | no |
+
+This directly reproduces the field defect on unchanged consolidated bytes and proves the patch changes the missing generic DOM contour without regressing the two previously supported contours. The two-click case also proves the native Copy event remains unprevented while the existing in-flight fence permits only one bridge admission.
+
+Harness notes: direct Chromium navigation is blocked by the execution sandbox and an `about:blank` document is not a secure context, so preliminary harness attempts were infrastructure TEST ERROR before production execution. The accepted run used real Chromium DOM/event/MutationObserver behavior with the actual production scripts and only supplied the two environment capabilities that production `https://chatgpt.com` normally has: a confirmed conversation identity and `crypto.randomUUID`. No page/runtime error remained in the accepted run.
+
+No live Yandex request was issued.
+
+Next governed verification step: changed-line execution/source mapping for every production line added by this patch, then the complete source regression suite.
 
 ## Acceptance boundary
 
