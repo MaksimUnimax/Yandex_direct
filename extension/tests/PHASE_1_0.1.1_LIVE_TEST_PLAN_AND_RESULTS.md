@@ -406,3 +406,35 @@ Conclusion: historical C-01 PASS belongs to the earlier installed candidate and 
 | K-08 | NOT RUN / blocked by unresolved K-02 FAIL | Cannot become PASS while mandatory K-02 FAIL remains unresolved. |
 
 Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains blocked. Continue the governed test campaign; do not derive or implement a new patch until the campaign has formed the documented post-consolidated FAIL/BLOCKED set, unless the owner explicitly interrupts and orders immediate patching.
+
+### 8.3 Correction after source-level procedure audit
+
+The classification in 8.1/8.2 is superseded by this correction.
+
+Status of that attempt: **TEST ERROR — owner was given an incomplete test procedure; no extension FAIL established.**
+
+Source audit of the exact consolidated candidate shows:
+
+- Copy decoration is intentionally gated by `manualEnabled === true` in `decorateBinding`;
+- `manualEnabled` starts false and is synchronized from the current conversation's `manual_mode`;
+- Manual state is stored per `conversation_key` (`wsmb_manual_modes`), not as a global extension switch;
+- settings import merges saved manual-mode maps by conversation key and therefore does not automatically turn Manual ON for a different newly opened ChatGPT conversation;
+- the supplied live logs show a new current conversation id `6a828325-0cf8-83eb-939f-4581410ddd05` after import/reload and do not show an explicit Manual-enable action for that current conversation;
+- the assistant's preceding K-02 procedure omitted the required explicit step to enable Manual in the current conversation before judging Copy decoration.
+
+Therefore the observed ordinary-colored Copy control is compatible with the intended OFF state and cannot be used as evidence of a consolidated-candidate regression. No Yandex request was executed during the mistaken attempt.
+
+Corrected effective K state:
+
+| ID | Corrected current effective status | Evidence / next requirement |
+|---|---|---|
+| K-01 | NOT RUN | No consolidated-candidate Yandex command executed yet. |
+| K-02 | NOT RUN | Repeat C-01/K-02 only after explicitly enabling Manual for the current conversation; 8.1 is TEST ERROR, not FAIL. |
+| K-03 | NOT RUN / no longer implementation-blocked | Pending. |
+| K-04 | NOT RUN | Pending. |
+| K-05 | PASS controlled / live closure pending where applicable | Pending real-current-Chrome acceptance where required. |
+| K-06 | PASS controlled / live result confirmation pending | Pending. |
+| K-07 | PASS | Unchanged. |
+| K-08 | NOT RUN | No unresolved FAIL is created by the TEST ERROR in 8.1. |
+
+No patch scope is derived from this TEST ERROR.
