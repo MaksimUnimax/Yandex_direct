@@ -438,3 +438,37 @@ Corrected effective K state:
 | K-08 | NOT RUN | No unresolved FAIL is created by the TEST ERROR in 8.1. |
 
 No patch scope is derived from this TEST ERROR.
+
+### 8.4 Owner screenshot correction — Manual ON is confirmed
+
+Section 8.3 is superseded by this correction. The assistant's inference that Manual was OFF was wrong.
+
+Status of C-01/K-02 on the consolidated candidate: **FAIL**.
+
+New owner-supplied real-current-Chrome evidence shows, in one screenshot of the same extension/current ChatGPT flow:
+
+- `Ручной режим Wordstat` is visibly **ON** in the popup;
+- Autorun is not running (`Run текущего диалога: Не запущен`), so Manual and Autorun mutual exclusion does not explain the observation;
+- the supported `WORDSTAT_API_V1` block is visible in ChatGPT at the same time;
+- its local Copy control remains ordinary/uncoloured instead of receiving the governed yellow Wordstat action decoration.
+
+This directly disproves the premise used by section 8.3. The earlier runtime logs remain supporting evidence that runtime `0.1.1` loaded and the current conversation was confirmed/bound. The command was not triggered, so this observation caused **zero new Yandex requests**.
+
+Expected: with Manual ON, a supported `WORDSTAT_API_V1` local Copy must be visibly decorated before execution.
+
+Conclusion: C-01/K-02 is a real current-Chrome **FAIL** on the exact consolidated candidate. Root-cause/history analysis is still in progress and must distinguish a source regression from a current-DOM/reference-compatibility gap; no implementation patch is authorized merely by this classification.
+
+Current effective K state:
+
+| ID | Current effective status | Evidence / next requirement |
+|---|---|---|
+| K-01 | NOT RUN | No consolidated-candidate Yandex command executed yet. |
+| K-02 | **FAIL** | Manual ON is visually confirmed while supported Copy remains undecorated. |
+| K-03 | NOT RUN / no longer implementation-blocked | Pending. |
+| K-04 | NOT RUN | Pending. |
+| K-05 | PASS controlled / live closure pending where applicable | Pending. |
+| K-06 | PASS controlled / live result confirmation pending | Pending. |
+| K-07 | PASS | Controlled/static evidence remains green but does not override the real-Chrome K-02 FAIL. |
+| K-08 | NOT RUN / blocked by unresolved K-02 FAIL | Cannot pass while K-02 remains unresolved. |
+
+Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains blocked. No new Yandex command is issued while this prerequisite UX failure is being diagnosed.
