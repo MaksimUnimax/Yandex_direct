@@ -221,6 +221,7 @@ Append newly discovered test requirements here **before executing them**.
 
 - 2026-08-12 — Add `D-11 Recovery after post-request delivery failure` after C-07 incident. The incidental failure is already evidence for DEF-06; D-11 is the first governed follow-up and is added before execution. Use free `getRegionsTree`; acceptance requires a fresh request to deliver normally without replaying request `1e7bbdfc-f67e-4079-868f-95ef58db574d`.
 - 2026-08-12 — Owner explicitly interrupted the remaining campaign and ordered immediate DEF-01 plaque repair with controlled emulation, not repetitive owner UI clicking. No new test ID was introduced: existing C-02/C-03/C-04 and K-07 cover the patch. Scope is limited to reference toast/plaque renderer parity and labels/tones; no other defect is patched in this interruption.
+- 2026-08-17 — Owner explicitly interrupted K closure and ordered immediate repair of the real-current-Chrome K-02/C-01 generic code-block DOM FAIL, with exhaustive dependency, per-changed-line, browser-emulation and fresh-package verification. Before any patch verification ran, the complete requirement/scope matrix was committed in `extension/tests/PHASE_1_0.1.1_K02_GENERIC_PRE_PATCH_PLAN.md` at commit `2981ccd1c298d3f68ebf2fe79b91abdc35a3996d`. Authorized production scope is only `content_script.js` plus the directly dependent `shared/manual_controls.js`; no worker/provider/popup/permission/request/delivery semantic expansion is authorized.
 
 ---
 
@@ -472,3 +473,88 @@ Current effective K state:
 | K-08 | NOT RUN / blocked by unresolved K-02 FAIL | Cannot pass while K-02 remains unresolved. |
 
 Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains blocked. No new Yandex command is issued while this prerequisite UX failure is being diagnosed.
+
+### 8.5 Owner-authorized immediate K-02 generic DOM patch checkpoint
+
+The owner explicitly interrupted the remaining K campaign and ordered immediate repair plus exhaustive dependency/line/environment verification. This section records the post-patch controlled/package checkpoint; it does **not** convert K-02 to live PASS.
+
+Root cause established before implementation:
+
+- the consolidated Yandex candidate inherited the Wordstat 1.1.5 browser adapter;
+- that adapter supports special writing-block roots and legacy `<pre>` only when `#code-block-viewer` exists;
+- current ordinary assistant `<pre><code>WORDSTAT_API_V1 ...</code></pre>` therefore had no binding, no local-Copy decoration and no Manual admission path;
+- Ozon Bridge v0.1.11 independently records the same live defect class and generic pre/code correction.
+
+Pre-execution governed plan:
+
+```text
+extension/tests/PHASE_1_0.1.1_K02_GENERIC_PRE_PATCH_PLAN.md
+initial plan commit: 2981ccd1c298d3f68ebf2fe79b91abdc35a3996d
+```
+
+Authorized production delta was limited to two files:
+
+```text
+content_script.js
+  before: 148c8205bc360ba0e08a07945c3f283c5ca83eab81332c92ab8606e16d6b4f01
+  after:  a5677a45fd1e94fa82ef6fa3e368d23a27767c834fcc67fb53e138517878b57f
+
+shared/manual_controls.js
+  before: 81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e
+  after:  241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2
+```
+
+`content_script.js` adds current assistant-container/generic pre-code binding and discovery while preserving the legacy/current writing-block contours, native Copy, generic response-Copy exclusion, conversation scoping and duplicate fences. `shared/manual_controls.js` adds only the directly dependent `generic_pre_code_v1` adapter identity and builtin adapter count 2→3 so copy-profile fallback/picker remains compatible. Worker, popup, provider, pricing, request/result, delivery, credentials, permissions, host permissions and Autorun execution semantics were not changed.
+
+Verification chronology is retained, including an intermediate FAIL rather than hiding it:
+
+1. Exact consolidated baseline full suite: `318/318 PASS` before patch; this proved the old suite did not model current generic pre/code DOM.
+2. Focused touched-dependency VM run: `32/32 PASS`; zero provider/Yandex network.
+3. Real local Chromium differential: unchanged consolidated bytes reproduce generic `<pre><code>` as undecorated with `0` Manual admissions; patched bytes on the identical DOM decorate yellow and two immediate native clicks produce exactly `1` Manual admission with neither click prevented. Legacy and historical writing-block families remain green on both trees. Accepted browser errors: `0`.
+4. Chromium CDP precise coverage: `content_script.js 31/31` changed/new lines executed + `shared/manual_controls.js 3/3` = **34/34 changed production lines executed**, uncovered `0`; Yandex requests `0`.
+5. First complete patched source suite: **317/319 PASS, 2 FAIL**. Both failures were obsolete provenance assertions that still required `manual_controls.js` to be byte-identical to its pre-authorized-delta reference. No runtime/behavior test failed. This FAIL was recorded before test correction.
+6. Provenance dependency correction/rerun: `35/35 PASS`. Three untouched common modules retain exact reference hashes. The patched `manual_controls.js` exact hash is required; after mechanically removing only `GENERIC_PRE_CODE` and normalizing builtin count `3→2`, the whole module must hash exactly to the old reference SHA `81f302...`, so any unrelated third change still fails audit.
+7. Final complete source suite: **319/319 PASS**, fail/skipped/cancelled `0`.
+8. Source surface gate: JS/MJS syntax `37/37 PASS`; manifest/package JSON `2/2 PASS`; exact same `42` production paths; only the two authorized production files differ; manifest/worker/popup/protocol byte-identical; permissions/hosts unchanged.
+9. Deterministic final ZIP rebuilt twice byte-identically; fresh extraction ↔ source `42/42 byte-identical`; fresh ZIP full suite **319/319 PASS**; fresh JS/MJS `37/37`; fresh JSON `2/2`; Chromium `--pack-extension` exit `0`; live Yandex requests during patch/verification: **0**.
+
+Final controlled/package candidate:
+
+```text
+yandex-marketing-bridge-0.1.1-phase1-k02-generic-dom-patch-candidate.zip
+SHA-256: 46458906eeaa72c373fc6ac8da868cc7540fd89a1263966a35f9d93544829f8c
+size: 178143 bytes
+files: 42
+```
+
+Reproducible patch artifact:
+
+```text
+extension/tests/patches/phase1-0.1.1-k02-generic-dom.patch.gz.b64
+raw patch SHA-256: 4d8826567a2804018a71b38677d2da132888d3043d7b183b849b8640c5337aa7
+raw bytes: 16950
+gzip SHA-256: 0400dc42027176a9cac9fcddc0792a38cdda0c9a636f0a7816f8db3040513e74
+base64 file SHA-256: 4f25e37c94d0c41b834d032fd297b75529c52aabf2ecead74cd3b7117e152909
+```
+
+Machine-readable evidence:
+
+```text
+extension/tests/PHASE_1_0.1.1_K02_GENERIC_DOM_PATCH_EVIDENCE.json
+schema: YMB_PHASE1_K02_GENERIC_DOM_PATCH_EVIDENCE_V1
+```
+
+Effective K state after this controlled/package checkpoint:
+
+| ID | Current effective status | Evidence / next requirement |
+|---|---|---|
+| K-01 | NOT RUN | No Yandex command has yet executed on this final K-02 patched candidate; all-four-method live evidence remains required. |
+| K-02 | **FAIL FIXED IN CONTROLLED/PACKAGED CANDIDATE — REAL CURRENT-CHROME RERUN PENDING** | Generic DOM failure is reproduced on base and corrected on patch in Chromium, with 34/34 changed lines executed and fresh-package acceptance green. The owner must install this exact ZIP and confirm the visible supported Copy becomes yellow before K-02 can advance to live PASS. |
+| K-03 | NOT RUN / no longer implementation-blocked | Final real-current-Chrome Autorun lifecycle remains pending; K-02 patch did not alter Autorun execution semantics. |
+| K-04 | NOT RUN | Final real-current-Chrome Debug OFF/ON contract pending. |
+| K-05 | PASS controlled / live closure pending where applicable | No new K-02 production change touches popup/toggle code; full source/fresh-package regressions remain green. |
+| K-06 | PASS controlled / live result confirmation pending | No new K-02 production change touches cost/result semantics; live patched-candidate result evidence remains required. |
+| K-07 | PASS on final K-02 patched candidate | Source `319/319`, fresh ZIP `319/319`, changed lines `34/34`, source↔ZIP `42/42`, syntax `37/37`, JSON `2/2`, Chromium pack exit `0`. |
+| K-08 | NOT RUN / blocked | Requires K-02 live rerun plus all remaining mandatory K gates. |
+
+Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains blocked. The next action is a zero-Yandex-request real-current-Chrome visual K-02 prerequisite check on the exact final ZIP above; no pricing check is needed until an executable Yandex command is actually about to be issued.
