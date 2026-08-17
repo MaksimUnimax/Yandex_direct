@@ -97,8 +97,6 @@ No live Yandex request was issued. `WS_EXECUTE_COMMAND` in this focused run is a
 
 The exact consolidated candidate production scripts and the patched production scripts were executed in Chromium against the same controlled DOM families. Network/provider execution was mocked out completely.
 
-Final accepted browser harness result:
-
 | Production tree | DOM family | Copy decoration | Two immediate native clicks | `WS_EXECUTE_COMMAND` admissions | Native click prevented? |
 |---|---|---|---:|---:|---|
 | consolidated baseline | generic assistant `<pre><code>` | ordinary / no yellow style | 2 | 0 | no |
@@ -108,13 +106,30 @@ Final accepted browser harness result:
 | consolidated baseline | historical writing-block | yellow | 2 | exactly 1 | no |
 | patched | historical writing-block | yellow | 2 | exactly 1 | no |
 
-This directly reproduces the field defect on unchanged consolidated bytes and proves the patch changes the missing generic DOM contour without regressing the two previously supported contours. The two-click case also proves the native Copy event remains unprevented while the existing in-flight fence permits only one bridge admission.
-
-Harness notes: direct Chromium navigation is blocked by the execution sandbox and an `about:blank` document is not a secure context, so preliminary harness attempts were infrastructure TEST ERROR before production execution. The accepted run used real Chromium DOM/event/MutationObserver behavior with the actual production scripts and only supplied the two environment capabilities that production `https://chatgpt.com` normally has: a confirmed conversation identity and `crypto.randomUUID`. No page/runtime error remained in the accepted run.
+This directly reproduces the field defect on unchanged consolidated bytes and proves the patch changes the missing generic DOM contour without regressing the two previously supported contours. Harness navigation/secure-context preliminary failures are classified as infrastructure TEST ERROR; the accepted run had no page/runtime error and supplied only confirmed conversation identity plus `crypto.randomUUID`, capabilities available on production `https://chatgpt.com`.
 
 No live Yandex request was issued.
 
-Next governed verification step: changed-line execution/source mapping for every production line added by this patch, then the complete source regression suite.
+### R3 — Chromium CDP precise changed-line coverage — PASS
+
+The complete patched production files were injected without source extraction/wrapping and measured with Chromium `Profiler.startPreciseCoverage`. The controlled page exercised the initial generic/legacy/writing families plus non-assistant and ambiguous code roots, direct dynamic `<pre>`, dynamic `<code>`, wrapper insertion containing descendant `pre`/button, late sibling-button insertion, Manual OFF/ON restoration/rescan, native click behavior and new copy-profile normalization.
+
+```text
+content_script.js changed/new lines:       31/31 EXECUTED
+shared/manual_controls.js changed lines:    3/3 EXECUTED
+TOTAL changed production lines:            34/34 EXECUTED
+unexecuted changed production lines:        0
+browser/page errors:                         0
+live Yandex requests:                        0
+```
+
+This is execution evidence, not merely a textual assertion: every new or replacement production line identified by an exact consolidated-base → patched-tree diff had a positive precise-coverage count. Representative counts include `assistantContainerFromNode` 58 executions, `genericCodeBodyFromPre` 39 executions, generic/legacy binding lines up to 48 executions, MutationObserver candidate additions 5 executions, reverse-scan generic pre/code branches 53/42 executions, and all three `manual_controls.js` adapter/count changes executed at module initialization.
+
+The earlier Node coverage dump that did not attribute some content-script lines was rejected as evidence because one VM harness used shifted wrapper offsets. R3 deliberately replaces that ambiguous attribution with full-source Chromium CDP offsets.
+
+No live Yandex request was issued.
+
+Next governed verification step: complete source regression suite on the patched tree, then syntax/JSON and production-surface diff checks.
 
 ## Acceptance boundary
 
