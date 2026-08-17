@@ -1,0 +1,87 @@
+{
+  "schema": "YMB_PHASE1_K02_GENERIC_DOM_PATCH_EVIDENCE_V1",
+  "created_at": "2026-08-17T05:00:00Z",
+  "base_candidate": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-consolidated-patch-candidate.zip",
+    "sha256": "a13256f0e5c2910fa590258110a32b737e9d986277fd8569978512cb7a899d05",
+    "files": 42
+  },
+  "candidate": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-k02-generic-dom-patch-candidate.zip",
+    "sha256": "46458906eeaa72c373fc6ac8da868cc7540fd89a1263966a35f9d93544829f8c",
+    "bytes": 178143,
+    "files": 42
+  },
+  "root_cause": "Current ChatGPT generic assistant <pre><code> command blocks were outside the inherited Wordstat 1.1.5 binding families; no binding meant no local Copy decoration/admission.",
+  "production_changed_files": {
+    "content_script.js": {
+      "before_sha256": "148c8205bc360ba0e08a07945c3f283c5ca83eab81332c92ab8606e16d6b4f01",
+      "after_sha256": "a5677a45fd1e94fa82ef6fa3e368d23a27767c834fcc67fb53e138517878b57f"
+    },
+    "shared/manual_controls.js": {
+      "before_sha256": "81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e",
+      "after_sha256": "241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2"
+    }
+  },
+  "test_changed_files": [
+    "tests/content_runtime_exhaustive.test.mjs",
+    "tests/phase1_unified_core.test.mjs",
+    "tests/reference_provenance.test.mjs",
+    "tests/shared_every_function.test.mjs"
+  ],
+  "changed_file_count": 6,
+  "changed_production_file_count": 2,
+  "verification": {
+    "focused_dependency_vm": {
+      "pass": 32,
+      "total": 32
+    },
+    "chromium_baseline_vs_patch": "PASS",
+    "changed_production_lines_executed": {
+      "content_script.js": "31/31",
+      "shared/manual_controls.js": "3/3",
+      "total": "34/34"
+    },
+    "first_full_source_run": {
+      "pass": 317,
+      "total": 319,
+      "fail": 2,
+      "classification": "obsolete provenance assertions for authorized manual_controls delta; recorded before test correction"
+    },
+    "provenance_rerun": {
+      "pass": 35,
+      "total": 35
+    },
+    "final_source_full": {
+      "pass": 319,
+      "total": 319
+    },
+    "source_syntax": "37/37",
+    "source_json": "2/2",
+    "path_set_identity": "42/42 same paths",
+    "fresh_zip_full": {
+      "pass": 319,
+      "total": 319
+    },
+    "fresh_zip_syntax": "37/37",
+    "fresh_zip_json": "2/2",
+    "source_fresh_zip_identity": "42/42 byte-identical",
+    "deterministic_zip_rebuild": "byte-identical",
+    "chromium_pack_extension_exit": 0,
+    "live_yandex_requests": 0
+  },
+  "permissions_unchanged": true,
+  "worker_provider_popup_protocol_unchanged": true,
+  "patch_artifact": {
+    "raw_filename": "phase1-0.1.1-k02-generic-dom.patch",
+    "raw_sha256": "4d8826567a2804018a71b38677d2da132888d3043d7b183b849b8640c5337aa7",
+    "raw_bytes": 16950,
+    "gzip_filename": "phase1-0.1.1-k02-generic-dom.patch.gz",
+    "gzip_sha256": "0400dc42027176a9cac9fcddc0792a38cdda0c9a636f0a7816f8db3040513e74",
+    "gzip_bytes": 4190,
+    "base64_filename": "phase1-0.1.1-k02-generic-dom.patch.gz.b64",
+    "base64_sha256": "4f25e37c94d0c41b834d032fd297b75529c52aabf2ecead74cd3b7117e152909",
+    "base64_bytes": 5662
+  },
+  "acceptance_boundary": "Controlled/static/package PASS only. K-02 remains live-pending until final patched ZIP is installed in real current Chrome and supported Copy decoration is observed."
+}
