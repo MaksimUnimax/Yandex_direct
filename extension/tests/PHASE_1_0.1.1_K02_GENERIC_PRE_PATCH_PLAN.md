@@ -1,7 +1,7 @@
 # Phase 1 0.1.1 — K-02 generic ChatGPT code-block DOM patch plan
 
 Date: 2026-08-17
-Status: PLAN AMENDMENT — tests below must be defined before execution.
+Status: PATCH IN CONTROLLED VERIFICATION — LIVE K-02 STILL PENDING.
 Authority: owner explicitly interrupted the K campaign and ordered an immediate patch after the governed K-02/C-01 real-current-Chrome FAIL recorded in `PHASE_1_0.1.1_LIVE_TEST_PLAN_AND_RESULTS.md` section 8.4.
 
 ## Root cause already established before patch
@@ -76,6 +76,26 @@ No worker, popup, provider, pricing, request, result, delivery, credential, perm
 - source ↔ fresh ZIP is byte-identical for all 42 files;
 - only the two authorized production files may differ from the consolidated base candidate;
 - no live Yandex request is permitted during patch/emulation.
+
+## Execution results
+
+### R1 — focused touched-dependency / VM DOM emulation — PASS
+
+Executed after the amendment was committed:
+
+```text
+node --test tests/content_runtime_exhaustive.test.mjs tests/shared_every_function.test.mjs
+32/32 PASS
+fail: 0
+skipped: 0
+cancelled: 0
+```
+
+The focused run executes the actual patched production source used by those harnesses and covers the direct dependency closure introduced by this patch: generic assistant `<pre><code>` binding, historical writing-block binding, legacy `#code-block-viewer` precedence, sibling-toolbar locality, ambiguity fail-closed behavior, generic assistant-level Copy exclusion, native Copy preservation, non-command behavior, rapid duplicate admission fence, initial/manual root discovery, MutationObserver discovery including a late-added Copy button, Manual ON decoration/OFF restoration, and the `generic_pre_code_v1` adapter-profile dependency in `shared/manual_controls.js` while retaining existing adapter IDs and limits.
+
+No live Yandex request was issued. `WS_EXECUTE_COMMAND` in this focused run is a mocked content→worker boundary inside the controlled VM harness; provider/network execution is absent.
+
+Next governed verification step: exact consolidated baseline versus patched source in real local Chromium DOM emulation, followed by changed-line execution mapping. No live Yandex request is authorized for that step.
 
 ## Acceptance boundary
 
