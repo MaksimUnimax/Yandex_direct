@@ -1,0 +1,47 @@
+{
+  "schema": "YMB_PHASE1_FSE_MANUAL_POPUP_PATCH_EVIDENCE_V1",
+  "date": "2026-08-17",
+  "base_candidate": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-k02-generic-dom-patch-candidate.zip",
+    "sha256": "46458906eeaa72c373fc6ac8da868cc7540fd89a1263966a35f9d93544829f8c",
+    "files": 42
+  },
+  "final_candidate": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-fse-manual-popup-patch-candidate.zip",
+    "sha256": "f06a16780bed8a1aedb6726c25baaa0667145d4adb14553868b294f95e807cc3",
+    "bytes": 180608,
+    "files": 42
+  },
+  "production_delta": {
+    "changed": ["popup.js"],
+    "popup_sha256": "7286ea024033293110ad10ebc16856de0beacf512f6f86a229ac0271ac20c28c",
+    "unchanged_critical": ["manifest.json", "service_worker.js", "content_script.js", "shared/manual_controls.js", "shared/wordstat_protocol.js"]
+  },
+  "test_delta": ["tests/popup_runtime_exhaustive.test.mjs"],
+  "defects_fixed": ["FSE-DEF-07", "FSE-DEF-08"],
+  "verification": {
+    "focused_popup": "13/13 PASS",
+    "full_patched_tree": "321/321 PASS",
+    "changed_popup_nonblank_lines": "56/56 executed",
+    "cross_layer": "45/45 PASS",
+    "fresh_zip_suite": "321/321 PASS",
+    "source_to_fresh_zip": "42/42 byte-identical",
+    "syntax_js_mjs": "37/37 PASS",
+    "json": "2/2 PASS",
+    "chromium_pack_exit": 0,
+    "real_external_yandex_requests": 0,
+    "patch_reconstruction": "42/42 exact files from governed base"
+  },
+  "known_live_boundary": {
+    "k02": "REAL CURRENT CHROME RERUN REQUIRED; controlled/package evidence does not close K-02",
+    "assistant_local_installed_mv3": "BLOCKED by managed Chromium ExtensionInstallBlocklist"
+  },
+  "patch_artifact": {
+    "raw_sha256": "77195780cdc7088cd763c636650c948895a2d62478d0111d051403aeedb04453",
+    "raw_bytes": 21104,
+    "gzip_sha256": "ffff55adff96671e6336dd1879bede3a6bfb35b47f2c3bdc044d03763270feb0",
+    "gzip_bytes": 4737,
+    "base64_sha256": "f8d79faea01d1ab5284f06dbacb0b5075cb953cd4a19579190f1f3da4bb7c57b",
+    "base64_bytes": 6317
+  }
+}
