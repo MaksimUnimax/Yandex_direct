@@ -11,32 +11,41 @@ The consolidated candidate inherited the Wordstat 1.1.5 DOM adapter, which does 
 Authorized production changes are limited to:
 
 1. `content_script.js`: current assistant-container resolution, fail-closed generic pre/code binding, initial/MutationObserver discovery and existing locality integration while preserving legacy/current writing-block, native Copy, generic response Copy exclusion, conversation scoping and duplicate fences.
-2. `shared/manual_controls.js`: add `generic_pre_code_v1` to the supported copy-profile adapter set and change builtin adapter count 2→3; locality/normalization logic otherwise unchanged.
+2. `shared/manual_controls.js`: add `generic_pre_code_v1` to supported copy-profile adapters and change builtin adapter count 2→3; locality/normalization logic otherwise unchanged.
 
 No worker, popup, provider, pricing, request/result, delivery, credential, permission or Autorun execution semantics are authorized.
 
-The mandatory regression matrix was defined before execution and includes old/new DOM families, ambiguity/non-assistant failures, Copy locality/native/duplicate safety, discovery lifecycle, Manual OFF/ON, profile compatibility, changed-line execution, full source/fresh-ZIP suites, syntax/JSON, package identity, exact production-delta scope and zero live Yandex requests.
+Mandatory regressions were defined before execution: old/new DOM families, ambiguity/non-assistant failures, Copy locality/native/duplicate safety, discovery lifecycle, Manual OFF/ON, profile compatibility, changed-line execution, full source/fresh-ZIP suites, syntax/JSON, package identity, exact production-delta scope and zero live Yandex requests.
 
 ## Execution results
 
-- **R1 PASS — focused dependency VM:** 32/32 PASS; provider/Yandex network 0.
-- **R2 PASS — Chromium baseline vs patch:** consolidated generic `<pre><code>` stays ordinary with 0 admission; patched identical DOM becomes yellow and two native clicks yield exactly one admission with neither click prevented; legacy and historical writing-block remain yellow/one-admission on both trees; accepted browser run errors 0. Preliminary navigation/insecure-context harness attempts were infrastructure TEST ERROR before accepted execution.
-- **R3 PASS — Chromium CDP changed-line execution:** `content_script.js` 31/31 changed/new lines executed; `shared/manual_controls.js` 3/3; total 34/34, uncovered 0, browser errors 0, Yandex network 0. Full files measured directly without source wrapping.
-- **R4 FAIL — first complete source suite:** 317/319 PASS. Only two failures were obsolete byte-identity assertions for intentionally changed `shared/manual_controls.js`; no runtime/behavior test failed. Old SHA `81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e`, intentional patched SHA `241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`. Result recorded before test correction.
-- **R5 PASS — affected provenance rerun:** 35/35 PASS. Three untouched common modules retain exact old hashes. `manual_controls.js` must have exact patched SHA; new adapter/count occur exactly once; mechanically removing only `GENERIC_PRE_CODE` and normalizing count 3→2 must reproduce the complete old reference SHA `81f302…`. Any unrelated third change therefore fails the audit.
-- **R6 PASS — complete patched source suite after provenance correction:**
+- **R1 PASS:** focused dependency VM 32/32; network 0.
+- **R2 PASS:** Chromium baseline reproduces generic DOM defect (no decoration/0 admission); patch on identical DOM is yellow and 2 native clicks → exactly 1 admission, neither prevented; legacy/current-writing contours remain green; accepted browser errors 0. Preliminary harness navigation/secure-context attempts were infrastructure TEST ERROR.
+- **R3 PASS:** Chromium CDP precise coverage executes `content_script.js` changed lines 31/31 and `shared/manual_controls.js` 3/3 = **34/34**, uncovered 0; network 0.
+- **R4 FAIL:** first full source run 317/319; only two obsolete byte-identity provenance assertions for intentionally changed `manual_controls.js`; no runtime/behavior failure. Old SHA `81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e`; patched SHA `241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`.
+- **R5 PASS:** provenance dependency rerun 35/35. Three untouched common modules retain exact reference hashes; patched manual-controls exact hash required; removing only new adapter line and count 3→2 must reproduce old reference hash, so any unrelated third change fails audit.
+- **R6 PASS:** complete patched source suite **319/319**, fail/skipped/cancelled 0.
+- **R7 PASS — production surface/syntax audit:**
 
 ```text
-npm test
-319/319 PASS
-fail: 0
-skipped: 0
-cancelled: 0
+JS/MJS syntax:                    37/37 PASS
+manifest/package JSON:              2/2 PASS
+base file paths:                     42
+patched file paths:                  42
+same path set:                     PASS
+changed files total:                  6
+changed production files:             2
+live Yandex requests:                  0
 ```
 
-No production code was changed between R4 and R6; only the two affected provenance test assertions were corrected to express the owner-authorized audited delta instead of the now-false blanket byte-identity claim. Live Yandex requests during R1–R6: **0**.
+Exact production delta is only:
 
-Next governed gate: production syntax/JSON/surface-delta audit, recorded before packaging.
+- `content_script.js`: base SHA `148c8205bc360ba0e08a07945c3f283c5ca83eab81332c92ab8606e16d6b4f01` → patch SHA `a5677a45fd1e94fa82ef6fa3e368d23a27767c834fcc67fb53e138517878b57f`;
+- `shared/manual_controls.js`: base SHA `81f302487da7b5ff7c1b746298353438b2cfec100a5bb8f7fa2c80d1e033c81e` → patch SHA `241f07a4aeb0882a424ea7e312278ed40a8a67732ca7ee05ab651a6715276bc2`.
+
+Four changed test files are the generic-DOM regression, shared-function adapter regression, core provenance audit and provenance-specific audit. `manifest.json`, `service_worker.js`, `popup.js`, `shared/wordstat_protocol.js` are byte-identical to the consolidated base. Extension permissions remain `storage`, `tabs`, `unlimitedStorage`; host permissions remain ChatGPT/chat.openai.com plus fixed Yandex Search API host. No permission/host expansion.
+
+Next: deterministic ZIP → fresh extraction → full 319-test rerun → 42/42 byte identity → fresh syntax/JSON → Chromium pack check. Result must be recorded before final GitHub artifact/evidence checkpoint.
 
 ## Acceptance boundary
 
