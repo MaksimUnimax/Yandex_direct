@@ -1,0 +1,98 @@
+{
+  "schema": "YMB_PHASE1_MANUAL_SURFACE_V2_FINAL_EVIDENCE_V1",
+  "date": "2026-08-17",
+  "status": "CONTROLLED_PACKAGE_PASS_LIVE_K02_PENDING",
+  "governed_base": {
+    "artifact": "yandex-marketing-bridge-0.1.1-phase1-fse-manual-popup-patch-candidate.zip",
+    "sha256": "f06a16780bed8a1aedb6726c25baaa0667145d4adb14553868b294f95e807cc3",
+    "files": 42
+  },
+  "live_dom_authority": "extension/tests/PHASE_1_0.1.1_LIVE_CHATGPT_DOM_EVIDENCE_2026-08-17.md",
+  "final_candidate": {
+    "artifact": "yandex-marketing-bridge-0.1.1-phase1-manual-surface-v2-candidate.zip",
+    "sha256": "2f47178892a309f468d3488626b9e1ee6bd9758cbff934d046bf7bd326ce14fe",
+    "bytes": 197699,
+    "files": 45,
+    "deterministic_second_build_byte_identical": true,
+    "source_to_fresh_zip_byte_identity": "45/45"
+  },
+  "production_hashes": {
+    "content_script.js": "03826461d0f8bd7a00ddf653b505d333755002d22a827d9ee286103321f746f4",
+    "service_worker.js": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8",
+    "shared/block_command_discovery.js": "6375736431b06ce7029ea17fae0c64ac35c0adb1972890a97101230473d94434",
+    "shared/manual_controls.js": "01882215246e8ff5239fec438ef608220161008054a4ea6f5f6bbf1864ecc3b3",
+    "shared/wordstat_protocol.js": "044f2fb2733a48e915eacc9da01f004c24d083d6a1899812b2074a0d19e7cd85"
+  },
+  "production_delta": {
+    "changed": [
+      "content_script.js",
+      "service_worker.js",
+      "shared/manual_controls.js",
+      "shared/wordstat_protocol.js"
+    ],
+    "added": [
+      "shared/block_command_discovery.js"
+    ],
+    "manifest_changed": false,
+    "permissions_expanded": false,
+    "host_permissions_expanded": false
+  },
+  "tests": {
+    "source_full": {"tests": 358, "pass": 358, "fail": 0, "skipped": 0, "cancelled": 0},
+    "fresh_zip_full": {"tests": 358, "pass": 358, "fail": 0, "skipped": 0, "cancelled": 0},
+    "changed_production_nonblank_execution": {
+      "total": "1215/1215",
+      "uncovered": 0,
+      "files": {
+        "content_script.js": "203/203",
+        "service_worker.js": "776/776",
+        "shared/block_command_discovery.js": "218/218",
+        "shared/manual_controls.js": "2/2",
+        "shared/wordstat_protocol.js": "16/16"
+      }
+    },
+    "fresh_zip_js_mjs_syntax": "40/40",
+    "fresh_zip_json": "2/2",
+    "manifest_entrypoints": "11/11",
+    "chromium_pack_exit": 0
+  },
+  "manifest": {
+    "version": "0.1.1",
+    "permissions": ["storage", "tabs", "unlimitedStorage"],
+    "host_permissions": [
+      "https://chatgpt.com/*",
+      "https://chat.openai.com/*",
+      "https://searchapi.api.cloud.yandex.net/*"
+    ]
+  },
+  "reproducible_patch": {
+    "first_attempt": {
+      "status": "TEST_ERROR",
+      "reason": "git diff omitted three new untracked files",
+      "observed_application": "42 files applied; 3 final files missing",
+      "missing": [
+        "shared/block_command_discovery.js",
+        "tests/block_command_discovery.test.mjs",
+        "tests/manual_surface_v2_worker.test.mjs"
+      ]
+    },
+    "corrected": {
+      "status": "PASS",
+      "application_to_exact_base": "45/45 byte-identical",
+      "raw_patch_sha256": "717b0abb25fc9bbb17ad544ec3eb3ada1eca8d5fe7bf5834fbfde49edaf6f70f",
+      "raw_patch_bytes": 225938,
+      "gzip_sha256": "4b3092a3080fb9c8a3ead7e72af96a4221f231404b8cccc63fa04aeab9820c5a",
+      "gzip_bytes": 49359,
+      "base64_sha256": "e0a2483dc6a3a0461a672e95b66b1a68b4ef74b5938c66e7f7da11e44b2dffbc",
+      "base64_bytes": 65812,
+      "artifact_prefix": "extension/tests/patches/phase1-0.1.1-manual-surface-v2.patch.gz.b64"
+    }
+  },
+  "safety": {
+    "real_yandex_requests_during_refactor_and_controlled_tests": 0,
+    "unknown_outcome_blind_retry": false,
+    "phase1_live_pass": false,
+    "phase2_search_blocked": true,
+    "next_gate": "real-current-Chrome zero-Yandex-request Manual visual K-02"
+  }
+}
