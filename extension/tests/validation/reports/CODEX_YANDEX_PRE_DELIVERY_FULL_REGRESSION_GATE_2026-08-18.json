@@ -1,0 +1,15 @@
+{
+  "report": "CODEX_YANDEX_PRE_DELIVERY_FULL_REGRESSION_GATE",
+  "date": "2026-08-18",
+  "authority": {"main_sha": "653adb63a68f98f03f21534658f3397fd389e0c6", "gate_document_sha256": "8c7b00741892e17a0f70d591de8b2a6999129c361042b02ddf569a71eb5bece5", "specification_version": "0.3", "roadmap_version": "0.4"},
+  "candidate": {"source_path": "D:/codex/Yandex/work/manual-surface-v2-validation-002/manual-v2/source", "source_files": 45, "source_identity": "PASS", "version": "0.1.1", "production_modified": 0, "harness_modified": 0, "hashes": {"content_script.js": "03826461d0f8bd7a00ddf653b505d333755002d22a827d9ee286103321f746f4", "service_worker.js": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8", "shared/block_command_discovery.js": "6375736431b06ce7029ea17fae0c64ac35c0adb1972890a97101230473d94434", "shared/manual_controls.js": "01882215246e8ff5239fec438ef608220161008054a4ea6f5f6bbf1864ecc3b3", "shared/wordstat_protocol.js": "044f2fb2733a48e915eacc9da01f004c24d083d6a1899812b2074a0d19e7cd85"}},
+  "sections": {"PD-00":"PASS","PD-01":"PASS","PD-02":"PASS","PD-03":"PASS","PD-04":"PASS","PD-05":"PASS","PD-06":"PASS","PD-07":"PASS","PD-08":"PASS","PD-09":"PASS","PD-10":"PASS","PD-11":"PASS","PD-12":"PASS","PD-13":"PASS","PD-14":"PASS","PD-15":"PASS","PD-16":"PASS","PD-17":"PASS"},
+  "tests": {"source_suite":"358/358","packaged_suite":"358/358","syntax":"40/40","json_manifest":"2/2","manifest_entrypoints":"11/11","coverage_registry":"PASS","harness_regression":"2/2"},
+  "browser": {"puppeteer":"25.4.0","chrome_for_testing":"151.0.7922.47","extension_install":"PASS","mv3_worker":"PASS","content_script":"PASS","popup":"PASS","fresh_package_worker":"PASS"},
+  "network": {"real_yandex_requests":0,"provider_surface":"PASS: controlled stubs/fault injection only"},
+  "artifact": {"filename":"yandex-marketing-bridge-0.1.1-phase1-final-live-acceptance-candidate.zip","sha256":"4973c5f87c3ad7d4c052e66c449c2afef412d20a6e4d767bbe761d62abf7cb84","bytes":199530,"files":45,"deterministic_a_b":"PASS","source_zip_identity":"PASS: 45/45 byte-identical"},
+  "security": {"secrets_in_report":0,"provider_surface":"PASS"},
+  "github": {"branch": "validation/yandex-pre-delivery-full-regression-2026-08-18", "commit": "see final branch HEAD", "report_only": "PASS"},
+  "handoff": {"owner_build_allowed":"YES"},
+  "verdict":"PASS"
+}
