@@ -601,3 +601,22 @@ Patched `content_script.js`: `d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6
 `service_worker.js` unchanged. Source-focused QA: `183/183 PASS`.
 
 Status at this point: Phase 1 LIVE PASS = FALSE; Search = BLOCKED. Real-profile patch PASS is not claimed. A focused controlled-browser A+B+negative-fence run remains required before a new full pre-delivery Gate.
+
+### 8.9 Manual live-fix focused browser rerun ledger — task 015 — 2026-08-18
+
+Task-015 evidence is recorded in the complete failure reports
+`CODEX_YANDEX_MANUAL_LIVE_FIX_CONTROLLED_BROWSER_FAIL_2026-08-18.md` and
+`.json`. The patched source identity is PASS and source-focused validation is
+`183/183 PASS`. The independent sibling-control browser matrix PASS is retained:
+native Copy remained independent, exactly one Yandex sibling was observed per
+eligible block, OFF/re-enable and mutation checks passed, and native Copy caused
+zero Manual dispatches.
+
+The positive late-confirmation controlled scenario was **NOT VALIDATED**. The
+negative unresolved-fence controlled scenario was **NOT VALIDATED**. The browser
+harness did not establish the required committed/unconfirmed precondition, so
+these are not PRODUCT FAIL classifications. Product modifications were `0` and
+real Yandex requests were `0`.
+
+Final classification: `CONTROLLED_BROWSER_HARNESS_FAIL`. Phase 1 LIVE PASS =
+FALSE. Search remains BLOCKED. A bounded external-harness correction is required.

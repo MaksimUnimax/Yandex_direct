@@ -1,0 +1,61 @@
+{
+  "result": "CODEX_YANDEX_MANUAL_LIVE_FIX_CONTROLLED_BROWSER_RESULT",
+  "governance": {
+    "initial_origin_main": "8f307f8f9fa7706790e9df053d0f5716782652e1",
+    "governed_patch_commit": "ca38480ca3dc049e3b29671fa83ae275aed35a1d",
+    "head_origin_equal": "PASS"
+  },
+  "patch": {
+    "sha256": "4dc0f5a40ea816fe9a3000ec62f0fe914377b41e8cac1e2dda4aea5f0f664c55",
+    "patched_content_script_sha256": "d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed",
+    "service_worker_unchanged": "PASS"
+  },
+  "focused_source": {
+    "pass": 183,
+    "total": 183,
+    "fail": 0
+  },
+  "browser_engine": {
+    "puppeteer": "25.4.0",
+    "chrome_for_testing": "151.0.7922.47",
+    "extension_install": "PASS",
+    "mv3_worker": "PASS"
+  },
+  "independent_controls": {
+    "eligible_blocks": 7,
+    "native_copy_count": 7,
+    "yandex_action_count": 7,
+    "distinct_elements": "PASS",
+    "native_copy_unchanged": "PASS",
+    "native_click_manual_dispatches": 0,
+    "yandex_click_manual_dispatches": 1,
+    "generic_excluded": "PASS",
+    "ambiguous_excluded": "PASS",
+    "off_removes_only_yandex": "PASS",
+    "reenable_idempotent": "PASS",
+    "mutation_sibling": "PASS"
+  },
+  "late_reconciliation": {
+    "initial_confirmation_missed": "FAIL",
+    "send_click_count": 2,
+    "reconciliation_attempts": 0,
+    "extra_manual_execute": 0,
+    "provider_requests": 0,
+    "first_operation_completed": "FAIL",
+    "second_manual_admitted": "PASS",
+    "second_manual_active_error": "NO"
+  },
+  "negative_fence": {
+    "unresolved_remained_fenced": "FAIL",
+    "extra_send": 0,
+    "extra_first_manual_execute": 0,
+    "provider_requests": 0
+  },
+  "environment": {
+    "product_modified_during_browser_qa": 0,
+    "shared_ozon_engine_modified": "NO",
+    "yandex_external_harness_modified": "YES",
+    "real_yandex_requests": 0
+  },
+  "verdict": "CONTROLLED_BROWSER_HARNESS_FAIL"
+}

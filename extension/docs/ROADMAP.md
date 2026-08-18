@@ -182,6 +182,8 @@ The historical artifact `yandex-marketing-bridge-0.1.1-phase1-final-live-accepta
 
 The exact live patch source-focused QA is `183/183 PASS`. Controlled-browser focused validation is pending at document-edit time. A new full pre-delivery Gate must run after focused controlled-browser PASS. Phase 1 LIVE PASS remains **FALSE** and Search remains **BLOCKED**.
 
+Task-015 controlled-browser status: **HARNESS_FAIL / bounded harness correction required**. Independent sibling-control assertions passed, but the harness did not validly establish the positive late-confirmation or negative unresolved-fence scenarios. This is not a product failure classification. Phase 1 LIVE PASS remains **FALSE** and Search remains **BLOCKED**.
+
 ## PHASE 2 — YANDEX SEARCH / SERP
 
 **Status: BLOCKED BY PHASE 1 LIVE GATE.**
