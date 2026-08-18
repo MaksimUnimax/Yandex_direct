@@ -558,3 +558,15 @@ Effective K state after this controlled/package checkpoint:
 | K-08 | NOT RUN / blocked | Requires K-02 live rerun plus all remaining mandatory K gates. |
 
 Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains blocked. The next action is a zero-Yandex-request real-current-Chrome visual K-02 prerequisite check on the exact final ZIP above; no pricing check is needed until an executable Yandex command is actually about to be issued.
+
+### 8.6 Manual Surface v2 automated end-to-end controlled PASS — 2026-08-18
+
+The exact reconstructed 45-file Manual Surface v2 source identity is PASS. The source suite is `358/358 PASS`; the installed extension and MV3 worker are PASS; content script and popup are PASS. Manual OFF and Manual ON both converged, with OFF exact restoration and re-enable PASS.
+
+The controlled factual PRE/CodeMirror fixture contained seven eligible local Copy controls. Manual ON decorated `7/7` yellow controls with visible `Яндекс` labels. Decoration was independent of block contents; generic whole-response Copy remained excluded; ambiguous locality failed closed; MutationObserver/rescan and idempotence passed; OFF restored the original state exactly.
+
+The representative click/core matrix passed, including worker-owned admission and terminal delivery diagnostics. Real Yandex requests were `0`. Production source was modified `0`; final source suite remained `358/358`; audited production hashes remained PASS.
+
+History is retained: earlier controlled `PRODUCT_FAIL` classifications were caused by QA assertion/state mistakes and are superseded by this factual end-to-end harness PASS. Production source was not changed to correct them; all fixes were external QA infrastructure only.
+
+This section does not record real current-Chrome K-02 PASS, Phase 1 LIVE PASS, or Phase 2 unlocked. K-02 remains pending the real current-Chrome check.

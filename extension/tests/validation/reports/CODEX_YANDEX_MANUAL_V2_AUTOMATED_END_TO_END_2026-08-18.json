@@ -1,0 +1,15 @@
+{
+  "report": "CODEX_YANDEX_MANUAL_V2_AUTOMATED_END_TO_END",
+  "date": "2026-08-18",
+  "authority_sha": "3ceb9607c8b35da3204db4182ea1599c15f2b111",
+  "source_files": 45,
+  "source_suite": "358/358",
+  "runtime": {"browser": "Chrome/151.0.7922.47", "puppeteer": "25.4.0", "extension_install": true, "mv3_worker": true, "content_script": true, "popup": true},
+  "manual": {"off": true, "on": true, "eligible": 7, "decorated": 7, "yellow": 7, "yandex_labels": 7, "generic_excluded": true, "ambiguous_fail_closed": true, "mutation": true, "idempotence": true, "off_restore": true, "reenable": true},
+  "click_core": {"representative_matrix": true, "terminal": "MANUAL_OPERATION_COMPLETED", "provider_requests": 0},
+  "production_modified": 0,
+  "verdict": "AUTOMATED_CONTROLLED_PASS",
+  "real_current_chrome_k02": "PENDING",
+  "phase1_live_pass": false,
+  "phase2_search": "BLOCKED"
+}
