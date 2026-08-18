@@ -1,26 +1,67 @@
-# ROADMAP v0.3 — Yandex Marketing Bridge
+# ROADMAP v0.4 — Yandex Marketing Bridge
 
-Status: active roadmap.
-Updated: 2026-08-12.
+Status: active roadmap.  
+Updated: 2026-08-18.
 
 ## Governing rule
 
-**One phase = one service = one controlled live acceptance.**
+**One phase = one service = one controlled development closure + one final live acceptance boundary.**
 
-No new service starts until the current service passes:
+Testing cadence is now explicitly split:
 
 ```text
-official API check
-→ implementation
-→ source tests
-→ exact packaged-extension tests
-→ source/package identity
-→ syntax/static checks
-→ Chromium load smoke
-→ controlled real Chrome + production ChatGPT acceptance
-→ regression PASS
-→ gate PASS
+during development/change
+→ focused tests for changed code + affected dependencies only
+
+when a working candidate is frozen and is about to be handed to the owner
+→ ONE complete Codex pre-delivery regression campaign
+→ exact package/identity verification
+→ only then owner/live acceptance where required
 ```
+
+Permanent pre-delivery gate authority:
+
+```text
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
+```
+
+The full gate is **not** run after every edit. It is mandatory immediately before handing the owner a working build/candidate. Any mandatory FAIL blocks handoff; after a fix the whole pre-delivery gate is rerun from the beginning on the new exact candidate.
+
+No new service starts until the current service passes its governed live acceptance. Controlled Codex/Puppeteer evidence must never be relabeled as real-profile/live evidence.
+
+## Current authority correction — 2026-08-18
+
+Older 0.1.1 candidate/hash blocks below are retained only as development history where referenced by old evidence. They are **not current distribution authority**.
+
+Current Phase-1 production authority is the exact reconstructed **45-file Manual Surface v2 source tree** governed by the Manual-v2 contract/evidence and patch-part reconstruction records.
+
+Current verified state:
+
+```text
+exact source identity:                    45/45 PASS
+source suite:                             358/358 PASS
+actual CfT extension installation:        PASS
+MV3 worker/content/popup:                  PASS
+Manual OFF/ON convergence:                 PASS
+Manual Surface v2 eligible/decorated:      7/7 PASS
+content-independent yellow + Яндекс:       PASS
+generic response Copy excluded:            PASS
+ambiguous locality fail-closed:             PASS
+mutation/rescan/idempotence/restore:        PASS
+representative click/core controlled QA:   PASS
+real Yandex requests in controlled run:     0
+production changes needed for QA fixes:     0
+```
+
+Controlled PASS evidence is recorded at commit:
+
+```text
+505c73e01f862c38285291e69fc615c86c2f3c37
+```
+
+A later attempt to drive the owner's normal Chrome from Codex established only an external capability blocker; it did **not** establish a product FAIL. That history is recorded in the live ledger.
+
+The final distribution ZIP for owner handoff is **not yet frozen**. Before any new working build is handed to the owner, the exact candidate must pass the permanent Codex pre-delivery full regression gate in one complete run.
 
 ## PHASE 0 — REPOSITORY / REFERENCE / CORE DESIGN
 
@@ -28,7 +69,7 @@ official API check
 
 Reference authority remains the owner-supplied audited Wordstat artifact and its canonical documentation.
 
-The Phase 0 architectural decision that placed Job/GitHub concepts inside extension runtime was later proven incorrect by live testing and is superseded by the Phase 1 repair documented below. Historical evidence remains preserved; current living specification is v0.2.
+The Phase 0 architectural decision that placed Job/GitHub concepts inside extension runtime was later proven incorrect by live testing and is superseded by the Phase 1 repair documented below. Historical evidence remains preserved.
 
 ## PHASE 1 — WORDSTAT + UNIFIED CORE
 
@@ -56,80 +97,45 @@ yandex-marketing-bridge-0.1.0-phase1-wordstat-candidate.zip
 SHA-256 79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a
 ```
 
-is **WITHDRAWN / LIVE FAIL**.
+is **WITHDRAWN / LIVE FAIL** and must not be installed for current acceptance.
 
-Live failure exposed an incorrect mandatory `job_id` gate (`JOB_ID_MISSING`) and additional missing migration/error-reporting behavior. It must not be installed for further acceptance.
+### Historical 0.1.1 repair/pre-live candidates
 
-### Current repaired candidate — 0.1.1
+Multiple 0.1.1 development candidates and package checkpoints were produced while repairing Phase 1. Their hashes remain valid historical evidence but do not override the current 45-file Manual Surface v2 authority described above.
 
-Exact artifact:
+### Current 0.1.1 contract
 
-```text
-yandex-marketing-bridge-0.1.1-phase1-repair-candidate.zip
-SHA-256 311353e2671052b7170e12db3e1318dfed4f59ccf945c7eda6ec59152ee3abfb
-size 172705 bytes
-files 41
-```
-
-Automated/pre-live evidence:
-
-```text
-source full suite:          311/311 PASS
-fresh ZIP full suite:       311/311 PASS
-source ↔ fresh ZIP:          41/41 byte-identical
-fresh ZIP JS/MJS syntax:     36/36 PASS
-manifest/package JSON:        2/2 PASS
-manifest/package version:   0.1.1 / 0.1.1
-Chromium 144 load smoke:     PASS
-```
-
-Machine-readable evidence:
-
-```text
-extension/tests/PHASE_1_0.1.1_PRELIVE_TEST_EVIDENCE.json
-```
-
-### 0.1.1 repair contract
-
-The repaired candidate now enforces:
+The current Phase-1 implementation enforces:
 
 - no mandatory `job_id` in extension runtime;
 - no GitHub/workspace dependency in extension runtime;
-- GitHub persistence belongs to ChatGPT/development workflow outside the Bridge;
 - one RUN = one immutable active service;
-- proven legacy `wsmb_*` storage continuity, including `wsmb_api_key`;
-- Export settings / Import settings with intentional secret backup + canonical SHA-256 validation;
-- active RUN/manual-operation safety state preserved across import;
-- all errors automatically delivered to the bound ChatGPT conversation regardless of Debug Mode;
-- Debug Mode only adds additional redacted diagnostics;
-- durable error claim/commit/reconciliation fencing;
-- recoverable Autorun errors continue toward command waiting when safe;
-- unknown external request outcome is never automatically retried;
-- Manual invalid command errors also reach ChatGPT;
-- error queue state and response contract are consistent;
-- Manual on a PAUSED RUN shares the same RUN request/cost budget and cannot bypass it;
-- reference conversation binding, owner-tab, native Copy, single-flight and no-blind-retry protections remain regression-covered.
+- legacy `wsmb_*` storage continuity;
+- Export/Import settings backup with SHA-256 validation and active-state safety;
+- all bound-conversation errors automatically delivered regardless of Debug Mode;
+- Debug Mode adds only redacted diagnostics;
+- durable result/error claim/commit/reconciliation and no duplicate Send;
+- recoverable Autorun continuation when safe;
+- unknown external request outcome is never blindly retried;
+- Manual on a PAUSED RUN shares the same RUN request/cost budget;
+- owner-tab/conversation/native-Copy/single-flight fences remain fail-closed;
+- **Manual Surface v2:** with Manual ON, every uniquely resolved supported assistant code/writing block local Copy is visibly armed yellow + `Яндекс` independent of block contents; generic whole-response Copy is excluded; ambiguous locality fails closed; native Copy remains intact; complete clicked block is sent to worker/core, which owns command discovery/validation/errors.
 
 ### PHASE 1 CURRENT GATE
 
-**Status: PRE-LIVE PASS / PRODUCTION CHATGPT LIVE ACCEPTANCE PENDING.**
+**Status: CONTROLLED MANUAL-V2 PASS / FINAL PRE-DELIVERY GATE + REAL-PROFILE LIVE ACCEPTANCE PENDING.**
 
-Still required in owner's real Chrome/current production ChatGPT:
+Before a working Phase-1 build is handed to the owner:
 
-1. install exact 0.1.1 candidate;
-2. verify popup version and in-place legacy key continuity or Export/Import migration;
-3. verify reference-compatible local Copy/toasts;
-4. verify one free `getRegionsTree` request after fresh official pricing check;
-5. verify `WORDSTAT_RESULT_V1` returns to this conversation;
-6. verify deliberately triggered errors return automatically as `YMB_ERROR_V1` with Debug OFF;
-7. enable Debug Mode and verify the same error includes additional redacted logs;
-8. verify Autorun continues after a recoverable error;
-9. verify unknown-request recovery never duplicates the Yandex initiation;
-10. verify Pause/Resume/Finish, duplicate-tab and conversation isolation;
-11. verify Manual on PAUSED RUN cannot bypass configured RUN cost/request ceilings;
-12. perform one minimal paid request only after fresh official tariff verification and only if all earlier gates pass.
+1. freeze one exact candidate source/package identity;
+2. run `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` as one complete Codex campaign covering every currently Codex-testable product surface;
+3. require all mandatory gate items PASS;
+4. verify deterministic package/source identity;
+5. only then perform the remaining irreducibly real-profile/live acceptance checks in the owner's normal environment.
 
-No Search implementation is authorized until this acceptance passes.
+The pre-delivery gate is a living registry and must evolve with product functionality. During ordinary development/fixes, run only focused tests for the changed code and affected dependencies.
+
+No Search implementation is authorized until Phase 1 live acceptance passes.
 
 ## PHASE 2 — YANDEX SEARCH / SERP
 
@@ -177,7 +183,8 @@ Order workspaces in GitHub remain an external ChatGPT workflow and are not a Bri
 
 ```text
 PHASE 0  PASS
-PHASE 1  0.1.0 WITHDRAWN; 0.1.1 PRE-LIVE PASS / PRODUCTION LIVE PENDING
+PHASE 1  0.1.0 WITHDRAWN
+PHASE 1  0.1.1 CONTROLLED MANUAL-V2 PASS / PRE-DELIVERY + LIVE PENDING
 PHASE 2  BLOCKED
 PHASE 3  BLOCKED
 PHASE 4  BLOCKED
