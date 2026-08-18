@@ -7,7 +7,7 @@ Updated: 2026-08-18.
 
 **One phase = one service = one controlled development closure + one final live acceptance boundary.**
 
-Testing cadence is now explicitly split:
+Testing cadence is explicitly split:
 
 ```text
 during development/change
@@ -25,17 +25,17 @@ Permanent pre-delivery gate authority:
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
 ```
 
-The full gate is **not** run after every edit. It is mandatory immediately before handing the owner a working build/candidate. Any mandatory FAIL blocks handoff; after a fix the whole pre-delivery gate is rerun from the beginning on the new exact candidate.
+The full gate is **not** run after every edit. It is mandatory immediately before handing the owner a working build/candidate. Any mandatory FAIL blocks handoff; after a production fix the whole pre-delivery gate is rerun from the beginning on the new exact candidate.
 
 No new service starts until the current service passes its governed live acceptance. Controlled Codex/Puppeteer evidence must never be relabeled as real-profile/live evidence.
 
-## Current authority correction — 2026-08-18
+## Current authority — 2026-08-18
 
-Older 0.1.1 candidate/hash blocks below are retained only as development history where referenced by old evidence. They are **not current distribution authority**.
+Older 0.1.1 candidate/hash blocks are retained only as development history where referenced by old evidence. They are **not current distribution authority**.
 
 Current Phase-1 production authority is the exact reconstructed **45-file Manual Surface v2 source tree** governed by the Manual-v2 contract/evidence and patch-part reconstruction records.
 
-Current verified state:
+Current controlled product state:
 
 ```text
 exact source identity:                    45/45 PASS
@@ -53,15 +53,60 @@ real Yandex requests in controlled run:     0
 production changes needed for QA fixes:     0
 ```
 
-Controlled PASS evidence is recorded at commit:
+Controlled Manual-v2 PASS evidence is recorded at commit:
 
 ```text
 505c73e01f862c38285291e69fc615c86c2f3c37
 ```
 
-A later attempt to drive the owner's normal Chrome from Codex established only an external capability blocker; it did **not** establish a product FAIL. That history is recorded in the live ledger.
+A later attempt to drive the owner's normal Chrome from Codex established only an external capability blocker; it did **not** establish a product FAIL. That history remains in the live ledger.
 
-The final distribution ZIP for owner handoff is **not yet frozen**. Before any new working build is handed to the owner, the exact candidate must pass the permanent Codex pre-delivery full regression gate in one complete run.
+### Frozen pre-delivery artifact
+
+The mandatory living pre-delivery regression gate was executed against the exact 45-file candidate at authority main SHA:
+
+```text
+653adb63a68f98f03f21534658f3397fd389e0c6
+```
+
+Validation evidence commit:
+
+```text
+c71e1e69aa70babd31c30b4f461323299562ae2b
+branch: validation/yandex-pre-delivery-full-regression-2026-08-18
+```
+
+Result:
+
+```text
+PD-00…PD-17:                            ALL PASS
+coverage registry:                       PASS
+source suite:                            358/358 PASS
+fresh packaged suite:                    358/358 PASS
+JS/MJS syntax:                           40/40 PASS
+JSON:                                     2/2 PASS
+manifest entrypoints:                    11/11 PASS
+Chrome for Testing / Puppeteer runtime:  PASS
+production modified during gate:          0
+harness modified during gate:             0
+real Yandex requests:                     0
+secrets in report:                        0
+```
+
+Exact owner-handoff / final-live-acceptance artifact:
+
+```text
+yandex-marketing-bridge-0.1.1-phase1-final-live-acceptance-candidate.zip
+SHA-256 4973c5f87c3ad7d4c052e66c449c2afef412d20a6e4d767bbe761d62abf7cb84
+size 199530 bytes
+files 45
+deterministic Build A/B: PASS
+source ↔ fresh extraction: 45/45 byte-identical
+```
+
+**Pre-delivery regression gate: PASS. Owner handoff is allowed for this exact artifact only.**
+
+Any production-byte change after this checkpoint invalidates this handoff PASS and requires the entire pre-delivery gate to be rerun on the new frozen candidate. Documentation/evidence-only commits do not alter the tested artifact identity.
 
 ## PHASE 0 — REPOSITORY / REFERENCE / CORE DESIGN
 
@@ -101,7 +146,7 @@ is **WITHDRAWN / LIVE FAIL** and must not be installed for current acceptance.
 
 ### Historical 0.1.1 repair/pre-live candidates
 
-Multiple 0.1.1 development candidates and package checkpoints were produced while repairing Phase 1. Their hashes remain valid historical evidence but do not override the current 45-file Manual Surface v2 authority described above.
+Multiple 0.1.1 development candidates and package checkpoints were produced while repairing Phase 1. Their hashes remain valid historical evidence but do not override the current 45-file Manual Surface v2 authority and frozen pre-delivery artifact described above.
 
 ### Current 0.1.1 contract
 
@@ -123,17 +168,11 @@ The current Phase-1 implementation enforces:
 
 ### PHASE 1 CURRENT GATE
 
-**Status: CONTROLLED MANUAL-V2 PASS / FINAL PRE-DELIVERY GATE + REAL-PROFILE LIVE ACCEPTANCE PENDING.**
+**Status: PRE-DELIVERY FULL REGRESSION PASS / REAL-PROFILE LIVE ACCEPTANCE PENDING.**
 
-Before a working Phase-1 build is handed to the owner:
+The exact frozen artifact above is permitted to enter final owner real-profile/live acceptance. Controlled PASS is not itself Phase 1 LIVE PASS.
 
-1. freeze one exact candidate source/package identity;
-2. run `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` as one complete Codex campaign covering every currently Codex-testable product surface;
-3. require all mandatory gate items PASS;
-4. verify deterministic package/source identity;
-5. only then perform the remaining irreducibly real-profile/live acceptance checks in the owner's normal environment.
-
-The pre-delivery gate is a living registry and must evolve with product functionality. During ordinary development/fixes, run only focused tests for the changed code and affected dependencies.
+The owner's final live acceptance must use this exact artifact identity. If production bytes change, this pre-delivery PASS is invalid and the full Gate must be rerun.
 
 No Search implementation is authorized until Phase 1 live acceptance passes.
 
@@ -184,7 +223,7 @@ Order workspaces in GitHub remain an external ChatGPT workflow and are not a Bri
 ```text
 PHASE 0  PASS
 PHASE 1  0.1.0 WITHDRAWN
-PHASE 1  0.1.1 CONTROLLED MANUAL-V2 PASS / PRE-DELIVERY + LIVE PENDING
+PHASE 1  0.1.1 PRE-DELIVERY FULL REGRESSION PASS / REAL-PROFILE LIVE PENDING
 PHASE 2  BLOCKED
 PHASE 3  BLOCKED
 PHASE 4  BLOCKED
