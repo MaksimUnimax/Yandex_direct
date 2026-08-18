@@ -361,6 +361,27 @@ The historical K table above is intentionally retained. At this checkpoint its e
 
 Phase 1 is therefore **not** declared LIVE PASS yet, and Phase 2 Search remains blocked until the consolidated candidate completes the governed real-current-Chrome closure.
 
+## 9. Task-016 repeated browser capability blocker and task-017 architecture correction
+
+Task-016 evidence is retained in:
+
+extension/tests/validation/reports/CODEX_YANDEX_LIVE_FIX_RERUN_TASK016_HARNESS_FAIL_2026-08-18.md
+and its JSON equivalent.
+
+The classification is **REPEATED CONTROLLED-BROWSER HARNESS CAPABILITY
+BLOCKER**, not PRODUCT FAIL. Independent controls passed, but the positive
+committed/unconfirmed precondition was not established; therefore
+first_operation_manual_executes = 0 and first_operation_send_clicks = 0.
+Patched reconciliation behavior was not exercised. The negative scenario was
+not run. Product modified 0, real Yandex requests 0, and the full Gate was
+not run. Phase 1 LIVE PASS remains FALSE; Search remains BLOCKED.
+
+Task-017 governs the venue correction: browser remains mandatory for browser
+and DOM behavior, while deterministic content↔worker integration is mandatory
+for the two PD-11 internal asynchronous boundary regressions. No safety
+assertion is removed or weakened. The product patch remains unchanged and the
+full pre-delivery Gate is pending.
+
 ---
 
 ## 8. Real current-Chrome K closure — 2026-08-17

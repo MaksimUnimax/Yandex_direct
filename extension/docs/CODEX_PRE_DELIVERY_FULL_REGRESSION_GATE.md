@@ -79,6 +79,31 @@ This gate does **not** relabel controlled evidence as real-profile/live evidence
 
 Unless a future gate revision explicitly authorizes otherwise, this pre-delivery gate performs **zero real Yandex provider requests and uses no real credentials**.
 
+### 3.1 Validation venue follows the functional boundary
+
+The validation venue is chosen per functional boundary.
+
+- Browser/CfT validation is mandatory where DOM, popup, extension installation,
+  MV3 lifecycle, content-script loading, native Copy behavior, or the separate
+  Yandex sibling itself is under test.
+- Deterministic Node/VM content↔worker integration is mandatory where a
+  specific internal asynchronous state must be manufactured and repeated
+  reliably, and the qualified browser fixture has proven unable to establish
+  that precondition.
+
+Moving a regression between qualified validation layers MUST NOT remove the
+regression, weaken its assertions, relabel integration evidence as
+real-profile evidence, or bypass an actual browser/UI behavior that Codex can
+reliably test.
+
+Task-015 and task-016 independently established that the synthetic
+'HOLD_USER_TURN' browser fixture is not a qualified capability for injecting
+the committed/unconfirmed Manual delivery boundary. The late-confirmation and
+unresolved-fence regressions therefore execute in the deterministic
+content↔worker integration layer while retaining their complete safety
+assertions. PD-06 and PD-07 continue to require the qualified browser
+assertions for the browser-owned surfaces and normal content→worker contours.
+
 ## 4. Run discipline
 
 For a pre-delivery run:
@@ -245,6 +270,9 @@ Permanent owner-directed sibling-control regressions:
 
 Current factual family must include the latest supported ChatGPT PRE/readonly-CodeMirror structure plus any still-supported legacy adapters.
 
+PD-06 does not require synthetic committed/unconfirmed late-confirmation
+injection. That internal state is governed by PD-11 deterministic integration.
+
 ## PD-07 — Manual full-block discovery and click/core behavior
 
 Through actual content→worker controlled flow, cover at minimum:
@@ -358,6 +386,21 @@ Negative fence regression:
 remains enforced → no premature lock release → no repeat Send/API.`
 
 Both are permanent mandatory gate regressions.
+
+The two boundary regressions are mandatory in the deterministic
+content↔worker integration layer when the qualified browser fixture cannot
+reliably manufacture the committed/unconfirmed precondition. The current
+exact tests are:
+
+- D:\codex\Yandex\work\manual-v2-live-fix-014\source\tests\content_runtime_exhaustive.test.mjs
+  — 'content retries committed Manual reconciliation until the delivered user turn appears, without a second Send or block execution'
+- D:\codex\Yandex\work\manual-v2-live-fix-014\source\tests\manual_surface_v2_worker.test.mjs
+  — 'committed unconfirmed Manual delivery stays fenced, confirmation releases it, and the next Manual block is admitted'
+
+These tests retain the required Send, reconciliation, block-execution,
+provider-request, completion and next-admission/fence assertions. The same
+tests must pass from the exact frozen source and from the fresh extracted
+package during PD-01/PD-03.
 
 - normal result delivery exactly once;
 - normal error delivery exactly once;

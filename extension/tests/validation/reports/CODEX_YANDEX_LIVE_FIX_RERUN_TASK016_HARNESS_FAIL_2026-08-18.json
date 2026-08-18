@@ -1,0 +1,43 @@
+{
+  "result": "CODEX_YANDEX_LIVE_FIX_RERUN_AND_GATE_RESULT",
+  "classification": "REPEATED CONTROLLED-BROWSER HARNESS CAPABILITY BLOCKER",
+  "failure_commit": "40438532d28a6501df5feb73dfeadd06a115c64a",
+  "candidate": {
+    "path": "D:\\codex\\Yandex\\work\\manual-v2-live-fix-014\\source",
+    "files": 45,
+    "content_script_sha256": "d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed",
+    "service_worker_sha256": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8"
+  },
+  "browser": {
+    "puppeteer": "25.4.0",
+    "chrome_for_testing": "151.0.7922.47",
+    "independent_controls": "PASS",
+    "positive_late_confirmation": "FAIL_PRECONDITION_NOT_ESTABLISHED",
+    "negative_unresolved_fence": "NOT_RUN",
+    "harness_error": "Runtime.callFunctionOn timed out"
+  },
+  "positive_detail": {
+    "initial_committed_unconfirmed_proven": "FAIL",
+    "first_operation_manual_executes": 0,
+    "first_operation_send_clicks": 0,
+    "reconciliation_exercised": false
+  },
+  "negative_detail": {
+    "run": false
+  },
+  "environment": {
+    "product_modified": 0,
+    "real_yandex_requests": 0,
+    "shared_ozon_engine_modified": "NO",
+    "full_gate_run": false,
+    "ready_to_install_modified": "NO"
+  },
+  "held_turn_probe": {
+    "send_click_count": 1,
+    "matching_user_turn_before_release": 0,
+    "matching_user_turn_after_release": 1,
+    "release_send_click_count": 1,
+    "verdict": "PASS"
+  },
+  "verdict": "CONTROLLED_BROWSER_HARNESS_FAIL"
+}

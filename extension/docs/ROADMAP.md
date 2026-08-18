@@ -184,6 +184,24 @@ The exact live patch source-focused QA is `183/183 PASS`. Controlled-browser foc
 
 Task-015 controlled-browser status: **HARNESS_FAIL / bounded harness correction required**. Independent sibling-control assertions passed, but the harness did not validly establish the positive late-confirmation or negative unresolved-fence scenarios. This is not a product failure classification. Phase 1 LIVE PASS remains **FALSE** and Search remains **BLOCKED**.
 
+### 2026-08-18 task-016/task-017 validation architecture correction
+
+Task-016 repeated the controlled-browser capability failure: independent
+controls passed, but the synthetic browser fixture did not establish the
+committed/unconfirmed positive precondition; the negative scenario was not
+run. first_operation_manual_executes = 0,
+first_operation_send_clicks = 0, product modifications were 0, real
+Yandex requests were 0, and the full Gate was not run. This is classified as
+a **REPEATED CONTROLLED-BROWSER HARNESS CAPABILITY BLOCKER**, not a product
+failure. Phase 1 LIVE PASS remains **FALSE** and Search remains **BLOCKED**.
+
+The browser independent-control path remains qualified/PASS historically.
+Synthetic late-confirmation state injection is classified as an
+**UNQUALIFIED/UNRELIABLE HARNESS CAPABILITY**. Deterministic content↔worker
+integration is the governed PD-11 venue for the same mandatory assertions;
+the product patch remains unchanged. The corrected full pre-delivery Gate is
+pending.
+
 ## PHASE 2 — YANDEX SEARCH / SERP
 
 **Status: BLOCKED BY PHASE 1 LIVE GATE.**
