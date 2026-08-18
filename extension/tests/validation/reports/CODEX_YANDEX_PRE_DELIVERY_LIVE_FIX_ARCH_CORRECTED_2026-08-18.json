@@ -1,0 +1,125 @@
+{
+  "result": "CODEX_YANDEX_LIVE_FIX_ARCH_CORRECTED_FULL_GATE_RESULT",
+  "governance": {
+    "initial_origin_main": "40438532d28a6501df5feb73dfeadd06a115c64a",
+    "architecture_commit": "99230ed22e39eb9b838aa31052160ba2e46f4020",
+    "pre_delivery_authority_sha": "99230ed22e39eb9b838aa31052160ba2e46f4020",
+    "head_origin_equal": "PASS"
+  },
+  "task016": {
+    "evidence_recorded": "PASS",
+    "classification": "REPEATED_BROWSER_HARNESS_CAPABILITY_BLOCKER"
+  },
+  "candidate": {
+    "path": "D:\\codex\\Yandex\\work\\manual-v2-live-fix-014\\source",
+    "files": 45,
+    "version": "0.1.1",
+    "content_script_sha256": "d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed",
+    "service_worker_sha256": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8",
+    "patch_sha256": "4dc0f5a40ea816fe9a3000ec62f0fe914377b41e8cac1e2dda4aea5f0f664c55",
+    "production_modified_before_gate": 0
+  },
+  "validation_architecture": {
+    "browser_scope": {
+      "install_popup_dom_native_copy_yandex_sibling": "QUALIFIED",
+      "synthetic_late_confirmation_state_injection": "UNQUALIFIED"
+    },
+    "pd11_scope": {
+      "deterministic_content_worker_integration": "QUALIFIED"
+    },
+    "safety_assertions_removed": 0,
+    "safety_assertions_weakened": 0
+  },
+  "pd11": {
+    "positive_test_path": "D:\\codex\\Yandex\\work\\manual-v2-live-fix-014\\source\\tests\\content_runtime_exhaustive.test.mjs",
+    "positive_test_name": "content retries committed Manual reconciliation until the delivered user turn appears, without a second Send or block execution",
+    "positive": "PASS",
+    "positive_manual_execute": 1,
+    "positive_send": 1,
+    "positive_reconciliation_resend": 0,
+    "positive_extra_manual_execute": 0,
+    "positive_provider_requests": 0,
+    "positive_completed": "PASS",
+    "positive_next_manual_admitted": "PASS",
+    "negative_test_path": "D:\\codex\\Yandex\\work\\manual-v2-live-fix-014\\source\\tests\\manual_surface_v2_worker.test.mjs",
+    "negative_test_name": "committed unconfirmed Manual delivery stays fenced, confirmation releases it, and the next Manual block is admitted",
+    "negative": "PASS",
+    "negative_manual_execute": 1,
+    "negative_send": 1,
+    "negative_reconciliation_resend": 0,
+    "negative_extra_manual_execute": 0,
+    "negative_provider_requests": 0,
+    "negative_completed": "NO",
+    "negative_second_manual_admitted": "NO",
+    "negative_fence": "PASS"
+  },
+  "sections": {
+    "PD_00": "PASS",
+    "PD_01": "PASS",
+    "PD_02": "PASS",
+    "PD_03": "PASS",
+    "PD_04": "PASS",
+    "PD_05": "PASS",
+    "PD_06": "PASS",
+    "PD_07": "PASS",
+    "PD_08": "PASS",
+    "PD_09": "PASS",
+    "PD_10": "PASS",
+    "PD_11": "PASS",
+    "PD_12": "PASS",
+    "PD_13": "PASS",
+    "PD_14": "PASS",
+    "PD_15": "PASS",
+    "PD_16": "PASS",
+    "PD_17": "PASS"
+  },
+  "tests": {
+    "source_suite": "360/360",
+    "source_fail": 0,
+    "source_skipped": 0,
+    "source_cancelled": 0,
+    "packaged_suite": "360/360",
+    "packaged_fail": 0,
+    "packaged_skipped": 0,
+    "syntax": "40/40",
+    "json_manifest": "2/2",
+    "manifest_entrypoints": "12/12"
+  },
+  "browser": {
+    "puppeteer": "25.4.0",
+    "chrome_for_testing": "151.0.7922.47",
+    "extension_install": "PASS",
+    "mv3_worker": "PASS",
+    "popup": "PASS",
+    "independent_yandex_sibling": "PASS",
+    "native_copy_independent": "PASS"
+  },
+  "artifact": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-live-fix-final-candidate.zip",
+    "path": "D:\\codex\\Yandex\\artifacts\\architecture-corrected-017\\yandex-marketing-bridge-0.1.1-phase1-live-fix-final-candidate.zip",
+    "sha256": "54bef8be4383810d344cebcd8bf4243777ce1d5533ca20b4a3f2630a32d9cf7e",
+    "bytes": 199800,
+    "files": 45,
+    "deterministic_a_b": "PASS",
+    "source_zip_identity": "PASS"
+  },
+  "network": {
+    "real_yandex_requests": 0
+  },
+  "cleanliness": {
+    "production_modified_during_gate": 0,
+    "harness_modified_during_gate": 0,
+    "secrets_in_reports": 0,
+    "ready_to_install_modified": "NO"
+  },
+  "github": {
+    "validation_branch": "validation/yandex-pre-delivery-live-fix-architecture-corrected-2026-08-18",
+    "report_commit": "PENDING",
+    "report_only": "PASS"
+  },
+  "handoff": {
+    "owner_build_allowed_by_gate": "YES",
+    "owner_real_profile_acceptance_still_required": "YES"
+  },
+  "verdict": "FULL_GATE_PASS"
+}
