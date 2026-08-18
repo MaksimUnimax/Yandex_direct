@@ -1,7 +1,7 @@
-# SPECIFICATION v0.2 — Yandex Marketing Bridge
+# SPECIFICATION v0.3 — Yandex Marketing Bridge
 
-Status: current technical specification.
-Updated: 2026-08-12.
+Status: current technical specification.  
+Updated: 2026-08-18.
 
 ## 1. Product boundary
 
@@ -11,8 +11,8 @@ Runtime architecture:
 
 ```text
 CORE
-├─ writing-block capture
-├─ manual native-Copy integration
+├─ writing/code-block structural capture
+├─ manual native-Copy action surface
 ├─ autorun state machine
 ├─ conversation identity/binding
 ├─ owner-tab protection
@@ -34,7 +34,7 @@ ADAPTERS
 └─ Direct        [blocked]
 ```
 
-The audited Wordstat Bridge 1.1.5 and proven Business Bridge 2 mechanisms are the behavior references. Proven common mechanisms are preserved unless a documented incompatibility requires change.
+The audited Wordstat Bridge 1.1.5 and other proven bridge mechanisms remain behavior references where they are compatible with current production ChatGPT DOM and the current governed contracts.
 
 ## 2. GitHub is outside extension runtime
 
@@ -71,11 +71,11 @@ METRIKA_API_V1    → Metrika adapter
 DIRECT_API_V1     → Direct adapter
 ```
 
-Only adapters registered for the accepted phase may execute. Phase 1 registers **Wordstat only**. Unknown/future prefixes cause no network side effect.
+Only adapters registered for the accepted phase may execute. Phase 1 registers **Wordstat only**. Unknown/future prefixes cause no provider/network side effect.
 
 ## 4. One RUN = one SERVICE
 
-Autorun RUN has immutable `active_service` until Finish.
+Autorun RUN has immutable `active_service` until Finish/Stop.
 
 Minimum runtime fields:
 
@@ -107,37 +107,50 @@ WAITING_COMMAND
 REQUESTING
 DELIVERING
 PAUSED
-ERROR      # only when a truly terminal/suspended condition requires it
+ERROR
 ```
 
 Recoverable ordinary failures should return toward `WAITING_COMMAND` when safe instead of killing Autorun.
 
-## 5. Manual / Autorun reference semantics
+## 5. Manual Surface v2 / Autorun semantics
 
-Required invariants:
+Manual is a **DOM/action-surface mode**, not a page-side command pre-validator.
 
-- native local Copy remains native Copy;
-- generic assistant-level Copy Response is never an API trigger;
-- Manual and Autorun are mutually controlled;
-- watcher accepts only stable new assistant writing/code blocks;
+Required Manual invariants:
+
+- Manual OFF: ordinary local Copy remains native and Bridge-owned decoration/action is absent;
+- Manual ON + confirmed bound conversation: every **uniquely resolved local Copy belonging to a supported assistant writing/code block** is armed as the Yandex Manual action surface;
+- armed controls are visibly Yandex-yellow with a visible `Яндекс` label;
+- visual arming is **independent of block contents**: plain text, arbitrary JSON, malformed material, valid protocol and multi-command content are all decorated identically when structural binding is valid;
+- content/page code must not prefilter by protocol marker, JSON validity, allowed service/method, credentials, policy, price or provider availability;
+- generic assistant-level whole-response Copy is excluded and remains native;
+- ambiguous local Copy mapping fails closed and remains native/unarmed;
+- the smallest unambiguous structural locality is used; no cross-block/cross-assistant binding;
+- native Copy behavior remains intact; Bridge adds an action but does not prevent native Copy;
+- clicking an armed local Copy submits the **complete clicked block** to worker/core;
+- worker/core owns command discovery, strict validation, routing, policy, credentials, cost and controlled no-command/malformed errors;
+- DOM mutations/rerenders are rescanned; decoration is idempotent; disabling Manual restores the exact native surface; re-enable decorates once again;
+- Manual and Autorun remain mutually controlled according to the current runtime contract;
 - exactly-once fences use command/assistant/delivery identities;
 - owner-tab and conversation binding are fail-closed;
 - composer text is never silently overwritten;
-- Start and result/error Send are committed before the one browser click where reference requires it;
-- recovery after a committed click is reconciliation-only;
+- irreversible request/Send boundaries are durably fenced;
 - billable/irreversible initiation is never blindly retried after uncertain outcome.
+
+The current factual ChatGPT family includes assistant sections/message containers with local `PRE` blocks and readonly CodeMirror-like bodies plus exactly one local Copy button in the same block. Current and legacy supported adapters may coexist, but unknown/ambiguous DOM must fail closed.
 
 ## 6. Manual budget semantics
 
-Manual Copy is an explicit per-command operator authorization.
+A Manual click authorizes processing of the clicked block; whether it contains an executable command is determined by worker/core after admission.
 
 If there is **no active paused RUN**, standalone Manual has no invented JOB budget.
 
-If Manual is used while the current Autorun RUN is **PAUSED**, the request must use the same RUN request/cost counters and ceilings:
+If Manual is used while the current Autorun RUN is **PAUSED**, any executable request admitted from that block must use the same RUN request/cost counters and ceilings:
 
 ```text
 Pause RUN
-→ Manual Copy
+→ Manual block click
+→ worker discovers command
 → same RUN budget
 ```
 
@@ -156,9 +169,9 @@ INVALID_OR_EXPIRED
 NO_ACCESS
 ```
 
-Credential presence is separate from Manual/Autorun permission.
+Credential presence is separate from Manual/Autorun permission and separate from Manual visual arming.
 
-Missing credentials for an executable command produce a controlled result with zero external request, for example:
+Missing credentials for an executable command produce a controlled result/error with zero external request, for example:
 
 ```text
 status = SKIPPED
@@ -172,7 +185,7 @@ Credentials must not appear in ordinary ChatGPT executable commands, result enve
 
 ## 8. Storage compatibility
 
-Phase 1 must preserve proven Wordstat storage continuity, including the existing keys used by the reference such as:
+Phase 1 must preserve proven Wordstat storage continuity, including existing keys such as:
 
 ```text
 wsmb_api_key
@@ -227,11 +240,10 @@ The exported file itself contains secrets and must be treated like a credential 
 
 Every detected extension failure that can be associated with a bound ChatGPT conversation must be delivered automatically to that conversation.
 
-This applies to:
+This includes:
 
-- Manual;
-- Autorun;
-- command parsing/validation;
+- Manual worker/core discovery/validation failures;
+- Autorun failures;
 - credential/policy rejection where represented as error rather than result;
 - network/runtime errors;
 - watcher/content errors;
@@ -265,6 +277,8 @@ timestamp
 
 No secrets.
 
+A Manual click on a structurally eligible block that contains no supported executable command must not silently disappear; worker/core must return a controlled explicit result/error with `request_executed:false` and zero provider request.
+
 ## 11. Debug Mode
 
 Debug Mode controls **additional diagnostics only**.
@@ -284,9 +298,9 @@ Redaction must exclude at minimum:
 - passwords/cookies;
 - complete secret backup contents.
 
-## 12. Durable error delivery
+## 12. Durable result/error delivery
 
-Error delivery uses a worker-owned durable outbox lifecycle analogous to proven result delivery:
+Result/error delivery uses a worker-owned durable outbox lifecycle:
 
 ```text
 claimed
@@ -296,7 +310,9 @@ claimed
 → confirmed
 ```
 
-If the worker/content reloads after commit, recovery is reconciliation-only. It must not repeat Send blindly and must never repeat the original Yandex request.
+If worker/content reloads after an irreversible boundary, recovery is reconciliation-only. It must not repeat Send blindly and must never repeat the original Yandex request.
+
+A completed provider result that cannot be delivered before Send commit must remain durably recoverable without replaying provider initiation.
 
 ## 13. Wordstat Phase 1 policy
 
@@ -321,6 +337,8 @@ Operator controls:
 ChatGPT cannot raise these limits by command.
 
 Before an Autorun billable initiation, Bridge reserves the RUN budget before the external initiation. Conservative over-count after a crash is acceptable; under-count that enables an unsafe duplicate is not.
+
+All future services remain execution-disabled during Phase 1.
 
 ## 14. Result envelope
 
@@ -357,22 +375,33 @@ automatic_retry
 
 `job_id` is not a Bridge result field.
 
+Successful sent requests must explicitly report `request_executed:true`; pre-network validation/credential/policy skips report `false`; irreversible unknown outcomes report `UNKNOWN` and are not blindly retried.
+
 ## 15. HTTP/error semantics
 
-One accepted command = one logical external initiation.
+One accepted executable command = one logical external initiation.
 
 - HTTP 2xx → normal result.
 - HTTP 4xx/5xx received from the one request → deliver ERROR result/evidence; do not automatically replay.
 - validation/no credential/policy limit before fetch → zero request.
-- timeout/network/session-loss where initiation outcome is uncertain → report `request_executed = UNKNOWN`, `automatic_retry = false`; fence identical retry until reconciliation/operator/assistant chooses a safe path.
+- timeout/network/session-loss where initiation outcome is uncertain → report `request_executed = UNKNOWN`, `automatic_retry = false`; fence identical retry until safe reconciliation/operator/assistant decision.
+- malformed/no-command Manual blocks are handled before provider initiation and produce zero provider request.
 
 ## 16. Visual feedback
 
-Reference-compatible visible feedback is required in the ChatGPT page/popup.
+Reference-compatible visible feedback is required in ChatGPT/popup.
 
-At minimum, user must see clear state around request initiation/response/error. Wordstat-local Copy remains Yandex-yellow reference style where supported by current DOM.
+Manual Surface v2 visual rule:
 
-A valid API block must not fail silently.
+```text
+Manual OFF → supported local Copy stays native
+Manual ON + confirmed conversation + unique supported local binding
+           → yellow + visible Яндекс
+```
+
+This visual state is **not** proof that block content is a valid command. Command validity is a worker/core concern after the click.
+
+Request initiation/response/error feedback must remain explicit and reference-consistent. A valid API block must not fail silently.
 
 ## 17. GitHub order workspace workflow
 
@@ -400,21 +429,52 @@ DIRECT_LIVE_WRITE
 
 No unrestricted live-write Autorun.
 
-## 19. Development gate
+## 19. Development and pre-delivery testing contract
 
-Strict order:
+Testing has two deliberately different modes.
+
+### 19.1 Development mode
+
+While code is being changed, run only what the change requires:
+
+- focused tests for changed behavior;
+- directly affected dependency/regression tests;
+- changed-line/branch execution where appropriate;
+- syntax/static checks needed by the touched surface.
+
+Do **not** run the complete product regression campaign after every small edit.
+
+### 19.2 Mandatory pre-delivery mode
+
+Immediately before a frozen working build/candidate is handed to the owner, Codex must execute the permanent living gate:
+
+```text
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
+```
+
+Requirements:
+
+- all enabled Codex-capable functional tests run in **one complete campaign** against the exact candidate to be handed off;
+- any mandatory FAIL blocks handoff;
+- after a production fix, focused tests are used during development, then the **entire pre-delivery gate reruns from the beginning** on the newly frozen candidate;
+- new/changed functionality must add/update gate coverage;
+- removed functionality removes obsolete gate coverage only in the same governed functional removal;
+- tests are never deleted merely because they fail;
+- before each full run, product/spec/source surfaces are compared against the gate registry and missing Codex-capable coverage itself is a FAIL;
+- deterministic packaging and source↔package identity are part of pre-delivery acceptance;
+- controlled CfT/Puppeteer evidence is never relabeled as owner real-profile/live evidence.
+
+### 19.3 Phase ordering
 
 ```text
 one service
-→ implementation
-→ source tests
-→ exact packaged tests
-→ source/package identity
-→ syntax/static checks
-→ Chromium load smoke
-→ controlled real Chrome + production ChatGPT acceptance
-→ PASS
+→ implement/fix with focused tests
+→ freeze working candidate
+→ full Codex pre-delivery regression gate
+→ exact package/identity PASS
+→ remaining irreducible real-profile/live acceptance
+→ phase PASS
 → next service
 ```
 
-Search remains blocked until Wordstat 0.1.1 production live acceptance passes.
+Search remains blocked until Wordstat Phase 1 live acceptance passes.
