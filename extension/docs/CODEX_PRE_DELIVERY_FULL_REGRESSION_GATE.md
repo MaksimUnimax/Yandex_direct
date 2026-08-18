@@ -202,6 +202,20 @@ Whenever popup controls are added/removed, this section must be updated in the s
 
 On the current governed controlled ChatGPT DOM families, verify:
 
+Permanent owner-directed sibling-control regressions:
+
+- Manual OFF leaves native Copy unchanged and has no Yandex sibling.
+- Manual ON leaves native Copy unchanged and creates exactly one separate
+  `button[data-ymb-manual-action="true"]` per uniquely bound eligible block.
+- Each sibling is yellow, visibly labeled `Яндекс`, and a different DOM element
+  from native Copy.
+- Native Copy has no Bridge Manual listener/effect; clicking it produces zero
+  `WS_EXECUTE_MANUAL_BLOCK`.
+- Clicking Yandex produces exactly one intended Manual admission.
+- Generic whole-response Copy and ambiguous blocks have zero siblings.
+- Mutation creates exactly one sibling; Manual OFF removes only Yandex siblings;
+  re-enable creates exactly one sibling again.
+
 ### Manual OFF
 
 - every uniquely resolved local assistant code/writing-block Copy remains native;
@@ -234,6 +248,12 @@ Current factual family must include the latest supported ChatGPT PRE/readonly-Co
 ## PD-07 — Manual full-block discovery and click/core behavior
 
 Through actual content→worker controlled flow, cover at minimum:
+
+- Bridge Manual execution is triggered by the separate Yandex sibling, never by
+  native Copy.
+- Native Copy produces no Manual transaction.
+- Yandex sibling captures the complete bound block.
+- Double-click/in-flight fencing applies to the Yandex sibling.
 
 - non-command/plain block -> explicit worker-owned controlled error/result, no silent no-op;
 - raw JSON without registered marker -> explicit controlled error/result;
@@ -323,6 +343,21 @@ If Autorun functionality is removed, remove this section only in the same govern
 ## PD-11 — Delivery FSM, durability, recovery and duplicate prevention
 
 Validate all protected delivery invariants:
+
+Positive release regression:
+
+`Manual operation → result/error complete → one Send commit/click → initial
+confirmation misses because the sent user-turn appears late → bounded
+confirmation-only reconciliation sees that existing sent user-turn → no second
+Send → no second WS_EXECUTE_MANUAL_BLOCK → no provider replay → operation
+COMPLETED → next Manual Yandex sibling action admitted.`
+
+Negative fence regression:
+
+`Committed delivery remains unconfirmed/unresolved → MANUAL_OPERATION_ACTIVE
+remains enforced → no premature lock release → no repeat Send/API.`
+
+Both are permanent mandatory gate regressions.
 
 - normal result delivery exactly once;
 - normal error delivery exactly once;

@@ -578,3 +578,26 @@ The controlled PASS was recorded in commit `505c73e`. The required real current 
 Accordingly, no real ChatGPT DOM was inspected, no extension was installed or reloaded in current Chrome, no popup was opened, no Copy was clicked, and no Yandex command or provider request was attempted. There is no real-browser visual PASS or PRODUCT FAIL evidence. Existing exact source identity remains the proven 45-file tree with the audited hashes; this blocker is external browser infrastructure only.
 
 K-02 final classification: **REAL_CURRENT_CHROME_INFRASTRUCTURE_BLOCKER**. K-01 remains NOT PASS; K-06 retains controlled/free evidence only; K-08 remains NOT RUN. Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains **BLOCKED**.
+
+### 8.8 Exact live-fix governance and focused validation — 2026-08-18
+
+Historical artifact: `4973c5f87c3ad7d4c052e66c449c2afef412d20a6e4d767bbe761d62abf7cb84`.
+
+Real-profile findings retained as history:
+
+- DEFECT #1: native Copy/Yandex action was not independently surfaced as the owner requires.
+- DEFECT #2: the next Manual click received `MANUAL_OPERATION_ACTIVE` after the previous automatic Manual result delivery.
+- Network: `0` real Yandex requests in these failure observations.
+
+Root cause from source analysis:
+
+- DEFECT #1: the content path mutated/used native Copy as the Bridge action surface.
+- DEFECT #2: after committed delivery confirmation missed, the worker correctly returned `manual_reconcile`, but the content path did not continue bounded confirmation-only reconciliation and the operation could remain `DELIVERING`/committed indefinitely.
+
+Exact patch: `4dc0f5a40ea816fe9a3000ec62f0fe914377b41e8cac1e2dda4aea5f0f664c55`.
+
+Patched `content_script.js`: `d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed`.
+
+`service_worker.js` unchanged. Source-focused QA: `183/183 PASS`.
+
+Status at this point: Phase 1 LIVE PASS = FALSE; Search = BLOCKED. Real-profile patch PASS is not claimed. A focused controlled-browser A+B+negative-fence run remains required before a new full pre-delivery Gate.

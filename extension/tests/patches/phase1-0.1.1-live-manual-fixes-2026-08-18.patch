@@ -1,0 +1,452 @@
+--- a/content_script.js
++++ b/content_script.js
+@@ -23,6 +23,7 @@
+   const GENERIC_CODE_SELECTOR = "code";
+   const PRE_CODEMIRROR_BODY_SELECTOR = '[role="textbox"][aria-readonly="true"][contenteditable="false"]';
+   const YANDEX_LABEL_ATTR = "data-ymb-manual-label";
++  const YANDEX_ACTION_ATTR = "data-ymb-manual-action";
+   const DECORATED = new Map();
+   let observer = null;
+   let manualScanTimer = null;
+@@ -36,6 +37,7 @@
+   let suppressPickerClick = false;
+   const recoveryInFlight = new Set();
+   const manualRecoveryInFlight = new Set();
++  const manualReconciliationRetries = new Map();
+ 
+   const AUTO_PROMPT_STABILITY_MS = 2000;
+   const AUTO_PROMPT_DEBOUNCE_MS = 200;
+@@ -213,8 +215,7 @@
+   }
+ 
+   function copyButtonSignature(button, adapterId) {
+-    const decoration = DECORATED.get(button);
+-    const title = decoration ? (decoration.title || "") : (button.getAttribute("title") || "");
++    const title = button.getAttribute("title") || "";
+     const testid = button.getAttribute("data-testid") || "";
+     const aria = button.getAttribute("aria-label") || "";
+     const name = button.getAttribute("name") || "";
+@@ -412,25 +413,40 @@
+     else element.style.setProperty(property, snapshot.value, snapshot.priority || "");
+   }
+ 
+-  function ensureYandexLabel(button) {
+-    let label = button.querySelector(`[${YANDEX_LABEL_ATTR}="true"]`);
+-    if (label) return label;
+-    label = document.createElement("span");
++  function createYandexActionButton(nativeCopyButton) {
++    if (!(nativeCopyButton instanceof HTMLButtonElement) || !nativeCopyButton.parentElement) return null;
++    const action = document.createElement("button");
++    action.setAttribute("type", "button");
++    action.setAttribute(YANDEX_ACTION_ATTR, "true");
++    action.setAttribute("aria-label", "Яндекс — обработать этот code block через Yandex Marketing Bridge");
++    action.setAttribute("title", "Яндекс — обработать этот code block через Yandex Marketing Bridge");
++    const nativeClass = nativeCopyButton.getAttribute("class") || "";
++    if (nativeClass) action.setAttribute("class", nativeClass);
++    action.style.setProperty("color", "#111111", "important");
++    action.style.setProperty("background-color", "#ffcc00", "important");
++    action.style.setProperty("box-shadow", "inset 0 0 0 1px rgba(0, 0, 0, 0.28)", "important");
++    action.style.setProperty("width", "auto", "important");
++    action.style.setProperty("min-width", "36px", "important");
++    action.style.setProperty("white-space", "nowrap", "important");
++
++    const label = document.createElement("span");
+     label.setAttribute(YANDEX_LABEL_ATTR, "true");
+     label.textContent = "Яндекс";
+     Object.assign(label.style, { pointerEvents: "none", whiteSpace: "nowrap" });
+-    button.appendChild(label);
+-    return label;
++    action.appendChild(label);
++
++    if (typeof nativeCopyButton.after === "function") nativeCopyButton.after(action);
++    else nativeCopyButton.parentElement.appendChild(action);
++    return action;
+   }
+ 
+   function restoreButton(button) {
+     const old = DECORATED.get(button);
+     if (!old) return;
+-    button.removeEventListener("click", old.handler, true);
+-    for (const [property, snapshot] of Object.entries(old.styles)) restoreStyleSnapshot(button, property, snapshot);
+-    if (old.title === null) button.removeAttribute("title");
+-    else button.setAttribute("title", old.title);
+-    if (old.label?.isConnected) old.label.remove();
++    if (old.action) {
++      old.action.removeEventListener("click", old.handler, true);
++      if (old.action.isConnected) old.action.remove();
++    }
+     DECORATED.delete(button);
+   }
+ 
+@@ -488,6 +504,7 @@
+           click_attempts: Number(delivery.click_attempts || 0)
+         });
+         if (!completion?.ok) throw Object.assign(new Error(completion?.error || "Не удалось завершить manual operation."), { code: completion?.code || "MANUAL_DELIVERY_COMPLETE_REJECTED" });
++        if (completion?.recovery?.type === "manual_reconcile") scheduleManualReconciliation(completion.recovery);
+       }
+       if (delivery.delivery_confirmed) {
+         await sendRuntime("WS_REPORT_DELIVERY_CONFIRMED", {
+@@ -514,11 +531,8 @@
+     const decision = localCopyDecision(binding);
+     const button = decision.button;
+     if (!button || DECORATED.has(button)) return false;
+-    const styleProperties = ["color", "background-color", "box-shadow", "width", "min-width", "white-space"];
+     const old = {
+-      title: button.hasAttribute("title") ? button.getAttribute("title") : null,
+-      styles: Object.fromEntries(styleProperties.map((property) => [property, styleSnapshot(button, property)])),
+-      label: null,
++      action: null,
+       in_flight: false,
+       handler: null
+     };
+@@ -530,19 +544,13 @@
+         return;
+       }
+       old.in_flight = true;
+-      queueMicrotask(() => handleCopy(binding, button).finally(() => { old.in_flight = false; }));
++      queueMicrotask(() => handleCopy(binding, old.action).finally(() => { old.in_flight = false; }));
+     };
+-    button.addEventListener("click", old.handler, true);
+-    button.style.setProperty("color", "#111111", "important");
+-    button.style.setProperty("background-color", "#ffcc00", "important");
+-    button.style.setProperty("box-shadow", "inset 0 0 0 1px rgba(0, 0, 0, 0.28)", "important");
+-    button.style.setProperty("width", "auto", "important");
+-    button.style.setProperty("min-width", "36px", "important");
+-    button.style.setProperty("white-space", "nowrap", "important");
+-    button.setAttribute("title", "Яндекс — обычный Copy + обработать этот code block через Yandex Marketing Bridge");
+-    old.label = ensureYandexLabel(button);
++    old.action = createYandexActionButton(button);
++    if (!old.action) return false;
++    old.action.addEventListener("click", old.handler, true);
+     DECORATED.set(button, old);
+-    recordContentDiagnostic("MANUAL_BLOCK_DECORATED", { adapter_id: binding?.adapter_id || null });
++    recordContentDiagnostic("MANUAL_BLOCK_DECORATED", { adapter_id: binding?.adapter_id || null, separate_action: true });
+     return true;
+   }
+ 
+@@ -1275,6 +1283,7 @@
+       click_attempts: 0
+     });
+     if (!completion?.ok) throw Object.assign(new Error(completion?.error || "Manual delivery reconciliation rejected."), { code: completion?.code || "MANUAL_DELIVERY_RECONCILIATION_REJECTED" });
++    stopManualReconciliation(recovery);
+     if (recovery.report_prefix_applied === true) {
+       await sendRuntime("WS_REPORT_DELIVERY_CONFIRMED", {
+         conversation_key: recovery.conversation_key,
+@@ -1286,6 +1295,51 @@
+     return true;
+   }
+ 
++  function manualReconciliationKey(recovery) {
++    return `${String(recovery?.operation_id || "")}:${String(recovery?.delivery_id || "")}`;
++  }
++
++  function stopManualReconciliation(recovery) {
++    const key = typeof recovery === "string" ? recovery : manualReconciliationKey(recovery);
++    const state = manualReconciliationRetries.get(key);
++    if (state?.timer) clearTimeout(state.timer);
++    manualReconciliationRetries.delete(key);
++  }
++
++  function scheduleManualReconciliation(recovery) {
++    if (!recovery || recovery.type !== "manual_reconcile" || !recovery.operation_id || !recovery.delivery_id) return false;
++    const key = manualReconciliationKey(recovery);
++    let state = manualReconciliationRetries.get(key);
++    if (!state) {
++      state = { recovery, attempts: 0, timer: null, running: false };
++      manualReconciliationRetries.set(key, state);
++    } else {
++      state.recovery = recovery;
++    }
++    if (state.timer || state.running) return true;
++    if (state.attempts >= 12) {
++      manualReconciliationRetries.delete(key);
++      recordContentDiagnostic("MANUAL_DELIVERY_RECONCILIATION_RETRY_EXHAUSTED", { operation_id: recovery.operation_id, delivery_id: recovery.delivery_id, attempts: state.attempts });
++      return false;
++    }
++    state.timer = setTimeout(() => {
++      state.timer = null;
++      if (state.recovery.conversation_key !== conversationKeyFromLocation() || !sameConversation(state.recovery.origin, state.recovery.conversation_id)) {
++        manualReconciliationRetries.delete(key);
++        return;
++      }
++      state.running = true;
++      state.attempts += 1;
++      void reconcileCommittedManualDelivery(state.recovery).catch((error) => {
++        recordContentDiagnostic("MANUAL_DELIVERY_RECONCILIATION_RETRY_FAILED", { operation_id: state.recovery.operation_id, delivery_id: state.recovery.delivery_id, attempt: state.attempts, code: error.code || "MANUAL_DELIVERY_RECONCILIATION_RETRY_FAILED", error: error.message || String(error) });
++      }).finally(() => {
++        state.running = false;
++        if (manualReconciliationRetries.get(key) === state) scheduleManualReconciliation(state.recovery);
++      });
++    }, 1500);
++    return true;
++  }
++
+   async function recoverManualDelivery(recovery) {
+     if (!recovery || !["manual_deliver", "manual_reconcile"].includes(recovery.type) || !recovery.operation_id || !recovery.delivery_id) return { ok: false, code: "MANUAL_RECOVERY_INVALID" };
+     if (recovery.conversation_key !== conversationKeyFromLocation() || !sameConversation(recovery.origin, recovery.conversation_id)) return { ok: false, code: "CONVERSATION_MISMATCH" };
+@@ -1294,7 +1348,9 @@
+     manualRecoveryInFlight.add(key);
+     try {
+       if (recovery.type === "manual_reconcile") {
+-        return { ok: true, reconciled: await reconcileCommittedManualDelivery(recovery) };
++        const reconciled = await reconcileCommittedManualDelivery(recovery);
++        if (!reconciled) scheduleManualReconciliation(recovery);
++        return { ok: true, reconciled };
+       }
+       const delivery = await deliverReport(String(recovery.outgoing_text || ""), recovery.auto_send !== false, {
+         confirmUserTurn: recovery.auto_send !== false,
+@@ -1320,6 +1376,7 @@
+         click_attempts: Number(delivery.click_attempts || 0)
+       });
+       if (!completion?.ok) throw Object.assign(new Error(completion?.error || "Не удалось завершить recovered manual operation."), { code: completion?.code || "MANUAL_DELIVERY_COMPLETE_REJECTED" });
++      if (completion?.recovery?.type === "manual_reconcile") scheduleManualReconciliation(completion.recovery);
+       if (delivery.delivery_confirmed) {
+         await sendRuntime("WS_REPORT_DELIVERY_CONFIRMED", {
+           conversation_key: recovery.conversation_key,
+@@ -1791,6 +1848,7 @@
+     try { restoreButtonPicker(); } catch (_) {}
+     if (identityPollTimer) clearInterval(identityPollTimer);
+     identityPollTimer = null;
++    for (const key of [...manualReconciliationRetries.keys()]) stopManualReconciliation(key);
+     if (runtimeMessageListener) chrome.runtime.onMessage.removeListener(runtimeMessageListener);
+     runtimeMessageListener = null;
+     try { if (globalThis[RUNTIME_KEY] === runtime) delete globalThis[RUNTIME_KEY]; } catch (_) {}
+--- a/tests/content_runtime_exhaustive.test.mjs
++++ b/tests/content_runtime_exhaustive.test.mjs
+@@ -102,6 +102,7 @@
+ class FakeMutationObserver { static instances=[]; constructor(cb){this.cb=cb;this.active=false;FakeMutationObserver.instances.push(this);} observe(){this.active=true;} disconnect(){this.active=false;} trigger(records=[]){if(this.active)this.cb(records);} }
+ 
+ function elem(tag, attrs={}, text=""){ let e; if(tag==="button")e=new FakeButton(attrs); else if(tag==="pre")e=new FakePre(attrs); else if(tag==="textarea")e=new FakeTextArea(attrs); else if(tag==="input")e=new FakeInput(attrs); else e=new FakeElement(tag,attrs); e.innerText=text; return e; }
++function yandexActionFor(copy){ return copy?.parentElement?.querySelector?.('button[data-ymb-manual-action="true"]') || null; }
+ function buildDom(){
+   const d=new FakeDocument();
+   const canonical=elem("link",{rel:"canonical",href:`${ORIGIN}/c/${CID}`}); canonical.href=`${ORIGIN}/c/${CID}`; d.documentElement.appendChild(canonical);
+@@ -245,8 +246,8 @@
+   const unsupported=elem("pre"); d.assistant.appendChild(unsupported); assert.equal(a.bindingFromRoot(unsupported),null); assert.equal(a.bindingDecisionFromRoot(unsupported).reason,"PRE_BODY_UNSUPPORTED");
+ 
+   const snap=a.styleSnapshot(d.copy,"outline"); d.copy.style.setProperty("outline","1px solid red","important"); a.restoreStyleSnapshot(d.copy,"outline",snap);
+-  a.applyManualMode(true,CKEY); assert.equal(d.copy.style.getPropertyValue("background-color"),"#ffcc00"); assert.equal(d.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,1); assert.match(d.copy.getAttribute("title"),/^Яндекс/);
+-  a.applyManualMode(false,CKEY); assert.equal(d.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,0);
++  a.applyManualMode(true,CKEY); const action=yandexActionFor(d.copy); assert.ok(action); assert.equal(action.style.getPropertyValue("background-color"),"#ffcc00"); assert.equal(action.querySelectorAll('[data-ymb-manual-label="true"]').length,1); assert.equal(d.copy.style.getPropertyValue("background-color"),"");
++  a.applyManualMode(false,CKEY); assert.equal(yandexActionFor(d.copy),null);
+   h.state.runtime.dispose();
+ });
+ 
+@@ -258,26 +259,27 @@
+   const binding=a.bindingFromRoot(pre); assert.ok(binding); assert.equal(binding.adapter_id,"generic_pre_code_v1"); assert.equal(a.bindingFromLocalCopyCandidate(copy).root,pre); assert.equal(a.localCopyButton(binding),copy);
+   const genericResponse=elem("button",{"data-testid":"copy-turn-action-button","aria-label":"Copy response"}); shell.appendChild(genericResponse); assert.equal(a.bindingFromLocalCopyCandidate(genericResponse),null);
+ 
+-  a.applyManualMode(true,CKEY); assert.equal(copy.style.getPropertyValue("background-color"),"#ffcc00"); assert.equal(copy.querySelectorAll('[data-ymb-manual-label="true"]').length,1);
++  a.applyManualMode(true,CKEY); const action=yandexActionFor(copy); assert.ok(action); assert.equal(action.style.getPropertyValue("background-color"),"#ffcc00"); assert.equal(action.querySelectorAll('[data-ymb-manual-label="true"]').length,1); assert.equal(copy.style.getPropertyValue("background-color"),"");
+   const before=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length;
+-  const ev1=new FakeEvent("click",{target:copy}); copy.dispatchEvent(ev1); const ev2=new FakeEvent("click",{target:copy}); copy.dispatchEvent(ev2); await settle();
++  const nativeEv=new FakeEvent("click",{target:copy}); copy.dispatchEvent(nativeEv); await settle(); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,before,"native Copy must stay independent");
++  const ev1=new FakeEvent("click",{target:action}); action.dispatchEvent(ev1); const ev2=new FakeEvent("click",{target:action}); action.dispatchEvent(ev2); await settle();
+   assert.equal(ev1.defaultPrevented,false); assert.equal(ev2.defaultPrevented,false); const calls=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK"); assert.equal(calls.length-before,1); assert.equal(calls.at(-1).block_text,"ordinary text");
+ 
+   const ambShell=elem("div"); role.appendChild(ambShell); const ambToolbar=elem("div"); ambShell.appendChild(ambToolbar); ambToolbar.appendChild(elem("button",{"aria-label":"Copy"})); ambToolbar.appendChild(elem("button",{"aria-label":"Copy"})); const ambPre=elem("pre"); ambPre.appendChild(elem("code",{},"ambiguous")); ambShell.appendChild(ambPre); const amb=a.bindingFromRoot(ambPre); assert.ok(amb); assert.equal(a.localCopyButton(amb),null); assert.equal(a.decorateBinding(amb),false);
+ 
+   const lateShell=elem("div"); role.appendChild(lateShell); const lateToolbar=elem("div"); lateShell.appendChild(lateToolbar); const lateCopy=elem("button",{"aria-label":"Copy"}); lateToolbar.appendChild(lateCopy); const latePre=elem("pre"); latePre.appendChild(elem("code",{},"late")); lateShell.appendChild(latePre);
+-  const obs=h.observers.find(o=>o.active); assert.ok(obs); obs.trigger([{addedNodes:[latePre],removedNodes:[]}]); await settle(); assert.equal(lateCopy.style.getPropertyValue("background-color"),"#ffcc00");
+-  a.applyManualMode(false,CKEY); assert.equal(copy.style.getPropertyValue("background-color"),""); assert.equal(lateCopy.style.getPropertyValue("background-color"),"");
++  const obs=h.observers.find(o=>o.active); assert.ok(obs); obs.trigger([{addedNodes:[latePre],removedNodes:[]}]); await settle(); assert.equal(yandexActionFor(lateCopy)?.style.getPropertyValue("background-color"),"#ffcc00");
++  a.applyManualMode(false,CKEY); assert.equal(yandexActionFor(copy),null); assert.equal(yandexActionFor(lateCopy),null);
+   h.state.runtime.dispose();
+ });
+ 
+ test("content manual observer full-rescan and Copy execution path execute without double bridge submission", async()=>{
+   const h=makeHarness(),a=h.api,d=h.dom; await settle();
+   a.applyManualMode(true,CKEY); assert.equal(h.state.manualEnabled,true); const initial=a.scanManualSurface("test-initial"); assert.ok(initial.bound_block_count>=1); assert.ok(initial.decorated_button_count>=1);
+-  const b=a.bindingFromRoot(d.rootBlock); const before=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length; const e1=new FakeEvent("click",{target:d.copy}); const e2=new FakeEvent("click",{target:d.copy}); d.copy.dispatchEvent(e1); d.copy.dispatchEvent(e2); await settle();
++  const b=a.bindingFromRoot(d.rootBlock); const action=yandexActionFor(d.copy); assert.ok(action); const before=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length; const native=new FakeEvent("click",{target:d.copy}); d.copy.dispatchEvent(native); await settle(); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,before); const e1=new FakeEvent("click",{target:action}); const e2=new FakeEvent("click",{target:action}); action.dispatchEvent(e1); action.dispatchEvent(e2); await settle();
+   assert.equal(e1.defaultPrevented,false); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,before+1);
+-  const late=addCurrentChatGptPre(d,"late observer block"); const obs=h.observers.find(o=>o.active); assert.ok(obs); obs.trigger([{addedNodes:[late.pre],removedNodes:[]}]); await settle(); assert.equal(late.copy.style.getPropertyValue("background-color"),"#ffcc00");
+-  a.applyManualMode(false,CKEY); assert.equal(h.state.manualEnabled,false); assert.equal(d.copy.style.getPropertyValue("background-color"),""); await a.syncManualState(); h.state.runtime.dispose();
++  const late=addCurrentChatGptPre(d,"late observer block"); const obs=h.observers.find(o=>o.active); assert.ok(obs); obs.trigger([{addedNodes:[late.pre],removedNodes:[]}]); await settle(); assert.equal(yandexActionFor(late.copy)?.style.getPropertyValue("background-color"),"#ffcc00");
++  a.applyManualMode(false,CKEY); assert.equal(h.state.manualEnabled,false); assert.equal(yandexActionFor(d.copy),null); await a.syncManualState(); h.state.runtime.dispose();
+ });
+ 
+ test("content composer discovery, mutation, send target validation and real click-empty flow execute", async()=>{
+@@ -341,6 +343,28 @@
+   const r1=a.recoverManualDelivery(recovery); const r2=await a.recoverManualDelivery(recovery); assert.equal(r2.deduplicated,true); await r1; assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,before); assert.ok(h.messages.some(m=>m.type==="WS_MANUAL_DELIVERY_COMPLETE"&&m.manual_operation_id==="mop-rec")); h.state.runtime.dispose();
+ });
+ 
++test("content retries committed Manual reconciliation until the delivered user turn appears, without a second Send or block execution", async()=>{
++  const h=makeHarness(),a=h.api,d=h.dom; await settle(); a.applyManualMode(true,CKEY); d.composer.innerText="";
++  const resultText='WORDSTAT_RESULT_V1\n{"request_id":"r-lock"}';
++  const recovery={type:"manual_reconcile",operation_id:"mop-lock",manual_request_id:"mr-lock",conversation_key:CKEY,origin:ORIGIN,conversation_id:CID,delivery_id:"manual-delivery-mop-lock",request_id:"r-lock",outgoing_text:resultText,auto_send:true,report_prefix_applied:false,baseline_user_turn_ids:["u0"]};
++  h.control.responses.set("WS_EXECUTE_MANUAL_BLOCK",{ok:true,request_id:"r-lock",manual_operation_id:"mop-lock",manual_request_id:"mr-lock",delivery_id:"manual-delivery-mop-lock",report_text:resultText,outgoing_text:resultText,auto_send:true,report_prefix_applied:false,batch_size:1});
++  h.control.responses.set("WS_MANUAL_DELIVERY_COMPLETE",(message)=>message.delivery_confirmed===true?{ok:true,operation:{operation_id:"mop-lock",status:"completed"}}:{ok:true,preserved:true,operation:{operation_id:"mop-lock",status:"delivering",delivery_phase:"committed"},recovery});
++  let sendClicks=0; d.send._click=()=>{sendClicks++; d.composer.innerText="";};
++  const b=a.bindingFromRoot(d.rootBlock); const action=yandexActionFor(d.copy); assert.ok(action);
++  await a.handleCopy(b,action);
++  assert.equal(sendClicks,1,"initial delivery may click Send exactly once");
++  assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,1);
++  assert.ok(h.messages.some(m=>m.type==="WS_MANUAL_DELIVERY_COMPLETE"&&m.delivery_confirmed===false));
++  const delivered=elem("section",{"data-turn":"user","data-turn-id":"u-lock-confirmed"},resultText); d.main.appendChild(delivered);
++  await new Promise(r=>setTimeout(r,60));
++  const confirmed=h.messages.filter(m=>m.type==="WS_MANUAL_DELIVERY_COMPLETE"&&m.manual_operation_id==="mop-lock"&&m.delivery_confirmed===true);
++  assert.ok(confirmed.length>=1,"scheduled reconciliation must eventually confirm the already-sent user turn");
++  assert.equal(confirmed.at(-1).confirmed_user_turn_id,"u-lock-confirmed");
++  assert.equal(sendClicks,1,"reconciliation must never click Send again");
++  assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,1,"reconciliation must never replay the block/API");
++  h.state.runtime.dispose();
++});
++
+ test("consolidated PR-06 committed manual recovery reconciles only and never clicks Send or replays API", async()=>{
+   const h=makeHarness(),a=h.api,d=h.dom; await settle();
+   const resultText='WORDSTAT_RESULT_V1\n{"request_id":"manual-committed-rq"}';
+@@ -370,8 +394,8 @@
+   const inside2=elem("button",{"aria-label":"Copy"}); d.rootBlock.appendChild(inside2); const current=a.bindingFromRoot(d.rootBlock); assert.equal(a.localCopyDecision(current).reason,"LOCAL_COPY_AMBIGUOUS_INSIDE_ROOT"); inside2.remove();
+   const live=addCurrentChatGptPre(d,"live"); assert.equal(a.bindingFromLocalCopyCandidate(live.copy).root,live.pre); const orphan=elem("button",{"aria-label":"Copy"}); assert.equal(a.bindingFromLocalCopyCandidate(orphan),null);
+   d.copy.setAttribute("title","original-title"); d.copy.style.setProperty("color","red","important"); a.applyManualMode(true,CKEY); let scan=a.scanManualSurface("locality"); assert.ok(scan.code_block_candidate_count>=2); assert.ok(scan.adapter_ids.includes("chatgpt_pre_codemirror_v1")); a.restoreButton(d.copy); assert.equal(d.copy.getAttribute("title"),"original-title"); assert.equal(d.copy.style.getPropertyValue("color"),"red");
+-  const late=addCurrentChatGptPre(d,"late"); const obs=h.observers.find(o=>o.active); assert.ok(obs); obs.trigger([{addedNodes:[late.pre],removedNodes:[]}]); await settle(); assert.equal(late.copy.style.getPropertyValue("background-color"),"#ffcc00");
+-  live.pre.remove(); scan=a.scanManualSurface("removed"); assert.equal(live.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,0);
++  const late=addCurrentChatGptPre(d,"late"); const obs=h.observers.find(o=>o.active); assert.ok(obs); obs.trigger([{addedNodes:[late.pre],removedNodes:[]}]); await settle(); assert.equal(yandexActionFor(late.copy)?.style.getPropertyValue("background-color"),"#ffcc00");
++  const liveAction=yandexActionFor(live.copy); assert.ok(liveAction); live.pre.remove(); scan=a.scanManualSurface("removed"); assert.equal(liveAction.isConnected,false);
+   h.dom.canonical.remove(); h.context.location.pathname="/"; h.context.location.href=ORIGIN+"/"; const sync=await a.syncManualState(); assert.equal(sync.code,"CONVERSATION_NOT_CONFIRMED"); h.state.runtime.dispose();
+ });
+ 
+@@ -429,7 +453,7 @@
+   const h=makeHarness(),a=h.api,d=h.dom; await settle(); d.copy.setAttribute("title","saved-title"); d.copy.style.setProperty("outline","2px solid blue","important"); a.applyManualMode(true,CKEY); const b=a.bindingFromRoot(d.rootBlock);
+   d.body.innerText="ordinary"; await a.handleCopy(b,d.copy); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").at(-1).block_text,"ordinary");
+   d.body.innerText="WORDSTAT_API_V1\n{bad}"; await a.handleCopy(b,d.copy); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").at(-1).block_text,"WORDSTAT_API_V1\n{bad}"); assert.equal(h.messages.some(m=>m.type==="WS_REPORT_CONTENT_ERROR"&&m.stage==="MANUAL_COMMAND_PARSE"),false);
+-  d.body.innerText=WORDSTAT; h.control.delayMs.set("WS_EXECUTE_MANUAL_BLOCK",30); const before=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length; const e1=new FakeEvent("click",{target:d.copy}),e2=new FakeEvent("click",{target:d.copy}); d.copy.dispatchEvent(e1); d.copy.dispatchEvent(e2); await settle(); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,before+1);
++  d.body.innerText=WORDSTAT; h.control.delayMs.set("WS_EXECUTE_MANUAL_BLOCK",30); const before=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length; const action=yandexActionFor(d.copy); assert.ok(action); const e1=new FakeEvent("click",{target:action}),e2=new FakeEvent("click",{target:action}); action.dispatchEvent(e1); action.dispatchEvent(e2); await settle(); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,before+1);
+   const obs=h.observers.find(o=>o.active); h.dom.canonical.remove(); h.context.location.pathname="/"; h.context.location.href=ORIGIN+"/"; obs.trigger([{addedNodes:[d.rootBlock],removedNodes:[]}]); await settle(); assert.equal(h.state.manualEnabled,false); h.state.runtime.dispose();
+ });
+ 
+@@ -631,19 +655,20 @@
+   for(const b of blocks){
+     assert.equal(a.bindingFromRoot(b.pre).adapter_id,"chatgpt_pre_codemirror_v1");
+     assert.equal(a.localCopyButton(a.bindingFromRoot(b.pre)),b.copy);
+-    assert.equal(b.copy.style.getPropertyValue("background-color"),"#ffcc00");
+-    const labels=b.copy.querySelectorAll('[data-ymb-manual-label="true"]'); assert.equal(labels.length,1); assert.equal(labels[0].textContent,"Яндекс");
++    const action=yandexActionFor(b.copy); assert.ok(action); assert.equal(action.style.getPropertyValue("background-color"),"#ffcc00");
++    const labels=action.querySelectorAll('[data-ymb-manual-label="true"]'); assert.equal(labels.length,1); assert.equal(labels[0].textContent,"Яндекс"); assert.equal(b.copy.style.getPropertyValue("background-color"),"");
+   }
+   a.applyManualMode(false,CKEY);
+-  for(const b of blocks){ assert.equal(b.copy.style.getPropertyValue("background-color"),""); assert.equal(b.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,0); }
++  for(const b of blocks){ assert.equal(yandexActionFor(b.copy),null); assert.equal(b.copy.style.getPropertyValue("background-color"),""); }
+   h.state.runtime.dispose();
+ });
+ 
+ test("Manual Surface v2 click captures the entire factual block and never prevalidates content in content_script", async()=>{
+   const h=makeHarness(); await settle(); const a=h.api; h.dom.rootBlock.remove();
+   const text='ordinary prose, unrelated JSON {"x":1}, no bridge marker';
+-  const b=addCurrentChatGptPre(h.dom,text); a.applyManualMode(true,CKEY); a.scanManualSurface("capture-test");
+-  const ev=new FakeEvent("click",{target:b.copy}); b.copy.dispatchEvent(ev); await settle();
++  const b=addCurrentChatGptPre(h.dom,text); a.applyManualMode(true,CKEY); a.scanManualSurface("capture-test"); const action=yandexActionFor(b.copy); assert.ok(action);
++  const native=new FakeEvent("click",{target:b.copy}); b.copy.dispatchEvent(native); await settle(); assert.equal(h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK").length,0,"native Copy must not authorize bridge execution");
++  const ev=new FakeEvent("click",{target:action}); action.dispatchEvent(ev); await settle();
+   assert.equal(ev.defaultPrevented,false,"native Copy must not be prevented");
+   const calls=h.messages.filter(m=>m.type==="WS_EXECUTE_MANUAL_BLOCK"); assert.equal(calls.length,1); assert.equal(calls[0].block_text,text); assert.ok(calls[0].manual_request_id);
+   assert.equal(h.messages.some(m=>m.type==="WS_REPORT_CONTENT_ERROR" && m.stage==="MANUAL_COMMAND_PARSE"),false);
+@@ -655,21 +680,21 @@
+   const generic=elem("button",{"data-testid":"copy-turn-action-button","aria-label":"Копировать ответ"}); h.dom.assistant.appendChild(generic);
+   const good=addCurrentChatGptPre(h.dom,"good"); const ambiguous=addCurrentChatGptPre(h.dom,"ambiguous",{copies:2});
+   a.applyManualMode(true,CKEY); let scan=a.scanManualSurface("ambiguity");
+-  assert.equal(good.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,1); assert.equal(generic.querySelectorAll('[data-ymb-manual-label="true"]').length,0);
+-  assert.equal(ambiguous.buttons[0].querySelectorAll('[data-ymb-manual-label="true"]').length,0); assert.equal(ambiguous.buttons[1].querySelectorAll('[data-ymb-manual-label="true"]').length,0);
++  assert.ok(yandexActionFor(good.copy)); assert.equal(generic.hasAttribute("data-ymb-manual-action"),false);
++  assert.equal(yandexActionFor(ambiguous.buttons[0]),null); assert.equal(yandexActionFor(ambiguous.buttons[1]),null);
+   assert.equal(scan.failure_reason_counts.LOCAL_COPY_AMBIGUOUS_INSIDE_ROOT,1);
+   const late=addCurrentChatGptPre(h.dom,"late block"); const observer=h.observers.find(o=>o.active); assert.ok(observer); observer.trigger([{addedNodes:[late.pre],removedNodes:[]}]); await settle();
+-  assert.equal(late.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,1);
++  assert.ok(yandexActionFor(late.copy));
+   // Repeated rescans must not duplicate the bridge label/listener.
+-  a.scanManualSurface("repeat-1"); a.scanManualSurface("repeat-2"); assert.equal(late.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,1); assert.equal((late.copy._listeners.get("click")||[]).length,1);
++  a.scanManualSurface("repeat-1"); a.scanManualSurface("repeat-2"); const lateAction=yandexActionFor(late.copy); assert.equal(lateAction.querySelectorAll('[data-ymb-manual-label="true"]').length,1); assert.equal((lateAction._listeners.get("click")||[]).length,1); assert.equal((late.copy._listeners.get("click")||[]).length,0);
+   h.state.runtime.dispose();
+ });
+ 
+ test("Manual Surface v2 restores pre-existing native inline state exactly on OFF", async()=>{
+   const h=makeHarness(); await settle(); const a=h.api; h.dom.rootBlock.remove(); const b=addCurrentChatGptPre(h.dom,"x");
+   b.copy.style.setProperty("background-color","rgb(1, 2, 3)","important"); b.copy.style.setProperty("width","36px",""); b.copy.setAttribute("title","native-title");
+-  a.applyManualMode(true,CKEY); assert.equal(b.copy.style.getPropertyValue("background-color"),"#ffcc00"); assert.equal(b.copy.getAttribute("title").startsWith("Яндекс"),true);
+-  a.applyManualMode(false,CKEY); assert.equal(b.copy.style.getPropertyValue("background-color"),"rgb(1, 2, 3)"); assert.equal(b.copy.style.getPropertyPriority("background-color"),"important"); assert.equal(b.copy.style.getPropertyValue("width"),"36px"); assert.equal(b.copy.getAttribute("title"),"native-title"); assert.equal(b.copy.querySelectorAll('[data-ymb-manual-label="true"]').length,0);
++  a.applyManualMode(true,CKEY); const action=yandexActionFor(b.copy); assert.ok(action); assert.equal(action.style.getPropertyValue("background-color"),"#ffcc00"); assert.equal(b.copy.style.getPropertyValue("background-color"),"rgb(1, 2, 3)"); assert.equal(b.copy.getAttribute("title"),"native-title");
++  a.applyManualMode(false,CKEY); assert.equal(b.copy.style.getPropertyValue("background-color"),"rgb(1, 2, 3)"); assert.equal(b.copy.style.getPropertyPriority("background-color"),"important"); assert.equal(b.copy.style.getPropertyValue("width"),"36px"); assert.equal(b.copy.getAttribute("title"),"native-title"); assert.equal(yandexActionFor(b.copy),null);
+   h.state.runtime.dispose();
+ });
+ 
+--- a/tests/manual_mode.test.mjs
++++ b/tests/manual_mode.test.mjs
+@@ -55,11 +55,18 @@
+   assert.match(click, /WS_EXECUTE_MANUAL_BLOCK/);
+ });
+ 
+-test("manual Copy uses Yandex-yellow state and an explicit Яндекс label while preserving the native icon", () => {
++test("manual mode adds a separate Yandex-yellow sibling action and leaves native Copy untouched", () => {
+   const decorate = content.slice(content.indexOf("function decorateBinding"), content.indexOf("function manualCandidateRoots"));
+-  assert.match(decorate, /"background-color", "#ffcc00", "important"/);
+-  assert.match(decorate, /"color", "#111111", "important"/);
+-  assert.match(decorate, /ensureYandexLabel\(button\)/);
++  const create = content.slice(content.indexOf("function createYandexActionButton"), content.indexOf("function restoreButton"));
++  assert.match(content, /YANDEX_ACTION_ATTR = "data-ymb-manual-action"/);
++  assert.match(content, /function createYandexActionButton\(nativeCopyButton\)/);
++  assert.match(create, /"background-color", "#ffcc00", "important"/);
++  assert.match(create, /"color", "#111111", "important"/);
++  assert.match(create, /nativeCopyButton\.after\(action\)/);
++  assert.match(create, /nativeCopyButton\.parentElement\.appendChild\(action\)/);
++  assert.match(decorate, /createYandexActionButton\(button\)/);
++  assert.match(decorate, /old\.action\.addEventListener\("click", old\.handler, true\)/);
++  assert.doesNotMatch(decorate, /button\.style\.setProperty|button\.setAttribute\("title"/);
+   assert.match(content, /label\.textContent = "Яндекс"/);
+   assert.doesNotMatch(decorate, /innerHTML\s*=|replaceChildren\s*\(/);
+ });
+@@ -73,22 +80,24 @@
+   assert.match(content, /generic_pre_code_v1/);
+ });
+ 
+-test("native Copy is never prevented by the Manual handler", () => {
+-  assert.match(content, /button\.addEventListener\("click", old\.handler, true\)/);
++test("native Copy has no Manual listener; the separate Yandex action owns bridge execution", () => {
++  const decorate = content.slice(content.indexOf("function decorateBinding"), content.indexOf("function manualCandidateRoots"));
++  assert.match(decorate, /old\.action\.addEventListener\("click", old\.handler, true\)/);
++  assert.doesNotMatch(decorate, /button\.addEventListener\("click", old\.handler, true\)/);
+   const manualStart = content.indexOf("async function handleCopy");
+   const manualEnd = content.indexOf("function manualCandidateRoots", manualStart);
+   const manualChunk = content.slice(manualStart, manualEnd);
+   assert.doesNotMatch(manualChunk, /preventDefault\s*\(/);
+ });
+ 
+-test("manual OFF disconnects observer, removes listener\/label and restores every bridge-owned style snapshot", () => {
++test("manual OFF disconnects observer and removes only the bridge-owned sibling action", () => {
+   const restore = content.slice(content.indexOf("function restoreButton"), content.indexOf("async function handleCopy"));
+   const stop = content.slice(content.indexOf("function stopManualObserver"), content.indexOf("function startManualObserver"));
+   assert.match(stop, /observer\.disconnect\(\)/);
+   assert.match(stop, /for \(const button of \[\.\.\.DECORATED\.keys\(\)\]\) restoreButton\(button\)/);
+-  assert.match(restore, /button\.removeEventListener\("click", old\.handler, true\)/);
+-  assert.match(restore, /restoreStyleSnapshot\(button, property, snapshot\)/);
+-  assert.match(restore, /old\.label\?\.isConnected/);
++  assert.match(restore, /old\.action\.removeEventListener\("click", old\.handler, true\)/);
++  assert.match(restore, /old\.action\.remove\(\)/);
++  assert.doesNotMatch(restore, /restoreStyleSnapshot|button\.style|button\.setAttribute/);
+ });
+ 
+ test("manual observer performs debounced structural rescans and does not depend on block text mutations", () => {
+--- a/tests/manual_surface_v2_worker.test.mjs
++++ b/tests/manual_surface_v2_worker.test.mjs
+@@ -120,6 +120,21 @@
+   await finishWithoutSend(h,r);
+ });
+ 
++test("committed unconfirmed Manual delivery stays fenced, confirmation releases it, and the next Manual block is admitted", async()=>{
++  const h=harness({store:{wsmb_auto_send:true}});
++  const first=await h.api.executeManualBlock("ordinary prose only",CKEY,{tab:{id:1}},"m-lock-first");
++  assert.equal(h.fetchCount,0); assert.ok(first.manual_operation_id); assert.ok(first.delivery_id);
++  const committed=await h.api.commitManualDelivery({conversation_key:CKEY,manual_operation_id:first.manual_operation_id,delivery_id:first.delivery_id,actor_id:"test",baseline_user_turn_ids:["u0"]},{tab:{id:1}});
++  assert.equal(committed.ok,true); assert.equal(committed.click_allowed,true);
++  const pending=await h.api.completeManualOperation({conversation_key:CKEY,manual_operation_id:first.manual_operation_id,delivery_confirmed:false,composer_empty:true,click_attempts:1},{tab:{id:1}},false);
++  assert.equal(pending.ok,true); assert.equal(pending.preserved,true); assert.equal(pending.recovery.type,"manual_reconcile"); assert.equal((await h.api.getManualOperation(CKEY)).status,"delivering");
++  await assert.rejects(()=>h.api.executeManualBlock("second ordinary prose",CKEY,{tab:{id:1}},"m-lock-second-too-early"),e=>e.code==="MANUAL_OPERATION_ACTIVE");
++  const done=await h.api.completeManualOperation({conversation_key:CKEY,manual_operation_id:first.manual_operation_id,delivery_confirmed:true,confirmed_user_turn_id:"u-confirmed",composer_empty:true,click_attempts:0},{tab:{id:1}},false);
++  assert.equal(done.ok,true); assert.equal(done.operation.status,"completed");
++  const second=await h.api.executeManualBlock("second ordinary prose",CKEY,{tab:{id:1}},"m-lock-second");
++  assert.ok(second.manual_operation_id); assert.notEqual(second.manual_operation_id,first.manual_operation_id); assert.equal(h.fetchCount,0);
++});
++
+ test("Manual block unknown future service is observable and cannot fetch", async()=>{
+   const h=harness();
+   const r=await h.api.executeManualBlock(`SEARCH_API_V1 {"method":"search","query":"x"}`,CKEY,{tab:{id:1}},"m-unknown-service");

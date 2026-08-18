@@ -176,6 +176,12 @@ The owner's final live acceptance must use this exact artifact identity. If prod
 
 No Search implementation is authorized until Phase 1 live acceptance passes.
 
+### 2026-08-18 live-fix supersession state
+
+The historical artifact `yandex-marketing-bridge-0.1.1-phase1-final-live-acceptance-candidate.zip` (SHA-256 `4973c5f87c3ad7d4c052e66c449c2afef412d20a6e4d767bbe761d62abf7cb84`) passed the controlled pre-delivery Gate historically. Owner real-profile acceptance subsequently found live defects #1 (native Copy/Yandex action not independently surfaced) and #2 (a subsequent Manual action remained `MANUAL_OPERATION_ACTIVE` after committed delivery confirmation was missed). Therefore the old artifact is not the current handoff candidate.
+
+The exact live patch source-focused QA is `183/183 PASS`. Controlled-browser focused validation is pending at document-edit time. A new full pre-delivery Gate must run after focused controlled-browser PASS. Phase 1 LIVE PASS remains **FALSE** and Search remains **BLOCKED**.
+
 ## PHASE 2 — YANDEX SEARCH / SERP
 
 **Status: BLOCKED BY PHASE 1 LIVE GATE.**

@@ -1,0 +1,59 @@
+{
+  "result": "CODEX_YANDEX_MANUAL_LIVE_FIX_FOCUSED_RESULT",
+  "authority": {
+    "origin_main": "8f307f8f9fa7706790e9df053d0f5716782652e1"
+  },
+  "base": {
+    "path": "D:\\codex\\Yandex\\work\\manual-surface-v2-validation-002\\manual-v2\\source",
+    "files": 45,
+    "identity": "PASS",
+    "frozen_unchanged": "PASS"
+  },
+  "patch": {
+    "sha256": "4dc0f5a40ea816fe9a3000ec62f0fe914377b41e8cac1e2dda4aea5f0f664c55",
+    "bytes": 38330,
+    "apply_check": "PASS",
+    "applied": "PASS"
+  },
+  "working_source": {
+    "path": "D:\\codex\\Yandex\\work\\manual-v2-live-fix-014\\source",
+    "changed_files": [
+      "content_script.js",
+      "tests/content_runtime_exhaustive.test.mjs",
+      "tests/manual_mode.test.mjs",
+      "tests/manual_surface_v2_worker.test.mjs"
+    ],
+    "production_changed_files": ["content_script.js"],
+    "content_script_sha256": "d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed",
+    "service_worker_sha256": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8"
+  },
+  "syntax": {
+    "content_script": "PASS",
+    "service_worker": "PASS"
+  },
+  "focused_tests": {
+    "pass": 183,
+    "total": 183,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "regressions": {
+    "separate_yandex_sibling": "PASS",
+    "native_copy_independent": "PASS",
+    "manual_off_removes_only_yandex": "PASS",
+    "late_delivery_reconciliation_no_resend": "PASS",
+    "lock_release_then_next_manual": "PASS"
+  },
+  "safety": {
+    "send_count_in_reconciliation_test": 1,
+    "extra_manual_execute_during_reconciliation": 0,
+    "provider_fetch_count": 0,
+    "real_yandex_requests": 0
+  },
+  "environment": {
+    "ready_to_install_modified": "NO",
+    "github_production_modified": "NO"
+  },
+  "verdict": "FOCUSED_PATCH_PASS"
+}

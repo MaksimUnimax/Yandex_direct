@@ -1,4 +1,4 @@
-# SPECIFICATION v0.3 — Yandex Marketing Bridge
+# SPECIFICATION v0.4 — Yandex Marketing Bridge
 
 Status: current technical specification.  
 Updated: 2026-08-18.
@@ -12,7 +12,7 @@ Runtime architecture:
 ```text
 CORE
 ├─ writing/code-block structural capture
-├─ manual native-Copy action surface
+├─ manual independent sibling Yandex action surface
 ├─ autorun state machine
 ├─ conversation identity/binding
 ├─ owner-tab protection
@@ -119,15 +119,15 @@ Manual is a **DOM/action-surface mode**, not a page-side command pre-validator.
 Required Manual invariants:
 
 - Manual OFF: ordinary local Copy remains native and Bridge-owned decoration/action is absent;
-- Manual ON + confirmed bound conversation: every **uniquely resolved local Copy belonging to a supported assistant writing/code block** is armed as the Yandex Manual action surface;
-- armed controls are visibly Yandex-yellow with a visible `Яндекс` label;
+- Manual ON + confirmed bound conversation: every **uniquely resolved local Copy belonging to a supported assistant writing/code block** remains native and gets exactly one separate adjacent Yandex sibling action;
+- the sibling is visibly Yandex-yellow with a visible `Яндекс` label and `data-ymb-manual-action="true"`;
 - visual arming is **independent of block contents**: plain text, arbitrary JSON, malformed material, valid protocol and multi-command content are all decorated identically when structural binding is valid;
 - content/page code must not prefilter by protocol marker, JSON validity, allowed service/method, credentials, policy, price or provider availability;
 - generic assistant-level whole-response Copy is excluded and remains native;
 - ambiguous local Copy mapping fails closed and remains native/unarmed;
 - the smallest unambiguous structural locality is used; no cross-block/cross-assistant binding;
-- native Copy behavior remains intact; Bridge adds an action but does not prevent native Copy;
-- clicking an armed local Copy submits the **complete clicked block** to worker/core;
+- native Copy behavior remains intact and native Copy never dispatches a Bridge action;
+- only the separate sibling Yandex action dispatches Manual and submits the **complete bound block** to worker/core;
 - worker/core owns command discovery, strict validation, routing, policy, credentials, cost and controlled no-command/malformed errors;
 - DOM mutations/rerenders are rescanned; decoration is idempotent; disabling Manual restores the exact native surface; re-enable decorates once again;
 - Manual and Autorun remain mutually controlled according to the current runtime contract;
@@ -136,6 +136,13 @@ Required Manual invariants:
 - composer text is never silently overwritten;
 - irreversible request/Send boundaries are durably fenced;
 - billable/irreversible initiation is never blindly retried after uncertain outcome.
+
+Manual delivery invariant: after a committed Send, the operation remains fenced
+until the matching sent user-turn confirmation exists. Runtime reconciliation
+may be bounded and confirmation-only; it must not click Send again, replay
+`WS_EXECUTE_MANUAL_BLOCK`, or replay provider/API initiation. Confirmation makes
+the operation terminal/completed and admits the next Manual action. An
+unresolved committed boundary remains fenced.
 
 The current factual ChatGPT family includes assistant sections/message containers with local `PRE` blocks and readonly CodeMirror-like bodies plus exactly one local Copy button in the same block. Current and legacy supported adapters may coexist, but unknown/ambiguous DOM must fail closed.
 

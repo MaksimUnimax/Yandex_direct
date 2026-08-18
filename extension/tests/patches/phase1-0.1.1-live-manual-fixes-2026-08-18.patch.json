@@ -1,0 +1,30 @@
+{
+  "base": {
+    "files": 45,
+    "content_script_sha256": "03826461d0f8bd7a00ddf653b505d333755002d22a827d9ee286103321f746f4",
+    "service_worker_sha256": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8"
+  },
+  "patch": {
+    "sha256": "4dc0f5a40ea816fe9a3000ec62f0fe914377b41e8cac1e2dda4aea5f0f664c55",
+    "bytes": 38330,
+    "lines": 452
+  },
+  "changed_files": [
+    "content_script.js",
+    "tests/content_runtime_exhaustive.test.mjs",
+    "tests/manual_mode.test.mjs",
+    "tests/manual_surface_v2_worker.test.mjs"
+  ],
+  "production_changed_files": ["content_script.js"],
+  "post_patch": {
+    "files": 45,
+    "content_script_sha256": "d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed",
+    "service_worker_sha256": "4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8"
+  },
+  "focused_validation": {
+    "tests": 183,
+    "pass": 183,
+    "fail": 0,
+    "real_yandex_requests": 0
+  }
+}
