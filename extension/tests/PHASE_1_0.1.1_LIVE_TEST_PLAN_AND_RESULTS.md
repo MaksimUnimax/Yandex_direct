@@ -570,3 +570,11 @@ The representative click/core matrix passed, including worker-owned admission an
 History is retained: earlier controlled `PRODUCT_FAIL` classifications were caused by QA assertion/state mistakes and are superseded by this factual end-to-end harness PASS. Production source was not changed to correct them; all fixes were external QA infrastructure only.
 
 This section does not record real current-Chrome K-02 PASS, Phase 1 LIVE PASS, or Phase 2 unlocked. K-02 remains pending the real current-Chrome check.
+
+### 8.7 Manual Surface v2 real current-Chrome K-02 — 2026-08-18
+
+The controlled PASS was recorded in commit `505c73e`. The required real current Google Chrome check could not be started: the Chrome browser-control surface reported `Browser is not available: chrome`, and the available Chrome Extension Lab MCP returned an unavailable `404` tunnel response. Dedicated Chromium, Puppeteer Chrome for Testing, synthetic DOM, and a substitute browser are explicitly out of scope for this gate.
+
+Accordingly, no real ChatGPT DOM was inspected, no extension was installed or reloaded in current Chrome, no popup was opened, no Copy was clicked, and no Yandex command or provider request was attempted. There is no real-browser visual PASS or PRODUCT FAIL evidence. Existing exact source identity remains the proven 45-file tree with the audited hashes; this blocker is external browser infrastructure only.
+
+K-02 final classification: **REAL_CURRENT_CHROME_INFRASTRUCTURE_BLOCKER**. K-01 remains NOT PASS; K-06 retains controlled/free evidence only; K-08 remains NOT RUN. Phase 1 remains **NOT LIVE PASS** and Phase 2 Search remains **BLOCKED**.

@@ -1,0 +1,13 @@
+{
+  "report": "CODEX_YANDEX_MANUAL_V2_REAL_CURRENT_CHROME_K02",
+  "date": "2026-08-18",
+  "controlled_pass_commit": "505c73e",
+  "real_browser": {"current_google_chrome": "FAIL: browser control unavailable", "current_chatgpt": "NOT_RUN", "exact_extension_source": "PASS: 45-file source tree", "extension_version": "0.1.1", "content_script": "NOT_RUN", "conversation_bound": "NOT_RUN"},
+  "manual": {"off_converged": "NOT_RUN", "off_native": "NOT_RUN", "on_converged": "NOT_RUN", "eligible_real_blocks": null, "decorated_real_blocks": null, "yellow": "NOT_RUN", "yandex_label": "NOT_RUN", "content_independent": "NOT_RUN", "generic_copy_excluded": "NOT_RUN"},
+  "command": {"pricing_verified_at_dispatch": true, "estimated_price_rub": 0, "method": "getRegionsTree", "attempted": "NO", "request_count": 0, "request_id": "NONE", "http_status": "NONE", "request_executed": "NONE", "automatic_retry": "NONE", "estimated_rub_result": "NONE", "charged": "NONE", "result_delivery_count": 0, "native_copy_preserved": "NOT_RUN", "start_feedback": "NOT_RUN", "response_feedback": "NOT_RUN", "secret_redaction": "NOT_RUN"},
+  "network": {"real_yandex_requests": 0},
+  "ledger": {"controlled_pass_recorded": "PASS", "real_k02_recorded": "PASS", "production_files_changed": 0},
+  "gates": {"k02": "REAL_CURRENT_CHROME_INFRASTRUCTURE_BLOCKER", "k01": "NOT_PASS", "phase1_live_pass": false, "phase2_search": "BLOCKED"},
+  "verdict": "REAL_CURRENT_CHROME_INFRASTRUCTURE_BLOCKER",
+  "blocker": "Chrome browser-control unavailable; Chrome Extension Lab MCP tunnel returned 404"
+}
