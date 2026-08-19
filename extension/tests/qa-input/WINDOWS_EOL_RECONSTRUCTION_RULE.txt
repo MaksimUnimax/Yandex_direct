@@ -1,0 +1,51 @@
+Yandex Marketing Bridge exact-byte Windows reconstruction rule
+
+This is QA transport decoding only. It does NOT authorize Codex to design/edit product behavior.
+
+Observed previous reconstruction produced exact CRLF-normalized variants of the frozen LF files. The observed Codex hashes exactly equal deterministic LF->CRLF conversion of ChatGPT frozen files:
+
+content_script.js
+  expected LF:   6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e
+  observed CRLF: 6c0449446df319a070a4ca667630a611f32776f85cdb41fff251206328ca0d3a
+
+service_worker.js
+  expected LF:   2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
+  observed CRLF: 0d6fb66c1c0150d55f7f76d3754fcb06ecf335e66dbced951a27431d7d9a9fc8
+
+The patch touches exactly these 8 files. Their expected LF postimage SHA and deterministic CRLF postimage SHA are:
+
+content_script.js
+  LF   6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e
+  CRLF 6c0449446df319a070a4ca667630a611f32776f85cdb41fff251206328ca0d3a
+service_worker.js
+  LF   2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
+  CRLF 0d6fb66c1c0150d55f7f76d3754fcb06ecf335e66dbced951a27431d7d9a9fc8
+tests/content_runtime_exhaustive.test.mjs
+  LF   a850217c037e3adcf3780dc491d9f15ac4340b16d67d760ea7aa0605fbb3e64c
+  CRLF e3f6df973a9169e1e79ffd741d89f0036563a0a367a991bf8354d5a0bc8adc97
+tests/manual_mode.test.mjs
+  LF   e40eec6fde875b19cecc738cc2fcf94a4d9b1eeecad4a4935300ad50f384bcbc
+  CRLF 84c2ecffda96014d49cc9b1072a65179c5fd626d868a6218fb0a3c3ccc343e1b
+tests/manual_surface_v2_worker.test.mjs
+  LF   1d09d81ba726cc40e62e79cad2991c5600fbb439b606777f724818e231427bf4
+  CRLF 6d1ba6fbeca44aadd928920ab2d46eaf1af913d749c5c4d76cf5471cc8f0b754
+tests/phase1_unified_core.test.mjs
+  LF   58752082e08b1ad4aeca6e2b7d322f075d092531d8008b93d275260660977845
+  CRLF 35ee0396fb3963717ba270ec59eba8a2623054c2e5cdf191fba16156d439cb82
+tests/reference_toast_emulation.test.mjs
+  LF   5c93aa2926fc74f350ce964693bd846af9a8bfcdc347a267932c245e97a10a87
+  CRLF 702371854e541b0bed486c95308bacb209b703aabcbe74e1d3ca32003eb32b1e
+tests/source_guards.test.mjs
+  LF   f856e656dc327637c06f5a301003a28713c5328762724f774175dd88729344af
+  CRLF 19ffb8681dd84f6cc339d3a16868f2756d948082855cb902583cf992bfe776d0
+
+Deterministic allowed reconstruction step:
+1. Work only in a NEW isolated QA reconstruction directory.
+2. After exact patch application, calculate SHA256 of each of the 8 touched files.
+3. If a file already equals its LF expected SHA, leave it unchanged.
+4. If and ONLY IF its SHA equals the exact listed CRLF SHA, transform bytes by replacing every CRLF (0D 0A) with LF (0A), with no text decoding/re-encoding and no other byte edits.
+5. Recalculate SHA. It MUST equal the listed LF expected SHA.
+6. Any other starting or resulting hash => FAIL_ARTIFACT. Do not modify around it.
+7. Verify all 45 files against POSTIMAGE_SHA256SUMS.txt before PD-00 can PASS.
+
+This transformation is a transport/EOL decode restoring ChatGPT's already-frozen exact bytes. It is not a product/test modification and must not be used to change any logical content.
