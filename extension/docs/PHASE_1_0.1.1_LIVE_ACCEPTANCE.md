@@ -1,140 +1,218 @@
 # PHASE 1 — 0.1.1 OWNER REAL-PROFILE LIVE ACCEPTANCE
 
-Status: **MANDATORY FINAL OWNER-LIVE GATE / PENDING**  
+Status: **PASS / CLOSED**  
 Updated: 2026-08-19.
 
-This document governs only the irreducible owner real-profile/current-production-ChatGPT acceptance that remains after the complete controlled Codex regression gate has already passed.
+This document governs only the irreducible owner real-profile/current-production-ChatGPT acceptance that remains after the complete controlled Codex regression gate.
 
-It does **not** repeat QA that Codex can reliably perform. The owner is not used as a repetitive manual QA runner.
+The owner explicitly narrowed the final live scope for this campaign to **functional Yandex tests only**. Standalone UI-only test cases are not required; UI behavior is observed naturally while the real Yandex functional path executes. Tests are given one at a time.
 
 ## 1. Exact candidate authority
 
-Only this exact artifact may be used for the current owner-live acceptance:
+Only this exact artifact was used for the final owner-live acceptance:
 
 ```text
-yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip
-SHA-256 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-size 209697 bytes
+yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
+SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+size 209505 bytes
 files 45
+ZIP entries 48
+version 0.1.1
 ```
 
-The exact frozen product received a complete controlled Codex pre-delivery result:
+Production hashes:
+
+```text
+content_script.js ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
+popup.js ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
+service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
+```
+
+The exact artifact had already received a complete controlled Codex pre-delivery PASS:
 
 ```text
 PD-00..PD-17: ALL PASS
+Manual-ON transaction addendum: PASS
 source suite: 361/361 PASS
 packaged suite: 361/361 PASS
-source/package identity: 45/45 PASS
-real Yandex requests: 0
+syntax: 40/40 PASS
+JSON: 2/2 PASS
+source/package identity: PASS
+real Yandex requests during controlled gate: 0
 production modified during gate: NO
+tests modified during gate: NO
 verdict: PASS
 ```
 
-Historical artifacts including `311353…` and `4973c5…` are not current acceptance candidates.
+## 2. Owner-live acceptance scope
 
-Search remains blocked until this owner-live procedure passes.
-
-## 2. Purpose of remaining owner-live acceptance
-
-The remaining owner step exists only to prove behavior that depends on the owner's real Chrome/current production ChatGPT DOM/profile and therefore must not be fabricated from controlled fixtures.
-
-The two open live blockers being closed are:
-
-1. independent external Yandex action lifecycle versus native Copy;
-2. Manual operation release after completed delivery so a subsequent Manual operation is admitted normally.
-
-Issues #1 and #2 remain open until this exact artifact passes the checks below.
-
-## 3. Installation / identity
-
-The owner should receive the exact already-tested artifact. The owner must not reconstruct, patch or repackage it.
-
-After installation/load, verify popup/runtime reports version `0.1.1`.
-
-If migration of settings is required, use the product's normal Export/Import mechanism. Secret backup content remains private and must never be pasted into ChatGPT/GitHub.
-
-## 4. Real-profile external Yandex action / native Copy independence
-
-With Manual ON in the bound current conversation, use an eligible assistant code/writing block.
-
-Required real-profile observations:
-
-1. A newly rendered eligible block gets an enabled yellow `Яндекс` action even **before native Copy exists**, when that state is observable.
-2. The Yandex action is visibly separate from native Copy and is not replacing/covering it.
-3. When native Copy appears, the same Yandex action remains usable.
-4. Trigger the native Copy/checkmark lifecycle if available: Copy appears → Copy state/checkmark changes → Copy disappears/re-renders/replacement appears.
-5. The Yandex action remains present/usable through that lifecycle rather than disappearing with Copy.
-6. Native Copy remains native Copy and does not execute a Bridge Manual operation.
-7. Clicking the Yandex action performs one Manual admission for the bound block.
-8. Manual OFF removes Bridge-owned Yandex controls and leaves the native ChatGPT surface intact.
-
-A failure of any required observation is owner-live FAIL for issue #1.
-
-## 5. Real-profile sequential Manual lock release
-
-Use safe Manual operations that do not require a real Yandex request when practical, for example a controlled validation/no-command/error/result path that still exercises automatic report delivery.
-
-Required sequence:
+Current explicit owner instruction supersedes older broader/manual UI-only acceptance wording for this campaign:
 
 ```text
-first Manual admission
-→ automatic result/error delivery completes
-→ ChatGPT returns to ready/Microphone state
-→ first Manual operation no longer blocks admission
-→ second distinct Manual Yandex action is clicked
-→ second Manual operation is admitted normally
+only functional tests involving Yandex
+UI observed naturally during those tests
+give exactly one test at a time
+state what is tested, exact command, exact click
+freshly verify official pricing before each executable paid request
+no blind retry
 ```
 
-Required observations:
-
-- no stale `MANUAL_OPERATION_ACTIVE` after the first delivery has actually completed;
-- no duplicate Send caused by recovery;
-- no replay of the first block/provider operation;
-- the second operation is genuinely admitted as a new operation.
-
-A failure is owner-live FAIL for issue #2.
-
-## 6. Real-profile plaques / composer safety
-
-During the acceptance above, verify the visible Bridge status/reporting behavior that cannot be fully guaranteed by synthetic DOM alone:
-
-- Bridge plaques appear in the expected top-right area rather than stacking over unrelated controls;
-- repeated state updates do not visibly accumulate duplicate stale plaques;
-- if the composer is already occupied when a Manual report is waiting, existing user text is not overwritten;
-- where practical, clearing the composer allows the pending worker-owned report to resume once.
-
-The occupied-composer branch need not be forced through unsafe manipulation if it cannot be produced naturally; controlled gate evidence remains authoritative for the internal branch. Any naturally observed violation is a live FAIL.
-
-## 7. Real Yandex request policy during owner-live acceptance
-
-The two current blocker closures above do **not** require a paid Yandex request.
-
-Do not execute a real paid Yandex operation merely to repeat behavior already covered by the complete controlled gate.
-
-If the owner explicitly chooses to perform a real Yandex command for additional live confidence, ChatGPT must freshly verify current official pricing immediately before the command, state the expected cost and preserve the no-blind-retry rule. This optional request is not required to close issues #1/#2 unless a later owner instruction changes the acceptance scope.
-
-## 8. Acceptance verdict
-
-PASS only if all mandatory real-profile observations above succeed on the exact artifact `31cc5f…`.
-
-After PASS:
-
-1. record owner-live evidence without secrets;
-2. close issues #1/#2 as completed;
-3. update `CURRENT_STATE.md` and `ROADMAP.md` to Phase 1 LIVE PASS;
-4. only then unlock Phase 2 Search.
-
-If any mandatory observation fails:
+The required Phase-1 real-Yandex functional operations are:
 
 ```text
-owner-live FAIL
-→ preserve exact evidence
-→ keep issues/open phase blocked
-→ ChatGPT performs root-cause analysis/fix
-→ focused development tests
-→ new frozen candidate if production bytes change
-→ complete Codex pre-delivery gate again
-→ repeat only the irreducible owner-live closure
+getRegionsTree
+getTop
+getDynamics
+getRegionsDistribution
 ```
 
-The owner must not be asked to perform QA infrastructure setup, artifact transport or repetitive controlled test work.
+## 3. Owner-live results
+
+### A. getRegionsTree — PASS
+
+Observed real result:
+
+```text
+operation: getRegionsTree
+status: OK
+http_status: 200
+request_executed: true
+automatic_retry: false
+estimated_rub: 0
+charged: false
+```
+
+The real region tree was returned successfully.
+
+### B. getTop — PASS
+
+Observed real result:
+
+```text
+operation: getTop
+status: OK
+http_status: 200
+request_executed: true
+automatic_retry: false
+estimated_rub: 0.02
+charged: true
+phrase: тест
+numPhrases: 10
+regions: [225]
+devices: [DEVICE_ALL]
+```
+
+Ten real result rows plus associations and totalCount were returned.
+
+### C. getDynamics — PASS after corrected operator test input
+
+The first owner-live command used:
+
+```text
+toDate = 2026-08-01T00:00:00Z
+```
+
+Yandex returned HTTP 400 with:
+
+```text
+The to field value should be the last day of the month
+```
+
+Classification:
+
+```text
+layer: PROMPT/EXECUTION INSTRUCTION
+product defect: NO
+request_executed: true
+automatic_retry: false
+blind retry: NO
+```
+
+The test command was corrected using the established Yandex contract to:
+
+```text
+toDate = 2026-07-31T00:00:00Z
+```
+
+Corrected real result:
+
+```text
+operation: getDynamics
+status: OK
+http_status: 200
+request_executed: true
+automatic_retry: false
+estimated_rub: 0.02
+charged: true
+period: PERIOD_MONTHLY
+12 monthly result points returned
+```
+
+Therefore `getDynamics` owner-live verdict is PASS. The initial 400 is retained as test-instruction evidence, not hidden or reclassified as a product failure.
+
+### D. getRegionsDistribution — PASS
+
+Observed real result:
+
+```text
+operation: getRegionsDistribution
+status: OK
+http_status: 200
+request_executed: true
+automatic_retry: false
+estimated_rub: 0.05
+charged: true
+region: REGION_REGIONS
+```
+
+A real multi-region distribution with count/share/affinityIndex values was returned successfully.
+
+## 4. Live closure of issue #1 — external Yandex action usability
+
+Across multiple sequential newly rendered command blocks in the owner's real production ChatGPT profile, the Bridge-owned `Яндекс` action was present and usable without requiring the native Copy control as the execution trigger. Each owner-authorized click executed exactly the intended Manual/Yandex path and returned the corresponding real result.
+
+The exact candidate had already passed the complete controlled native-Copy lifecycle regression, including real popup Manual state and Copy independence. The final owner instruction did not require a standalone repeat of those already-controlled UI-only cases; naturally observed real-profile Yandex usability showed no live regression during the functional sequence.
+
+Owner-live classification for issue #1:
+
+```text
+PASS / COMPLETED
+```
+
+## 5. Live closure of issue #2 — sequential Manual lock release
+
+The owner executed multiple distinct Manual Yandex operations sequentially in the same live campaign:
+
+```text
+getRegionsTree
+→ getTop
+→ getDynamics error delivery
+→ corrected getDynamics
+→ getRegionsDistribution
+```
+
+Every subsequent operation was admitted after the prior result/error delivery. No stale `MANUAL_OPERATION_ACTIVE` blocked the next operation. The error-delivery path was followed by a new admitted operation without replaying the prior request automatically.
+
+This directly proves the real-profile sequential Manual release behavior that issue #2 required.
+
+Owner-live classification for issue #2:
+
+```text
+PASS / COMPLETED
+```
+
+## 6. Final Phase-1 verdict
+
+```text
+EXACT ARTIFACT: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+CONTROLLED FULL GATE: PASS
+OWNER REAL-PROFILE YANDEX FUNCTIONAL ACCEPTANCE: PASS
+ISSUE #1: COMPLETED
+ISSUE #2: COMPLETED
+PHASE 1 LIVE PASS: TRUE
+PHASE 2 SEARCH: UNLOCKED
+```
+
+No further Phase-1 paid Wordstat request is required merely to repeat already-passed behavior.
+
+After this PASS, current-state/roadmap authority must record Phase 1 closure and Phase 2 Search as the next allowed service stage.
