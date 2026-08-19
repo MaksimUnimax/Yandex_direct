@@ -199,8 +199,8 @@ The browser independent-control path remains qualified/PASS historically.
 Synthetic late-confirmation state injection is classified as an
 **UNQUALIFIED/UNRELIABLE HARNESS CAPABILITY**. Deterministic content↔worker
 integration is the governed PD-11 venue for the same mandatory assertions;
-the product patch remains unchanged. The corrected full pre-delivery Gate is
-pending.
+the product patch remains unchanged. The architecture-corrected full
+pre-delivery Gate is **ACCEPTED**; owner real-profile closure remains pending.
 
 ## PHASE 2 — YANDEX SEARCH / SERP
 
