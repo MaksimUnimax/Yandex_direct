@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **CURRENT CONTROL-PLANE AUTHORITY**  
+Status: **CURRENT CONTROL-PLANE AUTHORITY / OWNER-REQUESTED PAUSE**  
 Updated: 2026-08-19
 
 This file applies immediately in the current conversation and every new/resumed conversation. Always fetch live `main` HEAD before action.
@@ -169,7 +169,7 @@ extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
 
 These two addenda supersede stale pre-Phase-2 `Search blocked` wording only for the governed Search first slice. The existing main `SPECIFICATION.md` and living PD gate remain mandatory for common/Wordstat behavior.
 
-Official Yandex Search API facts were freshly checked on 2026-08-19 against AI Studio/Yandex documentation.
+Official Yandex Search API facts were freshly checked on 2026-08-19 against Yandex-owned documentation/source.
 
 First implementation slice:
 
@@ -205,6 +205,58 @@ Unless explicit tariff-window logic is implemented, reserve the conservative hig
 
 Search must reuse the accepted common Manual/Autorun/outbox/conversation/owner-tab/no-blind-retry core rather than fork service-specific delivery logic.
 
+## Phase 2 foundation research checkpoint
+
+Append-only checkpoint authority:
+
+```text
+extension/docs/DEVELOPMENT_CONTEXT_APPEND_ONLY_CONTINUATION_PHASE2_2026-08-19.md
+```
+
+At the pause boundary:
+
+```text
+PHASE_2_PRODUCTION_CHANGES = NONE
+PHASE_2_TEST_CHANGES = NONE
+CODEX_MEASUREMENT_PENDING = NO
+OWNER_ACTION_PENDING = NO
+```
+
+Repository/product structure needed for the first foundation was re-established from live GitHub. Current Yandex-owned SDK source was inspected to confirm the synchronous `WebSearchRequest` mapping and XML result structure instead of guessing it. Confirmed parser facts include `<response> → <group> → <doc>`, optional `url/domain/title/modtime/lang`, repeated `<passage>` values, UTF-8 XML decode, and tolerant handling of missing/invalid optional fields.
+
+Owner rule is now explicit for continuation:
+
+```text
+UNKNOWN BROWSER/DOM/RUNTIME FACT
+→ do not guess
+→ issue a concrete Codex measurement prompt
+
+REPOSITORY FACT
+→ read live GitHub
+
+PUBLIC YANDEX API FACT
+→ read current official Yandex source/docs
+```
+
+## Owner-requested pause boundary
+
+The owner explicitly ordered work to stop and wait for a continuation command.
+
+No further product, test, QA-transport, Codex or owner-live action is authorized until the owner says to continue.
+
+On resume, first re-fetch live `main` and this file. Then continue from the exact recorded Search foundation point:
+
+```text
+service registry registration for search/SEARCH_API_V1
+→ Search protocol/defaults/strict validation
+→ exact synchronous WebSearch request-body builder
+→ Base64 UTF-8 XML normalization
+→ focused tests
+→ focused/source checks
+```
+
+Only after that foundation is green should worker/provider/policy integration proceed. If any browser/DOM/runtime fact becomes unknown, request Codex measurement instead of inventing behavior.
+
 ## Current control-plane reconstruction
 
 ```text
@@ -213,8 +265,9 @@ HANDOFF_ARTIFACT = e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402
 LATEST_FULL_GATE = PASS on exact Phase-1 e13a artifact
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = NO
 OWNER_LIVE = Phase 1 PASS
-OPEN_BLOCKERS = none before beginning focused Phase-2 development; first Search production change will create a new combined candidate lineage and invalidate old candidate PASS for handoff
-AUTHORIZED_NEXT_STAGE = PHASE_2_SEARCH_IMPLEMENTATION_FOUNDATION
+OPEN_BLOCKERS = OWNER-REQUESTED PAUSE ONLY
+AUTHORIZED_NEXT_STAGE = PAUSED_BY_OWNER
+RESUME_STAGE = PHASE_2_SEARCH_IMPLEMENTATION_FOUNDATION
 ```
 
 ## Phase status
@@ -222,7 +275,7 @@ AUTHORIZED_NEXT_STAGE = PHASE_2_SEARCH_IMPLEMENTATION_FOUNDATION
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 YANDEX SEARCH / SERP = REQUIREMENTS + SPEC ADDENDUM + GATE ADDENDUM READY; IMPLEMENTATION FOUNDATION AUTHORIZED
+PHASE 2 YANDEX SEARCH / SERP = REQUIREMENTS + SPEC ADDENDUM + GATE ADDENDUM READY; FOUNDATION RESEARCH CHECKPOINTED; PRODUCTION NOT CHANGED; PAUSED BY OWNER
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
@@ -230,5 +283,3 @@ PHASE 6 DIRECT DRAFT/PRE-LIVE WRITE = BLOCKED
 PHASE 7 DIRECT LIVE WRITE = BLOCKED
 PHASE 8 FULL ORDER E2E = BLOCKED
 ```
-
-Next product action: implement the smallest Search foundation with focused tests only — service registry + `SEARCH_API_V1` protocol/defaults/validation + XML normalization module tests — before wiring provider execution/popup/Autorun.
