@@ -1,0 +1,51 @@
+Yandex Marketing Bridge QA transport manifest
+
+Purpose: transport exact ChatGPT-developed frozen patch to Codex without any owner file transfer.
+This QA branch is transport/evidence only. It is NOT product authority and MUST NOT replace main governance.
+
+MAIN_GOVERNANCE_AUTHORITY_AT_FREEZE=07e0140d0a01a327d639e23bea8446a79818ceac
+QA_TRANSPORT_BRANCH=qa/ymb-0.1.1-external-ui-manual-delivery
+
+PATCH_PARTS_IN_ORDER:
+extension/tests/qa-input/yandex-external-ui-manual-delivery.patch.gz.b64.part00
+extension/tests/qa-input/yandex-external-ui-manual-delivery.patch.gz.b64.part01
+extension/tests/qa-input/yandex-external-ui-manual-delivery.patch.gz.b64.part02
+extension/tests/qa-input/yandex-external-ui-manual-delivery.patch.gz.b64.part03
+extension/tests/qa-input/yandex-external-ui-manual-delivery.patch.gz.b64.part04
+
+PART_SHA256:
+part00=a33e379a492bf03e4b0c9989cfa25b3bb1b6d8a987628536a69416f07a48d5b9
+part01=112534a151be2e5e4afb00d3ef7681477a6f61268b7cbd12e8c60aa01663b745
+part02=dd1fc7e1bf2e455bdb4e875c6308e44a25aa1d8b79b8bca3ba2ee12bbcf9c3fd
+part03=b07be58096595a0d6e2328cdd850ab6bdc850ae478ff352b5f803c0d6aec38ef
+part04=1203ef108ca4abe5cae95f8a244025ef6957531a15bb5315059e0a7f0b45a90e
+
+CONCATENATED_BASE64_SHA256=ce7acfc3afe23c019f51446d4888b78f1f58d2d4c2e9be693dc35c949fa40feb
+DECODED_GZIP_CONTAINS=unified patch
+DECOMPRESSED_PATCH_SHA256=4c2eeaf1f104219e93b53d4efb2cac427232da65feba34ab92fbef0cd508b798
+DECOMPRESSED_PATCH_BYTES=150197
+
+EXACT_PREIMAGE_REQUIREMENTS:
+file_count=45
+content_script.js=d942bcbfeaa2f3a77f21f3f0191ed807434fe6d342780bd3a6dd5ea4336728ed
+service_worker.js=4be10f692faf72880fc50abd3f32b97538c14b4c4afc59a9ddd22a48a3ae14c8
+
+EXACT_POSTIMAGE_REQUIREMENTS:
+file_count=45
+content_script.js=6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e
+service_worker.js=2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
+
+REFERENCE_DETERMINISTIC_ZIP_FROM_CHATGPT_LOCAL_FREEZE:
+sha256=31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
+bytes=209697
+files=45
+
+RECONSTRUCTION_RULE:
+1. Codex must locate an existing Yandex 45-file source/preimage in D:\codex\Yandex by exact PREIMAGE hashes. Do not trust a directory name alone.
+2. Copy that preimage to a NEW isolated QA directory. Never patch the historical/protected original in place.
+3. Fetch the QA transport branch, verify every part SHA, concatenate parts in order, verify concatenated SHA, base64-decode, gunzip and verify patch SHA/bytes.
+4. Apply the patch to the isolated exact preimage only.
+5. Verify POSTIMAGE hashes/file count. If mismatch => FAIL_ARTIFACT. Do not improvise/fix.
+6. This reconstructed exact postimage is the frozen candidate for the complete living PD-00..PD-17 gate.
+7. Codex is QA only: no product/test code edits. Any product failure is returned to ChatGPT for repair.
+8. Real Yandex requests must remain 0 during controlled full gate.
