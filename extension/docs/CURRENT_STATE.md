@@ -3,45 +3,18 @@
 Status: **CURRENT CONTROL-PLANE AUTHORITY**  
 Updated: 2026-08-19
 
-This file applies **immediately in the current conversation** and is the first compact state record for every new/resumed conversation. It exists so workflow state is reconstructed from live GitHub rather than chat memory or stale historical candidate blocks.
+This file applies immediately in the current conversation and every new/resumed conversation. Live GitHub remains authoritative; always fetch current `main` HEAD before action.
 
-## Live repository rule
-
-Repository: `MaksimUnimax/Yandex_direct`  
-Branch: `main`
-
-**Always fetch live `main` HEAD before action.** Do not trust a remembered SHA. Because updating this file itself creates a new commit, the exact current HEAD is intentionally not hard-coded as permanent truth here.
-
-The last live HEAD observed immediately before this reconciliation record was written was:
+## Repository
 
 ```text
-143f920212d3cee12305a96a95bd05ba7d82bc78
+repo: MaksimUnimax/Yandex_direct
+branch: main
 ```
 
-When this file is read later, live GitHub wins over that historical observation.
+## Owner-live result on previous candidate
 
-## Current exact product candidate
-
-Version:
-
-```text
-0.1.1
-```
-
-Exact frozen source used by the latest complete Codex gate:
-
-```text
-D:\codex\Yandex\work\ymb-full-gate-20260819-02\source
-```
-
-Critical frozen production hashes:
-
-```text
-content_script.js 6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e
-service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
-```
-
-Exact tested/handoff artifact:
+The previously full-gate-passed artifact:
 
 ```text
 yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip
@@ -50,102 +23,112 @@ bytes 209697
 files 45
 ```
 
-No production-byte change occurred during the documentation/governance reconciliation recorded below.
+has now **FAILED owner real-profile acceptance** before Yandex functional testing could start.
 
-## Latest complete full regression gate
+Observed failure: Manual ON briefly decorated an eligible block, then content self-reverted to Manual OFF and removed the external `Яндекс` action. Owner diagnostics show repeated `manual_on → MANUAL_MODE_APPLIED true → manual_off → MANUAL_MODE_APPLIED false` on the same confirmed tab/conversation.
 
-Codex result date: 2026-08-19  
-Candidate/product-governance authority used by that campaign:
+Classification:
 
 ```text
-07e0140d0a01a327d639e23bea8446a79818ceac
+31cc5f... owner-live result: FAIL_PRODUCT
+previous full Codex PASS: does not authorize handoff after this newly proven uncovered defect
+Phase 1 LIVE PASS: FALSE
+Search / Phase 2: BLOCKED
 ```
 
-Complete result:
+## Root cause
+
+The previous popup Manual-ON transaction and the latest content-state synchronization patch became incompatible:
+
+- popup committed content ON first, worker ON second;
+- latest content `WS_APPLY_MANUAL_MODE(true)` now immediately re-reads authoritative worker state;
+- worker was still OFF during that re-read;
+- content therefore turned itself OFF and removed the Yandex action;
+- the handler still returned an acknowledgement that the old tests treated as success.
+
+This was a ChatGPT product/test-design regression. Codex executed the supplied tests; the missing cross-layer assertion was not Codex's responsibility to invent.
+
+Permanent mandatory gate supplement:
 
 ```text
-PD-00..PD-17: ALL PASS
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md
+```
+
+It is mandatory together with `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` until merged into that living gate.
+
+## Current repaired candidate — pending Codex full gate
+
+New exact frozen candidate:
+
+```text
+yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
+SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+bytes 209505
+files 45
+```
+
+QA transport path in this repository:
+
+```text
+extension/tests/qa_artifacts/yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
+```
+
+Production bytes changed from `31cc5f…` only in:
+
+```text
+content_script.js
+  old 6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e
+  new ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
+
+popup.js
+  old 7286ea024033293110ad10ebc16856de0beacf512f6f86a229ac0271ac20c28c
+  new ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
+```
+
+`service_worker.js` remains byte-identical to the previous candidate:
+
+```text
+2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
+```
+
+## Development evidence before Codex
+
+The corrected regression was first run against the old `31cc5f…` production bytes with only the repaired tests substituted. Result:
+
+```text
+focused old-product regression: 42/44 PASS, 2/44 FAIL
+```
+
+The two failures are the intended proof that the new tests catch the old defect:
+
+1. content must not report successful Manual ON while worker gate is still OFF;
+2. popup Manual ON must preserve final worker/content ON rather than use the obsolete content-first ordering.
+
+Repaired candidate local evidence:
+
+```text
+focused popup+content: 44/44 PASS
 source suite: 361/361 PASS
 packaged suite: 361/361 PASS
 syntax: 40/40 PASS
 JSON: 2/2 PASS
-source/package identity: 45/45 PASS
+source↔package: 45/45 byte-identical
+deterministic ZIP A/B: byte-identical
 real Yandex requests: 0
-production modified during gate: NO
-failures: NONE
-verdict: PASS
 ```
 
-Exact artifact accepted by that campaign is the `31cc5f…` artifact above.
-
-## Documentation/governance reconciliation after the product PASS
-
-After the complete product PASS, the following documentation/process corrections were made:
-
-- `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` gained permanent QA transport/harness/gate-authoring failure-prevention rules;
-- `WORKFLOW_OPERATING_RULES.md` was added and made effective immediately in the current conversation plus all future/resumed conversations;
-- `README.md` gained mandatory workflow-transition reconstruction, authority precedence/conflict STOP rules and owner-correction canonicalization;
-- `SPECIFICATION.md` was corrected to remove stale current wording and match the already-tested external Yandex action + Send→ready/Microphone Manual lifecycle;
-- `ROADMAP.md` was synchronized from stale `3113…/4973…/358` checkpoints to current artifact `31cc…` and `361/361` full-gate PASS;
-- `PHASE_1_0.1.1_LIVE_ACCEPTANCE.md` was updated to the exact `31cc…` artifact and reduced to irreducible owner real-profile checks;
-- the old `PHASE_1_0.1.1_LIVE_TEST_PLAN_AND_RESULTS.md` is explicitly historical evidence, not current candidate/live-procedure authority.
-
-### Classification of these post-gate documentation changes
-
-Classification under `WORKFLOW_OPERATING_RULES.md`:
-
-```text
-PRODUCT_BYTES_CHANGED: NO
-NEW_PRODUCT_BEHAVIOR_REQUIRED: NO
-NEW_PRODUCT_ACCEPTANCE_ASSERTION_ADDED: NO
-STALE_CURRENT_CONTRACT_TEXT_RECONCILED_TO_ALREADY-TESTED_BEHAVIOR: YES
-QA/PROCESS FAILURE-PREVENTION RULES ADDED: YES
-CURRENT/HISTORICAL AUTHORITY DISAMBIGUATED: YES
-```
-
-Therefore these changes are **process/governance clarification + stale-document reconciliation**, not a new product candidate.
-
-The external Yandex action and Send→ready/Microphone assertions were already present in the living gate used for the successful `PD-00..PD-17` campaign. The reconciliation does not create an untested product requirement.
-
-Accordingly, the exact complete product PASS for artifact `31cc5f…` remains applicable. Do **not** rerun the full product gate merely because of these documentation-only reconciliation commits.
-
-If any later documentation change actually adds/changes a product contract or acceptance assertion, classify it again before handoff and refresh gate evidence as required.
-
-## Owner live status
-
-```text
-Owner real-profile acceptance: PENDING
-Issue #1: OPEN pending owner live acceptance
-Issue #2: OPEN pending owner live acceptance
-Phase 1 LIVE PASS: FALSE until owner acceptance
-Search/Phase 2: BLOCKED until Phase 1 live PASS
-```
-
-Current owner-live authority:
-
-```text
-extension/docs/PHASE_1_0.1.1_LIVE_ACCEPTANCE.md
-```
-
-The owner-live step must use exact artifact SHA-256:
-
-```text
-31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-```
+These are development checks only, not a pre-delivery PASS.
 
 ## Authorized next stage
 
 ```text
-AUTHORIZED_NEXT_STAGE = OWNER_REAL_PROFILE_LIVE_ACCEPTANCE
+AUTHORIZED_NEXT_STAGE = CODEX_COMPLETE_PRE_DELIVERY_FULL_GATE
 ```
 
-Required behavior before starting that stage in the **current conversation or any later conversation**:
+Codex must test the exact `e13a2607…` ZIP from repository QA transport, verify SHA/size before extraction, then execute the entire living `PD-00…PD-17` campaign from the beginning plus the mandatory Manual-ON transaction addendum.
 
-1. fetch live `main` HEAD;
-2. read `README.md`, `WORKFLOW_OPERATING_RULES.md`, this file and `PHASE_1_0.1.1_LIVE_ACCEPTANCE.md`;
-3. confirm no production bytes changed and no later contract/assertion change invalidated the classification above;
-4. use only exact tested artifact `31cc5f…`;
-5. perform only the irreducible owner-live checks; do not repeat controlled QA through the owner;
-6. keep issues #1/#2 open and Search blocked until owner-live PASS.
+The new mandatory browser scenario must start from worker OFF + content OFF and turn Manual ON through the **real extension popup**, using actual popup→worker→content messaging. Independent popup mocks, direct `applyManualMode(true)`, pre-seeding Manual ON, or merely proving the external button after it is already armed are not substitutes.
 
-Do not start Search. Do not close issues #1/#2 before owner real-profile PASS.
+No owner real-profile retest is allowed before a new complete Codex PASS. The owner remains prompt-only for Codex QA; no QA file transport or environment setup may be delegated to the owner.
+
+Issues #1/#2 remain open. Do not start Search.
