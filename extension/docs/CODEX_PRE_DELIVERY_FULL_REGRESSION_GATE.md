@@ -2,7 +2,7 @@
 
 Status: **MANDATORY / LIVING GATE**  
 Adopted: 2026-08-18  
-Updated: 2026-08-19 — external Yandex control + Ozon-parity Manual delivery lifecycle  
+Updated: 2026-08-19 — external Yandex control + Ozon-parity Manual delivery lifecycle + QA transport/harness failure-prevention rules  
 Scope: every installable Yandex Marketing Bridge build that is about to be handed to the owner as a working build/candidate.
 
 ## 1. Purpose and role boundary
@@ -32,6 +32,133 @@ Qualified controlled capabilities include repository/source/hash inspection; Nod
 Controlled evidence is never relabeled as owner real-profile/live evidence. Unless a future governed revision explicitly changes this rule, the full gate uses **zero real Yandex requests and no real credentials**.
 
 Browser/CfT is mandatory for browser-owned surfaces: DOM binding, extension installation, popup, MV3/content loading, native Copy, external Yandex control, placement, mutation lifecycle and visible plaques. Deterministic content↔worker integration is mandatory for internal asynchronous states that cannot be reliably manufactured in the qualified browser fixture. Moving a regression between qualified layers must not weaken assertions or fabricate live evidence.
+
+### 3A. QA transport, harness and gate-authoring failure-prevention rules
+
+These rules are permanent because failures in the 2026-08-19 pre-delivery campaign showed that a correct product can still be blocked or falsely classified by a bad QA handoff. The purpose of this subsection is to prevent ChatGPT from repeating those QA-engineering mistakes when creating future tests or gates.
+
+#### A. The exact handoff artifact is the primary QA input
+
+When ChatGPT has already produced the exact installable ZIP intended for owner handoff, Codex must test **those exact ZIP bytes** whenever transport to Codex is possible. ChatGPT must make the exact artifact available through a Codex-accessible transport and publish its expected SHA-256 and byte count.
+
+Do **not** replace an available exact handoff ZIP with a preimage+patch reconstruction merely for convenience. Reconstruction is a fallback only when transporting the exact artifact is genuinely impossible.
+
+Reason: during the 2026-08-19 campaign ChatGPT had already frozen artifact SHA-256 `31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14`, but initially failed to place those exact bytes where Codex could access them. That unnecessary reconstruction path created avoidable artifact failures before product testing.
+
+#### B. Never make the owner transport QA files
+
+The owner action for this workflow is prompt-only. ChatGPT must never require the owner to download, upload, copy, move, extract, install, rename or stage QA artifacts for Codex.
+
+ChatGPT owns transport design. Codex owns QA execution. If transport is broken, ChatGPT fixes the transport; the owner is not used as a file courier.
+
+#### C. Exact-byte reconstruction must be byte-safe and cross-platform
+
+If reconstruction is unavoidable, the reconstruction protocol must define and verify exact bytes, not merely logical text content. It must account for line endings, encodings, path separators, timestamps, permissions and archive metadata.
+
+The 2026-08-19 reconstruction failure is a permanent regression lesson: applying the frozen patch on Windows produced CRLF-normalized `content_script.js` and `service_worker.js`. Their SHA-256 values differed even though logical code was equivalent. A candidate with the wrong bytes is not the frozen candidate.
+
+Therefore:
+- every reconstruction input has a published SHA-256 and byte count;
+- the final tree has a complete file-path + SHA-256 manifest, not only two representative hashes;
+- exact postimage identity is verified before any product test receives PASS credit;
+- EOL normalization, text-mode rewriting or archive-tool metadata changes are forbidden unless they are explicitly part of the canonical build procedure;
+- any ungoverned byte change is `FAIL_ARTIFACT`, not a product failure.
+
+#### D. Deterministic packaging procedure must be recorded before the gate
+
+If the handoff artifact is expected to be reproducible, ChatGPT must define the deterministic packer before Codex runs PD-03. The procedure must include at minimum archive root, path order, directory-entry policy, compression method/level, timestamps, permissions and separator normalization.
+
+The 2026-08-19 campaign showed that a source tree can be `45/45` byte-identical after extraction while a ZIP itself still has a different SHA because another archiver emitted different metadata. Codex must not be expected to guess the packer.
+
+For the 0.1.1 candidate that ultimately passed, the canonical artifact was reproduced byte-for-byte at SHA-256 `31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14`, 209697 bytes. Future releases must record their own canonical artifact identity and procedure.
+
+#### E. Test design must stay within demonstrated Codex capabilities
+
+Before freezing a candidate, ChatGPT must verify that every mandatory gate assertion has a concrete execution venue available to Codex. Do not write a mandatory gate step that depends on an assumed capability and discover only during pre-delivery that Codex cannot execute it.
+
+For each mandatory assertion, the gate/test registry must identify one of:
+- source/static;
+- Node/VM/unit;
+- deterministic content↔worker integration;
+- controlled network stub/fault injection;
+- qualified Chrome for Testing + Puppeteer browser runtime;
+- package/extraction identity;
+- another explicitly demonstrated Codex-capable venue.
+
+Codex may use a technically equivalent invocation of an already-defined test because of local paths/environment, but Codex must not invent the test objective, weaken it, or silently move a browser-owned assertion into source review.
+
+#### F. Browser capability means executable CfT/Puppeteer, not a UI button
+
+A missing high-level/in-app browser control does not prove that browser QA is unavailable. If the gate requires CfT/Puppeteer, the QA design must specify or preserve a known executable browser harness accessible from Codex's shell/workspace.
+
+The 2026-08-19 campaign demonstrated a working qualified harness at the Codex side using Chrome for Testing and Puppeteer even though an earlier run reported only an in-app browser. The earlier classification was a harness-discovery failure, not an artifact failure.
+
+Future gate authoring must therefore record enough harness information for Codex to launch the qualified browser without inventing a new test architecture.
+
+#### G. Every PD section must have an executable coverage map before freeze
+
+A prose requirement is not enough. Before pre-delivery freeze, ChatGPT must ensure there is an executable mapping from every enabled `PD-00…PD-17` section to the concrete tests/harness scenarios that prove it.
+
+The mapping may reference multiple layers. Example: a browser-owned lifecycle can use CfT/Puppeteer while rare internal recovery state can use deterministic content↔worker integration. The combination is valid only when it proves every assertion without weakening it.
+
+The 2026-08-19 campaign reached PD-06 with exact source, exact package and working CfT/Puppeteer, then returned `NOT_RUN` for PD-07…PD-17. That was a QA/gate execution failure: the remaining requirements were present in prose and much of their coverage already existed in the 361-test suite, but the campaign did not have a sufficiently explicit execution map. This must not recur.
+
+#### H. Codex executes the gate; ChatGPT designs the tests and harness
+
+Codex is not responsible for deciding what should be tested. ChatGPT must implement/update the tests and define the QA protocol before freezing the candidate.
+
+Codex responsibilities are limited to executing the governed tests/harness, collecting evidence, classifying failures and returning PASS/FAIL. Codex must not be asked to design missing product tests, invent acceptance criteria, patch tests, or improvise weaker substitutes.
+
+If a required test/harness is missing, that is a ChatGPT QA-engineering defect. Fix the QA layer first; do not transfer the design burden to Codex or the owner.
+
+#### I. One campaign means no enabled `NOT_RUN`
+
+The final campaign is not complete while any enabled PD section is `NOT_RUN`. Codex must continue through the entire matrix unless an actual blocking condition makes later evidence impossible or unsafe.
+
+A normal assertion failure does not justify stopping unrelated sections; collect the complete failure set when safe.
+
+A final result containing enabled `NOT_RUN` cannot be `PASS` and must identify why execution could not continue.
+
+#### J. Failure classes must describe the layer that failed
+
+Use failure classes precisely:
+- `FAIL_PRODUCT`: exact candidate established; a product assertion failed;
+- `FAIL_ARTIFACT`: candidate/package/reconstruction byte identity failed;
+- `FAIL_HARNESS`: exact candidate is valid but a required qualified test environment/harness cannot execute the governed assertion;
+- `PASS`: every enabled mandatory section passed.
+
+Do not label missing/unavailable browser harness as `FAIL_ARTIFACT`. Do not label an EOL/hash mismatch as `FAIL_PRODUCT`. Do not label an unexecuted matrix as product failure.
+
+#### K. Do not regenerate the handoff artifact inside QA unless the gate explicitly tests reproducibility
+
+If Codex already possesses the exact frozen handoff ZIP and its hash matches, that artifact is the package under test. Rebuilding another logically equivalent ZIP must not substitute for it.
+
+A rebuild may additionally be performed for PD-03 deterministic-reproducibility evidence, but the final handoff identity remains the exact tested artifact. The package handed to the owner must be the same bytes Codex accepted.
+
+#### L. QA-process fixes do not authorize product-byte mutation
+
+When a campaign fails because of transport, packaging procedure, harness discovery, missing executable mapping or reporting, fix only the QA/process layer unless evidence proves a product defect.
+
+Do not change frozen production bytes merely to make QA infrastructure easier to run. A production-byte change creates a new candidate and invalidates the previous product gate PASS set.
+
+#### M. Pre-freeze author checklist for every future patch
+
+Before declaring a candidate frozen and handing it to Codex, ChatGPT must answer YES to all of the following:
+
+1. Is the exact intended handoff artifact built and hashed?
+2. Can Codex obtain those exact bytes without owner file handling?
+3. Is complete source/postimage identity recorded?
+4. Is deterministic packaging defined if reproducibility is mandatory?
+5. Does every enabled PD section map to concrete executable tests/harness steps?
+6. Are all browser-owned assertions backed by a known qualified CfT/Puppeteer route?
+7. Are internal asynchronous assertions assigned to deterministic integration tests where browser manufacture is unreliable?
+8. Can Codex execute the whole matrix with its demonstrated tools rather than assumed tools?
+9. Are failure classifications unambiguous?
+10. Does the final result schema forbid silently treating `NOT_RUN` as PASS?
+11. Will the owner perform no QA file transport or environment setup?
+12. Will the exact artifact handed to the owner be the exact artifact that received full-gate PASS?
+
+If any answer is NO, the candidate is **not ready for pre-delivery gate execution**. ChatGPT must repair the QA design first.
 
 ## 4. Run discipline
 
