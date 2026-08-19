@@ -126,16 +126,6 @@ D:\codex\Yandex\qa-evidence-ymb-full-gate-20260819-06\CODEX_YANDEX_PRE_DELIVERY_
 
 ## Owner real-profile Phase-1 functional acceptance — PASS
 
-Current explicit owner scope for final live acceptance was:
-
-```text
-only functional tests involving Yandex
-UI observed naturally while those tests execute
-one test at a time
-fresh official pricing check before each paid executable command
-no blind retry
-```
-
 Exact `e13a…` owner-live results:
 
 ```text
@@ -147,9 +137,7 @@ getRegionsDistribution    PASS / HTTP 200 / request_executed true / charged true
 
 The first `getDynamics` attempt returned HTTP 400 because the test command supplied the first day rather than the required last day of the ending month. Classification: `PROMPT/EXECUTION INSTRUCTION`, not product. The bridge correctly reported `request_executed:true`, `automatic_retry:false`; after the cause was established the corrected command was issued and passed. This was not a blind retry.
 
-Sequential real Manual admissions across `getRegionsTree → getTop → getDynamics error → corrected getDynamics → getRegionsDistribution` prove that completed result/error delivery no longer strands the Manual lock; no stale `MANUAL_OPERATION_ACTIVE` blocked the next operation.
-
-Real-profile newly rendered command blocks repeatedly exposed a usable `Яндекс` action and executed the intended operation without requiring native Copy as the execution trigger. No live UI regression was reported during the required functional sequence.
+Sequential real Manual admissions across `getRegionsTree → getTop → getDynamics error → corrected getDynamics → getRegionsDistribution` prove that completed result/error delivery no longer strands the Manual lock.
 
 Full owner-live evidence authority:
 
@@ -157,14 +145,9 @@ Full owner-live evidence authority:
 extension/docs/PHASE_1_0.1.1_LIVE_ACCEPTANCE.md
 ```
 
-## Issues
+Issues #1 and #2 are CLOSED / COMPLETED.
 
-```text
-Issue #1 external Yandex action / Copy independence: CLOSED / COMPLETED
-Issue #2 stale Manual operation lock: CLOSED / COMPLETED
-```
-
-## Phase 2 Search requirement reconstruction — COMPLETE
+## Phase 2 Search requirements — COMPLETE
 
 Current Phase-2 requirement authority:
 
@@ -172,9 +155,23 @@ Current Phase-2 requirement authority:
 extension/docs/PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
 ```
 
+Mandatory Phase-2 specification companion:
+
+```text
+extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
+```
+
+Mandatory Phase-2 controlled-gate companion:
+
+```text
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
+```
+
+These two addenda supersede stale pre-Phase-2 `Search blocked` wording only for the governed Search first slice. The existing main `SPECIFICATION.md` and living PD gate remain mandatory for common/Wordstat behavior.
+
 Official Yandex Search API facts were freshly checked on 2026-08-19 against AI Studio/Yandex documentation.
 
-First implementation slice is frozen at the requirement level as:
+First implementation slice:
 
 ```text
 protocol: SEARCH_API_V1
@@ -196,7 +193,7 @@ HTML normalization
 browser scraping of yandex.ru
 ```
 
-Current official tariff snapshot relevant to this first slice:
+Current official tariff snapshot relevant to the first slice:
 
 ```text
 day synchronous:   488 RUB / 1000 = 0.488 RUB/request
@@ -204,7 +201,7 @@ night synchronous: 366 RUB / 1000 = 0.366 RUB/request
 night window: 00:00:00–07:59:59 UTC+3
 ```
 
-The first implementation should conservatively reserve the higher daytime cost unless explicit tariff-window logic is implemented. Owner-live paid Search commands require a fresh official price check immediately before execution.
+Unless explicit tariff-window logic is implemented, reserve the conservative higher daytime cost. Owner-live paid Search commands require a fresh official price check immediately before execution.
 
 Search must reuse the accepted common Manual/Autorun/outbox/conversation/owner-tab/no-blind-retry core rather than fork service-specific delivery logic.
 
@@ -216,8 +213,8 @@ HANDOFF_ARTIFACT = e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402
 LATEST_FULL_GATE = PASS on exact Phase-1 e13a artifact
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = NO
 OWNER_LIVE = Phase 1 PASS
-OPEN_BLOCKERS = Phase-2 specification and living-gate coverage must be updated before Search product code
-AUTHORIZED_NEXT_STAGE = PHASE_2_SEARCH_SPEC_AND_GATE_UPDATE
+OPEN_BLOCKERS = none before beginning focused Phase-2 development; first Search production change will create a new combined candidate lineage and invalidate old candidate PASS for handoff
+AUTHORIZED_NEXT_STAGE = PHASE_2_SEARCH_IMPLEMENTATION_FOUNDATION
 ```
 
 ## Phase status
@@ -225,7 +222,7 @@ AUTHORIZED_NEXT_STAGE = PHASE_2_SEARCH_SPEC_AND_GATE_UPDATE
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 YANDEX SEARCH / SERP = REQUIREMENTS RECONSTRUCTED; SPEC/GATE UPDATE NEXT; PRODUCT IMPLEMENTATION NOT STARTED
+PHASE 2 YANDEX SEARCH / SERP = REQUIREMENTS + SPEC ADDENDUM + GATE ADDENDUM READY; IMPLEMENTATION FOUNDATION AUTHORIZED
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
@@ -234,4 +231,4 @@ PHASE 7 DIRECT LIVE WRITE = BLOCKED
 PHASE 8 FULL ORDER E2E = BLOCKED
 ```
 
-Do not start Search production changes until Phase-2 Search contract is represented in `SPECIFICATION.md` and the living Codex gate contains mandatory Search coverage.
+Next product action: implement the smallest Search foundation with focused tests only — service registry + `SEARCH_API_V1` protocol/defaults/validation + XML normalization module tests — before wiring provider execution/popup/Autorun.
