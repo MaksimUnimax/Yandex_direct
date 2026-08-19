@@ -1,0 +1,52 @@
+--- a/popup.js
++++ b/popup.js
+@@ -365,28 +365,32 @@
+     context = await resolvePopupContext();
+ 
+     if (enabled) {
+-      const apply = await tabMessage(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", enabled: true, conversation_key: context.conversation_key });
++      const response = await send("WS_SET_MANUAL_MODE", { enabled: true, conversation_key: context.conversation_key, tab_id: context.tab_id });
++      if (!response.ok) {
++        $("manualMode").checked = false;
++        return status(`${response.code || "MANUAL_WORKER_COMMIT_FAILED"}: ${response.error || "Worker не подтвердил включение ручного режима."}`, "error");
++      }
++
++      let apply;
++      try {
++        apply = await tabMessage(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", enabled: true, conversation_key: context.conversation_key });
++      } catch (error) {
++        const rollback = await send("WS_SET_MANUAL_MODE", { enabled: false, conversation_key: context.conversation_key, tab_id: context.tab_id }).catch(() => null);
++        await tabMessage(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", enabled: false, conversation_key: context.conversation_key }).catch(() => null);
++        if (rollback?.state) renderState(rollback.state);
++        $("manualMode").checked = false;
++        throw error;
++      }
+       const applied = apply?.ok === true && apply?.applied === true;
+       if (!applied) {
+         const applyCode = String(apply?.code || (apply?.ok === true ? "MANUAL_CONTENT_NOT_APPLIED" : "MANUAL_CONTENT_APPLY_FAILED"));
+         const applyError = String(apply?.error || "Текущий content script не подтвердил применение ручного режима.");
++        const rollback = await send("WS_SET_MANUAL_MODE", { enabled: false, conversation_key: context.conversation_key, tab_id: context.tab_id }).catch(() => null);
++        const cleanup = await tabMessage(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", enabled: false, conversation_key: context.conversation_key }).catch(() => null);
++        if (rollback?.state) renderState(rollback.state);
+         $("manualMode").checked = false;
+-        return status(`${applyCode}: ручной режим не включён; worker gate остался OFF. ${applyError}`, "error");
+-      }
+-
+-      let response;
+-      try {
+-        response = await send("WS_SET_MANUAL_MODE", { enabled: true, conversation_key: context.conversation_key, tab_id: context.tab_id });
+-      } catch (error) {
+-        await tabMessage(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", enabled: false, conversation_key: context.conversation_key });
+-        $("manualMode").checked = false;
+-        throw error;
+-      }
+-      if (!response.ok) {
+-        const cleanup = await tabMessage(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", enabled: false, conversation_key: context.conversation_key });
+-        $("manualMode").checked = false;
+-        const cleanupNote = cleanup?.ok === true && cleanup?.applied === true ? "content возвращён в OFF." : "content OFF не подтверждён; следующий sync обязан восстановить worker OFF.";
+-        return status(`${response.code || "MANUAL_WORKER_COMMIT_FAILED"}: ${response.error || "Worker не подтвердил включение ручного режима."} ${cleanupNote}`, "error");
++        const cleanupNote = cleanup?.ok === true && cleanup?.applied === true ? "content возвращён в OFF." : "content OFF не подтверждён; worker OFF остаётся авторитетным.";
++        return status(`${applyCode}: ручной режим не включён; worker gate откатан в OFF. ${applyError} ${cleanupNote}`, "error");
+       }
+ 
+       renderState(response.state);
