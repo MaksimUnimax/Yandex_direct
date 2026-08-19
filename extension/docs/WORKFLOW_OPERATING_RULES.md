@@ -2,13 +2,15 @@
 
 Status: **CURRENT / MANDATORY OPERATING CONTRACT**  
 Adopted: 2026-08-19  
-Scope: every new or resumed Yandex Marketing Bridge development, QA, release, handoff and live-acceptance conversation.
+Scope: **the current conversation immediately, plus every new or resumed** Yandex Marketing Bridge development, QA, release, handoff and live-acceptance conversation.
 
-## 1. Purpose
+## 1. Purpose and immediate effect
 
 This document exists to prevent process regressions even when the product code is correct.
 
-A new conversation must not reconstruct the workflow from chat memory, improvisation or assumptions about tool availability. The workflow is governed here and by `CURRENT_STATE.md` plus the current product contracts.
+**These rules take effect immediately in the conversation in which they are adopted. They do not require a new chat, restart, handoff, reload or later session.** Every subsequent action in the current conversation must comply with them.
+
+A current, new or resumed conversation must not reconstruct the workflow from chat memory, improvisation or assumptions about tool availability. The workflow is governed here and by `CURRENT_STATE.md` plus the current product contracts.
 
 The intended chain is:
 
@@ -103,10 +105,11 @@ If a capability was already demonstrated and remains applicable, reuse that fact
 
 ## 4. Mandatory workflow-transition reconstruction
 
-Before **every** stage transition, ChatGPT must reconstruct the current state from live authority.
+Before **every** stage transition, including the very next action in the current conversation after these rules are changed, ChatGPT must reconstruct the current state from live authority.
 
 Transitions include at minimum:
 
+- current conversation after a rule/governance correction;
 - new/resumed conversation;
 - requirement → development;
 - development → freeze;
@@ -200,7 +203,7 @@ No broad workflow redesign is allowed merely because one local step failed.
 
 ## 7. Owner-correction canonicalization protocol
 
-When the owner corrects ChatGPT, classify the correction immediately.
+When the owner corrects ChatGPT, classify the correction immediately **in the current conversation**.
 
 ### One-off correction
 
@@ -214,16 +217,17 @@ For a persistent invariant:
 
 ```text
 owner correction
+→ apply it immediately to the current conversation
 → restate the invariant accurately
 → identify the canonical document that governs it
 → update that document before the same class of mistake can recur
 → search other current canonical docs for conflicting wording
 → reconcile conflicts
 → reconstruct current state
-→ continue
+→ continue under the corrected rule immediately
 ```
 
-Do not leave a persistent owner correction only in chat memory.
+Do not leave a persistent owner correction only in chat memory. Do not defer its effect until a future conversation.
 
 ## 8. Gate purpose and relationship to development
 
@@ -259,7 +263,7 @@ Record this classification in `CURRENT_STATE.md`. Never assume either “docs ne
 
 ## 10. Response/action discipline in the owner conversation
 
-For this project:
+These rules apply **now, in the current conversation**, and in all later conversations:
 
 - answer the owner's actual question, not a neighboring question;
 - when an action is available and requested, perform it before giving a long explanation;
@@ -269,9 +273,15 @@ For this project:
 - use concise progress updates for long tool operations, then return the concrete result;
 - after a Codex result, classify it first; do not reflexively invent a new candidate, transport or harness.
 
-## 11. New-conversation startup checklist
+## 11. Conversation startup / immediate-current checklist
 
-A new ChatGPT conversation working on this project must, before substantive action:
+This checklist applies in three cases:
+
+1. immediately after these rules or another persistent workflow correction are adopted in the current conversation;
+2. when a new ChatGPT conversation starts;
+3. when an old conversation is resumed after context may have drifted.
+
+Before substantive action:
 
 1. fetch live `main` HEAD;
 2. read `extension/docs/README.md`;
@@ -280,7 +290,7 @@ A new ChatGPT conversation working on this project must, before substantive acti
 5. read the current product/spec/gate documents relevant to the requested action;
 6. inspect latest applicable append-only correction entries when they can alter interpretation;
 7. confirm there is no unresolved current-document contradiction;
-8. state internally the exact authorized next stage;
+8. determine the exact authorized next stage;
 9. only then act.
 
 If these steps reveal stale or contradictory control-plane documentation, repairing that state is the first task.
