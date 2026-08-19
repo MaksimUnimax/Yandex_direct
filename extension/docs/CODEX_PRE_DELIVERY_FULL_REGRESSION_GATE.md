@@ -2,7 +2,7 @@
 
 Status: **MANDATORY / LIVING GATE**  
 Adopted: 2026-08-18  
-Updated: 2026-08-19 — external Yandex control + Ozon-parity Manual delivery lifecycle + QA transport/harness failure-prevention rules  
+Updated: 2026-08-19 — external Yandex control + Ozon-parity Manual delivery lifecycle + exact-artifact transport/consumer-conformance hardening  
 Scope: every installable Yandex Marketing Bridge build that is about to be handed to the owner as a working build/candidate.
 
 ## 1. Purpose and role boundary
@@ -66,9 +66,11 @@ Therefore:
 
 #### D. Deterministic packaging procedure must be recorded before the gate
 
-If the handoff artifact is expected to be reproducible, ChatGPT must define the deterministic packer before Codex runs PD-03. The procedure must include at minimum archive root, path order, directory-entry policy, compression method/level, timestamps, permissions and separator normalization.
+If the handoff artifact is expected to be reproducible, ChatGPT must define the deterministic packer before Codex runs PD-03. The procedure must include archive root, path order, directory-entry policy, compression method/level, timestamps, separators **and every byte-affecting ZIP metadata field used or derived by the chosen implementation**.
 
 The 2026-08-19 campaign showed that a source tree can be `45/45` byte-identical after extraction while a ZIP itself still has a different SHA because another archiver emitted different metadata. Codex must not be expected to guess the packer.
+
+A prose description such as “dirs 0755 / files 0644” is not byte-complete. For ZIP reproduction the canonical authority must explicitly fix, where applicable, `create_system`, UNIX file-type bits (`S_IFDIR`/`S_IFREG`), `external_attr` including DOS directory flag, entry ordering, explicit directory entries, compression behavior, general-purpose flags, filename encoding, timestamps, creator/extract versions, extra fields, comments and any other implementation-dependent metadata capable of changing archive bytes.
 
 For the 0.1.1 candidate that ultimately passed, the canonical artifact was reproduced byte-for-byte at SHA-256 `31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14`, 209697 bytes. Future releases must record their own canonical artifact identity and procedure.
 
@@ -141,24 +143,87 @@ When a campaign fails because of transport, packaging procedure, harness discove
 
 Do not change frozen production bytes merely to make QA infrastructure easier to run. A production-byte change creates a new candidate and invalidates the previous product gate PASS set.
 
-#### M. Pre-freeze author checklist for every future patch
+#### M. Pre-freeze / pre-Codex author checklist for every future patch
 
-Before declaring a candidate frozen and handing it to Codex, ChatGPT must answer YES to all of the following:
+Before declaring a candidate frozen **or issuing a Codex QA prompt**, ChatGPT must answer YES to all applicable items:
 
 1. Is the exact intended handoff artifact built and hashed?
-2. Can Codex obtain those exact bytes without owner file handling?
-3. Is complete source/postimage identity recorded?
-4. Is deterministic packaging defined if reproducibility is mandatory?
-5. Does every enabled PD section map to concrete executable tests/harness steps?
-6. Are all browser-owned assertions backed by a known qualified CfT/Puppeteer route?
-7. Are internal asynchronous assertions assigned to deterministic integration tests where browser manufacture is unreliable?
-8. Can Codex execute the whole matrix with its demonstrated tools rather than assumed tools?
-9. Are failure classifications unambiguous?
-10. Does the final result schema forbid silently treating `NOT_RUN` as PASS?
-11. Will the owner perform no QA file transport or environment setup?
-12. Will the exact artifact handed to the owner be the exact artifact that received full-gate PASS?
+2. Has the latest applicable proven transport route been identified and reused unless evidence proves it unavailable/inapplicable?
+3. Can Codex obtain the exact frozen artifact bytes without owner file handling?
+4. Has ChatGPT round-tripped the artifact through the same logical transport input Codex will consume?
+5. Does the round-tripped artifact match expected SHA-256 and byte count?
+6. Does the round-tripped archive open and pass integrity/extraction identity checks?
+7. If exact ZIP bytes are encoded for transport, has a fresh consumer reassembled the exact expected ZIP from only published chunks/instructions?
+8. If reconstruction is used, has evidence proven that no byte-safe exact-artifact transport is available?
+9. If reconstruction is used, is the canonical packer executable/byte-complete rather than an underspecified prose recipe?
+10. If reconstruction is used, has an independent consumer using only published inputs reproduced the exact expected ZIP SHA/bytes before Codex is asked to run?
+11. Is complete source/postimage identity recorded?
+12. Does every enabled PD section map to concrete executable tests/harness steps?
+13. Are all browser-owned assertions backed by a known qualified CfT/Puppeteer route?
+14. Are internal asynchronous assertions assigned to deterministic integration tests where browser manufacture is unreliable?
+15. Can Codex execute the whole matrix with its demonstrated tools rather than assumed tools?
+16. Are failure classifications unambiguous?
+17. Does the final result schema forbid silently treating `NOT_RUN` as PASS?
+18. Will the owner perform no QA file transport or environment setup?
+19. Will the exact artifact handed to the owner be the exact artifact that received full-gate PASS?
+20. Have product bytes remained unchanged during any transport/packaging-process repair unless a separate product defect required a new candidate?
 
-If any answer is NO, the candidate is **not ready for pre-delivery gate execution**. ChatGPT must repair the QA design first.
+If any applicable answer is NO, the candidate is **not ready for Codex pre-delivery gate execution**. ChatGPT must repair the QA design/transport first and must not give the owner a Codex prompt.
+
+#### N. Proven-route reuse is mandatory
+
+A transport path that previously carried an exact artifact into Codex and reached actual gate execution is a demonstrated capability. Before inventing a new transport, branch, reconstruction protocol or packaging route, ChatGPT must inspect that successful evidence and reuse the same mechanism when still applicable.
+
+The successful `31cc5f3f…` campaign that reached complete Codex execution is the canonical 2026-08-19 example. A later failure must not be answered by forgetting that route and improvising a new one unless the old route is first shown by evidence to be unusable for the current artifact.
+
+#### O. Exact-artifact transport precedence and mandatory round-trip
+
+For a frozen ZIP, mandatory precedence is:
+
+```text
+1. proven direct exact-ZIP route;
+2. another verified byte-safe direct exact-ZIP route;
+3. byte-safe text encoding of the EXACT ZIP bytes, reassembled to the original ZIP;
+4. source/preimage reconstruction only when exact artifact transport is genuinely impossible.
+```
+
+Before a Codex prompt is issued, ChatGPT must publish the selected input and then **read/download/reassemble it back through the same logical route**. A successful upload/API/blob/commit response is not evidence of byte identity.
+
+Required round-trip result before prompt:
+
+```text
+SHA == frozen expected SHA
+bytes == frozen expected bytes
+archive integrity/open == PASS
+fresh extraction identity == PASS where applicable
+```
+
+The 14999-byte non-ZIP GitHub object that was mistakenly treated as the 209505-byte `e13a…` candidate is a permanent negative regression case. The prompt was unauthorized because no round-trip artifact proof had occurred.
+
+#### P. Reconstruction requires consumer-conformance, not producer confidence
+
+If exact artifact transport is genuinely impossible and reconstruction is unavoidable, ChatGPT must verify the **published handoff contract as an independent consumer would** before Codex receives a prompt:
+
+```text
+fresh location/process
++ only published transport objects/instructions
++ explicitly governed preexisting input
+→ reconstruct/reassemble
+→ exact target source identity
+→ exact expected package SHA
+→ exact expected byte count
+→ archive integrity/open
+```
+
+Hidden local packer state, unpublished defaults, or knowledge available only to the producer invalidates this proof.
+
+The `8359c6cf…` reconstruction failure is a permanent negative regression case: source tree `45/45` and archive size `209505` were insufficient because the packaging contract omitted byte-affecting ZIP metadata. `45/45` source identity does not substitute for exact package identity.
+
+#### Q. Transport/process failure cannot be delegated to Codex discovery
+
+Codex is not the probe used to discover whether ChatGPT's newly invented transport works. Transport viability, exact artifact accessibility and reconstruction sufficiency are ChatGPT QA-engineering responsibilities and must be proven before prompt handoff.
+
+A `FAIL_ARTIFACT` caused solely by an unverified transport/reconstruction path is a ChatGPT process failure. On retry, keep production bytes frozen, fix only the proven artifact/transport/packaging/prompt layer, run the required round-trip/consumer-conformance proof, and only then authorize another complete Codex campaign.
 
 ## 4. Run discipline
 
@@ -184,7 +249,9 @@ Require every JS/MJS to parse; every governed JSON to parse; manifest validity; 
 
 ## PD-03 — Package/reconstruction integrity
 
-Build/reconstruct the handoff artifact from the frozen source using the governed deterministic procedure. Where supported, build A and B and require byte identity. Freshly extract the handoff ZIP; require source↔package path set and bytes to match exactly; run the complete packaged suite plus syntax/JSON/manifest checks; record filename, SHA-256, bytes and file count. If reconstruction uses an exact preimage + patch, reproduce it from a fresh preimage and require final-tree byte identity.
+Use the already frozen exact handoff ZIP as the primary package under test whenever its bytes can be transported. A reproducibility rebuild is additional evidence only and may not substitute for the primary exact artifact.
+
+If reconstruction is exceptionally authorized under section 3A, build/reconstruct using the governed byte-complete executable procedure, require the pre-Codex consumer-conformance proof, and independently reproduce expected exact SHA/bytes before product PASS credit is possible. Where supported, build A and B and require byte identity. Freshly extract the exact handoff ZIP; require source↔package path set and bytes to match exactly; run the complete packaged suite plus syntax/JSON/manifest checks; record filename, SHA-256, bytes and file count. If reconstruction uses an exact preimage + patch, reproduce it from a fresh preimage and require final-tree byte identity **and exact expected package-byte identity**.
 
 ## PD-04 — Runtime installation and MV3 lifecycle
 
