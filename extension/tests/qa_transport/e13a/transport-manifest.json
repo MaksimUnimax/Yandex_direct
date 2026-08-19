@@ -1,0 +1,92 @@
+{
+  "schema": "YMB_QA_RECONSTRUCTION_TRANSPORT_V1",
+  "authority_main_head_at_transport_freeze": "794531d858b784ee5c6f09e99d87adce476bb863",
+  "transport_mode": "byte-safe reconstruction fallback; direct binary GitHub connector transport was empirically proven unusable (14999-byte non-ZIP instead of expected 209505-byte ZIP)",
+  "qa_branch": "qa/e13a-reconstruction-transport",
+  "preimage": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip",
+    "preferred_known_codex_path": "D:\\codex\\Yandex\\qa-evidence-ymb-full-gate-20260819-04\\yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip",
+    "sha256": "31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14",
+    "bytes": 209697,
+    "files": 45
+  },
+  "patch_transport": {
+    "encoding": "concatenate ASCII chunks -> base64 decode -> gzip decompress -> raw unified patch",
+    "chunks": [
+      {
+        "path": "extension/tests/qa_transport/e13a/patch.gz.b64.part00",
+        "chars": 3500,
+        "sha256": "16ae23212f2b136fa9b408e36a37918105976c195adf005978721655f78d0a07",
+        "git_blob_sha1": "eecddec70dd896a324fb7fc2db64810cf404c66f"
+      },
+      {
+        "path": "extension/tests/qa_transport/e13a/patch.gz.b64.part01",
+        "chars": 2484,
+        "sha256": "197d4a39ca45b69002ab40b39e2d63dcb41abf22714b67fd97ae7edf2704b54a",
+        "git_blob_sha1": "8584db901f65be77cc3cd520692e4d222d049cd6"
+      }
+    ],
+    "concatenated_base64_chars": 5984,
+    "concatenated_base64_sha256": "ddd6e3357441297e0d6980ff45615e31d047d8335c6344f57d0ea0f68d47492d",
+    "gzip_bytes": 4488,
+    "gzip_sha256": "f575398d19351625c69b1bdb3be3ad69968e364b3b1fda7f488e5e22edd75002",
+    "raw_patch_bytes": 21532,
+    "raw_patch_sha256": "709234433bd446f52a18c95785675d0f5ca3450b82459ce2631d36bdb7269bc2"
+  },
+  "changed_files": {
+    "content_script.js": {
+      "old_sha256": "6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e",
+      "new_sha256": "ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc"
+    },
+    "popup.js": {
+      "old_sha256": "7286ea024033293110ad10ebc16856de0beacf512f6f86a229ac0271ac20c28c",
+      "new_sha256": "ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2"
+    },
+    "tests/content_runtime_exhaustive.test.mjs": {
+      "old_sha256": "a850217c037e3adcf3780dc491d9f15ac4340b16d67d760ea7aa0605fbb3e64c",
+      "new_sha256": "443d478b4d2c77c2823c09fa48478f256a71d580dc1ebe29a022e97c25b5beda"
+    },
+    "tests/popup_runtime_exhaustive.test.mjs": {
+      "old_sha256": "984a28298e92d62727310ccfac23da69101f3bdcfadfa82605d9f0c7b5c64c7a",
+      "new_sha256": "881f15480036f191aa2778c76b0e67a0f5e58694135a91c3c8ca3c1b2a0cba7a"
+    }
+  },
+  "unchanged_critical": {
+    "service_worker.js_sha256": "2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b"
+  },
+  "target_tree_manifest": {
+    "path": "extension/tests/qa_transport/e13a/target-tree-sha256.tsv",
+    "files": 45,
+    "sha256": "7c7234e184403de6a02e843b92bfd5f2fa12ed2391c054f4fa221d690f5b44b7",
+    "git_blob_sha1": "16c626dae276def8870c0a40c0f64a276cd3df1a"
+  },
+  "canonical_packer": {
+    "implementation": "Python stdlib zipfile",
+    "compression": "ZIP_DEFLATED level 9 for files; ZIP_STORED for directory entries",
+    "root": "yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate",
+    "timestamp": "2025-12-31 19:00:00",
+    "order": "root directory, all directories lexicographic, then all files lexicographic",
+    "directory_mode": "0755",
+    "file_mode": "0644",
+    "separators": "forward slash",
+    "eol_rewrite": "forbidden"
+  },
+  "target": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip",
+    "sha256": "e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65",
+    "bytes": 209505,
+    "files": 45,
+    "zip_entries_including_dirs": 48
+  },
+  "local_roundtrip_proof": {
+    "fresh_preimage_extract": true,
+    "transport_chunks_reassembled": true,
+    "raw_patch_sha_matched": true,
+    "git_apply_check": true,
+    "target_tree_45_of_45_exact": true,
+    "rebuilt_zip_sha_matched": true,
+    "rebuilt_zip_bytes_matched": true,
+    "rebuilt_zip_byte_identical_to_frozen_local_target": true
+  },
+  "fail_closed": "If preimage SHA/bytes/files, any transport chunk hash, raw patch hash, target tree manifest, or final ZIP SHA/bytes differs, classify FAIL_ARTIFACT and do not run product PASS campaign."
+}
