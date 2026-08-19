@@ -189,6 +189,23 @@ D:\codex\Yandex\qa-evidence-ymb-full-gate-20260819-06\yandex-marketing-bridge-0.
 
 This controlled PASS authorizes handoff of **this exact `e13a…` artifact only**. It does not fabricate owner real-profile/live PASS.
 
+## Post-PASS documentation hardening classification
+
+After the complete `e13a…` PASS, the concrete QA transport/full-gate runbook was made mandatory and the documentation index was corrected to point to the single canonical runbook.
+
+Classification:
+
+```text
+layer: GOVERNANCE/DOCUMENTATION
+change type: process clarification / future QA preparation hardening
+production bytes changed: NO
+test code changed: NO
+current e13a product acceptance assertions changed: NO
+latest e13a full-gate PASS invalidated: NO
+```
+
+The runbook changes how future candidates are prepared for Codex; it does not change the already-tested `e13a…` artifact or the current owner-live test sequence.
+
 ## Current control-plane reconstruction
 
 ```text
