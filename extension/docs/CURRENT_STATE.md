@@ -12,6 +12,38 @@ repo: MaksimUnimax/Yandex_direct
 branch: main
 ```
 
+## Mandatory QA transport runbook
+
+Before preparing any future Codex pre-delivery prompt, ChatGPT must read and execute:
+
+```text
+extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
+```
+
+This runbook contains the concrete proven sequence that actually carried the repaired 0.1.1 candidate through exact artifact reconstruction and a complete Codex PASS. It is mandatory in addition to the abstract workflow/gate rules.
+
+In particular, future QA preparation must not stop at “do not do X”. It must follow the positive preparation sequence recorded there:
+
+```text
+freeze exact target
+→ reuse the proven transport pattern
+→ verify exact preimage/input identity
+→ publish byte-safe transport components
+→ read those components back from the Codex-accessible GitHub path
+→ verify component hashes
+→ fresh reconstruct source
+→ git apply --check PASS
+→ verify complete postimage tree 45/45 (or the current candidate's full manifest)
+→ read back and execute the published canonical byte-complete packer unchanged
+→ require exact frozen artifact SHA + bytes + ZIP integrity + file/entry identity
+→ complete fresh consumer-conformance PASS
+→ only then authorize/give Codex prompt
+→ Codex independently repeats artifact identity phase
+→ only then PD-00..PD-17/product QA
+```
+
+A new or resumed conversation must not reconstruct this procedure from memory or invent a new transport while the proven runbook remains applicable.
+
 ## Previous owner-live product failure
 
 The previous artifact:
@@ -78,7 +110,7 @@ Two earlier `e13a…` QA attempts failed in the artifact/process layer before pr
 1. invalid GitHub binary object: `37d896…`, 14999 bytes, not a ZIP;
 2. underspecified prose packer: exact 45/45 source but reconstructed ZIP SHA `8359c6…` instead of `e13a…`.
 
-Neither attempt changed production bytes or produced product-test evidence. Permanent prevention rules are recorded in `WORKFLOW_OPERATING_RULES.md` and the living full gate.
+Neither attempt changed production bytes or produced product-test evidence. Permanent prevention rules are recorded in `WORKFLOW_OPERATING_RULES.md`, the living full gate, and the mandatory QA transport runbook.
 
 ## Exact executable reconstruction authority used by the successful campaign
 
@@ -92,6 +124,12 @@ canonical executable packer: extension/tests/qa_transport/e13a/canonical_packer_
 ```
 
 The executable packer fixes complete byte-affecting ZIP metadata, including UNIX file-type bits and `external_attr`, and reproduces exact artifact `e13a2607… / 209505`.
+
+The positive step-by-step preparation and consumer-conformance sequence for this successful path is preserved in:
+
+```text
+extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
+```
 
 ## Latest complete Codex pre-delivery full gate — PASS
 
