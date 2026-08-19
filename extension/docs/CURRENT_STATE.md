@@ -12,7 +12,7 @@ repo: MaksimUnimax/Yandex_direct
 branch: main
 ```
 
-## Owner-live result on previous candidate
+## Previous owner-live product failure
 
 The previously full-gate-passed artifact:
 
@@ -23,30 +23,28 @@ bytes 209697
 files 45
 ```
 
-has **FAILED owner real-profile acceptance** before Yandex functional testing could start.
+failed owner real-profile acceptance before Yandex functional testing could start.
 
-Observed failure: Manual ON briefly decorated an eligible block, then content self-reverted to Manual OFF and removed the external `Яндекс` action. Owner diagnostics show repeated `manual_on → MANUAL_MODE_APPLIED true → manual_off → MANUAL_MODE_APPLIED false` on the same confirmed tab/conversation.
+Observed failure: Manual ON briefly decorated an eligible block, then content self-reverted to Manual OFF and removed the external `Яндекс` action. Owner diagnostics showed repeated `manual_on → MANUAL_MODE_APPLIED true → manual_off → MANUAL_MODE_APPLIED false` on the same confirmed tab/conversation.
 
 Classification:
 
 ```text
 31cc5f... owner-live result: FAIL_PRODUCT
-previous full Codex PASS: does not authorize handoff after this newly proven uncovered defect
+previous full Codex PASS: does not authorize handoff after this uncovered defect
 Phase 1 LIVE PASS: FALSE
 Search / Phase 2: BLOCKED
 ```
 
-## Root cause
+## Product repair and frozen target candidate
 
-The previous popup Manual-ON transaction and the latest content-state synchronization patch became incompatible:
+The product/test-design root cause was the incompatible Manual-ON transaction ordering:
 
 - popup committed content ON first, worker ON second;
-- latest content `WS_APPLY_MANUAL_MODE(true)` immediately re-read authoritative worker state;
+- content `WS_APPLY_MANUAL_MODE(true)` re-read authoritative worker state;
 - worker was still OFF during that re-read;
 - content therefore turned itself OFF and removed the Yandex action;
-- the old tests did not assert the final cross-layer state.
-
-This was a ChatGPT product/test-design regression. Codex executed the supplied tests; the missing cross-layer assertion was not Codex's responsibility to invent.
+- the old tests did not assert the final cross-layer transaction state.
 
 Permanent mandatory gate supplement:
 
@@ -54,11 +52,7 @@ Permanent mandatory gate supplement:
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md
 ```
 
-It is mandatory together with `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`.
-
-## Current repaired candidate — pending Codex full gate
-
-Frozen target identity:
+Current frozen repaired target identity:
 
 ```text
 yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
@@ -85,92 +79,140 @@ popup.js
 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
 ```
 
-## QA transport status — direct binary route rejected, byte-safe fallback validated
-
-The first direct-binary GitHub transport attempt is **INVALID and removed from `main`**. It produced a 14999-byte non-ZIP instead of the frozen 209505-byte target and caused Codex `FAIL_ARTIFACT`. It must never be used again.
-
-Because the available GitHub connector path in this session was empirically unable to preserve the exact binary ZIP, living-gate section 3A.C fallback is now used: exact old accepted ZIP preimage + byte-verified text transport of the complete patch + full target-tree manifest + deterministic packer.
-
-Validated QA transport branch:
+Development evidence before Codex remains:
 
 ```text
-qa/e13a-reconstruction-transport
-transport branch checkpoint: 3920b8c992a8f9393afddb6a0b36505162848ed1
-```
-
-Authority files on that branch:
-
-```text
-extension/tests/qa_transport/e13a/transport-manifest.json
-extension/tests/qa_transport/e13a/patch.gz.b64.part00
-extension/tests/qa_transport/e13a/patch.gz.b64.part01
-extension/tests/qa_transport/e13a/target-tree-sha256.tsv
-```
-
-Round-trip verification already performed by ChatGPT before authorizing Codex:
-
-```text
-patch chunk 00 Git blob SHA-1: eecddec70dd896a324fb7fc2db64810cf404c66f
-patch chunk 01 Git blob SHA-1: 8584db901f65be77cc3cd520692e4d222d049cd6
-target tree manifest Git blob SHA-1: 16c626dae276def8870c0a40c0f64a276cd3df1a
-transport manifest Git blob SHA-1: 2c9b7fdb20201447a8469e1363d2b08270f506ac
-```
-
-The downloaded/read-back text objects match the locally generated transport objects exactly. Locally, a **fresh reconstruction proof using those exact transported chunk bytes** was executed:
-
-```text
-concatenate chunks → base64 decode → gzip decompress
-raw patch SHA-256: 709234433bd446f52a18c95785675d0f5ca3450b82459ce2631d36bdb7269bc2
-fresh exact 31cc preimage extraction
-`git apply --check`: PASS
-patch apply: PASS
-target source tree: 45/45 exact against target-tree-sha256.tsv
-canonical deterministic rebuild: PASS
-rebuilt ZIP bytes: 209505
-rebuilt ZIP SHA-256: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
-rebuilt ZIP byte-identical to locally frozen target: YES
-ZIP integrity/open: PASS
-```
-
-Canonical packer is recorded in `transport-manifest.json`: Python stdlib `zipfile`; root directory then all directories lexicographically as ZIP_STORED entries; files lexicographically with ZIP_DEFLATED level 9; fixed timestamp `2025-12-31 19:00:00`; dirs 0755; files 0644; forward slashes; no EOL rewriting.
-
-Codex must independently repeat every identity check. If the exact old preimage cannot be found by SHA, any transport object differs, target tree differs, or deterministic ZIP does not become exact `e13a2607… / 209505`, result is `FAIL_ARTIFACT`; Codex must not substitute a logically equivalent candidate.
-
-## Development evidence before Codex
-
-Corrected regression against old `31cc5f…` production bytes with repaired tests:
-
-```text
-focused old-product regression: 42/44 PASS, 2/44 FAIL
-```
-
-The two intended failures prove the corrected tests catch the old defect.
-
-Repaired candidate development evidence:
-
-```text
-focused popup+content: 44/44 PASS
+focused old-product regression with repaired tests: 42/44 PASS, 2/44 intended FAIL
+focused repaired popup+content: 44/44 PASS
 source suite: 361/361 PASS
 packaged suite: 361/361 PASS
 syntax: 40/40 PASS
 JSON: 2/2 PASS
 source↔package: 45/45 byte-identical
-deterministic ZIP A/B: byte-identical
+deterministic local ZIP A/B: byte-identical
 real Yandex requests: 0
 ```
 
 These are development checks only, not a pre-delivery PASS.
 
+## QA transport attempts — both artifact attempts failed before product QA
+
+### Attempt 1 — invalid direct-binary GitHub object
+
+The first direct-binary GitHub transport was invalid and removed from `main`.
+
+Expected frozen target:
+
+```text
+SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+bytes 209505
+```
+
+Codex obtained instead:
+
+```text
+SHA-256 37d896fb8c1542509abfb33780fee6ca802b0d76238b39d76ec78c309b22cf6d
+bytes 14999
+not a ZIP
+```
+
+Classification:
+
+```text
+FAIL_ARTIFACT
+product tests: NOT RUN
+production modified during gate: NO
+```
+
+Permanent lesson: a successful blob/upload/commit call is not transport proof; exact artifact round-trip must be established before a Codex prompt.
+
+### Attempt 2 — reconstruction transport contract insufficient for independent exact package reproduction
+
+Historical reconstruction transport branch/checkpoint:
+
+```text
+qa/e13a-reconstruction-transport
+3920b8c992a8f9393afddb6a0b36505162848ed1
+```
+
+Codex independently verified:
+
+```text
+exact 31cc preimage: PASS
+transport chunks: PASS
+concatenated base64 SHA: PASS
+gzip SHA: PASS
+raw patch SHA: PASS
+git apply check: PASS
+target source tree identity: PASS
+ZIP A/B byte-identical: PASS
+ZIP integrity: PASS
+actual reconstructed ZIP bytes: 209505
+actual reconstructed ZIP SHA-256: 8359c6cf46ed9ca107675d56aec0d37b9615a009fa007b7f68abcddba3a96400
+required frozen ZIP SHA-256: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+```
+
+Therefore the previous label `validated reconstruction transport` is **REVOKED**. The published reconstruction/packaging contract was not sufficient for an independent consumer to reproduce the exact frozen ZIP bytes even though the source tree matched.
+
+Classification:
+
+```text
+FAIL_ARTIFACT
+PD-00..PD-17 product campaign: NOT RUN
+Manual-ON browser transaction regression: NOT RUN
+source suite: NOT RUN by Codex in this attempt
+packaged suite: NOT RUN by Codex in this attempt
+production modified during gate: NO
+tests modified during gate: NO
+```
+
+The frozen product target `e13a2607…` remains unchanged. These artifact/process failures do not authorize product mutation.
+
+## Permanent governance corrections now active
+
+`WORKFLOW_OPERATING_RULES.md` and `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` now permanently require:
+
+- reuse of a demonstrated successful Codex transport route before inventing a new one;
+- no Codex prompt before exact transport round-trip proof;
+- mandatory transport precedence: proven exact ZIP route → verified exact ZIP route → byte-safe encoding of the exact ZIP bytes → reconstruction only as a genuine last resort;
+- successful API/blob/commit response is not byte-identity evidence;
+- reconstruction requires a byte-complete executable packaging contract, including all ZIP metadata capable of affecting bytes;
+- reconstruction/encoded transport requires fresh independent consumer-conformance to the exact expected SHA/bytes before Codex receives a prompt;
+- `FAIL_ARTIFACT` fixes stay in artifact/transport/packaging/prompt layers and do not mutate product bytes.
+
+## Current control-plane reconstruction
+
+```text
+PRODUCT_SOURCE = repaired e13a target source; production hashes above
+HANDOFF_ARTIFACT = frozen target e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65 / 209505 / 45 files; NOT YET CODEX-ACCEPTED
+LATEST_FULL_GATE = no valid full PASS for e13a; latest attempts FAIL_ARTIFACT before product campaign
+PRODUCTION_BYTES_CHANGED_SINCE_LAST_ATTEMPT = NO
+OWNER_LIVE = previous 31cc FAIL; e13a owner-live NOT AUTHORIZED before Codex PASS
+OPEN_BLOCKERS = exact e13a QA transport not yet proven through current retry path; full Codex gate pending; issues #1/#2 open
+AUTHORIZED_NEXT_STAGE = QA_TRANSPORT_REPAIR_AND_PRE_PROMPT_ROUNDTRIP_PROOF
+```
+
 ## Authorized next stage
 
 ```text
-AUTHORIZED_NEXT_STAGE = CODEX_COMPLETE_PRE_DELIVERY_FULL_GATE
+AUTHORIZED_NEXT_STAGE = QA_TRANSPORT_REPAIR_AND_PRE_PROMPT_ROUNDTRIP_PROOF
 ```
 
-Codex must first reconstruct and prove the **exact target bytes** through the validated fallback transport above. Only after exact `e13a2607… / 209505 / 45 files` identity is established may Codex execute the complete living `PD-00…PD-17` campaign from the beginning plus the mandatory Manual-ON transaction addendum.
+ChatGPT must now first identify and reuse the demonstrated successful route that previously carried the exact `31cc5f…` artifact into Codex and reached real gate execution, if that route remains applicable. A new route may be used only after evidence proves the demonstrated route cannot carry the current exact artifact.
 
-The mandatory browser scenario starts from worker OFF + content OFF and turns Manual ON through the **real installed extension popup**, using actual popup→worker→content messaging. Independent popup mocks, direct `applyManualMode(true)`, pre-seeding Manual ON, or merely proving an already-armed external button are not substitutes.
+Before another Codex prompt is allowed, ChatGPT itself must prove the selected Codex-accessible input path by round-tripping/reassembling the exact frozen `e13a…` ZIP and requiring:
 
-No owner real-profile retest is allowed before a new complete Codex PASS. The owner remains prompt-only for Codex QA; no QA file transport or environment setup may be delegated to the owner.
+```text
+SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+bytes 209505
+ZIP integrity/open PASS
+fresh extracted identity PASS
+Codex accessibility of that verified input PASS
+owner file handling NO
+```
 
-Issues #1/#2 remain open. Do not start Search.
+If exact ZIP bytes are encoded for transport, a fresh consumer using only published transport inputs must reassemble the exact `e13a…` ZIP before prompt authorization.
+
+If reconstruction is considered, it is forbidden until evidence establishes that no exact-byte artifact transport is possible; it must then pass the independent consumer-conformance requirements in the living gate before prompt authorization.
+
+No owner real-profile retest is allowed before a complete Codex PASS. The owner remains prompt-only for Codex QA. Issues #1/#2 remain open. Do not start Search.
