@@ -1,0 +1,61 @@
+{
+  "phase": "2-search-foundation",
+  "date": "2026-08-19",
+  "base": {
+    "artifact_sha256": "e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65",
+    "artifact_bytes": 209505,
+    "artifact_files": 45,
+    "artifact_zip_entries": 48,
+    "base_manifest_source": "qa/e13a-exact-reconstruction-v3:extension/tests/qa_transport/e13a/target-tree-sha256.tsv",
+    "materialized_files": 45,
+    "identity_mismatches": 0,
+    "missing": 0,
+    "extras": 0,
+    "verification": "PASS"
+  },
+  "foundation": {
+    "patch_sha256": "830e2ccba23a44bbaabb304f05e6c69a511b501c70d64963e8409a85bffd5f02",
+    "patch_bytes": 41531,
+    "gzip_sha256": "d75da4c5619d6d0561616aba4c1cfbf733729bdd3e50ece058881f292fc713d5",
+    "base64_sha256": "0ad464225700a7179a815caa3f1cfd2ba63dfc8ca167c7ffbf9efb938297d578",
+    "base64_chars": 14272,
+    "target_manifest_sha256": "62bd5846c8f7d6ade7f788d4394d79e02e802611144a4249761ccbb07397b98b",
+    "target_files": 50,
+    "production_changes": [
+      "shared/service_registry.js",
+      "shared/search_protocol.js",
+      "shared/search_xml.js"
+    ],
+    "test_changes": [
+      "tests/manual_surface_v2_worker.test.mjs",
+      "tests/phase1_unified_core.test.mjs",
+      "tests/search_protocol.test.mjs",
+      "tests/search_registry.test.mjs",
+      "tests/search_xml.test.mjs"
+    ]
+  },
+  "verification": {
+    "focused_search_initial": "32/32 PASS",
+    "affected_after_registry_test_correction": "86/86 PASS",
+    "full_suite": "393/393 PASS",
+    "syntax_files": 45,
+    "syntax": "PASS",
+    "json_files": ["manifest.json", "package.json"],
+    "json": "PASS",
+    "real_yandex_requests": 0
+  },
+  "failure_containment": [
+    {
+      "observed": "SEARCH_API_V1 was previously used by a Phase-1 test as an example of an unknown future protocol",
+      "classification": "TEST",
+      "resolution": "Use DIRECT_API_V1 for the still-unknown future-service assertion; registered Search is correctly classified separately."
+    },
+    {
+      "observed": "Phase-1 unified-core test expected registry to contain only Wordstat",
+      "classification": "TEST",
+      "resolution": "Update registry expectation to Wordstat+Search while retaining unknown-protocol zero-side-effect coverage through DIRECT_API_V1."
+    }
+  ],
+  "codex_measurement_required": false,
+  "owner_action_required": false
+}
