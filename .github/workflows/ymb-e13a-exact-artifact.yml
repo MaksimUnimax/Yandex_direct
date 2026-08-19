@@ -1,0 +1,57 @@
+name: YMB e13a exact artifact transport
+
+on:
+  push:
+    branches:
+      - qa/e13a-exact-zip-b64-transport
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TARGET_NAME: yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
+  TARGET_SHA256: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+  TARGET_BYTES: "209505"
+
+jobs:
+  exact-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact QA checkpoint
+        uses: actions/checkout@v4
+
+      - name: Build exact artifact with governed executable packer
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-output
+          python3 extension/tests/qa_transport/e13a-exact/e13a_exact_packer.py \
+            --repo-root . \
+            --manifest extension/tests/qa_transport/e13a-exact/target-tree-sha256.tsv \
+            --output "qa-output/${TARGET_NAME}"
+
+      - name: Independent exact identity assertion
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(wc -c < "qa-output/${TARGET_NAME}")" = "${TARGET_BYTES}"
+          test "$(sha256sum "qa-output/${TARGET_NAME}" | awk '{print $1}')" = "${TARGET_SHA256}"
+          python3 - <<'PY'
+          import os, zipfile
+          p = os.path.join('qa-output', os.environ['TARGET_NAME'])
+          with zipfile.ZipFile(p, 'r') as z:
+              assert z.testzip() is None
+              assert len(z.infolist()) == 48
+              assert sum(not i.is_dir() for i in z.infolist()) == 45
+          print('GITHUB_ACTIONS_EXACT_E13A_IDENTITY_PASS')
+          PY
+
+      - name: Upload exact ZIP without recompression of payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ymb-e13a-exact-zip
+          path: qa-output/${{ env.TARGET_NAME }}
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
