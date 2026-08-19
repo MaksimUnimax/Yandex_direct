@@ -294,3 +294,147 @@ Before substantive action:
 9. only then act.
 
 If these steps reveal stale or contradictory control-plane documentation, repairing that state is the first task.
+
+## 12. Proven-route QA transport and exact-artifact authorization
+
+These rules are permanent and were added after repeated `FAIL_ARTIFACT` mistakes on 2026-08-19. They govern every future transition from freeze or QA-process repair into Codex QA.
+
+### A. Reuse a demonstrated working route before inventing anything
+
+If an earlier campaign demonstrably transported an exact frozen artifact into Codex and reached actual gate execution, that transport path is a **proven route**.
+
+Before designing, branching, encoding, reconstructing or otherwise inventing a new QA transport, ChatGPT must:
+
+1. identify the latest applicable proven route from live repository/evidence;
+2. verify that the capability used by that route is still available to the environment that must use it;
+3. reuse that route for the new exact artifact whenever technically possible.
+
+A new transport may be introduced only after evidence establishes why the proven route cannot carry the new exact artifact. Convenience, uncertainty, forgotten context or a limitation of ChatGPT's own current UI/tool surface is not sufficient evidence.
+
+The successful `31cc5f3f…` full-gate campaign is a permanent example: it reached real Codex execution. Later attempts must not disregard that working history and improvise a new transport without first exhausting/reusing the proven mechanism.
+
+### B. No Codex prompt before transport round-trip proof
+
+A successful upload call, Git blob creation, branch commit, file listing, filename match or API `200` is **not proof that the exact artifact reached the transport intact**.
+
+Before ChatGPT is allowed to give the owner a Codex QA prompt, ChatGPT must perform a round-trip proof through the same logical input path Codex will consume:
+
+```text
+frozen exact artifact
+→ write/publish to Codex-accessible transport
+→ read/download/reassemble it back from that transport
+→ SHA-256 equals frozen expected SHA
+→ byte count equals frozen expected byte count
+→ archive opens/integrity check passes
+→ extracted path/file identity matches frozen authority where applicable
+→ only then authorize Codex prompt
+```
+
+If the transport uses an encoded representation, the round-trip proof must decode/reassemble the **exact artifact bytes**, not merely verify the representation text itself.
+
+If ChatGPT cannot complete this round-trip proof, `AUTHORIZED_NEXT_STAGE` cannot be Codex execution through that transport.
+
+The 2026-08-19 14999-byte GitHub object incident is the permanent negative example: `create_blob`/commit success was incorrectly treated as transport proof even though Codex later received a non-ZIP object instead of the frozen 209505-byte ZIP. That class of mistake is forbidden.
+
+### C. Exact-artifact transport precedence
+
+When an exact frozen ZIP already exists, transport choices have mandatory precedence:
+
+```text
+1. proven direct exact-ZIP transport;
+2. another byte-safe direct exact-ZIP transport with round-trip proof;
+3. byte-safe encoding of the EXACT ZIP bytes (for example base64 split into text chunks), followed by independent reassembly to the exact frozen ZIP and SHA/byte/open proof;
+4. reconstruction from source/preimage/patch ONLY if no exact-byte artifact transport is actually possible.
+```
+
+A connector being unable to render or write arbitrary binary directly does **not** make exact-artifact transport impossible if that connector can carry a byte-safe text representation of the exact ZIP.
+
+Do not transport a source patch and ask Codex to rebuild the primary package merely because binary upload is inconvenient when the exact ZIP bytes can instead be encoded and transported losslessly.
+
+### D. Reconstruction is an exceptional fallback, never the default handoff
+
+If and only if exact artifact bytes genuinely cannot be transported, reconstruction may be used. Before giving a Codex prompt, ChatGPT must prove that the published reconstruction contract is sufficient for an independent consumer to reproduce the expected exact artifact.
+
+Required proof:
+
+```text
+published reconstruction inputs only
+→ fresh independent reconstruction
+→ exact target source identity
+→ exact package byte identity
+→ expected SHA-256
+→ expected byte count
+→ archive integrity
+```
+
+The independent reconstruction proof may not rely on hidden local state, an unpublished packer implementation or unstated archive defaults.
+
+If the published contract cannot independently reproduce the expected SHA, reconstruction transport is not authorized.
+
+### E. Packaging authority must be executable and byte-complete
+
+For exact-byte reconstruction, prose such as “files 0644, dirs 0755, deflate level 9” is not a sufficient packaging contract.
+
+The canonical packer or its exact executable specification must fix **every byte-affecting field**, including as applicable:
+
+- archive entry order and explicit directory entries;
+- root path and separators;
+- timestamp/date fields and timezone assumptions;
+- compression method, implementation/version where relevant and compression level;
+- `create_system` / host OS metadata;
+- UNIX file-type bits (`S_IFREG`, `S_IFDIR`) as well as permission bits;
+- ZIP `external_attr` values, including DOS directory flag where applicable;
+- general-purpose flags;
+- filename encoding/UTF-8 flag behavior;
+- `extra` fields;
+- per-entry comments and archive comment;
+- creator/extract version fields where the library exposes or derives them;
+- CRC/content bytes;
+- any other library/runtime-dependent metadata capable of changing archive bytes.
+
+Prefer transporting the exact artifact to reproducing it. If reproducibility is required, prefer publishing/executing the exact canonical packer code over natural-language instructions.
+
+The 2026-08-19 `8359c6cf…` reconstruction is the permanent negative example: the reconstructed source was `45/45` exact and ZIP size was 209505, but the ZIP SHA differed because the published packaging instructions did not fully specify the UNIX file-type metadata in `external_attr`. A 45/45 source match does not authorize package PASS.
+
+### F. Consumer-conformance test before Codex prompt
+
+When reconstruction or encoded transport is used, ChatGPT must test the **published handoff contract as a consumer would**, not merely rerun the producer's hidden local procedure.
+
+At minimum:
+
+1. start from a fresh location/process;
+2. use only the published transport objects/instructions plus explicitly governed preexisting input;
+3. do not import unpublished local variables/files/metadata;
+4. reconstruct/reassemble;
+5. require the exact expected artifact SHA and byte count;
+6. open/extract the artifact and verify its governed identity.
+
+Failure of this consumer-conformance test blocks the Codex prompt.
+
+### G. Codex-prompt authorization checklist
+
+Immediately before providing a Codex prompt, ChatGPT must answer YES to all applicable items:
+
+```text
+PROVEN_ROUTE_REUSED_OR_PROVEN_IMPOSSIBLE = YES
+EXACT_ARTIFACT_FROZEN = YES
+TRANSPORT_ROUNDTRIP_SHA_MATCH = YES
+TRANSPORT_ROUNDTRIP_BYTES_MATCH = YES
+TRANSPORT_ROUNDTRIP_ARCHIVE_OPEN = YES
+TRANSPORT_CONSUMER_CONFORMANCE = YES
+CODEX_CAN_ACCESS_THE_VERIFIED_INPUT = YES
+OWNER_FILE_HANDLING_REQUIRED = NO
+PRODUCT_BYTES_CHANGED_DURING_TRANSPORT_FIX = NO
+```
+
+Any `NO` blocks the prompt. ChatGPT must not replace a failed checklist item with explanatory prose or make Codex discover the transport defect.
+
+### H. `FAIL_ARTIFACT` retry discipline
+
+After `FAIL_ARTIFACT`:
+
+- preserve the exact product candidate and production hashes unless evidence proves a product defect separately;
+- fix only artifact/packaging/transport/prompt layers that actually failed;
+- do not create another candidate just to make transport easier;
+- do not give the owner another Codex prompt until the repaired transport itself passes the required round-trip/consumer-conformance proof;
+- if the failure exposes a missing persistent invariant, canonicalize it here before the next attempt.
