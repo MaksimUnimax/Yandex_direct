@@ -1,7 +1,7 @@
 # SPECIFICATION v0.4 — Yandex Marketing Bridge
 
 Status: current technical specification.  
-Updated: 2026-08-18.
+Updated: 2026-08-19.
 
 ## 1. Product boundary
 
@@ -12,7 +12,7 @@ Runtime architecture:
 ```text
 CORE
 ├─ writing/code-block structural capture
-├─ manual independent sibling Yandex action surface
+├─ Bridge-owned external Manual Yandex action surface
 ├─ autorun state machine
 ├─ conversation identity/binding
 ├─ owner-tab protection
@@ -118,18 +118,21 @@ Manual is a **DOM/action-surface mode**, not a page-side command pre-validator.
 
 Required Manual invariants:
 
-- Manual OFF: ordinary local Copy remains native and Bridge-owned decoration/action is absent;
-- Manual ON + confirmed bound conversation: every **uniquely resolved local Copy belonging to a supported assistant writing/code block** remains native and gets exactly one separate adjacent Yandex sibling action;
-- the sibling is visibly Yandex-yellow with a visible `Яндекс` label and `data-ymb-manual-action="true"`;
-- visual arming is **independent of block contents**: plain text, arbitrary JSON, malformed material, valid protocol and multi-command content are all decorated identically when structural binding is valid;
+- Manual OFF: ordinary native ChatGPT Copy behavior remains native and every Bridge-owned Manual control/action is absent;
+- Manual ON + confirmed bound conversation: every structurally and uniquely bound supported assistant writing/code block gets exactly one **Bridge-owned external Yandex action**;
+- the Yandex action is not owned by, nested under, lifecycle-derived from, or readiness-gated by native Copy;
+- the action is visibly Yandex-yellow when ready and has a visible `Яндекс` label;
+- a newly rendered eligible PRE/code block can receive an enabled Yandex action **before native Copy exists**;
+- native Copy appearing, changing to a checkmark/state variant, disappearing or being replaced must not remove/recreate/lifecycle-gate the already bound Yandex action;
+- visual arming is **independent of block contents**: plain text, arbitrary JSON, malformed material, valid protocol and multi-command content are all treated identically when structural binding is valid;
 - content/page code must not prefilter by protocol marker, JSON validity, allowed service/method, credentials, policy, price or provider availability;
 - generic assistant-level whole-response Copy is excluded and remains native;
-- ambiguous local Copy mapping fails closed and remains native/unarmed;
+- structural/assistant binding ambiguity fails closed; local Copy absence/ambiguity is diagnostic only when the block itself is otherwise structurally and uniquely bound;
 - the smallest unambiguous structural locality is used; no cross-block/cross-assistant binding;
 - native Copy behavior remains intact and native Copy never dispatches a Bridge action;
-- only the separate sibling Yandex action dispatches Manual and submits the **complete bound block** to worker/core;
+- only the external Bridge-owned Yandex action dispatches Manual and submits the **complete bound block** to worker/core;
 - worker/core owns command discovery, strict validation, routing, policy, credentials, cost and controlled no-command/malformed errors;
-- DOM mutations/rerenders are rescanned; decoration is idempotent; disabling Manual restores the exact native surface; re-enable decorates once again;
+- DOM mutations/rerenders are rescanned; action ownership is idempotent; detached block roots lose their Bridge control; disabling Manual restores the native surface; re-enable creates exactly one control again;
 - Manual and Autorun remain mutually controlled according to the current runtime contract;
 - exactly-once fences use command/assistant/delivery identities;
 - owner-tab and conversation binding are fail-closed;
@@ -137,14 +140,36 @@ Required Manual invariants:
 - irreversible request/Send boundaries are durably fenced;
 - billable/irreversible initiation is never blindly retried after uncertain outcome.
 
-Manual delivery invariant: after a committed Send, the operation remains fenced
-until the matching sent user-turn confirmation exists. Runtime reconciliation
-may be bounded and confirmation-only; it must not click Send again, replay
-`WS_EXECUTE_MANUAL_BLOCK`, or replay provider/API initiation. Confirmation makes
-the operation terminal/completed and admits the next Manual action. An
-unresolved committed boundary remains fenced.
+### Current Manual delivery invariant
 
-The current factual ChatGPT family includes assistant sections/message containers with local `PRE` blocks and readonly CodeMirror-like bodies plus exactly one local Copy button in the same block. Current and legacy supported adapters may coexist, but unknown/ambiguous DOM must fail closed.
+The obsolete matching-sent-user-turn `manual_reconcile` lifecycle, its bounded 12-attempt retry budget and `MANUAL_DELIVERY_RECONCILIATION_RETRY_EXHAUSTED` are **not current behavior**.
+
+Current committed Manual delivery is governed by the ChatGPT composer-control lifecycle:
+
+```text
+Manual admission
+→ worker result/error
+→ stage exact report only when composer is safe
+→ durable delivery commit before Send
+→ recognized Send clicked at most once
+→ no replay of WS_EXECUTE_MANUAL_BLOCK/provider initiation
+→ observe ChatGPT ready/Microphone state
+→ one confirmed completion
+→ release Manual lock
+→ next Manual action admissible
+```
+
+Rules:
+
+- after commit, recovery is **watch-only** and must not click Send again, recommit delivery, rerun the block or replay provider/API initiation;
+- completion uses the recognized ready/Microphone composer state with an empty composer, not a search for a matching sent user-turn;
+- occupied composer text is preserved byte-for-byte; the report remains worker-owned and one keyed `Очистите поле ввода, чтобы получить отчёт.` plaque may be shown until the composer becomes safely empty;
+- DOM-change wakeup plus bounded fallback observation may resume staging exactly once when safe, but must not repeat block/provider execution;
+- Manual OFF must not erase requesting/provider work or an already committed delivery;
+- unknown irreversible provider outcome remains fenced and is not cleared by timeout;
+- `request_executed:false|true|"UNKNOWN"` must remain truthful through delivery and recovery.
+
+The current factual ChatGPT family includes assistant sections/message containers with supported `PRE` blocks and readonly CodeMirror-like bodies. Native Copy may appear later or be replaced independently. Current and legacy supported adapters may coexist, but unknown/ambiguous structural binding must fail closed.
 
 ## 6. Manual budget semantics
 
@@ -311,15 +336,16 @@ Result/error delivery uses a worker-owned durable outbox lifecycle:
 
 ```text
 claimed
-→ staged in composer
+→ staged in composer when safe
 → committed before Send click
-→ one Send click
-→ confirmed
+→ recognized Send clicked at most once
+→ ready/Microphone confirmation
+→ completed/released
 ```
 
-If worker/content reloads after an irreversible boundary, recovery is reconciliation-only. It must not repeat Send blindly and must never repeat the original Yandex request.
+If worker/content reloads after an irreversible committed Send boundary, recovery is watch-only reconciliation. It must not repeat Send, recommit the delivery or repeat the original Yandex request.
 
-A completed provider result that cannot be delivered before Send commit must remain durably recoverable without replaying provider initiation.
+A completed provider result that cannot be staged because the composer is occupied/unavailable must remain durably worker-owned. Existing user text is preserved; delivery resumes exactly once only when the composer becomes safely empty.
 
 ## 13. Wordstat Phase 1 policy
 
@@ -398,15 +424,21 @@ One accepted executable command = one logical external initiation.
 
 Reference-compatible visible feedback is required in ChatGPT/popup.
 
-Manual Surface v2 visual rule:
+Current Manual visual rule:
 
 ```text
-Manual OFF → supported local Copy stays native
-Manual ON + confirmed conversation + unique supported local binding
-           → yellow + visible Яндекс
+Manual OFF
+→ native ChatGPT surface only
+
+Manual ON + confirmed conversation + unique supported structural block binding
+→ exactly one Bridge-owned external yellow Яндекс action
+→ action may be ready before native Copy exists
+→ native Copy lifecycle does not own or gate the Yandex action
 ```
 
-This visual state is **not** proof that block content is a valid command. Command validity is a worker/core concern after the click.
+The Yandex action's visible state is **not** proof that block content is a valid command. Command validity is a worker/core concern after the click.
+
+Runtime/status plaques are Bridge-owned, top-right and keyed by logical status so repeated events do not stack duplicates. At minimum current logical keys include `operation-state`, `composer-occupied`, `autorun-state` and `picker-state`.
 
 Request initiation/response/error feedback must remain explicit and reference-consistent. A valid API block must not fail silently.
 
@@ -438,7 +470,7 @@ No unrestricted live-write Autorun.
 
 ## 19. Development and pre-delivery testing contract
 
-Testing has two deliberately different modes.
+Testing has two deliberately different modes. The operating role/environment/failure rules are additionally governed by `WORKFLOW_OPERATING_RULES.md` and the current control-plane facts by `CURRENT_STATE.md`.
 
 ### 19.1 Development mode
 
