@@ -1,0 +1,35 @@
+--- a/tests/content_runtime_exhaustive.test.mjs
++++ b/tests/content_runtime_exhaustive.test.mjs
+@@ -1270,6 +1270,24 @@
+   assert.equal(runtime.manualEnabled, false);
+ });
+ 
++test('WS_APPLY_MANUAL_MODE ON must fail closed when authoritative worker state is still OFF', async () => {
++  const runtime = createContentRuntime({
++    manualState: { ok: true, enabled: false, manual_operation_active: false }
++  });
++  const response = await runtime.dispatchRuntimeMessage({
++    type: 'WS_APPLY_MANUAL_MODE',
++    enabled: true,
++    conversation_key: runtime.conversationKey
++  });
++
++  assert.equal(response.ok, true);
++  assert.equal(response.applied, false);
++  assert.equal(runtime.manualEnabled, false);
++  assert.equal(runtime.countOwnButtons(), 0);
++  assert.equal(runtime.getManualStateRequests().length >= 1, true);
++});
++
+ test('external Yandex action survives full native Copy lifecycle and is active before Copy exists', async () => {
+   const runtime = createContentRuntime();
+   runtime.addEligiblePreWithoutCopy();
+@@ -1290,7 +1308,7 @@
+   assert.equal(runtime.manualAdmissions.length, 1);
+ });
+ 
+-test('WS_APPLY_MANUAL_MODE applies content state and reports applied acknowledgement', async () => {
++test('WS_APPLY_MANUAL_MODE applies ON only after worker authoritative state is ON', async () => {
+   const runtime = createContentRuntime({ manualState: { ok: true, enabled: true, manual_operation_active: false } });
+   const response = await runtime.dispatchRuntimeMessage({ type: 'WS_APPLY_MANUAL_MODE', enabled: true, conversation_key: runtime.conversationKey });
+   assert.equal(response.ok, true);
