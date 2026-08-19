@@ -14,7 +14,7 @@ Read in this exact order:
 4. `SPECIFICATION.md` — current technical contract.
 5. `ROADMAP.md` — current phase/gate status and historical/superseded candidate records.
 6. `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` — permanent living regression firewall. **Run it only immediately before handing the owner a working build; during development run focused tests for changed code/dependencies only.**
-7. `CODEX_QA_ARTIFACT_PREPARATION_RUNBOOK.md` — mandatory concrete pre-Codex preparation procedure: proven transport-route selection, exact preimage/patch identities, full target-tree manifest, executable canonical packer, producer-side round-trip/consumer-conformance, prompt-authorization checklist and the complete worked `e13a…` procedure that actually reached Codex full PASS.
+7. `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` — mandatory concrete pre-Codex procedure: proven transport-route reuse, exact preimage/input identity, byte-safe patch transport, full target-tree manifest, executable canonical packer, producer-side round-trip/consumer-conformance, Codex prompt order, browser harness coordinates, and the complete worked `e13a…` path that actually reached full Codex PASS.
 8. `DEVELOPMENT_CONTEXT_APPEND_ONLY.md` — immutable historical entries 0001–0021.
 9. `DEVELOPMENT_CONTEXT_APPEND_ONLY_CONTINUATION_0.1.1.md` — append-only correction/continuation entries 0022+.
 
@@ -27,7 +27,7 @@ The current governing order is:
 1. explicit current owner instruction in the active conversation, when it intentionally changes the workflow/requirement;
 2. `WORKFLOW_OPERATING_RULES.md` for operating-process/role/environment rules;
 3. `CURRENT_STATE.md` for current control-plane facts and stage;
-4. current living product contracts: `PROJECT_PURPOSE.md`, `SPECIFICATION.md`, `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`, plus the mandatory `CODEX_QA_ARTIFACT_PREPARATION_RUNBOOK.md` for preparation of the gate input;
+4. current living product contracts: `PROJECT_PURPOSE.md`, `SPECIFICATION.md`, `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`, plus the mandatory `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` for preparation/execution of the gate input;
 5. `ROADMAP.md` for phase progression and historical/current status narrative;
 6. append-only context and historical evidence for provenance only.
 
@@ -71,13 +71,13 @@ If any of these is unresolved or contradictory, do not improvise the next stage.
 There are two different testing stages and they must not be confused:
 
 - **During implementation/bug fixing:** run focused tests for the code being changed, directly affected dependencies, required changed-line/branch coverage, and relevant syntax/static checks. Do not run the entire product regression gate after every edit.
-- **Immediately before handing a working extension build/candidate to the owner:** freeze the exact candidate, prepare the Codex-consumable QA input under `CODEX_QA_ARTIFACT_PREPARATION_RUNBOOK.md`, require producer-side round-trip/consumer-conformance PASS, and only then make Codex run `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` as **one complete regression campaign covering all functionality Codex can validate**. The full gate is mandatory before handoff.
+- **Immediately before handing a working extension build/candidate to the owner:** freeze the exact candidate, prepare the Codex-consumable QA input under `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md`, require producer-side read-back/consumer-conformance PASS, and only then make Codex run `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` as **one complete regression campaign covering all functionality Codex can validate**. The full gate is mandatory before handoff.
 
 If the pre-delivery gate finds any mandatory FAIL, the build is not handed off. Apply the failure-containment rules in `WORKFLOW_OPERATING_RULES.md`, fix only the proven failing layer, then rerun the entire gate from the beginning if production bytes changed or if the living gate explicitly requires a fresh complete campaign.
 
 `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` is a living registry: add tests when functionality is added or changed; remove obsolete tests only when the corresponding product functionality is intentionally removed. Never delete a test merely because it fails.
 
-`CODEX_QA_ARTIFACT_PREPARATION_RUNBOOK.md` is the mandatory preparation companion: it defines how the exact artifact/test inputs are made reproducibly accessible to Codex. **No Codex prompt is authorized until its applicable preparation checklist and fresh consumer-conformance proof pass.**
+`CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` is the mandatory positive execution companion: it defines not only what is forbidden, but the exact sequence for preparing, publishing, reading back, reconstructing/verifying and delivering a Codex-consumable candidate. **No Codex prompt is authorized until its applicable preparation checklist and fresh consumer-conformance proof pass.**
 
 Controlled Codex/Puppeteer evidence and real-profile/live acceptance remain distinct. The full pre-delivery gate covers every reliably Codex-testable surface; it does not fabricate a real-profile/live PASS.
 
@@ -113,7 +113,7 @@ The old ledger below is retained as **historical test/evidence provenance only**
 The permanent controlled pre-delivery regression documents are:
 
 - `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`
-- `CODEX_QA_ARTIFACT_PREPARATION_RUNBOOK.md`
+- `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md`
 
 The runbook contains the exact proven `e13a…` preparation sequence as a worked reference. Future candidates reuse the procedure while replacing candidate-specific hashes/paths with their own governed identities.
 
@@ -140,7 +140,7 @@ Before any new development action **or workflow-stage transition, including the 
 
 1. connect to live GitHub;
 2. fetch current branch HEAD and commit metadata;
-3. read this index, `WORKFLOW_OPERATING_RULES.md`, `CURRENT_STATE.md`, current purpose/spec/roadmap, the current regression gate, `CODEX_QA_ARTIFACT_PREPARATION_RUNBOOK.md` whenever freeze/QA/transport/handoff is involved, and the append-only context chain as required by the change;
+3. read this index, `WORKFLOW_OPERATING_RULES.md`, `CURRENT_STATE.md`, current purpose/spec/roadmap, the current regression gate, `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` whenever freeze/QA/transport/handoff is involved, and the append-only context chain as required by the change;
 4. verify current phase/gate/handoff state;
 5. resolve any canonical-document conflict before action;
 6. only then modify code, QA infrastructure, governance, or run external paid operations.
