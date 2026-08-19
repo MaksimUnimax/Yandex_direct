@@ -1,0 +1,53 @@
+{
+  "schema": "YMB_QA_EXACT_RECONSTRUCTION_TRANSPORT_V2",
+  "main_authority_at_repair": "da8ccf1567a04b5307be41b070ce2618e9ad6de1",
+  "transport_branch": "qa/e13a-exact-reconstruction-v3",
+  "purpose": "Exact reconstruction fallback using the already Codex-proven 31cc preimage route. Primary product bytes are unchanged. This V2 supersedes the underspecified V1 packer prose.",
+  "preimage": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip",
+    "sha256": "31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14",
+    "bytes": 209697,
+    "files": 45,
+    "known_codex_path": "D:\\codex\\Yandex\\qa-evidence-ymb-full-gate-20260819-04\\yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip"
+  },
+  "patch_transport": {
+    "parts": [
+      {"path":"extension/tests/qa_transport/e13a/patch.gz.b64.part00","chars":3500,"sha256":"16ae23212f2b136fa9b408e36a37918105976c195adf005978721655f78d0a07","git_blob_sha1":"eecddec70dd896a324fb7fc2db64810cf404c66f"},
+      {"path":"extension/tests/qa_transport/e13a/patch.gz.b64.part01","chars":2484,"sha256":"197d4a39ca45b69002ab40b39e2d63dcb41abf22714b67fd97ae7edf2704b54a","git_blob_sha1":"8584db901f65be77cc3cd520692e4d222d049cd6"}
+    ],
+    "concatenated_base64_chars": 5984,
+    "concatenated_base64_sha256": "ddd6e3357441297e0d6980ff45615e31d047d8335c6344f57d0ea0f68d47492d",
+    "gzip_bytes": 4488,
+    "gzip_sha256": "f575398d19351625c69b1bdb3be3ad69968e364b3b1fda7f488e5e22edd75002",
+    "raw_patch_bytes": 21532,
+    "raw_patch_sha256": "709234433bd446f52a18c95785675d0f5ca3450b82459ce2631d36bdb7269bc2"
+  },
+  "target_tree": {
+    "path": "extension/tests/qa_transport/e13a/target-tree-sha256.tsv",
+    "files": 45,
+    "sha256": "7c7234e184403de6a02e843b92bfd5f2fa12ed2391c054f4fa221d690f5b44b7",
+    "git_blob_sha1": "16c626dae276def8870c0a40c0f64a276cd3df1a"
+  },
+  "canonical_packer": {
+    "path": "extension/tests/qa_transport/e13a/canonical_packer_exact.py",
+    "authority": "Executable code, not prose. It fixes ZIP root, entry order, explicit dirs, timestamp, create_system=3, S_IFDIR/S_IFREG type bits, permission bits, external_attr, DOS directory flag, compression and empty extra/comments, and self-verifies target SHA/bytes/files/entries."
+  },
+  "target": {
+    "filename": "yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip",
+    "sha256": "e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65",
+    "bytes": 209505,
+    "files": 45,
+    "zip_entries": 48
+  },
+  "mandatory_consumer_sequence": [
+    "verify exact 31cc preimage SHA/bytes/ZIP/files",
+    "read V2 patch chunks from this branch and verify each hash/length",
+    "concatenate with no separators; verify base64 hash/length; decode gzip and verify; decompress raw patch and verify",
+    "fresh-extract preimage; apply raw patch byte-safely; no EOL normalization",
+    "verify resulting 45-file tree exactly against target-tree-sha256.tsv",
+    "run canonical_packer_exact.py from this branch without editing it",
+    "require exact e13a SHA-256, 209505 bytes, 45 files, 48 entries and ZIP integrity",
+    "only after exact identity may product PD-00..PD-17 start"
+  ],
+  "fail_closed": "Any mismatch is FAIL_ARTIFACT. Do not substitute another ZIP, modify product/tests, or ask the owner to move files."
+}
