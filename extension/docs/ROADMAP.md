@@ -1,4 +1,4 @@
-# ROADMAP v0.4 — Yandex Marketing Bridge
+# ROADMAP v0.5 — Yandex Marketing Bridge
 
 Status: active roadmap.  
 Updated: 2026-08-19.
@@ -11,130 +11,25 @@ Testing cadence:
 
 ```text
 during development/change
-→ focused tests for changed code + affected dependencies only
+→ focused tests for changed code + affected dependencies
 
-working candidate frozen and intended for owner handoff
-→ ONE complete Codex pre-delivery regression campaign
+working candidate frozen for handoff
+→ exact artifact preparation through mandatory QA transport runbook
+→ one complete Codex pre-delivery regression campaign
 → exact package/identity verification
-→ only then owner/live acceptance where required
+→ owner real-profile/live acceptance only for irreducible live behavior
 ```
 
-Permanent operating/process authority:
+Permanent authorities:
 
 ```text
 extension/docs/WORKFLOW_OPERATING_RULES.md
-```
-
-Compact current-state authority:
-
-```text
 extension/docs/CURRENT_STATE.md
-```
-
-Permanent pre-delivery gate authority:
-
-```text
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
+extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
 ```
 
-No new service starts until the current service passes governed owner real-profile/live acceptance. Controlled Codex/Puppeteer evidence must never be relabeled as owner real-profile/live evidence.
-
----
-
-# CURRENT PHASE-1 AUTHORITY — 2026-08-19
-
-Older candidate/hash blocks are historical evidence only and are **not current distribution authority**.
-
-## Current exact frozen product
-
-Version:
-
-```text
-0.1.1
-```
-
-Exact frozen production hashes:
-
-```text
-content_script.js 6358418ff04de37a21368a28046c1109280a7a6b8d942972a319d4dc09dabd9e
-service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
-```
-
-Exact handoff/tested artifact:
-
-```text
-yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip
-SHA-256 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-size 209697 bytes
-files 45
-```
-
-Deterministic package evidence:
-
-```text
-Build A SHA-256 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-Build B SHA-256 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-A/B byte-identical: YES
-source ↔ fresh extraction: 45/45 byte-identical
-```
-
-## Latest complete pre-delivery gate
-
-The exact candidate above received one complete Codex gate PASS against product/governance authority:
-
-```text
-07e0140d0a01a327d639e23bea8446a79818ceac
-```
-
-Result:
-
-```text
-PD-00..PD-17:                            ALL PASS
-source suite:                            361/361 PASS
-fresh packaged suite:                    361/361 PASS
-JS/MJS syntax:                            40/40 PASS
-JSON:                                      2/2 PASS
-source/package identity:                  45/45 PASS
-Chrome for Testing / Puppeteer runtime:   PASS
-real Yandex requests:                         0
-production modified during gate:             NO
-failures:                                  NONE
-verdict:                                   PASS
-```
-
-Exact Codex report paths recorded by the completed campaign:
-
-```text
-D:\codex\Yandex\qa-evidence-ymb-full-gate-20260819-04\CODEX_YANDEX_PRE_DELIVERY_FULL_REGRESSION_GATE_2026-08-19.md
-D:\codex\Yandex\qa-evidence-ymb-full-gate-20260819-04\CODEX_YANDEX_PRE_DELIVERY_FULL_REGRESSION_GATE_2026-08-19.json
-```
-
-## Post-gate documentation reconciliation
-
-After this product PASS, documentation/process governance was corrected to prevent repeated QA/workflow mistakes and to remove stale current-contract wording.
-
-The reconciliation is documentation/process-only with respect to production bytes. `SPECIFICATION.md` was corrected to match the already-tested product/gate behavior:
-
-- Bridge-owned external Yandex action independent of native Copy lifecycle;
-- Yandex action available before native Copy exists when structural binding is valid;
-- current Manual completion is Send→ready/Microphone;
-- obsolete matching-sent-user-turn `manual_reconcile`, 12-attempt retry budget and reconciliation exhaustion are not current acceptance behavior.
-
-The gate's product assertions already tested these current behaviors before the documentation reconciliation. Therefore this reconciliation does **not** create a new product candidate by itself.
-
-Whether any later documentation change requires refreshed gate evidence is governed by `WORKFLOW_OPERATING_RULES.md`; do not assume either that every docs change invalidates PASS or that docs can never invalidate PASS.
-
-## Current Phase-1 gate state
-
-```text
-PRE-DELIVERY FULL REGRESSION: PASS
-EXACT ARTIFACT: 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-OWNER REAL-PROFILE ACCEPTANCE: PENDING
-PHASE 1 LIVE PASS: FALSE until owner acceptance
-PHASE 2 SEARCH: BLOCKED
-```
-
-Issues #1 and #2 remain open until owner real-profile acceptance confirms the repaired behavior.
+No new service implementation starts until the current service closes its governed live boundary.
 
 ---
 
@@ -142,13 +37,15 @@ Issues #1 and #2 remain open until owner real-profile acceptance confirms the re
 
 **Status: PASS.**
 
-Reference authority remains the owner-supplied audited Wordstat artifact and its canonical documentation.
+Reference authority remains the owner-supplied audited Wordstat material and current canonical documentation.
 
-The early Phase-0/Phase-1 decision that placed Job/GitHub concepts inside extension runtime was later proven wrong by live testing and is superseded by the current contracts. Historical evidence remains preserved in the append-only development context.
+Historical early Job/GitHub runtime coupling is superseded: GitHub/job concepts are external workflow concerns, not mandatory Bridge runtime dependencies.
 
 ---
 
 # PHASE 1 — WORDSTAT + UNIFIED CORE
+
+**Status: LIVE PASS / CLOSED.**
 
 Service:
 
@@ -165,88 +62,94 @@ getRegionsDistribution
 getRegionsTree
 ```
 
-## Current 0.1.1 contract
-
-The current Phase-1 implementation enforces:
-
-- no mandatory `job_id` in extension runtime;
-- no GitHub/workspace dependency in extension runtime;
-- one RUN = one immutable active service;
-- legacy `wsmb_*` storage continuity;
-- Export/Import settings backup with SHA-256 validation and active-state safety;
-- all bound-conversation errors automatically delivered regardless of Debug Mode;
-- Debug Mode adds only redacted diagnostics;
-- durable worker-owned result/error delivery and no duplicate Send;
-- recoverable Autorun continuation when safe;
-- unknown external request outcome is never blindly retried;
-- Manual on a PAUSED RUN shares the same RUN request/cost budget;
-- owner-tab/conversation/single-flight fences remain fail-closed;
-- native Copy remains native and never dispatches Bridge Manual;
-- Manual ON uses one Bridge-owned **external** Yandex action per structurally/uniquely bound eligible block, independent of native Copy lifecycle;
-- current Manual committed-delivery recovery is watch-only; ready/Microphone confirmation releases the lock; occupied composer text is preserved and resumed exactly once when safe.
-
-## Historical withdrawn/superseded artifacts
-
-### 0.1.0 — withdrawn
+## Final exact accepted 0.1.1 artifact
 
 ```text
-yandex-marketing-bridge-0.1.0-phase1-wordstat-candidate.zip
-SHA-256 79c2bca5e2e65aaa1cb7cc38754589a0bf3b0b436c82f36416934cd175cafa2a
+yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
+SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+size 209505 bytes
+files 45
+ZIP entries 48
 ```
 
-Status: **WITHDRAWN / LIVE FAIL**.
-
-### Historical 0.1.1 artifact `4973…`
+Production hashes:
 
 ```text
-yandex-marketing-bridge-0.1.1-phase1-final-live-acceptance-candidate.zip
-SHA-256 4973c5f87c3ad7d4c052e66c449c2afef412d20a6e4d767bbe761d62abf7cb84
+content_script.js ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
+popup.js ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
+service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
 ```
 
-This artifact historically passed an earlier controlled gate, but owner real-profile acceptance found:
-
-1. Yandex action was not independent enough from native Copy lifecycle;
-2. a later Manual action could remain blocked by stale `MANUAL_OPERATION_ACTIVE` after committed delivery completion was not reconciled correctly.
-
-Therefore `4973…` is **historical and must not be used for current acceptance**.
-
-## Historical live-fix / harness investigation
-
-The 2026-08-18/19 repair campaign included focused source tests, controlled browser checks, harness failures and later architecture corrections. Those intermediate `HARNESS_FAIL`, `FAIL_ARTIFACT` and partial results remain historical evidence only.
-
-They do not override the latest complete PASS on artifact `31cc5f…`.
-
-The permanent QA/workflow lessons from that campaign are now captured in:
+## Final controlled gate
 
 ```text
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
-extension/docs/WORKFLOW_OPERATING_RULES.md
+PD-00..PD-17: ALL PASS
+Manual-ON transaction regression: PASS
+source suite: 361/361 PASS
+packaged suite: 361/361 PASS
+syntax: 40/40 PASS
+JSON: 2/2 PASS
+source/package identity: PASS
+real Yandex requests during controlled gate: 0
+production modified during gate: NO
+tests modified during gate: NO
+verdict: PASS
 ```
 
----
+The exact `e13a…` package was independently reconstructed by Codex through the published byte-complete transport/packer contract before product testing.
 
-# PHASE 1 CURRENT GATE
+## Final owner real-profile functional acceptance
 
-**Status: PRE-DELIVERY FULL REGRESSION PASS / OWNER REAL-PROFILE LIVE ACCEPTANCE PENDING.**
+The owner explicitly narrowed final live acceptance to functional Yandex tests only, one at a time, with UI observed naturally during execution.
 
-The exact artifact allowed to enter owner real-profile acceptance is only:
+Exact live results on `e13a…`:
 
 ```text
-yandex-marketing-bridge-0.1.1-phase1-external-ui-manual-delivery-candidate.zip
-SHA-256 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
+getRegionsTree            PASS
+getTop                    PASS
+getDynamics               PASS
+getRegionsDistribution    PASS
 ```
 
-Controlled PASS is not itself Phase 1 LIVE PASS.
+The first `getDynamics` test command produced HTTP 400 because its ending date was the first rather than last day of the month. The bridge reported `request_executed:true` and `automatic_retry:false`. After the test-instruction cause was established, a corrected command was issued and returned HTTP 200. Classification: prompt/execution-instruction error, not product failure; no blind retry.
 
-No Search implementation is authorized until Phase 1 owner live acceptance passes.
+Sequential Manual execution across all results, including the error-delivery contour, proved that the stale Manual-operation lock blocker is resolved in the owner real profile. Repeated new command blocks exposed a usable external `Яндекс` action without requiring native Copy as the execution trigger.
+
+Final Phase-1 authority:
+
+```text
+CONTROLLED PRE-DELIVERY GATE = PASS
+OWNER REAL-PROFILE YANDEX FUNCTIONAL ACCEPTANCE = PASS
+PHASE 1 LIVE PASS = TRUE
+Issue #1 = CLOSED / COMPLETED
+Issue #2 = CLOSED / COMPLETED
+```
+
+Detailed live evidence:
+
+```text
+extension/docs/PHASE_1_0.1.1_LIVE_ACCEPTANCE.md
+```
+
+Historical withdrawn/failed artifacts remain historical evidence only and must not be used for current acceptance.
 
 ---
 
 # PHASE 2 — YANDEX SEARCH / SERP
 
-**Status: BLOCKED BY PHASE 1 LIVE GATE.**
+**Status: UNLOCKED FOR REQUIREMENT RECONSTRUCTION. IMPLEMENTATION NOT STARTED.**
 
-After unlock, add Search read collection incrementally. Paid operation classes must have separate operator-controlled limits and exactly-once initiation semantics.
+Before any product changes:
+
+1. reconstruct current live project authority;
+2. inspect current official Yandex Search API documentation, pricing, auth, quota and operation surface;
+3. define the Phase-2 service contract and safety/paid-operation policy;
+4. update specification/gate coverage before implementation;
+5. preserve the unified Bridge runtime and exactly-once/no-blind-retry invariants.
+
+Do not implement Search from stale memory or historical assumptions.
+
+---
 
 # PHASE 3 — WEBMASTER
 
@@ -254,17 +157,23 @@ After unlock, add Search read collection incrementally. Paid operation classes m
 
 Read-first. Missing OAuth/access returns controlled unavailable/error evidence without breaking unrelated services.
 
+---
+
 # PHASE 4 — METRIKA
 
 **Status: BLOCKED.**
 
-Read-first; large/async and write operations separated into later permission classes.
+Read-first; large/async and write operations remain separate later permission classes.
+
+---
 
 # PHASE 5 — DIRECT READ
 
 **Status: BLOCKED.**
 
-Prove zero mutation and quota guard before any write work.
+Prove zero mutation and quota guard before write work.
+
+---
 
 # PHASE 6 — DIRECT DRAFT / PRE-LIVE WRITE
 
@@ -272,11 +181,15 @@ Prove zero mutation and quota guard before any write work.
 
 Every write requires expected-change validation and read-back verification.
 
+---
+
 # PHASE 7 — DIRECT LIVE WRITE
 
 **Status: BLOCKED.**
 
-No unrestricted live-write Autorun. Explicit changeset/transaction approval + verification required.
+No unrestricted live-write Autorun. Explicit changeset/transaction approval plus verification required.
+
+---
 
 # PHASE 8 — FULL ORDER E2E
 
@@ -290,11 +203,8 @@ Order workspaces in GitHub remain an external ChatGPT workflow and are not a Bri
 
 ```text
 PHASE 0  PASS
-PHASE 1  0.1.0 WITHDRAWN
-PHASE 1  historical 0.1.1 artifact 4973… WITHDRAWN AFTER OWNER LIVE FAIL
-PHASE 1  current 0.1.1 artifact 31cc… PRE-DELIVERY FULL REGRESSION PASS
-PHASE 1  OWNER REAL-PROFILE LIVE ACCEPTANCE PENDING
-PHASE 2  BLOCKED
+PHASE 1  WORDSTAT LIVE PASS / CLOSED on exact e13a…
+PHASE 2  YANDEX SEARCH UNLOCKED FOR REQUIREMENT RECONSTRUCTION
 PHASE 3  BLOCKED
 PHASE 4  BLOCKED
 PHASE 5  BLOCKED
