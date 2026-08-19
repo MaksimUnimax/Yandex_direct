@@ -2,14 +2,14 @@
 
 Canonical documentation for Yandex Marketing Bridge.
 
-## Read first in every development conversation
+## Read first in the current, every new and every resumed development conversation
 
-**Before any analysis, coding, QA planning, handoff, failure recovery or continuation from an earlier conversation, reconstruct the current governed state from live GitHub. Do not rely on chat memory as authority.**
+**These rules apply immediately in the current conversation. Before any analysis, coding, QA planning, handoff, failure recovery or continuation, reconstruct the current governed state from live GitHub. Do not rely on chat memory as authority.**
 
 Read in this exact order:
 
 1. `WORKFLOW_OPERATING_RULES.md` — mandatory operating contract for ChatGPT/Codex/owner roles, environment boundaries, workflow-transition reconstruction, authority conflict handling, failure containment and owner-correction canonicalization.
-2. `CURRENT_STATE.md` — compact current control-plane state: current live GitHub HEAD, exact product candidate/artifact identity, latest full-gate status, owner-live status, open blockers and the only authorized next stage.
+2. `CURRENT_STATE.md` — compact current control-plane state: live GitHub HEAD, exact product candidate/artifact identity, latest full-gate status, owner-live status, open blockers and the only authorized next stage.
 3. `PROJECT_PURPOSE.md` — current product boundary and separation of Bridge runtime from external GitHub workflow.
 4. `SPECIFICATION.md` — current technical contract.
 5. `ROADMAP.md` — current phase/gate status and historical/superseded candidate records.
@@ -32,12 +32,13 @@ The current governing order is:
 
 A lower-precedence or historical document must never silently override a higher-precedence current contract.
 
-**If two current canonical documents materially contradict each other, STOP before code/QA/handoff. Do not choose one by intuition. Reconcile the documents first, record the correction, then continue.** Historical superseded text may remain only when explicitly labeled historical/superseded.
+**If two current canonical documents materially contradict each other, STOP before code/QA/handoff. Do not choose one by intuition. Reconcile the documents first, record the correction, reconstruct current state again, then continue.** Historical superseded text may remain only when explicitly labeled historical/superseded.
 
 ## Mandatory workflow-transition reconstruction
 
 Reconstruct current state not only before new development, but **before every transition between workflow stages**, including:
 
+- immediately after a persistent workflow/governance correction in the current conversation;
 - new conversation / resumed conversation;
 - requirement → development;
 - development → candidate freeze;
@@ -79,12 +80,12 @@ Controlled Codex/Puppeteer evidence and real-profile/live acceptance remain dist
 
 ## Owner-correction rule
 
-When the owner corrects a repeated workflow, role, safety, QA, handoff or authority rule, ChatGPT must classify it immediately:
+When the owner corrects a repeated workflow, role, safety, QA, handoff or authority rule, ChatGPT must classify it immediately in the **current conversation**:
 
 - **one-off instruction** — applies only to the current action; or
-- **persistent invariant** — must be canonicalized into the appropriate current document before proceeding far enough that the same mistake can recur.
+- **persistent invariant** — applies immediately and must be canonicalized into the appropriate current document before proceeding far enough that the same mistake can recur.
 
-For a persistent invariant, ChatGPT must also inspect current canonical documents for conflicting text and reconcile them. Do not leave a permanent owner correction only in chat memory.
+For a persistent invariant, ChatGPT must inspect current canonical documents for conflicting text, reconcile them and reconstruct current state. Do not leave a permanent owner correction only in chat memory and do not defer its effect until a future chat.
 
 ## Reference / architecture
 
@@ -92,24 +93,27 @@ For a persistent invariant, ChatGPT must also inspect current canonical document
 - `PHASE_0_REFERENCE_AUDIT.md` — Phase 0 exact reference audit.
 - `CORE_EXTRACTION_MAP.md` — frozen/common/generic/service-specific extraction map.
 - `ORDER_WORKSPACE_LIFECYCLE.md` — external ChatGPT/GitHub order-workspace lifecycle; this is not extension runtime.
-- `PHASE_1_WORDSTAT_IMPLEMENTATION_PLAN.md` — historical Phase 1 implementation plan; some Job-runtime assumptions are superseded by 0.1.1 correction history/spec.
+- `PHASE_1_WORDSTAT_IMPLEMENTATION_PLAN.md` — historical Phase 1 implementation plan; some Job-runtime assumptions are superseded by current correction history/spec.
 
-## Current implementation gate
+## Current implementation / live gate
 
-Current historical candidate references and phase-specific acceptance records live in the roadmap/ledger and test evidence. Do not use the stale candidate block from an older checkpoint as current authority.
+Current exact candidate, gate verdict and authorized next stage are read from `CURRENT_STATE.md`, not from old candidate blocks in historical evidence.
 
-Mandatory phase/live procedure for current Phase 1 remains governed by:
+Current mandatory owner-live procedure for Phase 1 is:
 
 - `PHASE_1_0.1.1_LIVE_ACCEPTANCE.md`
+
+The old ledger below is retained as **historical test/evidence provenance only** and must not be used as current candidate or current live procedure authority:
+
 - `../tests/PHASE_1_0.1.1_LIVE_TEST_PLAN_AND_RESULTS.md`
 
-The permanent pre-delivery regression gate is separate:
+The permanent controlled pre-delivery regression gate is separate:
 
 - `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`
 
 ## Machine-readable evidence / WIP recovery
 
-Current evidence is under `extension/tests/`, including governed phase checkpoints, validation reports and reconstruction/package manifests. Historical 0.1.0/earlier candidate evidence remains history and must not override current live GitHub state.
+Current evidence is under `extension/tests/`, including governed phase checkpoints, validation reports and reconstruction/package manifests. Historical 0.1.0/earlier candidate evidence remains history and must not override `CURRENT_STATE.md` or current live GitHub state.
 
 ## Current architectural corrections
 
@@ -121,12 +125,12 @@ Current evidence is under `extension/tests/`, including governed phase checkpoin
 - active RUN/manual-operation safety state preserved on import;
 - Manual on PAUSED RUN shares the same RUN budget;
 - no blind retry after uncertain request outcome;
-- Manual action is Bridge-owned/external and independent of the native Copy lifecycle;
+- Manual action is Bridge-owned/external and independent of native Copy lifecycle;
 - current Manual delivery completion is Send→ready/Microphone based; obsolete sent-user-turn `manual_reconcile`/12-attempt exhaustion is not current behavior.
 
 ## Source of truth rule
 
-Before any new development action **or workflow-stage transition**:
+Before any new development action **or workflow-stage transition, including the next action in the current conversation after a persistent correction**:
 
 1. connect to live GitHub;
 2. fetch current branch HEAD and commit metadata;
