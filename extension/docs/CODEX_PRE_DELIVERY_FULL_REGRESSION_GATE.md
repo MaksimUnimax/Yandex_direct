@@ -2,528 +2,182 @@
 
 Status: **MANDATORY / LIVING GATE**  
 Adopted: 2026-08-18  
+Updated: 2026-08-19 — external Yandex control + Ozon-parity Manual delivery lifecycle  
 Scope: every installable Yandex Marketing Bridge build that is about to be handed to the owner as a working build/candidate.
 
-## 1. Purpose
+## 1. Purpose and role boundary
 
-This document is the permanent regression firewall before owner handoff.
+This document is the permanent regression firewall before owner handoff. It is not the test policy for every intermediate edit.
 
-It is deliberately **not** the test policy for every intermediate edit.
+**Role boundary is mandatory:** ChatGPT owns analysis, architecture, implementation, code changes, patching, packaging and development fixes. Codex is a **testing/QA executor only** for this gate. During the gate Codex must not design a fix, edit production code, patch tests to make failures pass, or substitute another candidate. Any product/test defect is returned to ChatGPT; after ChatGPT fixes it, a new exact candidate is frozen and the complete gate restarts from PD-00.
 
-Two modes are mandatory:
+### Development mode
 
-### Development mode — while code is still being changed
+While ChatGPT is still changing code, run focused tests for changed behavior, affected dependencies, changed-line/branch coverage where appropriate, and relevant syntax/static checks. Do not run this whole gate after every edit.
 
-Run only the tests needed for the code being changed:
+### Pre-delivery mode
 
-- focused tests for the changed behavior;
-- directly affected dependency/regression tests;
-- changed-line/branch execution where appropriate;
-- syntax/static checks needed by the changed surface.
-
-Do **not** run this whole document after every small edit. The purpose is to keep development fast and focused.
-
-### Pre-delivery mode — immediately before handing a working build to the owner
-
-After the feature/bug work is finished and the candidate is frozen, Codex must execute **all enabled tests in this document in one complete run against the exact candidate that would be handed to the owner**.
-
-The full gate is one validation campaign, not a chain of separate prompts. Codex returns one final PASS/FAIL result.
-
-If any mandatory item fails:
-
-1. the build is **not handed to the owner**;
-2. return to development mode and fix the defect;
-3. run focused tests while fixing it;
-4. when the fix is complete, freeze the new candidate;
-5. rerun this **entire pre-delivery gate from the beginning**.
-
-No partial previous PASS is enough after production code changes.
+After ChatGPT freezes the exact candidate, Codex executes **all enabled PD-00…PD-17 sections in one complete campaign against that exact candidate**. Any mandatory FAIL blocks owner handoff. No partial historical PASS transfers across a production-byte change.
 
 ## 2. Living-document rule
 
-This is a living functional test registry.
+Whenever product functionality changes, update this registry in the same governed change. Add coverage for new behavior, update changed behavior, remove obsolete tests only when the corresponding product behavior is intentionally removed, and never delete a test merely because it fails. Missing Codex-capable coverage for an existing functional surface is a gate FAIL.
 
-Whenever product functionality changes, this document must change with it:
-
-- new user-visible/runtime functionality -> add regression coverage here;
-- changed functionality -> update its acceptance tests here;
-- removed functionality -> remove its obsolete tests here in the same governed change;
-- a test must never be deleted merely because it currently fails;
-- implementation and gate coverage must not intentionally drift.
-
-Before every pre-delivery run, Codex must compare the current specification/roadmap/source surface with this registry and report any functional surface that exists but has no Codex-capable gate coverage. Missing coverage is itself a gate FAIL until the registry/test harness is updated.
+This revision supersedes the obsolete Manual-sibling / sent-user-turn `manual_reconcile` gate wording. Manual delivery now follows the proven Ozon-style Send→ready/Microphone lifecycle; Manual `manual_reconcile`, its 12-attempt retry budget and `MANUAL_DELIVERY_RECONCILIATION_RETRY_EXHAUSTED` are not valid current behavior.
 
 ## 3. Codex capability boundary
 
-This gate includes **all functionality that Codex can reliably validate using already-qualified controlled tooling**.
+Qualified controlled capabilities include repository/source/hash inspection; Node/VM/unit/integration tests; JS/MJS syntax; JSON/manifest validation; deterministic packaging and source↔package identity; Chrome for Testing + Puppeteer; runtime extension installation; MV3 worker/content/popup checks; controlled factual ChatGPT DOM fixtures; popup/storage lifecycle; multi-tab/conversation ownership; worker lifecycle/recovery; controlled network interception/stubs/fault injection; console/network diagnostics; and dedicated QA-profile persistence.
 
-Current accepted controlled capabilities include:
+Controlled evidence is never relabeled as owner real-profile/live evidence. Unless a future governed revision explicitly changes this rule, the full gate uses **zero real Yandex requests and no real credentials**.
 
-- repository/source/hash inspection;
-- Node/VM/unit/integration tests;
-- JS/MJS syntax checks;
-- JSON/manifest validation;
-- deterministic packaging and source↔package identity checks;
-- Chrome for Testing + Puppeteer controlled browser QA;
-- runtime `browser.installExtension()` of an exact unpacked source tree;
-- MV3 service-worker/content-script/popup checks;
-- controlled factual ChatGPT DOM fixtures;
-- popup/storage lifecycle;
-- multi-tab/conversation ownership tests;
-- service-worker lifecycle/recovery tests;
-- controlled network interception/stubs/fault injection;
-- console/network diagnostics;
-- localStorage/cookie persistence in the dedicated QA profile.
-
-This gate does **not** relabel controlled evidence as real-profile/live evidence. The owner's normal logged-in Chrome/current ChatGPT and real provider behavior remain separate live acceptance surfaces when required.
-
-Unless a future gate revision explicitly authorizes otherwise, this pre-delivery gate performs **zero real Yandex provider requests and uses no real credentials**.
-
-### 3.1 Validation venue follows the functional boundary
-
-The validation venue is chosen per functional boundary.
-
-- Browser/CfT validation is mandatory where DOM, popup, extension installation,
-  MV3 lifecycle, content-script loading, native Copy behavior, or the separate
-  Yandex sibling itself is under test.
-- Deterministic Node/VM content↔worker integration is mandatory where a
-  specific internal asynchronous state must be manufactured and repeated
-  reliably, and the qualified browser fixture has proven unable to establish
-  that precondition.
-
-Moving a regression between qualified validation layers MUST NOT remove the
-regression, weaken its assertions, relabel integration evidence as
-real-profile evidence, or bypass an actual browser/UI behavior that Codex can
-reliably test.
-
-Task-015 and task-016 independently established that the synthetic
-'HOLD_USER_TURN' browser fixture is not a qualified capability for injecting
-the committed/unconfirmed Manual delivery boundary. The late-confirmation and
-unresolved-fence regressions therefore execute in the deterministic
-content↔worker integration layer while retaining their complete safety
-assertions. PD-06 and PD-07 continue to require the qualified browser
-assertions for the browser-owned surfaces and normal content→worker contours.
+Browser/CfT is mandatory for browser-owned surfaces: DOM binding, extension installation, popup, MV3/content loading, native Copy, external Yandex control, placement, mutation lifecycle and visible plaques. Deterministic content↔worker integration is mandatory for internal asynchronous states that cannot be reliably manufactured in the qualified browser fixture. Moving a regression between qualified layers must not weaken assertions or fabricate live evidence.
 
 ## 4. Run discipline
 
-For a pre-delivery run:
+Before testing, freeze and record the exact source/candidate identity. Do not modify production bytes during the gate. Test source and the fresh extracted handoff ZIP when a ZIP is the handoff artifact. Do not stop at the first ordinary assertion failure when continuing safely can collect the complete failure set. Do not skip a section because an older candidate passed it.
 
-- freeze the exact source/candidate first;
-- record exact candidate/source identity before testing;
-- do not modify production code during the gate;
-- run every enabled section below in one Codex task;
-- do not stop after the first ordinary assertion failure: collect the full product failure set where continuing is safe;
-- do not skip a section because a similar historical report passed;
-- test the exact candidate being handed off, not a nearby tree;
-- if a ZIP/package is the handoff artifact, test the extracted handoff package as well as source;
-- real Yandex request count must remain `0` unless a future governed revision of this document explicitly changes that rule.
-
-Allowed final gate states are:
-
-- `PASS` — every enabled mandatory section passed;
-- `FAIL_PRODUCT` — one or more product/regression assertions failed;
-- `FAIL_ARTIFACT` — source/package identity or packaging failed;
-- `FAIL_HARNESS` — the already-qualified controlled harness could not complete the run and the result cannot be trusted.
-
-Only `PASS` permits build handoff to the owner.
+Allowed final states are `PASS`, `FAIL_PRODUCT`, `FAIL_ARTIFACT`, `FAIL_HARNESS`. Only `PASS` permits handoff.
 
 ---
 
 # 5. Mandatory full regression matrix
 
-## PD-00 — Authority, candidate freeze and exact identity
+## PD-00 — Authority, freeze and exact identity
 
-Required:
-
-- live GitHub HEAD/governed authority recorded;
-- exact candidate source path/commit/reconstruction authority recorded;
-- production file count recorded;
-- candidate manifest version recorded;
-- governed production hashes/manifest checked where available;
-- working tree/reconstruction inputs are clean and unambiguous;
-- no stale historical candidate is substituted.
-
-Acceptance: exact candidate identity is proven before any behavior test.
+Record live GitHub HEAD/governed authority; exact candidate source/reconstruction authority; manifest version; file count; source hashes; reconstruction inputs; and prove no stale historical candidate was substituted.
 
 ## PD-01 — Complete source regression suite
 
-Run the complete current source test suite, not only focused tests.
-
-Required:
-
-- every current test passes;
-- `0` failures;
-- `0` skipped/cancelled tests unless a specific skip is explicitly governed in this document;
-- test count recorded;
-- all newly added tests from the just-finished development work are included.
-
-Acceptance: `PASS` only with a fully green current suite.
+Run the entire current source suite. Require 0 failures and 0 skipped/cancelled tests unless an explicit governed skip exists. Record total/pass count and prove all tests added for the current patch are included.
 
 ## PD-02 — Static, syntax and manifest integrity
 
-Run all current static integrity checks:
-
-- every JS/MJS source parses;
-- every governed JSON parses;
-- `manifest.json` validates;
-- every manifest-declared script/HTML/resource entrypoint exists;
-- extension version/product version consistency passes;
-- permissions and host permissions equal the governed intended surface;
-- no accidental extra production file/entrypoint appears.
-
-Acceptance: all checks PASS.
+Require every JS/MJS to parse; every governed JSON to parse; manifest validity; every manifest-declared entrypoint/resource to exist; version consistency; governed permission/host-permission surface; and no accidental extra production entrypoint/file.
 
 ## PD-03 — Package/reconstruction integrity
 
-When the owner will receive a ZIP/package/reconstructed candidate:
-
-- build/reconstruct from the exact frozen source using the governed deterministic procedure;
-- build A and B when deterministic packaging is supported;
-- require A == B byte-identical;
-- extract a fresh copy;
-- require source↔fresh-package file set and bytes to match exactly;
-- run the complete packaged test suite on the fresh extraction;
-- run syntax/JSON/manifest checks on the fresh extraction;
-- record filename, SHA-256, bytes and file count.
-
-If the project currently uses a governed patch/reconstruction artifact rather than committed production source, verify the patch/reconstruction on a fresh exact preimage and require final tree byte identity.
-
-Acceptance: artifact being handed off is exactly the tested artifact.
+Build/reconstruct the handoff artifact from the frozen source using the governed deterministic procedure. Where supported, build A and B and require byte identity. Freshly extract the handoff ZIP; require source↔package path set and bytes to match exactly; run the complete packaged suite plus syntax/JSON/manifest checks; record filename, SHA-256, bytes and file count. If reconstruction uses an exact preimage + patch, reproduce it from a fresh preimage and require final-tree byte identity.
 
 ## PD-04 — Runtime installation and MV3 lifecycle
 
-Using the accepted Chrome for Testing/Puppeteer harness:
-
-- launch the qualified browser engine;
-- install the exact frozen unpacked candidate with `browser.installExtension()`;
-- verify extension identity/version;
-- verify MV3 service worker target starts;
-- verify content script loads on matched controlled ChatGPT URL;
-- verify actual popup loads and initializes;
-- verify no unexpected extension/runtime errors;
-- verify a safe service-worker lifecycle/restart contour where supported.
-
-Acceptance: runtime installation/lifecycle PASS.
+Using qualified CfT/Puppeteer, install the exact frozen unpacked source; verify extension identity/version, MV3 service worker, content script on controlled ChatGPT URL, popup initialization, no unexpected runtime errors, and a safe worker restart/lifecycle contour.
 
 ## PD-05 — Popup/settings behavior
 
-Using the actual extension popup in controlled browser, verify all currently present controls.
-
-Current mandatory behaviors include:
-
-- Manual toggle applies immediately and persists correctly;
-- Debug toggle applies immediately and persists correctly;
-- Auto Send toggle applies immediately and persists correctly;
-- Wordstat Autorun policy toggle applies immediately and persists correctly;
-- report-prefix enabled toggle applies immediately and persists correctly;
-- popup reopen reflects runtime/storage truth, not stale defaults;
-- toggle changes do not accidentally commit unsaved text/credential fields;
-- text/credential fields obey their intended explicit-Save semantics;
-- current-conversation state is not confused with another conversation.
-
-Whenever popup controls are added/removed, this section must be updated in the same development change.
+Verify all present controls and persistence semantics, including Manual, Debug, Auto Send, Wordstat Autorun policy, report-prefix toggle, explicit-Save text/credential fields, popup reopen truth, and conversation isolation. Toggle changes must not accidentally commit unrelated unsaved fields.
 
 ## PD-06 — Manual action surface / ChatGPT DOM binding
 
-On the current governed controlled ChatGPT DOM families, verify:
+On the current governed ChatGPT DOM families, browser-test all of the following:
 
-Permanent owner-directed sibling-control regressions:
+- Manual OFF leaves native ChatGPT Copy byte/state/event behavior untouched and leaves no Bridge-owned action residue.
+- Manual ON creates exactly one Bridge-owned **external** Yandex action for each structurally/uniquely bound eligible block.
+- The action is hosted on the Bridge-owned external surface/Shadow DOM, visually outside/to the right of the block (`rect.right + 10` when room exists, governed inside fallback otherwise), and is not a child/sibling-lifecycle derivative of native Copy.
+- The action is visibly labeled `Яндекс`, yellow when ready, and is a different DOM element/lifetime owner from native Copy.
+- A newly rendered eligible PRE/code block receives an enabled Yandex action **before native Copy exists**.
+- Full native Copy lifecycle regression is permanent: `PRE before Copy → Yandex immediately enabled → Copy appears → Copy checkmark/state change → Copy removed → replacement Copy appears`; the **same Yandex action identity** remains connected/enabled throughout.
+- Native Copy receives no Bridge Manual listener/style/title mutation and clicking native Copy produces exactly 0 `WS_EXECUTE_MANUAL_BLOCK`.
+- Clicking Yandex produces exactly 1 intended Manual admission; duplicate/in-flight clicking is fenced.
+- Generic whole-response Copy is excluded from Bridge execution.
+- Local Copy missing/ambiguity is diagnostic only for an otherwise structurally bound external Yandex control; it must not lifecycle-gate that control. Structural/assistant binding ambiguity still fails closed.
+- Mutation-added/replaced blocks are discovered; detached block roots lose their Bridge control; repeated rescans do not duplicate controls/listeners.
+- Manual OFF removes only Bridge-owned controls; re-enable creates exactly one control again.
+- Runtime/status plaque root is **top-right** (`right:18px; top:18px`).
+- Same logical status uses a stable key and does not stack on repeated scans/events. At minimum verify `operation-state`, `composer-occupied`, `autorun-state`, and `picker-state` behavior.
 
-- Manual OFF leaves native Copy unchanged and has no Yandex sibling.
-- Manual ON leaves native Copy unchanged and creates exactly one separate
-  `button[data-ymb-manual-action="true"]` per uniquely bound eligible block.
-- Each sibling is yellow, visibly labeled `Яндекс`, and a different DOM element
-  from native Copy.
-- Native Copy has no Bridge Manual listener/effect; clicking it produces zero
-  `WS_EXECUTE_MANUAL_BLOCK`.
-- Clicking Yandex produces exactly one intended Manual admission.
-- Generic whole-response Copy and ambiguous blocks have zero siblings.
-- Mutation creates exactly one sibling; Manual OFF removes only Yandex siblings;
-  re-enable creates exactly one sibling again.
+Current factual family must include current ChatGPT PRE/readonly-CodeMirror plus still-supported legacy adapters. This section is browser-owned and cannot be replaced by source-only assertions.
 
-### Manual OFF
+## PD-07 — Manual full-block discovery and content→worker behavior
 
-- every uniquely resolved local assistant code/writing-block Copy remains native;
-- no bridge yellow state;
-- no visible `Яндекс` label;
-- generic whole-response Copy stays native;
-- ambiguous mapping stays native/fail-closed.
+Through actual controlled content→worker flow verify: only external Yandex authorizes Manual; native Copy authorizes none; whole bound block is captured; plain/raw/malformed/valid/multi-command blocks are worker-owned and deterministic; balanced/string-aware extraction; source-order serial semantics; no hidden parallel fan-out; one click creates one transaction; duplicate/in-flight fence; generic response Copy no dispatch; structural/conversation ambiguity fails closed. Zero real Yandex requests.
 
-### Manual ON
+## PD-08 — Wordstat protocol / all Phase-1 operations
 
-- every uniquely resolved supported local assistant block Copy becomes yellow + visible `Яндекс`;
-- decoration is independent of block contents/protocol validity;
-- plain text, raw JSON, malformed command, valid command and multi-command blocks decorate equally;
-- generic whole-response Copy is excluded;
-- ambiguous local mapping fails closed;
-- native Copy event is not prevented;
-- no duplicate bridge label/listener/style appears.
+For `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree`, with controlled stubs/faults verify strict validation, registry allowlist, fixed endpoint/host, body construction, Folder-ID semantics without secret exposure, response parsing, HTTP propagation, operation/request identity, success/error contours, no automatic hidden retry, and no hidden pagination/fan-out.
 
-### Dynamic DOM
+## PD-09 — Policy, credentials, cost and accounting
 
-- newly appended block is discovered/decorated;
-- body replacement is handled;
-- whole block/PRE replacement is handled;
-- detached controls do not retain active bindings;
-- Manual OFF restores exact native state;
-- re-enable decorates exactly once again.
-
-Current factual family must include the latest supported ChatGPT PRE/readonly-CodeMirror structure plus any still-supported legacy adapters.
-
-PD-06 does not require synthetic committed/unconfirmed late-confirmation
-injection. That internal state is governed by PD-11 deterministic integration.
-
-## PD-07 — Manual full-block discovery and click/core behavior
-
-Through actual content→worker controlled flow, cover at minimum:
-
-- Bridge Manual execution is triggered by the separate Yandex sibling, never by
-  native Copy.
-- Native Copy produces no Manual transaction.
-- Yandex sibling captures the complete bound block.
-- Double-click/in-flight fencing applies to the Yandex sibling.
-
-- non-command/plain block -> explicit worker-owned controlled error/result, no silent no-op;
-- raw JSON without registered marker -> explicit controlled error/result;
-- malformed registered command -> worker-owned parse/validation error;
-- one valid Wordstat command -> discovered and validated;
-- prose + multiple commands -> all commands discovered in source order;
-- balanced-brace/string-aware extraction;
-- malformed material at one marker does not consume later valid markers;
-- one clicked block produces one Manual transaction/batch contour;
-- strict serial semantics for multiple commands;
-- no hidden parallel provider fan-out;
-- double-click/in-flight duplicate fence;
-- generic response Copy produces no Manual dispatch;
-- ambiguous Copy produces no Manual dispatch;
-- conversation mismatch/unconfirmed binding fails closed.
-
-All cases run with zero real Yandex requests.
-
-## PD-08 — Wordstat protocol and all enabled Phase-1 operations
-
-For every currently enabled Wordstat method, validate with controlled provider stubs/faults:
-
-- `getTop`;
-- `getDynamics`;
-- `getRegionsDistribution`;
-- `getRegionsTree`.
-
-For every method verify:
-
-- strict input validation;
-- allowed method registry;
-- exact routing/endpoint;
-- fixed Yandex host;
-- correct request body construction;
-- Folder ID placement semantics without secret disclosure;
-- response parsing;
-- HTTP status propagation;
-- result operation identity;
-- unique request ID;
-- success contour;
-- HTTP-error contour;
-- no automatic hidden retry;
-- no hidden pagination/fan-out unless a future specification explicitly adds it.
-
-Boundary/invalid parameter tests for each method remain part of the suite as functionality evolves.
-
-## PD-09 — Policy, credentials, cost and accounting semantics
-
-Validate controlled semantics for:
-
-- missing credentials -> skip before provider initiation;
-- invalid/local validation -> `request_executed:false`;
-- policy/request ceiling -> skip before provider initiation;
-- cost ceiling -> skip before provider initiation;
-- free operation accounting follows current governed pricing configuration;
-- successful simulated provider request -> `request_executed:true`;
-- HTTP error after simulated send -> `request_executed:true`;
-- unknown irreversible request outcome -> `request_executed:"UNKNOWN"` and no blind retry;
-- `automatic_retry:false` where no retry occurred;
-- RUN attempted/executed/skipped counters remain exactly-once;
-- standalone Manual does not require an invented Job/GitHub budget;
-- paused RUN and Manual share governed RUN ceilings where applicable.
-
-If tariff/config semantics change, update implementation and this gate together.
+Verify missing credentials/local validation/policy/request/cost ceilings fail before provider initiation; correct `request_executed:false|true|"UNKNOWN"`; `automatic_retry:false`; conservative unknown-outcome accounting/no blind retry; exactly-once counters; standalone Manual has no invented Job/GitHub runtime dependency; paused RUN/manual shares governed RUN ceilings where applicable.
 
 ## PD-10 — Autorun lifecycle
 
-Using actual popup + installed extension + controlled ChatGPT fixture, verify current Autorun functionality end-to-end without real provider traffic:
+Using actual popup + installed extension + controlled ChatGPT fixture, verify policy persistence; exactly one RUN; waiting state; popup reopen identity/counters; command pickup without local Copy; exactly-once controlled result/error delivery; recoverable safe state; Pause/Resume/Stop; stopped RUN ignores later blocks; conversation/tab ownership; safe reload/worker restart; and current Manual/Autorun coexistence rules. All automatic Autorun plaques use the stable `autorun-state` key and do not stack.
 
-- policy enable persists;
-- Start creates exactly one RUN for the confirmed conversation;
-- waiting state is reached;
-- popup reopen displays the same RUN identity/state/counters;
-- eligible command pickup occurs without local Copy;
-- controlled result/error delivery returns to same conversation exactly once;
-- recoverable error returns RUN to a safe controllable state when governed;
-- Pause works;
-- Resume preserves RUN identity and counters;
-- Stop terminates the same RUN;
-- stopped RUN does not capture later blocks;
-- another conversation/tab cannot steal ownership;
-- safe reload/worker restart recovers governed waiting state;
-- Manual/Autorun mutual-exclusion or coexistence rules match the current specification.
+## PD-11 — Manual delivery FSM, durability and duplicate prevention
 
-If Autorun functionality is removed, remove this section only in the same governed product-removal change.
+Permanent current Manual regressions:
 
-## PD-11 — Delivery FSM, durability, recovery and duplicate prevention
+### A. Normal auto-send terminal release
 
-Validate all protected delivery invariants:
+`Manual admission → worker result/error → one delivery commit → current recognized Send clicked at most once → no second WS_EXECUTE_MANUAL_BLOCK/provider initiation → ChatGPT composer control transitions to ready/Microphone → exactly one WS_MANUAL_DELIVERY_COMPLETE with delivery_confirmed:true, confirmation_basis:"microphone", composer_empty:true → Manual worker lock releases → next Manual Yandex action is immediately admissible.`
 
-Positive release regression:
+Assertions: Send count exactly 1 for the admitted delivery; provider/block execution count unchanged after admission; no chat-history sent-user-turn search is required for Manual completion.
 
-`Manual operation → result/error complete → one Send commit/click → initial
-confirmation misses because the sent user-turn appears late → bounded
-confirmation-only reconciliation sees that existing sent user-turn → no second
-Send → no second WS_EXECUTE_MANUAL_BLOCK → no provider replay → operation
-COMPLETED → next Manual Yandex sibling action admitted.`
+### B. Already-committed recovery is watch-only
 
-Negative fence regression:
+`Committed Manual delivery recovered → watcher observes composer controls only → Send count remains 0 → delivery commit count remains 0 → WS_EXECUTE_MANUAL_BLOCK/provider count remains 0 → later ready/Microphone appears → exactly one confirmed completion → lock releases.`
 
-`Committed delivery remains unconfirmed/unresolved → MANUAL_OPERATION_ACTIVE
-remains enforced → no premature lock release → no repeat Send/API.`
+Recovery must never click Send or re-initiate Yandex/API work.
 
-Both are permanent mandatory gate regressions.
+### C. Occupied/missing composer preservation
 
-The two boundary regressions are mandatory in the deterministic
-content↔worker integration layer when the qualified browser fixture cannot
-reliably manufacture the committed/unconfirmed precondition. The current
-exact tests are:
+`Manual report is worker-owned while composer contains user text or is temporarily unavailable → user text remains byte-for-byte unchanged → one persistent keyed "Очистите поле ввода, чтобы получить отчёт." plaque → repeated DOM events do not stack it → DOM-change/bounded fallback wakeup → when composer becomes empty, report proceeds exactly once → no block/provider replay.`
 
-- D:\codex\Yandex\work\manual-v2-live-fix-014\source\tests\content_runtime_exhaustive.test.mjs
-  — 'content retries committed Manual reconciliation until the delivered user turn appears, without a second Send or block execution'
-- D:\codex\Yandex\work\manual-v2-live-fix-014\source\tests\manual_surface_v2_worker.test.mjs
-  — 'committed unconfirmed Manual delivery stays fenced, confirmation releases it, and the next Manual block is admitted'
+### D. Genuine active/unresolved fence
 
-These tests retain the required Send, reconciliation, block-execution,
-provider-request, completion and next-admission/fence assertions. The same
-tests must pass from the exact frozen source and from the fresh extracted
-package during PD-01/PD-03.
+While provider/requesting work or another genuinely active Manual operation remains unresolved, new Manual admission returns/retains `MANUAL_OPERATION_ACTIVE`; Manual OFF must not falsely erase requesting/provider/committed work. Unknown irreversible provider outcome is never cleared by timeout.
 
-- normal result delivery exactly once;
-- normal error delivery exactly once;
-- always-on error delivery independent of Debug state;
-- durable result/error outbox survives safe restart;
-- claim/commit/confirmation boundaries are respected;
-- pre-commit ChatGPT delivery failure preserves already completed operation/result;
-- recovery may retry/reconcile only the delivery contour when provider work is already complete;
-- recovery never replays a completed/unknown provider initiation;
-- committed Send boundary is reconciliation-only and never blindly clicks Send again;
-- duplicate content-ready/recovery events do not duplicate Send/result;
-- double-click does not duplicate provider initiation;
-- unknown-outcome fingerprint fence remains enforced.
+### E. Cancellation boundary
+
+Manual OFF may cancel only a claimed/pre-commit pending Manual report where governed; it must not erase requesting/provider work or an already committed delivery.
+
+### F. Truthful execution provenance
+
+Validation-only/zero-provider committed deliveries preserve truthful `request_executed:false`; successful provider initiation remains true; unknown stays `"UNKNOWN"`.
+
+Also retain normal result/error exactly-once delivery, always-on error delivery independent of Debug, durable outbox/restart behavior, claim/commit boundaries, pre-commit failure preservation, duplicate content-ready recovery dedupe, double-click provider dedupe, and unknown-outcome fingerprint fence.
+
+The exact source and fresh package tests must cover these assertions. The obsolete Manual `manual_reconcile` and 12-retry exhaustion tests are forbidden as current acceptance criteria.
 
 ## PD-12 — Debug/error contract
 
-Using zero-provider controlled errors, verify:
+With zero-provider controlled errors, Debug OFF still automatically delivers concise `YMB_ERROR_V1`; Debug ON delivers the same error plus useful redacted diagnostics. No credentials/tokens/Authorization/storage secrets. Cover representative parse/validation/policy/credential/delivery/unknown-outcome errors.
 
-### Debug OFF
+## PD-13 — Conversation/tab/ownership isolation
 
-- error automatically returns to bound ChatGPT;
-- concise normal envelope;
-- no extra debug trace;
-- no secret leakage.
-
-### Debug ON
-
-- same automatic error delivery still occurs;
-- useful diagnostics are added;
-- credentials/tokens/Authorization/storage secrets remain redacted;
-- Debug state persists according to popup contract.
-
-Verify representative parse, validation, policy/credential, delivery and unknown-outcome errors where current tests support them.
-
-## PD-13 — Conversation, tab and ownership isolation
-
-Verify:
-
-- confirmed conversation binding is required;
-- one tab cannot steal another tab's active delivery/RUN ownership;
-- duplicate tabs fail closed according to governed ownership rules;
-- multiple assistant blocks bind only to their own local Copy;
-- no cross-PRE or cross-assistant binding;
-- conversation reload/rebind preserves only governed state;
-- stale conversation identity cannot execute a command;
-- no global accidental "current conversation" state is introduced.
+Verify confirmed binding, no tab stealing, duplicate-tab fail-closed behavior, local block isolation, no cross-PRE/cross-assistant binding, governed reload/rebind, stale identity rejection, and no accidental global current-conversation state.
 
 ## PD-14 — Export/import, migration and persistence
 
-Verify all currently supported backup/migration behavior:
+Verify export schema/metadata/checksum; untampered accept/tampered reject; intentional backup-secret containment; no secrets in ChatGPT/debug/GitHub-facing payloads; cross-install restore; same-folder upgrade persistence; import cannot overwrite active RUN/manual safety state unsafely; required legacy `wsmb_*` compatibility; and current text/toggle semantics.
 
-- export schema/metadata;
-- checksum generation/validation;
-- untampered backup accepted;
-- tampered backup rejected;
-- secrets are present only where backup design intentionally contains them;
-- secrets never enter ChatGPT/debug/GitHub-facing payloads;
-- cross-install restore works in a fresh extension identity;
-- compatible settings survive same-folder upgrade/reload;
-- active RUN/manual-operation safety state is not overwritten unsafely by import;
-- legacy `wsmb_*` compatibility remains as long as specification requires it;
-- text/toggle settings restore according to current semantics.
+## PD-15 — Security/provider-surface containment
 
-## PD-15 — Security and provider-surface containment
-
-Verify fail-closed security invariants:
-
-- no API key/OAuth token/Authorization secret in page/content/result/error/debug evidence;
-- assistant content cannot choose arbitrary URL/host;
-- arbitrary HTTP method is rejected;
-- arbitrary headers/auth are rejected;
-- provider hosts remain fixed to governed allowlist;
-- operation registries remain explicit;
-- unsupported operations fail before network;
-- no runtime GitHub token/repo/branch/job coupling is required for provider execution;
-- backup secrets stay isolated from user-facing logs;
-- no real Yandex request is made during this gate.
+Verify no secrets in page/content/result/error/debug evidence; assistant content cannot choose arbitrary URL/method/headers/auth; provider hosts/operations are explicit allowlists; unsupported operations fail pre-network; no runtime GitHub token/repo/branch/job requirement; backup secret isolation; real Yandex request count 0.
 
 ## PD-16 — Future-service phase locks
 
-Until their phases are explicitly enabled, verify that:
+Until explicitly enabled, Search, Webmaster, Metrika and Direct cannot execute provider requests from assistant content. Recognizing a future marker must not enable execution. When a phase is enabled, replace its lock with full functional coverage.
 
-- Search;
-- Webmaster;
-- Metrika;
-- Direct
+## PD-17 — Final artifact cleanliness/evidence
 
-cannot execute provider requests through assistant-supplied content.
-
-Recognizing future markers, if supported, must not silently enable execution.
-
-When one of these services becomes an enabled product phase, replace its phase-lock assertion with a full functional section equivalent in depth to PD-08 and add all relevant popup/policy/delivery/security coverage.
-
-## PD-17 — Final artifact cleanliness and evidence
-
-At the end of the one complete gate run verify again:
-
-- production candidate did not mutate during validation;
-- exact production hashes/file set still match the frozen candidate;
-- repository/test working tree state is recorded;
-- real Yandex request count is exactly `0` unless a future governed gate revision authorizes otherwise;
-- no secret is present in generated reports;
-- all mandatory PD sections have an explicit status;
-- no `NOT_RUN`/`UNKNOWN` is silently treated as PASS.
-
-Create one final Markdown + JSON report containing the complete gate matrix and exact artifact identity.
+At gate end re-check exact production hashes/path set; prove candidate did not mutate; record repository/test working state; real Yandex requests exactly 0; no secrets in reports; every PD section explicit; no NOT_RUN/UNKNOWN silently treated as PASS. Produce one final Markdown + JSON report with full matrix and exact artifact identity.
 
 ---
 
 # 6. Required final verdict
 
-Codex must return one final result for the whole run:
+Codex returns one final result for the entire campaign:
 
 ```text
 CODEX_YANDEX_PRE_DELIVERY_FULL_REGRESSION_GATE_RESULT
-
 candidate:
   authority: <sha/ref>
   version: <value>
   source_identity: PASS|FAIL
   artifact: <filename|UNPACKED>
   artifact_sha256: <sha|NONE>
-
 sections:
   PD-00: PASS|FAIL
   PD-01: PASS|FAIL
@@ -543,27 +197,15 @@ sections:
   PD-15: PASS|FAIL
   PD-16: PASS|FAIL
   PD-17: PASS|FAIL
-
 source_suite: <pass>/<total>
 packaged_suite: <pass>/<total>|NOT_APPLICABLE
 real_yandex_requests: <integer>
 production_modified_during_gate: YES|NO
-
-verdict:
-  PASS|
-  FAIL_PRODUCT|
-  FAIL_ARTIFACT|
-  FAIL_HARNESS
+verdict: PASS|FAIL_PRODUCT|FAIL_ARTIFACT|FAIL_HARNESS
 ```
 
-`PASS` is valid only when every enabled mandatory section is PASS and the exact handoff artifact/candidate is the one tested.
+`PASS` is valid only if every enabled mandatory section passes and the exact handoff artifact is the exact tested artifact.
 
 # 7. Handoff rule
 
-ChatGPT must not present an installable candidate to the owner as the working build until the latest exact candidate has a fresh `PASS` from this gate.
-
-Historical PASS from an older source tree/package is not transferable to a newer candidate.
-
-This full gate is intentionally run **only at the final pre-handoff boundary**. During normal implementation and bug fixing, use focused tests for changed code and its affected dependencies instead.
-
-Real-profile/live acceptance, when still required by the roadmap, occurs after this gate and remains a separate classification; this gate never fabricates a live PASS.
+ChatGPT must not present an installable candidate to the owner as a working build until the latest exact frozen candidate has a fresh `PASS` from this full gate. Historical PASS is not transferable. Owner real-profile/live acceptance remains a separate later classification and this gate never fabricates it.
