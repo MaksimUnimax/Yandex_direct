@@ -1,0 +1,22 @@
+--- a/content_script.js
++++ b/content_script.js
+@@ -1716,10 +1716,15 @@
+     if (message?.type === "WS_APPLY_MANUAL_MODE") {
+       (async () => {
+         const currentKey = conversationKeyFromLocation();
+-        const applied = Boolean(currentKey && message.conversation_key === currentKey);
+-        if (!applied) { applyManualMode(false, currentKey); setManualBridgeReady(false, "manual_apply_mismatch"); return { ok: true, applied: false, conversation_key: currentKey, identity: conversationIdentity() }; }
+-        applyManualMode(message.enabled === true, currentKey);
+-        if (message.enabled === true) await syncManualState(); else setManualBridgeReady(false, "manual_apply_off");
++        const addressed = Boolean(currentKey && message.conversation_key === currentKey);
++        if (!addressed) { applyManualMode(false, currentKey); setManualBridgeReady(false, "manual_apply_mismatch"); return { ok: true, applied: false, conversation_key: currentKey, identity: conversationIdentity() }; }
++        if (message.enabled === true) {
++          const state = await syncManualState();
++          const applied = Boolean(state?.ok && state.enabled === true && manualEnabled === true && manualConversationKey === currentKey);
++          return { ok: true, applied, conversation_key: currentKey, identity: conversationIdentity() };
++        }
++        applyManualMode(false, currentKey);
++        setManualBridgeReady(false, "manual_apply_off");
+         return { ok: true, applied: true, conversation_key: currentKey, identity: conversationIdentity() };
+       })().then(sendResponse).catch((error) => sendResponse({ ok: false, code: error.code || "MANUAL_MODE_APPLY_FAILED", error: error.message || String(error) }));
+       return true;
