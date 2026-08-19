@@ -164,16 +164,60 @@ Issue #1 external Yandex action / Copy independence: CLOSED / COMPLETED
 Issue #2 stale Manual operation lock: CLOSED / COMPLETED
 ```
 
+## Phase 2 Search requirement reconstruction — COMPLETE
+
+Current Phase-2 requirement authority:
+
+```text
+extension/docs/PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+```
+
+Official Yandex Search API facts were freshly checked on 2026-08-19 against AI Studio/Yandex documentation.
+
+First implementation slice is frozen at the requirement level as:
+
+```text
+protocol: SEARCH_API_V1
+service: search
+method: search
+mode: synchronous text web search
+REST endpoint: POST /v2/web/search
+response format: FORMAT_XML
+result signature: SEARCH_RESULT_V1
+```
+
+Explicitly outside the first slice:
+
+```text
+searchAsync / Operation polling
+image search
+generative search
+HTML normalization
+browser scraping of yandex.ru
+```
+
+Current official tariff snapshot relevant to this first slice:
+
+```text
+day synchronous:   488 RUB / 1000 = 0.488 RUB/request
+night synchronous: 366 RUB / 1000 = 0.366 RUB/request
+night window: 00:00:00–07:59:59 UTC+3
+```
+
+The first implementation should conservatively reserve the higher daytime cost unless explicit tariff-window logic is implemented. Owner-live paid Search commands require a fresh official price check immediately before execution.
+
+Search must reuse the accepted common Manual/Autorun/outbox/conversation/owner-tab/no-blind-retry core rather than fork service-specific delivery logic.
+
 ## Current control-plane reconstruction
 
 ```text
-PRODUCT_SOURCE = accepted repaired e13a source; production hashes above
-HANDOFF_ARTIFACT = e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65 / 209505 / 45 files / full Codex PASS / owner-live PASS
-LATEST_FULL_GATE = PASS on exact e13a artifact; PD-00..PD-17 ALL PASS; Manual-ON addendum PASS
+PRODUCT_SOURCE = accepted Phase-1 e13a source; no Phase-2 production changes yet
+HANDOFF_ARTIFACT = e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65 / Phase-1 accepted artifact
+LATEST_FULL_GATE = PASS on exact Phase-1 e13a artifact
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = NO
-OWNER_LIVE = PASS on exact e13a
-OPEN_BLOCKERS = NONE for Phase 1
-AUTHORIZED_NEXT_STAGE = PHASE_2_YANDEX_SEARCH_REQUIREMENT_RECONSTRUCTION
+OWNER_LIVE = Phase 1 PASS
+OPEN_BLOCKERS = Phase-2 specification and living-gate coverage must be updated before Search product code
+AUTHORIZED_NEXT_STAGE = PHASE_2_SEARCH_SPEC_AND_GATE_UPDATE
 ```
 
 ## Phase status
@@ -181,7 +225,7 @@ AUTHORIZED_NEXT_STAGE = PHASE_2_YANDEX_SEARCH_REQUIREMENT_RECONSTRUCTION
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 YANDEX SEARCH / SERP = UNLOCKED FOR REQUIREMENT RECONSTRUCTION; implementation not started
+PHASE 2 YANDEX SEARCH / SERP = REQUIREMENTS RECONSTRUCTED; SPEC/GATE UPDATE NEXT; PRODUCT IMPLEMENTATION NOT STARTED
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
@@ -190,4 +234,4 @@ PHASE 7 DIRECT LIVE WRITE = BLOCKED
 PHASE 8 FULL ORDER E2E = BLOCKED
 ```
 
-Do not start Search implementation from memory. The next Search action is to reconstruct live authority/specification and current Yandex Search API facts before product changes.
+Do not start Search production changes until Phase-2 Search contract is represented in `SPECIFICATION.md` and the living Codex gate contains mandatory Search coverage.
