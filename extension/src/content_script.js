@@ -443,6 +443,51 @@
     return response?.ok === true;
   }
 
+  function disarmManualSend(local) {
+    const button = local?.manual_send_button || null;
+    const handler = local?.manual_send_handler || null;
+    if (button && handler) {
+      try { button.removeEventListener("click", handler, true); } catch {}
+    }
+    if (local) {
+      local.manual_send_button = null;
+      local.manual_send_handler = null;
+    }
+  }
+
+  function armManualSend(entry, local, sendButton) {
+    if (!sendButton || local?.committed) return false;
+    if (local.manual_send_button === sendButton && local.manual_send_handler) return true;
+    disarmManualSend(local);
+    const handler = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      if (local.manual_commit_pending || local.committed) return;
+      local.manual_commit_pending = true;
+      void markCommitted(entry).then((ok) => {
+        if (!ok) {
+          setStatus(STATUS_KEYS.OPERATION, "Яндекс: отправка не подтверждена; Send заблокирован до безопасной фиксации.", "error", 9000);
+          return;
+        }
+        local.committed = true;
+        local.clicked = true;
+        local.saw_busy = true;
+        disarmManualSend(local);
+        sendButton.click();
+        setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат отправлен.", "ok", 3500);
+      }).catch((error) => {
+        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 9000);
+      }).finally(() => {
+        local.manual_commit_pending = false;
+      });
+    };
+    sendButton.addEventListener("click", handler, true);
+    local.manual_send_button = sendButton;
+    local.manual_send_handler = handler;
+    return true;
+  }
+
   async function handleClaimedOutbox(entry, local) {
     const composer = BB2ComposerSend.findComposer(document);
     if (!composer) {
@@ -451,6 +496,7 @@
     }
     const currentText = BB2ComposerSend.readComposer(composer);
     if (currentText.trim() && currentText !== entry.report_text) {
+      disarmManualSend(local);
       setStatus(STATUS_KEYS.COMPOSER, "Яндекс ждёт: поле ввода занято вашим текстом.");
       return;
     }
@@ -462,10 +508,16 @@
     }
     const autoSend = stateSnapshot?.auto_send !== false;
     if (!autoSend) {
-      if (!local.committed) local.committed = await markCommitted(entry);
+      let manualSendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);
+      for (let i = 0; !manualSendButton && i < 4; i += 1) {
+        await wait(80);
+        manualSendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);
+      }
+      if (manualSendButton) armManualSend(entry, local, manualSendButton);
       setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат помещён в поле ввода. Отправьте его, когда будете готовы.", "ok");
       return;
     }
+    disarmManualSend(local);
     let sendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);
     for (let i = 0; !sendButton && i < 4; i += 1) {
       await wait(80);
