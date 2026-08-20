@@ -16,6 +16,7 @@ test('manifest allows only ChatGPT pages plus official Yandex API host',()=>{
   ]);
   assert.equal(manifest.host_permissions.some(x=>/https:\/\/(www\.)?yandex\.ru/i.test(x)),false);
   assert.deepEqual(manifest.content_scripts[0].matches,['https://chatgpt.com/*','https://chat.openai.com/*']);
+  assert.equal(manifest.background.service_worker,'service_worker_bootstrap.js');
 });
 
 test('service registry exposes only Wordstat and synchronous Search',()=>{
