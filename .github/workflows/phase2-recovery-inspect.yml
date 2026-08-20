@@ -46,6 +46,14 @@ jobs:
             git commit -m "dev: restore browser Search integration"
             git push origin HEAD:dev/phase2-recovery-work-2026-08-20
           fi
+      - name: Export decoded browser source for comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-source-transport-diagnostic
+          path: extension/src/content_script.js
+          if-no-files-found: error
+          compression-level: 0
       - name: Search focused tests
         shell: bash
         run: |
