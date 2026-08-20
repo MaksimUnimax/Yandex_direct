@@ -60,15 +60,17 @@ test('debug diagnostics redact API key, authorization, token and secret fields',
 });
 
 test('settings import is blocked while Autorun is active and leaves existing secret untouched', async()=>{
+  const source=harness({wsmb_api_key:'incoming-secret',wsmb_folder_id:'incoming-folder'});
+  const backup=await source.api.exportSettingsBackup();
   const h=harness({wsmb_api_key:'keep-secret',wsmb_auto_runs:{[CKEY]:{status:'waiting_command'}}});
-  const backup={schema:'YMB_SETTINGS_BACKUP_V2',settings:{wordstat:{api_key:'incoming-secret',folder_id:'incoming-folder'}}};
   await assert.rejects(()=>h.api.importSettingsBackup(backup),(error)=>error.code==='IMPORT_ACTIVE_RUN');
   assert.equal(h.store.wsmb_api_key,'keep-secret');
 });
 
 test('settings import is blocked while a Manual operation is active and leaves existing secret untouched', async()=>{
+  const source=harness({wsmb_api_key:'incoming-secret',wsmb_folder_id:'incoming-folder'});
+  const backup=await source.api.exportSettingsBackup();
   const h=harness({wsmb_api_key:'keep-secret',wsmb_manual_operations:{[CKEY]:{status:'requesting'}}});
-  const backup={schema:'YMB_SETTINGS_BACKUP_V2',settings:{wordstat:{api_key:'incoming-secret',folder_id:'incoming-folder'}}};
   await assert.rejects(()=>h.api.importSettingsBackup(backup),(error)=>error.code==='IMPORT_ACTIVE_MANUAL');
   assert.equal(h.store.wsmb_api_key,'keep-secret');
 });
