@@ -6,6 +6,8 @@ on:
   pull_request:
     branches:
       - main
+permissions:
+  contents: read
 jobs:
   inspect:
     runs-on: ubuntu-latest
@@ -13,28 +15,75 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Search full repository history
+      - name: Reconstruct exact lost Phase 2 tree
         shell: bash
         run: |
           set -euo pipefail
           git fetch --all --tags --prune
-          echo 'COMMITS MENTIONING E13A OR EXACT ZIP:'
-          git log --all --oneline --decorate --grep='e13a\|exact.*zip\|zip.*exact\|artifact transport' -i || true
-          echo 'HISTORICAL PATHS MATCHING ZIP/B64/CANDIDATE:'
-          git log --all --name-only --pretty=format: | sort -u | grep -Ei '(zip|candidate|artifact|transport).*(b64|base64|zip)|\.(zip|b64)$' || true
-          echo 'ALL HISTORICAL QA TRANSPORT PATHS:'
-          git log --all --name-only --pretty=format: | sort -u | grep -E 'qa_transport|snapshot-base64' || true
-          echo 'DELETED/MODIFIED TRANSPORT FILE HISTORY:'
-          git log --all --name-status --pretty='format:COMMIT %H %s' -- 'extension/tests/qa_transport/**' | head -n 1200 || true
-          root='extension/tests/qa_transport/phase2-search-sync-v1'
-          cat "$root"/patch.gz.b64.part00 "$root"/patch.gz.b64.part01 "$root"/patch.gz.b64.part02 "$root"/patch.gz.b64.part03 "$root"/patch.gz.b64.part04 > /tmp/combined.b64
-          base64 -d /tmp/combined.b64 > /tmp/combined.patch.gz
-          gzip -dc /tmp/combined.patch.gz > /tmp/combined.patch
-          sha256sum /tmp/combined.patch
-          wc -c /tmp/combined.patch
-          cp /tmp/combined.patch "$root/decoded-combined.patch"
-      - name: Upload decoded patch
+          zip_path='extension/tests/qa_artifacts/yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip'
+          zip_commit=$(git log --all --format='%H' -- "$zip_path" | head -n 1)
+          echo "ZIP_HISTORY_COMMIT=$zip_commit"
+          test -n "$zip_commit"
+          git show "$zip_commit:$zip_path" > /tmp/e13a.zip
+          echo 'E13A:'
+          sha256sum /tmp/e13a.zip
+          wc -c /tmp/e13a.zip
+          test "$(sha256sum /tmp/e13a.zip | awk '{print $1}')" = 'e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65'
+          test "$(wc -c < /tmp/e13a.zip)" = '209505'
+          unzip -t /tmp/e13a.zip >/tmp/unzip-test.txt
+          rm -rf /tmp/e13a-tree
+          mkdir -p /tmp/e13a-tree
+          unzip -q /tmp/e13a.zip -d /tmp/e13a-tree
+          base_root=$(dirname "$(find /tmp/e13a-tree -type f -name content_script.js -print -quit)")
+          echo "BASE_ROOT=$base_root"
+          test -f "$base_root/service_worker.js"
+          test -f "$base_root/popup.js"
+          transport='extension/tests/qa_transport/phase2-search-sync-v1'
+          cat "$transport"/patch.gz.b64.part00 "$transport"/patch.gz.b64.part01 "$transport"/patch.gz.b64.part02 "$transport"/patch.gz.b64.part03 "$transport"/patch.gz.b64.part04 > /tmp/phase2.b64
+          base64 -d /tmp/phase2.b64 > /tmp/phase2.patch.gz
+          gzip -t /tmp/phase2.patch.gz
+          gzip -dc /tmp/phase2.patch.gz > /tmp/phase2.patch
+          test "$(sha256sum /tmp/phase2.patch | awk '{print $1}')" = '91751cd720dba23282be69d75c921331dab83bbe6076bffd464519297a80c0ca'
+          test "$(wc -c < /tmp/phase2.patch)" = '142186'
+          cd "$base_root"
+          git apply --check /tmp/phase2.patch
+          git apply /tmp/phase2.patch
+          cd - >/dev/null
+          manifest='extension/tests/phase2/search-runtime-integration/target-tree-sha256.tsv'
+          test -f "$manifest"
+          expected_manifest_sha=$(sha256sum "$manifest" | awk '{print $1}')
+          echo "FINAL_MANIFEST_SHA=$expected_manifest_sha"
+          test "$expected_manifest_sha" = 'b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f'
+          python3 - "$base_root" "$manifest" <<'PY'
+          import hashlib, pathlib, sys
+          root=pathlib.Path(sys.argv[1]); manifest=pathlib.Path(sys.argv[2])
+          expected={}
+          for line in manifest.read_text(encoding='utf-8').splitlines():
+              if not line.strip(): continue
+              h,size,path=line.split('\t',2)
+              expected[path]=(h,int(size))
+          actual={}
+          for p in root.rglob('*'):
+              if p.is_file():
+                  rel=p.relative_to(root).as_posix()
+                  b=p.read_bytes(); actual[rel]=(hashlib.sha256(b).hexdigest(),len(b))
+          matched=sum(actual.get(k)==v for k,v in expected.items())
+          mismatched=[k for k,v in expected.items() if k in actual and actual[k]!=v]
+          missing=[k for k in expected if k not in actual]
+          extras=[k for k in actual if k not in expected]
+          print(f'FINAL_IDENTITY matched={matched} mismatched={len(mismatched)} missing={len(missing)} extras={len(extras)}')
+          if mismatched: print('MISMATCHED', *mismatched, sep='\n')
+          if missing: print('MISSING', *missing, sep='\n')
+          if extras: print('EXTRAS', *extras, sep='\n')
+          if not (matched==len(expected) and not mismatched and not missing and not extras): raise SystemExit(1)
+          print('EXACT_PHASE2_TARGET_RECOVERY_PASS')
+          PY
+          rm -rf extension/tests/qa_transport/phase2-search-sync-v1/recovered-target
+          mkdir -p extension/tests/qa_transport/phase2-search-sync-v1/recovered-target
+          cp -a "$base_root"/. extension/tests/qa_transport/phase2-search-sync-v1/recovered-target/
+      - name: Upload recovered exact source
         uses: actions/upload-artifact@v4
         with:
-          name: phase2-decoded-combined-patch
-          path: extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch
+          name: phase2-exact-recovered-source
+          path: extension/tests/qa_transport/phase2-search-sync-v1/recovered-target
+          compression-level: 0
