@@ -3,90 +3,176 @@
 
   const DEFAULT_TARIFF_SOURCE = "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
   const DEFAULT_TARIFF_CHECKED_AT = "2026-08-12";
+  const SEARCH_TARIFF_CHECKED_AT = "2026-08-19";
   const DEFAULT_METHOD_COST_RUB = Object.freeze({
     getTop: 0.02,
     getDynamics: 0.02,
     getRegionsDistribution: 0.05,
     getRegionsTree: 0
   });
+  const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488 });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
+  const SEARCH_METHODS = Object.freeze(["search"]);
 
-  function finiteNumber(value, fallback = 0) {
-    const n = Number(value);
-    return Number.isFinite(n) ? n : fallback;
+  function asBoolean(value, fallback) {
+    return typeof value === "boolean" ? value : fallback;
   }
 
-  function clampInteger(value, min, max, fallback) {
-    const n = Number(value);
-    if (!Number.isFinite(n)) return fallback;
-    return Math.max(min, Math.min(max, Math.trunc(n)));
+  function asPositiveInt(value, fallback) {
+    const number = Number(value);
+    return Number.isInteger(number) && number > 0 ? number : fallback;
   }
 
-  function normalizeAllowedMethods(value) {
-    const input = Array.isArray(value) ? value.map(String) : WORDSTAT_METHODS;
-    const set = new Set(input.filter((method) => WORDSTAT_METHODS.includes(method)));
-    return WORDSTAT_METHODS.filter((method) => set.has(method));
+  function asNonNegativeNumber(value, fallback) {
+    const number = Number(value);
+    return Number.isFinite(number) && number >= 0 ? number : fallback;
   }
 
-  function normalizeTariffs(raw = {}) {
-    const result = {};
-    for (const method of WORDSTAT_METHODS) {
-      const candidate = finiteNumber(raw?.[method], DEFAULT_METHOD_COST_RUB[method]);
-      result[method] = Math.max(0, Math.min(100000, candidate));
+  function normalizeMethodList(value, fallback, allowedMethods) {
+    if (!Array.isArray(value)) return [...fallback];
+    return [...new Set(value.map((item) => String(item)).filter((item) => allowedMethods.includes(item)))];
+  }
+
+  function normalizeCostMap(value, defaults, allowedMethods) {
+    const out = { ...defaults };
+    if (value && typeof value === "object") {
+      for (const method of allowedMethods) {
+        if (!Object.prototype.hasOwnProperty.call(value, method)) continue;
+        const number = Number(value[method]);
+        if (Number.isFinite(number) && number >= 0) out[method] = number;
+      }
     }
-    return Object.freeze(result);
+    return Object.freeze(out);
   }
 
-  function normalizeWordstatPolicy(raw = {}) {
+  function normalizePolicy(raw = {}, {
+    defaultAutorunEnabled = false,
+    defaultManualEnabled = true,
+    defaultMethods = [],
+    allowedMethods = [],
+    defaultMaxRequests = 100,
+    defaultMaxCostRub = 10,
+    defaultCosts = {},
+    defaultTariffCheckedAt = DEFAULT_TARIFF_CHECKED_AT,
+    defaultTariffSource = DEFAULT_TARIFF_SOURCE
+  } = {}) {
     return Object.freeze({
-      autorun_enabled: raw.autorun_enabled === true,
-      manual_enabled: raw.manual_enabled !== false,
-      allowed_methods: Object.freeze(normalizeAllowedMethods(raw.allowed_methods)),
-      max_requests_per_run: clampInteger(raw.max_requests_per_run, 1, 100000, 500),
-      max_cost_rub_per_run: Math.max(0, Math.min(1_000_000, finiteNumber(raw.max_cost_rub_per_run, 25))),
-      max_requests_per_job: clampInteger(raw.max_requests_per_job, 1, 1_000_000, 5000),
-      max_cost_rub_per_job: Math.max(0, Math.min(10_000_000, finiteNumber(raw.max_cost_rub_per_job, 250))),
-      method_cost_rub: normalizeTariffs(raw.method_cost_rub),
-      tariff_source: String(raw.tariff_source || DEFAULT_TARIFF_SOURCE).slice(0, 1000),
-      tariff_checked_at: String(raw.tariff_checked_at || DEFAULT_TARIFF_CHECKED_AT).slice(0, 80)
+      autorun_enabled: asBoolean(raw.autorun_enabled, defaultAutorunEnabled),
+      manual_enabled: asBoolean(raw.manual_enabled, defaultManualEnabled),
+      allowed_methods: Object.freeze(normalizeMethodList(raw.allowed_methods, defaultMethods, allowedMethods)),
+      max_requests_per_run: asPositiveInt(raw.max_requests_per_run, defaultMaxRequests),
+      max_cost_rub_per_run: asNonNegativeNumber(raw.max_cost_rub_per_run, defaultMaxCostRub),
+      method_cost_rub: normalizeCostMap(raw.method_cost_rub, defaultCosts, allowedMethods),
+      tariff_checked_at: String(raw.tariff_checked_at || defaultTariffCheckedAt),
+      tariff_source: String(raw.tariff_source || defaultTariffSource)
     });
   }
 
-  function costForMethod(policy, method) {
-    const normalized = normalizeWordstatPolicy(policy);
-    if (!WORDSTAT_METHODS.includes(method)) return null;
-    return Number(normalized.method_cost_rub[method] || 0);
+  function normalizeWordstatPolicy(raw = {}) {
+    return normalizePolicy(raw, {
+      defaultMethods: WORDSTAT_METHODS,
+      allowedMethods: WORDSTAT_METHODS,
+      defaultCosts: DEFAULT_METHOD_COST_RUB,
+      defaultTariffCheckedAt: DEFAULT_TARIFF_CHECKED_AT,
+      defaultTariffSource: DEFAULT_TARIFF_SOURCE
+    });
   }
 
-  function decision({ policy, channel = "autorun", method, credentialState = "PRESENT", run = {}, jobTotals = {} } = {}) {
-    const normalized = normalizeWordstatPolicy(policy);
-    const cost = costForMethod(normalized, method);
-    if (cost === null) return Object.freeze({ allow: false, reason: "OPERATION_DISABLED", estimated_cost_rub: 0, policy: normalized });
-    if (credentialState !== "PRESENT") return Object.freeze({ allow: false, reason: "NO_CREDENTIALS", estimated_cost_rub: cost, policy: normalized });
-    if (channel === "autorun" && normalized.autorun_enabled !== true) return Object.freeze({ allow: false, reason: "AUTORUN_DISABLED", estimated_cost_rub: cost, policy: normalized });
-    if (channel === "manual" && normalized.manual_enabled !== true) return Object.freeze({ allow: false, reason: "MANUAL_DISABLED", estimated_cost_rub: cost, policy: normalized });
-    if (!normalized.allowed_methods.includes(method)) return Object.freeze({ allow: false, reason: "OPERATION_DISABLED", estimated_cost_rub: cost, policy: normalized });
+  function normalizeSearchPolicy(raw = {}) {
+    return normalizePolicy(raw, {
+      defaultMethods: SEARCH_METHODS,
+      allowedMethods: SEARCH_METHODS,
+      defaultCosts: DEFAULT_SEARCH_METHOD_COST_RUB,
+      defaultTariffCheckedAt: SEARCH_TARIFF_CHECKED_AT,
+      defaultTariffSource: DEFAULT_TARIFF_SOURCE
+    });
+  }
 
-    const runRequests = Math.max(0, finiteNumber(run.requests_executed, 0));
-    const runCost = Math.max(0, finiteNumber(run.estimated_cost_rub, 0));
-    const jobRequests = Math.max(0, finiteNumber(jobTotals.requests_executed, 0));
-    const jobCost = Math.max(0, finiteNumber(jobTotals.estimated_cost_rub, 0));
+  function normalizePolicyForService(service, raw = {}) {
+    if (String(service || "") === "search") return normalizeSearchPolicy(raw);
+    if (String(service || "") === "wordstat") return normalizeWordstatPolicy(raw);
+    throw Object.assign(new Error(`Неизвестный сервис: ${service || "unknown"}`), { code: "UNKNOWN_SERVICE" });
+  }
 
-    if (runRequests + 1 > normalized.max_requests_per_run) return Object.freeze({ allow: false, reason: "REQUEST_LIMIT", estimated_cost_rub: cost, policy: normalized });
-    if (jobRequests + 1 > normalized.max_requests_per_job) return Object.freeze({ allow: false, reason: "JOB_REQUEST_LIMIT", estimated_cost_rub: cost, policy: normalized });
-    if (runCost + cost > normalized.max_cost_rub_per_run + 1e-9) return Object.freeze({ allow: false, reason: "COST_LIMIT", estimated_cost_rub: cost, policy: normalized });
-    if (jobCost + cost > normalized.max_cost_rub_per_job + 1e-9) return Object.freeze({ allow: false, reason: "JOB_COST_LIMIT", estimated_cost_rub: cost, policy: normalized });
+  function estimateMethodCost(policy, method) {
+    return asNonNegativeNumber(policy.method_cost_rub?.[method], 0);
+  }
 
-    return Object.freeze({ allow: true, reason: null, estimated_cost_rub: cost, policy: normalized });
+  function decision({
+    policy,
+    channel,
+    method,
+    credentialState,
+    run = {}
+  }) {
+    const methodName = String(method || "");
+    const executed = Number(run.requests_executed || 0);
+    const estimatedRunCost = Number(run.estimated_cost_rub || 0);
+    const estimatedMethodCost = estimateMethodCost(policy, methodName);
+
+    let allow = true;
+    let reason = "ALLOW";
+    if (credentialState !== "PRESENT") {
+      allow = false;
+      reason = credentialState === "NO_ACCESS" ? "CREDENTIAL_NO_ACCESS" : "NO_CREDENTIALS";
+    } else if (channel === "autorun" && policy.autorun_enabled !== true) {
+      allow = false;
+      reason = "AUTORUN_DISABLED";
+    } else if (channel === "manual" && policy.manual_enabled !== true) {
+      allow = false;
+      reason = "MANUAL_DISABLED";
+    } else if (!policy.allowed_methods.includes(methodName)) {
+      allow = false;
+      reason = "OPERATION_DISABLED";
+    } else if (executed >= policy.max_requests_per_run) {
+      allow = false;
+      reason = "REQUEST_LIMIT";
+    } else if (estimatedRunCost + estimatedMethodCost > policy.max_cost_rub_per_run + Number.EPSILON) {
+      allow = false;
+      reason = "COST_LIMIT";
+    }
+
+    return Object.freeze({
+      allow,
+      reason,
+      estimated_cost_rub: estimatedMethodCost,
+      policy
+    });
+  }
+
+  function wordstatDecision(args = {}) {
+    const policy = normalizeWordstatPolicy(args.policy || {});
+    return decision({ ...args, policy });
+  }
+
+  function searchDecision(args = {}) {
+    const policy = normalizeSearchPolicy(args.policy || {});
+    return decision({ ...args, policy });
+  }
+
+  function decisionForService(service, args = {}) {
+    if (String(service || "") === "search") return searchDecision(args);
+    if (String(service || "") === "wordstat") return wordstatDecision(args);
+    return Object.freeze({
+      allow: false,
+      reason: "SERVICE_NOT_AVAILABLE",
+      estimated_cost_rub: 0,
+      policy: null
+    });
   }
 
   globalThis.YMBPolicyModel = Object.freeze({
-    DEFAULT_TARIFF_SOURCE,
-    DEFAULT_TARIFF_CHECKED_AT,
     DEFAULT_METHOD_COST_RUB,
+    DEFAULT_SEARCH_METHOD_COST_RUB,
     WORDSTAT_METHODS,
+    SEARCH_METHODS,
+    SEARCH_TARIFF_CHECKED_AT,
     normalizeWordstatPolicy,
-    costForMethod,
-    decision
+    normalizeSearchPolicy,
+    normalizePolicyForService,
+    estimateMethodCost,
+    wordstatDecision,
+    searchDecision,
+    decisionForService
   });
 })();
