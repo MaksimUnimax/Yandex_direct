@@ -128,6 +128,23 @@
     </section>
 
     <section>
+      <h2>Диагностика</h2>
+      <label>Показывать
+        <select id="diagnosticsFilter">
+          <option value="all">Все записи</option>
+          <option value="error">Только ошибки</option>
+          <option value="current">Текущий диалог</option>
+        </select>
+      </label>
+      <textarea id="diagnosticsText" rows="7" readonly spellcheck="false" placeholder="Диагностика пока пуста"></textarea>
+      <div class="actions">
+        <button id="copyDiagnostics" type="button">Копировать диагностику</button>
+        <button id="clearDiagnostics" type="button">Очистить диагностику</button>
+      </div>
+      <p class="warning">API key, Authorization, token и secret скрываются перед показом.</p>
+    </section>
+
+    <section>
       <div class="actions">
         <button id="saveSettings" class="primary" type="button">Сохранить</button>
         <button id="exportSettings" type="button">Экспорт</button>

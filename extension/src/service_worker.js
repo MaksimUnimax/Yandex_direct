@@ -43,6 +43,7 @@ function defaultAutoStartTextForService(service) { return String(service || "") 
 function storageGet(keys) { return chrome.storage.local.get(keys); }
 function storageSet(values) { return chrome.storage.local.set(values); }
 function storageRemove(keys) { return chrome.storage.local.remove(keys); }
+function redactSensitive(value) { return JSON.parse(JSON.stringify(value, (key, item) => /api.?key|authorization|token|secret/i.test(key) ? "[REDACTED]" : item)); }
 function safeButtonProfile(value) { return value && typeof value === "object" && !Array.isArray(value) ? clone(value) : null; }
 function copyProfileCollection(value) { return value && typeof value === "object" ? clone(value) : {}; }
 async function getSendButtonProfile() { return safeButtonProfile((await storageGet(KEYS.SEND_BUTTON_PROFILE))[KEYS.SEND_BUTTON_PROFILE]); }
@@ -56,10 +57,12 @@ async function diagnostic(code, detail = {}, { level = "info" } = {}) {
   const data = await storageGet(KEYS.DEBUG_MODE);
   if (data[KEYS.DEBUG_MODE] !== true) return;
   const current = (await storageGet(KEYS.DIAGNOSTICS))[KEYS.DIAGNOSTICS] || [];
-  const safe = JSON.parse(JSON.stringify(detail, (key, value) => /api.?key|authorization|token|secret/i.test(key) ? "[REDACTED]" : value));
+  const safe = redactSensitive(detail);
   current.push({ ts: nowIso(), level, code, detail: safe });
   await storageSet({ [KEYS.DIAGNOSTICS]: current.slice(-200) });
 }
+async function getDiagnostics() { const data = await storageGet(KEYS.DIAGNOSTICS); const records = Array.isArray(data[KEYS.DIAGNOSTICS]) ? data[KEYS.DIAGNOSTICS] : []; return redactSensitive(records); }
+async function clearDiagnostics() { await storageSet({ [KEYS.DIAGNOSTICS]: [] }); return []; }
 async function setStatus(status) { await storageSet({ [KEYS.LAST_STATUS]: { ...status, updated_at: nowIso() } }); }
 function normalizeApiKey(value, { required = false } = {}) {
   const text = String(value || "").trim();
@@ -580,6 +583,8 @@ async function handleMessage(message, sender) {
     case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); return { ok: true, outbox: outbox[key] || null }; }
     case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }
     case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message);
+    case "WS_GET_DIAGNOSTICS": return { ok: true, diagnostics: await getDiagnostics() };
+    case "WS_CLEAR_DIAGNOSTICS": return { ok: true, diagnostics: await clearDiagnostics() };
     case "WS_SAVE_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await saveSendButtonProfile(message.profile), state: await publicGlobalSettingsState() };
     case "WS_SAVE_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await saveCopyButtonProfiles(message.profiles), state: await publicGlobalSettingsState() };
     case "WS_CLEAR_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await clearSendButtonProfile(), state: await publicGlobalSettingsState() };

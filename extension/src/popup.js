@@ -8,6 +8,7 @@
   let context = { available: false, tab_id: null, conversation_key: "", identity: null };
   let lastState = null;
   let rendering = false;
+  let lastDiagnostics = [];
 
   function runtimeSend(message) {
     return new Promise((resolve, reject) => {
@@ -188,6 +189,28 @@
     } finally { rendering = false; }
   }
 
+  function visibleDiagnostics() {
+    const filter = $("diagnosticsFilter")?.value || "all";
+    if (filter === "error") return lastDiagnostics.filter((record) => String(record?.level || "").toLowerCase() === "error");
+    if (filter === "current") return lastDiagnostics.filter((record) => String(record?.conversation_key || record?.detail?.conversation_key || "") === context.conversation_key);
+    return lastDiagnostics;
+  }
+
+  function renderDiagnostics() {
+    const node = $("diagnosticsText");
+    if (!node) return;
+    const visible = visibleDiagnostics();
+    node.value = visible.length ? JSON.stringify(visible, null, 2) : "";
+  }
+
+  async function loadDiagnostics() {
+    const response = await runtimeSend({ type: "WS_GET_DIAGNOSTICS" });
+    if (response?.ok === false) throw new Error(response?.error || response?.code || "Не удалось прочитать диагностику.");
+    lastDiagnostics = Array.isArray(response?.diagnostics) ? response.diagnostics : [];
+    renderDiagnostics();
+    return lastDiagnostics;
+  }
+
   async function refresh() {
     await resolveContext();
     const response = context.available
@@ -195,6 +218,7 @@
       : await runtimeSend({ type: "WS_GET_GLOBAL_STATE", page_context_error: "CHATGPT_CONTEXT_UNAVAILABLE" });
     if (!response?.ok || !response.state) throw new Error(response?.error || response?.code || "Не удалось прочитать состояние расширения.");
     renderState(response.state);
+    await loadDiagnostics();
     return response.state;
   }
 
@@ -351,6 +375,24 @@
     await refresh(); showStatus("Автоматический режим завершён.", "ok");
   }));
 
+  $("diagnosticsFilter").addEventListener("change", () => renderDiagnostics());
+
+  $("copyDiagnostics").addEventListener("click", () => withButton($("copyDiagnostics"), async () => {
+    const text = $("diagnosticsText").value;
+    if (!text) throw new Error("Нет диагностики для копирования.");
+    if (!navigator?.clipboard?.writeText) throw new Error("Буфер обмена недоступен.");
+    await navigator.clipboard.writeText(text);
+    showStatus("Диагностика скопирована.", "ok");
+  }));
+
+  $("clearDiagnostics").addEventListener("click", () => withButton($("clearDiagnostics"), async () => {
+    const response = await runtimeSend({ type: "WS_CLEAR_DIAGNOSTICS" });
+    if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось очистить диагностику.");
+    lastDiagnostics = [];
+    renderDiagnostics();
+    showStatus("Диагностика очищена.", "ok");
+  }));
+
   $("exportSettings").addEventListener("click", () => withButton($("exportSettings"), async () => {
     const response = await runtimeSend({ type: "WS_EXPORT_BACKUP" });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Экспорт не создан.");
@@ -381,7 +423,8 @@
   if (globalThis.__YMB_POPUP_TEST__ === true) {
     globalThis.__YMB_POPUP_TEST_API__ = Object.freeze({
       resolveContext, renderState, saveAll, persistTogglePatch,
-      wordstatPolicyFromForm, searchPolicyFromForm, reportPrefixFromForm, isActiveRun
+      wordstatPolicyFromForm, searchPolicyFromForm, reportPrefixFromForm, isActiveRun,
+      loadDiagnostics, renderDiagnostics, visibleDiagnostics
     });
   }
 
