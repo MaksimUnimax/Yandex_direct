@@ -13,39 +13,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Decode patch and locate old/new blobs
+      - name: Search full repository history
         shell: bash
         run: |
           set -euo pipefail
+          git fetch --all --tags --prune
+          echo 'COMMITS MENTIONING E13A OR EXACT ZIP:'
+          git log --all --oneline --decorate --grep='e13a\|exact.*zip\|zip.*exact\|artifact transport' -i || true
+          echo 'HISTORICAL PATHS MATCHING ZIP/B64/CANDIDATE:'
+          git log --all --name-only --pretty=format: | sort -u | grep -Ei '(zip|candidate|artifact|transport).*(b64|base64|zip)|\.(zip|b64)$' || true
+          echo 'ALL HISTORICAL QA TRANSPORT PATHS:'
+          git log --all --name-only --pretty=format: | sort -u | grep -E 'qa_transport|snapshot-base64' || true
+          echo 'DELETED/MODIFIED TRANSPORT FILE HISTORY:'
+          git log --all --name-status --pretty='format:COMMIT %H %s' -- 'extension/tests/qa_transport/**' | head -n 1200 || true
           root='extension/tests/qa_transport/phase2-search-sync-v1'
           cat "$root"/patch.gz.b64.part00 "$root"/patch.gz.b64.part01 "$root"/patch.gz.b64.part02 "$root"/patch.gz.b64.part03 "$root"/patch.gz.b64.part04 > /tmp/combined.b64
           base64 -d /tmp/combined.b64 > /tmp/combined.patch.gz
-          gzip -t /tmp/combined.patch.gz
           gzip -dc /tmp/combined.patch.gz > /tmp/combined.patch
-          echo 'RAW:'
           sha256sum /tmp/combined.patch
           wc -c /tmp/combined.patch
-          git fetch --all --tags --prune
-          git cat-file --batch-all-objects --batch-check='%(objectname) %(objecttype) %(objectsize)' > /tmp/all-objects.txt
-          echo 'PATCH BLOB PREFIX AVAILABILITY:'
-          grep '^index ' /tmp/combined.patch | awk '{print $2}' | tr '.' '\n' | grep -E '^[0-9a-f]{7,40}$' | sort -u > /tmp/prefixes.txt
-          while read -r p; do
-            [ "$p" = "0000000" ] && continue
-            matches=$(grep -E "^${p}[0-9a-f]* blob " /tmp/all-objects.txt || true)
-            if [ -n "$matches" ]; then
-              echo "FOUND $p $matches"
-            else
-              echo "MISSING $p"
-            fi
-          done < /tmp/prefixes.txt
-          echo 'TOUCHED PATHS WITH INDEX:'
-          awk '/^diff --git / {path=$3; sub(/^a\//,"",path)} /^index / {print path, $0}' /tmp/combined.patch
           cp /tmp/combined.patch "$root/decoded-combined.patch"
-          cp /tmp/combined.patch.gz "$root/decoded-combined.patch.gz"
-      - name: Upload inspection files
+      - name: Upload decoded patch
         uses: actions/upload-artifact@v4
         with:
           name: phase2-decoded-combined-patch
-          path: |
-            extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch
-            extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch.gz
+          path: extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch
