@@ -12,14 +12,30 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: dev/phase2-recovery-work-2026-08-20
-      - name: Inspect preserved popup runtime test and worker handlers
+          fetch-depth: 0
+      - name: Probe historical diff blob objects
         shell: bash
         run: |
           set -euo pipefail
           cat extension/tests/qa_transport/phase2-search-sync-v1/patch.gz.b64.part* > /tmp/patch.b64
           base64 -d /tmp/patch.b64 > /tmp/patch.gz
           gzip -dc /tmp/patch.gz > /tmp/patch.diff
-          echo '--- popup runtime exhaustive diff ---'
-          awk '/^diff --git a\/tests\/popup_runtime_exhaustive\.test\.mjs b\/tests\/popup_runtime_exhaustive\.test\.mjs/{p=1;next} /^diff --git / && p{p=0} p{print}' /tmp/patch.diff
-          echo '--- worker message handler contexts for picker/profile/diagnostics ---'
-          grep -Ein -C 15 'WS_[A-Z0-9_]*(PROFILE|PICK|DIAG)|SEND_BUTTON_PROFILE|COPY_BUTTON_PROFILES' /tmp/patch.diff || true
+          echo '--- index lines for production files ---'
+          awk '
+            /^diff --git a\/(content_script.js|manifest.json|popup.html|popup.js|service_worker.js) / {file=$3; sub("a/","",file); wanted=1; next}
+            wanted && /^index / {print file, $0; wanted=0}
+            /^diff --git / {wanted=0}
+          ' /tmp/patch.diff
+          echo '--- resolve every abbreviated blob id from those production index lines ---'
+          awk '
+            /^diff --git a\/(content_script.js|manifest.json|popup.html|popup.js|service_worker.js) / {wanted=1; next}
+            wanted && /^index / {split($2,a,"\\.\\."); print a[1]; print a[2]; wanted=0}
+            /^diff --git / {wanted=0}
+          ' /tmp/patch.diff | while read id; do
+            printf '%s ' "$id"
+            if full=$(git rev-parse --verify "$id^{blob}" 2>/dev/null); then
+              echo "FOUND $full bytes=$(git cat-file -s "$full")"
+            else
+              echo 'MISSING'
+            fi
+          done
