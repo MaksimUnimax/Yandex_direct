@@ -1,0 +1,76 @@
+{
+  "phase": "2-search-stage3-runtime-integration",
+  "date": "2026-08-20",
+  "base": {
+    "stage2_target_manifest_sha256": "a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236",
+    "stage2_target_files": 51
+  },
+  "product_changes": {
+    "content_script.js": "a789b7ec586632d2dde287b59ccaee11d8de010ae9a474cdcd9a68a0b252e688",
+    "manifest.json": "ac48a2399f7f77d1382958231038a999e8c7dfd37e4cdc60a9b9241a62c0c96f",
+    "popup.html": "778c5d2068a2cccd7648f4cef16f649870878e114baa43e4eabf43a628b34cc0",
+    "popup.js": "03b13ad6af722ea9cc92d26e7e299519fbd500e43d71f2c9c225a903bfe6c274",
+    "service_worker.js": "87a4022b7273618ac4df343cff50f7fd155d03c26dc17b68169a569dd0a43c3b"
+  },
+  "runtime_scope": [
+    "manifest loads service registry + Search XML/protocol before content runtime",
+    "Search Manual reuses existing external Yandex action and durable Manual operation/delivery path",
+    "Manual active-service mismatch is rejected before durable claim and before fetch",
+    "Search paused-RUN Manual uses the same immutable service and RUN request/RUB budgets",
+    "Search Autorun uses immutable active_service and service-specific protocol parsing/execution",
+    "Search/Wordstat Autorun cross-service commands are rejected before fetch",
+    "Search active-service watcher payload propagates to content and content uses active service protocol",
+    "popup exposes Wordstat/Search active-service selector and separate Search policy controls",
+    "Search Autorun start prompt/default is service-aware",
+    "settings export/import includes Search policy and preserves credential separation",
+    "common outbox/composer/conversation/owner-tab/Manual-ON paths remain shared"
+  ],
+  "test_changes": [
+    "tests/autorun_source.test.mjs",
+    "tests/content_runtime_exhaustive.test.mjs",
+    "tests/conversation_binding.test.mjs",
+    "tests/conversation_isolation.test.mjs",
+    "tests/manual_mode.test.mjs",
+    "tests/manual_surface_v2_worker.test.mjs",
+    "tests/popup_runtime_exhaustive.test.mjs",
+    "tests/search_worker_stage2.test.mjs",
+    "tests/start_prompt_and_prefix.test.mjs"
+  ],
+  "focused_stage3": {
+    "manual_and_search_worker": "38/38 PASS",
+    "popup_runtime": "13/13 PASS"
+  },
+  "verification": {
+    "full_suite": "382/382 PASS",
+    "syntax": "46/46 PASS",
+    "json": "2/2 PASS",
+    "real_yandex_requests": 0
+  },
+  "transport": {
+    "patch_sha256": "d2338b7d1f233e3622fdc1da49038df0e96afe0785b2addfbab4f961fda9cee6",
+    "patch_bytes": 81690,
+    "gzip_sha256": "5c32e7a16f0102cc0c54cb59fb15a1b815795462822a8338692adef2d1487ec5",
+    "base64_sha256": "edc73c040de67310a03c284728d45589b7a901721ff7b4b4df52d5f363b113de",
+    "base64_chars_with_wrapping": 26971,
+    "target_manifest_sha256": "b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f",
+    "target_files": 51,
+    "fresh_apply_check": "PASS",
+    "fresh_apply_target_identity": "51/51 PASS"
+  },
+  "failure_containment": [
+    {
+      "observed": "15 legacy source/harness assertions failed after generic active-service integration",
+      "classification": "TEST/HARNESS",
+      "resolution": "Updated stale Wordstat-only source assertions and loaded Search registry/protocol modules in content/manual test harnesses; retained equivalent fail-closed/exactly-once assertions."
+    },
+    {
+      "observed": "Manual service context mismatch was discovered only after durable claim",
+      "classification": "PRODUCT",
+      "resolution": "Added registered-service preflight routing check before Manual durable claim; mismatch now returns SERVICE_NOT_ACTIVE with zero provider initiation."
+    }
+  ],
+  "browser_dom_unknown_encountered": false,
+  "codex_measurement_required": false,
+  "owner_action_required": false,
+  "stage3_verdict": "PASS"
+}
