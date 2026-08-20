@@ -1,5 +1,4 @@
-# bootstrap-trigger
-name: phase2-popup-recovery-bootstrap
+name: phase2-50pass-checkpoint-bootstrap
 on:
   push:
     branches:
@@ -10,24 +9,23 @@ on:
 permissions:
   contents: write
 jobs:
-  restore-popup:
+  checkpoint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply verified popup recovery and test before commit
+      - name: Materialize exact 50-pass checkpoint and verify
         shell: bash
         run: |
           set -euo pipefail
-          transport='extension/tests/.recovery/popup-recovery.patch.gz.b64'
-          test -f "$transport"
-          test "$(sha256sum "$transport" | awk '{print $1}')" = '9f9b3bc8120df0ef04446762db138fbffe8d08334c85679aec22eb98dabe4074'
-          base64 -d "$transport" > /tmp/popup-recovery.patch.gz
-          test "$(sha256sum /tmp/popup-recovery.patch.gz | awk '{print $1}')" = 'db62432d19021885fa747e6df50ac16a85995d3711d7b32cc7c77ed67ed64424'
-          gzip -t /tmp/popup-recovery.patch.gz
-          gzip -dc /tmp/popup-recovery.patch.gz > /tmp/popup-recovery.patch
-          test "$(sha256sum /tmp/popup-recovery.patch | awk '{print $1}')" = '214c475681e79dfeeb760868c52ba1692e79ce684969275aa79fb8595193011a'
-          git apply --check --exclude='.github/workflows/phase2-recovery-inspect.yml' /tmp/popup-recovery.patch
-          git apply --exclude='.github/workflows/phase2-recovery-inspect.yml' /tmp/popup-recovery.patch
+          transport='extension/tests/.recovery/phase2-50pass-checkpoint.tar.gz.b64'
+          if [ ! -f "$transport" ]; then
+            echo 'checkpoint transport not published yet'
+            exit 0
+          fi
+          test "$(sha256sum "$transport" | awk '{print $1}')" = '164cff1fd0598e3e6cfb2e4b9fe7d1101d346c0df0214236b0e798072b62c8aa'
+          base64 -d "$transport" > /tmp/phase2-50pass-checkpoint.tar.gz
+          test "$(sha256sum /tmp/phase2-50pass-checkpoint.tar.gz | awk '{print $1}')" = '00f5a85699a1f342a6a7face1dd1920ee221e1725f7eff9458d1332948e91793'
+          tar -xzf /tmp/phase2-50pass-checkpoint.tar.gz
           node --test \
             extension/tests/search_protocol.test.mjs \
             extension/tests/search_registry.test.mjs \
@@ -35,9 +33,13 @@ jobs:
             extension/tests/search_worker_stage2.test.mjs \
             extension/tests/search_manual_worker.test.mjs \
             extension/tests/content_phase2_runtime.test.mjs \
-            extension/tests/popup_phase2_runtime.test.mjs
+            extension/tests/popup_phase2_runtime.test.mjs \
+            extension/tests/autorun_recovery.test.mjs
           for f in extension/src/*.js extension/src/shared/*.js; do node --check "$f"; done
           node -e "for (const f of ['extension/src/manifest.json','extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"
+          if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
+            exit 0
+          fi
           cat > .github/workflows/phase2-recovery-inspect.yml <<'YML'
           name: phase2-focused-search
           on:
@@ -54,7 +56,7 @@ jobs:
               runs-on: ubuntu-latest
               steps:
                 - uses: actions/checkout@v4
-                - name: Search, browser and popup focused tests
+                - name: Search integration focused tests
                   shell: bash
                   run: |
                     set -euo pipefail
@@ -65,34 +67,19 @@ jobs:
                       extension/tests/search_worker_stage2.test.mjs \
                       extension/tests/search_manual_worker.test.mjs \
                       extension/tests/content_phase2_runtime.test.mjs \
-                      extension/tests/popup_phase2_runtime.test.mjs
-                - name: Syntax and JSON checks for restored source
+                      extension/tests/popup_phase2_runtime.test.mjs \
+                      extension/tests/autorun_recovery.test.mjs
+                - name: Syntax and JSON checks
                   shell: bash
                   run: |
                     set -euo pipefail
                     for f in extension/src/*.js extension/src/shared/*.js; do node --check "$f"; done
                     node -e "for (const f of ['extension/src/manifest.json','extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"
-                - name: Export exact saved development tree
-                  uses: actions/upload-artifact@v4
-                  with:
-                    name: phase2-saved-development-tree
-                    path: |
-                      extension/src
-                      extension/tests/search_protocol.test.mjs
-                      extension/tests/search_registry.test.mjs
-                      extension/tests/search_xml.test.mjs
-                      extension/tests/search_worker_stage2.test.mjs
-                      extension/tests/search_manual_worker.test.mjs
-                      extension/tests/content_phase2_runtime.test.mjs
-                      extension/tests/popup_phase2_runtime.test.mjs
-                    compression-level: 0
-                    if-no-files-found: error
           YML
-          if [ "$GITHUB_EVENT_NAME" = 'push' ]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add extension/src/service_worker.js extension/src/popup.html extension/src/popup.css extension/src/popup.js extension/tests/search_manual_worker.test.mjs extension/tests/popup_phase2_runtime.test.mjs .github/workflows/phase2-recovery-inspect.yml
-            git rm "$transport"
-            git commit -m 'dev: restore popup and result-prefix integration'
-            git push origin HEAD:dev/phase2-recovery-work-2026-08-20
-          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/src/service_worker.js extension/src/content_script.js extension/src/popup.html extension/src/popup.css extension/src/popup.js extension/tests/search_manual_worker.test.mjs extension/tests/popup_phase2_runtime.test.mjs extension/tests/autorun_recovery.test.mjs .github/workflows/phase2-recovery-inspect.yml
+          git rm "$transport"
+          if [ -f extension/tests/.recovery/popup-recovery.patch.gz.b64 ]; then git rm extension/tests/.recovery/popup-recovery.patch.gz.b64; fi
+          git commit -m 'dev: preserve 50-pass Search integration checkpoint'
+          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
