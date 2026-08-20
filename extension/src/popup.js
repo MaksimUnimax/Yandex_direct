@@ -303,20 +303,28 @@
     if (rendering) return;
     const enabled = $("manualMode").checked;
     const previous = !enabled;
+    let workerCommitted = false;
     try {
       await resolveContext();
       if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
       const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled });
       if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не сохранил ручной режим.");
+      workerCommitted = true;
       const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled, active_service: $("activeService").value });
-      if (!applied?.ok || (enabled && applied.applied !== true)) {
-        await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: previous });
+      if (!applied?.ok || applied.applied !== true) {
+        if (enabled) {
+          const rollback = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false });
+          if (rollback?.ok) {
+            try { await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: $("activeService").value }); } catch {}
+          }
+        }
         throw new Error(applied?.error || applied?.code || "Страница не подтвердила ручной режим.");
       }
       await refresh();
       showStatus(enabled ? "Ручной режим включён." : "Ручной режим выключен.", "ok");
     } catch (error) {
-      $("manualMode").checked = previous;
+      if (enabled) $("manualMode").checked = false;
+      else $("manualMode").checked = workerCommitted ? false : previous;
       showStatus(error.message || String(error), "error");
     }
   });
