@@ -87,7 +87,6 @@ test('Autorun only watches protocol of immutable active service',()=>{
   assert.match(scan,/run_id: activeAutoWatch\.run_id/);
 });
 
-
 test('External action placement and lifetime stay independent from native Copy',()=>{
   const position=fn('actionPosition');
   assert.match(position,/const gap = 10;/);
@@ -98,4 +97,23 @@ test('External action placement and lifetime stay independent from native Copy',
   const manual=fn('setManualState');
   assert.match(manual,/button\.remove\(\)/);
   assert.match(manual,/actionByBlock\.clear\(\)/);
+});
+
+test('auto-send OFF does not mark delivery committed merely after injecting result',()=>{
+  const body=fn('handleClaimedOutbox');
+  const start=body.indexOf('if (!autoSend)');
+  const end=body.indexOf('let sendButton',start);
+  assert.ok(start>=0 && end>start,'auto-send OFF branch not found');
+  const branch=body.slice(start,end);
+  assert.doesNotMatch(branch,/markCommitted\(entry\)/);
+  assert.match(branch,/armManualSend\(entry, local/);
+});
+
+test('manual Send click is intercepted so commit is recorded before the one native Send click',()=>{
+  const body=fn('armManualSend');
+  assert.match(body,/preventDefault\(\)/);
+  assert.match(body,/stopImmediatePropagation\(\)/);
+  const commit=body.indexOf('markCommitted(entry)');
+  const click=body.indexOf('sendButton.click()');
+  assert.ok(commit>=0 && click>commit,'manual Send must commit before replaying one click');
 });
