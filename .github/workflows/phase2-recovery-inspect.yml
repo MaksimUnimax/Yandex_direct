@@ -28,7 +28,7 @@ jobs:
           git fetch --all --tags --prune
           git cat-file --batch-all-objects --batch-check='%(objectname) %(objecttype) %(objectsize)' > /tmp/all-objects.txt
           echo 'PATCH BLOB PREFIX AVAILABILITY:'
-          awk '/^index / {split($2,a,".." ); print a[1]; print a[2]}' /tmp/combined.patch | sort -u > /tmp/prefixes.txt
+          grep '^index ' /tmp/combined.patch | awk '{print $2}' | tr '.' '\n' | grep -E '^[0-9a-f]{7,40}$' | sort -u > /tmp/prefixes.txt
           while read -r p; do
             [ "$p" = "0000000" ] && continue
             matches=$(grep -E "^${p}[0-9a-f]* blob " /tmp/all-objects.txt || true)
@@ -42,7 +42,6 @@ jobs:
           awk '/^diff --git / {path=$3; sub(/^a\//,"",path)} /^index / {print path, $0}' /tmp/combined.patch
           cp /tmp/combined.patch "$root/decoded-combined.patch"
           cp /tmp/combined.patch.gz "$root/decoded-combined.patch.gz"
-          cp /tmp/all-objects.txt "$root/all-git-objects.txt"
       - name: Upload inspection files
         uses: actions/upload-artifact@v4
         with:
@@ -50,4 +49,3 @@ jobs:
           path: |
             extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch
             extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch.gz
-            extension/tests/qa_transport/phase2-search-sync-v1/all-git-objects.txt
