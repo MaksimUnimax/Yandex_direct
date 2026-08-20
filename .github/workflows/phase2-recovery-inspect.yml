@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - dev/phase2-recovery-work-2026-08-20
+  pull_request:
+    branches:
+      - main
 permissions:
   contents: write
 jobs:
@@ -84,9 +87,11 @@ jobs:
                     compression-level: 0
                     if-no-files-found: error
           YML
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add extension/src/service_worker.js extension/src/popup.html extension/src/popup.css extension/src/popup.js extension/tests/search_manual_worker.test.mjs extension/tests/popup_phase2_runtime.test.mjs .github/workflows/phase2-recovery-inspect.yml
-          git rm "$transport"
-          git commit -m 'dev: restore popup and result-prefix integration'
-          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
+          if [ "$GITHUB_EVENT_NAME" = 'push' ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add extension/src/service_worker.js extension/src/popup.html extension/src/popup.css extension/src/popup.js extension/tests/search_manual_worker.test.mjs extension/tests/popup_phase2_runtime.test.mjs .github/workflows/phase2-recovery-inspect.yml
+            git rm "$transport"
+            git commit -m 'dev: restore popup and result-prefix integration'
+            git push origin HEAD:dev/phase2-recovery-work-2026-08-20
+          fi
