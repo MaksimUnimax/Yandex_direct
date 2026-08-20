@@ -1,0 +1,74 @@
+name: phase2-manual-send-fix
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/phase2-recovery-work-2026-08-20
+      - name: Restore truthful manual Send boundary when auto-send is off
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/src/content_script.js')
+          s=p.read_text(encoding='utf-8')
+
+          anchor='''  async function handleClaimedOutbox(entry, local) {\n'''
+          helpers='''  function disarmManualSend(local) {\n    const button = local?.manual_send_button || null;\n    const handler = local?.manual_send_handler || null;\n    if (button && handler) {\n      try { button.removeEventListener("click", handler, true); } catch {}\n    }\n    if (local) {\n      local.manual_send_button = null;\n      local.manual_send_handler = null;\n    }\n  }\n\n  function armManualSend(entry, local, sendButton) {\n    if (!sendButton || local?.committed) return false;\n    if (local.manual_send_button === sendButton && local.manual_send_handler) return true;\n    disarmManualSend(local);\n    const handler = (event) => {\n      event.preventDefault();\n      event.stopPropagation();\n      event.stopImmediatePropagation();\n      if (local.manual_commit_pending || local.committed) return;\n      local.manual_commit_pending = true;\n      void markCommitted(entry).then((ok) => {\n        if (!ok) {\n          setStatus(STATUS_KEYS.OPERATION, "Яндекс: отправка не подтверждена; Send заблокирован до безопасной фиксации.", "error", 9000);\n          return;\n        }\n        local.committed = true;\n        local.clicked = true;\n        local.saw_busy = true;\n        disarmManualSend(local);\n        sendButton.click();\n        setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат отправлен.", "ok", 3500);\n      }).catch((error) => {\n        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 9000);\n      }).finally(() => {\n        local.manual_commit_pending = false;\n      });\n    };\n    sendButton.addEventListener("click", handler, true);\n    local.manual_send_button = sendButton;\n    local.manual_send_handler = handler;\n    return true;\n  }\n\n'''
+          if 'function armManualSend(entry, local, sendButton)' not in s:
+              assert anchor in s
+              s=s.replace(anchor,helpers+anchor,1)
+
+          old='''    if (currentText.trim() && currentText !== entry.report_text) {\n      setStatus(STATUS_KEYS.COMPOSER, "Яндекс ждёт: поле ввода занято вашим текстом.");\n      return;\n    }'''
+          new='''    if (currentText.trim() && currentText !== entry.report_text) {\n      disarmManualSend(local);\n      setStatus(STATUS_KEYS.COMPOSER, "Яндекс ждёт: поле ввода занято вашим текстом.");\n      return;\n    }'''
+          if new not in s:
+              assert old in s
+              s=s.replace(old,new,1)
+
+          old='''    const autoSend = stateSnapshot?.auto_send !== false;\n    if (!autoSend) {\n      if (!local.committed) local.committed = await markCommitted(entry);\n      setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат помещён в поле ввода. Отправьте его, когда будете готовы.", "ok");\n      return;\n    }\n    let sendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);'''
+          new='''    const autoSend = stateSnapshot?.auto_send !== false;\n    if (!autoSend) {\n      let manualSendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);\n      for (let i = 0; !manualSendButton && i < 4; i += 1) {\n        await wait(80);\n        manualSendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);\n      }\n      if (manualSendButton) armManualSend(entry, local, manualSendButton);\n      setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат помещён в поле ввода. Отправьте его, когда будете готовы.", "ok");\n      return;\n    }\n    disarmManualSend(local);\n    let sendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);'''
+          if new not in s:
+              assert old in s
+              s=s.replace(old,new,1)
+
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --test extension/tests/content_phase2_runtime.test.mjs
+          node --test \
+            extension/tests/search_protocol.test.mjs \
+            extension/tests/search_registry.test.mjs \
+            extension/tests/search_xml.test.mjs \
+            extension/tests/search_worker_stage2.test.mjs \
+            extension/tests/search_manual_worker.test.mjs \
+            extension/tests/manual_block_sequence_recovery.test.mjs \
+            extension/tests/manual_delivery_lifecycle_recovery.test.mjs \
+            extension/tests/content_phase2_runtime.test.mjs \
+            extension/tests/popup_phase2_runtime.test.mjs \
+            extension/tests/autorun_recovery.test.mjs \
+            extension/tests/conversation_fences_recovery.test.mjs \
+            extension/tests/start_prompt_and_prefix_recovery.test.mjs \
+            extension/tests/wordstat_core_recovery.test.mjs \
+            extension/tests/settings_security_recovery.test.mjs \
+            extension/tests/popup_error_boundary_recovery.test.mjs \
+            extension/tests/permission_scope_recovery.test.mjs \
+            extension/tests/legacy_profiles_recovery.test.mjs \
+            extension/tests/diagnostics_popup_recovery.test.mjs \
+            extension/tests/button_picker_recovery.test.mjs \
+            extension/tests/binding_recovery.test.mjs \
+            extension/tests/manual_off_safety_recovery.test.mjs
+          node --check extension/src/content_script.js
+          git diff --check
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/src/content_script.js
+          git commit -m 'fix: commit manual delivery only on user Send'
+          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
