@@ -20,7 +20,11 @@ jobs:
           base64 -d /tmp/patch.b64 > /tmp/patch.gz
           gzip -t /tmp/patch.gz
           gzip -dc /tmp/patch.gz > /tmp/patch.diff
-          echo '--- legacy popup/control matches ---'
-          grep -Ein -C 3 'picker|profile|diagnostic|clipboard|clear.*send|clear.*copy|WS_[A-Z0-9_]*(DIAG|PROFILE|PICK)' /tmp/patch.diff || true
-          echo '--- popup changed hunks ---'
-          awk '/^diff --git a\/extension\/src\/popup\.(js|html)/{p=1} /^diff --git / && p && $0 !~ /popup\.(js|html)/{p=0} p{print}' /tmp/patch.diff | grep -Ein -C 3 'picker|profile|diagnostic|clipboard|clear|WS_' || true
+          echo '--- profile storage/functions/messages ---'
+          grep -Ein -C 8 'SEND_BUTTON_PROFILE|COPY_BUTTON_PROFILES|getCopyButtonProfiles|copyProfileCollection|send_button_profile|copy_button_profiles' /tmp/patch.diff || true
+          echo '--- diagnostics messages/functions ---'
+          grep -Ein -C 8 'GET_DIAGNOST|CLEAR_DIAGNOST|COPY_DIAGNOST|diagnostics' /tmp/patch.diff || true
+          echo '--- picker messages and popup ids ---'
+          grep -Ein -C 8 'PICK_SEND|PICK_COPY|SEND_PICK|COPY_PICK|sendPicker|copyPicker|clearSend|clearCopy|copyDiagnostics|clearDiagnostics' /tmp/patch.diff || true
+          echo '--- changed file headers ---'
+          grep '^diff --git ' /tmp/patch.diff
