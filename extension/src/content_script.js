@@ -282,7 +282,7 @@
   }
 
   function scanAutorun() {
-    if (!activeAutoWatch || activeAutoWatch.paused) return;
+    if (!activeAutoWatch || activeAutoWatch.paused || activeAutoWatch.status !== "waiting_command") return;
     const protocol = protocolForService(activeAutoWatch.active_service);
     if (!protocol) return;
     for (const block of normalizedCandidateBlocks()) {
@@ -302,10 +302,12 @@
       }).then((response) => {
         if (!response?.accepted) {
           if (response?.paused) activeAutoWatch.paused = true;
+          if (response?.busy) autorunSeen.delete(turnId);
           if (!response?.ignored && !response?.duplicate) {
             setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${response?.error || response?.code || "команда не принята"}`, "error", 9000);
           }
         } else {
+          activeAutoWatch.status = "delivering";
           scheduleOutboxPoll(0);
         }
       }).catch((error) => setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${error.message || error}`, "error", 9000));
@@ -331,7 +333,8 @@
       conversation_key: key,
       watch_id: payload.watch_id || null,
       assistant_baseline_ids: new Set((payload.assistant_baseline_ids || []).map(String)),
-      paused: false
+      paused: false,
+      status: "waiting_command"
     };
     autorunSeen.clear();
     scheduleAutoScan(0);
@@ -484,7 +487,7 @@
       stateSnapshot = response.state;
       activeService = response.state.service_context?.active_service || activeService;
       const run = response.state.auto_run;
-      if (run && run.conversation_key === key && run.status === "waiting_command") {
+      if (run && run.conversation_key === key && !["stopped", "error"].includes(run.status)) {
         if (!activeAutoWatch || activeAutoWatch.run_id !== run.run_id) {
           startAutoWatch({
             conversation_key: key,
@@ -494,8 +497,11 @@
             assistant_baseline_ids: run.assistant_baseline_ids || []
           });
         }
-      } else if (run?.status === "paused") {
-        if (activeAutoWatch) activeAutoWatch.paused = true;
+        if (activeAutoWatch) {
+          activeAutoWatch.status = run.status;
+          activeAutoWatch.paused = run.status === "paused";
+          if (run.status === "waiting_command") scheduleAutoScan(0);
+        }
       } else if (!run || ["stopped", "error"].includes(run.status)) {
         stopAutoWatch();
       }

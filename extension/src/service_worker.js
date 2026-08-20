@@ -32,6 +32,7 @@ const DEFAULT_FOLDER_ID = String(WordstatProtocol.DEFAULT_FOLDER_ID || "");
 const DEFAULT_AUTO_START_TEXT = "Продолжай текущий сбор Wordstat по активному плану этого диалога. Команды выводи только как WORDSTAT_API_V1. Когда сбор закончен, ответь только: сбор закончен.";
 const SEARCH_DEFAULT_AUTO_START_TEXT = "Продолжай текущий сбор Yandex Search по активному плану этого диалога. Команды выводи только как SEARCH_API_V1. Один блок = один Search API request. Не повторяй запрос автоматически при неизвестном исходе. Когда сбор закончен, ответь только: сбор закончен.";
 const TERMINAL_MANUAL_STATUSES = new Set(["completed", "error", "cancelled"]);
+const WORKER_SESSION_ID = `worker-${crypto.randomUUID()}`;
 
 function nowIso() { return new Date().toISOString(); }
 function uid(prefix = "ymb") { return `${prefix}-${crypto.randomUUID()}`; }
@@ -216,6 +217,41 @@ async function commonPublicSettingsFields() {
   const settings = await getSettings(); const [wordstatPolicy, searchPolicy] = await Promise.all([getWordstatPolicy(), getSearchPolicy()]);
   return { product_name: YMBProduct.NAME, product_version: VERSION, has_api_key: Boolean(settings.apiKey), folder_id: settings.folderId, credential_capability: publicCapability(settings), credential_capabilities: { wordstat: publicCapability(settings, "wordstat"), search: publicCapability(settings, "search") }, wordstat_policy: publicPolicy(wordstatPolicy, "wordstat"), search_policy: publicPolicy(searchPolicy, "search"), auto_send: settings.autoSend, debug_mode: settings.debugMode };
 }
+async function getReportPrefix(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const map = (await storageGet(KEYS.REPORT_PREFIXES))[KEYS.REPORT_PREFIXES] || {};
+  const raw = map[key];
+  if (!raw) return WordstatAutorunModel.normalizePrefixRecord({ enabled: false, text: "", interval: 1, delivered_count: 0, last_applied_at_count: 0 });
+  return WordstatAutorunModel.normalizePrefixRecord(raw);
+}
+async function saveReportPrefix(conversationKey, raw = {}) {
+  const key = normalizeConversationKey(conversationKey);
+  const map = { ...((await storageGet(KEYS.REPORT_PREFIXES))[KEYS.REPORT_PREFIXES] || {}) };
+  const previous = map[key] || {};
+  const next = WordstatAutorunModel.normalizePrefixRecord({
+    ...previous,
+    enabled: raw.enabled === true,
+    text: String(raw.text ?? previous.text ?? "").slice(0, 4000),
+    interval: raw.interval ?? previous.interval ?? 1
+  });
+  map[key] = next;
+  await storageSet({ [KEYS.REPORT_PREFIXES]: map });
+  return next;
+}
+async function applyPrefixToReport(conversationKey, reportText) {
+  const prefix = await getReportPrefix(conversationKey);
+  const applied = WordstatAutorunModel.applyReportPrefix(reportText, prefix);
+  return { ...applied, prefix };
+}
+async function noteConfirmedReportPrefix(conversationKey, applied, deliveryId) {
+  const key = normalizeConversationKey(conversationKey);
+  const map = { ...((await storageGet(KEYS.REPORT_PREFIXES))[KEYS.REPORT_PREFIXES] || {}) };
+  if (!map[key]) return null;
+  map[key] = WordstatAutorunModel.noteConfirmedPrefix(map[key], applied === true, deliveryId);
+  await storageSet({ [KEYS.REPORT_PREFIXES]: map });
+  return map[key];
+}
+
 async function getAutoStartPrompt(conversationKey, { service = null } = {}) {
   const key = normalizeConversationKey(conversationKey); const resolved = service || (await getServiceContext(key)).active_service; const map = (await storageGet(KEYS.AUTO_START_PROMPTS))[KEYS.AUTO_START_PROMPTS] || {}; const rec = map[key];
   return rec?.text && rec.is_default !== true ? { ...rec, service: resolved } : { text: defaultAutoStartTextForService(resolved), is_default: true, service: resolved, updated_at: rec?.updated_at || null };
@@ -227,15 +263,21 @@ async function saveAutoStartPrompt(conversationKey, text, { service = null } = {
 async function resetAutoStartPrompt(conversationKey, { service = null } = {}) { const key = normalizeConversationKey(conversationKey); const resolved = service || (await getServiceContext(key)).active_service; return saveAutoStartPrompt(key, defaultAutoStartTextForService(resolved), { service: resolved }); }
 
 async function publicSettingsState(conversationKey) {
-  const key = normalizeConversationKey(conversationKey); const [common, binding, manualMode, serviceContext, run, startPrompt] = await Promise.all([commonPublicSettingsFields(), getBinding(key), getManualMode(key), getServiceContext(key), getAutoRun(key), getAutoStartPrompt(key)]);
+  const key = normalizeConversationKey(conversationKey);
+  const serviceContext = await getServiceContext(key);
+  const [common, binding, manualMode, run, startPrompt, reportPrefix] = await Promise.all([commonPublicSettingsFields(), getBinding(key), getManualMode(key), getAutoRun(key), getAutoStartPrompt(key, { service: serviceContext.active_service }), getReportPrefix(key)]);
   const opsData = await storageGet(KEYS.MANUAL_OPERATIONS); const op = opsData[KEYS.MANUAL_OPERATIONS]?.[key] || null;
-  return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null } : null };
+  return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, report_prefix: reportPrefix, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null } : null };
 }
-async function publicGlobalSettingsState(pageContextError = null) { return { ...(await commonPublicSettingsFields()), page_context_error: pageContextError, binding: null, manual_mode: false, service_context: { active_service: "wordstat" }, auto_run: null, auto_start_prompt: { text: DEFAULT_AUTO_START_TEXT, is_default: true, service: "wordstat" } }; }
+async function publicGlobalSettingsState(pageContextError = null) { return { ...(await commonPublicSettingsFields()), page_context_error: pageContextError, binding: null, manual_mode: false, service_context: { active_service: "wordstat" }, auto_run: null, auto_start_prompt: { text: DEFAULT_AUTO_START_TEXT, is_default: true, service: "wordstat" }, report_prefix: null }; }
 async function patchToggleSettings(message = {}) {
   const values = {}; if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values);
   if (Object.hasOwn(message, "wordstat_autorun_enabled")) { const p = await getWordstatPolicy(); await saveWordstatPolicy({ ...p, autorun_enabled: message.wordstat_autorun_enabled === true }); }
   if (Object.hasOwn(message, "search_autorun_enabled")) { const p = await getSearchPolicy(); await saveSearchPolicy({ ...p, autorun_enabled: message.search_autorun_enabled === true }); }
+  if (message.conversation_key && Object.hasOwn(message, "report_prefix_enabled")) {
+    const current = await getReportPrefix(message.conversation_key);
+    await saveReportPrefix(message.conversation_key, { ...current, enabled: message.report_prefix_enabled === true });
+  }
   if (message.conversation_key && Object.hasOwn(message, "manual_mode")) await setManualMode(message.conversation_key, message.manual_mode === true);
   return message.conversation_key ? publicSettingsState(message.conversation_key) : publicGlobalSettingsState();
 }
@@ -299,9 +341,129 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
     }
     reportText = reports.join("\n\n---\n\n");
   }
-  const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, operation_id: operation.operation_id, type: "manual", tab_id: senderTabId, report_text: reportText, phase: "claimed", provider_executions: providerExecutions, created_at: nowIso() });
+  const prefixResult = providerExecutions > 0 ? await applyPrefixToReport(key, reportText) : { text: reportText, applied: false };
+  reportText = prefixResult.text;
+  const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, operation_id: operation.operation_id, type: "manual", tab_id: senderTabId, report_text: reportText, phase: "claimed", provider_executions: providerExecutions, report_prefix_applied: prefixResult.applied === true, created_at: nowIso() });
   map[key] = { ...operation, status: "delivering", delivery_id: deliveryId, request_executed: providerExecutions > 0, report_ready_at: nowIso() }; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map });
   return { ok: true, accepted: true, operation_id: operation.operation_id, delivery_id: deliveryId, report_text: reportText, request_executed: providerExecutions > 0 };
+}
+
+
+async function stageAutorunError(conversationKey, run, tabId, {
+  code = "AUTORUN_ERROR",
+  message = "Ошибка автоматического режима.",
+  stage = "AUTORUN",
+  requestExecuted = false,
+  assistantTurnId = "",
+  fingerprint = null
+} = {}) {
+  const key = normalizeConversationKey(conversationKey);
+  const deliveryId = uid("delivery");
+  const reportText = formatBridgeError({
+    code,
+    message,
+    stage,
+    requestExecuted,
+    service: run?.active_service || null,
+    runId: run?.run_id || null
+  });
+  await putOutbox(key, {
+    delivery_id: deliveryId,
+    type: "autorun",
+    run_id: run?.run_id || null,
+    tab_id: Number(tabId || run?.tab_id),
+    report_text: reportText,
+    phase: "claimed",
+    report_prefix_applied: false,
+    created_at: nowIso()
+  });
+  const updated = await patchAutoRun(key, (current) => ({
+    ...current,
+    status: WordstatAutorunModel.RUN_STATUSES.DELIVERING,
+    last_assistant_turn_id: assistantTurnId || current.last_assistant_turn_id || "",
+    last_command_fingerprint: fingerprint || current.last_command_fingerprint || null,
+    last_error: {
+      code,
+      message,
+      request_executed: requestExecuted,
+      automatic_retry: false
+    },
+    delivery: {
+      delivery_id: deliveryId,
+      phase: "claimed",
+      request_id: null,
+      outgoing_text: reportText,
+      report_prefix_applied: false
+    }
+  }));
+  return {
+    ok: true,
+    accepted: true,
+    error_delivery: true,
+    code,
+    report_text: reportText,
+    run: publicRun(updated)
+  };
+}
+
+async function pauseAutoRun(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const run = await getAutoRun(key);
+  if (!run) throw Object.assign(new Error("Autorun не найден."), { code: "AUTO_RUN_NOT_FOUND" });
+  const decision = WordstatAutorunModel.pauseDecision(run.status);
+  if (decision === "immediate") {
+    return patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.PAUSED, pause_requested: false }));
+  }
+  if (decision === "deferred") {
+    return patchAutoRun(key, (r) => ({ ...r, pause_requested: true }));
+  }
+  if (decision === "already_paused") return run;
+  throw Object.assign(new Error("Autorun уже завершён."), { code: "AUTO_RUN_NOT_ACTIVE" });
+}
+
+async function resumeAutoRun(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const run = await getAutoRun(key);
+  if (!run) throw Object.assign(new Error("Autorun не найден."), { code: "AUTO_RUN_NOT_FOUND" });
+  if (run.status !== WordstatAutorunModel.RUN_STATUSES.PAUSED) {
+    throw Object.assign(new Error("Продолжить можно только Autorun на паузе."), { code: "AUTO_RUN_NOT_PAUSED" });
+  }
+  return patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND, pause_requested: false }));
+}
+
+async function finishAutoRun(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const run = await getAutoRun(key);
+  if (!run) throw Object.assign(new Error("Autorun не найден."), { code: "AUTO_RUN_NOT_FOUND" });
+  if (WordstatAutorunModel.isTerminalStatus(run.status)) return run;
+  if ([WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND, WordstatAutorunModel.RUN_STATUSES.PAUSED].includes(run.status)) {
+    return patchAutoRun(key, (r) => ({
+      ...r,
+      status: WordstatAutorunModel.RUN_STATUSES.STOPPED,
+      finish_requested: false,
+      pause_requested: false
+    }));
+  }
+  return patchAutoRun(key, (r) => ({ ...r, finish_requested: true, pause_requested: false }));
+}
+
+async function recoverPersistedRuntime() {
+  const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {};
+  const outbox = await getOutbox();
+  for (const [key, rawRun] of Object.entries(runs)) {
+    const run = rawRun && typeof rawRun === "object" ? rawRun : null;
+    if (!run || run.status !== WordstatAutorunModel.RUN_STATUSES.REQUESTING) continue;
+    if (!run.request_worker_session_id || run.request_worker_session_id === WORKER_SESSION_ID) continue;
+    if (outbox[key]) continue;
+    await stageAutorunError(key, run, run.tab_id, {
+      code: "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+      message: "Worker перезапустился после начала внешнего запроса. Исход запроса неизвестен; автоматический повтор запрещён.",
+      stage: "PROVIDER_RECOVERY",
+      requestExecuted: "UNKNOWN",
+      assistantTurnId: run.last_assistant_turn_id || "",
+      fingerprint: run.last_command_fingerprint || null
+    });
+  }
 }
 
 async function startAutoRun(conversationKey, tabId) {
@@ -318,22 +480,67 @@ async function handleAutoCommand(message, sender) {
   if (!Number.isInteger(senderTabId) || senderTabId !== Number(currentRun.tab_id)) return { ok: false, accepted: false, code: "AUTO_NON_OWNER_TAB", error: "Команда появилась не во вкладке-owner активного Autorun." };
   try { await assertTabConversation(senderTabId, key, currentRun.conversation_id); } catch (error) { return { ok: false, accepted: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message }; }
   if (await getManualMode(key)) return { ok: false, paused: true, code: "MANUAL_MODE_ACTIVE", error: "Ручной режим включён; Autorun не выполняет команду." };
-  if (![WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND, WordstatAutorunModel.RUN_STATUSES.DELIVERING].includes(currentRun.status)) return { ok: true, accepted: false, ignored: true, status: currentRun.status };
+  if (currentRun.status !== WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND) return { ok: true, accepted: false, ignored: true, busy: true, status: currentRun.status };
   if (assistantTurnId && currentRun.last_assistant_turn_id === assistantTurnId) return { ok: true, accepted: false, ignored: true, duplicate: true, status: currentRun.status };
-  const detected = YMBServiceRegistry.detect(commandText); if (!detected) return { ok: false, accepted: false, code: "UNKNOWN_SERVICE_PROTOCOL", error: "Блок не относится ни к одному зарегистрированному сервису." };
-  try { YMBRunContextModel.assertServiceMatch(currentRun.active_service, detected.service); } catch (error) { return { ok: false, accepted: false, skipped: true, code: error.code || "SERVICE_NOT_ACTIVE", error: error.message }; }
-  const protocol = protocolForService(detected.service); let parsed; try { parsed = protocol.parseCommand(commandText); } catch (error) { return { ok: false, accepted: false, code: error.code || "INVALID_COMMAND", error: error.message }; }
+  const detected = YMBServiceRegistry.detect(commandText);
+  if (!detected) return stageAutorunError(key, currentRun, senderTabId, {
+    code: "UNKNOWN_SERVICE_PROTOCOL",
+    message: "Блок не относится ни к одному зарегистрированному сервису.",
+    stage: "COMMAND_DISCOVERY",
+    requestExecuted: false,
+    assistantTurnId
+  });
+  try {
+    YMBRunContextModel.assertServiceMatch(currentRun.active_service, detected.service);
+  } catch (error) {
+    return stageAutorunError(key, currentRun, senderTabId, {
+      code: error.code || "SERVICE_NOT_ACTIVE",
+      message: error.message,
+      stage: "SERVICE_ROUTING",
+      requestExecuted: false,
+      assistantTurnId
+    });
+  }
+  const protocol = protocolForService(detected.service);
+  let parsed;
+  try {
+    parsed = protocol.parseCommand(commandText);
+  } catch (error) {
+    return stageAutorunError(key, currentRun, senderTabId, {
+      code: error.code || "INVALID_COMMAND",
+      message: error.message || String(error),
+      stage: "COMMAND_VALIDATION",
+      requestExecuted: false,
+      assistantTurnId
+    });
+  }
   const fingerprint = protocol.commandFingerprint(parsed); if (currentRun.last_error?.request_executed === "UNKNOWN" && currentRun.last_command_fingerprint === fingerprint) return { ok: false, accepted: false, code: "REQUEST_OUTCOME_UNKNOWN_NO_RETRY", error: "Предыдущий такой же запрос имеет неизвестный исход. Автоматический повтор запрещён." };
   let run = await patchAutoRun(key, (r) => ({ ...r, last_assistant_turn_id: assistantTurnId, last_command_fingerprint: fingerprint, last_method: parsed.method, last_phrase: parsed.phrase || parsed.queryText || null, requests_attempted: Number(r.requests_attempted || 0) + 1, last_error: null }));
   const [settings, policy] = await Promise.all([getSettings(), getPolicyForService(run.active_service)]); const decision = policyDecisionForService(run.active_service, { policy, channel: "autorun", method: parsed.method, credentialState: publicCapability(settings, run.active_service).state, run });
-  if (!decision.allow) { const reportText = protocol.formatSkippedReport({ requestId: uid("skip"), command: parsed, reason: decision.reason, metadata: { run_id: run.run_id, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "autorun", active_service: run.active_service }, request_executed: false, automatic_retry: false } }); run = await patchAutoRun(key, (r) => ({ ...r, requests_skipped: Number(r.requests_skipped || 0) + 1, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: uid("delivery"), phase: "claimed", report_text: reportText } })); await putOutbox(key, { delivery_id: run.delivery.delivery_id, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: reportText, phase: "claimed", created_at: nowIso() }); return { ok: true, accepted: true, skipped: true, report_text: reportText, reason: decision.reason }; }
-  run = await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.REQUESTING, requests_executed: Number(r.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(r.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)), request_worker_session_id: "current" }));
-  let result; try { result = await executeServiceCore(run.active_service, commandText, { conversation_key: key, run_id: run.run_id, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "autorun", active_service: run.active_service } }); } catch (error) { await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.ERROR, last_error: { code: error.code || "PROVIDER_ERROR", message: error.message, request_executed: error.request_executed ?? "UNKNOWN", automatic_retry: false } })); throw error; }
-  const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: result.report_text, phase: "claimed", created_at: nowIso() }); await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: deliveryId, phase: "claimed", request_id: result.request_id, outgoing_text: result.report_text } })); return { ok: true, accepted: true, report_text: result.report_text, result };
+  if (!decision.allow) { const reportText = protocol.formatSkippedReport({ requestId: uid("skip"), command: parsed, reason: decision.reason, metadata: { run_id: run.run_id, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "autorun", active_service: run.active_service }, request_executed: false, automatic_retry: false } }); run = await patchAutoRun(key, (r) => ({ ...r, requests_skipped: Number(r.requests_skipped || 0) + 1, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: uid("delivery"), phase: "claimed", report_text: reportText } })); await putOutbox(key, { delivery_id: run.delivery.delivery_id, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: reportText, phase: "claimed", report_prefix_applied: false, created_at: nowIso() }); return { ok: true, accepted: true, skipped: true, report_text: reportText, reason: decision.reason }; }
+  run = await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.REQUESTING, requests_executed: Number(r.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(r.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)), request_worker_session_id: WORKER_SESSION_ID }));
+  let result;
+  try {
+    result = await executeServiceCore(run.active_service, commandText, { conversation_key: key, run_id: run.run_id, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "autorun", active_service: run.active_service } });
+  } catch (error) {
+    const latestRun = await getAutoRun(key) || run;
+    return stageAutorunError(key, latestRun, senderTabId, {
+      code: error.code || "PROVIDER_ERROR",
+      message: error.message || String(error),
+      stage: "PROVIDER",
+      requestExecuted: error.request_executed ?? "UNKNOWN",
+      assistantTurnId,
+      fingerprint
+    });
+  }
+  const prefixResult = await applyPrefixToReport(key, result.report_text);
+  const outgoingText = prefixResult.text;
+  const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: outgoingText, phase: "claimed", report_prefix_applied: prefixResult.applied === true, created_at: nowIso() }); await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: deliveryId, phase: "claimed", request_id: result.request_id, outgoing_text: outgoingText, report_prefix_applied: prefixResult.applied === true } })); return { ok: true, accepted: true, report_text: outgoingText, result };
 }
 async function completeDelivery(message) {
   const key = normalizeConversationKey(message.conversation_key); const deliveryId = String(message.delivery_id || ""); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || (deliveryId && entry.delivery_id !== deliveryId)) return { ok: false, code: "DELIVERY_NOT_FOUND" };
   await clearOutbox(key, entry.delivery_id);
+  if (entry.type === "manual" || entry.type === "autorun") await noteConfirmedReportPrefix(key, entry.report_prefix_applied === true, entry.delivery_id);
   if (entry.type === "manual") { const data = await storageGet(KEYS.MANUAL_OPERATIONS); const map = { ...(data[KEYS.MANUAL_OPERATIONS] || {}) }; if (map[key]?.delivery_id === entry.delivery_id) { map[key] = { ...map[key], status: "completed", delivery_confirmed: true, confirmation_basis: message.confirmation_basis || "microphone", completed_at: nowIso() }; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map }); } }
   else if (entry.type === "autorun_start") await patchAutoRun(key, (run) => WordstatAutorunModel.afterConfirmedStart({ ...run, start_delivery: { ...(run.start_delivery || {}), phase: "committed" } }, message.assistant_baseline_ids || []));
   else if (entry.type === "autorun") await patchAutoRun(key, (run) => WordstatAutorunModel.afterConfirmedDelivery({ ...run, delivery: { ...(run.delivery || {}), phase: "confirmed" } }));
@@ -349,15 +556,15 @@ async function handleMessage(message, sender) {
     case "WS_PATCH_TOGGLES": return { ok: true, state: await patchToggleSettings(message) };
     case "WS_SET_MANUAL_MODE": return { ok: true, enabled: await setManualMode(message.conversation_key, message.enabled === true), state: await publicSettingsState(message.conversation_key) };
     case "WS_SAVE_SETTINGS": {
-      const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContext(message.conversation_key, { active_service: message.active_service }); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
+      const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContext(message.conversation_key, { active_service: message.active_service }); if (message.conversation_key && message.report_prefix) await saveReportPrefix(message.conversation_key, message.report_prefix); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
     }
     case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContext(message.conversation_key, { active_service: message.active_service }) };
     case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPrompt(message.conversation_key, message.text, { service: message.active_service || null }) };
     case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPrompt(message.conversation_key, { service: message.active_service || null }) };
     case "WS_START_AUTORUN": return { ok: true, run: publicRun(await startAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
-    case "WS_PAUSE_AUTORUN": return { ok: true, run: publicRun(await patchAutoRun(message.conversation_key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.PAUSED }))) };
-    case "WS_RESUME_AUTORUN": return { ok: true, run: publicRun(await patchAutoRun(message.conversation_key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND }))) };
-    case "WS_FINISH_AUTORUN": return { ok: true, run: publicRun(await patchAutoRun(message.conversation_key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.STOPPED, finish_requested: false }))) };
+    case "WS_PAUSE_AUTORUN": return { ok: true, run: publicRun(await pauseAutoRun(message.conversation_key)) };
+    case "WS_RESUME_AUTORUN": return { ok: true, run: publicRun(await resumeAutoRun(message.conversation_key)) };
+    case "WS_FINISH_AUTORUN": return { ok: true, run: publicRun(await finishAutoRun(message.conversation_key)) };
     case "WS_AUTO_COMMAND": return handleAutoCommand(message, sender);
     case "WS_EXECUTE_MANUAL_BLOCK": return executeManualBlock(message.block_text, message.conversation_key, sender, message.manual_request_token);
     case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); return { ok: true, outbox: outbox[key] || null }; }
@@ -369,3 +576,4 @@ async function handleMessage(message, sender) {
   }
 }
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => { Promise.resolve(handleMessage(message, sender)).then(sendResponse).catch((error) => sendResponse({ ok: false, code: error.code || "WORKER_ERROR", error: error.message || String(error), request_executed: error.request_executed ?? false, automatic_retry: false })); return true; });
+void recoverPersistedRuntime().catch((error) => diagnostic("WORKER_RECOVERY_ERROR", { code: error.code || "RECOVERY_ERROR", message: error.message || String(error) }, { level: "error" }));

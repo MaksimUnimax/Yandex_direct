@@ -244,3 +244,49 @@ test('Manual ambiguous network failure creates error delivery and never retries'
   assert.match(r.report_text,/"request_executed": "UNKNOWN"/);
   assert.match(r.report_text,/"automatic_retry": false/);
 });
+
+test('saved report prefix is exposed in state and applies only to executed Manual API result', async () => {
+  const h = harness({
+    wsmb_api_key:'ascii-key', wsmb_folder_id:'folder',
+    wsmb_conversation_bindings:{[CKEY]:binding()},
+    wsmb_manual_modes:{[CKEY]:true},
+    wsmb_report_prefixes:{[CKEY]:{enabled:true,text:'PREFIX',interval:1,delivered_count:0,last_applied_at_count:0}},
+    ymb_service_contexts:{[CKEY]:{active_service:'search'}},
+    ymb_search_policy:{manual_enabled:true,allowed_methods:['search'],max_requests_per_run:10,max_cost_rub_per_run:10,method_cost_rub:{search:0.488}}
+  });
+  const state=await h.api.publicSettingsState(CKEY);
+  assert.equal(state.report_prefix.enabled,true);
+  assert.equal(state.report_prefix.text,'PREFIX');
+  const r=await h.api.executeManualBlock(searchCommand('с префиксом'),CKEY,{tab:{id:1}},'prefix-manual');
+  assert.equal(r.accepted,true);
+  assert.match(r.report_text,/^PREFIX\n\nSEARCH_RESULT_V1\n/);
+  assert.equal(h.store.wsmb_outbox[CKEY].report_prefix_applied,true);
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:r.delivery_id,confirmation_basis:'microphone'});
+  assert.equal(h.store.wsmb_report_prefixes[CKEY].delivered_count,1);
+  assert.equal(h.store.wsmb_report_prefixes[CKEY].last_applied_at_count,1);
+});
+
+test('zero-provider Manual bridge error does not receive API-result prefix', async () => {
+  const h = harness({
+    wsmb_api_key:'ascii-key', wsmb_folder_id:'folder',
+    wsmb_conversation_bindings:{[CKEY]:binding()},
+    wsmb_manual_modes:{[CKEY]:true},
+    wsmb_report_prefixes:{[CKEY]:{enabled:true,text:'PREFIX',interval:1,delivered_count:0,last_applied_at_count:0}},
+    ymb_service_contexts:{[CKEY]:{active_service:'search'}},
+    ymb_search_policy:{manual_enabled:true}
+  });
+  const r=await h.api.executeManualBlock('обычный текст',CKEY,{tab:{id:1}},'prefix-no-provider');
+  assert.equal(r.request_executed,false);
+  assert.match(r.report_text,/^YMB_ERROR_V1\n/);
+  assert.doesNotMatch(r.report_text,/^PREFIX/);
+  assert.equal(h.store.wsmb_outbox[CKEY].report_prefix_applied,false);
+});
+
+test('report prefix enabled toggle changes only enabled state and preserves saved text', async () => {
+  const h=harness({wsmb_report_prefixes:{[CKEY]:{enabled:false,text:'KEEP ME',interval:1,delivered_count:2,last_applied_at_count:1}}});
+  const state=await h.api.patchToggleSettings({conversation_key:CKEY,report_prefix_enabled:true});
+  assert.equal(state.report_prefix.enabled,true);
+  assert.equal(state.report_prefix.text,'KEEP ME');
+  assert.equal(h.store.wsmb_report_prefixes[CKEY].text,'KEEP ME');
+  assert.equal(h.store.wsmb_report_prefixes[CKEY].delivered_count,2);
+});
