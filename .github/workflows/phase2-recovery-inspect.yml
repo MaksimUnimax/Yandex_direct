@@ -18,13 +18,23 @@ jobs:
         run: |
           set -euo pipefail
           root='extension/tests/.recovery'
+          for f in "$root"/content_script.part*.b64; do
+            sha256sum "$f"
+            wc -c "$f"
+          done
           cat "$root"/content_script.part00.b64 \
               "$root"/content_script.part01.b64 \
               "$root"/content_script.part02.b64 \
               "$root"/content_script.part03.b64 \
               "$root"/content_script.part04.b64 \
               "$root"/content_script.part05.b64 > /tmp/content_script.b64
+          echo COMBINED_B64
+          sha256sum /tmp/content_script.b64
+          wc -c /tmp/content_script.b64
           base64 -d /tmp/content_script.b64 > extension/src/content_script.js
+          echo DECODED_SOURCE
+          sha256sum extension/src/content_script.js
+          wc -c extension/src/content_script.js
           test "$(wc -c < extension/src/content_script.js)" = '22055'
           test "$(sha256sum extension/src/content_script.js | awk '{print $1}')" = 'efd2a7bd359d9bc9ad75c34e4eb3d191a940c8b1a0454f98e86bdafb1f2604e7'
           echo BROWSER_SOURCE_IDENTITY_PASS
