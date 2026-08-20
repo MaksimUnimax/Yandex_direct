@@ -12,6 +12,7 @@ const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8
 const FN_NAMES = [...workerSource.matchAll(/^(?:async )?function\s+([A-Za-z0-9_]+)/gm)].map((m) => m[1]);
 
 function clone(value) { return value === undefined ? undefined : structuredClone(value); }
+function plain(value) { return value === undefined ? undefined : JSON.parse(JSON.stringify(value)); }
 function harness(initial = {}) {
   const store = clone(initial);
   const storage = {
@@ -53,11 +54,11 @@ const copyProfiles = { chatgpt: [{ selector: 'button[data-testid="copy-turn-acti
 test('legacy Send/Copy profiles remain visible in public state and settings export', async () => {
   const h = harness({ wsmb_send_button_profile: sendProfile, wsmb_copy_button_profiles: copyProfiles });
   const state = await h.api.commonPublicSettingsFields();
-  assert.deepEqual(state.send_button_profile, sendProfile);
-  assert.deepEqual(state.copy_button_profiles, copyProfiles);
+  assert.deepEqual(plain(state.send_button_profile), sendProfile);
+  assert.deepEqual(plain(state.copy_button_profiles), copyProfiles);
   const backup = await h.api.exportSettingsBackup();
-  assert.deepEqual(backup.settings.send_button_profile, sendProfile);
-  assert.deepEqual(backup.settings.copy_button_profiles, copyProfiles);
+  assert.deepEqual(plain(backup.settings.send_button_profile), sendProfile);
+  assert.deepEqual(plain(backup.settings.copy_button_profiles), copyProfiles);
 });
 
 test('settings import restores legacy Send/Copy profiles together with current settings', async () => {
@@ -90,7 +91,7 @@ test('old export/import message names remain compatible with restored worker', a
   const h = harness({ wsmb_send_button_profile: sendProfile, wsmb_copy_button_profiles: copyProfiles });
   const exported = await h.api.handleMessage({ type: 'WS_EXPORT_SETTINGS' }, {});
   assert.equal(exported.ok, true);
-  assert.deepEqual(exported.backup.settings.send_button_profile, sendProfile);
+  assert.deepEqual(plain(exported.backup.settings.send_button_profile), sendProfile);
   exported.backup.settings.copy_button_profiles = { restored: [{ selector: '#copy' }] };
   const imported = await h.api.handleMessage({ type: 'WS_IMPORT_SETTINGS', backup: exported.backup }, {});
   assert.equal(imported.ok, true);
