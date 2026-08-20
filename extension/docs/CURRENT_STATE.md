@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 3 REOPENED — BLOCKED ON EXACT STAGE-2 EDITABLE BASE MATERIALIZATION**  
+Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 3 REOPENED — BLOCKED ON EXACT STAGE-2 BASE RECOVERY**  
 Updated: 2026-08-20
 
 Always fetch live `main` HEAD before any control-plane write.
@@ -11,7 +11,7 @@ Always fetch live `main` HEAD before any control-plane write.
 repo: MaksimUnimax/Yandex_direct
 control branch: main
 Phase-2 development branch: dev/phase2-search-foundation-2026-08-19
-current dev HEAD: a1fccbc296456e1665ccb3d59945c115802ba01b
+current dev HEAD after latest evidence write: 2f5a32beba05dd7856d100509f20479d7c9114ce
 ```
 
 ## Mandatory workflow authorities
@@ -27,7 +27,7 @@ extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
 
 Work continuously inside each four-stage boundary without micro-step chatter. At each stage PASS: preserve exact product/test/evidence in GitHub, update this file, report once to owner, then continue automatically unless owner action, Codex action, or a real blocker is required.
 
-Unknown current browser/DOM/runtime facts MUST NOT be guessed. Exact artifact bytes/transport MUST NOT be guessed either. GitHub write/upload success is not proof of exact consumer delivery.
+Unknown current browser/DOM/runtime facts MUST NOT be guessed. Exact artifact bytes/transport MUST NOT be guessed. GitHub write/upload success is not proof of exact consumer delivery.
 
 ## Phase 1 accepted authority
 
@@ -42,7 +42,7 @@ popup.js: ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
 service_worker.js: 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
 ```
 
-Latest complete Codex full gate remains the exact Phase-1 e13a gate: PD-00..PD-17 ALL PASS; source 361/361; packaged 361/361; syntax 40/40; JSON 2/2; source/package identity PASS; real Yandex requests 0. Owner real-profile Wordstat acceptance PASS for all four supported operations. Phase 1 is LIVE PASS / CLOSED.
+Latest complete Codex full gate remains exact Phase-1 e13a PASS: PD-00..PD-17 ALL PASS; source 361/361; packaged 361/361; syntax 40/40; JSON 2/2; source/package identity PASS; real Yandex requests 0. Owner real-profile Wordstat acceptance PASS for all four supported operations. Phase 1 is LIVE PASS / CLOSED.
 
 ## Phase 2 first Search slice
 
@@ -63,19 +63,18 @@ Outside first slice: async/polling, image search, generative search, HTML normal
 ### STAGE 1 — exact base + Search foundation
 
 ```text
-STATUS = PASS / COMPLETED
+STATUS = PASS / COMPLETED (historical accepted checkpoint)
 base e13a: 45/45 exact
 Stage-1 target files: 50
 target manifest SHA-256: 62bd5846c8f7d6ade7f788d4394d79e02e802611144a4249761ccbb07397b98b
-focused: 32/32 PASS
-affected: 86/86 PASS
-full suite: 393/393 PASS
-syntax: PASS
-JSON: PASS
-real Yandex requests: 0
+recorded focused: 32/32 PASS
+recorded affected: 86/86 PASS
+recorded full suite: 393/393 PASS
+recorded syntax/JSON: PASS
+recorded real Yandex requests: 0
 ```
 
-Durable evidence:
+Durable Stage-1 transport/evidence:
 
 ```text
 extension/tests/phase2/search-foundation/FOUNDATION_EVIDENCE_2026-08-19.json
@@ -83,164 +82,103 @@ extension/tests/phase2/search-foundation/target-tree-sha256.tsv
 extension/tests/phase2/search-foundation/phase2-search-foundation.patch.gz.b64
 ```
 
+Stage-1 raw patch authority remains:
+
+```text
+raw patch SHA-256: 830e2ccba23a44bbaabb304f05e6c69a511b501c70d64963e8409a85bffd5f02
+raw patch bytes: 41531
+gzip SHA-256: d75da4c5619d6d0561616aba4c1cfbf733729bdd3e50ece058881f292fc713d5
+base64 SHA-256: 0ad464225700a7179a815caa3f1cfd2ba63dfc8ca167c7ffbf9efb938297d578
+```
+
+Latest Codex materialization attempt independently re-established those Stage-1 patch identities but reported `git apply --check` failure. It then compared the still-unapplied e13a tree to the Stage-1 target and obtained exactly:
+
+```text
+42 matched
+3 mismatched
+5 missing
+0 extras
+```
+
+This shape equals the recorded Stage-1 delta over the 45-file base: three existing files changed and five new files added. Therefore the Stage-1 patch is NOT classified corrupt from this result. Exact failing `git apply --check` diagnostics and working-directory/root assumptions were not returned. Current classification is `PROMPT/EXECUTION INSTRUCTION SUSPECTED`, not product defect.
+
 ### STAGE 2 — worker/provider/credential/policy execution
 
 ```text
-STATUS = PASS / COMPLETED
+STATUS = PASS / COMPLETED (historical accepted checkpoint)
 target files: 51
 target manifest SHA-256: a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
-fresh apply identity: 51/51 PASS
-focused Search Stage 2: 10/10 PASS
-full suite: 377/377 PASS
-syntax: 46/46 PASS
-JSON: 2/2 PASS
-real Yandex requests: 0
-```
-
-Stage 2 covers Search credential capability, separate Search policy, conservative 0.488 RUB guard, request/RUB limits and reservation, exactly one POST `/v2/web/search`, secret redaction, truthful HTTP/UNKNOWN outcomes, no blind retry, and Search/Wordstat provider isolation.
-
-Durable evidence:
-
-```text
-extension/tests/phase2/search-worker-provider/STAGE2_EVIDENCE_2026-08-20.json
-extension/tests/phase2/search-worker-provider/target-tree-sha256.tsv
-extension/tests/phase2/search-worker-provider/phase2-stage2-worker-provider.patch.gz.b64
-```
-
-Canonical durable product base for resumed engineering is this exact Stage-2 target. Do not use the lost Stage-3 hashes as editable byte authority.
-
-### STAGE 3 — Manual/Autorun/operator/delivery integration
-
-```text
-STATUS = REOPENED / ACTIVE / BLOCKED BEFORE PRODUCT WRITE
-REASON = previous functional implementation was not preserved as byte-complete durable product/test transport; exact recovery failed
-DURABLE BASE AUTHORITY = exact Stage-2 target, 51 files, manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
-CURRENT BLOCKER = exact Stage-2 target is not yet materialized as a byte-complete editable tree in the ChatGPT development environment
-```
-
-The previous local Stage-3 verification remains historical behavioral evidence only:
-
-```text
-recorded target manifest SHA-256: b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f
-recorded focused Manual + Search worker: 38/38 PASS
-recorded popup runtime: 13/13 PASS
-recorded full suite: 382/382 PASS
+recorded fresh apply identity: 51/51 PASS
+recorded focused Search Stage 2: 10/10 PASS
+recorded full suite: 377/377 PASS
 recorded syntax: 46/46 PASS
 recorded JSON: 2/2 PASS
 recorded real Yandex requests: 0
 ```
 
-Historical recorded Stage-3 product hashes, NOT current byte authority:
+Stage-2 product change identities recorded by accepted evidence:
 
 ```text
-content_script.js a789b7ec586632d2dde287b59ccaee11d8de010ae9a474cdcd9a68a0b252e688
-manifest.json ac48a2399f7f77d1382958231038a999e8c7dfd37e4cdc60a9b9241a62c0c96f
-popup.html 778c5d2068a2cccd7648f4cef16f649870878e114baa43e4eabf43a628b34cc0
-popup.js 03b13ad6af722ea9cc92d26e7e299519fbd500e43d71f2c9c225a903bfe6c274
-service_worker.js 87a4022b7273618ac4df343cff50f7fd155d03c26dc17b68169a569dd0a43c3b
+service_worker.js def73ebb44243b57d0be98ad21fec6ccf230cc2dfe1b29f8ee3588e17fe80282 / 190920
+shared/credential_registry.js 506aafca071522c7dc110dd72feec4d7fbee36119849abac69158c9be232a311 / 1413
+shared/policy_model.js c97c2b8dd600091f894d2c7c5c0fb91a6408d5cc848bc579ec3acc6cb59d99bf / 6086
+tests/search_worker_stage2.test.mjs 1dcb99a40477846ffb93181ea0589fac194fca9f294b614990edc8a3f9cf0a3a / 13682
 ```
 
-Historical recorded transport identity, NOT recoverable:
+Durable Stage-2 evidence/manifest:
 
 ```text
-raw patch SHA-256: d2338b7d1f233e3622fdc1da49038df0e96afe0785b2addfbab4f961fda9cee6
-raw patch bytes: 81690
-gzip SHA-256: 5c32e7a16f0102cc0c54cb59fb15a1b815795462822a8338692adef2d1487ec5
-base64 SHA-256: edc73c040de67310a03c284728d45589b7a901721ff7b4b4df52d5f363b113de
-target manifest SHA-256: b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f
+extension/tests/phase2/search-worker-provider/STAGE2_EVIDENCE_2026-08-20.json
+extension/tests/phase2/search-worker-provider/target-tree-sha256.tsv
 ```
 
-Exact recovery was executed by Codex as measurement/artifact recovery only. Result:
+The file currently published as:
 
 ```text
-STAGE3_EXACT_RECOVERY_RESULT_V1 = FAIL
-raw patch found = false
-recorded gzip match = false
-recorded base64 match = false
-exact target found = false
-best target candidate = 28 matched / 17 mismatched / 6 missing / 0 extras
-product files modified = false
-existing test files modified = false
-real Yandex requests = 0
+extension/tests/phase2/search-worker-provider/phase2-stage2-worker-provider.patch.gz.b64
 ```
 
-Durable recovery evidence:
+is now independently proven NOT to reproduce the recorded Stage-2 gzip identity. Latest Codex result:
 
 ```text
-extension/tests/phase2/search-runtime-integration/STAGE3_EVIDENCE_2026-08-20.json
-extension/tests/phase2/search-runtime-integration/target-tree-sha256.tsv
-extension/tests/phase2/search-runtime-integration/STAGE4_TRANSPORT_BLOCKER_2026-08-20.md
-extension/tests/phase2/search-runtime-integration/STAGE3_EXACT_RECOVERY_RESULT_V1_2026-08-20.json
+Base64 decoded bytes: 8006
+actual decoded SHA-256: 2ac4758d1fb0dec1a0cca144c19c6eb74c1d24634aa13b0024170bbc5b1afc05
+expected gzip SHA-256: 4f9bac5de1e658c40e14305d9dbe6fca17b58718a562e6e546e26328a8285a54
+gzip CRC/integrity: FAIL
+raw Stage-2 patch: NOT SAFELY MATERIALIZED
 ```
 
 Classification:
 
 ```text
-failure layer = ARTIFACT / CHECKPOINT DURABILITY
+failure layer = ARTIFACT / TRANSPORT
 product defect = NOT ESTABLISHED
-old exact Stage-3 candidate = UNRECOVERABLE from available durable/workspace evidence
+accepted Stage-2 behavioral evidence remains historical evidence
+published Stage-2 patch transport is not currently usable as byte authority
 ```
 
-The previous Stage-3 exit was not durable because the required exact product/test transport was missing. Therefore Stage 3 is reopened rather than inventing the lost bytes or freezing a logically similar package as the old candidate.
+Do NOT overwrite the corrupt historical transport file to make history look clean. Any recovered exact Stage-2 patch/component must be preserved as a new correction/recovery transport with its own evidence.
 
-## Reopened Stage-3 exact-base materialization blocker
-
-Live development branch `extension/src` is still a staging/shared tree rather than the complete installable Stage-2 target. It does not contain the root installable runtime (`content_script.js`, `popup.js`, `popup.html`, `service_worker.js`) as a byte-complete target tree.
-
-The exact Stage-2 target remains reconstructable from governed artifacts, but the proven e13a preimage/reconstruction environment is in the Codex workspace. Environment capabilities do not inherit. ChatGPT must not fabricate the missing base bytes or write product code against the incomplete staging tree.
-
-Durable blocker record:
+### STAGE 3 — Manual/Autorun/operator/delivery integration
 
 ```text
+STATUS = REOPENED / BLOCKED BEFORE PRODUCT WRITE
+REASON 1 = old Stage-3 exact bytes were not durable and exact recovery failed
+REASON 2 = exact Stage-2 editable base cannot yet be reconstructed because the durable Stage-2 patch transport is corrupt
+```
+
+The old local Stage-3 verification/hashes remain historical behavioral evidence only and are not current editable byte authority.
+
+Durable recovery/materialization evidence:
+
+```text
+extension/tests/phase2/search-runtime-integration/STAGE3_EXACT_RECOVERY_RESULT_V1_2026-08-20.json
+extension/tests/phase2/search-runtime-integration/STAGE4_TRANSPORT_BLOCKER_2026-08-20.md
 extension/tests/phase2/search-runtime-integration/STAGE3_REIMPLEMENTATION_BASE_MATERIALIZATION_BLOCKER_2026-08-20.md
+extension/tests/phase2/search-runtime-integration/STAGE2_EXACT_MATERIALIZATION_RESULT_V1_2026-08-20.json
 ```
 
-Required Codex action is artifact materialization only, not product development:
-
-```text
-reconstruct exact Stage-2 51-file target from governed e13a + Stage-1 + Stage-2 transports
-verify 51/51 against manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
-modify no reconstructed product/test byte
-publish exact target under a dedicated GitHub materialization/transport branch/root
-return branch/root/manifest identities for independent ChatGPT read-back
-real Yandex requests = 0
-```
-
-Authorized resumed Stage-3 product scope after exact base materialization succeeds remains:
-
-```text
-popup active-service/operator controls
-Search Manual and Autorun policy/limits
-SEARCH_API_V1 external Яндекс action on shared Manual surface
-native Copy independence
-owner-tab/conversation/single-flight reuse
-immutable service per Autorun RUN
-Wordstat/Search RUN isolation
-worker-owned outbox/result/error delivery
-composer occupied protection
-committed Send <= 1
-ready/Microphone completion and watch-only recovery
-YMB_ERROR_V1 and Debug redaction
-Export/Import compatibility
-full affected regression
-zero real Yandex requests
-```
-
-Reimplementation must start only from the durable exact Stage-2 target and must produce a NEW exact Stage-3 target/transport. It must not try to fabricate or claim identity with the lost historical Stage-3 patch.
-
-Stage-3 exit requires all of the following before Stage 4 may start:
-
-```text
-focused Stage-3 integration tests PASS
-full source regression PASS
-syntax/JSON PASS
-real Yandex requests = 0
-exact product/test target manifest preserved in GitHub
-byte-complete text-safe Stage-3 transport preserved in GitHub
-fresh consumer round-trip/reconstruction identity PASS
-Stage-3 evidence checkpoint written
-CURRENT_STATE advanced to Stage 4
-```
+Next recovery must remain QA/measurement/artifact-only. No Stage-3 product/test implementation is authorized until exact Stage-2 target is established 51/51.
 
 ### STAGE 4 — frozen candidate / exact transport / Codex / owner live
 
@@ -248,30 +186,39 @@ CURRENT_STATE advanced to Stage 4
 STATUS = PENDING REOPENED STAGE-3 DURABLE PASS
 ```
 
-Not authorized until reopened Stage 3 satisfies its durable exit criteria:
+Not authorized:
 
 ```text
 freeze combined Phase-2 candidate
-build/declare deterministic final ZIP identity
-issue Codex full-gate prompt
+build/declare final ZIP identity
+issue Phase-2 Codex full-gate prompt
 owner real-profile Search request
 ```
 
-After reopened Stage-3 PASS, Stage 4 must still follow the canonical transport runbook and full Phase-1 + Phase-2 regression gate with zero real Yandex traffic.
+## Authorized narrow recovery action
+
+Codex may perform only the following independent measurement/recovery work, with zero product/test edits and zero real Yandex requests:
+
+1. rerun the exact Stage-1 patch from the exact e13a extracted ROOT directory, explicitly capture current working directory, patch path headers and complete `git apply --check` diagnostics; if the prior failure was only wrong invocation/root, prove Stage-1 target 50/50 exact;
+2. search available Codex workspaces/artifact directories for the exact Stage-2 raw patch SHA `6b9c7f55...`, exact gzip SHA `4f9bac5d...`, or exact Stage-2 changed-file bytes listed above;
+3. if exact Stage-2 changed files are found, construct a fresh Stage-2 target only by replacing the known Stage-2 delta over a verified 50/50 Stage-1 tree, then require full canonical Stage-2 manifest 51/51;
+4. publish only after exact 51/51 target is proven and perform fresh remote consumer verification.
+
+No logically equivalent reimplementation may substitute for exact recovery in this step.
 
 ## Current control-plane reconstruction
 
 ```text
 LIVE_HEAD = fetch live main before every control-plane write
-PRODUCT_SOURCE = exact durable Stage-2 target identity exists, but byte-complete editable target is not yet materialized in ChatGPT environment
+PRODUCT_SOURCE = exact accepted Stage-2 identity is recorded but byte-complete editable target not yet recovered
 HANDOFF_ARTIFACT = NONE
 LATEST_FULL_GATE = Phase-1 exact e13a PASS only; Phase-2 combined gate pending
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = YES
 OWNER_LIVE = Phase 1 PASS; Phase 2 PENDING
-OPEN_BLOCKERS = exact Stage-2 51-file editable-base materialization in a Codex-accessible proven reconstruction environment
-AUTHORIZED_NEXT_ACTION = CODEX_STAGE2_EXACT_TARGET_MATERIALIZATION_ONLY
+OPEN_BLOCKERS = Stage-1 apply invocation diagnostics + exact Stage-2 transport/component recovery
+AUTHORIZED_NEXT_ACTION = CODEX_STAGE1_APPLY_DIAGNOSTIC_AND_STAGE2_EXACT_COMPONENT_RECOVERY
 CODEX_MEASUREMENT_PENDING = YES
-OWNER_ACTION_PENDING = paste the supplied Codex materialization prompt only
+OWNER_ACTION_PENDING = paste the supplied narrow Codex recovery prompt only
 ```
 
 ## Phase status
@@ -279,7 +226,7 @@ OWNER_ACTION_PENDING = paste the supplied Codex materialization prompt only
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 SEARCH = ACTIVE / STAGE 1 PASS / STAGE 2 PASS / STAGE 3 REOPENED BLOCKED ON EXACT BASE MATERIALIZATION / STAGE 4 PENDING
+PHASE 2 SEARCH = ACTIVE / STAGE 1 HISTORICAL PASS / STAGE 2 HISTORICAL PASS / STAGE 3 REOPENED BLOCKED ON EXACT STAGE-2 BASE RECOVERY / STAGE 4 PENDING
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
