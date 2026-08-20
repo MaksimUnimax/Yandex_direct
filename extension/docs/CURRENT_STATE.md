@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 2 ACTIVE**  
+Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 3 ACTIVE**  
 Updated: 2026-08-20
 
 This file applies immediately in the current conversation and every new/resumed conversation. Always fetch live `main` HEAD before action.
@@ -15,63 +15,45 @@ Phase-2 development branch: dev/phase2-search-foundation-2026-08-19
 
 ## Mandatory workflow authorities
 
-Before future Codex handoff, read and execute:
+Before any future Codex handoff, read and execute:
 
 ```text
 extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
 ```
 
-Phase-2 engineering is now governed by the owner-ordered four-stage execution control:
+Phase-2 engineering is governed by:
 
 ```text
 extension/docs/PHASE_2_FOUR_STAGE_EXECUTION_CONTROL.md
 ```
 
-Mandatory stage reporting rule:
+Stage reporting rule:
 
 ```text
 work continuously inside a stage without micro-step chatter
 → preserve product/test/evidence in GitHub
-→ when stage exit criteria PASS, write durable checkpoint
-→ update CURRENT_STATE
-→ send owner one concise completion report
-→ continue automatically to next stage unless owner pause/action, Codex action, or real blocker is required
+→ at stage PASS, write durable checkpoint + update CURRENT_STATE
+→ send one concise owner report
+→ continue automatically unless owner/Codex/real blocker is required
 ```
 
 Unknown browser/DOM/runtime facts MUST NOT be guessed. Stop at the exact uncertainty and request a concrete Codex measurement.
 
 ## Phase 1 accepted authority
 
-Exact accepted artifact:
-
 ```text
-yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
-SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
-bytes 209505
-files 45
-ZIP entries 48
-version 0.1.1
+artifact SHA-256: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+bytes: 209505
+files: 45
+ZIP entries: 48
+version: 0.1.1
+
+content_script.js: ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
+popup.js: ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
+service_worker.js: 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
 ```
 
-Critical accepted production hashes:
-
-```text
-content_script.js ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
-popup.js ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
-service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
-```
-
-Successful exact Phase-1 QA transport authority:
-
-```text
-branch: qa/e13a-exact-reconstruction-v3
-preimage SHA-256: 31cc5f3f8a8fe0df9450bb9abd005996ddf7d842df0b18c7bafd0631ed6a4e14
-raw patch SHA-256: 709234433bd446f52a18c95785675d0f5ca3450b82459ce2631d36bdb7269bc2
-target manifest: extension/tests/qa_transport/e13a/target-tree-sha256.tsv
-canonical packer: extension/tests/qa_transport/e13a/canonical_packer_exact.py
-```
-
-Latest complete Codex gate remains the Phase-1 e13a gate:
+Latest complete Codex full gate remains the exact Phase-1 e13a gate:
 
 ```text
 PD-00..PD-17: ALL PASS
@@ -82,47 +64,33 @@ syntax: 40/40 PASS
 JSON: 2/2 PASS
 source/package identity: PASS
 real Yandex requests: 0
-production modified during gate: NO
-tests modified during gate: NO
-failures: NONE
 verdict: PASS
 ```
 
-Owner real-profile Phase-1 functional acceptance:
+Owner real-profile Phase-1 acceptance:
 
 ```text
-getRegionsTree            PASS
-getTop                    PASS
-getDynamics               PASS after corrected test-command toDate
-getRegionsDistribution    PASS
+getRegionsTree PASS
+getTop PASS
+getDynamics PASS
+getRegionsDistribution PASS
 ```
 
-Issues #1 and #2 are CLOSED / COMPLETED. Phase 1 Wordstat is LIVE PASS / CLOSED.
+Phase 1 Wordstat is LIVE PASS / CLOSED.
 
 ## Phase 2 Search authority
-
-Requirements/spec/gate documents:
-
-```text
-extension/docs/PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
-extension/docs/PHASE_2_FOUR_STAGE_EXECUTION_CONTROL.md
-```
-
-First implementation slice:
 
 ```text
 protocol: SEARCH_API_V1
 service: search
 method: search
 mode: synchronous text web search
-REST endpoint: POST /v2/web/search
+endpoint: POST https://searchapi.api.cloud.yandex.net/v2/web/search
 response format: FORMAT_XML
 result signature: SEARCH_RESULT_V1
 ```
 
-Explicitly outside first slice:
+Outside the first slice:
 
 ```text
 searchAsync / Operation polling
@@ -132,7 +100,16 @@ HTML normalization
 browser scraping of yandex.ru
 ```
 
-Search reuses the accepted common Manual/Autorun/outbox/conversation/owner-tab/no-blind-retry core rather than forking delivery logic.
+Canonical Phase-2 docs:
+
+```text
+extension/docs/PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
+extension/docs/PHASE_2_FOUR_STAGE_EXECUTION_CONTROL.md
+```
+
+Search must reuse the accepted common Manual/Autorun/outbox/conversation/owner-tab/no-blind-retry core.
 
 ## Phase 2 four-stage execution status
 
@@ -142,35 +119,21 @@ Search reuses the accepted common Manual/Autorun/outbox/conversation/owner-tab/n
 STATUS = PASS / COMPLETED
 ```
 
-Exact e13a base materialization was completed and verified:
+Evidence:
 
 ```text
-45/45 exact
-identity mismatches: 0
-missing: 0
-extras: 0
-```
-
-Foundation product surfaces on the Phase-2 development lineage:
-
-```text
-shared/service_registry.js
-shared/search_protocol.js
-shared/search_xml.js
-```
-
-Foundation verification:
-
-```text
+exact Phase-1 e13a base: 45/45 exact; mismatches 0; missing 0; extras 0
+Stage-1 target files: 50
+Stage-1 target manifest SHA-256: 62bd5846c8f7d6ade7f788d4394d79e02e802611144a4249761ccbb07397b98b
 focused Search: 32/32 PASS
-affected after registry-test correction: 86/86 PASS
+affected suite: 86/86 PASS
 full suite: 393/393 PASS
 syntax: PASS
 JSON: PASS
 real Yandex requests: 0
 ```
 
-Durable evidence:
+Durable Stage-1 evidence:
 
 ```text
 extension/tests/phase2/search-foundation/FOUNDATION_EVIDENCE_2026-08-19.json
@@ -178,69 +141,121 @@ extension/tests/phase2/search-foundation/target-tree-sha256.tsv
 extension/tests/phase2/search-foundation/phase2-search-foundation.patch.gz.b64
 ```
 
-Known foundation commits include:
+### STAGE 2 — worker/provider/credential/policy execution
 
 ```text
-6d0c1c2bdbfb9e2b18b32adb25a0c5885f932f2e  phase2: add SEARCH_API_V1 protocol foundation
-01f777c7a1e0e06efcb1338c403ea69c86e3d4e8  phase2: add Search XML normalization foundation
-e52f6fae18b53cb90306a5dab643568bfaa00f27  phase2: register Search protocol in service registry
-69a92de2841a67bee05f347bc8389d81bc4e51eb  phase2: add exact Search foundation patch transport
+STATUS = PASS / COMPLETED
 ```
 
-### STAGE 2 — worker/provider/credential/policy execution
+Canonical Stage-2 target is exact Stage-1 target plus the preserved Stage-2 patch. Target identity:
+
+```text
+target files: 51
+target manifest SHA-256: a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+fresh git apply --check: PASS
+fresh target identity: 51/51 exact; mismatches 0; missing 0; extras 0
+```
+
+Stage-2 production hashes:
+
+```text
+service_worker.js def73ebb44243b57d0be98ad21fec6ccf230cc2dfe1b29f8ee3588e17fe80282 / 190920 bytes
+shared/credential_registry.js 506aafca071522c7dc110dd72feec4d7fbee36119849abac69158c9be232a311 / 1413 bytes
+shared/policy_model.js c97c2b8dd600091f894d2c7c5c0fb91a6408d5cc848bc579ec3acc6cb59d99bf / 6086 bytes
+```
+
+Stage-2 verified behavior:
+
+```text
+Search protocol/XML loaded in worker
+service-aware Search/Wordstat routing
+local API-key + folderId Search capability without exposing credentials in command/result
+one POST /v2/web/search exactly per admitted Search command
+validation/credential/policy rejection before provider -> zero initiation
+HTTP error after initiation -> ERROR / request_executed=true / automatic_retry=false
+ambiguous initiated network failure -> request_executed=UNKNOWN / automatic_retry=false / no retry
+XML normalization failure after HTTP success -> executed=true / no retry
+conservative Search cost guard = 0.488 RUB/request
+request and RUB run-budget enforcement
+reservation computed before provider initiation
+Authorization/API-key redaction
+Search/Wordstat protocol isolation
+```
+
+Verification:
+
+```text
+focused Search Stage 2: 10/10 PASS
+full source suite: 377/377 PASS
+syntax: 46/46 PASS
+JSON: 2/2 PASS
+real Yandex requests: 0
+```
+
+Exact Stage-2 transport evidence:
+
+```text
+patch SHA-256: 6b9c7f55fd736261ce794f818f66ea066dc1256c3ae05e849c97373c7b4ccedc
+patch bytes: 32357
+gzip SHA-256: 4f9bac5de1e658c40e14305d9dbe6fca17b58718a562e6e546e26328a8285a54
+base64 SHA-256: 717d8b1c76450949053c33bfeff1921401f433076f0f8b0c9c3c78f5539f662d
+base64 chars: 10676
+```
+
+Durable Stage-2 evidence on the development branch:
+
+```text
+extension/tests/phase2/search-worker-provider/STAGE2_EVIDENCE_2026-08-20.json
+extension/tests/phase2/search-worker-provider/target-tree-sha256.tsv
+extension/tests/phase2/search-worker-provider/phase2-stage2-worker-provider.patch.gz.b64
+```
+
+No browser/DOM fact was required in Stage 2, so no Codex measurement was needed.
+
+### STAGE 3 — Manual/Autorun/operator/delivery integration
 
 ```text
 STATUS = ACTIVE / IN WORK
 ```
 
-Required Stage-2 scope:
+Authorized Stage-3 scope:
 
 ```text
-Search runtime module loading
-worker routing SEARCH_API_V1 -> search
-Search credential capability + local folderId
-POST /v2/web/search provider execution
-Authorization redaction
-one provider initiation exactly per accepted command
-validation/policy/credential rejection -> zero initiation
-HTTP error -> truthful ERROR / no retry
-ambiguous initiated outcome -> UNKNOWN / no retry
-conservative Search cost reservation before initiation
-Search request/RUB budgets
-Wordstat/Search routing isolation
-focused integration tests + full regression
-real Yandex requests = 0
+popup Search active-service/operator controls
+Search Manual + Autorun policy/limits
+eligible SEARCH_API_V1 external `Яндекс` action through the common Manual surface
+native Copy independence
+owner-tab + conversation binding + single-flight reuse
+one immutable service per Autorun RUN
+Wordstat/Search RUN isolation
+worker-owned outbox/result/error delivery
+composer occupied protection
+committed Send at most once
+ready/Microphone completion + watch-only recovery
+YMB_ERROR_V1 + Debug redaction
+Export/Import compatibility
+full regression, syntax/JSON, zero real Yandex requests
 ```
 
-Do not advance to Stage 3 until Stage-2 exit criteria in `PHASE_2_FOUR_STAGE_EXECUTION_CONTROL.md` are PASS and a durable Stage-2 checkpoint/report exists.
+If any Stage-3 decision depends on an unknown current ChatGPT DOM/browser/runtime fact, do not infer it; request a concrete Codex measurement.
 
-### STAGE 3 — Manual/Autorun/operator/delivery integration
-
-```text
-STATUS = PENDING STAGE 2 PASS
-```
-
-This stage integrates Search into popup/operator controls and the accepted common Manual/Autorun/outbox/delivery/browser runtime, with Codex measurement required for any unknown browser/DOM fact.
-
-### STAGE 4 — frozen candidate/Codex/owner-live closure
+### STAGE 4 — frozen candidate / exact transport / Codex / owner live
 
 ```text
 STATUS = PENDING STAGE 3 PASS
 ```
 
-This stage freezes the exact candidate, executes the proven artifact transport runbook, obtains complete Codex full-gate PASS, then performs irreducible owner real-profile paid Search acceptance one command at a time after fresh official pricing verification.
-
 ## Current control-plane reconstruction
 
 ```text
-LIVE_HEAD = main docs authority must be fetched live before action
-PRODUCT_SOURCE = Phase-2 dev lineage based on exact accepted e13a + completed Search foundation
-HANDOFF_ARTIFACT = NONE for Phase 2; Phase-1 e13a remains accepted historical/live artifact only
-LATEST_FULL_GATE = PASS on exact Phase-1 e13a; no Phase-2 combined candidate gate yet
+LIVE_HEAD = fetch live main before every control-plane write
+PRODUCT_SOURCE = exact Stage-2 target: Stage-1 foundation + Stage-2 patch; 51 files; manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+HANDOFF_ARTIFACT = NONE for Phase 2; no frozen combined candidate yet
+LATEST_FULL_GATE = Phase-1 exact e13a PASS only; no Phase-2 combined full gate yet
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = YES in Phase-2 development lineage
 OWNER_LIVE = Phase 1 PASS; Phase 2 PENDING
-OPEN_BLOCKERS = NONE for beginning Stage 2
-AUTHORIZED_NEXT_STAGE = PHASE_2_STAGE_2_WORKER_PROVIDER_CREDENTIAL_POLICY_EXECUTION
+OPEN_BLOCKERS = NONE for Stage 3
+AUTHORIZED_NEXT_STAGE = PHASE_2_STAGE_3_MANUAL_AUTORUN_OPERATOR_DELIVERY_INTEGRATION
 CODEX_MEASUREMENT_PENDING = NO
 OWNER_ACTION_PENDING = NO
 ```
@@ -250,7 +265,7 @@ OWNER_ACTION_PENDING = NO
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 YANDEX SEARCH / SERP = ACTIVE / STAGE 1 PASS / STAGE 2 IN WORK / STAGES 3-4 PENDING
+PHASE 2 YANDEX SEARCH / SERP = ACTIVE / STAGE 1 PASS / STAGE 2 PASS / STAGE 3 IN WORK / STAGE 4 PENDING
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
