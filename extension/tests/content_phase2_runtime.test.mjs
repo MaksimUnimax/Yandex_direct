@@ -86,3 +86,16 @@ test('Autorun only watches protocol of immutable active service',()=>{
   assert.match(scan,/type: "WS_AUTO_COMMAND"/);
   assert.match(scan,/run_id: activeAutoWatch\.run_id/);
 });
+
+
+test('External action placement and lifetime stay independent from native Copy',()=>{
+  const position=fn('actionPosition');
+  assert.match(position,/const gap = 10;/);
+  assert.match(position,/let left = rect\.right \+ gap/);
+  const refresh=fn('refreshActions');
+  assert.match(refresh,/if \(!actionByBlock\.has\(block\)\) createAction\(block\)/);
+  assert.doesNotMatch(refresh,/copy|Copy|копир/i);
+  const manual=fn('setManualState');
+  assert.match(manual,/button\.remove\(\)/);
+  assert.match(manual,/actionByBlock\.clear\(\)/);
+});

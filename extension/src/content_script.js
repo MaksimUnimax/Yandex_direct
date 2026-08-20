@@ -218,7 +218,7 @@
   function actionPosition(block) {
     const rect = block.getBoundingClientRect();
     const width = 78;
-    const gap = 8;
+    const gap = 10;
     const maxLeft = Math.max(8, window.innerWidth - width - 8);
     let left = rect.right + gap;
     if (left > maxLeft) left = Math.max(8, rect.right - width);
