@@ -1,0 +1,393 @@
+name: phase2-content-error-delivery-fix
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/phase2-recovery-work-2026-08-20
+      - name: Restore durable page and delivery error reporting
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          worker = Path('extension/src/service_worker.js')
+          s = worker.read_text(encoding='utf-8')
+          old = 'AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs", OUTBOX: "wsmb_outbox",'
+          new = 'AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs", OUTBOX: "wsmb_outbox", CONTENT_ERRORS: "ymb_content_error_queue",'
+          assert old in s, 'worker key anchor not found'
+          s = s.replace(old, new, 1)
+
+          marker = '\nasync function executeManualBlock(blockText, conversationKey, sender, manualRequestToken = "") {'
+          assert marker in s, 'manual execution anchor not found'
+          helpers = r'''
+async function getContentErrorQueue() {
+  const data = await storageGet(KEYS.CONTENT_ERRORS);
+  const value = data[KEYS.CONTENT_ERRORS];
+  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+function contentErrorFingerprint(payload) {
+  return JSON.stringify({
+    conversation_key: payload.conversation_key,
+    service: payload.service || null,
+    channel: payload.channel || "content",
+    stage: payload.stage || "CONTENT",
+    code: payload.code || "CONTENT_ERROR",
+    message: payload.message || "Content error",
+    request_executed: payload.request_executed ?? false,
+    run_id: payload.run_id || null,
+    operation: payload.operation || null
+  });
+}
+async function promotePendingContentError(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const outbox = { ...(await getOutbox()) };
+  if (outbox[key]) return outbox[key];
+  const queues = { ...(await getContentErrorQueue()) };
+  const list = Array.isArray(queues[key]) ? [...queues[key]] : [];
+  if (!list.length) return null;
+  const item = list.shift();
+  const entry = {
+    delivery_id: item.delivery_id,
+    type: "content_error",
+    tab_id: item.tab_id,
+    run_id: item.run_id || null,
+    report_text: item.report_text,
+    phase: "claimed",
+    report_prefix_applied: false,
+    content_error_fingerprint: item.fingerprint,
+    created_at: item.created_at,
+    conversation_key: key,
+    updated_at: nowIso()
+  };
+  outbox[key] = entry;
+  if (list.length) queues[key] = list;
+  else delete queues[key];
+  await storageSet({ [KEYS.OUTBOX]: outbox, [KEYS.CONTENT_ERRORS]: queues });
+  return entry;
+}
+async function reportContentError(message, sender) {
+  let key;
+  try { key = normalizeConversationKey(message?.conversation_key); }
+  catch { return { ok: false, code: "CONVERSATION_UNCONFIRMED", error: "Ошибка страницы не привязана к подтверждённому диалогу." }; }
+  const binding = await getBinding(key);
+  if (!binding) return { ok: false, code: "CONVERSATION_NOT_BOUND", error: "Диалог не привязан; ошибка страницы не может быть доставлена." };
+  const senderTabId = Number(sender?.tab?.id);
+  if (!Number.isInteger(senderTabId)) return { ok: false, code: "CONTENT_ERROR_SENDER_TAB_REQUIRED", error: "Ошибка страницы должна исходить из вкладки ChatGPT." };
+  try { await assertTabConversation(senderTabId, key, binding.conversation_id); }
+  catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }
+  const context = await getServiceContext(key);
+  const service = YMBServiceRegistry.isKnownService(message?.service) ? message.service : context.active_service;
+  const channel = ["manual", "autorun", "content"].includes(String(message?.channel || "")) ? String(message.channel) : "content";
+  const requestExecuted = message?.request_executed === "UNKNOWN" ? "UNKNOWN" : message?.request_executed === true;
+  const payload = {
+    conversation_key: key,
+    service,
+    channel,
+    stage: String(message?.stage || "CONTENT"),
+    code: String(message?.code || "CONTENT_ERROR"),
+    message: String(message?.error || message?.message || "Content error").slice(0, 4000),
+    recoverable: typeof message?.recoverable === "boolean" ? message.recoverable : requestExecuted !== "UNKNOWN",
+    request_executed: requestExecuted,
+    run_id: message?.run_id ? String(message.run_id) : null,
+    operation: message?.operation ? String(message.operation) : null,
+    autorun_continues: message?.autorun_continues === true
+  };
+  const fingerprint = contentErrorFingerprint(payload);
+  const outbox = await getOutbox();
+  if (outbox[key]?.type === "content_error" && outbox[key]?.content_error_fingerprint === fingerprint) {
+    return { ok: true, queued: true, duplicate: true, delivery_id: outbox[key].delivery_id };
+  }
+  const queues = { ...(await getContentErrorQueue()) };
+  const list = Array.isArray(queues[key]) ? [...queues[key]] : [];
+  const existing = list.find((item) => item?.fingerprint === fingerprint);
+  if (existing) return { ok: true, queued: true, duplicate: true, delivery_id: existing.delivery_id };
+  const deliveryId = uid("content-error-delivery");
+  const reportText = formatBridgeError({
+    code: payload.code,
+    message: payload.message,
+    stage: payload.stage,
+    requestExecuted: payload.request_executed,
+    service: payload.service,
+    channel: payload.channel,
+    recoverable: payload.recoverable,
+    runId: payload.run_id,
+    operation: payload.operation,
+    autorunContinues: payload.autorun_continues
+  });
+  list.push({
+    error_id: uid("content-error"),
+    delivery_id: deliveryId,
+    fingerprint,
+    report_text: reportText,
+    tab_id: senderTabId,
+    run_id: payload.run_id,
+    created_at: nowIso()
+  });
+  queues[key] = list.slice(-20);
+  await storageSet({ [KEYS.CONTENT_ERRORS]: queues });
+  const promoted = await promotePendingContentError(key);
+  await diagnostic("CONTENT_ERROR_QUEUED", { code: payload.code, stage: payload.stage, channel: payload.channel, run_id: payload.run_id, delivery_id: promoted?.delivery_id || deliveryId }, { level: "error" });
+  return { ok: true, queued: true, duplicate: false, delivery_id: promoted?.delivery_id || deliveryId };
+}
+'''
+          s = s.replace(marker, helpers + marker, 1)
+
+          old = '''  else if (entry.type === "autorun") await patchAutoRun(key, (run) => WordstatAutorunModel.afterConfirmedDelivery({ ...run, delivery: { ...(run.delivery || {}), phase: "confirmed" } }));\n  return { ok: true };'''
+          new = '''  else if (entry.type === "autorun") await patchAutoRun(key, (run) => WordstatAutorunModel.afterConfirmedDelivery({ ...run, delivery: { ...(run.delivery || {}), phase: "confirmed" } }));\n  await promotePendingContentError(key);\n  return { ok: true };'''
+          assert old in s, 'completion promotion anchor not found'
+          s = s.replace(old, new, 1)
+
+          old = '''    case "WS_EXECUTE_MANUAL_BLOCK": return executeManualBlock(message.block_text, message.conversation_key, sender, message.manual_request_token);\n    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); return { ok: true, outbox: outbox[key] || null }; }'''
+          new = '''    case "WS_EXECUTE_MANUAL_BLOCK": return executeManualBlock(message.block_text, message.conversation_key, sender, message.manual_request_token);\n    case "WS_REPORT_CONTENT_ERROR": return reportContentError(message, sender);\n    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); let outbox = await getOutbox(); if (!outbox[key]) { await promotePendingContentError(key); outbox = await getOutbox(); } return { ok: true, outbox: outbox[key] || null }; }'''
+          assert old in s, 'worker message anchor not found'
+          s = s.replace(old, new, 1)
+          worker.write_text(s, encoding='utf-8')
+
+          content = Path('extension/src/content_script.js')
+          t = content.read_text(encoding='utf-8')
+          old = '''  let outboxTimer = null;\n  let stateTimer = null;'''
+          new = '''  let outboxTimer = null;\n  let stateTimer = null;\n  let contentErrorFlushTimer = null;'''
+          assert old in t, 'content timer anchor not found'
+          t = t.replace(old, new, 1)
+          old = '''  const autorunSeen = new Set();\n  const deliveryState = new Map();'''
+          new = '''  const autorunSeen = new Set();\n  const deliveryState = new Map();\n  const pendingContentErrors = new Map();\n  const reportedContentErrors = new Map();'''
+          assert old in t, 'content map anchor not found'
+          t = t.replace(old, new, 1)
+
+          marker = '''  function refreshIdentity() {'''
+          assert marker in t, 'content helper insertion anchor not found'
+          helpers = r'''  function contentErrorChannel(entry = null) {
+    if (entry?.type === "manual") return "manual";
+    if (entry?.type === "autorun" || activeAutoWatch) return "autorun";
+    if (manualEnabled) return "manual";
+    return "content";
+  }
+
+  function scheduleContentErrorFlush(delay = 250) {
+    clearTimeout(contentErrorFlushTimer);
+    contentErrorFlushTimer = setTimeout(() => { void flushContentErrors(); }, delay);
+  }
+
+  function queueContentError({ code = "CONTENT_ERROR", message = "Content error", stage = "CONTENT", channel = null, service = null, runId = null, operation = null, requestExecuted = false, recoverable = null, autorunContinues = false } = {}) {
+    const key = currentConversationKey();
+    if (!key) return false;
+    const payload = {
+      type: "WS_REPORT_CONTENT_ERROR",
+      conversation_key: key,
+      service: YMBServiceRegistry.isKnownService(service) ? service : (activeAutoWatch?.active_service || activeService),
+      channel: channel || contentErrorChannel(),
+      stage: String(stage || "CONTENT"),
+      code: String(code || "CONTENT_ERROR"),
+      error: String(message || "Content error").slice(0, 4000),
+      run_id: runId || activeAutoWatch?.run_id || null,
+      operation: operation || null,
+      request_executed: requestExecuted,
+      recoverable: typeof recoverable === "boolean" ? recoverable : requestExecuted !== "UNKNOWN",
+      autorun_continues: autorunContinues === true
+    };
+    const fingerprint = JSON.stringify([payload.conversation_key, payload.service, payload.channel, payload.stage, payload.code, payload.error, payload.request_executed, payload.run_id, payload.operation]);
+    const lastReported = Number(reportedContentErrors.get(fingerprint) || 0);
+    if (lastReported && Date.now() - lastReported < 30000) return false;
+    pendingContentErrors.set(fingerprint, payload);
+    scheduleContentErrorFlush(0);
+    return true;
+  }
+
+  async function flushContentErrors() {
+    contentErrorFlushTimer = null;
+    const first = pendingContentErrors.entries().next();
+    if (first.done) return;
+    const [fingerprint, payload] = first.value;
+    try {
+      const response = await sendWorker(payload);
+      if (response?.ok) {
+        pendingContentErrors.delete(fingerprint);
+        reportedContentErrors.set(fingerprint, Date.now());
+      } else if (response) {
+        pendingContentErrors.delete(fingerprint);
+      }
+    } catch {
+      // Worker may be restarting; preserve the local error and retry later.
+    }
+    if (pendingContentErrors.size) scheduleContentErrorFlush(1000);
+  }
+
+'''
+          t = t.replace(marker, helpers + marker, 1)
+
+          old = '''      if (!response?.ok || response?.accepted === false) {\n        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${response?.error || response?.code || "команда не принята"}`, "error", 9000);\n      } else {'''
+          new = '''      if (!response?.ok || response?.accepted === false) {\n        const errorText = response?.error || response?.code || "команда не принята";\n        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${errorText}`, "error", 9000);\n        queueContentError({ code: response?.code || "MANUAL_COMMAND_REJECTED", message: errorText, stage: "MANUAL_ADMISSION", channel: "manual", service: activeService, requestExecuted: response?.request_executed ?? false, recoverable: response?.request_executed !== "UNKNOWN", autorunContinues: false });\n      } else {'''
+          assert old in t, 'manual rejection anchor not found'
+          t = t.replace(old, new, 1)
+          old = '''    } catch (error) {\n      setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || String(error)}`, "error", 9000);\n    } finally {'''
+          new = '''    } catch (error) {\n      setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || String(error)}`, "error", 9000);\n      queueContentError({ code: error.code || "MANUAL_CONTENT_ERROR", message: error.message || String(error), stage: "MANUAL_CONTENT", channel: "manual", service: activeService, requestExecuted: false, recoverable: true, autorunContinues: false });\n    } finally {'''
+          assert old in t, 'manual catch anchor not found'
+          t = t.replace(old, new, 1)
+
+          old = '''      }).catch((error) => {\n        autorunSeen.delete(turnId);\n        setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${error.message || error}`, "error", 9000);\n      });'''
+          new = '''      }).catch((error) => {\n        autorunSeen.delete(turnId);\n        setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${error.message || error}`, "error", 9000);\n        queueContentError({ code: error.code || "AUTORUN_WORKER_TRANSPORT", message: error.message || String(error), stage: "AUTO_COMMAND_TRANSPORT", channel: "autorun", service: activeAutoWatch?.active_service || activeService, runId: activeAutoWatch?.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: true });\n      });'''
+          assert old in t, 'autorun transport catch anchor not found'
+          t = t.replace(old, new, 1)
+
+          old = '''        if (!ok) {\n          setStatus(STATUS_KEYS.OPERATION, "Яндекс: отправка не подтверждена; Send заблокирован до безопасной фиксации.", "error", 9000);\n          return;\n        }'''
+          new = '''        if (!ok) {\n          setStatus(STATUS_KEYS.OPERATION, "Яндекс: отправка не подтверждена; Send заблокирован до безопасной фиксации.", "error", 9000);\n          queueContentError({ code: "DELIVERY_COMMIT_REJECTED", message: "Worker не подтвердил фиксацию Send перед ручной отправкой.", stage: "DELIVERY_COMMIT", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });\n          return;\n        }'''
+          assert old in t, 'manual send commit reject anchor not found'
+          t = t.replace(old, new, 1)
+          old = '''      }).catch((error) => {\n        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 9000);\n      }).finally(() => {'''
+          new = '''      }).catch((error) => {\n        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 9000);\n        queueContentError({ code: error.code || "DELIVERY_COMMIT_ERROR", message: error.message || String(error), stage: "DELIVERY_COMMIT", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });\n      }).finally(() => {'''
+          assert old in t, 'manual send commit catch anchor not found'
+          t = t.replace(old, new, 1)
+
+          old = '''    if (!composer) {\n      setStatus(STATUS_KEYS.COMPOSER, "Яндекс: поле ввода ChatGPT не найдено.", "error");\n      return;\n    }'''
+          new = '''    if (!composer) {\n      setStatus(STATUS_KEYS.COMPOSER, "Яндекс: поле ввода ChatGPT не найдено.", "error");\n      queueContentError({ code: "COMPOSER_NOT_FOUND", message: "Поле ввода ChatGPT не найдено во время доставки.", stage: "DELIVERY_COMPOSER", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });\n      return;\n    }'''
+          assert old in t, 'composer missing anchor not found'
+          t = t.replace(old, new, 1)
+          old = '''    if (!sendButton) {\n      setStatus(STATUS_KEYS.COMPOSER, "Яндекс: кнопка отправки пока недоступна.", "error");\n      return;\n    }'''
+          new = '''    if (!sendButton) {\n      setStatus(STATUS_KEYS.COMPOSER, "Яндекс: кнопка отправки пока недоступна.", "error");\n      queueContentError({ code: "SEND_BUTTON_NOT_READY", message: "Кнопка Send недоступна во время доставки.", stage: "DELIVERY_SEND_TARGET", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });\n      return;\n    }'''
+          assert old in t, 'send missing anchor not found'
+          t = t.replace(old, new, 1)
+          old = '''      if (!local.committed) {\n        local.committed = await markCommitted(entry);\n        if (!local.committed) {\n          setStatus(STATUS_KEYS.OPERATION, "Яндекс: не удалось зафиксировать отправку; повтор заблокирован.", "error", 9000);\n          return;\n        }\n      }'''
+          new = '''      if (!local.committed) {\n        local.committed = await markCommitted(entry);\n        if (!local.committed) {\n          setStatus(STATUS_KEYS.OPERATION, "Яндекс: не удалось зафиксировать отправку; повтор заблокирован.", "error", 9000);\n          queueContentError({ code: "DELIVERY_COMMIT_REJECTED", message: "Worker не подтвердил фиксацию Send перед автоотправкой.", stage: "DELIVERY_COMMIT", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });\n          return;\n        }\n      }'''
+          assert old in t, 'auto commit anchor not found'
+          t = t.replace(old, new, 1)
+
+          old = '''        const ok = await completeOutbox(entry);\n        if (!ok) local.completed = false;\n        else setStatus(STATUS_KEYS.OPERATION, "Яндекс: доставка подтверждена.", "ok", 3000);'''
+          new = '''        const ok = await completeOutbox(entry);\n        if (!ok) {\n          local.completed = false;\n          queueContentError({ code: "DELIVERY_COMPLETE_REJECTED", message: "Worker не подтвердил завершение доставки.", stage: "DELIVERY_COMPLETE", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });\n        } else setStatus(STATUS_KEYS.OPERATION, "Яндекс: доставка подтверждена.", "ok", 3000);'''
+          assert old in t, 'complete outbox anchor not found'
+          t = t.replace(old, new, 1)
+
+          old = '''    } catch (error) {\n      setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 5000);\n    }\n    scheduleOutboxPoll(POLL_MS);'''
+          new = '''    } catch (error) {\n      setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 5000);\n      queueContentError({ code: error.code || "OUTBOX_POLL_ERROR", message: error.message || String(error), stage: "OUTBOX_POLL", channel: contentErrorChannel(), service: activeService, runId: activeAutoWatch?.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: Boolean(activeAutoWatch) });\n    }\n    scheduleOutboxPoll(POLL_MS);'''
+          assert old in t, 'outbox catch anchor not found'
+          t = t.replace(old, new, 1)
+
+          old = '''    } catch {\n      // Worker can be restarting. Keep local UI state and retry.\n    }'''
+          new = '''    } catch (error) {\n      // Worker can be restarting. Keep local UI state, retain one durable error, and retry.\n      queueContentError({ code: error?.code || "STATE_SYNC_ERROR", message: error?.message || String(error || "Worker state sync failed"), stage: "STATE_SYNC", channel: contentErrorChannel(), service: activeService, runId: activeAutoWatch?.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: Boolean(activeAutoWatch) });\n    }'''
+          assert old in t, 'state sync catch anchor not found'
+          t = t.replace(old, new, 1)
+          content.write_text(t, encoding='utf-8')
+
+          testfile = Path('extension/tests/content_error_delivery_recovery.test.mjs')
+          testfile.write_text(r'''import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import { webcrypto } from 'node:crypto';
+import { performance } from 'node:perf_hooks';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
+const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
+const contentSource = fs.readFileSync(path.join(root, 'content_script.js'), 'utf8');
+const FN_NAMES = [...workerSource.matchAll(/^(?:async )?function\s+([A-Za-z0-9_]+)/gm)].map((m) => m[1]);
+const CID='99999999-8888-4777-8666-555555555555';
+const ORIGIN='https://chatgpt.com';
+const CKEY=`${ORIGIN}|${CID}`;
+const IDENTITY={origin:ORIGIN,conversation_id:CID,status:'confirmed',source:'path',chat_path:`/c/${CID}`};
+const binding={binding_id:'b-content',revision:1,origin:ORIGIN,conversation_id:CID,conversation_key:CKEY,bound_at:'2026-08-20T00:00:00Z',updated_at:'2026-08-20T00:00:00Z'};
+function clone(v){return v===undefined?undefined:structuredClone(v);}
+function harness(initial={}){
+  const store=clone(initial); let listener=null; const fetchCalls=[];
+  const storage={
+    async get(keys){if(keys==null)return clone(store);if(typeof keys==='string')return Object.hasOwn(store,keys)?{[keys]:clone(store[keys])}:{};if(Array.isArray(keys)){const out={};for(const k of keys)if(Object.hasOwn(store,k))out[k]=clone(store[k]);return out;}const out=clone(keys||{});for(const k of Object.keys(keys||{}))if(Object.hasOwn(store,k))out[k]=clone(store[k]);return out;},
+    async set(values){Object.assign(store,clone(values));},async remove(keys){for(const k of(Array.isArray(keys)?keys:[keys]))delete store[k];}
+  };
+  const chrome={storage:{local:storage},runtime:{id:'test-extension',lastError:null,onMessage:{addListener(fn){listener=fn;}}},tabs:{sendMessage(_id,message,cb){if(['WS_GET_IDENTITY','WS_PAGE_CONTEXT'].includes(message?.type))return cb({ok:true,identity:IDENTITY,conversation_key:CKEY});cb({ok:true});}}};
+  const ctx=vm.createContext({console,chrome,crypto:webcrypto,TextEncoder,TextDecoder,AbortController,performance,setTimeout,clearTimeout,URL,structuredClone,Response,Request,Headers,ReadableStream,Buffer,fetch:async(...args)=>{fetchCalls.push(args);return new Response('{}',{status:200});},importScripts:()=>{}});ctx.globalThis=ctx;
+  for(const file of ['shared/product.js','shared/conversation_identity.js','shared/manual_controls.js','shared/service_registry.js','shared/block_command_discovery.js','shared/run_context_model.js','shared/credential_registry.js','shared/policy_model.js','shared/cost_ledger_model.js','shared/wordstat_protocol.js','shared/search_xml.js','shared/search_protocol.js','shared/autorun_model.js'])vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),ctx,{filename:file});
+  vm.runInContext(workerSource,ctx,{filename:'service_worker.js'});assert.equal(typeof listener,'function');vm.runInContext(`globalThis.__API=Object.freeze({${FN_NAMES.join(',')},KEYS});`,ctx);return{api:ctx.__API,store,fetchCalls};
+}
+function base(){return{wsmb_conversation_bindings:{[CKEY]:binding},ymb_service_contexts:{[CKEY]:{active_service:'search'}}};}
+
+test('content error is turned into durable YMB_ERROR_V1 outbox with zero provider request',async()=>{
+  const h=harness(base());
+  const r=await h.api.reportContentError({conversation_key:CKEY,service:'search',channel:'autorun',stage:'WATCHER',code:'WATCHER_ERROR',error:'observer failed',run_id:'run-1',request_executed:false,recoverable:true,autorun_continues:true},{tab:{id:1}});
+  assert.equal(r.ok,true);assert.equal(h.fetchCalls.length,0);
+  const entry=h.store.wsmb_outbox[CKEY];assert.equal(entry.type,'content_error');assert.equal(entry.phase,'claimed');
+  assert.match(entry.report_text,/^YMB_ERROR_V1\n/);
+  const payload=JSON.parse(entry.report_text.split('\n').slice(1).join('\n'));
+  assert.equal(payload.service,'search');assert.equal(payload.channel,'autorun');assert.equal(payload.stage,'WATCHER');assert.equal(payload.code,'WATCHER_ERROR');assert.equal(payload.request_executed,false);assert.equal(payload.recoverable,true);assert.equal(payload.autorun_continues,true);assert.equal(payload.run_id,'run-1');
+});
+
+test('content error never overwrites an existing result and is promoted only after result completion',async()=>{
+  const h=harness({...base(),wsmb_outbox:{[CKEY]:{delivery_id:'result-1',type:'manual',conversation_key:CKEY,report_text:'SEARCH_RESULT_V1\n{}',phase:'committed'}}});
+  const r=await h.api.reportContentError({conversation_key:CKEY,service:'search',channel:'manual',stage:'DELIVERY',code:'DELIVERY_ERROR',error:'delivery failed',request_executed:false},{tab:{id:1}});
+  assert.equal(r.ok,true);assert.equal(h.store.wsmb_outbox[CKEY].delivery_id,'result-1');assert.equal(h.store.ymb_content_error_queue[CKEY].length,1);
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'result-1',confirmation_basis:'microphone'});
+  assert.equal(h.store.wsmb_outbox[CKEY].type,'content_error');assert.match(h.store.wsmb_outbox[CKEY].report_text,/DELIVERY_ERROR/);assert.equal(h.store.ymb_content_error_queue?.[CKEY],undefined);
+});
+
+test('same content error is deduplicated while pending and while being delivered',async()=>{
+  const h=harness({...base(),wsmb_outbox:{[CKEY]:{delivery_id:'busy',type:'manual',conversation_key:CKEY,report_text:'busy',phase:'claimed'}}});
+  const message={conversation_key:CKEY,service:'search',channel:'content',stage:'STATE_SYNC',code:'STATE_SYNC_ERROR',error:'worker restarting',request_executed:false};
+  const first=await h.api.reportContentError(message,{tab:{id:1}});const second=await h.api.reportContentError(message,{tab:{id:1}});
+  assert.equal(first.duplicate,false);assert.equal(second.duplicate,true);assert.equal(h.store.ymb_content_error_queue[CKEY].length,1);
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'busy'});
+  const third=await h.api.reportContentError(message,{tab:{id:1}});assert.equal(third.duplicate,true);assert.equal(h.store.wsmb_outbox[CKEY].type,'content_error');
+});
+
+test('content error from a non-owner conversation is rejected before queue mutation',async()=>{
+  const h=harness(base());
+  const bad=`${ORIGIN}|aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee`;
+  const r=await h.api.reportContentError({conversation_key:bad,code:'X',error:'bad'},{tab:{id:1}});
+  assert.equal(r.ok,false);assert.equal(h.store.ymb_content_error_queue,undefined);assert.equal(h.store.wsmb_outbox,undefined);assert.equal(h.fetchCalls.length,0);
+});
+
+test('content script durably reports manual, Autorun, state-sync and delivery failures instead of plaque-only handling',()=>{
+  assert.match(contentSource,/function queueContentError\(/);
+  assert.match(contentSource,/type: "WS_REPORT_CONTENT_ERROR"/);
+  assert.match(contentSource,/MANUAL_CONTENT_ERROR/);
+  assert.match(contentSource,/AUTORUN_WORKER_TRANSPORT/);
+  assert.match(contentSource,/STATE_SYNC_ERROR/);
+  assert.match(contentSource,/OUTBOX_POLL_ERROR/);
+  assert.match(contentSource,/DELIVERY_COMMIT_REJECTED/);
+  assert.match(contentSource,/DELIVERY_COMPLETE_REJECTED/);
+  assert.match(contentSource,/reportedContentErrors/);
+});
+''',encoding='utf-8')
+          PY
+
+          node --test extension/tests/content_error_delivery_recovery.test.mjs
+          node --test \
+            extension/tests/search_protocol.test.mjs \
+            extension/tests/search_registry.test.mjs \
+            extension/tests/search_xml.test.mjs \
+            extension/tests/search_worker_stage2.test.mjs \
+            extension/tests/search_manual_worker.test.mjs \
+            extension/tests/manual_block_sequence_recovery.test.mjs \
+            extension/tests/manual_delivery_lifecycle_recovery.test.mjs \
+            extension/tests/content_phase2_runtime.test.mjs \
+            extension/tests/content_error_delivery_recovery.test.mjs \
+            extension/tests/popup_phase2_runtime.test.mjs \
+            extension/tests/autorun_recovery.test.mjs \
+            extension/tests/autorun_transport_retry_recovery.test.mjs \
+            extension/tests/conversation_fences_recovery.test.mjs \
+            extension/tests/start_prompt_and_prefix_recovery.test.mjs \
+            extension/tests/wordstat_core_recovery.test.mjs \
+            extension/tests/settings_security_recovery.test.mjs \
+            extension/tests/settings_backup_integrity_recovery.test.mjs \
+            extension/tests/popup_error_boundary_recovery.test.mjs \
+            extension/tests/permission_scope_recovery.test.mjs \
+            extension/tests/legacy_profiles_recovery.test.mjs \
+            extension/tests/diagnostics_popup_recovery.test.mjs \
+            extension/tests/button_picker_recovery.test.mjs \
+            extension/tests/binding_recovery.test.mjs \
+            extension/tests/manual_off_safety_recovery.test.mjs
+          node --check extension/src/service_worker.js
+          node --check extension/src/content_script.js
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/src/service_worker.js extension/src/content_script.js extension/tests/content_error_delivery_recovery.test.mjs
+          git commit -m 'fix: restore durable ChatGPT content error delivery'
+          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
