@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - dev/phase2-recovery-work-2026-08-20
+  pull_request:
+    branches:
+      - main
 jobs:
   inspect:
     runs-on: ubuntu-latest
