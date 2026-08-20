@@ -50,6 +50,21 @@ async function getSendButtonProfile() { return safeButtonProfile((await storageG
 async function getCopyButtonProfiles() { return copyProfileCollection((await storageGet(KEYS.COPY_BUTTON_PROFILES))[KEYS.COPY_BUTTON_PROFILES]); }
 async function saveSendButtonProfile(profile) { const next = safeButtonProfile(profile); if (!next) throw Object.assign(new Error("Некорректный Send profile."), { code: "INVALID_SEND_BUTTON_PROFILE" }); await storageSet({ [KEYS.SEND_BUTTON_PROFILE]: next }); return next; }
 async function saveCopyButtonProfiles(profiles) { const next = copyProfileCollection(profiles); await storageSet({ [KEYS.COPY_BUTTON_PROFILES]: next }); return next; }
+async function saveCopyButtonProfile(profile) {
+  const next = safeButtonProfile(profile);
+  if (!next) throw Object.assign(new Error("Некорректный Copy profile."), { code: "INVALID_COPY_BUTTON_PROFILE" });
+  const current = await getCopyButtonProfiles();
+  if (Array.isArray(current)) {
+    const list = current.filter((item) => safeButtonProfile(item)?.selector !== next.selector);
+    list.push(next);
+    return saveCopyButtonProfiles(list.slice(-20));
+  }
+  const base = current && typeof current === "object" ? clone(current) : {};
+  const list = Array.isArray(base.profiles) ? base.profiles.filter((item) => safeButtonProfile(item)?.selector !== next.selector) : [];
+  list.push(next);
+  base.profiles = list.slice(-20);
+  return saveCopyButtonProfiles(base);
+}
 async function clearSendButtonProfile() { await storageRemove(KEYS.SEND_BUTTON_PROFILE); return null; }
 async function clearCopyButtonProfiles() { await storageRemove(KEYS.COPY_BUTTON_PROFILES); return {}; }
 
@@ -586,6 +601,7 @@ async function handleMessage(message, sender) {
     case "WS_GET_DIAGNOSTICS": return { ok: true, diagnostics: await getDiagnostics() };
     case "WS_CLEAR_DIAGNOSTICS": return { ok: true, diagnostics: await clearDiagnostics() };
     case "WS_SAVE_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await saveSendButtonProfile(message.profile), state: await publicGlobalSettingsState() };
+    case "WS_SAVE_COPY_BUTTON_PROFILE": return { ok: true, copy_button_profiles: await saveCopyButtonProfile(message.profile), state: await publicGlobalSettingsState() };
     case "WS_SAVE_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await saveCopyButtonProfiles(message.profiles), state: await publicGlobalSettingsState() };
     case "WS_CLEAR_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await clearSendButtonProfile(), state: await publicGlobalSettingsState() };
     case "WS_CLEAR_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await clearCopyButtonProfiles(), state: await publicGlobalSettingsState() };

@@ -121,6 +121,13 @@
     return Boolean(run && !TERMINAL_RUNS.has(String(run.status || "")));
   }
 
+  function copyProfileCount(value) {
+    if (Array.isArray(value)) return value.filter(Boolean).length;
+    if (!value || typeof value !== "object") return 0;
+    if (Array.isArray(value.profiles)) return value.profiles.filter(Boolean).length;
+    return Object.values(value).reduce((total, item) => total + (Array.isArray(item) ? item.filter(Boolean).length : (item && typeof item === "object" ? 1 : 0)), 0);
+  }
+
   function renderState(state) {
     rendering = true;
     try {
@@ -175,6 +182,15 @@
       $("apiKey").placeholder = state?.has_api_key ? "Ключ сохранён; оставьте пустым, чтобы не менять" : "Введите API key";
       $("autoSend").checked = state?.auto_send !== false;
       $("debugMode").checked = state?.debug_mode === true;
+
+      const sendProfile = state?.send_button_profile || null;
+      const copyCount = copyProfileCount(state?.copy_button_profiles);
+      $("sendProfileMeta").textContent = sendProfile?.selector ? `Send настроен: ${sendProfile.selector}` : "Send не настроен.";
+      $("copyProfileMeta").textContent = copyCount ? `Сохранено Copy-профилей: ${copyCount}` : "Copy не настроен.";
+      $("pickSend").disabled = !context.available;
+      $("pickCopy").disabled = !context.available;
+      $("clearSend").disabled = !sendProfile;
+      $("clearCopy").disabled = copyCount === 0;
 
       const prefix = state?.report_prefix || {};
       $("reportPrefixEnabled").checked = prefix.enabled === true;
@@ -375,6 +391,36 @@
     await refresh(); showStatus("Автоматический режим завершён.", "ok");
   }));
 
+  $("pickSend").addEventListener("click", () => withButton($("pickSend"), async () => {
+    await resolveContext();
+    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    const response = await tabSend(context.tab_id, { type: "WS_START_SEND_BUTTON_PICKER", conversation_key: context.conversation_key });
+    if (!response?.ok || response.started !== true) throw new Error(response?.error || response?.code || "Не удалось начать выбор Send.");
+    showStatus("Выбор Send запущен. Нажмите нужную кнопку в ChatGPT.", "ok");
+  }));
+
+  $("pickCopy").addEventListener("click", () => withButton($("pickCopy"), async () => {
+    await resolveContext();
+    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    const response = await tabSend(context.tab_id, { type: "WS_START_COPY_BUTTON_PICKER", conversation_key: context.conversation_key });
+    if (!response?.ok || response.started !== true) throw new Error(response?.error || response?.code || "Не удалось начать выбор Copy.");
+    showStatus("Выбор Copy запущен. Нажмите нужную кнопку в ChatGPT.", "ok");
+  }));
+
+  $("clearSend").addEventListener("click", () => withButton($("clearSend"), async () => {
+    const response = await runtimeSend({ type: "WS_CLEAR_SEND_BUTTON_PROFILE" });
+    if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сбросить Send.");
+    await refresh();
+    showStatus("Настройка Send сброшена.", "ok");
+  }));
+
+  $("clearCopy").addEventListener("click", () => withButton($("clearCopy"), async () => {
+    const response = await runtimeSend({ type: "WS_CLEAR_COPY_BUTTON_PROFILES" });
+    if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сбросить Copy.");
+    await refresh();
+    showStatus("Настройки Copy сброшены.", "ok");
+  }));
+
   $("diagnosticsFilter").addEventListener("change", () => renderDiagnostics());
 
   $("copyDiagnostics").addEventListener("click", () => withButton($("copyDiagnostics"), async () => {
@@ -424,7 +470,7 @@
     globalThis.__YMB_POPUP_TEST_API__ = Object.freeze({
       resolveContext, renderState, saveAll, persistTogglePatch,
       wordstatPolicyFromForm, searchPolicyFromForm, reportPrefixFromForm, isActiveRun,
-      loadDiagnostics, renderDiagnostics, visibleDiagnostics
+      loadDiagnostics, renderDiagnostics, visibleDiagnostics, copyProfileCount
     });
   }
 

@@ -28,12 +28,69 @@
   let outboxTimer = null;
   let stateTimer = null;
   let lastLocationHref = location.href;
+  let activeButtonPicker = null;
 
   const actionByBlock = new Map();
   const blockId = new WeakMap();
   const manualInFlight = new Set();
   const autorunSeen = new Set();
   const deliveryState = new Map();
+
+  function cssEscape(value) {
+    const text = String(value || "");
+    if (globalThis.CSS?.escape) return CSS.escape(text);
+    return Array.from(text).map((ch) => /[A-Za-z0-9_-]/.test(ch) ? ch : "_").join("");
+  }
+
+  function profileFromElement(element) {
+    const el = element?.closest?.('button,[role="button"]') || element;
+    if (!el || typeof el.getAttribute !== "function") throw new Error("Выбранный элемент не является кнопкой.");
+    const tag = String(el.tagName || "button").toLowerCase();
+    const testId = el.getAttribute("data-testid") || "";
+    const aria = el.getAttribute("aria-label") || "";
+    const name = el.getAttribute("name") || "";
+    let selector = "";
+    if (testId) selector = `${tag}[data-testid=${cssEscape(testId)}]`;
+    else if (el.id) selector = `#${cssEscape(el.id)}`;
+    else if (aria) selector = `${tag}[aria-label=${cssEscape(aria)}]`;
+    else if (name) selector = `${tag}[name=${cssEscape(name)}]`;
+    else throw new Error("У кнопки нет устойчивого идентификатора. Выберите другую кнопку.");
+    return { selector, tag, data_testid: testId || null, aria_label: aria || null, name: name || null, source: "picker", captured_at: new Date().toISOString() };
+  }
+
+  function stopButtonPicker(message = "") {
+    if (!activeButtonPicker) return;
+    document.removeEventListener("click", activeButtonPicker.listener, true);
+    clearTimeout(activeButtonPicker.timeout);
+    activeButtonPicker = null;
+    if (message) setStatus(STATUS_KEYS.PICKER, message, "info", 5000);
+    else setStatus(STATUS_KEYS.PICKER, "");
+  }
+
+  function startButtonPicker(kind) {
+    stopButtonPicker();
+    const isSend = kind === "send";
+    const listener = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      let profile;
+      try { profile = profileFromElement(event.target); }
+      catch (error) { setStatus(STATUS_KEYS.PICKER, `Яндекс: ${error.message || error}`, "error", 7000); return; }
+      stopButtonPicker();
+      const type = isSend ? "WS_SAVE_SEND_BUTTON_PROFILE" : "WS_SAVE_COPY_BUTTON_PROFILE";
+      void sendWorker({ type, profile }).then((response) => {
+        if (!response?.ok) throw new Error(response?.error || response?.code || "Настройка кнопки не сохранена.");
+        stateSnapshot = response.state || stateSnapshot;
+        setStatus(STATUS_KEYS.PICKER, `Яндекс: ${isSend ? "Send" : "Copy"} сохранён.`, "ok", 5000);
+      }).catch((error) => setStatus(STATUS_KEYS.PICKER, `Яндекс: ${error.message || error}`, "error", 7000));
+    };
+    document.addEventListener("click", listener, true);
+    const timeout = setTimeout(() => stopButtonPicker("Яндекс: выбор кнопки отменён по таймауту."), 15000);
+    activeButtonPicker = { kind, listener, timeout };
+    setStatus(STATUS_KEYS.PICKER, `Яндекс: нажмите нужную кнопку ${isSend ? "Send" : "Copy"}. Нажатие будет перехвачено и не выполнится.`, "info");
+    return true;
+  }
 
   function protocolForService(service) {
     if (String(service || "") === YMBServiceRegistry.SERVICES.SEARCH) return SearchProtocol;
@@ -409,10 +466,10 @@
       setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат помещён в поле ввода. Отправьте его, когда будете готовы.", "ok");
       return;
     }
-    let sendButton = BB2ComposerSend.findSendButton(document);
+    let sendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);
     for (let i = 0; !sendButton && i < 4; i += 1) {
       await wait(80);
-      sendButton = BB2ComposerSend.findSendButton(document);
+      sendButton = BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);
     }
     if (!sendButton) {
       setStatus(STATUS_KEYS.COMPOSER, "Яндекс: кнопка отправки пока недоступна.", "error");
@@ -437,7 +494,7 @@
     // Committed means the Send boundary has already been crossed. Recovery is watch-only:
     // never refill the composer and never click Send a second time.
     if (isBusyChat()) local.saw_busy = true;
-    const ready = BB2ComposerSend.composerReady(document);
+    const ready = BB2ComposerSend.composerReady(document, stateSnapshot?.send_button_profile || null);
     const committedAt = Date.parse(entry.committed_at || "") || 0;
     const aged = committedAt > 0 && Date.now() - committedAt >= 500;
     if (ready && (local.saw_busy || aged || local.clicked)) {
@@ -531,6 +588,16 @@
   }
 
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (message?.type === "WS_START_SEND_BUTTON_PICKER") {
+      startButtonPicker("send");
+      sendResponse({ ok: true, started: true });
+      return false;
+    }
+    if (message?.type === "WS_START_COPY_BUTTON_PICKER") {
+      startButtonPicker("copy");
+      sendResponse({ ok: true, started: true });
+      return false;
+    }
     if (message?.type === "WS_GET_IDENTITY" || message?.type === "WS_PAGE_CONTEXT") {
       const current = refreshIdentity();
       sendResponse({ ok: Boolean(current.conversation_key), identity: current, conversation_key: current.conversation_key || "" });
@@ -590,7 +657,10 @@
       setManualState,
       refreshActions,
       startAutoWatch,
-      scanAutorun
+      scanAutorun,
+      profileFromElement,
+      startButtonPicker,
+      stopButtonPicker
     });
   }
 })();

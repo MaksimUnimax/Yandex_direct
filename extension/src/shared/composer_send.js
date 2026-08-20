@@ -36,7 +36,18 @@
     return true;
   }
 
-  function findSendButton(doc = document) {
+  function findSendButtonByProfile(doc, profile) {
+    const selector = typeof profile?.selector === "string" ? profile.selector.trim() : "";
+    if (!selector || selector.length > 600) return null;
+    try {
+      const el = doc.querySelector(selector);
+      return el && !el.disabled ? el : null;
+    } catch { return null; }
+  }
+
+  function findSendButton(doc = document, profile = null) {
+    const learned = findSendButtonByProfile(doc, profile);
+    if (learned) return learned;
     const selectors = [
       'button[data-testid="send-button"]',
       'button[aria-label*="Send" i]',
@@ -49,10 +60,10 @@
     return null;
   }
 
-  function composerReady(doc = document) {
+  function composerReady(doc = document, profile = null) {
     const mic = doc.querySelector('button[aria-label*="voice" i], button[aria-label*="microphone" i], button[aria-label*="голос" i], button[aria-label*="микроф" i]');
-    return Boolean(mic) && !findSendButton(doc) && !readComposer(findComposer(doc)).trim();
+    return Boolean(mic) && !findSendButton(doc, profile) && !readComposer(findComposer(doc)).trim();
   }
 
-  globalThis.BB2ComposerSend = Object.freeze({ findComposer, readComposer, setComposerText, findSendButton, composerReady });
+  globalThis.BB2ComposerSend = Object.freeze({ findComposer, readComposer, setComposerText, findSendButtonByProfile, findSendButton, composerReady });
 })();
