@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE2_EXACT_MATERIALIZATION_RESULT_V1",
+  "date": "2026-08-20",
+  "status": "FAIL",
+  "live_main_head": "9cc7dd13a45bc0a9299c84527f3ca0a84e66eee6",
+  "live_dev_head": "a1fccbc296456e1665ccb3d59945c115802ba01b",
+  "e13a": {
+    "source": "FOUND_EXISTING_EXACT",
+    "sha256": "e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65",
+    "bytes": 209505,
+    "files": 45,
+    "zip_entries": 48,
+    "integrity": "PASS"
+  },
+  "stage1": {
+    "raw_patch_sha256": "830e2ccba23a44bbaabb304f05e6c69a511b501c70d64963e8409a85bffd5f02",
+    "raw_patch_bytes": 41531,
+    "target_manifest_sha256": "62bd5846c8f7d6ade7f788d4394d79e02e802611144a4249761ccbb07397b98b",
+    "matched": 42,
+    "mismatched": 3,
+    "missing": 5,
+    "extras": 0,
+    "verdict": "FAIL"
+  },
+  "stage2": {
+    "raw_patch_sha256": null,
+    "raw_patch_bytes": 0,
+    "target_manifest_sha256": "a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236",
+    "matched": 0,
+    "mismatched": 0,
+    "missing": 0,
+    "extras": 0,
+    "verdict": "FAIL"
+  },
+  "publication": {
+    "branch": null,
+    "commit": null,
+    "root": null,
+    "published_target_files": 0,
+    "manifest_path": null,
+    "evidence_path": null
+  },
+  "remote_consumer_round_trip": {
+    "fresh_remote_read": "NOT_RUN",
+    "matched": 0,
+    "mismatched": 0,
+    "missing": 0,
+    "extras": 0,
+    "manifest_sha256": null
+  },
+  "development_branch_product_files_modified": false,
+  "development_branch_existing_test_files_modified": false,
+  "reconstructed_target_files_modified_after_verification": false,
+  "real_yandex_requests": 0,
+  "notes": [
+    "Stage-1 raw/gzip/base64 identities matched authority, but git apply --check against exact e13a extraction failed; verification was 42/50 exact.",
+    "Stage-2 canonical Base64 payload decoded to 8006 bytes with SHA-256 2ac4758d1fb0dec1a0cca144c19c6eb74c1d24634aa13b0024170bbc5b1afc05, not required 4f9bac5de1e658c40e14305d9dbe6fca17b58718a562e6e546e26328a8285a54.",
+    "Stage-2 gzip failed CRC/integrity verification; raw patch could not be safely materialized.",
+    "No publication branch or commit was created.",
+    "Development branch product/test bytes were not modified."
+  ],
+  "chatgpt_classification_after_result": {
+    "stage1": "PROMPT/EXECUTION INSTRUCTION SUSPECTED; exact patch identity is established but exact git apply failure text/cwd was not returned. The 42 matched + 3 mismatched + 5 missing shape exactly equals an unapplied Stage-1 delta over the 45-file base.",
+    "stage2": "ARTIFACT/TRANSPORT ESTABLISHED; durable published base64 does not decode to the recorded gzip identity and gzip integrity fails.",
+    "product_defect": "NOT_ESTABLISHED"
+  }
+}
