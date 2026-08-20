@@ -14,7 +14,7 @@
     "https://searchapi.api.cloud.yandex.net/*"
   ],
   "background": {
-    "service_worker": "service_worker.js"
+    "service_worker": "service_worker_bootstrap.js"
   },
   "content_scripts": [
     {
