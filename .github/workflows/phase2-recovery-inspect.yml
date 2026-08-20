@@ -23,7 +23,9 @@ jobs:
           body = []
           for line in source[marker + 1:]:
               body.append(line[10:] if line.startswith('          ') else line)
-          Path('/tmp/content-error-repair.sh').write_text('\n'.join(body) + '\n', encoding='utf-8')
+          script = '\n'.join(body) + '\n'
+          script = script.replace("'''      if (!local.committed) {", "'''    if (!local.committed) {")
+          Path('/tmp/content-error-repair.sh').write_text(script, encoding='utf-8')
           PY
           bash /tmp/content-error-repair.sh
       - name: Search integration focused tests
