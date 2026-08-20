@@ -1,0 +1,81 @@
+{
+  "phase": "2-search",
+  "stage": 2,
+  "stage_name": "worker-provider-credential-policy-execution",
+  "date": "2026-08-20",
+  "development_branch": "dev/phase2-search-foundation-2026-08-19",
+  "input_authority": {
+    "phase1_artifact_sha256": "e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65",
+    "stage1_foundation_target_manifest_sha256": "62bd5846c8f7d6ade7f788d4394d79e02e802611144a4249761ccbb07397b98b",
+    "stage1_target_files": 50
+  },
+  "stage2_product_changes": {
+    "service_worker.js": {
+      "sha256": "def73ebb44243b57d0be98ad21fec6ccf230cc2dfe1b29f8ee3588e17fe80282",
+      "bytes": 190920,
+      "purpose": "load Search protocol/XML; service-specific policy/credential/admission helpers; exact synchronous Search provider execution; HTTP/error/UNKNOWN no-retry semantics"
+    },
+    "shared/credential_registry.js": {
+      "sha256": "506aafca071522c7dc110dd72feec4d7fbee36119849abac69158c9be232a311",
+      "bytes": 1413,
+      "purpose": "Search capability on the existing local Yandex API key + folderId without exposing secrets in assistant commands"
+    },
+    "shared/policy_model.js": {
+      "sha256": "c97c2b8dd600091f894d2c7c5c0fb91a6408d5cc848bc579ec3acc6cb59d99bf",
+      "bytes": 6086,
+      "purpose": "Search allow-list, conservative 0.488 RUB sync guard, request/RUB run limits, service-specific decision routing"
+    }
+  },
+  "stage2_test_change": {
+    "tests/search_worker_stage2.test.mjs": {
+      "sha256": "1dcb99a40477846ffb93181ea0589fac194fca9f294b614990edc8a3f9cf0a3a",
+      "bytes": 13682
+    }
+  },
+  "transport": {
+    "patch_sha256": "6b9c7f55fd736261ce794f818f66ea066dc1256c3ae05e849c97373c7b4ccedc",
+    "patch_bytes": 32357,
+    "gzip_sha256": "4f9bac5de1e658c40e14305d9dbe6fca17b58718a562e6e546e26328a8285a54",
+    "gzip_bytes": 8006,
+    "base64_sha256": "717d8b1c76450949053c33bfeff1921401f433076f0f8b0c9c3c78f5539f662d",
+    "base64_chars": 10676,
+    "target_manifest_sha256": "a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236",
+    "target_files": 51,
+    "fresh_apply_check": "PASS",
+    "fresh_apply_target_identity": "51/51 exact; mismatches=0; missing=0; extras=0"
+  },
+  "verification": {
+    "focused_search_stage2": "10/10 PASS",
+    "full_source_suite": "377/377 PASS",
+    "syntax_files": 46,
+    "syntax": "46/46 PASS",
+    "json": "2/2 PASS",
+    "real_yandex_requests": 0,
+    "provider_calls_in_tests": "mocked only"
+  },
+  "covered_contours": [
+    "Search credential capability: missing/present/unknown-service",
+    "Search policy defaults and separate persisted policy",
+    "conservative 0.488 RUB/request guard",
+    "request and RUB limit rejection before provider",
+    "cost/request reservation computed before provider initiation",
+    "POST https://searchapi.api.cloud.yandex.net/v2/web/search",
+    "folderId remains operator-local and absent from assistant command/result command",
+    "Authorization/api key redaction from result and diagnostics",
+    "one provider initiation exactly on accepted Search command",
+    "validation rejection -> zero provider initiation",
+    "credential rejection -> zero provider initiation",
+    "HTTP 4xx -> ERROR, request_executed=true, automatic_retry=false",
+    "ambiguous network failure -> request_executed=UNKNOWN, automatic_retry=false, one initiation",
+    "response-normalization failure after HTTP success -> request_executed=true, no retry",
+    "Search/Wordstat protocol routing isolation"
+  ],
+  "stage_boundary": {
+    "stage2_status": "PASS",
+    "stage3_authorized": true,
+    "stage3_name": "manual-autorun-operator-delivery-integration",
+    "owner_action_required": false,
+    "codex_measurement_required": false,
+    "note": "No browser/DOM fact was needed in Stage 2. If Stage 3 reaches an unknown current ChatGPT DOM/runtime fact, stop and request a concrete Codex measurement instead of guessing."
+  }
+}
