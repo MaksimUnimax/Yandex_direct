@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 3 REOPENED — DURABLE REIMPLEMENTATION REQUIRED**  
+Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 3 REOPENED — BLOCKED ON EXACT STAGE-2 EDITABLE BASE MATERIALIZATION**  
 Updated: 2026-08-20
 
 Always fetch live `main` HEAD before any control-plane write.
@@ -11,7 +11,7 @@ Always fetch live `main` HEAD before any control-plane write.
 repo: MaksimUnimax/Yandex_direct
 control branch: main
 Phase-2 development branch: dev/phase2-search-foundation-2026-08-19
-current dev HEAD after recovery evidence: 3350ab13134142180c0a217b25188ec6b5fcca8b
+current dev HEAD: a1fccbc296456e1665ccb3d59945c115802ba01b
 ```
 
 ## Mandatory workflow authorities
@@ -112,9 +112,10 @@ Canonical durable product base for resumed engineering is this exact Stage-2 tar
 ### STAGE 3 — Manual/Autorun/operator/delivery integration
 
 ```text
-STATUS = REOPENED / ACTIVE
+STATUS = REOPENED / ACTIVE / BLOCKED BEFORE PRODUCT WRITE
 REASON = previous functional implementation was not preserved as byte-complete durable product/test transport; exact recovery failed
-DURABLE BASE = exact Stage-2 target, 51 files, manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+DURABLE BASE AUTHORITY = exact Stage-2 target, 51 files, manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+CURRENT BLOCKER = exact Stage-2 target is not yet materialized as a byte-complete editable tree in the ChatGPT development environment
 ```
 
 The previous local Stage-3 verification remains historical behavioral evidence only:
@@ -182,7 +183,30 @@ old exact Stage-3 candidate = UNRECOVERABLE from available durable/workspace evi
 
 The previous Stage-3 exit was not durable because the required exact product/test transport was missing. Therefore Stage 3 is reopened rather than inventing the lost bytes or freezing a logically similar package as the old candidate.
 
-Authorized resumed Stage-3 scope is the same governed integration scope:
+## Reopened Stage-3 exact-base materialization blocker
+
+Live development branch `extension/src` is still a staging/shared tree rather than the complete installable Stage-2 target. It does not contain the root installable runtime (`content_script.js`, `popup.js`, `popup.html`, `service_worker.js`) as a byte-complete target tree.
+
+The exact Stage-2 target remains reconstructable from governed artifacts, but the proven e13a preimage/reconstruction environment is in the Codex workspace. Environment capabilities do not inherit. ChatGPT must not fabricate the missing base bytes or write product code against the incomplete staging tree.
+
+Durable blocker record:
+
+```text
+extension/tests/phase2/search-runtime-integration/STAGE3_REIMPLEMENTATION_BASE_MATERIALIZATION_BLOCKER_2026-08-20.md
+```
+
+Required Codex action is artifact materialization only, not product development:
+
+```text
+reconstruct exact Stage-2 51-file target from governed e13a + Stage-1 + Stage-2 transports
+verify 51/51 against manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+modify no reconstructed product/test byte
+publish exact target under a dedicated GitHub materialization/transport branch/root
+return branch/root/manifest identities for independent ChatGPT read-back
+real Yandex requests = 0
+```
+
+Authorized resumed Stage-3 product scope after exact base materialization succeeds remains:
 
 ```text
 popup active-service/operator controls
@@ -202,9 +226,9 @@ full affected regression
 zero real Yandex requests
 ```
 
-Reimplementation must start only from the durable exact Stage-2 target and must produce a NEW exact Stage-3 target/transport. It must not try to fabricate or claim identity with the lost historical Stage-3 patch. If the new implementation happens to reproduce any old hash naturally, that is evidence only; matching historical hashes is not an engineering requirement.
+Reimplementation must start only from the durable exact Stage-2 target and must produce a NEW exact Stage-3 target/transport. It must not try to fabricate or claim identity with the lost historical Stage-3 patch.
 
-Stage-3 exit now requires all of the following before Stage 4 may start:
+Stage-3 exit requires all of the following before Stage 4 may start:
 
 ```text
 focused Stage-3 integration tests PASS
@@ -239,15 +263,15 @@ After reopened Stage-3 PASS, Stage 4 must still follow the canonical transport r
 
 ```text
 LIVE_HEAD = fetch live main before every control-plane write
-PRODUCT_SOURCE = exact durable Stage-2 51-file target / manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+PRODUCT_SOURCE = exact durable Stage-2 target identity exists, but byte-complete editable target is not yet materialized in ChatGPT environment
 HANDOFF_ARTIFACT = NONE
 LATEST_FULL_GATE = Phase-1 exact e13a PASS only; Phase-2 combined gate pending
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = YES
 OWNER_LIVE = Phase 1 PASS; Phase 2 PENDING
-OPEN_BLOCKERS = none external; lost historical Stage-3 bytes are classified and no longer treated as recoverable source authority
-AUTHORIZED_NEXT_STAGE = PHASE2_STAGE3_DURABLE_REIMPLEMENTATION_FROM_EXACT_STAGE2
-CODEX_MEASUREMENT_PENDING = NO
-OWNER_ACTION_PENDING = NO
+OPEN_BLOCKERS = exact Stage-2 51-file editable-base materialization in a Codex-accessible proven reconstruction environment
+AUTHORIZED_NEXT_ACTION = CODEX_STAGE2_EXACT_TARGET_MATERIALIZATION_ONLY
+CODEX_MEASUREMENT_PENDING = YES
+OWNER_ACTION_PENDING = paste the supplied Codex materialization prompt only
 ```
 
 ## Phase status
@@ -255,7 +279,7 @@ OWNER_ACTION_PENDING = NO
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 SEARCH = ACTIVE / STAGE 1 PASS / STAGE 2 PASS / STAGE 3 REOPENED ACTIVE / STAGE 4 PENDING
+PHASE 2 SEARCH = ACTIVE / STAGE 1 PASS / STAGE 2 PASS / STAGE 3 REOPENED BLOCKED ON EXACT BASE MATERIALIZATION / STAGE 4 PENDING
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
