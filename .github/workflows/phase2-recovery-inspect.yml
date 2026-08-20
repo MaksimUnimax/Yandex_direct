@@ -14,14 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: dev/phase2-search-foundation-2026-08-19
+          ref: qa/e13a-exact-reconstruction-v3
           fetch-depth: 1
-      - name: Export development inputs
+      - name: Export preserved Phase 1 tree
         uses: actions/upload-artifact@v4
         with:
-          name: phase2-development-inputs
+          name: phase1-preserved-inputs
           path: |
             extension/src
             extension/tests
-            extension/docs
           compression-level: 0
