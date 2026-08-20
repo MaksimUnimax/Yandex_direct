@@ -1,0 +1,104 @@
+name: phase2-picker-recovery
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/phase2-recovery-work-2026-08-20
+      - name: Restore Send Copy pickers and learned Send usage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          worker=Path('extension/src/service_worker.js')
+          s=worker.read_text(encoding='utf-8')
+          old='''async function saveCopyButtonProfiles(profiles) { const next = copyProfileCollection(profiles); await storageSet({ [KEYS.COPY_BUTTON_PROFILES]: next }); return next; }\nasync function clearSendButtonProfile()'''
+          new='''async function saveCopyButtonProfiles(profiles) { const next = copyProfileCollection(profiles); await storageSet({ [KEYS.COPY_BUTTON_PROFILES]: next }); return next; }\nasync function saveCopyButtonProfile(profile) {\n  const next = safeButtonProfile(profile);\n  if (!next) throw Object.assign(new Error("Некорректный Copy profile."), { code: "INVALID_COPY_BUTTON_PROFILE" });\n  const current = await getCopyButtonProfiles();\n  if (Array.isArray(current)) {\n    const list = current.filter((item) => safeButtonProfile(item)?.selector !== next.selector);\n    list.push(next);\n    return saveCopyButtonProfiles(list.slice(-20));\n  }\n  const base = current && typeof current === "object" ? clone(current) : {};\n  const list = Array.isArray(base.profiles) ? base.profiles.filter((item) => safeButtonProfile(item)?.selector !== next.selector) : [];\n  list.push(next);\n  base.profiles = list.slice(-20);\n  return saveCopyButtonProfiles(base);\n}\nasync function clearSendButtonProfile()'''
+          assert old in s and 'async function saveCopyButtonProfile(profile)' not in s
+          s=s.replace(old,new,1)
+          old='''    case "WS_SAVE_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await saveSendButtonProfile(message.profile), state: await publicGlobalSettingsState() };\n    case "WS_SAVE_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await saveCopyButtonProfiles(message.profiles), state: await publicGlobalSettingsState() };'''
+          new='''    case "WS_SAVE_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await saveSendButtonProfile(message.profile), state: await publicGlobalSettingsState() };\n    case "WS_SAVE_COPY_BUTTON_PROFILE": return { ok: true, copy_button_profiles: await saveCopyButtonProfile(message.profile), state: await publicGlobalSettingsState() };\n    case "WS_SAVE_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await saveCopyButtonProfiles(message.profiles), state: await publicGlobalSettingsState() };'''
+          assert old in s
+          s=s.replace(old,new,1)
+          worker.write_text(s,encoding='utf-8')
+
+          composer=Path('extension/src/shared/composer_send.js')
+          c=composer.read_text(encoding='utf-8')
+          old='''  function findSendButton(doc = document) {\n    const selectors = ['''
+          new='''  function findSendButtonByProfile(doc, profile) {\n    const selector = typeof profile?.selector === "string" ? profile.selector.trim() : "";\n    if (!selector || selector.length > 600) return null;\n    try {\n      const el = doc.querySelector(selector);\n      return el && !el.disabled ? el : null;\n    } catch { return null; }\n  }\n\n  function findSendButton(doc = document, profile = null) {\n    const learned = findSendButtonByProfile(doc, profile);\n    if (learned) return learned;\n    const selectors = ['''
+          assert old in c and 'function findSendButtonByProfile' not in c
+          c=c.replace(old,new,1)
+          old='''  function composerReady(doc = document) {\n    const mic = doc.querySelector('button[aria-label*="voice" i], button[aria-label*="microphone" i], button[aria-label*="голос" i], button[aria-label*="микроф" i]');\n    return Boolean(mic) && !findSendButton(doc) && !readComposer(findComposer(doc)).trim();\n  }\n\n  globalThis.BB2ComposerSend = Object.freeze({ findComposer, readComposer, setComposerText, findSendButton, composerReady });'''
+          new='''  function composerReady(doc = document, profile = null) {\n    const mic = doc.querySelector('button[aria-label*="voice" i], button[aria-label*="microphone" i], button[aria-label*="голос" i], button[aria-label*="микроф" i]');\n    return Boolean(mic) && !findSendButton(doc, profile) && !readComposer(findComposer(doc)).trim();\n  }\n\n  globalThis.BB2ComposerSend = Object.freeze({ findComposer, readComposer, setComposerText, findSendButtonByProfile, findSendButton, composerReady });'''
+          assert old in c
+          c=c.replace(old,new,1)
+          composer.write_text(c,encoding='utf-8')
+
+          content=Path('extension/src/content_script.js')
+          x=content.read_text(encoding='utf-8')
+          old='  let lastLocationHref = location.href;\n'
+          assert old in x and 'let activeButtonPicker' not in x
+          x=x.replace(old,old+'  let activeButtonPicker = null;\n',1)
+          anchor='''  function protocolForService(service) {\n'''
+          helpers='''  function escapeAttr(value) { return String(value || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"'); }\n  function simpleIdSelector(value) { return `#${String(value || "").replace(/([^A-Za-z0-9_-])/g, "\\\\$1")}`; }\n  function profileFromElement(element) {\n    const el = element?.closest?.('button,[role="button"]') || element;\n    if (!el || typeof el.getAttribute !== "function") throw new Error("Выбранный элемент не является кнопкой.");\n    const tag = String(el.tagName || "button").toLowerCase();\n    const testId = el.getAttribute("data-testid") || "";\n    const aria = el.getAttribute("aria-label") || "";\n    const name = el.getAttribute("name") || "";\n    let selector = "";\n    if (testId) selector = `${tag}[data-testid="${escapeAttr(testId)}"]`;\n    else if (el.id) selector = simpleIdSelector(el.id);\n    else if (aria) selector = `${tag}[aria-label="${escapeAttr(aria)}"]`;\n    else if (name) selector = `${tag}[name="${escapeAttr(name)}"]`;\n    else throw new Error("У кнопки нет устойчивого идентификатора. Выберите другую кнопку.");\n    return { selector, tag, data_testid: testId || null, aria_label: aria || null, name: name || null, source: "picker", captured_at: new Date().toISOString() };\n  }\n\n  function stopButtonPicker(message = "") {\n    if (!activeButtonPicker) return;\n    document.removeEventListener("click", activeButtonPicker.listener, true);\n    clearTimeout(activeButtonPicker.timeout);\n    activeButtonPicker = null;\n    if (message) setStatus(STATUS_KEYS.PICKER, message, "info", 5000);\n    else setStatus(STATUS_KEYS.PICKER, "");\n  }\n\n  function startButtonPicker(kind) {\n    stopButtonPicker();\n    const isSend = kind === "send";\n    const listener = (event) => {\n      event.preventDefault();\n      event.stopPropagation();\n      event.stopImmediatePropagation();\n      const target = event.target;\n      let profile;\n      try { profile = profileFromElement(target); }\n      catch (error) { setStatus(STATUS_KEYS.PICKER, `Яндекс: ${error.message || error}`, "error", 7000); return; }\n      stopButtonPicker();\n      const type = isSend ? "WS_SAVE_SEND_BUTTON_PROFILE" : "WS_SAVE_COPY_BUTTON_PROFILE";\n      void sendWorker({ type, profile }).then((response) => {\n        if (!response?.ok) throw new Error(response?.error || response?.code || "Настройка кнопки не сохранена.");\n        stateSnapshot = response.state || stateSnapshot;\n        setStatus(STATUS_KEYS.PICKER, `Яндекс: ${isSend ? "Send" : "Copy"} сохранён.`, "ok", 5000);\n      }).catch((error) => setStatus(STATUS_KEYS.PICKER, `Яндекс: ${error.message || error}`, "error", 7000));\n    };\n    document.addEventListener("click", listener, true);\n    const timeout = setTimeout(() => stopButtonPicker("Яндекс: выбор кнопки отменён по таймауту."), 15000);\n    activeButtonPicker = { kind, listener, timeout };\n    setStatus(STATUS_KEYS.PICKER, `Яндекс: нажмите нужную кнопку ${isSend ? "Send" : "Copy"}. Нажатие будет перехвачено и не выполнится.`, "info");\n    return true;\n  }\n\n'''
+          assert anchor in x and 'function profileFromElement' not in x
+          x=x.replace(anchor,helpers+anchor,1)
+          x=x.replace('BB2ComposerSend.findSendButton(document);','BB2ComposerSend.findSendButton(document, stateSnapshot?.send_button_profile || null);')
+          x=x.replace('BB2ComposerSend.composerReady(document);','BB2ComposerSend.composerReady(document, stateSnapshot?.send_button_profile || null);')
+          old='''    if (message?.type === "WS_GET_IDENTITY" || message?.type === "WS_PAGE_CONTEXT") {'''
+          new='''    if (message?.type === "WS_START_SEND_BUTTON_PICKER") {\n      startButtonPicker("send");\n      sendResponse({ ok: true, started: true });\n      return false;\n    }\n    if (message?.type === "WS_START_COPY_BUTTON_PICKER") {\n      startButtonPicker("copy");\n      sendResponse({ ok: true, started: true });\n      return false;\n    }\n    if (message?.type === "WS_GET_IDENTITY" || message?.type === "WS_PAGE_CONTEXT") {'''
+          assert old in x
+          x=x.replace(old,new,1)
+          old='''      startAutoWatch,\n      scanAutorun\n'''
+          new='''      startAutoWatch,\n      scanAutorun,\n      profileFromElement,\n      startButtonPicker,\n      stopButtonPicker\n'''
+          assert old in x
+          x=x.replace(old,new,1)
+          content.write_text(x,encoding='utf-8')
+
+          html=Path('extension/src/popup.html')
+          h=html.read_text(encoding='utf-8')
+          anchor='''    <section>\n      <h2>Yandex API</h2>'''
+          section='''    <section>\n      <h2>Кнопки ChatGPT</h2>\n      <p id="sendProfileMeta" class="muted">Send не настроен.</p>\n      <div class="actions">\n        <button id="pickSend" type="button">Выбрать Send</button>\n        <button id="clearSend" type="button">Сбросить Send</button>\n      </div>\n      <p id="copyProfileMeta" class="muted">Copy не настроен.</p>\n      <div class="actions">\n        <button id="pickCopy" type="button">Выбрать Copy</button>\n        <button id="clearCopy" type="button">Сбросить Copy</button>\n      </div>\n      <p class="warning">Copy хранится для совместимости. Кнопка «Яндекс» работает отдельно и от Copy не зависит.</p>\n    </section>\n\n''' + anchor
+          assert anchor in h and 'id="pickSend"' not in h
+          h=h.replace(anchor,section,1)
+          html.write_text(h,encoding='utf-8')
+
+          popup=Path('extension/src/popup.js')
+          p=popup.read_text(encoding='utf-8')
+          anchor='''  function isActiveRun(run) {\n    return Boolean(run && !TERMINAL_RUNS.has(String(run.status || "")));\n  }\n'''
+          helper=anchor+'''\n  function copyProfileCount(value) {\n    if (Array.isArray(value)) return value.filter(Boolean).length;\n    if (!value || typeof value !== "object") return 0;\n    if (Array.isArray(value.profiles)) return value.profiles.filter(Boolean).length;\n    return Object.values(value).reduce((total, item) => total + (Array.isArray(item) ? item.filter(Boolean).length : (item && typeof item === "object" ? 1 : 0)), 0);\n  }\n'''
+          assert anchor in p and 'function copyProfileCount' not in p
+          p=p.replace(anchor,helper,1)
+          old='''      $("debugMode").checked = state?.debug_mode === true;\n\n      const prefix = state?.report_prefix || {};'''
+          new='''      $("debugMode").checked = state?.debug_mode === true;\n\n      const sendProfile = state?.send_button_profile || null;\n      const copyCount = copyProfileCount(state?.copy_button_profiles);\n      $("sendProfileMeta").textContent = sendProfile?.selector ? `Send настроен: ${sendProfile.selector}` : "Send не настроен.";\n      $("copyProfileMeta").textContent = copyCount ? `Сохранено Copy-профилей: ${copyCount}` : "Copy не настроен.";\n      $("pickSend").disabled = !context.available;\n      $("pickCopy").disabled = !context.available;\n      $("clearSend").disabled = !sendProfile;\n      $("clearCopy").disabled = copyCount === 0;\n\n      const prefix = state?.report_prefix || {};'''
+          assert old in p
+          p=p.replace(old,new,1)
+          anchor='''  $("diagnosticsFilter").addEventListener("change", () => renderDiagnostics());\n'''
+          handlers='''  $("pickSend").addEventListener("click", () => withButton($("pickSend"), async () => {\n    await resolveContext();\n    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");\n    const response = await tabSend(context.tab_id, { type: "WS_START_SEND_BUTTON_PICKER", conversation_key: context.conversation_key });\n    if (!response?.ok || response.started !== true) throw new Error(response?.error || response?.code || "Не удалось начать выбор Send.");\n    showStatus("Выбор Send запущен. Нажмите нужную кнопку в ChatGPT.", "ok");\n  }));\n\n  $("pickCopy").addEventListener("click", () => withButton($("pickCopy"), async () => {\n    await resolveContext();\n    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");\n    const response = await tabSend(context.tab_id, { type: "WS_START_COPY_BUTTON_PICKER", conversation_key: context.conversation_key });\n    if (!response?.ok || response.started !== true) throw new Error(response?.error || response?.code || "Не удалось начать выбор Copy.");\n    showStatus("Выбор Copy запущен. Нажмите нужную кнопку в ChatGPT.", "ok");\n  }));\n\n  $("clearSend").addEventListener("click", () => withButton($("clearSend"), async () => {\n    const response = await runtimeSend({ type: "WS_CLEAR_SEND_BUTTON_PROFILE" });\n    if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сбросить Send.");\n    await refresh();\n    showStatus("Настройка Send сброшена.", "ok");\n  }));\n\n  $("clearCopy").addEventListener("click", () => withButton($("clearCopy"), async () => {\n    const response = await runtimeSend({ type: "WS_CLEAR_COPY_BUTTON_PROFILES" });\n    if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сбросить Copy.");\n    await refresh();\n    showStatus("Настройки Copy сброшены.", "ok");\n  }));\n\n''' + anchor
+          assert anchor in p and '$("pickSend").addEventListener' not in p
+          p=p.replace(anchor,handlers,1)
+          old='''      loadDiagnostics, renderDiagnostics, visibleDiagnostics\n'''
+          new='''      loadDiagnostics, renderDiagnostics, visibleDiagnostics, copyProfileCount\n'''
+          assert old in p
+          p=p.replace(old,new,1)
+          popup.write_text(p,encoding='utf-8')
+          PY
+          node --test extension/tests/button_picker_recovery.test.mjs
+          node --check extension/src/service_worker.js
+          node --check extension/src/content_script.js
+          node --check extension/src/popup.js
+          node --check extension/src/shared/composer_send.js
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/src/service_worker.js extension/src/content_script.js extension/src/shared/composer_send.js extension/src/popup.html extension/src/popup.js extension/tests/button_picker_recovery.test.mjs
+          git commit -m 'fix: restore Send Copy pickers and learned Send lookup'
+          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
