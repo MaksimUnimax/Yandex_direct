@@ -19,6 +19,14 @@ test('manifest allows only ChatGPT pages plus official Yandex API host',()=>{
   assert.equal(manifest.background.service_worker,'service_worker_bootstrap.js');
 });
 
+test('package npm test points to the real top-level Node test suite',()=>{
+  const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8'));
+  assert.equal(pkg.scripts?.test,'node --test ../tests/*.test.mjs');
+  const testsDir=path.resolve(root,'../tests');
+  assert.equal(fs.existsSync(testsDir),true);
+  assert.ok(fs.readdirSync(testsDir).some(name=>name.endsWith('.test.mjs')));
+});
+
 test('service registry exposes only Wordstat and synchronous Search',()=>{
   const ctx=vm.createContext({}); ctx.globalThis=ctx;
   vm.runInContext(fs.readFileSync(path.join(root,'shared/service_registry.js'),'utf8'),ctx);
