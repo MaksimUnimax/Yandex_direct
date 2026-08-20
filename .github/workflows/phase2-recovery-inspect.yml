@@ -1,4 +1,4 @@
-name: phase2-recovery-inspect
+name: phase2-focused-search
 on:
   push:
     branches:
@@ -8,29 +8,29 @@ on:
       - main
 permissions:
   contents: read
-  actions: read
 jobs:
-  inspect-artifacts:
+  focused-search:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Enumerate all surviving repository artifacts
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Search focused tests
         shell: bash
         run: |
           set -euo pipefail
-          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" > /tmp/artifact-pages.json
-          python3 - /tmp/artifact-pages.json <<'PY'
-          import json, sys
-          raw=open(sys.argv[1],encoding='utf-8').read()
-          dec=json.JSONDecoder(); i=0; arts=[]
-          while i < len(raw):
-              while i < len(raw) and raw[i].isspace(): i += 1
-              if i >= len(raw): break
-              obj,j=dec.raw_decode(raw,i); i=j
-              arts.extend(obj.get('artifacts',[]))
-          print('SURVIVING_ARTIFACTS', len(arts))
-          for a in sorted(arts,key=lambda x:x.get('created_at','')):
-              print(a['id'], a['name'], 'expired='+str(a.get('expired')), 'size='+str(a.get('size_in_bytes')), 'created='+str(a.get('created_at')), 'run='+str((a.get('workflow_run') or {}).get('id')))
-          PY
+          node --test \
+            extension/tests/search_protocol.test.mjs \
+            extension/tests/search_registry.test.mjs \
+            extension/tests/search_xml.test.mjs \
+            extension/tests/search_worker_stage2.test.mjs
+      - name: Syntax and JSON checks for restored source
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/service_worker.js
+          node --check extension/src/shared/conversation_identity.js
+          node --check extension/src/shared/manual_controls.js
+          node --check extension/src/shared/block_command_discovery.js
+          node --check extension/src/shared/run_context_model.js
+          node --check extension/src/shared/composer_send.js
+          node --check extension/src/shared/proven_writing_block_capture.js
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); JSON.parse(require('fs').readFileSync('extension/src/package.json','utf8'));"
