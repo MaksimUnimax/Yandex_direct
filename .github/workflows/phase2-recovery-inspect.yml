@@ -8,41 +8,20 @@ on:
       - main
 permissions:
   contents: read
-  actions: read
 jobs:
-  inspect:
+  export:
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-      - name: Enumerate recent YMB QA runs and artifacts
-        shell: bash
-        run: |
-          set -euo pipefail
-          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" > /tmp/runs-pages.json
-          python3 - /tmp/runs-pages.json <<'PY'
-          import json,sys
-          # --paginate may concatenate JSON objects; parse incrementally
-          s=open(sys.argv[1]).read(); dec=json.JSONDecoder(); i=0; runs=[]
-          while i < len(s):
-              while i<len(s) and s[i].isspace(): i+=1
-              if i>=len(s): break
-              o,j=dec.raw_decode(s,i); i=j; runs.extend(o.get('workflow_runs',[]))
-          for r in runs:
-              n=(r.get('name') or '').lower()
-              if any(x in n for x in ('e13a','full','artifact','reconstruction','transport','regression')):
-                  print(r['id'],r.get('head_sha'),r.get('name'),r.get('status'),r.get('conclusion'),r.get('created_at'))
-          print('SUCCESS RUN ARTIFACTS')
-          import subprocess
-          for r in runs:
-              if r.get('conclusion')!='success': continue
-              n=(r.get('name') or '').lower()
-              if not any(x in n for x in ('e13a','full','artifact','reconstruction','transport','regression')): continue
-              p=subprocess.run(['gh','api',f"repos/{__import__('os').environ['GITHUB_REPOSITORY']}/actions/runs/{r['id']}/artifacts?per_page=100"],capture_output=True,text=True)
-              if p.returncode: continue
-              a=json.loads(p.stdout).get('artifacts',[])
-              if a:
-                  print('RUN',r['id'],r.get('name'))
-                  for x in a: print(' ART',x['id'],x['name'],'expired='+str(x.get('expired')),'size='+str(x.get('size_in_bytes')))
-          PY
+        with:
+          ref: dev/phase2-search-foundation-2026-08-19
+          fetch-depth: 1
+      - name: Export development inputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-development-inputs
+          path: |
+            extension/src
+            extension/tests
+            extension/docs
+          compression-level: 0
