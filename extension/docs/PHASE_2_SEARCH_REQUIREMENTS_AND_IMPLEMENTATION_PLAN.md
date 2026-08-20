@@ -1,7 +1,7 @@
 # PHASE 2 — YANDEX SEARCH / SERP REQUIREMENTS AND IMPLEMENTATION PLAN
 
-Status: **CURRENT PHASE-2 REQUIREMENT AUTHORITY / IMPLEMENTATION NOT STARTED**  
-Updated: 2026-08-19
+Status: **CURRENT PHASE-2 REQUIREMENT AUTHORITY / IMPLEMENTATION ACTIVE**  
+Updated: 2026-08-20
 
 This document records the Phase-2 service contract reconstructed from current project authority and current official Yandex Search API documentation. It must be read before Search product changes.
 
@@ -555,7 +555,41 @@ These require separate contract/gate expansion after synchronous Search is accep
 ```text
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
 PHASE 2 SEARCH REQUIREMENTS = RECONSTRUCTED
-PHASE 2 PRODUCT IMPLEMENTATION = NOT STARTED
-FIRST SLICE = SYNCHRONOUS TEXT SEARCH / XML / SEARCH_API_V1
-NEXT REQUIRED STAGE = UPDATE SPECIFICATION + LIVING FULL GATE FOR PHASE 2 BEFORE PRODUCT CODE
+PHASE 2 FOUNDATION = IMPLEMENTED ON dev/phase2-search-foundation-2026-08-19
+PHASE 2 FOUNDATION LOCAL VERIFICATION = 393/393 PASS; SYNTAX PASS; JSON PASS; REAL YANDEX REQUESTS 0
+```
+
+## 20. Four active engineering stages — binding execution plan
+
+The remaining implementation is now governed by:
+
+```text
+extension/docs/PHASE_2_SEARCH_ACTIVE_ENGINEERING_STAGES.md
+```
+
+The four ordered stages are:
+
+```text
+STAGE 1 — Search policy / cost / admission
+STAGE 2 — Worker / provider execution integration
+STAGE 3 — Operator settings / popup / load wiring
+STAGE 4 — Manual Search end-to-end integration / local regression / freeze prep
+```
+
+Foundation is already complete and is not one of these remaining four stages.
+
+Execution rule:
+
+```text
+ChatGPT continues through the four stages without micro-confirmations.
+Unknown browser/DOM/runtime fact → concrete Codex measurement, never guess.
+Completed exact candidate → Codex complete pre-delivery gate.
+Codex PASS → owner minimal paid real-Yandex Search acceptance.
+Owner explicit pause/scope change → stop/adjust.
+```
+
+Current authorized next stage:
+
+```text
+PHASE_2_STAGE_1_SEARCH_POLICY_COST_ADMISSION
 ```
