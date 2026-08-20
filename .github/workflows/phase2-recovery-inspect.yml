@@ -1,34 +1,21 @@
-name: phase2-save-restored-files
+name: phase2-focused-search
 on:
   pull_request:
     branches:
       - main
 permissions:
-  contents: write
+  contents: read
 jobs:
-  save-restored-files:
+  focused-search:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: dev/phase2-recovery-work-2026-08-20
-      - name: Verify restored files, test, and save them
+      - name: Search integration focused tests
         shell: bash
         run: |
           set -euo pipefail
-          root='extension/tests/.recovery/phase2-50pass-checkpoint.parts'
-          parts=(part00.b64 part01.b64 part02.b64 part03.b64 part04.b64 part05.b64)
-          for p in "${parts[@]}"; do test -f "$root/$p"; done
-          test "$(sha256sum "$root/part00.b64" | awk '{print $1}')" = '04b5c51977da10ff6f04e0dacd153ae9bd59a0f40b7c8703d075bd4ce64b6f1e'
-          test "$(sha256sum "$root/part01.b64" | awk '{print $1}')" = '7b79e84e9a063f25c05776aec87f2810e76c0245a82787e0761a56c27c717c67'
-          test "$(sha256sum "$root/part02.b64" | awk '{print $1}')" = 'b707e2786bb514197214644c912056b2383aa02a5c098cf5e01bef10ed012ace'
-          test "$(sha256sum "$root/part03.b64" | awk '{print $1}')" = 'e27b1e3238935f7db902f3bec6e48ffd4fa59a293718065e3cc23cb4f32c2143'
-          test "$(sha256sum "$root/part04.b64" | awk '{print $1}')" = 'bc441aba029f8b222e835881da08bfea3bd446badaf53042defa20b066be4ad8'
-          test "$(sha256sum "$root/part05.b64" | awk '{print $1}')" = 'bbe18fbe1910d2290bb178342c656133ea9b2f910ffdc2ad33b6f80057b85393'
-          cat "$root"/part*.b64 > /tmp/phase2-50pass-checkpoint.b64
-          base64 -d /tmp/phase2-50pass-checkpoint.b64 > /tmp/phase2-50pass-checkpoint.tar.gz
-          test "$(sha256sum /tmp/phase2-50pass-checkpoint.tar.gz | awk '{print $1}')" = '00f5a85699a1f342a6a7face1dd1920ee221e1725f7eff9458d1332948e91793'
-          tar -xzf /tmp/phase2-50pass-checkpoint.tar.gz
           node --test \
             extension/tests/search_protocol.test.mjs \
             extension/tests/search_registry.test.mjs \
@@ -38,13 +25,9 @@ jobs:
             extension/tests/content_phase2_runtime.test.mjs \
             extension/tests/popup_phase2_runtime.test.mjs \
             extension/tests/autorun_recovery.test.mjs
+      - name: Syntax and JSON checks
+        shell: bash
+        run: |
+          set -euo pipefail
           for f in extension/src/*.js extension/src/shared/*.js; do node --check "$f"; done
           node -e "for (const f of ['extension/src/manifest.json','extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add extension/src/service_worker.js extension/src/content_script.js extension/src/popup.html extension/src/popup.css extension/src/popup.js extension/tests/search_manual_worker.test.mjs extension/tests/popup_phase2_runtime.test.mjs extension/tests/autorun_recovery.test.mjs
-          git rm "$root"/part*.b64
-          if [ -f extension/tests/.recovery/phase2-50pass-checkpoint.tar.gz.b64 ]; then git rm extension/tests/.recovery/phase2-50pass-checkpoint.tar.gz.b64; fi
-          if [ -f extension/tests/.recovery/popup-recovery.patch.gz.b64 ]; then git rm extension/tests/.recovery/popup-recovery.patch.gz.b64; fi
-          git commit -m 'dev: save restored Search integration files'
-          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
