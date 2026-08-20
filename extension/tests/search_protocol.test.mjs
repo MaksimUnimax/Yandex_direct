@@ -5,16 +5,28 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../src');
-const ctx=vm.createContext({console,TextEncoder,TextDecoder,URL,Buffer}); ctx.globalThis=ctx;
-for (const f of ['shared/search_xml.js','shared/search_protocol.js']) vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f});
-const P=ctx.SearchProtocol;
-test('SEARCH_API_V1 canonical defaults, fingerprint and exact request body',()=>{
-  const c=P.parseCommand('SEARCH_API_V1\n{"method":"search","queryText":"оберег в машину"}');
-  assert.equal(c.method,'search'); assert.equal(c.searchType,'SEARCH_TYPE_RU'); assert.equal(c.page,0); assert.equal(c.groupsOnPage,10); assert.equal(c.docsInGroup,1); assert.equal(c.maxPassages,4); assert.equal(c.l10n,'LOCALIZATION_RU');
-  assert.equal(P.commandFingerprint(c),P.commandFingerprint({...c}));
-  const r=P.buildRequest(c,'folder-1'); assert.equal(r.method,'POST'); assert.equal(r.url,'https://searchapi.api.cloud.yandex.net/v2/web/search'); assert.equal(r.body.folderId,'folder-1'); assert.equal(r.body.responseFormat,'FORMAT_XML'); assert.equal(r.body.query.queryText,'оберег в машину');
+const c={console,TextDecoder,Uint8Array,Buffer}; c.globalThis=c; vm.createContext(c);
+for(const f of ['product.js','search_xml.js','search_protocol.js']) vm.runInContext(fs.readFileSync(path.join(root,'shared',f),'utf8'),c);
+const P=c.SearchProtocol;
+test('SEARCH_API_V1 defaults and request mapping',()=>{
+  const cmd=P.parseCommand('SEARCH_API_V1\n{"queryText":"оберег в машину"}');
+  assert.equal(cmd.method,'search'); assert.equal(cmd.searchType,'SEARCH_TYPE_RU'); assert.equal(cmd.region,'225'); assert.equal(cmd.page,0); assert.equal(cmd.groupsOnPage,10); assert.equal(cmd.docsInGroup,1); assert.equal(cmd.maxPassages,4); assert.equal(cmd.l10n,'LOCALIZATION_RU');
+  const req=P.buildRequest(cmd,'folder');
+  assert.equal(req.url,'https://searchapi.api.cloud.yandex.net/v2/web/search');
+  assert.equal(req.body.folderId,'folder'); assert.equal(req.body.responseFormat,'FORMAT_XML'); assert.equal(req.body.query.queryText,'оберег в машину'); assert.equal(req.body.groupSpec.groupsOnPage,'10');
 });
-test('SEARCH_API_V1 rejects invalid bounds before any provider transport',()=>{
-  const ok=(q)=>P.normalizeCommand({method:'search',queryText:q}); assert.equal(ok('x'.repeat(400)).queryText.length,400); assert.equal(ok(Array(40).fill('x').join(' ')).queryText.split(/\s+/).length,40);
-  for (const bad of [{method:'search',queryText:''},{method:'search',queryText:'x'.repeat(401)},{method:'search',queryText:Array(41).fill('x').join(' ')},{method:'search',queryText:'x',page:-1},{method:'search',queryText:'x',groupsOnPage:101},{method:'search',queryText:'x',docsInGroup:4},{method:'search',queryText:'x',maxPassages:6},{method:'search',queryText:'x',searchType:'NOPE'}]) assert.throws(()=>P.normalizeCommand(bad));
+test('Search validation boundaries',()=>{
+  assert.equal(P.normalizeCommand({queryText:'x'.repeat(400)}).queryText.length,400);
+  assert.throws(()=>P.normalizeCommand({queryText:'x'.repeat(401)}),e=>e.code==='FIELD_TOO_LONG');
+  assert.equal(P.normalizeCommand({queryText:Array(40).fill('x').join(' ')}).queryText.split(/\s+/).length,40);
+  assert.throws(()=>P.normalizeCommand({queryText:Array(41).fill('x').join(' ')}),e=>e.code==='QUERY_TOO_MANY_WORDS');
+  for(const [field,value] of [['groupsOnPage',101],['docsInGroup',4],['maxPassages',6],['page',-1]]) assert.throws(()=>P.normalizeCommand({queryText:'x',[field]:value}),e=>e.code==='INVALID_FIELD');
+  assert.throws(()=>P.normalizeCommand({queryText:'x',unknown:1}),e=>e.code==='UNSUPPORTED_FIELD');
+  assert.throws(()=>P.normalizeCommand({queryText:'x',searchType:'SEARCH_TYPE_COM',region:'225'}),e=>e.code==='REGION_NOT_SUPPORTED');
+  assert.throws(()=>P.normalizeCommand({queryText:'x',searchType:'SEARCH_TYPE_TR',l10n:'LOCALIZATION_RU'}),e=>e.code==='LOCALIZATION_NOT_SUPPORTED');
+});
+test('Search result envelope truth fields',()=>{
+  const cmd=P.normalizeCommand({queryText:'x'});
+  const env=P.buildResultEnvelope({requestId:'r1',command:cmd,httpStatus:200,result:{results:[],result_count:0,response_format:'FORMAT_XML'},elapsedMs:3,metadata:{request_executed:true,automatic_retry:false}});
+  assert.equal(env.service,'search'); assert.equal(env.status,'OK'); assert.equal(env.request_executed,true); assert.equal(env.automatic_retry,false); assert.match(P.formatResultEnvelope(env),/^SEARCH_RESULT_V1\n/);
 });

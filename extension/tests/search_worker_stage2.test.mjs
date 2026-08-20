@@ -193,7 +193,7 @@ test('accepted Search provider execution performs exactly one POST and normalize
   assert.equal(result.report_envelope.operation, 'search');
   assert.equal(result.report_envelope.request_executed, true);
   assert.equal(result.report_envelope.automatic_retry, false);
-  assert.equal(result.report_envelope.result.documents[0].url, 'https://example.test/a');
+  assert.equal(result.report_envelope.result.results[0].url, 'https://example.test/a');
 });
 
 test('Search validation and credential rejection happen before fetch', async () => {
