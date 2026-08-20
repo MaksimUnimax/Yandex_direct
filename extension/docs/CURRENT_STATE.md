@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 4 ACTIVE — BLOCKED ON EXACT STAGE-3 TRANSPORT RECOVERY**  
+Status: **CURRENT CONTROL-PLANE AUTHORITY / PHASE 2 STAGE 3 REOPENED — DURABLE REIMPLEMENTATION REQUIRED**  
 Updated: 2026-08-20
 
 Always fetch live `main` HEAD before any control-plane write.
@@ -11,6 +11,7 @@ Always fetch live `main` HEAD before any control-plane write.
 repo: MaksimUnimax/Yandex_direct
 control branch: main
 Phase-2 development branch: dev/phase2-search-foundation-2026-08-19
+current dev HEAD after recovery evidence: 3350ab13134142180c0a217b25188ec6b5fcca8b
 ```
 
 ## Mandatory workflow authorities
@@ -106,24 +107,29 @@ extension/tests/phase2/search-worker-provider/target-tree-sha256.tsv
 extension/tests/phase2/search-worker-provider/phase2-stage2-worker-provider.patch.gz.b64
 ```
 
+Canonical durable product base for resumed engineering is this exact Stage-2 target. Do not use the lost Stage-3 hashes as editable byte authority.
+
 ### STAGE 3 — Manual/Autorun/operator/delivery integration
 
 ```text
-FUNCTIONAL/TEST VERDICT = PASS
-CHECKPOINT TRANSPORT DURABILITY = INCOMPLETE; exact Stage-3 patch must be recovered before Stage-4 freeze
-Stage-3 target files: 51
-target manifest SHA-256: b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f
-recorded fresh git apply --check: PASS
-recorded fresh target identity: 51/51 PASS
-focused Manual + Search worker: 38/38 PASS
-popup runtime: 13/13 PASS
-full suite: 382/382 PASS
-syntax: 46/46 PASS
-JSON: 2/2 PASS
-real Yandex requests: 0
+STATUS = REOPENED / ACTIVE
+REASON = previous functional implementation was not preserved as byte-complete durable product/test transport; exact recovery failed
+DURABLE BASE = exact Stage-2 target, 51 files, manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
 ```
 
-Stage-3 recorded product hashes:
+The previous local Stage-3 verification remains historical behavioral evidence only:
+
+```text
+recorded target manifest SHA-256: b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f
+recorded focused Manual + Search worker: 38/38 PASS
+recorded popup runtime: 13/13 PASS
+recorded full suite: 382/382 PASS
+recorded syntax: 46/46 PASS
+recorded JSON: 2/2 PASS
+recorded real Yandex requests: 0
+```
+
+Historical recorded Stage-3 product hashes, NOT current byte authority:
 
 ```text
 content_script.js a789b7ec586632d2dde287b59ccaee11d8de010ae9a474cdcd9a68a0b252e688
@@ -133,97 +139,115 @@ popup.js 03b13ad6af722ea9cc92d26e7e299519fbd500e43d71f2c9c225a903bfe6c274
 service_worker.js 87a4022b7273618ac4df343cff50f7fd155d03c26dc17b68169a569dd0a43c3b
 ```
 
-Verified Stage-3 behavior recorded by the completed local verification:
-
-```text
-Search Manual uses the same external `Яндекс` action and durable Manual delivery path
-registered wrong-service Manual command rejects SERVICE_NOT_ACTIVE before durable claim/fetch
-paused Search RUN Manual uses the same immutable service and RUN budgets
-Search Autorun uses active_service-specific protocol and provider execution
-Search/Wordstat cross-service Autorun commands reject before fetch
-Search watcher active_service propagates worker -> content
-popup exposes Wordstat/Search service selector and separate Search policy/limits
-Search start prompt/default is service-aware
-settings export/import includes Search policy while credentials remain separate
-common owner-tab/conversation/single-flight/outbox/composer/no-blind-retry machinery remains shared
-```
-
-Failure containment retained:
-
-```text
-15 initial Stage-3 failures = TEST/HARNESS drift from Wordstat-only assertions/module loading; corrected without weakening equivalent invariants.
-One real PRODUCT gap found: Manual service mismatch was only rejected after durable claim. Fixed by registered-service preflight routing check before durable claim; zero provider initiation. Focused + full regression PASS afterward.
-```
-
-Recorded Stage-3 local transport identity:
+Historical recorded transport identity, NOT recoverable:
 
 ```text
 raw patch SHA-256: d2338b7d1f233e3622fdc1da49038df0e96afe0785b2addfbab4f961fda9cee6
 raw patch bytes: 81690
 gzip SHA-256: 5c32e7a16f0102cc0c54cb59fb15a1b815795462822a8338692adef2d1487ec5
 base64 SHA-256: edc73c040de67310a03c284728d45589b7a901721ff7b4b4df52d5f363b113de
-base64 chars with wrapping: 26971
 target manifest SHA-256: b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f
 ```
 
-Live GitHub reconstruction performed at Stage-4 start found that only these Stage-3 checkpoint files are actually durable on the development branch:
+Exact recovery was executed by Codex as measurement/artifact recovery only. Result:
+
+```text
+STAGE3_EXACT_RECOVERY_RESULT_V1 = FAIL
+raw patch found = false
+recorded gzip match = false
+recorded base64 match = false
+exact target found = false
+best target candidate = 28 matched / 17 mismatched / 6 missing / 0 extras
+product files modified = false
+existing test files modified = false
+real Yandex requests = 0
+```
+
+Durable recovery evidence:
 
 ```text
 extension/tests/phase2/search-runtime-integration/STAGE3_EVIDENCE_2026-08-20.json
 extension/tests/phase2/search-runtime-integration/target-tree-sha256.tsv
+extension/tests/phase2/search-runtime-integration/STAGE4_TRANSPORT_BLOCKER_2026-08-20.md
+extension/tests/phase2/search-runtime-integration/STAGE3_EXACT_RECOVERY_RESULT_V1_2026-08-20.json
 ```
 
-Comparison from durable Stage-2 head `0a59b41f48bc98a7d0c1aba7317dc61ba2f8d9b8` to the development branch shows only those Stage-3 evidence/manifest additions; the recorded Stage-3 patch/product/test bytes are not present as a byte-complete reconstructable GitHub transport. Repository search also does not find a Stage-3 patch transport file.
-
-Historical e13a QA transport branches were checked. They preserve the known Codex-preimage + text-safe patch/manifest/packer scheme but do not contain the missing Stage-3 patch or a byte-complete Stage-3 target.
-
-Durable blocker evidence:
+Classification:
 
 ```text
-extension/tests/phase2/search-runtime-integration/STAGE4_TRANSPORT_BLOCKER_2026-08-20.md
+failure layer = ARTIFACT / CHECKPOINT DURABILITY
+product defect = NOT ESTABLISHED
+old exact Stage-3 candidate = UNRECOVERABLE from available durable/workspace evidence
 ```
 
-No product/test bytes were changed while classifying this blocker. No real Yandex request was made.
+The previous Stage-3 exit was not durable because the required exact product/test transport was missing. Therefore Stage 3 is reopened rather than inventing the lost bytes or freezing a logically similar package as the old candidate.
+
+Authorized resumed Stage-3 scope is the same governed integration scope:
+
+```text
+popup active-service/operator controls
+Search Manual and Autorun policy/limits
+SEARCH_API_V1 external Яндекс action on shared Manual surface
+native Copy independence
+owner-tab/conversation/single-flight reuse
+immutable service per Autorun RUN
+Wordstat/Search RUN isolation
+worker-owned outbox/result/error delivery
+composer occupied protection
+committed Send <= 1
+ready/Microphone completion and watch-only recovery
+YMB_ERROR_V1 and Debug redaction
+Export/Import compatibility
+full affected regression
+zero real Yandex requests
+```
+
+Reimplementation must start only from the durable exact Stage-2 target and must produce a NEW exact Stage-3 target/transport. It must not try to fabricate or claim identity with the lost historical Stage-3 patch. If the new implementation happens to reproduce any old hash naturally, that is evidence only; matching historical hashes is not an engineering requirement.
+
+Stage-3 exit now requires all of the following before Stage 4 may start:
+
+```text
+focused Stage-3 integration tests PASS
+full source regression PASS
+syntax/JSON PASS
+real Yandex requests = 0
+exact product/test target manifest preserved in GitHub
+byte-complete text-safe Stage-3 transport preserved in GitHub
+fresh consumer round-trip/reconstruction identity PASS
+Stage-3 evidence checkpoint written
+CURRENT_STATE advanced to Stage 4
+```
 
 ### STAGE 4 — frozen candidate / exact transport / Codex / owner live
 
 ```text
-STATUS = ACTIVE / BLOCKED BEFORE CANDIDATE FREEZE
-BLOCKER = exact Stage-3 patch/target bytes must be recovered and consumer-verified
+STATUS = PENDING REOPENED STAGE-3 DURABLE PASS
 ```
 
-Stage-4 work that is NOT yet authorized while this blocker remains:
+Not authorized until reopened Stage 3 satisfies its durable exit criteria:
 
 ```text
-freeze Phase-2 candidate
+freeze combined Phase-2 candidate
 build/declare deterministic final ZIP identity
 issue Codex full-gate prompt
 owner real-profile Search request
 ```
 
-Required recovery action:
-
-```text
-Codex measurement/artifact recovery only — no product/test edits.
-Locate the exact Stage-3 raw patch matching d2338b7d1f233e3622fdc1da49038df0e96afe0785b2addfbab4f961fda9cee6,
-or its recorded gzip/base64 form, or the exact 51-file Stage-3 target that verifies 51/51 against the durable target manifest and can reproduce that raw patch from the Stage-2 base.
-```
-
-After exact recovery, ChatGPT must publish a text-safe byte-complete transport, perform the canonical fresh-consumer round trip, then continue Stage 4. Codex full gate remains zero-real-Yandex.
+After reopened Stage-3 PASS, Stage 4 must still follow the canonical transport runbook and full Phase-1 + Phase-2 regression gate with zero real Yandex traffic.
 
 ## Current control-plane reconstruction
 
 ```text
 LIVE_HEAD = fetch live main before every control-plane write
-PRODUCT_SOURCE = Stage-3 local target identity is recorded, but durable byte-complete reconstruction is currently blocked
-HANDOFF_ARTIFACT = NONE; Phase-2 candidate is not frozen
+PRODUCT_SOURCE = exact durable Stage-2 51-file target / manifest a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+HANDOFF_ARTIFACT = NONE
 LATEST_FULL_GATE = Phase-1 exact e13a PASS only; Phase-2 combined gate pending
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = YES
 OWNER_LIVE = Phase 1 PASS; Phase 2 PENDING
-OPEN_BLOCKERS = exact Stage-3 patch/target transport recovery
-AUTHORIZED_NEXT_ACTION = CODEX_STAGE3_EXACT_ARTIFACT_RECOVERY_MEASUREMENT
-CODEX_MEASUREMENT_PENDING = YES
-OWNER_ACTION_PENDING = paste the supplied Codex measurement prompt only
+OPEN_BLOCKERS = none external; lost historical Stage-3 bytes are classified and no longer treated as recoverable source authority
+AUTHORIZED_NEXT_STAGE = PHASE2_STAGE3_DURABLE_REIMPLEMENTATION_FROM_EXACT_STAGE2
+CODEX_MEASUREMENT_PENDING = NO
+OWNER_ACTION_PENDING = NO
 ```
 
 ## Phase status
@@ -231,7 +255,7 @@ OWNER_ACTION_PENDING = paste the supplied Codex measurement prompt only
 ```text
 PHASE 0 = PASS
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
-PHASE 2 SEARCH = ACTIVE / STAGE 1 PASS / STAGE 2 PASS / STAGE 3 FUNCTIONAL PASS / STAGE 4 BLOCKED ON EXACT TRANSPORT RECOVERY
+PHASE 2 SEARCH = ACTIVE / STAGE 1 PASS / STAGE 2 PASS / STAGE 3 REOPENED ACTIVE / STAGE 4 PENDING
 PHASE 3 WEBMASTER = BLOCKED
 PHASE 4 METRIKA = BLOCKED
 PHASE 5 DIRECT READ = BLOCKED
