@@ -195,3 +195,43 @@ test('bootstrap does not create a rollback backup for ordinary storage writes', 
   assert.equal(h.writes[0].ymb_debug_mode, true);
   assert.equal(Object.hasOwn(h.store, 'ymb_settings_migration_rollback_backup'), false);
 });
+
+test('legacy report prefix storage is exposed through the current key and preserved in place', async () => {
+  const legacy = {
+    'https://chatgpt.com|legacy': { enabled: true, text: 'LEGACY PREFIX', interval: 2, delivered_count: 7 }
+  };
+  const h = bootstrapHarness({ wsmb_report_prefix_configs: legacy });
+  const result = await h.chrome.storage.local.get('wsmb_report_prefixes');
+  assert.deepEqual(result.wsmb_report_prefixes, legacy);
+  assert.deepEqual(h.store.wsmb_report_prefixes, legacy);
+  assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
+});
+
+test('current report prefix entries win conflicts while unique legacy entries are retained', async () => {
+  const legacy = {
+    same: { enabled: true, text: 'LEGACY' },
+    legacyOnly: { enabled: true, text: 'ONLY LEGACY' }
+  };
+  const current = {
+    same: { enabled: false, text: 'CURRENT' },
+    currentOnly: { enabled: true, text: 'ONLY CURRENT' }
+  };
+  const h = bootstrapHarness({ wsmb_report_prefix_configs: legacy, wsmb_report_prefixes: current });
+  const result = await h.chrome.storage.local.get('wsmb_report_prefixes');
+  assert.deepEqual(result.wsmb_report_prefixes, {
+    same: current.same,
+    legacyOnly: legacy.legacyOnly,
+    currentOnly: current.currentOnly
+  });
+  assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
+  assert.deepEqual(h.store.wsmb_report_prefixes, result.wsmb_report_prefixes);
+});
+
+test('array storage reads used by settings export receive merged legacy report prefixes', async () => {
+  const legacy = { old: { enabled: true, text: 'OLD' } };
+  const h = bootstrapHarness({ wsmb_api_key: 'key', wsmb_report_prefix_configs: legacy });
+  const result = await h.chrome.storage.local.get(['wsmb_api_key', 'wsmb_report_prefixes']);
+  assert.equal(result.wsmb_api_key, 'key');
+  assert.deepEqual(result.wsmb_report_prefixes, legacy);
+  assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
+});
