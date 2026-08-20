@@ -30,7 +30,8 @@ jobs:
             extension/tests/wordstat_core_recovery.test.mjs \
             extension/tests/settings_security_recovery.test.mjs \
             extension/tests/popup_error_boundary_recovery.test.mjs \
-            extension/tests/permission_scope_recovery.test.mjs
+            extension/tests/permission_scope_recovery.test.mjs \
+            extension/tests/legacy_profiles_recovery.test.mjs
       - name: Syntax and JSON checks
         shell: bash
         run: |
