@@ -202,7 +202,7 @@ test('legacy report prefix storage is exposed through the current key and preser
   };
   const h = bootstrapHarness({ wsmb_report_prefix_configs: legacy });
   const result = await h.chrome.storage.local.get('wsmb_report_prefixes');
-  assert.deepEqual(result.wsmb_report_prefixes, legacy);
+  assert.equal(canonical(result.wsmb_report_prefixes), canonical(legacy));
   assert.deepEqual(h.store.wsmb_report_prefixes, legacy);
   assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
 });
@@ -216,15 +216,16 @@ test('current report prefix entries win conflicts while unique legacy entries ar
     same: { enabled: false, text: 'CURRENT' },
     currentOnly: { enabled: true, text: 'ONLY CURRENT' }
   };
-  const h = bootstrapHarness({ wsmb_report_prefix_configs: legacy, wsmb_report_prefixes: current });
-  const result = await h.chrome.storage.local.get('wsmb_report_prefixes');
-  assert.deepEqual(result.wsmb_report_prefixes, {
+  const expected = {
     same: current.same,
     legacyOnly: legacy.legacyOnly,
     currentOnly: current.currentOnly
-  });
+  };
+  const h = bootstrapHarness({ wsmb_report_prefix_configs: legacy, wsmb_report_prefixes: current });
+  const result = await h.chrome.storage.local.get('wsmb_report_prefixes');
+  assert.equal(canonical(result.wsmb_report_prefixes), canonical(expected));
   assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
-  assert.deepEqual(h.store.wsmb_report_prefixes, result.wsmb_report_prefixes);
+  assert.equal(canonical(h.store.wsmb_report_prefixes), canonical(expected));
 });
 
 test('array storage reads used by settings export receive merged legacy report prefixes', async () => {
@@ -232,6 +233,6 @@ test('array storage reads used by settings export receive merged legacy report p
   const h = bootstrapHarness({ wsmb_api_key: 'key', wsmb_report_prefix_configs: legacy });
   const result = await h.chrome.storage.local.get(['wsmb_api_key', 'wsmb_report_prefixes']);
   assert.equal(result.wsmb_api_key, 'key');
-  assert.deepEqual(result.wsmb_report_prefixes, legacy);
+  assert.equal(canonical(result.wsmb_report_prefixes), canonical(legacy));
   assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
 });
