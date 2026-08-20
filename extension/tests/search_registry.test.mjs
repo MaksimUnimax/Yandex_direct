@@ -1,3 +1,19 @@
-import test from 'node:test'; import assert from 'node:assert/strict'; import fs from 'node:fs'; import path from 'node:path'; import vm from 'node:vm'; import { fileURLToPath } from 'node:url';
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../src'); const ctx=vm.createContext({console}); ctx.globalThis=ctx; vm.runInContext(fs.readFileSync(path.join(root,'shared/service_registry.js'),'utf8'),ctx);
-test('service registry isolates Search from Wordstat',()=>{const R=ctx.YMBServiceRegistry; assert.equal(R.serviceForProtocol('SEARCH_API_V1'),'search'); assert.equal(R.serviceForProtocol('WORDSTAT_API_V1'),'wordstat'); assert.equal(R.detect('SEARCH_API_V1\n{}').service,'search'); assert.equal(R.detect('WORDSTAT_API_V1\n{}').service,'wordstat'); assert.equal(R.detect('FUTURE_API_V1\n{}'),null);});
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
+const c = { console };
+c.globalThis = c;
+vm.createContext(c);
+vm.runInContext(fs.readFileSync(path.join(root, 'shared/service_registry.js'), 'utf8'), c);
+
+test('Search registry maps SEARCH_API_V1 to search', () => {
+  assert.equal(c.YMBServiceRegistry.detect('SEARCH_API_V1\n{"queryText":"x"}').service, 'search');
+  assert.equal(c.YMBServiceRegistry.definitionForService('search').prefix, 'SEARCH_API_V1');
+  assert.equal(c.YMBServiceRegistry.isKnownService('search'), true);
+  assert.equal(c.YMBServiceRegistry.detect('DIRECT_API_V1\n{}'), null);
+});

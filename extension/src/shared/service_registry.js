@@ -2,11 +2,13 @@
   "use strict";
 
   const SERVICES = Object.freeze({
-    WORDSTAT: "wordstat"
+    WORDSTAT: "wordstat",
+    SEARCH: "search"
   });
 
   const DEFINITIONS = Object.freeze([
-    Object.freeze({ service: SERVICES.WORDSTAT, prefix: "WORDSTAT_API_V1" })
+    Object.freeze({ service: SERVICES.WORDSTAT, prefix: "WORDSTAT_API_V1" }),
+    Object.freeze({ service: SERVICES.SEARCH, prefix: "SEARCH_API_V1" })
   ]);
 
   function normalizeText(text) {
