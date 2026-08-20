@@ -26,7 +26,8 @@ jobs:
             extension/tests/popup_phase2_runtime.test.mjs \
             extension/tests/autorun_recovery.test.mjs \
             extension/tests/conversation_fences_recovery.test.mjs \
-            extension/tests/start_prompt_and_prefix_recovery.test.mjs
+            extension/tests/start_prompt_and_prefix_recovery.test.mjs \
+            extension/tests/wordstat_core_recovery.test.mjs
       - name: Syntax and JSON checks
         shell: bash
         run: |
