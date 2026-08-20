@@ -8,41 +8,72 @@ on:
       - main
 permissions:
   contents: read
+  actions: read
 jobs:
   inspect:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Reconstruct exact lost Phase 2 tree
+      - name: Recover exact e13a artifact and reconstruct Phase 2
         shell: bash
         run: |
           set -euo pipefail
           git fetch --all --tags --prune
-          zip_path='extension/tests/qa_artifacts/yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip'
-          zip_commit=$(git log --all --max-count=1 --format='%H' -- "$zip_path")
-          echo "ZIP_HISTORY_COMMIT=$zip_commit"
-          test -n "$zip_commit"
-          git show "$zip_commit:$zip_path" > /tmp/e13a.zip
-          echo 'E13A:'
-          sha256sum /tmp/e13a.zip
-          wc -c /tmp/e13a.zip
-          test "$(sha256sum /tmp/e13a.zip | awk '{print $1}')" = 'e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65'
-          test "$(wc -c < /tmp/e13a.zip)" = '209505'
-          unzip -t /tmp/e13a.zip >/tmp/unzip-test.txt
-          rm -rf /tmp/e13a-tree
-          mkdir -p /tmp/e13a-tree
-          unzip -q /tmp/e13a.zip -d /tmp/e13a-tree
+          target_commit='665910bf9166cf7739d82031e5c9a64767a16b33'
+          echo 'OLD RUNS:'
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${target_commit}&per_page=100" > /tmp/runs.json
+          python3 - /tmp/runs.json <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          for r in d.get('workflow_runs',[]): print(r['id'],r['name'],r['status'],r.get('conclusion'))
+          PY
+          run_id=$(python3 - /tmp/runs.json <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          rs=[r for r in d.get('workflow_runs',[]) if r.get('name')=='YMB e13a exact artifact transport' and r.get('conclusion')=='success']
+          print(rs[0]['id'] if rs else '')
+          PY
+          )
+          test -n "$run_id"
+          echo "E13A_RUN_ID=$run_id"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100" > /tmp/artifacts.json
+          cat /tmp/artifacts.json
+          artifact_id=$(python3 - /tmp/artifacts.json <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          a=[x for x in d.get('artifacts',[]) if x.get('name')=='ymb-e13a-exact-zip' and not x.get('expired')]
+          print(a[0]['id'] if a else '')
+          PY
+          )
+          test -n "$artifact_id"
+          echo "E13A_ARTIFACT_ID=$artifact_id"
+          gh api -H 'Accept: application/vnd.github+json' "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > /tmp/artifact-wrapper.zip
+          rm -rf /tmp/artifact-wrapper && mkdir /tmp/artifact-wrapper
+          unzip -q /tmp/artifact-wrapper.zip -d /tmp/artifact-wrapper
+          e13a=$(find /tmp/artifact-wrapper -type f -name 'yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip' -print -quit)
+          test -n "$e13a"
+          echo "E13A_FILE=$e13a"
+          sha256sum "$e13a"
+          wc -c "$e13a"
+          test "$(sha256sum "$e13a" | awk '{print $1}')" = 'e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65'
+          test "$(wc -c < "$e13a")" = '209505'
+          unzip -t "$e13a" >/dev/null
+          rm -rf /tmp/e13a-tree && mkdir /tmp/e13a-tree
+          unzip -q "$e13a" -d /tmp/e13a-tree
           base_root=$(dirname "$(find /tmp/e13a-tree -type f -name content_script.js -print -quit)")
           echo "BASE_ROOT=$base_root"
-          test -f "$base_root/service_worker.js"
-          test -f "$base_root/popup.js"
           transport='extension/tests/qa_transport/phase2-search-sync-v1'
           cat "$transport"/patch.gz.b64.part00 "$transport"/patch.gz.b64.part01 "$transport"/patch.gz.b64.part02 "$transport"/patch.gz.b64.part03 "$transport"/patch.gz.b64.part04 > /tmp/phase2.b64
           base64 -d /tmp/phase2.b64 > /tmp/phase2.patch.gz
           gzip -t /tmp/phase2.patch.gz
           gzip -dc /tmp/phase2.patch.gz > /tmp/phase2.patch
+          echo 'COMBINED PATCH:'
+          sha256sum /tmp/phase2.patch
+          wc -c /tmp/phase2.patch
           test "$(sha256sum /tmp/phase2.patch | awk '{print $1}')" = '91751cd720dba23282be69d75c921331dab83bbe6076bffd464519297a80c0ca'
           test "$(wc -c < /tmp/phase2.patch)" = '142186'
           cd "$base_root"
@@ -50,37 +81,32 @@ jobs:
           git apply /tmp/phase2.patch
           cd - >/dev/null
           manifest='extension/tests/phase2/search-runtime-integration/target-tree-sha256.tsv'
-          test -f "$manifest"
-          expected_manifest_sha=$(sha256sum "$manifest" | awk '{print $1}')
-          echo "FINAL_MANIFEST_SHA=$expected_manifest_sha"
-          test "$expected_manifest_sha" = 'b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f'
+          echo "MANIFEST_SHA=$(sha256sum "$manifest" | awk '{print $1}')"
+          test "$(sha256sum "$manifest" | awk '{print $1}')" = 'b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f'
           python3 - "$base_root" "$manifest" <<'PY'
-          import hashlib, pathlib, sys
-          root=pathlib.Path(sys.argv[1]); manifest=pathlib.Path(sys.argv[2])
-          expected={}
-          for line in manifest.read_text(encoding='utf-8').splitlines():
-              if not line.strip(): continue
-              h,size,path=line.split('\t',2)
-              expected[path]=(h,int(size))
-          actual={}
+          import hashlib,pathlib,sys
+          root=pathlib.Path(sys.argv[1]); mf=pathlib.Path(sys.argv[2])
+          exp={}
+          for line in mf.read_text(encoding='utf-8').splitlines():
+              if line.strip():
+                  h,n,p=line.split('\t',2); exp[p]=(h,int(n))
+          act={}
           for p in root.rglob('*'):
               if p.is_file():
-                  rel=p.relative_to(root).as_posix()
-                  b=p.read_bytes(); actual[rel]=(hashlib.sha256(b).hexdigest(),len(b))
-          matched=sum(actual.get(k)==v for k,v in expected.items())
-          mismatched=[k for k,v in expected.items() if k in actual and actual[k]!=v]
-          missing=[k for k in expected if k not in actual]
-          extras=[k for k in actual if k not in expected]
-          print(f'FINAL_IDENTITY matched={matched} mismatched={len(mismatched)} missing={len(missing)} extras={len(extras)}')
-          if mismatched: print('MISMATCHED', *mismatched, sep='\n')
-          if missing: print('MISSING', *missing, sep='\n')
-          if extras: print('EXTRAS', *extras, sep='\n')
-          if not (matched==len(expected) and not mismatched and not missing and not extras): raise SystemExit(1)
+                  b=p.read_bytes(); act[p.relative_to(root).as_posix()]=(hashlib.sha256(b).hexdigest(),len(b))
+          bad=[p for p,v in exp.items() if act.get(p)!=v]
+          missing=[p for p in exp if p not in act]
+          extra=[p for p in act if p not in exp]
+          matched=sum(act.get(p)==v for p,v in exp.items())
+          print(f'FINAL_IDENTITY matched={matched}/{len(exp)} bad={len(bad)} missing={len(missing)} extra={len(extra)}')
+          if bad: print('BAD',*bad,sep='\n')
+          if extra: print('EXTRA',*extra,sep='\n')
+          if matched!=len(exp) or bad or missing or extra: raise SystemExit(1)
           print('EXACT_PHASE2_TARGET_RECOVERY_PASS')
           PY
-          rm -rf extension/tests/qa_transport/phase2-search-sync-v1/recovered-target
-          mkdir -p extension/tests/qa_transport/phase2-search-sync-v1/recovered-target
-          cp -a "$base_root"/. extension/tests/qa_transport/phase2-search-sync-v1/recovered-target/
+          rm -rf "$transport/recovered-target"
+          mkdir -p "$transport/recovered-target"
+          cp -a "$base_root"/. "$transport/recovered-target/"
       - name: Upload recovered exact source
         uses: actions/upload-artifact@v4
         with:
