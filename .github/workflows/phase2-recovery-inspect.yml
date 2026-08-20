@@ -1,31 +1,24 @@
-# save-restored-files
-name: phase2-50pass-checkpoint-bootstrap
+name: phase2-save-restored-files
 on:
-  push:
-    branches:
-      - dev/phase2-recovery-work-2026-08-20
   pull_request:
     branches:
       - main
 permissions:
   contents: write
 jobs:
-  checkpoint:
+  save-restored-files:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Materialize exact 50-pass checkpoint and verify
+        with:
+          ref: dev/phase2-recovery-work-2026-08-20
+      - name: Verify restored files, test, and save them
         shell: bash
         run: |
           set -euo pipefail
           root='extension/tests/.recovery/phase2-50pass-checkpoint.parts'
           parts=(part00.b64 part01.b64 part02.b64 part03.b64 part04.b64 part05.b64)
-          for p in "${parts[@]}"; do
-            if [ ! -f "$root/$p" ]; then
-              echo 'checkpoint transport parts not complete yet'
-              exit 0
-            fi
-          done
+          for p in "${parts[@]}"; do test -f "$root/$p"; done
           test "$(sha256sum "$root/part00.b64" | awk '{print $1}')" = '04b5c51977da10ff6f04e0dacd153ae9bd59a0f40b7c8703d075bd4ce64b6f1e'
           test "$(sha256sum "$root/part01.b64" | awk '{print $1}')" = '7b79e84e9a063f25c05776aec87f2810e76c0245a82787e0761a56c27c717c67'
           test "$(sha256sum "$root/part02.b64" | awk '{print $1}')" = 'b707e2786bb514197214644c912056b2383aa02a5c098cf5e01bef10ed012ace'
@@ -47,9 +40,6 @@ jobs:
             extension/tests/autorun_recovery.test.mjs
           for f in extension/src/*.js extension/src/shared/*.js; do node --check "$f"; done
           node -e "for (const f of ['extension/src/manifest.json','extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"
-          if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
-            exit 0
-          fi
           cat > .github/workflows/phase2-recovery-inspect.yml <<'YML'
           name: phase2-focused-search
           on:
@@ -92,5 +82,5 @@ jobs:
           git rm "$root"/part*.b64
           if [ -f extension/tests/.recovery/phase2-50pass-checkpoint.tar.gz.b64 ]; then git rm extension/tests/.recovery/phase2-50pass-checkpoint.tar.gz.b64; fi
           if [ -f extension/tests/.recovery/popup-recovery.patch.gz.b64 ]; then git rm extension/tests/.recovery/popup-recovery.patch.gz.b64; fi
-          git commit -m 'dev: preserve 50-pass Search integration checkpoint'
+          git commit -m 'dev: save restored Search integration files'
           git push origin HEAD:dev/phase2-recovery-work-2026-08-20
