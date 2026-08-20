@@ -62,11 +62,9 @@ test('legacy Send/Copy profiles remain visible in public state and settings expo
 });
 
 test('settings import restores legacy Send/Copy profiles together with current settings', async () => {
+  const source = harness({ wsmb_api_key: 'new-key', wsmb_send_button_profile: sendProfile, wsmb_copy_button_profiles: copyProfiles });
+  const backup = await source.api.exportSettingsBackup();
   const h = harness({ wsmb_api_key: 'old-key' });
-  const backup = await h.api.exportSettingsBackup();
-  backup.settings.wordstat.api_key = 'new-key';
-  backup.settings.send_button_profile = sendProfile;
-  backup.settings.copy_button_profiles = copyProfiles;
   await h.api.importSettingsBackup(backup);
   assert.equal(h.store.wsmb_api_key, 'new-key');
   assert.deepEqual(h.store.wsmb_send_button_profile, sendProfile);
@@ -88,12 +86,13 @@ test('clearing Send profile does not erase Copy profiles and clearing Copy does 
 });
 
 test('old export/import message names remain compatible with restored worker', async () => {
-  const h = harness({ wsmb_send_button_profile: sendProfile, wsmb_copy_button_profiles: copyProfiles });
-  const exported = await h.api.handleMessage({ type: 'WS_EXPORT_SETTINGS' }, {});
+  const restoredCopies = { restored: [{ selector: '#copy' }] };
+  const source = harness({ wsmb_send_button_profile: sendProfile, wsmb_copy_button_profiles: restoredCopies });
+  const exported = await source.api.handleMessage({ type: 'WS_EXPORT_SETTINGS' }, {});
   assert.equal(exported.ok, true);
   assert.deepEqual(plain(exported.backup.settings.send_button_profile), sendProfile);
-  exported.backup.settings.copy_button_profiles = { restored: [{ selector: '#copy' }] };
+  const h = harness({ wsmb_copy_button_profiles: copyProfiles });
   const imported = await h.api.handleMessage({ type: 'WS_IMPORT_SETTINGS', backup: exported.backup }, {});
   assert.equal(imported.ok, true);
-  assert.deepEqual(h.store.wsmb_copy_button_profiles, { restored: [{ selector: '#copy' }] });
+  assert.deepEqual(h.store.wsmb_copy_button_profiles, restoredCopies);
 });

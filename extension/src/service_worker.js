@@ -19,6 +19,8 @@ importScripts(
 
 const VERSION = YMBProduct.VERSION;
 const SETTINGS_SCHEMA_VERSION = 2;
+const SETTINGS_BACKUP_FORMAT = "YMB_SETTINGS_BACKUP";
+const SETTINGS_BACKUP_VERSION = 2;
 const KEYS = Object.freeze({
   API_KEY: "wsmb_api_key", FOLDER_ID: "wsmb_folder_id", AUTO_SEND: "wsmb_auto_send",
   CONVERSATION_BINDINGS: "wsmb_conversation_bindings", MANUAL_MODES: "wsmb_manual_modes",
@@ -310,18 +312,61 @@ async function patchToggleSettings(message = {}) {
   return message.conversation_key ? publicSettingsState(message.conversation_key) : publicGlobalSettingsState();
 }
 
+function canonicalBackupJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map((item) => canonicalBackupJson(item === undefined ? null : item)).join(",")}]`;
+  const parts = [];
+  for (const key of Object.keys(value).sort()) {
+    if (value[key] === undefined) continue;
+    parts.push(`${JSON.stringify(key)}:${canonicalBackupJson(value[key])}`);
+  }
+  return `{${parts.join(",")}}`;
+}
+async function sha256HexUtf8(text) {
+  const bytes = new TextEncoder().encode(String(text));
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+async function settingsPayloadSha256(settings) { return sha256HexUtf8(canonicalBackupJson(settings)); }
+async function validateSettingsBackupEnvelope(backup) {
+  if (!backup || typeof backup !== "object" || Array.isArray(backup)) throw Object.assign(new Error("Некорректный backup."), { code: "INVALID_BACKUP" });
+  if (backup.format !== SETTINGS_BACKUP_FORMAT) throw Object.assign(new Error("Неподдерживаемый формат backup."), { code: "UNSUPPORTED_BACKUP_FORMAT" });
+  if (Number(backup.backup_version) !== SETTINGS_BACKUP_VERSION) throw Object.assign(new Error("Неподдерживаемая версия backup."), { code: "UNSUPPORTED_BACKUP_VERSION" });
+  if (Number(backup.settings_schema_version) !== SETTINGS_SCHEMA_VERSION) throw Object.assign(new Error("Неподдерживаемая схема настроек backup."), { code: "UNSUPPORTED_SETTINGS_SCHEMA" });
+  if (backup.contains_secrets !== true) throw Object.assign(new Error("Backup не помечен как содержащий секреты."), { code: "INVALID_BACKUP_SECRET_MARKER" });
+  const incoming = backup.settings;
+  if (!incoming || typeof incoming !== "object" || Array.isArray(incoming)) throw Object.assign(new Error("Некорректный backup settings payload."), { code: "INVALID_BACKUP_SETTINGS" });
+  const supplied = String(backup.settings_sha256 || "").trim().toLowerCase();
+  if (!/^[0-9a-f]{64}$/.test(supplied)) throw Object.assign(new Error("В backup отсутствует корректная контрольная сумма настроек."), { code: "BACKUP_CHECKSUM_MISSING" });
+  const expected = await settingsPayloadSha256(incoming);
+  if (supplied !== expected) throw Object.assign(new Error("Backup изменён или повреждён: контрольная сумма не совпадает."), { code: "BACKUP_CHECKSUM_MISMATCH" });
+  return incoming;
+}
 function exportedSettingsKeys() { return [KEYS.API_KEY, KEYS.FOLDER_ID, KEYS.AUTO_SEND, KEYS.CONVERSATION_BINDINGS, KEYS.MANUAL_MODES, KEYS.REPORT_PREFIXES, KEYS.AUTO_START_PROMPTS, KEYS.SEND_BUTTON_PROFILE, KEYS.COPY_BUTTON_PROFILES, KEYS.SERVICE_CONTEXTS, KEYS.WORDSTAT_POLICY, KEYS.SEARCH_POLICY, KEYS.DEBUG_MODE]; }
 async function exportSettingsBackup() {
   const data = await storageGet(exportedSettingsKeys()); const settings = await getSettings();
-  return { schema: "YMB_SETTINGS_BACKUP_V2", version: VERSION, exported_at: nowIso(), settings: { wordstat: { api_key: settings.apiKey, folder_id: settings.folderId }, auto_send: data[KEYS.AUTO_SEND] !== false, send_button_profile: safeButtonProfile(data[KEYS.SEND_BUTTON_PROFILE]), copy_button_profiles: copyProfileCollection(data[KEYS.COPY_BUTTON_PROFILES]), conversation_bindings: data[KEYS.CONVERSATION_BINDINGS] || {}, manual_modes: data[KEYS.MANUAL_MODES] || {}, report_prefixes: data[KEYS.REPORT_PREFIXES] || {}, auto_start_prompts: data[KEYS.AUTO_START_PROMPTS] || {}, service_contexts: data[KEYS.SERVICE_CONTEXTS] || {}, wordstat_policy: publicPolicy(data[KEYS.WORDSTAT_POLICY] || {}, "wordstat"), search_policy: publicPolicy(data[KEYS.SEARCH_POLICY] || {}, "search"), debug_mode: data[KEYS.DEBUG_MODE] === true } };
+  const payload = { wordstat: { api_key: settings.apiKey, folder_id: settings.folderId }, auto_send: data[KEYS.AUTO_SEND] !== false, send_button_profile: safeButtonProfile(data[KEYS.SEND_BUTTON_PROFILE]), copy_button_profiles: copyProfileCollection(data[KEYS.COPY_BUTTON_PROFILES]), conversation_bindings: data[KEYS.CONVERSATION_BINDINGS] || {}, manual_modes: data[KEYS.MANUAL_MODES] || {}, report_prefixes: data[KEYS.REPORT_PREFIXES] || {}, auto_start_prompts: data[KEYS.AUTO_START_PROMPTS] || {}, service_contexts: data[KEYS.SERVICE_CONTEXTS] || {}, wordstat_policy: publicPolicy(data[KEYS.WORDSTAT_POLICY] || {}, "wordstat"), search_policy: publicPolicy(data[KEYS.SEARCH_POLICY] || {}, "search"), debug_mode: data[KEYS.DEBUG_MODE] === true };
+  return {
+    format: SETTINGS_BACKUP_FORMAT,
+    backup_version: SETTINGS_BACKUP_VERSION,
+    settings_schema_version: SETTINGS_SCHEMA_VERSION,
+    exported_at: nowIso(),
+    extension_version: VERSION,
+    extension_id: String(chrome.runtime?.id || ""),
+    contains_secrets: true,
+    settings_sha256: await settingsPayloadSha256(payload),
+    settings: payload,
+    schema: "YMB_SETTINGS_BACKUP_V2",
+    version: VERSION
+  };
 }
 async function importSettingsBackup(backup) {
-  const incoming = backup?.settings; if (!incoming || typeof incoming !== "object") throw Object.assign(new Error("Некорректный backup."), { code: "INVALID_BACKUP" });
+  const incoming = await validateSettingsBackupEnvelope(backup);
   const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {}; if (Object.values(runs).some((r) => r && !WordstatAutorunModel.isTerminalStatus(r.status))) throw Object.assign(new Error("Нельзя импортировать настройки во время активного Autorun."), { code: "IMPORT_ACTIVE_RUN" });
   const ops = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {}; if (Object.values(ops).some((op) => op && !TERMINAL_MANUAL_STATUSES.has(op.status))) throw Object.assign(new Error("Нельзя импортировать настройки во время активной Manual-операции."), { code: "IMPORT_ACTIVE_MANUAL" });
-  const wordstat = incoming.wordstat || {}; const apiKey = String(wordstat.api_key || "").trim(); const folderId = String(wordstat.folder_id || DEFAULT_FOLDER_ID).trim();
+  const wordstat = incoming.wordstat || {}; const apiKey = normalizeApiKey(wordstat.api_key, { required: false }); const folderId = normalizeFolderId(wordstat.folder_id || DEFAULT_FOLDER_ID, { required: false }) || DEFAULT_FOLDER_ID;
   await storageSet({ [KEYS.API_KEY]: apiKey, [KEYS.FOLDER_ID]: folderId, [KEYS.AUTO_SEND]: incoming.auto_send !== false, [KEYS.SEND_BUTTON_PROFILE]: safeButtonProfile(incoming.send_button_profile), [KEYS.COPY_BUTTON_PROFILES]: copyProfileCollection(incoming.copy_button_profiles), [KEYS.CONVERSATION_BINDINGS]: clone(incoming.conversation_bindings || {}), [KEYS.MANUAL_MODES]: clone(incoming.manual_modes || {}), [KEYS.REPORT_PREFIXES]: clone(incoming.report_prefixes || {}), [KEYS.AUTO_START_PROMPTS]: clone(incoming.auto_start_prompts || {}), [KEYS.SERVICE_CONTEXTS]: clone(incoming.service_contexts || {}), [KEYS.WORDSTAT_POLICY]: YMBPolicyModel.normalizeWordstatPolicy(incoming.wordstat_policy || {}), [KEYS.SEARCH_POLICY]: YMBPolicyModel.normalizeSearchPolicy(incoming.search_policy || {}), [KEYS.DEBUG_MODE]: incoming.debug_mode === true, [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION });
-  return { imported: true };
+  return { imported: true, backup_version: SETTINGS_BACKUP_VERSION, settings_sha256: String(backup.settings_sha256).toLowerCase() };
 }
 
 function discoverManualBlockItems(blockText) {
