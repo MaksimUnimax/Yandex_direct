@@ -13,29 +13,19 @@ jobs:
         with:
           ref: dev/phase2-recovery-work-2026-08-20
           fetch-depth: 0
-      - name: Probe historical diff blob objects
+      - name: Inspect exact Phase1 repair patch for legacy controls
         shell: bash
         run: |
           set -euo pipefail
-          cat extension/tests/qa_transport/phase2-search-sync-v1/patch.gz.b64.part* > /tmp/patch.b64
-          base64 -d /tmp/patch.b64 > /tmp/patch.gz
-          gzip -dc /tmp/patch.gz > /tmp/patch.diff
-          echo '--- index lines for production files ---'
-          awk '
-            /^diff --git a\/(content_script.js|manifest.json|popup.html|popup.js|service_worker.js) / {file=$3; sub("a/","",file); wanted=1; next}
-            wanted && /^index / {print file, $0; wanted=0}
-            /^diff --git / {wanted=0}
-          ' /tmp/patch.diff
-          echo '--- resolve every abbreviated blob id from those production index lines ---'
-          awk '
-            /^diff --git a\/(content_script.js|manifest.json|popup.html|popup.js|service_worker.js) / {wanted=1; next}
-            wanted && /^index / {split($2,a,"\\.\\."); print a[1]; print a[2]; wanted=0}
-            /^diff --git / {wanted=0}
-          ' /tmp/patch.diff | while read id; do
-            printf '%s ' "$id"
-            if full=$(git rev-parse --verify "$id^{blob}" 2>/dev/null); then
-              echo "FOUND $full bytes=$(git cat-file -s "$full")"
-            else
-              echo 'MISSING'
-            fi
-          done
+          git show origin/qa/e13a-exact-reconstruction-v3:extension/tests/qa_transport/e13a/patch.gz.b64.part00 > /tmp/e13a.part00
+          git show origin/qa/e13a-exact-reconstruction-v3:extension/tests/qa_transport/e13a/patch.gz.b64.part01 > /tmp/e13a.part01
+          cat /tmp/e13a.part00 /tmp/e13a.part01 > /tmp/e13a.b64
+          base64 -d /tmp/e13a.b64 > /tmp/e13a.gz
+          gzip -t /tmp/e13a.gz
+          gzip -dc /tmp/e13a.gz > /tmp/e13a.diff
+          echo '--- changed files ---'
+          grep '^diff --git ' /tmp/e13a.diff
+          echo '--- legacy control matches ---'
+          grep -Ein -C 12 'SEND_BUTTON_PROFILE|COPY_BUTTON_PROFILES|picker|diagnostic|clipboard|clear.*profile|copy.*profile|send.*profile|WS_[A-Z0-9_]*(PROFILE|PICK|DIAG)' /tmp/e13a.diff || true
+          echo '--- popup html/js hunks ---'
+          awk '/^diff --git a\/(popup\.html|popup\.js) /{p=1} /^diff --git / && p && $0 !~ /a\/(popup\.html|popup\.js) /{p=0} p{print}' /tmp/e13a.diff
