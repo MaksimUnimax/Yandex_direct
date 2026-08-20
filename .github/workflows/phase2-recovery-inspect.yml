@@ -28,7 +28,8 @@ jobs:
             extension/tests/conversation_fences_recovery.test.mjs \
             extension/tests/start_prompt_and_prefix_recovery.test.mjs \
             extension/tests/wordstat_core_recovery.test.mjs \
-            extension/tests/settings_security_recovery.test.mjs
+            extension/tests/settings_security_recovery.test.mjs \
+            extension/tests/popup_error_boundary_recovery.test.mjs
       - name: Syntax and JSON checks
         shell: bash
         run: |
