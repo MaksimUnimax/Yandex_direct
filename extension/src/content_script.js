@@ -27,6 +27,7 @@
   let autoScanTimer = null;
   let outboxTimer = null;
   let stateTimer = null;
+  let contentErrorFlushTimer = null;
   let lastLocationHref = location.href;
   let activeButtonPicker = null;
 
@@ -35,6 +36,8 @@
   const manualInFlight = new Set();
   const autorunSeen = new Set();
   const deliveryState = new Map();
+  const pendingContentErrors = new Map();
+  const reportedContentErrors = new Map();
 
   function cssEscape(value) {
     const text = String(value || "");
@@ -110,6 +113,62 @@
         reject(error);
       }
     });
+  }
+
+  function contentErrorChannel(entry = null) {
+    if (entry?.type === "manual") return "manual";
+    if (entry?.type === "autorun" || activeAutoWatch) return "autorun";
+    if (manualEnabled) return "manual";
+    return "content";
+  }
+
+  function scheduleContentErrorFlush(delay = 250) {
+    clearTimeout(contentErrorFlushTimer);
+    contentErrorFlushTimer = setTimeout(() => { void flushContentErrors(); }, delay);
+  }
+
+  function queueContentError({ code = "CONTENT_ERROR", message = "Content error", stage = "CONTENT", channel = null, service = null, runId = null, operation = null, requestExecuted = false, recoverable = null, autorunContinues = false } = {}) {
+    const key = currentConversationKey();
+    if (!key) return false;
+    const payload = {
+      type: "WS_REPORT_CONTENT_ERROR",
+      conversation_key: key,
+      service: YMBServiceRegistry.isKnownService(service) ? service : (activeAutoWatch?.active_service || activeService),
+      channel: channel || contentErrorChannel(),
+      stage: String(stage || "CONTENT"),
+      code: String(code || "CONTENT_ERROR"),
+      error: String(message || "Content error").slice(0, 4000),
+      run_id: runId || activeAutoWatch?.run_id || null,
+      operation: operation || null,
+      request_executed: requestExecuted,
+      recoverable: typeof recoverable === "boolean" ? recoverable : requestExecuted !== "UNKNOWN",
+      autorun_continues: autorunContinues === true
+    };
+    const fingerprint = JSON.stringify([payload.conversation_key, payload.service, payload.channel, payload.stage, payload.code, payload.error, payload.request_executed, payload.run_id, payload.operation]);
+    const lastReported = Number(reportedContentErrors.get(fingerprint) || 0);
+    if (lastReported && Date.now() - lastReported < 30000) return false;
+    pendingContentErrors.set(fingerprint, payload);
+    scheduleContentErrorFlush(0);
+    return true;
+  }
+
+  async function flushContentErrors() {
+    contentErrorFlushTimer = null;
+    const first = pendingContentErrors.entries().next();
+    if (first.done) return;
+    const [fingerprint, payload] = first.value;
+    try {
+      const response = await sendWorker(payload);
+      if (response?.ok) {
+        pendingContentErrors.delete(fingerprint);
+        reportedContentErrors.set(fingerprint, Date.now());
+      } else if (response) {
+        pendingContentErrors.delete(fingerprint);
+      }
+    } catch {
+      // Worker may be restarting; preserve the local error and retry later.
+    }
+    if (pendingContentErrors.size) scheduleContentErrorFlush(1000);
   }
 
   function refreshIdentity() {
@@ -247,13 +306,16 @@
         manual_request_token: token
       });
       if (!response?.ok || response?.accepted === false) {
-        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${response?.error || response?.code || "команда не принята"}`, "error", 9000);
+        const errorText = response?.error || response?.code || "команда не принята";
+        setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${errorText}`, "error", 9000);
+        queueContentError({ code: response?.code || "MANUAL_COMMAND_REJECTED", message: errorText, stage: "MANUAL_ADMISSION", channel: "manual", service: activeService, requestExecuted: response?.request_executed ?? false, recoverable: response?.request_executed !== "UNKNOWN", autorunContinues: false });
       } else {
         setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат подготовлен к отправке.", "ok", 4500);
         scheduleOutboxPoll(0);
       }
     } catch (error) {
       setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || String(error)}`, "error", 9000);
+      queueContentError({ code: error.code || "MANUAL_CONTENT_ERROR", message: error.message || String(error), stage: "MANUAL_CONTENT", channel: "manual", service: activeService, requestExecuted: false, recoverable: true, autorunContinues: false });
     } finally {
       manualInFlight.delete(id);
       if (button?.isConnected) button.disabled = false;
@@ -370,6 +432,7 @@
       }).catch((error) => {
         autorunSeen.delete(turnId);
         setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${error.message || error}`, "error", 9000);
+        queueContentError({ code: error.code || "AUTORUN_WORKER_TRANSPORT", message: error.message || String(error), stage: "AUTO_COMMAND_TRANSPORT", channel: "autorun", service: activeAutoWatch?.active_service || activeService, runId: activeAutoWatch?.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: true });
       });
       break;
     }
@@ -471,6 +534,7 @@
       void markCommitted(entry).then((ok) => {
         if (!ok) {
           setStatus(STATUS_KEYS.OPERATION, "Яндекс: отправка не подтверждена; Send заблокирован до безопасной фиксации.", "error", 9000);
+          queueContentError({ code: "DELIVERY_COMMIT_REJECTED", message: "Worker не подтвердил фиксацию Send перед ручной отправкой.", stage: "DELIVERY_COMMIT", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });
           return;
         }
         local.committed = true;
@@ -481,6 +545,7 @@
         setStatus(STATUS_KEYS.OPERATION, "Яндекс: результат отправлен.", "ok", 3500);
       }).catch((error) => {
         setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 9000);
+        queueContentError({ code: error.code || "DELIVERY_COMMIT_ERROR", message: error.message || String(error), stage: "DELIVERY_COMMIT", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });
       }).finally(() => {
         local.manual_commit_pending = false;
       });
@@ -495,6 +560,7 @@
     const composer = BB2ComposerSend.findComposer(document);
     if (!composer) {
       setStatus(STATUS_KEYS.COMPOSER, "Яндекс: поле ввода ChatGPT не найдено.", "error");
+      queueContentError({ code: "COMPOSER_NOT_FOUND", message: "Поле ввода ChatGPT не найдено во время доставки.", stage: "DELIVERY_COMPOSER", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });
       return;
     }
     const currentText = BB2ComposerSend.readComposer(composer);
@@ -528,12 +594,14 @@
     }
     if (!sendButton) {
       setStatus(STATUS_KEYS.COMPOSER, "Яндекс: кнопка отправки пока недоступна.", "error");
+      queueContentError({ code: "SEND_BUTTON_NOT_READY", message: "Кнопка Send недоступна во время доставки.", stage: "DELIVERY_SEND_TARGET", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });
       return;
     }
     if (!local.committed) {
       local.committed = await markCommitted(entry);
       if (!local.committed) {
         setStatus(STATUS_KEYS.OPERATION, "Яндекс: не удалось зафиксировать отправку; повтор заблокирован.", "error", 9000);
+        queueContentError({ code: "DELIVERY_COMMIT_REJECTED", message: "Worker не подтвердил фиксацию Send перед автоотправкой.", stage: "DELIVERY_COMMIT", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });
         return;
       }
     }
@@ -556,8 +624,10 @@
       if (!local.completed) {
         local.completed = true;
         const ok = await completeOutbox(entry);
-        if (!ok) local.completed = false;
-        else setStatus(STATUS_KEYS.OPERATION, "Яндекс: доставка подтверждена.", "ok", 3000);
+        if (!ok) {
+          local.completed = false;
+          queueContentError({ code: "DELIVERY_COMPLETE_REJECTED", message: "Worker не подтвердил завершение доставки.", stage: "DELIVERY_COMPLETE", channel: contentErrorChannel(entry), service: activeService, runId: entry.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: entry.type === "autorun" });
+        } else setStatus(STATUS_KEYS.OPERATION, "Яндекс: доставка подтверждена.", "ok", 3000);
       }
     }
   }
@@ -577,6 +647,7 @@
       }
     } catch (error) {
       setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${error.message || error}`, "error", 5000);
+      queueContentError({ code: error.code || "OUTBOX_POLL_ERROR", message: error.message || String(error), stage: "OUTBOX_POLL", channel: contentErrorChannel(), service: activeService, runId: activeAutoWatch?.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: Boolean(activeAutoWatch) });
     }
     scheduleOutboxPoll(POLL_MS);
   }
@@ -620,8 +691,9 @@
       if (!run || ["paused", "stopped", "error"].includes(run.status)) {
         setManualState(response.state.manual_mode === true, activeService);
       }
-    } catch {
-      // Worker can be restarting. Keep local UI state and retry.
+    } catch (error) {
+      // Worker can be restarting. Keep local UI state, retain one durable error, and retry.
+      queueContentError({ code: error?.code || "STATE_SYNC_ERROR", message: error?.message || String(error || "Worker state sync failed"), stage: "STATE_SYNC", channel: contentErrorChannel(), service: activeService, runId: activeAutoWatch?.run_id || null, requestExecuted: false, recoverable: true, autorunContinues: Boolean(activeAutoWatch) });
     }
   }
 

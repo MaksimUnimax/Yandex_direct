@@ -25,7 +25,7 @@ const KEYS = Object.freeze({
   API_KEY: "wsmb_api_key", FOLDER_ID: "wsmb_folder_id", AUTO_SEND: "wsmb_auto_send",
   CONVERSATION_BINDINGS: "wsmb_conversation_bindings", MANUAL_MODES: "wsmb_manual_modes",
   MANUAL_OPERATIONS: "wsmb_manual_operations", REPORT_PREFIXES: "wsmb_report_prefixes",
-  AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs", OUTBOX: "wsmb_outbox",
+  AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs", OUTBOX: "wsmb_outbox", CONTENT_ERRORS: "ymb_content_error_queue",
   SERVICE_CONTEXTS: "ymb_service_contexts", WORDSTAT_POLICY: "ymb_wordstat_policy", SEARCH_POLICY: "ymb_search_policy",
   DEBUG_MODE: "ymb_debug_mode", SETTINGS_SCHEMA: "ymb_settings_schema_version", LAST_STATUS: "wsmb_last_status",
   DIAGNOSTICS: "ymb_diagnostics", SEND_BUTTON_PROFILE: "wsmb_send_button_profile",
@@ -401,6 +401,116 @@ async function getOutbox() { const data = await storageGet(KEYS.OUTBOX); return 
 async function putOutbox(conversationKey, entry) { const key = normalizeConversationKey(conversationKey); const outbox = { ...(await getOutbox()) }; outbox[key] = { ...entry, conversation_key: key, updated_at: nowIso() }; await storageSet({ [KEYS.OUTBOX]: outbox }); return outbox[key]; }
 async function clearOutbox(conversationKey, deliveryId = null) { const key = normalizeConversationKey(conversationKey); const outbox = { ...(await getOutbox()) }; if (!deliveryId || outbox[key]?.delivery_id === deliveryId) delete outbox[key]; await storageSet({ [KEYS.OUTBOX]: outbox }); }
 
+async function getContentErrorQueue() {
+  const data = await storageGet(KEYS.CONTENT_ERRORS);
+  const value = data[KEYS.CONTENT_ERRORS];
+  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+function contentErrorFingerprint(payload) {
+  return JSON.stringify({
+    conversation_key: payload.conversation_key,
+    service: payload.service || null,
+    channel: payload.channel || "content",
+    stage: payload.stage || "CONTENT",
+    code: payload.code || "CONTENT_ERROR",
+    message: payload.message || "Content error",
+    request_executed: payload.request_executed ?? false,
+    run_id: payload.run_id || null,
+    operation: payload.operation || null
+  });
+}
+async function promotePendingContentError(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const outbox = { ...(await getOutbox()) };
+  if (outbox[key]) return outbox[key];
+  const queues = { ...(await getContentErrorQueue()) };
+  const list = Array.isArray(queues[key]) ? [...queues[key]] : [];
+  if (!list.length) return null;
+  const item = list.shift();
+  const entry = {
+    delivery_id: item.delivery_id,
+    type: "content_error",
+    tab_id: item.tab_id,
+    run_id: item.run_id || null,
+    report_text: item.report_text,
+    phase: "claimed",
+    report_prefix_applied: false,
+    content_error_fingerprint: item.fingerprint,
+    created_at: item.created_at,
+    conversation_key: key,
+    updated_at: nowIso()
+  };
+  outbox[key] = entry;
+  if (list.length) queues[key] = list;
+  else delete queues[key];
+  await storageSet({ [KEYS.OUTBOX]: outbox, [KEYS.CONTENT_ERRORS]: queues });
+  return entry;
+}
+async function reportContentError(message, sender) {
+  let key;
+  try { key = normalizeConversationKey(message?.conversation_key); }
+  catch { return { ok: false, code: "CONVERSATION_UNCONFIRMED", error: "Ошибка страницы не привязана к подтверждённому диалогу." }; }
+  const binding = await getBinding(key);
+  if (!binding) return { ok: false, code: "CONVERSATION_NOT_BOUND", error: "Диалог не привязан; ошибка страницы не может быть доставлена." };
+  const senderTabId = Number(sender?.tab?.id);
+  if (!Number.isInteger(senderTabId)) return { ok: false, code: "CONTENT_ERROR_SENDER_TAB_REQUIRED", error: "Ошибка страницы должна исходить из вкладки ChatGPT." };
+  try { await assertTabConversation(senderTabId, key, binding.conversation_id); }
+  catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }
+  const context = await getServiceContext(key);
+  const service = YMBServiceRegistry.isKnownService(message?.service) ? message.service : context.active_service;
+  const channel = ["manual", "autorun", "content"].includes(String(message?.channel || "")) ? String(message.channel) : "content";
+  const requestExecuted = message?.request_executed === "UNKNOWN" ? "UNKNOWN" : message?.request_executed === true;
+  const payload = {
+    conversation_key: key,
+    service,
+    channel,
+    stage: String(message?.stage || "CONTENT"),
+    code: String(message?.code || "CONTENT_ERROR"),
+    message: String(message?.error || message?.message || "Content error").slice(0, 4000),
+    recoverable: typeof message?.recoverable === "boolean" ? message.recoverable : requestExecuted !== "UNKNOWN",
+    request_executed: requestExecuted,
+    run_id: message?.run_id ? String(message.run_id) : null,
+    operation: message?.operation ? String(message.operation) : null,
+    autorun_continues: message?.autorun_continues === true
+  };
+  const fingerprint = contentErrorFingerprint(payload);
+  const outbox = await getOutbox();
+  if (outbox[key]?.type === "content_error" && outbox[key]?.content_error_fingerprint === fingerprint) {
+    return { ok: true, queued: true, duplicate: true, delivery_id: outbox[key].delivery_id };
+  }
+  const queues = { ...(await getContentErrorQueue()) };
+  const list = Array.isArray(queues[key]) ? [...queues[key]] : [];
+  const existing = list.find((item) => item?.fingerprint === fingerprint);
+  if (existing) return { ok: true, queued: true, duplicate: true, delivery_id: existing.delivery_id };
+  const deliveryId = uid("content-error-delivery");
+  const reportText = formatBridgeError({
+    code: payload.code,
+    message: payload.message,
+    stage: payload.stage,
+    requestExecuted: payload.request_executed,
+    service: payload.service,
+    channel: payload.channel,
+    recoverable: payload.recoverable,
+    runId: payload.run_id,
+    operation: payload.operation,
+    autorunContinues: payload.autorun_continues
+  });
+  list.push({
+    error_id: uid("content-error"),
+    delivery_id: deliveryId,
+    fingerprint,
+    report_text: reportText,
+    tab_id: senderTabId,
+    run_id: payload.run_id,
+    created_at: nowIso()
+  });
+  queues[key] = list.slice(-20);
+  await storageSet({ [KEYS.CONTENT_ERRORS]: queues });
+  const promoted = await promotePendingContentError(key);
+  await diagnostic("CONTENT_ERROR_QUEUED", { code: payload.code, stage: payload.stage, channel: payload.channel, run_id: payload.run_id, delivery_id: promoted?.delivery_id || deliveryId }, { level: "error" });
+  return { ok: true, queued: true, duplicate: false, delivery_id: promoted?.delivery_id || deliveryId };
+}
+
 async function executeManualBlock(blockText, conversationKey, sender, manualRequestToken = "") {
   const key = normalizeConversationKey(conversationKey); const senderTabId = Number(sender?.tab?.id);
   if (!Number.isInteger(senderTabId)) return { ok: false, accepted: false, code: "MANUAL_SENDER_TAB_REQUIRED", error: "Manual action должна исходить из вкладки ChatGPT." };
@@ -649,6 +759,7 @@ async function completeDelivery(message) {
   if (entry.type === "manual") { const data = await storageGet(KEYS.MANUAL_OPERATIONS); const map = { ...(data[KEYS.MANUAL_OPERATIONS] || {}) }; if (map[key]?.delivery_id === entry.delivery_id) { map[key] = { ...map[key], status: "completed", delivery_confirmed: true, confirmation_basis: message.confirmation_basis || "microphone", completed_at: nowIso() }; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map }); } }
   else if (entry.type === "autorun_start") await patchAutoRun(key, (run) => WordstatAutorunModel.afterConfirmedStart({ ...run, start_delivery: { ...(run.start_delivery || {}), phase: "committed" } }, message.assistant_baseline_ids || []));
   else if (entry.type === "autorun") await patchAutoRun(key, (run) => WordstatAutorunModel.afterConfirmedDelivery({ ...run, delivery: { ...(run.delivery || {}), phase: "confirmed" } }));
+  await promotePendingContentError(key);
   return { ok: true };
 }
 async function bindConversationFromTab(tabId) { const identity = await identityForTab(Number(tabId)); const binding = await saveBinding(identity); return { binding, conversation_key: identity.conversation_key }; }
@@ -672,7 +783,8 @@ async function handleMessage(message, sender) {
     case "WS_FINISH_AUTORUN": return { ok: true, run: publicRun(await finishAutoRun(message.conversation_key)) };
     case "WS_AUTO_COMMAND": return handleAutoCommand(message, sender);
     case "WS_EXECUTE_MANUAL_BLOCK": return executeManualBlock(message.block_text, message.conversation_key, sender, message.manual_request_token);
-    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); return { ok: true, outbox: outbox[key] || null }; }
+    case "WS_REPORT_CONTENT_ERROR": return reportContentError(message, sender);
+    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); let outbox = await getOutbox(); if (!outbox[key]) { await promotePendingContentError(key); outbox = await getOutbox(); } return { ok: true, outbox: outbox[key] || null }; }
     case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }
     case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message);
     case "WS_GET_DIAGNOSTICS": return { ok: true, diagnostics: await getDiagnostics() };
