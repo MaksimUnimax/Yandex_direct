@@ -4,7 +4,7 @@ on:
     branches:
       - main
 permissions:
-  contents: write
+  contents: read
 jobs:
   focused-search:
     runs-on: ubuntu-latest
@@ -12,101 +12,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: dev/phase2-recovery-work-2026-08-20
-      - name: Restore local rollback backup before settings import
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          worker = Path('extension/src/service_worker.js')
-          s = worker.read_text(encoding='utf-8')
-          if 'MIGRATION_ROLLBACK_BACKUP: "ymb_settings_migration_rollback_backup"' not in s:
-              old = '  DIAGNOSTICS: "ymb_diagnostics", SEND_BUTTON_PROFILE: "wsmb_send_button_profile",\n  COPY_BUTTON_PROFILES: "wsmb_copy_button_profiles"\n});'
-              new = '  DIAGNOSTICS: "ymb_diagnostics", SEND_BUTTON_PROFILE: "wsmb_send_button_profile",\n  COPY_BUTTON_PROFILES: "wsmb_copy_button_profiles", MIGRATION_ROLLBACK_BACKUP: "ymb_settings_migration_rollback_backup"\n});'
-              assert old in s, 'settings key anchor not found'
-              s = s.replace(old, new, 1)
-
-              old = '  const wordstat = incoming.wordstat || {}; const apiKey = normalizeApiKey(wordstat.api_key, { required: false }); const folderId = normalizeFolderId(wordstat.folder_id || DEFAULT_FOLDER_ID, { required: false }) || DEFAULT_FOLDER_ID;\n  await storageSet({ [KEYS.API_KEY]: apiKey, [KEYS.FOLDER_ID]: folderId, [KEYS.AUTO_SEND]: incoming.auto_send !== false, [KEYS.SEND_BUTTON_PROFILE]: safeButtonProfile(incoming.send_button_profile), [KEYS.COPY_BUTTON_PROFILES]: copyProfileCollection(incoming.copy_button_profiles), [KEYS.CONVERSATION_BINDINGS]: clone(incoming.conversation_bindings || {}), [KEYS.MANUAL_MODES]: clone(incoming.manual_modes || {}), [KEYS.REPORT_PREFIXES]: clone(incoming.report_prefixes || {}), [KEYS.AUTO_START_PROMPTS]: clone(incoming.auto_start_prompts || {}), [KEYS.SERVICE_CONTEXTS]: clone(incoming.service_contexts || {}), [KEYS.WORDSTAT_POLICY]: YMBPolicyModel.normalizeWordstatPolicy(incoming.wordstat_policy || {}), [KEYS.SEARCH_POLICY]: YMBPolicyModel.normalizeSearchPolicy(incoming.search_policy || {}), [KEYS.DEBUG_MODE]: incoming.debug_mode === true, [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION });\n  return { imported: true, backup_version: SETTINGS_BACKUP_VERSION, settings_sha256: String(backup.settings_sha256).toLowerCase() };'
-              new = '''  const wordstat = incoming.wordstat || {}; const apiKey = normalizeApiKey(wordstat.api_key, { required: false }); const folderId = normalizeFolderId(wordstat.folder_id || DEFAULT_FOLDER_ID, { required: false }) || DEFAULT_FOLDER_ID;
-  const wordstatPolicy = YMBPolicyModel.normalizeWordstatPolicy(incoming.wordstat_policy || {});
-  const searchPolicy = YMBPolicyModel.normalizeSearchPolicy(incoming.search_policy || {});
-  const rollbackBackup = await exportSettingsBackup();
-  const rollbackRecord = {
-    ...rollbackBackup,
-    rollback_context: {
-      reason: "settings_import",
-      created_at: nowIso(),
-      incoming_settings_sha256: String(backup.settings_sha256).toLowerCase()
-    }
-  };
-  await storageSet({ [KEYS.MIGRATION_ROLLBACK_BACKUP]: rollbackRecord });
-  await storageSet({ [KEYS.API_KEY]: apiKey, [KEYS.FOLDER_ID]: folderId, [KEYS.AUTO_SEND]: incoming.auto_send !== false, [KEYS.SEND_BUTTON_PROFILE]: safeButtonProfile(incoming.send_button_profile), [KEYS.COPY_BUTTON_PROFILES]: copyProfileCollection(incoming.copy_button_profiles), [KEYS.CONVERSATION_BINDINGS]: clone(incoming.conversation_bindings || {}), [KEYS.MANUAL_MODES]: clone(incoming.manual_modes || {}), [KEYS.REPORT_PREFIXES]: clone(incoming.report_prefixes || {}), [KEYS.AUTO_START_PROMPTS]: clone(incoming.auto_start_prompts || {}), [KEYS.SERVICE_CONTEXTS]: clone(incoming.service_contexts || {}), [KEYS.WORDSTAT_POLICY]: wordstatPolicy, [KEYS.SEARCH_POLICY]: searchPolicy, [KEYS.DEBUG_MODE]: incoming.debug_mode === true, [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION });
-  return { imported: true, backup_version: SETTINGS_BACKUP_VERSION, settings_sha256: String(backup.settings_sha256).toLowerCase(), rollback_backup_created: true };'''
-              assert old in s, 'import mutation anchor not found'
-              s = s.replace(old, new, 1)
-              worker.write_text(s, encoding='utf-8')
-
-          test_file = Path('extension/tests/settings_backup_integrity_recovery.test.mjs')
-          t = test_file.read_text(encoding='utf-8')
-          marker = "test('allowed import creates a checksummed local rollback backup before replacing settings'"
-          if marker not in t:
-              t += r'''
-
-test('allowed import creates a checksummed local rollback backup before replacing settings', async () => {
-  const source = harness({ wsmb_api_key: 'new-key', wsmb_folder_id: 'new-folder', wsmb_auto_send: false }, 'source-extension');
-  const backup = await source.api.exportSettingsBackup();
-  const target = harness({
-    wsmb_api_key: 'old-key', wsmb_folder_id: 'old-folder', wsmb_auto_send: true,
-    ymb_debug_mode: true,
-    ymb_service_contexts: { 'https://chatgpt.com|old': { active_service: 'wordstat', updated_at: '2026-08-20T00:00:00.000Z' } }
-  }, 'target-extension');
-  const result = await target.api.importSettingsBackup(backup);
-  assert.equal(result.rollback_backup_created, true);
-  const rollback = target.store.ymb_settings_migration_rollback_backup;
-  assert.ok(rollback);
-  assert.equal(rollback.format, 'YMB_SETTINGS_BACKUP');
-  assert.equal(rollback.backup_version, 2);
-  assert.equal(rollback.contains_secrets, true);
-  assert.equal(rollback.extension_id, 'target-extension');
-  assert.equal(rollback.settings.wordstat.api_key, 'old-key');
-  assert.equal(rollback.settings.wordstat.folder_id, 'old-folder');
-  assert.equal(rollback.settings.auto_send, true);
-  assert.equal(rollback.settings.debug_mode, true);
-  assert.equal(rollback.settings_sha256, await sha256(rollback.settings));
-  assert.equal(rollback.rollback_context.reason, 'settings_import');
-  assert.equal(rollback.rollback_context.incoming_settings_sha256, backup.settings_sha256);
-  assert.match(rollback.rollback_context.created_at, /^\d{4}-\d{2}-\d{2}T/);
-  assert.equal(target.store.wsmb_api_key, 'new-key');
-  assert.equal(target.store.wsmb_folder_id, 'new-folder');
-});
-
-test('invalid or blocked import does not create or replace the local rollback backup', async () => {
-  const source = harness({ wsmb_api_key: 'new-key', wsmb_folder_id: 'new-folder' });
-  const backup = await source.api.exportSettingsBackup();
-  const tampered = clone(backup);
-  tampered.settings.wordstat.api_key = 'tampered-key';
-  const target = harness({ wsmb_api_key: 'old-key', wsmb_folder_id: 'old-folder' });
-  await assert.rejects(() => target.api.importSettingsBackup(tampered), (error) => error?.code === 'BACKUP_CHECKSUM_MISMATCH');
-  assert.equal(Object.hasOwn(target.store, 'ymb_settings_migration_rollback_backup'), false);
-
-  const blocked = harness({
-    wsmb_api_key: 'old-key',
-    wsmb_auto_runs: { 'https://chatgpt.com|abc': { run_id: 'run-1', status: 'waiting_command', conversation_key: 'https://chatgpt.com|abc', active_service: 'search' } }
-  });
-  await assert.rejects(() => blocked.api.importSettingsBackup(backup), (error) => error?.code === 'IMPORT_ACTIVE_RUN');
-  assert.equal(Object.hasOwn(blocked.store, 'ymb_settings_migration_rollback_backup'), false);
-});
-'''
-              test_file.write_text(t, encoding='utf-8')
-          PY
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet -- extension/src/service_worker.js extension/tests/settings_backup_integrity_recovery.test.mjs; then
-            git add extension/src/service_worker.js extension/tests/settings_backup_integrity_recovery.test.mjs
-            git commit -m "fix: preserve rollback backup before settings import"
-            git push origin HEAD:dev/phase2-recovery-work-2026-08-20
-          fi
       - name: Search integration focused tests
         shell: bash
         run: |
