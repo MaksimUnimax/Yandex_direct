@@ -3,9 +3,7 @@
 Status: **ACTIVE / OWNER-ORDERED EXECUTION CONTROL**  
 Effective: 2026-08-20.
 
-This document is the mandatory execution/checkpoint structure for Phase 2 Yandex Search / SERP.
-
-It exists to prevent long uncheckpointed work from being lost when the chat/tool session is interrupted.
+This document is the mandatory execution/checkpoint structure for Phase 2 Yandex Search / SERP. It exists to prevent long uncheckpointed work from being lost when the chat/tool session is interrupted.
 
 ## Operating rule
 
@@ -16,19 +14,12 @@ For every stage:
 1. ChatGPT works continuously inside the stage without sending micro-step progress messages.
 2. Unknown browser/DOM/runtime facts MUST NOT be guessed. If such a fact is required, stop at that uncertainty and request a concrete Codex measurement.
 3. Product/test changes and exact verification evidence must be committed/preserved in GitHub during the stage.
-4. When a stage reaches its exit criteria, ChatGPT MUST:
-   - write a durable GitHub checkpoint/evidence record;
-   - update `extension/docs/CURRENT_STATE.md` with the completed stage and exact next stage;
-   - send the owner one concise stage-completion report.
-5. After the stage report, continue into the next stage automatically unless:
-   - the owner explicitly pauses/stops work;
-   - owner live action is required;
-   - Codex measurement or Codex gate execution is required;
-   - a real external blocker prevents further correct work.
+4. When a stage reaches its exit criteria, ChatGPT MUST write a durable GitHub checkpoint/evidence record, update `extension/docs/CURRENT_STATE.md`, and send the owner one concise stage-completion report.
+5. After the stage report, continue into the next stage automatically unless the owner pauses, owner-live action is required, Codex action is required, or a real external blocker prevents correct work.
 6. Do not stop merely because a subtask or small group of tests completed.
 7. Do not issue repeated status chatter between stage boundaries.
 
-The current implementation lineage is:
+Implementation lineage:
 
 ```text
 repo: MaksimUnimax/Yandex_direct
@@ -42,49 +33,26 @@ development branch: dev/phase2-search-foundation-2026-08-19
 
 Status: **PASS / COMPLETED**
 
-Purpose: establish a byte-authoritative Phase-2 base and implement the provider-independent Search protocol foundation before touching worker/provider/runtime integration.
-
-Required scope:
-
-```text
-exact editable e13a base materialization
-45/45 base identity verification
-SEARCH_API_V1 service registration
-strict Search command parse/validation/defaults
-synchronous /v2/web/search request-body builder
-Base64 UTF-8 FORMAT_XML normalization
-stable SEARCH_RESULT_V1 envelope helpers
-focused Search tests
-Phase-1 test corrections required by Search registration
-full source regression
-syntax + JSON validation
-zero real Yandex traffic
-```
+Purpose: establish a byte-authoritative Phase-2 base and implement provider-independent Search protocol foundation.
 
 Completed evidence:
 
 ```text
-base artifact SHA-256:
-  e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+base e13a materialization: 45/45 exact; mismatches 0; missing 0; extras 0
+Stage-1 target files: 50
+Stage-1 target manifest SHA-256: 62bd5846c8f7d6ade7f788d4394d79e02e802611144a4249761ccbb07397b98b
 
-base materialization:
-  45/45 exact
-  identity mismatches: 0
-  missing: 0
-  extras: 0
-
-new/changed foundation product surfaces:
+product foundation:
   shared/service_registry.js
   shared/search_protocol.js
   shared/search_xml.js
 
-verification:
-  focused Search: 32/32 PASS
-  affected after registry-test correction: 86/86 PASS
-  full suite: 393/393 PASS
-  syntax: PASS
-  JSON: PASS
-  real Yandex requests: 0
+focused Search: 32/32 PASS
+affected suite: 86/86 PASS
+full suite: 393/393 PASS
+syntax: PASS
+JSON: PASS
+real Yandex requests: 0
 ```
 
 Durable evidence:
@@ -95,13 +63,13 @@ extension/tests/phase2/search-foundation/target-tree-sha256.tsv
 extension/tests/phase2/search-foundation/phase2-search-foundation.patch.gz.b64
 ```
 
-Foundation commits already present in the Phase-2 development lineage include:
+Known foundation commits include:
 
 ```text
-6d0c1c2bdbfb9e2b18b32adb25a0c5885f932f2e  phase2: add SEARCH_API_V1 protocol foundation
-01f777c7a1e0e06efcb1338c403ea69c86e3d4e8  phase2: add Search XML normalization foundation
-e52f6fae18b53cb90306a5dab643568bfaa00f27  phase2: register Search protocol in service registry
-69a92de2841a67bee05f347bc8389d81bc4e51eb  phase2: add exact Search foundation patch transport
+6d0c1c2bdbfb9e2b18b32adb25a0c5885f932f2e
+01f777c7a1e0e06efcb1338c403ea69c86e3d4e8
+e52f6fae18b53cb90306a5dab643568bfaa00f27
+69a92de2841a67bee05f347bc8389d81bc4e51eb
 ```
 
 Stage-1 exit criteria are satisfied.
@@ -110,52 +78,81 @@ Stage-1 exit criteria are satisfied.
 
 # STAGE 2 — WORKER / PROVIDER / CREDENTIAL / POLICY EXECUTION
 
-Status: **ACTIVE / NEXT ENGINEERING STAGE**
+Status: **PASS / COMPLETED**
 
-Purpose: make one accepted Search command execute through the worker/provider layer with correct credential, cost, policy, exactly-once and no-blind-retry semantics, while still avoiding real Yandex traffic in development tests.
+Purpose: make one accepted Search command executable through worker/provider with correct credential, cost, policy, exactly-once and no-blind-retry semantics, with zero real Yandex traffic during development verification.
 
-Required scope:
+Completed product scope:
 
 ```text
-load Search protocol/XML modules in the installable runtime
-worker router: SEARCH_API_V1 -> search service
-Search credential capability + local folderId usage
-no credentials/folderId in assistant command or result
+Search protocol/XML runtime loading in worker
+SEARCH_API_V1 -> search worker routing
+Search credential capability using existing local API key + folderId
 POST https://searchapi.api.cloud.yandex.net/v2/web/search
-Authorization redaction
-exactly one provider initiation per accepted command
-validation/policy/credential rejection -> zero provider initiation
-HTTP 4xx/5xx -> truthful ERROR, request_executed=true, automatic_retry=false
-ambiguous timeout/network/session-loss outcome -> UNKNOWN semantics, no retry
-Search conservative cost reservation before provider initiation
-Search request-count and RUB budget enforcement
-Wordstat/Search routing isolation
-focused worker/provider/policy tests
-full regression after integration
-zero real Yandex traffic
+no credential/folderId exposure in assistant command/result command
+Authorization/API-key redaction
+one provider initiation exactly per accepted command
+pre-provider validation/credential/policy rejection -> zero initiation
+HTTP provider error -> ERROR / request_executed=true / automatic_retry=false
+ambiguous initiated network failure -> request_executed=UNKNOWN / automatic_retry=false
+response-normalization failure after HTTP success -> executed=true / no retry
+conservative Search guard 0.488 RUB/request
+request-count + RUB run-budget enforcement
+cost/request reservation before provider initiation
+Search/Wordstat routing isolation
 ```
 
-Stage-2 exit criteria:
+Exact Stage-2 target:
 
 ```text
-all focused Search worker/provider/policy tests PASS
-exactly-once and no-blind-retry contours PASS
-credential and secret-redaction tests PASS
-budget/cost reservation tests PASS
-Wordstat regressions PASS
-full source suite PASS
-syntax/JSON PASS
-real Yandex requests = 0
-GitHub stage checkpoint written
-CURRENT_STATE advanced to Stage 3
-owner receives concise Stage-2 completion report
+target files: 51
+target manifest SHA-256: a274600440461cc7ac4669e959d3b84ee6dfaa9dffb26219ee7e1dd0086f8236
+fresh git apply --check: PASS
+fresh target identity: 51/51 exact; mismatches 0; missing 0; extras 0
+
+service_worker.js:
+  def73ebb44243b57d0be98ad21fec6ccf230cc2dfe1b29f8ee3588e17fe80282 / 190920
+shared/credential_registry.js:
+  506aafca071522c7dc110dd72feec4d7fbee36119849abac69158c9be232a311 / 1413
+shared/policy_model.js:
+  c97c2b8dd600091f894d2c7c5c0fb91a6408d5cc848bc579ec3acc6cb59d99bf / 6086
 ```
+
+Verification:
+
+```text
+focused Search Stage 2: 10/10 PASS
+full source suite: 377/377 PASS
+syntax: 46/46 PASS
+JSON: 2/2 PASS
+real Yandex requests: 0
+```
+
+Exact Stage-2 reconstruction transport:
+
+```text
+patch SHA-256: 6b9c7f55fd736261ce794f818f66ea066dc1256c3ae05e849c97373c7b4ccedc
+patch bytes: 32357
+gzip SHA-256: 4f9bac5de1e658c40e14305d9dbe6fca17b58718a562e6e546e26328a8285a54
+base64 SHA-256: 717d8b1c76450949053c33bfeff1921401f433076f0f8b0c9c3c78f5539f662d
+base64 chars: 10676
+```
+
+Durable evidence on the development branch:
+
+```text
+extension/tests/phase2/search-worker-provider/STAGE2_EVIDENCE_2026-08-20.json
+extension/tests/phase2/search-worker-provider/target-tree-sha256.tsv
+extension/tests/phase2/search-worker-provider/phase2-stage2-worker-provider.patch.gz.b64
+```
+
+No browser/DOM fact was needed in Stage 2; no Codex measurement was required. Stage-2 exit criteria are satisfied.
 
 ---
 
 # STAGE 3 — MANUAL / AUTORUN / OPERATOR / DELIVERY INTEGRATION
 
-Status: **PENDING STAGE 2 PASS**
+Status: **ACTIVE / IN WORK**
 
 Purpose: integrate Search into the already accepted common user/runtime surfaces without creating a second DOM/composer/delivery implementation.
 
@@ -186,7 +183,7 @@ Debug redaction
 Export/Import compatibility for Search settings/credentials
 ```
 
-Browser/DOM rule for this stage:
+Browser/DOM rule:
 
 ```text
 if an integration decision depends on an unknown current ChatGPT DOM/browser fact:
@@ -219,34 +216,30 @@ owner receives concise Stage-3 completion report
 
 Status: **PENDING STAGE 3 PASS**
 
-Purpose: convert the completed combined Wordstat+Search source into one exact candidate, prove exact artifact transport to Codex, run the complete regression gate, then perform only irreducible owner-live Search acceptance.
+Purpose: freeze one exact combined candidate, prove exact artifact transport, run complete Codex regression, then perform only irreducible owner-live Search acceptance.
 
 Required scope:
 
 ```text
 freeze exact combined candidate source
-production/test hashes and exact target manifest
-package candidate deterministically
-verify archive readability/file count/source-package identity
-execute mandatory QA transport runbook
-consumer-conformance round-trip before Codex prompt
-prove exact SHA-256 + bytes + file/entry counts from Codex-accessible transport
-issue Codex full-gate prompt only after transport proof
-Codex runs complete Phase-1 + Phase-2 gate
-Search gate additions include protocol, credential, policy/cost, exactly-once, HTTP/UNKNOWN no-retry, XML, Manual, Autorun, service isolation and packaged behavior
-zero real Yandex traffic during controlled Codex gate
-any production-byte change after gate invalidates that gate
+production/test hashes + exact target manifest
+deterministic package + ZIP integrity/source-package identity
+mandatory QA transport runbook
+consumer-conformance round trip before Codex prompt
+exact SHA-256/bytes/files/entries from Codex-accessible transport
+complete Phase-1 + Phase-2 Codex gate
+zero real Yandex traffic during controlled gate
+any production-byte change after gate invalidates the gate
 ```
 
 After exact Codex PASS:
 
 ```text
-prepare exact owner handoff artifact
-freshly verify official Yandex Search pricing immediately before each paid live command
-owner tests one real Search functional command at a time
+prepare exact owner artifact
+fresh official Search pricing check immediately before paid live command
+owner tests one real Search command at a time
 no blind retry
-classify evidence before any second request
-record owner-live PASS/FAIL in GitHub
+record owner-live PASS/FAIL
 ```
 
 Stage-4 / Phase-2 exit criteria:
@@ -256,8 +249,7 @@ exact candidate identity PASS
 Codex full regression gate PASS
 production bytes unchanged since gate
 owner real-profile Search functional acceptance PASS
-Phase 2 Search marked LIVE PASS / CLOSED
-next service phase may then be unlocked by governance
+Phase 2 Search LIVE PASS / CLOSED
 ```
 
 ---
@@ -266,9 +258,9 @@ next service phase may then be unlocked by governance
 
 ```text
 STAGE 1 = PASS / COMPLETED
-STAGE 2 = ACTIVE / IN WORK
-STAGE 3 = PENDING
+STAGE 2 = PASS / COMPLETED
+STAGE 3 = ACTIVE / IN WORK
 STAGE 4 = PENDING
 ```
 
-The next engineering work belongs to **Stage 2 only**. Do not skip directly to popup/live/Codex work before Stage-2 exit criteria are satisfied.
+The next engineering work belongs to **Stage 3 only**. Do not skip directly to frozen candidate/live work before Stage-3 exit criteria are satisfied.
