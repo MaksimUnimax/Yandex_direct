@@ -23,6 +23,7 @@ jobs:
             extension/tests/search_worker_stage2.test.mjs \
             extension/tests/search_manual_worker.test.mjs \
             extension/tests/manual_block_sequence_recovery.test.mjs \
+            extension/tests/manual_delivery_lifecycle_recovery.test.mjs \
             extension/tests/content_phase2_runtime.test.mjs \
             extension/tests/popup_phase2_runtime.test.mjs \
             extension/tests/autorun_recovery.test.mjs \
