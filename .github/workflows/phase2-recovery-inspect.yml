@@ -1,3 +1,4 @@
+# bootstrap-trigger
 name: phase2-popup-recovery-bootstrap
 on:
   push:
