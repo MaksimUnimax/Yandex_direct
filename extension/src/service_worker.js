@@ -26,7 +26,8 @@ const KEYS = Object.freeze({
   AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs", OUTBOX: "wsmb_outbox",
   SERVICE_CONTEXTS: "ymb_service_contexts", WORDSTAT_POLICY: "ymb_wordstat_policy", SEARCH_POLICY: "ymb_search_policy",
   DEBUG_MODE: "ymb_debug_mode", SETTINGS_SCHEMA: "ymb_settings_schema_version", LAST_STATUS: "wsmb_last_status",
-  DIAGNOSTICS: "ymb_diagnostics"
+  DIAGNOSTICS: "ymb_diagnostics", SEND_BUTTON_PROFILE: "wsmb_send_button_profile",
+  COPY_BUTTON_PROFILES: "wsmb_copy_button_profiles"
 });
 const DEFAULT_FOLDER_ID = String(WordstatProtocol.DEFAULT_FOLDER_ID || "");
 const DEFAULT_AUTO_START_TEXT = "Продолжай текущий сбор Wordstat по активному плану этого диалога. Команды выводи только как WORDSTAT_API_V1. Когда сбор закончен, ответь только: сбор закончен.";
@@ -42,6 +43,14 @@ function defaultAutoStartTextForService(service) { return String(service || "") 
 function storageGet(keys) { return chrome.storage.local.get(keys); }
 function storageSet(values) { return chrome.storage.local.set(values); }
 function storageRemove(keys) { return chrome.storage.local.remove(keys); }
+function safeButtonProfile(value) { return value && typeof value === "object" && !Array.isArray(value) ? clone(value) : null; }
+function copyProfileCollection(value) { return value && typeof value === "object" ? clone(value) : {}; }
+async function getSendButtonProfile() { return safeButtonProfile((await storageGet(KEYS.SEND_BUTTON_PROFILE))[KEYS.SEND_BUTTON_PROFILE]); }
+async function getCopyButtonProfiles() { return copyProfileCollection((await storageGet(KEYS.COPY_BUTTON_PROFILES))[KEYS.COPY_BUTTON_PROFILES]); }
+async function saveSendButtonProfile(profile) { const next = safeButtonProfile(profile); if (!next) throw Object.assign(new Error("Некорректный Send profile."), { code: "INVALID_SEND_BUTTON_PROFILE" }); await storageSet({ [KEYS.SEND_BUTTON_PROFILE]: next }); return next; }
+async function saveCopyButtonProfiles(profiles) { const next = copyProfileCollection(profiles); await storageSet({ [KEYS.COPY_BUTTON_PROFILES]: next }); return next; }
+async function clearSendButtonProfile() { await storageRemove(KEYS.SEND_BUTTON_PROFILE); return null; }
+async function clearCopyButtonProfiles() { await storageRemove(KEYS.COPY_BUTTON_PROFILES); return {}; }
 
 async function diagnostic(code, detail = {}, { level = "info" } = {}) {
   const data = await storageGet(KEYS.DEBUG_MODE);
@@ -214,8 +223,9 @@ function formatBridgeError({ code, message, stage = "BRIDGE", requestExecuted = 
   return ["YMB_ERROR_V1", JSON.stringify({ bridge: YMBProduct.BRIDGE_ID, version: VERSION, status: "ERROR", code, message, stage, service, run_id: runId, operation_id: operationId, request_executed: requestExecuted, automatic_retry: false }, null, 2)].join("\n");
 }
 async function commonPublicSettingsFields() {
-  const settings = await getSettings(); const [wordstatPolicy, searchPolicy] = await Promise.all([getWordstatPolicy(), getSearchPolicy()]);
-  return { product_name: YMBProduct.NAME, product_version: VERSION, has_api_key: Boolean(settings.apiKey), folder_id: settings.folderId, credential_capability: publicCapability(settings), credential_capabilities: { wordstat: publicCapability(settings, "wordstat"), search: publicCapability(settings, "search") }, wordstat_policy: publicPolicy(wordstatPolicy, "wordstat"), search_policy: publicPolicy(searchPolicy, "search"), auto_send: settings.autoSend, debug_mode: settings.debugMode };
+  const settings = await getSettings();
+  const [wordstatPolicy, searchPolicy, sendButtonProfile, copyButtonProfiles] = await Promise.all([getWordstatPolicy(), getSearchPolicy(), getSendButtonProfile(), getCopyButtonProfiles()]);
+  return { product_name: YMBProduct.NAME, product_version: VERSION, has_api_key: Boolean(settings.apiKey), folder_id: settings.folderId, credential_capability: publicCapability(settings), credential_capabilities: { wordstat: publicCapability(settings, "wordstat"), search: publicCapability(settings, "search") }, wordstat_policy: publicPolicy(wordstatPolicy, "wordstat"), search_policy: publicPolicy(searchPolicy, "search"), auto_send: settings.autoSend, debug_mode: settings.debugMode, send_button_profile: sendButtonProfile, copy_button_profiles: copyButtonProfiles };
 }
 async function getReportPrefix(conversationKey) {
   const key = normalizeConversationKey(conversationKey);
@@ -282,17 +292,17 @@ async function patchToggleSettings(message = {}) {
   return message.conversation_key ? publicSettingsState(message.conversation_key) : publicGlobalSettingsState();
 }
 
-function exportedSettingsKeys() { return [KEYS.API_KEY, KEYS.FOLDER_ID, KEYS.AUTO_SEND, KEYS.CONVERSATION_BINDINGS, KEYS.MANUAL_MODES, KEYS.REPORT_PREFIXES, KEYS.AUTO_START_PROMPTS, KEYS.SERVICE_CONTEXTS, KEYS.WORDSTAT_POLICY, KEYS.SEARCH_POLICY, KEYS.DEBUG_MODE]; }
+function exportedSettingsKeys() { return [KEYS.API_KEY, KEYS.FOLDER_ID, KEYS.AUTO_SEND, KEYS.CONVERSATION_BINDINGS, KEYS.MANUAL_MODES, KEYS.REPORT_PREFIXES, KEYS.AUTO_START_PROMPTS, KEYS.SEND_BUTTON_PROFILE, KEYS.COPY_BUTTON_PROFILES, KEYS.SERVICE_CONTEXTS, KEYS.WORDSTAT_POLICY, KEYS.SEARCH_POLICY, KEYS.DEBUG_MODE]; }
 async function exportSettingsBackup() {
   const data = await storageGet(exportedSettingsKeys()); const settings = await getSettings();
-  return { schema: "YMB_SETTINGS_BACKUP_V2", version: VERSION, exported_at: nowIso(), settings: { wordstat: { api_key: settings.apiKey, folder_id: settings.folderId }, auto_send: data[KEYS.AUTO_SEND] !== false, conversation_bindings: data[KEYS.CONVERSATION_BINDINGS] || {}, manual_modes: data[KEYS.MANUAL_MODES] || {}, report_prefixes: data[KEYS.REPORT_PREFIXES] || {}, auto_start_prompts: data[KEYS.AUTO_START_PROMPTS] || {}, service_contexts: data[KEYS.SERVICE_CONTEXTS] || {}, wordstat_policy: publicPolicy(data[KEYS.WORDSTAT_POLICY] || {}, "wordstat"), search_policy: publicPolicy(data[KEYS.SEARCH_POLICY] || {}, "search"), debug_mode: data[KEYS.DEBUG_MODE] === true } };
+  return { schema: "YMB_SETTINGS_BACKUP_V2", version: VERSION, exported_at: nowIso(), settings: { wordstat: { api_key: settings.apiKey, folder_id: settings.folderId }, auto_send: data[KEYS.AUTO_SEND] !== false, send_button_profile: safeButtonProfile(data[KEYS.SEND_BUTTON_PROFILE]), copy_button_profiles: copyProfileCollection(data[KEYS.COPY_BUTTON_PROFILES]), conversation_bindings: data[KEYS.CONVERSATION_BINDINGS] || {}, manual_modes: data[KEYS.MANUAL_MODES] || {}, report_prefixes: data[KEYS.REPORT_PREFIXES] || {}, auto_start_prompts: data[KEYS.AUTO_START_PROMPTS] || {}, service_contexts: data[KEYS.SERVICE_CONTEXTS] || {}, wordstat_policy: publicPolicy(data[KEYS.WORDSTAT_POLICY] || {}, "wordstat"), search_policy: publicPolicy(data[KEYS.SEARCH_POLICY] || {}, "search"), debug_mode: data[KEYS.DEBUG_MODE] === true } };
 }
 async function importSettingsBackup(backup) {
   const incoming = backup?.settings; if (!incoming || typeof incoming !== "object") throw Object.assign(new Error("Некорректный backup."), { code: "INVALID_BACKUP" });
   const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {}; if (Object.values(runs).some((r) => r && !WordstatAutorunModel.isTerminalStatus(r.status))) throw Object.assign(new Error("Нельзя импортировать настройки во время активного Autorun."), { code: "IMPORT_ACTIVE_RUN" });
   const ops = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {}; if (Object.values(ops).some((op) => op && !TERMINAL_MANUAL_STATUSES.has(op.status))) throw Object.assign(new Error("Нельзя импортировать настройки во время активной Manual-операции."), { code: "IMPORT_ACTIVE_MANUAL" });
   const wordstat = incoming.wordstat || {}; const apiKey = String(wordstat.api_key || "").trim(); const folderId = String(wordstat.folder_id || DEFAULT_FOLDER_ID).trim();
-  await storageSet({ [KEYS.API_KEY]: apiKey, [KEYS.FOLDER_ID]: folderId, [KEYS.AUTO_SEND]: incoming.auto_send !== false, [KEYS.CONVERSATION_BINDINGS]: clone(incoming.conversation_bindings || {}), [KEYS.MANUAL_MODES]: clone(incoming.manual_modes || {}), [KEYS.REPORT_PREFIXES]: clone(incoming.report_prefixes || {}), [KEYS.AUTO_START_PROMPTS]: clone(incoming.auto_start_prompts || {}), [KEYS.SERVICE_CONTEXTS]: clone(incoming.service_contexts || {}), [KEYS.WORDSTAT_POLICY]: YMBPolicyModel.normalizeWordstatPolicy(incoming.wordstat_policy || {}), [KEYS.SEARCH_POLICY]: YMBPolicyModel.normalizeSearchPolicy(incoming.search_policy || {}), [KEYS.DEBUG_MODE]: incoming.debug_mode === true, [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION });
+  await storageSet({ [KEYS.API_KEY]: apiKey, [KEYS.FOLDER_ID]: folderId, [KEYS.AUTO_SEND]: incoming.auto_send !== false, [KEYS.SEND_BUTTON_PROFILE]: safeButtonProfile(incoming.send_button_profile), [KEYS.COPY_BUTTON_PROFILES]: copyProfileCollection(incoming.copy_button_profiles), [KEYS.CONVERSATION_BINDINGS]: clone(incoming.conversation_bindings || {}), [KEYS.MANUAL_MODES]: clone(incoming.manual_modes || {}), [KEYS.REPORT_PREFIXES]: clone(incoming.report_prefixes || {}), [KEYS.AUTO_START_PROMPTS]: clone(incoming.auto_start_prompts || {}), [KEYS.SERVICE_CONTEXTS]: clone(incoming.service_contexts || {}), [KEYS.WORDSTAT_POLICY]: YMBPolicyModel.normalizeWordstatPolicy(incoming.wordstat_policy || {}), [KEYS.SEARCH_POLICY]: YMBPolicyModel.normalizeSearchPolicy(incoming.search_policy || {}), [KEYS.DEBUG_MODE]: incoming.debug_mode === true, [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION });
   return { imported: true };
 }
 
@@ -570,8 +580,12 @@ async function handleMessage(message, sender) {
     case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); return { ok: true, outbox: outbox[key] || null }; }
     case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }
     case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message);
-    case "WS_EXPORT_BACKUP": return { ok: true, backup: await exportSettingsBackup() };
-    case "WS_IMPORT_BACKUP": return { ok: true, result: await importSettingsBackup(message.backup), state: await publicGlobalSettingsState() };
+    case "WS_SAVE_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await saveSendButtonProfile(message.profile), state: await publicGlobalSettingsState() };
+    case "WS_SAVE_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await saveCopyButtonProfiles(message.profiles), state: await publicGlobalSettingsState() };
+    case "WS_CLEAR_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await clearSendButtonProfile(), state: await publicGlobalSettingsState() };
+    case "WS_CLEAR_COPY_BUTTON_PROFILES": return { ok: true, copy_button_profiles: await clearCopyButtonProfiles(), state: await publicGlobalSettingsState() };
+    case "WS_EXPORT_BACKUP": case "WS_EXPORT_SETTINGS": return { ok: true, backup: await exportSettingsBackup() };
+    case "WS_IMPORT_BACKUP": case "WS_IMPORT_SETTINGS": return { ok: true, result: await importSettingsBackup(message.backup || message.settings), state: await publicGlobalSettingsState() };
     default: return { ok: false, code: "UNKNOWN_MESSAGE", error: "Неизвестная команда расширения." };
   }
 }
