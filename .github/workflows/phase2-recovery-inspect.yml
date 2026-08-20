@@ -21,7 +21,7 @@ jobs:
           set -euo pipefail
           git fetch --all --tags --prune
           zip_path='extension/tests/qa_artifacts/yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip'
-          zip_commit=$(git log --all --format='%H' -- "$zip_path" | head -n 1)
+          zip_commit=$(git log --all --max-count=1 --format='%H' -- "$zip_path")
           echo "ZIP_HISTORY_COMMIT=$zip_commit"
           test -n "$zip_commit"
           git show "$zip_commit:$zip_path" > /tmp/e13a.zip
