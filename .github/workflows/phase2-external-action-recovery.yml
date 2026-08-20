@@ -1,0 +1,48 @@
+name: phase2-external-action-recovery
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/phase2-recovery-work-2026-08-20
+      - name: Restore governed external Yandex action placement
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          content = Path('extension/src/content_script.js')
+          source = content.read_text(encoding='utf-8')
+          if 'const gap = 10;' not in source:
+              old = '    const gap = 8;\n'
+              assert old in source, 'expected old external-action gap not found'
+              source = source.replace(old, '    const gap = 10;\n', 1)
+              content.write_text(source, encoding='utf-8')
+
+          test_file = Path('extension/tests/content_phase2_runtime.test.mjs')
+          tests = test_file.read_text(encoding='utf-8')
+          title = "External action placement and lifetime stay independent from native Copy"
+          if title not in tests:
+              tests += '''\n\ntest('External action placement and lifetime stay independent from native Copy',()=>{\n  const position=fn('actionPosition');\n  assert.match(position,/const gap = 10;/);\n  assert.match(position,/let left = rect\\.right \\+ gap/);\n  const refresh=fn('refreshActions');\n  assert.match(refresh,/if \\(!actionByBlock\\.has\\(block\\)\\) createAction\\(block\\)/);\n  assert.doesNotMatch(refresh,/copy|Copy|копир/i);\n  const manual=fn('setManualState');\n  assert.match(manual,/button\\.remove\\(\\)/);\n  assert.match(manual,/actionByBlock\\.clear\\(\\)/);\n});\n'''
+              test_file.write_text(tests, encoding='utf-8')
+          PY
+          node --test extension/tests/content_phase2_runtime.test.mjs
+          node --check extension/src/content_script.js
+          git diff --check
+          if git diff --quiet; then
+            echo 'Already applied.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/src/content_script.js extension/tests/content_phase2_runtime.test.mjs
+          git commit -m 'fix: restore external Yandex action placement contract'
+          git push origin HEAD:dev/phase2-recovery-work-2026-08-20
