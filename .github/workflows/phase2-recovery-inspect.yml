@@ -21,7 +21,8 @@ jobs:
             extension/tests/search_protocol.test.mjs \
             extension/tests/search_registry.test.mjs \
             extension/tests/search_xml.test.mjs \
-            extension/tests/search_worker_stage2.test.mjs
+            extension/tests/search_worker_stage2.test.mjs \
+            extension/tests/search_manual_worker.test.mjs
       - name: Syntax and JSON checks for restored source
         shell: bash
         run: |
