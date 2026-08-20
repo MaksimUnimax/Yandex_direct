@@ -33,7 +33,8 @@ jobs:
             extension/tests/permission_scope_recovery.test.mjs \
             extension/tests/legacy_profiles_recovery.test.mjs \
             extension/tests/diagnostics_popup_recovery.test.mjs \
-            extension/tests/button_picker_recovery.test.mjs
+            extension/tests/button_picker_recovery.test.mjs \
+            extension/tests/binding_recovery.test.mjs
       - name: Syntax and JSON checks
         shell: bash
         run: |
