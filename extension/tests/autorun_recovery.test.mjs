@@ -109,6 +109,16 @@ test('Autorun validation error is delivered as YMB_ERROR_V1 with zero provider r
   const outbox=h.store.wsmb_outbox[CKEY];
   assert.equal(outbox.phase,'claimed');
   assert.match(outbox.report_text,/"request_executed":\s*false/);
+  const errorPayload=JSON.parse(outbox.report_text.split('\n').slice(1).join('\n'));
+  assert.equal(errorPayload.service,'search');
+  assert.equal(errorPayload.channel,'autorun');
+  assert.equal(errorPayload.stage,'COMMAND_VALIDATION');
+  assert.equal(errorPayload.recoverable,true);
+  assert.equal(errorPayload.request_executed,false);
+  assert.equal(errorPayload.automatic_retry,false);
+  assert.equal(errorPayload.run_id,'search-run');
+  assert.equal(errorPayload.autorun_continues,true);
+  assert.match(errorPayload.timestamp,/^\d{4}-\d{2}-\d{2}T/);
   await h.api.completeDelivery({conversation_key:CKEY,delivery_id:outbox.delivery_id,confirmation_basis:'microphone'});
   assert.equal(h.store.wsmb_auto_runs[CKEY].status,'waiting_command');
   assert.equal(h.store.wsmb_auto_runs[CKEY].last_assistant_turn_id,'bad-turn');
@@ -123,6 +133,11 @@ test('Unknown provider outcome is delivered once, does not retry, and same finge
   assert.equal(h.fetchCalls.length,1);
   assert.match(first.report_text,/^YMB_ERROR_V1\n/);
   assert.match(first.report_text,/"request_executed":\s*"UNKNOWN"/);
+  const errorPayload=JSON.parse(first.report_text.split('\n').slice(1).join('\n'));
+  assert.equal(errorPayload.channel,'autorun');
+  assert.equal(errorPayload.operation,'search');
+  assert.equal(errorPayload.recoverable,false);
+  assert.equal(errorPayload.autorun_continues,true);
   const delivery=h.store.wsmb_outbox[CKEY];
   await h.api.completeDelivery({conversation_key:CKEY,delivery_id:delivery.delivery_id,confirmation_basis:'microphone'});
   assert.equal(h.store.wsmb_auto_runs[CKEY].status,'waiting_command');

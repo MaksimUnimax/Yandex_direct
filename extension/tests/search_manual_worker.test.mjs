@@ -174,6 +174,16 @@ test('Manual block without supported command produces bridge error with zero pro
   assert.equal(h.fetchCalls.length,0);
   assert.match(r.report_text,/^YMB_ERROR_V1\n/);
   assert.match(r.report_text,/NO_SUPPORTED_COMMAND/);
+  const errorPayload=JSON.parse(r.report_text.split('\n').slice(1).join('\n'));
+  assert.equal(errorPayload.service,'search');
+  assert.equal(errorPayload.channel,'manual');
+  assert.equal(errorPayload.stage,'COMMAND_DISCOVERY');
+  assert.equal(errorPayload.recoverable,true);
+  assert.equal(errorPayload.request_executed,false);
+  assert.equal(errorPayload.automatic_retry,false);
+  assert.equal(errorPayload.operation,null);
+  assert.equal(errorPayload.autorun_continues,false);
+  assert.match(errorPayload.timestamp,/^\d{4}-\d{2}-\d{2}T/);
 });
 
 test('Manual single-flight prevents a second provider request while first delivery is pending', async () => {
@@ -243,6 +253,11 @@ test('Manual ambiguous network failure creates error delivery and never retries'
   assert.match(r.report_text,/REQUEST_OUTCOME_UNKNOWN_NO_RETRY/);
   assert.match(r.report_text,/"request_executed": "UNKNOWN"/);
   assert.match(r.report_text,/"automatic_retry": false/);
+  const errorPayload=JSON.parse(r.report_text.split('\n').slice(1).join('\n'));
+  assert.equal(errorPayload.channel,'manual');
+  assert.equal(errorPayload.operation,'search');
+  assert.equal(errorPayload.recoverable,false);
+  assert.equal(errorPayload.autorun_continues,false);
 });
 
 test('saved report prefix is exposed in state and applies only to executed Manual API result', async () => {

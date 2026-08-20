@@ -239,8 +239,26 @@ async function executeServiceCore(service, commandText, metadata = {}) { const p
 async function executeSearchCore(commandText, metadata = {}) { return executeServiceCore(YMBServiceRegistry.SERVICES.SEARCH, commandText, metadata); }
 async function executeWordstatCore(commandText, metadata = {}) { return executeServiceCore(YMBServiceRegistry.SERVICES.WORDSTAT, commandText, metadata); }
 
-function formatBridgeError({ code, message, stage = "BRIDGE", requestExecuted = false, service = null, runId = null, operationId = null }) {
-  return ["YMB_ERROR_V1", JSON.stringify({ bridge: YMBProduct.BRIDGE_ID, version: VERSION, status: "ERROR", code, message, stage, service, run_id: runId, operation_id: operationId, request_executed: requestExecuted, automatic_retry: false }, null, 2)].join("\n");
+function formatBridgeError({ code, message, stage = "BRIDGE", requestExecuted = false, service = null, runId = null, operationId = null, channel = "bridge", operation = null, recoverable = null, autorunContinues = false, timestamp = null }) {
+  const canRecover = recoverable == null ? requestExecuted !== "UNKNOWN" : recoverable === true;
+  return ["YMB_ERROR_V1", JSON.stringify({
+    bridge: YMBProduct.BRIDGE_ID,
+    version: VERSION,
+    status: "ERROR",
+    service,
+    channel,
+    stage,
+    code,
+    message,
+    recoverable: canRecover,
+    request_executed: requestExecuted,
+    automatic_retry: false,
+    run_id: runId,
+    operation,
+    autorun_continues: autorunContinues === true,
+    timestamp: timestamp || nowIso(),
+    operation_id: operationId
+  }, null, 2)].join("\n");
 }
 async function commonPublicSettingsFields() {
   const settings = await getSettings();
@@ -400,11 +418,11 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
   const operation = { operation_id: uid("manual"), request_token: requestToken, conversation_key: key, tab_id: senderTabId, active_service: serviceContext.active_service, run_id: currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED ? currentRun.run_id : null, status: "requesting", block_fingerprint: YMBBlockCommandDiscovery.textFingerprint(source), created_at: nowIso(), request_executed: false };
   map[key] = operation; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map });
   let reportText = ""; let providerExecutions = 0;
-  if (!preflight.items.length) reportText = formatBridgeError({ code: "NO_SUPPORTED_COMMAND", message: "В выбранном блоке нет поддерживаемой команды Yandex Marketing Bridge.", stage: "COMMAND_DISCOVERY", requestExecuted: false, service: serviceContext.active_service, operationId: operation.operation_id });
+  if (!preflight.items.length) reportText = formatBridgeError({ code: "NO_SUPPORTED_COMMAND", message: "В выбранном блоке нет поддерживаемой команды Yandex Marketing Bridge.", stage: "COMMAND_DISCOVERY", requestExecuted: false, service: serviceContext.active_service, channel: "manual", recoverable: true, operation: null, operationId: operation.operation_id, autorunContinues: false });
   else {
     const reports = [];
     for (const item of preflight.items) {
-      if (item.status === "error") { reports.push(formatBridgeError({ code: item.code, message: item.message, stage: item.stage, requestExecuted: false, service: item.service, operationId: operation.operation_id })); continue; }
+      if (item.status === "error") { reports.push(formatBridgeError({ code: item.code, message: item.message, stage: item.stage, requestExecuted: false, service: item.service, channel: "manual", recoverable: true, operation: item.operation || null, operationId: operation.operation_id, autorunContinues: false })); continue; }
       const settings = await getSettings(); const policy = await getPolicyForService(item.service); const budgetRun = operation.run_id ? await getAutoRun(key) : {};
       const decision = policyDecisionForService(item.service, { policy, channel: "manual", method: item.command.method, credentialState: publicCapability(settings, item.service).state, run: budgetRun || {} });
       if (!decision.allow) { const protocol = assertProtocolForService(item.service); reports.push(protocol.formatSkippedReport({ requestId: uid("skip"), command: item.command, reason: decision.reason, metadata: { run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service }, request_executed: false, automatic_retry: false } })); continue; }
@@ -412,7 +430,7 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
       try { const result = await executeServiceCommand(item.service, item.command, { conversation_key: key, run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service } }); providerExecutions += 1; reports.push(result.report_text); }
       catch (error) {
         const requestExecuted = error.request_executed ?? "UNKNOWN";
-        reports.push(formatBridgeError({ code: error.code || "PROVIDER_ERROR", message: error.message || String(error), stage: "PROVIDER", requestExecuted, service: item.service, runId: operation.run_id, operationId: operation.operation_id }));
+        reports.push(formatBridgeError({ code: error.code || "PROVIDER_ERROR", message: error.message || String(error), stage: "PROVIDER", requestExecuted, service: item.service, channel: "manual", recoverable: requestExecuted !== "UNKNOWN", runId: operation.run_id, operation: item.command?.method || null, operationId: operation.operation_id, autorunContinues: false }));
         if (requestExecuted === "UNKNOWN") break;
       }
     }
@@ -432,7 +450,10 @@ async function stageAutorunError(conversationKey, run, tabId, {
   stage = "AUTORUN",
   requestExecuted = false,
   assistantTurnId = "",
-  fingerprint = null
+  fingerprint = null,
+  operation = null,
+  recoverable = null,
+  autorunContinues = true
 } = {}) {
   const key = normalizeConversationKey(conversationKey);
   const deliveryId = uid("delivery");
@@ -442,7 +463,11 @@ async function stageAutorunError(conversationKey, run, tabId, {
     stage,
     requestExecuted,
     service: run?.active_service || null,
-    runId: run?.run_id || null
+    channel: "autorun",
+    recoverable: recoverable == null ? requestExecuted !== "UNKNOWN" : recoverable,
+    runId: run?.run_id || null,
+    operation: operation || run?.last_method || null,
+    autorunContinues
   });
   await putOutbox(key, {
     delivery_id: deliveryId,
@@ -607,7 +632,10 @@ async function handleAutoCommand(message, sender) {
       stage: "PROVIDER",
       requestExecuted: error.request_executed ?? "UNKNOWN",
       assistantTurnId,
-      fingerprint
+      fingerprint,
+      operation: parsed.method,
+      recoverable: (error.request_executed ?? "UNKNOWN") !== "UNKNOWN",
+      autorunContinues: true
     });
   }
   const prefixResult = await applyPrefixToReport(key, result.report_text);
