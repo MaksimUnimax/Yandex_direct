@@ -550,7 +550,7 @@ Direct/Webmaster/Metrika changes
 
 These require separate contract/gate expansion after synchronous Search is accepted.
 
-## 19. Requirement-reconstruction verdict
+## 19. Requirement-reconstruction and implementation verdict
 
 ```text
 PHASE 1 WORDSTAT = LIVE PASS / CLOSED
@@ -559,37 +559,45 @@ PHASE 2 FOUNDATION = IMPLEMENTED ON dev/phase2-search-foundation-2026-08-19
 PHASE 2 FOUNDATION LOCAL VERIFICATION = 393/393 PASS; SYNTAX PASS; JSON PASS; REAL YANDEX REQUESTS 0
 ```
 
-## 20. Four active engineering stages — binding execution plan
+## 20. Owner-ordered four-stage execution control
 
-The remaining implementation is now governed by:
+The exact four-stage engineering/checkpoint authority is:
 
 ```text
-extension/docs/PHASE_2_SEARCH_ACTIVE_ENGINEERING_STAGES.md
+extension/docs/PHASE_2_FOUR_STAGE_EXECUTION_CONTROL.md
 ```
 
-The four ordered stages are:
+It governs the remainder of Phase 2 and must not be replaced by an ad-hoc alternative stage split.
+
+Canonical stages:
 
 ```text
-STAGE 1 — Search policy / cost / admission
-STAGE 2 — Worker / provider execution integration
-STAGE 3 — Operator settings / popup / load wiring
-STAGE 4 — Manual Search end-to-end integration / local regression / freeze prep
+STAGE 1 — EXACT BASE + SEARCH FOUNDATION
+  PASS / COMPLETED
+
+STAGE 2 — WORKER / PROVIDER / CREDENTIAL / POLICY EXECUTION
+  ACTIVE / IN WORK
+
+STAGE 3 — MANUAL / AUTORUN / OPERATOR / DELIVERY INTEGRATION
+  PENDING STAGE 2 PASS
+
+STAGE 4 — FROZEN CANDIDATE + EXACT TRANSPORT + CODEX FULL GATE + OWNER LIVE
+  PENDING STAGE 3 PASS
 ```
 
-Foundation is already complete and is not one of these remaining four stages.
-
-Execution rule:
+Mandatory execution/reporting rule:
 
 ```text
-ChatGPT continues through the four stages without micro-confirmations.
-Unknown browser/DOM/runtime fact → concrete Codex measurement, never guess.
-Completed exact candidate → Codex complete pre-delivery gate.
-Codex PASS → owner minimal paid real-Yandex Search acceptance.
-Owner explicit pause/scope change → stop/adjust.
+work continuously inside a stage without micro-step chatter
+preserve product/test/evidence in GitHub
+on stage PASS write durable checkpoint and update CURRENT_STATE
+send one concise stage-completion report
+continue automatically to the next stage unless owner/Codex action or a real blocker is required
+unknown browser/DOM/runtime fact → concrete Codex measurement; never guess
 ```
 
-Current authorized next stage:
+Current authorized engineering stage:
 
 ```text
-PHASE_2_STAGE_1_SEARCH_POLICY_COST_ADMISSION
+PHASE_2_STAGE_2_WORKER_PROVIDER_CREDENTIAL_POLICY_EXECUTION
 ```
