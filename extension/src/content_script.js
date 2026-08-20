@@ -367,7 +367,10 @@
           activeAutoWatch.status = "delivering";
           scheduleOutboxPoll(0);
         }
-      }).catch((error) => setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${error.message || error}`, "error", 9000));
+      }).catch((error) => {
+        autorunSeen.delete(turnId);
+        setStatus(STATUS_KEYS.AUTORUN, `Яндекс: ${error.message || error}`, "error", 9000);
+      });
       break;
     }
   }
