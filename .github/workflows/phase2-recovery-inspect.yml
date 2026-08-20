@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
-      - name: Decode preserved combined patch
+          fetch-depth: 0
+      - name: Decode patch and locate old/new blobs
         shell: bash
         run: |
           set -euo pipefail
@@ -22,25 +22,32 @@ jobs:
           base64 -d /tmp/combined.b64 > /tmp/combined.patch.gz
           gzip -t /tmp/combined.patch.gz
           gzip -dc /tmp/combined.patch.gz > /tmp/combined.patch
-          echo 'B64:'
-          sha256sum /tmp/combined.b64
-          wc -c /tmp/combined.b64
-          echo 'GZIP:'
-          sha256sum /tmp/combined.patch.gz
-          wc -c /tmp/combined.patch.gz
           echo 'RAW:'
           sha256sum /tmp/combined.patch
           wc -c /tmp/combined.patch
-          echo 'PATCH HEAD:'
-          head -n 40 /tmp/combined.patch
-          echo 'TOUCHED PATHS:'
-          grep '^diff --git ' /tmp/combined.patch || true
-          cp /tmp/combined.patch extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch
-          cp /tmp/combined.patch.gz extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch.gz
-      - name: Upload decoded patch
+          git fetch --all --tags --prune
+          git cat-file --batch-all-objects --batch-check='%(objectname) %(objecttype) %(objectsize)' > /tmp/all-objects.txt
+          echo 'PATCH BLOB PREFIX AVAILABILITY:'
+          awk '/^index / {split($2,a,".." ); print a[1]; print a[2]}' /tmp/combined.patch | sort -u > /tmp/prefixes.txt
+          while read -r p; do
+            [ "$p" = "0000000" ] && continue
+            matches=$(grep -E "^${p}[0-9a-f]* blob " /tmp/all-objects.txt || true)
+            if [ -n "$matches" ]; then
+              echo "FOUND $p $matches"
+            else
+              echo "MISSING $p"
+            fi
+          done < /tmp/prefixes.txt
+          echo 'TOUCHED PATHS WITH INDEX:'
+          awk '/^diff --git / {path=$3; sub(/^a\//,"",path)} /^index / {print path, $0}' /tmp/combined.patch
+          cp /tmp/combined.patch "$root/decoded-combined.patch"
+          cp /tmp/combined.patch.gz "$root/decoded-combined.patch.gz"
+          cp /tmp/all-objects.txt "$root/all-git-objects.txt"
+      - name: Upload inspection files
         uses: actions/upload-artifact@v4
         with:
           name: phase2-decoded-combined-patch
           path: |
             extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch
             extension/tests/qa_transport/phase2-search-sync-v1/decoded-combined.patch.gz
+            extension/tests/qa_transport/phase2-search-sync-v1/all-git-objects.txt
