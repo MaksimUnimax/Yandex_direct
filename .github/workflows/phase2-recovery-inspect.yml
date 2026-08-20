@@ -16,100 +16,33 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Recover exact e13a artifact and reconstruct Phase 2
+      - name: Enumerate recent YMB QA runs and artifacts
         shell: bash
         run: |
           set -euo pipefail
-          git fetch --all --tags --prune
-          target_commit='665910bf9166cf7739d82031e5c9a64767a16b33'
-          echo 'OLD RUNS:'
-          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${target_commit}&per_page=100" > /tmp/runs.json
-          python3 - /tmp/runs.json <<'PY'
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" > /tmp/runs-pages.json
+          python3 - /tmp/runs-pages.json <<'PY'
           import json,sys
-          d=json.load(open(sys.argv[1]))
-          for r in d.get('workflow_runs',[]): print(r['id'],r['name'],r['status'],r.get('conclusion'))
+          # --paginate may concatenate JSON objects; parse incrementally
+          s=open(sys.argv[1]).read(); dec=json.JSONDecoder(); i=0; runs=[]
+          while i < len(s):
+              while i<len(s) and s[i].isspace(): i+=1
+              if i>=len(s): break
+              o,j=dec.raw_decode(s,i); i=j; runs.extend(o.get('workflow_runs',[]))
+          for r in runs:
+              n=(r.get('name') or '').lower()
+              if any(x in n for x in ('e13a','full','artifact','reconstruction','transport','regression')):
+                  print(r['id'],r.get('head_sha'),r.get('name'),r.get('status'),r.get('conclusion'),r.get('created_at'))
+          print('SUCCESS RUN ARTIFACTS')
+          import subprocess
+          for r in runs:
+              if r.get('conclusion')!='success': continue
+              n=(r.get('name') or '').lower()
+              if not any(x in n for x in ('e13a','full','artifact','reconstruction','transport','regression')): continue
+              p=subprocess.run(['gh','api',f"repos/{__import__('os').environ['GITHUB_REPOSITORY']}/actions/runs/{r['id']}/artifacts?per_page=100"],capture_output=True,text=True)
+              if p.returncode: continue
+              a=json.loads(p.stdout).get('artifacts',[])
+              if a:
+                  print('RUN',r['id'],r.get('name'))
+                  for x in a: print(' ART',x['id'],x['name'],'expired='+str(x.get('expired')),'size='+str(x.get('size_in_bytes')))
           PY
-          run_id=$(python3 - /tmp/runs.json <<'PY'
-          import json,sys
-          d=json.load(open(sys.argv[1]))
-          rs=[r for r in d.get('workflow_runs',[]) if r.get('name')=='YMB e13a exact artifact transport' and r.get('conclusion')=='success']
-          print(rs[0]['id'] if rs else '')
-          PY
-          )
-          test -n "$run_id"
-          echo "E13A_RUN_ID=$run_id"
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100" > /tmp/artifacts.json
-          cat /tmp/artifacts.json
-          artifact_id=$(python3 - /tmp/artifacts.json <<'PY'
-          import json,sys
-          d=json.load(open(sys.argv[1]))
-          a=[x for x in d.get('artifacts',[]) if x.get('name')=='ymb-e13a-exact-zip' and not x.get('expired')]
-          print(a[0]['id'] if a else '')
-          PY
-          )
-          test -n "$artifact_id"
-          echo "E13A_ARTIFACT_ID=$artifact_id"
-          gh api -H 'Accept: application/vnd.github+json' "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > /tmp/artifact-wrapper.zip
-          rm -rf /tmp/artifact-wrapper && mkdir /tmp/artifact-wrapper
-          unzip -q /tmp/artifact-wrapper.zip -d /tmp/artifact-wrapper
-          e13a=$(find /tmp/artifact-wrapper -type f -name 'yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip' -print -quit)
-          test -n "$e13a"
-          echo "E13A_FILE=$e13a"
-          sha256sum "$e13a"
-          wc -c "$e13a"
-          test "$(sha256sum "$e13a" | awk '{print $1}')" = 'e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65'
-          test "$(wc -c < "$e13a")" = '209505'
-          unzip -t "$e13a" >/dev/null
-          rm -rf /tmp/e13a-tree && mkdir /tmp/e13a-tree
-          unzip -q "$e13a" -d /tmp/e13a-tree
-          base_root=$(dirname "$(find /tmp/e13a-tree -type f -name content_script.js -print -quit)")
-          echo "BASE_ROOT=$base_root"
-          transport='extension/tests/qa_transport/phase2-search-sync-v1'
-          cat "$transport"/patch.gz.b64.part00 "$transport"/patch.gz.b64.part01 "$transport"/patch.gz.b64.part02 "$transport"/patch.gz.b64.part03 "$transport"/patch.gz.b64.part04 > /tmp/phase2.b64
-          base64 -d /tmp/phase2.b64 > /tmp/phase2.patch.gz
-          gzip -t /tmp/phase2.patch.gz
-          gzip -dc /tmp/phase2.patch.gz > /tmp/phase2.patch
-          echo 'COMBINED PATCH:'
-          sha256sum /tmp/phase2.patch
-          wc -c /tmp/phase2.patch
-          test "$(sha256sum /tmp/phase2.patch | awk '{print $1}')" = '91751cd720dba23282be69d75c921331dab83bbe6076bffd464519297a80c0ca'
-          test "$(wc -c < /tmp/phase2.patch)" = '142186'
-          cd "$base_root"
-          git apply --check /tmp/phase2.patch
-          git apply /tmp/phase2.patch
-          cd - >/dev/null
-          manifest='extension/tests/phase2/search-runtime-integration/target-tree-sha256.tsv'
-          echo "MANIFEST_SHA=$(sha256sum "$manifest" | awk '{print $1}')"
-          test "$(sha256sum "$manifest" | awk '{print $1}')" = 'b9806e8f2a9ec172ad90ba343fa7183f7f01121fd1ddc3fb69db80b03dda423f'
-          python3 - "$base_root" "$manifest" <<'PY'
-          import hashlib,pathlib,sys
-          root=pathlib.Path(sys.argv[1]); mf=pathlib.Path(sys.argv[2])
-          exp={}
-          for line in mf.read_text(encoding='utf-8').splitlines():
-              if line.strip():
-                  h,n,p=line.split('\t',2); exp[p]=(h,int(n))
-          act={}
-          for p in root.rglob('*'):
-              if p.is_file():
-                  b=p.read_bytes(); act[p.relative_to(root).as_posix()]=(hashlib.sha256(b).hexdigest(),len(b))
-          bad=[p for p,v in exp.items() if act.get(p)!=v]
-          missing=[p for p in exp if p not in act]
-          extra=[p for p in act if p not in exp]
-          matched=sum(act.get(p)==v for p,v in exp.items())
-          print(f'FINAL_IDENTITY matched={matched}/{len(exp)} bad={len(bad)} missing={len(missing)} extra={len(extra)}')
-          if bad: print('BAD',*bad,sep='\n')
-          if extra: print('EXTRA',*extra,sep='\n')
-          if matched!=len(exp) or bad or missing or extra: raise SystemExit(1)
-          print('EXACT_PHASE2_TARGET_RECOVERY_PASS')
-          PY
-          rm -rf "$transport/recovered-target"
-          mkdir -p "$transport/recovered-target"
-          cp -a "$base_root"/. "$transport/recovered-target/"
-      - name: Upload recovered exact source
-        uses: actions/upload-artifact@v4
-        with:
-          name: phase2-exact-recovered-source
-          path: extension/tests/qa_transport/phase2-search-sync-v1/recovered-target
-          compression-level: 0
