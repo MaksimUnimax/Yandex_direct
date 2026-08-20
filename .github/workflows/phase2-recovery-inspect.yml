@@ -9,18 +9,72 @@ on:
 permissions:
   contents: read
 jobs:
-  export:
+  recover-history:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: qa/e13a-exact-reconstruction-v3
-          fetch-depth: 1
-      - name: Export preserved Phase 1 tree
+          fetch-depth: 0
+      - name: Recover historical files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --all --tags --prune
+          rm -rf /tmp/recovered && mkdir -p /tmp/recovered
+          paths=(
+            extension/src/content_script.js
+            extension/src/popup.css
+            extension/src/popup.html
+            extension/src/popup.js
+            extension/src/service_worker.js
+            extension/src/shared/block_command_discovery.js
+            extension/src/shared/composer_send.js
+            extension/src/shared/conversation_identity.js
+            extension/src/shared/manual_controls.js
+            extension/src/shared/proven_writing_block_capture.js
+            extension/src/shared/run_context_model.js
+            extension/tests/api_transport_unicode.test.mjs
+            extension/tests/autorun_model.test.mjs
+            extension/tests/autorun_source.test.mjs
+            extension/tests/content_runtime_exhaustive.test.mjs
+            extension/tests/conversation_binding.test.mjs
+            extension/tests/conversation_isolation.test.mjs
+            extension/tests/delivery_singleflight_50.test.mjs
+            extension/tests/manual_mode.test.mjs
+            extension/tests/manual_surface_v2_worker.test.mjs
+            extension/tests/phase1_unified_core.test.mjs
+            extension/tests/popup_runtime_exhaustive.test.mjs
+            extension/tests/protocol.test.mjs
+            extension/tests/protocol_edges.test.mjs
+            extension/tests/reference_parity_patch.test.mjs
+            extension/tests/reference_provenance.test.mjs
+            extension/tests/reference_send_delivery.test.mjs
+            extension/tests/reference_toast_emulation.test.mjs
+            extension/tests/shared_every_function.test.mjs
+            extension/tests/source_guards.test.mjs
+            extension/tests/start_prompt_and_prefix.test.mjs
+            extension/tests/start_reference_parity.test.mjs
+            extension/tests/worker_every_function.test.mjs
+            extension/tests/worker_recovery_integration.test.mjs
+          )
+          for p in "${paths[@]}"; do
+            found=''
+            while read -r c; do
+              if git cat-file -e "$c:$p" 2>/dev/null; then found="$c"; break; fi
+            done < <(git log --all --format='%H' -- "$p")
+            if [ -n "$found" ]; then
+              mkdir -p "/tmp/recovered/$(dirname "$p")"
+              git show "$found:$p" > "/tmp/recovered/$p"
+              echo "FOUND $p commit=$found sha256=$(sha256sum "/tmp/recovered/$p" | awk '{print $1}') bytes=$(wc -c < "/tmp/recovered/$p")"
+            else
+              echo "MISSING_HISTORY $p"
+            fi
+          done
+          find /tmp/recovered -type f -print
+      - name: Upload recovered history files
         uses: actions/upload-artifact@v4
         with:
-          name: phase1-preserved-inputs
-          path: |
-            extension/src
-            extension/tests
+          name: historical-source-recovery
+          path: /tmp/recovered
           compression-level: 0
+          if-no-files-found: warn
