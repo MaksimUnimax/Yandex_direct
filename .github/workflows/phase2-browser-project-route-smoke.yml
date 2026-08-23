@@ -1,8 +1,6 @@
 name: phase2-browser-project-route-smoke
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
