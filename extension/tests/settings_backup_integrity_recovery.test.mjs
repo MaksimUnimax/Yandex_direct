@@ -21,6 +21,19 @@ async function sha256(value) {
   const digest = await webcrypto.subtle.digest('SHA-256', new TextEncoder().encode(canonical(value)));
   return Buffer.from(digest).toString('hex');
 }
+async function makeBackup(settings, runtimeId = 'source-extension') {
+  return {
+    format: 'YMB_SETTINGS_BACKUP',
+    backup_version: 2,
+    settings_schema_version: 2,
+    exported_at: '2026-08-20T00:00:00.000Z',
+    extension_version: '0.1.1',
+    extension_id: runtimeId,
+    contains_secrets: true,
+    settings_sha256: await sha256(settings),
+    settings
+  };
+}
 function harness(initial = {}, runtimeId = 'test-extension') {
   const store = clone(initial);
   const storage = {
@@ -35,31 +48,26 @@ function harness(initial = {}, runtimeId = 'test-extension') {
   };
   let listener = null;
   const chrome = {
-    storage: { local: storage },
-    runtime: { id: runtimeId, lastError: null, onMessage: { addListener(fn) { listener = fn; } } },
-    tabs: { sendMessage(_id, _message, cb) { cb({ ok: true }); } }
+    storage:{local:storage},
+    runtime:{id:runtimeId,lastError:null,onMessage:{addListener(fn){listener=fn;}}},
+    tabs:{sendMessage(_id,_message,cb){cb({ok:true});}}
   };
-  const ctx = vm.createContext({
-    console, chrome, crypto: webcrypto, TextEncoder, TextDecoder, AbortController, performance,
-    setTimeout, clearTimeout, URL, structuredClone, Response, Request, Headers, ReadableStream, Buffer,
-    fetch: async () => new Response('{}', { status: 200 }), importScripts: () => {}
-  });
-  ctx.globalThis = ctx;
-  for (const file of [
-    'shared/product.js','shared/conversation_identity.js','shared/manual_controls.js','shared/service_registry.js',
-    'shared/block_command_discovery.js','shared/run_context_model.js','shared/credential_registry.js','shared/policy_model.js',
-    'shared/cost_ledger_model.js','shared/wordstat_protocol.js','shared/search_xml.js','shared/search_protocol.js','shared/autorun_model.js'
-  ]) vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), ctx, { filename: file });
-  vm.runInContext(workerSource, ctx, { filename: 'service_worker.js' });
-  assert.equal(typeof listener, 'function');
-  vm.runInContext(`globalThis.__BACKUP_API=Object.freeze({${FN_NAMES.join(',')}});`, ctx);
-  return { api: ctx.__BACKUP_API, store };
+  const ctx=vm.createContext({console,chrome,crypto:webcrypto,TextEncoder,TextDecoder,AbortController,performance,setTimeout,clearTimeout,URL,structuredClone,Response,Request,Headers,ReadableStream,Buffer,fetch:async()=>new Response('{}',{status:200}),importScripts:()=>{}});
+  ctx.globalThis=ctx;
+  for (const file of ['shared/product.js','shared/conversation_identity.js','shared/manual_controls.js','shared/service_registry.js','shared/block_command_discovery.js','shared/run_context_model.js','shared/credential_registry.js','shared/policy_model.js','shared/cost_ledger_model.js','shared/wordstat_protocol.js','shared/search_xml.js','shared/search_protocol.js','shared/autorun_model.js']) {
+    vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),ctx,{filename:file});
+  }
+  vm.runInContext(workerSource,ctx,{filename:'service_worker.js'});
+  assert.equal(typeof listener,'function');
+  vm.runInContext(`globalThis.__BACKUP_API=Object.freeze({${FN_NAMES.join(',')}});`,ctx);
+  return { api:ctx.__BACKUP_API, store };
 }
 
 function bootstrapHarness(initial = {}, runtimeId = 'target-extension') {
   const store = clone(initial);
   const writes = [];
   const imported = [];
+  let listener = null;
   const storage = {
     async get(keys) {
       if (keys == null) return clone(store);
@@ -72,10 +80,15 @@ function bootstrapHarness(initial = {}, runtimeId = 'target-extension') {
       Object.assign(store, clone(values));
     }
   };
-  const chrome = { storage: { local: storage }, runtime: { id: runtimeId } };
+  const chrome = {
+    storage: { local: storage },
+    runtime: { id: runtimeId, onMessage: { addListener(fn) { listener = fn; } } }
+  };
   let ctx;
   ctx = vm.createContext({
-    console, chrome, structuredClone,
+    console, chrome, crypto: webcrypto, TextEncoder, structuredClone,
+    setTimeout, clearTimeout,
+    __YMB_BOOTSTRAP_TEST__: true,
     importScripts(name) {
       imported.push(name);
       assert.equal(name, 'service_worker.js');
@@ -87,23 +100,39 @@ function bootstrapHarness(initial = {}, runtimeId = 'target-extension') {
           },
           auto_send: store.wsmb_auto_send !== false
         };
-        return {
-          format: 'YMB_SETTINGS_BACKUP',
-          backup_version: 2,
-          settings_schema_version: 2,
-          exported_at: '2026-08-20T00:00:00.000Z',
-          extension_version: '0.1.1',
-          extension_id: runtimeId,
-          contains_secrets: true,
-          settings_sha256: await sha256(settings),
-          settings
-        };
+        return makeBackup(settings, runtimeId);
       };
+      ctx.validateSettingsBackupEnvelope = async (backup) => {
+        if (!backup || backup.format !== 'YMB_SETTINGS_BACKUP') throw Object.assign(new Error('bad backup'), { code: 'INVALID_BACKUP' });
+        if (backup.backup_version !== 2 || backup.settings_schema_version !== 2) throw Object.assign(new Error('bad version'), { code: 'UNSUPPORTED_BACKUP_VERSION' });
+        if (backup.settings_sha256 !== await sha256(backup.settings)) throw Object.assign(new Error('bad checksum'), { code: 'BACKUP_CHECKSUM_MISMATCH' });
+        return clone(backup.settings);
+      };
+      ctx.publicGlobalSettingsState = async () => ({ product_version: '0.1.1' });
+      ctx.YMBPolicyModel = {
+        normalizeWordstatPolicy(value) { return clone(value || {}); },
+        normalizeSearchPolicy(value) { return clone(value || {}); }
+      };
+      ctx.chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+        sendResponse({ ok: true, delegated: true, type: message?.type || null });
+        return false;
+      });
     }
   });
   ctx.globalThis = ctx;
   vm.runInContext(bootstrapSource, ctx, { filename: 'service_worker_bootstrap.js' });
-  return { chrome: ctx.chrome, store, writes, imported };
+  async function send(message) {
+    assert.equal(typeof listener, 'function');
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const sendResponse = (value) => { if (!settled) { settled = true; resolve(clone(value)); } };
+      try {
+        const result = listener(clone(message), {}, sendResponse);
+        if (result !== true && !settled) queueMicrotask(() => { if (!settled) reject(new Error('listener did not respond')); });
+      } catch (error) { reject(error); }
+    });
+  }
+  return { chrome: ctx.chrome, store, writes, imported, send, testApi: ctx.__YMB_BOOTSTRAP_TEST_API__ };
 }
 
 test('settings export is versioned, secret-marked and carries canonical SHA-256 over settings payload', async () => {
@@ -235,4 +264,108 @@ test('array storage reads used by settings export receive merged legacy report p
   assert.equal(result.wsmb_api_key, 'key');
   assert.equal(canonical(result.wsmb_report_prefixes), canonical(legacy));
   assert.deepEqual(h.store.wsmb_report_prefix_configs, legacy);
+});
+
+test('runtime import merges settings while preserving active Autorun and Manual safety state', async () => {
+  const RUN = 'https://chatgpt.com|aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  const MANUAL = 'https://chatgpt.com|bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+  const LOCAL = 'https://chatgpt.com|cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+  const INCOMING = 'https://chatgpt.com|dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+  const runRecord = { status: 'waiting_command', run_id: 'run-live', active_service: 'search', requests_executed: 3 };
+  const manualRecord = { status: 'requesting', operation_id: 'manual-live', active_service: 'wordstat' };
+  const h = bootstrapHarness({
+    wsmb_api_key: 'keep-secret',
+    wsmb_folder_id: 'old-folder',
+    wsmb_auto_send: true,
+    wsmb_auto_runs: { [RUN]: runRecord },
+    wsmb_manual_operations: { [MANUAL]: manualRecord },
+    wsmb_conversation_bindings: {
+      [RUN]: { binding_id: 'run-current' },
+      [MANUAL]: { binding_id: 'manual-current' },
+      [LOCAL]: { binding_id: 'local-current' }
+    },
+    wsmb_manual_modes: { [RUN]: false, [MANUAL]: true, [LOCAL]: true },
+    wsmb_report_prefixes: {
+      [RUN]: { enabled: true, text: 'RUN CURRENT' },
+      [MANUAL]: { enabled: true, text: 'MANUAL CURRENT' },
+      [LOCAL]: { enabled: true, text: 'LOCAL CURRENT' }
+    },
+    wsmb_auto_start_prompts: { [RUN]: { text: 'RUN PROMPT' }, [MANUAL]: { text: 'MANUAL PROMPT' } },
+    ymb_service_contexts: {
+      [RUN]: { active_service: 'search' },
+      [MANUAL]: { active_service: 'wordstat' },
+      [LOCAL]: { active_service: 'wordstat' }
+    },
+    wsmb_send_button_profile: { selector: '#current-send' },
+    wsmb_copy_button_profiles: { chatgpt: [{ selector: '#current-copy' }] },
+    ymb_wordstat_policy: { autorun_enabled: false, max_requests_per_run: 10 },
+    ymb_search_policy: { autorun_enabled: true, max_requests_per_run: 20 }
+  });
+  assert.equal(h.testApi.runtimeListenerWrapped, true);
+  const settings = {
+    wordstat: { api_key: '', folder_id: 'new-folder' },
+    auto_send: false,
+    send_button_profile: { selector: '#incoming-send' },
+    copy_button_profiles: { chatgpt: [{ selector: '#incoming-copy' }] },
+    conversation_bindings: {
+      [RUN]: { binding_id: 'run-imported' },
+      [MANUAL]: { binding_id: 'manual-imported' },
+      [INCOMING]: { binding_id: 'incoming-new' }
+    },
+    manual_modes: { [RUN]: true, [MANUAL]: false, [INCOMING]: true },
+    report_prefixes: {
+      [RUN]: { enabled: false, text: 'RUN IMPORTED' },
+      [MANUAL]: { enabled: false, text: 'MANUAL IMPORTED' },
+      [INCOMING]: { enabled: true, text: 'INCOMING PREFIX' }
+    },
+    auto_start_prompts: { [RUN]: { text: 'RUN IMPORTED PROMPT' }, [INCOMING]: { text: 'INCOMING PROMPT' } },
+    service_contexts: {
+      [RUN]: { active_service: 'wordstat' },
+      [MANUAL]: { active_service: 'search' },
+      [INCOMING]: { active_service: 'search' }
+    },
+    wordstat_policy: { autorun_enabled: true, max_requests_per_run: 99 },
+    search_policy: { autorun_enabled: false, max_requests_per_run: 99 },
+    debug_mode: true
+  };
+  const backup = await makeBackup(settings);
+  const response = await h.send({ type: 'WS_IMPORT_BACKUP', backup });
+  assert.equal(response.ok, true);
+  assert.equal(response.result.imported, true);
+  assert.equal(response.result.preserved_active_conversations, 2);
+  assert.equal(response.result.active_runtime_state_untouched, true);
+  assert.deepEqual(h.store.wsmb_auto_runs[RUN], runRecord);
+  assert.deepEqual(h.store.wsmb_manual_operations[MANUAL], manualRecord);
+  assert.equal(h.store.wsmb_api_key, 'keep-secret');
+  assert.equal(h.store.wsmb_folder_id, 'new-folder');
+  assert.equal(h.store.wsmb_auto_send, false);
+  assert.equal(h.store.wsmb_conversation_bindings[RUN].binding_id, 'run-current');
+  assert.equal(h.store.wsmb_conversation_bindings[MANUAL].binding_id, 'manual-current');
+  assert.equal(h.store.wsmb_conversation_bindings[LOCAL].binding_id, 'local-current');
+  assert.equal(h.store.wsmb_conversation_bindings[INCOMING].binding_id, 'incoming-new');
+  assert.equal(h.store.wsmb_manual_modes[RUN], false);
+  assert.equal(h.store.wsmb_manual_modes[MANUAL], true);
+  assert.equal(h.store.wsmb_manual_modes[INCOMING], true);
+  assert.equal(h.store.wsmb_report_prefixes[RUN].text, 'RUN CURRENT');
+  assert.equal(h.store.wsmb_report_prefixes[MANUAL].text, 'MANUAL CURRENT');
+  assert.equal(h.store.wsmb_report_prefixes[LOCAL].text, 'LOCAL CURRENT');
+  assert.equal(h.store.wsmb_report_prefixes[INCOMING].text, 'INCOMING PREFIX');
+  assert.equal(h.store.wsmb_auto_start_prompts[RUN].text, 'RUN PROMPT');
+  assert.equal(h.store.wsmb_auto_start_prompts[INCOMING].text, 'INCOMING PROMPT');
+  assert.equal(h.store.ymb_service_contexts[RUN].active_service, 'search');
+  assert.equal(h.store.ymb_service_contexts[MANUAL].active_service, 'wordstat');
+  assert.equal(h.store.ymb_service_contexts[LOCAL].active_service, 'wordstat');
+  assert.equal(h.store.ymb_service_contexts[INCOMING].active_service, 'search');
+  assert.deepEqual(h.store.wsmb_send_button_profile, { selector: '#incoming-send' });
+  assert.deepEqual(h.store.wsmb_copy_button_profiles.chatgpt, [{ selector: '#current-copy' }, { selector: '#incoming-copy' }]);
+  assert.equal(h.store.ymb_wordstat_policy.max_requests_per_run, 99);
+  assert.equal(h.store.ymb_search_policy.max_requests_per_run, 99);
+  assert.equal(h.store.ymb_debug_mode, true);
+  assert.equal(h.store.ymb_settings_migration_rollback_backup.settings.wordstat.api_key, 'keep-secret');
+});
+
+test('bootstrap delegates non-import runtime messages to the worker listener unchanged', async () => {
+  const h = bootstrapHarness();
+  const response = await h.send({ type: 'WS_GET_GLOBAL_STATE' });
+  assert.deepEqual(response, { ok: true, delegated: true, type: 'WS_GET_GLOBAL_STATE' });
 });
