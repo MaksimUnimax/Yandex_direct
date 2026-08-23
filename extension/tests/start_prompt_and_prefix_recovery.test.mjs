@@ -64,6 +64,22 @@ test('Search start text can be saved and reset back to Search default', async()=
   assert.match(reset.text,/SEARCH_API_V1/);
 });
 
+test('custom Search start text never leaks into Wordstat after active service changes', async()=>{
+  const h=harness();
+  await h.api.saveAutoStartPrompt(CKEY,'CUSTOM SEARCH START',{service:'search'});
+
+  const wordstat=await h.api.getAutoStartPrompt(CKEY,{service:'wordstat'});
+  assert.equal(wordstat.service,'wordstat');
+  assert.equal(wordstat.is_default,true);
+  assert.match(wordstat.text,/WORDSTAT_API_V1/);
+  assert.doesNotMatch(wordstat.text,/CUSTOM SEARCH START|SEARCH_API_V1/);
+
+  const searchAgain=await h.api.getAutoStartPrompt(CKEY,{service:'search'});
+  assert.equal(searchAgain.service,'search');
+  assert.equal(searchAgain.text,'CUSTOM SEARCH START');
+  assert.equal(searchAgain.is_default,false);
+});
+
 test('report prefix is added only when enabled and confirmation advances its counter once', async()=>{
   const h=harness();
   await h.api.saveReportPrefix(CKEY,{enabled:true,text:'PREFIX',interval:1});
