@@ -178,6 +178,12 @@
       $("searchTariffCheckedAt").value = sp.tariff_checked_at || "2026-08-19";
       $("searchTariffSource").value = sp.tariff_source || "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
 
+      const activePolicy = service === "search" ? sp : wp;
+      if (state?.manual_mode !== true && activePolicy?.manual_enabled !== true) {
+        $("manualMode").disabled = true;
+        $("manualModeMeta").textContent = `Ручной режим ${service} запрещён политикой.`;
+      }
+
       $("folderId").value = state?.folder_id || "";
       $("apiKey").value = "";
       $("apiKey").placeholder = state?.has_api_key ? "Ключ сохранён; оставьте пустым, чтобы не менять" : "Введите API key";
@@ -198,7 +204,6 @@
       $("reportPrefixText").value = prefix.text || "";
       $("autoStartPromptText").value = state?.auto_start_prompt?.text || "";
 
-      const activePolicy = service === "search" ? sp : wp;
       $("startAuto").disabled = !context.available || !state?.binding || activeRun || state?.manual_mode === true || manualBusy || activePolicy?.autorun_enabled !== true;
       $("pauseAuto").disabled = !activeRun || paused;
       $("resumeAuto").disabled = !activeRun || !paused || state?.manual_mode === true || manualBusy;
