@@ -1,0 +1,63 @@
+name: phase2-package-freeze
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  package-freeze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build deterministic ZIP twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-out
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output qa-out/candidate-a.zip \
+            --manifest-output qa-out/candidate-manifest.json \
+            --verify-extract qa-out/extract-a
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output qa-out/candidate-b.zip \
+            --verify-extract qa-out/extract-b
+          cmp qa-out/candidate-a.zip qa-out/candidate-b.zip
+          echo DETERMINISTIC_ZIP_A_B_PASS
+          sha256sum qa-out/candidate-a.zip
+          stat -c 'bytes=%s' qa-out/candidate-a.zip
+      - name: Re-stage exact extracted package and run packaged regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="qa-out/extract-a/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate"
+          STAGE="qa-out/package-test/extension"
+          mkdir -p "$STAGE/src" "$STAGE/tests"
+          while IFS= read -r -d '' f; do
+            rel="${f#$ROOT/}"
+            case "$rel" in
+              tests/*) cp -p "$f" "$STAGE/tests/${rel#tests/}" ;;
+              *) mkdir -p "$STAGE/src/$(dirname "$rel")"; cp -p "$f" "$STAGE/src/$rel" ;;
+            esac
+          done < <(find "$ROOT" -type f -print0)
+          cd "$STAGE/src"
+          npm test
+      - name: Packaged syntax and JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          STAGE="qa-out/package-test/extension"
+          for f in "$STAGE"/src/*.js "$STAGE"/src/shared/*.js; do node --check "$f"; done
+          node -e "for (const f of ['qa-out/package-test/extension/src/manifest.json','qa-out/package-test/extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"
+      - name: Upload exact candidate and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-search-reconstruction-exact-candidate
+          path: |
+            qa-out/candidate-a.zip
+            qa-out/candidate-manifest.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
