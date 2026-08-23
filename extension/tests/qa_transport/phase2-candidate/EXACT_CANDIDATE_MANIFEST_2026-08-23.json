@@ -1,7 +1,7 @@
 {
   "root_name": "yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate",
-  "sha256": "bce3c2386a453d8e454e488aba74683943b238d9f4557998feed954407862d7e",
-  "bytes": 138350,
+  "sha256": "d74c4fc805b9e92a76044b88505ea792d90761b66f0e817ac9b0cbdacd42b04e",
+  "bytes": 139422,
   "files": 54,
   "entries": 57,
   "zip_test": "PASS",
