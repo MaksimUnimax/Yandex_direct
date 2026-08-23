@@ -1,8 +1,6 @@
 name: phase2-package-freeze
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
