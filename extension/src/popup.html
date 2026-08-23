@@ -166,9 +166,10 @@
         <button id="importSettings" type="button">Импорт</button>
         <input id="importFile" type="file" accept="application/json,.json" hidden>
       </div>
-      <p class="warning">Экспорт содержит API key. Храните файл как секрет.</p>
+      <p class="warning">Экспорт содержит API key. Храните файл как секрет. Импорт проверяет контрольную сумму, объединяет совместимые настройки и не заменяет активный запуск.</p>
     </section>
   </main>
+  <script src="popup_transfer_guard.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
