@@ -107,10 +107,7 @@ test('popup exposes Wordstat/Search controls, Search Manual permission, never re
 });
 
 test('Search Manual policy OFF disables enabling conversation Manual mode and explains policy block', async()=>{
-  const h=popupHarness(baseState({
-    manual_mode:false,
-    search_policy:{...baseState().search_policy,manual_enabled:false}
-  }));
+  const h=popupHarness(baseState({manual_mode:false,search_policy:{...baseState().search_policy,manual_enabled:false}}));
   await h.settle();
   assert.equal(h.elements.searchManualEnabled.checked,false);
   assert.equal(h.elements.manualMode.checked,false);
@@ -119,14 +116,32 @@ test('Search Manual policy OFF disables enabling conversation Manual mode and ex
 });
 
 test('Search Manual policy OFF still leaves active Manual mode switch available so operator can turn it off', async()=>{
-  const h=popupHarness(baseState({
-    manual_mode:true,
-    search_policy:{...baseState().search_policy,manual_enabled:false}
-  }));
+  const h=popupHarness(baseState({manual_mode:true,search_policy:{...baseState().search_policy,manual_enabled:false}}));
   await h.settle();
   assert.equal(h.elements.searchManualEnabled.checked,false);
   assert.equal(h.elements.manualMode.checked,true);
   assert.equal(h.elements.manualMode.disabled,false);
+});
+
+test('active Manual mode locks active-service selector until Manual is turned off', async()=>{
+  const h=popupHarness(baseState({manual_mode:true,service_context:{active_service:'search'}}));
+  await h.settle();
+  assert.equal(h.elements.activeService.value,'search');
+  assert.equal(h.elements.activeService.disabled,true);
+  assert.equal(h.elements.manualMode.checked,true);
+  assert.equal(h.elements.manualMode.disabled,false);
+});
+
+test('unsaved active-service selection cannot drive Manual mode or page service', async()=>{
+  const h=popupHarness(baseState({service_context:{active_service:'wordstat'}}));
+  await h.settle(); h.calls.length=0;
+  h.elements.activeService.value='search';
+  h.elements.manualMode.checked=true;
+  await h.elements.manualMode.dispatch('change'); await h.settle();
+  assert.equal(h.calls.some(c=>c.message?.type==='WS_SET_MANUAL_MODE'),false);
+  assert.equal(h.calls.some(c=>c.message?.type==='WS_APPLY_MANUAL_MODE'),false);
+  assert.equal(h.elements.manualMode.checked,false);
+  assert.match(h.elements.status.textContent,/Сначала сохраните выбранный активный сервис/i);
 });
 
 test('Manual ON commits worker state before applying page mode and sends active Search service', async()=>{
