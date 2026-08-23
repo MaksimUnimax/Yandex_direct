@@ -106,6 +106,29 @@ test('popup exposes Wordstat/Search controls, Search Manual permission, never re
   assert.doesNotMatch(popupSource,/WS_GET_POPUP_STATE|WS_SAVE_CREDENTIALS|YMB_SET_ACTIVE_SERVICE|WS_AUTO_START|YMB_EXPORT_SETTINGS/);
 });
 
+test('Search Manual policy OFF disables enabling conversation Manual mode and explains policy block', async()=>{
+  const h=popupHarness(baseState({
+    manual_mode:false,
+    search_policy:{...baseState().search_policy,manual_enabled:false}
+  }));
+  await h.settle();
+  assert.equal(h.elements.searchManualEnabled.checked,false);
+  assert.equal(h.elements.manualMode.checked,false);
+  assert.equal(h.elements.manualMode.disabled,true);
+  assert.match(h.elements.manualModeMeta.textContent,/запрещён политикой/i);
+});
+
+test('Search Manual policy OFF still leaves active Manual mode switch available so operator can turn it off', async()=>{
+  const h=popupHarness(baseState({
+    manual_mode:true,
+    search_policy:{...baseState().search_policy,manual_enabled:false}
+  }));
+  await h.settle();
+  assert.equal(h.elements.searchManualEnabled.checked,false);
+  assert.equal(h.elements.manualMode.checked,true);
+  assert.equal(h.elements.manualMode.disabled,false);
+});
+
 test('Manual ON commits worker state before applying page mode and sends active Search service', async()=>{
   const h=popupHarness(); await h.settle(); h.calls.length=0;
   h.elements.manualMode.checked=true;
