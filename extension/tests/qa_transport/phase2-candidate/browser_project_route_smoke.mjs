@@ -9,7 +9,7 @@ if (!chromePath || !extensionRoot || !keyPath || !certPath) {
 }
 
 const CID = '99999999-8888-4777-8666-555555555555';
-const URL = `https://chatgpt.com/g/g-p-example-project/project-name/c/${CID}`;
+const NESTED_URL = `https://chatgpt.com/g/g-p-example-project/project-name/c/${CID}`;
 const KEY = `https://chatgpt.com|${CID}`;
 const serverHits = [];
 
@@ -56,13 +56,13 @@ try {
   const pages = await browser.pages();
   const fixture = pages[0] || await browser.newPage();
   await fixture.bringToFront();
-  await fixture.goto(URL, { waitUntil: 'domcontentloaded', timeout: 20000 });
+  await fixture.goto(NESTED_URL, { waitUntil: 'domcontentloaded', timeout: 20000 });
 
   const swTarget = await browser.waitForTarget(
     target => target.type() === 'service_worker' && target.url().startsWith('chrome-extension://'),
     { timeout: 15000 }
   );
-  const extensionId = new URL(swTarget.url()).host;
+  const extensionId = new globalThis.URL(swTarget.url()).host;
   const worker = await swTarget.worker();
   if (!worker) throw new Error('MV3 service worker target has no worker context');
 
@@ -80,7 +80,7 @@ try {
         });
       });
     });
-  }, URL);
+  }, NESTED_URL);
 
   if (!identityProbe.ok) throw new Error(`CONTENT_IDENTITY_FAIL ${JSON.stringify(identityProbe)}`);
   if (identityProbe.response?.conversation_key !== KEY) {
@@ -119,7 +119,7 @@ try {
   if (providerHits.length) throw new Error(`UNEXPECTED_YANDEX_REQUESTS ${JSON.stringify(providerHits)}`);
 
   console.log(`CFT_EXTENSION_ID=${extensionId}`);
-  console.log(`CFT_PROJECT_ROUTE=${URL}`);
+  console.log(`CFT_PROJECT_ROUTE=${NESTED_URL}`);
   console.log(`CFT_CONVERSATION_KEY=${popupState.conversation}`);
   console.log(`CFT_POPUP_STATUS=${popupState.status}`);
   console.log('CFT_CONTENT_IDENTITY_PASS');
