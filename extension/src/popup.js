@@ -136,7 +136,7 @@
       $("conversationMeta").textContent = context.available ? context.conversation_key : "не определён";
       const service = state?.service_context?.active_service === "search" ? "search" : "wordstat";
       $("activeService").value = service;
-      $("activeService").disabled = !context.available || isActiveRun(state?.auto_run);
+      $("activeService").disabled = !context.available || isActiveRun(state?.auto_run) || state?.manual_mode === true;
       $("bindConversation").disabled = !context.available;
       $("bindConversation").textContent = state?.binding ? "Перепривязать диалог" : "Привязать диалог";
 
@@ -313,15 +313,17 @@
     try {
       await resolveContext();
       if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+      const committedService = lastState?.service_context?.active_service === "search" ? "search" : "wordstat";
+      if (enabled && $("activeService").value !== committedService) throw new Error("Сначала сохраните выбранный активный сервис.");
       const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled });
       if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не сохранил ручной режим.");
       workerCommitted = true;
-      const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled, active_service: $("activeService").value });
+      const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled, active_service: committedService });
       if (!applied?.ok || applied.applied !== true) {
         if (enabled) {
           const rollback = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false });
           if (rollback?.ok) {
-            try { await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: $("activeService").value }); } catch {}
+            try { await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: committedService }); } catch {}
           }
         }
         throw new Error(applied?.error || applied?.code || "Страница не подтвердила ручной режим.");
