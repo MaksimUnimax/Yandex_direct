@@ -11,13 +11,17 @@
     } catch { return ""; }
   }
 
+  function conversationIdFromPath(pathname) {
+    const match = String(pathname || "").match(/(?:^|\/)c\/([^/?#]+)(?:\/|$)/i);
+    return match && CHAT_ID_RE.test(match[1]) ? match[1].toLowerCase() : "";
+  }
+
   function identityFromUrl(value) {
     let url;
     try { url = new URL(String(value || "")); }
     catch { return Object.freeze({ origin: "", conversation_id: "", conversation_key: "", status: "unavailable", source: "url" }); }
     const origin = normalizeOrigin(url.origin);
-    const m = url.pathname.match(/^\/c\/([^/?#]+)/i);
-    const conversationId = m && CHAT_ID_RE.test(m[1]) ? m[1].toLowerCase() : "";
+    const conversationId = conversationIdFromPath(url.pathname);
     return Object.freeze({
       origin,
       conversation_id: conversationId,
@@ -50,6 +54,7 @@
     CHAT_ID_RE,
     ALLOWED_ORIGINS,
     normalizeOrigin,
+    conversationIdFromPath,
     identityFromUrl,
     normalizeConversationKey,
     sameConversation
