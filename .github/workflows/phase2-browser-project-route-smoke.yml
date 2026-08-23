@@ -1,0 +1,53 @@
+name: phase2-browser-project-route-smoke
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  browser-project-route-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild exact frozen candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-out
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output qa-out/candidate.zip \
+            --verify-extract qa-out/extracted
+      - name: Install stable Chrome for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable
+          install-dependencies: true
+      - name: Install browser driver library for QA only
+        shell: bash
+        run: npm install --no-save --package-lock=false puppeteer-core@24.16.0
+      - name: Prepare controlled HTTPS fixture certificate
+        shell: bash
+        run: |
+          set -euo pipefail
+          openssl req -x509 -newkey rsa:2048 -nodes \
+            -keyout qa-out/chatgpt-fixture.key \
+            -out qa-out/chatgpt-fixture.crt \
+            -days 1 \
+            -subj '/CN=chatgpt.com' \
+            -addext 'subjectAltName=DNS:chatgpt.com,DNS:searchapi.api.cloud.yandex.net' \
+            >/dev/null 2>&1
+      - name: Real MV3 Project Work popup initialization
+        shell: bash
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          set -euo pipefail
+          ROOT="$PWD/qa-out/extracted/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate"
+          xvfb-run -a node extension/tests/qa_transport/phase2-candidate/browser_project_route_smoke.mjs \
+            "$CHROME_PATH" \
+            "$ROOT" \
+            "$PWD/qa-out/chatgpt-fixture.key" \
+            "$PWD/qa-out/chatgpt-fixture.crt"
