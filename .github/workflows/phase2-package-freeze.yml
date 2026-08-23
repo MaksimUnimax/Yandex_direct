@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build deterministic ZIP twice
+      - name: Build exact deterministic ZIP twice
         shell: bash
         run: |
           set -euo pipefail
@@ -19,13 +19,11 @@ jobs:
             --repo-root . \
             --output qa-out/candidate-a.zip \
             --manifest-output qa-out/candidate-manifest.json \
-            --verify-extract qa-out/extract-a \
-            --discover
+            --verify-extract qa-out/extract-a
           python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
             --repo-root . \
             --output qa-out/candidate-b.zip \
-            --verify-extract qa-out/extract-b \
-            --discover
+            --verify-extract qa-out/extract-b
           cmp qa-out/candidate-a.zip qa-out/candidate-b.zip
           echo DETERMINISTIC_ZIP_A_B_PASS
           sha256sum qa-out/candidate-a.zip
