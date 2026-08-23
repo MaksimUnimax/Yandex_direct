@@ -83,7 +83,7 @@
   function searchPolicyFromForm() {
     return {
       autorun_enabled: $("searchAutorunEnabled").checked,
-      manual_enabled: true,
+      manual_enabled: $("searchManualEnabled").checked,
       allowed_methods: ["search"],
       max_requests_per_run: asPositiveInt("searchMaxRequestsRun", 100),
       max_cost_rub_per_run: Math.max(0, asNumber("searchMaxCostRun", 10)),
@@ -170,6 +170,7 @@
       $("tariffSource").value = wp.tariff_source || "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
 
       const sp = state?.search_policy || {};
+      $("searchManualEnabled").checked = sp.manual_enabled === true;
       $("searchAutorunEnabled").checked = sp.autorun_enabled === true;
       $("searchMaxRequestsRun").value = String(sp.max_requests_per_run ?? 100);
       $("searchMaxCostRun").value = String(sp.max_cost_rub_per_run ?? 10);
