@@ -19,11 +19,13 @@ jobs:
             --repo-root . \
             --output qa-out/candidate-a.zip \
             --manifest-output qa-out/candidate-manifest.json \
-            --verify-extract qa-out/extract-a
+            --verify-extract qa-out/extract-a \
+            --discover
           python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
             --repo-root . \
             --output qa-out/candidate-b.zip \
-            --verify-extract qa-out/extract-b
+            --verify-extract qa-out/extract-b \
+            --discover
           cmp qa-out/candidate-a.zip qa-out/candidate-b.zip
           echo DETERMINISTIC_ZIP_A_B_PASS
           sha256sum qa-out/candidate-a.zip
