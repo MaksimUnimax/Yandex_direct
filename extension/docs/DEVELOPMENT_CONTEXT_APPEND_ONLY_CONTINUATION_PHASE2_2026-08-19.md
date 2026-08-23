@@ -236,3 +236,48 @@ OWNER_ACTION_PENDING = NO
 NEW_BLOCKER = exact editable e13a working-tree materialization/45-of-45 verification before first product write
 NEXT_ENGINEERING_ACTION = reconstruct verified e13a development base, then implement Search foundation
 ```
+
+---
+
+# ENTRY 0036 — 2026-08-23 — OWNER RESTORES FOCUSED DEVELOPMENT TESTING; FULL GATE IS NOT THE ACTIVE DEVELOPMENT BLOCKER
+
+The owner explicitly corrected the current Phase-2 workflow after the reconstructed candidate and subsequent Project/Work popup repair.
+
+Current mandatory development rule:
+
+```text
+change the smallest product surface
+→ test that changed behavior
+→ test only directly affected dependencies/regressions
+→ run syntax/static checks required by the touched files
+→ continue development when those focused checks pass
+```
+
+The complete historical PD-00…PD-17 pre-delivery regression gate, whole-suite regression runs and deterministic package-freeze campaigns are **not** to be used as an automatic blocker or repeated after every development edit.
+
+A broad release/full-system audit may still be run later if the owner explicitly orders it for a handoff/release, but it is a separate activity rather than the default Phase-2 edit loop.
+
+This restores the development-mode distinction that was already documented when the pre-delivery gate was introduced on 2026-08-18: focused changed-surface testing during implementation, with the full gate originally scoped to a frozen handoff candidate rather than every intermediate edit.
+
+The current candidate must preserve the owner-observed Project/Work popup repair:
+
+```text
+8483b52acee7981f2ef50eaa0d62ec4c655006cf
+fix: recognize ChatGPT project conversation routes
+```
+
+The first reconstructed build recognized only direct `/c/<uuid>` ChatGPT routes; the owner's actual Project/Work route uses nested `/g/.../c/<uuid>`, causing conversation identity to remain unavailable and making the popup/settings surface effectively unusable in that environment.
+
+Focused regression coverage preserving that repair:
+
+```text
+fbb1710bc907c00b210f145e5e5edd3871364b6b
+test: cover ChatGPT project conversation identity
+
+dc0c39f5609a10e85de809677574efa698678df8
+test: cover popup initialization on ChatGPT project route
+```
+
+From this checkpoint forward, later Phase-2 changes must not regress popup/settings availability on nested Project/Work conversation URLs.
+
+No owner-live Search request has been executed yet. Real Search execution remains a separate explicit owner-live acceptance action and is not a side effect of focused development QA.
