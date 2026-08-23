@@ -9,8 +9,8 @@ from pathlib import Path
 
 ROOT_NAME = "yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate"
 FIXED_DT = (2025, 12, 31, 19, 0, 0)
-EXPECTED_ZIP_SHA256 = "bce3c2386a453d8e454e488aba74683943b238d9f4557998feed954407862d7e"
-EXPECTED_ZIP_BYTES = 138350
+EXPECTED_ZIP_SHA256 = "d74c4fc805b9e92a76044b88505ea792d90761b66f0e817ac9b0cbdacd42b04e"
+EXPECTED_ZIP_BYTES = 139422
 EXPECTED_FILES = 54
 EXPECTED_ENTRIES = 57
 FROZEN_MANIFEST_REL = Path("extension/tests/qa_transport/phase2-candidate/EXACT_CANDIDATE_MANIFEST_2026-08-23.json")
