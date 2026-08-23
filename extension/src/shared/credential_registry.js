@@ -8,7 +8,7 @@
     NO_ACCESS: "NO_ACCESS"
   });
 
-  function wordstatCapability(settings) {
+  function sharedYandexCapability(settings) {
     const apiKey = String(settings?.apiKey || "").trim();
     const folderId = String(settings?.folderId || "").trim();
     if (!apiKey || !folderId) {
@@ -21,5 +21,24 @@
     return Object.freeze({ state: STATES.PRESENT, has_api_key: true, has_folder_id: true });
   }
 
-  globalThis.YMBCredentialRegistry = Object.freeze({ STATES, wordstatCapability });
+  function wordstatCapability(settings) {
+    return sharedYandexCapability(settings);
+  }
+
+  function searchCapability(settings) {
+    return sharedYandexCapability(settings);
+  }
+
+  function capabilityForService(service, settings) {
+    if (String(service || "") === "search") return searchCapability(settings);
+    if (String(service || "") === "wordstat") return wordstatCapability(settings);
+    return Object.freeze({ state: STATES.NO_ACCESS, has_api_key: false, has_folder_id: false });
+  }
+
+  globalThis.YMBCredentialRegistry = Object.freeze({
+    STATES,
+    wordstatCapability,
+    searchCapability,
+    capabilityForService
+  });
 })();

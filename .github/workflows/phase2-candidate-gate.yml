@@ -1,0 +1,29 @@
+name: phase2-candidate-gate
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  candidate-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Full current source regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
+      - name: Syntax and JSON checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in extension/src/*.js extension/src/shared/*.js; do node --check "$f"; done
+          node -e "for (const f of ['extension/src/manifest.json','extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"
+      - name: Source tree SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum
