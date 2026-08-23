@@ -302,7 +302,7 @@ async function noteConfirmedReportPrefix(conversationKey, applied, deliveryId) {
 
 async function getAutoStartPrompt(conversationKey, { service = null } = {}) {
   const key = normalizeConversationKey(conversationKey); const resolved = service || (await getServiceContext(key)).active_service; const map = (await storageGet(KEYS.AUTO_START_PROMPTS))[KEYS.AUTO_START_PROMPTS] || {}; const rec = map[key];
-  return rec?.text && rec.is_default !== true ? { ...rec, service: resolved } : { text: defaultAutoStartTextForService(resolved), is_default: true, service: resolved, updated_at: rec?.updated_at || null };
+  return rec?.text && rec.is_default !== true && rec.service === resolved ? { ...rec, service: resolved } : { text: defaultAutoStartTextForService(resolved), is_default: true, service: resolved, updated_at: rec?.updated_at || null };
 }
 async function saveAutoStartPrompt(conversationKey, text, { service = null } = {}) {
   const key = normalizeConversationKey(conversationKey); const resolved = service || (await getServiceContext(key)).active_service; const value = String(text || "").trim(); if (!value) throw Object.assign(new Error("Стартовый текст пуст."), { code: "AUTO_START_PROMPT_EMPTY" });
