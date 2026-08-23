@@ -17,6 +17,7 @@ jobs:
         run: |
           set -euo pipefail
           node --test \
+            extension/tests/phase1_core_regression_recovery.test.mjs \
             extension/tests/search_protocol.test.mjs \
             extension/tests/search_registry.test.mjs \
             extension/tests/search_xml.test.mjs \
