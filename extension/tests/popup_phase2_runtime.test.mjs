@@ -92,11 +92,13 @@ function popupHarness(state=baseState(), { applyManualOk=true }={}) {
   return {ctx,elements,calls,getState:()=>currentState,settle:()=>new Promise(r=>setTimeout(r,10))};
 }
 
-test('popup exposes Wordstat/Search controls, never renders saved API key, and uses current worker state messages', async()=>{
+test('popup exposes Wordstat/Search controls, Search Manual permission, never renders saved API key, and uses current worker state messages', async()=>{
   const h=popupHarness(); await h.settle();
   assert.match(popupHtml,/option value="wordstat"/);
   assert.match(popupHtml,/option value="search"/);
+  assert.match(popupHtml,/id="searchManualEnabled"/);
   assert.equal(h.elements.activeService.value,'search');
+  assert.equal(h.elements.searchManualEnabled.checked,true);
   assert.equal(h.elements.apiKey.value,'');
   assert.match(h.elements.apiKey.placeholder,/Ключ сохранён/);
   assert.equal(h.elements.costSearch.value,'0.488');
@@ -138,21 +140,24 @@ test('Search autorun toggle persists only the toggle and does not commit unsaved
   assert.equal(JSON.stringify(runtime).includes('UNSAVED-TEXT'),false);
 });
 
-test('explicit Save persists separate Search policy, service and report prefix while blank API key means preserve secret', async()=>{
+test('explicit Save persists operator-selected Search Manual permission with separate Search policy', async()=>{
   const h=popupHarness(); await h.settle(); h.calls.length=0;
   h.elements.activeService.value='search'; h.elements.apiKey.value='';
+  h.elements.searchManualEnabled.checked=false;
   h.elements.searchMaxRequestsRun.value='9'; h.elements.searchMaxCostRun.value='4.5'; h.elements.costSearch.value='0.488';
   h.elements.reportPrefixEnabled.checked=true; h.elements.reportPrefixText.value='PREFIX';
   await h.ctx.__YMB_POPUP_TEST_API__.saveAll(); await h.settle();
   const msg=h.calls.find(c=>c.message?.type==='WS_SAVE_SETTINGS')?.message;
   assert.ok(msg);
   assert.equal(msg.active_service,'search');
+  assert.equal(msg.search_policy.manual_enabled,false);
   assert.equal(msg.search_policy.max_requests_per_run,9);
   assert.equal(msg.search_policy.max_cost_rub_per_run,4.5);
   assert.equal(msg.search_policy.method_cost_rub.search,0.488);
   assert.equal(msg.wordstat_policy.allowed_methods.includes('getTop'),true);
   assert.deepEqual(msg.report_prefix,{enabled:true,text:'PREFIX',interval:1});
   assert.equal(Object.hasOwn(msg,'api_key'),false);
+  assert.equal(h.getState().search_policy.manual_enabled,false);
 });
 
 test('Search start saves selected service/settings before starting and uses current run message names', async()=>{
