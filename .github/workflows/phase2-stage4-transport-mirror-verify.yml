@@ -1,49 +1,46 @@
-name: phase2-stage4-transport-mirror-verify
+name: phase2-stage4-b64-transport-verify
 on:
   pull_request:
     branches:
       - main
     paths:
-      - extension/tests/qa_transport/phase2-stage4-frozen/**
+      - extension/tests/qa_transport/phase2-stage4-b64-v2/**
       - .github/workflows/phase2-stage4-transport-mirror-verify.yml
 permissions:
   contents: read
 jobs:
-  verify-exact-git-transport:
-    if: github.event.pull_request.head.ref == 'qa/phase2-stage4-exact-transport-2026-08-24'
+  verify-exact-b64-transport:
+    if: github.event.pull_request.head.ref == 'qa/phase2-stage4-exact-b64-transport-v2-2026-08-24'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout exact QA transport commit
+      - name: Checkout exact QA transport head
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: Assert immutable transport authority
+      - name: Assert checked-out PR head
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-          test "${{ github.event.pull_request.head.sha }}" = "564374ebbbe0fc2d4cdb0cdd02dee8128828bd32"
           git diff --exit-code
-      - name: Consumer verify exact frozen ZIP from Git checkout
+      - name: Fresh-consumer verify exact frozen ZIP from text-safe transport
         shell: bash
         run: |
           set -euo pipefail
-          python extension/tests/qa_transport/phase2-stage4-frozen/verify_exact_artifact.py
+          python extension/tests/qa_transport/phase2-stage4-b64-v2/verify_exact_b64_transport.py
           python - <<'PY'
-          import hashlib, json
+          import json
           from pathlib import Path
-          base = Path('extension/tests/qa_transport/phase2-stage4-frozen')
-          transport = json.loads((base / 'TRANSPORT_MANIFEST_2026-08-24.json').read_text(encoding='utf-8'))
-          payload_manifest = (base / 'EXACT_CANDIDATE_MANIFEST_2026-08-24.json').read_bytes()
-          if hashlib.sha256(payload_manifest).hexdigest() != transport['payload_manifest_sha256']:
-              raise SystemExit('TRANSPORT_PAYLOAD_MANIFEST_SHA_FAIL')
-          if len(payload_manifest) != transport['payload_manifest_bytes']:
-              raise SystemExit('TRANSPORT_PAYLOAD_MANIFEST_BYTES_FAIL')
-          if transport['artifact_sha256'] != '0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411':
-              raise SystemExit('TRANSPORT_EXPECTED_SHA_FAIL')
-          if transport['artifact_bytes'] != 170726:
-              raise SystemExit('TRANSPORT_EXPECTED_BYTES_FAIL')
-          print('GIT_CHECKOUT_EXACT_TRANSPORT_PASS')
+          base = Path('extension/tests/qa_transport/phase2-stage4-b64-v2')
+          t = json.loads((base / 'TRANSPORT_MANIFEST_2026-08-24.json').read_text(encoding='utf-8'))
+          assert t['frozen_source_commit'] == '1869d17f3cb64417a07088de18dafa5687c83840'
+          assert t['source_actions_artifact_id'] == 9512033721
+          assert t['artifact_sha256'] == '0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411'
+          assert t['artifact_bytes'] == 170726
+          assert t['files'] == 65
+          assert t['zip_entries'] == 68
+          assert t['chunk_count'] == 16
+          print('FROZEN_AUTHORITY_MATCH_PASS')
           print('REAL_YANDEX_REQUESTS=0')
           PY
