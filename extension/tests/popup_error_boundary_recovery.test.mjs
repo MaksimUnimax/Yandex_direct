@@ -45,7 +45,7 @@ function state(){ return {
   product_version:'0.1.1',has_api_key:true,folder_id:'folder',auto_send:true,debug_mode:false,
   binding:{binding_id:'b1',conversation_key:CKEY},manual_mode:false,manual_operation:null,
   service_context:{active_service:'search'},
-  auto_run:{run_id:'r1',active_service:'search',status:'waiting_command',requests_attempted:0,requests_executed:0,requests_skipped:0,estimated_cost_rub:0,sequence:0},
+  auto_run:{run_id:'r1',active_service:'search',status:'waiting_command',tab_id:1,requests_attempted:0,requests_executed:0,requests_skipped:0,estimated_cost_rub:0,sequence:0},
   auto_start_prompt:{text:'SEARCH START',is_default:true,service:'search'},
   report_prefix:{enabled:false,text:'',interval:1,delivered_count:0,last_applied_at_count:0},
   wordstat_policy:{autorun_enabled:true,manual_enabled:true,allowed_methods:['getTop','getDynamics','getRegionsDistribution','getRegionsTree'],max_requests_per_run:100,max_cost_rub_per_run:10,method_cost_rub:{getTop:.02,getDynamics:.02,getRegionsDistribution:.05,getRegionsTree:0}},
