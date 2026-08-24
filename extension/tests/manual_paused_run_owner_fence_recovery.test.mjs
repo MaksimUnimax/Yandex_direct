@@ -5,10 +5,6 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
-// Focused transport trigger: production worker changes are committed only after this regression and the content-error owner fence pass.
-// Registered workflow transport sync: run the exact patch only after workflow 340381518 is on this head.
-// Transport workflow is now present on main; this marker triggers its first eligible synchronize event.
-// Merge ref restored after removing the conflicting temporary workflow path from main.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
 const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
 
