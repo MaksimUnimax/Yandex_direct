@@ -331,6 +331,34 @@ async function saveReportPrefix(conversationKey, raw = {}) {
   await storageSet({ [KEYS.REPORT_PREFIXES]: map });
   return next;
 }
+async function saveReportPrefixFromTab(conversationKey, raw = {}, tabId) {
+  const key = normalizeConversationKey(conversationKey);
+  const current = await getReportPrefix(key);
+  const requested = WordstatAutorunModel.normalizePrefixRecord({
+    ...current,
+    enabled: raw.enabled === true,
+    text: String(raw.text ?? current.text ?? "").slice(0, 4000),
+    interval: raw.interval ?? current.interval ?? 1
+  });
+  if (requested.enabled === current.enabled && requested.text === current.text && requested.interval === current.interval) return current;
+  const tab = Number(tabId);
+  if (tabId == null || !Number.isInteger(tab) || tab <= 0) throw Object.assign(new Error("Не определена вкладка для изменения префикса отчёта."), { code: "OWNER_TAB_REQUIRED" });
+  const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+  const operation = operations[key] || null;
+  if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) {
+    if (tab !== Number(operation.tab_id)) throw Object.assign(new Error("Префикс отчёта может изменять только вкладка-owner активной Manual operation."), { code: "AUTO_NON_OWNER_TAB" });
+    await assertTabConversation(tab, key);
+    return saveReportPrefix(key, raw);
+  }
+  const run = await getAutoRun(key);
+  if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
+    if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Префикс отчёта может изменять только вкладка-owner активного Autorun."), { code: "AUTO_NON_OWNER_TAB" });
+    await assertTabConversation(tab, key, run.conversation_id);
+    return saveReportPrefix(key, raw);
+  }
+  await assertTabConversation(tab, key);
+  return saveReportPrefix(key, raw);
+}
 async function applyPrefixToReport(conversationKey, reportText) {
   const prefix = await getReportPrefix(conversationKey);
   const applied = WordstatAutorunModel.applyReportPrefix(reportText, prefix);
@@ -369,7 +397,7 @@ async function patchToggleSettings(message = {}, sender = null) {
   if (Object.hasOwn(message, "search_autorun_enabled")) { const p = await getSearchPolicy(); await saveSearchPolicy({ ...p, autorun_enabled: message.search_autorun_enabled === true }); }
   if (message.conversation_key && Object.hasOwn(message, "report_prefix_enabled")) {
     const current = await getReportPrefix(message.conversation_key);
-    await saveReportPrefix(message.conversation_key, { ...current, enabled: message.report_prefix_enabled === true });
+    await saveReportPrefixFromTab(message.conversation_key, { ...current, enabled: message.report_prefix_enabled === true }, message.tab_id ?? sender?.tab?.id);
   }
   if (message.conversation_key && Object.hasOwn(message, "manual_mode")) await setManualModeFromTab(message.conversation_key, message.manual_mode === true, message.tab_id ?? sender?.tab?.id);
   return message.conversation_key ? publicSettingsState(message.conversation_key) : publicGlobalSettingsState();
@@ -861,7 +889,7 @@ async function handleMessage(message, sender) {
     case "WS_PATCH_TOGGLES": return { ok: true, state: await patchToggleSettings(message, sender) };
     case "WS_SET_MANUAL_MODE": return { ok: true, enabled: await setManualModeFromTab(message.conversation_key, message.enabled === true, message.tab_id ?? sender?.tab?.id), state: await publicSettingsState(message.conversation_key) };
     case "WS_SAVE_SETTINGS": {
-      const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id); if (message.conversation_key && message.report_prefix) await saveReportPrefix(message.conversation_key, message.report_prefix); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
+      const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id); if (message.conversation_key && message.report_prefix) await saveReportPrefixFromTab(message.conversation_key, message.report_prefix, message.tab_id ?? sender?.tab?.id); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
     }
     case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id) };
     case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPrompt(message.conversation_key, message.text, { service: message.active_service || null }) };

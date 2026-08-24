@@ -269,7 +269,7 @@
   }
 
   async function persistTogglePatch(patch) {
-    const response = await runtimeSend({ type: "WS_PATCH_TOGGLES", ...(context.available ? { conversation_key: context.conversation_key } : {}), ...patch });
+    const response = await runtimeSend({ type: "WS_PATCH_TOGGLES", ...(context.available ? { conversation_key: context.conversation_key, tab_id: context.tab_id } : {}), ...patch });
     if (!response?.ok || !response.state) throw new Error(response?.error || response?.code || "Не удалось сохранить переключатель.");
     renderState(response.state);
     return response.state;
