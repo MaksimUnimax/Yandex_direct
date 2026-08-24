@@ -863,7 +863,24 @@ recovered_at: nowIso()
   const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {};
   for (const [key, rawRun] of Object.entries(runs)) {
     const run = rawRun && typeof rawRun === "object" ? rawRun : null;
-    if (!run || run.status !== WordstatAutorunModel.RUN_STATUSES.REQUESTING) continue;
+    if (!run || WordstatAutorunModel.isTerminalStatus(run.status)) continue;
+    if (run.status === WordstatAutorunModel.RUN_STATUSES.STARTING) {
+      if (outbox[key]) continue;
+      const startPhase = run.start_delivery?.phase || WordstatAutorunModel.START_PHASES.NONE;
+      const startText = String(run.start_delivery?.message_text || "");
+      if (startPhase !== WordstatAutorunModel.START_PHASES.NONE || !startText) continue;
+      outbox[key] = await putOutbox(key, {
+        delivery_id: uid("start"),
+        type: "autorun_start",
+        run_id: run.run_id,
+        tab_id: Number(run.tab_id),
+        report_text: startText,
+        phase: "claimed",
+        created_at: nowIso()
+      });
+      continue;
+    }
+    if (run.status !== WordstatAutorunModel.RUN_STATUSES.REQUESTING) continue;
     if (!run.request_worker_session_id || run.request_worker_session_id === WORKER_SESSION_ID) continue;
     if (outbox[key]) continue;
     await stageAutorunError(key, run, run.tab_id, {
