@@ -1,0 +1,63 @@
+name: phase2-popup-fix-complete-gate
+on:
+  push:
+    branches:
+      - qa/phase2-popup-fix-complete-gate-0186-2026-08-24
+    paths:
+      - .github/workflows/phase2-popup-fix-complete-gate.yml
+      - qa/phase2_popup_fix_complete_gate.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  complete-gate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout QA executor branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Chrome 151 for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+
+      - name: Execute complete governed campaign
+        id: gate
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          $ErrorActionPreference = 'Continue'
+          python qa/phase2_popup_fix_complete_gate.py
+          $code = $LASTEXITCODE
+          "exit_code=$code" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          exit $code
+
+      - name: Upload complete campaign evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-popup-fix-complete-gate-0186-evidence
+          path: gate-evidence/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Enforce campaign verdict
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ('${{ steps.gate.outcome }}' -ne 'success') {
+            throw 'COMPLETE_GATE_FAILED; inspect uploaded evidence'
+          }
+          $report = Get-Content 'gate-evidence/CODEX_YANDEX_PRE_DELIVERY_FULL_REGRESSION_GATE_RESULT.json' -Raw | ConvertFrom-Json
+          if ($report.verdict -ne 'PASS') { throw "COMPLETE_GATE_VERDICT_$($report.verdict)" }
+          if ($report.not_run_enabled_sections -ne 0) { throw 'COMPLETE_GATE_NOT_RUN_SECTIONS_PRESENT' }
+          if ($report.real_yandex_requests -ne 0) { throw 'COMPLETE_GATE_REAL_YANDEX_REQUESTS_NONZERO' }
+          if ($report.browser_native_action_popup_geometry -ne 'PASS') { throw 'COMPLETE_GATE_B04_NOT_PASS' }
+          Write-Output 'PHASE2_POPUP_FIX_COMPLETE_GATE_ENFORCED_PASS'
