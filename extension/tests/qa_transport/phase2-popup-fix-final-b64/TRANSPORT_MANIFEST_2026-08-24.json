@@ -1,0 +1,23 @@
+{
+  "format": "YMB_PHASE2_POPUP_FIX_EXACT_B64_TRANSPORT_V1",
+  "frozen_source_commit": "10bb3aca67295e5e515ff2ade8914b23e8458ca7",
+  "source_actions_run": 32727332723,
+  "source_actions_artifact_id": 9520023708,
+  "artifact_filename": "yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip",
+  "artifact_sha256": "0186b35d66cf1e7e20a522dc128b3fdd317cd660c665b8294120a1ab8affe91d",
+  "artifact_bytes": 171655,
+  "files": 66,
+  "zip_entries": 69,
+  "base64_length": 228876,
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "path": "artifact.b64",
+      "bytes": 228876,
+      "sha256": "e8052c7db37aea022f609c6317689c2e44c93fdbb43837a86127543e732ddb79"
+    }
+  ],
+  "payload_manifest_sha256": "447bf18e54ba4a728cc6255adff5e13996366b9bf54b2668114110d525501009",
+  "payload_manifest_bytes": 11601,
+  "real_yandex_requests_during_freeze": 0
+}
