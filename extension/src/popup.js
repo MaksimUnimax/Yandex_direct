@@ -151,6 +151,7 @@
       const manualBusy = Boolean(state?.manual_operation && !["completed", "error", "cancelled"].includes(state.manual_operation.status));
       const activeRun = isActiveRun(run);
       const paused = run?.status === "paused";
+      const runOwnedHere = !activeRun || (context.available && Number(run?.tab_id) === Number(context.tab_id));
       $("manualMode").disabled = !context.available || manualBusy || (activeRun && !paused);
       if (manualBusy) $("manualModeMeta").textContent = "Предыдущая ручная операция ещё выполняется или доставляется.";
       else if (state?.manual_mode) $("manualModeMeta").textContent = `Включён для ${service}: используйте отдельную кнопку «Яндекс» у блока.`;
@@ -205,9 +206,9 @@
       $("autoStartPromptText").value = state?.auto_start_prompt?.text || "";
 
       $("startAuto").disabled = !context.available || !state?.binding || activeRun || state?.manual_mode === true || manualBusy || activePolicy?.autorun_enabled !== true;
-      $("pauseAuto").disabled = !activeRun || paused;
-      $("resumeAuto").disabled = !activeRun || !paused || state?.manual_mode === true || manualBusy;
-      $("finishAuto").disabled = !activeRun;
+      $("pauseAuto").disabled = !activeRun || paused || !runOwnedHere;
+      $("resumeAuto").disabled = !activeRun || !paused || state?.manual_mode === true || manualBusy || !runOwnedHere;
+      $("finishAuto").disabled = !activeRun || !runOwnedHere;
     } finally { rendering = false; }
   }
 
@@ -389,20 +390,26 @@
   }));
 
   $("pauseAuto").addEventListener("click", () => withButton($("pauseAuto"), async () => {
-    const response = await runtimeSend({ type: "WS_PAUSE_AUTORUN", conversation_key: context.conversation_key });
+    await resolveContext();
+    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    const response = await runtimeSend({ type: "WS_PAUSE_AUTORUN", conversation_key: context.conversation_key, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось поставить на паузу.");
     await refresh(); showStatus("Пауза включена.", "ok");
   }));
 
   $("resumeAuto").addEventListener("click", () => withButton($("resumeAuto"), async () => {
-    const response = await runtimeSend({ type: "WS_RESUME_AUTORUN", conversation_key: context.conversation_key });
+    await resolveContext();
+    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    const response = await runtimeSend({ type: "WS_RESUME_AUTORUN", conversation_key: context.conversation_key, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось продолжить.");
     await refresh(); showStatus("Работа продолжена.", "ok");
   }));
 
   $("finishAuto").addEventListener("click", () => withButton($("finishAuto"), async () => {
     if (!confirm("Завершить текущий автоматический режим Yandex?")) return;
-    const response = await runtimeSend({ type: "WS_FINISH_AUTORUN", conversation_key: context.conversation_key });
+    await resolveContext();
+    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    const response = await runtimeSend({ type: "WS_FINISH_AUTORUN", conversation_key: context.conversation_key, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось завершить.");
     await refresh(); showStatus("Автоматический режим завершён.", "ok");
   }));
