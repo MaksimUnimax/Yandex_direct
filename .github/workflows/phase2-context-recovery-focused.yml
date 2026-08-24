@@ -1,4 +1,3 @@
-# PR trigger after temporary base registration; QA-only.
 name: phase2-context-recovery-focused
 on:
   push:
