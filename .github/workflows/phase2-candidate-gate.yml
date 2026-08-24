@@ -8,12 +8,49 @@ on:
       - extension/src/service_worker.js
       - extension/tests/conversation_fences_recovery.test.mjs
 permissions:
-  contents: read
+  contents: write
 jobs:
   focused-outbox-owner-fence:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Apply exact outbox owner fence fix
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path("extension/src/service_worker.js")
+          text = path.read_text(encoding="utf-8")
+          replacements = [
+              (
+                  'async function completeDelivery(message) {\n  const key = normalizeConversationKey(message.conversation_key); const deliveryId = String(message.delivery_id || ""); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || (deliveryId && entry.delivery_id !== deliveryId)) return { ok: false, code: "DELIVERY_NOT_FOUND" };',
+                  'async function outboxOwnerFence(entry, conversationKey, sender) {\n  const key = normalizeConversationKey(conversationKey);\n  const senderTabId = Number(sender?.tab?.id);\n  if (!Number.isInteger(senderTabId)) return { ok: false, code: "DELIVERY_SENDER_TAB_REQUIRED", error: "Доставка должна обрабатываться вкладкой ChatGPT-owner." };\n  if (senderTabId !== Number(entry?.tab_id)) return { ok: false, code: "AUTO_NON_OWNER_TAB", error: "Доставка принадлежит другой вкладке-owner." };\n  try { await assertTabConversation(senderTabId, key); }\n  catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }\n  return null;\n}\nasync function completeDelivery(message, sender) {\n  const key = normalizeConversationKey(message.conversation_key); const deliveryId = String(message.delivery_id || ""); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || (deliveryId && entry.delivery_id !== deliveryId)) return { ok: false, code: "DELIVERY_NOT_FOUND" };\n  const ownerFence = await outboxOwnerFence(entry, key, sender); if (ownerFence) return ownerFence;'
+              ),
+              (
+                  '    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); let outbox = await getOutbox(); if (!outbox[key]) { await promotePendingContentError(key); outbox = await getOutbox(); } return { ok: true, outbox: outbox[key] || null }; }',
+                  '    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); let outbox = await getOutbox(); if (!outbox[key]) { await promotePendingContentError(key); outbox = await getOutbox(); } const entry = outbox[key] || null; if (entry) { const ownerFence = await outboxOwnerFence(entry, key, sender); if (ownerFence) return ownerFence; } return { ok: true, outbox: entry }; }'
+              ),
+              (
+                  '    case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }',
+                  '    case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; const ownerFence = await outboxOwnerFence(entry, key, sender); if (ownerFence) return ownerFence; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }'
+              ),
+              (
+                  '    case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message);',
+                  '    case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message, sender);'
+              )
+          ]
+          changed = False
+          for old, new in replacements:
+              if old in text:
+                  if text.count(old) != 1:
+                      raise SystemExit(f"expected one outbox fence target: {old[:100]!r}")
+                  text = text.replace(old, new)
+                  changed = True
+              elif new not in text:
+                  raise SystemExit(f"outbox fence target not found: {old[:100]!r}")
+          if changed:
+              path.write_text(text, encoding="utf-8")
       - name: Focused outbox owner-tab fence regression
         shell: bash
         run: |
@@ -22,3 +59,15 @@ jobs:
       - name: Changed worker syntax
         shell: bash
         run: node --check extension/src/service_worker.js
+      - name: Commit exact worker fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- extension/src/service_worker.js; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/src/service_worker.js
+          git commit -m "fix: fence outbox delivery to owner tab"
+          git push origin HEAD:${{ github.head_ref }}
