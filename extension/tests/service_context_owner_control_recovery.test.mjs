@@ -115,7 +115,7 @@ test('same-conversation non-owner tab cannot switch active service while Autorun
 
 test('Autorun owner cannot mutate its immutable active service while run is nonterminal', async () => {
   const h = harness({ run: activeRun(1) });
-  await assert.rejects(() => h.api(CKEY, { active_service: 'search' }, 1), (error) => error?.code === 'SERVICE_CONTEXT_RUNTIME_LOCKED');
+  await assert.rejects(() => h.api(CKEY, { active_service: 'search' }, 1), (error) => error?.code === 'ACTIVE_SERVICE_LOCKED');
   assert.equal(h.service, 'wordstat');
   assert.equal(h.writes, 0);
   assert.deepEqual(h.identityChecks, [{ tabId: 1, key: CKEY, conversationId: CID }]);
@@ -130,7 +130,7 @@ test('same-conversation non-owner tab cannot switch active service during Manual
 
 test('Manual operation owner cannot switch active service until operation is terminal', async () => {
   const h = harness({ operation: activeOperation(1), manualMode: true });
-  await assert.rejects(() => h.api(CKEY, { active_service: 'search' }, 1), (error) => error?.code === 'SERVICE_CONTEXT_RUNTIME_LOCKED');
+  await assert.rejects(() => h.api(CKEY, { active_service: 'search' }, 1), (error) => error?.code === 'ACTIVE_SERVICE_LOCKED');
   assert.equal(h.service, 'wordstat');
   assert.equal(h.writes, 0);
   assert.deepEqual(h.identityChecks, [{ tabId: 1, key: CKEY, conversationId: null }]);
@@ -138,7 +138,7 @@ test('Manual operation owner cannot switch active service until operation is ter
 
 test('Manual mode locks active service even when no Manual operation is currently in flight', async () => {
   const h = harness({ manualMode: true });
-  await assert.rejects(() => h.api(CKEY, { active_service: 'search' }, 7), (error) => error?.code === 'SERVICE_CONTEXT_RUNTIME_LOCKED');
+  await assert.rejects(() => h.api(CKEY, { active_service: 'search' }, 7), (error) => error?.code === 'ACTIVE_SERVICE_LOCKED');
   assert.equal(h.service, 'wordstat');
   assert.equal(h.writes, 0);
   assert.deepEqual(h.identityChecks, [{ tabId: 7, key: CKEY, conversationId: null }]);
