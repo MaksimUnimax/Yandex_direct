@@ -510,10 +510,24 @@ function contentErrorFingerprint(payload) {
     operation: payload.operation || null
   });
 }
+async function runtimeReservesPrimaryOutbox(conversationKey) {
+  const key = normalizeConversationKey(conversationKey);
+  const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+  const operation = operations[key] || null;
+  if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) return true;
+  const run = await getAutoRun(key);
+  if (!run || WordstatAutorunModel.isTerminalStatus(run.status)) return false;
+  return [
+    WordstatAutorunModel.RUN_STATUSES.STARTING,
+    WordstatAutorunModel.RUN_STATUSES.REQUESTING,
+    WordstatAutorunModel.RUN_STATUSES.DELIVERING
+  ].includes(run.status);
+}
 async function promotePendingContentError(conversationKey) {
   const key = normalizeConversationKey(conversationKey);
   const outbox = { ...(await getOutbox()) };
   if (outbox[key]) return outbox[key];
+  if (await runtimeReservesPrimaryOutbox(key)) return null;
   const queues = { ...(await getContentErrorQueue()) };
   const list = Array.isArray(queues[key]) ? [...queues[key]] : [];
   if (!list.length) return null;
