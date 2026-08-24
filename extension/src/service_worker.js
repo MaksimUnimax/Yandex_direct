@@ -527,7 +527,7 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
   const requestToken = String(manualRequestToken || uid("manual-request")); if (existing?.request_token === requestToken) return { ok: true, accepted: false, duplicate: true, operation_id: existing.operation_id };
   const operation = { operation_id: uid("manual"), request_token: requestToken, conversation_key: key, tab_id: senderTabId, active_service: serviceContext.active_service, run_id: currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED ? currentRun.run_id : null, status: "requesting", block_fingerprint: YMBBlockCommandDiscovery.textFingerprint(source), created_at: nowIso(), request_executed: false };
   map[key] = operation; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map });
-  let reportText = ""; let providerExecutions = 0;
+  let reportText = ""; let providerExecutions = 0; let requestExecutedSummary = false;
   if (!preflight.items.length) reportText = formatBridgeError({ code: "NO_SUPPORTED_COMMAND", message: "В выбранном блоке нет поддерживаемой команды Yandex Marketing Bridge.", stage: "COMMAND_DISCOVERY", requestExecuted: false, service: serviceContext.active_service, channel: "manual", recoverable: true, operation: null, operationId: operation.operation_id, autorunContinues: false });
   else {
     const reports = [];
@@ -537,9 +537,11 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
       const decision = policyDecisionForService(item.service, { policy, channel: "manual", method: item.command.method, credentialState: publicCapability(settings, item.service).state, run: budgetRun || {} });
       if (!decision.allow) { const protocol = assertProtocolForService(item.service); reports.push(protocol.formatSkippedReport({ requestId: uid("skip"), command: item.command, reason: decision.reason, metadata: { run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service }, request_executed: false, automatic_retry: false } })); continue; }
       if (operation.run_id) await patchAutoRun(key, (run) => ({ ...run, requests_attempted: Number(run.requests_attempted || 0) + 1, requests_executed: Number(run.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)) }));
-      try { const result = await executeServiceCommand(item.service, item.command, { conversation_key: key, run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service } }); providerExecutions += 1; reports.push(result.report_text); }
+      try { const result = await executeServiceCommand(item.service, item.command, { conversation_key: key, run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service } }); providerExecutions += 1; requestExecutedSummary = true; reports.push(result.report_text); }
       catch (error) {
         const requestExecuted = error.request_executed ?? "UNKNOWN";
+        if (requestExecuted === "UNKNOWN") requestExecutedSummary = "UNKNOWN";
+        else if (requestExecuted === true && requestExecutedSummary !== "UNKNOWN") requestExecutedSummary = true;
         reports.push(formatBridgeError({ code: error.code || "PROVIDER_ERROR", message: error.message || String(error), stage: "PROVIDER", requestExecuted, service: item.service, channel: "manual", recoverable: requestExecuted !== "UNKNOWN", runId: operation.run_id, operation: item.command?.method || null, operationId: operation.operation_id, autorunContinues: false }));
         if (requestExecuted === "UNKNOWN") break;
       }
@@ -549,8 +551,8 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
   const prefixResult = providerExecutions > 0 ? await applyPrefixToReport(key, reportText) : { text: reportText, applied: false };
   reportText = prefixResult.text;
   const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, operation_id: operation.operation_id, type: "manual", tab_id: senderTabId, report_text: reportText, phase: "claimed", provider_executions: providerExecutions, report_prefix_applied: prefixResult.applied === true, created_at: nowIso() });
-  map[key] = { ...operation, status: "delivering", delivery_id: deliveryId, request_executed: providerExecutions > 0, report_ready_at: nowIso() }; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map });
-  return { ok: true, accepted: true, operation_id: operation.operation_id, delivery_id: deliveryId, report_text: reportText, request_executed: providerExecutions > 0 };
+  map[key] = { ...operation, status: "delivering", delivery_id: deliveryId, request_executed: requestExecutedSummary, report_ready_at: nowIso() }; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map });
+  return { ok: true, accepted: true, operation_id: operation.operation_id, delivery_id: deliveryId, report_text: reportText, request_executed: requestExecutedSummary };
 }
 
 
