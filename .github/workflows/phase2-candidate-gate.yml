@@ -9,6 +9,7 @@ on:
       - extension/src/popup.js
       - extension/tests/content_error_delivery_recovery.test.mjs
       - extension/tests/runtime_outbox_admission_recovery.test.mjs
+      - extension/tests/autorun_start_restart_recovery.test.mjs
       - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
       - extension/tests/autorun_owner_controls_recovery.test.mjs
       - extension/tests/autorun_recovery.test.mjs
@@ -28,6 +29,7 @@ on:
       - extension/src/popup.js
       - extension/tests/content_error_delivery_recovery.test.mjs
       - extension/tests/runtime_outbox_admission_recovery.test.mjs
+      - extension/tests/autorun_start_restart_recovery.test.mjs
       - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
       - extension/tests/autorun_owner_controls_recovery.test.mjs
       - extension/tests/autorun_recovery.test.mjs
@@ -52,6 +54,7 @@ jobs:
           node --test \
             extension/tests/content_error_delivery_recovery.test.mjs \
             extension/tests/runtime_outbox_admission_recovery.test.mjs \
+            extension/tests/autorun_start_restart_recovery.test.mjs \
             extension/tests/manual_paused_run_owner_fence_recovery.test.mjs \
             extension/tests/autorun_owner_controls_recovery.test.mjs \
             extension/tests/autorun_recovery.test.mjs \
