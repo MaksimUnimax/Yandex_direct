@@ -1,16 +1,9 @@
 # Focused Stage-3 content-error owner fence
 name: phase2-focused-development
 on:
-  push:
-    branches:
-      - candidate/phase2-search-reconstruction-2026-08-23
-    paths:
-      - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
   pull_request:
     branches:
-      - main
+      - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
       - extension/src/service_worker.js
@@ -23,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: candidate/phase2-search-reconstruction-2026-08-23
+          ref: ${{ github.head_ref }}
       - name: Apply exact content-error owner fence fix
         shell: python
         run: |
@@ -98,4 +91,4 @@ async function reportContentError(message, sender) {
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add extension/src/service_worker.js
           git commit -m "fix: fence content errors to runtime owner tab"
-          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
+          git push origin HEAD:${{ github.head_ref }}
