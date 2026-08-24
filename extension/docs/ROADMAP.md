@@ -1,7 +1,7 @@
-# ROADMAP v0.5 — Yandex Marketing Bridge
+# ROADMAP v0.6 — Yandex Marketing Bridge
 
 Status: active roadmap.  
-Updated: 2026-08-19.
+Updated: 2026-08-24.
 
 ## Governing rule
 
@@ -72,63 +72,18 @@ files 45
 ZIP entries 48
 ```
 
-Production hashes:
-
-```text
-content_script.js ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
-popup.js ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
-service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
-```
-
-## Final controlled gate
+## Final controlled and owner-live acceptance
 
 ```text
 PD-00..PD-17: ALL PASS
-Manual-ON transaction regression: PASS
 source suite: 361/361 PASS
 packaged suite: 361/361 PASS
-syntax: 40/40 PASS
-JSON: 2/2 PASS
 source/package identity: PASS
-real Yandex requests during controlled gate: 0
-production modified during gate: NO
-tests modified during gate: NO
-verdict: PASS
-```
-
-The exact `e13a…` package was independently reconstructed by Codex through the published byte-complete transport/packer contract before product testing.
-
-## Final owner real-profile functional acceptance
-
-The owner explicitly narrowed final live acceptance to functional Yandex tests only, one at a time, with UI observed naturally during execution.
-
-Exact live results on `e13a…`:
-
-```text
-getRegionsTree            PASS
-getTop                    PASS
-getDynamics               PASS
-getRegionsDistribution    PASS
-```
-
-The first `getDynamics` test command produced HTTP 400 because its ending date was the first rather than last day of the month. The bridge reported `request_executed:true` and `automatic_retry:false`. After the test-instruction cause was established, a corrected command was issued and returned HTTP 200. Classification: prompt/execution-instruction error, not product failure; no blind retry.
-
-Sequential Manual execution across all results, including the error-delivery contour, proved that the stale Manual-operation lock blocker is resolved in the owner real profile. Repeated new command blocks exposed a usable external `Яндекс` action without requiring native Copy as the execution trigger.
-
-Final Phase-1 authority:
-
-```text
-CONTROLLED PRE-DELIVERY GATE = PASS
-OWNER REAL-PROFILE YANDEX FUNCTIONAL ACCEPTANCE = PASS
+owner-live getRegionsTree: PASS
+owner-live getTop: PASS
+owner-live getDynamics: PASS
+owner-live getRegionsDistribution: PASS
 PHASE 1 LIVE PASS = TRUE
-Issue #1 = CLOSED / COMPLETED
-Issue #2 = CLOSED / COMPLETED
-```
-
-Detailed live evidence:
-
-```text
-extension/docs/PHASE_1_0.1.1_LIVE_ACCEPTANCE.md
 ```
 
 Historical withdrawn/failed artifacts remain historical evidence only and must not be used for current acceptance.
@@ -137,23 +92,90 @@ Historical withdrawn/failed artifacts remain historical evidence only and must n
 
 # PHASE 2 — YANDEX SEARCH / SERP
 
-**Status: UNLOCKED FOR REQUIREMENT RECONSTRUCTION. IMPLEMENTATION NOT STARTED.**
+**Status: STAGE 4 ACTIVE — FROZEN-CANDIDATE / PRE-DELIVERY PREPARATION.**
 
-Before any product changes:
+Current Search slice:
 
-1. reconstruct current live project authority;
-2. inspect current official Yandex Search API documentation, pricing, auth, quota and operation surface;
-3. define the Phase-2 service contract and safety/paid-operation policy;
-4. update specification/gate coverage before implementation;
-5. preserve the unified Bridge runtime and exactly-once/no-blind-retry invariants.
+```text
+SEARCH_API_V1
+method = search
+POST https://searchapi.api.cloud.yandex.net/v2/web/search
+synchronous text web search
+responseFormat = FORMAT_XML
+SEARCH_RESULT_V1
+```
 
-Do not implement Search from stale memory or historical assumptions.
+Explicitly outside the current slice:
+
+```text
+searchAsync / polling
+image Search
+generative Search
+HTML SERP normalization
+yandex.ru scraping
+```
+
+Phase-2 requirement reconstruction is complete. The current functional reconstruction exists on:
+
+```text
+candidate/phase2-search-reconstruction-2026-08-23
+PR #5
+```
+
+Four-stage execution status:
+
+```text
+STAGE 1 — exact base + Search foundation                 PASS / COMPLETED
+STAGE 2 — worker/provider/credential/policy execution    PASS / COMPLETED
+STAGE 3 — Manual/Autorun/operator/delivery integration   PASS / COMPLETED
+STAGE 4 — frozen candidate/full gate/owner-live          ACTIVE
+```
+
+Final Stage-3 production authority:
+
+```text
+75d18291224069a6ae67c110498481ec7320d3c0
+fix: recover missing Autorun start delivery
+service_worker.js blob 87b90dcb0a1ecca8afc5587d8ab7f6ddfd2c241a
+```
+
+Final Stage-3 focused development verification:
+
+```text
+workflow: phase2-focused-development
+run: 32703002791
+job: 97358197549
+focused Stage-3 tests: 77/77 PASS
+service_worker.js syntax: PASS
+popup.js syntax: PASS
+real owner-live Search requests: 0
+```
+
+Durable Stage-3 checkpoint:
+
+```text
+extension/tests/PHASE_2_STAGE_3_FOCUSED_CHECKPOINT_2026-08-24.md
+```
+
+Stage 4 now owns the remaining Phase-2 work:
+
+```text
+freeze one exact combined Wordstat+Search candidate
+production/test hashes + complete target manifest
+deterministic package + source/package identity
+mandatory QA transport round-trip / consumer-conformance
+one complete combined pre-delivery regression gate
+zero real Yandex traffic during controlled gate
+then minimal owner-live real Search acceptance
+```
+
+A Stage-4 gate failure may reopen only the proven failing layer; Stage 3 is not reopened for speculative adjacent edge-case searching.
 
 ---
 
 # PHASE 3 — WEBMASTER
 
-**Status: BLOCKED.**
+**Status: BLOCKED PENDING PHASE 2 LIVE PASS.**
 
 Read-first. Missing OAuth/access returns controlled unavailable/error evidence without breaking unrelated services.
 
@@ -204,8 +226,8 @@ Order workspaces in GitHub remain an external ChatGPT workflow and are not a Bri
 ```text
 PHASE 0  PASS
 PHASE 1  WORDSTAT LIVE PASS / CLOSED on exact e13a…
-PHASE 2  YANDEX SEARCH UNLOCKED FOR REQUIREMENT RECONSTRUCTION
-PHASE 3  BLOCKED
+PHASE 2  YANDEX SEARCH — STAGE 4 ACTIVE
+PHASE 3  BLOCKED PENDING PHASE 2 LIVE PASS
 PHASE 4  BLOCKED
 PHASE 5  BLOCKED
 PHASE 6  BLOCKED
