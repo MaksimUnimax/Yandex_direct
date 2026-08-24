@@ -25,6 +25,25 @@
     node.dataset.level = level;
   }
 
+  function preserveBootstrapFailureThroughStartup(errorText) {
+    const node = document.getElementById("status");
+    if (!node || typeof MutationObserver !== "function") return null;
+    const expected = String(errorText || "");
+    const observer = new MutationObserver(() => {
+      if (node.textContent === expected && node.dataset.level === "error") return;
+      observer.disconnect();
+      setBootstrapStatus(expected, "error");
+    });
+    observer.observe(node, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["data-level"]
+    });
+    return observer;
+  }
+
   function queryActiveTab() {
     return new Promise((resolve, reject) => {
       try {
@@ -116,8 +135,10 @@
   void ensureCurrentChatContext()
     .then((result) => publishBootstrapResult(result))
     .catch((error) => {
-      setBootstrapStatus(error?.message || String(error), "error");
-      globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ = String(error?.message || error || "UNKNOWN");
+      const message = String(error?.message || error || "UNKNOWN");
+      setBootstrapStatus(message, "error");
+      globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ = message;
+      preserveBootstrapFailureThroughStartup(message);
     })
     .finally(() => loadPopupRuntime());
 
@@ -128,7 +149,8 @@
       tabIdentity,
       injectContentBundle,
       ensureCurrentChatContext,
-      publishBootstrapResult
+      publishBootstrapResult,
+      preserveBootstrapFailureThroughStartup
     });
   }
 })();
