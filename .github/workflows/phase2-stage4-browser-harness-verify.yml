@@ -16,12 +16,12 @@ jobs:
       - name: Checkout exact external browser harness authority
         uses: actions/checkout@v4
         with:
-          ref: 8136c9e03cd6bda51912580b5bc394a604e03209
+          ref: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
           fetch-depth: 0
       - name: Assert harness authority and prepare exact transport
         shell: pwsh
         run: |
-          if ((git rev-parse HEAD).Trim() -ne '8136c9e03cd6bda51912580b5bc394a604e03209') { throw 'BROWSER_HARNESS_HEAD_FAIL' }
+          if ((git rev-parse HEAD).Trim() -ne '667fda2f9a0e4197c4873ea96f27862c8453f2f0') { throw 'BROWSER_HARNESS_HEAD_FAIL' }
           git diff --exit-code
           git fetch origin qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24
           git worktree add --detach stage4-transport bc7754cff6416ff59942ff6f1052d450792888d5
