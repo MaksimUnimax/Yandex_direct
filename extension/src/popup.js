@@ -258,6 +258,7 @@
     if (includeKey && apiKey) message.api_key = apiKey;
     if (context.available) {
       message.conversation_key = context.conversation_key;
+      message.tab_id = context.tab_id;
       message.active_service = $("activeService").value;
       message.report_prefix = reportPrefixFromForm();
     }
