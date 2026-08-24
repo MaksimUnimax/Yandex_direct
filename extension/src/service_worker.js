@@ -644,10 +644,20 @@ async function stageAutorunError(conversationKey, run, tabId, {
   };
 }
 
-async function pauseAutoRun(conversationKey) {
+async function assertAutoRunControlOwner(conversationKey, tabId) {
   const key = normalizeConversationKey(conversationKey);
   const run = await getAutoRun(key);
   if (!run) throw Object.assign(new Error("Autorun не найден."), { code: "AUTO_RUN_NOT_FOUND" });
+  const tab = Number(tabId);
+  if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка-owner Autorun."), { code: "OWNER_TAB_REQUIRED" });
+  if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Команда управления пришла не из вкладки-owner Autorun."), { code: "AUTO_NON_OWNER_TAB" });
+  await assertTabConversation(tab, key, run.conversation_id);
+  return run;
+}
+
+async function pauseAutoRun(conversationKey, tabId) {
+  const key = normalizeConversationKey(conversationKey);
+  const run = await assertAutoRunControlOwner(key, tabId);
   const decision = WordstatAutorunModel.pauseDecision(run.status);
   if (decision === "immediate") {
     return patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.PAUSED, pause_requested: false }));
@@ -659,20 +669,18 @@ async function pauseAutoRun(conversationKey) {
   throw Object.assign(new Error("Autorun уже завершён."), { code: "AUTO_RUN_NOT_ACTIVE" });
 }
 
-async function resumeAutoRun(conversationKey) {
+async function resumeAutoRun(conversationKey, tabId) {
   const key = normalizeConversationKey(conversationKey);
-  const run = await getAutoRun(key);
-  if (!run) throw Object.assign(new Error("Autorun не найден."), { code: "AUTO_RUN_NOT_FOUND" });
+  const run = await assertAutoRunControlOwner(key, tabId);
   if (run.status !== WordstatAutorunModel.RUN_STATUSES.PAUSED) {
     throw Object.assign(new Error("Продолжить можно только Autorun на паузе."), { code: "AUTO_RUN_NOT_PAUSED" });
   }
   return patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND, pause_requested: false }));
 }
 
-async function finishAutoRun(conversationKey) {
+async function finishAutoRun(conversationKey, tabId) {
   const key = normalizeConversationKey(conversationKey);
-  const run = await getAutoRun(key);
-  if (!run) throw Object.assign(new Error("Autorun не найден."), { code: "AUTO_RUN_NOT_FOUND" });
+  const run = await assertAutoRunControlOwner(key, tabId);
   if (WordstatAutorunModel.isTerminalStatus(run.status)) return run;
   if ([WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND, WordstatAutorunModel.RUN_STATUSES.PAUSED].includes(run.status)) {
     return patchAutoRun(key, (r) => ({
@@ -814,9 +822,9 @@ async function handleMessage(message, sender) {
     case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPrompt(message.conversation_key, message.text, { service: message.active_service || null }) };
     case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPrompt(message.conversation_key, { service: message.active_service || null }) };
     case "WS_START_AUTORUN": return { ok: true, run: publicRun(await startAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
-    case "WS_PAUSE_AUTORUN": return { ok: true, run: publicRun(await pauseAutoRun(message.conversation_key)) };
-    case "WS_RESUME_AUTORUN": return { ok: true, run: publicRun(await resumeAutoRun(message.conversation_key)) };
-    case "WS_FINISH_AUTORUN": return { ok: true, run: publicRun(await finishAutoRun(message.conversation_key)) };
+    case "WS_PAUSE_AUTORUN": return { ok: true, run: publicRun(await pauseAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
+    case "WS_RESUME_AUTORUN": return { ok: true, run: publicRun(await resumeAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
+    case "WS_FINISH_AUTORUN": return { ok: true, run: publicRun(await finishAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
     case "WS_AUTO_COMMAND": return handleAutoCommand(message, sender);
     case "WS_EXECUTE_MANUAL_BLOCK": return executeManualBlock(message.block_text, message.conversation_key, sender, message.manual_request_token);
     case "WS_REPORT_CONTENT_ERROR": return reportContentError(message, sender);
