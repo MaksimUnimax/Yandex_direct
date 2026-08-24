@@ -1,4 +1,4 @@
-# Focused Stage-3 content-error owner fence
+# Focused Stage-3 content-error owner fence — default-base synchronize
 name: phase2-focused-development
 on:
   pull_request:
