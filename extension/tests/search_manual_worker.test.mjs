@@ -301,7 +301,7 @@ test('zero-provider Manual bridge error does not receive API-result prefix', asy
 
 test('report prefix enabled toggle changes only enabled state and preserves saved text', async () => {
   const h=harness({wsmb_report_prefixes:{[CKEY]:{enabled:false,text:'KEEP ME',interval:1,delivered_count:2,last_applied_at_count:1}}});
-  const state=await h.api.patchToggleSettings({conversation_key:CKEY,report_prefix_enabled:true});
+  const state=await h.api.patchToggleSettings({conversation_key:CKEY,tab_id:1,report_prefix_enabled:true});
   assert.equal(state.report_prefix.enabled,true);
   assert.equal(state.report_prefix.text,'KEEP ME');
   assert.equal(h.store.wsmb_report_prefixes[CKEY].text,'KEEP ME');
