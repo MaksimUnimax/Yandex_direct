@@ -1,3 +1,4 @@
+# Temporary Stage 3 transport; remove immediately after the verified owner-fence worker commit lands.
 name: phase2-stage3-owner-fence-transport
 on:
   pull_request:
