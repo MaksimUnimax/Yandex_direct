@@ -31,6 +31,7 @@ test('popup runtime starts only after context bootstrap', () => {
   assert.ok(transfer >= 0 && context > transfer, 'context bootstrap must load after transfer guard');
   assert.equal(popupHtml.includes('<script src="popup.js"></script>'), false, 'popup.js must not race context bootstrap as a static script');
   assert.match(bootstrap, /ensureCurrentChatContext\(\)/);
+  assert.match(bootstrap, /\.then\(\(result\) => publishBootstrapResult\(result\)\)/);
   assert.match(bootstrap, /\.finally\(\(\) => loadPopupRuntime\(\)\)/);
   assert.match(bootstrap, /chrome\.runtime\.getURL\("popup\.js"\)/);
 });
@@ -41,6 +42,16 @@ test('missing receiver is recovered by deterministic injection before identity i
   assert.match(bootstrap, /chrome\.scripting\.executeScript\(\{ target: \{ tabId \}, files: \[file\] \}\)/);
   assert.match(bootstrap, /setBootstrapStatus\("Восстанавливаю связь с текущим ChatGPT…"\)/);
   assert.match(bootstrap, /setBootstrapStatus\("Связь с ChatGPT восстановлена\."/);
+});
+
+test('bootstrap publishes only a sanitized recovery outcome for browser verification and diagnostics', () => {
+  assert.match(bootstrap, /__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__/);
+  assert.match(bootstrap, /attempted: source\.attempted === true/);
+  assert.match(bootstrap, /recovered: source\.recovered === true/);
+  assert.match(bootstrap, /reason: typeof source\.reason === "string"/);
+  assert.match(bootstrap, /tab_id: Number\.isInteger/);
+  const publisher = bootstrap.slice(bootstrap.indexOf('function publishBootstrapResult'), bootstrap.indexOf('function loadPopupRuntime'));
+  assert.equal(publisher.includes('response'), false, 'published bootstrap outcome must not expose identity response or credentials');
 });
 
 test('bootstrap failure is visible instead of silently rendering a false ready state', () => {
