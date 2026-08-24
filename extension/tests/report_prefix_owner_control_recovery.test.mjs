@@ -77,6 +77,7 @@ function harness({ run = null, operation = null, initial = { enabled: false, tex
         writes += 1;
       }
     },
+    getReportPrefix: async () => structuredClone(prefix),
     getAutoRun: async () => run ? structuredClone(run) : null,
     saveReportPrefix: async (_key, raw) => {
       prefix = normalizePrefix({ ...prefix, ...raw });
@@ -119,6 +120,14 @@ test('Autorun owner may update prefix after live conversation confirmation', asy
   assert.equal(saved.text, 'OWNER');
   assert.equal(h.writes, 1);
   assert.deepEqual(h.identityChecks, [{ tabId: 1, key: CKEY, conversationId: CID }]);
+});
+
+test('same prefix is a no-op even from a non-owner tab during live runtime', async () => {
+  const h = harness({ run: activeRun(1), initial: { enabled: true, text: 'SAME', interval: 1 } });
+  const saved = await h.api(CKEY, { enabled: true, text: 'SAME', interval: 1 }, 2);
+  assert.equal(saved.text, 'SAME');
+  assert.equal(h.writes, 0);
+  assert.deepEqual(h.identityChecks, []);
 });
 
 test('same-conversation non-owner tab cannot mutate prefix during Manual operation', async () => {
