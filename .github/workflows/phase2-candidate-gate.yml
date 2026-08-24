@@ -5,73 +5,34 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
 permissions:
-  contents: write
+  contents: read
 jobs:
-  focused-service-context-transport:
-    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
+  focused-stage3-owner-fences:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: candidate/phase2-search-reconstruction-2026-08-23
-          fetch-depth: 0
-      - name: Apply exact service-context runtime fence
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          path = Path('extension/src/service_worker.js')
-          text = path.read_text(encoding='utf-8')
-          old = '''async function saveServiceContext(conversationKey, raw) {
-            const key = normalizeConversationKey(conversationKey); const service = YMBRunContextModel.normalizeActiveService(raw?.active_service, YMBServiceRegistry, { required: true });
-            const map = { ...((await storageGet(KEYS.SERVICE_CONTEXTS))[KEYS.SERVICE_CONTEXTS] || {}) }; map[key] = { active_service: service, updated_at: nowIso() }; await storageSet({ [KEYS.SERVICE_CONTEXTS]: map }); return map[key];
-          }
-          '''
-          helper = '''async function saveServiceContextFromTab(conversationKey, raw, tabId) {
-            const key = normalizeConversationKey(conversationKey);
-            const service = YMBRunContextModel.normalizeActiveService(raw?.active_service, YMBServiceRegistry, { required: true });
-            const current = await getServiceContext(key);
-            if (current.active_service === service) return current;
-            const tab = Number(tabId);
-            if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка для изменения активного сервиса."), { code: "OWNER_TAB_REQUIRED" });
-            const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
-            const operation = operations[key] || null;
-            if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) {
-              if (tab !== Number(operation.tab_id)) throw Object.assign(new Error("Активный сервис может изменять только вкладка-owner Manual operation."), { code: "AUTO_NON_OWNER_TAB" });
-              await assertTabConversation(tab, key);
-              throw Object.assign(new Error("Нельзя менять активный сервис до завершения Manual operation."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
-            }
-            const run = await getAutoRun(key);
-            if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
-              if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Активный сервис может изменять только вкладка-owner Autorun."), { code: "AUTO_NON_OWNER_TAB" });
-              await assertTabConversation(tab, key, run.conversation_id);
-              throw Object.assign(new Error("Нельзя менять активный сервис до завершения Autorun."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
-            }
-            await assertTabConversation(tab, key);
-            if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите Manual mode перед сменой активного сервиса."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
-            return saveServiceContext(key, { active_service: service });
-          }
-          '''
-          if text.count(old) != 1:
-              raise SystemExit(f'expected one saveServiceContext anchor, got {text.count(old)}')
-          text = text.replace(old, old + helper, 1)
-          old_save = 'if (message.conversation_key && message.active_service) await saveServiceContext(message.conversation_key, { active_service: message.active_service });'
-          new_save = 'if (message.conversation_key && message.active_service) await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id);'
-          if text.count(old_save) != 1:
-              raise SystemExit(f'expected one WS_SAVE_SETTINGS service-context route, got {text.count(old_save)}')
-          text = text.replace(old_save, new_save, 1)
-          old_direct = 'case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContext(message.conversation_key, { active_service: message.active_service }) };'
-          new_direct = 'case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id) };'
-          if text.count(old_direct) != 1:
-              raise SystemExit(f'expected one WS_SAVE_SERVICE_CONTEXT route, got {text.count(old_direct)}')
-          text = text.replace(old_direct, new_direct, 1)
-          path.write_text(text, encoding='utf-8')
-          PY
-          git diff --check
-          changed="$(git diff --name-only)"
-          test "$changed" = "extension/src/service_worker.js"
       - name: Focused Stage 3 owner-fence regressions
         shell: bash
         run: |
@@ -89,12 +50,3 @@ jobs:
           set -euo pipefail
           node --check extension/src/service_worker.js
           node --check extension/src/popup.js
-      - name: Commit verified production fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add extension/src/service_worker.js
-          git commit -m "fix: lock active service during live runtime"
-          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
