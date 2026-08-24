@@ -23,7 +23,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-          test "${{ github.event.pull_request.head.sha }}" = "eee36ff3c5c3ce13682ff6ddbcd85001f410b810"
+          test "${{ github.event.pull_request.head.sha }}" = "564374ebbbe0fc2d4cdb0cdd02dee8128828bd32"
           git diff --exit-code
       - name: Consumer verify exact frozen ZIP from Git checkout
         shell: bash
