@@ -249,6 +249,8 @@ test('Manual ambiguous network failure creates error delivery and never retries'
   const r=await h.api.executeManualBlock(searchCommand('unknown'),CKEY,{tab:{id:1}},'unknown');
   assert.equal(r.accepted,true);
   assert.equal(h.fetchCalls.length,1);
+  assert.equal(r.request_executed,'UNKNOWN');
+  assert.equal(h.store.wsmb_manual_operations[CKEY].request_executed,'UNKNOWN');
   assert.match(r.report_text,/^YMB_ERROR_V1\n/);
   assert.match(r.report_text,/REQUEST_OUTCOME_UNKNOWN_NO_RETRY/);
   assert.match(r.report_text,/"request_executed": "UNKNOWN"/);
