@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - .github/workflows/phase2-stage4-freeze.yml
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
 permissions:
   contents: read
 jobs:
