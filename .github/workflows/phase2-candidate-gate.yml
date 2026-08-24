@@ -11,6 +11,7 @@ on:
       - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
       - extension/tests/autorun_owner_controls_recovery.test.mjs
       - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
   pull_request:
     branches:
       - main
@@ -22,6 +23,7 @@ on:
       - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
       - extension/tests/autorun_owner_controls_recovery.test.mjs
       - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
 permissions:
   contents: read
 jobs:
@@ -37,7 +39,8 @@ jobs:
             extension/tests/content_error_delivery_recovery.test.mjs \
             extension/tests/manual_paused_run_owner_fence_recovery.test.mjs \
             extension/tests/autorun_owner_controls_recovery.test.mjs \
-            extension/tests/autorun_recovery.test.mjs
+            extension/tests/autorun_recovery.test.mjs \
+            extension/tests/manual_mode_owner_control_recovery.test.mjs
       - name: Changed runtime syntax
         shell: bash
         run: |
