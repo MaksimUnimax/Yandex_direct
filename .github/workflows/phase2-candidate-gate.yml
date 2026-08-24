@@ -1,0 +1,73 @@
+name: phase2-focused-development
+on:
+  push:
+    branches:
+      - candidate/phase2-search-reconstruction-2026-08-23
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/runtime_outbox_admission_recovery.test.mjs
+      - extension/tests/autorun_start_restart_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/runtime_outbox_admission_recovery.test.mjs
+      - extension/tests/autorun_start_restart_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
+permissions:
+  contents: read
+jobs:
+  focused-stage3-owner-and-live-tab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Focused Stage 3 runtime regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/content_error_delivery_recovery.test.mjs \
+            extension/tests/runtime_outbox_admission_recovery.test.mjs \
+            extension/tests/autorun_start_restart_recovery.test.mjs \
+            extension/tests/manual_paused_run_owner_fence_recovery.test.mjs \
+            extension/tests/autorun_owner_controls_recovery.test.mjs \
+            extension/tests/autorun_recovery.test.mjs \
+            extension/tests/manual_mode_owner_control_recovery.test.mjs \
+            extension/tests/manual_request_restart_recovery.test.mjs \
+            extension/tests/service_context_owner_control_recovery.test.mjs \
+            extension/tests/service_context_owner_lock_recovery.test.mjs \
+            extension/tests/report_prefix_owner_control_recovery.test.mjs \
+            extension/tests/start_prompt_and_prefix_recovery.test.mjs \
+            extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
+      - name: Changed runtime syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/service_worker.js
+          node --check extension/src/popup.js
