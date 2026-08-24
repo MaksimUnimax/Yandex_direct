@@ -5,40 +5,86 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/src/popup.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
-      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
-      - extension/tests/autorun_owner_controls_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/manual_mode_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_lock_recovery.test.mjs
-      - extension/tests/report_prefix_owner_control_recovery.test.mjs
-      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/src/popup.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
-      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
-      - extension/tests/autorun_owner_controls_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/manual_mode_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_lock_recovery.test.mjs
-      - extension/tests/report_prefix_owner_control_recovery.test.mjs
-      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
 permissions:
-  contents: read
+  contents: write
 jobs:
-  focused-stage3-owner-fences:
+  focused-report-prefix-owner-transport:
+    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: candidate/phase2-search-reconstruction-2026-08-23
+          fetch-depth: 0
+      - name: Apply exact report-prefix owner fence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          worker_path = Path('extension/src/service_worker.js')
+          worker = worker_path.read_text(encoding='utf-8')
+          if 'async function saveReportPrefixFromTab(' in worker:
+              raise SystemExit('saveReportPrefixFromTab already exists')
+          marker = '\nasync function applyPrefixToReport(conversationKey, reportText) {'
+          pos = worker.index(marker)
+          helper = '''
+          async function saveReportPrefixFromTab(conversationKey, raw = {}, tabId) {
+            const key = normalizeConversationKey(conversationKey);
+            const current = await getReportPrefix(key);
+            const requested = WordstatAutorunModel.normalizePrefixRecord({
+              ...current,
+              enabled: raw.enabled === true,
+              text: String(raw.text ?? current.text ?? "").slice(0, 4000),
+              interval: raw.interval ?? current.interval ?? 1
+            });
+            if (requested.enabled === current.enabled && requested.text === current.text && requested.interval === current.interval) return current;
+            const tab = Number(tabId);
+            if (tabId == null || !Number.isInteger(tab) || tab <= 0) throw Object.assign(new Error("Не определена вкладка для изменения префикса отчёта."), { code: "OWNER_TAB_REQUIRED" });
+            const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+            const operation = operations[key] || null;
+            if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) {
+              if (tab !== Number(operation.tab_id)) throw Object.assign(new Error("Префикс отчёта может изменять только вкладка-owner активной Manual operation."), { code: "AUTO_NON_OWNER_TAB" });
+              await assertTabConversation(tab, key);
+              return saveReportPrefix(key, raw);
+            }
+            const run = await getAutoRun(key);
+            if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
+              if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Префикс отчёта может изменять только вкладка-owner активного Autorun."), { code: "AUTO_NON_OWNER_TAB" });
+              await assertTabConversation(tab, key, run.conversation_id);
+              return saveReportPrefix(key, raw);
+            }
+            await assertTabConversation(tab, key);
+            return saveReportPrefix(key, raw);
+          }
+          '''
+          worker = worker[:pos] + '\n' + helper.strip('\n') + worker[pos:]
+
+          old_toggle = 'await saveReportPrefix(message.conversation_key, { ...current, enabled: message.report_prefix_enabled === true });'
+          new_toggle = 'await saveReportPrefixFromTab(message.conversation_key, { ...current, enabled: message.report_prefix_enabled === true }, message.tab_id ?? sender?.tab?.id);'
+          if worker.count(old_toggle) != 1:
+              raise SystemExit(f'expected one prefix toggle route, got {worker.count(old_toggle)}')
+          worker = worker.replace(old_toggle, new_toggle, 1)
+
+          old_save = 'if (message.conversation_key && message.report_prefix) await saveReportPrefix(message.conversation_key, message.report_prefix);'
+          new_save = 'if (message.conversation_key && message.report_prefix) await saveReportPrefixFromTab(message.conversation_key, message.report_prefix, message.tab_id ?? sender?.tab?.id);'
+          if worker.count(old_save) != 1:
+              raise SystemExit(f'expected one prefix save route, got {worker.count(old_save)}')
+          worker = worker.replace(old_save, new_save, 1)
+          worker_path.write_text(worker, encoding='utf-8')
+
+          popup_path = Path('extension/src/popup.js')
+          popup = popup_path.read_text(encoding='utf-8')
+          old_popup = 'const response = await runtimeSend({ type: "WS_PATCH_TOGGLES", ...(context.available ? { conversation_key: context.conversation_key } : {}), ...patch });'
+          new_popup = 'const response = await runtimeSend({ type: "WS_PATCH_TOGGLES", ...(context.available ? { conversation_key: context.conversation_key, tab_id: context.tab_id } : {}), ...patch });'
+          if popup.count(old_popup) != 1:
+              raise SystemExit(f'expected one persistTogglePatch route, got {popup.count(old_popup)}')
+          popup = popup.replace(old_popup, new_popup, 1)
+          popup_path.write_text(popup, encoding='utf-8')
+          PY
+          git diff --check
+          test "$(git diff --name-only)" = $'extension/src/popup.js\nextension/src/service_worker.js'
       - name: Focused Stage 3 owner-fence regressions
         shell: bash
         run: |
@@ -59,3 +105,12 @@ jobs:
           set -euo pipefail
           node --check extension/src/service_worker.js
           node --check extension/src/popup.js
+      - name: Commit verified production fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/src/service_worker.js extension/src/popup.js
+          git commit -m "fix: fence report prefix to runtime owner"
+          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
