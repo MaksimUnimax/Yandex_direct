@@ -6,19 +6,19 @@ on:
     paths:
       - .github/workflows/phase2-candidate-gate.yml
       - extension/src/service_worker.js
-      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/search_manual_worker.test.mjs
 permissions:
   contents: read
 jobs:
-  focused-autorun-binding-admission:
+  focused-manual-execution-truth:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Focused Autorun binding admission regression
+      - name: Focused Manual execution outcome regression
         shell: bash
         run: |
           set -euo pipefail
-          node --test extension/tests/autorun_recovery.test.mjs
+          node --test extension/tests/search_manual_worker.test.mjs
       - name: Changed worker syntax
         shell: bash
         run: node --check extension/src/service_worker.js
