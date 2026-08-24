@@ -51,12 +51,18 @@ async function currentExtensionWorker(browser, extensionOrigin) {
 async function openBackgroundExtensionPage(browser, url) {
   const existing = new Set(browser.targets());
   const session = await browser.target().createCDPSession();
-  await session.send('Target.createTarget', { url:'about:blank', background:true });
-  await session.detach();
-  const target = await browser.waitForTarget((t) => !existing.has(t) && t.type() === 'page' && t.url() === 'about:blank', { timeout:10000 });
+  try {
+    await session.send('Target.createTarget', { url, background:true });
+  } finally {
+    await session.detach();
+  }
+  const target = await browser.waitForTarget(
+    (t) => !existing.has(t) && t.type() === 'page' && t.url() === url,
+    { timeout:15000 }
+  );
   const page = await target.page();
   assert(page, 'BACKGROUND_EXTENSION_PAGE_UNAVAILABLE');
-  await page.goto(url, { waitUntil:'domcontentloaded', timeout:15000 });
+  await page.waitForFunction(() => document.readyState === 'complete' || document.readyState === 'interactive', { timeout:15000 });
   return page;
 }
 
@@ -105,10 +111,12 @@ try {
   console.log('CONTEXT_RECOVERY_PRE_RELOAD_IDENTITY_PASS');
 
   await firstWorker.evaluate(() => { setTimeout(() => chrome.runtime.reload(), 0); return true; });
-  await waitUntil(async () => {
-    try { await firstWorker.evaluate(() => chrome.runtime.id); return false; }
-    catch { return true; }
-  }, 'OLD_EXTENSION_WORKER_CONTEXT_DID_NOT_DIE', 15000, 100);
+  await waitUntil(
+    () => !browser.targets().includes(firstTarget),
+    'OLD_EXTENSION_WORKER_TARGET_DID_NOT_DIE',
+    15000,
+    100
+  );
   console.log('CONTEXT_RECOVERY_OLD_WORKER_CONTEXT_DESTROYED_PASS');
 
   const pageStable = await chat.evaluate((expected) => ({
@@ -120,8 +128,8 @@ try {
   console.log('CONTEXT_RECOVERY_CHAT_PAGE_REMAINED_OPEN_PASS');
 
   // No assumption that Chrome eagerly starts a replacement MV3 worker after runtime.reload().
-  // Open the popup document in a background extension page while ChatGPT remains the active tab.
-  // This executes the exact popup bootstrap path that must self-heal the missing content receiver.
+  // Create the popup document as a browser-level background target, not a renderer navigation.
+  // ChatGPT remains the active tab while the exact popup bootstrap self-heals the missing receiver.
   await chat.bringToFront();
   const popup = await openBackgroundExtensionPage(browser, `${extensionOrigin}popup.html`);
 
