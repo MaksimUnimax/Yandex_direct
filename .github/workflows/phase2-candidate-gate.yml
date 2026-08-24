@@ -3,7 +3,7 @@ name: phase2-focused-development
 on:
   pull_request:
     branches:
-      - candidate/phase2-search-reconstruction-2026-08-23
+      - main
     paths:
       - .github/workflows/phase2-candidate-gate.yml
       - extension/src/service_worker.js
