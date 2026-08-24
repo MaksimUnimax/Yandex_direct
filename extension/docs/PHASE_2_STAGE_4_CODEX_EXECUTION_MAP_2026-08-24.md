@@ -1,52 +1,59 @@
 # Phase 2 Stage 4 — Codex complete-gate execution map
 
 Date: 2026-08-24  
-Status: **MANDATORY / QA EXECUTION AUTHORITY FOR THE FROZEN PHASE-2 CANDIDATE**
+Status: **MANDATORY / FINAL QA EXECUTION AUTHORITY FOR THE REFROZEN PHASE-2 CANDIDATE**
 
-This file closes the executable-coverage-map requirement in `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`. It does not change product bytes or redefine the frozen artifact.
+This file closes the executable-coverage-map requirement in the living Codex gate. It is QA authority only and does not redefine product bytes.
 
 ## Exact candidate authority
 
 ```text
-frozen source commit: 1869d17f3cb64417a07088de18dafa5687c83840
+frozen source commit: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
 artifact: yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
-SHA-256: 0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411
-bytes: 170726
+SHA-256: d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16
+bytes: 170734
 files: 65
 ZIP entries: 68
-payload manifest SHA-256: 1acda380ef8fee4aca255014cdacf48a50059037113ff121bd86c738e4fceea9
+payload manifest SHA-256: 0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de
+payload manifest bytes: 11421
 ```
 
-Primary direct repository mirror for Codex:
+The old `1869d17... / 0f0b035c...` freeze is superseded historical evidence and is forbidden as the final candidate.
+
+## Exact Codex transport
 
 ```text
-branch: qa/phase2-stage4-exact-transport-2026-08-24
-transport commit: eee36ff3c5c3ce13682ff6ddbcd85001f410b810
-path: extension/tests/qa_transport/phase2-stage4-frozen/
-ZIP Git blob: a775218d43d00ee92f174c127f90a629b3837553
+branch: qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24
+transport commit: 9dedf7bf624174996fae7efa7a4bdbff6904d348
+path: extension/tests/qa_transport/phase2-stage4-final-b64/
+format: YMB_PHASE2_STAGE4_FINAL_EXACT_B64_TRANSPORT_V1
+source Actions artifact ID: 9515289771
+chunks: 16 × 14228 bytes
+base64 length: 227648
 ```
 
-The same bytes were independently consumer-verified through Actions artifact `9512033721` before this mirror was published. The repository mirror points to the exact binary blob created from those verified bytes.
-
-Before any product test, run:
+Before any product assertion Codex must fresh-checkout exact transport commit `9dedf7bf...` and run:
 
 ```text
-python extension/tests/qa_transport/phase2-stage4-frozen/verify_exact_artifact.py
+python extension/tests/qa_transport/phase2-stage4-final-b64/verify_exact_b64_transport.py
 ```
 
 Required markers:
 
 ```text
+B64_REASSEMBLY_PASS
 EXACT_ZIP_IDENTITY_PASS
-ZIP_INTEGRITY_PASS
 ROUNDTRIP_PAYLOAD_MANIFEST_PASS
+ROUNDTRIP_ZIP_INTEGRITY_PASS
+FROZEN_AUTHORITY_MATCH_PASS
+REAL_YANDEX_REQUESTS=0
 ```
 
-No reconstruction is authorized when this exact ZIP is available.
+This route was already independently fresh-consumer verified by GitHub Actions run `32715052351`, job `97394394286`, with `Contents: read`. Codex must still verify its own consumed input before crediting PD-00/PD-03.
 
 ## Governing documents
 
-Codex must read, in this order:
+Read in this order:
 
 1. `extension/docs/WORKFLOW_OPERATING_RULES.md`
 2. `extension/docs/CURRENT_STATE.md`
@@ -54,74 +61,107 @@ Codex must read, in this order:
 4. `extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md`
 5. `extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md`
 6. `extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md`
-7. this execution map
+7. `extension/tests/PHASE_2_STAGE_4_PACKAGED_SUITE_ADAPTER_2026-08-24.md`
+8. this execution map
 
-The Search addendum `S-15` supersedes the old generic Search lock in parent `PD-16` only for the governed synchronous text Search surface. Webmaster, Metrika, Direct, Search deferred/async, Search image and Search generative remain locked.
+Search addendum `S-15` supersedes the generic Search lock in parent `PD-16` only for governed synchronous text Search. Webmaster, Metrika, Direct and Search deferred/async, image and generative surfaces remain locked.
 
-## Execution venues
+## Demonstrated execution venues
 
-Use only demonstrated venues:
+Use only:
 
-- source/static inspection;
-- Node test runner / VM integration;
-- controlled network stubs and fault injection already present in the test suite;
+- repository/source/static inspection;
+- Node test runner / deterministic VM/integration tests;
+- controlled network stubs/fault injection already governed by the suite;
 - qualified Chrome for Testing + Puppeteer installed-extension runtime;
-- package extraction/identity checks.
-
-Qualified browser baseline:
-
-```text
-Chrome: D:\codex\Test\qa-harness\puppeteer-extension-qa\chrome\win64-151.0.7922.47\chrome-win64\chrome.exe
-Chrome version: 151.0.7922.47
-Puppeteer: 25.4.0
-mode: headful
-profile: isolated QA profile
-```
+- exact package extraction and byte-identity checks;
+- governed packaged-suite adapter for repository-layout test imports.
 
 Browser-owned assertions must not be replaced by source review.
 
-## Common source/package commands
-
-Frozen source checkout:
+Qualified browser baseline previously demonstrated:
 
 ```text
-git checkout 1869d17f3cb64417a07088de18dafa5687c83840
+Chrome for Testing: 151.0.7922.47
+Puppeteer: 25.4.0
+mode: headful
+profile: isolated QA profile
+known Windows harness executable:
+D:\codex\Test\qa-harness\puppeteer-extension-qa\chrome\win64-151.0.7922.47\chrome-win64\chrome.exe
+```
+
+Codex may use the equivalent already-installed qualified path in its environment, but must not replace browser-required assertions with mocks.
+
+## Common exact-source / exact-package execution
+
+### Complete source suite
+
+```text
+git checkout 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
 cd extension/src
 npm test
 ```
 
-The complete source suite is the `package.json` command `node --test ../tests/*.test.mjs` and must include every root-level frozen `*.test.mjs` file.
+Expected preflight authority: **231/231 PASS**, 0 fail, 0 skipped, 0 cancelled.
 
-For the exact extracted ZIP, from its package root run:
+### Exact package
+
+Reconstruct the ZIP from transport commit `9dedf7bf...` and keep those exact bytes as the primary artifact under test. Expected identity:
 
 ```text
-node --test tests/*.test.mjs
+d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16
+170734 bytes
+65 files
+68 entries
 ```
 
-Also parse/check every JS/MJS and both `manifest.json` and `package.json`. Do not edit production or tests during the gate.
+Do **not** run package tests directly as `node --test tests/*.test.mjs` from the installable ZIP root. Repository tests resolve runtime through `../src`; direct invocation is a known invalid venue that produces ENOENT path failures.
+
+Use the governed adapter from source commit `0ee1d38...`:
+
+```text
+python extension/tests/qa_transport/phase2-candidate/run_packaged_suite.py \
+  --archive <exact-d58b5bd-zip> \
+  --manifest <EXACT_CANDIDATE_MANIFEST_2026-08-24.json> \
+  --work-dir <fresh-temp-work-dir>
+```
+
+The adapter first re-verifies exact ZIP/manifest identity, extracts the exact package, copies runtime/tests byte-identically into a temporary repository-layout harness, re-verifies every staged byte, checks JS/MJS, parses JSON and executes the complete package test suite. It never rewrites the handoff ZIP.
+
+Expected preflight authority:
+
+```text
+PACKAGE_EXACT_IDENTITY_PASS
+PACKAGED_SUITE_LAYOUT_IDENTITY_PASS
+PACKAGED_SYNTAX_PASS count=59
+PACKAGED_JSON_PASS count=2
+complete packaged tests: 231/231 PASS
+PACKAGED_SUITE_PASS files=38
+PACKAGED_PREDELIVERY_PREFLIGHT_PASS
+```
 
 ## Browser scenarios
 
 ### B-01 — installed extension / Project-Work route baseline
 
-Use frozen-source script:
+QA harness:
 
 ```text
 extension/tests/qa_transport/phase2-candidate/browser_project_route_smoke.mjs
 ```
 
-Run it with the qualified Chrome executable, exact extracted extension root, and the controlled local HTTPS key/cert used by the established QA harness. It must prove MV3 worker loading, content identity on `/g/.../c/<uuid>`, real popup initialization, enabled controls and zero Search-provider hits.
+Use qualified CfT/Puppeteer with the **exact extracted `d58b5bd...` extension root**. Require MV3 worker load, content identity on `/g/.../c/<uuid>`, real popup initialization, enabled controls and zero Search provider hits.
 
 ### B-02 — mandatory real-popup Manual ON transaction
 
-Execute **exactly** the 12-step installed-extension scenario in `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md`:
+Execute the exact 12-step scenario in the Manual-ON addendum using the installed exact package:
 
 ```text
 worker Manual OFF + content Manual OFF
 → eligible current PRE/readonly-CodeMirror block
 → real popup Manual ON
 → worker authoritative state ON before content apply
-→ content re-sync remains ON
+→ content worker re-sync remains ON
 → exactly one external Яндекс action remains connected/ready
 → ordinary mutation/resync does not self-revert
 → popup reopen remains ON
@@ -130,173 +170,161 @@ worker Manual OFF + content Manual OFF
 → real Yandex requests = 0
 ```
 
-Forbidden substitutes: internal `applyManualMode`, preseeded content ON, popup mock, synthetic direct worker/content shortcuts.
+Forbidden substitutes: direct internal `applyManualMode`, preseeded content ON, popup mock, direct worker/content shortcut.
 
-### B-03 — installed Autorun/operator lifecycle
+### B-03 — installed Search Autorun/operator lifecycle
 
-With the same controlled ChatGPT fixture and real popup, execute parent `PD-10` plus Search `S-11`: select `search` while idle, create exactly one RUN, verify WAITING_COMMAND, controlled command pickup without native Copy, stubbed provider initiation at most once, exactly-once result/error delivery, popup reopen truth, Pause/Resume/Finish, owner-tab/conversation isolation and worker reload/recovery. Use deterministic integration tests listed below for crash states that are not reliable to manufacture in the browser. Real Yandex requests must remain 0.
+Using exact package + real popup + controlled ChatGPT fixture:
 
-## PD-00…PD-17 mapping
+- active service `search` selected while idle;
+- exactly one RUN;
+- WAITING_COMMAND;
+- controlled Search command pickup without native Copy;
+- stubbed provider initiation at most once;
+- exactly-once result/error delivery;
+- popup reopen truth;
+- Pause/Resume/Finish;
+- owner-tab/conversation isolation;
+- worker reload/recovery;
+- Wordstat markers cannot execute in Search RUN;
+- real Yandex requests = 0.
 
-### PD-00 — authority/freeze/exact identity
+Use deterministic integration tests for crash states that are unsafe/unreliable to manufacture in browser.
 
-Venue: repository + package identity.  
-Evidence: frozen checkpoint, transport manifest, exact ZIP verifier, source commit `1869d17...`, artifact `0f0b...`.
+# PD-00…PD-17 executable mapping
 
-### PD-01 — complete source regression
+## PD-00 — authority / freeze / exact identity
+
+Venue: repository + artifact identity.  
+Evidence: `CURRENT_STATE.md`, exact transport verifier, manifest, source `0ee1d38...`, artifact `d58b5bd...`, freeze run `32714268931`.
+
+## PD-01 — complete source regression
 
 Venue: Node.  
-Execute the complete frozen source suite, all root `extension/tests/*.test.mjs`; require 0 fail/skip/cancel unless explicitly governed.
+Run every root `extension/tests/*.test.mjs` through `npm test` from exact source. Require all 231 PASS and zero skipped/cancelled unless an explicit governed skip exists.
 
-### PD-02 — syntax/static/manifest integrity
+## PD-02 — syntax/static/manifest integrity
 
 Venue: source/static + Node.  
-Primary coverage: `candidate_readiness_recovery.test.mjs`, `permission_scope_recovery.test.mjs`; parse every JS/MJS, `manifest.json`, `package.json`; verify entrypoints/resources and host permissions.
+Coverage includes `candidate_readiness_recovery.test.mjs`, `permission_scope_recovery.test.mjs`; parse/check every JS/MJS and governed JSON; validate manifest entrypoints/resources/permissions/host permissions and no accidental production surface.
 
-### PD-03 — exact package/reproducibility/package suite
+## PD-03 — exact package / deterministic reproduction / packaged suite
 
-Venue: exact ZIP/package.  
-Use `verify_exact_artifact.py`, full 65-row manifest, frozen checkpoint and deterministic freeze evidence; run complete `tests/*.test.mjs` from exact extracted ZIP plus syntax/JSON checks. Do not substitute a rebuilt ZIP for the primary exact artifact.
+Venue: exact artifact + governed adapter.  
+First run final B64 verifier. Verify the 65-row manifest, ZIP integrity and source-package identity. Deterministic rebuild is additional evidence only and may not replace exact `d58b5bd...`. Run complete packaged suite only through `run_packaged_suite.py` as specified above.
 
-### PD-04 — MV3 installation/lifecycle
+## PD-04 — MV3 installation / lifecycle
 
-Venue: browser B-01 + deterministic recovery.  
-Coverage: B-01, `conversation_identity_project_routes_recovery.test.mjs`, `popup_project_route_integration_recovery.test.mjs`, `autorun_start_restart_recovery.test.mjs`, `manual_request_restart_recovery.test.mjs`.
+Venue: B-01 + deterministic recovery tests.  
+Coverage: `conversation_identity_project_routes_recovery.test.mjs`, `popup_project_route_integration_recovery.test.mjs`, `autorun_start_restart_recovery.test.mjs`, `manual_request_restart_recovery.test.mjs`.
 
-### PD-05 — popup/settings
+## PD-05 — popup/settings
 
-Venue: browser B-02/B-03 + Node.  
+Venue: B-02/B-03 + Node.  
 Coverage: `popup_phase2_runtime.test.mjs`, `popup_error_boundary_recovery.test.mjs`, `settings_backup_integrity_recovery.test.mjs`, `settings_security_recovery.test.mjs`, `button_picker_recovery.test.mjs`, `start_prompt_and_prefix_recovery.test.mjs`, `auto_start_prompt_tab_control_recovery.test.mjs`.
 
-### PD-06 — external Manual action / DOM binding
+## PD-06 — external Manual action / ChatGPT DOM binding
 
-Venue: browser B-02 mandatory + Node.  
-Coverage: B-02, `content_phase2_runtime.test.mjs`, `button_picker_recovery.test.mjs`, `manual_off_safety_recovery.test.mjs`. Verify native Copy independence, same external action identity across Copy lifecycle, mutation discovery, no duplicates and stable top-right plaques.
+Venue: B-02 mandatory + Node.  
+Coverage: `content_phase2_runtime.test.mjs`, `button_picker_recovery.test.mjs`, `manual_off_safety_recovery.test.mjs`. Verify native Copy independence, external action identity through Copy lifecycle, mutation discovery, no duplicates and stable top-right plaques.
 
-### PD-07 — Manual full-block content→worker
+## PD-07 — Manual block content→worker
 
 Venue: deterministic integration + B-02 admission surface.  
 Coverage: `content_phase2_runtime.test.mjs`, `manual_block_sequence_recovery.test.mjs`, `search_manual_worker.test.mjs`.
 
-### PD-08 — Wordstat all Phase-1 operations
+## PD-08 — Wordstat all Phase-1 operations
 
 Venue: controlled Node/network stubs.  
-Coverage: `phase1_core_regression_recovery.test.mjs`, `wordstat_core_recovery.test.mjs`; all `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree` contours.
+Coverage: `phase1_core_regression_recovery.test.mjs`, `wordstat_core_recovery.test.mjs`; `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree`.
 
-### PD-09 — policy/credentials/cost/accounting
+## PD-09 — policy / credentials / cost / accounting
 
 Venue: controlled Node/network stubs.  
 Coverage: `phase1_core_regression_recovery.test.mjs`, `search_worker_stage2.test.mjs`, `search_manual_worker.test.mjs`, `manual_request_restart_recovery.test.mjs`, `autorun_recovery.test.mjs`.
 
-### PD-10 — Autorun lifecycle
+## PD-10 — Autorun lifecycle
 
-Venue: browser B-03 + deterministic integration.  
+Venue: B-03 + deterministic integration.  
 Coverage: `autorun_recovery.test.mjs`, `autorun_owner_controls_recovery.test.mjs`, `autorun_start_restart_recovery.test.mjs`, `autorun_transport_retry_recovery.test.mjs`, `runtime_outbox_admission_recovery.test.mjs`, `service_context_owner_control_recovery.test.mjs`, `service_context_owner_lock_recovery.test.mjs`, `manual_paused_run_owner_fence_recovery.test.mjs`.
 
-### PD-11 — Manual delivery FSM/durability/duplicate prevention
+## PD-11 — Manual delivery FSM / durability / dedupe
 
-Venue: deterministic content↔worker integration + B-02.  
+Venue: deterministic integration + B-02.  
 Coverage: `manual_delivery_lifecycle_recovery.test.mjs`, `content_phase2_runtime.test.mjs`, `manual_request_restart_recovery.test.mjs`, `manual_off_safety_recovery.test.mjs`, `content_error_delivery_recovery.test.mjs`, `runtime_outbox_admission_recovery.test.mjs`, `search_manual_worker.test.mjs`.
 
-### PD-12 — Debug/error/redaction
+## PD-12 — Debug/error/redaction
 
 Venue: Node/integration.  
 Coverage: `diagnostics_popup_recovery.test.mjs`, `settings_security_recovery.test.mjs`, `content_error_delivery_recovery.test.mjs`, `search_manual_worker.test.mjs`.
 
-### PD-13 — conversation/tab/owner isolation
+## PD-13 — conversation/tab/owner isolation
 
 Venue: Node/integration + B-01/B-03.  
 Coverage: `binding_recovery.test.mjs`, `conversation_fences_recovery.test.mjs`, `conversation_identity_project_routes_recovery.test.mjs`, `autorun_owner_controls_recovery.test.mjs`, `manual_mode_owner_control_recovery.test.mjs`, `manual_paused_run_owner_fence_recovery.test.mjs`.
 
-### PD-14 — export/import/migration/persistence
+## PD-14 — export/import/migration/persistence
 
 Venue: Node + popup.  
 Coverage: `settings_backup_integrity_recovery.test.mjs`, `settings_security_recovery.test.mjs`, `legacy_profiles_recovery.test.mjs`, `popup_phase2_runtime.test.mjs`.
 
-### PD-15 — security/provider containment
+## PD-15 — security/provider containment
 
 Venue: source/static + controlled network.  
 Coverage: `permission_scope_recovery.test.mjs`, `settings_security_recovery.test.mjs`, `search_protocol.test.mjs`, `search_worker_stage2.test.mjs`, `candidate_readiness_recovery.test.mjs`.
 
-### PD-16 — phase locks after Search enablement
+## PD-16 — phase locks after Search enablement
 
 Venue: source/integration.  
-Apply Search addendum `S-15`: governed synchronous text Search is enabled and must be functionally tested. `search_protocol.test.mjs`, `permission_scope_recovery.test.mjs`, service registry/core coverage must prove zero provider execution for Webmaster, Metrika, Direct and Search deferred/image/generative surfaces.
+Apply Search addendum `S-15`: governed synchronous text Search is enabled and must execute under controlled stubs. Webmaster, Metrika, Direct and Search deferred/image/generative surfaces must remain zero-provider locked. Coverage: `search_protocol.test.mjs`, permission/service-registry/core tests.
 
-### PD-17 — final cleanliness/evidence
+## PD-17 — final cleanliness/evidence
 
-Venue: repository + artifact.  
-Re-run exact ZIP verifier; re-hash artifact; compare all 65 payload rows; require clean source/test working state; production/tests modified during gate = NO; real Yandex requests = 0; every PD and S section explicit; emit final Markdown + JSON reports.
+Venue: repository + exact artifact.  
+Re-run final B64 verifier; re-hash exact ZIP; compare all 65 manifest rows; require no production/test mutation during campaign; real Yandex requests exactly 0; every PD/S section explicit; emit final Markdown and JSON reports.
 
-## Search S-00…S-17 mapping
+# Search S-00…S-17 executable mapping
 
-### S-00
-Authority docs: `PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md`, `SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md`, frozen current state.
+- **S-00:** `PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md`, `SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md`, `CURRENT_STATE.md`.
+- **S-01:** `search_registry.test.mjs`, `search_worker_stage2.test.mjs`, Phase-1 core and service-context tests.
+- **S-02:** `search_protocol.test.mjs` defaults/enums/validation boundaries.
+- **S-03:** `search_worker_stage2.test.mjs`, `permission_scope_recovery.test.mjs` exact single POST/provider containment.
+- **S-04:** `search_worker_stage2.test.mjs`, `settings_security_recovery.test.mjs` credential capability/secret containment.
+- **S-05:** `search_worker_stage2.test.mjs`, `search_manual_worker.test.mjs`, Phase-1 core policy/cost accounting.
+- **S-06:** `search_xml.test.mjs`, `search_worker_stage2.test.mjs` Base64/XML decode/error contours.
+- **S-07:** `search_xml.test.mjs` normalization/order/optional fields/entities/highlights/passages.
+- **S-08:** `search_protocol.test.mjs`, `search_worker_stage2.test.mjs`, `search_manual_worker.test.mjs` `SEARCH_RESULT_V1` truthfulness.
+- **S-09:** Search worker/manual + Autorun/Manual restart tests for HTTP/UNKNOWN/no-retry/fingerprint fence.
+- **S-10:** Search Manual worker + block sequence + Manual delivery + B-02.
+- **S-11:** B-03 + Search worker + Autorun owner/recovery/start-restart/transport/outbox tests.
+- **S-12:** Phase-1 core/Wordstat + common Manual/outbox/settings/owner regressions.
+- **S-13:** B-03 + popup runtime + service-context/manual-mode tests.
+- **S-14:** permission scope + Search protocol/worker exact provider allowlist and forbidden surfaces.
+- **S-15:** future-method/permission/service-registry locks: sync text Search enabled; deferred/image/generative Search, Webmaster, Metrika, Direct locked.
+- **S-16:** PD-03 exact manifest + 231/231 source + 231/231 packaged suite; Search modules/tests byte-identical in artifact.
+- **S-17:** final report contains every required `search_phase2` field and `real_yandex_requests: 0`.
 
-### S-01
-`search_registry.test.mjs`, `search_worker_stage2.test.mjs`, `phase1_core_regression_recovery.test.mjs`, service-context owner/lock tests.
-
-### S-02
-`search_protocol.test.mjs` — defaults, enums and validation boundaries.
-
-### S-03
-`search_worker_stage2.test.mjs`, `permission_scope_recovery.test.mjs` — exact single POST/provider containment.
-
-### S-04
-`search_worker_stage2.test.mjs`, `settings_security_recovery.test.mjs` — credential capability and secret containment.
-
-### S-05
-`search_worker_stage2.test.mjs`, `search_manual_worker.test.mjs`, `phase1_core_regression_recovery.test.mjs` — request/RUB policy and conservative accounting.
-
-### S-06
-`search_xml.test.mjs`, `search_worker_stage2.test.mjs` — Base64/XML decode and fail-closed contours.
-
-### S-07
-`search_xml.test.mjs` — XML normalization fixtures/order/optional fields/entities/highlights/passages.
-
-### S-08
-`search_protocol.test.mjs`, `search_worker_stage2.test.mjs`, `search_manual_worker.test.mjs` — `SEARCH_RESULT_V1` truthfulness.
-
-### S-09
-`search_worker_stage2.test.mjs`, `search_manual_worker.test.mjs`, `autorun_recovery.test.mjs`, `manual_request_restart_recovery.test.mjs` — HTTP errors, UNKNOWN, no retry, fingerprint fence.
-
-### S-10
-`search_manual_worker.test.mjs`, `manual_block_sequence_recovery.test.mjs`, `manual_delivery_lifecycle_recovery.test.mjs`, B-02 — complete Manual Search path through common delivery FSM.
-
-### S-11
-B-03 plus `search_worker_stage2.test.mjs`, Autorun owner/recovery/start-restart/transport/outbox tests — complete Search Autorun path.
-
-### S-12
-`phase1_core_regression_recovery.test.mjs`, `wordstat_core_recovery.test.mjs` plus common Manual/outbox/settings/owner tests — Phase-1/core preservation.
-
-### S-13
-B-03 + `popup_phase2_runtime.test.mjs`, service-context tests, `manual_mode_owner_control_recovery.test.mjs` — operator service controls/persistence.
-
-### S-14
-`permission_scope_recovery.test.mjs`, `search_protocol.test.mjs`, `search_worker_stage2.test.mjs` — exact Search provider allowlist and forbidden modes/URLs.
-
-### S-15
-`search_protocol.test.mjs` future-method lock plus permission/service-registry coverage. Synchronous text Search enabled; deferred/image/generative Search, Webmaster, Metrika and Direct remain zero-provider locked.
-
-### S-16
-PD-03 exact payload manifest + complete source suite + complete packaged suite. Search modules/tests must be byte-identical between source payload and exact ZIP.
-
-### S-17
-Final report must include the exact `search_phase2` subsection required by the Search addendum, with every field explicit and `real_yandex_requests: 0`.
-
-## Campaign completion rule
+# Campaign completion rule
 
 One campaign means:
 
 ```text
 PD-00..PD-17: every enabled section PASS
 S-00..S-17: every mandatory section PASS
-Manual-ON addendum: PASS
-source suite: 0 failures
-packaged suite: 0 failures
+Manual-ON transaction addendum: PASS
+source suite: 231/231 PASS (or larger only if exact frozen authority itself says so; do not switch candidates)
+packaged suite: 231/231 PASS
 real_yandex_requests: 0
+real_credentials: 0
 production_modified_during_gate: NO
 tests_modified_during_gate: NO
 ```
 
-Any enabled `NOT_RUN` forbids PASS. Continue unrelated safe sections after an ordinary assertion failure so the report contains the complete failure set. Allowed final verdicts only: `PASS`, `FAIL_PRODUCT`, `FAIL_ARTIFACT`, `FAIL_HARNESS`.
+Any enabled `NOT_RUN` forbids PASS. An ordinary assertion failure does not justify skipping unrelated safe sections; collect the complete failure set when possible. Allowed final verdicts only:
+
+```text
+PASS
+FAIL_PRODUCT
+FAIL_ARTIFACT
+FAIL_HARNESS
+```
