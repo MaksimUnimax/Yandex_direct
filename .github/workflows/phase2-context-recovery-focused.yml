@@ -1,13 +1,13 @@
 name: phase2-context-recovery-focused
 on:
-  push:
-    branches:
-      - fix/phase2-chat-context-self-recovery-2026-08-24
   pull_request:
     branches:
       - fix/phase2-popup-chrome151-autosize-2026-08-24
 permissions:
   contents: read
+concurrency:
+  group: phase2-context-recovery-focused-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   focused:
     runs-on: windows-2025
