@@ -38,18 +38,6 @@ jobs:
       - name: Install external Puppeteer driver only
         shell: bash
         run: npm install --no-save --package-lock=false puppeteer-core@25.4.0
-      - name: Generate local-only ChatGPT fixture certificate
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p qa-popup
-          openssl req -x509 -newkey rsa:2048 -nodes \
-            -keyout qa-popup/chatgpt.key.pem \
-            -out qa-popup/chatgpt.cert.pem \
-            -days 1 \
-            -subj '/CN=chatgpt.com' \
-            -addext 'subjectAltName=DNS:chatgpt.com' \
-            >/dev/null 2>&1
       - name: Materialize exact rejected d58 baseline source
         shell: bash
         run: |
@@ -64,8 +52,6 @@ jobs:
           xvfb-run -a node extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs \
             "$CHROME_PATH" \
             "$RUNNER_TEMP/ymb-popup-baseline/extension/src" \
-            "$PWD/qa-popup/chatgpt.key.pem" \
-            "$PWD/qa-popup/chatgpt.cert.pem" \
             baseline
       - name: Prove fixed native popup geometry
         shell: bash
@@ -76,14 +62,12 @@ jobs:
           xvfb-run -a node extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs \
             "$CHROME_PATH" \
             "$PWD/extension/src" \
-            "$PWD/qa-popup/chatgpt.key.pem" \
-            "$PWD/qa-popup/chatgpt.cert.pem" \
             fixed
       - name: Source cleanliness
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf node_modules qa-popup
+          rm -rf node_modules
           git status --short
           test -z "$(git status --porcelain)"
           echo POPUP_CHROME151_LINUX_FIX_CLEAN_PASS
@@ -105,18 +89,6 @@ jobs:
       - name: Install external Puppeteer driver only
         shell: bash
         run: npm install --no-save --package-lock=false puppeteer-core@25.4.0
-      - name: Generate local-only ChatGPT fixture certificate
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p qa-popup
-          openssl req -x509 -newkey rsa:2048 -nodes \
-            -keyout qa-popup/chatgpt.key.pem \
-            -out qa-popup/chatgpt.cert.pem \
-            -days 1 \
-            -subj '/CN=chatgpt.com' \
-            -addext 'subjectAltName=DNS:chatgpt.com' \
-            >/dev/null 2>&1
       - name: Materialize exact rejected d58 baseline source
         shell: bash
         run: |
@@ -131,8 +103,6 @@ jobs:
           node extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs \
             "$CHROME_PATH" \
             "$RUNNER_TEMP/ymb-popup-baseline/extension/src" \
-            "$PWD/qa-popup/chatgpt.key.pem" \
-            "$PWD/qa-popup/chatgpt.cert.pem" \
             baseline
       - name: Prove fixed native popup on Windows Chrome 151
         shell: bash
@@ -143,14 +113,12 @@ jobs:
           node extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs \
             "$CHROME_PATH" \
             "$PWD/extension/src" \
-            "$PWD/qa-popup/chatgpt.key.pem" \
-            "$PWD/qa-popup/chatgpt.cert.pem" \
             fixed
       - name: Source cleanliness
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf node_modules qa-popup
+          rm -rf node_modules
           git status --short
           test -z "$(git status --porcelain)"
           echo POPUP_CHROME151_WINDOWS_FIX_CLEAN_PASS
