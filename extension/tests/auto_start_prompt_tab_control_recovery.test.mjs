@@ -5,6 +5,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
+// Start prompt config affects a future Autorun: real changes require a live conversation tab, not current runtime ownership.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
 const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
 const popupSource = fs.readFileSync(path.join(root, 'popup.js'), 'utf8');
