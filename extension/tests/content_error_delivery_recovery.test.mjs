@@ -8,6 +8,7 @@ import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
 
 // Focused Stage-3 regression: durable content errors must stay on the current runtime owner tab.
+// Helper-PR transport: the exact worker patch is committed only after this focused regression passes.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
 const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
 const contentSource = fs.readFileSync(path.join(root, 'content_script.js'), 'utf8');
