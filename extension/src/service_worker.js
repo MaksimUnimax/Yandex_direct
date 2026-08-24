@@ -166,6 +166,30 @@ async function saveServiceContext(conversationKey, raw) {
   const key = normalizeConversationKey(conversationKey); const service = YMBRunContextModel.normalizeActiveService(raw?.active_service, YMBServiceRegistry, { required: true });
   const map = { ...((await storageGet(KEYS.SERVICE_CONTEXTS))[KEYS.SERVICE_CONTEXTS] || {}) }; map[key] = { active_service: service, updated_at: nowIso() }; await storageSet({ [KEYS.SERVICE_CONTEXTS]: map }); return map[key];
 }
+async function saveServiceContextFromTab(conversationKey, raw, tabId) {
+  const key = normalizeConversationKey(conversationKey);
+  const service = YMBRunContextModel.normalizeActiveService(raw?.active_service, YMBServiceRegistry, { required: true });
+  const current = await getServiceContext(key);
+  if (current.active_service === service) return current;
+  const tab = Number(tabId);
+  if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка для изменения активного сервиса."), { code: "OWNER_TAB_REQUIRED" });
+  const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+  const operation = operations[key] || null;
+  if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) {
+    if (tab !== Number(operation.tab_id)) throw Object.assign(new Error("Активный сервис может изменять только вкладка-owner Manual operation."), { code: "AUTO_NON_OWNER_TAB" });
+    await assertTabConversation(tab, key);
+    throw Object.assign(new Error("Нельзя менять активный сервис до завершения Manual operation."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
+  }
+  const run = await getAutoRun(key);
+  if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
+    if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Активный сервис может изменять только вкладка-owner Autorun."), { code: "AUTO_NON_OWNER_TAB" });
+    await assertTabConversation(tab, key, run.conversation_id);
+    throw Object.assign(new Error("Нельзя менять активный сервис до завершения Autorun."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
+  }
+  await assertTabConversation(tab, key);
+  if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите Manual mode перед сменой активного сервиса."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
+  return saveServiceContext(key, { active_service: service });
+}
 async function getAutoRun(conversationKey) { const key = normalizeConversationKey(conversationKey); return ((await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {})[key] || null; }
 async function saveAutoRun(conversationKey, run) { const key = normalizeConversationKey(conversationKey); const map = { ...((await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {}) }; map[key] = run; await storageSet({ [KEYS.AUTO_RUNS]: map }); return run; }
 async function patchAutoRun(conversationKey, fn) { const old = await getAutoRun(conversationKey); if (!old) return null; return saveAutoRun(conversationKey, fn(clone(old))); }
@@ -837,9 +861,9 @@ async function handleMessage(message, sender) {
     case "WS_PATCH_TOGGLES": return { ok: true, state: await patchToggleSettings(message, sender) };
     case "WS_SET_MANUAL_MODE": return { ok: true, enabled: await setManualModeFromTab(message.conversation_key, message.enabled === true, message.tab_id ?? sender?.tab?.id), state: await publicSettingsState(message.conversation_key) };
     case "WS_SAVE_SETTINGS": {
-      const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContext(message.conversation_key, { active_service: message.active_service }); if (message.conversation_key && message.report_prefix) await saveReportPrefix(message.conversation_key, message.report_prefix); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
+      const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id); if (message.conversation_key && message.report_prefix) await saveReportPrefix(message.conversation_key, message.report_prefix); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
     }
-    case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContext(message.conversation_key, { active_service: message.active_service }) };
+    case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id) };
     case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPrompt(message.conversation_key, message.text, { service: message.active_service || null }) };
     case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPrompt(message.conversation_key, { service: message.active_service || null }) };
     case "WS_START_AUTORUN": return { ok: true, run: publicRun(await startAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
