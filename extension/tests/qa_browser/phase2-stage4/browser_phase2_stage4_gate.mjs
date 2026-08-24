@@ -101,9 +101,10 @@ async function getState(popup, key) {
   return r.state;
 }
 async function openPopup(worker, browser, key) {
+  const existingTargets = new Set(browser.targets());
   const tab = await worker.evaluate(async () => await chrome.tabs.create({ url: chrome.runtime.getURL('popup.html'), active:false }));
   assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');
-  const target = await browser.waitForTarget(t => t.url().startsWith('chrome-extension://') && t.url().endsWith('/popup.html'), { timeout:10000 });
+  const target = await browser.waitForTarget(t => !existingTargets.has(t) && t.url().startsWith('chrome-extension://') && t.url().endsWith('/popup.html'), { timeout:10000 });
   const popup = await target.page(); assert(popup, 'POPUP_PAGE_FAIL');
   await popup.waitForFunction(expected => document.getElementById('conversationMeta')?.textContent === expected, { timeout:10000 }, key);
   return { popup, tabId:tab.id };
@@ -149,7 +150,14 @@ async function popupChecked(popup, id) { return await popup.evaluate(id => Boole
 async function popupText(popup, id) { return await popup.evaluate(id => document.getElementById(id)?.textContent || '', id); }
 async function actionCount(page) { return await page.evaluate(() => document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action').length || 0); }
 async function actionLabels(page) { return await page.evaluate(() => [...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action') || [])].map(x=>x.textContent)); }
-async function fixtureState(page) { return await page.evaluate(() => structuredClone(window.__fixture)); }
+async function fixtureState(page) {
+  return await page.evaluate(() => ({
+    sendHistory: [...(window.__fixture?.sendHistory || [])],
+    copyClicks: Number(window.__fixture?.copyClicks || 0),
+    appended: [...(window.__fixture?.appended || [])].map(row => ({ id:String(row.id||''), text:String(row.text||'') })),
+    sendCycles: Number(window.__fixture?.sendCycles || 0)
+  }));
+}
 
 let browser;
 try {
@@ -211,6 +219,7 @@ try {
   await fixture.evaluate(() => document.getElementById('native-copy')?.click());
   assert((await fixtureState(fixture)).copyClicks===1,'B02_NATIVE_COPY_FAIL');
   assert(providerHits.length===beforeProvider,'B02_NATIVE_COPY_DISPATCHED_PROVIDER');
+  console.log('BROWSER_STEP_NATIVE_COPY_PASS');
   await fixture.evaluate(()=>{ const p=document.querySelector('pre'); p.appendChild(document.createElement('span')).textContent=' mutation'; document.body.dataset.qaMutation=String(Date.now()); });
   await delay(2400);
   assert((await getState(p.popup,KEY1)).manual_mode===true,'B02_WORKER_SELF_REVERT');
