@@ -5,6 +5,9 @@ on:
       - fix/phase2-popup-chrome151-autosize-2026-08-24
     paths:
       - .github/workflows/phase2-popup-fix-source-regression.yml
+  pull_request:
+    branches:
+      - candidate/phase2-search-reconstruction-2026-08-23
 permissions:
   contents: read
 jobs:
