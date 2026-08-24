@@ -1,0 +1,101 @@
+name: phase2-popup-fix-exact-browser-preflight
+on:
+  pull_request:
+    branches:
+      - candidate/phase2-search-reconstruction-2026-08-23
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-browser-preflight:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout exact Windows-safe transport
+        uses: actions/checkout@v4
+        with:
+          ref: qa/phase2-popup-fix-final-b64-transport-10bb3ac-2026-08-24
+          fetch-depth: 0
+      - name: Verify and materialize exact repaired ZIP
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $p = 'extension/tests/qa_transport/phase2-popup-fix-final-b64'
+          python "$p/verify_exact_b64_transport.py"
+          if ($LASTEXITCODE -ne 0) { throw 'TRANSPORT_VERIFY_FAIL' }
+          @'
+          import base64, hashlib, os, zipfile
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])/'exact-popup-fix'
+          root.mkdir(parents=True,exist_ok=True)
+          src=Path('extension/tests/qa_transport/phase2-popup-fix-final-b64/artifact.b64')
+          data=base64.b64decode(src.read_bytes(),validate=True)
+          assert len(data)==171655
+          assert hashlib.sha256(data).hexdigest()=='0186b35d66cf1e7e20a522dc128b3fdd317cd660c665b8294120a1ab8affe91d'
+          zp=root/'candidate.zip'; zp.write_bytes(data)
+          ex=root/'extract'
+          with zipfile.ZipFile(zp) as z:
+              assert z.testzip() is None
+              z.extractall(ex)
+          dirs=[p for p in ex.iterdir() if p.is_dir()]
+          assert len(dirs)==1,dirs
+          (root/'extension-root.txt').write_text(str(dirs[0].resolve()),encoding='utf-8')
+          print('BROWSER_EXACT_POPUP_FIX_ARTIFACT_MATERIALIZED_PASS')
+          '@ | python -
+      - name: Create detached harness worktrees
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git worktree add --detach "$env:RUNNER_TEMP\stage4-harness" 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+          git worktree add --detach "$env:RUNNER_TEMP\popup-harness" 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+      - name: Install Chrome 151 for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+      - name: Install external browser drivers only
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          npm install --prefix "$env:RUNNER_TEMP\stage4-harness\extension\tests\qa_browser\phase2-stage4" --no-save --package-lock=false puppeteer-core@25.4.0
+          if ($LASTEXITCODE -ne 0) { throw 'STAGE4_PUPPETEER_INSTALL_FAIL' }
+          npm install --prefix "$env:RUNNER_TEMP\popup-harness\extension\tests\qa_browser" --no-save --package-lock=false puppeteer-core@25.4.0
+          if ($LASTEXITCODE -ne 0) { throw 'POPUP_PUPPETEER_INSTALL_FAIL' }
+      - name: Run exact B-01 B-02 B-03 installed-extension gate
+        shell: pwsh
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $root = Get-Content "$env:RUNNER_TEMP\exact-popup-fix\extension-root.txt" -Raw
+          $root = $root.Trim()
+          $h = "$env:RUNNER_TEMP\stage4-harness\extension\tests\qa_browser\phase2-stage4"
+          node "$h\browser_phase2_stage4_gate.mjs" "$env:CHROME_PATH" "$root" "$h\qa-chatgpt-local.key.pem" "$h\qa-chatgpt-local.cert.pem"
+          if ($LASTEXITCODE -ne 0) { throw 'BROWSER_PHASE2_STAGE4_GATE_FAIL' }
+      - name: Run exact native toolbar popup geometry gate
+        shell: pwsh
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $root = Get-Content "$env:RUNNER_TEMP\exact-popup-fix\extension-root.txt" -Raw
+          $root = $root.Trim()
+          $h = "$env:RUNNER_TEMP\popup-harness\extension\tests\qa_browser\popup_chrome151_geometry_gate.mjs"
+          node "$h" "$env:CHROME_PATH" "$root" fixed
+          if ($LASTEXITCODE -ne 0) { throw 'BROWSER_NATIVE_POPUP_GEOMETRY_FAIL' }
+          Write-Output 'B04_NATIVE_ACTION_POPUP_GEOMETRY_PASS'
+      - name: Cleanup and prove harness/transport cleanliness
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Remove-Item -Recurse -Force "$env:RUNNER_TEMP\stage4-harness\extension\tests\qa_browser\phase2-stage4\node_modules" -ErrorAction SilentlyContinue
+          Remove-Item -Recurse -Force "$env:RUNNER_TEMP\popup-harness\extension\tests\qa_browser\node_modules" -ErrorAction SilentlyContinue
+          $s1 = git -C "$env:RUNNER_TEMP\stage4-harness" status --porcelain
+          if ($s1) { throw "STAGE4_HARNESS_DIRTY $s1" }
+          $s2 = git -C "$env:RUNNER_TEMP\popup-harness" status --porcelain
+          if ($s2) { throw "POPUP_HARNESS_DIRTY $s2" }
+          $s3 = git status --porcelain
+          if ($s3) { throw "TRANSPORT_CHECKOUT_DIRTY $s3" }
+          python extension/tests/qa_transport/phase2-popup-fix-final-b64/verify_exact_b64_transport.py
+          if ($LASTEXITCODE -ne 0) { throw 'FINAL_TRANSPORT_VERIFY_FAIL' }
+          Write-Output 'POPUP_FIX_EXACT_BROWSER_PREFLIGHT_CLEAN_PASS'
+          Write-Output 'REAL_YANDEX_REQUESTS=0'
