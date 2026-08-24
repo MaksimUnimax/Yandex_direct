@@ -489,6 +489,7 @@ function discoverManualBlockItems(blockText) {
   return { items, marker_count: discovered.length };
 }
 async function getOutbox() { const data = await storageGet(KEYS.OUTBOX); return data[KEYS.OUTBOX] && typeof data[KEYS.OUTBOX] === "object" ? data[KEYS.OUTBOX] : {}; }
+async function getConversationOutbox(conversationKey) { const key = normalizeConversationKey(conversationKey); return (await getOutbox())[key] || null; }
 async function putOutbox(conversationKey, entry) { const key = normalizeConversationKey(conversationKey); const outbox = { ...(await getOutbox()) }; outbox[key] = { ...entry, conversation_key: key, updated_at: nowIso() }; await storageSet({ [KEYS.OUTBOX]: outbox }); return outbox[key]; }
 async function clearOutbox(conversationKey, deliveryId = null) { const key = normalizeConversationKey(conversationKey); const outbox = { ...(await getOutbox()) }; if (!deliveryId || outbox[key]?.delivery_id === deliveryId) delete outbox[key]; await storageSet({ [KEYS.OUTBOX]: outbox }); }
 
@@ -654,6 +655,7 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
   const data = await storageGet(KEYS.MANUAL_OPERATIONS); const map = { ...(data[KEYS.MANUAL_OPERATIONS] || {}) }; const existing = map[key];
   if (existing && !TERMINAL_MANUAL_STATUSES.has(existing.status)) return { ok: false, accepted: false, code: "MANUAL_OPERATION_ACTIVE", error: "Предыдущая ручная операция ещё не завершена." };
   const requestToken = String(manualRequestToken || uid("manual-request")); if (existing?.request_token === requestToken) return { ok: true, accepted: false, duplicate: true, operation_id: existing.operation_id };
+  if (await getConversationOutbox(key)) return { ok: false, accepted: false, busy: true, code: "DELIVERY_IN_PROGRESS", error: "Сначала завершите текущую доставку для этого диалога." };
   const operation = { operation_id: uid("manual"), request_token: requestToken, conversation_key: key, tab_id: senderTabId, active_service: serviceContext.active_service, run_id: currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED ? currentRun.run_id : null, status: "requesting", block_fingerprint: YMBBlockCommandDiscovery.textFingerprint(source), created_at: nowIso(), request_executed: false };
   map[key] = operation; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map });
   let reportText = ""; let providerExecutions = 0; let requestExecutedSummary = false;
@@ -880,6 +882,7 @@ async function startAutoRun(conversationKey, tabId) {
   const liveIdentity = await assertTabConversation(tab, key); const binding = await getBinding(key); if (!binding || String(binding.conversation_id || "").toLowerCase() !== String(liveIdentity.conversation_id || "").toLowerCase()) throw Object.assign(new Error("Сначала привяжите этот диалог."), { code: "CONVERSATION_NOT_BOUND" }); if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите ручной режим."), { code: "MANUAL_MODE_ACTIVE" });
   const service = (await getServiceContext(key)).active_service; const policy = await getPolicyForService(service); if (!policy.autorun_enabled) throw Object.assign(new Error("Autorun выключен для выбранного сервиса."), { code: "AUTORUN_DISABLED" });
   const existing = await getAutoRun(key); if (existing && !WordstatAutorunModel.isTerminalStatus(existing.status)) throw Object.assign(new Error("Для этого диалога уже существует активный Autorun."), { code: "AUTO_RUN_ALREADY_ACTIVE" });
+  if (await getConversationOutbox(key)) throw Object.assign(new Error("Сначала завершите текущую доставку для этого диалога."), { code: "DELIVERY_IN_PROGRESS" });
   const startPrompt = await getAutoStartPrompt(key, { service }); const run = { run_id: uid("ymbrun"), active_service: service, permission_profile: service.toUpperCase(), requests_attempted: 0, requests_executed: 0, requests_skipped: 0, estimated_cost_rub: 0, conversation_key: key, origin: liveIdentity.origin, conversation_id: liveIdentity.conversation_id, binding_snapshot: clone(binding), tab_id: tab, status: WordstatAutorunModel.RUN_STATUSES.STARTING, sequence: 0, pause_requested: false, finish_requested: false, assistant_baseline_ids: [], watch_id: null, start_delivery: { phase: "none", message_text: startPrompt.text }, delivery: null, created_at: nowIso() };
   await saveAutoRun(key, run); await putOutbox(key, { delivery_id: uid("start"), type: "autorun_start", run_id: run.run_id, tab_id: tab, report_text: startPrompt.text, phase: "claimed", created_at: nowIso() }); return run;
 }
@@ -891,6 +894,7 @@ async function handleAutoCommand(message, sender) {
   if (await getManualMode(key)) return { ok: false, paused: true, code: "MANUAL_MODE_ACTIVE", error: "Ручной режим включён; Autorun не выполняет команду." };
   if (currentRun.status !== WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND) return { ok: true, accepted: false, ignored: true, busy: true, status: currentRun.status };
   if (assistantTurnId && currentRun.last_assistant_turn_id === assistantTurnId) return { ok: true, accepted: false, ignored: true, duplicate: true, status: currentRun.status };
+  if (await getConversationOutbox(key)) return { ok: true, accepted: false, ignored: true, busy: true, code: "DELIVERY_IN_PROGRESS", status: currentRun.status, error: "Сначала завершите текущую доставку для этого диалога." };
   const detected = YMBServiceRegistry.detect(commandText);
   if (!detected) return stageAutorunError(key, currentRun, senderTabId, {
     code: "UNKNOWN_SERVICE_PROTOCOL",
