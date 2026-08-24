@@ -5,85 +5,43 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
 permissions:
-  contents: write
+  contents: read
 jobs:
-  focused-start-prompt-live-tab-transport:
-    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
+  focused-stage3-owner-fences:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: candidate/phase2-search-reconstruction-2026-08-23
-          fetch-depth: 0
-      - name: Apply exact start-prompt live-tab fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          worker_path = Path('extension/src/service_worker.js')
-          worker = worker_path.read_text(encoding='utf-8')
-          if 'async function saveAutoStartPromptFromTab(' in worker:
-              raise SystemExit('saveAutoStartPromptFromTab already exists')
-
-          marker = 'async function resetAutoStartPrompt(conversationKey, { service = null } = {}) { const key = normalizeConversationKey(conversationKey); const resolved = service || (await getServiceContext(key)).active_service; return saveAutoStartPrompt(key, defaultAutoStartTextForService(resolved), { service: resolved }); }'
-          if worker.count(marker) != 1:
-              raise SystemExit(f'expected one resetAutoStartPrompt marker, got {worker.count(marker)}')
-          helpers = '''
-          async function saveAutoStartPromptFromTab(conversationKey, text, { service = null } = {}, tabId = null) {
-            const key = normalizeConversationKey(conversationKey);
-            const resolved = service || (await getServiceContext(key)).active_service;
-            const value = String(text || "").trim();
-            if (!value) throw Object.assign(new Error("Стартовый текст пуст."), { code: "AUTO_START_PROMPT_EMPTY" });
-            const current = await getAutoStartPrompt(key, { service: resolved });
-            const isDefault = value === defaultAutoStartTextForService(resolved);
-            if (current.text === value && current.service === resolved && current.is_default === isDefault) return current;
-            const tab = Number(tabId);
-            if (tabId == null || !Number.isInteger(tab) || tab <= 0) throw Object.assign(new Error("Не определена вкладка для изменения стартового текста."), { code: "OWNER_TAB_REQUIRED" });
-            await assertTabConversation(tab, key);
-            return saveAutoStartPrompt(key, value, { service: resolved });
-          }
-          async function resetAutoStartPromptFromTab(conversationKey, { service = null } = {}, tabId = null) {
-            const key = normalizeConversationKey(conversationKey);
-            const resolved = service || (await getServiceContext(key)).active_service;
-            return saveAutoStartPromptFromTab(key, defaultAutoStartTextForService(resolved), { service: resolved }, tabId);
-          }
-          '''
-          worker = worker.replace(marker, marker + '\n' + helpers.strip('\n'), 1)
-
-          old_save = 'case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPrompt(message.conversation_key, message.text, { service: message.active_service || null }) };'
-          new_save = 'case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPromptFromTab(message.conversation_key, message.text, { service: message.active_service || null }, message.tab_id ?? sender?.tab?.id) };'
-          if worker.count(old_save) != 1:
-              raise SystemExit(f'expected one start-prompt save route, got {worker.count(old_save)}')
-          worker = worker.replace(old_save, new_save, 1)
-
-          old_reset = 'case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPrompt(message.conversation_key, { service: message.active_service || null }) };'
-          new_reset = 'case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPromptFromTab(message.conversation_key, { service: message.active_service || null }, message.tab_id ?? sender?.tab?.id) };'
-          if worker.count(old_reset) != 1:
-              raise SystemExit(f'expected one start-prompt reset route, got {worker.count(old_reset)}')
-          worker = worker.replace(old_reset, new_reset, 1)
-          worker_path.write_text(worker, encoding='utf-8')
-
-          popup_path = Path('extension/src/popup.js')
-          popup = popup_path.read_text(encoding='utf-8')
-          old_popup_save = 'const response = await runtimeSend({ type: "WS_SAVE_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, text: $("autoStartPromptText").value });'
-          new_popup_save = 'const response = await runtimeSend({ type: "WS_SAVE_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, text: $("autoStartPromptText").value, tab_id: context.tab_id });'
-          if popup.count(old_popup_save) != 1:
-              raise SystemExit(f'expected one popup start-prompt save route, got {popup.count(old_popup_save)}')
-          popup = popup.replace(old_popup_save, new_popup_save, 1)
-
-          old_popup_reset = 'const response = await runtimeSend({ type: "WS_RESET_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value });'
-          new_popup_reset = 'const response = await runtimeSend({ type: "WS_RESET_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, tab_id: context.tab_id });'
-          if popup.count(old_popup_reset) != 1:
-              raise SystemExit(f'expected one popup start-prompt reset route, got {popup.count(old_popup_reset)}')
-          popup = popup.replace(old_popup_reset, new_popup_reset, 1)
-          popup_path.write_text(popup, encoding='utf-8')
-          PY
-          git diff --check
-          test "$(git diff --name-only)" = $'extension/src/popup.js\nextension/src/service_worker.js'
-      - name: Focused Stage 3 regressions
+      - name: Focused Stage 3 owner-fence regressions
         shell: bash
         run: |
           set -euo pipefail
@@ -104,12 +62,3 @@ jobs:
           set -euo pipefail
           node --check extension/src/service_worker.js
           node --check extension/src/popup.js
-      - name: Commit verified production fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add extension/src/service_worker.js extension/src/popup.js
-          git commit -m "fix: require live tab for start prompt changes"
-          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
