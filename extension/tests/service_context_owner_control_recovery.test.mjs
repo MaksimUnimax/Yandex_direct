@@ -15,7 +15,9 @@ function extractAsyncFunction(source, name) {
   const marker = `async function ${name}(`;
   const start = source.indexOf(marker);
   assert.notEqual(start, -1, `${name} not found`);
-  const brace = source.indexOf('{', start);
+  const signatureEnd = source.indexOf(') {', start);
+  assert.notEqual(signatureEnd, -1, `${name} signature end not found`);
+  const brace = signatureEnd + 2;
   let depth = 0;
   let quote = null;
   let escape = false;
@@ -169,6 +171,10 @@ test('both worker service-context mutation paths route through the tab-aware hel
 });
 
 test('popup transports active tab id when saving conversation-scoped settings', () => {
-  const saveAll = extractAsyncFunction(popupSource, 'saveAll');
+  const start = popupSource.indexOf('async function saveAll(');
+  const end = popupSource.indexOf('\n  async function persistTogglePatch', start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+  const saveAll = popupSource.slice(start, end);
   assert.match(saveAll, /message\.tab_id\s*=\s*context\.tab_id/);
 });
