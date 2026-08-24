@@ -754,8 +754,18 @@ async function handleAutoCommand(message, sender) {
   const outgoingText = prefixResult.text;
   const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: outgoingText, phase: "claimed", report_prefix_applied: prefixResult.applied === true, created_at: nowIso() }); await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: deliveryId, phase: "claimed", request_id: result.request_id, outgoing_text: outgoingText, report_prefix_applied: prefixResult.applied === true } })); return { ok: true, accepted: true, report_text: outgoingText, result };
 }
-async function completeDelivery(message) {
+async function outboxOwnerFence(entry, conversationKey, sender) {
+  const key = normalizeConversationKey(conversationKey);
+  const senderTabId = Number(sender?.tab?.id);
+  if (!Number.isInteger(senderTabId)) return { ok: false, code: "DELIVERY_SENDER_TAB_REQUIRED", error: "Доставка должна обрабатываться вкладкой ChatGPT-owner." };
+  if (senderTabId !== Number(entry?.tab_id)) return { ok: false, code: "AUTO_NON_OWNER_TAB", error: "Доставка принадлежит другой вкладке-owner." };
+  try { await assertTabConversation(senderTabId, key); }
+  catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }
+  return null;
+}
+async function completeDelivery(message, sender) {
   const key = normalizeConversationKey(message.conversation_key); const deliveryId = String(message.delivery_id || ""); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || (deliveryId && entry.delivery_id !== deliveryId)) return { ok: false, code: "DELIVERY_NOT_FOUND" };
+  const ownerFence = await outboxOwnerFence(entry, key, sender); if (ownerFence) return ownerFence;
   await clearOutbox(key, entry.delivery_id);
   if (entry.type === "manual" || entry.type === "autorun") await noteConfirmedReportPrefix(key, entry.report_prefix_applied === true, entry.delivery_id);
   if (entry.type === "manual") { const data = await storageGet(KEYS.MANUAL_OPERATIONS); const map = { ...(data[KEYS.MANUAL_OPERATIONS] || {}) }; if (map[key]?.delivery_id === entry.delivery_id) { map[key] = { ...map[key], status: "completed", delivery_confirmed: true, confirmation_basis: message.confirmation_basis || "microphone", completed_at: nowIso() }; await storageSet({ [KEYS.MANUAL_OPERATIONS]: map }); } }
@@ -786,9 +796,9 @@ async function handleMessage(message, sender) {
     case "WS_AUTO_COMMAND": return handleAutoCommand(message, sender);
     case "WS_EXECUTE_MANUAL_BLOCK": return executeManualBlock(message.block_text, message.conversation_key, sender, message.manual_request_token);
     case "WS_REPORT_CONTENT_ERROR": return reportContentError(message, sender);
-    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); let outbox = await getOutbox(); if (!outbox[key]) { await promotePendingContentError(key); outbox = await getOutbox(); } return { ok: true, outbox: outbox[key] || null }; }
-    case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }
-    case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message);
+    case "WS_GET_OUTBOX": { const key = normalizeConversationKey(message.conversation_key); let outbox = await getOutbox(); if (!outbox[key]) { await promotePendingContentError(key); outbox = await getOutbox(); } const entry = outbox[key] || null; if (entry) { const ownerFence = await outboxOwnerFence(entry, key, sender); if (ownerFence) return ownerFence; } return { ok: true, outbox: entry }; }
+    case "WS_MARK_DELIVERY_COMMITTED": { const key = normalizeConversationKey(message.conversation_key); const outbox = await getOutbox(); const entry = outbox[key]; if (!entry || entry.delivery_id !== message.delivery_id) return { ok: false, code: "DELIVERY_NOT_FOUND" }; const ownerFence = await outboxOwnerFence(entry, key, sender); if (ownerFence) return ownerFence; await putOutbox(key, { ...entry, phase: "committed", committed_at: nowIso() }); return { ok: true }; }
+    case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": return completeDelivery(message, sender);
     case "WS_GET_DIAGNOSTICS": return { ok: true, diagnostics: await getDiagnostics() };
     case "WS_CLEAR_DIAGNOSTICS": return { ok: true, diagnostics: await clearDiagnostics() };
     case "WS_SAVE_SEND_BUTTON_PROFILE": return { ok: true, send_button_profile: await saveSendButtonProfile(message.profile), state: await publicGlobalSettingsState() };
