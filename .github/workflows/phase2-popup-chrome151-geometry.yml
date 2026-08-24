@@ -1,0 +1,80 @@
+name: phase2-popup-chrome151-geometry
+on:
+  push:
+    branches:
+      - fix/phase2-popup-chrome151-autosize-2026-08-24
+    paths:
+      - .github/workflows/phase2-popup-chrome151-geometry.yml
+      - extension/src/popup.css
+      - extension/tests/popup_chrome151_geometry_recovery.test.mjs
+      - extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs
+permissions:
+  contents: read
+jobs:
+  popup-geometry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Static popup geometry regression
+        shell: bash
+        run: node --test extension/tests/popup_chrome151_geometry_recovery.test.mjs
+      - name: Install Chrome 151 for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+          install-dependencies: true
+      - name: Install external Puppeteer driver only
+        shell: bash
+        run: npm install --no-save --package-lock=false puppeteer-core@25.4.0
+      - name: Generate local-only ChatGPT fixture certificate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-popup
+          openssl req -x509 -newkey rsa:2048 -nodes \
+            -keyout qa-popup/chatgpt.key.pem \
+            -out qa-popup/chatgpt.cert.pem \
+            -days 1 \
+            -subj '/CN=chatgpt.com' \
+            -addext 'subjectAltName=DNS:chatgpt.com' \
+            >/dev/null 2>&1
+      - name: Materialize exact rejected d58 baseline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/ymb-popup-baseline" 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
+      - name: Reproduce Chrome 151 regression on exact old candidate
+        shell: bash
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs \
+            "$CHROME_PATH" \
+            "$RUNNER_TEMP/ymb-popup-baseline/extension/src" \
+            "$PWD/qa-popup/chatgpt.key.pem" \
+            "$PWD/qa-popup/chatgpt.cert.pem" \
+            baseline
+      - name: Prove fixed action-popup geometry on same Chrome 151
+        shell: bash
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs \
+            "$CHROME_PATH" \
+            "$PWD/extension/src" \
+            "$PWD/qa-popup/chatgpt.key.pem" \
+            "$PWD/qa-popup/chatgpt.cert.pem" \
+            fixed
+      - name: Source cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf node_modules qa-popup
+          git status --short
+          test -z "$(git status --porcelain)"
+          echo POPUP_CHROME151_FIX_CLEAN_PASS
