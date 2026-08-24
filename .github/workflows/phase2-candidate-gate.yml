@@ -1,0 +1,122 @@
+name: phase2-focused-development
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+permissions:
+  contents: write
+jobs:
+  focused-stage3-owner-fence-transport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: candidate/phase2-search-reconstruction-2026-08-23
+      - name: Apply exact Stage 3 owner fences
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('extension/src/service_worker.js')
+          text = path.read_text(encoding='utf-8')
+
+          content_error_old = '''async function reportContentError(message, sender) {
+  let key;
+  try { key = normalizeConversationKey(message?.conversation_key); }
+  catch { return { ok: false, code: "CONVERSATION_UNCONFIRMED", error: "Ошибка страницы не привязана к подтверждённому диалогу." }; }
+  const binding = await getBinding(key);
+  if (!binding) return { ok: false, code: "CONVERSATION_NOT_BOUND", error: "Диалог не привязан; ошибка страницы не может быть доставлена." };
+  const senderTabId = Number(sender?.tab?.id);
+  if (!Number.isInteger(senderTabId)) return { ok: false, code: "CONTENT_ERROR_SENDER_TAB_REQUIRED", error: "Ошибка страницы должна исходить из вкладки ChatGPT." };
+  try { await assertTabConversation(senderTabId, key, binding.conversation_id); }
+  catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }
+  const context = await getServiceContext(key);'''
+          content_error_new = '''async function contentErrorOwnerFence(conversationKey, senderTabId) {
+  const key = normalizeConversationKey(conversationKey);
+  let ownerTabId = null;
+  const outboxEntry = (await getOutbox())[key] || null;
+  if (outboxEntry) ownerTabId = Number(outboxEntry.tab_id);
+  else {
+    const ops = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+    const operation = ops[key] || null;
+    if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) ownerTabId = Number(operation.tab_id);
+    else {
+      const run = await getAutoRun(key);
+      if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) ownerTabId = Number(run.tab_id);
+    }
+  }
+  if (ownerTabId == null) return null;
+  if (!Number.isInteger(ownerTabId)) return { ok: false, code: "CONTENT_ERROR_OWNER_TAB_UNCONFIRMED", error: "Owner-вкладка runtime-состояния не подтверждена." };
+  if (ownerTabId !== Number(senderTabId)) return { ok: false, code: "AUTO_NON_OWNER_TAB", error: "Ошибка страницы пришла не из текущей owner-вкладки." };
+  return null;
+}
+async function reportContentError(message, sender) {
+  let key;
+  try { key = normalizeConversationKey(message?.conversation_key); }
+  catch { return { ok: false, code: "CONVERSATION_UNCONFIRMED", error: "Ошибка страницы не привязана к подтверждённому диалогу." }; }
+  const binding = await getBinding(key);
+  if (!binding) return { ok: false, code: "CONVERSATION_NOT_BOUND", error: "Диалог не привязан; ошибка страницы не может быть доставлена." };
+  const senderTabId = Number(sender?.tab?.id);
+  if (!Number.isInteger(senderTabId)) return { ok: false, code: "CONTENT_ERROR_SENDER_TAB_REQUIRED", error: "Ошибка страницы должна исходить из вкладки ChatGPT." };
+  try { await assertTabConversation(senderTabId, key, binding.conversation_id); }
+  catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }
+  const ownerFence = await contentErrorOwnerFence(key, senderTabId);
+  if (ownerFence) return ownerFence;
+  const context = await getServiceContext(key);'''
+
+          manual_old = '''  if (currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED) { try { YMBRunContextModel.assertServiceMatch(currentRun.active_service, serviceContext.active_service); } catch (error) { return { ok: false, accepted: false, code: error.code, error: error.message }; } }'''
+          manual_new = '''  if (currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED) {
+    if (senderTabId !== Number(currentRun.tab_id)) return { ok: false, accepted: false, code: "AUTO_NON_OWNER_TAB", error: "Manual action должна выполняться во вкладке-owner paused Autorun." };
+    try { YMBRunContextModel.assertServiceMatch(currentRun.active_service, serviceContext.active_service); } catch (error) { return { ok: false, accepted: false, code: error.code, error: error.message }; }
+  }'''
+
+          pairs = [
+              ('content-error owner fence', content_error_old, content_error_new),
+              ('paused Autorun Manual owner fence', manual_old, manual_new),
+          ]
+          changed = False
+          for label, old, new in pairs:
+              if old in text:
+                  if text.count(old) != 1:
+                      raise SystemExit(f'{label}: expected exactly one old target')
+                  text = text.replace(old, new)
+                  changed = True
+              elif new not in text:
+                  raise SystemExit(f'{label}: neither old nor new target found')
+          if changed:
+              path.write_text(text, encoding='utf-8')
+      - name: Verify only worker changed by patch step
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only)"
+          if [ -n "$changed" ] && [ "$changed" != "extension/src/service_worker.js" ]; then
+            printf 'unexpected changed paths:\n%s\n' "$changed"
+            exit 1
+          fi
+      - name: Focused Stage 3 owner-fence regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/content_error_delivery_recovery.test.mjs \
+            extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - name: Changed worker syntax
+        shell: bash
+        run: node --check extension/src/service_worker.js
+      - name: Commit verified worker fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- extension/src/service_worker.js; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/src/service_worker.js
+          git commit -m "fix: fence Stage 3 runtime state to owner tab"
+          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
