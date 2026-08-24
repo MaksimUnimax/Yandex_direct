@@ -54,7 +54,10 @@ test('bootstrap publishes only a sanitized recovery outcome for browser verifica
   assert.equal(publisher.includes('response'), false, 'published bootstrap outcome must not expose identity response or credentials');
 });
 
-test('bootstrap failure is visible instead of silently rendering a false ready state', () => {
-  assert.match(bootstrap, /setBootstrapStatus\(error\?\.message \|\| String\(error\), "error"\)/);
-  assert.match(bootstrap, /__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__/);
+test('bootstrap failure remains visible through popup runtime startup instead of reverting to false ready', () => {
+  assert.match(bootstrap, /function preserveBootstrapFailureThroughStartup/);
+  assert.match(bootstrap, /new MutationObserver/);
+  assert.match(bootstrap, /observer\.disconnect\(\);\n      setBootstrapStatus\(expected, "error"\)/);
+  assert.match(bootstrap, /globalThis\.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ = message/);
+  assert.match(bootstrap, /preserveBootstrapFailureThroughStartup\(message\)/);
 });
