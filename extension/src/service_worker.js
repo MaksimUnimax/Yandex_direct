@@ -172,22 +172,22 @@ async function saveServiceContextFromTab(conversationKey, raw, tabId) {
   const current = await getServiceContext(key);
   if (current.active_service === service) return current;
   const tab = Number(tabId);
-  if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка для изменения активного сервиса."), { code: "OWNER_TAB_REQUIRED" });
+  if (tabId == null || !Number.isInteger(tab) || tab <= 0) throw Object.assign(new Error("Не определена вкладка для изменения активного сервиса."), { code: "OWNER_TAB_REQUIRED" });
   const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
   const operation = operations[key] || null;
   if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) {
     if (tab !== Number(operation.tab_id)) throw Object.assign(new Error("Активный сервис может изменять только вкладка-owner Manual operation."), { code: "AUTO_NON_OWNER_TAB" });
     await assertTabConversation(tab, key);
-    throw Object.assign(new Error("Нельзя менять активный сервис до завершения Manual operation."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
+    throw Object.assign(new Error("Нельзя менять активный сервис до завершения Manual operation."), { code: "ACTIVE_SERVICE_LOCKED" });
   }
   const run = await getAutoRun(key);
   if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
     if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Активный сервис может изменять только вкладка-owner Autorun."), { code: "AUTO_NON_OWNER_TAB" });
     await assertTabConversation(tab, key, run.conversation_id);
-    throw Object.assign(new Error("Нельзя менять активный сервис до завершения Autorun."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
+    throw Object.assign(new Error("Нельзя менять активный сервис до завершения Autorun."), { code: "ACTIVE_SERVICE_LOCKED" });
   }
   await assertTabConversation(tab, key);
-  if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите Manual mode перед сменой активного сервиса."), { code: "SERVICE_CONTEXT_RUNTIME_LOCKED" });
+  if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите Manual mode перед сменой активного сервиса."), { code: "ACTIVE_SERVICE_LOCKED" });
   return saveServiceContext(key, { active_service: service });
 }
 async function getAutoRun(conversationKey) { const key = normalizeConversationKey(conversationKey); return ((await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {})[key] || null; }
