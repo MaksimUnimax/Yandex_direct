@@ -16,14 +16,20 @@ jobs:
       - name: Checkout exact Stage 4 source authority
         uses: actions/checkout@v4
         with:
-          ref: 1869d17f3cb64417a07088de18dafa5687c83840
+          ref: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
           fetch-depth: 0
       - name: Assert pinned source commit
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "1869d17f3cb64417a07088de18dafa5687c83840"
+          test "$(git rev-parse HEAD)" = "0ee1d38f8d28cfccceb5a07f9606fa715261bc27"
           git diff --exit-code
+      - name: Complete source suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
       - name: Freeze candidate and first extraction identity
         shell: bash
         run: |
@@ -35,7 +41,7 @@ jobs:
             --freeze-manifest-output stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json \
             --verify-extract stage4-output/extract-a \
             --source-ref candidate/phase2-search-reconstruction-2026-08-23 \
-            --source-commit 1869d17f3cb64417a07088de18dafa5687c83840
+            --source-commit 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
           rm -rf stage4-output/extract-a
       - name: Independent deterministic rebuild and extraction identity
         shell: bash
@@ -46,7 +52,7 @@ jobs:
             --output stage4-output/rebuilt.zip \
             --verify-manifest stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json \
             --verify-extract stage4-output/extract-b \
-            --source-commit 1869d17f3cb64417a07088de18dafa5687c83840
+            --source-commit 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
           cmp --silent \
             stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip \
             stage4-output/rebuilt.zip
@@ -65,10 +71,19 @@ jobs:
           print('zip_test=' + str(m['zip_test']))
           print('STAGE4_FREEZE_CONSUMER_CONFORMANCE_PASS')
           PY
+      - name: Complete packaged suite from exact ZIP bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/tests/qa_transport/phase2-candidate/run_packaged_suite.py \
+            --archive stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip \
+            --manifest stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json \
+            --work-dir stage4-output/packaged-suite-work
+          rm -rf stage4-output/packaged-suite-work
       - name: Upload exact frozen candidate
         uses: actions/upload-artifact@v4
         with:
-          name: phase2-stage4-frozen-candidate-1869d17
+          name: phase2-stage4-frozen-candidate-0ee1d38
           path: |
             stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
             stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json
