@@ -41,19 +41,19 @@ test('content error is turned into durable YMB_ERROR_V1 outbox with zero provide
 });
 
 test('content error never overwrites an existing result and is promoted only after result completion',async()=>{
-  const h=harness({...base(),wsmb_outbox:{[CKEY]:{delivery_id:'result-1',type:'manual',conversation_key:CKEY,report_text:'SEARCH_RESULT_V1\n{}',phase:'committed'}}});
+  const h=harness({...base(),wsmb_outbox:{[CKEY]:{delivery_id:'result-1',type:'manual',tab_id:1,conversation_key:CKEY,report_text:'SEARCH_RESULT_V1\n{}',phase:'committed'}}});
   const r=await h.api.reportContentError({conversation_key:CKEY,service:'search',channel:'manual',stage:'DELIVERY',code:'DELIVERY_ERROR',error:'delivery failed',request_executed:false},{tab:{id:1}});
   assert.equal(r.ok,true);assert.equal(h.store.wsmb_outbox[CKEY].delivery_id,'result-1');assert.equal(h.store.ymb_content_error_queue[CKEY].length,1);
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'result-1',confirmation_basis:'microphone'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'result-1',confirmation_basis:'microphone'},{tab:{id:1}});
   assert.equal(h.store.wsmb_outbox[CKEY].type,'content_error');assert.match(h.store.wsmb_outbox[CKEY].report_text,/DELIVERY_ERROR/);assert.equal(h.store.ymb_content_error_queue?.[CKEY],undefined);
 });
 
 test('same content error is deduplicated while pending and while being delivered',async()=>{
-  const h=harness({...base(),wsmb_outbox:{[CKEY]:{delivery_id:'busy',type:'manual',conversation_key:CKEY,report_text:'busy',phase:'claimed'}}});
+  const h=harness({...base(),wsmb_outbox:{[CKEY]:{delivery_id:'busy',type:'manual',tab_id:1,conversation_key:CKEY,report_text:'busy',phase:'claimed'}}});
   const message={conversation_key:CKEY,service:'search',channel:'content',stage:'STATE_SYNC',code:'STATE_SYNC_ERROR',error:'worker restarting',request_executed:false};
   const first=await h.api.reportContentError(message,{tab:{id:1}});const second=await h.api.reportContentError(message,{tab:{id:1}});
   assert.equal(first.duplicate,false);assert.equal(second.duplicate,true);assert.equal(h.store.ymb_content_error_queue[CKEY].length,1);
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'busy'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'busy'},{tab:{id:1}});
   const third=await h.api.reportContentError(message,{tab:{id:1}});assert.equal(third.duplicate,true);assert.equal(h.store.wsmb_outbox[CKEY].type,'content_error');
 });
 

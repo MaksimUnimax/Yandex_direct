@@ -278,7 +278,7 @@ test('saved report prefix is exposed in state and applies only to executed Manua
   assert.equal(r.accepted,true);
   assert.match(r.report_text,/^PREFIX\n\nSEARCH_RESULT_V1\n/);
   assert.equal(h.store.wsmb_outbox[CKEY].report_prefix_applied,true);
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:r.delivery_id,confirmation_basis:'microphone'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:r.delivery_id,confirmation_basis:'microphone'},{tab:{id:1}});
   assert.equal(h.store.wsmb_report_prefixes[CKEY].delivered_count,1);
   assert.equal(h.store.wsmb_report_prefixes[CKEY].last_applied_at_count,1);
 });

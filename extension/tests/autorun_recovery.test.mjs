@@ -68,7 +68,7 @@ test('Pause and Finish are deferred across in-flight delivery and applied only a
   const pauseRequested=await h.api.pauseAutoRun(CKEY);
   assert.equal(pauseRequested.status,'delivering');
   assert.equal(pauseRequested.pause_requested,true);
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:deliveryId,confirmation_basis:'microphone'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:deliveryId,confirmation_basis:'microphone'},{tab:{id:1}});
   assert.equal(h.store.wsmb_auto_runs[CKEY].status,'paused');
 
   h.store.wsmb_auto_runs[CKEY]=run('delivering',{delivery:{delivery_id:'delivery-2',phase:'claimed'}});
@@ -76,7 +76,7 @@ test('Pause and Finish are deferred across in-flight delivery and applied only a
   const finishRequested=await h.api.finishAutoRun(CKEY);
   assert.equal(finishRequested.status,'delivering');
   assert.equal(finishRequested.finish_requested,true);
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'delivery-2',confirmation_basis:'microphone'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'delivery-2',confirmation_basis:'microphone'},{tab:{id:1}});
   assert.equal(h.store.wsmb_auto_runs[CKEY].status,'stopped');
 });
 
@@ -119,7 +119,7 @@ test('Autorun validation error is delivered as YMB_ERROR_V1 with zero provider r
   assert.equal(errorPayload.run_id,'search-run');
   assert.equal(errorPayload.autorun_continues,true);
   assert.match(errorPayload.timestamp,/^\d{4}-\d{2}-\d{2}T/);
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:outbox.delivery_id,confirmation_basis:'microphone'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:outbox.delivery_id,confirmation_basis:'microphone'},{tab:{id:1}});
   assert.equal(h.store.wsmb_auto_runs[CKEY].status,'waiting_command');
   assert.equal(h.store.wsmb_auto_runs[CKEY].last_assistant_turn_id,'bad-turn');
 });
@@ -139,7 +139,7 @@ test('Unknown provider outcome is delivered once, does not retry, and same finge
   assert.equal(errorPayload.recoverable,false);
   assert.equal(errorPayload.autorun_continues,true);
   const delivery=h.store.wsmb_outbox[CKEY];
-  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:delivery.delivery_id,confirmation_basis:'microphone'});
+  await h.api.completeDelivery({conversation_key:CKEY,delivery_id:delivery.delivery_id,confirmation_basis:'microphone'},{tab:{id:1}});
   assert.equal(h.store.wsmb_auto_runs[CKEY].status,'waiting_command');
   const second=await h.api.handleAutoCommand({conversation_key:CKEY,run_id:'search-run',assistant_turn_id:'turn-unknown-2',command_text:command},{tab:{id:1}});
   assert.equal(second.accepted,false);
