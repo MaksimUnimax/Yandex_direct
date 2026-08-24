@@ -115,17 +115,28 @@ try {
 
   console.log(`POPUP_GEOMETRY=${JSON.stringify(geometry)}`);
   const observedWidth = Math.max(Number(geometry.innerWidth || 0), Number(geometry.htmlClientWidth || 0), Number(geometry.outerWidth || 0));
-  const isWideRegression = observedWidth >= 760;
+  const wideRegressionObserved = observedWidth >= 760;
+  console.log(`POPUP_WIDE_REGRESSION_OBSERVED=${wideRegressionObserved}`);
+
   if (expectedMode === 'baseline') {
-    assert(isWideRegression, `BASELINE_CHROME151_REGRESSION_NOT_REPRODUCED ${JSON.stringify(geometry)}`);
-    console.log('POPUP_CHROME151_BASELINE_REGRESSION_REPRODUCED');
+    assert(geometry.innerHeight === 600, `BASELINE_ACTION_HOST_NOT_AT_600_LIMIT ${JSON.stringify(geometry)}`);
+    assert(geometry.htmlScrollHeight > 600, `BASELINE_LONG_ROOT_NOT_REPRODUCED ${JSON.stringify(geometry)}`);
+    assert(geometry.bodyScrollHeight > 600, `BASELINE_LONG_BODY_NOT_REPRODUCED ${JSON.stringify(geometry)}`);
+    assert(geometry.mainScrollHeight > 600, `BASELINE_LONG_MAIN_NOT_REPRODUCED ${JSON.stringify(geometry)}`);
+    assert(geometry.mainOverflowY !== 'auto', `BASELINE_ALREADY_HAS_INTERNAL_SCROLL ${JSON.stringify(geometry)}`);
+    assert(geometry.bodyOverflow !== 'hidden', `BASELINE_ROOT_ALREADY_BOUNDED ${JSON.stringify(geometry)}`);
+    console.log('POPUP_CHROME151_BASELINE_UNBOUNDED_TRIGGER_PASS');
+    if (wideRegressionObserved) console.log('POPUP_CHROME151_WIDE_AUTOSIZE_REPRODUCED');
   } else {
-    assert(!isWideRegression, `POPUP_CHROME151_WIDTH_REGRESSION_PRESENT ${JSON.stringify(geometry)}`);
+    assert(!wideRegressionObserved, `POPUP_CHROME151_WIDTH_REGRESSION_PRESENT ${JSON.stringify(geometry)}`);
     assert(geometry.innerWidth >= 420 && geometry.innerWidth <= 460, `POPUP_FIXED_WIDTH_OUT_OF_RANGE ${JSON.stringify(geometry)}`);
-    assert(geometry.innerHeight <= 600, `POPUP_FIXED_HEIGHT_OVER_LIMIT ${JSON.stringify(geometry)}`);
+    assert(geometry.innerHeight >= 540 && geometry.innerHeight <= 600, `POPUP_FIXED_HEIGHT_OUT_OF_RANGE ${JSON.stringify(geometry)}`);
+    assert(geometry.htmlScrollHeight <= 600, `POPUP_ROOT_STILL_LONG ${JSON.stringify(geometry)}`);
+    assert(geometry.bodyScrollHeight <= 600, `POPUP_BODY_STILL_LONG ${JSON.stringify(geometry)}`);
     assert(geometry.mainClientHeight <= 560, `POPUP_MAIN_HEIGHT_OUT_OF_RANGE ${JSON.stringify(geometry)}`);
     assert(geometry.mainScrollHeight > geometry.mainClientHeight, `POPUP_INTERNAL_SCROLL_NOT_ACTIVE ${JSON.stringify(geometry)}`);
     assert(geometry.mainOverflowY === 'auto', `POPUP_MAIN_OVERFLOW_NOT_AUTO ${JSON.stringify(geometry)}`);
+    assert(geometry.bodyOverflow === 'hidden', `POPUP_BODY_OVERFLOW_NOT_HIDDEN ${JSON.stringify(geometry)}`);
     console.log('POPUP_CHROME151_ACTION_GEOMETRY_PASS');
   }
   try { await session.detach(); } catch {}
