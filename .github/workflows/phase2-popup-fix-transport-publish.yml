@@ -1,0 +1,163 @@
+name: phase2-popup-fix-transport-publish
+on:
+  pull_request:
+    branches:
+      - candidate/phase2-search-reconstruction-2026-08-23
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish-transport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          fetch-depth: 0
+      - name: Rebuild exact frozen repaired candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/freeze"
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output "$RUNNER_TEMP/freeze/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip" \
+            --freeze-manifest-output "$RUNNER_TEMP/freeze/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json" \
+            --verify-extract "$RUNNER_TEMP/freeze/extract" \
+            --source-ref fix/phase2-popup-chrome151-autosize-2026-08-24 \
+            --source-commit 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          rm -rf "$RUNNER_TEMP/freeze/extract"
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          z=Path(__import__('os').environ['RUNNER_TEMP'])/'freeze/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip'
+          m=Path(__import__('os').environ['RUNNER_TEMP'])/'freeze/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json'
+          assert len(z.read_bytes()) == 171655
+          assert hashlib.sha256(z.read_bytes()).hexdigest() == '0186b35d66cf1e7e20a522dc128b3fdd317cd660c665b8294120a1ab8affe91d'
+          assert len(m.read_bytes()) == 11601
+          assert hashlib.sha256(m.read_bytes()).hexdigest() == '447bf18e54ba4a728cc6255adff5e13996366b9bf54b2668114110d525501009'
+          print('POPUP_FIX_FROZEN_IDENTITY_PASS')
+          PY
+      - name: Build exact text-safe transport payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          T="$RUNNER_TEMP/transport"
+          mkdir -p "$T"
+          cp "$RUNNER_TEMP/freeze/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json" "$T/"
+          base64 -w0 "$RUNNER_TEMP/freeze/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip" > "$T/artifact.b64"
+          printf '* -text\n' > "$T/.gitattributes"
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          t=Path(os.environ['RUNNER_TEMP'])/'transport'
+          a=t/'artifact.b64'; m=t/'EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json'
+          obj={
+            'format':'YMB_PHASE2_POPUP_FIX_EXACT_B64_TRANSPORT_V1',
+            'frozen_source_commit':'10bb3aca67295e5e515ff2ade8914b23e8458ca7',
+            'source_actions_run':32727332723,
+            'source_actions_artifact_id':9520023708,
+            'artifact_filename':'yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip',
+            'artifact_sha256':'0186b35d66cf1e7e20a522dc128b3fdd317cd660c665b8294120a1ab8affe91d',
+            'artifact_bytes':171655,
+            'files':66,'zip_entries':69,
+            'base64_length':len(a.read_bytes()),'chunk_count':1,
+            'chunks':[{'path':'artifact.b64','bytes':len(a.read_bytes()),'sha256':hashlib.sha256(a.read_bytes()).hexdigest()}],
+            'payload_manifest_sha256':hashlib.sha256(m.read_bytes()).hexdigest(),
+            'payload_manifest_bytes':len(m.read_bytes()),
+            'real_yandex_requests_during_freeze':0,
+          }
+          assert obj['base64_length'] == 228876
+          assert obj['chunks'][0]['sha256'] == 'e8052c7db37aea022f609c6317689c2e44c93fdbb43837a86127543e732ddb79'
+          (t/'TRANSPORT_MANIFEST_2026-08-24.json').write_text(json.dumps(obj,indent=2)+'\n',encoding='utf-8')
+          PY
+          cat > "$T/verify_exact_b64_transport.py" <<'PY'
+          #!/usr/bin/env python3
+          import base64,hashlib,json,tempfile,zipfile
+          from pathlib import Path
+          BASE=Path(__file__).resolve().parent
+          T=json.loads((BASE/'TRANSPORT_MANIFEST_2026-08-24.json').read_text(encoding='utf-8'))
+          MB=(BASE/'EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json').read_bytes()
+          if len(MB)!=T['payload_manifest_bytes'] or hashlib.sha256(MB).hexdigest()!=T['payload_manifest_sha256']: raise SystemExit('PAYLOAD_MANIFEST_IDENTITY_FAIL')
+          M=json.loads(MB)
+          if M['source_commit']!=T['frozen_source_commit'] or M['sha256']!=T['artifact_sha256'] or M['bytes']!=T['artifact_bytes']: raise SystemExit('FROZEN_AUTHORITY_MANIFEST_FAIL')
+          parts=[]
+          for row in T['chunks']:
+              raw=(BASE/row['path']).read_bytes()
+              if len(raw)!=row['bytes'] or hashlib.sha256(raw).hexdigest()!=row['sha256']: raise SystemExit('CHUNK_IDENTITY_FAIL '+row['path'])
+              parts.append(raw.decode('ascii'))
+          text=''.join(parts)
+          if len(text)!=T['base64_length']: raise SystemExit('B64_LENGTH_FAIL')
+          data=base64.b64decode(text,validate=True)
+          if len(data)!=T['artifact_bytes'] or hashlib.sha256(data).hexdigest()!=T['artifact_sha256']: raise SystemExit('EXACT_ZIP_IDENTITY_FAIL')
+          with tempfile.TemporaryDirectory() as td:
+              zp=Path(td)/T['artifact_filename']; zp.write_bytes(data)
+              with zipfile.ZipFile(zp) as z:
+                  if z.testzip() is not None: raise SystemExit('ZIP_INTEGRITY_FAIL')
+                  infos=z.infolist(); files=[i for i in infos if not i.is_dir()]
+                  if len(files)!=T['files'] or len(infos)!=T['zip_entries']: raise SystemExit('ZIP_COUNT_FAIL')
+                  root=M['root_name'].rstrip('/')+'/'
+                  actual={}
+                  for info in files:
+                      if not info.filename.startswith(root): raise SystemExit('ZIP_ROOT_FAIL')
+                      rel=info.filename[len(root):]; payload=z.read(info)
+                      actual[rel]={'path':rel,'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}
+          expected={r['path']:r for r in M['payload']}
+          if actual!=expected: raise SystemExit('ROUNDTRIP_PAYLOAD_MANIFEST_FAIL')
+          print('B64_REASSEMBLY_PASS')
+          print('EXACT_ZIP_IDENTITY_PASS')
+          print('ROUNDTRIP_PAYLOAD_MANIFEST_PASS')
+          print('ROUNDTRIP_ZIP_INTEGRITY_PASS')
+          print('FROZEN_AUTHORITY_MATCH_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          PY
+          python3 "$T/verify_exact_b64_transport.py"
+      - name: Publish transport branch only
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH='qa/phase2-popup-fix-final-b64-transport-10bb3ac-2026-08-24'
+          git switch -C "$BRANCH" 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          DEST='extension/tests/qa_transport/phase2-popup-fix-final-b64'
+          rm -rf "$DEST"
+          mkdir -p "$DEST"
+          cp -a "$RUNNER_TEMP/transport/." "$DEST/"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$DEST"
+          git commit -m 'qa: publish exact Phase 2 popup-fix b64 transport'
+          git push --force-with-lease origin "$BRANCH"
+          echo "TRANSPORT_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "POPUP_FIX_TRANSPORT_PUBLISHED_PASS"
+
+  windows-consumer:
+    needs: publish-transport
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: qa/phase2-popup-fix-final-b64-transport-10bb3ac-2026-08-24
+          fetch-depth: 0
+      - name: Prove Windows raw bytes and exact reassembly
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $p = 'extension/tests/qa_transport/phase2-popup-fix-final-b64'
+          $m = Join-Path $p 'EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json'
+          $bytes = [IO.File]::ReadAllBytes($m)
+          $sha = (Get-FileHash -Algorithm SHA256 $m).Hash.ToLowerInvariant()
+          if ($bytes.Length -ne 11601) { throw "WINDOWS_MANIFEST_BYTES_FAIL $($bytes.Length)" }
+          if ($sha -ne '447bf18e54ba4a728cc6255adff5e13996366b9bf54b2668114110d525501009') { throw "WINDOWS_MANIFEST_SHA_FAIL $sha" }
+          Write-Output 'WINDOWS_RAW_MANIFEST_IDENTITY_PASS'
+          $attr = git check-attr text -- $m
+          Write-Output $attr
+          if ($attr -notmatch 'text: unset') { throw "WINDOWS_TEXT_ATTR_FAIL $attr" }
+          python "$p/verify_exact_b64_transport.py"
+          if ($LASTEXITCODE -ne 0) { throw 'WINDOWS_TRANSPORT_VERIFIER_FAIL' }
+          $status = git status --porcelain
+          if ($status) { throw "WINDOWS_TRANSPORT_DIRTY $status" }
+          Write-Output 'WINDOWS_POPUP_FIX_FROZEN_AUTHORITY_MATCH_PASS'
+          Write-Output 'WINDOWS_TRANSPORT_CLEAN_PASS'
+          Write-Output 'REAL_YANDEX_REQUESTS=0'
