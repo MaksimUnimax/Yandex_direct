@@ -1,45 +1,33 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 2 SEARCH / STAGE 4 ACTIVE — EXACT CANDIDATE + TRANSPORT + BROWSER HARNESS READY FOR NEW COMPLETE CODEX GATE**  
+Status: **PHASE 2 SEARCH / CONTROLLED PRE-DELIVERY PASS — OWNER LIVE SEARCH AUTHORIZED**  
 Updated: 2026-08-24
 
-Always fetch live `main` HEAD and commit metadata before any control-plane write or workflow-stage transition.
+Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
 
 ## Mandatory reconstruction record
 
-The live control-plane checkpoint inspected before the current Stage-4 handoff consolidation was:
-
 ```text
-LIVE_HEAD_CHECKPOINT = 78b9d5b8299e242271f70bdd9413b5180ba4ed1d
+LIVE_HEAD_CHECKPOINT = aad239ce02ee5f88a2922ac0d2c8f7636dfd0a98
 PRODUCT_SOURCE = 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
-HANDOFF_ARTIFACT = d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16 / 170734 bytes
-LATEST_COMPLETE_CODEX_GATE = FAIL_HARNESS on exact candidate; browser blocker subsequently reconciled and independently preflighted PASS
+HANDOFF_ARTIFACT = d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16 / 170734 bytes / 65 files / 68 ZIP entries
+LATEST_COMPLETE_CODEX_GATE = PASS on exact d58b5bd... candidate
 PRODUCTION_BYTES_CHANGED_SINCE_GATE = NO
 PACKAGE_TEST_BYTES_CHANGED_SINCE_GATE = NO
-OWNER_LIVE = PENDING / BLOCKED UNTIL COMPLETE CODEX PASS + FRESH OFFICIAL PRICING CHECK
-OPEN_BLOCKERS = complete Codex campaign has not yet returned PASS
-AUTHORIZED_NEXT_STAGE = CODEX_COMPLETE_PRE_DELIVERY_FULL_GATE
+OWNER_LIVE = PENDING / AUTHORIZED
+OPEN_BLOCKERS = exactly one minimal real synchronous Search acceptance has not yet returned a usable SEARCH_RESULT_V1
+AUTHORIZED_NEXT_STAGE = OWNER_LIVE_PHASE2_SEARCH
 ```
 
-The current live `main` HEAD may legitimately be newer than the checkpoint above because the current handoff/documentation commits themselves advance `main`; always read live GitHub before acting.
+The live `main` HEAD may legitimately be newer than the checkpoint because documentation/evidence commits advance `main`; always read current metadata before acting.
 
-## Owner / process rule
-
-- ChatGPT owns product, tests, packaging, QA authoring, transport preparation, harness preparation and failure-layer fixes.
-- Codex is the independent QA executor only; it must not patch production/tests or weaken assertions.
-- Stage 3 is closed; do not resume hypothetical edge-case hunting unless Stage-4 evidence proves a product defect.
-- Controlled QA uses zero real Yandex requests and zero real Yandex credentials.
-- Owner-live paid Search acceptance is blocked until one complete Codex PASS on the exact frozen candidate and a fresh official pricing check.
-- No blind retry after a provider initiation with uncertain outcome.
-
-## Current exact frozen product authority
+## Exact frozen product authority
 
 ```text
 repo: MaksimUnimax/Yandex_direct
 product branch: candidate/phase2-search-reconstruction-2026-08-23
-product PR: #5 Phase 2 Search reconstruction candidate
-Stage-3 production closure: 75d18291224069a6ae67c110498481ec7320d3c0
-Stage-4 refrozen source commit: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
+product PR: #5
+source commit: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
 artifact: yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
 artifact SHA-256: d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16
 artifact bytes: 170734
@@ -49,181 +37,90 @@ payload manifest bytes: 11421
 payload manifest SHA-256: 0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de
 ```
 
-The earlier `1869d17... / 0f0b035c...` Stage-4 freeze is superseded historical evidence. No current QA/harness/documentation correction has changed the frozen `0ee1d38... / d58b5bd...` candidate, so **no refreeze is authorized or required**.
+No transport, browser-harness, documentation or gate-evidence repair changed frozen product or package-test bytes. No refreeze is required.
 
-The two governed package-test corrections that caused the refreeze remain:
+## Complete controlled pre-delivery gate — PASS
 
-```text
-extension/tests/PHASE_2_STAGE_4_PACKAGED_SUITE_ADAPTER_2026-08-24.md
-53c415c5f984f004705b401bd788673b0d2064c1 — popup owner-tab test alignment
-84a8ea01f815bb5da28da2b5c9bdc1c456739fdc — report-prefix owner-tab test alignment
-```
-
-## Exact source/package preflight authority
-
-Permanent read-only freeze/preflight evidence:
+Durable checkpoint:
 
 ```text
-workflow: phase2-stage4-freeze
-run: 32714268931
-job: 97392079851
-conclusion: SUCCESS
-source suite: 231/231 PASS
-packaged suite: 231/231 PASS
-packaged syntax: 59 PASS
-packaged JSON: 2 PASS
-SOURCE_PACKAGE_IDENTITY_PASS
-EXACT_ARTIFACT_IDENTITY_PASS
-PACKAGE_EXACT_IDENTITY_PASS
-PACKAGED_SUITE_LAYOUT_IDENTITY_PASS
-PACKAGED_PREDELIVERY_PREFLIGHT_PASS
-real Yandex requests: 0
+extension/tests/PHASE_2_STAGE_4_CODEX_FULL_GATE_PASS_2026-08-24.md
 ```
 
-## Current Windows-safe exact transport authority
+Codex returned:
 
-The old transport commit `9dedf7bf624174996fae7efa7a4bdbff6904d348` is **historical Linux consumer evidence only** and must not be used by a new Windows Codex checkout.
+```text
+live_main_head_at_gate_start: c1cde115d7ba5c17ab9edf5e8803e77b1d96b8c9
+step_0_authority: PASS
+transport: PASS
+source_suite: 231/231 PASS
+packaged_suite: 231/231 PASS
+packaged_syntax: 59/59 PASS
+packaged_json: 2/2 PASS
+browser_project_work: PASS
+browser_manual_on_transaction: PASS
+browser_search_autorun: PASS
+controlled_search_stub_requests: 1
+real_yandex_requests: 0
+real_credentials_used: NO
+production_modified_during_gate: NO
+tests_modified_during_gate: NO
+final_cleanliness: PASS
+not_run_enabled_sections: 0
+PD-00..PD-17: ALL PASS
+mandatory Manual-ON transaction: PASS
+S-00..S-17: ALL PASS
+search_phase2 verdict: PASS
+failures: []
+FINAL VERDICT: PASS
+```
 
-Current exact transport:
+This supersedes the earlier Stage-4 stopped attempts as current gate authority. Those attempts remain historical QA-process evidence only.
+
+## Exact QA transport / browser evidence retained
+
+Windows-safe exact transport:
 
 ```text
 branch: qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24
-transport commit: bc7754cff6416ff59942ff6f1052d450792888d5
-path: extension/tests/qa_transport/phase2-stage4-final-b64/
+commit: bc7754cff6416ff59942ff6f1052d450792888d5
 .gitattributes: * -text
-```
-
-Mandatory transport reconciliation:
-
-```text
-extension/docs/CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
-```
-
-Windows consumer proof:
-
-```text
-run: 32717179084
+Windows consumer run: 32717179084
 job: 97400791303
-OS: Microsoft Windows Server 2025
-Git: 2.55.0.windows.4
-core.autocrlf: true
-raw manifest: 11421 bytes / 0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de
-WINDOWS_RAW_MANIFEST_IDENTITY_PASS
-B64_REASSEMBLY_PASS
-EXACT_ZIP_IDENTITY_PASS
-ROUNDTRIP_PAYLOAD_MANIFEST_PASS
-ROUNDTRIP_ZIP_INTEGRITY_PASS
-WINDOWS_FROZEN_AUTHORITY_MATCH_PASS
-WINDOWS_TRANSPORT_CLEAN_PASS
-REAL_YANDEX_REQUESTS=0
 ```
 
-## Current Stage-4 browser-harness authority
-
-Mandatory browser reconciliation:
-
-```text
-extension/docs/CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
-```
-
-Exact browser-harness authority:
+Browser harness:
 
 ```text
 harness commit: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
-harness: extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
-harness blob: 127e6042037ac0cbb044e81b2a9c554f24b5aa6b
-TLS cert blob: d91cb127e8d8f6cfa5a95723a15612fd03478af6
-TLS local-only QA key blob: 2d0ab1f091b119d964a7ebdcd15720f6cd9728ad
 Chrome for Testing: 151.0.7922.47
 Puppeteer: 25.4.0
-```
-
-The TLS key is a self-signed loopback fixture key only, not a provider credential and not part of the installable ZIP.
-
-Independent Windows browser preflight:
-
-```text
-QA PR: #10 — CLOSED WITHOUT MERGE after evidence
-workflow run: 32720334374
+independent Windows browser run: 32720334374
 job: 97410193364
-conclusion: SUCCESS
-harness commit: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
-transport commit: bc7754cff6416ff59942ff6f1052d450792888d5
-exact artifact: d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16
-```
-
-Required observed markers:
-
-```text
-B01_PROJECT_WORK_PASS
-BROWSER_STEP_BIND_PASS
-BROWSER_STEP_SEARCH_SETTINGS_PASS
-BROWSER_STEP_MANUAL_FIRST_ON_PASS
-BROWSER_STEP_NATIVE_COPY_PASS
-B02_MANUAL_ON_TRANSACTION_PASS
-BROWSER_STEP_AUTORUN_START_PASS
-BROWSER_STEP_SEARCH_DELIVERY_PASS
-B03_SEARCH_AUTORUN_PASS
-BROWSER_CONTROLLED_SEARCH_STUB_REQUESTS=1
-BROWSER_GATE_REAL_YANDEX_REQUESTS=0
-PHASE2_STAGE4_BROWSER_GATE_PASS
-BROWSER_HARNESS_CLEAN_PASS
-```
-
-The temporary browser verifier workflow was removed from `main` after PASS. The durable harness and reconciliation document remain.
-
-Comparison from transport-reconciliation main (`8fe5a751...`) through final synchronized harness authority (`667fda2...`) changed only QA infrastructure paths under `.github/workflows/...` and `extension/tests/qa_browser/phase2-stage4/...`; frozen production and package-test bytes were not changed.
-
-## Latest complete Codex attempt and failure classification
-
-The most recent complete Codex attempt successfully consumed the exact artifact and established:
-
-```text
-transport identity: PASS
-source suite: 231/231 PASS
-packaged suite: 231/231 PASS
-packaged syntax: 59/59 PASS
-packaged JSON: 2/2 PASS
-production modified during gate: NO
-tests modified during gate: NO
+B-01 PASS
+B-02 PASS
+B-03 PASS
+controlled Search stub requests: 1
 real Yandex requests: 0
 ```
 
-It returned `FAIL_HARNESS` because current executable browser venues were not yet published for B-01/B-02/B-03. That failure is now **RECONCILED** by the browser authority and Windows PASS evidence above. It is not product-failure evidence.
-
-Earlier stopped attempts remain historical QA-process evidence only:
-
-```text
-Attempt 1: FAIL_HARNESS at PD-00 — packaged-suite adapter authority missing from main; reconciled by 5fe4201c...
-Attempt 2: FAIL_ARTIFACT at PD-00 — Windows LF→CRLF transport conversion; reconciled by bc7754c... and Windows consumer PASS
-Attempt 3: FAIL_HARNESS after exact source/package PASS — browser venues missing; reconciled by 667fda2... and run 32720334374 PASS
-```
-
-No attempt changed product bytes or used real Yandex requests/credentials.
+These are retained evidence; the next authorized stage is not another controlled rerun unless new evidence invalidates the PASS.
 
 ## Current Phase-2 Search boundary
-
-The current companion specification is mandatory:
-
-```text
-extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
-```
-
-Where older base `SPECIFICATION.md` still says Search is blocked, the Phase-2 addendum plus this `CURRENT_STATE.md` supersede that stale phase-lock wording for Phase 2.
 
 Enabled first slice:
 
 ```text
-protocol: SEARCH_API_V1
+SEARCH_API_V1
 service: search
 method: search
-endpoint: POST https://searchapi.api.cloud.yandex.net/v2/web/search
+POST https://searchapi.api.cloud.yandex.net/v2/web/search
 mode: synchronous text WebSearch only
 response format: FORMAT_XML
 normalized result: SEARCH_RESULT_V1
 ```
 
-Still phase-locked:
+Still locked:
 
 ```text
 Search async/deferred polling
@@ -236,6 +133,57 @@ Metrika
 Direct
 ```
 
+## Fresh official pricing check before live acceptance
+
+Freshly checked on 2026-08-24 against the official Yandex Search API pricing page:
+
+```text
+https://aistudio.yandex.ru/docs/ru/search-api/pricing.html
+```
+
+Current RUB prices, VAT included:
+
+```text
+daytime synchronous: 488 RUB / 1000 = 0.488 RUB/request
+night synchronous:   366 RUB / 1000 = 0.366 RUB/request
+night window:         00:00:00–07:59:59 UTC+3
+```
+
+The prepared owner-live request is in the daytime tariff class, so the conservative expected reservation is exactly:
+
+```text
+0.488 RUB
+```
+
+Requests ending in an internal server error or authentication error are documented as non-billable, but the Bridge must still report `request_executed` truthfully and no ambiguous initiation may be blindly retried.
+
+## Owner-live authority
+
+Canonical procedure:
+
+```text
+extension/docs/PHASE_2_0.1.1_LIVE_ACCEPTANCE.md
+```
+
+Owner action is intentionally minimal. Controlled UI/runtime regressions are already covered and are not repeated manually.
+
+Required live boundary:
+
+```text
+1 real synchronous Search command
+→ one external Яндекс action
+→ at most one provider initiation
+→ one truthful SEARCH_RESULT_V1
+→ usable non-empty normalized result list
+→ automatic_retry:false
+```
+
+Exact prepared query is recorded in `PHASE_2_0.1.1_LIVE_ACCEPTANCE.md`.
+
+If outcome after possible provider initiation is ambiguous (`request_executed:"UNKNOWN"`, timeout/session loss, uncertain delivery), do not click again. Return evidence to ChatGPT for reconciliation.
+
+If a clear pre-network credential/access/policy rejection occurs, classify configuration/access before another live request.
+
 ## Stage status
 
 ```text
@@ -243,86 +191,15 @@ STAGE 1 — Search foundation = PASS / COMPLETED
 STAGE 2 — provider/credentials/policy = PASS / COMPLETED
 STAGE 3 — Manual/Autorun/operator/delivery integration = PASS / COMPLETED
 STAGE 4 — exact refrozen candidate = PASS
-STAGE 4 — complete source preflight = 231/231 PASS
-STAGE 4 — deterministic rebuild/source-package identity = PASS
-STAGE 4 — complete packaged preflight = 231/231 PASS
-STAGE 4 — Windows-safe exact transport consumer proof = PASS
-STAGE 4 — current installed-extension B-01/B-02/B-03 browser preflight = PASS
-STAGE 4 — complete Codex pre-delivery full gate = PENDING NEW COMPLETE RERUN
-STAGE 4 — owner-live paid Search = BLOCKED UNTIL COMPLETE CODEX PASS
-```
-
-## Primary integrated Codex handoff
-
-Use this current candidate-specific entry point:
-
-```text
-extension/docs/CODEX_PHASE2_STAGE4_FINAL_RERUN_HANDOFF_2026-08-24.md
-```
-
-It integrates the current exact candidate, Windows-safe transport and browser-harness authorities. Older `CODEX_PHASE2_STAGE4_FINAL_HANDOFF_2026-08-24.md` remains historical handoff context and is not the primary rerun entry point.
-
-## Mandatory Codex authority for the next campaign
-
-Read from live `main` before execution:
-
-```text
-extension/docs/README.md
-extension/docs/WORKFLOW_OPERATING_RULES.md
-extension/docs/CURRENT_STATE.md
-extension/docs/PROJECT_PURPOSE.md
-extension/docs/SPECIFICATION.md
-extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
-extension/docs/ROADMAP.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
-extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
-extension/docs/PHASE_2_STAGE_4_CODEX_EXECUTION_MAP_2026-08-24.md
-extension/tests/PHASE_2_STAGE_4_PACKAGED_SUITE_ADAPTER_2026-08-24.md
-extension/tests/PHASE_2_STAGE_4_REFROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
-extension/docs/CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
-extension/docs/CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
-extension/docs/CODEX_PHASE2_STAGE4_FINAL_RERUN_HANDOFF_2026-08-24.md
-```
-
-Candidate-specific precedence:
-
-```text
-Windows transport reconciliation supersedes stale 9ded... transport references.
-Browser-harness reconciliation supersedes stale B-01/B-02/B-03 venue references.
-Final rerun handoff is the primary candidate-specific execution entry point.
-All other living PD / Manual / Search / package / cleanliness requirements remain mandatory.
-```
-
-The next Codex execution must be a **new complete campaign from the beginning** against the same exact `d58b5bd...` artifact:
-
-```text
-PD-00 … PD-17
-+ mandatory Manual-ON real-popup transaction
-+ S-00 … S-17 Phase-2 Search addendum
-+ complete source suite
-+ complete packaged suite
-+ browser B-01/B-02/B-03 through exact harness 667fda2...
-+ final exact artifact / cleanliness proof
-```
-
-No enabled mandatory section may remain `NOT_RUN` in a PASS verdict. Real Yandex requests = exactly 0. Real Yandex credentials = 0.
-
-Allowed final verdicts:
-
-```text
-PASS
-FAIL_PRODUCT
-FAIL_ARTIFACT
-FAIL_HARNESS
+STAGE 4 — complete controlled Codex pre-delivery gate = PASS
+PHASE 2 — owner-live real Search acceptance = PENDING / AUTHORIZED
+PHASE 3 — Webmaster = BLOCKED UNTIL PHASE 2 LIVE PASS
 ```
 
 ## Current authorized next action
 
 ```text
-AUTHORIZED_NEXT_ACTION = CODEX_COMPLETE_PRE_DELIVERY_FULL_GATE
-OWNER_LIVE_SEARCH = BLOCKED
+AUTHORIZED_NEXT_ACTION = OWNER_LIVE_PHASE2_SEARCH
 ```
 
-If Codex finds a real product defect, return evidence to ChatGPT and change only the proven layer. Any production-byte or package-test-byte change creates a new candidate and invalidates the current `d58b5bd...` gate authority. QA/harness/reporting/documentation fixes must not mutate frozen payload bytes.
+Do not start Phase 3, refreeze, rebuild, rerun the complete controlled gate, or change product bytes unless owner-live evidence establishes a concrete need.
