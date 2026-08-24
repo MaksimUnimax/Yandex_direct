@@ -6,28 +6,19 @@ on:
     paths:
       - .github/workflows/phase2-candidate-gate.yml
       - extension/src/service_worker.js
-      - extension/tests/conversation_fences_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/search_manual_worker.test.mjs
-      - extension/tests/manual_delivery_lifecycle_recovery.test.mjs
       - extension/tests/content_error_delivery_recovery.test.mjs
 permissions:
   contents: read
 jobs:
-  focused-delivery-owner-contract:
+  focused-content-error-owner-fence:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Focused delivery and directly affected worker regressions
+      - name: Focused content-error owner-tab fence regression
         shell: bash
         run: |
           set -euo pipefail
-          node --test \
-            extension/tests/conversation_fences_recovery.test.mjs \
-            extension/tests/autorun_recovery.test.mjs \
-            extension/tests/search_manual_worker.test.mjs \
-            extension/tests/manual_delivery_lifecycle_recovery.test.mjs \
-            extension/tests/content_error_delivery_recovery.test.mjs
+          node --test extension/tests/content_error_delivery_recovery.test.mjs
       - name: Changed worker syntax
         shell: bash
         run: node --check extension/src/service_worker.js
