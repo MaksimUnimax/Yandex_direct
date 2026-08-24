@@ -1,0 +1,57 @@
+name: phase2-stage4-browser-harness-verify
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+permissions:
+  contents: read
+jobs:
+  browser-gate:
+    if: github.event.pull_request.head.ref == 'qa/phase2-stage4-browser-harness-verify-2026-08-24'
+    runs-on: windows-latest
+    steps:
+      - name: Force Codex-like Windows Git EOL policy
+        shell: pwsh
+        run: git config --global core.autocrlf true
+      - name: Checkout exact external browser harness authority
+        uses: actions/checkout@v4
+        with:
+          ref: da4ad4e369b229f10e20dd6245cb46f55c2b9370
+          fetch-depth: 0
+      - name: Assert harness authority and prepare exact transport
+        shell: pwsh
+        run: |
+          if ((git rev-parse HEAD).Trim() -ne 'da4ad4e369b229f10e20dd6245cb46f55c2b9370') { throw 'BROWSER_HARNESS_HEAD_FAIL' }
+          git diff --exit-code
+          git fetch origin qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24
+          git worktree add --detach stage4-transport bc7754cff6416ff59942ff6f1052d450792888d5
+          python stage4-transport/extension/tests/qa_transport/phase2-stage4-final-b64/verify_exact_b64_transport.py
+          python -c "from pathlib import Path; import base64,json,zipfile,hashlib; b=Path(r'stage4-transport/extension/tests/qa_transport/phase2-stage4-final-b64'); t=json.loads((b/'TRANSPORT_MANIFEST_2026-08-24.json').read_text(encoding='utf-8')); data=base64.b64decode(''.join((b/r['path']).read_text(encoding='ascii') for r in t['chunks']),validate=True); assert len(data)==170734; assert hashlib.sha256(data).hexdigest()=='d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16'; out=Path('stage4-browser'); out.mkdir(exist_ok=True); z=out/'candidate.zip'; z.write_bytes(data); zipfile.ZipFile(z).extractall(out/'extract'); print('BROWSER_EXACT_ARTIFACT_MATERIALIZED_PASS')"
+      - name: Install qualified Chrome for Testing and Puppeteer
+        shell: pwsh
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          New-Item -ItemType Directory -Force stage4-browser/cft | Out-Null
+          Invoke-WebRequest 'https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.47/win64/chrome-win64.zip' -OutFile stage4-browser/chrome-win64.zip
+          Expand-Archive stage4-browser/chrome-win64.zip -DestinationPath stage4-browser/cft -Force
+          $chrome = (Resolve-Path 'stage4-browser/cft/chrome-win64/chrome.exe').Path
+          if (-not (Test-Path $chrome)) { throw 'CFT_CHROME_MISSING' }
+          "CHROME_PATH=$chrome" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          npm install --prefix extension/tests/qa_browser/phase2-stage4 --no-save --package-lock=false puppeteer-core@25.4.0
+      - name: Execute exact installed-extension B-01 B-02 B-03 browser gate
+        shell: pwsh
+        run: |
+          $ext = (Resolve-Path 'stage4-browser/extract/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate').Path
+          $key = (Resolve-Path 'extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem').Path
+          $cert = (Resolve-Path 'extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem').Path
+          node extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs "$env:CHROME_PATH" "$ext" "$key" "$cert"
+      - name: Cleanup external QA dependencies and assert repository cleanliness
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path 'extension/tests/qa_browser/phase2-stage4/node_modules') { Remove-Item -Recurse -Force 'extension/tests/qa_browser/phase2-stage4/node_modules' }
+          git worktree remove --force stage4-transport 2>$null
+          if (Test-Path 'stage4-browser') { Remove-Item -Recurse -Force 'stage4-browser' }
+          git diff --exit-code
+          if (git status --porcelain) { throw 'BROWSER_HARNESS_CHECKOUT_DIRTY_FAIL' }
+          Write-Output 'BROWSER_HARNESS_CLEAN_PASS'
