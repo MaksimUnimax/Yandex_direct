@@ -1,30 +1,16 @@
 import fs from 'node:fs';
-import https from 'node:https';
 import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import puppeteer from 'puppeteer-core';
 
-const [chromePath, extensionRoot, keyPath, certPath, expectedMode = 'fixed'] = process.argv.slice(2);
-if (!chromePath || !extensionRoot || !keyPath || !certPath) {
-  throw new Error('usage: popup_chrome151_geometry_gate.mjs <chrome> <extension-root> <tls-key> <tls-cert> [fixed|baseline]');
+const [chromePath, extensionRoot, expectedMode = 'fixed'] = process.argv.slice(2);
+if (!chromePath || !extensionRoot) {
+  throw new Error('usage: popup_chrome151_geometry_gate.mjs <chrome> <extension-root> [fixed|baseline]');
 }
-for (const p of [chromePath, extensionRoot, keyPath, certPath]) {
+for (const p of [chromePath, extensionRoot]) {
   if (!fs.existsSync(p)) throw new Error(`INPUT_MISSING ${p}`);
 }
-
-const CID = '11111111-2222-4333-8444-555555555555';
-const CHAT_URL = `https://chatgpt.com/c/${CID}`;
-const fixtureHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Popup geometry fixture</title></head><body>
-<main><div data-message-author-role="assistant" data-message-id="fixture-assistant"><pre data-testid="code-block"><code>fixture</code></pre></div></main>
-<textarea id="prompt-textarea"></textarea><button id="composer-submit-button" data-testid="send-button" type="button">Send</button>
-</body></html>`;
-
-const server = https.createServer({ key: fs.readFileSync(keyPath), cert: fs.readFileSync(certPath) }, (_req, res) => {
-  res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-  res.end(fixtureHtml);
-});
-await new Promise((resolve, reject) => { server.once('error', reject); server.listen(8443, '127.0.0.1', resolve); });
 
 function assert(value, message) { if (!value) throw new Error(message); }
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -42,16 +28,15 @@ try {
     protocolTimeout: 30000,
     userDataDir: fs.mkdtempSync(path.join(os.tmpdir(), 'ymb-popup-geometry-')),
     args: [
-      '--no-sandbox', '--disable-gpu', '--no-proxy-server', '--ignore-certificate-errors', '--disable-background-networking', '--disable-features=DnsOverHttps',
-      `--disable-extensions-except=${extensionRoot}`, `--load-extension=${extensionRoot}`,
-      '--host-resolver-rules=MAP chatgpt.com 127.0.0.1:8443, EXCLUDE localhost'
+      '--no-sandbox', '--disable-gpu', '--no-proxy-server', '--disable-background-networking', '--disable-features=DnsOverHttps',
+      `--disable-extensions-except=${extensionRoot}`, `--load-extension=${extensionRoot}`
     ]
   });
 
-  const pages = await browser.pages();
-  const fixture = pages[0] || await browser.newPage();
-  await fixture.goto(CHAT_URL, { waitUntil: 'domcontentloaded', timeout: 20000 });
-  const swTarget = await browser.waitForTarget(t => t.type() === 'service_worker' && t.url().startsWith('chrome-extension://'), { timeout: 15000 });
+  const swTarget = await browser.waitForTarget(
+    t => t.type() === 'service_worker' && t.url().startsWith('chrome-extension://'),
+    { timeout: 15000 }
+  );
   const worker = await swTarget.worker();
   assert(worker, 'MV3_WORKER_CONTEXT_FAIL');
 
@@ -142,5 +127,4 @@ try {
   try { await session.detach(); } catch {}
 } finally {
   try { await browser?.close(); } catch {}
-  await new Promise(resolve => server.close(resolve));
 }
