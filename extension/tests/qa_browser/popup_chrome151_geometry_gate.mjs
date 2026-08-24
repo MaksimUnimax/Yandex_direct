@@ -28,6 +28,11 @@ await new Promise((resolve, reject) => { server.once('error', reject); server.li
 
 function assert(value, message) { if (!value) throw new Error(message); }
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function cdpValue(session, expression) {
+  const response = await session.send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true });
+  if (response.exceptionDetails) throw new Error(`CDP_EVALUATE_FAIL ${response.exceptionDetails.text || 'exception'}`);
+  return response.result?.value;
+}
 
 let browser;
 try {
@@ -65,12 +70,20 @@ try {
     t => !before.has(t) && t.url().startsWith('chrome-extension://') && t.url().endsWith('/popup.html'),
     { timeout: 10000 }
   );
-  const popup = await popupTarget.page();
-  assert(popup, 'ACTION_POPUP_PAGE_FAIL');
-  await popup.waitForSelector('main', { timeout: 10000 });
+  console.log(`ACTION_POPUP_TARGET=${JSON.stringify({ type: popupTarget.type(), url: popupTarget.url() })}`);
+  const session = await popupTarget.createCDPSession();
+  await session.send('Runtime.enable');
+
+  let ready = false;
+  for (let i = 0; i < 50; i += 1) {
+    ready = Boolean(await cdpValue(session, `document.readyState !== 'loading' && !!document.querySelector('main')`));
+    if (ready) break;
+    await delay(100);
+  }
+  assert(ready, 'ACTION_POPUP_DOM_NOT_READY');
   await delay(700);
 
-  const geometry = await popup.evaluate(() => {
+  const geometry = await cdpValue(session, `(() => {
     const html = document.documentElement;
     const body = document.body;
     const main = document.querySelector('main');
@@ -78,6 +91,8 @@ try {
     return {
       innerWidth: window.innerWidth,
       innerHeight: window.innerHeight,
+      outerWidth: window.outerWidth,
+      outerHeight: window.outerHeight,
       htmlClientWidth: html.clientWidth,
       htmlClientHeight: html.clientHeight,
       htmlScrollWidth: html.scrollWidth,
@@ -96,10 +111,11 @@ try {
       rootOverflow: getComputedStyle(html).overflow,
       bodyOverflow: getComputedStyle(body).overflow
     };
-  });
+  })()`);
 
   console.log(`POPUP_GEOMETRY=${JSON.stringify(geometry)}`);
-  const isWideRegression = geometry.innerWidth >= 760 || geometry.htmlClientWidth >= 760;
+  const observedWidth = Math.max(Number(geometry.innerWidth || 0), Number(geometry.htmlClientWidth || 0), Number(geometry.outerWidth || 0));
+  const isWideRegression = observedWidth >= 760;
   if (expectedMode === 'baseline') {
     assert(isWideRegression, `BASELINE_CHROME151_REGRESSION_NOT_REPRODUCED ${JSON.stringify(geometry)}`);
     console.log('POPUP_CHROME151_BASELINE_REGRESSION_REPRODUCED');
@@ -112,6 +128,7 @@ try {
     assert(geometry.mainOverflowY === 'auto', `POPUP_MAIN_OVERFLOW_NOT_AUTO ${JSON.stringify(geometry)}`);
     console.log('POPUP_CHROME151_ACTION_GEOMETRY_PASS');
   }
+  try { await session.detach(); } catch {}
 } finally {
   try { await browser?.close(); } catch {}
   await new Promise(resolve => server.close(resolve));
