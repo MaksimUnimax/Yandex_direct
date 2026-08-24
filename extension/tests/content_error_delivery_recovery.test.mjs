@@ -30,7 +30,22 @@ function harness(initial={}){
   vm.runInContext(workerSource,ctx,{filename:'service_worker.js'});assert.equal(typeof listener,'function');vm.runInContext(`globalThis.__API=Object.freeze({${FN_NAMES.join(',')},KEYS});`,ctx);return{api:ctx.__API,store,fetchCalls};
 }
 function base(){return{wsmb_conversation_bindings:{[CKEY]:binding},ymb_service_contexts:{[CKEY]:{active_service:'search'}}};}
-function activeRun(){return{run_id:'run-owner',active_service:'search',permission_profile:'SEARCH',conversation_key:CKEY,origin:ORIGIN,conversation_id:CID,tab_id:1,status:'waiting_command',sequence:0,pause_requested:false,finish_requested:false,requests_attempted:0,requests_executed:0,requests_skipped:0,estimated_cost_rub:0,assistant_baseline_ids:[],watch_id:'watch-owner',start_delivery:{phase:'confirmed',message_text:'START'},delivery:null};}
+function activeRun(status='waiting_command'){return{run_id:'run-owner',active_service:'search',permission_profile:'SEARCH',conversation_key:CKEY,origin:ORIGIN,conversation_id:CID,tab_id:1,status,sequence:0,pause_requested:false,finish_requested:false,requests_attempted:0,requests_executed:0,requests_skipped:0,estimated_cost_rub:0,assistant_baseline_ids:[],watch_id:'watch-owner',start_delivery:{phase:'confirmed',message_text:'START'},delivery:null};}
+function activeManualRequest(){return{operation_id:'manual-requesting',request_token:'manual-token',conversation_key:CKEY,tab_id:1,active_service:'search',run_id:null,status:'requesting',block_fingerprint:'fingerprint',created_at:'2026-08-24T00:00:00Z',request_executed:false};}
+
+async function reportOwnerContentError(h, suffix='RUNTIME'){
+  return h.api.reportContentError({conversation_key:CKEY,service:'search',channel:'content',stage:'STATE_SYNC',code:`${suffix}_ERROR`,error:'owner runtime error',request_executed:false},{tab:{id:1}});
+}
+
+async function assertQueuedButNotPromoted(h){
+  assert.equal(h.store.wsmb_outbox?.[CKEY],undefined);
+  assert.equal(h.store.ymb_content_error_queue?.[CKEY]?.length,1);
+  const polled=await h.api.handleMessage({type:'WS_GET_OUTBOX',conversation_key:CKEY},{tab:{id:1}});
+  assert.equal(polled.ok,true);
+  assert.equal(polled.outbox,null);
+  assert.equal(h.store.wsmb_outbox?.[CKEY],undefined);
+  assert.equal(h.store.ymb_content_error_queue?.[CKEY]?.length,1);
+}
 
 test('content error is turned into durable YMB_ERROR_V1 outbox with zero provider request',async()=>{
   const h=harness(base());
@@ -57,6 +72,24 @@ test('same content error is deduplicated while pending and while being delivered
   assert.equal(first.duplicate,false);assert.equal(second.duplicate,true);assert.equal(h.store.ymb_content_error_queue[CKEY].length,1);
   await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'busy'},{tab:{id:1}});
   const third=await h.api.reportContentError(message,{tab:{id:1}});assert.equal(third.duplicate,true);assert.equal(h.store.wsmb_outbox[CKEY].type,'content_error');
+});
+
+test('owner content error stays queued while Manual REQUESTING owns the next delivery slot',async()=>{
+  const h=harness({...base(),wsmb_manual_operations:{[CKEY]:activeManualRequest()}});
+  const r=await reportOwnerContentError(h,'MANUAL_REQUESTING');
+  assert.equal(r.ok,true);
+  assert.equal(h.fetchCalls.length,0);
+  await assertQueuedButNotPromoted(h);
+});
+
+test('owner content error stays queued while Autorun STARTING or REQUESTING owns the next delivery slot',async()=>{
+  for(const status of ['starting','requesting']){
+    const h=harness({...base(),wsmb_auto_runs:{[CKEY]:activeRun(status)}});
+    const r=await reportOwnerContentError(h,`AUTORUN_${status.toUpperCase()}`);
+    assert.equal(r.ok,true);
+    assert.equal(h.fetchCalls.length,0);
+    await assertQueuedButNotPromoted(h);
+  }
 });
 
 test('content error from a non-owner conversation is rejected before queue mutation',async()=>{
