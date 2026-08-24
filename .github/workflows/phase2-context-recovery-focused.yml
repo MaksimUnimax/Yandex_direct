@@ -1,0 +1,74 @@
+name: phase2-context-recovery-focused
+on:
+  push:
+    branches:
+      - fix/phase2-chat-context-self-recovery-2026-08-24
+  pull_request:
+    branches:
+      - fix/phase2-popup-chrome151-autosize-2026-08-24
+permissions:
+  contents: read
+jobs:
+  focused:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create exact LF source worktree
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $source = Join-Path $env:RUNNER_TEMP 'ymb-context-recovery-source'
+          if (Test-Path $source) { Remove-Item -Recurse -Force $source }
+          git -c core.autocrlf=false -c core.eol=lf worktree add --detach $source HEAD
+          "YMB_SOURCE_LF=$source" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Output 'CONTEXT_RECOVERY_WINDOWS_LF_WORKTREE_PASS'
+      - name: Install Chrome 151 for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+          install-dependencies: false
+          install-chromedriver: false
+      - name: Complete source suite
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Push-Location (Join-Path $env:YMB_SOURCE_LF 'extension/src')
+          try { npm test } finally { Pop-Location }
+      - name: Static recovery contract
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $root = $env:YMB_SOURCE_LF
+          node --check (Join-Path $root 'extension/src/popup_context_bootstrap.js')
+          node --check (Join-Path $root 'extension/tests/qa_browser/popup_context_recovery_gate.mjs')
+          node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8')); console.log('CONTEXT_RECOVERY_MANIFEST_JSON_PASS')" (Join-Path $root 'extension/src/manifest.json')
+      - name: Install browser driver
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Push-Location (Join-Path $env:YMB_SOURCE_LF 'extension/tests/qa_browser')
+          try { npm install --no-save --package-lock=false puppeteer-core@25.4.0 } finally { Pop-Location }
+      - name: Already-open ChatGPT recovery gate
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $driver = Join-Path $env:YMB_SOURCE_LF 'extension/tests/qa_browser/popup_context_recovery_gate.mjs'
+          $extension = Join-Path $env:YMB_SOURCE_LF 'extension/src'
+          node $driver '${{ steps.chrome.outputs.chrome-path }}' $extension
+      - name: Cleanup and cleanliness
+        if: always()
+        shell: pwsh
+        run: |
+          $source = $env:YMB_SOURCE_LF
+          if ($source) {
+            Remove-Item -Recurse -Force (Join-Path $source 'extension/tests/qa_browser/node_modules') -ErrorAction SilentlyContinue
+            $sourceDirty = git -C $source status --porcelain
+            if ($sourceDirty) { Write-Output $sourceDirty; throw 'CONTEXT_RECOVERY_SOURCE_WORKTREE_DIRTY' }
+            git worktree remove --force $source
+          }
+          $dirty = git status --porcelain
+          if ($dirty) { Write-Output $dirty; throw 'CONTEXT_RECOVERY_CHECKOUT_DIRTY' }
+          Write-Output 'CONTEXT_RECOVERY_FOCUSED_CLEAN_PASS'
