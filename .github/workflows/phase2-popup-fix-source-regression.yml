@@ -1,0 +1,54 @@
+name: phase2-popup-fix-source-regression
+on:
+  push:
+    branches:
+      - fix/phase2-popup-chrome151-autosize-2026-08-24
+    paths:
+      - .github/workflows/phase2-popup-fix-source-regression.yml
+permissions:
+  contents: read
+jobs:
+  full-source-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert popup-only production diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only 0ee1d38f8d28cfccceb5a07f9606fa715261bc27..HEAD -- extension/src > "$RUNNER_TEMP/product-diff.txt"
+          cat "$RUNNER_TEMP/product-diff.txt"
+          test "$(cat "$RUNNER_TEMP/product-diff.txt")" = "extension/src/popup.css"
+          echo POPUP_FIX_ONLY_PRODUCTION_DIFF_PASS
+      - name: Complete source suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
+      - name: All JS and MJS syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' f; do node --check "$f"; done < <(find extension/src extension/tests -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+          echo POPUP_FIX_ALL_JS_MJS_SYNTAX_PASS
+      - name: Governed JSON parse
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for p in [Path('extension/src/manifest.json'), Path('extension/src/package.json')]:
+              json.loads(p.read_text(encoding='utf-8'))
+              print('JSON_PASS', p)
+          PY
+          echo POPUP_FIX_JSON_PASS
+      - name: Clean checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          echo POPUP_FIX_SOURCE_CLEAN_PASS
