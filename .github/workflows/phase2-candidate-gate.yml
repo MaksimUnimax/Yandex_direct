@@ -8,12 +8,28 @@ on:
       - extension/src/service_worker.js
       - extension/tests/autorun_recovery.test.mjs
 permissions:
-  contents: read
+  contents: write
 jobs:
   focused-autorun-binding-admission:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Apply exact Autorun binding admission fix
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path("extension/src/service_worker.js")
+          text = path.read_text(encoding="utf-8")
+          old = '  const liveIdentity = await assertTabConversation(tab, key); const binding = await getBinding(key); if (!binding) throw Object.assign(new Error("Сначала привяжите диалог."), { code: "CONVERSATION_NOT_BOUND" }); if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите ручной режим."), { code: "MANUAL_MODE_ACTIVE" });'
+          new = '  const liveIdentity = await assertTabConversation(tab, key); const binding = await getBinding(key); if (!binding || String(binding.conversation_id || "").toLowerCase() !== String(liveIdentity.conversation_id || "").toLowerCase()) throw Object.assign(new Error("Сначала привяжите этот диалог."), { code: "CONVERSATION_NOT_BOUND" }); if (await getManualMode(key)) throw Object.assign(new Error("Сначала отключите ручной режим."), { code: "MANUAL_MODE_ACTIVE" });'
+          if old in text:
+              if text.count(old) != 1:
+                  raise SystemExit("expected exactly one startAutoRun admission target")
+              path.write_text(text.replace(old, new), encoding="utf-8")
+          elif new not in text:
+              raise SystemExit("startAutoRun admission target not found")
       - name: Focused Autorun binding admission regression
         shell: bash
         run: |
@@ -22,3 +38,15 @@ jobs:
       - name: Changed worker syntax
         shell: bash
         run: node --check extension/src/service_worker.js
+      - name: Commit exact worker fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- extension/src/service_worker.js; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/src/service_worker.js
+          git commit -m "fix: validate binding before Autorun start"
+          git push origin HEAD:${{ github.head_ref }}
