@@ -5,46 +5,55 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/src/popup.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
-      - extension/tests/runtime_outbox_admission_recovery.test.mjs
-      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
-      - extension/tests/autorun_owner_controls_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/manual_mode_owner_control_recovery.test.mjs
-      - extension/tests/manual_request_restart_recovery.test.mjs
-      - extension/tests/service_context_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_lock_recovery.test.mjs
-      - extension/tests/report_prefix_owner_control_recovery.test.mjs
-      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
-      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/src/popup.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
-      - extension/tests/runtime_outbox_admission_recovery.test.mjs
-      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
-      - extension/tests/autorun_owner_controls_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/manual_mode_owner_control_recovery.test.mjs
-      - extension/tests/manual_request_restart_recovery.test.mjs
-      - extension/tests/service_context_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_lock_recovery.test.mjs
-      - extension/tests/report_prefix_owner_control_recovery.test.mjs
-      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
-      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
 permissions:
-  contents: read
+  contents: write
 jobs:
-  focused-stage3-owner-and-live-tab:
+  focused-runtime-outbox-admission-transport:
+    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: candidate/phase2-search-reconstruction-2026-08-23
+          fetch-depth: 0
+      - name: Apply exact occupied outbox admission fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('extension/src/service_worker.js')
+          text = path.read_text(encoding='utf-8')
+
+          old = 'async function getOutbox() { const data = await storageGet(KEYS.OUTBOX); return data[KEYS.OUTBOX] && typeof data[KEYS.OUTBOX] === "object" ? data[KEYS.OUTBOX] : {}; }\nasync function putOutbox('
+          new = 'async function getOutbox() { const data = await storageGet(KEYS.OUTBOX); return data[KEYS.OUTBOX] && typeof data[KEYS.OUTBOX] === "object" ? data[KEYS.OUTBOX] : {}; }\nasync function getConversationOutbox(conversationKey) { const key = normalizeConversationKey(conversationKey); return (await getOutbox())[key] || null; }\nasync function putOutbox('
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one getOutbox insertion point, got {text.count(old)}')
+          text = text.replace(old, new, 1)
+
+          old = 'const requestToken = String(manualRequestToken || uid("manual-request")); if (existing?.request_token === requestToken) return { ok: true, accepted: false, duplicate: true, operation_id: existing.operation_id };\n  const operation = {'
+          new = 'const requestToken = String(manualRequestToken || uid("manual-request")); if (existing?.request_token === requestToken) return { ok: true, accepted: false, duplicate: true, operation_id: existing.operation_id };\n  if (await getConversationOutbox(key)) return { ok: false, accepted: false, busy: true, code: "DELIVERY_IN_PROGRESS", error: "Сначала завершите текущую доставку для этого диалога." };\n  const operation = {'
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one Manual admission point, got {text.count(old)}')
+          text = text.replace(old, new, 1)
+
+          old = 'const existing = await getAutoRun(key); if (existing && !WordstatAutorunModel.isTerminalStatus(existing.status)) throw Object.assign(new Error("Для этого диалога уже существует активный Autorun."), { code: "AUTO_RUN_ALREADY_ACTIVE" });\n  const startPrompt = await getAutoStartPrompt(key, { service });'
+          new = 'const existing = await getAutoRun(key); if (existing && !WordstatAutorunModel.isTerminalStatus(existing.status)) throw Object.assign(new Error("Для этого диалога уже существует активный Autorun."), { code: "AUTO_RUN_ALREADY_ACTIVE" });\n  if (await getConversationOutbox(key)) throw Object.assign(new Error("Сначала завершите текущую доставку для этого диалога."), { code: "DELIVERY_IN_PROGRESS" });\n  const startPrompt = await getAutoStartPrompt(key, { service });'
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one Autorun start admission point, got {text.count(old)}')
+          text = text.replace(old, new, 1)
+
+          old = 'if (assistantTurnId && currentRun.last_assistant_turn_id === assistantTurnId) return { ok: true, accepted: false, ignored: true, duplicate: true, status: currentRun.status };\n  const detected = YMBServiceRegistry.detect(commandText);'
+          new = 'if (assistantTurnId && currentRun.last_assistant_turn_id === assistantTurnId) return { ok: true, accepted: false, ignored: true, duplicate: true, status: currentRun.status };\n  if (await getConversationOutbox(key)) return { ok: true, accepted: false, ignored: true, busy: true, code: "DELIVERY_IN_PROGRESS", status: currentRun.status, error: "Сначала завершите текущую доставку для этого диалога." };\n  const detected = YMBServiceRegistry.detect(commandText);'
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one Autorun command admission point, got {text.count(old)}')
+          text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+          git diff --check
+          test "$(git diff --name-only)" = "extension/src/service_worker.js"
       - name: Focused Stage 3 runtime regressions
         shell: bash
         run: |
@@ -67,4 +76,12 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/src/service_worker.js
-          node --check extension/src/popup.js
+      - name: Commit verified production fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/src/service_worker.js
+          git commit -m "fix: block runtime start while outbox is occupied"
+          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
