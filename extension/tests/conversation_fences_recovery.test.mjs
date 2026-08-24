@@ -27,10 +27,18 @@ function run() {
     assistant_baseline_ids:[], watch_id:'w1', start_delivery:{phase:'confirmed',message_text:'START'}, delivery:null
   };
 }
+function outboxEntry() {
+  return {
+    delivery_id:'d-fence', type:'autorun', run_id:'r-fence', tab_id:1,
+    report_text:'SEARCH_RESULT_V1\n{}', phase:'claimed', report_prefix_applied:false,
+    conversation_key:CKEY, created_at:'2026-08-24T00:00:00Z', updated_at:'2026-08-24T00:00:00Z'
+  };
+}
 
 function harness({ identityConversationId = CID } = {}) {
   const store = {
     wsmb_auto_runs:{[CKEY]:run()},
+    wsmb_outbox:{[CKEY]:outboxEntry()},
     wsmb_manual_modes:{[CKEY]:false},
     ymb_service_contexts:{[CKEY]:{active_service:'search'}},
     ymb_search_policy:{autorun_enabled:true,manual_enabled:true,max_requests_per_run:10,max_cost_rub_per_run:10,allowed_methods:['search'],method_cost_rub:{search:0.488}},
@@ -70,7 +78,7 @@ function harness({ identityConversationId = CID } = {}) {
   vm.runInContext(workerSource,ctx,{filename:'service_worker.js'});
   assert.equal(typeof listener,'function');
   vm.runInContext(`globalThis.__FENCE_API=Object.freeze({${FN_NAMES.join(',')}});`,ctx);
-  return {api:ctx.__FENCE_API,fetchCalls};
+  return {api:ctx.__FENCE_API,fetchCalls,store};
 }
 
 test('Autorun rejects a Search command from a non-owner tab before provider request', async()=>{
@@ -87,4 +95,33 @@ test('Autorun rejects a command when the owner tab is now showing another conver
   assert.equal(result.accepted,false);
   assert.equal(result.code,'CONVERSATION_MISMATCH');
   assert.equal(h.fetchCalls.length,0);
+});
+
+test('Outbox is not exposed to a non-owner tab for the same conversation', async()=>{
+  const h=harness();
+  const response=await h.api.handleMessage({type:'WS_GET_OUTBOX',conversation_key:CKEY},{tab:{id:2}});
+  assert.equal(response.ok,false);
+  assert.equal(response.code,'AUTO_NON_OWNER_TAB');
+  assert.equal(response.outbox,undefined);
+  assert.equal(h.store.wsmb_outbox[CKEY].phase,'claimed');
+});
+
+test('Non-owner tab cannot commit or complete another tab delivery', async()=>{
+  const h=harness();
+  const committed=await h.api.handleMessage({type:'WS_MARK_DELIVERY_COMMITTED',conversation_key:CKEY,delivery_id:'d-fence'},{tab:{id:2}});
+  assert.equal(committed.ok,false);
+  assert.equal(committed.code,'AUTO_NON_OWNER_TAB');
+  assert.equal(h.store.wsmb_outbox[CKEY].phase,'claimed');
+
+  const completed=await h.api.handleMessage({type:'WS_AUTO_DELIVERY_COMPLETE',conversation_key:CKEY,delivery_id:'d-fence',confirmation_basis:'microphone'},{tab:{id:2}});
+  assert.equal(completed.ok,false);
+  assert.equal(completed.code,'AUTO_NON_OWNER_TAB');
+  assert.equal(h.store.wsmb_outbox[CKEY].delivery_id,'d-fence');
+});
+
+test('Owner tab can read its own claimed outbox', async()=>{
+  const h=harness();
+  const response=await h.api.handleMessage({type:'WS_GET_OUTBOX',conversation_key:CKEY},{tab:{id:1}});
+  assert.equal(response.ok,true);
+  assert.equal(response.outbox.delivery_id,'d-fence');
 });
