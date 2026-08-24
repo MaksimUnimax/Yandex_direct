@@ -109,10 +109,44 @@ async function openPopup(worker, browser, key) {
   return { popup, tabId:tab.id };
 }
 async function closePopup(worker, tabId) { try { await worker.evaluate(async id => { try { await chrome.tabs.remove(id); } catch {} }, tabId); } catch {} await delay(180); }
-async function setFormValue(popup, id, value) {
-  await popup.$eval(`#${id}`, (el, v) => { const proto = Object.getPrototypeOf(el); const desc = Object.getOwnPropertyDescriptor(proto, 'value'); if (desc?.set) desc.set.call(el, v); else el.value=v; el.dispatchEvent(new Event('input',{bubbles:true})); }, String(value));
+async function popupClick(popup, selector) {
+  return await popup.evaluate(sel => {
+    const el = document.querySelector(sel);
+    if (!el) throw new Error(`POPUP_ELEMENT_MISSING ${sel}`);
+    if (el.disabled) throw new Error(`POPUP_ELEMENT_DISABLED ${sel}`);
+    el.click();
+    return true;
+  }, selector);
 }
-async function setCheckedNoEvent(popup, id, checked) { await popup.$eval(`#${id}`, (el, v) => { el.checked = Boolean(v); }, checked); }
+async function popupSelect(popup, id, value) {
+  return await popup.evaluate(({id, value}) => {
+    const el = document.getElementById(id);
+    if (!el) throw new Error(`POPUP_ELEMENT_MISSING #${id}`);
+    if (el.disabled) throw new Error(`POPUP_ELEMENT_DISABLED #${id}`);
+    el.value = String(value);
+    el.dispatchEvent(new Event('change', { bubbles:true }));
+    return el.value;
+  }, { id, value });
+}
+async function setFormValue(popup, id, value) {
+  await popup.evaluate(({id, value}) => {
+    const el = document.getElementById(id);
+    if (!el) throw new Error(`POPUP_ELEMENT_MISSING #${id}`);
+    const proto = Object.getPrototypeOf(el);
+    const desc = Object.getOwnPropertyDescriptor(proto, 'value');
+    if (desc?.set) desc.set.call(el, String(value)); else el.value = String(value);
+    el.dispatchEvent(new Event('input',{bubbles:true}));
+  }, { id, value });
+}
+async function setCheckedNoEvent(popup, id, checked) {
+  await popup.evaluate(({id, checked}) => {
+    const el = document.getElementById(id);
+    if (!el) throw new Error(`POPUP_ELEMENT_MISSING #${id}`);
+    el.checked = Boolean(checked);
+  }, { id, checked });
+}
+async function popupChecked(popup, id) { return await popup.evaluate(id => Boolean(document.getElementById(id)?.checked), id); }
+async function popupText(popup, id) { return await popup.evaluate(id => document.getElementById(id)?.textContent || '', id); }
 async function actionCount(page) { return await page.evaluate(() => document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action').length || 0); }
 async function actionLabels(page) { return await page.evaluate(() => [...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action') || [])].map(x=>x.textContent)); }
 async function fixtureState(page) { return await page.evaluate(() => structuredClone(window.__fixture)); }
@@ -122,6 +156,7 @@ try {
   browser = await puppeteer.launch({
     executablePath: chromePath,
     headless: false,
+    protocolTimeout: 30000,
     userDataDir: fs.mkdtempSync(path.join(os.tmpdir(), 'ymb-stage4-browser-')),
     args: [
       '--no-sandbox','--disable-gpu','--no-proxy-server','--ignore-certificate-errors','--disable-background-networking','--disable-features=DnsOverHttps',
@@ -150,9 +185,10 @@ try {
   assert(b01.conversation===KEY1 && !b01.activeServiceDisabled && !b01.bindDisabled, `B01_POPUP_FAIL ${JSON.stringify(b01)}`);
   console.log('B01_PROJECT_WORK_PASS');
 
-  await p.popup.click('#bindConversation');
+  await popupClick(p.popup,'#bindConversation');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).binding, 'BINDING_NOT_PERSISTED');
-  await p.popup.select('#activeService','search');
+  console.log('BROWSER_STEP_BIND_PASS');
+  await popupSelect(p.popup,'activeService','search');
   await setCheckedNoEvent(p.popup,'searchManualEnabled',true);
   await setCheckedNoEvent(p.popup,'searchAutorunEnabled',true);
   await setCheckedNoEvent(p.popup,'autoSend',true);
@@ -160,17 +196,19 @@ try {
   await setFormValue(p.popup,'folderId','qa-browser-folder');
   await setFormValue(p.popup,'searchMaxRequestsRun','5');
   await setFormValue(p.popup,'searchMaxCostRun','5');
-  await p.popup.click('#saveSettings');
+  await popupClick(p.popup,'#saveSettings');
   await waitUntil(async()=> { const s=await getState(p.popup,KEY1); return s.service_context?.active_service==='search' && s.search_policy?.manual_enabled===true && s.search_policy?.autorun_enabled===true && s.has_api_key===true; }, 'SEARCH_SETTINGS_NOT_SAVED');
+  console.log('BROWSER_STEP_SEARCH_SETTINGS_PASS');
 
   let st = await getState(p.popup,KEY1); assert(st.manual_mode===false,'B02_INITIAL_WORKER_MANUAL_NOT_OFF');
   const beforeProvider = providerHits.length;
-  await p.popup.click('#manualMode');
+  await popupClick(p.popup,'#manualMode');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===true, 'B02_WORKER_NOT_ON');
   await waitUntil(async()=> (await actionCount(fixture))===1, 'B02_ACTION_NOT_ARMED');
   assert((await actionLabels(fixture))[0]==='Яндекс','B02_ACTION_LABEL_FAIL');
   assert(providerHits.length===beforeProvider,'B02_PROVIDER_CALLED_ON_ARM');
-  await fixture.click('#native-copy');
+  console.log('BROWSER_STEP_MANUAL_FIRST_ON_PASS');
+  await fixture.evaluate(() => document.getElementById('native-copy')?.click());
   assert((await fixtureState(fixture)).copyClicks===1,'B02_NATIVE_COPY_FAIL');
   assert(providerHits.length===beforeProvider,'B02_NATIVE_COPY_DISPATCHED_PROVIDER');
   await fixture.evaluate(()=>{ const p=document.querySelector('pre'); p.appendChild(document.createElement('span')).textContent=' mutation'; document.body.dataset.qaMutation=String(Date.now()); });
@@ -178,12 +216,12 @@ try {
   assert((await getState(p.popup,KEY1)).manual_mode===true,'B02_WORKER_SELF_REVERT');
   assert((await actionCount(fixture))===1,'B02_ACTION_DUPLICATE_OR_LOST_AFTER_RESYNC');
   const oldPopupId=p.tabId; await closePopup(worker,oldPopupId); p=await openPopup(worker,browser,KEY1);
-  assert(await p.popup.$eval('#manualMode',el=>el.checked)===true,'B02_POPUP_REOPEN_NOT_ON');
+  assert(await popupChecked(p.popup,'manualMode')===true,'B02_POPUP_REOPEN_NOT_ON');
   assert((await actionCount(fixture))===1,'B02_ACTION_LOST_AFTER_POPUP_REOPEN');
-  await p.popup.click('#manualMode');
+  await popupClick(p.popup,'#manualMode');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===false,'B02_WORKER_NOT_OFF');
   await waitUntil(async()=> (await actionCount(fixture))===0,'B02_ACTION_NOT_REMOVED_OFF');
-  await p.popup.click('#manualMode');
+  await popupClick(p.popup,'#manualMode');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===true,'B02_SECOND_ON_WORKER_FAIL');
   await waitUntil(async()=> (await actionCount(fixture))===1,'B02_SECOND_ON_ACTION_FAIL');
   await delay(2200);
@@ -191,11 +229,12 @@ try {
   assert(providerHits.length===beforeProvider,'B02_REAL_PROVIDER_CALL_DETECTED');
   console.log('B02_MANUAL_ON_TRANSACTION_PASS');
 
-  await p.popup.click('#manualMode');
+  await popupClick(p.popup,'#manualMode');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===false,'B03_MANUAL_OFF_PRECONDITION_FAIL');
   p.popup.on('dialog', async d => { try { await d.accept(); } catch {} });
-  await p.popup.click('#startAuto');
+  await popupClick(p.popup,'#startAuto');
   await waitUntil(async()=> { const s=await getState(p.popup,KEY1); return s.auto_run?.status==='waiting_command' ? s : null; }, 'B03_RUN_NOT_WAITING_COMMAND', 20000);
+  console.log('BROWSER_STEP_AUTORUN_START_PASS');
   let fx = await fixtureState(fixture);
   assert(fx.sendHistory.length>=1 && fx.sendHistory[0].includes('Yandex Search'), `B03_START_PROMPT_NOT_SENT ${JSON.stringify(fx.sendHistory)}`);
   await fixture.evaluate((cmd)=>window.__fixture.appendAssistant(cmd,'search-turn-1'), SEARCH_COMMAND);
@@ -207,11 +246,12 @@ try {
   assert(String(hit.headers.authorization||'').startsWith('Api-Key qa-browser-key'),'B03_AUTH_HEADER_FAIL');
   const reqBody=JSON.parse(hit.body); assert(reqBody.folderId==='qa-browser-folder' && reqBody.responseFormat==='FORMAT_XML' && reqBody.query?.queryText==='controlled browser query','B03_REQUEST_BODY_FAIL');
   assert(String(hit.remote||'').includes('127.0.0.1') || String(hit.remote||'').includes('::ffff:127.0.0.1'),'B03_PROVIDER_NOT_LOOPBACK');
+  console.log('BROWSER_STEP_SEARCH_DELIVERY_PASS');
 
   await closePopup(worker,p.tabId); p=await openPopup(worker,browser,KEY1);
-  await waitUntil(async()=> await p.popup.$eval('#runStatus',el=>el.textContent)==='waiting_command','B03_POPUP_REOPEN_RUN_TRUTH_FAIL');
+  await waitUntil(async()=> await popupText(p.popup,'runStatus')==='waiting_command','B03_POPUP_REOPEN_RUN_TRUTH_FAIL');
   p.popup.on('dialog', async d => { try { await d.accept(); } catch {} });
-  await p.popup.click('#pauseAuto');
+  await popupClick(p.popup,'#pauseAuto');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).auto_run?.status==='paused','B03_PAUSE_FAIL');
 
   const second = await browser.newPage(); await second.bringToFront(); await second.goto(SECOND_URL,{waitUntil:'domcontentloaded',timeout:20000});
@@ -221,9 +261,9 @@ try {
   await closePopup(worker,p2.tabId); await second.close(); await fixture.bringToFront();
   await closePopup(worker,p.tabId); p=await openPopup(worker,browser,KEY1); p.popup.on('dialog', async d=>{try{await d.accept();}catch{}});
   assert((await getState(p.popup,KEY1)).auto_run?.status==='paused','B03_OWNER_RUN_CHANGED_BY_SECOND_TAB');
-  await p.popup.click('#resumeAuto');
+  await popupClick(p.popup,'#resumeAuto');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).auto_run?.status==='waiting_command','B03_RESUME_FAIL');
-  await p.popup.click('#finishAuto');
+  await popupClick(p.popup,'#finishAuto');
   await waitUntil(async()=> ['stopped','error'].includes((await getState(p.popup,KEY1)).auto_run?.status),'B03_FINISH_FAIL');
   st=await getState(p.popup,KEY1); assert(st.auto_run?.status==='stopped',`B03_FINISH_STATUS ${st.auto_run?.status}`);
   assert(providerHits.length===beforeProvider+1,'B03_PROVIDER_CALLED_MORE_THAN_ONCE');
