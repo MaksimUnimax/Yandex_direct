@@ -135,6 +135,20 @@ async function saveBinding(identity) {
 }
 async function getManualMode(conversationKey) { const key = normalizeConversationKey(conversationKey); const data = await storageGet(KEYS.MANUAL_MODES); return data[KEYS.MANUAL_MODES]?.[key] === true; }
 async function setManualMode(conversationKey, enabled) { const key = normalizeConversationKey(conversationKey); const data = await storageGet(KEYS.MANUAL_MODES); const map = { ...(data[KEYS.MANUAL_MODES] || {}) }; map[key] = enabled === true; await storageSet({ [KEYS.MANUAL_MODES]: map }); return map[key]; }
+async function setManualModeFromTab(conversationKey, enabled, tabId) {
+  const key = normalizeConversationKey(conversationKey);
+  const tab = Number(tabId);
+  if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка для изменения Manual mode."), { code: "OWNER_TAB_REQUIRED" });
+  const run = await getAutoRun(key);
+  if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
+    if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Manual mode может изменять только вкладка-owner активного Autorun."), { code: "AUTO_NON_OWNER_TAB" });
+    await assertTabConversation(tab, key, run.conversation_id);
+    if (enabled === true && run.status !== WordstatAutorunModel.RUN_STATUSES.PAUSED) throw Object.assign(new Error("Для включения Manual активный Autorun должен быть поставлен на паузу."), { code: "AUTORUN_NOT_PAUSED" });
+  } else {
+    await assertTabConversation(tab, key);
+  }
+  return setManualMode(key, enabled === true);
+}
 async function getServiceContext(conversationKey) {
   const key = normalizeConversationKey(conversationKey); const map = (await storageGet(KEYS.SERVICE_CONTEXTS))[KEYS.SERVICE_CONTEXTS] || {};
   const raw = map[key] || {}; let service = String(raw.active_service || YMBServiceRegistry.SERVICES.WORDSTAT);
@@ -318,7 +332,7 @@ async function publicSettingsState(conversationKey) {
   return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, report_prefix: reportPrefix, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null } : null };
 }
 async function publicGlobalSettingsState(pageContextError = null) { return { ...(await commonPublicSettingsFields()), page_context_error: pageContextError, binding: null, manual_mode: false, service_context: { active_service: "wordstat" }, auto_run: null, auto_start_prompt: { text: DEFAULT_AUTO_START_TEXT, is_default: true, service: "wordstat" }, report_prefix: null }; }
-async function patchToggleSettings(message = {}) {
+async function patchToggleSettings(message = {}, sender = null) {
   const values = {}; if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values);
   if (Object.hasOwn(message, "wordstat_autorun_enabled")) { const p = await getWordstatPolicy(); await saveWordstatPolicy({ ...p, autorun_enabled: message.wordstat_autorun_enabled === true }); }
   if (Object.hasOwn(message, "search_autorun_enabled")) { const p = await getSearchPolicy(); await saveSearchPolicy({ ...p, autorun_enabled: message.search_autorun_enabled === true }); }
@@ -326,7 +340,7 @@ async function patchToggleSettings(message = {}) {
     const current = await getReportPrefix(message.conversation_key);
     await saveReportPrefix(message.conversation_key, { ...current, enabled: message.report_prefix_enabled === true });
   }
-  if (message.conversation_key && Object.hasOwn(message, "manual_mode")) await setManualMode(message.conversation_key, message.manual_mode === true);
+  if (message.conversation_key && Object.hasOwn(message, "manual_mode")) await setManualModeFromTab(message.conversation_key, message.manual_mode === true, message.tab_id ?? sender?.tab?.id);
   return message.conversation_key ? publicSettingsState(message.conversation_key) : publicGlobalSettingsState();
 }
 
@@ -813,8 +827,8 @@ async function handleMessage(message, sender) {
     case "WS_GET_GLOBAL_STATE": return { ok: true, state: await publicGlobalSettingsState(message.page_context_error || null) };
     case "WS_GET_STATE": return { ok: true, state: await publicSettingsState(message.conversation_key) };
     case "WS_BIND_CONVERSATION": return { ok: true, ...(await bindConversationFromTab(message.tab_id || sender?.tab?.id)) };
-    case "WS_PATCH_TOGGLES": return { ok: true, state: await patchToggleSettings(message) };
-    case "WS_SET_MANUAL_MODE": return { ok: true, enabled: await setManualMode(message.conversation_key, message.enabled === true), state: await publicSettingsState(message.conversation_key) };
+    case "WS_PATCH_TOGGLES": return { ok: true, state: await patchToggleSettings(message, sender) };
+    case "WS_SET_MANUAL_MODE": return { ok: true, enabled: await setManualModeFromTab(message.conversation_key, message.enabled === true, message.tab_id ?? sender?.tab?.id), state: await publicSettingsState(message.conversation_key) };
     case "WS_SAVE_SETTINGS": {
       const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContext(message.conversation_key, { active_service: message.active_service }); if (message.conversation_key && message.report_prefix) await saveReportPrefix(message.conversation_key, message.report_prefix); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
     }
