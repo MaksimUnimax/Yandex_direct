@@ -38,8 +38,6 @@ def selected_files(repo):
     tests = repo / "extension" / "tests"
     rows = []
     for file in sorted(p for p in src.rglob("*") if p.is_file()):
-        if file.name == "README.md":
-            continue
         rows.append((file.relative_to(src).as_posix(), file))
     for file in sorted(tests.glob("*.test.mjs")):
         rows.append((f"tests/{file.name}", file))
@@ -150,7 +148,7 @@ def main():
     result = build(repo, output)
 
     if args.freeze_manifest_output:
-        expected = write_manifest(
+        write_manifest(
             Path(args.freeze_manifest_output).resolve(),
             result,
             source_ref=args.source_ref,
