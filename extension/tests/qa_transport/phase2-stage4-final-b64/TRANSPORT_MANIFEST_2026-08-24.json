@@ -1,0 +1,98 @@
+{
+  "format": "YMB_PHASE2_STAGE4_FINAL_EXACT_B64_TRANSPORT_V1",
+  "frozen_source_commit": "0ee1d38f8d28cfccceb5a07f9606fa715261bc27",
+  "source_actions_run": 32714268931,
+  "source_actions_artifact_id": 9515289771,
+  "artifact_filename": "yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip",
+  "artifact_sha256": "d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16",
+  "artifact_bytes": 170734,
+  "files": 65,
+  "zip_entries": 68,
+  "base64_length": 227648,
+  "chunk_count": 16,
+  "chunks": [
+    {
+      "path": "chunk-00.b64",
+      "bytes": 14228,
+      "sha256": "6046d13679eea5bc93d2f119452f1c75824512121b351f6aff6af58379d5d467"
+    },
+    {
+      "path": "chunk-01.b64",
+      "bytes": 14228,
+      "sha256": "37ffd0b3a105266e79b3beea955e4cee811ecaa41431f204902d336f186f3b57"
+    },
+    {
+      "path": "chunk-02.b64",
+      "bytes": 14228,
+      "sha256": "0effa4370251bfa3c7eb21eb8288bd2dad7f55a492574f27f289389ac78e8a6b"
+    },
+    {
+      "path": "chunk-03.b64",
+      "bytes": 14228,
+      "sha256": "3c088d8da2c966d8d5665c42bcb7692cd276094adb49ddff4211b79acd97b584"
+    },
+    {
+      "path": "chunk-04.b64",
+      "bytes": 14228,
+      "sha256": "029d04da5e2d6c76d12901c27968f4c562be6948a9cdc7b54a73f936d2599373"
+    },
+    {
+      "path": "chunk-05.b64",
+      "bytes": 14228,
+      "sha256": "c8f296cac1e875665ea2f9dd66b78ccb94cc538395d8d239c5b1b14cb556d51a"
+    },
+    {
+      "path": "chunk-06.b64",
+      "bytes": 14228,
+      "sha256": "01a0946a2daee0cc852c1dfbd5d9978bd5348b78c955a4f8a5dc46682a76b268"
+    },
+    {
+      "path": "chunk-07.b64",
+      "bytes": 14228,
+      "sha256": "08e5827f5afccdf167d3021cff14d783a465e57d6b8edd251f7a0d1f6e60df34"
+    },
+    {
+      "path": "chunk-08.b64",
+      "bytes": 14228,
+      "sha256": "8941d27cc8b18c55aff08d4076bd1e2e023936be6af67d189497e4145c8245bc"
+    },
+    {
+      "path": "chunk-09.b64",
+      "bytes": 14228,
+      "sha256": "290f07f5441ff6d75bce9593e7e1011af894f998d8cfe2e4e12ac0f59d9334c9"
+    },
+    {
+      "path": "chunk-10.b64",
+      "bytes": 14228,
+      "sha256": "5db6b3de323ac606cb7388a58e32cf3fba56c78d9df7d06a80827a993db24360"
+    },
+    {
+      "path": "chunk-11.b64",
+      "bytes": 14228,
+      "sha256": "e8198086d2190bcdc9afa010473da51e96c3c62a5514049cb910d5f268d4468e"
+    },
+    {
+      "path": "chunk-12.b64",
+      "bytes": 14228,
+      "sha256": "dc54366826585aa81d0ce1edbddb7be5ba4724cc6584ed0b5505cd4ae6ca60ea"
+    },
+    {
+      "path": "chunk-13.b64",
+      "bytes": 14228,
+      "sha256": "8c8573ad73be35aa2851de857244015057b176a94f3dc0accfb85f209345928c"
+    },
+    {
+      "path": "chunk-14.b64",
+      "bytes": 14228,
+      "sha256": "6d00749039b6da61df28e8e68a6a469a2c568e36f5a37672264c16d400e1c683"
+    },
+    {
+      "path": "chunk-15.b64",
+      "bytes": 14228,
+      "sha256": "33de2afd631d68687aa3e0659b20202a7d770af17f824eca8f6f22208623c334"
+    }
+  ],
+  "payload_manifest_sha256": "0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de",
+  "payload_manifest_bytes": 11421,
+  "real_yandex_requests_during_freeze": 0
+}
