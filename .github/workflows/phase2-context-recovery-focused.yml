@@ -1,0 +1,55 @@
+name: phase2-context-recovery-focused
+on:
+  push:
+    branches:
+      - fix/phase2-chat-context-self-recovery-2026-08-24
+  pull_request:
+    branches:
+      - fix/phase2-popup-chrome151-autosize-2026-08-24
+permissions:
+  contents: read
+jobs:
+  focused:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Chrome 151 for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+          install-dependencies: false
+          install-chromedriver: false
+      - name: Complete source suite
+        working-directory: extension/src
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          npm test
+      - name: Static recovery contract
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          node --check extension/src/popup_context_bootstrap.js
+          node --check extension/tests/qa_browser/popup_context_recovery_gate.mjs
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); console.log('CONTEXT_RECOVERY_MANIFEST_JSON_PASS')"
+      - name: Install browser driver
+        working-directory: extension/tests/qa_browser
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          npm install --no-save --package-lock=false puppeteer-core@25.4.0
+      - name: Already-open ChatGPT recovery gate
+        working-directory: extension/tests/qa_browser
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          node popup_context_recovery_gate.mjs '${{ steps.chrome.outputs.chrome-path }}' '${{ github.workspace }}\extension\src'
+      - name: Cleanup and cleanliness
+        if: always()
+        shell: pwsh
+        run: |
+          Remove-Item -Recurse -Force extension/tests/qa_browser/node_modules -ErrorAction SilentlyContinue
+          $dirty = git status --porcelain
+          if ($dirty) { Write-Output $dirty; throw 'CONTEXT_RECOVERY_CHECKOUT_DIRTY' }
+          Write-Output 'CONTEXT_RECOVERY_FOCUSED_CLEAN_PASS'
