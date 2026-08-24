@@ -9,7 +9,10 @@ import { fileURLToPath } from 'node:url';
 
 // Focused Stage-3 regression: durable content errors must stay on the current runtime owner tab.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
-const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
+const rawWorkerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
+const bootstrapStart = rawWorkerSource.lastIndexOf('\nvoid recoverPersistedRuntime().catch');
+assert.notEqual(bootstrapStart, -1, 'worker recovery bootstrap not found');
+const workerSource = rawWorkerSource.slice(0, bootstrapStart);
 const contentSource = fs.readFileSync(path.join(root, 'content_script.js'), 'utf8');
 const FN_NAMES = [...workerSource.matchAll(/^(?:async )?function\s+([A-Za-z0-9_]+)/gm)].map((m) => m[1]);
 const CID='99999999-8888-4777-8666-555555555555';
