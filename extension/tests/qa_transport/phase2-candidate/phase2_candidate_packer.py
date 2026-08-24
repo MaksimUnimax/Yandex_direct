@@ -9,11 +9,6 @@ from pathlib import Path
 
 ROOT_NAME = "yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate"
 FIXED_DT = (2025, 12, 31, 19, 0, 0)
-EXPECTED_ZIP_SHA256 = "874cff11de034d0347db9216447869594f88d18207cf2e7e3b15fad5af1eac47"
-EXPECTED_ZIP_BYTES = 141507
-EXPECTED_FILES = 55
-EXPECTED_ENTRIES = 58
-FROZEN_MANIFEST_REL = Path("extension/tests/qa_transport/phase2-candidate/EXACT_CANDIDATE_MANIFEST_2026-08-23.json")
 
 
 def sha256_bytes(data):
@@ -43,6 +38,8 @@ def selected_files(repo):
     tests = repo / "extension" / "tests"
     rows = []
     for file in sorted(p for p in src.rglob("*") if p.is_file()):
+        if file.name == "README.md":
+            continue
         rows.append((file.relative_to(src).as_posix(), file))
     for file in sorted(tests.glob("*.test.mjs")):
         rows.append((f"tests/{file.name}", file))
@@ -57,28 +54,18 @@ def payload_manifest(rows):
     return out
 
 
-def load_frozen_identity(repo):
-    frozen = json.loads((repo / FROZEN_MANIFEST_REL).read_text(encoding="utf-8"))
-    expected = {
-        "root_name": ROOT_NAME,
-        "sha256": EXPECTED_ZIP_SHA256,
-        "bytes": EXPECTED_ZIP_BYTES,
-        "files": EXPECTED_FILES,
-        "entries": EXPECTED_ENTRIES,
-    }
-    for key, value in expected.items():
-        if frozen.get(key) != value:
-            raise SystemExit(f"FROZEN_MANIFEST_IDENTITY_FAIL {key}: {frozen.get(key)!r} != {value!r}")
-    return frozen
-
-
-def build(repo, output, manifest_output=None):
-    load_frozen_identity(repo)
+def build(repo, output):
     rows = selected_files(repo)
     output.parent.mkdir(parents=True, exist_ok=True)
+    directories = {ROOT_NAME + "/"}
+    for rel, _file in rows:
+        parent = Path(rel).parent
+        while str(parent) not in (".", ""):
+            directories.add(ROOT_NAME + "/" + parent.as_posix().rstrip("/") + "/")
+            parent = parent.parent
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9, strict_timestamps=True) as z:
         z.comment = b""
-        for directory in sorted({ROOT_NAME + "/", ROOT_NAME + "/shared/", ROOT_NAME + "/tests/"}):
+        for directory in sorted(directories):
             z.writestr(zipinfo(directory, True), b"")
         for rel, file in sorted(rows, key=lambda item: item[0]):
             z.writestr(
@@ -93,6 +80,7 @@ def build(repo, output, manifest_output=None):
         files = sum(1 for item in z.infolist() if not item.filename.endswith("/"))
         entries = len(z.infolist())
     result = {
+        "format": "YMB_PHASE2_EXACT_CANDIDATE_V1",
         "root_name": ROOT_NAME,
         "sha256": sha256_bytes(data),
         "bytes": len(data),
@@ -103,14 +91,15 @@ def build(repo, output, manifest_output=None):
     }
     if bad is not None:
         raise SystemExit(f"ZIP_INTEGRITY_FAIL: {bad}")
-    if result["sha256"] != EXPECTED_ZIP_SHA256 or result["bytes"] != EXPECTED_ZIP_BYTES:
-        raise SystemExit(f"EXACT_ARTIFACT_HASH_FAIL {result['sha256']}/{result['bytes']}")
-    if result["files"] != EXPECTED_FILES or result["entries"] != EXPECTED_ENTRIES:
-        raise SystemExit(f"EXACT_ARTIFACT_COUNT_FAIL {result['files']}/{result['entries']}")
-    if manifest_output:
-        manifest_output.parent.mkdir(parents=True, exist_ok=True)
-        manifest_output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return result
+
+
+def verify_expected(result, expected):
+    for key in ("format", "root_name", "sha256", "bytes", "files", "entries", "zip_test"):
+        if result.get(key) != expected.get(key):
+            raise SystemExit(f"EXACT_ARTIFACT_IDENTITY_FAIL {key}: {result.get(key)!r} != {expected.get(key)!r}")
+    if result.get("payload") != expected.get("payload"):
+        raise SystemExit("EXACT_PAYLOAD_MANIFEST_FAIL")
 
 
 def verify_extraction(repo, archive, extract_dir):
@@ -133,28 +122,58 @@ def verify_extraction(repo, archive, extract_dir):
             raise SystemExit(f"PACKAGE_BYTE_IDENTITY_FAIL {rel}: {actual[rel]} != {expected[rel]}")
 
 
+def write_manifest(path, result, source_ref=None, source_commit=None):
+    manifest = dict(result)
+    manifest["source_ref"] = source_ref
+    manifest["source_commit"] = source_commit
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return manifest
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", required=True)
     parser.add_argument("--output", required=True)
-    parser.add_argument("--manifest-output")
+    parser.add_argument("--freeze-manifest-output")
+    parser.add_argument("--verify-manifest")
     parser.add_argument("--verify-extract")
+    parser.add_argument("--source-ref")
+    parser.add_argument("--source-commit")
     args = parser.parse_args()
+
+    if bool(args.freeze_manifest_output) == bool(args.verify_manifest):
+        raise SystemExit("Choose exactly one of --freeze-manifest-output or --verify-manifest")
+
     repo = Path(args.repo_root).resolve()
     output = Path(args.output).resolve()
-    manifest_output = Path(args.manifest_output).resolve() if args.manifest_output else None
-    result = build(repo, output, manifest_output)
+    result = build(repo, output)
+
+    if args.freeze_manifest_output:
+        expected = write_manifest(
+            Path(args.freeze_manifest_output).resolve(),
+            result,
+            source_ref=args.source_ref,
+            source_commit=args.source_commit,
+        )
+        print("EXACT_ARTIFACT_FREEZE_PASS")
+    else:
+        expected = json.loads(Path(args.verify_manifest).read_text(encoding="utf-8"))
+        verify_expected(result, expected)
+        if args.source_commit and expected.get("source_commit") != args.source_commit:
+            raise SystemExit(f"SOURCE_COMMIT_IDENTITY_FAIL {expected.get('source_commit')!r} != {args.source_commit!r}")
+        print("EXACT_ARTIFACT_IDENTITY_PASS")
+
     if args.verify_extract:
         verify_extraction(repo, output, Path(args.verify_extract).resolve())
+        print("SOURCE_PACKAGE_IDENTITY_PASS")
+
     print(f"artifact={output}")
     print(f"sha256={result['sha256']}")
     print(f"bytes={result['bytes']}")
     print(f"files={result['files']}")
     print(f"entries={result['entries']}")
     print(f"zip_test={result['zip_test']}")
-    print("EXACT_ARTIFACT_IDENTITY_PASS")
-    if args.verify_extract:
-        print("SOURCE_PACKAGE_IDENTITY_PASS")
 
 
 if __name__ == "__main__":
