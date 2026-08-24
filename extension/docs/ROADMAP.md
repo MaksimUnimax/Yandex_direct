@@ -1,7 +1,7 @@
-# ROADMAP v0.5 — Yandex Marketing Bridge
+# ROADMAP v0.6 — Yandex Marketing Bridge
 
 Status: active roadmap.  
-Updated: 2026-08-19.
+Updated: 2026-08-24.
 
 ## Governing rule
 
@@ -29,7 +29,7 @@ extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
 extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
 ```
 
-No new service implementation starts until the current service closes its governed live boundary.
+For exact current identities, blockers and the authorized next action, `CURRENT_STATE.md` is authoritative over this roadmap.
 
 ---
 
@@ -47,40 +47,17 @@ Historical early Job/GitHub runtime coupling is superseded: GitHub/job concepts 
 
 **Status: LIVE PASS / CLOSED.**
 
-Service:
-
-```text
-active_service = wordstat
-```
-
-Supported methods:
-
-```text
-getTop
-getDynamics
-getRegionsDistribution
-getRegionsTree
-```
-
-## Final exact accepted 0.1.1 artifact
+Accepted exact artifact:
 
 ```text
 yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
-SHA-256 e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
-size 209505 bytes
-files 45
-ZIP entries 48
+SHA-256: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
+bytes: 209505
+files: 45
+ZIP entries: 48
 ```
 
-Production hashes:
-
-```text
-content_script.js ddf9ed51c60ab90dcdeb1fcd5a1b955c3dd88dfc53a0ddfd5842d66ebe9a02cc
-popup.js ac87ad973e8b673bf0c235a43b3dc29dfb67865594ea62e085f943660f0a7ab2
-service_worker.js 2ae878ed4a5f89e07056dd228344b3c3ab0086f5f8d6d1e026431a9e23bd3e3b
-```
-
-## Final controlled gate
+Final controlled gate:
 
 ```text
 PD-00..PD-17: ALL PASS
@@ -96,58 +73,147 @@ tests modified during gate: NO
 verdict: PASS
 ```
 
-The exact `e13a…` package was independently reconstructed by Codex through the published byte-complete transport/packer contract before product testing.
-
-## Final owner real-profile functional acceptance
-
-The owner explicitly narrowed final live acceptance to functional Yandex tests only, one at a time, with UI observed naturally during execution.
-
-Exact live results on `e13a…`:
+Final owner real-profile functional acceptance:
 
 ```text
 getRegionsTree            PASS
 getTop                    PASS
-getDynamics               PASS
+getDynamics               PASS after correction of invalid test date instruction
 getRegionsDistribution    PASS
 ```
 
-The first `getDynamics` test command produced HTTP 400 because its ending date was the first rather than last day of the month. The bridge reported `request_executed:true` and `automatic_retry:false`. After the test-instruction cause was established, a corrected command was issued and returned HTTP 200. Classification: prompt/execution-instruction error, not product failure; no blind retry.
-
-Sequential Manual execution across all results, including the error-delivery contour, proved that the stale Manual-operation lock blocker is resolved in the owner real profile. Repeated new command blocks exposed a usable external `Яндекс` action without requiring native Copy as the execution trigger.
-
-Final Phase-1 authority:
-
-```text
-CONTROLLED PRE-DELIVERY GATE = PASS
-OWNER REAL-PROFILE YANDEX FUNCTIONAL ACCEPTANCE = PASS
-PHASE 1 LIVE PASS = TRUE
-Issue #1 = CLOSED / COMPLETED
-Issue #2 = CLOSED / COMPLETED
-```
-
-Detailed live evidence:
-
-```text
-extension/docs/PHASE_1_0.1.1_LIVE_ACCEPTANCE.md
-```
-
-Historical withdrawn/failed artifacts remain historical evidence only and must not be used for current acceptance.
+Phase-1 authority remains historical accepted baseline only; it does not replace the combined Wordstat+Search Phase-2 gate.
 
 ---
 
 # PHASE 2 — YANDEX SEARCH / SERP
 
-**Status: UNLOCKED FOR REQUIREMENT RECONSTRUCTION. IMPLEMENTATION NOT STARTED.**
+**Status: STAGE 4 ACTIVE — EXACT REFROZEN CANDIDATE READY FOR A NEW COMPLETE CODEX GATE.**
 
-Before any product changes:
+The older roadmap wording that Phase-2 implementation had not started is superseded by the completed Phase-2 development history and current `CURRENT_STATE.md`.
 
-1. reconstruct current live project authority;
-2. inspect current official Yandex Search API documentation, pricing, auth, quota and operation surface;
-3. define the Phase-2 service contract and safety/paid-operation policy;
-4. update specification/gate coverage before implementation;
-5. preserve the unified Bridge runtime and exactly-once/no-blind-retry invariants.
+## Enabled first Search slice
 
-Do not implement Search from stale memory or historical assumptions.
+```text
+protocol: SEARCH_API_V1
+service: search
+method: search
+mode: synchronous text WebSearch only
+provider endpoint: POST https://searchapi.api.cloud.yandex.net/v2/web/search
+response format: FORMAT_XML
+normalized result: SEARCH_RESULT_V1
+```
+
+Current companion authority:
+
+```text
+extension/docs/PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
+```
+
+Still locked in Phase 2:
+
+```text
+Search async/deferred polling
+Search image
+Search generative
+HTML SERP normalization
+yandex.ru scraping
+Webmaster
+Metrika
+Direct
+```
+
+## Stage 1 — Search foundation
+
+**Status: PASS / COMPLETED.**
+
+Search protocol registration, strict validation/request building, Base64 XML decode and `SEARCH_RESULT_V1` normalization are implemented and covered by the frozen source suite.
+
+## Stage 2 — provider / credentials / policy
+
+**Status: PASS / COMPLETED.**
+
+Current Search provider path, local credential capability, policy/cost guards, request accounting and no-blind-retry semantics are implemented and covered by the frozen source suite.
+
+## Stage 3 — Manual / Autorun / owner / delivery integration
+
+**Status: PASS / COMPLETED.**
+
+Search is integrated through the common Bridge Manual/Autorun lifecycle, owner/conversation fences and durable delivery path; Stage 3 production closure is recorded in current authority.
+
+## Stage 4 — exact pre-delivery candidate
+
+**Status: ACTIVE / PREPARED FOR COMPLETE CODEX RERUN.**
+
+Current exact candidate:
+
+```text
+source commit: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
+artifact: yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
+SHA-256: d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16
+bytes: 170734
+files: 65
+ZIP entries: 68
+payload manifest SHA-256: 0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de
+payload manifest bytes: 11421
+```
+
+Current preflight state:
+
+```text
+source suite: 231/231 PASS
+packaged suite: 231/231 PASS
+packaged syntax: 59/59 PASS
+packaged JSON: 2/2 PASS
+exact artifact identity: PASS
+Windows-safe exact transport consumer proof: PASS
+installed-extension browser B-01: PASS
+mandatory real-popup Manual-ON B-02: PASS
+Search Autorun/operator B-03: PASS
+controlled browser Search stub requests: 1
+real Yandex requests: 0
+```
+
+Current transport authority:
+
+```text
+branch: qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24
+commit: bc7754cff6416ff59942ff6f1052d450792888d5
+```
+
+Current browser-harness authority:
+
+```text
+commit: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+path: extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
+Windows PASS run: 32720334374
+job: 97410193364
+```
+
+Mandatory candidate-specific reconciliations:
+
+```text
+extension/docs/CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
+extension/docs/CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
+```
+
+The latest complete Codex attempt returned `FAIL_HARNESS` only because current browser venues had not yet been published. That blocker is now reconciled by the exact browser harness and independent Windows PASS above. Product bytes did not change.
+
+### Authorized next Phase-2 action
+
+```text
+NEW COMPLETE CODEX CAMPAIGN FROM THE BEGINNING
+PD-00..PD-17
++ mandatory Manual-ON transaction
++ S-00..S-17 Search Phase-2 addendum
++ complete source/package suites
++ exact B-01/B-02/B-03 browser harness
++ final artifact/cleanliness proof
+```
+
+Owner-live paid Search remains blocked until that complete campaign returns PASS and ChatGPT performs a fresh official pricing check.
 
 ---
 
@@ -155,7 +221,7 @@ Do not implement Search from stale memory or historical assumptions.
 
 **Status: BLOCKED.**
 
-Read-first. Missing OAuth/access returns controlled unavailable/error evidence without breaking unrelated services.
+Do not start until Phase 2 closes its governed owner-live boundary.
 
 ---
 
@@ -163,7 +229,7 @@ Read-first. Missing OAuth/access returns controlled unavailable/error evidence w
 
 **Status: BLOCKED.**
 
-Read-first; large/async and write operations remain separate later permission classes.
+Do not start until prior phases close.
 
 ---
 
@@ -204,7 +270,7 @@ Order workspaces in GitHub remain an external ChatGPT workflow and are not a Bri
 ```text
 PHASE 0  PASS
 PHASE 1  WORDSTAT LIVE PASS / CLOSED on exact e13a…
-PHASE 2  YANDEX SEARCH UNLOCKED FOR REQUIREMENT RECONSTRUCTION
+PHASE 2  SEARCH STAGE 4 — COMPLETE CODEX RERUN AUTHORIZED
 PHASE 3  BLOCKED
 PHASE 4  BLOCKED
 PHASE 5  BLOCKED
