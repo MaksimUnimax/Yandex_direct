@@ -29,6 +29,7 @@ function harness(initial={}){
   vm.runInContext(workerSource,ctx,{filename:'service_worker.js'});assert.equal(typeof listener,'function');vm.runInContext(`globalThis.__API=Object.freeze({${FN_NAMES.join(',')},KEYS});`,ctx);return{api:ctx.__API,store,fetchCalls};
 }
 function base(){return{wsmb_conversation_bindings:{[CKEY]:binding},ymb_service_contexts:{[CKEY]:{active_service:'search'}}};}
+function activeRun(){return{run_id:'run-owner',active_service:'search',permission_profile:'SEARCH',conversation_key:CKEY,origin:ORIGIN,conversation_id:CID,tab_id:1,status:'waiting_command',sequence:0,pause_requested:false,finish_requested:false,requests_attempted:0,requests_executed:0,requests_skipped:0,estimated_cost_rub:0,assistant_baseline_ids:[],watch_id:'watch-owner',start_delivery:{phase:'confirmed',message_text:'START'},delivery:null};}
 
 test('content error is turned into durable YMB_ERROR_V1 outbox with zero provider request',async()=>{
   const h=harness(base());
@@ -62,6 +63,21 @@ test('content error from a non-owner conversation is rejected before queue mutat
   const bad=`${ORIGIN}|aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee`;
   const r=await h.api.reportContentError({conversation_key:bad,code:'X',error:'bad'},{tab:{id:1}});
   assert.equal(r.ok,false);assert.equal(h.store.ymb_content_error_queue,undefined);assert.equal(h.store.wsmb_outbox,undefined);assert.equal(h.fetchCalls.length,0);
+});
+
+test('same-conversation non-owner tab cannot queue content error while Autorun has an owner tab',async()=>{
+  const h=harness({...base(),wsmb_auto_runs:{[CKEY]:activeRun()}});
+  const r=await h.api.reportContentError({conversation_key:CKEY,service:'search',channel:'autorun',stage:'STATE_SYNC',code:'STATE_SYNC_ERROR',error:'secondary tab noise',run_id:'run-owner',request_executed:false,autorun_continues:true},{tab:{id:2}});
+  assert.equal(r.ok,false);assert.equal(r.code,'AUTO_NON_OWNER_TAB');
+  assert.equal(h.store.ymb_content_error_queue,undefined);assert.equal(h.store.wsmb_outbox,undefined);assert.equal(h.fetchCalls.length,0);
+});
+
+test('same-conversation non-owner tab cannot queue behind an owner outbox',async()=>{
+  const ownerOutbox={delivery_id:'owner-result',type:'autorun',tab_id:1,run_id:'run-owner',conversation_key:CKEY,report_text:'SEARCH_RESULT_V1\n{}',phase:'claimed'};
+  const h=harness({...base(),wsmb_outbox:{[CKEY]:ownerOutbox}});
+  const r=await h.api.reportContentError({conversation_key:CKEY,service:'search',channel:'content',stage:'OUTBOX_POLL',code:'AUTO_NON_OWNER_TAB',error:'secondary tab cannot read owner outbox',request_executed:false},{tab:{id:2}});
+  assert.equal(r.ok,false);assert.equal(r.code,'AUTO_NON_OWNER_TAB');
+  assert.equal(h.store.ymb_content_error_queue,undefined);assert.equal(h.store.wsmb_outbox[CKEY].delivery_id,'owner-result');assert.equal(h.fetchCalls.length,0);
 });
 
 test('content script durably reports manual, Autorun, state-sync and delivery failures instead of plaque-only handling',()=>{
