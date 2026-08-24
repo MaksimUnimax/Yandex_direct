@@ -5,63 +5,48 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/runtime_outbox_admission_recovery.test.mjs
+      - extension/tests/autorun_start_restart_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/runtime_outbox_admission_recovery.test.mjs
+      - extension/tests/autorun_start_restart_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
 permissions:
-  contents: write
+  contents: read
 jobs:
-  focused-autorun-start-restart-transport:
-    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
+  focused-stage3-owner-and-live-tab:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: candidate/phase2-search-reconstruction-2026-08-23
-          fetch-depth: 0
-      - name: Apply exact Autorun start restart fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('extension/src/service_worker.js')
-          text = path.read_text(encoding='utf-8')
-          old = '''  const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {};
-  for (const [key, rawRun] of Object.entries(runs)) {
-    const run = rawRun && typeof rawRun === "object" ? rawRun : null;
-    if (!run || run.status !== WordstatAutorunModel.RUN_STATUSES.REQUESTING) continue;
-    if (!run.request_worker_session_id || run.request_worker_session_id === WORKER_SESSION_ID) continue;
-    if (outbox[key]) continue;
-    await stageAutorunError(key, run, run.tab_id, {'''
-          new = '''  const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {};
-  for (const [key, rawRun] of Object.entries(runs)) {
-    const run = rawRun && typeof rawRun === "object" ? rawRun : null;
-    if (!run || WordstatAutorunModel.isTerminalStatus(run.status)) continue;
-    if (run.status === WordstatAutorunModel.RUN_STATUSES.STARTING) {
-      if (outbox[key]) continue;
-      const startPhase = run.start_delivery?.phase || WordstatAutorunModel.START_PHASES.NONE;
-      const startText = String(run.start_delivery?.message_text || "");
-      if (startPhase !== WordstatAutorunModel.START_PHASES.NONE || !startText) continue;
-      outbox[key] = await putOutbox(key, {
-        delivery_id: uid("start"),
-        type: "autorun_start",
-        run_id: run.run_id,
-        tab_id: Number(run.tab_id),
-        report_text: startText,
-        phase: "claimed",
-        created_at: nowIso()
-      });
-      continue;
-    }
-    if (run.status !== WordstatAutorunModel.RUN_STATUSES.REQUESTING) continue;
-    if (!run.request_worker_session_id || run.request_worker_session_id === WORKER_SESSION_ID) continue;
-    if (outbox[key]) continue;
-    await stageAutorunError(key, run, run.tab_id, {'''
-          if text.count(old) != 1:
-              raise SystemExit(f'expected one Autorun recovery loop prefix, got {text.count(old)}')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8')
-          PY
-          git diff --check
-          test "$(git diff --name-only)" = "extension/src/service_worker.js"
       - name: Focused Stage 3 runtime regressions
         shell: bash
         run: |
@@ -85,12 +70,4 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/src/service_worker.js
-      - name: Commit verified production fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add extension/src/service_worker.js
-          git commit -m "fix: recover missing Autorun start delivery"
-          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
+          node --check extension/src/popup.js
