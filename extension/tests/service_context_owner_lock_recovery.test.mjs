@@ -46,6 +46,9 @@ function harness({ currentService = 'search', run = null, manualMode = false } =
   const identityChecks = [];
   const ctx = vm.createContext({
     normalizeConversationKey: (value) => value,
+    KEYS: { MANUAL_OPERATIONS: 'manual_operations' },
+    TERMINAL_MANUAL_STATUSES: new Set(['completed', 'error', 'cancelled']),
+    storageGet: async (key) => key === 'manual_operations' ? { manual_operations: {} } : {},
     getServiceContext: async () => structuredClone(context),
     saveServiceContext: async (_key, raw) => { writes += 1; context = { active_service: raw.active_service, updated_at: 'new' }; return structuredClone(context); },
     getAutoRun: async () => run ? structuredClone(run) : null,
