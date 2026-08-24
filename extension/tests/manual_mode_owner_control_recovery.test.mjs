@@ -40,12 +40,15 @@ function extractFunction(name) {
 const helperMarker = 'async function setManualModeFromTab(';
 const helperSource = workerSource.includes(helperMarker) ? extractFunction('setManualModeFromTab') : '';
 
-function harness(run = null) {
+function harness(run = null, manualOperation = null) {
   let manual = false;
   const identityChecks = [];
   const ctx = vm.createContext({
     normalizeConversationKey: (value) => value,
     getAutoRun: async () => run ? structuredClone(run) : null,
+    storageGet: async () => ({ wsmb_manual_operations: manualOperation ? { [CKEY]: structuredClone(manualOperation) } : {} }),
+    KEYS: { MANUAL_OPERATIONS: 'wsmb_manual_operations' },
+    TERMINAL_MANUAL_STATUSES: new Set(['completed', 'error', 'cancelled']),
     setManualMode: async (_key, enabled) => { manual = enabled === true; return manual; },
     assertTabConversation: async (tabId, key, conversationId = null) => {
       identityChecks.push({ tabId, key, conversationId });
@@ -63,6 +66,10 @@ function harness(run = null) {
 
 function pausedRun(tabId = 1) {
   return { run_id: 'run-owner', conversation_key: CKEY, conversation_id: CID, tab_id: tabId, status: 'paused' };
+}
+
+function activeManualOperation(tabId = 1) {
+  return { operation_id: 'manual-owner', conversation_key: CKEY, tab_id: tabId, status: 'delivering' };
 }
 
 test('Manual mode owner fence exists', () => {
@@ -94,6 +101,18 @@ test('without active Autorun current ChatGPT tab can toggle Manual mode after id
   const enabled = await h.api(CKEY, true, 7);
   assert.equal(enabled, true);
   assert.deepEqual(h.identityChecks, [{ tabId: 7, key: CKEY, conversationId: null }]);
+});
+
+test('same-conversation non-owner tab cannot toggle Manual mode during active Manual operation', async () => {
+  const h = harness(null, activeManualOperation(1));
+  await assert.rejects(() => h.api(CKEY, false, 2), (error) => error?.code === 'AUTO_NON_OWNER_TAB');
+  assert.equal(h.manual, false);
+});
+
+test('owner cannot toggle Manual mode while its Manual operation is nonterminal', async () => {
+  const h = harness(null, activeManualOperation(1));
+  await assert.rejects(() => h.api(CKEY, false, 1), (error) => error?.code === 'MANUAL_OPERATION_ACTIVE');
+  assert.equal(h.manual, false);
 });
 
 test('popup transports active tab id for Manual mode commit and rollback', () => {
