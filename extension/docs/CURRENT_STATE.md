@@ -121,16 +121,46 @@ ROUNDTRIP_PAYLOAD_MANIFEST_PASS
 ROUNDTRIP_ZIP_INTEGRITY_PASS
 ```
 
-For Codex, the same exact frozen ZIP is also published as an immutable repository binary mirror:
+### Codex-accessible exact transport — text-safe B64 v2
+
+The first repository-binary mirror attempt is **rejected QA evidence**, not an accepted transport:
 
 ```text
-branch: qa/phase2-stage4-exact-transport-2026-08-24
-transport commit: eee36ff3c5c3ce13682ff6ddbcd85001f410b810
-path: extension/tests/qa_transport/phase2-stage4-frozen/
-ZIP Git blob: a775218d43d00ee92f174c127f90a629b3837553
+rejected branch: qa/phase2-stage4-exact-transport-2026-08-24
+rejected PR: #7
+rejected run: 32709361187
+result: EXACT_ZIP_IDENTITY_FAIL
+classification: QA transport producer failure; frozen product artifact unchanged
 ```
 
-The QA branch contains the exact ZIP, exact 65-file manifest, `TRANSPORT_MANIFEST_2026-08-24.json` and `verify_exact_artifact.py`. The branch path was read back after publication and resolves to the same immutable ZIP blob `a775218d...` created from the independently verified `0f0b...` bytes. Codex must run the verifier before any product test.
+The accepted Codex-accessible repository transport is the independently produced text-safe B64 v2 mirror:
+
+```text
+branch: qa/phase2-stage4-exact-b64-transport-v2-2026-08-24
+transport commit: d398b2903cf469045a651747719791f5738bfdaa
+path: extension/tests/qa_transport/phase2-stage4-b64-v2/
+format: YMB_PHASE2_STAGE4_EXACT_B64_TRANSPORT_V1
+chunks: 16
+base64 length: 227636
+source Actions artifact ID: 9512033721
+QA PR: #8 (closed without merge after evidence)
+consumer workflow run: 32714268883
+consumer job: 97392079607
+workflow permission: contents: read
+```
+
+A fresh GitHub runner checked out exact transport commit `d398b290...`, reconstructed the ZIP using only the 16 published text files, and returned:
+
+```text
+B64_REASSEMBLY_PASS
+EXACT_ZIP_IDENTITY_PASS
+ROUNDTRIP_PAYLOAD_MANIFEST_PASS
+ROUNDTRIP_ZIP_INTEGRITY_PASS
+FROZEN_AUTHORITY_MATCH_PASS
+REAL_YANDEX_REQUESTS=0
+```
+
+The transport manifest independently fixes each chunk byte count and SHA-256, the full Base64 length, frozen source commit, Actions artifact ID, exact ZIP SHA/bytes, package counts and payload-manifest identity. This is the authorized repository transport for Codex. The temporary publisher and verification workflows used to establish this evidence were removed from `main` after PASS.
 
 ## Current focused sanity state
 
@@ -185,6 +215,7 @@ STAGE 3 — Manual/Autorun/operator/delivery integration = PASS / COMPLETED
 STAGE 4 — exact frozen candidate = PASS
 STAGE 4 — deterministic rebuild = PASS
 STAGE 4 — transport consumer-conformance = PASS
+STAGE 4 — Codex-accessible exact transport = PASS
 STAGE 4 — executable PD/S coverage map = PASS
 STAGE 4 — complete Codex pre-delivery full gate = PENDING
 STAGE 4 — owner-live Search = BLOCKED UNTIL CODEX PASS
@@ -234,6 +265,6 @@ extension/docs/PHASE_2_STAGE_4_CODEX_EXECUTION_MAP_2026-08-24.md
 extension/tests/PHASE_2_STAGE_4_FROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
 ```
 
-Codex must consume the exact frozen artifact and execute the complete enabled `PD-00…PD-17`, mandatory Manual-ON addendum and `S-00…S-17` Search matrix. Browser-owned assertions use qualified CfT/Puppeteer; internal crash states use deterministic integration. No enabled section may silently remain `NOT_RUN` in a PASS verdict. Real Yandex requests and real credentials remain 0.
+Codex must consume exact transport commit `d398b290...`, reconstruct and verify the frozen artifact before product testing, and execute the complete enabled `PD-00…PD-17`, mandatory Manual-ON addendum and `S-00…S-17` Search matrix. Browser-owned assertions use qualified CfT/Puppeteer; internal crash states use deterministic integration. No enabled section may silently remain `NOT_RUN` in a PASS verdict. Real Yandex requests and real credentials remain 0.
 
 If the complete Codex campaign finds a product defect, classify it `FAIL_PRODUCT` and return it to ChatGPT. Any production-byte fix creates a new candidate and invalidates this frozen identity. Transport/harness/process defects must not mutate frozen production bytes.
