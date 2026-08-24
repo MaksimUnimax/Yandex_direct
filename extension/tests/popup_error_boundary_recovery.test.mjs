@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../src');
 const popupSource=fs.readFileSync(path.join(root,'popup.js'),'utf8');
 const transferGuardSource=fs.readFileSync(path.join(root,'popup_transfer_guard.js'),'utf8');
+const contextBootstrapSource=fs.readFileSync(path.join(root,'popup_context_bootstrap.js'),'utf8');
 const popupHtml=fs.readFileSync(path.join(root,'popup.html'),'utf8');
 const CID='99999999-8888-4777-8666-555555555555';
 const CKEY=`https://chatgpt.com|${CID}`;
@@ -87,11 +88,14 @@ function harness(failType=null,{confirmAnswers=[true]}={}){
   return {elements,runtimeMessages,confirmations,guardApi:ctx.__YMB_POPUP_TRANSFER_GUARD_TEST_API__,settle:()=>new Promise(r=>setTimeout(r,10))};
 }
 
-test('popup loads the transfer guard before its main runtime',()=>{
+test('popup loads transfer guard then context bootstrap, and bootstrap starts its main runtime afterwards',()=>{
   const guardIndex=popupHtml.indexOf('<script src="popup_transfer_guard.js"></script>');
-  const popupIndex=popupHtml.indexOf('<script src="popup.js"></script>');
+  const contextIndex=popupHtml.indexOf('<script src="popup_context_bootstrap.js"></script>');
   assert.ok(guardIndex>=0);
-  assert.ok(popupIndex>guardIndex);
+  assert.ok(contextIndex>guardIndex);
+  assert.equal(popupHtml.includes('<script src="popup.js"></script>'),false);
+  assert.match(contextBootstrapSource,/chrome\.runtime\.getURL\("popup\.js"\)/);
+  assert.match(contextBootstrapSource,/\.finally\(\(\) => loadPopupRuntime\(\)\)/);
 });
 
 test('cancelled secret export is stopped before the popup runtime can export credentials',async()=>{
