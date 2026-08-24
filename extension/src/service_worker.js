@@ -785,8 +785,66 @@ async function finishAutoRun(conversationKey, tabId) {
 }
 
 async function recoverPersistedRuntime() {
-  const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {};
   const outbox = await getOutbox();
+  const manualData = await storageGet(KEYS.MANUAL_OPERATIONS);
+  const manualMap = { ...(manualData[KEYS.MANUAL_OPERATIONS] || {}) };
+  let manualChanged = false;
+  for (const [key, rawOperation] of Object.entries(manualMap)) {
+    const operation = rawOperation && typeof rawOperation === "object" ? rawOperation : null;
+    if (!operation || operation.status !== "requesting") continue;
+    const existing = outbox[key] || null;
+    if (existing) {
+      if (existing.type === "manual" && existing.operation_id === operation.operation_id) {
+        manualMap[key] = {
+...operation,
+status: "delivering",
+delivery_id: existing.delivery_id,
+request_executed: Number(existing.provider_executions || 0) > 0 ? true : (operation.request_executed ?? false),
+report_ready_at: existing.updated_at || existing.created_at || nowIso(),
+recovered_at: nowIso()
+        };
+        manualChanged = true;
+      }
+      continue;
+    }
+    const deliveryId = uid("delivery");
+    const reportText = formatBridgeError({
+      code: "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+      message: "Worker перезапустился после начала Manual provider request. Исход запроса неизвестен; автоматический повтор запрещён.",
+      stage: "PROVIDER_RECOVERY",
+      requestExecuted: "UNKNOWN",
+      service: operation.active_service || null,
+      channel: "manual",
+      recoverable: false,
+      runId: operation.run_id || null,
+      operation: null,
+      operationId: operation.operation_id || null,
+      autorunContinues: false
+    });
+    outbox[key] = await putOutbox(key, {
+      delivery_id: deliveryId,
+      operation_id: operation.operation_id,
+      type: "manual",
+      tab_id: Number(operation.tab_id),
+      report_text: reportText,
+      phase: "claimed",
+      provider_executions: null,
+      report_prefix_applied: false,
+      created_at: nowIso()
+    });
+    manualMap[key] = {
+      ...operation,
+      status: "delivering",
+      delivery_id: deliveryId,
+      request_executed: "UNKNOWN",
+      report_ready_at: nowIso(),
+      recovered_at: nowIso()
+    };
+    manualChanged = true;
+  }
+  if (manualChanged) await storageSet({ [KEYS.MANUAL_OPERATIONS]: manualMap });
+
+  const runs = (await storageGet(KEYS.AUTO_RUNS))[KEYS.AUTO_RUNS] || {};
   for (const [key, rawRun] of Object.entries(runs)) {
     const run = rawRun && typeof rawRun === "object" ? rawRun : null;
     if (!run || run.status !== WordstatAutorunModel.RUN_STATUSES.REQUESTING) continue;
