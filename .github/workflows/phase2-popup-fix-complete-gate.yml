@@ -24,6 +24,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Preserve exact Git blob line endings for detached source worktrees
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git config --local core.autocrlf false
+          git config --local core.eol lf
+          $autocrlf = git config --local --get core.autocrlf
+          $eol = git config --local --get core.eol
+          if ($autocrlf -ne 'false') { throw "CORE_AUTOCRLF_NOT_FALSE_$autocrlf" }
+          if ($eol -ne 'lf') { throw "CORE_EOL_NOT_LF_$eol" }
+          Write-Output 'WINDOWS_EXACT_SOURCE_BLOB_EOL_CONFIG_PASS'
+
       - name: Install Chrome 151 for Testing
         id: chrome
         uses: browser-actions/setup-chrome@v2
