@@ -44,6 +44,8 @@ function extractFunction(name) {
   throw new Error(`unterminated ${name}`);
 }
 
+const ownerFenceMarker = 'async function assertAutoRunControlOwner(';
+const ownerFenceSource = workerSource.includes(ownerFenceMarker) ? extractFunction('assertAutoRunControlOwner') : '';
 const lifecycleSource = ['pauseAutoRun', 'resumeAutoRun', 'finishAutoRun'].map(extractFunction).join('\n');
 
 function harness(status = 'waiting_command') {
@@ -73,7 +75,7 @@ function harness(status = 'waiting_command') {
     },
     structuredClone
   });
-  vm.runInContext(`${lifecycleSource}; globalThis.api = { pauseAutoRun, resumeAutoRun, finishAutoRun };`, ctx);
+  vm.runInContext(`${ownerFenceSource}\n${lifecycleSource}; globalThis.api = { pauseAutoRun, resumeAutoRun, finishAutoRun };`, ctx);
   return { api: ctx.api, get run() { return run; }, identityChecks };
 }
 
