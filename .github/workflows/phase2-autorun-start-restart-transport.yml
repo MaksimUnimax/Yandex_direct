@@ -1,7 +1,7 @@
 name: phase2-autorun-start-restart-transport
 on:
   pull_request:
-    types: [reopened, synchronize]
+    types: [edited, reopened, synchronize]
     branches: [main]
 permissions:
   contents: write
