@@ -1,33 +1,154 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **CURRENT / PHASE 2 SEARCH DEVELOPMENT ACTIVE**  
-Updated: 2026-08-20
+Status: **PHASE 2 SEARCH / STAGE 4 ACTIVE — EXACT CANDIDATE FROZEN / CODEX FULL GATE PENDING**  
+Updated: 2026-08-24
 
-Always fetch live `main` HEAD before any control-plane write.
+Always fetch live `main` HEAD before any transition or control write.
 
 ## Current owner instruction
 
-The owner explicitly corrected the prior recovery loop and authorized continued development on 2026-08-20:
+The owner requires focused development and a single governed Stage-4 closure:
 
-- do not keep sending artifact-recovery work to Codex;
-- ChatGPT is the developer and must reconstruct/reimplement the lost product changes itself;
-- the exact final Stage-3 patch is lost and is not to be falsely represented as recovered;
-- restore the lost Search integration from surviving requirements, evidence, earlier exact modules/patches, and tests;
-- reintroduce changes under the established testing policy: focused development tests while code is changing, then one complete mandatory pre-delivery regression gate after the exact candidate is finished and frozen.
+- ChatGPT owns product/test/packaging and QA-authoring changes;
+- do not reopen Stage 3 to search hypothetical adjacent edge cases after its exit criteria passed;
+- the complete broad regression campaign belongs to the exact frozen candidate, not to every intermediate edit;
+- Codex is QA executor for the full pre-delivery gate and must not design/patch product fixes during that campaign;
+- zero real Yandex requests during controlled QA;
+- owner-live paid Search acceptance starts only after exact Codex PASS and a fresh official pricing check;
+- no blind retry after an ambiguous or executed provider request.
 
-This owner instruction supersedes the earlier `exact Stage-2 recovery only / Codex recovery prompt` pointer that was introduced during the mistaken recovery loop.
-
-## Repository
+## Authoritative transition snapshot
 
 ```text
-repo: MaksimUnimax/Yandex_direct
-control branch: main
-active recovery/development branch: dev/phase2-recovery-work-2026-08-20
+PRODUCT_BRANCH = candidate/phase2-search-reconstruction-2026-08-23
+PR = #5 Phase 2 Search reconstruction candidate
+STAGE3_PRODUCT_HEAD = 75d18291224069a6ae67c110498481ec7320d3c0
+STAGE3_WORKER_BLOB = 87b90dcb0a1ecca8afc5587d8ab7f6ddfd2c241a
+STAGE4_FROZEN_SOURCE_COMMIT = 1869d17f3cb64417a07088de18dafa5687c83840
+HANDOFF_ARTIFACT_SHA256 = 0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411
+HANDOFF_ARTIFACT_BYTES = 170726
+HANDOFF_FILES = 65
+HANDOFF_ZIP_ENTRIES = 68
+CODEX_FULL_GATE = PENDING
+OWNER_LIVE_SEARCH = BLOCKED UNTIL CODEX PASS
 ```
+
+Later commits may update CI/docs/evidence only. They do **not** redefine the frozen candidate. Every Stage-4 product gate is pinned to `1869d17...` and the exact ZIP identity below.
+
+## Exact frozen Stage-4 candidate
+
+```text
+filename: yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
+root: yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate/
+SHA-256: 0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411
+bytes: 170726
+files: 65
+ZIP entries: 68
+ZIP integrity: PASS
+source commit: 1869d17f3cb64417a07088de18dafa5687c83840
+```
+
+Package payload is the established Phase-2 layout:
+
+```text
+all extension/src/** files
++ root-level extension/tests/*.test.mjs
+```
+
+Repository docs, historical evidence trees, `.github/**`, nested QA transport inputs and other non-package files are excluded from the ZIP payload.
+
+## Full target manifest
+
+`EXACT_CANDIDATE_MANIFEST_2026-08-24.json` contains all 65 package paths with exact byte counts and SHA-256 hashes.
+
+```text
+manifest bytes: 11421
+manifest SHA-256: 1acda380ef8fee4aca255014cdacf48a50059037113ff121bd86c738e4fceea9
+format: YMB_PHASE2_EXACT_CANDIDATE_V1
+source commit: 1869d17f3cb64417a07088de18dafa5687c83840
+```
+
+Durable freeze checkpoint:
+
+```text
+extension/tests/PHASE_2_STAGE_4_FROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
+```
+
+## Freeze / transport proof
+
+Dedicated read-only Stage-4 freeze:
+
+```text
+workflow: phase2-stage4-freeze
+run: 32705402373
+job: 97365293002
+conclusion: SUCCESS
+permission: contents: read
+```
+
+The exact source was independently built twice. Both builds returned:
+
+```text
+SHA-256 0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411
+bytes 170726
+files 65
+entries 68
+ZIP PASS
+SOURCE_PACKAGE_IDENTITY_PASS
+```
+
+Byte-for-byte `cmp` between the two independent ZIPs passed.
+
+Actions consumer-conformance transport:
+
+```text
+artifact name: phase2-stage4-frozen-candidate-1869d17
+artifact ID: 9512033721
+wrapper bytes: 182577
+wrapper SHA-256: b5ba907514c2a417c537fcce82ddfe5ca6605df6fb71ea309942700605fb4e33
+```
+
+A fresh consumer downloaded that artifact and independently verified:
+
+```text
+inner ZIP SHA-256 = 0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411
+inner bytes = 170726
+files = 65
+entries = 68
+ZIP integrity = PASS
+all 65 file path/byte/SHA-256 rows match manifest = PASS
+ROUNDTRIP_PAYLOAD_MANIFEST_PASS
+ROUNDTRIP_ZIP_INTEGRITY_PASS
+```
+
+For Codex, the same exact frozen ZIP is also published as an immutable repository binary mirror:
+
+```text
+branch: qa/phase2-stage4-exact-transport-2026-08-24
+transport commit: eee36ff3c5c3ce13682ff6ddbcd85001f410b810
+path: extension/tests/qa_transport/phase2-stage4-frozen/
+ZIP Git blob: a775218d43d00ee92f174c127f90a629b3837553
+```
+
+The QA branch contains the exact ZIP, exact 65-file manifest, `TRANSPORT_MANIFEST_2026-08-24.json` and `verify_exact_artifact.py`. The branch path was read back after publication and resolves to the same immutable ZIP blob `a775218d...` created from the independently verified `0f0b...` bytes. Codex must run the verifier before any product test.
+
+## Current focused sanity state
+
+The final Stage-3 focused sanity set remained green during Stage-4 CI synchronization:
+
+```text
+focused tests: 77/77 PASS
+fail: 0
+service_worker.js syntax: PASS
+popup.js syntax: PASS
+freeze job: SUCCESS
+```
+
+This is not the complete Codex pre-delivery gate and does not replace it.
 
 ## Accepted Phase 1 baseline
 
-Phase 1 Wordstat remains LIVE PASS / CLOSED.
+Phase 1 Wordstat remains **LIVE PASS / CLOSED**.
 
 ```text
 accepted artifact SHA-256: e13a26072039550792e740b8ed73e2bd56d48bdceb075a060406d2359e402a65
@@ -35,115 +156,84 @@ bytes: 209505
 files: 45
 ZIP entries: 48
 version: 0.1.1
-latest complete full gate: PD-00..PD-17 PASS
-source suite: 361/361 PASS
-packaged suite: 361/361 PASS
-syntax: 40/40 PASS
-JSON: 2/2 PASS
-real Yandex requests during controlled gate: 0
-owner-live Wordstat: PASS for all four supported operations
+historical complete full gate: PASS
+owner-live Wordstat: PASS for getTop, getDynamics, getRegionsDistribution, getRegionsTree
 ```
 
-## Phase 2 Search — surviving accepted work
+Those are historical accepted Phase-1 bytes; the combined Wordstat+Search frozen candidate requires its own complete Stage-4 gate.
 
-First Search slice remains:
+## Phase 2 Search boundary
 
 ```text
 protocol: SEARCH_API_V1
 service: search
 method: search
 endpoint: POST https://searchapi.api.cloud.yandex.net/v2/web/search
-response: FORMAT_XML
-result: SEARCH_RESULT_V1
-scope: synchronous text web search only
+mode: synchronous text web search only
+response format: FORMAT_XML
+normalized result: SEARCH_RESULT_V1
 ```
 
-Provider-independent Search foundation was completed and tested.
-Worker/provider/credential/policy Search execution was completed and tested.
-Historical accepted evidence records focused Search worker tests 10/10 PASS, full suite 377/377 PASS, syntax 46/46 PASS, JSON 2/2 PASS, and zero real Yandex requests.
+Out of scope remains async/deferred Search, image Search, generative Search, HTML SERP normalization, yandex.ru scraping, Webmaster, Metrika and Direct implementation.
 
-The final lost integration work had also reached functional/test PASS before its exact bytes were lost. Historical evidence records:
+## Stage status
 
 ```text
-focused integration: 38/38 PASS
-popup runtime: 13/13 PASS
-full source suite: 382/382 PASS
-syntax: 46/46 PASS
-JSON: 2/2 PASS
-real Yandex requests: 0
+STAGE 1 — exact base + Search foundation = PASS / COMPLETED
+STAGE 2 — worker/provider/credential/policy execution = PASS / COMPLETED
+STAGE 3 — Manual/Autorun/operator/delivery integration = PASS / COMPLETED
+STAGE 4 — exact frozen candidate = PASS
+STAGE 4 — deterministic rebuild = PASS
+STAGE 4 — transport consumer-conformance = PASS
+STAGE 4 — executable PD/S coverage map = PASS
+STAGE 4 — complete Codex pre-delivery full gate = PENDING
+STAGE 4 — owner-live Search = BLOCKED UNTIL CODEX PASS
 ```
 
-Known final production hashes from that lost working tree are historical evidence only:
+## Stage 3 preserved invariants
+
+The frozen candidate preserves the common unified runtime rather than a parallel Search-specific implementation, including:
+
+- Project/Work nested ChatGPT conversation identity;
+- Search Manual via Bridge-owned external `Яндекс` action;
+- Search Autorun through the common RUN lifecycle;
+- immutable service per RUN and Wordstat/Search isolation;
+- owner-tab/live-conversation fences;
+- service-context and Manual-mode runtime locks;
+- single-flight/outbox admission;
+- committed Send at most once and watch-only recovery;
+- durable `YMB_ERROR_V1` delivery;
+- UNKNOWN/no-blind-retry semantics;
+- Manual abandoned `REQUESTING` restart recovery;
+- Autorun abandoned `REQUESTING` restart recovery;
+- Autorun `STARTING` restart recovery that restores one missing `autorun_start` without provider initiation and does not duplicate an existing outbox;
+- Search request/cost/credential policy;
+- settings export/import runtime safety and diagnostic redaction.
+
+Final Stage-3 production commit:
 
 ```text
-content_script.js a789b7ec586632d2dde287b59ccaee11d8de010ae9a474cdcd9a68a0b252e688
-manifest.json ac48a2399f7f77d1382958231038a999e8c7dfd37e4cdc60a9b9241a62c0c96f
-popup.html 778c5d2068a2cccd7648f4cef16f649870878e114baa43e4eabf43a628b34cc0
-popup.js 03b13ad6af722ea9cc92d26e7e299519fbd500e43d71f2c9c225a903bfe6c274
-service_worker.js 87a4022b7273618ac4df343cff50f7fd155d03c26dc17b68169a569dd0a43c3b
+75d18291224069a6ae67c110498481ec7320d3c0
+fix: recover missing Autorun start delivery
 ```
 
-The exact final patch itself is lost. Recorded identity:
+## Current authorized action
 
 ```text
-raw patch SHA-256: d2338b7d1f233e3622fdc1da49038df0e96afe0785b2addfbab4f961fda9cee6
-raw bytes: 81690
-gzip SHA-256: 5c32e7a16f0102cc0c54cb59fb15a1b815795462822a8338692adef2d1487ec5
-base64 SHA-256: edc73c040de67310a03c284728d45589b7a901721ff7b4b4df52d5f363b113de
+AUTHORIZED_NEXT_STAGE = CODEX_COMPLETE_PRE_DELIVERY_FULL_GATE
 ```
 
-`STAGE3_EXACT_RECOVERY_RESULT_V1` proved that these exact final bytes were not found in the searched recovery locations. That result is preserved as evidence; it does not establish a product defect.
-
-A separate surviving combined Search patch with raw SHA-256 `91751cd720dba23282be69d75c921331dab83bbe6076bffd464519297a80c0ca` / 142186 bytes is useful development evidence, but it is **not** the lost final patch above and must not be represented as such.
-
-## Testing policy for the restoration
-
-The mandatory pre-delivery regression gate was adopted on 2026-08-18. Its intended two-mode rule remains authoritative:
-
-```text
-while product code is changing:
-  run focused tests for changed behavior + directly affected dependencies + syntax/static checks
-
-when the complete working candidate is finished:
-  freeze the exact candidate and handoff artifact
-  run one complete mandatory regression campaign against that exact candidate
-  any mandatory FAIL blocks handoff
-  any later production-byte change invalidates that candidate's product gate
-```
-
-Search-specific full-gate coverage is governed by:
+Codex authority:
 
 ```text
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
+extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
+extension/docs/PHASE_2_STAGE_4_CODEX_EXECUTION_MAP_2026-08-24.md
+extension/tests/PHASE_2_STAGE_4_FROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
 ```
 
-No real Yandex requests or real credentials are used during controlled development/gate testing.
+Codex must consume the exact frozen artifact and execute the complete enabled `PD-00…PD-17`, mandatory Manual-ON addendum and `S-00…S-17` Search matrix. Browser-owned assertions use qualified CfT/Puppeteer; internal crash states use deterministic integration. No enabled section may silently remain `NOT_RUN` in a PASS verdict. Real Yandex requests and real credentials remain 0.
 
-## Current development objective
-
-Reimplement the lost Search user/runtime integration without inventing new product scope:
-
-- Search Manual path through the shared external `Яндекс` action;
-- service mismatch rejection before claim/provider execution;
-- Search Autorun through the existing RUN lifecycle;
-- immutable service / Wordstat↔Search isolation;
-- active-service propagation worker→content;
-- popup service selector and separate Search policy/credentials;
-- service-aware start prompt;
-- Search settings/credentials Export/Import separation;
-- reuse of owner-tab binding, conversation binding, single-flight admission, durable outbox, composer protection, Send-at-most-once and no-blind-retry behavior.
-
-The current implementation must be committed as normal source/test files so it cannot be lost as another local-only candidate.
-
-## Current pointer
-
-```text
-PRODUCT_SOURCE = development reconstruction/reimplementation in progress on dev/phase2-recovery-work-2026-08-20
-HANDOFF_ARTIFACT = NONE
-LATEST_FULL_GATE = Phase-1 e13a PASS only; no Phase-2 combined full-gate PASS yet
-OWNER_LIVE = Phase 1 PASS; Phase 2 Search PENDING
-CURRENT_WORK = restore lost Search integration with focused tests
-NEXT_RELEASE_ACTION = only after complete restoration + development verification: freeze exact candidate and run complete mandatory pre-delivery gate
-REAL_YANDEX_REQUESTS_AUTHORIZED_NOW = NO
-```
+If the complete Codex campaign finds a product defect, classify it `FAIL_PRODUCT` and return it to ChatGPT. Any production-byte fix creates a new candidate and invalidates this frozen identity. Transport/harness/process defects must not mutate frozen production bytes.
