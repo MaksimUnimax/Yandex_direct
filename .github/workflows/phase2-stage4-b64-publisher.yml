@@ -1,0 +1,145 @@
+name: phase2-stage4-b64-publisher
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/phase2-stage4-b64-publisher.yml
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish-exact-b64-transport:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout publisher authority
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download already frozen exact artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phase2-stage4-frozen-candidate-1869d17
+          path: /tmp/phase2-frozen
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 32705402373
+      - name: Verify frozen input before transport publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          root = Path('/tmp/phase2-frozen')
+          zips = list(root.rglob('yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip'))
+          mans = list(root.rglob('EXACT_CANDIDATE_MANIFEST_2026-08-24.json'))
+          if len(zips) != 1 or len(mans) != 1:
+              raise SystemExit(f'FROZEN_INPUT_PATH_FAIL zip={zips} manifests={mans}')
+          z, m = zips[0], mans[0]
+          data = z.read_bytes()
+          mb = m.read_bytes()
+          if len(data) != 170726 or hashlib.sha256(data).hexdigest() != '0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411':
+              raise SystemExit('FROZEN_ZIP_IDENTITY_FAIL')
+          if len(mb) != 11421 or hashlib.sha256(mb).hexdigest() != '1acda380ef8fee4aca255014cdacf48a50059037113ff121bd86c738e4fceea9':
+              raise SystemExit('FROZEN_MANIFEST_IDENTITY_FAIL')
+          with zipfile.ZipFile(z) as arc:
+              if arc.testzip() is not None or len(arc.infolist()) != 68 or sum(not i.is_dir() for i in arc.infolist()) != 65:
+                  raise SystemExit('FROZEN_ZIP_INTEGRITY_FAIL')
+          print('FROZEN_EXACT_INPUT_PASS')
+          PY
+      - name: Create one clean text-safe transport commit
+        shell: bash
+        env:
+          BRANCH: qa/phase2-stage4-exact-b64-transport-v2-2026-08-24
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git switch -c "$BRANCH" HEAD^
+          rm -rf extension/tests/qa_transport/phase2-stage4-b64-v2
+          mkdir -p extension/tests/qa_transport/phase2-stage4-b64-v2
+          python - <<'PY'
+          import base64, hashlib, json, shutil, textwrap, zipfile
+          from pathlib import Path
+          frozen = Path('/tmp/phase2-frozen')
+          z = next(frozen.rglob('yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip'))
+          m = next(frozen.rglob('EXACT_CANDIDATE_MANIFEST_2026-08-24.json'))
+          out = Path('extension/tests/qa_transport/phase2-stage4-b64-v2')
+          data = z.read_bytes()
+          b64 = base64.b64encode(data).decode('ascii')
+          chunks = [b64[i:i+14228] for i in range(0, len(b64), 14228)]
+          if len(b64) != 227636 or len(chunks) != 16:
+              raise SystemExit('B64_SPLIT_FAIL')
+          rows = []
+          for i, chunk in enumerate(chunks):
+              name = f'chunk-{i:02d}.b64'
+              (out / name).write_text(chunk, encoding='ascii')
+              rows.append({'path': name, 'bytes': len(chunk), 'sha256': hashlib.sha256(chunk.encode('ascii')).hexdigest()})
+          shutil.copyfile(m, out / 'EXACT_CANDIDATE_MANIFEST_2026-08-24.json')
+          transport = {
+              'format': 'YMB_PHASE2_STAGE4_EXACT_B64_TRANSPORT_V1',
+              'frozen_source_commit': '1869d17f3cb64417a07088de18dafa5687c83840',
+              'source_actions_run': 32705402373,
+              'source_actions_artifact_id': 9512033721,
+              'artifact_filename': 'yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip',
+              'artifact_sha256': '0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411',
+              'artifact_bytes': 170726,
+              'files': 65,
+              'zip_entries': 68,
+              'base64_length': 227636,
+              'chunk_count': 16,
+              'chunks': rows,
+              'payload_manifest_sha256': '1acda380ef8fee4aca255014cdacf48a50059037113ff121bd86c738e4fceea9',
+              'payload_manifest_bytes': 11421,
+              'real_yandex_requests_during_freeze': 0,
+          }
+          (out / 'TRANSPORT_MANIFEST_2026-08-24.json').write_text(json.dumps(transport, indent=2) + '\n', encoding='utf-8')
+          verifier = r'''#!/usr/bin/env python3
+          import base64, hashlib, json, tempfile, zipfile
+          from pathlib import Path
+          BASE = Path(__file__).resolve().parent
+          T = json.loads((BASE/'TRANSPORT_MANIFEST_2026-08-24.json').read_text(encoding='utf-8'))
+          M_BYTES = (BASE/'EXACT_CANDIDATE_MANIFEST_2026-08-24.json').read_bytes()
+          if len(M_BYTES) != T['payload_manifest_bytes'] or hashlib.sha256(M_BYTES).hexdigest() != T['payload_manifest_sha256']:
+              raise SystemExit('PAYLOAD_MANIFEST_IDENTITY_FAIL')
+          M = json.loads(M_BYTES)
+          parts=[]
+          for row in T['chunks']:
+              raw=(BASE/row['path']).read_bytes()
+              if len(raw)!=row['bytes'] or hashlib.sha256(raw).hexdigest()!=row['sha256']:
+                  raise SystemExit('CHUNK_IDENTITY_FAIL '+row['path'])
+              parts.append(raw.decode('ascii'))
+          text=''.join(parts)
+          if len(text)!=T['base64_length']:
+              raise SystemExit('B64_LENGTH_FAIL')
+          data=base64.b64decode(text, validate=True)
+          if len(data)!=T['artifact_bytes'] or hashlib.sha256(data).hexdigest()!=T['artifact_sha256']:
+              raise SystemExit('EXACT_ZIP_IDENTITY_FAIL')
+          with tempfile.TemporaryDirectory() as td:
+              zp=Path(td)/T['artifact_filename']; zp.write_bytes(data)
+              with zipfile.ZipFile(zp) as z:
+                  if z.testzip() is not None: raise SystemExit('ZIP_INTEGRITY_FAIL')
+                  infos=z.infolist(); files=[i for i in infos if not i.is_dir()]
+                  if len(files)!=T['files'] or len(infos)!=T['zip_entries']: raise SystemExit('ZIP_COUNT_FAIL')
+                  root=M['root_name'].rstrip('/')+'/'
+                  actual={}
+                  for info in files:
+                      if not info.filename.startswith(root): raise SystemExit('ZIP_ROOT_FAIL')
+                      rel=info.filename[len(root):]; payload=z.read(info)
+                      actual[rel]={'path':rel,'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}
+          expected={r['path']:r for r in M['payload']}
+          if actual!=expected: raise SystemExit('ROUNDTRIP_PAYLOAD_MANIFEST_FAIL')
+          print('B64_REASSEMBLY_PASS')
+          print('EXACT_ZIP_IDENTITY_PASS')
+          print('ROUNDTRIP_PAYLOAD_MANIFEST_PASS')
+          print('ROUNDTRIP_ZIP_INTEGRITY_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          '''
+          (out/'verify_exact_b64_transport.py').write_text(textwrap.dedent(verifier), encoding='utf-8')
+          readme = '''# Exact Phase 2 Stage 4 B64 transport\n\nQA-only text-safe mirror of the already frozen ZIP. It does not redefine product bytes. Run `python verify_exact_b64_transport.py` after a fresh checkout. Expected ZIP SHA-256: `0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411`.\n'''
+          (out/'README.md').write_text(readme, encoding='utf-8')
+          PY
+          python extension/tests/qa_transport/phase2-stage4-b64-v2/verify_exact_b64_transport.py
+          git add extension/tests/qa_transport/phase2-stage4-b64-v2
+          git commit -m "qa: publish exact Phase 2 Stage 4 B64 transport v2"
+          git push origin "$BRANCH"
