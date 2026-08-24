@@ -66,6 +66,48 @@ async function openBackgroundExtensionPage(browser, url) {
   return page;
 }
 
+async function popupSnapshot(popup) {
+  return await popup.evaluate(async () => {
+    let activeTabs = [];
+    let activeTabError = '';
+    try {
+      activeTabs = await new Promise((resolve) => {
+        chrome.tabs.query({ active:true, currentWindow:true }, (tabs) => {
+          activeTabError = chrome.runtime.lastError?.message || '';
+          resolve((tabs || []).map((tab) => ({ id:tab.id, url:tab.url || '', active:tab.active === true, windowId:tab.windowId })));
+        });
+      });
+    } catch (error) { activeTabError = error?.message || String(error); }
+    return {
+      href: location.href,
+      readyState: document.readyState,
+      runtimeId: chrome.runtime?.id || '',
+      conversation: document.getElementById('conversationMeta')?.textContent || '',
+      bindDisabled: Boolean(document.getElementById('bindConversation')?.disabled),
+      manualDisabled: Boolean(document.getElementById('manualMode')?.disabled),
+      status: document.getElementById('status')?.textContent || '',
+      statusLevel: document.getElementById('status')?.dataset?.level || '',
+      bootstrapError: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || '',
+      bootstrapResult: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null,
+      popupRuntimePresent: Boolean(document.querySelector('script[data-ymb-popup-runtime="true"]')),
+      scripts: [...document.scripts].map((script) => script.src || '(inline)'),
+      activeTabs,
+      activeTabError
+    };
+  });
+}
+
+async function waitForPopupBootstrapOutcome(popup, timeout = 8000) {
+  const started = Date.now();
+  let last = null;
+  while (Date.now() - started < timeout) {
+    last = await popupSnapshot(popup);
+    if (last.bootstrapError || last.bootstrapResult) return last;
+    await delay(100);
+  }
+  throw new Error(`POPUP_BOOTSTRAP_OUTCOME_TIMEOUT state=${JSON.stringify(last)}`);
+}
+
 let browser;
 try {
   browser = await puppeteer.launch({
@@ -110,8 +152,6 @@ try {
   assert(before.response.conversation_key === KEY, 'PRE_RELOAD_KEY_FAIL');
   console.log('CONTEXT_RECOVERY_PRE_RELOAD_IDENTITY_PASS');
 
-  // Trigger the same extension runtime reload that invalidates an already-open page's old receiver.
-  // Do not gate on Puppeteer service-worker target destruction: Chrome may reuse/retain that CDP target.
   await firstWorker.evaluate(() => { setTimeout(() => chrome.runtime.reload(), 0); return true; });
   await delay(800);
   console.log('CONTEXT_RECOVERY_RUNTIME_RELOAD_TRIGGERED_PASS');
@@ -124,29 +164,21 @@ try {
   assert(pageStable.url === CHAT_URL && pageStable.marker === documentMarker, `CHAT_PAGE_RELOADED_UNEXPECTEDLY ${JSON.stringify(pageStable)}`);
   console.log('CONTEXT_RECOVERY_CHAT_PAGE_REMAINED_OPEN_PASS');
 
-  // Create the popup as a browser-level extension target while ChatGPT remains active.
-  // PASS requires bootstrap.recovered=true, which can only be published after the initial
-  // identity probes failed, the exact manifest content bundle was injected, and identity retried successfully.
   await chat.bringToFront();
   const popup = await openBackgroundExtensionPage(browser, `${extensionOrigin}popup.html`);
+  const recoveredState = await waitForPopupBootstrapOutcome(popup, 8000);
+  console.log(`CONTEXT_RECOVERY_POPUP_BOOTSTRAP_STATE ${JSON.stringify(recoveredState)}`);
 
-  const recoveredState = await waitUntil(async () => {
-    const state = await popup.evaluate(() => ({
-      conversation: document.getElementById('conversationMeta')?.textContent || '',
-      bindDisabled: Boolean(document.getElementById('bindConversation')?.disabled),
-      manualDisabled: Boolean(document.getElementById('manualMode')?.disabled),
-      status: document.getElementById('status')?.textContent || '',
-      bootstrapError: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || '',
-      bootstrapResult: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null
-    }));
-    if (state.bootstrapError) throw new Error(`POPUP_BOOTSTRAP_ERROR ${state.bootstrapError}`);
-    return state.bootstrapResult && state.conversation === KEY ? state : false;
-  }, 'POPUP_CONTEXT_SELF_RECOVERY_RESULT_MISSING', 20000);
+  assert(!recoveredState.bootstrapError, `POPUP_BOOTSTRAP_ERROR ${JSON.stringify(recoveredState)}`);
+  assert(recoveredState.bootstrapResult?.attempted === true, `POPUP_RECOVERY_NOT_ATTEMPTED ${JSON.stringify(recoveredState)}`);
+  assert(recoveredState.bootstrapResult?.recovered === true, `POPUP_MISSING_RECEIVER_BRANCH_NOT_REPRODUCED ${JSON.stringify(recoveredState)}`);
+  assert(recoveredState.bootstrapResult?.tab_id === tabId, `POPUP_RECOVERY_WRONG_TAB ${JSON.stringify(recoveredState)}`);
 
-  assert(recoveredState.bootstrapResult.attempted === true, `POPUP_RECOVERY_NOT_ATTEMPTED ${JSON.stringify(recoveredState)}`);
-  assert(recoveredState.bootstrapResult.recovered === true, `POPUP_MISSING_RECEIVER_BRANCH_NOT_REPRODUCED ${JSON.stringify(recoveredState)}`);
-  assert(recoveredState.bootstrapResult.tab_id === tabId, `POPUP_RECOVERY_WRONG_TAB ${JSON.stringify(recoveredState)}`);
-  assert(recoveredState.bindDisabled === false && recoveredState.manualDisabled === false, `POPUP_RECOVERY_CONTROLS_DISABLED ${JSON.stringify(recoveredState)}`);
+  const readyState = await waitUntil(async () => {
+    const state = await popupSnapshot(popup);
+    return state.conversation === KEY && state.bindDisabled === false && state.manualDisabled === false ? state : false;
+  }, 'POPUP_CONTEXT_SELF_RECOVERY_UI_FAIL', 12000);
+  console.log(`CONTEXT_RECOVERY_POPUP_READY_STATE ${JSON.stringify(readyState)}`);
   console.log('CONTEXT_RECOVERY_MISSING_RECEIVER_REPRODUCED_PASS');
   console.log('POPUP_CONTEXT_SELF_RECOVERY_PASS');
 
@@ -165,7 +197,6 @@ try {
   await waitUntil(async () => await chat.evaluate(() => document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action').length === 1), 'RECOVERY_MANUAL_ACTION_SURFACE_FAIL');
   console.log('CONTEXT_RECOVERY_MANUAL_ON_PASS');
 
-  // Re-open the real native toolbar popup after recovery to prove action-popup operation too.
   await popup.close();
   await chat.bringToFront();
   const existingNativeTargets = new Set(browser.targets());
