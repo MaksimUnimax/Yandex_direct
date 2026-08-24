@@ -139,6 +139,13 @@ async function setManualModeFromTab(conversationKey, enabled, tabId) {
   const key = normalizeConversationKey(conversationKey);
   const tab = Number(tabId);
   if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка для изменения Manual mode."), { code: "OWNER_TAB_REQUIRED" });
+  const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+  const operation = operations[key] || null;
+  if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) {
+    if (tab !== Number(operation.tab_id)) throw Object.assign(new Error("Manual mode может изменять только вкладка-owner активной Manual operation."), { code: "AUTO_NON_OWNER_TAB" });
+    await assertTabConversation(tab, key);
+    throw Object.assign(new Error("Нельзя изменять Manual mode до завершения активной Manual operation."), { code: "MANUAL_OPERATION_ACTIVE" });
+  }
   const run = await getAutoRun(key);
   if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) {
     if (tab !== Number(run.tab_id)) throw Object.assign(new Error("Manual mode может изменять только вкладка-owner активного Autorun."), { code: "AUTO_NON_OWNER_TAB" });
