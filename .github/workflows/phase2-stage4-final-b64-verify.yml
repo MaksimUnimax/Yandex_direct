@@ -1,0 +1,46 @@
+name: phase2-stage4-final-b64-verify
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - extension/tests/qa_transport/phase2-stage4-final-b64/**
+      - .github/workflows/phase2-stage4-final-b64-verify.yml
+permissions:
+  contents: read
+jobs:
+  verify-final-exact-b64-transport:
+    if: github.event.pull_request.head.ref == 'qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact transport PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Assert exact checked-out head
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+          git diff --exit-code
+      - name: Fresh-consumer verify final exact transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/tests/qa_transport/phase2-stage4-final-b64/verify_exact_b64_transport.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('extension/tests/qa_transport/phase2-stage4-final-b64/TRANSPORT_MANIFEST_2026-08-24.json')
+          t=json.loads(p.read_text(encoding='utf-8'))
+          assert t['frozen_source_commit']=='0ee1d38f8d28cfccceb5a07f9606fa715261bc27'
+          assert t['source_actions_run']==32714268931
+          assert t['source_actions_artifact_id']==9515289771
+          assert t['artifact_sha256']=='d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16'
+          assert t['artifact_bytes']==170734
+          assert t['files']==65 and t['zip_entries']==68
+          assert t['base64_length']==227648 and t['chunk_count']==16
+          assert all(row['bytes']==14228 for row in t['chunks'])
+          print('FINAL_FROZEN_AUTHORITY_MATCH_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          PY
