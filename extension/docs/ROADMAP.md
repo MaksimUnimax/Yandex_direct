@@ -1,4 +1,4 @@
-# ROADMAP v0.6 — Yandex Marketing Bridge
+# ROADMAP v0.7 — Yandex Marketing Bridge
 
 Status: active roadmap.  
 Updated: 2026-08-24.
@@ -20,26 +20,17 @@ working candidate frozen for handoff
 → owner real-profile/live acceptance only for irreducible live behavior
 ```
 
-Permanent authorities:
+Current exact identities, blockers and next action are authoritative in:
 
 ```text
-extension/docs/WORKFLOW_OPERATING_RULES.md
 extension/docs/CURRENT_STATE.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
-extension/docs/CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md
 ```
-
-For exact current identities, blockers and the authorized next action, `CURRENT_STATE.md` is authoritative over this roadmap.
 
 ---
 
 # PHASE 0 — REPOSITORY / REFERENCE / CORE DESIGN
 
-**Status: PASS.**
-
-Reference authority remains the owner-supplied audited Wordstat material and current canonical documentation.
-
-Historical early Job/GitHub runtime coupling is superseded: GitHub/job concepts are external workflow concerns, not mandatory Bridge runtime dependencies.
+**Status: PASS / CLOSED.**
 
 ---
 
@@ -47,7 +38,7 @@ Historical early Job/GitHub runtime coupling is superseded: GitHub/job concepts 
 
 **Status: LIVE PASS / CLOSED.**
 
-Accepted exact artifact:
+Accepted artifact:
 
 ```text
 yandex-marketing-bridge-0.1.1-phase1-manual-enable-order-fix-candidate.zip
@@ -57,42 +48,15 @@ files: 45
 ZIP entries: 48
 ```
 
-Final controlled gate:
-
-```text
-PD-00..PD-17: ALL PASS
-Manual-ON transaction regression: PASS
-source suite: 361/361 PASS
-packaged suite: 361/361 PASS
-syntax: 40/40 PASS
-JSON: 2/2 PASS
-source/package identity: PASS
-real Yandex requests during controlled gate: 0
-production modified during gate: NO
-tests modified during gate: NO
-verdict: PASS
-```
-
-Final owner real-profile functional acceptance:
-
-```text
-getRegionsTree            PASS
-getTop                    PASS
-getDynamics               PASS after correction of invalid test date instruction
-getRegionsDistribution    PASS
-```
-
-Phase-1 authority remains historical accepted baseline only; it does not replace the combined Wordstat+Search Phase-2 gate.
+Controlled gate and owner real-profile functional Wordstat acceptance both passed. Phase-1 remains the accepted baseline carried into later combined builds.
 
 ---
 
 # PHASE 2 — YANDEX SEARCH / SERP
 
-**Status: STAGE 4 ACTIVE — EXACT REFROZEN CANDIDATE READY FOR A NEW COMPLETE CODEX GATE.**
+**Status: CONTROLLED PRE-DELIVERY PASS — OWNER LIVE SEARCH AUTHORIZED.**
 
-The older roadmap wording that Phase-2 implementation had not started is superseded by the completed Phase-2 development history and current `CURRENT_STATE.md`.
-
-## Enabled first Search slice
+## Enabled first slice
 
 ```text
 protocol: SEARCH_API_V1
@@ -104,15 +68,7 @@ response format: FORMAT_XML
 normalized result: SEARCH_RESULT_V1
 ```
 
-Current companion authority:
-
-```text
-extension/docs/PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
-```
-
-Still locked in Phase 2:
+Still locked:
 
 ```text
 Search async/deferred polling
@@ -127,27 +83,27 @@ Direct
 
 ## Stage 1 — Search foundation
 
-**Status: PASS / COMPLETED.**
+**PASS / COMPLETED.**
 
-Search protocol registration, strict validation/request building, Base64 XML decode and `SEARCH_RESULT_V1` normalization are implemented and covered by the frozen source suite.
+Protocol registration, strict validation/request building, Base64 XML decode and `SEARCH_RESULT_V1` normalization are implemented.
 
 ## Stage 2 — provider / credentials / policy
 
-**Status: PASS / COMPLETED.**
+**PASS / COMPLETED.**
 
-Current Search provider path, local credential capability, policy/cost guards, request accounting and no-blind-retry semantics are implemented and covered by the frozen source suite.
+Search provider path, credential capability, cost/policy guard, exactly-once initiation accounting and no-blind-retry semantics are implemented.
 
 ## Stage 3 — Manual / Autorun / owner / delivery integration
 
-**Status: PASS / COMPLETED.**
+**PASS / COMPLETED.**
 
-Search is integrated through the common Bridge Manual/Autorun lifecycle, owner/conversation fences and durable delivery path; Stage 3 production closure is recorded in current authority.
+Search uses the common Bridge lifecycle, owner/conversation fences and durable result/error delivery path.
 
 ## Stage 4 — exact pre-delivery candidate
 
-**Status: ACTIVE / PREPARED FOR COMPLETE CODEX RERUN.**
+**CONTROLLED PASS / COMPLETED.**
 
-Current exact candidate:
+Exact candidate:
 
 ```text
 source commit: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
@@ -160,68 +116,73 @@ payload manifest SHA-256: 0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e
 payload manifest bytes: 11421
 ```
 
-Current preflight state:
+Final complete Codex campaign:
 
 ```text
+PD-00..PD-17: ALL PASS
+mandatory Manual-ON transaction: PASS
+S-00..S-17: ALL PASS
 source suite: 231/231 PASS
 packaged suite: 231/231 PASS
 packaged syntax: 59/59 PASS
 packaged JSON: 2/2 PASS
-exact artifact identity: PASS
-Windows-safe exact transport consumer proof: PASS
-installed-extension browser B-01: PASS
-mandatory real-popup Manual-ON B-02: PASS
-Search Autorun/operator B-03: PASS
-controlled browser Search stub requests: 1
+browser B-01: PASS
+browser B-02: PASS
+browser B-03: PASS
+controlled Search stub requests: 1
 real Yandex requests: 0
+real credentials: NO
+production modified during gate: NO
+tests modified during gate: NO
+not_run_enabled_sections: 0
+failures: []
+verdict: PASS
 ```
 
-Current transport authority:
+Durable evidence:
 
 ```text
-branch: qa/phase2-stage4-final-b64-transport-0ee1d38-2026-08-24
-commit: bc7754cff6416ff59942ff6f1052d450792888d5
+extension/tests/PHASE_2_STAGE_4_CODEX_FULL_GATE_PASS_2026-08-24.md
 ```
 
-Current browser-harness authority:
+## Final Phase-2 live boundary
+
+Fresh official Search pricing was checked after the complete gate PASS:
 
 ```text
-commit: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
-path: extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
-Windows PASS run: 32720334374
-job: 97410193364
+daytime synchronous: 488 RUB / 1000 = 0.488 RUB/request
+night synchronous:   366 RUB / 1000 = 0.366 RUB/request
+night window:         00:00:00–07:59:59 UTC+3
 ```
 
-Mandatory candidate-specific reconciliations:
+Canonical owner-live procedure:
 
 ```text
-extension/docs/CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
-extension/docs/CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
+extension/docs/PHASE_2_0.1.1_LIVE_ACCEPTANCE.md
 ```
 
-The latest complete Codex attempt returned `FAIL_HARNESS` only because current browser venues had not yet been published. That blocker is now reconciled by the exact browser harness and independent Windows PASS above. Product bytes did not change.
+Only one minimal real synchronous Search request is required. Controlled browser/UI checks are not manually repeated.
 
-### Authorized next Phase-2 action
+Expected current live request reservation:
 
 ```text
-NEW COMPLETE CODEX CAMPAIGN FROM THE BEGINNING
-PD-00..PD-17
-+ mandatory Manual-ON transaction
-+ S-00..S-17 Search Phase-2 addendum
-+ complete source/package suites
-+ exact B-01/B-02/B-03 browser harness
-+ final artifact/cleanliness proof
+0.488 RUB
 ```
 
-Owner-live paid Search remains blocked until that complete campaign returns PASS and ChatGPT performs a fresh official pricing check.
+On a truthful usable `SEARCH_RESULT_V1` PASS:
+
+```text
+PHASE 2 SEARCH FIRST SLICE = LIVE PASS / CLOSED
+→ PHASE 3 WEBMASTER may unlock
+```
+
+On ambiguous provider outcome, no blind retry is allowed.
 
 ---
 
 # PHASE 3 — WEBMASTER
 
-**Status: BLOCKED.**
-
-Do not start until Phase 2 closes its governed owner-live boundary.
+**Status: BLOCKED UNTIL PHASE 2 OWNER-LIVE PASS.**
 
 ---
 
@@ -229,15 +190,11 @@ Do not start until Phase 2 closes its governed owner-live boundary.
 
 **Status: BLOCKED.**
 
-Do not start until prior phases close.
-
 ---
 
 # PHASE 5 — DIRECT READ
 
 **Status: BLOCKED.**
-
-Prove zero mutation and quota guard before write work.
 
 ---
 
@@ -245,15 +202,11 @@ Prove zero mutation and quota guard before write work.
 
 **Status: BLOCKED.**
 
-Every write requires expected-change validation and read-back verification.
-
 ---
 
 # PHASE 7 — DIRECT LIVE WRITE
 
 **Status: BLOCKED.**
-
-No unrestricted live-write Autorun. Explicit changeset/transaction approval plus verification required.
 
 ---
 
@@ -261,17 +214,15 @@ No unrestricted live-write Autorun. Explicit changeset/transaction approval plus
 
 **Status: BLOCKED.**
 
-Order workspaces in GitHub remain an external ChatGPT workflow and are not a Bridge runtime dependency.
-
 ---
 
 # Current status summary
 
 ```text
-PHASE 0  PASS
-PHASE 1  WORDSTAT LIVE PASS / CLOSED on exact e13a…
-PHASE 2  SEARCH STAGE 4 — COMPLETE CODEX RERUN AUTHORIZED
-PHASE 3  BLOCKED
+PHASE 0  PASS / CLOSED
+PHASE 1  WORDSTAT LIVE PASS / CLOSED
+PHASE 2  SEARCH CONTROLLED PASS / OWNER LIVE AUTHORIZED
+PHASE 3  BLOCKED UNTIL PHASE 2 LIVE PASS
 PHASE 4  BLOCKED
 PHASE 5  BLOCKED
 PHASE 6  BLOCKED
