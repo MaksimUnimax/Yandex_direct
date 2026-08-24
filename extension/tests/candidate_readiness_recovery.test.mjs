@@ -9,6 +9,7 @@ const src = path.resolve(testDir, '../src');
 const manifest = JSON.parse(fs.readFileSync(path.join(src, 'manifest.json'), 'utf8'));
 const pkg = JSON.parse(fs.readFileSync(path.join(src, 'package.json'), 'utf8'));
 const popupHtml = fs.readFileSync(path.join(src, 'popup.html'), 'utf8');
+const popupContextBootstrap = fs.readFileSync(path.join(src, 'popup_context_bootstrap.js'), 'utf8');
 const bootstrap = fs.readFileSync(path.join(src, 'service_worker_bootstrap.js'), 'utf8');
 const worker = fs.readFileSync(path.join(src, 'service_worker.js'), 'utf8');
 const product = fs.readFileSync(path.join(src, 'shared/product.js'), 'utf8');
@@ -38,10 +39,13 @@ test('candidate manifest is MV3 and points only to files present in extension/sr
   }
 });
 
-test('candidate popup loads every referenced local script and transfer guard runs before popup runtime', () => {
+test('candidate popup loads local bootstrap scripts and context recovery starts popup runtime only afterwards', () => {
   const scripts = quotedJsSources(popupHtml);
-  assert.deepEqual(scripts, ['popup_transfer_guard.js', 'popup.js']);
+  assert.deepEqual(scripts, ['popup_transfer_guard.js', 'popup_context_bootstrap.js']);
   for (const file of scripts) assert.equal(exists(file), true, `popup script is missing: ${file}`);
+  assert.equal(exists('popup.js'), true, 'dynamic popup runtime is missing');
+  assert.match(popupContextBootstrap, /chrome\.runtime\.getURL\("popup\.js"\)/);
+  assert.match(popupContextBootstrap, /\.finally\(\(\) => loadPopupRuntime\(\)\)/);
 });
 
 test('candidate worker bootstrap loads production worker and every worker importScript exists', () => {
