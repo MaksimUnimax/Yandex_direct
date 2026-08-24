@@ -12,6 +12,7 @@ on:
       - extension/tests/autorun_owner_controls_recovery.test.mjs
       - extension/tests/autorun_recovery.test.mjs
       - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
       - extension/tests/service_context_owner_control_recovery.test.mjs
       - extension/tests/service_context_owner_lock_recovery.test.mjs
       - extension/tests/report_prefix_owner_control_recovery.test.mjs
@@ -29,6 +30,7 @@ on:
       - extension/tests/autorun_owner_controls_recovery.test.mjs
       - extension/tests/autorun_recovery.test.mjs
       - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
       - extension/tests/service_context_owner_control_recovery.test.mjs
       - extension/tests/service_context_owner_lock_recovery.test.mjs
       - extension/tests/report_prefix_owner_control_recovery.test.mjs
@@ -41,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Focused Stage 3 owner and live-tab regressions
+      - name: Focused Stage 3 runtime regressions
         shell: bash
         run: |
           set -euo pipefail
@@ -51,6 +53,7 @@ jobs:
             extension/tests/autorun_owner_controls_recovery.test.mjs \
             extension/tests/autorun_recovery.test.mjs \
             extension/tests/manual_mode_owner_control_recovery.test.mjs \
+            extension/tests/manual_request_restart_recovery.test.mjs \
             extension/tests/service_context_owner_control_recovery.test.mjs \
             extension/tests/service_context_owner_lock_recovery.test.mjs \
             extension/tests/report_prefix_owner_control_recovery.test.mjs \
