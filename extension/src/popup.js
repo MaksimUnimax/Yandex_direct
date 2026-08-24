@@ -363,7 +363,7 @@
 
   $("saveAutoStartPrompt").addEventListener("click", () => withButton($("saveAutoStartPrompt"), async () => {
     if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
-    const response = await runtimeSend({ type: "WS_SAVE_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, text: $("autoStartPromptText").value });
+    const response = await runtimeSend({ type: "WS_SAVE_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, text: $("autoStartPromptText").value, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сохранить стартовый текст.");
     await refresh();
     showStatus("Стартовый текст сохранён.", "ok");
@@ -371,7 +371,7 @@
 
   $("resetAutoStartPrompt").addEventListener("click", () => withButton($("resetAutoStartPrompt"), async () => {
     if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
-    const response = await runtimeSend({ type: "WS_RESET_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value });
+    const response = await runtimeSend({ type: "WS_RESET_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось вернуть стандартный текст.");
     await refresh();
     showStatus("Стандартный стартовый текст восстановлен.", "ok");

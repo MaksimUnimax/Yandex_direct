@@ -382,6 +382,24 @@ async function saveAutoStartPrompt(conversationKey, text, { service = null } = {
   const map = { ...((await storageGet(KEYS.AUTO_START_PROMPTS))[KEYS.AUTO_START_PROMPTS] || {}) }; map[key] = { text: value, is_default: value === defaultAutoStartTextForService(resolved), service: resolved, updated_at: nowIso() }; await storageSet({ [KEYS.AUTO_START_PROMPTS]: map }); return map[key];
 }
 async function resetAutoStartPrompt(conversationKey, { service = null } = {}) { const key = normalizeConversationKey(conversationKey); const resolved = service || (await getServiceContext(key)).active_service; return saveAutoStartPrompt(key, defaultAutoStartTextForService(resolved), { service: resolved }); }
+async function saveAutoStartPromptFromTab(conversationKey, text, { service = null } = {}, tabId = null) {
+  const key = normalizeConversationKey(conversationKey);
+  const resolved = service || (await getServiceContext(key)).active_service;
+  const value = String(text || "").trim();
+  if (!value) throw Object.assign(new Error("Стартовый текст пуст."), { code: "AUTO_START_PROMPT_EMPTY" });
+  const current = await getAutoStartPrompt(key, { service: resolved });
+  const isDefault = value === defaultAutoStartTextForService(resolved);
+  if (current.text === value && current.service === resolved && current.is_default === isDefault) return current;
+  const tab = Number(tabId);
+  if (tabId == null || !Number.isInteger(tab) || tab <= 0) throw Object.assign(new Error("Не определена вкладка для изменения стартового текста."), { code: "OWNER_TAB_REQUIRED" });
+  await assertTabConversation(tab, key);
+  return saveAutoStartPrompt(key, value, { service: resolved });
+}
+async function resetAutoStartPromptFromTab(conversationKey, { service = null } = {}, tabId = null) {
+  const key = normalizeConversationKey(conversationKey);
+  const resolved = service || (await getServiceContext(key)).active_service;
+  return saveAutoStartPromptFromTab(key, defaultAutoStartTextForService(resolved), { service: resolved }, tabId);
+}
 
 async function publicSettingsState(conversationKey) {
   const key = normalizeConversationKey(conversationKey);
@@ -892,8 +910,8 @@ async function handleMessage(message, sender) {
       const values = {}; if (typeof message.api_key === "string" && message.api_key.trim()) values[KEYS.API_KEY] = normalizeApiKey(message.api_key, { required: true }); if (typeof message.folder_id === "string") values[KEYS.FOLDER_ID] = normalizeFolderId(message.folder_id, { required: true }); if (Object.hasOwn(message, "auto_send")) values[KEYS.AUTO_SEND] = message.auto_send === true; if (Object.hasOwn(message, "debug_mode")) values[KEYS.DEBUG_MODE] = message.debug_mode === true; if (Object.keys(values).length) await storageSet(values); if (message.wordstat_policy) await saveWordstatPolicy(message.wordstat_policy); if (message.search_policy) await saveSearchPolicy(message.search_policy); if (message.conversation_key && message.active_service) await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id); if (message.conversation_key && message.report_prefix) await saveReportPrefixFromTab(message.conversation_key, message.report_prefix, message.tab_id ?? sender?.tab?.id); return { ok: true, state: message.conversation_key ? await publicSettingsState(message.conversation_key) : await publicGlobalSettingsState() };
     }
     case "WS_SAVE_SERVICE_CONTEXT": return { ok: true, service_context: await saveServiceContextFromTab(message.conversation_key, { active_service: message.active_service }, message.tab_id ?? sender?.tab?.id) };
-    case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPrompt(message.conversation_key, message.text, { service: message.active_service || null }) };
-    case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPrompt(message.conversation_key, { service: message.active_service || null }) };
+    case "WS_SAVE_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await saveAutoStartPromptFromTab(message.conversation_key, message.text, { service: message.active_service || null }, message.tab_id ?? sender?.tab?.id) };
+    case "WS_RESET_AUTO_START_PROMPT": return { ok: true, auto_start_prompt: await resetAutoStartPromptFromTab(message.conversation_key, { service: message.active_service || null }, message.tab_id ?? sender?.tab?.id) };
     case "WS_START_AUTORUN": return { ok: true, run: publicRun(await startAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
     case "WS_PAUSE_AUTORUN": return { ok: true, run: publicRun(await pauseAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
     case "WS_RESUME_AUTORUN": return { ok: true, run: publicRun(await resumeAutoRun(message.conversation_key, message.tab_id || sender?.tab?.id)) };
