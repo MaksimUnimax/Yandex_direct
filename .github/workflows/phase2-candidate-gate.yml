@@ -5,56 +5,44 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-candidate-gate.yml
+      - extension/src/service_worker.js
+      - extension/src/popup.js
+      - extension/tests/content_error_delivery_recovery.test.mjs
+      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
+      - extension/tests/autorun_owner_controls_recovery.test.mjs
+      - extension/tests/autorun_recovery.test.mjs
+      - extension/tests/manual_mode_owner_control_recovery.test.mjs
+      - extension/tests/manual_request_restart_recovery.test.mjs
+      - extension/tests/service_context_owner_control_recovery.test.mjs
+      - extension/tests/service_context_owner_lock_recovery.test.mjs
+      - extension/tests/report_prefix_owner_control_recovery.test.mjs
+      - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_tab_control_recovery.test.mjs
 permissions:
-  contents: write
+  contents: read
 jobs:
-  focused-runtime-outbox-reservation-transport:
-    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
+  focused-stage3-owner-and-live-tab:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: candidate/phase2-search-reconstruction-2026-08-23
-          fetch-depth: 0
-      - name: Apply exact runtime outbox reservation fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('extension/src/service_worker.js')
-          text = path.read_text(encoding='utf-8')
-          old = '''async function promotePendingContentError(conversationKey) {
-            const key = normalizeConversationKey(conversationKey);
-            const outbox = { ...(await getOutbox()) };
-            if (outbox[key]) return outbox[key];
-            const queues = { ...(await getContentErrorQueue()) };'''.replace('          ', '')
-          new = '''async function runtimeReservesPrimaryOutbox(conversationKey) {
-            const key = normalizeConversationKey(conversationKey);
-            const operations = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
-            const operation = operations[key] || null;
-            if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) return true;
-            const run = await getAutoRun(key);
-            if (!run || WordstatAutorunModel.isTerminalStatus(run.status)) return false;
-            return [
-              WordstatAutorunModel.RUN_STATUSES.STARTING,
-              WordstatAutorunModel.RUN_STATUSES.REQUESTING,
-              WordstatAutorunModel.RUN_STATUSES.DELIVERING
-            ].includes(run.status);
-          }
-          async function promotePendingContentError(conversationKey) {
-            const key = normalizeConversationKey(conversationKey);
-            const outbox = { ...(await getOutbox()) };
-            if (outbox[key]) return outbox[key];
-            if (await runtimeReservesPrimaryOutbox(key)) return null;
-            const queues = { ...(await getContentErrorQueue()) };'''.replace('          ', '')
-          if text.count(old) != 1:
-              raise SystemExit(f'expected one promotePendingContentError prefix, got {text.count(old)}')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8')
-          PY
-          git diff --check
-          test "$(git diff --name-only)" = "extension/src/service_worker.js"
       - name: Focused Stage 3 runtime regressions
         shell: bash
         run: |
@@ -76,12 +64,4 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/src/service_worker.js
-      - name: Commit verified production fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add extension/src/service_worker.js
-          git commit -m "fix: reserve outbox for active runtime delivery"
-          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
+          node --check extension/src/popup.js
