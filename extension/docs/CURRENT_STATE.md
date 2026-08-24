@@ -7,10 +7,10 @@ Always fetch live `main` HEAD and commit metadata before any control-plane write
 
 ## Mandatory reconstruction record
 
-The live control-plane checkpoint inspected immediately before this state update was:
+The live control-plane checkpoint inspected before the current Stage-4 handoff consolidation was:
 
 ```text
-LIVE_HEAD_BEFORE_STATE_UPDATE = aef832c2c543f3c3d36fe45689240896429e9957
+LIVE_HEAD_CHECKPOINT = 78b9d5b8299e242271f70bdd9413b5180ba4ed1d
 PRODUCT_SOURCE = 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
 HANDOFF_ARTIFACT = d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16 / 170734 bytes
 LATEST_COMPLETE_CODEX_GATE = FAIL_HARNESS on exact candidate; browser blocker subsequently reconciled and independently preflighted PASS
@@ -21,7 +21,7 @@ OPEN_BLOCKERS = complete Codex campaign has not yet returned PASS
 AUTHORIZED_NEXT_STAGE = CODEX_COMPLETE_PRE_DELIVERY_FULL_GATE
 ```
 
-The current live `main` HEAD may legitimately be newer than the checkpoint above because this document update itself changes `main`; always read live GitHub before acting.
+The current live `main` HEAD may legitimately be newer than the checkpoint above because the current handoff/documentation commits themselves advance `main`; always read live GitHub before acting.
 
 ## Owner / process rule
 
@@ -252,13 +252,28 @@ STAGE 4 — complete Codex pre-delivery full gate = PENDING NEW COMPLETE RERUN
 STAGE 4 — owner-live paid Search = BLOCKED UNTIL COMPLETE CODEX PASS
 ```
 
+## Primary integrated Codex handoff
+
+Use this current candidate-specific entry point:
+
+```text
+extension/docs/CODEX_PHASE2_STAGE4_FINAL_RERUN_HANDOFF_2026-08-24.md
+```
+
+It integrates the current exact candidate, Windows-safe transport and browser-harness authorities. Older `CODEX_PHASE2_STAGE4_FINAL_HANDOFF_2026-08-24.md` remains historical handoff context and is not the primary rerun entry point.
+
 ## Mandatory Codex authority for the next campaign
 
 Read from live `main` before execution:
 
 ```text
+extension/docs/README.md
 extension/docs/WORKFLOW_OPERATING_RULES.md
 extension/docs/CURRENT_STATE.md
+extension/docs/PROJECT_PURPOSE.md
+extension/docs/SPECIFICATION.md
+extension/docs/SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md
+extension/docs/ROADMAP.md
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_MANUAL_ON_TRANSACTION_ADDENDUM_2026-08-19.md
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_SEARCH_PHASE2_ADDENDUM.md
@@ -268,15 +283,16 @@ extension/tests/PHASE_2_STAGE_4_PACKAGED_SUITE_ADAPTER_2026-08-24.md
 extension/tests/PHASE_2_STAGE_4_REFROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
 extension/docs/CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
 extension/docs/CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
-extension/docs/CODEX_PHASE2_STAGE4_FINAL_HANDOFF_2026-08-24.md
+extension/docs/CODEX_PHASE2_STAGE4_FINAL_RERUN_HANDOFF_2026-08-24.md
 ```
 
-Precedence for candidate-specific stale text:
+Candidate-specific precedence:
 
 ```text
 Windows transport reconciliation supersedes stale 9ded... transport references.
 Browser-harness reconciliation supersedes stale B-01/B-02/B-03 venue references.
-All other final-handoff / execution-map / PD / Manual / Search requirements remain mandatory.
+Final rerun handoff is the primary candidate-specific execution entry point.
+All other living PD / Manual / Search / package / cleanliness requirements remain mandatory.
 ```
 
 The next Codex execution must be a **new complete campaign from the beginning** against the same exact `d58b5bd...` artifact:
