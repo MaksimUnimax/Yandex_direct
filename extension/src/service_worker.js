@@ -446,6 +446,25 @@ async function promotePendingContentError(conversationKey) {
   await storageSet({ [KEYS.OUTBOX]: outbox, [KEYS.CONTENT_ERRORS]: queues });
   return entry;
 }
+async function contentErrorOwnerFence(conversationKey, senderTabId) {
+  const key = normalizeConversationKey(conversationKey);
+  let ownerTabId = null;
+  const outboxEntry = (await getOutbox())[key] || null;
+  if (outboxEntry) ownerTabId = Number(outboxEntry.tab_id);
+  else {
+    const ops = (await storageGet(KEYS.MANUAL_OPERATIONS))[KEYS.MANUAL_OPERATIONS] || {};
+    const operation = ops[key] || null;
+    if (operation && !TERMINAL_MANUAL_STATUSES.has(operation.status)) ownerTabId = Number(operation.tab_id);
+    else {
+      const run = await getAutoRun(key);
+      if (run && !WordstatAutorunModel.isTerminalStatus(run.status)) ownerTabId = Number(run.tab_id);
+    }
+  }
+  if (ownerTabId == null) return null;
+  if (!Number.isInteger(ownerTabId)) return { ok: false, code: "CONTENT_ERROR_OWNER_TAB_UNCONFIRMED", error: "Owner-вкладка runtime-состояния не подтверждена." };
+  if (ownerTabId !== Number(senderTabId)) return { ok: false, code: "AUTO_NON_OWNER_TAB", error: "Ошибка страницы пришла не из текущей owner-вкладки." };
+  return null;
+}
 async function reportContentError(message, sender) {
   let key;
   try { key = normalizeConversationKey(message?.conversation_key); }
@@ -456,6 +475,8 @@ async function reportContentError(message, sender) {
   if (!Number.isInteger(senderTabId)) return { ok: false, code: "CONTENT_ERROR_SENDER_TAB_REQUIRED", error: "Ошибка страницы должна исходить из вкладки ChatGPT." };
   try { await assertTabConversation(senderTabId, key, binding.conversation_id); }
   catch (error) { return { ok: false, code: error.code || "CONVERSATION_MISMATCH", error: error.message || String(error) }; }
+  const ownerFence = await contentErrorOwnerFence(key, senderTabId);
+  if (ownerFence) return ownerFence;
   const context = await getServiceContext(key);
   const service = YMBServiceRegistry.isKnownService(message?.service) ? message.service : context.active_service;
   const channel = ["manual", "autorun", "content"].includes(String(message?.channel || "")) ? String(message.channel) : "content";
@@ -521,7 +542,10 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
   const mismatch = preflight.items.find((item) => item.service && item.service !== serviceContext.active_service);
   if (mismatch) return { ok: false, accepted: false, code: "SERVICE_NOT_ACTIVE", error: `Активный сервис ${serviceContext.active_service}; команда ${mismatch.prefix} относится к ${mismatch.service}.`, request_executed: false };
   const currentRun = await getAutoRun(key); if (currentRun && !WordstatAutorunModel.isTerminalStatus(currentRun.status) && currentRun.status !== WordstatAutorunModel.RUN_STATUSES.PAUSED) return { ok: false, accepted: false, code: "AUTORUN_NOT_PAUSED", error: "Для Manual активный Autorun должен быть поставлен на паузу." };
-  if (currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED) { try { YMBRunContextModel.assertServiceMatch(currentRun.active_service, serviceContext.active_service); } catch (error) { return { ok: false, accepted: false, code: error.code, error: error.message }; } }
+  if (currentRun?.status === WordstatAutorunModel.RUN_STATUSES.PAUSED) {
+    if (senderTabId !== Number(currentRun.tab_id)) return { ok: false, accepted: false, code: "AUTO_NON_OWNER_TAB", error: "Manual action должна выполняться во вкладке-owner paused Autorun." };
+    try { YMBRunContextModel.assertServiceMatch(currentRun.active_service, serviceContext.active_service); } catch (error) { return { ok: false, accepted: false, code: error.code, error: error.message }; }
+  }
   const data = await storageGet(KEYS.MANUAL_OPERATIONS); const map = { ...(data[KEYS.MANUAL_OPERATIONS] || {}) }; const existing = map[key];
   if (existing && !TERMINAL_MANUAL_STATUSES.has(existing.status)) return { ok: false, accepted: false, code: "MANUAL_OPERATION_ACTIVE", error: "Предыдущая ручная операция ещё не завершена." };
   const requestToken = String(manualRequestToken || uid("manual-request")); if (existing?.request_token === requestToken) return { ok: true, accepted: false, duplicate: true, operation_id: existing.operation_id };
