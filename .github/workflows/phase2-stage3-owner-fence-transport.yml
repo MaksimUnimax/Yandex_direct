@@ -1,6 +1,11 @@
 # Temporary Stage 3 transport; remove immediately after the verified owner-fence worker commit lands.
 name: phase2-stage3-owner-fence-transport
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/phase2-stage3-owner-fence-transport.yml
   pull_request:
     branches:
       - main
@@ -12,12 +17,12 @@ permissions:
   contents: write
 jobs:
   focused-owner-fences:
-    if: github.head_ref == 'candidate/phase2-search-reconstruction-2026-08-23'
+    if: github.event_name == 'push' || github.head_ref == 'candidate/phase2-search-reconstruction-2026-08-23'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: candidate/phase2-search-reconstruction-2026-08-23
       - name: Apply exact Stage 3 owner fences
         shell: python
         run: |
@@ -120,4 +125,4 @@ async function reportContentError(message, sender) {
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add extension/src/service_worker.js
           git commit -m "fix: fence Stage 3 runtime state to owner tab"
-          git push origin HEAD:${{ github.head_ref }}
+          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
