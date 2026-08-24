@@ -8,6 +8,14 @@ on:
       - extension/src/popup.css
       - extension/tests/popup_chrome151_geometry_recovery.test.mjs
       - extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs
+  pull_request:
+    branches:
+      - candidate/phase2-search-reconstruction-2026-08-23
+    paths:
+      - .github/workflows/phase2-popup-chrome151-geometry.yml
+      - extension/src/popup.css
+      - extension/tests/popup_chrome151_geometry_recovery.test.mjs
+      - extension/tests/qa_browser/popup_chrome151_geometry_gate.mjs
 permissions:
   contents: read
 jobs:
