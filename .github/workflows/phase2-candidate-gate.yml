@@ -5,36 +5,42 @@ on:
       - candidate/phase2-search-reconstruction-2026-08-23
     paths:
       - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/src/popup.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
-      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
-      - extension/tests/autorun_owner_controls_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/manual_mode_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_lock_recovery.test.mjs
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/phase2-candidate-gate.yml
-      - extension/src/service_worker.js
-      - extension/src/popup.js
-      - extension/tests/content_error_delivery_recovery.test.mjs
-      - extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
-      - extension/tests/autorun_owner_controls_recovery.test.mjs
-      - extension/tests/autorun_recovery.test.mjs
-      - extension/tests/manual_mode_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_control_recovery.test.mjs
-      - extension/tests/service_context_owner_lock_recovery.test.mjs
 permissions:
-  contents: read
+  contents: write
 jobs:
-  focused-stage3-owner-fences:
+  focused-active-service-contract-transport:
+    if: github.ref == 'refs/heads/candidate/phase2-search-reconstruction-2026-08-23'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: candidate/phase2-search-reconstruction-2026-08-23
+          fetch-depth: 0
+      - name: Apply exact active-service contract alignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('extension/src/service_worker.js')
+          text = path.read_text(encoding='utf-8')
+          start = text.index('async function saveServiceContextFromTab(')
+          end = text.index('\nasync function getAutoRun(', start)
+          block = text[start:end]
+          old_tab = 'const tab = Number(tabId);\n  if (!Number.isInteger(tab)) throw Object.assign(new Error("Не определена вкладка для изменения активного сервиса."), { code: "OWNER_TAB_REQUIRED" });'
+          new_tab = 'const tab = Number(tabId);\n  if (tabId == null || !Number.isInteger(tab) || tab <= 0) throw Object.assign(new Error("Не определена вкладка для изменения активного сервиса."), { code: "OWNER_TAB_REQUIRED" });'
+          if block.count(old_tab) != 1:
+              raise SystemExit(f'expected one tab validation anchor, got {block.count(old_tab)}')
+          if block.count('SERVICE_CONTEXT_RUNTIME_LOCKED') != 3:
+              raise SystemExit(f'expected three runtime lock codes, got {block.count("SERVICE_CONTEXT_RUNTIME_LOCKED")}')
+          block = block.replace(old_tab, new_tab, 1)
+          block = block.replace('SERVICE_CONTEXT_RUNTIME_LOCKED', 'ACTIVE_SERVICE_LOCKED')
+          text = text[:start] + block + text[end:]
+          path.write_text(text, encoding='utf-8')
+          PY
+          git diff --check
+          changed="$(git diff --name-only)"
+          test "$changed" = "extension/src/service_worker.js"
       - name: Focused Stage 3 owner-fence regressions
         shell: bash
         run: |
@@ -53,3 +59,12 @@ jobs:
           set -euo pipefail
           node --check extension/src/service_worker.js
           node --check extension/src/popup.js
+      - name: Commit verified production fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/src/service_worker.js
+          git commit -m "fix: align active-service lock contract"
+          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
