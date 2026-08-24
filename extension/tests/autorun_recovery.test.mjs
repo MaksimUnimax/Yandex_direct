@@ -160,3 +160,13 @@ test('Worker restart converts abandoned REQUESTING into UNKNOWN error delivery w
   assert.match(h.store.wsmb_outbox[CKEY].report_text,/^YMB_ERROR_V1\n/);
   assert.match(h.store.wsmb_outbox[CKEY].report_text,/"request_executed":\s*"UNKNOWN"/);
 });
+
+test('Autorun start rejects a persisted binding that does not match the live conversation identity', async()=>{
+  const stale=binding();
+  stale.conversation_id='11111111-2222-4333-8444-555555555555';
+  const h=harness({...baseStore(),wsmb_conversation_bindings:{[CKEY]:stale}});
+  await assert.rejects(()=>h.api.startAutoRun(CKEY,1),error=>error?.code==='CONVERSATION_NOT_BOUND');
+  assert.equal(h.store.wsmb_auto_runs,undefined);
+  assert.equal(h.store.wsmb_outbox,undefined);
+  assert.equal(h.fetchCalls.length,0);
+});
