@@ -6,6 +6,7 @@
   "permissions": [
     "storage",
     "tabs",
+    "scripting",
     "unlimitedStorage"
   ],
   "host_permissions": [
