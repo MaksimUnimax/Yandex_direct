@@ -152,7 +152,7 @@
       const activeRun = isActiveRun(run);
       const paused = run?.status === "paused";
       const runOwnedHere = !activeRun || (context.available && Number(run?.tab_id) === Number(context.tab_id));
-      $("manualMode").disabled = !context.available || manualBusy || (activeRun && !paused);
+      $("manualMode").disabled = !context.available || manualBusy || (activeRun && (!paused || !runOwnedHere));
       if (manualBusy) $("manualModeMeta").textContent = "Предыдущая ручная операция ещё выполняется или доставляется.";
       else if (state?.manual_mode) $("manualModeMeta").textContent = `Включён для ${service}: используйте отдельную кнопку «Яндекс» у блока.`;
       else if (paused) $("manualModeMeta").textContent = "Автоматический режим на паузе: ручной режим можно включить для точечного запроса.";
@@ -316,13 +316,13 @@
       if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
       const committedService = lastState?.service_context?.active_service === "search" ? "search" : "wordstat";
       if (enabled && $("activeService").value !== committedService) throw new Error("Сначала сохраните выбранный активный сервис.");
-      const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled });
+      const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled, tab_id: context.tab_id });
       if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не сохранил ручной режим.");
       workerCommitted = true;
       const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled, active_service: committedService });
       if (!applied?.ok || applied.applied !== true) {
         if (enabled) {
-          const rollback = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false });
+          const rollback = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, tab_id: context.tab_id });
           if (rollback?.ok) {
             try { await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: committedService }); } catch {}
           }
