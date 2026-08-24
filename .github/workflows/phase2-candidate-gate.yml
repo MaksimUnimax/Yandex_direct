@@ -26,6 +26,7 @@ jobs:
         with:
           ref: candidate/phase2-search-reconstruction-2026-08-23
       - name: Apply exact Stage 3 owner fences
+        id: patch
         shell: python
         run: |
           from pathlib import Path
@@ -98,6 +99,7 @@ async function reportContentError(message, sender) {
           if changed:
               path.write_text(text, encoding='utf-8')
       - name: Verify only worker changed by patch step
+        id: scope
         shell: bash
         run: |
           set -euo pipefail
@@ -107,6 +109,7 @@ async function reportContentError(message, sender) {
             exit 1
           fi
       - name: Focused Stage 3 owner-fence regressions
+        id: tests
         shell: bash
         run: |
           set -euo pipefail
@@ -114,9 +117,11 @@ async function reportContentError(message, sender) {
             extension/tests/content_error_delivery_recovery.test.mjs \
             extension/tests/manual_paused_run_owner_fence_recovery.test.mjs
       - name: Changed worker syntax
+        id: syntax
         shell: bash
         run: node --check extension/src/service_worker.js
       - name: Commit verified worker fix
+        id: product_commit
         shell: bash
         run: |
           set -euo pipefail
@@ -127,4 +132,31 @@ async function reportContentError(message, sender) {
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add extension/src/service_worker.js
           git commit -m "fix: fence Stage 3 runtime state to owner tab"
+          git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
+      - name: Record transport failure without worker changes
+        if: ${{ failure() }}
+        shell: bash
+        env:
+          PATCH_OUTCOME: ${{ steps.patch.outcome }}
+          SCOPE_OUTCOME: ${{ steps.scope.outcome }}
+          TESTS_OUTCOME: ${{ steps.tests.outcome }}
+          SYNTAX_OUTCOME: ${{ steps.syntax.outcome }}
+          COMMIT_OUTCOME: ${{ steps.product_commit.outcome }}
+        run: |
+          set -euo pipefail
+          git reset --hard HEAD
+          mkdir -p .github/diagnostics
+          cat > .github/diagnostics/stage3-owner-fence-transport.json <<EOF
+          {
+            "patch": "$PATCH_OUTCOME",
+            "scope": "$SCOPE_OUTCOME",
+            "tests": "$TESTS_OUTCOME",
+            "syntax": "$SYNTAX_OUTCOME",
+            "product_commit": "$COMMIT_OUTCOME"
+          }
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/diagnostics/stage3-owner-fence-transport.json
+          git commit -m "ci: record Stage 3 owner-fence transport failure"
           git push origin HEAD:candidate/phase2-search-reconstruction-2026-08-23
