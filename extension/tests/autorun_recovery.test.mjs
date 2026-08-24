@@ -55,7 +55,7 @@ const baseStore=()=>({
 
 test('Pause while waiting is immediate and preserves Search service and counters', async()=>{
   const h=harness({...baseStore(),wsmb_auto_runs:{[CKEY]:run('waiting_command')}});
-  const paused=await h.api.pauseAutoRun(CKEY);
+  const paused=await h.api.pauseAutoRun(CKEY,1);
   assert.equal(paused.status,'paused');
   assert.equal(paused.active_service,'search');
   assert.equal(paused.requests_executed,1);
@@ -65,7 +65,7 @@ test('Pause while waiting is immediate and preserves Search service and counters
 test('Pause and Finish are deferred across in-flight delivery and applied only after confirmation', async()=>{
   const deliveryId='delivery-1';
   const h=harness({...baseStore(),wsmb_auto_runs:{[CKEY]:run('delivering',{delivery:{delivery_id:deliveryId,phase:'claimed'}})},wsmb_outbox:{[CKEY]:{delivery_id:deliveryId,type:'autorun',run_id:'search-run',tab_id:1,report_text:'SEARCH_RESULT_V1\n{}',phase:'claimed'}}});
-  const pauseRequested=await h.api.pauseAutoRun(CKEY);
+  const pauseRequested=await h.api.pauseAutoRun(CKEY,1);
   assert.equal(pauseRequested.status,'delivering');
   assert.equal(pauseRequested.pause_requested,true);
   await h.api.completeDelivery({conversation_key:CKEY,delivery_id:deliveryId,confirmation_basis:'microphone'},{tab:{id:1}});
@@ -73,7 +73,7 @@ test('Pause and Finish are deferred across in-flight delivery and applied only a
 
   h.store.wsmb_auto_runs[CKEY]=run('delivering',{delivery:{delivery_id:'delivery-2',phase:'claimed'}});
   h.store.wsmb_outbox={[CKEY]:{delivery_id:'delivery-2',type:'autorun',run_id:'search-run',tab_id:1,report_text:'SEARCH_RESULT_V1\n{}',phase:'claimed'}};
-  const finishRequested=await h.api.finishAutoRun(CKEY);
+  const finishRequested=await h.api.finishAutoRun(CKEY,1);
   assert.equal(finishRequested.status,'delivering');
   assert.equal(finishRequested.finish_requested,true);
   await h.api.completeDelivery({conversation_key:CKEY,delivery_id:'delivery-2',confirmation_basis:'microphone'},{tab:{id:1}});
@@ -82,12 +82,12 @@ test('Pause and Finish are deferred across in-flight delivery and applied only a
 
 test('Resume is allowed only from pause and keeps immutable service/budget', async()=>{
   const h=harness({...baseStore(),wsmb_auto_runs:{[CKEY]:run('paused')}});
-  const resumed=await h.api.resumeAutoRun(CKEY);
+  const resumed=await h.api.resumeAutoRun(CKEY,1);
   assert.equal(resumed.status,'waiting_command');
   assert.equal(resumed.active_service,'search');
   assert.equal(resumed.requests_executed,1);
   h.store.wsmb_auto_runs[CKEY]=run('waiting_command');
-  await assert.rejects(()=>h.api.resumeAutoRun(CKEY),e=>e.code==='AUTO_RUN_NOT_PAUSED');
+  await assert.rejects(()=>h.api.resumeAutoRun(CKEY,1),e=>e.code==='AUTO_RUN_NOT_PAUSED');
 });
 
 test('A second distinct Search command cannot start while previous result is still being delivered', async()=>{
