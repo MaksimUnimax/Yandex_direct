@@ -16,6 +16,7 @@ on:
       - extension/tests/service_context_owner_lock_recovery.test.mjs
       - extension/tests/report_prefix_owner_control_recovery.test.mjs
       - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_owner_control_recovery.test.mjs
   pull_request:
     branches:
       - main
@@ -32,6 +33,7 @@ on:
       - extension/tests/service_context_owner_lock_recovery.test.mjs
       - extension/tests/report_prefix_owner_control_recovery.test.mjs
       - extension/tests/start_prompt_and_prefix_recovery.test.mjs
+      - extension/tests/auto_start_prompt_owner_control_recovery.test.mjs
 permissions:
   contents: read
 jobs:
@@ -52,7 +54,8 @@ jobs:
             extension/tests/service_context_owner_control_recovery.test.mjs \
             extension/tests/service_context_owner_lock_recovery.test.mjs \
             extension/tests/report_prefix_owner_control_recovery.test.mjs \
-            extension/tests/start_prompt_and_prefix_recovery.test.mjs
+            extension/tests/start_prompt_and_prefix_recovery.test.mjs \
+            extension/tests/auto_start_prompt_owner_control_recovery.test.mjs
       - name: Changed runtime syntax
         shell: bash
         run: |
