@@ -1,5 +1,10 @@
 name: phase2-popup-fix-exact-browser-preflight
 on:
+  push:
+    branches:
+      - fix/phase2-popup-chrome151-autosize-2026-08-24
+    paths:
+      - .github/workflows/phase2-popup-fix-exact-browser-preflight.yml
   pull_request:
     branches:
       - candidate/phase2-search-reconstruction-2026-08-23
