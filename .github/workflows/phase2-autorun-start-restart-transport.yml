@@ -1,13 +1,13 @@
 name: phase2-autorun-start-restart-transport
 on:
-  pull_request:
-    types: [edited, reopened, synchronize]
+  pull_request_target:
+    types: [edited]
     branches: [main]
 permissions:
   contents: write
 jobs:
   transport:
-    if: github.event.pull_request.number == 5 && github.head_ref == 'candidate/phase2-search-reconstruction-2026-08-23'
+    if: github.event.pull_request.number == 5 && github.event.pull_request.head.ref == 'candidate/phase2-search-reconstruction-2026-08-23' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
