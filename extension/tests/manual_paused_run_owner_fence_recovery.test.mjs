@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 // Focused transport trigger: production worker changes are committed only after this regression and the content-error owner fence pass.
+// Base main now contains the temporary exact-patch transport workflow; this comment retriggers PR synchronization.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src');
 const workerSource = fs.readFileSync(path.join(root, 'service_worker.js'), 'utf8');
 
