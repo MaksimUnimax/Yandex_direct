@@ -110,14 +110,11 @@ try {
   assert(before.response.conversation_key === KEY, 'PRE_RELOAD_KEY_FAIL');
   console.log('CONTEXT_RECOVERY_PRE_RELOAD_IDENTITY_PASS');
 
+  // Trigger the same extension runtime reload that invalidates an already-open page's old receiver.
+  // Do not gate on Puppeteer service-worker target destruction: Chrome may reuse/retain that CDP target.
   await firstWorker.evaluate(() => { setTimeout(() => chrome.runtime.reload(), 0); return true; });
-  await waitUntil(
-    () => !browser.targets().includes(firstTarget),
-    'OLD_EXTENSION_WORKER_TARGET_DID_NOT_DIE',
-    15000,
-    100
-  );
-  console.log('CONTEXT_RECOVERY_OLD_WORKER_CONTEXT_DESTROYED_PASS');
+  await delay(800);
+  console.log('CONTEXT_RECOVERY_RUNTIME_RELOAD_TRIGGERED_PASS');
 
   const pageStable = await chat.evaluate((expected) => ({
     url: location.href,
@@ -127,23 +124,30 @@ try {
   assert(pageStable.url === CHAT_URL && pageStable.marker === documentMarker, `CHAT_PAGE_RELOADED_UNEXPECTEDLY ${JSON.stringify(pageStable)}`);
   console.log('CONTEXT_RECOVERY_CHAT_PAGE_REMAINED_OPEN_PASS');
 
-  // No assumption that Chrome eagerly starts a replacement MV3 worker after runtime.reload().
-  // Create the popup document as a browser-level background target, not a renderer navigation.
-  // ChatGPT remains the active tab while the exact popup bootstrap self-heals the missing receiver.
+  // Create the popup as a browser-level extension target while ChatGPT remains active.
+  // PASS requires bootstrap.recovered=true, which can only be published after the initial
+  // identity probes failed, the exact manifest content bundle was injected, and identity retried successfully.
   await chat.bringToFront();
   const popup = await openBackgroundExtensionPage(browser, `${extensionOrigin}popup.html`);
 
-  await waitUntil(async () => {
+  const recoveredState = await waitUntil(async () => {
     const state = await popup.evaluate(() => ({
       conversation: document.getElementById('conversationMeta')?.textContent || '',
       bindDisabled: Boolean(document.getElementById('bindConversation')?.disabled),
       manualDisabled: Boolean(document.getElementById('manualMode')?.disabled),
       status: document.getElementById('status')?.textContent || '',
-      bootstrapError: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || ''
+      bootstrapError: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || '',
+      bootstrapResult: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null
     }));
     if (state.bootstrapError) throw new Error(`POPUP_BOOTSTRAP_ERROR ${state.bootstrapError}`);
-    return state.conversation === KEY && state.bindDisabled === false && state.manualDisabled === false ? state : false;
-  }, 'POPUP_CONTEXT_SELF_RECOVERY_FAIL', 20000);
+    return state.bootstrapResult && state.conversation === KEY ? state : false;
+  }, 'POPUP_CONTEXT_SELF_RECOVERY_RESULT_MISSING', 20000);
+
+  assert(recoveredState.bootstrapResult.attempted === true, `POPUP_RECOVERY_NOT_ATTEMPTED ${JSON.stringify(recoveredState)}`);
+  assert(recoveredState.bootstrapResult.recovered === true, `POPUP_MISSING_RECEIVER_BRANCH_NOT_REPRODUCED ${JSON.stringify(recoveredState)}`);
+  assert(recoveredState.bootstrapResult.tab_id === tabId, `POPUP_RECOVERY_WRONG_TAB ${JSON.stringify(recoveredState)}`);
+  assert(recoveredState.bindDisabled === false && recoveredState.manualDisabled === false, `POPUP_RECOVERY_CONTROLS_DISABLED ${JSON.stringify(recoveredState)}`);
+  console.log('CONTEXT_RECOVERY_MISSING_RECEIVER_REPRODUCED_PASS');
   console.log('POPUP_CONTEXT_SELF_RECOVERY_PASS');
 
   const current = await currentExtensionWorker(browser, extensionOrigin);
@@ -161,8 +165,7 @@ try {
   await waitUntil(async () => await chat.evaluate(() => document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action').length === 1), 'RECOVERY_MANUAL_ACTION_SURFACE_FAIL');
   console.log('CONTEXT_RECOVERY_MANUAL_ON_PASS');
 
-  // Re-open the real native toolbar popup after recovery to prove the accepted popup document
-  // sees the same current ChatGPT identity and remains operational in action-popup form.
+  // Re-open the real native toolbar popup after recovery to prove action-popup operation too.
   await popup.close();
   await chat.bringToFront();
   const existingNativeTargets = new Set(browser.targets());
