@@ -1,0 +1,74 @@
+name: phase2-stage4-freeze
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/phase2-stage4-freeze.yml
+permissions:
+  contents: read
+jobs:
+  freeze-exact-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact Stage 4 source authority
+        uses: actions/checkout@v4
+        with:
+          ref: 1869d17f3cb64417a07088de18dafa5687c83840
+          fetch-depth: 0
+      - name: Assert pinned source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "1869d17f3cb64417a07088de18dafa5687c83840"
+          git diff --exit-code
+      - name: Freeze candidate and first extraction identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stage4-output
+          python extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip \
+            --freeze-manifest-output stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json \
+            --verify-extract stage4-output/extract-a \
+            --source-ref candidate/phase2-search-reconstruction-2026-08-23 \
+            --source-commit 1869d17f3cb64417a07088de18dafa5687c83840
+          rm -rf stage4-output/extract-a
+      - name: Independent deterministic rebuild and extraction identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output stage4-output/rebuilt.zip \
+            --verify-manifest stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json \
+            --verify-extract stage4-output/extract-b \
+            --source-commit 1869d17f3cb64417a07088de18dafa5687c83840
+          cmp --silent \
+            stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip \
+            stage4-output/rebuilt.zip
+          rm -rf stage4-output/extract-b stage4-output/rebuilt.zip
+          sha256sum stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json')
+          m = json.loads(p.read_text(encoding='utf-8'))
+          print('source_commit=' + str(m['source_commit']))
+          print('sha256=' + str(m['sha256']))
+          print('bytes=' + str(m['bytes']))
+          print('files=' + str(m['files']))
+          print('entries=' + str(m['entries']))
+          print('zip_test=' + str(m['zip_test']))
+          print('STAGE4_FREEZE_CONSUMER_CONFORMANCE_PASS')
+          PY
+      - name: Upload exact frozen candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-stage4-frozen-candidate-1869d17
+          path: |
+            stage4-output/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip
+            stage4-output/EXACT_CANDIDATE_MANIFEST_2026-08-24.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
