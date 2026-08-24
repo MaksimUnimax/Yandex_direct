@@ -1,0 +1,94 @@
+name: phase2-popup-fix-freeze
+on:
+  pull_request:
+    branches:
+      - candidate/phase2-search-reconstruction-2026-08-23
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  freeze-repaired-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact repaired source authority
+        uses: actions/checkout@v4
+        with:
+          ref: 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          fetch-depth: 0
+      - name: Assert exact repaired source and popup-only production delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "10bb3aca67295e5e515ff2ade8914b23e8458ca7"
+          test "$(git diff --name-only 0ee1d38f8d28cfccceb5a07f9606fa715261bc27..HEAD -- extension/src)" = "extension/src/popup.css"
+          git diff --exit-code
+          echo POPUP_REPAIR_SOURCE_AUTHORITY_PASS
+      - name: Complete repaired source suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
+      - name: Freeze exact repaired artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p freeze-output
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip \
+            --freeze-manifest-output freeze-output/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json \
+            --verify-extract freeze-output/extract-a \
+            --source-ref fix/phase2-popup-chrome151-autosize-2026-08-24 \
+            --source-commit 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          rm -rf freeze-output/extract-a
+      - name: Independent deterministic rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output freeze-output/rebuilt.zip \
+            --verify-manifest freeze-output/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json \
+            --verify-extract freeze-output/extract-b \
+            --source-commit 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          cmp --silent freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip freeze-output/rebuilt.zip
+          rm -rf freeze-output/extract-b freeze-output/rebuilt.zip
+          echo POPUP_FIX_DETERMINISTIC_REBUILD_PASS
+      - name: Complete exact packaged suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase2-candidate/run_packaged_suite.py \
+            --archive freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip \
+            --manifest freeze-output/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json \
+            --work-dir freeze-output/packaged-suite-work
+          rm -rf freeze-output/packaged-suite-work
+      - name: Emit frozen identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          z=Path('freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip')
+          m=Path('freeze-output/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json')
+          data=z.read_bytes(); obj=json.loads(m.read_text(encoding='utf-8'))
+          print('POPUP_FIX_ARTIFACT_SHA256=' + hashlib.sha256(data).hexdigest())
+          print('POPUP_FIX_ARTIFACT_BYTES=' + str(len(data)))
+          print('POPUP_FIX_FILES=' + str(obj['files']))
+          print('POPUP_FIX_ZIP_ENTRIES=' + str(obj['entries']))
+          print('POPUP_FIX_PAYLOAD_MANIFEST_SHA256=' + hashlib.sha256(m.read_bytes()).hexdigest())
+          print('POPUP_FIX_PAYLOAD_MANIFEST_BYTES=' + str(len(m.read_bytes())))
+          print('POPUP_FIX_FREEZE_PASS')
+          PY
+      - name: Upload exact repaired candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-popup-fix-frozen-candidate-10bb3ac
+          path: |
+            freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-popup-fix-candidate.zip
+            freeze-output/EXACT_POPUP_FIX_CANDIDATE_MANIFEST_2026-08-24.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
