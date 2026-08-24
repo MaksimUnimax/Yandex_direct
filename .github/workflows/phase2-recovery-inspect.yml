@@ -1,0 +1,50 @@
+name: phase2-focused-search
+on:
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  focused-search:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/phase2-recovery-work-2026-08-20
+      - name: Search integration focused tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/phase1_core_regression_recovery.test.mjs \
+            extension/tests/search_protocol.test.mjs \
+            extension/tests/search_registry.test.mjs \
+            extension/tests/search_xml.test.mjs \
+            extension/tests/search_worker_stage2.test.mjs \
+            extension/tests/search_manual_worker.test.mjs \
+            extension/tests/manual_block_sequence_recovery.test.mjs \
+            extension/tests/manual_delivery_lifecycle_recovery.test.mjs \
+            extension/tests/content_phase2_runtime.test.mjs \
+            extension/tests/content_error_delivery_recovery.test.mjs \
+            extension/tests/popup_phase2_runtime.test.mjs \
+            extension/tests/autorun_recovery.test.mjs \
+            extension/tests/autorun_transport_retry_recovery.test.mjs \
+            extension/tests/conversation_fences_recovery.test.mjs \
+            extension/tests/start_prompt_and_prefix_recovery.test.mjs \
+            extension/tests/wordstat_core_recovery.test.mjs \
+            extension/tests/settings_security_recovery.test.mjs \
+            extension/tests/settings_backup_integrity_recovery.test.mjs \
+            extension/tests/popup_error_boundary_recovery.test.mjs \
+            extension/tests/permission_scope_recovery.test.mjs \
+            extension/tests/legacy_profiles_recovery.test.mjs \
+            extension/tests/diagnostics_popup_recovery.test.mjs \
+            extension/tests/button_picker_recovery.test.mjs \
+            extension/tests/binding_recovery.test.mjs \
+            extension/tests/manual_off_safety_recovery.test.mjs
+      - name: Syntax and JSON checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in extension/src/*.js extension/src/shared/*.js; do node --check "$f"; done
+          node -e "for (const f of ['extension/src/manifest.json','extension/src/package.json']) JSON.parse(require('fs').readFileSync(f,'utf8'));"

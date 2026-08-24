@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
-  "version": "0.1.0",
-  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Phase 1: Wordstat + unified CORE, Job/Run, policy and cost guards.",
+  "version": "0.1.1",
+  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Phase 2: Wordstat + Search + unified CORE, RUN policy, error delivery and cost guards.",
   "permissions": [
     "storage",
     "tabs",
@@ -14,7 +14,7 @@
     "https://searchapi.api.cloud.yandex.net/*"
   ],
   "background": {
-    "service_worker": "service_worker.js"
+    "service_worker": "service_worker_bootstrap.js"
   },
   "content_scripts": [
     {
@@ -27,6 +27,8 @@
         "shared/conversation_identity.js",
         "shared/service_registry.js",
         "shared/wordstat_protocol.js",
+        "shared/search_xml.js",
+        "shared/search_protocol.js",
         "shared/autorun_model.js",
         "shared/manual_controls.js",
         "shared/composer_send.js",

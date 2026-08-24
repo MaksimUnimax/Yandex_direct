@@ -1,0 +1,32 @@
+:root { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; width: 430px; max-width: 100vw; background: #f7f7f8; color: #202124; }
+main { padding: 14px; }
+header { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+h1 { font-size: 18px; margin: 0 0 4px; }
+h2 { font-size: 14px; margin: 0 0 10px; }
+.lead, .warning, small { color: #63666a; }
+.lead { margin: 0; font-size: 12px; }
+.badge { background: #ffd54f; border-radius: 999px; padding: 4px 8px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+section { background: #fff; border: 1px solid #e2e2e5; border-radius: 10px; padding: 12px; margin: 10px 0; }
+label { display: grid; gap: 5px; font-size: 12px; margin: 8px 0; }
+input, select, textarea, button { font: inherit; }
+input[type="text"], input[type="password"], input[type="number"], select, textarea { width: 100%; border: 1px solid #c8c9cc; border-radius: 7px; padding: 7px 8px; background: #fff; }
+textarea { resize: vertical; }
+.switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.switch-row span { display: grid; gap: 3px; }
+.switch-row input[type="checkbox"] { width: 18px; height: 18px; flex: none; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; padding: 4px 0; }
+.row strong { text-align: right; overflow-wrap: anywhere; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.actions.four button { flex: 1 1 22%; }
+button { border: 1px solid #c5c6c9; background: #fff; border-radius: 7px; padding: 7px 10px; cursor: pointer; }
+button:hover:not(:disabled) { background: #f2f2f3; }
+button.primary { background: #ffd54f; border-color: #e3b923; font-weight: 700; }
+button:disabled { opacity: .45; cursor: default; }
+.status { min-height: 30px; border-radius: 8px; padding: 7px 9px; font-size: 12px; background: #eceef0; }
+.status.ok { background: #e6f4ea; }
+.status.error { background: #fce8e6; }
+.warning { font-size: 11px; line-height: 1.35; margin: 8px 0 0; }
+code { font-size: 11px; }
