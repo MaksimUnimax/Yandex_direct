@@ -1,0 +1,42 @@
+name: phase2-stage4-final-b64-windows-verify
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+    paths:
+      - extension/tests/qa_transport/phase2-stage4-final-b64/**
+permissions:
+  contents: read
+jobs:
+  verify-final-exact-b64-transport-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Force Windows CRLF checkout policy
+        shell: pwsh
+        run: git config --global core.autocrlf true
+      - name: Checkout exact transport head
+        uses: actions/checkout@v4
+        with:
+          ref: bc7754cff6416ff59942ff6f1052d450792888d5
+          fetch-depth: 0
+      - name: Assert exact head and attributes
+        shell: pwsh
+        run: |
+          if ((git rev-parse HEAD).Trim() -ne 'bc7754cff6416ff59942ff6f1052d450792888d5') { throw 'TRANSPORT_HEAD_FAIL' }
+          git diff --exit-code
+          git check-attr text -- extension/tests/qa_transport/phase2-stage4-final-b64/EXACT_CANDIDATE_MANIFEST_2026-08-24.json
+      - name: Verify raw manifest identity after Windows checkout
+        shell: pwsh
+        run: |
+          python -c "from pathlib import Path; import hashlib; p=Path(r'extension/tests/qa_transport/phase2-stage4-final-b64/EXACT_CANDIDATE_MANIFEST_2026-08-24.json'); b=p.read_bytes(); assert len(b)==11421,(len(b),hashlib.sha256(b).hexdigest()); assert hashlib.sha256(b).hexdigest()=='0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de'; print('WINDOWS_RAW_MANIFEST_IDENTITY_PASS')"
+      - name: Fresh-consumer verify exact transport on Windows
+        shell: pwsh
+        run: |
+          python extension/tests/qa_transport/phase2-stage4-final-b64/verify_exact_b64_transport.py
+          python -c "import json; from pathlib import Path; t=json.loads(Path(r'extension/tests/qa_transport/phase2-stage4-final-b64/TRANSPORT_MANIFEST_2026-08-24.json').read_text()); assert t['artifact_sha256']=='d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16'; assert t['artifact_bytes']==170734; assert t['payload_manifest_sha256']=='0edfcecdfb1025e7292d2d81f36b8fb6e5edb6f3332ef884d7f31e604ebdf7de'; assert t['payload_manifest_bytes']==11421; print('WINDOWS_FROZEN_AUTHORITY_MATCH_PASS'); print('REAL_YANDEX_REQUESTS=0')"
+      - name: Final clean checkout assertion
+        shell: pwsh
+        run: |
+          git diff --exit-code
+          if (git status --porcelain) { throw 'WINDOWS_CHECKOUT_DIRTY_FAIL' }
+          Write-Output 'WINDOWS_TRANSPORT_CLEAN_PASS'
