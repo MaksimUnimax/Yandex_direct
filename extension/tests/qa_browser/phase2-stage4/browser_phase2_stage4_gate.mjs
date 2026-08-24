@@ -107,6 +107,10 @@ async function openPopup(worker, browser, key) {
   const target = await browser.waitForTarget(t => !existingTargets.has(t) && t.url().startsWith('chrome-extension://') && t.url().endsWith('/popup.html'), { timeout:10000 });
   const popup = await target.page(); assert(popup, 'POPUP_PAGE_FAIL');
   await popup.waitForFunction(expected => document.getElementById('conversationMeta')?.textContent === expected, { timeout:10000 }, key);
+  await waitUntil(async () => {
+    const status = await popup.evaluate(() => document.getElementById('status')?.textContent || '');
+    return status === 'Готово.' ? true : false;
+  }, 'POPUP_INITIAL_REFRESH_NOT_COMPLETE', 10000);
   return { popup, tabId:tab.id };
 }
 async function closePopup(worker, tabId) { try { await worker.evaluate(async id => { try { await chrome.tabs.remove(id); } catch {} }, tabId); } catch {} await delay(180); }
@@ -145,6 +149,16 @@ async function setCheckedNoEvent(popup, id, checked) {
     if (!el) throw new Error(`POPUP_ELEMENT_MISSING #${id}`);
     el.checked = Boolean(checked);
   }, { id, checked });
+}
+async function popupStatus(popup) {
+  return await popup.evaluate(() => ({ text:document.getElementById('status')?.textContent || '', level:document.getElementById('status')?.dataset?.level || '' }));
+}
+async function waitPopupStatus(popup, expected, message, timeout = 15000) {
+  return await waitUntil(async () => {
+    const status = await popupStatus(popup);
+    if (status.level === 'error') throw new Error(`POPUP_ERROR ${status.text}`);
+    return status.text === expected ? status : false;
+  }, message, timeout);
 }
 async function popupChecked(popup, id) { return await popup.evaluate(id => Boolean(document.getElementById(id)?.checked), id); }
 async function popupText(popup, id) { return await popup.evaluate(id => document.getElementById(id)?.textContent || '', id); }
@@ -194,6 +208,7 @@ try {
   console.log('B01_PROJECT_WORK_PASS');
 
   await popupClick(p.popup,'#bindConversation');
+  await waitPopupStatus(p.popup,'Диалог привязан.','BIND_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).binding, 'BINDING_NOT_PERSISTED');
   console.log('BROWSER_STEP_BIND_PASS');
   await popupSelect(p.popup,'activeService','search');
@@ -205,12 +220,18 @@ try {
   await setFormValue(p.popup,'searchMaxRequestsRun','5');
   await setFormValue(p.popup,'searchMaxCostRun','5');
   await popupClick(p.popup,'#saveSettings');
-  await waitUntil(async()=> { const s=await getState(p.popup,KEY1); return s.service_context?.active_service==='search' && s.search_policy?.manual_enabled===true && s.search_policy?.autorun_enabled===true && s.has_api_key===true; }, 'SEARCH_SETTINGS_NOT_SAVED');
+  await waitPopupStatus(p.popup,'Настройки сохранены.','SEARCH_SETTINGS_POPUP_ACTION_NOT_COMPLETE');
+  const savedState = await getState(p.popup,KEY1);
+  assert(savedState.service_context?.active_service==='search',`SEARCH_ACTIVE_SERVICE_NOT_SAVED ${JSON.stringify(savedState.service_context)}`);
+  assert(savedState.search_policy?.manual_enabled===true,`SEARCH_MANUAL_POLICY_NOT_SAVED ${JSON.stringify(savedState.search_policy)}`);
+  assert(savedState.search_policy?.autorun_enabled===true,`SEARCH_AUTORUN_POLICY_NOT_SAVED ${JSON.stringify(savedState.search_policy)}`);
+  assert(savedState.has_api_key===true,`SEARCH_API_KEY_NOT_SAVED ${JSON.stringify({has_api_key:savedState.has_api_key,folder_id:savedState.folder_id})}`);
   console.log('BROWSER_STEP_SEARCH_SETTINGS_PASS');
 
-  let st = await getState(p.popup,KEY1); assert(st.manual_mode===false,'B02_INITIAL_WORKER_MANUAL_NOT_OFF');
+  let st = savedState; assert(st.manual_mode===false,'B02_INITIAL_WORKER_MANUAL_NOT_OFF');
   const beforeProvider = providerHits.length;
   await popupClick(p.popup,'#manualMode');
+  await waitPopupStatus(p.popup,'Ручной режим включён.','B02_FIRST_ON_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===true, 'B02_WORKER_NOT_ON');
   await waitUntil(async()=> (await actionCount(fixture))===1, 'B02_ACTION_NOT_ARMED');
   assert((await actionLabels(fixture))[0]==='Яндекс','B02_ACTION_LABEL_FAIL');
@@ -228,9 +249,11 @@ try {
   assert(await popupChecked(p.popup,'manualMode')===true,'B02_POPUP_REOPEN_NOT_ON');
   assert((await actionCount(fixture))===1,'B02_ACTION_LOST_AFTER_POPUP_REOPEN');
   await popupClick(p.popup,'#manualMode');
+  await waitPopupStatus(p.popup,'Ручной режим выключен.','B02_OFF_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===false,'B02_WORKER_NOT_OFF');
   await waitUntil(async()=> (await actionCount(fixture))===0,'B02_ACTION_NOT_REMOVED_OFF');
   await popupClick(p.popup,'#manualMode');
+  await waitPopupStatus(p.popup,'Ручной режим включён.','B02_SECOND_ON_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===true,'B02_SECOND_ON_WORKER_FAIL');
   await waitUntil(async()=> (await actionCount(fixture))===1,'B02_SECOND_ON_ACTION_FAIL');
   await delay(2200);
@@ -239,9 +262,11 @@ try {
   console.log('B02_MANUAL_ON_TRANSACTION_PASS');
 
   await popupClick(p.popup,'#manualMode');
+  await waitPopupStatus(p.popup,'Ручной режим выключен.','B03_MANUAL_OFF_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).manual_mode===false,'B03_MANUAL_OFF_PRECONDITION_FAIL');
   p.popup.on('dialog', async d => { try { await d.accept(); } catch {} });
   await popupClick(p.popup,'#startAuto');
+  await waitPopupStatus(p.popup,'Автоматический режим search запущен.','B03_START_POPUP_ACTION_NOT_COMPLETE',20000);
   await waitUntil(async()=> { const s=await getState(p.popup,KEY1); return s.auto_run?.status==='waiting_command' ? s : null; }, 'B03_RUN_NOT_WAITING_COMMAND', 20000);
   console.log('BROWSER_STEP_AUTORUN_START_PASS');
   let fx = await fixtureState(fixture);
@@ -261,6 +286,7 @@ try {
   await waitUntil(async()=> await popupText(p.popup,'runStatus')==='waiting_command','B03_POPUP_REOPEN_RUN_TRUTH_FAIL');
   p.popup.on('dialog', async d => { try { await d.accept(); } catch {} });
   await popupClick(p.popup,'#pauseAuto');
+  await waitPopupStatus(p.popup,'Пауза включена.','B03_PAUSE_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).auto_run?.status==='paused','B03_PAUSE_FAIL');
 
   const second = await browser.newPage(); await second.bringToFront(); await second.goto(SECOND_URL,{waitUntil:'domcontentloaded',timeout:20000});
@@ -271,8 +297,10 @@ try {
   await closePopup(worker,p.tabId); p=await openPopup(worker,browser,KEY1); p.popup.on('dialog', async d=>{try{await d.accept();}catch{}});
   assert((await getState(p.popup,KEY1)).auto_run?.status==='paused','B03_OWNER_RUN_CHANGED_BY_SECOND_TAB');
   await popupClick(p.popup,'#resumeAuto');
+  await waitPopupStatus(p.popup,'Работа продолжена.','B03_RESUME_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> (await getState(p.popup,KEY1)).auto_run?.status==='waiting_command','B03_RESUME_FAIL');
   await popupClick(p.popup,'#finishAuto');
+  await waitPopupStatus(p.popup,'Автоматический режим завершён.','B03_FINISH_POPUP_ACTION_NOT_COMPLETE');
   await waitUntil(async()=> ['stopped','error'].includes((await getState(p.popup,KEY1)).auto_run?.status),'B03_FINISH_FAIL');
   st=await getState(p.popup,KEY1); assert(st.auto_run?.status==='stopped',`B03_FINISH_STATUS ${st.auto_run?.status}`);
   assert(providerHits.length===beforeProvider+1,'B03_PROVIDER_CALLED_MORE_THAN_ONCE');
