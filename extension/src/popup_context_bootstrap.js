@@ -95,6 +95,16 @@
     throw new Error(`Не удалось восстановить связь с открытым ChatGPT${lastError ? `: ${lastError}` : "."}`);
   }
 
+  function publishBootstrapResult(result) {
+    const source = result && typeof result === "object" ? result : {};
+    globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ = Object.freeze({
+      attempted: source.attempted === true,
+      recovered: source.recovered === true,
+      reason: typeof source.reason === "string" ? source.reason : "",
+      tab_id: Number.isInteger(Number(source.tab_id)) ? Number(source.tab_id) : null
+    });
+  }
+
   function loadPopupRuntime() {
     const script = document.createElement("script");
     script.src = chrome.runtime.getURL("popup.js");
@@ -104,6 +114,7 @@
   }
 
   void ensureCurrentChatContext()
+    .then((result) => publishBootstrapResult(result))
     .catch((error) => {
       setBootstrapStatus(error?.message || String(error), "error");
       globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ = String(error?.message || error || "UNKNOWN");
@@ -116,7 +127,8 @@
       isChatGptTab,
       tabIdentity,
       injectContentBundle,
-      ensureCurrentChatContext
+      ensureCurrentChatContext,
+      publishBootstrapResult
     });
   }
 })();
