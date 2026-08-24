@@ -1,0 +1,16 @@
+{
+  "format": "YMB_PHASE2_STAGE4_EXACT_TRANSPORT_V1",
+  "frozen_source_commit": "1869d17f3cb64417a07088de18dafa5687c83840",
+  "artifact_filename": "yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate.zip",
+  "artifact_sha256": "0f0b035c6bc04da841d549182c3dcea6e7cf10074eddebafdf1c3a4c21c98411",
+  "artifact_bytes": 170726,
+  "files": 65,
+  "entries": 68,
+  "payload_manifest_filename": "EXACT_CANDIDATE_MANIFEST_2026-08-24.json",
+  "payload_manifest_sha256": "1acda380ef8fee4aca255014cdacf48a50059037113ff121bd86c738e4fceea9",
+  "payload_manifest_bytes": 11421,
+  "git_binary_blob_sha": "a775218d43d00ee92f174c127f90a629b3837553",
+  "actions_freeze_run": 32705402373,
+  "actions_artifact_id": 9512033721,
+  "real_yandex_requests_during_freeze": 0
+}
