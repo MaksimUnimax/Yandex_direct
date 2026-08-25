@@ -1,0 +1,148 @@
+name: phase2-context-recovery-freeze
+on:
+  pull_request:
+    branches:
+      - candidate/phase2-context-recovery-2026-08-25
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  freeze-context-recovery-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact clean context-recovery source
+        uses: actions/checkout@v4
+        with:
+          ref: f4aee34c0a3455aa7199f6aa54bd581c71d97337
+          fetch-depth: 0
+
+      - name: Assert exact source authority and six-file delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=10bb3aca67295e5e515ff2ade8914b23e8458ca7
+          HEAD_EXPECTED=f4aee34c0a3455aa7199f6aa54bd581c71d97337
+          test "$(git rev-parse HEAD)" = "$HEAD_EXPECTED"
+
+          expected_src=$'extension/src/manifest.json\nextension/src/popup.html\nextension/src/popup_context_bootstrap.js'
+          actual_src="$(git diff --name-only "$BASE"..HEAD -- extension/src)"
+          test "$actual_src" = "$expected_src"
+
+          expected_tests=$'extension/tests/candidate_readiness_recovery.test.mjs\nextension/tests/popup_context_bootstrap.test.mjs\nextension/tests/popup_error_boundary_recovery.test.mjs'
+          actual_tests="$(git diff --name-only "$BASE"..HEAD -- extension/tests)"
+          test "$actual_tests" = "$expected_tests"
+
+          all_delta="$(git diff --name-only "$BASE"..HEAD)"
+          expected_all=$'extension/src/manifest.json\nextension/src/popup.html\nextension/src/popup_context_bootstrap.js\nextension/tests/candidate_readiness_recovery.test.mjs\nextension/tests/popup_context_bootstrap.test.mjs\nextension/tests/popup_error_boundary_recovery.test.mjs'
+          test "$all_delta" = "$expected_all"
+
+          git diff --exit-code
+          echo CONTEXT_RECOVERY_CLEAN_SOURCE_AUTHORITY_PASS
+          echo CONTEXT_RECOVERY_EXACT_SIX_FILE_DELTA_PASS
+
+      - name: Complete clean source suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
+          echo CONTEXT_RECOVERY_SOURCE_SUITE_PASS
+
+      - name: Source syntax and JSON sanity
+        shell: bash
+        run: |
+          set -euo pipefail
+          js_count=0
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+            js_count=$((js_count+1))
+          done < <(find extension/src -type f -name '*.js' -print0 | sort -z)
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for name in ('manifest.json','package.json'):
+              json.loads((Path('extension/src')/name).read_text(encoding='utf-8'))
+          print('CONTEXT_RECOVERY_SOURCE_JSON_PASS')
+          PY
+          echo "CONTEXT_RECOVERY_SOURCE_SYNTAX_FILES=$js_count"
+          echo CONTEXT_RECOVERY_SOURCE_SYNTAX_PASS
+
+      - name: Freeze exact context-recovery artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p freeze-output
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip \
+            --freeze-manifest-output freeze-output/EXACT_CONTEXT_RECOVERY_CANDIDATE_MANIFEST_2026-08-25.json \
+            --verify-extract freeze-output/extract-a \
+            --source-ref candidate/phase2-context-recovery-2026-08-25 \
+            --source-commit f4aee34c0a3455aa7199f6aa54bd581c71d97337
+          rm -rf freeze-output/extract-a
+          echo CONTEXT_RECOVERY_FIRST_FREEZE_PASS
+
+      - name: Independent deterministic rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output freeze-output/rebuilt.zip \
+            --verify-manifest freeze-output/EXACT_CONTEXT_RECOVERY_CANDIDATE_MANIFEST_2026-08-25.json \
+            --verify-extract freeze-output/extract-b \
+            --source-commit f4aee34c0a3455aa7199f6aa54bd581c71d97337
+          cmp --silent \
+            freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip \
+            freeze-output/rebuilt.zip
+          rm -rf freeze-output/extract-b freeze-output/rebuilt.zip
+          echo CONTEXT_RECOVERY_DETERMINISTIC_REBUILD_PASS
+
+      - name: Complete exact packaged suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase2-candidate/run_packaged_suite.py \
+            --archive freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip \
+            --manifest freeze-output/EXACT_CONTEXT_RECOVERY_CANDIDATE_MANIFEST_2026-08-25.json \
+            --work-dir freeze-output/packaged-suite-work
+          rm -rf freeze-output/packaged-suite-work
+          echo CONTEXT_RECOVERY_PACKAGED_SUITE_PASS
+
+      - name: Emit frozen identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          z=Path('freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip')
+          m=Path('freeze-output/EXACT_CONTEXT_RECOVERY_CANDIDATE_MANIFEST_2026-08-25.json')
+          data=z.read_bytes(); manifest_bytes=m.read_bytes(); obj=json.loads(manifest_bytes)
+          with zipfile.ZipFile(z,'r') as archive:
+              bad=archive.testzip()
+              if bad is not None:
+                  raise SystemExit(f'ZIP_INTEGRITY_FAIL {bad}')
+              entries=len(archive.infolist())
+          print('CONTEXT_RECOVERY_ARTIFACT_SHA256=' + hashlib.sha256(data).hexdigest())
+          print('CONTEXT_RECOVERY_ARTIFACT_BYTES=' + str(len(data)))
+          print('CONTEXT_RECOVERY_FILES=' + str(obj['files']))
+          print('CONTEXT_RECOVERY_ZIP_ENTRIES=' + str(obj['entries']))
+          print('CONTEXT_RECOVERY_ACTUAL_ZIP_ENTRIES=' + str(entries))
+          print('CONTEXT_RECOVERY_PAYLOAD_MANIFEST_SHA256=' + hashlib.sha256(manifest_bytes).hexdigest())
+          print('CONTEXT_RECOVERY_PAYLOAD_MANIFEST_BYTES=' + str(len(manifest_bytes)))
+          print('CONTEXT_RECOVERY_ZIP_INTEGRITY_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          print('CONTEXT_RECOVERY_FREEZE_PASS')
+          PY
+
+      - name: Upload exact context-recovery candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-context-recovery-frozen-candidate-f4aee34
+          path: |
+            freeze-output/yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip
+            freeze-output/EXACT_CONTEXT_RECOVERY_CANDIDATE_MANIFEST_2026-08-25.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
