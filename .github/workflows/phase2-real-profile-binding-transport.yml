@@ -1,0 +1,196 @@
+name: phase2-real-profile-binding-transport
+
+on:
+  pull_request:
+    branches:
+      - candidate/phase2-real-profile-binding-repair-2026-08-25
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    outputs:
+      transport_commit: ${{ steps.publish.outputs.transport_commit }}
+    steps:
+      - name: Checkout exact frozen source
+        uses: actions/checkout@v4
+        with:
+          ref: b7869180c229356a6b3d51ac980ec3da5df4c23c
+          fetch-depth: 0
+
+      - name: Rebuild and verify exact frozen bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf transport-work
+          mkdir -p transport-work
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output transport-work/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip \
+            --freeze-manifest-output transport-work/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json \
+            --verify-extract transport-work/extract \
+            --source-ref candidate/phase2-real-profile-binding-repair-2026-08-25 \
+            --source-commit b7869180c229356a6b3d51ac980ec3da5df4c23c
+          rm -rf transport-work/extract
+          python3 - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          z=Path('transport-work/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip')
+          m=Path('transport-work/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json')
+          zb=z.read_bytes(); mb=m.read_bytes(); obj=json.loads(mb)
+          assert hashlib.sha256(zb).hexdigest() == 'ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa'
+          assert len(zb) == 179013
+          assert hashlib.sha256(mb).hexdigest() == 'ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f6bb594acf1'
+          assert len(mb) == 12125
+          assert obj['source_commit'] == 'b7869180c229356a6b3d51ac980ec3da5df4c23c'
+          assert obj['sha256'] == 'ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa'
+          assert obj['bytes'] == 179013 and obj['files'] == 69 and obj['entries'] == 72
+          with zipfile.ZipFile(z) as a:
+              assert a.testzip() is None and len(a.infolist()) == 72
+          print('TRANSPORT_PRODUCER_FROZEN_AUTHORITY_PASS')
+          print('TRANSPORT_PRODUCER_ZIP_INTEGRITY_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          PY
+
+      - name: Build exact B64 transport payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=extension/tests/qa_transport/phase2-real-profile-binding-final-b64
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          printf '* -text\n' > "$OUT/.gitattributes"
+          cp transport-work/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json "$OUT/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json"
+          python3 - <<'PY'
+          import base64, hashlib, json
+          from pathlib import Path
+          src=Path('transport-work/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip')
+          out=Path('extension/tests/qa_transport/phase2-real-profile-binding-final-b64')
+          b64=base64.b64encode(src.read_bytes())
+          (out/'artifact.b64').write_bytes(b64)
+          manifest={
+            'format':'YMB_PHASE2_REAL_PROFILE_BINDING_REPAIR_EXACT_B64_TRANSPORT_V1',
+            'frozen_source_commit':'b7869180c229356a6b3d51ac980ec3da5df4c23c',
+            'source_actions_run':32805530317,
+            'source_actions_artifact_id':9548000690,
+            'artifact_filename':'yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip',
+            'artifact_sha256':'ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa',
+            'artifact_bytes':179013,
+            'files':69,
+            'zip_entries':72,
+            'base64_length':len(b64),
+            'chunk_count':1,
+            'chunks':[{'path':'artifact.b64','bytes':len(b64),'sha256':hashlib.sha256(b64).hexdigest()}],
+            'payload_manifest_sha256':'ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f6bb594acf1',
+            'payload_manifest_bytes':12125,
+            'real_yandex_requests_during_freeze':0,
+          }
+          assert len(b64) == 238684
+          (out/'TRANSPORT_MANIFEST_2026-08-25.json').write_text(json.dumps(manifest,indent=2,ensure_ascii=False)+'\n',encoding='utf-8',newline='\n')
+          print('TRANSPORT_B64_BUILD_PASS')
+          print('TRANSPORT_B64_LENGTH='+str(len(b64)))
+          PY
+          cat > "$OUT/verify_exact_b64_transport.py" <<'PY'
+          #!/usr/bin/env python3
+          import base64,hashlib,json,tempfile,zipfile
+          from pathlib import Path
+          BASE=Path(__file__).resolve().parent
+          T=json.loads((BASE/'TRANSPORT_MANIFEST_2026-08-25.json').read_text(encoding='utf-8'))
+          MB=(BASE/'EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json').read_bytes()
+          if len(MB)!=T['payload_manifest_bytes'] or hashlib.sha256(MB).hexdigest()!=T['payload_manifest_sha256']: raise SystemExit('PAYLOAD_MANIFEST_IDENTITY_FAIL')
+          M=json.loads(MB)
+          if M['source_commit']!=T['frozen_source_commit'] or M['sha256']!=T['artifact_sha256'] or M['bytes']!=T['artifact_bytes']: raise SystemExit('FROZEN_AUTHORITY_MANIFEST_FAIL')
+          parts=[]
+          for row in T['chunks']:
+              raw=(BASE/row['path']).read_bytes()
+              if len(raw)!=row['bytes'] or hashlib.sha256(raw).hexdigest()!=row['sha256']: raise SystemExit('CHUNK_IDENTITY_FAIL '+row['path'])
+              parts.append(raw.decode('ascii'))
+          text=''.join(parts)
+          if len(text)!=T['base64_length']: raise SystemExit('B64_LENGTH_FAIL')
+          data=base64.b64decode(text,validate=True)
+          if len(data)!=T['artifact_bytes'] or hashlib.sha256(data).hexdigest()!=T['artifact_sha256']: raise SystemExit('EXACT_ZIP_IDENTITY_FAIL')
+          with tempfile.TemporaryDirectory() as td:
+              zp=Path(td)/T['artifact_filename']; zp.write_bytes(data)
+              with zipfile.ZipFile(zp) as z:
+                  if z.testzip() is not None: raise SystemExit('ZIP_INTEGRITY_FAIL')
+                  infos=z.infolist(); files=[i for i in infos if not i.is_dir()]
+                  if len(files)!=T['files'] or len(infos)!=T['zip_entries']: raise SystemExit('ZIP_COUNT_FAIL')
+                  root=M['root_name'].rstrip('/')+'/'
+                  actual={}
+                  for info in files:
+                      if not info.filename.startswith(root): raise SystemExit('ZIP_ROOT_FAIL')
+                      rel=info.filename[len(root):]; payload=z.read(info)
+                      actual[rel]={'path':rel,'bytes':len(payload),'sha256':hashlib.sha256(payload).hexdigest()}
+          expected={r['path']:r for r in M['payload']}
+          if actual!=expected: raise SystemExit('ROUNDTRIP_PAYLOAD_MANIFEST_FAIL')
+          print('B64_REASSEMBLY_PASS')
+          print('EXACT_ZIP_IDENTITY_PASS')
+          print('ROUNDTRIP_PAYLOAD_MANIFEST_PASS')
+          print('ROUNDTRIP_ZIP_INTEGRITY_PASS')
+          print('FROZEN_AUTHORITY_MATCH_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          PY
+          python3 "$OUT/verify_exact_b64_transport.py"
+
+      - name: Publish exact transport branch
+        id: publish
+        shell: bash
+        env:
+          TARGET_BRANCH: qa/phase2-real-profile-binding-final-b64-transport-b786918-2026-08-25
+        run: |
+          set -euo pipefail
+          rm -rf transport-work
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -C "$TARGET_BRANCH" b7869180c229356a6b3d51ac980ec3da5df4c23c
+          git add extension/tests/qa_transport/phase2-real-profile-binding-final-b64
+          git diff --cached --name-only
+          test "$(git diff --cached --name-only | wc -l)" -eq 5
+          git commit -m 'qa: publish exact Phase 2 real-profile binding repair b64 transport'
+          git push --force origin "HEAD:refs/heads/$TARGET_BRANCH"
+          echo "transport_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo TRANSPORT_PUBLISH_PASS
+
+  windows-consumer:
+    needs: publish
+    runs-on: windows-latest
+    steps:
+      - name: Force Windows autocrlf consumer mode before checkout
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf true
+          git --version
+          Write-Host "WINDOWS_CORE_AUTOCRLF=$(git config --global core.autocrlf)"
+
+      - name: Checkout exact published transport commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.publish.outputs.transport_commit }}
+          fetch-depth: 2
+
+      - name: Verify transport parent and raw text policy
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ((git rev-parse HEAD^) -ne 'b7869180c229356a6b3d51ac980ec3da5df4c23c') { throw 'TRANSPORT_PARENT_FAIL' }
+          $attrs = Get-Content -Raw 'extension/tests/qa_transport/phase2-real-profile-binding-final-b64/.gitattributes'
+          if ($attrs.Trim() -ne '* -text') { throw 'GITATTRIBUTES_RAW_POLICY_FAIL' }
+          Write-Host 'WINDOWS_TRANSPORT_PARENT_PASS'
+          Write-Host 'WINDOWS_RAW_TEXT_POLICY_PASS'
+
+      - name: Verify exact B64 roundtrip on Windows
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          python extension/tests/qa_transport/phase2-real-profile-binding-final-b64/verify_exact_b64_transport.py
+          Write-Host 'WINDOWS_SAFE_EXACT_TRANSPORT_PASS'
+          Write-Host 'REAL_YANDEX_REQUESTS=0'
+
+      - name: Final cleanliness
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (git status --porcelain) { throw 'WINDOWS_TRANSPORT_DIRTY_WORKTREE_FAIL' }
+          Write-Host 'WINDOWS_TRANSPORT_CLEAN_PASS'
