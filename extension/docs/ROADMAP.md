@@ -1,4 +1,4 @@
-# ROADMAP v0.8 — Yandex Marketing Bridge
+# ROADMAP v0.9 — Yandex Marketing Bridge
 
 Status: active roadmap.  
 Updated: 2026-08-25.
@@ -15,7 +15,7 @@ during development/change
 
 working candidate frozen for handoff
 → exact artifact preparation through mandatory QA transport runbook
-→ one complete governed pre-delivery regression campaign
+→ one complete independent Codex pre-delivery regression campaign
 → exact package/identity verification
 → owner real-profile/live acceptance only for irreducible live behavior
 ```
@@ -50,7 +50,7 @@ Controlled gate and owner real-profile functional Wordstat acceptance passed. Ph
 
 # PHASE 2 — YANDEX SEARCH / SERP
 
-**Status: CONTROLLED PRE-DELIVERY PASS — OWNER LIVE SEARCH AUTHORIZED / PENDING.**
+**Status: REAL-PROFILE BINDING REPAIR FROZEN / WINDOWS TRANSPORT PASS — INDEPENDENT CODEX GATE PENDING — OWNER LIVE BLOCKED.**
 
 ## Enabled first slice
 
@@ -81,77 +81,120 @@ Direct
 
 **PASS / COMPLETED.**
 
-Search protocol/validation, provider/credential/policy guard, exactly-once initiation/no-blind-retry behavior, XML normalization, Manual/Autorun integration, conversation ownership and durable delivery are implemented and covered by the controlled regression suite.
+Search protocol/validation, provider/credential/policy guard, exactly-once initiation/no-blind-retry behavior, XML normalization, Manual/Autorun integration, conversation ownership and durable delivery remain implemented and covered by the controlled suite.
 
-## Stage 4 — current exact pre-delivery candidate
+## Stage 4 — reopened real-profile binding repair
 
-**CONTROLLED PASS / COMPLETED.**
+The previous context-recovery candidate reached a ChatGPT-owned controlled PASS but then failed in the owner's real ChatGPT profile before the provider boundary. The old claim that this internal Actions run was the required independent Codex complete gate was invalid and has been revoked.
 
-Current exact candidate after Chrome-151 popup geometry repair and already-open-ChatGPT context-recovery repair:
+The repair restored factual real-conversation identity acceptance, trusted canonical fallback, delivered-invalid bootstrap handling, recoverable Bind availability and the proven Manual-ON transaction order.
+
+Clean repaired product source:
 
 ```text
-source commit: f4aee34c0a3455aa7199f6aa54bd581c71d97337
-artifact: yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip
-SHA-256: 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46
-bytes: 175971
-files: 68
-ZIP entries: 71
-payload manifest SHA-256: bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478
-payload manifest bytes: 11933
-Windows-safe transport commit: 7c787eedd9856c3f91fbed85aeaea7f3405ad473
+source branch: candidate/phase2-real-profile-binding-repair-2026-08-25
+source commit: b7869180c229356a6b3d51ac980ec3da5df4c23c
+parent: f4aee34c0a3455aa7199f6aa54bd581c71d97337
 ```
 
-Complete governed campaign:
+Exact delta: four production files plus two package-test files, one commit total.
+
+Repair preflight:
 
 ```text
-run: 32801788251
-job: 97663951211
-Windows Server 2025
-Chrome for Testing: 151.0.7922.47
-source suite: 239/239 PASS
-packaged suite: 239/239 PASS
-packaged syntax: 62/62 PASS
-packaged JSON: 2/2 PASS
-B-01 Project/Work: PASS
-B-02 mandatory Manual-ON transaction: PASS
-B-03 Search Autorun: PASS
-B-04 native Chrome-151 action popup geometry: PASS
-B-05 already-open-ChatGPT context recovery: PASS
-PD-00..PD-17: ALL PASS
-mandatory Manual-ON transaction: PASS
-S-00..S-17: ALL PASS
-controlled Search stub requests: 1
+fail-first: 5 expected failures
+focused affected suite after fix: 37/37 PASS
+complete source suite after fix: 244/244 PASS
+controlled factual-id/canonical Chrome 151 scenarios: PASS
 real Yandex requests: 0
-real credentials used: NO
-production modified during gate: NO
-tests modified during gate: NO
-not_run_enabled_sections: 0
-final exactness: PASS
-final cleanliness: PASS
-verdict: PASS
 ```
 
-Durable current evidence:
+## Stage 4A — exact freeze
+
+**PASS / COMPLETED (ChatGPT-owned packaging/preflight, not Codex).**
 
 ```text
-../tests/PHASE_2_CONTEXT_RECOVERY_FREEZE_PASS_2026-08-25.md
-../tests/PHASE_2_CONTEXT_RECOVERY_WINDOWS_TRANSPORT_PASS_2026-08-25.md
-../tests/PHASE_2_CONTEXT_RECOVERY_COMPLETE_GATE_PASS_2026-08-25.md
+freeze run: 32805530317
+freeze job: 97674800575
+artifact: yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
+SHA-256: ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
+bytes: 179013
+files: 69
+ZIP entries: 72
+payload manifest SHA-256: ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f6bb594acf1
+payload manifest bytes: 12125
+source suite: 244/244 PASS
+packaged suite: 244/244 PASS
+deterministic rebuild: PASS
+real Yandex requests: 0
 ```
 
-Older `0ee1d38... / d58b5bd...` and `10bb3aca... / 0186b35d...` candidates are historical evidence only and are not eligible for the current owner-live handoff.
+The Actions artifact was downloaded back and the exact inner ZIP, manifest and archive integrity were independently round-trip verified.
+
+## Stage 4B — exact Windows-safe transport
+
+**PASS / COMPLETED (transport proof only).**
+
+```text
+transport commit: 9fb1fcf17766d8f88b733d8198d1c550e4b8fa77
+transport run: 32805811476
+Windows job: 97675604279
+OS: Windows Server 2025
+Git: 2.55.0.windows.4
+core.autocrlf: true
+exact B64 reassembly: PASS
+exact ZIP identity: PASS
+payload manifest identity: PASS
+ZIP integrity: PASS
+clean checkout: PASS
+real Yandex requests: 0
+```
+
+Repair-specific browser harness is pinned externally at:
+
+```text
+commit: 81625e073d507d70451f1457185a3e906c640c66
+blob: 790539464d7f72214a3126c6585aac74e1afec39
+```
+
+## Stage 4C — mandatory independent Codex complete gate
+
+**READY / PENDING.**
+
+Exact handoff:
+
+```text
+../tests/CODEX_PHASE_2_REAL_PROFILE_BINDING_REPAIR_FULL_GATE_HANDOFF_2026-08-25.md
+```
+
+Required outcome before owner-live can unlock:
+
+```text
+transport exactness = PASS
+source + packaged complete suites = PASS
+PD-00..PD-17 = ALL PASS
+mandatory Manual-ON transaction = PASS
+S-00..S-17 = ALL PASS
+repair factual real-id late-install browser scenario = PASS
+repair canonical live-receiver browser scenario = PASS
+real Yandex requests = 0
+real credentials used = NO
+no product/test/harness mutation
+no enabled NOT_RUN
+verdict = PASS
+```
+
+Until Codex returns that complete PASS:
+
+```text
+OWNER LIVE SEARCH = BLOCKED
+```
 
 ## Final Phase-2 live boundary
 
-Canonical procedure:
+The live procedure remains `PHASE_2_0.1.1_LIVE_ACCEPTANCE.md`, but it is **not currently authorized**.
 
-```text
-PHASE_2_0.1.1_LIVE_ACCEPTANCE.md
-```
-
-Exactly one minimal real synchronous Search request is required. Controlled browser/UI checks are not manually repeated.
-
-Before that paid request, re-check the current official Yandex Search synchronous price and tariff window; do not rely on a historical price snapshot as current billing authority.
+After independent Codex complete PASS, re-check the current official Yandex synchronous Search price/tariff window and authorize exactly one minimal real synchronous Search request.
 
 On a truthful usable `SEARCH_RESULT_V1` PASS:
 
@@ -160,9 +203,9 @@ PHASE 2 SEARCH FIRST SLICE = LIVE PASS / CLOSED
 → PHASE 3 WEBMASTER may unlock
 ```
 
-If provider initiation may have happened but the outcome is ambiguous, no blind retry is allowed.
+If provider initiation may have happened but outcome is ambiguous, no blind retry is allowed.
 
-No refreeze, rebuild or another controlled complete gate is authorized unless new evidence invalidates the current PASS.
+The old `f4aee34... / 739dd5d7...` artifact remains withdrawn. Older `0ee1d38... / d58b5bd...` and `10bb3aca... / 0186b35d...` candidates are historical only.
 
 ---
 
@@ -207,7 +250,7 @@ No refreeze, rebuild or another controlled complete gate is authorized unless ne
 ```text
 PHASE 0  PASS / CLOSED
 PHASE 1  WORDSTAT LIVE PASS / CLOSED
-PHASE 2  SEARCH CONTROLLED PASS / OWNER LIVE AUTHORIZED / PENDING
+PHASE 2  REPAIR FROZEN / WINDOWS TRANSPORT PASS / INDEPENDENT CODEX PENDING / OWNER LIVE BLOCKED
 PHASE 3  BLOCKED UNTIL PHASE 2 LIVE PASS
 PHASE 4  BLOCKED
 PHASE 5  BLOCKED

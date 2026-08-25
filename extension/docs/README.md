@@ -12,97 +12,83 @@ Read in this order:
 2. `CURRENT_STATE.md` — exact current product/artifact identity, latest gate verdict, owner-live state, blockers and authorized next action.
 3. `PROJECT_PURPOSE.md` — product boundary and GitHub/runtime separation.
 4. `SPECIFICATION.md` — base technical contract.
-5. `SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md` — current Phase-2 Search companion; supersedes stale base-spec Search-lock wording for the enabled first slice.
-6. `PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md` — Phase-2 Search requirement, pricing-policy and live-boundary authority.
+5. `SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md` — current Phase-2 Search companion.
+6. `PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md` — Search requirements, pricing-policy and live-boundary authority.
 7. `ROADMAP.md` — phase/stage narrative; exact identities remain governed by `CURRENT_STATE.md`.
 8. `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` and mandatory Manual/Search addenda — permanent controlled regression firewall.
 9. `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` — exact-artifact QA preparation procedure.
-10. current candidate-specific evidence/live procedure listed in `CURRENT_STATE.md`.
+10. current candidate-specific checkpoint/handoff listed in `CURRENT_STATE.md`.
 11. append-only context chain when provenance can alter interpretation.
 
 ## Current Phase-2 status
 
-The exact combined Wordstat+Search candidate, including the Chrome-151 popup geometry repair and already-open-ChatGPT context-recovery repair, has completed the entire current controlled pre-delivery boundary with **PASS**.
+Phase 2 was reopened after the owner's real ChatGPT profile exposed a pre-provider context/binding defect in the reconstructed candidate. The defect has been repaired and a new exact candidate is frozen, but **the mandatory independent Codex complete gate has not run yet**. Therefore owner-live Search is blocked.
 
-Current exact candidate:
+Current exact source and candidate:
 
 ```text
-source: f4aee34c0a3455aa7199f6aa54bd581c71d97337
-artifact: yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip
-artifact SHA-256: 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46
-artifact bytes: 175971
-files: 68
-ZIP entries: 71
-payload manifest SHA-256: bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478
-payload manifest bytes: 11933
-Windows-safe transport commit: 7c787eedd9856c3f91fbed85aeaea7f3405ad473
+source branch: candidate/phase2-real-profile-binding-repair-2026-08-25
+source commit: b7869180c229356a6b3d51ac980ec3da5df4c23c
+parent: f4aee34c0a3455aa7199f6aa54bd581c71d97337
+artifact: yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
+artifact SHA-256: ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
+artifact bytes: 179013
+files: 69
+ZIP entries: 72
+payload manifest SHA-256: ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f6bb594acf1
+payload manifest bytes: 12125
+Windows-safe transport commit: 9fb1fcf17766d8f88b733d8198d1c550e4b8fa77
+repair browser harness commit: 81625e073d507d70451f1457185a3e906c640c66
 ```
 
-Current evidence chain:
+Current evidence/handoff:
 
 ```text
-../tests/PHASE_2_CONTEXT_RECOVERY_FREEZE_PASS_2026-08-25.md
-../tests/PHASE_2_CONTEXT_RECOVERY_WINDOWS_TRANSPORT_PASS_2026-08-25.md
-../tests/PHASE_2_CONTEXT_RECOVERY_COMPLETE_GATE_PASS_2026-08-25.md
+../tests/PHASE_2_REAL_PROFILE_BINDING_REPAIR_FREEZE_TRANSPORT_CHECKPOINT_2026-08-25.md
+../tests/CODEX_PHASE_2_REAL_PROFILE_BINDING_REPAIR_FULL_GATE_HANDOFF_2026-08-25.md
 ```
 
-Latest complete governed gate:
+ChatGPT-controlled pre-Codex evidence:
 
 ```text
-run: 32801788251
-job: 97663951211
-source suite: 239/239 PASS
-packaged suite: 239/239 PASS
-packaged syntax: 62/62 PASS
-packaged JSON: 2/2 PASS
-B-01/B-02/B-03/B-04/B-05: ALL PASS
-PD-00..PD-17: ALL PASS
-mandatory Manual-ON: PASS
-S-00..S-17: ALL PASS
-controlled Search stub requests: 1
+focused repair suite: 37/37 PASS
+complete source suite: 244/244 PASS
+freeze run: 32805530317 / job 97674800575 PASS
+frozen source suite: 244/244 PASS
+frozen packaged suite: 244/244 PASS
+deterministic byte-identical rebuild: PASS
+Windows transport run: 32805811476 / job 97675604279 PASS
+Windows Server 2025 / Git 2.55.0.windows.4 / core.autocrlf=true
+exact B64 reassembly + ZIP identity + payload manifest: PASS
 real Yandex requests: 0
-real credentials used: NO
-not_run_enabled_sections: 0
-final exactness: PASS
-final cleanliness: PASS
-verdict: PASS
 ```
 
-Current owner-live procedure:
+These are ChatGPT-owned preflight/transport results only. They **must not be relabeled as the independent Codex pre-delivery gate**.
+
+Current transition:
 
 ```text
-PHASE_2_0.1.1_LIVE_ACCEPTANCE.md
-```
-
-Current transition is:
-
-```text
-exact freeze = PASS
+real-profile repair = implemented
+→ exact freeze = PASS
 → Windows-safe exact transport = PASS
-→ complete governed pre-delivery gate = PASS
-→ one minimal owner real-profile synchronous Search = AUTHORIZED / PENDING
-→ Phase 2 closes only after truthful usable SEARCH_RESULT_V1 live PASS
+→ independent Codex complete gate = READY / PENDING
+→ owner real-profile synchronous Search = BLOCKED until Codex PASS
+→ Phase 2 closes only after truthful usable SEARCH_RESULT_V1 owner-live PASS
 ```
 
-Do not start Phase 3 Webmaster before that live boundary closes.
+Do not start Phase 3 Webmaster before Phase-2 owner-live closes.
 
-Before the paid owner-live Search request, re-check the current official Yandex synchronous Search price/tariff window. Historical tariff snapshots are not current billing authority.
+## Withdrawn/historical Phase-2 candidates
 
-## Historical Stage-4 provenance
-
-These remain evidence and debugging authority, but they do not supersede the current `f4aee34... / 739dd5d7...` candidate:
+The following are historical and not eligible for current owner-live handoff:
 
 ```text
-PHASE_2_STAGE_4_CODEX_EXECUTION_MAP_2026-08-24.md
-CODEX_PHASE2_STAGE4_FINAL_RERUN_HANDOFF_2026-08-24.md
-CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
-CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
-../tests/PHASE_2_STAGE_4_PACKAGED_SUITE_ADAPTER_2026-08-24.md
-../tests/PHASE_2_STAGE_4_REFROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
-../tests/PHASE_2_STAGE_4_CODEX_FULL_GATE_PASS_2026-08-24.md
+f4aee34... / 739dd5d7...  — withdrawn after real-profile binding failure and because the claimed complete gate was ChatGPT Actions, not independent Codex
+0ee1d38... / d58b5bd...  — older Stage-4 candidate
+10bb3aca... / 0186b35d... — older popup-fix candidate
 ```
 
-The older `0ee1d38... / d58b5bd...` and `10bb3aca... / 0186b35d...` artifacts are historical only and must not be handed to the owner for the current live acceptance.
+Historical Stage-4 and context-recovery evidence remains useful for provenance/debugging, but it does not supersede `CURRENT_STATE.md` or the current `b786918... / ce824a9f...` candidate.
 
 ## Authority precedence and conflict rule
 
@@ -148,7 +134,7 @@ Before owner handoff:
 freeze exact candidate
 → prepare exact consumer-safe transport
 → producer read-back / consumer-conformance proof
-→ one complete controlled regression campaign
+→ one complete independent Codex controlled regression campaign
 → only complete PASS allows owner live handoff
 ```
 
@@ -156,15 +142,13 @@ Controlled browser/QA evidence must not be relabeled owner real-profile evidence
 
 ## Exact-artifact rule
 
-The artifact given to the owner must be the exact bytes accepted by the complete gate. Do not substitute a logically equivalent rebuild.
+The artifact given to the owner must be the exact bytes accepted by the complete independent gate. Do not substitute a logically equivalent rebuild.
 
 ## Owner-live rule
 
-Owner performs only irreducible live behavior. For Phase 2 this means one paid synchronous Search request after fresh official pricing verification. Automated UI/runtime cases are observed naturally rather than repeated manually.
+Owner performs only irreducible live behavior. For Phase 2 this means one paid synchronous Search request **only after independent Codex complete PASS** and a fresh official Search pricing/tariff check.
 
 If provider initiation may have happened but outcome is ambiguous, no blind retry is allowed.
-
-No additional refreeze, rebuild or controlled complete rerun is authorized unless new evidence invalidates the current PASS.
 
 ## Append-only context chain
 
@@ -191,10 +175,14 @@ These are provenance, not automatic current-stage authority.
 - Manual action is Bridge-owned and independent of native Copy;
 - Manual delivery completion uses Send→ready/Microphone, not obsolete sent-turn reconciliation;
 - popup geometry is bounded for Chrome 151 native action host;
-- popup context bootstrap self-recovers an already-open ChatGPT tab only on a missing receiver and then resumes normal identity/runtime flow;
+- current ChatGPT identity accepts factual real conversation ids without an invalid RFC UUID-version filter;
+- identity recovery uses supported trusted location/canonical candidates and fails closed on conflict;
+- delivered-but-invalid identity responses are not bootstrap success;
+- Bind availability is separated from already-confirmed identity so context can be recovered;
+- Manual ON follows content acknowledgement before worker authorization;
 - Phase-2 first slice enables only synchronous text `SEARCH_API_V1`; deferred/image/generative Search and Webmaster/Metrika/Direct remain locked.
 
-## Source of truth rule
+## Source-of-truth rule
 
 Before any development action or workflow transition:
 
