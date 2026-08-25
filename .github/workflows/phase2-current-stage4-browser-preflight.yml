@@ -1,0 +1,106 @@
+name: phase2-current-stage4-browser-preflight
+
+on:
+  push:
+    branches:
+      - qa/phase2-current-stage4-browser-preflight-2026-08-25
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout current harness wrapper
+        uses: actions/checkout@v4
+        with:
+          ref: 1460b3feda3170a224062c39b3ee2055f17365cc
+          path: harness
+          fetch-depth: 2
+
+      - name: Checkout historical Stage-4 harness
+        uses: actions/checkout@v4
+        with:
+          ref: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+          path: historical
+          fetch-depth: 1
+
+      - name: Checkout exact frozen transport
+        uses: actions/checkout@v4
+        with:
+          ref: 9fb1fcf17766d8f88b733d8198d1c550e4b8fa77
+          path: transport
+          fetch-depth: 2
+
+      - name: Verify pinned QA authorities
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ((git -C harness rev-parse HEAD) -ne '1460b3feda3170a224062c39b3ee2055f17365cc') { throw 'CURRENT_HARNESS_COMMIT_FAIL' }
+          if ((git -C harness rev-parse HEAD^) -ne 'b7869180c229356a6b3d51ac980ec3da5df4c23c') { throw 'CURRENT_HARNESS_PARENT_FAIL' }
+          if ((git -C historical rev-parse HEAD) -ne '667fda2f9a0e4197c4873ea96f27862c8453f2f0') { throw 'HISTORICAL_HARNESS_COMMIT_FAIL' }
+          if ((git -C historical rev-parse 'HEAD:extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs') -ne '127e6042037ac0cbb044e81b2a9c554f24b5aa6b') { throw 'HISTORICAL_HARNESS_BLOB_FAIL' }
+          if ((git -C transport rev-parse HEAD) -ne '9fb1fcf17766d8f88b733d8198d1c550e4b8fa77') { throw 'TRANSPORT_COMMIT_FAIL' }
+          Write-Host 'CURRENT_STAGE4_HARNESS_AUTHORITY_PASS'
+
+      - name: Reassemble exact frozen artifact
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          python transport/extension/tests/qa_transport/phase2-real-profile-binding-final-b64/verify_exact_b64_transport.py
+          @'
+          import base64,hashlib,json,zipfile
+          from pathlib import Path
+          td=Path(r'${{ runner.temp }}')
+          base=Path('transport/extension/tests/qa_transport/phase2-real-profile-binding-final-b64')
+          t=json.loads((base/'TRANSPORT_MANIFEST_2026-08-25.json').read_text(encoding='utf-8'))
+          data=base64.b64decode((base/'artifact.b64').read_bytes(),validate=True)
+          assert hashlib.sha256(data).hexdigest()=='ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa'
+          assert len(data)==179013
+          zp=td/'ce824a9f.zip'; zp.write_bytes(data)
+          out=td/'ce824a9f-extract'
+          if out.exists():
+              import shutil; shutil.rmtree(out)
+          out.mkdir(parents=True)
+          with zipfile.ZipFile(zp) as z:
+              assert z.testzip() is None
+              z.extractall(out)
+          root=out/'yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate'
+          assert (root/'manifest.json').is_file()
+          print('EXACT_CE824A9F_MATERIALIZED_PASS')
+          '@ | python
+
+      - uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+
+      - name: Install qualified browser driver
+        shell: pwsh
+        working-directory: harness
+        run: npm install --no-save --package-lock=false puppeteer-core@25.4.0
+
+      - name: Run current Stage-4 B01-B03 harness on exact artifact
+        shell: pwsh
+        working-directory: harness
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $chrome = (Get-Command chrome).Source
+          if (-not $chrome) { throw 'CHROME_PATH_NOT_FOUND' }
+          $old = Resolve-Path '../historical/extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs'
+          $key = Resolve-Path '../historical/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem'
+          $cert = Resolve-Path '../historical/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem'
+          $ext = Join-Path '${{ runner.temp }}' 'ce824a9f-extract/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate'
+          node extension/tests/qa_browser/phase2-stage4-current/run_current_stage4_gate.mjs $old $chrome $ext $key $cert
+          Write-Host 'CURRENT_STAGE4_BROWSER_PREFLIGHT_PASS'
+          Write-Host 'REAL_YANDEX_REQUESTS=0'
+
+      - name: Cleanup dependency and prove clean QA inputs
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path 'harness/node_modules') { Remove-Item -Recurse -Force 'harness/node_modules' }
+          if (git -C harness status --porcelain) { throw 'CURRENT_HARNESS_DIRTY_FAIL' }
+          if (git -C historical status --porcelain) { throw 'HISTORICAL_HARNESS_DIRTY_FAIL' }
+          if (git -C transport status --porcelain) { throw 'TRANSPORT_DIRTY_FAIL' }
+          Write-Host 'CURRENT_STAGE4_PREFLIGHT_CLEAN_PASS'
