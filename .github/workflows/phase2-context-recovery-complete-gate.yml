@@ -36,6 +36,8 @@ jobs:
         shell: pwsh
         env:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: '1'
         run: |
           $ErrorActionPreference = 'Continue'
           python qa/run_phase2_context_recovery_complete_gate_windows_validated.py
