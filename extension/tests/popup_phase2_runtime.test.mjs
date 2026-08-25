@@ -144,24 +144,27 @@ test('unsaved active-service selection cannot drive Manual mode or page service'
   assert.match(h.elements.status.textContent,/Сначала сохраните выбранный активный сервис/i);
 });
 
-test('Manual ON commits worker state before applying page mode and sends active Search service', async()=>{
+test('Manual ON applies page mode before committing worker state and sends active Search service', async()=>{
   const h=popupHarness(); await h.settle(); h.calls.length=0;
   h.elements.manualMode.checked=true;
   await h.elements.manualMode.dispatch('change'); await h.settle();
   const workerIndex=h.calls.findIndex(c=>c.message?.type==='WS_SET_MANUAL_MODE');
   const pageIndex=h.calls.findIndex(c=>c.message?.type==='WS_APPLY_MANUAL_MODE');
-  assert.ok(workerIndex>=0 && pageIndex>workerIndex,`order ${workerIndex}/${pageIndex}`);
+  assert.ok(pageIndex>=0 && workerIndex>pageIndex,`order ${pageIndex}/${workerIndex}`);
+  assert.equal(h.calls[pageIndex].message.enabled,true);
   assert.equal(h.calls[pageIndex].message.active_service,'search');
+  assert.equal(h.calls[workerIndex].message.enabled,true);
 });
 
-test('failed page Manual apply rolls worker state back', async()=>{
+test('failed page Manual ON acknowledgement never authorizes worker Manual mode', async()=>{
   const h=popupHarness(baseState(),{applyManualOk:false}); await h.settle(); h.calls.length=0;
   h.elements.manualMode.checked=true;
   await h.elements.manualMode.dispatch('change'); await h.settle();
   const manualCalls=h.calls.filter(c=>c.message?.type==='WS_SET_MANUAL_MODE');
-  assert.equal(manualCalls.length,2);
-  assert.equal(manualCalls[0].message.enabled,true);
-  assert.equal(manualCalls[1].message.enabled,false);
+  const applyCalls=h.calls.filter(c=>c.message?.type==='WS_APPLY_MANUAL_MODE');
+  assert.equal(applyCalls.length,1);
+  assert.equal(applyCalls[0].message.enabled,true);
+  assert.equal(manualCalls.length,0);
   assert.equal(h.elements.manualMode.checked,false);
 });
 

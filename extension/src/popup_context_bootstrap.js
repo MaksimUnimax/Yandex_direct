@@ -73,6 +73,14 @@
     });
   }
 
+  function usableIdentityProbe(probe) {
+    if (probe?.delivered !== true) return false;
+    const response = probe.response;
+    if (response?.ok !== true) return false;
+    const conversationKey = String(response?.conversation_key || response?.identity?.conversation_key || "").trim();
+    return Boolean(conversationKey);
+  }
+
   async function injectContentBundle(tabId) {
     if (!chrome.scripting?.executeScript) throw new Error("Chrome scripting API недоступен; невозможно восстановить связь с открытым ChatGPT.");
     for (const file of CONTENT_FILES) {
@@ -90,12 +98,21 @@
     const tab = await queryActiveTab();
     if (!isChatGptTab(tab)) return { attempted: false, recovered: false, reason: "ACTIVE_TAB_NOT_CHATGPT" };
     const tabId = Number(tab.id);
+    let sawLiveReceiver = false;
 
     // A newly loaded page may still be finishing its declarative content-script startup.
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const probe = await tabIdentity(tabId);
-      if (probe.delivered) return { attempted: true, recovered: false, tab_id: tabId, response: probe.response };
+      if (usableIdentityProbe(probe)) return { attempted: true, recovered: false, tab_id: tabId, response: probe.response };
+      if (probe.delivered) sawLiveReceiver = true;
       if (attempt < 2) await wait(120);
+    }
+
+    // Never inject a second content runtime over a live receiver merely because
+    // that receiver could not confirm a conversation. That is an identity error,
+    // not a missing-script error.
+    if (sawLiveReceiver) {
+      throw new Error("Связь с ChatGPT есть, но текущий диалог не удалось подтвердить.");
     }
 
     setBootstrapStatus("Восстанавливаю связь с текущим ChatGPT…");
@@ -104,11 +121,12 @@
     let lastError = "";
     for (let attempt = 0; attempt < 25; attempt += 1) {
       const probe = await tabIdentity(tabId);
-      if (probe.delivered) {
+      if (usableIdentityProbe(probe)) {
         setBootstrapStatus("Связь с ChatGPT восстановлена.", "ok");
         return { attempted: true, recovered: true, tab_id: tabId, response: probe.response };
       }
-      lastError = probe.error || lastError;
+      if (probe.delivered) lastError = "content script отвечает, но не подтвердил текущий диалог";
+      else lastError = probe.error || lastError;
       await wait(80);
     }
     throw new Error(`Не удалось восстановить связь с открытым ChatGPT${lastError ? `: ${lastError}` : "."}`);
@@ -147,6 +165,7 @@
       CONTENT_FILES,
       isChatGptTab,
       tabIdentity,
+      usableIdentityProbe,
       injectContentBundle,
       ensureCurrentChatContext,
       publishBootstrapResult,
