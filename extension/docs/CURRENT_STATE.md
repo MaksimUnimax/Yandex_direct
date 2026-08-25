@@ -8,7 +8,7 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 ## Mandatory reconstruction record
 
 ```text
-LIVE_HEAD_BEFORE_THIS_STATE_WRITE = 882b69cc1968ef5b7d792bc23292edb2e2765728
+LIVE_HEAD_BEFORE_THIS_STATE_WRITE = a1f995fb46bb6d6f6a3ae3f452f6321052716c1e
 PRODUCT_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
 PRODUCT_PARENT = f4aee34c0a3455aa7199f6aa54bd581c71d97337
 HANDOFF_ARTIFACT = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa / 179013 bytes / 69 files / 72 ZIP entries
@@ -25,8 +25,10 @@ OWNER_LIVE_AUTOMATIC_RETRY = false
 OWNER_LIVE_RESULT_COUNT = 5
 OWNER_LIVE_RESPONSE_FORMAT = FORMAT_XML
 OWNER_FUNCTIONAL_CHECKLIST = extension/tests/PHASE_2_OWNER_FUNCTIONAL_RUN_CHECKLIST_2026-08-25.md
-OWNER_FUNCTIONAL_COMPLETED = runs 1–17
-OWNER_FUNCTIONAL_NEXT_RUN = 18 / invalid sortOrder enum
+OWNER_FUNCTIONAL_LATEST_CHECKPOINT = extension/tests/PHASE_2_OWNER_FUNCTIONAL_LATEST_CHECKPOINT.md
+OWNER_FUNCTIONAL_COMPLETED = runs 1–20
+OWNER_FUNCTIONAL_NEXT_RUN = 21 / invalid searchType enum
+OWNER_FUNCTIONAL_REPO_WRITE_CADENCE = every 4 completed tests
 OPEN_BLOCKERS = none for Phase 2 closure
 AUTHORIZED_NEXT_STAGE = PHASE_3_WEBMASTER_GOVERNED_REQUIREMENT_RECONSTRUCTION
 ```
@@ -113,23 +115,32 @@ extension/tests/PHASE_2_REAL_PROFILE_OWNER_LIVE_SEARCH_PASS_2026-08-25.md
 
 ## Optional owner functional continuation
 
-The owner is continuing additional Phase-2 functional checks one command at a time. All completed runs, incidental lifecycle observations, planned future runs and the exact resume rule are pinned in:
+The owner is continuing additional Phase-2 functional checks one command at a time. The detailed ledger and plan are in:
 
 ```text
 extension/tests/PHASE_2_OWNER_FUNCTIONAL_RUN_CHECKLIST_2026-08-25.md
 ```
 
+The compact latest checkpoint, updated once per four completed tests, is:
+
+```text
+extension/tests/PHASE_2_OWNER_FUNCTIONAL_LATEST_CHECKPOINT.md
+```
+
 Current continuation pointer:
 
 ```text
-COMPLETED = runs 1–17 recorded
-NEXT = run 18 / invalid sortOrder enum
+COMPLETED = runs 1–20
+NEXT = run 21 / invalid searchType enum
 CADENCE = 1 run = 1 command/testable function
+REPO CHECKPOINT = every 4 completed tests
 WAIT = previous Manual operation must be complete before next run
 LIVE-RISK TESTS = deferred to controlled QA unless owner explicitly authorizes
 ```
 
-If the chat/session is interrupted, reconstruct from live `main`, open the checklist above and continue from the first `PENDING` row. This optional continuation does not reopen the already accepted Phase-2 live boundary unless a later run exposes a real product defect.
+Owner functional testing also exposed a future patch requirement: while lifecycle guards such as `MANUAL_OPERATION_ACTIVE` or `DELIVERY_IN_PROGRESS` are active, the Yandex action button must be disabled/non-clickable and only re-enabled after lifecycle completion is positively observed. Backend guards remain in place. This requirement belongs to a future governed patch and does not mutate the accepted Phase-2 artifact.
+
+If the chat/session is interrupted, reconstruct from live `main`, open `CURRENT_STATE.md`, then read the compact latest checkpoint above and continue from its `NEXT` entry.
 
 Closure:
 
@@ -144,7 +155,7 @@ Additional optional owner functional checks against the already accepted Phase-2
 
 ```text
 AUTHORIZED_NEXT_ACTION = PHASE_3_WEBMASTER_GOVERNED_REQUIREMENT_RECONSTRUCTION
-OPTIONAL_OWNER_PHASE2_FUNCTIONAL_CONTINUATION = RUN_18_FROM_PINNED_CHECKLIST
+OPTIONAL_OWNER_PHASE2_FUNCTIONAL_CONTINUATION = RUN_21_FROM_LATEST_CHECKPOINT
 ```
 
 Do not mutate the accepted Phase-2 artifact. Any future product/package-test byte change belongs to a new governed candidate/gate chain.
