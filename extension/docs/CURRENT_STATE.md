@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 2 SEARCH REPAIR FROZEN — CODEX CAMPAIGN #1 FAIL_HARNESS / STAGE-4 HARNESS RECONCILED / COMPLETE CODEX RERUN READY / OWNER LIVE BLOCKED**  
+Status: **PHASE 2 SEARCH REPAIR FROZEN — INDEPENDENT CODEX COMPLETE PASS / OWNER LIVE AUTHORIZED + PENDING / PHASE 3 BLOCKED**  
 Updated: 2026-08-25
 
 Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
@@ -8,7 +8,7 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 ## Mandatory reconstruction record
 
 ```text
-LIVE_HEAD_BEFORE_THIS_STATE_WRITE = d9d3c51605120169e10c6d20e26da91dd2fbbd14
+LIVE_HEAD_BEFORE_THIS_STATE_WRITE = bc42cd446cd6b2a3ab303f6646eea2abc5d31aa4
 PRODUCT_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
 PRODUCT_PARENT = f4aee34c0a3455aa7199f6aa54bd581c71d97337
 HANDOFF_ARTIFACT = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa / 179013 bytes / 69 files / 72 ZIP entries
@@ -17,17 +17,17 @@ FREEZE_RUN = 32805530317 / job 97674800575 PASS
 WINDOWS_SAFE_TRANSPORT = 9fb1fcf17766d8f88b733d8198d1c550e4b8fa77
 WINDOWS_TRANSPORT_PROOF = run 32805811476 / job 97675604279 PASS
 REPAIR_BROWSER_HARNESS = 81625e073d507d70451f1457185a3e906c640c66 / blob 790539464d7f72214a3126c6585aac74e1afec39
-INDEPENDENT_CODEX_CAMPAIGN_1 = FAIL_HARNESS
-CODEX_CAMPAIGN_1_PRODUCT_FAILURE = NO
-CODEX_CAMPAIGN_1_REAL_YANDEX_REQUESTS = 0
 CURRENT_STAGE4_WRAPPER = 1babfe66222251e2eb63e6e0d4e3eb726ed898e9 / blob e1763df3cec988c3bee93efcdd6369eb8c12d695
 CURRENT_STAGE4_PREFLIGHT = run 32809552231 / job 97686152475 PASS
-PRODUCTION_BYTES_CHANGED_SINCE_FREEZE = NO
-PACKAGE_TEST_BYTES_CHANGED_SINCE_FREEZE = NO
-OWNER_LIVE = BLOCKED / NOT AUTHORIZED
-REAL_YANDEX_REQUESTS_SINCE_REOPEN = 0
-OPEN_BLOCKERS = independent Codex complete rerun has not yet returned PASS on exact ce824a9f... artifact
-AUTHORIZED_NEXT_STAGE = INDEPENDENT_CODEX_COMPLETE_RERUN_SAME_EXACT_CE824A9F
+INDEPENDENT_CODEX_CAMPAIGN_1 = FAIL_HARNESS / PRODUCT FAILURE NO
+INDEPENDENT_CODEX_CAMPAIGN_2 = COMPLETE_RERUN_AFTER_STAGE4_HARNESS_RECONCILIATION / PASS
+LATEST_FULL_GATE = PASS ON EXACT CE824A9F ARTIFACT
+PRODUCTION_BYTES_CHANGED_SINCE_GATE = NO
+PACKAGE_TEST_BYTES_CHANGED_SINCE_GATE = NO
+OWNER_LIVE = AUTHORIZED / PENDING
+REAL_YANDEX_REQUESTS_DURING_CONTROLLED_QA = 0
+OPEN_BLOCKERS = owner real-profile/live acceptance only
+AUTHORIZED_NEXT_STAGE = OWNER_REAL_PROFILE_LIVE_ACCEPTANCE_EXACT_CE824A9F
 ```
 
 ## Frozen repaired product
@@ -49,7 +49,7 @@ The repaired source restores:
 - Manual OFF safety order: worker OFF before page cleanup.
 ```
 
-Clean repair source `b786918...` is exactly one commit above `f4aee34...` and changes four production files plus two package-test files. Focused repair verification passed 37/37 and the complete source suite passed 244/244 with zero real Yandex requests.
+Clean repair source `b786918...` is exactly one commit above `f4aee34...` and changes four production files plus two package-test files.
 
 Current exact artifact:
 
@@ -67,7 +67,7 @@ The older `739dd5d7...` artifact remains withdrawn and must not be used.
 
 ## Freeze and exact transport
 
-ChatGPT-owned freeze/preflight established:
+ChatGPT-owned freeze/transport evidence:
 
 ```text
 source suite = 244/244 PASS
@@ -77,108 +77,106 @@ source syntax = 22/22 PASS
 packaged syntax = 63/63 PASS
 source JSON = 2/2 PASS
 packaged JSON = 2/2 PASS
+Windows exact B64 reassembly / manifest / ZIP integrity = PASS
 real Yandex requests = 0
 ```
 
-The exact Actions artifact was downloaded back and round-trip verified. The Windows-safe B64 transport at `9fb1fcf...` is one commit above exact product source and contains exactly five transport files. Windows Server 2025 / Git 2.55.0.windows.4 / `core.autocrlf=true` successfully reassembled the exact ZIP and full payload manifest with clean checkout.
+The exact Actions artifact was downloaded back and round-trip verified. The Windows-safe B64 transport at `9fb1fcf...` reassembled the same exact `ce824a9f...` bytes on Windows Server 2025 with `core.autocrlf=true`.
 
-These are ChatGPT-owned packaging/transport proofs, not Codex evidence.
+## Independent Codex campaign #1 — historical FAIL_HARNESS
 
-## Independent Codex campaign #1 — FAIL_HARNESS
+The first independent campaign returned `FAIL_HARNESS` in the historical Stage-4 popup lifecycle. Frozen product bytes were not implicated. ChatGPT reconciled only the external QA popup lifecycle and preserved historical B-01/B-02/B-03 assertions.
 
-The owner supplied the complete independent Codex result. Exact identity, source/package suites, syntax/JSON and the two repair-specific real-profile browser scenarios all passed. No real credentials or Yandex requests were used and product/package-test/repair-harness bytes were not modified.
-
-Blocking result:
-
-```text
-verdict = FAIL_HARNESS
-gate = B-03 / PD-10 / S-11
-error = TimeoutError: Waiting failed: 10000ms exceeded
-evidence = browser_phase2_stage4_gate.mjs:109
-frozen_product_bytes_involved = NO
-enabled_not_run_sections = 0
-```
-
-The historical Stage-4 browser harness opened `popup.html` using an obsolete inactive-tab lifecycle and waited directly for `conversationMeta`. That venue predates the repaired `popup_context_bootstrap` initialization contract. The failure therefore does not authorize product mutation or refreeze.
-
-Durable diagnosis/reconciliation:
+Durable evidence:
 
 ```text
 extension/tests/PHASE_2_REAL_PROFILE_BINDING_STAGE4_HARNESS_RECONCILIATION_2026-08-25.md
 ```
 
-## Reconciled Stage-4 B-01/B-02/B-03 browser venue
+## Independent Codex campaign #2 — COMPLETE PASS
 
-Historical assertion authority remains unchanged:
+The owner returned the complete second independent Codex report for the same exact frozen artifact after Stage-4 harness reconciliation.
+
+Campaign:
 
 ```text
-commit = 667fda2f9a0e4197c4873ea96f27862c8453f2f0
-browser harness blob = 127e6042037ac0cbb044e81b2a9c554f24b5aa6b
+COMPLETE_RERUN_AFTER_STAGE4_HARNESS_RECONCILIATION
 ```
 
-Current external compatibility wrapper:
+Observed independent result:
 
 ```text
-branch = qa/phase2-current-stage4-browser-harness-b786918-2026-08-25
-commit = 1babfe66222251e2eb63e6e0d4e3eb726ed898e9
-path = extension/tests/qa_browser/phase2-stage4-current/run_current_stage4_gate.mjs
-blob = e1763df3cec988c3bee93efcdd6369eb8c12d695
+step_0_authority = PASS
+transport = PASS
+source_suite = 244/244
+packaged_suite = 244/244
+source_syntax = 22/22
+packaged_syntax = 63/63
+source_json = 2/2
+packaged_json = 2/2
+B01_project_work = PASS
+B02_manual_on_transaction_browser = PASS
+B03_search_autorun = PASS
+PD-00..PD-17 = ALL PASS
+manual_on_transaction = PASS
+S-00..S-17 = ALL PASS
+repair_real_id_late_install = PASS
+repair_canonical_live_receiver = PASS
+controlled_search_stub_requests = 1
+real_yandex_requests = 0
+real_credentials_used = NO
+production_modified_during_gate = NO
+package_tests_modified_during_gate = NO
+historical_stage4_harness_modified_during_gate = NO
+current_stage4_wrapper_modified_during_gate = NO
+repair_browser_harness_modified_during_gate = NO
+final_cleanliness = PASS
+enabled_not_run_sections = 0
+failures = []
+verdict = PASS
 ```
 
-The wrapper changes only temporary QA popup open/close lifecycle. It preserves the historical B-01/B-02/B-03 body and assertions, binds popup bootstrap to the intended active ChatGPT tab, resolves popup by exact tab id, requires the current bootstrap outcome, and confirms tab destruction before reopen.
-
-ChatGPT-owned Windows preflight against the exact transported `ce824a9f...` package:
+Durable PASS checkpoint:
 
 ```text
-run = 32809552231
-job = 97686152475
-Chrome = 151.0.7922.47
-puppeteer-core = 25.4.0
-result = PASS
+extension/tests/PHASE_2_REAL_PROFILE_BINDING_CODEX_COMPLETE_PASS_2026-08-25.md
 ```
 
-Observed required markers include:
+No product or package-test bytes changed after freeze, so no refreeze is required. The exact tested `ce824a9f...` artifact is now the only eligible owner-live handoff artifact.
+
+## Owner real-profile/live acceptance
+
+Per `WORKFLOW_OPERATING_RULES.md`, the complete independent PASS authorizes handoff of the exact tested artifact to the owner for irreducible real-profile acceptance.
+
+Owner-live must use only:
 
 ```text
-HISTORICAL_STAGE4_ASSERTIONS_PRESERVED
-CURRENT_POPUP_BOOTSTRAP_VENUE_PASS
-B01_PROJECT_WORK_PASS
-B02_MANUAL_ON_TRANSACTION_PASS
-B03_SEARCH_AUTORUN_PASS
-BROWSER_CONTROLLED_SEARCH_STUB_REQUESTS=1
-BROWSER_GATE_REAL_YANDEX_REQUESTS=0
-PHASE2_STAGE4_BROWSER_GATE_PASS
-CURRENT_STAGE4_BROWSER_PREFLIGHT_PASS
-CURRENT_STAGE4_PREFLIGHT_CLEAN_PASS
+yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
+SHA-256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
 ```
 
-This is harness preflight only and cannot substitute for independent Codex.
-
-## Independent Codex complete rerun boundary
-
-The first Codex campaign is complete `FAIL_HARNESS`; it must not be partially resumed. The next campaign starts again at Step 0 / PD-00 on the **same exact frozen artifact**.
-
-Current rerun execution authority:
+The first owner-visible check is the repaired real-profile path itself:
 
 ```text
-extension/tests/CODEX_PHASE_2_REAL_PROFILE_BINDING_REPAIR_FULL_GATE_RERUN_HANDOFF_2026-08-25.md
+current ChatGPT is detected
+→ Bind is available and succeeds
+→ Manual mode can turn ON
+→ the Bridge-owned Yandex action becomes usable in the bound conversation
 ```
 
-Codex must execute all enabled PD-00..PD-17, mandatory Manual-ON, S-00..S-17, the reconciled Stage-4 B-01/B-02/B-03 venue, native popup geometry, and both repair-specific real-profile browser scenarios. No enabled `NOT_RUN` may appear in PASS. Zero real credentials and zero real Yandex requests remain mandatory. Codex must not edit product/tests/harness/wrapper.
-
-Until a complete independent PASS returns:
+Only after that real-profile path is visibly healthy may the owner perform the single irreducible paid synchronous Search acceptance, after a fresh official Search tariff check. No blind retry is allowed after an ambiguous provider initiation/outcome.
 
 ```text
-OWNER_LIVE_SEARCH = BLOCKED
-PHASE_3_WEBMASTER = BLOCKED
+OWNER_LIVE_SEARCH = AUTHORIZED / PENDING
+PHASE_3_WEBMASTER = BLOCKED until Phase-2 owner-live closes
 ```
 
 ## Current authorized next action
 
 ```text
-AUTHORIZED_NEXT_ACTION = RUN_INDEPENDENT_CODEX_COMPLETE_RERUN_ON_SAME_EXACT_CE824A9F_USING_RECONCILED_STAGE4_WRAPPER
-OWNER_LIVE_SEARCH = BLOCKED
+AUTHORIZED_NEXT_ACTION = HAND_OFF_EXACT_CE824A9F_TO_OWNER_AND_RUN_REAL_PROFILE_ACCEPTANCE
+OWNER_LIVE_SEARCH = AUTHORIZED / PENDING
 PHASE_3_WEBMASTER = BLOCKED
 ```
 
-Do not refreeze/rebuild/change product or package-test bytes unless separate evidence proves a product defect. A production or package-test byte change creates a new candidate and restarts the complete freeze/transport/Codex chain.
+Do not rebuild or substitute another ZIP. If owner-live exposes a defect, preserve the exact evidence, classify the failing layer and reopen Phase 2. Any product/package-test byte change creates a new candidate and restarts freeze/transport/independent-Codex gating.
