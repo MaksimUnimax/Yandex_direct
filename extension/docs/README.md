@@ -16,28 +16,56 @@ Read in this order:
 6. `PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md` — Phase-2 Search requirement, pricing-policy and live-boundary authority.
 7. `ROADMAP.md` — phase/stage narrative; exact identities remain governed by `CURRENT_STATE.md`.
 8. `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` and mandatory Manual/Search addenda — permanent controlled regression firewall.
-9. `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` — exact-artifact/Codex preparation procedure.
+9. `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` — exact-artifact QA preparation procedure.
 10. current candidate-specific evidence/live procedure listed in `CURRENT_STATE.md`.
 11. append-only context chain when provenance can alter interpretation.
 
 ## Current Phase-2 status
 
-The exact combined Wordstat+Search candidate has completed the entire controlled pre-delivery boundary with **PASS**.
+The exact combined Wordstat+Search candidate, including the Chrome-151 popup geometry repair and already-open-ChatGPT context-recovery repair, has completed the entire current controlled pre-delivery boundary with **PASS**.
 
 Current exact candidate:
 
 ```text
-source: 0ee1d38f8d28cfccceb5a07f9606fa715261bc27
-artifact SHA-256: d58b5bd20921e9492a90b687ae3910c7049ddff17741da44ba832369eb1c0f16
-artifact bytes: 170734
-files: 65
-ZIP entries: 68
+source: f4aee34c0a3455aa7199f6aa54bd581c71d97337
+artifact: yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip
+artifact SHA-256: 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46
+artifact bytes: 175971
+files: 68
+ZIP entries: 71
+payload manifest SHA-256: bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478
+payload manifest bytes: 11933
+Windows-safe transport commit: 7c787eedd9856c3f91fbed85aeaea7f3405ad473
 ```
 
-Complete Codex result checkpoint:
+Current evidence chain:
 
 ```text
-../tests/PHASE_2_STAGE_4_CODEX_FULL_GATE_PASS_2026-08-24.md
+../tests/PHASE_2_CONTEXT_RECOVERY_FREEZE_PASS_2026-08-25.md
+../tests/PHASE_2_CONTEXT_RECOVERY_WINDOWS_TRANSPORT_PASS_2026-08-25.md
+../tests/PHASE_2_CONTEXT_RECOVERY_COMPLETE_GATE_PASS_2026-08-25.md
+```
+
+Latest complete governed gate:
+
+```text
+run: 32801788251
+job: 97663951211
+source suite: 239/239 PASS
+packaged suite: 239/239 PASS
+packaged syntax: 62/62 PASS
+packaged JSON: 2/2 PASS
+B-01/B-02/B-03/B-04/B-05: ALL PASS
+PD-00..PD-17: ALL PASS
+mandatory Manual-ON: PASS
+S-00..S-17: ALL PASS
+controlled Search stub requests: 1
+real Yandex requests: 0
+real credentials used: NO
+not_run_enabled_sections: 0
+final exactness: PASS
+final cleanliness: PASS
+verdict: PASS
 ```
 
 Current owner-live procedure:
@@ -46,20 +74,23 @@ Current owner-live procedure:
 PHASE_2_0.1.1_LIVE_ACCEPTANCE.md
 ```
 
-Current transition is therefore:
+Current transition is:
 
 ```text
-controlled pre-delivery gate = PASS
-→ fresh official Search pricing check = COMPLETE
+exact freeze = PASS
+→ Windows-safe exact transport = PASS
+→ complete governed pre-delivery gate = PASS
 → one minimal owner real-profile synchronous Search = AUTHORIZED / PENDING
 → Phase 2 closes only after truthful usable SEARCH_RESULT_V1 live PASS
 ```
 
 Do not start Phase 3 Webmaster before that live boundary closes.
 
-## Retained Stage-4 provenance
+Before the paid owner-live Search request, re-check the current official Yandex synchronous Search price/tariff window. Historical tariff snapshots are not current billing authority.
 
-These remain evidence and debugging authority, but they are no longer the next execution stage:
+## Historical Stage-4 provenance
+
+These remain evidence and debugging authority, but they do not supersede the current `f4aee34... / 739dd5d7...` candidate:
 
 ```text
 PHASE_2_STAGE_4_CODEX_EXECUTION_MAP_2026-08-24.md
@@ -68,9 +99,10 @@ CODEX_PHASE2_STAGE4_WINDOWS_TRANSPORT_RECONCILIATION_2026-08-24.md
 CODEX_PHASE2_STAGE4_BROWSER_HARNESS_RECONCILIATION_2026-08-24.md
 ../tests/PHASE_2_STAGE_4_PACKAGED_SUITE_ADAPTER_2026-08-24.md
 ../tests/PHASE_2_STAGE_4_REFROZEN_CANDIDATE_CHECKPOINT_2026-08-24.md
+../tests/PHASE_2_STAGE_4_CODEX_FULL_GATE_PASS_2026-08-24.md
 ```
 
-Historical transport/browser failures remain reconciled QA-process evidence only and do not supersede the later complete PASS.
+The older `0ee1d38... / d58b5bd...` and `10bb3aca... / 0186b35d...` artifacts are historical only and must not be handed to the owner for the current live acceptance.
 
 ## Authority precedence and conflict rule
 
@@ -100,7 +132,7 @@ OPEN_BLOCKERS
 AUTHORIZED_NEXT_STAGE
 ```
 
-Transitions include new/resumed conversation, requirement→development, development→freeze, freeze→Codex, Codex result→repair/handoff, documentation change→next action, full-gate PASS→owner live, and owner-live result→phase close/reopen.
+Transitions include new/resumed conversation, requirement→development, development→freeze, freeze→QA, QA result→repair/handoff, documentation change→next action, full-gate PASS→owner live, and owner-live result→phase close/reopen.
 
 ## Development vs pre-delivery testing
 
@@ -114,13 +146,13 @@ Before owner handoff:
 
 ```text
 freeze exact candidate
-→ prepare exact Codex-consumable transport
+→ prepare exact consumer-safe transport
 → producer read-back / consumer-conformance proof
-→ one complete Codex regression campaign
+→ one complete controlled regression campaign
 → only complete PASS allows owner live handoff
 ```
 
-Controlled browser/Codex evidence must not be relabeled owner real-profile evidence.
+Controlled browser/QA evidence must not be relabeled owner real-profile evidence.
 
 ## Exact-artifact rule
 
@@ -131,6 +163,8 @@ The artifact given to the owner must be the exact bytes accepted by the complete
 Owner performs only irreducible live behavior. For Phase 2 this means one paid synchronous Search request after fresh official pricing verification. Automated UI/runtime cases are observed naturally rather than repeated manually.
 
 If provider initiation may have happened but outcome is ambiguous, no blind retry is allowed.
+
+No additional refreeze, rebuild or controlled complete rerun is authorized unless new evidence invalidates the current PASS.
 
 ## Append-only context chain
 
@@ -156,6 +190,8 @@ These are provenance, not automatic current-stage authority.
 - no blind retry after uncertain provider outcome;
 - Manual action is Bridge-owned and independent of native Copy;
 - Manual delivery completion uses Send→ready/Microphone, not obsolete sent-turn reconciliation;
+- popup geometry is bounded for Chrome 151 native action host;
+- popup context bootstrap self-recovers an already-open ChatGPT tab only on a missing receiver and then resumes normal identity/runtime flow;
 - Phase-2 first slice enables only synchronous text `SEARCH_API_V1`; deferred/image/generative Search and Webmaster/Metrika/Direct remain locked.
 
 ## Source of truth rule
