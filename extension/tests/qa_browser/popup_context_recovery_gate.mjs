@@ -57,37 +57,119 @@ async function cdpEvaluate(session, expression, label, timeout = 5000) {
   return result?.result?.value;
 }
 
-async function wakeExtensionWorker(page, extensionOrigin) {
-  const session = await page.target().createCDPSession();
-  try {
-    await withTimeout(session.send('ServiceWorker.enable'), 3000, 'SERVICE_WORKER_ENABLE');
-    await withTimeout(
-      session.send('ServiceWorker.startWorker', { scopeURL: extensionOrigin }),
-      10000,
-      'SERVICE_WORKER_START'
-    );
-  } finally {
-    await session.detach().catch(() => {});
-  }
+async function createNestedTargetSession(control, targetId) {
+  const attached = await withTimeout(
+    control.send('Target.attachToTarget', { targetId, flatten:false }),
+    5000,
+    'WORKER_TARGET_ATTACH'
+  );
+  const sessionId = attached?.sessionId;
+  assert(Boolean(sessionId), 'WORKER_TARGET_SESSION_ID_MISSING');
+
+  let nextId = 1;
+  const pending = new Map();
+  const onMessage = (event) => {
+    if (event?.sessionId !== sessionId) return;
+    let message;
+    try { message = JSON.parse(event.message || '{}'); } catch { return; }
+    if (!Number.isInteger(message.id)) return;
+    const slot = pending.get(message.id);
+    if (!slot) return;
+    pending.delete(message.id);
+    if (message.error) {
+      slot.reject(new Error(`${message.error.message || 'CDP_CHILD_ERROR'} (${message.error.code ?? 'no-code'})`));
+    } else {
+      slot.resolve(message.result || {});
+    }
+  };
+  control.on('Target.receivedMessageFromTarget', onMessage);
+
+  return {
+    sessionId,
+    async send(method, params = {}) {
+      const id = nextId++;
+      const response = new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
+      try {
+        await withTimeout(control.send('Target.sendMessageToTarget', {
+          sessionId,
+          message:JSON.stringify({ id, method, params })
+        }), 5000, `WORKER_CHILD_SEND_${method}`);
+        return await withTimeout(response, 8000, `WORKER_CHILD_RESPONSE_${method}`);
+      } catch (error) {
+        pending.delete(id);
+        throw error;
+      }
+    },
+    async detach() {
+      control.off('Target.receivedMessageFromTarget', onMessage);
+      for (const slot of pending.values()) slot.reject(new Error('WORKER_CHILD_SESSION_DETACHED'));
+      pending.clear();
+      await control.send('Target.detachFromTarget', { sessionId }).catch(() => {});
+    }
+  };
 }
 
-async function currentExtensionWorkerSession(browser, extensionOrigin, extensionId) {
-  return await waitUntil(async () => {
-    const targets = browser.targets().filter((t) => t.type() === 'service_worker' && t.url().startsWith(extensionOrigin));
-    for (const target of targets) {
-      let session = null;
-      try {
-        session = await target.createCDPSession();
-        await withTimeout(session.send('Runtime.enable'), 3000, 'WORKER_RUNTIME_ENABLE');
-        const id = await cdpEvaluate(session, 'globalThis.chrome?.runtime?.id || ""', 'WORKER_RUNTIME_ID', 3000);
-        if (id === extensionId) return { target, session };
-      } catch {
-        // A retained MV3 target may still point at a destroyed execution context. Retry with a fresh session.
+async function openExtensionWorkerTransport(page, extensionOrigin, extensionId) {
+  const control = await page.target().createCDPSession();
+  const versions = [];
+  const onVersions = (event) => {
+    for (const version of event?.versions || []) versions.push(version);
+  };
+  control.on('ServiceWorker.workerVersionUpdated', onVersions);
+
+  let child = null;
+  try {
+    await withTimeout(control.send('ServiceWorker.enable'), 3000, 'SERVICE_WORKER_ENABLE');
+    await withTimeout(control.send('Target.setDiscoverTargets', { discover:true }), 3000, 'TARGET_DISCOVERY_ENABLE');
+    await withTimeout(control.send('ServiceWorker.startWorker', { scopeURL:extensionOrigin }), 10000, 'SERVICE_WORKER_START');
+    console.log('CONTEXT_RECOVERY_REPLACEMENT_WORKER_WAKE_PASS');
+
+    const targetInfo = await waitUntil(async () => {
+      const result = await control.send('Target.getTargets');
+      const direct = (result?.targetInfos || []).find((info) =>
+        info.type === 'service_worker' && String(info.url || '').startsWith(extensionOrigin)
+      );
+      if (direct) return { ...direct, source:'Target.getTargets' };
+
+      const version = [...versions].reverse().find((row) =>
+        row?.targetId && String(row.scriptURL || '').startsWith(extensionOrigin) && row.runningStatus === 'running'
+      );
+      return version ? {
+        targetId:version.targetId,
+        type:'service_worker',
+        url:version.scriptURL,
+        source:'ServiceWorker.workerVersionUpdated',
+        runningStatus:version.runningStatus,
+        status:version.status
+      } : false;
+    }, 'CURRENT_EXTENSION_WORKER_TARGET_NOT_AVAILABLE', 12000, 120);
+    console.log(`CONTEXT_RECOVERY_CDP_WORKER_TARGET ${JSON.stringify(targetInfo)}`);
+
+    child = await createNestedTargetSession(control, targetInfo.targetId);
+    await child.send('Runtime.enable');
+    const runtimeId = await cdpEvaluate(child, 'globalThis.chrome?.runtime?.id || ""', 'WORKER_RUNTIME_ID');
+    assert(runtimeId === extensionId, `WORKER_RUNTIME_ID_MISMATCH ${JSON.stringify({ runtimeId, extensionId, targetInfo })}`);
+    console.log('CONTEXT_RECOVERY_REPLACEMENT_WORKER_SESSION_PASS');
+
+    return {
+      session:child,
+      async close() {
+        if (child) await child.detach().catch(() => {});
+        control.off('ServiceWorker.workerVersionUpdated', onVersions);
+        await control.detach().catch(() => {});
       }
-      if (session) await session.detach().catch(() => {});
-    }
-    return false;
-  }, 'CURRENT_EXTENSION_WORKER_SESSION_NOT_AVAILABLE', 20000, 150);
+    };
+  } catch (error) {
+    const targets = await control.send('Target.getTargets').catch(() => ({ targetInfos:[] }));
+    console.log(`CONTEXT_RECOVERY_CDP_DIAGNOSTIC ${JSON.stringify({
+      targets:(targets.targetInfos || []).filter((info) => info.type === 'service_worker' || String(info.url || '').startsWith(extensionOrigin)),
+      versions:versions.slice(-12)
+    })}`);
+    if (child) await child.detach().catch(() => {});
+    control.off('ServiceWorker.workerVersionUpdated', onVersions);
+    await control.detach().catch(() => {});
+    throw error;
+  }
 }
 
 async function cdpActiveTabs(session) {
@@ -122,18 +204,18 @@ async function popupSnapshot(popup) {
       });
     } catch (error) { activeTabError = error?.message || String(error); }
     return {
-      href: location.href,
-      readyState: document.readyState,
-      runtimeId: chrome.runtime?.id || '',
-      conversation: document.getElementById('conversationMeta')?.textContent || '',
-      bindDisabled: Boolean(document.getElementById('bindConversation')?.disabled),
-      manualDisabled: Boolean(document.getElementById('manualMode')?.disabled),
-      status: document.getElementById('status')?.textContent || '',
-      statusLevel: document.getElementById('status')?.dataset?.level || '',
-      bootstrapError: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || '',
-      bootstrapResult: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null,
-      popupRuntimePresent: Boolean(document.querySelector('script[data-ymb-popup-runtime="true"]')),
-      scripts: [...document.scripts].map((script) => script.src || '(inline)'),
+      href:location.href,
+      readyState:document.readyState,
+      runtimeId:chrome.runtime?.id || '',
+      conversation:document.getElementById('conversationMeta')?.textContent || '',
+      bindDisabled:Boolean(document.getElementById('bindConversation')?.disabled),
+      manualDisabled:Boolean(document.getElementById('manualMode')?.disabled),
+      status:document.getElementById('status')?.textContent || '',
+      statusLevel:document.getElementById('status')?.dataset?.level || '',
+      bootstrapError:globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || '',
+      bootstrapResult:globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null,
+      popupRuntimePresent:Boolean(document.querySelector('script[data-ymb-popup-runtime="true"]')),
+      scripts:[...document.scripts].map((script) => script.src || '(inline)'),
       activeTabs,
       activeTabError
     };
@@ -152,13 +234,13 @@ async function waitForPopupBootstrapOutcome(popup, timeout = 8000) {
 }
 
 let browser;
-let currentWorkerSession = null;
+let workerTransport = null;
 try {
   browser = await puppeteer.launch({
-    executablePath: chromePath,
-    headless: false,
-    userDataDir: fs.mkdtempSync(path.join(os.tmpdir(), 'ymb-context-recovery-')),
-    args: [
+    executablePath:chromePath,
+    headless:false,
+    userDataDir:fs.mkdtempSync(path.join(os.tmpdir(), 'ymb-context-recovery-')),
+    args:[
       '--no-sandbox', '--disable-gpu', '--no-proxy-server', '--disable-background-networking',
       `--disable-extensions-except=${extensionRoot}`, `--load-extension=${extensionRoot}`
     ]
@@ -202,40 +284,31 @@ try {
   console.log('CONTEXT_RECOVERY_RUNTIME_RELOAD_TRIGGERED_PASS');
 
   const pageStable = await chat.evaluate((expected) => ({
-    url: location.href,
-    marker: document.documentElement.dataset.ymbRecoveryMarker || '',
+    url:location.href,
+    marker:document.documentElement.dataset.ymbRecoveryMarker || '',
     expected
   }), documentMarker);
   assert(pageStable.url === CHAT_URL && pageStable.marker === documentMarker, `CHAT_PAGE_RELOADED_UNEXPECTEDLY ${JSON.stringify(pageStable)}`);
   console.log('CONTEXT_RECOVERY_CHAT_PAGE_REMAINED_OPEN_PASS');
 
-  // runtime.reload() may leave the extension's MV3 worker stopped with no debuggable execution context.
-  // Wake only the registered worker through a normal page-target CDP session. This does not inject page
-  // scripts and cannot satisfy the recovery assertion by itself; the missing-receiver probe must still fail.
-  await wakeExtensionWorker(chat, extensionOrigin);
-  console.log('CONTEXT_RECOVERY_REPLACEMENT_WORKER_WAKE_PASS');
-
-  // Attach a fresh CDP session to whichever MV3 service-worker execution context is current.
-  // The target itself may be retained across runtime.reload(), so target identity is not a lifecycle signal.
-  const currentWorker = await currentExtensionWorkerSession(browser, extensionOrigin, extensionId);
-  currentWorkerSession = currentWorker.session;
-  console.log('CONTEXT_RECOVERY_REPLACEMENT_WORKER_SESSION_PASS');
+  // Use the DevTools protocol itself as the transport after runtime.reload(). Puppeteer's target
+  // manager may retain a stale MV3 worker handle, but ServiceWorker/Target domains expose the live
+  // registered worker and its targetId directly. Starting/attaching the worker does not inject any
+  // content script; the explicit missing-receiver assertion below must still fail before popup open.
+  workerTransport = await openExtensionWorkerTransport(chat, extensionOrigin, extensionId);
+  const currentWorkerSession = workerTransport.session;
 
   await chat.bringToFront();
   const activeTabs = await cdpActiveTabs(currentWorkerSession);
   console.log(`CONTEXT_RECOVERY_WORKER_ACTIVE_TABS ${JSON.stringify(activeTabs)}`);
   assert(activeTabs.length === 1 && activeTabs[0].id === tabId && activeTabs[0].url === CHAT_URL, `RECOVERY_ACTIVE_TAB_NOT_CHATGPT ${JSON.stringify(activeTabs)}`);
 
-  // Prove the exact owner-live failure condition before opening the popup: the already-open page
-  // is still there, but the replacement extension runtime cannot reach the old content-script receiver.
   const missingReceiver = await cdpTabIdentity(currentWorkerSession, tabId);
   console.log(`CONTEXT_RECOVERY_PRE_POPUP_IDENTITY_STATE ${JSON.stringify(missingReceiver)}`);
   assert(missingReceiver.response?.ok !== true, `RECOVERY_RECEIVER_UNEXPECTEDLY_STILL_LIVE ${JSON.stringify(missingReceiver)}`);
   assert(Boolean(missingReceiver.error), `RECOVERY_MISSING_RECEIVER_ERROR_NOT_REPORTED ${JSON.stringify(missingReceiver)}`);
   console.log('CONTEXT_RECOVERY_MISSING_RECEIVER_REPRODUCED_PASS');
 
-  // Open the actual toolbar action popup from the live extension context. No synthetic
-  // chrome-extension:// page navigation is used; ChatGPT remains the active browser tab.
   await chat.bringToFront();
   const existingTargets = new Set(browser.targets());
   const openPromise = cdpOpenActionPopup(currentWorkerSession);
@@ -278,6 +351,6 @@ try {
   console.log('CONTEXT_RECOVERY_ALREADY_OPEN_CHATGPT_PASS');
   console.log('REAL_YANDEX_REQUESTS=0');
 } finally {
-  if (currentWorkerSession) await currentWorkerSession.detach().catch(() => {});
+  if (workerTransport) await workerTransport.close().catch(() => {});
   if (browser) await browser.close().catch(() => {});
 }
