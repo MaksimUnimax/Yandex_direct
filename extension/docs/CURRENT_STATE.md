@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 2 SEARCH — CONTROLLED PRE-DELIVERY PASS / OWNER LIVE SEARCH AUTHORIZED**  
+Status: **PHASE 2 SEARCH REOPENED — REAL-PROFILE CONTEXT/BINDING DEFECT / OWNER LIVE BLOCKED**  
 Updated: 2026-08-25
 
 Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
@@ -8,244 +8,82 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 ## Mandatory reconstruction record
 
 ```text
-LIVE_HEAD_BEFORE_THIS_STATE_WRITE = ec01d3d06dbf95032f7a565cd0b2cd671b8ecbe8
-PRODUCT_SOURCE = f4aee34c0a3455aa7199f6aa54bd581c71d97337
-HANDOFF_ARTIFACT = 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46 / 175971 bytes / 68 files / 71 ZIP entries
-PAYLOAD_MANIFEST = bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478 / 11933 bytes
-WINDOWS_SAFE_TRANSPORT = PASS at 7c787eedd9856c3f91fbed85aeaea7f3405ad473
-LATEST_COMPLETE_GATE = PASS on exact 739dd5d7... candidate; run 32801788251 / job 97663951211
-PRODUCTION_BYTES_CHANGED_SINCE_GATE = NO
-PACKAGE_TEST_BYTES_CHANGED_SINCE_GATE = NO
-OWNER_LIVE = PENDING / AUTHORIZED
-REAL_OWNER_LIVE_SEARCH_REQUESTS_SINCE_CONTEXT_RECOVERY_DEFECT = 0
-OPEN_BLOCKERS = exactly one minimal real synchronous Search acceptance has not yet returned a usable SEARCH_RESULT_V1
-AUTHORIZED_NEXT_STAGE = OWNER_LIVE_PHASE2_SEARCH
+LIVE_HEAD_BEFORE_THIS_STATE_WRITE = c2a3eb60be9fe52c631d499b8a8a5e90b50a4765
+LAST_FROZEN_PRODUCT_SOURCE = f4aee34c0a3455aa7199f6aa54bd581c71d97337
+WITHDRAWN_HANDOFF_ARTIFACT = 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46 / 175971 bytes / 68 files / 71 ZIP entries
+LAST_PAYLOAD_MANIFEST = bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478 / 11933 bytes
+WINDOWS_SAFE_TRANSPORT = 7c787eedd9856c3f91fbed85aeaea7f3405ad473
+CHATGPT_INTERNAL_ACTIONS_GATE = PASS on 739dd5d7... but is NOT the mandatory independent Codex gate
+INDEPENDENT_CODEX_FULL_GATE_ON_739DD5D7 = NOT RUN
+OWNER_LIVE = FAIL / BLOCKED BEFORE PROVIDER BOUNDARY
+REAL_YANDEX_REQUESTS_FROM_FAILURE = 0
+PRODUCTION_BYTES_CHANGED_SINCE_LAST_FREEZE = NO YET; PRODUCT REPAIR REQUIRED
+OPEN_BLOCKERS = current real ChatGPT conversation cannot be confirmed, so Bind and Manual remain disabled; previous handoff skipped independent Codex QA
+AUTHORIZED_NEXT_STAGE = PRODUCT_CONTEXT_BINDING_REPAIR
 ```
 
-## Exact current candidate authority
+## Withdrawal of previous handoff
+
+The exact `739dd5d7...` ZIP is withdrawn from owner-live use. Do not retry Search with it.
+
+The repository Actions run `32801788251 / 97663951211` remains useful ChatGPT-owned internal QA evidence, but it was incorrectly treated as the independent Codex pre-delivery gate. The mandatory Codex campaign was not run. Therefore the previous owner-live authorization was invalid under `WORKFLOW_OPERATING_RULES.md`.
+
+## Real-profile product defect
+
+The owner's current real ChatGPT profile shows:
 
 ```text
-candidate branch: candidate/phase2-context-recovery-2026-08-25
-product source: f4aee34c0a3455aa7199f6aa54bd581c71d97337
-artifact: yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip
-artifact SHA-256: 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46
-artifact bytes: 175971
-files: 68
-ZIP entries: 71
-payload manifest SHA-256: bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478
-payload manifest bytes: 11933
+Текущий ChatGPT = не определён
+Привязать диалог = disabled
+Ручной режим Yandex = disabled
 ```
 
-The current candidate was produced from the previously accepted popup-fix baseline `10bb3aca...` plus exactly the proven context-recovery production/package-test delta. The old `0186b35d...` and `d58b5bd...` artifacts are historical only and must not be used for owner-live acceptance.
+No Yandex provider request was initiated.
 
-## Exact freeze PASS
+Root-cause evidence already established:
 
-Durable authority:
+1. `popup_context_bootstrap.js` treats any delivered `WS_GET_IDENTITY` response as bootstrap success even when `ok:false` or `conversation_key` is empty.
+2. `popup.js` then requires `page.ok && conversation_key`, so the popup falls back to unavailable context and disables Bind/Manual.
+3. reconstructed `shared/conversation_identity.js` restricts `/c/<id>` to RFC UUID version nibbles 1-5.
+4. factual owner real-profile Phase-1 DOM evidence contains working ChatGPT URL `https://chatgpt.com/c/6a82924e-5ed0-83eb-84a2-851ddad40c88`; the current `[1-5]` UUID-version restriction rejects this proven real conversation id.
+5. historical Phase-1 candidate manifest proves `shared/conversation_identity.js` had a different accepted byte identity before reconstruction (`e56a9f352c4668f47a0f72c2044a943a88457024c4400fa878a974551518114a`).
+6. current content identity refresh uses only `location.href`; historical controlled/live DOM fixtures preserved canonical ChatGPT conversation URL evidence and the reconstructed path lost that fallback semantics.
+
+## Required product repair
+
+The authorized repair is limited to the proven context/binding/Manual layers:
 
 ```text
-extension/tests/PHASE_2_CONTEXT_RECOVERY_FREEZE_PASS_2026-08-25.md
-run: 32799665340
-job: 97657914686
-source suite: 239/239 PASS
-source syntax: 22 PASS
-source JSON: PASS
-deterministic rebuild: PASS
-packaged suite: 239/239 PASS
-packaged syntax: 62 PASS
-packaged JSON: 2 PASS
-ZIP integrity: PASS
-real Yandex requests: 0
+- restore conversation-id acceptance compatible with factual real ChatGPT ids without weakening trusted-origin fences;
+- restore location + trusted canonical conversation identity resolution/fail-closed mismatch handling;
+- make delivered-but-invalid WS_GET_IDENTITY an explicit failure/recovery case, never a bootstrap success;
+- distinguish supported ChatGPT page context from confirmed conversation/binding as the older working popup did;
+- surface a truthful context error instead of silent `не определён` plus false-ready state;
+- restore the proven Manual transaction semantics after confirmed binding;
+- add fail-first regression using factual id 6a82924e-5ed0-83eb-84a2-851ddad40c88 and live-receiver-invalid-identity case;
+- zero Yandex requests during focused repair QA.
 ```
 
-## Windows-safe transport PASS
-
-Durable authority:
+## Historical working authority being used for repair
 
 ```text
-extension/tests/PHASE_2_CONTEXT_RECOVERY_WINDOWS_TRANSPORT_PASS_2026-08-25.md
-transport branch: qa/phase2-context-recovery-final-b64-transport-f4aee34-2026-08-25
-transport commit: 7c787eedd9856c3f91fbed85aeaea7f3405ad473
-transport parent: f4aee34c0a3455aa7199f6aa54bd581c71d97337
-transport format: YMB_PHASE2_CONTEXT_RECOVERY_EXACT_B64_TRANSPORT_V1
-base64 length: 234628
-artifact.b64 SHA-256: d72bce6d500582310bd1bda894ac5c57e023f03aa80f9b1ebd79427db4172398
-run: 32800990879
-Ubuntu producer job: 97661608465 PASS
-Windows consumer job: 97661642103 PASS
-Windows core.autocrlf=true
-exact ZIP roundtrip: PASS
-payload manifest roundtrip: PASS
-ZIP integrity: PASS
-cleanliness: PASS
-real Yandex requests: 0
+controlled accepted Phase-1 source: 653adb63a68f98f03f21534658f3397fd389e0c6
+accepted artifact: 4973c5f87c3ad7d4c052e66c449c2afef412d20a6e4d767bbe761d62abf7cb84
+real-profile evidence: extension/tests/PHASE_1_0.1.1_REAL_PROFILE_LIVE_EVIDENCE_2026-08-18.md
+factual real ChatGPT DOM/URL: extension/tests/PHASE_1_0.1.1_LIVE_CHATGPT_DOM_EVIDENCE_2026-08-17.md
+Manual transaction authority: extension/tests/PHASE_1_0.1.1_FSE_MANUAL_POPUP_PATCH_R4_TRANSACTION_PASS.md
 ```
 
-## Complete governed gate PASS
+The old real-profile evidence proves Manual OFF/ON and current ChatGPT block binding worked before the later stale-manual-operation defect.
 
-Durable authority:
+## Workflow boundary after repair
 
-```text
-extension/tests/PHASE_2_CONTEXT_RECOVERY_COMPLETE_GATE_PASS_2026-08-25.md
-workflow: phase2-context-recovery-complete-gate
-QA executor head: fed2ea3dd84164ea91f68ba4bf57b29a4ec0c615
-run: 32801788251
-job: 97663951211
-Windows Server 2025
-Git: 2.55.0.windows.4
-Chrome for Testing: 151.0.7922.47
-Puppeteer: 25.4.0
-```
-
-Complete verdict:
-
-```text
-step-0 authority: PASS
-transport: PASS
-source suite: 239/239 PASS
-source static: PASS
-packaged suite: 239/239 PASS
-packaged syntax: 62/62 PASS
-packaged JSON: 2/2 PASS
-B-01 Project/Work: PASS
-B-02 mandatory Manual-ON transaction: PASS
-B-03 Search Autorun: PASS
-B-04 native Chrome-151 action popup geometry: PASS
-B-05 already-open-ChatGPT context recovery: PASS
-controlled Search stub requests: 1
-real Yandex requests: 0
-real credentials used: NO
-production modified during gate: NO
-tests modified during gate: NO
-PD-00..PD-17: ALL PASS
-mandatory Manual-ON transaction: PASS
-S-00..S-17: ALL PASS
-not-run enabled sections: 0
-final exactness: PASS
-final cleanliness: PASS
-COMPLETE_GATE_VERDICT=PASS
-PHASE2_CONTEXT_RECOVERY_COMPLETE_GATE_PASS
-PHASE2_CONTEXT_RECOVERY_COMPLETE_GATE_ENFORCED_PASS
-```
-
-B-05 directly reproduced the owner defect ordering:
-
-```text
-ChatGPT opened first
-→ unpacked extension installed afterwards
-→ original ChatGPT page remained open
-→ real extension action triggered
-→ real popup opened
-→ missing receiver reproduced
-→ bootstrap attempted=true
-→ bootstrap recovered=true
-→ exact conversation identity recovered
-→ Bind PASS
-→ Manual ON PASS
-→ real Yandex requests = 0
-```
-
-## Phase-2 Search product boundary remains unchanged
-
-Enabled only:
-
-```text
-SEARCH_API_V1
-service: search
-method: search
-POST https://searchapi.api.cloud.yandex.net/v2/web/search
-synchronous text Search
-FORMAT_XML
-SEARCH_RESULT_V1
-```
-
-Still locked:
-
-```text
-Search async/deferred
-Search image
-Search generative
-HTML SERP normalization
-yandex.ru scraping
-Webmaster
-Metrika
-Direct
-```
-
-## Owner-live Phase-2 Search acceptance
-
-Exactly one irreducible live synchronous Search request is now authorized on the exact candidate `739dd5d7...`.
-
-Canonical request:
-
-```text
-SEARCH_API_V1
-{
-  "method": "search",
-  "queryText": "купить ноутбук",
-  "searchType": "SEARCH_TYPE_RU",
-  "region": "225",
-  "page": 0,
-  "groupsOnPage": 5,
-  "familyMode": "FAMILY_MODE_MODERATE",
-  "fixTypoMode": "FIX_TYPO_MODE_ON",
-  "sortMode": "SORT_MODE_BY_RELEVANCE",
-  "sortOrder": "SORT_ORDER_DESC",
-  "groupMode": "GROUP_MODE_FLAT",
-  "docsInGroup": 1,
-  "maxPassages": 2,
-  "l10n": "LOCALIZATION_RU"
-}
-```
-
-The owner must click the external `Яндекс` action exactly once.
-
-PASS criteria:
-
-```text
-signature: SEARCH_RESULT_V1
-service: search
-operation: search
-status: OK
-http_status: 200
-request_executed: true
-automatic_retry: false
-response_format: FORMAT_XML
-result.results: non-empty usable normalized result list
-```
-
-`url` is the essential document identity; optional title/snippet/domain/modtime may be null.
-
-### No-blind-retry rule
-
-If the result is any of:
-
-```text
-request_executed: "UNKNOWN"
-timeout after possible provider initiation
-session loss after possible provider initiation
-ambiguous delivery after the irreversible provider boundary
-```
-
-do **not** click again and do **not** retry automatically. Preserve the exact evidence and classify it before any second live request.
-
-A clear pre-network credential/access/policy rejection with `request_executed:false` must be classified as configuration/access versus product before another live request.
-
-A clear provider HTTP error after one initiation with `request_executed:true` and `automatic_retry:false` also must not be retried automatically.
-
-## Governance from here
-
-```text
-- do not refreeze or rebuild the candidate;
-- do not change production/package-test bytes before owner-live acceptance;
-- do not run another complete controlled gate unless new evidence invalidates the PASS;
-- exactly one owner-live Search acceptance is the authorized next stage;
-- Phase 3 Webmaster remains blocked until owner-live Phase-2 Search is PASS and closed.
-```
+During repair ChatGPT runs focused tests only. If production bytes change, a new exact candidate is required. Before any future owner handoff, the exact new frozen artifact must go through the mandatory independent Codex pre-delivery campaign. ChatGPT's own Actions/preflight cannot substitute for Codex.
 
 ## Current authorized next action
 
 ```text
-AUTHORIZED_NEXT_ACTION = OWNER_LIVE_PHASE2_SEARCH_EXACTLY_ONCE
-OWNER_LIVE_SEARCH = PENDING / AUTHORIZED
+AUTHORIZED_NEXT_ACTION = REPAIR_CONTEXT_BINDING_AGAINST_HISTORICAL_REAL_PROFILE_AUTHORITY
+OWNER_LIVE_SEARCH = BLOCKED
 PHASE_3_WEBMASTER = BLOCKED
 ```
