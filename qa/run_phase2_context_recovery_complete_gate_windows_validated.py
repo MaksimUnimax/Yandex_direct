@@ -12,12 +12,12 @@ tree = ast.parse(source_path.read_text(encoding="utf-8"), filename=str(source_pa
 
 fixes = {
     "SOURCE_PASS_COUNT": (
-        'bool(re.search(r"(?:#\\s*)?pass\\s+234\\b", out, re.I))',
-        'bool(re.search(r"(?:#\\s*)?pass\\s+239\\b", out, re.I))',
+        'results["source_suite"] = rc == 0 and bool(re.search(r"(?:#\\s*)?pass\\s+234\\b", out, re.I)) and not re.search(r"(?:#\\s*)?fail\\s+[1-9]\\d*\\b", out, re.I)',
+        'results["source_suite"] = rc == 0 and bool(re.search(r"(?:#\\s*)?pass\\s+239\\b", out, re.I)) and not re.search(r"(?:#\\s*)?fail\\s+[1-9]\\d*\\b", out, re.I)',
     ),
     "PACKAGED_PASS_COUNT": (
-        'bool(re.search(r"(?:#\\s*)?pass\\s+234\\b", out, re.I))',
-        'bool(re.search(r"(?:#\\s*)?pass\\s+239\\b", out, re.I))',
+        ']) and bool(re.search(r"(?:#\\s*)?pass\\s+234\\b", out, re.I))',
+        ']) and bool(re.search(r"(?:#\\s*)?pass\\s+239\\b", out, re.I))',
     ),
     "PASS_MARKER_NAME": (
         'print("PHASE2_POPUP_FIX_COMPLETE_GATE_PASS", flush=True)',
@@ -48,7 +48,7 @@ ast.fix_missing_locations(tree)
 validated_source = ast.unparse(tree) + "\n"
 compile(validated_source, "<validated-context-gate-wrapper>", "exec")
 print("CONTEXT_GATE_WRAPPER_AST_VALIDATION_PASS")
-print("CONTEXT_GATE_REGEX_ANCHORS_CORRECTED_PASS")
+print("CONTEXT_GATE_UNIQUE_SOURCE_PACKAGED_ANCHORS_PASS")
 print("CONTEXT_GATE_PASS_MARKER_ANCHOR_CORRECTED_PASS")
 
 runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir())).resolve()
