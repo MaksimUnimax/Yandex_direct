@@ -1,0 +1,23 @@
+{
+  "format": "YMB_PHASE2_REAL_PROFILE_BINDING_REPAIR_EXACT_B64_TRANSPORT_V1",
+  "frozen_source_commit": "b7869180c229356a6b3d51ac980ec3da5df4c23c",
+  "source_actions_run": 32805530317,
+  "source_actions_artifact_id": 9548000690,
+  "artifact_filename": "yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip",
+  "artifact_sha256": "ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa",
+  "artifact_bytes": 179013,
+  "files": 69,
+  "zip_entries": 72,
+  "base64_length": 238684,
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "path": "artifact.b64",
+      "bytes": 238684,
+      "sha256": "0c0f2b19e1c630232c71cfd7d81c776693fce6b889482e9536d7c7b3ab38e803"
+    }
+  ],
+  "payload_manifest_sha256": "ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f6bb594acf1",
+  "payload_manifest_bytes": 12125,
+  "real_yandex_requests_during_freeze": 0
+}
