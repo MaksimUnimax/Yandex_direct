@@ -6,7 +6,7 @@ Status: **ACTIVE — completed runs recorded; continuation plan pinned**
 ## Authority
 
 ```text
-LIVE_HEAD_BEFORE_WRITE = 2a01518f1e056f2a8187127ca0ffc6293a9890bb
+LIVE_HEAD_BEFORE_WRITE = e43918296fcafa31c154d1c9fcc0e9161af0a334
 PRODUCT_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
 ARTIFACT_SHA256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
 OWNER_LIVE_SEARCH = PASS / CLOSED
@@ -44,6 +44,7 @@ This file is the durable continuation ledger for the sequential owner functional
 | 14 | `docsInGroup=4` | first attempt hit `MANUAL_OPERATION_ACTIVE`; retry returned `INVALID_FIELD`, allowed 1–3 | No | **PASS on retry** |
 | 15 | `page=-1` | first attempt hit `MANUAL_OPERATION_ACTIVE`; retry returned `INVALID_FIELD`, allowed 0–1000000 | No | **PASS on retry** |
 | 16 | `familyMode=FAMILY_MODE_UNKNOWN` | `INVALID_ENUM` | No | **PASS** |
+| 17 | `sortMode=SORT_MODE_RANDOM` | `INVALID_ENUM` at `COMMAND_VALIDATION`; `request_executed=false`, `automatic_retry=false` | No | **PASS** |
 
 ## Incidental lifecycle evidence
 
@@ -60,7 +61,7 @@ These are recorded as lifecycle safety observations, not failures of the intende
 
 ## Current next run
 
-### Run 17 — invalid `sortMode` enum — PENDING
+### Run 18 — invalid `sortOrder` enum — PENDING
 
 Execute exactly one command after the previous Manual operation is complete:
 
@@ -73,7 +74,7 @@ SEARCH_API_V1
   "region": "225",
   "page": 0,
   "groupsOnPage": 5,
-  "sortMode": "SORT_MODE_RANDOM"
+  "sortOrder": "SORT_ORDER_RANDOM"
 }
 ```
 
@@ -91,8 +92,8 @@ automatic_retry = false
 
 | Planned run | Check | Expected boundary | Real provider request? | Status |
 |---:|---|---|---|---|
-| 17 | Invalid `sortMode` | `INVALID_ENUM` / local validation | No | **PENDING — NEXT** |
-| 18 | Invalid `sortOrder` | `INVALID_ENUM` / local validation | No | **PENDING** |
+| 17 | Invalid `sortMode` | `INVALID_ENUM` / local validation | No | **PASS** |
+| 18 | Invalid `sortOrder` | `INVALID_ENUM` / local validation | No | **PENDING — NEXT** |
 | 19 | Invalid `groupMode` | `INVALID_ENUM` / local validation | No | **PENDING** |
 | 20 | Invalid `fixTypoMode` | `INVALID_ENUM` / local validation | No | **PENDING** |
 | 21 | Invalid `searchType` | `INVALID_ENUM` / local validation | No | **PENDING** |
