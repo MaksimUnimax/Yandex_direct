@@ -117,23 +117,67 @@ Durable evidence:
 ```text
 ../tests/PHASE_2_REAL_PROFILE_BINDING_CODEX_COMPLETE_PASS_2026-08-25.md
 ../tests/PHASE_2_REAL_PROFILE_OWNER_LIVE_SEARCH_PASS_2026-08-25.md
+../tests/PHASE_2_OWNER_FUNCTIONAL_LATEST_CHECKPOINT.md
 ```
 
 Closure:
 
 ```text
 PHASE 2 SEARCH FIRST SLICE = LIVE PASS / CLOSED
+OWNER MANUAL SEARCH FUNCTIONAL RUN = COMPLETE
 ```
 
-Additional optional owner functional checks may continue one command at a time; any discovered real defect reopens Phase 2 at the proven layer.
+---
+
+# NEXT GOVERNED PATCH — LIFECYCLE GUARD BUTTON GATING
+
+**Status: READY / NEXT BEFORE PHASE 3 IMPLEMENTATION.**
+
+This is an inter-phase unified-core UI/safety patch discovered during owner functional Search testing. It does not invalidate the accepted Phase-2 artifact; it must be delivered as a new governed candidate.
+
+Required behavior:
+
+```text
+MANUAL_OPERATION_ACTIVE → Yandex action button disabled / non-clickable
+DELIVERY_IN_PROGRESS   → Yandex action button disabled / non-clickable
+blocking state cleared → button becomes clickable again
+```
+
+Requirements:
+
+- prevent the invalid click in the UI instead of accepting it and only then returning the lifecycle guard error;
+- retain existing backend/manual-admission guards as fail-closed defense in depth;
+- re-enable only after positive observation that the blocking lifecycle state is cleared;
+- do not reset worker timers, delivery timers, service state, or unrelated runtime state merely to refresh button availability;
+- preserve current popup geometry;
+- add regression coverage for `blocked → click impossible → lifecycle completes → clickable again`;
+- any product/package-test byte change creates a new exact candidate and requires the applicable governed gate before owner handoff.
+
+Patch source note:
+
+```text
+../tests/PHASE_2_OWNER_FUNCTIONAL_RUN_CHECKLIST_2026-08-25.md
+```
+
+After this patch closes, continue directly to Phase 3.
 
 ---
 
 # PHASE 3 — WEBMASTER
 
-**Status: UNBLOCKED / READY FOR GOVERNED REQUIREMENT RECONSTRUCTION.**
+**Status: UNBLOCKED / QUEUED AFTER LIFECYCLE BUTTON PATCH.**
 
-Do not start implementation from memory. First reconstruct the current Phase-3 Webmaster contract from live canonical docs and historical evidence, then establish the next governed development stage.
+First Phase-3 action is **governed requirement reconstruction**, not implementation from memory.
+
+Required start sequence:
+
+```text
+1. Reconstruct the current Webmaster contract from live canonical docs and historical repo evidence.
+2. Define the first Webmaster API slice: protocol, allowed methods, credentials/capability, policy/budget, response normalization and failure semantics.
+3. Write/update specification + implementation plan + acceptance/gate requirements before production code.
+4. Implement only the approved first slice.
+5. Run focused tests, freeze exact candidate, independent Codex full applicable gate, then owner-live acceptance only where irreducible.
+```
 
 ---
 
