@@ -13,7 +13,16 @@
   const POLL_MS = 450;
   const STATE_SYNC_MS = 1800;
 
-  let identity = BB2ConversationIdentity.identityFromUrl(location.href);
+  function canonicalConversationUrl() {
+    const node = document.querySelector('link[rel="canonical"]');
+    return String(node?.href || node?.getAttribute?.("href") || "").trim();
+  }
+
+  function resolvePageIdentity() {
+    return BB2ConversationIdentity.identityFromCandidates([location.href, canonicalConversationUrl()]);
+  }
+
+  let identity = resolvePageIdentity();
   let manualEnabled = false;
   let activeService = YMBServiceRegistry.SERVICES.WORDSTAT;
   let stateSnapshot = null;
@@ -174,12 +183,10 @@
   function refreshIdentity() {
     if (location.href !== lastLocationHref) {
       lastLocationHref = location.href;
-      identity = BB2ConversationIdentity.identityFromUrl(location.href);
       actionByBlock.clear();
       autorunSeen.clear();
-    } else {
-      identity = BB2ConversationIdentity.identityFromUrl(location.href);
     }
+    identity = resolvePageIdentity();
     return identity;
   }
 

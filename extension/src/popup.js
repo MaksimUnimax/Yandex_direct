@@ -5,7 +5,7 @@
   const TERMINAL_RUNS = new Set(["stopped", "error"]);
   const CHATGPT_HOSTS = new Set(["chatgpt.com", "chat.openai.com"]);
 
-  let context = { available: false, tab_id: null, conversation_key: "", identity: null };
+  let context = { page_available: false, available: false, tab_id: null, conversation_key: "", identity: null, error: "" };
   let lastState = null;
   let rendering = false;
   let lastDiagnostics = [];
@@ -102,18 +102,24 @@
   }
 
   async function resolveContext() {
-    context = { available: false, tab_id: null, conversation_key: "", identity: null };
+    context = { page_available: false, available: false, tab_id: null, conversation_key: "", identity: null, error: "" };
     const tab = await queryActiveTab();
     if (!tab || !Number.isInteger(Number(tab.id))) return context;
     let host = "";
     try { host = new URL(tab.url || "").hostname; } catch { return context; }
     if (!CHATGPT_HOSTS.has(host)) return context;
+    context = { ...context, page_available: true, tab_id: Number(tab.id) };
     try {
       const page = await tabSend(Number(tab.id), { type: "WS_GET_IDENTITY" });
-      const key = String(page?.conversation_key || page?.identity?.conversation_key || "");
-      if (!page?.ok || !key) return context;
-      context = { available: true, tab_id: Number(tab.id), conversation_key: key, identity: page.identity || null };
-    } catch { /* content script may be restarting */ }
+      const key = String(page?.conversation_key || page?.identity?.conversation_key || "").trim();
+      if (!page?.ok || !key) {
+        context = { ...context, error: "Не удалось подтвердить текущий ChatGPT-диалог." };
+        return context;
+      }
+      context = { page_available: true, available: true, tab_id: Number(tab.id), conversation_key: key, identity: page.identity || null, error: "" };
+    } catch (error) {
+      context = { ...context, error: `Нет связи с текущей страницей ChatGPT: ${error?.message || error}` };
+    }
     return context;
   }
 
@@ -137,7 +143,7 @@
       const service = state?.service_context?.active_service === "search" ? "search" : "wordstat";
       $("activeService").value = service;
       $("activeService").disabled = !context.available || isActiveRun(state?.auto_run) || state?.manual_mode === true;
-      $("bindConversation").disabled = !context.available;
+      $("bindConversation").disabled = !context.page_available;
       $("bindConversation").textContent = state?.binding ? "Перепривязать диалог" : "Привязать диалог";
 
       const run = state?.auto_run || null;
@@ -300,7 +306,7 @@
 
   $("bindConversation").addEventListener("click", () => withButton($("bindConversation"), async () => {
     await resolveContext();
-    if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    if (!context.page_available || !Number.isInteger(Number(context.tab_id))) throw new Error("Откройте конкретный диалог ChatGPT.");
     const response = await runtimeSend({ type: "WS_BIND_CONVERSATION", tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось привязать диалог.");
     await refresh();
@@ -317,19 +323,30 @@
       if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
       const committedService = lastState?.service_context?.active_service === "search" ? "search" : "wordstat";
       if (enabled && $("activeService").value !== committedService) throw new Error("Сначала сохраните выбранный активный сервис.");
-      const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled, tab_id: context.tab_id });
-      if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не сохранил ручной режим.");
-      workerCommitted = true;
-      const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled, active_service: committedService });
-      if (!applied?.ok || applied.applied !== true) {
-        if (enabled) {
-          const rollback = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, tab_id: context.tab_id });
-          if (rollback?.ok) {
-            try { await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: committedService }); } catch {}
-          }
+
+      if (enabled) {
+        // Proven Phase-1 transaction: content must acknowledge ON before the
+        // worker hard gate is authorized. Never authorize a stale/unarmed page.
+        const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: true, active_service: committedService });
+        if (!applied?.ok || applied.applied !== true) throw new Error(applied?.error || applied?.code || "Страница не подтвердила ручной режим.");
+        try {
+          const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: true, tab_id: context.tab_id });
+          if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не сохранил ручной режим.");
+          workerCommitted = true;
+        } catch (error) {
+          try { await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: committedService }); } catch {}
+          throw error;
         }
-        throw new Error(applied?.error || applied?.code || "Страница не подтвердила ручной режим.");
+      } else {
+        // OFF remains safety-first: close the worker hard gate before cleaning
+        // the page decoration/listeners. If cleanup fails, worker stays OFF.
+        const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, tab_id: context.tab_id });
+        if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не выключил ручной режим.");
+        workerCommitted = true;
+        const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, active_service: committedService });
+        if (!applied?.ok || applied.applied !== true) throw new Error(applied?.error || applied?.code || "Worker выключен, но страница не подтвердила очистку ручного режима.");
       }
+
       await refresh();
       showStatus(enabled ? "Ручной режим включён." : "Ручной режим выключен.", "ok");
     } catch (error) {
@@ -498,5 +515,11 @@
     });
   }
 
-  refresh().then(() => showStatus("Готово.")).catch((error) => showStatus(error.message || String(error), "error"));
+  refresh().then(() => {
+    const bootstrapError = String(globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || "").trim();
+    if (bootstrapError) return showStatus(bootstrapError, "error");
+    if (context.available) return showStatus("Готово.");
+    if (context.page_available) return showStatus(context.error || "Не удалось подтвердить текущий ChatGPT-диалог.", "error");
+    return showStatus("Откройте конкретный диалог ChatGPT.", "error");
+  }).catch((error) => showStatus(error.message || String(error), "error"));
 })();
