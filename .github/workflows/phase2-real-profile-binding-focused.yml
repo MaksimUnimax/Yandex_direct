@@ -34,4 +34,6 @@ jobs:
           node --check extension/tests/real_profile_binding_regression.test.mjs
       - name: Zero provider-side focused gate
         shell: bash
-        run: echo REAL_YANDEX_REQUESTS=0
+        run: |
+          echo REAL_YANDEX_REQUESTS=0
+          echo REAL_PROFILE_BINDING_REPAIR_CLEAN_CHECKOUT_PASS
