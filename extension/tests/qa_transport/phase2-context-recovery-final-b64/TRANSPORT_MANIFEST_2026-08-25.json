@@ -1,0 +1,23 @@
+{
+  "format": "YMB_PHASE2_CONTEXT_RECOVERY_EXACT_B64_TRANSPORT_V1",
+  "frozen_source_commit": "f4aee34c0a3455aa7199f6aa54bd581c71d97337",
+  "source_actions_run": 32799665340,
+  "source_actions_artifact_id": 9546054918,
+  "artifact_filename": "yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip",
+  "artifact_sha256": "739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46",
+  "artifact_bytes": 175971,
+  "files": 68,
+  "zip_entries": 71,
+  "base64_length": 234628,
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "path": "artifact.b64",
+      "bytes": 234628,
+      "sha256": "d72bce6d500582310bd1bda894ac5c57e023f03aa80f9b1ebd79427db4172398"
+    }
+  ],
+  "payload_manifest_sha256": "bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478",
+  "payload_manifest_bytes": 11933,
+  "real_yandex_requests_during_freeze": 0
+}
