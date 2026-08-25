@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 2 SEARCH REOPENED — CHATGPT CONTEXT RECOVERY FOCUSED PASS / NEW REFREEZE REQUIRED**  
+Status: **PHASE 2 SEARCH REOPENED — CONTEXT-RECOVERY EXACT FREEZE PASS / WINDOWS TRANSPORT REQUIRED**  
 Updated: 2026-08-25
 
 Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
@@ -8,24 +8,26 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 ## Mandatory reconstruction record
 
 ```text
-LIVE_HEAD_BEFORE_THIS_STATE_WRITE = e6c0105f237f38670fce67c011cac20f6057205d
-LAST_ACCEPTED_PRODUCT_SOURCE = 10bb3aca67295e5e515ff2ade8914b23e8458ca7
-LAST_ACCEPTED_ARTIFACT = 0186b35d66cf1e7e20a522dc128b3fdd317cd660c665b8294120a1ab8affe91d / 171655 bytes / 66 files / 69 ZIP entries
-LAST_ACCEPTED_PAYLOAD_MANIFEST = 447bf18e54ba4a728cc6255adff5e13996366b9bf54b2668114110d525501009 / 11601 bytes
+LIVE_HEAD_BEFORE_THIS_STATE_WRITE = bef10dcc4c379d2e9247af4dc14365443b7f59f7
+LAST_COMPLETE_ACCEPTED_PRODUCT_SOURCE = 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+LAST_COMPLETE_ACCEPTED_ARTIFACT = 0186b35d66cf1e7e20a522dc128b3fdd317cd660c665b8294120a1ab8affe91d / 171655 bytes / 66 files / 69 ZIP entries
 LATEST_COMPLETE_GATE = PASS on exact 0186b35d... candidate; run 32730308190 / job 97440819536
-OWNER_LIVE = FAILED BEFORE PROVIDER BOUNDARY due missing ChatGPT content-script receiver when extension becomes active after the ChatGPT tab is already open
-REAL_OWNER_LIVE_SEARCH_REQUESTS = 0
-PRODUCTION_BYTES_CHANGED_SINCE_LAST_FULL_GATE = YES on focused context-recovery branch only; not yet refrozen
+CURRENT_FROZEN_PRODUCT_SOURCE = f4aee34c0a3455aa7199f6aa54bd581c71d97337
+CURRENT_FROZEN_ARTIFACT = 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46 / 175971 bytes / 68 files / 71 ZIP entries
+CURRENT_FROZEN_PAYLOAD_MANIFEST = bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478 / 11933 bytes
+CURRENT_FREEZE_GATE = PASS; run 32799665340 / job 97657914686
 FOCUSED_CONTEXT_RECOVERY_GATE = PASS; source 239/239; Chrome 151 real action popup; run 32799117004 / job 97656378411
-OPEN_BLOCKERS = new context-recovery product candidate has not yet been frozen, transported, and completely re-gated
-AUTHORIZED_NEXT_STAGE = CONTEXT_RECOVERY_REFREEZE
+PRODUCTION_BYTES_CHANGED_SINCE_CURRENT_FREEZE = NO
+PACKAGE_TEST_BYTES_CHANGED_SINCE_CURRENT_FREEZE = NO
+OWNER_LIVE = BLOCKED
+REAL_OWNER_LIVE_SEARCH_REQUESTS_SINCE_DEFECT = 0
+OPEN_BLOCKERS = exact current artifact has not yet received Windows-safe transport and one new complete governed gate
+AUTHORIZED_NEXT_STAGE = WINDOWS_SAFE_EXACT_TRANSPORT
 ```
 
-## Accepted repaired baseline — supersedes the original Stage-4 artifact
+## Previous accepted repaired baseline
 
-The Chrome-151 popup geometry repair was already refrozen and completely accepted before the current context-recovery defect was found.
-
-Exact accepted baseline:
+The Chrome-151 popup geometry repair was fully accepted before the current context-recovery defect was found.
 
 ```text
 source: 10bb3aca67295e5e515ff2ade8914b23e8458ca7
@@ -36,142 +38,149 @@ files: 66
 ZIP entries: 69
 payload manifest SHA-256: 447bf18e54ba4a728cc6255adff5e13996366b9bf54b2668114110d525501009
 payload manifest bytes: 11601
+complete-gate run: 32730308190
+complete-gate job: 97440819536
 ```
 
-Durable complete-gate authority:
+That artifact is historical baseline evidence only and cannot authorize owner-live after the context-recovery production change.
 
-```text
-extension/tests/PHASE_2_POPUP_FIX_COMPLETE_GATE_PASS_2026-08-24.md
-workflow run: 32730308190
-job: 97440819536
-source suite: 234/234 PASS
-packaged suite: 234/234 PASS
-packaged syntax: 60/60 PASS
-packaged JSON: 2/2 PASS
-B-01/B-02/B-03: PASS
-native action-popup geometry B-04: PASS
-PD-00..PD-17: ALL PASS
-mandatory Manual-ON: PASS
-S-00..S-17: ALL PASS
-controlled Search stub requests: 1
-real Yandex requests: 0
-final exactness: PASS
-final cleanliness: PASS
-verdict: PASS
-```
+The still older `0ee1d38... / d58b5bd...` candidate remains revoked.
 
-The older `0ee1d38... / d58b5bd...` candidate remains revoked and must not be restored as the owner-handoff authority.
+## Owner-live defect authority — ChatGPT context recovery
 
-## Current owner-live defect authority — ChatGPT context recovery
+Owner-live failed before the Search provider boundary when the unpacked extension became active after a ChatGPT conversation tab was already open. The existing page had no receiver for the new extension runtime, so the popup could not identify the conversation and Bind/Manual became unusable. No paid Search request occurred.
 
 Focused product branch:
 
 ```text
 branch: fix/phase2-chat-context-self-recovery-2026-08-24
-PR: #13 Fix popup ChatGPT context self-recovery after extension reload
-accepted baseline source: 10bb3aca67295e5e515ff2ade8914b23e8458ca7
+PR: #13
 focused PASS product/QA head: f77e91fcff75b85290e012ffec79123aa7fc9f0e
+accepted baseline source: 10bb3aca67295e5e515ff2ade8914b23e8458ca7
 ```
 
-Owner-live failure condition:
-
-```text
-1. ChatGPT conversation tab is already open.
-2. The unpacked extension becomes active afterwards (install/reload/update lifecycle).
-3. The already-open page has no live manifest content-script receiver for the new extension runtime.
-4. The old popup path sends WS_GET_IDENTITY only to that missing receiver.
-5. Popup falls back to `Текущий ChatGPT: не определён` and Bind/Manual/Send/Copy become unusable.
-```
-
-No paid Search provider request occurred before this defect.
-
-Current production delta relative to accepted source `10bb3aca...` is limited to:
-
-```text
-extension/src/manifest.json
-extension/src/popup.html
-extension/src/popup_context_bootstrap.js
-```
-
-Current package-test delta is limited to:
-
-```text
-extension/tests/candidate_readiness_recovery.test.mjs
-extension/tests/popup_context_bootstrap.test.mjs
-extension/tests/popup_error_boundary_recovery.test.mjs
-```
-
-The separate focused workflow/browser harness is QA infrastructure and is not part of the production delta.
-
-### Product behavior of the repair
-
-On popup startup:
+Repair behavior:
 
 ```text
 - identify the active supported ChatGPT tab;
-- try the ordinary WS_GET_IDENTITY path first;
-- only when the receiver is missing, inject the exact manifest content bundle with chrome.scripting.executeScript;
+- try ordinary WS_GET_IDENTITY first;
+- only on missing receiver, inject the exact manifest content bundle with chrome.scripting.executeScript;
 - retry identity after deterministic injection;
-- start the normal popup runtime only after bootstrap finishes;
-- preserve a visible bootstrap failure instead of allowing a later false `Готово.` overwrite;
-- publish only a sanitized attempted/recovered/reason/tab_id verification result, never credentials or the identity response payload.
+- start normal popup runtime only after bootstrap finishes;
+- keep bootstrap failure visible instead of allowing a later false ready state;
+- expose only sanitized recovery diagnostics;
+- do not change Search/Wordstat provider, routing, budget, retry, Manual transaction, Autorun transaction, or delivery semantics.
 ```
 
-No Search/Wordstat provider, service routing, cost policy, request retry, Manual transaction, Autorun transaction, or delivery semantics are intentionally changed.
-
-## Focused Chrome-151 PASS — exact owner-live reproduction
-
-Workflow:
+## Focused Chrome-151 PASS
 
 ```text
-phase2-context-recovery-focused
+workflow: phase2-context-recovery-focused
 run: 32799117004
 job: 97656378411
 Windows Server 2025
 Chrome for Testing: 151.0.7922.47
 Puppeteer: 25.4.0
+source suite: 239/239 PASS
+real Yandex requests: 0
 ```
 
-The final browser venue reproduces the owner-live ordering directly:
+The browser venue reproduced the real ordering directly:
 
 ```text
 ChatGPT opens first
-→ CDP Extensions.loadUnpacked installs the unpacked extension afterwards
-→ original ChatGPT DOM marker remains unchanged
-→ CDP selects the real Chrome target of type `tab`
-→ Extensions.triggerAction runs the real extension default action
-→ real popup.html opens
+→ unpacked extension loads afterwards through CDP Extensions.loadUnpacked
+→ original ChatGPT DOM remains open and unchanged
+→ Chrome tab target selected
+→ Extensions.triggerAction invokes the real extension action
+→ real popup opens
+→ missing receiver reproduced
+→ bootstrapResult.attempted=true
+→ bootstrapResult.recovered=true
+→ Bind PASS
+→ Manual ON PASS
 ```
 
-Required observed markers all passed:
+## Current clean candidate source
+
+Candidate branch:
 
 ```text
-CONTEXT_RECOVERY_CHATGPT_OPEN_BEFORE_EXTENSION_PASS
-CONTEXT_RECOVERY_CHATGPT_TAB_TARGET_PASS
-CONTEXT_RECOVERY_LATE_UNPACKED_INSTALL_PASS
-CONTEXT_RECOVERY_CHAT_PAGE_REMAINED_OPEN_PASS
-CONTEXT_RECOVERY_NATIVE_ACTION_TRIGGER_PASS
-CONTEXT_RECOVERY_NATIVE_ACTION_POPUP_OPEN_PASS
-bootstrapResult.attempted = true
-bootstrapResult.recovered = true
-CONTEXT_RECOVERY_MISSING_RECEIVER_REPRODUCED_PASS
-POPUP_CONTEXT_SELF_RECOVERY_PASS
-CONTEXT_RECOVERY_BIND_PASS
-CONTEXT_RECOVERY_MANUAL_ON_PASS
-CONTEXT_RECOVERY_ALREADY_OPEN_CHATGPT_PASS
-REAL_YANDEX_REQUESTS=0
-CONTEXT_RECOVERY_FOCUSED_CLEAN_PASS
+candidate/phase2-context-recovery-2026-08-25
+source: f4aee34c0a3455aa7199f6aa54bd581c71d97337
 ```
 
-Complete source suite on the same focused head:
+Relative to accepted repaired baseline `10bb3aca...`, the clean candidate differs by exactly six files:
 
 ```text
-239/239 PASS
+extension/src/manifest.json
+extension/src/popup.html
+extension/src/popup_context_bootstrap.js
+extension/tests/candidate_readiness_recovery.test.mjs
+extension/tests/popup_context_bootstrap.test.mjs
+extension/tests/popup_error_boundary_recovery.test.mjs
 ```
 
-Static recovery contract and manifest JSON checks also passed.
+No focused workflow/browser harness bytes are part of the clean candidate.
 
-## Phase-2 Search boundary remains unchanged
+## Exact context-recovery freeze PASS
+
+Durable authority:
+
+```text
+extension/tests/PHASE_2_CONTEXT_RECOVERY_FREEZE_PASS_2026-08-25.md
+workflow: phase2-context-recovery-freeze
+run: 32799665340
+job: 97657914686
+QA-only PR: #14
+```
+
+Freeze gates:
+
+```text
+exact six-file source authority: PASS
+source suite: 239/239 PASS
+source syntax files: 22 PASS
+source JSON: PASS
+deterministic double build: PASS
+packaged suite: 239/239 PASS
+packaged syntax: 62 PASS
+packaged JSON: 2 PASS
+ZIP integrity: PASS
+real Yandex requests: 0
+```
+
+Current exact frozen artifact:
+
+```text
+file: yandex-marketing-bridge-0.1.1-phase2-search-context-recovery-candidate.zip
+SHA-256: 739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46
+bytes: 175971
+files: 68
+ZIP entries: 71
+```
+
+Payload manifest:
+
+```text
+file: EXACT_CONTEXT_RECOVERY_CANDIDATE_MANIFEST_2026-08-25.json
+SHA-256: bbe8b2665c3339f9ac4bc2243b88a4076680a585220d38b224d10ae02cd91478
+bytes: 11933
+```
+
+GitHub Actions transport source:
+
+```text
+artifact name: phase2-context-recovery-frozen-candidate-f4aee34
+artifact ID: 9546054918
+outer artifact size: 188372 bytes
+outer artifact digest: sha256:c41907f7c9f1f16c2a1c80f4b806f8d73e0cb60fcab040507764fae84ce0858c
+expires: 2026-09-24T01:59:53Z
+```
+
+Do not confuse the outer Actions artifact digest with the inner exact candidate SHA-256.
+
+## Phase-2 Search product boundary remains unchanged
 
 Enabled first slice only:
 
@@ -198,27 +207,28 @@ Metrika
 Direct
 ```
 
-## Required recovery path from here
+## Required path from here
 
 ```text
-1. construct a clean new candidate source from accepted 10bb3aca... plus only the proven context-recovery product/package-test delta
-2. freeze a NEW deterministic exact artifact
-3. verify complete source and packaged suites plus syntax/JSON and exact source-package identity
-4. publish a Windows-safe exact byte transport for the new artifact
-5. run installed-extension browser coverage B-01/B-02/B-03
-6. run native action-popup geometry B-04
-7. run the new already-open-ChatGPT context-recovery browser acceptance B-05
-8. run one NEW complete governed campaign PD-00..PD-17 + mandatory Manual-ON + S-00..S-17
-9. require final exactness and cleanliness PASS with real Yandex requests = 0
-10. only complete PASS re-authorizes exactly one owner-live synchronous Search acceptance
+1. publish a Windows-safe byte-exact transport for artifact 739dd5d7...
+2. prove Windows consumer reassembly equals exact frozen SHA-256, size, files, entries and payload manifest
+3. run one NEW complete governed gate on exactly 739dd5d7...
+4. include installed-extension B-01/B-02/B-03
+5. include native action-popup geometry B-04
+6. include already-open-ChatGPT context-recovery acceptance B-05
+7. include PD-00..PD-17
+8. include mandatory Manual-ON transaction gate
+9. include S-00..S-17
+10. require final exactness and cleanliness PASS and real Yandex requests = 0
+11. only then re-authorize exactly one owner-live synchronous Search acceptance
 ```
 
-No old complete PASS can authorize the changed context-recovery production bytes without this new refreeze/full gate.
+No previous complete PASS can authorize the changed context-recovery production bytes.
 
 ## Current authorized next action
 
 ```text
-AUTHORIZED_NEXT_ACTION = BUILD_CLEAN_CONTEXT_RECOVERY_CANDIDATE_AND_REFREEZE
+AUTHORIZED_NEXT_ACTION = WINDOWS_SAFE_EXACT_TRANSPORT_FOR_739DD5D7
 OWNER_LIVE_SEARCH = BLOCKED
 PHASE_3_WEBMASTER = BLOCKED
 ```
