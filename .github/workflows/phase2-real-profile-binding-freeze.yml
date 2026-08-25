@@ -1,0 +1,125 @@
+name: phase2-real-profile-binding-freeze
+on:
+  pull_request:
+    branches:
+      - candidate/phase2-real-profile-binding-repair-2026-08-25
+permissions:
+  contents: read
+jobs:
+  freeze-real-profile-binding-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate source
+        uses: actions/checkout@v4
+        with:
+          ref: b7869180c229356a6b3d51ac980ec3da5df4c23c
+          fetch-depth: 0
+      - name: Assert exact six-file repair delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=f4aee34c0a3455aa7199f6aa54bd581c71d97337
+          HEAD_EXPECTED=b7869180c229356a6b3d51ac980ec3da5df4c23c
+          test "$(git rev-parse HEAD)" = "$HEAD_EXPECTED"
+          expected_all=$'extension/src/content_script.js\nextension/src/popup.js\nextension/src/popup_context_bootstrap.js\nextension/src/shared/conversation_identity.js\nextension/tests/popup_phase2_runtime.test.mjs\nextension/tests/real_profile_binding_regression.test.mjs'
+          actual_all="$(git diff --name-only "$BASE"..HEAD)"
+          test "$actual_all" = "$expected_all"
+          git diff --exit-code
+          echo REAL_PROFILE_BINDING_EXACT_SIX_FILE_DELTA_PASS
+      - name: Complete clean source suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
+          echo REAL_PROFILE_BINDING_SOURCE_SUITE_PASS
+      - name: Source syntax and JSON sanity
+        shell: bash
+        run: |
+          set -euo pipefail
+          js_count=0
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+            js_count=$((js_count+1))
+          done < <(find extension/src -type f -name '*.js' -print0 | sort -z)
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for name in ('manifest.json','package.json'):
+              json.loads((Path('extension/src')/name).read_text(encoding='utf-8'))
+          PY
+          echo "REAL_PROFILE_BINDING_SOURCE_SYNTAX_FILES=$js_count"
+          echo REAL_PROFILE_BINDING_SOURCE_SYNTAX_JSON_PASS
+      - name: Freeze exact artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p freeze-output
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output freeze-output/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip \
+            --freeze-manifest-output freeze-output/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json \
+            --verify-extract freeze-output/extract-a \
+            --source-ref candidate/phase2-real-profile-binding-repair-2026-08-25 \
+            --source-commit b7869180c229356a6b3d51ac980ec3da5df4c23c
+          rm -rf freeze-output/extract-a
+          echo REAL_PROFILE_BINDING_FIRST_FREEZE_PASS
+      - name: Independent deterministic rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output freeze-output/rebuilt.zip \
+            --verify-manifest freeze-output/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json \
+            --verify-extract freeze-output/extract-b \
+            --source-commit b7869180c229356a6b3d51ac980ec3da5df4c23c
+          cmp --silent freeze-output/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip freeze-output/rebuilt.zip
+          rm -rf freeze-output/extract-b freeze-output/rebuilt.zip
+          echo REAL_PROFILE_BINDING_DETERMINISTIC_REBUILD_PASS
+      - name: Complete exact packaged suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase2-candidate/run_packaged_suite.py \
+            --archive freeze-output/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip \
+            --manifest freeze-output/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json \
+            --work-dir freeze-output/packaged-suite-work
+          rm -rf freeze-output/packaged-suite-work
+          echo REAL_PROFILE_BINDING_PACKAGED_SUITE_PASS
+      - name: Emit frozen identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          z=Path('freeze-output/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip')
+          m=Path('freeze-output/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json')
+          data=z.read_bytes(); manifest_bytes=m.read_bytes(); obj=json.loads(manifest_bytes)
+          with zipfile.ZipFile(z,'r') as archive:
+              bad=archive.testzip()
+              if bad is not None:
+                  raise SystemExit(f'ZIP_INTEGRITY_FAIL {bad}')
+              entries=len(archive.infolist())
+          print('REAL_PROFILE_BINDING_ARTIFACT_SHA256=' + hashlib.sha256(data).hexdigest())
+          print('REAL_PROFILE_BINDING_ARTIFACT_BYTES=' + str(len(data)))
+          print('REAL_PROFILE_BINDING_FILES=' + str(obj['files']))
+          print('REAL_PROFILE_BINDING_ZIP_ENTRIES=' + str(obj['entries']))
+          print('REAL_PROFILE_BINDING_ACTUAL_ZIP_ENTRIES=' + str(entries))
+          print('REAL_PROFILE_BINDING_PAYLOAD_MANIFEST_SHA256=' + hashlib.sha256(manifest_bytes).hexdigest())
+          print('REAL_PROFILE_BINDING_PAYLOAD_MANIFEST_BYTES=' + str(len(manifest_bytes)))
+          print('REAL_PROFILE_BINDING_ZIP_INTEGRITY_PASS')
+          print('REAL_YANDEX_REQUESTS=0')
+          print('REAL_PROFILE_BINDING_FREEZE_PASS')
+          PY
+      - name: Upload exact candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-real-profile-binding-repair-frozen-candidate-b786918
+          path: |
+            freeze-output/yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
+            freeze-output/EXACT_REAL_PROFILE_BINDING_REPAIR_CANDIDATE_MANIFEST_2026-08-25.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
