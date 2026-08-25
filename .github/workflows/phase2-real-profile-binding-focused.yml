@@ -1,0 +1,37 @@
+name: phase2-real-profile-binding-focused
+on:
+  push:
+    branches:
+      - fix/phase2-real-profile-binding-repair-2026-08-25
+permissions:
+  contents: read
+jobs:
+  focused-binding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Focused real-profile binding regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/real_profile_binding_regression.test.mjs \
+            extension/tests/conversation_identity_project_routes_recovery.test.mjs \
+            extension/tests/popup_context_bootstrap.test.mjs \
+            extension/tests/popup_phase2_runtime.test.mjs \
+            extension/tests/manual_mode_owner_control_recovery.test.mjs \
+            extension/tests/binding_recovery.test.mjs
+      - name: Touched JS syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/conversation_identity.js
+          node --check extension/src/content_script.js
+          node --check extension/src/popup_context_bootstrap.js
+          node --check extension/src/popup.js
+          node --check extension/tests/real_profile_binding_regression.test.mjs
+      - name: Zero provider-side focused gate
+        shell: bash
+        run: echo REAL_YANDEX_REQUESTS=0
