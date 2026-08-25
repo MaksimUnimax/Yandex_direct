@@ -1,0 +1,89 @@
+name: phase2-context-recovery-complete-gate
+
+on:
+  push:
+    branches:
+      - qa/phase2-context-recovery-complete-gate-739dd5d-2026-08-25
+    paths:
+      - .github/workflows/phase2-context-recovery-complete-gate.yml
+      - qa/phase2_popup_fix_complete_gate.py
+      - qa/run_phase2_popup_fix_complete_gate_windows.py
+      - qa/run_phase2_context_recovery_complete_gate_windows.py
+      - qa/run_phase2_context_recovery_complete_gate_windows_validated.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  complete-gate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout QA executor branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Chrome 151 for Testing
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+
+      - name: Execute exact context-recovery complete governed campaign
+        id: gate
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          $ErrorActionPreference = 'Continue'
+          python qa/run_phase2_context_recovery_complete_gate_windows_validated.py
+          $code = $LASTEXITCODE
+          "exit_code=$code" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          exit $code
+
+      - name: Upload complete campaign evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-context-recovery-complete-gate-739dd5d-evidence
+          path: gate-evidence/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Enforce complete campaign verdict
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ('${{ steps.gate.outcome }}' -ne 'success') {
+            throw 'CONTEXT_RECOVERY_COMPLETE_GATE_FAILED; inspect uploaded evidence'
+          }
+          $report = Get-Content 'gate-evidence/CODEX_YANDEX_PRE_DELIVERY_FULL_REGRESSION_GATE_RESULT.json' -Raw | ConvertFrom-Json
+          if ($report.verdict -ne 'PASS') { throw "COMPLETE_GATE_VERDICT_$($report.verdict)" }
+          if ($report.candidate.source_commit -ne 'f4aee34c0a3455aa7199f6aa54bd581c71d97337') { throw 'COMPLETE_GATE_SOURCE_IDENTITY_FAIL' }
+          if ($report.candidate.artifact_sha256 -ne '739dd5d7cbefa98568bf51ae0ecab556360db534954fa0e27878ca5a77e7ae46') { throw 'COMPLETE_GATE_ARTIFACT_IDENTITY_FAIL' }
+          if ($report.candidate.transport_commit -ne '7c787eedd9856c3f91fbed85aeaea7f3405ad473') { throw 'COMPLETE_GATE_TRANSPORT_IDENTITY_FAIL' }
+          if ($report.source_suite -ne '239/239 PASS') { throw 'COMPLETE_GATE_SOURCE_SUITE_NOT_239' }
+          if ($report.packaged_suite -ne '239/239 PASS') { throw 'COMPLETE_GATE_PACKAGED_SUITE_NOT_239' }
+          if ($report.packaged_syntax -ne '62/62 PASS') { throw 'COMPLETE_GATE_PACKAGED_SYNTAX_NOT_62' }
+          if ($report.packaged_json -ne '2/2 PASS') { throw 'COMPLETE_GATE_PACKAGED_JSON_NOT_2' }
+          if ($report.browser_project_work -ne 'PASS') { throw 'COMPLETE_GATE_B01_NOT_PASS' }
+          if ($report.browser_manual_on_transaction -ne 'PASS') { throw 'COMPLETE_GATE_B02_NOT_PASS' }
+          if ($report.browser_search_autorun -ne 'PASS') { throw 'COMPLETE_GATE_B03_NOT_PASS' }
+          if ($report.browser_native_action_popup_geometry -ne 'PASS') { throw 'COMPLETE_GATE_B04_NOT_PASS' }
+          if ($report.browser_context_recovery -ne 'PASS') { throw 'COMPLETE_GATE_B05_NOT_PASS' }
+          if ($report.manual_on_transaction -ne 'PASS') { throw 'COMPLETE_GATE_MANUAL_ON_NOT_PASS' }
+          if ($report.not_run_enabled_sections -ne 0) { throw 'COMPLETE_GATE_NOT_RUN_SECTIONS_PRESENT' }
+          if ($report.real_yandex_requests -ne 0) { throw 'COMPLETE_GATE_REAL_YANDEX_REQUESTS_NONZERO' }
+          if ($report.real_credentials_used -ne 'NO') { throw 'COMPLETE_GATE_REAL_CREDENTIALS_USED' }
+          if ($report.final_cleanliness -ne 'PASS') { throw 'COMPLETE_GATE_CLEANLINESS_NOT_PASS' }
+          foreach ($name in 0..17 | ForEach-Object { 'PD-{0:D2}' -f $_ }) {
+            if ($report.sections.$name -ne 'PASS') { throw "COMPLETE_GATE_$name_NOT_PASS" }
+          }
+          foreach ($name in 0..17 | ForEach-Object { 'S-{0:D2}' -f $_ }) {
+            if ($report.search_sections.$name -ne 'PASS') { throw "COMPLETE_GATE_$name_NOT_PASS" }
+          }
+          Write-Output 'PHASE2_CONTEXT_RECOVERY_COMPLETE_GATE_ENFORCED_PASS'
