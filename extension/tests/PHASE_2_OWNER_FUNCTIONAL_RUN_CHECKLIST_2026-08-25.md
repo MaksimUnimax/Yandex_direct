@@ -59,6 +59,35 @@ automatic_retry = false
 
 These are recorded as lifecycle safety observations, not failures of the intended validation checks. Both intended checks passed on retry after the prior Manual operation completed.
 
+## Patch backlog — lifecycle guard must disable the button
+
+Owner-requested UX/safety requirement for the next governed product patch:
+
+```text
+WHEN lifecycle state means a new Manual command cannot be admitted,
+THEN the Yandex action button must be non-clickable before the owner can press it.
+```
+
+Known blocking lifecycle states include at least:
+
+```text
+MANUAL_OPERATION_ACTIVE
+DELIVERY_IN_PROGRESS
+```
+
+Required behavior:
+
+- while either blocking state is active, render the Yandex action button disabled/non-clickable;
+- do not accept a click and only then return the corresponding guard error;
+- re-enable the button only after the Bridge has positively observed that the blocking lifecycle state is cleared;
+- preserve the existing backend/manual-admission guards as fail-closed defense in depth even after the UI is disabled;
+- do not reset Ozon/Yandex worker timers or unrelated runtime state merely to refresh button availability;
+- add regression coverage proving the button cannot dispatch while blocked and becomes clickable again after lifecycle completion.
+
+Reason observed during owner functional testing: the UI allowed the owner to press the button at a moment when the Bridge already rejected the action as `MANUAL_OPERATION_ACTIVE`, and shortly afterward as `DELIVERY_IN_PROGRESS`. The preferred product behavior is to prevent that invalid click in the first place.
+
+This is a **future patch requirement only**. Do not mutate the accepted Phase-2 artifact `ce824a9f...`; implementing it requires a new governed candidate and full applicable gate.
+
 ## Current next run
 
 ### Run 18 — invalid `sortOrder` enum — PENDING
