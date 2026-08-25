@@ -50,7 +50,7 @@ Controlled gate and owner real-profile functional Wordstat acceptance passed. Ph
 
 # PHASE 2 — YANDEX SEARCH / SERP
 
-**Status: REAL-PROFILE BINDING REPAIR FROZEN / WINDOWS TRANSPORT PASS — INDEPENDENT CODEX GATE PENDING — OWNER LIVE BLOCKED.**
+**Status: INDEPENDENT CODEX COMPLETE PASS — OWNER REAL-PROFILE/LIVE ACCEPTANCE AUTHORIZED + PENDING.**
 
 ## Enabled first slice
 
@@ -83,11 +83,9 @@ Direct
 
 Search protocol/validation, provider/credential/policy guard, exactly-once initiation/no-blind-retry behavior, XML normalization, Manual/Autorun integration, conversation ownership and durable delivery remain implemented and covered by the controlled suite.
 
-## Stage 4 — reopened real-profile binding repair
+## Stage 4 — real-profile binding repair
 
-The previous context-recovery candidate reached a ChatGPT-owned controlled PASS but then failed in the owner's real ChatGPT profile before the provider boundary. The old claim that this internal Actions run was the required independent Codex complete gate was invalid and has been revoked.
-
-The repair restored factual real-conversation identity acceptance, trusted canonical fallback, delivered-invalid bootstrap handling, recoverable Bind availability and the proven Manual-ON transaction order.
+The previous context-recovery candidate failed in the owner's real ChatGPT profile before the provider boundary. The repaired source restored factual real-conversation identity acceptance, trusted canonical fallback, delivered-invalid bootstrap handling, recoverable Bind availability and the proven Manual-ON transaction order.
 
 Clean repaired product source:
 
@@ -111,7 +109,7 @@ real Yandex requests: 0
 
 ## Stage 4A — exact freeze
 
-**PASS / COMPLETED (ChatGPT-owned packaging/preflight, not Codex).**
+**PASS / COMPLETED.**
 
 ```text
 freeze run: 32805530317
@@ -133,7 +131,7 @@ The Actions artifact was downloaded back and the exact inner ZIP, manifest and a
 
 ## Stage 4B — exact Windows-safe transport
 
-**PASS / COMPLETED (transport proof only).**
+**PASS / COMPLETED.**
 
 ```text
 transport commit: 9fb1fcf17766d8f88b733d8198d1c550e4b8fa77
@@ -150,51 +148,73 @@ clean checkout: PASS
 real Yandex requests: 0
 ```
 
-Repair-specific browser harness is pinned externally at:
+## Stage 4C — independent Codex complete gate
+
+The first campaign returned `FAIL_HARNESS` in the obsolete historical Stage-4 popup-open lifecycle. Frozen product bytes were not implicated. ChatGPT reconciled only the QA lifecycle while preserving historical assertions.
+
+Codex then executed a new complete rerun from Step 0 on the **same exact `ce824a9f...` artifact**.
+
+**PASS / COMPLETED.**
 
 ```text
-commit: 81625e073d507d70451f1457185a3e906c640c66
-blob: 790539464d7f72214a3126c6585aac74e1afec39
+campaign: COMPLETE_RERUN_AFTER_STAGE4_HARNESS_RECONCILIATION
+transport: PASS
+source suite: 244/244 PASS
+packaged suite: 244/244 PASS
+source syntax: 22/22 PASS
+packaged syntax: 63/63 PASS
+source JSON: 2/2 PASS
+packaged JSON: 2/2 PASS
+B-01 Project/Work: PASS
+B-02 Manual-ON browser transaction: PASS
+B-03 Search Autorun: PASS
+PD-00..PD-17: ALL PASS
+mandatory Manual-ON transaction: PASS
+S-00..S-17: ALL PASS
+repair factual real-id late-install: PASS
+repair canonical live-receiver: PASS
+controlled Search stub requests: 1
+real Yandex requests: 0
+real credentials used: NO
+tracked mutation: NO
+final cleanliness: PASS
+enabled NOT_RUN: 0
+verdict: PASS
 ```
 
-## Stage 4C — mandatory independent Codex complete gate
-
-**READY / PENDING.**
-
-Exact handoff:
+Durable evidence:
 
 ```text
-../tests/CODEX_PHASE_2_REAL_PROFILE_BINDING_REPAIR_FULL_GATE_HANDOFF_2026-08-25.md
+../tests/PHASE_2_REAL_PROFILE_BINDING_CODEX_COMPLETE_PASS_2026-08-25.md
 ```
 
-Required outcome before owner-live can unlock:
-
-```text
-transport exactness = PASS
-source + packaged complete suites = PASS
-PD-00..PD-17 = ALL PASS
-mandatory Manual-ON transaction = PASS
-S-00..S-17 = ALL PASS
-repair factual real-id late-install browser scenario = PASS
-repair canonical live-receiver browser scenario = PASS
-real Yandex requests = 0
-real credentials used = NO
-no product/test/harness mutation
-no enabled NOT_RUN
-verdict = PASS
-```
-
-Until Codex returns that complete PASS:
-
-```text
-OWNER LIVE SEARCH = BLOCKED
-```
+No refreeze is required because production/package-test bytes did not change after freeze.
 
 ## Final Phase-2 live boundary
 
-The live procedure remains `PHASE_2_0.1.1_LIVE_ACCEPTANCE.md`, but it is **not currently authorized**.
+**AUTHORIZED / PENDING.**
 
-After independent Codex complete PASS, re-check the current official Yandex synchronous Search price/tariff window and authorize exactly one minimal real synchronous Search request.
+Current procedure:
+
+```text
+PHASE_2_0.1.1_LIVE_ACCEPTANCE.md
+```
+
+Owner must use only exact artifact:
+
+```text
+yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
+SHA-256: ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
+```
+
+Owner acceptance order:
+
+```text
+1. verify repaired real-profile ChatGPT detection / Bind / Manual path;
+2. if healthy, freshly verify official Yandex Search price/tariff;
+3. execute exactly one minimal real synchronous Search request;
+4. no blind retry after ambiguous initiation/outcome.
+```
 
 On a truthful usable `SEARCH_RESULT_V1` PASS:
 
@@ -202,8 +222,6 @@ On a truthful usable `SEARCH_RESULT_V1` PASS:
 PHASE 2 SEARCH FIRST SLICE = LIVE PASS / CLOSED
 → PHASE 3 WEBMASTER may unlock
 ```
-
-If provider initiation may have happened but outcome is ambiguous, no blind retry is allowed.
 
 The old `f4aee34... / 739dd5d7...` artifact remains withdrawn. Older `0ee1d38... / d58b5bd...` and `10bb3aca... / 0186b35d...` candidates are historical only.
 
@@ -218,43 +236,3 @@ The old `f4aee34... / 739dd5d7...` artifact remains withdrawn. Older `0ee1d38...
 # PHASE 4 — METRIKA
 
 **Status: BLOCKED.**
-
----
-
-# PHASE 5 — DIRECT READ
-
-**Status: BLOCKED.**
-
----
-
-# PHASE 6 — DIRECT DRAFT / PRE-LIVE WRITE
-
-**Status: BLOCKED.**
-
----
-
-# PHASE 7 — DIRECT LIVE WRITE
-
-**Status: BLOCKED.**
-
----
-
-# PHASE 8 — FULL ORDER E2E
-
-**Status: BLOCKED.**
-
----
-
-# Current status summary
-
-```text
-PHASE 0  PASS / CLOSED
-PHASE 1  WORDSTAT LIVE PASS / CLOSED
-PHASE 2  REPAIR FROZEN / WINDOWS TRANSPORT PASS / INDEPENDENT CODEX PENDING / OWNER LIVE BLOCKED
-PHASE 3  BLOCKED UNTIL PHASE 2 LIVE PASS
-PHASE 4  BLOCKED
-PHASE 5  BLOCKED
-PHASE 6  BLOCKED
-PHASE 7  BLOCKED
-PHASE 8  BLOCKED
-```
