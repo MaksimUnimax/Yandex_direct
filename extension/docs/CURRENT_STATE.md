@@ -8,7 +8,7 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 ## Mandatory reconstruction record
 
 ```text
-LIVE_HEAD_BEFORE_THIS_STATE_WRITE = b0c78eb8b983a6e7399fb9710d384e0ee475c2bf
+LIVE_HEAD_BEFORE_THIS_STATE_WRITE = 4f71d99d9dcb41c3db0c1a7cd9f24c5a7660da05
 PRODUCT_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
 PRODUCT_PARENT = f4aee34c0a3455aa7199f6aa54bd581c71d97337
 HANDOFF_ARTIFACT = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa / 179013 bytes / 69 files / 72 ZIP entries
@@ -24,6 +24,8 @@ OWNER_LIVE_REQUEST_EXECUTED = true
 OWNER_LIVE_AUTOMATIC_RETRY = false
 OWNER_LIVE_RESULT_COUNT = 5
 OWNER_LIVE_RESPONSE_FORMAT = FORMAT_XML
+OWNER_FUNCTIONAL_CHECKLIST = extension/tests/PHASE_2_OWNER_FUNCTIONAL_RUN_CHECKLIST_2026-08-25.md
+OWNER_FUNCTIONAL_NEXT_RUN = 17 / invalid sortMode enum
 OPEN_BLOCKERS = none for Phase 2 closure
 AUTHORIZED_NEXT_STAGE = PHASE_3_WEBMASTER_GOVERNED_REQUIREMENT_RECONSTRUCTION
 ```
@@ -108,6 +110,26 @@ Durable owner-live evidence:
 extension/tests/PHASE_2_REAL_PROFILE_OWNER_LIVE_SEARCH_PASS_2026-08-25.md
 ```
 
+## Optional owner functional continuation
+
+The owner is continuing additional Phase-2 functional checks one command at a time. All completed runs, incidental lifecycle observations, planned future runs and the exact resume rule are pinned in:
+
+```text
+extension/tests/PHASE_2_OWNER_FUNCTIONAL_RUN_CHECKLIST_2026-08-25.md
+```
+
+Current continuation pointer:
+
+```text
+COMPLETED = runs 1–16 recorded
+NEXT = run 17 / invalid sortMode enum
+CADENCE = 1 run = 1 command/testable function
+WAIT = previous Manual operation must be complete before next run
+LIVE-RISK TESTS = deferred to controlled QA unless owner explicitly authorizes
+```
+
+If the chat/session is interrupted, reconstruct from live `main`, open the checklist above and continue from the first `PENDING` row. This optional continuation does not reopen the already accepted Phase-2 live boundary unless a later run exposes a real product defect.
+
 Closure:
 
 ```text
@@ -121,6 +143,7 @@ Additional optional owner functional checks against the already accepted Phase-2
 
 ```text
 AUTHORIZED_NEXT_ACTION = PHASE_3_WEBMASTER_GOVERNED_REQUIREMENT_RECONSTRUCTION
+OPTIONAL_OWNER_PHASE2_FUNCTIONAL_CONTINUATION = RUN_17_FROM_PINNED_CHECKLIST
 ```
 
 Do not mutate the accepted Phase-2 artifact. Any future product/package-test byte change belongs to a new governed candidate/gate chain.
