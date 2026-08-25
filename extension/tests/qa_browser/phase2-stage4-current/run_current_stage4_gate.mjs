@@ -8,7 +8,10 @@ for (const value of [historicalHarness, chromePath, extensionRoot, keyPath, cert
   if (!value || !fs.existsSync(value)) throw new Error(`CURRENT_STAGE4_INPUT_MISSING ${value || '<empty>'}`);
 }
 
-const source = fs.readFileSync(historicalHarness, 'utf8');
+// The historical Git blob is verified independently by git object id. Windows
+// worktrees may materialize it as CRLF, so normalize only the temporary QA copy
+// before applying the exact function-level compatibility patch.
+const source = fs.readFileSync(historicalHarness, 'utf8').replace(/\r\n/g, '\n');
 const oldBlock = `async function openPopup(worker, browser, key) {
   const existingTargets = new Set(browser.targets());
   const tab = await worker.evaluate(async () => await chrome.tabs.create({ url: chrome.runtime.getURL('popup.html'), active:false }));
@@ -107,7 +110,7 @@ try {
     env:process.env
   });
   if (child.error) throw child.error;
-  if (child.status !== 0) process.exitCode = child.status || 1;
+  if (child.status !== 0) throw new Error(`CURRENT_STAGE4_CHILD_FAIL exit=${child.status}`);
 } finally {
   fs.rmSync(outDir, { recursive:true, force:true });
 }
