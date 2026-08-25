@@ -1,7 +1,10 @@
 (() => {
   "use strict";
 
-  const CHAT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  // ChatGPT conversation ids are UUID-shaped opaque identifiers. Do not impose
+  // RFC UUID version/variant semantics: factual owner live evidence contains
+  // e.g. 6a82924e-5ed0-83eb-84a2-851ddad40c88.
+  const CHAT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const ALLOWED_ORIGINS = new Set(["https://chatgpt.com", "https://chat.openai.com"]);
 
   function normalizeOrigin(value) {
@@ -19,7 +22,7 @@
   function identityFromUrl(value) {
     let url;
     try { url = new URL(String(value || "")); }
-    catch { return Object.freeze({ origin: "", conversation_id: "", conversation_key: "", status: "unavailable", source: "url" }); }
+    catch { return Object.freeze({ origin: "", conversation_id: "", conversation_key: "", status: "unavailable", source: "url", chat_path: "" }); }
     const origin = normalizeOrigin(url.origin);
     const conversationId = conversationIdFromPath(url.pathname);
     return Object.freeze({
@@ -30,6 +33,35 @@
       source: "path",
       chat_path: conversationId ? `/c/${conversationId}` : url.pathname
     });
+  }
+
+  function identityFromCandidates(values) {
+    const identities = [];
+    for (const value of Array.isArray(values) ? values : [values]) {
+      const text = String(value || "").trim();
+      if (!text) continue;
+      identities.push(identityFromUrl(text));
+    }
+
+    const confirmedByKey = new Map();
+    for (const current of identities) {
+      if (current.status === "confirmed" && current.conversation_key) confirmedByKey.set(current.conversation_key, current);
+    }
+
+    if (confirmedByKey.size === 1) return [...confirmedByKey.values()][0];
+    if (confirmedByKey.size > 1) {
+      return Object.freeze({
+        origin: "",
+        conversation_id: "",
+        conversation_key: "",
+        status: "conflict",
+        source: "candidates",
+        chat_path: ""
+      });
+    }
+
+    if (identities.length) return identities[0];
+    return Object.freeze({ origin: "", conversation_id: "", conversation_key: "", status: "unavailable", source: "candidates", chat_path: "" });
   }
 
   function normalizeConversationKey(value, { required = false } = {}) {
@@ -56,6 +88,7 @@
     normalizeOrigin,
     conversationIdFromPath,
     identityFromUrl,
+    identityFromCandidates,
     normalizeConversationKey,
     sameConversation
   });
