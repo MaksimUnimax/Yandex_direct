@@ -1,0 +1,35 @@
+name: phase2-real-profile-binding-browser
+on:
+  push:
+    branches:
+      - fix/phase2-real-profile-binding-repair-2026-08-25
+    paths:
+      - extension/tests/qa_browser/real_profile_binding_gate.mjs
+      - .github/workflows/phase2-real-profile-binding-browser.yml
+permissions:
+  contents: read
+jobs:
+  real-profile-browser:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 151.0.7922.47
+      - name: Install browser driver
+        shell: pwsh
+        run: npm install --no-save --package-lock=false puppeteer-core@25.4.0
+      - name: Real-profile binding browser gate
+        shell: pwsh
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $chrome = (Get-Command chrome).Source
+          if (-not $chrome) { throw 'CHROME_PATH_NOT_FOUND' }
+          node extension/tests/qa_browser/real_profile_binding_gate.mjs $chrome extension/src
+      - name: No provider traffic contract
+        shell: pwsh
+        run: Write-Output 'REAL_YANDEX_REQUESTS=0'
