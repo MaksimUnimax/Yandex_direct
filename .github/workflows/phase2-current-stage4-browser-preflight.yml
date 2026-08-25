@@ -15,9 +15,9 @@ jobs:
       - name: Checkout current harness wrapper
         uses: actions/checkout@v4
         with:
-          ref: 1460b3feda3170a224062c39b3ee2055f17365cc
+          ref: 1babfe66222251e2eb63e6e0d4e3eb726ed898e9
           path: harness
-          fetch-depth: 2
+          fetch-depth: 3
 
       - name: Checkout historical Stage-4 harness
         uses: actions/checkout@v4
@@ -37,8 +37,10 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          if ((git -C harness rev-parse HEAD) -ne '1460b3feda3170a224062c39b3ee2055f17365cc') { throw 'CURRENT_HARNESS_COMMIT_FAIL' }
-          if ((git -C harness rev-parse HEAD^) -ne 'b7869180c229356a6b3d51ac980ec3da5df4c23c') { throw 'CURRENT_HARNESS_PARENT_FAIL' }
+          if ((git -C harness rev-parse HEAD) -ne '1babfe66222251e2eb63e6e0d4e3eb726ed898e9') { throw 'CURRENT_HARNESS_COMMIT_FAIL' }
+          if ((git -C harness rev-parse HEAD~2) -ne 'b7869180c229356a6b3d51ac980ec3da5df4c23c') { throw 'CURRENT_HARNESS_PRODUCT_BASE_FAIL' }
+          $delta = @(git -C harness diff --name-only b7869180c229356a6b3d51ac980ec3da5df4c23c..HEAD)
+          if ($delta.Count -ne 1 -or $delta[0] -ne 'extension/tests/qa_browser/phase2-stage4-current/run_current_stage4_gate.mjs') { throw "CURRENT_HARNESS_DELTA_FAIL $($delta -join ',')" }
           if ((git -C historical rev-parse HEAD) -ne '667fda2f9a0e4197c4873ea96f27862c8453f2f0') { throw 'HISTORICAL_HARNESS_COMMIT_FAIL' }
           if ((git -C historical rev-parse 'HEAD:extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs') -ne '127e6042037ac0cbb044e81b2a9c554f24b5aa6b') { throw 'HISTORICAL_HARNESS_BLOB_FAIL' }
           if ((git -C transport rev-parse HEAD) -ne '9fb1fcf17766d8f88b733d8198d1c550e4b8fa77') { throw 'TRANSPORT_COMMIT_FAIL' }
@@ -49,12 +51,12 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           python transport/extension/tests/qa_transport/phase2-real-profile-binding-final-b64/verify_exact_b64_transport.py
+          if ($LASTEXITCODE -ne 0) { throw 'TRANSPORT_VERIFY_FAIL' }
           @'
           import base64,hashlib,json,zipfile
           from pathlib import Path
           td=Path(r'${{ runner.temp }}')
           base=Path('transport/extension/tests/qa_transport/phase2-real-profile-binding-final-b64')
-          t=json.loads((base/'TRANSPORT_MANIFEST_2026-08-25.json').read_text(encoding='utf-8'))
           data=base64.b64decode((base/'artifact.b64').read_bytes(),validate=True)
           assert hashlib.sha256(data).hexdigest()=='ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa'
           assert len(data)==179013
@@ -70,6 +72,7 @@ jobs:
           assert (root/'manifest.json').is_file()
           print('EXACT_CE824A9F_MATERIALIZED_PASS')
           '@ | python
+          if ($LASTEXITCODE -ne 0) { throw 'EXACT_ARTIFACT_MATERIALIZE_FAIL' }
 
       - uses: browser-actions/setup-chrome@v2
         with:
@@ -92,6 +95,7 @@ jobs:
           $cert = Resolve-Path '../historical/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem'
           $ext = Join-Path '${{ runner.temp }}' 'ce824a9f-extract/yandex-marketing-bridge-0.1.1-phase2-search-reconstruction-candidate'
           node extension/tests/qa_browser/phase2-stage4-current/run_current_stage4_gate.mjs $old $chrome $ext $key $cert
+          if ($LASTEXITCODE -ne 0) { throw "CURRENT_STAGE4_BROWSER_CHILD_FAIL exit=$LASTEXITCODE" }
           Write-Host 'CURRENT_STAGE4_BROWSER_PREFLIGHT_PASS'
           Write-Host 'REAL_YANDEX_REQUESTS=0'
 
