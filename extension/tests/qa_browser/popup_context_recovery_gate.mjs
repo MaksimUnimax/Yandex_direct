@@ -184,11 +184,23 @@ try {
   control = await browser.target().createCDPSession();
   await control.send('Target.setDiscoverTargets', { discover:true });
 
-  const chatTarget = await waitUntil(async () => {
+  const chatPageTarget = await waitUntil(async () => {
     const result = await control.send('Target.getTargets');
     return (result?.targetInfos || []).find((info) => info.type === 'page' && info.url === CHAT_URL) || false;
-  }, 'CHATGPT_CDP_TARGET_NOT_FOUND');
-  console.log(`CONTEXT_RECOVERY_CHATGPT_TARGET_PASS ${chatTarget.targetId}`);
+  }, 'CHATGPT_CDP_PAGE_TARGET_NOT_FOUND');
+
+  const tabOnlyFilter = [{ type:'tab', exclude:false }, { exclude:true }];
+  const tabSnapshot = await control.send('Target.getTargets', { filter:tabOnlyFilter });
+  console.log(`CONTEXT_RECOVERY_TAB_TARGET_SNAPSHOT ${JSON.stringify(tabSnapshot?.targetInfos || [])}`);
+  const chatTabTarget = await waitUntil(async () => {
+    const result = await control.send('Target.getTargets', { filter:tabOnlyFilter });
+    const tabs = result?.targetInfos || [];
+    return tabs.find((info) => info.type === 'tab' && info.url === CHAT_URL)
+      || tabs.find((info) => info.type === 'tab' && chatPageTarget.parentId && info.targetId === chatPageTarget.parentId)
+      || false;
+  }, 'CHATGPT_CDP_TAB_TARGET_NOT_FOUND');
+  console.log(`CONTEXT_RECOVERY_CHATGPT_PAGE_TARGET_PASS ${chatPageTarget.targetId}`);
+  console.log(`CONTEXT_RECOVERY_CHATGPT_TAB_TARGET_PASS ${chatTabTarget.targetId}`);
 
   const loaded = await withTimeout(
     control.send('Extensions.loadUnpacked', { path:path.resolve(extensionRoot) }),
@@ -218,7 +230,7 @@ try {
   const beforeIds = new Set((targetsBeforeAction?.targetInfos || []).map((info) => info.targetId));
 
   await withTimeout(
-    control.send('Extensions.triggerAction', { id:extensionId, targetId:chatTarget.targetId }),
+    control.send('Extensions.triggerAction', { id:extensionId, targetId:chatTabTarget.targetId }),
     10000,
     'EXTENSIONS_TRIGGER_ACTION'
   );
