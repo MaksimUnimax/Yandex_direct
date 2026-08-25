@@ -17,12 +17,16 @@ Read in this order:
 7. `ROADMAP.md` — phase/stage narrative; exact identities remain governed by `CURRENT_STATE.md`.
 8. `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` and mandatory Manual/Search addenda — permanent controlled regression firewall.
 9. `CODEX_QA_ARTIFACT_TRANSPORT_AND_GATE_RUNBOOK.md` — exact-artifact QA preparation procedure.
-10. current candidate-specific checkpoint/handoff listed in `CURRENT_STATE.md`.
+10. current candidate-specific checkpoint, harness reconciliation and rerun handoff listed in `CURRENT_STATE.md`.
 11. append-only context chain when provenance can alter interpretation.
 
 ## Current Phase-2 status
 
-Phase 2 was reopened after the owner's real ChatGPT profile exposed a pre-provider context/binding defect in the reconstructed candidate. The defect has been repaired and a new exact candidate is frozen, but **the mandatory independent Codex complete gate has not run yet**. Therefore owner-live Search is blocked.
+Phase 2 was reopened after the owner's real ChatGPT profile exposed a pre-provider context/binding defect in the reconstructed candidate. That product defect is repaired and the exact candidate remains frozen.
+
+The first mandatory independent Codex complete campaign **did run** and returned `FAIL_HARNESS`, not `FAIL_PRODUCT`: the historical Stage-4 Search/Manual/Autorun browser venue timed out because its obsolete popup-open lifecycle predated the repaired `popup_context_bootstrap` contract. Exact artifact identity, source/package suites and the two repair-specific real-profile browser scenarios passed; no product/package-test bytes were changed.
+
+ChatGPT then reconciled only that QA harness layer. The same exact candidate passed the current Stage-4 B-01/B-02/B-03 browser preflight on Windows/Chrome 151 with the historical assertions preserved. The next authorized transition is therefore a **new complete independent Codex rerun from Step 0 on the same exact artifact**. Owner-live Search remains blocked.
 
 Current exact source and candidate:
 
@@ -39,56 +43,55 @@ payload manifest SHA-256: ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f
 payload manifest bytes: 12125
 Windows-safe transport commit: 9fb1fcf17766d8f88b733d8198d1c550e4b8fa77
 repair browser harness commit: 81625e073d507d70451f1457185a3e906c640c66
+current Stage-4 wrapper commit: 1babfe66222251e2eb63e6e0d4e3eb726ed898e9
 ```
 
 Current evidence/handoff:
 
 ```text
 ../tests/PHASE_2_REAL_PROFILE_BINDING_REPAIR_FREEZE_TRANSPORT_CHECKPOINT_2026-08-25.md
-../tests/CODEX_PHASE_2_REAL_PROFILE_BINDING_REPAIR_FULL_GATE_HANDOFF_2026-08-25.md
+../tests/PHASE_2_REAL_PROFILE_BINDING_STAGE4_HARNESS_RECONCILIATION_2026-08-25.md
+../tests/CODEX_PHASE_2_REAL_PROFILE_BINDING_REPAIR_FULL_GATE_RERUN_HANDOFF_2026-08-25.md
 ```
 
-ChatGPT-controlled pre-Codex evidence:
+Current evidence chain:
 
 ```text
-focused repair suite: 37/37 PASS
+repair focused suite: 37/37 PASS
 complete source suite: 244/244 PASS
 freeze run: 32805530317 / job 97674800575 PASS
 frozen source suite: 244/244 PASS
 frozen packaged suite: 244/244 PASS
 deterministic byte-identical rebuild: PASS
 Windows transport run: 32805811476 / job 97675604279 PASS
-Windows Server 2025 / Git 2.55.0.windows.4 / core.autocrlf=true
-exact B64 reassembly + ZIP identity + payload manifest: PASS
-real Yandex requests: 0
+first independent Codex campaign: FAIL_HARNESS
+Stage-4 reconciled harness preflight: run 32809552231 / job 97686152475 PASS
+B01_PROJECT_WORK_PASS
+B02_MANUAL_ON_TRANSACTION_PASS
+B03_SEARCH_AUTORUN_PASS
+BROWSER_CONTROLLED_SEARCH_STUB_REQUESTS=1
+real Yandex requests during controlled work: 0
 ```
 
-These are ChatGPT-owned preflight/transport results only. They **must not be relabeled as the independent Codex pre-delivery gate**.
+ChatGPT-owned preflight/transport results must never be relabeled as independent Codex evidence.
 
 Current transition:
 
 ```text
-real-profile repair = implemented
+real-profile product repair = frozen
 → exact freeze = PASS
 → Windows-safe exact transport = PASS
-→ independent Codex complete gate = READY / PENDING
-→ owner real-profile synchronous Search = BLOCKED until Codex PASS
-→ Phase 2 closes only after truthful usable SEARCH_RESULT_V1 owner-live PASS
+→ independent Codex campaign #1 = FAIL_HARNESS
+→ Stage-4 browser venue reconciliation = PASS in ChatGPT preflight
+→ independent Codex complete rerun = READY / PENDING
+→ owner real-profile synchronous Search = BLOCKED until complete Codex PASS
 ```
 
 Do not start Phase 3 Webmaster before Phase-2 owner-live closes.
 
-## Withdrawn/historical Phase-2 candidates
+## Withdrawn/historical candidates
 
-The following are historical and not eligible for current owner-live handoff:
-
-```text
-f4aee34... / 739dd5d7...  — withdrawn after real-profile binding failure and because the claimed complete gate was ChatGPT Actions, not independent Codex
-0ee1d38... / d58b5bd...  — older Stage-4 candidate
-10bb3aca... / 0186b35d... — older popup-fix candidate
-```
-
-Historical Stage-4 and context-recovery evidence remains useful for provenance/debugging, but it does not supersede `CURRENT_STATE.md` or the current `b786918... / ce824a9f...` candidate.
+The old `f4aee34... / 739dd5d7...`, `0ee1d38... / d58b5bd...` and `10bb3aca... / 0186b35d...` candidates are historical only and are not eligible for current owner-live handoff.
 
 ## Authority precedence and conflict rule
 
@@ -118,49 +121,17 @@ OPEN_BLOCKERS
 AUTHORIZED_NEXT_STAGE
 ```
 
-Transitions include new/resumed conversation, requirement→development, development→freeze, freeze→QA, QA result→repair/handoff, documentation change→next action, full-gate PASS→owner live, and owner-live result→phase close/reopen.
-
 ## Development vs pre-delivery testing
 
-During implementation/repair:
-
-```text
-focused tests for changed behavior + affected dependencies
-```
-
-Before owner handoff:
-
-```text
-freeze exact candidate
-→ prepare exact consumer-safe transport
-→ producer read-back / consumer-conformance proof
-→ one complete independent Codex controlled regression campaign
-→ only complete PASS allows owner live handoff
-```
-
-Controlled browser/QA evidence must not be relabeled owner real-profile evidence.
+During implementation/repair run focused tests for changed behavior and affected dependencies. Before owner handoff, freeze the exact candidate, prove exact consumer-safe transport, then execute one complete independent Codex controlled regression campaign. A harness-only failure is repaired in the QA layer without changing frozen product bytes; the complete Codex campaign then restarts from the beginning.
 
 ## Exact-artifact rule
 
-The artifact given to the owner must be the exact bytes accepted by the complete independent gate. Do not substitute a logically equivalent rebuild.
+The artifact eventually given to the owner must be the exact bytes accepted by the complete independent gate. Do not substitute a logically equivalent rebuild.
 
 ## Owner-live rule
 
-Owner performs only irreducible live behavior. For Phase 2 this means one paid synchronous Search request **only after independent Codex complete PASS** and a fresh official Search pricing/tariff check.
-
-If provider initiation may have happened but outcome is ambiguous, no blind retry is allowed.
-
-## Append-only context chain
-
-Historical/correction provenance currently spans:
-
-```text
-DEVELOPMENT_CONTEXT_APPEND_ONLY.md
-DEVELOPMENT_CONTEXT_APPEND_ONLY_CONTINUATION_0.1.1.md
-DEVELOPMENT_CONTEXT_APPEND_ONLY_CONTINUATION_PHASE2_2026-08-19.md
-```
-
-These are provenance, not automatic current-stage authority.
+Owner performs only irreducible live behavior. For Phase 2 this means one paid synchronous Search request only after independent Codex complete PASS and a fresh official Search pricing/tariff check. If provider initiation may have happened but outcome is ambiguous, no blind retry is allowed.
 
 ## Current architectural corrections
 
@@ -184,12 +155,4 @@ These are provenance, not automatic current-stage authority.
 
 ## Source-of-truth rule
 
-Before any development action or workflow transition:
-
-1. connect to live GitHub;
-2. fetch current `main` HEAD and commit metadata;
-3. read this index, `WORKFLOW_OPERATING_RULES.md`, `CURRENT_STATE.md`, current purpose/spec/addenda/roadmap and applicable gate/live documents;
-4. inspect append-only history where it can alter interpretation;
-5. verify exact phase/gate/handoff state;
-6. resolve any unreconciled current-document conflict;
-7. only then modify code/QA/governance or authorize paid live operations.
+Before any development action or workflow transition: connect to live GitHub, fetch current `main` HEAD, read this index plus `WORKFLOW_OPERATING_RULES.md` and `CURRENT_STATE.md`, inspect applicable current gate/handoff/evidence, resolve any current-document conflict, and only then modify code/QA/governance or authorize paid live operations.
