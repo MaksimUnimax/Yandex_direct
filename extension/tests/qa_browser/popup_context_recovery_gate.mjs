@@ -57,6 +57,20 @@ async function cdpEvaluate(session, expression, label, timeout = 5000) {
   return result?.result?.value;
 }
 
+async function wakeExtensionWorker(browser, extensionOrigin) {
+  const session = await browser.target().createCDPSession();
+  try {
+    await withTimeout(session.send('ServiceWorker.enable'), 3000, 'SERVICE_WORKER_ENABLE');
+    await withTimeout(
+      session.send('ServiceWorker.startWorker', { scopeURL: extensionOrigin }),
+      10000,
+      'SERVICE_WORKER_START'
+    );
+  } finally {
+    await session.detach().catch(() => {});
+  }
+}
+
 async function currentExtensionWorkerSession(browser, extensionOrigin, extensionId) {
   return await waitUntil(async () => {
     const targets = browser.targets().filter((t) => t.type() === 'service_worker' && t.url().startsWith(extensionOrigin));
@@ -194,6 +208,12 @@ try {
   }), documentMarker);
   assert(pageStable.url === CHAT_URL && pageStable.marker === documentMarker, `CHAT_PAGE_RELOADED_UNEXPECTEDLY ${JSON.stringify(pageStable)}`);
   console.log('CONTEXT_RECOVERY_CHAT_PAGE_REMAINED_OPEN_PASS');
+
+  // runtime.reload() may leave the extension's MV3 worker stopped with no debuggable execution context.
+  // Wake only the registered worker through browser-level CDP. This does not inject page scripts and
+  // cannot satisfy the recovery assertion by itself; the missing-receiver probe below must still fail.
+  await wakeExtensionWorker(browser, extensionOrigin);
+  console.log('CONTEXT_RECOVERY_REPLACEMENT_WORKER_WAKE_PASS');
 
   // Attach a fresh CDP session to whichever MV3 service-worker execution context is current.
   // The target itself may be retained across runtime.reload(), so target identity is not a lifecycle signal.
