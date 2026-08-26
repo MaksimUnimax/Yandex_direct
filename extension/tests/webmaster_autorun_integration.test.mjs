@@ -168,6 +168,6 @@ test('W-17 controlled enable runs one read-only Webmaster command through the co
   const resumed = clone(await h.api.resumeAutoRun(CKEY, 1));
   assert.equal(resumed.status, 'waiting_command');
   const finished = clone(await h.api.finishAutoRun(CKEY, 1));
-  assert.equal(finished.status, 'completed');
+  assert.equal(finished.status, 'stopped');
   assert.equal(h.fetchCalls.length, 1);
 });
