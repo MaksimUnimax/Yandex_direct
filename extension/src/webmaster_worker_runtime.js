@@ -74,15 +74,36 @@ importScripts(
   globalThis.importSettingsBackup = Backup.importBackup;
   globalThis.defaultAutoStartTextForService = defaultAutoStartTextForServiceV3;
 
+  async function saveServiceCredential(service, rawCredential) {
+    const value = String(service || "").trim();
+    if (!Model.SERVICES.includes(value)) throw Object.assign(new Error("Неизвестный сервис credentials."), { code: "UNKNOWN_SERVICE" });
+    const source = rawCredential && typeof rawCredential === "object" && !Array.isArray(rawCredential) ? rawCredential : {};
+    const patch = Object.fromEntries(Object.entries(source).filter(([, current]) => current !== undefined));
+    if (!Object.keys(patch).length) return { ok: true, service: value, credential: (await CredentialRuntime.status())[value], changed: false };
+    if (value === "webmaster") {
+      patch.verified_at = null;
+      patch.check_state = "NOT_CHECKED";
+      if (Object.hasOwn(patch, "oauth_token")) patch.user_id = "";
+    } else {
+      patch.checked_at = null;
+      patch.check_state = "NOT_CHECKED";
+    }
+    const saved = await CredentialRuntime.save(value, patch);
+    return { ok: true, service: value, credential: Model.publicCredentialStatus({ [value]: saved })[value], changed: true };
+  }
+
+  async function checkServiceCredential(message) {
+    const service = String(message?.service || "").trim();
+    if (service === "webmaster") return Provider.checkWebmaster();
+    if (service === "wordstat" || service === "search") return Provider.checkCloud(service, { confirmBillable: message?.confirm_billable === true });
+    throw Object.assign(new Error("Неизвестный сервис credential Check."), { code: "UNKNOWN_SERVICE", request_executed: false, automatic_retry: false });
+  }
+
   async function handleMessage(message) {
     switch (message?.type) {
       case "YMB_GET_CREDENTIALS": return { ok: true, credentials: await CredentialRuntime.status(), settings_schema_version: Model.SETTINGS_SCHEMA_VERSION };
-      case "YMB_SAVE_SERVICE_CREDENTIAL": {
-        const service = String(message.service || "").trim();
-        if (!Model.SERVICES.includes(service)) throw Object.assign(new Error("Неизвестный сервис credentials."), { code: "UNKNOWN_SERVICE" });
-        const saved = await CredentialRuntime.save(service, message.credential || {});
-        return { ok: true, service, credential: Model.publicCredentialStatus({ [service]: saved })[service] };
-      }
+      case "YMB_SAVE_SERVICE_CREDENTIAL": return saveServiceCredential(message.service, message.credential);
+      case "YMB_CHECK_SERVICE_CREDENTIAL": return checkServiceCredential(message);
       case "YMB_CHECK_WEBMASTER_CREDENTIAL": return Provider.checkWebmaster(message.oauth_token);
       case "YMB_GET_WEBMASTER_POLICY": return { ok: true, policy: await Provider.getWebmasterPolicy() };
       case "YMB_SAVE_WEBMASTER_POLICY": return { ok: true, policy: await Provider.saveWebmasterPolicy(message.policy || {}) };
@@ -100,10 +121,12 @@ importScripts(
 
   globalThis.YMBPhase3Runtime = Object.freeze({
     loadCredentials: CredentialRuntime.load,
-    saveServiceCredential: CredentialRuntime.save,
+    saveServiceCredential,
     getWebmasterPolicy: Provider.getWebmasterPolicy,
     saveWebmasterPolicy: Provider.saveWebmasterPolicy,
+    checkServiceCredential,
     checkWebmasterCredential: Provider.checkWebmaster,
+    checkCloudCredential: Provider.checkCloud,
     executeWebmasterCommand: Provider.executeWebmaster,
     executeCloudCommand: Provider.executeCloud,
     exportSettingsBackup: Backup.exportBackup,
