@@ -150,34 +150,28 @@ jobs:
           from pathlib import Path
           p = Path('/tmp/w19-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs')
           s = p.read_text()
-
           def replace_once(old, new, label):
               global s
               count = s.count(old)
               if count != 1:
                   raise SystemExit(f'W19_HARNESS_PATCH_{label}_COUNT={count}')
               s = s.replace(old, new, 1)
-
           version_wait = "  await page.waitForFunction(() => document.querySelector('#versionBadge')?.textContent?.startsWith('v'));\n"
           replace_once(version_wait, version_wait + "  await page.waitForFunction(() => Boolean(document.querySelector('#status')?.textContent?.trim()), { timeout: 15000 });\n  console.log('W19_POPUP_INITIAL_REFRESH_READY_PASS');\n", 'READY')
-
           replace_once(
               "  await page.click('#saveWordstatCredential');\n  await page.waitForFunction(() => document.querySelector('#wordstatApiKey')?.value === '');\n",
               "  await page.click('#saveWordstatCredential');\n  await page.waitForFunction(() => new Promise((resolve) => {\n    chrome.runtime.sendMessage({ type: 'YMB_GET_CREDENTIALS' }, (response) => {\n      const error = chrome.runtime.lastError;\n      const c = response?.credentials?.wordstat;\n      resolve(!error && response?.ok === true && c?.has_api_key === true && c?.has_folder_id === true && c?.folder_id === 'browser-word-folder' && c?.check_state === 'NOT_CHECKED');\n    });\n  }), { timeout: 15000 });\n  console.log('W19_WORDSTAT_UI_SAVE_AUTHORITATIVE_PASS');\n",
               'WORDSTAT_SAVE')
-
           replace_once(
               "  await page.click('#saveSearchCredential');\n  await page.waitForFunction(() => document.querySelector('#searchApiKey')?.value === '');\n",
               "  await page.click('#saveSearchCredential');\n  await page.waitForFunction(() => new Promise((resolve) => {\n    chrome.runtime.sendMessage({ type: 'YMB_GET_CREDENTIALS' }, (response) => {\n      const error = chrome.runtime.lastError;\n      const c = response?.credentials?.search;\n      resolve(!error && response?.ok === true && c?.has_api_key === true && c?.has_folder_id === true && c?.folder_id === 'browser-search-folder' && c?.check_state === 'NOT_CHECKED');\n    });\n  }), { timeout: 15000 });\n  console.log('W19_SEARCH_UI_SAVE_AUTHORITATIVE_PASS');\n",
               'SEARCH_SAVE')
-
           webmaster_wait = "  await page.click('#saveWebmasterCredential');\n  await page.waitForFunction(() => document.querySelector('#webmasterOauthToken')?.value === '');\n"
           webmaster_new = "  await page.click('#saveWebmasterCredential');\n  await page.waitForFunction(() => new Promise((resolve) => {\n    chrome.runtime.sendMessage({ type: 'YMB_GET_CREDENTIALS' }, (response) => {\n      const error = chrome.runtime.lastError;\n      const c = response?.credentials?.webmaster;\n      resolve(!error && response?.ok === true && c?.has_oauth_token === true && c?.check_state === 'NOT_CHECKED');\n    });\n  }), { timeout: 15000 });\n  console.log('W19_WEBMASTER_UI_SAVE_AUTHORITATIVE_PASS');\n"
           count = s.count(webmaster_wait)
           if count != 2:
               raise SystemExit(f'W19_HARNESS_PATCH_WEBMASTER_SAVE_COUNT={count}')
           s = s.replace(webmaster_wait, webmaster_new)
-
           p.write_text(s)
           print('PHASE3_W19_RUNTIME_SAVE_BARRIERS_PATCH_PASS')
           PY
@@ -277,6 +271,35 @@ jobs:
           git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/w19-lifecycle/qa-chatgpt-local.key.pem
           git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/w19-lifecycle/qa-chatgpt-local.cert.pem
           node /tmp/w19-lifecycle/patch_w14_bootstrap.mjs /tmp/w19-lifecycle/webmaster_lifecycle_button_gate.mjs
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/w19-lifecycle/webmaster_lifecycle_button_gate.mjs')
+          s=p.read_text()
+          old="""  const tab = await worker.evaluate(async (ownerTabId) => {
+    const created = await chrome.tabs.create({ url: 'about:blank', active: false });
+    if (!created?.id) return null;
+    await chrome.tabs.update(ownerTabId, { active: true });
+    await chrome.tabs.update(created.id, { url: chrome.runtime.getURL('popup.html') });
+    return { id: created.id };
+  }, owner.active.id);
+  assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');
+"""
+          new="""  const tab = await worker.evaluate(async (ownerTabId) => {
+    const created = await chrome.tabs.create({ url: chrome.runtime.getURL('popup.html'), active: false });
+    if (!created?.id) return null;
+    await chrome.tabs.update(ownerTabId, { active: true });
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    return { id: created.id, active_id: tabs?.[0]?.id || null, active_url: tabs?.[0]?.url || '' };
+  }, owner.active.id);
+  assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');
+  assert.equal(Number(tab.active_id), Number(owner.active.id), `POPUP_OWNER_ACTIVE_TAB_LOST ${JSON.stringify(tab)}`);
+  console.log('W19_LIFECYCLE_OWNER_TAB_PINNED_PASS');
+"""
+          if s.count(old) != 1:
+              raise SystemExit(f'W19_LIFECYCLE_OWNER_PATCH_COUNT={s.count(old)}')
+          p.write_text(s.replace(old,new,1))
+          print('PHASE3_W19_LIFECYCLE_OWNER_PIN_PATCH_PASS')
+          PY
           node --check /tmp/w19-lifecycle/webmaster_lifecycle_button_gate.mjs
       - name: Install qualified Chrome and Puppeteer core
         working-directory: /tmp/w19-lifecycle
@@ -302,6 +325,7 @@ jobs:
             /tmp/w19-lifecycle/qa-chatgpt-local.key.pem \
             /tmp/w19-lifecycle/qa-chatgpt-local.cert.pem | tee /tmp/w19-lifecycle.log
           for marker in \
+            W19_LIFECYCLE_OWNER_TAB_PINNED_PASS \
             W14_WEBMASTER_ACTIVE_SERVICE_PASS \
             W14_WEBMASTER_INITIAL_ACTION_ENABLED_PASS \
             W14_WEBMASTER_ONE_MANUAL_ADMISSION_PASS \
@@ -318,6 +342,7 @@ jobs:
           done
           echo 'PHASE3_W19_INSTALLED_CHROME_LIFECYCLE_PASS'
       - name: Reverify frozen product bytes after lifecycle run
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
