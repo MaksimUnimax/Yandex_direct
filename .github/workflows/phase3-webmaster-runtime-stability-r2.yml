@@ -1,0 +1,143 @@
+name: Phase 3 Webmaster runtime stability r2
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-final-immutable-r2-2026-08-26
+permissions:
+  contents: read
+  actions: read
+env:
+  FREEZE_RUN_ID: '32932696535'
+  PUBLISHED_ARTIFACT_NAME: phase3-webmaster-first-slice-exact-a7d9f947
+  CANDIDATE_ZIP: yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip
+  CANDIDATE_SHA256: 1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8
+  PRODUCT_SOURCE_HEAD: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  R14_HARNESS_COMMIT: 991d57bbc05e929b66c4a7783ca355473315712a
+  FINAL_HARNESS_COMMIT: 92d635c2afa8c25786a41757519d217d3b9b77d9
+
+jobs:
+  runtime-repeat:
+    strategy:
+      fail-fast: false
+      matrix:
+        repeat: [1, 2, 3]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert QA-only branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_SOURCE_HEAD" HEAD -- extension/src)"
+          node --check extension/tests/qa_browser/patch_phase3_runtime_refresh_quiescence.mjs
+          echo "PHASE3_R2_PRODUCT_BYTES_UNCHANGED_PASS"
+      - name: Download exact published frozen artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/r2-runtime/published
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+      - name: Materialize runtime from manifest-verified frozen bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd /tmp/r2-runtime/published && sha256sum -c SHA256SUMS.txt)
+          python3 - <<'PY'
+          import hashlib, json, shutil, zipfile
+          from pathlib import Path
+          base = Path('/tmp/r2-runtime')
+          pub = base/'published'
+          archive = pub/'yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip'
+          manifest = json.loads((pub/'freeze-manifest.json').read_text())
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['sha256'] == '1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8'
+          assert manifest['source_commit'] == 'a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          frozen = base/'frozen'
+          if frozen.exists(): shutil.rmtree(frozen)
+          with zipfile.ZipFile(archive) as z: z.extractall(frozen)
+          root = frozen/manifest['root_name']
+          ext = base/'extension'
+          if ext.exists(): shutil.rmtree(ext)
+          (ext/'src').mkdir(parents=True)
+          (ext/'tests').mkdir(parents=True)
+          expected = {}
+          for row in manifest['payload']:
+              rel = row['path']
+              if rel.startswith('tests/'):
+                  continue
+              data = (root/rel).read_bytes()
+              assert len(data) == row['bytes']
+              assert hashlib.sha256(data).hexdigest() == row['sha256']
+              dst = ext/'src'/rel
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              dst.write_bytes(data)
+              expected[rel] = row['sha256']
+          actual = {p.relative_to(ext/'src').as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ext/'src').rglob('*') if p.is_file()}
+          assert actual == expected
+          print(f'PHASE3_R2_FROZEN_SOURCE_IDENTITY_PASS files={len(actual)}')
+          PY
+      - name: Build pinned strengthened runtime harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$R14_HARNESS_COMMIT"
+          git fetch --no-tags --depth=1 origin "$FINAL_HARNESS_COMMIT"
+          git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > /tmp/r2-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          git show "$FINAL_HARNESS_COMMIT:extension/tests/qa_browser/patch_phase3_final_runtime_harness.mjs" > /tmp/r2-runtime/extension/tests/patch_phase3_final_runtime_harness.mjs
+          node /tmp/r2-runtime/extension/tests/patch_phase3_final_runtime_harness.mjs /tmp/r2-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          node extension/tests/qa_browser/patch_phase3_runtime_refresh_quiescence.mjs /tmp/r2-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          node --check /tmp/r2-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+      - name: Install Puppeteer Chrome
+        working-directory: /tmp/r2-runtime/extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Run controlled runtime repeat ${{ matrix.repeat }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node /tmp/r2-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs | tee /tmp/r2-runtime.log
+          for marker in \
+            W19_POPUP_INITIAL_REFRESH_READY_PASS \
+            W19_WORDSTAT_UI_SAVE_AUTHORITATIVE_PASS \
+            W19_WORDSTAT_CHECK_UI_QUIESCENT_PASS \
+            W19_SEARCH_UI_SAVE_AUTHORITATIVE_PASS \
+            W19_WEBMASTER_UI_SAVE_AUTHORITATIVE_PASS \
+            W19_WEBMASTER_INVALID_CHECK_UI_QUIESCENT_PASS \
+            W19_WEBMASTER_VALID_CHECK_UI_QUIESCENT_PASS \
+            W15_CREDENTIAL_SWITCH_RERENDER_ISOLATION_PASS \
+            W05_WEBMASTER_EXACT_OAUTH_HEADER_PASS \
+            PHASE3_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/r2-runtime.log
+          done
+          if grep -F 'browser-valid-oauth' /tmp/r2-runtime.log; then echo SECRET_LEAK_FAIL; exit 1; fi
+          if grep -F 'browser-invalid-oauth' /tmp/r2-runtime.log; then echo SECRET_LEAK_FAIL; exit 1; fi
+          echo "PHASE3_R2_RUNTIME_REPEAT_${{ matrix.repeat }}_PASS"
+      - name: Reverify frozen product immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          base=Path('/tmp/r2-runtime')
+          m=json.loads((base/'published/freeze-manifest.json').read_text())
+          src=base/'extension/src'
+          expected={r['path']:r['sha256'] for r in m['payload'] if not r['path'].startswith('tests/')}
+          actual={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          assert actual == expected
+          print('PHASE3_R2_RUNTIME_POST_BROWSER_IMMUTABILITY_PASS')
+          PY
+
+  stability-pass:
+    needs: runtime-repeat
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo PHASE3_R2_RUNTIME_STABILITY_3X_PASS
