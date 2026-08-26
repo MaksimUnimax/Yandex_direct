@@ -5,7 +5,8 @@
     PRESENT: "PRESENT",
     MISSING: "MISSING",
     INVALID_OR_EXPIRED: "INVALID_OR_EXPIRED",
-    NO_ACCESS: "NO_ACCESS"
+    NO_ACCESS: "NO_ACCESS",
+    QUOTA: "QUOTA"
   });
 
   function recordForService(settings, service) {
@@ -65,11 +66,23 @@
     return Object.freeze({ state: STATES.PRESENT, has_oauth_token: true, has_user_id: true });
   }
 
+  function metrikaCapability(settings) {
+    const credential = recordForService(settings, "metrika") || {};
+    const oauthToken = String(credential.oauth_token || credential.oauthToken || "").trim();
+    const checkState = String(credential.check_state || credential.checkState || "").trim();
+    if (checkState === STATES.INVALID_OR_EXPIRED) return Object.freeze({ state: STATES.INVALID_OR_EXPIRED, has_oauth_token: Boolean(oauthToken) });
+    if (checkState === STATES.NO_ACCESS) return Object.freeze({ state: STATES.NO_ACCESS, has_oauth_token: Boolean(oauthToken) });
+    if (checkState === STATES.QUOTA) return Object.freeze({ state: STATES.QUOTA, has_oauth_token: Boolean(oauthToken) });
+    if (!oauthToken) return Object.freeze({ state: STATES.MISSING, has_oauth_token: false });
+    return Object.freeze({ state: STATES.PRESENT, has_oauth_token: true });
+  }
+
   function capabilityForService(service, settings) {
     const value = String(service || "");
     if (value === "search") return searchCapability(settings);
     if (value === "wordstat") return wordstatCapability(settings);
     if (value === "webmaster") return webmasterCapability(settings);
+    if (value === "metrika") return metrikaCapability(settings);
     return Object.freeze({ state: STATES.NO_ACCESS, has_api_key: false, has_folder_id: false });
   }
 
@@ -78,6 +91,7 @@
     wordstatCapability,
     searchCapability,
     webmasterCapability,
+    metrikaCapability,
     capabilityForService
   });
 })();
