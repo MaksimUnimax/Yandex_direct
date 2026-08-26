@@ -4,6 +4,12 @@
   const $ = (id) => document.getElementById(id);
   const TERMINAL_RUNS = new Set(["stopped", "error"]);
   const CHATGPT_HOSTS = new Set(["chatgpt.com", "chat.openai.com"]);
+  const SERVICES = new Set(["wordstat", "search", "webmaster"]);
+  const SERVICE_PROTOCOL = Object.freeze({
+    wordstat: "WORDSTAT_API_V1",
+    search: "SEARCH_API_V1",
+    webmaster: "WEBMASTER_API_V1"
+  });
 
   let context = { page_available: false, available: false, tab_id: null, conversation_key: "", identity: null, error: "" };
   let lastState = null;
@@ -52,6 +58,11 @@
     node.dataset.level = level;
   }
 
+  function normalizeService(value) {
+    const service = String(value || "").trim();
+    return SERVICES.has(service) ? service : "wordstat";
+  }
+
   function asNumber(id, fallback = 0) {
     const value = Number($(id).value);
     return Number.isFinite(value) ? value : fallback;
@@ -91,6 +102,23 @@
       tariff_checked_at: $("searchTariffCheckedAt").value.trim(),
       tariff_source: $("searchTariffSource").value.trim()
     };
+  }
+
+  function webmasterPolicyFromForm() {
+    return {
+      autorun_enabled: false,
+      manual_enabled: $("webmasterManualEnabled").checked,
+      allowed_methods: ["listHosts", "getSummary", "getDiagnostics", "getPopularQueries"],
+      max_requests_per_run: asPositiveInt("webmasterMaxRequestsRun", 50),
+      max_cost_rub_per_run: 0,
+      method_cost_rub: { listHosts: 0, getSummary: 0, getDiagnostics: 0, getPopularQueries: 0 }
+    };
+  }
+
+  function policyForService(service, state = lastState) {
+    if (service === "search") return state?.search_policy || {};
+    if (service === "webmaster") return state?.webmaster_policy || {};
+    return state?.wordstat_policy || {};
   }
 
   function reportPrefixFromForm() {
@@ -134,17 +162,66 @@
     return Object.values(value).reduce((total, item) => total + (Array.isArray(item) ? item.filter(Boolean).length : (item && typeof item === "object" ? 1 : 0)), 0);
   }
 
+  function checkStateText(status, { configured = false } = {}) {
+    const state = String(status?.check_state || "").trim();
+    if (state === "PRESENT") return "проверено";
+    if (state === "INVALID_OR_EXPIRED") return "неверный / истёк";
+    if (state === "NO_ACCESS") return "нет доступа";
+    if (state === "NETWORK_ERROR") return "ошибка сети";
+    if (state === "MISSING") return "не настроен";
+    if (state === "NOT_CHECKED") return configured ? "сохранён, не проверен" : "не проверен";
+    return configured ? "сохранён" : "не настроен";
+  }
+
+  function checkMetaText(status, timestampKey) {
+    const state = checkStateText(status, { configured: true });
+    const stamp = String(status?.[timestampKey] || "").trim();
+    return stamp ? `${state}; ${stamp}` : state;
+  }
+
+  function renderCredentialState(state, activeService) {
+    const credentials = state?.credential_status || {};
+    const wordstat = credentials.wordstat || {};
+    const search = credentials.search || {};
+    const webmaster = credentials.webmaster || {};
+
+    $("wordstatApiKey").value = "";
+    $("wordstatApiKey").placeholder = wordstat.has_api_key ? "Ключ сохранён; пусто = не менять" : "Введите API key";
+    $("wordstatFolderId").value = wordstat.folder_id || "";
+    $("wordstatCredentialState").textContent = checkStateText(wordstat, { configured: wordstat.has_api_key && wordstat.has_folder_id });
+    $("wordstatCheckMeta").textContent = checkMetaText(wordstat, "checked_at");
+
+    $("searchApiKey").value = "";
+    $("searchApiKey").placeholder = search.has_api_key ? "Ключ сохранён; пусто = не менять" : "Введите API key";
+    $("searchFolderId").value = search.folder_id || "";
+    $("searchCredentialState").textContent = checkStateText(search, { configured: search.has_api_key && search.has_folder_id });
+    $("searchCheckMeta").textContent = checkMetaText(search, "checked_at");
+
+    $("webmasterOauthToken").value = "";
+    $("webmasterOauthToken").placeholder = webmaster.has_oauth_token ? "OAuth сохранён; пусто = не менять" : "Введите OAuth token";
+    $("webmasterUserId").textContent = webmaster.user_id || "—";
+    $("webmasterCredentialState").textContent = checkStateText(webmaster, { configured: webmaster.has_oauth_token });
+    $("webmasterCheckMeta").textContent = checkMetaText(webmaster, "verified_at");
+
+    for (const service of SERVICES) {
+      const card = $(`${service}Credentials`);
+      if (card) card.open = service === activeService;
+    }
+  }
+
   function renderState(state) {
     rendering = true;
     try {
       lastState = state || {};
       $("versionBadge").textContent = `v${state?.product_version || "0.1.1"}`;
       $("conversationMeta").textContent = context.available ? context.conversation_key : "не определён";
-      const service = state?.service_context?.active_service === "search" ? "search" : "wordstat";
+      const service = normalizeService(state?.service_context?.active_service);
       $("activeService").value = service;
       $("activeService").disabled = !context.available || isActiveRun(state?.auto_run) || state?.manual_mode === true;
       $("bindConversation").disabled = !context.page_available;
       $("bindConversation").textContent = state?.binding ? "Перепривязать диалог" : "Привязать диалог";
+
+      renderCredentialState(state, service);
 
       const run = state?.auto_run || null;
       $("runStatus").textContent = run?.status || "—";
@@ -162,7 +239,7 @@
       if (manualBusy) $("manualModeMeta").textContent = "Предыдущая ручная операция ещё выполняется или доставляется.";
       else if (state?.manual_mode) $("manualModeMeta").textContent = `Включён для ${service}: используйте отдельную кнопку «Яндекс» у блока.`;
       else if (paused) $("manualModeMeta").textContent = "Автоматический режим на паузе: ручной режим можно включить для точечного запроса.";
-      else if (activeRun) $("manualModeMeta").textContent = `Выключен: автоматический режим выполняет только ${run?.active_service === "search" ? "SEARCH_API_V1" : "WORDSTAT_API_V1"}.`;
+      else if (activeRun) $("manualModeMeta").textContent = `Выключен: автоматический режим выполняет только ${SERVICE_PROTOCOL[normalizeService(run?.active_service)]}.`;
       else $("manualModeMeta").textContent = "Выключен.";
 
       const wp = state?.wordstat_policy || {};
@@ -185,15 +262,17 @@
       $("searchTariffCheckedAt").value = sp.tariff_checked_at || "2026-08-19";
       $("searchTariffSource").value = sp.tariff_source || "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
 
-      const activePolicy = service === "search" ? sp : wp;
+      const mp = state?.webmaster_policy || {};
+      $("webmasterManualEnabled").checked = mp.manual_enabled !== false;
+      $("webmasterMaxRequestsRun").value = String(mp.max_requests_per_run ?? 50);
+      $("webmasterCost").value = "0 ₽";
+
+      const activePolicy = policyForService(service, state);
       if (state?.manual_mode !== true && activePolicy?.manual_enabled !== true) {
         $("manualMode").disabled = true;
         $("manualModeMeta").textContent = `Ручной режим ${service} запрещён политикой.`;
       }
 
-      $("folderId").value = state?.folder_id || "";
-      $("apiKey").value = "";
-      $("apiKey").placeholder = state?.has_api_key ? "Ключ сохранён; оставьте пустым, чтобы не менять" : "Введите API key";
       $("autoSend").checked = state?.auto_send !== false;
       $("debugMode").checked = state?.debug_mode === true;
 
@@ -251,26 +330,25 @@
     return response.state;
   }
 
-  async function saveAll({ includeKey = true } = {}) {
+  async function saveAll() {
     const message = {
       type: "WS_SAVE_SETTINGS",
-      folder_id: $("folderId").value.trim(),
       auto_send: $("autoSend").checked,
       debug_mode: $("debugMode").checked,
       wordstat_policy: wordstatPolicyFromForm(),
       search_policy: searchPolicyFromForm()
     };
-    const apiKey = $("apiKey").value.trim();
-    if (includeKey && apiKey) message.api_key = apiKey;
     if (context.available) {
       message.conversation_key = context.conversation_key;
       message.tab_id = context.tab_id;
-      message.active_service = $("activeService").value;
+      message.active_service = normalizeService($("activeService").value);
       message.report_prefix = reportPrefixFromForm();
     }
     const response = await runtimeSend(message);
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сохранить настройки.");
-    if (response.state) renderState(response.state);
+    const webmaster = await runtimeSend({ type: "YMB_SAVE_WEBMASTER_POLICY", policy: webmasterPolicyFromForm() });
+    if (!webmaster?.ok) throw new Error(webmaster?.error || webmaster?.code || "Не удалось сохранить Webmaster policy.");
+    if (response.state) renderState({ ...response.state, webmaster_policy: webmaster.policy || response.state.webmaster_policy });
     return response.state || null;
   }
 
@@ -279,6 +357,42 @@
     if (!response?.ok || !response.state) throw new Error(response?.error || response?.code || "Не удалось сохранить переключатель.");
     renderState(response.state);
     return response.state;
+  }
+
+  async function saveCredential(service) {
+    const value = normalizeService(service);
+    const credential = {};
+    if (value === "wordstat") {
+      credential.folder_id = $("wordstatFolderId").value.trim();
+      const secret = $("wordstatApiKey").value.trim();
+      if (secret) credential.api_key = secret;
+    } else if (value === "search") {
+      credential.folder_id = $("searchFolderId").value.trim();
+      const secret = $("searchApiKey").value.trim();
+      if (secret) credential.api_key = secret;
+    } else {
+      const secret = $("webmasterOauthToken").value.trim();
+      if (secret) credential.oauth_token = secret;
+    }
+    const response = await runtimeSend({ type: "YMB_SAVE_SERVICE_CREDENTIAL", service: value, credential });
+    if (!response?.ok) throw new Error(response?.error || response?.code || `Не удалось сохранить ${value} credentials.`);
+    await refresh();
+    return response;
+  }
+
+  async function checkCredential(service) {
+    const value = normalizeService(service);
+    const message = { type: "YMB_CHECK_SERVICE_CREDENTIAL", service: value };
+    if (value === "search") {
+      if (!confirm("Search Check выполнит ровно один платный Search-запрос. Продолжить? Автоматического повтора не будет.")) {
+        return { ok: false, cancelled: true, request_executed: false };
+      }
+      message.confirm_billable = true;
+    }
+    const response = await runtimeSend(message);
+    await refresh();
+    if (!response?.ok) throw new Error(response?.error || response?.code || `Проверка ${value} не пройдена.`);
+    return response;
   }
 
   async function withButton(button, fn) {
@@ -293,15 +407,32 @@
     await resolveContext();
     await saveAll();
     await refresh();
-    showStatus("Настройки сохранены.", "ok");
+    showStatus("Общие настройки сохранены.", "ok");
   }));
+
+  for (const service of SERVICES) {
+    const cap = service[0].toUpperCase() + service.slice(1);
+    $("save" + cap + "Credential").addEventListener("click", () => withButton($("save" + cap + "Credential"), async () => {
+      const result = await saveCredential(service);
+      showStatus(result.changed === false ? `${service}: изменений нет.` : `${service}: credentials сохранены.`, "ok");
+    }));
+    $("check" + cap + "Credential").addEventListener("click", () => withButton($("check" + cap + "Credential"), async () => {
+      const result = await checkCredential(service);
+      if (result?.cancelled) return showStatus("Search Check отменён; запрос не выполнялся.");
+      showStatus(`${service}: Check пройден.`, "ok");
+    }));
+  }
 
   $("activeService").addEventListener("change", () => {
     if (rendering) return;
-    const service = $("activeService").value;
-    const policy = service === "search" ? lastState?.search_policy : lastState?.wordstat_policy;
+    const service = normalizeService($("activeService").value);
+    const policy = policyForService(service);
+    for (const current of SERVICES) {
+      const card = $(`${current}Credentials`);
+      if (card) card.open = current === service;
+    }
     $("startAuto").disabled = !context.available || !lastState?.binding || isActiveRun(lastState?.auto_run) || lastState?.manual_mode === true || policy?.autorun_enabled !== true;
-    showStatus(`Выбран ${service}. Нажмите «Сохранить», чтобы закрепить выбор.`);
+    showStatus(`Выбран ${service}. Нажмите «Сохранить общие настройки», чтобы закрепить выбор.`);
   });
 
   $("bindConversation").addEventListener("click", () => withButton($("bindConversation"), async () => {
@@ -321,12 +452,10 @@
     try {
       await resolveContext();
       if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
-      const committedService = lastState?.service_context?.active_service === "search" ? "search" : "wordstat";
-      if (enabled && $("activeService").value !== committedService) throw new Error("Сначала сохраните выбранный активный сервис.");
+      const committedService = normalizeService(lastState?.service_context?.active_service);
+      if (enabled && normalizeService($("activeService").value) !== committedService) throw new Error("Сначала сохраните выбранный активный сервис.");
 
       if (enabled) {
-        // Proven Phase-1 transaction: content must acknowledge ON before the
-        // worker hard gate is authorized. Never authorize a stale/unarmed page.
         const applied = await tabSend(context.tab_id, { type: "WS_APPLY_MANUAL_MODE", conversation_key: context.conversation_key, enabled: true, active_service: committedService });
         if (!applied?.ok || applied.applied !== true) throw new Error(applied?.error || applied?.code || "Страница не подтвердила ручной режим.");
         try {
@@ -338,8 +467,6 @@
           throw error;
         }
       } else {
-        // OFF remains safety-first: close the worker hard gate before cleaning
-        // the page decoration/listeners. If cleanup fails, worker stays OFF.
         const committed = await runtimeSend({ type: "WS_SET_MANUAL_MODE", conversation_key: context.conversation_key, enabled: false, tab_id: context.tab_id });
         if (!committed?.ok) throw new Error(committed?.error || committed?.code || "Worker не выключил ручной режим.");
         workerCommitted = true;
@@ -380,7 +507,9 @@
 
   $("saveAutoStartPrompt").addEventListener("click", () => withButton($("saveAutoStartPrompt"), async () => {
     if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
-    const response = await runtimeSend({ type: "WS_SAVE_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, text: $("autoStartPromptText").value, tab_id: context.tab_id });
+    const service = normalizeService($("activeService").value);
+    if (service === "webmaster") throw new Error("Webmaster Autorun в Phase 3 запрещён.");
+    const response = await runtimeSend({ type: "WS_SAVE_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: service, text: $("autoStartPromptText").value, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось сохранить стартовый текст.");
     await refresh();
     showStatus("Стартовый текст сохранён.", "ok");
@@ -388,7 +517,9 @@
 
   $("resetAutoStartPrompt").addEventListener("click", () => withButton($("resetAutoStartPrompt"), async () => {
     if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
-    const response = await runtimeSend({ type: "WS_RESET_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: $("activeService").value, tab_id: context.tab_id });
+    const service = normalizeService($("activeService").value);
+    if (service === "webmaster") throw new Error("Webmaster Autorun в Phase 3 запрещён.");
+    const response = await runtimeSend({ type: "WS_RESET_AUTO_START_PROMPT", conversation_key: context.conversation_key, active_service: service, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось вернуть стандартный текст.");
     await refresh();
     showStatus("Стандартный стартовый текст восстановлен.", "ok");
@@ -397,8 +528,9 @@
   $("startAuto").addEventListener("click", () => withButton($("startAuto"), async () => {
     await resolveContext();
     if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
+    const service = normalizeService($("activeService").value);
+    if (service === "webmaster") throw new Error("Webmaster Autorun в Phase 3 запрещён.");
     await saveAll();
-    const service = $("activeService").value;
     const policy = service === "search" ? searchPolicyFromForm() : wordstatPolicyFromForm();
     if (!confirm(`Запустить ${service}? Максимум ${policy.max_requests_per_run} запросов / ${policy.max_cost_rub_per_run} ₽. Автоматический повтор запроса при неизвестном исходе запрещён.`)) return;
     const response = await runtimeSend({ type: "WS_START_AUTORUN", conversation_key: context.conversation_key, tab_id: context.tab_id });
@@ -490,7 +622,7 @@
     link.download = `yandex-marketing-bridge-settings-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showStatus("Экспорт создан. Файл содержит API key — храните его как секрет.", "ok");
+    showStatus("Экспорт создан. Файл содержит секреты настроенных сервисов — храните его как секрет.", "ok");
   }));
 
   $("importSettings").addEventListener("click", () => $("importFile").click());
@@ -509,8 +641,9 @@
 
   if (globalThis.__YMB_POPUP_TEST__ === true) {
     globalThis.__YMB_POPUP_TEST_API__ = Object.freeze({
-      resolveContext, renderState, saveAll, persistTogglePatch,
-      wordstatPolicyFromForm, searchPolicyFromForm, reportPrefixFromForm, isActiveRun,
+      resolveContext, renderState, saveAll, persistTogglePatch, saveCredential, checkCredential,
+      wordstatPolicyFromForm, searchPolicyFromForm, webmasterPolicyFromForm, policyForService,
+      reportPrefixFromForm, isActiveRun, normalizeService, renderCredentialState,
       loadDiagnostics, renderDiagnostics, visibleDiagnostics, copyProfileCount
     });
   }
