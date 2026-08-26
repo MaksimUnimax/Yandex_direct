@@ -1,13 +1,50 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { createHash, generateKeyPairSync } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const extensionPath = fs.realpathSync(path.resolve(here, '../src'));
+const sourceExtensionPath = fs.realpathSync(path.resolve(here, '../src'));
 const executablePath = process.env.CHROME_BIN;
 assert.ok(executablePath, 'CHROME_BIN is required');
+
+function extensionIdFromPublicKey(publicKeyDer) {
+  const digest = createHash('sha256').update(publicKeyDer).digest().subarray(0, 16);
+  let id = '';
+  for (const byte of digest) {
+    id += String.fromCharCode(97 + ((byte >> 4) & 0x0f));
+    id += String.fromCharCode(97 + (byte & 0x0f));
+  }
+  return id;
+}
+
+function prepareQaExtension() {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ymb-phase3-browser-'));
+  const extensionPath = path.join(tempRoot, 'extension');
+  fs.cpSync(sourceExtensionPath, extensionPath, { recursive: true });
+
+  const { publicKey } = generateKeyPairSync('rsa', {
+    modulusLength: 2048,
+    publicKeyEncoding: { type: 'spki', format: 'der' },
+    privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+  });
+  const manifestPath = path.join(extensionPath, 'manifest.json');
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  manifest.key = Buffer.from(publicKey).toString('base64');
+  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+
+  return {
+    tempRoot,
+    extensionPath,
+    extensionId: extensionIdFromPublicKey(Buffer.from(publicKey))
+  };
+}
+
+const qa = prepareQaExtension();
+assert.match(qa.extensionId, /^[a-p]{32}$/);
 
 const browser = await puppeteer.launch({
   executablePath,
@@ -16,38 +53,10 @@ const browser = await puppeteer.launch({
     '--no-sandbox',
     '--disable-gpu',
     '--disable-dev-shm-usage',
-    `--disable-extensions-except=${extensionPath}`,
-    `--load-extension=${extensionPath}`
+    `--disable-extensions-except=${qa.extensionPath}`,
+    `--load-extension=${qa.extensionPath}`
   ]
 });
-
-async function discoverExtensionId() {
-  const existingWorker = browser.targets().find(
-    (target) => target.type() === 'service_worker' && target.url().startsWith('chrome-extension://')
-  );
-  if (existingWorker) return new URL(existingWorker.url()).host;
-
-  const extensionsPage = await browser.newPage();
-  try {
-    await extensionsPage.goto('chrome://extensions/', { waitUntil: 'domcontentloaded' });
-    await extensionsPage.waitForSelector('extensions-manager', { timeout: 15000 });
-    const handle = await extensionsPage.waitForFunction(() => {
-      const manager = document.querySelector('extensions-manager');
-      const list = manager?.shadowRoot?.querySelector('#items-list');
-      const items = list?.shadowRoot?.querySelectorAll('extensions-item') || [];
-      for (const item of items) {
-        const name = item.shadowRoot?.querySelector('#name')?.textContent?.trim() || '';
-        if (name.includes('Yandex Marketing Bridge')) return item.id || item.getAttribute('id') || false;
-      }
-      return false;
-    }, { timeout: 15000 });
-    const extensionId = await handle.jsonValue();
-    assert.match(String(extensionId || ''), /^[a-p]{32}$/);
-    return extensionId;
-  } finally {
-    await extensionsPage.close();
-  }
-}
 
 async function workerEval(client, expression) {
   const result = await client.send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
@@ -66,18 +75,19 @@ async function send(page, message) {
 }
 
 try {
-  const extensionId = await discoverExtensionId();
   const page = await browser.newPage();
-  await page.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: 'load' });
-  await page.waitForSelector('#credentialsSection');
+  await page.goto(`chrome-extension://${qa.extensionId}/popup.html`, { waitUntil: 'load' });
+  await page.waitForSelector('#credentialsSection', { timeout: 15000 });
 
   const workerTarget = await browser.waitForTarget(
-    (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${extensionId}/`),
+    (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${qa.extensionId}/`),
     { timeout: 15000 }
   );
-  assert.equal(new URL(workerTarget.url()).host, extensionId);
+  assert.equal(new URL(workerTarget.url()).host, qa.extensionId);
   const workerClient = await workerTarget.createCDPSession();
 
+  // Hard provider fence for this browser gate. Every product provider request is
+  // captured here and answered locally; no real Yandex request can leave Chrome.
   await workerEval(workerClient, `(() => {
     globalThis.__YMB_BROWSER_MODE = 'ok';
     globalThis.__YMB_BROWSER_FETCHES = [];
@@ -228,4 +238,5 @@ try {
   console.log('PHASE3_BROWSER_RUNTIME_PASS');
 } finally {
   await browser.close();
+  fs.rmSync(qa.tempRoot, { recursive: true, force: true });
 }
