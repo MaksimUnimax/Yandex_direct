@@ -33,6 +33,7 @@ jobs:
           node --check extension/src/webmaster_worker_runtime.js
           node --check extension/src/popup.js
           node --check extension/src/popup_context_bootstrap.js
+          node --check extension/tests/metrika_autorun_isolation.test.mjs
           node --check extension/tests/qa_transport/phase4-metrika-dev/patch_accepted_phase3_additive_compat.mjs
           node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); console.log('PHASE4_MANIFEST_JSON_PASS')"
       - name: Phase 4 focused gate matrix
@@ -44,6 +45,15 @@ jobs:
           grep -q '# fail 0' /tmp/phase4-focused.tap
           grep -q '# skipped 0' /tmp/phase4-focused.tap
           echo PHASE4_METRIKA_FOCUSED_27_OF_27_PASS
+      - name: M13 service isolation and M17 common Autorun
+        run: |
+          set -euo pipefail
+          node --test extension/tests/metrika_autorun_isolation.test.mjs | tee /tmp/phase4-m13-m17.tap
+          grep -q '# tests 4' /tmp/phase4-m13-m17.tap
+          grep -q '# pass 4' /tmp/phase4-m13-m17.tap
+          grep -q '# fail 0' /tmp/phase4-m13-m17.tap
+          grep -q '# skipped 0' /tmp/phase4-m13-m17.tap
+          echo PHASE4_METRIKA_M13_M17_4_OF_4_PASS
       - name: Accepted Phase 3 source regression against current Phase 4 bytes
         run: |
           set -euo pipefail
