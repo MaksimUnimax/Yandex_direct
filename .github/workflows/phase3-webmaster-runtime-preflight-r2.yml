@@ -1,0 +1,34 @@
+name: Phase 3 Webmaster runtime preflight r2
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-runtime-preflight-r2-2026-08-26
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static validation
+        run: |
+          node --check extension/src/phase3_service_worker_bootstrap.js
+          node --check extension/src/webmaster_worker_runtime.js
+          node --check extension/src/shared/credential_runtime.js
+          node --check extension/src/shared/phase3_provider_runtime.js
+          node --check extension/src/shared/settings_backup_v3_runtime.js
+          node --check extension/src/shared/credential_store_model.js
+          node --check extension/src/shared/webmaster_protocol.js
+          node --check extension/tests/helpers/phase3_runtime_harness.mjs
+          node --check extension/tests/phase3_worker_runtime.test.mjs
+          node --check extension/tests/candidate_readiness_recovery.test.mjs
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8'))"
+      - name: Focused Phase 3 runtime tests
+        run: |
+          node --test extension/tests/credential_store_model.test.mjs
+          node --test extension/tests/webmaster_protocol.test.mjs extension/tests/webmaster_core_models.test.mjs
+          node --test extension/tests/phase3_worker_runtime.test.mjs
+          node --test extension/tests/candidate_readiness_recovery.test.mjs extension/tests/settings_security_recovery.test.mjs
+      - name: Full source suite
+        working-directory: extension/src
+        run: npm test
