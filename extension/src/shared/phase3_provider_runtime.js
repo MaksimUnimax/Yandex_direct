@@ -16,6 +16,11 @@
   function parseJson(text) { try { return JSON.parse(String(text || "")); } catch { return null; } }
   function elapsed(started) { return Math.max(0, Math.round((performance.now?.() ?? Date.now()) - started)); }
   function executionError(error, requestExecuted) { error.request_executed = requestExecuted; error.automatic_retry = false; return error; }
+  function checkStateFromHttp(status) {
+    if (Number(status) === 401) return "INVALID_OR_EXPIRED";
+    if (Number(status) === 403) return "NO_ACCESS";
+    return "NOT_CHECKED";
+  }
 
   async function getWebmasterPolicy() {
     const raw = (await chrome.storage.local.get(WEBMASTER_POLICY_KEY))[WEBMASTER_POLICY_KEY] || {};
@@ -107,22 +112,58 @@
     throw Object.assign(new Error("Сервис не поддерживается."), { code: "SERVICE_NOT_AVAILABLE" });
   }
 
-  async function checkWebmaster(oauthToken) {
-    const token = trim(oauthToken);
-    if (!token) throw Object.assign(new Error("OAuth token Webmaster пуст."), { code: "WEBMASTER_OAUTH_MISSING", request_executed: false, automatic_retry: false });
+  async function checkCloud(service, { confirmBillable = false } = {}) {
+    if (![Registry.SERVICES.WORDSTAT, Registry.SERVICES.SEARCH].includes(service)) {
+      throw Object.assign(new Error("Cloud credential Check поддерживает только Wordstat/Search."), { code: "UNKNOWN_SERVICE", request_executed: false, automatic_retry: false });
+    }
+    const settings = await Credentials.settings();
+    const record = settings.credentials[service] || {};
+    if (!trim(record.api_key)) throw Object.assign(new Error(`Сначала сохраните API key ${service}.`), { code: "API_KEY_MISSING", request_executed: false, automatic_retry: false });
+    if (!trim(record.folder_id)) throw Object.assign(new Error(`Сначала сохраните folderId ${service}.`), { code: "FOLDER_ID_MISSING", request_executed: false, automatic_retry: false });
+    if (service === Registry.SERVICES.SEARCH && confirmBillable !== true) {
+      throw Object.assign(new Error("Search Check требует явного подтверждения одного платного запроса."), { code: "SEARCH_CHECK_CONFIRM_REQUIRED", request_executed: false, automatic_retry: false });
+    }
+
+    const command = service === Registry.SERVICES.WORDSTAT
+      ? { method: "getRegionsTree" }
+      : { method: "search", queryText: "yandex", groupsOnPage: 1 };
+    try {
+      const result = await executeCloud(service, command, { channel: "credential_check" });
+      const state = result.ok ? "PRESENT" : checkStateFromHttp(result.http_status);
+      await Credentials.save(service, { checked_at: nowIso(), check_state: state });
+      return {
+        ok: result.ok,
+        service,
+        state,
+        http_status: result.http_status,
+        request_executed: true,
+        automatic_retry: false,
+        billable_request_confirmed: service === Registry.SERVICES.SEARCH
+      };
+    } catch (error) {
+      if (error?.request_executed === "UNKNOWN") {
+        await Credentials.save(service, { checked_at: nowIso(), check_state: "NETWORK_ERROR" });
+      }
+      throw error;
+    }
+  }
+
+  async function checkWebmaster(oauthToken = "") {
+    const current = await Credentials.load();
+    const token = trim(oauthToken) || trim(current.webmaster?.oauth_token);
+    if (!token) throw Object.assign(new Error("Сначала сохраните OAuth token Webmaster."), { code: "WEBMASTER_OAUTH_MISSING", request_executed: false, automatic_retry: false });
     let response;
     try {
       response = await fetch(`${Webmaster.BASE_URL}/user`, { method: "GET", headers: { Accept: "application/json", Authorization: `OAuth ${token}` } });
     } catch (error) {
-      const current = await Credentials.load();
-      await Credentials.save("webmaster", { ...current.webmaster, oauth_token: token, user_id: "", verified_at: null, check_state: "NETWORK_ERROR" });
+      await Credentials.save("webmaster", { oauth_token: token, user_id: "", verified_at: null, check_state: "NETWORK_ERROR" });
       throw executionError(Object.assign(new Error("Не удалось проверить Webmaster OAuth: сетевой исход неизвестен."), { code: "WEBMASTER_CHECK_NETWORK_ERROR", cause: error }), "UNKNOWN");
     }
     let text = "";
     try { text = await response.text(); } catch { text = ""; }
     const parsed = parseJson(text);
     if (!response.ok) {
-      const state = response.status === 403 ? "NO_ACCESS" : "INVALID_OR_EXPIRED";
+      const state = response.status === 403 ? "NO_ACCESS" : response.status === 401 ? "INVALID_OR_EXPIRED" : "NOT_CHECKED";
       await Credentials.save("webmaster", { oauth_token: token, user_id: "", verified_at: nowIso(), check_state: state });
       const payload = Webmaster.safeErrorPayload(response.status, text, parsed);
       return { ok: false, state, http_status: response.status, code: payload.code, error: payload.message, request_executed: true, automatic_retry: false };
@@ -142,6 +183,7 @@
     execute,
     executeWebmaster,
     executeCloud,
+    checkCloud,
     checkWebmaster
   });
 })();
