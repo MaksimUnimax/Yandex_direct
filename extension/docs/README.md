@@ -33,7 +33,7 @@ files: 69
 ZIP entries: 72
 ```
 
-The inter-phase lifecycle button gating patch has now passed the complete independent Codex applicable gate on a new exact artifact:
+The inter-phase lifecycle button gating patch is now **OWNER LIVE PASS / CLOSED** on:
 
 ```text
 source commit: 939e880f820e52beae9dcbcedc86d5cd9e13b075
@@ -46,21 +46,20 @@ ZIP entries: 72
 source suite: 247/247 PASS
 packaged suite: 247/247 PASS
 enabled_not_run_sections: 0
-independent verdict: PASS
+independent Codex verdict: PASS
+owner real-profile lifecycle acceptance: PASS
 real Yandex requests during controlled QA: 0
+real Yandex requests during owner lifecycle acceptance: 0
 ```
 
 Current transition:
 
 ```text
-Lifecycle button patch = CODEX PASS / OWNER HANDOFF AUTHORIZED
-→ narrow owner real-profile lifecycle-button acceptance on exact 0430463e... artifact
-→ Phase 3 Webmaster governed requirement reconstruction
+Lifecycle button patch = OWNER LIVE PASS / CLOSED
+→ Phase 3 Webmaster = ACTIVE GOVERNED REQUIREMENT RECONSTRUCTION
 ```
 
-**Phase 3 must not begin until that narrow owner real-profile acceptance returns PASS.**
-
-Do not create repetitive owner API testing. The remaining owner boundary is only the real-profile UI/lifecycle behavior that controlled QA cannot truthfully substitute.
+Phase 3 must begin from current official Yandex Webmaster API documentation plus historical repository evidence. Webmaster production implementation is not authorized until its first-slice contract, specification, implementation plan and acceptance/gate requirements are written.
 
 Durable current evidence:
 
@@ -70,6 +69,7 @@ Durable current evidence:
 ../tests/LIFECYCLE_BUTTON_GATING_BROWSER_PREFLIGHT_2026-08-26.md
 ../tests/CODEX_LIFECYCLE_BUTTON_GATING_COMPLETE_GATE_HANDOFF_2026-08-26.md
 ../tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
+../tests/LIFECYCLE_BUTTON_GATING_OWNER_LIVE_PASS_2026-08-26.md
 ```
 
 ## Authority precedence and conflict rule
@@ -85,7 +85,7 @@ If current canonical documents materially conflict, stop, reconcile the document
 
 ## Exact-artifact rule
 
-The artifact handed to the owner must be the exact bytes that received the complete independent gate PASS. Do not mutate, rebuild, substitute or rename-by-content the tested `0430463e...` artifact for owner acceptance.
+The accepted lifecycle artifact remains the exact bytes that received complete independent gate PASS and owner real-profile PASS. Do not mutate or substitute it. Future product/package-test changes require a new governed candidate.
 
 ## Current architectural corrections
 
