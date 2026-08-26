@@ -4,7 +4,7 @@
   const Model = globalThis.YMBCredentialStoreModel;
   const CredentialRuntime = globalThis.YMBCredentialRuntime;
   const Policy = globalThis.YMBPolicyModel;
-  if (!Model || !CredentialRuntime || !Policy) throw new Error("Phase 4 settings backup prerequisites are unavailable.");
+  if (!Model || !CredentialRuntime || !Policy) throw new Error("Phase 5 settings backup prerequisites are unavailable.");
 
   const BACKUP_FORMAT = "YMB_SETTINGS_BACKUP";
   const BACKUP_VERSION = Model.BACKUP_VERSION;
@@ -16,7 +16,7 @@
     MANUAL_OPERATIONS: "wsmb_manual_operations", REPORT_PREFIXES: "wsmb_report_prefixes",
     AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs",
     SERVICE_CONTEXTS: "ymb_service_contexts", WORDSTAT_POLICY: "ymb_wordstat_policy",
-    SEARCH_POLICY: "ymb_search_policy", WEBMASTER_POLICY: "ymb_webmaster_policy", METRIKA_POLICY: "ymb_metrika_policy",
+    SEARCH_POLICY: "ymb_search_policy", WEBMASTER_POLICY: "ymb_webmaster_policy", METRIKA_POLICY: "ymb_metrika_policy", DIRECT_POLICY: "ymb_direct_policy",
     DEBUG_MODE: "ymb_debug_mode", SETTINGS_SCHEMA: "ymb_settings_schema_version",
     SEND_BUTTON_PROFILE: "wsmb_send_button_profile", COPY_BUTTON_PROFILES: "wsmb_copy_button_profiles"
   });
@@ -79,6 +79,7 @@
       search_policy: Policy.normalizeSearchPolicy(data[KEYS.SEARCH_POLICY] || {}),
       webmaster_policy: Policy.normalizeWebmasterPolicy(data[KEYS.WEBMASTER_POLICY] || {}),
       metrika_policy: Policy.normalizeMetrikaPolicy(data[KEYS.METRIKA_POLICY] || {}),
+      direct_policy: Policy.normalizeDirectPolicy(data[KEYS.DIRECT_POLICY] || {}),
       debug_mode: data[KEYS.DEBUG_MODE] === true
     };
     return {
@@ -123,14 +124,19 @@
     const current = Model.normalizeCredentials(data[Model.STORAGE_KEY], { legacyApiKey: data[KEYS.API_KEY], legacyFolderId: data[KEYS.FOLDER_ID] });
     const incomingCredentialMap = record(incoming.credentials);
     const incomingHasMetrika = version === BACKUP_VERSION && Object.prototype.hasOwnProperty.call(incomingCredentialMap, "metrika") && Object.keys(record(incomingCredentialMap.metrika)).length > 0;
+    const incomingHasDirect = version === BACKUP_VERSION && Object.prototype.hasOwnProperty.call(incomingCredentialMap, "direct") && Object.keys(record(incomingCredentialMap.direct)).length > 0;
     let credentials;
     if (version === 2) {
-      credentials = Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster, metrika: current.metrika });
-    } else if (incomingHasMetrika) {
-      credentials = Model.normalizeCredentials(imported);
+      credentials = Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster, metrika: current.metrika, direct: current.direct });
     } else {
-      credentials = Model.normalizeCredentials({ ...imported, metrika: current.metrika });
+      credentials = Model.normalizeCredentials({
+        ...imported,
+        metrika: incomingHasMetrika ? imported.metrika : current.metrika,
+        direct: incomingHasDirect ? imported.direct : current.direct
+      });
     }
+
+    const incomingHasDirectPolicy = Object.prototype.hasOwnProperty.call(incoming, "direct_policy") && incoming.direct_policy && typeof incoming.direct_policy === "object" && !Array.isArray(incoming.direct_policy);
 
     await chrome.storage.local.set({
       [Model.STORAGE_KEY]: clone(credentials),
@@ -148,10 +154,20 @@
       [KEYS.SEARCH_POLICY]: Policy.normalizeSearchPolicy(incoming.search_policy || data[KEYS.SEARCH_POLICY] || {}),
       [KEYS.WEBMASTER_POLICY]: Policy.normalizeWebmasterPolicy(incoming.webmaster_policy || data[KEYS.WEBMASTER_POLICY] || {}),
       [KEYS.METRIKA_POLICY]: Policy.normalizeMetrikaPolicy(incoming.metrika_policy || data[KEYS.METRIKA_POLICY] || {}),
+      [KEYS.DIRECT_POLICY]: Policy.normalizeDirectPolicy(incomingHasDirectPolicy ? incoming.direct_policy : (data[KEYS.DIRECT_POLICY] || {})),
       [KEYS.DEBUG_MODE]: incoming.debug_mode === true,
       [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION
     });
-    return { imported: true, backup_version: version, settings_schema_version: SETTINGS_SCHEMA_VERSION, settings_sha256: trim(backup.settings_sha256).toLowerCase(), active_runtime_state_untouched: true, metrika_credential_preserved_when_absent: !incomingHasMetrika };
+    return {
+      imported: true,
+      backup_version: version,
+      settings_schema_version: SETTINGS_SCHEMA_VERSION,
+      settings_sha256: trim(backup.settings_sha256).toLowerCase(),
+      active_runtime_state_untouched: true,
+      metrika_credential_preserved_when_absent: !incomingHasMetrika,
+      direct_credential_preserved_when_absent: !incomingHasDirect,
+      direct_policy_preserved_when_absent: !incomingHasDirectPolicy
+    };
   }
 
   globalThis.YMBSettingsBackupV3Runtime = Object.freeze({ exportBackup, validate, importBackup, checksum });
