@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 1 WORDSTAT = LIVE PASS / CLOSED — PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = LIVE PASS / CLOSED — PHASE 4 METRIKA = LIVE PASS / CLOSED**  
+Status: **PHASE 1 WORDSTAT = LIVE PASS / CLOSED — PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = LIVE PASS / CLOSED — PHASE 4 METRIKA = LIVE PASS / CLOSED — PHASE 5 DIRECT = CONTRACT READY / IMPLEMENTATION AUTHORIZED**  
 Updated: 2026-08-26
 
 Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
@@ -9,6 +9,7 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 
 ```text
 LIVE_MAIN_BEFORE_PHASE4_OWNER_LIVE_CLOSURE_DOCS = 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
+LIVE_MAIN_BEFORE_PHASE5_RECONSTRUCTION = 14ae900516479ee5a7a3a61be34b832341c9df4b
 
 ACCEPTED_PHASE2_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
 ACCEPTED_PHASE2_ARTIFACT_SHA256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
@@ -50,9 +51,20 @@ PHASE4_AUTH = dedicated OAuth token with metrika:read
 PHASE4_WRITES_ENABLED = NO
 PHASE4_STATUS = LIVE PASS / CLOSED
 
-PRODUCTION_BYTES_CHANGED_BY_PHASE4_CLOSURE_DOCS = NO
+PHASE5_BASELINE_SRC_TREE = fbc52f9a84195278b7b5e942f2a84c7d69778b98
+PHASE5_PROTOCOL = DIRECT_API_V1
+PHASE5_RESULT = DIRECT_RESULT_V1
+PHASE5_FIRST_SLICE = listCampaigns,listAdGroups,listAds,listKeywords,getCampaignPerformance
+PHASE5_AUTH = dedicated Direct OAuth token; direct:api; optional trusted client_login for agency-client context
+PHASE5_PROVIDER_JSON = https://api.direct.yandex.com/json/v501/{service}
+PHASE5_PROVIDER_REPORTS = https://api.direct.yandex.com/json/v501/reports
+PHASE5_REPORT_MODE = online only
+PHASE5_WRITES_ENABLED = NO
+PHASE5_CONTRACT = READY
+
+PRODUCTION_BYTES_CHANGED_BY_PHASE5_CONTRACT_DOCS = NO
 OPEN_BLOCKERS = NONE
-AUTHORIZED_NEXT_STAGE = PHASE_5_YANDEX_DIRECT_RECONSTRUCTION
+AUTHORIZED_NEXT_STAGE = PHASE_5_DIRECT_IMPLEMENTATION_FROM_EXACT_POST_CONTRACT_MAIN
 ```
 
 ## Phase 3 — Webmaster closure
@@ -139,63 +151,7 @@ permission = own
 status = Active
 ```
 
-Management API discovery after the real counter was created:
-
-```text
-operation = listCounters
-request_id = metrika-80868049-c905-48e4-9f39-64018360e11c
-status = OK
-http_status = 200
-result.rows = 1
-result.counters[0].id = 111970611
-request_executed = true
-automatic_retry = false
-```
-
-Real Reports API summary:
-
-```text
-operation = getTrafficSummary
-request_id = metrika-99188102-f04f-4e17-a319-1f045bcc5d17
-status = OK
-http_status = 200
-counter_id = 111970611
-date = 2026-08-26
-visits = 2
-users = 2
-pageviews = 12
-sampled = false
-data_lag = 0
-request_executed = true
-automatic_retry = false
-```
-
-Real Reports API by-time:
-
-```text
-operation = getTrafficByTime
-request_id = metrika-1e26e04c-d2ac-47ca-bc93-654c103fd73a
-status = OK
-http_status = 200
-counter_id = 111970611
-group = day
-series.visits = [2]
-series.users = [2]
-series.pageviews = [12]
-totals.visits = 2
-totals.users = 2
-totals.pageviews = 12
-sampled = false
-data_lag = 0
-request_executed = true
-automatic_retry = false
-```
-
-One preceding `getTrafficByTime` UI attempt failed locally at `DELIVERY_SEND_TARGET` with `SEND_BUTTON_NOT_READY` and `request_executed=false`; therefore no provider request was initiated and the later successful execution was not a blind provider retry.
-
-`getCounter` was not required at the narrow owner-live boundary and was not executed against the real provider; it remains covered by the controlled Phase-4 campaign.
-
-Durable owner-live evidence:
+Owner-live proved real Management + Reports routes with `HTTP 200`, `request_executed=true`, `automatic_retry=false`. Durable evidence:
 
 ```text
 extension/tests/PHASE4_METRIKA_OWNER_LIVE_PASS_2026-08-26.md
@@ -211,20 +167,107 @@ extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_METRIKA_PHASE4_ADDENDUM.m
 
 All Metrika write/import/Logs/arbitrary-report surfaces remain locked.
 
-## Current authorized next action
+## Phase 5 — Yandex Direct contract
 
-`PROJECT_PURPOSE.md` lists the planned services in order through Metrika and then **Direct**. Phase 4 is now closed, but no Direct implementation surface is authorized yet.
-
-Next stage is reconstruction/contract work only:
+Official reconstruction establishes the provider transport/access boundary:
 
 ```text
-1. fetch live main HEAD after Phase-4 closure docs merge
-2. verify extension/src remains fbc52f9a84195278b7b5e942f2a84c7d69778b98
-3. reconstruct current official Yandex Direct API/auth/quota/read-write surface
-4. define the narrow Phase-5 first slice
-5. write Phase-5 specification + requirements/implementation plan + mandatory Codex gate addendum
-6. land control-plane docs without changing production bytes
-7. only then authorize Phase-5 implementation from exact live main
+API version family = Direct API v5
+production JSON pattern = https://api.direct.yandex.com/json/v501/{service}
+transport = HTTPS POST
+OAuth header = Authorization: Bearer <token>
+OAuth data source = direct:api
+approved Direct API application access request = required
+trial access = Sandbox only
+full access = real production data + Sandbox
+Client-Login = only for agency requests on behalf of an advertiser client
+Use-Operator-Units = locked out in first slice
+Payment-Token / finance = locked
 ```
 
-No Yandex Direct provider method, credential model, protocol prefix, endpoint, quota assumption, or write capability is authorized until that reconstruction is complete.
+Direct has dynamic provider Units rather than a fixed per-call RUB tariff. The Bridge will preserve sanitized `Units` response truth separately from its existing RUB cost ledger.
+
+First-slice contract:
+
+```text
+service = direct
+protocol = DIRECT_API_V1
+result = DIRECT_RESULT_V1
+methods = listCampaigns,listAdGroups,listAds,listKeywords,getCampaignPerformance
+writes = disabled
+```
+
+Object reads use provider `get` methods with strict Bridge field allowlists and local pagination bounds. Direct provider pages can return up to 10,000 objects, but Phase 5 intentionally limits ordinary pages to at most 1000.
+
+Reports first slice is deliberately synchronous/online only:
+
+```text
+endpoint = https://api.direct.yandex.com/json/v501/reports
+ReportType = CAMPAIGN_PERFORMANCE_REPORT
+DateRangeType = CUSTOM_DATE
+Format = TSV
+processingMode = online
+fixed fields = Date,CampaignId,CampaignName,Impressions,Clicks,Cost
+IncludeVAT = YES (explicit Bridge decision)
+returnMoneyInMicros:false = absent
+money normalization = integer cost_micros
+max local report span = 31 days
+max local rows = 1000
+```
+
+Offline/auto Reports, HTTP 201/202 polling, and `SEARCH_QUERY_PERFORMANCE_REPORT` are outside the first slice. If an online report cannot be generated, it is surfaced as a terminal provider outcome with no automatic replay.
+
+Current official error documentation has a conflict that is preserved rather than hidden:
+
+```text
+errors table: code 53 = invalid OAuth token
+authorization-token page: invalid token links to code 1002
+```
+
+Implementation must treat `53` as canonical invalid-token evidence and may map `1002` to invalid only when provider context/message explicitly identifies token invalidity. Generic `1002` remains generic operation error.
+
+Default Direct policy:
+
+```text
+manual_enabled = true
+autorun_enabled = false
+max_requests_per_run = 20
+max_page_size = 1000
+max_report_days = 31
+max_report_rows = 1000
+method_cost_rub = 0
+```
+
+Owner-live will be postponed until after exact freeze and complete independent Codex PASS. It will not be used to explore provider errors or consume Units repeatedly.
+
+Canonical Phase-5 authority:
+
+```text
+extension/docs/SPECIFICATION_PHASE_5_DIRECT_ADDENDUM.md
+extension/docs/PHASE_5_DIRECT_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_DIRECT_PHASE5_ADDENDUM.md
+```
+
+## Current authorized next action
+
+Once the Phase-5 control-plane documents are merged to live `main`:
+
+```text
+1. fetch the new exact main HEAD
+2. reverify extension/src = fbc52f9a84195278b7b5e942f2a84c7d69778b98
+3. create Phase-5 Direct dev branch from that exact main
+4. implement dedicated Direct credential + backup migration
+5. implement DIRECT_API_V1 protocol + policy/registry
+6. implement trusted Direct JSON provider and online Reports executor
+7. implement bounded Direct popup UI
+8. during the same governed popup change, add the owner-requested top duplicate common-settings Save control by reusing exactly the existing common save handler
+9. add focused/unit/integration/browser/lifecycle coverage
+10. run development verification
+11. freeze exact candidate
+12. perform exact artifact transport round-trip
+13. run independent Codex complete applicable campaign including D-00..D-22
+14. only then perform narrow owner-live Direct acceptance
+15. close Phase 5 only after live PASS
+```
+
+No Direct write method, bid mutation, finance surface, arbitrary provider request/report constructor, offline report queue or automatic retry is authorized.
