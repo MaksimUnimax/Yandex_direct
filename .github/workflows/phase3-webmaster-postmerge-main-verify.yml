@@ -1,0 +1,73 @@
+name: Phase 3 Webmaster post-merge main verification
+
+on:
+  push:
+    branches:
+      - qa/postmerge-phase3-webmaster-main-6c95cf15-2026-08-26
+
+permissions:
+  contents: read
+
+env:
+  MAIN_COMMIT: 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
+  ACCEPTED_CANDIDATE: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  ACCEPTED_SRC_TREE: e5fa694f1354e1ee048a352481a416413e94a3c9
+
+jobs:
+  verify-main:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify merged main source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main "$ACCEPTED_CANDIDATE"
+          test "$(git rev-parse origin/main)" = "$MAIN_COMMIT"
+          test "$(git rev-parse origin/main:extension/src)" = "$ACCEPTED_SRC_TREE"
+          test "$(git rev-parse "$ACCEPTED_CANDIDATE:extension/src")" = "$ACCEPTED_SRC_TREE"
+          test "$(git rev-parse HEAD:extension/src)" = "$ACCEPTED_SRC_TREE"
+          test -z "$(git diff --name-only origin/main HEAD -- extension/src)"
+          echo PHASE3_POSTMERGE_MAIN_EXACT_SRC_TREE_PASS
+
+      - name: Materialize accepted candidate tests only
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf extension/tests
+          git archive "$ACCEPTED_CANDIDATE" extension/tests | tar -x
+          test -d extension/tests
+          echo PHASE3_POSTMERGE_ACCEPTED_TESTS_MATERIALIZED_PASS
+
+      - name: Static syntax checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do node --check "$file"; done < <(find extension/src extension/tests -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); JSON.parse(require('fs').readFileSync('extension/src/package.json','utf8'));"
+          echo PHASE3_POSTMERGE_STATIC_SYNTAX_PASS
+
+      - name: Run accepted 313 source suite against merged main bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs | tee /tmp/phase3-postmerge-tests.log
+          grep -F '# tests 313' /tmp/phase3-postmerge-tests.log
+          grep -F '# pass 313' /tmp/phase3-postmerge-tests.log
+          grep -F '# fail 0' /tmp/phase3-postmerge-tests.log
+          grep -F '# skipped 0' /tmp/phase3-postmerge-tests.log
+          echo PHASE3_POSTMERGE_MAIN_313_313_PASS
+
+      - name: Reverify main identity after suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$MAIN_COMMIT"
+          test "$(git rev-parse origin/main:extension/src)" = "$ACCEPTED_SRC_TREE"
+          test "$(git rev-parse HEAD:extension/src)" = "$ACCEPTED_SRC_TREE"
+          echo PHASE3_POSTMERGE_MAIN_IMMUTABILITY_PASS
+          echo PHASE3_POSTMERGE_VERIFICATION_PASS
