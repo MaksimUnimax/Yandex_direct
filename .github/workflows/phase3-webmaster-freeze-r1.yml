@@ -136,7 +136,7 @@ jobs:
           assert all('phase3_browser_runtime_final.generated' not in p for p in paths)
           assert 'manifest.json' in paths and 'package.json' in paths
           assert 'webmaster_worker_runtime.js' in paths
-          assert 'webmaster_protocol.js' in paths
+          assert 'shared/webmaster_protocol.js' in paths
           assert 'tests/webmaster_service_isolation.test.mjs' in paths
           assert 'tests/webmaster_autorun_integration.test.mjs' in paths
           print('PHASE3_FREEZE_MANIFEST_GOVERNANCE_PASS')
