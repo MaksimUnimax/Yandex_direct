@@ -1,0 +1,13 @@
+name: Phase 3 Webmaster W17 r1
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-w17-r1-2026-08-26
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Full source regression
+        working-directory: extension/src
+        run: npm test
