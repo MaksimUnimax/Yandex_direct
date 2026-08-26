@@ -23,7 +23,7 @@ main {
 header { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
 h1 { font-size: 18px; margin: 0 0 4px; }
 h2 { font-size: 14px; margin: 0 0 10px; }
-.lead, .warning, small { color: #63666a; }
+.lead, .warning, small, .credential-meta { color: #63666a; }
 .lead { margin: 0; font-size: 12px; }
 .badge { background: #ffd54f; border-radius: 999px; padding: 4px 8px; font-size: 11px; font-weight: 700; white-space: nowrap; }
 section { background: #fff; border: 1px solid #e2e2e5; border-radius: 10px; padding: 12px; margin: 10px 0; }
@@ -47,4 +47,9 @@ button:disabled { opacity: .45; cursor: default; }
 .status.ok { background: #e6f4ea; }
 .status.error { background: #fce8e6; }
 .warning { font-size: 11px; line-height: 1.35; margin: 8px 0 0; }
+.credential-card { border: 1px solid #e2e2e5; border-radius: 8px; padding: 8px 9px; margin: 8px 0; background: #fafafa; }
+.credential-card summary { display: flex; justify-content: space-between; gap: 10px; cursor: pointer; font-size: 12px; font-weight: 700; }
+.credential-card summary strong { font-size: 11px; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+.credential-card[open] summary { margin-bottom: 7px; }
+.credential-meta { margin: 7px 0 0; font-size: 11px; line-height: 1.35; }
 code { font-size: 11px; }
