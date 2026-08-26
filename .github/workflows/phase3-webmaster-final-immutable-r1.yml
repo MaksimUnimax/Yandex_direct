@@ -275,28 +275,11 @@ jobs:
           from pathlib import Path
           p=Path('/tmp/w19-lifecycle/webmaster_lifecycle_button_gate.mjs')
           s=p.read_text()
-          old="""  const tab = await worker.evaluate(async (ownerTabId) => {
-    const created = await chrome.tabs.create({ url: 'about:blank', active: false });
-    if (!created?.id) return null;
-    await chrome.tabs.update(ownerTabId, { active: true });
-    await chrome.tabs.update(created.id, { url: chrome.runtime.getURL('popup.html') });
-    return { id: created.id };
-  }, owner.active.id);
-  assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');
-"""
-          new="""  const tab = await worker.evaluate(async (ownerTabId) => {
-    const created = await chrome.tabs.create({ url: chrome.runtime.getURL('popup.html'), active: false });
-    if (!created?.id) return null;
-    await chrome.tabs.update(ownerTabId, { active: true });
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    return { id: created.id, active_id: tabs?.[0]?.id || null, active_url: tabs?.[0]?.url || '' };
-  }, owner.active.id);
-  assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');
-  assert.equal(Number(tab.active_id), Number(owner.active.id), `POPUP_OWNER_ACTIVE_TAB_LOST ${JSON.stringify(tab)}`);
-  console.log('W19_LIFECYCLE_OWNER_TAB_PINNED_PASS');
-"""
-          if s.count(old) != 1:
-              raise SystemExit(f'W19_LIFECYCLE_OWNER_PATCH_COUNT={s.count(old)}')
+          old = "  const tab = await worker.evaluate(async (ownerTabId) => {\n    const created = await chrome.tabs.create({ url: 'about:blank', active: false });\n    if (!created?.id) return null;\n    await chrome.tabs.update(ownerTabId, { active: true });\n    await chrome.tabs.update(created.id, { url: chrome.runtime.getURL('popup.html') });\n    return { id: created.id };\n  }, owner.active.id);\n  assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');\n"
+          new = "  const tab = await worker.evaluate(async (ownerTabId) => {\n    const created = await chrome.tabs.create({ url: chrome.runtime.getURL('popup.html'), active: false });\n    if (!created?.id) return null;\n    await chrome.tabs.update(ownerTabId, { active: true });\n    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });\n    return { id: created.id, active_id: tabs?.[0]?.id || null, active_url: tabs?.[0]?.url || '' };\n  }, owner.active.id);\n  assert(tab?.id, 'POPUP_TAB_CREATE_FAIL');\n  assert.equal(Number(tab.active_id), Number(owner.active.id), `POPUP_OWNER_ACTIVE_TAB_LOST ${JSON.stringify(tab)}`);\n  console.log('W19_LIFECYCLE_OWNER_TAB_PINNED_PASS');\n"
+          count=s.count(old)
+          if count != 1:
+              raise SystemExit(f'W19_LIFECYCLE_OWNER_PATCH_COUNT={count}')
           p.write_text(s.replace(old,new,1))
           print('PHASE3_W19_LIFECYCLE_OWNER_PIN_PATCH_PASS')
           PY
