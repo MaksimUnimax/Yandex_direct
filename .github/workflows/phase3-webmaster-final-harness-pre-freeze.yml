@@ -21,10 +21,9 @@ jobs:
           set -euo pipefail
           test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src extension/tests/*.test.mjs)"
           git fetch --no-tags --depth=1 origin "$R14_HARNESS_COMMIT"
-          mkdir -p /tmp/phase3-final-harness
-          git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs
-          node extension/tests/qa_browser/patch_phase3_final_runtime_harness.mjs /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs
-          node --check /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs
+          git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > extension/phase3_browser_runtime_final.generated.mjs
+          node extension/tests/qa_browser/patch_phase3_final_runtime_harness.mjs extension/phase3_browser_runtime_final.generated.mjs
+          node --check extension/phase3_browser_runtime_final.generated.mjs
       - name: Full source regression
         working-directory: extension/src
         shell: bash
@@ -48,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
           command -v xvfb-run
-          xvfb-run -a node /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs | tee /tmp/final-runtime.log
+          xvfb-run -a node extension/phase3_browser_runtime_final.generated.mjs | tee /tmp/final-runtime.log
           grep -F 'W15_CREDENTIAL_SWITCH_RERENDER_ISOLATION_PASS' /tmp/final-runtime.log
           grep -F 'W05_WEBMASTER_EXACT_OAUTH_HEADER_PASS' /tmp/final-runtime.log
           grep -F 'PHASE3_BROWSER_RUNTIME_PASS' /tmp/final-runtime.log
