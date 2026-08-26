@@ -7,16 +7,17 @@ import { fileURLToPath } from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../src');
 
-test('manifest allows only ChatGPT pages plus official Yandex API host',()=>{
+test('manifest allows only ChatGPT pages plus official Yandex API hosts required by enabled services',()=>{
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
   assert.deepEqual(manifest.host_permissions,[
     'https://chatgpt.com/*',
     'https://chat.openai.com/*',
-    'https://searchapi.api.cloud.yandex.net/*'
+    'https://searchapi.api.cloud.yandex.net/*',
+    'https://api.webmaster.yandex.net/*'
   ]);
   assert.equal(manifest.host_permissions.some(x=>/https:\/\/(www\.)?yandex\.ru/i.test(x)),false);
   assert.deepEqual(manifest.content_scripts[0].matches,['https://chatgpt.com/*','https://chat.openai.com/*']);
-  assert.equal(manifest.background.service_worker,'service_worker_bootstrap.js');
+  assert.equal(manifest.background.service_worker,'phase3_service_worker_bootstrap.js');
 });
 
 test('package npm test points to the real top-level Node test suite',()=>{
