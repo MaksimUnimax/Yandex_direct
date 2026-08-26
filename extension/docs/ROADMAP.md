@@ -89,9 +89,9 @@ yandex.ru scraping
 
 # INTER-PHASE PATCH — LIFECYCLE GUARD BUTTON GATING
 
-**Status: INDEPENDENT CODEX PASS / OWNER HANDOFF AUTHORIZED / OWNER REAL-PROFILE ACCEPTANCE PENDING.**
+**Status: OWNER LIVE PASS / CLOSED.**
 
-Required behavior:
+Accepted behavior:
 
 ```text
 MANUAL_OPERATION_ACTIVE → Yandex action button disabled / non-clickable
@@ -99,7 +99,7 @@ DELIVERY_IN_PROGRESS   → Yandex action button disabled / non-clickable
 blocking state cleared → button becomes clickable again
 ```
 
-Exact candidate:
+Exact accepted candidate:
 
 ```text
 source: 939e880f820e52beae9dcbcedc86d5cd9e13b075
@@ -109,45 +109,33 @@ SHA-256: 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
 bytes: 179877
 files: 69
 ZIP entries: 72
+independent Codex complete applicable gate: PASS
+owner real-profile acceptance: PASS
 ```
 
-Independent complete applicable gate:
+Owner acceptance confirmed the Bridge-owned action is non-clickable while the lifecycle is blocked and returns to normal availability after completion. Validation remained local (`request_executed=false`), so no Yandex provider request was made.
+
+Durable closure evidence:
 
 ```text
-source suite = 247/247 PASS
-packaged suite = 247/247 PASS
-focused lifecycle runtime = 14/14 PASS
-B01/B02/B03 = PASS
-PD-00..PD-17 = ALL PASS
-manual_on_transaction = PASS
-S-00..S-17 = ALL PASS
-real-profile binding regressions = PASS
-native popup geometry 430x560 = PASS
-lifecycle installed-extension gate = PASS
-real Yandex requests = 0
-real credentials = NO
-enabled_not_run_sections = 0
-verdict = PASS
+../tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
+../tests/LIFECYCLE_BUTTON_GATING_OWNER_LIVE_PASS_2026-08-26.md
 ```
-
-Owner acceptance is intentionally narrow: use the exact tested artifact and verify in the real ChatGPT profile that the action is disabled during the actual Manual/delivery lifecycle and re-enabled after lifecycle clear. No extra paid Yandex request should be created solely for this check.
-
-After owner PASS this patch becomes **CLOSED** and Phase 3 starts immediately.
 
 ---
 
 # PHASE 3 — WEBMASTER
 
-**Status: QUEUED / AUTHORIZED IMMEDIATELY AFTER LIFECYCLE PATCH OWNER PASS.**
+**Status: ACTIVE — GOVERNED REQUIREMENT RECONSTRUCTION.**
 
-First Phase-3 action is **governed requirement reconstruction**, not implementation from memory.
+Production implementation is not yet authorized. First Phase-3 action is reconstruction from current official Yandex Webmaster API documentation plus historical repo evidence.
 
-Required start sequence:
+Required sequence:
 
 ```text
-1. Reconstruct the current Webmaster contract from live canonical docs and historical repo evidence.
-2. Define the first Webmaster API slice: protocol, allowed methods, credentials/capability, policy/budget, response normalization and failure semantics.
-3. Write/update specification + implementation plan + acceptance/gate requirements before production code.
+1. Reconstruct current Webmaster API capabilities, auth model, quotas/limits and endpoint semantics.
+2. Define the first Webmaster API slice: protocol, allowed methods, credentials/capability, policy/budget, response normalization and failure/retry semantics.
+3. Write/update Phase-3 specification + implementation plan + acceptance/gate requirements before production code.
 4. Implement only the approved first slice.
 5. Run focused tests, freeze exact candidate, independent Codex full applicable gate, then owner-live acceptance only where irreducible.
 ```
