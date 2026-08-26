@@ -85,6 +85,34 @@ test('v3 backup exports exact mapping and v2 import preserves existing Webmaster
   assert.equal(env.storage.state.ymb_service_credentials.webmaster.oauth_token, 'oauth-existing');
 });
 
+test('Phase 3 settings import remains blocked during active Autorun before credential mutation', async () => {
+  const source = createPhase3Runtime({ ymb_service_credentials: {
+    wordstat: { api_key: 'incoming', folder_id: 'incoming-folder' }, search: { api_key: 'incoming-s', folder_id: 'incoming-sf' }, webmaster: { oauth_token: '', user_id: '' }
+  } });
+  const backup = plain(await source.ctx.YMBPhase3Runtime.exportSettingsBackup());
+  const env = createPhase3Runtime({
+    ymb_service_credentials: { wordstat: { api_key: 'keep', folder_id: 'keep-folder' }, search: { api_key: 'keep-s', folder_id: 'keep-sf' }, webmaster: { oauth_token: 'keep-oauth', user_id: '7' } },
+    wsmb_auto_runs: { 'https://chatgpt.com|11111111-2222-4333-8444-555555555555': { status: 'waiting_command' } }
+  });
+  await assert.rejects(() => env.ctx.YMBPhase3Runtime.importSettingsBackup(backup), (error) => error?.code === 'IMPORT_ACTIVE_RUN');
+  assert.equal(env.storage.state.ymb_service_credentials.wordstat.api_key, 'keep');
+  assert.equal(env.storage.state.ymb_service_credentials.webmaster.oauth_token, 'keep-oauth');
+});
+
+test('Phase 3 settings import remains blocked during active Manual operation before credential mutation', async () => {
+  const source = createPhase3Runtime({ ymb_service_credentials: {
+    wordstat: { api_key: 'incoming', folder_id: 'incoming-folder' }, search: { api_key: 'incoming-s', folder_id: 'incoming-sf' }, webmaster: { oauth_token: '', user_id: '' }
+  } });
+  const backup = plain(await source.ctx.YMBPhase3Runtime.exportSettingsBackup());
+  const env = createPhase3Runtime({
+    ymb_service_credentials: { wordstat: { api_key: 'keep', folder_id: 'keep-folder' }, search: { api_key: 'keep-s', folder_id: 'keep-sf' }, webmaster: { oauth_token: 'keep-oauth', user_id: '7' } },
+    wsmb_manual_operations: { 'https://chatgpt.com|11111111-2222-4333-8444-555555555555': { status: 'requesting' } }
+  });
+  await assert.rejects(() => env.ctx.YMBPhase3Runtime.importSettingsBackup(backup), (error) => error?.code === 'IMPORT_ACTIVE_MANUAL');
+  assert.equal(env.storage.state.ymb_service_credentials.search.api_key, 'keep-s');
+  assert.equal(env.storage.state.ymb_service_credentials.webmaster.oauth_token, 'keep-oauth');
+});
+
 test('public global state exposes Webmaster capability but no credential secrets', async () => {
   const env = createPhase3Runtime({ ymb_service_credentials: {
     wordstat: { api_key: 'w-secret', folder_id: 'wf' }, search: { api_key: 's-secret', folder_id: 'sf' },
