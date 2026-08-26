@@ -1,4 +1,4 @@
-# ROADMAP v0.10 — Yandex Marketing Bridge
+# ROADMAP v0.11 — Yandex Marketing Bridge
 
 Status: active roadmap.  
 Updated: 2026-08-26.
@@ -19,6 +19,21 @@ working candidate frozen for handoff
 → exact package/identity verification
 → owner real-profile/live acceptance only for irreducible live behavior
 ```
+
+Research / evidence rule:
+
+```text
+DO NOT GUESS missing provider/API facts.
+
+fact needed
+→ check live project source of truth
+→ check current official provider documentation/site directly
+→ if incomplete/inaccessible/ambiguous, use Codex as a read-only research agent to browse official sites, inspect documentation, follow links, download available public reference/spec/artifact material, and return traceable evidence
+→ if ChatGPT + Codex still cannot establish the fact, ask the project owner for one concrete action/material
+→ until proven, record UNKNOWN / NOT VERIFIED / explicit conflict
+```
+
+Codex is therefore not limited to QA. It is also an authorized information-gathering/research tool. Research authority does **not** imply permission to edit product/production, credentials, provider account settings or external resources; those require separate authorization.
 
 Exact current identities, blockers and authorized next action are authoritative in `CURRENT_STATE.md`.
 
@@ -216,15 +231,17 @@ Required control-plane sequence:
 ```text
 1. fetch exact live main after Phase-4 closure docs merge
 2. prove accepted Phase-4 extension/src tree remains unchanged
-3. research current official Yandex Direct API/auth/quota/read-write behavior
-4. identify safe read-only first-slice candidates and explicitly defer mutation surfaces unless separately authorized
-5. define credential isolation/migration requirements
-6. define DIRECT protocol/result contracts and trusted provider mapping only after the research is complete
-7. create Phase-5 specification addendum
-8. create Phase-5 requirements/implementation plan
-9. create mandatory Phase-5 Codex pre-delivery gate addendum
-10. land those control-plane docs without modifying product bytes
-11. only then authorize implementation from exact live main
+3. research current official Yandex Direct API/auth/quota/read-write behavior; do not infer missing values
+4. where direct ChatGPT research is incomplete, assign Codex a read-only evidence task against official Yandex sources, including browser-only documentation and downloadable public reference/spec material when available
+5. if a required fact is still unavailable, request one concrete retrieval/action from the project owner and keep the fact UNKNOWN / NOT VERIFIED until evidence exists
+6. identify safe read-only first-slice candidates and explicitly defer mutation surfaces unless separately authorized
+7. define credential isolation/migration requirements
+8. define DIRECT protocol/result contracts and trusted provider mapping only after the research is complete
+9. create Phase-5 specification addendum
+10. create Phase-5 requirements/implementation plan
+11. create mandatory Phase-5 Codex pre-delivery gate addendum
+12. land those control-plane docs without modifying product bytes
+13. only then authorize implementation from exact live main
 ```
 
 Until that reconstruction is complete:
