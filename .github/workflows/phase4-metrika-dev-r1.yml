@@ -10,11 +10,13 @@ permissions:
   contents: read
 
 jobs:
-  focused:
+  focused-and-regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -34,11 +36,22 @@ jobs:
           node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); console.log('PHASE4_MANIFEST_JSON_PASS')"
       - name: Phase 4 focused gate matrix
         run: node --test extension/tests/metrika_phase4_gate_matrix.test.mjs
+      - name: Accepted Phase 3 source regression against current Phase 4 bytes
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+          rm -rf /tmp/accepted-phase3
+          mkdir -p /tmp/accepted-phase3
+          git archive a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5 extension/tests | tar -x -C /tmp/accepted-phase3
+          ln -s "$GITHUB_WORKSPACE/extension/src" /tmp/accepted-phase3/extension/src
+          mapfile -d '' tests < <(find /tmp/accepted-phase3/extension/tests -maxdepth 1 -name '*.test.mjs' -print0 | sort -z)
+          echo "ACCEPTED_PHASE3_TEST_FILES=${#tests[@]}"
+          node --test "${tests[@]}"
+          echo PHASE4_ACCEPTED_PHASE3_SOURCE_REGRESSION_PASS
       - name: Static safety locks
         run: |
           set -euo pipefail
           grep -q 'METRIKA_API_V1' extension/src/shared/service_registry.js
           grep -q 'https://api-metrika.yandex.net/\*' extension/src/manifest.json
-          grep -q 'metrika: Autorun' extension/src/popup.html || true
           ! grep -R --line-number -E 'fake-metrika-oauth|webmaster-token|word-key|search-key' extension/src
           echo PHASE4_METRIKA_FOCUSED_DEV_GATE_PASS
