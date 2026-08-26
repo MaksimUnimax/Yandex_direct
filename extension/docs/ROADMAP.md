@@ -1,4 +1,4 @@
-# ROADMAP v0.9 — Yandex Marketing Bridge
+# ROADMAP v0.10 — Yandex Marketing Bridge
 
 Status: active roadmap.  
 Updated: 2026-08-26.
@@ -127,17 +127,6 @@ post-merge source suite: 313 / 313 PASS
 owner-live acceptance: PASS
 ```
 
-Owner-live:
-
-```text
-listHosts → HTTP 200 / OK
-request_executed = true
-automatic_retry = false
-result.hosts = []
-```
-
-No host-specific live call was made because no real `hostId` was returned.
-
 Durable closure evidence:
 
 ```text
@@ -150,11 +139,9 @@ Webmaster writes and deferred advanced surfaces remain locked.
 
 # PHASE 4 — METRIKA
 
-**Status: CONTRACT READY / IMPLEMENTATION AUTHORIZED.**
+**Status: LIVE PASS / CLOSED.**
 
-Official reconstruction and the first-slice contract are complete.
-
-Service contract:
+Accepted first slice:
 
 ```text
 service: metrika
@@ -163,67 +150,48 @@ result: METRIKA_RESULT_V1
 auth: dedicated OAuth token with metrika:read
 Management API: https://api-metrika.yandex.net/management/v1
 Reports API: https://api-metrika.yandex.net/stat/v1
+methods:
+  listCounters
+  getCounter
+  getTrafficSummary
+  getTrafficByTime
+writes: disabled
 ```
 
-First slice:
+Accepted product identity:
 
 ```text
-listCounters
-getCounter
-getTrafficSummary
-getTrafficByTime
+source: 643445758e86d3b06ac42a6daea5c97b6e9223c7
+frozen ZIP SHA-256: 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
+frozen ZIP bytes: 117375
+accepted src tree: fbc52f9a84195278b7b5e942f2a84c7d69778b98
+merged main: 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
+independent Codex final QA: run 32955512254 attempt 2 PASS
+post-merge QA: run 32957778009 PASS
+owner-live acceptance: PASS
 ```
 
-Provider mapping:
+Owner-live used real counter `111970611` on `openscript.ru` and proved:
 
 ```text
-listCounters      → GET /management/v1/counters
-getCounter        → GET /management/v1/counter/{counterId}
-getTrafficSummary → GET /stat/v1/data
-getTrafficByTime  → GET /stat/v1/data/bytime
+listCounters → HTTP 200 / real counter discovered
+getTrafficSummary → HTTP 200 / visits=2 users=2 pageviews=12
+getTrafficByTime(group=day) → HTTP 200 / totals=2,2,12
+request_executed = true on successful provider calls
+automatic_retry = false
 ```
 
-Report metrics are fixed in the first slice:
+One preceding by-time attempt was locally blocked with `SEND_BUTTON_NOT_READY` and `request_executed=false`; it did not initiate a Yandex request.
+
+`getCounter` was not required for owner-live and remains controlled-QA covered.
+
+Durable closure evidence:
 
 ```text
-ym:s:visits
-ym:s:users
-ym:s:pageviews
+extension/tests/PHASE4_METRIKA_OWNER_LIVE_PASS_2026-08-26.md
 ```
 
-Metrika gets a dedicated OAuth credential record. It must not automatically reuse the Webmaster OAuth token.
-
-Explicit Check:
-
-```text
-GET /management/v1/counters?per_page=1
-```
-
-A 200 response with either an empty or non-empty counter list is a successful capability check.
-
-Default local policy:
-
-```text
-manual_enabled = true
-autorun_enabled = false
-allowed_methods = listCounters,getCounter,getTrafficSummary,getTrafficByTime
-max_requests_per_run = 50
-max_report_days = 366
-cost = 0
-```
-
-First-slice write lock:
-
-```text
-all Management API mutations = disabled
-Import API = disabled
-Logs API = disabled
-arbitrary raw report constructor = disabled
-arbitrary metrics/dimensions/filters/preset = disabled
-POST/PUT/PATCH/DELETE provider operations = disabled
-```
-
-Canonical Phase-4 documents:
+Canonical Phase-4 documents remain:
 
 ```text
 extension/docs/SPECIFICATION_PHASE_4_METRIKA_ADDENDUM.md
@@ -231,33 +199,40 @@ extension/docs/PHASE_4_METRIKA_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_METRIKA_PHASE4_ADDENDUM.md
 ```
 
-Mandatory final gate:
+All Management mutations, Import API, Logs API, arbitrary raw Reports constructor and arbitrary metrics/dimensions/filters/preset remain locked.
+
+---
+
+# PHASE 5 — YANDEX DIRECT
+
+**Status: RECONSTRUCTION AUTHORIZED / IMPLEMENTATION NOT YET AUTHORIZED.**
+
+`PROJECT_PURPOSE.md` identifies Yandex Direct as the remaining planned marketing service after Metrika.
+
+No Direct runtime contract is defined by this roadmap entry. Before any production implementation, the project must reconstruct the current official Yandex Direct API surface and explicitly decide the narrow first slice.
+
+Required control-plane sequence:
 
 ```text
-permanent/core/Phase-1/2/3 applicable regressions
-+
-M-00..M-19
-+
-zero enabled NOT_RUN
-+
-zero real Yandex traffic during controlled QA
+1. fetch exact live main after Phase-4 closure docs merge
+2. prove accepted Phase-4 extension/src tree remains unchanged
+3. research current official Yandex Direct API/auth/quota/read-write behavior
+4. identify safe read-only first-slice candidates and explicitly defer mutation surfaces unless separately authorized
+5. define credential isolation/migration requirements
+6. define DIRECT protocol/result contracts and trusted provider mapping only after the research is complete
+7. create Phase-5 specification addendum
+8. create Phase-5 requirements/implementation plan
+9. create mandatory Phase-5 Codex pre-delivery gate addendum
+10. land those control-plane docs without modifying product bytes
+11. only then authorize implementation from exact live main
 ```
 
-Implementation sequence:
+Until that reconstruction is complete:
 
 ```text
-1. land Phase-3 closure + Phase-4 contract docs on live main
-2. verify accepted Phase-3 src tree unchanged
-3. create Phase-4 dev branch from exact live main
-4. dedicated Metrika credential + backup migration
-5. METRIKA_API_V1 protocol + registry + policy
-6. trusted Metrika provider executor
-7. bounded popup credential/policy UI
-8. focused/unit/integration/browser coverage
-9. development verification
-10. exact candidate freeze
-11. exact transport round-trip
-12. independent Codex full applicable gate including M-00..M-19
-13. owner-live: Check once → listCounters once → bounded traffic read only if real counter exists
-14. close Phase 4 only after live PASS
+Direct protocol prefix = NOT AUTHORIZED
+Direct credential model = NOT AUTHORIZED
+Direct provider endpoints = NOT AUTHORIZED
+Direct methods = NOT AUTHORIZED
+Direct writes = NOT AUTHORIZED
 ```
