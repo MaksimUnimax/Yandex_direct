@@ -33,7 +33,14 @@ replaceOnce(
   'unused getCounter regex branch'
 );
 
+replaceOnce(
+  "  assert.match(String(backup.integrity?.sha256 || ''), /^[a-f0-9]{64}$/);",
+  "  assert.match(String(backup.settings_sha256 || ''), /^[a-f0-9]{64}$/);",
+  'backup v3 checksum contract'
+);
+
 fs.writeFileSync(file, source, 'utf8');
 if (gitBlobSha(fs.readFileSync(file)) === expectedBlob) throw new Error('Harness patch produced no change');
 console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_SOURCE_IDENTITY_PASS');
 console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_PARSE_PATCH_PASS');
+console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_BACKUP_V3_CONTRACT_PASS');
