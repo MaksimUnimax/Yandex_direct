@@ -1,0 +1,44 @@
+name: Phase 4 Metrika development r1
+
+on:
+  push:
+    branches:
+      - dev/phase4-metrika-first-slice-2026-08-26
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and manifest
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/metrika_protocol.js
+          node --check extension/src/shared/service_registry.js
+          node --check extension/src/shared/credential_store_model.js
+          node --check extension/src/shared/credential_registry.js
+          node --check extension/src/shared/policy_model.js
+          node --check extension/src/shared/settings_backup_v3_runtime.js
+          node --check extension/src/shared/phase4_provider_runtime.js
+          node --check extension/src/webmaster_worker_runtime.js
+          node --check extension/src/popup.js
+          node --check extension/src/popup_context_bootstrap.js
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); console.log('PHASE4_MANIFEST_JSON_PASS')"
+      - name: Phase 4 focused gate matrix
+        run: node --test extension/tests/metrika_phase4_gate_matrix.test.mjs
+      - name: Static safety locks
+        run: |
+          set -euo pipefail
+          grep -q 'METRIKA_API_V1' extension/src/shared/service_registry.js
+          grep -q 'https://api-metrika.yandex.net/\*' extension/src/manifest.json
+          grep -q 'metrika: Autorun' extension/src/popup.html || true
+          ! grep -R --line-number -E 'fake-metrika-oauth|webmaster-token|word-key|search-key' extension/src
+          echo PHASE4_METRIKA_FOCUSED_DEV_GATE_PASS
