@@ -39,6 +39,8 @@
   let contentErrorFlushTimer = null;
   let lastLocationHref = location.href;
   let activeButtonPicker = null;
+  let manualAdmissionHold = false;
+  let deliveryLifecycleHold = false;
 
   const actionByBlock = new Map();
   const blockId = new WeakMap();
@@ -295,13 +297,39 @@
     };
   }
 
+  function manualActionBlockReason(state = stateSnapshot, deliveryInProgress = deliveryLifecycleHold, admissionHold = manualAdmissionHold) {
+    if (admissionHold === true) return "MANUAL_OPERATION_ACTIVE";
+    const status = String(state?.manual_operation?.status || "").toLowerCase();
+    if (status && !["completed", "error", "cancelled"].includes(status)) return "MANUAL_OPERATION_ACTIVE";
+    if (deliveryInProgress === true) return "DELIVERY_IN_PROGRESS";
+    return "";
+  }
+
+  function refreshActionAvailability() {
+    const reason = manualActionBlockReason();
+    for (const [block, button] of actionByBlock) {
+      if (!block?.isConnected || !button?.isConnected) continue;
+      button.disabled = Boolean(reason) || manualInFlight.has(stableBlockId(block));
+      button.title = reason === "MANUAL_OPERATION_ACTIVE"
+        ? "Дождитесь завершения текущей ручной операции."
+        : reason === "DELIVERY_IN_PROGRESS"
+          ? "Дождитесь завершения текущей доставки."
+          : "Выполнить этот блок через Yandex Marketing Bridge";
+    }
+  }
+
   async function onManualAction(block, button) {
     const key = currentConversationKey();
     if (!key || !manualEnabled || !block?.isConnected) return;
+    if (manualActionBlockReason()) {
+      refreshActionAvailability();
+      return;
+    }
     const id = stableBlockId(block);
     if (manualInFlight.has(id)) return;
     manualInFlight.add(id);
-    button.disabled = true;
+    manualAdmissionHold = true;
+    refreshActionAvailability();
     const token = BB2ManualControls.makeId("manual-request");
     try {
       const fullBlockText = BB2ProvenWritingCapture.textFromBlock(block);
@@ -314,6 +342,10 @@
       });
       if (!response?.ok || response?.accepted === false) {
         const errorText = response?.error || response?.code || "команда не принята";
+        if (response?.code === "DELIVERY_IN_PROGRESS") {
+          deliveryLifecycleHold = true;
+          scheduleOutboxPoll(0);
+        }
         setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${errorText}`, "error", 9000);
         queueContentError({ code: response?.code || "MANUAL_COMMAND_REJECTED", message: errorText, stage: "MANUAL_ADMISSION", channel: "manual", service: activeService, requestExecuted: response?.request_executed ?? false, recoverable: response?.request_executed !== "UNKNOWN", autorunContinues: false });
       } else {
@@ -325,7 +357,8 @@
       queueContentError({ code: error.code || "MANUAL_CONTENT_ERROR", message: error.message || String(error), stage: "MANUAL_CONTENT", channel: "manual", service: activeService, requestExecuted: false, recoverable: true, autorunContinues: false });
     } finally {
       manualInFlight.delete(id);
-      if (button?.isConnected) button.disabled = false;
+      await syncState();
+      refreshActionAvailability();
     }
   }
 
@@ -378,6 +411,7 @@
     for (const block of blocks) {
       if (!actionByBlock.has(block)) createAction(block);
     }
+    refreshActionAvailability();
     layoutActions();
   }
 
@@ -646,6 +680,8 @@
     try {
       const response = await sendWorker({ type: "WS_GET_OUTBOX", conversation_key: key });
       const entry = response?.outbox;
+      deliveryLifecycleHold = Boolean(entry?.delivery_id);
+      refreshActionAvailability();
       if (entry?.delivery_id) {
         const local = deliveryState.get(entry.delivery_id) || { injected: false, committed: entry.phase === "committed", clicked: false, saw_busy: false, completed: false };
         deliveryState.set(entry.delivery_id, local);
@@ -675,7 +711,9 @@
       const response = await sendWorker({ type: "WS_GET_STATE", conversation_key: key });
       if (!response?.ok || !response.state) return;
       stateSnapshot = response.state;
+      manualAdmissionHold = false;
       activeService = response.state.service_context?.active_service || activeService;
+      refreshActionAvailability();
       const run = response.state.auto_run;
       if (run && run.conversation_key === key && !["stopped", "error"].includes(run.status)) {
         if (!activeAutoWatch || activeAutoWatch.run_id !== run.run_id) {

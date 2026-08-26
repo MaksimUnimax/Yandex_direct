@@ -117,3 +117,38 @@ test('manual Send click is intercepted so commit is recorded before the one nati
   const click=body.indexOf('sendButton.click()');
   assert.ok(commit>=0 && click>commit,'manual Send must commit before replaying one click');
 });
+
+
+test('Manual lifecycle blocker maps active operation, delivery hold, and local admission hold',()=>{
+  const body=fn('manualActionBlockReason');
+  const start=body.indexOf('{');
+  const args='state, deliveryInProgress, admissionHold';
+  const expr=body.slice(start);
+  const f=new Function(`return function(${args}) ${expr}`)();
+  assert.equal(f({manual_operation:{status:'requesting'}},false,false),'MANUAL_OPERATION_ACTIVE');
+  assert.equal(f({manual_operation:{status:'delivering'}},false,false),'MANUAL_OPERATION_ACTIVE');
+  assert.equal(f({manual_operation:{status:'completed'}},true,false),'DELIVERY_IN_PROGRESS');
+  assert.equal(f({manual_operation:{status:'completed'}},false,true),'MANUAL_OPERATION_ACTIVE');
+  assert.equal(f({manual_operation:{status:'completed'}},false,false),'');
+});
+
+test('Manual action is UI-blocked before dispatch and no longer blindly re-enables in finally',()=>{
+  const body=fn('onManualAction');
+  const guard=body.indexOf('if (manualActionBlockReason())');
+  const dispatch=body.indexOf('type: "WS_EXECUTE_MANUAL_BLOCK"');
+  assert.ok(guard>=0 && dispatch>guard,'lifecycle guard must run before worker dispatch');
+  assert.match(body,/manualAdmissionHold = true/);
+  assert.match(body,/refreshActionAvailability\(\)/);
+  assert.doesNotMatch(body,/button\.disabled = false/);
+});
+
+test('Lifecycle availability follows authoritative worker state and outbox presence',()=>{
+  const refresh=fn('refreshActionAvailability');
+  assert.match(refresh,/button\.disabled = Boolean\(reason\) \|\| manualInFlight\.has/);
+  const state=fn('syncState');
+  assert.match(state,/manualAdmissionHold = false/);
+  assert.match(state,/refreshActionAvailability\(\)/);
+  const outbox=fn('pollOutbox');
+  assert.match(outbox,/deliveryLifecycleHold = Boolean\(entry\?\.delivery_id\)/);
+  assert.match(outbox,/refreshActionAvailability\(\)/);
+});
