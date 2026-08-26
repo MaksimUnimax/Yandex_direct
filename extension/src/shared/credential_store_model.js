@@ -2,10 +2,13 @@
   "use strict";
 
   const STORAGE_KEY = "ymb_service_credentials";
-  const SETTINGS_SCHEMA_VERSION = 4;
+  const SETTINGS_SCHEMA_VERSION = 5;
   const BACKUP_VERSION = 3;
-  const SERVICES = Object.freeze(["wordstat", "search", "webmaster", "metrika"]);
-  const CHECK_STATES = new Set(["", "PRESENT", "MISSING", "INVALID_OR_EXPIRED", "NO_ACCESS", "NETWORK_ERROR", "NOT_CHECKED", "QUOTA"]);
+  const SERVICES = Object.freeze(["wordstat", "search", "webmaster", "metrika", "direct"]);
+  const CHECK_STATES = new Set([
+    "", "PRESENT", "MISSING", "INVALID_OR_EXPIRED", "NO_ACCESS", "NETWORK_ERROR", "NOT_CHECKED", "QUOTA",
+    "APP_ACCESS_NOT_APPROVED", "DIRECT_ACCOUNT_MISSING", "NO_API_ACCESS", "UNITS_EXHAUSTED", "CONCURRENCY_LIMIT"
+  ]);
 
   function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
   function text(value) { return String(value ?? "").trim(); }
@@ -45,6 +48,15 @@
     });
   }
 
+  function normalizeDirectRecord(raw = {}) {
+    return Object.freeze({
+      oauth_token: text(raw.oauth_token ?? raw.oauthToken),
+      client_login: text(raw.client_login ?? raw.clientLogin),
+      checked_at: validIso(raw.checked_at ?? raw.checkedAt),
+      check_state: normalizeCheckState(raw.check_state ?? raw.checkState)
+    });
+  }
+
   function hasOwnRecord(raw, service) {
     return Boolean(raw && typeof raw === "object" && !Array.isArray(raw) && raw[service] && typeof raw[service] === "object" && !Array.isArray(raw[service]));
   }
@@ -56,7 +68,8 @@
     const search = normalizeCloudRecord(hasOwnRecord(source, "search") ? source.search : legacyCloud);
     const webmaster = normalizeWebmasterRecord(hasOwnRecord(source, "webmaster") ? source.webmaster : {});
     const metrika = normalizeMetrikaRecord(hasOwnRecord(source, "metrika") ? source.metrika : {});
-    return Object.freeze({ wordstat, search, webmaster, metrika });
+    const direct = normalizeDirectRecord(hasOwnRecord(source, "direct") ? source.direct : {});
+    return Object.freeze({ wordstat, search, webmaster, metrika, direct });
   }
 
   function migrateStorageRecord(raw = {}, legacyApiKey = "", legacyFolderId = "") {
@@ -89,7 +102,8 @@
       wordstat: Object.freeze({ has_api_key: Boolean(c.wordstat.api_key), has_folder_id: Boolean(c.wordstat.folder_id), folder_id: c.wordstat.folder_id || null, checked_at: c.wordstat.checked_at, check_state: c.wordstat.check_state }),
       search: Object.freeze({ has_api_key: Boolean(c.search.api_key), has_folder_id: Boolean(c.search.folder_id), folder_id: c.search.folder_id || null, checked_at: c.search.checked_at, check_state: c.search.check_state }),
       webmaster: Object.freeze({ has_oauth_token: Boolean(c.webmaster.oauth_token), has_user_id: Boolean(c.webmaster.user_id), user_id: c.webmaster.user_id || null, verified_at: c.webmaster.verified_at, check_state: c.webmaster.check_state }),
-      metrika: Object.freeze({ has_oauth_token: Boolean(c.metrika.oauth_token), checked_at: c.metrika.checked_at, check_state: c.metrika.check_state })
+      metrika: Object.freeze({ has_oauth_token: Boolean(c.metrika.oauth_token), checked_at: c.metrika.checked_at, check_state: c.metrika.check_state }),
+      direct: Object.freeze({ has_oauth_token: Boolean(c.direct.oauth_token), has_client_login: Boolean(c.direct.client_login), checked_at: c.direct.checked_at, check_state: c.direct.check_state })
     });
   }
 
@@ -104,6 +118,7 @@
     const next = clone(normalized);
     if (value === "webmaster") next[value] = normalizeWebmasterRecord(nextRecord);
     else if (value === "metrika") next[value] = normalizeMetrikaRecord(nextRecord);
+    else if (value === "direct") next[value] = normalizeDirectRecord(nextRecord);
     else next[value] = normalizeCloudRecord(nextRecord);
     return Object.freeze(next);
   }
@@ -116,6 +131,7 @@
     normalizeCloudRecord,
     normalizeWebmasterRecord,
     normalizeMetrikaRecord,
+    normalizeDirectRecord,
     normalizeCredentials,
     migrateStorageRecord,
     normalizeBackupCredentials,
