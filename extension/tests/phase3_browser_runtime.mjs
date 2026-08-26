@@ -44,17 +44,19 @@ function prepareQaExtension() {
 const qa = prepareQaExtension();
 assert.match(qa.extensionId, /^[a-p]{32}$/);
 
-// Use Puppeteer's bundled Chrome for Testing. This avoids branded Chrome's
-// extension-loading restrictions and keeps the browser version paired with
-// the Puppeteer version used by this QA harness.
+// Chrome for Testing 148 supports unpacked extensions through the launch arg,
+// while its CDP build does not expose Extensions.loadUnpacked. enableExtensions
+// is boolean here only to stop Puppeteer from passing --disable-extensions.
 const browser = await puppeteer.launch({
   headless: false,
   pipe: true,
-  enableExtensions: [qa.extensionPath],
+  enableExtensions: true,
   args: [
     '--no-sandbox',
     '--disable-gpu',
-    '--disable-dev-shm-usage'
+    '--disable-dev-shm-usage',
+    `--disable-extensions-except=${qa.extensionPath}`,
+    `--load-extension=${qa.extensionPath}`
   ]
 });
 
@@ -75,15 +77,6 @@ async function send(page, message) {
 }
 
 try {
-  const extensions = await browser.extensions();
-  const installed = extensions.get(qa.extensionId);
-  assert.ok(installed, `QA extension ${qa.extensionId} was not installed by Puppeteer`);
-  assert.equal(installed.name, 'Yandex Marketing Bridge');
-
-  const page = await browser.newPage();
-  await page.goto(`chrome-extension://${qa.extensionId}/popup.html`, { waitUntil: 'load' });
-  await page.waitForSelector('#credentialsSection', { timeout: 15000 });
-
   const workerTarget = await browser.waitForTarget(
     (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${qa.extensionId}/`),
     { timeout: 15000 }
@@ -125,6 +118,9 @@ try {
     return true;
   })()`);
 
+  const page = await browser.newPage();
+  await page.goto(`chrome-extension://${qa.extensionId}/popup.html`, { waitUntil: 'load' });
+  await page.waitForSelector('#credentialsSection', { timeout: 15000 });
   await page.waitForFunction(() => document.querySelector('#versionBadge')?.textContent?.startsWith('v'));
 
   const geometry = await page.evaluate(() => ({
