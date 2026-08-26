@@ -77,8 +77,8 @@
   function publicCredentialStatus(raw = {}, { legacyApiKey = "", legacyFolderId = "" } = {}) {
     const c = normalizeCredentials(raw, { legacyApiKey, legacyFolderId });
     return Object.freeze({
-      wordstat: Object.freeze({ has_api_key: Boolean(c.wordstat.api_key), has_folder_id: Boolean(c.wordstat.folder_id), checked_at: c.wordstat.checked_at, check_state: c.wordstat.check_state }),
-      search: Object.freeze({ has_api_key: Boolean(c.search.api_key), has_folder_id: Boolean(c.search.folder_id), checked_at: c.search.checked_at, check_state: c.search.check_state }),
+      wordstat: Object.freeze({ has_api_key: Boolean(c.wordstat.api_key), has_folder_id: Boolean(c.wordstat.folder_id), folder_id: c.wordstat.folder_id || null, checked_at: c.wordstat.checked_at, check_state: c.wordstat.check_state }),
+      search: Object.freeze({ has_api_key: Boolean(c.search.api_key), has_folder_id: Boolean(c.search.folder_id), folder_id: c.search.folder_id || null, checked_at: c.search.checked_at, check_state: c.search.check_state }),
       webmaster: Object.freeze({ has_oauth_token: Boolean(c.webmaster.oauth_token), has_user_id: Boolean(c.webmaster.user_id), user_id: c.webmaster.user_id || null, verified_at: c.webmaster.verified_at, check_state: c.webmaster.check_state })
     });
   }
