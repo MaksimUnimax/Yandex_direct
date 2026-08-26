@@ -14,10 +14,19 @@
     return [2, 3].includes(Number(backup?.backup_version || 0));
   }
 
+  function isPhase3RuntimeMessage(message) {
+    return String(message?.type || "").startsWith("YMB_");
+  }
+
   if (nativeAddListener) {
     const outerAddListener = function phase3CompatibleAddListener(listener) {
       if (typeof listener !== "function") return nativeAddListener(listener);
       return nativeAddListener((message, sender, sendResponse) => {
+        // The accepted Phase-2 worker owns WS_* messages. Phase-3 YMB_* messages
+        // must be left unanswered here so webmaster_worker_runtime.js is the
+        // single responder; otherwise the legacy UNKNOWN_MESSAGE response races
+        // the Phase-3 response in real Chrome.
+        if (isPhase3RuntimeMessage(message)) return false;
         if (!isManagedSettingsImport(message)) return listener(message, sender, sendResponse);
         const runtime = globalThis.YMBPhase3Runtime;
         if (!runtime || typeof runtime.importSettingsBackup !== "function") {
