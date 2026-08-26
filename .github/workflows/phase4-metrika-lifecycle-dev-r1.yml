@@ -12,7 +12,7 @@ permissions:
 jobs:
   lifecycle-browser:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       PROVEN_W14_COMMIT: 2b58a9ed8284bded97ed6e8bff772502ee133f76
       HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
@@ -29,26 +29,40 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs
+          node --check extension/tests/qa_browser/patch_m14_popup_owner_stability.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/m14-product-before.sha256
           echo M14_METRIKA_PRE_LIFECYCLE_PRODUCT_IDENTITY_PASS
-      - name: Prepare proven W14 route and qualified browser
+      - name: Prepare proven W14 routes and qualified browser
         shell: bash
         run: |
           set -euo pipefail
           git fetch --no-tags --depth=1 origin "$PROVEN_W14_COMMIT"
           git fetch --no-tags --depth=1 origin "$HISTORICAL_STAGE4_COMMIT"
           mkdir -p /tmp/metrika-lifecycle
-          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/metrika-lifecycle/metrika_lifecycle_button_gate.mjs
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs
+          cp /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs
           git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/patch_w14_bootstrap.mjs" > /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs
           git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/metrika-lifecycle/qa-chatgpt-local.key.pem
           git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/metrika-lifecycle/qa-chatgpt-local.cert.pem
-          test "$(git hash-object /tmp/metrika-lifecycle/metrika_lifecycle_button_gate.mjs)" = "ea8f3ab6bae9a0e14423133b4654c31f86a3d51a"
+          test "$(git hash-object /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs)" = "ea8f3ab6bae9a0e14423133b4654c31f86a3d51a"
+          test "$(git hash-object /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs)" = "ea8f3ab6bae9a0e14423133b4654c31f86a3d51a"
           test "$(git hash-object /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs)" = "ae9296721d7dcb56d1a5f33172b1e404962be900"
-          node extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs /tmp/metrika-lifecycle/metrika_lifecycle_button_gate.mjs | tee /tmp/m14-adapt.log
-          grep -F 'M14_METRIKA_PROVEN_ROUTE_ADAPTATION_PASS' /tmp/m14-adapt.log
-          node /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs /tmp/metrika-lifecycle/metrika_lifecycle_button_gate.mjs | tee /tmp/m14-bootstrap.log
-          grep -F 'W14_PROVEN_BOOTSTRAP_WAIT_PATCHED' /tmp/m14-bootstrap.log
-          node --check /tmp/metrika-lifecycle/metrika_lifecycle_button_gate.mjs
+
+          node extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs list | tee /tmp/m14-list-adapt.log
+          node /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs | tee /tmp/m14-list-bootstrap.log
+          node extension/tests/qa_browser/patch_m14_popup_owner_stability.mjs /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs | tee /tmp/m14-list-stability.log
+
+          node extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs summary | tee /tmp/m14-summary-adapt.log
+          node /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs | tee /tmp/m14-summary-bootstrap.log
+          node extension/tests/qa_browser/patch_m14_popup_owner_stability.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs | tee /tmp/m14-summary-stability.log
+
+          grep -F 'M14_METRIKA_MODE=list' /tmp/m14-list-adapt.log
+          grep -F 'M14_METRIKA_MODE=summary' /tmp/m14-summary-adapt.log
+          grep -F 'M14_POPUP_OWNER_STABILITY_PATCHED' /tmp/m14-list-stability.log
+          grep -F 'M14_POPUP_OWNER_STABILITY_PATCHED' /tmp/m14-summary-stability.log
+          node --check /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs
+          node --check /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs
+
           cd /tmp/metrika-lifecycle
           npm init -y >/dev/null 2>&1
           npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
@@ -58,17 +72,18 @@ jobs:
           /tmp/chrome/chrome-linux64/chrome --version
           command -v xvfb-run
           echo M14_METRIKA_PROVEN_CFT_ROUTE_PREPARED_PASS
-      - name: Run installed Metrika lifecycle gate
+      - name: Run installed listCounters lifecycle gate
         shell: bash
         run: |
           set -euo pipefail
           cd /tmp/metrika-lifecycle
-          xvfb-run -a node metrika_lifecycle_button_gate.mjs \
+          xvfb-run -a node metrika_list_lifecycle.mjs \
             /tmp/chrome/chrome-linux64/chrome \
             "$GITHUB_WORKSPACE/extension/src" \
             /tmp/metrika-lifecycle/qa-chatgpt-local.key.pem \
-            /tmp/metrika-lifecycle/qa-chatgpt-local.cert.pem | tee /tmp/m14.log
+            /tmp/metrika-lifecycle/qa-chatgpt-local.cert.pem | tee /tmp/m14-list.log
           for marker in \
+            M14_POPUP_OWNER_BOOTSTRAP_STABILITY_PASS \
             M14_METRIKA_ACTIVE_SERVICE_PASS \
             M14_METRIKA_INITIAL_ACTION_ENABLED_PASS \
             M14_METRIKA_ONE_MANUAL_ADMISSION_PASS \
@@ -81,8 +96,31 @@ jobs:
             M14_METRIKA_PROVIDER_HITS=1 \
             M14_METRIKA_REAL_YANDEX_REQUESTS=0 \
             M14_METRIKA_LIFECYCLE_BROWSER_PASS; do
-            grep -F "$marker" /tmp/m14.log
+            grep -F "$marker" /tmp/m14-list.log
           done
+          echo M14_METRIKA_LISTCOUNTERS_LIFECYCLE_PASS
+      - name: Run installed getTrafficSummary lifecycle gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/metrika-lifecycle
+          xvfb-run -a node metrika_summary_lifecycle.mjs \
+            /tmp/chrome/chrome-linux64/chrome \
+            "$GITHUB_WORKSPACE/extension/src" \
+            /tmp/metrika-lifecycle/qa-chatgpt-local.key.pem \
+            /tmp/metrika-lifecycle/qa-chatgpt-local.cert.pem | tee /tmp/m14-summary.log
+          for marker in \
+            M14_POPUP_OWNER_BOOTSTRAP_STABILITY_PASS \
+            M14_METRIKA_SUMMARY_ACTIVE_SERVICE_PASS \
+            M14_METRIKA_SUMMARY_ONE_MANUAL_ADMISSION_PASS \
+            M14_METRIKA_SUMMARY_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            M14_METRIKA_SUMMARY_REAL_COMPLETION_REENABLE_PASS \
+            M14_METRIKA_SUMMARY_PROVIDER_HITS=1 \
+            M14_METRIKA_SUMMARY_REAL_YANDEX_REQUESTS=0 \
+            M14_METRIKA_SUMMARY_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/m14-summary.log
+          done
+          echo M14_METRIKA_TRAFFIC_SUMMARY_LIFECYCLE_PASS
           echo PHASE4_M14_METRIKA_LIFECYCLE_PASS
       - name: Post-lifecycle product immutability
         if: always()
