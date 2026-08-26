@@ -1,0 +1,149 @@
+name: Phase 3 Webmaster unified pre-freeze r1
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-unified-prefreeze-r1-2026-08-26
+permissions:
+  contents: read
+env:
+  PRODUCT_HEAD: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  R14_HARNESS_COMMIT: 991d57bbc05e929b66c4a7783ca355473315712a
+  W14_QA_COMMIT: 2b58a9ed8284bded97ed6e8bff772502ee133f76
+  HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+  CHROME_VERSION: 151.0.7922.47
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert exact product and test snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "$PRODUCT_HEAD^{commit}"
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src extension/tests)"
+          echo "UNIFIED_PRODUCT_HEAD=$PRODUCT_HEAD"
+      - name: Full source regression
+        working-directory: extension/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test | tee /tmp/phase3-source.log
+          grep -F '# tests 313' /tmp/phase3-source.log
+          grep -F '# pass 313' /tmp/phase3-source.log
+          grep -F '# fail 0' /tmp/phase3-source.log
+          grep -F '# skipped 0' /tmp/phase3-source.log
+          echo 'PHASE3_UNIFIED_SOURCE_PASS'
+
+  browser-runtime:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert exact product snapshot and pin proven runtime harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src extension/tests)"
+          git fetch --no-tags --depth=1 origin "$R14_HARNESS_COMMIT"
+          git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > extension/tests/phase3_browser_runtime_unified.mjs
+          node --check extension/tests/phase3_browser_runtime_unified.mjs
+      - name: Install Puppeteer Chrome for Testing
+        working-directory: extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+      - name: Run controlled installed-extension runtime gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v xvfb-run
+          xvfb-run -a node extension/tests/phase3_browser_runtime_unified.mjs | tee /tmp/phase3-runtime.log
+          grep -F 'PHASE3_BROWSER_RUNTIME_PASS' /tmp/phase3-runtime.log
+          echo 'PHASE3_UNIFIED_BROWSER_RUNTIME_PASS'
+      - name: Reassert product bytes were not mutated
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src)"
+
+  browser-lifecycle:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert exact product snapshot and pin proven W-14 harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src extension/tests)"
+          git fetch --no-tags --depth=1 origin "$W14_QA_COMMIT"
+          git fetch --no-tags --depth=1 origin "$HISTORICAL_STAGE4_COMMIT"
+          mkdir -p /tmp/webmaster-lifecycle
+          git show "$W14_QA_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/webmaster-lifecycle/webmaster_lifecycle_button_gate.mjs
+          git show "$W14_QA_COMMIT:extension/tests/qa_browser/patch_w14_bootstrap.mjs" > /tmp/webmaster-lifecycle/patch_w14_bootstrap.mjs
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/webmaster-lifecycle/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/webmaster-lifecycle/qa-chatgpt-local.cert.pem
+          node /tmp/webmaster-lifecycle/patch_w14_bootstrap.mjs /tmp/webmaster-lifecycle/webmaster_lifecycle_button_gate.mjs
+          node --check /tmp/webmaster-lifecycle/webmaster_lifecycle_button_gate.mjs
+      - name: Install pinned Chrome and lifecycle harness dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/webmaster-lifecycle
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/chrome.zip
+          unzip -q /tmp/chrome.zip -d /tmp/chrome
+          chmod +x /tmp/chrome/chrome-linux64/chrome
+          /tmp/chrome/chrome-linux64/chrome --version
+          command -v xvfb-run
+      - name: Run installed Webmaster Manual lifecycle gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/webmaster-lifecycle
+          xvfb-run -a node webmaster_lifecycle_button_gate.mjs \
+            /tmp/chrome/chrome-linux64/chrome \
+            "$GITHUB_WORKSPACE/extension/src" \
+            /tmp/webmaster-lifecycle/qa-chatgpt-local.key.pem \
+            /tmp/webmaster-lifecycle/qa-chatgpt-local.cert.pem | tee /tmp/w14.log
+          for marker in \
+            W14_WEBMASTER_ACTIVE_SERVICE_PASS \
+            W14_WEBMASTER_INITIAL_ACTION_ENABLED_PASS \
+            W14_WEBMASTER_ONE_MANUAL_ADMISSION_PASS \
+            W14_WEBMASTER_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            W14_WEBMASTER_REAL_COMPLETION_REENABLE_PASS \
+            W14_WEBMASTER_OPERATION_BLOCKED_NO_DISPATCH_PASS \
+            W14_WEBMASTER_OPERATION_REENABLE_PASS \
+            W14_WEBMASTER_DELIVERY_BLOCKED_NO_DISPATCH_PASS \
+            W14_WEBMASTER_DELIVERY_REENABLE_PASS \
+            W14_WEBMASTER_PROVIDER_HITS=1 \
+            W14_WEBMASTER_REAL_YANDEX_REQUESTS=0 \
+            W14_WEBMASTER_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/w14.log
+          done
+          echo 'PHASE3_UNIFIED_BROWSER_LIFECYCLE_PASS'
+      - name: Reassert product bytes were not mutated
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src)"
+
+  unified-pass:
+    runs-on: ubuntu-24.04
+    needs: [source, browser-runtime, browser-lifecycle]
+    steps:
+      - name: Exact-head pre-freeze gate complete
+        run: |
+          echo "PRODUCT_HEAD=$PRODUCT_HEAD"
+          echo 'PHASE3_UNIFIED_PREFREEZE_GATE_PASS'
