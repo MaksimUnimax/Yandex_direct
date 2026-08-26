@@ -4,12 +4,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { createHash, generateKeyPairSync } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const sourceExtensionPath = fs.realpathSync(path.resolve(here, '../src'));
-const executablePath = process.env.CHROME_BIN;
-assert.ok(executablePath, 'CHROME_BIN is required');
 
 function extensionIdFromPublicKey(publicKeyDer) {
   const digest = createHash('sha256').update(publicKeyDer).digest().subarray(0, 16);
@@ -46,10 +44,10 @@ function prepareQaExtension() {
 const qa = prepareQaExtension();
 assert.match(qa.extensionId, /^[a-p]{32}$/);
 
-// Chrome 137+ branded builds no longer support --load-extension. Puppeteer 24's
-// enableExtensions API is the supported extension-test loading path.
+// Use Puppeteer's bundled Chrome for Testing. This avoids branded Chrome's
+// extension-loading restrictions and keeps the browser version paired with
+// the Puppeteer version used by this QA harness.
 const browser = await puppeteer.launch({
-  executablePath,
   headless: false,
   pipe: true,
   enableExtensions: [qa.extensionPath],
