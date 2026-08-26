@@ -1,103 +1,108 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = CONTRACT READY / IMPLEMENTATION AUTHORIZED**  
+Status: **PHASE 1 WORDSTAT = LIVE PASS / CLOSED — PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = LIVE PASS / CLOSED — PHASE 4 METRIKA = CONTRACT READY / IMPLEMENTATION AUTHORIZED**  
 Updated: 2026-08-26
 
 Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
 
-## Mandatory reconstruction record
+## Mandatory current record
 
 ```text
-LIVE_HEAD_BEFORE_PHASE3_CONTRACT = 24d2994f420e748358f497ca246834e9880ec7fe
+LIVE_MAIN_BEFORE_PHASE3_OWNER_LIVE_CLOSURE = 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
 
 ACCEPTED_PHASE2_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
-ACCEPTED_PHASE2_ARTIFACT = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa / 179013 bytes / 69 files / 72 ZIP entries
+ACCEPTED_PHASE2_ARTIFACT_SHA256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
 ACCEPTED_PHASE2_FULL_GATE = PASS
 ACCEPTED_PHASE2_OWNER_LIVE = PASS
 
 ACCEPTED_LIFECYCLE_PATCH_SOURCE = 939e880f820e52beae9dcbcedc86d5cd9e13b075
-ACCEPTED_LIFECYCLE_PATCH_PARENT = b7869180c229356a6b3d51ac980ec3da5df4c23c
-ACCEPTED_LIFECYCLE_PATCH_ARTIFACT = yandex-marketing-bridge-0.1.1-lifecycle-button-gating-candidate.zip
 ACCEPTED_LIFECYCLE_PATCH_SHA256 = 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
-ACCEPTED_LIFECYCLE_PATCH_BYTES = 179877
-ACCEPTED_LIFECYCLE_PATCH_FILES = 69
-ACCEPTED_LIFECYCLE_PATCH_ZIP_ENTRIES = 72
 ACCEPTED_LIFECYCLE_PATCH_FULL_CODEX_GATE = PASS
 ACCEPTED_LIFECYCLE_PATCH_OWNER_LIVE = PASS
 
-PHASE3_IMPLEMENTATION_BASE = 939e880f820e52beae9dcbcedc86d5cd9e13b075
+ACCEPTED_PHASE3_SOURCE = a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+ACCEPTED_PHASE3_ZIP_SHA256 = 1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8
+ACCEPTED_PHASE3_ZIP_BYTES = 222592
+ACCEPTED_PHASE3_SRC_TREE = e5fa694f1354e1ee048a352481a416413e94a3c9
+ACCEPTED_PHASE3_MAIN_MERGE = 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
+ACCEPTED_PHASE3_CODEX_FINAL = PASS
+ACCEPTED_PHASE3_POSTMERGE_SUITE = 313/313 PASS
+ACCEPTED_PHASE3_OWNER_LIVE = PASS
+
 PHASE3_PROTOCOL = WEBMASTER_API_V1
 PHASE3_RESULT = WEBMASTER_RESULT_V1
 PHASE3_FIRST_SLICE = listHosts,getSummary,getDiagnostics,getPopularQueries
-PHASE3_PROVIDER = Yandex Webmaster API v4.1
-PHASE3_AUTH = OAuth token + derived user_id
 PHASE3_WRITES_ENABLED = NO
-PHASE3_CONTRACT = READY
+PHASE3_STATUS = LIVE PASS / CLOSED
 
-PRODUCTION_BYTES_CHANGED_SINCE_LATEST_GATE = NO
-PACKAGE_TEST_BYTES_CHANGED_SINCE_LATEST_GATE = NO
+PHASE4_PROTOCOL = METRIKA_API_V1
+PHASE4_RESULT = METRIKA_RESULT_V1
+PHASE4_FIRST_SLICE = listCounters,getCounter,getTrafficSummary,getTrafficByTime
+PHASE4_AUTH = dedicated OAuth token with metrika:read
+PHASE4_PROVIDER_MANAGEMENT = https://api-metrika.yandex.net/management/v1
+PHASE4_PROVIDER_REPORTS = https://api-metrika.yandex.net/stat/v1
+PHASE4_WRITES_ENABLED = NO
+PHASE4_CONTRACT = READY
+
+PRODUCTION_BYTES_CHANGED_BY_PHASE3_CLOSURE_OR_PHASE4_CONTRACT_DOCS = NO
 OPEN_BLOCKERS = NONE
-AUTHORIZED_NEXT_STAGE = PHASE_3_WEBMASTER_IMPLEMENTATION_FROM_ACCEPTED_LIFECYCLE_SOURCE
+AUTHORIZED_NEXT_STAGE = PHASE_4_METRIKA_IMPLEMENTATION_FROM_EXACT_LIVE_MAIN
 ```
 
-## Accepted baseline
+## Phase 3 — Webmaster closure
 
-The accepted product baseline for Phase-3 development is the lifecycle-button artifact/source, not the older Phase-2 source:
-
-```text
-source = 939e880f820e52beae9dcbcedc86d5cd9e13b075
-artifact = yandex-marketing-bridge-0.1.1-lifecycle-button-gating-candidate.zip
-SHA-256 = 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
-bytes = 179877
-files = 69
-ZIP entries = 72
-Codex complete applicable gate = PASS
-owner real-profile acceptance = PASS
-```
-
-Durable lifecycle closure evidence:
+Accepted first slice remains read-only:
 
 ```text
-extension/tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
-extension/tests/LIFECYCLE_BUTTON_GATING_OWNER_LIVE_PASS_2026-08-26.md
-```
-
-## Phase 3 — Webmaster reconstruction result
-
-Current official authority checked 2026-08-26 establishes:
-
-```text
-API version = 4.1
+protocol = WEBMASTER_API_V1
+result = WEBMASTER_RESULT_V1
 base = https://api.webmaster.yandex.net/v4
-auth = OAuth 2.0
-header = Authorization: OAuth <token>
-user identity = GET /v4/user → user_id
+auth = OAuth token + derived user_id
+methods = listHosts,getSummary,getDiagnostics,getPopularQueries
+writes = disabled
 ```
 
-First slice is read-only only:
+Acceptance chain is complete:
 
 ```text
-listHosts
-getSummary
-getDiagnostics
-getPopularQueries
+focused/unit/integration coverage = PASS
+controlled browser runtime = PASS
+Webmaster lifecycle browser = PASS
+W-00..W-19 = PASS
+independent Codex final campaign attempt 2 = PASS
+NOT_RUN_COUNT = 0
+exact frozen candidate merged to main = PASS
+post-merge source identity = PASS
+post-merge source suite = 313 / 313 PASS
+owner-live OAuth Save/Check = PASS
+owner-live real listHosts = PASS
 ```
 
-Deferred/locked:
+Owner-live result:
 
 ```text
-host add/delete
-verification mutations
-recrawl submission
-Sitemap mutation
-important URL mutation
-original text submission
-PRO export tasks
-query analytics POST
-all other Webmaster POST/DELETE surfaces
+operation = listHosts
+request_id = webmaster-d73003d9-74ae-4428-8bc7-eac57be193ea
+status = OK
+http_status = 200
+elapsed_ms = 784
+result.hosts = []
+request_executed = true
+automatic_retry = false
+policy.channel = manual
+policy.active_service = webmaster
+estimated_rub = 0
 ```
 
-Canonical Phase-3 documents:
+`hosts: []` is an accepted successful real-provider response. No host-specific live request was made because no real `hostId` was returned.
+
+Durable closure evidence:
+
+```text
+extension/tests/PHASE3_WEBMASTER_OWNER_LIVE_PASS_2026-08-26.md
+```
+
+Canonical closed Phase-3 authority:
 
 ```text
 extension/docs/SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md
@@ -105,76 +110,125 @@ extension/docs/PHASE_3_WEBMASTER_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
 extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_WEBMASTER_PHASE3_ADDENDUM.md
 ```
 
-The base `SPECIFICATION.md` has been reconciled to Phase 3 and now treats Wordstat/Search/lifecycle as closed and Webmaster as active.
+Deferred Webmaster writes/mutations remain locked.
 
-## Credential architecture requirement
+## Phase 4 — Metrika contract
 
-Webmaster cannot reuse the existing Yandex Cloud `Api-Key + folderId`. Phase 3 therefore includes service-specific credential restoration/migration.
-
-Required operator model before Phase-3 handoff:
+Current official reconstruction establishes:
 
 ```text
-Wordstat  → dedicated Api-Key + folderId → Save → Check
-Search    → dedicated Api-Key + folderId → Save → Check
-Webmaster → dedicated OAuth token + derived user_id → Save → Check
-Export/Import preserves exact service mapping
+service = metrika
+protocol = METRIKA_API_V1
+result = METRIKA_RESULT_V1
+auth = OAuth token with metrika:read
+Management API = https://api-metrika.yandex.net/management/v1
+Reports API = https://api-metrika.yandex.net/stat/v1
 ```
 
-Migration must preserve current shared Wordstat/Search values and seed dedicated records without deleting old compatibility keys.
+Dedicated credential model:
 
-Webmaster Check is exactly one read-only `GET /v4/user`; successful Check stores derived `user_id`. Search Check must never silently create a billable request — explicit confirmation is required if no free credential probe exists.
+```text
+credentials.metrika = {
+  oauth_token,
+  checked_at,
+  check_state
+}
+```
 
-## Phase-3 policy
+Metrika never implicitly reuses the Webmaster OAuth credential.
 
-Default Webmaster policy:
+Explicit Metrika Check is exactly one read-only request:
+
+```text
+GET /management/v1/counters?per_page=1
+Authorization: OAuth <token>
+```
+
+200 with either non-empty or empty `counters` is a successful credential check. No automatic retry is permitted.
+
+First-slice methods:
+
+```text
+listCounters
+getCounter
+getTrafficSummary
+getTrafficByTime
+```
+
+Provider mappings:
+
+```text
+listCounters      → GET /management/v1/counters
+getCounter        → GET /management/v1/counter/{counterId}
+getTrafficSummary → GET /stat/v1/data
+getTrafficByTime  → GET /stat/v1/data/bytime
+```
+
+Reports use a fixed first-slice metric set only:
+
+```text
+ym:s:visits
+ym:s:users
+ym:s:pageviews
+```
+
+No arbitrary provider URL, Authorization header, metrics, dimensions, filters or preset may come from assistant command text.
+
+Default Phase-4 policy:
 
 ```text
 manual_enabled = true
 autorun_enabled = false
-allowed_methods = [listHosts, getSummary, getDiagnostics, getPopularQueries]
+allowed_methods = [listCounters,getCounter,getTrafficSummary,getTrafficByTime]
 max_requests_per_run = 50
+max_report_days = 366
 method_cost_rub = 0
 max_cost_rub_per_run = 0
 ```
 
-This local request ceiling is not a claim about provider quota. Provider 429 responses are surfaced and never automatically retried.
-
-## Error/exactly-once contract
+Truth contract:
 
 ```text
-pre-fetch validation/credential/policy rejection → request_executed=false
+pre-fetch rejection → request_executed=false
 HTTP response received → request_executed=true
 unknown post-initiation network outcome → request_executed=UNKNOWN
-automatic_retry=false in all cases
+automatic_retry=false
 ```
 
-Runtime command execution must not silently call `/v4/user` before every command. The explicit credential Check workflow derives/stores `user_id`, preserving one accepted command = one provider request.
+Quota compatibility handling includes provider HTTP 420 and 429 as terminal quota outcomes with no automatic retry.
 
-## Testing/gate requirement
+All write/import/Logs surfaces are locked in Phase 4 first slice.
 
-Webmaster product bytes require the existing permanent full gate plus the new `W-00..W-19` Webmaster addendum.
-
-Controlled QA:
+## Canonical Phase-4 authority
 
 ```text
-fake credentials only
-controlled Webmaster provider/stub
-zero real Yandex requests
-no secret leakage
-popup geometry remains 430×560
-all enabled existing Phase-1/2/core regressions still run
-all W-00..W-19 execute
-PASS forbids enabled NOT_RUN
+extension/docs/SPECIFICATION_PHASE_4_METRIKA_ADDENDUM.md
+extension/docs/PHASE_4_METRIKA_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_METRIKA_PHASE4_ADDENDUM.md
 ```
+
+Final Metrika acceptance must execute `M-00..M-19` plus every still-applicable permanent/core/Phase-1/2/3 gate. PASS forbids enabled `NOT_RUN`.
 
 ## Current authorized next action
 
+Phase-4 implementation is authorized only after these control-plane documents land on live `main` and the accepted Phase-3 product source tree is reverified unchanged.
+
+Implementation sequence:
+
 ```text
-1. create Phase-3 dev branch from exact accepted source 939e880f...
-2. implement credential storage/migration/backup foundation
-3. implement Webmaster protocol/registry/policy/worker
-4. implement bounded popup credential/service UI
-5. add focused/unit/integration/browser tests
-6. development verification only
-7. freeze exact candidate only when implementation is working
+1. land Phase-3 closure + Phase-4 contract docs on main
+2. fetch new live main HEAD
+3. verify extension/src tree remains e5fa694f1354e1ee048a352481a416413e94a3c9
+4. create Phase-4 dev branch from that exact main
+5. implement dedicated Metrika credential + backup migration
+6. implement METRIKA_API_V1 protocol + registry + policy
+7. implement trusted Metrika provider executor
+8. implement bounded popup Metrika credential/policy UI
+9. add focused/unit/integration/browser tests
+10. run development verification
+11. freeze exact candidate
+12. exact artifact transport round-trip
+13. independent Codex full applicable campaign including M-00..M-19
+14. narrow owner-live Metrika acceptance
+15. close Phase 4 only after live PASS
 ```
