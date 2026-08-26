@@ -113,31 +113,61 @@ independent Codex complete applicable gate: PASS
 owner real-profile acceptance: PASS
 ```
 
-Owner acceptance confirmed the Bridge-owned action is non-clickable while the lifecycle is blocked and returns to normal availability after completion. Validation remained local (`request_executed=false`), so no Yandex provider request was made.
-
-Durable closure evidence:
-
-```text
-../tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
-../tests/LIFECYCLE_BUTTON_GATING_OWNER_LIVE_PASS_2026-08-26.md
-```
-
 ---
 
 # PHASE 3 — WEBMASTER
 
-**Status: ACTIVE — GOVERNED REQUIREMENT RECONSTRUCTION.**
+**Status: CONTRACT READY / IMPLEMENTATION AUTHORIZED.**
 
-Production implementation is not yet authorized. First Phase-3 action is reconstruction from current official Yandex Webmaster API documentation plus historical repo evidence.
+Current official reconstruction is complete against Yandex Webmaster API v4.1.
 
-Required sequence:
+First slice:
 
 ```text
-1. Reconstruct current Webmaster API capabilities, auth model, quotas/limits and endpoint semantics.
-2. Define the first Webmaster API slice: protocol, allowed methods, credentials/capability, policy/budget, response normalization and failure/retry semantics.
-3. Write/update Phase-3 specification + implementation plan + acceptance/gate requirements before production code.
-4. Implement only the approved first slice.
-5. Run focused tests, freeze exact candidate, independent Codex full applicable gate, then owner-live acceptance only where irreducible.
+protocol: WEBMASTER_API_V1
+result: WEBMASTER_RESULT_V1
+provider base: https://api.webmaster.yandex.net/v4
+auth: OAuth token + derived user_id
+methods:
+  listHosts
+  getSummary
+  getDiagnostics
+  getPopularQueries
+writes: disabled
+```
+
+Phase-3 implementation also introduces service-specific credential storage/UI because Webmaster cannot reuse the existing shared Yandex Cloud Api-Key/folderId model.
+
+Required credential end-state before handoff:
+
+```text
+Wordstat  → dedicated Api-Key + folderId → Save → Check
+Search    → dedicated Api-Key + folderId → Save → Check
+Webmaster → dedicated OAuth token + derived user_id → Save → Check
+Export/Import preserves service mapping
+```
+
+Canonical Phase-3 contract:
+
+```text
+SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md
+PHASE_3_WEBMASTER_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_WEBMASTER_PHASE3_ADDENDUM.md
+```
+
+Implementation sequence:
+
+```text
+1. branch from accepted lifecycle source 939e880f...
+2. credential storage/migration/backup foundation
+3. Webmaster protocol/registry/policy/worker
+4. popup service credential UI within 430×560
+5. focused/unit/integration/browser tests
+6. development verification
+7. exact candidate freeze
+8. exact transport round-trip
+9. independent Codex full applicable gate including W-00..W-19
+10. narrow owner-live read-only acceptance
 ```
 
 ---
