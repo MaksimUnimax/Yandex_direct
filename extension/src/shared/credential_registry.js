@@ -70,7 +70,7 @@
     if (value === "search") return searchCapability(settings);
     if (value === "wordstat") return wordstatCapability(settings);
     if (value === "webmaster") return webmasterCapability(settings);
-    return Object.freeze({ state: STATES.NO_ACCESS });
+    return Object.freeze({ state: STATES.NO_ACCESS, has_api_key: false, has_folder_id: false });
   }
 
   globalThis.YMBCredentialRegistry = Object.freeze({
