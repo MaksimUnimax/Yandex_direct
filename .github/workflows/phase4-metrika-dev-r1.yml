@@ -33,21 +33,43 @@ jobs:
           node --check extension/src/webmaster_worker_runtime.js
           node --check extension/src/popup.js
           node --check extension/src/popup_context_bootstrap.js
+          node --check extension/tests/qa_transport/phase4-metrika-dev/patch_accepted_phase3_additive_compat.mjs
           node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); console.log('PHASE4_MANIFEST_JSON_PASS')"
       - name: Phase 4 focused gate matrix
-        run: node --test extension/tests/metrika_phase4_gate_matrix.test.mjs
+        run: |
+          set -euo pipefail
+          node --test extension/tests/metrika_phase4_gate_matrix.test.mjs | tee /tmp/phase4-focused.tap
+          grep -q '# tests 27' /tmp/phase4-focused.tap
+          grep -q '# pass 27' /tmp/phase4-focused.tap
+          grep -q '# fail 0' /tmp/phase4-focused.tap
+          grep -q '# skipped 0' /tmp/phase4-focused.tap
+          echo PHASE4_METRIKA_FOCUSED_27_OF_27_PASS
       - name: Accepted Phase 3 source regression against current Phase 4 bytes
         run: |
           set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/phase4-product-before.sha256
+
           git fetch --no-tags --depth=1 origin a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
           rm -rf /tmp/accepted-phase3
           mkdir -p /tmp/accepted-phase3
           git archive a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5 extension/tests | tar -x -C /tmp/accepted-phase3
+
+          node extension/tests/qa_transport/phase4-metrika-dev/patch_accepted_phase3_additive_compat.mjs /tmp/accepted-phase3
           ln -s "$GITHUB_WORKSPACE/extension/src" /tmp/accepted-phase3/extension/src
+
           mapfile -d '' tests < <(find /tmp/accepted-phase3/extension/tests -maxdepth 1 -name '*.test.mjs' -print0 | sort -z)
+          test "${#tests[@]}" -eq 49
           echo "ACCEPTED_PHASE3_TEST_FILES=${#tests[@]}"
-          node --test "${tests[@]}"
-          echo PHASE4_ACCEPTED_PHASE3_SOURCE_REGRESSION_PASS
+          node --test "${tests[@]}" | tee /tmp/phase3-compat.tap
+          grep -q '# tests 313' /tmp/phase3-compat.tap
+          grep -q '# pass 313' /tmp/phase3-compat.tap
+          grep -q '# fail 0' /tmp/phase3-compat.tap
+          grep -q '# skipped 0' /tmp/phase3-compat.tap
+
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/phase4-product-after.sha256
+          cmp /tmp/phase4-product-before.sha256 /tmp/phase4-product-after.sha256
+          echo PHASE4_ACCEPTED_PHASE3_ADDITIVE_COMPAT_313_OF_313_PASS
+          echo PHASE4_PRODUCT_BYTES_POST_REGRESSION_IDENTICAL
       - name: Static safety locks
         run: |
           set -euo pipefail
