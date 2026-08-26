@@ -1,4 +1,4 @@
-/* global BB2ConversationIdentity, BB2ManualControls, WordstatProtocol, SearchProtocol, BB2ComposerSend, BB2ProvenWritingCapture, YMBProduct, YMBServiceRegistry */
+/* global BB2ConversationIdentity, BB2ManualControls, WordstatProtocol, SearchProtocol, MetrikaProtocol, BB2ComposerSend, BB2ProvenWritingCapture, YMBProduct, YMBServiceRegistry */
 (() => {
   "use strict";
 
@@ -109,6 +109,7 @@
   function protocolForService(service) {
     if (String(service || "") === YMBServiceRegistry.SERVICES.SEARCH) return SearchProtocol;
     if (String(service || "") === YMBServiceRegistry.SERVICES.WORDSTAT) return WordstatProtocol;
+    if (String(service || "") === YMBServiceRegistry.SERVICES.METRIKA) return MetrikaProtocol;
     return null;
   }
 
