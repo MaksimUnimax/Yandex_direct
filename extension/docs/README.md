@@ -12,18 +12,17 @@ Read in this order:
 2. `CURRENT_STATE.md` — exact current product/artifact identity, latest gate verdict, owner-live state, blockers and authorized next action.
 3. `PROJECT_PURPOSE.md` — product boundary and GitHub/runtime separation.
 4. `SPECIFICATION.md` — base technical contract.
-5. `SPECIFICATION_PHASE_2_SEARCH_ADDENDUM.md` — accepted Phase-2 Search companion.
-6. `PHASE_2_SEARCH_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md` — Search requirements, pricing-policy and live-boundary authority.
-7. `ROADMAP.md` — phase/stage narrative; exact identities remain governed by `CURRENT_STATE.md`.
-8. permanent Codex gate/runbook documents for future candidate regression.
-9. current phase-specific checkpoints/evidence listed in `CURRENT_STATE.md`.
-10. append-only context chain when provenance can alter interpretation.
+5. current phase-specific specification/addenda/implementation plan.
+6. `ROADMAP.md` — phase/stage narrative; exact identities remain governed by `CURRENT_STATE.md`.
+7. permanent Codex gate/runbook documents.
+8. current phase-specific checkpoints/evidence listed in `CURRENT_STATE.md`.
+9. append-only context chain when provenance can alter interpretation.
 
 ## Current status
 
 Phase 2 synchronous Yandex Search first slice is **LIVE PASS / CLOSED**.
 
-Accepted exact product:
+Accepted Phase-2 exact product:
 
 ```text
 source commit: b7869180c229356a6b3d51ac980ec3da5df4c23c
@@ -32,46 +31,46 @@ artifact SHA-256: ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088
 artifact bytes: 179013
 files: 69
 ZIP entries: 72
-payload manifest SHA-256: ee9d99733c99d2562cd7ebb8addca19fa6a34e1fb0bd8002bba44f6bb594acf1
 ```
 
-Independent Codex complete rerun passed all enabled PD/Search/Manual/browser sections with zero real credentials/requests and zero tracked mutation.
-
-Owner real-profile/live Search also passed on the same exact artifact:
+The inter-phase lifecycle button gating patch has now passed the complete independent Codex applicable gate on a new exact artifact:
 
 ```text
-request_id: search-392c90df-7440-451b-8b09-d71cdce46720
-status: OK
-http_status: 200
-request_executed: true
-automatic_retry: false
-response_format: FORMAT_XML
-result_count: 5
-```
-
-Durable evidence:
-
-```text
-../tests/PHASE_2_REAL_PROFILE_BINDING_CODEX_COMPLETE_PASS_2026-08-25.md
-../tests/PHASE_2_REAL_PROFILE_OWNER_LIVE_SEARCH_PASS_2026-08-25.md
+source commit: 939e880f820e52beae9dcbcedc86d5cd9e13b075
+parent: b7869180c229356a6b3d51ac980ec3da5df4c23c
+artifact: yandex-marketing-bridge-0.1.1-lifecycle-button-gating-candidate.zip
+artifact SHA-256: 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
+artifact bytes: 179877
+files: 69
+ZIP entries: 72
+source suite: 247/247 PASS
+packaged suite: 247/247 PASS
+enabled_not_run_sections: 0
+independent verdict: PASS
+real Yandex requests during controlled QA: 0
 ```
 
 Current transition:
 
 ```text
-Phase 2 Search = LIVE PASS / CLOSED
-→ Phase 3 Webmaster = UNBLOCKED / READY FOR GOVERNED REQUIREMENT RECONSTRUCTION
+Lifecycle button patch = CODEX PASS / OWNER HANDOFF AUTHORIZED
+→ narrow owner real-profile lifecycle-button acceptance on exact 0430463e... artifact
+→ Phase 3 Webmaster governed requirement reconstruction
 ```
 
-Additional optional owner functional checks against the accepted Phase-2 build may continue. If any exposes a real defect, preserve exact evidence and reopen the proven layer before product mutation.
+Do not create repetitive owner API testing. The remaining owner boundary is only the real-profile UI/lifecycle behavior that controlled QA cannot truthfully substitute.
 
-## Withdrawn/historical candidates
+Durable current evidence:
 
-The old `739dd5d7...`, `d58b5bd...` and `0186b35d...` candidates are historical only.
+```text
+../tests/LIFECYCLE_BUTTON_GATING_FREEZE_2026-08-26.md
+../tests/LIFECYCLE_BUTTON_GATING_EXACT_TRANSPORT_PASS_2026-08-26.md
+../tests/LIFECYCLE_BUTTON_GATING_BROWSER_PREFLIGHT_2026-08-26.md
+../tests/CODEX_LIFECYCLE_BUTTON_GATING_COMPLETE_GATE_HANDOFF_2026-08-26.md
+../tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
+```
 
 ## Authority precedence and conflict rule
-
-The governing order is:
 
 1. explicit current owner instruction that intentionally changes workflow/requirement;
 2. `WORKFLOW_OPERATING_RULES.md`;
@@ -84,7 +83,7 @@ If current canonical documents materially conflict, stop, reconcile the document
 
 ## Exact-artifact rule
 
-The accepted Phase-2 artifact remains the exact bytes accepted by the complete independent gate and owner live boundary. Do not mutate or substitute it.
+The artifact handed to the owner must be the exact bytes that received the complete independent gate PASS. Do not mutate, rebuild, substitute or rename-by-content the tested `0430463e...` artifact for owner acceptance.
 
 ## Current architectural corrections
 
@@ -96,11 +95,12 @@ The accepted Phase-2 artifact remains the exact bytes accepted by the complete i
 - active RUN/manual safety state survives import rules;
 - no blind retry after uncertain provider outcome;
 - Manual action is Bridge-owned and independent of native Copy;
-- popup geometry is bounded for Chrome 151 native action host;
-- current ChatGPT identity accepts factual real conversation ids without an invalid RFC UUID-version filter;
+- popup geometry is bounded at 430×560 for Chrome 151 native action host;
+- factual real ChatGPT conversation ids are accepted without an invalid RFC UUID-version filter;
 - identity recovery uses trusted location/canonical candidates and fails closed on conflict;
-- Bind availability is separated from already-confirmed identity so context can be recovered;
+- Bind availability is separated from already-confirmed identity so context can recover;
 - Manual ON follows content acknowledgement before worker authorization;
+- lifecycle-blocked Manual action is disabled/non-clickable before user input and re-enabled only after positive lifecycle clear;
 - accepted Phase-2 first slice enables only synchronous text `SEARCH_API_V1`.
 
 ## Source-of-truth rule
