@@ -66,24 +66,12 @@ Accepted product:
 
 ```text
 source commit: b7869180c229356a6b3d51ac980ec3da5df4c23c
-artifact: yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
-SHA-256: ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
-bytes: 179013
-files: 69
-ZIP entries: 72
+artifact SHA-256: ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
 independent Codex complete gate: PASS
 owner real-profile/live Search: PASS
 ```
 
-Still deferred/locked beyond the accepted first slice:
-
-```text
-Search async/deferred polling
-Search image
-Search generative
-HTML SERP normalization
-yandex.ru scraping
-```
+Deferred Search async/image/generative/HTML scraping surfaces remain locked.
 
 ---
 
@@ -91,26 +79,18 @@ yandex.ru scraping
 
 **Status: OWNER LIVE PASS / CLOSED.**
 
+Accepted source:
+
+```text
+939e880f820e52beae9dcbcedc86d5cd9e13b075
+```
+
 Accepted behavior:
 
 ```text
 MANUAL_OPERATION_ACTIVE → Yandex action button disabled / non-clickable
 DELIVERY_IN_PROGRESS   → Yandex action button disabled / non-clickable
 blocking state cleared → button becomes clickable again
-```
-
-Exact accepted candidate:
-
-```text
-source: 939e880f820e52beae9dcbcedc86d5cd9e13b075
-parent: b7869180c229356a6b3d51ac980ec3da5df4c23c
-artifact: yandex-marketing-bridge-0.1.1-lifecycle-button-gating-candidate.zip
-SHA-256: 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
-bytes: 179877
-files: 69
-ZIP entries: 72
-independent Codex complete applicable gate: PASS
-owner real-profile acceptance: PASS
 ```
 
 ---
@@ -147,29 +127,16 @@ post-merge source suite: 313 / 313 PASS
 owner-live acceptance: PASS
 ```
 
-Owner-live read-only result:
+Owner-live:
 
 ```text
-operation: listHosts
-request_id: webmaster-d73003d9-74ae-4428-8bc7-eac57be193ea
-http_status: 200
-status: OK
-result.hosts: []
-request_executed: true
-automatic_retry: false
-channel: manual
+listHosts → HTTP 200 / OK
+request_executed = true
+automatic_retry = false
+result.hosts = []
 ```
 
-An empty host collection is accepted as a successful real-provider response. No `getSummary` was executed because no real `hostId` was available, preserving the narrow owner-live boundary.
-
-Phase-3 credential architecture now established for the unified core:
-
-```text
-Wordstat  → dedicated Api-Key + folderId → Save → Check
-Search    → dedicated Api-Key + folderId → Save → Check
-Webmaster → dedicated OAuth token + derived user_id → Save → Check
-Export/Import preserves service mapping
-```
+No host-specific live call was made because no real `hostId` was returned.
 
 Durable closure evidence:
 
@@ -177,41 +144,120 @@ Durable closure evidence:
 extension/tests/PHASE3_WEBMASTER_OWNER_LIVE_PASS_2026-08-26.md
 ```
 
-Still deferred/locked beyond the first slice:
-
-```text
-host add/delete
-verification mutations
-recrawl submission
-Sitemap mutation
-important URL mutation
-original text submission
-PRO export tasks
-query analytics POST
-all other Webmaster POST/DELETE surfaces
-```
+Webmaster writes and deferred advanced surfaces remain locked.
 
 ---
 
 # PHASE 4 — METRIKA
 
-**Status: RECONSTRUCTION AUTHORIZED.**
+**Status: CONTRACT READY / IMPLEMENTATION AUTHORIZED.**
 
-Phase 3 is closed, so Phase 4 is no longer blocked.
+Official reconstruction and the first-slice contract are complete.
 
-No Metrika production implementation is authorized yet. The next governed stage is official API reconstruction and first-slice definition.
-
-Required reconstruction sequence:
+Service contract:
 
 ```text
-1. identify current official Yandex Metrika API version/base endpoints
-2. establish OAuth/scopes and whether existing Webmaster OAuth storage may or may not be reused
-3. inventory read-only reporting/management surfaces
-4. choose a minimal useful first slice
-5. define METRIKA_API_V1 and normalized result envelope
-6. define request/pagination/quota/cost/error truthfulness and no-retry behavior
-7. lock all write/mutation surfaces by default
-8. define service-specific credential/UI changes if needed
-9. write Phase-4 specification + requirements/implementation plan + Codex gate addendum
-10. authorize implementation only after the contract is complete
+service: metrika
+protocol: METRIKA_API_V1
+result: METRIKA_RESULT_V1
+auth: dedicated OAuth token with metrika:read
+Management API: https://api-metrika.yandex.net/management/v1
+Reports API: https://api-metrika.yandex.net/stat/v1
+```
+
+First slice:
+
+```text
+listCounters
+getCounter
+getTrafficSummary
+getTrafficByTime
+```
+
+Provider mapping:
+
+```text
+listCounters      → GET /management/v1/counters
+getCounter        → GET /management/v1/counter/{counterId}
+getTrafficSummary → GET /stat/v1/data
+getTrafficByTime  → GET /stat/v1/data/bytime
+```
+
+Report metrics are fixed in the first slice:
+
+```text
+ym:s:visits
+ym:s:users
+ym:s:pageviews
+```
+
+Metrika gets a dedicated OAuth credential record. It must not automatically reuse the Webmaster OAuth token.
+
+Explicit Check:
+
+```text
+GET /management/v1/counters?per_page=1
+```
+
+A 200 response with either an empty or non-empty counter list is a successful capability check.
+
+Default local policy:
+
+```text
+manual_enabled = true
+autorun_enabled = false
+allowed_methods = listCounters,getCounter,getTrafficSummary,getTrafficByTime
+max_requests_per_run = 50
+max_report_days = 366
+cost = 0
+```
+
+First-slice write lock:
+
+```text
+all Management API mutations = disabled
+Import API = disabled
+Logs API = disabled
+arbitrary raw report constructor = disabled
+arbitrary metrics/dimensions/filters/preset = disabled
+POST/PUT/PATCH/DELETE provider operations = disabled
+```
+
+Canonical Phase-4 documents:
+
+```text
+extension/docs/SPECIFICATION_PHASE_4_METRIKA_ADDENDUM.md
+extension/docs/PHASE_4_METRIKA_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_METRIKA_PHASE4_ADDENDUM.md
+```
+
+Mandatory final gate:
+
+```text
+permanent/core/Phase-1/2/3 applicable regressions
++
+M-00..M-19
++
+zero enabled NOT_RUN
++
+zero real Yandex traffic during controlled QA
+```
+
+Implementation sequence:
+
+```text
+1. land Phase-3 closure + Phase-4 contract docs on live main
+2. verify accepted Phase-3 src tree unchanged
+3. create Phase-4 dev branch from exact live main
+4. dedicated Metrika credential + backup migration
+5. METRIKA_API_V1 protocol + registry + policy
+6. trusted Metrika provider executor
+7. bounded popup credential/policy UI
+8. focused/unit/integration/browser coverage
+9. development verification
+10. exact candidate freeze
+11. exact transport round-trip
+12. independent Codex full applicable gate including M-00..M-19
+13. owner-live: Check once → listCounters once → bounded traffic read only if real counter exists
+14. close Phase 4 only after live PASS
 ```
