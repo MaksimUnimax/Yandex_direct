@@ -121,7 +121,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, zipfile
+          import json
           from pathlib import Path
           d = json.loads(Path('/tmp/phase3-webmaster-freeze/freeze-manifest.json').read_text())
           assert d['format'] == 'YMB_PHASE3_WEBMASTER_EXACT_CANDIDATE_V1'
@@ -159,7 +159,7 @@ jobs:
           cp "$FREEZE_DIR/$ARTIFACT_NAME" "$FREEZE_DIR/publish/$ARTIFACT_NAME"
           cp "$FREEZE_DIR/freeze-manifest.json" "$FREEZE_DIR/publish/freeze-manifest.json"
           cp extension/tests/qa_transport/phase3-webmaster-candidate/prefreeze_coverage_map.json "$FREEZE_DIR/publish/prefreeze_coverage_map.json"
-          sha256sum "$FREEZE_DIR/publish/$ARTIFACT_NAME" | tee "$FREEZE_DIR/publish/SHA256SUMS.txt"
+          (cd "$FREEZE_DIR/publish" && sha256sum "$ARTIFACT_NAME" | tee SHA256SUMS.txt)
           ls -l "$FREEZE_DIR/publish"
 
       - name: Upload exact frozen candidate
