@@ -1,0 +1,61 @@
+name: Phase 3 Webmaster final harness pre-freeze
+on:
+  push:
+    branches:
+      - qa/phase3-webmaster-final-harness-pre-freeze-2026-08-26
+permissions:
+  contents: read
+env:
+  PRODUCT_HEAD: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  R14_HARNESS_COMMIT: 991d57bbc05e929b66c4a7783ca355473315712a
+jobs:
+  final-runtime-harness:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert product bytes unchanged and compose pinned final harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src extension/tests/*.test.mjs)"
+          git fetch --no-tags --depth=1 origin "$R14_HARNESS_COMMIT"
+          mkdir -p /tmp/phase3-final-harness
+          git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs
+          node extension/tests/qa_browser/patch_phase3_final_runtime_harness.mjs /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs
+          node --check /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs
+      - name: Full source regression
+        working-directory: extension/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test | tee /tmp/source.log
+          grep -F '# tests 313' /tmp/source.log
+          grep -F '# pass 313' /tmp/source.log
+          grep -F '# fail 0' /tmp/source.log
+          grep -F '# skipped 0' /tmp/source.log
+      - name: Install Puppeteer Chrome for Testing
+        working-directory: extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+      - name: Run final controlled runtime harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v xvfb-run
+          xvfb-run -a node /tmp/phase3-final-harness/phase3_browser_runtime_final.mjs | tee /tmp/final-runtime.log
+          grep -F 'W15_CREDENTIAL_SWITCH_RERENDER_ISOLATION_PASS' /tmp/final-runtime.log
+          grep -F 'W05_WEBMASTER_EXACT_OAUTH_HEADER_PASS' /tmp/final-runtime.log
+          grep -F 'PHASE3_BROWSER_RUNTIME_PASS' /tmp/final-runtime.log
+          echo 'PHASE3_FINAL_RUNTIME_HARNESS_PASS'
+      - name: Reassert immutable product bytes
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src extension/tests/*.test.mjs)"
