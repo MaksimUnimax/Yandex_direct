@@ -1,0 +1,23 @@
+name: Phase 3 Webmaster core preflight
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-protocol-preflight-2026-08-26
+permissions:
+  contents: read
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax
+        run: |
+          node --check extension/src/shared/webmaster_protocol.js
+          node --check extension/src/shared/service_registry.js
+          node --check extension/src/shared/credential_registry.js
+          node --check extension/src/shared/policy_model.js
+      - name: Webmaster focused tests
+        run: node --test extension/tests/webmaster_protocol.test.mjs extension/tests/webmaster_core_models.test.mjs
+      - name: Full source suite
+        working-directory: extension/src
+        run: npm test
