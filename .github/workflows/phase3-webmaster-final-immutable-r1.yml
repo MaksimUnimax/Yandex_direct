@@ -146,6 +146,41 @@ jobs:
           git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > /tmp/w19-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
           git show "$FINAL_HARNESS_COMMIT:extension/tests/qa_browser/patch_phase3_final_runtime_harness.mjs" > /tmp/w19-runtime/extension/tests/patch_phase3_final_runtime_harness.mjs
           node /tmp/w19-runtime/extension/tests/patch_phase3_final_runtime_harness.mjs /tmp/w19-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('/tmp/w19-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs')
+          s = p.read_text()
+
+          def replace_once(old, new, label):
+              global s
+              count = s.count(old)
+              if count != 1:
+                  raise SystemExit(f'W19_HARNESS_PATCH_{label}_COUNT={count}')
+              s = s.replace(old, new, 1)
+
+          version_wait = "  await page.waitForFunction(() => document.querySelector('#versionBadge')?.textContent?.startsWith('v'));\n"
+          replace_once(version_wait, version_wait + "  await page.waitForFunction(() => Boolean(document.querySelector('#status')?.textContent?.trim()), { timeout: 15000 });\n  console.log('W19_POPUP_INITIAL_REFRESH_READY_PASS');\n", 'READY')
+
+          replace_once(
+              "  await page.click('#saveWordstatCredential');\n  await page.waitForFunction(() => document.querySelector('#wordstatApiKey')?.value === '');\n",
+              "  await page.click('#saveWordstatCredential');\n  await page.waitForFunction(() => new Promise((resolve) => {\n    chrome.runtime.sendMessage({ type: 'YMB_GET_CREDENTIALS' }, (response) => {\n      const error = chrome.runtime.lastError;\n      const c = response?.credentials?.wordstat;\n      resolve(!error && response?.ok === true && c?.has_api_key === true && c?.has_folder_id === true && c?.folder_id === 'browser-word-folder' && c?.check_state === 'NOT_CHECKED');\n    });\n  }), { timeout: 15000 });\n  console.log('W19_WORDSTAT_UI_SAVE_AUTHORITATIVE_PASS');\n",
+              'WORDSTAT_SAVE')
+
+          replace_once(
+              "  await page.click('#saveSearchCredential');\n  await page.waitForFunction(() => document.querySelector('#searchApiKey')?.value === '');\n",
+              "  await page.click('#saveSearchCredential');\n  await page.waitForFunction(() => new Promise((resolve) => {\n    chrome.runtime.sendMessage({ type: 'YMB_GET_CREDENTIALS' }, (response) => {\n      const error = chrome.runtime.lastError;\n      const c = response?.credentials?.search;\n      resolve(!error && response?.ok === true && c?.has_api_key === true && c?.has_folder_id === true && c?.folder_id === 'browser-search-folder' && c?.check_state === 'NOT_CHECKED');\n    });\n  }), { timeout: 15000 });\n  console.log('W19_SEARCH_UI_SAVE_AUTHORITATIVE_PASS');\n",
+              'SEARCH_SAVE')
+
+          webmaster_wait = "  await page.click('#saveWebmasterCredential');\n  await page.waitForFunction(() => document.querySelector('#webmasterOauthToken')?.value === '');\n"
+          webmaster_new = "  await page.click('#saveWebmasterCredential');\n  await page.waitForFunction(() => new Promise((resolve) => {\n    chrome.runtime.sendMessage({ type: 'YMB_GET_CREDENTIALS' }, (response) => {\n      const error = chrome.runtime.lastError;\n      const c = response?.credentials?.webmaster;\n      resolve(!error && response?.ok === true && c?.has_oauth_token === true && c?.check_state === 'NOT_CHECKED');\n    });\n  }), { timeout: 15000 });\n  console.log('W19_WEBMASTER_UI_SAVE_AUTHORITATIVE_PASS');\n"
+          count = s.count(webmaster_wait)
+          if count != 2:
+              raise SystemExit(f'W19_HARNESS_PATCH_WEBMASTER_SAVE_COUNT={count}')
+          s = s.replace(webmaster_wait, webmaster_new)
+
+          p.write_text(s)
+          print('PHASE3_W19_RUNTIME_SAVE_BARRIERS_PATCH_PASS')
+          PY
           node --check /tmp/w19-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
       - name: Install Puppeteer Chrome for Testing
         working-directory: /tmp/w19-runtime/extension
@@ -161,6 +196,10 @@ jobs:
         run: |
           set -euo pipefail
           xvfb-run -a node /tmp/w19-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs | tee /tmp/w19-runtime.log
+          grep -F 'W19_POPUP_INITIAL_REFRESH_READY_PASS' /tmp/w19-runtime.log
+          grep -F 'W19_WORDSTAT_UI_SAVE_AUTHORITATIVE_PASS' /tmp/w19-runtime.log
+          grep -F 'W19_SEARCH_UI_SAVE_AUTHORITATIVE_PASS' /tmp/w19-runtime.log
+          grep -F 'W19_WEBMASTER_UI_SAVE_AUTHORITATIVE_PASS' /tmp/w19-runtime.log
           grep -F 'W15_CREDENTIAL_SWITCH_RERENDER_ISOLATION_PASS' /tmp/w19-runtime.log
           grep -F 'W05_WEBMASTER_EXACT_OAUTH_HEADER_PASS' /tmp/w19-runtime.log
           grep -F 'PHASE3_BROWSER_RUNTIME_PASS' /tmp/w19-runtime.log
