@@ -58,6 +58,8 @@ Lifecycle button patch = CODEX PASS / OWNER HANDOFF AUTHORIZED
 → Phase 3 Webmaster governed requirement reconstruction
 ```
 
+**Phase 3 must not begin until that narrow owner real-profile acceptance returns PASS.**
+
 Do not create repetitive owner API testing. The remaining owner boundary is only the real-profile UI/lifecycle behavior that controlled QA cannot truthfully substitute.
 
 Durable current evidence:
