@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev/phase4-metrika-first-slice-2026-08-26
+      - qa/phase4-metrika-literal-browser-closure-2026-08-26
   workflow_dispatch:
 
 permissions:
@@ -28,6 +29,7 @@ jobs:
           node extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/m4-harness-patch.log
           grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_SOURCE_IDENTITY_PASS' /tmp/m4-harness-patch.log
           grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_PARSE_PATCH_PASS' /tmp/m4-harness-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_LITERAL_CLOSURE_PATCH_PASS' /tmp/m4-harness-patch.log
           node --check extension/tests/qa_browser/metrika_browser_runtime.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/m4-product-before.sha256
           echo PHASE4_M15_M16_PRE_BROWSER_PRODUCT_IDENTITY_PASS
@@ -45,20 +47,25 @@ jobs:
           xvfb-run -a node extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/m4-browser.log
           for marker in \
             M15_POPUP_GEOMETRY_AND_FOUR_SERVICE_UI_PASS \
+            M15_METRIKA_POLICY_INTERNAL_SCROLL_PASS \
             M15_CREDENTIAL_SAVE_RERENDER_SECRET_REDACTION_PASS \
+            M04_M15_BLANK_METRIKA_SAVE_PRESERVES_CREDENTIAL_PASS \
+            M04_M15_COMMON_SAVE_PRESERVES_CREDENTIALS_PASS \
+            M15_FOUR_SERVICE_SWITCH_CREDENTIAL_ISOLATION_PASS \
             M05_M15_METRIKA_CHECK_ONE_GET_PASS \
             M07_M09_CONTROLLED_WORKER_PROVIDER_BOUNDARY_PASS \
+            M04_M16_BACKUP_CHECKSUM_TAMPER_REJECTS_BEFORE_MUTATION_PASS \
             M16_BACKUP_V3_FOUR_SERVICE_EXPORT_IMPORT_PASS \
             M15_REOPEN_RERENDER_SECRET_BLANK_PASS \
             M19_CONTROLLED_REAL_YANDEX_REQUESTS=0 \
             PHASE4_METRIKA_BROWSER_RUNTIME_PASS; do
             grep -F "$marker" /tmp/m4-browser.log
           done
-          if grep -E 'm4-(wordstat-secret|search-secret|webmaster-oauth|metrika-oauth|mutated-token)' /tmp/m4-browser.log; then
+          if grep -E 'm4-(wordstat-secret|search-secret|webmaster-oauth|metrika-oauth|mutated-token|tampered-token)' /tmp/m4-browser.log; then
             echo PHASE4_BROWSER_SECRET_LOG_LEAK_FAIL
             exit 1
           fi
-          echo PHASE4_M15_M16_CONTROLLED_BROWSER_PASS
+          echo PHASE4_M04_M15_M16_LITERAL_BROWSER_CLOSURE_PASS
       - name: Post-browser product immutability
         if: always()
         shell: bash
