@@ -1,0 +1,137 @@
+name: Build lifecycle button exact transport
+
+on:
+  push:
+    branches:
+      - qa/lifecycle-button-gating-exact-transport-2026-08-26
+
+permissions:
+  contents: write
+
+jobs:
+  transport-roundtrip:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    env:
+      QA_BRANCH: qa/lifecycle-button-gating-exact-transport-2026-08-26
+      CANDIDATE_SHA: 939e880f820e52beae9dcbcedc86d5cd9e13b075
+      EXPECTED_SHA256: 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
+      EXPECTED_BYTES: '179877'
+      EXPECTED_FILES: '69'
+      EXPECTED_ENTRIES: '72'
+      CHUNK_CHARS: '3500'
+      TRANSPORT_DIR: extension/tests/qa_transport/lifecycle-button-gating
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build exact frozen ZIP from published packer and candidate source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "$TRANSPORT_DIR/canonical_packer_exact.py" | awk '{print $1}')" = "09c927ee97eb89714c7e1f3d96f23141f67940dc74d9a8a601608e526f557345"
+          test "$(sha256sum "$TRANSPORT_DIR/target-tree-sha256.tsv" | awk '{print $1}')" = "8c2bfc969888d63ba75c29990c8f99cb28da14b57b07bc9a58239e2ec2e67296"
+          cp "$TRANSPORT_DIR/canonical_packer_exact.py" /tmp/canonical_packer_exact.py
+          cp "$TRANSPORT_DIR/target-tree-sha256.tsv" /tmp/target-tree-sha256.tsv
+          git checkout --detach "$CANDIDATE_SHA"
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+          python /tmp/canonical_packer_exact.py "$GITHUB_WORKSPACE" /tmp/target-tree-sha256.tsv /tmp/frozen.zip
+          test "$(sha256sum /tmp/frozen.zip | awk '{print $1}')" = "$EXPECTED_SHA256"
+          test "$(stat -c %s /tmp/frozen.zip)" = "$EXPECTED_BYTES"
+
+      - name: Generate text-safe exact ZIP B64 chunks and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/transport-generated
+          mkdir -p /tmp/transport-generated
+          python - <<'PY'
+          from pathlib import Path
+          import base64, hashlib, json, os
+          data=Path('/tmp/frozen.zip').read_bytes()
+          b64=base64.b64encode(data).decode('ascii')
+          n=int(os.environ['CHUNK_CHARS'])
+          out=Path('/tmp/transport-generated')
+          chunks=[]
+          for idx,start in enumerate(range(0,len(b64),n)):
+              text=b64[start:start+n]
+              name=f'artifact.zip.b64.part{idx:02d}'
+              (out/name).write_text(text,encoding='ascii',newline='')
+              chunks.append({'name':name,'chars':len(text),'sha256':hashlib.sha256(text.encode('ascii')).hexdigest()})
+          manifest={
+            'format':'YMB_EXACT_ZIP_B64_TRANSPORT_V1',
+            'candidate_source':os.environ['CANDIDATE_SHA'],
+            'artifact_filename':'yandex-marketing-bridge-0.1.1-lifecycle-button-gating-candidate.zip',
+            'artifact_sha256':os.environ['EXPECTED_SHA256'],
+            'artifact_bytes':int(os.environ['EXPECTED_BYTES']),
+            'artifact_files':int(os.environ['EXPECTED_FILES']),
+            'artifact_entries':int(os.environ['EXPECTED_ENTRIES']),
+            'chunk_chars':n,
+            'chunk_count':len(chunks),
+            'base64_chars':len(b64),
+            'base64_sha256':hashlib.sha256(b64.encode('ascii')).hexdigest(),
+            'chunks':chunks,
+          }
+          (out/'transport_manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+          print(json.dumps(manifest,indent=2,sort_keys=True))
+          PY
+
+      - name: Publish exact transport to QA branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout -B "$QA_BRANCH" "origin/$QA_BRANCH"
+          mkdir -p "$TRANSPORT_DIR"
+          rm -f "$TRANSPORT_DIR"/artifact.zip.b64.part* "$TRANSPORT_DIR/transport_manifest.json"
+          cp /tmp/transport-generated/artifact.zip.b64.part* "$TRANSPORT_DIR/"
+          cp /tmp/transport-generated/transport_manifest.json "$TRANSPORT_DIR/"
+          git config user.name "ChatGPT transport automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add "$TRANSPORT_DIR"
+          git diff --cached --check
+          git commit -m "qa: publish exact lifecycle button candidate transport"
+          git push origin HEAD:"refs/heads/$QA_BRANCH"
+
+      - name: Fresh-consumer round-trip from published GitHub branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/fresh-consumer
+          git clone --quiet --depth 1 --branch "$QA_BRANCH" "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/fresh-consumer
+          python - <<'PY'
+          from pathlib import Path
+          import base64, hashlib, json, os, zipfile
+          d=Path('/tmp/fresh-consumer')/os.environ['TRANSPORT_DIR']
+          manifest=json.loads((d/'transport_manifest.json').read_text(encoding='utf-8'))
+          assert manifest['candidate_source']==os.environ['CANDIDATE_SHA']
+          assert manifest['artifact_sha256']==os.environ['EXPECTED_SHA256']
+          assert manifest['artifact_bytes']==int(os.environ['EXPECTED_BYTES'])
+          parts=[]
+          for item in manifest['chunks']:
+              raw=(d/item['name']).read_bytes()
+              assert len(raw)==item['chars']
+              assert hashlib.sha256(raw).hexdigest()==item['sha256']
+              parts.append(raw)
+          joined=b''.join(parts)
+          assert len(joined)==manifest['base64_chars']
+          assert hashlib.sha256(joined).hexdigest()==manifest['base64_sha256']
+          payload=base64.b64decode(joined,validate=True)
+          assert len(payload)==int(os.environ['EXPECTED_BYTES'])
+          assert hashlib.sha256(payload).hexdigest()==os.environ['EXPECTED_SHA256']
+          out=Path('/tmp/reassembled.zip'); out.write_bytes(payload)
+          with zipfile.ZipFile(out) as z:
+              assert z.testzip() is None
+              assert len(z.infolist())==int(os.environ['EXPECTED_ENTRIES'])
+              assert sum(not i.is_dir() for i in z.infolist())==int(os.environ['EXPECTED_FILES'])
+          print('FRESH_CONSUMER_EXACT_B64_ROUNDTRIP_PASS')
+          print('chunk_count',manifest['chunk_count'])
+          print('base64_chars',manifest['base64_chars'])
+          print('base64_sha256',manifest['base64_sha256'])
+          print('artifact_sha256',hashlib.sha256(payload).hexdigest())
+          print('artifact_bytes',len(payload))
+          PY
+          cmp -s /tmp/frozen.zip /tmp/reassembled.zip
+          echo BYTE_IDENTICAL_TO_BUILT_FROZEN_TARGET_PASS
