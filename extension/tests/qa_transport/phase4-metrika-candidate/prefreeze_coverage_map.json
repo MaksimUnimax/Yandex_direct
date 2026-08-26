@@ -1,0 +1,35 @@
+{
+  "format": "YMB_PHASE4_METRIKA_PREFREEZE_COVERAGE_V1",
+  "product_source": "643445758e86d3b06ac42a6daea5c97b6e9223c7",
+  "accepted_phase3_source": "a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5",
+  "development_evidence": {
+    "source_run": 32951693513,
+    "browser_literal_run": 32952472894,
+    "lifecycle_run": 32951693467,
+    "source_tests": { "phase4_focused": 27, "phase4_contract_closure": 5, "accepted_phase3_regression": 313, "fail": 0, "skipped": 0 },
+    "real_yandex_requests": 0
+  },
+  "gates": {
+    "M-00": { "status": "POST_FREEZE_PENDING", "evidence": ["exact candidate artifact not frozen yet"] },
+    "M-01": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: PHASE4_METRIKA_FOCUSED_27_OF_27_PASS"] },
+    "M-02": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: focused protocol matrix and literal closure"] },
+    "M-03": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: credential isolation source tests", "32952472894: M15_FOUR_SERVICE_SWITCH_CREDENTIAL_ISOLATION_PASS"] },
+    "M-04": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: backup migration/round-trip/tamper source tests", "32952472894: M04_M15_BLANK_METRIKA_SAVE_PRESERVES_CREDENTIAL_PASS", "32952472894: M04_M15_COMMON_SAVE_PRESERVES_CREDENTIALS_PASS", "32952472894: M04_M16_BACKUP_CHECKSUM_TAMPER_REJECTS_BEFORE_MUTATION_PASS", "32952472894: M16_BACKUP_V3_FOUR_SERVICE_EXPORT_IMPORT_PASS"] },
+    "M-05": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: empty/non-empty/401/403/420/429/network/malformed Check matrix", "32952472894: M05_M15_METRIKA_CHECK_ONE_GET_PASS"] },
+    "M-06": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: default policy and local reject closure"] },
+    "M-07": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: listCounters normalization", "32952472894: M07_M09_CONTROLLED_WORKER_PROVIDER_BOUNDARY_PASS"] },
+    "M-08": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: getCounter one-GET safe path and allowlist"] },
+    "M-09": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: summary fixed metrics and truth fields", "32952472894: M07_M09_CONTROLLED_WORKER_PROVIDER_BOUNDARY_PASS"] },
+    "M-10": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: bytime ordering and full truth metadata closure"] },
+    "M-11": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: 400/401/403/404/420/429/500/malformed provider matrix"] },
+    "M-12": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: UNKNOWN/no-blind-replay network outcome"] },
+    "M-13": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: PHASE4_METRIKA_M13_M17_4_OF_4_PASS"] },
+    "M-14": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693467: M14_METRIKA_LISTCOUNTERS_LIFECYCLE_PASS", "32951693467: M14_METRIKA_TRAFFIC_SUMMARY_LIFECYCLE_PASS", "32951693467: real Yandex requests 0"] },
+    "M-15": { "status": "DEVELOPMENT_PASS", "evidence": ["32952472894: geometry/four-service UI", "32952472894: M15_METRIKA_POLICY_INTERNAL_SCROLL_PASS", "32952472894: secret redaction/reopen", "32952472894: M15_FOUR_SERVICE_SWITCH_CREDENTIAL_ISOLATION_PASS"] },
+    "M-16": { "status": "DEVELOPMENT_PASS", "evidence": ["32952472894: M16_BACKUP_V3_FOUR_SERVICE_EXPORT_IMPORT_PASS", "32952472894: M04_M16_BACKUP_CHECKSUM_TAMPER_REJECTS_BEFORE_MUTATION_PASS"] },
+    "M-17": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: default-off, controlled enable, duplicate fence, pause/resume/finish", "32951693513: PHASE4_METRIKA_M17_CONTENT_2_OF_2_PASS"] },
+    "M-18": { "status": "DEVELOPMENT_PASS", "evidence": ["32951693513: explicit request_executed=false for local rejects, full truth fields, deferred/write-like/raw locks"] },
+    "M-19": { "status": "POST_FREEZE_PENDING", "evidence": ["final immutable campaign not run yet"] }
+  },
+  "enabled_not_run_count_M01_M18": 0
+}
