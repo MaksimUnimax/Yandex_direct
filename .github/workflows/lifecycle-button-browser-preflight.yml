@@ -1,0 +1,102 @@
+name: Lifecycle button browser preflight
+
+on:
+  push:
+    branches:
+      - automation/lifecycle-button-browser-preflight-2026-08-26
+
+permissions:
+  contents: read
+
+jobs:
+  browser-preflight:
+    runs-on: ubuntu-latest
+    env:
+      HARNESS_COMMIT: 1009b224d1cfe389f6f041a16cd2a8d53657284a
+      TRANSPORT_COMMIT: e11b4f9d5dfb9f5b1bd01bd885151aefdcddc797
+      HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+      EXPECTED_SHA256: 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
+      EXPECTED_BYTES: '179877'
+      CHROME_VERSION: 151.0.7922.47
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize immutable harness, transport and exact artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/lifecycle-harness /tmp/lifecycle-transport /tmp/pkg
+          git show "$HARNESS_COMMIT:extension/tests/qa_browser/lifecycle_button_gating_gate.mjs" > /tmp/lifecycle-harness/lifecycle_button_gating_gate.mjs
+          node --check /tmp/lifecycle-harness/lifecycle_button_gating_gate.mjs
+          git archive "$TRANSPORT_COMMIT" extension/tests/qa_transport/lifecycle-button-gating | tar -x -C /tmp/lifecycle-transport
+          python - <<'PY'
+          from pathlib import Path
+          import base64, hashlib, json, os, zipfile
+          d=Path('/tmp/lifecycle-transport/extension/tests/qa_transport/lifecycle-button-gating')
+          m=json.loads((d/'transport_manifest.json').read_text())
+          parts=[]
+          for item in m['chunks']:
+              raw=(d/item['name']).read_bytes()
+              assert len(raw)==item['chars']
+              assert hashlib.sha256(raw).hexdigest()==item['sha256']
+              parts.append(raw)
+          joined=b''.join(parts)
+          assert hashlib.sha256(joined).hexdigest()==m['base64_sha256']
+          payload=base64.b64decode(joined,validate=True)
+          assert hashlib.sha256(payload).hexdigest()==os.environ['EXPECTED_SHA256']
+          assert len(payload)==int(os.environ['EXPECTED_BYTES'])
+          Path('/tmp/candidate.zip').write_bytes(payload)
+          with zipfile.ZipFile('/tmp/candidate.zip') as z:
+              assert z.testzip() is None
+              assert len(z.infolist())==72
+              assert sum(not i.is_dir() for i in z.infolist())==69
+              z.extractall('/tmp/pkg')
+          print('EXACT_TRANSPORTED_PACKAGE_READY')
+          PY
+          test "$(sha256sum /tmp/candidate.zip | awk '{print $1}')" = "$EXPECTED_SHA256"
+          test "$(stat -c %s /tmp/candidate.zip)" = "$EXPECTED_BYTES"
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/lifecycle-harness/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/lifecycle-harness/qa-chatgpt-local.cert.pem
+          find /tmp/pkg -mindepth 1 -maxdepth 1 -type d -print -quit > /tmp/extension-root.txt
+          test -s /tmp/extension-root.txt
+
+      - name: Install qualified browser dependencies in external QA temp workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/lifecycle-harness
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/chrome.zip
+          unzip -q /tmp/chrome.zip -d /tmp/chrome
+          chmod +x /tmp/chrome/chrome-linux64/chrome
+          /tmp/chrome/chrome-linux64/chrome --version
+          which xvfb-run
+
+      - name: Run installed exact-package lifecycle gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXT_ROOT="$(cat /tmp/extension-root.txt)"
+          cd /tmp/lifecycle-harness
+          xvfb-run -a node lifecycle_button_gating_gate.mjs \
+            /tmp/chrome/chrome-linux64/chrome \
+            "$EXT_ROOT" \
+            /tmp/lifecycle-harness/qa-chatgpt-local.key.pem \
+            /tmp/lifecycle-harness/qa-chatgpt-local.cert.pem | tee /tmp/lifecycle-browser.log
+          for marker in \
+            LIFECYCLE_BUTTON_INITIAL_ENABLED_PASS \
+            LIFECYCLE_MANUAL_OPERATION_DISABLED_PASS \
+            LIFECYCLE_MANUAL_OPERATION_BLOCKED_CLICK_NO_DISPATCH_PASS \
+            LIFECYCLE_MANUAL_OPERATION_CLEAR_REENABLE_PASS \
+            LIFECYCLE_DELIVERY_DISABLED_PASS \
+            LIFECYCLE_DELIVERY_BLOCKED_CLICK_NO_DISPATCH_PASS \
+            LIFECYCLE_DELIVERY_CLEAR_REENABLE_PASS \
+            LIFECYCLE_GATE_PROVIDER_HITS=0 \
+            LIFECYCLE_GATE_REAL_YANDEX_REQUESTS=0 \
+            LIFECYCLE_BUTTON_GATING_BROWSER_GATE_PASS; do
+              grep -F "$marker" /tmp/lifecycle-browser.log
+          done
+          echo CHATGPT_BROWSER_PREFLIGHT_PASS
