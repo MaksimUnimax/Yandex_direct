@@ -1,0 +1,63 @@
+name: Phase 3 Webmaster lifecycle preflight
+on:
+  push:
+    branches:
+      - qa/phase3-webmaster-lifecycle-preflight-2026-08-26
+jobs:
+  browser-preflight:
+    runs-on: ubuntu-24.04
+    env:
+      PRODUCT_HEAD: 678f0b133671dc1c365a8b70c5e97e3b2b94b0f2
+      HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+      CHROME_VERSION: 151.0.7922.47
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify product bytes unchanged from dev head
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_HEAD" HEAD -- extension/src)"
+          node --check extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs
+      - name: Full source regression
+        working-directory: extension/src
+        run: npm test
+      - name: Prepare qualified browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/webmaster-lifecycle
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/webmaster-lifecycle/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/webmaster-lifecycle/qa-chatgpt-local.cert.pem
+          cd /tmp/webmaster-lifecycle
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/chrome.zip
+          unzip -q /tmp/chrome.zip -d /tmp/chrome
+          chmod +x /tmp/chrome/chrome-linux64/chrome
+          /tmp/chrome/chrome-linux64/chrome --version
+          command -v xvfb-run
+      - name: Run installed Webmaster lifecycle gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs /tmp/webmaster-lifecycle/
+          cd /tmp/webmaster-lifecycle
+          xvfb-run -a node webmaster_lifecycle_button_gate.mjs \
+            /tmp/chrome/chrome-linux64/chrome \
+            "$GITHUB_WORKSPACE/extension/src" \
+            /tmp/webmaster-lifecycle/qa-chatgpt-local.key.pem \
+            /tmp/webmaster-lifecycle/qa-chatgpt-local.cert.pem | tee /tmp/w14.log
+          for marker in \
+            W14_WEBMASTER_ACTIVE_SERVICE_PASS \
+            W14_WEBMASTER_INITIAL_ACTION_ENABLED_PASS \
+            W14_WEBMASTER_OPERATION_BLOCKED_NO_DISPATCH_PASS \
+            W14_WEBMASTER_OPERATION_REENABLE_PASS \
+            W14_WEBMASTER_DELIVERY_BLOCKED_NO_DISPATCH_PASS \
+            W14_WEBMASTER_DELIVERY_REENABLE_PASS \
+            W14_WEBMASTER_PROVIDER_HITS=0 \
+            W14_WEBMASTER_REAL_YANDEX_REQUESTS=0 \
+            W14_WEBMASTER_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/w14.log
+          done
