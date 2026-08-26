@@ -43,6 +43,25 @@ jobs:
         run: |
           set -euo pipefail
           cp extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs /tmp/webmaster-lifecycle/
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('/tmp/webmaster-lifecycle/webmaster_lifecycle_button_gate.mjs')
+          s = p.read_text()
+          needle = "  await popup.waitForFunction((expected) => document.getElementById('conversationMeta')?.textContent === expected, { timeout: 12000 }, CKEY);"
+          insert = """  const bootstrap = await waitUntil(async () => await popup.evaluate(() => {
+            const error = globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || '';
+            const result = globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null;
+            if (!error && !result) return null;
+            return { error, result, status: document.getElementById('status')?.textContent || '' };
+          }), 'POPUP_BOOTSTRAP_OUTCOME_TIMEOUT', 12000, 80);
+          if (bootstrap.error) throw new Error(`POPUP_BOOTSTRAP_ERROR ${bootstrap.error}`);
+          assert(bootstrap.result?.attempted === true, `POPUP_BOOTSTRAP_NOT_ATTEMPTED ${JSON.stringify(bootstrap)}`);
+"""
+          if needle not in s:
+              raise SystemExit('W14_BOOTSTRAP_PATCH_NEEDLE_MISSING')
+          p.write_text(s.replace(needle, insert + needle, 1))
+          PY
+          node --check /tmp/webmaster-lifecycle/webmaster_lifecycle_button_gate.mjs
           cd /tmp/webmaster-lifecycle
           xvfb-run -a node webmaster_lifecycle_button_gate.mjs \
             /tmp/chrome/chrome-linux64/chrome \
