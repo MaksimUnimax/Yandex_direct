@@ -44,6 +44,10 @@ def selected_files(repo):
         rows.append((file.relative_to(src).as_posix(), file))
     for file in sorted(tests.glob("*.test.mjs")):
         rows.append((f"tests/{file.name}", file))
+    helpers = tests / "helpers"
+    if helpers.is_dir():
+        for file in sorted(p for p in helpers.rglob("*") if p.is_file()):
+            rows.append((f"tests/helpers/{file.relative_to(helpers).as_posix()}", file))
     return rows
 
 
