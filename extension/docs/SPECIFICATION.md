@@ -1,7 +1,7 @@
-# SPECIFICATION v0.4 — Yandex Marketing Bridge
+# SPECIFICATION v0.5 — Yandex Marketing Bridge
 
 Status: current technical specification.  
-Updated: 2026-08-19.
+Updated: 2026-08-26.
 
 ## 1. Product boundary
 
@@ -27,14 +27,16 @@ CORE
 └─ diagnostic event log
 
 ADAPTERS
-├─ Wordstat      [Phase 1]
-├─ Search        [blocked]
-├─ Webmaster     [blocked]
-├─ Metrika       [blocked]
+├─ Wordstat      [Phase 1 LIVE PASS / CLOSED]
+├─ Search        [Phase 2 LIVE PASS / CLOSED]
+├─ Webmaster     [Phase 3 ACTIVE]
+├─ Metrika       [blocked until Phase 3 closes]
 └─ Direct        [blocked]
 ```
 
 The audited Wordstat Bridge 1.1.5 and other proven bridge mechanisms remain behavior references where they are compatible with current production ChatGPT DOM and the current governed contracts.
+
+Phase-specific details are extended by current addenda. For Phase 3, `SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md` is authoritative for Webmaster behavior.
 
 ## 2. GitHub is outside extension runtime
 
@@ -71,7 +73,7 @@ METRIKA_API_V1    → Metrika adapter
 DIRECT_API_V1     → Direct adapter
 ```
 
-Only adapters registered for the accepted phase may execute. Phase 1 registers **Wordstat only**. Unknown/future prefixes cause no provider/network side effect.
+Only adapters registered in the exact accepted/current implementation may execute. The accepted lifecycle-button build registers Wordstat and Search. Phase 3 authorizes implementation of Webmaster but `WEBMASTER_API_V1` must remain non-executable until Webmaster product bytes are intentionally added under the Phase-3 contract. Unknown/future prefixes cause no provider/network side effect.
 
 ## 4. One RUN = one SERVICE
 
@@ -133,6 +135,8 @@ Required Manual invariants:
 - only the external Bridge-owned Yandex action dispatches Manual and submits the **complete bound block** to worker/core;
 - worker/core owns command discovery, strict validation, routing, policy, credentials, cost and controlled no-command/malformed errors;
 - DOM mutations/rerenders are rescanned; action ownership is idempotent; detached block roots lose their Bridge control; disabling Manual restores the native surface; re-enable creates exactly one control again;
+- while `MANUAL_OPERATION_ACTIVE` or `DELIVERY_IN_PROGRESS` blocks a new Manual admission, the existing Bridge action remains present but is disabled/non-clickable and cannot dispatch another Manual execution;
+- the action is re-enabled only after positive observation that the blocking lifecycle/outbox state cleared;
 - Manual and Autorun remain mutually controlled according to the current runtime contract;
 - exactly-once fences use command/assistant/delivery identities;
 - owner-tab and conversation binding are fail-closed;
@@ -215,9 +219,19 @@ Missing credentials do not terminate the whole workflow.
 
 Credentials must not appear in ordinary ChatGPT executable commands, result envelopes, error/debug reports or GitHub.
 
+Credentials are service-specific whenever provider auth differs. Phase 3 explicitly requires dedicated records instead of pretending all services share one credential:
+
+```text
+Wordstat  → Api-Key + folderId
+Search    → Api-Key + folderId
+Webmaster → OAuth token + derived user_id
+```
+
+Popup/settings must support per-service Save/Check and secret-bearing Export/Import with service mapping preserved. Exact Phase-3 rules are in `SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md`.
+
 ## 8. Storage compatibility
 
-Phase 1 must preserve proven Wordstat storage continuity, including existing keys such as:
+Existing storage continuity must remain compatible, including legacy/current keys such as:
 
 ```text
 wsmb_api_key
@@ -233,6 +247,8 @@ wsmb_copy_button_profiles
 ```
 
 In-place unpacked upgrade + Reload must retain those values through normal Chrome extension storage continuity.
+
+When dedicated service credential records are introduced, existing shared `wsmb_api_key/wsmb_folder_id` values must migrate safely to dedicated Wordstat/Search records without deleting the old compatibility keys until a later governed cleanup.
 
 ## 9. Export settings / Import settings
 
@@ -264,7 +280,8 @@ Import requirements:
 - create a local migration rollback backup;
 - preserve active RUN records;
 - preserve binding/service/manual-mode safety state for active RUN/manual operations;
-- never import active execution transactions from the backup.
+- never import active execution transactions from the backup;
+- preserve service-specific credential mapping and never copy one service's secret into another service record.
 
 The exported file itself contains secrets and must be treated like a credential file.
 
@@ -347,7 +364,7 @@ If worker/content reloads after an irreversible committed Send boundary, recover
 
 A completed provider result that cannot be staged because the composer is occupied/unavailable must remain durably worker-owned. Existing user text is preserved; delivery resumes exactly once only when the composer becomes safely empty.
 
-## 13. Wordstat Phase 1 policy
+## 13. Wordstat Phase 1 policy — preserved
 
 Supported methods:
 
@@ -371,7 +388,7 @@ ChatGPT cannot raise these limits by command.
 
 Before an Autorun billable initiation, Bridge reserves the RUN budget before the external initiation. Conservative over-count after a crash is acceptable; under-count that enables an unsafe duplicate is not.
 
-All future services remain execution-disabled during Phase 1.
+Search Phase 2 and Webmaster Phase 3 define their own service-specific policy extensions while preserving common RUN/accounting semantics.
 
 ## 14. Result envelope
 
@@ -385,7 +402,7 @@ METRIKA_RESULT_V1
 DIRECT_RESULT_V1
 ```
 
-Wordstat common metadata includes where applicable:
+Common service result metadata includes where applicable:
 
 ```text
 bridge
@@ -434,6 +451,11 @@ Manual ON + confirmed conversation + unique supported structural block binding
 → exactly one Bridge-owned external yellow Яндекс action
 → action may be ready before native Copy exists
 → native Copy lifecycle does not own or gate the Yandex action
+
+MANUAL_OPERATION_ACTIVE or DELIVERY_IN_PROGRESS
+→ existing Yandex action remains visible but disabled/non-clickable
+→ no second Manual dispatch
+→ action re-enables only after positive lifecycle clear
 ```
 
 The Yandex action's visible state is **not** proof that block content is a valid command. Command validity is a worker/core concern after the click.
@@ -507,6 +529,7 @@ Requirements:
 
 ```text
 one service
+→ governed requirement reconstruction/specification
 → implement/fix with focused tests
 → freeze working candidate
 → full Codex pre-delivery regression gate
@@ -516,4 +539,12 @@ one service
 → next service
 ```
 
-Search remains blocked until Wordstat Phase 1 live acceptance passes.
+Current phase authority:
+
+```text
+Phase 1 Wordstat = CLOSED
+Phase 2 Search = CLOSED
+Lifecycle button inter-phase patch = CLOSED
+Phase 3 Webmaster = active under SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md
+Phase 4 Metrika = blocked until Phase 3 closes
+```
