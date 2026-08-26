@@ -1,0 +1,150 @@
+name: Phase 4 Metrika M14 lifecycle stability r3
+on:
+  push:
+    branches:
+      - automation/phase4-metrika-lifecycle-stability-r3-2026-08-26
+permissions:
+  contents: read
+  actions: read
+env:
+  FREEZE_RUN_ID: '32953269753'
+  PUBLISHED_ARTIFACT_NAME: phase4-metrika-first-slice-exact-64344575
+  CANDIDATE_ZIP: yandex-marketing-bridge-0.1.1-phase4-metrika-first-slice-candidate.zip
+  CANDIDATE_SHA256: 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
+  PRODUCT_SOURCE_HEAD: 643445758e86d3b06ac42a6daea5c97b6e9223c7
+  PROVEN_W14_COMMIT: 2b58a9ed8284bded97ed6e8bff772502ee133f76
+  HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+  PHASE4_QA_COMMIT: f0a174f40dc9de66a8e57e6010b4ea8149e90c54
+  R2_PATCH_BLOB: 762a6147aa6680502da281a40e89df4dc05bfba7
+  CHROME_VERSION: 151.0.7922.47
+jobs:
+  lifecycle-repeat:
+    strategy:
+      fail-fast: false
+      matrix:
+        repeat: [1, 2, 3]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert QA-only branch and pin receiver patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_SOURCE_HEAD" HEAD -- extension/src)"
+          test "$(git hash-object extension/tests/qa_browser/patch_m14_receiver_owner_quiescence_r2.mjs)" = "$R2_PATCH_BLOB"
+          node --check extension/tests/qa_browser/patch_m14_receiver_owner_quiescence_r2.mjs
+          echo "PHASE4_M14_R3_REPEAT=${{ matrix.repeat }}"
+          echo PHASE4_M14_R3_QA_ONLY_PASS
+      - name: Download exact published frozen artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/p4-m14-r3/published
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+      - name: Stage lifecycle extension only from frozen bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd /tmp/p4-m14-r3/published && sha256sum -c SHA256SUMS.txt)
+          python3 - <<'PY'
+          import hashlib, json, os, shutil, zipfile
+          from pathlib import Path
+          base=Path('/tmp/p4-m14-r3'); pub=base/'published'; archive=pub/os.environ['CANDIDATE_ZIP']
+          manifest=json.loads((pub/'freeze-manifest.json').read_text(encoding='utf-8'))
+          assert hashlib.sha256(archive.read_bytes()).hexdigest()==manifest['sha256']==os.environ['CANDIDATE_SHA256']
+          assert manifest['source_commit']==os.environ['PRODUCT_SOURCE_HEAD']
+          frozen=base/'frozen'
+          if frozen.exists(): shutil.rmtree(frozen)
+          with zipfile.ZipFile(archive) as z: z.extractall(frozen)
+          root=frozen/manifest['root_name']; ext=base/'extension'
+          if ext.exists(): shutil.rmtree(ext)
+          (ext/'src').mkdir(parents=True)
+          expected={}
+          for row in manifest['payload']:
+              rel=row['path']
+              if rel.startswith('tests/'): continue
+              data=(root/rel).read_bytes(); assert len(data)==row['bytes']; assert hashlib.sha256(data).hexdigest()==row['sha256']
+              dst=ext/'src'/rel; dst.parent.mkdir(parents=True, exist_ok=True); dst.write_bytes(data); expected[rel]=row['sha256']
+          actual={p.relative_to(ext/'src').as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in (ext/'src').rglob('*') if p.is_file()}
+          assert actual==expected
+          print(f'PHASE4_M14_R3_FROZEN_PRODUCT_IDENTITY_PASS files={len(actual)}')
+          PY
+      - name: Prepare pinned lifecycle harness and receiver quiescence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p4-m14-r3/harness
+          git fetch --no-tags --depth=1 origin "$PROVEN_W14_COMMIT"
+          git fetch --no-tags --depth=1 origin "$HISTORICAL_STAGE4_COMMIT"
+          git fetch --no-tags --depth=1 origin "$PHASE4_QA_COMMIT"
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs
+          cp /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs /tmp/p4-m14-r3/harness/metrika_summary_lifecycle.mjs
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/patch_w14_bootstrap.mjs" > /tmp/p4-m14-r3/harness/patch_w14_bootstrap.mjs
+          git show "$PHASE4_QA_COMMIT:extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs" > /tmp/p4-m14-r3/harness/patch_m14_metrika_from_w14.mjs
+          cp extension/tests/qa_browser/patch_m14_receiver_owner_quiescence_r2.mjs /tmp/p4-m14-r3/harness/patch_m14_receiver_owner_quiescence_r2.mjs
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/p4-m14-r3/harness/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/p4-m14-r3/harness/qa-chatgpt-local.cert.pem
+          test "$(git hash-object /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs)" = "ea8f3ab6bae9a0e14423133b4654c31f86a3d51a"
+          test "$(git hash-object /tmp/p4-m14-r3/harness/patch_w14_bootstrap.mjs)" = "ae9296721d7dcb56d1a5f33172b1e404962be900"
+          test "$(git hash-object /tmp/p4-m14-r3/harness/patch_m14_metrika_from_w14.mjs)" = "a7a3f3884563ae8ba123f335bee8d5f61e1b783c"
+          test "$(git hash-object /tmp/p4-m14-r3/harness/patch_m14_receiver_owner_quiescence_r2.mjs)" = "$R2_PATCH_BLOB"
+          node /tmp/p4-m14-r3/harness/patch_m14_metrika_from_w14.mjs /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs list
+          node /tmp/p4-m14-r3/harness/patch_w14_bootstrap.mjs /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs
+          node /tmp/p4-m14-r3/harness/patch_m14_receiver_owner_quiescence_r2.mjs /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs
+          node /tmp/p4-m14-r3/harness/patch_m14_metrika_from_w14.mjs /tmp/p4-m14-r3/harness/metrika_summary_lifecycle.mjs summary
+          node /tmp/p4-m14-r3/harness/patch_w14_bootstrap.mjs /tmp/p4-m14-r3/harness/metrika_summary_lifecycle.mjs
+          node /tmp/p4-m14-r3/harness/patch_m14_receiver_owner_quiescence_r2.mjs /tmp/p4-m14-r3/harness/metrika_summary_lifecycle.mjs
+          node --check /tmp/p4-m14-r3/harness/metrika_list_lifecycle.mjs
+          node --check /tmp/p4-m14-r3/harness/metrika_summary_lifecycle.mjs
+          cd /tmp/p4-m14-r3/harness
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/p4-m14-r3-chrome.zip
+          unzip -q /tmp/p4-m14-r3-chrome.zip -d /tmp/p4-m14-r3-chrome
+          chmod +x /tmp/p4-m14-r3-chrome/chrome-linux64/chrome
+          /tmp/p4-m14-r3-chrome/chrome-linux64/chrome --version | grep -F "$CHROME_VERSION"
+          command -v xvfb-run
+          echo PHASE4_M14_R3_PINNED_ROUTE_PASS
+      - name: Run frozen listCounters lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/p4-m14-r3/harness
+          xvfb-run -a node metrika_list_lifecycle.mjs /tmp/p4-m14-r3-chrome/chrome-linux64/chrome /tmp/p4-m14-r3/extension/src qa-chatgpt-local.key.pem qa-chatgpt-local.cert.pem | tee /tmp/p4-m14-r3-list.log
+          for marker in M14_OWNER_RECEIVER_READY_PASS M14_OWNER_RECEIVER_RELOAD_QUIESCENCE_PASS M14_METRIKA_ACTIVE_SERVICE_PASS M14_METRIKA_INITIAL_ACTION_ENABLED_PASS M14_METRIKA_ONE_MANUAL_ADMISSION_PASS M14_METRIKA_ONE_CONTROLLED_PROVIDER_REQUEST_PASS M14_METRIKA_REAL_COMPLETION_REENABLE_PASS M14_METRIKA_OPERATION_BLOCKED_NO_DISPATCH_PASS M14_METRIKA_OPERATION_REENABLE_PASS M14_METRIKA_DELIVERY_BLOCKED_NO_DISPATCH_PASS M14_METRIKA_DELIVERY_REENABLE_PASS M14_METRIKA_PROVIDER_HITS=1 M14_METRIKA_REAL_YANDEX_REQUESTS=0 M14_METRIKA_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/p4-m14-r3-list.log
+          done
+          echo PHASE4_M14_R3_LISTCOUNTERS_PASS
+      - name: Run frozen getTrafficSummary lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/p4-m14-r3/harness
+          xvfb-run -a node metrika_summary_lifecycle.mjs /tmp/p4-m14-r3-chrome/chrome-linux64/chrome /tmp/p4-m14-r3/extension/src qa-chatgpt-local.key.pem qa-chatgpt-local.cert.pem | tee /tmp/p4-m14-r3-summary.log
+          for marker in M14_OWNER_RECEIVER_READY_PASS M14_OWNER_RECEIVER_RELOAD_QUIESCENCE_PASS M14_METRIKA_SUMMARY_ACTIVE_SERVICE_PASS M14_METRIKA_SUMMARY_INITIAL_ACTION_ENABLED_PASS M14_METRIKA_SUMMARY_ONE_MANUAL_ADMISSION_PASS M14_METRIKA_SUMMARY_ONE_CONTROLLED_PROVIDER_REQUEST_PASS M14_METRIKA_SUMMARY_REAL_COMPLETION_REENABLE_PASS M14_METRIKA_SUMMARY_OPERATION_BLOCKED_NO_DISPATCH_PASS M14_METRIKA_SUMMARY_OPERATION_REENABLE_PASS M14_METRIKA_SUMMARY_DELIVERY_BLOCKED_NO_DISPATCH_PASS M14_METRIKA_SUMMARY_DELIVERY_REENABLE_PASS M14_METRIKA_SUMMARY_PROVIDER_HITS=1 M14_METRIKA_SUMMARY_REAL_YANDEX_REQUESTS=0 M14_METRIKA_SUMMARY_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/p4-m14-r3-summary.log
+          done
+          echo PHASE4_M14_R3_GETTRAFFICSUMMARY_PASS
+      - name: Reverify frozen product bytes after both lifecycle routes
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          base=Path('/tmp/p4-m14-r3'); m=json.loads((base/'published/freeze-manifest.json').read_text(encoding='utf-8')); src=base/'extension/src'
+          expected={r['path']:r['sha256'] for r in m['payload'] if not r['path'].startswith('tests/')}
+          actual={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          assert actual==expected
+          print('PHASE4_M14_R3_PRODUCT_BYTES_IDENTICAL')
+          PY
+  stability-pass:
+    needs: lifecycle-repeat
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo PHASE4_M14_R3_LIFECYCLE_STABILITY_3X_PASS
