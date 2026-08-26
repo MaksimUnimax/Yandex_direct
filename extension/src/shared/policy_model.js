@@ -4,6 +4,8 @@
   const DEFAULT_TARIFF_SOURCE = "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
   const DEFAULT_TARIFF_CHECKED_AT = "2026-08-12";
   const SEARCH_TARIFF_CHECKED_AT = "2026-08-19";
+  const WEBMASTER_POLICY_SOURCE = "https://yandex.ru/dev/webmaster/doc/ru/";
+  const WEBMASTER_POLICY_CHECKED_AT = "2026-08-26";
   const DEFAULT_METHOD_COST_RUB = Object.freeze({
     getTop: 0.02,
     getDynamics: 0.02,
@@ -11,8 +13,15 @@
     getRegionsTree: 0
   });
   const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488 });
+  const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({
+    listHosts: 0,
+    getSummary: 0,
+    getDiagnostics: 0,
+    getPopularQueries: 0
+  });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
   const SEARCH_METHODS = Object.freeze(["search"]);
+  const WEBMASTER_METHODS = Object.freeze(Object.keys(DEFAULT_WEBMASTER_METHOD_COST_RUB));
 
   function asBoolean(value, fallback) {
     return typeof value === "boolean" ? value : fallback;
@@ -88,9 +97,25 @@
     });
   }
 
+  function normalizeWebmasterPolicy(raw = {}) {
+    return normalizePolicy(raw, {
+      defaultAutorunEnabled: false,
+      defaultManualEnabled: true,
+      defaultMethods: WEBMASTER_METHODS,
+      allowedMethods: WEBMASTER_METHODS,
+      defaultMaxRequests: 50,
+      defaultMaxCostRub: 0,
+      defaultCosts: DEFAULT_WEBMASTER_METHOD_COST_RUB,
+      defaultTariffCheckedAt: WEBMASTER_POLICY_CHECKED_AT,
+      defaultTariffSource: WEBMASTER_POLICY_SOURCE
+    });
+  }
+
   function normalizePolicyForService(service, raw = {}) {
-    if (String(service || "") === "search") return normalizeSearchPolicy(raw);
-    if (String(service || "") === "wordstat") return normalizeWordstatPolicy(raw);
+    const value = String(service || "");
+    if (value === "search") return normalizeSearchPolicy(raw);
+    if (value === "wordstat") return normalizeWordstatPolicy(raw);
+    if (value === "webmaster") return normalizeWebmasterPolicy(raw);
     throw Object.assign(new Error(`Неизвестный сервис: ${service || "unknown"}`), { code: "UNKNOWN_SERVICE" });
   }
 
@@ -150,9 +175,16 @@
     return decision({ ...args, policy });
   }
 
+  function webmasterDecision(args = {}) {
+    const policy = normalizeWebmasterPolicy(args.policy || {});
+    return decision({ ...args, policy });
+  }
+
   function decisionForService(service, args = {}) {
-    if (String(service || "") === "search") return searchDecision(args);
-    if (String(service || "") === "wordstat") return wordstatDecision(args);
+    const value = String(service || "");
+    if (value === "search") return searchDecision(args);
+    if (value === "wordstat") return wordstatDecision(args);
+    if (value === "webmaster") return webmasterDecision(args);
     return Object.freeze({
       allow: false,
       reason: "SERVICE_NOT_AVAILABLE",
@@ -164,15 +196,21 @@
   globalThis.YMBPolicyModel = Object.freeze({
     DEFAULT_METHOD_COST_RUB,
     DEFAULT_SEARCH_METHOD_COST_RUB,
+    DEFAULT_WEBMASTER_METHOD_COST_RUB,
     WORDSTAT_METHODS,
     SEARCH_METHODS,
+    WEBMASTER_METHODS,
     SEARCH_TARIFF_CHECKED_AT,
+    WEBMASTER_POLICY_CHECKED_AT,
+    WEBMASTER_POLICY_SOURCE,
     normalizeWordstatPolicy,
     normalizeSearchPolicy,
+    normalizeWebmasterPolicy,
     normalizePolicyForService,
     estimateMethodCost,
     wordstatDecision,
     searchDecision,
+    webmasterDecision,
     decisionForService
   });
 })();
