@@ -1,0 +1,181 @@
+name: Phase 3 Webmaster exact freeze r1
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-freeze-r1-2026-08-26
+permissions:
+  contents: read
+env:
+  PRODUCT_SOURCE_HEAD: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  PRODUCT_SOURCE_REF: candidate/phase3-webmaster-first-slice-a7d9f947-2026-08-26
+  FREEZE_DIR: /tmp/phase3-webmaster-freeze
+  ARTIFACT_NAME: yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify frozen development coverage map
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('extension/tests/qa_transport/phase3-webmaster-candidate/prefreeze_coverage_map.json')
+          data = json.loads(p.read_text())
+          assert data['format'] == 'YMB_PHASE3_WEBMASTER_PREFREEZE_COVERAGE_V1'
+          assert data['product_source_commit'] == 'a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          assert data['source_suite'] == {'tests':313,'pass':313,'fail':0,'skipped':0}
+          expected = {f'W-{i:02d}' for i in range(1,19)}
+          assert set(data['coverage']) == expected
+          for key in sorted(expected):
+              row = data['coverage'][key]
+              assert row['status'] == 'DEVELOPMENT_PASS', (key, row)
+              assert row.get('evidence'), key
+              assert 'NOT_RUN' not in json.dumps(row)
+          assert data['post_freeze_only'] == {
+              'W-00':'PENDING_EXACT_FROZEN_ARTIFACT',
+              'W-19':'PENDING_FINAL_IMMUTABLE_CAMPAIGN'
+          }
+          print('PHASE3_PREFREEZE_COVERAGE_MAP_PASS')
+          PY
+          python3 -m py_compile extension/tests/qa_transport/phase3-webmaster-candidate/phase3_candidate_packer.py
+          python3 -m py_compile extension/tests/qa_transport/phase3-webmaster-candidate/run_packaged_suite.py
+
+      - name: Materialize exact candidate source detached from tooling branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$PRODUCT_SOURCE_REF"
+          test "$(git rev-parse "origin/$PRODUCT_SOURCE_REF")" = "$PRODUCT_SOURCE_HEAD"
+          rm -rf /tmp/phase3-product-source "$FREEZE_DIR"
+          git worktree add --detach /tmp/phase3-product-source "$PRODUCT_SOURCE_HEAD"
+          test "$(git -C /tmp/phase3-product-source rev-parse HEAD)" = "$PRODUCT_SOURCE_HEAD"
+          test -z "$(git -C /tmp/phase3-product-source status --porcelain)"
+          echo "PHASE3_EXACT_SOURCE_MATERIALIZATION_PASS commit=$PRODUCT_SOURCE_HEAD"
+
+      - name: Run exact source suite before packaging
+        working-directory: /tmp/phase3-product-source/extension/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test | tee /tmp/phase3-source-freeze.log
+          grep -F '# tests 313' /tmp/phase3-source-freeze.log
+          grep -F '# pass 313' /tmp/phase3-source-freeze.log
+          grep -F '# fail 0' /tmp/phase3-source-freeze.log
+          grep -F '# skipped 0' /tmp/phase3-source-freeze.log
+          echo 'PHASE3_FREEZE_SOURCE_SUITE_PASS'
+
+      - name: Deterministically freeze exact candidate ZIP and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$FREEZE_DIR"
+          python3 extension/tests/qa_transport/phase3-webmaster-candidate/phase3_candidate_packer.py \
+            --repo-root /tmp/phase3-product-source \
+            --output "$FREEZE_DIR/$ARTIFACT_NAME" \
+            --freeze-manifest-output "$FREEZE_DIR/freeze-manifest.json" \
+            --verify-extract "$FREEZE_DIR/source-extract" \
+            --source-ref "$PRODUCT_SOURCE_REF" \
+            --source-commit "$PRODUCT_SOURCE_HEAD" | tee /tmp/phase3-freeze-build.log
+          grep -F 'PHASE3_EXACT_ARTIFACT_FREEZE_PASS' /tmp/phase3-freeze-build.log
+          grep -F 'PHASE3_SOURCE_PACKAGE_IDENTITY_PASS' /tmp/phase3-freeze-build.log
+          test -z "$(git -C /tmp/phase3-product-source status --porcelain)"
+
+      - name: Independently rebuild and prove deterministic identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase3-webmaster-candidate/phase3_candidate_packer.py \
+            --repo-root /tmp/phase3-product-source \
+            --output "$FREEZE_DIR/rebuild.zip" \
+            --verify-manifest "$FREEZE_DIR/freeze-manifest.json" \
+            --verify-extract "$FREEZE_DIR/rebuild-extract" \
+            --source-commit "$PRODUCT_SOURCE_HEAD" | tee /tmp/phase3-freeze-rebuild.log
+          grep -F 'PHASE3_EXACT_ARTIFACT_IDENTITY_PASS' /tmp/phase3-freeze-rebuild.log
+          grep -F 'PHASE3_SOURCE_PACKAGE_IDENTITY_PASS' /tmp/phase3-freeze-rebuild.log
+          cmp -s "$FREEZE_DIR/$ARTIFACT_NAME" "$FREEZE_DIR/rebuild.zip"
+          echo 'PHASE3_DETERMINISTIC_REBUILD_BYTE_FOR_BYTE_PASS'
+
+      - name: Run full suite from fresh frozen ZIP bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase3-webmaster-candidate/run_packaged_suite.py \
+            --archive "$FREEZE_DIR/$ARTIFACT_NAME" \
+            --manifest "$FREEZE_DIR/freeze-manifest.json" \
+            --work-dir "$FREEZE_DIR/packaged-suite" | tee /tmp/phase3-packaged-suite.log
+          grep -F 'PHASE3_PACKAGE_EXACT_IDENTITY_PASS' /tmp/phase3-packaged-suite.log
+          grep -F 'PHASE3_PACKAGED_LAYOUT_IDENTITY_PASS' /tmp/phase3-packaged-suite.log
+          grep -F 'PHASE3_PACKAGED_SYNTAX_PASS' /tmp/phase3-packaged-suite.log
+          grep -F 'PHASE3_PACKAGED_SUITE_PASS' /tmp/phase3-packaged-suite.log
+          grep -F 'PHASE3_PACKAGED_PREDELIVERY_PREFLIGHT_PASS' /tmp/phase3-packaged-suite.log
+          test -z "$(git -C /tmp/phase3-product-source status --porcelain)"
+
+      - name: Validate authoritative freeze manifest and cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, zipfile
+          from pathlib import Path
+          d = json.loads(Path('/tmp/phase3-webmaster-freeze/freeze-manifest.json').read_text())
+          assert d['format'] == 'YMB_PHASE3_WEBMASTER_EXACT_CANDIDATE_V1'
+          assert d['source_ref'] == 'candidate/phase3-webmaster-first-slice-a7d9f947-2026-08-26'
+          assert d['source_commit'] == 'a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          assert d['zip_test'] == 'PASS'
+          assert d['files'] == len(d['payload'])
+          paths = [r['path'] for r in d['payload']]
+          assert all(not p.startswith('.github/') for p in paths)
+          assert all('qa_transport/' not in p for p in paths)
+          assert all(not p.endswith('.pem') for p in paths)
+          assert all('phase3_browser_runtime_final.generated' not in p for p in paths)
+          assert 'manifest.json' in paths and 'package.json' in paths
+          assert 'webmaster_worker_runtime.js' in paths
+          assert 'webmaster_protocol.js' in paths
+          assert 'tests/webmaster_service_isolation.test.mjs' in paths
+          assert 'tests/webmaster_autorun_integration.test.mjs' in paths
+          print('PHASE3_FREEZE_MANIFEST_GOVERNANCE_PASS')
+          print(f"FREEZE_SHA256={d['sha256']}")
+          print(f"FREEZE_BYTES={d['bytes']}")
+          print(f"FREEZE_FILES={d['files']}")
+          print(f"FREEZE_ENTRIES={d['entries']}")
+          print(f"FREEZE_ROOT={d['root_name']}")
+          PY
+          test -z "$(git -C /tmp/phase3-product-source status --porcelain)"
+          echo 'PHASE3_W00_FREEZE_IDENTITY_PASS'
+          echo 'PHASE3_W19_FREEZE_CLEANLINESS_PASS'
+
+      - name: Stage published immutable files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$FREEZE_DIR/publish"
+          mkdir -p "$FREEZE_DIR/publish"
+          cp "$FREEZE_DIR/$ARTIFACT_NAME" "$FREEZE_DIR/publish/$ARTIFACT_NAME"
+          cp "$FREEZE_DIR/freeze-manifest.json" "$FREEZE_DIR/publish/freeze-manifest.json"
+          cp extension/tests/qa_transport/phase3-webmaster-candidate/prefreeze_coverage_map.json "$FREEZE_DIR/publish/prefreeze_coverage_map.json"
+          sha256sum "$FREEZE_DIR/publish/$ARTIFACT_NAME" | tee "$FREEZE_DIR/publish/SHA256SUMS.txt"
+          ls -l "$FREEZE_DIR/publish"
+
+      - name: Upload exact frozen candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3-webmaster-first-slice-exact-a7d9f947
+          path: /tmp/phase3-webmaster-freeze/publish/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Final freeze markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat "$FREEZE_DIR/freeze-manifest.json"
+          echo "PHASE3_EXACT_CANDIDATE_BRANCH=$PRODUCT_SOURCE_REF"
+          echo "PHASE3_EXACT_CANDIDATE_SOURCE=$PRODUCT_SOURCE_HEAD"
+          echo 'PHASE3_EXACT_FREEZE_WORKFLOW_PASS'
