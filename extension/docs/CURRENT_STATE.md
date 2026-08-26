@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = ACTIVE REQUIREMENT RECONSTRUCTION**  
+Status: **PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = CONTRACT READY / IMPLEMENTATION AUTHORIZED**  
 Updated: 2026-08-26
 
 Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
@@ -8,7 +8,7 @@ Always fetch live `main` HEAD and commit metadata before any workflow-stage tran
 ## Mandatory reconstruction record
 
 ```text
-LIVE_HEAD_BEFORE_THIS_STATE_WRITE = ab6d7b63ef883e22676801e0ee04304dc4c9ebfc
+LIVE_HEAD_BEFORE_PHASE3_CONTRACT = 24d2994f420e748358f497ca246834e9880ec7fe
 
 ACCEPTED_PHASE2_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
 ACCEPTED_PHASE2_ARTIFACT = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa / 179013 bytes / 69 files / 72 ZIP entries
@@ -25,114 +25,156 @@ ACCEPTED_LIFECYCLE_PATCH_ZIP_ENTRIES = 72
 ACCEPTED_LIFECYCLE_PATCH_FULL_CODEX_GATE = PASS
 ACCEPTED_LIFECYCLE_PATCH_OWNER_LIVE = PASS
 
+PHASE3_IMPLEMENTATION_BASE = 939e880f820e52beae9dcbcedc86d5cd9e13b075
+PHASE3_PROTOCOL = WEBMASTER_API_V1
+PHASE3_RESULT = WEBMASTER_RESULT_V1
+PHASE3_FIRST_SLICE = listHosts,getSummary,getDiagnostics,getPopularQueries
+PHASE3_PROVIDER = Yandex Webmaster API v4.1
+PHASE3_AUTH = OAuth token + derived user_id
+PHASE3_WRITES_ENABLED = NO
+PHASE3_CONTRACT = READY
+
 PRODUCTION_BYTES_CHANGED_SINCE_LATEST_GATE = NO
 PACKAGE_TEST_BYTES_CHANGED_SINCE_LATEST_GATE = NO
 OPEN_BLOCKERS = NONE
-AUTHORIZED_NEXT_STAGE = PHASE_3_WEBMASTER_GOVERNED_REQUIREMENT_RECONSTRUCTION
+AUTHORIZED_NEXT_STAGE = PHASE_3_WEBMASTER_IMPLEMENTATION_FROM_ACCEPTED_LIFECYCLE_SOURCE
 ```
 
-## Accepted Phase-2 Search baseline
+## Accepted baseline
 
-Phase 2 synchronous Search first slice remains **LIVE PASS / CLOSED** on:
-
-```text
-yandex-marketing-bridge-0.1.1-phase2-real-profile-binding-repair-candidate.zip
-SHA-256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
-bytes = 179013
-files = 69
-ZIP entries = 72
-```
-
-Durable evidence:
+The accepted product baseline for Phase-3 development is the lifecycle-button artifact/source, not the older Phase-2 source:
 
 ```text
-extension/tests/PHASE_2_REAL_PROFILE_BINDING_CODEX_COMPLETE_PASS_2026-08-25.md
-extension/tests/PHASE_2_REAL_PROFILE_OWNER_LIVE_SEARCH_PASS_2026-08-25.md
-extension/tests/PHASE_2_OWNER_FUNCTIONAL_LATEST_CHECKPOINT.md
-```
-
-Owner Manual Search functional testing is complete. No repetitive Search API validation is required.
-
-## Lifecycle guard button patch — accepted / closed
-
-Exact accepted patch artifact:
-
-```text
-branch = candidate/lifecycle-button-gating-2026-08-25
 source = 939e880f820e52beae9dcbcedc86d5cd9e13b075
-parent = b7869180c229356a6b3d51ac980ec3da5df4c23c
 artifact = yandex-marketing-bridge-0.1.1-lifecycle-button-gating-candidate.zip
 SHA-256 = 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
 bytes = 179877
 files = 69
 ZIP entries = 72
+Codex complete applicable gate = PASS
+owner real-profile acceptance = PASS
 ```
 
-Accepted behavior:
+Durable lifecycle closure evidence:
 
 ```text
-MANUAL_OPERATION_ACTIVE / DELIVERY_IN_PROGRESS
--> Bridge-owned Yandex action remains present but disabled/non-clickable
--> blocked click cannot dispatch another Manual operation
--> backend guards remain fail-closed
--> lifecycle/outbox clear is positively observed
--> action becomes clickable again
-```
-
-The complete independent Codex applicable gate passed with:
-
-```text
-source_suite = 247/247
-packaged_suite = 247/247
-focused_lifecycle_runtime = 14/14
-PD-00..PD-17 = ALL PASS
-S-00..S-17 = ALL PASS
-B01/B02/B03 = PASS
-native_popup_geometry_430x560 = PASS
-lifecycle installed-extension gate = PASS
-enabled_not_run_sections = 0
-real_yandex_requests = 0
-real_credentials_used = NO
-verdict = PASS
-```
-
-Owner real-profile acceptance also passed on the same exact artifact. The owner confirmed the lifecycle action is non-clickable while blocked and returns to normal availability after completion. The accompanying validation was local `COMMAND_VALIDATION / INVALID_ENUM` with `request_executed=false`, so no Yandex provider request was made.
-
-Durable evidence:
-
-```text
-extension/tests/LIFECYCLE_BUTTON_GATING_FREEZE_2026-08-26.md
-extension/tests/LIFECYCLE_BUTTON_GATING_EXACT_TRANSPORT_PASS_2026-08-26.md
-extension/tests/LIFECYCLE_BUTTON_GATING_BROWSER_PREFLIGHT_2026-08-26.md
-extension/tests/CODEX_LIFECYCLE_BUTTON_GATING_COMPLETE_GATE_HANDOFF_2026-08-26.md
 extension/tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
 extension/tests/LIFECYCLE_BUTTON_GATING_OWNER_LIVE_PASS_2026-08-26.md
 ```
 
-Closure:
+## Phase 3 — Webmaster reconstruction result
+
+Current official authority checked 2026-08-26 establishes:
 
 ```text
-LIFECYCLE_BUTTON_PATCH = OWNER LIVE PASS / CLOSED
+API version = 4.1
+base = https://api.webmaster.yandex.net/v4
+auth = OAuth 2.0
+header = Authorization: OAuth <token>
+user identity = GET /v4/user → user_id
 ```
 
-## Phase 3 — Webmaster
-
-Phase 3 is now **authorized and active at governed requirement reconstruction only**. Do not implement Webmaster from memory.
-
-Required sequence:
+First slice is read-only only:
 
 ```text
-1. Reconstruct current Yandex Webmaster API capabilities from current official docs and historical repo evidence.
-2. Define the first Webmaster slice: protocol, allowed methods, credentials/capability, policy/budget, response normalization and failure/retry semantics.
-3. Write/update Phase-3 specification + implementation plan + acceptance/gate requirements.
-4. Only then implement the approved first slice.
-5. Focused tests -> exact candidate freeze -> independent Codex complete applicable gate -> owner-live only for irreducible live behavior.
+listHosts
+getSummary
+getDiagnostics
+getPopularQueries
 ```
 
-Until the Phase-3 contract is written, no Webmaster production bytes are authorized.
+Deferred/locked:
+
+```text
+host add/delete
+verification mutations
+recrawl submission
+Sitemap mutation
+important URL mutation
+original text submission
+PRO export tasks
+query analytics POST
+all other Webmaster POST/DELETE surfaces
+```
+
+Canonical Phase-3 documents:
+
+```text
+extension/docs/SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md
+extension/docs/PHASE_3_WEBMASTER_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_WEBMASTER_PHASE3_ADDENDUM.md
+```
+
+The base `SPECIFICATION.md` has been reconciled to Phase 3 and now treats Wordstat/Search/lifecycle as closed and Webmaster as active.
+
+## Credential architecture requirement
+
+Webmaster cannot reuse the existing Yandex Cloud `Api-Key + folderId`. Phase 3 therefore includes service-specific credential restoration/migration.
+
+Required operator model before Phase-3 handoff:
+
+```text
+Wordstat  → dedicated Api-Key + folderId → Save → Check
+Search    → dedicated Api-Key + folderId → Save → Check
+Webmaster → dedicated OAuth token + derived user_id → Save → Check
+Export/Import preserves exact service mapping
+```
+
+Migration must preserve current shared Wordstat/Search values and seed dedicated records without deleting old compatibility keys.
+
+Webmaster Check is exactly one read-only `GET /v4/user`; successful Check stores derived `user_id`. Search Check must never silently create a billable request — explicit confirmation is required if no free credential probe exists.
+
+## Phase-3 policy
+
+Default Webmaster policy:
+
+```text
+manual_enabled = true
+autorun_enabled = false
+allowed_methods = [listHosts, getSummary, getDiagnostics, getPopularQueries]
+max_requests_per_run = 50
+method_cost_rub = 0
+max_cost_rub_per_run = 0
+```
+
+This local request ceiling is not a claim about provider quota. Provider 429 responses are surfaced and never automatically retried.
+
+## Error/exactly-once contract
+
+```text
+pre-fetch validation/credential/policy rejection → request_executed=false
+HTTP response received → request_executed=true
+unknown post-initiation network outcome → request_executed=UNKNOWN
+automatic_retry=false in all cases
+```
+
+Runtime command execution must not silently call `/v4/user` before every command. The explicit credential Check workflow derives/stores `user_id`, preserving one accepted command = one provider request.
+
+## Testing/gate requirement
+
+Webmaster product bytes require the existing permanent full gate plus the new `W-00..W-19` Webmaster addendum.
+
+Controlled QA:
+
+```text
+fake credentials only
+controlled Webmaster provider/stub
+zero real Yandex requests
+no secret leakage
+popup geometry remains 430×560
+all enabled existing Phase-1/2/core regressions still run
+all W-00..W-19 execute
+PASS forbids enabled NOT_RUN
+```
 
 ## Current authorized next action
 
 ```text
-PHASE_3_WEBMASTER_GOVERNED_REQUIREMENT_RECONSTRUCTION
+1. create Phase-3 dev branch from exact accepted source 939e880f...
+2. implement credential storage/migration/backup foundation
+3. implement Webmaster protocol/registry/policy/worker
+4. implement bounded popup credential/service UI
+5. add focused/unit/integration/browser tests
+6. development verification only
+7. freeze exact candidate only when implementation is working
 ```
