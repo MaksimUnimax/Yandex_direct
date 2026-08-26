@@ -1,0 +1,24 @@
+name: Phase 3 browser runtime r8
+on:
+  push:
+    branches:
+      - automation/phase3-browser-runtime-r8-2026-08-26
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source regression
+        working-directory: extension/src
+        run: npm test
+      - name: Install browser harness dependency
+        working-directory: extension
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false puppeteer-core@24
+      - name: Controlled headed Chrome extension runtime
+        run: |
+          CHROME_BIN="$(which google-chrome-stable || which google-chrome || which chromium || which chromium-browser)"
+          test -n "$CHROME_BIN"
+          command -v xvfb-run
+          xvfb-run -a env CHROME_BIN="$CHROME_BIN" node extension/tests/phase3_browser_runtime.mjs
