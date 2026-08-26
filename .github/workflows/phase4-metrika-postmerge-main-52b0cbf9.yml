@@ -1,0 +1,384 @@
+name: Phase 4 Metrika postmerge main verification
+
+on:
+  push:
+    branches:
+      - qa/postmerge-phase4-metrika-main-52b0cbf9-2026-08-26
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  MAIN_EXPECTED_HEAD: 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
+  ACCEPTED_PRODUCT_SOURCE: 643445758e86d3b06ac42a6daea5c97b6e9223c7
+  ACCEPTED_SRC_TREE: fbc52f9a84195278b7b5e942f2a84c7d69778b98
+  PRODUCT_SOURCE_REF: candidate/phase4-metrika-first-slice-64344575-2026-08-26
+  FREEZE_RUN_ID: '32953269753'
+  PUBLISHED_ARTIFACT_NAME: phase4-metrika-first-slice-exact-64344575
+  ARTIFACT_ID: '9600980289'
+  ARTIFACT_OUTER_DIGEST: sha256:0f252b5a5a39b04b0d6d911f5423a8cf69991a5c50ec6f49f3fd6493250db75a
+  CANDIDATE_ZIP: yandex-marketing-bridge-0.1.1-phase4-metrika-first-slice-candidate.zip
+  CANDIDATE_SHA256: 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
+  CANDIDATE_BYTES: '117375'
+  CANDIDATE_TESTS: '38'
+  BROWSER_QA_COMMIT: f0a174f40dc9de66a8e57e6010b4ea8149e90c54
+  BROWSER_HARNESS_BLOB: ae77710520c70f769a51b170ca2880e19f8f57d1
+  BROWSER_PATCHER_BLOB: 0d495057753cd36961e015344360790a77599507
+  PUPPETEER_VERSION: 24.43.1
+  FINAL_QA_HEAD: 16c5c20707bbbf9cf9638d54aba1d883b2b4cb07
+  LIFECYCLE_ADAPTER_BLOB: a7a3f3884563ae8ba123f335bee8d5f61e1b783c
+  LIFECYCLE_R4_PATCH_BLOB: 0c0ab000f2c371f9ecd1c65537e320a81746589c
+  PROVEN_W14_COMMIT: 2b58a9ed8284bded97ed6e8bff772502ee133f76
+  HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+  CHROME_VERSION: 151.0.7922.47
+
+jobs:
+  identity-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Lock postmerge main and accepted source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main "$PRODUCT_SOURCE_REF"
+          test "$(git rev-parse origin/main)" = "$MAIN_EXPECTED_HEAD"
+          test "$(git rev-parse origin/main:extension/src)" = "$ACCEPTED_SRC_TREE"
+          test "$(git rev-parse "origin/$PRODUCT_SOURCE_REF")" = "$ACCEPTED_PRODUCT_SOURCE"
+          test "$(git rev-parse "$ACCEPTED_PRODUCT_SOURCE:extension/src")" = "$ACCEPTED_SRC_TREE"
+          test "$(git rev-parse HEAD:extension/src)" = "$ACCEPTED_SRC_TREE"
+          echo PHASE4_POSTMERGE_MAIN_REF_LOCK_PASS
+          echo PHASE4_POSTMERGE_ACCEPTED_SRC_TREE_PASS
+
+      - name: Verify published frozen artifact metadata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/MaksimUnimax/Yandex_direct/actions/artifacts/$ARTIFACT_ID" > /tmp/p4-post-artifact-meta.json
+          python3 - <<'PY'
+          import json, os
+          a=json.load(open('/tmp/p4-post-artifact-meta.json'))
+          assert str(a['id']) == os.environ['ARTIFACT_ID']
+          assert a['name'] == os.environ['PUBLISHED_ARTIFACT_NAME']
+          assert a.get('digest') == os.environ['ARTIFACT_OUTER_DIGEST']
+          assert a['expired'] is False
+          assert str(a['workflow_run']['id']) == os.environ['FREEZE_RUN_ID']
+          print('PHASE4_POSTMERGE_ARTIFACT_METADATA_PASS')
+          PY
+
+      - name: Download exact frozen artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/p4-postmerge-artifact
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+
+      - name: Compare main bytes to frozen manifest and run 38 tests on main bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/p4-postmerge-artifact
+          sha256sum -c SHA256SUMS.txt
+          test "$(sha256sum "$CANDIDATE_ZIP" | awk '{print $1}')" = "$CANDIDATE_SHA256"
+          test "$(stat -c '%s' "$CANDIDATE_ZIP")" = "$CANDIDATE_BYTES"
+          cd "$GITHUB_WORKSPACE"
+          python3 - <<'PY'
+          import hashlib, json, os, shutil, zipfile
+          from pathlib import Path
+          pub=Path('/tmp/p4-postmerge-artifact')
+          archive=pub/os.environ['CANDIDATE_ZIP']
+          manifest=json.loads((pub/'freeze-manifest.json').read_text(encoding='utf-8'))
+          assert manifest['source_commit']==os.environ['ACCEPTED_PRODUCT_SOURCE']
+          assert manifest['sha256']==os.environ['CANDIDATE_SHA256']
+          assert manifest['bytes']==int(os.environ['CANDIDATE_BYTES'])
+          extracted=Path('/tmp/p4-postmerge-extracted')
+          shutil.rmtree(extracted, ignore_errors=True)
+          with zipfile.ZipFile(archive) as z: z.extractall(extracted)
+          frozen=extracted/manifest['root_name']
+          main=Path(os.environ['GITHUB_WORKSPACE'])/'extension/src'
+          repo=Path('/tmp/p4-postmerge-repo')
+          shutil.rmtree(repo, ignore_errors=True)
+          (repo/'src').mkdir(parents=True)
+          (repo/'tests').mkdir(parents=True)
+          expected_product={}
+          for row in manifest['payload']:
+              rel=row['path']
+              if rel.startswith('tests/'):
+                  src=frozen/rel
+                  dst=repo/rel
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(src,dst)
+                  continue
+              data=(main/rel).read_bytes()
+              assert len(data)==row['bytes'], rel
+              assert hashlib.sha256(data).hexdigest()==row['sha256'], rel
+              expected_product[rel]=row['sha256']
+              dst=repo/'src'/rel
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              dst.write_bytes(data)
+          actual={p.relative_to(main).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in main.rglob('*') if p.is_file()}
+          assert actual==expected_product, (set(actual)-set(expected_product), set(expected_product)-set(actual))
+          print(f'PHASE4_POSTMERGE_MAIN_FROZEN_BYTE_IDENTITY_PASS files={len(actual)}')
+          PY
+          node --test /tmp/p4-postmerge-repo/tests/*.test.mjs | tee /tmp/p4-postmerge-tests.log
+          grep -F "# tests $CANDIDATE_TESTS" /tmp/p4-postmerge-tests.log
+          grep -F "# pass $CANDIDATE_TESTS" /tmp/p4-postmerge-tests.log
+          grep -F '# fail 0' /tmp/p4-postmerge-tests.log
+          grep -F '# skipped 0' /tmp/p4-postmerge-tests.log
+          echo PHASE4_POSTMERGE_MAIN_38_OF_38_PASS
+
+  browser-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lock main product tree and stage browser copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$MAIN_EXPECTED_HEAD"
+          test "$(git rev-parse origin/main:extension/src)" = "$ACCEPTED_SRC_TREE"
+          rm -rf /tmp/p4-post-browser
+          mkdir -p /tmp/p4-post-browser/extension/tests/qa_browser
+          cp -a extension/src /tmp/p4-post-browser/extension/src
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          src=Path('/tmp/p4-post-browser/extension/src')
+          snap={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          Path('/tmp/p4-post-browser/before.json').write_text(json.dumps(snap,sort_keys=True),encoding='utf-8')
+          print('PHASE4_POSTMERGE_BROWSER_MAIN_STAGE_PASS')
+          PY
+
+      - name: Pin accepted popup harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$BROWSER_QA_COMMIT"
+          git show "$BROWSER_QA_COMMIT:extension/tests/qa_browser/metrika_browser_runtime.mjs" > /tmp/p4-post-browser/extension/tests/qa_browser/metrika_browser_runtime.mjs
+          git show "$BROWSER_QA_COMMIT:extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs" > /tmp/p4-post-browser/extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs
+          test "$(git hash-object /tmp/p4-post-browser/extension/tests/qa_browser/metrika_browser_runtime.mjs)" = "$BROWSER_HARNESS_BLOB"
+          test "$(git hash-object /tmp/p4-post-browser/extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs)" = "$BROWSER_PATCHER_BLOB"
+          node /tmp/p4-post-browser/extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs /tmp/p4-post-browser/extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/p4-post-browser-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_SOURCE_IDENTITY_PASS' /tmp/p4-post-browser-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_INITIAL_QUIESCENCE_PASS' /tmp/p4-post-browser-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_LITERAL_CLOSURE_PATCH_PASS' /tmp/p4-post-browser-patch.log
+          node --check /tmp/p4-post-browser/extension/tests/qa_browser/metrika_browser_runtime.mjs
+          echo PHASE4_POSTMERGE_BROWSER_PINNED_HARNESS_PASS
+
+      - name: Install pinned popup browser route
+        working-directory: /tmp/p4-post-browser/extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false "puppeteer@$PUPPETEER_VERSION"
+          npx puppeteer browsers install chrome
+          test "$(node -p "require('puppeteer/package.json').version")" = "$PUPPETEER_VERSION"
+          command -v xvfb-run
+          echo "PHASE4_POSTMERGE_PUPPETEER_VERSION=$PUPPETEER_VERSION"
+
+      - name: Run controlled popup against main bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node /tmp/p4-post-browser/extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/p4-post-browser.log
+          for marker in \
+            M15_POPUP_GEOMETRY_AND_FOUR_SERVICE_UI_PASS \
+            M15_METRIKA_POLICY_INTERNAL_SCROLL_PASS \
+            M15_CREDENTIAL_SAVE_RERENDER_SECRET_REDACTION_PASS \
+            M04_M15_BLANK_METRIKA_SAVE_PRESERVES_CREDENTIAL_PASS \
+            M04_M15_COMMON_SAVE_PRESERVES_CREDENTIALS_PASS \
+            M15_FOUR_SERVICE_SWITCH_CREDENTIAL_ISOLATION_PASS \
+            M05_M15_METRIKA_CHECK_ONE_GET_PASS \
+            M07_M09_CONTROLLED_WORKER_PROVIDER_BOUNDARY_PASS \
+            M04_M16_BACKUP_CHECKSUM_TAMPER_REJECTS_BEFORE_MUTATION_PASS \
+            M16_BACKUP_V3_FOUR_SERVICE_EXPORT_IMPORT_PASS \
+            M15_REOPEN_RERENDER_SECRET_BLANK_PASS \
+            M19_CONTROLLED_REAL_YANDEX_REQUESTS=0 \
+            PHASE4_METRIKA_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/p4-post-browser.log
+          done
+          if grep -E 'm4-(wordstat-secret|search-secret|webmaster-oauth|metrika-oauth|mutated-token|tampered-token)' /tmp/p4-post-browser.log; then
+            echo PHASE4_POSTMERGE_BROWSER_SECRET_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE4_POSTMERGE_CONTROLLED_POPUP_PASS
+
+      - name: Reverify main product copy unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          src=Path('/tmp/p4-post-browser/extension/src')
+          before=json.loads(Path('/tmp/p4-post-browser/before.json').read_text(encoding='utf-8'))
+          after={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          assert after==before
+          print('PHASE4_POSTMERGE_BROWSER_PRODUCT_BYTES_IDENTICAL')
+          PY
+
+  lifecycle-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lock main product tree and stage lifecycle copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$MAIN_EXPECTED_HEAD"
+          test "$(git rev-parse origin/main:extension/src)" = "$ACCEPTED_SRC_TREE"
+          rm -rf /tmp/p4-post-lifecycle /tmp/p4-post-chrome /tmp/p4-post-chrome.zip
+          mkdir -p /tmp/p4-post-lifecycle/harness
+          cp -a extension/src /tmp/p4-post-lifecycle/src
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          src=Path('/tmp/p4-post-lifecycle/src')
+          snap={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          Path('/tmp/p4-post-lifecycle/before.json').write_text(json.dumps(snap,sort_keys=True),encoding='utf-8')
+          print('PHASE4_POSTMERGE_LIFECYCLE_MAIN_STAGE_PASS')
+          PY
+
+      - name: Prepare pinned two-route lifecycle harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$PROVEN_W14_COMMIT"
+          git fetch --no-tags --depth=1 origin "$HISTORICAL_STAGE4_COMMIT"
+          git fetch --no-tags --depth=1 origin "$BROWSER_QA_COMMIT"
+          git fetch --no-tags --depth=1 origin "$FINAL_QA_HEAD"
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/p4-post-lifecycle/harness/metrika_list_lifecycle.mjs
+          cp /tmp/p4-post-lifecycle/harness/metrika_list_lifecycle.mjs /tmp/p4-post-lifecycle/harness/metrika_summary_lifecycle.mjs
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/patch_w14_bootstrap.mjs" > /tmp/p4-post-lifecycle/harness/patch_w14_bootstrap.mjs
+          git show "$BROWSER_QA_COMMIT:extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs" > /tmp/p4-post-lifecycle/harness/patch_m14_metrika_from_w14.mjs
+          git show "$FINAL_QA_HEAD:extension/tests/qa_browser/patch_m14_receiver_owner_quiescence_r4.mjs" > /tmp/p4-post-lifecycle/harness/patch_m14_receiver_owner_quiescence_r4.mjs
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/p4-post-lifecycle/harness/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/p4-post-lifecycle/harness/qa-chatgpt-local.cert.pem
+          test "$(git hash-object /tmp/p4-post-lifecycle/harness/patch_m14_metrika_from_w14.mjs)" = "$LIFECYCLE_ADAPTER_BLOB"
+          test "$(git hash-object /tmp/p4-post-lifecycle/harness/patch_m14_receiver_owner_quiescence_r4.mjs)" = "$LIFECYCLE_R4_PATCH_BLOB"
+          node /tmp/p4-post-lifecycle/harness/patch_m14_metrika_from_w14.mjs /tmp/p4-post-lifecycle/harness/metrika_list_lifecycle.mjs list
+          node /tmp/p4-post-lifecycle/harness/patch_w14_bootstrap.mjs /tmp/p4-post-lifecycle/harness/metrika_list_lifecycle.mjs
+          node /tmp/p4-post-lifecycle/harness/patch_m14_receiver_owner_quiescence_r4.mjs /tmp/p4-post-lifecycle/harness/metrika_list_lifecycle.mjs
+          node /tmp/p4-post-lifecycle/harness/patch_m14_metrika_from_w14.mjs /tmp/p4-post-lifecycle/harness/metrika_summary_lifecycle.mjs summary
+          node /tmp/p4-post-lifecycle/harness/patch_w14_bootstrap.mjs /tmp/p4-post-lifecycle/harness/metrika_summary_lifecycle.mjs
+          node /tmp/p4-post-lifecycle/harness/patch_m14_receiver_owner_quiescence_r4.mjs /tmp/p4-post-lifecycle/harness/metrika_summary_lifecycle.mjs
+          node --check /tmp/p4-post-lifecycle/harness/metrika_list_lifecycle.mjs
+          node --check /tmp/p4-post-lifecycle/harness/metrika_summary_lifecycle.mjs
+          cd /tmp/p4-post-lifecycle/harness
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/p4-post-chrome.zip
+          unzip -q /tmp/p4-post-chrome.zip -d /tmp/p4-post-chrome
+          chmod +x /tmp/p4-post-chrome/chrome-linux64/chrome
+          /tmp/p4-post-chrome/chrome-linux64/chrome --version | grep -F "$CHROME_VERSION"
+          command -v xvfb-run
+          echo PHASE4_POSTMERGE_M14_PINNED_CFT_ROUTE_PASS
+
+      - name: Run listCounters lifecycle against main bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/p4-post-lifecycle/harness
+          xvfb-run -a node metrika_list_lifecycle.mjs /tmp/p4-post-chrome/chrome-linux64/chrome /tmp/p4-post-lifecycle/src qa-chatgpt-local.key.pem qa-chatgpt-local.cert.pem | tee /tmp/p4-post-m14-list.log
+          for marker in \
+            M14_OWNER_RECEIVER_READY_PASS \
+            M14_OWNER_RECEIVER_RELOAD_QUIESCENCE_PASS \
+            M14_METRIKA_ACTIVE_SERVICE_PASS \
+            M14_METRIKA_INITIAL_ACTION_ENABLED_PASS \
+            M14_METRIKA_ONE_MANUAL_ADMISSION_PASS \
+            M14_METRIKA_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            M14_METRIKA_REAL_COMPLETION_REENABLE_PASS \
+            M14_METRIKA_OPERATION_BLOCKED_NO_DISPATCH_PASS \
+            M14_METRIKA_OPERATION_REENABLE_PASS \
+            M14_METRIKA_DELIVERY_BLOCKED_NO_DISPATCH_PASS \
+            M14_METRIKA_DELIVERY_REENABLE_PASS \
+            M14_METRIKA_PROVIDER_HITS=1 \
+            M14_METRIKA_REAL_YANDEX_REQUESTS=0 \
+            M14_METRIKA_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/p4-post-m14-list.log
+          done
+          echo PHASE4_POSTMERGE_M14_LISTCOUNTERS_PASS
+
+      - name: Run getTrafficSummary lifecycle against main bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/p4-post-lifecycle/harness
+          xvfb-run -a node metrika_summary_lifecycle.mjs /tmp/p4-post-chrome/chrome-linux64/chrome /tmp/p4-post-lifecycle/src qa-chatgpt-local.key.pem qa-chatgpt-local.cert.pem | tee /tmp/p4-post-m14-summary.log
+          for marker in \
+            M14_OWNER_RECEIVER_READY_PASS \
+            M14_OWNER_RECEIVER_RELOAD_QUIESCENCE_PASS \
+            M14_METRIKA_SUMMARY_ACTIVE_SERVICE_PASS \
+            M14_METRIKA_SUMMARY_INITIAL_ACTION_ENABLED_PASS \
+            M14_METRIKA_SUMMARY_ONE_MANUAL_ADMISSION_PASS \
+            M14_METRIKA_SUMMARY_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            M14_METRIKA_SUMMARY_REAL_COMPLETION_REENABLE_PASS \
+            M14_METRIKA_SUMMARY_OPERATION_BLOCKED_NO_DISPATCH_PASS \
+            M14_METRIKA_SUMMARY_OPERATION_REENABLE_PASS \
+            M14_METRIKA_SUMMARY_DELIVERY_BLOCKED_NO_DISPATCH_PASS \
+            M14_METRIKA_SUMMARY_DELIVERY_REENABLE_PASS \
+            M14_METRIKA_SUMMARY_PROVIDER_HITS=1 \
+            M14_METRIKA_SUMMARY_REAL_YANDEX_REQUESTS=0 \
+            M14_METRIKA_SUMMARY_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/p4-post-m14-summary.log
+          done
+          echo PHASE4_POSTMERGE_M14_TRAFFIC_SUMMARY_PASS
+          echo PHASE4_POSTMERGE_M14_TWO_ROUTE_LIFECYCLE_PASS
+
+      - name: Reverify main lifecycle copy unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          src=Path('/tmp/p4-post-lifecycle/src')
+          before=json.loads(Path('/tmp/p4-post-lifecycle/before.json').read_text(encoding='utf-8'))
+          after={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          assert after==before
+          print('PHASE4_POSTMERGE_LIFECYCLE_PRODUCT_BYTES_IDENTICAL')
+          PY
+
+  final:
+    runs-on: ubuntu-24.04
+    needs:
+      - identity-source
+      - browser-runtime
+      - lifecycle-browser
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Final postmerge lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$MAIN_EXPECTED_HEAD"
+          test "$(git rev-parse origin/main:extension/src)" = "$ACCEPTED_SRC_TREE"
+          echo "PHASE4_POSTMERGE_FINAL_MAIN_HEAD=$MAIN_EXPECTED_HEAD"
+          echo "PHASE4_POSTMERGE_FINAL_SRC_TREE=$ACCEPTED_SRC_TREE"
+          echo PHASE4_POSTMERGE_FINAL_ACCEPTANCE_PASS
