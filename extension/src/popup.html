@@ -11,7 +11,7 @@
     <header>
       <div>
         <h1>Yandex Marketing Bridge</h1>
-        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search.</p>
+        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster.</p>
       </div>
       <span id="versionBadge" class="badge">v0.1.1</span>
     </header>
@@ -25,6 +25,7 @@
         <select id="activeService">
           <option value="wordstat">Wordstat</option>
           <option value="search">Search / SERP</option>
+          <option value="webmaster">Webmaster</option>
         </select>
       </label>
       <div class="actions">
@@ -34,6 +35,57 @@
         <span><strong>Ручной режим Yandex</strong><small id="manualModeMeta">Выключен.</small></span>
         <input id="manualMode" type="checkbox">
       </label>
+    </section>
+
+    <section id="credentialsSection">
+      <h2>Ключи и доступы Yandex</h2>
+      <p class="warning">Секреты хранятся отдельно по сервисам. Сохранённый API key / OAuth никогда не выводится обратно в текст popup.</p>
+
+      <details id="wordstatCredentials" class="credential-card" data-service="wordstat">
+        <summary><span>Wordstat</span><strong id="wordstatCredentialState">не настроен</strong></summary>
+        <label>API key
+          <input id="wordstatApiKey" type="password" autocomplete="off" placeholder="Введите новый ключ или оставьте пустым">
+        </label>
+        <label>folderId
+          <input id="wordstatFolderId" type="text" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="actions">
+          <button id="saveWordstatCredential" type="button">Save</button>
+          <button id="checkWordstatCredential" type="button">Check</button>
+        </div>
+        <p id="wordstatCheckMeta" class="credential-meta">Не проверено.</p>
+        <p class="warning">Check делает один read-only getRegionsTree. Этот метод не тарифицируется по текущему тарифу Wordstat.</p>
+      </details>
+
+      <details id="searchCredentials" class="credential-card" data-service="search">
+        <summary><span>Search / SERP</span><strong id="searchCredentialState">не настроен</strong></summary>
+        <label>API key
+          <input id="searchApiKey" type="password" autocomplete="off" placeholder="Введите новый ключ или оставьте пустым">
+        </label>
+        <label>folderId
+          <input id="searchFolderId" type="text" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="actions">
+          <button id="saveSearchCredential" type="button">Save</button>
+          <button id="checkSearchCredential" type="button">Check</button>
+        </div>
+        <p id="searchCheckMeta" class="credential-meta">Не проверено.</p>
+        <p class="warning">Search Check платный: перед ним popup отдельно попросит подтверждение ровно одного Search-запроса. Автоповтора нет.</p>
+      </details>
+
+      <details id="webmasterCredentials" class="credential-card" data-service="webmaster">
+        <summary><span>Webmaster</span><strong id="webmasterCredentialState">не настроен</strong></summary>
+        <label>OAuth token
+          <input id="webmasterOauthToken" type="password" autocomplete="off" placeholder="Введите новый OAuth или оставьте пустым">
+        </label>
+        <div class="row"><span>Подтверждённый user_id</span><strong id="webmasterUserId">—</strong></div>
+        <div class="actions">
+          <button id="saveWebmasterCredential" type="button">Save</button>
+          <button id="checkWebmasterCredential" type="button">Check</button>
+        </div>
+        <p id="webmasterCheckMeta" class="credential-meta">Не проверено.</p>
+        <p class="warning">Check делает ровно один GET /v4/user и сохраняет полученный user_id. Токен в результат или диагностику не выводится.</p>
+      </details>
     </section>
 
     <section>
@@ -68,19 +120,13 @@
     </section>
 
     <section>
-      <h2>Yandex API</h2>
-      <label>API key
-        <input id="apiKey" type="password" autocomplete="off" placeholder="Оставьте пустым, чтобы не менять сохранённый ключ">
-      </label>
-      <label>folderId
-        <input id="folderId" type="text" autocomplete="off" spellcheck="false">
-      </label>
+      <h2>Общие настройки</h2>
       <label class="switch-row" for="autoSend">
         <span><strong>Автоматически нажимать Send после доставки</strong><small>Только после записи доставки; повторный Send запрещён.</small></span>
         <input id="autoSend" type="checkbox">
       </label>
       <label class="switch-row" for="debugMode">
-        <span><strong>Debug</strong><small>Диагностика без API key / Authorization.</small></span>
+        <span><strong>Debug</strong><small>Диагностика без API key / Authorization / OAuth token.</small></span>
         <input id="debugMode" type="checkbox">
       </label>
     </section>
@@ -126,6 +172,19 @@
     </section>
 
     <section>
+      <h2>Webmaster policy</h2>
+      <label class="switch-row" for="webmasterManualEnabled">
+        <span><strong>Разрешить Webmaster в ручном режиме</strong><small>Phase 3 разрешает только read-only методы первого среза.</small></span>
+        <input id="webmasterManualEnabled" type="checkbox">
+      </label>
+      <div class="grid">
+        <label>Max Webmaster запросов<input id="webmasterMaxRequestsRun" type="number" min="1" max="100000"></label>
+        <label>Стоимость<input id="webmasterCost" type="text" value="0 ₽" readonly></label>
+      </div>
+      <p class="warning">Autorun Webmaster в Phase 3 выключен. Разрешены только listHosts, getSummary, getDiagnostics и getPopularQueries.</p>
+    </section>
+
+    <section>
       <h2>Старт автоматического режима</h2>
       <label>Стартовый текст для выбранного сервиса
         <textarea id="autoStartPromptText" rows="5" placeholder="Стартовый текст"></textarea>
@@ -134,7 +193,7 @@
         <button id="saveAutoStartPrompt" type="button">Сохранить стартовый текст</button>
         <button id="resetAutoStartPrompt" type="button">Вернуть стандартный</button>
       </div>
-      <p class="warning">Стандартный текст зависит от выбранного сервиса. Search и Wordstat не смешиваются в одном запуске.</p>
+      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster Autorun в Phase 3 запрещён.</p>
     </section>
 
     <section>
@@ -160,17 +219,17 @@
         <button id="copyDiagnostics" type="button">Копировать диагностику</button>
         <button id="clearDiagnostics" type="button">Очистить диагностику</button>
       </div>
-      <p class="warning">API key, Authorization, token и secret скрываются перед показом.</p>
+      <p class="warning">API key, Authorization, OAuth token и secret скрываются перед показом.</p>
     </section>
 
     <section>
       <div class="actions">
-        <button id="saveSettings" class="primary" type="button">Сохранить</button>
+        <button id="saveSettings" class="primary" type="button">Сохранить общие настройки</button>
         <button id="exportSettings" type="button">Экспорт</button>
         <button id="importSettings" type="button">Импорт</button>
         <input id="importFile" type="file" accept="application/json,.json" hidden>
       </div>
-      <p class="warning">Экспорт содержит API key. Храните файл как секрет. Импорт проверяет контрольную сумму, объединяет совместимые настройки и не заменяет активный запуск.</p>
+      <p class="warning">Экспорт содержит секреты всех настроенных сервисов. Импорт проверяет SHA-256 и блокируется во время активного Autorun или Manual-запроса.</p>
     </section>
   </main>
   <script src="popup_transfer_guard.js"></script>
