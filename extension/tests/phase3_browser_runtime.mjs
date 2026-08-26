@@ -168,14 +168,17 @@ try {
   assert.equal(wordstatBoundary.fetches[0].url.includes('/v2/wordstat/getRegionsTree'), true);
   assert.match(wordstatBoundary.popup.credential_state, /проверено/i);
 
+  await page.$eval('#searchCredentials', (node) => { node.open = true; });
   await page.$eval('#searchApiKey', (node) => { node.value = 'browser-search-secret'; });
   await page.$eval('#searchFolderId', (node) => { node.value = 'browser-search-folder'; });
   await page.click('#saveSearchCredential');
   await page.waitForFunction(() => document.querySelector('#searchApiKey')?.value === '');
 
+  await page.$eval('#webmasterCredentials', (node) => { node.open = true; });
   await page.$eval('#webmasterOauthToken', (node) => { node.value = 'browser-invalid-oauth'; });
   await page.click('#saveWebmasterCredential');
   await page.waitForFunction(() => document.querySelector('#webmasterOauthToken')?.value === '');
+  await page.$eval('#webmasterCredentials', (node) => { node.open = true; });
   await workerEval(workerClient, `globalThis.__YMB_BROWSER_MODE = 'webmaster401'`);
   await page.click('#checkWebmasterCredential');
   await page.waitForFunction(() => /неверный|истёк/i.test(document.querySelector('#webmasterCredentialState')?.textContent || ''));
@@ -186,9 +189,11 @@ try {
   assert.equal(invalidLeak.text, false);
   assert.equal(invalidLeak.input, '');
 
+  await page.$eval('#webmasterCredentials', (node) => { node.open = true; });
   await page.$eval('#webmasterOauthToken', (node) => { node.value = 'browser-valid-oauth'; });
   await page.click('#saveWebmasterCredential');
   await page.waitForFunction(() => document.querySelector('#webmasterOauthToken')?.value === '');
+  await page.$eval('#webmasterCredentials', (node) => { node.open = true; });
   await workerEval(workerClient, `globalThis.__YMB_BROWSER_MODE = 'ok'`);
   await page.click('#checkWebmasterCredential');
   await page.waitForFunction(() => document.querySelector('#webmasterUserId')?.textContent === '321');
