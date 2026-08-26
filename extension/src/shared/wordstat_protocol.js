@@ -1,7 +1,7 @@
 (() => {
   "use strict";
-
   const PREFIX = "WORDSTAT_API_V1";
+  const RESULT_PREFIX = "WORDSTAT_RESULT_V1";
   function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.0"); }
   const DEFAULT_FOLDER_ID = "b1gqfm5c5vn6aingakbe";
   const DEVICES = new Set(["DEVICE_ALL", "DEVICE_DESKTOP", "DEVICE_PHONE", "DEVICE_TABLET"]);
@@ -58,19 +58,15 @@
   function normalizeCommand(raw) {
     const method = asString(raw.method, "method", { required: true, max: 80 });
     if (!METHODS[method]) fail("UNSUPPORTED_METHOD", `Метод ${method} не разрешён.`);
-
     if (method === "getRegionsTree") return Object.freeze({ method });
-
     const phrase = asString(raw.phrase, "phrase", { required: true, max: 400 });
     const devices = normalizeDevices(raw.devices);
-
     if (method === "getTop") {
       const num = raw.numPhrases === undefined ? 100 : Number(raw.numPhrases);
       if (!Number.isInteger(num) || num < 1 || num > 2000) fail("INVALID_NUM_PHRASES", "numPhrases должен быть целым числом от 1 до 2000.");
       const regions = normalizeStringArray(raw.regions === undefined ? ["225"] : raw.regions, "regions", 100);
       return Object.freeze({ method, phrase, numPhrases: num, regions, devices });
     }
-
     if (method === "getDynamics") {
       const period = asString(raw.period, "period", { required: true, max: 40 });
       if (!PERIODS.has(period)) fail("INVALID_PERIOD", `Неизвестный period: ${period}`);
@@ -80,13 +76,11 @@
       const regions = normalizeStringArray(raw.regions === undefined ? ["225"] : raw.regions, "regions", 100);
       return Object.freeze({ method, phrase, period, fromDate, toDate, regions, devices });
     }
-
     if (method === "getRegionsDistribution") {
       const region = asString(raw.region === undefined ? "REGION_ALL" : raw.region, "region", { max: 40 });
       if (!REGION_LEVELS.has(region)) fail("INVALID_REGION_LEVEL", `Неизвестный region: ${region}`);
       return Object.freeze({ method, phrase, region, devices });
     }
-
     fail("UNSUPPORTED_METHOD", method);
   }
 
@@ -97,10 +91,7 @@
     const body = { ...command };
     delete body.method;
     body.folderId = folder;
-    return Object.freeze({
-      url: `https://searchapi.api.cloud.yandex.net${meta.endpoint}`,
-      body
-    });
+    return Object.freeze({ url: `https://searchapi.api.cloud.yandex.net${meta.endpoint}`, body });
   }
 
   function commandFingerprint(command) {
@@ -122,8 +113,8 @@
     };
   }
 
-  function formatResultReport({ requestId, command, httpStatus, result, elapsedMs, metadata = {} }) {
-    const envelope = {
+  function buildResultEnvelope({ requestId, command, httpStatus, result, elapsedMs, metadata = {} }) {
+    return {
       bridge: String(globalThis.YMBProduct?.BRIDGE_ID || "yandex-marketing-bridge"),
       version: productVersion(),
       service: "wordstat",
@@ -138,20 +129,40 @@
       command,
       http_status: httpStatus,
       elapsed_ms: elapsedMs,
-      result
+      result,
+      ...(metadata.debug_logs ? { debug_logs: metadata.debug_logs } : {}),
+      ...(metadata.request_executed !== undefined ? { request_executed: metadata.request_executed } : {}),
+      ...(metadata.automatic_retry !== undefined ? { automatic_retry: metadata.automatic_retry } : {})
     };
-    return `WORDSTAT_RESULT_V1\n${JSON.stringify(envelope, null, 2)}`;
   }
 
-  function formatSkippedReport({ requestId, command, reason, metadata = {} }) {
-    return formatResultReport({
+  function formatResultEnvelope(envelope) {
+    return `${RESULT_PREFIX}\n${JSON.stringify(envelope, null, 2)}`;
+  }
+
+  function formatResultReport(args) {
+    return formatResultEnvelope(buildResultEnvelope(args));
+  }
+
+  function buildSkippedEnvelope({ requestId, command, reason, metadata = {} }) {
+    return buildResultEnvelope({
       requestId,
       command,
       httpStatus: 0,
       elapsedMs: 0,
-      metadata: { ...metadata, status: "SKIPPED", reason },
+      metadata: {
+        ...metadata,
+        status: "SKIPPED",
+        reason,
+        request_executed: metadata.request_executed ?? false,
+        automatic_retry: metadata.automatic_retry ?? false
+      },
       result: { skipped: true, reason }
     });
+  }
+
+  function formatSkippedReport(args) {
+    return formatResultEnvelope(buildSkippedEnvelope(args));
   }
 
   function isCommandText(text) {
@@ -160,6 +171,7 @@
 
   globalThis.WordstatProtocol = Object.freeze({
     PREFIX,
+    RESULT_PREFIX,
     DEFAULT_FOLDER_ID,
     METHODS,
     parseCommand,
@@ -167,7 +179,10 @@
     buildRequest,
     commandFingerprint,
     safeErrorPayload,
+    buildResultEnvelope,
+    formatResultEnvelope,
     formatResultReport,
+    buildSkippedEnvelope,
     formatSkippedReport,
     isCommandText
   });
