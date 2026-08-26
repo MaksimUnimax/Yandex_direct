@@ -1,4 +1,4 @@
-# ROADMAP v0.11 — Yandex Marketing Bridge
+# ROADMAP v0.12 — Yandex Marketing Bridge
 
 Status: active roadmap.  
 Updated: 2026-08-26.
@@ -33,7 +33,7 @@ fact needed
 → until proven, record UNKNOWN / NOT VERIFIED / explicit conflict
 ```
 
-Codex is therefore not limited to QA. It is also an authorized information-gathering/research tool. Research authority does **not** imply permission to edit product/production, credentials, provider account settings or external resources; those require separate authorization.
+Codex is not limited to QA. It is also an authorized information-gathering/research tool. Research authority does **not** imply permission to edit product/production, credentials, provider account settings or external resources; those require separate authorization.
 
 Exact current identities, blockers and authorized next action are authoritative in `CURRENT_STATE.md`.
 
@@ -121,11 +121,7 @@ protocol: WEBMASTER_API_V1
 result: WEBMASTER_RESULT_V1
 provider base: https://api.webmaster.yandex.net/v4
 auth: OAuth token + derived user_id
-methods:
-  listHosts
-  getSummary
-  getDiagnostics
-  getPopularQueries
+methods: listHosts,getSummary,getDiagnostics,getPopularQueries
 writes: disabled
 ```
 
@@ -134,11 +130,8 @@ Accepted product identity:
 ```text
 source: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
 frozen ZIP SHA-256: 1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8
-frozen ZIP bytes: 222592
 accepted src tree: e5fa694f1354e1ee048a352481a416413e94a3c9
 merged main: 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
-independent Codex final gate: PASS
-post-merge source suite: 313 / 313 PASS
 owner-live acceptance: PASS
 ```
 
@@ -165,11 +158,7 @@ result: METRIKA_RESULT_V1
 auth: dedicated OAuth token with metrika:read
 Management API: https://api-metrika.yandex.net/management/v1
 Reports API: https://api-metrika.yandex.net/stat/v1
-methods:
-  listCounters
-  getCounter
-  getTrafficSummary
-  getTrafficByTime
+methods: listCounters,getCounter,getTrafficSummary,getTrafficByTime
 writes: disabled
 ```
 
@@ -186,19 +175,7 @@ post-merge QA: run 32957778009 PASS
 owner-live acceptance: PASS
 ```
 
-Owner-live used real counter `111970611` on `openscript.ru` and proved:
-
-```text
-listCounters → HTTP 200 / real counter discovered
-getTrafficSummary → HTTP 200 / visits=2 users=2 pageviews=12
-getTrafficByTime(group=day) → HTTP 200 / totals=2,2,12
-request_executed = true on successful provider calls
-automatic_retry = false
-```
-
-One preceding by-time attempt was locally blocked with `SEND_BUTTON_NOT_READY` and `request_executed=false`; it did not initiate a Yandex request.
-
-`getCounter` was not required for owner-live and remains controlled-QA covered.
+Owner-live used real counter `111970611` on `openscript.ru` and proved real Management and Reports API reads.
 
 Durable closure evidence:
 
@@ -206,50 +183,167 @@ Durable closure evidence:
 extension/tests/PHASE4_METRIKA_OWNER_LIVE_PASS_2026-08-26.md
 ```
 
-Canonical Phase-4 documents remain:
-
-```text
-extension/docs/SPECIFICATION_PHASE_4_METRIKA_ADDENDUM.md
-extension/docs/PHASE_4_METRIKA_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_METRIKA_PHASE4_ADDENDUM.md
-```
-
-All Management mutations, Import API, Logs API, arbitrary raw Reports constructor and arbitrary metrics/dimensions/filters/preset remain locked.
+All Metrika write/import/Logs/arbitrary-report surfaces remain locked.
 
 ---
 
 # PHASE 5 — YANDEX DIRECT
 
-**Status: RECONSTRUCTION AUTHORIZED / IMPLEMENTATION NOT YET AUTHORIZED.**
+**Status: CONTRACT READY / IMPLEMENTATION AUTHORIZED.**
 
-`PROJECT_PURPOSE.md` identifies Yandex Direct as the remaining planned marketing service after Metrika.
+Official Direct API reconstruction is complete for the first slice.
 
-No Direct runtime contract is defined by this roadmap entry. Before any production implementation, the project must reconstruct the current official Yandex Direct API surface and explicitly decide the narrow first slice.
-
-Required control-plane sequence:
+Provider/access contract:
 
 ```text
-1. fetch exact live main after Phase-4 closure docs merge
-2. prove accepted Phase-4 extension/src tree remains unchanged
-3. research current official Yandex Direct API/auth/quota/read-write behavior; do not infer missing values
-4. where direct ChatGPT research is incomplete, assign Codex a read-only evidence task against official Yandex sources, including browser-only documentation and downloadable public reference/spec material when available
-5. if a required fact is still unavailable, request one concrete retrieval/action from the project owner and keep the fact UNKNOWN / NOT VERIFIED until evidence exists
-6. identify safe read-only first-slice candidates and explicitly defer mutation surfaces unless separately authorized
-7. define credential isolation/migration requirements
-8. define DIRECT protocol/result contracts and trusted provider mapping only after the research is complete
-9. create Phase-5 specification addendum
-10. create Phase-5 requirements/implementation plan
-11. create mandatory Phase-5 Codex pre-delivery gate addendum
-12. land those control-plane docs without modifying product bytes
-13. only then authorize implementation from exact live main
+OAuth source: direct:api
+approved Direct API application request: required
+production data: full access required
+transport: HTTPS POST
+JSON endpoint pattern: https://api.direct.yandex.com/json/v501/{service}
+Reports endpoint: https://api.direct.yandex.com/json/v501/reports
+Authorization: Bearer <dedicated Direct OAuth token>
+Client-Login: optional saved credential field, used only for agency-client context
+Use-Operator-Units: locked in first slice
+Payment-Token / finance: locked
 ```
 
-Until that reconstruction is complete:
+First slice:
 
 ```text
-Direct protocol prefix = NOT AUTHORIZED
-Direct credential model = NOT AUTHORIZED
-Direct provider endpoints = NOT AUTHORIZED
-Direct methods = NOT AUTHORIZED
-Direct writes = NOT AUTHORIZED
+protocol: DIRECT_API_V1
+result: DIRECT_RESULT_V1
+methods:
+  listCampaigns
+  listAdGroups
+  listAds
+  listKeywords
+  getCampaignPerformance
+writes: disabled
 ```
+
+Read routes:
+
+```text
+listCampaigns → Campaigns.get
+listAdGroups   → AdGroups.get
+listAds        → Ads.get
+listKeywords   → Keywords.get
+```
+
+All object reads use fixed safe FieldNames constructed by trusted code. Assistant commands cannot supply provider JSON, service/method names, headers, raw URL, FieldNames or arbitrary SelectionCriteria.
+
+Reports first slice:
+
+```text
+ReportType: CAMPAIGN_PERFORMANCE_REPORT
+DateRangeType: CUSTOM_DATE
+Format: TSV
+processingMode: online only
+FieldNames: Date,CampaignId,CampaignName,Impressions,Clicks,Cost
+IncludeVAT: YES (Bridge decision)
+money: integer micros, normalized as cost_micros
+max local period: 31 days
+max local rows: 1000
+```
+
+Offline/auto report creation, HTTP 201/202 polling and `SEARCH_QUERY_PERFORMANCE_REPORT` are explicitly deferred.
+
+Direct provider capacity is measured in Units. Current official constraints/evidence include:
+
+```text
+max 5 simultaneous API requests per advertiser
+Units response = spent / remaining / daily_limit
+Campaigns.get = 10/call + 1/object
+AdGroups.get = 15/call + 1/object
+Ads.get = 15/call + 1/object
+Keywords.get = 15/call plus per-2000 component
+Reports = max 20 requests per 10 seconds per user
+```
+
+Bridge first-slice local policy is deliberately lower/bounded:
+
+```text
+manual_enabled = true
+autorun_enabled = false
+max_requests_per_run = 20
+max_page_size = 1000
+max_report_days = 31
+max_report_rows = 1000
+method_cost_rub = 0
+```
+
+Direct Units are not converted to RUB. `RequestId` and sanitized `Units` truth are preserved when present; `Units-Used-Login` is not exposed in ordinary results.
+
+Current official invalid-token documentation conflict is retained explicitly:
+
+```text
+errors table → code 53 invalid OAuth token
+auth-token page → invalid token references code 1002
+```
+
+Implementation must not blindly map all `1002` responses to invalid token; compatibility mapping requires provider context identifying token invalidity.
+
+Dedicated credential model:
+
+```text
+credentials.direct = {
+  oauth_token,
+  client_login,
+  checked_at,
+  check_state
+}
+```
+
+No automatic token reuse from Webmaster or Metrika.
+
+Direct Check is exactly one `Campaigns.get` with `FieldNames=[Id]`, `Limit=1`. Empty campaign list is a successful capability result. Check consumes provider Units and must be labeled accordingly in UI.
+
+During the governed Phase-5 popup implementation, also implement the already requested convenience duplicate of the common settings Save button near the active service selector, but it MUST call the exact same existing save handler/state path as the bottom common Save button. It is a UI duplication only, not a second storage/lifecycle implementation.
+
+Canonical Phase-5 documents:
+
+```text
+extension/docs/SPECIFICATION_PHASE_5_DIRECT_ADDENDUM.md
+extension/docs/PHASE_5_DIRECT_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_DIRECT_PHASE5_ADDENDUM.md
+```
+
+Mandatory final gate:
+
+```text
+all applicable permanent/core/Phase-1/2/3/4 regressions
++
+D-00..D-22
++
+zero enabled NOT_RUN
++
+zero real Yandex Direct traffic during controlled QA
++
+exact product immutability
+```
+
+Implementation sequence:
+
+```text
+1. merge Phase-5 contract docs only
+2. fetch exact new live main
+3. prove extension/src remains fbc52f9a84195278b7b5e942f2a84c7d69778b98
+4. create Phase-5 dev branch from that main
+5. dedicated Direct credential + safe backup migration
+6. DIRECT_API_V1 protocol + registry + policy
+7. trusted Direct provider runtime + semantic error/Units handling
+8. four object get routes
+9. one online-only Campaign Performance Reports route
+10. bounded popup Direct credential/policy UI
+11. duplicate top common Save control using same existing save handler
+12. focused/unit/integration/browser/lifecycle coverage
+13. development verification
+14. freeze exact candidate
+15. exact artifact transport round-trip
+16. independent Codex full applicable gate including D-00..D-22
+17. owner-live: approved full API access + Direct token → Check once → listCampaigns once → minimal bounded reads/report only if real data exists
+18. close Phase 5 only after live PASS
+```
+
+All Direct writes, bids, finance/payment, arbitrary reports, offline report queues and automatic retries remain locked.
