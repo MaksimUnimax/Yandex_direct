@@ -117,11 +117,9 @@ owner real-profile acceptance: PASS
 
 # PHASE 3 — WEBMASTER
 
-**Status: CONTRACT READY / IMPLEMENTATION AUTHORIZED.**
+**Status: LIVE PASS / CLOSED.**
 
-Current official reconstruction is complete against Yandex Webmaster API v4.1.
-
-First slice:
+Accepted first slice:
 
 ```text
 protocol: WEBMASTER_API_V1
@@ -136,9 +134,35 @@ methods:
 writes: disabled
 ```
 
-Phase-3 implementation also introduces service-specific credential storage/UI because Webmaster cannot reuse the existing shared Yandex Cloud Api-Key/folderId model.
+Accepted product identity:
 
-Required credential end-state before handoff:
+```text
+source: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+frozen ZIP SHA-256: 1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8
+frozen ZIP bytes: 222592
+accepted src tree: e5fa694f1354e1ee048a352481a416413e94a3c9
+merged main: 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
+independent Codex final gate: PASS
+post-merge source suite: 313 / 313 PASS
+owner-live acceptance: PASS
+```
+
+Owner-live read-only result:
+
+```text
+operation: listHosts
+request_id: webmaster-d73003d9-74ae-4428-8bc7-eac57be193ea
+http_status: 200
+status: OK
+result.hosts: []
+request_executed: true
+automatic_retry: false
+channel: manual
+```
+
+An empty host collection is accepted as a successful real-provider response. No `getSummary` was executed because no real `hostId` was available, preserving the narrow owner-live boundary.
+
+Phase-3 credential architecture now established for the unified core:
 
 ```text
 Wordstat  → dedicated Api-Key + folderId → Save → Check
@@ -147,31 +171,47 @@ Webmaster → dedicated OAuth token + derived user_id → Save → Check
 Export/Import preserves service mapping
 ```
 
-Canonical Phase-3 contract:
+Durable closure evidence:
 
 ```text
-SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md
-PHASE_3_WEBMASTER_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_WEBMASTER_PHASE3_ADDENDUM.md
+extension/tests/PHASE3_WEBMASTER_OWNER_LIVE_PASS_2026-08-26.md
 ```
 
-Implementation sequence:
+Still deferred/locked beyond the first slice:
 
 ```text
-1. branch from accepted lifecycle source 939e880f...
-2. credential storage/migration/backup foundation
-3. Webmaster protocol/registry/policy/worker
-4. popup service credential UI within 430×560
-5. focused/unit/integration/browser tests
-6. development verification
-7. exact candidate freeze
-8. exact transport round-trip
-9. independent Codex full applicable gate including W-00..W-19
-10. narrow owner-live read-only acceptance
+host add/delete
+verification mutations
+recrawl submission
+Sitemap mutation
+important URL mutation
+original text submission
+PRO export tasks
+query analytics POST
+all other Webmaster POST/DELETE surfaces
 ```
 
 ---
 
 # PHASE 4 — METRIKA
 
-**Status: BLOCKED UNTIL PHASE 3 CLOSES.**
+**Status: RECONSTRUCTION AUTHORIZED.**
+
+Phase 3 is closed, so Phase 4 is no longer blocked.
+
+No Metrika production implementation is authorized yet. The next governed stage is official API reconstruction and first-slice definition.
+
+Required reconstruction sequence:
+
+```text
+1. identify current official Yandex Metrika API version/base endpoints
+2. establish OAuth/scopes and whether existing Webmaster OAuth storage may or may not be reused
+3. inventory read-only reporting/management surfaces
+4. choose a minimal useful first slice
+5. define METRIKA_API_V1 and normalized result envelope
+6. define request/pagination/quota/cost/error truthfulness and no-retry behavior
+7. lock all write/mutation surfaces by default
+8. define service-specific credential/UI changes if needed
+9. write Phase-4 specification + requirements/implementation plan + Codex gate addendum
+10. authorize implementation only after the contract is complete
+```
