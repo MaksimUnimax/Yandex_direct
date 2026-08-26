@@ -35,14 +35,22 @@
     return { ...(base || {}), credentials: await load() };
   }
 
-  async function save(service, rawRecord) {
+  async function save(service, rawRecord = {}) {
+    const value = String(service || "").trim();
+    if (!Model.SERVICES.includes(value)) {
+      const error = new Error(`Неизвестный сервис: ${service || "unknown"}`);
+      error.code = "UNKNOWN_SERVICE";
+      throw error;
+    }
     const current = await load();
-    const next = Model.withServiceCredential(current, service, rawRecord);
+    const patch = rawRecord && typeof rawRecord === "object" && !Array.isArray(rawRecord) ? rawRecord : {};
+    const merged = { ...current[value], ...patch };
+    const next = Model.withServiceCredential(current, value, merged);
     await storageSet({
       [STORAGE_KEY]: clone(next),
       [SETTINGS_SCHEMA_KEY]: Model.SETTINGS_SCHEMA_VERSION
     });
-    return clone(next[String(service)]);
+    return clone(next[value]);
   }
 
   async function status() {
