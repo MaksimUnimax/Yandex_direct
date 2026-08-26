@@ -93,7 +93,8 @@ async function expectServiceRoutingReject(h, commandText, assistantTurnId) {
   assert.ok(outbox, `W13_ERROR_OUTBOX_MISSING_${assistantTurnId}`);
   assert.match(outbox.report_text, /^YMB_ERROR_V1\n/);
   assert.equal(h.fetchCalls.length, 0, `W13_PROVIDER_CALLED_${assistantTurnId}`);
-  assert.notEqual(response?.accepted, true, `W13_WRONG_SERVICE_ACCEPTED_${assistantTurnId}`);
+  assert.equal(response?.ok, true, `W13_ERROR_DELIVERY_NOT_STAGED_${assistantTurnId}`);
+  assert.equal(response?.accepted, true, `W13_ERROR_DELIVERY_NOT_ACCEPTED_${assistantTurnId}`);
   return outbox;
 }
 
