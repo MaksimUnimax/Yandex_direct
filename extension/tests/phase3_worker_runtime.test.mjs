@@ -13,6 +13,18 @@ test('Phase 3 runtime migrates legacy shared cloud credentials to schema v3', as
   assert.equal(storage.state.ymb_settings_schema_version, 3);
 });
 
+test('partial service Save preserves an existing masked secret and resets Check state', async () => {
+  const env = createPhase3Runtime({ ymb_service_credentials: {
+    wordstat: { api_key: 'word-secret', folder_id: 'old-folder', checked_at: '2026-08-26T00:00:00Z', check_state: 'PRESENT' },
+    search: { api_key: 'search-secret', folder_id: 'search-folder' }, webmaster: { oauth_token: 'oauth-secret', user_id: '7', check_state: 'PRESENT' }
+  } });
+  await env.ctx.YMBPhase3Runtime.saveServiceCredential('wordstat', { folder_id: 'new-folder' });
+  assert.equal(env.storage.state.ymb_service_credentials.wordstat.api_key, 'word-secret');
+  assert.equal(env.storage.state.ymb_service_credentials.wordstat.folder_id, 'new-folder');
+  assert.equal(env.storage.state.ymb_service_credentials.wordstat.check_state, 'NOT_CHECKED');
+  assert.equal(env.storage.state.ymb_service_credentials.wordstat.checked_at, null);
+});
+
 test('Wordstat and Search provider execution uses separate dedicated credentials', async () => {
   const env = createPhase3Runtime({ wsmb_api_key: 'legacy', wsmb_folder_id: 'legacy-folder' });
   await env.ctx.YMBPhase3Runtime.saveServiceCredential('wordstat', { api_key: 'word-key', folder_id: 'word-folder' });
@@ -23,6 +35,38 @@ test('Wordstat and Search provider execution uses separate dedicated credentials
   assert.equal(env.requests[0].options.headers.Authorization, 'Api-Key word-key');
   assert.equal(env.requests[1].url, 'https://search.example/search-folder');
   assert.equal(env.requests[1].options.headers.Authorization, 'Api-Key search-key');
+});
+
+test('Wordstat Check uses exactly one getRegionsTree request and stores PRESENT', async () => {
+  const env = createPhase3Runtime({ ymb_service_credentials: {
+    wordstat: { api_key: 'word-key', folder_id: 'word-folder' }, search: { api_key: '', folder_id: '' }, webmaster: { oauth_token: '', user_id: '' }
+  } });
+  const result = plain(await env.ctx.YMBPhase3Runtime.checkCloudCredential('wordstat'));
+  assert.equal(result.ok, true);
+  assert.equal(result.state, 'PRESENT');
+  assert.equal(env.requests.length, 1);
+  assert.equal(env.requests[0].url, 'https://wordstat.example/word-folder');
+  assert.equal(env.requests[0].options.headers.Authorization, 'Api-Key word-key');
+  assert.equal(env.storage.state.ymb_service_credentials.wordstat.check_state, 'PRESENT');
+});
+
+test('Search Check refuses zero-confirmation and executes exactly one request after explicit billable confirmation', async () => {
+  const env = createPhase3Runtime({ ymb_service_credentials: {
+    wordstat: { api_key: '', folder_id: '' }, search: { api_key: 'search-key', folder_id: 'search-folder' }, webmaster: { oauth_token: '', user_id: '' }
+  } });
+  await assert.rejects(() => env.ctx.YMBPhase3Runtime.checkCloudCredential('search'), (error) => {
+    assert.equal(error.code, 'SEARCH_CHECK_CONFIRM_REQUIRED');
+    assert.equal(error.request_executed, false);
+    return true;
+  });
+  assert.equal(env.requests.length, 0);
+  const result = plain(await env.ctx.YMBPhase3Runtime.checkCloudCredential('search', { confirmBillable: true }));
+  assert.equal(result.ok, true);
+  assert.equal(result.billable_request_confirmed, true);
+  assert.equal(env.requests.length, 1);
+  assert.equal(env.requests[0].url, 'https://search.example/search-folder');
+  assert.equal(env.requests[0].options.headers.Authorization, 'Api-Key search-key');
+  assert.equal(env.storage.state.ymb_service_credentials.search.check_state, 'PRESENT');
 });
 
 test('Webmaster Check performs exactly one GET /v4/user and stores derived user_id', async () => {
@@ -113,7 +157,7 @@ test('Phase 3 settings import remains blocked during active Manual operation bef
   assert.equal(env.storage.state.ymb_service_credentials.webmaster.oauth_token, 'keep-oauth');
 });
 
-test('public global state exposes Webmaster capability but no credential secrets', async () => {
+test('public global state exposes folder/user metadata but no credential secrets', async () => {
   const env = createPhase3Runtime({ ymb_service_credentials: {
     wordstat: { api_key: 'w-secret', folder_id: 'wf' }, search: { api_key: 's-secret', folder_id: 'sf' },
     webmaster: { oauth_token: 'oauth-secret', user_id: '9', check_state: 'PRESENT' }
@@ -123,6 +167,9 @@ test('public global state exposes Webmaster capability but no credential secrets
   assert.equal(json.includes('w-secret'), false);
   assert.equal(json.includes('s-secret'), false);
   assert.equal(json.includes('oauth-secret'), false);
+  assert.equal(state.credential_status.wordstat.folder_id, 'wf');
+  assert.equal(state.credential_status.search.folder_id, 'sf');
+  assert.equal(state.credential_status.webmaster.user_id, '9');
   assert.equal(state.credential_capabilities.webmaster.state, 'PRESENT');
   assert.equal(state.settings_schema_version, 3);
 });
