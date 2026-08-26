@@ -1,0 +1,37 @@
+{
+  "format": "YMB_PHASE3_WEBMASTER_PREFREEZE_COVERAGE_V1",
+  "product_source_commit": "a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5",
+  "source_suite": {"tests": 313, "pass": 313, "fail": 0, "skipped": 0},
+  "external_gates": {
+    "unified_prefreeze_run": 32930545567,
+    "w14_installed_chrome_run": 32930125967,
+    "w17_integration_run": 32929653754,
+    "w13_integration_run": 32930397375,
+    "runtime_r14_commit": "991d57bbc05e929b66c4a7783ca355473315712a",
+    "w14_qa_commit": "2b58a9ed8284bded97ed6e8bff772502ee133f76"
+  },
+  "coverage": {
+    "W-01": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_core_models.test.mjs", "extension/tests/webmaster_protocol.test.mjs", "extension/tests/candidate_readiness.test.mjs"]},
+    "W-02": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_protocol.test.mjs", "extension/tests/candidate_readiness.test.mjs"], "final_requirement": "repeat from exact frozen package"},
+    "W-03": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/credential_store_model.test.mjs", "extension/tests/phase3_worker_runtime.test.mjs", "runtime_r14"]},
+    "W-04": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/credential_store_model.test.mjs", "extension/tests/phase3_worker_runtime.test.mjs", "extension/tests/settings_backup_integrity_recovery.test.mjs", "extension/tests/settings_security_recovery.test.mjs", "runtime_r14"]},
+    "W-05": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/phase3_worker_runtime.test.mjs", "extension/tests/webmaster_gate_matrix.test.mjs", "runtime_r14"], "final_requirement": "exact OAuth header assertion in frozen final runtime harness"},
+    "W-06": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_core_models.test.mjs", "extension/tests/webmaster_gate_matrix.test.mjs", "extension/tests/webmaster_autorun_integration.test.mjs"]},
+    "W-07": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/phase3_worker_runtime.test.mjs", "extension/tests/webmaster_gate_matrix.test.mjs", "runtime_r14"]},
+    "W-08": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_gate_matrix.test.mjs"]},
+    "W-09": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_gate_matrix.test.mjs"]},
+    "W-10": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_gate_matrix.test.mjs"]},
+    "W-11": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_gate_matrix.test.mjs"]},
+    "W-12": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_gate_matrix.test.mjs", "extension/tests/webmaster_autorun_integration.test.mjs"]},
+    "W-13": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_service_isolation.test.mjs", "run:32930397375"]},
+    "W-14": {"status": "DEVELOPMENT_PASS", "evidence": ["installed-chrome:32930125967", "unified-rerun:32930545567"]},
+    "W-15": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/popup_chrome151_geometry_recovery.test.mjs", "extension/tests/popup_phase2_runtime.test.mjs", "runtime_r14"], "final_requirement": "rerender isolation assertion in frozen final runtime harness"},
+    "W-16": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/phase3_worker_runtime.test.mjs", "extension/tests/settings_backup_integrity_recovery.test.mjs", "runtime_r14"]},
+    "W-17": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_autorun_integration.test.mjs", "run:32929653754"]},
+    "W-18": {"status": "DEVELOPMENT_PASS", "evidence": ["extension/tests/webmaster_protocol.test.mjs", "extension/tests/webmaster_gate_matrix.test.mjs"]}
+  },
+  "post_freeze_only": {
+    "W-00": "PENDING_EXACT_FROZEN_ARTIFACT",
+    "W-19": "PENDING_FINAL_IMMUTABLE_CAMPAIGN"
+  }
+}
