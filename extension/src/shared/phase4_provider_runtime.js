@@ -28,12 +28,16 @@
   }
 
   async function executeMetrika(command, metadata = {}) {
-    const normalized = Metrika.normalizeCommand(command);
+    let normalized;
+    try { normalized = Metrika.normalizeCommand(command); }
+    catch (error) { throw executionError(error, false); }
     const settings = await Credentials.settings();
     const record = settings.credentials.metrika || {};
     const oauthToken = trim(record.oauth_token);
     if (!oauthToken) throw Object.assign(new Error("OAuth token Metrika не сохранён в расширении."), { code: "METRIKA_OAUTH_MISSING", request_executed: false, automatic_retry: false });
-    const req = Metrika.buildRequest(normalized);
+    let req;
+    try { req = Metrika.buildRequest(normalized); }
+    catch (error) { throw executionError(error, false); }
     const requestId = metadata.request_id || id("metrika");
     const started = performance.now?.() ?? Date.now();
     let response;
