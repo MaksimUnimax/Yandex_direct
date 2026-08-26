@@ -71,13 +71,15 @@ test('sameConversation compares both allowed origin and UUID', () => {
   assert.equal(identity.sameConversation('', ''), false);
 });
 
-test('service registry exposes only Wordstat and synchronous Search', () => {
+test('service registry exposes Wordstat, synchronous Search, and Phase-3 Webmaster', () => {
   assert.deepEqual(plain(registry.DEFINITIONS), [
     { service: 'wordstat', prefix: 'WORDSTAT_API_V1' },
-    { service: 'search', prefix: 'SEARCH_API_V1' }
+    { service: 'search', prefix: 'SEARCH_API_V1' },
+    { service: 'webmaster', prefix: 'WEBMASTER_API_V1' }
   ]);
   assert.equal(registry.isKnownService('wordstat'), true);
   assert.equal(registry.isKnownService('search'), true);
+  assert.equal(registry.isKnownService('webmaster'), true);
   assert.equal(registry.isKnownService('images'), false);
 });
 

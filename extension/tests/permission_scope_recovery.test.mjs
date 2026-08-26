@@ -27,11 +27,11 @@ test('package npm test points to the real top-level Node test suite',()=>{
   assert.ok(fs.readdirSync(testsDir).some(name=>name.endsWith('.test.mjs')));
 });
 
-test('service registry exposes only Wordstat and synchronous Search',()=>{
+test('service registry exposes Wordstat, synchronous Search, and Phase-3 Webmaster only',()=>{
   const ctx=vm.createContext({}); ctx.globalThis=ctx;
   vm.runInContext(fs.readFileSync(path.join(root,'shared/service_registry.js'),'utf8'),ctx);
-  assert.deepEqual(Array.from(ctx.YMBServiceRegistry.DEFINITIONS, x=>x.service),['wordstat','search']);
-  for(const future of ['image','generative','async-search','search-async']) assert.equal(ctx.YMBServiceRegistry.isKnownService(future),false);
+  assert.deepEqual(Array.from(ctx.YMBServiceRegistry.DEFINITIONS, x=>x.service),['wordstat','search','webmaster']);
+  for(const future of ['image','generative','async-search','search-async','metrika','direct']) assert.equal(ctx.YMBServiceRegistry.isKnownService(future),false);
 });
 
 test('Search protocol is locked to one synchronous search method and official endpoint',()=>{
