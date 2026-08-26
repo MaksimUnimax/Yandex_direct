@@ -44,9 +44,6 @@ function prepareQaExtension() {
 const qa = prepareQaExtension();
 assert.match(qa.extensionId, /^[a-p]{32}$/);
 
-// Chrome for Testing 148 supports unpacked extensions through the launch arg,
-// while its CDP build does not expose Extensions.loadUnpacked. enableExtensions
-// is boolean here only to stop Puppeteer from passing --disable-extensions.
 const browser = await puppeteer.launch({
   headless: false,
   pipe: true,
@@ -76,6 +73,8 @@ async function send(page, message) {
   }), message);
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 try {
   const workerTarget = await browser.waitForTarget(
     (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${qa.extensionId}/`),
@@ -84,8 +83,6 @@ try {
   assert.equal(new URL(workerTarget.url()).host, qa.extensionId);
   const workerClient = await workerTarget.createCDPSession();
 
-  // Hard provider fence for this browser gate. Every product provider request is
-  // captured here and answered locally; no real Yandex request can leave Chrome.
   await workerEval(workerClient, `(() => {
     globalThis.__YMB_BROWSER_MODE = 'ok';
     globalThis.__YMB_BROWSER_FETCHES = [];
@@ -152,7 +149,24 @@ try {
   await page.click('#saveWordstatCredential');
   await page.waitForFunction(() => document.querySelector('#wordstatApiKey')?.value === '');
   await page.click('#checkWordstatCredential');
-  await page.waitForFunction(() => /проверено/i.test(document.querySelector('#wordstatCredentialState')?.textContent || ''));
+  await sleep(1200);
+
+  const wordstatBoundary = {
+    popup: await page.evaluate(() => ({
+      credential_state: document.querySelector('#wordstatCredentialState')?.textContent || '',
+      check_meta: document.querySelector('#wordstatCheckMeta')?.textContent || '',
+      status: document.querySelector('#status')?.textContent || '',
+      status_level: document.querySelector('#status')?.dataset?.level || ''
+    })),
+    worker: await send(page, { type: 'YMB_GET_CREDENTIALS' }),
+    fetches: await workerEval(workerClient, `globalThis.__YMB_BROWSER_FETCHES`)
+  };
+  console.log('WORDSTAT_CHECK_BOUNDARY', JSON.stringify(wordstatBoundary));
+  assert.equal(wordstatBoundary.worker?.ok, true);
+  assert.equal(wordstatBoundary.worker?.credentials?.wordstat?.check_state, 'PRESENT');
+  assert.equal(wordstatBoundary.fetches.length, 1);
+  assert.equal(wordstatBoundary.fetches[0].url.includes('/v2/wordstat/getRegionsTree'), true);
+  assert.match(wordstatBoundary.popup.credential_state, /проверено/i);
 
   await page.$eval('#searchApiKey', (node) => { node.value = 'browser-search-secret'; });
   await page.$eval('#searchFolderId', (node) => { node.value = 'browser-search-folder'; });
