@@ -1,0 +1,378 @@
+name: Phase 3 Webmaster final immutable r2
+on:
+  push:
+    branches:
+      - automation/phase3-webmaster-final-immutable-r2-2026-08-26
+permissions:
+  contents: read
+  actions: read
+env:
+  FREEZE_RUN_ID: '32932696535'
+  PUBLISHED_ARTIFACT_NAME: phase3-webmaster-first-slice-exact-a7d9f947
+  CANDIDATE_ZIP: yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip
+  CANDIDATE_SHA256: 1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8
+  CANDIDATE_BYTES: '222592'
+  FREEZE_ROOT: yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate
+  PRODUCT_SOURCE_HEAD: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  PRODUCT_SOURCE_REF: candidate/phase3-webmaster-first-slice-a7d9f947-2026-08-26
+  MAIN_EXPECTED_HEAD: 8aa982a434cfabdf8874e0f82ce205255b10bc05
+  R14_HARNESS_COMMIT: 991d57bbc05e929b66c4a7783ca355473315712a
+  FINAL_HARNESS_COMMIT: 92d635c2afa8c25786a41757519d217d3b9b77d9
+  LIFECYCLE_HARNESS_COMMIT: 2b58a9ed8284bded97ed6e8bff772502ee133f76
+  HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+  CHROME_VERSION: 151.0.7922.47
+
+jobs:
+  artifact-identity:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert QA-only product immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_SOURCE_HEAD" HEAD -- extension/src)"
+          echo PHASE3_R2_FINAL_PRODUCT_BYTES_UNCHANGED_PASS
+      - name: Download exact published artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/r2-final-artifact
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+      - name: Verify W00 published artifact identity and coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/r2-final-artifact
+          sha256sum -c SHA256SUMS.txt
+          test "$(sha256sum "$CANDIDATE_ZIP" | awk '{print $1}')" = "$CANDIDATE_SHA256"
+          test "$(stat -c '%s' "$CANDIDATE_ZIP")" = "$CANDIDATE_BYTES"
+          cd "$GITHUB_WORKSPACE"
+          git fetch --no-tags origin "$PRODUCT_SOURCE_REF"
+          test "$(git rev-parse "origin/$PRODUCT_SOURCE_REF")" = "$PRODUCT_SOURCE_HEAD"
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('/tmp/r2-final-artifact')
+          m = json.loads((root/'freeze-manifest.json').read_text())
+          z = root/'yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip'
+          assert m['format'] == 'YMB_PHASE3_WEBMASTER_EXACT_CANDIDATE_V1'
+          assert m['root_name'] == 'yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate'
+          assert m['source_ref'] == 'candidate/phase3-webmaster-first-slice-a7d9f947-2026-08-26'
+          assert m['source_commit'] == 'a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          assert hashlib.sha256(z.read_bytes()).hexdigest() == m['sha256'] == '1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8'
+          assert z.stat().st_size == m['bytes'] == 222592
+          assert m['files'] == 85 and m['entries'] == 89 and m['zip_test'] == 'PASS'
+          c = json.loads((root/'prefreeze_coverage_map.json').read_text())
+          expected = {f'W-{i:02d}' for i in range(1,19)}
+          assert set(c['coverage']) == expected
+          for key in sorted(expected):
+              row = c['coverage'][key]
+              assert row['status'] == 'DEVELOPMENT_PASS', (key, row)
+              assert row.get('evidence'), key
+              assert 'NOT_RUN' not in json.dumps(row)
+          print('PHASE3_R2_W00_PUBLISHED_ARTIFACT_IDENTITY_PASS')
+          print('PHASE3_R2_W01_W18_COVERAGE_NO_NOT_RUN_PASS')
+          PY
+      - name: Run full 313 suite from fresh frozen ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase3-webmaster-candidate/run_packaged_suite.py \
+            --archive "/tmp/r2-final-artifact/$CANDIDATE_ZIP" \
+            --manifest /tmp/r2-final-artifact/freeze-manifest.json \
+            --work-dir /tmp/r2-final-artifact/packaged-suite | tee /tmp/r2-final-packaged.log
+          grep -F '# tests 313' /tmp/r2-final-packaged.log
+          grep -F '# pass 313' /tmp/r2-final-packaged.log
+          grep -F '# fail 0' /tmp/r2-final-packaged.log
+          grep -F '# skipped 0' /tmp/r2-final-packaged.log
+          grep -F 'PHASE3_PACKAGE_EXACT_IDENTITY_PASS' /tmp/r2-final-packaged.log
+          grep -F 'PHASE3_PACKAGED_LAYOUT_IDENTITY_PASS' /tmp/r2-final-packaged.log
+          grep -F 'PHASE3_PACKAGED_SUITE_PASS' /tmp/r2-final-packaged.log
+          grep -F 'PHASE3_PACKAGED_PREDELIVERY_PREFLIGHT_PASS' /tmp/r2-final-packaged.log
+          echo PHASE3_R2_W19_PACKAGED_313_PASS
+
+  browser-runtime:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert QA-only product immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_SOURCE_HEAD" HEAD -- extension/src)"
+          node --check extension/tests/qa_browser/patch_phase3_runtime_refresh_quiescence.mjs
+          echo PHASE3_R2_FINAL_RUNTIME_QA_ONLY_PASS
+      - name: Download exact published artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/r2-final-runtime/published
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+      - name: Build browser layout only from verified frozen bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd /tmp/r2-final-runtime/published && sha256sum -c SHA256SUMS.txt)
+          python3 - <<'PY'
+          import hashlib, json, shutil, zipfile
+          from pathlib import Path
+          base = Path('/tmp/r2-final-runtime')
+          pub = base/'published'
+          archive = pub/'yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip'
+          manifest = json.loads((pub/'freeze-manifest.json').read_text())
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['sha256'] == '1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8'
+          assert manifest['source_commit'] == 'a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          frozen = base/'frozen'
+          if frozen.exists(): shutil.rmtree(frozen)
+          with zipfile.ZipFile(archive) as z: z.extractall(frozen)
+          root = frozen/manifest['root_name']
+          ext = base/'extension'
+          if ext.exists(): shutil.rmtree(ext)
+          (ext/'src').mkdir(parents=True)
+          (ext/'tests').mkdir(parents=True)
+          expected = {}
+          for row in manifest['payload']:
+              rel = row['path']
+              if rel.startswith('tests/'):
+                  continue
+              data = (root/rel).read_bytes()
+              assert len(data) == row['bytes']
+              assert hashlib.sha256(data).hexdigest() == row['sha256']
+              dst = ext/'src'/rel
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              dst.write_bytes(data)
+              expected[rel] = row['sha256']
+          actual = {p.relative_to(ext/'src').as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ext/'src').rglob('*') if p.is_file()}
+          assert actual == expected
+          print(f'PHASE3_R2_FINAL_RUNTIME_FROZEN_SOURCE_IDENTITY_PASS files={len(actual)}')
+          PY
+          git fetch --no-tags --depth=1 origin "$R14_HARNESS_COMMIT"
+          git fetch --no-tags --depth=1 origin "$FINAL_HARNESS_COMMIT"
+          git show "$R14_HARNESS_COMMIT:extension/tests/phase3_browser_runtime.mjs" > /tmp/r2-final-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          git show "$FINAL_HARNESS_COMMIT:extension/tests/qa_browser/patch_phase3_final_runtime_harness.mjs" > /tmp/r2-final-runtime/extension/tests/patch_phase3_final_runtime_harness.mjs
+          node /tmp/r2-final-runtime/extension/tests/patch_phase3_final_runtime_harness.mjs /tmp/r2-final-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          node extension/tests/qa_browser/patch_phase3_runtime_refresh_quiescence.mjs /tmp/r2-final-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+          node --check /tmp/r2-final-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs
+      - name: Install Puppeteer Chrome
+        working-directory: /tmp/r2-final-runtime/extension
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Run final controlled popup runtime from frozen product
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node /tmp/r2-final-runtime/extension/tests/phase3_browser_runtime_final.generated.mjs | tee /tmp/r2-final-runtime.log
+          for marker in \
+            W19_POPUP_INITIAL_REFRESH_READY_PASS \
+            W19_WORDSTAT_UI_SAVE_AUTHORITATIVE_PASS \
+            W19_WORDSTAT_CHECK_UI_QUIESCENT_PASS \
+            W19_SEARCH_UI_SAVE_AUTHORITATIVE_PASS \
+            W19_WEBMASTER_UI_SAVE_AUTHORITATIVE_PASS \
+            W19_WEBMASTER_INVALID_CHECK_UI_QUIESCENT_PASS \
+            W19_WEBMASTER_VALID_CHECK_UI_QUIESCENT_PASS \
+            W15_CREDENTIAL_SWITCH_RERENDER_ISOLATION_PASS \
+            W05_WEBMASTER_EXACT_OAUTH_HEADER_PASS \
+            PHASE3_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/r2-final-runtime.log
+          done
+          if grep -F 'browser-valid-oauth' /tmp/r2-final-runtime.log; then echo SECRET_LEAK_FAIL; exit 1; fi
+          if grep -F 'browser-invalid-oauth' /tmp/r2-final-runtime.log; then echo SECRET_LEAK_FAIL; exit 1; fi
+          echo PHASE3_R2_FINAL_CONTROLLED_RUNTIME_BROWSER_PASS
+      - name: Reverify frozen product bytes after runtime browser
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          base=Path('/tmp/r2-final-runtime')
+          m=json.loads((base/'published/freeze-manifest.json').read_text())
+          src=base/'extension/src'
+          expected={r['path']:r['sha256'] for r in m['payload'] if not r['path'].startswith('tests/')}
+          actual={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          assert actual == expected
+          print('PHASE3_R2_FINAL_RUNTIME_POST_BROWSER_IMMUTABILITY_PASS')
+          PY
+
+  lifecycle-browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert QA-only product immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only "$PRODUCT_SOURCE_HEAD" HEAD -- extension/src)"
+          echo PHASE3_R2_FINAL_LIFECYCLE_QA_ONLY_PASS
+      - name: Download exact published artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/r2-final-lifecycle/published
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+      - name: Build lifecycle layout only from verified frozen bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd /tmp/r2-final-lifecycle/published && sha256sum -c SHA256SUMS.txt)
+          python3 - <<'PY'
+          import hashlib, json, shutil, zipfile
+          from pathlib import Path
+          base = Path('/tmp/r2-final-lifecycle')
+          pub = base/'published'
+          archive = pub/'yandex-marketing-bridge-0.1.1-phase3-webmaster-first-slice-candidate.zip'
+          manifest = json.loads((pub/'freeze-manifest.json').read_text())
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['sha256'] == '1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8'
+          frozen = base/'frozen'
+          if frozen.exists(): shutil.rmtree(frozen)
+          with zipfile.ZipFile(archive) as z: z.extractall(frozen)
+          root = frozen/manifest['root_name']
+          ext = base/'extension'
+          if ext.exists(): shutil.rmtree(ext)
+          (ext/'src').mkdir(parents=True)
+          expected = {}
+          for row in manifest['payload']:
+              rel = row['path']
+              if rel.startswith('tests/'):
+                  continue
+              data = (root/rel).read_bytes()
+              assert len(data) == row['bytes']
+              assert hashlib.sha256(data).hexdigest() == row['sha256']
+              dst = ext/'src'/rel
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              dst.write_bytes(data)
+              expected[rel] = row['sha256']
+          actual = {p.relative_to(ext/'src').as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in (ext/'src').rglob('*') if p.is_file()}
+          assert actual == expected
+          print(f'PHASE3_R2_FINAL_LIFECYCLE_FROZEN_SOURCE_IDENTITY_PASS files={len(actual)}')
+          PY
+      - name: Prepare pinned qualified lifecycle harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r2-final-lifecycle/harness
+          git fetch --no-tags --depth=1 origin "$LIFECYCLE_HARNESS_COMMIT"
+          git fetch --no-tags --depth=1 origin "$HISTORICAL_STAGE4_COMMIT"
+          git show "$LIFECYCLE_HARNESS_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/r2-final-lifecycle/harness/webmaster_lifecycle_button_gate.mjs
+          git show "$LIFECYCLE_HARNESS_COMMIT:extension/tests/qa_browser/patch_w14_bootstrap.mjs" > /tmp/r2-final-lifecycle/harness/patch_w14_bootstrap.mjs
+          node /tmp/r2-final-lifecycle/harness/patch_w14_bootstrap.mjs /tmp/r2-final-lifecycle/harness/webmaster_lifecycle_button_gate.mjs
+          node --check /tmp/r2-final-lifecycle/harness/webmaster_lifecycle_button_gate.mjs
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/r2-final-lifecycle/harness/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/r2-final-lifecycle/harness/qa-chatgpt-local.cert.pem
+          cd /tmp/r2-final-lifecycle/harness
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/r2-final-chrome.zip
+          unzip -q /tmp/r2-final-chrome.zip -d /tmp/r2-final-chrome
+          chmod +x /tmp/r2-final-chrome/chrome-linux64/chrome
+          /tmp/r2-final-chrome/chrome-linux64/chrome --version
+          command -v xvfb-run
+      - name: Run installed Webmaster lifecycle gate from frozen product
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/r2-final-lifecycle/harness
+          xvfb-run -a node webmaster_lifecycle_button_gate.mjs \
+            /tmp/r2-final-chrome/chrome-linux64/chrome \
+            /tmp/r2-final-lifecycle/extension/src \
+            /tmp/r2-final-lifecycle/harness/qa-chatgpt-local.key.pem \
+            /tmp/r2-final-lifecycle/harness/qa-chatgpt-local.cert.pem | tee /tmp/r2-final-w14.log
+          for marker in \
+            W14_WEBMASTER_ACTIVE_SERVICE_PASS \
+            W14_WEBMASTER_INITIAL_ACTION_ENABLED_PASS \
+            W14_WEBMASTER_ONE_MANUAL_ADMISSION_PASS \
+            W14_WEBMASTER_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            W14_WEBMASTER_REAL_COMPLETION_REENABLE_PASS \
+            W14_WEBMASTER_OPERATION_BLOCKED_NO_DISPATCH_PASS \
+            W14_WEBMASTER_OPERATION_REENABLE_PASS \
+            W14_WEBMASTER_DELIVERY_BLOCKED_NO_DISPATCH_PASS \
+            W14_WEBMASTER_DELIVERY_REENABLE_PASS \
+            W14_WEBMASTER_PROVIDER_HITS=1 \
+            W14_WEBMASTER_REAL_YANDEX_REQUESTS=0 \
+            W14_WEBMASTER_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/r2-final-w14.log
+          done
+          echo PHASE3_R2_FINAL_INSTALLED_CHROME_LIFECYCLE_PASS
+      - name: Reverify frozen product bytes after lifecycle browser
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          base=Path('/tmp/r2-final-lifecycle')
+          m=json.loads((base/'published/freeze-manifest.json').read_text())
+          src=base/'extension/src'
+          expected={r['path']:r['sha256'] for r in m['payload'] if not r['path'].startswith('tests/')}
+          actual={p.relative_to(src).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*') if p.is_file()}
+          assert actual == expected
+          print('PHASE3_R2_FINAL_LIFECYCLE_POST_BROWSER_IMMUTABILITY_PASS')
+          PY
+
+  final:
+    needs: [artifact-identity, browser-runtime, lifecycle-browser]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download exact published artifact one final time
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PUBLISHED_ARTIFACT_NAME }}
+          path: /tmp/r2-final
+          github-token: ${{ github.token }}
+          repository: MaksimUnimax/Yandex_direct
+          run-id: ${{ env.FREEZE_RUN_ID }}
+      - name: Final immutable identity, coverage and main safety check
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd /tmp/r2-final && sha256sum -c SHA256SUMS.txt)
+          test "$(sha256sum "/tmp/r2-final/$CANDIDATE_ZIP" | awk '{print $1}')" = "$CANDIDATE_SHA256"
+          test "$(stat -c '%s' "/tmp/r2-final/$CANDIDATE_ZIP")" = "$CANDIDATE_BYTES"
+          git fetch --no-tags origin "$PRODUCT_SOURCE_REF" main
+          test "$(git rev-parse "origin/$PRODUCT_SOURCE_REF")" = "$PRODUCT_SOURCE_HEAD"
+          test "$(git rev-parse origin/main)" = "$MAIN_EXPECTED_HEAD"
+          test -z "$(git diff --name-only "$PRODUCT_SOURCE_HEAD" HEAD -- extension/src)"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/r2-final')
+          m=json.loads((root/'freeze-manifest.json').read_text())
+          c=json.loads((root/'prefreeze_coverage_map.json').read_text())
+          assert m['source_commit']=='a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          assert m['sha256']=='1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8'
+          assert m['bytes']==222592 and m['files']==85 and m['entries']==89 and m['zip_test']=='PASS'
+          for i in range(1,19):
+              row=c['coverage'][f'W-{i:02d}']
+              assert row['status']=='DEVELOPMENT_PASS'
+              assert row.get('evidence')
+              assert 'NOT_RUN' not in json.dumps(row)
+          print('PHASE3_R2_W00_FINAL_PUBLISHED_IDENTITY_PASS')
+          print('PHASE3_R2_W01_W18_FINAL_EVIDENCE_PASS')
+          PY
+          echo "PHASE3_R2_W19_PINNED_FREEZE_RUN=$FREEZE_RUN_ID"
+          echo "PHASE3_R2_W19_CANDIDATE_SOURCE=$PRODUCT_SOURCE_HEAD"
+          echo "PHASE3_R2_W19_CANDIDATE_SHA256=$CANDIDATE_SHA256"
+          echo PHASE3_R2_W19_NO_REAL_PROVIDER_CAMPAIGN_PASS
+          echo PHASE3_R2_MAIN_HEAD_UNCHANGED_PASS
+          echo PHASE3_R2_W19_FINAL_IMMUTABLE_CAMPAIGN_PASS
