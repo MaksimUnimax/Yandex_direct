@@ -1,0 +1,28 @@
+name: Phase 3 popup preflight r4
+on:
+  push:
+    branches:
+      - automation/phase3-popup-preflight-r4-2026-08-26
+jobs:
+  popup:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static validation
+        run: |
+          node --check extension/src/popup.js
+          node --check extension/tests/popup_phase2_runtime.test.mjs
+          node --check extension/src/webmaster_worker_runtime.js
+          node --check extension/src/shared/credential_runtime.js
+          node --check extension/src/shared/phase3_provider_runtime.js
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8'))"
+      - name: Focused Phase 3 runtime tests
+        working-directory: extension/src
+        run: |
+          node --test ../tests/credential_store_model.test.mjs
+          node --test ../tests/webmaster_protocol.test.mjs ../tests/webmaster_core_models.test.mjs
+          node --test ../tests/phase3_worker_runtime.test.mjs
+          node --test ../tests/popup_phase2_runtime.test.mjs
+      - name: Full source suite
+        working-directory: extension/src
+        run: npm test
