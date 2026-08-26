@@ -29,7 +29,7 @@ function fixtureHtml() {
   return `<!doctype html><html><head><meta charset="utf-8"><link rel="canonical" href="${CHAT_URL}"><title>Webmaster Lifecycle QA</title></head><body>
   <main id="conversation-root">
     <div data-message-author-role="assistant" data-message-id="qa-webmaster-lifecycle-block">
-      <pre data-testid="code-block"><code>controlled Webmaster lifecycle blocker fixture</code></pre>
+      <pre data-testid="code-block"><code>WEBMASTER_API_V1\n{"method":"listHosts"}</code></pre>
       <button aria-label="Copy" type="button">Copy</button>
     </div>
   </main>
@@ -50,8 +50,15 @@ const server = https.createServer({ key: fs.readFileSync(keyPath), cert: fs.read
     req.on('data', (c) => chunks.push(c));
     req.on('end', () => {
       providerHits.push({ host, method: req.method, url: req.url, body_bytes: Buffer.concat(chunks).length });
+      if (host === 'api.webmaster.yandex.net' && req.method === 'GET' && req.url === '/v4/user/42/hosts') {
+        setTimeout(() => {
+          res.writeHead(200, { 'content-type': 'application/json' });
+          res.end(JSON.stringify({ hosts: [] }));
+        }, 900);
+        return;
+      }
       res.writeHead(500, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ code: 'QA_PROVIDER_MUST_NOT_BE_CALLED' }));
+      res.end(JSON.stringify({ code: 'QA_PROVIDER_UNEXPECTED_REQUEST' }));
     });
     return;
   }
@@ -120,6 +127,15 @@ async function actionSnapshot(page) {
     return { count: buttons.length, disabled: buttons.length === 1 ? buttons[0].disabled : null, title: buttons.length === 1 ? buttons[0].title : '', label: buttons.length === 1 ? buttons[0].textContent : '' };
   });
 }
+async function clickAction(page) {
+  return page.evaluate(() => {
+    const button = document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelector('.ymb-action');
+    if (!button) throw new Error('YMB_ACTION_MISSING');
+    const before = { disabled: button.disabled, title: button.title };
+    button.click();
+    return { before, afterDisabled: button.disabled };
+  });
+}
 async function refreshContent(worker, tabId) {
   const result = await worker.evaluate(async (id) => await new Promise((resolve) => chrome.tabs.sendMessage(id, { type: 'WS_REFRESH_STATE' }, (r) => resolve({ response: r || null, error: chrome.runtime.lastError?.message || null }))), tabId);
   assert(!result.error && result.response?.ok === true, `CONTENT_REFRESH_FAIL ${JSON.stringify(result)}`);
@@ -137,15 +153,6 @@ async function storageSnapshot(worker) {
 }
 async function clearTransient(worker) {
   await worker.evaluate(async () => await chrome.storage.local.set({ wsmb_manual_operations: {}, wsmb_outbox: {}, ymb_content_error_queue: {} }));
-}
-async function clickDisabledAction(page) {
-  return page.evaluate(() => {
-    const button = document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelector('.ymb-action');
-    if (!button) throw new Error('YMB_ACTION_MISSING');
-    const before = { disabled: button.disabled, title: button.title };
-    button.click();
-    return { before, afterDisabled: button.disabled };
-  });
 }
 
 let browser;
@@ -172,7 +179,6 @@ try {
   const { popup, ownerTabId } = await openPopup(worker, browser);
   await popupClick(popup, '#bindConversation');
   await waitPopupStatus(popup, 'Диалог привязан.', 'BIND_NOT_COMPLETE');
-
   await popup.select('#activeService', 'webmaster');
   await popupClick(popup, '#saveSettings');
   await waitPopupStatus(popup, 'Общие настройки сохранены.', 'WEBMASTER_SERVICE_SAVE_NOT_COMPLETE');
@@ -183,6 +189,20 @@ try {
   assert(serviceState.webmaster_policy?.manual_enabled === true, 'WEBMASTER_MANUAL_POLICY_NOT_ENABLED');
   console.log('W14_WEBMASTER_ACTIVE_SERVICE_PASS');
 
+  // Controlled fake credential metadata only. No credential Check and no real provider.
+  await worker.evaluate(async () => {
+    const data = await chrome.storage.local.get('ymb_service_credentials');
+    const current = data.ymb_service_credentials || {};
+    await chrome.storage.local.set({
+      ymb_service_credentials: {
+        wordstat: current.wordstat || { api_key: '', folder_id: '' },
+        search: current.search || { api_key: '', folder_id: '' },
+        webmaster: { oauth_token: 'qa-fake-oauth', user_id: '42', verified_at: '2026-08-26T00:00:00.000Z', check_state: 'PRESENT' }
+      },
+      wsmb_auto_send: false
+    });
+  });
+
   await popupClick(popup, '#manualMode');
   await waitPopupStatus(popup, 'Ручной режим включён.', 'WEBMASTER_MANUAL_ON_NOT_COMPLETE');
   await waitUntil(async () => {
@@ -192,6 +212,36 @@ try {
   await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === false ? s : false; }, 'WEBMASTER_INITIAL_ACTION_NOT_ENABLED');
   console.log('W14_WEBMASTER_INITIAL_ACTION_ENABLED_PASS');
 
+  // One real Bridge action click → one Manual admission → one controlled Webmaster request.
+  const firstClick = await clickAction(fixture);
+  assert(firstClick.before.disabled === false, `WEBMASTER_FIRST_ACTION_NOT_ENABLED ${JSON.stringify(firstClick)}`);
+  await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === true ? s : false; }, 'WEBMASTER_REAL_ADMISSION_DID_NOT_DISABLE_ACTION', 5000);
+  await waitUntil(async () => providerHits.length === 1 ? providerHits[0] : false, 'WEBMASTER_CONTROLLED_PROVIDER_NOT_REACHED', 7000);
+  assert(providerHits[0].host === 'api.webmaster.yandex.net', `WEBMASTER_WRONG_PROVIDER ${JSON.stringify(providerHits)}`);
+  assert(providerHits[0].method === 'GET' && providerHits[0].url === '/v4/user/42/hosts', `WEBMASTER_WRONG_REQUEST ${JSON.stringify(providerHits[0])}`);
+  const admitted = await waitUntil(async () => {
+    const snap = await storageSnapshot(worker);
+    const op = snap.wsmb_manual_operations?.[CKEY];
+    return op?.active_service === 'webmaster' ? { snap, op } : false;
+  }, 'WEBMASTER_MANUAL_ADMISSION_NOT_PERSISTED');
+  assert(['requesting', 'delivering', 'completed'].includes(admitted.op.status), `WEBMASTER_BAD_OPERATION_STATUS ${JSON.stringify(admitted.op)}`);
+  const delivery = await waitUntil(async () => {
+    const snap = await storageSnapshot(worker);
+    return snap.wsmb_outbox?.[CKEY] || false;
+  }, 'WEBMASTER_MANUAL_DELIVERY_NOT_STAGED', 7000);
+  console.log('W14_WEBMASTER_ONE_MANUAL_ADMISSION_PASS');
+  console.log('W14_WEBMASTER_ONE_CONTROLLED_PROVIDER_REQUEST_PASS');
+
+  const completed = await worker.evaluate(async ({ key, deliveryId, tabId }) => {
+    if (typeof globalThis.completeDelivery !== 'function') return { ok: false, code: 'COMPLETE_DELIVERY_UNAVAILABLE' };
+    return globalThis.completeDelivery({ conversation_key: key, delivery_id: deliveryId, confirmation_basis: 'qa_controlled_completion' }, { tab: { id: tabId } });
+  }, { key: CKEY, deliveryId: delivery.delivery_id, tabId: ownerTabId });
+  assert(completed?.ok === true, `WEBMASTER_CONTROLLED_COMPLETION_FAIL ${JSON.stringify(completed)}`);
+  await refreshContent(worker, ownerTabId);
+  await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === false ? s : false; }, 'WEBMASTER_REAL_COMPLETION_DID_NOT_REENABLE_ACTION');
+  console.log('W14_WEBMASTER_REAL_COMPLETION_REENABLE_PASS');
+
+  // Reuse the proven lifecycle blocker checks after the real admission path.
   await clearTransient(worker);
   await refreshContent(worker, ownerTabId);
   const op = {
@@ -203,11 +253,11 @@ try {
   const blockedOp = await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === true ? s : false; }, 'WEBMASTER_OPERATION_DID_NOT_DISABLE_ACTION');
   assert(/ручной операции/i.test(blockedOp.title), `WEBMASTER_OPERATION_TITLE_FAIL ${JSON.stringify(blockedOp)}`);
   const beforeOpClick = JSON.stringify(await storageSnapshot(worker));
-  const opClick = await clickDisabledAction(fixture);
+  const opClick = await clickAction(fixture);
   assert(opClick.before.disabled === true, 'WEBMASTER_OPERATION_ACTION_NOT_DISABLED_AT_CLICK');
   await delay(500);
   assert(JSON.stringify(await storageSnapshot(worker)) === beforeOpClick, 'WEBMASTER_OPERATION_BLOCKED_CLICK_MUTATED_STATE');
-  assert(providerHits.length === 0, `WEBMASTER_OPERATION_BLOCKED_CLICK_PROVIDER_HIT ${providerHits.length}`);
+  assert(providerHits.length === 1, `WEBMASTER_OPERATION_BLOCKED_CLICK_PROVIDER_HIT ${providerHits.length}`);
   console.log('W14_WEBMASTER_OPERATION_BLOCKED_NO_DISPATCH_PASS');
 
   await setMapRecord(worker, 'wsmb_manual_operations', CKEY, null);
@@ -215,24 +265,25 @@ try {
   await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === false ? s : false; }, 'WEBMASTER_OPERATION_CLEAR_DID_NOT_REENABLE_ACTION');
   console.log('W14_WEBMASTER_OPERATION_REENABLE_PASS');
 
-  const delivery = { delivery_id: 'qa-webmaster-lifecycle-delivery', type: 'qa_hold', phase: 'qa_hold', conversation_key: CKEY, tab_id: ownerTabId, report_text: '', created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
-  await setMapRecord(worker, 'wsmb_outbox', CKEY, delivery);
+  const hold = { delivery_id: 'qa-webmaster-lifecycle-delivery', type: 'qa_hold', phase: 'qa_hold', conversation_key: CKEY, tab_id: ownerTabId, report_text: '', created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
+  await setMapRecord(worker, 'wsmb_outbox', CKEY, hold);
   const blockedDelivery = await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === true ? s : false; }, 'WEBMASTER_DELIVERY_DID_NOT_DISABLE_ACTION', 7000);
   assert(/доставки/i.test(blockedDelivery.title), `WEBMASTER_DELIVERY_TITLE_FAIL ${JSON.stringify(blockedDelivery)}`);
   const beforeDeliveryClick = JSON.stringify(await storageSnapshot(worker));
-  const deliveryClick = await clickDisabledAction(fixture);
+  const deliveryClick = await clickAction(fixture);
   assert(deliveryClick.before.disabled === true, 'WEBMASTER_DELIVERY_ACTION_NOT_DISABLED_AT_CLICK');
   await delay(700);
   assert(JSON.stringify(await storageSnapshot(worker)) === beforeDeliveryClick, 'WEBMASTER_DELIVERY_BLOCKED_CLICK_MUTATED_STATE');
-  assert(providerHits.length === 0, `WEBMASTER_DELIVERY_BLOCKED_CLICK_PROVIDER_HIT ${providerHits.length}`);
+  assert(providerHits.length === 1, `WEBMASTER_DELIVERY_BLOCKED_CLICK_PROVIDER_HIT ${providerHits.length}`);
   console.log('W14_WEBMASTER_DELIVERY_BLOCKED_NO_DISPATCH_PASS');
 
   await setMapRecord(worker, 'wsmb_outbox', CKEY, null);
+  await refreshContent(worker, ownerTabId);
   await waitUntil(async () => { const s = await actionSnapshot(fixture); return s.count === 1 && s.disabled === false ? s : false; }, 'WEBMASTER_DELIVERY_CLEAR_DID_NOT_REENABLE_ACTION', 7000);
   console.log('W14_WEBMASTER_DELIVERY_REENABLE_PASS');
 
-  assert(providerHits.length === 0, `W14_PROVIDER_HITS_UNEXPECTED ${providerHits.length}`);
-  console.log('W14_WEBMASTER_PROVIDER_HITS=0');
+  assert(providerHits.length === 1, `W14_PROVIDER_HITS_UNEXPECTED ${providerHits.length}`);
+  console.log('W14_WEBMASTER_PROVIDER_HITS=1');
   console.log('W14_WEBMASTER_REAL_YANDEX_REQUESTS=0');
   console.log('W14_WEBMASTER_LIFECYCLE_BROWSER_PASS');
 } finally {
