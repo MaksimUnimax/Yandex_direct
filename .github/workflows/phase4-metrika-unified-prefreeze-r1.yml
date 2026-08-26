@@ -1,0 +1,309 @@
+name: Phase 4 Metrika unified prefreeze r1
+
+on:
+  push:
+    branches:
+      - qa/phase4-metrika-literal-browser-closure-2026-08-26
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PRODUCT_SOURCE: 643445758e86d3b06ac42a6daea5c97b6e9223c7
+  ACCEPTED_PHASE3_SOURCE: a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+  PROVEN_W14_COMMIT: 2b58a9ed8284bded97ed6e8bff772502ee133f76
+  HISTORICAL_STAGE4_COMMIT: 667fda2f9a0e4197c4873ea96f27862c8453f2f0
+  CHROME_VERSION: 151.0.7922.47
+
+jobs:
+  source-and-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Exact product-source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$PRODUCT_SOURCE"
+          test "$(git rev-parse HEAD:extension/src)" = "$(git rev-parse "$PRODUCT_SOURCE:extension/src")"
+          git diff --quiet "$PRODUCT_SOURCE" HEAD -- extension/src
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/prefreeze-source-before.sha256
+          echo PHASE4_PREFREEZE_EXACT_PRODUCT_SOURCE_IDENTITY_PASS
+      - name: Phase 4 source gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/metrika_protocol.js
+          node --check extension/src/shared/phase4_provider_runtime.js
+          node --check extension/src/webmaster_worker_runtime.js
+          node --check extension/src/content_script.js
+          node --check extension/src/popup.js
+          node --check extension/tests/metrika_phase4_gate_matrix.test.mjs
+          node --check extension/tests/metrika_phase4_contract_closure.test.mjs
+          node --check extension/tests/metrika_autorun_isolation.test.mjs
+          node --check extension/tests/metrika_content_autorun_route.test.mjs
+
+          node --test extension/tests/metrika_phase4_gate_matrix.test.mjs | tee /tmp/m4-focused.tap
+          grep -q '# tests 27' /tmp/m4-focused.tap
+          grep -q '# pass 27' /tmp/m4-focused.tap
+          grep -q '# fail 0' /tmp/m4-focused.tap
+          grep -q '# skipped 0' /tmp/m4-focused.tap
+
+          node --test extension/tests/metrika_phase4_contract_closure.test.mjs | tee /tmp/m4-closure.tap
+          grep -q '# tests 5' /tmp/m4-closure.tap
+          grep -q '# pass 5' /tmp/m4-closure.tap
+          grep -q '# fail 0' /tmp/m4-closure.tap
+          grep -q '# skipped 0' /tmp/m4-closure.tap
+
+          node --test extension/tests/metrika_autorun_isolation.test.mjs | tee /tmp/m4-m13-m17.tap
+          grep -q '# tests 4' /tmp/m4-m13-m17.tap
+          grep -q '# pass 4' /tmp/m4-m13-m17.tap
+          grep -q '# fail 0' /tmp/m4-m13-m17.tap
+          grep -q '# skipped 0' /tmp/m4-m13-m17.tap
+
+          node --test extension/tests/metrika_content_autorun_route.test.mjs | tee /tmp/m4-content.tap
+          grep -q '# tests 2' /tmp/m4-content.tap
+          grep -q '# pass 2' /tmp/m4-content.tap
+          grep -q '# fail 0' /tmp/m4-content.tap
+          grep -q '# skipped 0' /tmp/m4-content.tap
+          echo PHASE4_PREFREEZE_SOURCE_GATES_PASS
+      - name: Accepted Phase 3 regression against exact Phase 4 bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$ACCEPTED_PHASE3_SOURCE"
+          rm -rf /tmp/accepted-phase3
+          mkdir -p /tmp/accepted-phase3
+          git archive "$ACCEPTED_PHASE3_SOURCE" extension/tests | tar -x -C /tmp/accepted-phase3
+          node extension/tests/qa_transport/phase4-metrika-dev/patch_accepted_phase3_additive_compat.mjs /tmp/accepted-phase3
+          ln -s "$GITHUB_WORKSPACE/extension/src" /tmp/accepted-phase3/extension/src
+          mapfile -d '' tests < <(find /tmp/accepted-phase3/extension/tests -maxdepth 1 -name '*.test.mjs' -print0 | sort -z)
+          test "${#tests[@]}" -eq 49
+          node --test "${tests[@]}" | tee /tmp/phase3-compat.tap
+          grep -q '# tests 313' /tmp/phase3-compat.tap
+          grep -q '# pass 313' /tmp/phase3-compat.tap
+          grep -q '# fail 0' /tmp/phase3-compat.tap
+          grep -q '# skipped 0' /tmp/phase3-compat.tap
+          echo PHASE4_PREFREEZE_ACCEPTED_PHASE3_313_OF_313_PASS
+      - name: Coverage map and source immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('fs');
+          const p = 'extension/tests/qa_transport/phase4-metrika-candidate/prefreeze_coverage_map.json';
+          const map = JSON.parse(fs.readFileSync(p, 'utf8'));
+          if (map.format !== 'YMB_PHASE4_METRIKA_PREFREEZE_COVERAGE_V1') throw new Error('coverage format');
+          if (map.product_source !== process.env.PRODUCT_SOURCE) throw new Error('coverage product source');
+          for (let i = 1; i <= 18; i++) {
+            const key = `M-${String(i).padStart(2, '0')}`;
+            if (map.gates?.[key]?.status !== 'DEVELOPMENT_PASS') throw new Error(`${key} not DEVELOPMENT_PASS`);
+          }
+          if (map.enabled_not_run_count_M01_M18 !== 0) throw new Error('NOT_RUN count');
+          console.log('PHASE4_PREFREEZE_M01_M18_COVERAGE_PASS');
+          NODE
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/prefreeze-source-after.sha256
+          cmp /tmp/prefreeze-source-before.sha256 /tmp/prefreeze-source-after.sha256
+          echo PHASE4_PREFREEZE_SOURCE_PRODUCT_IDENTICAL
+
+  literal-popup-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Exact product identity and deterministic popup harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$PRODUCT_SOURCE"
+          test "$(git rev-parse HEAD:extension/src)" = "$(git rev-parse "$PRODUCT_SOURCE:extension/src")"
+          git diff --quiet "$PRODUCT_SOURCE" HEAD -- extension/src
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/prefreeze-popup-before.sha256
+          node --check extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs
+          node extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/m4-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_SOURCE_IDENTITY_PASS' /tmp/m4-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_INITIAL_QUIESCENCE_PASS' /tmp/m4-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_LITERAL_CLOSURE_PATCH_PASS' /tmp/m4-patch.log
+          node --check extension/tests/qa_browser/metrika_browser_runtime.mjs
+          echo PHASE4_PREFREEZE_POPUP_PRODUCT_IDENTITY_PASS
+      - name: Install Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Literal popup/browser closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/m4-browser.log
+          for marker in \
+            M15_POPUP_GEOMETRY_AND_FOUR_SERVICE_UI_PASS \
+            M15_METRIKA_POLICY_INTERNAL_SCROLL_PASS \
+            M15_CREDENTIAL_SAVE_RERENDER_SECRET_REDACTION_PASS \
+            M04_M15_BLANK_METRIKA_SAVE_PRESERVES_CREDENTIAL_PASS \
+            M04_M15_COMMON_SAVE_PRESERVES_CREDENTIALS_PASS \
+            M15_FOUR_SERVICE_SWITCH_CREDENTIAL_ISOLATION_PASS \
+            M05_M15_METRIKA_CHECK_ONE_GET_PASS \
+            M07_M09_CONTROLLED_WORKER_PROVIDER_BOUNDARY_PASS \
+            M04_M16_BACKUP_CHECKSUM_TAMPER_REJECTS_BEFORE_MUTATION_PASS \
+            M16_BACKUP_V3_FOUR_SERVICE_EXPORT_IMPORT_PASS \
+            M15_REOPEN_RERENDER_SECRET_BLANK_PASS \
+            M19_CONTROLLED_REAL_YANDEX_REQUESTS=0 \
+            PHASE4_METRIKA_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/m4-browser.log
+          done
+          if grep -E 'm4-(wordstat-secret|search-secret|webmaster-oauth|metrika-oauth|mutated-token|tampered-token)' /tmp/m4-browser.log; then
+            echo PHASE4_PREFREEZE_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE4_PREFREEZE_LITERAL_POPUP_BROWSER_PASS
+      - name: Popup product immutability
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/prefreeze-popup-after.sha256
+          cmp /tmp/prefreeze-popup-before.sha256 /tmp/prefreeze-popup-after.sha256
+          echo PHASE4_PREFREEZE_POPUP_PRODUCT_IDENTICAL
+
+  lifecycle-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Exact product identity and lifecycle harness prep
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$PRODUCT_SOURCE"
+          test "$(git rev-parse HEAD:extension/src)" = "$(git rev-parse "$PRODUCT_SOURCE:extension/src")"
+          git diff --quiet "$PRODUCT_SOURCE" HEAD -- extension/src
+          node --check extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs
+          node --check extension/tests/qa_browser/patch_m14_popup_owner_stability.mjs
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/prefreeze-m14-before.sha256
+          echo PHASE4_PREFREEZE_M14_PRODUCT_IDENTITY_PASS
+      - name: Prepare proven W14 routes and qualified browser
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$PROVEN_W14_COMMIT"
+          git fetch --no-tags --depth=1 origin "$HISTORICAL_STAGE4_COMMIT"
+          mkdir -p /tmp/metrika-lifecycle
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/webmaster_lifecycle_button_gate.mjs" > /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs
+          cp /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs
+          git show "$PROVEN_W14_COMMIT:extension/tests/qa_browser/patch_w14_bootstrap.mjs" > /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" > /tmp/metrika-lifecycle/qa-chatgpt-local.key.pem
+          git show "$HISTORICAL_STAGE4_COMMIT:extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" > /tmp/metrika-lifecycle/qa-chatgpt-local.cert.pem
+          test "$(git hash-object /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs)" = "ea8f3ab6bae9a0e14423133b4654c31f86a3d51a"
+          test "$(git hash-object /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs)" = "ea8f3ab6bae9a0e14423133b4654c31f86a3d51a"
+          test "$(git hash-object /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs)" = "ae9296721d7dcb56d1a5f33172b1e404962be900"
+          node extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs list
+          node /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs
+          node extension/tests/qa_browser/patch_m14_popup_owner_stability.mjs /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs
+          node extension/tests/qa_browser/patch_m14_metrika_from_w14.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs summary
+          node /tmp/metrika-lifecycle/patch_w14_bootstrap.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs
+          node extension/tests/qa_browser/patch_m14_popup_owner_stability.mjs /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs
+          node --check /tmp/metrika-lifecycle/metrika_list_lifecycle.mjs
+          node --check /tmp/metrika-lifecycle/metrika_summary_lifecycle.mjs
+          cd /tmp/metrika-lifecycle
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --ignore-scripts puppeteer-core@25.4.0 >/dev/null
+          curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o /tmp/chrome.zip
+          unzip -q /tmp/chrome.zip -d /tmp/chrome
+          chmod +x /tmp/chrome/chrome-linux64/chrome
+          /tmp/chrome/chrome-linux64/chrome --version | grep -F "$CHROME_VERSION"
+          command -v xvfb-run
+          echo PHASE4_PREFREEZE_M14_PROVEN_ROUTE_PREPARED_PASS
+      - name: listCounters installed lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/metrika-lifecycle
+          xvfb-run -a node metrika_list_lifecycle.mjs /tmp/chrome/chrome-linux64/chrome "$GITHUB_WORKSPACE/extension/src" qa-chatgpt-local.key.pem qa-chatgpt-local.cert.pem | tee /tmp/m14-list.log
+          for marker in \
+            M14_POPUP_OWNER_BOOTSTRAP_STABILITY_PASS \
+            M14_METRIKA_ONE_MANUAL_ADMISSION_PASS \
+            M14_METRIKA_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            M14_METRIKA_REAL_COMPLETION_REENABLE_PASS \
+            M14_METRIKA_OPERATION_BLOCKED_NO_DISPATCH_PASS \
+            M14_METRIKA_DELIVERY_BLOCKED_NO_DISPATCH_PASS \
+            M14_METRIKA_PROVIDER_HITS=1 \
+            M14_METRIKA_REAL_YANDEX_REQUESTS=0 \
+            M14_METRIKA_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/m14-list.log
+          done
+          echo M14_METRIKA_LISTCOUNTERS_LIFECYCLE_PASS
+      - name: getTrafficSummary installed lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/metrika-lifecycle
+          xvfb-run -a node metrika_summary_lifecycle.mjs /tmp/chrome/chrome-linux64/chrome "$GITHUB_WORKSPACE/extension/src" qa-chatgpt-local.key.pem qa-chatgpt-local.cert.pem | tee /tmp/m14-summary.log
+          for marker in \
+            M14_POPUP_OWNER_BOOTSTRAP_STABILITY_PASS \
+            M14_METRIKA_SUMMARY_ONE_MANUAL_ADMISSION_PASS \
+            M14_METRIKA_SUMMARY_ONE_CONTROLLED_PROVIDER_REQUEST_PASS \
+            M14_METRIKA_SUMMARY_REAL_COMPLETION_REENABLE_PASS \
+            M14_METRIKA_SUMMARY_PROVIDER_HITS=1 \
+            M14_METRIKA_SUMMARY_REAL_YANDEX_REQUESTS=0 \
+            M14_METRIKA_SUMMARY_LIFECYCLE_BROWSER_PASS; do
+            grep -F "$marker" /tmp/m14-summary.log
+          done
+          echo M14_METRIKA_TRAFFIC_SUMMARY_LIFECYCLE_PASS
+          echo PHASE4_PREFREEZE_M14_LIFECYCLE_PASS
+      - name: Lifecycle product immutability
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/prefreeze-m14-after.sha256
+          cmp /tmp/prefreeze-m14-before.sha256 /tmp/prefreeze-m14-after.sha256
+          echo PHASE4_PREFREEZE_M14_PRODUCT_IDENTICAL
+
+  final:
+    needs: [source-and-regression, literal-popup-browser, lifecycle-browser]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Final exact-source and coverage lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$PRODUCT_SOURCE"
+          test "$(git rev-parse HEAD:extension/src)" = "$(git rev-parse "$PRODUCT_SOURCE:extension/src")"
+          git diff --quiet "$PRODUCT_SOURCE" HEAD -- extension/src
+          node - <<'NODE'
+          const fs = require('fs');
+          const map = JSON.parse(fs.readFileSync('extension/tests/qa_transport/phase4-metrika-candidate/prefreeze_coverage_map.json', 'utf8'));
+          if (map.product_source !== process.env.PRODUCT_SOURCE) throw new Error('product source mismatch');
+          for (let i = 1; i <= 18; i++) {
+            const key = `M-${String(i).padStart(2, '0')}`;
+            if (map.gates?.[key]?.status !== 'DEVELOPMENT_PASS') throw new Error(`${key} incomplete`);
+          }
+          if (map.enabled_not_run_count_M01_M18 !== 0) throw new Error('NOT_RUN present');
+          NODE
+          test -z "$(git status --porcelain)"
+          echo "PHASE4_PREFREEZE_PRODUCT_SOURCE=$PRODUCT_SOURCE"
+          echo "PHASE4_PREFREEZE_QA_HEAD=$GITHUB_SHA"
+          echo PHASE4_UNIFIED_PREFREEZE_M01_M18_PASS
