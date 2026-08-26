@@ -46,15 +46,17 @@ function prepareQaExtension() {
 const qa = prepareQaExtension();
 assert.match(qa.extensionId, /^[a-p]{32}$/);
 
+// Chrome 137+ branded builds no longer support --load-extension. Puppeteer 24's
+// enableExtensions API is the supported extension-test loading path.
 const browser = await puppeteer.launch({
   executablePath,
   headless: false,
+  pipe: true,
+  enableExtensions: [qa.extensionPath],
   args: [
     '--no-sandbox',
     '--disable-gpu',
-    '--disable-dev-shm-usage',
-    `--disable-extensions-except=${qa.extensionPath}`,
-    `--load-extension=${qa.extensionPath}`
+    '--disable-dev-shm-usage'
   ]
 });
 
@@ -75,6 +77,11 @@ async function send(page, message) {
 }
 
 try {
+  const extensions = await browser.extensions();
+  const installed = extensions.get(qa.extensionId);
+  assert.ok(installed, `QA extension ${qa.extensionId} was not installed by Puppeteer`);
+  assert.equal(installed.name, 'Yandex Marketing Bridge');
+
   const page = await browser.newPage();
   await page.goto(`chrome-extension://${qa.extensionId}/popup.html`, { waitUntil: 'load' });
   await page.waitForSelector('#credentialsSection', { timeout: 15000 });
