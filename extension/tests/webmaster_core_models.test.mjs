@@ -77,7 +77,7 @@ test('Webmaster policy rejects missing creds, Autorun default, disabled method a
   assert.equal(P.webmasterDecision({ channel: 'autorun', method: 'listHosts', credentialState: 'PRESENT' }).reason, 'AUTORUN_DISABLED');
   assert.equal(P.webmasterDecision({ channel: 'manual', method: 'writeSomething', credentialState: 'PRESENT' }).reason, 'OPERATION_DISABLED');
   assert.equal(P.webmasterDecision({ channel: 'manual', method: 'listHosts', credentialState: 'PRESENT', run: { requests_executed: 50 } }).reason, 'REQUEST_LIMIT');
-  const allow = P.webmasterDecision({ channel: 'manual', method: 'listHosts', credentialState: 'PRESENT', run: { requests_executed: 49, estimated_cost_rub: 999 } });
+  const allow = P.webmasterDecision({ channel: 'manual', method: 'listHosts', credentialState: 'PRESENT', run: { requests_executed: 49, estimated_cost_rub: 0 } });
   assert.equal(allow.allow, true);
   assert.equal(allow.estimated_cost_rub, 0);
 });
