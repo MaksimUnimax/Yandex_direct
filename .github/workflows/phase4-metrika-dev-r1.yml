@@ -34,6 +34,7 @@ jobs:
           node --check extension/src/content_script.js
           node --check extension/src/popup.js
           node --check extension/src/popup_context_bootstrap.js
+          node --check extension/tests/metrika_phase4_contract_closure.test.mjs
           node --check extension/tests/metrika_autorun_isolation.test.mjs
           node --check extension/tests/metrika_content_autorun_route.test.mjs
           node --check extension/tests/qa_transport/phase4-metrika-dev/patch_accepted_phase3_additive_compat.mjs
@@ -47,6 +48,15 @@ jobs:
           grep -q '# fail 0' /tmp/phase4-focused.tap
           grep -q '# skipped 0' /tmp/phase4-focused.tap
           echo PHASE4_METRIKA_FOCUSED_27_OF_27_PASS
+      - name: Phase 4 literal contract closure
+        run: |
+          set -euo pipefail
+          node --test extension/tests/metrika_phase4_contract_closure.test.mjs | tee /tmp/phase4-closure.tap
+          grep -q '# tests 5' /tmp/phase4-closure.tap
+          grep -q '# pass 5' /tmp/phase4-closure.tap
+          grep -q '# fail 0' /tmp/phase4-closure.tap
+          grep -q '# skipped 0' /tmp/phase4-closure.tap
+          echo PHASE4_METRIKA_CONTRACT_CLOSURE_5_OF_5_PASS
       - name: M13 service isolation and M17 common Autorun
         run: |
           set -euo pipefail
