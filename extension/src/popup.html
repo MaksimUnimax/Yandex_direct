@@ -11,7 +11,7 @@
     <header>
       <div>
         <h1>Yandex Marketing Bridge</h1>
-        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster.</p>
+        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster + Metrika.</p>
       </div>
       <span id="versionBadge" class="badge">v0.1.1</span>
     </header>
@@ -26,11 +26,10 @@
           <option value="wordstat">Wordstat</option>
           <option value="search">Search / SERP</option>
           <option value="webmaster">Webmaster</option>
+          <option value="metrika">Metrika</option>
         </select>
       </label>
-      <div class="actions">
-        <button id="bindConversation" type="button">Привязать диалог</button>
-      </div>
+      <div class="actions"><button id="bindConversation" type="button">Привязать диалог</button></div>
       <label class="switch-row" for="manualMode">
         <span><strong>Ручной режим Yandex</strong><small id="manualModeMeta">Выключен.</small></span>
         <input id="manualMode" type="checkbox">
@@ -43,48 +42,37 @@
 
       <details id="wordstatCredentials" class="credential-card" data-service="wordstat">
         <summary><span>Wordstat</span><strong id="wordstatCredentialState">не настроен</strong></summary>
-        <label>API key
-          <input id="wordstatApiKey" type="password" autocomplete="off" placeholder="Введите новый ключ или оставьте пустым">
-        </label>
-        <label>folderId
-          <input id="wordstatFolderId" type="text" autocomplete="off" spellcheck="false">
-        </label>
-        <div class="actions">
-          <button id="saveWordstatCredential" type="button">Save</button>
-          <button id="checkWordstatCredential" type="button">Check</button>
-        </div>
+        <label>API key<input id="wordstatApiKey" type="password" autocomplete="off" placeholder="Введите новый ключ или оставьте пустым"></label>
+        <label>folderId<input id="wordstatFolderId" type="text" autocomplete="off" spellcheck="false"></label>
+        <div class="actions"><button id="saveWordstatCredential" type="button">Save</button><button id="checkWordstatCredential" type="button">Check</button></div>
         <p id="wordstatCheckMeta" class="credential-meta">Не проверено.</p>
         <p class="warning">Check делает один read-only getRegionsTree. Этот метод не тарифицируется по текущему тарифу Wordstat.</p>
       </details>
 
       <details id="searchCredentials" class="credential-card" data-service="search">
         <summary><span>Search / SERP</span><strong id="searchCredentialState">не настроен</strong></summary>
-        <label>API key
-          <input id="searchApiKey" type="password" autocomplete="off" placeholder="Введите новый ключ или оставьте пустым">
-        </label>
-        <label>folderId
-          <input id="searchFolderId" type="text" autocomplete="off" spellcheck="false">
-        </label>
-        <div class="actions">
-          <button id="saveSearchCredential" type="button">Save</button>
-          <button id="checkSearchCredential" type="button">Check</button>
-        </div>
+        <label>API key<input id="searchApiKey" type="password" autocomplete="off" placeholder="Введите новый ключ или оставьте пустым"></label>
+        <label>folderId<input id="searchFolderId" type="text" autocomplete="off" spellcheck="false"></label>
+        <div class="actions"><button id="saveSearchCredential" type="button">Save</button><button id="checkSearchCredential" type="button">Check</button></div>
         <p id="searchCheckMeta" class="credential-meta">Не проверено.</p>
         <p class="warning">Search Check платный: перед ним popup отдельно попросит подтверждение ровно одного Search-запроса. Автоповтора нет.</p>
       </details>
 
       <details id="webmasterCredentials" class="credential-card" data-service="webmaster">
         <summary><span>Webmaster</span><strong id="webmasterCredentialState">не настроен</strong></summary>
-        <label>OAuth token
-          <input id="webmasterOauthToken" type="password" autocomplete="off" placeholder="Введите новый OAuth или оставьте пустым">
-        </label>
+        <label>OAuth token<input id="webmasterOauthToken" type="password" autocomplete="off" placeholder="Введите новый OAuth или оставьте пустым"></label>
         <div class="row"><span>Подтверждённый user_id</span><strong id="webmasterUserId">—</strong></div>
-        <div class="actions">
-          <button id="saveWebmasterCredential" type="button">Save</button>
-          <button id="checkWebmasterCredential" type="button">Check</button>
-        </div>
+        <div class="actions"><button id="saveWebmasterCredential" type="button">Save</button><button id="checkWebmasterCredential" type="button">Check</button></div>
         <p id="webmasterCheckMeta" class="credential-meta">Не проверено.</p>
         <p class="warning">Check делает ровно один GET /v4/user и сохраняет полученный user_id. Токен в результат или диагностику не выводится.</p>
+      </details>
+
+      <details id="metrikaCredentials" class="credential-card" data-service="metrika">
+        <summary><span>Metrika</span><strong id="metrikaCredentialState">не настроен</strong></summary>
+        <label>OAuth token<input id="metrikaOauthToken" type="password" autocomplete="off" placeholder="Введите новый OAuth или оставьте пустым"></label>
+        <div class="actions"><button id="saveMetrikaCredential" type="button">Save</button><button id="checkMetrikaCredential" type="button">Check</button></div>
+        <p id="metrikaCheckMeta" class="credential-meta">Не проверено.</p>
+        <p class="warning">Check делает ровно один read-only GET /management/v1/counters?per_page=1. Пустой список счётчиков тоже означает успешную проверку доступа.</p>
       </details>
     </section>
 
@@ -96,139 +84,79 @@
       <div class="row"><span>Итерация</span><strong id="runSequence">0</strong></div>
       <div class="row"><span>Последний API</span><strong id="lastCommand">—</strong></div>
       <p class="warning">Автоматический режим выполняет только новые команды выбранного сервиса. Один блок = максимум один запрос.</p>
-      <div class="actions four">
-        <button id="startAuto" type="button">Старт</button>
-        <button id="pauseAuto" type="button">Пауза</button>
-        <button id="resumeAuto" type="button">Продолжить</button>
-        <button id="finishAuto" type="button">Завершить</button>
-      </div>
+      <div class="actions four"><button id="startAuto" type="button">Старт</button><button id="pauseAuto" type="button">Пауза</button><button id="resumeAuto" type="button">Продолжить</button><button id="finishAuto" type="button">Завершить</button></div>
     </section>
 
     <section>
       <h2>Кнопки ChatGPT</h2>
       <p id="sendProfileMeta" class="muted">Send не настроен.</p>
-      <div class="actions">
-        <button id="pickSend" type="button">Выбрать Send</button>
-        <button id="clearSend" type="button">Сбросить Send</button>
-      </div>
+      <div class="actions"><button id="pickSend" type="button">Выбрать Send</button><button id="clearSend" type="button">Сбросить Send</button></div>
       <p id="copyProfileMeta" class="muted">Copy не настроен.</p>
-      <div class="actions">
-        <button id="pickCopy" type="button">Выбрать Copy</button>
-        <button id="clearCopy" type="button">Сбросить Copy</button>
-      </div>
+      <div class="actions"><button id="pickCopy" type="button">Выбрать Copy</button><button id="clearCopy" type="button">Сбросить Copy</button></div>
       <p class="warning">Copy хранится для совместимости. Кнопка «Яндекс» работает отдельно и от Copy не зависит.</p>
     </section>
 
     <section>
       <h2>Общие настройки</h2>
-      <label class="switch-row" for="autoSend">
-        <span><strong>Автоматически нажимать Send после доставки</strong><small>Только после записи доставки; повторный Send запрещён.</small></span>
-        <input id="autoSend" type="checkbox">
-      </label>
-      <label class="switch-row" for="debugMode">
-        <span><strong>Debug</strong><small>Диагностика без API key / Authorization / OAuth token.</small></span>
-        <input id="debugMode" type="checkbox">
-      </label>
+      <label class="switch-row" for="autoSend"><span><strong>Автоматически нажимать Send после доставки</strong><small>Только после записи доставки; повторный Send запрещён.</small></span><input id="autoSend" type="checkbox"></label>
+      <label class="switch-row" for="debugMode"><span><strong>Debug</strong><small>Диагностика без API key / Authorization / OAuth token.</small></span><input id="debugMode" type="checkbox"></label>
     </section>
 
     <section>
       <h2>Wordstat policy / стоимость</h2>
-      <label class="switch-row" for="wordstatAutorunEnabled">
-        <span><strong>Разрешить Wordstat в автоматическом режиме</strong></span>
-        <input id="wordstatAutorunEnabled" type="checkbox">
-      </label>
-      <div class="grid">
-        <label>Max запросов<input id="maxRequestsRun" type="number" min="1" max="100000"></label>
-        <label>Max ₽<input id="maxCostRun" type="number" min="0" step="0.001"></label>
-      </div>
-      <div class="grid">
-        <label>getTop ₽<input id="costGetTop" type="number" min="0" step="0.001"></label>
-        <label>getDynamics ₽<input id="costGetDynamics" type="number" min="0" step="0.001"></label>
-        <label>getRegionsDistribution ₽<input id="costGetRegionsDistribution" type="number" min="0" step="0.001"></label>
-        <label>getRegionsTree ₽<input id="costGetRegionsTree" type="number" min="0" step="0.001"></label>
-      </div>
+      <label class="switch-row" for="wordstatAutorunEnabled"><span><strong>Разрешить Wordstat в автоматическом режиме</strong></span><input id="wordstatAutorunEnabled" type="checkbox"></label>
+      <div class="grid"><label>Max запросов<input id="maxRequestsRun" type="number" min="1" max="100000"></label><label>Max ₽<input id="maxCostRun" type="number" min="0" step="0.001"></label></div>
+      <div class="grid"><label>getTop ₽<input id="costGetTop" type="number" min="0" step="0.001"></label><label>getDynamics ₽<input id="costGetDynamics" type="number" min="0" step="0.001"></label><label>getRegionsDistribution ₽<input id="costGetRegionsDistribution" type="number" min="0" step="0.001"></label><label>getRegionsTree ₽<input id="costGetRegionsTree" type="number" min="0" step="0.001"></label></div>
       <label>Тариф проверен<input id="tariffCheckedAt" type="text" spellcheck="false"></label>
       <label>Официальный источник<input id="tariffSource" type="text" spellcheck="false"></label>
     </section>
 
     <section>
       <h2>Search policy / стоимость</h2>
-      <label class="switch-row" for="searchManualEnabled">
-        <span><strong>Разрешить Search в ручном режиме</strong><small>Запрещает платные Manual Search-запросы даже при включённом ручном режиме диалога.</small></span>
-        <input id="searchManualEnabled" type="checkbox">
-      </label>
-      <label class="switch-row" for="searchAutorunEnabled">
-        <span><strong>Разрешить Search в автоматическом режиме</strong></span>
-        <input id="searchAutorunEnabled" type="checkbox">
-      </label>
-      <div class="grid">
-        <label>Max Search запросов<input id="searchMaxRequestsRun" type="number" min="1" max="100000"></label>
-        <label>Max Search ₽<input id="searchMaxCostRun" type="number" min="0" step="0.001"></label>
-        <label>Search ₽ / request<input id="costSearch" type="number" min="0" step="0.001"></label>
-      </div>
-      <label>Тариф проверен<input id="searchTariffCheckedAt" type="text" spellcheck="false"></label>
-      <label>Официальный источник<input id="searchTariffSource" type="text" spellcheck="false"></label>
+      <label class="switch-row" for="searchManualEnabled"><span><strong>Разрешить Search в ручном режиме</strong><small>Запрещает платные Manual Search-запросы даже при включённом ручном режиме диалога.</small></span><input id="searchManualEnabled" type="checkbox"></label>
+      <label class="switch-row" for="searchAutorunEnabled"><span><strong>Разрешить Search в автоматическом режиме</strong></span><input id="searchAutorunEnabled" type="checkbox"></label>
+      <div class="grid"><label>Max Search запросов<input id="searchMaxRequestsRun" type="number" min="1" max="100000"></label><label>Max Search ₽<input id="searchMaxCostRun" type="number" min="0" step="0.001"></label><label>Search ₽ / request<input id="costSearch" type="number" min="0" step="0.001"></label></div>
+      <label>Тариф проверен<input id="searchTariffCheckedAt" type="text" spellcheck="false"></label><label>Официальный источник<input id="searchTariffSource" type="text" spellcheck="false"></label>
       <p class="warning">Перед реальным платным Search-вызовом тариф нужно проверять заново. Здесь хранится только защитный лимит расширения.</p>
     </section>
 
     <section>
       <h2>Webmaster policy</h2>
-      <label class="switch-row" for="webmasterManualEnabled">
-        <span><strong>Разрешить Webmaster в ручном режиме</strong><small>Phase 3 разрешает только read-only методы первого среза.</small></span>
-        <input id="webmasterManualEnabled" type="checkbox">
-      </label>
-      <div class="grid">
-        <label>Max Webmaster запросов<input id="webmasterMaxRequestsRun" type="number" min="1" max="100000"></label>
-        <label>Стоимость<input id="webmasterCost" type="text" value="0 ₽" readonly></label>
-      </div>
+      <label class="switch-row" for="webmasterManualEnabled"><span><strong>Разрешить Webmaster в ручном режиме</strong><small>Phase 3 разрешает только read-only методы первого среза.</small></span><input id="webmasterManualEnabled" type="checkbox"></label>
+      <div class="grid"><label>Max Webmaster запросов<input id="webmasterMaxRequestsRun" type="number" min="1" max="100000"></label><label>Стоимость<input id="webmasterCost" type="text" value="0 ₽" readonly></label></div>
       <p class="warning">Autorun Webmaster в Phase 3 выключен. Разрешены только listHosts, getSummary, getDiagnostics и getPopularQueries.</p>
     </section>
 
     <section>
+      <h2>Metrika policy</h2>
+      <label class="switch-row" for="metrikaManualEnabled"><span><strong>Разрешить Metrika в ручном режиме</strong><small>Phase 4 разрешает только read-only методы первого среза.</small></span><input id="metrikaManualEnabled" type="checkbox"></label>
+      <div class="grid"><label>Max Metrika запросов<input id="metrikaMaxRequestsRun" type="number" min="1" max="100000"></label><label>Max дней отчёта<input id="metrikaMaxReportDays" type="number" min="1" max="366"></label><label>Стоимость<input id="metrikaCost" type="text" value="0 ₽" readonly></label></div>
+      <p class="warning">Autorun Metrika в Phase 4 по умолчанию выключен и не включается из production popup. Разрешены только listCounters, getCounter, getTrafficSummary и getTrafficByTime.</p>
+    </section>
+
+    <section>
       <h2>Старт автоматического режима</h2>
-      <label>Стартовый текст для выбранного сервиса
-        <textarea id="autoStartPromptText" rows="5" placeholder="Стартовый текст"></textarea>
-      </label>
-      <div class="actions">
-        <button id="saveAutoStartPrompt" type="button">Сохранить стартовый текст</button>
-        <button id="resetAutoStartPrompt" type="button">Вернуть стандартный</button>
-      </div>
-      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster Autorun в Phase 3 запрещён.</p>
+      <label>Стартовый текст для выбранного сервиса<textarea id="autoStartPromptText" rows="5" placeholder="Стартовый текст"></textarea></label>
+      <div class="actions"><button id="saveAutoStartPrompt" type="button">Сохранить стартовый текст</button><button id="resetAutoStartPrompt" type="button">Вернуть стандартный</button></div>
+      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster и Metrika Autorun в production popup первой версии не запускаются.</p>
     </section>
 
     <section>
       <h2>Префикс результата</h2>
-      <label class="switch-row" for="reportPrefixEnabled">
-        <span><strong>Добавлять текст перед API-результатом</strong></span>
-        <input id="reportPrefixEnabled" type="checkbox">
-      </label>
+      <label class="switch-row" for="reportPrefixEnabled"><span><strong>Добавлять текст перед API-результатом</strong></span><input id="reportPrefixEnabled" type="checkbox"></label>
       <textarea id="reportPrefixText" rows="3" placeholder="Необязательный текст"></textarea>
     </section>
 
     <section>
       <h2>Диагностика</h2>
-      <label>Показывать
-        <select id="diagnosticsFilter">
-          <option value="all">Все записи</option>
-          <option value="error">Только ошибки</option>
-          <option value="current">Текущий диалог</option>
-        </select>
-      </label>
+      <label>Показывать<select id="diagnosticsFilter"><option value="all">Все записи</option><option value="error">Только ошибки</option><option value="current">Текущий диалог</option></select></label>
       <textarea id="diagnosticsText" rows="7" readonly spellcheck="false" placeholder="Диагностика пока пуста"></textarea>
-      <div class="actions">
-        <button id="copyDiagnostics" type="button">Копировать диагностику</button>
-        <button id="clearDiagnostics" type="button">Очистить диагностику</button>
-      </div>
+      <div class="actions"><button id="copyDiagnostics" type="button">Копировать диагностику</button><button id="clearDiagnostics" type="button">Очистить диагностику</button></div>
       <p class="warning">API key, Authorization, OAuth token и secret скрываются перед показом.</p>
     </section>
 
     <section>
-      <div class="actions">
-        <button id="saveSettings" class="primary" type="button">Сохранить общие настройки</button>
-        <button id="exportSettings" type="button">Экспорт</button>
-        <button id="importSettings" type="button">Импорт</button>
-        <input id="importFile" type="file" accept="application/json,.json" hidden>
-      </div>
+      <div class="actions"><button id="saveSettings" class="primary" type="button">Сохранить общие настройки</button><button id="exportSettings" type="button">Экспорт</button><button id="importSettings" type="button">Импорт</button><input id="importFile" type="file" accept="application/json,.json" hidden></div>
       <p class="warning">Экспорт содержит секреты всех настроенных сервисов. Импорт проверяет SHA-256 и блокируется во время активного Autorun или Manual-запроса.</p>
     </section>
   </main>

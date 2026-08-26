@@ -9,6 +9,7 @@
     "shared/wordstat_protocol.js",
     "shared/search_xml.js",
     "shared/search_protocol.js",
+    "shared/metrika_protocol.js",
     "shared/autorun_model.js",
     "shared/manual_controls.js",
     "shared/composer_send.js",
@@ -34,13 +35,7 @@
       observer.disconnect();
       setBootstrapStatus(expected, "error");
     });
-    observer.observe(node, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-      attributes: true,
-      attributeFilter: ["data-level"]
-    });
+    observer.observe(node, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["data-level"] });
     return observer;
   }
 
@@ -61,15 +56,10 @@
       try {
         chrome.tabs.sendMessage(tabId, { type: "WS_GET_IDENTITY" }, (response) => {
           const error = chrome.runtime.lastError;
-          if (error) {
-            resolve({ delivered: false, error: error.message || String(error), response: null });
-            return;
-          }
+          if (error) { resolve({ delivered: false, error: error.message || String(error), response: null }); return; }
           resolve({ delivered: true, error: "", response: response || null });
         });
-      } catch (error) {
-        resolve({ delivered: false, error: error.message || String(error), response: null });
-      }
+      } catch (error) { resolve({ delivered: false, error: error.message || String(error), response: null }); }
     });
   }
 
@@ -83,41 +73,28 @@
 
   async function injectContentBundle(tabId) {
     if (!chrome.scripting?.executeScript) throw new Error("Chrome scripting API недоступен; невозможно восстановить связь с открытым ChatGPT.");
-    for (const file of CONTENT_FILES) {
-      await chrome.scripting.executeScript({ target: { tabId }, files: [file] });
-    }
+    for (const file of CONTENT_FILES) await chrome.scripting.executeScript({ target: { tabId }, files: [file] });
   }
 
   function isChatGptTab(tab) {
     if (!tab || !Number.isInteger(Number(tab.id))) return false;
-    try { return CHATGPT_HOSTS.has(new URL(tab.url || "").hostname); }
-    catch { return false; }
+    try { return CHATGPT_HOSTS.has(new URL(tab.url || "").hostname); } catch { return false; }
   }
 
   async function ensureCurrentChatContext() {
     const tab = await queryActiveTab();
     if (!isChatGptTab(tab)) return { attempted: false, recovered: false, reason: "ACTIVE_TAB_NOT_CHATGPT" };
-    const tabId = Number(tab.id);
-    let sawLiveReceiver = false;
-
-    // A newly loaded page may still be finishing its declarative content-script startup.
+    const tabId = Number(tab.id); let sawLiveReceiver = false;
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const probe = await tabIdentity(tabId);
       if (usableIdentityProbe(probe)) return { attempted: true, recovered: false, tab_id: tabId, response: probe.response };
       if (probe.delivered) sawLiveReceiver = true;
       if (attempt < 2) await wait(120);
     }
-
-    // Never inject a second content runtime over a live receiver merely because
-    // that receiver could not confirm a conversation. That is an identity error,
-    // not a missing-script error.
-    if (sawLiveReceiver) {
-      throw new Error("Связь с ChatGPT есть, но текущий диалог не удалось подтвердить.");
-    }
+    if (sawLiveReceiver) throw new Error("Связь с ChatGPT есть, но текущий диалог не удалось подтвердить.");
 
     setBootstrapStatus("Восстанавливаю связь с текущим ChatGPT…");
     await injectContentBundle(tabId);
-
     let lastError = "";
     for (let attempt = 0; attempt < 25; attempt += 1) {
       const probe = await tabIdentity(tabId);
@@ -161,15 +138,6 @@
     .finally(() => loadPopupRuntime());
 
   if (globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_TEST__ === true) {
-    globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_API__ = Object.freeze({
-      CONTENT_FILES,
-      isChatGptTab,
-      tabIdentity,
-      usableIdentityProbe,
-      injectContentBundle,
-      ensureCurrentChatContext,
-      publishBootstrapResult,
-      preserveBootstrapFailureThroughStartup
-    });
+    globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_API__ = Object.freeze({ CONTENT_FILES, isChatGptTab, tabIdentity, usableIdentityProbe, injectContentBundle, ensureCurrentChatContext, publishBootstrapResult, preserveBootstrapFailureThroughStartup });
   }
 })();

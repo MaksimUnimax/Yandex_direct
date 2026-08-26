@@ -2,10 +2,10 @@
   "use strict";
 
   const STORAGE_KEY = "ymb_service_credentials";
-  const SETTINGS_SCHEMA_VERSION = 3;
+  const SETTINGS_SCHEMA_VERSION = 4;
   const BACKUP_VERSION = 3;
-  const SERVICES = Object.freeze(["wordstat", "search", "webmaster"]);
-  const CHECK_STATES = new Set(["", "PRESENT", "MISSING", "INVALID_OR_EXPIRED", "NO_ACCESS", "NETWORK_ERROR", "NOT_CHECKED"]);
+  const SERVICES = Object.freeze(["wordstat", "search", "webmaster", "metrika"]);
+  const CHECK_STATES = new Set(["", "PRESENT", "MISSING", "INVALID_OR_EXPIRED", "NO_ACCESS", "NETWORK_ERROR", "NOT_CHECKED", "QUOTA"]);
 
   function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
   function text(value) { return String(value ?? "").trim(); }
@@ -37,6 +37,14 @@
     });
   }
 
+  function normalizeMetrikaRecord(raw = {}) {
+    return Object.freeze({
+      oauth_token: text(raw.oauth_token ?? raw.oauthToken),
+      checked_at: validIso(raw.checked_at ?? raw.checkedAt),
+      check_state: normalizeCheckState(raw.check_state ?? raw.checkState)
+    });
+  }
+
   function hasOwnRecord(raw, service) {
     return Boolean(raw && typeof raw === "object" && !Array.isArray(raw) && raw[service] && typeof raw[service] === "object" && !Array.isArray(raw[service]));
   }
@@ -47,7 +55,8 @@
     const wordstat = normalizeCloudRecord(hasOwnRecord(source, "wordstat") ? source.wordstat : legacyCloud);
     const search = normalizeCloudRecord(hasOwnRecord(source, "search") ? source.search : legacyCloud);
     const webmaster = normalizeWebmasterRecord(hasOwnRecord(source, "webmaster") ? source.webmaster : {});
-    return Object.freeze({ wordstat, search, webmaster });
+    const metrika = normalizeMetrikaRecord(hasOwnRecord(source, "metrika") ? source.metrika : {});
+    return Object.freeze({ wordstat, search, webmaster, metrika });
   }
 
   function migrateStorageRecord(raw = {}, legacyApiKey = "", legacyFolderId = "") {
@@ -79,7 +88,8 @@
     return Object.freeze({
       wordstat: Object.freeze({ has_api_key: Boolean(c.wordstat.api_key), has_folder_id: Boolean(c.wordstat.folder_id), folder_id: c.wordstat.folder_id || null, checked_at: c.wordstat.checked_at, check_state: c.wordstat.check_state }),
       search: Object.freeze({ has_api_key: Boolean(c.search.api_key), has_folder_id: Boolean(c.search.folder_id), folder_id: c.search.folder_id || null, checked_at: c.search.checked_at, check_state: c.search.check_state }),
-      webmaster: Object.freeze({ has_oauth_token: Boolean(c.webmaster.oauth_token), has_user_id: Boolean(c.webmaster.user_id), user_id: c.webmaster.user_id || null, verified_at: c.webmaster.verified_at, check_state: c.webmaster.check_state })
+      webmaster: Object.freeze({ has_oauth_token: Boolean(c.webmaster.oauth_token), has_user_id: Boolean(c.webmaster.user_id), user_id: c.webmaster.user_id || null, verified_at: c.webmaster.verified_at, check_state: c.webmaster.check_state }),
+      metrika: Object.freeze({ has_oauth_token: Boolean(c.metrika.oauth_token), checked_at: c.metrika.checked_at, check_state: c.metrika.check_state })
     });
   }
 
@@ -92,7 +102,9 @@
       throw error;
     }
     const next = clone(normalized);
-    next[value] = value === "webmaster" ? normalizeWebmasterRecord(nextRecord) : normalizeCloudRecord(nextRecord);
+    if (value === "webmaster") next[value] = normalizeWebmasterRecord(nextRecord);
+    else if (value === "metrika") next[value] = normalizeMetrikaRecord(nextRecord);
+    else next[value] = normalizeCloudRecord(nextRecord);
     return Object.freeze(next);
   }
 
@@ -103,11 +115,13 @@
     SERVICES,
     normalizeCloudRecord,
     normalizeWebmasterRecord,
+    normalizeMetrikaRecord,
     normalizeCredentials,
     migrateStorageRecord,
     normalizeBackupCredentials,
     exportCredentialPayload,
     publicCredentialStatus,
-    withServiceCredential
+    withServiceCredential,
+    hasOwnRecord
   });
 })();
