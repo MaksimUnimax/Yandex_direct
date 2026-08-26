@@ -22,6 +22,7 @@ function replaceExact(from, to, label, expectedCount = 1) {
 }
 
 source = source.replaceAll('Webmaster', 'Metrika').replaceAll('WEBMASTER', 'METRIKA').replaceAll('webmaster', 'metrika');
+source = source.replaceAll('W14_METRIKA', 'M14_METRIKA');
 
 replaceExact('api.metrika.yandex.net', 'api-metrika.yandex.net', 'Metrika provider hostname', 4);
 replaceExact('{"method":"listHosts"}', '{"method":"listCounters","page":1,"perPage":1}', 'Metrika fixture command');
@@ -36,3 +37,4 @@ if (patchedBlob === expectedBlob) throw new Error('M14 Metrika patch produced no
 console.log(`M14_PROVEN_W14_SOURCE_BLOB=${expectedBlob}`);
 console.log(`M14_METRIKA_PATCHED_BLOB=${patchedBlob}`);
 console.log('M14_METRIKA_PROVEN_ROUTE_ADAPTATION_PASS');
+console.log('M14_METRIKA_MARKER_NAMESPACE_PASS');
