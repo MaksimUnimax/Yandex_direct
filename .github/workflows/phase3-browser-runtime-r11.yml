@@ -1,0 +1,23 @@
+name: Phase 3 browser runtime r11
+on:
+  push:
+    branches:
+      - automation/phase3-browser-runtime-r11-2026-08-26
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source regression
+        working-directory: extension/src
+        run: npm test
+      - name: Install Puppeteer Chrome for Testing
+        working-directory: extension
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+      - name: Controlled Chrome for Testing extension runtime
+        run: |
+          command -v xvfb-run
+          xvfb-run -a node extension/tests/phase3_browser_runtime.mjs
