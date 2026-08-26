@@ -1,19 +1,28 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const extensionPath = path.resolve(here, '../src');
+const extensionPath = fs.realpathSync(path.resolve(here, '../src'));
 const executablePath = process.env.CHROME_BIN;
 assert.ok(executablePath, 'CHROME_BIN is required');
 
+function unpackedExtensionId(rootPath) {
+  const hex = createHash('sha256').update(rootPath).digest('hex').slice(0, 32);
+  return [...hex].map((char) => String.fromCharCode('a'.charCodeAt(0) + Number.parseInt(char, 16))).join('');
+}
+
+const expectedExtensionId = unpackedExtensionId(extensionPath);
 const browser = await puppeteer.launch({
   executablePath,
-  headless: true,
+  headless: false,
   args: [
     '--no-sandbox',
     '--disable-gpu',
+    '--disable-dev-shm-usage',
     `--disable-extensions-except=${extensionPath}`,
     `--load-extension=${extensionPath}`
   ]
@@ -36,12 +45,18 @@ async function send(page, message) {
 }
 
 try {
+  // Opening the extension page activates its MV3 worker. Waiting for the worker
+  // before any extension page is touched is unreliable on clean Chrome profiles.
+  const page = await browser.newPage();
+  await page.goto(`chrome-extension://${expectedExtensionId}/popup.html`, { waitUntil: 'load' });
+  await page.waitForSelector('#credentialsSection');
+
   const workerTarget = await browser.waitForTarget(
-    (target) => target.type() === 'service_worker' && target.url().startsWith('chrome-extension://'),
+    (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${expectedExtensionId}/`),
     { timeout: 15000 }
   );
   const extensionId = new URL(workerTarget.url()).host;
-  assert.match(extensionId, /^[a-p]{32}$/);
+  assert.equal(extensionId, expectedExtensionId);
   const workerClient = await workerTarget.createCDPSession();
 
   await workerEval(workerClient, `(() => {
@@ -76,9 +91,6 @@ try {
     return true;
   })()`);
 
-  const page = await browser.newPage();
-  await page.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: 'load' });
-  await page.waitForSelector('#credentialsSection');
   await page.waitForFunction(() => document.querySelector('#versionBadge')?.textContent?.startsWith('v'));
 
   const geometry = await page.evaluate(() => ({
