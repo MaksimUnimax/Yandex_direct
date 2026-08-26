@@ -10,7 +10,9 @@ const manifest = JSON.parse(fs.readFileSync(path.join(src, 'manifest.json'), 'ut
 const pkg = JSON.parse(fs.readFileSync(path.join(src, 'package.json'), 'utf8'));
 const popupHtml = fs.readFileSync(path.join(src, 'popup.html'), 'utf8');
 const popupContextBootstrap = fs.readFileSync(path.join(src, 'popup_context_bootstrap.js'), 'utf8');
+const phase3Bootstrap = fs.readFileSync(path.join(src, 'phase3_service_worker_bootstrap.js'), 'utf8');
 const bootstrap = fs.readFileSync(path.join(src, 'service_worker_bootstrap.js'), 'utf8');
+const webmasterRuntime = fs.readFileSync(path.join(src, 'webmaster_worker_runtime.js'), 'utf8');
 const worker = fs.readFileSync(path.join(src, 'service_worker.js'), 'utf8');
 const product = fs.readFileSync(path.join(src, 'shared/product.js'), 'utf8');
 
@@ -23,14 +25,13 @@ function quotedJsSources(html) {
 }
 
 function importedScripts(source) {
-  const call = source.match(/importScripts\(([\s\S]*?)\);/);
-  if (!call) return [];
-  return [...call[1].matchAll(/"([^"]+\.js)"/g)].map((m) => m[1]);
+  return [...source.matchAll(/importScripts\(([\s\S]*?)\);/g)]
+    .flatMap((call) => [...call[1].matchAll(/"([^"]+\.js)"/g)].map((m) => m[1]));
 }
 
 test('candidate manifest is MV3 and points only to files present in extension/src', () => {
   assert.equal(manifest.manifest_version, 3);
-  assert.equal(manifest.background?.service_worker, 'service_worker_bootstrap.js');
+  assert.equal(manifest.background?.service_worker, 'phase3_service_worker_bootstrap.js');
   assert.equal(manifest.action?.default_popup, 'popup.html');
   assert.equal(exists(manifest.background.service_worker), true);
   assert.equal(exists(manifest.action.default_popup), true);
@@ -48,11 +49,25 @@ test('candidate popup loads local bootstrap scripts and context recovery starts 
   assert.match(popupContextBootstrap, /\.finally\(\(\) => loadPopupRuntime\(\)\)/);
 });
 
-test('candidate worker bootstrap loads production worker and every worker importScript exists', () => {
+test('candidate Phase 3 bootstrap preserves accepted worker bootstrap and loads only present runtime modules', () => {
+  const outerImports = importedScripts(phase3Bootstrap);
+  assert.deepEqual(outerImports, ['service_worker_bootstrap.js', 'webmaster_worker_runtime.js']);
+  for (const file of outerImports) assert.equal(exists(file), true, `Phase 3 bootstrap import is missing: ${file}`);
+
   assert.match(bootstrap, /importScripts\("service_worker\.js"\)/);
-  const imports = importedScripts(worker);
-  assert.ok(imports.length >= 10);
-  for (const file of imports) assert.equal(exists(file), true, `worker importScript is missing: ${file}`);
+  const workerImports = importedScripts(worker);
+  assert.ok(workerImports.length >= 10);
+  for (const file of workerImports) assert.equal(exists(file), true, `worker importScript is missing: ${file}`);
+
+  const phase3RuntimeImports = importedScripts(webmasterRuntime);
+  assert.deepEqual(phase3RuntimeImports, [
+    'shared/credential_store_model.js',
+    'shared/webmaster_protocol.js',
+    'shared/credential_runtime.js',
+    'shared/phase3_provider_runtime.js',
+    'shared/settings_backup_v3_runtime.js'
+  ]);
+  for (const file of phase3RuntimeImports) assert.equal(exists(file), true, `Phase 3 runtime import is missing: ${file}`);
 });
 
 test('candidate version stays aligned between manifest, package and product module', () => {
@@ -61,11 +76,12 @@ test('candidate version stays aligned between manifest, package and product modu
   assert.match(product, /VERSION:\s*"0\.1\.1"/);
 });
 
-test('candidate host permissions stay limited to ChatGPT and official Yandex Search API', () => {
+test('candidate host permissions stay limited to ChatGPT plus official enabled Yandex API hosts', () => {
   assert.deepEqual(manifest.host_permissions, [
     'https://chatgpt.com/*',
     'https://chat.openai.com/*',
-    'https://searchapi.api.cloud.yandex.net/*'
+    'https://searchapi.api.cloud.yandex.net/*',
+    'https://api.webmaster.yandex.net/*'
   ]);
   const serialized = JSON.stringify(manifest);
   assert.equal(serialized.includes('yandex.ru/*'), false);
@@ -78,4 +94,5 @@ test('candidate npm test command covers all top-level regression test files auto
   assert.ok(tests.includes('candidate_readiness_recovery.test.mjs'));
   assert.ok(tests.includes('phase1_core_regression_recovery.test.mjs'));
   assert.ok(tests.includes('search_worker_stage2.test.mjs'));
+  assert.ok(tests.includes('phase3_worker_runtime.test.mjs'));
 });
