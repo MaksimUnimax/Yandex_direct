@@ -1,0 +1,45 @@
+name: Apply lifecycle button candidate
+
+on:
+  push:
+    branches:
+      - automation/lifecycle-button-gating-2026-08-26
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply exact minimal patch and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp tooling/lifecycle_button.patch /tmp/lifecycle_button.patch
+          git checkout --detach b7869180c229356a6b3d51ac980ec3da5df4c23c
+          git apply --check /tmp/lifecycle_button.patch
+          git apply /tmp/lifecycle_button.patch
+          git diff --check
+          test "$(git diff --name-only | sort)" = "$(printf '%s\n' extension/src/content_script.js extension/tests/content_phase2_runtime.test.mjs | sort)"
+          test "$(git hash-object extension/src/content_script.js)" = "c7ca2f89124359c0f8ea1eb055294692e6c350fd"
+          test "$(git hash-object extension/tests/content_phase2_runtime.test.mjs)" = "e2a50cc89e11bbb0cd9272b76675c838c523fff9"
+          node --check extension/src/content_script.js
+          node --test extension/tests/content_phase2_runtime.test.mjs
+          node --test extension/tests/*.test.mjs
+
+      - name: Commit exact candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "ChatGPT governed dev automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add extension/src/content_script.js extension/tests/content_phase2_runtime.test.mjs
+          git commit -m "candidate: gate Manual action button during lifecycle blocks"
+          test "$(git rev-parse HEAD^)" = "b7869180c229356a6b3d51ac980ec3da5df4c23c"
+          git push origin HEAD:refs/heads/candidate/lifecycle-button-gating-2026-08-25 --force
