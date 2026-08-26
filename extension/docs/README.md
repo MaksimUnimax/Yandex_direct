@@ -33,7 +33,7 @@ files: 69
 ZIP entries: 72
 ```
 
-The inter-phase lifecycle button gating patch is now **OWNER LIVE PASS / CLOSED** on:
+The inter-phase lifecycle button gating patch is **OWNER LIVE PASS / CLOSED** on:
 
 ```text
 source commit: 939e880f820e52beae9dcbcedc86d5cd9e13b075
@@ -48,26 +48,53 @@ packaged suite: 247/247 PASS
 enabled_not_run_sections: 0
 independent Codex verdict: PASS
 owner real-profile lifecycle acceptance: PASS
-real Yandex requests during controlled QA: 0
-real Yandex requests during owner lifecycle acceptance: 0
+```
+
+## Current phase — Phase 3 Webmaster
+
+Phase 3 reconstruction is complete and implementation is now authorized from the accepted lifecycle source `939e880f...`.
+
+Canonical Phase-3 contract:
+
+```text
+SPECIFICATION_PHASE_3_WEBMASTER_ADDENDUM.md
+PHASE_3_WEBMASTER_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
+CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_WEBMASTER_PHASE3_ADDENDUM.md
+```
+
+First slice:
+
+```text
+WEBMASTER_API_V1
+WEBMASTER_RESULT_V1
+listHosts
+getSummary
+getDiagnostics
+getPopularQueries
+Yandex Webmaster API v4.1
+OAuth token + derived user_id
+read-only only
+```
+
+Phase 3 also restores service-specific credential management because Webmaster cannot use the existing Yandex Cloud Api-Key/folderId auth model:
+
+```text
+Wordstat  → dedicated Api-Key + folderId → Save → Check
+Search    → dedicated Api-Key + folderId → Save → Check
+Webmaster → dedicated OAuth token + derived user_id → Save → Check
+Export/Import preserves service mapping
 ```
 
 Current transition:
 
 ```text
 Lifecycle button patch = OWNER LIVE PASS / CLOSED
-→ Phase 3 Webmaster = ACTIVE GOVERNED REQUIREMENT RECONSTRUCTION
+→ Phase 3 Webmaster = CONTRACT READY / IMPLEMENTATION AUTHORIZED
 ```
 
-Phase 3 must begin from current official Yandex Webmaster API documentation plus historical repository evidence. Webmaster production implementation is not authorized until its first-slice contract, specification, implementation plan and acceptance/gate requirements are written.
-
-Durable current evidence:
+Durable lifecycle evidence:
 
 ```text
-../tests/LIFECYCLE_BUTTON_GATING_FREEZE_2026-08-26.md
-../tests/LIFECYCLE_BUTTON_GATING_EXACT_TRANSPORT_PASS_2026-08-26.md
-../tests/LIFECYCLE_BUTTON_GATING_BROWSER_PREFLIGHT_2026-08-26.md
-../tests/CODEX_LIFECYCLE_BUTTON_GATING_COMPLETE_GATE_HANDOFF_2026-08-26.md
 ../tests/LIFECYCLE_BUTTON_GATING_CODEX_COMPLETE_PASS_2026-08-26.md
 ../tests/LIFECYCLE_BUTTON_GATING_OWNER_LIVE_PASS_2026-08-26.md
 ```
@@ -85,7 +112,7 @@ If current canonical documents materially conflict, stop, reconcile the document
 
 ## Exact-artifact rule
 
-The accepted lifecycle artifact remains the exact bytes that received complete independent gate PASS and owner real-profile PASS. Do not mutate or substitute it. Future product/package-test changes require a new governed candidate.
+The accepted lifecycle artifact remains the exact bytes that received complete independent gate PASS and owner real-profile PASS. Phase-3 development branches from its exact source identity. Any new product/package-test bytes create a new governed candidate before handoff.
 
 ## Current architectural corrections
 
@@ -103,7 +130,8 @@ The accepted lifecycle artifact remains the exact bytes that received complete i
 - Bind availability is separated from already-confirmed identity so context can recover;
 - Manual ON follows content acknowledgement before worker authorization;
 - lifecycle-blocked Manual action is disabled/non-clickable before user input and re-enabled only after positive lifecycle clear;
-- accepted Phase-2 first slice enables only synchronous text `SEARCH_API_V1`.
+- accepted Phase-2 first slice enables only synchronous text `SEARCH_API_V1`;
+- Phase-3 Webmaster uses a separate OAuth credential and cannot reuse Api-Key/folderId.
 
 ## Source-of-truth rule
 
