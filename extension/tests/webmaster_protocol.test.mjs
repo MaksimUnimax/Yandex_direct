@@ -13,6 +13,7 @@ ctx.YMBProduct = { VERSION: '0.1.1', BRIDGE_ID: 'yandex-marketing-bridge' };
 vm.createContext(ctx);
 vm.runInContext(source, ctx, { filename: 'webmaster_protocol.js' });
 const P = ctx.WebmasterProtocol;
+const plain = (value) => JSON.parse(JSON.stringify(value));
 
 function throwsCode(fn, code) {
   assert.throws(fn, (error) => error?.code === code, `expected ${code}`);
@@ -93,14 +94,14 @@ test('normalizes listHosts without leaking unselected fields', () => {
 });
 
 test('normalizes summary, diagnostics and popular queries', () => {
-  assert.deepEqual(P.normalizeProviderResult({ method: 'getSummary', hostId: 'h' }, {
+  assert.deepEqual(plain(P.normalizeProviderResult({ method: 'getSummary', hostId: 'h' }, {
     sqi: 77, excluded_pages_count: 2, searchable_pages_count: 30, site_problems: { FATAL: 1 }, other: 'drop'
-  }), { sqi: 77, excluded_pages_count: 2, searchable_pages_count: 30, site_problems: { FATAL: 1 } });
+  })), { sqi: 77, excluded_pages_count: 2, searchable_pages_count: 30, site_problems: { FATAL: 1 } });
 
   const diagnostics = P.normalizeProviderResult({ method: 'getDiagnostics', hostId: 'h' }, { problems: {
     ROBOTS_TXT: { severity: 'FATAL', state: 'PRESENT', last_state_update: '2026-08-01T00:00:00Z', detail: 'drop' }
   }});
-  assert.deepEqual(diagnostics.problems.ROBOTS_TXT, { severity: 'FATAL', state: 'PRESENT', last_state_update: '2026-08-01T00:00:00Z' });
+  assert.deepEqual(plain(diagnostics.problems.ROBOTS_TXT), { severity: 'FATAL', state: 'PRESENT', last_state_update: '2026-08-01T00:00:00Z' });
 
   const popular = P.normalizeProviderResult({ method: 'getPopularQueries', hostId: 'h', orderBy: 'TOTAL_SHOWS' }, {
     queries: [{ query_id: '1', query_text: 'ноутбук', indicators: { TOTAL_SHOWS: 10 } }], date_from: '2026-08-01', date_to: '2026-08-07', count: 1
@@ -111,7 +112,7 @@ test('normalizes summary, diagnostics and popular queries', () => {
 
 test('safe errors, skipped reports and result envelope preserve execution truth', () => {
   const err = P.safeErrorPayload(429, '', { error_code: 'QUOTA_EXCEEDED', error_message: 'quota' });
-  assert.deepEqual(err, { http_status: 429, code: 'QUOTA_EXCEEDED', message: 'quota' });
+  assert.deepEqual(plain(err), { http_status: 429, code: 'QUOTA_EXCEEDED', message: 'quota' });
   const skipped = P.buildSkippedEnvelope({ requestId: 'skip-1', command: { method: 'listHosts' }, reason: 'NO_CREDENTIALS' });
   assert.equal(skipped.service, 'webmaster');
   assert.equal(skipped.request_executed, false);
