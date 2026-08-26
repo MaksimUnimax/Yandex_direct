@@ -39,8 +39,15 @@ replaceOnce(
   'backup v3 checksum contract'
 );
 
+replaceOnce(
+  "  await page.waitForFunction(() => document.querySelector('#saveMetrikaCredential')?.disabled === false);\n  const rerender = await page.evaluate(() => ({",
+  "  await page.waitForFunction(() => document.querySelector('#saveMetrikaCredential')?.disabled === false);\n  await page.waitForFunction(() => /проверено/i.test(document.querySelector('#metrikaCredentialState')?.textContent || '') && document.querySelector('#saveMetrikaCredential')?.disabled === false);\n  const rerender = await page.evaluate(() => ({",
+  'popup rerender quiescence'
+);
+
 fs.writeFileSync(file, source, 'utf8');
 if (gitBlobSha(fs.readFileSync(file)) === expectedBlob) throw new Error('Harness patch produced no change');
 console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_SOURCE_IDENTITY_PASS');
 console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_PARSE_PATCH_PASS');
 console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_BACKUP_V3_CONTRACT_PASS');
+console.log('PHASE4_METRIKA_BROWSER_HARNESS_R2_RERENDER_QUIESCENCE_PASS');
