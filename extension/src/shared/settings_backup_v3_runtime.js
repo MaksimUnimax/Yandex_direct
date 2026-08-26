@@ -4,7 +4,7 @@
   const Model = globalThis.YMBCredentialStoreModel;
   const CredentialRuntime = globalThis.YMBCredentialRuntime;
   const Policy = globalThis.YMBPolicyModel;
-  if (!Model || !CredentialRuntime || !Policy) throw new Error("Phase 3 settings backup prerequisites are unavailable.");
+  if (!Model || !CredentialRuntime || !Policy) throw new Error("Phase 4 settings backup prerequisites are unavailable.");
 
   const BACKUP_FORMAT = "YMB_SETTINGS_BACKUP";
   const BACKUP_VERSION = Model.BACKUP_VERSION;
@@ -16,7 +16,7 @@
     MANUAL_OPERATIONS: "wsmb_manual_operations", REPORT_PREFIXES: "wsmb_report_prefixes",
     AUTO_START_PROMPTS: "wsmb_auto_start_prompts", AUTO_RUNS: "wsmb_auto_runs",
     SERVICE_CONTEXTS: "ymb_service_contexts", WORDSTAT_POLICY: "ymb_wordstat_policy",
-    SEARCH_POLICY: "ymb_search_policy", WEBMASTER_POLICY: "ymb_webmaster_policy",
+    SEARCH_POLICY: "ymb_search_policy", WEBMASTER_POLICY: "ymb_webmaster_policy", METRIKA_POLICY: "ymb_metrika_policy",
     DEBUG_MODE: "ymb_debug_mode", SETTINGS_SCHEMA: "ymb_settings_schema_version",
     SEND_BUTTON_PROFILE: "wsmb_send_button_profile", COPY_BUTTON_PROFILES: "wsmb_copy_button_profiles"
   });
@@ -50,20 +50,15 @@
     }
     return out;
   }
-  function hasActiveRun(data) {
-    return Object.values(record(data[KEYS.AUTO_RUNS])).some((run) => run && !TERMINAL_RUN_STATUSES.has(String(run.status || "")));
-  }
-  function hasActiveManual(data) {
-    return Object.values(record(data[KEYS.MANUAL_OPERATIONS])).some((op) => op && !TERMINAL_MANUAL_STATUSES.has(String(op.status || "")));
-  }
+  function hasActiveRun(data) { return Object.values(record(data[KEYS.AUTO_RUNS])).some((run) => run && !TERMINAL_RUN_STATUSES.has(String(run.status || ""))); }
+  function hasActiveManual(data) { return Object.values(record(data[KEYS.MANUAL_OPERATIONS])).some((op) => op && !TERMINAL_MANUAL_STATUSES.has(String(op.status || ""))); }
   function canonical(value) {
     if (value === null || typeof value !== "object") return JSON.stringify(value);
     if (Array.isArray(value)) return `[${value.map((item) => canonical(item === undefined ? null : item)).join(",")}]`;
     return `{${Object.keys(value).sort().filter((key) => value[key] !== undefined).map((key) => `${JSON.stringify(key)}:${canonical(value[key])}`).join(",")}}`;
   }
   async function checksum(settings) {
-    const bytes = new TextEncoder().encode(canonical(settings));
-    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    const bytes = new TextEncoder().encode(canonical(settings)); const digest = await crypto.subtle.digest("SHA-256", bytes);
     return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
   }
 
@@ -83,6 +78,7 @@
       wordstat_policy: Policy.normalizeWordstatPolicy(data[KEYS.WORDSTAT_POLICY] || {}),
       search_policy: Policy.normalizeSearchPolicy(data[KEYS.SEARCH_POLICY] || {}),
       webmaster_policy: Policy.normalizeWebmasterPolicy(data[KEYS.WEBMASTER_POLICY] || {}),
+      metrika_policy: Policy.normalizeMetrikaPolicy(data[KEYS.METRIKA_POLICY] || {}),
       debug_mode: data[KEYS.DEBUG_MODE] === true
     };
     return {
@@ -115,8 +111,7 @@
   }
 
   async function importBackup(backup) {
-    const incoming = await validate(backup);
-    const version = Number(backup.backup_version || 0);
+    const incoming = await validate(backup); const version = Number(backup.backup_version || 0);
     const data = await chrome.storage.local.get(Object.values(KEYS).concat(Model.STORAGE_KEY));
     if (hasActiveRun(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активного Autorun."), { code: "IMPORT_ACTIVE_RUN" });
     if (hasActiveManual(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активной Manual-операции."), { code: "IMPORT_ACTIVE_MANUAL" });
@@ -126,9 +121,17 @@
 
     const imported = Model.normalizeBackupCredentials(incoming, version);
     const current = Model.normalizeCredentials(data[Model.STORAGE_KEY], { legacyApiKey: data[KEYS.API_KEY], legacyFolderId: data[KEYS.FOLDER_ID] });
-    const credentials = version === 2
-      ? Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster })
-      : Model.normalizeCredentials(imported);
+    const incomingCredentialMap = record(incoming.credentials);
+    const incomingHasMetrika = version === BACKUP_VERSION && Object.prototype.hasOwnProperty.call(incomingCredentialMap, "metrika") && Object.keys(record(incomingCredentialMap.metrika)).length > 0;
+    let credentials;
+    if (version === 2) {
+      credentials = Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster, metrika: current.metrika });
+    } else if (incomingHasMetrika) {
+      credentials = Model.normalizeCredentials(imported);
+    } else {
+      credentials = Model.normalizeCredentials({ ...imported, metrika: current.metrika });
+    }
+
     await chrome.storage.local.set({
       [Model.STORAGE_KEY]: clone(credentials),
       [KEYS.API_KEY]: credentials.wordstat.api_key,
@@ -144,10 +147,11 @@
       [KEYS.WORDSTAT_POLICY]: Policy.normalizeWordstatPolicy(incoming.wordstat_policy || data[KEYS.WORDSTAT_POLICY] || {}),
       [KEYS.SEARCH_POLICY]: Policy.normalizeSearchPolicy(incoming.search_policy || data[KEYS.SEARCH_POLICY] || {}),
       [KEYS.WEBMASTER_POLICY]: Policy.normalizeWebmasterPolicy(incoming.webmaster_policy || data[KEYS.WEBMASTER_POLICY] || {}),
+      [KEYS.METRIKA_POLICY]: Policy.normalizeMetrikaPolicy(incoming.metrika_policy || data[KEYS.METRIKA_POLICY] || {}),
       [KEYS.DEBUG_MODE]: incoming.debug_mode === true,
       [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION
     });
-    return { imported: true, backup_version: version, settings_schema_version: SETTINGS_SCHEMA_VERSION, settings_sha256: trim(backup.settings_sha256).toLowerCase(), active_runtime_state_untouched: true };
+    return { imported: true, backup_version: version, settings_schema_version: SETTINGS_SCHEMA_VERSION, settings_sha256: trim(backup.settings_sha256).toLowerCase(), active_runtime_state_untouched: true, metrika_credential_preserved_when_absent: !incomingHasMetrika };
   }
 
   globalThis.YMBSettingsBackupV3Runtime = Object.freeze({ exportBackup, validate, importBackup, checksum });
