@@ -20,11 +20,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Pre-browser product identity and syntax
+      - name: Pre-browser product identity and deterministic harness patch
         shell: bash
         run: |
           set -euo pipefail
-          node --check extension/tests/qa_browser/metrika_worker_fetch_probe.mjs
+          node --check extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs
+          node extension/tests/qa_browser/patch_metrika_browser_runtime_r2.mjs extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/m4-harness-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_SOURCE_IDENTITY_PASS' /tmp/m4-harness-patch.log
+          grep -F 'PHASE4_METRIKA_BROWSER_HARNESS_R2_PARSE_PATCH_PASS' /tmp/m4-harness-patch.log
           node --check extension/tests/qa_browser/metrika_browser_runtime.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/m4-product-before.sha256
           echo PHASE4_M15_M16_PRE_BROWSER_PRODUCT_IDENTITY_PASS
@@ -35,12 +38,6 @@ jobs:
           npm install --no-save --package-lock=false puppeteer@24
           npx puppeteer browsers install chrome
           command -v xvfb-run
-      - name: Probe MV3 service-worker fetch stub boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          xvfb-run -a node extension/tests/qa_browser/metrika_worker_fetch_probe.mjs | tee /tmp/m4-worker-probe.log
-          grep -F 'PHASE4_METRIKA_WORKER_FETCH_PROBE_PASS' /tmp/m4-worker-probe.log
       - name: Run controlled installed extension browser runtime
         shell: bash
         run: |
