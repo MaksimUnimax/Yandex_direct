@@ -50,18 +50,11 @@
     }
     return out;
   }
-  function activeConversationKeys(data) {
-    const active = new Set();
-    for (const [key, run] of Object.entries(record(data[KEYS.AUTO_RUNS]))) if (run && !TERMINAL_RUN_STATUSES.has(String(run.status || ""))) active.add(key);
-    for (const [key, op] of Object.entries(record(data[KEYS.MANUAL_OPERATIONS]))) if (op && !TERMINAL_MANUAL_STATUSES.has(String(op.status || ""))) active.add(key);
-    return active;
+  function hasActiveRun(data) {
+    return Object.values(record(data[KEYS.AUTO_RUNS])).some((run) => run && !TERMINAL_RUN_STATUSES.has(String(run.status || "")));
   }
-  function preserveActive(mergedValue, currentValue, activeKeys) {
-    const merged = { ...record(mergedValue) }; const current = record(currentValue);
-    for (const key of activeKeys) {
-      if (Object.hasOwn(current, key)) merged[key] = clone(current[key]); else delete merged[key];
-    }
-    return merged;
+  function hasActiveManual(data) {
+    return Object.values(record(data[KEYS.MANUAL_OPERATIONS])).some((op) => op && !TERMINAL_MANUAL_STATUSES.has(String(op.status || "")));
   }
   function canonical(value) {
     if (value === null || typeof value !== "object") return JSON.stringify(value);
@@ -125,7 +118,9 @@
     const incoming = await validate(backup);
     const version = Number(backup.backup_version || 0);
     const data = await chrome.storage.local.get(Object.values(KEYS).concat(Model.STORAGE_KEY));
-    const activeKeys = activeConversationKeys(data);
+    if (hasActiveRun(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активного Autorun."), { code: "IMPORT_ACTIVE_RUN" });
+    if (hasActiveManual(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активной Manual-операции."), { code: "IMPORT_ACTIVE_MANUAL" });
+
     const rollback = await exportBackup();
     await chrome.storage.local.set({ [ROLLBACK_KEY]: { ...rollback, rollback_context: { reason: "settings_import", created_at: new Date().toISOString(), incoming_settings_schema_version: Number(backup.settings_schema_version || version) } } });
 
@@ -134,7 +129,6 @@
     const credentials = version === 2
       ? Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster })
       : Model.normalizeCredentials(imported);
-    const preserve = (key, value) => preserveActive(mergeRecords(data[key], value), data[key], activeKeys);
     await chrome.storage.local.set({
       [Model.STORAGE_KEY]: clone(credentials),
       [KEYS.API_KEY]: credentials.wordstat.api_key,
@@ -142,18 +136,18 @@
       [KEYS.AUTO_SEND]: incoming.auto_send !== false,
       [KEYS.SEND_BUTTON_PROFILE]: clone(incoming.send_button_profile || data[KEYS.SEND_BUTTON_PROFILE] || null),
       [KEYS.COPY_BUTTON_PROFILES]: mergeCopyProfiles(data[KEYS.COPY_BUTTON_PROFILES], incoming.copy_button_profiles),
-      [KEYS.CONVERSATION_BINDINGS]: preserve(KEYS.CONVERSATION_BINDINGS, incoming.conversation_bindings),
-      [KEYS.MANUAL_MODES]: preserve(KEYS.MANUAL_MODES, incoming.manual_modes),
-      [KEYS.REPORT_PREFIXES]: preserve(KEYS.REPORT_PREFIXES, incoming.report_prefixes),
-      [KEYS.AUTO_START_PROMPTS]: preserve(KEYS.AUTO_START_PROMPTS, incoming.auto_start_prompts),
-      [KEYS.SERVICE_CONTEXTS]: preserve(KEYS.SERVICE_CONTEXTS, incoming.service_contexts),
+      [KEYS.CONVERSATION_BINDINGS]: mergeRecords(data[KEYS.CONVERSATION_BINDINGS], incoming.conversation_bindings),
+      [KEYS.MANUAL_MODES]: mergeRecords(data[KEYS.MANUAL_MODES], incoming.manual_modes),
+      [KEYS.REPORT_PREFIXES]: mergeRecords(data[KEYS.REPORT_PREFIXES], incoming.report_prefixes),
+      [KEYS.AUTO_START_PROMPTS]: mergeRecords(data[KEYS.AUTO_START_PROMPTS], incoming.auto_start_prompts),
+      [KEYS.SERVICE_CONTEXTS]: mergeRecords(data[KEYS.SERVICE_CONTEXTS], incoming.service_contexts),
       [KEYS.WORDSTAT_POLICY]: Policy.normalizeWordstatPolicy(incoming.wordstat_policy || data[KEYS.WORDSTAT_POLICY] || {}),
       [KEYS.SEARCH_POLICY]: Policy.normalizeSearchPolicy(incoming.search_policy || data[KEYS.SEARCH_POLICY] || {}),
       [KEYS.WEBMASTER_POLICY]: Policy.normalizeWebmasterPolicy(incoming.webmaster_policy || data[KEYS.WEBMASTER_POLICY] || {}),
       [KEYS.DEBUG_MODE]: incoming.debug_mode === true,
       [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION
     });
-    return { imported: true, backup_version: version, settings_schema_version: SETTINGS_SCHEMA_VERSION, settings_sha256: trim(backup.settings_sha256).toLowerCase(), preserved_active_conversations: activeKeys.size, active_runtime_state_untouched: true };
+    return { imported: true, backup_version: version, settings_schema_version: SETTINGS_SCHEMA_VERSION, settings_sha256: trim(backup.settings_sha256).toLowerCase(), active_runtime_state_untouched: true };
   }
 
   globalThis.YMBSettingsBackupV3Runtime = Object.freeze({ exportBackup, validate, importBackup, checksum });
