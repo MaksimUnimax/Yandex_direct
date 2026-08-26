@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
 
@@ -10,12 +9,6 @@ const extensionPath = fs.realpathSync(path.resolve(here, '../src'));
 const executablePath = process.env.CHROME_BIN;
 assert.ok(executablePath, 'CHROME_BIN is required');
 
-function unpackedExtensionId(rootPath) {
-  const hex = createHash('sha256').update(rootPath).digest('hex').slice(0, 32);
-  return [...hex].map((char) => String.fromCharCode('a'.charCodeAt(0) + Number.parseInt(char, 16))).join('');
-}
-
-const expectedExtensionId = unpackedExtensionId(extensionPath);
 const browser = await puppeteer.launch({
   executablePath,
   headless: false,
@@ -27,6 +20,34 @@ const browser = await puppeteer.launch({
     `--load-extension=${extensionPath}`
   ]
 });
+
+async function discoverExtensionId() {
+  const existingWorker = browser.targets().find(
+    (target) => target.type() === 'service_worker' && target.url().startsWith('chrome-extension://')
+  );
+  if (existingWorker) return new URL(existingWorker.url()).host;
+
+  const extensionsPage = await browser.newPage();
+  try {
+    await extensionsPage.goto('chrome://extensions/', { waitUntil: 'domcontentloaded' });
+    await extensionsPage.waitForSelector('extensions-manager', { timeout: 15000 });
+    const handle = await extensionsPage.waitForFunction(() => {
+      const manager = document.querySelector('extensions-manager');
+      const list = manager?.shadowRoot?.querySelector('#items-list');
+      const items = list?.shadowRoot?.querySelectorAll('extensions-item') || [];
+      for (const item of items) {
+        const name = item.shadowRoot?.querySelector('#name')?.textContent?.trim() || '';
+        if (name.includes('Yandex Marketing Bridge')) return item.id || item.getAttribute('id') || false;
+      }
+      return false;
+    }, { timeout: 15000 });
+    const extensionId = await handle.jsonValue();
+    assert.match(String(extensionId || ''), /^[a-p]{32}$/);
+    return extensionId;
+  } finally {
+    await extensionsPage.close();
+  }
+}
 
 async function workerEval(client, expression) {
   const result = await client.send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
@@ -45,18 +66,16 @@ async function send(page, message) {
 }
 
 try {
-  // Opening the extension page activates its MV3 worker. Waiting for the worker
-  // before any extension page is touched is unreliable on clean Chrome profiles.
+  const extensionId = await discoverExtensionId();
   const page = await browser.newPage();
-  await page.goto(`chrome-extension://${expectedExtensionId}/popup.html`, { waitUntil: 'load' });
+  await page.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: 'load' });
   await page.waitForSelector('#credentialsSection');
 
   const workerTarget = await browser.waitForTarget(
-    (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${expectedExtensionId}/`),
+    (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${extensionId}/`),
     { timeout: 15000 }
   );
-  const extensionId = new URL(workerTarget.url()).host;
-  assert.equal(extensionId, expectedExtensionId);
+  assert.equal(new URL(workerTarget.url()).host, extensionId);
   const workerClient = await workerTarget.createCDPSession();
 
   await workerEval(workerClient, `(() => {
