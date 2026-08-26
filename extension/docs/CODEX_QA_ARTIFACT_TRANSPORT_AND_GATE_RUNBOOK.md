@@ -596,14 +596,14 @@ Required transaction:
 
 ```text
 real popup Manual ON
-→ WS_SET_MANUAL_MODE(true) committed to worker first
-→ WS_APPLY_MANUAL_MODE(true) to content second
+→ WS_APPLY_MANUAL_MODE(true) content acknowledgement first
+→ WS_SET_MANUAL_MODE(true) worker hard-gate authorization second
 → worker remains ON
 → content remains ON
 → exactly one external Yandex action exists and is enabled
 → ordinary resync/mutation does not revert it OFF
 → popup close/reopen still ON
-→ real popup OFF removes action
+→ real popup OFF commits worker OFF before content cleanup removes the action
 → second real popup ON remains armed after resync
 ```
 
@@ -613,7 +613,7 @@ Forbidden substitutes:
 - preseed content ON;
 - popup mock;
 - synthetic success response;
-- bypassing popup→worker→content ordering.
+- bypassing the governed popup Manual transaction ordering.
 
 Any ON→OFF self-revert is `FAIL_PRODUCT`.
 
