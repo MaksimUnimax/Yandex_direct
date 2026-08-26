@@ -8,14 +8,18 @@
   const WEBMASTER_POLICY_CHECKED_AT = "2026-08-26";
   const METRIKA_POLICY_SOURCE = "https://yandex.ru/dev/metrika/ru/";
   const METRIKA_POLICY_CHECKED_AT = "2026-08-26";
+  const DIRECT_POLICY_SOURCE = "https://yandex.ru/dev/direct/doc/ru/concepts/units";
+  const DIRECT_POLICY_CHECKED_AT = "2026-08-26";
   const DEFAULT_METHOD_COST_RUB = Object.freeze({ getTop: 0.02, getDynamics: 0.02, getRegionsDistribution: 0.05, getRegionsTree: 0 });
   const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488 });
   const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({ listHosts: 0, getSummary: 0, getDiagnostics: 0, getPopularQueries: 0 });
   const DEFAULT_METRIKA_METHOD_COST_RUB = Object.freeze({ listCounters: 0, getCounter: 0, getTrafficSummary: 0, getTrafficByTime: 0 });
+  const DEFAULT_DIRECT_METHOD_COST_RUB = Object.freeze({ listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
   const SEARCH_METHODS = Object.freeze(["search"]);
   const WEBMASTER_METHODS = Object.freeze(Object.keys(DEFAULT_WEBMASTER_METHOD_COST_RUB));
   const METRIKA_METHODS = Object.freeze(Object.keys(DEFAULT_METRIKA_METHOD_COST_RUB));
+  const DIRECT_METHODS = Object.freeze(Object.keys(DEFAULT_DIRECT_METHOD_COST_RUB));
 
   function asBoolean(value, fallback) { return typeof value === "boolean" ? value : fallback; }
   function asPositiveInt(value, fallback) { const number = Number(value); return Number.isInteger(number) && number > 0 ? number : fallback; }
@@ -66,7 +70,16 @@
   }
   function normalizeMetrikaPolicy(raw = {}) {
     const base = normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: METRIKA_METHODS, allowedMethods: METRIKA_METHODS, defaultMaxRequests: 50, defaultMaxCostRub: 0, defaultCosts: DEFAULT_METRIKA_METHOD_COST_RUB, defaultTariffCheckedAt: METRIKA_POLICY_CHECKED_AT, defaultTariffSource: METRIKA_POLICY_SOURCE });
-    return Object.freeze({ ...base, max_report_days: asPositiveInt(raw.max_report_days, 366) });
+    return Object.freeze({ ...base, max_report_days: Math.min(366, asPositiveInt(raw.max_report_days, 366)) });
+  }
+  function normalizeDirectPolicy(raw = {}) {
+    const base = normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: DIRECT_METHODS, allowedMethods: DIRECT_METHODS, defaultMaxRequests: 20, defaultMaxCostRub: 0, defaultCosts: DEFAULT_DIRECT_METHOD_COST_RUB, defaultTariffCheckedAt: DIRECT_POLICY_CHECKED_AT, defaultTariffSource: DIRECT_POLICY_SOURCE });
+    return Object.freeze({
+      ...base,
+      max_page_size: Math.min(1000, asPositiveInt(raw.max_page_size, 1000)),
+      max_report_days: Math.min(31, asPositiveInt(raw.max_report_days, 31)),
+      max_report_rows: Math.min(1000, asPositiveInt(raw.max_report_rows, 1000))
+    });
   }
 
   function normalizePolicyForService(service, raw = {}) {
@@ -75,6 +88,7 @@
     if (value === "wordstat") return normalizeWordstatPolicy(raw);
     if (value === "webmaster") return normalizeWebmasterPolicy(raw);
     if (value === "metrika") return normalizeMetrikaPolicy(raw);
+    if (value === "direct") return normalizeDirectPolicy(raw);
     throw Object.assign(new Error(`Неизвестный сервис: ${service || "unknown"}`), { code: "UNKNOWN_SERVICE" });
   }
 
@@ -95,20 +109,22 @@
   function searchDecision(args = {}) { return decision({ ...args, policy: normalizeSearchPolicy(args.policy || {}) }); }
   function webmasterDecision(args = {}) { return decision({ ...args, policy: normalizeWebmasterPolicy(args.policy || {}) }); }
   function metrikaDecision(args = {}) { return decision({ ...args, policy: normalizeMetrikaPolicy(args.policy || {}) }); }
+  function directDecision(args = {}) { return decision({ ...args, policy: normalizeDirectPolicy(args.policy || {}) }); }
   function decisionForService(service, args = {}) {
     const value = String(service || "");
     if (value === "search") return searchDecision(args);
     if (value === "wordstat") return wordstatDecision(args);
     if (value === "webmaster") return webmasterDecision(args);
     if (value === "metrika") return metrikaDecision(args);
+    if (value === "direct") return directDecision(args);
     return Object.freeze({ allow: false, reason: "SERVICE_NOT_AVAILABLE", estimated_cost_rub: 0, policy: null });
   }
 
   globalThis.YMBPolicyModel = Object.freeze({
-    DEFAULT_METHOD_COST_RUB, DEFAULT_SEARCH_METHOD_COST_RUB, DEFAULT_WEBMASTER_METHOD_COST_RUB, DEFAULT_METRIKA_METHOD_COST_RUB,
-    WORDSTAT_METHODS, SEARCH_METHODS, WEBMASTER_METHODS, METRIKA_METHODS,
-    SEARCH_TARIFF_CHECKED_AT, WEBMASTER_POLICY_CHECKED_AT, WEBMASTER_POLICY_SOURCE, METRIKA_POLICY_CHECKED_AT, METRIKA_POLICY_SOURCE,
-    normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizePolicyForService,
-    estimateMethodCost, wordstatDecision, searchDecision, webmasterDecision, metrikaDecision, decisionForService
+    DEFAULT_METHOD_COST_RUB, DEFAULT_SEARCH_METHOD_COST_RUB, DEFAULT_WEBMASTER_METHOD_COST_RUB, DEFAULT_METRIKA_METHOD_COST_RUB, DEFAULT_DIRECT_METHOD_COST_RUB,
+    WORDSTAT_METHODS, SEARCH_METHODS, WEBMASTER_METHODS, METRIKA_METHODS, DIRECT_METHODS,
+    SEARCH_TARIFF_CHECKED_AT, WEBMASTER_POLICY_CHECKED_AT, WEBMASTER_POLICY_SOURCE, METRIKA_POLICY_CHECKED_AT, METRIKA_POLICY_SOURCE, DIRECT_POLICY_CHECKED_AT, DIRECT_POLICY_SOURCE,
+    normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizePolicyForService,
+    estimateMethodCost, wordstatDecision, searchDecision, webmasterDecision, metrikaDecision, directDecision, decisionForService
   });
 })();
