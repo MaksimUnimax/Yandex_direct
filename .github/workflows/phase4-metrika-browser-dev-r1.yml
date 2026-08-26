@@ -1,0 +1,64 @@
+name: Phase 4 Metrika browser development r1
+
+on:
+  push:
+    branches:
+      - dev/phase4-metrika-first-slice-2026-08-26
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controlled-browser-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Pre-browser product identity and syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/tests/qa_browser/metrika_browser_runtime.mjs
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/m4-product-before.sha256
+          echo PHASE4_M15_M16_PRE_BROWSER_PRODUCT_IDENTITY_PASS
+      - name: Install Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Run controlled installed extension browser runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/metrika_browser_runtime.mjs | tee /tmp/m4-browser.log
+          for marker in \
+            M15_POPUP_GEOMETRY_AND_FOUR_SERVICE_UI_PASS \
+            M15_CREDENTIAL_SAVE_RERENDER_SECRET_REDACTION_PASS \
+            M05_M15_METRIKA_CHECK_ONE_GET_PASS \
+            M07_M09_CONTROLLED_WORKER_PROVIDER_BOUNDARY_PASS \
+            M16_BACKUP_V3_FOUR_SERVICE_EXPORT_IMPORT_PASS \
+            M15_REOPEN_RERENDER_SECRET_BLANK_PASS \
+            M19_CONTROLLED_REAL_YANDEX_REQUESTS=0 \
+            PHASE4_METRIKA_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/m4-browser.log
+          done
+          if grep -E 'm4-(wordstat-secret|search-secret|webmaster-oauth|metrika-oauth|mutated-token)' /tmp/m4-browser.log; then
+            echo PHASE4_BROWSER_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE4_M15_M16_CONTROLLED_BROWSER_PASS
+      - name: Post-browser product immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/m4-product-after.sha256
+          cmp /tmp/m4-product-before.sha256 /tmp/m4-product-after.sha256
+          echo PHASE4_M15_M16_POST_BROWSER_PRODUCT_IDENTICAL
