@@ -1,0 +1,233 @@
+name: Phase 4 Metrika exact freeze r1
+
+on:
+  push:
+    branches:
+      - automation/phase4-metrika-freeze-r1-2026-08-26
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PRODUCT_SOURCE_HEAD: 643445758e86d3b06ac42a6daea5c97b6e9223c7
+  PRODUCT_SOURCE_REF: candidate/phase4-metrika-first-slice-64344575-2026-08-26
+  FREEZE_DIR: /tmp/phase4-metrika-freeze
+  ARTIFACT_NAME: yandex-marketing-bridge-0.1.1-phase4-metrika-first-slice-candidate.zip
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify Phase 4 prefreeze coverage and tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('extension/tests/qa_transport/phase4-metrika-candidate/prefreeze_coverage_map.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          assert data['format'] == 'YMB_PHASE4_METRIKA_PREFREEZE_COVERAGE_V1'
+          assert data['product_source'] == '643445758e86d3b06ac42a6daea5c97b6e9223c7'
+          assert data['accepted_phase3_source'] == 'a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5'
+          expected = {f'M-{i:02d}' for i in range(1, 19)}
+          for key in sorted(expected):
+              row = data['gates'][key]
+              assert row['status'] == 'DEVELOPMENT_PASS', (key, row)
+              assert row.get('evidence'), key
+              assert 'NOT_RUN' not in json.dumps(row), key
+          assert data['enabled_not_run_count_M01_M18'] == 0
+          assert data['gates']['M-00']['status'] == 'POST_FREEZE_PENDING'
+          assert data['gates']['M-19']['status'] == 'POST_FREEZE_PENDING'
+          print('PHASE4_PREFREEZE_COVERAGE_MAP_PASS')
+          PY
+          python3 -m py_compile extension/tests/qa_transport/phase4-metrika-candidate/phase4_candidate_packer.py
+          python3 -m py_compile extension/tests/qa_transport/phase4-metrika-candidate/run_packaged_suite.py
+          echo PHASE4_FREEZE_TOOLING_SYNTAX_PASS
+
+      - name: Materialize exact candidate source detached from QA branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$PRODUCT_SOURCE_REF"
+          test "$(git rev-parse "origin/$PRODUCT_SOURCE_REF")" = "$PRODUCT_SOURCE_HEAD"
+          rm -rf /tmp/phase4-product-source "$FREEZE_DIR"
+          git worktree add --detach /tmp/phase4-product-source "$PRODUCT_SOURCE_HEAD"
+          test "$(git -C /tmp/phase4-product-source rev-parse HEAD)" = "$PRODUCT_SOURCE_HEAD"
+          test "$(git -C /tmp/phase4-product-source rev-parse HEAD:extension/src)" = "$(git rev-parse "$PRODUCT_SOURCE_HEAD:extension/src")"
+          test -z "$(git -C /tmp/phase4-product-source status --porcelain)"
+          echo "PHASE4_EXACT_SOURCE_MATERIALIZATION_PASS commit=$PRODUCT_SOURCE_HEAD"
+
+      - name: Run exact source suite before packaging
+        working-directory: /tmp/phase4-product-source/extension/src
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test | tee /tmp/phase4-source-freeze.log
+          tests="$(sed -n 's/^# tests //p' /tmp/phase4-source-freeze.log | tail -n1)"
+          pass="$(sed -n 's/^# pass //p' /tmp/phase4-source-freeze.log | tail -n1)"
+          fail="$(sed -n 's/^# fail //p' /tmp/phase4-source-freeze.log | tail -n1)"
+          skipped="$(sed -n 's/^# skipped //p' /tmp/phase4-source-freeze.log | tail -n1)"
+          test -n "$tests"
+          test "$tests" -gt 0
+          test "$tests" = "$pass"
+          test "$fail" = "0"
+          test "$skipped" = "0"
+          printf '%s\n' "$tests" > /tmp/phase4-source-test-count.txt
+          echo "PHASE4_FREEZE_SOURCE_TESTS=$tests"
+          echo PHASE4_FREEZE_SOURCE_SUITE_PASS
+
+      - name: Deterministically freeze exact candidate ZIP and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$FREEZE_DIR"
+          python3 extension/tests/qa_transport/phase4-metrika-candidate/phase4_candidate_packer.py \
+            --repo-root /tmp/phase4-product-source \
+            --output "$FREEZE_DIR/$ARTIFACT_NAME" \
+            --freeze-manifest-output "$FREEZE_DIR/freeze-manifest.json" \
+            --verify-extract "$FREEZE_DIR/source-extract" \
+            --source-ref "$PRODUCT_SOURCE_REF" \
+            --source-commit "$PRODUCT_SOURCE_HEAD" | tee /tmp/phase4-freeze-build.log
+          grep -F 'PHASE4_EXACT_ARTIFACT_FREEZE_PASS' /tmp/phase4-freeze-build.log
+          grep -F 'PHASE4_SOURCE_PACKAGE_IDENTITY_PASS' /tmp/phase4-freeze-build.log
+          test -z "$(git -C /tmp/phase4-product-source status --porcelain)"
+
+      - name: Independently rebuild and prove deterministic identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase4-metrika-candidate/phase4_candidate_packer.py \
+            --repo-root /tmp/phase4-product-source \
+            --output "$FREEZE_DIR/rebuild.zip" \
+            --verify-manifest "$FREEZE_DIR/freeze-manifest.json" \
+            --verify-extract "$FREEZE_DIR/rebuild-extract" \
+            --source-commit "$PRODUCT_SOURCE_HEAD" | tee /tmp/phase4-freeze-rebuild.log
+          grep -F 'PHASE4_EXACT_ARTIFACT_IDENTITY_PASS' /tmp/phase4-freeze-rebuild.log
+          grep -F 'PHASE4_SOURCE_PACKAGE_IDENTITY_PASS' /tmp/phase4-freeze-rebuild.log
+          cmp -s "$FREEZE_DIR/$ARTIFACT_NAME" "$FREEZE_DIR/rebuild.zip"
+          echo PHASE4_DETERMINISTIC_REBUILD_BYTE_FOR_BYTE_PASS
+
+      - name: Run full suite from fresh frozen ZIP bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_transport/phase4-metrika-candidate/run_packaged_suite.py \
+            --archive "$FREEZE_DIR/$ARTIFACT_NAME" \
+            --manifest "$FREEZE_DIR/freeze-manifest.json" \
+            --work-dir "$FREEZE_DIR/packaged-suite" | tee /tmp/phase4-packaged-suite.log
+          grep -F 'PHASE4_PACKAGE_EXACT_IDENTITY_PASS' /tmp/phase4-packaged-suite.log
+          grep -F 'PHASE4_PACKAGED_LAYOUT_IDENTITY_PASS' /tmp/phase4-packaged-suite.log
+          grep -F 'PHASE4_PACKAGED_SYNTAX_PASS' /tmp/phase4-packaged-suite.log
+          grep -F 'PHASE4_PACKAGED_SUITE_PASS' /tmp/phase4-packaged-suite.log
+          grep -F 'PHASE4_PACKAGED_PREDELIVERY_PREFLIGHT_PASS' /tmp/phase4-packaged-suite.log
+          tests="$(sed -n 's/^# tests //p' /tmp/phase4-packaged-suite.log | tail -n1)"
+          pass="$(sed -n 's/^# pass //p' /tmp/phase4-packaged-suite.log | tail -n1)"
+          fail="$(sed -n 's/^# fail //p' /tmp/phase4-packaged-suite.log | tail -n1)"
+          skipped="$(sed -n 's/^# skipped //p' /tmp/phase4-packaged-suite.log | tail -n1)"
+          test "$tests" = "$(cat /tmp/phase4-source-test-count.txt)"
+          test "$tests" = "$pass"
+          test "$fail" = "0"
+          test "$skipped" = "0"
+          echo "PHASE4_FREEZE_PACKAGED_TESTS=$tests"
+          echo PHASE4_FREEZE_PACKAGED_SUITE_COUNT_MATCH_PASS
+          test -z "$(git -C /tmp/phase4-product-source status --porcelain)"
+
+      - name: Validate authoritative freeze manifest and governance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d = json.loads(Path('/tmp/phase4-metrika-freeze/freeze-manifest.json').read_text(encoding='utf-8'))
+          assert d['format'] == 'YMB_PHASE4_METRIKA_EXACT_CANDIDATE_V1'
+          assert d['root_name'] == 'yandex-marketing-bridge-0.1.1-phase4-metrika-first-slice-candidate'
+          assert d['source_ref'] == 'candidate/phase4-metrika-first-slice-64344575-2026-08-26'
+          assert d['source_commit'] == '643445758e86d3b06ac42a6daea5c97b6e9223c7'
+          assert d['zip_test'] == 'PASS'
+          assert d['files'] == len(d['payload'])
+          paths = [r['path'] for r in d['payload']]
+          assert len(paths) == len(set(paths))
+          assert all(not p.startswith('.github/') for p in paths)
+          assert all('qa_transport/' not in p for p in paths)
+          assert all('qa_browser/' not in p for p in paths)
+          assert all(not p.endswith('.pem') for p in paths)
+          required = {
+              'manifest.json',
+              'package.json',
+              'popup.html',
+              'popup.js',
+              'webmaster_worker_runtime.js',
+              'shared/metrika_protocol.js',
+              'shared/phase4_provider_runtime.js',
+              'tests/metrika_phase4_gate_matrix.test.mjs',
+              'tests/metrika_phase4_contract_closure.test.mjs',
+              'tests/metrika_autorun_isolation.test.mjs',
+              'tests/metrika_content_autorun_route.test.mjs',
+          }
+          missing = sorted(required - set(paths))
+          assert not missing, missing
+          test_files = sorted(p for p in paths if p.startswith('tests/') and p.endswith('.test.mjs'))
+          print('PHASE4_FREEZE_MANIFEST_GOVERNANCE_PASS')
+          print(f"FREEZE_SHA256={d['sha256']}")
+          print(f"FREEZE_BYTES={d['bytes']}")
+          print(f"FREEZE_FILES={d['files']}")
+          print(f"FREEZE_ENTRIES={d['entries']}")
+          print(f"FREEZE_TEST_FILES={len(test_files)}")
+          print(f"FREEZE_ROOT={d['root_name']}")
+          PY
+          test -z "$(git -C /tmp/phase4-product-source status --porcelain)"
+          echo PHASE4_M00_FREEZE_IDENTITY_PASS
+          echo PHASE4_M19_FREEZE_CLEANLINESS_PASS
+
+      - name: Stage published immutable files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "$FREEZE_DIR/publish"
+          mkdir -p "$FREEZE_DIR/publish"
+          cp "$FREEZE_DIR/$ARTIFACT_NAME" "$FREEZE_DIR/publish/$ARTIFACT_NAME"
+          cp "$FREEZE_DIR/freeze-manifest.json" "$FREEZE_DIR/publish/freeze-manifest.json"
+          cp extension/tests/qa_transport/phase4-metrika-candidate/prefreeze_coverage_map.json "$FREEZE_DIR/publish/prefreeze_coverage_map.json"
+          (cd "$FREEZE_DIR/publish" && sha256sum "$ARTIFACT_NAME" | tee SHA256SUMS.txt)
+          test "$(wc -l < "$FREEZE_DIR/publish/SHA256SUMS.txt")" -eq 1
+          ls -l "$FREEZE_DIR/publish"
+          echo PHASE4_FREEZE_PUBLISH_SET_PASS
+
+      - name: Upload exact frozen candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-metrika-first-slice-exact-64344575
+          path: /tmp/phase4-metrika-freeze/publish/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Final freeze markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d = json.loads(Path('/tmp/phase4-metrika-freeze/freeze-manifest.json').read_text(encoding='utf-8'))
+          print(f"PHASE4_EXACT_CANDIDATE_SHA256={d['sha256']}")
+          print(f"PHASE4_EXACT_CANDIDATE_BYTES={d['bytes']}")
+          print(f"PHASE4_EXACT_CANDIDATE_FILES={d['files']}")
+          print(f"PHASE4_EXACT_CANDIDATE_ENTRIES={d['entries']}")
+          PY
+          echo "PHASE4_EXACT_CANDIDATE_BRANCH=$PRODUCT_SOURCE_REF"
+          echo "PHASE4_EXACT_CANDIDATE_SOURCE=$PRODUCT_SOURCE_HEAD"
+          echo "PHASE4_EXACT_CANDIDATE_TESTS=$(cat /tmp/phase4-source-test-count.txt)"
+          echo PHASE4_EXACT_FREEZE_WORKFLOW_PASS
