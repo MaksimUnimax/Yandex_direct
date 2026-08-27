@@ -1,273 +1,316 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 1 WORDSTAT = LIVE PASS / CLOSED — PHASE 2 SEARCH = LIVE PASS / CLOSED — LIFECYCLE BUTTON PATCH = OWNER LIVE PASS / CLOSED — PHASE 3 WEBMASTER = LIVE PASS / CLOSED — PHASE 4 METRIKA = LIVE PASS / CLOSED — PHASE 5 DIRECT = CONTRACT READY / IMPLEMENTATION AUTHORIZED**  
-Updated: 2026-08-26
+Status: **PHASE 1 WORDSTAT = CLOSED — PHASE 2 SEARCH = CLOSED — LIFECYCLE PATCH = CLOSED — PHASE 3 WEBMASTER = CLOSED — PHASE 4 METRIKA = CLOSED — PHASE 5 DIRECT = PASS / CLOSED — PHASE 6 SEMANTIC WORKFLOW = REQUIREMENTS READY / IMPLEMENTATION AUTHORIZED**  
+Updated: 2026-08-27
 
-Always fetch live `main` HEAD and commit metadata before any workflow-stage transition or control-plane write.
+Always fetch live `main` HEAD and exact file/tree identity before a workflow-stage transition or product write.
 
-## Mandatory current record
+---
+
+## 1. Permanent operating model
 
 ```text
-LIVE_MAIN_BEFORE_PHASE4_OWNER_LIVE_CLOSURE_DOCS = 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
-LIVE_MAIN_BEFORE_PHASE5_RECONSTRUCTION = 14ae900516479ee5a7a3a61be34b832341c9df4b
+ChatGPT Plus
+= analyst / planner / semantic architect / QA / report author
 
-ACCEPTED_PHASE2_SOURCE = b7869180c229356a6b3d51ac980ec3da5df4c23c
-ACCEPTED_PHASE2_ARTIFACT_SHA256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
-ACCEPTED_PHASE2_FULL_GATE = PASS
-ACCEPTED_PHASE2_OWNER_LIVE = PASS
+Yandex Marketing Bridge
+= authenticated, bounded, repeatable hands for provider evidence and approved actions
 
-ACCEPTED_LIFECYCLE_PATCH_SOURCE = 939e880f820e52beae9dcbcedc86d5cd9e13b075
-ACCEPTED_LIFECYCLE_PATCH_SHA256 = 0430463ea979c31c5e74a48c899f2ce0fb141b62c4baf132df153380fbc0a262
-ACCEPTED_LIFECYCLE_PATCH_FULL_CODEX_GATE = PASS
-ACCEPTED_LIFECYCLE_PATCH_OWNER_LIVE = PASS
-
-ACCEPTED_PHASE3_SOURCE = a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
-ACCEPTED_PHASE3_ZIP_SHA256 = 1c700640d5fa7b041468c1b987ce3793f4da7631b417e9fb5b0a59b54abd1fd8
-ACCEPTED_PHASE3_ZIP_BYTES = 222592
-ACCEPTED_PHASE3_SRC_TREE = e5fa694f1354e1ee048a352481a416413e94a3c9
-ACCEPTED_PHASE3_MAIN_MERGE = 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
-ACCEPTED_PHASE3_CODEX_FINAL = PASS
-ACCEPTED_PHASE3_POSTMERGE_SUITE = 313/313 PASS
-ACCEPTED_PHASE3_OWNER_LIVE = PASS
-
-ACCEPTED_PHASE4_SOURCE = 643445758e86d3b06ac42a6daea5c97b6e9223c7
-ACCEPTED_PHASE4_ZIP_SHA256 = 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
-ACCEPTED_PHASE4_ZIP_BYTES = 117375
-ACCEPTED_PHASE4_SRC_TREE = fbc52f9a84195278b7b5e942f2a84c7d69778b98
-ACCEPTED_PHASE4_MAIN_MERGE = 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
-ACCEPTED_PHASE4_FREEZE_RUN = 32953269753
-ACCEPTED_PHASE4_FREEZE_ARTIFACT_ID = 9600980289
-ACCEPTED_PHASE4_CODEX_FINAL_RUN = 32955512254
-ACCEPTED_PHASE4_CODEX_FINAL_ATTEMPT = 2
-ACCEPTED_PHASE4_CODEX_FINAL = PASS
-ACCEPTED_PHASE4_POSTMERGE_RUN = 32957778009
-ACCEPTED_PHASE4_POSTMERGE = PASS
-ACCEPTED_PHASE4_OWNER_LIVE = PASS
-
-PHASE4_PROTOCOL = METRIKA_API_V1
-PHASE4_RESULT = METRIKA_RESULT_V1
-PHASE4_FIRST_SLICE = listCounters,getCounter,getTrafficSummary,getTrafficByTime
-PHASE4_AUTH = dedicated OAuth token with metrika:read
-PHASE4_WRITES_ENABLED = NO
-PHASE4_STATUS = LIVE PASS / CLOSED
-
-PHASE5_BASELINE_SRC_TREE = fbc52f9a84195278b7b5e942f2a84c7d69778b98
-PHASE5_PROTOCOL = DIRECT_API_V1
-PHASE5_RESULT = DIRECT_RESULT_V1
-PHASE5_FIRST_SLICE = listCampaigns,listAdGroups,listAds,listKeywords,getCampaignPerformance
-PHASE5_AUTH = dedicated Direct OAuth token; direct:api; optional trusted client_login for agency-client context
-PHASE5_PROVIDER_JSON = https://api.direct.yandex.com/json/v501/{service}
-PHASE5_PROVIDER_REPORTS = https://api.direct.yandex.com/json/v501/reports
-PHASE5_REPORT_MODE = online only
-PHASE5_WRITES_ENABLED = NO
-PHASE5_CONTRACT = READY
-
-PRODUCTION_BYTES_CHANGED_BY_PHASE5_CONTRACT_DOCS = NO
-OPEN_BLOCKERS = NONE
-AUTHORIZED_NEXT_STAGE = PHASE_5_DIRECT_IMPLEMENTATION_FROM_EXACT_POST_CONTRACT_MAIN
+Human owner/operator
+= authorization/access boundary
 ```
 
-## Phase 3 — Webmaster closure
+Do not judge product capability as though all expert reasoning must be hard-coded into the extension. The extension should productize acquisition, persistence, safety, recovery and deterministic repetitive work. ChatGPT remains the reasoning layer.
 
-Accepted first slice remains read-only:
+Permanent credential rule:
 
 ```text
-protocol = WEBMASTER_API_V1
-result = WEBMASTER_RESULT_V1
-base = https://api.webmaster.yandex.net/v4
-auth = OAuth token + derived user_id
+Wordstat/Search cloud credential = separate
+Webmaster OAuth = separate
+Metrika OAuth = separate
+Direct OAuth = separate
+no credential consolidation/reuse project is authorized
+```
+
+---
+
+## 2. Closed phase summary
+
+### Phase 1 — Wordstat
+
+```text
+status = LIVE PASS / CLOSED
+protocol = WORDSTAT_API_V1
+methods = getTop,getDynamics,getRegionsDistribution,getRegionsTree
+```
+
+### Phase 2 — Yandex Search
+
+```text
+status = LIVE PASS / CLOSED
+protocol = SEARCH_API_V1
+accepted source = b7869180c229356a6b3d51ac980ec3da5df4c23c
+accepted artifact SHA-256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
+ordinary endpoint = /v2/web/search
+```
+
+Deferred Search async/image/generative surfaces remain outside the accepted Phase-2 product. Generative Search is now documented as a future official provider path, not silently treated as already implemented.
+
+### Lifecycle button gating patch
+
+```text
+status = OWNER LIVE PASS / CLOSED
+accepted source = 939e880f820e52beae9dcbcedc86d5cd9e13b075
+```
+
+### Phase 3 — Webmaster
+
+```text
+status = LIVE PASS / CLOSED
+accepted source = a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
+accepted src tree = e5fa694f1354e1ee048a352481a416413e94a3c9
+merged main = 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
 methods = listHosts,getSummary,getDiagnostics,getPopularQueries
 writes = disabled
 ```
 
-Phase 3 remains closed. Durable evidence:
+Durable evidence:
+
+`extension/tests/PHASE3_WEBMASTER_OWNER_LIVE_PASS_2026-08-26.md`
+
+### Phase 4 — Metrika
 
 ```text
-extension/tests/PHASE3_WEBMASTER_OWNER_LIVE_PASS_2026-08-26.md
-```
-
-A post-Metrika owner-live recheck also proved the existing dedicated Webmaster credential was not broken or overwritten:
-
-```text
-operation = listHosts
-request_id = webmaster-99e68d1f-3fd5-4d0f-9851-b1d50a620572
-status = OK
-http_status = 200
-result.hosts = []
-request_executed = true
-automatic_retry = false
-```
-
-Deferred Webmaster writes/mutations remain locked.
-
-## Phase 4 — Metrika closure
-
-Accepted service contract:
-
-```text
-service = metrika
-protocol = METRIKA_API_V1
-result = METRIKA_RESULT_V1
-auth = dedicated OAuth token with metrika:read
-Management API = https://api-metrika.yandex.net/management/v1
-Reports API = https://api-metrika.yandex.net/stat/v1
+status = LIVE PASS / CLOSED
+accepted source = 643445758e86d3b06ac42a6daea5c97b6e9223c7
+accepted ZIP SHA-256 = 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
+accepted src tree = fbc52f9a84195278b7b5e942f2a84c7d69778b98
+merged main = 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
 methods = listCounters,getCounter,getTrafficSummary,getTrafficByTime
 writes = disabled
+owner-live = PASS
 ```
 
-Final accepted product identity:
+Durable evidence:
+
+`extension/tests/PHASE4_METRIKA_OWNER_LIVE_PASS_2026-08-26.md`
+
+---
+
+## 3. Phase 5 — Yandex Direct FINAL CLOSED STATE
+
+Accepted product identity:
 
 ```text
-source = 643445758e86d3b06ac42a6daea5c97b6e9223c7
-frozen ZIP SHA-256 = 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
-frozen ZIP bytes = 117375
-accepted extension/src tree = fbc52f9a84195278b7b5e942f2a84c7d69778b98
-main merge = 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
-independent final QA = run 32955512254 attempt 2 PASS
-post-merge QA = run 32957778009 PASS
+accepted source = 841a1e2c1a503c4a05572a957ba97c55b9b60c52
+accepted extension/src tree = edf1c2d3494ebbc53ae778d23be1457eb885b605
+frozen ZIP SHA-256 = ac8efc444578e9d3f31ac0325baca4b286fd608bc511850f480e0d397936620b
+freeze run = 33037955943
+artifact id = 9632728199
 ```
 
-Controlled acceptance chain:
+Accepted first slice:
 
 ```text
-focused/unit/integration coverage = PASS
-qualified controlled popup/browser coverage = PASS
-Metrika lifecycle browser coverage = PASS
-M-00..M-19 = PASS
-NOT_RUN_COUNT = 0
-real Yandex traffic during controlled gate = 0
-exact frozen product immutability = PASS
-post-merge source identity = PASS
-post-merge QA = PASS
-```
-
-Owner-live acceptance used a real owner-created counter:
-
-```text
-counter_id = 111970611
-name = openscript
-site = openscript.ru
-permission = own
-status = Active
-```
-
-Owner-live proved real Management + Reports routes with `HTTP 200`, `request_executed=true`, `automatic_retry=false`. Durable evidence:
-
-```text
-extension/tests/PHASE4_METRIKA_OWNER_LIVE_PASS_2026-08-26.md
-```
-
-Canonical closed Phase-4 authority:
-
-```text
-extension/docs/SPECIFICATION_PHASE_4_METRIKA_ADDENDUM.md
-extension/docs/PHASE_4_METRIKA_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_METRIKA_PHASE4_ADDENDUM.md
-```
-
-All Metrika write/import/Logs/arbitrary-report surfaces remain locked.
-
-## Phase 5 — Yandex Direct contract
-
-Official reconstruction establishes the provider transport/access boundary:
-
-```text
-API version family = Direct API v5
-production JSON pattern = https://api.direct.yandex.com/json/v501/{service}
-transport = HTTPS POST
-OAuth header = Authorization: Bearer <token>
-OAuth data source = direct:api
-approved Direct API application access request = required
-trial access = Sandbox only
-full access = real production data + Sandbox
-Client-Login = only for agency requests on behalf of an advertiser client
-Use-Operator-Units = locked out in first slice
-Payment-Token / finance = locked
-```
-
-Direct has dynamic provider Units rather than a fixed per-call RUB tariff. The Bridge will preserve sanitized `Units` response truth separately from its existing RUB cost ledger.
-
-First-slice contract:
-
-```text
-service = direct
 protocol = DIRECT_API_V1
 result = DIRECT_RESULT_V1
 methods = listCampaigns,listAdGroups,listAds,listKeywords,getCampaignPerformance
+report mode = bounded online-only Campaign Performance
 writes = disabled
+bids/budgets/finance = locked
+raw arbitrary provider calls = locked
+automatic retry after provider initiation = locked
 ```
 
-Object reads use provider `get` methods with strict Bridge field allowlists and local pagination bounds. Direct provider pages can return up to 10,000 objects, but Phase 5 intentionally limits ordinary pages to at most 1000.
-
-Reports first slice is deliberately synchronous/online only:
+Independent exact-candidate QA:
 
 ```text
-endpoint = https://api.direct.yandex.com/json/v501/reports
-ReportType = CAMPAIGN_PERFORMANCE_REPORT
-DateRangeType = CUSTOM_DATE
-Format = TSV
-processingMode = online
-fixed fields = Date,CampaignId,CampaignName,Impressions,Clicks,Cost
-IncludeVAT = YES (explicit Bridge decision)
-returnMoneyInMicros:false = absent
-money normalization = integer cost_micros
-max local report span = 31 days
-max local rows = 1000
+source suite = 34/34
+packaged suite = 34/34
+D-00..D-22 = PASS
+NOT_RUN_COUNT = 0
+browser Direct gates = PASS
+prior compatibility = PASS
+real Yandex traffic during controlled QA = 0
+PRODUCT_BYTES_POST_TEST = IDENTICAL
+verdict = PASS
 ```
 
-Offline/auto Reports, HTTP 201/202 polling, and `SEARCH_QUERY_PERFORMANCE_REPORT` are outside the first slice. If an online report cannot be generated, it is surfaced as a terminal provider outcome with no automatic replay.
+Authority:
 
-Current official error documentation has a conflict that is preserved rather than hidden:
+`extension/tests/PHASE5_DIRECT_R2_CODEX_COMPLETE_PASS_2026-08-27.md`
+
+Owner-live:
 
 ```text
-errors table: code 53 = invalid OAuth token
-authorization-token page: invalid token links to code 1002
+exact frozen candidate loaded = YES
+Direct Check = PASS
+listCampaigns = PASS
+HTTP = 200
+request_executed = true
+automatic_retry = false
+campaigns = []
+provider Units = spent 10 / remaining 159980 / daily 160000
+listAdGroups = NOT_APPLICABLE_EMPTY_ACCOUNT
+getCampaignPerformance = NOT_APPLICABLE_NO_REAL_DATA
+write/mutation requests = 0
 ```
 
-Implementation must treat `53` as canonical invalid-token evidence and may map `1002` to invalid only when provider context/message explicitly identifies token invalidity. Generic `1002` remains generic operation error.
+Authority:
 
-Default Direct policy:
+`extension/tests/PHASE5_DIRECT_OWNER_LIVE_PASS_2026-08-27.md`
+
+Final integration:
 
 ```text
-manual_enabled = true
-autorun_enabled = false
-max_requests_per_run = 20
-max_page_size = 1000
-max_report_days = 31
-max_report_rows = 1000
-method_cost_rub = 0
+PR = #25
+Phase-5 integration main = 20f0605f8b0cdafc009c6719529859d63e8c0eba
+main extension/src tree after merge = edf1c2d3494ebbc53ae778d23be1457eb885b605
+accepted extension/src tree = edf1c2d3494ebbc53ae778d23be1457eb885b605
+identity = EXACT
 ```
 
-Owner-live will be postponed until after exact freeze and complete independent Codex PASS. It will not be used to explore provider errors or consume Units repeatedly.
+Final closure authority:
 
-Canonical Phase-5 authority:
+`extension/tests/PHASE5_DIRECT_FINAL_CLOSURE_2026-08-27.md`
+
+### Manual GitHub workflow clarification
+
+No project-owner GitHub Actions click is required for Phase 5 closure.
+
+`.github/workflows/phase5-direct-postmerge-final.yml` is an optional repository QA convenience and is **not** an additional owner-live/product-validity gate.
+
+The completed closure chain is:
 
 ```text
-extension/docs/SPECIFICATION_PHASE_5_DIRECT_ADDENDUM.md
-extension/docs/PHASE_5_DIRECT_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_DIRECT_PHASE5_ADDENDUM.md
+frozen exact product
+→ independent complete PASS
+→ owner-live PASS
+→ merge to main
+→ exact accepted src tree verified on main
+→ PHASE 5 CLOSED
 ```
 
-## Current authorized next action
+---
 
-Once the Phase-5 control-plane documents are merged to live `main`:
+## 4. O-001 — AI-Native Semantic Rebuild
+
+Status:
 
 ```text
-1. fetch the new exact main HEAD
-2. reverify extension/src = fbc52f9a84195278b7b5e942f2a84c7d69778b98
-3. create Phase-5 Direct dev branch from that exact main
-4. implement dedicated Direct credential + backup migration
-5. implement DIRECT_API_V1 protocol + policy/registry
-6. implement trusted Direct JSON provider and online Reports executor
-7. implement bounded Direct popup UI
-8. during the same governed popup change, add the owner-requested top duplicate common-settings Save control by reusing exactly the existing common save handler
-9. add focused/unit/integration/browser/lifecycle coverage
-10. run development verification
-11. freeze exact candidate
-12. perform exact artifact transport round-trip
-13. run independent Codex complete applicable campaign including D-00..D-22
-14. only then perform narrow owner-live Direct acceptance
-15. close Phase 5 only after live PASS
+strategic differentiation = STRONG
+commercial premium uplift = NOT YET PROVEN
+comparative methodology gate = PREPARED / CLEAN PASS A REQUIRED
+Alice-specific implementation = GATED
 ```
 
-No Direct write method, bid mutation, finance surface, arbitrary provider request/report constructor, offline report queue or automatic retry is authorized.
+Canonical docs:
+
+```text
+extension/docs/AI_NATIVE_SEMANTIC_SERVICE_OPPORTUNITY.md
+extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md
+extension/docs/AI_NATIVE_YANDEX_GENSEARCH_PROVIDER_RESEARCH_2026-08-27.md
+extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_SOURCE_MANIFEST_2026-08-27.md
+```
+
+Important anti-leakage status:
+
+```text
+current ChatGPT conversation has already consumed Alice-derived blood_sand conclusions
+therefore a Pass A produced in this same context would be INVALID_BASELINE_LEAKAGE
+```
+
+A valid Pass A must run in a genuinely clean analysis context that receives only the frozen Alice-free source manifest.
+
+This does **not** block Phase 6.
+
+Official provider research has found a future structured AI-search path inside Yandex Search API:
+
+```text
+POST /v2/gen/search
+```
+
+GenSearch implementation is not yet part of accepted `extension/src`. It remains behind the comparative/product-priority gate.
+
+---
+
+## 5. Phase 6 — Semantic Core Builder / batch orchestration
+
+Status:
+
+```text
+market need = VERY HIGH / repeatedly observed
+requirements = READY
+implementation = AUTHORIZED
+product code changed for Phase 6 = NO, not yet
+```
+
+Canonical requirements:
+
+`extension/docs/PHASE_6_SEMANTIC_CORE_BUILDER_REQUIREMENTS_AND_PLAN.md`
+
+Core Phase-6 boundary:
+
+```text
+Bridge implements:
+- durable batch acquisition
+- per-item state
+- checkpoint/resume
+- no blind replay
+- progress
+- request/cost bounds
+- raw/normalized evidence persistence
+
+ChatGPT implements:
+- seed strategy
+- semantic cleanup
+- intent
+- clustering
+- page-job decisions
+- keyword → target-page mapping
+- cannibalization decisions
+- recommendations
+- client artifact
+```
+
+The first productized hand is a durable Wordstat batch job. Search/TOP batch orchestration is a sibling follow-up, not silently bundled into every semantic job.
+
+---
+
+## 6. Current authorized next action
+
+No owner GitHub action is required.
+
+Authorized autonomous engineering sequence:
+
+```text
+1. fetch exact live main
+2. freeze Phase-6 baseline identity
+3. create Phase-6 dev branch from exact main
+4. audit/reuse existing autorun/run-context/cost/recovery primitives
+5. define batch-job state/storage/fingerprint model
+6. write model/recovery tests before runtime product changes
+7. implement the minimal Wordstat batch hand
+8. run focused + prior-service regression
+9. freeze candidate / independent gate / minimal owner-live acceptance
+```
+
+In parallel:
+
+```text
+prepare clean independent blood_sand Pass A
+→ only after freeze expose Alice evidence for Pass B
+→ compare
+→ use verdict to prioritize or defer GenSearch/Alice-specific engineering
+```
+
+## 7. Open blockers
+
+```text
+Phase 5 = NONE
+Phase 6 requirements = NONE
+Alice comparative Pass A = requires genuinely clean analysis context; current chat is contaminated by prior Alice evidence
+Alice-specific engineering = intentionally gated on comparative value
+```
+
+Current project direction: **continue Phase 6 engineering; do not stop merely because the Alice methodology gate needs an independent clean baseline context.**
