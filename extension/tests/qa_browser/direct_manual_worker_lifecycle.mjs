@@ -49,6 +49,8 @@ async function actionCount(page){return page.evaluate(()=>document.querySelector
 async function latestActionReady(page){return page.evaluate(()=>{const buttons=[...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action')||[])];const button=buttons.at(-1);return Boolean(button&&!button.disabled);});}
 async function clickLatestAction(page){return page.evaluate(()=>{const buttons=[...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action')||[])];const button=buttons.at(-1);if(!button)throw new Error('NO_MANUAL_ACTION');if(button.disabled)throw new Error('MANUAL_ACTION_NOT_READY');button.click();return buttons.length;});}
 async function fixtureState(page){return page.evaluate(()=>({sendHistory:[...(window.__fixture?.sendHistory||[])],sendCycles:Number(window.__fixture?.sendCycles||0),composer:document.getElementById('prompt-textarea')?.value||''}));}
+async function contentStatus(page){return page.evaluate(()=>[...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-status')||[])].map((node)=>({level:node.dataset.level||'',text:node.textContent||''})));}
+async function manualSnapshot(worker,key){return worker.evaluate(async(k)=>{const data=await chrome.storage.local.get(['wsmb_manual_operations','wsmb_outbox','ymb_diagnostics']);const op=data.wsmb_manual_operations?.[k]||null;const outbox=data.wsmb_outbox?.[k]||null;const diagnostics=Array.isArray(data.ymb_diagnostics)?data.ymb_diagnostics.slice(-8).map((row)=>({level:row?.level||'',code:row?.code||'',detail:row?.detail||null})):[];return{operation:op?{status:op.status||'',active_service:op.active_service||'',request_executed:op.request_executed??false,delivery_id:op.delivery_id||null}:null,outbox:outbox?{type:outbox.type||'',phase:outbox.phase||'',provider_executions:Number(outbox.provider_executions||0)}:null,diagnostics};},key);}
 
 await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(8443,'127.0.0.1',resolve);});
 let browser;
@@ -66,7 +68,8 @@ try{
       wsmb_conversation_bindings:{[key]:{binding_id:'qa-direct-binding',revision:1,origin:'https://chatgpt.com',conversation_id:cid,conversation_key:key,bound_at:now,updated_at:now}},
       wsmb_manual_modes:{[key]:true},
       ymb_service_contexts:{[key]:{active_service:'direct',updated_at:now}},
-      wsmb_auto_send:false
+      wsmb_auto_send:false,
+      ymb_debug_mode:true
     });
     await globalThis.YMBPhase5Runtime.saveServiceCredential('direct',{oauth_token:'worker-lifecycle-secret',client_login:'worker-lifecycle-client'});
     await globalThis.YMBPhase5Runtime.saveDirectPolicy({manual_enabled:true,autorun_enabled:false});
@@ -77,7 +80,10 @@ try{
 
   await fixture.evaluate((command)=>window.__fixture.appendAssistant(command,'direct-list-turn'),LIST_COMMAND);
   await waitUntil(async()=>await actionCount(fixture)>=1&&await latestActionReady(fixture),'LIST_ACTION_NOT_READY');
-  const beforeList=providerHits.length;await clickLatestAction(fixture);await waitUntil(async()=>providerHits.length===beforeList+1,'LIST_PROVIDER_NOT_CALLED');
+  const beforeList=providerHits.length;await clickLatestAction(fixture);
+  await delay(900);
+  if(providerHits.length!==beforeList+1){console.log(`D17_LIST_ADMISSION_DIAGNOSTIC=${JSON.stringify({snapshot:await manualSnapshot(worker,KEY),status:await contentStatus(fixture),fixture:await fixtureState(fixture)})}`);}
+  await waitUntil(async()=>providerHits.length===beforeList+1,'LIST_PROVIDER_NOT_CALLED');
   await waitUntil(async()=>(await fixtureState(fixture)).composer.startsWith('DIRECT_RESULT_V1'),'LIST_RESULT_NOT_FILLED');
   let fx=await fixtureState(fixture);assert.equal(fx.sendHistory.length,0);assert.equal(fx.sendCycles,0);assert.match(fx.composer,/"operation"\s*:\s*"listCampaigns"/);assert.equal(providerHits.at(-1).url,'/json/v501/campaigns');assert.deepEqual(JSON.parse(providerHits.at(-1).body).params.SelectionCriteria,{Ids:[77]});
   console.log('D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS');
@@ -89,7 +95,10 @@ try{
 
   await fixture.evaluate((command)=>window.__fixture.appendAssistant(command,'direct-report-turn'),REPORT_COMMAND);
   await waitUntil(async()=>await actionCount(fixture)>=2&&await latestActionReady(fixture),'REPORT_ACTION_NOT_READY');
-  const beforeReport=providerHits.length;await clickLatestAction(fixture);await waitUntil(async()=>providerHits.length===beforeReport+1,'REPORT_PROVIDER_NOT_CALLED');
+  const beforeReport=providerHits.length;await clickLatestAction(fixture);
+  await delay(900);
+  if(providerHits.length!==beforeReport+1){console.log(`D17_REPORT_ADMISSION_DIAGNOSTIC=${JSON.stringify({snapshot:await manualSnapshot(worker,KEY),status:await contentStatus(fixture),fixture:await fixtureState(fixture)})}`);}
+  await waitUntil(async()=>providerHits.length===beforeReport+1,'REPORT_PROVIDER_NOT_CALLED');
   await waitUntil(async()=>(await fixtureState(fixture)).sendHistory.filter((text)=>String(text).startsWith('DIRECT_RESULT_V1')).length>=2,'REPORT_RESULT_NOT_AUTOSENT',25000);
   fx=await fixtureState(fixture);const directSends=fx.sendHistory.filter((text)=>String(text).startsWith('DIRECT_RESULT_V1'));assert.equal(directSends.length,2);assert.equal(providerHits.at(-1).url,'/json/v501/reports');assert.equal(String(providerHits.at(-1).headers.processingmode||''),'online');
   console.log('D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS');
