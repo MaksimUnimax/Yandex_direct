@@ -1,0 +1,97 @@
+name: phase5-direct-independent-runner-v2-crossplatform
+
+on:
+  push:
+    branches:
+      - qa/phase5-direct-independent-codex-handoff-r2-2026-08-27
+    paths:
+      - .github/workflows/phase5-direct-independent-runner-v2-crossplatform.yml
+      - extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner_v2.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  linux-node24:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Download exact frozen artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phase5-direct-r2-frozen-candidate-841a1e2
+          path: ${{ runner.temp }}/phase5-direct-r2-frozen-transport
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 33037955943
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run portable complete gate v2 on Linux Node 24
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          python extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner_v2.py \
+            --transport-dir "${RUNNER_TEMP}/phase5-direct-r2-frozen-transport" \
+            | tee /tmp/v2.log
+          grep -F 'source_suite=34/34' /tmp/v2.log
+          grep -F 'packaged_suite=34/34' /tmp/v2.log
+          grep -F 'source_syntax=33/33' /tmp/v2.log
+          grep -F 'packaged_syntax=33/33' /tmp/v2.log
+          grep -F 'BROWSER_DIRECT_POPUP_D18=PASS' /tmp/v2.log
+          grep -F 'BROWSER_DIRECT_MANUAL_LIFECYCLE=PASS' /tmp/v2.log
+          grep -F 'BROWSER_DIRECT_ADDENDUM=PASS' /tmp/v2.log
+          grep -F 'BROWSER_PRIOR_PHASE_COMPATIBILITY=PASS' /tmp/v2.log
+          grep -F 'enabled_not_run_sections=0' /tmp/v2.log
+          grep -F 'PRODUCT_BYTES_POST_TEST=IDENTICAL' /tmp/v2.log
+          grep -F 'PHASE5_DIRECT_R2_INDEPENDENT_RUNNER_PASS' /tmp/v2.log
+          test -z "$(git status --porcelain)"
+          echo PHASE5_DIRECT_RUNNER_V2_LINUX_NODE24_PASS
+
+  windows-node24:
+    runs-on: windows-2025
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Download exact frozen artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phase5-direct-r2-frozen-candidate-841a1e2
+          path: ${{ runner.temp }}\phase5-direct-r2-frozen-transport
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 33037955943
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run portable complete gate v2 on Windows Node 24
+        shell: pwsh
+        run: |
+          if ((git status --porcelain).Length -ne 0) { throw 'workspace dirty before runner' }
+          $transport = Join-Path $env:RUNNER_TEMP 'phase5-direct-r2-frozen-transport'
+          python extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner_v2.py --transport-dir $transport 2>&1 | Tee-Object -FilePath $env:RUNNER_TEMP\v2.log
+          if ($LASTEXITCODE -ne 0) { throw "runner failed with exit $LASTEXITCODE" }
+          $log = Get-Content -Raw $env:RUNNER_TEMP\v2.log
+          @(
+            'source_suite=34/34',
+            'packaged_suite=34/34',
+            'source_syntax=33/33',
+            'packaged_syntax=33/33',
+            'BROWSER_DIRECT_POPUP_D18=PASS',
+            'BROWSER_DIRECT_MANUAL_LIFECYCLE=PASS',
+            'BROWSER_DIRECT_ADDENDUM=PASS',
+            'BROWSER_PRIOR_PHASE_COMPATIBILITY=PASS',
+            'enabled_not_run_sections=0',
+            'PRODUCT_BYTES_POST_TEST=IDENTICAL',
+            'PHASE5_DIRECT_R2_INDEPENDENT_RUNNER_PASS'
+          ) | ForEach-Object { if (-not $log.Contains($_)) { throw "missing marker: $_" } }
+          if ((git status --porcelain).Length -ne 0) { throw 'workspace dirty after runner' }
+          Write-Output 'PHASE5_DIRECT_RUNNER_V2_WINDOWS_NODE24_PASS'
