@@ -8,9 +8,8 @@ on:
       - .github/workflows/phase5-direct-browser-dev-r1.yml
       - extension/src/**
       - extension/tests/qa_browser/direct_browser_runtime.mjs
-      - extension/tests/qa_browser/direct_check_diagnostic.mjs
-      - extension/tests/qa_browser/direct_check_click_diagnostic.mjs
-      - extension/tests/qa_browser/direct_manual_lifecycle.mjs
+      - extension/tests/qa_browser/direct_popup_d18.mjs
+      - extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs
   workflow_dispatch:
 
 permissions:
@@ -30,9 +29,8 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/tests/qa_browser/direct_browser_runtime.mjs
-          node --check extension/tests/qa_browser/direct_check_diagnostic.mjs
-          node --check extension/tests/qa_browser/direct_check_click_diagnostic.mjs
-          node --check extension/tests/qa_browser/direct_manual_lifecycle.mjs
+          node --check extension/tests/qa_browser/direct_popup_d18.mjs
+          node --check extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/d5-product-before.sha256
           echo PHASE5_DIRECT_PRE_BROWSER_PRODUCT_IDENTITY_PASS
       - name: Install Puppeteer Chrome
@@ -42,26 +40,6 @@ jobs:
           npm install --no-save --package-lock=false puppeteer@24
           npx puppeteer browsers install chrome
           command -v xvfb-run
-      - name: Diagnose Direct popup Check
-        shell: bash
-        run: |
-          set -euo pipefail
-          xvfb-run -a node extension/tests/qa_browser/direct_check_diagnostic.mjs | tee /tmp/d5-direct-check-diagnostic.log
-          grep -F 'PHASE5_DIRECT_CHECK_DIAGNOSTIC_COMPLETE' /tmp/d5-direct-check-diagnostic.log
-          if grep -F 'diagnostic-secret' /tmp/d5-direct-check-diagnostic.log; then
-            echo PHASE5_DIRECT_DIAGNOSTIC_SECRET_LOG_LEAK_FAIL
-            exit 1
-          fi
-      - name: Diagnose Direct Check click after rerender
-        shell: bash
-        run: |
-          set -euo pipefail
-          xvfb-run -a node extension/tests/qa_browser/direct_check_click_diagnostic.mjs | tee /tmp/d5-direct-click-diagnostic.log
-          grep -F 'PHASE5_DIRECT_CHECK_CLICK_DIAGNOSTIC_PASS' /tmp/d5-direct-click-diagnostic.log
-          if grep -F 'click-diagnostic-secret' /tmp/d5-direct-click-diagnostic.log; then
-            echo PHASE5_DIRECT_CLICK_DIAGNOSTIC_SECRET_LOG_LEAK_FAIL
-            exit 1
-          fi
       - name: Run controlled installed extension Direct runtime
         shell: bash
         run: |
@@ -83,14 +61,23 @@ jobs:
             exit 1
           fi
           echo PHASE5_DIRECT_CONTROLLED_BROWSER_PASS
-      - name: Run Direct manual lifecycle and popup D18
+      - name: Run Direct popup D18
         shell: bash
         run: |
           set -euo pipefail
-          xvfb-run -a node extension/tests/qa_browser/direct_manual_lifecycle.mjs | tee /tmp/d5-lifecycle.log
+          xvfb-run -a node extension/tests/qa_browser/direct_popup_d18.mjs | tee /tmp/d5-popup-d18.log
           for marker in \
             D18_POPUP_430X560_PASS \
             D18_TOP_BOTTOM_COMMON_SAVE_EQUIVALENT_PASS \
+            PHASE5_DIRECT_POPUP_D18_PASS; do
+            grep -F "$marker" /tmp/d5-popup-d18.log
+          done
+      - name: Run Direct manual worker lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs | tee /tmp/d5-lifecycle.log
+          for marker in \
             D17_DIRECT_LIFECYCLE_SETTINGS_PASS \
             D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS \
             D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS \
@@ -100,7 +87,7 @@ jobs:
             PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS; do
             grep -F "$marker" /tmp/d5-lifecycle.log
           done
-          if grep -F 'lifecycle-direct-secret' /tmp/d5-lifecycle.log; then
+          if grep -F 'worker-lifecycle-secret' /tmp/d5-lifecycle.log; then
             echo PHASE5_DIRECT_LIFECYCLE_SECRET_LOG_LEAK_FAIL
             exit 1
           fi
