@@ -1,22 +1,26 @@
 # AI-NATIVE SEMANTIC REBUILD — OWN SERVICE OPPORTUNITY
 
-Status: **STRATEGIC OFFER / EXPERIMENTAL PREMIUM HYPOTHESIS / COMPARATIVE GATE REQUIRED**  
+Status: **METHODOLOGY UPLIFT PROVEN / REPEATABLE AI HAND VALIDATION PENDING**  
 Date: 2026-08-27  
 Internal offer id: **O-001**
 
-## 1. Client problem / offer
+## 1. Offer
 
-O-001 is our own product concept derived from the real `MaksimUnimax/blood_sand` research workflow. It is not a Kwork observation and must not be counted as an F-case in market-demand statistics.
+O-001 is a premium service concept for rebuilding semantic/page architecture from three distinct evidence layers:
 
-Internal shorthand `ИИ-индексация` is acceptable, but client-facing language must not promise guaranteed indexing, ranking or citation.
+```text
+human demand
++ ordinary Yandex Search
++ selected direct AI-search evidence
+```
 
-Preferred client-facing formulations:
+Preferred client-facing formulations remain:
 
 - `Пересборка семантического ядра под Яндекс + Алису AI`;
 - `AI-native семантическое ядро: обычный поиск + генеративная выдача`;
 - `Семантика для обычного и AI-поиска`.
 
-The differentiator is not generic GEO/AEO formatting. It is an **evidence-first rebuild of semantic and page architecture using human demand + ordinary Search + observed AI-search evidence**.
+Do not promise guaranteed AI indexing, citation, ranking, traffic or sales.
 
 ## 2. Permanent worker model
 
@@ -43,162 +47,122 @@ YANDEX MARKETING BRIDGE
 → Webmaster
 → Metrika
 → Direct where useful
-→ future GenSearch if gate justifies implementation
+→ future GenSearch hand after proxy validation
 
 HUMAN OWNER/OPERATOR
 → authorization/access boundary
-→ runs irreducible local/account actions
-→ does not perform the SEO analysis instead of ChatGPT
+→ irreducible account/local actions
 ```
 
-The extension should productize acquisition, persistence, safety and repeatability. ChatGPT remains the reasoning layer.
+ChatGPT remains the reasoning layer; the extension productizes evidence acquisition, persistence and safety.
 
-## 3. Methodology inherited from blood_sand
+## 3. Proven methodology result
 
-The accepted strategy treats ordinary Yandex Search and AI answers as connected but distinct evidence surfaces.
+Canonical comparative gate:
 
-Important provenance classes include:
+`extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md`
+
+Final comparison:
+
+`extension/tests/AI_NATIVE_BLOOD_SAND_COMPARISON_2026-08-27.md`
+
+Frozen `blood_sand` authority:
 
 ```text
-SEED
-WORDSTAT
-SERP_QUERY
+0da1fdfa65155fe0b22d67838d366e7d214ccbbe
+```
+
+Final verdict:
+
+```text
+AI_NATIVE_COMPARATIVE_GATE_PASS
+```
+
+The valid clean baseline was generated from a sealed Alice-free packet in a genuinely isolated context, frozen first, and only then compared against canonical consumer-Alice evidence.
+
+This proves a narrow but commercially relevant claim:
+
+> On a real controlled project dataset, selected direct AI evidence can materially improve/de-risk page-job scope, launch priority, source-quality requirements and contamination control beyond a strong Wordstat + ordinary Search baseline.
+
+It does not prove revenue uplift or guarantee future AI visibility.
+
+## 4. What AI evidence materially changed
+
+The comparison found several traceable action-level deltas:
+
+- a broader Veles-family **selection/explanation job** becomes actionable even while a separate commercial category remains conditional on SKU depth;
+- Alatyr changes from a primarily commercial landing requirement to a substantive **hybrid content-commerce** job because AI answers the broad root as mythology/meaning/suitability-first;
+- Vegvisir history/meaning work moves from supporting P1 to **launch-critical P0** because AI makes historical explanation/correction dominant even on the broad high-demand root;
+- contaminated conversational AI evidence was shown capable of inventing a false gift/symbol connection, so context provenance becomes an operational requirement;
+- specialist owned pages must be designed for **source-worthiness/citation eligibility**, not merely organic ranking.
+
+Important ordinary-SEO decisions were also confirmed rather than changed: Pechat Velesa meaning split, automotive protection vs mirror form factor, zodiac contamination, generic-gift weak fit and rejection of thin symbol+car intersection pages.
+
+## 5. Evidence model
+
+Preserve provenance classes. Current consumer-Alice observations use labels such as:
+
+```text
 ALICE_INPUT
 ALICE_SOURCE
 ALICE_FANOUT_OBSERVED
 ALICE_FANOUT_INFERRED
-WEBMASTER_SEARCH
-WEBMASTER_ALICE
-CUSTOMER_EVIDENCE
-MARKETPLACE_EVIDENCE
 ```
 
-Canonical flow:
+Future GenSearch evidence must remain separate:
 
 ```text
-registry/input
-→ raw evidence
-→ normalized observations
-→ evidence ledger
-→ derived analysis
-→ action/page-job decision
+GEN_SEARCH_INPUT
+GEN_SEARCH_ANSWER
+GEN_SEARCH_SOURCE
+GEN_SEARCH_SOURCE_USED
+GEN_SEARCH_QUERY_OBSERVED
 ```
 
-Priority reasons remain separate:
+Never silently relabel `searchQueries[]` as consumer `ALICE_FANOUT_OBSERVED`.
+
+Priority reasons remain distinct:
 
 ```text
 H = Human demand
-A = AI/Alice importance
+A = AI importance
 C = Commercial value
 O = Owned-asset value
 ```
 
-Do not collapse them into an unexplained single number.
+No unexplained combined score is required.
 
-## 4. Why this can change ordinary semantic-core decisions
+## 6. Current Bridge capability
 
-A normal semantic core asks:
-
-> what do people search, how often, and how should those queries be grouped?
-
-O-001 additionally asks:
-
-> what job does ordinary Search solve, what job does AI solve, which sources/pages support the AI answer, what adjacent questions/refined queries appear, and what page architecture should compete in both systems without weakening commerce or truthfulness?
-
-`blood_sand` already contains real cross-surface differences, including roots where ordinary Search is strongly transactional while consumer Alice evidence is explanation/meaning/suitability-first.
-
-That is real evidence that the surfaces can differ. It is **not yet proof** that the premium method beats a strong ordinary SEO baseline. That incremental value must be established by the mandatory comparative gate.
-
-## 5. Mandatory comparative proof
-
-Canonical gate:
-
-`extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md`
-
-Clean baseline manifest:
-
-`extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_SOURCE_MANIFEST_2026-08-27.md`
-
-Design:
-
-```text
-PASS A
-= business/product + Wordstat + ordinary Search
-= no Alice/AI evidence
-
-freeze
-
-PASS B
-= same baseline
-+ canonical AI/Alice evidence
-
-compare action-level decisions
-```
-
-Valid verdicts:
-
-```text
-AI_NATIVE_COMPARATIVE_GATE_PASS
-NO_PROVEN_UPLIFT
-INVALID_BASELINE_LEAKAGE
-INSUFFICIENT_CANONICAL_EVIDENCE
-```
-
-The current long-running conversation has already consumed Alice-derived conclusions. Therefore a clean Pass A must be generated in a genuinely isolated context, not fabricated here.
-
-## 6. Current market position
-
-Generic GEO/AEO offers already exist. The quick market review surfaced audits, FAQ/content advice, AI-oriented page formatting and mass AI-content offers.
-
-The review did not surface an exact equivalent of our full evidence chain:
-
-```text
-Wordstat
-+ direct Yandex SERP
-+ observed AI answer/source/refined-query evidence
-+ observed-vs-inferred provenance
-+ evidence ledger
-+ H/A/C/O
-+ page-job architecture
-+ post-launch measurement
-```
-
-This is a differentiation signal, not proof that nobody else offers similar work anywhere.
-
-## 7. Current capability after Phase 5 closure
-
-Phase 5 Direct is now **PASS / CLOSED**.
+Phase 6 Semantic Core / Wordstat batch orchestration is **PASS / CLOSED / in main**.
 
 | Layer | Status | Worker |
 |---|---|---|
 | Site/business analysis | YES | ChatGPT |
-| Seed/query strategy | YES | ChatGPT |
-| Wordstat human demand | YES | Bridge |
-| Dynamics/region/device where exposed | YES | Bridge + ChatGPT |
-| Ordinary regional Yandex SERP | YES | Bridge |
-| Competitor/source/page-type analysis | YES bounded | ChatGPT |
+| Wordstat demand + batch orchestration | YES | Bridge |
+| Ordinary regional Yandex Search | YES | Bridge |
 | Semantic cleanup/clustering | YES | ChatGPT |
-| Page-job/target-page architecture | YES bounded | ChatGPT |
-| XLSX/CSV/PDF/DOCX deliverables | YES | ChatGPT artifact layer |
-| Ordinary Webmaster query evidence | YES | Bridge |
+| Page-job architecture | YES | ChatGPT |
+| Webmaster ordinary search evidence | YES | Bridge |
 | Metrika behavior/conversion | YES where data exists | Bridge + ChatGPT |
-| Direct read data | YES where advertiser data exists | Bridge |
-| Structured official AI-search provider path exists | YES, researched | Yandex GenSearch |
-| GenSearch implemented in current Bridge | NO | gated future hand |
-| Consumer-Alice equivalence to GenSearch proven | NO | validation required |
-| Webmaster Alice visibility in current Bridge | NO | future official/import hand |
+| Direct read evidence | YES where advertiser data exists | Bridge |
+| Official GenSearch endpoint/path | YES / researched | Yandex Search API |
+| GenSearch implemented in Bridge | NO | next gated hand |
+| GenSearch equivalence/usefulness vs consumer Alice | NOT YET VALIDATED | bounded proxy subcheck |
 
-## 8. Critical new feasibility finding — official GenSearch
+## 7. Official GenSearch path
 
-The preferred repeatable AI-search acquisition path is now official Yandex Search API GenSearch rather than default consumer-Alice DOM scraping.
-
-Official endpoint:
+Preferred structured future hand:
 
 ```text
 POST https://searchapi.api.cloud.yandex.net/v2/gen/search
 ```
 
-Useful response evidence currently includes:
+Provider research:
+
+`extension/docs/AI_NATIVE_YANDEX_GENSEARCH_PROVIDER_RESEARCH_2026-08-27.md`
+
+Relevant structured fields include:
 
 ```text
 message.content
@@ -211,151 +175,80 @@ hints[]
 answer status flags
 ```
 
-Provider research:
+GenSearch belongs inside the existing Search/Yandex Cloud provider family. Do not consolidate Webmaster/Metrika/Direct credentials into it.
 
-`extension/docs/AI_NATIVE_YANDEX_GENSEARCH_PROVIDER_RESEARCH_2026-08-27.md`
+## 8. Next required validation
 
-Product implication:
+Because the broader methodology gate passed, GenSearch implementation priority is now justified, but production equivalence is not assumed.
 
-```text
-existing Search provider family
-├── ordinary /v2/web/search   [implemented]
-└── generative /v2/gen/search [official path found, not implemented]
-```
-
-Do not create a separate credential-consolidation project. GenSearch belongs to the Search/Yandex Cloud credential family; Webmaster/Metrika/Direct remain independent.
-
-## 9. Provenance caution — GenSearch is not automatically consumer Alice
-
-Do not silently translate GenSearch evidence into consumer-Alice evidence.
-
-Future normalized provenance should use labels such as:
+Next experiment:
 
 ```text
-GEN_SEARCH_INPUT
-GEN_SEARCH_ANSWER
-GEN_SEARCH_SOURCE
-GEN_SEARCH_SOURCE_USED
-GEN_SEARCH_QUERY_OBSERVED
+canonical consumer Alice observations
+vs
+bounded official GenSearch observations
 ```
 
-Do not automatically call `searchQueries[]`:
+Representative set should be small and decision-relevant, not every keyword. Compare:
+
+- answer/user-job orientation;
+- source domains/types;
+- `sources[].used` where available;
+- `searchQueries[]` themes;
+- commercial vs explanatory orientation;
+- material semantic/page-job implication.
+
+Classify:
 
 ```text
-ALICE_FANOUT_OBSERVED
+SAME_OR_STRONGLY_ALIGNED
+PARTIALLY_ALIGNED
+MATERIALLY_DIFFERENT
+NOT_COMPARABLE
 ```
 
-A bounded comparison against the canonical `blood_sand` consumer-Alice observations is required after the broader methodology gate justifies the engineering priority.
+The goal is not text equivalence. The decision question is whether official GenSearch is a useful repeatable evidence surface for the same premium semantic-research job.
 
-## 10. Economics / test-set design
+## 9. Economics
 
-Official Yandex pricing snapshot recorded on 2026-08-27:
+Recorded official pricing snapshot:
 
 ```text
-generative synchronous Search API = 5,080 RUB / 1,000 requests incl. VAT
-≈ 5.08 RUB/request
+generative synchronous Search API ≈ 5.08 RUB/request
 ```
 
-Therefore O-001 should not run every keyword through GenSearch.
-
-Correct model:
+Therefore the correct workflow is selective:
 
 ```text
 large Wordstat set
 → ChatGPT cleans/clusters
-→ ordinary Search resolves many questions
-→ ChatGPT selects small decision-relevant AI test set
-→ GenSearch only for material AI-specific uncertainty
+→ ordinary Search resolves most questions
+→ ChatGPT identifies material AI uncertainty
+→ small GenSearch test set
+→ merge evidence with provenance
 ```
 
-This preserves both economics and evidence quality.
+Do not bulk-send hundreds or thousands of keywords to GenSearch by default.
 
-## 11. Exact service workflow
+## 10. Service workflow
 
 ```text
-1. Intake
-   site + region + products/services + goals + existing semantic core + optional competitors.
-
-2. Business/site model
-   ChatGPT maps offer, audience, exclusions, current pages and conversion jobs.
-
-3. Human-demand layer
-   Bridge Wordstat acquires bounded evidence.
-   ChatGPT cleans and constructs candidate clusters.
-
-4. Ordinary Search layer
-   ChatGPT chooses decision-relevant roots/secondaries.
-   Bridge Search measures target-region Yandex SERPs.
-   ChatGPT classifies page/source composition and user job.
-
-5. AI test-set design
-   ChatGPT selects only queries whose AI evidence can change/de-risk a real decision.
-
-6. AI-search observation
-   future preferred production hand: official GenSearch.
-   consumer Alice observations remain a validation/reference surface where necessary.
-
-7. Evidence merge
-   preserve source provenance; never mix observed and inferred fan-out.
-
-8. Decision analysis
-   H / A / C / O kept separate;
-   compare ordinary Search job vs AI job;
-   identify source/content gaps and commercial fit.
-
-9. Semantic/page rebuild
-   ChatGPT chooses existing page / new page / FAQ / comparison / guide / product fact / reject.
-   Resolve cannibalization and role conflicts.
-
-10. Client deliverables
-   semantic workbook;
-   Search-vs-AI intent-gap matrix;
-   source/competitor map;
-   page architecture;
-   prioritized actions;
-   methodology/evidence notes;
-   optional content briefs.
-
-11. Post-launch validation
-   Webmaster ordinary search;
-   AI visibility/SoV when a stable acquisition/import path is available;
-   Metrika behavior/conversion;
-   revise recommendations when evidence contradicts the initial hypothesis.
+1. Intake / business model
+2. Wordstat human-demand collection
+3. ChatGPT cleanup + candidate clusters
+4. ordinary Search on decision-relevant roots
+5. ChatGPT selects small AI test set
+6. GenSearch / validated AI evidence acquisition
+7. provenance-preserving evidence merge
+8. H/A/C/O reasoning kept separate
+9. page-job / split / merge / reject decisions
+10. semantic workbook + Search-vs-AI gap matrix + source map + prioritized actions
+11. post-launch Webmaster/Metrika/AI-visibility validation where stable evidence exists
 ```
 
-## 12. Recommended client artifact
+## 11. Commercial positioning
 
-Suggested core fields:
-
-```text
-query
-cluster
-human-demand evidence
-ordinary Search job
-ordinary leading source/page types
-AI evidence provenance
-AI job
-AI source domains/pages
-refined/fan-out query evidence
-H
-A
-C
-O
-current page
-recommended page job
-action
-priority
-confidence
-notes
-```
-
-The valuable deliverable is not only the keyword list, but the traceable reason for the architecture/action.
-
-## 13. Product position relative to Phase 6
-
-Do not replace the mass-market Semantic Core Builder with O-001.
-
-Tiered architecture:
+Tiered product architecture remains:
 
 ```text
 BASE
@@ -363,62 +256,50 @@ Semantic Core Builder
 = Wordstat + ordinary Search where useful
 + ChatGPT cleanup/grouping/page mapping
 
-PREMIUM CANDIDATE
+PREMIUM METHOD CANDIDATE
 AI-Native Semantic Rebuild
 = BASE
 + selected AI-search evidence
 + Search-vs-AI job gaps
-+ source competition
++ source competition/source-worthiness
 + H/A/C/O
 + AI-aware page jobs
-+ post-launch AI visibility measurement when available
 ```
 
-Phase 6 may proceed now because it productizes the shared market-proven hands. AI-specific engineering waits for comparative proof.
+The comparative gate proves incremental methodology value. The remaining blocker to a **repeatable premium product hand** is stable structured AI acquisition validation.
 
-## 14. Commercial boundaries
+## 12. Commercial boundaries
 
 Never promise:
 
-- guaranteed Alice/AI indexing;
+- guaranteed Alice/AI indexing or citation;
 - guaranteed source inclusion;
-- guaranteed SoV/ranking growth;
-- guaranteed traffic/sales;
-- that one AI response is permanently reproducible;
-- that GenSearch exactly equals consumer Alice;
-- that source array order is a ranking;
-- that high Wordstat demand implies high AI importance;
-- that high AI importance automatically requires a new page.
+- guaranteed SoV/ranking/traffic/sales growth;
+- permanent answer reproducibility;
+- GenSearch == consumer Alice;
+- source-array order == ranking;
+- high Wordstat demand == high AI importance;
+- high AI importance automatically requires a new URL.
 
-Promise only:
+Promise only declared methodology, traceable evidence, concrete recommendations and revision when evidence changes.
 
-- declared evidence collection methodology;
-- transparent semantic/page decisions based on captured evidence;
-- concrete recommended actions;
-- before/after measurement where data exists;
-- revision when new evidence contradicts the hypothesis.
-
-## 15. Current verdict
+## 13. Current verdict
 
 ```text
 strategic/service hypothesis = YES / STRONG
 market differentiation signal = STRONG
-premium incremental decision value = UNPROVEN until comparative gate
-current base data primitives = MOSTLY AVAILABLE
+premium incremental decision value = PROVEN ON CONTROLLED REAL DATASET
+current base data primitives = AVAILABLE
 repeatable official AI-search path = FOUND (GenSearch)
-GenSearch implementation = NOT YET AUTHORIZED
-current commercial position = EXPERIMENTAL PREMIUM HYPOTHESIS
+GenSearch proxy validation = AUTHORIZED / PENDING
+GenSearch production implementation = NOT YET FROZEN
+current commercial position = PREMIUM METHOD CANDIDATE / REPEATABLE HAND PENDING
 ```
 
-Next AI-specific decision:
+Next product decision:
 
 ```text
-clean independent blood_sand Pass A
-→ freeze
-→ Pass B
-→ compare
-→ if material uplift: validate GenSearch vs canonical Alice and promote implementation
-→ if no uplift: keep AI-specific hand lower priority
+bounded GenSearch-vs-canonical-Alice validation
+→ if sufficiently aligned for decision use: freeze GenSearch protocol/provider contract and implement
+→ if materially different: keep provenance separate and narrow/adjust the premium method accordingly
 ```
-
-Meanwhile Phase 6 Semantic Core / batch orchestration continues independently.
