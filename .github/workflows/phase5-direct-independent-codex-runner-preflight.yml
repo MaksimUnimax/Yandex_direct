@@ -1,0 +1,73 @@
+name: phase5-direct-independent-codex-runner-preflight
+
+on:
+  push:
+    branches:
+      - qa/phase5-direct-independent-codex-handoff-r2-2026-08-27
+    paths:
+      - extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner.py
+      - .github/workflows/phase5-direct-independent-codex-runner-preflight.yml
+      - extension/tests/CODEX_PHASE5_DIRECT_R2_COMPLETE_GATE_RERUN_HANDOFF_2026-08-27.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  runner-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - name: Checkout immutable QA branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Download exact frozen artifact outside repository
+        uses: actions/download-artifact@v4
+        with:
+          name: phase5-direct-r2-frozen-candidate-841a1e2
+          path: ${{ runner.temp }}/phase5-direct-r2-frozen-transport
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 33037955943
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify clean checkout before runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+          command -v xvfb-run
+
+      - name: Execute independent-runner preflight unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner.py \
+            --transport-dir "${RUNNER_TEMP}/phase5-direct-r2-frozen-transport" \
+            | tee /tmp/phase5-independent-runner.log
+          grep -F 'TRANSPORT=PASS' /tmp/phase5-independent-runner.log
+          grep -F 'CREDENTIAL_CONCURRENCY_REGRESSION=PASS' /tmp/phase5-independent-runner.log
+          grep -F 'BROWSER_DIRECT_POPUP_D18=PASS' /tmp/phase5-independent-runner.log
+          grep -F 'BROWSER_DIRECT_MANUAL_LIFECYCLE=PASS' /tmp/phase5-independent-runner.log
+          grep -F 'BROWSER_DIRECT_ADDENDUM=PASS' /tmp/phase5-independent-runner.log
+          grep -F 'BROWSER_PRIOR_PHASE_COMPATIBILITY=PASS' /tmp/phase5-independent-runner.log
+          grep -F 'D-22: PASS' /tmp/phase5-independent-runner.log
+          grep -F 'enabled_not_run_sections=0' /tmp/phase5-independent-runner.log
+          grep -F 'PRODUCT_BYTES_POST_TEST=IDENTICAL' /tmp/phase5-independent-runner.log
+          grep -F 'PHASE5_DIRECT_R2_INDEPENDENT_RUNNER_PASS' /tmp/phase5-independent-runner.log
+
+      - name: Final repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+          echo INDEPENDENT_CODEX_RUNNER_PREFLIGHT_PASS
