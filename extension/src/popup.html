@@ -11,7 +11,7 @@
     <header>
       <div>
         <h1>Yandex Marketing Bridge</h1>
-        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster + Metrika.</p>
+        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster + Metrika + Direct.</p>
       </div>
       <span id="versionBadge" class="badge">v0.1.1</span>
     </header>
@@ -27,9 +27,10 @@
           <option value="search">Search / SERP</option>
           <option value="webmaster">Webmaster</option>
           <option value="metrika">Metrika</option>
+          <option value="direct">Direct</option>
         </select>
       </label>
-      <div class="actions"><button id="bindConversation" type="button">Привязать диалог</button></div>
+      <div class="actions"><button id="saveSettingsTop" class="primary" type="button">Сохранить общие настройки</button><button id="bindConversation" type="button">Привязать диалог</button></div>
       <label class="switch-row" for="manualMode">
         <span><strong>Ручной режим Yandex</strong><small id="manualModeMeta">Выключен.</small></span>
         <input id="manualMode" type="checkbox">
@@ -73,6 +74,15 @@
         <div class="actions"><button id="saveMetrikaCredential" type="button">Save</button><button id="checkMetrikaCredential" type="button">Check</button></div>
         <p id="metrikaCheckMeta" class="credential-meta">Не проверено.</p>
         <p class="warning">Check делает ровно один read-only GET /management/v1/counters?per_page=1. Пустой список счётчиков тоже означает успешную проверку доступа.</p>
+      </details>
+
+      <details id="directCredentials" class="credential-card" data-service="direct">
+        <summary><span>Direct</span><strong id="directCredentialState">не настроен</strong></summary>
+        <label>OAuth token<input id="directOauthToken" type="password" autocomplete="off" placeholder="Введите новый OAuth или оставьте пустым"></label>
+        <label>Client-Login <small>необязательно; нужен для агентского доступа</small><input id="directClientLogin" type="text" autocomplete="off" spellcheck="false" placeholder="Оставьте пустым для обычного аккаунта"></label>
+        <div class="actions"><button id="saveDirectCredential" type="button">Save</button><button id="checkDirectCredential" type="button">Check</button></div>
+        <p id="directCheckMeta" class="credential-meta">Не проверено.</p>
+        <p class="warning">Check делает ровно один read-only Campaigns.get с FieldNames=["Id"] и Limit=1. Это POST по протоколу Direct; автоматического повтора при неизвестном исходе нет.</p>
       </details>
     </section>
 
@@ -135,10 +145,17 @@
     </section>
 
     <section>
+      <h2>Direct policy</h2>
+      <label class="switch-row" for="directManualEnabled"><span><strong>Разрешить Direct в ручном режиме</strong><small>Phase 5 разрешает только read-only методы первого среза.</small></span><input id="directManualEnabled" type="checkbox"></label>
+      <div class="grid"><label>Max Direct запросов<input id="directMaxRequestsRun" type="number" min="1" max="20"></label><label>Max page size<input id="directMaxPageSize" type="number" min="1" max="1000"></label><label>Max дней отчёта<input id="directMaxReportDays" type="number" min="1" max="31"></label><label>Max строк отчёта<input id="directMaxReportRows" type="number" min="1" max="1000"></label><label>Стоимость<input id="directCost" type="text" value="0 ₽" readonly></label></div>
+      <p class="warning">Autorun Direct в Phase 5 по умолчанию выключен и не включается из production popup. Разрешены только listCampaigns, listAdGroups, listAds, listKeywords и getCampaignPerformance; отчёты — только online.</p>
+    </section>
+
+    <section>
       <h2>Старт автоматического режима</h2>
       <label>Стартовый текст для выбранного сервиса<textarea id="autoStartPromptText" rows="5" placeholder="Стартовый текст"></textarea></label>
       <div class="actions"><button id="saveAutoStartPrompt" type="button">Сохранить стартовый текст</button><button id="resetAutoStartPrompt" type="button">Вернуть стандартный</button></div>
-      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster и Metrika Autorun в production popup первой версии не запускаются.</p>
+      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster, Metrika и Direct Autorun в production popup первой версии не запускаются.</p>
     </section>
 
     <section>
