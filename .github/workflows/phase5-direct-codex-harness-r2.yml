@@ -1,0 +1,132 @@
+name: phase5-direct-codex-harness-r2
+
+on:
+  push:
+    branches:
+      - qa/phase5-direct-codex-harness-r2-2026-08-27
+    paths:
+      - .github/workflows/phase5-direct-codex-harness-r2.yml
+      - extension/tests/qa_phase5_codex/**
+      - extension/tests/qa_browser/direct_codex_gate_addendum.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-addendum:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert fixed product tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:extension/src)" = "edf1c2d3494ebbc53ae778d23be1457eb885b605"
+          echo PHASE5_CODEX_R2_PRODUCT_TREE_PASS
+      - name: Run credential concurrency regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/credential_runtime_concurrency.test.mjs
+          echo PHASE5_CODEX_R2_CREDENTIAL_CONCURRENCY_PASS
+      - name: Run official Direct addendum coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/qa_phase5_codex/direct_addendum_coverage.test.mjs
+          echo PHASE5_CODEX_R2_DIRECT_ADDENDUM_PASS
+      - name: Run complete fixed candidate Node regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs
+          echo PHASE5_CODEX_R2_FULL_NODE_PASS
+
+  browser-addendum:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert fixed product tree and browser syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:extension/src)" = "edf1c2d3494ebbc53ae778d23be1457eb885b605"
+          node --check extension/tests/qa_browser/direct_browser_runtime.mjs
+          node --check extension/tests/qa_browser/direct_popup_d18.mjs
+          node --check extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs
+          node --check extension/tests/qa_browser/direct_codex_gate_addendum.mjs
+          node --check extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/product-before.sha256
+          echo PHASE5_CODEX_R2_BROWSER_PRE_PRODUCT_PASS
+      - name: Install Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Run Direct browser runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_browser_runtime.mjs | tee /tmp/runtime.log
+          grep -F PHASE5_DIRECT_BROWSER_RUNTIME_PASS /tmp/runtime.log
+          grep -F D20_CONTROLLED_REAL_YANDEX_REQUESTS=0 /tmp/runtime.log
+      - name: Run Direct popup D18
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_popup_d18.mjs | tee /tmp/d18.log
+          grep -F D18_POPUP_430X560_PASS /tmp/d18.log
+          grep -F D18_TOP_BOTTOM_COMMON_SAVE_EQUIVALENT_PASS /tmp/d18.log
+          grep -F PHASE5_DIRECT_POPUP_D18_PASS /tmp/d18.log
+      - name: Run Direct Manual lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs | tee /tmp/manual.log
+          grep -F D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS /tmp/manual.log
+          grep -F D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS /tmp/manual.log
+          grep -F D17_DIRECT_NO_DUPLICATE_PROVIDER_PASS /tmp/manual.log
+          grep -F PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS /tmp/manual.log
+      - name: Run Direct Codex browser addendum
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_codex_gate_addendum.mjs | tee /tmp/addendum.log
+          for marker in \
+            D19_FIVE_SERVICE_BACKUP_UI_MAPPING_PASS \
+            D17_MANUAL_BUSY_FENCE_SINGLE_PROVIDER_PASS \
+            D16_NON_DIRECT_ACTIVE_DIRECT_PREFIX_ZERO_TRAFFIC_PASS \
+            D20_DIRECT_AUTORUN_DEFAULT_DISABLED_LOCAL_PASS \
+            D16_DIRECT_ACTIVE_OTHER_PREFIXES_ZERO_TRAFFIC_PASS \
+            D20_DIRECT_AUTORUN_ONE_FINGERPRINT_ONE_PROVIDER_ONE_DELIVERY_PASS \
+            D20_DIRECT_AUTORUN_PAUSE_RESUME_FINISH_PASS \
+            DIRECT_REAL_YANDEX_REQUESTS=0 \
+            PHASE5_DIRECT_CODEX_BROWSER_ADDENDUM_PASS; do
+            grep -F "$marker" /tmp/addendum.log
+          done
+      - name: Run prior accepted browser lifecycle gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs | tee /tmp/prior-browser.log
+          grep -F PHASE2_STAGE4_BROWSER_GATE_PASS /tmp/prior-browser.log
+          grep -F BROWSER_GATE_REAL_YANDEX_REQUESTS=0 /tmp/prior-browser.log
+      - name: Post-browser product identity
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/product-after.sha256
+          cmp /tmp/product-before.sha256 /tmp/product-after.sha256
+          test "$(git rev-parse HEAD:extension/src)" = "edf1c2d3494ebbc53ae778d23be1457eb885b605"
+          echo PHASE5_CODEX_R2_BROWSER_POST_PRODUCT_IDENTICAL_PASS
