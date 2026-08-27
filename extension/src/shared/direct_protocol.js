@@ -41,7 +41,8 @@
 
   function asIdArray(value, name, { max, optional = true } = {}) {
     if (value === undefined || value === null) return optional ? [] : fail("MISSING_FIELD", `Отсутствует обязательное поле: ${name}`);
-    if (!Array.isArray(value) || value.length === 0) fail("INVALID_FIELD", `${name} должен быть непустым массивом ID.`);
+    if (!Array.isArray(value)) fail("INVALID_FIELD", `${name} должен быть массивом ID.`);
+    if (value.length === 0) return optional ? [] : fail("INVALID_FIELD", `${name} должен быть непустым массивом ID.`);
     if (value.length > max) fail("TOO_MANY_IDS", `${name} содержит больше ${max} ID.`);
     const out = [];
     const seen = new Set();
@@ -132,11 +133,18 @@
 
   function selectionFor(command) {
     const selection = {};
+    if (command.method === "listCampaigns") {
+      if (command.campaignIds?.length) selection.Ids = [...command.campaignIds];
+      return selection;
+    }
     if (command.campaignIds?.length) selection.CampaignIds = [...command.campaignIds];
+    if (command.method === "listAdGroups") {
+      if (command.adGroupIds?.length) selection.Ids = [...command.adGroupIds];
+      return selection;
+    }
     if (command.adGroupIds?.length) selection.AdGroupIds = [...command.adGroupIds];
-    if (command.adIds?.length) selection.Ids = [...command.adIds];
-    if (command.keywordIds?.length) selection.Ids = [...command.keywordIds];
-    if (command.method === "listCampaigns" && command.campaignIds?.length) selection.Ids = [...command.campaignIds];
+    if (command.method === "listAds" && command.adIds?.length) selection.Ids = [...command.adIds];
+    if (command.method === "listKeywords" && command.keywordIds?.length) selection.Ids = [...command.keywordIds];
     return selection;
   }
 
