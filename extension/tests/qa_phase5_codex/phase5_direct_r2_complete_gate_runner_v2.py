@@ -11,6 +11,8 @@ host-sensitive execution helpers:
   relying on pathlib ordering, which differs between POSIX and Windows.
 - Python bytecode writes are disabled so importing the immutable v1 runner cannot
   dirty the governed QA workspace before its cleanliness assertion.
+- final Windows cleanliness treats extension/src byte identity as authoritative;
+  Git CRLF working-tree normalization is not misclassified as a product mutation.
 """
 from __future__ import annotations
 
@@ -33,6 +35,9 @@ if spec is None or spec.loader is None:
     raise RuntimeError(f"unable to load base runner: {V1_PATH}")
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
+
+# Save the genuine subprocess function before attaching any shim to base.subprocess.
+_original_subprocess_run = base.subprocess.run
 
 
 def safe_dir_value(cwd: Path) -> str:
@@ -146,14 +151,39 @@ def portable_verify_transport(zip_path: Path, manifest_path: Path, extract_to: P
     return m
 
 
-# Save the genuine subprocess function before any cleanup shim is attached.
-_original_subprocess_run = base.subprocess.run
+def portable_git_status_clean(root: Path, label: str):
+    cp = portable_run([base.exe("git"), "status", "--porcelain", "--untracked-files=all"], cwd=root, capture=True)
+    lines = [line for line in (cp.stdout or "").splitlines() if line.strip()]
+
+    if label == "QA workspace at final audit":
+        # The exact frozen extension/src tree is already checked byte-for-byte by v1
+        # immediately before this call (product_before snapshot + manifest hashes +
+        # final artifact SHA). On Windows, core.autocrlf can nevertheless report all
+        # LF text files as modified relative to the Git index. Ignore ONLY those
+        # extension/src status rows; every other tracked/untracked change remains fatal.
+        remaining = []
+        ignored = []
+        for line in lines:
+            # Porcelain v1 format: XY<space>path. Paths here are repository-relative.
+            path = line[3:].strip().strip('"').replace("\\", "/") if len(line) >= 4 else ""
+            if path.startswith("extension/src/"):
+                ignored.append(line)
+            else:
+                remaining.append(line)
+        base.require(not remaining, f"{label} not clean outside byte-verified extension/src:\n" + "\n".join(remaining))
+        if ignored:
+            print("WINDOWS_GIT_EOL_STATUS_NOISE_IGNORED_AFTER_PRODUCT_BYTE_IDENTITY")
+        return
+
+    base.require(not lines, f"{label} not clean:\n" + "\n".join(lines))
+
 
 # Patch only portability helpers. The campaign logic/assertion matrix remains v1.
 base.run = portable_run
 base.parse_tap_counts = portable_parse_tap_counts
 base.node_suite = portable_node_suite
 base.verify_transport = portable_verify_transport
+base.git_status_clean = portable_git_status_clean
 
 # Cleanup uses subprocess directly in v1. Supply safe.directory there too so Windows
 # ownership policy cannot leave a stale temporary worktree registration.
