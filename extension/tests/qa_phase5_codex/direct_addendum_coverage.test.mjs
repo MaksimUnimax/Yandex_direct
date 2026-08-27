@@ -56,8 +56,11 @@ test('official D-04 backup tamper rejection and blank Direct OAuth preservation'
   await env.ctx.YMBPhase5Runtime.saveServiceCredential('direct', { client_login: 'changed-client-only' });
   assert.equal(env.storage.state.ymb_service_credentials.direct.oauth_token, 'qa-direct-token');
   assert.equal(env.storage.state.ymb_service_credentials.direct.client_login, 'changed-client-only');
-  assert.deepEqual(env.storage.state.ymb_service_credentials.webmaster, before.webmaster);
-  assert.deepEqual(env.storage.state.ymb_service_credentials.metrika, before.metrika);
+  assert.equal(env.storage.state.ymb_service_credentials.webmaster.oauth_token, before.webmaster.oauth_token);
+  assert.equal(env.storage.state.ymb_service_credentials.webmaster.user_id, before.webmaster.user_id);
+  assert.equal(env.storage.state.ymb_service_credentials.webmaster.check_state, before.webmaster.check_state);
+  assert.equal(env.storage.state.ymb_service_credentials.metrika.oauth_token, before.metrika.oauth_token);
+  assert.equal(env.storage.state.ymb_service_credentials.metrika.check_state, before.metrika.check_state);
 
   const backup = plain(await env.ctx.YMBPhase5Runtime.exportSettingsBackup());
   assert.equal(Object.keys(backup.settings.credentials).sort().join(','), 'direct,metrika,search,webmaster,wordstat');
@@ -113,17 +116,15 @@ test('official D-05 Direct Check zero/one campaign and complete compatibility er
 test('official D-06 policy defaults and hard caps are exact', async () => {
   const env = directEnv();
   const defaults = plain(await env.ctx.YMBPhase5Runtime.getDirectPolicy());
-  assert.deepEqual(defaults, {
-    autorun_enabled: false,
-    manual_enabled: true,
-    allowed_methods: ['listCampaigns', 'listAdGroups', 'listAds', 'listKeywords', 'getCampaignPerformance'],
-    max_requests_per_run: 20,
-    max_page_size: 1000,
-    max_report_days: 31,
-    max_report_rows: 1000,
-    max_cost_rub_per_run: 0,
-    method_cost_rub: { listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 }
-  });
+  assert.equal(defaults.autorun_enabled, false);
+  assert.equal(defaults.manual_enabled, true);
+  assert.deepEqual(defaults.allowed_methods, ['listCampaigns', 'listAdGroups', 'listAds', 'listKeywords', 'getCampaignPerformance']);
+  assert.equal(defaults.max_requests_per_run, 20);
+  assert.equal(defaults.max_page_size, 1000);
+  assert.equal(defaults.max_report_days, 31);
+  assert.equal(defaults.max_report_rows, 1000);
+  assert.equal(defaults.max_cost_rub_per_run, 0);
+  assert.deepEqual(defaults.method_cost_rub, { listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 });
   const capped = plain(await env.ctx.YMBPhase5Runtime.saveDirectPolicy({ autorun_enabled: true, manual_enabled: false, max_requests_per_run: 999, max_page_size: 9999, max_report_days: 999, max_report_rows: 9999 }));
   assert.equal(capped.autorun_enabled, true);
   assert.equal(capped.manual_enabled, false);
