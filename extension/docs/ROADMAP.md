@@ -1,11 +1,11 @@
-# ROADMAP v0.12 — Yandex Marketing Bridge
+# ROADMAP v0.13 — Yandex Marketing Bridge
 
 Status: active roadmap.  
-Updated: 2026-08-26.
+Updated: 2026-08-27.
 
 ## Governing rule
 
-**One phase = one service = one controlled development closure + one final live acceptance boundary.**
+**One implementation phase = one controlled development closure + one final live acceptance boundary.**
 
 Testing cadence:
 
@@ -18,6 +18,8 @@ working candidate frozen for handoff
 → one complete independent Codex pre-delivery regression campaign
 → exact package/identity verification
 → owner real-profile/live acceptance only for irreducible live behavior
+→ integration into main
+→ mandatory post-merge final gate
 ```
 
 Research / evidence rule:
@@ -35,7 +37,36 @@ fact needed
 
 Codex is not limited to QA. It is also an authorized information-gathering/research tool. Research authority does **not** imply permission to edit product/production, credentials, provider account settings or external resources; those require separate authorization.
 
-Exact current identities, blockers and authorized next action are authoritative in `CURRENT_STATE.md`.
+Exact current identities, blockers and authorized next action are authoritative in the Phase-specific closure/checkpoint documents. `CURRENT_STATE.md` is not promoted to CLOSED for an active phase before owner-live + integration + post-merge PASS.
+
+---
+
+# PERMANENT OPERATING MODEL — CHATGPT IS THE WORKER, BRIDGE IS THE HANDS
+
+Capability and freelance-service decisions use this boundary:
+
+```text
+CHATGPT PLUS
+= analyst
+= planner
+= semantic architect
+= data interpreter
+= report/artifact author
+= QA/recommendation layer
+
+YANDEX MARKETING BRIDGE
+= controlled provider/API acquisition and execution hands
+= persistence/safety/repeatability boundary
+
+HUMAN OPERATOR
+= authorizes/runs the extension
+= supplies required account access
+= does not substitute for ChatGPT as the expert analytical worker
+```
+
+A service does not require every analytical step to be hard-coded into the extension. If ChatGPT can reliably perform the reasoning from evidence acquired by the Bridge and can produce the client deliverable, that capability counts toward end-to-end service coverage.
+
+Productization priority is therefore given to **missing hands, repeated acquisition/orchestration burden, persistence, safe resume, evidence provenance and repeatability**, not to replacing ChatGPT reasoning with deterministic code for its own sake.
 
 ---
 
@@ -86,7 +117,7 @@ independent Codex complete gate: PASS
 owner real-profile/live Search: PASS
 ```
 
-Deferred Search async/image/generative/HTML scraping surfaces remain locked.
+Deferred Search async/image/generative surfaces remain locked unless a later demand-driven phase explicitly authorizes them.
 
 ---
 
@@ -175,8 +206,6 @@ post-merge QA: run 32957778009 PASS
 owner-live acceptance: PASS
 ```
 
-Owner-live used real counter `111970611` on `openscript.ru` and proved real Management and Reports API reads.
-
 Durable closure evidence:
 
 ```text
@@ -189,26 +218,94 @@ All Metrika write/import/Logs/arbitrary-report surfaces remain locked.
 
 # PHASE 5 — YANDEX DIRECT
 
-**Status: CONTRACT READY / IMPLEMENTATION AUTHORIZED.**
+**Status: IMPLEMENTATION COMPLETE / FROZEN / INDEPENDENT CODEX PASS / OWNER-LIVE READY / NOT CLOSED.**
 
-Official Direct API reconstruction is complete for the first slice.
+The implementation and independent pre-delivery QA are complete. The remaining irreducible boundary is one minimal owner-live read-only acceptance against the owner's approved Direct account, followed by controlled integration and post-merge final QA.
 
-Provider/access contract:
+## Accepted source identity
 
 ```text
-OAuth source: direct:api
-approved Direct API application request: required
-production data: full access required
-transport: HTTPS POST
-JSON endpoint pattern: https://api.direct.yandex.com/json/v501/{service}
-Reports endpoint: https://api.direct.yandex.com/json/v501/reports
-Authorization: Bearer <dedicated Direct OAuth token>
-Client-Login: optional saved credential field, used only for agency-client context
-Use-Operator-Units: locked in first slice
-Payment-Token / finance: locked
+accepted source commit:
+841a1e2c1a503c4a05572a957ba97c55b9b60c52
+
+accepted extension/src tree:
+edf1c2d3494ebbc53ae778d23be1457eb885b605
+
+corrected candidate branch:
+candidate/phase5-direct-first-slice-r2-2026-08-27
+
+freeze trigger commit:
+389084290635fbf2ac305098adc3aae17f967c83
 ```
 
-First slice:
+The previous candidate `candidate/phase5-direct-first-slice-2026-08-27` is superseded and must never be used because its credential runtime could lose/overwrite independent service records under stale migration/concurrent saves.
+
+Corrected credential behavior:
+
+```text
+five separate credential records remain
+module-level serialized mutation queue
+load migration re-reads current store under mutation lock
+service save is read-modify-write under the same lock
+backup import uses the same exclusive mutation queue
+NO token consolidation/reuse
+```
+
+## Frozen authoritative artifact
+
+```text
+freeze run: 33037955943
+artifact name: phase5-direct-r2-frozen-candidate-841a1e2
+artifact id: 9632728199
+
+inner installable ZIP:
+yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-r2-candidate.zip
+
+SHA-256:
+ac8efc444578e9d3f31ac0325baca4b286fd608bc511850f480e0d397936620b
+
+bytes: 406656
+product files: 39
+```
+
+Freeze proves exact accepted source/tree, deterministic byte-identical rebuild, ZIP integrity, extraction/per-file identity, syntax validation and **zero real Yandex requests**.
+
+## Independent Codex acceptance
+
+**PASS.**
+
+Permanent evidence:
+
+```text
+extension/tests/PHASE5_DIRECT_R2_CODEX_COMPLETE_PASS_2026-08-27.md
+```
+
+Genuine independent campaign proved:
+
+```text
+source suite: 34/34
+packaged suite: 34/34
+syntax: 33/33 both
+JSON: 2/2 both
+credential concurrency: PASS
+Direct popup D18: PASS
+Manual lifecycle: PASS
+Direct addendum: PASS
+prior-service compatibility: PASS
+D00-D22: PASS
+controlled provider Direct requests: 2
+controlled Search stub: 1
+real Direct requests: 0
+all real Yandex requests: 0
+real credentials: NO
+product/test/harness mutation during run: NO
+workspaces clean: PASS
+product bytes post-test: IDENTICAL
+enabled NOT_RUN: 0
+marker: PHASE5_DIRECT_R2_INDEPENDENT_RUNNER_PASS
+```
+
+## Direct first-slice contract
 
 ```text
 protocol: DIRECT_API_V1
@@ -222,6 +319,21 @@ methods:
 writes: disabled
 ```
 
+Provider/access contract:
+
+```text
+OAuth source: direct:api
+approved Direct API application request: required
+production data: full access required
+transport: HTTPS POST
+JSON endpoint pattern: https://api.direct.yandex.com/json/v501/{service}
+Reports endpoint: https://api.direct.yandex.com/json/v501/reports
+Authorization: Bearer <dedicated Direct OAuth token>
+Client-Login: optional; blank for ordinary advertiser, exact client login only for true agency-client context
+Use-Operator-Units: locked
+Payment-Token / finance: locked
+```
+
 Read routes:
 
 ```text
@@ -231,8 +343,6 @@ listAds        → Ads.get
 listKeywords   → Keywords.get
 ```
 
-All object reads use fixed safe FieldNames constructed by trusted code. Assistant commands cannot supply provider JSON, service/method names, headers, raw URL, FieldNames or arbitrary SelectionCriteria.
-
 Reports first slice:
 
 ```text
@@ -241,109 +351,353 @@ DateRangeType: CUSTOM_DATE
 Format: TSV
 processingMode: online only
 FieldNames: Date,CampaignId,CampaignName,Impressions,Clicks,Cost
-IncludeVAT: YES (Bridge decision)
+IncludeVAT: YES
 money: integer micros, normalized as cost_micros
 max local period: 31 days
 max local rows: 1000
 ```
 
-Offline/auto report creation, HTTP 201/202 polling and `SEARCH_QUERY_PERFORMANCE_REPORT` are explicitly deferred.
+Offline/auto report creation, HTTP 201/202 polling and arbitrary reports remain deferred.
 
-Direct provider capacity is measured in Units. Current official constraints/evidence include:
+## Permanent credential boundary
 
 ```text
-max 5 simultaneous API requests per advertiser
-Units response = spent / remaining / daily_limit
-Campaigns.get = 10/call + 1/object
-AdGroups.get = 15/call + 1/object
-Ads.get = 15/call + 1/object
-Keywords.get = 15/call plus per-2000 component
-Reports = max 20 requests per 10 seconds per user
+Wordstat → own credential
+Search → own credential/configuration
+Webmaster → own OAuth
+Metrika → own OAuth
+Direct → own dedicated OAuth
 ```
 
-Bridge first-slice local policy is deliberately lower/bounded:
+Do **not** consolidate/reuse OAuth tokens. Credential consolidation may only be reconsidered as a separate architecture decision after the whole service foundation is complete.
+
+## Owner-live status and exact next action
+
+Owner reports that Direct access is now ready for testing. This authorizes the already-defined minimal live acceptance; it is **not itself live PASS evidence**.
+
+Canonical checklist:
 
 ```text
-manual_enabled = true
-autorun_enabled = false
-max_requests_per_run = 20
-max_page_size = 1000
-max_report_days = 31
-max_report_rows = 1000
-method_cost_rub = 0
+extension/tests/PHASE5_DIRECT_OWNER_LIVE_CHECKLIST_2026-08-27.md
 ```
 
-Direct Units are not converted to RUB. `RequestId` and sanitized `Units` truth are preserved when present; `Units-Used-Login` is not exposed in ordinary results.
-
-Current official invalid-token documentation conflict is retained explicitly:
+Exact safe live sequence:
 
 ```text
-errors table → code 53 invalid OAuth token
-auth-token page → invalid token references code 1002
+1. load exact frozen candidate
+2. select Direct; Autorun OFF
+3. save dedicated Direct OAuth token locally once; never paste/log it
+4. Direct Check exactly once
+   = Campaigns.get, FieldNames=[Id], Limit=1
+5. if Check PASS, run exactly once:
+   DIRECT_API_V1
+   {"method":"listCampaigns","limit":10,"offset":0}
+6. if campaign exists and a downstream read is useful, run ONE listAdGroups request
+7. if campaign + real-date data make it useful, run ONE short online campaign-performance report, preferably one day
+8. do NOT add listAds/listKeywords merely for coverage
+9. stop immediately on unexpected error; do not blindly retry an initiated request
 ```
 
-Implementation must not blindly map all `1002` responses to invalid token; compatibility mapping requires provider context identifying token invalidity.
-
-Dedicated credential model:
+If the account has zero campaigns:
 
 ```text
-credentials.direct = {
-  oauth_token,
-  client_login,
-  checked_at,
-  check_state
-}
+listCampaigns empty
+→ NOT_APPLICABLE_EMPTY_ACCOUNT
+→ this is a legitimate owner-live result after successful authenticated capability proof
 ```
 
-No automatic token reuse from Webmaster or Metrika.
+Owner-live must never perform writes, bids, budgets, finance/account changes, offline report polling, quota stress, concurrency testing or intentional error generation.
 
-Direct Check is exactly one `Campaigns.get` with `FieldNames=[Id]`, `Limit=1`. Empty campaign list is a successful capability result. Check consumes provider Units and must be labeled accordingly in UI.
-
-During the governed Phase-5 popup implementation, also implement the already requested convenience duplicate of the common settings Save button near the active service selector, but it MUST call the exact same existing save handler/state path as the bottom common Save button. It is a UI duplication only, not a second storage/lifecycle implementation.
-
-Canonical Phase-5 documents:
+After real success, create:
 
 ```text
-extension/docs/SPECIFICATION_PHASE_5_DIRECT_ADDENDUM.md
-extension/docs/PHASE_5_DIRECT_REQUIREMENTS_AND_IMPLEMENTATION_PLAN.md
-extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE_DIRECT_PHASE5_ADDENDUM.md
+extension/tests/PHASE5_DIRECT_OWNER_LIVE_PASS_2026-08-27.md
 ```
 
-Mandatory final gate:
+## Final integration / closure after owner-live
+
+Do **not** merge the entire historical independent-Codex QA branch into main.
+
+Product authority remains accepted source `841a1e2...` and accepted `extension/src` tree `edf1c2d...`.
+
+If live `main` remains the expected baseline and candidate lineage remains clean, integrate the accepted Phase-5 product lineage plus permanent QA/evidence only. If main has moved, create a fresh integration branch from the new main and apply the accepted Phase-5 delta while preserving exact `extension/src` product identity. Any unexpected product conflict/diff means STOP and requalify.
+
+Permanent final post-merge workflow:
 
 ```text
-all applicable permanent/core/Phase-1/2/3/4 regressions
-+
-D-00..D-22
-+
-zero enabled NOT_RUN
-+
-zero real Yandex Direct traffic during controlled QA
-+
-exact product immutability
+.github/workflows/phase5-direct-postmerge-final.yml
 ```
 
-Implementation sequence:
+Final marker required:
 
 ```text
-1. merge Phase-5 contract docs only
-2. fetch exact new live main
-3. prove extension/src remains fbc52f9a84195278b7b5e942f2a84c7d69778b98
-4. create Phase-5 dev branch from that main
-5. dedicated Direct credential + safe backup migration
-6. DIRECT_API_V1 protocol + registry + policy
-7. trusted Direct provider runtime + semantic error/Units handling
-8. four object get routes
-9. one online-only Campaign Performance Reports route
-10. bounded popup Direct credential/policy UI
-11. duplicate top common Save control using same existing save handler
-12. focused/unit/integration/browser/lifecycle coverage
-13. development verification
-14. freeze exact candidate
-15. exact artifact transport round-trip
-16. independent Codex full applicable gate including D-00..D-22
-17. owner-live: approved full API access + Direct token → Check once → listCampaigns once → minimal bounded reads/report only if real data exists
-18. close Phase 5 only after live PASS
+PHASE5_DIRECT_POSTMERGE_FINAL_PASS
+```
+
+Closure order:
+
+```text
+owner-live PASS
+→ durable owner-live evidence
+→ controlled integration
+→ main product identity verification
+→ postmerge final workflow PASS
+→ update CURRENT_STATE / final closure checkpoint
+→ PHASE 5 CLOSED
 ```
 
 All Direct writes, bids, finance/payment, arbitrary reports, offline report queues and automatic retries remain locked.
+
+---
+
+# POST-PHASE-5 PRODUCT ROADMAP — DEMAND-DRIVEN FREELANCE EXECUTION
+
+The next roadmap is no longer “add providers endlessly.” The existing provider foundation is used to execute real freelance-marketplace jobs with ChatGPT Plus as the worker.
+
+Source of truth for market demand:
+
+```text
+extension/docs/FREELANCE_ORDER_CAPABILITY_MATRIX.md
+```
+
+Permanent duplicate rule:
+
+```text
+same marketplace card / same underlying offer encountered again
+→ mark as duplicate evidence
+→ do not create fake new demand count
+→ may strengthen recurrence/market-density signal
+→ update reusable capability priority only when the repeated card adds genuinely new scope/constraints
+```
+
+## GATE A — BLOOD_SAND AI-NATIVE COMPARATIVE PROOF
+
+**Status: REQUIRED AFTER PHASE 5 / NOT YET RUN.**
+
+Canonical protocol:
+
+```text
+extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md
+```
+
+Strategic offer specification:
+
+```text
+extension/docs/AI_NATIVE_SEMANTIC_SERVICE_OPPORTUNITY.md
+```
+
+Purpose:
+
+> Prove or falsify, once on real `blood_sand` data, whether Alice evidence materially improves semantic/page decisions versus a strong ordinary SEO baseline.
+
+Execution order:
+
+```text
+freeze ordinary SEO Pass A without Alice evidence
+→ run AI-native Pass B on the same baseline + canonical Alice evidence
+→ compute decision deltas
+→ PASS only if at least one meaningful action-level decision changes or is materially de-risked with traceable evidence
+```
+
+Valid results:
+
+```text
+AI_NATIVE_COMPARATIVE_GATE_PASS
+NO_PROVEN_UPLIFT
+INVALID_BASELINE_LEAKAGE
+INSUFFICIENT_CANONICAL_EVIDENCE
+```
+
+No fresh paid Yandex measurements are required by default: the current `blood_sand` canonical evidence already contains Wordstat, Search, Alice and a Query Evidence Ledger.
+
+This gate is **not a Direct Phase-5 blocker**. It runs immediately after Phase 5 closes and **before Alice-specific implementation is promoted to an engineering phase**.
+
+---
+
+# PHASE 6 — SEMANTIC CORE / FREELANCE WORKFLOW PRODUCTIZATION
+
+**Status: PLANNED / DEMAND-PROVEN.**
+
+Market analysis already shows repeated demand for semantic-core collection, cleanup, grouping, Wordstat frequency, competitor/intent interpretation and client artifacts.
+
+Current service ability is stronger than the current product automation because ChatGPT Plus can already perform the reasoning. Phase 6 therefore targets repeated operational burden, not replacement of ChatGPT.
+
+Target reusable hand:
+
+```text
+SEMANTIC CORE JOB
+
+client/site/topic/region intake
+→ seed queue
+→ bounded Wordstat collection
+→ raw evidence checkpoint
+→ unique phrase registry
+→ expansion queue
+→ dedup / normalization support
+→ safe resume without paid-request repetition
+→ progress / budget visibility
+→ handoff to ChatGPT for cleaning, intent, grouping, page mapping
+→ deterministic XLSX/CSV artifact assembly
+→ QA manifest
+```
+
+Priority requirements:
+
+- preserve exactly-once paid-request semantics;
+- save evidence before issuing the next paid collection;
+- explicit region/device provenance;
+- no forced padding to requested keyword count when the real niche is exhausted;
+- duplicates across seeds remain traceable before final dedup;
+- ChatGPT remains responsible for semantic judgment, intent, grouping and client recommendations;
+- support base semantic-core offers before premium AI-native additions.
+
+This phase is market-proven independently of Alice and should remain useful even if Gate A returns `NO_PROVEN_UPLIFT`.
+
+---
+
+# CONDITIONAL PHASE 7 — ALICE OBSERVATION / AI VISIBILITY HAND
+
+**Status: CONDITIONAL ON GATE A + PROVIDER PATH VALIDATION.**
+
+Promote this into implementation only if the comparative gate demonstrates meaningful incremental decision value.
+
+Primary target:
+
+```text
+AI SEARCH / ALICE OBSERVATION JOB
+
+query registry
+→ clean isolated Alice observation
+→ answer snapshot
+→ source URLs/domains/page types
+→ observed fan-out
+→ timestamp/context metadata
+→ raw immutable evidence
+→ normalized observation
+→ safe resume/review
+```
+
+Hard evidence rules:
+
+- observed fan-out and inferred fan-out are different fields;
+- contaminated-context runs are invalid evidence, not weak evidence;
+- source display order is not called ranking without provider proof;
+- repeat observations append history rather than overwrite it;
+- no deterministic source-presence guarantee;
+- no guarantee of Alice indexing/ranking/SoV.
+
+Secondary target:
+
+```text
+WEBMASTER ALICE VISIBILITY CAPTURE / IMPORT
+
+Share of Voice
+query examples
+source/page presence
+competitor/source environment
+dynamics
+```
+
+Preferred provider order:
+
+```text
+stable official API if verified
+→ official export/import if available
+→ controlled browser-assisted capture
+```
+
+Do not implement unsupported private endpoints or brittle scraping merely to claim Alice coverage.
+
+Ongoing official API/feature monitoring may continue while this phase is conditional.
+
+---
+
+# PHASE 8 — BULK SERP / RANK TRACKER + GOOGLE GAP
+
+**Status: PLANNED / MARKET-DEMAND DRIVEN.**
+
+Repeated marketplace demand shows a separate bulk rank-tracking family.
+
+Yandex side target:
+
+```text
+domain normalization
+→ keyword registry
+→ bounded Yandex SERP collection
+→ first matching rank/domain
+→ per-key evidence checkpoint
+→ safe resume
+→ progress/budget
+→ final XLSX position report
+```
+
+High-volume economics must re-evaluate deferred Yandex Search modes before implementation; do not assume synchronous Search is the optimal commercial acquisition path.
+
+Google side remains a real provider gap:
+
+```text
+need a verified organic SERP source
+with geography fidelity + depth suitable for rank tracking + viable quotas/pricing
+```
+
+Do not substitute a generic Google search API unless it is proven to represent the organic SERP needed by the service.
+
+---
+
+# PRIORITY DECISION RULE AFTER PHASE 5
+
+Use evidence, not feature enthusiasm:
+
+```text
+1. close Direct safely
+2. run blood_sand comparative AI-native gate once
+3. continue market-card analysis / duplicate-aware demand counting
+4. productize the highest repeated operational bottleneck
+5. build Alice hand only if Gate A demonstrates incremental decision value
+6. build other provider gaps only when repeated sellable work requires them
+```
+
+Commercial hierarchy:
+
+```text
+READY NOW services
+→ sell with current Bridge + ChatGPT workflow
+
+PARTIAL services
+→ identify exact missing hand/provider
+→ prioritize by repeated market demand and margin potential
+
+OWN STRATEGIC OFFERS
+→ keep separate from marketplace demand counts
+→ require explicit proof gates before calling differentiation proven
+```
+
+---
+
+# O-001 — AI-NATIVE SEMANTIC REBUILD
+
+**Strategic hypothesis: YES.**  
+**Market differentiation signal: STRONG.**  
+**Commercial proof: EXPERIMENTAL until Gate A PASS.**  
+**Strict repeatable toolchain: PARTIAL until Alice evidence acquisition is productized.**
+
+Operating concept:
+
+```text
+BASE
+Semantic Core Builder
+= human search demand + cleaning + grouping + page mapping
+
+PREMIUM CANDIDATE
+AI-Native Semantic Rebuild
+= BASE
++ direct Yandex SERP evidence
++ Alice evidence
++ Search-vs-AI intent gaps
++ source competition
++ H/A/C/O
++ AI-aware page jobs
++ post-launch AI visibility measurement
+```
+
+Never market this as guaranteed `ИИ-индексация`. The safe promise is a transparent evidence-driven semantic/page rebuild for ordinary and generative search, with measurable observations and explicit uncertainty.
