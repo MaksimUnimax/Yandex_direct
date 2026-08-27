@@ -4,13 +4,14 @@
   const $ = (id) => document.getElementById(id);
   const TERMINAL_RUNS = new Set(["stopped", "error"]);
   const CHATGPT_HOSTS = new Set(["chatgpt.com", "chat.openai.com"]);
-  const SERVICES = new Set(["wordstat", "search", "webmaster", "metrika"]);
-  const PRODUCTION_AUTORUN_LOCKED = new Set(["webmaster", "metrika"]);
+  const SERVICES = new Set(["wordstat", "search", "webmaster", "metrika", "direct"]);
+  const PRODUCTION_AUTORUN_LOCKED = new Set(["webmaster", "metrika", "direct"]);
   const SERVICE_PROTOCOL = Object.freeze({
     wordstat: "WORDSTAT_API_V1",
     search: "SEARCH_API_V1",
     webmaster: "WEBMASTER_API_V1",
-    metrika: "METRIKA_API_V1"
+    metrika: "METRIKA_API_V1",
+    direct: "DIRECT_API_V1"
   });
 
   let context = { page_available: false, available: false, tab_id: null, conversation_key: "", identity: null, error: "" };
@@ -121,10 +122,25 @@
     };
   }
 
+  function directPolicyFromForm() {
+    return {
+      autorun_enabled: false,
+      manual_enabled: $("directManualEnabled").checked,
+      allowed_methods: ["listCampaigns", "listAdGroups", "listAds", "listKeywords", "getCampaignPerformance"],
+      max_requests_per_run: Math.min(20, asPositiveInt("directMaxRequestsRun", 20)),
+      max_page_size: Math.min(1000, asPositiveInt("directMaxPageSize", 1000)),
+      max_report_days: Math.min(31, asPositiveInt("directMaxReportDays", 31)),
+      max_report_rows: Math.min(1000, asPositiveInt("directMaxReportRows", 1000)),
+      max_cost_rub_per_run: 0,
+      method_cost_rub: { listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 }
+    };
+  }
+
   function policyForService(service, state = lastState) {
     if (service === "search") return state?.search_policy || {};
     if (service === "webmaster") return state?.webmaster_policy || {};
     if (service === "metrika") return state?.metrika_policy || {};
+    if (service === "direct") return state?.direct_policy || {};
     return state?.wordstat_policy || {};
   }
 
@@ -167,6 +183,11 @@
     if (state === "NO_ACCESS") return "нет доступа";
     if (state === "NETWORK_ERROR") return "ошибка сети";
     if (state === "QUOTA") return "квота / временно недоступно";
+    if (state === "APP_ACCESS_NOT_APPROVED") return "приложение не допущено к Direct API";
+    if (state === "DIRECT_ACCOUNT_MISSING") return "аккаунт Direct не найден";
+    if (state === "NO_API_ACCESS") return "нет доступа к Direct API";
+    if (state === "UNITS_EXHAUSTED") return "Units исчерпаны";
+    if (state === "CONCURRENCY_LIMIT") return "лимит параллельных запросов";
     if (state === "MISSING") return "не настроен";
     if (state === "NOT_CHECKED") return configured ? "сохранён, не проверен" : "не проверен";
     return configured ? "сохранён" : "не настроен";
@@ -183,6 +204,7 @@
     const search = credentials.search || {};
     const webmaster = credentials.webmaster || {};
     const metrika = credentials.metrika || {};
+    const direct = credentials.direct || {};
 
     $("wordstatApiKey").value = "";
     $("wordstatApiKey").placeholder = wordstat.has_api_key ? "Ключ сохранён; пусто = не менять" : "Введите API key";
@@ -206,6 +228,12 @@
     $("metrikaOauthToken").placeholder = metrika.has_oauth_token ? "OAuth сохранён; пусто = не менять" : "Введите OAuth token";
     $("metrikaCredentialState").textContent = checkStateText(metrika, { configured: metrika.has_oauth_token });
     $("metrikaCheckMeta").textContent = checkMetaText(metrika, "checked_at");
+
+    $("directOauthToken").value = "";
+    $("directOauthToken").placeholder = direct.has_oauth_token ? "OAuth сохранён; пусто = не менять" : "Введите OAuth token";
+    $("directClientLogin").value = direct.client_login || "";
+    $("directCredentialState").textContent = checkStateText(direct, { configured: direct.has_oauth_token });
+    $("directCheckMeta").textContent = checkMetaText(direct, "checked_at");
 
     for (const service of SERVICES) {
       const card = $(`${service}Credentials`);
@@ -276,6 +304,14 @@
       $("metrikaMaxRequestsRun").value = String(mp.max_requests_per_run ?? 50);
       $("metrikaMaxReportDays").value = String(mp.max_report_days ?? 366);
       $("metrikaCost").value = "0 ₽";
+
+      const dp = state?.direct_policy || {};
+      $("directManualEnabled").checked = dp.manual_enabled !== false;
+      $("directMaxRequestsRun").value = String(dp.max_requests_per_run ?? 20);
+      $("directMaxPageSize").value = String(dp.max_page_size ?? 1000);
+      $("directMaxReportDays").value = String(dp.max_report_days ?? 31);
+      $("directMaxReportRows").value = String(dp.max_report_rows ?? 1000);
+      $("directCost").value = "0 ₽";
 
       const activePolicy = policyForService(service, state);
       if (state?.manual_mode !== true && activePolicy?.manual_enabled !== true) {
@@ -353,7 +389,14 @@
     if (!webmaster?.ok) throw new Error(webmaster?.error || webmaster?.code || "Не удалось сохранить Webmaster policy.");
     const metrika = await runtimeSend({ type: "YMB_SAVE_METRIKA_POLICY", policy: metrikaPolicyFromForm() });
     if (!metrika?.ok) throw new Error(metrika?.error || metrika?.code || "Не удалось сохранить Metrika policy.");
-    if (response.state) renderState({ ...response.state, webmaster_policy: webmaster.policy || response.state.webmaster_policy, metrika_policy: metrika.policy || response.state.metrika_policy });
+    const direct = await runtimeSend({ type: "YMB_SAVE_DIRECT_POLICY", policy: directPolicyFromForm() });
+    if (!direct?.ok) throw new Error(direct?.error || direct?.code || "Не удалось сохранить Direct policy.");
+    if (response.state) renderState({
+      ...response.state,
+      webmaster_policy: webmaster.policy || response.state.webmaster_policy,
+      metrika_policy: metrika.policy || response.state.metrika_policy,
+      direct_policy: direct.policy || response.state.direct_policy
+    });
     return response.state || null;
   }
 
@@ -373,6 +416,9 @@
       const secret = $("webmasterOauthToken").value.trim(); if (secret) credential.oauth_token = secret;
     } else if (value === "metrika") {
       const secret = $("metrikaOauthToken").value.trim(); if (secret) credential.oauth_token = secret;
+    } else if (value === "direct") {
+      const secret = $("directOauthToken").value.trim(); if (secret) credential.oauth_token = secret;
+      credential.client_login = $("directClientLogin").value.trim();
     }
     const response = await runtimeSend({ type: "YMB_SAVE_SERVICE_CREDENTIAL", service: value, credential });
     if (!response?.ok) throw new Error(response?.error || response?.code || `Не удалось сохранить ${value} credentials.`);
@@ -395,9 +441,15 @@
     try { await fn(); } catch (error) { showStatus(error.message || String(error), "error"); } finally { button.disabled = wasDisabled; }
   }
 
-  $("saveSettings").addEventListener("click", () => withButton($("saveSettings"), async () => {
-    await resolveContext(); await saveAll(); await refresh(); showStatus("Общие настройки сохранены.", "ok");
-  }));
+  function onSaveSettingsClick(event) {
+    const button = event.currentTarget;
+    void withButton(button, async () => {
+      await resolveContext(); await saveAll(); await refresh(); showStatus("Общие настройки сохранены.", "ok");
+    });
+  }
+
+  $("saveSettingsTop").addEventListener("click", onSaveSettingsClick);
+  $("saveSettings").addEventListener("click", onSaveSettingsClick);
 
   for (const service of SERVICES) {
     const cap = service[0].toUpperCase() + service.slice(1);
@@ -581,8 +633,8 @@
   if (globalThis.__YMB_POPUP_TEST__ === true) {
     globalThis.__YMB_POPUP_TEST_API__ = Object.freeze({
       resolveContext, renderState, saveAll, persistTogglePatch, saveCredential, checkCredential,
-      wordstatPolicyFromForm, searchPolicyFromForm, webmasterPolicyFromForm, metrikaPolicyFromForm, policyForService,
-      reportPrefixFromForm, isActiveRun, normalizeService, renderCredentialState,
+      wordstatPolicyFromForm, searchPolicyFromForm, webmasterPolicyFromForm, metrikaPolicyFromForm, directPolicyFromForm, policyForService,
+      reportPrefixFromForm, isActiveRun, normalizeService, renderCredentialState, onSaveSettingsClick,
       loadDiagnostics, renderDiagnostics, visibleDiagnostics, copyProfileCount
     });
   }

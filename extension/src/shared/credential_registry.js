@@ -6,7 +6,13 @@
     MISSING: "MISSING",
     INVALID_OR_EXPIRED: "INVALID_OR_EXPIRED",
     NO_ACCESS: "NO_ACCESS",
-    QUOTA: "QUOTA"
+    QUOTA: "QUOTA",
+    NETWORK_ERROR: "NETWORK_ERROR",
+    APP_ACCESS_NOT_APPROVED: "APP_ACCESS_NOT_APPROVED",
+    DIRECT_ACCOUNT_MISSING: "DIRECT_ACCOUNT_MISSING",
+    NO_API_ACCESS: "NO_API_ACCESS",
+    UNITS_EXHAUSTED: "UNITS_EXHAUSTED",
+    CONCURRENCY_LIMIT: "CONCURRENCY_LIMIT"
   });
 
   function recordForService(settings, service) {
@@ -77,12 +83,34 @@
     return Object.freeze({ state: STATES.PRESENT, has_oauth_token: true });
   }
 
+  function directCapability(settings) {
+    const credential = recordForService(settings, "direct") || {};
+    const oauthToken = String(credential.oauth_token || credential.oauthToken || "").trim();
+    const clientLogin = String(credential.client_login || credential.clientLogin || "").trim();
+    const checkState = String(credential.check_state || credential.checkState || "").trim();
+    const blockedStates = new Set([
+      STATES.INVALID_OR_EXPIRED,
+      STATES.NO_ACCESS,
+      STATES.APP_ACCESS_NOT_APPROVED,
+      STATES.DIRECT_ACCOUNT_MISSING,
+      STATES.NO_API_ACCESS,
+      STATES.UNITS_EXHAUSTED,
+      STATES.CONCURRENCY_LIMIT
+    ]);
+    if (blockedStates.has(checkState)) {
+      return Object.freeze({ state: checkState, has_oauth_token: Boolean(oauthToken), has_client_login: Boolean(clientLogin) });
+    }
+    if (!oauthToken) return Object.freeze({ state: STATES.MISSING, has_oauth_token: false, has_client_login: Boolean(clientLogin) });
+    return Object.freeze({ state: STATES.PRESENT, has_oauth_token: true, has_client_login: Boolean(clientLogin) });
+  }
+
   function capabilityForService(service, settings) {
     const value = String(service || "");
     if (value === "search") return searchCapability(settings);
     if (value === "wordstat") return wordstatCapability(settings);
     if (value === "webmaster") return webmasterCapability(settings);
     if (value === "metrika") return metrikaCapability(settings);
+    if (value === "direct") return directCapability(settings);
     return Object.freeze({ state: STATES.NO_ACCESS, has_api_key: false, has_folder_id: false });
   }
 
@@ -92,6 +120,7 @@
     searchCapability,
     webmasterCapability,
     metrikaCapability,
+    directCapability,
     capabilityForService
   });
 })();

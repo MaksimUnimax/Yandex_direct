@@ -1,0 +1,91 @@
+name: phase5-direct-postmerge-final
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exact-main-postmerge-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Require final gate to run on main only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_NAME}" = "main"
+          test -z "$(git status --porcelain)"
+          echo "POSTMERGE_MAIN_HEAD=$(git rev-parse HEAD)"
+
+      - name: Verify accepted Phase 5 product identity in main
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED_SOURCE='841a1e2c1a503c4a05572a957ba97c55b9b60c52'
+          EXPECTED_TREE='edf1c2d3494ebbc53ae778d23be1457eb885b605'
+          ACTUAL_TREE="$(git rev-parse HEAD:extension/src)"
+          test "${ACTUAL_TREE}" = "${EXPECTED_TREE}"
+          git diff --exit-code "${EXPECTED_SOURCE}" HEAD -- extension/src
+          test -f extension/tests/PHASE5_DIRECT_R2_CODEX_COMPLETE_PASS_2026-08-27.md
+          test -f extension/tests/PHASE5_DIRECT_OWNER_LIVE_PASS_2026-08-27.md
+          test -f extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner_v2.py
+          echo "PHASE5_POSTMERGE_PRODUCT_TREE=${ACTUAL_TREE}"
+          echo 'PHASE5_POSTMERGE_EXACT_PRODUCT_IDENTITY_PASS'
+
+      - name: Download exact accepted frozen artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phase5-direct-r2-frozen-candidate-841a1e2
+          path: ${{ runner.temp }}/phase5-direct-r2-frozen-transport
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 33037955943
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run complete immutable regression against accepted bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/tests/qa_phase5_codex/phase5_direct_r2_complete_gate_runner_v2.py \
+            --transport-dir "${RUNNER_TEMP}/phase5-direct-r2-frozen-transport" \
+            | tee /tmp/phase5-postmerge.log
+
+          grep -F 'source_suite=34/34' /tmp/phase5-postmerge.log
+          grep -F 'packaged_suite=34/34' /tmp/phase5-postmerge.log
+          grep -F 'source_syntax=33/33' /tmp/phase5-postmerge.log
+          grep -F 'packaged_syntax=33/33' /tmp/phase5-postmerge.log
+          grep -F 'source_json=2/2' /tmp/phase5-postmerge.log
+          grep -F 'packaged_json=2/2' /tmp/phase5-postmerge.log
+          grep -F 'CREDENTIAL_CONCURRENCY_REGRESSION=PASS' /tmp/phase5-postmerge.log
+          grep -F 'BROWSER_DIRECT_POPUP_D18=PASS' /tmp/phase5-postmerge.log
+          grep -F 'BROWSER_DIRECT_MANUAL_LIFECYCLE=PASS' /tmp/phase5-postmerge.log
+          grep -F 'BROWSER_DIRECT_ADDENDUM=PASS' /tmp/phase5-postmerge.log
+          grep -F 'BROWSER_PRIOR_PHASE_COMPATIBILITY=PASS' /tmp/phase5-postmerge.log
+          grep -F 'direct_controlled_provider_requests=2' /tmp/phase5-postmerge.log
+          grep -F 'controlled_search_stub_requests=1' /tmp/phase5-postmerge.log
+          grep -F 'real_yandex_direct_requests=0' /tmp/phase5-postmerge.log
+          grep -F 'real_yandex_requests=0' /tmp/phase5-postmerge.log
+          grep -F 'real_credentials_used=NO' /tmp/phase5-postmerge.log
+          grep -F 'enabled_not_run_sections=0' /tmp/phase5-postmerge.log
+          grep -F 'NOT_RUN_COUNT=0' /tmp/phase5-postmerge.log
+          grep -F 'PRODUCT_BYTES_POST_TEST=IDENTICAL' /tmp/phase5-postmerge.log
+          grep -F 'PHASE5_DIRECT_R2_INDEPENDENT_RUNNER_PASS' /tmp/phase5-postmerge.log
+
+          for gate in $(seq -w 0 22); do
+            grep -F "D-${gate}: PASS" /tmp/phase5-postmerge.log
+          done
+
+          test -z "$(git status --porcelain)"
+          test "$(git rev-parse HEAD:extension/src)" = 'edf1c2d3494ebbc53ae778d23be1457eb885b605'
+          git diff --exit-code 841a1e2c1a503c4a05572a957ba97c55b9b60c52 HEAD -- extension/src
+          echo 'PHASE5_DIRECT_POSTMERGE_FINAL_PASS'

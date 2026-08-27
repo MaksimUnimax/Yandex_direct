@@ -1,0 +1,51 @@
+name: phase5-direct-development-r1
+
+on:
+  push:
+    branches:
+      - dev/phase5-direct-first-slice-2026-08-26
+    paths:
+      - .github/workflows/phase5-direct-dev-r1.yml
+      - extension/src/**
+      - extension/tests/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused-direct:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Phase 5 changed runtime syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/content_script.js
+          node --check extension/src/popup.js
+          node --check extension/src/popup_context_bootstrap.js
+          node --check extension/src/webmaster_worker_runtime.js
+          node --check extension/src/shared/credential_store_model.js
+          node --check extension/src/shared/direct_protocol.js
+          node --check extension/src/shared/phase5_provider_runtime.js
+          node --check extension/src/shared/policy_model.js
+          node --check extension/src/shared/settings_backup_v3_runtime.js
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); console.log('PHASE5_MANIFEST_JSON_PASS')"
+      - name: Phase 5 focused Direct contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/direct_phase5_contract_closure.test.mjs \
+            extension/tests/direct_phase5_ui_runtime_contract.test.mjs
+
+  existing-node-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Existing Node regression suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs

@@ -10,6 +10,7 @@
     "shared/search_xml.js",
     "shared/search_protocol.js",
     "shared/metrika_protocol.js",
+    "shared/direct_protocol.js",
     "shared/autorun_model.js",
     "shared/manual_controls.js",
     "shared/composer_send.js",
