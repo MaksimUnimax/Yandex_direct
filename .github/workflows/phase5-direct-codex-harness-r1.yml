@@ -1,0 +1,41 @@
+name: phase5-direct-codex-harness-r1
+
+on:
+  push:
+    branches:
+      - qa/phase5-direct-codex-harness-2026-08-27
+    paths:
+      - .github/workflows/phase5-direct-codex-harness-r1.yml
+      - extension/tests/qa_phase5_codex/**
+      - extension/tests/qa_browser/direct_codex_*.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-addendum:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert candidate product tree untouched
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:extension/src)" = "a8ef5239a770f0321debd8322dcfadadff88e272"
+          echo PHASE5_CODEX_HARNESS_PRODUCT_TREE_IDENTICAL_PASS
+      - name: Run Direct addendum source coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/qa_phase5_codex/direct_addendum_coverage.test.mjs
+          echo PHASE5_CODEX_NODE_ADDENDUM_PASS
+      - name: Run complete candidate Node regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs
+          echo PHASE5_CODEX_EXISTING_NODE_REGRESSION_PASS
