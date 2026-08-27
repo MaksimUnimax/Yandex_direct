@@ -113,61 +113,66 @@
 
   async function importBackup(backup) {
     const incoming = await validate(backup); const version = Number(backup.backup_version || 0);
-    const data = await chrome.storage.local.get(Object.values(KEYS).concat(Model.STORAGE_KEY));
-    if (hasActiveRun(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активного Autorun."), { code: "IMPORT_ACTIVE_RUN" });
-    if (hasActiveManual(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активной Manual-операции."), { code: "IMPORT_ACTIVE_MANUAL" });
-
-    const rollback = await exportBackup();
-    await chrome.storage.local.set({ [ROLLBACK_KEY]: { ...rollback, rollback_context: { reason: "settings_import", created_at: new Date().toISOString(), incoming_settings_schema_version: Number(backup.settings_schema_version || version) } } });
-
     const imported = Model.normalizeBackupCredentials(incoming, version);
-    const current = Model.normalizeCredentials(data[Model.STORAGE_KEY], { legacyApiKey: data[KEYS.API_KEY], legacyFolderId: data[KEYS.FOLDER_ID] });
     const incomingCredentialMap = record(incoming.credentials);
     const incomingHasMetrika = version === BACKUP_VERSION && Object.prototype.hasOwnProperty.call(incomingCredentialMap, "metrika") && Object.keys(record(incomingCredentialMap.metrika)).length > 0;
     const incomingHasDirect = version === BACKUP_VERSION && Object.prototype.hasOwnProperty.call(incomingCredentialMap, "direct") && Object.keys(record(incomingCredentialMap.direct)).length > 0;
-    let credentials;
-    if (version === 2) {
-      credentials = Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster, metrika: current.metrika, direct: current.direct });
-    } else {
-      credentials = Model.normalizeCredentials({
-        ...imported,
-        metrika: incomingHasMetrika ? imported.metrika : current.metrika,
-        direct: incomingHasDirect ? imported.direct : current.direct
-      });
-    }
-
     const incomingHasDirectPolicy = Object.prototype.hasOwnProperty.call(incoming, "direct_policy") && incoming.direct_policy && typeof incoming.direct_policy === "object" && !Array.isArray(incoming.direct_policy);
 
-    await chrome.storage.local.set({
-      [Model.STORAGE_KEY]: clone(credentials),
-      [KEYS.API_KEY]: credentials.wordstat.api_key,
-      [KEYS.FOLDER_ID]: credentials.wordstat.folder_id,
-      [KEYS.AUTO_SEND]: incoming.auto_send !== false,
-      [KEYS.SEND_BUTTON_PROFILE]: clone(incoming.send_button_profile || data[KEYS.SEND_BUTTON_PROFILE] || null),
-      [KEYS.COPY_BUTTON_PROFILES]: mergeCopyProfiles(data[KEYS.COPY_BUTTON_PROFILES], incoming.copy_button_profiles),
-      [KEYS.CONVERSATION_BINDINGS]: mergeRecords(data[KEYS.CONVERSATION_BINDINGS], incoming.conversation_bindings),
-      [KEYS.MANUAL_MODES]: mergeRecords(data[KEYS.MANUAL_MODES], incoming.manual_modes),
-      [KEYS.REPORT_PREFIXES]: mergeRecords(data[KEYS.REPORT_PREFIXES], incoming.report_prefixes),
-      [KEYS.AUTO_START_PROMPTS]: mergeRecords(data[KEYS.AUTO_START_PROMPTS], incoming.auto_start_prompts),
-      [KEYS.SERVICE_CONTEXTS]: mergeRecords(data[KEYS.SERVICE_CONTEXTS], incoming.service_contexts),
-      [KEYS.WORDSTAT_POLICY]: Policy.normalizeWordstatPolicy(incoming.wordstat_policy || data[KEYS.WORDSTAT_POLICY] || {}),
-      [KEYS.SEARCH_POLICY]: Policy.normalizeSearchPolicy(incoming.search_policy || data[KEYS.SEARCH_POLICY] || {}),
-      [KEYS.WEBMASTER_POLICY]: Policy.normalizeWebmasterPolicy(incoming.webmaster_policy || data[KEYS.WEBMASTER_POLICY] || {}),
-      [KEYS.METRIKA_POLICY]: Policy.normalizeMetrikaPolicy(incoming.metrika_policy || data[KEYS.METRIKA_POLICY] || {}),
-      [KEYS.DIRECT_POLICY]: Policy.normalizeDirectPolicy(incomingHasDirectPolicy ? incoming.direct_policy : (data[KEYS.DIRECT_POLICY] || {})),
-      [KEYS.DEBUG_MODE]: incoming.debug_mode === true,
-      [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION
+    return CredentialRuntime.withExclusiveMutation(async () => {
+      // Re-read inside the same credential mutation queue used by per-service Save.
+      // This prevents a backup import from restoring a stale credential snapshot over
+      // a save that completed while validation was running.
+      const data = await chrome.storage.local.get(Object.values(KEYS).concat(Model.STORAGE_KEY));
+      if (hasActiveRun(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активного Autorun."), { code: "IMPORT_ACTIVE_RUN" });
+      if (hasActiveManual(data)) throw Object.assign(new Error("Нельзя импортировать настройки во время активной Manual-операции."), { code: "IMPORT_ACTIVE_MANUAL" });
+
+      const rollback = await exportBackup();
+      await chrome.storage.local.set({ [ROLLBACK_KEY]: { ...rollback, rollback_context: { reason: "settings_import", created_at: new Date().toISOString(), incoming_settings_schema_version: Number(backup.settings_schema_version || version) } } });
+
+      const current = Model.normalizeCredentials(data[Model.STORAGE_KEY], { legacyApiKey: data[KEYS.API_KEY], legacyFolderId: data[KEYS.FOLDER_ID] });
+      let credentials;
+      if (version === 2) {
+        credentials = Model.normalizeCredentials({ wordstat: imported.wordstat, search: imported.search, webmaster: current.webmaster, metrika: current.metrika, direct: current.direct });
+      } else {
+        credentials = Model.normalizeCredentials({
+          ...imported,
+          metrika: incomingHasMetrika ? imported.metrika : current.metrika,
+          direct: incomingHasDirect ? imported.direct : current.direct
+        });
+      }
+
+      await chrome.storage.local.set({
+        [Model.STORAGE_KEY]: clone(credentials),
+        [KEYS.API_KEY]: credentials.wordstat.api_key,
+        [KEYS.FOLDER_ID]: credentials.wordstat.folder_id,
+        [KEYS.AUTO_SEND]: incoming.auto_send !== false,
+        [KEYS.SEND_BUTTON_PROFILE]: clone(incoming.send_button_profile || data[KEYS.SEND_BUTTON_PROFILE] || null),
+        [KEYS.COPY_BUTTON_PROFILES]: mergeCopyProfiles(data[KEYS.COPY_BUTTON_PROFILES], incoming.copy_button_profiles),
+        [KEYS.CONVERSATION_BINDINGS]: mergeRecords(data[KEYS.CONVERSATION_BINDINGS], incoming.conversation_bindings),
+        [KEYS.MANUAL_MODES]: mergeRecords(data[KEYS.MANUAL_MODES], incoming.manual_modes),
+        [KEYS.REPORT_PREFIXES]: mergeRecords(data[KEYS.REPORT_PREFIXES], incoming.report_prefixes),
+        [KEYS.AUTO_START_PROMPTS]: mergeRecords(data[KEYS.AUTO_START_PROMPTS], incoming.auto_start_prompts),
+        [KEYS.SERVICE_CONTEXTS]: mergeRecords(data[KEYS.SERVICE_CONTEXTS], incoming.service_contexts),
+        [KEYS.WORDSTAT_POLICY]: Policy.normalizeWordstatPolicy(incoming.wordstat_policy || data[KEYS.WORDSTAT_POLICY] || {}),
+        [KEYS.SEARCH_POLICY]: Policy.normalizeSearchPolicy(incoming.search_policy || data[KEYS.SEARCH_POLICY] || {}),
+        [KEYS.WEBMASTER_POLICY]: Policy.normalizeWebmasterPolicy(incoming.webmaster_policy || data[KEYS.WEBMASTER_POLICY] || {}),
+        [KEYS.METRIKA_POLICY]: Policy.normalizeMetrikaPolicy(incoming.metrika_policy || data[KEYS.METRIKA_POLICY] || {}),
+        [KEYS.DIRECT_POLICY]: Policy.normalizeDirectPolicy(incomingHasDirectPolicy ? incoming.direct_policy : (data[KEYS.DIRECT_POLICY] || {})),
+        [KEYS.DEBUG_MODE]: incoming.debug_mode === true,
+        [KEYS.SETTINGS_SCHEMA]: SETTINGS_SCHEMA_VERSION
+      });
+      return {
+        imported: true,
+        backup_version: version,
+        settings_schema_version: SETTINGS_SCHEMA_VERSION,
+        settings_sha256: trim(backup.settings_sha256).toLowerCase(),
+        active_runtime_state_untouched: true,
+        metrika_credential_preserved_when_absent: !incomingHasMetrika,
+        direct_credential_preserved_when_absent: !incomingHasDirect,
+        direct_policy_preserved_when_absent: !incomingHasDirectPolicy
+      };
     });
-    return {
-      imported: true,
-      backup_version: version,
-      settings_schema_version: SETTINGS_SCHEMA_VERSION,
-      settings_sha256: trim(backup.settings_sha256).toLowerCase(),
-      active_runtime_state_untouched: true,
-      metrika_credential_preserved_when_absent: !incomingHasMetrika,
-      direct_credential_preserved_when_absent: !incomingHasDirect,
-      direct_policy_preserved_when_absent: !incomingHasDirectPolicy
-    };
   }
 
   globalThis.YMBSettingsBackupV3Runtime = Object.freeze({ exportBackup, validate, importBackup, checksum });
