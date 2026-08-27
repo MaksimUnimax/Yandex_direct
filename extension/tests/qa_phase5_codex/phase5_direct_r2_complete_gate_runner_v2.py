@@ -9,6 +9,8 @@ host-sensitive execution helpers:
 - Node test output is forced to the TAP reporter and parsed across Node 22/24.
 - extracted artifact paths are compared canonically as POSIX path sets instead of
   relying on pathlib ordering, which differs between POSIX and Windows.
+- Python bytecode writes are disabled so importing the immutable v1 runner cannot
+  dirty the governed QA workspace before its cleanliness assertion.
 """
 from __future__ import annotations
 
@@ -20,6 +22,9 @@ import sys
 import zipfile
 from pathlib import Path
 
+# Must be set before loading v1: no __pycache__ may be created inside the governed repo.
+sys.dont_write_bytecode = True
+
 HERE = Path(__file__).resolve().parent
 V1_PATH = HERE / "phase5_direct_r2_complete_gate_runner.py"
 
@@ -29,14 +34,16 @@ if spec is None or spec.loader is None:
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
 
-_original_run = base.run
+
+def safe_dir_value(cwd: Path) -> str:
+    return cwd.resolve().as_posix()
 
 
 def portable_run(cmd, cwd=None, env=None, capture=False, check=True):
     cwd = Path(cwd or base.REPO).resolve()
     argv = [str(x) for x in cmd]
     if argv and Path(argv[0]).stem.lower() == "git":
-        argv = [argv[0], "-c", f"safe.directory={cwd}", *argv[1:]]
+        argv = [argv[0], "-c", f"safe.directory={safe_dir_value(cwd)}", *argv[1:]]
     printable = " ".join(argv)
     print(f"+ {printable}", flush=True)
     kwargs = {
@@ -47,7 +54,7 @@ def portable_run(cmd, cwd=None, env=None, capture=False, check=True):
     }
     if capture:
         kwargs.update(stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    cp = subprocess.run(argv, **kwargs)
+    cp = _original_subprocess_run(argv, **kwargs)
     if capture:
         print(cp.stdout or "", end="", flush=True)
     if check and cp.returncode != 0:
@@ -130,7 +137,6 @@ def portable_verify_transport(zip_path: Path, manifest_path: Path, extract_to: P
     base.require(actual_paths == canonical_expected, "extracted path set mismatch")
 
     for row in m["entries"]:
-        # Manifest paths are POSIX paths by definition; Path joins them portably.
         p = extract_to.joinpath(*row["path"].split("/"))
         data = p.read_bytes()
         base.require(len(data) == row["bytes"], f"byte mismatch: {row['path']}")
@@ -140,23 +146,22 @@ def portable_verify_transport(zip_path: Path, manifest_path: Path, extract_to: P
     return m
 
 
+# Save the genuine subprocess function before any cleanup shim is attached.
+_original_subprocess_run = base.subprocess.run
+
 # Patch only portability helpers. The campaign logic/assertion matrix remains v1.
 base.run = portable_run
 base.parse_tap_counts = portable_parse_tap_counts
 base.node_suite = portable_node_suite
 base.verify_transport = portable_verify_transport
 
-# Cleanup uses subprocess directly in v1. Safe-directory is not needed for correctness
-# there, but make it process-local too so Windows ownership policy cannot leave a stale
-# temporary worktree registration after a completed/failed campaign.
-_original_subprocess_run = base.subprocess.run
-
-
+# Cleanup uses subprocess directly in v1. Supply safe.directory there too so Windows
+# ownership policy cannot leave a stale temporary worktree registration.
 def cleanup_safe_subprocess_run(cmd, *args, **kwargs):
     argv = [str(x) for x in cmd] if isinstance(cmd, (list, tuple)) else cmd
     cwd = Path(kwargs.get("cwd") or base.REPO).resolve()
     if isinstance(argv, list) and argv and Path(argv[0]).stem.lower() == "git":
-        argv = [argv[0], "-c", f"safe.directory={cwd}", *argv[1:]]
+        argv = [argv[0], "-c", f"safe.directory={safe_dir_value(cwd)}", *argv[1:]]
     return _original_subprocess_run(argv, *args, **kwargs)
 
 base.subprocess.run = cleanup_safe_subprocess_run
