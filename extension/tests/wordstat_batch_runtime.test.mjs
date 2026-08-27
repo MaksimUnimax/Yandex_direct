@@ -101,7 +101,7 @@ test('next persists CLAIMED and REQUEST_STARTED checkpoints before provider exec
   assert.equal(storage.state.ymb_wordstat_batch_jobs_v1['batch-job-1'].items[0].status, 'SUCCEEDED');
 });
 
-test('unknown provider outcome is persisted as OUTCOME_UNKNOWN and never reclaimed', async () => {
+test('unknown provider outcome is persisted as OUTCOME_UNKNOWN and requires reconciliation without replay', async () => {
   const Factory = loadFactory();
   const storage = memoryStorage();
   let calls = 0;
@@ -124,10 +124,13 @@ test('unknown provider outcome is persisted as OUTCOME_UNKNOWN and never reclaim
   const first = await runtime.handle({ action: 'next', jobId: 'batch-job-1' });
   assert.equal(first.envelope.request_executed, 'UNKNOWN');
   assert.equal(first.envelope.progress.outcome_unknown, 1);
+  assert.equal(first.envelope.progress.status, 'RUNNING');
+  assert.equal(first.envelope.progress.next_safe_action, 'RECONCILE_UNKNOWN');
   assert.equal(calls, 1);
 
   const second = await runtime.handle({ action: 'next', jobId: 'batch-job-1' });
-  assert.equal(second.envelope.reason, 'JOB_COMPLETED');
+  assert.equal(second.envelope.reason, 'OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION');
+  assert.equal(second.envelope.progress.next_safe_action, 'RECONCILE_UNKNOWN');
   assert.equal(calls, 1);
 });
 
