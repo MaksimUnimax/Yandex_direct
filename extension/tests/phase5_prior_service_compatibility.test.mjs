@@ -7,8 +7,8 @@ const plain = (value) => JSON.parse(JSON.stringify(value));
 function envWithAllCredentials() {
   return createPhase5Runtime({
     ymb_service_credentials: {
-      wordstat: { api_key: 'word-key', folder_id: 'word-folder', check_state: 'PRESENT' },
-      search: { api_key: 'search-key', folder_id: 'search-folder', check_state: 'PRESENT' },
+      wordstat: { api_key: 'word-key', folder_id: 'word-folder', checked_at: null, check_state: 'PRESENT' },
+      search: { api_key: 'search-key', folder_id: 'search-folder', checked_at: null, check_state: 'PRESENT' },
       webmaster: { oauth_token: 'webmaster-oauth', user_id: '42', verified_at: '2026-08-26T00:00:00.000Z', check_state: 'PRESENT' },
       metrika: { oauth_token: 'metrika-oauth', checked_at: '2026-08-26T00:00:00.000Z', check_state: 'PRESENT' },
       direct: { oauth_token: 'direct-oauth', client_login: 'direct-client', checked_at: '2026-08-26T00:00:00.000Z', check_state: 'PRESENT' }
