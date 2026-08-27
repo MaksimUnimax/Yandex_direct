@@ -1,4 +1,4 @@
-/* global BB2ConversationIdentity, BB2ManualControls, WordstatProtocol, SearchProtocol, MetrikaProtocol, BB2ComposerSend, BB2ProvenWritingCapture, YMBProduct, YMBServiceRegistry */
+/* global BB2ConversationIdentity, BB2ManualControls, WordstatProtocol, SearchProtocol, MetrikaProtocol, DirectProtocol, BB2ComposerSend, BB2ProvenWritingCapture, YMBProduct, YMBServiceRegistry */
 (() => {
   "use strict";
 
@@ -110,6 +110,7 @@
     if (String(service || "") === YMBServiceRegistry.SERVICES.SEARCH) return SearchProtocol;
     if (String(service || "") === YMBServiceRegistry.SERVICES.WORDSTAT) return WordstatProtocol;
     if (String(service || "") === YMBServiceRegistry.SERVICES.METRIKA) return MetrikaProtocol;
+    if (String(service || "") === YMBServiceRegistry.SERVICES.DIRECT) return DirectProtocol;
     return null;
   }
 
