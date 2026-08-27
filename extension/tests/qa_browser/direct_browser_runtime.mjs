@@ -155,6 +155,7 @@ try {
   assert.equal(await page.evaluate(() => document.body.innerText.includes('browser-direct-secret')), false);
   console.log('D05_D15_DIRECT_SECRET_RERENDER_REDACTION_PASS');
 
+  await page.$eval('#directCredentials', (node) => { node.open = true; });
   await page.click('#checkDirectCredential');
   await page.waitForFunction(() => /проверено/i.test(document.querySelector('#directCredentialState')?.textContent || '') && document.querySelector('#checkDirectCredential')?.disabled === false);
   let fetches = await workerEval(workerClient, 'globalThis.__YMB_D5_FETCHES');
