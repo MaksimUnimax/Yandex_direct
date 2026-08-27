@@ -55,8 +55,9 @@ Compare only genuinely comparable services by family, volume, provider set, dept
 | F-003 | Ahrefs semantic core + clustering | from 2,500 ₽ | 10,000 keywords; listing also shows 25 ₽/100 | 7 days | not supplied | 5.0; 220 completed; 11 positive / 0 negative |
 | F-004 | Niche analysis for a website | UNKNOWN | 1 niche / 1 region | 10 days | not supplied | 5.0; 220 completed; no reviews for this kwork |
 | F-005 | Wordstat frequency check for supplied keywords | **from 4,500 ₽** (cross-card evidence from same seller listing) | up to 10,000 keywords / 1 region; **45 ₽/100 keywords** shown | 7 days | not supplied | 4.9; 235 completed; 1 positive / 0 negative |
+| F-006 | Semantic core for Yandex Direct advertising | **from 1,500 ₽** | **100 keywords** base volume; 1,500 ₽/100 keywords | **2 days** | not supplied | 5.0; 742 completed; 41 positive / 0 negative for this kwork; 344 total ratings shown |
 
-Do not calculate one median across these unrelated products.
+Do not calculate one median across unrelated products. F-002/F-003/F-006 belong to a broad semantic-core family but differ materially in promised depth, provider data and volume.
 
 ---
 
@@ -68,6 +69,7 @@ Do not calculate one median across these unrelated products.
 |---|---|---|---|
 | F-002 | SEO semantic core / keyword collection | Yandex Wordstat-based collection; no Google keyword-volume promise | Wordstat seed expansion → merge/dedupe → intent work → XLSX/CSV |
 | F-004 variant | Yandex-based niche demand/seasonality + limited competitor analysis | Wordstat + Yandex SERP + public/manual review; no Ahrefs/Google Keyword Planner metrics | demand/dynamics → competitors → review/scoring → report/XLSX/chart |
+| **F-006** | **Semantic core for Yandex Direct: 100 keywords + base Wordstat frequency + minus-words in Excel** | client supplies landing/product/service URL + geotargeting; no campaign mutation required | inspect offer → seed map → regional Wordstat collection → relevance/commercial filtering → thematic grouping → base frequency → minus-words → XLSX |
 
 ## PARTIALLY COVERED
 
@@ -88,11 +90,14 @@ None recorded yet.
 
 | Capability | Cases | Current state | Market signal |
 |---|---|---|---|
-| **Wordstat batch orchestration / durable queue** | F-002, F-003, F-004, F-005 | no dedicated batch job | **VERY HIGH — repeated 4x** |
+| **Wordstat-based keyword processing** | F-002, F-003, F-004, F-005, F-006 | core provider path exists | **VERY HIGH — repeated across 5 cases** |
+| **Wordstat batch orchestration / durable queue** | F-002, F-003, F-004, F-005; reinforced by large F-006 example | no dedicated batch job | **VERY HIGH — repeated; F-006 base 100 does not require it but sample exceeds 1,200 rows** |
 | **Bulk Wordstat Frequency Checker** | F-005 | missing | **HIGH — direct paid workflow** |
-| Seed expansion / dedupe / checkpoint-resume | F-002, F-003, F-004, F-005 | operationally possible in parts; not productized | **VERY HIGH — repeated 4x** |
-| Semantic clustering / intent grouping | F-002, F-003, F-004 | ChatGPT can perform; no durable large-dataset workflow | VERY HIGH — repeated 3x |
-| Reusable XLSX/CSV/report builder | F-001..F-005 | artifact tooling available; not Bridge workflow | **VERY HIGH reuse** |
+| **Advertising Semantic Core Builder** | F-006; overlaps F-002/F-003 | end-to-end feasible now, not productized as one durable workflow | **HIGH — proven paid workflow** |
+| **Minus-word / negative-keyword builder** | F-006 | ChatGPT can do it; not productized | **HIGH — direct paid deliverable** |
+| Keyword-set normalization / dedupe / checkpoint-resume | F-002, F-003, F-004, F-005, F-006 large scopes | operationally possible in parts; not productized | **VERY HIGH reuse** |
+| Semantic clustering / intent grouping | F-002, F-003, F-004, F-006 | ChatGPT can perform; no durable large-dataset workflow | **VERY HIGH — repeated 4x** |
+| Reusable XLSX/CSV/report builder | F-001..F-006 | artifact tooling available; not Bridge workflow | **VERY HIGH reuse** |
 | Bulk SERP / Rank Tracker orchestration | F-001, F-004 | missing | HIGH — repeated |
 | Google organic SERP provider | F-001 | missing | HIGH |
 | Yandex high-volume/deferred Search | F-001, F-004 | deferred from Phase 2 | HIGH — repeated |
@@ -282,6 +287,161 @@ B. HISTORICAL DYNAMICS
 ### Product signal from F-005
 
 F-005 is strong evidence that Wordstat bulk orchestration is not merely internal convenience. It directly unlocks a simple paid service whose deliverable is highly standardized. Together with F-002/F-003/F-004, high-volume Wordstat processing is now a repeated **4x** market requirement.
+
+---
+
+## F-006 — Semantic core for Yandex Direct advertising, 100-key base package
+
+**Marketplace:** Kwork  
+**Title:** `Семантическое ядро для рекламы. Семантика Яндекс Директ. Сбор СЯ`  
+**Verdict:** `YES — READY NOW`
+
+### Market data
+
+```text
+listed base price = from 1,500 ₽
+base volume = 100 keywords
+listed normalization = 1,500 ₽ / 100 keywords
+advertised deadline = 2 days
+seller = 5.0 / 742 completed orders
+order-specific ratings = speed 5 / quality 5 / communication 5
+order-specific reviews = 41 positive / 0 negative
+seller total ratings shown = 344
+```
+
+The order configurator also displayed additional 3,000 ₽ and 1,000 ₽ options, but their labels were not present in the supplied capture. Do not assign semantics to those add-ons without evidence.
+
+### Client gives
+
+```text
+1. link to advertised product/service
+2. geotargeting / target region
+3. topic should preferably be agreed before order
+```
+
+### Advertised deliverable
+
+```text
+- semantic core for contextual advertising
+- Excel workbook
+- base Wordstat frequency
+- minus-words
+- base package volume: 100 keywords
+```
+
+The card says the seller parses keywords using Wordstat services. The service is intended to prepare semantics for Yandex Direct / Google Ads, but the advertised artifact itself is a keyword workbook; it does not require campaign creation or mutation.
+
+### Supplied XLSX example
+
+Owner supplied `Семантика грузчики Тольятти.xlsx`.
+
+Observed workbook structure:
+
+```text
+worksheets total = 17
+content/theme worksheets = 15
++ Оглавление
++ Минус-слова
+```
+
+The 15 theme sheets are:
+
+```text
+Грузчики для переезда
+Перевозка мебели
+Переезд в другой город
+Дачный переезд
+Квартирный переезд
+Офисный переезд
+Перевозка сейфов
+Утилизация мебели
+Разнорабочие
+Земельные работы
+Демонтажные работы
+Вывоз строительного мусора
+Сборка и разборка мебели
+Вырубка кустарников
+Муж на час
+```
+
+Across those theme sheets the workbook contains:
+
+```text
+phrase-frequency records = 1,206
+unique phrases = 1,204
+cross-sheet duplicate phrase names = 2
+frequency minimum = 1
+frequency maximum = 1,043
+median frequency = 2
+minus-word rows with text = 290
+unique minus-words = 290
+```
+
+The keyword sheets are arranged as repeated phrase/frequency pairs, typically separated by blank columns. The example therefore demonstrates substantially more than the base 100-key package: thematic segmentation, Wordstat-like frequency values and a large negative-keyword list.
+
+**Pricing boundary:** do not infer that 1,206 keyword-frequency rows are included in the base 1,500 ₽ package. The advertised base volume is explicitly 100 keywords. The sample proves deliverable structure/quality, not base-package quantity.
+
+### Why current Bridge/ChatGPT can complete the base package now
+
+```text
+public landing/offer inspection = YES
+regional Wordstat keyword expansion = YES
+base frequency = YES
+commercial/relevance filtering = YES
+selecting a bounded 100-key final set = YES
+thematic grouping = YES
+minus-word extraction = YES via ChatGPT analysis
+XLSX generation = YES
+Yandex Direct API mutation = NOT REQUIRED
+```
+
+A 100-key order does not need the missing 10,000-key durable frequency-check queue from F-005. Wordstat `getTop` can return a much larger candidate set from a seed, after which ChatGPT can select and structure the best 100 phrases for the agreed offer/region.
+
+### Exact execution workflow
+
+```text
+1. Receive product/service URL and geotargeting.
+2. Inspect the public offer and extract:
+   - core service/product categories;
+   - commercial modifiers;
+   - geographic modifiers;
+   - obvious exclusions.
+3. Agree/derive seed map.
+4. Run regional WORDSTAT_API_V1 getTop for the required seeds.
+5. Merge and deduplicate candidates.
+6. Remove irrelevant/informational/foreign-geo phrases inconsistent with the agreed ad scope.
+7. Build thematic groups suitable for ad-campaign preparation.
+8. Preserve base Wordstat frequency for selected phrases.
+9. Derive minus-words from rejected queries and cross-theme noise; review manually/semantically before finalizing.
+10. Select the contracted final volume (base = 100 keys).
+11. Produce XLSX with:
+    - grouped keywords;
+    - base frequency;
+    - separate minus-word sheet;
+    - optional contents sheet when multiple groups exist.
+12. Quality check: duplicates, wrong geography, obvious intent contamination, empty groups and accidental negative-keyword conflicts.
+```
+
+### Commercial boundary
+
+The card refuses a long list of prohibited/sensitive/undesired topics. Our own eventual listing should define its own accepted-topic policy rather than copy that list blindly. The technical service itself is read-only keyword research and does not need Direct production access.
+
+### Product signal from F-006
+
+F-006 is especially useful because it is a **fully sellable service under the current stack**, not merely a future roadmap case. It proves demand for a standardized product:
+
+```text
+ADVERTISING SEMANTIC CORE BUILDER
+URL + region
+→ Wordstat collection
+→ commercial/relevance filtering
+→ thematic grouping
+→ frequency
+→ minus-words
+→ XLSX
+```
+
+It also proves that minus-word generation and thematic grouping should become first-class reusable workflow stages even though they can already be completed manually/orchestrated with ChatGPT.
 
 ---
 
