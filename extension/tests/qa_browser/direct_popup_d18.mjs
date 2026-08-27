@@ -78,6 +78,11 @@ try {
   await page.goto(`chrome-extension://${qa.extensionId}/popup.html`, { waitUntil: 'load' });
   await page.waitForSelector('#saveSettingsTop', { timeout: 15000 });
   await page.waitForFunction(() => document.querySelector('#saveSettingsTop')?.disabled === false && document.querySelector('#saveSettings')?.disabled === false);
+  await page.waitForFunction(() => {
+    const status = document.querySelector('#status');
+    const runtimeScript = document.querySelector('script[data-ymb-popup-runtime="true"]');
+    return Boolean(runtimeScript) && status?.textContent === 'Откройте конкретный диалог ChatGPT.' && status?.dataset?.level === 'error';
+  }, { timeout: 15000 });
 
   const geometry = await page.evaluate(() => {
     const html = document.documentElement.getBoundingClientRect();
