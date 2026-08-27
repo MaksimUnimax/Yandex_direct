@@ -2,33 +2,19 @@
 
 Date: 2026-08-27
 
-Status: **OFFICIAL PROVIDER PATH FOUND / RESEARCH COMPLETE ENOUGH FOR ROADMAP / IMPLEMENTATION GATED**
+Status: **OFFICIAL PROVIDER PATH FOUND / METHODOLOGY GATE PASSED / BOUNDED PROXY VALIDATION AUTHORIZED**
 
 Applies to: O-001 AI-Native Semantic Rebuild.
 
-## 1. Key finding
+## 1. Official path
 
-A repeatable AI-search evidence hand does not need to begin by scraping the consumer Alice UI.
-
-Yandex exposes an official generative-search method inside Yandex Search API:
+Yandex exposes generative search inside the existing Yandex Search API family:
 
 ```text
 POST https://searchapi.api.cloud.yandex.net/v2/gen/search
 ```
 
-Official REST reference:
-
-`https://aistudio.yandex.ru/docs/en/search-api/api-ref/GenSearch/search.html`
-
-Official operation guide:
-
-`https://aistudio.yandex.ru/docs/en/search-api/operations/generative-search.html`
-
-The official API describes GenSearch as search over Yandex's search database using YandexGPT generative AI.
-
-## 2. Valuable response fields
-
-The current official response contract includes:
+Important structured response fields include:
 
 ```text
 message.content
@@ -44,40 +30,11 @@ hints[]
 problematicAnswer
 ```
 
-Particularly important for O-001:
+This is architecturally preferable to relying on consumer-UI DOM scraping for repeatable production acquisition.
 
-```text
-sources[].used
-= whether a returned source document was used in the generated answer
+## 2. Provider / credential boundary
 
-searchQueries[]
-= search queries refined by the YandexGPT model and used for the generative response
-```
-
-This provides machine-readable evidence that is far more stable for our Bridge than DOM parsing of a consumer chat interface.
-
-## 3. Authentication / execution boundary
-
-The official guide currently requires a Yandex Cloud folder plus a service account with the Search API role and an API key with the execution scope; IAM-token authentication is also documented as an option.
-
-This belongs architecturally to the existing Yandex Search provider family, not to the dedicated OAuth credentials for Webmaster, Metrika or Direct.
-
-Permanent credential rule remains:
-
-```text
-Search / Yandex Cloud credential = its own credential
-Webmaster OAuth = separate
-Metrika OAuth = separate
-Direct OAuth = separate
-```
-
-Do not consolidate credentials as part of GenSearch work.
-
-## 4. Proposed Bridge shape
-
-Do not create a standalone pseudo-provider called `alice` unless later evidence requires it.
-
-Preferred provider architecture:
+Preferred provider shape:
 
 ```text
 Yandex Search hand
@@ -87,31 +44,13 @@ Yandex Search hand
     └── /v2/gen/search
 ```
 
-A future trusted protocol may normalize the generative result to a dedicated result envelope while reusing Search credential/policy infrastructure.
+GenSearch should reuse the Search/Yandex Cloud credential-policy family. Webmaster, Metrika and Direct credentials remain separate.
 
-Conceptual normalized evidence:
+Do not create a credential-consolidation project as part of this work.
 
-```text
-input query
-answer text
-sources[]
-  url
-  title
-  used
-search_queries[]
-  text
-  req_id
-hints[]
-misspell correction
-answer status flags
-request/cost metadata
-```
+## 3. Provenance contract
 
-Exact protocol names are intentionally not frozen before implementation design.
-
-## 5. Provenance rule
-
-Do **not** relabel GenSearch fields as consumer-Alice facts without validation.
+GenSearch evidence must never be silently relabeled as consumer-Alice evidence.
 
 Use explicit provenance such as:
 
@@ -123,135 +62,161 @@ GEN_SEARCH_SOURCE_USED
 GEN_SEARCH_QUERY_OBSERVED
 ```
 
-Do not automatically write:
+Do not automatically map:
 
 ```text
-ALICE_FANOUT_OBSERVED
+searchQueries[] -> ALICE_FANOUT_OBSERVED
 ```
 
-for `searchQueries[]` until the one-time comparison establishes the relationship between GenSearch behavior and the consumer Alice evidence used in `blood_sand`.
+Consumer Alice and GenSearch remain distinct evidence surfaces until the bounded proxy comparison says how useful/aligned they are for the decision task.
 
-This distinction is central to evidence quality.
+## 4. Why implementation priority is now justified
 
-## 6. Required validation against blood_sand
+The broader controlled methodology comparison is complete:
 
-The existing `blood_sand` dataset contains canonical consumer-Alice observations for the same research program.
+`extension/tests/AI_NATIVE_BLOOD_SAND_COMPARISON_2026-08-27.md`
 
-Before GenSearch is accepted as the production proxy/measurement hand for O-001, compare it on a bounded representative set against those existing observations.
+Verdict:
 
-Compare at least:
+```text
+AI_NATIVE_COMPARATIVE_GATE_PASS
+```
+
+Material value was observed in page-job scope, priority, source-worthiness and contamination control. Therefore AI-specific engineering is no longer blocked by "unproven incremental value".
+
+What remains unproven is whether GenSearch is a sufficiently useful structured proxy/reference surface for the decision-relevant behavior observed in consumer Alice.
+
+## 5. Required bounded proxy validation
+
+Use a **small representative set**, not a bulk keyword run.
+
+Recommended roots are chosen to cover materially different uncertainty classes already captured in canonical consumer Alice:
+
+```text
+1. печать велеса
+   - Search transactional vs Alice meaning/history/use-first
+   - observed consumer fan-out exists
+
+2. оберег в машину
+   - hybrid choice/use-case + direct shopping/products
+
+3. вегвизир
+   - history/meaning/correction-first with factual provenance sensitivity
+
+4. алатырь оберег
+   - commercial Search vs mythology/meaning/suitability Alice
+
+5. подарок мужчине в машину
+   - contamination-control case; only clean canonical consumer-Alice observation is comparator
+```
+
+Five requests are enough for the first bounded decision test unless a specific result is non-comparable and one replacement is justified.
+
+At the recorded 2026-08-27 pricing snapshot of roughly `5.08 RUB/request`, this initial five-root set is approximately `25.40 RUB` of provider cost.
+
+## 6. Comparison fields
+
+For every root compare:
 
 ```text
 root query
-answer/user-job orientation
-source domains
-used/cited source overlap where comparable
-additional/refined query themes
+consumer-Alice answer/user-job orientation
+GenSearch answer/user-job orientation
+consumer-Alice source domains/types
+GenSearch sources[].url/title/used
+source overlap where exact comparison is possible
+consumer observed fan-out, if any
+GenSearch searchQueries[] themes
 commercial vs explanatory orientation
 material semantic/page-job implication
 ```
 
-The comparison must distinguish:
+Per-root classification:
 
 ```text
-same / strongly aligned
-partially aligned
-materially different
-not comparable
+SAME_OR_STRONGLY_ALIGNED
+PARTIALLY_ALIGNED
+MATERIALLY_DIFFERENT
+NOT_COMPARABLE
 ```
 
-Do not require byte/text equivalence. The decision question is whether GenSearch is a useful repeatable evidence surface for the same semantic research job.
+Do not require text equivalence. The product question is whether the structured provider surface preserves enough decision-relevant signal to serve the premium workflow reliably.
 
-This provider-proxy validation is related to, but distinct from, the broader Pass A vs Pass B methodology gate.
+## 7. Acceptance logic
 
-## 7. Economics
+A production GenSearch hand may be promoted when:
 
-Official Yandex Search API pricing snapshot on 2026-08-27:
+1. the bounded set has no unexplained systematic contradiction with canonical consumer-Alice jobs;
+2. material page-job implications remain sufficiently aligned or the differences are explicitly usable as separate provenance;
+3. structured source evidence is complete enough for audit;
+4. `searchQueries[]` are stored as GenSearch-observed queries, not consumer fan-out;
+5. cost/request boundaries are explicit;
+6. provider errors/unknown outcomes remain fail-closed and do not auto-retry paid requests.
+
+A result may still be useful if some roots are only `PARTIALLY_ALIGNED`; exact consumer-Alice equivalence is not the requirement.
+
+If several representative roots are `MATERIALLY_DIFFERENT` in ways that would change recommendations, GenSearch must remain a separate AI-search surface rather than a consumer-Alice proxy.
+
+## 8. Economics / operating rule
+
+Recorded pricing snapshot:
 
 ```text
-synchronous requests with generative response = 5,080 RUB / 1,000 requests incl. VAT
-≈ 5.08 RUB per request
+synchronous generative Search API ≈ 5.08 RUB/request
 ```
 
-Official pricing:
-
-`https://aistudio.yandex.ru/docs/ru/search-api/pricing.html`
-
-Therefore O-001 must **not** blindly send a complete 500- or 10,000-keyword semantic core to GenSearch.
-
-Correct workflow:
+Production workflow must remain selective:
 
 ```text
-large human-demand set
+large Wordstat set
 → ChatGPT cleans/clusters
-→ ordinary Search resolves many questions cheaply
-→ ChatGPT selects a small decision-relevant AI test set
-→ GenSearch only for material uncertainty / AI-specific measurement
+→ ordinary Search resolves most questions
+→ ChatGPT selects decision-relevant AI test roots
+→ bounded GenSearch calls
+→ provenance-preserving analysis
 ```
 
-This matches the original `blood_sand` research discipline.
+No hidden loops and no bulk GenSearch over the whole semantic core by default.
 
-## 8. Current product implication
+## 9. Implementation sequence
 
-Previous wording `missing hand = repeatable Alice UI capture` is now too narrow.
-
-Updated product hypothesis:
+Current authorized order:
 
 ```text
-preferred future hand = official GenSearch acquisition inside Search provider family
-consumer Alice capture = bounded validation/reference layer, not default bulk transport
+methodology comparative gate = PASS
+→ bounded GenSearch-vs-canonical-Alice validation
+→ if sufficiently useful/aligned:
+     freeze provider/protocol contract
+     implement inside Search provider family
+     add focused tests + full pre-delivery regression
+     run controlled owner-live acceptance
+→ if materially divergent:
+     keep provenance separate
+     revise product claim / acquisition design before production hand
 ```
 
-This reduces implementation risk because the official API gives structured data and avoids dependence on consumer UI DOM/state.
+GenSearch production protocol names are intentionally not frozen before the proxy result.
 
-## 9. What GenSearch does NOT prove
+## 10. What GenSearch does not prove
 
-Even when the API is implemented, do not claim:
+Even after implementation, never claim:
 
-- exact equivalence to the current consumer Alice UI;
+- exact equivalence to consumer Alice;
 - guaranteed Alice citation/indexing;
 - deterministic source inclusion;
-- a consumer-visible source ranking from `sources[]` order;
-- that `searchQueries[]` are necessarily identical to consumer Alice fan-out;
-- guaranteed traffic or commercial uplift.
-
-Those require separate evidence.
-
-## 10. Implementation gate
-
-GenSearch-specific `extension/src` changes are **not yet authorized** solely because the endpoint exists.
-
-Order:
-
-```text
-Phase 5 Direct = CLOSED
-→ valid blood_sand comparative methodology gate
-→ evaluate incremental decision uplift
-→ if justified, promote GenSearch hand to implementation priority
-→ run bounded GenSearch-vs-canonical-Alice proxy validation
-→ freeze exact provider/protocol contract
-→ implement/test
-```
-
-Read-only provider research may continue in parallel.
+- consumer-visible ranking from `sources[]` order;
+- `searchQueries[]` == consumer Alice fan-out;
+- guaranteed traffic, ranking or revenue uplift.
 
 ## 11. Current conclusion
 
-The official API route materially strengthens O-001 feasibility:
-
 ```text
-AI analysis = ChatGPT can do it
-human demand = existing Wordstat hand
-ordinary Search = existing Search hand
-repeatable AI-search acquisition = official GenSearch path exists
-post-launch ordinary search = existing Webmaster hand
-post-launch AI visibility = still needs an official/stable acquisition path or controlled import
+AI methodology incremental value = PROVEN ON CONTROLLED REAL DATASET
+official structured GenSearch path = FOUND
+bounded proxy validation = AUTHORIZED / PENDING
+production GenSearch hand = NOT YET FROZEN
 ```
 
-The remaining uncertainty is no longer `how can we collect any AI answer at all?`.
+The next uncertainty is specific and testable:
 
-It is:
-
-> Does the additional AI evidence materially improve our decisions, and how faithfully does official GenSearch represent the decision-relevant behavior seen in consumer Alice?
-
-Those questions are now explicitly gated and testable.
+> On representative roots, does official GenSearch preserve enough of the decision-relevant behavior observed in canonical consumer Alice to be the repeatable structured AI-search hand for O-001?
