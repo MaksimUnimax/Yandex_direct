@@ -7,7 +7,7 @@ on:
     paths:
       - .github/workflows/phase5-direct-codex-harness-r2.yml
       - extension/tests/qa_phase5_codex/**
-      - extension/tests/qa_browser/direct_codex_gate_addendum.mjs
+      - extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs
   workflow_dispatch:
 
 permissions:
@@ -62,7 +62,7 @@ jobs:
           node --check extension/tests/qa_browser/direct_browser_runtime.mjs
           node --check extension/tests/qa_browser/direct_popup_d18.mjs
           node --check extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs
-          node --check extension/tests/qa_browser/direct_codex_gate_addendum.mjs
+          node --check extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs
           node --check extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/product-before.sha256
           echo PHASE5_CODEX_R2_BROWSER_PRE_PRODUCT_PASS
@@ -97,11 +97,11 @@ jobs:
           grep -F D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS /tmp/manual.log
           grep -F D17_DIRECT_NO_DUPLICATE_PROVIDER_PASS /tmp/manual.log
           grep -F PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS /tmp/manual.log
-      - name: Run Direct Codex browser addendum
+      - name: Run Direct Codex browser addendum v2
         shell: bash
         run: |
           set -euo pipefail
-          xvfb-run -a node extension/tests/qa_browser/direct_codex_gate_addendum.mjs | tee /tmp/addendum.log
+          xvfb-run -a node extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs | tee /tmp/addendum.log
           for marker in \
             D19_FIVE_SERVICE_BACKUP_UI_MAPPING_PASS \
             D17_MANUAL_BUSY_FENCE_SINGLE_PROVIDER_PASS \
