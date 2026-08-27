@@ -121,6 +121,7 @@
     const counts = countStatuses(next);
     const pending = counts[ITEM_STATUSES.PENDING] || 0;
     const inFlight = (counts[ITEM_STATUSES.CLAIMED] || 0) + (counts[ITEM_STATUSES.REQUEST_STARTED] || 0);
+    const outcomeUnknown = counts[ITEM_STATUSES.OUTCOME_UNKNOWN] || 0;
 
     if (next.status === JOB_STATUSES.CANCELLING) {
       if (inFlight === 0) {
@@ -133,8 +134,14 @@
     if (next.status === JOB_STATUSES.PAUSED) return next;
 
     if (pending === 0 && inFlight === 0) {
-      next.status = JOB_STATUSES.COMPLETED;
-      next.completed_at = next.completed_at || nowValue(now);
+      if (outcomeUnknown > 0 && next.status !== JOB_STATUSES.CANCELLED) {
+        next.status = JOB_STATUSES.RUNNING;
+        next.completed_at = null;
+        next.stop_reason = "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION";
+      } else {
+        next.status = JOB_STATUSES.COMPLETED;
+        next.completed_at = next.completed_at || nowValue(now);
+      }
     } else if (next.status !== JOB_STATUSES.CANCELLED) {
       next.status = JOB_STATUSES.RUNNING;
     }
@@ -243,12 +250,12 @@
     if (next.status === JOB_STATUSES.PAUSED) return { job: Object.freeze(next), item: null, reason: "JOB_PAUSED" };
     if (next.status === JOB_STATUSES.CANCELLING) return { job: Object.freeze(next), item: null, reason: "JOB_CANCELLING" };
     if (next.status === JOB_STATUSES.CANCELLED) return { job: Object.freeze(next), item: null, reason: "JOB_CANCELLED" };
-    if (next.status === JOB_STATUSES.COMPLETED) return { job: Object.freeze(next), item: null, reason: "JOB_COMPLETED" };
     if (next.items.some((item) => item.status === ITEM_STATUSES.OUTCOME_UNKNOWN)) {
       next.stop_reason = "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION";
       next.updated_at = timestamp;
       return { job: Object.freeze(next), item: null, reason: "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION" };
     }
+    if (next.status === JOB_STATUSES.COMPLETED) return { job: Object.freeze(next), item: null, reason: "JOB_COMPLETED" };
     if (next.active_item_id || hasInFlight(next)) return { job: Object.freeze(next), item: null, reason: "ITEM_ACTIVE" };
 
     const budget = budgetDecision(next, nextEstimatedCostRub);
@@ -490,8 +497,9 @@
     let nextSafeAction = "CLAIM_NEXT";
     if (source.status === JOB_STATUSES.PAUSED) nextSafeAction = "RESUME_OR_CANCEL";
     else if (source.status === JOB_STATUSES.CANCELLING) nextSafeAction = "WAIT_FOR_INFLIGHT_OUTCOME";
-    else if (source.status === JOB_STATUSES.CANCELLED || source.status === JOB_STATUSES.COMPLETED) nextSafeAction = "NONE";
+    else if (source.status === JOB_STATUSES.CANCELLED) nextSafeAction = "NONE";
     else if (outcomeUnknown > 0 && claimed === 0 && requesting === 0) nextSafeAction = "RECONCILE_UNKNOWN";
+    else if (source.status === JOB_STATUSES.COMPLETED) nextSafeAction = "NONE";
     else if (claimed > 0 || requesting > 0) nextSafeAction = "WAIT_FOR_ACTIVE_ITEM";
     else if (pending === 0) nextSafeAction = "NONE";
 
