@@ -46,7 +46,8 @@ const server=https.createServer({key:fs.readFileSync(keyPath),cert:fs.readFileSy
 const delay=(ms)=>new Promise((resolve)=>setTimeout(resolve,ms));
 async function waitUntil(fn,message,timeout=20000,interval=120){const started=Date.now();let last;while(Date.now()-started<timeout){try{last=await fn();if(last)return last;}catch(error){last=error;}await delay(interval);}throw new Error(`${message}; last=${last instanceof Error?last.message:JSON.stringify(last)}`);}
 async function actionCount(page){return page.evaluate(()=>document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action').length||0);}
-async function clickLatestAction(page){return page.evaluate(()=>{const buttons=[...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action')||[])];const button=buttons.at(-1);if(!button)throw new Error('NO_MANUAL_ACTION');button.click();return buttons.length;});}
+async function latestActionReady(page){return page.evaluate(()=>{const buttons=[...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action')||[])];const button=buttons.at(-1);return Boolean(button&&!button.disabled);});}
+async function clickLatestAction(page){return page.evaluate(()=>{const buttons=[...(document.querySelector('#ymb-external-action-surface')?.shadowRoot?.querySelectorAll('.ymb-action')||[])];const button=buttons.at(-1);if(!button)throw new Error('NO_MANUAL_ACTION');if(button.disabled)throw new Error('MANUAL_ACTION_NOT_READY');button.click();return buttons.length;});}
 async function fixtureState(page){return page.evaluate(()=>({sendHistory:[...(window.__fixture?.sendHistory||[])],sendCycles:Number(window.__fixture?.sendCycles||0),composer:document.getElementById('prompt-textarea')?.value||''}));}
 
 await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(8443,'127.0.0.1',resolve);});
@@ -75,7 +76,7 @@ try{
   console.log('D17_DIRECT_LIFECYCLE_SETTINGS_PASS');
 
   await fixture.evaluate((command)=>window.__fixture.appendAssistant(command,'direct-list-turn'),LIST_COMMAND);
-  await waitUntil(async()=>await actionCount(fixture)>=1,'LIST_ACTION_NOT_ARMED');
+  await waitUntil(async()=>await actionCount(fixture)>=1&&await latestActionReady(fixture),'LIST_ACTION_NOT_READY');
   const beforeList=providerHits.length;await clickLatestAction(fixture);await waitUntil(async()=>providerHits.length===beforeList+1,'LIST_PROVIDER_NOT_CALLED');
   await waitUntil(async()=>(await fixtureState(fixture)).composer.startsWith('DIRECT_RESULT_V1'),'LIST_RESULT_NOT_FILLED');
   let fx=await fixtureState(fixture);assert.equal(fx.sendHistory.length,0);assert.equal(fx.sendCycles,0);assert.match(fx.composer,/"operation"\s*:\s*"listCampaigns"/);assert.equal(providerHits.at(-1).url,'/json/v501/campaigns');assert.deepEqual(JSON.parse(providerHits.at(-1).body).params.SelectionCriteria,{Ids:[77]});
@@ -87,7 +88,7 @@ try{
   await worker.evaluate(async()=>chrome.storage.local.set({wsmb_auto_send:true}));
 
   await fixture.evaluate((command)=>window.__fixture.appendAssistant(command,'direct-report-turn'),REPORT_COMMAND);
-  await waitUntil(async()=>await actionCount(fixture)>=2,'REPORT_ACTION_NOT_ARMED');
+  await waitUntil(async()=>await actionCount(fixture)>=2&&await latestActionReady(fixture),'REPORT_ACTION_NOT_READY');
   const beforeReport=providerHits.length;await clickLatestAction(fixture);await waitUntil(async()=>providerHits.length===beforeReport+1,'REPORT_PROVIDER_NOT_CALLED');
   await waitUntil(async()=>(await fixtureState(fixture)).sendHistory.filter((text)=>String(text).startsWith('DIRECT_RESULT_V1')).length>=2,'REPORT_RESULT_NOT_AUTOSENT',25000);
   fx=await fixtureState(fixture);const directSends=fx.sendHistory.filter((text)=>String(text).startsWith('DIRECT_RESULT_V1'));assert.equal(directSends.length,2);assert.equal(providerHits.at(-1).url,'/json/v501/reports');assert.equal(String(providerHits.at(-1).headers.processingmode||''),'online');
