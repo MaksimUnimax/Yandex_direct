@@ -10,6 +10,7 @@ on:
       - extension/tests/qa_browser/direct_browser_runtime.mjs
       - extension/tests/qa_browser/direct_check_diagnostic.mjs
       - extension/tests/qa_browser/direct_check_click_diagnostic.mjs
+      - extension/tests/qa_browser/direct_manual_lifecycle.mjs
   workflow_dispatch:
 
 permissions:
@@ -18,7 +19,7 @@ permissions:
 jobs:
   controlled-installed-extension:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,6 +32,7 @@ jobs:
           node --check extension/tests/qa_browser/direct_browser_runtime.mjs
           node --check extension/tests/qa_browser/direct_check_diagnostic.mjs
           node --check extension/tests/qa_browser/direct_check_click_diagnostic.mjs
+          node --check extension/tests/qa_browser/direct_manual_lifecycle.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/d5-product-before.sha256
           echo PHASE5_DIRECT_PRE_BROWSER_PRODUCT_IDENTITY_PASS
       - name: Install Puppeteer Chrome
@@ -81,6 +83,25 @@ jobs:
             exit 1
           fi
           echo PHASE5_DIRECT_CONTROLLED_BROWSER_PASS
+      - name: Run Direct manual lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_manual_lifecycle.mjs | tee /tmp/d5-lifecycle.log
+          for marker in \
+            D17_DIRECT_LIFECYCLE_SETTINGS_PASS \
+            D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS \
+            D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS \
+            D17_DIRECT_REMOUNT_NO_REPLAY_PASS \
+            D17_DIRECT_NO_DUPLICATE_PROVIDER_PASS \
+            D20_DIRECT_LIFECYCLE_REAL_YANDEX_REQUESTS=0 \
+            PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS; do
+            grep -F "$marker" /tmp/d5-lifecycle.log
+          done
+          if grep -F 'lifecycle-direct-secret' /tmp/d5-lifecycle.log; then
+            echo PHASE5_DIRECT_LIFECYCLE_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
       - name: Post-browser product immutability
         if: always()
         shell: bash
