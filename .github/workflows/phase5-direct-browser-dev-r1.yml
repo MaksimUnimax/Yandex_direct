@@ -83,12 +83,14 @@ jobs:
             exit 1
           fi
           echo PHASE5_DIRECT_CONTROLLED_BROWSER_PASS
-      - name: Run Direct manual lifecycle
+      - name: Run Direct manual lifecycle and popup D18
         shell: bash
         run: |
           set -euo pipefail
           xvfb-run -a node extension/tests/qa_browser/direct_manual_lifecycle.mjs | tee /tmp/d5-lifecycle.log
           for marker in \
+            D18_POPUP_430X560_PASS \
+            D18_TOP_BOTTOM_COMMON_SAVE_EQUIVALENT_PASS \
             D17_DIRECT_LIFECYCLE_SETTINGS_PASS \
             D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS \
             D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS \
