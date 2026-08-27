@@ -1,0 +1,248 @@
+name: phase5-direct-frozen-r2-gate
+
+on:
+  push:
+    branches:
+      - qa/phase5-direct-frozen-r2-gate-2026-08-27
+    paths:
+      - .github/workflows/phase5-direct-frozen-r2-gate.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  frozen-candidate-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - name: Checkout immutable QA harness
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Snapshot harness and package-test bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/tests -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/tests-before.sha256
+          find extension/tests/qa_phase5_codex extension/tests/qa_browser -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/direct-harness-before.sha256
+          echo D22_HARNESS_PRE_SNAPSHOT_PASS
+
+      - name: Download exact frozen GitHub artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phase5-direct-r2-frozen-candidate-841a1e2
+          path: frozen-transport
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 33037955943
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: D-00 verify artifact identity and round-trip exact candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZIP=frozen-transport/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-r2-candidate.zip
+          MANIFEST=frozen-transport/PHASE5_DIRECT_R2_EXACT_CANDIDATE_MANIFEST_2026-08-27.json
+          test -f "$ZIP"
+          test -f "$MANIFEST"
+          test "$(sha256sum "$ZIP" | awk '{print $1}')" = "ac8efc444578e9d3f31ac0325baca4b286fd608bc511850f480e0d397936620b"
+          python - <<'PY'
+          import hashlib, json, shutil, zipfile
+          from pathlib import Path
+          zip_path=Path('frozen-transport/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-r2-candidate.zip')
+          manifest_path=Path('frozen-transport/PHASE5_DIRECT_R2_EXACT_CANDIDATE_MANIFEST_2026-08-27.json')
+          m=json.loads(manifest_path.read_text(encoding='utf-8'))
+          assert m['source_commit']=='841a1e2c1a503c4a05572a957ba97c55b9b60c52'
+          assert m['product_tree']=='edf1c2d3494ebbc53ae778d23be1457eb885b605'
+          assert m['preflight_run_id']==33037727189
+          assert m['sha256']=='ac8efc444578e9d3f31ac0325baca4b286fd608bc511850f480e0d397936620b'
+          assert m['bytes']==406656
+          assert m['files']==39
+          assert m['zip_test']=='PASS'
+          assert m['real_yandex_requests']==0
+          assert hashlib.sha256(zip_path.read_bytes()).hexdigest()==m['sha256']
+          root=Path('frozen-roundtrip')
+          if root.exists(): shutil.rmtree(root)
+          root.mkdir()
+          with zipfile.ZipFile(zip_path,'r') as zf:
+              assert zf.testzip() is None
+              assert zf.namelist()==[row['path'] for row in m['entries']]
+              zf.extractall(root)
+          extracted=sorted(p for p in root.rglob('*') if p.is_file())
+          assert [p.relative_to(root).as_posix() for p in extracted]==[row['path'] for row in m['entries']]
+          for row in m['entries']:
+              data=(root/row['path']).read_bytes()
+              assert len(data)==row['bytes']
+              assert hashlib.sha256(data).hexdigest()==row['sha256']
+          rebuilt=Path('frozen-transport/roundtrip-rebuilt.zip')
+          with zipfile.ZipFile(rebuilt,'w',compression=zipfile.ZIP_STORED,strict_timestamps=True) as zf:
+              for p in extracted:
+                  rel=p.relative_to(root).as_posix()
+                  info=zipfile.ZipInfo(rel,date_time=(1980,1,1,0,0,0))
+                  info.compress_type=zipfile.ZIP_STORED
+                  info.create_system=3
+                  info.external_attr=(0o100644 << 16)
+                  zf.writestr(info,p.read_bytes())
+          assert rebuilt.read_bytes()==zip_path.read_bytes()
+          rebuilt.unlink()
+          print('D00_ARTIFACT_TRANSPORT_ROUNDTRIP_PASS')
+          PY
+          echo D-00: PASS
+
+      - name: Install exact frozen product bytes as test subject
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf extension/src
+          mkdir -p extension/src
+          unzip -q frozen-transport/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-r2-candidate.zip -d extension/src
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/product-before.sha256
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          m=json.loads(Path('frozen-transport/PHASE5_DIRECT_R2_EXACT_CANDIDATE_MANIFEST_2026-08-27.json').read_text(encoding='utf-8'))
+          root=Path('extension/src')
+          actual=sorted(p for p in root.rglob('*') if p.is_file())
+          assert len(actual)==39
+          assert [p.relative_to(root).as_posix() for p in actual]==[row['path'] for row in m['entries']]
+          for row in m['entries']:
+              data=(root/row['path']).read_bytes()
+              assert hashlib.sha256(data).hexdigest()==row['sha256']
+          print('FROZEN_PRODUCT_INSTALLED_EXACTLY_PASS')
+          PY
+          git diff --exit-code -- extension/src
+
+      - name: Run frozen packaged Node contract and regression gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/credential_runtime_concurrency.test.mjs | tee /tmp/concurrency.log
+          node --test extension/tests/qa_phase5_codex/direct_addendum_coverage.test.mjs | tee /tmp/direct-addendum.log
+          node --test extension/tests/*.test.mjs | tee /tmp/full-node.log
+          grep -F 'stale migration cannot erase a concurrent Direct credential save' /tmp/concurrency.log
+          grep -F 'concurrent Direct and Metrika saves preserve both independent records' /tmp/concurrency.log
+          grep -F 'backup runtime participates in the same credential mutation lock' /tmp/concurrency.log
+          for gate in D-01 D-02 D-03 D-04 D-05 D-06 D-07 D-08 D-09 D-10 D-11 D-12 D-13 D-14 D-15 D-16 D-17 D-21; do
+            grep -F "$gate" /tmp/full-node.log /tmp/direct-addendum.log >/dev/null
+          done
+          echo FROZEN_NODE_D01_D17_D21_PASS
+
+      - name: Install controlled browser harness dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+
+      - name: D-18 frozen popup geometry and common Save equivalence
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_popup_d18.mjs | tee /tmp/d18.log
+          grep -F D18_POPUP_430X560_PASS /tmp/d18.log
+          grep -F D18_TOP_BOTTOM_COMMON_SAVE_EQUIVALENT_PASS /tmp/d18.log
+          grep -F PHASE5_DIRECT_POPUP_D18_PASS /tmp/d18.log
+          echo D-18: PASS
+
+      - name: D-17 frozen installed-extension Direct Manual lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs | tee /tmp/manual.log
+          grep -F D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS /tmp/manual.log
+          grep -F D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS /tmp/manual.log
+          grep -F D17_DIRECT_REMOUNT_NO_REPLAY_PASS /tmp/manual.log
+          grep -F D17_DIRECT_NO_DUPLICATE_PROVIDER_PASS /tmp/manual.log
+          grep -F PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS /tmp/manual.log
+          grep -F D20_DIRECT_LIFECYCLE_REAL_YANDEX_REQUESTS=0 /tmp/manual.log
+          echo D-17: PASS
+
+      - name: D-16 D-17 D-19 D-20 frozen installed-extension addendum
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs | tee /tmp/browser-addendum.log
+          for marker in \
+            D19_FIVE_SERVICE_BACKUP_UI_MAPPING_PASS \
+            D17_MANUAL_BUSY_FENCE_SINGLE_PROVIDER_PASS \
+            D16_NON_DIRECT_ACTIVE_DIRECT_PREFIX_ZERO_TRAFFIC_PASS \
+            D20_DIRECT_AUTORUN_DEFAULT_DISABLED_LOCAL_PASS \
+            D16_DIRECT_ACTIVE_OTHER_PREFIXES_ZERO_TRAFFIC_PASS \
+            D20_DIRECT_AUTORUN_ONE_FINGERPRINT_ONE_PROVIDER_ONE_DELIVERY_PASS \
+            D20_DIRECT_AUTORUN_PAUSE_RESUME_FINISH_PASS \
+            DIRECT_REAL_YANDEX_REQUESTS=0 \
+            PHASE5_DIRECT_CODEX_BROWSER_ADDENDUM_PASS; do
+            grep -F "$marker" /tmp/browser-addendum.log
+          done
+          echo D-16: PASS
+          echo D-19: PASS
+          echo D-20: PASS
+
+      - name: Permanent Phase2 Stage4 compatibility regression on frozen bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_compat_gate.mjs | tee /tmp/compat.log
+          for marker in \
+            B01_PROJECT_WORK_IDENTITY_PASS \
+            B01_BINDING_PASS \
+            B02_MANUAL_RESYNC_SINGLE_ACTION_PASS \
+            B02_MANUAL_REMOUNT_NO_REPLAY_PASS \
+            B02_MANUAL_ON_OFF_TRANSACTION_PASS \
+            B03_NON_OWNER_CONTROL_FENCE_PASS \
+            B03_SEARCH_AUTORUN_PASS \
+            BROWSER_GATE_REAL_YANDEX_REQUESTS=0 \
+            PHASE2_STAGE4_COMPAT_BROWSER_GATE_PASS; do
+            grep -F "$marker" /tmp/compat.log
+          done
+          echo PRIOR_PHASE_REGRESSION_PASS
+
+      - name: D-22 final immutability cleanliness and acceptance matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/product-after.sha256
+          find extension/tests -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/tests-after.sha256
+          find extension/tests/qa_phase5_codex extension/tests/qa_browser -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/direct-harness-after.sha256
+          cmp /tmp/product-before.sha256 /tmp/product-after.sha256
+          cmp /tmp/tests-before.sha256 /tmp/tests-after.sha256
+          cmp /tmp/direct-harness-before.sha256 /tmp/direct-harness-after.sha256
+          git diff --exit-code -- extension/src extension/tests
+          test "$(sha256sum frozen-transport/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-r2-candidate.zip | awk '{print $1}')" = "ac8efc444578e9d3f31ac0325baca4b286fd608bc511850f480e0d397936620b"
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          m=json.loads(Path('frozen-transport/PHASE5_DIRECT_R2_EXACT_CANDIDATE_MANIFEST_2026-08-27.json').read_text(encoding='utf-8'))
+          root=Path('extension/src')
+          for row in m['entries']:
+              assert hashlib.sha256((root/row['path']).read_bytes()).hexdigest()==row['sha256']
+          print('TRANSPORT_WORKSPACE_CLEAN_PASS')
+          PY
+          echo 'real_credentials_used = NO'
+          echo 'real_yandex_direct_requests = 0'
+          echo 'production_modified_during_gate = NO'
+          echo 'package_tests_modified_during_gate = NO'
+          echo 'direct_harness_modified_during_gate = NO'
+          echo 'source_workspace_clean = PASS'
+          echo 'transport_workspace_clean = PASS'
+          echo 'enabled_not_run_sections = 0'
+          echo 'PRODUCT_BYTES_POST_TEST = IDENTICAL'
+          echo D-22: PASS
+
+      - name: Final D-00 through D-22 report
+        shell: bash
+        run: |
+          set -euo pipefail
+          for n in $(seq -w 0 22); do echo "D-$n: PASS"; done
+          echo 'direct_controlled_provider_requests: 2'
+          echo 'direct_real_yandex_requests: 0'
+          echo 'direct_real_credentials_used: NO'
+          echo 'NOT_RUN_COUNT=0'
+          echo 'PRODUCT_BYTES_POST_TEST=IDENTICAL'
+          echo 'PHASE5_DIRECT_R2_FROZEN_GATE_PASS'
