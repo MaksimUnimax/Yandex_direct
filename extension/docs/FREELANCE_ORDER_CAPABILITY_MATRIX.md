@@ -1,6 +1,6 @@
 # FREELANCE ORDER CAPABILITY MATRIX — Yandex Marketing Bridge
 
-Status: **ACTIVE / PERMANENT PRODUCT-DISCOVERY AND SERVICE-COVERAGE AUTHORITY**  
+Status: **ACTIVE / PERMANENT PRODUCT-DISCOVERY, SERVICE-COVERAGE AND MARKET-PRICING AUTHORITY**  
 Started: 2026-08-27
 
 ## 1. Purpose
@@ -9,6 +9,7 @@ This document converts real freelance-marketplace cards into a practical operati
 
 ```text
 real freelance order
+→ market price / deadline / volume
 → required client inputs
 → required final deliverable
 → can we complete it now?
@@ -16,13 +17,43 @@ real freelance order
 → missing capability/provider if not
 → repeated market demand
 → future product priority
+→ later: defensible pricing for our own services
 ```
 
-The target is to derive the sellable service catalog and the next product roadmap from real paid work rather than inventing features in isolation.
+The target is to derive the sellable service catalog, operating procedures, next product roadmap and pricing from real paid work rather than inventing features or prices in isolation.
 
 This is planning/evidence only. It does not authorize `extension/src` changes. While Phase 5 Direct owner-live is pending, this file remains on the QA branch and the frozen Direct product stays immutable.
 
-## 2. Verdict rules
+## 2. Mandatory fields for every card
+
+For every new card preserve:
+
+```text
+case id
+marketplace / category / service type
+listed price
+whether price is exact or "from"
+listed unit price when present
+service volume
+advertised deadline
+seller's stated usual completion time when present
+seller rating / completed orders when supplied
+order-specific review count when supplied
+client inputs
+promised deliverables
+end-to-end verdict = YES / PARTIAL / NO
+current Bridge/ChatGPT coverage
+exact execution workflow
+missing Bridge capability
+missing external provider/access/data
+manual work remaining
+commercial/operational constraints
+reusable capability signals
+```
+
+Never invent a missing price or duration. If it is absent from the supplied card and cannot be verified, record `UNKNOWN` and update it when evidence appears.
+
+## 3. Verdict rules
 
 ```text
 YES
@@ -37,22 +68,79 @@ NO
 
 Do not mark a card `YES` merely because an API call exists. `YES` means we can go from the client's inputs to the final artifact they paid for.
 
+## 4. Market-pricing methodology
+
+Do not average unrelated services together.
+
+Pricing analysis must group comparable cards by:
+
+```text
+service family
+scope/volume
+included data providers
+included analysis depth
+included artifact/report complexity
+manual-work share
+```
+
+For comparable groups, once there is enough evidence, calculate:
+
+```text
+sample count
+minimum / maximum
+median listed price
+25th–75th percentile when useful
+median advertised deadline
+median stated actual completion when available
+normalized price per unit (per 100 keywords / per niche / per site / per report)
+```
+
+Our eventual price should then be based on:
+
+```text
+market median/range
++ provider/API cost
++ expected operator/ChatGPT time
++ artifact/report complexity
++ revision/risk buffer
++ desired margin
+```
+
+A very cheap card with weak scope and an expensive expert analysis are not treated as the same product simply because both mention "semantic core".
+
 ---
 
-# 3. LIVE SELLABLE SERVICE COVERAGE
+# 5. MARKET SNAPSHOT
+
+| Case | Service | Listed price | Unit / volume | Deadline | Usual completion | Seller signal |
+|---|---|---:|---|---:|---|---|
+| F-001 | Yandex + Google rank tracking | 500 ₽ | up to 500 keywords; displayed add-on 100 ₽/quantity block | 1 day | usually 2 hours | 5.0; 412 completed; 7 positive order reviews shown |
+| F-002 | Detailed SEO semantic core | 45,000 ₽ | up to 10,000 keywords; derived 450 ₽/100 keywords | 30 days | usually 5 days | 4.9; 235 completed; 2 positive order reviews shown |
+| F-003 | Ahrefs-based semantic core + clustering | from 2,500 ₽ | 10,000 keywords; listing also shows 25 ₽/100 keywords | 7 days | not supplied | 5.0; 220 completed; 11 positive / 0 negative for this kwork |
+| F-004 | Niche analysis for a website | **UNKNOWN — price absent from supplied capture** | 1 niche / 1 region | 10 days | not supplied | 5.0; 220 completed; no reviews for this kwork |
+
+Notes:
+- `derived` unit prices are calculations from listed price/volume, not necessarily the seller's advertised unit tariff.
+- F-001, F-002, F-003 and F-004 are not directly interchangeable products; do not take a single median across all four.
+
+---
+
+# 6. LIVE SELLABLE SERVICE COVERAGE
 
 ## READY NOW
 
 | Case | Sellable service | Supported boundary | Execution |
 |---|---|---|---|
 | F-002 | SEO semantic core / keyword collection, up to 10,000 phrases | **Yandex Wordstat-based** collection. Google keyword-volume data is not promised. Base service does not include full automatic clustering. | Wordstat seed expansion → merge/deduplicate → intent filtering/tagging → XLSX/CSV |
+| F-004 variant | Yandex-based niche demand/seasonality + limited competitor analysis | Sell as our own explicitly bounded methodology: Yandex Wordstat + Yandex SERP + public/manual review of up to 3 competitors. Do **not** promise Ahrefs/Google Keyword Planner/backlink metrics. | Wordstat cluster/dynamics → Yandex SERP competitor discovery → public competitor review → averages/scoring → report + XLSX + chart |
 
 ## PARTIALLY COVERED
 
-| Case | Service | What we already cover | Main blocker |
+| Case | Exact advertised service | What we already cover | Main blocker |
 |---|---|---|---|
 | F-001 | Rank tracking in Yandex + Google, up to 500 keywords | Yandex SERP/rank extraction + final XLSX | No Google organic SERP provider; no durable bulk rank-check job |
 | F-003 | Ahrefs-based semantic core + clustering, up to 10,000 phrases / competitor research | Wordstat collection, Yandex SERP research, deduplication, semantic/intent clustering, spreadsheet/report production | No Ahrefs data source/provider for KD, Traffic Potential, Clicks and Ahrefs competitor datasets |
+| F-004 | Full niche analysis matching supplied seller example | Demand, 12-month dynamics, seasonality, competitor discovery, public-content analysis, averages, score/recommendations, report artifacts | No Ahrefs/SEO-metrics provider; no robust competitor crawler/landing-page inventory; no productized search-visibility batch workflow |
 
 ## NOT COVERED
 
@@ -62,32 +150,42 @@ None recorded yet.
 
 ---
 
-# 4. DEMAND-DERIVED CAPABILITY BACKLOG
+# 7. DEMAND-DERIVED CAPABILITY BACKLOG
 
 This is not automatically an implementation roadmap. Repeated appearance across independent paid cards raises priority.
 
 | Capability | Cases | Current state | Market signal |
 |---|---|---|---|
-| Bulk SERP / Rank Tracker orchestration | F-001 | Missing | HIGH |
+| Bulk SERP / Rank Tracker orchestration | F-001, F-004 | Missing | **HIGH — repeated** |
 | Google organic SERP provider | F-001 | Missing | HIGH |
-| Yandex high-volume/deferred Search workflow | F-001 | Deferred from Phase 2 | HIGH candidate |
-| Reusable rank-report XLSX builder | F-001 | Can be produced with artifact tooling; not productized | MEDIUM |
-| Semantic Core Builder / Wordstat batch orchestration | F-002, F-003 | Can be orchestrated now; no dedicated batch job | **HIGH — repeated** |
-| Seed expansion + deduplication + checkpoint/resume | F-002, F-003 | Operationally possible; not productized | **HIGH — repeated** |
-| Semantic clustering / intent grouping | F-002 (optional scope), F-003 (core scope) | ChatGPT can perform it; no durable large-dataset clustering workflow | **HIGH — repeated** |
-| Semantic-core XLSX/CSV/report builder | F-002, F-003 | Available through artifact tooling | HIGH reuse |
-| Ahrefs data access / import/provider layer | F-003 | Missing | HIGH for Ahrefs/competitor SEO orders; confirm repetition |
-| Competitor keyword/domain research workflow | F-003 | Partial via Yandex SERP; no Ahrefs corpus | HIGH candidate |
+| Yandex high-volume/deferred Search workflow | F-001, F-004 | Deferred from Phase 2 | **HIGH — repeated** |
+| Semantic Core Builder / Wordstat batch orchestration | F-002, F-003, F-004 | Can be orchestrated now; no dedicated batch job | **VERY HIGH — repeated 3x** |
+| Seed expansion + deduplication + checkpoint/resume | F-002, F-003, F-004 | Operationally possible; not productized | **VERY HIGH — repeated 3x** |
+| Semantic clustering / intent grouping | F-002, F-003, F-004 | ChatGPT can perform it; no durable large-dataset clustering workflow | **VERY HIGH — repeated 3x** |
+| Reusable XLSX/CSV/report builder | F-001, F-002, F-003, F-004 | Available through artifact tooling; not a Bridge workflow | **VERY HIGH reuse** |
+| Ahrefs / external SEO-metrics access or import layer | F-003, F-004 | Missing | **HIGH — repeated** |
+| Competitor keyword/domain research workflow | F-003, F-004 | Partial via Yandex SERP; no external competitor corpus | **HIGH — repeated** |
+| Public competitor site crawl / structure inventory | F-004 | Missing as durable governed workflow | HIGH candidate |
+| Niche-analysis scoring/report workflow | F-004 | Can be assembled manually by ChatGPT; not productized | HIGH candidate |
 
 ---
 
-# 5. CASE RECORDS
+# 8. CASE RECORDS
 
 ## F-001 — Rank tracking in Yandex and Google, up to 500 keywords
 
 **Marketplace:** Kwork  
-**Category:** SEO / semantic core / rank tracking  
 **Verdict:** `PARTIAL`
+
+### Market data
+
+```text
+listed price = 500 ₽
+volume = up to 500 keywords
+advertised deadline = 1 day
+seller stated usual completion = 2 hours
+seller = 5.0 rating / 412 completed orders
+```
 
 ### Client gives
 
@@ -103,16 +201,9 @@ This is not automatically an implementation roadmap. Repeated appearance across 
 - Yandex organic position to depth 100
 - Google organic position to depth 50
 - Excel summary: query | Google | Yandex
-- numeric rank or "-" when not found
 ```
 
-Two owner-supplied sample XLSX files confirmed that the artifact itself is simple. The hard part is reliable bulk SERP acquisition.
-
-### What works now
-
-Current `SEARCH_API_V1` can perform official Yandex web search with region control and request up to 100 result groups. Normalized results contain rank, URL and domain.
-
-Therefore:
+### Current coverage
 
 ```text
 Yandex one-key top-100 acquisition = YES
@@ -125,36 +216,9 @@ Google rank acquisition = NO
 ### Missing
 
 ```text
-1. Google organic SERP provider with verified ordinary-SERP fidelity, region targeting and depth >= 50.
-2. Durable bulk rank-check job:
-   keyword queue
-   → provider request
-   → target-domain match
-   → checkpoint
-   → resume without blind replay
-   → final table.
-3. Preferably a high-volume/deferred Yandex Search path for commercial bulk work.
-```
-
-### Target workflow after completion
-
-```text
-client domain + region + keyword list
-→ normalize domain
-→ create rank job
-→ Yandex top-100 per keyword
-→ Google top-50 per keyword
-→ find first target-domain rank
-→ checkpoint each completed unit
-→ completeness QA
-→ XLSX
-→ deliver
-```
-
-### Direct dependency
-
-```text
-NONE
+Google ordinary organic SERP provider
++ durable bulk rank-check queue/checkpoint/resume
++ preferably deferred/high-volume Yandex Search
 ```
 
 ---
@@ -162,302 +226,279 @@ NONE
 ## F-002 — Detailed SEO semantic core for a website, up to 10,000 keywords
 
 **Marketplace:** Kwork  
-**Category:** SEO / semantic core from scratch  
 **Verdict:** `YES — WITH YANDEX WORDSTAT AS DATA SOURCE`
 
-### Client gives
+### Market data
 
 ```text
-- topic / business direction
-- desired query type: informational / commercial / both
-- region
-- optional site/category context
+listed price = 45,000 ₽
+volume = up to 10,000 keywords
+derived normalization = 450 ₽ / 100 keywords
+advertised deadline = 30 days
+seller stated usual completion = 5 days
+seller = 4.9 rating / 235 completed orders
 ```
 
-### Client expects
+### Current execution
 
 ```text
-- current relevant keyword phrases
-- frequency data
-- up to 10,000 phrases
-- file suitable for SEO/site-structure work
+client topic + region + desired intent
+→ build seed map
+→ repeated explicit WORDSTAT_API_V1 getTop requests (up to 2000 phrases per seed)
+→ persist results/checkpoints
+→ merge + deduplicate
+→ expand uncovered semantic branches
+→ intent filtering/tagging
+→ XLSX/CSV
 ```
 
-The analyzed base card explicitly leaves final filtering to the client; grouping is a separate option. Therefore complete automatic clustering is not required for the base-service verdict.
+### Boundary
 
-### What works now
-
-Current `WORDSTAT_API_V1` supports:
-
-```text
-method = getTop
-one seed phrase per command
-numPhrases = 1..2000
-region filtering
-current Wordstat result data
-```
-
-Several strong seed branches can therefore be expanded iteratively, merged and deduplicated until the requested relevant unique-key coverage is reached or the real niche is exhausted.
-
-### Exact workflow available now
-
-```text
-1. Receive topic, intent and region.
-2. Resolve Wordstat region ID.
-3. Build initial seed map:
-   categories / synonyms / products / services / commercial modifiers / informational modifiers.
-4. Run explicit bounded Wordstat getTop commands for strong seeds.
-5. Persist results/checkpoints.
-6. Merge all phrases.
-7. Normalize and deduplicate while preserving provider values.
-8. Inspect uncovered semantic branches.
-9. Use useful returned phrases as new seeds and repeat.
-10. Stop when purchased relevant coverage is reached or the niche is genuinely exhausted.
-11. Tag/filter informational vs commercial intent if required.
-12. Produce XLSX/CSV.
-13. Validate unique count, duplicates, region and artifact integrity.
-14. Deliver.
-```
-
-Example command pattern:
-
-```text
-WORDSTAT_API_V1
-{
-  "method": "getTop",
-  "phrase": "<seed>",
-  "numPhrases": 2000,
-  "regions": ["<REGION_ID>"],
-  "devices": ["DEVICE_ALL"]
-}
-```
-
-### Commercial boundary
-
-Do not promise exactly 10,000 *relevant unique* phrases in a genuinely narrow niche. Do not pad the file with garbage solely to hit a numeric quota.
-
-If the client explicitly requires Google keyword-volume data, this variant is no longer `YES` because we do not currently have that provider.
-
-### Missing only for productization, not for accepting the work
-
-```text
-Semantic Core Builder / Wordstat Batch Orchestrator:
-seed queue
-→ Wordstat
-→ unique set
-→ expansion queue
-→ checkpoint/resume
-→ optional intent tagging
-→ artifact builder
-```
-
-### Direct dependency
-
-```text
-NONE
-```
+Do not promise Google keyword-volume data under current product. Do not pad narrow niches to an artificial 10,000 irrelevant phrases.
 
 ---
 
-## F-003 — Ahrefs-based semantic core analysis and clustering
+## F-003 — Ahrefs-based semantic core + clustering, up to 10,000 keywords
 
 **Marketplace:** Kwork  
-**Category:** SEO / semantic core / competitor research  
-**Advertised volume:** up to 10,000 keyword phrases and research of up to 100 competitor domains  
 **Verdict:** `PARTIAL`
+
+### Market data
+
+```text
+listed price = from 2,500 ₽
+listing normalized price shown = 25 ₽ / 100 keywords
+volume = up to 10,000 keywords
+advertised deadline = 7 days
+seller = 5.0 rating / 220 completed orders
+order-specific reviews = 11 positive / 0 negative
+```
+
+### Exact advertised data
+
+```text
+Ahrefs Search Volume
+Keyword Difficulty (KD)
+Traffic Potential
+Clicks
+competitor-domain datasets, potentially up to 100 domains
+clustering/report output
+```
+
+### Current coverage
+
+```text
+Wordstat keyword collection = YES
+Yandex SERP competitor discovery = YES
+semantic/intent clustering = YES
+XLSX/report production = YES
+Ahrefs KD / Traffic Potential / Clicks / competitor corpus = NO
+```
+
+### Unlock path
+
+If the client supplies an Ahrefs export, analysis and clustering can be completed now. For a fully autonomous service we need an accepted Ahrefs/API/import/provider layer.
+
+---
+
+## F-004 — Niche analysis for a website
+
+**Marketplace:** Kwork  
+**Category:** SEO / analytics / market analysis  
+**Verdict for exact seller-equivalent service:** `PARTIAL`  
+**Verdict for a clearly bounded Yandex-only variant:** `YES`
+
+### Market data
+
+```text
+listed price = UNKNOWN (not present in supplied capture and not independently verified)
+volume = 1 niche / 1 region
+advertised deadline = 10 days
+seller stated usual completion = not supplied
+seller = 5.0 rating / 220 completed orders
+order-specific reviews = none
+```
 
 ### Client gives
 
 ```text
-- main business/topic direction
-- up to 3 categories/sections
-- ideally 1–3 competitors in the target region
-- optional client site URL
+- product/service name
+- promotion region
+- existing site URL if any
+- target audience / offer specifics if available
 ```
 
-### Client expects
-
-The service is explicitly based on Ahrefs Keyword Explorer / competitor data and promises metrics such as:
+### Promised deliverables
 
 ```text
-- Search Volume
-- Keyword Difficulty (KD, 0–100)
-- Traffic Potential
-- Clicks
-- semantic keyword set / cluster analysis
-- research of competitors/domains
-- Google Sheets or Ahrefs-format/report deliverable
+- one target semantic cluster
+- cluster frequency and demand dynamics
+- 12-month seasonality
+- up to 3 main competitors
+- competitor comparison: structure, landing pages, assortment/services, content, search visibility and other available metrics
+- niche averages
+- difficulty score 1..10
+- launch/promotion recommendations
+- PDF/DOCX report
+- XLSX/Google Sheets keyword table
+- seasonality chart
+- competitor list with comments
+- risks
 ```
 
-### Why this is not READY NOW
+### What the supplied real example actually contains
 
-The exact advertised value depends on **Ahrefs-owned data**.
-
-Our current providers do not supply equivalent metrics:
+The supplied DOCX names these sources:
 
 ```text
-Yandex Wordstat frequency ≠ Ahrefs Search Volume
-Yandex Search SERP ≠ Ahrefs Keyword Difficulty
-Yandex Search SERP ≠ Ahrefs Traffic Potential
-Yandex Search SERP ≠ Ahrefs Clicks
-current Bridge ≠ Ahrefs competitor keyword database
+Yandex Wordstat
+Google Keyword Planner
+pr-cy.ru
+Yandex competitor analysis
+Ahrefs
 ```
 
-We must not fabricate or approximate Ahrefs fields and label them as Ahrefs data.
-
-### What we can already do
-
-Even without Ahrefs, much of the processing layer already exists conceptually:
+The supplied XLSX has four sheets:
 
 ```text
-Yandex Wordstat keyword expansion = YES
-Yandex regional SERP research = YES
-competitor discovery from Yandex SERP = YES, bounded by collected SERPs
-merge / normalization / deduplication = YES
-semantic intent classification = YES
-semantic clustering by phrase meaning = YES
-spreadsheet/report production = YES
+СЯ - Газон                 39 rows × 3 columns
+Анализ - Газон             17 rows × 6 columns
+Утеплитель                 1978 rows × 3 columns
+Анализ - Утеплитель        16 rows × 9 columns
 ```
 
-If the owner/client supplies a genuine **Ahrefs export** containing the required metrics, ChatGPT can process that supplied dataset:
+Keyword sheets contain phrase + Yandex Wordstat-like/Yandex-Direct-like numeric demand columns.
+
+Competitor sheets calculate averages across competitors for metrics including:
 
 ```text
-import Ahrefs export
-→ validate columns/rows
-→ normalize/deduplicate
-→ classify intent
-→ cluster phrases
-→ compare competitors/categories
-→ preserve KD/Volume/TP/Clicks as source data
-→ summarize clusters
-→ produce Google-Sheets-compatible XLSX/CSV/report
+Yandex IKS
+Ahrefs traffic
+Ahrefs DR
+unique referring domains
+backlinks / dofollow / nofollow
+organic keywords
+pages in Ahrefs
+site age
+product-card count
+social presence
+blog presence
+site specialization
 ```
 
-That would allow the **analysis/clustering portion** without a direct Ahrefs Bridge integration, because acquisition has been supplied externally.
+In the insulation example, seven competitor sites are averaged before the written report assigns a high difficulty score.
 
-### What is missing for the exact turnkey service
-
-#### A. Ahrefs data acquisition
-
-Need one governed source of real Ahrefs data:
+### What current Bridge/ChatGPT can already do
 
 ```text
-option 1: owner-operated Ahrefs subscription + exports
-option 2: official Ahrefs API/provider integration if commercially/technically available for the required datasets
+1 target semantic cluster = YES
+regional Wordstat frequency = YES
+12-month demand dynamics / seasonality = YES (Wordstat getDynamics)
+seasonality chart = YES
+up to 3 Yandex competitors from focus queries = YES (SEARCH_API_V1)
+manual/public review of competitor structure, assortment, content, blog/social presence = YES, but not productized
+basic Yandex search visibility checks for selected cluster queries = YES, but not bulk-productized
+average calculations = YES for whatever metrics we actually collect
+difficulty score 1..10 = YES if methodology is explicit and based only on observed metrics
+recommendations = YES
+PDF/DOCX + XLSX + charts = YES
 ```
 
-Before any integration we would need to verify current Ahrefs plan/API terms, limits, available endpoints, cost and permitted automation. No Ahrefs credential/provider exists in the Bridge today.
-
-#### B. Large semantic clustering workflow
-
-ChatGPT can cluster data, but 10,000 rows should not rely on one giant prompt. A reusable workflow should provide:
+### What prevents exact seller-equivalent coverage
 
 ```text
-input dataset
-→ normalization
-→ duplicate/near-duplicate control
-→ deterministic chunking
-→ intent classification
-→ lexical/semantic pre-groups
-→ optional SERP evidence per group
-→ cluster merge/reconciliation
-→ cluster IDs/names
-→ quality checks for split/merged intent
-→ checkpoint/resume
-→ final spreadsheet
+Ahrefs DR / backlink / traffic / organic-keyword / indexed-page metrics = NO PROVIDER
+Google Keyword Planner data = NO GOVERNED PROVIDER IN BRIDGE
+robust landing-page/site-structure inventory = NO DURABLE CRAWLER
+large repeatable search-visibility measurement = NO BULK SERP JOB
 ```
 
-This is now a repeated market signal because semantic clustering also appeared as an optional extension to F-002.
+The seller example derives its conclusion from Ahrefs-style averages. We must not invent equivalent DR/backlink/traffic numbers from Wordstat or Yandex Search.
 
-#### C. Competitor dataset workflow
+### Sellable bounded variant we can perform now
 
-The advertised scale says up to 100 competing domains. For an Ahrefs-equivalent service we need a structured pipeline for:
+We can offer a different but honest service:
 
 ```text
-competitor domains
-→ their ranking keywords/pages from Ahrefs source
-→ overlap/gap analysis
-→ unique keyword opportunities
-→ cluster assignment
-→ metrics aggregation
+"Анализ ниши для SEO на основе Яндекс Wordstat и поисковой выдачи Яндекса"
 ```
 
-Yandex SERP can help identify real competitors but does not replace the Ahrefs historical/ranking-keyword corpus.
-
-### Exact workflow after Ahrefs data access is available
+Workflow:
 
 ```text
-1. Receive main direction, up to 3 sections, competitors and optional client URL.
-2. Define target country/region and search intent boundary.
-3. Collect Ahrefs Keyword Explorer data for seed topics.
-4. Collect Ahrefs competitor keyword/page data for selected relevant competitors.
-5. Union datasets with source provenance.
-6. Normalize phrases and remove duplicates while preserving Ahrefs metrics.
-7. Filter obvious irrelevant/mismatched intent phrases.
-8. Classify informational/commercial/navigational intent as required.
-9. Cluster up to the purchased volume using deterministic chunk/checkpoint workflow.
-10. Reconcile clusters and optionally map them to sections/landing-page candidates.
-11. Aggregate useful cluster metrics without inventing missing provider values.
-12. QA rows, metrics, cluster membership, duplicates and source coverage.
-13. Produce Google-Sheets-compatible XLSX/CSV or agreed Ahrefs-style report.
-14. Deliver with a short explanation of columns and cluster logic.
+1. Receive niche, region, optional site and target-audience notes.
+2. Build one target semantic cluster through Wordstat.
+3. Collect current frequency.
+4. Collect 12-month dynamics and calculate seasonality.
+5. Select 3–5 focus queries from the cluster.
+6. Use Yandex Search SERP to identify recurring organic competitors.
+7. Select up to 3 main competitors.
+8. Review public competitor sites for:
+   - offer/category structure;
+   - main landing-page types visible from navigation/search;
+   - assortment/services;
+   - content/blog;
+   - commercial elements;
+   - social links where visible.
+9. Measure bounded Yandex search presence across the selected focus queries.
+10. Calculate transparent averages for only the measured signals.
+11. Score difficulty 1..10 using a documented rubric, not Ahrefs imitation.
+12. Produce recommendations, risks, seasonality chart, XLSX keyword table and DOCX/PDF report.
 ```
 
-### Alternative service we could sell today
+### Capability signal
 
-We **can** offer a different product now:
+F-004 strongly reinforces two missing capabilities already seen in F-003:
 
 ```text
-"Семантическое ядро и кластеризация на основе Яндекс Wordstat + анализа Яндекс SERP"
+external SEO-metrics provider/import = HIGH — repeated
+competitor research workflow = HIGH — repeated
 ```
 
-But that is **not** the same as advertising an Ahrefs-based report with KD / Traffic Potential / Clicks.
-
-### Direct dependency
+It also creates a new strong candidate product workflow:
 
 ```text
-NONE
-```
-
-### Product signal generated by F-003
-
-```text
-Ahrefs/importable external SEO-data layer = HIGH candidate
-semantic clustering workflow = HIGH and now repeated
-competitor keyword-gap workflow = HIGH candidate
+NICHE ANALYSIS BUILDER
+Wordstat demand + dynamics
+→ semantic cluster
+→ SERP competitor discovery
+→ competitor-site evidence
+→ scoring
+→ report artifacts
 ```
 
 ---
 
-# 6. HOW THIS MATRIX WILL BE USED
+# 9. HOW THIS WILL BE USED LATER
 
-After a sufficiently broad card sample, derive three concrete project outputs:
+After a broader sample of cards, derive:
 
 ```text
 A. SELLABLE SERVICE CATALOG
-   only services with verdict YES and their exact commercial boundaries.
+   only services/verifiable bounded variants we can complete end-to-end
 
-B. STANDARD OPERATING PROCEDURES
-   client inputs
-   → Bridge/API commands
-   → analysis
-   → artifact
-   → QA
-   → delivery.
+B. MARKET PRICE BOOK
+   comparable-card groups with price/volume/deadline statistics
 
-C. NEXT PRODUCT ROADMAP
-   missing capabilities ranked by how many real paid order types they unlock.
+C. NEAR-TERM PRODUCT ROADMAP
+   repeated missing capabilities that convert PARTIAL/NO into YES
+
+D. STANDARD OPERATING PROCEDURES
+   exact step-by-step execution for each sellable service
 ```
 
-The desired final logic is:
+Target operating map:
 
 ```text
-freelance order type
-→ can we accept it?
-→ what do we ask from client?
-→ exact execution steps
-→ provider/API cost and limits
-→ manual work remaining
-→ final deliverable
-→ missing capability if blocked
+freelance service
+→ market price range
+→ expected deadline
+→ required client inputs
+→ exact Bridge/API actions
+→ analysis steps
+→ final artifact
+→ provider/API cost
+→ operator time
+→ risks/revisions
+→ our recommended listing price
 ```
