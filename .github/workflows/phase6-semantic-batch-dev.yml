@@ -1,0 +1,39 @@
+name: phase6-semantic-batch-development
+
+on:
+  push:
+    branches:
+      - phase6/semantic-core-batch-orchestration-2026-08-27
+    paths:
+      - .github/workflows/phase6-semantic-batch-dev.yml
+      - extension/src/**
+      - extension/tests/**
+
+permissions:
+  contents: read
+
+jobs:
+  batch-model-and-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Phase 6 changed syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/provider_batch_job_model.js
+          node --check extension/tests/provider_batch_job_model.test.mjs
+      - name: Phase 6 pure batch model contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/provider_batch_job_model.test.mjs
+      - name: Existing Node regression suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs
