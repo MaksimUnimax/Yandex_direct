@@ -8,6 +8,7 @@ on:
       - .github/workflows/phase5-direct-browser-dev-r1.yml
       - extension/src/**
       - extension/tests/qa_browser/direct_browser_runtime.mjs
+      - extension/tests/qa_browser/direct_check_diagnostic.mjs
   workflow_dispatch:
 
 permissions:
@@ -27,6 +28,7 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/tests/qa_browser/direct_browser_runtime.mjs
+          node --check extension/tests/qa_browser/direct_check_diagnostic.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/d5-product-before.sha256
           echo PHASE5_DIRECT_PRE_BROWSER_PRODUCT_IDENTITY_PASS
       - name: Install Puppeteer Chrome
@@ -36,6 +38,16 @@ jobs:
           npm install --no-save --package-lock=false puppeteer@24
           npx puppeteer browsers install chrome
           command -v xvfb-run
+      - name: Diagnose Direct popup Check
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/direct_check_diagnostic.mjs | tee /tmp/d5-direct-check-diagnostic.log
+          grep -F 'PHASE5_DIRECT_CHECK_DIAGNOSTIC_COMPLETE' /tmp/d5-direct-check-diagnostic.log
+          if grep -F 'diagnostic-secret' /tmp/d5-direct-check-diagnostic.log; then
+            echo PHASE5_DIRECT_DIAGNOSTIC_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
       - name: Run controlled installed extension Direct runtime
         shell: bash
         run: |
