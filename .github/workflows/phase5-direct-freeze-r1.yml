@@ -1,0 +1,203 @@
+name: phase5-direct-freeze-r1
+
+on:
+  push:
+    branches:
+      - dev/phase5-direct-first-slice-2026-08-26
+    paths:
+      - .github/workflows/phase5-direct-freeze-r1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-exact-candidate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact Phase 5 candidate source
+        uses: actions/checkout@v4
+        with:
+          ref: 764e6f63ebd8db1f6e10d0cd03c0169b48318978
+          fetch-depth: 0
+
+      - name: Assert pinned source and product tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "764e6f63ebd8db1f6e10d0cd03c0169b48318978"
+          test "$(git rev-parse HEAD:extension/src)" = "a8ef5239a770f0321debd8322dcfadadff88e272"
+          git diff --exit-code
+          echo PHASE5_FREEZE_SOURCE_AUTHORITY_PASS
+          echo PHASE5_FREEZE_PRODUCT_TREE=a8ef5239a770f0321debd8322dcfadadff88e272
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Complete candidate source suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd extension/src
+          npm test
+          echo PHASE5_FREEZE_SOURCE_SUITE_PASS
+
+      - name: Build deterministic frozen ZIP and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf phase5-freeze-output
+          mkdir -p phase5-freeze-output
+          python - <<'PY'
+          import hashlib, json, pathlib, zipfile
+
+          source = pathlib.Path('extension/src')
+          out = pathlib.Path('phase5-freeze-output')
+          archive = out / 'yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-candidate.zip'
+          root = 'yandex-marketing-bridge-0.1.1-phase5-direct-first-slice'
+          source_commit = '764e6f63ebd8db1f6e10d0cd03c0169b48318978'
+          product_tree = 'a8ef5239a770f0321debd8322dcfadadff88e272'
+
+          files = sorted(p for p in source.rglob('*') if p.is_file())
+          per_file = []
+          for p in files:
+              data = p.read_bytes()
+              per_file.append({
+                  'path': p.relative_to(source).as_posix(),
+                  'sha256': hashlib.sha256(data).hexdigest(),
+                  'bytes': len(data),
+              })
+
+          def build(target):
+              with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+                  for p in files:
+                      rel = p.relative_to(source).as_posix()
+                      info = zipfile.ZipInfo(f'{root}/{rel}', date_time=(1980,1,1,0,0,0))
+                      info.compress_type = zipfile.ZIP_DEFLATED
+                      info.external_attr = 0o100644 << 16
+                      info.create_system = 3
+                      z.writestr(info, p.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+
+          build(archive)
+          with zipfile.ZipFile(archive, 'r') as z:
+              bad = z.testzip()
+              entries = z.infolist()
+              if bad is not None:
+                  raise SystemExit(f'ZIP_INTEGRITY_FAIL {bad}')
+
+          payload = archive.read_bytes()
+          manifest = {
+              'format': 'YMB_PHASE5_FROZEN_CANDIDATE',
+              'version': 1,
+              'source_branch': 'candidate/phase5-direct-first-slice-2026-08-27',
+              'source_commit': source_commit,
+              'product_path': 'extension/src',
+              'product_tree': product_tree,
+              'archive_root': root,
+              'filename': archive.name,
+              'sha256': hashlib.sha256(payload).hexdigest(),
+              'bytes': len(payload),
+              'files': len(files),
+              'entries': len(entries),
+              'zip_test': 'PASS',
+              'file_manifest': per_file,
+          }
+          (out / 'EXACT_PHASE5_DIRECT_CANDIDATE_MANIFEST_2026-08-27.json').write_text(
+              json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
+          print('source_commit=' + manifest['source_commit'])
+          print('product_tree=' + manifest['product_tree'])
+          print('sha256=' + manifest['sha256'])
+          print('bytes=' + str(manifest['bytes']))
+          print('files=' + str(manifest['files']))
+          print('entries=' + str(manifest['entries']))
+          print('zip_test=' + manifest['zip_test'])
+          print('PHASE5_FREEZE_FIRST_BUILD_PASS')
+          PY
+
+      - name: Fresh extraction and exact product identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf phase5-freeze-output/extract-a
+          mkdir -p phase5-freeze-output/extract-a
+          python - <<'PY'
+          import hashlib, json, pathlib, zipfile
+          out = pathlib.Path('phase5-freeze-output')
+          archive = out / 'yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-candidate.zip'
+          manifest = json.loads((out / 'EXACT_PHASE5_DIRECT_CANDIDATE_MANIFEST_2026-08-27.json').read_text(encoding='utf-8'))
+          extract = out / 'extract-a'
+          with zipfile.ZipFile(archive, 'r') as z:
+              z.extractall(extract)
+          root = extract / manifest['archive_root']
+          actual = []
+          for p in sorted(x for x in root.rglob('*') if x.is_file()):
+              data = p.read_bytes()
+              actual.append({'path': p.relative_to(root).as_posix(), 'sha256': hashlib.sha256(data).hexdigest(), 'bytes': len(data)})
+          if actual != manifest['file_manifest']:
+              raise SystemExit('FRESH_EXTRACT_FILE_IDENTITY_FAIL')
+          print('PHASE5_FREEZE_FRESH_EXTRACT_IDENTITY_PASS')
+          PY
+          diff -qr extension/src phase5-freeze-output/extract-a/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice
+          rm -rf phase5-freeze-output/extract-a
+
+      - name: Independent deterministic rebuild identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import pathlib, zipfile
+          source = pathlib.Path('extension/src')
+          target = pathlib.Path('phase5-freeze-output/rebuilt.zip')
+          root = 'yandex-marketing-bridge-0.1.1-phase5-direct-first-slice'
+          files = sorted(p for p in source.rglob('*') if p.is_file())
+          with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+              for p in files:
+                  rel = p.relative_to(source).as_posix()
+                  info = zipfile.ZipInfo(f'{root}/{rel}', date_time=(1980,1,1,0,0,0))
+                  info.compress_type = zipfile.ZIP_DEFLATED
+                  info.external_attr = 0o100644 << 16
+                  info.create_system = 3
+                  z.writestr(info, p.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+          print('PHASE5_FREEZE_REBUILD_CREATED')
+          PY
+          cmp --silent \
+            phase5-freeze-output/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-candidate.zip \
+            phase5-freeze-output/rebuilt.zip
+          rm phase5-freeze-output/rebuilt.zip
+          echo PHASE5_FREEZE_DETERMINISTIC_REBUILD_IDENTICAL_PASS
+
+      - name: Verify manifest against final bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, pathlib, zipfile
+          out = pathlib.Path('phase5-freeze-output')
+          m = json.loads((out / 'EXACT_PHASE5_DIRECT_CANDIDATE_MANIFEST_2026-08-27.json').read_text(encoding='utf-8'))
+          archive = out / m['filename']
+          payload = archive.read_bytes()
+          assert hashlib.sha256(payload).hexdigest() == m['sha256']
+          assert len(payload) == m['bytes']
+          with zipfile.ZipFile(archive, 'r') as z:
+              assert z.testzip() is None
+              assert len(z.infolist()) == m['entries']
+          print('PHASE5_FREEZE_FINAL_MANIFEST_MATCH_PASS')
+          print('PHASE5_FROZEN_SHA256=' + m['sha256'])
+          print('PHASE5_FROZEN_BYTES=' + str(m['bytes']))
+          print('PHASE5_FROZEN_FILES=' + str(m['files']))
+          print('PHASE5_FROZEN_ENTRIES=' + str(m['entries']))
+          PY
+
+      - name: Upload exact frozen candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase5-direct-frozen-candidate-764e6f63
+          path: |
+            phase5-freeze-output/yandex-marketing-bridge-0.1.1-phase5-direct-first-slice-candidate.zip
+            phase5-freeze-output/EXACT_PHASE5_DIRECT_CANDIDATE_MANIFEST_2026-08-27.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
