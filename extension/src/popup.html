@@ -82,7 +82,7 @@
         <label>Client-Login <small>необязательно; нужен для агентского доступа</small><input id="directClientLogin" type="text" autocomplete="off" spellcheck="false" placeholder="Оставьте пустым для обычного аккаунта"></label>
         <div class="actions"><button id="saveDirectCredential" type="button">Save</button><button id="checkDirectCredential" type="button">Check</button></div>
         <p id="directCheckMeta" class="credential-meta">Не проверено.</p>
-        <p class="warning">Check делает ровно один read-only Campaigns.get с FieldNames=["Id"] и Limit=1. Это POST по протоколу Direct; автоматического повтора при неизвестном исходе нет.</p>
+        <p class="warning">Check делает ровно один read-only Campaigns.get с FieldNames=["Id"] и Limit=1 и расходует Direct Units. Это POST по протоколу Direct; автоматического повтора при неизвестном исходе нет.</p>
       </details>
     </section>
 
