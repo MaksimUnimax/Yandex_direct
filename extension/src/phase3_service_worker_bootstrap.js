@@ -56,6 +56,12 @@
     } catch {}
   }
 
+  importScripts(
+    "shared/provider_batch_job_model.js",
+    "shared/wordstat_batch_protocol.js",
+    "shared/wordstat_batch_runtime.js",
+    "shared/wordstat_batch_transport.js"
+  );
   importScripts("service_worker_bootstrap.js");
 
   if (outerWrapped) {
@@ -63,4 +69,5 @@
   }
 
   importScripts("webmaster_worker_runtime.js");
+  importScripts("wordstat_batch_worker_integration.js");
 })();
