@@ -103,7 +103,7 @@
       search: Object.freeze({ has_api_key: Boolean(c.search.api_key), has_folder_id: Boolean(c.search.folder_id), folder_id: c.search.folder_id || null, checked_at: c.search.checked_at, check_state: c.search.check_state }),
       webmaster: Object.freeze({ has_oauth_token: Boolean(c.webmaster.oauth_token), has_user_id: Boolean(c.webmaster.user_id), user_id: c.webmaster.user_id || null, verified_at: c.webmaster.verified_at, check_state: c.webmaster.check_state }),
       metrika: Object.freeze({ has_oauth_token: Boolean(c.metrika.oauth_token), checked_at: c.metrika.checked_at, check_state: c.metrika.check_state }),
-      direct: Object.freeze({ has_oauth_token: Boolean(c.direct.oauth_token), has_client_login: Boolean(c.direct.client_login), checked_at: c.direct.checked_at, check_state: c.direct.check_state })
+      direct: Object.freeze({ has_oauth_token: Boolean(c.direct.oauth_token), has_client_login: Boolean(c.direct.client_login), client_login: c.direct.client_login || null, checked_at: c.direct.checked_at, check_state: c.direct.check_state })
     });
   }
 
