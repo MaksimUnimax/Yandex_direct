@@ -163,13 +163,13 @@ try {
   assert.equal(saveCredential?.ok, true);
   await popupSelect(p.popup, 'activeService', 'direct');
   await setChecked(p.popup, 'directManualEnabled', true);
-  await setChecked(p.popup, 'directAutorunEnabled', true);
   await setChecked(p.popup, 'autoSend', false);
   await popupClick(p.popup, '#saveSettings');
   await waitStatus(p.popup, 'Настройки сохранены.', 'DIRECT_SETTINGS_SAVE_FAIL');
   let state = await getState(p.popup);
   assert.equal(state.service_context?.active_service, 'direct');
   assert.equal(state.direct_policy?.manual_enabled, true);
+  assert.equal(state.direct_policy?.autorun_enabled, false);
   console.log('D17_DIRECT_LIFECYCLE_SETTINGS_PASS');
 
   await popupClick(p.popup, '#manualMode');
