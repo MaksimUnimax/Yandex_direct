@@ -92,9 +92,13 @@ async function getState(popup) {
   if (!response?.ok || !response.state) throw new Error(`STATE_FAIL ${JSON.stringify(response)}`);
   return response.state;
 }
-async function openPopup(worker, browser) {
+async function openPopup(worker, browser, chatTabId, chatWindowId) {
   const existingTargets = new Set(browser.targets());
-  const tab = await worker.evaluate(async () => await chrome.tabs.create({ url:chrome.runtime.getURL('popup.html'), active:false }));
+  const tab = await worker.evaluate(async ({ chatTabId, chatWindowId }) => {
+    await chrome.tabs.update(chatTabId, { active:true });
+    try { await chrome.windows.update(chatWindowId, { focused:true }); } catch {}
+    return await chrome.tabs.create({ url:chrome.runtime.getURL('popup.html'), active:false, windowId:chatWindowId });
+  }, { chatTabId, chatWindowId });
   assert.ok(tab?.id, 'POPUP_TAB_CREATE_FAIL');
   const target = await browser.waitForTarget((t) => !existingTargets.has(t) && t.url().startsWith('chrome-extension://') && t.url().endsWith('/popup.html'), { timeout:10000 });
   const popup = await target.page();
@@ -145,12 +149,13 @@ try {
     const tabs = await chrome.tabs.query({});
     const tab = tabs.find((item) => item.url === expectedUrl);
     if (!tab) return null;
-    return await new Promise((resolve) => chrome.tabs.sendMessage(tab.id, { type:'WS_GET_IDENTITY' }, (response) => resolve({ tabId:tab.id, response:response || null, error:chrome.runtime.lastError?.message || null })));
+    return await new Promise((resolve) => chrome.tabs.sendMessage(tab.id, { type:'WS_GET_IDENTITY' }, (response) => resolve({ tabId:tab.id, windowId:tab.windowId, response:response || null, error:chrome.runtime.lastError?.message || null })));
   }, PROJECT_URL);
   assert.equal(identity?.response?.ok, true, `IDENTITY_FAIL ${JSON.stringify(identity)}`);
   assert.equal(identity.response.conversation_key, KEY, `IDENTITY_KEY_FAIL ${JSON.stringify(identity.response)}`);
+  assert.ok(Number.isInteger(identity.tabId) && Number.isInteger(identity.windowId), `IDENTITY_TAB_WINDOW_FAIL ${JSON.stringify(identity)}`);
 
-  let p = await openPopup(worker, browser);
+  let p = await openPopup(worker, browser, identity.tabId, identity.windowId);
   await popupClick(p.popup, '#bindConversation');
   await waitStatus(p.popup, 'Диалог привязан.', 'BIND_FAIL');
 
@@ -190,7 +195,7 @@ try {
   await fixture.evaluate(() => { const textarea=document.getElementById('prompt-textarea'); textarea.value=''; textarea.dispatchEvent(new Event('input',{bubbles:true})); });
   await closePopup(worker, p.tabId);
   await fixture.bringToFront();
-  p = await openPopup(worker, browser);
+  p = await openPopup(worker, browser, identity.tabId, identity.windowId);
   assert.equal((await getState(p.popup)).manual_mode, true);
   await setChecked(p.popup, 'autoSend', true);
   await popupClick(p.popup, '#saveSettings');
