@@ -90,7 +90,7 @@ provider/API cost
 | F-003 | Ahrefs semantic core + clustering | from 2,500 ₽ | 10,000; listing also shows 25 ₽/100 | 7 days | not supplied | 5.0; 220 completed; 11 positive / 0 negative |
 | F-004 | Niche analysis for a website | UNKNOWN | 1 niche / 1 region | 10 days | not supplied | 5.0; 220 completed; no reviews for this kwork |
 | F-005 | Wordstat frequency check for supplied keywords | from 4,500 ₽ | up to 10,000 / 1 region; 45 ₽/100 shown | 7 days | not supplied | 4.9; 235 completed; 1 positive / 0 negative |
-| F-006 | Semantic core for Yandex Direct advertising | from 1,500 ₽ | 100 keywords; 1,500 ₽/100 | 2 days | not supplied | 5.0; 742 completed; 41 positive / 0 negative |
+| F-006 | Semantic core for Yandex Direct advertising | from 1,500 ₽ | 100 keywords; 1,500 ₽/100 | 2 days | usually 21 hours | 5.0; 742 completed; 41 positive / 0 negative |
 | F-007 | Grouped semantic core for Yandex Direct advertising | from 4,000 ₽ | up to 500; 800 ₽/100 shown | 10 days | not supplied | 5.0; 798 completed; 5 positive / 0 negative |
 | F-008 | Technical + SEO audit of one website | 2,000 ₽ — cross-card evidence | 1 site; PDF + Excel appendices; optional Keys.so organic export | 10 days | not supplied | 5.0; 798 completed; 1 positive / 0 negative |
 | F-009 | Technical SEO audit + 2-page desktop usability bonus | 3,000 ₽ — cross-card evidence | all pages of 1 site + 2 usability pages | 3 days | not supplied | 5.0; 1,104 completed; 25 positive / 0 negative |
@@ -107,6 +107,8 @@ Do not calculate one median across unrelated products.
 | F-007 | up to 500 keys | from 4,000 ₽ | 800 ₽/100 | 10 days | Wordstat/Key Collector collection + cleaning + logical groups + ВЧ/СЧ/НЧ |
 
 `n=2` is not enough to set our final price. Current observed normalized range is **800–1,500 ₽ per 100 keywords** and deliverable depth differs.
+
+A duplicate revisit of the exact F-006 listing confirmed the seller-displayed **usual completion = 21 hours**. This enriches F-006 only; it is not a new market observation and does not change the demand/pricing sample size.
 
 ### Comparable family — technical SEO audits
 
@@ -266,7 +268,7 @@ Missing: durable 10k batch, proven quota/economics, historical exact-`!` semanti
 **Verdict:** `YES — READY NOW`
 
 ```text
-Market: from 1,500 ₽; 100 keys; 1,500 ₽/100; 2 days.
+Market: from 1,500 ₽; 100 keys; 1,500 ₽/100; 2 days; usually 21 hours.
 Input: advertised product/service URL + geotargeting.
 Output: Wordstat-based grouped workbook + base frequency + minus-words.
 Demo: 17 sheets; 15 thematic + contents + minus-words; 1,206 phrase-frequency records; 1,204 unique; 290 unique minus-words.
@@ -274,6 +276,8 @@ Workflow: offer → seeds → Wordstat → dedupe/clean → groups → frequency
 ```
 
 Direct API is not required because the deliverable prepares semantics for advertising but does not mutate an advertising account.
+
+The exact same listing was later seen again and correctly treated as a duplicate. That revisit added only one new market fact — seller-displayed usual completion of **21 hours** — and did not create another F-id or market observation.
 
 ## F-007 — Grouped semantic core for Yandex Direct, up to 500 keys
 
