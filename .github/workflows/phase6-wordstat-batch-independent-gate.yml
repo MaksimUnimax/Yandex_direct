@@ -1,0 +1,62 @@
+name: phase6-wordstat-batch-independent-gate
+
+on:
+  push:
+    branches:
+      - qa/phase6-wordstat-batch-independent-gate-2026-08-27
+    paths:
+      - .github/workflows/phase6-wordstat-batch-independent-gate.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-complete-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Assert immutable Phase 6 product authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse 34f50688268970f4863dddb2089a33d891b91372:extension/src)" = "adab628a8ec328fa5079ae35f45005a0ee7de2c1"
+          test "$(git rev-parse HEAD:extension/src)" = "adab628a8ec328fa5079ae35f45005a0ee7de2c1"
+          echo PHASE6_INDEPENDENT_SOURCE_AUTHORITY_PASS
+
+      - name: Download exact frozen GitHub artifact wrapper
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/phase6-transport
+          mkdir -p /tmp/phase6-transport
+          curl --fail --location --silent --show-error \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/MaksimUnimax/Yandex_direct/actions/artifacts/9649039904/zip" \
+            --output /tmp/phase6-artifact-wrapper.zip
+          echo "bcc33634c1673170c71e979f9e1412c944d372ebd7e351b5a3b31c973762f478  /tmp/phase6-artifact-wrapper.zip" | sha256sum -c -
+          unzip -q /tmp/phase6-artifact-wrapper.zip -d /tmp/phase6-transport
+          test -f /tmp/phase6-transport/yandex-marketing-bridge-0.1.1-phase6-wordstat-batch-first-slice-candidate.zip
+          test -f /tmp/phase6-transport/PHASE6_WORDSTAT_BATCH_EXACT_CANDIDATE_MANIFEST_2026-08-27.json
+          test "$(find /tmp/phase6-transport -maxdepth 1 -type f | wc -l)" -eq 2
+          echo PHASE6_INDEPENDENT_ARTIFACT_ACQUISITION_PASS
+
+      - name: Run independent source/package/browser complete gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/qa_phase6_independent/phase6_wordstat_batch_complete_gate_runner.py \
+            --transport-dir /tmp/phase6-transport \
+            --wrapper /tmp/phase6-artifact-wrapper.zip
