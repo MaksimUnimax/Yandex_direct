@@ -1,12 +1,12 @@
 # AI-NATIVE SEMANTIC REBUILD — OWN SERVICE OPPORTUNITY
 
-Status: **STRATEGIC OFFER / PRODUCT-DISCOVERY EVIDENCE / NO `extension/src` CHANGE AUTHORIZED**  
+Status: **STRATEGIC OFFER / EXPERIMENTAL PREMIUM HYPOTHESIS / COMPARATIVE GATE REQUIRED / NO `extension/src` CHANGE AUTHORIZED**  
 Date: 2026-08-27  
 Internal offer id: **O-001**
 
 ## 1. What this is
 
-This is our own service concept derived from the `MaksimUnimax/blood_sand` marketing strategy and real research workflow. It is **not** a freelance-marketplace observation and therefore must not be counted as F-018 in market-demand statistics.
+This is our own service concept derived from the `MaksimUnimax/blood_sand` marketing strategy and real research workflow. It is **not** a freelance-marketplace observation and therefore must not be counted as an F-case in market-demand statistics.
 
 Working internal shorthand may remain `ИИ-индексация`, but the client promise should not imply guaranteed indexing, ranking or inclusion in AI answers.
 
@@ -122,9 +122,64 @@ O-001 additionally asks:
 - roots where Search is commercial-first while Alice emphasizes mythology, explanation or suitability;
 - broad high-frequency roots whose apparent opportunity collapses after intent contamination is compared across Wordstat, Search and Alice.
 
-Therefore an ordinary keyword list can make the wrong page decision even when its frequency data is correct.
+Therefore an ordinary keyword list can make a different page decision even when its frequency data is correct.
 
-## 5. Current market differentiation
+That observation is real evidence, but it is **not by itself sufficient proof that the premium method improves decisions over a strong ordinary SEO baseline**. That must be tested directly by the mandatory comparative gate below.
+
+## 5. Mandatory one-time comparative validation
+
+Before O-001 is promoted from a strategic premium hypothesis to a proven premium freelance offer, execute:
+
+```text
+extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md
+```
+
+The experiment uses the existing canonical `blood_sand` dataset and freezes two independent passes:
+
+```text
+PASS A — ordinary SEO baseline
+business/product evidence + Wordstat + ordinary Yandex Search/SERP
+NO Alice evidence or Alice-derived conclusions
+
+PASS B — AI-native
+same baseline evidence
++ canonical Alice answers/sources/fan-out/context evidence
++ H/A/C/O analysis
+```
+
+Then compare action-level deltas:
+
+- retain / investigate / reject;
+- intent;
+- priority;
+- page-job split/merge;
+- supporting FAQ/guide/comparison jobs;
+- contamination correction;
+- source/content gaps;
+- confidence/de-risking.
+
+The gate is falsifiable. A valid result may be:
+
+```text
+AI_NATIVE_COMPARATIVE_GATE_PASS
+NO_PROVEN_UPLIFT
+INVALID_BASELINE_LEAKAGE
+INSUFFICIENT_CANONICAL_EVIDENCE
+```
+
+Commercial rule:
+
+```text
+until comparative PASS:
+O-001 = EXPERIMENTAL PREMIUM HYPOTHESIS
+
+comparative PASS + repeatable Alice evidence hand:
+O-001 may become a repeatable premium freelance offer
+```
+
+A PASS proves only useful decision uplift on a real project dataset. It does not prove ranking, traffic, sales, guaranteed Alice indexing or guaranteed source inclusion.
+
+## 6. Current market differentiation
 
 Generic GEO/AEO services already exist on Kwork. Current examples include AI-readiness audits, FAQ/content recommendations, `atomic answer` optimization, LSI headings, and mass AI-oriented article production.
 
@@ -143,7 +198,7 @@ Wordstat measurements
 
 This is a differentiation signal, not proof that no competitor anywhere offers a similar methodology.
 
-## 6. Current capability with ChatGPT Plus + accepted Bridge
+## 7. Current capability with ChatGPT Plus + accepted Bridge
 
 | Layer | Current status | Who does the work |
 |---|---|---|
@@ -164,17 +219,23 @@ This is a differentiation signal, not proof that no competitor anywhere offers a
 | Ordinary post-launch Webmaster query performance | **YES** | current Bridge Webmaster slice |
 | Alice SoV/query/source-page data through current Bridge | **MISSING in current Webmaster protocol** | missing hand/import path |
 | Post-launch traffic/conversion analysis | **YES where Metrika data exists** | Bridge + ChatGPT |
-| Direct account data | **OPTIONAL, NOT REQUIRED** | Bridge Direct after provider approval |
+| Direct account data | **OPTIONAL, NOT REQUIRED** | Bridge Direct after Phase 5 owner-live closure |
 
 Important current code boundary: accepted Webmaster exposes `listHosts`, `getSummary`, `getDiagnostics`, `getPopularQueries`; it does not currently expose the new `Видимость сайта в Алисе AI` analytics surface.
 
-## 7. Verdict
+## 8. Verdict
 
-### Strategic/service verdict
+### Strategic/service hypothesis
 
-**YES — STRONG DIFFERENTIATED PREMIUM OFFER.**
+**YES — STRONG DIFFERENTIATED PREMIUM HYPOTHESIS.**
 
 It is a natural premium layer over the market-proven Semantic Core Builder and uses a methodology already exercised in `blood_sand` rather than an invented marketing label.
+
+### Commercial proof status
+
+**EXPERIMENTAL — COMPARATIVE GATE NOT YET RUN.**
+
+We have real cross-surface evidence and a credible differentiation mechanism, but we deliberately do not call the premium decision uplift proven until the `blood_sand` baseline-vs-AI-native experiment passes.
 
 ### Strict current toolchain verdict
 
@@ -193,9 +254,9 @@ Missing hand = repeatable Alice observation acquisition
 and post-launch Alice-visibility acquisition/import.
 ```
 
-A bounded service can still be delivered today if canonical Alice observations and/or Webmaster Alice exports are supplied through a controlled browser/export capture path. But the fully repeatable target state — operator only runs the extension while ChatGPT performs everything else — requires productizing the Alice evidence hand.
+A bounded research engagement can still be executed if canonical Alice observations and/or Webmaster Alice exports are supplied through a controlled browser/export capture path. But the fully repeatable target state — operator only runs the extension while ChatGPT performs everything else — requires productizing the Alice evidence hand.
 
-## 8. Exact O-001 workflow
+## 9. Exact O-001 workflow
 
 ```text
 1. Intake
@@ -254,7 +315,7 @@ A bounded service can still be delivered today if canonical Alice observations a
     compare before/after and revise page jobs when evidence contradicts the initial hypothesis.
 ```
 
-## 9. Recommended client artifact
+## 10. Recommended client artifact
 
 Core workbook columns should be closer to this than to a traditional two-column keyword list:
 
@@ -285,7 +346,7 @@ notes
 
 This preserves the most valuable part of the method: why a page/action was recommended.
 
-## 10. Missing product capability — highest leverage hand
+## 11. Missing product capability — highest leverage hand
 
 ### AI SEARCH / ALICE OBSERVATION JOB
 
@@ -325,18 +386,24 @@ dynamics
 
 The current accepted Webmaster protocol does not expose this surface, so the first implementation can be a controlled export/import or browser-assisted capture if there is no suitable stable official API path.
 
-No provider/interface implementation is authorized while Phase 5 Direct owner-live is pending.
+No Alice-specific provider/interface implementation is authorized before:
 
-## 11. Product position relative to Semantic Core Builder
+1. Phase 5 Direct is fully closed;
+2. `AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md` is executed;
+3. the result justifies the product priority.
 
-Do not replace the P0 Semantic Core Builder with O-001. Use a tiered service architecture:
+Provider/API research may continue read-only in parallel.
+
+## 12. Product position relative to Semantic Core Builder
+
+Do not replace the Semantic Core Builder with O-001. Use a tiered service architecture:
 
 ```text
 BASE
 Semantic Core Builder
 = human search demand + cleaning + grouping + page mapping
 
-PREMIUM
+PREMIUM CANDIDATE
 AI-Native Semantic Rebuild
 = BASE
 + Yandex SERP evidence
@@ -348,9 +415,11 @@ AI-Native Semantic Rebuild
 + post-launch AI visibility measurement
 ```
 
-This separation is commercially useful because AI measurement/research adds meaningful operator/model work and should not be silently bundled into low-price 100-key semantic packages.
+This separation is commercially useful because AI measurement/research adds meaningful operator/model work and should not be silently bundled into low-price semantic packages.
 
-## 12. Commercial boundaries
+The PREMIUM tier becomes a proven offer only after the comparative gate demonstrates material decision value and the required evidence acquisition is repeatable.
+
+## 13. Commercial boundaries
 
 Never promise:
 
@@ -363,17 +432,17 @@ Never promise:
 - that observed Alice source order is a ranking;
 - that one AI answer is permanently reproducible.
 
-Promise what we can control:
+Promise only what can be controlled and evidenced:
 
 - evidence collection under a declared methodology;
-- a transparent semantic/page rebuild based on both search and AI evidence;
+- a transparent semantic/page rebuild based on the evidence available;
 - concrete content/page actions;
 - before/after measurement where client data exists;
 - revision of recommendations when new evidence contradicts the original hypothesis.
 
-## 13. Product conclusion
+## 14. Product conclusion
 
-O-001 should be treated as a **strategic premium differentiator** of Yandex Marketing Bridge.
+O-001 should be treated as a **strategic premium differentiator under validation** for Yandex Marketing Bridge.
 
 The strongest architecture is not `extension does SEO automatically` and not `human SEO specialist manually works around the extension`.
 
@@ -385,4 +454,14 @@ Yandex Marketing Bridge = authenticated measurement and execution hands
 Human = owner/operator/authorization boundary
 ```
 
-Under this model the current product already supplies most of the data primitives. The main missing hand for the premium AI-native service is Alice observation + Alice-visibility acquisition. Once that hand is reliable, the Blood & Sand methodology becomes a repeatable freelance service rather than a one-project research process.
+Under this model the current product already supplies most of the data primitives. The two remaining questions are intentionally separated:
+
+```text
+METHOD VALUE
+→ prove once on blood_sand with the comparative gate
+
+REPEATABLE HAND
+→ productize Alice observation + Alice-visibility acquisition only if the gate justifies it
+```
+
+This prevents both underestimating ChatGPT's analytical role and overbuilding an Alice integration before its incremental decision value is demonstrated.
