@@ -1,0 +1,175 @@
+name: phase6-wordstat-batch-freeze
+
+on:
+  push:
+    branches:
+      - candidate/phase6-wordstat-batch-first-slice-2026-08-27
+    paths:
+      - .github/workflows/phase6-wordstat-batch-freeze.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-candidate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Assert exact source authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "34f50688268970f4863dddb2089a33d891b91372"
+          test "$(git rev-parse HEAD:extension/src)" = "adab628a8ec328fa5079ae35f45005a0ee7de2c1"
+          echo PHASE6_FREEZE_SOURCE_AUTHORITY_PASS
+
+      - name: Run complete source Node regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-reporter=tap extension/tests/*.test.mjs | tee /tmp/phase6-source.tap
+          grep -Eq '^# pass [0-9]+$' /tmp/phase6-source.tap
+          grep -F '# fail 0' /tmp/phase6-source.tap
+          echo PHASE6_FREEZE_SOURCE_SUITE_PASS
+
+      - name: Validate source syntax and JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          JS_COUNT=0
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+            JS_COUNT=$((JS_COUNT+1))
+          done < <(find extension/src -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          files=sorted(Path('extension/src').rglob('*.json'))
+          for p in files:
+              json.loads(p.read_text(encoding='utf-8'))
+          print(f'PHASE6_FREEZE_SOURCE_JSON={len(files)}/{len(files)}')
+          PY
+          echo "PHASE6_FREEZE_SOURCE_SYNTAX=${JS_COUNT}/${JS_COUNT}"
+
+      - name: Build deterministic candidate twice and verify transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .phase6-freeze /tmp/phase6-extract
+          mkdir -p .phase6-freeze /tmp/phase6-extract
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/phase6-product-before.sha256
+          python3 - <<'PY'
+          import hashlib, json, os, zipfile
+          from pathlib import Path
+
+          SOURCE=Path('extension/src')
+          OUT=Path('.phase6-freeze')
+          ZIP_NAME='yandex-marketing-bridge-0.1.1-phase6-wordstat-batch-first-slice-candidate.zip'
+          ZIP1=OUT/ZIP_NAME
+          ZIP2=OUT/'independent-rebuild.zip'
+          MANIFEST=OUT/'PHASE6_WORDSTAT_BATCH_EXACT_CANDIDATE_MANIFEST_2026-08-27.json'
+
+          files=sorted(p for p in SOURCE.rglob('*') if p.is_file())
+          entries=[]
+          for p in files:
+              data=p.read_bytes()
+              entries.append({
+                  'path': p.relative_to(SOURCE).as_posix(),
+                  'bytes': len(data),
+                  'sha256': hashlib.sha256(data).hexdigest(),
+              })
+
+          def build(target):
+              with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+                  for row in entries:
+                      data=(SOURCE/row['path']).read_bytes()
+                      info=zipfile.ZipInfo(row['path'], date_time=(1980,1,1,0,0,0))
+                      info.create_system=3
+                      info.external_attr=(0o100644 << 16)
+                      info.compress_type=zipfile.ZIP_DEFLATED
+                      zf.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+
+          build(ZIP1)
+          build(ZIP2)
+          a=ZIP1.read_bytes(); b=ZIP2.read_bytes()
+          if a != b:
+              raise SystemExit('deterministic rebuild mismatch')
+          sha=hashlib.sha256(a).hexdigest()
+          manifest={
+              'schema':'PHASE6_WORDSTAT_BATCH_EXACT_CANDIDATE_V1',
+              'source_commit':'34f50688268970f4863dddb2089a33d891b91372',
+              'product_tree':'adab628a8ec328fa5079ae35f45005a0ee7de2c1',
+              'preflight_run_id':33078276993,
+              'freeze_run_id':int(os.environ['GITHUB_RUN_ID']),
+              'freeze_trigger_commit':os.environ['GITHUB_SHA'],
+              'artifact_name':'phase6-wordstat-batch-frozen-candidate-34f5068',
+              'zip_name':ZIP_NAME,
+              'sha256':sha,
+              'bytes':len(a),
+              'files':len(entries),
+              'entries':entries,
+              'zip_test':'PASS',
+              'deterministic_rebuild':'BYTE_IDENTICAL',
+              'real_yandex_requests':0,
+              'real_credentials_used':'NO',
+          }
+          MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True)+'\n', encoding='utf-8', newline='\n')
+          print(f'PHASE6_CANDIDATE_ZIP_SHA256={sha}')
+          print(f'PHASE6_CANDIDATE_ZIP_BYTES={len(a)}')
+          print(f'PHASE6_CANDIDATE_FILES={len(entries)}')
+          print('PHASE6_DETERMINISTIC_REBUILD_BYTE_IDENTICAL_PASS')
+          PY
+          cmp .phase6-freeze/yandex-marketing-bridge-0.1.1-phase6-wordstat-batch-first-slice-candidate.zip .phase6-freeze/independent-rebuild.zip
+          rm .phase6-freeze/independent-rebuild.zip
+          python3 - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          manifest=json.loads(Path('.phase6-freeze/PHASE6_WORDSTAT_BATCH_EXACT_CANDIDATE_MANIFEST_2026-08-27.json').read_text())
+          zpath=Path('.phase6-freeze')/manifest['zip_name']
+          target=Path('/tmp/phase6-extract')
+          with zipfile.ZipFile(zpath) as zf:
+              if zf.testzip() is not None:
+                  raise SystemExit('zip integrity failure')
+              if zf.namelist() != [row['path'] for row in manifest['entries']]:
+                  raise SystemExit('zip entry order mismatch')
+              zf.extractall(target)
+          actual=sorted(p.relative_to(target).as_posix() for p in target.rglob('*') if p.is_file())
+          expected=[row['path'] for row in manifest['entries']]
+          if actual != sorted(expected):
+              raise SystemExit('extracted path set mismatch')
+          for row in manifest['entries']:
+              data=(target/row['path']).read_bytes()
+              if len(data) != row['bytes'] or hashlib.sha256(data).hexdigest() != row['sha256']:
+                  raise SystemExit(f"extracted byte mismatch: {row['path']}")
+          print('PHASE6_FROZEN_TRANSPORT_ROUNDTRIP_PASS')
+          PY
+          EXTRACTED_JS=0
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+            EXTRACTED_JS=$((EXTRACTED_JS+1))
+          done < <(find /tmp/phase6-extract -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          echo "PHASE6_FROZEN_PACKAGED_SYNTAX=${EXTRACTED_JS}/${EXTRACTED_JS}"
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/phase6-product-after.sha256
+          cmp /tmp/phase6-product-before.sha256 /tmp/phase6-product-after.sha256
+          test "$(git rev-parse HEAD:extension/src)" = "adab628a8ec328fa5079ae35f45005a0ee7de2c1"
+          echo PRODUCT_BYTES_POST_FREEZE=IDENTICAL
+          echo REAL_YANDEX_REQUESTS=0
+          echo PHASE6_WORDSTAT_BATCH_FROZEN_CANDIDATE_PASS
+
+      - name: Upload exact frozen candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase6-wordstat-batch-frozen-candidate-34f5068
+          path: |
+            .phase6-freeze/yandex-marketing-bridge-0.1.1-phase6-wordstat-batch-first-slice-candidate.zip
+            .phase6-freeze/PHASE6_WORDSTAT_BATCH_EXACT_CANDIDATE_MANIFEST_2026-08-27.json
+          if-no-files-found: error
+          compression-level: 0
