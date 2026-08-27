@@ -125,7 +125,7 @@ try {
     maxPage: document.querySelector('#directMaxPageSize')?.value,
     maxDays: document.querySelector('#directMaxReportDays')?.value,
     maxRows: document.querySelector('#directMaxReportRows')?.value,
-    bodyText: document.body.innerText
+    directText: document.querySelector('#directCredentials')?.textContent || ''
   }));
   assert.deepEqual(ui.services, ['wordstat', 'search', 'webmaster', 'metrika', 'direct']);
   assert.equal(ui.tokenType, 'password');
@@ -136,7 +136,7 @@ try {
   assert.equal(ui.maxPage, '1000');
   assert.equal(ui.maxDays, '31');
   assert.equal(ui.maxRows, '1000');
-  assert.match(ui.bodyText, /Direct Units/);
+  assert.match(ui.directText, /Direct Units/);
   console.log('D15_POPUP_FIVE_SERVICE_UI_PASS');
 
   await page.$eval('#directCredentials', (node) => { node.open = true; });
