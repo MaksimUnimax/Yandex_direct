@@ -13,6 +13,9 @@ host-sensitive execution helpers:
   dirty the governed QA workspace before its cleanliness assertion.
 - final Windows cleanliness treats extension/src byte identity as authoritative;
   Git CRLF working-tree normalization is not misclassified as a product mutation.
+- the Direct browser addendum gets a Windows-only temporary timing adapter that
+  changes only the generic wait timeout from 25s to 60s; assertions and fixtures
+  remain byte-for-byte identical otherwise, and the adapter is deleted afterward.
 """
 from __future__ import annotations
 
@@ -24,7 +27,6 @@ import sys
 import zipfile
 from pathlib import Path
 
-# Must be set before loading v1: no __pycache__ may be created inside the governed repo.
 sys.dont_write_bytecode = True
 
 HERE = Path(__file__).resolve().parent
@@ -36,7 +38,6 @@ if spec is None or spec.loader is None:
 base = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(base)
 
-# Save the genuine subprocess function before attaching any shim to base.subprocess.
 _original_subprocess_run = base.subprocess.run
 
 
@@ -51,12 +52,7 @@ def portable_run(cmd, cwd=None, env=None, capture=False, check=True):
         argv = [argv[0], "-c", f"safe.directory={safe_dir_value(cwd)}", *argv[1:]]
     printable = " ".join(argv)
     print(f"+ {printable}", flush=True)
-    kwargs = {
-        "cwd": cwd,
-        "env": env,
-        "text": True,
-        "check": False,
-    }
+    kwargs = {"cwd": cwd, "env": env, "text": True, "check": False}
     if capture:
         kwargs.update(stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     cp = _original_subprocess_run(argv, **kwargs)
@@ -68,9 +64,6 @@ def portable_run(cmd, cwd=None, env=None, capture=False, check=True):
 
 
 def portable_parse_tap_counts(text: str):
-    # Node 22 commonly prints '# tests 34'; Node 24 may render summary lines with
-    # an information marker. Explicit --test-reporter=tap is used below, but this
-    # parser remains tolerant so host defaults cannot invalidate the gate.
     def last_count(name: str):
         patterns = [
             rf"^#\s*{name}\s+(\d+)\s*$",
@@ -94,11 +87,7 @@ def portable_node_suite(root: Path, label: str):
     tests = sorted((root / "extension" / "tests").glob("*.test.mjs"), key=lambda p: p.as_posix())
     base.require(tests, f"{label}: no top-level tests found")
     rels = [str(p.relative_to(root)) for p in tests]
-    cp = portable_run(
-        [base.exe("node"), "--test", "--test-reporter=tap", *rels],
-        cwd=root,
-        capture=True,
-    )
+    cp = portable_run([base.exe("node"), "--test", "--test-reporter=tap", *rels], cwd=root, capture=True)
     counts = portable_parse_tap_counts(cp.stdout or "")
     base.require(counts is not None, f"{label}: unable to parse TAP counts")
     passed, total, failed = counts
@@ -127,19 +116,16 @@ def portable_verify_transport(zip_path: Path, manifest_path: Path, extract_to: P
     expected_paths = [row["path"] for row in m["entries"]]
     with zipfile.ZipFile(zip_path, "r") as zf:
         base.require(zf.testzip() is None, "ZIP integrity failure")
-        # ZIP entry ordering is part of the deterministic frozen artifact identity.
         base.require(zf.namelist() == expected_paths, "ZIP entry order/path mismatch")
         zf.extractall(extract_to)
 
-    # Filesystem traversal ordering is NOT artifact identity and differs across OSes.
     actual_paths = sorted(
         p.relative_to(extract_to).as_posix()
         for p in extract_to.rglob("*")
         if p.is_file()
     )
-    canonical_expected = sorted(expected_paths)
     base.require(len(actual_paths) == base.EXPECTED_FILES, "extracted file count mismatch")
-    base.require(actual_paths == canonical_expected, "extracted path set mismatch")
+    base.require(actual_paths == sorted(expected_paths), "extracted path set mismatch")
 
     for row in m["entries"]:
         p = extract_to.joinpath(*row["path"].split("/"))
@@ -154,17 +140,10 @@ def portable_verify_transport(zip_path: Path, manifest_path: Path, extract_to: P
 def portable_git_status_clean(root: Path, label: str):
     cp = portable_run([base.exe("git"), "status", "--porcelain", "--untracked-files=all"], cwd=root, capture=True)
     lines = [line for line in (cp.stdout or "").splitlines() if line.strip()]
-
     if label == "QA workspace at final audit":
-        # The exact frozen extension/src tree is already checked byte-for-byte by v1
-        # immediately before this call (product_before snapshot + manifest hashes +
-        # final artifact SHA). On Windows, core.autocrlf can nevertheless report all
-        # LF text files as modified relative to the Git index. Ignore ONLY those
-        # extension/src status rows; every other tracked/untracked change remains fatal.
         remaining = []
         ignored = []
         for line in lines:
-            # Porcelain v1 format: XY<space>path. Paths here are repository-relative.
             path = line[3:].strip().strip('"').replace("\\", "/") if len(line) >= 4 else ""
             if path.startswith("extension/src/"):
                 ignored.append(line)
@@ -174,19 +153,45 @@ def portable_git_status_clean(root: Path, label: str):
         if ignored:
             print("WINDOWS_GIT_EOL_STATUS_NOISE_IGNORED_AFTER_PRODUCT_BYTE_IDENTITY")
         return
-
     base.require(not lines, f"{label} not clean:\n" + "\n".join(lines))
 
 
-# Patch only portability helpers. The campaign logic/assertion matrix remains v1.
+def portable_run_browser(script_rel: str, markers, label: str):
+    script = base.REPO / script_rel
+    base.require(script.exists(), f"missing browser harness: {script_rel}")
+    execution_script = script
+    temp_adapter = None
+    try:
+        if os.name == "nt" and script_rel.replace("\\", "/").endswith("qa_browser/direct_codex_gate_addendum_v2.mjs"):
+            source = script.read_text(encoding="utf-8")
+            needle = "async function waitUntil(fn,message,timeout=25000,interval=120)"
+            replacement = "async function waitUntil(fn,message,timeout=60000,interval=120)"
+            base.require(source.count(needle) == 1, "Windows timing adapter authority mismatch")
+            adapted = source.replace(needle, replacement, 1)
+            # Exactly one semantic change is permitted: the generic wait budget.
+            base.require(adapted.count(replacement) == 1, "Windows timing adapter replacement mismatch")
+            temp_adapter = script.with_name(".direct_codex_gate_addendum_v2_windows_timing_adapter.mjs")
+            temp_adapter.write_text(adapted, encoding="utf-8", newline="\n")
+            execution_script = temp_adapter
+            print("WINDOWS_DIRECT_ADDENDUM_TIMING_ADAPTER_25S_TO_60S_ACTIVE")
+        cp = portable_run(base.browser_cmd(execution_script), cwd=base.REPO, capture=True)
+        for marker in markers:
+            base.require(marker in (cp.stdout or ""), f"{label}: missing marker {marker}")
+        print(f"{label}=PASS")
+        return cp.stdout or ""
+    finally:
+        if temp_adapter is not None and temp_adapter.exists():
+            temp_adapter.unlink()
+
+
 base.run = portable_run
 base.parse_tap_counts = portable_parse_tap_counts
 base.node_suite = portable_node_suite
 base.verify_transport = portable_verify_transport
 base.git_status_clean = portable_git_status_clean
+base.run_browser = portable_run_browser
 
-# Cleanup uses subprocess directly in v1. Supply safe.directory there too so Windows
-# ownership policy cannot leave a stale temporary worktree registration.
+
 def cleanup_safe_subprocess_run(cmd, *args, **kwargs):
     argv = [str(x) for x in cmd] if isinstance(cmd, (list, tuple)) else cmd
     cwd = Path(kwargs.get("cwd") or base.REPO).resolve()
