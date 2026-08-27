@@ -95,8 +95,10 @@ async function getState(popup) {
 async function openPopup(worker, browser) {
   const existingTargets = new Set(browser.targets());
   const tab = await worker.evaluate(async () => await chrome.tabs.create({ url:chrome.runtime.getURL('popup.html'), active:false }));
+  assert.ok(tab?.id, 'POPUP_TAB_CREATE_FAIL');
   const target = await browser.waitForTarget((t) => !existingTargets.has(t) && t.url().startsWith('chrome-extension://') && t.url().endsWith('/popup.html'), { timeout:10000 });
   const popup = await target.page();
+  assert.ok(popup, 'POPUP_PAGE_FAIL');
   await popup.waitForFunction((expected) => document.getElementById('conversationMeta')?.textContent === expected, { timeout:10000 }, KEY);
   await waitUntil(async () => (await popup.evaluate(() => document.getElementById('status')?.textContent || '')) === 'Готово.', 'POPUP_NOT_READY', 10000);
   return { popup, tabId:tab.id };
@@ -123,6 +125,7 @@ try {
     headless:false,
     pipe:true,
     enableExtensions:true,
+    protocolTimeout:30000,
     userDataDir:fs.mkdtempSync(path.join(os.tmpdir(),'ymb-direct-lifecycle-')),
     args:[
       '--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-proxy-server','--ignore-certificate-errors','--disable-background-networking','--disable-features=DnsOverHttps',
@@ -132,10 +135,20 @@ try {
   });
   const pages = await browser.pages();
   const fixture = pages[0] || await browser.newPage();
+  await fixture.bringToFront();
   await fixture.goto(PROJECT_URL, { waitUntil:'domcontentloaded', timeout:20000 });
   const swTarget = await browser.waitForTarget((t) => t.type()==='service_worker' && t.url().startsWith('chrome-extension://'), { timeout:15000 });
   const worker = await swTarget.worker();
   assert.ok(worker, 'MV3 worker missing');
+
+  const identity = await worker.evaluate(async (expectedUrl) => {
+    const tabs = await chrome.tabs.query({});
+    const tab = tabs.find((item) => item.url === expectedUrl);
+    if (!tab) return null;
+    return await new Promise((resolve) => chrome.tabs.sendMessage(tab.id, { type:'WS_GET_IDENTITY' }, (response) => resolve({ tabId:tab.id, response:response || null, error:chrome.runtime.lastError?.message || null })));
+  }, PROJECT_URL);
+  assert.equal(identity?.response?.ok, true, `IDENTITY_FAIL ${JSON.stringify(identity)}`);
+  assert.equal(identity.response.conversation_key, KEY, `IDENTITY_KEY_FAIL ${JSON.stringify(identity.response)}`);
 
   let p = await openPopup(worker, browser);
   await popupClick(p.popup, '#bindConversation');
@@ -176,6 +189,7 @@ try {
 
   await fixture.evaluate(() => { const textarea=document.getElementById('prompt-textarea'); textarea.value=''; textarea.dispatchEvent(new Event('input',{bubbles:true})); });
   await closePopup(worker, p.tabId);
+  await fixture.bringToFront();
   p = await openPopup(worker, browser);
   assert.equal((await getState(p.popup)).manual_mode, true);
   await setChecked(p.popup, 'autoSend', true);
@@ -199,7 +213,6 @@ try {
   await fixture.reload({ waitUntil:'domcontentloaded', timeout:20000 });
   await delay(1800);
   assert.equal(providerHits.length, hitsBeforeRemount);
-  await waitUntil(async () => (await actionCount(fixture)) === 0, 'REMOUNT_UNEXPECTED_OLD_ACTION', 5000).catch(() => true);
   state = await getState(p.popup);
   assert.equal(state.manual_mode, true);
   assert.equal(providerHits.length, hitsBeforeRemount);
