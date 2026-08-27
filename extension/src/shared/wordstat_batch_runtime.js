@@ -89,6 +89,13 @@
       return Model.progress(job);
     }
 
+    function withResultPayload(job, itemId, payload) {
+      const nextJob = clone(job);
+      const current = nextJob.items?.find((candidate) => candidate.item_id === itemId) || null;
+      if (current) current.result_payload = clone(payload);
+      return nextJob;
+    }
+
     function envelope(command, job, {
       status = "OK",
       reason = null,
@@ -224,11 +231,11 @@
       let requestExecuted = true;
       try {
         const result = await executeWordstat(item.command, {
+          ...clone(context),
           request_id: requestId,
           job_id: job.job_id,
           batch_item_id: item.item_id,
-          batch_worker_session_id: workerSessionId,
-          ...clone(context)
+          batch_worker_session_id: workerSessionId
         });
         providerResult = result?.report_envelope || result || null;
         if (result?.ok === false) {
@@ -272,6 +279,7 @@
         }
       }
 
+      job = withResultPayload(job, item.item_id, providerResult);
       await persistJob(map, job);
       const currentItem = job.items.find((candidate) => candidate.item_id === item.item_id) || item;
       return {
