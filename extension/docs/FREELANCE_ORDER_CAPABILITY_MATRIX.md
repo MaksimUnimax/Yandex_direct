@@ -65,11 +65,9 @@ This section is the compact commercial view. It must be updated whenever a new c
 
 ### READY NOW — end-to-end supported card types
 
-```text
-None proven by the analyzed card set yet.
-```
-
-This does **not** mean the Bridge has no useful capabilities. It means the current card sample has not yet produced a complete market service whose entire advertised deliverable has been proven against this matrix.
+| Case | Service | Supported boundary | Main workflow |
+|---|---|---|---|
+| F-002 | SEO semantic core / keyword collection, up to 10,000 phrases | Yandex Wordstat-based collection; grouping is not included in the base service; Google keyword-volume data is not promised | Iterative Wordstat seed expansion → merge/deduplicate → optional intent filter/tagging → XLSX/CSV delivery |
 
 ### PARTIALLY COVERED — close to sellable
 
@@ -95,6 +93,9 @@ Do not treat this as an implementation roadmap until enough cards establish dema
 | Google organic SERP provider | F-001 | Missing | High | HIGH |
 | Reusable XLSX rank-report builder | F-001 | Can be produced with ChatGPT/artifact tooling; not productized in Bridge | Medium/High | MEDIUM |
 | Yandex high-volume/deferred Search workflow | F-001 | Deferred from Phase 2 | High for bulk SEO work | HIGH candidate pending more cards |
+| Reusable semantic-core collection workflow | F-002 | Feasible now through repeated Wordstat calls + ChatGPT orchestration; not productized as one batch operation | High | MEDIUM/HIGH if repeated by more cards |
+| Seed expansion + deduplication + quota-aware checkpointing for Wordstat | F-002 | Feasible operationally; no dedicated batch job | High | MEDIUM/HIGH if repeated |
+| Reusable semantic-core XLSX/CSV builder | F-002 | Available through ChatGPT artifact tooling | High | MEDIUM |
 
 As more cards arrive, repeated blockers should rise in priority. A capability required by many independent paid order types is stronger roadmap evidence than a capability appearing in only one niche card.
 
@@ -297,6 +298,232 @@ reasons:
 - reuses existing Yandex Search investment;
 - creates reusable batch/checkpoint/output infrastructure for many future SEO orders.
 ```
+
+---
+
+## F-002 — Detailed SEO semantic core for a website, up to 10,000 keywords
+
+Source: Kwork card supplied by owner on 2026-08-27.
+
+### Marketplace promise
+
+Base service:
+
+```text
+client gives:
+- clear description of the task/topic
+- desired query type: informational or commercial
+- region
+
+seller returns:
+- current relevant keyword phrases for the topic
+- frequency data collected in real time
+- up to 10,000 keyword phrases
+- result suitable as a semantic source for SEO / site-structure planning
+```
+
+The card explicitly says that the client can filter unwanted phrases themselves. Grouping/clustering is an additional paid option, not part of the base service.
+
+The card mentions frequency data from either Google or Yandex Wordstat. Our supported sellable boundary for this case is **Yandex Wordstat**. We must not promise Google keyword-volume data under the current product.
+
+### End-to-end verdict
+
+```text
+YES — WITH YANDEX WORDSTAT AS THE DATA SOURCE
+```
+
+This base service can be accepted now because the required raw data source, regional filtering, iterative expansion, deduplication and final artifact production can all be completed with the current accepted Wordstat service plus ordinary ChatGPT analysis/artifact work.
+
+The verdict would become `PARTIAL` if a client explicitly required Google search-volume data instead of Yandex Wordstat.
+
+### Current Bridge capability that covers the work
+
+Current Wordstat protocol:
+
+```text
+protocol = WORDSTAT_API_V1
+method = getTop
+input = one seed phrase
+numPhrases = 1..2000
+regions = up to 100 region IDs
+output = current Wordstat top-request data for the seed/region
+```
+
+Important current safety property:
+
+```text
+one accepted WORDSTAT_API_V1 block
+→ at most one Wordstat provider initiation
+```
+
+There is intentionally no hidden multi-seed batch inside one command. High-volume collection is therefore performed as a sequence of explicit bounded requests with normal request/cost accounting.
+
+Because one `getTop` request can request up to 2000 phrases, a 10,000-key deliverable does not require 10,000 Wordstat requests. It requires iterative expansion from several useful seed phrases, followed by merge/deduplication and, when needed, additional seed branches until the requested unique-key count is reached or the actual niche is exhausted.
+
+### Exact execution workflow we can use now
+
+```text
+1. Receive from client:
+   - topic / product / service description;
+   - region;
+   - desired intent: informational, commercial or both;
+   - optional site/domain/category structure if available.
+
+2. Convert the region into the correct governed Wordstat region ID.
+
+3. Build an initial seed map from the client's topic:
+   - primary category terms;
+   - product/service synonyms;
+   - commercial modifiers when commercial intent is requested;
+   - informational question/topic modifiers when informational intent is requested;
+   - major subcategories/entities/features.
+
+4. For each strong seed, execute a bounded Wordstat `getTop` request with the client region and a useful `numPhrases` value up to 2000.
+
+5. Persist every raw result/checkpoint before continuing so an interruption does not force paid evidence to be recollected blindly.
+
+6. Merge returned phrases into one working dataset.
+
+7. Normalize and deduplicate:
+   - exact duplicate removal;
+   - whitespace/case normalization for comparison;
+   - preserve original provider phrase text in final evidence;
+   - preserve Wordstat frequency/value fields from the provider result.
+
+8. Measure unique coverage. If fewer than the target quantity, select new expansion seeds from uncovered semantic branches in the collected data and execute additional `getTop` requests.
+
+9. Repeat expansion until:
+   a. the purchased unique-key quantity is reached; or
+   b. the real niche is exhausted and further expansion would only manufacture irrelevant phrases.
+
+10. Apply the client-requested intent boundary:
+   - commercial only;
+   - informational only;
+   - both with an intent column.
+   Semantic classification can be performed by ChatGPT from the collected phrases; borderline terms should be marked rather than silently discarded when uncertainty matters.
+
+11. Because filtering is explicitly left to the client in the base Kwork promise, do not over-clean the dataset. Remove obvious duplicates/technical noise, but preserve broad relevant coverage.
+
+12. Produce client-facing XLSX/CSV with at minimum:
+   - keyword phrase;
+   - Wordstat frequency/value available from the collected result;
+   - region;
+   - optional intent tag;
+   - optional source seed/internal provenance column if useful.
+
+13. Final QA:
+   - requested quantity vs actual unique quantity;
+   - no duplicate rows;
+   - region is consistent;
+   - no accidental cross-topic seed branch;
+   - no missing frequency fields where provider supplied them;
+   - artifact opens correctly and row count is correct.
+
+14. Deliver the semantic-core file to the client.
+```
+
+### Example Bridge command pattern
+
+For each seed the actual command remains one explicit bounded operation, for example:
+
+```text
+WORDSTAT_API_V1
+{
+  "method": "getTop",
+  "phrase": "<seed phrase>",
+  "numPhrases": 2000,
+  "regions": ["<REGION_ID>"],
+  "devices": ["DEVICE_ALL"]
+}
+```
+
+Exact live commands must use the real client topic and verified region ID. Provider pricing/cost policy must be checked according to the existing Wordstat execution rules before paid collection.
+
+### What is NOT required for the base card
+
+```text
+Google Search data = not required if we sell/use the Yandex Wordstat variant
+Google keyword-volume provider = not required
+Webmaster access = not required
+Metrika access = not required
+Direct access = not required
+client site credential = not required
+automatic grouping/clustering = not required in base service
+```
+
+This means the pending Direct owner-live boundary does not block this freelance service.
+
+### Manual work / operator involvement remaining
+
+The service is end-to-end possible, but not yet a one-click productized batch operation.
+
+Current manual/orchestration work:
+
+```text
+- choose/refine seed branches;
+- issue multiple explicit Wordstat commands;
+- watch cost/request budget;
+- merge results;
+- choose additional seeds when unique coverage is insufficient;
+- perform semantic intent classification when requested;
+- produce final artifact.
+```
+
+ChatGPT can perform most of that logic, but the Bridge itself does not currently expose a single durable `buildSemanticCore` operation.
+
+### Boundary conditions / reasons to refuse or renegotiate
+
+Do not blindly promise exactly 10,000 *relevant unique* phrases for every niche. Some narrow niches may genuinely contain fewer useful phrases. In that case the correct commercial behavior is to report that the relevant semantic space is exhausted rather than pad the file with garbage.
+
+If the client explicitly requires:
+
+```text
+Google keyword frequency only
+→ current verdict for that variant = PARTIAL/NO GOOGLE VOLUME PROVIDER
+
+full automatic clustering/grouping into page groups
+→ separate scope; not part of the analyzed base card
+
+keyword-to-existing-URL mapping / complete site architecture design
+→ separate scope that should be analyzed as its own card/workflow
+```
+
+### Commercial conclusion
+
+This is the first analyzed card that produces a genuine `READY NOW` service.
+
+We can sell a bounded version as:
+
+```text
+"Соберу подробное SEO-семантическое ядро по Яндекс Wordstat
+с актуальной частотностью и регионом, до согласованного количества ключей."
+```
+
+Do not advertise Google frequency until a separate Google keyword-data provider is implemented and accepted.
+
+### Product signal generated by F-002
+
+The work is possible now, but repeated orders of this type would justify productizing the orchestration:
+
+```text
+candidate capability = SEMANTIC CORE BUILDER / WORDSTAT BATCH ORCHESTRATOR
+current necessity = not a blocker for accepting the service
+productization value = HIGH if this order type repeats
+```
+
+A future dedicated workflow could automate:
+
+```text
+seed queue
+→ Wordstat getTop
+→ unique-key set
+→ expansion queue
+→ checkpoint/resume
+→ intent tagging
+→ artifact builder
+```
+
+without changing the existing exactly-once paid request semantics.
 
 ---
 
