@@ -1,4 +1,5 @@
 name: phase5-direct-browser-development-r1
+# Clean pre-candidate browser rerun after superseded harness cleanup.
 
 on:
   push:
