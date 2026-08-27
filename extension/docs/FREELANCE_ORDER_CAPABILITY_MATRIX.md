@@ -63,7 +63,7 @@ PARTIAL = substantial parts work, but exact advertised service still lacks provi
 NO = core required data/action is unavailable.
 ```
 
-`YES` is about the paid final deliverable, not merely existence of one API call. A card may be `YES` for a clearly bounded configuration (for example Yandex-only) while an optional provider-specific variant remains `PARTIAL`; that boundary must be explicit.
+`YES` is about the paid final deliverable, not merely existence of one API call. A card may be `YES` for a clearly bounded configuration (for example Yandex-only) while a richer provider-specific variant remains `PARTIAL`; that boundary must be explicit.
 
 ## 5. Market-pricing methodology
 
@@ -95,7 +95,8 @@ provider/API cost
 | F-008 | Technical + SEO audit of one website | 2,000 ₽ — cross-card evidence | 1 site; PDF + Excel appendices; optional Keys.so organic export | 10 days | not supplied | 5.0; 798 completed; 1 positive / 0 negative |
 | F-009 | Technical SEO audit + 2-page desktop usability bonus | 3,000 ₽ — cross-card evidence | all pages of 1 site + 2 usability pages | 3 days | not supplied | 5.0; 1,104 completed; 25 positive / 0 negative |
 | F-010 | Semantic core for a website from scratch / review of existing core | from 5,000 ₽ — cross-card evidence | 100 keywords; 5,000 ₽/100 shown | 5 days | not supplied | 5.0; 59 completed; 1 positive / 0 negative |
-| **F-011** | **Filtering an existing semantic core from noise and duplicates** | **from 8,000 ₽; same-page exact-listing evidence** | **up to 5,000 keywords; 160 ₽/100 shown; one search engine / one Yandex region** | **30 days** | not supplied | **4.9; 235 completed; 1 positive / 0 negative** |
+| F-011 | Filtering existing semantic core from noise and duplicates | from 8,000 ₽ | up to 5,000; 160 ₽/100 shown; 1 search engine / 1 Yandex region | 30 days | not supplied | 4.9; 235 completed; 1 positive / 0 negative |
+| **F-012** | **Turnkey website semantic core + frequency + competition/difficulty + recommendations** | **1,000 ₽** | **160 keywords; derived 625 ₽/100** | **4 days** | **usually 4 days** | **5.0; 5,177 completed; 186 positive / 2 negative on kwork** |
 
 Do not calculate one median across unrelated products.
 
@@ -123,8 +124,11 @@ A duplicate revisit of the exact F-006 listing confirmed the seller-displayed **
 
 | Case | Listed price | Scope | Deadline | Distinguishing depth |
 |---|---:|---|---:|---|
-| F-002 | 45,000 ₽ | up to 10,000 keys | 30 days; usually 5 | detailed Wordstat-based SEO core at high volume |
-| F-010 | from 5,000 ₽ cross-card evidence | 100 keys | 5 days | from-scratch core or review of an existing core |
+| F-002 | 45,000 ₽ | up to 10,000 keys | 30 days; usually 5 | high-volume Wordstat-based SEO core |
+| F-010 | from 5,000 ₽ cross-card evidence | 100 keys | 5 days | simple from-scratch core or review of existing core |
+| **F-012** | **1,000 ₽** | **160 keys** | **4 days; usually 4** | **base + exact frequency, competition/difficulty, recommendations; demos expose Yandex + Google metrics** |
+
+These are not homogeneous enough for a single family median yet: volume, metric depth and manual work differ materially. F-012 nevertheless gives a strong low-price/high-volume seller reference: **625 ₽/100** for the advertised base package.
 
 ### Standalone semantic-core cleanup
 
@@ -147,7 +151,8 @@ A duplicate revisit of the exact F-006 listing confirmed the seller-displayed **
 | F-006 | Semantic core for Yandex Direct: 100 keywords + base frequency + minus-words | URL + geotargeting; Direct mutation not required | offer → Wordstat → filtering → groups → frequency → minus-words → XLSX |
 | F-007 | Grouped semantic core for Yandex Direct, up to 500 final keywords | product/service + seed queries + URL + target region | offer → Wordstat → dedupe/clean → ВЧ/СЧ/НЧ → groups → XLSX |
 | F-010 | Website semantic core, 100 keywords, or review of an existing core | site + target directions; confirm region | site/directions → seeds → Wordstat → clean/dedupe → relevance/intent review → final core |
-| **F-011 Yandex scope** | **Cleanup/filtering of supplied semantic core, up to 5,000 keys** | **client supplies core + niche rules/examples; Yandex region can be used for borderline validation** | **import → normalize → exact/semantic dedupe → classify relevance/noise → keep/remove reason → QA → cleaned artifact** |
+| F-011 Yandex scope | Cleanup/filtering of supplied semantic core, up to 5,000 keys | client supplies core + niche rules/examples | import → normalize → semantic dedupe → classify → selective Yandex validation → artifact |
+| **F-012 bounded Yandex-only variant** | **Turnkey semantic core with Yandex frequency, transparent Yandex-based difficulty and recommendations** | **do not promise seller-demo Google KEI/title metrics; confirm region; exact-frequency collection must be explicitly budgeted** | **site/topic → seeds → Wordstat → clean → current exact checks → Yandex SERP difficulty → recommendations → XLSX** |
 
 ## PARTIALLY COVERED
 
@@ -159,7 +164,8 @@ A duplicate revisit of the exact F-006 listing confirmed the seller-displayed **
 | F-005 | Up to 10,000 supplied keywords with exact `!` Wordstat frequency for 2025 | current operator query per key + XLSX/zero filtering | no 10k durable batch; quota economics unverified; historical Dynamics cannot reproduce full `!` semantics |
 | F-008 | Seller-equivalent technical + SEO site audit with full crawl + optional Keys.so | Yandex diagnostics, analysis, recommendations, artifacts | no full-site crawler/inventory; no Keys.so provider |
 | F-009 | 70-point all-page technical audit + 2-page usability review | Yandex context, analysis, bounded manual page review | no autonomous crawler/rules/performance/HTML/structured-data layer |
-| **F-011 Google-specific validation variant** | **Google-specific semantic filtering for Russia if the buyer expects search-engine/SERP validation** | **semantic cleanup itself is feasible** | **no dedicated Google organic SERP/data provider; do not imply Google-specific validation without it** |
+| F-011 Google-specific validation variant | Google-specific semantic filtering for Russia if buyer expects SERP validation | semantic cleanup itself is feasible | no dedicated Google organic SERP/data provider |
+| **F-012 exact seller-equivalent package** | **160-key turnkey core matching supplied examples, including Yandex + Google competition/difficulty fields** | **collection, cleaning, Yandex frequency, Yandex SERP review, recommendations, XLSX and optional clustering are feasible** | **no Google organic SERP/competition provider; no durable per-key difficulty/exact-frequency batch workflow** |
 
 ## NOT COVERED
 
@@ -171,25 +177,27 @@ None recorded yet.
 
 | Capability | Cases | Current state | Market signal |
 |---|---|---|---|
-| **Wordstat-based keyword processing** | F-002, F-003, F-004, F-005, F-006, F-007, F-010 | core provider path exists | **VERY HIGH — repeated across 7 unique cases** |
-| **Wordstat batch orchestration / durable queue** | F-002, F-003, F-004, F-005; reinforced by larger F-006/F-007 scopes | no dedicated batch job | **VERY HIGH — repeated** |
-| **Website Semantic Core Builder** | F-002, F-010 | end-to-end feasible now; not productized as one workflow | **VERY HIGH — repeated across independent sellers** |
+| **Wordstat-based keyword processing** | F-002, F-003, F-004, F-005, F-006, F-007, F-010, F-012 | core provider path exists | **VERY HIGH — repeated across 8 unique cases** |
+| **Wordstat batch orchestration / durable queue** | F-002, F-003, F-004, F-005, F-012; reinforced by larger F-006/F-007 scopes | no dedicated batch job | **VERY HIGH — repeated** |
+| **Website Semantic Core Builder** | F-002, F-010, F-012 | end-to-end Yandex variants feasible; richer provider metrics vary | **VERY HIGH — 3 independent seller observations** |
 | **Advertising Semantic Core Builder** | F-006, F-007 | end-to-end feasible now; not productized as one workflow | **VERY HIGH — repeated across independent sellers** |
-| **Semantic-core cleanup / noise filtering / semantic dedupe** | **F-002, F-006, F-007, F-010, F-011** | **feasible now; F-011 proves it is sellable standalone** | **VERY HIGH — repeated and directly monetized** |
-| **Large semantic-dataset processor / checkpoint-resume** | **F-002, F-003, F-005, F-011** | **possible with artifacts/manual orchestration; no dedicated durable job** | **VERY HIGH — repeated large-volume need** |
-| **Semantic clustering / intent grouping** | F-002, F-003, F-004, F-006, F-007 | feasible; no durable large-dataset workflow | **VERY HIGH — repeated 5x** |
-| **Reusable XLSX/CSV/PDF/report builder** | F-001..F-011 | artifact tooling available; not Bridge workflow | **VERY HIGH reuse** |
+| **Semantic-core cleanup / noise filtering / semantic dedupe** | F-002, F-006, F-007, F-010, F-011, F-012 | feasible now; F-011 proves standalone sale | **VERY HIGH — repeated and directly monetized** |
+| **Large semantic-dataset processor / checkpoint-resume** | F-002, F-003, F-005, F-011 | possible with artifacts/manual orchestration; no dedicated durable job | **VERY HIGH — repeated large-volume need** |
+| **Semantic clustering / intent grouping** | F-002, F-003, F-004, F-006, F-007; optional F-012 | feasible; no durable large-dataset workflow | **VERY HIGH — repeated** |
+| **Reusable XLSX/CSV/PDF/report builder** | F-001..F-012 | artifact tooling available; not Bridge workflow | **VERY HIGH reuse** |
 | **Full-site crawler / technical SEO inventory** | F-008, F-009; overlaps F-004 competitor crawl | missing | **VERY HIGH — repeated across independent paid audits** |
 | **Crawler-export importer** | F-008, useful for F-009 | missing dedicated workflow | **HIGH — quickest audit compatibility path** |
 | **Technical SEO rules + prioritization/report workflow** | F-008, F-009 | manual analysis possible if crawl data supplied | **VERY HIGH — repeated paid deliverable** |
 | **Performance / HTML / structured-data audit layer** | F-008, F-009 | partial/manual only | **HIGH — repeated** |
 | **Usability / commercial-factor page review** | F-009 | manual reasoning possible; no reusable workflow | **HIGH candidate** |
 | **Keys.so / external organic-visibility provider or importer** | F-008 | missing | **HIGH candidate** |
-| Bulk Wordstat Frequency Checker | F-005 | missing | HIGH — direct paid workflow |
+| **Per-keyword competition/difficulty scorer** | F-004, F-012 | ad-hoc Yandex reasoning possible; no deterministic reusable scorer/batch | **HIGH — F-012 monetizes it directly** |
+| **Keyword → relevant landing-page mapper** | F-012; useful for F-010 | manual mapping possible on bounded sites; no crawler-backed workflow | **HIGH candidate** |
+| Bulk Wordstat Frequency Checker | F-005; smaller analogue F-012 | missing durable batch | HIGH — direct paid workflow |
 | ВЧ/СЧ/НЧ classification | F-007 | feasible from frequencies | HIGH candidate |
 | Minus-word builder | F-006 | feasible with ChatGPT | HIGH — direct paid deliverable |
 | Bulk SERP / Rank Tracker orchestration | F-001, F-004 | missing | HIGH — repeated |
-| Google organic SERP provider | F-001; optional F-011 Google-specific validation | missing | **HIGH — now useful across multiple service families** |
+| **Google organic SERP / competition provider** | F-001, optional F-011, **F-012 seller-equivalent** | missing | **VERY HIGH candidate — now blocks multiple service families and an otherwise sellable semantic-core package** |
 | Yandex high-volume/deferred Search | F-001, F-004 | deferred from Phase 2 | HIGH — repeated |
 | Ahrefs/external SEO metrics | F-003, F-004 | missing | HIGH — repeated |
 | Competitor keyword/domain research | F-003, F-004 | partial | HIGH — repeated |
@@ -336,91 +344,187 @@ No Ahrefs/Google/Direct/crawler dependency is required by the advertised contrac
 **Marketplace:** Kwork  
 **Listing id:** `10494024`  
 **Seller:** `nychkos`  
-**Title:** `Фильтрация Вашего семантического ядра от мусорных запросов`  
-**Verdict:** `YES — READY NOW FOR YANDEX SCOPE`; optional Google-specific validation is bounded as described below.
+**Verdict:** `YES — READY NOW FOR YANDEX SCOPE`; optional Google-specific validation remains bounded.
+
+```text
+Market: from 8,000 ₽; up to 5,000 supplied keywords; 160 ₽/100; 30 days.
+Input: existing core + niche + examples keep/remove + region/search-engine configuration.
+Output: cleaned ready-to-use core.
+Workflow: preserve original → normalize → exact/semantic dedupe → relevance/intent classes → selective Yandex validation → cleaned + removed/review sheets → QA.
+Boundary: Google-specific SERP validation is not promised until a Google organic provider exists.
+```
+
+F-011 proves that semantic cleanup is itself a paid standalone product and should also be reused inside F-002/F-006/F-007/F-010/F-012.
+
+## F-012 — Turnkey website semantic core with frequency, difficulty and recommendations
+
+**Marketplace:** Kwork  
+**Listing id:** `226452`  
+**Seller:** `allsab`  
+**Title:** `Разработка Семантического Ядра сайта Под Ключ`  
+**Exact seller-equivalent verdict:** `PARTIAL`  
+**Bounded Yandex-only variant:** `YES — SELLABLE NOW WITH EXPLICIT SCOPE`
 
 ### Market data
 
 ```text
-listed price = from 8,000 ₽
-price evidence = exact same listing is shown on the supplied Kwork page with 8,000 ₽ and 160 ₽/100
-volume = up to 5,000 supplied keywords
-advertised deadline = 30 days
-scope wording = price for one search engine and one Yandex region; Google filtering only for Russia
-seller = 4.9 / 235 completed orders
-order-specific reviews = 1 positive / 0 negative
+listed base price = 1,000 ₽
+volume = 160 keywords (seller says it can be slightly less depending on niche)
+derived unit price = 625 ₽ / 100 keywords
+advertised deadline = 4 days
+seller-displayed usual completion = 4 days
+seller = 5.0 / 5,177 completed orders
+kwork reviews shown = 186 positive / 2 negative
+base clustering = NOT included; manual clustering is an add-on
 ```
 
 ### Client gives
 
 ```text
-- existing semantic core / keyword dataset;
-- clear topic and niche specifics;
-- examples of what should remain;
-- examples of what should be filtered out;
-- target region/search-engine configuration.
+- website URL, or topic of a future website;
+- up to 3 priority seed queries when available;
+- other wishes/constraints;
+- our workflow must additionally confirm target region.
 ```
 
-### Advertised deliverable
+### Advertised base deliverable
 
-A cleaned ready-to-use semantic core with irrelevant/noise queries and duplicates removed, suitable for planning categories, articles, product cards or service pages. The card does not promise Ahrefs metrics, Wordstat frequency acquisition, SERP clustering or another named external dataset.
-
-### Why Yandex scope is ready now
-
-The core job is classification and dataset transformation, not acquisition of a proprietary metric:
+The seller promises:
 
 ```text
-supplied keyword file = YES
-parse/normalize up to thousands of rows = YES
-exact duplicate removal = YES
-near/semantic duplicate detection = YES
-niche relevance classification = YES
-intent classification = YES
-keep/remove rules from client examples = YES
-Yandex-region spot validation through available Yandex paths when needed = YES
-XLSX/CSV output = YES
+1. manual topic/site/content analysis;
+2. related queries, synonyms, same-root phrases and search suggestions;
+3. base and real/exact frequency analysis;
+4. removal of zero-value, non-target and ambiguous queries;
+5. competition / ranking-difficulty analysis;
+6. relevant-page assignment when possible;
+7. informative report;
+8. recommendations for the most effective promotion queries;
+9. clustering only when the paid add-on is ordered.
 ```
 
-Wordstat is optional here rather than mandatory. The client already supplies the keyword universe. Yandex Search/Wordstat can be used selectively for ambiguous phrases instead of spending provider calls on every row.
+### Supplied demo evidence — inspected locally
 
-### Execution workflow
+Four attached XLSX examples were inspected rather than inferred from the card text.
+
+**`russkydubai.tilda.ws_семантическое ядро.xlsx`**
 
 ```text
-1. Import the supplied semantic core without destroying original columns.
-2. Capture niche description, region and client keep/remove examples.
-3. Normalize text for comparison while preserving original phrase text.
-4. Remove exact duplicates deterministically.
-5. Detect near duplicates / morphological variants / redundant wording.
-6. Classify every remaining phrase:
-   KEEP
-   REMOVE_NOISE
-   REMOVE_WRONG_INTENT
-   REMOVE_WRONG_PRODUCT
-   REMOVE_WRONG_GEO
-   REVIEW_AMBIGUOUS
-7. Use niche/site/client examples to resolve the first pass.
-8. For ambiguous Yandex cases, selectively validate with Yandex data/search rather than blanket-querying 5,000 rows.
-9. Produce final cleaned core plus, preferably, a removed/review sheet with reasons for QA and revisions.
-10. Run final duplicate/relevance sanity checks and deliver XLSX/CSV.
+150 keyword rows
+150 unique phrases / 0 exact duplicate phrases
+6 rows with exact frequency = 0
+7 main fields:
+- keyword
+- base frequency
+- exact frequency
+- Yandex competition [KEI]
+- Google competition [KEI]
+- Yandex title-based difficulty
+- Google title-based difficulty
+no workbook formulas; metrics are delivered as static values
 ```
 
-### Google boundary
-
-The card also mentions filtering for Google in Russia. Pure semantic cleanup of a client-supplied list remains possible because it does not inherently require Google data. However, if the buyer expects **Google-specific SERP/search-engine validation** as part of deciding which phrases remain, our current stack has no dedicated Google organic SERP provider. Therefore do not market that stronger Google-specific interpretation until such a provider exists.
-
-### Product consequence
-
-F-011 proves that this reusable component is itself a paid product:
+**`zaimy.space_семантическое ядро.xlsx`**
 
 ```text
-SEMANTIC CORE CLEANER
-input file + niche + region + keep/remove examples
-→ normalize
-→ exact/semantic dedupe
-→ relevance + intent classification
-→ optional selective Yandex validation
-→ cleaned core + removed/review reasons
-→ XLSX/CSV
+170 keyword rows
+170 unique phrases / 0 exact duplicates
+20 rows with exact frequency = 0
+same 7 metric columns including Yandex + Google competition/difficulty
+no formulas
 ```
 
-This should be reusable inside F-002/F-006/F-007/F-010 and also sellable standalone. The main future improvement is a durable large-dataset job/checkpoint workflow, not a new mandatory provider for the Yandex version.
+**`moresvinok.ru_семантическое ядро.xlsx`**
+
+```text
+314 keyword rows
+314 unique phrases / 0 exact duplicates
+121 rows with exact frequency = 0
+same 7 metric columns
+separate explanatory sheet showing how the seller interprets difficulty values
+```
+
+**`moresvinok.ru_группировка.xlsx`** — this corresponds to the optional clustering/grouping layer:
+
+```text
+9 thematic groups/sheets:
+антикафе = 50
+контактный зоопарк = 85
+кафе с животными = 35
+антикафе с животными = 18
+развлечения в центре = 10
+где посмотреть животных = 26
+зоопарк = 47
+кафе тайм = 8
+кафе аренда = 36
+315 grouped phrase records total
+```
+
+The companion core contains 314 phrase rows; the grouping workbook contains one additional phrase (`антикафе москва свинки`). This is demo evidence only and is not treated as a defect in the advertised base service.
+
+### Current Bridge coverage
+
+```text
+site/topic reasoning = YES
+seed generation / synonyms / semantic expansion = YES
+Yandex Wordstat related-query acquisition = YES
+regional acquisition = YES
+base-frequency work = YES
+current exact/operator-frequency work = possible on bounded sets, but not durable batch-productized
+noise / ambiguity / duplicate filtering = YES
+Yandex SERP review = YES
+recommendations = YES
+XLSX report = YES
+optional semantic grouping = YES
+relevant-page mapping = manual/bounded YES when site structure is inspectable
+Google KEI / Google title-difficulty data = NO
+```
+
+The current Wordstat protocol exposes `getTop`, `getDynamics`, `getRegionsDistribution`, `getRegionsTree`; `getTop` accepts one phrase, region IDs and up to 2,000 returned phrases. The current Search protocol is Yandex Search (`/v2/web/search`), region-capable for the RU path, with conservative sync cost snapshot `0.488 RUB/request`. There is no Google organic SERP provider in the accepted Bridge.
+
+### Why the exact seller-equivalent package is PARTIAL
+
+The card text itself says competition/difficulty analysis, while the supplied examples show what that means in practice: the customer sees **both Yandex and Google competition/difficulty columns**. We can create a transparent Yandex-side score, but we cannot honestly reproduce the Google columns from current accepted providers.
+
+Therefore:
+
+```text
+seller-demo-equivalent Yandex + Google report = PARTIAL
+a clearly marketed Yandex-only report = YES
+```
+
+Do not silently substitute Yandex metrics into columns labeled Google.
+
+### Sellable bounded workflow now
+
+```text
+1. Receive site/topic, target region, priority phrases and wishes.
+2. Inspect offer/content and build seed map.
+3. Collect related Yandex Wordstat phrases in bounded explicit requests.
+4. Merge, normalize and remove exact/semantic duplicates.
+5. Remove empty/non-target/ambiguous phrases.
+6. Select target set around requested ~160 useful phrases; do not pad if niche is exhausted.
+7. Collect base frequency.
+8. For the final bounded list, collect current exact/operator frequency where required.
+9. Run Yandex SERP checks for a transparent Yandex competition/difficulty model.
+10. If site structure is small/inspectable, assign a relevant URL or mark `new page required` / `manual review`.
+11. Produce promotion recommendations.
+12. Deliver XLSX with clearly labeled Yandex-only metrics and methodology notes.
+13. If clustering add-on is sold, produce thematic group sheets / mapping.
+```
+
+### Missing product capabilities
+
+```text
+1. Google organic SERP / competition provider.
+2. Durable per-key exact-frequency queue/checkpoint/resume for repeated 100–500 keyword jobs.
+3. Reusable deterministic Yandex keyword-difficulty scoring model rather than ad-hoc reasoning.
+4. Durable per-key SERP batch orchestration.
+5. Optional crawler-backed keyword → landing-page mapper for larger sites.
+```
+
+### Commercial consequence
+
+F-012 is a strong demand/price signal because the seller has more than 5,000 completed orders and the base package is only **1,000 ₽ for 160 keywords**. We should not copy that price mechanically: the seller may have mature automation and cheap acquisition paths that we do not yet have. Our future price must be based on verified API cost plus operator time.
+
+It also changes roadmap weighting: Google organic/competition access is no longer relevant only to rank tracking. It now blocks an otherwise highly sellable turnkey semantic-core service whose Yandex-side workflow is mostly already available.
