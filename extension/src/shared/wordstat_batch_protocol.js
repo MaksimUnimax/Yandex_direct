@@ -16,13 +16,22 @@
     throw error;
   }
 
+  function batchFieldCode(name) {
+    const field = String(name || "FIELD")
+      .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+      .replace(/[^A-Za-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .toUpperCase();
+    return `MISSING_BATCH_${field || "FIELD"}`;
+  }
+
   function asString(value, name, { required = false, max = 400 } = {}) {
     if (value === undefined || value === null || value === "") {
-      if (required) fail(`MISSING_BATCH_${String(name || "FIELD").toUpperCase()}`, `${name} обязателен.`);
+      if (required) fail(batchFieldCode(name), `${name} обязателен.`);
       return undefined;
     }
     const text = String(value).trim();
-    if (!text && required) fail(`MISSING_BATCH_${String(name || "FIELD").toUpperCase()}`, `${name} обязателен.`);
+    if (!text && required) fail(batchFieldCode(name), `${name} обязателен.`);
     if (text.length > max) fail("BATCH_FIELD_TOO_LONG", `${name}: превышена максимальная длина ${max}.`);
     return text || undefined;
   }
