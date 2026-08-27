@@ -8,6 +8,7 @@ on:
       - .github/workflows/phase5-direct-codex-harness-r2.yml
       - extension/tests/qa_phase5_codex/**
       - extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs
+      - extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_compat_gate.mjs
   workflow_dispatch:
 
 permissions:
@@ -63,7 +64,7 @@ jobs:
           node --check extension/tests/qa_browser/direct_popup_d18.mjs
           node --check extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs
           node --check extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs
-          node --check extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
+          node --check extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_compat_gate.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/product-before.sha256
           echo PHASE5_CODEX_R2_BROWSER_PRE_PRODUCT_PASS
       - name: Install Puppeteer Chrome
@@ -114,18 +115,23 @@ jobs:
             PHASE5_DIRECT_CODEX_BROWSER_ADDENDUM_PASS; do
             grep -F "$marker" /tmp/addendum.log
           done
-      - name: Run prior accepted browser lifecycle gate
+      - name: Run Phase2 Stage4 compatibility lifecycle gate
         shell: bash
         run: |
           set -euo pipefail
-          CHROME_PATH="$(node --input-type=module -e "import puppeteer from 'puppeteer'; console.log(puppeteer.executablePath())")"
-          xvfb-run -a node extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs \
-            "$CHROME_PATH" \
-            "extension/src" \
-            "extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" \
-            "extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" | tee /tmp/prior-browser.log
-          grep -F PHASE2_STAGE4_BROWSER_GATE_PASS /tmp/prior-browser.log
-          grep -F BROWSER_GATE_REAL_YANDEX_REQUESTS=0 /tmp/prior-browser.log
+          xvfb-run -a node extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_compat_gate.mjs | tee /tmp/prior-browser.log
+          for marker in \
+            B01_PROJECT_WORK_IDENTITY_PASS \
+            B01_BINDING_PASS \
+            B02_MANUAL_RESYNC_SINGLE_ACTION_PASS \
+            B02_MANUAL_REMOUNT_NO_REPLAY_PASS \
+            B02_MANUAL_ON_OFF_TRANSACTION_PASS \
+            B03_NON_OWNER_CONTROL_FENCE_PASS \
+            B03_SEARCH_AUTORUN_PASS \
+            BROWSER_GATE_REAL_YANDEX_REQUESTS=0 \
+            PHASE2_STAGE4_COMPAT_BROWSER_GATE_PASS; do
+            grep -F "$marker" /tmp/prior-browser.log
+          done
       - name: Post-browser product identity
         if: always()
         shell: bash
