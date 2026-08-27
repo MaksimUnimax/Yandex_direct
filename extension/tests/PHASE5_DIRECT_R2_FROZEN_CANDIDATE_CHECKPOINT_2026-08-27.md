@@ -1,6 +1,6 @@
 # Phase 5 Direct R2 frozen candidate checkpoint — 2026-08-27
 
-Status: **FROZEN CANDIDATE PASS — READY FOR OWNER-LIVE**
+Status: **FROZEN CANDIDATE + FROZEN-ARTIFACT PREFLIGHT PASS — INDEPENDENT CODEX REQUIRED — OWNER-LIVE BLOCKED**
 
 ## Authority
 
@@ -11,7 +11,7 @@ Status: **FROZEN CANDIDATE PASS — READY FOR OWNER-LIVE**
 - Candidate branch: `candidate/phase5-direct-first-slice-r2-2026-08-27`
 - Candidate branch freeze-trigger commit: `389084290635fbf2ac305098adc3aae17f967c83`
 
-The prior Phase 5 candidate branch `candidate/phase5-direct-first-slice-2026-08-27` and prior ZIP beginning with SHA-256 prefix `fcfb19c7` are superseded and must not be used for release or owner-live.
+The prior Phase 5 candidate branch `candidate/phase5-direct-first-slice-2026-08-27` and prior ZIP beginning with SHA-256 prefix `fcfb19c7` are superseded and must not be used for release, Codex QA, or owner-live.
 
 ## Corrected defect
 
@@ -56,15 +56,17 @@ Freeze assertions passed:
 - consumer JS syntax check from exact frozen ZIP bytes;
 - real Yandex requests = `0`.
 
-## Mandatory frozen-artifact Codex gate
+## Frozen-artifact pre-Codex gate
 
 Frozen-artifact QA branch: `qa/phase5-direct-frozen-r2-gate-2026-08-27`
 
-Gate workflow run: `33038048376` — **PASS**
+GitHub Actions pre-Codex gate workflow run: `33038048376` — **PASS**
+
+This run is a qualified frozen-artifact preflight and transport proof. It is **not** the mandatory independent Codex campaign and must not be cited as an independent Codex PASS.
 
 The gate downloaded GitHub artifact ID `9632728199`, verified the GitHub artifact digest, verified the inner ZIP SHA-256, independently reconstructed the deterministic inner ZIP byte-for-byte, extracted that ZIP over `extension/src`, and executed Node/browser QA against those exact frozen product bytes.
 
-Final required report:
+Pre-Codex matrix result:
 
 ```text
 D-00: PASS
@@ -112,9 +114,26 @@ PRODUCT_BYTES_POST_TEST = IDENTICAL
 
 Permanent Phase-2/Stage-4 compatibility lifecycle regression also passed on the exact frozen bytes, including binding, Manual resync/remount/no-replay, owner-tab fencing, Search Autorun, one controlled Search provider request, and zero real Yandex requests.
 
-## Owner-live boundary
+## Mandatory next stage — independent Codex
 
-Controlled QA is complete. The next permitted step is the narrow owner-live Direct check defined by the Phase 5 gate:
+Before owner-live, run one new independent Codex campaign against the exact frozen ZIP identified above.
+
+Codex must act as an independent QA executor only and must not edit production, package tests, governed harnesses, candidate bytes, artifact bytes, or acceptance criteria.
+
+Required final verdicts are limited to:
+
+```text
+PASS
+FAIL_PRODUCT
+FAIL_ARTIFACT
+FAIL_HARNESS
+```
+
+A Codex PASS requires every enabled `D-00..D-22` section plus all still-applicable permanent/core/Phase-1/2/3/4 regressions to execute with zero enabled `NOT_RUN`, zero real Yandex requests and `PRODUCT_BYTES_POST_TEST=IDENTICAL`.
+
+## Owner-live boundary — BLOCKED until independent Codex PASS
+
+Only after a genuine independent Codex PASS may owner-live begin. The narrow owner-live Direct check is then:
 
 1. confirm the OAuth application has `direct:api` permission;
 2. confirm the application/account has approved full Yandex Direct API access for production testing;
@@ -130,4 +149,9 @@ Owner-live must not exercise mutations, bids, finance/payment operations, quota/
 
 ## Integration lock
 
-Do not merge/integrate Phase 5 into `main` before the owner-live result is recorded. The frozen candidate bytes identified by SHA-256 above are immutable for owner-live; any product-byte change requires a new candidate, new freeze, and a new full mandatory frozen-artifact gate.
+Do not merge/integrate Phase 5 into `main` before both:
+
+1. independent Codex PASS is recorded;
+2. owner-live result is recorded.
+
+The frozen candidate bytes identified by SHA-256 above are immutable for Codex and owner-live; any product-byte change requires a new candidate, new freeze, new frozen-artifact preflight and a new independent Codex campaign.
