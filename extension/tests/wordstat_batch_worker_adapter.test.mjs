@@ -9,8 +9,8 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const src = path.resolve(here, '../src');
 const clone = (value) => value == null ? value : JSON.parse(JSON.stringify(value));
 
-function createHarness({ capabilityState = 'PRESENT', autorunEnabled = true } = {}) {
-  const state = {};
+function createHarness({ capabilityState = 'PRESENT', autorunEnabled = true, manualMode = true, providerOutcome = 'success' } = {}) {
+  const state = { liveConversationId: 'conv-1' };
   const metrics = { providerCalls: 0, policyCalls: [], baseManualCalls: 0, baseAutoCalls: 0 };
   let uidCounter = 0;
 
@@ -83,6 +83,13 @@ function createHarness({ capabilityState = 'PRESENT', autorunEnabled = true } = 
   };
   ctx.executeWordstatCommand = async (command, metadata) => {
     metrics.providerCalls += 1;
+    if (providerOutcome === 'unknown') {
+      throw Object.assign(new Error('provider outcome unknown'), {
+        code: 'REQUEST_OUTCOME_UNKNOWN_NO_RETRY',
+        request_executed: 'UNKNOWN',
+        automatic_retry: false
+      });
+    }
     return {
       ok: true,
       request_id: metadata.request_id,
@@ -97,12 +104,16 @@ function createHarness({ capabilityState = 'PRESENT', autorunEnabled = true } = 
 
   ctx.executeManualBlock = async () => { metrics.baseManualCalls += 1; return { ok: true, base: true }; };
   ctx.handleAutoCommand = async () => { metrics.baseAutoCalls += 1; return { ok: true, base: true }; };
-  ctx.assertTabConversation = async (tabId) => {
+  ctx.assertTabConversation = async (tabId, _key, expectedConversationId = null) => {
     if (Number(tabId) !== 7) throw Object.assign(new Error('wrong owner'), { code: 'AUTO_NON_OWNER_TAB' });
-    return { origin: 'https://chatgpt.com', conversation_id: 'conv-1', conversation_key: 'conv-key' };
+    const liveConversationId = String(state.liveConversationId || 'conv-1');
+    if (expectedConversationId && String(expectedConversationId) !== liveConversationId) {
+      throw Object.assign(new Error('conversation changed'), { code: 'CONVERSATION_MISMATCH' });
+    }
+    return { origin: 'https://chatgpt.com', conversation_id: liveConversationId, conversation_key: 'conv-key' };
   };
-  ctx.getBinding = async () => ({ conversation_id: 'conv-1' });
-  ctx.getManualMode = async () => true;
+  ctx.getBinding = async () => ({ conversation_id: String(state.liveConversationId || 'conv-1') });
+  ctx.getManualMode = async () => manualMode;
   ctx.getServiceContext = async () => ({ active_service: 'wordstat' });
   ctx.getConversationOutbox = async (key) => clone(state.outbox?.[key] || null);
   ctx.putOutbox = async (key, entry) => {
@@ -129,6 +140,24 @@ function start(jobId = 'job-1') {
   };
 }
 
+function autorunRun(ctx, overrides = {}) {
+  return {
+    run_id: 'run-1',
+    tab_id: 7,
+    conversation_id: 'conv-1',
+    active_service: 'wordstat',
+    status: ctx.WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND,
+    requests_attempted: 0,
+    requests_executed: 0,
+    requests_skipped: 0,
+    estimated_cost_rub: 0,
+    pause_requested: false,
+    last_error: null,
+    delivery: null,
+    ...overrides
+  };
+}
+
 test('worker adapter management actions never contact provider; one next contacts it exactly once', async () => {
   const { ctx, metrics, flush } = createHarness();
   await flush();
@@ -147,6 +176,11 @@ test('worker adapter management actions never contact provider; one next contact
   assert.equal(next.request_executed, true);
   assert.equal(next.report_envelope.progress.succeeded, 1);
   assert.equal(next.report_envelope.item.result_payload.result.evidence, 'provider');
+
+  const repeated = await api.executeWordstatBatchCommand({ action: 'next', jobId: 'job-1' }, { channel: 'manual' });
+  assert.equal(metrics.providerCalls, 1, 'completed item must never be re-executed');
+  assert.equal(repeated.request_executed, false);
+  assert.equal(repeated.report_envelope.reason, 'JOB_COMPLETED');
 });
 
 test('credential absence is denied by existing Wordstat policy before claim/network', async () => {
@@ -192,6 +226,96 @@ test('Manual batch start preserves owner fence and stages result through existin
   assert.equal(state.outbox['conv-key'].tab_id, 7);
   assert.equal(state.manual_operations['conv-key'].status, 'delivering');
   assert.equal(state.manual_operations['conv-key'].active_service, 'wordstat');
+});
+
+test('Autorun batch commands preserve owner/conversation fence and use the existing autorun outbox', async () => {
+  const { ctx, state, metrics, flush } = createHarness({ manualMode: false });
+  await flush();
+  state.auto_runs = { 'conv-key': autorunRun(ctx) };
+  const startText = `WORDSTAT_BATCH_API_V1\n${JSON.stringify(start('job-auto'))}`;
+
+  const wrongOwner = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-wrong-owner', command_text: startText
+  }, { tab: { id: 8 } });
+  assert.equal(wrongOwner.accepted, false);
+  assert.equal(wrongOwner.code, 'AUTO_NON_OWNER_TAB');
+  assert.equal(metrics.providerCalls, 0);
+
+  state.auto_runs['conv-key'] = autorunRun(ctx, { conversation_id: 'stale-conversation' });
+  const wrongConversation = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-wrong-conversation', command_text: startText
+  }, { tab: { id: 7 } });
+  assert.equal(wrongConversation.accepted, false);
+  assert.equal(wrongConversation.code, 'CONVERSATION_MISMATCH');
+  assert.equal(metrics.providerCalls, 0);
+
+  state.auto_runs['conv-key'] = autorunRun(ctx);
+  const started = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-start', command_text: startText
+  }, { tab: { id: 7 } });
+  assert.equal(started.accepted, true);
+  assert.equal(metrics.providerCalls, 0, 'autorun batch start is management-only');
+  assert.equal(state.outbox['conv-key'].type, 'autorun');
+  assert.equal(state.outbox['conv-key'].tab_id, 7);
+  assert.equal(state.auto_runs['conv-key'].status, ctx.WordstatAutorunModel.RUN_STATUSES.DELIVERING);
+
+  delete state.outbox['conv-key'];
+  state.auto_runs['conv-key'] = {
+    ...state.auto_runs['conv-key'],
+    status: ctx.WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND,
+    delivery: null
+  };
+  const nextText = `WORDSTAT_BATCH_API_V1\n${JSON.stringify({ action: 'next', jobId: 'job-auto' })}`;
+  const next = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-next', command_text: nextText
+  }, { tab: { id: 7 } });
+  assert.equal(next.accepted, true);
+  assert.equal(metrics.providerCalls, 1);
+  assert.equal(state.outbox['conv-key'].type, 'autorun');
+  assert.equal(state.outbox['conv-key'].tab_id, 7);
+  assert.equal(state.auto_runs['conv-key'].requests_executed, 1);
+  assert.equal(metrics.policyCalls.at(-1).channel, 'autorun');
+});
+
+test('unknown Autorun provider outcome pauses progression and the same next is never replayed', async () => {
+  const { ctx, state, metrics, flush } = createHarness({ manualMode: false, providerOutcome: 'unknown' });
+  await flush();
+  state.auto_runs = { 'conv-key': autorunRun(ctx) };
+  const startText = `WORDSTAT_BATCH_API_V1\n${JSON.stringify(start('job-unknown'))}`;
+  const started = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-start', command_text: startText
+  }, { tab: { id: 7 } });
+  assert.equal(started.accepted, true);
+  delete state.outbox['conv-key'];
+  state.auto_runs['conv-key'] = {
+    ...state.auto_runs['conv-key'],
+    status: ctx.WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND,
+    delivery: null
+  };
+
+  const nextText = `WORDSTAT_BATCH_API_V1\n${JSON.stringify({ action: 'next', jobId: 'job-unknown' })}`;
+  const unknown = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-next-1', command_text: nextText
+  }, { tab: { id: 7 } });
+  assert.equal(unknown.accepted, true);
+  assert.equal(metrics.providerCalls, 1);
+  assert.equal(unknown.result.request_executed, 'UNKNOWN');
+  assert.equal(state.ymb_wordstat_batch_jobs_v1['job-unknown'].items[0].status, 'OUTCOME_UNKNOWN');
+  assert.equal(state.auto_runs['conv-key'].pause_requested, true);
+  assert.equal(state.auto_runs['conv-key'].last_error.request_executed, 'UNKNOWN');
+
+  delete state.outbox['conv-key'];
+  state.auto_runs['conv-key'] = {
+    ...state.auto_runs['conv-key'],
+    status: ctx.WordstatAutorunModel.RUN_STATUSES.WAITING_COMMAND,
+    delivery: null
+  };
+  const replay = await ctx.handleAutoCommand({
+    conversation_key: 'conv-key', run_id: 'run-1', assistant_turn_id: 'turn-next-2', command_text: nextText
+  }, { tab: { id: 7 } });
+  assert.equal(replay.accepted, false);
+  assert.equal(replay.code, 'REQUEST_OUTCOME_UNKNOWN_NO_RETRY');
+  assert.equal(metrics.providerCalls, 1, 'unknown provider boundary must never be crossed twice');
 });
 
 test('ordinary Manual block still delegates to the accepted pre-Phase-6 path', async () => {
