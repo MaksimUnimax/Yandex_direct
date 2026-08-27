@@ -76,6 +76,7 @@
     const base = normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: DIRECT_METHODS, allowedMethods: DIRECT_METHODS, defaultMaxRequests: 20, defaultMaxCostRub: 0, defaultCosts: DEFAULT_DIRECT_METHOD_COST_RUB, defaultTariffCheckedAt: DIRECT_POLICY_CHECKED_AT, defaultTariffSource: DIRECT_POLICY_SOURCE });
     return Object.freeze({
       ...base,
+      max_requests_per_run: Math.min(20, base.max_requests_per_run),
       max_page_size: Math.min(1000, asPositiveInt(raw.max_page_size, 1000)),
       max_report_days: Math.min(31, asPositiveInt(raw.max_report_days, 31)),
       max_report_rows: Math.min(1000, asPositiveInt(raw.max_report_rows, 1000))
