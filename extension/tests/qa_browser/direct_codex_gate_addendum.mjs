@@ -70,6 +70,8 @@ try{
   const swTarget=await browser.waitForTarget((t)=>t.type()==='service_worker'&&t.url().startsWith('chrome-extension://'),{timeout:15000});const worker=await swTarget.worker();assert.ok(worker,'MV3 worker missing');
   const identity=await worker.evaluate(async(expectedUrl)=>{const tabs=await chrome.tabs.query({});const tab=tabs.find((item)=>item.url===expectedUrl);if(!tab)return null;return await new Promise((resolve)=>chrome.tabs.sendMessage(tab.id,{type:'WS_GET_IDENTITY'},(response)=>resolve({tabId:tab.id,response:response||null,error:chrome.runtime.lastError?.message||null})));},PROJECT_URL);
   assert.equal(identity?.response?.ok,true,`IDENTITY_FAIL ${JSON.stringify(identity)}`);assert.equal(identity.response.conversation_key,KEY);const chatTabId=identity.tabId;
+  await fixture.bringToFront();
+  await worker.evaluate(async(tabId)=>chrome.tabs.update(tabId,{active:true}),chatTabId);
   const p=await openPopup(worker,browser,KEY);p.popup.on('dialog',async(d)=>{try{await d.accept();}catch{}});
   await popupClick(p.popup,'#bindConversation');await waitPopupStatus(p.popup,'Диалог привязан.');await waitUntil(async()=>Boolean((await getState(p.popup)).binding),'BINDING_NOT_PERSISTED');
   await worker.evaluate(async()=>chrome.storage.local.set({wsmb_auto_send:true}));
