@@ -54,6 +54,9 @@
     const executeWordstat = deps.executeWordstat;
     if (typeof executeWordstat !== "function") fail("BATCH_EXECUTOR_REQUIRED", "Wordstat batch executor обязателен.");
     const estimateCostRub = typeof deps.estimateCostRub === "function" ? deps.estimateCostRub : (() => 0);
+    const admit = typeof deps.admit === "function"
+      ? deps.admit
+      : async ({ estimated_cost_rub: estimatedCostRub }) => ({ allow: true, reason: "ALLOW", estimated_cost_rub: estimatedCostRub });
     const workerSessionId = String(deps.workerSessionId || `batch-worker-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`);
     const now = typeof deps.now === "function" ? deps.now : defaultNow;
     const uid = typeof deps.uid === "function" ? deps.uid : defaultUid;
@@ -145,30 +148,51 @@
 
     async function pause(command) {
       const { map, job } = await loadJob(command.jobId);
-      const next = Model.pause(job, { reason: "OWNER_PAUSE", now: now() });
-      await persistJob(map, next);
-      return { job: next, envelope: envelope(command, next) };
+      const nextJob = Model.pause(job, { reason: "OWNER_PAUSE", now: now() });
+      await persistJob(map, nextJob);
+      return { job: nextJob, envelope: envelope(command, nextJob) };
     }
 
     async function resume(command) {
       const { map, job } = await loadJob(command.jobId);
-      const next = Model.resume(job, { now: now() });
-      await persistJob(map, next);
-      return { job: next, envelope: envelope(command, next) };
+      const nextJob = Model.resume(job, { now: now() });
+      await persistJob(map, nextJob);
+      return { job: nextJob, envelope: envelope(command, nextJob) };
     }
 
     async function cancel(command) {
       const { map, job } = await loadJob(command.jobId);
-      const next = Model.cancel(job, { reason: "OWNER_CANCEL", now: now() });
-      await persistJob(map, next);
-      return { job: next, envelope: envelope(command, next) };
+      const nextJob = Model.cancel(job, { reason: "OWNER_CANCEL", now: now() });
+      await persistJob(map, nextJob);
+      return { job: nextJob, envelope: envelope(command, nextJob) };
     }
 
-    async function next(command) {
+    async function next(command, context = {}) {
       const loaded = await loadJob(command.jobId);
       const map = loaded.map;
       let job = loaded.job;
-      const estimatedCostRub = Math.max(0, Number(estimateCostRub({ method: "getTop" }, job) || 0));
+      const baseEstimatedCostRub = Math.max(0, Number(await estimateCostRub({ method: "getTop" }, clone(job), clone(context)) || 0));
+      const admission = await admit({
+        command: { method: "getTop" },
+        job: clone(job),
+        context: clone(context),
+        estimated_cost_rub: baseEstimatedCostRub
+      });
+      const allowed = admission?.allow !== false;
+      const admissionReason = String(admission?.reason || (allowed ? "ALLOW" : "BATCH_ADMISSION_DENIED"));
+      const estimatedCostRub = Math.max(0, Number(admission?.estimated_cost_rub ?? baseEstimatedCostRub) || 0);
+      if (!allowed) {
+        return {
+          job,
+          envelope: envelope(command, job, {
+            status: "SKIPPED",
+            reason: admissionReason,
+            requestExecuted: false,
+            automaticRetry: false
+          })
+        };
+      }
+
       const claimed = Model.claimNext(job, {
         actorId: workerSessionId,
         nextEstimatedCostRub: estimatedCostRub,
@@ -203,7 +227,8 @@
           request_id: requestId,
           job_id: job.job_id,
           batch_item_id: item.item_id,
-          batch_worker_session_id: workerSessionId
+          batch_worker_session_id: workerSessionId,
+          ...clone(context)
         });
         providerResult = result?.report_envelope || result || null;
         if (result?.ok === false) {
@@ -262,14 +287,14 @@
       };
     }
 
-    async function handle(rawCommand) {
+    async function handle(rawCommand, context = {}) {
       const command = Protocol.normalizeCommand(rawCommand);
       if (command.action === "start") return start(command);
       if (command.action === "status") return status(command);
       if (command.action === "pause") return pause(command);
       if (command.action === "resume") return resume(command);
       if (command.action === "cancel") return cancel(command);
-      if (command.action === "next") return next(command);
+      if (command.action === "next") return next(command, context);
       fail("UNSUPPORTED_BATCH_ACTION", `Batch action ${command.action} не поддерживается.`);
     }
 
