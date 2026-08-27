@@ -78,7 +78,7 @@ try{
   await waitUntil(async()=>await actionCount(fixture)>=1,'LIST_ACTION_NOT_ARMED');
   const beforeList=providerHits.length;await clickLatestAction(fixture);await waitUntil(async()=>providerHits.length===beforeList+1,'LIST_PROVIDER_NOT_CALLED');
   await waitUntil(async()=>(await fixtureState(fixture)).composer.startsWith('DIRECT_RESULT_V1'),'LIST_RESULT_NOT_FILLED');
-  let fx=await fixtureState(fixture);assert.equal(fx.sendHistory.length,0);assert.equal(fx.sendCycles,0);assert.match(fx.composer,/"operation":"listCampaigns"/);assert.equal(providerHits.at(-1).url,'/json/v501/campaigns');assert.deepEqual(JSON.parse(providerHits.at(-1).body).params.SelectionCriteria,{Ids:[77]});
+  let fx=await fixtureState(fixture);assert.equal(fx.sendHistory.length,0);assert.equal(fx.sendCycles,0);assert.match(fx.composer,/"operation"\s*:\s*"listCampaigns"/);assert.equal(providerHits.at(-1).url,'/json/v501/campaigns');assert.deepEqual(JSON.parse(providerHits.at(-1).body).params.SelectionCriteria,{Ids:[77]});
   console.log('D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS');
 
   await fixture.click('#composer-submit-button');
