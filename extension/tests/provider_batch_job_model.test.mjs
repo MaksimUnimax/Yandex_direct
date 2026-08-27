@@ -94,6 +94,33 @@ test('stale REQUEST_STARTED becomes OUTCOME_UNKNOWN and is never auto-replayed',
   assert.equal(claimed.job.items[0].status, model.ITEM_STATUSES.OUTCOME_UNKNOWN);
 });
 
+test('OUTCOME_UNKNOWN blocks all later pending paid items until reconciliation', () => {
+  const model = loadModel();
+  let job = model.createJob({
+    jobId: 'job-4b',
+    service: 'wordstat',
+    commands: [command('alpha'), command('beta')],
+    limits: { maxRequests: 10, maxCostRub: 100 },
+    now: NOW
+  });
+  ({ job } = model.claimNext(job, { actorId: 'worker-old', nextEstimatedCostRub: 0.02, now: NOW }));
+  const firstId = job.active_item_id;
+  job = model.markRequestStarted(job, firstId, {
+    requestId: 'req-unknown-first',
+    workerSessionId: 'worker-old',
+    estimatedCostRub: 0.02,
+    now: NOW
+  });
+  job = model.markOutcomeUnknown(job, firstId, { reason: 'NETWORK_OUTCOME_UNKNOWN', now: NOW });
+  assert.equal(model.progress(job).outcome_unknown, 1);
+  assert.equal(model.progress(job).pending, 1);
+  const next = model.claimNext(job, { actorId: 'worker-new', nextEstimatedCostRub: 0.02, now: NOW });
+  assert.equal(next.item, null);
+  assert.equal(next.reason, 'OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION');
+  assert.equal(model.progress(next.job).pending, 1);
+  assert.equal(model.progress(next.job).outcome_unknown, 1);
+});
+
 test('pause and resume do not replay completed items', () => {
   const model = loadModel();
   let job = model.createJob({ jobId: 'job-5', service: 'wordstat', commands: [command('alpha'), command('beta')], now: NOW });
