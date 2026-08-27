@@ -244,6 +244,11 @@
     if (next.status === JOB_STATUSES.CANCELLING) return { job: Object.freeze(next), item: null, reason: "JOB_CANCELLING" };
     if (next.status === JOB_STATUSES.CANCELLED) return { job: Object.freeze(next), item: null, reason: "JOB_CANCELLED" };
     if (next.status === JOB_STATUSES.COMPLETED) return { job: Object.freeze(next), item: null, reason: "JOB_COMPLETED" };
+    if (next.items.some((item) => item.status === ITEM_STATUSES.OUTCOME_UNKNOWN)) {
+      next.stop_reason = "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION";
+      next.updated_at = timestamp;
+      return { job: Object.freeze(next), item: null, reason: "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION" };
+    }
     if (next.active_item_id || hasInFlight(next)) return { job: Object.freeze(next), item: null, reason: "ITEM_ACTIVE" };
 
     const budget = budgetDecision(next, nextEstimatedCostRub);
@@ -486,7 +491,7 @@
     if (source.status === JOB_STATUSES.PAUSED) nextSafeAction = "RESUME_OR_CANCEL";
     else if (source.status === JOB_STATUSES.CANCELLING) nextSafeAction = "WAIT_FOR_INFLIGHT_OUTCOME";
     else if (source.status === JOB_STATUSES.CANCELLED || source.status === JOB_STATUSES.COMPLETED) nextSafeAction = "NONE";
-    else if (outcomeUnknown > 0 && pending === 0 && claimed === 0 && requesting === 0) nextSafeAction = "RECONCILE_UNKNOWN";
+    else if (outcomeUnknown > 0 && claimed === 0 && requesting === 0) nextSafeAction = "RECONCILE_UNKNOWN";
     else if (claimed > 0 || requesting > 0) nextSafeAction = "WAIT_FOR_ACTIVE_ITEM";
     else if (pending === 0) nextSafeAction = "NONE";
 

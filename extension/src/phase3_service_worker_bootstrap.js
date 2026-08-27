@@ -68,6 +68,6 @@
     try { runtimeEvent.addListener = nativeAddListener; } catch {}
   }
 
+  importScripts("wordstat_batch_worker_transport.js");
   importScripts("webmaster_worker_runtime.js");
-  importScripts("wordstat_batch_worker_integration.js");
 })();

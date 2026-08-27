@@ -26,7 +26,16 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/src/shared/provider_batch_job_model.js
+          node --check extension/src/shared/wordstat_batch_protocol.js
+          node --check extension/src/shared/wordstat_batch_runtime.js
+          node --check extension/src/shared/wordstat_batch_transport.js
+          node --check extension/src/shared/wordstat_batch_content_bridge.js
+          node --check extension/src/wordstat_batch_worker_transport.js
           node --check extension/tests/provider_batch_job_model.test.mjs
+          node --check extension/tests/wordstat_batch_protocol.test.mjs
+          node --check extension/tests/wordstat_batch_runtime.test.mjs
+          node --check extension/tests/wordstat_batch_policy_guard.test.mjs
+          node --check extension/tests/wordstat_batch_transport.test.mjs
       - name: Phase 6 pure batch model contract
         shell: bash
         run: |

@@ -33,6 +33,7 @@
         "shared/wordstat_protocol.js",
         "shared/wordstat_batch_protocol.js",
         "shared/wordstat_batch_transport.js",
+        "shared/wordstat_batch_content_bridge.js",
         "shared/search_xml.js",
         "shared/search_protocol.js",
         "shared/metrika_protocol.js",
@@ -41,8 +42,7 @@
         "shared/manual_controls.js",
         "shared/composer_send.js",
         "shared/proven_writing_block_capture.js",
-        "content_script.js",
-        "wordstat_batch_content_integration.js"
+        "content_script.js"
       ],
       "run_at": "document_idle"
     }

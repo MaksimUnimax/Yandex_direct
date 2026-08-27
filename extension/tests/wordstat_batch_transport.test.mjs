@@ -8,10 +8,9 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const src = path.resolve(here, '../src');
 
-function loadShared(files, seed = {}) {
+function loadShared(files) {
   const ctx = {
-    console, JSON, Object, Array, Set, Map, String, Number, Boolean, RegExp, Date, Error, Math,
-    ...seed,
+    console, JSON, Object, Array, Set, String, Number, Boolean, RegExp, Date, Error, Math,
     globalThis: null
   };
   ctx.globalThis = ctx;
@@ -88,104 +87,76 @@ test('autorun protocol selection accepts batch only for active Wordstat', () => 
   assert.equal(ctx.YMBWordstatBatchTransport.protocolForText('WORDSTAT_API_V1\n{}', 'wordstat', ordinary), ordinary);
 });
 
-test('manifest exposes batch detection after preserving the accepted content runtime', () => {
+test('manifest exposes batch classifier before the unchanged content transport', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(src, 'manifest.json'), 'utf8'));
   const scripts = manifest.content_scripts?.[0]?.js || [];
+  const ordinaryIndex = scripts.indexOf('shared/wordstat_protocol.js');
   const protocolIndex = scripts.indexOf('shared/wordstat_batch_protocol.js');
   const transportIndex = scripts.indexOf('shared/wordstat_batch_transport.js');
+  const bridgeIndex = scripts.indexOf('shared/wordstat_batch_content_bridge.js');
   const contentIndex = scripts.indexOf('content_script.js');
-  const integrationIndex = scripts.indexOf('wordstat_batch_content_integration.js');
-  assert.ok(protocolIndex >= 0, 'batch protocol must be loaded in content context');
+  assert.ok(ordinaryIndex >= 0);
+  assert.ok(protocolIndex > ordinaryIndex, 'batch protocol must load after ordinary Wordstat protocol');
   assert.ok(transportIndex > protocolIndex, 'batch transport must load after batch protocol');
-  assert.ok(contentIndex > transportIndex, 'accepted content runtime must load after batch transport prerequisites');
-  assert.ok(integrationIndex > contentIndex, 'batch content adapter must wrap the accepted content runtime after it loads');
+  assert.ok(bridgeIndex > transportIndex, 'content bridge must load after batch transport');
+  assert.ok(contentIndex > bridgeIndex, 'accepted content script must load after the batch-aware proxy');
 });
 
-test('content adapter preserves ordinary Wordstat detection and adds batch detection only for Wordstat', () => {
-  const ordinaryWordstat = {
-    marker: 'ordinary-wordstat',
-    isCommandText(text) { return String(text || '').trim().startsWith('WORDSTAT_API_V1'); }
-  };
-  const search = {
-    marker: 'search',
-    isCommandText(text) { return String(text || '').trim().startsWith('SEARCH_API_V1'); }
-  };
+test('content bridge extends only Wordstat command detection and keeps registry unchanged', () => {
   const ctx = loadShared([
+    'shared/product.js',
+    'shared/service_registry.js',
+    'shared/wordstat_protocol.js',
     'shared/wordstat_batch_protocol.js',
-    'shared/wordstat_batch_transport.js'
-  ], {
-    protocolForService(service) {
-      if (service === 'wordstat') return ordinaryWordstat;
-      if (service === 'search') return search;
-      return null;
-    }
-  });
-  vm.runInContext(fs.readFileSync(path.join(src, 'wordstat_batch_content_integration.js'), 'utf8'), ctx, { filename: 'wordstat_batch_content_integration.js' });
-  const wordstat = ctx.protocolForService('wordstat');
-  assert.equal(wordstat.marker, 'ordinary-wordstat');
-  assert.equal(wordstat.isCommandText('WORDSTAT_API_V1\n{}'), true);
-  assert.equal(wordstat.isCommandText(batchStartText()), true);
-  assert.equal(wordstat.isCommandText('not a command'), false);
-  assert.equal(ctx.protocolForService('search'), search);
-  assert.equal(ctx.protocolForService('search').isCommandText(batchStartText()), false);
+    'shared/wordstat_batch_transport.js',
+    'shared/wordstat_batch_content_bridge.js'
+  ]);
+  assert.equal(ctx.YMBServiceRegistry.DEFINITIONS.length, 5);
+  assert.equal(ctx.WordstatProtocol.isCommandText(batchStartText()), true);
+  assert.equal(ctx.WordstatProtocol.isCommandText('WORDSTAT_API_V1\n{}'), true);
+  assert.equal(ctx.YMBWordstatBatchTransport.protocolForText(batchStartText(), 'search', ctx.YMBWordstatBatchContentBridge.ordinaryProtocol), null);
 });
 
-test('worker bootstrap loads batch prerequisites before base worker and adapter after accepted Phase 5 runtime', () => {
+test('worker bootstrap loads batch model/runtime before accepted worker and adapter after it', () => {
   const bootstrap = fs.readFileSync(path.join(src, 'phase3_service_worker_bootstrap.js'), 'utf8');
+  const acceptedWorkerIndex = bootstrap.indexOf('importScripts("service_worker_bootstrap.js")');
+  assert.ok(acceptedWorkerIndex > 0);
   for (const dependency of [
     'shared/provider_batch_job_model.js',
     'shared/wordstat_batch_protocol.js',
     'shared/wordstat_batch_runtime.js',
     'shared/wordstat_batch_transport.js'
-  ]) assert.ok(bootstrap.includes(dependency), `bootstrap must load ${dependency}`);
-  assert.ok(bootstrap.indexOf('shared/wordstat_batch_runtime.js') < bootstrap.indexOf('service_worker_bootstrap.js'));
-  assert.ok(bootstrap.indexOf('webmaster_worker_runtime.js') < bootstrap.indexOf('wordstat_batch_worker_integration.js'));
+  ]) {
+    const index = bootstrap.indexOf(dependency);
+    assert.ok(index >= 0 && index < acceptedWorkerIndex, `${dependency} must load before accepted worker`);
+  }
+  const adapterIndex = bootstrap.indexOf('wordstat_batch_worker_transport.js');
+  assert.ok(adapterIndex > acceptedWorkerIndex, 'batch worker adapter must load after accepted worker');
 });
 
-test('worker adapter reuses existing Wordstat executor, policy, outbox and delivery lifecycle', () => {
-  const integration = fs.readFileSync(path.join(src, 'wordstat_batch_worker_integration.js'), 'utf8');
-  const baseWorker = fs.readFileSync(path.join(src, 'service_worker.js'), 'utf8');
+test('worker adapter reuses existing Wordstat executor, policy, run state and outbox lifecycle', () => {
+  const adapter = fs.readFileSync(path.join(src, 'wordstat_batch_worker_transport.js'), 'utf8');
   for (const marker of [
     'YMBWordstatBatchRuntime.create',
     'executeWordstatBatchCommand',
     'YMBWordstatBatchTransport.discover',
     'executeWordstatCommand',
-    'getWordstatPolicy',
+    'WordstatBatchProtocol.formatResultEnvelope',
     'policyDecisionForService',
+    'publicCapability',
+    'getWordstatPolicy',
+    'getAutoRun',
+    'patchAutoRun',
     'putOutbox',
     'baseExecuteManualBlock',
-    'baseHandleAutoCommand',
-    'globalThis.executeManualBlock = batchAwareManualBlock',
-    'globalThis.handleAutoCommand = batchAwareAutoCommand'
-  ]) assert.ok(integration.includes(marker), `batch worker adapter marker missing: ${marker}`);
-  for (const marker of ['putOutbox', 'outboxOwnerFence', 'completeDelivery', 'WS_EXECUTE_MANUAL_BLOCK', 'WS_AUTO_COMMAND']) {
-    assert.ok(baseWorker.includes(marker), `accepted worker lifecycle marker missing: ${marker}`);
-  }
+    'baseHandleAutoCommand'
+  ]) assert.ok(adapter.includes(marker), `worker transport marker missing: ${marker}`);
+  assert.equal(adapter.includes('YMBServiceRegistry.DEFINITIONS ='), false);
 });
 
-test('classic worker global handler rebinding is visible to an already-defined message dispatcher', async () => {
-  const ctx = { globalThis: null, Promise };
-  ctx.globalThis = ctx;
-  vm.createContext(ctx);
-  vm.runInContext(`
-    "use strict";
-    async function executeManualBlock() { return "base"; }
-    async function handleMessage() { return executeManualBlock(); }
-    globalThis.handleMessage = handleMessage;
-  `, ctx);
-  assert.equal(await ctx.handleMessage(), 'base');
-  ctx.executeManualBlock = async () => 'batch-aware';
-  assert.equal(await ctx.handleMessage(), 'batch-aware');
-});
-
-test('batch transport integration scripts are syntactically valid before Chrome loads them', () => {
-  for (const file of [
-    'shared/wordstat_batch_transport.js',
-    'wordstat_batch_content_integration.js',
-    'wordstat_batch_worker_integration.js',
-    'phase3_service_worker_bootstrap.js'
-  ]) {
-    const source = fs.readFileSync(path.join(src, file), 'utf8');
-    assert.doesNotThrow(() => new vm.Script(source, { filename: file }), `${file} must parse as a classic script`);
-  }
+test('first transport slice is explicit one-checkpoint execution, not a hidden advance loop', () => {
+  const adapter = fs.readFileSync(path.join(src, 'wordstat_batch_worker_transport.js'), 'utf8');
+  assert.ok(adapter.includes('batchRuntime.handle(command, metadata)'));
+  assert.equal(adapter.includes('while (true)'), false);
+  assert.equal(adapter.includes('setInterval('), false);
 });
