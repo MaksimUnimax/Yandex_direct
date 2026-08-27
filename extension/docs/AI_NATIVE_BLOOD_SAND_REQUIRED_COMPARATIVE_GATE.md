@@ -1,179 +1,186 @@
 # AI-NATIVE BLOOD_SAND REQUIRED COMPARATIVE GATE
 
-Status: **MANDATORY ONE-TIME VALIDATION / NOT YET RUN / NO `extension/src` CHANGE**  
+Status: **MANDATORY ONE-TIME VALIDATION / CLEAN PASS A PENDING / NO ALICE-SPECIFIC `extension/src` CHANGE AUTHORIZED**  
 Date: 2026-08-27  
 Applies to: **O-001 — AI-Native Semantic Rebuild**
 
 ## 1. Decision this gate must answer
 
-Before O-001 is treated as a proven premium freelance offer, run one controlled comparative experiment on the existing `MaksimUnimax/blood_sand` evidence base.
+Before O-001 is treated as a proven premium freelance offer, run one controlled comparative experiment on the canonical `MaksimUnimax/blood_sand` evidence base.
 
-The question is deliberately falsifiable:
+Falsifiable question:
 
-> Does adding direct Alice evidence to the same human-demand / Search / business evidence materially improve semantic, priority, or page-job decisions compared with a strong ordinary SEO semantic-core workflow?
+> Does adding direct AI/Alice evidence to the same business + human-demand + ordinary Search evidence materially improve semantic, priority or page-job decisions compared with a strong ordinary SEO semantic-core workflow?
 
-This gate does **not** exist to prove the hypothesis by construction. If the AI-native pass produces no material, traceable decision improvement, the correct result is `NO_PROVEN_UPLIFT` and the premium positioning must be reconsidered.
+The gate may fail to prove uplift. `NO_PROVEN_UPLIFT` is a valid result.
 
-This is a **one-time methodology validation**, not a mandatory duplicate experiment for every future customer.
+This is a one-time methodology validation, not a duplicate experiment required for every customer.
 
-## 2. Why `blood_sand` is the required dataset
+## 2. Project-stage boundary
 
-`blood_sand` is suitable because it already contains a real, canonical multi-surface evidence chain rather than a synthetic demonstration:
+Phase 5 Direct is **PASS / CLOSED**.
 
-- Wordstat demand evidence;
-- direct Yandex Search measurements;
-- browser/Search observations;
-- accepted clean Alice observations and sources;
-- explicit context-contaminated Alice evidence retained but excluded from canonical evidence;
-- Query Evidence Ledger;
-- H/A/C/O opportunity analysis;
-- final opportunity map.
+No owner GitHub Actions click or post-merge manual workflow is required for this gate to begin.
 
-Canonical reference set:
+This gate controls **Alice/GenSearch-specific implementation priority only**. It does not block Phase 6 Semantic Core / batch-orchestration engineering.
+
+Current order:
 
 ```text
-MaksimUnimax/blood_sand
-
-marketing/STRATEGY_AI_NATIVE_HYBRID_SEARCH_COMMERCE.md
-marketing/research/R1_WORDSTAT_FINAL_REPORT_2026-08-12.md
-marketing/research/R2_YANDEX_SEARCH_PRIMARY_SERP_2026-08-26.md
-marketing/research/R2_PRIMARY_SEARCH_ALICE_COMPARISON_2026-08-26.md
-marketing/research/R2_YANDEX_SERP_ALICE_FINAL_REPORT_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_SCORING_RUBRIC_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_SCORING_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_OVERLAP_AND_JOB_BOUNDARIES_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_MAP_FINAL_2026-08-26.md
-marketing/data/ledger/query_evidence_ledger.csv
-marketing/data/normalized/wordstat/
-marketing/data/normalized/yandex_search/
-marketing/data/normalized/alice/
+Phase 5 Direct CLOSED
+→ Phase 6 may proceed
+→ run this comparative gate once in a valid independent baseline context
+→ if PASS: promote AI-search evidence hand
+→ if NO_PROVEN_UPLIFT: keep AI-specific engineering behind market-proven workflow work
 ```
 
-Do not collect fresh paid provider data merely to make the experiment look stronger. Reuse the frozen/canonical evidence unless a referenced file is unavailable or internally inconsistent.
+## 3. Canonical blood_sand source authority
 
-## 3. Permanent worker boundary
+The clean Pass A source package is frozen in:
 
-The experiment uses the same operating model as the intended freelance service:
+`extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_SOURCE_MANIFEST_2026-08-27.md`
+
+Frozen `blood_sand` commit for that manifest:
+
+```text
+0da1fdfa65155fe0b22d67838d366e7d214ccbbe
+```
+
+The dataset contains real Wordstat demand evidence, ordinary Yandex Search evidence, canonical consumer-Alice observations, source/fan-out evidence and later opportunity analysis. The experiment must preserve the separation between those layers.
+
+Do not collect fresh paid provider data merely to make the experiment stronger unless the frozen source is demonstrably unavailable/inconsistent.
+
+## 4. Permanent worker boundary
 
 ```text
 ChatGPT Plus
 = analyst / planner / semantic architect / comparison judge / report author / QA
 
 Yandex Marketing Bridge
-= controlled acquisition hands for provider evidence when acquisition is required
+= controlled evidence-acquisition hands when acquisition is required
 
-Human operator
+Human owner/operator
 = authorization / execution boundary
-= does not substitute for ChatGPT's expert reasoning
+= does not substitute for ChatGPT reasoning
 ```
 
-The comparison therefore tests the value of the **analysis method and evidence set**, not whether every reasoning step has been hard-coded into the extension.
+The experiment tests the value of the **analysis method + additional evidence**, not whether every reasoning step is implemented in JavaScript.
 
-## 4. Two-pass experiment design
+## 5. Pass A — ordinary SEO baseline
 
-### PASS A — ORDINARY SEO BASELINE
-
-ChatGPT receives only evidence that a strong non-AI semantic-core workflow may legitimately use:
+Pass A receives only evidence permitted by the frozen baseline manifest:
 
 ```text
-business / product facts
-customer / marketplace evidence where already canonical
+business/product/customer facts that predate/do not contain Alice conclusions
 Wordstat evidence
-ordinary Yandex Search / SERP evidence
-site/current-page evidence where applicable
+ordinary Yandex Search/SERP evidence
+ordinary browser SERP evidence where clean
 ```
 
-Strict exclusions from Pass A:
+Strictly forbidden before Pass A is frozen:
 
 ```text
 Alice answer text
 Alice sources
-Alice source/page types
 Alice fan-out
-Alice-derived fields
-Alice-derived conclusions
-H/A/C/O values or final decisions that were already computed using Alice
-R2/R3 prose conclusions that reveal Alice-derived decisions
+Alice-derived fields/conclusions
+cross-surface Alice comparison docs
+R3 H/A/C/O decisions influenced by Alice
+final R3 opportunity decisions
+cross-surface ledger fields that leak Alice evidence
 ```
 
-Pass A must independently produce and freeze:
+Pass A independently produces:
 
-- candidate clusters;
-- retain / investigate / reject decisions;
-- intent classification;
-- priority reasoning;
-- page-job recommendations;
-- consolidation / split decisions;
-- confidence and missing evidence;
-- reasons for rejecting broad or contaminated demand.
+```text
+candidate clusters
+intent
+KEEP / INVESTIGATE / REJECT
+priority reasoning
+page-job recommendation
+split / merge decisions
+confidence
+missing evidence
+contamination / weak-fit rejections
+```
 
-### PASS B — AI-NATIVE
+## 6. Anti-leakage rule
 
-Only after Pass A is frozen, ChatGPT receives the same baseline evidence **plus** canonical Alice evidence:
+A baseline is invalid if the analysis context has already consumed Alice-derived conclusions before freezing Pass A.
+
+Required sequence:
+
+```text
+1. clean context receives frozen Alice-free source manifest
+2. Pass A analysis
+3. immutable Pass A output saved
+4. only then expose canonical Alice evidence
+5. Pass B analysis
+6. compare outputs
+```
+
+The present long-running project conversation has already consumed Alice-derived `blood_sand` conclusions.
+
+Therefore:
+
+```text
+PASS_A_IN_CURRENT_CONVERSATION = INVALID_BASELINE_LEAKAGE
+```
+
+Do not fake independence. Produce Pass A in a genuinely clean context.
+
+## 7. Pass B — AI-native
+
+After Pass A is immutable, expose the same non-Alice baseline plus canonical Alice evidence:
 
 ```text
 ALICE_INPUT
-answer presence / snapshot
+answer/snapshot
 ALICE_SOURCE
-source domain / URL / page type where directly observed
-ALICE_FANOUT_OBSERVED where actually observed
-ALICE_FANOUT_INFERRED kept explicitly separate
-context-contamination status
-observation timestamp / context metadata
+observed source URL/domain/page type
+ALICE_FANOUT_OBSERVED when actually observed
+ALICE_FANOUT_INFERRED separately
+context contamination status
+observation metadata/time
 ```
 
-Pass B then applies the full O-001 method:
+Pass B may then apply:
 
 ```text
-Human demand (H)
-Alice importance (A)
-Commercial value (C)
-Owned-asset value (O)
-Search job vs Alice job
-source competition / content gaps
+H = human demand
+A = AI/Alice importance
+C = commercial value
+O = owned-asset value
+Search job vs AI job
+source/content gaps
 page-job decision
 ```
 
-H/A/C/O must remain separate reasons for a decision; no opaque summed score is required.
+H/A/C/O remain separate reasons. No opaque sum is required.
 
-## 5. Anti-leakage rule
+## 8. Required comparison table
 
-The baseline is invalid if ChatGPT has already consumed Alice-derived conclusions before freezing Pass A.
-
-Preferred execution:
-
-1. create an explicit baseline source manifest containing only permitted non-Alice inputs;
-2. start a clean analysis context for Pass A;
-3. save Pass A as immutable experiment evidence;
-4. only then expose Alice evidence for Pass B;
-5. save Pass B separately;
-6. compare the two outputs mechanically and analytically.
-
-If a clean independent context cannot be guaranteed, mark the experiment `INVALID_BASELINE_LEAKAGE` and rerun rather than pretending the comparison is independent.
-
-## 6. Required comparison table
-
-For every decision-relevant unit, produce at least:
+For every decision-relevant unit:
 
 ```text
 unit_id / root / cluster
-baseline evidence used
+baseline evidence
 baseline intent
-baseline retain/investigate/reject
+baseline keep/investigate/reject
 baseline priority
 baseline page job
 AI-native intent
-AI-native retain/investigate/reject
+AI-native keep/investigate/reject
 AI-native priority
 AI-native page job
 delta_type
-exact Alice evidence responsible for delta
-commercial / architecture impact
+exact additional AI evidence responsible
+commercial/architecture impact
 confidence
-material_delta = yes/no
+material_delta yes/no
 ```
 
-Recommended `delta_type` values:
+Suggested delta types:
 
 ```text
 NO_CHANGE
@@ -189,41 +196,39 @@ CONFIDENCE_CHANGE
 OTHER_TRACEABLE_CHANGE
 ```
 
-## 7. Questions the comparison must explicitly test
+## 9. Known uncertainty classes to test
 
-The experiment must check whether Alice evidence changes or strengthens decisions around at least these known `blood_sand` uncertainty classes:
+At minimum test:
 
-1. **Transactional Search vs explanatory Alice** — named symbols such as `печать велеса`.
-2. **Commercial Search vs mythology/meaning/suitability Alice** — symbol families such as `алатырь оберег` / `оберег велес`.
-3. **Same SKU, different user job** — automotive protection/use-case vs mirror-pendant form factor.
-4. **Broad demand contamination** — zodiac root where broad frequency is much larger than precise demand.
-5. **High human demand but weak product fit** — generic automotive gift roots.
-6. **Specialist-source opportunity** — cases where independent niche sites participate in Search and/or Alice.
-7. **Context contamination handling** — contaminated Alice run must not be allowed to alter a canonical decision.
+1. transactional ordinary Search vs explanatory AI behavior — `печать велеса` family;
+2. commercial Search vs meaning/suitability AI job — named symbol families;
+3. same SKU but different user job — automotive protection vs mirror-pendant form factor;
+4. broad-demand contamination — zodiac;
+5. high human demand but weak direct product fit — generic automotive gifts;
+6. specialist independent-source opportunity;
+7. contaminated AI context must not change canonical decisions.
 
-The experiment must not force a delta in every class. `NO_CHANGE` is a valid result where Alice adds no decision value.
+`NO_CHANGE` is valid for any individual class.
 
-## 8. Primary acceptance criterion
+## 10. Primary acceptance criterion
 
-`AI_NATIVE_COMPARATIVE_GATE_PASS` requires all of the following:
+`AI_NATIVE_COMPARATIVE_GATE_PASS` requires:
 
-1. Pass A was frozen before Alice evidence was exposed.
-2. Both passes used the same non-Alice evidence base.
-3. All material deltas are traceable to specific additional Alice evidence, not retrospective storytelling.
-4. At least one **material action-level decision** changes or is materially de-risked, for example:
-   - retain vs reject/investigate;
-   - meaningful priority change;
-   - separate vs merged user job/page job;
-   - creation/removal of a supporting explanatory/FAQ/comparison job;
-   - source/content gap that changes the recommended work;
-   - contamination correction that prevents a wrong commercial action.
-5. The AI-native recommendation does not knowingly weaken the SEO foundation, user usefulness, truthfulness, or commercial role merely to optimize for AI.
-6. Observed Alice evidence and inferred hypotheses remain separated.
-7. The result contains an explicit list of cases where Alice evidence **did not** change the decision.
+1. Pass A truly frozen before AI evidence exposure.
+2. Both passes use the same non-AI evidence base.
+3. Every material delta is traceable to specific added evidence.
+4. At least one material action-level decision changes or is materially de-risked, e.g.:
+   - keep vs reject/investigate;
+   - meaningful priority shift;
+   - split/merge page job;
+   - new/remove supporting FAQ/guide/comparison job;
+   - source/content gap changing recommended work;
+   - contamination correction preventing wrong action.
+5. AI-native recommendations do not knowingly weaken SEO/user usefulness/truth/commercial role merely to optimize for AI.
+6. Observed evidence and inferred hypotheses remain separated.
+7. The final report explicitly lists cases where added AI evidence did not change the decision.
 
-## 9. Negative result is allowed
-
-Return one of:
+## 11. Valid final verdicts
 
 ```text
 AI_NATIVE_COMPARATIVE_GATE_PASS
@@ -232,81 +237,86 @@ INVALID_BASELINE_LEAKAGE
 INSUFFICIENT_CANONICAL_EVIDENCE
 ```
 
-`NO_PROVEN_UPLIFT` means:
+`NO_PROVEN_UPLIFT` means O-001 remains research-interesting but must not be presented internally as a proven premium decision advantage; AI-specific engineering is reprioritized behind stronger market-proven gaps.
 
-- O-001 remains an interesting research method;
-- it must not be marketed internally as a proven premium decision advantage;
-- Alice-specific product engineering is re-prioritized against other market-proven workflow gaps.
+## 12. What a PASS does not prove
 
-This prevents building an Alice hand merely because the feature sounds differentiated.
+Even a valid PASS does not prove:
 
-## 10. What this experiment does NOT prove
-
-Even a PASS does not prove:
-
-- guaranteed Alice indexing;
-- guaranteed source inclusion;
-- ranking/SoV growth;
+- guaranteed consumer Alice indexing/citation;
+- guaranteed ranking/Share of Voice growth;
 - traffic or revenue uplift;
-- permanent reproducibility of an Alice answer;
-- that every semantic-core order needs Alice measurement.
+- permanent answer reproducibility;
+- that every semantic-core order needs AI measurement;
+- that Yandex GenSearch is identical to consumer Alice.
 
-It proves only that, on a real canonical project dataset, the additional AI evidence changed/de-risked actionable semantic or page-architecture decisions enough to justify the premium methodology and further productization.
+It proves only that added AI evidence materially improved/de-risked actionable semantic/page architecture decisions on a real project dataset.
 
-## 11. Required durable outputs
+## 13. GenSearch provider-proxy subcheck
 
-Create after execution:
+Official Yandex Search API GenSearch has now been identified as the preferred future structured AI-search acquisition path:
 
 ```text
-extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_PASS_A_<DATE>.md
-extension/tests/AI_NATIVE_BLOOD_SAND_AI_NATIVE_PASS_B_<DATE>.md
-extension/tests/AI_NATIVE_BLOOD_SAND_COMPARISON_<DATE>.md
+POST /v2/gen/search
 ```
 
-If machine-readable tables are useful, add a CSV beside the comparison report.
+Provider research:
 
-The final comparison evidence must contain:
+`extension/docs/AI_NATIVE_YANDEX_GENSEARCH_PROVIDER_RESEARCH_2026-08-27.md`
 
-- exact `blood_sand` source commit used;
-- source manifest for Pass A;
-- source manifest for Pass B;
-- ChatGPT/model context declaration sufficient to explain the anti-leakage boundary;
-- decision-delta table;
-- gate verdict;
-- limitations;
-- exact next product decision.
-
-## 12. Roadmap gate
-
-This experiment is mandatory **after Phase 5 Direct closes and before Alice-specific provider/interface engineering is promoted into the next implementation phase**.
-
-It does not block completing Direct Phase 5.
-
-Roadmap rule:
+If the broader comparative gate passes, run a bounded second validation:
 
 ```text
-Phase 5 Direct owner-live + integration + postmerge PASS
-→ run blood_sand comparative gate once
-→ if PASS: Alice observation/visibility hand becomes high-priority product work
-→ if NO_PROVEN_UPLIFT: prioritize market-proven orchestration gaps first and keep Alice as research/monitoring
+existing canonical consumer-Alice observations
+vs
+GenSearch observations on representative roots
 ```
 
-## 13. Commercial launch boundary for O-001
+Compare answer job, sources, refined query themes and material decision implications.
 
-Before this gate passes:
+Do not automatically relabel GenSearch `searchQueries[]` as consumer `ALICE_FANOUT_OBSERVED`.
+
+## 14. Durable outputs
+
+Required after actual execution:
 
 ```text
-O-001 strategic hypothesis: YES
-methodology evidence: REAL
-market differentiation signal: STRONG
-strict repeatable toolchain: PARTIAL
-commercial status: EXPERIMENTAL / NOT YET PROVEN AS PREMIUM DECISION UPLIFT
+extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_PASS_A_2026-08-27.md
+extension/tests/AI_NATIVE_BLOOD_SAND_AI_NATIVE_PASS_B_2026-08-27.md
+extension/tests/AI_NATIVE_BLOOD_SAND_COMPARISON_2026-08-27.md
 ```
 
-After a valid PASS and after a repeatable Alice evidence hand exists:
+Optional machine-readable delta table may be added beside the report.
+
+The comparison must include:
 
 ```text
-O-001 may be promoted to a repeatable premium freelance offer,
-subject to the explicit no-guarantee boundaries in
-AI_NATIVE_SEMANTIC_SERVICE_OPPORTUNITY.md.
+exact blood_sand commit
+Pass A manifest
+Pass B manifest
+anti-leakage/context declaration
+decision delta table
+verdict
+limitations
+next product decision
+```
+
+## 15. Commercial launch boundary
+
+Before valid PASS:
+
+```text
+O-001 strategic hypothesis = YES
+real methodology evidence = YES
+market differentiation signal = STRONG
+premium decision uplift = UNPROVEN
+AI-specific repeatable hand = NOT IMPLEMENTED
+commercial positioning = EXPERIMENTAL PREMIUM HYPOTHESIS
+```
+
+After valid comparative PASS **and** a repeatable evidence hand is validated:
+
+```text
+O-001 may be promoted to repeatable premium freelance offer
+subject to explicit no-guarantee boundaries.
 ```
