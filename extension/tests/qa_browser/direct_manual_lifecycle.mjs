@@ -159,17 +159,41 @@ try {
   await popupClick(p.popup, '#bindConversation');
   await waitStatus(p.popup, 'Диалог привязан.', 'BIND_FAIL');
 
+  const geometry = await p.popup.evaluate(() => {
+    const html = document.documentElement.getBoundingClientRect();
+    const body = document.body.getBoundingClientRect();
+    const main = document.querySelector('main');
+    return {
+      htmlWidth: Math.round(html.width), htmlHeight: Math.round(html.height),
+      bodyWidth: Math.round(body.width), bodyHeight: Math.round(body.height),
+      mainClientWidth: main?.clientWidth || 0, mainScrollWidth: main?.scrollWidth || 0,
+      mainClientHeight: main?.clientHeight || 0, mainScrollHeight: main?.scrollHeight || 0
+    };
+  });
+  assert.deepEqual([geometry.htmlWidth, geometry.htmlHeight, geometry.bodyWidth, geometry.bodyHeight], [430,560,430,560]);
+  assert.ok(geometry.mainScrollWidth <= geometry.mainClientWidth, `D18_HORIZONTAL_OVERFLOW ${JSON.stringify(geometry)}`);
+  assert.ok(geometry.mainScrollHeight > geometry.mainClientHeight, `D18_VERTICAL_SCROLL_NOT_NEEDED ${JSON.stringify(geometry)}`);
+  console.log('D18_POPUP_430X560_PASS');
+
   const saveCredential = await runtimeSend(p.popup, { type:'YMB_SAVE_SERVICE_CREDENTIAL', service:'direct', credential:{ oauth_token:'lifecycle-direct-secret', client_login:'lifecycle-client' } });
   assert.equal(saveCredential?.ok, true);
   await popupSelect(p.popup, 'activeService', 'direct');
-  await setChecked(p.popup, 'directManualEnabled', true);
+  await setChecked(p.popup, 'directManualEnabled', false);
   await setChecked(p.popup, 'autoSend', false);
-  await popupClick(p.popup, '#saveSettings');
-  await waitStatus(p.popup, 'Настройки сохранены.', 'DIRECT_SETTINGS_SAVE_FAIL');
+  await popupClick(p.popup, '#saveSettingsTop');
+  await waitStatus(p.popup, 'Общие настройки сохранены.', 'TOP_COMMON_SAVE_FAIL');
   let state = await getState(p.popup);
+  assert.equal(state.service_context?.active_service, 'direct');
+  assert.equal(state.direct_policy?.manual_enabled, false);
+
+  await setChecked(p.popup, 'directManualEnabled', true);
+  await popupClick(p.popup, '#saveSettings');
+  await waitStatus(p.popup, 'Общие настройки сохранены.', 'BOTTOM_COMMON_SAVE_FAIL');
+  state = await getState(p.popup);
   assert.equal(state.service_context?.active_service, 'direct');
   assert.equal(state.direct_policy?.manual_enabled, true);
   assert.equal(state.direct_policy?.autorun_enabled, false);
+  console.log('D18_TOP_BOTTOM_COMMON_SAVE_EQUIVALENT_PASS');
   console.log('D17_DIRECT_LIFECYCLE_SETTINGS_PASS');
 
   await popupClick(p.popup, '#manualMode');
@@ -199,7 +223,7 @@ try {
   assert.equal((await getState(p.popup)).manual_mode, true);
   await setChecked(p.popup, 'autoSend', true);
   await popupClick(p.popup, '#saveSettings');
-  await waitStatus(p.popup, 'Настройки сохранены.', 'AUTOSEND_TRUE_SAVE_FAIL');
+  await waitStatus(p.popup, 'Общие настройки сохранены.', 'AUTOSEND_TRUE_SAVE_FAIL');
 
   await fixture.evaluate((command) => window.__fixture.appendAssistant(command, 'direct-report-turn'), REPORT_COMMAND);
   await waitUntil(async () => (await actionCount(fixture)) >= 2, 'REPORT_ACTION_NOT_ARMED');
