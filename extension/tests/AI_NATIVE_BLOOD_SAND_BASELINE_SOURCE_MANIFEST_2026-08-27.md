@@ -1,200 +1,116 @@
-# AI-native blood_sand — clean Pass A source manifest
+# AI-native blood_sand — Pass A source authority / execution erratum
 
 Date: 2026-08-27
 
-Status: **BASELINE INPUT MANIFEST FROZEN / PASS A NOT RUN IN THIS CONTEXT**
+Status: **ORIGINAL MANIFEST SUPERSEDED FOR ACTUAL PASS A / VALID SEALED BASELINE FROZEN**
 
-Purpose: define an Alice-free evidence package for the mandatory one-time comparison in `extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md`.
+## 1. Why this erratum exists
 
-## 1. Exact source authority
-
-Repository:
-
-```text
-MaksimUnimax/blood_sand
-```
-
-Frozen source commit for this manifest:
+The original draft of this manifest attempted to define an Alice-free allowlist directly against `MaksimUnimax/blood_sand` commit:
 
 ```text
 0da1fdfa65155fe0b22d67838d366e7d214ccbbe
 ```
 
-The experiment may read exact files at that commit. Later unrelated commits must not silently alter Pass A input.
-
-## 2. Pass A operating rule
-
-Pass A answers:
-
-> What would a strong ordinary SEO / semantic-core analysis decide from business evidence, human demand and ordinary Yandex Search, without seeing Alice evidence or Alice-derived conclusions?
-
-Pass A is analysis performed by ChatGPT, not an automated extension score.
-
-## 3. Allowed canonical inputs
-
-### Business / product / customer context
-
-Allowed where needed and where the file itself does not contain Alice-derived conclusions:
+During the first genuinely clean Pass A attempt, that design failed closed. Two documents previously admitted as "business/customer" inputs themselves contained AI/Alice-derived text:
 
 ```text
 marketing/RESEARCH_BASELINE_2026-08-01.md
 marketing/research/CUSTOMER_EVIDENCE_AUTO_PENDANTS_2026-08-01.md
-marketing/research/R1_SEMANTIC_MAP_PECHAT_VELESA_2026-08-01.md
 ```
 
-These establish the business/product context before the later Alice research.
+The clean chat correctly returned `INVALID_BASELINE_LEAKAGE`; no baseline output was written from that attempt.
 
-### Human-demand evidence
+This means the original broad allowlist must **not** be reused as the execution authority for Pass A.
 
-Canonical summary:
+## 2. Valid Pass A execution authority
+
+The defect was corrected by extracting only neutral assortment framing plus measured Wordstat and ordinary Yandex Search observations into a sealed projection inside `Yandex_direct`:
 
 ```text
-marketing/research/R1_WORDSTAT_FINAL_REPORT_2026-08-12.md
+extension/tests/AI_NATIVE_BLOOD_SAND_PASS_A_SEALED_BASELINE_PACKET_2026-08-27.md
 ```
 
-Canonical supporting Wordstat datasets:
+Hardened clean-chat handoff:
 
 ```text
-marketing/data/normalized/wordstat/
-marketing/data/raw/wordstat/
+extension/tests/AI_NATIVE_BLOOD_SAND_PASS_A_CLEAN_CHAT_HANDOFF_2026-08-27.md
 ```
 
-The baseline may use directly measured demand, precision, dynamics, region/device evidence and query-family observations. It must not infer Alice importance from frequency.
+The clean context was prohibited from opening `blood_sand`, using repository search, web, memory/personal context, or any source other than those two gate files.
 
-### Ordinary Yandex Search evidence
-
-Canonical provider summary:
-
-```text
-marketing/research/R2_YANDEX_SEARCH_PRIMARY_SERP_2026-08-26.md
-```
-
-Canonical direct Search datasets:
-
-```text
-marketing/data/normalized/yandex_search/20260826__search__primary10__225.tsv
-marketing/data/normalized/yandex_search/20260826__search__primary10__measurements.csv
-marketing/data/normalized/yandex_search/20260826__search__primary10__summaries.csv
-marketing/data/normalized/yandex_search/20260826__search__secondary_A1__obereg_po_znaku_zodiaka__225.csv
-marketing/data/normalized/yandex_search/20260826__search__secondary_A2__pechat_velesa_znachenie__225.csv
-marketing/data/normalized/yandex_search/20260826__search__secondary_A3__amulet_v_mashinu__225.csv
-marketing/data/normalized/yandex_search/20260826__search__secondary_B1__vegvizir_znachenie__225.csv
-marketing/data/normalized/yandex_search/20260826__search__secondary_B2__shlem_uzhasa_obereg__225.csv
-```
-
-Raw Search files under `marketing/data/raw/yandex_search/` are also allowed when needed to verify exact evidence.
-
-### Browser ordinary-SERP evidence
-
-Browser Search snapshots are allowed only when they contain ordinary Search/UI evidence and no Alice answer/content has been merged into the file.
-
-Known ordinary browser SERP directory:
-
-```text
-marketing/data/raw/browser_serp/
-```
-
-Browser evidence must remain distinct from Search API evidence.
-
-## 4. Explicitly forbidden in Pass A
-
-Do **not** expose any of the following before Pass A is frozen:
-
-```text
-marketing/data/raw/alice/
-marketing/data/normalized/alice/
-marketing/research/R2_PRIMARY_SEARCH_ALICE_COMPARISON_2026-08-26.md
-marketing/research/R2_YANDEX_SERP_ALICE_FINAL_REPORT_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_SCORING_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_OVERLAP_AND_JOB_BOUNDARIES_2026-08-26.md
-marketing/research/R3_OPPORTUNITY_MAP_FINAL_2026-08-26.md
-marketing/data/normalized/opportunity_map/
-```
-
-The following is also forbidden in Pass A unless a clean Alice-free projection is generated first:
-
-```text
-marketing/data/ledger/query_evidence_ledger.csv
-```
-
-Reason: the canonical ledger is a cross-surface artifact and can leak Alice-derived evidence/conclusions.
-
-Any other document that quotes or summarizes Alice results, H/A/C/O values derived using Alice, final R3 decisions, or cross-surface conclusions is forbidden even if it is not listed above.
-
-## 5. Known baseline facts that are allowed
-
-These examples come from Wordstat/Search evidence and may legitimately influence Pass A:
-
-- `славянские обереги`: large human demand; ordinary Search is commercial/category-first with strong specialist independent participation.
-- `печать велеса`: meaningful demand; ordinary Search is strongly transactional/product-oriented and marketplace-heavy; explicit `значение` is a separately measured Search question.
-- `оберег в машину`: ordinary Search is mixed commercial + choice/use-case.
-- `подвеска на зеркало в машину`: ordinary Search is near-pure form-factor transaction and platform-heavy.
-- `вегвизир`: ordinary Search mixes entity and commerce; `вегвизир значение` exists as a separate measured Search question.
-- `талисман знак зодиака`: broad demand is heavily contaminated; ordinary Search is guide/selection-heavy with stones/jewelry contamination.
-- `алатырь оберег`: ordinary Search is commercial-first with meaning support.
-- `оберег велес`: ordinary Search is commercial-first with strong niche independent competition.
-- generic automotive gift roots have real shopping demand but weak direct pendant-category fit in ordinary Search.
-
-These are baseline observations, not Alice conclusions.
-
-## 6. Anti-leakage status of the current ChatGPT conversation
-
-The current conversation has already inspected and discussed canonical Alice-derived `blood_sand` conclusions.
-
-Therefore:
-
-```text
-PASS_A_IN_CURRENT_CONVERSATION = INVALID_BASELINE_LEAKAGE
-```
-
-This is not a failure of the method or evidence. It simply means a valid independent Pass A must be produced in a clean analysis context that receives only this manifest's allowed inputs.
-
-No false Pass A will be manufactured in the contaminated context.
-
-## 7. Required clean Pass A output
-
-The clean context must freeze at least:
-
-```text
-candidate clusters
-intent per cluster
-KEEP / INVESTIGATE / REJECT reasoning
-priority
-page-job recommendation
-split / merge decisions
-confidence
-missing evidence
-broad-demand contamination decisions
-```
-
-It must not mention Alice, AI-source evidence, H/A/C/O Alice importance, or final R3 outcomes.
-
-Required output path after the independent run:
+Valid frozen Pass A:
 
 ```text
 extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_PASS_A_2026-08-27.md
+commit = 9501af0da39c671f578f56bb56dad311f2d9c761
+extra_source_opened = false
+fresh_provider_requests = 0
 ```
 
-## 8. Pass B source expansion
+Therefore the sealed packet, not the original broad source list, is the canonical non-AI evidence projection for the executed comparative experiment.
 
-Only after Pass A is frozen, Pass B may add:
+## 3. What the sealed packet contains
+
+Only evidence that can be safely treated as Alice-free for this experiment:
 
 ```text
-marketing/data/raw/alice/
-marketing/data/normalized/alice/
-marketing/research/R2_PRIMARY_SEARCH_ALICE_COMPARISON_2026-08-26.md
-marketing/research/R2_YANDEX_SERP_ALICE_FINAL_REPORT_2026-08-26.md
+neutral product/use-case frame
+measured Wordstat demand / quoted precision / representative dynamics / device evidence
+ordinary Yandex Search provider observations
+ordinary Search secondary observations
 ```
 
-Then ChatGPT may build the AI-native result and compare it with the immutable baseline.
+It contains no Alice answer text, Alice source/fan-out evidence, R3 opportunity decisions, H/A/C/O Alice-derived values, or cross-surface ledger fields.
 
-R3 final/opportunity artifacts should be used as an external consistency/reference check after Pass B decisions are independently written, not as a shortcut that predetermines the answer.
+## 4. Frozen upstream provenance
 
-## 9. Product implication
-
-This manifest unblocks honest execution of the methodology gate but does not block market-proven Phase 6 work.
+The sealed observations were extracted from the frozen project authority:
 
 ```text
-Alice-specific engineering → waits for valid comparative verdict
-Semantic Core / batch-orchestration Phase 6 → may proceed now
+repository = MaksimUnimax/blood_sand
+commit = 0da1fdfa65155fe0b22d67838d366e7d214ccbbe
 ```
+
+Relevant upstream non-AI measurements include the canonical R1 Wordstat and ordinary Yandex Search observations from that commit. The sealed packet exists specifically so future baseline execution does not need to browse mixed-provenance source files.
+
+## 5. Pass B expansion
+
+Only after Pass A commit `9501af0d...` was immutable, Pass B added canonical consumer-Alice evidence.
+
+Pass B source authority:
+
+```text
+extension/tests/AI_NATIVE_BLOOD_SAND_PASS_B_SOURCE_MANIFEST_2026-08-27.md
+```
+
+Pass B freeze:
+
+```text
+extension/tests/AI_NATIVE_BLOOD_SAND_AI_NATIVE_PASS_B_2026-08-27.md
+commit = d0cad99be1c1cf70ad06d3cf7bf28495daab58b8
+```
+
+Final comparison:
+
+```text
+extension/tests/AI_NATIVE_BLOOD_SAND_COMPARISON_2026-08-27.md
+verdict = AI_NATIVE_COMPARATIVE_GATE_PASS
+```
+
+## 6. Permanent anti-leakage lesson
+
+For future controlled comparative baselines, do not trust a file merely because its creation date predates a later AI research stage. Validate the actual file content/provenance first, or use a sealed projection whose allowed fields are explicit.
+
+Preferred pattern:
+
+```text
+mixed project repository
+→ provenance audit
+→ sealed baseline packet
+→ clean context
+→ immutable baseline
+→ only then reveal treatment evidence
+```
+
+The failed first attempt is retained as evidence that the fail-closed rule worked correctly.
