@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node --test extension/tests/qa_phase5_codex/direct_addendum_coverage.test.mjs
+          node --test extension/tests/qa_phase5_codex/direct_addendum_coverage.test.mjs extension/tests/qa_phase5_codex/credential_runtime_concurrency.test.mjs
           echo PHASE5_CODEX_NODE_ADDENDUM_PASS
       - name: Run complete candidate Node regression
         shell: bash
