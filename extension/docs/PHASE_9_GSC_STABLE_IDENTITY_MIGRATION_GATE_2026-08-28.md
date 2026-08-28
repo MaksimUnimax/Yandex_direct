@@ -1,167 +1,117 @@
 # Phase 9 — Google Search Console stable extension identity migration gate
 
 Date: 2026-08-28
-Status: **PREPARED / EXTERNAL PERMANENT ID ASSIGNMENT REQUIRED**
+Status: **P9-06A PASS / LOCAL STABLE ID FROZEN**
 Branch: `phase9/google-organic-provider-research-2026-08-28`
 
-## 1. Why this gate exists
+## 1. Decision
 
-Google Search Console OAuth for a Chrome MV3 extension needs a stable extension identity. Chrome Identity obtains OAuth configuration from the extension manifest, while a Chrome Extension OAuth client is bound to an extension Item ID.
+Phase 9 no longer depends on Chrome Web Store registration, a paid developer account, a draft item, or a Web Store-assigned key.
 
-The accepted production extension has historically been installed as unpacked builds and currently has no manifest `key`. Chrome documents that an unpacked extension without a stable key derives its ID from its load path. That makes the existing owner-live unpacked ID unsuitable as permanent OAuth/release authority because moving the extracted folder can change the ID.
+For the current owner-live / unpacked-extension path, the extension identity is pinned directly in the production manifest with a fixed public `key`. Chrome uses that key to derive the same extension ID regardless of the folder from which the unpacked build is loaded.
 
-Official references:
-
-- https://developer.chrome.com/docs/extensions/how-to/integrate/oauth
-- https://developer.chrome.com/docs/extensions/reference/manifest/oauth2
-- https://developer.chrome.com/docs/apps/manifest/key/
-- https://developer.chrome.com/docs/webstore/
-
-## 2. Decision
-
-The permanent Phase-9 extension identity will **not** be invented from the current transient unpacked path and will **not** be generated ad hoc inside the repository.
-
-The preferred release-compatible authority is a **Chrome Web Store draft item**:
-
-1. upload the exact accepted identity-seed ZIP as a new draft item;
-2. do not publish it;
-3. obtain the assigned 32-character Item ID and the item public key;
-4. add that public key as production manifest `key` in a later test-first commit;
-5. verify that the unpacked extension ID derived from that key is exactly the Web Store Item ID;
-6. only after this identity match create/bind the Google OAuth client of application type **Chrome Extension** to that Item ID.
-
-This gives one stable identity for unpacked owner-live testing and a future Web Store distribution path.
-
-## 3. Frozen identity seed
-
-The identity seed intentionally comes from the accepted Phase-8 production main, not from unmerged Phase-9 GSC product code.
+Frozen identity:
 
 ```text
-IDENTITY_SEED_SOURCE_SHA = b13886df49c4591320f780769e78016eff23301e
-IDENTITY_SEED_SRC_TREE = bdad1e87a2537d8646e480ca23f8068c3dced17e
-IDENTITY_SEED_ZIP = phase9-gsc-identity-seed-main-b13886df.zip
-IDENTITY_SEED_SHA256 = ef447b1839d3d0e3ad1e8cf33c11e4b3854e271c634dc99aa2c717da787ca103
-IDENTITY_SEED_BYTES = 151237
-IDENTITY_SEED_PRODUCT_FILES = 53
-IDENTITY_SEED_MANIFEST_AT_ROOT = true
-IDENTITY_SEED_REAL_GOOGLE_REQUESTS = 0
-IDENTITY_SEED_REAL_YANDEX_REQUESTS = 0
+EXTENSION_ID = pckmmaodnfeajgigadfaejfjppdbgmpo
+PUBLIC_KEY_DER_SHA256 = f2acc0e3d540968603504959ff316cfe0310622c9b948478e26b955181173e72
+PUBLIC_KEY_DER_BYTES = 294
+IDENTITY_SOURCE = extension/src/manifest.json -> key
+CHROME_WEB_STORE_REQUIRED_FOR_P9_06A = false
 ```
 
-Freeze workflow:
+The manifest public key is not a secret. No private signing key is stored in the repository and none is required for loading the extension unpacked with a stable ID.
+
+If public Chrome Web Store distribution is ever chosen later, release identity/distribution can be handled as a separate release concern. It is not a Phase-9 development blocker.
+
+## 2. What changed
+
+P9-06A was completed test-first:
+
+1. added `extension/tests/google_search_console_manifest_identity.test.mjs`;
+2. froze one manifest public key and expected 32-character extension ID;
+3. added that exact `key` to `extension/src/manifest.json`;
+4. changed the controlled-browser proof to load the real production key instead of generating a temporary QA key;
+5. kept `identity`, Google host permission and `oauth2` absent at P9-06A;
+6. kept Google bearer tokens out of persistent credential and Backup V3 models;
+7. ran the full Node + controlled-browser gate with zero real provider requests.
+
+Gate commit:
 
 ```text
-WORKFLOW = phase9-gsc-identity-seed
-RUN_ID = 33161230756
-RUN_HEAD = c73681f10c3de3e474c2463a2260908112190de6
-JOB = freeze-identity-seed
-CONCLUSION = success
-ARTIFACT_ID = 9681707516
-ARTIFACT_NAME = phase9-gsc-identity-seed-main-b13886df
-```
-
-The seed manifest intentionally has no `identity` permission, no Google host permission, no `oauth2` block, and no `key`. Its only purpose is permanent Chrome item identity assignment.
-
-## 4. Existing-settings migration is proven before ID change
-
-A permanent `key` will create a new extension origin compared with the transient path-derived unpacked identity. Existing extension-local storage therefore must be migrated deliberately rather than assumed to follow the new ID.
-
-The existing Backup V3 runtime already provides the required migration mechanism. A new executable Phase-9 regression proves this sequence using only synthetic secrets:
-
-1. seed five Yandex service credential records and current settings under simulated old extension ID A;
-2. export Backup V3;
-3. verify the backup records extension ID A, checksum and `contains_secrets=true`;
-4. clear extension-local storage;
-5. switch runtime to simulated permanent extension ID B;
-6. import the same Backup V3;
-7. verify all five Yandex credential records and representative settings are restored;
-8. re-export and verify the new backup records extension ID B;
-9. verify no Google Search Console bearer token/scope is persisted in the credential/backup models.
-
-Gate:
-
-```text
-TESTED_HEAD = 23516dcd5c046fd6908f2323290326b22bd1ed6d
-WORKFLOW = phase9-gsc-dev
-RUN_ID = 33161168476
-PURE_JOB = success
-CONTROLLED_BROWSER_JOB = success
-PHASE9_GSC_STABLE_ID_MIGRATION_PREFLIGHT_PASS = true
-PHASE9_GSC_COMPLETE_NODE_REGRESSION_PASS = true
-PHASE9_GSC_CONTROLLED_BROWSER_GATE_PASS = true
+GATE_HEAD = 35182cc9f0e687416a4fe5123742197c796c3c91
+COMMIT_STATUS_CONTEXT = phase9-gsc-dev/gate
+COMMIT_STATUS = success
 REAL_GOOGLE_REQUESTS = 0
 REAL_YANDEX_REQUESTS = 0
 ```
 
-## 5. Secret-handling rule
+## 3. Existing-settings migration remains required when the owner installs the first stable-ID build
 
-Backup V3 contains the existing Yandex API keys/OAuth tokens by design.
+The old unpacked installation used a different path-derived extension ID. A manifest `key` creates a different Chrome extension origin, so `chrome.storage.local` from the old installation does not automatically appear under the new stable ID.
 
-Therefore the owner must export and retain the backup **locally only** before the first permanent-ID installation. The backup must never be pasted into ChatGPT, committed to GitHub, attached to an issue, uploaded as a CI artifact, or otherwise shared.
+Backup V3 is the approved migration mechanism. The existing executable preflight proves that a backup exported under simulated old ID A can be imported under simulated stable ID B while restoring the five existing Yandex credential records and representative settings.
 
-The following identity values are not secrets and may be returned for repository wiring:
+Backup V3 contains Yandex API/OAuth secrets by design. Therefore, when migration is actually performed, the backup must stay local to the owner machine and must not be pasted into ChatGPT, committed to GitHub, attached to an issue, or uploaded as a CI artifact.
+
+No Google Search Console token is added to Backup V3.
+
+## 4. Auth path after P9-06A
+
+Google Search Console remains the sixth service `google_search_console`. Its first official read-only slice remains:
+
+- `listSites`
+- `searchAnalytics`
+
+The intended OAuth scope remains:
 
 ```text
-Chrome Web Store Item ID
-Chrome Web Store item public key
-Google OAuth Chrome Extension client_id
+https://www.googleapis.com/auth/webmasters.readonly
 ```
 
-No OAuth client secret, refresh token, bearer/access token or Backup V3 file is requested.
+The stable extension ID to use for a Google OAuth client is now already known:
 
-## 6. Next governed sequence
+```text
+pckmmaodnfeajgigadfaejfjppdbgmpo
+```
 
-### External identity assignment — required now
+No Chrome Web Store Item ID is needed by the repository to continue development.
 
-Owner action:
+P9-06B will be implemented test-first around the following rules:
 
-1. In the currently installed old unpacked extension, export Backup V3 and save it locally. Do not share it.
-2. Open Chrome Web Store Developer Dashboard.
-3. Create a new item and upload exactly `phase9-gsc-identity-seed-main-b13886df.zip`.
-4. Keep the item as a draft; do not publish or submit for review.
-5. Return only the assigned Item ID and the item public key.
+- explicit user-gesture connect/disconnect/status UI;
+- interactive authorization only from the connect action;
+- provider execution remains noninteractive;
+- access tokens remain Chrome-Identity-managed and are never persisted in YMB credential storage or Backup V3;
+- Autorun stays disabled by default;
+- one command performs at most one provider business request;
+- no automatic provider retry;
+- controlled browser proof must pass before any owner-live Google request.
 
-### P9-06A — repository identity wiring
+The external Google OAuth `client_id` is not required until the final production OAuth binding step. All repository work that does not require that value should proceed first.
 
-After Item ID + public key are available:
+## 5. Superseded Web Store path
 
-1. add a test-first permanent-ID contract;
-2. add the exact public key to `extension/src/manifest.json`;
-3. derive and assert the manifest-key extension ID equals the Web Store Item ID;
-4. run full Node and controlled-browser regression;
-5. freeze identity evidence before any OAuth client wiring.
+The previous plan that required:
 
-### External OAuth client creation
+- Chrome Web Store Developer Dashboard registration;
+- the one-time developer registration fee;
+- a draft Web Store item;
+- a Web Store public key / Item ID;
 
-After P9-06A passes:
+is **superseded and removed from the active Phase-9 path**.
 
-1. enable Google Search Console API in the chosen Google Cloud project;
-2. configure the OAuth consent/app settings as required for the owner account;
-3. create an OAuth client with application type **Chrome Extension** and the frozen Item ID;
-4. return only the resulting OAuth `client_id`.
+The former `phase9-gsc-identity-seed` workflow has been deleted from the branch.
 
-### P9-06B — OAuth manifest/UI wiring
-
-Then, test-first:
-
-- add `identity` permission;
-- add only the required Google API host permission;
-- add `oauth2.client_id`;
-- add only `https://www.googleapis.com/auth/webmasters.readonly` scope;
-- keep access tokens Chrome-Identity-managed and out of persistent credential/backup models;
-- add explicit user-gesture connect/disconnect/auth-status UI;
-- keep Autorun default off;
-- run controlled browser proof with zero real Google requests before owner-live OAuth.
-
-## 7. Current verdict
+## 6. Current verdict
 
 ```text
 P9_05 = PASS / CLOSED
 P9_06_STABLE_ID_MIGRATION_PREFLIGHT = PASS
-P9_06_IDENTITY_SEED = FROZEN
-P9_06_PERMANENT_ITEM_ID = EXTERNAL INPUT REQUIRED
-P9_06_PRODUCTION_MANIFEST_KEY = NOT YET AUTHORIZED
-P9_06_OAUTH_CLIENT = NOT YET AUTHORIZED
+P9_06A_LOCAL_STABLE_ID = PASS / FROZEN
+P9_06A_EXTENSION_ID = pckmmaodnfeajgigadfaejfjppdbgmpo
+P9_06A_CHROME_WEB_STORE_REQUIRED = false
+P9_06B_OAUTH_UI_AND_BINDING = NEXT
 REAL_GOOGLE_REQUESTS = 0
 REAL_YANDEX_REQUESTS = 0
 ```
