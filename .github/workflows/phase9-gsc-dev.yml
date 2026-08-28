@@ -22,6 +22,7 @@ on:
       - extension/tests/gensearch_search_protocol.test.mjs
       - extension/tests/search_batch_integration.test.mjs
       - extension/tests/wordstat_batch_transport.test.mjs
+      - extension/docs/PHASE_9_GSC_STABLE_IDENTITY_MIGRATION_GATE_2026-08-28.md
 
 permissions:
   contents: read
@@ -163,11 +164,65 @@ jobs:
           cmp /tmp/p9-gsc-product-before.sha256 /tmp/p9-gsc-product-after.sha256
           echo PHASE9_GSC_POST_BROWSER_PRODUCT_IDENTICAL
 
+  package-extension:
+    needs:
+      - pure-contract
+      - controlled-browser
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify frozen identity before packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/google_search_console_manifest_identity.test.mjs
+          echo PHASE9_GSC_PACKAGE_IDENTITY_PASS
+      - name: Build stable local candidate ZIP
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHORT_SHA="${GITHUB_SHA:0:12}"
+          ZIP_NAME="YMB_PHASE9_GSC_STABLE_LOCAL_${SHORT_SHA}.zip"
+          rm -f "/tmp/${ZIP_NAME}" /tmp/phase9-gsc-stable-local-metadata.txt
+          (cd extension/src && zip -X -q -r "/tmp/${ZIP_NAME}" .)
+          test -s "/tmp/${ZIP_NAME}"
+          ZIP_SHA256="$(sha256sum "/tmp/${ZIP_NAME}" | awk '{print $1}')"
+          PRODUCT_FILES="$(find extension/src -type f | wc -l | tr -d ' ')"
+          cat > /tmp/phase9-gsc-stable-local-metadata.txt <<EOF
+          PHASE9_GSC_STABLE_LOCAL_HEAD=${GITHUB_SHA}
+          PHASE9_GSC_STABLE_LOCAL_EXTENSION_ID=pckmmaodnfeajgigadfaejfjppdbgmpo
+          PHASE9_GSC_STABLE_LOCAL_PUBLIC_KEY_DER_SHA256=f2acc0e3d540968603504959ff316cfe0310622c9b948478e26b955181173e72
+          PHASE9_GSC_STABLE_LOCAL_ZIP=${ZIP_NAME}
+          PHASE9_GSC_STABLE_LOCAL_ZIP_SHA256=${ZIP_SHA256}
+          PHASE9_GSC_STABLE_LOCAL_PRODUCT_FILES=${PRODUCT_FILES}
+          PHASE9_GSC_STABLE_LOCAL_MANIFEST_AT_ROOT=true
+          PHASE9_GSC_STABLE_LOCAL_REAL_GOOGLE_REQUESTS=0
+          PHASE9_GSC_STABLE_LOCAL_REAL_YANDEX_REQUESTS=0
+          EOF
+          cat /tmp/phase9-gsc-stable-local-metadata.txt
+          echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+          echo PHASE9_GSC_STABLE_LOCAL_PACKAGE_PASS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase9-gsc-stable-local-${{ github.sha }}
+          path: |
+            /tmp/YMB_PHASE9_GSC_STABLE_LOCAL_*.zip
+            /tmp/phase9-gsc-stable-local-metadata.txt
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
   publish-status:
     if: always()
     needs:
       - pure-contract
       - controlled-browser
+      - package-extension
     runs-on: ubuntu-24.04
     steps:
       - name: Publish phase9 GSC gate status
@@ -175,17 +230,20 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
           SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
           PURE_RESULT: ${{ needs.pure-contract.result }}
           BROWSER_RESULT: ${{ needs.controlled-browser.result }}
+          PACKAGE_RESULT: ${{ needs.package-extension.result }}
         shell: bash
         run: |
           set -euo pipefail
           state=success
-          if [[ "$PURE_RESULT" != "success" || "$BROWSER_RESULT" != "success" ]]; then
+          if [[ "$PURE_RESULT" != "success" || "$BROWSER_RESULT" != "success" || "$PACKAGE_RESULT" != "success" ]]; then
             state=failure
           fi
-          description="pure=${PURE_RESULT}; browser=${BROWSER_RESULT}"
-          payload="$(jq -n --arg state "$state" --arg context 'phase9-gsc-dev/gate' --arg description "$description" '{state:$state,context:$context,description:$description}')"
+          description="pure=${PURE_RESULT}; browser=${BROWSER_RESULT}; package=${PACKAGE_RESULT}"
+          target_url="https://github.com/${REPOSITORY}/actions/runs/${RUN_ID}"
+          payload="$(jq -n --arg state "$state" --arg context 'phase9-gsc-dev/gate' --arg description "$description" --arg target_url "$target_url" '{state:$state,context:$context,description:$description,target_url:$target_url}')"
           curl --fail-with-body -sS \
             -X POST \
             -H "Authorization: Bearer ${GH_TOKEN}" \
