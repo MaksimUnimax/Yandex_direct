@@ -11,6 +11,8 @@ on:
       - extension/src/shared/policy_model.js
       - extension/tests/google_search_console_contract.test.mjs
       - extension/tests/gensearch_search_protocol.test.mjs
+      - extension/tests/search_batch_integration.test.mjs
+      - extension/tests/wordstat_batch_transport.test.mjs
 
 permissions:
   contents: read
@@ -33,6 +35,8 @@ jobs:
           node --check extension/src/shared/policy_model.js
           node --check extension/tests/google_search_console_contract.test.mjs
           node --check extension/tests/gensearch_search_protocol.test.mjs
+          node --check extension/tests/search_batch_integration.test.mjs
+          node --check extension/tests/wordstat_batch_transport.test.mjs
           echo PHASE9_GSC_PURE_SYNTAX_PASS
       - name: GSC pure contract
         shell: bash
