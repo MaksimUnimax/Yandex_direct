@@ -1,25 +1,21 @@
-# KW-001 — PER-JOB WORKSPACE LIFECYCLE
+# KW-001 — UNIVERSAL RULES VS PER-JOB WORKSPACE
 
-Date created: 2026-08-28  
-Status: **ACTIVE / UNIVERSAL / REQUIRED FOR EVERY NEW JOB**
+Date updated: 2026-08-28  
+Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
-This document defines the separation between permanent Kwork methodology and disposable evidence/workspace for one concrete client/test job.
+This document defines the strict two-layer architecture for KW-001.
 
 ---
 
-## 1. Core separation
+## 1. Layer A — permanent universal Kwork rules
 
-KW-001 must always maintain two distinct layers.
-
-### A. Permanent Kwork layer
-
-Lives directly under:
+Permanent layer:
 
 ```text
 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/
 ```
 
-Contains only reusable cross-job knowledge such as:
+This layer contains only reusable universal material for the Kwork itself, for example:
 
 ```text
 workflow/runbook
@@ -27,18 +23,44 @@ pre-step review rules
 dialogue/analytical discipline
 provider/operator safety rules
 method-origin rules
-per-step reusable lessons
-known failure modes
-prevent-repeat rules
-final reusable templates
-product definition / package boundaries
+approved methodology corrections
+approved prevent-repeat rules
+product/package boundaries
+templates
 ```
 
-Do **not** store concrete client domains, URLs, keyword lists, provider result dumps, client matrices, case-specific page maps or client conclusions in this permanent layer.
+### Owner-lock rule
 
-### B. Per-job disposable workspace
+**Universal rules do not change during execution of a concrete job unless the owner explicitly instructs ChatGPT to change/add/remove a universal rule.**
 
-Every new order/test/rehearsal must receive its own isolated directory inside the Kwork area.
+Finding a possible defect during a job does **not** authorize ChatGPT to edit the permanent method.
+
+Allowed behavior without owner instruction:
+
+```text
+identify possible universal-rule problem
+explain it in the owner-facing report
+show evidence/sources
+propose a change
+WAIT
+```
+
+Forbidden behavior without owner instruction:
+
+```text
+automatically update universal runbook
+promote a job incident into a permanent lesson
+automatically add prevent-repeat rules
+rewrite permanent methodology because one case behaved differently
+```
+
+Only an explicit owner instruction such as `внеси это в общие правила`, `исправь методику`, `запиши это как постоянное правило` authorizes mutation of Layer A.
+
+---
+
+## 2. Layer B — one concrete job / disposable workspace
+
+Every new client order, test or rehearsal receives one isolated temporary directory.
 
 Canonical future path:
 
@@ -46,246 +68,201 @@ Canonical future path:
 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/work/<JOB_ID>/
 ```
 
-A job directory may contain everything needed only for that concrete work:
+This is **not** a methodology directory. It is the complete working memory and execution history of one concrete job.
+
+It may contain:
 
 ```text
-client brief / frozen order
+JOB_MANIFEST.md
+JOB_FLOW.md / current-step status
+frozen client/order brief
 site/domain facts
 URL inventory
 business/page model
 open client questions
 seed plans
-raw Wordstat phrases/results
+all words/phrases
+raw Wordstat evidence
 raw Search/SERP evidence
 raw GenSearch evidence
 cleaned phrase tables
 review queues
 cluster candidates
 page maps
-Search-vs-AI matrices
-source/competitor matrices
-step checkpoints
-step acceptances
+matrices
+step plans/checkpoints/status/acceptances
 intermediate calculations
-client deliverables / drafts
+job-specific decisions and corrections
+operator/provider execution records
+client deliverables/drafts
 revision records
-economics/operator-burden records
-job-specific QA evidence
+economics/QA records
 ```
 
-This directory is the complete working memory for the concrete job and is intentionally disposable after the job is fully closed.
+It may record **what happened in this job and how this job progressed**.
+
+It must not define permanent universal rules for future jobs.
 
 ---
 
-## 2. Rule — create workspace before starting a new job
+## 3. Strict separation
 
-**RULE**  
-Before any concrete client/test analysis begins, create one dedicated per-job directory and keep all case-specific artifacts inside it.
-
-Do not scatter one client's files across the permanent Kwork directory.
-
-**PURPOSE**  
-Prevent cross-client contamination, stale evidence reuse and repository clutter.
-
-**FAILURE IF IGNORED**
+### Layer A may contain
 
 ```text
-future ChatGPT may reuse old client words/URLs by mistake;
-case-specific evidence may look like universal methodology;
-cleanup becomes difficult;
-client/test artifacts accumulate permanently;
-method docs become polluted with examples that anchor later work;
+universal rules approved by owner
+reusable stable methodology
+owner-approved corrections to methodology
 ```
 
-**REVIEW TRIGGER**  
-Only if repository storage/lifecycle is later replaced by a different formally accepted workspace system.
+### Layer A must not contain
+
+```text
+client domains
+client URLs
+client keyword lists
+raw provider results
+case-specific matrices
+case-specific page maps
+case-specific conclusions
+```
+
+### Layer B may contain
+
+```text
+all concrete job evidence
+all concrete job workflow/status
+job-specific analytical decisions
+job-specific correction history
+```
+
+### Layer B must not contain
+
+```text
+new universal rules
+permanent prevent-repeat policy
+claims that a case-specific decision governs future jobs
+```
+
+A job file may say `for this job we corrected X because Y evidence showed Z`; it must not say `therefore all future jobs must always do X` unless the owner has separately authorized that universal rule in Layer A.
 
 ---
 
-## 3. Rule — no concrete case evidence in permanent methodology docs
+## 4. Create workspace before every new job
 
-Permanent docs may record only generalized lessons such as:
-
-```text
-PROJECT_TEST_VALIDATED: cross-channel discovery exposed complementary blind spots
-```
-
-They must not retain concrete case material such as:
+Before concrete analysis begins:
 
 ```text
-specific domain
-specific URL
-specific client keyword list
-exact case cluster/page map
-raw provider payload
-client-specific page recommendation
+1. create work/<JOB_ID>/;
+2. create JOB_MANIFEST.md;
+3. create/freeze the job's own working flow/brief;
+4. keep all later job-specific files inside this directory.
 ```
 
-Concrete evidence belongs only in the active job workspace until that workspace is deleted.
+Do not scatter a client/job across the permanent Kwork layer.
 
 ---
 
-## 4. Job-close extraction gate
+## 5. Job lifecycle
 
-A per-job workspace must **not** be deleted immediately when the client deliverable is produced.
+The job directory is temporary from the moment it is created.
 
-Before deletion run the mandatory extraction gate:
-
-```text
-1. confirm client/job work is fully closed;
-2. confirm no revision/rework remains open;
-3. review every recorded error/incident/lesson from the job;
-4. promote only reusable lessons into permanent methodology docs;
-5. update STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md where needed;
-6. update universal runbook/rules if method changed;
-7. record product/economics changes if reusable;
-8. verify no client-specific facts leaked into universal docs;
-9. confirm final deliverable has been handed off/stored where required;
-10. only then delete the complete per-job workspace directory from the repo.
-```
-
-This extraction step prevents two opposite failures:
+Lifecycle:
 
 ```text
-A. keeping every old job forever and polluting the repository;
-B. deleting a job before its reusable lessons have been captured.
+CREATE JOB DIRECTORY
+→ RUN COMPLETE JOB INSIDE IT
+→ COMPLETE FINAL HANDOFF / REVISIONS / QA
+→ MARK JOB CLOSED
+→ DELETE THE ENTIRE JOB DIRECTORY
 ```
+
+There is **no mandatory lesson-extraction or automatic universal-method update at job close**.
+
+If during the job the owner explicitly ordered a universal-rule change, that change is made directly in Layer A at that time. It is not dependent on final job cleanup.
 
 ---
 
-## 5. Rule — delete the entire job directory after successful close extraction
+## 6. Deletion gate
 
-**RULE**  
-After the job is fully closed and reusable lessons have been promoted, delete the entire per-job workspace directory from the repository.
-
-Do not keep old case workspaces merely as passive history.
-
-**PURPOSE**  
-Keep the Kwork repository clean and force the permanent methodology to contain only generalized, reusable knowledge.
-
-**FAILURE IF IGNORED**
+Delete the complete per-job directory when:
 
 ```text
-repository bloat;
-stale-case anchoring;
-accidental cross-client evidence reuse;
-unclear authority between old case files and current runbook;
-slow clean-context onboarding;
+job work complete = true
+final deliverable/handoff complete = true
+open revision/rework = false
+provider/operator action pending = false
+owner has not requested the workspace to be retained = true
+safe_to_delete = true
 ```
 
-**REVIEW TRIGGER**  
-If a future compliance/audit requirement explicitly requires long-term case retention, then retention must use a separate archive policy rather than the active Kwork methodology directory.
+Then delete the entire directory from the repository.
+
+Do not retain old job directories merely as methodology history.
+
+Git history may of course contain old commits, but the active branch must not keep the closed workspace tree.
 
 ---
 
-## 6. Exception — active historical workspace already created under another path
+## 7. Current legacy OKNO-MSK workspace
 
-Do not migrate an in-progress job solely to satisfy the new folder name if migration risks broken references or unnecessary churn.
-
-For an already active workspace under a legacy path such as:
+Current active rehearsal already lives at:
 
 ```text
-tests/<CASE_ID>/
+extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/
 ```
 
-apply the same lifecycle semantics:
+Do not move it mid-run merely for naming consistency.
+
+Treat it exactly as Layer B:
 
 ```text
-ACTIVE = temporary job workspace
-CLOSE = extract reusable lessons
-THEN = delete complete case directory
+contains only OKNO-MSK job evidence + workflow
+is temporary
+is deleted completely after the job closes
 ```
 
-Future new jobs should use the canonical `work/<JOB_ID>/` path unless the owner changes this convention.
+Future jobs use `work/<JOB_ID>/`.
 
 ---
 
-## 7. Required workspace manifest
+## 8. Pre-step relationship
 
-Every new per-job workspace should begin with a small authority file:
-
-```text
-JOB_MANIFEST.md
-```
-
-Minimum fields:
+Before each major step, ChatGPT reads:
 
 ```text
-JOB_ID
-KWORK_ID
-status
-created_at
-client/test label
-scope freeze reference
-current step
-workspace is disposable = true
-close-extraction complete = false
-safe-to-delete = false
+Layer A universal rules
+current job JOB_MANIFEST.md
+current job JOB_FLOW.md / relevant step records
+previous step evidence/acceptance
 ```
 
-At completion, before deletion, set/check:
+If self-audit finds a possible flaw in Layer A:
 
 ```text
-close-extraction complete = true
-universal lessons promoted = true
-final handoff complete = true
-revision window closed = true
-safe-to-delete = true
+REPORT TO OWNER
+DO NOT EDIT LAYER A
+WAIT FOR EXPLICIT OWNER INSTRUCTION
 ```
 
-The directory may be deleted only when all required close conditions are true.
-
----
-
-## 8. Relationship to per-step review
-
-Before every major step, ChatGPT must read:
+If self-audit finds a flaw only in the current job execution/artifact:
 
 ```text
-PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
-STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
-current job workspace JOB_MANIFEST.md
-current job STEP_REVIEW_AND_ERRORS_LEDGER.md if present
-previous step acceptance/evidence
+report it in the pre-step review
+correct the current job only after the normal owner authorization gate
 ```
-
-This ensures permanent method truth and current-job facts remain separated but both are available during execution.
-
----
-
-## 9. Current OKNO-MSK handling
-
-The existing rehearsal workspace currently lives under the legacy path:
-
-```text
-tests/OKNO_MSK/
-```
-
-It is treated as a disposable active job workspace under this rule.
-
-Do not move it mid-run solely for naming consistency.
-
-When the OKNO-MSK rehearsal is fully completed:
-
-```text
-extract all reusable methodology lessons
-update permanent KW-001 docs
-confirm final rehearsal artifacts/handoff requirements
-mark safe-to-delete
-then delete the entire tests/OKNO_MSK/ directory
-```
-
-No concrete OKNO-MSK evidence should remain in the permanent universal layer after final cleanup, except generalized lessons stripped of case-specific facts.
 
 ---
 
 Markers:
 
 ```text
+KW001_TWO_LAYER_ARCHITECTURE_ACTIVE = true
+KW001_UNIVERSAL_RULES_OWNER_LOCKED = true
+KW001_NO_AUTOMATIC_UNIVERSAL_RULE_PROMOTION = true
 KW001_PER_JOB_WORKSPACE_REQUIRED = true
 KW001_PER_JOB_WORKSPACE_DISPOSABLE = true
-KW001_JOB_CLOSE_EXTRACTION_REQUIRED = true
+KW001_JOB_WORKFLOW_BELONGS_IN_JOB_WORKSPACE = true
 KW001_JOB_WORKSPACE_DELETE_AFTER_CLOSE = true
-KW001_PERMANENT_METHOD_SEPARATE_FROM_CASE_EVIDENCE = true
 KW001_FUTURE_JOB_PATH = work/<JOB_ID>/
 ```
