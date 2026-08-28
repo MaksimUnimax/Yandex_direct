@@ -105,19 +105,39 @@ STEP_04_ACCEPTANCE.md
 
 ### Step 5 — targeted Wordstat expansion pass #2
 
-Status: **NOT STARTED**
+Status: **PRE-STEP REVIEW COMPLETE / WAITING OWNER AUTHORIZATION / PROVIDER NOT STARTED**
 
-Before any provider execution:
+Pre-step review authority:
 
 ```text
-perform owner-facing pre-step review
-check external/official sources
-self-audit Step-4 handoff
-freeze exact Step-5 probe manifest inside this job workspace
-wait for explicit owner authorization
+STEP_05_PRE_STEP_REVIEW.md
 ```
 
-No Step-5 batch currently exists.
+Proposed manifest after source-backed redundancy/information-gain review:
+
+```text
+P2-01 оконная фурнитура
+P2-02 панорамные окна
+P2-03 остекление балкона с выносом
+P2-04 окна для частного дома
+```
+
+Deferred from provider execution because of redundancy, ambiguity or unresolved business boundary:
+
+```text
+остекление террасы
+панорамное остекление балкона
+монтаж окон
+регулировка окон пвх
+москитные сетки на пластиковые окна
+окна пвх
+стеклопакет
+оконный завод
+```
+
+No Step-5 batch exists yet and no Step-5 provider request has been made.
+
+Execution requires explicit owner authorization after the pre-step review.
 
 ---
 
