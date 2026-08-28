@@ -66,8 +66,9 @@
     const costs = source.method_cost_rub && typeof source.method_cost_rub === "object" && !Array.isArray(source.method_cost_rub) ? source.method_cost_rub : null;
     const isLegacyDefaultAllowlist = methods?.length === 1 && methods[0] === "search";
     const hasGenSearchCostMarker = !!costs && Object.prototype.hasOwnProperty.call(costs, "genSearch");
-    const hasLegacyTariffMarker = String(source.tariff_checked_at || "") === LEGACY_SEARCH_TARIFF_CHECKED_AT;
-    if (!isLegacyDefaultAllowlist || hasGenSearchCostMarker || !hasLegacyTariffMarker) return source;
+    const tariffMarker = String(source.tariff_checked_at || "");
+    const hasUpgradeableTariffMarker = tariffMarker === LEGACY_SEARCH_TARIFF_CHECKED_AT || tariffMarker === SEARCH_TARIFF_CHECKED_AT;
+    if (!isLegacyDefaultAllowlist || hasGenSearchCostMarker || !hasUpgradeableTariffMarker) return source;
     return { ...source, allowed_methods: ["search", "genSearch"] };
   }
 
