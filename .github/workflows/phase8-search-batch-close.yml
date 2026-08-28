@@ -1,0 +1,282 @@
+name: phase8-search-batch-close
+
+on:
+  push:
+    branches:
+      - candidate/phase8-search-batch-2026-08-28
+    paths:
+      - .github/workflows/phase8-search-batch-close.yml
+
+permissions:
+  contents: write
+
+jobs:
+  close-phase8:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact accepted main
+        uses: actions/checkout@v4
+        with:
+          ref: ebd697e5733a7d40d13401d4c02b82a75711231c
+          fetch-depth: 0
+      - name: Guard accepted main and product source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
+          test "$(git rev-parse HEAD)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
+          test "$(git rev-parse HEAD:extension/src)" = "bdad1e87a2537d8646e480ca23f8068c3dced17e"
+          echo PHASE8_CLOSE_BASE_IDENTITY_PASS
+      - name: Synchronize canonical Phase 8 closure docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(text, old, new, label):
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one match, got {count}')
+              return text.replace(old, new, 1)
+
+          def replace_section(text, start, end, new, label):
+              a = text.find(start)
+              if a < 0:
+                  raise SystemExit(f'{label}: start not found')
+              b = text.find(end, a)
+              if b < 0:
+                  raise SystemExit(f'{label}: end not found')
+              return text[:a] + new.rstrip() + '\n\n' + text[b:]
+
+          current_path = Path('extension/docs/CURRENT_STATE.md')
+          current = current_path.read_text()
+          current = replace_once(
+              current,
+              'Status: **PHASES 0–6 CLOSED — O-001 COMPARATIVE GATE PASS — GENSEARCH PRODUCTION HAND ACCEPTED — PHASE 8 BULK SERP/TOP/RANK = ACTIVE NEXT ENGINEERING PHASE**',
+              'Status: **PHASES 0–8 CLOSED — O-001 COMPARATIVE GATE PASS — GENSEARCH + BULK SERP/TOP/RANK HANDS ACCEPTED IN MAIN — PHASE 9 GOOGLE GAP = NEXT RESEARCH PHASE**',
+              'current-status')
+          current = replace_section(
+              current,
+              '## 7. Phase 8 — Bulk SERP / TOP-overlap / rank evidence ACTIVE NEXT',
+              '---\n\n## 8. Authorized autonomous next sequence',
+              '''## 7. Phase 8 — Bulk SERP / TOP-overlap / rank evidence CLOSED / IN MAIN
+
+Phase 8 is accepted and no longer an active development phase.
+
+Production protocol:
+
+```text
+SEARCH_BATCH_API_V1
+SEARCH_BATCH_RESULT_V1
+service = search
+queries[] up to 500
+start/status/pause/resume/cancel/projection/overlapPage = 0 provider requests
+one explicit next = at most one ordinary Search provider request
+```
+
+Accepted product identity:
+
+```text
+source authority = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716
+extension tree = 446fed6970c5fec627be34c3893800dc4511c6c9
+extension/src tree = bdad1e87a2537d8646e480ca23f8068c3dced17e
+freeze run = 33143237276 / SUCCESS
+frozen ZIP sha256 = 8f6ba92dbe1f592a62c66cd250ed942e261f56deffbe87117371bd9c481e6332
+```
+
+Owner-live acceptance:
+
+```text
+job = p8-owner-live-2026-08-28
+queries = 2
+successful provider requests = 2
+requests_started = 2
+estimated_cost_rub = 0.976
+automatic_retry = false
+outcome_unknown = 0
+status/projection/overlapPage provider requests = 0
+```
+
+Observed local evidence included sampled target-domain ranks and deterministic TOP-domain overlap from persisted real SERPs.
+
+Production integration:
+
+```text
+main integration commit = ebd697e5733a7d40d13401d4c02b82a75711231c
+postmerge gate = 33144396638 / SUCCESS
+Node regression = 118/118
+controlled browser real Yandex requests = 0
+product immutability = PASS
+```
+
+Final authority:
+`extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md`
+
+**PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_PASS**''',
+              'current-phase8')
+          current = replace_section(
+              current,
+              '## 8. Authorized autonomous next sequence',
+              '---\n\n## 9. Open blockers',
+              '''## 8. Authorized autonomous next sequence
+
+```text
+Phase 8 = CLOSED / IN MAIN
+→ Phase 9 research: official/stable/legal Google organic evidence options
+→ freeze a provider/contract only after source-quality, cost, privacy and ToS review
+→ keep Google outside the five-service registry unless a governed architecture decision explicitly changes it
+→ no implementation before provider research and test-first contract
+```
+
+Phase 10 crawler/importer evidence work remains lower priority than Phase 9 provider research.''',
+              'current-next')
+          current = replace_section(
+              current,
+              '## 9. Open blockers',
+              '\n__NO_END_MARKER__',
+              '',
+              'unused') if False else current
+          marker = '## 9. Open blockers'
+          a = current.find(marker)
+          if a < 0:
+              raise SystemExit('current-blockers: start not found')
+          current = current[:a] + '''## 9. Open blockers
+
+```text
+Phase 6 = NONE / PASS
+O-001 comparative methodology gate = NONE / PASS
+GenSearch repeatable official hand = NONE / ACCEPTED
+Phase 8 bulk SERP/TOP/rank = NONE / PASS / IN MAIN
+owner action now = NONE
+next engineering = Phase 9 Google organic provider research
+```
+
+No further Phase-8 owner ceremony is required.''' + '\n'
+          current_path.write_text(current)
+
+          roadmap_path = Path('extension/docs/ROADMAP.md')
+          roadmap = roadmap_path.read_text()
+          roadmap = replace_section(
+              roadmap,
+              '# PHASE 8 — Bulk SERP / TOP-overlap / rank evidence',
+              '---\n\n# PHASE 9 — Google organic gap',
+              '''# PHASE 8 — Bulk SERP / TOP-overlap / rank evidence
+
+**Status: PASS / CLOSED / IN MAIN.**
+
+Accepted production hand:
+
+```text
+SEARCH_BATCH_API_V1
+service = search
+queries[] up to 500
+one explicit next <= one ordinary Search provider request
+durable per-query checkpoint/result evidence
+local projection + sampled target-domain rank
+local paged TOP/domain overlap
+OUTCOME_UNKNOWN => no automatic replay
+```
+
+Accepted identity and gates:
+
+```text
+source authority = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716
+extension/src tree = bdad1e87a2537d8646e480ca23f8068c3dced17e
+freeze run = 33143237276 / SUCCESS
+owner-live = PHASE8_SEARCH_BATCH_OWNER_LIVE_PASS
+main integration = ebd697e5733a7d40d13401d4c02b82a75711231c
+postmerge run = 33144396638 / SUCCESS
+Node regression = 118/118
+controlled browser real Yandex requests = 0
+```
+
+Owner-live used two real ordinary Search queries. `start` made zero provider requests; two explicit `next` calls produced exactly two successful provider requests; `status`, `projection` and `overlapPage` remained local-only with `requests_started=2` and total estimated cost `0.976 RUB`.
+
+Final semantic clustering/page split decisions remain ChatGPT work rather than hidden threshold logic.
+
+Final authority:
+`extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md`''',
+              'roadmap-phase8')
+          market = '# MARKET-DISCOVERY AUTHORITY'
+          a = roadmap.find(market)
+          if a < 0:
+              raise SystemExit('roadmap-market start not found')
+          roadmap = roadmap[:a] + '''# MARKET-DISCOVERY AUTHORITY
+
+Canonical matrix:
+
+`extension/docs/FREELANCE_ORDER_CAPABILITY_MATRIX.md`
+
+Current product conclusion:
+
+```text
+mass-market base = Semantic Core Builder
+premium differentiated method = AI-Native Semantic Rebuild with selective GenSearch evidence
+bulk ordinary-Search/TOP evidence hand = ACCEPTED / IN MAIN
+next highest-leverage engineering = Phase 9 Google organic provider research
+```
+
+---
+
+# CURRENT ACTIVE ORDER
+
+```text
+DONE: Phases 0–8 closed
+DONE: Gate A O-001 comparative methodology PASS
+DONE: Phase 7 GenSearch validated, frozen, integrated and postmerge verified
+DONE: Phase 8 Search batch/TOP/rank frozen, owner-live accepted, integrated and postmerge verified
+
+NOW:
+Phase 9 Google organic provider research — official/stable/legal acquisition options first
+
+THEN:
+Provider/contract decision only after research; Phase 10 crawler/importer remains lower priority
+```
+
+No project-owner action is currently required.
+'''
+          roadmap_path.write_text(roadmap)
+
+          plan_path = Path('extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md')
+          plan = plan_path.read_text()
+          plan = replace_once(
+              plan,
+              'Status: **REQUIREMENTS READY / IMPLEMENTATION AUTHORIZED AFTER EXACT-MAIN BASELINE + TEST-FIRST CONTRACT**',
+              'Status: **PASS / CLOSED / IN MAIN**',
+              'plan-status')
+          if '## 19. Final closure' not in plan:
+              plan = plan.rstrip() + '''\n\n## 19. Final closure\n\n```text\nPHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_PASS\nsource authority = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716\nextension tree = 446fed6970c5fec627be34c3893800dc4511c6c9\nextension/src tree = bdad1e87a2537d8646e480ca23f8068c3dced17e\nfreeze run = 33143237276 / SUCCESS\nowner-live job = p8-owner-live-2026-08-28\nowner-live real provider requests = 2\nowner-live automatic retries = 0\nowner-live estimated cost = 0.976 RUB\nmain integration = ebd697e5733a7d40d13401d4c02b82a75711231c\npostmerge gate = 33144396638 / SUCCESS\npostmerge Node regression = 118/118\npostmerge controlled browser real Yandex requests = 0\n```\n\nPhase 8 is closed. No further owner-live ceremony is required.\n'''
+          plan_path.write_text(plan)
+
+          acceptance = Path('extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md')
+          acceptance.write_text('''# Phase 8 Search Batch final acceptance — 2026-08-28\n\nStatus: `PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_PASS`\n\n## Frozen product authority\n\n```text\nsource = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716\nextension = 446fed6970c5fec627be34c3893800dc4511c6c9\nextension/src = bdad1e87a2537d8646e480ca23f8068c3dced17e\nfreeze run = 33143237276 / SUCCESS\ncandidate ZIP sha256 = 8f6ba92dbe1f592a62c66cd250ed942e261f56deffbe87117371bd9c481e6332\n```\n\n## Owner-live\n\n```text\njob = p8-owner-live-2026-08-28\nqueries = печать велеса | алатырь\nstart provider requests = 0\nnext calls = 2\nsuccessful provider requests = 2\nrequests_started = 2\nsucceeded = 2\noutcome_unknown = 0\nautomatic_retry = false\nestimated_cost_rub = 0.976\nstatus provider requests = 0\nprojection provider requests = 0\noverlapPage provider requests = 0\n```\n\nObserved target-domain rank evidence:\n- `печать велеса`: `market.yandex.ru` best observed TOP-10 rank = 3;\n- `алатырь`: `ru.wikipedia.org` best observed TOP-10 rank = 1.\n\nObserved pairwise TOP-10 domain evidence:\n\n```text\nleft = печать велеса\nright = алатырь\nleft_domain_count = 7\nright_domain_count = 8\nshared_count = 0\nunion_count = 15\njaccard = 0\n```\n\n## Production integration\n\n```text\nmain integration = ebd697e5733a7d40d13401d4c02b82a75711231c\npostmerge workflow = 33144396638 / SUCCESS\nNode regression = 118/118\ncontrolled installed-extension browser = PASS\nproduct immutability = PASS\nreal_yandex_requests in controlled browser = 0\n```\n\nNo sixth service was created. Search batch remains orchestration within `service=search` and uses ordinary Search only.\n\n`PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_PASS`\n''')
+          PY
+          mapfile -t changed < <(git diff --name-only | sort)
+          printf '%s\n' "${changed[@]}"
+          expected=(
+            extension/docs/CURRENT_STATE.md
+            extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md
+            extension/docs/ROADMAP.md
+            extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | sort)
+          test "${#changed[@]}" -eq 4
+          test "$(printf '%s\n' "${changed[@]}")" = "$(printf '%s\n' "${expected_sorted[@]}")"
+          test -z "$(git diff --name-only -- extension/src)"
+          echo PHASE8_CLOSE_DOCS_ONLY_PASS
+      - name: Commit and push closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/docs/CURRENT_STATE.md extension/docs/ROADMAP.md extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md
+          git commit -m 'docs(phase8): close accepted Search batch phase'
+          test "$(git rev-parse HEAD:extension/src)" = "bdad1e87a2537d8646e480ca23f8068c3dced17e"
+          git push origin HEAD:main
+          echo PHASE8_CLOSE_MAIN_PUSH_PASS
