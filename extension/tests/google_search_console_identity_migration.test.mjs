@@ -11,6 +11,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const src = path.resolve(here, '../src');
 const read = (relative) => fs.readFileSync(path.join(src, relative), 'utf8');
 const plain = (value) => JSON.parse(JSON.stringify(value));
+const clone = (value) => value === undefined ? undefined : plain(value);
 
 function createHarness() {
   const storage = Object.create(null);
@@ -18,12 +19,12 @@ function createHarness() {
   const local = {
     async get(keys) {
       if (keys == null) return plain(storage);
-      if (typeof keys === 'string') return { [keys]: plain(storage[keys]) };
+      if (typeof keys === 'string') return { [keys]: clone(storage[keys]) };
       const list = Array.isArray(keys) ? keys : Object.keys(keys || {});
-      return Object.fromEntries(list.map((key) => [key, plain(storage[key])]));
+      return Object.fromEntries(list.map((key) => [key, clone(storage[key])]));
     },
     async set(values) {
-      for (const [key, value] of Object.entries(values || {})) storage[key] = plain(value);
+      for (const [key, value] of Object.entries(values || {})) storage[key] = clone(value);
     }
   };
   const ctx = {
