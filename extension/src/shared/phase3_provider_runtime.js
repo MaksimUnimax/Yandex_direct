@@ -67,7 +67,11 @@
     }
     let result = parsed;
     if (isSearch) {
-      try { result = Protocol.normalizeProviderResult(parsed); }
+      try {
+        result = normalized.method === "genSearch"
+          ? Protocol.parseProviderResponseText(normalized, text)
+          : Protocol.normalizeProviderResult(parsed);
+      }
       catch (error) { throw executionError(error, true); }
     }
     const envelope = Protocol.buildResultEnvelope({ requestId, command: normalized, httpStatus: response.status, elapsedMs: elapsed(started), result, metadata: { ...metadata, status: "OK", reason: null, request_executed: true, automatic_retry: false } });
@@ -95,6 +99,8 @@
     try { text = await response.text(); } catch { text = ""; }
     const parsed = parseJson(text);
     if (!response.ok) {
+      const state = response.status === 403 ? "NO_ACCESS" : response.status === 401 ? "INVALID_OR_EXPIRED" : "NOT_CHECKED";
+      await Credentials.save("webmaster", { oauth_token: oauthToken, user_id: userId, verified_at: nowIso(), check_state: state });
       const payload = Webmaster.safeErrorPayload(response.status, text, parsed);
       const envelope = Webmaster.buildResultEnvelope({ requestId, command: normalized, httpStatus: response.status, elapsedMs: elapsed(started), result: { error: payload }, metadata: { ...metadata, status: "ERROR", reason: payload.code, request_executed: true, automatic_retry: false } });
       return { ok: false, http_status: response.status, request_id: requestId, report_envelope: envelope, report_text: Webmaster.formatResultEnvelope(envelope) };
