@@ -1,124 +1,137 @@
 # KW-001 / OKNO-MSK — STEP 04 ACCEPTANCE
 
 Date: 2026-08-28  
-Status: **PASS / PROGRESSIVE CLEANUP #1 FROZEN**
+Status: **PASS AFTER RETROSPECTIVE CORRECTION / FAMILY-LEVEL TRIAGE FROZEN**
 
-## 1. Scope closed by this gate
+## 1. Authority and supersession
 
-This acceptance closes the first analytical cleanup after the completed 18-seed Wordstat pass.
+This acceptance was re-opened after a source-backed methodology audit.
 
-The accepted output is:
+Authoritative Step-04 documents are now:
 
 ```text
-raw acquisition families
-→ KEEP / REJECT_OBVIOUS / REVIEW triage
-→ retained semantic-family universe
-→ unresolved review queue
-→ justified pass-2 expansion candidate pool
+STEP_04_PROGRESSIVE_CLEANUP_1.md          # historical/original analysis
+STEP_04_METHOD_REVIEW_CORRECTION.md       # authoritative correction where wording conflicts
+STEP_REVIEW_AND_ERRORS_LEDGER.md           # case-specific error memory
+STEP_04_ACCEPTANCE.md                      # current re-frozen gate
 ```
 
-This is not yet the final semantic core and not page architecture.
+The original phrase `ANALYTICAL CLEANUP COMPLETE` is superseded. Step 04 was a **family-level triage and cleanup-rule freeze**, not a complete row-by-row semantic cleanup.
 
 ---
 
-## 2. Governing evidence
+## 2. Correct Step-04 scope
 
-Step 04 used:
+Step 04 closed:
 
 ```text
-STEP_03_ACCEPTANCE.md
-STEP_03 execution/checkpoint evidence
-STEP_01_MERGED_BUSINESS_PAGE_MODEL.md
-OPEN_QUESTIONS_FOR_CLIENT.md
-WORKING_RUNBOOK_FOR_CHATGPT.md
+18 pass-1 seed families reviewed
+recurring relevant/noise patterns identified
+ambiguous business/intents preserved for review
+exclusion taxonomy corrected
+second-pass expansion probe pool prepared
 ```
 
-No new provider evidence was acquired inside Step 04.
+Step 04 did **not** close:
+
+```text
+full row-level classification of every raw Wordstat phrase
+final semantic-core cleanup
+clustering
+SERP validation
+page mapping
+cannibalization decisions
+final priority decisions
+```
+
+Therefore:
+
+```text
+FAMILY_LEVEL_TRIAGE = COMPLETE
+FULL_ROW_LEVEL_CLEANUP = NOT YET COMPLETE
+```
 
 ---
 
-## 3. Cleanup contract verified
+## 3. Corrected triage contract
 
-The universal progressive-cleanup contract was applied:
+The original `KEEP / REJECT_OBVIOUS / REVIEW` heuristic is no longer sufficient as the canonical classification because it mixed true irrelevance with valid demand excluded only by scope.
+
+Canonical states going forward:
 
 ```text
 KEEP
-REJECT_OBVIOUS
 REVIEW
+EXCLUDE_IRRELEVANT
+EXCLUDE_SCOPE
+EXCLUDE_MECHANICAL
 ```
 
-Ambiguous or commercially unresolved demand was preserved in `REVIEW` rather than deleted.
+Meaning:
 
-Examples:
+- `KEEP` — relevant and retained for later stages; no separate page is implied.
+- `REVIEW` — potentially relevant but business/intent/page ownership remains unresolved.
+- `EXCLUDE_IRRELEVANT` — wrong semantic meaning/task/product or otherwise genuinely unsuitable for the order.
+- `EXCLUDE_SCOPE` — valid demand excluded only by frozen geography/product/audience/client scope; recoverable after scope revision.
+- `EXCLUDE_MECHANICAL` — exact/mechanical duplicate or processing-only exclusion.
 
-```text
-repair/service = REVIEW commercial role
-accessories/fittings = REVIEW commercial role
-instalment/finance = REVIEW commercial role
-standalone installation = REVIEW commercial role
-```
-
-while clearly relevant bundled/commercial vocabulary remained `KEEP`.
+Business-priority unknowns such as standalone installation, repair, accessories and finance remain `REVIEW` until client/business or later evidence resolves them.
 
 ---
 
-## 4. Rejection discipline verified
+## 4. Corrected frequency discipline
 
-Step 04 rejected only obvious classes:
+Old wording `low frequency is never a rejection reason` was too absolute.
+
+Canonical rule:
 
 ```text
-wrong-region GEO outside frozen Moscow scope
-unrelated semantic meanings
-unrelated Wordstat associations
-marketplace/used-goods intent incompatible with the observed new-window business
-employment/job-seeker intent
-exact/mechanical duplicates
+LOW_FREQUENCY_ALONE != PROOF_OF_IRRELEVANCE
 ```
 
-No phrase/family was rejected solely for low frequency.
+A low count alone cannot prove that a query is semantically irrelevant. However frequency/traffic potential may later contribute to prioritization or page-target decisions together with:
 
-Measured low-volume families such as P-44, P-46 balcony and roofed-balcony demand remain available for later SERP/page-boundary judgment.
+```text
+relevance
+business value
+cluster/topic size
+regional SERP intent/page overlap
+commercial capacity/priority
+```
+
+Low-volume measured families remain available for later SERP/page-boundary judgment without implying that every low-volume phrase must survive to the final client core.
 
 ---
 
-## 5. Retained family universe
+## 5. Wordstat association discipline
 
-The first cleanup preserves 18 analytical families spanning:
+Official Yandex GetTop semantics distinguish returned query results from `associations`, which are queries similar to the requested phrase.
+
+Official sources:
+- https://aistudio.yandex.ru/docs/ru/search-api/api-ref/Wordstat/getTop
+- https://aistudio.yandex.ru/docs/ru/search-api/operations/wordstat-gettop.html
+
+Therefore the accepted rule is:
 
 ```text
-broad PVC purchase
-REHAU
-French/panoramic
-house series
-PVC doors
-balcony/loggia
-balcony engineering
-balcony house series
-Moscow GEO
-veranda/terrace
-aluminium
-accessories/fittings
-installation/turnkey
-repair/regulation
-price/calculation
-finance/instalments
-selection/explanation
-manufacturer/trust-commercial
+ASSOCIATION = vocabulary / expansion evidence
+ASSOCIATION != automatically accepted keyword
+ASSOCIATION COUNT != business relevance proof
+ASSOCIATION COUNT != separate-page proof
 ```
 
-Some are `KEEP`; some remain partly or wholly `REVIEW` pending business/SERP evidence.
+This preserves useful new wording without letting provider similarity suggestions silently become client semantics.
 
 ---
 
-## 6. Expansion handoff ready
+## 6. Corrected expansion handoff
 
-Step 04 produced a bounded, reason-coded candidate pool for the later second Wordstat pass.
+Replace the earlier `strong candidate` wording with information-gain probe states.
 
-Strong candidates currently include:
+### EXPANSION_PROBE_READY — subject to Step-5 preflight
 
 ```text
 оконная фурнитура
-монтаж окон
 панорамные окна
 остекление террасы
 балкон с выносом
@@ -126,7 +139,15 @@ Strong candidates currently include:
 окна для частного дома
 ```
 
-Review-only candidates include:
+### EXPANSION_PROBE_AMBIGUOUS
+
+```text
+монтаж окон
+```
+
+Reason: broader than `установка пластиковых окон`; high association count alone does not establish a clean target family.
+
+### EXPANSION_PROBE_REVIEW
 
 ```text
 регулировка окон пвх
@@ -136,11 +157,46 @@ Review-only candidates include:
 оконный завод
 ```
 
-These are candidates, not yet the frozen second-pass manifest. Redundancy/business uncertainty may still remove them before provider execution.
+These remain candidates/probes only. **No Step-5 manifest is frozen by this Step-04 acceptance.**
 
 ---
 
-## 7. Step-04 request truth
+## 7. External method review incorporated
+
+The retrospective review checked current sources rather than relying on the project runbook as self-proof.
+
+Official provider semantics:
+- Yandex Wordstat GetTop API documentation above.
+
+External methodology corroboration:
+- https://www.semrush.com/blog/keyword-clustering/
+- https://ahrefs.com/blog/keyword-mapping/
+- https://ahrefs.com/blog/keyword-intent/
+
+These support separating collection from later intent/topic/page grouping and considering business/search intent rather than treating raw volume as a page decision. They do **not** make our exact internal status names an industry standard; the labels remain project-specific analyst mechanics.
+
+---
+
+## 8. Row-level provenance requirement added
+
+Before final semantic-core freeze, retained/excluded raw phrases used in the workflow must be traceable with at least:
+
+```text
+phrase
+source seed/request provenance
+provider count/observation
+scope region/device where relevant
+decision state
+reason code
+family/cluster candidate
+review note when unresolved
+```
+
+Step 04 has **not** yet satisfied this final row-level cleanup requirement.
+
+---
+
+## 9. Step-04 request truth
 
 ```text
 WORDSTAT provider requests = 0
@@ -149,21 +205,22 @@ GENSEARCH provider requests = 0
 new paid provider cost = 0 RUB
 ```
 
-YMB execution mode was therefore not invoked in this step.
+No Step-5 provider batch was created during the retrospective correction.
 
 ---
 
-## 8. Step-04 gate
+## 10. Corrected gate
 
 ```text
 all 18 pass-1 seed families reviewed = PASS
-three-state cleanup contract applied = PASS
-obvious rejection taxonomy frozen = PASS
+family-level triage = PASS
+full row-level cleanup = NOT COMPLETE
+scope exclusion separated from irrelevance = PASS
 ambiguous/business-unknown demand preserved = PASS
-low-frequency-only rejection = FALSE
-retained family universe frozen = PASS
-review queue frozen = PASS
-pass-2 candidate pool with reasons = PASS
+low-frequency-alone treated as irrelevance proof = FALSE
+association automatically treated as accepted keyword = FALSE
+review queue preserved = PASS
+pass-2 probe pool reclassified by information-gain confidence = PASS
 new provider acquisition = NONE
 final semantic core frozen = FALSE
 clustering performed = FALSE
@@ -171,12 +228,15 @@ page mapping performed = FALSE
 SERP validation performed = FALSE
 ```
 
-## 9. Acceptance verdict
+## 11. Acceptance verdict
 
 ```text
-STEP_04_RESULT = PASS
-STEP_04_PROGRESSIVE_CLEANUP_1_COMPLETE = true
-STEP_04_PASS2_CANDIDATE_POOL_READY = true
+STEP_04_RESULT = PASS_AFTER_CORRECTION
+STEP_04_FAMILY_LEVEL_TRIAGE_COMPLETE = true
+STEP_04_FULL_ROW_LEVEL_CLEANUP_COMPLETE = false
+STEP_04_METHOD_CORRECTION_APPLIED = true
+STEP_04_PASS2_PROBE_POOL_READY_FOR_PREFLIGHT = true
+STEP_04_PASS2_MANIFEST_FROZEN = false
 STEP_04_FINAL_SEMANTIC_CORE = false
 STEP_04_NEXT_STEP_AUTHORIZED_AUTOMATICALLY = false
 ```
@@ -184,8 +244,10 @@ STEP_04_NEXT_STEP_AUTHORIZED_AUTOMATICALLY = false
 Final markers:
 
 ```text
-KW001_OKNO_MSK_STEP_04_PROGRESSIVE_CLEANUP_1_COMPLETE = true
-KW001_OKNO_MSK_STEP_04_PASS = true
+KW001_OKNO_MSK_STEP_04_PASS_AFTER_CORRECTION = true
+KW001_OKNO_MSK_STEP_04_FAMILY_TRIAGE_COMPLETE = true
+KW001_OKNO_MSK_STEP_04_FULL_ROW_CLEANUP_COMPLETE = false
+KW001_OKNO_MSK_STEP_04_METHOD_REVIEW_CORRECTION_APPLIED = true
 ```
 
-Owner stop gate applies. Do not begin the next step until explicit owner continuation.
+Owner stop gate still applies. Step 5 requires a fresh source-backed pre-step review and explicit owner authorization before any Wordstat batch is created.
