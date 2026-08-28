@@ -1,26 +1,23 @@
 # KW-001 — WORKING RUNBOOK FOR CHATGPT
 
 Date created: 2026-08-28  
+Last operational update: 2026-08-28  
 Status: **LIVING WORKING RUNBOOK / NOT YET FINAL / NOT READY-TO-SELL AUTHORITY**  
 Kwork: **Соберу семантику и структуру сайта под Яндекс и Алису AI**  
 Branch: `roadmap/kwork-productization-2026-08-28`
 
 ## 0. Purpose and authority
 
-This is the living operational manual ChatGPT must use while productizing and later executing KW-001.
-
-It exists before the final `RUNBOOK_FOR_CHATGPT.md` because the permanent Kwork contract requires the final runbook to be frozen only after complete end-to-end test orders, client deliverables, economics measurement, revision rehearsal and clean-context rehearsal have passed.
-
-Until that point:
+This is the current operational manual ChatGPT must use while productizing and later executing KW-001.
 
 ```text
 THIS FILE = current working execution authority
 FINAL RUNBOOK = must not be claimed yet
 ```
 
-When KW-001 passes all productization gates, this file is to be reconciled with accepted test evidence and promoted into the final self-contained runbook.
+The final `RUNBOOK_FOR_CHATGPT.md` may be frozen only after complete end-to-end test orders, final client deliverables, economics measurement, revision rehearsal and clean-context rehearsal have passed.
 
-Canonical project dependencies:
+Canonical dependencies:
 
 ```text
 extension/docs/KWORK_PRODUCTIZATION_ROADMAP_2026-08-28.md
@@ -30,58 +27,85 @@ extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md
 extension/docs/AI_NATIVE_GENSEARCH_PRODUCTION_CONTRACT_2026-08-28.md
 extension/docs/PHASE_6_SEMANTIC_CORE_BUILDER_REQUIREMENTS_AND_PLAN.md
 extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md
+extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md
 ```
 
-Permanent worker split:
+Permanent worker model:
 
 ```text
 CHATGPT
-= business interpretation / research planning / seed selection / semantic cleanup / intent analysis / clustering judgment / page-job architecture / Search-vs-AI comparison / priorities / client artifacts / QA
+= business interpretation / research plan / seed selection / semantic cleanup /
+  intent analysis / clustering judgment / page-job architecture /
+  Search-vs-AI comparison / priorities / client artifacts / QA
 
-Yandex Marketing Bridge
-= authenticated provider evidence acquisition / durable Wordstat and Search jobs / paid-request safety / persistence / provenance / recovery / delivery
+YANDEX MARKETING BRIDGE
+= authenticated provider hands / durable Wordstat + Search jobs /
+  paid-request safety / persistence / provenance / recovery / delivery
 
 OWNER / OPERATOR
-= authorization / access / credentials / irreducible local-live actions / commercial approval
+= authorization / access / credentials / irreducible local-live actions /
+  commercial approval
 ```
 
-Do not move subjective SEO or marketing judgment into Bridge merely to automate the workflow.
+Do not move subjective SEO/marketing judgment into Bridge merely to automate the workflow.
 
 ---
 
-# 1. Client-facing service identity
+# 0.1 Rule-design contract — instructions must explain WHY
+
+A bare instruction such as `do X` is not sufficient for this runbook.
+
+Important operational rules should preserve:
+
+```text
+RULE
+= what ChatGPT must do
+
+PURPOSE
+= what failure this rule is intended to prevent
+
+EVIDENCE
+= why the rule exists: official source, industry practice, project gate or test observation
+
+FAILURE IF IGNORED
+= what can go wrong if the rule is skipped
+
+REVIEW TRIGGER
+= what new evidence would justify changing or removing the rule
+```
+
+The purpose is to let a future clean-context ChatGPT understand not only the instruction but its causal reason, so it can apply the rule correctly and later compare it with newer methodology rather than blindly preserving an obsolete ritual.
+
+---
+
+# 1. Service identity
 
 Working title:
 
 `Соберу семантику и структуру сайта под Яндекс и Алису AI`
 
-The service supports two entry modes:
+Entry modes:
 
 ```text
 EXISTING_SITE
-→ audit/rebuild semantic and page architecture against current URLs
+→ rebuild/check semantic and page architecture against current URLs
 
 NEW_SITE
 → build semantic and planned page architecture from business/offer inputs
 ```
 
-Do not create two separate Kworks until real test evidence shows materially different commercial workflows.
+Do not split these into separate Kworks until real-order evidence proves materially different commercial workflows.
 
-Working test price:
+Working test price: `7,500 RUB`  
+Working delivery target: `up to 5 days`
 
-`7,500 RUB`
-
-Working delivery target:
-
-`up to 5 days`
-
-Both remain provisional until accepted test runs measure analyst time, provider cost, operator actions and revision burden.
+Both remain provisional until test runs measure analyst time, provider cost, operator actions and revision burden.
 
 ---
 
 # 2. Exact promise
 
-Base package promise:
+Base package:
 
 ```text
 business/site understanding
@@ -89,24 +113,24 @@ business/site understanding
 + ordinary Yandex SERP evidence
 + semantic cleanup and clustering
 + keyword/topic → page mapping
-+ selective AI-search evidence where it can change or de-risk a material decision
++ selective AI-search evidence where it can materially change or de-risk a decision
 + Search-vs-AI comparison
 + final page/action architecture
-+ prioritized client recommendations
++ prioritized recommendations
 ```
 
-For an existing site, the output answers:
+For an existing site the work must answer:
 
 ```text
 which existing URLs should own which search jobs
 which pages need expansion
 which page boundaries require separation
-where overlap requires further evidence
+where overlap requires more evidence
 which missing page/content layer is justified
 what should be done first
 ```
 
-For a new site, the output answers:
+For a new site:
 
 ```text
 which semantic families exist
@@ -119,24 +143,24 @@ what the initial site/content architecture should be
 
 ---
 
-# 3. Forbidden promises
+# 3. Forbidden promises and invalid shortcuts
 
 Never promise or imply:
 
 ```text
-guaranteed inclusion or citation in Alice AI
+guaranteed inclusion/citation in Alice AI
 guaranteed AI visibility
-guaranteed Yandex rankings
+guaranteed Yandex positions
 guaranteed traffic, leads or revenue
 GenSearch == consumer Alice
-one observed AI answer is stable/permanent search truth
+one observed AI answer is stable/permanent truth
 source order in AI answer == ranking
 one keyword automatically requires one page
 multiple pages mentioning the same keyword automatically means cannibalization
-Wordstat broad demand figure == exact frequency unless exact operator semantics were intentionally requested and recorded
+Wordstat broad demand == exact frequency unless exact operator semantics were deliberately used
 ```
 
-A valid AI outcome can be:
+Valid AI outcomes include:
 
 ```text
 CHANGE
@@ -145,7 +169,12 @@ NO_CHANGE
 INSUFFICIENT
 ```
 
-Do not force an AI-derived change merely to make the premium service appear valuable.
+### Rule: do not force an AI delta
+
+**RULE** — never invent or exaggerate an AI-derived change merely to make the premium service appear valuable.  
+**PURPOSE** — preserve analytical honesty; confirmation/de-risking can itself be useful.  
+**FAILURE IF IGNORED** — the service degenerates into decorative GEO/AI theatre instead of evidence-based architecture.  
+**REVIEW TRIGGER** — none; this is a permanent truthfulness constraint.
 
 ---
 
@@ -154,51 +183,55 @@ Do not force an AI-derived change merely to make the premium service appear valu
 Minimum intake:
 
 ```text
-site URL OR business description for new site
+site URL OR business description
 primary sales/service region
 products/services actually sold
 primary commercial goal
-priority directions, if any
-known exclusions / products not offered
-known competitors, optional
-known existing or planned pages, optional
+priority directions if any
+known exclusions
+known competitors optional
+known existing/planned pages optional
 ```
 
-For a real client, additionally request when available:
+For a real client request when available:
 
 ```text
 Yandex Webmaster read access / exports
 existing semantic core
 existing keyword map
 existing competitor list
-important business constraints not visible publicly
+business constraints not visible publicly
 ```
 
-Webmaster data is a high-value optional input, not required for the base public-site package.
+### Rule: Webmaster is optional but preferred when available
+
+**RULE** — do not require Webmaster for the public-site base package; use it when the client can provide access.  
+**PURPOSE** — keep the Kwork sellable to clients who provide only a public site while using stronger owned evidence when available.  
+**FAILURE IF IGNORED** — mandatory access unnecessarily shrinks the market; ignoring available access wastes first-party query/page evidence.
 
 ---
 
-# 5. Evidence-source hierarchy
-
-Use evidence in this order of authority for each type of question.
+# 5. Evidence hierarchy
 
 ## 5.1 Business truth
 
 ```text
-client brief / explicit client clarification
+client brief / explicit clarification
 > client-owned public site
-> public competitor/site observations
+> public competitor/site observation
 ```
 
-Do not infer that a product/service is actually sold merely because a keyword exists in Wordstat.
+**RULE** — a Wordstat keyword never proves that the client actually sells the corresponding product/service.  
+**PURPOSE** — keep search demand subordinate to business truth.  
+**FAILURE IF IGNORED** — recommendations can promote unavailable or unwanted offers.
 
-## 5.2 Human search demand
+## 5.2 Human demand
 
 ```text
 Yandex Wordstat provider evidence
 ```
 
-Always preserve:
+Preserve:
 
 ```text
 phrase_as_requested
@@ -208,32 +241,30 @@ device
 observation date
 ```
 
-## 5.3 Ordinary search intent / page boundary evidence
+## 5.3 Ordinary search intent / page boundaries
 
 ```text
-ordinary regional Yandex Search
-→ ranked URL/domain/title/snippet evidence
-→ TOP overlap / page-type observation
+regional Yandex Search
+→ ranked URL/domain/title/snippet
+→ TOP overlap/page-type evidence
 → ChatGPT interpretation
 ```
 
-## 5.4 Existing-site owned search evidence, when available
+## 5.4 Owned search evidence when available
 
 ```text
 Yandex Webmaster search queries / query pages / ranking evidence
 ```
 
-Use owned first-party evidence to improve diagnosis; do not require it for public-site-only delivery.
+## 5.5 AI evidence
 
-## 5.5 AI-search evidence
-
-Preferred when owner/client access exists:
+Preferred when client-owned access exists:
 
 ```text
 Yandex Webmaster — Видимость сайта в Алисе AI
 ```
 
-Base provider hand when Webmaster Alice visibility is unavailable:
+Otherwise use:
 
 ```text
 official GenSearch evidence
@@ -245,7 +276,9 @@ Permanent provenance distinction:
 GEN_SEARCH_* != CONSUMER_ALICE_*
 ```
 
-Never relabel GenSearch evidence as exact consumer Alice output.
+**RULE** — never relabel GenSearch evidence as exact consumer Alice output.  
+**PURPOSE** — prevent false equivalence between distinct AI surfaces.  
+**FAILURE IF IGNORED** — client conclusions become stronger than the evidence supports.
 
 ---
 
@@ -253,29 +286,31 @@ Never relabel GenSearch evidence as exact consumer Alice output.
 
 ## STEP 0 — Freeze order
 
-Before provider evidence acquisition, record:
+Before provider acquisition record:
 
 ```text
 site/business
 region
 commercial goal
 package/scope
-known page/business constraints
+known constraints
 known competitors
 requested deliverables
 ```
 
-Later discoveries can change recommendations but must not silently rewrite the original order.
+**RULE** — later findings may change recommendations but may not silently rewrite the original order.  
+**PURPOSE** — prevent hindsight bias and make revisions auditable.  
+**FAILURE IF IGNORED** — the analyst can unknowingly redefine the task to fit discovered evidence.
 
 ---
 
-## STEP 1 — Site/content discovery to saturation
+# STEP 1 — Site/content discovery to CROSS-CHANNEL saturation
 
-For an existing site, build a content/business inventory before semantic decisions.
+For an existing site, build a content/business inventory before semantic/provider decisions.
 
 This is not a technical SEO audit.
 
-Discover via public site navigation / search-visible pages / browser where necessary:
+## 1.1 What must be discovered
 
 ```text
 major commercial families
@@ -288,49 +323,618 @@ hybrid content-commerce pages
 conversion utilities
 company/trust/source pages
 local/geographic landing families
+public subdomains
 large repeated page families
+all material segmentation axes
 ```
 
-For each representative page collect at minimum:
+For each representative page record:
 
 ```text
 URL
 Title
 H1
-section/breadcrumb path when visible
+section/breadcrumb when visible
 page type
 primary user job
-what it sells or explains
+what it sells/explains
 major products/services/subtopics
 primary CTA
-important related child/sibling families
+important children/siblings
 how it differs from close pages
 potential semantic boundary questions — observation only
 ```
 
-For large template families, do not waste time reading every near-identical URL. Continue until **discovery saturation**: new pages no longer reveal a new commercial family, segmentation axis, page type or user job.
+Do not recommend merge/delete/new-page actions at this stage.
 
-If ordinary web access is incomplete, use ChatGPT Work Cloud Browser/Codex for systematic discovery. Local Codex/browser is fallback only.
+---
 
-Output:
+## 1.2 Required evidence states
+
+Every page/family must be marked as one of:
 
 ```text
-SITE_PAGE_INVENTORY
-BUSINESS_AND_PAGE_MODEL
-OPEN_QUESTIONS_FOR_CLIENT
+OPENED_READ
+DISCOVERED_LINK_ONLY
+INFERRED_TEMPLATE_FAMILY
+UNVERIFIED_OR_INACCESSIBLE
 ```
 
-Do not make final merge/delete/new-page decisions at this stage.
+### Why
 
-External basis:
-- Yandex Webmaster recommends a clear section/page structure and navigation that lets users find required documents: https://yandex.ru/support/webmaster/ru/recommendations/site-structure
-- Keyword mapping practice assigns keyword/topic clusters to existing or planned pages rather than creating pages first and justifying them later: https://ahrefs.com/blog/keyword-mapping/ and https://www.semrush.com/blog/keyword-mapping/
+**RULE** — never treat a URL seen in navigation as equivalent to a page actually opened/read.  
+**PURPOSE** — distinguish factual page-content evidence from taxonomy/link inference.  
+**EVIDENCE** — in the desktop Codex `okno-msk.ru` pass, only five pages were actually opened, while many additional families were inferred through navigation; the run correctly refused to claim saturation.  
+**FAILURE IF IGNORED** — Title/H1/job/content assumptions may be attributed to pages that were never verified.  
+**REVIEW TRIGGER** — only if the acquisition system itself provides trustworthy parsed first-party content for every discovered URL.
+
+---
+
+## 1.3 Mandatory discovery channels for a non-trivial existing site
+
+### CHANNEL A — deep internal architecture discovery
+
+Use:
+
+```text
+main navigation
+mega/dropdown menus
+footer
+breadcrumbs
+internal commercial links
+related services/products
+article links
+representative child pages
+```
+
+Purpose:
+
+```text
+recover the site's own taxonomy
+validate repeated page templates
+understand actual page jobs/content/CTA differences
+find deep child families that a shallow web search may miss
+```
+
+### CHANNEL B — independent public URL discovery
+
+Independently look for public URLs belonging to the same site, including:
+
+```text
+search-visible pages restricted to the target domain
+GEO/local landing pages
+public subdomains
+weakly linked landing pages
+specialised use-case pages
+public sitemap only as an URL-discovery aid if available
+```
+
+Only the target site's first-party page content is evidence. Search engines/sitemaps are discovery mechanisms, not authority for what the page says.
+
+Purpose:
+
+```text
+catch public page families that are not exposed in the sampled navigation tree
+```
+
+### CHANNEL C — alternate browser/runtime only when needed
+
+Use Work/desktop Codex or another available browser when one channel cannot reliably read representative first-party pages.
+
+Purpose:
+
+```text
+recover missing page content, not create a third mandatory duplicate crawl
+```
+
+---
+
+## 1.4 Why one discovery channel is not enough — proven on `okno-msk.ru`
+
+This rule comes directly from the first KW-001 rehearsal.
+
+### PASS A — ChatGPT public-web pass
+
+Actually reviewed: `18` representative public pages.
+
+Material finds included:
+
+```text
+main broad commercial page
+REHAU hub + specific profile
+REHAU doors + balcony door subtype
+balcony hub
+second-contour balcony glazing
+P-46 house-series balcony landing
+main-domain district GEO landing: Mitino
+veranda hub + cold-veranda child
+aluminium hub
+standalone installation service
+company page
+production page
+calculator
+how-to-choose informational article
+city GEO subdomain: balashiha.okno-msk.ru
+```
+
+Most important UNIQUE contribution relative to Codex Work:
+
+```text
+main-domain district GEO family
++ city subdomain GEO model
+```
+
+It also directly read selected special/trust/service pages useful for later page-job analysis.
+
+Strength:
+
+```text
+independent search-visible/public-URL discovery
+```
+
+Weakness:
+
+```text
+smaller deep-template sample than Codex Work
+```
+
+### PASS B — Codex in ChatGPT Work
+
+Actually opened/read: `56` public pages.
+
+It deeply validated families that the ChatGPT pass sampled only lightly:
+
+```text
+multiple REHAU profile models: Blitz, Thermo, Grazio, Intelio
+French / stained-glass / coloured windows
+office glazing use case
+house-series hub + P-3 / P-44 / KOPE / 1-515-5 examples
+all three major PVC-door subtypes
+balcony panorama / hinged / semicircle / roof / extension solutions
+warm + cold veranda variants and summer kitchen
+aluminium hinged + sliding variants
+services: warranty / extended warranty / finance / repair / slopes
+accessories: drip caps / blinds / mosquito screens / anti-burglary / lamination / decorative bars / handles
+price page
+company / reviews / contacts
+article hub + multiple articles
+```
+
+Its final expansion also identified repeated editorial, accessory/customisation, functional-glass-link, house-series and after-sales/finance axes.
+
+Strength:
+
+```text
+deep representative reading of internal page families and repeated templates
+```
+
+Material miss:
+
+```text
+no LOCAL_GEO family and no public subdomain was reached through checked internal navigation
+```
+
+The Codex Work report explicitly stated that no geo landing/subdomain could be established from its checked internal navigation, even though the ChatGPT pass had directly opened both a district GEO URL and the Balashikha subdomain.
+
+Therefore:
+
+```text
+INTERNAL_NAVIGATION_SATURATION != COMPLETE_PUBLIC_SITE_SATURATION
+```
+
+### PASS C — Codex desktop/app control pass
+
+Actually opened/read: `5` pages:
+
+```text
+/
+/okna-rehau/
+/dveri-rehau/
+/balkony-i-lodzhii/
+/verandy/
+```
+
+Despite browser timeouts, its navigation inspection rapidly exposed useful axes:
+
+```text
+REHAU profiles
+number of sashes
+object/room
+house series
+balcony thermal modes
+balcony geometry
+balcony finishing
+accessories
+services
+prices/utilities
+trust/company
+articles/actions/news
+```
+
+It correctly returned:
+
+```text
+DISCOVERY_SATURATION_REACHED = false
+```
+
+Purpose of retaining this pass:
+
+```text
+show that navigation taxonomy can discover useful candidate families even when page reading fails,
+but those candidates must remain DISCOVERED_LINK_ONLY / INFERRED_TEMPLATE_FAMILY until verified
+```
+
+---
+
+## 1.5 Main Step-1 rule derived from those passes
+
+**RULE**  
+For a non-trivial existing site, use at least:
+
+```text
+CHANNEL A = deep internal architecture/page-reading pass
++
+CHANNEL B = independent public/search-visible URL pass
+```
+
+Do not require three agents. The requirement is **complementary acquisition modes**, not agent count.
+
+**PURPOSE**  
+Build a sufficiently complete factual URL/page-family universe before keyword collection and page mapping.
+
+**EVIDENCE**  
+On `okno-msk.ru`:
+
+```text
+Codex Work = much deeper internal-family coverage but missed GEO/subdomain
+ChatGPT public web = shallower internal depth but found real GEO district + city-subdomain families
+Codex desktop = useful navigation taxonomy but incomplete page verification because of timeouts
+```
+
+**FAILURE IF IGNORED**  
+Using only internal navigation can omit weakly linked/search-visible/GEO assets. Using only a small independent web sample can miss repeated internal product/service/template axes. Either failure contaminates later stages:
+
+```text
+missing seed families
+incomplete semantic core
+false NEW_PAGE recommendations
+false merge/ownership conflicts
+missed existing page targets
+incorrect cannibalization hypotheses
+incomplete client deliverables
+```
+
+**REVIEW TRIGGER**  
+This rule may be simplified only if a future validated acquisition mechanism proves that a single channel reliably recovers both deep internal taxonomy and the complete relevant public URL universe for the site class being processed.
+
+---
+
+## 1.6 How to compile ChatGPT and Codex results
+
+Do not choose one report and discard the other.
+
+### Merge algorithm
+
+1. **Normalize URLs**
+
+```text
+scheme/host/path normalized
+fragment removed
+trailing-slash policy normalized
+subdomain retained as meaningful host identity
+```
+
+2. **Create one union inventory**
+
+Every unique URL discovered by any pass enters the candidate inventory.
+
+3. **Preserve provenance**
+
+For each URL record:
+
+```text
+discovered_by = CHATGPT_WEB / CODEX_WORK / CODEX_DESKTOP / multiple
+evidence_state per pass
+opened_read_by
+first_observed_at
+```
+
+4. **Prefer read evidence over inference**
+
+If one pass only discovered a link but another actually opened/read the page, factual fields come from the opened/read evidence.
+
+5. **Do not discard unique families**
+
+If only one pass finds a material family (e.g. GEO), keep it until directly disproven or excluded by client scope.
+
+6. **Merge families by user job/segmentation axis, not wording alone**
+
+Examples:
+
+```text
+"geo district landing" and "local page" may be same family
+"warm glazing" and "aluminium" are not automatically same family because one is use-case/thermal and the other material-led
+```
+
+7. **Flag factual conflicts**
+
+If passes disagree on page purpose/content, mark `CONFLICT_REVIEW`; do not silently choose the preferred agent.
+
+8. **Verify weak states**
+
+Material `DISCOVERED_LINK_ONLY` or `INFERRED_TEMPLATE_FAMILY` candidates should get at least one representative `OPENED_READ` page where technically possible.
+
+9. **Rebuild the business/page model from the union**
+
+Only after the union inventory is formed should ChatGPT freeze:
+
+```text
+business families
+segmentation axes
+page-job taxonomy
+open client questions
+candidate seed directions
+```
+
+10. **Re-test saturation**
+
+A pass saying `saturation=true` is only local to that pass. Global Step-1 saturation requires both required channels to stop adding new material families/axes/jobs.
+
+---
+
+## 1.7 Saturation gate
+
+Set:
+
+```text
+KW001_SITE_DISCOVERY_SATURATION = true
+```
+
+only when:
+
+```text
+CHANNEL A adds no new material family/axis/job
+AND
+CHANNEL B adds no new material family/axis/job
+AND
+representatives of every material family are OPENED_READ where technically possible
+AND
+remaining inaccessible/unverified families are explicitly listed
+AND
+the merged union inventory has been rebuilt into the business/page model
+```
+
+For a genuinely tiny/simple site, one channel may be sufficient only if completeness is demonstrated and recorded rather than assumed.
+
+---
+
+## 1.8 Canonical Codex prompt for Step-1 independent discovery
+
+Use this prompt as the default starting template. Replace `<SITE_URL>` and, if needed, client-specific scope. The Codex pass must remain independent from ChatGPT's existing findings so that it can expose blind spots rather than echo them.
+
+```text
+Нужно независимо исследовать публичный сайт:
+
+<SITE_URL>
+
+Это независимый контрольный проход для подготовки семантического ядра и карты страниц.
+Не используй предыдущие сообщения чата, готовый анализ ChatGPT, GitHub проекта или ранее составленный список URL как источник структуры сайта.
+
+ЦЕЛЬ
+
+Собрать максимально полный КОНТЕНТНЫЙ И БИЗНЕС-ИНВЕНТАРЬ публичного сайта, достаточный для последующего анализа:
+- семантического ядра;
+- пользовательских задач;
+- существующих посадочных страниц;
+- границ между page families;
+- будущего keyword/topic → page mapping.
+
+Это НЕ технический SEO-аудит.
+
+НЕ АНАЛИЗИРУЙ
+
+- Core Web Vitals;
+- скорость;
+- HTTP headers;
+- canonical;
+- robots.txt как техническую ошибку;
+- schema;
+- битые ссылки;
+- индексацию;
+- технические SEO-ошибки.
+
+Sitemap можно использовать только как вспомогательный способ ОБНАРУЖЕНИЯ публичных URL. Сам факт наличия/отсутствия URL в sitemap не является SEO-выводом этого этапа.
+
+ЧИСТОТА И БЕЗОПАСНОСТЬ
+
+1. Работай только с публичным содержимым целевого сайта и его публичных поддоменов.
+2. Не используй Wordstat, Yandex Search API, GenSearch/Alice, внешние SEO-сервисы или данные конкурентов.
+3. Не отправляй формы, заявки, калькуляторы, обратные звонки и другие state-changing действия.
+4. Внешние поисковые системы можно использовать только для site-restricted ОБНАРУЖЕНИЯ URL целевого домена; содержимое и выводы бери только после открытия first-party страницы самого сайта.
+5. Не считай URL прочитанным, если ты только увидел его в меню, sitemap или поисковой выдаче.
+
+ОБЯЗАТЕЛЬНО ИСПОЛЬЗУЙ ДВА КАНАЛА DISCOVERY
+
+CHANNEL A — INTERNAL ARCHITECTURE
+
+Начни с главной и исследуй:
+- главное и выпадающие меню;
+- footer;
+- breadcrumbs;
+- каталоги и хабы;
+- внутренние ссылки;
+- связанные услуги/продукты;
+- статьи и trust/company страницы;
+- дочерние страницы крупных семейств.
+
+CHANNEL B — INDEPENDENT PUBLIC URL DISCOVERY
+
+Отдельно проверь, нет ли публичных страниц/семейств, которые плохо видны в основной навигации:
+- GEO/local landings;
+- районные/городские страницы;
+- публичные поддомены;
+- специализированные use-case pages;
+- слабосвязанные коммерческие landings;
+- публичные URL из sitemap, если sitemap доступен;
+- site-restricted search-visible URL, если такой механизм доступен.
+
+После обнаружения кандидата открой first-party URL сайта и только после этого используй его содержимое как evidence.
+
+EVIDENCE STATUS
+
+Каждому URL/семейству присвой один статус:
+
+OPENED_READ
+= страница реально открыта и содержимое прочитано
+
+DISCOVERED_LINK_ONLY
+= URL найден в меню/footer/search/sitemap, но страница не прочитана
+
+INFERRED_TEMPLATE_FAMILY
+= существование семейства выведено из повторяющейся структуры, но не все представители прочитаны
+
+UNVERIFIED_OR_INACCESSIBLE
+= кандидат есть, но содержание надежно получить не удалось
+
+Никогда не смешивай эти статусы.
+
+ЧТО ИСКАТЬ
+
+Ищи не только ЧТО продаётся, но и КАК сайт сегментирует спрос:
+- продукт;
+- бренд/модель/профиль;
+- тип конструкции;
+- материал;
+- назначение/объект;
+- пользовательская проблема;
+- теплое/холодное решение;
+- форма/геометрия;
+- серия дома;
+- география;
+- услуга;
+- цена/финансирование;
+- аксессуары;
+- информационный/selection job;
+- trust/source pages.
+
+ПО КАЖДОЙ РЕПРЕЗЕНТАТИВНОЙ OPENED_READ СТРАНИЦЕ СОБЕРИ
+
+1. URL
+2. Title
+3. H1
+4. breadcrumbs/path, если видим
+5. page type
+6. primary user job
+7. что продаёт/объясняет
+8. основные продукты/услуги/подтемы
+9. главный CTA
+10. важные дочерние/соседние семейства
+11. чем отличается от близких страниц
+12. potential semantic boundary questions — только наблюдение, НЕ SEO-решение
+13. evidence status
+14. notes
+
+ТИПЫ СТРАНИЦ
+
+BROAD_COMMERCIAL
+CATEGORY_HUB
+PRODUCT_PROFILE
+USE_CASE_SOLUTION
+SERVICE
+LOCAL_GEO
+INFORMATION_GUIDE
+TRUST_SOURCE
+CONVERSION_UTILITY
+HYBRID_CONTENT_COMMERCE
+UNKNOWN_REVIEW
+
+БОЛЬШИЕ ПОВТОРЯЮЩИЕСЯ СЕМЕЙСТВА
+
+Не нужно механически читать 100 одинаковых URL.
+Для каждого семейства:
+1. опиши принцип генерации;
+2. прочитай несколько реально отличающихся представителей;
+3. перечисли известные варианты;
+4. укажи разные page jobs/segmentation axes;
+5. пометь непрочитанных представителей как DISCOVERED_LINK_ONLY или INFERRED_TEMPLATE_FAMILY.
+
+НЕ ДЕЛАЙ ПОКА
+
+- семантическое ядро;
+- частотность;
+- SERP-кластеризацию;
+- решение об удалении/объединении страниц;
+- диагноз каннибализации;
+- новые страницы;
+- SEO-приоритет;
+- анализ Алисы/GenSearch.
+
+SATURATION
+
+Не останавливайся после 10–15 страниц только потому, что бизнес уже понятен.
+Продолжай до тех пор, пока BOTH CHANNEL A AND CHANNEL B перестанут добавлять новые material:
+- business families;
+- segmentation axes;
+- page types;
+- user jobs.
+
+Saturation нельзя объявлять, если второй канал не был проверен или material family осталась только в DISCOVERED_LINK_ONLY без попытки representative read.
+
+ФИНАЛЬНЫЙ ОТЧЁТ
+
+# INDEPENDENT SITE DISCOVERY
+
+## 1. Executive summary
+## 2. Discovered business families
+## 3. Representative OPENED_READ page inventory
+## 4. Large repeated page families
+## 5. Site architecture model
+## 6. Page-job taxonomy
+## 7. Potential semantic boundary questions — questions only
+## 8. Information that cannot be determined from public site
+## 9. Cross-channel discoveries
+
+Отдельно покажи:
+- что найдено Channel A;
+- что дополнительно найдено только Channel B;
+- какие material candidates остались непрочитанными.
+
+## 10. Coverage report
+
+pages_opened_read_total =
+discovered_link_only_total =
+inferred_template_families =
+unique_material_page_families =
+subdomains_observed =
+channel_a_internal_completed = true/false
+channel_b_independent_url_completed = true/false
+footer_checked = true/false
+internal_link_expansion_performed = true/false
+important_unverified_pages =
+tool/browser limitations =
+
+## 11. Raw OPENED_READ URL list
+## 12. Raw DISCOVERED_LINK_ONLY URL list
+
+В конце:
+
+DISCOVERY_SATURATION_REACHED = true/false
+
+Объясни, почему. Если false — укажи конкретно, чего не хватило.
+```
+
+### Purpose of the Codex prompt
+
+**RULE** — the Codex pass is intentionally blind to ChatGPT's current inventory.  
+**PURPOSE** — maximize independent error detection instead of producing a second copy of the first analysis.  
+**FAILURE IF IGNORED** — giving Codex our existing family list can anchor it to our omissions and destroy the value of the cross-check.  
+**REVIEW TRIGGER** — none for independent validation runs; after the independent pass, the reports should be merged normally.
 
 ---
 
 ## STEP 2 — Build business/search-job model
 
-ChatGPT describes:
+From the merged Step-1 union, ChatGPT describes:
 
 ```text
 offers
@@ -345,7 +949,7 @@ existing page-job families
 important business ambiguities
 ```
 
-Do not equate physical menu structure with correct semantic architecture. This is a working model to be tested against demand and SERP evidence.
+**PURPOSE** — translate physical site structure into a testable user-demand model without assuming that the existing menu is semantically correct.
 
 ---
 
@@ -353,9 +957,7 @@ Do not equate physical menu structure with correct semantic architecture. This i
 
 Create bounded starting seeds covering distinct business/search directions.
 
-Seeds are discovery inputs, not the semantic core itself.
-
-Record for each seed:
+For each seed record:
 
 ```text
 seed phrase
@@ -366,38 +968,28 @@ device
 expected discovery role
 ```
 
-Do not expand seeds after seeing attractive results without recording the expansion reason.
+**RULE** — seeds are discovery inputs, not the semantic core itself.  
+**PURPOSE** — prevent starting terminology from being mistaken for complete demand.  
+**FAILURE IF IGNORED** — the analyst can overfit the core to site vocabulary.
 
 ---
 
 ## STEP 4 — Wordstat pass #1
 
-Use accepted Wordstat / durable Wordstat batch hands.
+Use accepted Wordstat/durable Wordstat hands in the correct region/device scope.
 
-Acquire broad demand evidence by starting seed, in the correct region and device scope.
-
-Bridge must preserve provider truth; ChatGPT performs relevance decisions.
-
-Important Wordstat rule:
-
-Wordstat operators materially change the query semantics. Supported operators include `-`, `!`, `+`, quotes, `[]`, `()` and `|`.
-
-Official authority:
+Official operator semantics:
 https://yandex.ru/support2/wordstat/ru/content/operators
 
-Therefore do not label ordinary broad results as "exact frequency". In client artifacts use wording such as:
-
-```text
-Wordstat demand / базовая частотность по выбранной формулировке
-```
-
-unless exact operator semantics were deliberately used and documented.
+**RULE** — preserve phrase/operators/region/device/date and do not label broad Wordstat demand as `exact frequency`.  
+**PURPOSE** — maintain reproducible provider truth.  
+**FAILURE IF IGNORED** — client sees false precision and later comparisons become invalid.
 
 ---
 
 ## STEP 5 — Progressive cleanup #1
 
-ChatGPT classifies acquired phrases:
+Classify:
 
 ```text
 KEEP
@@ -405,235 +997,148 @@ REJECT_OBVIOUS
 REVIEW
 ```
 
-Reject only clearly unsupported items such as:
+Reject only clearly unsupported wrong-product/wrong-meaning/wrong-region/noise/exact-duplicate cases.
 
-```text
-wrong product/service
-wrong geography where geography is material
-wrong meaning/homonym
-job that client explicitly does not serve
-obvious spam/noise
-exact duplicate
-```
-
-Do not prematurely delete phrases merely because they appear semantically close. Ambiguous phrases move to `REVIEW` until SERP or business evidence resolves them.
+**RULE** — ambiguous phrases go to REVIEW rather than premature deletion.  
+**PURPOSE** — let later SERP/business evidence resolve uncertain intent.  
+**FAILURE IF IGNORED** — valuable demand can disappear before clustering.
 
 ---
 
 ## STEP 6 — Wordstat expansion pass #2
 
-The collection process is iterative, not one-shot.
-
-From pass #1 identify new justified marker families:
+Use pass #1 to create explicitly justified new markers:
 
 ```text
-new product vocabulary
 synonyms
+new product vocabulary
 selection criteria
 problem/solution wording
 use cases
 informational questions
-terminology discovered from site/business review
 ```
 
-Create a second seed/marker manifest with explicit reasons, then run a bounded second Wordstat pass.
+Stop when marginal passes mostly repeat known families/noise.
 
-Do not run endless recursive expansion. Stop when new passes mostly reproduce existing families or low-value noise.
-
-This two-pass rule is the current KW-001 working standard and must be validated on test orders.
+**PURPOSE** — reduce dependence on the first seed vocabulary without allowing endless recursive scraping.
 
 ---
 
 ## STEP 7 — Demand dynamics / seasonality where material
 
-For niches where demand is plausibly seasonal, use Wordstat dynamics on a small number of representative major roots.
+Use dynamics only on representative major roots where seasonality can materially change interpretation.
 
-Do not run dynamics for every keyword.
-
-Purpose:
-
-```text
-avoid presenting one observation month as timeless demand truth
-identify strong seasonal shifts relevant to prioritization/client interpretation
-```
-
-For the current `okno-msk.ru` rehearsal, candidate roots include windows, balcony glazing, REHAU windows, aluminium windows and veranda glazing; the actual set must be justified after Wordstat pass #1.
+**PURPOSE** — avoid presenting one observation month as timeless demand truth.
 
 ---
 
-## STEP 8 — Freeze cleaned semantic set for SERP stage
+## STEP 8 — Freeze cleaned semantic set for SERP
 
-After the second pass, produce the cleaned working semantic set with at minimum:
+Record at minimum:
 
 ```text
 phrase
-Wordstat demand evidence
+Wordstat demand
 business family
 preliminary intent
-preliminary semantic cluster
-KEEP/REVIEW status
-source seed / expansion reason
+preliminary cluster
+KEEP/REVIEW
+source seed/expansion reason
 ```
 
-This is not yet final page mapping.
+This is not final page mapping.
 
 ---
 
-## STEP 9 — Collect ordinary Yandex SERP for the cleaned in-scope set
+## STEP 9 — Ordinary Yandex SERP for the cleaned in-scope set
 
-Current working rule for KW-001:
+Working KW-001 rule:
 
-**Within the package scope, collect ordinary Yandex TOP evidence for the full cleaned semantic set, not only hand-picked ambiguous queries, when current Search Batch economics and limits allow it.**
-
-Why:
-
-SERP-based clustering is an established practical method for determining whether queries share the same search result/page intent.
+```text
+collect ordinary Yandex TOP evidence for the full cleaned package-scope set
+when Search Batch economics/limits allow
+```
 
 External practice:
-- Topvisor describes clustering based on Yandex/Google TOP-10 with soft/middle/hard methods: https://journal.topvisor.com/ru/seo-kitchen/how-to-make-clusterization/
-- The project's accepted Phase 8 already supports up to the documented 500-query class with durable Search batch / rank / overlap evidence.
+https://journal.topvisor.com/ru/seo-kitchen/how-to-make-clusterization/
 
-Bridge responsibilities:
-
-```text
-one ordinary Search request per query
-ranked URL/domain evidence
-TOP/domain projections
-overlap evidence
-checkpoint/recovery/cost truth
-```
-
-ChatGPT responsibilities:
-
-```text
-interpret overlap
-identify page types/search jobs
-identify mixed intent
-judge whether automated overlap reflects real business/page compatibility
-```
-
-Do not turn a fixed overlap threshold into an unquestionable SEO decision.
+**PURPOSE** — use actual result overlap/page types to test whether queries share a search job rather than relying on word similarity.
 
 ---
 
-## STEP 10 — SERP clustering + manual intent/business reconciliation
+## STEP 10 — SERP clustering + manual reconciliation
 
-Build clusters using three evidence layers:
-
-```text
-A. semantic meaning
-B. SERP overlap/page-type similarity
-C. business/user-job compatibility
-```
-
-A cluster is not accepted merely because words look similar.
-A cluster is not rejected merely because wording differs.
-A mechanical SERP score does not override obvious business incompatibility.
-
-For each cluster record:
+Use three layers:
 
 ```text
-primary user job
-primary query
-secondary queries
-representative TOP/page types
-SERP-overlap evidence
-business compatibility
-confidence
-open boundary questions
+A semantic meaning
+B SERP overlap/page-type similarity
+C business/user-job compatibility
 ```
+
+Do not let a fixed overlap threshold override obvious business incompatibility.
 
 ---
 
 ## STEP 11 — Keyword/topic → page mapping
 
-For existing sites:
+Existing site:
 
 ```text
 cluster
-→ search for best matching existing URL
-→ KEEP_EXISTING / EXPAND_EXISTING / REVIEW_BOUNDARY / SPLIT_CANDIDATE / MERGE_CANDIDATE / NEW_PAGE_CANDIDATE
+→ best existing URL
+→ KEEP_EXISTING / EXPAND_EXISTING / REVIEW_BOUNDARY /
+  SPLIT_CANDIDATE / MERGE_CANDIDATE / NEW_PAGE_CANDIDATE
 ```
 
-For new sites:
+New site:
 
 ```text
-cluster
-→ proposed page job / planned URL role
+cluster → planned page job
 ```
 
-External basis:
-- Ahrefs defines keyword mapping as grouping keywords into topics and assigning those topics to pages: https://ahrefs.com/blog/keyword-mapping/
-- Semrush defines keyword mapping as assigning target keyword clusters to existing/planned pages and recommends keeping the map current: https://www.semrush.com/blog/keyword-mapping/
+References:
+https://ahrefs.com/blog/keyword-mapping/
+https://www.semrush.com/blog/keyword-mapping/
 
-Do not create one page per keyword.
-Current rule is closer to:
-
-```text
-one compatible cluster/search job → one primary page job
-```
-
-with secondary supporting pages allowed where they serve a genuinely different intent.
+**RULE** — map compatible cluster/search job → primary page job; never one-keyword-one-page mechanically.  
+**PURPOSE** — prevent page proliferation and semantic fragmentation.
 
 ---
 
-## STEP 12 — Treat cannibalization cautiously
+## STEP 12 — Cannibalization is an evidence diagnosis
 
-Do not diagnose cannibalization from lexical overlap alone.
+Reference:
+https://ahrefs.com/blog/keyword-cannibalization/
 
-Use wording:
+Use `potential overlap` / `possible ownership conflict` until same/similar intent and harmful ownership behaviour are supported.
 
-```text
-potential overlap
-possible ownership conflict
-requires ranking/query evidence
-```
-
-until evidence shows multiple pages serving the same/very similar intent in a way likely to hurt organic performance or create unstable ownership.
-
-External basis:
-Ahrefs explicitly warns that multiple pages targeting similar keywords are not automatically a harmful cannibalization problem; mixed-intent multiple rankings can be valid. https://ahrefs.com/blog/keyword-cannibalization/
-
-When Yandex Webmaster owned-query data is available, use it to strengthen page-ownership diagnosis.
+**PURPOSE** — avoid recommending destructive merges/deletions from lexical overlap alone.
 
 ---
 
 ## STEP 13 — Freeze Search-only architecture before AI evidence
 
-Before opening current-order AI evidence, freeze for material clusters:
+For material clusters freeze:
 
 ```text
 current page-job decision
-existing/new page mapping hypothesis
+mapping hypothesis
 split/merge/expand hypothesis
 main uncertainty
 priority reason
-what AI evidence could realistically change or de-risk
+what AI evidence could change/de-risk
 ```
 
-This is not a mandatory scientific blind Pass A for every client. It is an operational anti-self-deception rule inherited from the accepted O-001 comparative methodology.
+**PURPOSE** — prevent hindsight bias where AI evidence is used only to justify a decision already rewritten after seeing it.
 
 ---
 
-## STEP 14 — Select AI evidence by information gain, not arbitrary quota
+## STEP 14 — Select AI evidence by information gain
 
-Do not send the whole semantic core through GenSearch.
+Do not send the whole semantic core through GenSearch and do not treat `3–10` as an industry standard.
 
-Do not treat `3–10` as an industry standard.
-
-Current rule:
-
-Select AI queries only where AI evidence can materially:
-
-```text
-change a page-job boundary
-de-risk a split/merge/new-page decision
-reveal explanation/selection/source needs not obvious from ordinary SERP
-change source-worthiness requirements
-identify a strong Search-vs-AI user-job difference
-```
-
-For every AI query record before execution:
+For each AI query record before execution:
 
 ```text
 query
@@ -642,57 +1147,32 @@ specific decision at stake
 expected information gain
 ```
 
-The commercial package limit will be calibrated from accepted test orders.
+Select only where AI can materially change/de-risk page boundaries, explanation/selection needs or source-worthiness.
+
+**PURPOSE** — maximize useful premium evidence while controlling cost/noise.
 
 ---
 
 ## STEP 15 — Acquire AI evidence
 
-### If client-owned Webmaster Alice visibility is available
-
-Use it as first-party owned-site AI visibility evidence where relevant.
-
-Official Yandex Webmaster tool exposes:
-
-```text
-share/frequency of site mentions in Alice AI answers
-examples of queries where pages are mentioned/not mentioned
-examples of other thematic sites used as AI sources
-dynamics over recent data
-```
-
-Official authority:
+If client-owned Webmaster Alice visibility exists, use it as first-party owned evidence where relevant:
 https://yandex.ru/support/webmaster/ru/service/alice-answers
 
-Important: the tool requires verified Webmaster ownership/access and therefore is optional, not part of the public-site-only base promise.
+Otherwise use accepted official GenSearch with strict `GEN_SEARCH_*` provenance.
 
-### If not available
-
-Use accepted official GenSearch hand with strict provenance:
-
-```text
-GEN_SEARCH_INPUT
-GEN_SEARCH_ANSWER
-GEN_SEARCH_SOURCE
-GEN_SEARCH_SOURCE_USED
-GEN_SEARCH_QUERY_OBSERVED
-```
-
-Do not claim exact consumer Alice equivalence.
-
-Yandex official Search with Alice documentation states that generated answers are built from relevant indexed pages and that structured/informative pages are more likely to be useful source material:
+Yandex Search-with-Alice context:
 https://yandex.ru/support/webmaster/en/alice
 
 ---
 
 ## STEP 16 — Search-vs-AI comparison
 
-For every AI-tested decision record:
+For every tested decision record:
 
 ```text
 ordinary Search user job
 AI user job
-ordinary source/page types
+ordinary page/source types
 AI source types
 commercial vs explanatory orientation
 selection/comparison requirements
@@ -700,14 +1180,7 @@ source-worthiness implications
 material delta = CHANGE / DE_RISK / NO_CHANGE / INSUFFICIENT
 ```
 
-AI answers and source sets can change over time. Yandex explicitly states that Alice AI builds a fresh answer and source composition may differ for the same query at different times.
-
-Therefore:
-
-```text
-one AI observation = dated evidence
-not permanent query truth
-```
+One AI observation is dated evidence, not permanent query truth.
 
 ---
 
@@ -717,14 +1190,14 @@ Reconcile:
 
 ```text
 business truth
-Wordstat demand
+Wordstat
 SERP clustering
 existing page inventory
 owned Webmaster evidence if available
 selected AI evidence
 ```
 
-Final page statuses may include:
+Statuses may include:
 
 ```text
 KEEP_EXISTING
@@ -738,7 +1211,7 @@ REJECT_AS_NOT_JUSTIFIED
 REVIEW_CLIENT_DECISION
 ```
 
-Every material action must name the evidence that supports it.
+Every material action must name supporting evidence.
 
 ---
 
@@ -753,15 +1226,13 @@ C = commercial value
 O = owned-asset value
 ```
 
-This H/A/C/O model is an internal project method proven useful in the O-001 work. It is **not** an official Yandex standard and must not be represented as one.
-
-Do not collapse the four reasons into an unexplained magic score.
+This is a project method, not an official Yandex standard. Do not collapse it into an unexplained magic score.
 
 ---
 
 ## STEP 19 — Client deliverables
 
-Current planned deliverable set:
+Current planned set:
 
 ```text
 01_CLIENT_SUMMARY
@@ -775,7 +1246,7 @@ Current planned deliverable set:
 09_CLIENT_DELIVERY_MESSAGE
 ```
 
-Minimum semantic workbook columns should be tested around:
+Semantic workbook should test at least:
 
 ```text
 query
@@ -784,17 +1255,15 @@ region/device/operators
 business family
 intent
 cluster
-primary page / proposed page
+primary/proposed page
 page status
 Search evidence summary
-AI tested? yes/no
-AI delta if tested
-H / A / C / O reasons
+AI tested yes/no
+AI delta
+H/A/C/O reasons
 priority
 notes
 ```
-
-Do not expose internal provider secrets, credentials or unsupported certainty.
 
 ---
 
@@ -809,7 +1278,7 @@ region/device/operator truth preserved
 no broad Wordstat figure mislabeled as exact frequency
 no page created only because one keyword exists
 no mechanical SERP cluster accepted without intent/business check
-no merge/deletion recommended from lexical overlap alone
+no merge/deletion from lexical overlap alone
 no GenSearch evidence relabeled as consumer Alice
 no guaranteed AI/ranking outcome language
 all material page actions tied to evidence
@@ -820,20 +1289,20 @@ client exclusions respected
 
 ## STEP 21 — Revision workflow
 
-Base productization must rehearse at least one meaningful client revision such as:
+Rehearse at least one meaningful client revision:
 
 ```text
 product not actually sold
 region changed
 page cannot be merged for business reason
 new competitor supplied
-new page planned but not public
+new planned page disclosed
 commercial priority changed
 ```
 
-Record revision input separately and recalculate only affected decisions where possible.
+Record revision input separately and recalculate affected decisions where possible.
 
-Do not silently rewrite the original order.
+**PURPOSE** — prove that the service survives real client corrections without silently rebuilding history.
 
 ---
 
@@ -841,37 +1310,24 @@ Do not silently rewrite the original order.
 
 ## 7.1 Purpose
 
-This section is permanent and must be updated whenever the owner asks for a fresh methods review, and preferably at least once per quarter while the Kwork remains actively sold.
+This section is permanent. Update it whenever the owner asks for a fresh methods review and preferably about quarterly while the Kwork is actively sold.
 
-Reason for periodic review:
-
-Search systems, AI surfaces, SERPs, SEO tooling and recommended keyword-mapping practice change. A current July 2026 Semrush guide explicitly recommends keeping the keyword map current and says a review about every three months is a useful default for most sites.
-
-Source:
+Search systems, AI surfaces, SERPs and keyword-mapping practice change. Semrush's July 2026 guide recommends keeping keyword maps current and suggests roughly quarterly review for many sites:
 https://www.semrush.com/blog/keyword-mapping/
 
-The quarterly interval is a maintenance heuristic, not a hard rule. Owner request always overrides the schedule.
+The interval is a maintenance heuristic, not a hard rule.
 
 ## 7.2 Review procedure
 
-When the owner says anything equivalent to:
+On any owner request equivalent to `check current KW-001 methods`:
 
-```text
-check current methods for KW-001
-refresh the methodology
-compare our workflow to current SEO/Alice practice
-see what changed since last review
-```
-
-ChatGPT must:
-
-1. Open this working/final runbook first.
-2. Read the most recent methodology-review entry below.
-3. Research current sources on the public web.
-4. Prefer current official Yandex documentation for provider/search/Alice facts.
-5. Check at least two current independent practitioner/tool sources for SEO workflow practice where no official standard exists.
-6. Compare current evidence against each affected runbook rule.
-7. Classify every difference as:
+1. Open this runbook first.
+2. Read the latest review ledger.
+3. Research current public sources.
+4. Prefer current official Yandex docs for provider/Search/Alice facts.
+5. Check at least two current independent practitioner/tool sources where no official standard exists.
+6. Compare new evidence against affected rules.
+7. Classify each difference:
 
 ```text
 SAME
@@ -881,35 +1337,32 @@ REMOVED
 CONFLICT
 ```
 
-8. Record the dated diff below before changing the operational method.
-9. Update the operational sections only where the evidence justifies a change.
-10. Preserve history; do not delete old review entries merely because the recommendation changed.
-11. Clearly distinguish:
+8. For every changed/new material rule record:
 
 ```text
-official Yandex/provider fact
-industry/practitioner practice
-our project-specific tested method
-unproven hypothesis
+RULE
+PURPOSE
+EVIDENCE
+FAILURE IF IGNORED
+REVIEW TRIGGER
 ```
 
-12. If new advice conflicts across sources, do not silently choose the more convenient one. Record the conflict and either keep the proven current workflow or create a controlled validation task.
+9. Write the dated diff before changing the operational rule.
+10. Preserve old review history.
+11. Distinguish official fact / industry practice / project-tested method / hypothesis.
+12. If sources conflict, record the conflict and keep the proven current workflow or create a controlled validation task.
 
-## 7.3 Minimum source classes for each review
-
-Try to cover:
+Minimum source classes:
 
 ```text
-Yandex Webmaster official docs
-Yandex Wordstat official docs
-Yandex Search/Alice official docs
-current SERP/keyword clustering practitioner source
-current keyword mapping practitioner source
-current cannibalization/page-ownership source
-current AI-search/GEO practice if materially relevant
+Yandex Webmaster
+Yandex Wordstat
+Yandex Search/Alice
+SERP/keyword clustering practice
+keyword mapping practice
+cannibalization/page ownership practice
+current AI-search/GEO practice where material
 ```
-
-Avoid treating one vendor blog as universal truth.
 
 ---
 
@@ -917,188 +1370,89 @@ Avoid treating one vendor blog as universal truth.
 
 ## REVIEW 2026-08-28 — INITIAL EXTERNAL VALIDATION
 
-Status: **COMPLETED / INCORPORATED INTO WORKING RUNBOOK**
+Status: **COMPLETED / INCORPORATED**
 
-### Sources reviewed
-
-#### Official Yandex
-
-1. Site structure / Webmaster  
-   https://yandex.ru/support/webmaster/ru/recommendations/site-structure
-
-2. Wordstat operators  
-   https://yandex.ru/support2/wordstat/ru/content/operators
-
-3. Search with Alice / Webmaster  
-   https://yandex.ru/support/webmaster/en/alice
-
-4. Visibility in Alice AI / Webmaster  
-   https://yandex.ru/support/webmaster/ru/service/alice-answers
-
-#### Practitioner / industry workflow references
-
-5. Topvisor — SERP TOP-10 clustering  
-   https://journal.topvisor.com/ru/seo-kitchen/how-to-make-clusterization/
-
-6. Ahrefs — Keyword Mapping  
-   https://ahrefs.com/blog/keyword-mapping/
-
-7. Ahrefs — Keyword Cannibalization  
-   https://ahrefs.com/blog/keyword-cannibalization/
-
-8. Semrush — Keyword Mapping (updated July 2026)  
-   https://www.semrush.com/blog/keyword-mapping/
-
-9. Semrush — current SEO checklist / keywords + AI prompts mapping  
-   https://www.semrush.com/blog/seo-checklist/
-
-### Findings and decisions
-
-#### A. Existing-site content inventory before semantic/page decisions
-
-Classification: `SAME / STRENGTHENED`
-
-Our existing approach was correct, but the test standard is strengthened from "read a representative 10–15 pages" to discovery-to-saturation across page families. Representative sampling remains valid for massive template families, but the inventory must be sufficiently complete to reveal all segmentation axes and page jobs.
-
-Adopted into Step 1.
-
-#### B. Keyword research must be iterative
-
-Classification: `CHANGED`
-
-Previous working description was too linear (`seed → Wordstat → clean`). Current working method is now at least two deliberate passes:
+Sources:
 
 ```text
-seed pass #1
-→ progressive cleanup
-→ newly justified marker families
-→ bounded pass #2
-→ final cleanup
+Yandex site structure
+https://yandex.ru/support/webmaster/ru/recommendations/site-structure
+
+Yandex Wordstat operators
+https://yandex.ru/support2/wordstat/ru/content/operators
+
+Yandex Search with Alice
+https://yandex.ru/support/webmaster/en/alice
+
+Yandex Webmaster Alice visibility
+https://yandex.ru/support/webmaster/ru/service/alice-answers
+
+Topvisor SERP clustering
+https://journal.topvisor.com/ru/seo-kitchen/how-to-make-clusterization/
+
+Ahrefs keyword mapping
+https://ahrefs.com/blog/keyword-mapping/
+
+Ahrefs cannibalization
+https://ahrefs.com/blog/keyword-cannibalization/
+
+Semrush keyword mapping, July 2026
+https://www.semrush.com/blog/keyword-mapping/
 ```
 
-Further recursive expansion requires explicit marginal value.
-
-Adopted into Steps 4–6.
-
-#### C. SERP evidence should cover the full cleaned in-scope semantic set when economics allow
-
-Classification: `CHANGED / STRENGTHENED`
-
-Previous method proposed ordinary Search mainly for ambiguous boundaries. Because SERP-based clustering is an established workflow and Phase 8 already provides safe durable bulk Search, KW-001 should collect ordinary Yandex TOP evidence for the full cleaned package-scope set (e.g. up to the current 500-query product class), then reconcile overlap with semantic meaning and business intent.
-
-Adopted into Steps 9–10.
-
-#### D. Keyword mapping is cluster → page, not keyword → page mechanically
-
-Classification: `SAME / CONFIRMED`
-
-Ahrefs and Semrush both describe mapping grouped topics/keyword clusters to existing or planned pages. This supports the project's page-job model and rejects one-keyword-one-page logic.
-
-Adopted/confirmed in Step 11.
-
-#### E. Cannibalization requires evidence, not keyword overlap alone
-
-Classification: `SAME / STRENGTHENED`
-
-Ahrefs explicitly warns that multiple pages around similar terms do not automatically mean harmful cannibalization, especially when intents differ. KW-001 must use `potential overlap` until same/similar intent and harmful ownership behavior are supported by evidence.
-
-Adopted into Step 12.
-
-#### F. Wordstat broad demand is not automatically exact frequency
-
-Classification: `NEW CONTROL`
-
-Official Wordstat operators materially change matching semantics. Client artifacts must preserve phrase/operators/region/device and avoid labeling ordinary broad demand as exact frequency.
-
-Adopted into Steps 4 and 20.
-
-#### G. Seasonality should be checked selectively where material
-
-Classification: `NEW CONTROL`
-
-For seasonal businesses, demand dynamics on representative major roots are useful context. This is selective evidence, not a requirement to run dynamics for every keyword.
-
-Adopted into Step 7.
-
-#### H. Classical Search before AI remains the correct base architecture
-
-Classification: `SAME / OFFICIALLY SUPPORTED`
-
-Yandex states that Search with Alice builds answers from relevant indexed pages and that useful/structured/informative pages are more likely to serve as source material. Yandex Webmaster's Alice visibility tool is also based on the site's ordinary-search query surface.
-
-Our sequence remains:
+Initial externally validated changes:
 
 ```text
-business/demand
-→ ordinary Search
-→ Search-only decision freeze
-→ selective AI evidence
-→ final comparison
+SITE_DISCOVERY = strengthened from representative sample to saturation
+WORDSTAT = iterative two-pass base
+SERP_CLUSTERING = full cleaned in-scope set where economics allow
+KEYWORD_MAPPING = cluster/topic → page confirmed
+CANNIBALIZATION = conservative evidence diagnosis
+WORDSTAT_EXACT_LABEL = new control
+SEASONALITY = selective evidence step
+SEARCH_BEFORE_AI = confirmed
+WEBMASTER_ALICE_VISIBILITY = optional first-party input
+GENSEARCH_EQUIVALENCE = forbidden
+AI_QUERY_COUNT = information-gain rule replaces arbitrary quota
+PERIODIC_METHOD_REVIEW = added
 ```
 
-Confirmed in Steps 13–16.
+## REVIEW 2026-08-28 — OKNO-MSK MULTI-PASS DISCOVERY VALIDATION
 
-#### I. Webmaster Alice visibility should be preferred when client access exists
+Status: **COMPLETED / INCORPORATED INTO STEP 1**
 
-Classification: `NEW OPTIONAL HIGH-VALUE INPUT`
-
-Yandex now exposes dedicated Alice AI visibility in Webmaster: query examples, mention share/dynamics and thematic source/competitor examples. For real clients with verified Webmaster access, this is a valuable first-party evidence source.
-
-It is optional and cannot be promised in the public-site base package because access belongs to the client.
-
-Adopted into Step 15.
-
-#### J. GenSearch remains a proxy hand, not consumer Alice equivalence
-
-Classification: `SAME / CONFIRMED`
-
-No change. Continue strict provenance and forbidden-equivalence claim.
-
-#### K. `3–10 AI queries` is not an external professional standard
-
-Classification: `CHANGED`
-
-The earlier `3–10` number is retained only as a provisional productization observation target where useful, not a normative method. The actual selection rule is information gain / material uncertainty. Commercial limits must be learned from test runs.
-
-Adopted into Step 14.
-
-#### L. Keyword map should be maintained, not treated as permanent
-
-Classification: `NEW MAINTENANCE RULE`
-
-Semrush's July 2026 keyword-mapping guide recommends keeping mappings current and suggests roughly quarterly review for many sites because pages, competitors, SERPs and AI results change.
-
-For KW-001 this supports a periodic methodology/freshness review and also supports telling clients that the delivered map is a dated strategy artifact, not permanent search truth.
-
-Adopted into this Section 7.
-
-### Initial review verdict
+Test evidence:
 
 ```text
-CORE_KW001_METHOD = VALID
-SITE_DISCOVERY = STRENGTHENED_TO_SATURATION
-WORDSTAT_COLLECTION = CHANGED_TO_ITERATIVE_TWO_PASS_BASE
-SERP_CLUSTERING = STRENGTHENED_TO_FULL_CLEANED_IN_SCOPE_SET_WHERE_ECONOMICS_ALLOW
-KEYWORD_MAPPING = CONFIRMED
-CANNIBALIZATION = MORE_CONSERVATIVE_EVIDENCE_RULE
-WORDSTAT_EXACT_FREQUENCY_LABELING = NEW_CONTROL
-SEASONALITY = NEW_SELECTIVE_STEP
-SEARCH_BEFORE_AI = CONFIRMED
-WEBMASTER_ALICE_VISIBILITY = NEW_OPTIONAL_FIRST_PARTY_INPUT
-GENSEARCH_EQUIVALENCE = STILL_FORBIDDEN
-AI_QUERY_COUNT = INFORMATION_GAIN_RULE_REPLACES_ARBITRARY_QUOTA
-PERIODIC_METHOD_REVIEW = ADDED
+ChatGPT public web = 18 representative pages; unique GEO district + city-subdomain discovery
+Codex Work = 56 opened/read pages; deepest internal/template family coverage; no GEO/subdomain found internally
+Codex desktop = 5 opened/read pages; useful navigation taxonomy; browser timeouts; saturation false
 ```
+
+New method decisions:
+
+```text
+SINGLE_SURFACE_DISCOVERY = REJECTED AS DEFAULT FOR NON-TRIVIAL EXISTING SITES
+OPENED_READ != DISCOVERED_LINK_ONLY
+CROSS_CHANNEL_SATURATION = REQUIRED
+INTERNAL_DEEP_PASS + INDEPENDENT_PUBLIC_URL_PASS = REQUIRED BASE
+CODEX_INDEPENDENT_PROMPT = FROZEN ABOVE AS WORKING TEMPLATE
+MERGE_BY_URL + PROVENANCE + EVIDENCE_STATE = REQUIRED
+```
+
+Detailed evidence authority:
+
+`tests/OKNO_MSK/STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md`
 
 ---
 
-# 9. Current productization evidence still required
+# 9. Productization evidence still required
 
-This runbook is intentionally not final. Before promotion to `RUNBOOK_FOR_CHATGPT.md`, KW-001 still requires:
+Before promotion to final `RUNBOOK_FOR_CHATGPT.md`:
 
 ```text
 at least two materially different end-to-end test orders
-real provider-path execution where required
+real provider execution where required
 final client artifact generation
 time/cost/operator-action measurement
 meaningful mock client revision
@@ -1108,29 +1462,25 @@ clean-context runbook rehearsal
 owner review
 ```
 
-Acceptance markers remain defined by the KW-001 implementation plan and Kwork runbook standard.
-
 ---
 
-# 10. Working rule for current OKNO-MSK rehearsal
-
-For `okno-msk.ru`, use this updated order:
+# 10. Current OKNO-MSK rehearsal order
 
 ```text
-1. complete independent site discovery / merge inventories
-2. freeze business/page model and open client questions
-3. define initial seed manifest
+1. merge all independent discovery passes under Step-1 union/provenance rules
+2. freeze merged business/page model + client questions
+3. define initial seed manifest from the merged model
 4. Wordstat pass #1
 5. progressive cleanup
 6. Wordstat expansion pass #2
 7. selective demand dynamics for material seasonal roots
 8. freeze cleaned semantic set
-9. ordinary Yandex Search batch for the full cleaned in-scope set within package/economic limits
+9. ordinary Yandex Search batch for full cleaned in-scope set within economics
 10. SERP clustering + manual intent/business reconciliation
-11. map clusters to existing URLs / page jobs
+11. map clusters to existing URLs/page jobs
 12. freeze Search-only architecture
 13. select AI queries by material uncertainty/information gain
-14. GenSearch (or owned Webmaster Alice visibility if this were a real client with access)
+14. GenSearch (or owned Webmaster Alice visibility for a real client with access)
 15. Search-vs-AI comparison
 16. final page/action architecture
 17. client deliverables
@@ -1139,4 +1489,4 @@ For `okno-msk.ru`, use this updated order:
 20. economics record
 ```
 
-No later step may be used to silently rewrite earlier frozen evidence states.
+No later step may silently rewrite earlier frozen evidence states.
