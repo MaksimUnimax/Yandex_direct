@@ -1,0 +1,97 @@
+name: phase8-search-batch-postmerge
+
+on:
+  push:
+    branches:
+      - candidate/phase8-search-batch-2026-08-28
+    paths:
+      - .github/workflows/phase8-search-batch-postmerge.yml
+
+permissions:
+  contents: read
+
+jobs:
+  exact-main-postmerge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact accepted main
+        uses: actions/checkout@v4
+        with:
+          ref: ebd697e5733a7d40d13401d4c02b82a75711231c
+          fetch-depth: 1
+      - name: Assert exact main identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
+          test "$(git rev-parse HEAD:extension)" = "446fed6970c5fec627be34c3893800dc4511c6c9"
+          test "$(git rev-parse HEAD:extension/src)" = "bdad1e87a2537d8646e480ca23f8068c3dced17e"
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p8-main-before.sha256
+          echo PHASE8_POSTMERGE_EXACT_MAIN_IDENTITY_PASS
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/search_batch_protocol.js
+          node --check extension/src/shared/search_batch_projection.js
+          node --check extension/src/shared/search_batch_runtime.js
+          node --check extension/src/shared/search_batch_transport.js
+          node --check extension/src/shared/search_batch_content_bridge.js
+          node --check extension/src/search_batch_worker_transport.js
+          node --check extension/src/phase3_service_worker_bootstrap.js
+          node --check extension/tests/search_batch_recovery.test.mjs
+          node --check extension/tests/qa_browser/search_batch_browser_runtime.mjs
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8'))"
+          echo PHASE8_POSTMERGE_SYNTAX_PASS
+      - name: Complete Node regression suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs | tee /tmp/p8-postmerge-node.log
+          grep -F '# fail 0' /tmp/p8-postmerge-node.log
+          grep -F '# tests 118' /tmp/p8-postmerge-node.log
+          echo PHASE8_POSTMERGE_NODE_118_PASS
+      - name: Install Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Controlled installed-extension Search batch runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/search_batch_browser_runtime.mjs | tee /tmp/p8-postmerge-browser.log
+          for marker in \
+            PHASE8_SEARCH_BATCH_BROWSER_WORKER_READY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_CREDENTIAL_SETUP_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_POLICY_SETUP_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_PROVIDER_STUB_READY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_FIRST_NEXT_ONE_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_SECOND_NEXT_EXACTLY_ONCE_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_LOCAL_PROJECTION_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_OVERLAP_MATH_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_UNKNOWN_NO_REPLAY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_500_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_CREDENTIAL_NOT_PERSISTED_IN_JOB_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_REAL_YANDEX_REQUESTS=0 \
+            PHASE8_SEARCH_BATCH_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/p8-postmerge-browser.log
+          done
+          echo PHASE8_POSTMERGE_CONTROLLED_BROWSER_PASS
+      - name: Product immutability
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p8-main-after.sha256
+          cmp /tmp/p8-main-before.sha256 /tmp/p8-main-after.sha256
+          echo PHASE8_POSTMERGE_PRODUCT_IDENTICAL
+      - name: Provider traffic assertion
+        run: echo PHASE8_POSTMERGE_REAL_YANDEX_REQUESTS=0
