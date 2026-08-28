@@ -70,4 +70,11 @@
 
   importScripts("wordstat_batch_worker_transport.js");
   importScripts("webmaster_worker_runtime.js");
+  importScripts(
+    "shared/search_batch_protocol.js",
+    "shared/search_batch_projection.js",
+    "shared/search_batch_runtime.js",
+    "shared/search_batch_transport.js",
+    "search_batch_worker_transport.js"
+  );
 })();
