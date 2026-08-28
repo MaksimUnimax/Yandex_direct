@@ -36,6 +36,14 @@ if s.count(old_settings) != 1:
     raise SystemExit('legacy Search settings sequence changed')
 s = s.replace(old_settings, new_settings, 1)
 
+# Legacy Phase2 read Search credentials through old top-level aliases. Current
+# five-service state exposes them under credential_status.search.
+old_credential_assert = "  assert(savedState.has_api_key===true,`SEARCH_API_KEY_NOT_SAVED ${JSON.stringify({has_api_key:savedState.has_api_key,folder_id:savedState.folder_id})}`);"
+new_credential_assert = "  assert(savedState.credential_status?.search?.has_api_key===true && savedState.credential_status?.search?.folder_id==='qa-browser-folder',`SEARCH_API_KEY_NOT_SAVED ${JSON.stringify(savedState.credential_status?.search||null)}`);"
+if s.count(old_credential_assert) != 1:
+    raise SystemExit('legacy Search credential state assertion changed')
+s = s.replace(old_credential_assert, new_credential_assert, 1)
+
 start = s.find('async function openPopup(worker, browser, key) {')
 end = s.find('\nasync function closePopup(', start)
 if start < 0 or end <= start:
