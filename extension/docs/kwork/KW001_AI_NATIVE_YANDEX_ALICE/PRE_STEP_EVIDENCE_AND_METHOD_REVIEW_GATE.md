@@ -8,7 +8,9 @@ This document is the canonical KW-001 gate that must run before every new major 
 ## Required sequence
 
 ```text
-PREVIOUS STEP EVIDENCE
+CURRENT JOB WORKSPACE + MANIFEST
+→ PERMANENT LESSONS / KNOWN ERRORS
+→ PREVIOUS STEP EVIDENCE
 → EXPLAIN NEXT STEP
 → IDENTIFY METHOD
 → TRACE METHOD ORIGIN
@@ -22,6 +24,36 @@ PREVIOUS STEP EVIDENCE
 ```
 
 Execution before this gate is a process failure.
+
+---
+
+## 0. Workspace check before method review
+
+Before reviewing the next analytical step, ChatGPT must confirm that the concrete order/test is running inside one dedicated per-job workspace governed by:
+
+```text
+JOB_WORKSPACE_LIFECYCLE.md
+```
+
+For future jobs the canonical location is:
+
+```text
+work/<JOB_ID>/
+```
+
+For an active legacy case under another isolated case directory, that directory may remain in place until close, but it must be treated as disposable per-job workspace.
+
+Before each major step read at minimum:
+
+```text
+JOB_WORKSPACE_LIFECYCLE.md
+STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+current job JOB_MANIFEST.md
+current job STEP_REVIEW_AND_ERRORS_LEDGER.md if present
+previous step acceptance/evidence
+```
+
+If a concrete client's facts are being written directly into permanent universal Kwork files, classify this as `CORRECTION_REQUIRED` before continuing.
 
 ---
 
@@ -111,6 +143,8 @@ Did we use one arbitrary numerical threshold as if it were universal?
 Did we make a page/cluster decision before SERP evidence required by the workflow?
 Did we cite our own runbook as proof instead of tracing the rule to evidence?
 Is any provider/search behavior assumed from memory rather than checked?
+Did we accidentally place case-specific evidence in permanent methodology files?
+Did we read the current job's error ledger before planning the next step?
 ```
 
 The purpose is to discover errors before they propagate downstream.
@@ -170,8 +204,10 @@ After authorization:
 execute only the authorized step;
 do not silently broaden scope;
 preserve provider/source provenance;
-record deviations/failures;
+keep all case-specific artifacts inside the current job workspace;
+record deviations/failures in the current job error ledger;
 complete the step gate;
+update reusable lessons when a general rule changes;
 STOP;
 report result, sources, costs/provider calls, commits and remaining uncertainty;
 wait for the next explicit owner continuation.
@@ -209,17 +245,39 @@ Any material change to the manifest, method, region, evidence semantics or retry
 
 ---
 
-## 9. Relationship to other KW-001 rules
+## 9. Job-close gate is separate and mandatory
+
+Completing the last analytical step does not by itself authorize deletion of the job workspace.
+
+Before deletion apply `JOB_WORKSPACE_LIFECYCLE.md`:
+
+```text
+job/revision fully closed
+→ review job error/lesson ledger
+→ promote reusable lessons into permanent docs
+→ verify universal docs contain no client-specific facts
+→ confirm final handoff/economics requirements
+→ mark JOB_MANIFEST safe-to-delete = true
+→ delete entire per-job workspace
+```
+
+Do not keep old client/test workspaces as passive repository history after this close gate succeeds.
+
+---
+
+## 10. Relationship to other KW-001 rules
 
 This gate complements:
 
 ```text
 DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md
 WORKING_RUNBOOK_FOR_CHATGPT.md
+STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+JOB_WORKSPACE_LIFECYCLE.md
 KWORK_RUNBOOK_STANDARD_2026-08-28.md
 ```
 
-If an older workflow description appears to allow automatic progression, this newer explicit owner rule controls KW-001 execution until the owner changes it.
+If an older workflow description appears to allow automatic progression, case-file scattering, or permanent retention of completed workspaces, the newer explicit owner rules control KW-001 execution until the owner changes them.
 
 Markers:
 
@@ -229,4 +287,7 @@ KW001_PRE_STEP_EXTERNAL_RESEARCH_REQUIRED = true
 KW001_PRE_STEP_ADVERSARIAL_SELF_AUDIT_REQUIRED = true
 KW001_PRE_STEP_OWNER_APPROVAL_REQUIRED = true
 KW001_ONE_STEP_STOP_REPORT_WAIT_REQUIRED = true
+KW001_PRE_STEP_JOB_WORKSPACE_CHECK_REQUIRED = true
+KW001_PRE_STEP_ERROR_LEDGER_READ_REQUIRED = true
+KW001_JOB_CLOSE_EXTRACTION_AND_DELETE_REQUIRED = true
 ```
