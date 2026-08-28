@@ -175,6 +175,6 @@ test('Search policy accounts for GenSearch cost while preserving stored method a
 test('GenSearch does not create a sixth service', () => {
   const registry = loadServiceRegistry();
   assert.equal(registry.DEFINITIONS.length, 5);
-  assert.deepEqual(registry.DEFINITIONS.map((item) => item.service), ['wordstat', 'search', 'webmaster', 'metrika', 'direct']);
+  assert.deepEqual(JSON.parse(JSON.stringify(registry.DEFINITIONS.map((item) => item.service))), ['wordstat', 'search', 'webmaster', 'metrika', 'direct']);
   assert.equal(registry.definitionForService('search').prefix, 'SEARCH_API_V1');
 });
