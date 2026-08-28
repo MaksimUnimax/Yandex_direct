@@ -8,7 +8,8 @@ s = s.replace('protocolTimeout: 30000', 'protocolTimeout: 90000', 1)
 
 # Phase2 full predates the five-service popup split. Preserve the original Search
 # semantics, but exercise the current UI contract: credential Save is separate
-# from common settings Save.
+# from common settings Save. Credential Save refreshes authoritative state, so
+# commit the active-service selection only after that refresh.
 old_settings = '''  await popupSelect(p.popup,'activeService','search');
   await setCheckedNoEvent(p.popup,'searchManualEnabled',true);
   await setCheckedNoEvent(p.popup,'searchAutorunEnabled',true);
@@ -19,11 +20,11 @@ old_settings = '''  await popupSelect(p.popup,'activeService','search');
   await setFormValue(p.popup,'searchMaxCostRun','5');
   await popupClick(p.popup,'#saveSettings');
   await waitPopupStatus(p.popup,'Настройки сохранены.','SEARCH_SETTINGS_POPUP_ACTION_NOT_COMPLETE');'''
-new_settings = '''  await popupSelect(p.popup,'activeService','search');
-  await setFormValue(p.popup,'searchApiKey','qa-browser-key');
+new_settings = '''  await setFormValue(p.popup,'searchApiKey','qa-browser-key');
   await setFormValue(p.popup,'searchFolderId','qa-browser-folder');
   await popupClick(p.popup,'#saveSearchCredential');
   await waitPopupStatus(p.popup,'search: credentials сохранены.','SEARCH_CREDENTIAL_POPUP_ACTION_NOT_COMPLETE');
+  await popupSelect(p.popup,'activeService','search');
   await setCheckedNoEvent(p.popup,'searchManualEnabled',true);
   await setCheckedNoEvent(p.popup,'searchAutorunEnabled',true);
   await setCheckedNoEvent(p.popup,'autoSend',true);
