@@ -6,6 +6,7 @@ on:
       - candidate/ai-native-gensearch-production-gate-2026-08-28
     paths:
       - .github/workflows/ai-native-phase2-action-popup-stable-preflight.yml
+      - .github/scripts/prepare_phase2_action_popup_stable.py
 
 permissions:
   contents: read
