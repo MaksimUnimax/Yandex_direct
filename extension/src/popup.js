@@ -87,13 +87,23 @@
   }
 
   function searchPolicyFromForm() {
+    const current = lastState?.search_policy || {};
+    const currentMethods = Array.isArray(current.allowed_methods) ? current.allowed_methods.map(String) : [];
+    const genSearchEnabled = currentMethods.length ? currentMethods.includes("genSearch") : true;
+    const currentGenSearchCost = Number(current.method_cost_rub?.genSearch);
     return {
       autorun_enabled: $("searchAutorunEnabled").checked,
       manual_enabled: $("searchManualEnabled").checked,
-      allowed_methods: ["search"],
+      // Common Save must not silently disable a method that this popup does not
+      // expose as a toggle. Preserve the authoritative GenSearch enablement state;
+      // an explicit stored disable remains disabled.
+      allowed_methods: genSearchEnabled ? ["search", "genSearch"] : ["search"],
       max_requests_per_run: asPositiveInt("searchMaxRequestsRun", 100),
       max_cost_rub_per_run: Math.max(0, asNumber("searchMaxCostRun", 10)),
-      method_cost_rub: { search: Math.max(0, asNumber("costSearch", 0.488)) },
+      method_cost_rub: {
+        search: Math.max(0, asNumber("costSearch", 0.488)),
+        genSearch: Number.isFinite(currentGenSearchCost) && currentGenSearchCost >= 0 ? currentGenSearchCost : 5.08
+      },
       tariff_checked_at: $("searchTariffCheckedAt").value.trim(),
       tariff_source: $("searchTariffSource").value.trim()
     };
