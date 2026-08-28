@@ -261,16 +261,77 @@ Examples include `французские окна на балкон`, `фран�
 
 At the same time the raw list contains obvious non-target interpretations such as curtains/blinds, films, language/translation and other unrelated uses of `французский`. This is expected for a broad Wordstat seed and is **not** a collection failure. Cleanup must remove or separate these later; Step 3 preserves the raw evidence.
 
-## 9. Current checkpoint
+## 9. Provider item S04 — `окна п 44`
+
+Observed live result:
+
+```text
+item_status = SUCCEEDED
+phrase = окна п 44
+region = 213
+device = DEVICE_ALL
+numPhrases = 200
+http_status = 200
+request_executed = true
+automatic_retry = false
+request_id = wordstat-batch-e8f78759-d54a-4504-8807-25a3a7506ca4
+elapsed_ms = 496
+estimated_cost_rub = 0.02
+root_totalCount = 252
+returned_results = 12
+returned_associations = 17
+```
+
+Checkpoint after S04:
+
+```text
+progress.status = RUNNING
+total = 18
+pending = 14
+succeeded = 4
+failed_terminal = 0
+outcome_unknown = 0
+terminal = 4
+requests_started = 4
+estimated_cost_rub = 0.08
+next_safe_action = CLAIM_NEXT
+```
+
+### Measured correction to prior intuition
+
+The diagnostic house-series probe produced a small but real demand family. Observed formulations include:
+
+```text
+окно п 44 = 252
+дом п 44 окна = 96
+размеры окон п 44 = 89
+окна серии п 44 = 58
+окна домов серии п 44 = 37
+пластиковые окна п 44 = 35
+размер окон в доме п 44 = 35
+заказать окна в однушку п 44 = 6
+окна на балкон сапожок п 44 = 5
+```
+
+Interpretation at acquisition stage:
+
+- the earlier intuition that users would not search using the P-44 house-series concept is contradicted by measured Wordstat evidence;
+- the seed was therefore useful as a diagnostic probe;
+- this does **not** yet prove that a dedicated P-44 landing page is justified;
+- later cleanup and ordinary Yandex SERP/page-boundary evidence must decide whether these formulations form an independent actionable cluster, belong to a broader `windows by house series` page, or remain supporting long-tail semantics.
+
+This observation reinforces the analytical-discipline rule: owner or analyst intuition does not override provider evidence, and a surprising seed should not be removed solely because it sounds unnatural before measurement.
+
+## 10. Current checkpoint
 
 ```text
 job_created = true
-provider_requests_started = 3
-provider_requests_succeeded = 3
+provider_requests_started = 4
+provider_requests_succeeded = 4
 provider_requests_failed_terminal = 0
 provider_requests_outcome_unknown = 0
-pending = 15
-measured_cost_rub = 0.06
+pending = 14
+measured_cost_rub = 0.08
 next_safe_action = batch.next
 STEP_03_COMPLETE = false
 ```
