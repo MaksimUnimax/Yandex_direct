@@ -6,7 +6,8 @@
     SEARCH: "search",
     WEBMASTER: "webmaster",
     METRIKA: "metrika",
-    DIRECT: "direct"
+    DIRECT: "direct",
+    GOOGLE_SEARCH_CONSOLE: "google_search_console"
   });
 
   const DEFINITIONS = Object.freeze([
@@ -14,7 +15,8 @@
     Object.freeze({ service: SERVICES.SEARCH, prefix: "SEARCH_API_V1" }),
     Object.freeze({ service: SERVICES.WEBMASTER, prefix: "WEBMASTER_API_V1" }),
     Object.freeze({ service: SERVICES.METRIKA, prefix: "METRIKA_API_V1" }),
-    Object.freeze({ service: SERVICES.DIRECT, prefix: "DIRECT_API_V1" })
+    Object.freeze({ service: SERVICES.DIRECT, prefix: "DIRECT_API_V1" }),
+    Object.freeze({ service: SERVICES.GOOGLE_SEARCH_CONSOLE, prefix: "GOOGLE_SEARCH_CONSOLE_API_V1" })
   ]);
 
   function normalizeText(text) {
