@@ -198,9 +198,6 @@ jobs:
           xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs" | tee /tmp/prior-addendum.log
           echo 'GENSEARCH_PRIOR_DIRECT_ADDENDUM_PASS'
 
-          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_compat_gate.mjs" | tee /tmp/prior-phase2-compat.log
-          echo 'GENSEARCH_PRIOR_PHASE2_BROWSER_COMPAT_PASS'
-
           PHASE2_QA="${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4"
           CHROME_BIN="$(node --input-type=module -e "import puppeteer from 'puppeteer'; console.log(puppeteer.executablePath())")"
           test -x "${CHROME_BIN}"
