@@ -2,12 +2,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { createHash, generateKeyPairSync } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const sourceExtensionPath = fs.realpathSync(path.resolve(here, '../../src'));
+const EXPECTED_EXTENSION_ID = 'pckmmaodnfeajgigadfaejfjppdbgmpo';
 
 function extensionIdFromPublicKey(publicKeyDer) {
   const digest = createHash('sha256').update(publicKeyDer).digest().subarray(0, 16);
@@ -28,18 +29,12 @@ function prepareQaExtension() {
   assert.equal(sourceManifest.permissions.includes('identity'), false);
   assert.equal(sourceManifest.host_permissions.some((item) => String(item).includes('googleapis.com')), false);
   assert.equal(Object.hasOwn(sourceManifest, 'oauth2'), false);
-  assert.equal(Object.hasOwn(sourceManifest, 'key'), false);
+  assert.equal(typeof sourceManifest.key, 'string');
+  assert.match(sourceManifest.key, /^[A-Za-z0-9+/]+={0,2}$/);
 
-  const { publicKey } = generateKeyPairSync('rsa', {
-    modulusLength: 2048,
-    publicKeyEncoding: { type: 'spki', format: 'der' },
-    privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
-  });
-  const manifestPath = path.join(extensionPath, 'manifest.json');
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  manifest.key = Buffer.from(publicKey).toString('base64');
-  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
-  return { tempRoot, extensionPath, extensionId: extensionIdFromPublicKey(Buffer.from(publicKey)) };
+  const extensionId = extensionIdFromPublicKey(Buffer.from(sourceManifest.key, 'base64'));
+  assert.equal(extensionId, EXPECTED_EXTENSION_ID);
+  return { tempRoot, extensionPath, extensionId };
 }
 
 async function workerEval(client, expression) {
@@ -84,6 +79,7 @@ try {
     gsc_prefix: 'GOOGLE_SEARCH_CONSOLE_API_V1',
     search_prefix: 'SEARCH_API_V1'
   });
+  console.log('P9_GSC_BROWSER_STABLE_EXTENSION_ID_PASS');
   console.log('P9_GSC_BROWSER_BOOTSTRAP_ROUTE_PASS');
 
   await workerEval(workerClient, `(async () => {
