@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_04_CORRECTED_AND_REFROZEN
-next_major_step = STEP_05_PRE_STEP_REVIEW
+current_major_step = STEP_05_PRE_STEP_REVIEW_COMPLETE_WAITING_OWNER
+next_major_step = STEP_05_PROVIDER_EXECUTION_AFTER_OWNER_AUTHORIZATION
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -55,7 +55,13 @@ JOB_FLOW.md
 
 for the current job's step sequence and status.
 
-Individual `STEP_*` files remain evidence/outputs for the concrete job.
+Current Step-5 preflight authority:
+
+```text
+STEP_05_PRE_STEP_REVIEW.md
+```
+
+No Step-5 provider batch currently exists.
 
 ## Close rule
 
