@@ -26,8 +26,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD:extension/src)" = '14379860d274f26dcd93f3fbaf6b1a12ce5c4512'
-          git diff --exit-code 3777e1d7e891cb6eedbfba1399e2ab8428ba7976 HEAD -- extension/src extension/tests/autorun_baseline_sync.test.mjs extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
+          test "$(git rev-parse HEAD:extension/src)" = '04dc6d015977270fb064b669ee03d04f6e130612'
+          git diff --exit-code aca7bd54c034e9ff856b081a2b22cc3746ccf28e HEAD -- extension/src extension/tests/autorun_baseline_sync.test.mjs extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs extension/tests/qa_browser/gensearch_browser_runtime.mjs extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
           echo PHASE2_ACTION_POPUP_PRODUCT_AUTHORITY_PASS
       - name: Install Chrome
         shell: bash
