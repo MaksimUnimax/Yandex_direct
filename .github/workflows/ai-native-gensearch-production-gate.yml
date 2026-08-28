@@ -201,7 +201,16 @@ jobs:
           xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_compat_gate.mjs" | tee /tmp/prior-phase2-compat.log
           echo 'GENSEARCH_PRIOR_PHASE2_BROWSER_COMPAT_PASS'
 
-          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs" | tee /tmp/prior-phase2-full.log
+          PHASE2_QA="${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4"
+          CHROME_BIN="$(node --input-type=module -e "import puppeteer from 'puppeteer'; console.log(puppeteer.executablePath())")"
+          test -x "${CHROME_BIN}"
+          test -f "${PHASE2_QA}/qa-chatgpt-local.key.pem"
+          test -f "${PHASE2_QA}/qa-chatgpt-local.cert.pem"
+          xvfb-run -a node "${PHASE2_QA}/browser_phase2_stage4_gate.mjs" \
+            "${CHROME_BIN}" \
+            "${PACKAGED_ROOT}/extension/src" \
+            "${PHASE2_QA}/qa-chatgpt-local.key.pem" \
+            "${PHASE2_QA}/qa-chatgpt-local.cert.pem" | tee /tmp/prior-phase2-full.log
           echo 'GENSEARCH_PRIOR_PHASE2_BROWSER_FULL_PASS'
 
           echo 'GENSEARCH_PACKAGED_BROWSER_REGRESSION_PASS'
