@@ -127,3 +127,102 @@ Marker:
 ```text
 KW001_EXPLICIT_YMB_MODE_INSTRUCTION_ACTIVE = true
 ```
+
+---
+
+## Rule — mandatory pre-step evidence and methodology review before execution
+
+**RULE**  
+Before every new analytical/project execution step, ChatGPT must STOP before execution and perform a visible pre-step review. The next step may not begin merely because the previous step passed.
+
+The pre-step review must happen in this order:
+
+```text
+1. identify the exact next step and its intended output;
+2. explain in plain language what will be done and what will explicitly NOT be done;
+3. reread the previous step's evidence/acceptance and check whether its conclusions still support the next step;
+4. identify the methodology/rules proposed for the next step;
+5. classify the origin of every material method rule as:
+   OFFICIAL
+   INDUSTRY_PRACTICE
+   PROJECT_TEST_VALIDATED
+   ANALYST_HEURISTIC
+6. search current external materials relevant to the method BEFORE execution;
+7. prefer official/primary sources; when no official standard exists, cross-check with credible practitioner/tool methodology rather than one unsupported article;
+8. compare the planned method with those sources and with project evidence;
+9. explicitly look for defects in ChatGPT's own previous work, not only evidence that confirms it;
+10. classify the review result as:
+    SUPPORTED
+    PROJECT_SPECIFIC_BUT_REASONED
+    QUESTIONABLE
+    CORRECTION_REQUIRED
+11. if a material rule is only an ANALYST_HEURISTIC, say so explicitly; never present it as an industry or Yandex standard;
+12. if CORRECTION_REQUIRED, do not execute the next step until the defect is corrected/re-frozen;
+13. show the owner the pre-step explanation, source links/citations, uncertainties and proposed corrections;
+14. wait for explicit owner authorization;
+15. only then execute the step.
+```
+
+A project-authored runbook or earlier ChatGPT document is **not independent proof** that its own method is correct. It may define the current workflow, but methodology validation must trace back to one or more of:
+
+```text
+official provider/search-engine documentation;
+credible external industry methodology;
+measured project/provider evidence;
+controlled project tests;
+explicitly labelled analyst reasoning/heuristic.
+```
+
+**PURPOSE**  
+Prevent a self-reinforcing workflow where ChatGPT writes a rule, later cites its own rule as authority, and continues executing without checking whether the rule is actually supported by current provider semantics, established practice or observed evidence.
+
+This gate also makes the owner understand not just WHAT happens next, but WHY the step exists, where the method came from, what uncertainty remains and what would make us change it.
+
+**EVIDENCE**  
+During the OKNO-MSK rehearsal, Step 04 cleanup used a conservative `KEEP / REJECT_OBVIOUS / REVIEW` triage. The logic was internally coherent, but the owner correctly requested a retrospective methodological audit rather than accepting the project-authored runbook as sufficient authority. That exposed a process weakness: method validation was happening when challenged, rather than systematically before every new step.
+
+**FAILURE IF IGNORED**  
+Without this gate:
+
+```text
+ChatGPT can accidentally treat its own previous document as external authority;
+heuristics can silently become "standards";
+methodological errors can propagate through later expensive provider stages;
+cleanup can remove valuable terms before SERP/business evidence exists;
+provider budgets can be spent on poorly justified expansion;
+owner cannot independently evaluate why a step is being performed;
+corrections happen late, after downstream artifacts depend on the mistake.
+```
+
+**REVIEW TRIGGER**  
+The exact presentation may become shorter if the workflow is mature and repeatedly validated, but the mandatory sequence `explain → research/check sources → self-audit → owner authorization → execute` must remain unless the owner explicitly changes this operating rule.
+
+### Mandatory pre-step live-dialogue format
+
+Before execution ChatGPT must provide, at minimum:
+
+```text
+NEXT STEP
+WHAT I WILL DO
+WHY THIS STEP EXISTS
+METHOD ORIGIN
+CURRENT EXTERNAL SOURCES
+WHAT I FOUND WHEN CHALLENGING MY OWN METHOD
+RISKS / UNCERTAINTIES
+WHAT I WILL NOT DO YET
+PROPOSED GATE
+WAITING FOR OWNER AUTHORIZATION
+```
+
+For external methodology claims, provide direct source citations/links. If no authoritative external standard was found, write that explicitly.
+
+### Step boundary
+
+This rule applies to each major analytical/project step or gate. It does not require repeating the full external methodology search before every individual `batch.next` item inside an already researched, frozen and owner-authorized provider step. A new batch, new methodology, new evidence type, cleanup stage, clustering stage, page-mapping stage, Search stage, AI stage, QA/finalization stage, or material workflow change requires a new pre-step review.
+
+Marker:
+
+```text
+KW001_PRE_STEP_EVIDENCE_METHOD_REVIEW_ACTIVE = true
+KW001_OWNER_AUTHORIZATION_BEFORE_EACH_MAJOR_STEP = true
+```
