@@ -29,6 +29,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('.github/scripts/phase9_apply_gsc_popup.mjs')
+          s = p.read_text()
+          old = '    showStatus(`Google Search Console: доступ подтверждён; properties: ${Number(result.site_count || 0)}.`, "ok");'
+          new = '    showStatus("Google Search Console: доступ подтверждён; properties: " + Number(result.site_count || 0) + ".", "ok");'
+          if old not in s:
+              raise SystemExit('PATCH_QUOTE_FIX_TARGET_MISSING')
+          p.write_text(s.replace(old, new, 1))
+          PY
           node .github/scripts/phase9_apply_gsc_popup.mjs
           node --check extension/src/popup.js
           node --check extension/src/google_search_console_worker_runtime.js
