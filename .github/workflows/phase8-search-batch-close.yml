@@ -42,7 +42,7 @@ jobs:
           set -euo pipefail
           cd _main
           python ../.github/scripts/phase8_close.py
-          mapfile -t changed < <(git diff --name-only | sort)
+          mapfile -t changed < <({ git diff --name-only; git ls-files --others --exclude-standard; } | sort -u)
           expected=(
             extension/docs/CURRENT_STATE.md
             extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md
