@@ -6,6 +6,7 @@ on:
       - phase9/google-organic-provider-research-2026-08-28
     paths:
       - .github/workflows/phase9-gsc-dev.yml
+      - extension/src/manifest.json
       - extension/src/shared/google_search_console_protocol.js
       - extension/src/shared/google_search_console_runtime.js
       - extension/src/google_search_console_worker_runtime.js
@@ -16,6 +17,7 @@ on:
       - extension/tests/google_search_console_runtime.test.mjs
       - extension/tests/google_search_console_worker_routing.test.mjs
       - extension/tests/google_search_console_identity_migration.test.mjs
+      - extension/tests/google_search_console_manifest_identity.test.mjs
       - extension/tests/qa_browser/google_search_console_browser_runtime.mjs
       - extension/tests/gensearch_search_protocol.test.mjs
       - extension/tests/search_batch_integration.test.mjs
@@ -47,10 +49,18 @@ jobs:
           node --check extension/tests/google_search_console_runtime.test.mjs
           node --check extension/tests/google_search_console_worker_routing.test.mjs
           node --check extension/tests/google_search_console_identity_migration.test.mjs
+          node --check extension/tests/google_search_console_manifest_identity.test.mjs
           node --check extension/tests/gensearch_search_protocol.test.mjs
           node --check extension/tests/search_batch_integration.test.mjs
           node --check extension/tests/wordstat_batch_transport.test.mjs
           echo PHASE9_GSC_PURE_SYNTAX_PASS
+      - name: Stable local manifest identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/google_search_console_manifest_identity.test.mjs | tee /tmp/gsc-manifest-identity.log
+          grep -F '# fail 0' /tmp/gsc-manifest-identity.log
+          echo PHASE9_GSC_STABLE_LOCAL_IDENTITY_PASS
       - name: GSC pure contract
         shell: bash
         run: |
@@ -111,6 +121,7 @@ jobs:
         run: |
           set -euo pipefail
           node --check extension/tests/qa_browser/google_search_console_browser_runtime.mjs
+          node --test extension/tests/google_search_console_manifest_identity.test.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p9-gsc-product-before.sha256
           echo PHASE9_GSC_PRE_BROWSER_PRODUCT_IDENTITY_PASS
       - name: Install Puppeteer Chrome
@@ -126,6 +137,7 @@ jobs:
           set -euo pipefail
           xvfb-run -a node extension/tests/qa_browser/google_search_console_browser_runtime.mjs | tee /tmp/p9-gsc-browser.log
           for marker in \
+            P9_GSC_BROWSER_STABLE_EXTENSION_ID_PASS \
             P9_GSC_BROWSER_BOOTSTRAP_ROUTE_PASS \
             P9_GSC_BROWSER_LIST_SITES_ONE_REQUEST_PASS \
             P9_GSC_BROWSER_SEARCH_ANALYTICS_ONE_REQUEST_PASS \
