@@ -181,7 +181,7 @@ test('duplicate start is rejected locally and never contacts provider', async ()
   assert.equal(calls, 0);
 });
 
-test('concurrent duplicate next is fail-fast single-flight and cannot create a second paid boundary', async () => {
+test('concurrent duplicate next is rejected while an item is active and cannot create a second paid boundary', async () => {
   const Factory = loadFactory();
   const storage = memoryStorage();
   let calls = 0;
@@ -211,7 +211,7 @@ test('concurrent duplicate next is fail-fast single-flight and cannot create a s
   await firstEntered;
   const duplicate = await runtime.handle({ action: 'next', jobId: 'double-next-job' });
   assert.equal(duplicate.envelope.request_executed, false);
-  assert.equal(duplicate.envelope.reason, 'SEARCH_BATCH_NEXT_IN_FLIGHT');
+  assert.equal(duplicate.envelope.reason, 'ITEM_ACTIVE');
   assert.equal(calls, 1);
   releaseFirst();
   const completed = await first;
