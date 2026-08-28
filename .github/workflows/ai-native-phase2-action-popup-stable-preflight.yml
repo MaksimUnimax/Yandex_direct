@@ -1,0 +1,47 @@
+name: ai-native-phase2-action-popup-stable-preflight
+
+on:
+  push:
+    branches:
+      - candidate/ai-native-gensearch-production-gate-2026-08-28
+    paths:
+      - .github/workflows/ai-native-phase2-action-popup-stable-preflight.yml
+
+permissions:
+  contents: read
+
+jobs:
+  phase2-action-popup-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert product authority unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:extension/src)" = '14379860d274f26dcd93f3fbaf6b1a12ce5c4512'
+          git diff --exit-code 3777e1d7e891cb6eedbfba1399e2ab8428ba7976 HEAD -- extension/src extension/tests/autorun_baseline_sync.test.mjs extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs
+          echo PHASE2_ACTION_POPUP_PRODUCT_AUTHORITY_PASS
+      - name: Install Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+      - name: Prepare and run action-popup-faithful legacy full gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .github/scripts/prepare_phase2_action_popup_stable.py
+          STABLE=extension/tests/qa_browser/phase2-stage4/.gensearch_phase2_stage4_action_popup_stable.mjs
+          node --check "$STABLE"
+          CHROME_BIN="$(node --input-type=module -e "import puppeteer from 'puppeteer';console.log(puppeteer.executablePath())")"
+          xvfb-run -a node "$STABLE" "$CHROME_BIN" "$GITHUB_WORKSPACE/extension/src" "$GITHUB_WORKSPACE/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" "$GITHUB_WORKSPACE/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" | tee /tmp/phase2-action-popup.log
+          grep -F 'PHASE2_STAGE4_BROWSER_GATE_PASS' /tmp/phase2-action-popup.log
+          echo PHASE2_ACTION_POPUP_STABLE_PREFLIGHT_PASS
