@@ -47,7 +47,26 @@ stable = r'''async function openPopup(worker, browser, key) {
   }, { ownerTabId:Number(ownerTabId), popupTabId:Number(tab.id) });
 
   await popup.waitForFunction(() => location.protocol === 'chrome-extension:' && location.pathname.endsWith('/popup.html'), { timeout:30000 });
-  await popup.waitForFunction(expected => document.getElementById('conversationMeta')?.textContent === expected, { timeout:30000 }, key);
+  try {
+    await popup.waitForFunction(expected => document.getElementById('conversationMeta')?.textContent === expected, { timeout:30000 }, key);
+  } catch (error) {
+    const popupDiag = await popup.evaluate(() => ({
+      href:location.href,
+      conversationMeta:document.getElementById('conversationMeta')?.textContent || '',
+      status:document.getElementById('status')?.textContent || '',
+      statusLevel:document.getElementById('status')?.dataset?.level || '',
+      bootstrapResult:globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null,
+      bootstrapError:globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || null
+    }));
+    const tabsDiag = await worker.evaluate(async () => (await chrome.tabs.query({})).map(t => ({
+      id:t.id, active:t.active, windowId:t.windowId, url:t.url
+    })));
+    const activeDiag = await worker.evaluate(async () => (await chrome.tabs.query({active:true,currentWindow:true})).map(t => ({
+      id:t.id, active:t.active, windowId:t.windowId, url:t.url
+    })));
+    console.log('PHASE2_ACTION_POPUP_CONTEXT_DIAG=' + JSON.stringify({expectedKey:key,ownerTabId,popupTabId:tab.id,popupDiag,tabsDiag,activeDiag}));
+    throw error;
+  }
   await waitUntil(async () => {
     const status = await popup.evaluate(() => document.getElementById('status')?.textContent || '');
     return status === 'Готово.' ? true : false;
