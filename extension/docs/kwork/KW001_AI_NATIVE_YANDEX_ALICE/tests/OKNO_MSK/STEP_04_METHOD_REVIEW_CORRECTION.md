@@ -1,43 +1,44 @@
-# KW-001 / OKNO-MSK — STEP 04 METHOD REVIEW CORRECTION
+# KW-001 / OKNO-MSK — STEP 04 JOB-SPECIFIC REVIEW CORRECTION
 
 Date: 2026-08-28  
-Status: **AUTHORITATIVE CORRECTION / SUPERSEDES CONFLICTING STEP-04 WORDING**
+Status: **JOB-SPECIFIC CORRECTION / DISPOSABLE WITH OKNO-MSK WORKSPACE**
 
-This document records the source-backed retrospective audit of Step 04 and corrects claims that were too broad or insufficiently precise.
+This file records what was corrected in Step 04 of the current OKNO-MSK job after the owner-requested source-backed retrospective review.
 
-If this file conflicts with `STEP_04_PROGRESSIVE_CLEANUP_1.md`, this correction controls.
+It does **not** define universal KW-001 rules. Permanent owner-approved methodology lives in the parent universal KW-001 layer.
+
+If this file conflicts with the original `STEP_04_PROGRESSIVE_CLEANUP_1.md` about what happened in this job, this correction controls.
 
 ---
 
-## 1. What Step 04 actually accomplished
+## 1. What Step 04 actually accomplished in this job
 
 Step 04 performed:
 
 ```text
 18 seed-family review
-+ recurring pattern triage
-+ obvious-noise taxonomy
-+ ambiguity/review queue
-+ pass-2 probe candidate generation
+recurring pattern triage
+obvious-noise taxonomy
+ambiguity/review queue
+pass-2 probe candidate generation
 ```
 
 It did **not** perform a complete row-by-row classification of every raw Wordstat result.
 
-Therefore the correct description is:
+Correct OKNO-MSK Step-04 status:
 
 ```text
 FAMILY-LEVEL TRIAGE COMPLETE
-CLEANUP RULES FROZEN
 FULL ROW-LEVEL SEMANTIC CLEANUP = NOT COMPLETE
 ```
 
-The previous phrase `ANALYTICAL CLEANUP COMPLETE` was too strong and must not be reused as authority.
+The earlier job wording `ANALYTICAL CLEANUP COMPLETE` was too strong.
 
 ---
 
-## 2. Corrected triage states
+## 2. Classification correction applied to this job
 
-The original three-state model:
+The original OKNO-MSK Step-04 triage used:
 
 ```text
 KEEP
@@ -45,94 +46,52 @@ REJECT_OBVIOUS
 REVIEW
 ```
 
-was a useful analyst heuristic but merged materially different exclusion reasons.
+During retrospective review, `REJECT_OBVIOUS` was found to mix different reasons.
 
-Going forward use at least:
+For all subsequent OKNO-MSK job files, the current owner-approved universal classification is applied as:
 
 ```text
 KEEP
-= relevant and retained for later semantic stages
-
 REVIEW
-= potentially relevant but business/intent/page ownership remains unresolved
-
 EXCLUDE_IRRELEVANT
-= wrong semantic meaning, unrelated product/task, employment intent where not target, marketplace/used intent incompatible with scope, or other true relevance failure
-
 EXCLUDE_SCOPE
-= semantically valid demand excluded only because it is outside the frozen region/product/audience/client scope
-
 EXCLUDE_MECHANICAL
-= exact/mechanical duplicate or equivalent processing-only exclusion
 ```
 
-`EXCLUDE_SCOPE` must remain recoverable if the client later revises scope.
+This file records the application of that rule to this job; it does not create the rule.
 
 ---
 
-## 3. Corrected frequency rule
+## 3. Frequency correction applied to this job
 
-Previous wording was too absolute:
+The old Step-04 wording implied that low frequency could never participate in a later rejection/priority decision.
 
-```text
-low frequency is never a rejection reason
-```
+For this job, that wording is superseded.
 
-Correct rule:
+Current OKNO-MSK handling:
 
 ```text
-LOW_FREQUENCY_ALONE != PROOF_OF_IRRELEVANCE
+low frequency alone does not prove irrelevance;
+later priority/page decisions may still consider demand magnitude together with business and SERP evidence.
 ```
 
-Meaning:
-
-- At early cleanup, a low count alone does not prove a phrase is irrelevant.
-- A low-volume phrase may still be a useful supporting long-tail, diagnostic probe or member of a larger cluster.
-- Later prioritization/page-target decisions may legitimately consider frequency/traffic potential together with relevance, business value, cluster size and regional SERP evidence.
-
-Frequency is therefore a signal, not a universal binary keep/delete rule.
+No previously measured low-volume family is automatically removed by this correction.
 
 ---
 
-## 4. Corrected handling of Wordstat associations
+## 4. Associations handling applied to this job
 
-Official Yandex Wordstat GetTop semantics state that the method returns popular queries containing the specified keyword and queries similar to the specified one; `associations` are similar queries.
-
-Official sources:
+Official Yandex Wordstat semantics checked during the review:
 - https://aistudio.yandex.ru/docs/ru/search-api/api-ref/Wordstat/getTop
 - https://aistudio.yandex.ru/docs/ru/search-api/operations/wordstat-gettop.html
 
-Therefore:
-
-```text
-ASSOCIATION = vocabulary / expansion evidence
-ASSOCIATION != automatically accepted keyword
-ASSOCIATION COUNT != business relevance proof
-ASSOCIATION COUNT != separate-page proof
-```
-
-A broad association may be valuable specifically because it tests an acquisition gap. That makes it a **probe**, not automatically a final semantic target.
+For OKNO-MSK, associations remain acquisition/vocabulary evidence only. They are not automatically accepted as final semantic phrases or separate page targets.
 
 ---
 
-## 5. Corrected expansion-candidate confidence
+## 5. OKNO-MSK expansion-probe reclassification
 
-Replace vague `strong candidate` language with probe statuses:
-
-```text
-EXPANSION_PROBE_READY
-= materially new vocabulary/job/subfamily; clear information gain; in-scope enough to justify provider measurement
-
-EXPANSION_PROBE_AMBIGUOUS
-= may add information but is broader/mixed and must be interpreted as a probe rather than a semantic target
-
-EXPANSION_PROBE_REVIEW
-= plausible but business scope, redundancy or evidence source is unresolved; do not execute automatically
-```
-
-Current Step-04 reclassification:
-
-### EXPANSION_PROBE_READY candidates for Step-5 preflight review
+### Current READY candidates for Step-5 preflight review
 
 ```text
 оконная фурнитура
@@ -143,17 +102,17 @@ Current Step-04 reclassification:
 окна для частного дома
 ```
 
-These are still **not authorized provider commands**. Step 5 must independently review redundancy, business scope and expected information gain before freezing its manifest.
+These are still only job-specific candidates. No provider command is authorized by this file.
 
-### EXPANSION_PROBE_AMBIGUOUS
+### Current AMBIGUOUS candidate
 
 ```text
 монтаж окон
 ```
 
-Reason: materially broader than `установка пластиковых окон`; can include other materials, service meanings and employment-adjacent vocabulary. High association count is not enough for `READY` status.
+Job-specific reason: broader than the already measured `установка пластиковых окон` family and may add mixed meanings.
 
-### EXPANSION_PROBE_REVIEW
+### Current REVIEW candidates
 
 ```text
 регулировка окон пвх
@@ -163,120 +122,60 @@ Reason: materially broader than `установка пластиковых ок�
 оконный завод
 ```
 
-Reasons include unresolved business priority, synonym redundancy, standalone-product boundary or trust-modifier ambiguity.
+These remain unresolved inside the OKNO-MSK job.
 
 ---
 
-## 6. Why `REVIEW` remains valid
+## 6. External sources consulted in this job review
 
-The exact label is project-specific, not an official Yandex standard.
+Official provider documentation:
+- https://aistudio.yandex.ru/docs/ru/search-api/api-ref/Wordstat/getTop
+- https://aistudio.yandex.ru/docs/ru/search-api/operations/wordstat-gettop.html
 
-However the underlying logic is supported by external practice: search intent and business value should be considered before mapping keywords/topics to pages, and similar-intent queries may belong to one page rather than becoming separate targets.
-
-Corroborating methodology:
+External methodology corroboration used during the owner-requested audit:
 - https://www.semrush.com/blog/keyword-clustering/
 - https://ahrefs.com/blog/keyword-mapping/
 - https://ahrefs.com/blog/keyword-intent/
 
-Thus the valid conclusion is:
-
-```text
-ambiguous demand should survive long enough for business/SERP resolution
-```
-
-not:
-
-```text
-our exact KEEP/REVIEW labels are an industry standard
-```
-
-The labels are `ANALYST_HEURISTIC`; the evidence-preservation principle is externally supported.
+These sources were used to audit this job's Step 04; this temporary file does not convert them into new universal rules.
 
 ---
 
-## 7. Geography correction
-
-Official Wordstat documentation describes `regions` as regions where the query was made.
-
-Therefore an out-of-scope city name appearing inside a query returned for Moscow-region origin is not a provider error and should not be called semantic garbage automatically.
-
-Correct handling:
+## 7. What remains valid in this job
 
 ```text
-relevant phrase + wrong frozen client GEO -> EXCLUDE_SCOPE
-unrelated place/name coincidence -> EXCLUDE_IRRELEVANT
+raw Wordstat is not the final client semantic core
+all 18 pass-1 families were reviewed
+business-unknown directions remain unresolved
+no final page/cluster decision was made
+no provider request occurred in Step 04
+Step 5 has not started
 ```
-
-This preserves semantic truth separately from current commercial scope.
 
 ---
 
-## 8. What remains valid from original Step 04
+## 8. Remaining OKNO-MSK work after Step 04
 
-The following original decisions survive the audit:
+Still not complete:
 
 ```text
-RAW WORDSTAT != CLIENT SEMANTIC CORE
-seed-family triage before clustering = valid
-obvious unrelated noise can be excluded early
-business-priority unknowns remain REVIEW
-associations are vocabulary evidence, not accepted final keywords
-no final page/cluster decision in Step 04
-no new provider acquisition in Step 04
-review queue survives into later stages
+full row-level cleanup
+final semantic-core freeze
+clustering
+ordinary Yandex SERP validation
+page mapping
+final priorities
 ```
-
-The Step-04 analysis is therefore **not discarded**. Its scope and labels are corrected.
 
 ---
 
-## 9. Row-level provenance requirement added
-
-Before final semantic-core freeze, every retained/excluded raw phrase used in the deliverable workflow must be traceable with at least:
+## 9. Job-specific verdict
 
 ```text
-phrase
-source seed/request or result provenance
-count / provider observation
-scope region/device where relevant
-decision state
-reason code
-family/cluster candidate
-review note when unresolved
+OKNO_MSK_STEP04_FAMILY_LEVEL_TRIAGE = PASS
+OKNO_MSK_STEP04_FULL_ROW_LEVEL_CLEANUP = NOT_COMPLETE
+OKNO_MSK_STEP04_RETRO_REVIEW = COMPLETE
+OKNO_MSK_STEP05_PROVIDER_EXECUTION = NOT_STARTED
 ```
 
-Step 04 did not yet satisfy this final row-level requirement and must not claim to have done so.
-
----
-
-## 10. Step-04 corrected verdict
-
-```text
-FAMILY_LEVEL_TRIAGE = PASS
-CLEANUP_RULE_FREEZE = PASS AFTER CORRECTION
-FULL_ROW_LEVEL_CLEANUP = NOT YET COMPLETE
-FINAL_SEMANTIC_CORE = NOT FROZEN
-CLUSTERING = NOT PERFORMED
-PAGE_MAPPING = NOT PERFORMED
-SERP_VALIDATION = NOT PERFORMED
-PROVIDER_REQUESTS_IN_STEP_04 = 0
-STEP_05_PROVIDER_EXECUTION = NOT STARTED
-```
-
-Method-review verdict after correction:
-
-```text
-STEP_04_RETRO_VERDICT = CORRECTED_AND_REFREEZABLE
-```
-
-The next Step-5 pre-step review may proceed only after `STEP_04_ACCEPTANCE.md` is updated to reference this correction.
-
-Markers:
-
-```text
-KW001_OKNO_MSK_STEP04_FAMILY_TRIAGE_NOT_FULL_CLEANUP = true
-KW001_OKNO_MSK_STEP04_EXCLUDE_SCOPE_SEPARATED = true
-KW001_OKNO_MSK_STEP04_LOW_FREQ_RULE_CORRECTED = true
-KW001_OKNO_MSK_STEP04_ASSOCIATION_PROBE_RULE_CORRECTED = true
-KW001_OKNO_MSK_STEP04_METHOD_CORRECTION_ACTIVE = true
-```
+This file will be deleted together with the entire OKNO-MSK workspace after the job is fully closed.
