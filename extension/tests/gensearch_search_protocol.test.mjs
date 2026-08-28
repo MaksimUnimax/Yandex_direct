@@ -233,7 +233,8 @@ test('Phase 3 runtime executes one GenSearch request and decodes array framing w
   assert.equal(result.report_envelope.result.message.content, 'финальный');
   assert.equal(result.report_envelope.result.transport.wire_format, 'json_array');
   assert.equal(result.report_envelope.result.transport.frame_count, 2);
-  assert.equal(result.report_envelope.request_executed, undefined);
+  assert.equal(result.report_envelope.request_executed, true);
+  assert.equal(result.report_envelope.automatic_retry, false);
 });
 
 test('Phase 3 runtime decodes JSON Lines GenSearch framing after JSON.parse fails', async () => {
