@@ -35,21 +35,13 @@ function prepareQaExtension() {
   return { tempRoot, extensionPath, extensionId: extensionIdFromPublicKey(Buffer.from(publicKey)) };
 }
 
-async function workerEval(client, expression) {
-  const result = await client.send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-  if (result.exceptionDetails) {
-    const detail = result.exceptionDetails.exception?.description || result.exceptionDetails.text || 'service worker evaluation failed';
-    throw new Error(detail);
-  }
-  return result.result?.value;
-}
-
 const qa = prepareQaExtension();
 assert.match(qa.extensionId, /^[a-p]{32}$/);
 const browser = await puppeteer.launch({
   headless: false,
   pipe: true,
   enableExtensions: true,
+  protocolTimeout: 60000,
   args: [
     '--no-sandbox',
     '--disable-gpu',
@@ -65,14 +57,27 @@ try {
     (target) => target.type() === 'service_worker' && target.url().startsWith(`chrome-extension://${qa.extensionId}/`),
     { timeout: 15000 }
   );
-  const workerClient = await workerTarget.createCDPSession();
+  const worker = await workerTarget.worker();
+  assert.ok(worker, 'MV3 service worker execution context unavailable');
 
-  await workerEval(workerClient, `(async () => {
-    globalThis.__YMB_SEARCH_BATCH_FETCHES = [];
+  const readiness = await worker.evaluate(() => ({
+    credentialRuntime: Boolean(globalThis.YMBCredentialRuntime?.save),
+    batchTransport: Boolean(globalThis.YMBSearchBatchWorkerTransport?.executeSearchBatchCommand),
+    storage: Boolean(globalThis.chrome?.storage?.local)
+  }));
+  assert.deepEqual(readiness, { credentialRuntime: true, batchTransport: true, storage: true });
+  console.log('PHASE8_SEARCH_BATCH_BROWSER_WORKER_READY_PASS');
+
+  await worker.evaluate(async () => {
     await globalThis.YMBCredentialRuntime.save('search', {
       api_key: 'search-batch-browser-secret',
       folder_id: 'folder-search-batch'
     });
+    return true;
+  });
+  console.log('PHASE8_SEARCH_BATCH_BROWSER_CREDENTIAL_SETUP_PASS');
+
+  await worker.evaluate(async () => {
     await chrome.storage.local.set({
       ymb_search_policy: {
         autorun_enabled: true,
@@ -85,9 +90,14 @@ try {
         tariff_source: 'controlled-browser-test'
       }
     });
+    return true;
+  });
+  console.log('PHASE8_SEARCH_BATCH_BROWSER_POLICY_SETUP_PASS');
 
-    const b64 = (text) => btoa(unescape(encodeURIComponent(text)));
-    const xmlFor = (query) => {
+  await worker.evaluate(() => {
+    globalThis.__YMB_SEARCH_BATCH_FETCHES = [];
+    globalThis.__YMB_SEARCH_BATCH_B64 = (text) => btoa(unescape(encodeURIComponent(text)));
+    globalThis.__YMB_SEARCH_BATCH_XML = (query) => {
       const domains = query === 'alpha'
         ? ['a.test', 'shared.test', 'alpha-only.test']
         : query === 'beta'
@@ -96,7 +106,6 @@ try {
       const docs = domains.map((domain, index) => '<doc><url>https://' + domain + '/p' + (index + 1) + '</url><domain>' + domain + '</domain><title>' + query + '-' + (index + 1) + '</title><passage>fixture</passage></doc>').join('');
       return '<yandexsearch><response>' + docs + '</response></yandexsearch>';
     };
-
     globalThis.fetch = async (url, options = {}) => {
       const target = String(url || '');
       const body = String(options.body || '');
@@ -122,15 +131,16 @@ try {
         throw new Error('CONTROLLED_SEARCH_BATCH_UNEXPECTED_PROVIDER_HOST');
       }
       if (query === 'unknown') throw new Error('CONTROLLED_UNKNOWN_OUTCOME');
-      return new Response(JSON.stringify({ rawData: b64(xmlFor(query)) }), {
+      return new Response(JSON.stringify({ rawData: globalThis.__YMB_SEARCH_BATCH_B64(globalThis.__YMB_SEARCH_BATCH_XML(query)) }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       });
     };
     return true;
-  })()`);
+  });
+  console.log('PHASE8_SEARCH_BATCH_BROWSER_PROVIDER_STUB_READY_PASS');
 
-  const start = await workerEval(workerClient, `(async () => {
+  const start = await worker.evaluate(async () => {
     const result = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({
       action: 'start',
       jobId: 'browser-job-success',
@@ -143,17 +153,17 @@ try {
       confirmBillable: true
     }, { channel: 'manual' });
     return { result, fetches: globalThis.__YMB_SEARCH_BATCH_FETCHES };
-  })()`);
+  });
   assert.equal(start.result.report_envelope.operation, 'batch.start');
   assert.equal(start.result.request_executed, false);
   assert.equal(start.result.report_envelope.progress.total, 2);
   assert.equal(start.fetches.length, 0);
   console.log('PHASE8_SEARCH_BATCH_BROWSER_START_ZERO_PROVIDER_PASS');
 
-  const first = await workerEval(workerClient, `(async () => {
+  const first = await worker.evaluate(async () => {
     const result = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({ action: 'next', jobId: 'browser-job-success' }, { channel: 'manual' });
     return { result, fetches: globalThis.__YMB_SEARCH_BATCH_FETCHES };
-  })()`);
+  });
   assert.equal(first.result.request_executed, true);
   assert.equal(first.result.report_envelope.progress.succeeded, 1);
   assert.equal(first.fetches.length, 1);
@@ -170,10 +180,10 @@ try {
   assert.equal(Object.hasOwn(firstBody, 'messages'), false);
   console.log('PHASE8_SEARCH_BATCH_BROWSER_FIRST_NEXT_ONE_PROVIDER_PASS');
 
-  const second = await workerEval(workerClient, `(async () => {
+  const second = await worker.evaluate(async () => {
     const result = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({ action: 'next', jobId: 'browser-job-success' }, { channel: 'manual' });
     return { result, fetches: globalThis.__YMB_SEARCH_BATCH_FETCHES };
-  })()`);
+  });
   assert.equal(second.result.request_executed, true);
   assert.equal(second.result.report_envelope.progress.succeeded, 2);
   assert.equal(second.result.report_envelope.progress.requests_started, 2);
@@ -182,14 +192,14 @@ try {
   assert.equal(second.result.report_envelope.progress.estimated_cost_rub, 0.976);
   console.log('PHASE8_SEARCH_BATCH_BROWSER_SECOND_NEXT_EXACTLY_ONCE_PASS');
 
-  const local = await workerEval(workerClient, `(async () => {
+  const local = await worker.evaluate(async () => {
     const before = globalThis.__YMB_SEARCH_BATCH_FETCHES.length;
     const status = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({ action: 'status', jobId: 'browser-job-success' }, { channel: 'manual' });
     const projection = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({ action: 'projection', jobId: 'browser-job-success', offset: 0, limit: 10, topN: 3, targetDomains: ['shared.test'] }, { channel: 'manual' });
     const overlap = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({ action: 'overlapPage', jobId: 'browser-job-success', offset: 0, limit: 10, topN: 3 }, { channel: 'manual' });
     const after = globalThis.__YMB_SEARCH_BATCH_FETCHES.length;
     return { before, after, status: status.report_envelope, projection: projection.report_envelope, overlap: overlap.report_envelope };
-  })()`);
+  });
   assert.equal(local.before, 2);
   assert.equal(local.after, 2);
   assert.equal(local.status.progress.succeeded, 2);
@@ -204,7 +214,7 @@ try {
   console.log('PHASE8_SEARCH_BATCH_BROWSER_LOCAL_PROJECTION_ZERO_PROVIDER_PASS');
   console.log('PHASE8_SEARCH_BATCH_BROWSER_OVERLAP_MATH_PASS');
 
-  const unknown = await workerEval(workerClient, `(async () => {
+  const unknown = await worker.evaluate(async () => {
     const start = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({
       action: 'start', jobId: 'browser-job-unknown', queries: ['unknown'], searchType: 'SEARCH_TYPE_RU', region: '225', groupsOnPage: 10, maxRequests: 1, maxCostRub: 1, confirmBillable: true
     }, { channel: 'manual' });
@@ -214,7 +224,7 @@ try {
     const second = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({ action: 'next', jobId: 'browser-job-unknown' }, { channel: 'manual' });
     const afterSecond = globalThis.__YMB_SEARCH_BATCH_FETCHES.length;
     return { start: start.report_envelope, first: first.report_envelope, second: second.report_envelope, before, afterFirst, afterSecond };
-  })()`);
+  });
   assert.equal(unknown.start.request_executed, false);
   assert.equal(unknown.before, 2);
   assert.equal(unknown.afterFirst, 3);
@@ -227,7 +237,7 @@ try {
   assert.equal(unknown.second.reason, 'OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION');
   console.log('PHASE8_SEARCH_BATCH_BROWSER_UNKNOWN_NO_REPLAY_PASS');
 
-  const fiveHundred = await workerEval(workerClient, `(async () => {
+  const fiveHundred = await worker.evaluate(async () => {
     const queries = Array.from({ length: 500 }, (_, index) => 'bulk-' + String(index + 1));
     const before = globalThis.__YMB_SEARCH_BATCH_FETCHES.length;
     const result = await globalThis.YMBSearchBatchWorkerTransport.executeSearchBatchCommand({
@@ -235,7 +245,7 @@ try {
     }, { channel: 'manual' });
     const after = globalThis.__YMB_SEARCH_BATCH_FETCHES.length;
     return { envelope: result.report_envelope, before, after };
-  })()`);
+  });
   assert.equal(fiveHundred.before, 3);
   assert.equal(fiveHundred.after, 3);
   assert.equal(fiveHundred.envelope.progress.total, 500);
@@ -243,14 +253,14 @@ try {
   assert.equal(fiveHundred.envelope.request_executed, false);
   console.log('PHASE8_SEARCH_BATCH_BROWSER_500_START_ZERO_PROVIDER_PASS');
 
-  const safeState = await workerEval(workerClient, `(async () => {
+  const safeState = await worker.evaluate(async () => {
     const data = await chrome.storage.local.get('ymb_search_batch_jobs_v1');
     return {
       fetches: globalThis.__YMB_SEARCH_BATCH_FETCHES,
       jobCount: Object.keys(data.ymb_search_batch_jobs_v1 || {}).length,
       storageText: JSON.stringify(data.ymb_search_batch_jobs_v1 || {})
     };
-  })()`);
+  });
   assert.equal(safeState.jobCount, 3);
   assert.equal(safeState.fetches.length, 3);
   assert.equal(safeState.storageText.includes('search-batch-browser-secret'), false);
