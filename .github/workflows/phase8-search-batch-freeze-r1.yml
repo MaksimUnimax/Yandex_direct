@@ -1,0 +1,209 @@
+name: phase8-search-batch-freeze-r1
+
+on:
+  push:
+    branches:
+      - candidate/phase8-search-batch-r1-2026-08-28
+    paths:
+      - .github/workflows/phase8-search-batch-freeze-r1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-exact-candidate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout exact green Phase 8 source authority
+        uses: actions/checkout@v4
+        with:
+          ref: 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716
+          fetch-depth: 0
+      - name: Assert pinned authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "0377d6e1f176d4b7ddd8553c0099e02a4f1e8716"
+          git diff --exit-code
+          echo "source_tree=$(git rev-parse HEAD:extension/src)"
+          echo PHASE8_FREEZE_SOURCE_AUTHORITY_PASS
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source syntax and complete Node suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          node --check extension/tests/qa_browser/search_batch_browser_runtime.mjs
+          node --test extension/tests/*.test.mjs | tee /tmp/p8-source-node.log
+          grep -F '# fail 0' /tmp/p8-source-node.log
+          echo PHASE8_FREEZE_SOURCE_NODE_PASS
+      - name: Install controlled-browser dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+          df -h /
+      - name: Source controlled installed-extension browser gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/search_batch_browser_runtime.mjs | tee /tmp/p8-source-browser.log
+          for marker in \
+            PHASE8_SEARCH_BATCH_BROWSER_WORKER_READY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_FIRST_NEXT_ONE_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_SECOND_NEXT_EXACTLY_ONCE_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_LOCAL_PROJECTION_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_OVERLAP_MATH_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_UNKNOWN_NO_REPLAY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_500_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_CREDENTIAL_NOT_PERSISTED_IN_JOB_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_REAL_YANDEX_REQUESTS=0 \
+            PHASE8_SEARCH_BATCH_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/p8-source-browser.log
+          done
+          if grep -F 'search-batch-browser-secret' /tmp/p8-source-browser.log; then
+            echo PHASE8_FREEZE_SOURCE_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE8_FREEZE_SOURCE_BROWSER_PASS
+      - name: Deterministic freeze and source/extract byte identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf phase8-freeze-output
+          mkdir -p phase8-freeze-output
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, shutil, subprocess, zipfile
+
+          SOURCE_COMMIT = '0377d6e1f176d4b7ddd8553c0099e02a4f1e8716'
+          SOURCE_REF = 'phase8/bulk-serp-top-rank-2026-08-28'
+          root = Path('extension/src')
+          out = Path('phase8-freeze-output')
+          archive = out / 'yandex-marketing-bridge-0.1.1-phase8-search-batch-r1-candidate.zip'
+          rebuilt = out / 'rebuilt.zip'
+          extract = out / 'extract'
+          manifest_path = out / 'EXACT_PHASE8_SEARCH_BATCH_R1_MANIFEST_2026-08-28.json'
+          source_tree = subprocess.check_output(['git','rev-parse','HEAD:extension/src'], text=True).strip()
+          files = sorted(p for p in root.rglob('*') if p.is_file())
+          entries = [p.relative_to(root).as_posix() for p in files]
+          if not files or 'manifest.json' not in entries:
+              raise SystemExit('incomplete extension/src')
+
+          def build(target):
+              with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+                  for p, rel in zip(files, entries):
+                      info = zipfile.ZipInfo(rel, date_time=(1980,1,1,0,0,0))
+                      info.compress_type = zipfile.ZIP_DEFLATED
+                      info.create_system = 3
+                      info.external_attr = (0o100644 & 0xFFFF) << 16
+                      info.flag_bits |= 0x800
+                      zf.writestr(info, p.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+              with zipfile.ZipFile(target) as zf:
+                  if zf.testzip() is not None: raise SystemExit('zip integrity failed')
+                  if zf.namelist() != entries: raise SystemExit('zip entry order mismatch')
+
+          build(archive); build(rebuilt)
+          if archive.read_bytes() != rebuilt.read_bytes(): raise SystemExit('deterministic rebuild mismatch')
+          extract.mkdir()
+          with zipfile.ZipFile(archive) as zf: zf.extractall(extract)
+          extracted = sorted(p for p in extract.rglob('*') if p.is_file())
+          if [p.relative_to(extract).as_posix() for p in extracted] != entries: raise SystemExit('extract entries mismatch')
+          for original, rel in zip(files, entries):
+              if original.read_bytes() != (extract / rel).read_bytes(): raise SystemExit('byte mismatch: ' + rel)
+          digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+          manifest = {
+              'source_commit': SOURCE_COMMIT,
+              'source_ref': SOURCE_REF,
+              'source_extension_tree': source_tree,
+              'sha256': digest,
+              'bytes': archive.stat().st_size,
+              'files': len(entries),
+              'entries': entries,
+              'zip_test': 'PASS',
+              'deterministic_rebuild': 'PASS',
+              'source_extract_byte_identity': 'PASS',
+              'real_yandex_requests_in_freeze': 0
+          }
+          manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('source_commit=' + SOURCE_COMMIT)
+          print('source_extension_tree=' + source_tree)
+          print('sha256=' + digest)
+          print('bytes=' + str(archive.stat().st_size))
+          print('files=' + str(len(entries)))
+          print('PHASE8_DETERMINISTIC_FREEZE_PASS')
+          PY
+      - name: Packaged complete Node suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf phase8-freeze-output/packaged-suite
+          mkdir -p phase8-freeze-output/packaged-suite/extension
+          cp -a phase8-freeze-output/extract phase8-freeze-output/packaged-suite/extension/src
+          cp -a extension/tests phase8-freeze-output/packaged-suite/extension/tests
+          find phase8-freeze-output/packaged-suite/extension/src -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          node --test phase8-freeze-output/packaged-suite/extension/tests/*.test.mjs | tee /tmp/p8-packaged-node.log
+          grep -F '# fail 0' /tmp/p8-packaged-node.log
+          echo PHASE8_PACKAGED_NODE_PASS
+      - name: Packaged controlled installed-extension browser gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node phase8-freeze-output/packaged-suite/extension/tests/qa_browser/search_batch_browser_runtime.mjs | tee /tmp/p8-packaged-browser.log
+          for marker in \
+            PHASE8_SEARCH_BATCH_BROWSER_WORKER_READY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_FIRST_NEXT_ONE_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_SECOND_NEXT_EXACTLY_ONCE_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_LOCAL_PROJECTION_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_OVERLAP_MATH_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_UNKNOWN_NO_REPLAY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_500_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_CREDENTIAL_NOT_PERSISTED_IN_JOB_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_REAL_YANDEX_REQUESTS=0 \
+            PHASE8_SEARCH_BATCH_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/p8-packaged-browser.log
+          done
+          if grep -F 'search-batch-browser-secret' /tmp/p8-packaged-browser.log; then
+            echo PHASE8_PACKAGED_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE8_PACKAGED_BROWSER_PASS
+      - name: Final metadata audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          out=Path('phase8-freeze-output')
+          z=out/'yandex-marketing-bridge-0.1.1-phase8-search-batch-r1-candidate.zip'
+          m=json.loads((out/'EXACT_PHASE8_SEARCH_BATCH_R1_MANIFEST_2026-08-28.json').read_text())
+          assert m['source_commit']=='0377d6e1f176d4b7ddd8553c0099e02a4f1e8716'
+          assert hashlib.sha256(z.read_bytes()).hexdigest()==m['sha256']
+          assert m['zip_test']==m['deterministic_rebuild']==m['source_extract_byte_identity']=='PASS'
+          assert m['real_yandex_requests_in_freeze']==0
+          print('source_commit=' + m['source_commit'])
+          print('source_extension_tree=' + m['source_extension_tree'])
+          print('sha256=' + m['sha256'])
+          print('bytes=' + str(m['bytes']))
+          print('files=' + str(m['files']))
+          print('PHASE8_FINAL_METADATA_PASS')
+          PY
+          rm -rf phase8-freeze-output/rebuilt.zip phase8-freeze-output/packaged-suite phase8-freeze-output/extract
+      - name: Upload exact Phase 8 candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase8-search-batch-r1-candidate-0377d6e
+          path: |
+            phase8-freeze-output/yandex-marketing-bridge-0.1.1-phase8-search-batch-r1-candidate.zip
+            phase8-freeze-output/EXACT_PHASE8_SEARCH_BATCH_R1_MANIFEST_2026-08-28.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
