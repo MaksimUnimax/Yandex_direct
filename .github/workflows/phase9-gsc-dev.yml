@@ -15,6 +15,7 @@ on:
       - extension/tests/google_search_console_contract.test.mjs
       - extension/tests/google_search_console_runtime.test.mjs
       - extension/tests/google_search_console_worker_routing.test.mjs
+      - extension/tests/google_search_console_identity_migration.test.mjs
       - extension/tests/qa_browser/google_search_console_browser_runtime.mjs
       - extension/tests/gensearch_search_protocol.test.mjs
       - extension/tests/search_batch_integration.test.mjs
@@ -45,6 +46,7 @@ jobs:
           node --check extension/tests/google_search_console_contract.test.mjs
           node --check extension/tests/google_search_console_runtime.test.mjs
           node --check extension/tests/google_search_console_worker_routing.test.mjs
+          node --check extension/tests/google_search_console_identity_migration.test.mjs
           node --check extension/tests/gensearch_search_protocol.test.mjs
           node --check extension/tests/search_batch_integration.test.mjs
           node --check extension/tests/wordstat_batch_transport.test.mjs
@@ -70,6 +72,13 @@ jobs:
           node --test extension/tests/google_search_console_worker_routing.test.mjs | tee /tmp/gsc-worker.log
           grep -F '# fail 0' /tmp/gsc-worker.log
           echo PHASE9_GSC_WORKER_ROUTING_PASS
+      - name: Stable-ID migration preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/google_search_console_identity_migration.test.mjs | tee /tmp/gsc-identity.log
+          grep -F '# fail 0' /tmp/gsc-identity.log
+          echo PHASE9_GSC_STABLE_ID_MIGRATION_PREFLIGHT_PASS
       - name: Prior-service focused regressions
         shell: bash
         run: |
