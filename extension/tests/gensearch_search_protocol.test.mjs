@@ -161,15 +161,44 @@ test('Search policy accounts for GenSearch cost while preserving stored method a
   assert.equal(costBlocked.allow, false);
   assert.equal(costBlocked.reason, 'COST_LIMIT');
 
-  const legacyAllowlist = policy.searchDecision({
+  const explicitAllowlist = policy.searchDecision({
     policy: { allowed_methods: ['search'] },
     channel: 'manual',
     method: 'genSearch',
     credentialState: 'PRESENT',
     run: { requests_executed: 0, estimated_cost_rub: 0 }
   });
-  assert.equal(legacyAllowlist.allow, false);
-  assert.equal(legacyAllowlist.reason, 'OPERATION_DISABLED');
+  assert.equal(explicitAllowlist.allow, false);
+  assert.equal(explicitAllowlist.reason, 'OPERATION_DISABLED');
+});
+
+test('legacy stored Search policy migrates once without breaking a later explicit GenSearch disable', () => {
+  const policy = loadPolicyModel();
+  const legacyStored = {
+    autorun_enabled: false,
+    manual_enabled: true,
+    allowed_methods: ['search'],
+    max_requests_per_run: 100,
+    max_cost_rub_per_run: 10,
+    method_cost_rub: { search: 0.488 },
+    tariff_checked_at: '2026-08-19',
+    tariff_source: 'https://aistudio.yandex.ru/docs/ru/search-api/pricing.html'
+  };
+  const migrated = policy.normalizeSearchPolicy(legacyStored);
+  assert.deepEqual([...migrated.allowed_methods], ['search', 'genSearch']);
+  assert.equal(migrated.method_cost_rub.genSearch, 5.08);
+  assert.equal(migrated.tariff_checked_at, '2026-08-19');
+
+  const explicitlyDisabledAfterUpgrade = policy.normalizeSearchPolicy({
+    ...JSON.parse(JSON.stringify(migrated)),
+    allowed_methods: ['search'],
+    tariff_checked_at: '2026-08-28'
+  });
+  assert.deepEqual([...explicitlyDisabledAfterUpgrade.allowed_methods], ['search']);
+  assert.equal(explicitlyDisabledAfterUpgrade.method_cost_rub.genSearch, 5.08);
+
+  const reread = policy.normalizeSearchPolicy(JSON.parse(JSON.stringify(explicitlyDisabledAfterUpgrade)));
+  assert.deepEqual([...reread.allowed_methods], ['search']);
 });
 
 test('GenSearch does not create a sixth service', () => {
