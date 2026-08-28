@@ -1,0 +1,97 @@
+name: ai-native-gensearch-proxy-freeze
+
+on:
+  push:
+    branches:
+      - candidate/ai-native-gensearch-proxy-validation-2026-08-28
+    paths:
+      - .github/workflows/ai-native-gensearch-proxy-freeze.yml
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-exact-validation-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact CI-green GenSearch source authority
+        uses: actions/checkout@v4
+        with:
+          ref: a034b4d19ddc7bc5ca06de075a1570b2bf6404da
+          fetch-depth: 0
+      - name: Assert pinned source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "a034b4d19ddc7bc5ca06de075a1570b2bf6404da"
+          git diff --exit-code
+          echo 'GEN_SEARCH_SOURCE_AUTHORITY_PASS'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Source syntax and complete Node suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/search_protocol.js
+          node --check extension/src/shared/policy_model.js
+          node --check extension/tests/gensearch_search_protocol.test.mjs
+          node --test extension/tests/gensearch_search_protocol.test.mjs
+          node --test extension/tests/*.test.mjs
+          echo 'GEN_SEARCH_SOURCE_SUITE_PASS'
+      - name: Freeze exact candidate and verify extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p gensearch-freeze-output
+          python extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output gensearch-freeze-output/yandex-marketing-bridge-0.1.1-gensearch-proxy-validation-candidate.zip \
+            --freeze-manifest-output gensearch-freeze-output/EXACT_GENSEARCH_PROXY_CANDIDATE_MANIFEST_2026-08-28.json \
+            --verify-extract gensearch-freeze-output/extract-a \
+            --source-ref ai-native/gensearch-proxy-validation-2026-08-27 \
+            --source-commit a034b4d19ddc7bc5ca06de075a1570b2bf6404da
+          rm -rf gensearch-freeze-output/extract-a
+      - name: Deterministic rebuild and packaged suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/tests/qa_transport/phase2-candidate/phase2_candidate_packer.py \
+            --repo-root . \
+            --output gensearch-freeze-output/rebuilt.zip \
+            --verify-manifest gensearch-freeze-output/EXACT_GENSEARCH_PROXY_CANDIDATE_MANIFEST_2026-08-28.json \
+            --verify-extract gensearch-freeze-output/extract-b \
+            --source-commit a034b4d19ddc7bc5ca06de075a1570b2bf6404da
+          cmp --silent \
+            gensearch-freeze-output/yandex-marketing-bridge-0.1.1-gensearch-proxy-validation-candidate.zip \
+            gensearch-freeze-output/rebuilt.zip
+          rm -rf gensearch-freeze-output/extract-b gensearch-freeze-output/rebuilt.zip
+          python extension/tests/qa_transport/phase2-candidate/run_packaged_suite.py \
+            --archive gensearch-freeze-output/yandex-marketing-bridge-0.1.1-gensearch-proxy-validation-candidate.zip \
+            --manifest gensearch-freeze-output/EXACT_GENSEARCH_PROXY_CANDIDATE_MANIFEST_2026-08-28.json \
+            --work-dir gensearch-freeze-output/packaged-suite-work
+          rm -rf gensearch-freeze-output/packaged-suite-work
+          sha256sum gensearch-freeze-output/yandex-marketing-bridge-0.1.1-gensearch-proxy-validation-candidate.zip
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('gensearch-freeze-output/EXACT_GENSEARCH_PROXY_CANDIDATE_MANIFEST_2026-08-28.json')
+          m = json.loads(p.read_text(encoding='utf-8'))
+          print('source_commit=' + str(m['source_commit']))
+          print('sha256=' + str(m['sha256']))
+          print('bytes=' + str(m['bytes']))
+          print('files=' + str(m['files']))
+          print('zip_test=' + str(m['zip_test']))
+          print('GEN_SEARCH_DETERMINISTIC_FREEZE_PASS')
+          PY
+      - name: Upload exact GenSearch validation candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-native-gensearch-proxy-candidate-a034b4d
+          path: |
+            gensearch-freeze-output/yandex-marketing-bridge-0.1.1-gensearch-proxy-validation-candidate.zip
+            gensearch-freeze-output/EXACT_GENSEARCH_PROXY_CANDIDATE_MANIFEST_2026-08-28.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
