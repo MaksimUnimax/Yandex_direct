@@ -68,3 +68,62 @@ Marker:
 ```text
 KW001_DIALOGUE_ANALYTICAL_DISCIPLINE_ACTIVE = true
 ```
+
+---
+
+## Rule — always state the required YMB mode before an operator command
+
+**RULE**  
+Before asking the owner/operator to send any Yandex Marketing Bridge command, ChatGPT must explicitly state the extension state required for that command.
+
+At minimum state:
+
+```text
+ACTIVE SERVICE = wordstat | search | webmaster | metrika | direct
+EXECUTION MODE = Manual | Autorun | other accepted mode if explicitly required
+ADDITIONAL STATE = paused/bound/owner-tab/etc. only when relevant
+```
+
+Do not rely on the command prefix, previous turn, or operator memory to imply the required mode.
+
+**PURPOSE**  
+Prevent avoidable admission failures and operator ambiguity. The operator should be able to read one instruction and know exactly how YMB must be configured before sending the command.
+
+**EVIDENCE**  
+A live rehearsal attempted a `WORDSTAT_BATCH_API_V1` command while the active service remained `search`. Bridge correctly rejected it with `SERVICE_NOT_ACTIVE` and `request_executed=false`. The provider was protected, but the operator step was unnecessarily repeated because ChatGPT had not explicitly stated the required extension service/mode immediately before the command.
+
+**FAILURE IF IGNORED**  
+If mode is not stated explicitly:
+
+```text
+commands can be rejected by SERVICE_NOT_ACTIVE;
+the operator must infer state from context;
+manual vs autorun requirements can be confused;
+repeat attempts waste operator time;
+more dangerous failures can occur if a future command has stricter owner-tab/pause/binding requirements.
+```
+
+**REVIEW TRIGGER**  
+This rule may be simplified only if YMB later selects the correct service/mode automatically and that behavior is formally accepted and fail-safe.
+
+### Required live-dialogue format
+
+Immediately before every YMB command, write a compact instruction such as:
+
+```text
+YMB MODE:
+- Active service: Wordstat
+- Execution mode: Manual
+- Manual mode: ON
+
+Then send exactly this command:
+...
+```
+
+If no toggle is needed for a field, state that clearly rather than omitting the field when omission could create ambiguity.
+
+Marker:
+
+```text
+KW001_EXPLICIT_YMB_MODE_INSTRUCTION_ACTIVE = true
+```
