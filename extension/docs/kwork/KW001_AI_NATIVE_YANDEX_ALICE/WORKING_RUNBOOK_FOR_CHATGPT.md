@@ -8,16 +8,25 @@ Branch: `roadmap/kwork-productization-2026-08-28`
 
 ## 0. Purpose and authority
 
-This is the current operational manual ChatGPT must use while productizing and later executing KW-001.
+This is the current universal operational manual ChatGPT must use while productizing and later executing KW-001.
 
 ```text
-THIS FILE = current working execution authority
+THIS FILE = universal working execution authority
+TEST CASE FILES = factual evidence for individual rehearsals only
 FINAL RUNBOOK = must not be claimed yet
 ```
 
 The final `RUNBOOK_FOR_CHATGPT.md` may be frozen only after complete end-to-end test orders, final client deliverables, economics measurement, revision rehearsal and clean-context rehearsal have passed.
 
-Canonical dependencies:
+### Permanent anti-anchoring rule
+
+**RULE** — do not store concrete client/test domains, URLs, product names, page counts, discovered page families or case-specific conclusions in this universal runbook.  
+**PURPOSE** — prevent a future clean-context ChatGPT from anchoring a new order to an old rehearsal and repeatedly searching for or reusing irrelevant old-site facts.  
+**EVIDENCE** — this runbook is intended to be reusable across unrelated businesses; case-specific evidence belongs under `tests/<CASE_ID>/`.  
+**FAILURE IF IGNORED** — the next order can inherit stale seeds, page families, GEO assumptions, examples or conclusions from an unrelated site.  
+**REVIEW TRIGGER** — none. Concrete case evidence may be referenced only from the case folder when explicitly needed.
+
+Canonical project dependencies:
 
 ```text
 extension/docs/KWORK_PRODUCTIZATION_ROADMAP_2026-08-28.md
@@ -27,10 +36,19 @@ extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md
 extension/docs/AI_NATIVE_GENSEARCH_PRODUCTION_CONTRACT_2026-08-28.md
 extension/docs/PHASE_6_SEMANTIC_CORE_BUILDER_REQUIREMENTS_AND_PLAN.md
 extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md
-extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md
 ```
 
-Permanent worker model:
+Case evidence must live under:
+
+```text
+extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/<CASE_ID>/
+```
+
+The universal runbook may state that a rule is `PROJECT_TEST_VALIDATED`, but it must not copy the concrete case into the universal method.
+
+---
+
+## 0.1 Permanent worker model
 
 ```text
 CHATGPT
@@ -51,30 +69,30 @@ Do not move subjective SEO/marketing judgment into Bridge merely to automate the
 
 ---
 
-# 0.1 Rule-design contract — instructions must explain WHY
+## 0.2 Rule-design contract — every important instruction must explain WHY
 
-A bare instruction such as `do X` is not sufficient for this runbook.
+A bare instruction such as `do X` is insufficient.
 
-Important operational rules should preserve:
+Material operational rules should preserve:
 
 ```text
 RULE
 = what ChatGPT must do
 
 PURPOSE
-= what failure this rule is intended to prevent
+= what failure this rule prevents
 
 EVIDENCE
-= why the rule exists: official source, industry practice, project gate or test observation
+= official source / industry practice / project gate / project test
 
 FAILURE IF IGNORED
-= what can go wrong if the rule is skipped
+= what specifically breaks if the rule is skipped
 
 REVIEW TRIGGER
-= what new evidence would justify changing or removing the rule
+= what new evidence would justify changing/removing the rule
 ```
 
-The purpose is to let a future clean-context ChatGPT understand not only the instruction but its causal reason, so it can apply the rule correctly and later compare it with newer methodology rather than blindly preserving an obsolete ritual.
+The purpose is to let a future clean-context ChatGPT understand causality, not memorize rituals.
 
 ---
 
@@ -99,7 +117,7 @@ Do not split these into separate Kworks until real-order evidence proves materia
 Working test price: `7,500 RUB`  
 Working delivery target: `up to 5 days`
 
-Both remain provisional until test runs measure analyst time, provider cost, operator actions and revision burden.
+Both remain provisional until accepted tests measure analyst time, provider cost, operator actions and revision burden.
 
 ---
 
@@ -169,12 +187,12 @@ NO_CHANGE
 INSUFFICIENT
 ```
 
-### Rule: do not force an AI delta
+### Rule — do not force an AI delta
 
-**RULE** — never invent or exaggerate an AI-derived change merely to make the premium service appear valuable.  
-**PURPOSE** — preserve analytical honesty; confirmation/de-risking can itself be useful.  
-**FAILURE IF IGNORED** — the service degenerates into decorative GEO/AI theatre instead of evidence-based architecture.  
-**REVIEW TRIGGER** — none; this is a permanent truthfulness constraint.
+**RULE** — never invent or exaggerate an AI-derived change to justify the premium service.  
+**PURPOSE** — preserve analytical honesty; confirmation/de-risking is a legitimate outcome.  
+**FAILURE IF IGNORED** — the service becomes decorative GEO/AI theatre instead of evidence-based architecture.  
+**REVIEW TRIGGER** — none; permanent truthfulness constraint.
 
 ---
 
@@ -203,11 +221,11 @@ existing competitor list
 business constraints not visible publicly
 ```
 
-### Rule: Webmaster is optional but preferred when available
+### Rule — Webmaster is optional but preferred when available
 
 **RULE** — do not require Webmaster for the public-site base package; use it when the client can provide access.  
-**PURPOSE** — keep the Kwork sellable to clients who provide only a public site while using stronger owned evidence when available.  
-**FAILURE IF IGNORED** — mandatory access unnecessarily shrinks the market; ignoring available access wastes first-party query/page evidence.
+**PURPOSE** — keep the Kwork sellable to public-site-only clients while using stronger first-party evidence when available.  
+**FAILURE IF IGNORED** — mandatory access shrinks the market; ignoring available access wastes owned query/page evidence.
 
 ---
 
@@ -221,8 +239,8 @@ client brief / explicit clarification
 > public competitor/site observation
 ```
 
-**RULE** — a Wordstat keyword never proves that the client actually sells the corresponding product/service.  
-**PURPOSE** — keep search demand subordinate to business truth.  
+**RULE** — a Wordstat phrase never proves that the client actually sells the corresponding product/service.  
+**PURPOSE** — keep search demand subordinate to real business scope.  
 **FAILURE IF IGNORED** — recommendations can promote unavailable or unwanted offers.
 
 ## 5.2 Human demand
@@ -270,7 +288,7 @@ Otherwise use:
 official GenSearch evidence
 ```
 
-Permanent provenance distinction:
+Permanent distinction:
 
 ```text
 GEN_SEARCH_* != CONSUMER_ALICE_*
@@ -304,13 +322,15 @@ requested deliverables
 
 ---
 
-# STEP 1 — Site/content discovery to CROSS-CHANNEL saturation
+# STEP 1 — Existing-site discovery to CROSS-CHANNEL saturation
 
-For an existing site, build a content/business inventory before semantic/provider decisions.
+This step applies to `EXISTING_SITE` orders.
 
-This is not a technical SEO audit.
+Build a factual content/business inventory before semantic/provider decisions. This is not a technical SEO audit.
 
-## 1.1 What must be discovered
+## 1.1 Discovery target
+
+Find the relevant public universe of:
 
 ```text
 major commercial families
@@ -325,7 +345,7 @@ company/trust/source pages
 local/geographic landing families
 public subdomains
 large repeated page families
-all material segmentation axes
+material segmentation axes
 ```
 
 For each representative page record:
@@ -349,9 +369,9 @@ Do not recommend merge/delete/new-page actions at this stage.
 
 ---
 
-## 1.2 Required evidence states
+## 1.2 Evidence states
 
-Every page/family must be marked as one of:
+Every page/family must be marked:
 
 ```text
 OPENED_READ
@@ -360,17 +380,19 @@ INFERRED_TEMPLATE_FAMILY
 UNVERIFIED_OR_INACCESSIBLE
 ```
 
-### Why
+### Rule — found is not equal to read
 
-**RULE** — never treat a URL seen in navigation as equivalent to a page actually opened/read.  
-**PURPOSE** — distinguish factual page-content evidence from taxonomy/link inference.  
-**EVIDENCE** — in the desktop Codex `okno-msk.ru` pass, only five pages were actually opened, while many additional families were inferred through navigation; the run correctly refused to claim saturation.  
+**RULE** — never treat a URL seen in navigation/search/sitemap as equivalent to a page actually opened and read.  
+**PURPOSE** — distinguish factual page-content evidence from link/taxonomy inference.  
+**EVIDENCE** — `PROJECT_TEST_VALIDATED`: controlled browser passes demonstrated that navigation can reveal many candidate families even when representative child pages cannot be reliably read.  
 **FAILURE IF IGNORED** — Title/H1/job/content assumptions may be attributed to pages that were never verified.  
-**REVIEW TRIGGER** — only if the acquisition system itself provides trustworthy parsed first-party content for every discovered URL.
+**REVIEW TRIGGER** — a future acquisition system provides trustworthy first-party parsed content for every discovered URL.
 
 ---
 
-## 1.3 Mandatory discovery channels for a non-trivial existing site
+## 1.3 Required complementary discovery channels
+
+For a non-trivial existing site use both:
 
 ### CHANNEL A — deep internal architecture discovery
 
@@ -387,212 +409,39 @@ article links
 representative child pages
 ```
 
-Purpose:
-
-```text
-recover the site's own taxonomy
-validate repeated page templates
-understand actual page jobs/content/CTA differences
-find deep child families that a shallow web search may miss
-```
+**PURPOSE** — recover the site's own taxonomy, repeated templates, deep product/service families and actual page-job/content/CTA differences.
 
 ### CHANNEL B — independent public URL discovery
 
-Independently look for public URLs belonging to the same site, including:
+Independently look for target-site public URLs not necessarily exposed by the sampled navigation:
 
 ```text
 search-visible pages restricted to the target domain
 GEO/local landing pages
 public subdomains
-weakly linked landing pages
+weakly linked landings
 specialised use-case pages
-public sitemap only as an URL-discovery aid if available
+public sitemap only as an URL-discovery aid when available
 ```
 
-Only the target site's first-party page content is evidence. Search engines/sitemaps are discovery mechanisms, not authority for what the page says.
+Search engines and sitemap are discovery mechanisms only. Page-content evidence comes from the first-party page after it is opened/read.
 
-Purpose:
+**PURPOSE** — catch relevant public page families that internal navigation may omit or expose weakly.
 
-```text
-catch public page families that are not exposed in the sampled navigation tree
-```
+### CHANNEL C — alternate browser/runtime when needed
 
-### CHANNEL C — alternate browser/runtime only when needed
+Use an alternate Work/desktop browser only when A or B cannot reliably read representative first-party pages.
 
-Use Work/desktop Codex or another available browser when one channel cannot reliably read representative first-party pages.
-
-Purpose:
-
-```text
-recover missing page content, not create a third mandatory duplicate crawl
-```
+**PURPOSE** — recover missing content, not perform a mandatory third duplicate crawl.
 
 ---
 
-## 1.4 Why one discovery channel is not enough — proven on `okno-msk.ru`
+## 1.4 Main multi-channel discovery rule
 
-This rule comes directly from the first KW-001 rehearsal.
-
-### PASS A — ChatGPT public-web pass
-
-Actually reviewed: `18` representative public pages.
-
-Material finds included:
-
-```text
-main broad commercial page
-REHAU hub + specific profile
-REHAU doors + balcony door subtype
-balcony hub
-second-contour balcony glazing
-P-46 house-series balcony landing
-main-domain district GEO landing: Mitino
-veranda hub + cold-veranda child
-aluminium hub
-standalone installation service
-company page
-production page
-calculator
-how-to-choose informational article
-city GEO subdomain: balashiha.okno-msk.ru
-```
-
-Most important UNIQUE contribution relative to Codex Work:
-
-```text
-main-domain district GEO family
-+ city subdomain GEO model
-```
-
-It also directly read selected special/trust/service pages useful for later page-job analysis.
-
-Strength:
-
-```text
-independent search-visible/public-URL discovery
-```
-
-Weakness:
-
-```text
-smaller deep-template sample than Codex Work
-```
-
-### PASS B — Codex in ChatGPT Work
-
-Actually opened/read: `56` public pages.
-
-It deeply validated families that the ChatGPT pass sampled only lightly:
-
-```text
-multiple REHAU profile models: Blitz, Thermo, Grazio, Intelio
-French / stained-glass / coloured windows
-office glazing use case
-house-series hub + P-3 / P-44 / KOPE / 1-515-5 examples
-all three major PVC-door subtypes
-balcony panorama / hinged / semicircle / roof / extension solutions
-warm + cold veranda variants and summer kitchen
-aluminium hinged + sliding variants
-services: warranty / extended warranty / finance / repair / slopes
-accessories: drip caps / blinds / mosquito screens / anti-burglary / lamination / decorative bars / handles
-price page
-company / reviews / contacts
-article hub + multiple articles
-```
-
-Its final expansion also identified repeated editorial, accessory/customisation, functional-glass-link, house-series and after-sales/finance axes.
-
-Strength:
-
-```text
-deep representative reading of internal page families and repeated templates
-```
-
-Material miss:
-
-```text
-no LOCAL_GEO family and no public subdomain was reached through checked internal navigation
-```
-
-The Codex Work report explicitly stated that no geo landing/subdomain could be established from its checked internal navigation, even though the ChatGPT pass had directly opened both a district GEO URL and the Balashikha subdomain.
-
-Therefore:
-
-```text
-INTERNAL_NAVIGATION_SATURATION != COMPLETE_PUBLIC_SITE_SATURATION
-```
-
-### PASS C — Codex desktop/app control pass
-
-Actually opened/read: `5` pages:
-
-```text
-/
-/okna-rehau/
-/dveri-rehau/
-/balkony-i-lodzhii/
-/verandy/
-```
-
-Despite browser timeouts, its navigation inspection rapidly exposed useful axes:
-
-```text
-REHAU profiles
-number of sashes
-object/room
-house series
-balcony thermal modes
-balcony geometry
-balcony finishing
-accessories
-services
-prices/utilities
-trust/company
-articles/actions/news
-```
-
-It correctly returned:
-
-```text
-DISCOVERY_SATURATION_REACHED = false
-```
-
-Purpose of retaining this pass:
-
-```text
-show that navigation taxonomy can discover useful candidate families even when page reading fails,
-but those candidates must remain DISCOVERED_LINK_ONLY / INFERRED_TEMPLATE_FAMILY until verified
-```
-
----
-
-## 1.5 Main Step-1 rule derived from those passes
-
-**RULE**  
-For a non-trivial existing site, use at least:
-
-```text
-CHANNEL A = deep internal architecture/page-reading pass
-+
-CHANNEL B = independent public/search-visible URL pass
-```
-
-Do not require three agents. The requirement is **complementary acquisition modes**, not agent count.
-
-**PURPOSE**  
-Build a sufficiently complete factual URL/page-family universe before keyword collection and page mapping.
-
-**EVIDENCE**  
-On `okno-msk.ru`:
-
-```text
-Codex Work = much deeper internal-family coverage but missed GEO/subdomain
-ChatGPT public web = shallower internal depth but found real GEO district + city-subdomain families
-Codex desktop = useful navigation taxonomy but incomplete page verification because of timeouts
-```
-
-**FAILURE IF IGNORED**  
-Using only internal navigation can omit weakly linked/search-visible/GEO assets. Using only a small independent web sample can miss repeated internal product/service/template axes. Either failure contaminates later stages:
+**RULE** — for a non-trivial existing site, do not freeze the site inventory until both Channel A and Channel B have been performed and cross-checked.  
+**PURPOSE** — build a sufficiently complete factual page-family universe before keyword collection and page mapping.  
+**EVIDENCE** — `PROJECT_TEST_VALIDATED`: controlled independent discovery passes showed complementary blind spots: deep internal crawling found families an external/public-URL pass sampled poorly, while independent public discovery found relevant public assets not exposed by the sampled internal tree.  
+**FAILURE IF IGNORED** — later stages may suffer from:
 
 ```text
 missing seed families
@@ -604,12 +453,11 @@ incorrect cannibalization hypotheses
 incomplete client deliverables
 ```
 
-**REVIEW TRIGGER**  
-This rule may be simplified only if a future validated acquisition mechanism proves that a single channel reliably recovers both deep internal taxonomy and the complete relevant public URL universe for the site class being processed.
+**REVIEW TRIGGER** — a future validated acquisition mechanism proves that one channel reliably recovers both deep internal taxonomy and the complete relevant public URL universe for the site class.
 
 ---
 
-## 1.6 How to compile ChatGPT and Codex results
+## 1.5 How to compile ChatGPT and Codex discovery results
 
 Do not choose one report and discard the other.
 
@@ -624,7 +472,7 @@ trailing-slash policy normalized
 subdomain retained as meaningful host identity
 ```
 
-2. **Create one union inventory**
+2. **Create the union inventory**
 
 Every unique URL discovered by any pass enters the candidate inventory.
 
@@ -633,40 +481,41 @@ Every unique URL discovered by any pass enters the candidate inventory.
 For each URL record:
 
 ```text
-discovered_by = CHATGPT_WEB / CODEX_WORK / CODEX_DESKTOP / multiple
-evidence_state per pass
+discovered_by
+evidence_state_by_pass
 opened_read_by
 first_observed_at
 ```
 
-4. **Prefer read evidence over inference**
+4. **Prefer direct read evidence over inference**
 
-If one pass only discovered a link but another actually opened/read the page, factual fields come from the opened/read evidence.
+If one pass only discovers a link and another opens/reads it, factual fields come from the opened/read evidence.
 
-5. **Do not discard unique families**
+5. **Retain unique material families**
 
-If only one pass finds a material family (e.g. GEO), keep it until directly disproven or excluded by client scope.
+If only one pass finds a material family, retain it until directly disproven or excluded by client scope.
 
-6. **Merge families by user job/segmentation axis, not wording alone**
+6. **Merge by page job/segmentation axis, not label wording alone**
 
-Examples:
+Different labels can represent the same user job; similar labels can represent different jobs.
+
+7. **Flag factual disagreement**
+
+Use:
 
 ```text
-"geo district landing" and "local page" may be same family
-"warm glazing" and "aluminium" are not automatically same family because one is use-case/thermal and the other material-led
+CONFLICT_REVIEW
 ```
 
-7. **Flag factual conflicts**
+Do not silently choose the preferred agent.
 
-If passes disagree on page purpose/content, mark `CONFLICT_REVIEW`; do not silently choose the preferred agent.
+8. **Verify weak-state material families**
 
-8. **Verify weak states**
-
-Material `DISCOVERED_LINK_ONLY` or `INFERRED_TEMPLATE_FAMILY` candidates should get at least one representative `OPENED_READ` page where technically possible.
+A material `DISCOVERED_LINK_ONLY` or `INFERRED_TEMPLATE_FAMILY` candidate should receive at least one representative `OPENED_READ` verification where technically possible.
 
 9. **Rebuild the business/page model from the union**
 
-Only after the union inventory is formed should ChatGPT freeze:
+Only after merging should ChatGPT freeze:
 
 ```text
 business families
@@ -676,13 +525,19 @@ open client questions
 candidate seed directions
 ```
 
-10. **Re-test saturation**
+10. **Re-test saturation globally**
 
-A pass saying `saturation=true` is only local to that pass. Global Step-1 saturation requires both required channels to stop adding new material families/axes/jobs.
+A local pass returning `saturation=true` is not enough. Global Step-1 saturation requires the complementary channels to stop adding new material families/axes/jobs.
+
+### Why compilation is mandatory
+
+**RULE** — preserve unique findings from each independent pass before analysis begins.  
+**PURPOSE** — exploit complementary tool strengths instead of replacing one set of blind spots with another.  
+**FAILURE IF IGNORED** — selecting a single "best" report can erase real public assets or deep template families found only by the other channel.
 
 ---
 
-## 1.7 Saturation gate
+## 1.6 Saturation gate
 
 Set:
 
@@ -708,9 +563,9 @@ For a genuinely tiny/simple site, one channel may be sufficient only if complete
 
 ---
 
-## 1.8 Canonical Codex prompt for Step-1 independent discovery
+## 1.7 Canonical Codex prompt — independent site discovery
 
-Use this prompt as the default starting template. Replace `<SITE_URL>` and, if needed, client-specific scope. The Codex pass must remain independent from ChatGPT's existing findings so that it can expose blind spots rather than echo them.
+Replace `<SITE_URL>` and any explicit client scope. Do **not** feed Codex ChatGPT's existing inventory before this independent pass.
 
 ```text
 Нужно независимо исследовать публичный сайт:
@@ -809,7 +664,7 @@ UNVERIFIED_OR_INACCESSIBLE
 - пользовательская проблема;
 - теплое/холодное решение;
 - форма/геометрия;
-- серия дома;
+- серия/модель объекта;
 - география;
 - услуга;
 - цена/финансирование;
@@ -850,7 +705,7 @@ UNKNOWN_REVIEW
 
 БОЛЬШИЕ ПОВТОРЯЮЩИЕСЯ СЕМЕЙСТВА
 
-Не нужно механически читать 100 одинаковых URL.
+Не нужно механически читать сотни одинаковых URL.
 Для каждого семейства:
 1. опиши принцип генерации;
 2. прочитай несколько реально отличающихся представителей;
@@ -871,7 +726,7 @@ UNKNOWN_REVIEW
 
 SATURATION
 
-Не останавливайся после 10–15 страниц только потому, что бизнес уже понятен.
+Не останавливайся после небольшого числа страниц только потому, что бизнес уже понятен.
 Продолжай до тех пор, пока BOTH CHANNEL A AND CHANNEL B перестанут добавлять новые material:
 - business families;
 - segmentation axes;
@@ -923,12 +778,12 @@ DISCOVERY_SATURATION_REACHED = true/false
 Объясни, почему. Если false — укажи конкретно, чего не хватило.
 ```
 
-### Purpose of the Codex prompt
+### Why the Codex pass must be blind
 
-**RULE** — the Codex pass is intentionally blind to ChatGPT's current inventory.  
-**PURPOSE** — maximize independent error detection instead of producing a second copy of the first analysis.  
-**FAILURE IF IGNORED** — giving Codex our existing family list can anchor it to our omissions and destroy the value of the cross-check.  
-**REVIEW TRIGGER** — none for independent validation runs; after the independent pass, the reports should be merged normally.
+**RULE** — do not give Codex ChatGPT's current page-family inventory before the independent discovery pass.  
+**PURPOSE** — maximize independent error detection rather than produce a second copy of the first analysis.  
+**FAILURE IF IGNORED** — anchoring Codex to the first analysis can reproduce the same omissions.  
+**REVIEW TRIGGER** — none for independent validation; after the pass, merge normally.
 
 ---
 
@@ -949,7 +804,7 @@ existing page-job families
 important business ambiguities
 ```
 
-**PURPOSE** — translate physical site structure into a testable user-demand model without assuming that the existing menu is semantically correct.
+**PURPOSE** — translate physical site structure into a testable user-demand model without assuming the existing menu is semantically correct.
 
 ---
 
@@ -968,7 +823,7 @@ device
 expected discovery role
 ```
 
-**RULE** — seeds are discovery inputs, not the semantic core itself.  
+**RULE** — seeds are discovery inputs, not the semantic core.  
 **PURPOSE** — prevent starting terminology from being mistaken for complete demand.  
 **FAILURE IF IGNORED** — the analyst can overfit the core to site vocabulary.
 
@@ -983,7 +838,7 @@ https://yandex.ru/support2/wordstat/ru/content/operators
 
 **RULE** — preserve phrase/operators/region/device/date and do not label broad Wordstat demand as `exact frequency`.  
 **PURPOSE** — maintain reproducible provider truth.  
-**FAILURE IF IGNORED** — client sees false precision and later comparisons become invalid.
+**FAILURE IF IGNORED** — the client sees false precision and later comparisons become invalid.
 
 ---
 
@@ -1020,7 +875,7 @@ informational questions
 
 Stop when marginal passes mostly repeat known families/noise.
 
-**PURPOSE** — reduce dependence on the first seed vocabulary without allowing endless recursive scraping.
+**PURPOSE** — reduce dependence on first-seed vocabulary without allowing endless recursive scraping.
 
 ---
 
@@ -1052,7 +907,7 @@ This is not final page mapping.
 
 ## STEP 9 — Ordinary Yandex SERP for the cleaned in-scope set
 
-Working KW-001 rule:
+Working rule:
 
 ```text
 collect ordinary Yandex TOP evidence for the full cleaned package-scope set
@@ -1077,6 +932,8 @@ C business/user-job compatibility
 ```
 
 Do not let a fixed overlap threshold override obvious business incompatibility.
+
+**PURPOSE** — prevent both semantic-only and threshold-only clustering errors.
 
 ---
 
@@ -1113,7 +970,7 @@ https://ahrefs.com/blog/keyword-cannibalization/
 
 Use `potential overlap` / `possible ownership conflict` until same/similar intent and harmful ownership behaviour are supported.
 
-**PURPOSE** — avoid recommending destructive merges/deletions from lexical overlap alone.
+**PURPOSE** — avoid destructive merge/delete recommendations from lexical overlap alone.
 
 ---
 
@@ -1130,13 +987,13 @@ priority reason
 what AI evidence could change/de-risk
 ```
 
-**PURPOSE** — prevent hindsight bias where AI evidence is used only to justify a decision already rewritten after seeing it.
+**PURPOSE** — prevent hindsight bias where AI evidence is used only to rationalize an already rewritten decision.
 
 ---
 
 ## STEP 14 — Select AI evidence by information gain
 
-Do not send the whole semantic core through GenSearch and do not treat `3–10` as an industry standard.
+Do not send the whole semantic core through GenSearch and do not treat any fixed query count as an industry standard.
 
 For each AI query record before execution:
 
@@ -1149,7 +1006,7 @@ expected information gain
 
 Select only where AI can materially change/de-risk page boundaries, explanation/selection needs or source-worthiness.
 
-**PURPOSE** — maximize useful premium evidence while controlling cost/noise.
+**PURPOSE** — maximize useful premium evidence while controlling cost and noise.
 
 ---
 
@@ -1310,18 +1167,18 @@ Record revision input separately and recalculate affected decisions where possib
 
 ## 7.1 Purpose
 
-This section is permanent. Update it whenever the owner asks for a fresh methods review and preferably about quarterly while the Kwork is actively sold.
+This section is permanent. Update it whenever the owner asks for a fresh methods review and preferably periodically while the Kwork is actively sold.
 
-Search systems, AI surfaces, SERPs and keyword-mapping practice change. Semrush's July 2026 guide recommends keeping keyword maps current and suggests roughly quarterly review for many sites:
+Search systems, AI surfaces, SERPs and keyword-mapping practice change. Current industry guidance supports keeping keyword maps current rather than treating them as permanent artifacts.
+
+Reference:
 https://www.semrush.com/blog/keyword-mapping/
-
-The interval is a maintenance heuristic, not a hard rule.
 
 ## 7.2 Review procedure
 
 On any owner request equivalent to `check current KW-001 methods`:
 
-1. Open this runbook first.
+1. Open this universal runbook first.
 2. Read the latest review ledger.
 3. Research current public sources.
 4. Prefer current official Yandex docs for provider/Search/Alice facts.
@@ -1351,6 +1208,7 @@ REVIEW TRIGGER
 10. Preserve old review history.
 11. Distinguish official fact / industry practice / project-tested method / hypothesis.
 12. If sources conflict, record the conflict and keep the proven current workflow or create a controlled validation task.
+13. Do not copy concrete test/client sites into the universal runbook; store case evidence only in `tests/<CASE_ID>/`.
 
 Minimum source classes:
 
@@ -1396,19 +1254,19 @@ https://ahrefs.com/blog/keyword-mapping/
 Ahrefs cannibalization
 https://ahrefs.com/blog/keyword-cannibalization/
 
-Semrush keyword mapping, July 2026
+Semrush keyword mapping
 https://www.semrush.com/blog/keyword-mapping/
 ```
 
-Initial externally validated changes:
+Externally validated changes:
 
 ```text
-SITE_DISCOVERY = strengthened from representative sample to saturation
+SITE_DISCOVERY = strengthened to saturation
 WORDSTAT = iterative two-pass base
 SERP_CLUSTERING = full cleaned in-scope set where economics allow
 KEYWORD_MAPPING = cluster/topic → page confirmed
 CANNIBALIZATION = conservative evidence diagnosis
-WORDSTAT_EXACT_LABEL = new control
+WORDSTAT_EXACT_LABEL = explicit control
 SEASONALITY = selective evidence step
 SEARCH_BEFORE_AI = confirmed
 WEBMASTER_ALICE_VISIBILITY = optional first-party input
@@ -1417,32 +1275,31 @@ AI_QUERY_COUNT = information-gain rule replaces arbitrary quota
 PERIODIC_METHOD_REVIEW = added
 ```
 
-## REVIEW 2026-08-28 — OKNO-MSK MULTI-PASS DISCOVERY VALIDATION
+## REVIEW 2026-08-28 — PROJECT MULTI-PASS DISCOVERY VALIDATION
 
 Status: **COMPLETED / INCORPORATED INTO STEP 1**
 
-Test evidence:
+Case details intentionally remain outside this universal runbook.
+
+Generalized test evidence:
 
 ```text
-ChatGPT public web = 18 representative pages; unique GEO district + city-subdomain discovery
-Codex Work = 56 opened/read pages; deepest internal/template family coverage; no GEO/subdomain found internally
-Codex desktop = 5 opened/read pages; useful navigation taxonomy; browser timeouts; saturation false
+one independent pass provided deeper internal/template-family coverage
+another independent public-URL pass found relevant public assets absent from the sampled internal tree
+a browser-limited control pass exposed useful taxonomy but could not verify all child pages
 ```
 
-New method decisions:
+Method decisions:
 
 ```text
 SINGLE_SURFACE_DISCOVERY = REJECTED AS DEFAULT FOR NON-TRIVIAL EXISTING SITES
 OPENED_READ != DISCOVERED_LINK_ONLY
 CROSS_CHANNEL_SATURATION = REQUIRED
 INTERNAL_DEEP_PASS + INDEPENDENT_PUBLIC_URL_PASS = REQUIRED BASE
-CODEX_INDEPENDENT_PROMPT = FROZEN ABOVE AS WORKING TEMPLATE
+CODEX_INDEPENDENT_PROMPT = INCLUDED ABOVE
 MERGE_BY_URL + PROVENANCE + EVIDENCE_STATE = REQUIRED
+CASE-SPECIFIC FACTS = FORBIDDEN IN UNIVERSAL RUNBOOK
 ```
-
-Detailed evidence authority:
-
-`tests/OKNO_MSK/STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md`
 
 ---
 
@@ -1462,31 +1319,4 @@ clean-context runbook rehearsal
 owner review
 ```
 
----
-
-# 10. Current OKNO-MSK rehearsal order
-
-```text
-1. merge all independent discovery passes under Step-1 union/provenance rules
-2. freeze merged business/page model + client questions
-3. define initial seed manifest from the merged model
-4. Wordstat pass #1
-5. progressive cleanup
-6. Wordstat expansion pass #2
-7. selective demand dynamics for material seasonal roots
-8. freeze cleaned semantic set
-9. ordinary Yandex Search batch for full cleaned in-scope set within economics
-10. SERP clustering + manual intent/business reconciliation
-11. map clusters to existing URLs/page jobs
-12. freeze Search-only architecture
-13. select AI queries by material uncertainty/information gain
-14. GenSearch (or owned Webmaster Alice visibility for a real client with access)
-15. Search-vs-AI comparison
-16. final page/action architecture
-17. client deliverables
-18. QA
-19. mock client revision
-20. economics record
-```
-
-No later step may silently rewrite earlier frozen evidence states.
+Case progress and concrete test data must be read from the active `tests/<CASE_ID>/` folder, not from this universal runbook.
