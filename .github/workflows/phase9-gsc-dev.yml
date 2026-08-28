@@ -1,0 +1,52 @@
+name: phase9-gsc-dev
+
+on:
+  push:
+    branches:
+      - phase9/google-organic-provider-research-2026-08-28
+    paths:
+      - .github/workflows/phase9-gsc-dev.yml
+      - extension/src/shared/google_search_console_protocol.js
+      - extension/src/shared/service_registry.js
+      - extension/src/shared/policy_model.js
+      - extension/tests/google_search_console_contract.test.mjs
+
+permissions:
+  contents: read
+
+jobs:
+  pure-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/google_search_console_protocol.js
+          node --check extension/src/shared/service_registry.js
+          node --check extension/src/shared/policy_model.js
+          node --check extension/tests/google_search_console_contract.test.mjs
+          echo PHASE9_GSC_PURE_SYNTAX_PASS
+      - name: GSC pure contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/google_search_console_contract.test.mjs | tee /tmp/gsc.log
+          grep -F '# fail 0' /tmp/gsc.log
+          echo PHASE9_GSC_PURE_CONTRACT_PASS
+      - name: Prior-service focused regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/gensearch_search_protocol.test.mjs extension/tests/phase5_prior_service_compatibility.test.mjs | tee /tmp/prior.log
+          grep -F '# fail 0' /tmp/prior.log
+          echo PHASE9_GSC_PRIOR_SERVICE_REGRESSION_PASS
+      - name: Provider traffic assertion
+        run: |
+          echo PHASE9_GSC_REAL_GOOGLE_REQUESTS=0
+          echo PHASE9_GSC_REAL_YANDEX_REQUESTS=0
