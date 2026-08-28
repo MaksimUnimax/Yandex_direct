@@ -728,6 +728,13 @@
           });
         }
         if (activeAutoWatch) {
+          // The worker owns the authoritative baseline. A watch can be created while
+          // the run is still STARTING with an empty baseline; when start delivery is
+          // confirmed the same run_id receives the real assistant baseline. Refresh
+          // it before enabling WAITING_COMMAND scanning so pre-start turns can never
+          // be replayed as fresh Autorun commands.
+          activeAutoWatch.assistant_baseline_ids = new Set((run.assistant_baseline_ids || []).map(String));
+          activeAutoWatch.watch_id = run.watch_id || null;
           activeAutoWatch.status = run.status;
           activeAutoWatch.paused = run.status === "paused";
           if (run.status === "waiting_command") scheduleAutoScan(0);
