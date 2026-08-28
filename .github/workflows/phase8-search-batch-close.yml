@@ -17,19 +17,19 @@ jobs:
     steps:
       - name: Checkout closure control
         uses: actions/checkout@v4
-        with:
-          path: _control
 
       - name: Checkout exact accepted main
         uses: actions/checkout@v4
         with:
           ref: ebd697e5733a7d40d13401d4c02b82a75711231c
           fetch-depth: 0
+          path: _main
 
       - name: Guard accepted main and product source
         shell: bash
         run: |
           set -euo pipefail
+          cd _main
           git fetch origin main
           test "$(git rev-parse origin/main)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
           test "$(git rev-parse HEAD)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
@@ -40,7 +40,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python _control/.github/scripts/phase8_close.py
+          cd _main
+          python ../.github/scripts/phase8_close.py
           mapfile -t changed < <(git diff --name-only | sort)
           expected=(
             extension/docs/CURRENT_STATE.md
@@ -58,6 +59,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          cd _main
           git fetch origin main
           test "$(git rev-parse origin/main)" = "ebd697e5733a7d40d13401d4c02b82a75711231c"
           git config user.name 'github-actions[bot]'
