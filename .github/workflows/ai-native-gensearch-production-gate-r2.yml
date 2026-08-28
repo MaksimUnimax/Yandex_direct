@@ -1,0 +1,275 @@
+name: ai-native-gensearch-production-gate-r2
+
+on:
+  push:
+    branches:
+      - candidate/ai-native-gensearch-production-gate-2026-08-28
+    paths:
+      - .github/workflows/ai-native-gensearch-production-gate-r2.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exact-r3-complete-predelivery-r2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout gate authority
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Assert exact live-tested product identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          PRODUCT_SOURCE='0fdcd0704c0d86f6bc6b915a340494ae456cd3e8'
+          PRODUCT_TREE='354230e8d68bf4759d98cdba55ec6ba0e0796c63'
+          test "$(git rev-parse HEAD:extension/src)" = "${PRODUCT_TREE}"
+          git diff --exit-code "${PRODUCT_SOURCE}" HEAD -- extension/src
+          test -f extension/tests/AI_NATIVE_GENSEARCH_PROXY_VALIDATION_FINAL_2026-08-28.md
+          test -f extension/docs/AI_NATIVE_GENSEARCH_PRODUCTION_CONTRACT_2026-08-28.md
+          test -f extension/tests/qa_browser/gensearch_browser_runtime.mjs
+          grep -F 'AI_NATIVE_GENSEARCH_PROXY_VALIDATION_PASS' extension/tests/AI_NATIVE_GENSEARCH_PROXY_VALIDATION_FINAL_2026-08-28.md
+          grep -F 'GENSEARCH_PRODUCTION_CONTRACT_FROZEN = true' extension/docs/AI_NATIVE_GENSEARCH_PRODUCTION_CONTRACT_2026-08-28.md
+          echo "GENSEARCH_PRODUCT_SOURCE=${PRODUCT_SOURCE}"
+          echo "GENSEARCH_PRODUCT_TREE=${PRODUCT_TREE}"
+          echo 'GENSEARCH_R2_EXACT_LIVE_TESTED_PRODUCT_IDENTITY_PASS'
+
+      - name: Download exact accepted R3 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ai-native-gensearch-proxy-r3-candidate-0fdcd07
+          path: ${{ runner.temp }}/gensearch-r3
+          repository: MaksimUnimax/Yandex_direct
+          run-id: 33135782475
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify exact artifact and source byte identity
+        shell: bash
+        env:
+          R3_DIR: ${{ runner.temp }}/gensearch-r3
+          EXTRACT_DIR: ${{ runner.temp }}/gensearch-r3-extract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, os, shutil, zipfile
+          from pathlib import Path
+
+          repo = Path.cwd()
+          r3 = Path(os.environ['R3_DIR'])
+          extract = Path(os.environ['EXTRACT_DIR'])
+          archive = r3 / 'yandex-marketing-bridge-0.1.1-gensearch-proxy-validation-r3-candidate.zip'
+          manifest_path = r3 / 'EXACT_GENSEARCH_PROXY_R3_CANDIDATE_MANIFEST_2026-08-28.json'
+          expected_sha = '0a32966ae2b873b700e8f3c3ccfdeabd2939189dfed5017f96670d885312c59c'
+          expected_bytes = 134562
+          expected_files = 47
+          expected_source = '0fdcd0704c0d86f6bc6b915a340494ae456cd3e8'
+          expected_tree = '354230e8d68bf4759d98cdba55ec6ba0e0796c63'
+
+          assert archive.is_file(), archive
+          assert manifest_path.is_file(), manifest_path
+          data = archive.read_bytes()
+          assert len(data) == expected_bytes, (len(data), expected_bytes)
+          assert hashlib.sha256(data).hexdigest() == expected_sha
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          assert manifest['source_commit'] == expected_source
+          assert manifest['sha256'] == expected_sha
+          assert manifest['bytes'] == expected_bytes
+          assert manifest['files'] == expected_files
+          assert manifest['zip_test'] == 'PASS'
+          assert manifest['deterministic_rebuild'] == 'PASS'
+          assert manifest['source_extract_byte_identity'] == 'PASS'
+          entries = manifest['entries']
+          assert isinstance(entries, list) and len(entries) == expected_files
+
+          if extract.exists():
+              shutil.rmtree(extract)
+          extract.mkdir(parents=True)
+          with zipfile.ZipFile(archive, 'r') as zf:
+              assert zf.testzip() is None
+              assert zf.namelist() == entries
+              zf.extractall(extract)
+
+          source = repo / 'extension' / 'src'
+          source_paths = sorted(p.relative_to(source).as_posix() for p in source.rglob('*') if p.is_file())
+          archive_paths = sorted(p.relative_to(extract).as_posix() for p in extract.rglob('*') if p.is_file())
+          assert source_paths == sorted(entries)
+          assert archive_paths == sorted(entries)
+          assert len(source_paths) == expected_files
+          for rel in source_paths:
+              assert (source / rel).read_bytes() == (extract / rel).read_bytes(), rel
+
+          print('GENSEARCH_R3_ARCHIVE_SHA=' + expected_sha)
+          print('GENSEARCH_R3_ARCHIVE_BYTES=' + str(expected_bytes))
+          print('GENSEARCH_R3_ARCHIVE_FILES=' + str(expected_files))
+          print('GENSEARCH_R3_PRODUCT_TREE=' + expected_tree)
+          print('GENSEARCH_R2_SOURCE_EXTRACT_BYTE_IDENTITY_PASS')
+          PY
+
+      - name: Source syntax JSON and complete Node regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do node --check "$file"; done < <(find extension/src -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8')); JSON.parse(require('fs').readFileSync('extension/src/package.json','utf8'));"
+          node --check extension/tests/gensearch_search_protocol.test.mjs
+          node --check extension/tests/qa_browser/gensearch_browser_runtime.mjs
+          node --test extension/tests/gensearch_search_protocol.test.mjs
+          node --test extension/tests/*.test.mjs
+          echo 'GENSEARCH_R2_SOURCE_COMPLETE_NODE_REGRESSION_PASS'
+
+      - name: Build exact packaged test workspace
+        shell: bash
+        env:
+          EXTRACT_DIR: ${{ runner.temp }}/gensearch-r3-extract
+          PACKAGED_ROOT: ${{ runner.temp }}/gensearch-r3-packaged
+        run: |
+          set -euo pipefail
+          rm -rf "${PACKAGED_ROOT}"
+          mkdir -p "${PACKAGED_ROOT}/extension/src" "${PACKAGED_ROOT}/extension/tests"
+          cp -a "${EXTRACT_DIR}/." "${PACKAGED_ROOT}/extension/src/"
+          cp -a extension/tests/. "${PACKAGED_ROOT}/extension/tests/"
+          diff -r --no-dereference extension/src "${PACKAGED_ROOT}/extension/src"
+          echo 'GENSEARCH_R2_PACKAGED_WORKSPACE_EXACT_PRODUCT_PASS'
+
+      - name: Packaged syntax JSON and complete Node regression
+        shell: bash
+        env:
+          PACKAGED_ROOT: ${{ runner.temp }}/gensearch-r3-packaged
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do node --check "$file"; done < <(find "${PACKAGED_ROOT}/extension/src" -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          node -e "JSON.parse(require('fs').readFileSync('${PACKAGED_ROOT}/extension/src/manifest.json','utf8')); JSON.parse(require('fs').readFileSync('${PACKAGED_ROOT}/extension/src/package.json','utf8'));"
+          node --test "${PACKAGED_ROOT}/extension/tests/gensearch_search_protocol.test.mjs"
+          node --test "${PACKAGED_ROOT}"/extension/tests/*.test.mjs
+          echo 'GENSEARCH_R2_PACKAGED_COMPLETE_NODE_REGRESSION_PASS'
+
+      - name: Install qualified Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+          echo 'GENSEARCH_R2_QUALIFIED_CHROME_READY'
+
+      - name: Run complete exact-packaged browser campaign
+        shell: bash
+        env:
+          PACKAGED_ROOT: ${{ runner.temp }}/gensearch-r3-packaged
+        run: |
+          set -euo pipefail
+          ln -s "${GITHUB_WORKSPACE}/node_modules" "${PACKAGED_ROOT}/node_modules"
+
+          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/gensearch_browser_runtime.mjs" | tee /tmp/gensearch-browser.log
+          for marker in \
+            GENSEARCH_BROWSER_ONE_REQUEST_PASS \
+            GENSEARCH_BROWSER_PROVIDER_CONTRACT_PASS \
+            GENSEARCH_BROWSER_RESPONSE_PROVENANCE_PASS \
+            GENSEARCH_BROWSER_NO_RETRY_PASS \
+            GENSEARCH_BROWSER_REAL_YANDEX_REQUESTS=0 \
+            AI_NATIVE_GENSEARCH_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/gensearch-browser.log
+          done
+
+          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/direct_browser_runtime.mjs" | tee /tmp/prior-direct-browser.log
+          grep -F 'PHASE5_DIRECT_BROWSER_RUNTIME_PASS' /tmp/prior-direct-browser.log
+          grep -F 'D20_CONTROLLED_REAL_YANDEX_REQUESTS=0' /tmp/prior-direct-browser.log
+
+          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/direct_popup_d18.mjs" | tee /tmp/prior-popup.log
+          grep -F 'PHASE5_DIRECT_POPUP_D18_PASS' /tmp/prior-popup.log
+
+          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs" | tee /tmp/prior-lifecycle.log
+          grep -F 'PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS' /tmp/prior-lifecycle.log
+          grep -F 'D20_DIRECT_LIFECYCLE_REAL_YANDEX_REQUESTS=0' /tmp/prior-lifecycle.log
+
+          xvfb-run -a node "${PACKAGED_ROOT}/extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs" | tee /tmp/prior-addendum.log
+          grep -F 'PHASE5_DIRECT_CODEX_BROWSER_ADDENDUM_PASS' /tmp/prior-addendum.log
+          grep -F 'DIRECT_REAL_YANDEX_REQUESTS=0' /tmp/prior-addendum.log
+          echo 'GENSEARCH_R2_PRIOR_DIRECT_BROWSER_PASS'
+
+          PHASE2_QA="${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4"
+          ORIGINAL_COMPAT="${PHASE2_QA}/browser_phase2_stage4_compat_gate.mjs"
+          ADAPTED_COMPAT="${PHASE2_QA}/.gensearch_phase2_stage4_compat_timing_adapter.mjs"
+          export ORIGINAL_COMPAT ADAPTED_COMPAT
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          src_path = Path(os.environ['ORIGINAL_COMPAT'])
+          dst_path = Path(os.environ['ADAPTED_COMPAT'])
+          source = src_path.read_text(encoding='utf-8')
+          start_marker = 'const secondIdentity=await worker.evaluate('
+          end_marker = ",SECOND_URL);assert.equal(secondIdentity?.response?.ok,true);"
+          start = source.find(start_marker)
+          assert start >= 0, 'secondIdentity start marker missing'
+          end = source.find(end_marker, start)
+          assert end >= 0, 'secondIdentity end marker missing'
+          assert source.find(start_marker, start + 1) < 0, 'secondIdentity start marker is not unique'
+          call_start = start + len('const secondIdentity=await ')
+          call_end = end + len(',SECOND_URL)')
+          call = source[call_start:call_end]
+          replacement = (
+              "const secondIdentity=await waitUntil(async()=>{"
+              f"const value=await {call};"
+              "return value?.response?.ok===true?value:false;"
+              "},'B03_SECOND_IDENTITY_NOT_READY');"
+              "assert.equal(secondIdentity?.response?.ok,true);"
+          )
+          adapted = source[:start] + replacement + source[end + len(end_marker):]
+          assert adapted != source
+          assert adapted.count('B03_SECOND_IDENTITY_NOT_READY') == 1
+          assert adapted.count("assert.equal(secondIdentity?.response?.ok,true)") == 1
+          dst_path.write_text(adapted, encoding='utf-8', newline='\n')
+          print('GENSEARCH_PHASE2_COMPAT_TIMING_ADAPTER_READY')
+          PY
+          node --check "${ADAPTED_COMPAT}"
+          xvfb-run -a node "${ADAPTED_COMPAT}" | tee /tmp/prior-phase2-compat.log
+          rm -f "${ADAPTED_COMPAT}"
+          grep -F 'B03_NON_OWNER_CONTROL_FENCE_PASS' /tmp/prior-phase2-compat.log
+          grep -F 'BROWSER_STEP_SEARCH_DELIVERY_PASS' /tmp/prior-phase2-compat.log
+          echo 'GENSEARCH_R2_PRIOR_PHASE2_COMPAT_PASS'
+
+          CHROME_BIN="$(node --input-type=module -e "import puppeteer from 'puppeteer'; console.log(puppeteer.executablePath())")"
+          test -x "${CHROME_BIN}"
+          test -f "${PHASE2_QA}/qa-chatgpt-local.key.pem"
+          test -f "${PHASE2_QA}/qa-chatgpt-local.cert.pem"
+          xvfb-run -a node "${PHASE2_QA}/browser_phase2_stage4_gate.mjs" \
+            "${CHROME_BIN}" \
+            "${PACKAGED_ROOT}/extension/src" \
+            "${PHASE2_QA}/qa-chatgpt-local.key.pem" \
+            "${PHASE2_QA}/qa-chatgpt-local.cert.pem" | tee /tmp/prior-phase2-full.log
+          echo 'GENSEARCH_R2_PRIOR_PHASE2_FULL_BROWSER_PASS'
+          echo 'GENSEARCH_R2_COMPLETE_PACKAGED_BROWSER_CAMPAIGN_PASS'
+
+      - name: Final immutability and zero-real-provider audit
+        if: success()
+        shell: bash
+        env:
+          EXTRACT_DIR: ${{ runner.temp }}/gensearch-r3-extract
+          PACKAGED_ROOT: ${{ runner.temp }}/gensearch-r3-packaged
+        run: |
+          set -euo pipefail
+          PRODUCT_SOURCE='0fdcd0704c0d86f6bc6b915a340494ae456cd3e8'
+          PRODUCT_TREE='354230e8d68bf4759d98cdba55ec6ba0e0796c63'
+          test "$(git rev-parse HEAD:extension/src)" = "${PRODUCT_TREE}"
+          git diff --exit-code "${PRODUCT_SOURCE}" HEAD -- extension/src
+          diff -r --no-dereference extension/src "${EXTRACT_DIR}"
+          diff -r --no-dereference extension/src "${PACKAGED_ROOT}/extension/src"
+          test ! -e "${PACKAGED_ROOT}/extension/tests/qa_browser/phase2-stage4/.gensearch_phase2_stage4_compat_timing_adapter.mjs"
+          grep -F 'GENSEARCH_BROWSER_REAL_YANDEX_REQUESTS=0' /tmp/gensearch-browser.log
+          grep -F 'D20_CONTROLLED_REAL_YANDEX_REQUESTS=0' /tmp/prior-direct-browser.log
+          grep -F 'D20_DIRECT_LIFECYCLE_REAL_YANDEX_REQUESTS=0' /tmp/prior-lifecycle.log
+          grep -F 'DIRECT_REAL_YANDEX_REQUESTS=0' /tmp/prior-addendum.log
+          echo 'REAL_YANDEX_REQUESTS_DURING_GENSEARCH_PRODUCTION_GATE_R2=0'
+          echo 'GENSEARCH_R2_PRODUCT_BYTES_POST_GATE=IDENTICAL'
+          echo 'AI_NATIVE_GENSEARCH_PRODUCTION_GATE_R2_PASS'
