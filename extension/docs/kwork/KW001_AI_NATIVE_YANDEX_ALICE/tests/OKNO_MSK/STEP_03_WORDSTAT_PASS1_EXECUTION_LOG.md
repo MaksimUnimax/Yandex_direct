@@ -96,13 +96,74 @@ MANUAL/AUTORUN state where relevant
 
 Universal rule is stored in `../../DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md`.
 
-## 6. Current checkpoint
+## 6. Provider item S01 — `пластиковые окна`
+
+Observed live result:
+
+```text
+item_status = SUCCEEDED
+phrase = пластиковые окна
+region = 213
+device = DEVICE_ALL
+numPhrases = 200
+http_status = 200
+request_executed = true
+automatic_retry = false
+request_id = wordstat-batch-b9dd8212-8959-4358-81a8-a72c810cf948
+elapsed_ms = 2696
+estimated_cost_rub = 0.02
+root_totalCount = 152131
+returned_results = 200
+returned_associations = 18
+```
+
+Checkpoint after S01:
+
+```text
+progress.status = RUNNING
+total = 18
+pending = 17
+succeeded = 1
+failed_terminal = 0
+outcome_unknown = 0
+terminal = 1
+requests_started = 1
+estimated_cost_rub = 0.02
+next_safe_action = CLAIM_NEXT
+```
+
+### Acquisition observations only — no cleanup decision yet
+
+The broad seed already exposed multiple materially different demand directions, including:
+
+```text
+purchase/order language
+Moscow-local commercial language
+price / installation / turnkey language
+repair / regulation / replacement language
+accessories and mosquito-net language
+profile / glazing-unit vocabulary
+selection/review/rating language
+DIY/how-to language
+used/marketplace language
+balcony/application language
+manufacturer/factory language
+```
+
+Examples observed in provider output include `купить пластиковые окна`, `пластиковые окна цена`, `пластиковые окна цена с установкой`, `ремонт пластиковых окон`, `фурнитура для пластиковых окон`, `лучшие пластиковые окна`, `пластиковые окна своими руками`, `пластиковые окна бу`, `пластиковые окна рехау`, `пластиковые окна на балкон`, `производители пластиковых окон`.
+
+These are **raw acquisition observations only**. Step 3 must not prematurely convert them into KEEP/REJECT/final-cluster decisions; progressive cleanup remains a later step after pass acquisition.
+
+## 7. Current checkpoint
 
 ```text
 job_created = true
-provider_requests_started = 0
-provider_requests_succeeded = 0
-pending = 18
+provider_requests_started = 1
+provider_requests_succeeded = 1
+provider_requests_failed_terminal = 0
+provider_requests_outcome_unknown = 0
+pending = 17
+measured_cost_rub = 0.02
 next_safe_action = batch.next
 STEP_03_COMPLETE = false
 ```
