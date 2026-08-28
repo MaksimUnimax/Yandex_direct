@@ -8,9 +8,9 @@ This document is the canonical KW-001 gate that must run before every new major 
 ## Required sequence
 
 ```text
-CURRENT JOB WORKSPACE + MANIFEST
-→ PERMANENT LESSONS / KNOWN ERRORS
-→ PREVIOUS STEP EVIDENCE
+READ OWNER-LOCKED UNIVERSAL RULES
+→ READ CURRENT JOB WORKSPACE / JOB FLOW
+→ READ PREVIOUS STEP EVIDENCE
 → EXPLAIN NEXT STEP
 → IDENTIFY METHOD
 → TRACE METHOD ORIGIN
@@ -19,7 +19,7 @@ CURRENT JOB WORKSPACE + MANIFEST
 → CLASSIFY SUPPORT / DEFECT
 → SHOW OWNER SOURCES + RISKS
 → WAIT FOR EXPLICIT OWNER AUTHORIZATION
-→ EXECUTE ONE STEP
+→ EXECUTE ONE STEP INSIDE CURRENT JOB
 → STOP + REPORT
 ```
 
@@ -27,33 +27,41 @@ Execution before this gate is a process failure.
 
 ---
 
-## 0. Workspace check before method review
+## 0. Two-layer check before method review
 
-Before reviewing the next analytical step, ChatGPT must confirm that the concrete order/test is running inside one dedicated per-job workspace governed by:
+Read and obey:
 
 ```text
 JOB_WORKSPACE_LIFECYCLE.md
 ```
 
-For future jobs the canonical location is:
+Layer A = permanent universal Kwork rules.  
+Layer B = disposable current-job workspace.
+
+Universal rules are **owner-locked**:
 
 ```text
-work/<JOB_ID>/
+ChatGPT must not edit, add, remove or promote universal rules during a concrete job
+unless the owner explicitly instructs it to change the universal methodology.
 ```
 
-For an active legacy case under another isolated case directory, that directory may remain in place until close, but it must be treated as disposable per-job workspace.
+A discovered possible universal defect is reported to the owner; it is not silently repaired in Layer A.
 
 Before each major step read at minimum:
 
 ```text
+DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md
+WORKING_RUNBOOK_FOR_CHATGPT.md
+PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
 JOB_WORKSPACE_LIFECYCLE.md
-STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md  # permanent owner-approved history only
 current job JOB_MANIFEST.md
-current job STEP_REVIEW_AND_ERRORS_LEDGER.md if present
+current job JOB_FLOW.md if present
+relevant current-job step records
 previous step acceptance/evidence
 ```
 
-If a concrete client's facts are being written directly into permanent universal Kwork files, classify this as `CORRECTION_REQUIRED` before continuing.
+If a concrete client's facts are being written into permanent universal files, classify this as `CORRECTION_REQUIRED` for the current job organization.
 
 ---
 
@@ -144,10 +152,11 @@ Did we make a page/cluster decision before SERP evidence required by the workflo
 Did we cite our own runbook as proof instead of tracing the rule to evidence?
 Is any provider/search behavior assumed from memory rather than checked?
 Did we accidentally place case-specific evidence in permanent methodology files?
-Did we read the current job's error ledger before planning the next step?
+Does the current job execution conflict with an owner-locked universal rule?
+Does a universal rule appear questionable based on new evidence?
 ```
 
-The purpose is to discover errors before they propagate downstream.
+If the last question is YES, report the issue to the owner. **Do not modify the universal rule unless the owner explicitly orders the change.**
 
 ---
 
@@ -166,10 +175,16 @@ QUESTIONABLE
 = meaningful uncertainty remains; owner must see it before deciding whether to proceed
 
 CORRECTION_REQUIRED
-= current or prior artifact contains a material defect that must be corrected before execution
+= current job artifact/execution contains a material defect that must be corrected before execution
 ```
 
-If `CORRECTION_REQUIRED`, the next step is blocked.
+A possible defect in an owner-locked universal rule must be surfaced separately as:
+
+```text
+UNIVERSAL_RULE_REVIEW_REQUESTED
+```
+
+This does not authorize ChatGPT to edit Layer A.
 
 ---
 
@@ -188,6 +203,7 @@ SELF-AUDIT FINDINGS
 WHAT IS SUPPORTED
 WHAT IS PROJECT-SPECIFIC / HEURISTIC
 RISKS / UNCERTAINTIES
+POSSIBLE UNIVERSAL-RULE ISSUE, IF ANY
 WHAT I WILL NOT DO YET
 PROPOSED PASS GATE
 ```
@@ -205,21 +221,21 @@ execute only the authorized step;
 do not silently broaden scope;
 preserve provider/source provenance;
 keep all case-specific artifacts inside the current job workspace;
-record deviations/failures in the current job error ledger;
+record current-job deviations/failures in current-job workflow/evidence files;
 complete the step gate;
-update reusable lessons when a general rule changes;
+DO NOT update universal rules unless the owner explicitly ordered such an update;
 STOP;
 report result, sources, costs/provider calls, commits and remaining uncertainty;
 wait for the next explicit owner continuation.
 ```
 
-This preserves the permanent owner loop:
+This preserves:
 
 ```text
 PRE-STEP REVIEW
 → OWNER AUTHORIZATION
-→ ONE STEP
-→ COMPLETE GATE
+→ ONE JOB STEP
+→ COMPLETE JOB GATE
 → STOP
 → REPORT
 → WAIT
@@ -229,39 +245,30 @@ PRE-STEP REVIEW
 
 ## 8. Provider sub-items are not separate major steps
 
-The complete research gate is required before a new batch/method/evidence stage, not before every individual item of an already researched and authorized durable batch.
-
-Example:
-
-```text
-research + authorize Wordstat pass #2 once
-→ batch.start
-→ batch.next items follow the frozen manifest
-→ final status
-→ step gate
-```
+The complete research gate is required before a new batch/method/evidence stage, not before every individual item of an already researched, frozen and owner-authorized durable batch.
 
 Any material change to the manifest, method, region, evidence semantics or retry policy requires a fresh review/authorization.
 
 ---
 
-## 9. Job-close gate is separate and mandatory
+## 9. Job close
 
-Completing the last analytical step does not by itself authorize deletion of the job workspace.
+Completing the last analytical step does not automatically delete the workspace.
 
-Before deletion apply `JOB_WORKSPACE_LIFECYCLE.md`:
+Apply `JOB_WORKSPACE_LIFECYCLE.md`:
 
 ```text
-job/revision fully closed
-→ review job error/lesson ledger
-→ promote reusable lessons into permanent docs
-→ verify universal docs contain no client-specific facts
-→ confirm final handoff/economics requirements
-→ mark JOB_MANIFEST safe-to-delete = true
-→ delete entire per-job workspace
+job work complete
+→ final deliverable/handoff complete
+→ revisions/rework closed
+→ no provider/operator action pending
+→ mark safe_to_delete = true
+→ delete the entire current-job workspace
 ```
 
-Do not keep old client/test workspaces as passive repository history after this close gate succeeds.
+There is **no mandatory automatic extraction of lessons into universal docs** at close.
+
+If the owner wants a universal method change, the owner explicitly orders it when desired.
 
 ---
 
@@ -277,8 +284,6 @@ JOB_WORKSPACE_LIFECYCLE.md
 KWORK_RUNBOOK_STANDARD_2026-08-28.md
 ```
 
-If an older workflow description appears to allow automatic progression, case-file scattering, or permanent retention of completed workspaces, the newer explicit owner rules control KW-001 execution until the owner changes them.
-
 Markers:
 
 ```text
@@ -288,6 +293,7 @@ KW001_PRE_STEP_ADVERSARIAL_SELF_AUDIT_REQUIRED = true
 KW001_PRE_STEP_OWNER_APPROVAL_REQUIRED = true
 KW001_ONE_STEP_STOP_REPORT_WAIT_REQUIRED = true
 KW001_PRE_STEP_JOB_WORKSPACE_CHECK_REQUIRED = true
-KW001_PRE_STEP_ERROR_LEDGER_READ_REQUIRED = true
-KW001_JOB_CLOSE_EXTRACTION_AND_DELETE_REQUIRED = true
+KW001_UNIVERSAL_RULES_OWNER_LOCKED_DURING_JOB = true
+KW001_NO_AUTOMATIC_UNIVERSAL_RULE_UPDATE = true
+KW001_JOB_CLOSE_DELETE_ONLY_NO_MANDATORY_EXTRACTION = true
 ```
