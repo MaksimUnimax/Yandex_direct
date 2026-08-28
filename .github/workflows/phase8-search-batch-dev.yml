@@ -64,6 +64,13 @@ jobs:
             extension/tests/gensearch_search_protocol.test.mjs | tee /tmp/regression.log
           grep -F '# fail 0' /tmp/regression.log
           echo PHASE8_SEARCH_BATCH_REUSE_REGRESSION_PASS
+      - name: Complete Node regression suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs | tee /tmp/p8-complete-node.log
+          grep -F '# fail 0' /tmp/p8-complete-node.log
+          echo PHASE8_COMPLETE_NODE_REGRESSION_PASS
       - name: Install Puppeteer Chrome
         shell: bash
         run: |
