@@ -18,7 +18,7 @@ function load(files) {
   return ctx;
 }
 
-test('Search batch transport stays inside search service while GSC remains the separate sixth service', () => {
+test('Search batch transport stays inside search service and registry remains exactly five services', () => {
   const ctx = load([
     'shared/service_registry.js',
     'shared/block_command_discovery.js',
@@ -28,15 +28,11 @@ test('Search batch transport stays inside search service while GSC remains the s
     'shared/search_batch_protocol.js',
     'shared/search_batch_transport.js'
   ]);
-  assert.deepEqual(
-    Array.from(ctx.YMBServiceRegistry.DEFINITIONS, (item) => item.service),
-    ['wordstat', 'search', 'webmaster', 'metrika', 'direct', 'google_search_console']
-  );
+  assert.deepEqual(Array.from(ctx.YMBServiceRegistry.DEFINITIONS, (item) => item.service), ['wordstat', 'search', 'webmaster', 'metrika', 'direct']);
   const detected = ctx.YMBSearchBatchTransport.detect('SEARCH_BATCH_API_V1 {"action":"status","jobId":"j"}', ctx.YMBServiceRegistry);
   assert.equal(detected.service, 'search');
   assert.equal(detected.search_batch, true);
   assert.equal(detected.prefix, 'SEARCH_BATCH_API_V1');
-  assert.equal(ctx.YMBServiceRegistry.definitionForService('google_search_console').prefix, 'GOOGLE_SEARCH_CONSOLE_API_V1');
 });
 
 test('Search batch discovery composes with ordinary registry discovery and Wordstat batch without duplication', () => {
@@ -76,8 +72,7 @@ test('Search content bridge extends only Search command recognition and preserve
   assert.equal(ctx.SearchProtocol.isCommandText('SEARCH_BATCH_API_V1 {"action":"status","jobId":"j"}'), true);
   assert.equal(ctx.SearchProtocol.PREFIX, 'SEARCH_API_V1');
   assert.equal(ctx.SearchBatchProtocol.PREFIX, 'SEARCH_BATCH_API_V1');
-  assert.equal(ctx.YMBServiceRegistry.DEFINITIONS.length, 6);
-  assert.equal(ctx.YMBServiceRegistry.definitionForService('google_search_console').prefix, 'GOOGLE_SEARCH_CONSOLE_API_V1');
+  assert.equal(ctx.YMBServiceRegistry.DEFINITIONS.length, 5);
 });
 
 test('manifest loads Search batch content modules after SearchProtocol and before content_script', () => {

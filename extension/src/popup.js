@@ -4,17 +4,14 @@
   const $ = (id) => document.getElementById(id);
   const TERMINAL_RUNS = new Set(["stopped", "error"]);
   const CHATGPT_HOSTS = new Set(["chatgpt.com", "chat.openai.com"]);
-  const SERVICES = new Set(["wordstat", "search", "webmaster", "metrika", "direct", "google_search_console"]);
-  const PERSISTENT_CREDENTIAL_SERVICES = new Set(["wordstat", "search", "webmaster", "metrika", "direct"]);
-  const PRODUCTION_AUTORUN_LOCKED = new Set(["webmaster", "metrika", "direct", "google_search_console"]);
-  const GSC_AUTH_PORT = "YMB_GSC_AUTH_V1";
+  const SERVICES = new Set(["wordstat", "search", "webmaster", "metrika", "direct"]);
+  const PRODUCTION_AUTORUN_LOCKED = new Set(["webmaster", "metrika", "direct"]);
   const SERVICE_PROTOCOL = Object.freeze({
     wordstat: "WORDSTAT_API_V1",
     search: "SEARCH_API_V1",
     webmaster: "WEBMASTER_API_V1",
     metrika: "METRIKA_API_V1",
-    direct: "DIRECT_API_V1",
-    google_search_console: "GOOGLE_SEARCH_CONSOLE_API_V1"
+    direct: "DIRECT_API_V1"
   });
 
   let context = { page_available: false, available: false, tab_id: null, conversation_key: "", identity: null, error: "" };
@@ -31,43 +28,6 @@
           else resolve(response);
         });
       } catch (error) { reject(error); }
-    });
-  }
-
-  function gscRequest(action, payload = {}) {
-    return new Promise((resolve, reject) => {
-      let port;
-      let settled = false;
-      let timer = null;
-      const finish = (fn, value) => {
-        if (settled) return;
-        settled = true;
-        if (timer) clearTimeout(timer);
-        fn(value);
-      };
-      try {
-        port = chrome.runtime.connect({ name: GSC_AUTH_PORT });
-      } catch (error) {
-        reject(error);
-        return;
-      }
-      port.onMessage.addListener((response) => {
-        if (!response?.ok) {
-          const error = new Error(response?.error || response?.code || "Google Search Console operation failed.");
-          error.code = response?.code || "GSC_AUTH_RUNTIME_ERROR";
-          error.request_executed = response?.request_executed ?? false;
-          finish(reject, error);
-          return;
-        }
-        finish(resolve, response);
-      });
-      port.onDisconnect.addListener(() => {
-        if (settled) return;
-        const message = chrome.runtime.lastError?.message || "Google Search Console auth channel closed before completion.";
-        finish(reject, new Error(message));
-      });
-      timer = setTimeout(() => finish(reject, new Error("Google Search Console auth operation timed out.")), 120000);
-      port.postMessage({ action, ...payload });
     });
   }
 
@@ -186,23 +146,11 @@
     };
   }
 
-  function googleSearchConsolePolicyFromForm() {
-    return {
-      autorun_enabled: false,
-      manual_enabled: $("googleSearchConsoleManualEnabled").checked,
-      allowed_methods: ["listSites", "searchAnalytics"],
-      max_requests_per_run: asPositiveInt("googleSearchConsoleMaxRequestsRun", 50),
-      max_cost_rub_per_run: 0,
-      method_cost_rub: { listSites: 0, searchAnalytics: 0 }
-    };
-  }
-
   function policyForService(service, state = lastState) {
     if (service === "search") return state?.search_policy || {};
     if (service === "webmaster") return state?.webmaster_policy || {};
     if (service === "metrika") return state?.metrika_policy || {};
     if (service === "direct") return state?.direct_policy || {};
-    if (service === "google_search_console") return state?.google_search_console_policy || {};
     return state?.wordstat_policy || {};
   }
 
@@ -250,8 +198,6 @@
     if (state === "NO_API_ACCESS") return "нет доступа к Direct API";
     if (state === "UNITS_EXHAUSTED") return "Units исчерпаны";
     if (state === "CONCURRENCY_LIMIT") return "лимит параллельных запросов";
-    if (state === "UNCONFIGURED") return "OAuth client_id не привязан";
-    if (state === "AUTH_REQUIRED") return "не подключён";
     if (state === "MISSING") return "не настроен";
     if (state === "NOT_CHECKED") return configured ? "сохранён, не проверен" : "не проверен";
     return configured ? "сохранён" : "не настроен";
@@ -269,7 +215,6 @@
     const webmaster = credentials.webmaster || {};
     const metrika = credentials.metrika || {};
     const direct = credentials.direct || {};
-    const googleSearchConsole = state?.google_search_console_auth_status || { configured: false, check_state: "UNCONFIGURED" };
 
     $("wordstatApiKey").value = "";
     $("wordstatApiKey").placeholder = wordstat.has_api_key ? "Ключ сохранён; пусто = не менять" : "Введите API key";
@@ -299,16 +244,6 @@
     $("directClientLogin").value = direct.client_login || "";
     $("directCredentialState").textContent = checkStateText(direct, { configured: direct.has_oauth_token });
     $("directCheckMeta").textContent = checkMetaText(direct, "checked_at");
-
-    const gscConfigured = googleSearchConsole.configured === true;
-    const gscPresent = googleSearchConsole.check_state === "PRESENT";
-    $("googleSearchConsoleCredentialState").textContent = checkStateText(googleSearchConsole, { configured: gscConfigured });
-    $("googleSearchConsoleCheckMeta").textContent = gscConfigured
-      ? (gscPresent ? "Chrome Identity: подключено. Check access доступен." : "Chrome Identity настроен; нажмите Connect Google.")
-      : "OAuth client_id ещё не привязан к стабильному ID расширения.";
-    $("connectGoogleSearchConsole").disabled = !gscConfigured || gscPresent;
-    $("checkGoogleSearchConsoleAccess").disabled = !gscConfigured || !gscPresent;
-    $("disconnectGoogleSearchConsole").disabled = !gscConfigured || !gscPresent;
 
     for (const service of SERVICES) {
       const card = $(`${service}Credentials`);
@@ -388,11 +323,6 @@
       $("directMaxReportRows").value = String(dp.max_report_rows ?? 1000);
       $("directCost").value = "0 ₽";
 
-      const gp = state?.google_search_console_policy || {};
-      $("googleSearchConsoleManualEnabled").checked = gp.manual_enabled !== false;
-      $("googleSearchConsoleMaxRequestsRun").value = String(gp.max_requests_per_run ?? 50);
-      $("googleSearchConsoleCost").value = "0 ₽";
-
       const activePolicy = policyForService(service, state);
       if (state?.manual_mode !== true && activePolicy?.manual_enabled !== true) {
         $("manualMode").disabled = true;
@@ -471,14 +401,11 @@
     if (!metrika?.ok) throw new Error(metrika?.error || metrika?.code || "Не удалось сохранить Metrika policy.");
     const direct = await runtimeSend({ type: "YMB_SAVE_DIRECT_POLICY", policy: directPolicyFromForm() });
     if (!direct?.ok) throw new Error(direct?.error || direct?.code || "Не удалось сохранить Direct policy.");
-    const googleSearchConsole = await gscRequest("save_policy", { policy: googleSearchConsolePolicyFromForm() });
-    if (!googleSearchConsole?.ok) throw new Error(googleSearchConsole?.error || googleSearchConsole?.code || "Не удалось сохранить Google Search Console policy.");
     if (response.state) renderState({
       ...response.state,
       webmaster_policy: webmaster.policy || response.state.webmaster_policy,
       metrika_policy: metrika.policy || response.state.metrika_policy,
-      direct_policy: direct.policy || response.state.direct_policy,
-      google_search_console_policy: googleSearchConsole.policy || response.state.google_search_console_policy
+      direct_policy: direct.policy || response.state.direct_policy
     });
     return response.state || null;
   }
@@ -534,7 +461,7 @@
   $("saveSettingsTop").addEventListener("click", onSaveSettingsClick);
   $("saveSettings").addEventListener("click", onSaveSettingsClick);
 
-  for (const service of PERSISTENT_CREDENTIAL_SERVICES) {
+  for (const service of SERVICES) {
     const cap = service[0].toUpperCase() + service.slice(1);
     $("save" + cap + "Credential").addEventListener("click", () => withButton($("save" + cap + "Credential"), async () => {
       const result = await saveCredential(service); showStatus(result.changed === false ? `${service}: изменений нет.` : `${service}: credentials сохранены.`, "ok");
@@ -543,22 +470,6 @@
       const result = await checkCredential(service); if (result?.cancelled) return showStatus("Search Check отменён; запрос не выполнялся."); showStatus(`${service}: Check пройден.`, "ok");
     }));
   }
-
-  $("connectGoogleSearchConsole").addEventListener("click", () => withButton($("connectGoogleSearchConsole"), async () => {
-    await gscRequest("connect");
-    await refresh();
-    showStatus("Google Search Console подключён через Chrome Identity.", "ok");
-  }));
-  $("checkGoogleSearchConsoleAccess").addEventListener("click", () => withButton($("checkGoogleSearchConsoleAccess"), async () => {
-    const result = await gscRequest("check_access");
-    await refresh();
-    showStatus("Google Search Console: доступ подтверждён; properties: " + Number(result.site_count || 0) + ".", "ok");
-  }));
-  $("disconnectGoogleSearchConsole").addEventListener("click", () => withButton($("disconnectGoogleSearchConsole"), async () => {
-    await gscRequest("disconnect");
-    await refresh();
-    showStatus("Google Search Console: cached authorization очищена.", "ok");
-  }));
 
   $("activeService").addEventListener("change", () => {
     if (rendering) return;
@@ -665,7 +576,7 @@
     await refresh(); showStatus("Работа продолжена.", "ok");
   }));
   $("finishAuto").addEventListener("click", () => withButton($("finishAuto"), async () => {
-    if (!confirm("Завершить текущий автоматический режим Bridge?")) return;
+    if (!confirm("Завершить текущий автоматический режим Yandex?")) return;
     await resolveContext(); if (!context.available) throw new Error("Откройте конкретный диалог ChatGPT.");
     const response = await runtimeSend({ type: "WS_FINISH_AUTORUN", conversation_key: context.conversation_key, tab_id: context.tab_id });
     if (!response?.ok) throw new Error(response?.error || response?.code || "Не удалось завершить.");
@@ -732,7 +643,7 @@
   if (globalThis.__YMB_POPUP_TEST__ === true) {
     globalThis.__YMB_POPUP_TEST_API__ = Object.freeze({
       resolveContext, renderState, saveAll, persistTogglePatch, saveCredential, checkCredential,
-      wordstatPolicyFromForm, searchPolicyFromForm, webmasterPolicyFromForm, metrikaPolicyFromForm, directPolicyFromForm, googleSearchConsolePolicyFromForm, policyForService, gscRequest,
+      wordstatPolicyFromForm, searchPolicyFromForm, webmasterPolicyFromForm, metrikaPolicyFromForm, directPolicyFromForm, policyForService,
       reportPrefixFromForm, isActiveRun, normalizeService, renderCredentialState, onSaveSettingsClick,
       loadDiagnostics, renderDiagnostics, visibleDiagnostics, copyProfileCount
     });

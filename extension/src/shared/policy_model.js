@@ -11,20 +11,16 @@
   const METRIKA_POLICY_CHECKED_AT = "2026-08-26";
   const DIRECT_POLICY_SOURCE = "https://yandex.ru/dev/direct/doc/ru/concepts/units";
   const DIRECT_POLICY_CHECKED_AT = "2026-08-26";
-  const GOOGLE_SEARCH_CONSOLE_POLICY_SOURCE = "https://developers.google.com/webmaster-tools/pricing";
-  const GOOGLE_SEARCH_CONSOLE_POLICY_CHECKED_AT = "2026-08-28";
   const DEFAULT_METHOD_COST_RUB = Object.freeze({ getTop: 0.02, getDynamics: 0.02, getRegionsDistribution: 0.05, getRegionsTree: 0 });
   const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488, genSearch: 5.08 });
   const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({ listHosts: 0, getSummary: 0, getDiagnostics: 0, getPopularQueries: 0 });
   const DEFAULT_METRIKA_METHOD_COST_RUB = Object.freeze({ listCounters: 0, getCounter: 0, getTrafficSummary: 0, getTrafficByTime: 0 });
   const DEFAULT_DIRECT_METHOD_COST_RUB = Object.freeze({ listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 });
-  const DEFAULT_GOOGLE_SEARCH_CONSOLE_METHOD_COST_RUB = Object.freeze({ listSites: 0, searchAnalytics: 0 });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
   const SEARCH_METHODS = Object.freeze(Object.keys(DEFAULT_SEARCH_METHOD_COST_RUB));
   const WEBMASTER_METHODS = Object.freeze(Object.keys(DEFAULT_WEBMASTER_METHOD_COST_RUB));
   const METRIKA_METHODS = Object.freeze(Object.keys(DEFAULT_METRIKA_METHOD_COST_RUB));
   const DIRECT_METHODS = Object.freeze(Object.keys(DEFAULT_DIRECT_METHOD_COST_RUB));
-  const GOOGLE_SEARCH_CONSOLE_METHODS = Object.freeze(Object.keys(DEFAULT_GOOGLE_SEARCH_CONSOLE_METHOD_COST_RUB));
 
   function asBoolean(value, fallback) { return typeof value === "boolean" ? value : fallback; }
   function asPositiveInt(value, fallback) { const number = Number(value); return Number.isInteger(number) && number > 0 ? number : fallback; }
@@ -98,20 +94,6 @@
       max_report_rows: Math.min(1000, asPositiveInt(raw.max_report_rows, 1000))
     });
   }
-  function normalizeGoogleSearchConsolePolicy(raw = {}) {
-    const base = normalizePolicy(raw, {
-      defaultAutorunEnabled: false,
-      defaultManualEnabled: true,
-      defaultMethods: GOOGLE_SEARCH_CONSOLE_METHODS,
-      allowedMethods: GOOGLE_SEARCH_CONSOLE_METHODS,
-      defaultMaxRequests: 50,
-      defaultMaxCostRub: 0,
-      defaultCosts: DEFAULT_GOOGLE_SEARCH_CONSOLE_METHOD_COST_RUB,
-      defaultTariffCheckedAt: GOOGLE_SEARCH_CONSOLE_POLICY_CHECKED_AT,
-      defaultTariffSource: GOOGLE_SEARCH_CONSOLE_POLICY_SOURCE
-    });
-    return Object.freeze({ ...base, max_requests_per_run: Math.min(50, base.max_requests_per_run), max_cost_rub_per_run: 0 });
-  }
 
   function normalizePolicyForService(service, raw = {}) {
     const value = String(service || "");
@@ -120,7 +102,6 @@
     if (value === "webmaster") return normalizeWebmasterPolicy(raw);
     if (value === "metrika") return normalizeMetrikaPolicy(raw);
     if (value === "direct") return normalizeDirectPolicy(raw);
-    if (value === "google_search_console") return normalizeGoogleSearchConsolePolicy(raw);
     throw Object.assign(new Error(`Неизвестный сервис: ${service || "unknown"}`), { code: "UNKNOWN_SERVICE" });
   }
 
@@ -142,7 +123,6 @@
   function webmasterDecision(args = {}) { return decision({ ...args, policy: normalizeWebmasterPolicy(args.policy || {}) }); }
   function metrikaDecision(args = {}) { return decision({ ...args, policy: normalizeMetrikaPolicy(args.policy || {}) }); }
   function directDecision(args = {}) { return decision({ ...args, policy: normalizeDirectPolicy(args.policy || {}) }); }
-  function googleSearchConsoleDecision(args = {}) { return decision({ ...args, policy: normalizeGoogleSearchConsolePolicy(args.policy || {}) }); }
   function decisionForService(service, args = {}) {
     const value = String(service || "");
     if (value === "search") return searchDecision(args);
@@ -150,16 +130,14 @@
     if (value === "webmaster") return webmasterDecision(args);
     if (value === "metrika") return metrikaDecision(args);
     if (value === "direct") return directDecision(args);
-    if (value === "google_search_console") return googleSearchConsoleDecision(args);
     return Object.freeze({ allow: false, reason: "SERVICE_NOT_AVAILABLE", estimated_cost_rub: 0, policy: null });
   }
 
   globalThis.YMBPolicyModel = Object.freeze({
-    DEFAULT_METHOD_COST_RUB, DEFAULT_SEARCH_METHOD_COST_RUB, DEFAULT_WEBMASTER_METHOD_COST_RUB, DEFAULT_METRIKA_METHOD_COST_RUB, DEFAULT_DIRECT_METHOD_COST_RUB, DEFAULT_GOOGLE_SEARCH_CONSOLE_METHOD_COST_RUB,
-    WORDSTAT_METHODS, SEARCH_METHODS, WEBMASTER_METHODS, METRIKA_METHODS, DIRECT_METHODS, GOOGLE_SEARCH_CONSOLE_METHODS,
+    DEFAULT_METHOD_COST_RUB, DEFAULT_SEARCH_METHOD_COST_RUB, DEFAULT_WEBMASTER_METHOD_COST_RUB, DEFAULT_METRIKA_METHOD_COST_RUB, DEFAULT_DIRECT_METHOD_COST_RUB,
+    WORDSTAT_METHODS, SEARCH_METHODS, WEBMASTER_METHODS, METRIKA_METHODS, DIRECT_METHODS,
     SEARCH_TARIFF_CHECKED_AT, LEGACY_SEARCH_TARIFF_CHECKED_AT, WEBMASTER_POLICY_CHECKED_AT, WEBMASTER_POLICY_SOURCE, METRIKA_POLICY_CHECKED_AT, METRIKA_POLICY_SOURCE, DIRECT_POLICY_CHECKED_AT, DIRECT_POLICY_SOURCE,
-    GOOGLE_SEARCH_CONSOLE_POLICY_CHECKED_AT, GOOGLE_SEARCH_CONSOLE_POLICY_SOURCE,
-    migrateLegacySearchPolicy, normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizeGoogleSearchConsolePolicy, normalizePolicyForService,
-    estimateMethodCost, wordstatDecision, searchDecision, webmasterDecision, metrikaDecision, directDecision, googleSearchConsoleDecision, decisionForService
+    migrateLegacySearchPolicy, normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizePolicyForService,
+    estimateMethodCost, wordstatDecision, searchDecision, webmasterDecision, metrikaDecision, directDecision, decisionForService
   });
 })();

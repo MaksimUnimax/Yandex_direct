@@ -11,7 +11,7 @@
     <header>
       <div>
         <h1>Yandex Marketing Bridge</h1>
-        <p class="lead">ChatGPT ↔ Marketing APIs. Yandex services + read-only Google Search Console.</p>
+        <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster + Metrika + Direct.</p>
       </div>
       <span id="versionBadge" class="badge">v0.1.1</span>
     </header>
@@ -28,19 +28,18 @@
           <option value="webmaster">Webmaster</option>
           <option value="metrika">Metrika</option>
           <option value="direct">Direct</option>
-          <option value="google_search_console">Google Search Console</option>
         </select>
       </label>
       <div class="actions"><button id="saveSettingsTop" class="primary" type="button">Сохранить общие настройки</button><button id="bindConversation" type="button">Привязать диалог</button></div>
       <label class="switch-row" for="manualMode">
-        <span><strong>Ручной режим Bridge</strong><small id="manualModeMeta">Выключен.</small></span>
+        <span><strong>Ручной режим Yandex</strong><small id="manualModeMeta">Выключен.</small></span>
         <input id="manualMode" type="checkbox">
       </label>
     </section>
 
     <section id="credentialsSection">
-      <h2>Ключи и доступы</h2>
-      <p class="warning">Yandex-секреты хранятся отдельно по сервисам. Google Search Console использует Chrome Identity: Google-токены не показываются и не попадают в backup.</p>
+      <h2>Ключи и доступы Yandex</h2>
+      <p class="warning">Секреты хранятся отдельно по сервисам. Сохранённый API key / OAuth никогда не выводится обратно в текст popup.</p>
 
       <details id="wordstatCredentials" class="credential-card" data-service="wordstat">
         <summary><span>Wordstat</span><strong id="wordstatCredentialState">не настроен</strong></summary>
@@ -84,14 +83,6 @@
         <div class="actions"><button id="saveDirectCredential" type="button">Save</button><button id="checkDirectCredential" type="button">Check</button></div>
         <p id="directCheckMeta" class="credential-meta">Не проверено.</p>
         <p class="warning">Check делает ровно один read-only Campaigns.get с FieldNames=["Id"] и Limit=1 и расходует Direct Units. Это POST по протоколу Direct; автоматического повтора при неизвестном исходе нет.</p>
-      </details>
-
-      <details id="google_search_consoleCredentials" class="credential-card" data-service="google_search_console">
-        <summary><span>Google Search Console</span><strong id="googleSearchConsoleCredentialState">OAuth не привязан</strong></summary>
-        <p class="muted">Read-only доступ только к Search Console properties, доступным выбранному Google-аккаунту. Авторизация управляется Chrome Identity и не сохраняется в YMB backup.</p>
-        <div class="actions"><button id="connectGoogleSearchConsole" type="button">Connect Google</button><button id="checkGoogleSearchConsoleAccess" type="button">Check access</button><button id="disconnectGoogleSearchConsole" type="button">Disconnect</button></div>
-        <p id="googleSearchConsoleCheckMeta" class="credential-meta">OAuth client_id ещё не привязан к стабильному ID расширения.</p>
-        <p class="warning">Connect — единственное действие, которому разрешён интерактивный Google prompt. Check access делает максимум один read-only listSites без автоповтора.</p>
       </details>
     </section>
 
@@ -161,17 +152,10 @@
     </section>
 
     <section>
-      <h2>Google Search Console policy</h2>
-      <label class="switch-row" for="googleSearchConsoleManualEnabled"><span><strong>Разрешить Google Search Console в ручном режиме</strong><small>Только read-only listSites и searchAnalytics.</small></span><input id="googleSearchConsoleManualEnabled" type="checkbox"></label>
-      <div class="grid"><label>Max GSC запросов<input id="googleSearchConsoleMaxRequestsRun" type="number" min="1" max="100000"></label><label>Стоимость<input id="googleSearchConsoleCost" type="text" value="0 ₽" readonly></label></div>
-      <p class="warning">Autorun Google Search Console выключен и не запускается из production popup. Один Bridge command = максимум один Google provider request; автоматического повтора нет.</p>
-    </section>
-
-    <section>
       <h2>Старт автоматического режима</h2>
       <label>Стартовый текст для выбранного сервиса<textarea id="autoStartPromptText" rows="5" placeholder="Стартовый текст"></textarea></label>
       <div class="actions"><button id="saveAutoStartPrompt" type="button">Сохранить стартовый текст</button><button id="resetAutoStartPrompt" type="button">Вернуть стандартный</button></div>
-      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster, Metrika, Direct и Google Search Console Autorun в production popup первой версии не запускаются.</p>
+      <p class="warning">Стандартный текст зависит от выбранного сервиса. Webmaster, Metrika и Direct Autorun в production popup первой версии не запускаются.</p>
     </section>
 
     <section>

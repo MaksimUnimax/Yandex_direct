@@ -71,11 +71,6 @@
   importScripts("wordstat_batch_worker_transport.js");
   importScripts("webmaster_worker_runtime.js");
   importScripts(
-    "shared/google_search_console_protocol.js",
-    "shared/google_search_console_runtime.js",
-    "google_search_console_worker_runtime.js"
-  );
-  importScripts(
     "shared/search_batch_protocol.js",
     "shared/search_batch_projection.js",
     "shared/search_batch_runtime.js",
