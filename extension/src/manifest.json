@@ -3,6 +3,7 @@
   "name": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
   "version": "0.1.1",
   "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Phase 5: Wordstat + Search + read-only Webmaster + read-only Metrika + read-only Direct first slice with unified CORE, RUN policy, error delivery and cost guards.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyzoi4OKB6jLqWTgqlx3cYjriXg6epGYLwG2Pr/NE9xPIWY6ztbh4xI1SVrW2KdyXqbSF9S6J9H3Rq+7J+kanAINNdzejVEX/5DMAVhoMZiIIEmDFbp/5G4IsqH/KYlTH1ax1eShPmGJcjL1wF67w2+bl6/1ZhLLy5d1IBoii1HID/I0Z4Srsz0epdwlXUC18V/D/nyihiXCvkUKaDKD2qbtJSIHF+qVOgo6h51laZtJpQvnFpXKyoPihewNAAkGP31x1qg+IYboxmSAopLvweLTuNRctZPk2QmltTkR1Z9Qw+quDnsThlRDvf/HT9zFfR5TTKIBk/DDTqtPtS8bPiwIDAQAB",
   "permissions": [
     "storage",
     "tabs",
