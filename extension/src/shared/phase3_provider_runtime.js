@@ -67,7 +67,11 @@
     }
     let result = parsed;
     if (isSearch) {
-      try { result = Protocol.normalizeProviderResult(parsed); }
+      try {
+        result = normalized.method === "genSearch"
+          ? Protocol.parseProviderResponseText(normalized, text)
+          : Protocol.normalizeProviderResult(parsed);
+      }
       catch (error) { throw executionError(error, true); }
     }
     const envelope = Protocol.buildResultEnvelope({ requestId, command: normalized, httpStatus: response.status, elapsedMs: elapsed(started), result, metadata: { ...metadata, status: "OK", reason: null, request_executed: true, automatic_retry: false } });
