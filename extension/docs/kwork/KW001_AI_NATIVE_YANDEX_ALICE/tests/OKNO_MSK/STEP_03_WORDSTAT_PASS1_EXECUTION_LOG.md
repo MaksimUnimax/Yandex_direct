@@ -208,16 +208,69 @@ Examples include `окна rehau москва`, `окна rehau цена`, `ку
 
 This confirms that the branded family is measurable, but Step 3 does **not** yet decide whether any specific model deserves a separate landing page or whether several variants belong to one cluster. That requires cleanup and later SERP/page-boundary evidence.
 
-## 8. Current checkpoint
+## 8. Provider item S03 — `французские окна`
+
+Observed live result:
+
+```text
+item_status = SUCCEEDED
+phrase = французские окна
+region = 213
+device = DEVICE_ALL
+numPhrases = 200
+http_status = 200
+request_executed = true
+automatic_retry = false
+request_id = wordstat-batch-80153de6-eb39-46a5-b313-eff56fe8e430
+elapsed_ms = 1194
+estimated_cost_rub = 0.02
+root_totalCount = 1453
+returned_results = 132
+returned_associations = 15
+```
+
+Checkpoint after S03:
+
+```text
+progress.status = RUNNING
+total = 18
+pending = 15
+succeeded = 3
+failed_terminal = 0
+outcome_unknown = 0
+terminal = 3
+requests_started = 3
+estimated_cost_rub = 0.06
+next_safe_action = CLAIM_NEXT
+```
+
+### Acquisition observations only — mixed demand/noise family
+
+The broad seed produced both relevant glazing/commercial demand and unrelated semantic contamination. Relevant-looking branches include:
+
+```text
+balcony / loggia / balcony-block application
+purchase / price / Moscow / installation
+private-house use
+floor-to-ceiling / panoramic / sliding configurations
+replacement of balcony block
+layout/design/what-is-it informational intent
+```
+
+Examples include `французские окна на балкон`, `французские окна купить`, `французские окна цена`, `французские окна москва`, `французские окна в частном доме`, `французские окна в пол`, `французское окно раздвижное`, `французские окна вместо балконного блока`.
+
+At the same time the raw list contains obvious non-target interpretations such as curtains/blinds, films, language/translation and other unrelated uses of `французский`. This is expected for a broad Wordstat seed and is **not** a collection failure. Cleanup must remove or separate these later; Step 3 preserves the raw evidence.
+
+## 9. Current checkpoint
 
 ```text
 job_created = true
-provider_requests_started = 2
-provider_requests_succeeded = 2
+provider_requests_started = 3
+provider_requests_succeeded = 3
 provider_requests_failed_terminal = 0
 provider_requests_outcome_unknown = 0
-pending = 16
-measured_cost_rub = 0.04
+pending = 15
+measured_cost_rub = 0.06
 next_safe_action = batch.next
 STEP_03_COMPLETE = false
 ```
