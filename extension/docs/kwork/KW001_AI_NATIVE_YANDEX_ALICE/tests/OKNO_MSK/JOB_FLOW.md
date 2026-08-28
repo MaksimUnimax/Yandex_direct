@@ -105,7 +105,7 @@ STEP_04_ACCEPTANCE.md
 
 ### Step 5 — targeted Wordstat expansion pass #2
 
-Status: **PRE-STEP REVIEW COMPLETE / WAITING OWNER AUTHORIZATION / PROVIDER NOT STARTED**
+Status: **OWNER AUTHORIZED / MANIFEST FROZEN / READY FOR BATCH START**
 
 Pre-step review authority:
 
@@ -113,13 +113,31 @@ Pre-step review authority:
 STEP_05_PRE_STEP_REVIEW.md
 ```
 
-Proposed manifest after source-backed redundancy/information-gain review:
+Frozen execution authority:
+
+```text
+STEP_05_WORDSTAT_PASS2_MANIFEST.md
+```
+
+Frozen manifest:
 
 ```text
 P2-01 оконная фурнитура
 P2-02 панорамные окна
 P2-03 остекление балкона с выносом
 P2-04 окна для частного дома
+```
+
+Frozen provider controls:
+
+```text
+job_id = kw001-okno-msk-wordstat-pass2-20260828
+method = getTop
+regions = ["213"]
+devices = ["DEVICE_ALL"]
+numPhrases = 200
+maxRequests = 4
+estimated max provider cost = 0.08 RUB
 ```
 
 Deferred from provider execution because of redundancy, ambiguity or unresolved business boundary:
@@ -135,9 +153,7 @@ Deferred from provider execution because of redundancy, ambiguity or unresolved 
 оконный завод
 ```
 
-No Step-5 batch exists yet and no Step-5 provider request has been made.
-
-Execution requires explicit owner authorization after the pre-step review.
+No Step-5 provider request had been made at manifest freeze. Next action is the owner-operated durable batch start, followed by one `batch.next` per frozen probe and a final `batch.status`.
 
 ---
 
@@ -148,7 +164,6 @@ Later steps will be appended here as this concrete job progresses.
 They may include, as authorized by the universal KW-001 workflow:
 
 ```text
-second Wordstat acquisition if justified
 row-level semantic cleanup/freeze
 ordinary Yandex Search evidence
 SERP clustering/page-boundary analysis
