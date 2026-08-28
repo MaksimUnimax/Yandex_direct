@@ -1,7 +1,7 @@
 # KW-001 / OKNO-MSK — JOB MANIFEST
 
-Date created: 2026-08-28  
-Workspace status: **ACTIVE / DISPOSABLE / LEGACY PATH**
+Date updated: 2026-08-28  
+Workspace status: **ACTIVE / DISPOSABLE / JOB-SPECIFIC ONLY / LEGACY PATH**
 
 ```text
 JOB_ID = OKNO_MSK
@@ -9,65 +9,80 @@ KWORK_ID = KW001_AI_NATIVE_YANDEX_ALICE
 workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/
 canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/work/<JOB_ID>/
 workspace_is_disposable = true
+workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_04_CORRECTED_AND_REFROZEN
 next_major_step = STEP_05_PRE_STEP_REVIEW
-close_extraction_complete = false
-universal_lessons_promoted_for_final_close = false
+job_work_complete = false
 final_handoff_complete = false
-revision_window_closed = false
+revision_rework_open = true
+provider_operator_action_pending = false
 safe_to_delete = false
 ```
 
 ## Authority
 
-This directory is the isolated working memory for the current OKNO-MSK rehearsal.
+This directory is the complete temporary working memory and execution history for the current OKNO-MSK job.
 
-All concrete case-specific material belongs here, including:
+It may contain only material specific to this job, including:
 
 ```text
+mock/client brief
 site facts / URLs
-client/mock-order assumptions
-raw and processed keyword evidence
+job-specific business/page model
+words / phrases
 provider evidence
-step checkpoints
+job step plans
+job flow/status/checkpoints
+job-specific corrections
 matrices
 page/cluster decisions
 deliverables
-case errors/incidents
-case acceptances
+job economics / QA / revisions
 ```
 
-Permanent reusable methodology must be promoted to the parent KW-001 universal docs and stripped of concrete case-specific facts.
+It must not define permanent universal KW-001 rules.
+
+Universal methodology lives only in the parent permanent KW-001 layer and may be changed only on explicit owner instruction.
+
+## Current flow authority
+
+Use:
+
+```text
+JOB_FLOW.md
+```
+
+for the current job's step sequence and status.
+
+Individual `STEP_*` files remain evidence/outputs for the concrete job.
 
 ## Close rule
 
-Do not delete this workspace while any field below remains false:
+When all are true:
 
 ```text
-close_extraction_complete
-universal_lessons_promoted_for_final_close
-final_handoff_complete
-revision_window_closed
-safe_to_delete
+job_work_complete = true
+final_handoff_complete = true
+revision_rework_open = false
+provider_operator_action_pending = false
+safe_to_delete = true
 ```
 
-At final close:
+then delete the entire:
 
 ```text
-1. review STEP_REVIEW_AND_ERRORS_LEDGER.md;
-2. extract reusable lessons to permanent KW-001 docs;
-3. verify final productization/rehearsal records have been incorporated where needed;
-4. confirm no unfinished revision/provider/QA action remains;
-5. set close conditions true;
-6. delete the complete tests/OKNO_MSK/ directory from the repository.
+tests/OKNO_MSK/
 ```
 
-The workspace is not permanent project history after close.
+directory from the active branch.
+
+There is no mandatory export/extraction of job lessons into permanent rules at close.
 
 Markers:
 
 ```text
 KW001_OKNO_MSK_WORKSPACE_DISPOSABLE = true
+KW001_OKNO_MSK_WORKSPACE_JOB_SPECIFIC_ONLY = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
 ```
