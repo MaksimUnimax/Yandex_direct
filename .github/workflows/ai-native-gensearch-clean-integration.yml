@@ -53,10 +53,10 @@ jobs:
             extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs \
             extension/tests/qa_browser/gensearch_browser_runtime.mjs
 
-          test -z "$(git diff --name-only -- .github)"
+          test -z "$(git diff --cached --name-only -- .github)"
           git diff --exit-code "$SOURCE" -- extension
-          test "$(git diff --name-only | wc -l | tr -d ' ')" = '16'
-          git diff --check
+          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = '16'
+          git diff --cached --check
           echo GENSEARCH_CLEAN_INTEGRATION_EXTENSION_IDENTITY_PASS
 
           while IFS= read -r -d '' f; do node --check "$f"; done < <(find extension/src -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
@@ -67,7 +67,6 @@ jobs:
 
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add extension
           git commit -m 'feat(ai-native): integrate validated GenSearch production gate'
           INTEGRATION_SHA="$(git rev-parse HEAD)"
           test "$(git rev-parse HEAD^)" = "$BASE"
