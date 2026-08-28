@@ -318,9 +318,18 @@ test('legacy stored Search policy migrates once without breaking a later explici
   assert.deepEqual([...reread.allowed_methods], ['search']);
 });
 
-test('GenSearch does not create a sixth service', () => {
+test('GenSearch remains inside Search while Phase 9 GSC is the explicit sixth service', () => {
   const registry = loadServiceRegistry();
-  assert.equal(registry.DEFINITIONS.length, 5);
-  assert.deepEqual(JSON.parse(JSON.stringify(registry.DEFINITIONS.map((item) => item.service))), ['wordstat', 'search', 'webmaster', 'metrika', 'direct']);
+  assert.equal(registry.DEFINITIONS.length, 6);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(registry.DEFINITIONS.map((item) => item.service))),
+    ['wordstat', 'search', 'webmaster', 'metrika', 'direct', 'google_search_console']
+  );
   assert.equal(registry.definitionForService('search').prefix, 'SEARCH_API_V1');
+  assert.equal(registry.definitionForService('google_search_console').prefix, 'GOOGLE_SEARCH_CONSOLE_API_V1');
+  assert.equal(registry.definitionForService('genSearch'), null);
+  assert.equal(
+    registry.detect('SEARCH_API_V1 {"method":"genSearch","queryText":"x","confirmBillable":true}').service,
+    'search'
+  );
 });
