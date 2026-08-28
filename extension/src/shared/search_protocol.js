@@ -4,8 +4,10 @@
   const PREFIX = "SEARCH_API_V1";
   const RESULT_PREFIX = "SEARCH_RESULT_V1";
   const ENDPOINT = "/v2/web/search";
+  const GEN_ENDPOINT = "/v2/gen/search";
   const RESPONSE_FORMAT = "FORMAT_XML";
   const CONSERVATIVE_SYNC_COST_RUB = 0.488;
+  const GEN_SEARCH_SYNC_COST_RUB = 5.08;
 
   function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.1"); }
 
@@ -37,11 +39,13 @@
     SEARCH_TYPE_COM: "LOCALIZATION_EN"
   });
   const REGION_CAPABLE_SEARCH_TYPES = new Set(["SEARCH_TYPE_RU", "SEARCH_TYPE_TR"]);
-  const ALLOWED_FIELDS = new Set([
+  const METHODS = new Set(["search", "genSearch"]);
+  const SEARCH_ALLOWED_FIELDS = new Set([
     "method", "queryText", "searchType", "region", "page", "groupsOnPage",
     "familyMode", "fixTypoMode", "sortMode", "sortOrder", "groupMode",
     "docsInGroup", "maxPassages", "l10n"
   ]);
+  const GEN_SEARCH_ALLOWED_FIELDS = new Set(["method", "queryText", "confirmBillable"]);
 
   function fail(code, message) {
     const error = new Error(message || code);
@@ -79,6 +83,19 @@
     return candidate;
   }
 
+  function validateAllowedFields(raw, allowedFields) {
+    for (const key of Object.keys(raw)) {
+      if (!allowedFields.has(key)) fail("UNSUPPORTED_FIELD", `Поле ${key} не разрешено для метода ${raw.method || "search"} в SEARCH_API_V1.`);
+    }
+  }
+
+  function normalizeQueryText(raw) {
+    const queryText = asString(raw.queryText, "queryText", { required: true, max: 400 });
+    const wordCount = queryText ? queryText.split(/\s+/u).filter(Boolean).length : 0;
+    if (wordCount > 40) fail("QUERY_TOO_MANY_WORDS", "queryText: максимум 40 слов.");
+    return queryText;
+  }
+
   function parseCommand(text) {
     const source = String(text || "").replace(/\u00a0/g, " ").trim();
     if (!source.startsWith(PREFIX)) fail("NOT_SEARCH_COMMAND", `Команда должна начинаться с ${PREFIX}`);
@@ -93,17 +110,21 @@
 
   function normalizeCommand(raw) {
     if (!raw || typeof raw !== "object" || Array.isArray(raw)) fail("INVALID_JSON_ROOT", "Команда должна быть JSON-объектом.");
-    for (const key of Object.keys(raw)) {
-      if (!ALLOWED_FIELDS.has(key)) fail("UNSUPPORTED_FIELD", `Поле ${key} не разрешено в SEARCH_API_V1.`);
-    }
 
     const method = raw.method === undefined ? "search" : asString(raw.method, "method", { required: true, max: 40 });
-    if (method !== "search") fail("UNSUPPORTED_METHOD", `Метод ${method} не разрешён.`);
+    if (!METHODS.has(method)) fail("UNSUPPORTED_METHOD", `Метод ${method} не разрешён.`);
 
-    const queryText = asString(raw.queryText, "queryText", { required: true, max: 400 });
-    const wordCount = queryText ? queryText.split(/\s+/u).filter(Boolean).length : 0;
-    if (wordCount > 40) fail("QUERY_TOO_MANY_WORDS", "queryText: максимум 40 слов.");
+    if (method === "genSearch") {
+      validateAllowedFields(raw, GEN_SEARCH_ALLOWED_FIELDS);
+      const queryText = normalizeQueryText(raw);
+      if (raw.confirmBillable !== true) {
+        fail("GEN_SEARCH_CONFIRM_REQUIRED", "genSearch требует явного confirmBillable:true для одного платного provider request.");
+      }
+      return Object.freeze({ method, queryText, confirmBillable: true });
+    }
 
+    validateAllowedFields(raw, SEARCH_ALLOWED_FIELDS);
+    const queryText = normalizeQueryText(raw);
     const searchType = asEnum(raw.searchType, "searchType", SEARCH_TYPES, "SEARCH_TYPE_RU");
     const familyMode = asEnum(raw.familyMode, "familyMode", FAMILY_MODES, "FAMILY_MODE_MODERATE");
     const fixTypoMode = asEnum(raw.fixTypoMode, "fixTypoMode", FIX_TYPO_MODES, "FIX_TYPO_MODE_ON");
@@ -156,6 +177,19 @@
   function buildRequest(command, folderId) {
     const normalized = normalizeCommand(command);
     const folder = asString(folderId, "folderId", { required: true, max: 50 });
+
+    if (normalized.method === "genSearch") {
+      return Object.freeze({
+        url: `https://searchapi.api.cloud.yandex.net${GEN_ENDPOINT}`,
+        body: Object.freeze({
+          messages: Object.freeze([Object.freeze({ content: normalized.queryText, role: "ROLE_USER" })]),
+          folderId: folder,
+          fixMisspell: true,
+          getPartialResults: false
+        })
+      });
+    }
+
     const body = {
       query: {
         searchType: normalized.searchType,
@@ -185,18 +219,60 @@
     });
   }
 
+  function normalizeGenSearchProviderResult(parsed) {
+    const hasRecognizedShape = Object.prototype.hasOwnProperty.call(parsed, "message")
+      || Object.prototype.hasOwnProperty.call(parsed, "sources")
+      || Object.prototype.hasOwnProperty.call(parsed, "searchQueries")
+      || Object.prototype.hasOwnProperty.call(parsed, "isAnswerRejected")
+      || Object.prototype.hasOwnProperty.call(parsed, "problematicAnswer");
+    if (!hasRecognizedShape) fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch вернул неожиданный JSON-ответ.");
+
+    const message = parsed.message && typeof parsed.message === "object" && !Array.isArray(parsed.message)
+      ? Object.freeze({
+          content: String(parsed.message.content ?? ""),
+          role: String(parsed.message.role ?? "")
+        })
+      : null;
+    const sources = Array.isArray(parsed.sources)
+      ? parsed.sources.map((source) => Object.freeze({
+          url: String(source?.url ?? ""),
+          title: String(source?.title ?? ""),
+          used: source?.used === true
+        }))
+      : [];
+    const searchQueries = Array.isArray(parsed.searchQueries)
+      ? parsed.searchQueries.map((query) => Object.freeze({
+          text: String(query?.text ?? ""),
+          reqId: String(query?.reqId ?? "")
+        }))
+      : [];
+    const hints = Array.isArray(parsed.hints) ? parsed.hints.map((hint) => String(hint ?? "")) : [];
+
+    return Object.freeze({
+      mode: "generative",
+      message,
+      sources: Object.freeze(sources),
+      searchQueries: Object.freeze(searchQueries),
+      fixedMisspellQuery: String(parsed.fixedMisspellQuery ?? ""),
+      isAnswerRejected: parsed.isAnswerRejected === true,
+      isBulletAnswer: parsed.isBulletAnswer === true,
+      hints: Object.freeze(hints),
+      problematicAnswer: parsed.problematicAnswer ?? null
+    });
+  }
+
   function normalizeProviderResult(parsed) {
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       fail("INVALID_SEARCH_RESPONSE", "Yandex Search вернул неожиданный JSON-ответ.");
     }
-    if (typeof parsed.rawData !== "string" || !parsed.rawData.trim()) {
-      fail("SEARCH_RAW_DATA_MISSING", "В ответе Yandex Search отсутствует rawData.");
+    if (typeof parsed.rawData === "string" && parsed.rawData.trim()) {
+      const normalizer = globalThis.YMBSearchXml;
+      if (!normalizer || typeof normalizer.normalizeBase64RawData !== "function") {
+        fail("SEARCH_XML_NORMALIZER_UNAVAILABLE", "Модуль нормализации Search XML не загружен.");
+      }
+      return normalizer.normalizeBase64RawData(parsed.rawData);
     }
-    const normalizer = globalThis.YMBSearchXml;
-    if (!normalizer || typeof normalizer.normalizeBase64RawData !== "function") {
-      fail("SEARCH_XML_NORMALIZER_UNAVAILABLE", "Модуль нормализации Search XML не загружен.");
-    }
-    return normalizer.normalizeBase64RawData(parsed.rawData);
+    return normalizeGenSearchProviderResult(parsed);
   }
 
   function commandFingerprint(command) {
@@ -277,8 +353,11 @@
     PREFIX,
     RESULT_PREFIX,
     ENDPOINT,
+    GEN_ENDPOINT,
     RESPONSE_FORMAT,
     CONSERVATIVE_SYNC_COST_RUB,
+    GEN_SEARCH_SYNC_COST_RUB,
+    METHODS,
     SEARCH_TYPES,
     FAMILY_MODES,
     FIX_TYPO_MODES,
@@ -291,6 +370,7 @@
     parseCommand,
     normalizeCommand,
     buildRequest,
+    normalizeGenSearchProviderResult,
     normalizeProviderResult,
     commandFingerprint,
     safeErrorPayload,
