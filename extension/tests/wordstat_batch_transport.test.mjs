@@ -28,11 +28,15 @@ function batchStartText() {
   });
 }
 
-test('batch remains a Wordstat orchestration protocol and is not a sixth service', () => {
+test('batch remains Wordstat orchestration while GSC is the explicit sixth service', () => {
   const ctx = loadShared(['shared/service_registry.js', 'shared/wordstat_batch_protocol.js']);
   const text = batchStartText();
-  assert.equal(ctx.YMBServiceRegistry.DEFINITIONS.length, 5);
+  assert.deepEqual(
+    Array.from(ctx.YMBServiceRegistry.DEFINITIONS, (item) => item.service),
+    ['wordstat', 'search', 'webmaster', 'metrika', 'direct', 'google_search_console']
+  );
   assert.equal(ctx.YMBServiceRegistry.detect(text), null);
+  assert.equal(ctx.YMBServiceRegistry.definitionForService('google_search_console').prefix, 'GOOGLE_SEARCH_CONSOLE_API_V1');
   const command = ctx.WordstatBatchProtocol.parseCommand(text);
   const envelope = ctx.WordstatBatchProtocol.buildResultEnvelope({ command, jobId: 'job-1' });
   assert.equal(envelope.service, 'wordstat');
@@ -102,7 +106,7 @@ test('manifest exposes batch classifier before the unchanged content transport',
   assert.ok(contentIndex > bridgeIndex, 'accepted content script must load after the batch-aware proxy');
 });
 
-test('content bridge extends only Wordstat command detection and keeps registry unchanged', () => {
+test('content bridge extends only Wordstat command detection and keeps registry semantics unchanged', () => {
   const ctx = loadShared([
     'shared/product.js',
     'shared/service_registry.js',
@@ -111,7 +115,8 @@ test('content bridge extends only Wordstat command detection and keeps registry 
     'shared/wordstat_batch_transport.js',
     'shared/wordstat_batch_content_bridge.js'
   ]);
-  assert.equal(ctx.YMBServiceRegistry.DEFINITIONS.length, 5);
+  assert.equal(ctx.YMBServiceRegistry.DEFINITIONS.length, 6);
+  assert.equal(ctx.YMBServiceRegistry.definitionForService('google_search_console').prefix, 'GOOGLE_SEARCH_CONSOLE_API_V1');
   assert.equal(ctx.WordstatProtocol.isCommandText(batchStartText()), true);
   assert.equal(ctx.WordstatProtocol.isCommandText('WORDSTAT_API_V1\n{}'), true);
   assert.equal(ctx.YMBWordstatBatchTransport.protocolForText(batchStartText(), 'search', ctx.YMBWordstatBatchContentBridge.ordinaryProtocol), null);
