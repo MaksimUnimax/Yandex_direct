@@ -12,6 +12,7 @@ on:
       - extension/src/shared/search_batch_*.js
       - extension/tests/search_batch_contract.test.mjs
       - extension/tests/search_batch_integration.test.mjs
+      - extension/tests/search_batch_recovery.test.mjs
       - extension/tests/qa_browser/search_batch_browser_runtime.mjs
 
 permissions:
@@ -37,6 +38,7 @@ jobs:
           node --check extension/src/shared/search_batch_content_bridge.js
           node --check extension/src/search_batch_worker_transport.js
           node --check extension/src/phase3_service_worker_bootstrap.js
+          node --check extension/tests/search_batch_recovery.test.mjs
           node --check extension/tests/qa_browser/search_batch_browser_runtime.mjs
           node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8'))"
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p8-product-before.sha256
@@ -47,7 +49,8 @@ jobs:
           set -euo pipefail
           node --test \
             extension/tests/search_batch_contract.test.mjs \
-            extension/tests/search_batch_integration.test.mjs | tee /tmp/p8.log
+            extension/tests/search_batch_integration.test.mjs \
+            extension/tests/search_batch_recovery.test.mjs | tee /tmp/p8.log
           grep -F '# fail 0' /tmp/p8.log
           echo PHASE8_SEARCH_BATCH_CONTRACT_PASS
       - name: Reuse and Search regressions
