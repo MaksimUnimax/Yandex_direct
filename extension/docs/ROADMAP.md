@@ -293,80 +293,46 @@ Validation authority:
 
 # PHASE 8 — Bulk SERP / TOP-overlap / rank evidence
 
-**Status: ACTIVE NEXT ENGINEERING PHASE / REQUIREMENTS READY.**
+**Status: PASS / CLOSED / IN MAIN.**
 
-Canonical requirements:
-
-`extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md`
-
-## Market reason
-
-Demand is established by the consolidated freelance matrix, especially:
-
-```text
-F-013 semantic core + TOP/SERP clustering
-F-014 Wordstat core + TOP grouping
-F-015 standalone TOP/SERP clustering, supplied base = 500 keys
-```
-
-Current blocker is operational rather than analytical:
-
-```text
-durable bulk ordinary-Search queue
-+ per-key checkpoint/resume
-+ cost/progress controls
-+ persisted domain/rank projections
-```
-
-## First slice
-
-Candidate orchestration hand:
+Accepted production hand:
 
 ```text
 SEARCH_BATCH_API_V1
 service = search
-queries[] = up to 500
+queries[] up to 500
+one explicit next <= one ordinary Search provider request
+durable per-query checkpoint/result evidence
+local projection + sampled target-domain rank
+local paged TOP/domain overlap
+OUTCOME_UNKNOWN => no automatic replay
 ```
 
-Target behavior:
+Accepted identity and gates:
 
 ```text
-keyword list + region
-→ deterministic ordinary-Search queue
-→ one paid provider boundary per explicit safe next
-→ durable SERP payload per key
-→ checkpoint/resume/no replay
-→ ranked URL/domain projections
-→ paged deterministic TOP-overlap evidence
-→ bounded sampled target-domain rank evidence
-→ ChatGPT cluster/page-job reasoning
+source authority = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716
+extension tree = 446fed6970c5fec627be34c3893800dc4511c6c9
+extension/src tree = bdad1e87a2537d8646e480ca23f8068c3dced17e
+freeze run = 33143237276 / SUCCESS
+candidate ZIP sha256 = 8f6ba92dbe1f592a62c66cd250ed942e261f56deffbe87117371bd9c481e6332
+owner-live = PHASE8_SEARCH_BATCH_OWNER_LIVE_PASS
+main integration = ebd697e5733a7d40d13401d4c02b82a75711231c
+postmerge run = 33144396638 / SUCCESS
+Node regression = 118/118
+controlled browser real Yandex requests = 0
 ```
 
-Pure local management/projection actions must not contact the provider. Final cluster labels and page split/merge decisions remain ChatGPT work.
+Owner-live used two real ordinary Search queries. `start` made zero provider requests; two explicit `next` calls produced exactly two successful provider requests; `status`, `projection` and `overlapPage` remained local-only with `requests_started=2` and total estimated cost `0.976 RUB`.
 
-## Phase-8 execution order
+Final semantic clustering/page split decisions remain ChatGPT work rather than hidden threshold logic.
 
-```text
-P8-00 exact live-main baseline freeze
-P8-01 SearchProtocol/Search XML/provider-batch architecture reuse audit
-P8-02 protocol/storage/projection tests first
-P8-03 focused model/runtime tests
-P8-04 minimal ordinary-Search batch runtime
-P8-05 durable per-item SERP persistence
-P8-06 local projection + target-domain sampled-rank evidence
-P8-07 bounded paged overlap projection
-P8-08 restart/tab-close/pause/resume/double-submit/stale-event/no-replay tests
-P8-09 request/cost bound tests
-P8-10 prior-service regression including GenSearch + Wordstat batch
-P8-11 controlled browser gate with local provider stub
-P8-12 freeze candidate + independent complete gate
-P8-13 minimal owner-live real Search-batch acceptance
-P8-14 integrate exact accepted bytes / postmerge identity / close
-```
-
-Phase 8 does not authorize Google, consumer-SERP scraping, GenSearch batching, autonomous semantic clustering or provider writes.
+Final authority:
+`extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md`
 
 ---
+
+# PHASE 9 — Google organic gap
 
 # PHASE 9 — Google organic gap
 
@@ -403,7 +369,8 @@ Current product conclusion:
 ```text
 mass-market base = Semantic Core Builder
 premium differentiated method = AI-Native Semantic Rebuild with selective GenSearch evidence
-next highest-leverage engineering = durable bulk ordinary-Search / TOP evidence hand
+bulk ordinary-Search/TOP evidence hand = ACCEPTED / IN MAIN
+next highest-leverage engineering = Phase 9 Google organic provider research
 ```
 
 ---
@@ -411,19 +378,16 @@ next highest-leverage engineering = durable bulk ordinary-Search / TOP evidence 
 # CURRENT ACTIVE ORDER
 
 ```text
-DONE: Phases 0–6 closed
+DONE: Phases 0–8 closed
 DONE: Gate A O-001 comparative methodology PASS
 DONE: Phase 7 GenSearch validated, frozen, integrated and postmerge verified
+DONE: Phase 8 Search batch/TOP/rank frozen, owner-live accepted, integrated and postmerge verified
 
 NOW:
-Phase 8 P8-00 → P8-02 baseline / architecture / test-first contract
+Phase 9 Google organic provider research — official/stable/legal acquisition options first
 
 THEN:
-Phase 8 runtime → focused regression → freeze → independent gate → minimal owner-live → main integration
-
-LATER:
-Phase 9 Google organic provider research
-Phase 10 crawler/importer evidence hand
+Provider/contract decision only after research; Phase 10 crawler/importer remains lower priority
 ```
 
 No project-owner action is currently required.

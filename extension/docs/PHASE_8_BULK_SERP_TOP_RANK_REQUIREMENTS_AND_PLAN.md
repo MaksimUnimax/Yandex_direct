@@ -2,7 +2,7 @@
 
 Date: 2026-08-28
 
-Status: **REQUIREMENTS READY / IMPLEMENTATION AUTHORIZED AFTER EXACT-MAIN BASELINE + TEST-FIRST CONTRACT**
+Status: **PASS / CLOSED / IN MAIN**
 
 ## 1. Product objective
 
@@ -502,3 +502,24 @@ fetch exact current main
 ```
 
 No project-owner action is required during this engineering preparation.
+
+## 19. Final closure
+
+```text
+PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_PASS
+source authority = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716
+extension tree = 446fed6970c5fec627be34c3893800dc4511c6c9
+extension/src tree = bdad1e87a2537d8646e480ca23f8068c3dced17e
+freeze run = 33143237276 / SUCCESS
+frozen ZIP sha256 = 8f6ba92dbe1f592a62c66cd250ed942e261f56deffbe87117371bd9c481e6332
+owner-live job = p8-owner-live-2026-08-28
+owner-live real provider requests = 2
+owner-live automatic retries = 0
+owner-live estimated cost = 0.976 RUB
+main integration = ebd697e5733a7d40d13401d4c02b82a75711231c
+postmerge gate = 33144396638 / SUCCESS
+postmerge Node regression = 118/118
+postmerge controlled browser real Yandex requests = 0
+```
+
+Phase 8 is closed. No further owner-live ceremony is required.

@@ -1,6 +1,6 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASES 0–6 CLOSED — O-001 COMPARATIVE GATE PASS — GENSEARCH PRODUCTION HAND ACCEPTED — PHASE 8 BULK SERP/TOP/RANK = ACTIVE NEXT ENGINEERING PHASE**  
+Status: **PHASES 0–8 CLOSED — O-001 COMPARATIVE GATE PASS — GENSEARCH + BULK SERP/TOP/RANK HANDS ACCEPTED IN MAIN — PHASE 9 GOOGLE GAP = NEXT RESEARCH PHASE**  
 Updated: 2026-08-28
 
 Always fetch live `main` HEAD and exact file/tree identity before a workflow-stage transition or product write.
@@ -280,76 +280,86 @@ client workbooks/reports
 
 ---
 
-## 7. Phase 8 — Bulk SERP / TOP-overlap / rank evidence ACTIVE NEXT
+## 7. Phase 8 — Bulk SERP / TOP-overlap / rank evidence CLOSED / IN MAIN
 
-Market authority identifies durable bulk ordinary-Search orchestration as the next high-leverage gap for F-013/F-014/F-015-style TOP clustering and rank evidence.
+Phase 8 is accepted and no longer an active development phase.
 
-Canonical requirements:
-
-`extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md`
-
-Target first slice:
+Production protocol:
 
 ```text
 SEARCH_BATCH_API_V1
+SEARCH_BATCH_RESULT_V1
 service = search
 queries[] up to 500
-one explicit next <= one ordinary Search provider request
-durable checkpoint/resume
-no replay of completed/unknown items
-persisted ranked URL/domain results
-local paged projections
-local paged TOP/domain-overlap evidence
-bounded sampled target-domain rank evidence
-explicit request/cost ceilings
+start/status/pause/resume/cancel/projection/overlapPage = 0 provider requests
+one explicit next = at most one ordinary Search provider request
 ```
 
-Final semantic clustering thresholds/labels remain ChatGPT work rather than hidden hard-coded SEO logic.
-
-Phase-8 dev branch:
+Accepted product identity:
 
 ```text
-phase8/bulk-serp-top-rank-2026-08-28
-base main = 67aeee71a42bdc0edb516341297987c1d1d26972
+source authority = 0377d6e1f176d4b7ddd8553c0099e02a4f1e8716
+extension tree = 446fed6970c5fec627be34c3893800dc4511c6c9
+extension/src tree = bdad1e87a2537d8646e480ca23f8068c3dced17e
+freeze run = 33143237276 / SUCCESS
+frozen ZIP sha256 = 8f6ba92dbe1f592a62c66cd250ed942e261f56deffbe87117371bd9c481e6332
 ```
 
-At the time of this state update, Phase-8 work has changed documentation only; no Phase-8 `extension/src` product byte has been modified yet.
+Owner-live acceptance:
+
+```text
+job = p8-owner-live-2026-08-28
+queries = 2
+successful provider requests = 2
+requests_started = 2
+estimated_cost_rub = 0.976
+automatic_retry = false
+outcome_unknown = 0
+status/projection/overlapPage provider requests = 0
+```
+
+Observed deterministic evidence included `market.yandex.ru` at best observed rank 3 for `печать велеса`, `ru.wikipedia.org` at rank 1 for `алатырь`, and pairwise TOP-10 domain overlap `shared_count=0`, `union_count=15`, `jaccard=0`.
+
+Production integration:
+
+```text
+main integration commit = ebd697e5733a7d40d13401d4c02b82a75711231c
+postmerge gate = 33144396638 / SUCCESS
+Node regression = 118/118
+controlled browser real Yandex requests = 0
+product immutability = PASS
+```
+
+Final authority:
+`extension/tests/PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_2026-08-28.md`
+
+**PHASE8_SEARCH_BATCH_FINAL_ACCEPTANCE_PASS**
 
 ---
 
 ## 8. Authorized autonomous next sequence
 
 ```text
-P8-00 freeze exact live-main baseline identity
-P8-01 audit SearchProtocol/Search XML/provider-batch reuse points
-P8-02 define SEARCH_BATCH_API_V1 + storage/projection contracts in tests first
-P8-03 focused model/runtime tests
-P8-04 minimal Search batch runtime over ordinary search only
-P8-05 durable per-item SERP persistence
-P8-06 deterministic projection/rank evidence
-P8-07 bounded paged overlap projection
-P8-08 restart/tab-close/pause/resume/double-submit/stale-event/no-replay tests
-P8-09 request/cost bounds including 500-key economics without real provider traffic
-P8-10 all prior-service regression including GenSearch and Wordstat batch
-P8-11 controlled browser gate with local provider stub
-P8-12 freeze exact candidate + complete applicable pre-delivery gate
-P8-13 minimal owner-live Search batch acceptance
-P8-14 integrate accepted bytes to main and close Phase 8
+Phase 8 = CLOSED / IN MAIN
+→ Phase 9 research: official/stable/legal Google organic evidence options
+→ evaluate source quality, cost, privacy and ToS before freezing any provider contract
+→ do not implement a Google hand before provider research and a test-first contract
+→ preserve the current five-service registry unless a governed architecture decision explicitly changes it
 ```
 
-During active development, use focused tests plus impacted regressions. Full pre-delivery is run only after an exact candidate is frozen.
+Phase 10 crawler/importer evidence work remains lower priority than Phase 9 provider research.
 
 ---
 
 ## 9. Open blockers
 
 ```text
-Phase 6 = NONE
+Phase 6 = NONE / PASS
 O-001 comparative methodology gate = NONE / PASS
 GenSearch repeatable official hand = NONE / ACCEPTED
-Phase 8 requirements = NONE
-Phase 8 engineering preparation = autonomous
+Phase 8 bulk SERP/TOP/rank = NONE / PASS / IN MAIN
 owner action now = NONE
+next engineering = Phase 9 Google organic provider research
 ```
 
-The next expected owner-only action is the eventual minimal real Search-batch acceptance after the exact Phase-8 candidate has passed its independent complete gate. Do not invent earlier owner ceremonies.
+No further Phase-8 owner ceremony is required.
