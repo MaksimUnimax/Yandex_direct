@@ -1,0 +1,43 @@
+name: phase9-apply-gsc-popup
+
+on:
+  push:
+    branches:
+      - phase9/google-organic-provider-research-2026-08-28
+    paths:
+      - .github/workflows/phase9-apply-gsc-popup.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: phase9/google-organic-provider-research-2026-08-28
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply guarded popup patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          node .github/scripts/phase9_apply_gsc_popup.mjs
+          node --check extension/src/popup.js
+          node --check extension/src/google_search_console_worker_runtime.js
+          node --test extension/tests/google_search_console_oauth_ui_routing.test.mjs
+      - name: Remove one-shot machinery and commit product patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/scripts/phase9_apply_gsc_popup.mjs .github/workflows/phase9-apply-gsc-popup.yml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add extension/src/popup.html extension/src/popup.js .github/scripts/phase9_apply_gsc_popup.mjs .github/workflows/phase9-apply-gsc-popup.yml
+          git diff --cached --check
+          git commit -m "feat(phase9): add GSC OAuth popup controls"
+          git push origin HEAD:phase9/google-organic-provider-research-2026-08-28
