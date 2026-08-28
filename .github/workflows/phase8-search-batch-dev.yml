@@ -6,8 +6,12 @@ on:
       - phase8/bulk-serp-top-rank-2026-08-28
     paths:
       - .github/workflows/phase8-search-batch-dev.yml
+      - extension/src/manifest.json
+      - extension/src/phase3_service_worker_bootstrap.js
+      - extension/src/search_batch_worker_transport.js
       - extension/src/shared/search_batch_*.js
       - extension/tests/search_batch_contract.test.mjs
+      - extension/tests/search_batch_integration.test.mjs
 
 permissions:
   contents: read
@@ -28,12 +32,19 @@ jobs:
           node --check extension/src/shared/search_batch_protocol.js
           node --check extension/src/shared/search_batch_projection.js
           node --check extension/src/shared/search_batch_runtime.js
+          node --check extension/src/shared/search_batch_transport.js
+          node --check extension/src/shared/search_batch_content_bridge.js
+          node --check extension/src/search_batch_worker_transport.js
+          node --check extension/src/phase3_service_worker_bootstrap.js
+          node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8'))"
           echo PHASE8_SEARCH_BATCH_SYNTAX_PASS
-      - name: Search batch focused contract
+      - name: Search batch focused contracts
         shell: bash
         run: |
           set -euo pipefail
-          node --test extension/tests/search_batch_contract.test.mjs | tee /tmp/p8.log
+          node --test \
+            extension/tests/search_batch_contract.test.mjs \
+            extension/tests/search_batch_integration.test.mjs | tee /tmp/p8.log
           grep -F '# fail 0' /tmp/p8.log
           echo PHASE8_SEARCH_BATCH_CONTRACT_PASS
       - name: Reuse and Search regressions
