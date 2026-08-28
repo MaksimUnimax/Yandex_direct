@@ -63,15 +63,11 @@ try {
   );
   const workerClient = await workerTarget.createCDPSession();
 
-  await workerEval(workerClient, `(() => {
+  await workerEval(workerClient, `(async () => {
     globalThis.__YMB_GENSEARCH_FETCHES = [];
-    globalThis.YMBCredentialRuntime.settings = async () => ({
-      credentials: {
-        search: {
-          api_key: 'browser-search-secret',
-          folder_id: 'folder-1'
-        }
-      }
+    await globalThis.YMBCredentialRuntime.save('search', {
+      api_key: 'browser-search-secret',
+      folder_id: 'folder-1'
     });
     globalThis.fetch = async (url, options = {}) => {
       const target = String(url || '');
