@@ -25,6 +25,7 @@ on:
 
 permissions:
   contents: read
+  statuses: write
 
 jobs:
   pure-contract:
@@ -161,3 +162,36 @@ jobs:
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p9-gsc-product-after.sha256
           cmp /tmp/p9-gsc-product-before.sha256 /tmp/p9-gsc-product-after.sha256
           echo PHASE9_GSC_POST_BROWSER_PRODUCT_IDENTICAL
+
+  publish-status:
+    if: always()
+    needs:
+      - pure-contract
+      - controlled-browser
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Publish phase9 GSC gate status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          PURE_RESULT: ${{ needs.pure-contract.result }}
+          BROWSER_RESULT: ${{ needs.controlled-browser.result }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          state=success
+          if [[ "$PURE_RESULT" != "success" || "$BROWSER_RESULT" != "success" ]]; then
+            state=failure
+          fi
+          description="pure=${PURE_RESULT}; browser=${BROWSER_RESULT}"
+          payload="$(jq -n --arg state "$state" --arg context 'phase9-gsc-dev/gate' --arg description "$description" '{state:$state,context:$context,description:$description}')"
+          curl --fail-with-body -sS \
+            -X POST \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${REPOSITORY}/statuses/${SHA}" \
+            -d "$payload"
+          echo "PHASE9_GSC_COMMIT_STATUS=${state}"
+          [[ "$state" == "success" ]]
