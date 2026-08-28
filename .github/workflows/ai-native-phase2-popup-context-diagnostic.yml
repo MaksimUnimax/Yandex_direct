@@ -1,0 +1,81 @@
+name: ai-native-phase2-popup-context-diagnostic
+
+on:
+  push:
+    branches:
+      - candidate/ai-native-gensearch-production-gate-2026-08-28
+    paths:
+      - .github/workflows/ai-native-phase2-popup-context-diagnostic.yml
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-phase2-popup-context:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 3777e1d7e891cb6eedbfba1399e2ab8428ba7976
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+      - name: Instrument first popup context without changing product
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp extension/tests/qa_browser/phase2-stage4/browser_phase2_stage4_gate.mjs /tmp/phase2-popup-diagnostic.mjs
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/phase2-popup-diagnostic.mjs')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("protocolTimeout: 30000", "protocolTimeout: 90000", 1)
+          old="""  await popup.waitForFunction(expected => document.getElementById('conversationMeta')?.textContent === expected, { timeout:10000 }, key);"""
+          new="""  try {
+    await popup.waitForFunction(expected => document.getElementById('conversationMeta')?.textContent === expected, { timeout:10000 }, key);
+  } catch (error) {
+    const popupDiag = await popup.evaluate(() => ({
+      href: location.href,
+      conversationMeta: document.getElementById('conversationMeta')?.textContent || '',
+      status: document.getElementById('status')?.textContent || '',
+      statusLevel: document.getElementById('status')?.dataset?.level || '',
+      bootstrapResult: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_RESULT__ || null,
+      bootstrapError: globalThis.__YMB_POPUP_CONTEXT_BOOTSTRAP_ERROR__ || null
+    }));
+    const tabsDiag = await worker.evaluate(async () => {
+      const tabs = await chrome.tabs.query({});
+      const rows = [];
+      for (const tab of tabs) {
+        let identity = null;
+        let identityError = null;
+        if (/^https:\\/\\/(chatgpt\\.com|chat\\.openai\\.com)\\//.test(String(tab.url || ''))) {
+          identity = await new Promise(resolve => chrome.tabs.sendMessage(tab.id,{type:'WS_GET_IDENTITY'},response=>resolve(response||null)));
+          identityError = chrome.runtime.lastError?.message || null;
+        }
+        rows.push({id:tab.id,active:tab.active,windowId:tab.windowId,url:tab.url,identity,identityError});
+      }
+      return rows;
+    });
+    console.log('PHASE2_POPUP_CONTEXT_DIAGNOSTIC=' + JSON.stringify({key,popupDiag,tabsDiag}));
+    throw error;
+  }"""
+          assert s.count(old)==1
+          p.write_text(s.replace(old,new,1),encoding='utf-8',newline='\n')
+          PY
+          node --check /tmp/phase2-popup-diagnostic.mjs
+          CHROME_BIN="$(node --input-type=module -e "import puppeteer from 'puppeteer';console.log(puppeteer.executablePath())")"
+          set +e
+          xvfb-run -a node /tmp/phase2-popup-diagnostic.mjs "${CHROME_BIN}" "${GITHUB_WORKSPACE}/extension/src" "${GITHUB_WORKSPACE}/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.key.pem" "${GITHUB_WORKSPACE}/extension/tests/qa_browser/phase2-stage4/qa-chatgpt-local.cert.pem" | tee /tmp/diag.log
+          rc=${PIPESTATUS[0]}
+          set -e
+          grep -F 'PHASE2_POPUP_CONTEXT_DIAGNOSTIC=' /tmp/diag.log
+          test "$rc" -ne 0
+          echo PHASE2_POPUP_CONTEXT_DIAGNOSTIC_CAPTURED
