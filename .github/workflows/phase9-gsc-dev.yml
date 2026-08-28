@@ -18,14 +18,12 @@ on:
       - extension/tests/google_search_console_contract.test.mjs
       - extension/tests/google_search_console_runtime.test.mjs
       - extension/tests/google_search_console_worker_routing.test.mjs
-      - extension/tests/google_search_console_identity_migration.test.mjs
-      - extension/tests/google_search_console_manifest_identity.test.mjs
       - extension/tests/google_search_console_oauth_ui_routing.test.mjs
       - extension/tests/qa_browser/google_search_console_browser_runtime.mjs
+      - extension/tests/direct_phase5_ui_runtime_contract.test.mjs
       - extension/tests/gensearch_search_protocol.test.mjs
       - extension/tests/search_batch_integration.test.mjs
       - extension/tests/wordstat_batch_transport.test.mjs
-      - extension/docs/PHASE_9_GSC_STABLE_IDENTITY_MIGRATION_GATE_2026-08-28.md
 
 permissions:
   contents: read
@@ -54,20 +52,22 @@ jobs:
           node --check extension/tests/google_search_console_contract.test.mjs
           node --check extension/tests/google_search_console_runtime.test.mjs
           node --check extension/tests/google_search_console_worker_routing.test.mjs
-          node --check extension/tests/google_search_console_identity_migration.test.mjs
-          node --check extension/tests/google_search_console_manifest_identity.test.mjs
           node --check extension/tests/google_search_console_oauth_ui_routing.test.mjs
-          node --check extension/tests/gensearch_search_protocol.test.mjs
-          node --check extension/tests/search_batch_integration.test.mjs
-          node --check extension/tests/wordstat_batch_transport.test.mjs
+          node --check extension/tests/qa_browser/google_search_console_browser_runtime.mjs
           echo PHASE9_GSC_PURE_SYNTAX_PASS
-      - name: Stable local manifest identity
+      - name: Existing extension identity remains untouched before OAuth configuration
         shell: bash
         run: |
           set -euo pipefail
-          node --test extension/tests/google_search_console_manifest_identity.test.mjs | tee /tmp/gsc-manifest-identity.log
-          grep -F '# fail 0' /tmp/gsc-manifest-identity.log
-          echo PHASE9_GSC_STABLE_LOCAL_IDENTITY_PASS
+          node - <<'NODE'
+          const fs = require('fs');
+          const m = JSON.parse(fs.readFileSync('extension/src/manifest.json', 'utf8'));
+          if (Object.hasOwn(m, 'key')) throw new Error('unexpected manifest.key');
+          if ((m.permissions || []).includes('identity')) throw new Error('identity enabled before OAuth configuration');
+          if ((m.host_permissions || []).some(x => String(x).includes('googleapis.com'))) throw new Error('Google host enabled before OAuth configuration');
+          if (Object.hasOwn(m, 'oauth2')) throw new Error('oauth2 enabled before OAuth configuration');
+          console.log('PHASE9_GSC_EXISTING_EXTENSION_IDENTITY_UNTOUCHED_PASS');
+          NODE
       - name: GSC OAuth UI routing
         shell: bash
         run: |
@@ -96,18 +96,11 @@ jobs:
           node --test extension/tests/google_search_console_worker_routing.test.mjs | tee /tmp/gsc-worker.log
           grep -F '# fail 0' /tmp/gsc-worker.log
           echo PHASE9_GSC_WORKER_ROUTING_PASS
-      - name: Stable-ID migration preflight
-        shell: bash
-        run: |
-          set -euo pipefail
-          node --test extension/tests/google_search_console_identity_migration.test.mjs | tee /tmp/gsc-identity.log
-          grep -F '# fail 0' /tmp/gsc-identity.log
-          echo PHASE9_GSC_STABLE_ID_MIGRATION_PREFLIGHT_PASS
       - name: Prior-service focused regressions
         shell: bash
         run: |
           set -euo pipefail
-          node --test extension/tests/gensearch_search_protocol.test.mjs extension/tests/phase5_prior_service_compatibility.test.mjs | tee /tmp/prior.log
+          node --test extension/tests/direct_phase5_ui_runtime_contract.test.mjs extension/tests/gensearch_search_protocol.test.mjs extension/tests/phase5_prior_service_compatibility.test.mjs | tee /tmp/prior.log
           grep -F '# fail 0' /tmp/prior.log
           echo PHASE9_GSC_PRIOR_SERVICE_REGRESSION_PASS
       - name: Complete Node regression suite
@@ -130,16 +123,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Pre-browser syntax and product identity
+      - name: Pre-browser syntax and OAuth preflight
         shell: bash
         run: |
           set -euo pipefail
           node --check extension/src/popup.js
           node --check extension/tests/qa_browser/google_search_console_browser_runtime.mjs
-          node --test extension/tests/google_search_console_manifest_identity.test.mjs
           node --test extension/tests/google_search_console_oauth_ui_routing.test.mjs
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p9-gsc-product-before.sha256
-          echo PHASE9_GSC_PRE_BROWSER_PRODUCT_IDENTITY_PASS
+          echo PHASE9_GSC_PRE_BROWSER_PASS
       - name: Install Puppeteer Chrome
         shell: bash
         run: |
@@ -153,7 +145,7 @@ jobs:
           set -euo pipefail
           xvfb-run -a node extension/tests/qa_browser/google_search_console_browser_runtime.mjs | tee /tmp/p9-gsc-browser.log
           for marker in \
-            P9_GSC_BROWSER_STABLE_EXTENSION_ID_PASS \
+            P9_GSC_BROWSER_EXISTING_IDENTITY_UNTOUCHED_PASS \
             P9_GSC_BROWSER_BOOTSTRAP_ROUTE_PASS \
             P9_GSC_BROWSER_LIST_SITES_ONE_REQUEST_PASS \
             P9_GSC_BROWSER_SEARCH_ANALYTICS_ONE_REQUEST_PASS \
@@ -186,48 +178,50 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Verify frozen identity before packaging
+      - name: Verify pre-OAuth production manifest
         shell: bash
         run: |
           set -euo pipefail
-          node --test extension/tests/google_search_console_manifest_identity.test.mjs
-          node --test extension/tests/google_search_console_oauth_ui_routing.test.mjs
-          echo PHASE9_GSC_PACKAGE_IDENTITY_PASS
-      - name: Build stable local candidate ZIP
+          node - <<'NODE'
+          const fs = require('fs');
+          const m = JSON.parse(fs.readFileSync('extension/src/manifest.json', 'utf8'));
+          if (Object.hasOwn(m, 'key')) throw new Error('unexpected manifest.key');
+          if ((m.permissions || []).includes('identity')) throw new Error('unexpected identity permission');
+          if ((m.host_permissions || []).some(x => String(x).includes('googleapis.com'))) throw new Error('unexpected Google host permission');
+          if (Object.hasOwn(m, 'oauth2')) throw new Error('unexpected oauth2 config');
+          console.log('PHASE9_GSC_PRE_OAUTH_MANIFEST_PASS');
+          NODE
+      - name: Build pre-OAuth candidate ZIP
         id: package
         shell: bash
         run: |
           set -euo pipefail
           SHORT_SHA="${GITHUB_SHA:0:12}"
-          ZIP_NAME="YMB_PHASE9_GSC_STABLE_LOCAL_${SHORT_SHA}.zip"
-          rm -f "/tmp/${ZIP_NAME}" /tmp/phase9-gsc-stable-local-metadata.txt
+          ZIP_NAME="YMB_PHASE9_GSC_PRE_OAUTH_${SHORT_SHA}.zip"
+          rm -f "/tmp/${ZIP_NAME}" /tmp/phase9-gsc-pre-oauth-metadata.txt
           (cd extension/src && zip -X -q -r "/tmp/${ZIP_NAME}" .)
           test -s "/tmp/${ZIP_NAME}"
           ZIP_SHA256="$(sha256sum "/tmp/${ZIP_NAME}" | awk '{print $1}')"
           PRODUCT_FILES="$(find extension/src -type f | wc -l | tr -d ' ')"
-          cat > /tmp/phase9-gsc-stable-local-metadata.txt <<EOF
-          PHASE9_GSC_STABLE_LOCAL_HEAD=${GITHUB_SHA}
-          PHASE9_GSC_STABLE_LOCAL_EXTENSION_ID=pckmmaodnfeajgigadfaejfjppdbgmpo
-          PHASE9_GSC_STABLE_LOCAL_PUBLIC_KEY_DER_SHA256=f2acc0e3d540968603504959ff316cfe0310622c9b948478e26b955181173e72
-          PHASE9_GSC_STABLE_LOCAL_ZIP=${ZIP_NAME}
-          PHASE9_GSC_STABLE_LOCAL_ZIP_SHA256=${ZIP_SHA256}
-          PHASE9_GSC_STABLE_LOCAL_PRODUCT_FILES=${PRODUCT_FILES}
-          PHASE9_GSC_STABLE_LOCAL_MANIFEST_AT_ROOT=true
-          PHASE9_GSC_STABLE_LOCAL_REAL_GOOGLE_REQUESTS=0
-          PHASE9_GSC_STABLE_LOCAL_REAL_YANDEX_REQUESTS=0
+          cat > /tmp/phase9-gsc-pre-oauth-metadata.txt <<EOF
+          PHASE9_GSC_PRE_OAUTH_HEAD=${GITHUB_SHA}
+          PHASE9_GSC_PRE_OAUTH_ZIP=${ZIP_NAME}
+          PHASE9_GSC_PRE_OAUTH_ZIP_SHA256=${ZIP_SHA256}
+          PHASE9_GSC_PRE_OAUTH_PRODUCT_FILES=${PRODUCT_FILES}
+          PHASE9_GSC_PRE_OAUTH_MANIFEST_AT_ROOT=true
+          PHASE9_GSC_PRE_OAUTH_MANIFEST_KEY=false
+          PHASE9_GSC_PRE_OAUTH_REAL_GOOGLE_REQUESTS=0
+          PHASE9_GSC_PRE_OAUTH_REAL_YANDEX_REQUESTS=0
           EOF
-          cat /tmp/phase9-gsc-stable-local-metadata.txt
+          cat /tmp/phase9-gsc-pre-oauth-metadata.txt
           echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
-          echo PHASE9_GSC_STABLE_LOCAL_PACKAGE_PASS
+          echo PHASE9_GSC_PRE_OAUTH_PACKAGE_PASS
       - uses: actions/upload-artifact@v4
         with:
-          name: phase9-gsc-stable-local-${{ github.sha }}
+          name: phase9-gsc-pre-oauth-${{ github.sha }}
           path: |
-            /tmp/YMB_PHASE9_GSC_STABLE_LOCAL_*.zip
-            /tmp/phase9-gsc-stable-local-metadata.txt
+            /tmp/YMB_PHASE9_GSC_PRE_OAUTH_*.zip
+            /tmp/phase9-gsc-pre-oauth-metadata.txt
           if-no-files-found: error
           retention-days: 30
           compression-level: 0
