@@ -11,12 +11,12 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_05_PRE_STEP_REVIEW_COMPLETE_WAITING_OWNER
-next_major_step = STEP_05_PROVIDER_EXECUTION_AFTER_OWNER_AUTHORIZATION
+current_major_step = STEP_05_WORDSTAT_PASS2_MANIFEST_FROZEN
+next_major_step = STEP_05_PROVIDER_EXECUTION
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
-provider_operator_action_pending = false
+provider_operator_action_pending = true
 safe_to_delete = false
 ```
 
@@ -55,13 +55,18 @@ JOB_FLOW.md
 
 for the current job's step sequence and status.
 
-Current Step-5 preflight authority:
+Current Step-5 authorities:
 
 ```text
 STEP_05_PRE_STEP_REVIEW.md
+STEP_05_WORDSTAT_PASS2_MANIFEST.md
 ```
 
-No Step-5 provider batch currently exists.
+Step-5 manifest is owner-authorized and frozen. No Step-5 provider request had been made at manifest freeze. The next action is owner-operated durable batch start for:
+
+```text
+kw001-okno-msk-wordstat-pass2-20260828
+```
 
 ## Close rule
 
