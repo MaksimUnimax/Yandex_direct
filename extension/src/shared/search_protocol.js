@@ -220,12 +220,9 @@
   }
 
   function normalizeGenSearchProviderResult(parsed) {
-    const hasRecognizedShape = Object.prototype.hasOwnProperty.call(parsed, "message")
-      || Object.prototype.hasOwnProperty.call(parsed, "sources")
-      || Object.prototype.hasOwnProperty.call(parsed, "searchQueries")
-      || Object.prototype.hasOwnProperty.call(parsed, "isAnswerRejected")
-      || Object.prototype.hasOwnProperty.call(parsed, "problematicAnswer");
-    if (!hasRecognizedShape) fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch вернул неожиданный JSON-ответ.");
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch вернул неожиданный JSON-ответ.");
+    }
 
     const message = parsed.message && typeof parsed.message === "object" && !Array.isArray(parsed.message)
       ? Object.freeze({
@@ -273,6 +270,59 @@
       return normalizer.normalizeBase64RawData(parsed.rawData);
     }
     return normalizeGenSearchProviderResult(parsed);
+  }
+
+  function attachGenSearchTransport(result, wireFormat, frameCount) {
+    return Object.freeze({
+      ...result,
+      transport: Object.freeze({ wire_format: wireFormat, frame_count: frameCount })
+    });
+  }
+
+  function normalizeGenSearchFrames(frames, wireFormat) {
+    if (!Array.isArray(frames) || frames.length === 0) {
+      fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch не вернул ни одного GenSearchResponse frame.");
+    }
+    for (const frame of frames) {
+      if (!frame || typeof frame !== "object" || Array.isArray(frame)) {
+        fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch вернул некорректный GenSearchResponse frame.");
+      }
+    }
+    const finalResult = normalizeGenSearchProviderResult(frames[frames.length - 1]);
+    return attachGenSearchTransport(finalResult, wireFormat, frames.length);
+  }
+
+  function parseProviderResponseText(command, rawText) {
+    const normalizedCommand = normalizeCommand(command);
+    const source = String(rawText ?? "");
+    const trimmed = source.trim();
+    if (!trimmed) {
+      fail(normalizedCommand.method === "genSearch" ? "EMPTY_GEN_SEARCH_RESPONSE" : "INVALID_SEARCH_RESPONSE", "Yandex Search вернул пустой ответ.");
+    }
+
+    if (normalizedCommand.method !== "genSearch") {
+      let parsed;
+      try { parsed = JSON.parse(trimmed); }
+      catch { fail("INVALID_SEARCH_RESPONSE", "Yandex Search вернул невалидный JSON-ответ."); }
+      return normalizeProviderResult(parsed);
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(trimmed);
+    } catch {
+      const lines = source.split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
+      if (lines.length === 0) fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch вернул пустой поток ответа.");
+      const frames = [];
+      for (const line of lines) {
+        try { frames.push(JSON.parse(line)); }
+        catch { fail("INVALID_GEN_SEARCH_RESPONSE", "Yandex GenSearch вернул невалидный JSON Lines frame."); }
+      }
+      return normalizeGenSearchFrames(frames, "json_lines");
+    }
+
+    if (Array.isArray(parsed)) return normalizeGenSearchFrames(parsed, "json_array");
+    return attachGenSearchTransport(normalizeGenSearchProviderResult(parsed), "json_object", 1);
   }
 
   function commandFingerprint(command) {
@@ -372,6 +422,7 @@
     buildRequest,
     normalizeGenSearchProviderResult,
     normalizeProviderResult,
+    parseProviderResponseText,
     commandFingerprint,
     safeErrorPayload,
     buildResultEnvelope,
