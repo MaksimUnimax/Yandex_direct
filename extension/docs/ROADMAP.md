@@ -334,8 +334,6 @@ Final authority:
 
 # PHASE 9 — Google organic gap
 
-# PHASE 9 — Google organic gap
-
 **Status: PLANNED / EXTERNAL PROVIDER RESEARCH REQUIRED.**
 
 Potential unlocks:
