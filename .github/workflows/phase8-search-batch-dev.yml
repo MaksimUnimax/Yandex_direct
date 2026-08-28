@@ -12,6 +12,7 @@ on:
       - extension/src/shared/search_batch_*.js
       - extension/tests/search_batch_contract.test.mjs
       - extension/tests/search_batch_integration.test.mjs
+      - extension/tests/qa_browser/search_batch_browser_runtime.mjs
 
 permissions:
   contents: read
@@ -19,7 +20,7 @@ permissions:
 jobs:
   focused-contract:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -36,7 +37,9 @@ jobs:
           node --check extension/src/shared/search_batch_content_bridge.js
           node --check extension/src/search_batch_worker_transport.js
           node --check extension/src/phase3_service_worker_bootstrap.js
+          node --check extension/tests/qa_browser/search_batch_browser_runtime.mjs
           node -e "JSON.parse(require('fs').readFileSync('extension/src/manifest.json','utf8'))"
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p8-product-before.sha256
           echo PHASE8_SEARCH_BATCH_SYNTAX_PASS
       - name: Search batch focused contracts
         shell: bash
@@ -58,5 +61,43 @@ jobs:
             extension/tests/gensearch_search_protocol.test.mjs | tee /tmp/regression.log
           grep -F '# fail 0' /tmp/regression.log
           echo PHASE8_SEARCH_BATCH_REUSE_REGRESSION_PASS
+      - name: Install Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Controlled installed-extension Search batch runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/search_batch_browser_runtime.mjs | tee /tmp/p8-browser.log
+          for marker in \
+            PHASE8_SEARCH_BATCH_BROWSER_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_FIRST_NEXT_ONE_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_SECOND_NEXT_EXACTLY_ONCE_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_LOCAL_PROJECTION_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_OVERLAP_MATH_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_UNKNOWN_NO_REPLAY_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_500_START_ZERO_PROVIDER_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_CREDENTIAL_NOT_PERSISTED_IN_JOB_PASS \
+            PHASE8_SEARCH_BATCH_BROWSER_REAL_YANDEX_REQUESTS=0 \
+            PHASE8_SEARCH_BATCH_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/p8-browser.log
+          done
+          if grep -F 'search-batch-browser-secret' /tmp/p8-browser.log; then
+            echo PHASE8_SEARCH_BATCH_BROWSER_SECRET_LOG_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE8_SEARCH_BATCH_CONTROLLED_BROWSER_PASS
+      - name: Product immutability
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p8-product-after.sha256
+          cmp /tmp/p8-product-before.sha256 /tmp/p8-product-after.sha256
+          echo PHASE8_SEARCH_BATCH_POST_BROWSER_PRODUCT_IDENTICAL
       - name: Provider traffic assertion
         run: echo PHASE8_DEV_REAL_YANDEX_REQUESTS=0
