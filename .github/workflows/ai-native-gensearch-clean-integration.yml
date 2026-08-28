@@ -1,0 +1,78 @@
+name: ai-native-gensearch-clean-integration
+
+on:
+  push:
+    branches:
+      - candidate/ai-native-gensearch-production-gate-2026-08-28
+    paths:
+      - .github/workflows/ai-native-gensearch-clean-integration.yml
+
+permissions:
+  contents: write
+
+jobs:
+  assemble-validate-push:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Assemble one clean integration commit from accepted source authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='ca422ac5b1635bb42984d6076f3143780e1d72f6'
+          SOURCE='aca7bd54c034e9ff856b081a2b22cc3746ccf28e'
+          BRANCH='integration/ai-native-gensearch-production-2026-08-28'
+          git fetch origin main "$BRANCH" candidate/ai-native-gensearch-production-gate-2026-08-28
+          test "$(git rev-parse origin/main)" = "$BASE"
+          test "$(git rev-parse origin/$BRANCH)" = "$BASE"
+          git checkout -B "$BRANCH" "$BASE"
+
+          git checkout "$SOURCE" -- \
+            extension/docs/AI_NATIVE_GENSEARCH_PRODUCTION_CONTRACT_2026-08-28.md \
+            extension/src/content_script.js \
+            extension/src/popup.js \
+            extension/src/shared/phase3_provider_runtime.js \
+            extension/src/shared/policy_model.js \
+            extension/src/shared/search_protocol.js \
+            extension/tests/AI_NATIVE_GENSEARCH_PROXY_G01_2026-08-28.md \
+            extension/tests/AI_NATIVE_GENSEARCH_PROXY_G02_2026-08-28.md \
+            extension/tests/AI_NATIVE_GENSEARCH_PROXY_G03_2026-08-28.md \
+            extension/tests/AI_NATIVE_GENSEARCH_PROXY_G04_2026-08-28.md \
+            extension/tests/AI_NATIVE_GENSEARCH_PROXY_G05_2026-08-28.md \
+            extension/tests/AI_NATIVE_GENSEARCH_PROXY_VALIDATION_FINAL_2026-08-28.md \
+            extension/tests/autorun_baseline_sync.test.mjs \
+            extension/tests/gensearch_search_protocol.test.mjs \
+            extension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs \
+            extension/tests/qa_browser/gensearch_browser_runtime.mjs
+
+          test -z "$(git diff --name-only -- .github)"
+          git diff --exit-code "$SOURCE" -- extension
+          test "$(git diff --name-only | wc -l | tr -d ' ')" = '16'
+          git diff --check
+          echo GENSEARCH_CLEAN_INTEGRATION_EXTENSION_IDENTITY_PASS
+
+          while IFS= read -r -d '' f; do node --check "$f"; done < <(find extension/src -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | sort -z)
+          node --test extension/tests/*.test.mjs | tee /tmp/integration-node.log
+          grep -F '# pass 99' /tmp/integration-node.log
+          grep -F '# fail 0' /tmp/integration-node.log
+          echo GENSEARCH_CLEAN_INTEGRATION_NODE_PASS
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension
+          git commit -m 'feat(ai-native): integrate validated GenSearch production gate'
+          INTEGRATION_SHA="$(git rev-parse HEAD)"
+          test "$(git rev-parse HEAD^)" = "$BASE"
+          git diff --exit-code "$SOURCE" -- extension
+          test -z "$(git diff --name-only "$BASE" HEAD -- .github)"
+          echo "GENSEARCH_CLEAN_INTEGRATION_SHA=$INTEGRATION_SHA"
+          echo GENSEARCH_CLEAN_INTEGRATION_ONE_COMMIT_PASS
+          git push origin HEAD:"$BRANCH"
