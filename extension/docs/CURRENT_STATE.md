@@ -1,7 +1,7 @@
 # CURRENT STATE — Yandex Marketing Bridge
 
-Status: **PHASE 1 WORDSTAT = CLOSED — PHASE 2 SEARCH = CLOSED — LIFECYCLE PATCH = CLOSED — PHASE 3 WEBMASTER = CLOSED — PHASE 4 METRIKA = CLOSED — PHASE 5 DIRECT = PASS / CLOSED — PHASE 6 SEMANTIC WORKFLOW = REQUIREMENTS READY / IMPLEMENTATION AUTHORIZED**  
-Updated: 2026-08-27
+Status: **PHASES 0–6 CLOSED — O-001 COMPARATIVE GATE PASS — GENSEARCH PRODUCTION HAND ACCEPTED — PHASE 8 BULK SERP/TOP/RANK = ACTIVE NEXT ENGINEERING PHASE**  
+Updated: 2026-08-28
 
 Always fetch live `main` HEAD and exact file/tree identity before a workflow-stage transition or product write.
 
@@ -14,13 +14,13 @@ ChatGPT Plus
 = analyst / planner / semantic architect / QA / report author
 
 Yandex Marketing Bridge
-= authenticated, bounded, repeatable hands for provider evidence and approved actions
+= authenticated, bounded, repeatable provider hands
 
 Human owner/operator
-= authorization/access boundary
+= authorization/access boundary and irreducible local/live actions
 ```
 
-Do not judge product capability as though all expert reasoning must be hard-coded into the extension. The extension should productize acquisition, persistence, safety, recovery and deterministic repetitive work. ChatGPT remains the reasoning layer.
+The extension productizes acquisition, persistence, deterministic projections, policy, recovery and safe execution. It does not replace ChatGPT with hard-coded SEO judgment where model reasoning from evidence is the stronger worker.
 
 Permanent credential rule:
 
@@ -32,9 +32,19 @@ Direct OAuth = separate
 no credential consolidation/reuse project is authorized
 ```
 
+Service registry remains exactly:
+
+```text
+wordstat
+search
+webmaster
+metrika
+direct
+```
+
 ---
 
-## 2. Closed phase summary
+## 2. Closed provider phases
 
 ### Phase 1 — Wordstat
 
@@ -44,19 +54,18 @@ protocol = WORDSTAT_API_V1
 methods = getTop,getDynamics,getRegionsDistribution,getRegionsTree
 ```
 
-### Phase 2 — Yandex Search
+### Phase 2 — ordinary Yandex Search
 
 ```text
 status = LIVE PASS / CLOSED
 protocol = SEARCH_API_V1
-accepted source = b7869180c229356a6b3d51ac980ec3da5df4c23c
-accepted artifact SHA-256 = ce824a9fff5ddee47bc0145f57db4da10c6352e782c859fa500e3a1fb98088aa
-ordinary endpoint = /v2/web/search
+ordinary endpoint = POST /v2/web/search
+accepted original Search source = b7869180c229356a6b3d51ac980ec3da5df4c23c
 ```
 
-Deferred Search async/image/generative surfaces remain outside the accepted Phase-2 product. Generative Search is now documented as a future official provider path, not silently treated as already implemented.
+Ordinary Search remains the regional SERP evidence hand. Its normalized result preserves ranked URL/domain/title/snippet evidence.
 
-### Lifecycle button gating patch
+### Lifecycle button gating
 
 ```text
 status = OWNER LIVE PASS / CLOSED
@@ -67,250 +76,280 @@ accepted source = 939e880f820e52beae9dcbcedc86d5cd9e13b075
 
 ```text
 status = LIVE PASS / CLOSED
-accepted source = a7d9f947759f4f6a4fc20b39c7df3f25d81ce3e5
-accepted src tree = e5fa694f1354e1ee048a352481a416413e94a3c9
-merged main = 6c95cf15462b5ad61a267bf1186bb75fa8dd4dff
 methods = listHosts,getSummary,getDiagnostics,getPopularQueries
 writes = disabled
 ```
 
-Durable evidence:
-
+Authority:
 `extension/tests/PHASE3_WEBMASTER_OWNER_LIVE_PASS_2026-08-26.md`
 
 ### Phase 4 — Metrika
 
 ```text
 status = LIVE PASS / CLOSED
-accepted source = 643445758e86d3b06ac42a6daea5c97b6e9223c7
-accepted ZIP SHA-256 = 99c3719b447185481125964f0ff543c4c706714f9fe23fe150b7a8fbc8700217
-accepted src tree = fbc52f9a84195278b7b5e942f2a84c7d69778b98
-merged main = 52b0cbf92872f6e7cb9f4cb96d0877d55221ceb4
 methods = listCounters,getCounter,getTrafficSummary,getTrafficByTime
 writes = disabled
-owner-live = PASS
 ```
 
-Durable evidence:
-
+Authority:
 `extension/tests/PHASE4_METRIKA_OWNER_LIVE_PASS_2026-08-26.md`
 
----
-
-## 3. Phase 5 — Yandex Direct FINAL CLOSED STATE
-
-Accepted product identity:
+### Phase 5 — Yandex Direct
 
 ```text
-accepted source = 841a1e2c1a503c4a05572a957ba97c55b9b60c52
-accepted extension/src tree = edf1c2d3494ebbc53ae778d23be1457eb885b605
-frozen ZIP SHA-256 = ac8efc444578e9d3f31ac0325baca4b286fd608bc511850f480e0d397936620b
-freeze run = 33037955943
-artifact id = 9632728199
-```
-
-Accepted first slice:
-
-```text
-protocol = DIRECT_API_V1
-result = DIRECT_RESULT_V1
+status = PASS / CLOSED
 methods = listCampaigns,listAdGroups,listAds,listKeywords,getCampaignPerformance
-report mode = bounded online-only Campaign Performance
-writes = disabled
-bids/budgets/finance = locked
-raw arbitrary provider calls = locked
-automatic retry after provider initiation = locked
-```
-
-Independent exact-candidate QA:
-
-```text
-source suite = 34/34
-packaged suite = 34/34
-D-00..D-22 = PASS
-NOT_RUN_COUNT = 0
-browser Direct gates = PASS
-prior compatibility = PASS
-real Yandex traffic during controlled QA = 0
-PRODUCT_BYTES_POST_TEST = IDENTICAL
-verdict = PASS
-```
-
-Authority:
-
-`extension/tests/PHASE5_DIRECT_R2_CODEX_COMPLETE_PASS_2026-08-27.md`
-
-Owner-live:
-
-```text
-exact frozen candidate loaded = YES
-Direct Check = PASS
-listCampaigns = PASS
-HTTP = 200
-request_executed = true
-automatic_retry = false
-campaigns = []
-provider Units = spent 10 / remaining 159980 / daily 160000
-listAdGroups = NOT_APPLICABLE_EMPTY_ACCOUNT
-getCampaignPerformance = NOT_APPLICABLE_NO_REAL_DATA
-write/mutation requests = 0
-```
-
-Authority:
-
-`extension/tests/PHASE5_DIRECT_OWNER_LIVE_PASS_2026-08-27.md`
-
-Final integration:
-
-```text
-PR = #25
-Phase-5 integration main = 20f0605f8b0cdafc009c6719529859d63e8c0eba
-main extension/src tree after merge = edf1c2d3494ebbc53ae778d23be1457eb885b605
-accepted extension/src tree = edf1c2d3494ebbc53ae778d23be1457eb885b605
-identity = EXACT
+writes/bids/budgets/finance = disabled
 ```
 
 Final closure authority:
-
 `extension/tests/PHASE5_DIRECT_FINAL_CLOSURE_2026-08-27.md`
 
-### Manual GitHub workflow clarification
+---
 
-No project-owner GitHub Actions click is required for Phase 5 closure.
+## 3. Phase 6 — Semantic Core / durable Wordstat batch CLOSED
 
-`.github/workflows/phase5-direct-postmerge-final.yml` is an optional repository QA convenience and is **not** an additional owner-live/product-validity gate.
+Phase 6 is no longer a requirements-only phase. The first productionized batch hand is accepted and in `main`.
 
-The completed closure chain is:
+Protocol:
 
 ```text
-frozen exact product
-→ independent complete PASS
-→ owner-live PASS
-→ merge to main
-→ exact accepted src tree verified on main
-→ PHASE 5 CLOSED
+WORDSTAT_BATCH_API_V1
+WORDSTAT_BATCH_RESULT_V1
+service = wordstat
+```
+
+Management/execution model:
+
+```text
+start / status / pause / resume / cancel = no provider request
+one explicit next = at most one Wordstat provider request
+```
+
+The shared provider-batch lifecycle now provides durable per-item state, stable fingerprints, persisted request identity, request/cost bounds, pause/resume/cancel, worker recovery and fail-closed `OUTCOME_UNKNOWN` behavior.
+
+Frozen Phase-6 product authority:
+
+```text
+source_commit = 34f50688268970f4863dddb2089a33d891b91372
+extension/src_tree = adab628a8ec328fa5079ae35f45005a0ee7de2c1
+artifact_id = 9649039904
+inner_zip_sha256 = 05d587b02f5fc08c64ebbf1fbd5d14765491c7b9931195c23262e1f42d692c2f
+```
+
+Independent complete gate:
+
+```text
+workflow_run = 33079158530
+source suite = 81/81
+packaged suite = 81/81
+real_yandex_requests = 0
+product byte identity = PASS
+```
+
+Owner-live bounded acceptance:
+
+```text
+3 distinct Wordstat seeds
+3 successful provider requests
+3 distinct request ids
+pause/resume = no replay
+final status = COMPLETED
+requests_started = 3
+estimated_cost_rub = 0.06
+automatic_retry = false
+```
+
+Authority:
+`extension/tests/PHASE6_WORDSTAT_BATCH_FINAL_ACCEPTANCE_2026-08-27.md`
+
+**PHASE6_WORDSTAT_BATCH_FINAL_ACCEPTANCE_PASS**
+
+---
+
+## 4. O-001 — AI-Native Semantic Rebuild: methodology gate PASS
+
+The clean comparative methodology experiment is complete.
+
+Valid clean Pass A was frozen before any Alice evidence was opened in that clean context. Pass B then added the frozen canonical consumer-Alice evidence and compared action-level semantic/page-job decisions.
+
+Verdict:
+
+```text
+AI_NATIVE_COMPARATIVE_GATE_PASS
+```
+
+The controlled real-project comparison showed material decision-level uplift/de-risking in areas including page-job scope, hybrid content-commerce requirements, launch priority, source-worthiness and contamination control.
+
+This proves methodology value on the controlled dataset. It does not prove revenue uplift and does not guarantee AI citation/ranking/traffic.
+
+Canonical comparison:
+`extension/tests/AI_NATIVE_BLOOD_SAND_COMPARISON_2026-08-27.md`
+
+---
+
+## 5. Official GenSearch hand: VALIDATED / IN PRODUCTION MAIN
+
+Official Yandex GenSearch is implemented as a bounded method of the existing Search service:
+
+```text
+service = search
+protocol = SEARCH_API_V1
+method = genSearch
+endpoint = POST /v2/gen/search
+result mode = generative
+```
+
+It does not create a sixth service and does not reuse Webmaster/Metrika/Direct credentials.
+
+Bounded proxy validation against the frozen consumer-Alice evidence completed with:
+
+```text
+representative_roots = 5
+SAME_OR_STRONGLY_ALIGNED = 4
+PARTIALLY_ALIGNED = 1
+MATERIALLY_DIFFERENT = 0
+NOT_COMPARABLE = 0
+systematic_contradictions = 0
+```
+
+Verdict:
+
+```text
+AI_NATIVE_GENSEARCH_PROXY_VALIDATION_PASS
+```
+
+Important provenance boundary remains permanent:
+
+```text
+GEN_SEARCH_QUERY_OBSERVED != ALICE_FANOUT_OBSERVED
+GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER
+GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE
+```
+
+GenSearch is accepted as a distinct repeatable structured AI-search evidence hand, not as consumer-Alice equivalence.
+
+Production contract:
+`extension/docs/AI_NATIVE_GENSEARCH_PRODUCTION_CONTRACT_2026-08-28.md`
+
+Proxy validation:
+`extension/tests/AI_NATIVE_GENSEARCH_PROXY_VALIDATION_FINAL_2026-08-28.md`
+
+Production integration:
+
+```text
+main_commit = 67aeee71a42bdc0edb516341297987c1d1d26972
+extension/src_tree = 04dc6d015977270fb064b669ee03d04f6e130612
+postmerge_gate_run = 33140809518
+postmerge_gate = SUCCESS
+node_tests = 99/99
+controlled_browser_real_yandex_requests = 0
 ```
 
 ---
 
-## 4. O-001 — AI-Native Semantic Rebuild
+## 6. Current production capability boundary
 
-Status:
-
-```text
-strategic differentiation = STRONG
-commercial premium uplift = NOT YET PROVEN
-comparative methodology gate = PREPARED / CLEAN PASS A REQUIRED
-Alice-specific implementation = GATED
-```
-
-Canonical docs:
+Current `main` can provide ChatGPT with these controlled hands:
 
 ```text
-extension/docs/AI_NATIVE_SEMANTIC_SERVICE_OPPORTUNITY.md
-extension/docs/AI_NATIVE_BLOOD_SAND_REQUIRED_COMPARATIVE_GATE.md
-extension/docs/AI_NATIVE_YANDEX_GENSEARCH_PROVIDER_RESEARCH_2026-08-27.md
-extension/tests/AI_NATIVE_BLOOD_SAND_BASELINE_SOURCE_MANIFEST_2026-08-27.md
+Wordstat single requests
+Wordstat durable batch orchestration
+ordinary Yandex Search / ranked SERP evidence
+bounded official GenSearch evidence
+Webmaster read evidence
+Metrika read evidence
+Direct read evidence
 ```
 
-Important anti-leakage status:
+ChatGPT remains responsible for:
 
 ```text
-current ChatGPT conversation has already consumed Alice-derived blood_sand conclusions
-therefore a Pass A produced in this same context would be INVALID_BASELINE_LEAKAGE
+research plan
+seed/query selection
+semantic cleanup
+intent interpretation
+clustering by user job
+page split/merge/reject decisions
+keyword → target-page mapping
+cannibalization decisions
+source interpretation
+recommendations
+client workbooks/reports
 ```
-
-A valid Pass A must run in a genuinely clean analysis context that receives only the frozen Alice-free source manifest.
-
-This does **not** block Phase 6.
-
-Official provider research has found a future structured AI-search path inside Yandex Search API:
-
-```text
-POST /v2/gen/search
-```
-
-GenSearch implementation is not yet part of accepted `extension/src`. It remains behind the comparative/product-priority gate.
 
 ---
 
-## 5. Phase 6 — Semantic Core Builder / batch orchestration
+## 7. Phase 8 — Bulk SERP / TOP-overlap / rank evidence ACTIVE NEXT
 
-Status:
-
-```text
-market need = VERY HIGH / repeatedly observed
-requirements = READY
-implementation = AUTHORIZED
-product code changed for Phase 6 = NO, not yet
-```
+Market authority identifies durable bulk ordinary-Search orchestration as the next high-leverage gap for F-013/F-014/F-015-style TOP clustering and rank evidence.
 
 Canonical requirements:
 
-`extension/docs/PHASE_6_SEMANTIC_CORE_BUILDER_REQUIREMENTS_AND_PLAN.md`
+`extension/docs/PHASE_8_BULK_SERP_TOP_RANK_REQUIREMENTS_AND_PLAN.md`
 
-Core Phase-6 boundary:
+Target first slice:
 
 ```text
-Bridge implements:
-- durable batch acquisition
-- per-item state
-- checkpoint/resume
-- no blind replay
-- progress
-- request/cost bounds
-- raw/normalized evidence persistence
-
-ChatGPT implements:
-- seed strategy
-- semantic cleanup
-- intent
-- clustering
-- page-job decisions
-- keyword → target-page mapping
-- cannibalization decisions
-- recommendations
-- client artifact
+SEARCH_BATCH_API_V1
+service = search
+queries[] up to 500
+one explicit next <= one ordinary Search provider request
+durable checkpoint/resume
+no replay of completed/unknown items
+persisted ranked URL/domain results
+local paged projections
+local paged TOP/domain-overlap evidence
+bounded sampled target-domain rank evidence
+explicit request/cost ceilings
 ```
 
-The first productized hand is a durable Wordstat batch job. Search/TOP batch orchestration is a sibling follow-up, not silently bundled into every semantic job.
+Final semantic clustering thresholds/labels remain ChatGPT work rather than hidden hard-coded SEO logic.
+
+Phase-8 dev branch:
+
+```text
+phase8/bulk-serp-top-rank-2026-08-28
+base main = 67aeee71a42bdc0edb516341297987c1d1d26972
+```
+
+At the time of this state update, Phase-8 work has changed documentation only; no Phase-8 `extension/src` product byte has been modified yet.
 
 ---
 
-## 6. Current authorized next action
-
-No owner GitHub action is required.
-
-Authorized autonomous engineering sequence:
+## 8. Authorized autonomous next sequence
 
 ```text
-1. fetch exact live main
-2. freeze Phase-6 baseline identity
-3. create Phase-6 dev branch from exact main
-4. audit/reuse existing autorun/run-context/cost/recovery primitives
-5. define batch-job state/storage/fingerprint model
-6. write model/recovery tests before runtime product changes
-7. implement the minimal Wordstat batch hand
-8. run focused + prior-service regression
-9. freeze candidate / independent gate / minimal owner-live acceptance
+P8-00 freeze exact live-main baseline identity
+P8-01 audit SearchProtocol/Search XML/provider-batch reuse points
+P8-02 define SEARCH_BATCH_API_V1 + storage/projection contracts in tests first
+P8-03 focused model/runtime tests
+P8-04 minimal Search batch runtime over ordinary search only
+P8-05 durable per-item SERP persistence
+P8-06 deterministic projection/rank evidence
+P8-07 bounded paged overlap projection
+P8-08 restart/tab-close/pause/resume/double-submit/stale-event/no-replay tests
+P8-09 request/cost bounds including 500-key economics without real provider traffic
+P8-10 all prior-service regression including GenSearch and Wordstat batch
+P8-11 controlled browser gate with local provider stub
+P8-12 freeze exact candidate + complete applicable pre-delivery gate
+P8-13 minimal owner-live Search batch acceptance
+P8-14 integrate accepted bytes to main and close Phase 8
 ```
 
-In parallel:
+During active development, use focused tests plus impacted regressions. Full pre-delivery is run only after an exact candidate is frozen.
+
+---
+
+## 9. Open blockers
 
 ```text
-prepare clean independent blood_sand Pass A
-→ only after freeze expose Alice evidence for Pass B
-→ compare
-→ use verdict to prioritize or defer GenSearch/Alice-specific engineering
+Phase 6 = NONE
+O-001 comparative methodology gate = NONE / PASS
+GenSearch repeatable official hand = NONE / ACCEPTED
+Phase 8 requirements = NONE
+Phase 8 engineering preparation = autonomous
+owner action now = NONE
 ```
 
-## 7. Open blockers
-
-```text
-Phase 5 = NONE
-Phase 6 requirements = NONE
-Alice comparative Pass A = requires genuinely clean analysis context; current chat is contaminated by prior Alice evidence
-Alice-specific engineering = intentionally gated on comparative value
-```
-
-Current project direction: **continue Phase 6 engineering; do not stop merely because the Alice methodology gate needs an independent clean baseline context.**
+The next expected owner-only action is the eventual minimal real Search-batch acceptance after the exact Phase-8 candidate has passed its independent complete gate. Do not invent earlier owner ceremonies.
