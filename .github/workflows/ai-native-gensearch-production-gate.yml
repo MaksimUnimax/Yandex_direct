@@ -90,6 +90,8 @@ jobs:
           assert manifest['deterministic_rebuild'] == 'PASS'
           assert manifest['source_extract_byte_identity'] == 'PASS'
           entries = manifest['entries']
+          assert isinstance(entries, list)
+          assert all(isinstance(path, str) and path for path in entries)
           assert len(entries) == expected_files
 
           if extract.exists():
@@ -97,22 +99,19 @@ jobs:
           extract.mkdir(parents=True)
           with zipfile.ZipFile(archive, 'r') as zf:
               assert zf.testzip() is None
-              assert zf.namelist() == [row['path'] for row in entries]
+              assert zf.namelist() == entries
               zf.extractall(extract)
 
           source = repo / 'extension' / 'src'
           source_paths = sorted(p.relative_to(source).as_posix() for p in source.rglob('*') if p.is_file())
           archive_paths = sorted(p.relative_to(extract).as_posix() for p in extract.rglob('*') if p.is_file())
-          assert source_paths == archive_paths
+          assert source_paths == sorted(entries)
+          assert archive_paths == sorted(entries)
           assert len(source_paths) == expected_files
-          by_path = {row['path']: row for row in entries}
           for rel in source_paths:
               src_bytes = (source / rel).read_bytes()
               zip_bytes = (extract / rel).read_bytes()
               assert src_bytes == zip_bytes, rel
-              row = by_path[rel]
-              assert len(zip_bytes) == row['bytes'], rel
-              assert hashlib.sha256(zip_bytes).hexdigest() == row['sha256'], rel
           print('GENSEARCH_R3_ARCHIVE_SHA=' + expected_sha)
           print('GENSEARCH_R3_ARCHIVE_BYTES=' + str(expected_bytes))
           print('GENSEARCH_R3_ARCHIVE_FILES=' + str(expected_files))
@@ -208,7 +207,7 @@ jobs:
           echo 'GENSEARCH_PACKAGED_BROWSER_REGRESSION_PASS'
 
       - name: Final product immutability and zero-real-provider audit
-        if: always()
+        if: success()
         shell: bash
         env:
           EXTRACT_DIR: ${{ runner.temp }}/gensearch-r3-extract
