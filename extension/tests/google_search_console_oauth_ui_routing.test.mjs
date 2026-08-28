@@ -10,7 +10,7 @@ const src = path.resolve(here, '../src');
 const read = (relative) => fs.readFileSync(path.join(src, relative), 'utf8');
 const plain = (value) => JSON.parse(JSON.stringify(value));
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
-const STABLE_ID = 'pckmmaodnfeajgigadfaejfjppdbgmpo';
+const TEST_RUNTIME_ID = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 
 function harness({ configured = true, token = 'oauth-ui-secret', fetchImpl = null } = {}) {
   const storage = {};
@@ -44,7 +44,7 @@ function harness({ configured = true, token = 'oauth-ui-secret', fetchImpl = nul
     globalThis: null,
     chrome: {
       runtime: {
-        id: STABLE_ID,
+        id: TEST_RUNTIME_ID,
         getManifest: () => plain(manifest),
         onConnect: { addListener(fn) { connectListeners.push(fn); } }
       },
@@ -90,9 +90,9 @@ function harness({ configured = true, token = 'oauth-ui-secret', fetchImpl = nul
   return { ctx, storage, identityCalls, removedTokens, connectListeners, providerCalls, manifest };
 }
 
-test('P9-06B pre-client: production manifest remains stable-ID only and cannot trigger Google auth/provider traffic yet', async () => {
+test('P9-06B pre-client: production manifest keeps the existing extension identity and cannot trigger Google auth/provider traffic yet', async () => {
   const manifest = JSON.parse(read('manifest.json'));
-  assert.equal(typeof manifest.key, 'string');
+  assert.equal(Object.hasOwn(manifest, 'key'), false);
   assert.equal(manifest.permissions.includes('identity'), false);
   assert.equal(manifest.host_permissions.some((item) => String(item).includes('googleapis.com')), false);
   assert.equal(Object.hasOwn(manifest, 'oauth2'), false);
