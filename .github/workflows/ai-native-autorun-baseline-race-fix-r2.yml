@@ -36,7 +36,12 @@ jobs:
           node --test extension/tests/autorun_baseline_sync.test.mjs
           node --test extension/tests/*.test.mjs
           git diff --check
-          test "$(git diff --name-only | sort)" = $'extension/src/content_script.js\nextension/tests/autorun_baseline_sync.test.mjs\nextension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs'
+          echo 'TRACKED_DIFF:'
+          git diff --name-only | sort
+          echo 'UNTRACKED_DIFF:'
+          git ls-files --others --exclude-standard | sort
+          test "$(git diff --name-only | sort)" = $'extension/src/content_script.js\nextension/tests/qa_browser/direct_codex_gate_addendum_v2.mjs'
+          test "$(git ls-files --others --exclude-standard | sort)" = 'extension/tests/autorun_baseline_sync.test.mjs'
           echo AUTORUN_BASELINE_RACE_SOURCE_REGRESSION_PASS
 
       - name: Install qualified Chrome
