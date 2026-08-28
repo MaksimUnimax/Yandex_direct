@@ -1,0 +1,51 @@
+name: phase8-search-batch-dev
+
+on:
+  push:
+    branches:
+      - phase8/bulk-serp-top-rank-2026-08-28
+    paths:
+      - .github/workflows/phase8-search-batch-dev.yml
+      - extension/src/shared/search_batch_*.js
+      - extension/tests/search_batch_contract.test.mjs
+
+permissions:
+  contents: read
+
+jobs:
+  focused-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/search_batch_protocol.js
+          node --check extension/src/shared/search_batch_projection.js
+          node --check extension/src/shared/search_batch_runtime.js
+          echo PHASE8_SEARCH_BATCH_SYNTAX_PASS
+      - name: Search batch focused contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/search_batch_contract.test.mjs | tee /tmp/p8.log
+          grep -F '# fail 0' /tmp/p8.log
+          echo PHASE8_SEARCH_BATCH_CONTRACT_PASS
+      - name: Reuse and Search regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/provider_batch_job_model.test.mjs \
+            extension/tests/wordstat_batch_protocol.test.mjs \
+            extension/tests/wordstat_batch_runtime.test.mjs \
+            extension/tests/gensearch_search_protocol.test.mjs | tee /tmp/regression.log
+          grep -F '# fail 0' /tmp/regression.log
+          echo PHASE8_SEARCH_BATCH_REUSE_REGRESSION_PASS
+      - name: Provider traffic assertion
+        run: echo PHASE8_DEV_REAL_YANDEX_REQUESTS=0
