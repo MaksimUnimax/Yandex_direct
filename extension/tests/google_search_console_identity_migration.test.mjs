@@ -128,5 +128,6 @@ test('P9-06 preflight: production credential/backup models still have no persist
   assert.equal(manifest.permissions.includes('identity'), false);
   assert.equal(manifest.host_permissions.some((item) => String(item).includes('googleapis.com')), false);
   assert.equal(Object.hasOwn(manifest, 'oauth2'), false);
-  assert.equal(Object.hasOwn(manifest, 'key'), false);
+  assert.equal(typeof manifest.key, 'string');
+  assert.match(manifest.key, /^[A-Za-z0-9+/]+={0,2}$/);
 });
