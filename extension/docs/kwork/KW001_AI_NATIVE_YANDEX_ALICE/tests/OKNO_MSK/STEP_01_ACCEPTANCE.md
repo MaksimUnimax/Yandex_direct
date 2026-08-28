@@ -1,136 +1,156 @@
 # KW-001 / OKNO-MSK — STEP 01 ACCEPTANCE
 
-Date: 2026-08-28
-Status: **REOPENED / PREVIOUS SINGLE-PASS PASS SUPERSEDED**
+Date: 2026-08-28  
+Status: **PASS / CROSS-CHANNEL DISCOVERY FROZEN**
 
-## Why the previous PASS was reopened
+## 1. What Step 01 accomplished
 
-The first Step-01 pass used ChatGPT public web and reviewed 18 representative pages. At that point it concluded that a representative inventory was sufficient and that Work/Codex was not required.
+Three independent public-site discovery passes were compared and merged before any Wordstat, ordinary Search or GenSearch acquisition.
 
-A later controlled three-pass comparison disproved that conclusion as a general execution rule.
-
-Observed test evidence:
+Canonical Step-01 evidence for this test is now:
 
 ```text
-CHATGPT PUBLIC WEB
-= 18 representative OPENED_READ pages
-= found material GEO district landing + Balashikha public subdomain
-= weaker than Codex Work on deep internal/repeated-template coverage
-
-CODEX WORK
-= 56 OPENED_READ pages
-= strongest deep internal family/template coverage
-= found profiles, house-series templates, door variants, balcony geometry,
-  service/finance/accessory/article families at much greater depth
-= did NOT reach LOCAL_GEO/subdomain family through checked internal navigation
-
-CODEX DESKTOP/APP
-= 5 OPENED_READ pages
-= navigation exposed useful additional candidate axes such as sash count,
-  object/room, house-series, balcony modes, accessories/services/prices/content
-= browser timeouts prevented representative validation
-= correctly returned DISCOVERY_SATURATION_REACHED = false
+TEST_ORDER.md
+SITE_PAGE_INVENTORY.md                         # original ChatGPT pass; historical evidence
+BUSINESS_AND_PAGE_MODEL.md                     # original analyst model; historical/provisional evidence
+STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md     # three-pass comparison
+STEP_01_MERGED_SITE_INVENTORY.md               # current merged factual inventory authority
+STEP_01_MERGED_BUSINESS_PAGE_MODEL.md          # current merged business/page-job authority
+OPEN_QUESTIONS_FOR_CLIENT.md                   # updated client ambiguity set + frozen mock assumptions
 ```
 
-Therefore:
+## 2. Why the original single-pass PASS was superseded
+
+The first ChatGPT pass correctly found the main business families and uniquely exposed GEO/public-subdomain structure, but it sampled the deep internal taxonomy less thoroughly.
+
+Codex Work read substantially more internal representatives and exposed deeper profile, house-series, door, balcony, accessory, service, finance and article families, but did not discover the GEO/subdomain family through its checked internal structure.
+
+The desktop Codex pass added navigation-taxonomy confirmation but could not validate most child pages because of browser timeouts and correctly refused to claim saturation.
+
+Therefore the accepted Step-01 method is not `choose the best agent`; it is:
 
 ```text
-REPRESENTATIVE_SINGLE_SURFACE_PASS = NOT SUFFICIENT AS DEFAULT
-INTERNAL_NAVIGATION_SATURATION != COMPLETE_PUBLIC_SITE_SATURATION
-DISCOVERED_LINK_ONLY != OPENED_READ
+deep internal architecture discovery
++
+independent public/search-visible URL discovery
++
+provenance-preserving merge
 ```
 
-Detailed comparison:
-
-`STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md`
-
-Canonical current method:
-
-`../../WORKING_RUNBOOK_FOR_CHATGPT.md` → `STEP 1 — Site/content discovery to CROSS-CHANNEL saturation`
-
----
-
-## Purpose of the reopened gate
-
-**RULE**  
-Do not begin Wordstat/provider acquisition until the three discovery reports have been merged into one provenance-preserving factual inventory and business/page model.
-
-**PURPOSE**  
-Prevent later semantic collection and page mapping from being based on only one tool's blind spots.
-
-**EVIDENCE**  
-The real `okno-msk.ru` test showed complementary misses: Codex Work found much deeper internal architecture but missed real GEO/subdomain assets; ChatGPT public web found those GEO assets but did not read the internal repeated families as deeply.
-
-**FAILURE IF IGNORED**  
-A premature Step-02 seed plan can omit real business/page families or treat an existing page job as missing, which can later produce:
+## 3. Merged factual result
 
 ```text
-missing seed directions
-incomplete semantic core
-false NEW_PAGE recommendations
-false merge/cannibalization hypotheses
-missed existing URL targets
+unique OPENED_READ URLs in union = 64
+major business families established = true
+material segmentation axes established = true
+GEO model observed = true
+repeated internal template families validated = true
+read-vs-discovered provenance preserved = true
 ```
 
-**REVIEW TRIGGER**  
-The gate may be simplified in future only if a validated single acquisition mechanism proves reliable complete coverage of both deep internal architecture and the relevant public URL universe for the site class being processed.
-
----
-
-## Evidence already preserved
+The merged inventory establishes material axes including:
 
 ```text
-TEST_ORDER.md = frozen before provider acquisition
-SITE_PAGE_INVENTORY.md = original ChatGPT 18-page pass
-BUSINESS_AND_PAGE_MODEL.md = original analyst model, now provisional pending merge
-OPEN_QUESTIONS_FOR_CLIENT.md = client clarification set + frozen mock assumptions
-STEP_01_MULTI_PASS_DISCOVERY_CROSSCHECK.md = three-pass comparison and method evidence
+product family
+REHAU/profile model
+window use-case/design
+opening/configuration
+object/room
+house series
+balcony geometry/engineering
+material
+warm/cold regime
+special technical solution
+accessory/security/customisation
+service/repair/warranty/finance
+price/calculation
+informational selection/explanation
+trust/manufacturer proof
+GEO district + city/subdomain
 ```
 
-No Wordstat, ordinary Search API, Search batch or GenSearch requests were made before this reopening.
+These are discovery inputs only. Step 01 does not prove that every axis deserves a separate SEO page.
 
----
+## 4. What changed in the analyst model
 
-## New Step-01 exit criteria
-
-Step 01 returns to PASS only after all are true:
+The original model's broad conclusions survived, but the merged model materially strengthened/added:
 
 ```text
-all three discovery reports compared = true
+profile-model depth
+window design/use-case family
+window-house-series family
+door subtype depth
+balcony geometry/engineering family
+accessory/customisation/security family
+repair/warranty/aftercare family
+finance/instalment job
+larger editorial family
+price/calculator distinction
+```
+
+Therefore the original fixed 15-direction seed list is superseded and must be rebuilt in Step 02 from the merged model.
+
+## 5. Client uncertainties updated
+
+`OPEN_QUESTIONS_FOR_CLIENT.md` now explicitly includes uncertainties around:
+
+```text
+active assortment
+B2C vs B2B
+standalone installation
+repair/service acquisition
+accessories as standalone acquisition
+finance/instalment priority
+house-series strategy
+GEO strategy
+preferred conversion path
+content rewrite constraints
+AI/source objective
+```
+
+For the demo run, frozen mock answers remain in that file and later changes must be treated as revisions.
+
+## 6. Provider-safety truth
+
+```text
+Wordstat requests before Step-01 freeze = 0
+ordinary Search requests before Step-01 freeze = 0
+GenSearch requests before Step-01 freeze = 0
+```
+
+No later provider evidence was used to rewrite the Step-01 discovery conclusions.
+
+## 7. Exit criteria
+
+```text
+all independent discovery reports compared = true
 union URL inventory created = true
 per-URL provenance preserved = true
-OPENED_READ vs DISCOVERED_LINK_ONLY vs INFERRED_TEMPLATE_FAMILY separated = true
-material unique families from every pass retained = true
-material weak-state families representative-read where technically possible = true
-merged business/page model rebuilt from union = true
-open client questions updated from merged model = true
+OPENED_READ vs weaker evidence states separated = true
+material unique families retained = true
+merged business/page model rebuilt = true
+open client questions updated = true
 cross-channel saturation decision recorded = true
-seed directions re-derived from merged model = true
-Wordstat requests before re-freeze = 0
-Search API requests before re-freeze = 0
-GenSearch requests before re-freeze = 0
+old seed plan marked superseded = true
+provider requests before freeze = 0
 ```
 
-New acceptance marker:
+Acceptance marker:
 
 ```text
 KW001_OKNO_MSK_STEP_01_CROSS_CHANNEL_PASS = true
 ```
 
-Until that marker exists:
+## 8. Stop gate
+
+Per owner workflow instruction:
 
 ```text
-STEP_02_WORDSTAT_START = FORBIDDEN
+ONE STEP
+→ COMPLETE GATE
+→ STOP
+→ REPORT TO OWNER
+→ WAIT FOR EXPLICIT CONTINUE
 ```
 
-## Next action
-
-Create the merged factual inventory and merged business/page model from:
-
-```text
-ChatGPT public-web pass
-+ Codex Work deep pass
-+ Codex desktop/app control pass
-```
-
-using the merge algorithm defined in the working runbook.
+Therefore Step 02 must not begin until the owner explicitly says to continue.
