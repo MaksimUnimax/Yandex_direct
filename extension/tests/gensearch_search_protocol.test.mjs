@@ -34,6 +34,33 @@ function loadServiceRegistry() {
   return ctx.YMBServiceRegistry;
 }
 
+function loadPhase3Runtime({ responseText, status = 200 } = {}) {
+  const ctx = context();
+  const requests = [];
+  let tick = 0;
+  ctx.crypto = { randomUUID: () => '00000000-0000-4000-8000-000000000001' };
+  ctx.performance = { now: () => ++tick };
+  ctx.fetch = async (url, options) => {
+    requests.push({ url, options });
+    return {
+      ok: status >= 200 && status < 300,
+      status,
+      text: async () => String(responseText ?? '')
+    };
+  };
+  ctx.chrome = { storage: { local: { get: async () => ({}), set: async () => {} } } };
+  ctx.YMBCredentialRuntime = {
+    settings: async () => ({ credentials: { search: { api_key: 'test-key', folder_id: 'folder-1' } } })
+  };
+  ctx.WebmasterProtocol = {};
+  ctx.YMBServiceRegistry = { SERVICES: { SEARCH: 'search', WORDSTAT: 'wordstat', WEBMASTER: 'webmaster' } };
+  ctx.YMBPolicyModel = { normalizeWebmasterPolicy: (value) => value };
+  ctx.WordstatProtocol = {};
+  vm.runInContext(fs.readFileSync(path.join(src, 'shared/search_protocol.js'), 'utf8'), ctx, { filename: 'search_protocol.js' });
+  vm.runInContext(fs.readFileSync(path.join(src, 'shared/phase3_provider_runtime.js'), 'utf8'), ctx, { filename: 'phase3_provider_runtime.js' });
+  return { runtime: ctx.YMBPhase3ProviderRuntime, requests };
+}
+
 test('ordinary SEARCH_API_V1 search request remains on /v2/web/search with existing defaults', () => {
   const protocol = loadSearchProtocol();
   const command = protocol.parseCommand('SEARCH_API_V1 {"method":"search","queryText":"печать велеса"}');
@@ -119,6 +146,51 @@ test('GenSearch response preserves answer, used-source truth and refined queries
   assert.equal(Object.hasOwn(result, 'ALICE_FANOUT_OBSERVED'), false);
 });
 
+test('official GenSearch response may omit every optional field', () => {
+  const protocol = loadSearchProtocol();
+  const result = protocol.parseProviderResponseText(
+    { method: 'genSearch', queryText: 'печать велеса', confirmBillable: true },
+    '{}'
+  );
+  assert.equal(result.mode, 'generative');
+  assert.equal(result.message, null);
+  assert.deepEqual([...result.sources], []);
+  assert.deepEqual([...result.searchQueries], []);
+  assert.equal(result.transport.wire_format, 'json_object');
+  assert.equal(result.transport.frame_count, 1);
+});
+
+test('GenSearch decoder tolerates server-stream JSON array framing and selects the final snapshot', () => {
+  const protocol = loadSearchProtocol();
+  const result = protocol.parseProviderResponseText(
+    { method: 'genSearch', queryText: 'печать велеса', confirmBillable: true },
+    JSON.stringify([
+      { message: { content: 'частичный', role: 'ROLE_ASSISTANT' } },
+      {
+        message: { content: 'финальный', role: 'ROLE_ASSISTANT' },
+        sources: [{ url: 'https://example.test/final', title: 'Final', used: true }],
+        searchQueries: [{ text: 'печать велеса значение', reqId: 'req-final' }]
+      }
+    ])
+  );
+  assert.equal(result.message.content, 'финальный');
+  assert.equal(result.sources[0].used, true);
+  assert.equal(result.searchQueries[0].reqId, 'req-final');
+  assert.equal(result.transport.wire_format, 'json_array');
+  assert.equal(result.transport.frame_count, 2);
+});
+
+test('GenSearch decoder tolerates documented JSON Lines framing and selects the final snapshot', () => {
+  const protocol = loadSearchProtocol();
+  const result = protocol.parseProviderResponseText(
+    { method: 'genSearch', queryText: 'печать велеса', confirmBillable: true },
+    '{"message":{"content":"частичный","role":"ROLE_ASSISTANT"}}\n{"message":{"content":"финальный","role":"ROLE_ASSISTANT"},"isAnswerRejected":false}'
+  );
+  assert.equal(result.message.content, 'финальный');
+  assert.equal(result.transport.wire_format, 'json_lines');
+  assert.equal(result.transport.frame_count, 2);
+});
+
 test('ordinary Search rawData normalization remains delegated to the existing XML normalizer', () => {
   let observed = null;
   const protocol = loadSearchProtocol({
@@ -131,6 +203,50 @@ test('ordinary Search rawData normalization remains delegated to the existing XM
   });
   assert.deepEqual(protocol.normalizeProviderResult({ rawData: 'Zm9v' }), { ordinary: true });
   assert.equal(observed, 'Zm9v');
+});
+
+test('ordinary Search does not inherit GenSearch stream framing compatibility', () => {
+  const protocol = loadSearchProtocol({
+    xmlNormalizer: { normalizeBase64RawData: () => ({ ordinary: true }) }
+  });
+  assert.throws(
+    () => protocol.parseProviderResponseText(
+      { method: 'search', queryText: 'печать велеса' },
+      '[{"rawData":"Zm9v"}]'
+    ),
+    (error) => error.code === 'INVALID_SEARCH_RESPONSE'
+  );
+});
+
+test('Phase 3 runtime executes one GenSearch request and decodes array framing without retry', async () => {
+  const { runtime, requests } = loadPhase3Runtime({
+    responseText: JSON.stringify([
+      { message: { content: 'частичный', role: 'ROLE_ASSISTANT' } },
+      { message: { content: 'финальный', role: 'ROLE_ASSISTANT' }, sources: [{ url: 'https://example.test', title: 'Example', used: true }] }
+    ])
+  });
+  const result = await runtime.execute('search', { method: 'genSearch', queryText: 'печать велеса', confirmBillable: true }, { channel: 'manual' });
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].url, 'https://searchapi.api.cloud.yandex.net/v2/gen/search');
+  assert.equal(JSON.parse(requests[0].options.body).getPartialResults, false);
+  assert.equal(result.ok, true);
+  assert.equal(result.report_envelope.result.message.content, 'финальный');
+  assert.equal(result.report_envelope.result.transport.wire_format, 'json_array');
+  assert.equal(result.report_envelope.result.transport.frame_count, 2);
+  assert.equal(result.report_envelope.request_executed, undefined);
+});
+
+test('Phase 3 runtime decodes JSON Lines GenSearch framing after JSON.parse fails', async () => {
+  const { runtime, requests } = loadPhase3Runtime({
+    responseText: '{"message":{"content":"частичный","role":"ROLE_ASSISTANT"}}\n{"message":{"content":"финальный","role":"ROLE_ASSISTANT"}}'
+  });
+  const result = await runtime.execute('search', { method: 'genSearch', queryText: 'печать велеса', confirmBillable: true }, { request_executed: true, automatic_retry: false });
+  assert.equal(requests.length, 1);
+  assert.equal(result.ok, true);
+  assert.equal(result.report_envelope.result.message.content, 'финальный');
+  assert.equal(result.report_envelope.result.transport.wire_format, 'json_lines');
+  assert.equal(result.report_envelope.request_executed, true);
+  assert.equal(result.report_envelope.automatic_retry, false);
 });
 
 test('Search policy accounts for GenSearch cost while preserving stored method allowlists', () => {
