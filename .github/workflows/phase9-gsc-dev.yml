@@ -8,10 +8,13 @@ on:
       - .github/workflows/phase9-gsc-dev.yml
       - extension/src/shared/google_search_console_protocol.js
       - extension/src/shared/google_search_console_runtime.js
+      - extension/src/google_search_console_worker_runtime.js
+      - extension/src/phase3_service_worker_bootstrap.js
       - extension/src/shared/service_registry.js
       - extension/src/shared/policy_model.js
       - extension/tests/google_search_console_contract.test.mjs
       - extension/tests/google_search_console_runtime.test.mjs
+      - extension/tests/google_search_console_worker_routing.test.mjs
       - extension/tests/gensearch_search_protocol.test.mjs
       - extension/tests/search_batch_integration.test.mjs
       - extension/tests/wordstat_batch_transport.test.mjs
@@ -34,10 +37,13 @@ jobs:
           set -euo pipefail
           node --check extension/src/shared/google_search_console_protocol.js
           node --check extension/src/shared/google_search_console_runtime.js
+          node --check extension/src/google_search_console_worker_runtime.js
+          node --check extension/src/phase3_service_worker_bootstrap.js
           node --check extension/src/shared/service_registry.js
           node --check extension/src/shared/policy_model.js
           node --check extension/tests/google_search_console_contract.test.mjs
           node --check extension/tests/google_search_console_runtime.test.mjs
+          node --check extension/tests/google_search_console_worker_routing.test.mjs
           node --check extension/tests/gensearch_search_protocol.test.mjs
           node --check extension/tests/search_batch_integration.test.mjs
           node --check extension/tests/wordstat_batch_transport.test.mjs
@@ -56,6 +62,13 @@ jobs:
           node --test extension/tests/google_search_console_runtime.test.mjs | tee /tmp/gsc-runtime.log
           grep -F '# fail 0' /tmp/gsc-runtime.log
           echo PHASE9_GSC_INJECTED_RUNTIME_PASS
+      - name: GSC worker routing
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/google_search_console_worker_routing.test.mjs | tee /tmp/gsc-worker.log
+          grep -F '# fail 0' /tmp/gsc-worker.log
+          echo PHASE9_GSC_WORKER_ROUTING_PASS
       - name: Prior-service focused regressions
         shell: bash
         run: |
