@@ -3,7 +3,7 @@
 
   const DEFAULT_TARIFF_SOURCE = "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
   const DEFAULT_TARIFF_CHECKED_AT = "2026-08-12";
-  const SEARCH_TARIFF_CHECKED_AT = "2026-08-19";
+  const SEARCH_TARIFF_CHECKED_AT = "2026-08-28";
   const WEBMASTER_POLICY_SOURCE = "https://yandex.ru/dev/webmaster/doc/ru/";
   const WEBMASTER_POLICY_CHECKED_AT = "2026-08-26";
   const METRIKA_POLICY_SOURCE = "https://yandex.ru/dev/metrika/ru/";
@@ -11,12 +11,12 @@
   const DIRECT_POLICY_SOURCE = "https://yandex.ru/dev/direct/doc/ru/concepts/units";
   const DIRECT_POLICY_CHECKED_AT = "2026-08-26";
   const DEFAULT_METHOD_COST_RUB = Object.freeze({ getTop: 0.02, getDynamics: 0.02, getRegionsDistribution: 0.05, getRegionsTree: 0 });
-  const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488 });
+  const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488, genSearch: 5.08 });
   const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({ listHosts: 0, getSummary: 0, getDiagnostics: 0, getPopularQueries: 0 });
   const DEFAULT_METRIKA_METHOD_COST_RUB = Object.freeze({ listCounters: 0, getCounter: 0, getTrafficSummary: 0, getTrafficByTime: 0 });
   const DEFAULT_DIRECT_METHOD_COST_RUB = Object.freeze({ listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
-  const SEARCH_METHODS = Object.freeze(["search"]);
+  const SEARCH_METHODS = Object.freeze(Object.keys(DEFAULT_SEARCH_METHOD_COST_RUB));
   const WEBMASTER_METHODS = Object.freeze(Object.keys(DEFAULT_WEBMASTER_METHOD_COST_RUB));
   const METRIKA_METHODS = Object.freeze(Object.keys(DEFAULT_METRIKA_METHOD_COST_RUB));
   const DIRECT_METHODS = Object.freeze(Object.keys(DEFAULT_DIRECT_METHOD_COST_RUB));
