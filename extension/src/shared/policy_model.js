@@ -4,6 +4,7 @@
   const DEFAULT_TARIFF_SOURCE = "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html";
   const DEFAULT_TARIFF_CHECKED_AT = "2026-08-12";
   const SEARCH_TARIFF_CHECKED_AT = "2026-08-28";
+  const LEGACY_SEARCH_TARIFF_CHECKED_AT = "2026-08-19";
   const WEBMASTER_POLICY_SOURCE = "https://yandex.ru/dev/webmaster/doc/ru/";
   const WEBMASTER_POLICY_CHECKED_AT = "2026-08-26";
   const METRIKA_POLICY_SOURCE = "https://yandex.ru/dev/metrika/ru/";
@@ -59,11 +60,22 @@
     });
   }
 
+  function migrateLegacySearchPolicy(raw = {}) {
+    const source = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+    const methods = Array.isArray(source.allowed_methods) ? source.allowed_methods.map((item) => String(item)) : null;
+    const costs = source.method_cost_rub && typeof source.method_cost_rub === "object" && !Array.isArray(source.method_cost_rub) ? source.method_cost_rub : null;
+    const isLegacyDefaultAllowlist = methods?.length === 1 && methods[0] === "search";
+    const hasGenSearchCostMarker = !!costs && Object.prototype.hasOwnProperty.call(costs, "genSearch");
+    const hasLegacyTariffMarker = String(source.tariff_checked_at || "") === LEGACY_SEARCH_TARIFF_CHECKED_AT;
+    if (!isLegacyDefaultAllowlist || hasGenSearchCostMarker || !hasLegacyTariffMarker) return source;
+    return { ...source, allowed_methods: ["search", "genSearch"] };
+  }
+
   function normalizeWordstatPolicy(raw = {}) {
     return normalizePolicy(raw, { defaultMethods: WORDSTAT_METHODS, allowedMethods: WORDSTAT_METHODS, defaultCosts: DEFAULT_METHOD_COST_RUB, defaultTariffCheckedAt: DEFAULT_TARIFF_CHECKED_AT, defaultTariffSource: DEFAULT_TARIFF_SOURCE });
   }
   function normalizeSearchPolicy(raw = {}) {
-    return normalizePolicy(raw, { defaultMethods: SEARCH_METHODS, allowedMethods: SEARCH_METHODS, defaultCosts: DEFAULT_SEARCH_METHOD_COST_RUB, defaultTariffCheckedAt: SEARCH_TARIFF_CHECKED_AT, defaultTariffSource: DEFAULT_TARIFF_SOURCE });
+    return normalizePolicy(migrateLegacySearchPolicy(raw), { defaultMethods: SEARCH_METHODS, allowedMethods: SEARCH_METHODS, defaultCosts: DEFAULT_SEARCH_METHOD_COST_RUB, defaultTariffCheckedAt: SEARCH_TARIFF_CHECKED_AT, defaultTariffSource: DEFAULT_TARIFF_SOURCE });
   }
   function normalizeWebmasterPolicy(raw = {}) {
     return normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: WEBMASTER_METHODS, allowedMethods: WEBMASTER_METHODS, defaultMaxRequests: 50, defaultMaxCostRub: 0, defaultCosts: DEFAULT_WEBMASTER_METHOD_COST_RUB, defaultTariffCheckedAt: WEBMASTER_POLICY_CHECKED_AT, defaultTariffSource: WEBMASTER_POLICY_SOURCE });
@@ -124,8 +136,8 @@
   globalThis.YMBPolicyModel = Object.freeze({
     DEFAULT_METHOD_COST_RUB, DEFAULT_SEARCH_METHOD_COST_RUB, DEFAULT_WEBMASTER_METHOD_COST_RUB, DEFAULT_METRIKA_METHOD_COST_RUB, DEFAULT_DIRECT_METHOD_COST_RUB,
     WORDSTAT_METHODS, SEARCH_METHODS, WEBMASTER_METHODS, METRIKA_METHODS, DIRECT_METHODS,
-    SEARCH_TARIFF_CHECKED_AT, WEBMASTER_POLICY_CHECKED_AT, WEBMASTER_POLICY_SOURCE, METRIKA_POLICY_CHECKED_AT, METRIKA_POLICY_SOURCE, DIRECT_POLICY_CHECKED_AT, DIRECT_POLICY_SOURCE,
-    normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizePolicyForService,
+    SEARCH_TARIFF_CHECKED_AT, LEGACY_SEARCH_TARIFF_CHECKED_AT, WEBMASTER_POLICY_CHECKED_AT, WEBMASTER_POLICY_SOURCE, METRIKA_POLICY_CHECKED_AT, METRIKA_POLICY_SOURCE, DIRECT_POLICY_CHECKED_AT, DIRECT_POLICY_SOURCE,
+    migrateLegacySearchPolicy, normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizePolicyForService,
     estimateMethodCost, wordstatDecision, searchDecision, webmasterDecision, metrikaDecision, directDecision, decisionForService
   });
 })();
