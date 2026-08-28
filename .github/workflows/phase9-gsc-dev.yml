@@ -15,6 +15,7 @@ on:
       - extension/tests/google_search_console_contract.test.mjs
       - extension/tests/google_search_console_runtime.test.mjs
       - extension/tests/google_search_console_worker_routing.test.mjs
+      - extension/tests/qa_browser/google_search_console_browser_runtime.mjs
       - extension/tests/gensearch_search_protocol.test.mjs
       - extension/tests/search_batch_integration.test.mjs
       - extension/tests/wordstat_batch_transport.test.mjs
@@ -87,3 +88,55 @@ jobs:
         run: |
           echo PHASE9_GSC_REAL_GOOGLE_REQUESTS=0
           echo PHASE9_GSC_REAL_YANDEX_REQUESTS=0
+
+  controlled-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Pre-browser syntax and product identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/tests/qa_browser/google_search_console_browser_runtime.mjs
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p9-gsc-product-before.sha256
+          echo PHASE9_GSC_PRE_BROWSER_PRODUCT_IDENTITY_PASS
+      - name: Install Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+      - name: Run controlled installed extension GSC runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/qa_browser/google_search_console_browser_runtime.mjs | tee /tmp/p9-gsc-browser.log
+          for marker in \
+            P9_GSC_BROWSER_BOOTSTRAP_ROUTE_PASS \
+            P9_GSC_BROWSER_LIST_SITES_ONE_REQUEST_PASS \
+            P9_GSC_BROWSER_SEARCH_ANALYTICS_ONE_REQUEST_PASS \
+            P9_GSC_BROWSER_AUTORUN_NO_REQUEST_PASS \
+            P9_GSC_BROWSER_TOKEN_REDACTION_PASS \
+            P9_GSC_BROWSER_REAL_GOOGLE_REQUESTS=0 \
+            P9_GSC_BROWSER_REAL_YANDEX_REQUESTS=0 \
+            PHASE9_GSC_CONTROLLED_BROWSER_PASS; do
+            grep -F "$marker" /tmp/p9-gsc-browser.log
+          done
+          if grep -F 'browser-gsc-secret' /tmp/p9-gsc-browser.log; then
+            echo PHASE9_GSC_BROWSER_TOKEN_LOG_LEAK_FAIL
+            exit 1
+          fi
+          echo PHASE9_GSC_CONTROLLED_BROWSER_GATE_PASS
+      - name: Post-browser product immutability
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/p9-gsc-product-after.sha256
+          cmp /tmp/p9-gsc-product-before.sha256 /tmp/p9-gsc-product-after.sha256
+          echo PHASE9_GSC_POST_BROWSER_PRODUCT_IDENTICAL
