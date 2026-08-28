@@ -6,6 +6,15 @@ s = src.read_text(encoding='utf-8')
 
 s = s.replace('protocolTimeout: 30000', 'protocolTimeout: 90000', 1)
 
+# Phase2 full predates the five-service popup field split. Keep the same Search
+# settings assertion but point its two credential inputs at the current Search UI.
+old_api = "await setFormValue(p.popup,'apiKey','qa-browser-key');"
+old_folder = "await setFormValue(p.popup,'folderId','qa-browser-folder');"
+if s.count(old_api) != 1 or s.count(old_folder) != 1:
+    raise SystemExit('legacy Search credential selectors changed')
+s = s.replace(old_api, "await setFormValue(p.popup,'searchApiKey','qa-browser-key');", 1)
+s = s.replace(old_folder, "await setFormValue(p.popup,'searchFolderId','qa-browser-folder');", 1)
+
 start = s.find('async function openPopup(worker, browser, key) {')
 end = s.find('\nasync function closePopup(', start)
 if start < 0 or end <= start:
