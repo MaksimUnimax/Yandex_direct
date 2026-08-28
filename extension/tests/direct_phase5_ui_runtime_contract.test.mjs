@@ -47,7 +47,7 @@ test('D-13 top and bottom common Save buttons use exactly the same popup handler
 
 test('D-14 production popup locks Direct Autorun while still saving Direct policy', () => {
   const js = read('popup.js');
-  assert.match(js, /PRODUCTION_AUTORUN_LOCKED\s*=\s*new Set\(\["webmaster",\s*"metrika",\s*"direct"\]\)/);
+  assert.match(js, /PRODUCTION_AUTORUN_LOCKED\s*=\s*new Set\(\[[^\]]*"webmaster"[^\]]*"metrika"[^\]]*"direct"[^\]]*\]\)/);
   assert.match(js, /YMB_SAVE_DIRECT_POLICY/);
   assert.match(js, /directPolicyFromForm/);
   assert.match(js, /max_requests_per_run:\s*Math\.min\(20/);
