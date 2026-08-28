@@ -28,13 +28,31 @@ jobs:
           node --check extension/src/shared/search_protocol.js
           node --check extension/src/shared/policy_model.js
           node --check extension/tests/gensearch_search_protocol.test.mjs
+      - name: Ordinary Search compatibility contract
+        if: always()
+        shell: bash
+        run: node --test --test-name-pattern='ordinary' extension/tests/gensearch_search_protocol.test.mjs
+      - name: GenSearch command and request contract
+        if: always()
+        shell: bash
+        run: node --test --test-name-pattern='genSearch' extension/tests/gensearch_search_protocol.test.mjs
+      - name: GenSearch response provenance contract
+        if: always()
+        shell: bash
+        run: node --test --test-name-pattern='GenSearch response' extension/tests/gensearch_search_protocol.test.mjs
+      - name: GenSearch policy contract
+        if: always()
+        shell: bash
+        run: node --test --test-name-pattern='Search policy' extension/tests/gensearch_search_protocol.test.mjs
+      - name: Five-service registry contract
+        if: always()
+        shell: bash
+        run: node --test --test-name-pattern='sixth service' extension/tests/gensearch_search_protocol.test.mjs
       - name: Focused GenSearch protocol gate
+        if: always()
         shell: bash
-        run: |
-          set -euo pipefail
-          node --test extension/tests/gensearch_search_protocol.test.mjs
+        run: node --test extension/tests/gensearch_search_protocol.test.mjs
       - name: Existing Node regression suite
+        if: always()
         shell: bash
-        run: |
-          set -euo pipefail
-          node --test extension/tests/*.test.mjs
+        run: node --test extension/tests/*.test.mjs
