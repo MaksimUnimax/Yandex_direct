@@ -77,12 +77,10 @@ Status: **PRESERVED / REUSABLE / DOES NOT ADVANCE WORKFLOW BY ITSELF**
 estimated provider cost = 0.08 RUB
 ```
 
-### Step 07B — full row-level semantic cleanup
-Status: **COMPLETE / PASS / FULL ACCOUNTING**
+### Step 07B — row-level data accounting / deterministic prefilter
+Status: **ACCOUNTING PASS / SEMANTIC PASS SUPERSEDED / CORRECTION IN PROGRESS**
 
-Purpose: transform all completely preserved Wordstat source rows into one accountable exact-deduped working dataset without making downstream SERP/page decisions prematurely.
-
-Input:
+The historical Step 07B run correctly accounted for all preserved source data:
 
 ```text
 repaired first-pass source rows = 2415
@@ -90,18 +88,14 @@ targeted-probe source rows = 550
 TOTAL source rows = 2965
 result rows = 2636
 association rows = 329
-```
-
-Exact deduplication:
-
-```text
 unique exact normalized phrases = 2840
 duplicate source occurrences = 125
 phrase keys with >1 source occurrence = 101
 canonical provenance occurrence sum = 2965
+UNCLASSIFIED = 0
 ```
 
-Complete row classification:
+Historical classifier output was:
 
 ```text
 KEEP = 1760
@@ -110,24 +104,37 @@ EXCLUDE_SCOPE = 180
 EXCLUDE_IRRELEVANT = 120
 EXCLUDE_MECHANICAL = 31
 STATUS TOTAL = 2840
-UNCLASSIFIED = 0
 ```
 
-Controls passed:
+Those counts are preserved for audit/comparison but are no longer accepted as completed semantic cleanup.
+
+Owner-requested fresh external methodology audit found that the historical rule engine used a default-KEEP fallthrough: result phrases not matched by known exclusion or boundary dictionaries became KEEP even when positive semantic relevance/user intent had not been demonstrated.
+
+Concrete false-KEEP / dictionary-dependence evidence included:
 
 ```text
-exact phrase equality only used for dedupe
-all 2965 source occurrences preserved in occurrence-level audit table
-all canonical rows preserve compact provenance
-low frequency alone never used for exclusion
-association rows never auto-promoted to KEEP
-business/page-boundary uncertainty retained as REVIEW
-provider requests executed during cleanup = 0
-provider cost during cleanup = 0 RUB
-PROVENANCE_RECONCILIATION = PASS
+1 установка пластиковых окон -> KEEP
+6 6 с панорамными окнами -> KEEP
+rehau окна 2 -> KEEP
+алюминиевые окна 2 -> KEEP
+rehau окна анадырский проезд д 47 -> KEEP
+rehau микролифт для окна -> KEEP while similar hardware terms were REVIEW
 ```
 
-Artifacts:
+Post-audit verdict:
+
+```text
+ROW_LEVEL_DATA_ACCOUNTING = PASS
+EXACT_DEDUPLICATION_ACCOUNTING = PASS
+DETERMINISTIC_PREFILTER = PASS
+FULL_SEMANTIC_ROW_REVIEW = CORRECTION_REQUIRED
+SEMANTIC_CLEANUP_COMPLETE = false
+NEXT_STEP_ALLOWED = false
+```
+
+Authority: `STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md`.
+
+Historical artifacts remain preserved for comparison:
 
 ```text
 STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
@@ -137,51 +144,43 @@ STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
 STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md
 ```
 
-Recorded content SHA-256:
+## Current step
 
-```text
-WORKING = 929b6439e9ace1f269987a046af19ac0a3bc107d4fa90c8320c968817392bc2d
-OCCURRENCES = a5e3fceb5647d1f9fbbd5fa3ace9feebb8665a228173ad14fb8b73d846584d63
-```
+Status: **ROW-LEVEL CLEANUP CORRECTION IN PROGRESS / NEXT STEP BLOCKED**
 
-The temporary branch-scoped GitHub Actions workflow used only to execute the reproducible builder was removed after output verification. The builder remains for audit/reproduction.
+Correction goal:
 
-Authority: `STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md`.
+1. Reuse the same 2965 source occurrences and 2840 exact phrase keys; do not recollect Wordstat.
+2. Preserve all existing provenance and arithmetic controls.
+3. Replace default KEEP with positive-evidence KEEP: a phrase is KEEP only when its user need is clearly compatible with the known OKNO-MSK business/site model.
+4. If a phrase may be relevant but positive KEEP is not established, assign REVIEW rather than silently accepting it.
+5. Keep deterministic exclusions only where the mismatch/scope failure is unambiguous.
+6. Surface non-obvious duplicate candidates separately; do not silently merge them by lexical normalization alone.
+7. Perform post-generation semantic QA on the corrected decision set in addition to machine reconciliation.
+8. Create an explicit correction acceptance before allowing the workflow forward.
 
-Important limit: `REVIEW=749` is deliberate unresolved evidence, not missing cleanup. Those rows have explicit decisions/reasons but material business/page boundaries must still be resolved with later evidence rather than guessed here.
-
-## Current next step
-
-Status: **FINAL WORKING SEMANTIC SET FREEZE NOT YET STARTED / PRE-STEP GATE REQUIRED**
-
-Next task:
-
-1. Use the completed cleanup artifacts as the sole semantic-row input.
-2. Define and freeze which cleaned rows proceed into the Search-stage working semantic set without silently resolving `REVIEW` cases that require Search evidence.
-3. Preserve traceability from the frozen set back to the 2840 canonical cleanup rows and 2965 source occurrences.
-4. Do not perform ordinary Yandex Search, SERP clustering, page ownership, final architecture or AI evidence inside the freeze itself unless the next step's approved method explicitly defines a combined boundary.
-5. Quantitatively reconcile the frozen Search input against the Step-07B statuses.
-
-Before execution, this new major step requires the mandatory whole-goal/completed/remaining/prior-errors/current-step/method-review block and explicit owner authorization.
+No provider action is required for this correction.
 
 ## Remaining work
 
-1. Freeze the final working semantic set / Search-stage input from the completed row-level cleanup.
-2. Validate important query/page boundaries in ordinary Yandex Search.
-3. Group the Search-validated semantic set by user task/SERP compatibility.
-4. Map groups to existing pages and decide page ownership/actions.
-5. Diagnose real cannibalization where evidence supports it.
-6. Freeze Search-only architecture before AI evidence.
-7. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
-8. Compare ordinary Search and AI evidence.
-9. Prioritize actions.
-10. Produce client deliverables.
-11. Run final QA and revision gate.
-12. Close/handoff job and only then delete disposable workspace.
+1. Complete and audit the Step-07B semantic correction.
+2. Freeze the final working semantic set / Search-stage input only after corrected cleanup acceptance.
+3. Validate important query/page boundaries in ordinary Yandex Search.
+4. Group the Search-validated semantic set by user task/SERP compatibility.
+5. Map groups to existing pages and decide page ownership/actions.
+6. Diagnose real cannibalization where evidence supports it.
+7. Freeze Search-only architecture before AI evidence.
+8. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
+9. Compare ordinary Search and AI evidence.
+10. Prioritize actions.
+11. Produce client deliverables.
+12. Run final QA and revision gate.
+13. Close/handoff job and only then delete disposable workspace.
 
 Not complete yet:
 
 ```text
+ROW_LEVEL_CLEANUP_COMPLETE = false
 FINAL_SEMANTIC_SET_COMPLETE = false
 ORDINARY_YANDEX_SEARCH_VALIDATION_COMPLETE = false
 SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
@@ -189,6 +188,36 @@ AI_EVIDENCE_COMPLETE = false
 CLIENT_DELIVERABLES_COMPLETE = false
 FINAL_QA_COMPLETE = false
 ```
+
+## Full roadmap status
+
+| Major step | Meaning | Status |
+|---|---|---|
+| 0. Scope freeze | Freeze business/region/order boundaries | ✅ COMPLETE |
+| 1. Existing-site discovery | Build cross-checked site/business/page model | ✅ COMPLETE |
+| 2. Wordstat acquisition plan | Freeze first-pass demand probes | ✅ COMPLETE |
+| 3. Historical first pass | Original provider-success-only acceptance | 🔁 SUPERSEDED |
+| 3R. Repaired first pass | Preserve complete reusable Wordstat data | ✅ COMPLETE |
+| 4. Family-level triage | Identify families/noise/ambiguity/probe candidates | ✅ COMPLETE AS TRIAGE |
+| 5. Targeted Wordstat expansion | Fill/confirm material acquisition directions | ✅ COMPLETE |
+| 6. Demand dynamics | Preserve seasonality context | ✅ PRESERVED |
+| 6A. Acquisition coverage revalidation | Decide whether more Wordstat is needed | ✅ COMPLETE |
+| 7. Row-level semantic cleanup | Produce trustworthy phrase-level decisions | 🔁 CORRECTION IN PROGRESS |
+| 8. Freeze Search-stage semantic set | Freeze corrected rows allowed into Search | ⛔ BLOCKED |
+| 9. Ordinary Yandex Search validation | Resolve intent/page boundaries with real SERP | ⬜ NOT STARTED |
+| 10. User-task / SERP clustering | Group compatible search jobs | ⬜ NOT STARTED |
+| 11. Page ownership | Map clusters to best existing URLs | ⬜ NOT STARTED |
+| 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
+| 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
+| 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
+| 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
+| 16. AI-search evidence | Gather selected Alice/GenSearch evidence | ⬜ NOT STARTED |
+| 17. Search-vs-AI comparison | Compare classic Search and AI evidence | ⬜ NOT STARTED |
+| 18. Prioritization | Rank recommended actions | ⬜ NOT STARTED |
+| 19. Client deliverables | Produce client-ready workbooks/maps/matrices | ⬜ NOT STARTED |
+| 20. Final QA | Reconcile evidence, numbers and recommendations | ⬜ NOT STARTED |
+| 21. Handoff/revisions | Deliver and process allowed revisions | ⬜ NOT STARTED |
+| 22. Job close | Mark safe-to-delete and remove disposable workspace | ⬜ NOT STARTED |
 
 ## Close
 
@@ -205,16 +234,13 @@ KW001_OKNO_MSK_WORDSTAT_COVERAGE_REVALIDATION_COMPLETE = true
 KW001_OKNO_MSK_WORDSTAT_COVERAGE_VERDICT_SUFFICIENT = true
 KW001_OKNO_MSK_TARGETED_PROBE_ROWS_RECHECKED = 550
 KW001_OKNO_MSK_ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
+KW001_OKNO_MSK_ROW_LEVEL_DATA_ACCOUNTING_PASS = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_INPUT_ROWS = 2965
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNIQUE_EXACT = 2840
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_DUPLICATE_OCCURRENCES = 125
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_KEEP = 1760
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_REVIEW = 749
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_EXCLUDE_SCOPE = 180
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_EXCLUDE_IRRELEVANT = 120
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_EXCLUDE_MECHANICAL = 31
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNCLASSIFIED = 0
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_CORRECTION_REQUIRED = true
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = false
+KW001_OKNO_MSK_NEXT_STEP_ALLOWED = false
 KW001_OKNO_MSK_FINAL_SEMANTIC_SET_COMPLETE = false
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
