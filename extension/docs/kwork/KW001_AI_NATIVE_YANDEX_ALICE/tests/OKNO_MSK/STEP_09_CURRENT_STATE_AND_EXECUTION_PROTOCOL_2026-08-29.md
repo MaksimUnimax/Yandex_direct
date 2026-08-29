@@ -10,6 +10,7 @@ For causal history and live evidence, read:
 - `STEP_09_LIVE_R2_PROJECTION_RECEIPT_2026-08-29.md`
 - `STEP_09_SERP_R2_PROJECTION_INDEX.md`
 - `STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md`
+- `STEP_09_NEXTN_LIVE_CHUNK_VALIDATION_2026-08-29.md`
 
 Bridge implementation authority:
 
@@ -67,6 +68,8 @@ SEARCH_BATCH_NEXT_N_SUPPORTED = true
 SEARCH_BATCH_NEXT_N_MANUAL_ONLY = true
 SEARCH_BATCH_NEXT_N_COUNT_MIN = 1
 SEARCH_BATCH_NEXT_N_COUNT_MAX = 100
+LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = 4,10,25,31
+LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
 
 STEP09_COMPLETE = false
 STEP10_ALLOWED = false
@@ -169,23 +172,58 @@ Combined:
 750 normalized ranked results
 ```
 
-`nextN` hard-bound test:
+### Actual live `nextN` sizes tested
+
+The live rollout explicitly tested these requested `nextN.count` values:
+
+```text
+4
+10
+25
+31
+```
+
+Therefore:
+
+```text
+LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = [4, 10, 25, 31]
+LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
+```
+
+This is known live execution history and supersedes the earlier incorrect wording that exact tested chunk sizes were unknown.
+
+Important distinction:
+
+```text
+TESTED_REQUESTED_COUNTS = [4,10,25,31]
+!=
+A CLAIM THAT 4+10+25+31 IS THE COMPLETE R2 EXECUTION PARTITION
+```
+
+`nextN.count` is an upper bound for that invocation. Actual per-call executions are defined by `confirmed_provider_executions` and can stop early because of remaining work, policy/cost limits, terminal error or UNKNOWN. The authoritative completed R2 job-level accounting remains 74/74.
+
+### Local hard-bound test
+
+Separately from live provider work:
 
 ```text
 count = 100
 ```
 
-was verified locally as a bounded protocol/runtime case. With only three remaining items the runtime performed exactly three provider boundaries and stopped at completion.
+was verified locally as a bounded protocol/runtime case. With only three remaining synthetic items, the runtime performed exactly three provider boundaries and stopped at completion.
 
 Therefore:
 
 ```text
 COUNT_100_LOCAL_BOUNDED_TEST = PASS
 COUNT_100_LOCAL_BOUNDED_TEST != 100 LIVE PROVIDER REQUESTS IN ONE CHUNK
-R2_74_OF_74_LIVE_SUCCESS != PROOF_OF_EACH_INDIVIDUAL_LIVE_CHUNK_SIZE
+LARGEST_EXPLICIT_LIVE_REQUESTED_COUNT_TESTED = 31
+HARD_PROTOCOL_CEILING = 100
 ```
 
-The final R2 projection does not contain the command-history of individual `nextN count` values. Exact per-command live chunk sizes must not be invented from memory.
+Canonical detail authority:
+
+`STEP_09_NEXTN_LIVE_CHUNK_VALIDATION_2026-08-29.md`
 
 ## Critical process error and mandatory correction
 
