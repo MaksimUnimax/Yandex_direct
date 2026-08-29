@@ -8,14 +8,14 @@
     "REVIEW_DEFERRED": 174,
     "REVIEW_SEARCH": 944
   },
-  "cluster_count": 70,
+  "cluster_count": 72,
   "cluster_evidence_state_counts": {
     "DEFERRED_PRESERVED": 174,
     "EXCLUDED_PRESERVED": 334,
     "MIXED_OR_BOUNDARY_REVIEW": 2,
-    "SEARCH_REQUIRED": 161,
-    "SEMANTIC_SUPPORTED_NO_DIRECT_SERP": 2108,
-    "SERP_SUPPORTED": 61
+    "SEARCH_REQUIRED": 152,
+    "SEMANTIC_SUPPORTED_NO_DIRECT_SERP": 2115,
+    "SERP_SUPPORTED": 63
   },
   "direct_step09_probes_expected": 75,
   "direct_step09_exact_phrase_decisions_consumed": 66,
@@ -28,10 +28,10 @@
   "silent_drops": 0,
   "review_deferred_preserved": 174,
   "excluded_preserved": 334,
-  "search_required_rows": 161,
+  "search_required_rows": 152,
   "mixed_boundary_rows": 2,
-  "semantic_supported_no_direct_serp_rows": 2108,
-  "serp_supported_rows": 61,
+  "semantic_supported_no_direct_serp_rows": 2115,
+  "serp_supported_rows": 63,
   "manual_semantic_qa_required": true,
   "manual_semantic_qa_pass": false,
   "page_ownership_decisions": 0,

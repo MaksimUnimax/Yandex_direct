@@ -1,10 +1,18 @@
 {
   "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
-  "search_required_rows_scanned": 161,
-  "flagged_rows": 3,
-  "flagged_records": 3,
-  "audit_counts": {
-    "DIRECT_SERP_LEFT_UNRESOLVED": 3
-  },
-  "meaning": "This audit looks for likely false SEARCH_REQUIRED states. Flags are review targets, not automatic cluster assignments."
+  "audit_version": "V10",
+  "search_required_rows_scanned": 152,
+  "flagged_rows": 0,
+  "flagged_records": 0,
+  "audit_counts": {},
+  "intentionally_mixed_direct_rows": 1,
+  "intentionally_mixed_direct_examples": [
+    {
+      "phrase": "цены материала на пластиковые окна",
+      "probe_id": "SP09-039",
+      "dominant_result_type": "MIXED_COMMERCIAL_MATERIAL",
+      "step09_handoff": "AMBIGUOUS_PRICE_MATERIAL_BOUNDARY"
+    }
+  ],
+  "meaning": "Likely false SEARCH_REQUIRED states are flagged; direct rows remain unresolved without a flag only when the direct Step-09 evidence is itself explicitly mixed/ambiguous."
 }

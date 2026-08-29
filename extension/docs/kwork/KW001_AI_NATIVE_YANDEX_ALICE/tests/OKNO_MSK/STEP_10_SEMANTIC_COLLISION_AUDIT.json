@@ -1,12 +1,12 @@
 {
   "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
+  "audit_version": "V10",
   "active_rows_scanned": 2332,
-  "flagged_rows": 24,
-  "flagged_records": 27,
+  "flagged_rows": 6,
+  "flagged_records": 6,
   "collision_counts": {
-    "PANORAMIC_TOKEN_MISMATCH": 3,
-    "PANORAMIC_WITHOUT_PURCHASE_SIGNAL": 7,
-    "TASK_TOKEN_MISMATCH": 17
+    "SOFT_WINDOW_TOKEN_MISMATCH": 3,
+    "TASK_TOKEN_MISMATCH": 3
   },
-  "meaning": "Heuristic adversarial audit only; flags must be manually reviewed and cannot self-accept or self-reject Step 10."
+  "meaning": "Heuristic adversarial audit with V10 task-aware controls; flags still require manual review and cannot self-accept Step 10."
 }

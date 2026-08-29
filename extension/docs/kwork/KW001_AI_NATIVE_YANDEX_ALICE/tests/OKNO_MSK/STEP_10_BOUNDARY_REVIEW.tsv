@@ -31,7 +31,6 @@ SEARCH_REQUIRED	окна для кухни частном доме		SEARCH_REQUI
 SEARCH_REQUIRED	окна домов серии п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна на балкон сапожок п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна пластиковые какой ремонт		SEARCH_REQUIRED	Repair-oriented question is too vague to distinguish service, information or repair type	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	окна с французской раскладкой		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна серии п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна сок панорамное раздвижное остекление		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна французская решетка		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
@@ -119,16 +118,12 @@ SEARCH_REQUIRED	угловое панорамное окно		SEARCH_REQUIRED	Pa
 SEARCH_REQUIRED	устанавливаем французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка деревянного подоконника на пластиковые окна		SEARCH_REQUIRED	Mixed plastic/wood window wording does not prove one material/product task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка окна инструкция пластикового в деревянном		SEARCH_REQUIRED	Mixed plastic/wood window wording does not prove one material/product task	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	установка пластиковых окон деревянном	SP09-036	SEARCH_REQUIRED	Mixed plastic/wood window wording does not prove one material/product task	serp_job=WINDOW_INSTALLATION_WOODEN_HOUSE
 SEARCH_REQUIRED	утепление панорамных окон		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	фасадные панорамные окна		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	формы окон для частных домов		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские балконные окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские вертикальные задвижки для окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские занавески на окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские мягкие окна	SP09-038	SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	serp_job=SOFT_WINDOWS
-SEARCH_REQUIRED	французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские окна в квартире		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна в пол		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна в хрущевке		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна в частном		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
@@ -136,7 +131,6 @@ SEARCH_REQUIRED	французские окна вместо балконног�
 SEARCH_REQUIRED	французские окна заказать		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна коричневые		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна купить		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские окна москва		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна на балкон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна на балкон раздвижные		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна на балкон раздвижные цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
@@ -152,14 +146,11 @@ SEARCH_REQUIRED	французские окна черные		SEARCH_REQUIRED	No
 SEARCH_REQUIRED	французские панорамные окна		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский балкон окно в пол		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский блок окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французский замок для мягких окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский навес над окнами		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский профиль окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский тип окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французское окно вместо		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французское окно вместо балконного		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французское окно на балкон в квартире		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французское окно на балкон в квартире арочное		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французское окно оформление		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французское окно пвх		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французское окно примеры		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
