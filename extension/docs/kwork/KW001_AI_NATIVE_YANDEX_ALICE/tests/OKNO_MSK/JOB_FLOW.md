@@ -24,8 +24,6 @@ Frozen input remains the original 18 seeds.
 ### Step 03R — repaired first-pass Wordstat acquisition
 Status: **COMPLETE / FINAL RECONCILIATION PASS**
 
-Final execution truth:
-
 ```text
 job_id = kw001-okno-msk-wordstat-pass1-repair-20260829
 region = 213
@@ -45,91 +43,28 @@ association rows preserved/verified = 262
 total provider rows preserved/verified = 2415
 ```
 
-Item accounting:
-
-```text
-S01 200+18=218 COMPLETE
-S02 200+20=220 COMPLETE
-S03 129+15=144 COMPLETE
-S04 12+17=29 COMPLETE
-S05 200+15=215 COMPLETE
-S06 200+18=218 COMPLETE
-S07 6+13=19 COMPLETE
-S08 0+0=0 COMPLETE; sparse response, totalCount=19, arrays absent
-S09 3+10=13 COMPLETE
-S10 176+16=192 COMPLETE
-S11 200+16=216 COMPLETE
-S12 4+13=17 COMPLETE
-S13 200+16=216 COMPLETE
-S14 200+17=217 COMPLETE
-S15 200+11=211 COMPLETE
-S16 68+13=81 COMPLETE
-S17 32+17=49 COMPLETE
-S18 123+17=140 COMPLETE
-TOTAL = 2153 results + 262 associations = 2415 rows
-```
-
 Historical Step-03 acceptance remains superseded because it had technical success without complete reusable data preservation. Step 03R is the accepted replacement evidence.
 
 ### Wordstat acquisition coverage revalidation
-Status: **COMPLETE / PASS / SUFFICIENT FOR ROW-LEVEL CLEANUP**
-
-Purpose: freshly recheck the four previously preserved targeted Wordstat probes against the now-complete repaired first-pass corpus before allowing cleanup.
-
-Inputs:
+Status: **COMPLETE / PASS / SUFFICIENT**
 
 ```text
 complete first-pass rows = 2415
-first-pass results = 2153
-first-pass associations = 262
 preserved targeted probes = 4/4
 targeted probe results = 483
 targeted probe associations = 67
 targeted probe rows = 550
+probe exact matches to first-pass rows = 17
+probe rows with no exact first-pass match = 533
 new provider calls during revalidation = 0
 additional provider cost = 0 RUB
-```
-
-Exact normalized phrase overlap against all 2415 first-pass rows:
-
-```text
-P2-01 оконная фурнитура: 217 rows; exact base matches=2; no-exact-base-match=215
-P2-02 панорамные окна: 216 rows; exact base matches=7; no-exact-base-match=209
-P2-03 остекление балкона с выносом: 21 rows; exact base matches=3; no-exact-base-match=18
-P2-04 окна для частного дома: 96 rows; exact base matches=5; no-exact-base-match=91
-TOTAL probe rows=550
-TOTAL exact base matches=17
-TOTAL rows with no exact base match=533
-```
-
-`533` is an exact-string comparison result only. It is not a claim of 533 new topics or 533 cross-probe-unique final keywords.
-
-Information-gain result:
-
-```text
-P2-01 hardware/fittings vocabulary = CONFIRMED
-P2-02 broader panoramic applications/jobs = CONFIRMED
-P2-03 balcony-extension engineering subfamily = CONFIRMED / NARROW
-P2-04 private-house window user-job vocabulary = CONFIRMED
-```
-
-Deferred candidate roots such as terrace glazing, panoramic balcony glazing, broad installation, PVC regulation, mosquito screens, generic PVC windows, glass units, window factory and cottage glazing do not justify another Wordstat request **now**. They are either already represented sufficiently for acquisition or are better resolved during cleanup, business-scope review, or ordinary Yandex Search/page-boundary work.
-
-Accepted verdict:
-
-```text
 ACQUISITION_COVERAGE_VERDICT = SUFFICIENT
 ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
-ADDITIONAL_PROVIDER_COST_RUB = 0
-ROW_LEVEL_CLEANUP_ALLOWED = true
-FINAL_SEMANTIC_SET_COMPLETE = false
-PAGE_ARCHITECTURE_COMPLETE = false
-NON_REPEAT_CONTROLS = PASS
 ```
 
-Authority:
+The four probes confirmed/further covered window hardware language, panoramic applications, balcony-extension engineering and private-house window demand. `533` remains an exact-string comparison count only.
 
-`STEP_04A_WORDSTAT_COVERAGE_AND_EXPANSION_REVALIDATION_2026-08-29.md`
+Authority: `STEP_04A_WORDSTAT_COVERAGE_AND_EXPANSION_REVALIDATION_2026-08-29.md`.
 
 ### Preserved dynamics evidence
 Status: **PRESERVED / REUSABLE / DOES NOT ADVANCE WORKFLOW BY ITSELF**
@@ -142,35 +77,118 @@ Status: **PRESERVED / REUSABLE / DOES NOT ADVANCE WORKFLOW BY ITSELF**
 estimated provider cost = 0.08 RUB
 ```
 
-These data remain usable later for prioritization/context, but do not replace semantic cleanup or Search/page-boundary evidence.
+### Step 07B — full row-level semantic cleanup
+Status: **COMPLETE / PASS / FULL ACCOUNTING**
+
+Purpose: transform all completely preserved Wordstat source rows into one accountable exact-deduped working dataset without making downstream SERP/page decisions prematurely.
+
+Input:
+
+```text
+repaired first-pass source rows = 2415
+targeted-probe source rows = 550
+TOTAL source rows = 2965
+result rows = 2636
+association rows = 329
+```
+
+Exact deduplication:
+
+```text
+unique exact normalized phrases = 2840
+duplicate source occurrences = 125
+phrase keys with >1 source occurrence = 101
+canonical provenance occurrence sum = 2965
+```
+
+Complete row classification:
+
+```text
+KEEP = 1760
+REVIEW = 749
+EXCLUDE_SCOPE = 180
+EXCLUDE_IRRELEVANT = 120
+EXCLUDE_MECHANICAL = 31
+STATUS TOTAL = 2840
+UNCLASSIFIED = 0
+```
+
+Controls passed:
+
+```text
+exact phrase equality only used for dedupe
+all 2965 source occurrences preserved in occurrence-level audit table
+all canonical rows preserve compact provenance
+low frequency alone never used for exclusion
+association rows never auto-promoted to KEEP
+business/page-boundary uncertainty retained as REVIEW
+provider requests executed during cleanup = 0
+provider cost during cleanup = 0 RUB
+PROVENANCE_RECONCILIATION = PASS
+```
+
+Artifacts:
+
+```text
+STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
+STEP_07B_ROW_LEVEL_CLEANUP_WORKING.tsv
+STEP_07B_ROW_LEVEL_CLEANUP_OCCURRENCES.tsv
+STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
+STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md
+```
+
+Recorded content SHA-256:
+
+```text
+WORKING = 929b6439e9ace1f269987a046af19ac0a3bc107d4fa90c8320c968817392bc2d
+OCCURRENCES = a5e3fceb5647d1f9fbbd5fa3ace9feebb8665a228173ad14fb8b73d846584d63
+```
+
+The temporary branch-scoped GitHub Actions workflow used only to execute the reproducible builder was removed after output verification. The builder remains for audit/reproduction.
+
+Authority: `STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md`.
+
+Important limit: `REVIEW=749` is deliberate unresolved evidence, not missing cleanup. Those rows have explicit decisions/reasons but material business/page boundaries must still be resolved with later evidence rather than guessed here.
 
 ## Current next step
 
-Status: **ROW-LEVEL CLEANUP NOT YET STARTED / PRE-STEP GATE REQUIRED**
+Status: **FINAL WORKING SEMANTIC SET FREEZE NOT YET STARTED / PRE-STEP GATE REQUIRED**
 
 Next task:
 
-1. Build one accountable working table covering the collected source rows.
-2. Deduplicate while preserving where each phrase came from.
-3. Review every phrase and assign explicit status/reason such as KEEP, REVIEW, EXCLUDE_IRRELEVANT, EXCLUDE_SCOPE or EXCLUDE_MECHANICAL.
-4. Do not exclude a phrase solely because frequency is low.
-5. Do not promote associations automatically into final keywords.
-6. Keep business/page-boundary uncertainty in REVIEW for later ordinary Yandex Search resolution.
-7. Reconcile all row counts before calling cleanup complete.
+1. Use the completed cleanup artifacts as the sole semantic-row input.
+2. Define and freeze which cleaned rows proceed into the Search-stage working semantic set without silently resolving `REVIEW` cases that require Search evidence.
+3. Preserve traceability from the frozen set back to the 2840 canonical cleanup rows and 2965 source occurrences.
+4. Do not perform ordinary Yandex Search, SERP clustering, page ownership, final architecture or AI evidence inside the freeze itself unless the next step's approved method explicitly defines a combined boundary.
+5. Quantitatively reconcile the frozen Search input against the Step-07B statuses.
 
-This next major step requires the mandatory whole-goal/completed/remaining/prior-errors/current-step/method-review block and owner authorization before execution.
+Before execution, this new major step requires the mandatory whole-goal/completed/remaining/prior-errors/current-step/method-review block and explicit owner authorization.
 
 ## Remaining work
 
-1. Row-level cleanup of the collected Wordstat evidence with exact input/deduped/excluded/review/retained accounting.
-2. Freeze the final working semantic set.
-3. Validate important query/page boundaries in ordinary Yandex Search.
-4. Group by user task and decide page ownership/actions.
-5. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
-6. Compare ordinary Search and AI evidence.
-7. Prioritize actions.
-8. Produce client deliverables.
-9. Run final QA and revision gate.
+1. Freeze the final working semantic set / Search-stage input from the completed row-level cleanup.
+2. Validate important query/page boundaries in ordinary Yandex Search.
+3. Group the Search-validated semantic set by user task/SERP compatibility.
+4. Map groups to existing pages and decide page ownership/actions.
+5. Diagnose real cannibalization where evidence supports it.
+6. Freeze Search-only architecture before AI evidence.
+7. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
+8. Compare ordinary Search and AI evidence.
+9. Prioritize actions.
+10. Produce client deliverables.
+11. Run final QA and revision gate.
+12. Close/handoff job and only then delete disposable workspace.
+
+Not complete yet:
+
+```text
+FINAL_SEMANTIC_SET_COMPLETE = false
+ORDINARY_YANDEX_SEARCH_VALIDATION_COMPLETE = false
+SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
+AI_EVIDENCE_COMPLETE = false
+CLIENT_DELIVERABLES_COMPLETE = false
+FINAL_QA_COMPLETE = false
+```
 
 ## Close
 
@@ -186,10 +204,18 @@ KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2415
 KW001_OKNO_MSK_WORDSTAT_COVERAGE_REVALIDATION_COMPLETE = true
 KW001_OKNO_MSK_WORDSTAT_COVERAGE_VERDICT_SUFFICIENT = true
 KW001_OKNO_MSK_TARGETED_PROBE_ROWS_RECHECKED = 550
-KW001_OKNO_MSK_TARGETED_PROBE_EXACT_BASE_MATCHES = 17
-KW001_OKNO_MSK_TARGETED_PROBE_ROWS_NO_EXACT_BASE_MATCH = 533
 KW001_OKNO_MSK_ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_ALLOWED = true
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_INPUT_ROWS = 2965
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNIQUE_EXACT = 2840
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_DUPLICATE_OCCURRENCES = 125
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_KEEP = 1760
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_REVIEW = 749
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_EXCLUDE_SCOPE = 180
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_EXCLUDE_IRRELEVANT = 120
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_EXCLUDE_MECHANICAL = 31
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNCLASSIFIED = 0
+KW001_OKNO_MSK_FINAL_SEMANTIC_SET_COMPLETE = false
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 ```
