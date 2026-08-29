@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = ROW_LEVEL_CLEANUP_CORRECTION_REVIEW
-next_major_step = BLOCKED_PENDING_ROW_LEVEL_CLEANUP_CORRECTION_ACCEPTANCE
+current_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_PRE_STEP_REVIEW
+next_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_EXECUTION_AFTER_OWNER_AUTHORIZATION
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -28,247 +28,152 @@ Current execution authorities:
 
 ```text
 JOB_FLOW.md
-STEP_03_COMPLETION_CORRECTION_2026-08-29.md
-STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
+TEST_ORDER.md
+OPEN_QUESTIONS_FOR_CLIENT.md
 STEP_03R_FINAL_RECONCILIATION_2026-08-29.md
 STEP_04A_WORDSTAT_COVERAGE_AND_EXPANSION_REVALIDATION_2026-08-29.md
-STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
-STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
-STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md (HISTORICAL SEMANTIC PASS SUPERSEDED)
 STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md
 STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
 STEP_07C_METHOD_POSTMORTEM_AND_CORRECT_EXECUTION_2026-08-29.md
+STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md
+STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md
 ```
 
-For Step 07 correction/review, the postmortem file is mandatory reading together with the permanent parent-layer Step-7 lesson. It records not only the bad examples but the causal failure chain and corrected execution logic.
+For Step 08, the permanent `STEP_RULES_INDEX.md` currently marks this stage `UNVALIDATED`; therefore the job-specific fresh pre-step method research is mandatory authority and Step-08 execution may not begin until the owner authorizes the researched plan.
 
-## Repaired first-pass acquisition — accepted truth
+## Accepted upstream truth
 
-Historical Step-03 technical run remains superseded because it did not preserve the complete reusable dataset. Step 03R is the accepted replacement.
+### Scope
 
 ```text
-job_id = kw001-okno-msk-wordstat-pass1-repair-20260829
-frozen seeds = 18
-region = 213
-device = DEVICE_ALL
-numPhrases = 200
-execution = Manual
-batch status = COMPLETED
-provider requests executed = 18
-provider outcomes known = 18
-succeeded = 18
-failed_terminal = 0
-outcome_unknown = 0
-estimated provider cost = 0.36 RUB
-raw provider items preserved = 18/18
-normalized TSV artifacts present = 18/18
-results rows preserved/verified = 2153
-association rows preserved/verified = 262
-normalized provider rows preserved/verified = 2415
+site = https://okno-msk.ru/
+primary_region = Moscow
+business = manufacture / sale / installation of window and glazing products/services
+B2C residential = primary test focus
+standalone installation priority = UNKNOWN
+repair/service acquisition priority = UNKNOWN
+accessories standalone priority = UNKNOWN
+finance acquisition priority = UNKNOWN
+new pages = allowed when justified
+merge/reassignment = allowed when justified
+Webmaster/Metrika/Direct = unavailable for base rehearsal
+```
+
+### Wordstat acquisition
+
+```text
 Step 03R = COMPLETE
-```
-
-Per-item row totals remain:
-
-```text
-S01 218
-S02 220
-S03 144
-S04 29
-S05 215
-S06 218
-S07 19
-S08 0
-S09 13
-S10 192
-S11 216
-S12 17
-S13 216
-S14 217
-S15 211
-S16 81
-S17 49
-S18 140
-TOTAL = 2415
-```
-
-S01-S09 normalized TSV artifacts were repaired from already preserved raw JSON with zero additional provider calls/cost. The pre-provider S11 `COMMAND_DISCOVERY / NO_SUPPORTED_COMMAND` incident had `request_executed=false`; unchanged S11 was safely retried.
-
-## Wordstat coverage revalidation — accepted truth
-
-```text
-complete first-pass rows = 2415
+first-pass provider items = 18/18 complete
+first-pass normalized rows = 2415
 targeted probe rows = 550
-P2-01 rows = 217
-P2-02 rows = 216
-P2-03 rows = 21
-P2-04 rows = 96
-probe exact matches to first pass = 17
-probe rows with no exact first-pass match = 533
-new provider calls during revalidation = 0
-additional provider cost = 0 RUB
-ACQUISITION_COVERAGE_VERDICT = SUFFICIENT
-ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
+total source rows entering cleanup = 2965
+additional Wordstat required now = 0
 ```
 
-`533` remains only an exact-string comparison result; it is not a count of new topics or final keywords.
+### Step 07 accepted corrected cleanup
 
-## Preserved dynamics evidence
+Historical Step 07B semantic PASS is superseded, but its accounting/provenance remains valid.
 
-```text
-Step-06 dynamics observations = 4/4 completely preserved
-24 monthly rows per root preserved
-0 failed provider requests
-0 outcome_unknown
-estimated provider cost = 0.08 RUB
-```
-
-These data remain later prioritization/context evidence and do not replace Search/page-boundary validation.
-
-## Row-level cleanup — historical accounting pass preserved, semantic pass reopened
-
-The historical Step 07B artifacts remain preserved because their accounting/provenance work is valid and must remain auditable.
-
-Input reconciliation remains valid:
+Owner accepted Step 07C for workflow progression on 2026-08-29.
 
 ```text
-first-pass source rows = 2415
-targeted-probe source rows = 550
-TOTAL source rows = 2965
-result rows = 2636
-association rows = 329
-```
-
-Exact-string accounting remains valid:
-
-```text
-unique exact normalized phrases = 2840
-duplicate source occurrences = 125
-phrase keys with >1 source occurrence = 101
-canonical provenance occurrence sum = 2965
-```
-
-Historical classifier output was:
-
-```text
-KEEP = 1760
-REVIEW = 749
-EXCLUDE_SCOPE = 180
-EXCLUDE_IRRELEVANT = 120
-EXCLUDE_MECHANICAL = 31
-STATUS TOTAL = 2840
-UNCLASSIFIED = 0
-```
-
-Those historical status counts are preserved for comparison only. They are **not the current accepted semantic truth** after the owner-requested external audit.
-
-Post-audit correction verdict:
-
-```text
-ROW_LEVEL_DATA_ACCOUNTING = PASS
-EXACT_DEDUPLICATION_ACCOUNTING = PASS
-DETERMINISTIC_PREFILTER = PASS
-FULL_SEMANTIC_ROW_REVIEW = CORRECTION_REQUIRED
-SEMANTIC_CLEANUP_COMPLETE = false
-NEXT_STEP_ALLOWED = false
-```
-
-Reason: the historical classifier allowed result phrases that matched no known exclusion/review rule to fall through to `KEEP`. Therefore KEEP did not consistently represent positive semantic relevance/intent evidence and was dependent on dictionary completeness.
-
-Authority: `STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md`.
-
-Historical artifacts remain preserved:
-
-```text
-STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
-STEP_07B_ROW_LEVEL_CLEANUP_WORKING.tsv
-STEP_07B_ROW_LEVEL_CLEANUP_OCCURRENCES.tsv
-STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
-STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md
-```
-
-No new Wordstat/provider acquisition is required for the correction.
-
-## Current corrected candidate — review pending
-
-The corrected Step 07C candidate exists and has passed its current arithmetic/provenance/semantic QA gates, but it is not self-accepted as final.
-
-Current corrected counts:
-
-```text
+source occurrences = 2965
+exact phrase keys = 2840
 KEEP = 1388
 REVIEW = 1118
 EXCLUDE_SCOPE = 180
 EXCLUDE_IRRELEVANT = 120
 EXCLUDE_MECHANICAL = 34
 TOTAL = 2840
-```
-
-Current correction controls:
-
-```text
-KEEP requires positive relevance/business-intent evidence
-no default KEEP fallthrough
-uncertain but potentially relevant phrases -> REVIEW
-safe deterministic exclusions remain reason-separated
-non-obvious duplicate candidates are surfaced, not silently merged
-all 2965 occurrences and 2840 exact phrase keys reconcile
-post-generation semantic QA is mandatory in addition to arithmetic QA
+builder QA failures = 0
 expanded semantic QA failures = 0
 manual semantic saturation passes = 4
+provider requests during correction = 0
+provider cost during correction = 0 RUB
 ```
 
-The causal method record is:
-
-`STEP_07C_METHOD_POSTMORTEM_AND_CORRECT_EXECUTION_2026-08-29.md`.
-
-Current truth:
+Accepted Step-07 controls:
 
 ```text
-CORRECTION_CANDIDATE_READY = true
-OWNER_REVIEW_PENDING = true
-ROW_LEVEL_CLEANUP_FINAL_ACCEPTANCE = false
-ROW_LEVEL_CLEANUP_COMPLETE = false
-NEXT_STEP_ALLOWED = false
+KEEP requires positive evidence
+default KEEP fallthrough = false
+ACCOUNTING PASS != SEMANTIC PASS
+low frequency alone does not exclude
+association-only evidence does not auto-promote to KEEP
+uncertainty remains REVIEW
+non-exact duplicate candidates are surfaced, not silently merged
+semantic QA tests both MUST_KEEP and MUST_NOT_KEEP
 ```
 
-## Current operator action
+Acceptance authority:
 
-No provider action is pending.
+`STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md`.
 
-Current work is **ROW_LEVEL_CLEANUP_CORRECTION_REVIEW**. Review/decision must use:
+## Current Step 08 state
+
+Step 08 purpose:
 
 ```text
-1. permanent Step-7 methodology/lessons entry;
-2. current-job Step-07C method postmortem;
-3. current corrected working/QA artifacts;
-4. current external-method evidence when deciding whether another correction is required.
+freeze one immutable Search-stage semantic handoff from accepted Step 07C
+without doing Search, final clustering, page ownership or architecture decisions
 ```
 
-Blocked until correction acceptance:
+Fresh external method research and adversarial pre-step review are complete in:
+
+`STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md`.
+
+Proposed Step-08 input arithmetic:
 
 ```text
-FINAL_WORKING_SEMANTIC_SET_FREEZE
-ORDINARY_YANDEX_SEARCH_VALIDATION
-PAGE_ARCHITECTURE
-AI_EVIDENCE
-CLIENT_DELIVERABLES
+Step-07C exact phrase keys = 2840
+accepted KEEP / core candidates = 1388
+accepted REVIEW requiring explicit next-resolution routing = 1118
+accepted EXCLUDE_* preserved for audit = 334
+1388 + 1118 + 334 = 2840
+non-exact duplicate candidate groups to carry forward = 9
+```
+
+Step 08 execution has **not** started.
+
+```text
+STEP_08_PRE_STEP_REVIEW_COMPLETE = true
+STEP_08_OWNER_AUTHORIZATION_PENDING = true
+STEP_08_EXECUTION_STARTED = false
+STEP_08_COMPLETE = false
+NEXT_STEP_09_ALLOWED = false
+```
+
+No provider/Search action is pending or authorized by the current manifest.
+
+## Blocked downstream work
+
+Until Step 08 execution and verification pass:
+
+```text
+ORDINARY_YANDEX_SEARCH_VALIDATION = BLOCKED
+USER_TASK_SERP_CLUSTERING = BLOCKED
+PAGE_OWNERSHIP = BLOCKED
+STRUCTURAL_ACTIONS = BLOCKED
+CANNIBALIZATION_DIAGNOSIS = BLOCKED
+SEARCH_ONLY_ARCHITECTURE_FREEZE = BLOCKED
+AI_EVIDENCE = BLOCKED
+CLIENT_DELIVERABLES = BLOCKED
 ```
 
 Still false:
 
 ```text
-ROW_LEVEL_CLEANUP_COMPLETE = false
 FINAL_SEMANTIC_SET_COMPLETE = false
 ORDINARY_YANDEX_SEARCH_VALIDATION_COMPLETE = false
-PAGE_ARCHITECTURE_COMPLETE = false
+SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
 AI_EVIDENCE_COMPLETE = false
 CLIENT_DELIVERABLES_COMPLETE = false
+FINAL_QA_COMPLETE = false
 ```
 
 ## Close rule
 
-When all are true:
+Only when all work, handoff/revisions and pending operator/provider actions are finished:
 
 ```text
 job_work_complete = true
@@ -278,34 +183,26 @@ provider_operator_action_pending = false
 safe_to_delete = true
 ```
 
-then delete the entire `tests/OKNO_MSK/` directory from the active branch.
+then delete the disposable current-job workspace.
 
 Markers:
 
 ```text
 KW001_OKNO_MSK_WORKSPACE_DISPOSABLE = true
-KW001_OKNO_MSK_WORKSPACE_JOB_SPECIFIC_ONLY = true
-KW001_OKNO_MSK_STEP_03_COMPLETE = true
 KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2415
-KW001_OKNO_MSK_WORDSTAT_COVERAGE_REVALIDATION_COMPLETE = true
 KW001_OKNO_MSK_WORDSTAT_COVERAGE_VERDICT_SUFFICIENT = true
-KW001_OKNO_MSK_TARGETED_PROBE_ROWS_RECHECKED = 550
-KW001_OKNO_MSK_ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
-KW001_OKNO_MSK_ROW_LEVEL_DATA_ACCOUNTING_PASS = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_INPUT_ROWS = 2965
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNIQUE_EXACT = 2840
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_DUPLICATE_OCCURRENCES = 125
-KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_KEEP = 1760
-KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_REVIEW = 749
-KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_EXCLUDE_SCOPE = 180
-KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_EXCLUDE_IRRELEVANT = 120
-KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_EXCLUDE_MECHANICAL = 31
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_CORRECTION_REQUIRED = true
-KW001_OKNO_MSK_STEP07C_CORRECTION_CANDIDATE_READY = true
-KW001_OKNO_MSK_STEP07C_OWNER_REVIEW_PENDING = true
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = false
-KW001_OKNO_MSK_NEXT_STEP_ALLOWED = false
-KW001_OKNO_MSK_FINAL_SEMANTIC_SET_COMPLETE = false
+KW001_OKNO_MSK_STEP07C_KEEP = 1388
+KW001_OKNO_MSK_STEP07C_REVIEW = 1118
+KW001_OKNO_MSK_STEP07C_EXCLUDE_TOTAL = 334
+KW001_OKNO_MSK_STEP07C_FINAL_ACCEPTANCE = true
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
+KW001_OKNO_MSK_STEP08_PRE_STEP_REVIEW_COMPLETE = true
+KW001_OKNO_MSK_STEP08_OWNER_AUTHORIZATION_PENDING = true
+KW001_OKNO_MSK_STEP08_EXECUTION_STARTED = false
+KW001_OKNO_MSK_STEP08_COMPLETE = false
+KW001_OKNO_MSK_NEXT_STEP_09_ALLOWED = false
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = false
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
 ```
