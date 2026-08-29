@@ -8,13 +8,13 @@
     "REVIEW_DEFERRED": 174,
     "REVIEW_SEARCH": 944
   },
-  "cluster_count": 45,
+  "cluster_count": 48,
   "cluster_evidence_state_counts": {
     "DEFERRED_PRESERVED": 174,
     "EXCLUDED_PRESERVED": 334,
     "MIXED_OR_BOUNDARY_REVIEW": 2,
-    "SEARCH_REQUIRED": 283,
-    "SEMANTIC_SUPPORTED_NO_DIRECT_SERP": 1987,
+    "SEARCH_REQUIRED": 248,
+    "SEMANTIC_SUPPORTED_NO_DIRECT_SERP": 2022,
     "SERP_SUPPORTED": 60
   },
   "direct_step09_probes_expected": 75,
@@ -28,9 +28,9 @@
   "silent_drops": 0,
   "review_deferred_preserved": 174,
   "excluded_preserved": 334,
-  "search_required_rows": 283,
+  "search_required_rows": 248,
   "mixed_boundary_rows": 2,
-  "semantic_supported_no_direct_serp_rows": 1987,
+  "semantic_supported_no_direct_serp_rows": 2022,
   "serp_supported_rows": 60,
   "manual_semantic_qa_required": true,
   "manual_semantic_qa_pass": false,
