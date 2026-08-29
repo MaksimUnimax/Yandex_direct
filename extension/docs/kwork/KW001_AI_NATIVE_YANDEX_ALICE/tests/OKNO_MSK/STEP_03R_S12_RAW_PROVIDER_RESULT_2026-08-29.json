@@ -1,0 +1,55 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.1",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-batch-7a613df4-d2b4-402e-90c7-0ef70640141a",
+  "run_id": null,
+  "job_id": "kw001-okno-msk-wordstat-pass1-repair-20260829",
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {
+    "estimated_rub": 0.02,
+    "tariff_checked_at": "2026-08-12",
+    "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+  },
+  "policy": {
+    "channel": "manual",
+    "active_service": "wordstat"
+  },
+  "command": {
+    "method": "getTop",
+    "phrase": "аксессуары для пластиковых окон",
+    "numPhrases": 200,
+    "regions": ["213"],
+    "devices": ["DEVICE_ALL"]
+  },
+  "http_status": 200,
+  "elapsed_ms": 1748,
+  "result": {
+    "results": [
+      {"phrase":"аксессуары для пластиковых окон","count":"29"},
+      {"phrase":"для пластикового окна аксессуары gu","count":"13"},
+      {"phrase":"аксессуары для пластиковых окон купить","count":"3"},
+      {"phrase":"аксессуары для пластиковых окон и дверей","count":"2"}
+    ],
+    "associations": [
+      {"phrase":"оконная фурнитура","count":"1536"},
+      {"phrase":"окномойка робот для стеклопакетов какой лучше","count":"15"},
+      {"phrase":"изделия из пластика","count":"667"},
+      {"phrase":"виды крепления штор","count":"187"},
+      {"phrase":"дистанционная рамка для стеклопакета","count":"133"},
+      {"phrase":"стеклопакет своими руками","count":"462"},
+      {"phrase":"изделия из пвх","count":"332"},
+      {"phrase":"над окошком месяц под окошком ветер текст","count":"16"},
+      {"phrase":"гласс фурнитура","count":"40"},
+      {"phrase":"галс мастер фурнитура для стекла","count":"56"},
+      {"phrase":"пластика ушей как называется","count":"18"},
+      {"phrase":"оконный переплет это","count":"46"},
+      {"phrase":"детали очков как называются","count":"55"}
+    ],
+    "totalCount": "29"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
