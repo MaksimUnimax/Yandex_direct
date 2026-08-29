@@ -78,7 +78,6 @@ def corrected_keep_decision_v2(row: dict[str, str]) -> tuple[str, str, str]:
     s = row["phrase"].lower().strip()
     sources = set(x for x in row["source_ids"].split("|") if x)
 
-    # Incomplete tail is not a low-frequency judgment; it is a malformed query fragment.
     if s.endswith(" без"):
         return "EXCLUDE_MECHANICAL", "POST_AUDIT_INCOMPLETE_QUERY_FRAGMENT", "HIGH"
 
@@ -91,8 +90,6 @@ def corrected_keep_decision_v2(row: dict[str, str]) -> tuple[str, str, str]:
     if any_in(s, EXTRA_COMPONENT_RISK):
         return "REVIEW", "COMPONENT_OR_ACCESSORY_INTENT_NEEDS_BUSINESS_FIT", "MEDIUM"
 
-    # These brands are primarily fittings/hardware boundaries in the observed phrases.
-    # Do not apply this to core aluminium/profile-system brands such as Schuco/Alutech/Provedal.
     if any_in(s, HARDWARE_BRAND_RISK):
         return "REVIEW", "HARDWARE_BRAND_INTENT_NEEDS_BUSINESS_FIT", "MEDIUM"
 
@@ -124,7 +121,6 @@ module.positive_for_source = positive_for_source_with_russian_window_inflection
 module.corrected_keep_decision = corrected_keep_decision_v2
 module.main()
 
-# Second manual-semantic QA pass. This is intentionally separate from the builder's first guardrail set.
 working_path = ROOT / "STEP_07C_SEMANTIC_CORRECTION_WORKING.tsv"
 with working_path.open("r", encoding="utf-8", newline="") as f:
     rows = list(csv.DictReader(f, delimiter="\t"))
@@ -134,7 +130,7 @@ must_not_keep = {
     "rehau окна режимы",
     "rehau окно конструкция",
     "окна rehau сайт",
-    "rehau окна ru",
+    "окна rehau ru",
     "окно rehau roto",
     "алюминиевые окна fapim",
     "панель для пластиковой двери",
@@ -143,7 +139,7 @@ must_not_keep = {
     "остекления балкона форум",
     "правильная установка пластиковых окон",
     "после установки пластиковых окон",
-    "пластиковое окно закрыто",
+    "окно пластиковое закрыто",
     "открытое пластиковое окно",
     "окна в рассрочку без",
     "пластиковое окно в рассрочку без",
