@@ -5,27 +5,41 @@ Status: **ACTIVE / UNIVERSAL / REQUIRED BEFORE EVERY MAJOR STEP**
 
 This document is the canonical KW-001 gate that must run before every new major analytical or provider step.
 
+Mandatory companion rule:
+
+```text
+STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
+```
+
 ## Required sequence
 
 ```text
 READ OWNER-LOCKED UNIVERSAL RULES
 → READ CURRENT JOB WORKSPACE / JOB FLOW
 → READ PREVIOUS STEP EVIDENCE
-→ EXPLAIN NEXT STEP
-→ IDENTIFY METHOD
+→ STATE WHOLE KWORK GOAL IN PLAIN LANGUAGE
+→ SHOW COMPLETED WORK LIST FOR WHOLE KWORK/JOB
+→ SHOW REMAINING WORK LIST FOR WHOLE KWORK/JOB
+→ STATE CURRENT STEP GOAL
+→ STATE WHAT THIS STEP SOLVES
+→ STATE EXACT REQUIRED OUTPUT
+→ ONLY THEN IDENTIFY / RESEARCH METHOD
 → TRACE METHOD ORIGIN
 → SEARCH CURRENT EXTERNAL MATERIALS
 → CHALLENGE OWN PRIOR WORK
 → CLASSIFY SUPPORT / DEFECT
 → IF YMB IS USED, EMBED THE YMB RESULT-COMPLETION GATE INSIDE THIS EXACT STEP
-→ SHOW OWNER SOURCES + RISKS
+→ SHOW OWNER SOURCES + PRACTICAL PLAN + RISKS
 → WAIT FOR EXPLICIT OWNER AUTHORIZATION
 → EXECUTE ONE STEP INSIDE CURRENT JOB
 → VERIFY EACH YMB RESULT IS COMPLETE + SAVED BEFORE ANY NEXT YMB ACTION
+→ REPORT AGAINST PREDECLARED STEP GOAL WITH NUMBERS
+→ UPDATE COMPLETED WORK LIST
+→ UPDATE REMAINING WORK LIST
 → STOP + REPORT
 ```
 
-Execution before this gate is a process failure.
+Execution or method research before the goal/status block is a process failure.
 
 ---
 
@@ -35,6 +49,7 @@ Read and obey:
 
 ```text
 JOB_WORKSPACE_LIFECYCLE.md
+STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
 ```
 
 Layer A = permanent universal Kwork rules.  
@@ -53,10 +68,11 @@ Before each major step read at minimum:
 
 ```text
 DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md
+STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
 WORKING_RUNBOOK_FOR_CHATGPT.md
 PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
 JOB_WORKSPACE_LIFECYCLE.md
-STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md  # permanent owner-approved history only
+STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
 current job JOB_MANIFEST.md
 current job JOB_FLOW.md if present
 relevant current-job step records
@@ -67,25 +83,69 @@ If a concrete client's facts are being written into permanent universal files, c
 
 ---
 
-## 1. Explain before doing
+## 1. Goal and job-status review MUST happen before method research
 
-Before execution, ChatGPT must tell the owner:
+Before searching external methodology or deciding how to execute a step, ChatGPT must first tell the owner in plain language:
 
 ```text
-what the step is;
-what input evidence it uses;
+WHOLE KWORK GOAL
+= what final client result KW-001 is intended to deliver.
+
+COMPLETED WORK
+= full list of work/results across the current Kwork/job that are genuinely complete and verified.
+
+REMAINING WORK
+= full ordered list of everything still required before final completion.
+
+CURRENT STEP GOAL
+= the single concrete result this step must achieve.
+
+WHAT THIS STEP SOLVES
+= the missing evidence, uncertainty, decision or production requirement it closes.
+
+REQUIRED OUTPUT
+= exactly what must exist at the end of the step for it to count as complete.
+```
+
+Rules:
+
+```text
+No item may appear in COMPLETED WORK merely because an API call succeeded, a file exists, or a summary was written.
+If later evidence shows an earlier item is incomplete, move it back out of COMPLETED WORK and into REMAINING WORK / CORRECTION REQUIRED.
+The lists must be updated after every step.
+```
+
+If this block is missing:
+
+```text
+METHOD_RESEARCH = BLOCKED
+STEP_AUTHORIZATION = BLOCKED
+EXECUTION = BLOCKED
+```
+
+Only after this block may ChatGPT research the method for the step.
+
+---
+
+## 2. Explain the practical step before doing it
+
+After the goal/status block and before execution, ChatGPT must tell the owner:
+
+```text
+what input evidence the step uses;
 what exact operations will be performed;
+why this method is appropriate;
+what sources support it;
 what output/gate is expected;
-why this step exists;
 what later decisions depend on it;
 what will explicitly NOT be decided yet.
 ```
 
-Do not hide methodology behind generic phrases such as `cleanup`, `cluster`, `validate`, `analyze` or `expand`.
+Do not hide methodology behind generic phrases such as `cleanup`, `cluster`, `validate`, `analyze`, `SERP` or `expand` without a plain-language explanation of what it means and why it matters to the client result.
 
 ---
 
-## 2. Trace where the method came from
+## 3. Trace where the method came from
 
 Every material rule used by the step must be classified as one of:
 
@@ -109,9 +169,9 @@ A project-authored runbook is workflow authority, not independent evidence of it
 
 ---
 
-## 3. Search current materials before every major step
+## 4. Search current materials before every major step
 
-Before execution, ChatGPT must search current external materials relevant to that step.
+Only after Sections 1–2 are complete may ChatGPT search current external materials relevant to that step.
 
 Source priority:
 
@@ -135,13 +195,16 @@ Freshness matters when provider behavior, product interfaces or search guidance 
 
 ---
 
-## 4. Mandatory adversarial self-audit
+## 5. Mandatory adversarial self-audit
 
 The pre-step review must actively try to falsify the current workflow, not merely find supporting citations.
 
 Questions to ask:
 
 ```text
+Does this step actually move the Kwork toward its final client result?
+Does the declared required output genuinely satisfy the current step goal?
+Is anything currently listed as completed actually incomplete?
 Did the previous step assume something not proved?
 Did we remove or retain terms for a reason that external methodology would reject?
 Did we confuse demand volume with relevance?
@@ -150,7 +213,7 @@ Did we use Wordstat associations as if they were accepted keywords?
 Did we let site structure predetermine search demand?
 Did we let raw search demand override real business scope?
 Did we use one arbitrary numerical threshold as if it were universal?
-Did we make a page/cluster decision before SERP evidence required by the workflow?
+Did we make a page/cluster decision before required search evidence?
 Did we cite our own runbook as proof instead of tracing the rule to evidence?
 Is any provider/search behavior assumed from memory rather than checked?
 Did we accidentally place case-specific evidence in permanent methodology files?
@@ -159,26 +222,19 @@ Does a universal rule appear questionable based on new evidence?
 If the step uses YMB: what exact usable result must be collected and saved, and how will I prove it is complete before the next YMB action?
 ```
 
-If the universal-rule question is YES, report the issue to the owner. **Do not modify the universal rule unless the owner explicitly orders the change.**
+If a universal-rule question is YES, report the issue to the owner. **Do not modify the universal rule unless the owner explicitly orders the change.**
 
 ---
 
-## 5. Required review verdict
+## 6. Required review verdict
 
 Before owner authorization, classify the proposed step/method:
 
 ```text
 SUPPORTED
-= method is well supported by current external and/or measured evidence
-
 PROJECT_SPECIFIC_BUT_REASONED
-= no universal standard exists, but the project choice is explicit, bounded and defensible
-
 QUESTIONABLE
-= meaningful uncertainty remains; owner must see it before deciding whether to proceed
-
 CORRECTION_REQUIRED
-= current job artifact/execution contains a material defect that must be corrected before execution
 ```
 
 A possible defect in an owner-locked universal rule must be surfaced separately as:
@@ -191,64 +247,71 @@ This does not authorize ChatGPT to edit Layer A.
 
 ---
 
-## 6. Mandatory owner-facing pre-step report
+## 7. Mandatory owner-facing pre-step report
 
-Before executing a major step, show:
+Before executing a major step, show, in plain language and in this order:
 
 ```text
-NEXT STEP
-WHAT I WILL DO
-WHY
+WHOLE KWORK GOAL
+COMPLETED WORK
+REMAINING WORK
+CURRENT STEP GOAL
+WHAT THIS STEP SOLVES
+REQUIRED OUTPUT
 INPUT EVIDENCE
 METHOD ORIGIN
 EXTERNAL SOURCES
+HOW WE WILL DO IT
 SELF-AUDIT FINDINGS
-WHAT IS SUPPORTED
-WHAT IS PROJECT-SPECIFIC / HEURISTIC
 RISKS / UNCERTAINTIES
-POSSIBLE UNIVERSAL-RULE ISSUE, IF ANY
-WHAT I WILL NOT DO YET
+WHAT WE WILL NOT DO YET
 PROPOSED PASS GATE
 ```
 
-If the step contains **any YMB interaction**, the pre-step report and the concrete job-step artifact must also contain the mandatory YMB block defined in Section 7A below. A YMB-enabled step that omits that block is invalid and may not be authorized or executed.
+If the step contains **any YMB interaction**, the pre-step report and the concrete job-step artifact must also contain the mandatory YMB block defined in Section 9 below.
 
 Then stop and wait for explicit owner authorization.
 
 ---
 
-## 7. Execution after authorization
+## 8. Execution after authorization
 
 After authorization:
 
 ```text
 execute only the authorized step;
 do not silently broaden scope;
-preserve provider/source provenance;
+preserve provider/source evidence;
 keep all case-specific artifacts inside the current job workspace;
 record current-job deviations/failures in current-job workflow/evidence files;
 complete the step gate;
 DO NOT update universal rules unless the owner explicitly ordered such an update;
 STOP;
-report result, sources, costs/provider calls, commits and remaining uncertainty;
+report result against the predeclared step goal;
+report quantitative accounting;
+update COMPLETED WORK list;
+update REMAINING WORK list;
+state NEXT_STEP_ALLOWED = true | false;
 wait for the next explicit owner continuation.
 ```
 
 This preserves:
 
 ```text
-PRE-STEP REVIEW
+GOAL + STATUS
+→ METHOD RESEARCH
 → OWNER AUTHORIZATION
 → ONE JOB STEP
-→ COMPLETE JOB GATE
+→ VERIFY REQUIRED OUTPUT
+→ QUANTITATIVE REPORT
+→ UPDATE COMPLETED / REMAINING WORK
 → STOP
-→ REPORT
 → WAIT
 ```
 
 ---
 
-## 7A. Mandatory block INSIDE EVERY step that uses YMB
+## 9. Mandatory block INSIDE EVERY step that uses YMB
 
 This is not an optional cross-reference and not a rule that may live only in a universal document.
 
@@ -328,17 +391,53 @@ This rule applies to Wordstat, Search, GenSearch, Webmaster, Metrika, Direct and
 
 ---
 
-## 8. Provider sub-items are not separate major steps
+## 10. Provider sub-items are not separate major steps
 
 The complete external research gate is required before a new batch/method/evidence stage, not before every individual item of an already researched, frozen and owner-authorized durable batch.
 
-However, **Section 7A still applies after every individual YMB interaction inside that batch.** Not repeating external research does not waive result preservation/completeness verification.
+However, **Section 9 still applies after every individual YMB interaction inside that batch.** Not repeating external research does not waive result preservation/completeness verification.
 
 Any material change to the manifest, method, region, evidence semantics or retry policy requires a fresh review/authorization.
 
 ---
 
-## 9. Job close
+## 11. Mandatory end-of-step quantitative report
+
+Every step ends with a report tied to the step goal declared before research/execution.
+
+At minimum report all applicable numbers:
+
+```text
+how many items/queries/pages/rows were planned
+how many were actually processed
+how many provider calls were attempted
+how many provider calls actually executed
+how many results/rows were returned
+how many were saved
+how many were verified
+how many were deduplicated
+how many were excluded
+how many were retained
+how many remain for review
+how many were analyzed
+how many artifacts were produced
+errors / OUTCOME_UNKNOWN
+provider cost
+```
+
+Then explicitly show:
+
+```text
+UPDATED COMPLETED WORK
+UPDATED REMAINING WORK
+NEXT_STEP_ALLOWED = true | false
+```
+
+If the required counts cannot be reconciled against the declared output, the step is `INCOMPLETE` and the next step is blocked.
+
+---
+
+## 12. Job close
 
 Completing the last analytical step does not automatically delete the workspace.
 
@@ -359,11 +458,12 @@ If the owner wants a universal method change, the owner explicitly orders it whe
 
 ---
 
-## 10. Relationship to other KW-001 rules
+## 13. Relationship to other KW-001 rules
 
 This gate complements:
 
 ```text
+STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
 DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md
 WORKING_RUNBOOK_FOR_CHATGPT.md
 STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
@@ -375,10 +475,16 @@ Markers:
 
 ```text
 KW001_PRE_STEP_REVIEW_GATE_REQUIRED = true
+KW001_GOAL_STATUS_BLOCK_BEFORE_METHOD_RESEARCH = true
+KW001_COMPLETED_WORK_LIST_REQUIRED_EVERY_STEP = true
+KW001_REMAINING_WORK_LIST_REQUIRED_EVERY_STEP = true
+KW001_COMPLETED_REMAINING_LISTS_UPDATED_AFTER_EVERY_STEP = true
+KW001_STEP_GOAL_REQUIRED_OUTPUT_BEFORE_RESEARCH = true
 KW001_PRE_STEP_EXTERNAL_RESEARCH_REQUIRED = true
 KW001_PRE_STEP_ADVERSARIAL_SELF_AUDIT_REQUIRED = true
 KW001_PRE_STEP_OWNER_APPROVAL_REQUIRED = true
 KW001_ONE_STEP_STOP_REPORT_WAIT_REQUIRED = true
+KW001_QUANTITATIVE_STEP_REPORT_REQUIRED = true
 KW001_PRE_STEP_JOB_WORKSPACE_CHECK_REQUIRED = true
 KW001_UNIVERSAL_RULES_OWNER_LOCKED_DURING_JOB = true
 KW001_NO_AUTOMATIC_UNIVERSAL_RULE_UPDATE = true
