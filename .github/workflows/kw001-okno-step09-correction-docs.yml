@@ -1,12 +1,12 @@
 name: KW001 OKNO Step09 Correction Docs
 
-# trigger revision 2
 on:
   push:
     branches:
       - roadmap/kwork-productization-2026-08-28
     paths:
       - '.github/workflows/kw001-okno-step09-correction-docs.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_CORRECTION_SYNC_TRIGGER.txt'
 
 permissions:
   contents: write
