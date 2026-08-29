@@ -70,7 +70,7 @@ Authority: `STEP_03_COMPLETION_CORRECTION_2026-08-29.md`.
 
 ## Current step — Step 03R
 
-Status: **IN PROGRESS / 14 OF 18 PROVIDER ITEMS COMPLETE**
+Status: **IN PROGRESS / 15 OF 18 PROVIDER ITEMS COMPLETE**
 
 Goal: recollect the exact original 18 Wordstat `getTop` observations and preserve every required row before the next provider request.
 
@@ -85,6 +85,7 @@ STEP_03R_S11_CHECKPOINT_2026-08-29.md
 STEP_03R_S12_CHECKPOINT_2026-08-29.md
 STEP_03R_S13_CHECKPOINT_2026-08-29.md
 STEP_03R_S14_CHECKPOINT_2026-08-29.md
+STEP_03R_S15_CHECKPOINT_2026-08-29.md
 ```
 
 Frozen execution:
@@ -112,20 +113,20 @@ raw + TSV readable/usable
 NON_REPEAT_CONTROLS = PASS
 ```
 
-### Current execution point after S14
+### Current execution point after S15
 
 ```text
-provider requests executed = 14
-provider outcomes known = 14
+provider requests executed = 15
+provider outcomes known = 15
 failed_terminal = 0
 outcome_unknown = 0
-estimated provider cost = 0.28 RUB
-fully preserved + normalized + verified = 14/18
-remaining = 4/18
-results rows preserved/verified = 1730
-association rows preserved/verified = 204
-total provider rows preserved/verified = 1934
-next provider item = S15 `цены на пластиковые окна`
+estimated provider cost = 0.30 RUB
+fully preserved + normalized + verified = 15/18
+remaining = 3/18
+results rows preserved/verified = 1930
+association rows preserved/verified = 215
+total provider rows preserved/verified = 2145
+next provider item = S16 `окна в рассрочку`
 forward analytical work = BLOCKED until 18/18 and final reconciliation PASS
 ```
 
@@ -146,7 +147,8 @@ S11 200+16=216 COMPLETE
 S12 4+13=17 COMPLETE
 S13 200+16=216 COMPLETE
 S14 200+17=217 COMPLETE
-TOTAL = 1730 results + 204 associations = 1934 rows
+S15 200+11=211 COMPLETE
+TOTAL = 1930 results + 215 associations = 2145 rows
 ```
 
 S01-S09 missing TSV artifacts were repaired locally from already preserved raw JSON before S10, with zero new provider calls and zero additional cost.
@@ -178,8 +180,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 14
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1934
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 15
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2145
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
