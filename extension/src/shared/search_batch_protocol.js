@@ -3,13 +3,14 @@
 
   const PREFIX = "SEARCH_BATCH_API_V1";
   const RESULT_PREFIX = "SEARCH_BATCH_RESULT_V1";
-  const ACTIONS = Object.freeze(new Set(["start", "next", "status", "pause", "resume", "cancel", "projection", "overlapPage"]));
+  const ACTIONS = Object.freeze(new Set(["start", "next", "nextN", "status", "pause", "resume", "cancel", "projection", "overlapPage"]));
   const START_FIELDS = new Set(["action", "jobId", "queries", "searchType", "region", "groupsOnPage", "maxRequests", "maxCostRub", "confirmBillable"]);
   const JOB_ONLY_FIELDS = new Set(["action", "jobId"]);
+  const NEXT_N_FIELDS = new Set(["action", "jobId", "count"]);
   const PROJECTION_FIELDS = new Set(["action", "jobId", "offset", "limit", "topN", "targetDomains"]);
   const OVERLAP_FIELDS = new Set(["action", "jobId", "offset", "limit", "topN"]);
 
-  function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.1"); }
+  function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.2"); }
 
   function fail(code, message) {
     const error = new Error(message || code);
@@ -122,6 +123,15 @@
     return Object.freeze({ action, jobId: asString(raw.jobId, "jobId", { required: true, max: 240 }) });
   }
 
+  function normalizeNextN(raw) {
+    validateFields(raw, NEXT_N_FIELDS);
+    return Object.freeze({
+      action: "nextN",
+      jobId: asString(raw.jobId, "jobId", { required: true, max: 240 }),
+      count: integer(raw.count, "count", { min: 1, max: 100, required: true })
+    });
+  }
+
   function normalizeProjection(raw) {
     validateFields(raw, PROJECTION_FIELDS);
     const domains = raw.targetDomains === undefined ? [] : raw.targetDomains;
@@ -152,6 +162,7 @@
     const action = String(raw.action || "").trim();
     if (!ACTIONS.has(action)) fail("UNSUPPORTED_SEARCH_BATCH_ACTION", `Search batch action ${action || "<empty>"} не поддерживается.`);
     if (action === "start") return normalizeStart(raw);
+    if (action === "nextN") return normalizeNextN(raw);
     if (["next", "status", "pause", "resume", "cancel"].includes(action)) return normalizeJobOnly(raw, action);
     if (action === "projection") return normalizeProjection(raw);
     return normalizeOverlap(raw);
@@ -189,7 +200,7 @@
     return (hash >>> 0).toString(16).padStart(8, "0");
   }
 
-  function buildResultEnvelope({ command, jobId = null, status = "OK", reason = null, progress = null, item = null, providerResult = null, projection = null, requestExecuted = false, automaticRetry = false, costEstimate = null, policy = null, metadata = {} } = {}) {
+  function buildResultEnvelope({ command, jobId = null, status = "OK", reason = null, progress = null, item = null, providerResult = null, projection = null, chunk = null, requestExecuted = false, automaticRetry = false, costEstimate = null, policy = null, metadata = {} } = {}) {
     const normalized = normalizeCommand(command);
     return Object.freeze({
       bridge: String(globalThis.YMBProduct?.BRIDGE_ID || "yandex-marketing-bridge"),
@@ -205,6 +216,7 @@
       item: item || null,
       provider_result: providerResult || null,
       projection: projection || null,
+      chunk: chunk || null,
       cost_estimate: costEstimate || null,
       policy: policy || null,
       request_executed: requestExecuted,
