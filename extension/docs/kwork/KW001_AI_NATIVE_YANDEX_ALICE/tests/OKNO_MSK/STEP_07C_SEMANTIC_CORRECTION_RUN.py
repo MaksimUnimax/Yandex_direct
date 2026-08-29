@@ -28,7 +28,7 @@ EXTRA_NAVIGATION_RISK = [" сайт", "сайт ", " ru", ".ru", "номер т�
 EXTRA_TECHNICAL_INFORMATION_RISK = [
     " режим", "режимы", " конструкц", " устройство", "схема", " форум", "можно ли", "разрешение",
     "согласован", "правильная установка", "правильно установить", "после установки", "зазор при установке",
-    "инструкция по", "технология установки", "технология монтажа",
+    "инструкция по", "технология установки", "технология монтажа", " поставки", " название", "это какие",
 ]
 EXTRA_COMPONENT_RISK = [
     "панель для", "створк", "профиль для", "комплект для", "направляющ", "ригель", "заглушк", "узлы ",
@@ -59,9 +59,13 @@ PANORAMIC_REAL_ESTATE_OR_INSPIRATION = [
     "панорамные окна в каркасном", "панорамные окна в лесу", "панорамные окна лес", "панорамные окна на море",
     "панорамные окна в россии", "панорамные окна в здании", "панорамные окна и потолок", "панорамные окна как называются",
     "баня панорам", "домик с панорам", "дом в лесу с панорам", "треугольный дом с панорам", "барнхаус с панорам",
-    "зал с панорам", "кухня гостиная с панорам",
+    "зал с панорам", "кухня гостиная с панорам", "дача с панорам",
 ]
 REPAIR_CONTACT_OR_ENTITY_RISK = ["ремонт пластиковых окон номер", "ремонт пластикового окна номер", "ремонт пластиковых окон телефон", "ремонт пластиковых окон пик"]
+REPAIR_FRAGMENT_OR_DIY_RISK = [
+    "ремонт пластиковых окон самому", "ремонт пластиковых окон руками", "ремонт пластиковых окон район",
+    "ремонт пластиковых окон купить", "ремонт пластиковых окон новых", "ремонт пластиковых окон частный",
+]
 
 
 def any_in(text: str, terms: list[str]) -> bool:
@@ -77,6 +81,10 @@ def corrected_keep_decision_v2(row: dict[str, str]) -> tuple[str, str, str]:
         return "REVIEW", "NAVIGATIONAL_OR_ENTITY_INTENT_NEEDS_VALIDATION", "LOW"
     if any_in(s, EXTRA_TECHNICAL_INFORMATION_RISK):
         return "REVIEW", "TECHNICAL_INFORMATION_INTENT_NEEDS_CONTENT_FIT", "LOW"
+    if " или " in s and any(x in sources for x in {"S02", "S11"}):
+        return "REVIEW", "COMPARISON_INTENT_NEEDS_SEARCH_VALIDATION", "MEDIUM"
+    if s.startswith("демонтаж "):
+        return "REVIEW", "DEMOLITION_SERVICE_BOUNDARY_NEEDS_VALIDATION", "MEDIUM"
     if any_in(s, EXTRA_COMPONENT_RISK):
         return "REVIEW", "COMPONENT_OR_ACCESSORY_INTENT_NEEDS_BUSINESS_FIT", "MEDIUM"
     if any_in(s, HARDWARE_BRAND_RISK):
@@ -89,6 +97,8 @@ def corrected_keep_decision_v2(row: dict[str, str]) -> tuple[str, str, str]:
         return "REVIEW", "INSTALLATION_ADJACENT_OR_JOB_INTENT_NEEDS_VALIDATION", "MEDIUM"
     if "S14" in sources and any_in(s, REPAIR_CONTACT_OR_ENTITY_RISK):
         return "REVIEW", "REPAIR_NAVIGATIONAL_OR_ENTITY_INTENT_NEEDS_VALIDATION", "LOW"
+    if "S14" in sources and any_in(s, REPAIR_FRAGMENT_OR_DIY_RISK):
+        return "REVIEW", "REPAIR_FRAGMENT_OR_DIY_INTENT_NEEDS_VALIDATION", "LOW"
     if any_in(s, STATE_OR_FRAGMENT_RISK):
         return "REVIEW", "STATE_OR_CONTEXT_FRAGMENT_NEEDS_VALIDATION", "LOW"
     if any_in(s, PRICE_OR_MATERIAL_AMBIGUITY):
@@ -115,6 +125,11 @@ must_not_keep = {
     "окна в рассрочку без", "пластиковое окно в рассрочку без", "квартира с панорамными окнами",
     "студия с панорамными окнами", "апартаменты с панорамными окнами", "панорамные окна в россии",
     "панорамные окна в здании", "панорамные окна лес", "панорамные окна на море", "панорамные окна как называются",
+    "как сейчас выглядят поставки окон rehau", "какие окна лучше веко или rehau",
+    "какие окна лучше пластиковые или алюминиевые", "демонтаж алюминиевых окон", "демонтаж остекления балкона",
+    "ремонт пластиковых окон самому", "ремонт пластиковых окон руками закрывается", "ремонт пластиковых окон район",
+    "ремонт пластиковых окон купить", "ремонт пластиковых окон новых", "ремонт пластиковых окон частный",
+    "французские окна название", "французские окна это какие", "дача с панорамными окнами",
 }
 
 must_keep = {
@@ -123,7 +138,8 @@ must_keep = {
     "установка пластиковых окон", "ремонт пластиковых окон", "цены на пластиковые окна", "окна в рассрочку",
     "пластиковые окна от производителя", "панорамные окна", "панорамные окна купить", "панорамные окна цена",
     "панорамные окна москва", "панорамные окна для загородного дома", "панорамные окна на террасу",
-    "окна для частного дома", "пластиковые двери",
+    "окна для частного дома", "пластиковые двери", "французские окна", "французские окна купить",
+    "какие пластиковые окна лучше", "как правильно выбрать пластиковые окна",
 }
 
 qa_rows: list[dict[str, str]] = []
@@ -151,7 +167,8 @@ summary = json.loads(summary_path.read_text(encoding="utf-8"))
 summary["second_semantic_qa_case_count"] = len(qa_rows)
 summary["second_semantic_qa_failures"] = len(failures)
 summary["second_semantic_qa_tsv_sha256"] = hashlib.sha256(qa2_path.read_bytes()).hexdigest()
-summary["candidate_status"] = "SECOND_SEMANTIC_QA_PASSED_OWNER_REVIEW_PENDING" if not failures else "SECOND_SEMANTIC_QA_FAILED"
+summary["manual_semantic_saturation_passes"] = 3
+summary["candidate_status"] = "SEMANTIC_SATURATION_CANDIDATE_OWNER_REVIEW_PENDING" if not failures else "SECOND_SEMANTIC_QA_FAILED"
 summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 if failures:
