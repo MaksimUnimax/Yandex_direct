@@ -54,7 +54,7 @@ These observations remain usable standalone evidence, but they do not repair the
 ## Work that is NOT complete
 
 ### Step 3 — Wordstat pass #1 acquisition
-Status: **INCOMPLETE / HISTORICAL ACCEPTANCE SUPERSEDED / REPAIR REQUIRED**
+Status: **INCOMPLETE / HISTORICAL ACCEPTANCE SUPERSEDED / REPAIR IN PROGRESS**
 
 Historical technical truth:
 
@@ -71,8 +71,9 @@ device = DEVICE_ALL
 Project-completion truth:
 
 ```text
-complete results[] + associations[] preserved for all 18 seeds = false
-Step 03 complete = false
+complete historical results[] + associations[] preserved for all 18 seeds = false
+historical Step 03 complete = false
+Step 03R repair required = true
 forward analytical work allowed = false
 ```
 
@@ -87,15 +88,16 @@ Status: **HISTORICAL PARTIAL ANALYSIS ONLY / NOT A COMPLETE PASS-1 CLEANUP**
 
 The earlier family-level observations may be reused as notes, but the step cannot represent processing of a complete Step-03 dataset because that dataset was not preserved.
 
-## Current next step
+## Current step
 
 ### Step 3R — repair the original 18-seed Wordstat collection
-Status: **OWNER AUTHORIZED / MANIFEST FROZEN / MANUAL YMB EXECUTION READY**
+Status: **IN PROGRESS / 9 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
 
 Authority:
 
 ```text
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
+STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
 ```
 
 Goal:
@@ -108,13 +110,12 @@ Required per-provider-item gate:
 
 ```text
 provider outcome known
-exact full result envelope saved
+exact full raw result saved
 all results[] rows saved
 all associations[] rows saved
-returned results count verified
-returned associations count verified
-saved rows = results.length + associations.length
-saved data readable and usable
+complete normalized TSV created
+returned/saved/normalized row counts reconciled
+raw + TSV readable and usable
 NON_REPEAT_CONTROLS = PASS
 ```
 
@@ -139,14 +140,45 @@ estimated provider cost = 0.36 RUB
 execution = Manual
 ```
 
-Current execution point:
+### Current execution point after S09 repair
 
 ```text
-batch.start = NOT YET DELIVERED
-provider requests in Step 03R = 0
-fully preserved Step-03R provider items = 0/18
-next action = create frozen local batch job, then execute one item at a time
+batch.start = COMPLETE
+provider requests in Step 03R = 9
+provider outcomes known = 9
+failed_terminal = 0
+outcome_unknown = 0
+estimated provider cost = 0.18 RUB
+fully preserved + normalized + verified Step-03R provider items = 9/18
+provider items remaining = 9
+raw phrase rows preserved S01-S09 = 1076
+normalized TSV rows S01-S09 = 1076
+verified normalized TSV rows S01-S09 = 1076
+next provider item = S10 `остекление веранды`
+next YMB action = one manual batch.next only after pre-item goal/error/mode block
+forward analytical work = BLOCKED until Step 03R reaches 18/18 and final reconciliation passes
 ```
+
+### S01-S09 local correction
+
+The original S01-S09 checkpoints were temporally premature under the frozen manifest because normalized TSV files were not yet present. No provider calls were repeated.
+
+Local repair completed before S10:
+
+```text
+S01-S09 raw provider JSON = 9/9 present
+S01-S09 normalized TSV = 9/9 present
+results rows = 950
+association rows = 126
+total normalized rows = 1076
+raw rows = normalized rows = verified rows = 1076
+additional provider calls = 0
+additional provider cost = 0 RUB
+```
+
+Current correction authority:
+
+`STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md`
 
 ## Remaining work after Step 3R succeeds
 
@@ -178,7 +210,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 0
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 9
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1076
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
