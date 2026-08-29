@@ -77,8 +77,8 @@ Status: **PRESERVED / REUSABLE / DOES NOT ADVANCE WORKFLOW BY ITSELF**
 estimated provider cost = 0.08 RUB
 ```
 
-### Step 07B — row-level data accounting / deterministic prefilter
-Status: **ACCOUNTING PASS / SEMANTIC PASS SUPERSEDED / CORRECTION IN PROGRESS**
+### Step 07B — historical row-level accounting / deterministic prefilter
+Status: **ACCOUNTING PASS / HISTORICAL SEMANTIC PASS SUPERSEDED**
 
 The historical Step 07B run correctly accounted for all preserved source data:
 
@@ -95,7 +95,7 @@ canonical provenance occurrence sum = 2965
 UNCLASSIFIED = 0
 ```
 
-Historical classifier output was:
+Historical classifier output:
 
 ```text
 KEEP = 1760
@@ -106,65 +106,111 @@ EXCLUDE_MECHANICAL = 31
 STATUS TOTAL = 2840
 ```
 
-Those counts are preserved for audit/comparison but are no longer accepted as completed semantic cleanup.
-
-Owner-requested fresh external methodology audit found that the historical rule engine used a default-KEEP fallthrough: result phrases not matched by known exclusion or boundary dictionaries became KEEP even when positive semantic relevance/user intent had not been demonstrated.
-
-Concrete false-KEEP / dictionary-dependence evidence included:
-
-```text
-1 установка пластиковых окон -> KEEP
-6 6 с панорамными окнами -> KEEP
-rehau окна 2 -> KEEP
-алюминиевые окна 2 -> KEEP
-rehau окна анадырский проезд д 47 -> KEEP
-rehau микролифт для окна -> KEEP while similar hardware terms were REVIEW
-```
-
-Post-audit verdict:
-
-```text
-ROW_LEVEL_DATA_ACCOUNTING = PASS
-EXACT_DEDUPLICATION_ACCOUNTING = PASS
-DETERMINISTIC_PREFILTER = PASS
-FULL_SEMANTIC_ROW_REVIEW = CORRECTION_REQUIRED
-SEMANTIC_CLEANUP_COMPLETE = false
-NEXT_STEP_ALLOWED = false
-```
+The owner-requested fresh external methodology audit found a material default-KEEP defect: result phrases could become KEEP merely because no known exclusion/review dictionary matched. The historical semantic PASS is therefore superseded while its complete accounting/provenance evidence remains valid.
 
 Authority: `STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md`.
 
-Historical artifacts remain preserved for comparison:
+## Current step — Step 07C semantic correction candidate
+
+Status: **CORRECTION CANDIDATE READY / OWNER REVIEW PENDING / NEXT STEP BLOCKED**
+
+The correction reuses the same complete corpus. No new Wordstat/provider acquisition occurred.
+
+Corrected candidate:
 
 ```text
-STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
-STEP_07B_ROW_LEVEL_CLEANUP_WORKING.tsv
-STEP_07B_ROW_LEVEL_CLEANUP_OCCURRENCES.tsv
-STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
-STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md
+source occurrences = 2965
+exact phrase keys = 2840
+KEEP = 1388
+REVIEW = 1118
+EXCLUDE_SCOPE = 180
+EXCLUDE_IRRELEVANT = 120
+EXCLUDE_MECHANICAL = 34
+STATUS TOTAL = 2840
 ```
 
-## Current step
+Historical-to-candidate transitions:
 
-Status: **ROW-LEVEL CLEANUP CORRECTION IN PROGRESS / NEXT STEP BLOCKED**
+```text
+KEEP -> KEEP = 1388
+KEEP -> REVIEW = 369
+KEEP -> EXCLUDE_MECHANICAL = 3
+REVIEW -> REVIEW = 749
+EXCLUDE_SCOPE -> EXCLUDE_SCOPE = 180
+EXCLUDE_IRRELEVANT -> EXCLUDE_IRRELEVANT = 120
+EXCLUDE_MECHANICAL -> EXCLUDE_MECHANICAL = 31
+historical non-KEEP -> KEEP = 0
+```
 
-Correction goal:
+Correction contract:
 
-1. Reuse the same 2965 source occurrences and 2840 exact phrase keys; do not recollect Wordstat.
-2. Preserve all existing provenance and arithmetic controls.
-3. Replace default KEEP with positive-evidence KEEP: a phrase is KEEP only when its user need is clearly compatible with the known OKNO-MSK business/site model.
-4. If a phrase may be relevant but positive KEEP is not established, assign REVIEW rather than silently accepting it.
-5. Keep deterministic exclusions only where the mismatch/scope failure is unambiguous.
-6. Surface non-obvious duplicate candidates separately; do not silently merge them by lexical normalization alone.
-7. Perform post-generation semantic QA on the corrected decision set in addition to machine reconciliation.
-8. Create an explicit correction acceptance before allowing the workflow forward.
+```text
+KEEP requires explicit POSITIVE_* evidence tied to accepted Step-01 business/site families
+default KEEP fallthrough = false
+uncertain but potentially relevant phrase -> REVIEW
+low frequency alone never excludes
+associations are never automatically promoted to KEEP
+historical REVIEW/EXCLUDE rows are not promoted upward
+non-exact duplicate candidates are surfaced, not auto-merged
+```
 
-No provider action is required for this correction.
+Post-generation QA:
+
+```text
+builder QA cases = 21
+builder QA failures = 0
+expanded semantic QA cases = 72
+expanded semantic QA failures = 0
+manual semantic saturation passes = 4
+```
+
+The semantic QA was allowed to fail during correction. Those failures exposed and caused fixes for real defects such as Russian `окон`/`окн` morphology and reordered state fragments such as `окно пластиковое закрыто`.
+
+Non-exact duplicate candidates:
+
+```text
+candidate groups = 9
+candidate rows = 18
+automatic merges = 0
+```
+
+Examples corrected/demoted from historical unsafe KEEP include navigational REHAU queries, REHAU diagnostics, component/hardware intent, DIY/technical intent, incomplete fragments, panoramic real-estate/inspiration queries, uncertain demolition service intent and malformed repair phrases.
+
+Artifacts:
+
+```text
+STEP_07C_SEMANTIC_CORRECTION_BUILD.py
+STEP_07C_SEMANTIC_CORRECTION_RUN.py
+STEP_07C_SEMANTIC_CORRECTION_WORKING.tsv
+STEP_07C_SEMANTIC_CORRECTION_OCCURRENCES.tsv
+STEP_07C_NONEXACT_DUPLICATE_CANDIDATES.tsv
+STEP_07C_SEMANTIC_QA_CASES.tsv
+STEP_07C_SEMANTIC_QA_CASES_V2.tsv
+STEP_07C_SEMANTIC_CORRECTION_SUMMARY.json
+STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
+```
+
+Current candidate verdict:
+
+```text
+ROW_LEVEL_DATA_ACCOUNTING = PASS
+PROVENANCE_RECONCILIATION = PASS
+DEFAULT_KEEP_DEFECT = CORRECTED
+KEEP_POSITIVE_EVIDENCE_GATE = PASS
+SEMANTIC_QA = PASS_AS_CANDIDATE
+CORRECTION_CANDIDATE_READY = true
+OWNER_REVIEW_PENDING = true
+ROW_LEVEL_CLEANUP_FINAL_ACCEPTANCE = false
+ROW_LEVEL_CLEANUP_COMPLETE = false
+NEXT_STEP_ALLOWED = false
+```
+
+This is intentionally not a self-acceptance. The owner and assistant now review the corrected result and decide whether to accept it or run another correction pass.
 
 ## Remaining work
 
-1. Complete and audit the Step-07B semantic correction.
-2. Freeze the final working semantic set / Search-stage input only after corrected cleanup acceptance.
+1. Review the Step-07C correction candidate and either accept it or reopen another cleanup correction.
+2. Only after correction acceptance, freeze the final working semantic set / Search-stage input.
 3. Validate important query/page boundaries in ordinary Yandex Search.
 4. Group the Search-validated semantic set by user task/SERP compatibility.
 5. Map groups to existing pages and decide page ownership/actions.
@@ -202,7 +248,7 @@ FINAL_QA_COMPLETE = false
 | 5. Targeted Wordstat expansion | Fill/confirm material acquisition directions | ✅ COMPLETE |
 | 6. Demand dynamics | Preserve seasonality context | ✅ PRESERVED |
 | 6A. Acquisition coverage revalidation | Decide whether more Wordstat is needed | ✅ COMPLETE |
-| 7. Row-level semantic cleanup | Produce trustworthy phrase-level decisions | 🔁 CORRECTION IN PROGRESS |
+| **7. Row-level semantic cleanup** | **Produce trustworthy phrase-level decisions** | **🟡 CORRECTION CANDIDATE READY / OWNER REVIEW PENDING** |
 | 8. Freeze Search-stage semantic set | Freeze corrected rows allowed into Search | ⛔ BLOCKED |
 | 9. Ordinary Yandex Search validation | Resolve intent/page boundaries with real SERP | ⬜ NOT STARTED |
 | 10. User-task / SERP clustering | Group compatible search jobs | ⬜ NOT STARTED |
@@ -238,7 +284,14 @@ KW001_OKNO_MSK_ROW_LEVEL_DATA_ACCOUNTING_PASS = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_INPUT_ROWS = 2965
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNIQUE_EXACT = 2840
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_DUPLICATE_OCCURRENCES = 125
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_CORRECTION_REQUIRED = true
+KW001_OKNO_MSK_STEP07C_KEEP = 1388
+KW001_OKNO_MSK_STEP07C_REVIEW = 1118
+KW001_OKNO_MSK_STEP07C_EXCLUDE_SCOPE = 180
+KW001_OKNO_MSK_STEP07C_EXCLUDE_IRRELEVANT = 120
+KW001_OKNO_MSK_STEP07C_EXCLUDE_MECHANICAL = 34
+KW001_OKNO_MSK_STEP07C_SEMANTIC_QA_FAILURES = 0
+KW001_OKNO_MSK_STEP07C_CORRECTION_CANDIDATE_READY = true
+KW001_OKNO_MSK_STEP07C_OWNER_REVIEW_PENDING = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = false
 KW001_OKNO_MSK_NEXT_STEP_ALLOWED = false
 KW001_OKNO_MSK_FINAL_SEMANTIC_SET_COMPLETE = false
