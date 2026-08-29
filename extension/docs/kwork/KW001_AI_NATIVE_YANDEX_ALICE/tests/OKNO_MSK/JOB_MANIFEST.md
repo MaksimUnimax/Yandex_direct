@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_03R_OWNER_AUTHORIZED_MANIFEST_FROZEN
-next_major_step = STEP_03R_MANUAL_YMB_EXECUTION
+current_major_step = STEP_03R_MANUAL_YMB_EXECUTION_IN_PROGRESS
+next_major_step = STEP_03R_COMPLETE_REMAINING_S10_S18
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -38,24 +38,68 @@ The Step-03 correction authority is:
 STEP_03_COMPLETION_CORRECTION_2026-08-29.md
 ```
 
-The current repair authority is:
+The current repair authorities are:
 
 ```text
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
+STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
 ```
 
-Current truth:
+## Current truth
 
 ```text
 historical Step-03 provider calls = 18 successful technical executions
 complete historical first-pass phrase dataset preserved = false
-Step 03 project completion = false
+historical Step 03 project completion = false
 Step 03 repair required = true
 Step 03R owner authorized = true
 Step 03R manifest frozen = true
-Step 03R provider requests executed = 0
-Step 03R fully preserved provider items = 0/18
+Step 03R batch.start = complete
+Step 03R provider requests executed = 9
+Step 03R provider outcomes known = 9
+Step 03R failed_terminal = 0
+Step 03R outcome_unknown = 0
+Step 03R estimated provider cost = 0.18 RUB
+Step 03R raw provider items preserved = 9/18
+Step 03R normalized TSV artifacts present = 9/18
+Step 03R normalized rows preserved/verified = 1076
+Step 03R current complete items = 9/18
+Step 03R next item = S10 `остекление веранды`
 forward semantic analysis blocked = true
+```
+
+## S01-S09 correction state
+
+The historical S01-S09 item checkpoints marked completion before the frozen manifest's required normalized TSV layer existed. The raw provider JSON was present, but checkpoint completion was temporally premature.
+
+No provider item was repeated. The missing local derivative layer was repaired from the already preserved raw JSON before S10.
+
+```text
+S01 results=200 associations=18 rows=218
+S02 results=200 associations=20 rows=220
+S03 results=129 associations=15 rows=144
+S04 results=12 associations=17 rows=29
+S05 results=200 associations=15 rows=215
+S06 results=200 associations=18 rows=218
+S07 results=6 associations=13 rows=19
+S08 results=0 associations=0 rows=0; sparse response totalCount=19; arrays absent
+S09 results=3 associations=10 rows=13
+TOTAL results=950
+TOTAL associations=126
+TOTAL rows=1076
+raw rows = normalized TSV rows = verified rows = 1076
+additional provider calls for repair = 0
+additional provider cost for repair = 0 RUB
+```
+
+Current completion truth after repair:
+
+```text
+S01-S09 raw provider results = COMPLETE 9/9
+S01-S09 normalized TSV = COMPLETE 9/9
+S01-S09 row-count reconciliation = PASS
+S01-S09 readable/usable preservation = PASS
+S01-S09 current manifest completeness = COMPLETE
 ```
 
 ## Preserved downstream observations
@@ -81,19 +125,34 @@ These remain usable standalone demand-history observations and do not repair Ste
 
 ## Current required repair
 
-Repeat the exact frozen 18 Step-02 Wordstat seeds as a fresh current observation and, after every individual provider call, preserve and verify the complete returned `results[] + associations[]` before any next provider call.
+Complete remaining S10-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
+
+```text
+complete raw result
+all results[] rows
+all associations[] rows
+complete normalized TSV
+returned/saved/normalized row-count reconciliation
+readability/usability
+```
 
 Mandatory non-repeat rule:
 
 ```text
-Before Step 03R the permanent lessons ledger was reread.
-The historical Step-3 error was reported to the owner.
-No next provider item is allowed until the current full result is saved, counted, verified and readable.
+ONE PROVIDER ITEM
+→ RECEIVE FULL RESULT
+→ SAVE FULL RAW RESULT
+→ CREATE FULL TSV
+→ COUNT RESULTS[]
+→ COUNT ASSOCIATIONS[]
+→ VERIFY RAW + TSV COUNTS
+→ VERIFY READABLE/USABLE
+→ ONLY THEN NEXT PROVIDER ITEM
 ```
 
 ## Current operator action
 
-Create the frozen local batch job in Manual Wordstat mode, then execute exactly one provider item at a time under the Step-03R manifest gate.
+Next provider item is S10 `остекление веранды`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
 
 ## Close rule
 
@@ -120,6 +179,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
+KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 9
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1076
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
