@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_COMPLETE_AFTER_METHOD_CORRECTION
-next_major_step = STEP_09_ORDINARY_YANDEX_SEARCH_VALIDATION_PRE_STEP_RESEARCH
+current_major_step = STEP_09_ORDINARY_YANDEX_SEARCH_VALIDATION_PRE_STEP_COMPLETE
+next_major_step = STEP_09_EXECUTION_AFTER_OWNER_AUTHORIZATION
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -30,14 +30,19 @@ TEST_ORDER.md
 OPEN_QUESTIONS_FOR_CLIENT.md
 STEP_03R_FINAL_RECONCILIATION_2026-08-29.md
 STEP_04A_WORDSTAT_COVERAGE_AND_EXPANSION_REVALIDATION_2026-08-29.md
-STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md
-STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
-STEP_07C_METHOD_POSTMORTEM_AND_CORRECT_EXECUTION_2026-08-29.md
 STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md
-STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md (CORRECTED METHOD VERSION)
 STEP_08_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
 STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md
-STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md (CORRECTED ACCEPTANCE)
+STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md
+STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md
+```
+
+Universal current controls include:
+
+```text
+SOURCE_TO_METHOD_TRACEABILITY_GATE.md
+PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
+STEP_RULES_INDEX.md
 ```
 
 ## Accepted upstream truth
@@ -58,19 +63,9 @@ merge/reassignment = allowed when justified
 Webmaster/Metrika/Direct = unavailable for base rehearsal
 ```
 
-Important correction:
-
 ```text
 UNKNOWN INTERNAL PRIORITY != SEARCH-STAGE EVIDENCE ROUTE
 ```
-
-Public business relevance is evaluated from the known public offer/scope together with query/Search intent. Unknown margin, capacity or strategic preference is a later prioritization/client-constraint limitation, not a Step-8 routing state.
-
-Method sources:
-- https://yandex.ru/support/webmaster/ru/recommendations/targeting
-- https://yandex.ru/support/webmaster/ru/service/queries-selection
-- https://ahrefs.com/blog/keyword-intent/
-- https://ahrefs.com/blog/keyword-strategy/
 
 ### Wordstat acquisition
 
@@ -95,35 +90,9 @@ EXCLUDE_MECHANICAL = 34
 TOTAL = 2840
 ```
 
-Accepted Step-07 controls remain active:
+### Step 08 — corrected accepted Search-stage freeze
 
-```text
-KEEP requires positive evidence
-default KEEP fallthrough = false
-ACCOUNTING PASS != SEMANTIC PASS
-low frequency alone does not exclude
-association-only evidence does not auto-promote to KEEP
-uncertainty remains REVIEW
-non-exact duplicate candidates are surfaced, not silently merged
-```
-
-## Step 08 — corrected accepted Search-stage semantic freeze
-
-Status: **COMPLETE / PASS AFTER METHOD CORRECTION / SEARCH-STAGE INPUT FROZEN**
-
-The original routing taxonomy containing:
-
-```text
-REVIEW_BUSINESS
-REVIEW_SEARCH_AND_BUSINESS
-```
-
-is **SUPERSEDED** and must not be used downstream.
-
-Root cause and correction authority:
-`STEP_08_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`.
-
-Correct final routing:
+Status: **COMPLETE / PASS AFTER METHOD CORRECTION**
 
 ```text
 CORE_CANDIDATE = 1388
@@ -136,33 +105,24 @@ TOTAL = 2840
 Forbidden/removed states:
 
 ```text
-REVIEW_BUSINESS = 0 / NOT PART OF CURRENT MODEL
-REVIEW_SEARCH_AND_BUSINESS = 0 / NOT PART OF CURRENT MODEL
+REVIEW_BUSINESS
+REVIEW_SEARCH_AND_BUSINESS
 ```
 
 Reconciliation:
 
 ```text
-Step-07C phrase keys expected = 2840
-Step-08 phrase keys written = 2840
-Step-07C REVIEW expected = 1118
-Step-08 REVIEW routed = 1118
+phrase keys = 2840/2840
+REVIEW routed = 1118/1118
 unrouted REVIEW = 0
 silent drops = 0
-Step-07C semantic status rewrites = 0
+semantic status rewrites = 0
 forbidden business-route dispositions = 0
-non-exact duplicate candidate groups preserved = 9
-non-exact duplicate rows preserved = 18
-non-exact duplicate groups auto-merged = 0
-provider/Search requests executed = 0
-provider cost = 0 RUB
-```
-
-Correct non-exact duplicate routes:
-
-```text
-ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 8 groups
-DEFER_UNLESS_GROUP_SELECTED_FOR_SEARCH = 1 group
+non-exact duplicate groups preserved = 9/9
+non-exact duplicate rows preserved = 18/18
+automatic non-exact merges = 0
+provider/Search requests during Step 08 = 0
+provider cost during Step 08 = 0 RUB
 ```
 
 Correct frozen hashes:
@@ -173,44 +133,112 @@ STEP_08_REVIEW_RESOLUTION_ROUTES.tsv SHA-256 = c7439005d8371bb1557f11e43fff60be6
 STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = f0ed54972eb66a151856df494bb3444c064369497b0e2586893897b86c15ed73
 ```
 
-## Method correction / non-repeat truth
+## Step 09 — ordinary Yandex Search validation pre-step
 
-Step 8 exposed a process defect: external methodology was gathered, but invented method elements were not individually traced back to what the sources actually supported.
+Status: **METHOD REVIEW COMPLETE / OWNER AUTHORIZATION PENDING / PROVIDER EXECUTION NOT STARTED**
 
-Canonical current-job control:
+Authority:
+
+`STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md`
+
+Step goal:
 
 ```text
-RESEARCH_COLLECTED != METHOD_VALIDATED
-SOURCE_TO_METHOD_TRACEABILITY_REQUIRED = true
-UNSUPPORTED_DECISION_STATE_FORBIDDEN = true
-NON_EXECUTABLE_EVIDENCE_ROUTE_FORBIDDEN = true
+collect bounded real ordinary-Yandex SERP evidence for material intent/result-type/page-boundary questions
+without issuing one Search request per keyword and without prematurely performing final clustering/page ownership
 ```
 
-For this correction the direct sources are:
-
-- Yandex user needs/site fit: https://yandex.ru/support/webmaster/ru/recommendations/targeting
-- Yandex query selection/potential: https://yandex.ru/support/webmaster/ru/service/queries-selection
-- Yandex query/page evidence: https://www.yandex.ru/support/webmaster/ru/service/search-queries
-- Ahrefs intent: https://ahrefs.com/blog/keyword-intent/
-- Ahrefs strategy/business potential: https://ahrefs.com/blog/keyword-strategy/
-- Semrush clustering: https://www.semrush.com/blog/keyword-clustering/
-- Semrush mapping: https://www.semrush.com/blog/keyword-mapping/
-
-## Current transition
-
-No provider action is pending.
-
-The next major stage is **Step 09 — ordinary Yandex Search validation**.
-
-Direct Search execution remains blocked until Step 09 receives its own fresh method research, source-to-method traceability, full owner-facing pre-step report and explicit authorization.
+External method authorities recorded in the pre-step include:
 
 ```text
-STEP_08_COMPLETE = true
-STEP_08_COMPLETE_AFTER_METHOD_CORRECTION = true
-SEARCH_STAGE_INPUT_FROZEN = true
-NEXT_STAGE_PRE_STEP_RESEARCH_ALLOWED = true
-STEP_09_PRE_STEP_RESEARCH_REQUIRED = true
-STEP_09_EXECUTION_ALLOWED = false
+Yandex Webmaster user-need/query relevance
+Yandex Webmaster query/page evidence
+Yandex Search API request/region/result semantics
+Yandex Search API pricing
+Rush Analytics TOP-10 URL overlap
+Topvisor TOP-10 soft/middle/hard clustering practice
+Ahrefs SERP comparison / intent analysis
+Semrush SERP-overlap clustering practice
+```
+
+Current proposed provider safety ceiling:
+
+```text
+MAX_PROVIDER_REQUESTS = 80
+MAX_PROVIDER_COST_RUB = 39.04
+```
+
+This ceiling is project-specific budget/scope control, not an SEO threshold.
+
+Baseline proposed Search parameters:
+
+```text
+service = search
+protocol = SEARCH_BATCH_API_V1
+searchType = SEARCH_TYPE_RU
+region = 213
+page = 0
+groupsOnPage = 10
+docsInGroup = 1
+groupMode = GROUP_MODE_FLAT
+sortMode = SORT_MODE_BY_RELEVANCE
+familyMode = FAMILY_MODE_MODERATE
+fixTypoMode = FIX_TYPO_MODE_ON
+responseFormat = FORMAT_XML
+```
+
+Mandatory Step-09 coverage before PASS:
+
+```text
+material Step-01 page-boundary questions represented
+all 8 active Search-routed non-exact duplicate groups directly compared
+every distinct REVIEW_SEARCH corrected_reason represented
+base commercial/page directions represented as anchors
+all 944 REVIEW_SEARCH rows mapped to evidence_question_id or explicitly UNRESOLVED
+```
+
+YMB execution rule:
+
+```text
+no Search request before owner authorization
+freeze exact paid manifest before first provider request
+one explicit paid next <= one provider request
+complete current provider result must be saved + verified before any next paid action
+OUTCOME_UNKNOWN => no automatic replay
+no GenSearch inside Step 09
+```
+
+Current state:
+
+```text
+STEP_09_PRE_STEP_RESEARCH_REQUIRED = false
+STEP_09_PRE_STEP_REVIEW_COMPLETE = true
+STEP_09_SOURCE_TO_METHOD_TRACE_PASS = true
+STEP_09_OWNER_AUTHORIZATION_PENDING = true
+STEP_09_EXECUTION_STARTED = false
+STEP_09_PROVIDER_REQUESTS = 0
+STEP_09_PROVIDER_COST_RUB = 0
+STEP_09_COMPLETE = false
+STEP_10_ALLOWED = false
+```
+
+## Remaining work
+
+```text
+Step 09 execute bounded ordinary Search evidence after owner authorization
+Step 10 user-task / SERP clustering
+Step 11 page ownership
+Step 12 structural actions
+Step 13 cannibalization diagnosis
+Step 14 Search-only architecture freeze
+Step 15 AI-case selection
+Step 16 selective AI-search evidence
+Step 17 Search-vs-AI comparison
+Step 18 prioritization
+Step 19 client deliverables
+Step 20 final QA
+Step 21 handoff/revisions
+Step 22 job close
 ```
 
 Still false:
@@ -218,6 +246,9 @@ Still false:
 ```text
 FINAL_SEMANTIC_SET_COMPLETE = false
 ORDINARY_YANDEX_SEARCH_VALIDATION_COMPLETE = false
+USER_TASK_SERP_CLUSTERING_COMPLETE = false
+PAGE_OWNERSHIP_COMPLETE = false
+STRUCTURAL_ACTIONS_COMPLETE = false
 SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
 AI_EVIDENCE_COMPLETE = false
 CLIENT_DELIVERABLES_COMPLETE = false
@@ -226,7 +257,7 @@ FINAL_QA_COMPLETE = false
 
 ## Close rule
 
-Only when all work, handoff/revisions and pending operator/provider actions are finished:
+Only after job work, handoff/revisions and pending provider/operator actions are finished:
 
 ```text
 job_work_complete = true
@@ -236,26 +267,23 @@ provider_operator_action_pending = false
 safe_to_delete = true
 ```
 
-then delete the disposable current-job workspace.
+then delete the disposable workspace.
 
 Markers:
 
 ```text
-KW001_OKNO_MSK_WORKSPACE_DISPOSABLE = true
-KW001_OKNO_MSK_STEP07C_FINAL_ACCEPTANCE = true
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
-KW001_OKNO_MSK_STEP08_CORE_CANDIDATE = 1388
+KW001_OKNO_MSK_STEP08_COMPLETE_AFTER_METHOD_CORRECTION = true
 KW001_OKNO_MSK_STEP08_REVIEW_SEARCH = 944
 KW001_OKNO_MSK_STEP08_REVIEW_DEFERRED = 174
-KW001_OKNO_MSK_STEP08_EXCLUDED_PRESERVED = 334
 KW001_OKNO_MSK_STEP08_FORBIDDEN_BUSINESS_ROUTE_STATES = 0
-KW001_OKNO_MSK_STEP08_UNROUTED_REVIEW = 0
-KW001_OKNO_MSK_STEP08_STATUS_REWRITES = 0
-KW001_OKNO_MSK_STEP08_COMPLETE = true
-KW001_OKNO_MSK_STEP08_METHOD_CORRECTION_COMPLETE = true
 KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
-KW001_OKNO_MSK_STEP09_PRE_STEP_RESEARCH_REQUIRED = true
-KW001_OKNO_MSK_STEP09_EXECUTION_ALLOWED = false
-KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = false
+KW001_OKNO_MSK_STEP09_PRE_STEP_REVIEW_COMPLETE = true
+KW001_OKNO_MSK_STEP09_SOURCE_TO_METHOD_TRACE_PASS = true
+KW001_OKNO_MSK_STEP09_OWNER_AUTHORIZATION_PENDING = true
+KW001_OKNO_MSK_STEP09_EXECUTION_STARTED = false
+KW001_OKNO_MSK_STEP09_PROVIDER_REQUESTS = 0
+KW001_OKNO_MSK_STEP09_PROVIDER_COST_RUB = 0
+KW001_OKNO_MSK_STEP09_COMPLETE = false
+KW001_OKNO_MSK_STEP10_ALLOWED = false
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
 ```
