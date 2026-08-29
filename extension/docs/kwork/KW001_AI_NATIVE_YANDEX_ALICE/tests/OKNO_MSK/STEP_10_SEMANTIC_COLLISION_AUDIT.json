@@ -1,0 +1,18 @@
+{
+  "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
+  "active_rows_scanned": 2332,
+  "flagged_rows": 51,
+  "flagged_records": 53,
+  "collision_counts": {
+    "INSTALLATION_WITH_OTHER_OBJECT": 6,
+    "PRODUCT_WITH_ACCESSORY_MARKER": 1,
+    "PRODUCT_WITH_DIY_MARKER": 1,
+    "PRODUCT_WITH_REPAIR_MARKER": 2,
+    "REPAIR_SERVICE_WITH_CARE_OR_MATERIAL": 1,
+    "REPAIR_TOKEN_MISMATCH": 5,
+    "SELECTION_WITH_OTHER_ACTION": 2,
+    "SERVICE_WITH_DIY_MARKER": 1,
+    "TASK_TOKEN_MISMATCH": 34
+  },
+  "meaning": "Heuristic adversarial audit only; flags must be manually reviewed and cannot self-accept or self-reject Step 10."
+}
