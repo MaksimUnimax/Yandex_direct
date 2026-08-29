@@ -1,7 +1,7 @@
 # KW-001 / OKNO-MSK — STEP 08 SEARCH-STAGE FREEZE RECONCILIATION
 
 Date: 2026-08-29
-Status: **GENERATED / MACHINE-VERIFIED / REQUIRES STEP ACCEPTANCE**
+Status: **CORRECTED / MACHINE-VERIFIED / SOURCE-METHOD TRACEABILITY FIX APPLIED**
 
 ## Source reconciliation
 
@@ -19,6 +19,7 @@ non-exact duplicate rows preserved = 18
 Step-07C semantic status rewrites = 0
 unrouted REVIEW = 0
 silent drops = 0
+forbidden business-route dispositions = 0
 provider/Search requests executed = 0
 provider cost = 0 RUB
 ```
@@ -27,9 +28,7 @@ provider cost = 0 RUB
 
 ```text
 CORE_CANDIDATE = 1388
-REVIEW_SEARCH = 228
-REVIEW_BUSINESS = 0
-REVIEW_SEARCH_AND_BUSINESS = 716
+REVIEW_SEARCH = 944
 REVIEW_DEFERRED = 174
 EXCLUDED_PRESERVED = 334
 ```
@@ -67,25 +66,25 @@ VAGUE_INFORMATIONAL_INTENT_NEEDS_VALIDATION = 11
 
 ```text
 DEFER_UNLESS_GROUP_SELECTED_FOR_SEARCH = 1
-ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 6
-SEARCH_AND_BUSINESS_BEFORE_ANY_NONEXACT_MERGE = 2
+ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 8
 ```
 
 ## Artifact hashes
 
 ```text
-STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv SHA-256 = e5cd7fb5e3ca118b7b1685d2a661c24797938b811a4d3dc23e1b364b3df05fe7
-STEP_08_REVIEW_RESOLUTION_ROUTES.tsv SHA-256 = d9a86120c8ae8ec34ab25c7c2e07c86e8b665a31dc69531477d57b5713d61035
-STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = a2ba2f81a84ae5d285b6cdb8e303b1715f435b0ad0fe614e92735921f827e09a
+STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv SHA-256 = 73f52fd48ae925573b9739292b8c8893a8db40014775859c9630367703873d1f
+STEP_08_REVIEW_RESOLUTION_ROUTES.tsv SHA-256 = c7439005d8371bb1557f11e43fff60be658d397739d99ab4fdeae77f284836f8
+STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = f0ed54972eb66a151856df494bb3444c064369497b0e2586893897b86c15ed73
 ```
 
-## Freeze semantics
+## Corrected freeze semantics
 
-Step 8 preserves accepted Step-07C semantic decisions and adds only a routing layer for the next evidence stage. It does not perform clustering, page mapping, Search acquisition, business-priority resolution or automatic non-exact duplicate merging.
+Step 8 routes only to evidence paths that actually exist in the workflow. Internal business priority is not a Search-stage resolution route. Public business relevance is evaluated from the known offer/scope together with Search intent; unknown margin/capacity/strategic priority belongs to later recommendation prioritization or explicit client constraints.
 
 ```text
 STEP08_INPUT_RECONCILIATION = PASS
-STEP08_REVIEW_ROUTING = PASS
+STEP08_REVIEW_ROUTING = PASS_AFTER_METHOD_CORRECTION
+STEP08_FORBIDDEN_BUSINESS_ROUTE_STATES = 0
 STEP08_STATUS_REWRITE_COUNT = 0
 STEP08_NONEXACT_DUPLICATES_AUTO_MERGED = 0
 STEP08_PROVIDER_REQUESTS = 0
