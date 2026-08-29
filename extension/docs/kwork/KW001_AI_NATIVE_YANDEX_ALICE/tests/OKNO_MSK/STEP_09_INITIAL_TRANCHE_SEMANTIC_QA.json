@@ -1,5 +1,6 @@
 {
   "date": "2026-08-29",
+  "authority_sync_revision": 1,
   "status": "PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY",
   "reviewed_probe_count": 75,
   "ordered_query_list_sha256": "ce2ca4f1220873416f621047b0256e8a1e3c18e633c11b326823ae7e0de0cecb",
