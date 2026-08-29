@@ -21,31 +21,35 @@ The explanation must contain, in this exact conceptual order:
 A. GOAL OF THE WHOLE KWORK
 = what the sold KW-001 service is ultimately supposed to deliver to the client.
 
-B. WORK ALREADY COMPLETED ACROSS THE WHOLE KWORK / JOB
+B. FULL KWORK ROADMAP WITH CURRENT PROGRESS
+= one continuous owner-facing roadmap from the first job stage through final delivery, QA/revision and job close, showing the status of every major stage.
+
+C. WORK ALREADY COMPLETED ACROSS THE WHOLE KWORK / JOB
 = explicit list of steps/results that are genuinely complete and verified.
 Only verified completed work may appear here.
 
-C. WORK STILL REMAINING ACROSS THE WHOLE KWORK / JOB
+D. WORK STILL REMAINING ACROSS THE WHOLE KWORK / JOB
 = explicit ordered list of everything still required from the current point to final client delivery/acceptance.
 
-D. GOAL OF THE CURRENT STEP
+E. GOAL OF THE CURRENT STEP
 = the single concrete result this step is supposed to achieve.
 
-E. WHAT THIS STEP SOLVES
+F. WHAT THIS STEP SOLVES
 = which uncertainty, missing evidence, decision or production requirement this step closes.
 
-F. REQUIRED OUTPUT OF THE CURRENT STEP
+G. REQUIRED OUTPUT OF THE CURRENT STEP
 = what concrete artifact/data/decision/evidence must exist at the end for the step to count as complete.
 ```
 
 This block must be written **before external method research for the step**.
 
-ChatGPT may not jump directly into methodology, provider syntax, SEO terminology, source links or execution before establishing A–F.
+ChatGPT may not jump directly into methodology, provider syntax, SEO terminology, source links or execution before establishing A–G.
 
-If A–F are not stated clearly, the step is not ready for research or execution.
+If A–G are not stated clearly, the step is not ready for research or execution.
 
 ```text
 STEP_GOAL_GATE = FAILED
+FULL_ROADMAP_GATE = FAILED if the single full roadmap is missing
 METHOD_RESEARCH = BLOCKED
 EXECUTION = BLOCKED
 ```
@@ -77,11 +81,78 @@ Rules:
 
 The owner-facing list must use plain language. Internal step IDs may be shown secondarily, but they may not replace a human-readable explanation of what was actually completed.
 
+### 2A. Mandatory single full-roadmap progress view
+
+`COMPLETED WORK` and `REMAINING WORK` are **not sufficient by themselves** and may not be used as a substitute for one continuous roadmap of the whole job.
+
+Before **every major step**, the owner-facing pre-step report must contain one unified roadmap covering the complete job from start to finish.
+
+The roadmap must:
+
+```text
+1. include every major stage required to deliver the whole Kwork, not only the current local stage;
+2. begin with intake/scope freeze or the first real job stage;
+3. continue through all acquisition, analysis, validation, mapping/decision, deliverable, QA, revision/handoff and close stages that belong to the current job flow;
+4. show one plain-language description of what each stage does or produces;
+5. show the current status of every stage;
+6. clearly identify the current active stage;
+7. keep completed historical stages visible instead of omitting them after completion;
+8. keep future stages visible instead of collapsing them into a generic phrase such as "remaining work";
+9. change an earlier stage's status if later evidence invalidates it;
+10. be rebuilt from the current authoritative JOB_FLOW / job state, not reconstructed loosely from memory.
+```
+
+Canonical owner-facing status vocabulary:
+
+```text
+✅ COMPLETE
+🟡 CURRENT
+⬜ NOT STARTED
+⛔ BLOCKED
+🔁 CORRECTION / REWORK REQUIRED
+```
+
+Equivalent wording is allowed when needed, but the meaning must remain unambiguous.
+
+Preferred owner-facing shape:
+
+```text
+| Stage | What this stage does | Status |
+|---|---|---|
+| ... | ... | ✅ COMPLETE |
+| ... | ... | 🟡 CURRENT |
+| ... | ... | ⬜ NOT STARTED |
+```
+
+The roadmap is a **progress/navigation view**, not the quantitative accounting table.
+
+Therefore:
+
+```text
+- detailed row counts, provider request counts, costs, percentages, reconciliation arithmetic and technical bookkeeping remain in the detailed text;
+- the roadmap should stay readable and should not be overloaded with those numbers unless a number is necessary to distinguish the actual stage state;
+- the roadmap does not replace COMPLETED WORK, REMAINING WORK, quantitative accounting, or the current-step gate;
+- those blocks do not replace the roadmap either.
+```
+
+A pre-step report that shows only `COMPLETED WORK` plus `REMAINING WORK`, without the single full roadmap, fails this gate even if all underlying facts are technically present elsewhere.
+
+If the full roadmap is missing, fragmented, or does not show the whole path to final delivery:
+
+```text
+FULL_ROADMAP_GATE = FAILED
+METHOD_RESEARCH = BLOCKED
+STEP_AUTHORIZATION = BLOCKED
+EXECUTION = BLOCKED
+```
+
+After every completed major step, the end-of-step report must show the same full roadmap again with statuses updated to the new truth before the next step may be introduced.
+
 ---
 
 ## 3. Then research the method
 
-Only after the goal-first and status-list block is complete may ChatGPT research how to perform the step.
+Only after the goal-first, full-roadmap and status-list block is complete may ChatGPT research how to perform the step.
 
 The next owner-facing block must explain:
 
@@ -119,6 +190,7 @@ Every concrete job step pre-step/review/manifest must itself contain a compact v
 
 ```text
 KWORK_GOAL
+KWORK_FULL_ROADMAP
 KWORK_COMPLETED_WORK
 KWORK_REMAINING_WORK
 STEP_GOAL
@@ -131,9 +203,10 @@ STEP_PASS_CONDITION
 
 If the step uses YMB, it must additionally embed the YMB interaction/completeness gate required by `PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md` and `DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md`.
 
-If the concrete step does not contain the goal/output/status block:
+If the concrete step does not contain the goal/output/status block **or the full roadmap**:
 
 ```text
+FULL_ROADMAP_GATE = FAILED if roadmap missing
 STEP_AUTHORIZATION = BLOCKED
 STEP_EXECUTION = BLOCKED
 ```
@@ -179,6 +252,9 @@ Required report structure:
 ```text
 WHOLE KWORK GOAL
 = one short reminder of the final client objective.
+
+UPDATED FULL KWORK ROADMAP
+= the same continuous roadmap from job start through final delivery/QA/revision/close with every stage status updated to current truth.
 
 STEP GOAL
 = the exact goal stated before execution.
@@ -266,6 +342,7 @@ step required output exists;
 required data/artifacts are preserved;
 verification passed;
 quantitative accounting reconciles;
+full roadmap was updated to current truth;
 completed/remaining lists were updated truthfully;
 no blocking uncertainty or failure remains.
 ```
@@ -284,6 +361,8 @@ The owner should always be able to answer from the report:
 
 ```text
 What are we ultimately building?
+What is the full roadmap from start to final delivery?
+Where exactly are we on that roadmap right now?
 What have we already actually completed?
 What is still left to do?
 Why are we doing this exact step now?
@@ -362,6 +441,11 @@ Therefore a YMB step cannot pass merely because all requests technically succeed
 ```text
 KW001_GOAL_FIRST_BEFORE_METHOD_RESEARCH_REQUIRED = true
 KW001_WHOLE_KWORK_GOAL_RESTATE_EVERY_STEP = true
+KW001_FULL_ROADMAP_REQUIRED_EVERY_MAJOR_STEP = true
+KW001_FULL_ROADMAP_MUST_COVER_START_TO_FINAL_CLOSE = true
+KW001_COMPLETED_REMAINING_LISTS_DO_NOT_REPLACE_FULL_ROADMAP = true
+KW001_FULL_ROADMAP_UPDATED_AFTER_EVERY_MAJOR_STEP = true
+KW001_MISSING_FULL_ROADMAP_BLOCKS_METHOD_AND_EXECUTION = true
 KW001_COMPLETED_WORK_LIST_REQUIRED_EVERY_STEP = true
 KW001_REMAINING_WORK_LIST_REQUIRED_EVERY_STEP = true
 KW001_COMPLETED_AND_REMAINING_LISTS_UPDATE_AFTER_EVERY_STEP = true
