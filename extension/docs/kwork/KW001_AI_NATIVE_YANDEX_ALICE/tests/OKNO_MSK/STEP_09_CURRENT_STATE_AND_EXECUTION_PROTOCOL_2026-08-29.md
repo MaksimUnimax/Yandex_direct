@@ -8,6 +8,7 @@ For causal history and live evidence, read:
 - `STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`
 - `STEP_09_LIVE_CANARY_AND_BATCH_EXECUTION_CORRECTION_2026-08-29.md`
 - `STEP_09_LIVE_R2_PROJECTION_RECEIPT_2026-08-29.md`
+- `STEP_09_SERP_R2_PROJECTION_INDEX.md`
 
 ## Current truth
 
@@ -49,7 +50,13 @@ ORIGINAL_JOB_CURRENT_RUNTIME_STATE = NOT_FOUND
 ORIGINAL_JOB_CANCEL_REQUEST_EXECUTED = false
 ORIGINAL_JOB_CANCEL_PROVIDER_COST_RUB = 0
 
-REPOSITORY_SERP_LEDGER_COMPLETE = false
+REPOSITORY_NORMALIZED_SERP_LEDGER_COMPLETE = true
+R2_NORMALIZED_PROJECTION_ROWS_PERSISTED = 740
+CANARY_FULL_ROWS_PERSISTED = 10
+COMBINED_NORMALIZED_RANKED_ROWS_PERSISTED = 750
+R2_RAW_PER_ITEM_PROVIDER_XML_LEDGER_COMPLETE = false
+R2_PER_ITEM_PROVIDER_REQUEST_ID_LEDGER_COMPLETE = false
+
 STEP09_COMPLETE = false
 STEP10_ALLOWED = false
 ```
@@ -175,28 +182,48 @@ However live result envelopes now include fields such as `chunk`; therefore inst
 Canonical control:
 
 ```text
-REPOSITORY_PROTOCOL_SNAPSHOT != AUTOMATICALLY CURRENT_INSTALLED_RUNTIME
+REPOSITORY_PROTOCOL_SNAPSHOT != AUTOMATICALLY_CURRENT_INSTALLED_RUNTIME
 ```
 
 ## Evidence-persistence distinction
 
-The R2 projection supplies normalized reusable TOP-10 rows, but that projection alone does not prove complete raw per-item XML and per-item provider request IDs for every R2 request.
+The R2 projection supplies normalized reusable TOP-10 rows. Those normalized rows are now durably persisted in four repository TSV parts covering frozen query indexes 2–75. The previously persisted canary covers index 1.
 
-Therefore:
+Persistence truth:
 
 ```text
 PROVIDER_ACQUISITION_COMPLETE = true
 NORMALIZED_PROJECTION_COMPLETE = true
-RAW_PER_ITEM_EVIDENCE_RECONCILED = not yet proven for all 74 R2 items
-REPOSITORY_SERP_LEDGER_COMPLETE = false
+REPOSITORY_NORMALIZED_SERP_LEDGER_COMPLETE = true
+R2_NORMALIZED_PROJECTION_ROWS_PERSISTED = 740
+CANARY_FULL_ROWS_PERSISTED = 10
+COMBINED_NORMALIZED_RANKED_ROWS_PERSISTED = 750
 ```
 
-`STEP_09_SERP_RESULTS.tsv` must be expanded/reconciled beyond the canary.
+The R2 recovery projection did not expose complete raw per-item XML or provider request IDs for every R2 request. Those unavailable fields were not invented.
+
+Therefore:
+
+```text
+R2_RAW_PER_ITEM_PROVIDER_XML_LEDGER_COMPLETE = false
+R2_PER_ITEM_PROVIDER_REQUEST_ID_LEDGER_COMPLETE = false
+```
+
+Canonical persistence authority and re-read QA:
+
+```text
+STEP_09_SERP_R2_PROJECTION_INDEX.md
+STEP_09_SERP_R2_PROJECTION_RAW_PART_01.tsv
+STEP_09_SERP_R2_PROJECTION_RAW_PART_02.tsv
+STEP_09_SERP_R2_PROJECTION_RAW_PART_03.tsv
+STEP_09_SERP_R2_PROJECTION_RAW_PART_04.tsv
+STEP_09_SERP_RESULTS.tsv
+```
 
 ## Step-09 completion remains blocked until
 
 ```text
-1. all 75 normalized SERPs are preserved/reconciled in the repository;
+1. normalized SERP persistence for all 75 probes — PASS;
 2. attempted-provider accounting is reconciled;
 3. available durable per-item identifiers/raw evidence are reconciled without provider replay;
 4. eight active nonexact duplicate comparisons are produced from real SERPs;
