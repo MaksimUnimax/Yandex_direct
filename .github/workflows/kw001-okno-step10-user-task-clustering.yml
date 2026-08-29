@@ -21,13 +21,16 @@ on:
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V12.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V13.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V14.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V15.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V10.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V11.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V14.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V15.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V10.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V15.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SERP_COMPARISONS.tsv'
@@ -53,7 +56,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V14.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V15.py
 
       - name: Enforce Step10 machine accounting gate
         shell: bash
@@ -92,17 +95,17 @@ jobs:
           set -euo pipefail
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py
 
-      - name: Generate V14 adversarial semantic collision audit
+      - name: Generate V15 adversarial semantic collision audit
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V14.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V15.py
 
-      - name: Generate V10 unresolved-state adversarial audit
+      - name: Generate V15 unresolved-state adversarial audit
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V10.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V15.py
 
       - name: Commit generated Step10 candidate and audit artifacts
         shell: bash
@@ -123,6 +126,6 @@ jobs:
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.tsv \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json
           if ! git diff --cached --quiet; then
-            git commit -m "step10: rebuild clusters after V14 PVC-dimension precedence correction"
+            git commit -m "step10: rebuild clusters after V15 manual-semantic priority corrections"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
