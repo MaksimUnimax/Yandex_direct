@@ -91,13 +91,14 @@ The earlier family-level observations may be reused as notes, but the step canno
 ## Current step
 
 ### Step 3R — repair the original 18-seed Wordstat collection
-Status: **IN PROGRESS / 9 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
+Status: **IN PROGRESS / 10 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
 
 Authority:
 
 ```text
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
 STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
+STEP_03R_S10_CHECKPOINT_2026-08-29.md
 ```
 
 Goal:
@@ -140,21 +141,21 @@ estimated provider cost = 0.36 RUB
 execution = Manual
 ```
 
-### Current execution point after S09 repair
+### Current execution point after S10
 
 ```text
 batch.start = COMPLETE
-provider requests in Step 03R = 9
-provider outcomes known = 9
+provider requests in Step 03R = 10
+provider outcomes known = 10
 failed_terminal = 0
 outcome_unknown = 0
-estimated provider cost = 0.18 RUB
-fully preserved + normalized + verified Step-03R provider items = 9/18
-provider items remaining = 9
-raw phrase rows preserved S01-S09 = 1076
-normalized TSV rows S01-S09 = 1076
-verified normalized TSV rows S01-S09 = 1076
-next provider item = S10 `остекление веранды`
+estimated provider cost = 0.20 RUB
+fully preserved + normalized + verified Step-03R provider items = 10/18
+provider items remaining = 8
+results rows preserved/verified S01-S10 = 1126
+association rows preserved/verified S01-S10 = 142
+total provider rows preserved/verified S01-S10 = 1268
+next provider item = S11 `алюминиевые окна`
 next YMB action = one manual batch.next only after pre-item goal/error/mode block
 forward analytical work = BLOCKED until Step 03R reaches 18/18 and final reconciliation passes
 ```
@@ -179,6 +180,22 @@ additional provider cost = 0 RUB
 Current correction authority:
 
 `STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md`
+
+### S10 verified acquisition
+
+```text
+S10 = остекление веранды
+results rows = 176
+association rows = 16
+provider rows = 192
+raw rows saved = 192
+normalized TSV rows = 192
+rows verified after read-back = 192
+totalCount = 1373
+NON_REPEAT_CONTROLS = PASS
+```
+
+Authority: `STEP_03R_S10_CHECKPOINT_2026-08-29.md`.
 
 ## Remaining work after Step 3R succeeds
 
@@ -210,8 +227,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 9
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1076
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 10
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1268
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
