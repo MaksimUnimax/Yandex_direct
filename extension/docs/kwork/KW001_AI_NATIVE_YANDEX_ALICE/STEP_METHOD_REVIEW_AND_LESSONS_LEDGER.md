@@ -1,6 +1,6 @@
 # KW-001 — STEP METHOD REVIEW AND LESSONS LEDGER
 
-Date updated: 2026-08-28  
+Date updated: 2026-08-29  
 Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
 This file contains permanent, owner-approved KW-001 methodology lessons and corrections accumulated so far.
@@ -107,9 +107,98 @@ Status: **APPROVED / ACTIVE**.
 - Before every YMB command explicitly state active service and execution mode.
 - Replay safety is determined by provider-execution truth and accepted recovery policy, not UI appearance.
 
+### Owner-approved correction — provider execution is not collection completion
+
+The goal of Step 3 is to **collect a complete reusable dataset**, not to execute a target number of API requests.
+
+A Step-3 provider item is complete only when the complete result required by the step has been preserved and verified before the next provider item is allowed.
+
+Mandatory per-item sequence:
+
+```text
+DEFINE WHAT MUST BE COLLECTED
+→ EXECUTE ONE PROVIDER ITEM
+→ RECEIVE PROVIDER RESULT
+→ PRESERVE THE COMPLETE REQUIRED RESULT
+→ VERIFY PRESERVED COUNTS/FIELDS AGAINST PROVIDER TRUTH
+→ CONFIRM THE SAVED RESULT IS READABLE/USABLE
+→ ONLY THEN ALLOW THE NEXT PROVIDER ITEM
+```
+
+The following do **not** prove Step-3 completion by themselves:
+
+```text
+HTTP 200
+status = OK
+request_executed = true
+item_status = SUCCEEDED
+batch succeeded count
+provider request count
+cost recorded
+representative examples
+summary/checkpoint without complete returned rows
+```
+
+If the provider returns a result set and only representative examples are preserved, that item is **INCOMPLETE FOR THE PROJECT** even though the API request succeeded.
+
+If the current item is incomplete:
+
+```text
+CURRENT_ITEM = INCOMPLETE
+NEXT_PROVIDER_ITEM = BLOCKED
+STEP_3 = NOT_COMPLETE
+NEXT_ANALYTICAL_STEP = BLOCKED
+```
+
+For Wordstat `getTop`, preservation must explicitly account for the complete returned arrays required by the concrete step, including `results[]` and `associations[]` when those arrays are part of the acquisition objective. `totalCount` is demand/frequency evidence and must not be confused with the number of returned rows saved.
+
+### Error that caused this correction
+
+A controlled KW-001 rehearsal executed a multi-item Wordstat pass and recorded successful provider outcomes, but many item checkpoints preserved only counts and representative examples rather than the complete returned phrase rows. The batch was then incorrectly accepted as complete and downstream analysis proceeded without a complete reusable acquisition dataset.
+
+The root process error was:
+
+```text
+technical success was treated as the goal
+instead of verifying whether the actual data-collection goal had been achieved
+```
+
+### Failure prevented
+
+Without this correction:
+
+```text
+a provider batch can look complete while the dataset needed by the client task is missing;
+subsequent cleanup can operate on examples instead of all collected phrases;
+expansion choices can be made from incomplete evidence;
+several later steps can become invalid and require rework;
+operator time and provider cost can be wasted;
+request-count progress can replace actual project progress.
+```
+
+### Required Step-3 completion report
+
+At the end of a Step-3 collection pass, the report must reconcile at minimum:
+
+```text
+provider items planned
+provider items attempted
+provider items actually executed
+provider items with known outcomes
+results rows returned
+association rows returned where applicable
+rows saved
+rows verified
+items incomplete
+outcome_unknown
+provider cost
+```
+
+If the relevant counts do not reconcile, Step 3 cannot pass.
+
 ### Method origin
 
-`OFFICIAL provider semantics + PROJECT_TEST_VALIDATED`.
+`OFFICIAL provider semantics + PROJECT_TEST_VALIDATED + OWNER-APPROVED PROCESS CORRECTION`.
 
 Status: **APPROVED / ACTIVE**.
 
@@ -224,6 +313,9 @@ Markers:
 KW001_PERMANENT_LESSONS_LEDGER_ACTIVE = true
 KW001_PERMANENT_LESSONS_OWNER_LOCKED = true
 KW001_NO_AUTOMATIC_LESSON_PROMOTION = true
+KW001_STEP3_PROVIDER_EXECUTION_NOT_COLLECTION_COMPLETION = true
+KW001_STEP3_NEXT_ITEM_BLOCKED_UNTIL_COMPLETE_RESULT_VERIFIED = true
+KW001_STEP3_COMPLETION_COUNTS_MUST_RECONCILE = true
 KW001_FAMILY_TRIAGE_NOT_EQUAL_FULL_CLEANUP = true
 KW001_SCOPE_EXCLUSION_SEPARATE_FROM_IRRELEVANCE = true
 KW001_LOW_FREQUENCY_ALONE_NOT_IRRELEVANCE_PROOF = true
