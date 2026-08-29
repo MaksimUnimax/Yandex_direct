@@ -1,4 +1,1 @@
 collision_code	phrase	cluster_id	user_task	evidence_state	step09_probe_id	reason
-PVC_PRODUCT_TOKEN_MISMATCH	окна пвх для частного дома	PVC_WINDOWS_COMMERCIAL	Покупка пластиковых окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		PVC-window commercial cluster lacks PVC-window wording
-PVC_PRODUCT_TOKEN_MISMATCH	размеры окон пвх для частного дома	PVC_WINDOWS_COMMERCIAL	Покупка пластиковых окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		PVC-window commercial cluster lacks PVC-window wording
-PVC_PRODUCT_TOKEN_MISMATCH	размеры окон пвх стандартные для частного дома	PVC_WINDOWS_COMMERCIAL	Покупка пластиковых окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		PVC-window commercial cluster lacks PVC-window wording
