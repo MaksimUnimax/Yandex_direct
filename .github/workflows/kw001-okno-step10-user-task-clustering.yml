@@ -1,0 +1,82 @@
+name: KW001 OKNO Step10 User Task Clustering
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/kw001-okno-step10-user-task-clustering.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_BUILD.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SERP_COMPARISONS.tsv'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build conservative Step10 user-task clusters
+        shell: bash
+        run: |
+          set -euo pipefail
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_BUILD.py
+
+      - name: Enforce Step10 machine accounting gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_QA.json')
+          q = json.loads(p.read_text(encoding='utf-8'))
+          assert q['status'] == 'MACHINE_QA_PASS__MANUAL_SEMANTIC_QA_REQUIRED', q
+          assert q['total_phrase_keys'] == 2840, q
+          assert q['active_search_stage_rows'] == 2332, q
+          assert q['input_disposition_counts']['CORE_CANDIDATE'] == 1388, q
+          assert q['input_disposition_counts']['REVIEW_SEARCH'] == 944, q
+          assert q['review_deferred_preserved'] == 174, q
+          assert q['excluded_preserved'] == 334, q
+          assert q['direct_step09_probes_consumed'] == 75, q
+          assert q['duplicate_comparisons_consumed'] == 8, q
+          assert q['dup0004_auto_merged'] is False, q
+          assert q['unprobed_rows_claiming_direct_serp'] == 0, q
+          assert q['silent_drops'] == 0, q
+          assert q['manual_semantic_qa_required'] is True, q
+          assert q['manual_semantic_qa_pass'] is False, q
+          assert q['page_ownership_decisions'] == 0, q
+          assert q['structural_action_decisions'] == 0, q
+          assert q['cannibalization_decisions'] == 0, q
+          assert q['provider_requests'] == 0, q
+          print('KW001_OKNO_STEP10_MACHINE_ACCOUNTING_GATE_PASS')
+          PY
+
+      - name: Commit generated Step10 candidate artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_CLUSTER_ASSIGNMENTS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_CLUSTER_SUMMARY.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_BOUNDARY_REVIEW.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_QA_SAMPLE.tsv
+          if ! git diff --cached --quiet; then
+            git commit -m "step10: build user-task clustering candidates"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
