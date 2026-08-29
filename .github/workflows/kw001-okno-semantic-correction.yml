@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/kw001-okno-semantic-correction.yml'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_CORRECTION_BUILD.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_CORRECTION_RUN.py'
 
 permissions:
   contents: write
@@ -23,7 +24,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Build and verify corrected semantic tables
-        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_CORRECTION_BUILD.py
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_CORRECTION_RUN.py
       - name: Commit corrected semantic artifacts
         run: |
           git config user.name "github-actions[bot]"
