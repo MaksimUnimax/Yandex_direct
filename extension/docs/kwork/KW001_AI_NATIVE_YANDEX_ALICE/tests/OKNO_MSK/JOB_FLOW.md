@@ -24,15 +24,7 @@ Job-specific outputs include the frozen test order and client/open-question assu
 
 Status: **COMPLETE / PASS AFTER CROSS-CHANNEL REWORK**
 
-Job-specific outputs include:
-
-```text
-site inventories
-cross-channel discovery crosscheck
-merged site inventory
-merged business/page model
-Step-01 acceptance
-```
+Job-specific outputs include site inventories, cross-channel discovery crosscheck, merged site inventory, merged business/page model and Step-01 acceptance.
 
 ---
 
@@ -40,22 +32,13 @@ Step-01 acceptance
 
 Status: **COMPLETE / FROZEN**
 
-Job-specific output:
-
-```text
-18 frozen pass-1 seeds
-region/device/request controls
-second-pass reason-code framework
-Step-02 acceptance
-```
+Job-specific output includes 18 frozen pass-1 seeds, region/device/request controls, second-pass reason-code framework and Step-02 acceptance.
 
 ---
 
 ### Step 3 — Wordstat pass #1 acquisition
 
 Status: **COMPLETE / PASS**
-
-Final job facts:
 
 ```text
 18/18 succeeded
@@ -67,40 +50,15 @@ region = 213
 DEVICE_ALL
 ```
 
-Job-specific raw/checkpoint/provider evidence remains inside this workspace.
-
 ---
 
 ### Step 4 — first post-Wordstat family-level triage
 
 Status: **COMPLETE AFTER RETROSPECTIVE CORRECTION / RE-FROZEN**
 
-What this job actually completed:
+Completed: family-level triage, ambiguity preservation, exclusion-class correction and pass-2 probe candidate reclassification.
 
-```text
-family-level triage across the 18 pass-1 result families
-review/ambiguity preservation
-exclusion-class correction
-pass-2 probe candidate reclassification
-```
-
-What remains incomplete:
-
-```text
-full row-level cleanup
-final semantic core
-clustering
-SERP validation
-page mapping
-```
-
-Current authoritative job files:
-
-```text
-STEP_04_PROGRESSIVE_CLEANUP_1.md
-STEP_04_METHOD_REVIEW_CORRECTION.md
-STEP_04_ACCEPTANCE.md
-```
+Still incomplete after this step: full row-level cleanup, final semantic core, clustering, SERP validation and page mapping.
 
 ---
 
@@ -108,14 +66,7 @@ STEP_04_ACCEPTANCE.md
 
 Status: **COMPLETE / PASS / ACQUISITION FROZEN**
 
-Pre-step and manifest authority:
-
-```text
-STEP_05_PRE_STEP_REVIEW.md
-STEP_05_WORDSTAT_PASS2_MANIFEST.md
-```
-
-Executed manifest:
+Executed:
 
 ```text
 P2-01 оконная фурнитура
@@ -124,22 +75,10 @@ P2-03 остекление балкона с выносом
 P2-04 окна для частного дома
 ```
 
-Frozen provider controls actually used:
-
-```text
-job_id = kw001-okno-msk-wordstat-pass2-20260828
-method = getTop
-regions = ["213"]
-devices = ["DEVICE_ALL"]
-numPhrases = 200
-maxRequests = 4
-```
-
-Final durable batch truth:
+Final durable truth:
 
 ```text
 status = COMPLETED
-total = 4
 succeeded = 4
 failed_terminal = 0
 outcome_unknown = 0
@@ -148,72 +87,52 @@ estimated_cost_rub = 0.08
 next_safe_action = NONE
 ```
 
-Complete normalized provider rows are preserved inside the job workspace:
-
-```text
-STEP_05_P2_01_RAW_NORMALIZED.tsv
-STEP_05_P2_02_RAW_NORMALIZED.tsv
-STEP_05_P2_03_RAW_NORMALIZED.tsv
-STEP_05_P2_04_RAW_NORMALIZED.tsv
-```
-
-Execution/control authority:
-
-```text
-STEP_05_P2_01_CHECKPOINT.md
-STEP_05_P2_02_CHECKPOINT.md
-STEP_05_P2_03_CHECKPOINT.md
-STEP_05_P2_04_CHECKPOINT.md
-STEP_05_FINAL_BATCH_STATUS.md
-STEP_05_ACCEPTANCE.md
-```
-
-Step-05 acquisition findings remain evidence only. Final row-level semantic decisions, clustering, page mapping and SERP validation are still not complete.
-
-No third recursive Wordstat pass is authorized by Step 05.
+Complete normalized provider rows are preserved in the Step-05 raw TSV files.
 
 ---
 
-## Next major step
+### Step 6 — selective Wordstat dynamics / seasonality diagnostic
 
-Status: **NOT STARTED / PRE-STEP REVIEW REQUIRED**
+Status: **OWNER AUTHORIZED / MANIFEST FROZEN / READY FOR D1**
 
-The next major job step is not automatically authorized by Step-05 acceptance.
-
-Before execution:
+Authorities:
 
 ```text
-read current job evidence
-explain the proposed next step
-check current external/official methodology where relevant
-adversarially review Step-05 handoff
-show owner sources/risks
-wait for explicit owner authorization
+STEP_06_PRE_STEP_REVIEW.md
+STEP_06_DYNAMICS_MANIFEST.md
 ```
 
-No provider/operator action is currently pending.
+Frozen common controls:
+
+```text
+method = getDynamics
+period = PERIOD_MONTHLY
+fromDate = 2024-08-01T00:00:00Z
+toDate = 2026-07-31T23:59:59Z
+regions = ["213"]
+devices = ["DEVICE_ALL"]
+provider_request_ceiling = 4
+estimated total cost = 0.08 RUB
+```
+
+Frozen request order:
+
+```text
+D1 пластиковые окна
+D2 остекление балконов
+D3 остекление веранды
+D4 окна для частного дома
+```
+
+No Step-06 provider request had been made at manifest freeze. The next owner-operated action is D1.
+
+Step 06 is context for later prioritization only. It does not decide semantic relevance, clusters or pages.
 
 ---
 
 ## Later job stages
 
-Later stages may include, subject to their own pre-step review and owner authorization:
-
-```text
-row-level semantic cleanup/freeze
-selective demand/dynamics checks if independently justified
-ordinary Yandex Search evidence
-SERP clustering/page-boundary analysis
-page mapping
-selective AI evidence
-Search-vs-AI comparison
-final architecture/priorities
-client deliverables
-QA/economics/revision
-job close
-```
-
-The exact current-job sequence may be refined during authorized pre-step reviews, but any such refinement belongs only to this job unless the owner explicitly changes universal KW-001 methodology.
+Later stages remain blocked until Step 06 is completed and separately accepted. They may include row-level semantic cleanup/freeze, ordinary Yandex Search evidence, SERP clustering/page-boundary analysis, page mapping, selective AI evidence, Search-vs-AI comparison, final architecture/priorities, client deliverables, QA/economics/revision and job close.
 
 ---
 
@@ -226,10 +145,11 @@ mark JOB_MANIFEST safe_to_delete = true
 then delete this entire OKNO_MSK workspace, including JOB_FLOW.md itself
 ```
 
-Marker:
+Markers:
 
 ```text
 KW001_OKNO_MSK_JOB_FLOW_ACTIVE = true
 KW001_OKNO_MSK_STEP_05_COMPLETE = true
-KW001_OKNO_MSK_NEXT_STEP_NOT_STARTED = true
+KW001_OKNO_MSK_STEP_06_MANIFEST_FROZEN = true
+KW001_OKNO_MSK_STEP_06_PROVIDER_EXECUTION_STARTED = false
 ```
