@@ -4,13 +4,11 @@ Date created: 2026-08-28
 Last updated: 2026-08-29
 Status: **ACTIVE / JOB-SPECIFIC / DISPOSABLE WITH WORKSPACE**
 
-This file tracks only the execution flow of the current OKNO-MSK rehearsal. It is not a universal KW-001 methodology document and must be deleted with the job workspace after close.
-
 ## Whole Kwork goal
 
 Deliver a complete, evidence-backed semantic set and site/page structure recommendation for Yandex human search plus selective Yandex AI-search evidence, with client-ready artifacts and final QA.
 
-## Already genuinely completed
+## Genuinely complete
 
 ### Step 0 — mock order / scope freeze
 Status: **COMPLETE**
@@ -21,40 +19,34 @@ Status: **COMPLETE / PASS AFTER CROSS-CHANNEL REWORK**
 ### Step 2 — first-pass Wordstat seed/query plan
 Status: **COMPLETE / FROZEN**
 
-The frozen 18 seeds remain the required input for the Step-03 repair.
+Frozen input remains the original 18 seeds.
 
-### Step 5 provider evidence — targeted Wordstat expansion pass #2
-Status of the four provider observations themselves: **PRESERVED COMPLETELY**
+### Preserved Step-05 evidence
 
 ```text
-4/4 provider responses preserved
+4/4 targeted Wordstat provider responses completely preserved
 0 failed_terminal
 0 outcome_unknown
-4 provider requests
-0.08 RUB estimated provider cost
+estimated provider cost = 0.08 RUB
 ```
 
-Complete normalized provider rows are preserved in the Step-05 raw TSV files.
+Sufficiency of those four probes must be rechecked after the repaired first-pass dataset is complete.
 
-Important limitation: because Step 03 was not completely preserved, the claim that these four probes were sufficient expansion coverage must be rechecked after Step-03 repair.
-
-### Step 6 provider evidence — selective Wordstat dynamics
-Status of the four dynamics observations themselves: **PRESERVED COMPLETELY**
+### Preserved Step-06 evidence
 
 ```text
-4/4 provider responses preserved
+4/4 dynamics provider observations completely preserved
 24 monthly rows per root preserved
 0 failed provider requests
 0 outcome_unknown
-0.08 RUB estimated provider cost
+estimated provider cost = 0.08 RUB
 ```
 
-These observations remain usable standalone evidence, but they do not repair the missing Step-03 phrase dataset.
+These data remain usable standalone evidence but do not substitute for Step 03R.
 
-## Work that is NOT complete
+## Historical Step 3
 
-### Step 3 — Wordstat pass #1 acquisition
-Status: **INCOMPLETE / HISTORICAL ACCEPTANCE SUPERSEDED / REPAIR IN PROGRESS**
+Status: **INCOMPLETE / HISTORICAL ACCEPTANCE SUPERSEDED**
 
 Historical technical truth:
 
@@ -63,37 +55,26 @@ Historical technical truth:
 18 provider calls reported success
 0 failed_terminal
 0 outcome_unknown
-0.36 RUB estimated provider cost
-region = 213
-device = DEVICE_ALL
+estimated provider cost = 0.36 RUB
 ```
 
-Project-completion truth:
+Project truth:
 
 ```text
 complete historical results[] + associations[] preserved for all 18 seeds = false
-historical Step 03 complete = false
+historical Step 03 project completion = false
 Step 03R repair required = true
-forward analytical work allowed = false
 ```
 
-Authority:
+Authority: `STEP_03_COMPLETION_CORRECTION_2026-08-29.md`.
 
-`STEP_03_COMPLETION_CORRECTION_2026-08-29.md`
+## Current step — Step 03R
 
-The historical `STEP_03_ACCEPTANCE.md` remains in the folder as evidence of the earlier incorrect gate, but its PASS verdict no longer controls current status.
+Status: **IN PROGRESS / 14 OF 18 PROVIDER ITEMS COMPLETE**
 
-### Step 4 — first post-Wordstat family-level triage
-Status: **HISTORICAL PARTIAL ANALYSIS ONLY / NOT A COMPLETE PASS-1 CLEANUP**
+Goal: recollect the exact original 18 Wordstat `getTop` observations and preserve every required row before the next provider request.
 
-The earlier family-level observations may be reused as notes, but the step cannot represent processing of a complete Step-03 dataset because that dataset was not preserved.
-
-## Current step
-
-### Step 3R — repair the original 18-seed Wordstat collection
-Status: **IN PROGRESS / 13 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
-
-Authority:
+Authorities:
 
 ```text
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
@@ -103,164 +84,83 @@ STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
 STEP_03R_S11_CHECKPOINT_2026-08-29.md
 STEP_03R_S12_CHECKPOINT_2026-08-29.md
 STEP_03R_S13_CHECKPOINT_2026-08-29.md
-```
-
-Goal:
-
-Collect the exact original 18 Wordstat `getTop` observations again and preserve every returned row before allowing the next request.
-
-Past Step-3 error was reread and reported to the owner before method research/execution. The active non-repeat control is save-and-verify-complete-result-before-next-item.
-
-Required per-provider-item gate:
-
-```text
-provider outcome known
-exact full raw result saved
-all results[] rows saved
-all associations[] rows saved
-complete normalized TSV created
-returned/saved/normalized row counts reconciled
-raw + TSV readable and usable
-NON_REPEAT_CONTROLS = PASS
-```
-
-If any check fails:
-
-```text
-current item = INCOMPLETE
-next provider request = BLOCKED
-next analytical step = BLOCKED
+STEP_03R_S14_CHECKPOINT_2026-08-29.md
 ```
 
 Frozen execution:
 
 ```text
 job_id = kw001-okno-msk-wordstat-pass1-repair-20260829
-18 exact Step-02 seeds
 region = 213
 device = DEVICE_ALL
 numPhrases = 200
 maxRequests = 18
-estimated provider cost = 0.36 RUB
+max estimated provider cost = 0.36 RUB
 execution = Manual
 ```
 
-### Current execution point after S13
+Mandatory per-item gate:
 
 ```text
-batch.start = COMPLETE
-provider requests in Step 03R = 13
-provider outcomes known = 13
+provider outcome known
+complete raw provider result saved
+all results[] saved
+all associations[] saved when present
+complete normalized TSV created
+returned = saved = normalized = verified rows
+raw + TSV readable/usable
+NON_REPEAT_CONTROLS = PASS
+```
+
+### Current execution point after S14
+
+```text
+provider requests executed = 14
+provider outcomes known = 14
 failed_terminal = 0
 outcome_unknown = 0
-estimated provider cost = 0.26 RUB
-fully preserved + normalized + verified Step-03R provider items = 13/18
-provider items remaining = 5
-results rows preserved/verified S01-S13 = 1530
-association rows preserved/verified S01-S13 = 187
-total provider rows preserved/verified S01-S13 = 1717
-next provider item = S14 `ремонт пластиковых окон`
-next YMB action = one manual batch.next only after pre-item goal/error/mode block
-forward analytical work = BLOCKED until Step 03R reaches 18/18 and final reconciliation passes
+estimated provider cost = 0.28 RUB
+fully preserved + normalized + verified = 14/18
+remaining = 4/18
+results rows preserved/verified = 1730
+association rows preserved/verified = 204
+total provider rows preserved/verified = 1934
+next provider item = S15 `цены на пластиковые окна`
+forward analytical work = BLOCKED until 18/18 and final reconciliation PASS
 ```
 
-### S01-S09 local correction
-
-The original S01-S09 checkpoints were temporally premature under the frozen manifest because normalized TSV files were not yet present. No provider calls were repeated.
-
-Local repair completed before S10:
+### Item accounting
 
 ```text
-S01-S09 raw provider JSON = 9/9 present
-S01-S09 normalized TSV = 9/9 present
-results rows = 950
-association rows = 126
-total normalized rows = 1076
-raw rows = normalized rows = verified rows = 1076
-additional provider calls = 0
-additional provider cost = 0 RUB
+S01 200+18=218 COMPLETE
+S02 200+20=220 COMPLETE
+S03 129+15=144 COMPLETE
+S04 12+17=29 COMPLETE
+S05 200+15=215 COMPLETE
+S06 200+18=218 COMPLETE
+S07 6+13=19 COMPLETE
+S08 0+0=0 COMPLETE; sparse response, totalCount=19, arrays absent
+S09 3+10=13 COMPLETE
+S10 176+16=192 COMPLETE
+S11 200+16=216 COMPLETE
+S12 4+13=17 COMPLETE
+S13 200+16=216 COMPLETE
+S14 200+17=217 COMPLETE
+TOTAL = 1730 results + 204 associations = 1934 rows
 ```
 
-Current correction authority:
+S01-S09 missing TSV artifacts were repaired locally from already preserved raw JSON before S10, with zero new provider calls and zero additional cost.
 
-`STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md`
+Before S11 a `COMMAND_DISCOVERY / NO_SUPPORTED_COMMAND` happened with `request_executed=false`; therefore no Wordstat request was executed by that failed interaction and S11 was safely retried unchanged.
 
-### S10 verified acquisition
+## Remaining work after Step 03R succeeds
 
-```text
-S10 = остекление веранды
-results rows = 176
-association rows = 16
-provider rows = 192
-raw rows saved = 192
-normalized TSV rows = 192
-rows verified after read-back = 192
-totalCount = 1373
-NON_REPEAT_CONTROLS = PASS
-```
-
-Authority: `STEP_03R_S10_CHECKPOINT_2026-08-29.md`.
-
-### S11 verified acquisition
-
-A manual command-discovery failure happened immediately before S11, but it had `request_executed=false`, so no provider request was made by that failed interaction and the unchanged S11 item was safely retried.
-
-```text
-S11 = алюминиевые окна
-results rows = 200
-association rows = 16
-provider rows = 216
-raw rows saved = 216
-normalized TSV rows = 216
-rows verified after read-back = 216
-totalCount = 10354
-NON_REPEAT_CONTROLS = PASS
-```
-
-Authorities:
-- `STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md`
-- `STEP_03R_S11_CHECKPOINT_2026-08-29.md`
-
-### S12 verified acquisition
-
-```text
-S12 = аксессуары для пластиковых окон
-results rows = 4
-association rows = 13
-provider rows = 17
-raw rows saved = 17
-normalized TSV rows = 17
-rows verified after read-back = 17
-totalCount = 29
-NON_REPEAT_CONTROLS = PASS
-```
-
-Authority: `STEP_03R_S12_CHECKPOINT_2026-08-29.md`.
-
-### S13 verified acquisition
-
-```text
-S13 = установка пластиковых окон
-results rows = 200
-association rows = 16
-provider rows = 216
-raw rows saved = 216
-normalized TSV rows = 216
-rows verified after read-back = 216
-totalCount = 15510
-NON_REPEAT_CONTROLS = PASS
-```
-
-Authority: `STEP_03R_S13_CHECKPOINT_2026-08-29.md`.
-
-## Remaining work after Step 3R succeeds
-
-1. Review the complete first-pass dataset and determine whether any additional important acquisition direction was missed.
-2. Clean the complete collected phrase set while preserving ambiguous items for later checking.
-3. Freeze the working semantic set.
+1. Reconcile all 18 first-pass datasets and the four already preserved targeted expansion datasets; identify any materially missing acquisition direction.
+2. Clean every collected phrase with explicit counts for duplicates, irrelevant, out-of-scope, uncertain and retained rows.
+3. Freeze the final working semantic set.
 4. Validate important query/page boundaries in ordinary Yandex Search.
-5. Group queries by user task and determine page ownership/actions.
-6. Select only material uncertain cases for Yandex AI-search evidence.
+5. Group by user task and decide page ownership/actions.
+6. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
 7. Compare ordinary Search and AI evidence.
 8. Prioritize actions.
 9. Produce client deliverables.
@@ -268,12 +168,7 @@ Authority: `STEP_03R_S13_CHECKPOINT_2026-08-29.md`.
 
 ## Close
 
-When the job is fully completed and handed off:
-
-```text
-mark JOB_MANIFEST safe_to_delete = true
-then delete the entire OKNO_MSK workspace
-```
+When the job is fully completed and handed off, mark `JOB_MANIFEST safe_to_delete = true`, then delete this whole OKNO_MSK workspace.
 
 Markers:
 
@@ -283,8 +178,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 13
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1717
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 14
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1934
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
