@@ -1,0 +1,70 @@
+name: KW001 OKNO Step09 Search Probe Manifest
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/kw001-okno-step09-search-probe-manifest.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_BUILD.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_REVIEW_RESOLUTION_ROUTES.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build frozen Step09 probe manifest
+        id: build_manifest
+        shell: bash
+        run: |
+          set +e
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_BUILD.py
+          rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Commit generated Step09 artifacts
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_REVIEW_SEARCH_COVERAGE.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_BATCH_START_COMMAND.txt \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_RECONCILIATION.md
+          if ! git diff --cached --quiet; then
+            git commit -m "KW001 OKNO: freeze Step 09 Search probe manifest"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Enforce manifest gate
+        shell: bash
+        run: |
+          test "${{ steps.build_manifest.outputs.rc }}" = "0"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_QA.json')
+          q = json.loads(p.read_text(encoding='utf-8'))
+          assert q['status'] == 'PASS', q
+          assert q['provider_execution_allowed'] is True, q
+          assert q['probe_count'] <= 80, q
+          assert q['estimated_cost_rub'] <= 39.04, q
+          assert q['coverage_rows'] == 944, q
+          print('KW001_OKNO_STEP09_PROBE_MANIFEST_GATE_PASS')
+          PY
