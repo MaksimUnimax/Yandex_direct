@@ -1,0 +1,4 @@
+audit_code	phrase	step09_probe_id	observed_serp_job	dominant_result_type	reason
+DIRECT_SERP_LEFT_UNRESOLVED	установка пластиковых окон деревянном	SP09-036	WINDOW_INSTALLATION_WOODEN_HOUSE	MIXED_COMMERCIAL_INFORMATION	Exact Step-09 evidence exists; verify that unresolved state is intentionally mixed rather than a missing semantic class
+DIRECT_SERP_LEFT_UNRESOLVED	французские мягкие окна	SP09-038	SOFT_WINDOWS	COMMERCIAL_PRODUCT	Exact Step-09 evidence exists; verify that unresolved state is intentionally mixed rather than a missing semantic class
+DIRECT_SERP_LEFT_UNRESOLVED	цены материала на пластиковые окна	SP09-039	PLASTIC_WINDOWS_PRICE_MATERIAL	MIXED_COMMERCIAL_MATERIAL	Exact Step-09 evidence exists; verify that unresolved state is intentionally mixed rather than a missing semantic class

@@ -1,1 +1,28 @@
 collision_code	phrase	cluster_id	user_task	evidence_state	step09_probe_id	reason
+TASK_TOKEN_MISMATCH	барбекю с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	беседка с барбекю панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	беседка с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	большие панорамные окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal
+PANORAMIC_TOKEN_MISMATCH	большие французские окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks panoramic wording
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	большие французские окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal
+TASK_TOKEN_MISMATCH	бытовка с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	веранда с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	высокие панорамные окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal
+PANORAMIC_TOKEN_MISMATCH	высокие французские окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks panoramic wording
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	высокие французские окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	готовые панорамные окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal
+TASK_TOKEN_MISMATCH	закрой панорамное окно	WINDOW_OPERATION_DIY	Как снять/вставить/открыть/эксплуатировать окно	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_OPERATION_DIY lacks its defining task marker
+TASK_TOKEN_MISMATCH	зал с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	квартира с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	квартира с панорамными окнами в москве	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	комната с панорамным окном	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	комната с французскими окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	кухня с большим панорамным окном	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+TASK_TOKEN_MISMATCH	лофт с панорамными окнами	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	маленькое панорамное окно	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal
+TASK_TOKEN_MISMATCH	окно панорамное 2.5 метра	WINDOW_DIMENSIONS_INFO	Размеры/габариты окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_DIMENSIONS_INFO lacks its defining task marker
+TASK_TOKEN_MISMATCH	открой панорамное окно	WINDOW_OPERATION_DIY	Как снять/вставить/открыть/эксплуатировать окно	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_OPERATION_DIY lacks its defining task marker
+TASK_TOKEN_MISMATCH	французская раскладка окна 16 мм	WINDOW_DIMENSIONS_INFO	Размеры/габариты окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_DIMENSIONS_INFO lacks its defining task marker
+TASK_TOKEN_MISMATCH	французские окна в москве в квартирах	OUTSIDE_REAL_ESTATE	Недвижимость/проекты домов с окнами	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		OUTSIDE_REAL_ESTATE lacks its defining task marker
+PANORAMIC_TOKEN_MISMATCH	широкие французские окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks panoramic wording
+PANORAMIC_WITHOUT_PURCHASE_SIGNAL	широкие французские окна	PANORAMIC_WINDOWS_COMMERCIAL	Покупка панорамных окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		panoramic cluster lacks a clear product/purchase signal

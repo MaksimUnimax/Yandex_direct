@@ -1,8 +1,12 @@
 {
   "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
   "active_rows_scanned": 2332,
-  "flagged_rows": 0,
-  "flagged_records": 0,
-  "collision_counts": {},
+  "flagged_rows": 24,
+  "flagged_records": 27,
+  "collision_counts": {
+    "PANORAMIC_TOKEN_MISMATCH": 3,
+    "PANORAMIC_WITHOUT_PURCHASE_SIGNAL": 7,
+    "TASK_TOKEN_MISMATCH": 17
+  },
   "meaning": "Heuristic adversarial audit only; flags must be manually reviewed and cannot self-accept or self-reject Step 10."
 }

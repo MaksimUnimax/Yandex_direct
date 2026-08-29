@@ -1,0 +1,10 @@
+{
+  "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
+  "search_required_rows_scanned": 161,
+  "flagged_rows": 3,
+  "flagged_records": 3,
+  "audit_counts": {
+    "DIRECT_SERP_LEFT_UNRESOLVED": 3
+  },
+  "meaning": "This audit looks for likely false SEARCH_REQUIRED states. Flags are review targets, not automatic cluster assignments."
+}
