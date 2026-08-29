@@ -33,6 +33,7 @@ jobs:
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_CORRECTION_OCCURRENCES.tsv
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_NONEXACT_DUPLICATE_CANDIDATES.tsv
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_QA_CASES.tsv
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_QA_CASES_V2.tsv
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_07C_SEMANTIC_CORRECTION_SUMMARY.json
           if git diff --cached --quiet; then
             echo "No generated changes"
