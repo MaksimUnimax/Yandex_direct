@@ -90,11 +90,19 @@ The earlier family-level observations may be reused as notes, but the step canno
 ## Current next step
 
 ### Step 3R — repair the original 18-seed Wordstat collection
-Status: **PRE-STEP METHOD REVIEW IN PROGRESS / PROVIDER EXECUTION NOT STARTED**
+Status: **OWNER AUTHORIZED / MANIFEST FROZEN / MANUAL YMB EXECUTION READY**
+
+Authority:
+
+```text
+STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
+```
 
 Goal:
 
 Collect the exact original 18 Wordstat `getTop` observations again and preserve every returned row before allowing the next request.
+
+Past Step-3 error was reread and reported to the owner before method research/execution. The active non-repeat control is save-and-verify-complete-result-before-next-item.
 
 Required per-provider-item gate:
 
@@ -107,6 +115,7 @@ returned results count verified
 returned associations count verified
 saved rows = results.length + associations.length
 saved data readable and usable
+NON_REPEAT_CONTROLS = PASS
 ```
 
 If any check fails:
@@ -115,6 +124,28 @@ If any check fails:
 current item = INCOMPLETE
 next provider request = BLOCKED
 next analytical step = BLOCKED
+```
+
+Frozen execution:
+
+```text
+job_id = kw001-okno-msk-wordstat-pass1-repair-20260829
+18 exact Step-02 seeds
+region = 213
+device = DEVICE_ALL
+numPhrases = 200
+maxRequests = 18
+estimated provider cost = 0.36 RUB
+execution = Manual
+```
+
+Current execution point:
+
+```text
+batch.start = NOT YET DELIVERED
+provider requests in Step 03R = 0
+fully preserved Step-03R provider items = 0/18
+next action = create frozen local batch job, then execute one item at a time
 ```
 
 ## Remaining work after Step 3R succeeds
@@ -145,6 +176,9 @@ Markers:
 KW001_OKNO_MSK_JOB_FLOW_ACTIVE = true
 KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
+KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
+KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 0
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
