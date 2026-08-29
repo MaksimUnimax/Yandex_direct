@@ -12,7 +12,7 @@ workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_03R_MANUAL_YMB_EXECUTION_IN_PROGRESS
-next_major_step = STEP_03R_COMPLETE_REMAINING_S15_S18
+next_major_step = STEP_03R_COMPLETE_REMAINING_S16_S18
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -37,6 +37,7 @@ STEP_03R_S11_CHECKPOINT_2026-08-29.md
 STEP_03R_S12_CHECKPOINT_2026-08-29.md
 STEP_03R_S13_CHECKPOINT_2026-08-29.md
 STEP_03R_S14_CHECKPOINT_2026-08-29.md
+STEP_03R_S15_CHECKPOINT_2026-08-29.md
 ```
 
 ## Current truth
@@ -53,19 +54,19 @@ device = DEVICE_ALL
 numPhrases = 200
 execution = Manual
 batch.start = COMPLETE
-provider requests executed = 14
-provider outcomes known = 14
+provider requests executed = 15
+provider outcomes known = 15
 failed_terminal = 0
 outcome_unknown = 0
-estimated provider cost = 0.28 RUB
-raw provider items preserved = 14/18
-normalized TSV artifacts present = 14/18
-results rows preserved/verified = 1730
-association rows preserved/verified = 204
-normalized provider rows preserved/verified = 1934
-current complete items = 14/18
-remaining items = 4/18
-next item = S15 `цены на пластиковые окна`
+estimated provider cost = 0.30 RUB
+raw provider items preserved = 15/18
+normalized TSV artifacts present = 15/18
+results rows preserved/verified = 1930
+association rows preserved/verified = 215
+normalized provider rows preserved/verified = 2145
+current complete items = 15/18
+remaining items = 3/18
+next item = S16 `окна в рассрочку`
 forward semantic analysis blocked = true
 ```
 
@@ -86,9 +87,10 @@ S11 results=200 associations=16 rows=216 COMPLETE; totalCount=10354
 S12 results=4 associations=13 rows=17 COMPLETE; totalCount=29
 S13 results=200 associations=16 rows=216 COMPLETE; totalCount=15510
 S14 results=200 associations=17 rows=217 COMPLETE; totalCount=4382
-TOTAL results=1730
-TOTAL associations=204
-TOTAL provider rows=1934
+S15 results=200 associations=11 rows=211 COMPLETE; totalCount=2023
+TOTAL results=1930
+TOTAL associations=215
+TOTAL provider rows=2145
 ```
 
 S01-S09 normalized TSV artifacts were repaired locally from already preserved raw JSON with zero additional provider calls and zero additional provider cost.
@@ -128,7 +130,7 @@ Their provider data remain usable, but their analytical sufficiency must be rech
 
 ## Current operator action
 
-Next provider item is S15 `цены на пластиковые окна`. Before issuing it, execute the required owner-facing whole-goal/status/prior-error/current-step/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
+Next provider item is S16 `окна в рассрочку`. Before issuing it, execute the required owner-facing whole-goal/status/prior-error/current-step/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
 
 ## Close rule
 
@@ -153,8 +155,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 14
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1934
+KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 15
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2145
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
