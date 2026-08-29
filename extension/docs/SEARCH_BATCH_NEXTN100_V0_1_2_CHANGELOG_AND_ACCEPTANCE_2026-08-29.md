@@ -156,6 +156,28 @@ PASS
 
 The patched Bridge was then used in the live Step-09 Search acquisition.
 
+### Explicitly live-tested `nextN.count` values
+
+The actual rollout explicitly tested these requested chunk sizes:
+
+```text
+4
+10
+25
+31
+```
+
+Canonical statement:
+
+```text
+LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = [4, 10, 25, 31]
+LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
+```
+
+This corrects the earlier mistaken documentation statement that exact live tested chunk sizes were unknown.
+
+`nextN.count` is an upper bound for one invocation. The returned `confirmed_provider_executions`, `stopped_early` and `stop_reason` determine what actually executed. Therefore the distinct tested count values must not be treated as a mathematical partition of the completed job.
+
 Observed R2 job:
 
 ```text
@@ -178,14 +200,17 @@ Together with the earlier one-request canary:
 36.600 RUB estimated cumulative cost
 ```
 
-Important evidence boundary:
+Evidence boundary:
 
 ```text
 LOCAL count=100 BOUNDED TEST != 100 LIVE PROVIDER REQUESTS IN ONE CHUNK
-R2 74/74 LIVE SUCCESS != PROOF OF THE EXACT SIZE OF EACH INDIVIDUAL nextN COMMAND
+LARGEST_EXPLICIT_LIVE_REQUESTED_COUNT_TESTED = 31
+HARD_PROTOCOL_CEILING = 100
 ```
 
-The final R2 projection proves the completed 74-item job and normalized TOP-10 outputs, but it does not encode the history of individual chunk command sizes. Documentation must not invent those chunk sizes.
+Detailed Step-09 live chunk authority:
+
+`extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_NEXTN_LIVE_CHUNK_VALIDATION_2026-08-29.md`
 
 ## Version authority
 
