@@ -8,22 +8,46 @@ Status: **ACTIVE / JOB-SPECIFIC / DISPOSABLE WITH WORKSPACE**
 
 Deliver a complete, evidence-backed semantic set and site/page structure recommendation for Yandex ordinary Search plus selective Yandex AI-search evidence, with client-ready artifacts and final QA.
 
+## Binding process controls
+
+Universal authorities:
+
+```text
+RULES_ARCHITECTURE.md
+STEP_RULES_INDEX.md
+SOURCE_TO_METHOD_TRACEABILITY_GATE.md
+PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
+```
+
+Canonical controls carried forward:
+
+```text
+ROADMAP_STAGE_EXISTS != METHODOLOGY_VALIDATED
+RESEARCH_COLLECTED != METHOD_VALIDATED
+ACCOUNTING_QA != SEMANTIC_QA
+REQUEST_SUCCEEDED != PROJECT_RESULT_COMPLETE
+TRACEABILITY_COMPLETE != FULL_SERP_EVIDENCE_COVERAGE
+BRIDGE_INTERNAL_DURABILITY != PROJECT_EVIDENCE_DURABILITY
+```
+
+Every major step must satisfy its own methodology status and gate. A completed job-specific rehearsal does not silently promote an `UNVALIDATED` permanent method to `APPROVED`.
+
 ## Accepted completed work
 
 ### Step 0 — scope freeze
-Status: **COMPLETE**
+Status: **✅ COMPLETE**
 
 ### Step 1 — existing-site discovery / business-page model
-Status: **COMPLETE / PASS AFTER CROSS-CHANNEL REWORK**
+Status: **✅ COMPLETE / PASS AFTER CROSS-CHANNEL REWORK**
 
 ### Step 2 — Wordstat acquisition plan
-Status: **COMPLETE / FROZEN**
+Status: **✅ COMPLETE / FROZEN**
 
 ### Step 3 — historical first Wordstat pass
-Status: **SUPERSEDED**
+Status: **🔁 SUPERSEDED**
 
 ### Step 3R — repaired first-pass Wordstat acquisition
-Status: **COMPLETE / VERIFIED**
+Status: **✅ COMPLETE / VERIFIED**
 
 ```text
 provider items = 18/18 complete
@@ -33,19 +57,19 @@ total source rows entering cleanup = 2965
 ```
 
 ### Step 4 — family-level triage
-Status: **COMPLETE AS TRIAGE**
+Status: **✅ COMPLETE AS TRIAGE**
 
 ### Step 5 — targeted Wordstat expansion
-Status: **COMPLETE**
+Status: **✅ COMPLETE**
 
 ### Step 6 — demand dynamics
-Status: **PRESERVED / REUSABLE**
+Status: **✅ PRESERVED / REUSABLE**
 
 ### Step 6A — acquisition coverage revalidation
-Status: **COMPLETE / SUFFICIENT**
+Status: **✅ COMPLETE / SUFFICIENT**
 
 ### Step 7 — row-level semantic cleanup
-Status: **COMPLETE AFTER POST-AUDIT CORRECTION**
+Status: **✅ COMPLETE AFTER POST-AUDIT CORRECTION**
 
 ```text
 exact phrase keys = 2840
@@ -57,9 +81,7 @@ EXCLUDE_MECHANICAL = 34
 ```
 
 ### Step 8 — Search-stage semantic freeze
-Status: **COMPLETE AFTER METHOD CORRECTION / SEARCH-STAGE INPUT FROZEN**
-
-Correct final routing:
+Status: **✅ COMPLETE AFTER METHOD CORRECTION / SEARCH-STAGE INPUT FROZEN**
 
 ```text
 CORE_CANDIDATE = 1388
@@ -69,14 +91,7 @@ EXCLUDED_PRESERVED = 334
 TOTAL = 2840
 ```
 
-Removed/forbidden Step-08 routes:
-
-```text
-REVIEW_BUSINESS
-REVIEW_SEARCH_AND_BUSINESS
-```
-
-Corrected freeze:
+Step-08 reconciliation:
 
 ```text
 2840/2840 phrase keys preserved
@@ -89,52 +104,23 @@ Corrected freeze:
 0 RUB cost
 ```
 
-Canonical error control carried forward:
+## Step 9 — ordinary Yandex Search validation
+
+Status: **✅ COMPLETE AFTER METHOD + EXECUTION + PERSISTENCE CORRECTIONS**
+
+Primary final authorities:
 
 ```text
-RESEARCH_COLLECTED != METHOD_VALIDATED
-SOURCE_TO_METHOD_TRACEABILITY_REQUIRED = true
-```
-
-## Current step — Step 9 ordinary Yandex Search validation
-
-Status: **OWNER AUTHORIZED / INITIAL TRANCHE CORRECTED AFTER SEMANTIC AUDIT / PROVIDER EXECUTION NOT STARTED**
-
-Authorities:
-
-```text
-STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md
-STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
+STEP_09_SEARCH_RECONCILIATION.md
+STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md
 STEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md
-STEP_09_INITIAL_TRANCHE_SEMANTIC_QA.json
+STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md
+STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
 ```
 
-Where the original pre-step conflicts with the post-audit correction, the postmortem/current-state authority supersedes it.
+### Accepted job-specific method boundary
 
-Permanent methodology status remains:
-
-```text
-STEP_09_PERMANENT_METHOD = UNVALIDATED
-```
-
-The current job-specific method is not automatically promoted into universal methodology.
-
-### Step 9 purpose
-
-Collect bounded ordinary Yandex SERP evidence for material intent/result-type/page-boundary questions that block later clustering and page ownership.
-
-### Post-audit causal correction
-
-The first builder made a method error:
-
-```text
-corrected_reason -> treated as a surrogate SERP/user-intent family
-source_id -> treated as a surrogate semantic subfamily
-lexical/source centrality -> treated as authoritative marker selection
-accounting assignment -> described as Search evidence coverage
-```
-
-This was wrong because those fields describe **our acquisition/cleanup process**, not the user's observed Search task.
+The original manifest grouping assumption was corrected before provider execution:
 
 ```text
 CLEANUP_REASON != SEARCH_INTENT_CLUSTER
@@ -143,190 +129,156 @@ LEXICAL_SIMILARITY != SERP_COMPATIBILITY
 TRACEABILITY_COMPLETE != FULL_SERP_EVIDENCE_COVERAGE
 ```
 
-Why the mistake matters: one direct query can otherwise be allowed to silently stand in for many untested phrases even though their intents/result types may differ. That would repeat the Step-07 failure class `ACCOUNTING_QA != SEMANTIC_QA`.
-
-The full causal explanation, concrete bad examples, external authorities, corrected method and non-repeat controls are recorded in `STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`.
-
-### Corrected initial tranche
-
-The 75 queries are now only:
+The frozen 75-query list remained valid only as:
 
 ```text
 INITIAL_BOUNDED_SERP_TRANCHE
 ```
 
-Their roles are:
+Permanent methodology status remains:
 
 ```text
-REVIEW_STRATIFIED_SAMPLE
-= direct diagnostic query only; not marker authority for other phrases.
-
-NONEXACT_DUPLICATE_VARIANT
-= direct pairwise comparison input.
-
-STEP1_BOUNDARY_OR_CORE_ANCHOR
-= explicit direct contrast/control query.
+STEP_09_PERMANENT_METHOD = UNVALIDATED
 ```
 
-Correct current counts:
+This job-specific completion does not change the permanent methodology index.
+
+### Provider execution truth
+
+```text
+ordinary Yandex Search only = true
+region = 213 / Moscow
+initial tranche probes = 75
+authorized max requests = 80
+authorized max cost = 39.04 RUB
+provider requests = 75
+provider succeeded = 75
+provider failed terminal = 0
+provider outcome unknown = 0
+provider estimated cost = 36.600 RUB
+normalized queries = 75/75
+normalized ranked rows = 750/750
+```
+
+### Live Bridge execution history
+
+```text
+YANDEX_MARKETING_BRIDGE_SOURCE_VERSION = 0.1.2
+SEARCH_BATCH_NEXT_N_SUPPORTED = true
+SEARCH_BATCH_NEXT_N_MANUAL_ONLY = true
+LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = 4,10,25,31
+LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
+HARD_PROTOCOL_CEILING = 100
+```
+
+`count=100` was a local bounded-runtime test, not 100 live provider requests.
+
+### Evidence persistence truth
+
+```text
+REPOSITORY_NORMALIZED_SERP_LEDGER_COMPLETE = true
+CANARY_FULL_ROWS_PERSISTED = 10
+R2_NORMALIZED_PROJECTION_ROWS_PERSISTED = 740
+COMBINED_NORMALIZED_RANKED_ROWS_PERSISTED = 750
+R2_RAW_PER_ITEM_PROVIDER_XML_LEDGER_COMPLETE = false
+R2_PER_ITEM_PROVIDER_REQUEST_ID_LEDGER_COMPLETE = false
+```
+
+The R2 raw-fidelity limitation is a recorded process incident. It is not falsely marked as a full-raw PASS and did not trigger paid replay.
+
+Mandatory non-repeat rule:
+
+```text
+PROVIDER_RESULT_OR_NEXT_N_CHUNK_RECEIVED
+-> PARSE_AND_ACCOUNT
+-> IMMEDIATE_REPOSITORY_WRITE
+-> GITHUB_READ_BACK_QA
+-> COVERAGE_AND_COST_CHECKPOINT
+-> ONLY_THEN_NEXT_PAID_CHUNK
+```
+
+### Direct SERP analysis truth
+
+```text
+DIRECT_EVIDENCE_DECISIONS = 75/75
+ACTIVE_NONEXACT_DUPLICATE_COMPARISONS = 8/8
+ACTIVE_DUPLICATE_AUTO_MERGES_IN_STEP09 = 0
+UNIVERSAL_NUMERIC_OVERLAP_THRESHOLD_USED = false
+```
+
+Duplicate comparison handoff:
+
+```text
+7 groups = CLUSTER_TOGETHER_CANDIDATE
+1 group = DO_NOT_AUTO_MERGE / REVIEW_SEARCH_JOB_BOUNDARY
+```
+
+These remain Step-10 candidates, not final clusters.
+
+### REVIEW_SEARCH accounting truth
 
 ```text
 REVIEW_SEARCH_TOTAL = 944
-INITIAL_TRANCHE_PROBES = 75
-DIRECT_REVIEW_SEARCH_ROWS_IN_INITIAL_TRANCHE = 45
+DIRECT_REVIEW_SEARCH_ROWS = 45
 UNRESOLVED_UNPROBED_REVIEW_SEARCH_ROWS = 899
-TRACEABILITY_COMPLETE = true
+POST_SERP_AUTOMATIC_TRANSFER_ROWS = 0
+TOTAL_ACCOUNTED = 944
+SILENT_DROPS = 0
 FULL_SERP_EVIDENCE_COVERAGE = false
-PRE_SERP_TRANSFER_ALLOWED = false
-PRE_SERP_TRANSFER_LINKS = 0
-SEMANTIC_SAMPLE_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY
 ```
 
-`TRACEABILITY_COMPLETE=true` means all 944 rows remain accounted for. It does not mean 944 rows have Search evidence.
+`FULL_SERP_EVIDENCE_COVERAGE=false` is intentional and truthful. The bounded tranche was never authorized to stand in for all 944 rows.
 
-### External method basis for the correction
-
-Direct sources are preserved in the postmortem, including:
+### Step-09 close truth
 
 ```text
-Yandex query clustering: meaning / user intent
-https://yandex.ru/support/webmaster/ru/service/queries-selection
-
-Rush Analytics marker-query method: fully automatic marker selection is not reliable for arbitrary sites
-https://www.rush-analytics.ru/faq/kak-nayti-markernye-zaprosy
-
-Ahrefs: intent/SERP clustering differs from term/word clustering
-https://ahrefs.com/blog/keyword-clustering/
-https://ahrefs.com/blog/keyword-clustering-tools/
-
-Semrush: shared intent and SERP similarity/overlap are page-level clustering evidence
-https://www.semrush.com/blog/keyword-clustering/
-https://www.semrush.com/blog/keyword-manager-clustering-tool/
+STEP09_METHOD_RESEARCH_AND_TRACE = PASS
+STEP09_OWNER_AUTHORIZATION = RECEIVED
+STEP09_INITIAL_TRANCHE_SEMANTIC_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY
+STEP09_PROVIDER_ACCOUNTING = PASS
+STEP09_NORMALIZED_SERP_PERSISTENCE = PASS
+STEP09_R2_RAW_FIDELITY = KNOWN_INCOMPLETE / INCIDENT RECORDED
+STEP09_DIRECT_EVIDENCE_DECISIONS = 75/75
+STEP09_ACTIVE_DUPLICATE_COMPARISONS = 8/8
+STEP09_REVIEW_SEARCH_ACCOUNTING = 944/944
+STEP09_PREMATURE_FINAL_CLUSTERING = 0
+STEP09_PREMATURE_PAGE_OWNERSHIP = 0
+STEP09_COMPLETE = true
 ```
 
-### Baseline Search evidence unit
+## Current step — Step 10 user-task / SERP clustering
+
+Status: **🔄 PRE-STEP METHODOLOGY RESEARCH REQUIRED / EXECUTION NOT STARTED**
+
+`STEP_RULES_INDEX.md` status:
 
 ```text
-ordinary Yandex Search only
-searchType = RU
-region = 213 Moscow
-TOP-10
-page = 0
-GROUP_MODE_FLAT
-docsInGroup = 1
-relevance sorting
-moderate family filter
-typo correction ON
-XML response
+STEP_10_PERMANENT_METHOD = UNVALIDATED
 ```
 
-`TOP-10` remains an industry evidence convention used here, not an official Yandex SEO threshold.
-
-### Overlap interpretation rule
+Therefore the current allowed work is:
 
 ```text
-exact shared URLs = primary page-boundary evidence
-domain overlap = secondary competitive-composition evidence
-no automatic universal threshold such as 3 URLs => same page
+1. restore exact Step-10 goal and inputs;
+2. analyze prior clustering-related failure risks;
+3. perform fresh current methodology research;
+4. create source-to-method trace for every material clustering rule;
+5. define how meaning, direct SERP compatibility, business fit and unresolved Search evidence combine;
+6. explicitly reject automatic one-keyword-one-page and universal overlap-threshold logic;
+7. define Step-10 executable outputs and quantitative PASS gate;
+8. present owner-facing method review with direct source links;
+9. only after required review/authorization execute clustering.
 ```
 
-### First provider tranche safety ceiling
+Step-10 execution is currently blocked:
 
 ```text
-MAX_PROVIDER_REQUESTS = 80
-INITIAL_TRANCHE_REQUESTS = 75
-ESTIMATED_INITIAL_TRANCHE_COST_RUB = 36.6
-MAX_PROVIDER_COST_RUB = 39.04
+STEP10_PRE_STEP_RESEARCH_REQUIRED = true
+STEP10_SOURCE_TO_METHOD_TRACE_COMPLETE = false
+STEP10_OWNER_METHOD_REVIEW_COMPLETE = false
+STEP10_EXECUTION_STARTED = false
+STEP10_COMPLETE = false
 ```
-
-This is project-specific budget control, not an SEO sufficiency threshold.
-
-### Corrected YMB interaction gate
-
-The generic batch runtime is serial, but generic persistence is not enough for this project's completeness gate.
-
-Forbidden execution shape for Step 09:
-
-```text
-start + next x75 + status in one unattended/manual block
-```
-
-Reason:
-
-```text
-TRANSPORT_PERSISTED != PROJECT_RESULT_COMPLETE
-```
-
-Required loop:
-
-```text
-start
--> verify zero provider calls
-
-one next
--> at most one paid Search request
--> known governed outcome
--> complete raw payload preserved
--> normalized ranked rows readable
--> observed result count reconciled
--> request/cost/evidence reference preserved
--> only then another paid next
-```
-
-```text
-OUTCOME_UNKNOWN => STOP / NO AUTOMATIC REPLAY
-```
-
-### Required Step-09 outputs after execution
-
-```text
-STEP_09_SEARCH_PROBE_MANIFEST.tsv
-STEP_09_REVIEW_SEARCH_COVERAGE.tsv
-STEP_09_SERP_RESULTS.tsv
-STEP_09_SERP_COMPARISONS.tsv
-STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv
-STEP_09_SEARCH_RECONCILIATION.md
-STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md
-```
-
-### Current transition truth
-
-```text
-STEP_09_PRE_STEP_RESEARCH_REQUIRED = false
-STEP_09_PRE_STEP_REVIEW_COMPLETE = true
-STEP_09_SOURCE_TO_METHOD_TRACE_PASS = true
-STEP_09_OWNER_AUTHORIZATION_PENDING = false
-STEP_09_OWNER_AUTHORIZED = true
-STEP_09_INITIAL_TRANCHE_CORRECTED = true
-STEP_09_TRACEABILITY_ROWS = 944
-STEP_09_FULL_SERP_EVIDENCE_COVERAGE = false
-STEP_09_PRE_SERP_TRANSFER_LINKS = 0
-STEP_09_EXECUTION_STARTED = false
-STEP_09_PROVIDER_REQUESTS = 0
-STEP_09_PROVIDER_COST_RUB = 0
-STEP_09_COMPLETE = false
-STEP_10_ALLOWED = false
-```
-
-## Remaining work
-
-1. Execute Step 9 ordinary Search using the interaction-gated one-`next` loop.
-2. Preserve/verify every paid result before another paid request.
-3. Build Step-09 SERP results, comparisons, evidence decisions and reconciliation.
-4. Keep non-probed rows unresolved unless a separate post-SERP evidence-transfer decision is explicitly justified.
-5. Step 10 — user-task / SERP clustering.
-6. Step 11 — page ownership mapping.
-7. Step 12 — structural actions.
-8. Step 13 — cannibalization diagnosis.
-9. Step 14 — Search-only architecture freeze.
-10. Step 15 — AI-case selection.
-11. Step 16 — selective AI-search evidence.
-12. Step 17 — Search-vs-AI comparison.
-13. Step 18 — prioritization.
-14. Step 19 — client deliverables.
-15. Step 20 — final QA.
-16. Step 21 — handoff/revisions.
-17. Step 22 — job close.
 
 ## Full roadmap status
 
@@ -343,8 +295,8 @@ STEP_10_ALLOWED = false
 | 6A. Acquisition coverage revalidation | Decide whether more Wordstat is needed | ✅ COMPLETE |
 | 7. Row-level semantic cleanup | Produce trustworthy phrase-level decisions | ✅ COMPLETE AFTER CORRECTION |
 | 8. Freeze Search-stage semantic set | Freeze exact Search input and executable unresolved routes | ✅ COMPLETE AFTER METHOD CORRECTION |
-| **9. Ordinary Yandex Search validation** | **Resolve material intent/page-boundary uncertainty with real SERP evidence** | **🟡 CURRENT — OWNER AUTHORIZED / INITIAL TRANCHE CORRECTED / PROVIDER NOT STARTED** |
-| 10. User-task / SERP clustering | Group compatible search jobs | ⬜ NOT STARTED |
+| 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
+| **10. User-task / SERP clustering** | **Group compatible search jobs** | **🔄 CURRENT — PRE-STEP METHOD RESEARCH REQUIRED** |
 | 11. Page ownership | Map clusters to best existing URLs | ⬜ NOT STARTED |
 | 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
@@ -358,25 +310,23 @@ STEP_10_ALLOWED = false
 | 21. Handoff/revisions | Deliver and process allowed revisions | ⬜ NOT STARTED |
 | 22. Job close | Mark safe-to-delete and remove disposable workspace | ⬜ NOT STARTED |
 
-Markers:
+## Current markers
 
 ```text
 KW001_OKNO_MSK_JOB_FLOW_ACTIVE = true
 KW001_OKNO_MSK_STEP08_COMPLETE_AFTER_METHOD_CORRECTION = true
-KW001_OKNO_MSK_STEP08_REVIEW_SEARCH = 944
-KW001_OKNO_MSK_STEP08_REVIEW_DEFERRED = 174
-KW001_OKNO_MSK_STEP08_FORBIDDEN_BUSINESS_ROUTE_STATES = 0
 KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
-KW001_OKNO_MSK_STEP09_PRE_STEP_REVIEW_COMPLETE = true
-KW001_OKNO_MSK_STEP09_SOURCE_TO_METHOD_TRACE_PASS = true
-KW001_OKNO_MSK_STEP09_OWNER_AUTHORIZATION_PENDING = false
-KW001_OKNO_MSK_STEP09_OWNER_AUTHORIZED = true
-KW001_OKNO_MSK_STEP09_INITIAL_TRANCHE_CORRECTED = true
-KW001_OKNO_MSK_STEP09_FULL_SERP_EVIDENCE_COVERAGE = false
-KW001_OKNO_MSK_STEP09_PRE_SERP_TRANSFER_LINKS = 0
-KW001_OKNO_MSK_STEP09_EXECUTION_STARTED = false
-KW001_OKNO_MSK_STEP09_PROVIDER_REQUESTS = 0
-KW001_OKNO_MSK_STEP09_PROVIDER_COST_RUB = 0
-KW001_OKNO_MSK_STEP09_COMPLETE = false
-KW001_OKNO_MSK_STEP10_ALLOWED = false
+KW001_OKNO_MSK_STEP09_COMPLETE = true
+KW001_OKNO_MSK_STEP09_PROVIDER_REQUESTS = 75
+KW001_OKNO_MSK_STEP09_PROVIDER_COST_RUB = 36.600
+KW001_OKNO_MSK_STEP09_NORMALIZED_RANKED_ROWS = 750
+KW001_OKNO_MSK_STEP09_DIRECT_EVIDENCE_DECISIONS = 75
+KW001_OKNO_MSK_STEP09_ACTIVE_DUPLICATE_COMPARISONS = 8
+KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_ACCOUNTED = 944
+KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_UNRESOLVED = 899
+KW001_OKNO_MSK_STEP10_PRE_STEP_RESEARCH_REQUIRED = true
+KW001_OKNO_MSK_STEP10_SOURCE_TO_METHOD_TRACE_COMPLETE = false
+KW001_OKNO_MSK_STEP10_OWNER_METHOD_REVIEW_COMPLETE = false
+KW001_OKNO_MSK_STEP10_EXECUTION_STARTED = false
+KW001_OKNO_MSK_STEP10_COMPLETE = false
 ```
