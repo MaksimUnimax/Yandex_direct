@@ -1,7 +1,3 @@
 collision_code	phrase	cluster_id	user_task	evidence_state	step09_probe_id	reason
-SOFT_WINDOW_TOKEN_MISMATCH	мягкое остекление веранды	SOFT_WINDOWS_COMMERCIAL	Мягкие окна	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		soft-window cluster lacks soft-window wording
-SOFT_WINDOW_TOKEN_MISMATCH	мягкое остекление веранды цена	SOFT_WINDOWS_COMMERCIAL	Мягкие окна	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		soft-window cluster lacks soft-window wording
-SOFT_WINDOW_TOKEN_MISMATCH	мягкое остекление веранды цена в московской области	SOFT_WINDOWS_COMMERCIAL	Мягкие окна	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		soft-window cluster lacks soft-window wording
-TASK_TOKEN_MISMATCH	окна с французской раскладкой	WINDOW_HARDWARE	Фурнитура и комплектующие для окон/ПВХ-дверей	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_HARDWARE lacks its defining task marker
-TASK_TOKEN_MISMATCH	окно с французской раскладкой фото в квартирах	WINDOW_HARDWARE	Фурнитура и комплектующие для окон/ПВХ-дверей	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_HARDWARE lacks its defining task marker
-TASK_TOKEN_MISMATCH	французская раскладка окна 16 мм	WINDOW_HARDWARE	Фурнитура и комплектующие для окон/ПВХ-дверей	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		WINDOW_HARDWARE lacks its defining task marker
+PRIVATE_HOUSE_SWALLOWED_MATERIAL_TASK	окна пвх для частного дома	PRIVATE_HOUSE_WINDOWS_COMMERCIAL	Окна для частного дома: покупка/цена	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		generic private-house cluster swallowed an explicit window material/brand task
+PRIVATE_HOUSE_SWALLOWED_ACTION_OR_INFO_TASK	стандартные размеры панорамных окон для частного дома	PRIVATE_HOUSE_WINDOWS_COMMERCIAL	Окна для частного дома: покупка/цена	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		generic private-house cluster swallowed a more specific service/information task

@@ -1,12 +1,12 @@
 {
   "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
-  "audit_version": "V10",
+  "audit_version": "V11",
   "active_rows_scanned": 2332,
-  "flagged_rows": 6,
-  "flagged_records": 6,
+  "flagged_rows": 2,
+  "flagged_records": 2,
   "collision_counts": {
-    "SOFT_WINDOW_TOKEN_MISMATCH": 3,
-    "TASK_TOKEN_MISMATCH": 3
+    "PRIVATE_HOUSE_SWALLOWED_ACTION_OR_INFO_TASK": 1,
+    "PRIVATE_HOUSE_SWALLOWED_MATERIAL_TASK": 1
   },
-  "meaning": "Heuristic adversarial audit with V10 task-aware controls; flags still require manual review and cannot self-accept Step 10."
+  "meaning": "V11 task-aware adversarial audit. Zero flags is necessary but not sufficient; manual semantic QA remains mandatory."
 }
