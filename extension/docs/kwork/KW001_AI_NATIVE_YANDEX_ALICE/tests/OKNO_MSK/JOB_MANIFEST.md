@@ -1,6 +1,6 @@
 # KW-001 / OKNO-MSK — JOB MANIFEST
 
-Date updated: 2026-08-29  
+Date updated: 2026-08-29
 Workspace status: **ACTIVE / DISPOSABLE / JOB-SPECIFIC ONLY / LEGACY PATH**
 
 ```text
@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_06_COMPLETE_PASS
-next_major_step = PRE_STEP_REVIEW_REQUIRED
+current_major_step = STEP_03_REPAIR_PRE_STEP
+next_major_step = STEP_03_REPAIR_PROVIDER_EXECUTION_AFTER_OWNER_AUTHORIZATION
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -32,40 +32,50 @@ It must not define permanent universal KW-001 rules. Universal methodology lives
 
 Use `JOB_FLOW.md` for the current job sequence/status.
 
-Completed Step-5 authorities remain frozen in the workspace, including full normalized provider rows and `STEP_05_ACCEPTANCE.md`.
-
-Completed Step-6 authorities:
+The current Step-03 correction authority is:
 
 ```text
-STEP_06_PRE_STEP_REVIEW.md
-STEP_06_DYNAMICS_MANIFEST.md
-STEP_06_D1_RAW_DYNAMICS.tsv
-STEP_06_D1_CHECKPOINT.md
-STEP_06_D2_PRE_PROVIDER_INCIDENT.md
-STEP_06_D2_RAW_DYNAMICS.tsv
-STEP_06_D2_CHECKPOINT.md
-STEP_06_D3_RAW_DYNAMICS.tsv
-STEP_06_D3_CHECKPOINT.md
-STEP_06_D4_RAW_DYNAMICS.tsv
-STEP_06_D4_CHECKPOINT.md
-STEP_06_DYNAMICS_SYNTHESIS.md
-STEP_06_ACCEPTANCE.md
+STEP_03_COMPLETION_CORRECTION_2026-08-29.md
 ```
 
-Step-6 final truth:
+It supersedes the historical PASS verdict in `STEP_03_ACCEPTANCE.md`.
+
+Current truth:
 
 ```text
-successful provider requests = 4
-failed provider requests = 0
-outcome_unknown = 0
+historical Step-03 provider calls = 18 successful technical executions
+complete first-pass phrase dataset preserved = false
+Step 03 project completion = false
+Step 03 repair required = true
+forward semantic analysis blocked = true
+```
+
+## Preserved downstream observations
+
+Step-05 provider responses:
+
+```text
+4/4 preserved completely
 estimated provider cost = 0.08 RUB
-raw monthly rows preserved = true
-causal explanation of level shift established = false
 ```
 
-One recoverable D2 delivery-stage incident had `request_executed=false` and consumed no provider request.
+These observations remain valid, but sufficiency of the four-probe expansion choice must be rechecked after Step-03 repair.
 
-No provider/operator action is currently pending. The next major step requires its own pre-step review and explicit owner authorization.
+Step-06 dynamics responses:
+
+```text
+4/4 preserved completely
+24 monthly rows per root preserved
+estimated provider cost = 0.08 RUB
+```
+
+These remain usable standalone demand-history observations and do not repair Step 03.
+
+## Current required repair
+
+Repeat the exact frozen 18 Step-02 Wordstat seeds as a fresh current observation and, after every individual provider call, preserve and verify the complete returned `results[] + associations[]` before any next provider call.
+
+No provider/operator action is currently pending until the Step-03 repair pre-step review is frozen and the owner explicitly authorizes provider execution.
 
 ## Close rule
 
@@ -88,8 +98,9 @@ Markers:
 ```text
 KW001_OKNO_MSK_WORKSPACE_DISPOSABLE = true
 KW001_OKNO_MSK_WORKSPACE_JOB_SPECIFIC_ONLY = true
-KW001_OKNO_MSK_STEP_05_COMPLETE = true
-KW001_OKNO_MSK_STEP_06_COMPLETE = true
+KW001_OKNO_MSK_STEP_03_COMPLETE = false
+KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
+KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = false
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
 ```
