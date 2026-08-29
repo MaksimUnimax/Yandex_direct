@@ -1,5 +1,6 @@
 name: KW001 OKNO Step09 Correction Docs
 
+# trigger revision 2
 on:
   push:
     branches:
@@ -173,7 +174,8 @@ The corrected builder/workflow must fail if the query list changes without a mat
           authority_line = 'STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md'
           if 'STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md' not in text:
               text = text.replace(authority_line, authority_line + '\nSTEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md\nSTEP_09_INITIAL_TRANCHE_SEMANTIC_QA.json')
-          text += '\n\n## Step 09 corrected current truth\n\n```text\nSTEP_09_OWNER_AUTHORIZED = true\nSTEP_09_INITIAL_TRANCHE_SEMANTIC_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY\nSTEP_09_TRACEABILITY_COMPLETE = true\nSTEP_09_FULL_SERP_EVIDENCE_COVERAGE = false\nSTEP_09_PRE_SERP_TRANSFER_ALLOWED = false\nSTEP_09_PRE_SERP_TRANSFER_LINKS = 0\nSTEP_09_PROVIDER_EXECUTION_SCOPE = INITIAL_BOUNDED_TRANCHE_ONLY\nSTEP_09_PROVIDER_REQUESTS = 0\nSTEP_09_PROVIDER_COST_RUB = 0\nSTEP_09_COMPLETE = false\nSTEP_10_ALLOWED = false\n```\n'
+          if '## Step 09 corrected current truth' not in text:
+              text += '\n\n## Step 09 corrected current truth\n\n```text\nSTEP_09_OWNER_AUTHORIZED = true\nSTEP_09_INITIAL_TRANCHE_SEMANTIC_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY\nSTEP_09_TRACEABILITY_COMPLETE = true\nSTEP_09_FULL_SERP_EVIDENCE_COVERAGE = false\nSTEP_09_PRE_SERP_TRANSFER_ALLOWED = false\nSTEP_09_PRE_SERP_TRANSFER_LINKS = 0\nSTEP_09_PROVIDER_EXECUTION_SCOPE = INITIAL_BOUNDED_TRANCHE_ONLY\nSTEP_09_PROVIDER_REQUESTS = 0\nSTEP_09_PROVIDER_COST_RUB = 0\nSTEP_09_COMPLETE = false\nSTEP_10_ALLOWED = false\n```\n'
           manifest.write_text(text, encoding='utf-8')
           PY
 
