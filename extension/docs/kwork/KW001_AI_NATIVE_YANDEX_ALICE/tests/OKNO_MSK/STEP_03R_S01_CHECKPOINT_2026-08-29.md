@@ -41,9 +41,13 @@ next_safe_action = CLAIM_NEXT
 
 ## Preservation verification
 
-Raw provider result preserved in:
+Complete provider data arrays are preserved in:
 
 `STEP_03R_S01_RAW_PROVIDER_RESULT_2026-08-29.json`
+
+The exact delivered representation of the one normalized service-metadata field plus outer batch facts is preserved/disclosed in:
+
+`STEP_03R_S01_DELIVERY_LITERAL_METADATA_2026-08-29.md`
 
 Explicit returned-array accounting:
 
@@ -65,6 +69,8 @@ Important:
 
 The complete `results[]` and complete `associations[]` arrays delivered in the provider result were preserved, not representative examples.
 
+One presentation-only service field (`tariff_source`) was normalized while creating the JSON copy; its exact delivered Markdown-link value is recorded in the literal-metadata sidecar. Phrase/count arrays were not normalized or altered.
+
 ## Non-repeat control
 
 Historical Step-03 error was: provider success was accepted while only examples were preserved.
@@ -76,6 +82,7 @@ provider success only = NOT ENOUGH
 complete arrays saved = PASS
 saved counts reconciled = PASS
 saved result usable = PASS
+service-metadata normalization disclosed/preserved = PASS
 NON_REPEAT_CONTROL = PASS
 ```
 
