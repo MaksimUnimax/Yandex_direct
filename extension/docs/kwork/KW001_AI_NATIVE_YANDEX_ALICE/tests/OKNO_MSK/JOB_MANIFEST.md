@@ -12,7 +12,7 @@ workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_03R_MANUAL_YMB_EXECUTION_IN_PROGRESS
-next_major_step = STEP_03R_COMPLETE_REMAINING_S14_S18
+next_major_step = STEP_03R_COMPLETE_REMAINING_S15_S18
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -22,25 +22,13 @@ safe_to_delete = false
 
 ## Authority
 
-This directory is the complete temporary working memory and execution history for the current OKNO-MSK job.
+This directory is temporary job memory only. Universal KW-001 rules remain in the parent permanent layer and are owner-locked.
 
-It may contain only material specific to this job: mock/client brief, site facts/URLs, job-specific business/page model, words/phrases, provider evidence, job step plans, job flow/status/checkpoints, job-specific corrections, matrices, page/cluster decisions, deliverables, job economics/QA/revisions.
-
-It must not define permanent universal KW-001 rules. Universal methodology lives only in the parent permanent KW-001 layer and may be changed only on explicit owner instruction.
-
-## Current flow authority
-
-Use `JOB_FLOW.md` for the current job sequence/status.
-
-The Step-03 correction authority is:
+Current execution authorities:
 
 ```text
+JOB_FLOW.md
 STEP_03_COMPLETION_CORRECTION_2026-08-29.md
-```
-
-The current repair authorities are:
-
-```text
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
 STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
 STEP_03R_S10_CHECKPOINT_2026-08-29.md
@@ -48,198 +36,99 @@ STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
 STEP_03R_S11_CHECKPOINT_2026-08-29.md
 STEP_03R_S12_CHECKPOINT_2026-08-29.md
 STEP_03R_S13_CHECKPOINT_2026-08-29.md
+STEP_03R_S14_CHECKPOINT_2026-08-29.md
 ```
 
 ## Current truth
 
+Historical Step-03 technical run remains superseded because it did not preserve the complete reusable dataset.
+
+Current Step-03R repair truth:
+
 ```text
-historical Step-03 provider calls = 18 successful technical executions
-complete historical first-pass phrase dataset preserved = false
-historical Step 03 project completion = false
-Step 03 repair required = true
-Step 03R owner authorized = true
-Step 03R manifest frozen = true
-Step 03R batch.start = complete
-Step 03R provider requests executed = 13
-Step 03R provider outcomes known = 13
-Step 03R failed_terminal = 0
-Step 03R outcome_unknown = 0
-Step 03R estimated provider cost = 0.26 RUB
-Step 03R raw provider items preserved = 13/18
-Step 03R normalized TSV artifacts present = 13/18
-Step 03R results rows preserved/verified = 1530
-Step 03R association rows preserved/verified = 187
-Step 03R normalized rows preserved/verified = 1717
-Step 03R current complete items = 13/18
-Step 03R next item = S14 `ремонт пластиковых окон`
+job_id = kw001-okno-msk-wordstat-pass1-repair-20260829
+frozen seeds = 18
+region = 213
+device = DEVICE_ALL
+numPhrases = 200
+execution = Manual
+batch.start = COMPLETE
+provider requests executed = 14
+provider outcomes known = 14
+failed_terminal = 0
+outcome_unknown = 0
+estimated provider cost = 0.28 RUB
+raw provider items preserved = 14/18
+normalized TSV artifacts present = 14/18
+results rows preserved/verified = 1730
+association rows preserved/verified = 204
+normalized provider rows preserved/verified = 1934
+current complete items = 14/18
+remaining items = 4/18
+next item = S15 `цены на пластиковые окна`
 forward semantic analysis blocked = true
 ```
 
-## S01-S09 correction state
-
-The historical S01-S09 item checkpoints marked completion before the frozen manifest's required normalized TSV layer existed. The raw provider JSON was present, but checkpoint completion was temporally premature.
-
-No provider item was repeated. The missing local derivative layer was repaired from the already preserved raw JSON before S10.
+## Per-item preservation truth
 
 ```text
-S01 results=200 associations=18 rows=218
-S02 results=200 associations=20 rows=220
-S03 results=129 associations=15 rows=144
-S04 results=12 associations=17 rows=29
-S05 results=200 associations=15 rows=215
-S06 results=200 associations=18 rows=218
-S07 results=6 associations=13 rows=19
-S08 results=0 associations=0 rows=0; sparse response totalCount=19; arrays absent
-S09 results=3 associations=10 rows=13
-TOTAL results=950
-TOTAL associations=126
-TOTAL rows=1076
-raw rows = normalized TSV rows = verified rows = 1076
-additional provider calls for repair = 0
-additional provider cost for repair = 0 RUB
+S01 results=200 associations=18 rows=218 COMPLETE
+S02 results=200 associations=20 rows=220 COMPLETE
+S03 results=129 associations=15 rows=144 COMPLETE
+S04 results=12 associations=17 rows=29 COMPLETE
+S05 results=200 associations=15 rows=215 COMPLETE
+S06 results=200 associations=18 rows=218 COMPLETE
+S07 results=6 associations=13 rows=19 COMPLETE
+S08 results=0 associations=0 rows=0 COMPLETE; sparse provider response; totalCount=19; arrays absent
+S09 results=3 associations=10 rows=13 COMPLETE
+S10 results=176 associations=16 rows=192 COMPLETE; totalCount=1373
+S11 results=200 associations=16 rows=216 COMPLETE; totalCount=10354
+S12 results=4 associations=13 rows=17 COMPLETE; totalCount=29
+S13 results=200 associations=16 rows=216 COMPLETE; totalCount=15510
+S14 results=200 associations=17 rows=217 COMPLETE; totalCount=4382
+TOTAL results=1730
+TOTAL associations=204
+TOTAL provider rows=1934
 ```
 
-Current completion truth after repair:
+S01-S09 normalized TSV artifacts were repaired locally from already preserved raw JSON with zero additional provider calls and zero additional provider cost.
 
-```text
-S01-S09 raw provider results = COMPLETE 9/9
-S01-S09 normalized TSV = COMPLETE 9/9
-S01-S09 row-count reconciliation = PASS
-S01-S09 readable/usable preservation = PASS
-S01-S09 current manifest completeness = COMPLETE
-```
+A pre-provider `COMMAND_DISCOVERY / NO_SUPPORTED_COMMAND` occurred before S11 with `request_executed=false`; it did not execute a Wordstat request and the unchanged S11 item was safely retried.
 
-## S10 completion state
-
-```text
-seed = S10 `остекление веранды`
-request_id = wordstat-batch-288b38ee-8019-44a1-bbeb-2eca2592b816
-results rows = 176
-association rows = 16
-provider rows = 192
-raw provider rows saved = 192
-normalized TSV rows saved = 192
-rows verified after read-back = 192
-totalCount = 1373
-estimated item cost = 0.02 RUB
-NON_REPEAT_CONTROLS = PASS
-S10 current manifest completeness = COMPLETE
-```
-
-Authority: `STEP_03R_S10_CHECKPOINT_2026-08-29.md`.
-
-## S11 completion state
-
-A pre-provider `COMMAND_DISCOVERY / NO_SUPPORTED_COMMAND` error occurred before S11. It had `request_executed=false`; therefore it did not execute a Wordstat request, did not change provider cost, and the unchanged S11 item was safe to retry.
-
-```text
-seed = S11 `алюминиевые окна`
-request_id = wordstat-batch-c5589da6-f985-4acd-913d-20beda432598
-results rows = 200
-association rows = 16
-provider rows = 216
-raw provider rows saved = 216
-normalized TSV rows saved = 216
-rows verified after read-back = 216
-totalCount = 10354
-estimated item cost = 0.02 RUB
-NON_REPEAT_CONTROLS = PASS
-S11 current manifest completeness = COMPLETE
-```
-
-Authorities:
-- `STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md`
-- `STEP_03R_S11_CHECKPOINT_2026-08-29.md`
-
-## S12 completion state
-
-```text
-seed = S12 `аксессуары для пластиковых окон`
-request_id = wordstat-batch-7a613df4-d2b4-402e-90c7-0ef70640141a
-results rows = 4
-association rows = 13
-provider rows = 17
-raw provider rows saved = 17
-normalized TSV rows saved = 17
-rows verified after read-back = 17
-totalCount = 29
-estimated item cost = 0.02 RUB
-NON_REPEAT_CONTROLS = PASS
-S12 current manifest completeness = COMPLETE
-```
-
-Authority: `STEP_03R_S12_CHECKPOINT_2026-08-29.md`.
-
-## S13 completion state
-
-```text
-seed = S13 `установка пластиковых окон`
-request_id = wordstat-batch-027f5a42-a471-4452-8a24-49a0e25faa23
-results rows = 200
-association rows = 16
-provider rows = 216
-raw provider rows saved = 216
-normalized TSV rows saved = 216
-rows verified after read-back = 216
-totalCount = 15510
-estimated item cost = 0.02 RUB
-NON_REPEAT_CONTROLS = PASS
-S13 current manifest completeness = COMPLETE
-```
-
-Authority: `STEP_03R_S13_CHECKPOINT_2026-08-29.md`.
-
-## Preserved downstream observations
-
-Step-05 provider responses:
-
-```text
-4/4 preserved completely
-estimated provider cost = 0.08 RUB
-```
-
-These observations remain valid, but sufficiency of the four-probe expansion choice must be rechecked after Step-03 repair.
-
-Step-06 dynamics responses:
-
-```text
-4/4 preserved completely
-24 monthly rows per root preserved
-estimated provider cost = 0.08 RUB
-```
-
-These remain usable standalone demand-history observations and do not repair Step 03.
-
-## Current required repair
-
-Complete remaining S14-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
-
-```text
-complete raw result
-all results[] rows
-all associations[] rows
-complete normalized TSV
-returned/saved/normalized row-count reconciliation
-readability/usability
-```
-
-Mandatory non-repeat rule:
+## Mandatory non-repeat gate
 
 ```text
 ONE PROVIDER ITEM
 → RECEIVE FULL RESULT
-→ SAVE FULL RAW RESULT
-→ CREATE FULL TSV
-→ COUNT RESULTS[]
-→ COUNT ASSOCIATIONS[]
+→ SAVE COMPLETE RAW RESULT
+→ CREATE COMPLETE TSV
+→ COUNT results[]
+→ COUNT associations[]
 → VERIFY RAW + TSV COUNTS
 → VERIFY READABLE/USABLE
 → ONLY THEN NEXT PROVIDER ITEM
 ```
 
+If any current item fails this gate:
+
+```text
+CURRENT_ITEM = INCOMPLETE
+NEXT_PROVIDER_ITEM = BLOCKED
+FORWARD_ANALYSIS = BLOCKED
+```
+
+## Preserved downstream observations
+
+```text
+Step-05 targeted Wordstat probes = 4/4 completely preserved; estimated cost 0.08 RUB
+Step-06 dynamics observations = 4/4 completely preserved; 24 monthly rows per root; estimated cost 0.08 RUB
+```
+
+Their provider data remain usable, but their analytical sufficiency must be rechecked after Step 03R reaches 18/18.
+
 ## Current operator action
 
-Next provider item is S14 `ремонт пластиковых окон`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
+Next provider item is S15 `цены на пластиковые окна`. Before issuing it, execute the required owner-facing whole-goal/status/prior-error/current-step/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
 
 ## Close rule
 
@@ -255,8 +144,6 @@ safe_to_delete = true
 
 then delete the entire `tests/OKNO_MSK/` directory from the active branch.
 
-There is no mandatory export/extraction of job lessons into permanent rules at close.
-
 Markers:
 
 ```text
@@ -266,8 +153,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 13
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1717
+KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 14
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1934
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
