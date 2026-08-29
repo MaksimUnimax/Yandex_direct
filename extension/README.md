@@ -2,6 +2,22 @@
 
 Постоянная зона разработки **Yandex Marketing Bridge**.
 
+## Текущая версия
+
+```text
+Yandex Marketing Bridge = 0.1.2
+```
+
+Authoritative version fields:
+
+- `src/manifest.json`
+- `src/shared/product.js`
+- `src/package.json`
+
+Текущее функциональное изменение Search Batch `nextN` и его acceptance evidence:
+
+`docs/SEARCH_BATCH_NEXTN100_V0_1_2_CHANGELOG_AND_ACCEPTANCE_2026-08-29.md`
+
 Структура:
 
 - `docs/` — каноническая проектная документация: цель, ТЗ, roadmap, reference baseline, append-only контекст разработки и обязательный pre-delivery regression gate.
