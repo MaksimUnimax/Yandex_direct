@@ -98,11 +98,18 @@ SOURCE_TO_METHOD_TRACEABILITY_REQUIRED = true
 
 ## Current step — Step 9 ordinary Yandex Search validation
 
-Status: **PRE-STEP METHOD REVIEW COMPLETE / OWNER AUTHORIZATION PENDING / EXECUTION NOT STARTED**
+Status: **OWNER AUTHORIZED / INITIAL TRANCHE CORRECTED AFTER SEMANTIC AUDIT / PROVIDER EXECUTION NOT STARTED**
 
-Authority:
+Authorities:
 
-`STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md`
+```text
+STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md
+STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
+STEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md
+STEP_09_INITIAL_TRANCHE_SEMANTIC_QA.json
+```
+
+Where the original pre-step conflicts with the post-audit correction, the postmortem/current-state authority supersedes it.
 
 Permanent methodology status remains:
 
@@ -110,36 +117,91 @@ Permanent methodology status remains:
 STEP_09_PERMANENT_METHOD = UNVALIDATED
 ```
 
-The current job-specific method is therefore not automatically promoted into permanent methodology.
+The current job-specific method is not automatically promoted into universal methodology.
 
 ### Step 9 purpose
 
-Collect bounded ordinary Yandex SERP evidence for the material intent/result-type/page-boundary questions that block later clustering and page ownership.
+Collect bounded ordinary Yandex SERP evidence for material intent/result-type/page-boundary questions that block later clustering and page ownership.
 
-### Why not Search every active phrase
+### Post-audit causal correction
 
-There is no authoritative method saying that each active keyword must receive its own paid SERP request before clustering. Industry practice compares TOP result sets and marker/contrast queries; therefore this job will probe the **decisions that need evidence**, while keeping all 944 `REVIEW_SEARCH` rows mapped to an evidence question or explicitly unresolved.
-
-Method sources are recorded directly in the pre-step, including:
+The first builder made a method error:
 
 ```text
-Yandex Webmaster relevance/query-page evidence
-Yandex Search API request and region semantics
-Yandex Search API pricing
-Rush Analytics TOP-10 overlap methodology
-Topvisor TOP-10 soft/middle/hard methodology
-Ahrefs SERP comparison / search intent
-Semrush SERP overlap / clustering practice
+corrected_reason -> treated as a surrogate SERP/user-intent family
+source_id -> treated as a surrogate semantic subfamily
+lexical/source centrality -> treated as authoritative marker selection
+accounting assignment -> described as Search evidence coverage
 ```
 
-### Mandatory coverage before paid execution can pass
+This was wrong because those fields describe **our acquisition/cleanup process**, not the user's observed Search task.
 
 ```text
-material Step-01 page-boundary questions represented
-all 8 active Search-routed non-exact duplicate groups directly compared
-every distinct REVIEW_SEARCH corrected_reason represented
-base commercial/page directions represented as core anchors
-all 944 REVIEW_SEARCH rows mapped to an evidence_question_id or explicit UNRESOLVED state
+CLEANUP_REASON != SEARCH_INTENT_CLUSTER
+ACQUISITION_SOURCE != SEARCH_INTENT_CLUSTER
+LEXICAL_SIMILARITY != SERP_COMPATIBILITY
+TRACEABILITY_COMPLETE != FULL_SERP_EVIDENCE_COVERAGE
+```
+
+Why the mistake matters: one direct query can otherwise be allowed to silently stand in for many untested phrases even though their intents/result types may differ. That would repeat the Step-07 failure class `ACCOUNTING_QA != SEMANTIC_QA`.
+
+The full causal explanation, concrete bad examples, external authorities, corrected method and non-repeat controls are recorded in `STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`.
+
+### Corrected initial tranche
+
+The 75 queries are now only:
+
+```text
+INITIAL_BOUNDED_SERP_TRANCHE
+```
+
+Their roles are:
+
+```text
+REVIEW_STRATIFIED_SAMPLE
+= direct diagnostic query only; not marker authority for other phrases.
+
+NONEXACT_DUPLICATE_VARIANT
+= direct pairwise comparison input.
+
+STEP1_BOUNDARY_OR_CORE_ANCHOR
+= explicit direct contrast/control query.
+```
+
+Correct current counts:
+
+```text
+REVIEW_SEARCH_TOTAL = 944
+INITIAL_TRANCHE_PROBES = 75
+DIRECT_REVIEW_SEARCH_ROWS_IN_INITIAL_TRANCHE = 45
+UNRESOLVED_UNPROBED_REVIEW_SEARCH_ROWS = 899
+TRACEABILITY_COMPLETE = true
+FULL_SERP_EVIDENCE_COVERAGE = false
+PRE_SERP_TRANSFER_ALLOWED = false
+PRE_SERP_TRANSFER_LINKS = 0
+SEMANTIC_SAMPLE_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY
+```
+
+`TRACEABILITY_COMPLETE=true` means all 944 rows remain accounted for. It does not mean 944 rows have Search evidence.
+
+### External method basis for the correction
+
+Direct sources are preserved in the postmortem, including:
+
+```text
+Yandex query clustering: meaning / user intent
+https://yandex.ru/support/webmaster/ru/service/queries-selection
+
+Rush Analytics marker-query method: fully automatic marker selection is not reliable for arbitrary sites
+https://www.rush-analytics.ru/faq/kak-nayti-markernye-zaprosy
+
+Ahrefs: intent/SERP clustering differs from term/word clustering
+https://ahrefs.com/blog/keyword-clustering/
+https://ahrefs.com/blog/keyword-clustering-tools/
+
+Semrush: shared intent and SERP similarity/overlap are page-level clustering evidence
+https://www.semrush.com/blog/keyword-clustering/
+https://www.semrush.com/blog/keyword-manager-clustering-tool/
 ```
 
 ### Baseline Search evidence unit
@@ -158,7 +220,7 @@ typo correction ON
 XML response
 ```
 
-`TOP-10` is an industry evidence convention used here, not an official Yandex SEO threshold.
+`TOP-10` remains an industry evidence convention used here, not an official Yandex SEO threshold.
 
 ### Overlap interpretation rule
 
@@ -168,30 +230,51 @@ domain overlap = secondary competitive-composition evidence
 no automatic universal threshold such as 3 URLs => same page
 ```
 
-Different industry methods use different overlap rules, so a single hard cutoff is not promoted into a universal truth.
-
 ### First provider tranche safety ceiling
 
 ```text
 MAX_PROVIDER_REQUESTS = 80
+INITIAL_TRANCHE_REQUESTS = 75
+ESTIMATED_INITIAL_TRANCHE_COST_RUB = 36.6
 MAX_PROVIDER_COST_RUB = 39.04
 ```
 
-This is project-specific budget control based on current ordinary synchronous Search pricing `0.488 RUB/request`, not an SEO sufficiency threshold.
+This is project-specific budget control, not an SEO sufficiency threshold.
 
-If the frozen manifest exceeds 80 required direct probes, no provider call is allowed until the owner explicitly authorizes a larger tranche.
+### Corrected YMB interaction gate
 
-### YMB interaction gate
+The generic batch runtime is serial, but generic persistence is not enough for this project's completeness gate.
+
+Forbidden execution shape for Step 09:
 
 ```text
-service = search
-SEARCH_BATCH_API_V1
-ordinary Search only
-no GenSearch
-freeze manifest before paid execution
-one explicit next <= one provider request
-save + verify complete current result before another paid next
-OUTCOME_UNKNOWN => no automatic replay
+start + next x75 + status in one unattended/manual block
+```
+
+Reason:
+
+```text
+TRANSPORT_PERSISTED != PROJECT_RESULT_COMPLETE
+```
+
+Required loop:
+
+```text
+start
+-> verify zero provider calls
+
+one next
+-> at most one paid Search request
+-> known governed outcome
+-> complete raw payload preserved
+-> normalized ranked rows readable
+-> observed result count reconciled
+-> request/cost/evidence reference preserved
+-> only then another paid next
+```
+
+```text
+OUTCOME_UNKNOWN => STOP / NO AUTOMATIC REPLAY
 ```
 
 ### Required Step-09 outputs after execution
@@ -212,7 +295,12 @@ STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md
 STEP_09_PRE_STEP_RESEARCH_REQUIRED = false
 STEP_09_PRE_STEP_REVIEW_COMPLETE = true
 STEP_09_SOURCE_TO_METHOD_TRACE_PASS = true
-STEP_09_OWNER_AUTHORIZATION_PENDING = true
+STEP_09_OWNER_AUTHORIZATION_PENDING = false
+STEP_09_OWNER_AUTHORIZED = true
+STEP_09_INITIAL_TRANCHE_CORRECTED = true
+STEP_09_TRACEABILITY_ROWS = 944
+STEP_09_FULL_SERP_EVIDENCE_COVERAGE = false
+STEP_09_PRE_SERP_TRANSFER_LINKS = 0
 STEP_09_EXECUTION_STARTED = false
 STEP_09_PROVIDER_REQUESTS = 0
 STEP_09_PROVIDER_COST_RUB = 0
@@ -222,20 +310,23 @@ STEP_10_ALLOWED = false
 
 ## Remaining work
 
-1. Execute Step 9 bounded ordinary-Yandex Search evidence after owner authorization.
-2. Step 10 — user-task / SERP clustering.
-3. Step 11 — page ownership mapping.
-4. Step 12 — structural actions.
-5. Step 13 — cannibalization diagnosis.
-6. Step 14 — Search-only architecture freeze.
-7. Step 15 — AI-case selection.
-8. Step 16 — selective AI-search evidence.
-9. Step 17 — Search-vs-AI comparison.
-10. Step 18 — prioritization.
-11. Step 19 — client deliverables.
-12. Step 20 — final QA.
-13. Step 21 — handoff/revisions.
-14. Step 22 — job close.
+1. Execute Step 9 ordinary Search using the interaction-gated one-`next` loop.
+2. Preserve/verify every paid result before another paid request.
+3. Build Step-09 SERP results, comparisons, evidence decisions and reconciliation.
+4. Keep non-probed rows unresolved unless a separate post-SERP evidence-transfer decision is explicitly justified.
+5. Step 10 — user-task / SERP clustering.
+6. Step 11 — page ownership mapping.
+7. Step 12 — structural actions.
+8. Step 13 — cannibalization diagnosis.
+9. Step 14 — Search-only architecture freeze.
+10. Step 15 — AI-case selection.
+11. Step 16 — selective AI-search evidence.
+12. Step 17 — Search-vs-AI comparison.
+13. Step 18 — prioritization.
+14. Step 19 — client deliverables.
+15. Step 20 — final QA.
+16. Step 21 — handoff/revisions.
+17. Step 22 — job close.
 
 ## Full roadmap status
 
@@ -252,7 +343,7 @@ STEP_10_ALLOWED = false
 | 6A. Acquisition coverage revalidation | Decide whether more Wordstat is needed | ✅ COMPLETE |
 | 7. Row-level semantic cleanup | Produce trustworthy phrase-level decisions | ✅ COMPLETE AFTER CORRECTION |
 | 8. Freeze Search-stage semantic set | Freeze exact Search input and executable unresolved routes | ✅ COMPLETE AFTER METHOD CORRECTION |
-| **9. Ordinary Yandex Search validation** | **Resolve material intent/page-boundary uncertainty with real SERP evidence** | **🟡 CURRENT — PRE-STEP COMPLETE / AUTHORIZATION PENDING** |
+| **9. Ordinary Yandex Search validation** | **Resolve material intent/page-boundary uncertainty with real SERP evidence** | **🟡 CURRENT — OWNER AUTHORIZED / INITIAL TRANCHE CORRECTED / PROVIDER NOT STARTED** |
 | 10. User-task / SERP clustering | Group compatible search jobs | ⬜ NOT STARTED |
 | 11. Page ownership | Map clusters to best existing URLs | ⬜ NOT STARTED |
 | 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
@@ -278,7 +369,11 @@ KW001_OKNO_MSK_STEP08_FORBIDDEN_BUSINESS_ROUTE_STATES = 0
 KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
 KW001_OKNO_MSK_STEP09_PRE_STEP_REVIEW_COMPLETE = true
 KW001_OKNO_MSK_STEP09_SOURCE_TO_METHOD_TRACE_PASS = true
-KW001_OKNO_MSK_STEP09_OWNER_AUTHORIZATION_PENDING = true
+KW001_OKNO_MSK_STEP09_OWNER_AUTHORIZATION_PENDING = false
+KW001_OKNO_MSK_STEP09_OWNER_AUTHORIZED = true
+KW001_OKNO_MSK_STEP09_INITIAL_TRANCHE_CORRECTED = true
+KW001_OKNO_MSK_STEP09_FULL_SERP_EVIDENCE_COVERAGE = false
+KW001_OKNO_MSK_STEP09_PRE_SERP_TRANSFER_LINKS = 0
 KW001_OKNO_MSK_STEP09_EXECUTION_STARTED = false
 KW001_OKNO_MSK_STEP09_PROVIDER_REQUESTS = 0
 KW001_OKNO_MSK_STEP09_PROVIDER_COST_RUB = 0
