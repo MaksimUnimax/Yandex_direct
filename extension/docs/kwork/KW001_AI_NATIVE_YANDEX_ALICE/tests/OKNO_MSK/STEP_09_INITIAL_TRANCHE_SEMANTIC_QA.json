@@ -1,0 +1,34 @@
+{
+  "date": "2026-08-29",
+  "status": "PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY",
+  "reviewed_probe_count": 75,
+  "ordered_query_list_sha256": "ce2ca4f1220873416f621047b0256e8a1e3c18e633c11b326823ae7e0de0cecb",
+  "roles": {
+    "REVIEW_STRATIFIED_SAMPLE": {
+      "probe_range": "SP09-001..SP09-040",
+      "status": "APPROVED_FOR_DIRECT_DIAGNOSTIC_QUERY_ONLY",
+      "meaning": "Each selected phrase is an intentionally diverse direct Search sample from a Step-07 uncertainty stratum. It is NOT a marker-authority for the other rows sharing corrected_reason or acquisition source."
+    },
+    "NONEXACT_DUPLICATE_VARIANT": {
+      "probe_range": "SP09-041..SP09-056",
+      "status": "APPROVED_FOR_DIRECT_PAIRWISE_COMPARISON",
+      "meaning": "Both variants of every active duplicate candidate are directly queried before any later merge decision."
+    },
+    "STEP1_BOUNDARY_OR_CORE_ANCHOR": {
+      "probe_range": "SP09-057..SP09-075",
+      "status": "APPROVED_FOR_DECLARED_BOUNDARY_OR_CONTROL_COMPARISON",
+      "meaning": "These are explicit control/contrast queries for known architecture questions; they do not represent all phrases in an acquisition family."
+    }
+  },
+  "pre_serp_transfer_allowed": false,
+  "nonprobed_review_search_state": "UNRESOLVED_UNPROBED",
+  "full_944_serp_coverage_claim_allowed": false,
+  "provider_execution_scope": "INITIAL_BOUNDED_TRANCHE_ONLY",
+  "manual_semantic_review_notes": [
+    "The previous manifest incorrectly treated corrected_reason as a surrogate SERP family and acquisition source as a surrogate subfamily. That interpretation is rejected.",
+    "The same 75 direct queries may still be useful as a bounded first tranche because they provide broad diagnostic coverage, all active duplicate pairs, and declared Step-01/core contrasts. Their evidence may resolve the exact queried phrase and declared direct comparison only until a separate evidence-transfer decision is made.",
+    "Lexical centrality and Wordstat provenance may be used to diversify or order sampling, but never to prove shared intent, same-page compatibility, or transferability to non-probed rows.",
+    "After each SERP is collected, any proposal to transfer evidence to a non-probed phrase must be explicit, justified by semantic compatibility and/or additional SERP evidence, and remain reversible until Step 10 clustering.",
+    "This QA approves the tranche for evidence acquisition only. It does not approve Step 09 completion, clustering, page ownership, or resolution of all 944 REVIEW_SEARCH rows."
+  ]
+}
