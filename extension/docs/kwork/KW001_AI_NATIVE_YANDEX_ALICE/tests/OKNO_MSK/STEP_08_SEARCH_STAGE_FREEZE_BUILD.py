@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -81,6 +81,18 @@ def route_review(reason: str) -> tuple[str, str]:
     raise AssertionError(f"Unmapped REVIEW reason: {reason}")
 
 
+def duplicate_group_route(dispositions: set[str]) -> str:
+    if "REVIEW_SEARCH_AND_BUSINESS" in dispositions:
+        return "SEARCH_AND_BUSINESS_BEFORE_ANY_NONEXACT_MERGE"
+    if "CORE_CANDIDATE" in dispositions or "REVIEW_SEARCH" in dispositions:
+        return "ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE"
+    if dispositions == {"REVIEW_DEFERRED"}:
+        return "DEFER_UNLESS_GROUP_SELECTED_FOR_SEARCH"
+    if dispositions == {"EXCLUDED_PRESERVED"}:
+        return "NO_ACTIVE_NONEXACT_MERGE_ROUTE"
+    return "PRESERVE_UNRESOLVED_MIXED_ROUTE"
+
+
 def main() -> None:
     rows = read_tsv(INPUT_WORKING)
     dup_rows = read_tsv(INPUT_DUPLICATES)
@@ -157,17 +169,32 @@ def main() -> None:
         for row in review_rows:
             w.writerow({k: row[k] for k in review_fields})
 
-    dup_groups = {r["candidate_group"] for r in dup_rows}
+    out_by_phrase = {r["phrase"]: r for r in out_rows}
+    dup_groups: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in dup_rows:
+        assert row["phrase"] in out_by_phrase, row["phrase"]
+        dup_groups[row["candidate_group"]].append(row)
     assert len(dup_groups) == EXPECTED["duplicate_groups"]
     assert len(dup_rows) == EXPECTED["duplicate_rows"]
-    dup_fields = list(dup_rows[0].keys()) + ["step08_state", "step08_resolution_route"]
+
+    group_route = {}
+    for group_id, members in dup_groups.items():
+        dispositions = {out_by_phrase[m["phrase"]]["search_stage_disposition"] for m in members}
+        group_route[group_id] = duplicate_group_route(dispositions)
+
+    dup_fields = list(dup_rows[0].keys()) + [
+        "step08_state", "step08_member_disposition", "step08_member_next_route", "step08_duplicate_resolution_route"
+    ]
     with OUT_DUP.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=dup_fields, delimiter="\t", lineterminator="\n")
         w.writeheader()
         for row in dup_rows:
+            member = out_by_phrase[row["phrase"]]
             out = dict(row)
             out["step08_state"] = "UNRESOLVED_DUPLICATE_CANDIDATE"
-            out["step08_resolution_route"] = "ORDINARY_SEARCH_INTENT_OR_PAGE_BOUNDARY_CHECK"
+            out["step08_member_disposition"] = member["search_stage_disposition"]
+            out["step08_member_next_route"] = member["next_resolution_route"]
+            out["step08_duplicate_resolution_route"] = group_route[row["candidate_group"]]
             w.writerow(out)
 
     # Verify written artifacts by reading them back.
@@ -178,8 +205,10 @@ def main() -> None:
     assert len(routed) == EXPECTED["REVIEW"]
     assert len(dups) == EXPECTED["duplicate_rows"]
     assert len({r["candidate_group"] for r in dups}) == EXPECTED["duplicate_groups"]
+    assert all(r["step08_state"] == "UNRESOLVED_DUPLICATE_CANDIDATE" for r in dups)
 
     route_order = ["CORE_CANDIDATE", "REVIEW_SEARCH", "REVIEW_BUSINESS", "REVIEW_SEARCH_AND_BUSINESS", "REVIEW_DEFERRED", "EXCLUDED_PRESERVED"]
+    duplicate_route_counts = Counter(group_route.values())
     lines = [
         "# KW-001 / OKNO-MSK — STEP 08 SEARCH-STAGE FREEZE RECONCILIATION",
         "",
@@ -215,6 +244,9 @@ def main() -> None:
     lines += ["```", "", "## REVIEW routing by Step-07C reason", "", "```text"]
     for key in sorted(review_reason_counts):
         lines.append(f"{key} = {review_reason_counts[key]}")
+    lines += ["```", "", "## Non-exact duplicate group routes", "", "```text"]
+    for key in sorted(duplicate_route_counts):
+        lines.append(f"{key} = {duplicate_route_counts[key]}")
     lines += [
         "```",
         "",
