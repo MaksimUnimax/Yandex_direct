@@ -24,8 +24,6 @@ Frozen input remains the original 18 seeds.
 ### Step 03R — repaired first-pass Wordstat acquisition
 Status: **COMPLETE / FINAL RECONCILIATION PASS**
 
-Goal was to recollect the exact original 18 Wordstat `getTop` observations and preserve every required row, correcting the historical Step-03 failure where provider success had been confused with complete data preservation.
-
 Final execution truth:
 
 ```text
@@ -71,56 +69,70 @@ S18 123+17=140 COMPLETE
 TOTAL = 2153 results + 262 associations = 2415 rows
 ```
 
-Authorities:
+Historical Step-03 acceptance remains superseded because it had technical success without complete reusable data preservation. Step 03R is the accepted replacement evidence.
+
+### Wordstat acquisition coverage revalidation
+Status: **COMPLETE / PASS / SUFFICIENT FOR ROW-LEVEL CLEANUP**
+
+Purpose: freshly recheck the four previously preserved targeted Wordstat probes against the now-complete repaired first-pass corpus before allowing cleanup.
+
+Inputs:
 
 ```text
-STEP_03_COMPLETION_CORRECTION_2026-08-29.md
-STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
-STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
-STEP_03R_S10_CHECKPOINT_2026-08-29.md
-STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
-STEP_03R_S11_CHECKPOINT_2026-08-29.md
-STEP_03R_S12_CHECKPOINT_2026-08-29.md
-STEP_03R_S13_CHECKPOINT_2026-08-29.md
-STEP_03R_S14_CHECKPOINT_2026-08-29.md
-STEP_03R_S15_CHECKPOINT_2026-08-29.md
-STEP_03R_S16_CHECKPOINT_2026-08-29.md
-STEP_03R_S17_CHECKPOINT_2026-08-29.md
-STEP_03R_S18_CHECKPOINT_2026-08-29.md
-STEP_03R_FINAL_RECONCILIATION_2026-08-29.md
+complete first-pass rows = 2415
+first-pass results = 2153
+first-pass associations = 262
+preserved targeted probes = 4/4
+targeted probe results = 483
+targeted probe associations = 67
+targeted probe rows = 550
+new provider calls during revalidation = 0
+additional provider cost = 0 RUB
 ```
 
-S01-S09 missing normalized TSV artifacts were repaired locally from already preserved raw JSON with zero new provider calls and zero additional cost.
-
-Before S11 a `COMMAND_DISCOVERY / NO_SUPPORTED_COMMAND` occurred with `request_executed=false`; therefore no Wordstat request was executed by that failed interaction and S11 was safely retried unchanged.
-
-Mandatory per-item gate result:
+Exact normalized phrase overlap against all 2415 first-pass rows:
 
 ```text
-provider outcome known
-complete raw provider result saved
-all results[] saved
-all associations[] saved when present
-complete normalized TSV created
-returned = saved = normalized = verified rows
-raw + TSV readable/usable
+P2-01 оконная фурнитура: 217 rows; exact base matches=2; no-exact-base-match=215
+P2-02 панорамные окна: 216 rows; exact base matches=7; no-exact-base-match=209
+P2-03 остекление балкона с выносом: 21 rows; exact base matches=3; no-exact-base-match=18
+P2-04 окна для частного дома: 96 rows; exact base matches=5; no-exact-base-match=91
+TOTAL probe rows=550
+TOTAL exact base matches=17
+TOTAL rows with no exact base match=533
+```
+
+`533` is an exact-string comparison result only. It is not a claim of 533 new topics or 533 cross-probe-unique final keywords.
+
+Information-gain result:
+
+```text
+P2-01 hardware/fittings vocabulary = CONFIRMED
+P2-02 broader panoramic applications/jobs = CONFIRMED
+P2-03 balcony-extension engineering subfamily = CONFIRMED / NARROW
+P2-04 private-house window user-job vocabulary = CONFIRMED
+```
+
+Deferred candidate roots such as terrace glazing, panoramic balcony glazing, broad installation, PVC regulation, mosquito screens, generic PVC windows, glass units, window factory and cottage glazing do not justify another Wordstat request **now**. They are either already represented sufficiently for acquisition or are better resolved during cleanup, business-scope review, or ordinary Yandex Search/page-boundary work.
+
+Accepted verdict:
+
+```text
+ACQUISITION_COVERAGE_VERDICT = SUFFICIENT
+ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
+ADDITIONAL_PROVIDER_COST_RUB = 0
+ROW_LEVEL_CLEANUP_ALLOWED = true
+FINAL_SEMANTIC_SET_COMPLETE = false
+PAGE_ARCHITECTURE_COMPLETE = false
 NON_REPEAT_CONTROLS = PASS
 ```
 
-All 18 items passed this gate. Step 03R no longer blocks forward analytical work.
+Authority:
 
-### Preserved targeted Wordstat evidence
-
-```text
-4/4 targeted Wordstat provider responses completely preserved
-0 failed_terminal
-0 outcome_unknown
-estimated provider cost = 0.08 RUB
-```
-
-These four probes remain usable, but their sufficiency must now be checked against the repaired complete first-pass dataset.
+`STEP_04A_WORDSTAT_COVERAGE_AND_EXPANSION_REVALIDATION_2026-08-29.md`
 
 ### Preserved dynamics evidence
+Status: **PRESERVED / REUSABLE / DOES NOT ADVANCE WORKFLOW BY ITSELF**
 
 ```text
 4/4 dynamics provider observations completely preserved
@@ -130,49 +142,35 @@ These four probes remain usable, but their sufficiency must now be checked again
 estimated provider cost = 0.08 RUB
 ```
 
-These data remain usable standalone evidence.
-
-## Historical Step 3
-
-Status: **INCOMPLETE / HISTORICAL ACCEPTANCE SUPERSEDED / REPAIRED BY STEP 03R**
-
-Historical technical truth:
-
-```text
-18 provider calls executed
-18 provider calls reported success
-0 failed_terminal
-0 outcome_unknown
-estimated provider cost = 0.36 RUB
-```
-
-Historical project truth was incomplete preservation. Step 03R is the accepted replacement evidence for first-pass Wordstat acquisition.
+These data remain usable later for prioritization/context, but do not replace semantic cleanup or Search/page-boundary evidence.
 
 ## Current next step
 
-Status: **NOT STARTED / PRE-STEP GATE REQUIRED**
+Status: **ROW-LEVEL CLEANUP NOT YET STARTED / PRE-STEP GATE REQUIRED**
 
 Next task:
 
-1. Reconcile all 18 complete first-pass datasets with the four already preserved targeted expansion datasets.
-2. Identify whether any material acquisition direction is still missing.
-3. Quantify overlap/new directions before deciding whether any new Wordstat request is justified.
-4. Do not begin semantic cleanup until that reconciliation step itself passes.
+1. Build one accountable working table covering the collected source rows.
+2. Deduplicate while preserving where each phrase came from.
+3. Review every phrase and assign explicit status/reason such as KEEP, REVIEW, EXCLUDE_IRRELEVANT, EXCLUDE_SCOPE or EXCLUDE_MECHANICAL.
+4. Do not exclude a phrase solely because frequency is low.
+5. Do not promote associations automatically into final keywords.
+6. Keep business/page-boundary uncertainty in REVIEW for later ordinary Yandex Search resolution.
+7. Reconcile all row counts before calling cleanup complete.
 
-Before doing that analysis, execute the mandatory owner-facing whole-goal/completed/remaining/prior-errors/current-step/method-review block and wait for owner authorization as required by the universal gate.
+This next major step requires the mandatory whole-goal/completed/remaining/prior-errors/current-step/method-review block and owner authorization before execution.
 
-## Remaining work after Step 03R
+## Remaining work
 
-1. Reconcile the 18 first-pass datasets with four preserved targeted expansion datasets and identify any materially missing acquisition direction.
-2. Clean every collected phrase with explicit counts for duplicates, irrelevant, out-of-scope, uncertain and retained rows.
-3. Freeze the final working semantic set.
-4. Validate important query/page boundaries in ordinary Yandex Search.
-5. Group by user task and decide page ownership/actions.
-6. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
-7. Compare ordinary Search and AI evidence.
-8. Prioritize actions.
-9. Produce client deliverables.
-10. Run final QA and revision gate.
+1. Row-level cleanup of the collected Wordstat evidence with exact input/deduped/excluded/review/retained accounting.
+2. Freeze the final working semantic set.
+3. Validate important query/page boundaries in ordinary Yandex Search.
+4. Group by user task and decide page ownership/actions.
+5. Select only material uncertain cases for AI-search evidence; use Webmaster Alice visibility if access exists, otherwise a small GenSearch set.
+6. Compare ordinary Search and AI evidence.
+7. Prioritize actions.
+8. Produce client deliverables.
+9. Run final QA and revision gate.
 
 ## Close
 
@@ -183,12 +181,15 @@ Markers:
 ```text
 KW001_OKNO_MSK_JOB_FLOW_ACTIVE = true
 KW001_OKNO_MSK_STEP_03_COMPLETE = true
-KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = false
-KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
-KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
 KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 18
 KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2415
-KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED_BY_STEP03R = false
+KW001_OKNO_MSK_WORDSTAT_COVERAGE_REVALIDATION_COMPLETE = true
+KW001_OKNO_MSK_WORDSTAT_COVERAGE_VERDICT_SUFFICIENT = true
+KW001_OKNO_MSK_TARGETED_PROBE_ROWS_RECHECKED = 550
+KW001_OKNO_MSK_TARGETED_PROBE_EXACT_BASE_MATCHES = 17
+KW001_OKNO_MSK_TARGETED_PROBE_ROWS_NO_EXACT_BASE_MATCH = 533
+KW001_OKNO_MSK_ADDITIONAL_WORDSTAT_REQUESTS_REQUIRED_NOW = 0
+KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_ALLOWED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 ```
