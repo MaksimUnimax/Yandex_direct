@@ -20,9 +20,9 @@ def anym(p: str, markers) -> bool:
     return any(m in p for m in markers)
 
 
-INFO = ("как ", "почему", "отзыв", "инструк", "своими руками", "что такое", "как называется", "сравн", "лучше", "разница", "чем отлич")
-REPAIR = ("ремонт", "регулир", "провис", "почин", "замена резин", "замена уплот")
-ACCESSORY = ("фурнитур", "сетк", "москит", "антикошка", "штор", "жалюзи", "штапик", "ручк", "уплотн", "радиатор", "батаре", "конвектор", "герметик", "шпрос")
+INFO = ("как ", "почему", "отзыв", "инструк", "своими руками", "самостоятель", "что такое", "как называется", "сравн", "лучше", "разница", "чем отлич")
+REPAIR = ("ремонт", "регулир", "провис", "почин", "замена", "заменить", "поменять")
+ACCESSORY = ("фурнитур", "сетк", "москит", "антикошка", "штор", "жалюзи", "штапик", "ручк", "уплотн", "резин", "петл", "накладк", "радиатор", "батаре", "конвектор", "герметик", "шпрос")
 DIY = ("своими руками", "самостоятель", "пошаг", "как установить", "как сделать", "как снять", "как открыть", "как вставить")
 GEO = ("москва", "митино", "одинцово", "одинцове", "район", "московск")
 
@@ -70,7 +70,7 @@ def audit(r: dict[str, str]) -> list[tuple[str, str]]:
         out.append(("SERVICE_WITH_DIY_MARKER", "commercial service cluster contains strong DIY/procedural wording"))
     if cid == "WINDOW_INSTALLATION" and not anym(p, ("установ", "монтаж")):
         out.append(("INSTALLATION_TOKEN_MISMATCH", "installation cluster lacks installation/mounting wording"))
-    if cid == "WINDOW_REPAIR" and not anym(p, ("ремонт", "регулир", "провис", "почин", "замена", "мастер")):
+    if cid == "WINDOW_REPAIR" and not anym(p, ("ремонт", "регулир", "провис", "почин", "замена", "заменить", "поменять", "мастер")):
         out.append(("REPAIR_TOKEN_MISMATCH", "repair cluster lacks repair/maintenance wording"))
 
     exact_requirements = {
@@ -78,24 +78,26 @@ def audit(r: dict[str, str]) -> list[tuple[str, str]]:
         "WINDOW_REPAIR_DIY": ("ремонт", "регулир", "провис", "почин"),
         "PVC_DOOR_REPAIR_DIY": ("ремонт", "регулир", "провис", "почин"),
         "PVC_DOOR_REPAIR_SERVICE": ("ремонт", "регулир", "провис", "почин"),
-        "WINDOW_FABRICATION_DIY": ("сделать", "изготов"),
+        "WINDOW_FABRICATION_DIY": ("сделать", "изготов", "передел"),
+        "GLAZING_DIY_INFO": ("остеклен",),
+        "WINDOW_FINISHING_DIY": ("откос", "отлив", "подокон"),
         "WINDOW_DIMENSIONS_INFO": ("размер", "ширина", "высота", "габарит"),
         "WINDOW_OPERATION_DIY": ("снять", "вставить", "открыть", "закрыть", "разобрать", "заменить", "поменять"),
         "WINDOW_CARE_INFO": ("отмыть", "очистить", "мыть", "помыть", "очистка"),
-        "WINDOW_HARDWARE": ("фурнитур", "штапик", "ручк", "микролифт", "ограничител", "анкер", "гребен", "уплотн", "профил", "fapim", "комплект", "резинк", "шпрос"),
+        "WINDOW_HARDWARE": ("фурнитур", "штапик", "ручк", "микролифт", "ограничител", "анкер", "гребен", "уплотн", "профил", "fapim", "комплект", "резин", "шпрос", "петл", "накладк"),
         "MOSQUITO_NETS": ("сетк", "москит", "антикошка"),
         "OUTSIDE_CURTAINS": ("штор", "жалюзи", "рулон", "день ночь"),
         "OUTSIDE_HEATING": ("радиатор", "батаре", "конвектор", "отоплен"),
-        "OUTSIDE_REAL_ESTATE": ("дом", "барнхаус", "дача", "апартамент", "гостиная", "баня", "бассейн", "лес", "проект"),
+        "OUTSIDE_REAL_ESTATE": ("дом", "барнхаус", "дача", "апартамент", "гостиная", "баня", "бассейн", "лес", "проект", "интерьер"),
     }
     if cid in exact_requirements and not anym(p, exact_requirements[cid]):
         out.append(("TASK_TOKEN_MISMATCH", f"{cid} lacks its defining task marker"))
 
-    if cid == "WINDOW_SELECTION_INFO" and anym(p, ("сделать", "изготов", "снять", "вставить", "открыть", "регулир", "ремонт")):
+    if cid == "WINDOW_SELECTION_INFO" and anym(p, ("сделать", "изготов", "снять", "вставить", "открыть", "регулир", "ремонт", "выгляд")):
         out.append(("SELECTION_WITH_OTHER_ACTION", "selection cluster contains a different explicit action"))
     if cid == "WINDOW_REPAIR" and anym(p, ("отмыть", "очистить", "жидкий пластик", "средство для ремонта")):
         out.append(("REPAIR_SERVICE_WITH_CARE_OR_MATERIAL", "repair service contains care/material wording"))
-    if cid == "WINDOW_INSTALLATION" and anym(p, ("сетк", "москит", "штор", "жалюзи", "фурнитур", "подоконник своими руками")):
+    if cid == "WINDOW_INSTALLATION" and anym(p, ("сетк", "москит", "штор", "жалюзи", "фурнитур", "подоконник своими руками", "откос", "отлив")):
         out.append(("INSTALLATION_WITH_OTHER_OBJECT", "window-installation cluster appears to target an accessory/other object"))
 
     return out
