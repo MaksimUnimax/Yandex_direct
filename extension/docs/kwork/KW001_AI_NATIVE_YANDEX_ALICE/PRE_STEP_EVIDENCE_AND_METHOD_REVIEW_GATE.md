@@ -1,6 +1,6 @@
 # KW-001 — PRE-STEP EVIDENCE AND METHOD REVIEW GATE
 
-Date: 2026-08-28  
+Date: 2026-08-29  
 Status: **ACTIVE / UNIVERSAL / REQUIRED BEFORE EVERY MAJOR STEP**
 
 This document is the canonical KW-001 gate that must run before every new major analytical or provider step.
@@ -17,9 +17,11 @@ READ OWNER-LOCKED UNIVERSAL RULES
 → SEARCH CURRENT EXTERNAL MATERIALS
 → CHALLENGE OWN PRIOR WORK
 → CLASSIFY SUPPORT / DEFECT
+→ IF YMB IS USED, EMBED THE YMB RESULT-COMPLETION GATE INSIDE THIS EXACT STEP
 → SHOW OWNER SOURCES + RISKS
 → WAIT FOR EXPLICIT OWNER AUTHORIZATION
 → EXECUTE ONE STEP INSIDE CURRENT JOB
+→ VERIFY EACH YMB RESULT IS COMPLETE + SAVED BEFORE ANY NEXT YMB ACTION
 → STOP + REPORT
 ```
 
@@ -154,9 +156,10 @@ Is any provider/search behavior assumed from memory rather than checked?
 Did we accidentally place case-specific evidence in permanent methodology files?
 Does the current job execution conflict with an owner-locked universal rule?
 Does a universal rule appear questionable based on new evidence?
+If the step uses YMB: what exact usable result must be collected and saved, and how will I prove it is complete before the next YMB action?
 ```
 
-If the last question is YES, report the issue to the owner. **Do not modify the universal rule unless the owner explicitly orders the change.**
+If the universal-rule question is YES, report the issue to the owner. **Do not modify the universal rule unless the owner explicitly orders the change.**
 
 ---
 
@@ -208,6 +211,8 @@ WHAT I WILL NOT DO YET
 PROPOSED PASS GATE
 ```
 
+If the step contains **any YMB interaction**, the pre-step report and the concrete job-step artifact must also contain the mandatory YMB block defined in Section 7A below. A YMB-enabled step that omits that block is invalid and may not be authorized or executed.
+
 Then stop and wait for explicit owner authorization.
 
 ---
@@ -243,9 +248,91 @@ PRE-STEP REVIEW
 
 ---
 
+## 7A. Mandatory block INSIDE EVERY step that uses YMB
+
+This is not an optional cross-reference and not a rule that may live only in a universal document.
+
+**Every concrete job step that contains one or more YMB interactions must include this block inside that step's own pre-step/manifest/execution gate.**
+
+Before the first YMB command in that step, the concrete step must state:
+
+```text
+YMB STEP OBJECTIVE
+= what usable project result this step must actually collect.
+
+YMB REQUIRED MODE
+= active service + execution mode + manual/autorun state where relevant.
+
+YMB REQUIRED SAVED RESULT
+= exactly what complete data/payload/rows/evidence must be stored in the job workspace after each interaction.
+
+YMB COMPLETENESS CHECK
+= how completeness will be verified: returned row count, item count, identifiers, pagination completion, payload fields, or other provider truth appropriate to the command.
+
+YMB STOP CONDITION
+= if the complete required result is not saved and verified, STOP immediately; do not issue the next YMB command and do not advance the step.
+```
+
+After **every individual YMB interaction** in the step, before any next YMB interaction, ChatGPT must verify:
+
+```text
+1. Did the interaction reach the provider or fail before provider execution?
+2. Is the provider outcome known, or is it OUTCOME_UNKNOWN?
+3. Did we obtain the actual result needed for the project objective, not merely an OK/status response?
+4. Was the complete required result saved in the current job workspace?
+5. Was saved completeness verified against the response/provider truth?
+6. Is the saved result readable and usable for the next action?
+```
+
+The next YMB interaction is allowed only when all applicable answers required for success are confirmed.
+
+The following **never** substitute for this check:
+
+```text
+HTTP 200
+request_executed = true
+status = OK
+item_status = SUCCEEDED
+batch succeeded count
+cost recorded
+representative examples
+summary text
+```
+
+If the objective was to collect 200 returned phrases, saving 10 examples means the interaction is **NOT COMPLETE** and the next YMB interaction is **BLOCKED**.
+
+If the objective was to collect all pages of a paginated Search result, saving page 1 alone means the interaction/step is **NOT COMPLETE** unless the concrete step explicitly and correctly defined page 1 as the whole bounded objective.
+
+If the objective was only a status check and no provider payload is expected, the concrete step must state that explicitly; then completeness means the full required status truth was preserved and verified.
+
+### Required concrete-step markers
+
+Every YMB-enabled job step must include:
+
+```text
+YMB_INTERACTION_GATE_EMBEDDED = true
+YMB_PROJECT_RESULT_DEFINED = true
+YMB_REQUIRED_STORAGE_DEFINED = true
+YMB_COMPLETENESS_CHECK_DEFINED = true
+YMB_STOP_ON_INCOMPLETE_RESULT = true
+```
+
+If any marker is missing:
+
+```text
+STEP_AUTHORIZATION = BLOCKED
+YMB_EXECUTION = BLOCKED
+```
+
+This rule applies to Wordstat, Search, GenSearch, Webmaster, Metrika, Direct and every future accepted YMB service.
+
+---
+
 ## 8. Provider sub-items are not separate major steps
 
-The complete research gate is required before a new batch/method/evidence stage, not before every individual item of an already researched, frozen and owner-authorized durable batch.
+The complete external research gate is required before a new batch/method/evidence stage, not before every individual item of an already researched, frozen and owner-authorized durable batch.
+
+However, **Section 7A still applies after every individual YMB interaction inside that batch.** Not repeating external research does not waive result preservation/completeness verification.
 
 Any material change to the manifest, method, region, evidence semantics or retry policy requires a fresh review/authorization.
 
@@ -296,4 +383,7 @@ KW001_PRE_STEP_JOB_WORKSPACE_CHECK_REQUIRED = true
 KW001_UNIVERSAL_RULES_OWNER_LOCKED_DURING_JOB = true
 KW001_NO_AUTOMATIC_UNIVERSAL_RULE_UPDATE = true
 KW001_JOB_CLOSE_DELETE_ONLY_NO_MANDATORY_EXTRACTION = true
+KW001_EVERY_YMB_STEP_MUST_EMBED_INTERACTION_GATE = true
+KW001_EVERY_YMB_INTERACTION_MUST_VERIFY_PROJECT_RESULT = true
+KW001_NEXT_YMB_INTERACTION_BLOCKED_UNTIL_RESULT_SAVED_AND_VERIFIED = true
 ```
