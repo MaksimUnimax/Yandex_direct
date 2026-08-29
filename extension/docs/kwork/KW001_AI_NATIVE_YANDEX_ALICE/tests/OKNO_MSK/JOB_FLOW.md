@@ -55,8 +55,6 @@ Status: **COMPLETE / SUFFICIENT**
 ### Step 7 — row-level semantic cleanup
 Status: **COMPLETE AFTER POST-AUDIT CORRECTION**
 
-Historical Step 07B accounting was valid but its semantic PASS was superseded because of default-KEEP fallthrough.
-
 Accepted corrected Step 07C:
 
 ```text
@@ -68,82 +66,107 @@ EXCLUDE_SCOPE = 180
 EXCLUDE_IRRELEVANT = 120
 EXCLUDE_MECHANICAL = 34
 TOTAL = 2840
-builder QA failures = 0
-expanded semantic QA failures = 0
-manual semantic saturation passes = 4
 ```
 
-Owner acceptance authority:
+Historical Step 07B semantic PASS remains superseded because of its default-KEEP defect. Step-07C acceptance authority:
 
 `STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md`.
 
-Permanent Step-7 lesson now requires positive-evidence KEEP, separate accounting/semantic QA, explicit REVIEW uncertainty and cause-level correction rather than mechanical phrase exceptions.
+### Step 8 — Search-stage semantic freeze
+Status: **COMPLETE / PASS / SEARCH-STAGE INPUT FROZEN**
 
-## Current step — Step 8 Search-stage semantic freeze
+Step 8 preserved accepted Step-07C semantic truth and added an explicit routing layer without executing Search or making downstream cluster/page decisions.
 
-Status: **PRE-STEP METHOD REVIEW COMPLETE / WAITING OWNER AUTHORIZATION / EXECUTION NOT STARTED**
-
-Permanent methodology index status before this review:
-
-```text
-STEP_08_PERMANENT_METHOD = UNVALIDATED
-```
-
-Therefore fresh external research was performed before execution.
-
-Authority:
-
-`STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md`.
-
-### Step 8 purpose
-
-Create an immutable, auditable handoff from accepted Step-07C phrase decisions into ordinary Yandex Search validation without prematurely making final clustering, page ownership or architecture decisions.
-
-### Proposed Step-8 accounting contract
+Final routing:
 
 ```text
-Step-07C exact phrase keys = 2840
-KEEP carried as CORE_CANDIDATE = 1388
-REVIEW rows requiring one explicit next-resolution route = 1118
-EXCLUDE_* rows preserved for audit = 334
+CORE_CANDIDATE = 1388
+REVIEW_SEARCH = 228
+REVIEW_BUSINESS = 0
+REVIEW_SEARCH_AND_BUSINESS = 716
+REVIEW_DEFERRED = 174
+EXCLUDED_PRESERVED = 334
 TOTAL = 2840
-non-exact duplicate candidate groups carried = 9
-Search/provider calls during Step 8 = 0
 ```
 
-Step 08 will preserve Step-07C semantic status and add only Search-stage disposition / next-resolution routing.
-
-REVIEW must not be silently discarded. Depending on why a phrase is unresolved, routing may point to ordinary Search, business-scope evidence, both, or a deferred evidence queue.
-
-### What Step 8 explicitly does not do
+Reconciliation:
 
 ```text
-no new Wordstat
-no ordinary Search requests
-no final clustering
-no page ownership
-no structural action
-no cannibalization verdict
-no AI evidence
-no frequency-only deletion
-no silent non-exact duplicate merging
-no silent resolution of UNKNOWN business priorities
+phrase keys written = 2840/2840
+REVIEW routed = 1118/1118
+unrouted REVIEW = 0
+silent drops = 0
+Step-07C semantic status rewrites = 0
+non-exact duplicate groups preserved = 9/9
+non-exact duplicate rows preserved = 18/18
+automatic non-exact merges = 0
+provider/Search requests executed = 0
+provider cost = 0 RUB
 ```
 
-### Current transition state
+During manual QA, the first generated duplicate handoff was found to use one hard-coded Search route for every duplicate group. That conflicted with one association-only group whose member rows were `REVIEW_DEFERRED` in the main freeze. The handoff was corrected before acceptance so duplicate-group routing now derives from member disposition.
+
+Final duplicate-group routes:
 
 ```text
-STEP_08_PRE_STEP_REVIEW_COMPLETE = true
-STEP_08_OWNER_AUTHORIZATION_PENDING = true
-STEP_08_EXECUTION_STARTED = false
-STEP_08_COMPLETE = false
-NEXT_STEP_09_ALLOWED = false
+ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 6
+SEARCH_AND_BUSINESS_BEFORE_ANY_NONEXACT_MERGE = 2
+DEFER_UNLESS_GROUP_SELECTED_FOR_SEARCH = 1
+```
+
+Acceptance authority:
+
+`STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md`.
+
+Frozen Search-stage artifacts:
+
+```text
+STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv
+STEP_08_REVIEW_RESOLUTION_ROUTES.tsv
+STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv
+STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md
+```
+
+## Current transition — Step 9 pre-step required
+
+The next major analytical stage is **Step 9 — ordinary Yandex Search validation**.
+
+Status: **PRE-STEP METHOD RESEARCH REQUIRED / EXECUTION NOT AUTHORIZED**
+
+Permanent methodology index status:
+
+```text
+STEP_09_PERMANENT_METHOD = UNVALIDATED
+```
+
+Therefore Step 9 must not start with Search/provider calls yet. The next action must be the full current-method pre-step review required by the universal rules:
+
+```text
+read current rule architecture + Step rules index
+→ restate whole Kwork goal + full roadmap
+→ read accepted Step-8 freeze evidence
+→ identify relevant prior errors and causal controls
+→ research current ordinary-Yandex/Search/SERP methodology from external sources
+→ define exactly which Search evidence is needed and how to bound it
+→ embed the YMB per-interaction result-preservation/completeness gate if YMB is used
+→ show owner method + sources + risks + pass condition
+→ wait for explicit owner authorization
+→ only then execute Search
+```
+
+Current transition truth:
+
+```text
+STEP_08_COMPLETE = true
+SEARCH_STAGE_INPUT_FROZEN = true
+STEP_09_PRE_STEP_RESEARCH_REQUIRED = true
+STEP_09_EXECUTION_ALLOWED = false
 ```
 
 ## Remaining work
 
-1. Execute and verify Step 8 Search-stage semantic freeze after owner authorization.
-2. Validate material query/intent/page boundaries in ordinary Yandex Search.
+1. Research and authorize Step 9 ordinary Yandex Search validation methodology.
+2. Execute and preserve bounded ordinary Yandex Search evidence for the material intent/page-boundary questions selected by the Step-9 method.
 3. Group Search-validated semantics by user task and SERP compatibility.
 4. Map groups to existing pages and decide page ownership.
 5. Determine structural actions: keep / expand / split / merge / reassign / new page.
@@ -157,6 +180,20 @@ NEXT_STEP_09_ALLOWED = false
 13. Run final QA.
 14. Handoff and process allowed revisions.
 15. Close and delete disposable workspace only when safe.
+
+Not complete yet:
+
+```text
+FINAL_SEMANTIC_SET_COMPLETE = false
+ORDINARY_YANDEX_SEARCH_VALIDATION_COMPLETE = false
+USER_TASK_SERP_CLUSTERING_COMPLETE = false
+PAGE_OWNERSHIP_COMPLETE = false
+STRUCTURAL_ACTIONS_COMPLETE = false
+SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
+AI_EVIDENCE_COMPLETE = false
+CLIENT_DELIVERABLES_COMPLETE = false
+FINAL_QA_COMPLETE = false
+```
 
 ## Full roadmap status
 
@@ -172,8 +209,8 @@ NEXT_STEP_09_ALLOWED = false
 | 6. Demand dynamics | Preserve seasonality context | ✅ PRESERVED |
 | 6A. Acquisition coverage revalidation | Decide whether more Wordstat is needed | ✅ COMPLETE |
 | 7. Row-level semantic cleanup | Produce trustworthy phrase-level decisions | ✅ COMPLETE AFTER CORRECTION |
-| **8. Freeze Search-stage semantic set** | **Freeze the exact Search-stage handoff and route unresolved phrases** | **🟡 CURRENT — PRE-STEP REVIEW COMPLETE / AUTHORIZATION PENDING** |
-| 9. Ordinary Yandex Search validation | Resolve intent/page boundaries with real SERP | ⬜ NOT STARTED |
+| 8. Freeze Search-stage semantic set | Freeze exact Search input and route unresolved phrases | ✅ COMPLETE |
+| **9. Ordinary Yandex Search validation** | **Resolve material intent/page-boundary uncertainty with real SERP evidence** | **🟡 CURRENT GATE — PRE-STEP RESEARCH REQUIRED / EXECUTION NOT AUTHORIZED** |
 | 10. User-task / SERP clustering | Group compatible search jobs | ⬜ NOT STARTED |
 | 11. Page ownership | Map clusters to best existing URLs | ⬜ NOT STARTED |
 | 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
@@ -198,9 +235,10 @@ Markers:
 KW001_OKNO_MSK_JOB_FLOW_ACTIVE = true
 KW001_OKNO_MSK_STEP07C_FINAL_ACCEPTANCE = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
-KW001_OKNO_MSK_STEP08_PRE_STEP_REVIEW_COMPLETE = true
-KW001_OKNO_MSK_STEP08_OWNER_AUTHORIZATION_PENDING = true
-KW001_OKNO_MSK_STEP08_EXECUTION_STARTED = false
-KW001_OKNO_MSK_STEP08_COMPLETE = false
-KW001_OKNO_MSK_NEXT_STEP_09_ALLOWED = false
+KW001_OKNO_MSK_STEP08_COMPLETE = true
+KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
+KW001_OKNO_MSK_STEP08_UNROUTED_REVIEW = 0
+KW001_OKNO_MSK_STEP08_STATUS_REWRITES = 0
+KW001_OKNO_MSK_STEP09_PRE_STEP_RESEARCH_REQUIRED = true
+KW001_OKNO_MSK_STEP09_EXECUTION_ALLOWED = false
 ```
