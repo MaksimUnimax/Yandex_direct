@@ -1,3 +1,4 @@
 collision_code	phrase	cluster_id	user_task	evidence_state	step09_probe_id	reason
-PRIVATE_HOUSE_SWALLOWED_MATERIAL_TASK	окна пвх для частного дома	PRIVATE_HOUSE_WINDOWS_COMMERCIAL	Окна для частного дома: покупка/цена	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		generic private-house cluster swallowed an explicit window material/brand task
-PRIVATE_HOUSE_SWALLOWED_ACTION_OR_INFO_TASK	стандартные размеры панорамных окон для частного дома	PRIVATE_HOUSE_WINDOWS_COMMERCIAL	Окна для частного дома: покупка/цена	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		generic private-house cluster swallowed a more specific service/information task
+PVC_PRODUCT_TOKEN_MISMATCH	окна пвх для частного дома	PVC_WINDOWS_COMMERCIAL	Покупка пластиковых окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		PVC-window commercial cluster lacks PVC-window wording
+PVC_PRODUCT_TOKEN_MISMATCH	размеры окон пвх для частного дома	PVC_WINDOWS_COMMERCIAL	Покупка пластиковых окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		PVC-window commercial cluster lacks PVC-window wording
+PVC_PRODUCT_TOKEN_MISMATCH	размеры окон пвх стандартные для частного дома	PVC_WINDOWS_COMMERCIAL	Покупка пластиковых окон	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		PVC-window commercial cluster lacks PVC-window wording
