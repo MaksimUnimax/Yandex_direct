@@ -26,11 +26,12 @@ def classify_v8(phrase: str):
 
     # Final adversarial correction: replacing a component of an existing window is
     # repair/maintenance even when price/PVC wording would otherwise trigger the
-    # generic commercial-product classifier.
+    # generic commercial-product classifier. Use the broad Russian stem 'руч' so
+    # both 'ручки' and the genitive plural 'ручек' are covered.
     component_replacement = (
         windowish(p)
         and has(p, "замена", "заменить", "поменять")
-        and has(p, "ручк", "уплотн", "резин", "проклад", "стеклопак", "петл", "фурнитур", "замк", "механизм")
+        and has(p, "руч", "уплотн", "резин", "проклад", "стеклопак", "петл", "фурнитур", "замк", "механизм")
     )
     if component_replacement:
         return "WINDOW_REPAIR", "Replacement of an existing-window component is a repair/maintenance task, not window purchase", "HIGH"
@@ -49,9 +50,12 @@ b.classify_semantic = classify_v8
 
 
 def self_test() -> None:
+    # Regression for the exact Russian form that escaped V7 ('ручек' != stem 'ручк').
     handle = b.classify_semantic("замена ручек на пластиковых окнах цена")
     assert handle[0] == "WINDOW_REPAIR", handle
 
+    # Also keep the unresolved balcony-substitution boundary from falling back to
+    # the generic PVC product cluster.
     balcony = b.classify_semantic("замена балкона на пластиковые окна цена")
     assert balcony[0] is None, balcony
 
