@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_PRE_STEP_REVIEW
-next_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_EXECUTION_AFTER_OWNER_AUTHORIZATION
+current_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_COMPLETE
+next_major_step = STEP_09_ORDINARY_YANDEX_SEARCH_VALIDATION_PRE_STEP_RESEARCH
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -37,9 +37,9 @@ STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
 STEP_07C_METHOD_POSTMORTEM_AND_CORRECT_EXECUTION_2026-08-29.md
 STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md
 STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md
+STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md
+STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md
 ```
-
-For Step 08, the permanent `STEP_RULES_INDEX.md` currently marks this stage `UNVALIDATED`; therefore the job-specific fresh pre-step method research is mandatory authority and Step-08 execution may not begin until the owner authorizes the researched plan.
 
 ## Accepted upstream truth
 
@@ -70,11 +70,7 @@ total source rows entering cleanup = 2965
 additional Wordstat required now = 0
 ```
 
-### Step 07 accepted corrected cleanup
-
-Historical Step 07B semantic PASS is superseded, but its accounting/provenance remains valid.
-
-Owner accepted Step 07C for workflow progression on 2026-08-29.
+### Step 07 — accepted corrected cleanup
 
 ```text
 source occurrences = 2965
@@ -88,11 +84,9 @@ TOTAL = 2840
 builder QA failures = 0
 expanded semantic QA failures = 0
 manual semantic saturation passes = 4
-provider requests during correction = 0
-provider cost during correction = 0 RUB
 ```
 
-Accepted Step-07 controls:
+Accepted Step-07 controls remain active:
 
 ```text
 KEEP requires positive evidence
@@ -105,59 +99,105 @@ non-exact duplicate candidates are surfaced, not silently merged
 semantic QA tests both MUST_KEEP and MUST_NOT_KEEP
 ```
 
-Acceptance authority:
+## Step 08 — accepted Search-stage semantic freeze
 
-`STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md`.
+Status: **COMPLETE / PASS / SEARCH-STAGE INPUT FROZEN**
 
-## Current Step 08 state
-
-Step 08 purpose:
+Purpose achieved:
 
 ```text
-freeze one immutable Search-stage semantic handoff from accepted Step 07C
-without doing Search, final clustering, page ownership or architecture decisions
+accepted Step-07C semantic truth was preserved unchanged;
+every phrase received an explicit Search-stage disposition;
+every REVIEW row received a next-resolution route;
+all exclusions remained preserved for audit;
+all non-exact duplicate candidates remained unresolved and visible;
+no Search/provider request was made;
+no clustering/page ownership/architecture decision was made.
 ```
 
-Fresh external method research and adversarial pre-step review are complete in:
-
-`STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md`.
-
-Proposed Step-08 input arithmetic:
+Final Step-08 routing counts:
 
 ```text
-Step-07C exact phrase keys = 2840
-accepted KEEP / core candidates = 1388
-accepted REVIEW requiring explicit next-resolution routing = 1118
-accepted EXCLUDE_* preserved for audit = 334
-1388 + 1118 + 334 = 2840
-non-exact duplicate candidate groups to carry forward = 9
+CORE_CANDIDATE = 1388
+REVIEW_SEARCH = 228
+REVIEW_BUSINESS = 0
+REVIEW_SEARCH_AND_BUSINESS = 716
+REVIEW_DEFERRED = 174
+EXCLUDED_PRESERVED = 334
+TOTAL = 2840
 ```
 
-Step 08 execution has **not** started.
+Reconciliation:
 
 ```text
-STEP_08_PRE_STEP_REVIEW_COMPLETE = true
-STEP_08_OWNER_AUTHORIZATION_PENDING = true
-STEP_08_EXECUTION_STARTED = false
-STEP_08_COMPLETE = false
-NEXT_STEP_09_ALLOWED = false
+Step-07C phrase keys expected = 2840
+Step-08 phrase keys written = 2840
+Step-07C REVIEW expected = 1118
+Step-08 REVIEW routed = 1118
+unrouted REVIEW = 0
+silent drops = 0
+Step-07C semantic status rewrites = 0
+non-exact duplicate candidate groups preserved = 9
+non-exact duplicate rows preserved = 18
+non-exact duplicate groups auto-merged = 0
+provider/Search requests executed = 0
+provider cost = 0 RUB
 ```
 
-No provider/Search action is pending or authorized by the current manifest.
-
-## Blocked downstream work
-
-Until Step 08 execution and verification pass:
+Non-exact duplicate group routing after manual QA correction:
 
 ```text
-ORDINARY_YANDEX_SEARCH_VALIDATION = BLOCKED
-USER_TASK_SERP_CLUSTERING = BLOCKED
-PAGE_OWNERSHIP = BLOCKED
-STRUCTURAL_ACTIONS = BLOCKED
-CANNIBALIZATION_DIAGNOSIS = BLOCKED
-SEARCH_ONLY_ARCHITECTURE_FREEZE = BLOCKED
-AI_EVIDENCE = BLOCKED
-CLIENT_DELIVERABLES = BLOCKED
+ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 6 groups
+SEARCH_AND_BUSINESS_BEFORE_ANY_NONEXACT_MERGE = 2 groups
+DEFER_UNLESS_GROUP_SELECTED_FOR_SEARCH = 1 group
+```
+
+Step-08 artifacts:
+
+```text
+STEP_08_SEARCH_STAGE_FREEZE_BUILD.py
+STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv
+STEP_08_REVIEW_RESOLUTION_ROUTES.tsv
+STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv
+STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md
+STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md
+```
+
+Frozen hashes:
+
+```text
+STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv SHA-256 = e5cd7fb5e3ca118b7b1685d2a661c24797938b811a4d3dc23e1b364b3df05fe7
+STEP_08_REVIEW_RESOLUTION_ROUTES.tsv SHA-256 = d9a86120c8ae8ec34ab25c7c2e07c86e8b665a31dc69531477d57b5713d61035
+STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = a2ba2f81a84ae5d285b6cdb8e303b1715f435b0ad0fe614e92735921f827e09a
+```
+
+## Current operator action / transition
+
+No provider action is pending.
+
+The next major stage is **Step 09 — ordinary Yandex Search validation**.
+
+Permanent `STEP_RULES_INDEX.md` currently marks Step 09 `UNVALIDATED`. Therefore direct Search execution is not allowed yet.
+
+Required next transition:
+
+```text
+READ RULES / STEP INDEX / CURRENT JOB
+→ RESEARCH CURRENT STEP-09 METHOD FROM CURRENT EXTERNAL SOURCES
+→ STATE YMB/SEARCH RESULT-PRESERVATION GATE IF YMB IS USED
+→ SHOW OWNER SOURCES + PRACTICAL METHOD + RISKS + FULL ROADMAP
+→ WAIT FOR EXPLICIT OWNER AUTHORIZATION
+→ ONLY THEN EXECUTE ORDINARY SEARCH VALIDATION
+```
+
+Current transition truth:
+
+```text
+STEP_08_COMPLETE = true
+SEARCH_STAGE_INPUT_FROZEN = true
+NEXT_STAGE_PRE_STEP_RESEARCH_ALLOWED = true
+STEP_09_PRE_STEP_RESEARCH_REQUIRED = true
+STEP_09_EXECUTION_ALLOWED = false
 ```
 
 Still false:
@@ -193,16 +233,19 @@ KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2415
 KW001_OKNO_MSK_WORDSTAT_COVERAGE_VERDICT_SUFFICIENT = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_INPUT_ROWS = 2965
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNIQUE_EXACT = 2840
-KW001_OKNO_MSK_STEP07C_KEEP = 1388
-KW001_OKNO_MSK_STEP07C_REVIEW = 1118
-KW001_OKNO_MSK_STEP07C_EXCLUDE_TOTAL = 334
 KW001_OKNO_MSK_STEP07C_FINAL_ACCEPTANCE = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
-KW001_OKNO_MSK_STEP08_PRE_STEP_REVIEW_COMPLETE = true
-KW001_OKNO_MSK_STEP08_OWNER_AUTHORIZATION_PENDING = true
-KW001_OKNO_MSK_STEP08_EXECUTION_STARTED = false
-KW001_OKNO_MSK_STEP08_COMPLETE = false
-KW001_OKNO_MSK_NEXT_STEP_09_ALLOWED = false
+KW001_OKNO_MSK_STEP08_CORE_CANDIDATE = 1388
+KW001_OKNO_MSK_STEP08_REVIEW_SEARCH = 228
+KW001_OKNO_MSK_STEP08_REVIEW_SEARCH_AND_BUSINESS = 716
+KW001_OKNO_MSK_STEP08_REVIEW_DEFERRED = 174
+KW001_OKNO_MSK_STEP08_EXCLUDED_PRESERVED = 334
+KW001_OKNO_MSK_STEP08_UNROUTED_REVIEW = 0
+KW001_OKNO_MSK_STEP08_STATUS_REWRITES = 0
+KW001_OKNO_MSK_STEP08_COMPLETE = true
+KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
+KW001_OKNO_MSK_STEP09_PRE_STEP_RESEARCH_REQUIRED = true
+KW001_OKNO_MSK_STEP09_EXECUTION_ALLOWED = false
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = false
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
 ```
