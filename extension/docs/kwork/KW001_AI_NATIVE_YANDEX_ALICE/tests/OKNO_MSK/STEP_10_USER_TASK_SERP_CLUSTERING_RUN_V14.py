@@ -56,7 +56,7 @@ def self_test() -> None:
         "стандартные размеры панорамных окон для частного дома": "WINDOW_DIMENSIONS_INFO",
         "установка окон пвх в частном доме": "WINDOW_INSTALLATION",
         "ремонт окон пвх в частном доме": "WINDOW_REPAIR",
-        "как выбрать окна пвх для частного дома": "PRIVATE_HOUSE_WINDOWS_SELECTION_INFO",
+        "как выбрать окна пвх для частного дома": "WINDOW_SELECTION_INFO",
         "крыльцо для частного дома окна": "PORCH_GLAZING",
         "деревянные окна для частного дома": "WOOD_WINDOWS_COMMERCIAL",
         "алюминиевые окна для частного дома": "ALUMINIUM_WINDOWS_COMMERCIAL",
