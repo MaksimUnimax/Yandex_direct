@@ -12,7 +12,7 @@ workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_03R_MANUAL_YMB_EXECUTION_IN_PROGRESS
-next_major_step = STEP_03R_COMPLETE_REMAINING_S12_S18
+next_major_step = STEP_03R_COMPLETE_REMAINING_S13_S18
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -46,6 +46,7 @@ STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
 STEP_03R_S10_CHECKPOINT_2026-08-29.md
 STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
 STEP_03R_S11_CHECKPOINT_2026-08-29.md
+STEP_03R_S12_CHECKPOINT_2026-08-29.md
 ```
 
 ## Current truth
@@ -58,18 +59,18 @@ Step 03 repair required = true
 Step 03R owner authorized = true
 Step 03R manifest frozen = true
 Step 03R batch.start = complete
-Step 03R provider requests executed = 11
-Step 03R provider outcomes known = 11
+Step 03R provider requests executed = 12
+Step 03R provider outcomes known = 12
 Step 03R failed_terminal = 0
 Step 03R outcome_unknown = 0
-Step 03R estimated provider cost = 0.22 RUB
-Step 03R raw provider items preserved = 11/18
-Step 03R normalized TSV artifacts present = 11/18
-Step 03R results rows preserved/verified = 1326
-Step 03R association rows preserved/verified = 158
-Step 03R normalized rows preserved/verified = 1484
-Step 03R current complete items = 11/18
-Step 03R next item = S12 `аксессуары для пластиковых окон`
+Step 03R estimated provider cost = 0.24 RUB
+Step 03R raw provider items preserved = 12/18
+Step 03R normalized TSV artifacts present = 12/18
+Step 03R results rows preserved/verified = 1330
+Step 03R association rows preserved/verified = 171
+Step 03R normalized rows preserved/verified = 1501
+Step 03R current complete items = 12/18
+Step 03R next item = S13 `установка пластиковых окон`
 forward semantic analysis blocked = true
 ```
 
@@ -149,6 +150,25 @@ Authorities:
 - `STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md`
 - `STEP_03R_S11_CHECKPOINT_2026-08-29.md`
 
+## S12 completion state
+
+```text
+seed = S12 `аксессуары для пластиковых окон`
+request_id = wordstat-batch-7a613df4-d2b4-402e-90c7-0ef70640141a
+results rows = 4
+association rows = 13
+provider rows = 17
+raw provider rows saved = 17
+normalized TSV rows saved = 17
+rows verified after read-back = 17
+totalCount = 29
+estimated item cost = 0.02 RUB
+NON_REPEAT_CONTROLS = PASS
+S12 current manifest completeness = COMPLETE
+```
+
+Authority: `STEP_03R_S12_CHECKPOINT_2026-08-29.md`.
+
 ## Preserved downstream observations
 
 Step-05 provider responses:
@@ -172,7 +192,7 @@ These remain usable standalone demand-history observations and do not repair Ste
 
 ## Current required repair
 
-Complete remaining S12-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
+Complete remaining S13-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
 
 ```text
 complete raw result
@@ -199,7 +219,7 @@ ONE PROVIDER ITEM
 
 ## Current operator action
 
-Next provider item is S12 `аксессуары для пластиковых окон`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
+Next provider item is S13 `установка пластиковых окон`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
 
 ## Close rule
 
@@ -226,8 +246,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 11
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1484
+KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 12
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1501
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
