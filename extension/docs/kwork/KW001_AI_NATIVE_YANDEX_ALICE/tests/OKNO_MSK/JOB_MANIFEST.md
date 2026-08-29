@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = ROW_LEVEL_CLEANUP_CORRECTION
-next_major_step = BLOCKED_PENDING_ROW_LEVEL_CLEANUP_CORRECTION_ACCEPTANCE
+current_major_step = ROW_LEVEL_CLEANUP_CORRECTION_CANDIDATE_READY
+next_major_step = BLOCKED_PENDING_OWNER_REVIEW_AND_CORRECTION_ACCEPTANCE
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -36,6 +36,10 @@ STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
 STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
 STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md (HISTORICAL SEMANTIC PASS SUPERSEDED)
 STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md
+STEP_07C_SEMANTIC_CORRECTION_BUILD.py
+STEP_07C_SEMANTIC_CORRECTION_RUN.py
+STEP_07C_SEMANTIC_CORRECTION_SUMMARY.json
+STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
 ```
 
 ## Repaired first-pass acquisition — accepted truth
@@ -121,7 +125,7 @@ estimated provider cost = 0.08 RUB
 
 These data remain later prioritization/context evidence and do not replace Search/page-boundary validation.
 
-## Row-level cleanup — historical accounting pass preserved, semantic pass reopened
+## Row-level cleanup — historical accounting valid, historical semantic PASS superseded
 
 The historical Step 07B artifacts remain preserved because their accounting/provenance work is valid and must remain auditable.
 
@@ -156,54 +160,121 @@ STATUS TOTAL = 2840
 UNCLASSIFIED = 0
 ```
 
-Those historical status counts are preserved for comparison only. They are **not the current accepted semantic truth** after the owner-requested external audit.
+Those historical status counts are preserved for comparison only. They are not current accepted semantic truth.
 
-Post-audit correction verdict:
+The owner-requested external methodology audit found that historical result phrases could fall through to KEEP merely because no exclusion/review dictionary matched. Therefore KEEP was dependent on dictionary completeness instead of consistently requiring positive semantic relevance/user-intent evidence.
+
+Authority for reopening:
+
+`STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md`.
+
+## Step 07C semantic correction candidate — current truth
+
+The same 2965 source occurrences / 2840 exact phrase keys were reprocessed without any new provider acquisition.
+
+Current candidate accounting:
+
+```text
+KEEP = 1388
+REVIEW = 1118
+EXCLUDE_SCOPE = 180
+EXCLUDE_IRRELEVANT = 120
+EXCLUDE_MECHANICAL = 34
+STATUS TOTAL = 2840
+```
+
+Historical-to-candidate transitions:
+
+```text
+KEEP -> KEEP = 1388
+KEEP -> REVIEW = 369
+KEEP -> EXCLUDE_MECHANICAL = 3
+REVIEW -> REVIEW = 749
+EXCLUDE_SCOPE -> EXCLUDE_SCOPE = 180
+EXCLUDE_IRRELEVANT -> EXCLUDE_IRRELEVANT = 120
+EXCLUDE_MECHANICAL -> EXCLUDE_MECHANICAL = 31
+historical non-KEEP -> KEEP = 0
+```
+
+Correction controls:
+
+```text
+KEEP requires explicit POSITIVE_* evidence tied to accepted Step-01 business/site families
+default KEEP fallthrough = false
+uncertain but potentially relevant -> REVIEW
+low-frequency-only exclusion = false
+association auto-KEEP = false
+historical REVIEW/EXCLUDE rows promoted upward = 0
+non-exact duplicate candidates auto-merged = 0
+provider requests during correction = 0
+provider cost during correction = 0 RUB
+```
+
+Semantic QA truth:
+
+```text
+builder QA cases = 21
+builder QA failures = 0
+expanded semantic QA cases = 72
+expanded semantic QA failures = 0
+manual semantic saturation passes = 4
+```
+
+Non-exact duplicate handling:
+
+```text
+candidate groups = 9
+candidate rows = 18
+automatic merges = 0
+```
+
+Current correction artifacts:
+
+```text
+STEP_07C_SEMANTIC_CORRECTION_BUILD.py
+STEP_07C_SEMANTIC_CORRECTION_RUN.py
+STEP_07C_SEMANTIC_CORRECTION_WORKING.tsv
+STEP_07C_SEMANTIC_CORRECTION_OCCURRENCES.tsv
+STEP_07C_NONEXACT_DUPLICATE_CANDIDATES.tsv
+STEP_07C_SEMANTIC_QA_CASES.tsv
+STEP_07C_SEMANTIC_QA_CASES_V2.tsv
+STEP_07C_SEMANTIC_CORRECTION_SUMMARY.json
+STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
+```
+
+Verified candidate hashes:
+
+```text
+corrected working TSV = 753e2875d0ac4090ae4db6df4e2ecc162d6598948adeecca011b2dbdb8b60bbb
+corrected occurrences TSV = 8b89585f479d6c3d42c45fcccdfe2eacebabc54adef18eb59b992628b4dff26e
+non-exact duplicate candidates = f68626523ab007b58f71a4c18630547dbffa85043ee2a41c532b16ed6628bb7b
+expanded semantic QA = 0fa73aee1508cd14190febdb0b5f4ea7eebfb8469db8d672771058404b20d324
+```
+
+Current candidate verdict:
 
 ```text
 ROW_LEVEL_DATA_ACCOUNTING = PASS
-EXACT_DEDUPLICATION_ACCOUNTING = PASS
-DETERMINISTIC_PREFILTER = PASS
-FULL_SEMANTIC_ROW_REVIEW = CORRECTION_REQUIRED
-SEMANTIC_CLEANUP_COMPLETE = false
+PROVENANCE_RECONCILIATION = PASS
+DEFAULT_KEEP_DEFECT = CORRECTED
+KEEP_POSITIVE_EVIDENCE_GATE = PASS
+SEMANTIC_QA = PASS_AS_CANDIDATE
+CORRECTION_CANDIDATE_READY = true
+OWNER_REVIEW_PENDING = true
+ROW_LEVEL_CLEANUP_FINAL_ACCEPTANCE = false
+ROW_LEVEL_CLEANUP_COMPLETE = false
 NEXT_STEP_ALLOWED = false
 ```
 
-Reason: the historical classifier allowed result phrases that matched no known exclusion/review rule to fall through to `KEEP`. Therefore KEEP did not consistently represent positive semantic relevance/intent evidence and was dependent on dictionary completeness.
-
-Authority: `STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md`.
-
-Historical artifacts remain preserved:
-
-```text
-STEP_07B_ROW_LEVEL_CLEANUP_BUILD.py
-STEP_07B_ROW_LEVEL_CLEANUP_WORKING.tsv
-STEP_07B_ROW_LEVEL_CLEANUP_OCCURRENCES.tsv
-STEP_07B_ROW_LEVEL_CLEANUP_SUMMARY.json
-STEP_07B_ROW_LEVEL_CLEANUP_ACCEPTANCE_2026-08-29.md
-```
-
-No new Wordstat/provider acquisition is required for the correction.
+The temporary GitHub Actions workflow used to execute/recheck the correction was removed after the final successful run. The correction builder/runner and generated evidence remain for reproducibility.
 
 ## Current operator action
 
 No provider action is pending.
 
-Current work is **ROW_LEVEL_CLEANUP_CORRECTION** using the same preserved 2965 source occurrences / 2840 exact phrase keys.
+Current action is **OWNER REVIEW OF STEP 07C CORRECTION CANDIDATE**. The candidate may be accepted, rejected for another correction pass, or used to revise the next-step method. No automatic forward transition is authorized.
 
-Required correction controls:
-
-```text
-KEEP requires positive relevance/business-intent evidence
-no default KEEP fallthrough
-uncertain but potentially relevant phrases -> REVIEW
-safe deterministic exclusions may remain deterministic
-non-obvious duplicate candidates are surfaced, not silently merged
-all 2965 occurrences and 2840 exact phrase keys must still reconcile
-post-generation semantic QA is mandatory in addition to arithmetic QA
-```
-
-Blocked until correction acceptance:
+Blocked until owner decision and explicit correction acceptance:
 
 ```text
 FINAL_WORKING_SEMANTIC_SET_FREEZE
@@ -258,7 +329,14 @@ KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_REVIEW = 749
 KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_EXCLUDE_SCOPE = 180
 KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_EXCLUDE_IRRELEVANT = 120
 KW001_OKNO_MSK_HISTORICAL_ROW_LEVEL_CLEANUP_EXCLUDE_MECHANICAL = 31
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_CORRECTION_REQUIRED = true
+KW001_OKNO_MSK_STEP07C_KEEP = 1388
+KW001_OKNO_MSK_STEP07C_REVIEW = 1118
+KW001_OKNO_MSK_STEP07C_EXCLUDE_SCOPE = 180
+KW001_OKNO_MSK_STEP07C_EXCLUDE_IRRELEVANT = 120
+KW001_OKNO_MSK_STEP07C_EXCLUDE_MECHANICAL = 34
+KW001_OKNO_MSK_STEP07C_SEMANTIC_QA_FAILURES = 0
+KW001_OKNO_MSK_STEP07C_CORRECTION_CANDIDATE_READY = true
+KW001_OKNO_MSK_STEP07C_OWNER_REVIEW_PENDING = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = false
 KW001_OKNO_MSK_NEXT_STEP_ALLOWED = false
 KW001_OKNO_MSK_FINAL_SEMANTIC_SET_COMPLETE = false
