@@ -52,7 +52,7 @@ SEARCH_REQUIRED	застекление веранды в частном доме
 SEARCH_REQUIRED	имитация французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	как называется пластиковая дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	как открыть пластиковую дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	как снять накладку пластиковой двери		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как сейчас выглядят поставки окон rehau		SEARCH_REQUIRED	Supply-state query is not a window-selection task and needs separate evidence	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	как снять пластиковую балконную дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	как снять пластиковую дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	как снять пластиковую дверь с петель		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
@@ -118,7 +118,6 @@ SEARCH_REQUIRED	остекление панорамное окно		SEARCH_REQUI
 SEARCH_REQUIRED	остекление французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	отделка панорамных окон		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	отделка французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	откосы для окон частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	открой панорамное окно		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	открытое панорамное окно		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	панорамное окно 3 на 3		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
