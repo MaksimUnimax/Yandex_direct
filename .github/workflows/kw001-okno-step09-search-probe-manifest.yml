@@ -37,7 +37,174 @@ jobs:
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Commit generated Step09 artifacts
+      - name: Synchronize corrected Step09 authority docs
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          pre = base / 'STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md'
+          flow = base / 'JOB_FLOW.md'
+          manifest = base / 'JOB_MANIFEST.md'
+
+          marker = 'STEP09_POST_AUDIT_CORRECTION_ACTIVE = true'
+          correction = '''
+
+---
+
+## 18. Post-audit correction — ACTIVE / SUPERSEDES CONFLICTING WORDING ABOVE
+
+Full causal explanation:
+
+`STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`
+
+Current operational authority:
+
+`STEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md`
+
+Direct external method authorities used by the correction:
+
+- Yandex: https://yandex.ru/support/webmaster/ru/service/queries-selection
+- Rush Analytics: https://www.rush-analytics.ru/faq/kak-nayti-markernye-zaprosy
+- Ahrefs: https://ahrefs.com/blog/keyword-clustering/
+- Ahrefs term-vs-intent distinction: https://ahrefs.com/blog/keyword-clustering-tools/
+- Semrush: https://www.semrush.com/blog/keyword-clustering/
+- Semrush SERP-overlap: https://www.semrush.com/blog/keyword-manager-clustering-tool/
+
+The first manifest model incorrectly promoted process metadata into Search evidence authority:
+
+```text
+corrected_reason -> wrongly treated as a SERP/user-intent family
+source_id -> wrongly treated as a semantic subfamily
+lexical centrality -> wrongly treated as authoritative marker selection
+accounting assignment -> wrongly described as Search coverage
+```
+
+Why this was wrong:
+
+```text
+corrected_reason explains why Step 07 remained uncertain;
+source_id explains acquisition provenance;
+lexical overlap explains word similarity;
+none independently proves shared user intent, shared SERP or same-page compatibility.
+```
+
+Canonical causal controls:
+
+```text
+CLEANUP_REASON != SEARCH_INTENT_CLUSTER
+ACQUISITION_SOURCE != SEARCH_INTENT_CLUSTER
+LEXICAL_SIMILARITY != SERP_COMPATIBILITY
+TRACEABILITY_COMPLETE != FULL_SERP_EVIDENCE_COVERAGE
+TRANSPORT_PERSISTED != PROJECT_RESULT_COMPLETE
+```
+
+The 75 queries are only `INITIAL_BOUNDED_SERP_TRANCHE`.
+
+Before Search, REVIEW_SEARCH rows are only:
+
+```text
+DIRECT_PROBE
+UNRESOLVED_UNPROBED
+```
+
+No pre-SERP transfer from one direct query to another phrase is allowed because of the same reason code, source, seed, provenance or lexical similarity.
+
+The old one-block execution idea `start + next x75 + status` is rejected for Step 09. The project-specific execution loop is:
+
+```text
+one next
+-> verify governed outcome
+-> verify complete raw payload
+-> verify normalized rows/count
+-> preserve reusable evidence
+-> only then another next
+```
+
+Required truth:
+
+```text
+STEP09_POST_AUDIT_CORRECTION_ACTIVE = true
+STEP09_INITIAL_TRANCHE_ONLY = true
+STEP09_PRE_SERP_TRANSFER_ALLOWED = false
+STEP09_PRE_SERP_TRANSFER_LINKS = 0
+STEP09_FULL_SERP_EVIDENCE_COVERAGE = false
+STEP09_TRACEABILITY_COMPLETE_MEANS_ACCOUNTING_ONLY = true
+```
+'''
+
+          text = pre.read_text(encoding='utf-8')
+          if marker not in text:
+              pre.write_text(text.rstrip() + correction + '\n', encoding='utf-8')
+
+          text = flow.read_text(encoding='utf-8')
+          text = text.replace(
+              'Status: **PRE-STEP METHOD REVIEW COMPLETE / OWNER AUTHORIZATION PENDING / EXECUTION NOT STARTED**',
+              'Status: **OWNER AUTHORIZED / INITIAL TRANCHE CORRECTED AFTER SEMANTIC AUDIT / PROVIDER EXECUTION NOT STARTED**'
+          )
+          text = text.replace('STEP_09_OWNER_AUTHORIZATION_PENDING = true', 'STEP_09_OWNER_AUTHORIZATION_PENDING = false')
+          if '## Step 09 post-audit correction authority' not in text:
+              text += '''
+
+## Step 09 post-audit correction authority
+
+`STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`
+
+`STEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md`
+
+```text
+STEP_09_OWNER_AUTHORIZED = true
+STEP_09_INITIAL_TRANCHE_CORRECTED = true
+STEP_09_TRACEABILITY_ROWS = 944
+STEP_09_FULL_SERP_EVIDENCE_COVERAGE = false
+STEP_09_PRE_SERP_TRANSFER_LINKS = 0
+STEP_09_PROVIDER_REQUESTS = 0
+STEP_09_PROVIDER_COST_RUB = 0
+STEP_09_COMPLETE = false
+STEP_10_ALLOWED = false
+```
+'''
+          flow.write_text(text, encoding='utf-8')
+
+          text = manifest.read_text(encoding='utf-8')
+          text = text.replace(
+              'current_major_step = STEP_09_ORDINARY_YANDEX_SEARCH_VALIDATION_PRE_STEP_COMPLETE',
+              'current_major_step = STEP_09_INITIAL_SEARCH_TRANCHE_CORRECTED_READY_FOR_INTERACTION_GATED_EXECUTION'
+          )
+          text = text.replace(
+              'next_major_step = STEP_09_EXECUTION_AFTER_OWNER_AUTHORIZATION',
+              'next_major_step = STEP_09_INTERACTION_GATED_PROVIDER_EXECUTION'
+          )
+          text = text.replace('STEP_09_OWNER_AUTHORIZATION_PENDING = true', 'STEP_09_OWNER_AUTHORIZATION_PENDING = false')
+          if 'STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md' not in text:
+              text = text.replace(
+                  'STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md',
+                  'STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md\nSTEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md\nSTEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md\nSTEP_09_INITIAL_TRANCHE_SEMANTIC_QA.json'
+              )
+          if '## Step 09 corrected current truth' not in text:
+              text += '''
+
+## Step 09 corrected current truth
+
+```text
+STEP_09_OWNER_AUTHORIZED = true
+STEP_09_INITIAL_TRANCHE_SEMANTIC_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY
+STEP_09_TRACEABILITY_COMPLETE = true
+STEP_09_FULL_SERP_EVIDENCE_COVERAGE = false
+STEP_09_PRE_SERP_TRANSFER_ALLOWED = false
+STEP_09_PRE_SERP_TRANSFER_LINKS = 0
+STEP_09_PROVIDER_EXECUTION_SCOPE = INITIAL_BOUNDED_TRANCHE_ONLY
+STEP_09_PROVIDER_REQUESTS = 0
+STEP_09_PROVIDER_COST_RUB = 0
+STEP_09_COMPLETE = false
+STEP_10_ALLOWED = false
+```
+'''
+          manifest.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit generated Step09 artifacts and synchronized authority docs
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -47,9 +214,12 @@ jobs:
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_REVIEW_SEARCH_COVERAGE.tsv \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_QA.json \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_BATCH_START_COMMAND.txt \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_RECONCILIATION.md
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_RECONCILIATION.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
           if ! git diff --cached --quiet; then
-            git commit -m "KW001 OKNO: freeze corrected Step 09 initial Search tranche"
+            git commit -m "KW001 OKNO: freeze corrected Step 09 tranche and authority"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
 
