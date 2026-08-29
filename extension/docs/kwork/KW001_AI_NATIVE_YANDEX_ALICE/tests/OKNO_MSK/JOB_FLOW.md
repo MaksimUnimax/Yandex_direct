@@ -91,7 +91,7 @@ The earlier family-level observations may be reused as notes, but the step canno
 ## Current step
 
 ### Step 3R — repair the original 18-seed Wordstat collection
-Status: **IN PROGRESS / 11 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
+Status: **IN PROGRESS / 12 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
 
 Authority:
 
@@ -101,6 +101,7 @@ STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
 STEP_03R_S10_CHECKPOINT_2026-08-29.md
 STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
 STEP_03R_S11_CHECKPOINT_2026-08-29.md
+STEP_03R_S12_CHECKPOINT_2026-08-29.md
 ```
 
 Goal:
@@ -143,21 +144,21 @@ estimated provider cost = 0.36 RUB
 execution = Manual
 ```
 
-### Current execution point after S11
+### Current execution point after S12
 
 ```text
 batch.start = COMPLETE
-provider requests in Step 03R = 11
-provider outcomes known = 11
+provider requests in Step 03R = 12
+provider outcomes known = 12
 failed_terminal = 0
 outcome_unknown = 0
-estimated provider cost = 0.22 RUB
-fully preserved + normalized + verified Step-03R provider items = 11/18
-provider items remaining = 7
-results rows preserved/verified S01-S11 = 1326
-association rows preserved/verified S01-S11 = 158
-total provider rows preserved/verified S01-S11 = 1484
-next provider item = S12 `аксессуары для пластиковых окон`
+estimated provider cost = 0.24 RUB
+fully preserved + normalized + verified Step-03R provider items = 12/18
+provider items remaining = 6
+results rows preserved/verified S01-S12 = 1330
+association rows preserved/verified S01-S12 = 171
+total provider rows preserved/verified S01-S12 = 1501
+next provider item = S13 `установка пластиковых окон`
 next YMB action = one manual batch.next only after pre-item goal/error/mode block
 forward analytical work = BLOCKED until Step 03R reaches 18/18 and final reconciliation passes
 ```
@@ -219,6 +220,22 @@ Authorities:
 - `STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md`
 - `STEP_03R_S11_CHECKPOINT_2026-08-29.md`
 
+### S12 verified acquisition
+
+```text
+S12 = аксессуары для пластиковых окон
+results rows = 4
+association rows = 13
+provider rows = 17
+raw rows saved = 17
+normalized TSV rows = 17
+rows verified after read-back = 17
+totalCount = 29
+NON_REPEAT_CONTROLS = PASS
+```
+
+Authority: `STEP_03R_S12_CHECKPOINT_2026-08-29.md`.
+
 ## Remaining work after Step 3R succeeds
 
 1. Review the complete first-pass dataset and determine whether any additional important acquisition direction was missed.
@@ -249,8 +266,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 11
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1484
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 12
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1501
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
