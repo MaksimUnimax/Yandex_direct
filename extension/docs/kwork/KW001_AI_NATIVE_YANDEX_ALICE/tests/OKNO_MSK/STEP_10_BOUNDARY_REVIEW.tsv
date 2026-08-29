@@ -1,0 +1,204 @@
+record_type	phrase	related_id	cluster_evidence_state	reason	direct_evidence
+CONTROL_ANCHOR_AUDIT	rehau thermo окна	SP09-057	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: REHAU_THERMO_PRODUCT / COMMERCIAL_PRODUCT; Explicit Rehau product/system subtype	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	какой профиль rehau выбрать	SP09-060	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: HOW_TO_CHOOSE_REHAU_PROFILE / INFORMATION_GUIDE; Explicit Rehau selection question	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	остекление балкона п 46	SP09-062	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: BALCONY_GLAZING_P46 / COMMERCIAL_SERVICE; Explicit house-series glazing modifier	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	остекление балконов москва	SP09-065	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: BALCONY_GLAZING_MOSCOW / COMMERCIAL_SERVICE; Explicit balcony/loggia glazing service	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	остекление беседки	SP09-066	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: GAZEBO_GLAZING / COMMERCIAL_SERVICE; Explicit gazebo/porch glazing service	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	остекление террасы	SP09-068	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: TERRACE_GLAZING / COMMERCIAL_SERVICE; Explicit terrace glazing service	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	пластиковые окна митино	SP09-070	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: PLASTIC_WINDOWS_MITINO / LOCAL_COMMERCIAL_PRODUCT; Explicit PVC-window purchase with geographic modifier	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	теплое остекление балкона	SP09-073	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: WARM_BALCONY_GLAZING / COMMERCIAL_SERVICE; Explicit warm-glazing subtype	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+CONTROL_ANCHOR_AUDIT	установка пластиковых окон москва	SP09-074	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: WINDOW_INSTALLATION_MOSCOW / COMMERCIAL_SERVICE; Explicit professional window installation task	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
+SEARCH_REQUIRED	алюминиевые окна видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	алюминиевые окна своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	балконный блок французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	батареи отопления для французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	батарея французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	безрамное остекление веранды плюсы и минусы		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	безрамное остекление веранды своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	большие французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	варианты окон для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	варианты французских окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	видео ремонта пластиковых окон своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	виды французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	входные двери с окном для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	выбираем окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	высокие французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	высота окон для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	высота французских окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	дом п 44 окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	дом с французскими окнами		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	заказать окна в однушку п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	замена балконного блока на французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	имитация французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как называется оконная фурнитура		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как называется пластиковая дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как открыть пластиковую дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как отрегулировать пластиковую балконную дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как отрегулировать пластиковую дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как отрегулировать пластиковую дверь входную		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как отрегулировать пластиковую дверь на балконе		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как отрегулировать пластиковую дверь на балконе самостоятельно		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как отрегулировать пластиковую дверь самостоятельно		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как регулировать пластиковые двери		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как снять накладку пластиковой двери		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как снять пластиковую балконную дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как снять пластиковую дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как снять пластиковую дверь с петель		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	как устроена оконная фурнитура		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	какие окна выбрать для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	какие окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	какую пластиковую дверь		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	комната с французскими окнами		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	конвектор под французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	красивое французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	крыльцо для частного дома окна	SP09-011	SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	serp_job=PORCH_GLAZING_PRIVATE_HOUSE
+SEARCH_REQUIRED	купить окно для газовой котельной частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	лучшие окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	образцы окон для частных домов		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна в пол для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна в пол размеры для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна двери для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для крыши частных домов		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для кухни частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для санузла в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для частного дома виды		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для частного дома купить		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна для частного дома цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна домов серии п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна на балкон сапожок п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна пвх для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна с французской раскладкой		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна серии п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна серия п 44 размеры		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна французская решетка		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна французский стиль		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для ванной в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для ванной комнаты в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для вентиляции в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для газовой котельной частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для газовой котельной частного дома требования		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для котельной в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно для котельной в частном доме купить		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно полукруглое для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно французской гостиной		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окон в котельной требования для частных домов		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окон п 44 т		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление балкона видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление балкона своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление веранды видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление веранды монолитным поликарбонатом своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление веранды своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	отделка французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	откосы для окон частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	отопление французских окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	панорамные окна своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	перегородка французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	перепланировка французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковая дверь своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковые двери видео	SP09-026	SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	serp_job=PVC_DOOR_INSTALLATION_VIDEO
+SEARCH_REQUIRED	пластиковые и алюминиевые окна разница		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковые окна видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+PHRASE_BOUNDARY	пластиковые окна от производителя rehau	DUP-0004	MIXED_OR_BOUNDARY_REVIEW	Mandatory DUP-0004 override: Step-09 exact URL overlap 1/10; no auto-merge	probe=SP09-049|serp_job=REHAU_MANUFACTURER_WINDOWS
+PHRASE_BOUNDARY	пластиковые окна рехау от производителя	DUP-0004	MIXED_OR_BOUNDARY_REVIEW	Mandatory DUP-0004 override: Step-09 exact URL overlap 1/10; no auto-merge	probe=SP09-051|serp_job=REHAU_MANUFACTURER_WINDOWS
+SEARCH_REQUIRED	пластиковые окна своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	площадь окна для газовой котельной частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	подоконник французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	проем для окна в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окна для газовой котельной частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окна для котельной в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окна для санузла в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окна стандарт для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окон в доме п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окон для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окон для частного дома из бруса		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер окон для частного дома из газобетона		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размер французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размеры окон п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размеры окон пвх для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	размеры окон пвх стандартные для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	регулировка пластиковых дверей своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт механизма пластиковых окон своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт пластикового окна самостоятельно видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт пластиковых окон видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт пластиковых окон своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт пластиковых окон своими руками пошаговая		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт подоконника пластикового окна своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт ручки пластикового окна своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт стеклопакета в пластиковом окне своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	серия дома п 44 окна размеры		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	сколько стоят французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	современные окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	спальня французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ставни для французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	стандарт окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	стандартные окна для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	стандартные размеры окон для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	стеклопакеты французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	стоимость французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	устанавливаем французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	формы окон для частных домов		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французская раскладка окна 16 мм		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские балконные окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские вертикальные задвижки для окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские занавески на окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские мягкие окна	SP09-038	SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	serp_job=SOFT_WINDOWS
+SEARCH_REQUIRED	французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в интерьере		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в квартире		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в москве в квартирах		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в пол		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в хрущевке		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в частном		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в частном доме		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна в частном доме цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна вместо балконного блока		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна заказать		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна коричневые		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна купить		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна москва		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на балкон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на балкон раздвижные		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на балкон раздвижные цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на балкон цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на даче		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на кухню		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на лоджию		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна на террасе		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна название		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна радиатор		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна современные		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна черные		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французские окна это какие		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французский балкон окно в пол		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французский блок окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французский замок для мягких окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французский навес над окнами		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французский профиль окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французский тип окон		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно вместо		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно вместо балконного		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно дизайн		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно на балкон в квартире		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно на балкон в квартире арочное		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно оформление		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно пвх		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно примеры		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно раздвижное		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно раздвижное цена		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно распашное		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно с дверью		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	французское окно своими руками		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	что значит французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	широкие французские окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+DUPLICATE_COMPARISON_AUDIT	алюминиевые окна provedal <> алюминиевые окна проведал	CMP-0001|DUP-0001	SERP_SUPPORTED_CANDIDATE_PAIR	STRONG_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=7/10
+DUPLICATE_COMPARISON_AUDIT	provedal остекление веранды <> проведал остекление веранды	CMP-0002|DUP-0002	SERP_SUPPORTED_CANDIDATE_PAIR	MATERIAL_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=5/10
+DUPLICATE_COMPARISON_AUDIT	окна rehau в рассрочку <> окна рехау в рассрочку	CMP-0003|DUP-0003	SERP_SUPPORTED_CANDIDATE_PAIR	MATERIAL_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=5/10
+DUPLICATE_COMPARISON_AUDIT	пластиковые окна от производителя rehau <> пластиковые окна рехау от производителя	CMP-0004|DUP-0004	MIXED_OR_BOUNDARY_REVIEW	LOW_EXACT_URL_COMPATIBILITY_DESPITE_LEXICAL_SIMILARITY / DO_NOT_AUTO_MERGE__REVIEW_SEARCH_JOB_BOUNDARY	exact_url_overlap=1/10
+DUPLICATE_COMPARISON_AUDIT	пластиковые окна rehau <> пластиковые окна рехау	CMP-0005|DUP-0005	SERP_SUPPORTED_CANDIDATE_PAIR	MATERIAL_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=5/10
+DUPLICATE_COMPARISON_AUDIT	оконная фурнитура rehau <> оконная фурнитура рехау	CMP-0006|DUP-0006	SERP_SUPPORTED_CANDIDATE_PAIR	VERY_STRONG_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=9/10
+DUPLICATE_COMPARISON_AUDIT	ремонт пластиковых окон в одинцове <> ремонт пластиковых окон в одинцово	CMP-0007|DUP-0007	SERP_SUPPORTED_CANDIDATE_PAIR	STRONG_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=7/10
+DUPLICATE_COMPARISON_AUDIT	пошаговая установка пластиковых окон <> установка пластиковых окон пошагово	CMP-0008|DUP-0008	SERP_SUPPORTED_CANDIDATE_PAIR	STRONG_DIRECT_SERP_COMPATIBILITY / CLUSTER_TOGETHER_CANDIDATE	exact_url_overlap=7/10
