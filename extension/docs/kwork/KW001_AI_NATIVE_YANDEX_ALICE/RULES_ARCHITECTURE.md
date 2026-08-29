@@ -40,6 +40,10 @@ They do **not** contain client-specific facts or row-level job results.
 
 ### Mandatory dialogue-start Yandex Marketing Bridge capability alignment
 
+Canonical Yandex Marketing Bridge GitHub source for this project:
+
+https://github.com/MaksimUnimax/Yandex_direct/tree/roadmap/kwork-productization-2026-08-28/extension
+
 At the beginning of every new dialogue/session for KW-001, before executing or continuing any roadmap step, ChatGPT must perform the following gate **once per dialogue**:
 
 ```text
