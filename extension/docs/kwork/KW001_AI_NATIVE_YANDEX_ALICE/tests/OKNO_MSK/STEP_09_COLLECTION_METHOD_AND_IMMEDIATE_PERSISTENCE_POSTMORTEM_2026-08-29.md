@@ -69,9 +69,9 @@ extension/docs/SEARCH_BATCH_NEXTN100_V0_1_2_CHANGELOG_AND_ACCEPTANCE_2026-08-29.
 
 ### What quantity was actually tested
 
-Two different facts must not be conflated.
+Three different facts must not be conflated.
 
-#### Local bounded-command test
+#### Local bounded-command ceiling test
 
 ```text
 count = 100
@@ -81,7 +81,41 @@ was tested at protocol/runtime level. The test intentionally supplied only three
 
 It does **not** mean that 100 real Yandex requests were sent in one live chunk.
 
-#### Live provider test / Step-09 R2
+#### Live `nextN` requested chunk sizes
+
+The actual live rollout explicitly tested these requested `count` values:
+
+```text
+4
+10
+25
+31
+```
+
+Therefore:
+
+```text
+LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = [4, 10, 25, 31]
+LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
+```
+
+This is known live execution history. Earlier wording in this document that treated the exact tested chunk sizes as unknown was incorrect and is superseded by this correction.
+
+Important accounting distinction:
+
+```text
+TESTED_REQUESTED_COUNTS = [4,10,25,31]
+!=
+A CLAIM THAT 4+10+25+31 IS THE COMPLETE R2 EXECUTION PARTITION
+```
+
+`nextN.count` is an upper bound for one invocation. Actual confirmed provider executions are defined by the returned `confirmed_provider_executions` and can stop early because of remaining work, policy/cost limits, terminal error or UNKNOWN.
+
+Detailed authority:
+
+`STEP_09_NEXTN_LIVE_CHUNK_VALIDATION_2026-08-29.md`
+
+#### Live provider job / Step-09 R2
 
 The patched Bridge was used for the real R2 acquisition:
 
@@ -108,13 +142,14 @@ estimated cumulative cost = 36.600 RUB
 
 The final `projection(offset=0,limit=74,topN=10)` proved the complete R2 job and returned 740 normalized ranked results.
 
-Important limitation:
+Canonical quantity boundary:
 
 ```text
-R2 74/74 SUCCESS != EVIDENCE OF THE EXACT SIZE OF EACH INDIVIDUAL nextN COMMAND
+largest explicitly live-tested requested count = 31
+hard protocol ceiling = 100
+R2 final confirmed provider requests = 74
+initial tranche confirmed provider requests = 75
 ```
-
-The final projection does not contain the command-history of chunk sizes. Exact live per-command `count` values must not be reconstructed from memory or invented.
 
 ## Critical process error: provider results were not durably written immediately
 
@@ -197,6 +232,8 @@ However the projection did not expose all original raw per-item fields, includin
 
 Therefore the delayed persistence did not force paid replay this time, but it reduced the recoverable evidence fidelity.
 
+The fact that live requested chunk sizes `4/10/25/31` are known does not repair the missing full command/result receipt ledger. The process failure was not forgetting the requested counts; it was failing to persist the complete returned evidence immediately after each chunk.
+
 ## Mandatory corrected workflow
 
 From this point forward, every paid or otherwise non-trivial provider acquisition in this Kwork follows this gate:
@@ -205,9 +242,11 @@ From this point forward, every paid or otherwise non-trivial provider acquisitio
 1. EXECUTE bounded provider command/chunk.
 2. RECEIVE complete Bridge result.
 3. PARSE and validate result/accounting.
-4. IMMEDIATELY WRITE the result to the project repository evidence ledger.
+4. IMMEDIATELY WRITE the command + complete returned result to the project repository evidence ledger.
 5. READ BACK the written file/rows from GitHub.
 6. VERIFY:
+   - requested nextN.count, when applicable;
+   - confirmed_provider_executions;
    - expected query/item count;
    - expected ranks/result count;
    - request_executed / provider execution accounting;
@@ -222,7 +261,7 @@ For `nextN`, the atomic project workflow unit is the **returned chunk**:
 
 ```text
 NEXT_N_RESULT_RECEIVED
--> DURABLE_WRITE_ALL_CHUNK_ITEMS
+-> DURABLE_WRITE_COMMAND_AND_ALL_CHUNK_ITEMS
 -> READ_BACK_QA
 -> COVERAGE_CHECKPOINT
 -> NEXT_PAID_CHUNK_ALLOWED
@@ -257,6 +296,7 @@ NEXT_PAID_CHUNK_BEFORE_READBACK_QA = PROHIBITED
 RUNTIME_STORAGE_AS_ONLY_EVIDENCE_COPY = PROHIBITED
 CHAT_AS_ONLY_EVIDENCE_COPY = PROHIBITED
 JOB_COMPLETED_WITHOUT_REPOSITORY_LEDGER = NOT_ACCEPTED
+LIVE_TESTED_CHUNK_SIZE_MUST_BE_RECORDED_WITH_ITS_RESULT = true
 ```
 
 The purpose is simple: once money/time has been spent obtaining evidence, an unrelated connection, browser, extension or chat failure must not force the project to pay for the same evidence again.
@@ -280,5 +320,6 @@ Authority:
 - `STEP_09_SERP_R2_PROJECTION_RAW_PART_03.tsv`
 - `STEP_09_SERP_R2_PROJECTION_RAW_PART_04.tsv`
 - `STEP_09_SERP_R2_PROJECTION_INDEX.md`
+- `STEP_09_NEXTN_LIVE_CHUNK_VALIDATION_2026-08-29.md`
 
 Step 09 remains analytically incomplete until its remaining evidence decisions, duplicate overlap analysis, coverage accounting and acceptance QA are finished. This postmortem does not authorize Step 10.
