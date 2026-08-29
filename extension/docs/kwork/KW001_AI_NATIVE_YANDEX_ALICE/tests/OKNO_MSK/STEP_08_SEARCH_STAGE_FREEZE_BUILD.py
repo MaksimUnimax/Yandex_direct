@@ -24,38 +24,41 @@ EXPECTED = {
     "duplicate_rows": 18,
 }
 
+# Step 8 only routes to evidence that this workflow can actually obtain.
+# Business relevance is not a separate evidence channel here. It is evaluated from
+# known public offer/scope together with Search intent; unknown internal commercial
+# priorities belong to later prioritization/client constraints, not to Search routing.
 SEARCH_REASONS = {
     "AMBIGUOUS_NUMERIC_OR_FRAGMENT_INTENT",
     "ARCHITECTURE_OR_INSPIRATION_INTENT_NEEDS_SEARCH",
     "BALCONY_REGULATORY_OR_NEGATED_INTENT_NEEDS_SEARCH",
     "COMPARISON_INTENT_NEEDS_SEARCH_VALIDATION",
+    "COMPONENT_OR_ACCESSORY_INTENT_NEEDS_BUSINESS_FIT",
+    "DEMOLITION_SERVICE_BOUNDARY_NEEDS_VALIDATION",
     "DESIGN_OR_INSPIRATION_INTENT_NEEDS_SEARCH",
+    "DIY_OR_PROCEDURAL_INTENT_NEEDS_CONTENT_FIT",
+    "HARDWARE_BRAND_INTENT_NEEDS_BUSINESS_FIT",
+    "INSTALLATION_ADJACENT_OR_JOB_INTENT_NEEDS_VALIDATION",
     "MATERIAL_OR_PRICE_CONTEXT_NEEDS_VALIDATION",
     "NAVIGATIONAL_OR_ENTITY_INTENT_NEEDS_VALIDATION",
     "PANORAMIC_REAL_ESTATE_OR_INSPIRATION_INTENT_NEEDS_SEARCH",
     "PRIVATE_HOUSE_ADJACENT_TASK_NEEDS_VALIDATION",
-    "STATE_OR_CONTEXT_FRAGMENT_NEEDS_VALIDATION",
-    "TECHNICAL_INFORMATION_INTENT_NEEDS_CONTENT_FIT",
-    "VAGUE_INFORMATIONAL_INTENT_NEEDS_VALIDATION",
-}
-
-SEARCH_AND_BUSINESS_REASONS = {
-    "COMPONENT_OR_ACCESSORY_INTENT_NEEDS_BUSINESS_FIT",
-    "DEMOLITION_SERVICE_BOUNDARY_NEEDS_VALIDATION",
-    "DIY_OR_PROCEDURAL_INTENT_NEEDS_CONTENT_FIT",
-    "HARDWARE_BRAND_INTENT_NEEDS_BUSINESS_FIT",
-    "INSTALLATION_ADJACENT_OR_JOB_INTENT_NEEDS_VALIDATION",
     "PVC_DOOR_SUBTYPE_BUSINESS_FIT_NEEDS_VALIDATION",
     "REHAU_REPAIR_OR_DIAGNOSTIC_INTENT_NEEDS_SEARCH",
     "REPAIR_ADJACENT_INFORMATION_INTENT_NEEDS_VALIDATION",
     "REPAIR_FRAGMENT_OR_DIY_INTENT_NEEDS_VALIDATION",
     "REPAIR_NAVIGATIONAL_OR_ENTITY_INTENT_NEEDS_VALIDATION",
     "RETAINED_BUSINESS_BOUNDARY_NEEDS_SEARCH",
+    "STATE_OR_CONTEXT_FRAGMENT_NEEDS_VALIDATION",
+    "TECHNICAL_INFORMATION_INTENT_NEEDS_CONTENT_FIT",
+    "VAGUE_INFORMATIONAL_INTENT_NEEDS_VALIDATION",
 }
 
 DEFERRED_REASONS = {
     "RETAINED_ASSOCIATION_ONLY_NEEDS_VALIDATION",
 }
+
+FORBIDDEN_DISPOSITIONS = {"REVIEW_BUSINESS", "REVIEW_SEARCH_AND_BUSINESS"}
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -73,17 +76,14 @@ def sha256(path: Path) -> str:
 
 def route_review(reason: str) -> tuple[str, str]:
     if reason in SEARCH_REASONS:
-        return "REVIEW_SEARCH", "ORDINARY_SEARCH_NEEDED_FOR_INTENT_OR_RESULT_TYPE"
-    if reason in SEARCH_AND_BUSINESS_REASONS:
-        return "REVIEW_SEARCH_AND_BUSINESS", "SEARCH_EVIDENCE_AND_BUSINESS_SCOPE_BOTH_MATTER"
+        return "REVIEW_SEARCH", "ORDINARY_SEARCH_NEEDED_TO_RESOLVE_INTENT_RELEVANCE_OR_BOUNDARY"
     if reason in DEFERRED_REASONS:
         return "REVIEW_DEFERRED", "ASSOCIATION_ONLY_EVIDENCE_RETAINED_WITHOUT_IMMEDIATE_SEARCH_CALL"
     raise AssertionError(f"Unmapped REVIEW reason: {reason}")
 
 
 def duplicate_group_route(dispositions: set[str]) -> str:
-    if "REVIEW_SEARCH_AND_BUSINESS" in dispositions:
-        return "SEARCH_AND_BUSINESS_BEFORE_ANY_NONEXACT_MERGE"
+    assert not (dispositions & FORBIDDEN_DISPOSITIONS), dispositions
     if "CORE_CANDIDATE" in dispositions or "REVIEW_SEARCH" in dispositions:
         return "ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE"
     if dispositions == {"REVIEW_DEFERRED"}:
@@ -126,6 +126,7 @@ def main() -> None:
         else:
             raise AssertionError(f"Unexpected status: {status}")
 
+        assert disposition not in FORBIDDEN_DISPOSITIONS
         out = dict(row)
         out["search_stage_disposition"] = disposition
         out["next_resolution_route"] = next_route
@@ -143,7 +144,8 @@ def main() -> None:
     )
     assert sum(route_counts.values()) == EXPECTED["phrase_keys"]
     assert all(r["corrected_status"] == "REVIEW" for r in review_rows)
-    assert all(r["search_stage_disposition"].startswith("REVIEW_") for r in review_rows)
+    assert all(r["search_stage_disposition"] in {"REVIEW_SEARCH", "REVIEW_DEFERRED"} for r in review_rows)
+    assert not any(r["search_stage_disposition"] in FORBIDDEN_DISPOSITIONS for r in out_rows)
 
     # Step 8 is a routing/freeze layer. It must never rewrite accepted Step-07C semantics.
     for src, out in zip(rows, out_rows):
@@ -197,7 +199,6 @@ def main() -> None:
             out["step08_duplicate_resolution_route"] = group_route[row["candidate_group"]]
             w.writerow(out)
 
-    # Verify written artifacts by reading them back.
     frozen = read_tsv(OUT_SET)
     routed = read_tsv(OUT_REVIEW)
     dups = read_tsv(OUT_DUP)
@@ -206,14 +207,15 @@ def main() -> None:
     assert len(dups) == EXPECTED["duplicate_rows"]
     assert len({r["candidate_group"] for r in dups}) == EXPECTED["duplicate_groups"]
     assert all(r["step08_state"] == "UNRESOLVED_DUPLICATE_CANDIDATE" for r in dups)
+    assert not any(r["step08_member_disposition"] in FORBIDDEN_DISPOSITIONS for r in dups)
 
-    route_order = ["CORE_CANDIDATE", "REVIEW_SEARCH", "REVIEW_BUSINESS", "REVIEW_SEARCH_AND_BUSINESS", "REVIEW_DEFERRED", "EXCLUDED_PRESERVED"]
+    route_order = ["CORE_CANDIDATE", "REVIEW_SEARCH", "REVIEW_DEFERRED", "EXCLUDED_PRESERVED"]
     duplicate_route_counts = Counter(group_route.values())
     lines = [
         "# KW-001 / OKNO-MSK — STEP 08 SEARCH-STAGE FREEZE RECONCILIATION",
         "",
         "Date: 2026-08-29",
-        "Status: **GENERATED / MACHINE-VERIFIED / REQUIRES STEP ACCEPTANCE**",
+        "Status: **CORRECTED / MACHINE-VERIFIED / SOURCE-METHOD TRACEABILITY FIX APPLIED**",
         "",
         "## Source reconciliation",
         "",
@@ -231,6 +233,7 @@ def main() -> None:
         "Step-07C semantic status rewrites = 0",
         "unrouted REVIEW = 0",
         "silent drops = 0",
+        "forbidden business-route dispositions = 0",
         "provider/Search requests executed = 0",
         "provider cost = 0 RUB",
         "```",
@@ -258,13 +261,14 @@ def main() -> None:
         f"STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = {sha256(OUT_DUP)}",
         "```",
         "",
-        "## Freeze semantics",
+        "## Corrected freeze semantics",
         "",
-        "Step 8 preserves accepted Step-07C semantic decisions and adds only a routing layer for the next evidence stage. It does not perform clustering, page mapping, Search acquisition, business-priority resolution or automatic non-exact duplicate merging.",
+        "Step 8 routes only to evidence paths that actually exist in the workflow. Internal business priority is not a Search-stage resolution route. Public business relevance is evaluated from the known offer/scope together with Search intent; unknown margin/capacity/strategic priority belongs to later recommendation prioritization or explicit client constraints.",
         "",
         "```text",
         "STEP08_INPUT_RECONCILIATION = PASS",
-        "STEP08_REVIEW_ROUTING = PASS",
+        "STEP08_REVIEW_ROUTING = PASS_AFTER_METHOD_CORRECTION",
+        "STEP08_FORBIDDEN_BUSINESS_ROUTE_STATES = 0",
         "STEP08_STATUS_REWRITE_COUNT = 0",
         "STEP08_NONEXACT_DUPLICATES_AUTO_MERGED = 0",
         "STEP08_PROVIDER_REQUESTS = 0",
