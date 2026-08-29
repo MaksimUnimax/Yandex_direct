@@ -11,7 +11,7 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_COMPLETE
+current_major_step = STEP_08_SEARCH_STAGE_SEMANTIC_FREEZE_COMPLETE_AFTER_METHOD_CORRECTION
 next_major_step = STEP_09_ORDINARY_YANDEX_SEARCH_VALIDATION_PRE_STEP_RESEARCH
 job_work_complete = false
 final_handoff_complete = false
@@ -21,8 +21,6 @@ safe_to_delete = false
 ```
 
 ## Authority
-
-This directory is temporary job memory only. Universal KW-001 rules remain in the parent permanent layer and are owner-locked.
 
 Current execution authorities:
 
@@ -36,9 +34,10 @@ STEP_07B_POST_AUDIT_CORRECTION_REQUIRED_2026-08-29.md
 STEP_07C_SEMANTIC_CORRECTION_REVIEW_2026-08-29.md
 STEP_07C_METHOD_POSTMORTEM_AND_CORRECT_EXECUTION_2026-08-29.md
 STEP_07C_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-29.md
-STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md
+STEP_08_SEARCH_STAGE_FREEZE_PRE_STEP_REVIEW_2026-08-29.md (CORRECTED METHOD VERSION)
+STEP_08_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
 STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md
-STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md
+STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md (CORRECTED ACCEPTANCE)
 ```
 
 ## Accepted upstream truth
@@ -50,20 +49,33 @@ site = https://okno-msk.ru/
 primary_region = Moscow
 business = manufacture / sale / installation of window and glazing products/services
 B2C residential = primary test focus
-standalone installation priority = UNKNOWN
-repair/service acquisition priority = UNKNOWN
-accessories standalone priority = UNKNOWN
-finance acquisition priority = UNKNOWN
+standalone installation internal priority = UNKNOWN
+repair/service internal acquisition priority = UNKNOWN
+accessories standalone internal priority = UNKNOWN
+finance internal acquisition priority = UNKNOWN
 new pages = allowed when justified
 merge/reassignment = allowed when justified
 Webmaster/Metrika/Direct = unavailable for base rehearsal
 ```
 
+Important correction:
+
+```text
+UNKNOWN INTERNAL PRIORITY != SEARCH-STAGE EVIDENCE ROUTE
+```
+
+Public business relevance is evaluated from the known public offer/scope together with query/Search intent. Unknown margin, capacity or strategic preference is a later prioritization/client-constraint limitation, not a Step-8 routing state.
+
+Method sources:
+- https://yandex.ru/support/webmaster/ru/recommendations/targeting
+- https://yandex.ru/support/webmaster/ru/service/queries-selection
+- https://ahrefs.com/blog/keyword-intent/
+- https://ahrefs.com/blog/keyword-strategy/
+
 ### Wordstat acquisition
 
 ```text
 Step 03R = COMPLETE
-first-pass provider items = 18/18 complete
 first-pass normalized rows = 2415
 targeted probe rows = 550
 total source rows entering cleanup = 2965
@@ -81,9 +93,6 @@ EXCLUDE_SCOPE = 180
 EXCLUDE_IRRELEVANT = 120
 EXCLUDE_MECHANICAL = 34
 TOTAL = 2840
-builder QA failures = 0
-expanded semantic QA failures = 0
-manual semantic saturation passes = 4
 ```
 
 Accepted Step-07 controls remain active:
@@ -96,35 +105,39 @@ low frequency alone does not exclude
 association-only evidence does not auto-promote to KEEP
 uncertainty remains REVIEW
 non-exact duplicate candidates are surfaced, not silently merged
-semantic QA tests both MUST_KEEP and MUST_NOT_KEEP
 ```
 
-## Step 08 — accepted Search-stage semantic freeze
+## Step 08 — corrected accepted Search-stage semantic freeze
 
-Status: **COMPLETE / PASS / SEARCH-STAGE INPUT FROZEN**
+Status: **COMPLETE / PASS AFTER METHOD CORRECTION / SEARCH-STAGE INPUT FROZEN**
 
-Purpose achieved:
+The original routing taxonomy containing:
 
 ```text
-accepted Step-07C semantic truth was preserved unchanged;
-every phrase received an explicit Search-stage disposition;
-every REVIEW row received a next-resolution route;
-all exclusions remained preserved for audit;
-all non-exact duplicate candidates remained unresolved and visible;
-no Search/provider request was made;
-no clustering/page ownership/architecture decision was made.
+REVIEW_BUSINESS
+REVIEW_SEARCH_AND_BUSINESS
 ```
 
-Final Step-08 routing counts:
+is **SUPERSEDED** and must not be used downstream.
+
+Root cause and correction authority:
+`STEP_08_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`.
+
+Correct final routing:
 
 ```text
 CORE_CANDIDATE = 1388
-REVIEW_SEARCH = 228
-REVIEW_BUSINESS = 0
-REVIEW_SEARCH_AND_BUSINESS = 716
+REVIEW_SEARCH = 944
 REVIEW_DEFERRED = 174
 EXCLUDED_PRESERVED = 334
 TOTAL = 2840
+```
+
+Forbidden/removed states:
+
+```text
+REVIEW_BUSINESS = 0 / NOT PART OF CURRENT MODEL
+REVIEW_SEARCH_AND_BUSINESS = 0 / NOT PART OF CURRENT MODEL
 ```
 
 Reconciliation:
@@ -137,6 +150,7 @@ Step-08 REVIEW routed = 1118
 unrouted REVIEW = 0
 silent drops = 0
 Step-07C semantic status rewrites = 0
+forbidden business-route dispositions = 0
 non-exact duplicate candidate groups preserved = 9
 non-exact duplicate rows preserved = 18
 non-exact duplicate groups auto-merged = 0
@@ -144,56 +158,55 @@ provider/Search requests executed = 0
 provider cost = 0 RUB
 ```
 
-Non-exact duplicate group routing after manual QA correction:
+Correct non-exact duplicate routes:
 
 ```text
-ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 6 groups
-SEARCH_AND_BUSINESS_BEFORE_ANY_NONEXACT_MERGE = 2 groups
+ORDINARY_SEARCH_BEFORE_ANY_NONEXACT_MERGE = 8 groups
 DEFER_UNLESS_GROUP_SELECTED_FOR_SEARCH = 1 group
 ```
 
-Step-08 artifacts:
+Correct frozen hashes:
 
 ```text
-STEP_08_SEARCH_STAGE_FREEZE_BUILD.py
-STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv
-STEP_08_REVIEW_RESOLUTION_ROUTES.tsv
-STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv
-STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md
-STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md
+STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv SHA-256 = 73f52fd48ae925573b9739292b8c8893a8db40014775859c9630367703873d1f
+STEP_08_REVIEW_RESOLUTION_ROUTES.tsv SHA-256 = c7439005d8371bb1557f11e43fff60be658d397739d99ab4fdeae77f284836f8
+STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = f0ed54972eb66a151856df494bb3444c064369497b0e2586893897b86c15ed73
 ```
 
-Frozen hashes:
+## Method correction / non-repeat truth
+
+Step 8 exposed a process defect: external methodology was gathered, but invented method elements were not individually traced back to what the sources actually supported.
+
+Canonical current-job control:
 
 ```text
-STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv SHA-256 = e5cd7fb5e3ca118b7b1685d2a661c24797938b811a4d3dc23e1b364b3df05fe7
-STEP_08_REVIEW_RESOLUTION_ROUTES.tsv SHA-256 = d9a86120c8ae8ec34ab25c7c2e07c86e8b665a31dc69531477d57b5713d61035
-STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv SHA-256 = a2ba2f81a84ae5d285b6cdb8e303b1715f435b0ad0fe614e92735921f827e09a
+RESEARCH_COLLECTED != METHOD_VALIDATED
+SOURCE_TO_METHOD_TRACEABILITY_REQUIRED = true
+UNSUPPORTED_DECISION_STATE_FORBIDDEN = true
+NON_EXECUTABLE_EVIDENCE_ROUTE_FORBIDDEN = true
 ```
 
-## Current operator action / transition
+For this correction the direct sources are:
+
+- Yandex user needs/site fit: https://yandex.ru/support/webmaster/ru/recommendations/targeting
+- Yandex query selection/potential: https://yandex.ru/support/webmaster/ru/service/queries-selection
+- Yandex query/page evidence: https://www.yandex.ru/support/webmaster/ru/service/search-queries
+- Ahrefs intent: https://ahrefs.com/blog/keyword-intent/
+- Ahrefs strategy/business potential: https://ahrefs.com/blog/keyword-strategy/
+- Semrush clustering: https://www.semrush.com/blog/keyword-clustering/
+- Semrush mapping: https://www.semrush.com/blog/keyword-mapping/
+
+## Current transition
 
 No provider action is pending.
 
 The next major stage is **Step 09 — ordinary Yandex Search validation**.
 
-Permanent `STEP_RULES_INDEX.md` currently marks Step 09 `UNVALIDATED`. Therefore direct Search execution is not allowed yet.
-
-Required next transition:
-
-```text
-READ RULES / STEP INDEX / CURRENT JOB
-→ RESEARCH CURRENT STEP-09 METHOD FROM CURRENT EXTERNAL SOURCES
-→ STATE YMB/SEARCH RESULT-PRESERVATION GATE IF YMB IS USED
-→ SHOW OWNER SOURCES + PRACTICAL METHOD + RISKS + FULL ROADMAP
-→ WAIT FOR EXPLICIT OWNER AUTHORIZATION
-→ ONLY THEN EXECUTE ORDINARY SEARCH VALIDATION
-```
-
-Current transition truth:
+Direct Search execution remains blocked until Step 09 receives its own fresh method research, source-to-method traceability, full owner-facing pre-step report and explicit authorization.
 
 ```text
 STEP_08_COMPLETE = true
+STEP_08_COMPLETE_AFTER_METHOD_CORRECTION = true
 SEARCH_STAGE_INPUT_FROZEN = true
 NEXT_STAGE_PRE_STEP_RESEARCH_ALLOWED = true
 STEP_09_PRE_STEP_RESEARCH_REQUIRED = true
@@ -229,20 +242,17 @@ Markers:
 
 ```text
 KW001_OKNO_MSK_WORKSPACE_DISPOSABLE = true
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 2415
-KW001_OKNO_MSK_WORDSTAT_COVERAGE_VERDICT_SUFFICIENT = true
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_INPUT_ROWS = 2965
-KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_UNIQUE_EXACT = 2840
 KW001_OKNO_MSK_STEP07C_FINAL_ACCEPTANCE = true
 KW001_OKNO_MSK_ROW_LEVEL_CLEANUP_COMPLETE = true
 KW001_OKNO_MSK_STEP08_CORE_CANDIDATE = 1388
-KW001_OKNO_MSK_STEP08_REVIEW_SEARCH = 228
-KW001_OKNO_MSK_STEP08_REVIEW_SEARCH_AND_BUSINESS = 716
+KW001_OKNO_MSK_STEP08_REVIEW_SEARCH = 944
 KW001_OKNO_MSK_STEP08_REVIEW_DEFERRED = 174
 KW001_OKNO_MSK_STEP08_EXCLUDED_PRESERVED = 334
+KW001_OKNO_MSK_STEP08_FORBIDDEN_BUSINESS_ROUTE_STATES = 0
 KW001_OKNO_MSK_STEP08_UNROUTED_REVIEW = 0
 KW001_OKNO_MSK_STEP08_STATUS_REWRITES = 0
 KW001_OKNO_MSK_STEP08_COMPLETE = true
+KW001_OKNO_MSK_STEP08_METHOD_CORRECTION_COMPLETE = true
 KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
 KW001_OKNO_MSK_STEP09_PRE_STEP_RESEARCH_REQUIRED = true
 KW001_OKNO_MSK_STEP09_EXECUTION_ALLOWED = false
