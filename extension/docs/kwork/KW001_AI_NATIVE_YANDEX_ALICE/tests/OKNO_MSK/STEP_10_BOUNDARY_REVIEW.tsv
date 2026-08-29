@@ -91,6 +91,7 @@ SEARCH_REQUIRED	окна домов серии п 44		SEARCH_REQUIRED	No suffici
 SEARCH_REQUIRED	окна на балкон сапожок п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна панорамные фото в частный		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна пвх для частного дома		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окна пластиковые какой ремонт		SEARCH_REQUIRED	Repair-oriented question is too vague to distinguish service, information or repair type	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна с французской раскладкой		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна серии п 44		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна сок панорамное раздвижное остекление		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
@@ -168,6 +169,8 @@ SEARCH_REQUIRED	панорамные окна своими руками		SEARCH_
 SEARCH_REQUIRED	панорамные окна фото		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	перегородка французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	перепланировка французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковая дверь своими руками		SEARCH_REQUIRED	Plastic-door DIY wording lacks the action needed to identify the task	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковое окно самостоятельно		SEARCH_REQUIRED	Window + independently/by-yourself wording lacks an explicit action	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	пластиковые двери видео	SP09-026	SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	serp_job=PVC_DOOR_INSTALLATION_VIDEO
 SEARCH_REQUIRED	пластиковые окна видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
 PHRASE_BOUNDARY	пластиковые окна от производителя rehau	DUP-0004	MIXED_OR_BOUNDARY_REVIEW	Mandatory DUP-0004 override: Step-09 exact URL overlap 1/10; no auto-merge	probe=SP09-049|serp_job=REHAU_MANUFACTURER_WINDOWS
