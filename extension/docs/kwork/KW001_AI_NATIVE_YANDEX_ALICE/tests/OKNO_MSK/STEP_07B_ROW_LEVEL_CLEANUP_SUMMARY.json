@@ -1,0 +1,52 @@
+{
+  "input_rows": 2965,
+  "result_rows": 2636,
+  "association_rows": 329,
+  "unique_exact_phrases": 2840,
+  "duplicate_occurrences": 125,
+  "duplicate_phrase_keys": 101,
+  "status_counts": {
+    "KEEP": 1760,
+    "REVIEW": 749,
+    "EXCLUDE_SCOPE": 180,
+    "EXCLUDE_IRRELEVANT": 120,
+    "EXCLUDE_MECHANICAL": 31
+  },
+  "status_sum": 2840,
+  "provenance_occurrence_sum": 2965,
+  "unclassified": 0,
+  "provider_requests_executed": 0,
+  "provider_cost_rub": 0,
+  "working_tsv_sha256": "929b6439e9ace1f269987a046af19ac0a3bc107d4fa90c8320c968817392bc2d",
+  "occurrences_tsv_sha256": "a5e3fceb5647d1f9fbbd5fa3ace9feebb8665a228173ad14fb8b73d846584d63",
+  "source_rows": {
+    "S01": 218,
+    "S02": 220,
+    "S03": 144,
+    "S04": 29,
+    "S05": 215,
+    "S06": 218,
+    "S07": 19,
+    "S08": 0,
+    "S09": 13,
+    "S10": 192,
+    "S11": 216,
+    "S12": 17,
+    "S13": 216,
+    "S14": 217,
+    "S15": 211,
+    "S16": 81,
+    "S17": 49,
+    "S18": 140,
+    "P2-01": 217,
+    "P2-02": 216,
+    "P2-03": 21,
+    "P2-04": 96
+  },
+  "rules": {
+    "exact_dedupe_only": true,
+    "low_frequency_exclusion": false,
+    "association_auto_keep": false,
+    "ambiguous_business_boundary_to_review": true
+  }
+}
