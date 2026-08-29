@@ -43,19 +43,20 @@ Before execution ChatGPT must:
 ```text
 1. reconstruct the whole Kwork goal and current job state;
 2. identify the exact current-step goal and required output;
-3. read the step-specific methodology/lessons entry;
-4. explain relevant previous mistakes, their root cause, and the non-repeat control;
-5. search the current internet for materials specifically relevant to the step;
-6. provide direct sources/links and distinguish official evidence, industry practice, project evidence and analyst heuristic;
-7. use the external research adversarially — search for evidence that the planned method is wrong or incomplete, not only confirming evidence;
-8. explain the practical method and why it solves the step goal;
-9. state what the step will NOT decide yet;
-10. define the pass gate before execution;
-11. wait for explicit owner authorization;
-12. execute only the authorized step;
-13. verify actual output, preservation and non-repeat controls;
-14. report quantitative reconciliation and update the whole roadmap;
-15. stop before the next major step.
+3. check STEP_RULES_INDEX.md for the current methodology status;
+4. read the step-specific methodology/lessons entry when one exists;
+5. explain relevant previous mistakes, their root cause, and the non-repeat control;
+6. search the current internet for materials specifically relevant to the step;
+7. provide direct sources/links and distinguish official evidence, industry practice, project evidence and analyst heuristic;
+8. use the external research adversarially — search for evidence that the planned method is wrong or incomplete, not only confirming evidence;
+9. explain the practical method and why it solves the step goal;
+10. state what the step will NOT decide yet;
+11. define the pass gate before execution;
+12. wait for explicit owner authorization;
+13. execute only the authorized step;
+14. verify actual output, preservation and non-repeat controls;
+15. report quantitative reconciliation and update the whole roadmap;
+16. stop before the next major step.
 ```
 
 ### Internet research is mandatory, not optional
@@ -86,15 +87,32 @@ If no authoritative rule exists, say so. Do not invent an industry standard.
 
 # 2. Layer B — step-specific methodology and lessons
 
-Canonical file:
+Canonical files:
 
 ```text
+STEP_RULES_INDEX.md
 STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
 ```
 
-This is the permanent step playbook and error memory.
+`STEP_RULES_INDEX.md` answers:
 
-There must be a separate section for each major methodology step that has been researched or executed.
+```text
+Does this roadmap stage actually have a validated permanent method yet?
+```
+
+`STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` answers:
+
+```text
+How should this exact step be performed?
+Why is that method used?
+What has failed before?
+Why did it fail?
+What prevents recurrence?
+```
+
+The index prevents roadmap existence from being mistaken for methodology validation. The ledger is the permanent step playbook and error memory.
+
+There must be a separate section for each major methodology step that has been researched or executed and promoted into permanent methodology.
 
 A step section is not allowed to contain only instructions such as `dedupe`, `cluster`, `clean`, `validate` or `run Search`. It must preserve the reasoning behind those instructions.
 
@@ -134,7 +152,7 @@ STATUS
 = APPROVED / ACTIVE, UNVALIDATED, QUESTIONABLE, CORRECTION_REQUIRED, etc.
 ```
 
-If a future step has never been methodologically validated, it must be marked `UNVALIDATED`; ChatGPT must research it before execution rather than infer a procedure from neighbouring steps.
+If a future step has never been methodologically validated, `STEP_RULES_INDEX.md` must mark it `UNVALIDATED`; ChatGPT must research it before execution rather than infer a procedure from neighbouring steps.
 
 ## Mechanical repetition is prohibited
 
@@ -185,6 +203,7 @@ STEP_<N>_*_MANIFEST*.md
 STEP_<N>_*_RESULT*.md / .tsv / .json
 STEP_<N>_*_ACCEPTANCE*.md
 STEP_<N>_*_CORRECTION*.md
+STEP_<N>_*_METHOD_POSTMORTEM*.md
 ```
 
 This layer contains:
@@ -196,7 +215,8 @@ rows and counts;
 concrete query/page decisions;
 job-specific deviations;
 step execution evidence;
-reconciliation and acceptance truth.
+reconciliation and acceptance truth;
+causal postmortems for errors found in this job.
 ```
 
 Job-specific evidence may reveal a reusable lesson, but it does not automatically mutate Layer A or Layer B. Permanent rule changes require explicit owner instruction.
@@ -210,18 +230,19 @@ Canonical order:
 ```text
 A. READ RULES_ARCHITECTURE.md
 B. READ UNIVERSAL PROCESS RULES
-C. READ CURRENT STEP SECTION IN STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
-D. READ CURRENT JOB MANIFEST / FLOW
-E. READ PREVIOUS STEP EVIDENCE AND CURRENT STEP PRE-STEP ARTIFACTS
-F. RECONSTRUCT WHY THE CURRENT STEP EXISTS
-G. RECONSTRUCT RELEVANT PREVIOUS ERRORS + ROOT CAUSES
-H. SEARCH CURRENT EXTERNAL MATERIALS FOR THIS STEP
-I. CHALLENGE THE PLANNED METHOD
-J. EXPLAIN METHOD + SOURCES + NON-REPEAT CONTROLS TO OWNER
-K. WAIT FOR OWNER AUTHORIZATION
-L. EXECUTE
-M. VERIFY
-N. REPORT / UPDATE ROADMAP / STOP
+C. READ STEP_RULES_INDEX.md FOR CURRENT STEP STATUS
+D. READ CURRENT STEP SECTION IN STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md IF PRESENT
+E. READ CURRENT JOB MANIFEST / FLOW
+F. READ PREVIOUS STEP EVIDENCE AND CURRENT STEP PRE-STEP / POSTMORTEM ARTIFACTS
+G. RECONSTRUCT WHY THE CURRENT STEP EXISTS
+H. RECONSTRUCT RELEVANT PREVIOUS ERRORS + ROOT CAUSES
+I. SEARCH CURRENT EXTERNAL MATERIALS FOR THIS STEP
+J. CHALLENGE THE PLANNED METHOD
+K. EXPLAIN METHOD + SOURCES + NON-REPEAT CONTROLS TO OWNER
+L. WAIT FOR OWNER AUTHORIZATION
+M. EXECUTE
+N. VERIFY
+O. REPORT / UPDATE ROADMAP / STOP
 ```
 
 If the step-specific ledger section is missing or does not cover a material operation:
@@ -304,9 +325,11 @@ At the end of the detailed explanation, apply the mandatory non-specialist summa
 ```text
 UNIVERSAL PROCESS RULES
     ↓ tell us how every step must be approached
+STEP_RULES_INDEX
+    ↓ tells us whether this exact step has earned a validated permanent method
 STEP-SPECIFIC METHOD + LESSONS LEDGER
     ↓ tells us how this exact kind of step works and what has failed before
-CURRENT JOB MANIFEST / FLOW / EVIDENCE
+CURRENT JOB MANIFEST / FLOW / EVIDENCE / POSTMORTEM
     ↓ tells us what happened in this exact client job
 PRE-STEP CURRENT INTERNET RESEARCH
     ↓ checks that the recorded method is still defensible and relevant
@@ -322,6 +345,7 @@ Markers:
 ```text
 KW001_RULES_ARCHITECTURE_ACTIVE = true
 KW001_UNIVERSAL_PROCESS_LAYER_REQUIRED = true
+KW001_STEP_RULES_INDEX_REQUIRED = true
 KW001_PER_STEP_METHOD_LAYER_REQUIRED = true
 KW001_JOB_SPECIFIC_EVIDENCE_LAYER_REQUIRED = true
 KW001_CURRENT_EXTERNAL_RESEARCH_EVERY_MAJOR_STEP = true
