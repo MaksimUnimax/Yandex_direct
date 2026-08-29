@@ -12,7 +12,7 @@ workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_03R_MANUAL_YMB_EXECUTION_IN_PROGRESS
-next_major_step = STEP_03R_COMPLETE_REMAINING_S10_S18
+next_major_step = STEP_03R_COMPLETE_REMAINING_S11_S18
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -43,6 +43,7 @@ The current repair authorities are:
 ```text
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
 STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
+STEP_03R_S10_CHECKPOINT_2026-08-29.md
 ```
 
 ## Current truth
@@ -55,16 +56,18 @@ Step 03 repair required = true
 Step 03R owner authorized = true
 Step 03R manifest frozen = true
 Step 03R batch.start = complete
-Step 03R provider requests executed = 9
-Step 03R provider outcomes known = 9
+Step 03R provider requests executed = 10
+Step 03R provider outcomes known = 10
 Step 03R failed_terminal = 0
 Step 03R outcome_unknown = 0
-Step 03R estimated provider cost = 0.18 RUB
-Step 03R raw provider items preserved = 9/18
-Step 03R normalized TSV artifacts present = 9/18
-Step 03R normalized rows preserved/verified = 1076
-Step 03R current complete items = 9/18
-Step 03R next item = S10 `остекление веранды`
+Step 03R estimated provider cost = 0.20 RUB
+Step 03R raw provider items preserved = 10/18
+Step 03R normalized TSV artifacts present = 10/18
+Step 03R results rows preserved/verified = 1126
+Step 03R association rows preserved/verified = 142
+Step 03R normalized rows preserved/verified = 1268
+Step 03R current complete items = 10/18
+Step 03R next item = S11 `алюминиевые окна`
 forward semantic analysis blocked = true
 ```
 
@@ -102,6 +105,25 @@ S01-S09 readable/usable preservation = PASS
 S01-S09 current manifest completeness = COMPLETE
 ```
 
+## S10 completion state
+
+```text
+seed = S10 `остекление веранды`
+request_id = wordstat-batch-288b38ee-8019-44a1-bbeb-2eca2592b816
+results rows = 176
+association rows = 16
+provider rows = 192
+raw provider rows saved = 192
+normalized TSV rows saved = 192
+rows verified after read-back = 192
+totalCount = 1373
+estimated item cost = 0.02 RUB
+NON_REPEAT_CONTROLS = PASS
+S10 current manifest completeness = COMPLETE
+```
+
+Authority: `STEP_03R_S10_CHECKPOINT_2026-08-29.md`.
+
 ## Preserved downstream observations
 
 Step-05 provider responses:
@@ -125,7 +147,7 @@ These remain usable standalone demand-history observations and do not repair Ste
 
 ## Current required repair
 
-Complete remaining S10-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
+Complete remaining S11-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
 
 ```text
 complete raw result
@@ -152,7 +174,7 @@ ONE PROVIDER ITEM
 
 ## Current operator action
 
-Next provider item is S10 `остекление веранды`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
+Next provider item is S11 `алюминиевые окна`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
 
 ## Close rule
 
@@ -179,8 +201,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 9
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1076
+KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 10
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1268
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
