@@ -12,7 +12,7 @@ workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_03R_MANUAL_YMB_EXECUTION_IN_PROGRESS
-next_major_step = STEP_03R_COMPLETE_REMAINING_S11_S18
+next_major_step = STEP_03R_COMPLETE_REMAINING_S12_S18
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -44,6 +44,8 @@ The current repair authorities are:
 STEP_03R_WORDSTAT_REPAIR_MANIFEST_2026-08-29.md
 STEP_03R_S01_S09_TSV_REPAIR_AUDIT_2026-08-29.md
 STEP_03R_S10_CHECKPOINT_2026-08-29.md
+STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
+STEP_03R_S11_CHECKPOINT_2026-08-29.md
 ```
 
 ## Current truth
@@ -56,18 +58,18 @@ Step 03 repair required = true
 Step 03R owner authorized = true
 Step 03R manifest frozen = true
 Step 03R batch.start = complete
-Step 03R provider requests executed = 10
-Step 03R provider outcomes known = 10
+Step 03R provider requests executed = 11
+Step 03R provider outcomes known = 11
 Step 03R failed_terminal = 0
 Step 03R outcome_unknown = 0
-Step 03R estimated provider cost = 0.20 RUB
-Step 03R raw provider items preserved = 10/18
-Step 03R normalized TSV artifacts present = 10/18
-Step 03R results rows preserved/verified = 1126
-Step 03R association rows preserved/verified = 142
-Step 03R normalized rows preserved/verified = 1268
-Step 03R current complete items = 10/18
-Step 03R next item = S11 `алюминиевые окна`
+Step 03R estimated provider cost = 0.22 RUB
+Step 03R raw provider items preserved = 11/18
+Step 03R normalized TSV artifacts present = 11/18
+Step 03R results rows preserved/verified = 1326
+Step 03R association rows preserved/verified = 158
+Step 03R normalized rows preserved/verified = 1484
+Step 03R current complete items = 11/18
+Step 03R next item = S12 `аксессуары для пластиковых окон`
 forward semantic analysis blocked = true
 ```
 
@@ -124,6 +126,29 @@ S10 current manifest completeness = COMPLETE
 
 Authority: `STEP_03R_S10_CHECKPOINT_2026-08-29.md`.
 
+## S11 completion state
+
+A pre-provider `COMMAND_DISCOVERY / NO_SUPPORTED_COMMAND` error occurred before S11. It had `request_executed=false`; therefore it did not execute a Wordstat request, did not change provider cost, and the unchanged S11 item was safe to retry.
+
+```text
+seed = S11 `алюминиевые окна`
+request_id = wordstat-batch-c5589da6-f985-4acd-913d-20beda432598
+results rows = 200
+association rows = 16
+provider rows = 216
+raw provider rows saved = 216
+normalized TSV rows saved = 216
+rows verified after read-back = 216
+totalCount = 10354
+estimated item cost = 0.02 RUB
+NON_REPEAT_CONTROLS = PASS
+S11 current manifest completeness = COMPLETE
+```
+
+Authorities:
+- `STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md`
+- `STEP_03R_S11_CHECKPOINT_2026-08-29.md`
+
 ## Preserved downstream observations
 
 Step-05 provider responses:
@@ -147,7 +172,7 @@ These remain usable standalone demand-history observations and do not repair Ste
 
 ## Current required repair
 
-Complete remaining S11-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
+Complete remaining S12-S18 under the frozen Step-03R gate. After every individual provider call, preserve and verify:
 
 ```text
 complete raw result
@@ -174,7 +199,7 @@ ONE PROVIDER ITEM
 
 ## Current operator action
 
-Next provider item is S11 `алюминиевые окна`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
+Next provider item is S12 `аксессуары для пластиковых окон`. Before issuing it, execute the required owner-facing goal/status/prior-error/YMB-mode block. Then issue exactly one Manual Wordstat `batch.next`.
 
 ## Close rule
 
@@ -201,8 +226,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 10
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1268
+KW001_OKNO_MSK_STEP_03R_COMPLETED_ITEMS = 11
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1484
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_PROVIDER_OPERATOR_ACTION_PENDING = true
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
