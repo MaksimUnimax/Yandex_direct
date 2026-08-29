@@ -17,12 +17,14 @@ STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
 READ OWNER-LOCKED UNIVERSAL RULES
 → READ CURRENT JOB WORKSPACE / JOB FLOW
 → READ PREVIOUS STEP EVIDENCE
+→ RE-READ STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
 → STATE WHOLE KWORK GOAL IN PLAIN LANGUAGE
 → SHOW COMPLETED WORK LIST FOR WHOLE KWORK/JOB
 → SHOW REMAINING WORK LIST FOR WHOLE KWORK/JOB
 → STATE CURRENT STEP GOAL
 → STATE WHAT THIS STEP SOLVES
 → STATE EXACT REQUIRED OUTPUT
+→ STATE RELEVANT PRIOR ERRORS + HOW THEY ARE BLOCKED THIS TIME
 → ONLY THEN IDENTIFY / RESEARCH METHOD
 → TRACE METHOD ORIGIN
 → SEARCH CURRENT EXTERNAL MATERIALS
@@ -39,7 +41,7 @@ READ OWNER-LOCKED UNIVERSAL RULES
 → STOP + REPORT
 ```
 
-Execution or method research before the goal/status block is a process failure.
+Execution or method research before the goal/status/error-review block is a process failure.
 
 ---
 
@@ -79,11 +81,41 @@ relevant current-job step records
 previous step acceptance/evidence
 ```
 
+`STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` is not merely part of a background reading list. It must be explicitly re-opened and re-read before **every** new step as part of the same goal-first block that re-establishes the whole Kwork objective and the current step objective.
+
+The owner-facing pre-step message must state which previously recorded errors/corrections are relevant to the current step, what went wrong previously, and what concrete control will prevent recurrence in this step.
+
+If no recorded error is relevant, state that explicitly rather than silently skipping the check.
+
+Required owner-facing wording/concept:
+
+```text
+RELEVANT PRIOR ERRORS / CORRECTIONS
+= errors or corrections from STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md that apply to this step.
+
+WHAT FAILED BEFORE
+= the concrete process or reasoning failure.
+
+NON-REPEAT CONTROL FOR THIS STEP
+= the exact check/gate that prevents the same failure now.
+
+NON-REPEAT COMMITMENT
+= these recorded errors must not be repeated in the current step; the relevant control will be verified before transition.
+```
+
+If this error/correction reread and owner-facing statement are missing:
+
+```text
+METHOD_RESEARCH = BLOCKED
+STEP_AUTHORIZATION = BLOCKED
+EXECUTION = BLOCKED
+```
+
 If a concrete client's facts are being written into permanent universal files, classify this as `CORRECTION_REQUIRED` for the current job organization.
 
 ---
 
-## 1. Goal and job-status review MUST happen before method research
+## 1. Goal, job-status AND prior-error review MUST happen before method research
 
 Before searching external methodology or deciding how to execute a step, ChatGPT must first tell the owner in plain language:
 
@@ -105,6 +137,15 @@ WHAT THIS STEP SOLVES
 
 REQUIRED OUTPUT
 = exactly what must exist at the end of the step for it to count as complete.
+
+RELEVANT PRIOR ERRORS / CORRECTIONS
+= applicable lessons/errors from STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md, freshly re-read for this step.
+
+WHAT FAILED BEFORE
+= what was previously done wrong.
+
+NON-REPEAT CONTROL FOR THIS STEP
+= what exact check/gate will prevent repetition.
 ```
 
 Rules:
@@ -113,6 +154,9 @@ Rules:
 No item may appear in COMPLETED WORK merely because an API call succeeded, a file exists, or a summary was written.
 If later evidence shows an earlier item is incomplete, move it back out of COMPLETED WORK and into REMAINING WORK / CORRECTION REQUIRED.
 The lists must be updated after every step.
+Past errors/corrections must be re-read from the permanent ledger, not reconstructed from memory.
+Relevant past errors must be stated in chat before method research begins.
+The current step may not transition until its stated non-repeat controls have been checked.
 ```
 
 If this block is missing:
@@ -129,7 +173,7 @@ Only after this block may ChatGPT research the method for the step.
 
 ## 2. Explain the practical step before doing it
 
-After the goal/status block and before execution, ChatGPT must tell the owner:
+After the goal/status/error-review block and before execution, ChatGPT must tell the owner:
 
 ```text
 what input evidence the step uses;
@@ -205,6 +249,9 @@ Questions to ask:
 Does this step actually move the Kwork toward its final client result?
 Does the declared required output genuinely satisfy the current step goal?
 Is anything currently listed as completed actually incomplete?
+Did I freshly re-read STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md for this exact step?
+Which recorded errors/corrections apply here?
+What exact control prevents each relevant recorded failure from recurring?
 Did the previous step assume something not proved?
 Did we remove or retain terms for a reason that external methodology would reject?
 Did we confuse demand volume with relevance?
@@ -258,6 +305,9 @@ REMAINING WORK
 CURRENT STEP GOAL
 WHAT THIS STEP SOLVES
 REQUIRED OUTPUT
+RELEVANT PRIOR ERRORS / CORRECTIONS
+WHAT FAILED BEFORE
+NON-REPEAT CONTROL FOR THIS STEP
 INPUT EVIDENCE
 METHOD ORIGIN
 EXTERNAL SOURCES
@@ -267,6 +317,8 @@ RISKS / UNCERTAINTIES
 WHAT WE WILL NOT DO YET
 PROPOSED PASS GATE
 ```
+
+The prior-error section must be based on a fresh read of `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md`, not on memory or the previous chat turn.
 
 If the step contains **any YMB interaction**, the pre-step report and the concrete job-step artifact must also contain the mandatory YMB block defined in Section 9 below.
 
@@ -289,6 +341,7 @@ DO NOT update universal rules unless the owner explicitly ordered such an update
 STOP;
 report result against the predeclared step goal;
 report quantitative accounting;
+report whether every stated NON-REPEAT CONTROL passed;
 update COMPLETED WORK list;
 update REMAINING WORK list;
 state NEXT_STEP_ALLOWED = true | false;
@@ -298,11 +351,11 @@ wait for the next explicit owner continuation.
 This preserves:
 
 ```text
-GOAL + STATUS
+GOAL + STATUS + PRIOR-ERROR REREAD
 → METHOD RESEARCH
 → OWNER AUTHORIZATION
 → ONE JOB STEP
-→ VERIFY REQUIRED OUTPUT
+→ VERIFY REQUIRED OUTPUT + NON-REPEAT CONTROLS
 → QUANTITATIVE REPORT
 → UPDATE COMPLETED / REMAINING WORK
 → STOP
@@ -428,12 +481,13 @@ provider cost
 Then explicitly show:
 
 ```text
+NON-REPEAT CONTROLS: PASS | FAIL per applicable prior error/correction
 UPDATED COMPLETED WORK
 UPDATED REMAINING WORK
 NEXT_STEP_ALLOWED = true | false
 ```
 
-If the required counts cannot be reconciled against the declared output, the step is `INCOMPLETE` and the next step is blocked.
+If the required counts cannot be reconciled against the declared output, or any required non-repeat control fails, the step is `INCOMPLETE` and the next step is blocked.
 
 ---
 
@@ -476,6 +530,9 @@ Markers:
 ```text
 KW001_PRE_STEP_REVIEW_GATE_REQUIRED = true
 KW001_GOAL_STATUS_BLOCK_BEFORE_METHOD_RESEARCH = true
+KW001_PRIOR_ERROR_LEDGER_REREAD_REQUIRED_EVERY_STEP = true
+KW001_RELEVANT_PRIOR_ERRORS_MUST_BE_STATED_IN_CHAT = true
+KW001_NON_REPEAT_CONTROL_REQUIRED_EVERY_STEP = true
 KW001_COMPLETED_WORK_LIST_REQUIRED_EVERY_STEP = true
 KW001_REMAINING_WORK_LIST_REQUIRED_EVERY_STEP = true
 KW001_COMPLETED_REMAINING_LISTS_UPDATED_AFTER_EVERY_STEP = true
