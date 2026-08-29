@@ -9,6 +9,11 @@ For causal history and live evidence, read:
 - `STEP_09_LIVE_CANARY_AND_BATCH_EXECUTION_CORRECTION_2026-08-29.md`
 - `STEP_09_LIVE_R2_PROJECTION_RECEIPT_2026-08-29.md`
 - `STEP_09_SERP_R2_PROJECTION_INDEX.md`
+- `STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md`
+
+Bridge implementation authority:
+
+- `extension/docs/SEARCH_BATCH_NEXTN100_V0_1_2_CHANGELOG_AND_ACCEPTANCE_2026-08-29.md`
 
 ## Current truth
 
@@ -57,6 +62,12 @@ COMBINED_NORMALIZED_RANKED_ROWS_PERSISTED = 750
 R2_RAW_PER_ITEM_PROVIDER_XML_LEDGER_COMPLETE = false
 R2_PER_ITEM_PROVIDER_REQUEST_ID_LEDGER_COMPLETE = false
 
+YANDEX_MARKETING_BRIDGE_SOURCE_VERSION = 0.1.2
+SEARCH_BATCH_NEXT_N_SUPPORTED = true
+SEARCH_BATCH_NEXT_N_MANUAL_ONLY = true
+SEARCH_BATCH_NEXT_N_COUNT_MIN = 1
+SEARCH_BATCH_NEXT_N_COUNT_MAX = 100
+
 STEP09_COMPLETE = false
 STEP10_ALLOWED = false
 ```
@@ -90,7 +101,32 @@ lexical similarity
 absence of contradiction
 ```
 
-## Live acquisition structure
+## Collection method
+
+Step 09 uses ordinary Yandex Search through the Search Batch service-specific protocol.
+
+Frozen provider/search profile:
+
+```text
+protocol = SEARCH_BATCH_API_V1
+provider = ordinary Yandex Search
+searchType = SEARCH_TYPE_RU
+region = 213 / Moscow
+page = 0
+groupsOnPage = 10
+docsInGroup = 1
+groupMode = GROUP_MODE_FLAT
+sortMode = SORT_MODE_BY_RELEVANCE
+sortOrder = SORT_ORDER_DESC
+familyMode = FAMILY_MODE_MODERATE
+fixTypoMode = FIX_TYPO_MODE_ON
+provider response format = FORMAT_XML
+normalized evidence = TOP-10 rank/url/domain/title
+```
+
+No GenSearch provider call is allowed in Step 09.
+
+## Live acquisition structure and tested quantity
 
 Canary job:
 
@@ -106,7 +142,7 @@ response_format = FORMAT_XML
 estimated cost = 0.488 RUB
 ```
 
-R2 job:
+R2 job on the patched Bridge:
 
 ```text
 job_id = kw001-okno-msk-search-step09-20260829-r2
@@ -125,13 +161,86 @@ projection next_offset = null
 Combined:
 
 ```text
-75 requests
+75 real provider requests
 75 successes
 0 terminal failures
 0 outcome unknown
 36.600 RUB estimated cumulative cost
-750 normalized ranked results visible across canary + R2 projection
+750 normalized ranked results
 ```
+
+`nextN` hard-bound test:
+
+```text
+count = 100
+```
+
+was verified locally as a bounded protocol/runtime case. With only three remaining items the runtime performed exactly three provider boundaries and stopped at completion.
+
+Therefore:
+
+```text
+COUNT_100_LOCAL_BOUNDED_TEST = PASS
+COUNT_100_LOCAL_BOUNDED_TEST != 100 LIVE PROVIDER REQUESTS IN ONE CHUNK
+R2_74_OF_74_LIVE_SUCCESS != PROOF_OF_EACH_INDIVIDUAL_LIVE_CHUNK_SIZE
+```
+
+The final R2 projection does not contain the command-history of individual `nextN count` values. Exact per-command live chunk sizes must not be invented from memory.
+
+## Critical process error and mandatory correction
+
+During R2 acquisition successful provider work continued while the project relied on Bridge `chrome.storage.local` plus chat/result delivery instead of immediately copying each returned result/chunk into the repository before the next paid chunk.
+
+This was a workflow error.
+
+False assumption:
+
+```text
+BRIDGE_INTERNAL_DURABILITY == PROJECT_EVIDENCE_DURABILITY
+```
+
+Correct rule:
+
+```text
+BRIDGE_INTERNAL_DURABILITY != PROJECT_EVIDENCE_DURABILITY
+CHAT_DELIVERY != PROJECT_EVIDENCE_DURABILITY
+JOB_COMPLETION != REPOSITORY_EVIDENCE_PERSISTENCE
+```
+
+The danger is concrete: extension identity/storage, browser/profile state, job lifecycle, tab/session delivery or connection state can disappear after the provider has already been paid. The original canary job later became `SEARCH_BATCH_JOB_NOT_FOUND` in the current runtime. R2 remained available long enough for recovery through `projection`; that must not be treated as an acceptable primary persistence strategy.
+
+The delayed write also reduced evidence fidelity: R2 normalized TOP-10 rows were recoverable, but the final projection did not expose all original per-item raw XML, provider request IDs, snippets or modtime fields.
+
+Mandatory gate from now on:
+
+```text
+PROVIDER_RESULT_OR_NEXT_N_CHUNK_RECEIVED
+-> PARSE_AND_ACCOUNT
+-> IMMEDIATE_REPOSITORY_WRITE
+-> GITHUB_READ_BACK_QA
+-> COVERAGE_AND_COST_CHECKPOINT
+-> ONLY_THEN_NEXT_PAID_CHUNK
+```
+
+If write/read-back QA fails:
+
+```text
+NEXT_PAID_CHUNK_ALLOWED = false
+```
+
+Non-repeat controls:
+
+```text
+PROVIDER_SUCCESS_WITHOUT_PROJECT_WRITE = PROCESS_FAILURE
+NEXT_PAID_CHUNK_BEFORE_READBACK_QA = PROHIBITED
+RUNTIME_STORAGE_AS_ONLY_EVIDENCE_COPY = PROHIBITED
+CHAT_AS_ONLY_EVIDENCE_COPY = PROHIBITED
+JOB_COMPLETED_WITHOUT_REPOSITORY_LEDGER = NOT_ACCEPTED
+```
+
+Full causal postmortem and corrected procedure:
+
+`STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md`
 
 ## Correction: do not infer current job existence from last observed state
 
@@ -164,11 +273,12 @@ one Manual block = exactly one SEARCH_BATCH_API_V1 command
 
 Do not infer Search-batch Manual admission from the generic multi-command Manual contract.
 
-The GitHub branch version of `search_batch_protocol.js` observed earlier still listed only:
+Current repository protocol/source is synchronized to Bridge `0.1.2` and now includes:
 
 ```text
 start
 next
+nextN
 status
 pause
 resume
@@ -177,12 +287,12 @@ projection
 overlapPage
 ```
 
-However live result envelopes now include fields such as `chunk`; therefore installed live Bridge behavior and branch code must not be assumed identical without verification.
+`nextN` is explicitly Manual-only and accepts integer `count` from 1 through 100.
 
-Canonical control:
+Canonical control remains:
 
 ```text
-REPOSITORY_PROTOCOL_SNAPSHOT != AUTOMATICALLY_CURRENT_INSTALLED_RUNTIME
+REPOSITORY_PROTOCOL_SNAPSHOT_MUST_BE_VERIFIED_AGAINST_INSTALLED_RUNTIME_BEFORE_LIVE_USE
 ```
 
 ## Evidence-persistence distinction
