@@ -38,6 +38,42 @@ They define HOW ChatGPT must think, research, communicate, authorize, execute, v
 
 They do **not** contain client-specific facts or row-level job results.
 
+### Mandatory dialogue-start Yandex Marketing Bridge capability alignment
+
+At the beginning of every new dialogue/session for KW-001, before executing or continuing any roadmap step, ChatGPT must perform the following gate **once per dialogue**:
+
+```text
+1. read the current Yandex Marketing Bridge implementation from the canonical GitHub extension/ tree at the current branch/HEAD; do not rely on memory or an old dialogue summary;
+2. identify the current extension version, accepted service surfaces, execution/batch/recovery capabilities and material limitations from current source, canonical docs and accepted test evidence;
+3. report to the owner in chat a practical functional inventory of the current Bridge and provide the canonical GitHub link to the extension;
+4. read the current KW-001 roadmap/implementation plan and map EVERY roadmap step to one of:
+   BRIDGE_REQUIRED
+   BRIDGE_CONDITIONAL
+   NO_BRIDGE;
+5. for every BRIDGE_REQUIRED or BRIDGE_CONDITIONAL step, name the exact Bridge surface that can be used, such as Wordstat, ordinary Search/SERP, Webmaster, Metrika, Direct, GenSearch, provider-batch/recovery, cost ledger or workspace/lifecycle controls;
+6. distinguish provider evidence acquisition performed by Bridge from analytical judgment owned by ChatGPT and authorization owned by the human owner;
+7. do not treat this capability map as authorization to make provider calls or execute a roadmap step;
+8. if the extension or roadmap materially changes during the dialogue, refresh the affected part of the mapping before the affected step is executed.
+```
+
+This startup review must happen before the normal current-step pre-step process. It is not repeated mechanically before every step in the same dialogue unless the extension/roadmap materially changes or the owner explicitly asks for a refresh.
+
+Canonical startup markers:
+
+```text
+DIALOGUE_START_BRIDGE_REVIEW_REQUIRED = true
+DIALOGUE_START_BRIDGE_REVIEW_ONCE_PER_DIALOGUE = true
+DIALOGUE_START_BRIDGE_REVIEW_COMPLETE = true before step execution
+ROADMAP_TO_BRIDGE_MAP_COMPLETE = true before step execution
+BRIDGE_CAPABILITY_MAP_IS_NOT_EXECUTION_AUTHORIZATION = true
+```
+
+If the dialogue-start Bridge inventory or roadmap-to-Bridge mapping has not been completed:
+
+```text
+STEP_EXECUTION = BLOCKED
+```
+
 ### Universal requirements before every major step
 
 Before execution ChatGPT must:
@@ -236,6 +272,7 @@ Job-specific evidence may reveal a reusable lesson, but it does not automaticall
 Canonical order:
 
 ```text
+A0. ONCE PER DIALOGUE: COMPLETE YANDEX MARKETING BRIDGE CAPABILITY INVENTORY + ROADMAP-TO-BRIDGE MAP
 A. READ RULES_ARCHITECTURE.md
 B. READ UNIVERSAL PROCESS RULES
 C. READ SOURCE_TO_METHOD_TRACEABILITY_GATE.md
@@ -345,6 +382,8 @@ At the end of the detailed explanation, apply the mandatory non-specialist summa
 # 8. Structural summary
 
 ```text
+DIALOGUE START
+    ↓ once per dialogue: read current Bridge + report capabilities + map all roadmap steps to Bridge/no-Bridge
 UNIVERSAL PROCESS RULES
     ↓ how every step must be approached
 SOURCE_TO_METHOD_TRACEABILITY_GATE
@@ -371,6 +410,9 @@ Markers:
 ```text
 KW001_RULES_ARCHITECTURE_ACTIVE = true
 KW001_UNIVERSAL_PROCESS_LAYER_REQUIRED = true
+KW001_DIALOGUE_START_BRIDGE_REVIEW_REQUIRED = true
+KW001_DIALOGUE_START_BRIDGE_REVIEW_ONCE_PER_DIALOGUE = true
+KW001_ROADMAP_TO_BRIDGE_MAP_REQUIRED = true
 KW001_SOURCE_TO_METHOD_TRACEABILITY_GATE_REQUIRED = true
 KW001_STEP_RULES_INDEX_REQUIRED = true
 KW001_PER_STEP_METHOD_LAYER_REQUIRED = true
