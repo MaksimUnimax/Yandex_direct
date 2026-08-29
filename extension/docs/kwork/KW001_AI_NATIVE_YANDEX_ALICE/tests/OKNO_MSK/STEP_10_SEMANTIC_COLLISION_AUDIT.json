@@ -1,10 +1,8 @@
 {
   "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
   "active_rows_scanned": 2332,
-  "flagged_rows": 2,
-  "flagged_records": 2,
-  "collision_counts": {
-    "PRODUCT_WITH_REPAIR_MARKER": 2
-  },
+  "flagged_rows": 0,
+  "flagged_records": 0,
+  "collision_counts": {},
   "meaning": "Heuristic adversarial audit only; flags must be manually reviewed and cannot self-accept or self-reject Step 10."
 }

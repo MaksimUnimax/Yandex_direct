@@ -244,7 +244,7 @@ CLUSTER_MEMBER	WINDOW_OPERATION_DIY	как снять алюминиевое о�
 CLUSTER_MEMBER	WINDOW_OPERATION_DIY	как снять пластиковое окно	Как снять/вставить/открыть/эксплуатировать окно	INFORMATIONAL	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Explicit window operation/removal/replacement procedure
 CLUSTER_MEMBER	WINDOW_REPAIR	вызвать мастера по ремонту пластиковых окон	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Explicit window repair/diagnostic task
 CLUSTER_MEMBER	WINDOW_REPAIR	вызов мастера ремонту пластиковых окон	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Explicit window repair/diagnostic task
-CLUSTER_MEMBER	WINDOW_REPAIR	замена оконной фурнитуры	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Replacement of a window component is maintenance/repair, not whole-window purchase
+CLUSTER_MEMBER	WINDOW_REPAIR	замена оконной фурнитуры	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Replacement of an existing-window component is a repair/maintenance task, not window purchase
 CLUSTER_MEMBER	WINDOW_REPAIR	цены на ремонт пластиковых окон	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Explicit window repair/diagnostic task
 CLUSTER_MEMBER	WINDOW_REPAIR	частный мастер по ремонту пластиковых окон	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SEMANTIC_SUPPORTED_NO_DIRECT_SERP		Explicit window repair/diagnostic task
 CLUSTER_MEMBER	WINDOW_REPAIR	окна rehau провисли	Ремонт и регулировка окон	COMMERCIAL_SERVICE	SERP_SUPPORTED	SP09-015	Explicit window repair/diagnostic task; direct Step-09 evidence: REHAU_REPAIR_DIAGNOSTIC / MIXED_INFORMATION_SERVICE
@@ -342,6 +342,7 @@ SEARCH_REQUIRED_SAMPLE		домик с панорамными окнами	Unreso
 SEARCH_REQUIRED_SAMPLE		заказать окна в однушку п 44	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		No sufficiently explicit user-task decomposition under conservative Step-10 rules
 SEARCH_REQUIRED_SAMPLE		закрой панорамное окно	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context
 SEARCH_REQUIRED_SAMPLE		зал с панорамными окнами	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context
+SEARCH_REQUIRED_SAMPLE		замена балкона на пластиковые окна цена	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Balcony-to-PVC-window replacement wording is materially ambiguous; direct Search evidence is required
 SEARCH_REQUIRED_SAMPLE		замена балконного блока на французское окно	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		No sufficiently explicit user-task decomposition under conservative Step-10 rules
 SEARCH_REQUIRED_SAMPLE		застекление веранды в частном доме панорамное остекление	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context
 SEARCH_REQUIRED_SAMPLE		имитация французского окна	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		No sufficiently explicit user-task decomposition under conservative Step-10 rules
@@ -402,4 +403,3 @@ SEARCH_REQUIRED_SAMPLE		окно для котельной в частном д�
 SEARCH_REQUIRED_SAMPLE		окно п 44	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		No sufficiently explicit user-task decomposition under conservative Step-10 rules
 SEARCH_REQUIRED_SAMPLE		окно панорамное 2.5	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context
 SEARCH_REQUIRED_SAMPLE		окно панорамное 2.5 метра	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context
-SEARCH_REQUIRED_SAMPLE		окно панорамный блок	Unresolved material user task	UNKNOWN_OR_MIXED	SEARCH_REQUIRED		Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context
