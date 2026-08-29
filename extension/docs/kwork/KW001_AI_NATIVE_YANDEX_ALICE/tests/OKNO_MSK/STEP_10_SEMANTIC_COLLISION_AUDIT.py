@@ -65,7 +65,10 @@ def audit(r: dict[str, str]) -> list[tuple[str, str]]:
         if p not in {"панорамные окна", "панорамное окно"} and not strong:
             out.append(("PANORAMIC_WITHOUT_PURCHASE_SIGNAL", "panoramic cluster lacks a clear product/purchase signal"))
 
-    service_clusters = {"WINDOW_INSTALLATION", "WINDOW_REPAIR", "WINDOW_DEMOLITION", "PVC_DOOR_REPAIR_SERVICE"}
+    service_clusters = {
+        "WINDOW_INSTALLATION", "WINDOW_REPAIR", "WINDOW_DEMOLITION", "PVC_DOOR_REPAIR_SERVICE",
+        "WINDOW_REPLACEMENT_SERVICE", "PVC_DOOR_REPLACEMENT_SERVICE", "WINDOW_FINISHING_SERVICE",
+    }
     if cid in service_clusters and anym(p, DIY):
         out.append(("SERVICE_WITH_DIY_MARKER", "commercial service cluster contains strong DIY/procedural wording"))
     if cid == "WINDOW_INSTALLATION" and not anym(p, ("установ", "монтаж")):
@@ -78,6 +81,10 @@ def audit(r: dict[str, str]) -> list[tuple[str, str]]:
         "WINDOW_REPAIR_DIY": ("ремонт", "регулир", "провис", "почин"),
         "PVC_DOOR_REPAIR_DIY": ("ремонт", "регулир", "провис", "почин"),
         "PVC_DOOR_REPAIR_SERVICE": ("ремонт", "регулир", "провис", "почин"),
+        "WINDOW_REPLACEMENT_SERVICE": ("замена", "заменить", "поменять"),
+        "PVC_DOOR_REPLACEMENT_SERVICE": ("замена", "заменить", "поменять"),
+        "WINDOW_FINISHING_SERVICE": ("откос", "отлив"),
+        "WINDOW_FINISHING_INFO": ("откос", "отлив"),
         "WINDOW_FABRICATION_DIY": ("сделать", "изготов", "передел"),
         "GLAZING_DIY_INFO": ("остеклен",),
         "WINDOW_FINISHING_DIY": ("откос", "отлив", "подокон"),
