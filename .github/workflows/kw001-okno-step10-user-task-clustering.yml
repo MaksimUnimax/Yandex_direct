@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/kw001-okno-step10-user-task-clustering.yml'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_BUILD.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SERP_COMPARISONS.tsv'
@@ -32,7 +33,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_BUILD.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN.py
 
       - name: Enforce Step10 machine accounting gate
         shell: bash
@@ -51,6 +52,7 @@ jobs:
           assert q['review_deferred_preserved'] == 174, q
           assert q['excluded_preserved'] == 334, q
           assert q['direct_step09_probes_consumed'] == 75, q
+          assert q['direct_step09_exact_phrase_decisions_consumed'] + q['direct_step09_control_anchors_consumed'] == 75, q
           assert q['duplicate_comparisons_consumed'] == 8, q
           assert q['dup0004_auto_merged'] is False, q
           assert q['unprobed_rows_claiming_direct_serp'] == 0, q
