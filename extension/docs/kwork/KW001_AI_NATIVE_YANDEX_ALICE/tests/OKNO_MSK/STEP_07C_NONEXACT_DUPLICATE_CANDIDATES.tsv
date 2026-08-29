@@ -1,0 +1,19 @@
+candidate_group	method	signature	group_size	phrase	corrected_status	corrected_reason	source_ids
+DUP-0001	STRICT_ORDERLESS_TOKEN_BAG	provedal алюминиевые окна	2	алюминиевые окна provedal	KEEP	POSITIVE_CORE_ALUMINIUM_WINDOW_INTENT	S11
+DUP-0001	STRICT_ORDERLESS_TOKEN_BAG	provedal алюминиевые окна	2	алюминиевые окна проведал	KEEP	POSITIVE_CORE_ALUMINIUM_WINDOW_INTENT	S11
+DUP-0002	STRICT_ORDERLESS_TOKEN_BAG	provedal веранды остекление	2	provedal остекление веранды	KEEP	POSITIVE_CORE_VERANDA_GLAZING_INTENT	S10
+DUP-0002	STRICT_ORDERLESS_TOKEN_BAG	provedal веранды остекление	2	проведал остекление веранды	KEEP	POSITIVE_CORE_VERANDA_GLAZING_INTENT	S10
+DUP-0003	STRICT_ORDERLESS_TOKEN_BAG	rehau в окна рассрочку	2	окна rehau в рассрочку	KEEP	POSITIVE_CORE_REHAU_WINDOW_INTENT	S02|S16
+DUP-0003	STRICT_ORDERLESS_TOKEN_BAG	rehau в окна рассрочку	2	окна рехау в рассрочку	KEEP	POSITIVE_CORE_FINANCE_COMMERCIAL_INTENT	S16
+DUP-0004	STRICT_ORDERLESS_TOKEN_BAG	rehau окна от пластиковые производителя	2	пластиковые окна от производителя rehau	KEEP	POSITIVE_CORE_REHAU_WINDOW_INTENT	S02|S18
+DUP-0004	STRICT_ORDERLESS_TOKEN_BAG	rehau окна от пластиковые производителя	2	пластиковые окна рехау от производителя	KEEP	POSITIVE_PRODUCTION_OR_MANUFACTURER_INTENT	S18
+DUP-0005	STRICT_ORDERLESS_TOKEN_BAG	rehau окна пластиковые	2	пластиковые окна rehau	KEEP	POSITIVE_CORE_PVC_WINDOW_INTENT	S01|S02
+DUP-0005	STRICT_ORDERLESS_TOKEN_BAG	rehau окна пластиковые	2	пластиковые окна рехау	KEEP	POSITIVE_CORE_PVC_WINDOW_INTENT	S01
+DUP-0006	STRICT_ORDERLESS_TOKEN_BAG	rehau оконная фурнитура	2	оконная фурнитура rehau	REVIEW	RETAINED_BUSINESS_BOUNDARY_NEEDS_SEARCH	P2-01
+DUP-0006	STRICT_ORDERLESS_TOKEN_BAG	rehau оконная фурнитура	2	оконная фурнитура рехау	REVIEW	RETAINED_BUSINESS_BOUNDARY_NEEDS_SEARCH	P2-01
+DUP-0007	LIGHT_STEM_ORDERLESS_CANDIDATE	в одинцов окон пластиковых ремонт	2	ремонт пластиковых окон в одинцове	KEEP	POSITIVE_CORE_REPAIR_SERVICE_INTENT	S14
+DUP-0007	LIGHT_STEM_ORDERLESS_CANDIDATE	в одинцов окон пластиковых ремонт	2	ремонт пластиковых окон в одинцово	KEEP	POSITIVE_CORE_REPAIR_SERVICE_INTENT	S14
+DUP-0008	LIGHT_STEM_ORDERLESS_CANDIDATE	окон пластиковых пошагов установк	2	пошаговая установка пластиковых окон	REVIEW	DIY_OR_PROCEDURAL_INTENT_NEEDS_CONTENT_FIT	S13
+DUP-0008	LIGHT_STEM_ORDERLESS_CANDIDATE	окон пластиковых пошагов установк	2	установка пластиковых окон пошагово	REVIEW	DIY_OR_PROCEDURAL_INTENT_NEEDS_CONTENT_FIT	S13
+DUP-0009	LIGHT_STEM_ORDERLESS_CANDIDATE	оконн ручк	2	оконные ручки	REVIEW	RETAINED_ASSOCIATION_ONLY_NEEDS_VALIDATION	S16
+DUP-0009	LIGHT_STEM_ORDERLESS_CANDIDATE	оконн ручк	2	ручка оконная	REVIEW	RETAINED_ASSOCIATION_ONLY_NEEDS_VALIDATION	S02|S16
