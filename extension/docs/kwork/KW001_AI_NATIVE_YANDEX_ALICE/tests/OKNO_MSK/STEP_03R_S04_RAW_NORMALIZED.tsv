@@ -1,0 +1,43 @@
+# KW-001 / OKNO-MSK — STEP 03R S04 COMPLETE NORMALIZED PROVIDER ROWS
+# job_id	kw001-okno-msk-wordstat-pass1-repair-20260829
+# seed_id	S04
+# request_id	wordstat-batch-4d936c7b-f973-4feb-a283-5e560cd35c98
+# phrase	окна п 44
+# method	getTop
+# region	213
+# devices	DEVICE_ALL
+# numPhrases	200
+# totalCount	252
+# http_status	200
+# request_executed	true
+# source	STEP_03R_S04_RAW_PROVIDER_RESULT_2026-08-29.json
+section	phrase	count
+result	окно п 44	252
+result	дом п 44 окна	96
+result	размеры окон п 44	89
+result	окна серии п 44	58
+result	окна домов серии п 44	37
+result	пластиковые окна п 44	35
+result	размер окон в доме п 44	35
+result	окон п 44 т	32
+result	окна серия п 44 размеры	21
+result	серия дома п 44 окна размеры	17
+result	заказать окна в однушку п 44	6
+result	окна на балкон сапожок п 44	5
+association	оконный профиль	3790
+association	оконная рама	5588
+association	деревянные стеклопакеты	2473
+association	стеклопакет без рамы	994
+association	формула стеклопакета	554
+association	краска для оконных рам	140
+association	регулировка стеклопакетов	123
+association	термошок стеклопакета	45
+association	витражное остекление это	19
+association	заказать стеклопакет без рамы по размеру	89
+association	одинарный стеклопакет	217
+association	пятикамерный стеклопакет	44
+association	как замерить стеклопакет	44
+association	оконный переплет	210
+association	оконная створка	537
+association	гост на стеклопакеты	83
+association	стеклопакеты бу	355
