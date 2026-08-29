@@ -91,7 +91,7 @@ The earlier family-level observations may be reused as notes, but the step canno
 ## Current step
 
 ### Step 3R — repair the original 18-seed Wordstat collection
-Status: **IN PROGRESS / 12 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
+Status: **IN PROGRESS / 13 OF 18 PROVIDER ITEMS CURRENTLY COMPLETE**
 
 Authority:
 
@@ -102,6 +102,7 @@ STEP_03R_S10_CHECKPOINT_2026-08-29.md
 STEP_03R_S11_PRE_PROVIDER_NO_SUPPORTED_COMMAND_2026-08-29.md
 STEP_03R_S11_CHECKPOINT_2026-08-29.md
 STEP_03R_S12_CHECKPOINT_2026-08-29.md
+STEP_03R_S13_CHECKPOINT_2026-08-29.md
 ```
 
 Goal:
@@ -144,21 +145,21 @@ estimated provider cost = 0.36 RUB
 execution = Manual
 ```
 
-### Current execution point after S12
+### Current execution point after S13
 
 ```text
 batch.start = COMPLETE
-provider requests in Step 03R = 12
-provider outcomes known = 12
+provider requests in Step 03R = 13
+provider outcomes known = 13
 failed_terminal = 0
 outcome_unknown = 0
-estimated provider cost = 0.24 RUB
-fully preserved + normalized + verified Step-03R provider items = 12/18
-provider items remaining = 6
-results rows preserved/verified S01-S12 = 1330
-association rows preserved/verified S01-S12 = 171
-total provider rows preserved/verified S01-S12 = 1501
-next provider item = S13 `установка пластиковых окон`
+estimated provider cost = 0.26 RUB
+fully preserved + normalized + verified Step-03R provider items = 13/18
+provider items remaining = 5
+results rows preserved/verified S01-S13 = 1530
+association rows preserved/verified S01-S13 = 187
+total provider rows preserved/verified S01-S13 = 1717
+next provider item = S14 `ремонт пластиковых окон`
 next YMB action = one manual batch.next only after pre-item goal/error/mode block
 forward analytical work = BLOCKED until Step 03R reaches 18/18 and final reconciliation passes
 ```
@@ -236,6 +237,22 @@ NON_REPEAT_CONTROLS = PASS
 
 Authority: `STEP_03R_S12_CHECKPOINT_2026-08-29.md`.
 
+### S13 verified acquisition
+
+```text
+S13 = установка пластиковых окон
+results rows = 200
+association rows = 16
+provider rows = 216
+raw rows saved = 216
+normalized TSV rows = 216
+rows verified after read-back = 216
+totalCount = 15510
+NON_REPEAT_CONTROLS = PASS
+```
+
+Authority: `STEP_03R_S13_CHECKPOINT_2026-08-29.md`.
+
 ## Remaining work after Step 3R succeeds
 
 1. Review the complete first-pass dataset and determine whether any additional important acquisition direction was missed.
@@ -266,8 +283,8 @@ KW001_OKNO_MSK_STEP_03_COMPLETE = false
 KW001_OKNO_MSK_STEP_03_REPAIR_REQUIRED = true
 KW001_OKNO_MSK_STEP_03R_OWNER_AUTHORIZED = true
 KW001_OKNO_MSK_STEP_03R_MANIFEST_FROZEN = true
-KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 12
-KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1501
+KW001_OKNO_MSK_STEP_03R_PROVIDER_ITEMS_PRESERVED = 13
+KW001_OKNO_MSK_STEP_03R_NORMALIZED_ROWS_VERIFIED = 1717
 KW001_OKNO_MSK_FORWARD_ANALYSIS_BLOCKED = true
 KW001_OKNO_MSK_STEP_05_RAW_PROVIDER_EVIDENCE_PRESERVED = true
 KW001_OKNO_MSK_STEP_06_RAW_PROVIDER_EVIDENCE_PRESERVED = true
