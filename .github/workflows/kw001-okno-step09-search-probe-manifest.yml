@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/kw001-okno-step09-search-probe-manifest.yml'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_BUILD.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_INITIAL_TRANCHE_SEMANTIC_QA.json'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_REVIEW_RESOLUTION_ROUTES.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv'
 
@@ -26,7 +27,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Build frozen Step09 probe manifest
+      - name: Build corrected Step09 initial Search tranche
         id: build_manifest
         shell: bash
         run: |
@@ -48,11 +49,11 @@ jobs:
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_BATCH_START_COMMAND.txt \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_RECONCILIATION.md
           if ! git diff --cached --quiet; then
-            git commit -m "KW001 OKNO: freeze Step 09 Search probe manifest"
+            git commit -m "KW001 OKNO: freeze corrected Step 09 initial Search tranche"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
 
-      - name: Enforce manifest gate
+      - name: Enforce corrected semantic tranche gate
         shell: bash
         run: |
           test "${{ steps.build_manifest.outputs.rc }}" = "0"
@@ -61,10 +62,16 @@ jobs:
           from pathlib import Path
           p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SEARCH_PROBE_MANIFEST_QA.json')
           q = json.loads(p.read_text(encoding='utf-8'))
-          assert q['status'] == 'PASS', q
+          assert q['status'] == 'PASS_INITIAL_TRANCHE_GATE', q
           assert q['provider_execution_allowed'] is True, q
+          assert q['provider_execution_scope'] == 'INITIAL_BOUNDED_TRANCHE_ONLY', q
           assert q['probe_count'] <= 80, q
           assert q['estimated_cost_rub'] <= 39.04, q
-          assert q['coverage_rows'] == 944, q
-          print('KW001_OKNO_STEP09_PROBE_MANIFEST_GATE_PASS')
+          assert q['traceability_rows'] == 944, q
+          assert q['traceability_complete'] is True, q
+          assert q['full_serp_evidence_coverage'] is False, q
+          assert q['pre_serp_transfer_links'] == 0, q
+          assert q['semantic_sample_qa_pass'] is True, q
+          assert q['unresolved_unprobed_review_search_rows'] > 0, q
+          print('KW001_OKNO_STEP09_CORRECTED_INITIAL_TRANCHE_GATE_PASS')
           PY
