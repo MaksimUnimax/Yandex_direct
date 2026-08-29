@@ -1,12 +1,13 @@
 # KW-001 / OKNO-MSK — Step 09 corrected current state and execution protocol
 
 Date: 2026-08-29  
-Status: **CURRENT STEP-09 EXECUTION AUTHORITY**
+Status: **CURRENT STEP-09 EXECUTION / ANALYSIS AUTHORITY**
 
-This file is the short operational authority after the Step-09 manifest audit and first live ordinary-Search canary. For causal explanations, read:
+For causal history and live evidence, read:
 
 - `STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md`
 - `STEP_09_LIVE_CANARY_AND_BATCH_EXECUTION_CORRECTION_2026-08-29.md`
+- `STEP_09_LIVE_R2_PROJECTION_RECEIPT_2026-08-29.md`
 
 ## Current truth
 
@@ -17,7 +18,6 @@ GEN_SEARCH_ALLOWED = false
 REGION = 213
 INITIAL_TRANCHE_PROBES = 75
 AUTHORIZED_MAX_REQUESTS = 80
-ESTIMATED_INITIAL_TRANCHE_COST_RUB = 36.6
 AUTHORIZED_MAX_COST_RUB = 39.04
 REVIEW_SEARCH_TOTAL = 944
 DIRECT_REVIEW_SEARCH_ROWS_IN_INITIAL_TRANCHE = 45
@@ -25,168 +25,52 @@ UNRESOLVED_UNPROBED_REVIEW_SEARCH_ROWS = 899
 TRACEABILITY_COMPLETE = true
 FULL_SERP_EVIDENCE_COVERAGE = false
 PRE_SERP_TRANSFER_ALLOWED = false
-PRE_SERP_TRANSFER_LINKS = 0
 INITIAL_TRANCHE_SEMANTIC_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY
-BOUNDED_JOB_CREATED = true
-PROVIDER_REQUESTS_EXECUTED = 1
-PROVIDER_REQUESTS_SUCCEEDED = 1
-PROVIDER_REQUESTS_PENDING = 74
+
+PROVIDER_ACQUISITION_INITIAL_75 = COMPLETE
+PROVIDER_REQUESTS_EXECUTED = 75
+PROVIDER_REQUESTS_SUCCEEDED = 75
+PROVIDER_FAILED_TERMINAL = 0
 PROVIDER_OUTCOME_UNKNOWN = 0
-PROVIDER_COST_INCURRED_RUB = 0.488
-COMPLETE_SAVED_SERPS = 1
+PROVIDER_ESTIMATED_COST_RUB = 36.600
+NORMALIZED_DIRECT_SERPS_AVAILABLE = 75
+NORMALIZED_RANKED_RESULTS_AVAILABLE = 750
+
 FIRST_CANARY_COMPLETENESS_GATE = PASS
-SEARCH_BATCH_CHUNK_ACTION_AVAILABLE = false
-MANUAL_SEARCH_BATCH_SINGLE_COMMAND_REQUIRED = true
+R2_JOB_ID = kw001-okno-msk-search-step09-20260829-r2
+R2_JOB_STATUS = COMPLETED
+R2_SUCCEEDED = 74
+R2_PENDING = 0
+R2_OUTCOME_UNKNOWN = 0
+R2_PROJECTION_COMPLETE = true
+
+ORIGINAL_JOB_ID = kw001-okno-msk-search-step09-20260829
+ORIGINAL_JOB_CURRENT_RUNTIME_STATE = NOT_FOUND
+ORIGINAL_JOB_CANCEL_REQUEST_EXECUTED = false
+ORIGINAL_JOB_CANCEL_PROVIDER_COST_RUB = 0
+
+REPOSITORY_SERP_LEDGER_COMPLETE = false
 STEP09_COMPLETE = false
 STEP10_ALLOWED = false
 ```
 
-## Active authorities
+## Important meaning of 75/75
 
-```text
-STEP_09_ORDINARY_YANDEX_SEARCH_PRE_STEP_REVIEW_2026-08-29.md
-STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
-STEP_09_LIVE_CANARY_AND_BATCH_EXECUTION_CORRECTION_2026-08-29.md
-STEP_09_INITIAL_TRANCHE_SEMANTIC_QA.json
-STEP_09_SEARCH_PROBE_MANIFEST.tsv
-STEP_09_REVIEW_SEARCH_COVERAGE.tsv
-STEP_09_SEARCH_PROBE_MANIFEST_QA.json
-STEP_09_SEARCH_PROBE_MANIFEST_RECONCILIATION.md
-STEP_09_SERP_RESULTS.tsv
-```
+The paid Search acquisition target for the initial bounded tranche is complete.
 
-Where the original pre-step conflicts with the post-audit correction or live-canary correction, the newer correction authority supersedes the earlier wording.
+This does **not** mean Step 09 is analytically accepted and does not mean all 944 `REVIEW_SEARCH` rows have direct SERP evidence.
 
-## Meaning of the initial 75 probes
-
-The list is **not** a 944-row Search cluster map.
+The 75 probes remain:
 
 ```text
 REVIEW_STRATIFIED_SAMPLE
-= direct diagnostic query only; no pre-SERP transfer to other rows in the same cleanup/source stratum.
+= direct diagnostic query only; no automatic transfer to other rows.
 
 NONEXACT_DUPLICATE_VARIANT
 = direct pairwise comparison input.
 
 STEP1_BOUNDARY_OR_CORE_ANCHOR
 = direct contrast/control query for a declared architecture question.
-```
-
-`corrected_reason`, `source_id`, Wordstat provenance and lexical similarity are sampling/review metadata only. They cannot establish shared intent or same-page compatibility.
-
-## Live execution truth
-
-The frozen bounded job exists:
-
-```text
-job_id = kw001-okno-msk-search-step09-20260829
-queue = 75
-maxRequests = 75
-maxCostRub = 39.04
-start provider requests = 0
-```
-
-The first paid canary has completed successfully:
-
-```text
-query = аксессуары для пластиковых окон
-request_id = search-batch-06923ff5-1455-4ca9-99f3-d8778976c96a
-item_id = kw001-okno-msk-search-step09-20260829:ca2ccadf3fb1cddc
-http_status = 200
-result_count = 10
-response_format = FORMAT_XML
-request_executed = true
-succeeded = 1
-pending = 74
-outcome_unknown = 0
-estimated cumulative cost = 0.488 RUB
-```
-
-The complete observed TOP-10 is persisted in `STEP_09_SERP_RESULTS.tsv`.
-
-Observed dominant pattern for the exact query: transactional/product-category results for window accessories/fittings. No transfer to other phrases is authorized from this single SERP.
-
-## Live Manual admission correction
-
-The installed bridge rejected a Manual block containing `start + next` with:
-
-```text
-code = BATCH_SINGLE_COMMAND_REQUIRED
-request_executed = false
-```
-
-Therefore the current service surface must be treated as:
-
-```text
-one Manual block = exactly one SEARCH_BATCH_API_V1 command
-```
-
-Do not infer Search-batch Manual admission from the generic multi-command Manual contract.
-
-## Current Search-batch protocol gap
-
-The current Search-batch protocol exposes:
-
-```text
-start
-next
-status
-pause
-resume
-cancel
-projection
-overlapPage
-```
-
-There is no validated bounded `nextN` / `runChunk` action.
-
-Therefore the currently installed extension can continue safely only one paid `next` per Manual interaction. That is functionally safe but operationally inefficient for the remaining 74 queries.
-
-The preferred product correction is an explicit bounded chunk action that executes items serially, persists each result before advancing, respects maxRequests/maxCostRub, and stops on OUTCOME_UNKNOWN/terminal failure. Do not work around the limitation by weakening validation and concatenating repeated `next` commands unless that alternative is independently designed and validated.
-
-## Project completeness gate for each observed paid result
-
-Required evidence:
-
-```text
-1. governed item outcome is known;
-2. request_executed truth is known;
-3. provider request_id / item_id / job_id are preserved;
-4. complete raw ordinary-Search payload is durably present;
-5. normalized ranked result rows are readable;
-6. observed_result_count reconciles with saved ranked rows;
-7. query text, region and normalized request parameters are preserved;
-8. request/cost accounting is updated;
-9. no OUTCOME_UNKNOWN exists for the current item;
-10. job-specific evidence reference can be reused later without another provider call.
-```
-
-Canary #1 passes all ten.
-
-## Failure handling
-
-```text
-OUTCOME_UNKNOWN
-=> STOP; no automatic replay; no next paid item.
-
-request_executed=false + pre-provider/local validation failure
-=> preserve error; understand cause before governed retry.
-
-request_executed=true + terminal provider error
-=> record as attempted paid item; do not blindly repeat.
-
-result payload incomplete/unreadable
-=> PROJECT_RESULT_INCOMPLETE; STOP even if transport reports SUCCEEDED.
-```
-
-## Evidence transfer after Search
-
-A direct SERP may be used beyond the exact query only after a separate explicit transfer decision records why the target phrase shares the same user task and why its modifiers do not materially alter intent/result type.
-
-Until such a record exists:
-
-```text
-non-probed REVIEW_SEARCH row = UNRESOLVED_UNPROBED
 ```
 
 No automatic transfer by:
@@ -199,16 +83,132 @@ lexical similarity
 absence of contradiction
 ```
 
+## Live acquisition structure
+
+Canary job:
+
+```text
+job_id = kw001-okno-msk-search-step09-20260829
+successful observed canary = 1
+query = аксессуары для пластиковых окон
+request_id = search-batch-06923ff5-1455-4ca9-99f3-d8778976c96a
+item_id = kw001-okno-msk-search-step09-20260829:ca2ccadf3fb1cddc
+http_status = 200
+result_count = 10
+response_format = FORMAT_XML
+estimated cost = 0.488 RUB
+```
+
+R2 job:
+
+```text
+job_id = kw001-okno-msk-search-step09-20260829-r2
+queries = 74
+status = COMPLETED
+requests_started = 74
+succeeded = 74
+failed_terminal = 0
+outcome_unknown = 0
+estimated cost = 36.112 RUB
+projection total_successful = 74
+projection topN = 10
+projection next_offset = null
+```
+
+Combined:
+
+```text
+75 requests
+75 successes
+0 terminal failures
+0 outcome unknown
+36.600 RUB estimated cumulative cost
+750 normalized ranked results visible across canary + R2 projection
+```
+
+## Correction: do not infer current job existence from last observed state
+
+After the canary, the original job's last observed state had 74 pending items. A later cleanup attempt tried to cancel that job and received:
+
+```text
+code = SEARCH_BATCH_JOB_NOT_FOUND
+stage = BATCH_RUNTIME
+request_executed = false
+automatic_retry = false
+```
+
+Therefore:
+
+```text
+LAST_OBSERVED_JOB_STATE != CURRENT_LIVE_JOB_EXISTENCE
+```
+
+The current live runtime does not contain the original job under that ID. Do not infer why it disappeared without additional evidence.
+
+No provider request and no provider cost were caused by the failed cancel.
+
+## Manual / protocol controls
+
+Observed service-specific rule remains:
+
+```text
+one Manual block = exactly one SEARCH_BATCH_API_V1 command
+```
+
+Do not infer Search-batch Manual admission from the generic multi-command Manual contract.
+
+The GitHub branch version of `search_batch_protocol.js` observed earlier still listed only:
+
+```text
+start
+next
+status
+pause
+resume
+cancel
+projection
+overlapPage
+```
+
+However live result envelopes now include fields such as `chunk`; therefore installed live Bridge behavior and branch code must not be assumed identical without verification.
+
+Canonical control:
+
+```text
+REPOSITORY_PROTOCOL_SNAPSHOT != AUTOMATICALLY CURRENT_INSTALLED_RUNTIME
+```
+
+## Evidence-persistence distinction
+
+The R2 projection supplies normalized reusable TOP-10 rows, but that projection alone does not prove complete raw per-item XML and per-item provider request IDs for every R2 request.
+
+Therefore:
+
+```text
+PROVIDER_ACQUISITION_COMPLETE = true
+NORMALIZED_PROJECTION_COMPLETE = true
+RAW_PER_ITEM_EVIDENCE_RECONCILED = not yet proven for all 74 R2 items
+REPOSITORY_SERP_LEDGER_COMPLETE = false
+```
+
+`STEP_09_SERP_RESULTS.tsv` must be expanded/reconciled beyond the canary.
+
 ## Step-09 completion remains blocked until
 
 ```text
-all attempted provider items have governed outcomes;
-all successful provider results are complete and reusable;
-SERP result ledger exists and is complete for attempted probes;
-declared duplicate/boundary comparisons are produced;
-analytical evidence decisions are produced;
-all 944 REVIEW_SEARCH rows are either directly/validly resolved or explicitly unresolved;
-provider and semantic QA both pass;
-request/cost accounting reconciles;
-no Step-10 clustering/page-ownership decision is silently performed inside Step 09.
+1. all 75 normalized SERPs are preserved/reconciled in the repository;
+2. attempted-provider accounting is reconciled;
+3. available durable per-item identifiers/raw evidence are reconciled without provider replay;
+4. eight active nonexact duplicate comparisons are produced from real SERPs;
+5. declared boundary/evidence questions are decided;
+6. all 944 REVIEW_SEARCH rows remain explicitly accounted for as directly resolved, validly transferred, or unresolved;
+7. semantic and provider QA pass;
+8. no Step-10 clustering/page-ownership decision is silently performed inside Step 09.
+```
+
+Until then:
+
+```text
+STEP09_COMPLETE = false
+STEP10_ALLOWED = false
 ```
