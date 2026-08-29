@@ -1,6 +1,7 @@
 # KW-001 / OKNO-MSK — JOB FLOW
 
 Date created: 2026-08-28  
+Last updated: 2026-08-29  
 Status: **ACTIVE / JOB-SPECIFIC / DISPOSABLE WITH WORKSPACE**
 
 This file tracks only the execution flow of the current OKNO-MSK rehearsal.
@@ -105,21 +106,16 @@ STEP_04_ACCEPTANCE.md
 
 ### Step 5 — targeted Wordstat expansion pass #2
 
-Status: **OWNER AUTHORIZED / MANIFEST FROZEN / READY FOR BATCH START**
+Status: **COMPLETE / PASS / ACQUISITION FROZEN**
 
-Pre-step review authority:
+Pre-step and manifest authority:
 
 ```text
 STEP_05_PRE_STEP_REVIEW.md
-```
-
-Frozen execution authority:
-
-```text
 STEP_05_WORDSTAT_PASS2_MANIFEST.md
 ```
 
-Frozen manifest:
+Executed manifest:
 
 ```text
 P2-01 оконная фурнитура
@@ -128,7 +124,7 @@ P2-03 остекление балкона с выносом
 P2-04 окна для частного дома
 ```
 
-Frozen provider controls:
+Frozen provider controls actually used:
 
 ```text
 job_id = kw001-okno-msk-wordstat-pass2-20260828
@@ -137,34 +133,75 @@ regions = ["213"]
 devices = ["DEVICE_ALL"]
 numPhrases = 200
 maxRequests = 4
-estimated max provider cost = 0.08 RUB
 ```
 
-Deferred from provider execution because of redundancy, ambiguity or unresolved business boundary:
+Final durable batch truth:
 
 ```text
-остекление террасы
-панорамное остекление балкона
-монтаж окон
-регулировка окон пвх
-москитные сетки на пластиковые окна
-окна пвх
-стеклопакет
-оконный завод
+status = COMPLETED
+total = 4
+succeeded = 4
+failed_terminal = 0
+outcome_unknown = 0
+requests_started = 4
+estimated_cost_rub = 0.08
+next_safe_action = NONE
 ```
 
-No Step-5 provider request had been made at manifest freeze. Next action is the owner-operated durable batch start, followed by one `batch.next` per frozen probe and a final `batch.status`.
+Complete normalized provider rows are preserved inside the job workspace:
+
+```text
+STEP_05_P2_01_RAW_NORMALIZED.tsv
+STEP_05_P2_02_RAW_NORMALIZED.tsv
+STEP_05_P2_03_RAW_NORMALIZED.tsv
+STEP_05_P2_04_RAW_NORMALIZED.tsv
+```
+
+Execution/control authority:
+
+```text
+STEP_05_P2_01_CHECKPOINT.md
+STEP_05_P2_02_CHECKPOINT.md
+STEP_05_P2_03_CHECKPOINT.md
+STEP_05_P2_04_CHECKPOINT.md
+STEP_05_FINAL_BATCH_STATUS.md
+STEP_05_ACCEPTANCE.md
+```
+
+Step-05 acquisition findings remain evidence only. Final row-level semantic decisions, clustering, page mapping and SERP validation are still not complete.
+
+No third recursive Wordstat pass is authorized by Step 05.
+
+---
+
+## Next major step
+
+Status: **NOT STARTED / PRE-STEP REVIEW REQUIRED**
+
+The next major job step is not automatically authorized by Step-05 acceptance.
+
+Before execution:
+
+```text
+read current job evidence
+explain the proposed next step
+check current external/official methodology where relevant
+adversarially review Step-05 handoff
+show owner sources/risks
+wait for explicit owner authorization
+```
+
+No provider/operator action is currently pending.
 
 ---
 
 ## Later job stages
 
-Later steps will be appended here as this concrete job progresses.
-
-They may include, as authorized by the universal KW-001 workflow:
+Later stages may include, subject to their own pre-step review and owner authorization:
 
 ```text
 row-level semantic cleanup/freeze
+selective demand/dynamics checks if independently justified
 ordinary Yandex Search evidence
 SERP clustering/page-boundary analysis
 page mapping
@@ -193,4 +230,6 @@ Marker:
 
 ```text
 KW001_OKNO_MSK_JOB_FLOW_ACTIVE = true
+KW001_OKNO_MSK_STEP_05_COMPLETE = true
+KW001_OKNO_MSK_NEXT_STEP_NOT_STARTED = true
 ```
