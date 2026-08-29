@@ -1,0 +1,35 @@
+# KW-001 / OKNO-MSK — STEP 05 P2-03 COMPLETE NORMALIZED PROVIDER ROWS
+# job_id	kw001-okno-msk-wordstat-pass2-20260828
+# probe_id	P2-03
+# request_id	wordstat-batch-d6dd358c-4a35-4387-a0ac-a1053dd87238
+# phrase	остекление балкона с выносом
+# method	getTop
+# region	213
+# devices	DEVICE_ALL
+# numPhrases	200
+# totalCount	95
+# http_status	200
+# request_executed	true
+# source	owner-supplied WORDSTAT_BATCH_RESULT_V1 from YMB
+section	phrase	count
+result	остекление балкона с выносом	95
+result	остекление балкона с выносом подоконника	20
+result	остекление балкона в москве с выносом	13
+result	сварка выноса на балконе с последующим остеклением	11
+result	вынос на балконе с остеклением providal	5
+association	утепление лоджии	1063
+association	как вытащить стекло из пластикового окна	32
+association	как крепить жалюзи на пластиковые окна	28
+association	как крепятся жалюзи на пластиковые окна	29
+association	деревянные откосы на окна	290
+association	демонтаж пластиковых окон	177
+association	как вытащить штапик из пластикового окна	24
+association	жалюзи на балконную дверь	56
+association	раздвижные окна для беседки	123
+association	беседка с окнами	548
+association	балконные окна раздвижные	327
+association	сэндвич панель для балконной двери	54
+association	как развернуть окно на весь экран	62
+association	как вставить стекло в очки	55
+association	монтаж оконных откосов	90
+association	откосы на окна	6175
