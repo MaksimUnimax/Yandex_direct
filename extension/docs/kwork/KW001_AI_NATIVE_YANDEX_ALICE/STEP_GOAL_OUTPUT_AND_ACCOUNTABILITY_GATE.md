@@ -293,6 +293,52 @@ How much did we get/save/remove/analyze?
 Can we safely move to the next step?
 ```
 
+### Mandatory non-specialist summary at the end of every pre-step explanation
+
+After the full detailed pre-step explanation has been given, and immediately before ChatGPT asks for authorization to execute the step, ChatGPT must add a short plain-language summary for a non-specialist.
+
+This summary must answer only these three questions:
+
+```text
+ЗАЧЕМ НУЖЕН ЭТОТ ШАГ?
+= why this step is useful in the overall client task.
+
+ЧТО ОН РЕШАЕТ?
+= what concrete problem, uncertainty or missing piece this step removes.
+
+КАК МЫ ЭТО ДЕЛАЕМ?
+= the practical action in simple everyday language.
+```
+
+Rules for this summary:
+
+```text
+1. Use simple language understandable to a person who is not an SEO specialist.
+2. Put this summary at the END of the pre-step explanation, not at the beginning.
+3. Do not duplicate quantitative accounting in this summary.
+4. Do not repeat row counts, request counts, costs, percentages, status markers, provider bookkeeping, reconciliation tables or other technical numbers in this summary.
+5. Keep all numbers, detailed evidence, technical statuses, methodology sources and accounting in the main detailed text above.
+6. The summary does not replace the detailed pre-step gate; it only explains the practical meaning of the step after the detailed evidence has already been shown.
+7. Do not turn the summary into another technical block. Its purpose is comprehension, not auditability.
+```
+
+Preferred owner-facing shape:
+
+```text
+ПРОСТЫМИ СЛОВАМИ
+
+Зачем нужен этот шаг:
+...
+
+Что он решает:
+...
+
+Как мы это делаем:
+...
+```
+
+This rule applies to the explanation of a step **before execution**. An end-of-step report does not need to repeat this three-part summary unless it is simultaneously introducing the next step.
+
 ---
 
 ## 9. Relationship to YMB completeness rule
@@ -325,4 +371,6 @@ KW001_QUANTITATIVE_END_OF_STEP_ACCOUNTING_REQUIRED = true
 KW001_STEP_COMPLETION_MUST_MATCH_PREDECLARED_OUTPUT = true
 KW001_NEXT_STEP_BLOCKED_UNTIL_CURRENT_GOAL_VERIFIED = true
 KW001_OWNER_FACING_PLAIN_LANGUAGE_REQUIRED = true
+KW001_PRE_STEP_NON_SPECIALIST_SUMMARY_REQUIRED = true
+KW001_PRE_STEP_SUMMARY_NUMBERS_STAY_IN_MAIN_TEXT = true
 ```
