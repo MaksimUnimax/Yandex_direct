@@ -1,9 +1,16 @@
 # KW-001 / OKNO-MSK — Step 09 live canary and batch-execution correction
 
 Date: 2026-08-29  
-Status: **ACTIVE LIVE EXECUTION EVIDENCE / OPERATIONAL CORRECTION**
+Status: **ACTIVE LIVE EXECUTION EVIDENCE / HISTORICAL CANARY + COMPLETED CORRECTION**
 
-This document records the first real ordinary-Yandex-Search execution of Step 09, the live Manual-layer failure observed immediately before it, and the resulting correction to the operational execution model.
+This document records the first real ordinary-Yandex-Search execution of Step 09, the live Manual-layer failure observed immediately before it, the resulting product correction, and the later completed `nextN` rollout.
+
+For current state also read:
+
+- `STEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md`
+- `STEP_09_NEXTN_LIVE_CHUNK_VALIDATION_2026-08-29.md`
+- `STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md`
+- `extension/docs/SEARCH_BATCH_NEXTN100_V0_1_2_CHANGELOG_AND_ACCEPTANCE_2026-08-29.md`
 
 ## 1. Why this document exists
 
@@ -99,7 +106,7 @@ automatic_retry = false
 next_safe_action = CLAIM_NEXT
 ```
 
-This satisfies the start gate: the bounded queue exists and creating it caused zero provider requests.
+This satisfies the start gate: the bounded queue existed and creating it caused zero provider requests.
 
 ## 4. First paid canary
 
@@ -197,11 +204,11 @@ The first paid canary passes the Step-09 project completeness gate because:
 10. reusable evidence persisted in STEP_09_SERP_RESULTS.tsv = yes.
 ```
 
-Therefore the Search transport/result path itself is live-validated for continuing Step 09.
+Therefore the Search transport/result path itself was live-validated for continuing Step 09.
 
-## 7. New operational gap: no bounded chunk action
+## 7. Operational gap found at canary time
 
-The current Search batch protocol supports:
+At the moment of the canary, the Search batch protocol exposed only:
 
 ```text
 start
@@ -214,118 +221,200 @@ projection
 overlapPage
 ```
 
-It does not expose a bounded action such as:
+and the installed Manual validator required exactly one `SEARCH_BATCH_API_V1` command per Manual block.
+
+At that historical point:
 
 ```text
-nextN
-runChunk
-advance(count=N)
+protocol had only next
++
+Manual accepted one Search-batch command
+=
+one Manual click per paid item
 ```
 
-At the same time, the installed Manual validator requires exactly one `SEARCH_BATCH_API_V1` command per Manual block.
+For a 75-query tranche this was safe but operationally poor.
 
-Together these facts imply:
+This section is a **historical pre-patch state**, not the current Bridge capability.
+
+## 8. Product correction implemented
+
+The correct fix was not to weaken `BATCH_SINGLE_COMMAND_REQUIRED` or place many `next` commands in one Manual block.
+
+Instead Bridge `0.1.2` added an explicit bounded Manual-only action:
 
 ```text
-current protocol + current Manual admission
-=> one Manual click per paid `next`
+SEARCH_BATCH_API_V1
+{"action":"nextN","jobId":"...","count":N}
 ```
 
-For a 75-query tranche this would require up to 75 paid Manual interactions. That is safe but operationally poor and creates unnecessary human repetition.
-
-## 8. Why simply restoring multi-command blocks is not the right correction
-
-The defect should not be fixed by merely weakening `BATCH_SINGLE_COMMAND_REQUIRED` and stuffing many `next` commands into one block.
-
-Reason:
-
-- the service-specific one-command boundary is explicit and may protect command/job ownership semantics;
-- a real chunk operation can carry an explicit bounded count;
-- the runtime can stop on terminal/error/OUTCOME_UNKNOWN conditions;
-- one result envelope can report exactly how many items were attempted/completed;
-- request and cost ceilings remain enforceable at the job model;
-- chunk size becomes an auditable service parameter rather than accidental source-text repetition.
-
-Therefore the preferred product correction is an explicit bounded Search-batch chunk action, not a parser workaround.
-
-## 9. Required semantics for a future bounded chunk action
-
-A correct chunk action should minimally provide:
+Current contract:
 
 ```text
-action = nextN / runChunk
-jobId = existing bounded job
-count = explicit positive integer with a conservative max
+1 <= count <= 100
+Manual only
+one Manual block = exactly one SEARCH_BATCH_API_V1 command
+sequential execution
+existing provider boundary reused
+persist previous item before next provider boundary
+UNKNOWN => stop immediately
+terminal/non-OK => stop immediately
+job maxRequests/maxCostRub remain authoritative
 ```
 
-Execution semantics:
+This implementation is current repository source, not a future proposal.
+
+## 9. Actual live rollout after `nextN` support
+
+The live rollout explicitly tested these requested `nextN.count` values:
 
 ```text
-for at most count pending items:
-  claim exactly one next item;
-  perform at most one provider request;
-  persist provider result before advancing;
-  stop immediately on OUTCOME_UNKNOWN;
-  stop on local/provider terminal error unless an explicitly validated policy says otherwise;
-  never exceed job maxRequests;
-  never exceed job maxCostRub;
-return one combined chunk result with per-item outcomes and updated job progress.
+4
+10
+25
+31
 ```
 
-No parallel provider fan-out is needed or desired.
-
-## 10. Optimal Step-09 live rollout after chunk support exists
-
-The operational rollout should remain canary-based rather than immediately running all 75:
+Therefore:
 
 ```text
-canary #1 = already complete
-next bounded chunk = 4
-if complete and clean:
-  next chunk = 10
-then controlled chunks of approximately 15 until the initial tranche is exhausted
+LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = [4, 10, 25, 31]
+LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
 ```
 
-The exact later chunk sizes are an operational safety choice, not an SEO/Search methodology claim.
+The earlier plan recorded before execution (`4 -> 10 -> approximately 15`) is superseded by the actual live sequence above.
 
-## 11. Current live truth
+Do not confuse requested count with confirmed provider executions for a given call:
 
 ```text
-bounded job created = true
-initial queue = 75
-provider requests executed = 1
-successful provider requests = 1
-pending = 74
+nextN.count = upper bound for that invocation
+actual execution = confirmed_provider_executions + stopped_early/stop_reason truth
+```
+
+The distinct values `4,10,25,31` are known tested command sizes. They are not asserted here as the complete mathematical partition of the final R2 job.
+
+## 10. Hard limit versus live-tested size
+
+Protocol/runtime local testing validated:
+
+```text
+count = 100
+```
+
+with only three remaining synthetic items. Exactly three provider boundaries occurred and the runtime stopped at completion.
+
+Therefore:
+
+```text
+HARD_PROTOCOL_CEILING = 100
+COUNT_100_LOCAL_BOUNDED_TEST = PASS
+COUNT_100_LOCAL_BOUNDED_TEST != 100 LIVE YANDEX REQUESTS IN ONE CHUNK
+LARGEST_EXPLICIT_LIVE_REQUESTED_COUNT_TESTED = 31
+```
+
+The supported hard ceiling is 100; the largest explicitly live-tested requested size from this Step-09 rollout is 31.
+
+## 11. Final live provider accounting
+
+Because the original canary job later was not present in the current extension runtime, the remaining 74 frozen queries were run as a continuation job without replaying the paid first query:
+
+```text
+job_id = kw001-okno-msk-search-step09-20260829-r2
+queries = 74
+requests_started = 74
+succeeded = 74
 failed_terminal = 0
 outcome_unknown = 0
-estimated incurred cost = 0.488 RUB
-complete saved SERPs = 1
-initial 75-query tranche complete = false
-Step 09 complete = false
-Step 10 allowed = false
+estimated_cost_rub = 36.112
+status = COMPLETED
 ```
 
-## 12. Non-repeat controls added by this live test
+Combined with the first canary:
+
+```text
+provider requests executed = 75
+successful provider requests = 75
+failed_terminal = 0
+outcome_unknown = 0
+estimated cumulative cost = 36.600 RUB
+normalized TOP-10 rows recoverable/persisted = 750
+```
+
+Thus the old canary-time statement `initial 75-query tranche complete = false` is historical and superseded.
+
+Current truth:
+
+```text
+PROVIDER_ACQUISITION_INITIAL_75 = COMPLETE
+STEP09_COMPLETE = false
+STEP10_ALLOWED = false
+```
+
+Provider acquisition completion does not equal analytical Step-09 acceptance.
+
+## 12. Second process error discovered during the rollout: delayed project persistence
+
+Although Bridge internally persisted each item before advancing, the workflow did **not** immediately write every returned live chunk/result to the project repository before allowing the next paid chunk.
+
+That was a separate process error.
+
+False assumption:
+
+```text
+BRIDGE_INTERNAL_DURABILITY == PROJECT_EVIDENCE_DURABILITY
+```
+
+Correct rule:
+
+```text
+BRIDGE_INTERNAL_DURABILITY != PROJECT_EVIDENCE_DURABILITY
+CHAT_DELIVERY != PROJECT_EVIDENCE_DURABILITY
+```
+
+Required future gate:
+
+```text
+NEXT_N_RESULT_RECEIVED
+-> PARSE_AND_VALIDATE
+-> IMMEDIATE_REPOSITORY_WRITE_OF_COMMAND_AND_FULL_RESULT
+-> GITHUB_READ_BACK_QA
+-> COVERAGE/COST CHECKPOINT
+-> ONLY THEN NEXT PAID CHUNK
+```
+
+If the write/read-back fails, another paid chunk is prohibited.
+
+This error and its evidence-loss boundary are documented in detail in:
+
+`STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md`
+
+## 13. Non-repeat controls from the complete live episode
 
 ```text
 A. Do not infer service-specific Manual admission from the generic Manual contract.
 B. Verify the exact installed validator behavior before designing a multi-command execution shape.
 C. Distinguish transport/runtime capability from command-surface capability.
-D. A successful canary validates the Search result path, not the entire 75-query semantic tranche.
-E. Preserve each live SERP before additional paid acquisition.
-F. Prefer explicit bounded orchestration actions over repeating service commands in source text.
+D. A successful canary validates the Search result path, not the full semantic tranche.
+E. Prefer explicit bounded orchestration actions over repeated commands in source text.
+F. Record actual live tested `nextN.count` values when executed.
+G. Immediately persist every paid returned command/result receipt to project storage.
+H. Read the persisted evidence back before issuing another paid chunk.
+I. Never treat browser extension storage or chat delivery as the only durable project evidence copy.
+J. Preserve historical pre-patch facts as historical; do not leave them phrased as current capability.
 ```
 
-Canonical operational lesson:
+Canonical current operational lesson:
 
 ```text
-RUNTIME CAN ADVANCE ONE ITEM SAFELY
+ONE SEARCH-BATCH COMMAND PER MANUAL BLOCK
 +
-MANUAL ACCEPTS ONE SEARCH-BATCH COMMAND
+EXPLICIT MANUAL-ONLY nextN(count<=100)
 +
-PROTOCOL HAS ONLY NEXT
+SEQUENTIAL EXISTING PROVIDER BOUNDARY
++
+STOP-ON-UNKNOWN / TERMINAL CONTROLS
++
+IMMEDIATE PROJECT DURABLE WRITE AFTER EACH RETURNED CHUNK
 =
-SAFE BUT UNACCEPTABLY REPETITIVE OPERATOR LOOP.
-
-THE CORRECT PRODUCT FIX IS EXPLICIT BOUNDED CHUNK ORCHESTRATION.
+CURRENT SAFE BOUNDED EXECUTION MODEL
 ```
