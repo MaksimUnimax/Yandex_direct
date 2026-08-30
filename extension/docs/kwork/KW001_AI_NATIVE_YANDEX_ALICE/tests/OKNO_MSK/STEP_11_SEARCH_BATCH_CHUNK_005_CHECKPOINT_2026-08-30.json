@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "bridge_reported_version": "0.1.1",
+  "operation": "batch.nextN",
+  "requested_count": 10,
+  "attempted_steps": 10,
+  "confirmed_provider_executions": 10,
+  "provider_execution_count_exact": true,
+  "stopped_early": false,
+  "progress_after_chunk": {
+    "total": 68,
+    "pending": 18,
+    "succeeded": 50,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 50,
+    "requests_started": 50,
+    "estimated_cost_rub": 24.39999999999998,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "chunk_queries": [
+    {"global_ordinal":41,"query":"размеры пластиковых окон","request_id":"search-batch-36e93b8b-631d-44fd-a44e-f7bf0f837572","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"standard dimensions/GOST/table informational pages dominate"},
+    {"global_ordinal":42,"query":"какие окна выбрать для частного дома","request_id":"search-batch-3089605d-2a2e-47e9-8c12-9181dd947847","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"planning/selection editorial guides for private houses dominate"},
+    {"global_ordinal":43,"query":"как установить пластиковое окно своими руками","request_id":"search-batch-17dade84-a046-40e0-a977-7e3ee9b4eab2","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"DIY step-by-step installation guides dominate"},
+    {"global_ordinal":44,"query":"ремонт пластиковых окон своими руками","request_id":"search-batch-a605925a-1ab9-4b92-89b7-96e696d47c8a","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"DIY diagnostics/repair guides dominate"},
+    {"global_ordinal":45,"query":"отделка откосов окон своими руками","request_id":"search-batch-8bd51176-a9aa-4292-978f-213eb18a6661","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"DIY slope-finishing instructions dominate"},
+    {"global_ordinal":46,"query":"как выбрать фурнитуру для пластиковых окон","request_id":"search-batch-a043af39-c732-4be4-bc07-81e469fcc7e5","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"selection/comparison editorial pages for hardware dominate"},
+    {"global_ordinal":47,"query":"как выбрать аксессуары для пластиковых окон","request_id":"search-batch-42968f82-0562-4ab2-8e8b-ed3dc1b1e243","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"informational accessory-selection pages dominate"},
+    {"global_ordinal":48,"query":"как выбрать москитную сетку на окно","request_id":"search-batch-dc17d005-3356-4a38-beba-14e564ac160c","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"mosquito-net selection guides and comparisons dominate"},
+    {"global_ordinal":49,"query":"как выбрать пластиковую дверь","request_id":"search-batch-95fa2a88-b96c-4324-948e-7fa51daa8623","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"PVC-door selection/technical editorial pages dominate"},
+    {"global_ordinal":50,"query":"какое остекление выбрать","request_id":"search-batch-ee4d8797-c043-4381-8086-ddefdaa09732","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"glazing choice/comparison informational pages dominate, often warm-vs-cold and balcony focused"}
+  ],
+  "target_domain_top10_hits_in_chunk": 0,
+  "interpretation_boundary": "Checkpoint of provider execution/accounting and direct-query SERP signals. No page-ownership verdict is made here. Full ranked-row projection will be persisted after batch completion."
+}
