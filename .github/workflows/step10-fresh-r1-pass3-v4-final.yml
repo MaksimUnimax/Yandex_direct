@@ -1,0 +1,144 @@
+name: Step10 Fresh R1 Pass3 V4 Final
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass3-v4-final.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner_v4.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: step10-fresh-r1-pass3-v4-final
+  cancel-in-progress: false
+
+jobs:
+  final-v4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout latest fresh-run branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Execute all 2332 Pass3 decisions
+        run: |
+          python3 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner_v4.py --root "$GITHUB_WORKSPACE" | tee /tmp/pass3-v4.json
+
+      - name: Validate full ledger and final accounting
+        run: |
+          python3 - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa = json.loads((base / 'STEP_10_FRESH_R1_FINAL_QA.json').read_text(encoding='utf-8'))
+          def read(name):
+              with (base / name).open('r', encoding='utf-8', newline='') as fh:
+                  return list(csv.DictReader(fh, delimiter='\t'))
+          full = read('STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv')
+          errors = read('STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv')
+          corrections = read('STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv')
+          final = read('STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv')
+          summary = read('STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv')
+          impact = read('STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv')
+          active = [r for r in final if r['source_disposition'] in {'CORE_CANDIDATE', 'REVIEW_SEARCH'}]
+          assigned = [r for r in active if r['assignment_status'] == 'ASSIGNED']
+          search_required = [r for r in active if r['assignment_status'] == 'SEARCH_REQUIRED']
+          checks = {
+              'full_qa_2332': len(full) == 2332,
+              'qa_row_sequence': [int(r['qa_row']) for r in full] == list(range(1, 2333)),
+              'error_batch_identity': len(errors) == len(corrections),
+              'single_batch': qa.get('correction_batches_applied') == 1,
+              'impact_identity': len(impact) == len(corrections),
+              'impact_all_pass': all(r['impact_recheck_verdict'] == 'PASS' for r in impact),
+              'source_2840': len(final) == 2840,
+              'active_2332': len(active) == 2332,
+              'active_accounted': len(assigned) + len(search_required) == 2332,
+              'deferred_174': sum(r['assignment_status'] == 'PRESERVED_DEFERRED' for r in final) == 174,
+              'excluded_334': sum(r['assignment_status'] == 'PRESERVED_EXCLUDED' for r in final) == 334,
+              'taxonomy_62': len(summary) == 62,
+              'unknown_zero': qa.get('unknown_cluster_ids') == [],
+              'invariants_zero': qa.get('semantic_invariant_violations') == 0,
+              'impact_failures_zero': qa.get('impact_recheck_failures') == 0,
+              'pass3_complete': qa.get('pass3_complete') is True,
+              'old_step10_false': qa.get('old_step10_input_used') is False,
+              'blind84_false': qa.get('blind84_input_used') is False,
+              'target_count_false': qa.get('target_cluster_count_used') is False,
+          }
+          failed = [name for name, ok in checks.items() if not ok]
+          if failed:
+              raise SystemExit('V4 validation failed: ' + ', '.join(failed))
+          print(json.dumps({'checks': checks, 'qa': qa}, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Write V4 verification marker
+        run: |
+          python3 - <<'PY'
+          import csv
+          import hashlib
+          import json
+          from pathlib import Path
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa_path = base / 'STEP_10_FRESH_R1_FINAL_QA.json'
+          qa = json.loads(qa_path.read_text(encoding='utf-8'))
+          def count(name):
+              with (base / name).open('r', encoding='utf-8', newline='') as fh:
+                  return sum(1 for _ in csv.DictReader(fh, delimiter='\t'))
+          def digest(path):
+              h = hashlib.sha256(path.read_bytes()).hexdigest()
+              return h
+          marker = {
+              'status': 'STEP10_FRESH_R1_PASS3_V4_FINAL_VERIFIED',
+              'source_rows': qa['source_rows'],
+              'active_rows': qa['active_rows'],
+              'independently_reviewed_rows': qa['pass3_rows_independently_reviewed'],
+              'error_ledger_rows': qa['pass3_error_ledger_rows'],
+              'consolidated_correction_rows': qa['consolidated_correction_rows'],
+              'correction_batches': qa['correction_batches_applied'],
+              'final_assigned_rows': qa['final_assigned_active_rows'],
+              'final_search_required_rows': qa['final_search_required_active_rows'],
+              'impact_rows_rechecked': qa['impact_rows_rechecked'],
+              'impact_failures': qa['impact_recheck_failures'],
+              'semantic_invariant_violations': qa['semantic_invariant_violations'],
+              'full_qa_file_rows': count('STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv'),
+              'error_file_rows': count('STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv'),
+              'correction_file_rows': count('STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv'),
+              'impact_file_rows': count('STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv'),
+              'final_qa_sha256': digest(qa_path),
+              'final_assignments_sha256': digest(base / 'STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv'),
+          }
+          (base / 'STEP_10_FRESH_R1_PASS3_V4_VERIFIED.marker.json').write_text(
+              json.dumps(marker, ensure_ascii=False, indent=2) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(marker, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit final V4 outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_FINAL_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_COMPLETE.marker \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_V4_VERIFIED.marker.json
+          if git diff --cached --quiet; then
+            echo 'V4 outputs already match branch state.'
+          else
+            git commit -m 'step10: freeze verified fresh R1 Pass3 V4 outputs'
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
