@@ -21,6 +21,8 @@ def classify_v18(phrase: str):
         "заменить окно", "заменить окна", "поменять окно", "поменять окна",
         "замена балконного блока", "заменить балконный блок", "поменять балконный блок",
     )
+    if whole_replacement and "ремонт" in p:
+        return None, "Phrase explicitly mixes repair and whole-window replacement; keep the boundary visible", "LOW"
     if whole_replacement:
         return "WINDOW_REPLACEMENT_SERVICE", "Explicit whole-window/balcony-block replacement or conversion action outranks French/product configuration context", "HIGH"
 
@@ -36,6 +38,9 @@ def self_test() -> None:
 
     replacement = b.classify_semantic("замена балконного блока на французское окно")
     assert replacement[0] == "WINDOW_REPLACEMENT_SERVICE", replacement
+
+    mixed_repair_replacement = b.classify_semantic("ремонт и замена пластиковых окон")
+    assert mixed_repair_replacement[0] is None, mixed_repair_replacement
 
     french = b.classify_semantic("французские окна в москве в квартирах")
     assert french[0] == "FRENCH_WINDOWS_COMMERCIAL", french
