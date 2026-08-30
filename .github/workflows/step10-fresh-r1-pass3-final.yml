@@ -1,0 +1,120 @@
+name: Step10 Fresh R1 Pass3 Final
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass3-final.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_full.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner_v3.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: step10-fresh-r1-pass3-final-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pass3-final-freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout isolated fresh-run branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Execute final full-row independent Pass3
+        run: |
+          python3 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner_v3.py --root "$GITHUB_WORKSPACE"
+
+      - name: Validate frozen-ledger, one-batch and regression contracts
+        run: |
+          python3 - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          names = {
+              'qa': 'STEP_10_FRESH_R1_FINAL_QA.json',
+              'full': 'STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv',
+              'errors': 'STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv',
+              'corrections': 'STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv',
+              'assignments': 'STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv',
+              'summary': 'STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv',
+              'impact': 'STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv',
+              'report': 'STEP_10_FRESH_R1_PASS3_REPORT.md',
+              'marker': 'STEP_10_FRESH_R1_COMPLETE.marker',
+          }
+          paths = {key: base / value for key, value in names.items()}
+          missing = [str(path) for path in paths.values() if not path.is_file()]
+          if missing:
+              raise SystemExit('missing artifacts: ' + ', '.join(missing))
+
+          def tsv_rows(path):
+              with path.open('r', encoding='utf-8', newline='') as fh:
+                  return list(csv.DictReader(fh, delimiter='\t'))
+
+          qa = json.loads(paths['qa'].read_text(encoding='utf-8'))
+          full = tsv_rows(paths['full'])
+          errors = tsv_rows(paths['errors'])
+          corrections = tsv_rows(paths['corrections'])
+          assignments = tsv_rows(paths['assignments'])
+          summary = tsv_rows(paths['summary'])
+          impact = tsv_rows(paths['impact'])
+
+          checks = {
+              'source_rows_2840': len(assignments) == 2840 == qa.get('source_rows'),
+              'active_rows_2332': len(full) == 2332 == qa.get('pass3_rows_independently_reviewed'),
+              'one_to_one_qa_rows': [int(r['qa_row']) for r in full] == list(range(1, 2333)),
+              'complete_error_ledger': len(errors) == qa.get('pass3_error_ledger_rows'),
+              'single_consolidated_batch': len(corrections) == len(errors) == qa.get('consolidated_correction_rows') and qa.get('correction_batches_applied') == 1,
+              'impact_set_complete': len(impact) == len(corrections) == qa.get('impact_rows_rechecked'),
+              'impact_rows_pass': all(r['impact_recheck_verdict'] == 'PASS' for r in impact),
+              'final_active_accounting': qa.get('final_assigned_active_rows', 0) + qa.get('final_search_required_active_rows', 0) == 2332 == qa.get('final_active_accounted_rows'),
+              'preserved_deferred_174': qa.get('preserved_deferred_rows') == 174,
+              'preserved_excluded_334': qa.get('preserved_excluded_rows') == 334,
+              'taxonomy_62': len(summary) == 62 == qa.get('taxonomy_cluster_ids'),
+              'unknown_cluster_ids_zero': qa.get('unknown_cluster_ids') == [],
+              'semantic_invariants_zero': qa.get('semantic_invariant_violations') == 0,
+              'impact_failures_zero': qa.get('impact_recheck_failures') == 0,
+              'pass3_complete': qa.get('pass3_complete') is True,
+              'ledger_frozen_before_batch': qa.get('complete_error_ledger_frozen_before_correction') is True,
+              'one_batch_flag': qa.get('one_consolidated_correction_batch') is True,
+              'accounting_regression': qa.get('full_accounting_regression_pass') is True,
+              'impact_semantic_recheck': qa.get('impact_set_semantic_recheck_pass') is True,
+              'old_step10_not_used': qa.get('old_step10_input_used') is False,
+              'blind84_not_used': qa.get('blind84_input_used') is False,
+              'target_cluster_count_not_used': qa.get('target_cluster_count_used') is False,
+          }
+          failed = [key for key, ok in checks.items() if not ok]
+          if failed:
+              raise SystemExit('final Pass3 validation failed: ' + ', '.join(failed))
+          print(json.dumps({'checks': checks, 'qa': qa}, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit final frozen Step10 fresh-R1 artifacts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_FINAL_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_COMPLETE.marker
+          if git diff --cached --quiet; then
+            echo 'Final fresh-R1 artifacts already match this Pass3 implementation.'
+          else
+            git commit -m 'step10: freeze final fresh R1 full Pass3 adjudication'
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
