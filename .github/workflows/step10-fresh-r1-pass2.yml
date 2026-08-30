@@ -1,0 +1,46 @@
+name: Step10 Fresh R1 Pass2
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass2.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS2.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_TAXONOMY.tsv'
+
+permissions:
+  contents: write
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Run frozen-taxonomy assignment
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS2.py
+
+      - name: Show machine QA
+        run: |
+          cat extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENT_QA.json
+
+      - name: Commit generated Pass2 ledgers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENT.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_CLUSTER_SUMMARY.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENT_QA.json
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "step10: generate fresh R1 Pass2 assignment"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
