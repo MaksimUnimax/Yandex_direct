@@ -1,7 +1,7 @@
 # KW-001 / OKNO-MSK — JOB FLOW
 
-Date created: 2026-08-28
-Last updated: 2026-08-30
+Date created: 2026-08-28  
+Last updated: 2026-08-30  
 Status: **ACTIVE / JOB-SPECIFIC / DISPOSABLE WITH WORKSPACE**
 
 ## Whole Kwork goal
@@ -17,6 +17,7 @@ RULES_ARCHITECTURE.md
 STEP_RULES_INDEX.md
 SOURCE_TO_METHOD_TRACEABILITY_GATE.md
 PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
+STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
 ```
 
 Canonical controls carried forward:
@@ -32,9 +33,9 @@ UNIVERSAL_METHOD = REUSABLE_CORE + CURRENT_JOB_PROFILE + CURRENT_CONSTRAINTS
 LOCAL_RULE_MUST_BE_SCOPED != LOCAL_RULE_MUST_BE_REMOVED
 ```
 
-Every major step must satisfy its own methodology status and gate. A completed job-specific rehearsal does not silently promote an `UNVALIDATED` permanent method to `APPROVED`.
+A universal method does not exclude domain-specific execution. The actual site, business, vocabulary, real IDs, exact phrases, thresholds and owner constraints remain legitimate inputs when their scope is declared.
 
-A universal method does not exclude domain-specific execution. The current site, business, vocabulary, real IDs, exact phrases, thresholds and owner constraints are legitimate method inputs when their scope is declared.
+---
 
 ## Accepted completed work
 
@@ -43,6 +44,16 @@ Status: **✅ COMPLETE**
 
 ### Step 1 — existing-site discovery / business-page model
 Status: **✅ COMPLETE / PASS AFTER CROSS-CHANNEL REWORK**
+
+Accepted cross-channel baseline:
+
+```text
+ChatGPT public web
+Codex in ChatGPT Work
+Codex desktop/app
+```
+
+The merged Step-01 inventory remains a discovery baseline, not proof that every page is unchanged today.
 
 ### Step 2 — Wordstat acquisition plan
 Status: **✅ COMPLETE / FROZEN**
@@ -93,23 +104,15 @@ REVIEW_SEARCH = 944
 REVIEW_DEFERRED = 174
 EXCLUDED_PRESERVED = 334
 TOTAL = 2840
-```
-
-Step-08 reconciliation:
-
-```text
 2840/2840 phrase keys preserved
 1118/1118 REVIEW routed
-0 silent drops
-0 semantic status rewrites
-9/9 non-exact duplicate groups preserved
-0 automatic merge
-0 provider/Search requests
-0 RUB cost
+silent drops = 0
+non-exact duplicate groups preserved = 9/9
+provider/Search requests = 0
+cost = 0 RUB
 ```
 
-## Step 9 — ordinary Yandex Search validation
-
+### Step 9 — ordinary Yandex Search validation
 Status: **✅ COMPLETE AFTER METHOD + EXECUTION + PERSISTENCE CORRECTIONS**
 
 Primary final authorities:
@@ -122,9 +125,7 @@ STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md
 STEP_09_METHOD_POSTMORTEM_AND_CORRECTION_2026-08-29.md
 ```
 
-### Accepted job-specific method boundary
-
-The original manifest grouping assumption was corrected before provider execution:
+Accepted method boundary:
 
 ```text
 CLEANUP_REASON != SEARCH_INTENT_CLUSTER
@@ -133,21 +134,7 @@ LEXICAL_SIMILARITY != SERP_COMPATIBILITY
 TRACEABILITY_COMPLETE != FULL_SERP_EVIDENCE_COVERAGE
 ```
 
-The frozen 75-query list remained valid only as:
-
-```text
-INITIAL_BOUNDED_SERP_TRANCHE
-```
-
-Permanent methodology status remains:
-
-```text
-STEP_09_PERMANENT_METHOD = UNVALIDATED
-```
-
-This job-specific completion does not change the permanent methodology index.
-
-### Provider execution truth
+Provider truth:
 
 ```text
 ordinary Yandex Search only = true
@@ -164,97 +151,46 @@ normalized queries = 75/75
 normalized ranked rows = 750/750
 ```
 
-### Live Bridge execution history
+Bridge execution truth:
 
 ```text
 YANDEX_MARKETING_BRIDGE_SOURCE_VERSION = 0.1.2
 SEARCH_BATCH_NEXT_N_SUPPORTED = true
 SEARCH_BATCH_NEXT_N_MANUAL_ONLY = true
 LIVE_NEXT_N_REQUESTED_COUNTS_TESTED = 4,10,25,31
-LIVE_NEXT_N_MAX_REQUESTED_COUNT_TESTED = 31
 HARD_PROTOCOL_CEILING = 100
 ```
 
-`count=100` was a local bounded-runtime test, not 100 live provider requests.
-
-### Evidence persistence truth
+Evidence persistence truth:
 
 ```text
 REPOSITORY_NORMALIZED_SERP_LEDGER_COMPLETE = true
-CANARY_FULL_ROWS_PERSISTED = 10
-R2_NORMALIZED_PROJECTION_ROWS_PERSISTED = 740
 COMBINED_NORMALIZED_RANKED_ROWS_PERSISTED = 750
 R2_RAW_PER_ITEM_PROVIDER_XML_LEDGER_COMPLETE = false
 R2_PER_ITEM_PROVIDER_REQUEST_ID_LEDGER_COMPLETE = false
 ```
 
-The R2 raw-fidelity limitation is a recorded process incident. It is not falsely marked as a full-raw PASS and did not trigger paid replay.
+The R2 raw-fidelity limitation remains a recorded incident and was not hidden as a full-raw PASS.
 
-Mandatory non-repeat rule:
-
-```text
-PROVIDER_RESULT_OR_NEXT_N_CHUNK_RECEIVED
--> PARSE_AND_ACCOUNT
--> IMMEDIATE_REPOSITORY_WRITE
--> GITHUB_READ_BACK_QA
--> COVERAGE_AND_COST_CHECKPOINT
--> ONLY_THEN_NEXT_PAID_CHUNK
-```
-
-### Direct SERP analysis truth
+Direct-analysis truth:
 
 ```text
 DIRECT_EVIDENCE_DECISIONS = 75/75
 ACTIVE_NONEXACT_DUPLICATE_COMPARISONS = 8/8
 ACTIVE_DUPLICATE_AUTO_MERGES_IN_STEP09 = 0
-UNIVERSAL_NUMERIC_OVERLAP_THRESHOLD_USED = false
-```
-
-Duplicate comparison handoff:
-
-```text
-7 groups = CLUSTER_TOGETHER_CANDIDATE
-1 group = DO_NOT_AUTO_MERGE / REVIEW_SEARCH_JOB_BOUNDARY
-```
-
-These remained Step-10 candidates, not Step-09 final clusters.
-
-### REVIEW_SEARCH accounting truth
-
-```text
 REVIEW_SEARCH_TOTAL = 944
 DIRECT_REVIEW_SEARCH_ROWS = 45
 UNRESOLVED_UNPROBED_REVIEW_SEARCH_ROWS = 899
 POST_SERP_AUTOMATIC_TRANSFER_ROWS = 0
-TOTAL_ACCOUNTED = 944
 SILENT_DROPS = 0
 FULL_SERP_EVIDENCE_COVERAGE = false
-```
-
-`FULL_SERP_EVIDENCE_COVERAGE=false` is intentional and truthful. The bounded tranche was never authorized to stand in for all 944 rows.
-
-### Step-09 close truth
-
-```text
-STEP09_METHOD_RESEARCH_AND_TRACE = PASS
-STEP09_OWNER_AUTHORIZATION = RECEIVED
-STEP09_INITIAL_TRANCHE_SEMANTIC_QA = PASS_AS_INITIAL_BOUNDED_TRANCHE_ONLY
-STEP09_PROVIDER_ACCOUNTING = PASS
-STEP09_NORMALIZED_SERP_PERSISTENCE = PASS
-STEP09_R2_RAW_FIDELITY = KNOWN_INCOMPLETE / INCIDENT RECORDED
-STEP09_DIRECT_EVIDENCE_DECISIONS = 75/75
-STEP09_ACTIVE_DUPLICATE_COMPARISONS = 8/8
-STEP09_REVIEW_SEARCH_ACCOUNTING = 944/944
-STEP09_PREMATURE_FINAL_CLUSTERING = 0
-STEP09_PREMATURE_PAGE_OWNERSHIP = 0
 STEP09_COMPLETE = true
 ```
 
-## Step 10 — user-task / SERP clustering
-
+### Step 10 — user-task / SERP clustering
 Status: **✅ COMPLETE / FRESH R1 FINAL VERIFIED / UNIVERSALITY RULE CORRECTED**
 
-Canonical universal method authorities:
+Canonical method authorities:
 
 ```text
 STEP_10_CLUSTERING_GRANULARITY_METHOD.md
@@ -262,15 +198,43 @@ STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md
 STEP_10_SORTING_AND_QA_METHOD.md
 ```
 
-Corrected universal interpretation:
+Current-run configuration:
 
 ```text
-UNIVERSAL METHOD != DOMAIN-FREE EXECUTION
-EXECUTABLE METHOD = REUSABLE CORE + CURRENT JOB DOMAIN PROFILE + CURRENT CONSTRAINTS
-LOCAL RULE MUST BE SCOPED != LOCAL RULE MUST BE REMOVED
+DOMAIN_PROFILE = OKNO_MSK WINDOW / DOOR / GLAZING SUBJECT
+ACTUAL_SITE_AND_BUSINESS_SCOPE_USED = true
+REAL_CLUSTER_IDS_AND_NAMES_USED = true
+DOMAIN-SPECIFIC_VOCABULARY_USED = true
+EXACT_LOCAL_PHRASES_AND_RULES_USED = true
+LOCAL_REGRESSION_EXAMPLES_USED = true
+COUNT_MODE = UNCONSTRAINED_FOR_THIS_RUN
+EXPLICIT_TARGET_CLUSTER_COUNT_USED = false
 ```
 
-Primary final job artifacts:
+Final accounting:
+
+```text
+SOURCE_ROWS = 2840
+ACTIVE_ROWS = 2332
+PASS3_INDEPENDENTLY_REVIEWED = 2332/2332
+PASS3_ERROR_LEDGER_ROWS = 927
+CONSOLIDATED_CORRECTION_ROWS = 927
+CORRECTION_BATCHES_APPLIED = 1
+FINAL_ASSIGNED_ACTIVE_ROWS = 2319
+FINAL_SEARCH_REQUIRED_ACTIVE_ROWS = 13
+FINAL_ACTIVE_ACCOUNTED_ROWS = 2332/2332
+PRESERVED_DEFERRED_ROWS = 174
+PRESERVED_EXCLUDED_ROWS = 334
+INPUT_FROZEN_TAXONOMY_CANDIDATES = 62
+FINAL_ACTIVE_CLUSTERS_WITH_MEMBER_EVIDENCE = 59
+FINAL_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
+IMPACT_RECHECK_FAILURES = 0
+SEMANTIC_INVARIANT_VIOLATIONS = 0
+SEMANTIC_REGRESSION_FAILURES = 0
+STEP10_COMPLETE = true
+```
+
+Primary final artifacts:
 
 ```text
 STEP_10_FRESH_R1_TAXONOMY_FINAL.tsv
@@ -285,142 +249,159 @@ STEP_10_FRESH_R1_PASS3_REPORT.md
 STEP_10_FRESH_R1_PASS3_V5_VERIFIED.marker.json
 ```
 
-### Current-job clustering configuration
-
-```text
-DOMAIN_PROFILE = OKNO_MSK WINDOW / DOOR / GLAZING SUBJECT
-ACTUAL_SITE_AND_BUSINESS_SCOPE_USED = true
-REAL_CLUSTER_IDS_AND_NAMES_USED = true
-DOMAIN-SPECIFIC VOCABULARY_USED = true
-EXACT_LOCAL_PHRASES_AND_RULES_USED = true
-LOCAL REGRESSION EXAMPLES USED = true
-EXISTING EXACT STEP09 EVIDENCE USED = true
-COUNT_MODE = UNCONSTRAINED_FOR_THIS_RUN
-EXPLICIT_TARGET_CLUSTER_COUNT_USED = false
-```
-
-The absence of a target count is a fact about this run only. It is not a universal prohibition. A future job may require an exact number or range, and the corrected Step-10 rules now allow and require applying that declared constraint.
-
-### Accepted current-run clustering boundary
-
-```text
-CURRENT PRIMARY UNIT = MATERIAL USER TASK
-CURRENT BASELINE = TASK-FIRST
-CURRENT DOMAIN PROFILE MAY OVERRIDE GENERIC SIGNAL PRECEDENCE
-CURRENT EXACT LOCAL RULES ARE VALID WITHIN THEIR DECLARED SCOPE
-CURRENT COUNT MODE = UNCONSTRAINED
-```
-
-The final sorting method resolved the complete task signature and expected terminal result, then applied the actual window/glazing vocabulary, site/business scope, real cluster IDs, exact local rules, local regression phrases and available Search evidence.
-
-These domain details are legitimate and necessary execution inputs. Their scope is job-specific; their presence is not a defect in a universal method.
-
-### Full-corpus execution truth
-
-```text
-SOURCE_ROWS = 2840
-ACTIVE_ROWS = 2332
-PASS3_INDEPENDENTLY_REVIEWED = 2332/2332
-PASS3_ERROR_LEDGER_ROWS = 927
-CONSOLIDATED_CORRECTION_ROWS = 927
-CORRECTION_BATCHES_APPLIED = 1
-FINAL_ASSIGNED_ACTIVE_ROWS = 2319
-FINAL_SEARCH_REQUIRED_ACTIVE_ROWS = 13
-FINAL_ACTIVE_ACCOUNTED_ROWS = 2332/2332
-PRESERVED_DEFERRED_ROWS = 174
-PRESERVED_EXCLUDED_ROWS = 334
-```
-
-### Taxonomy truth
-
-```text
-INPUT_FROZEN_TAXONOMY_CANDIDATES = 62
-FINAL_ACTIVE_CLUSTERS_WITH_MEMBER_EVIDENCE = 59
-FINAL_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
-RETIRED_ZERO-MEMBER_INPUT_CANDIDATES = 3
-RETIRED_IDS = WINDOW_CARE_INFO, WINDOW_MEASUREMENT_INFO, OUTSIDE_USED_MARKET
-TARGET_CLUSTER_COUNT_USED = false
-TARGET_CLUSTER_COUNT_USED_IS_CURRENT_RUN_FACT = true
-```
-
-The three retired IDs remain preserved only as input-history candidates. They are not counted as final clusters because no final active phrase supplied member evidence in this run.
-
-The corrected universal method nevertheless allows required reserved empty categories in a future job when the current taxonomy or deliverable calls for them.
-
-### Final QA truth
-
-```text
-DIRECT_EVIDENCE_EXACT_ROWS_SEEN = 66
-DIRECT_EVIDENCE_TRANSFER_TO_NEIGHBOURS = 0
-IMPACT_ROWS_RECHECKED = 927
-IMPACT_RECHECK_FAILURES = 0
-SEMANTIC_INVARIANT_VIOLATIONS = 0
-SEMANTIC_REGRESSION_CASES = 47
-SEMANTIC_REGRESSION_FAILURES = 0
-FULL_LEDGER_SEMANTIC_SCAN_FAILURES = 0
-OLD_STEP10_INPUT_USED = false
-BLIND84_INPUT_USED = false
-```
-
-### Bridge use and cost
-
-```text
-STEP10_BRIDGE_CLASSIFICATION = BRIDGE_CONDITIONAL
-NEW_STEP10_PROVIDER_REQUESTS = 0
-NEW_STEP10_PROVIDER_COST_RUB = 0
-EXISTING_EXACT_STEP09_SERP_EVIDENCE_REUSED = true
-```
-
-No paid Search call was added merely to force assignment. Thirteen genuinely unresolved active phrases remain explicit for later boundary/search handling.
-
-### Step-10 close truth
-
-```text
-STEP10_PASS1_COMPLETE = true
-STEP10_PASS2_COMPLETE = true
-STEP10_PASS3_COMPLETE = true
-STEP10_COMPLETE_ERROR_LEDGER_FROZEN_BEFORE_CORRECTION = true
-STEP10_ONE_CONSOLIDATED_CORRECTION_BATCH = true
-STEP10_FULL_ACCOUNTING_REGRESSION = PASS
-STEP10_IMPACT_SET_SEMANTIC_RECHECK = PASS
-STEP10_ACTIVE_TAXONOMY_MEMBER_EVIDENCE = PASS
-STEP10_UNIVERSALITY_CORRECTION_APPLIED = true
-STEP10_FINAL_STATUS = COMPLETE
-NEXT_STEP_ALLOWED = true
-```
+---
 
 ## Current step — Step 11 page ownership
 
-Status: **🔄 PRE-STEP METHODOLOGY RESEARCH REQUIRED / EXECUTION NOT STARTED**
+Status: **🟡 PRE-STEP RESEARCH COMPLETE / METHOD REVIEW PRESENTED / AWAITING OWNER EXECUTION AUTHORIZATION**
 
-`STEP_RULES_INDEX.md` status:
+Permanent methodology status:
 
 ```text
 STEP_11_PERMANENT_METHOD = UNVALIDATED
 ```
 
-Current allowed work is limited to the Step-11 pre-step gate:
+Current job-specific pre-step authority:
 
 ```text
-1. restate the whole Kwork goal and complete roadmap;
-2. read prior page-mapping failure lessons;
-3. research current page-ownership methodology;
-4. define the evidence needed to map a task cluster to an existing URL;
-5. distinguish page ownership from lexical URL-name matching;
-6. define how existing-site evidence, ordinary SERP evidence and unresolved rows combine;
-7. create source-to-method trace and owner-facing method review;
-8. wait for explicit owner authorization before execution.
+STEP_11_PRE_STEP_METHOD_REVIEW_2026-08-30.md
 ```
 
-Step-11 execution is blocked until that gate is complete:
+### Step-11 exact goal
+
+For every final Step-10 active cluster, determine whether the current public site has an existing page that can truthfully own that user task.
+
+Required ownership output:
 
 ```text
-STEP11_PRE_STEP_RESEARCH_REQUIRED = true
-STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = false
-STEP11_OWNER_METHOD_REVIEW_COMPLETE = false
+CLUSTER
+-> CURRENT CANDIDATE PAGE(S)
+-> CURRENT PAGE PROFILE EVIDENCE
+-> SEARCH / WEBMASTER EVIDENCE IF NEEDED
+-> PRIMARY OWNER OR NO SUITABLE EXISTING PAGE OR UNRESOLVED
+```
+
+Step 11 does not yet decide structural `KEEP / EXPAND / SPLIT / MERGE / CREATE` actions and does not diagnose cannibalization.
+
+### Fresh research findings
+
+Current external method research has been completed against:
+
+```text
+Yandex Webmaster advanced query analytics by URL
+Yandex Webmaster query monitoring / URL views
+Yandex Webmaster query/page statistics
+Semrush current keyword mapping guidance
+Ahrefs keyword mapping guidance
+Ahrefs cannibalization guidance
+```
+
+Accepted evidence principles:
+
+```text
+CURRENT PAGE CONTENT / TASK FIT = REQUIRED FOR OWNER ACCEPTANCE
+LEXICAL URL/TITLE MATCH != OWNERSHIP
+QUERY<->URL WEBMASTER DATA = OWNED SEARCH-BEHAVIOR EVIDENCE
+RANKING URL != AUTOMATIC OWNER
+MULTIPLE URLS != AUTOMATIC CANNIBALIZATION
+NO CURRENT SEARCH VISIBILITY != NO SUITABLE EXISTING PAGE
+NO SUITABLE EXISTING PAGE = STEP11 GAP STATE, NOT STEP12 CREATE DECISION
+```
+
+### Page-research channel plan
+
+Step 11 will deliberately use complementary page-research channels.
+
+```text
+Codex
+-> batch URL refresh
+-> scalable page extraction
+-> structured page profiles
+-> redirect/template/new-URL flags
+
+ChatGPT Work / Cloud Browser
+-> rendered ambiguous-page inspection
+-> JS/dynamic content
+-> navigation/forms/CTA context
+-> authenticated Yandex Webmaster UI evidence when available
+
+ChatGPT public web
+-> independent public/search-visible URL discovery and cross-check
+
+Yandex Marketing Bridge ordinary Search
+-> conditional evidence only for unresolved material boundaries
+-> reuse Step-09 exact evidence first
+-> any new provider calls require separate owner authorization and cost accounting
+```
+
+The current Bridge Webmaster slice does not expose the newly researched advanced query-by-URL report as a direct operation. Do not pretend that capability exists. If needed, use an actually available authorized Webmaster UI/API route such as Work.
+
+### Ownership states
+
+```text
+OWNER_EXISTING
+NO_SUITABLE_EXISTING_PAGE
+OWNER_UNRESOLVED_EVIDENCE_REQUIRED
+OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP
+```
+
+### 13 Step-10 SEARCH_REQUIRED phrases
+
+They are not clusters and must not be assigned page owners silently.
+
+Step-11 handoff state:
+
+```text
+UNCLUSTERED_SEARCH_REQUIRED
+PAGE_OWNERSHIP_NOT_APPLICABLE_UNTIL_TASK_RESOLVED
+```
+
+### Planned artifacts after owner authorization
+
+```text
+STEP_11_PAGE_PROFILE_LEDGER.tsv
+STEP_11_CLUSTER_PAGE_CANDIDATES.tsv
+STEP_11_PAGE_OWNERSHIP.tsv
+STEP_11_UNCLUSTERED_SEARCH_REQUIRED_HANDOFF.tsv
+STEP_11_QA.json
+STEP_11_REPORT.md
+```
+
+### Step-11 PASS gate
+
+```text
+FINAL_STEP10_CLUSTERS_ACCOUNTED = 59/59
+UNCLUSTERED_SEARCH_REQUIRED_ACCOUNTED = 13/13
+OWNER_EXISTING_WITHOUT_CURRENT_PAGE_READ = 0
+LEXICAL_ONLY_OWNERSHIP_DECISIONS = 0
+RANKING_URL_AUTOMATICALLY_EQUATED_TO_OWNER = 0
+SEARCH_ABSENCE_AUTOMATICALLY_EQUATED_TO_NO_PAGE = 0
+NO_SUITABLE_EXISTING_PAGE_WITHOUT_PLAUSIBLE_CANDIDATE_REVIEW = 0
+UNRESOLVED_CASES_WITHOUT_EXECUTABLE_EVIDENCE_ROUTE = 0
+DIRECT_SEARCH_EVIDENCE_TRANSFER_TO_UNPROBED_NEIGHBOURS = 0
+PREMATURE_STEP12_STRUCTURAL_ACTIONS = 0
+PREMATURE_STEP13_CANNIBALIZATION_VERDICTS = 0
+SILENT_CLUSTER_DROPS = 0
+PROVIDER_REQUESTS_RECONCILE = true if provider used
+PROVIDER_COST_RECONCILES = true if provider used
+FINAL_OUTPUT_PRESERVED_AND_READ_BACK = true
+```
+
+Current Step-11 gate state:
+
+```text
+STEP11_PRE_STEP_RESEARCH_REQUIRED = false
+STEP11_PRE_STEP_RESEARCH_COMPLETE = true
+STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = true
+STEP11_OWNER_METHOD_REVIEW_PRESENTED = true
+STEP11_EXECUTION_AUTHORIZED = false
 STEP11_EXECUTION_STARTED = false
+STEP11_PROVIDER_CALLS_AUTHORIZED = false
 STEP11_COMPLETE = false
+NEXT_STEP_ALLOWED = false
 ```
+
+---
 
 ## Full roadmap status
 
@@ -439,7 +420,7 @@ STEP11_COMPLETE = false
 | 8. Freeze Search-stage semantic set | Freeze exact Search input and executable unresolved routes | ✅ COMPLETE AFTER METHOD CORRECTION |
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
-| **11. Page ownership** | **Map clusters to best existing URLs** | **🔄 CURRENT — PRE-STEP METHOD RESEARCH REQUIRED** |
+| **11. Page ownership** | **Map clusters to best existing URLs** | **🟡 CURRENT — METHOD REVIEWED / AWAITING OWNER EXECUTION AUTHORIZATION** |
 | 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
@@ -463,27 +444,21 @@ KW001_OKNO_MSK_STEP09_PROVIDER_REQUESTS = 75
 KW001_OKNO_MSK_STEP09_PROVIDER_COST_RUB = 36.600
 KW001_OKNO_MSK_STEP09_NORMALIZED_RANKED_ROWS = 750
 KW001_OKNO_MSK_STEP09_DIRECT_EVIDENCE_DECISIONS = 75
-KW001_OKNO_MSK_STEP09_ACTIVE_DUPLICATE_COMPARISONS = 8
 KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_ACCOUNTED = 944
-KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_UNRESOLVED = 899
 KW001_OKNO_MSK_STEP10_COMPLETE = true
 KW001_OKNO_MSK_STEP10_ACTIVE_ROWS = 2332
 KW001_OKNO_MSK_STEP10_FINAL_ASSIGNED = 2319
 KW001_OKNO_MSK_STEP10_FINAL_SEARCH_REQUIRED = 13
-KW001_OKNO_MSK_STEP10_INPUT_TAXONOMY_CANDIDATES = 62
 KW001_OKNO_MSK_STEP10_FINAL_ACTIVE_CLUSTERS = 59
-KW001_OKNO_MSK_STEP10_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
 KW001_OKNO_MSK_STEP10_ERROR_LEDGER_ROWS = 927
-KW001_OKNO_MSK_STEP10_CORRECTION_BATCHES = 1
-KW001_OKNO_MSK_STEP10_SEMANTIC_REGRESSION_FAILURES = 0
 KW001_OKNO_MSK_STEP10_COUNT_MODE = UNCONSTRAINED_FOR_THIS_RUN
 KW001_OKNO_MSK_STEP10_DOMAIN_PROFILE_USED = true
-KW001_OKNO_MSK_STEP10_REAL_CLUSTER_IDS_USED = true
-KW001_OKNO_MSK_STEP10_EXACT_LOCAL_RULES_USED = true
 KW001_OKNO_MSK_STEP10_UNIVERSALITY_CORRECTION_APPLIED = true
-KW001_OKNO_MSK_STEP11_PRE_STEP_RESEARCH_REQUIRED = true
-KW001_OKNO_MSK_STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = false
-KW001_OKNO_MSK_STEP11_OWNER_METHOD_REVIEW_COMPLETE = false
+KW001_OKNO_MSK_STEP11_PRE_STEP_RESEARCH_COMPLETE = true
+KW001_OKNO_MSK_STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = true
+KW001_OKNO_MSK_STEP11_OWNER_METHOD_REVIEW_PRESENTED = true
+KW001_OKNO_MSK_STEP11_EXECUTION_AUTHORIZED = false
 KW001_OKNO_MSK_STEP11_EXECUTION_STARTED = false
+KW001_OKNO_MSK_STEP11_PROVIDER_CALLS_AUTHORIZED = false
 KW001_OKNO_MSK_STEP11_COMPLETE = false
 ```
