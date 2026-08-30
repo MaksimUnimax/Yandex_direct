@@ -40,9 +40,7 @@ WINDOW_REVIEWS_INFO	WINDOW_INFO	read reviews/experience about windows/products	I
 WINDOW_PRODUCT_TECH_INFO	WINDOW_INFO	understand window/product technology, definitions and properties	INFO	ADJACENT	27
 WINDOW_DIMENSIONS_INFO	WINDOW_INFO	find window/product dimensions and sizing information	INFO	ADJACENT	20
 PRIVATE_HOUSE_WINDOW_PLANNING_INFO	WINDOW_INFO	plan/specify windows for a private house	INFO	ADJACENT	47
-WINDOW_CARE_INFO	WINDOW_INFO	clean/maintain/care for windows	INFO	ADJACENT	0
 WINDOW_INSTALLATION_DIY_INFO	WINDOW_INFO	learn/do window installation	DIY_INFO	ADJACENT	36
-WINDOW_MEASUREMENT_INFO	WINDOW_INFO	measure window openings/products for installation or order	INFO	ADJACENT	0
 WINDOW_REPAIR_DIY_INFO	WINDOW_INFO	diagnose or repair windows yourself	DIY_INFO	ADJACENT	27
 WINDOW_FINISHING_DIY_INFO	WINDOW_INFO	learn/do window slopes/surround finishing	DIY_INFO	ADJACENT	4
 WINDOW_HARDWARE_INFO	ACCESSORY_INFO	understand/select window hardware and components	INFO	ADJACENT	44
@@ -59,5 +57,4 @@ OUTSIDE_CURTAINS_BLINDS	OUTSIDE_SCOPE	curtains/blinds and their selection/instal
 OUTSIDE_HEATING_HVAC	OUTSIDE_SCOPE	heating/HVAC/radiators/convectors around windows	OUTSIDE	OUTSIDE	22
 OUTSIDE_REAL_ESTATE_ARCHITECTURE	OUTSIDE_SCOPE	real-estate/architecture/project inspiration not seeking window/glazing work	OUTSIDE	OUTSIDE	42
 OUTSIDE_INTERIOR_DOORS	OUTSIDE_SCOPE	interior-door shopping/information outside PVC exterior/balcony-door scope	OUTSIDE	OUTSIDE	9
-OUTSIDE_USED_MARKET	OUTSIDE_SCOPE	used/second-hand window or door market	OUTSIDE	OUTSIDE	0
 OUTSIDE_OTHER	OUTSIDE_SCOPE	other active query job outside the target business and not represented by a stable outside family	OUTSIDE	OUTSIDE	2

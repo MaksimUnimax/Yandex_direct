@@ -1,6 +1,18 @@
 {
-  "status": "STEP10_FRESH_R1_PASS3_COMPLETE__CONSOLIDATED_CORRECTION_AND_REGRESSION_PASS",
-  "final_qa_sha256": "f727e5b55fdcf741ea45341a3e2e67b089d63d4ca8bfcf94a71cd83e355da990",
+  "status": "STEP10_FRESH_R1_FINAL_ACTIVE_TAXONOMY_VERIFIED",
+  "source_rows": 2840,
+  "active_rows": 2332,
+  "final_assigned_active_rows": 2319,
+  "final_search_required_active_rows": 13,
+  "input_taxonomy_cluster_ids": 62,
+  "final_active_taxonomy_cluster_ids": 59,
+  "retired_zero_assignment_cluster_ids": [
+    "WINDOW_CARE_INFO",
+    "WINDOW_MEASUREMENT_INFO",
+    "OUTSIDE_USED_MARKET"
+  ],
+  "final_qa_sha256": "742f7b1e42421b7f9ed9f13e7dabac2642d03739c81d1ca1766e08238699668a",
   "final_assignments_sha256": "ad97b8873b4dee78a1c9453cc6fe9ec8efb1cf1b9d18c436bd0475dd088b15c7",
-  "report_sha256": "9c16a6fa100bb6eb0cca1ef6b84f981e2a85306b8fa52d8c5fc6670f7f44655c"
+  "final_taxonomy_sha256": "3cd28de9aae7935563f1116bce54198047625597cde4ef96db181a86f74ad14a",
+  "report_sha256": "2f2c5a7a55f3aeadda016ce5df750629f23cf427b1f52074c36e71dbd999e0ce"
 }
