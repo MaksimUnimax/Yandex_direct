@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V32.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V33.py
 
       - name: Enforce Step10 machine accounting gate
         shell: bash
@@ -75,11 +75,11 @@ jobs:
           set -euo pipefail
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py
 
-      - name: Enforce V28 adversarial semantic collision hard gate
+      - name: Enforce V33 adjudicated semantic collision hard gate
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V28.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V33.py
 
       - name: Enforce V27 unresolved-state hard gate
         shell: bash
@@ -106,6 +106,6 @@ jobs:
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.tsv \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json
           if ! git diff --cached --quiet; then
-            git commit -m "step10: rebuild clusters after V32 aluminium morphology correction"
+            git commit -m "step10: rebuild clusters after V33 curtain hardware correction"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
