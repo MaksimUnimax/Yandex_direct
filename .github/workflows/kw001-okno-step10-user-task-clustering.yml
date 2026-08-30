@@ -11,6 +11,7 @@ on:
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT*.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT*.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V38_*.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SERP_COMPARISONS.tsv'
@@ -32,11 +33,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Build conservative Step10 user-task clusters
+      - name: Build consolidated V38 Step10 user-task clusters
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V36.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V38.py
 
       - name: Enforce Step10 machine accounting gate
         shell: bash
@@ -69,25 +70,69 @@ jobs:
           print('KW001_OKNO_STEP10_MACHINE_ACCOUNTING_GATE_PASS')
           PY
 
-      - name: Enforce direct Step09 service-product contradiction gate
+      # From here down, semantic/regression gates intentionally collect all failures
+      # in one run. The final aggregator is the only semantic fail-fast point.
+      - name: Collect V38 full regression audit
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V38_FULL_REGRESSION_AUDIT.py
+
+      - name: Collect direct Step09 contradiction audit
+        continue-on-error: true
+        shell: bash
+        run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py
 
-      - name: Enforce V36 adjudicated semantic collision hard gate
+      - name: Collect inherited V36 semantic collision audit
+        continue-on-error: true
         shell: bash
         run: |
-          set -euo pipefail
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V36.py
 
-      - name: Enforce V37 exact unresolved-state hard gate
+      - name: Collect inherited V37 unresolved-state audit
+        continue-on-error: true
+        shell: bash
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V37.py
+
+      - name: Collect V38 frozen discovery-ledger resolution
+        continue-on-error: true
+        shell: bash
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V38_DISCOVERY_LEDGER_GATE.py
+
+      - name: Enforce aggregate V38 semantic gates
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V37.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          checks = {
+              'full_regression': (base / 'STEP_10_V38_FULL_REGRESSION_AUDIT.json', {'PASS'}),
+              'direct_evidence': (base / 'STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.json', {'PASS'}),
+              'semantic_collision': (base / 'STEP_10_SEMANTIC_COLLISION_AUDIT.json', {'PASS'}),
+              'unresolved': (base / 'STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json', {'PASS'}),
+              'discovery_ledger': (base / 'STEP_10_V38_DISCOVERY_LEDGER_GATE.json', {'PASS'}),
+          }
+          failures = []
+          for name, (path, allowed) in checks.items():
+              if not path.exists():
+                  failures.append({'gate': name, 'status': 'MISSING_OUTPUT', 'path': str(path)})
+                  continue
+              obj = json.loads(path.read_text(encoding='utf-8'))
+              status = obj.get('status')
+              if status not in allowed:
+                  failures.append({'gate': name, 'status': status, 'summary': obj})
+          if failures:
+              print(json.dumps({'status': 'FAIL__V38_AGGREGATE_GATES', 'failures': failures}, ensure_ascii=False, indent=2))
+              raise SystemExit(f"V38 aggregate semantic gates failed: {len(failures)} gate(s)")
+          print(json.dumps({'status': 'PASS', 'gates': list(checks)}, ensure_ascii=False, indent=2))
+          PY
 
-      - name: Commit generated Step10 candidate and audit artifacts
+      - name: Commit generated Step10 V38 candidate and audit artifacts
         shell: bash
         run: |
           set -euo pipefail
@@ -104,8 +149,12 @@ jobs:
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.tsv \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.json \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.tsv \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V38_FULL_REGRESSION_AUDIT.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V38_FULL_REGRESSION_AUDIT.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V37_FULL_MANUAL_ERROR_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_V38_DISCOVERY_LEDGER_GATE.json
           if ! git diff --cached --quiet; then
-            git commit -m "step10: rebuild clusters after V37 exact unresolved-boundary adjudication"
+            git commit -m "step10: rebuild clusters after consolidated V38 full-discovery corrections"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
