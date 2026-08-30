@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "direct_clustered_rows_with_comparable_family": 35,
+  "direct_clustered_rows_with_comparable_family": 34,
   "service_product_contradictions": 0,
   "rule": "Direct Step-09 COMMERCIAL_SERVICE vs Step-10 COMMERCIAL_PRODUCT, or the reverse, is a material contradiction and cannot pass as a normal cluster member."
 }
