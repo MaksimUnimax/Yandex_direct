@@ -70,9 +70,16 @@ def classify_v39(phrase: str):
     if "ремонт" in p and win and has(p, "в домашних", "домашних условиях"):
         return "WINDOW_REPAIR_DIY", "Home-condition wording explicitly marks a DIY repair task", "HIGH"
 
-    # Numeric panoramic dimensions: preserve a dimensions task rather than unresolved
-    # product-vs-inspiration ambiguity. Existing correct numeric rows remain unchanged.
-    if "панорам" in p and win and re.search(r"(?:^|\s)\d+(?:[.,]\d+)?(?:\s+(?:на\s+)?\d+(?:[.,]\d+)?)?(?:\s|$)", p):
+    # Numeric panoramic dimensions: only treat numbers as a size when the explicit
+    # panoramic-window head precedes the numeric pattern. This keeps ambiguous
+    # context phrases such as '6 6 с панорамными окнами' unresolved instead of
+    # inventing a window-size interpretation.
+    panoramic_size = re.search(
+        r"(?:панорам\w*\s+окн\w*|окн\w*\s+панорам\w*)\s+"
+        r"\d+(?:[.,]\d+)?(?:\s+(?:на\s+)?\d+(?:[.,]\d+)?)?(?:\s|$)",
+        p,
+    )
+    if panoramic_size:
         return "WINDOW_DIMENSIONS_INFO", "Explicit numeric panoramic-window sizing pattern", "HIGH"
 
     # 'Рулонные' alone does not prove a curtain/blind head object.
