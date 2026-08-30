@@ -2,495 +2,606 @@
 
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
-This file defines the universal execution method for Step 10 user-task / SERP clustering.
+This file defines a reusable execution and QA framework for Step-10 clustering.
 
-It is deliberately job-independent. It must not contain client-specific phrases, sites, current cluster counts, cluster IDs, or job history.
+`UNIVERSAL` means that the framework can be configured for different subjects and deliverables. It does **not** prohibit the use of the current site, business model, cluster names, cluster IDs, local phrases, domain-specific rules, target counts, thresholds or historical taxonomies.
 
-Canonical companion authority:
+Canonical companion authorities:
 
-`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`
+- `STEP_10_CLUSTERING_GRANULARITY_METHOD.md`
+- `STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`
+
+---
+
+## 0. Executable method composition
+
+```text
+EXECUTABLE_STEP10 =
+UNIVERSAL EXECUTION FRAMEWORK
++ CURRENT DOMAIN PROFILE
++ CURRENT INPUTS
++ CURRENT TAXONOMY MODE
++ CURRENT COUNT MODE
++ CURRENT EVIDENCE MODE
++ CURRENT UNCERTAINTY MODE
++ CURRENT QA MODE
++ CURRENT OWNER / CLIENT / DELIVERABLE CONSTRAINTS
+```
+
+Canonical interpretation:
+
+```text
+UNIVERSAL FRAMEWORK != ONE FIXED WORKFLOW FOR EVERY JOB
+DOMAIN-SPECIFIC EXECUTION != METHODOLOGY CONTAMINATION
+LOCAL RULE != INVALID RULE
+CURRENT CONSTRAINT != UNIVERSAL LAW
+```
+
+The current job may use:
+
+```text
+REAL CLUSTER IDS AND NAMES
+EXACT LOCAL PHRASES
+SITE-SPECIFIC BUSINESS BOUNDARIES
+DOMAIN-SPECIFIC TOKENS / REGEX / DICTIONARIES
+EXISTING TAXONOMIES AND HISTORICAL ASSIGNMENTS
+FIXED CLUSTER COUNTS OR RANGES
+LOCAL THRESHOLDS
+RESERVED EMPTY CATEGORIES
+OWNER-PROVIDED RULES
+```
+
+All such elements must be scoped and recorded, not removed merely because they are local.
 
 ---
 
 ## 1. Purpose
 
-Step 10 must transform a frozen pre-clustering semantic corpus and available direct Search/SERP evidence into a defensible set of user-task clusters without:
+Step 10 transforms the declared current corpus into the cluster result required by the current job and verifies that result against the current method, evidence and constraints.
 
-- inventing a target number of clusters;
-- creating taxonomy while classifying one row;
-- allowing modifiers or lexical variation to create clusters by default;
-- silently transferring direct SERP evidence to unprobed phrases;
-- accepting the classifier's own assignments without independent row-level review;
-- repeatedly correcting the first discovered error and restarting the whole corpus.
-
-The execution baseline is:
+The framework controls:
 
 ```text
-3 FULL SEMANTIC PASSES + CONDITIONAL IMPACT RECHECK
+TASK UNDERSTANDING
+TAXONOMY CONSTRUCTION OR REUSE
+ROW ASSIGNMENT
+COUNT / RANGE COMPLIANCE
+DOMAIN RULE APPLICATION
+EVIDENCE SCOPE
+SEMANTIC QA
+ACCOUNTING QA
+CHANGE CONTROL
+OWNER ACCEPTANCE
 ```
-
-The three full passes have different purposes and must not be collapsed into one self-confirming operation.
 
 ---
 
-## 2. Governing equations
+## 2. Execution modes
+
+The current job must declare its execution mode before classification.
+
+### 2.1 Fresh independent rebuild
+
+Use when the owner explicitly requires a rebuild that does not inherit previous clustering decisions.
 
 ```text
-TASK_DISCOVERY != FINAL_CLUSTER_CREATION
-CLUSTER_CREATION != PHRASE_CLASSIFICATION
-ASSIGNMENT != INDEPENDENT_QA
-SAMPLE_QA != FULL_ROW_SEMANTIC_QA
-ACCOUNTING_QA != SEMANTIC_QA
-MACHINE_REGRESSION != SEMANTIC_CORRECTNESS
-DISCOVERY != CORRECTION
-UNCERTAINTY != NEW_CLUSTER
-MODIFIER_PRESENT != NEW_CLUSTER
-TARGET_CLUSTER_COUNT = FORBIDDEN
-NO_NEW_CLUSTER_WITHOUT_MATERIAL_SPLIT_EVIDENCE
+HISTORICAL TAXONOMY / ASSIGNMENTS = COMPARISON-ONLY
+FRESH TASK DISCOVERY = REQUIRED
 ```
 
-The granularity rules in `STEP_10_CLUSTERING_GRANULARITY_METHOD.md` remain binding throughout this method.
+### 2.2 Existing-taxonomy assignment
+
+Use when the current taxonomy is an accepted input.
+
+```text
+EXISTING CLUSTER IDS / NAMES / CONTRACTS = EXECUTABLE INPUT
+```
+
+### 2.3 Taxonomy adaptation
+
+Use when an existing taxonomy is retained but may be split, merged, renamed or extended.
+
+### 2.4 Fixed-category or fixed-count execution
+
+Use when the owner, client, tool, campaign, site or deliverable supplies:
+
+```text
+A REQUIRED CATEGORY LIST
+A FIXED NUMBER OF CLUSTERS
+A TARGET RANGE
+A MAXIMUM OR MINIMUM SIZE
+A REQUIRED OUTPUT SHAPE
+```
+
+These constraints are applied and validated as real current-job requirements.
+
+### 2.5 Incremental or interactive execution
+
+Use when data arrives in stages or the owner wants decisions reviewed during the process.
+
+Controlled iteration is valid when versions and impact are recorded.
 
 ---
 
-## 3. Input freeze and contamination control
+## 3. Count mode
 
-Before Pass 1:
+The current job must declare one of the following or an equivalent mode.
 
-1. identify the canonical outputs of the immediately preceding semantic/search stages;
-2. record their exact repository paths, versions/blob identifiers and, where available, frozen content hashes;
-3. freeze an input manifest;
-4. record all historical Step-10 results as comparison-only baselines;
-5. do not read historical cluster dictionaries, assignments, classifier logic or cluster-level QA before the fresh candidate taxonomy is frozen when an independent rebuild is required.
-
-Required principle:
+### 3.1 Unconstrained
 
 ```text
-HISTORICAL_RESULT_FOR_COMPARISON != INPUT_TO_INDEPENDENT_REBUILD
+NO EXPLICIT TARGET COUNT
+-> COUNT MAY EMERGE FROM CURRENT BOUNDARIES
 ```
 
-A fresh rebuild must not inherit cluster names, counts, boundaries or row assignments merely because they already exist.
+### 3.2 Exact target
+
+```text
+FINAL CLUSTERS MUST EQUAL N
+```
+
+### 3.3 Target range
+
+```text
+MIN_CLUSTERS <= FINAL CLUSTERS <= MAX_CLUSTERS
+```
+
+### 3.4 Required category set
+
+The category set may contain active, reserved or currently empty categories.
+
+A count constraint is not automatically semantic evidence, but it is still an executable project constraint. Any trade-off between semantic purity and required output shape must be recorded and resolved according to the current priority.
 
 ---
 
-## 4. Pass 1 — 100% task discovery
+## 4. Baseline three-pass model
 
-### 4.1 Objective
+For large corpora and unconstrained fresh rebuilds, the preferred baseline is:
 
-Review every active phrase to identify the user's task before final cluster IDs exist.
+```text
+PASS 1 — FULL TASK DISCOVERY
+TAXONOMY NORMALIZATION / CONFIGURATION
+PASS 2 — FULL ASSIGNMENT
+PASS 3 — INDEPENDENT QA
+CONSOLIDATED CORRECTION
+REGRESSION
+IMPACT RECHECK
+```
 
-Pass 1 is not an assignment pass.
+This is a strong default, not a ban on other valid workflows.
 
-### 4.2 Required row-level semantic fields
+The current job may use a different number or structure of passes when required by:
 
-Each row should preserve, when applicable:
+```text
+SMALL CORPUS
+FIXED CLIENT TAXONOMY
+INTERACTIVE OWNER REVIEW
+INCREMENTAL DATA
+TOOL OR MODEL LIMITS
+COST STAGING
+A/B TESTING
+EXPERIMENT DESIGN
+```
+
+The selected pass model must still provide enough separation between decision, review and correction for the current risk level.
+
+---
+
+## 5. Input and context declaration
+
+Before execution, record as applicable:
+
+```text
+CANONICAL INPUT FILES
+VERSIONS / BLOBS / HASHES
+CURRENT DOMAIN PROFILE
+CURRENT SITE AND BUSINESS SCOPE
+CURRENT TAXONOMY MODE
+CURRENT CLUSTER CONTRACTS
+CURRENT COUNT MODE
+CURRENT EVIDENCE SOURCES
+CURRENT UNCERTAINTY MODE
+CURRENT QA PLAN
+OWNER / CLIENT / DELIVERABLE CONSTRAINTS
+HISTORICAL RESULTS AND THEIR ALLOWED USE
+```
+
+Historical cluster names, counts, assignments and logic may be reused when the current execution mode allows reuse.
+
+Only an explicitly independent rebuild treats them as comparison-only.
+
+---
+
+## 6. Task discovery
+
+Task discovery identifies the current phrase meaning before or during assignment, depending on the selected execution mode.
+
+Recommended semantic fields:
 
 ```text
 PRIMARY_OBJECT
+OBJECT_SCOPE
 ACTION_OR_USER_GOAL
+EXPECTED_TERMINAL_RESULT
 INTENT
 LIFECYCLE_STAGE
-EXPECTED_RESULT_TYPE
+EXECUTION_MODE
 MATERIAL_MODIFIERS
 BUSINESS_FIT
+DIRECT_EVIDENCE_STATE
 BOUNDARY_UNCERTAINTY
 PROVISIONAL_TASK_SIGNATURE
+LOCAL_RULE_ID_IF_USED
 ```
 
-These are analytical descriptors, not final taxonomy.
+Real domain terms, local examples and exact phrase rules belong in this stage when they improve correctness.
 
-### 4.3 Prohibitions
+### Fresh-discovery mode
 
-During Pass 1:
+When a fresh independent taxonomy is required, final cluster IDs may be withheld during initial discovery to reduce anchoring.
 
-```text
-FINAL_CLUSTER_ID_CREATION = FORBIDDEN
-TARGET_CLUSTER_COUNT = FORBIDDEN
-HISTORICAL_CLUSTER_MATCHING = FORBIDDEN_IN_INDEPENDENT_REBUILD
-```
+### Existing-taxonomy mode
 
-Encountering a new lexical form, brand, model, location, price qualifier, dimension, color, material, series, source, frequency or similar modifier does not by itself establish a new user task.
-
-### 4.4 Pass gate
-
-```text
-ACTIVE_ROWS_REVIEWED = ACTIVE_ROWS_TOTAL
-UNREVIEWED = 0
-FINAL_CLUSTER_IDS_CREATED_DURING_PASS1 = 0
-```
+When an accepted taxonomy is the input, real cluster IDs and contracts may be used immediately.
 
 ---
 
-## 5. Taxonomy normalization — between Pass 1 and Pass 2
+## 7. Taxonomy construction, reuse or adaptation
 
-This is a consolidated taxonomy operation over completed Pass-1 task signatures. It is not another row-by-row discovery pass.
-
-### 5.1 Build candidate task families
-
-Normalize semantically equivalent task signatures and separate materially different tasks.
-
-Default behaviour:
+Possible current operations:
 
 ```text
-SAME_MATERIAL_USER_TASK -> SAME_CANDIDATE_CLUSTER
-MODIFIER_ONLY_DIFFERENCE -> ATTRIBUTE_BY_DEFAULT
-UNCLEAR_BOUNDARY -> BOUNDARY_REVIEW_OR_SEARCH_REQUIRED
-POSSIBLE_NOVEL_TASK -> NEW_CLUSTER_CANDIDATE
+BUILD FRESH TAXONOMY
+USE EXISTING TAXONOMY AS-IS
+ADAPT EXISTING TAXONOMY
+USE CLIENT-PROVIDED CATEGORIES
+USE SITE OR CAMPAIGN STRUCTURE
+SATISFY FIXED COUNT / RANGE
+PRESERVE RESERVED CATEGORIES
 ```
 
-### 5.2 Material split gate
-
-Every proposed new cluster must satisfy `STEP_10_CLUSTERING_GRANULARITY_METHOD.md`.
-
-A split must be justified by a material difference such as:
-
-- a different user action or desired outcome;
-- a materially different object of demand;
-- a different lifecycle stage where that changes the task;
-- a different expected result/content type;
-- strong direct SERP evidence that the same-page hypothesis is false.
-
-Lexical or modifier difference alone is insufficient.
-
-### 5.3 Same-page test
-
-For a proposed split, ask:
-
-> Can one coherent page satisfy both query groups without changing its primary user task, expected result type or core page purpose?
-
-If yes, split is rejected by default.
-
-If clearly no, the split may pass semantic review.
-
-If unclear, preserve the boundary as unresolved and use available direct SERP evidence or targeted Search review rather than inventing taxonomy.
-
-### 5.4 Batch candidate review
-
-All `NEW_CLUSTER_CANDIDATE` items must be reviewed together.
-
-Do not create clusters opportunistically while handling one phrase.
-
-For every accepted cluster preserve at least:
+For each cluster preserve fields needed by the current job. A strong baseline is:
 
 ```text
 CLUSTER_ID
+CLUSTER_NAME
 USER_TASK
 PRIMARY_OBJECT
-ALLOWED_ACTION_OR_INTENT
-INCLUSION_RULE
-EXCLUSION_RULE
-MATERIAL_BOUNDARIES
-NEAREST_SIBLING_CLUSTERS
-SERP_EVIDENCE_STATE
-SPLIT_JUSTIFICATION
+OBJECT_SCOPE
+EXPECTED_TERMINAL_RESULT
+ALLOWED ACTIONS / INTENTS
+INCLUSION RULE
+EXCLUSION RULE
+MATERIAL BOUNDARIES
+NEAREST SIBLING CLUSTERS
+ABSORBED MODIFIERS
+LOCAL TERMS AND ALIASES
+EXACT EXCEPTIONS
+EVIDENCE STATE
+COUNT-CONSTRAINT ROLE
+SPLIT / MERGE JUSTIFICATION
+STATUS = ACTIVE | RESERVED | REJECTED | OTHER
 ```
 
-### 5.5 Microcluster review
+### Controlled taxonomy mutation
 
-A very small cluster is a QA trigger, not an automatic error and not an automatic merge.
+Taxonomy mutation during assignment is allowed when declared by the current mode.
 
-Every microcluster must explicitly justify why it represents a material task boundary rather than a modifier or lexical variant.
-
-### 5.6 Taxonomy freeze gate
-
-Before Pass 2:
+Each mutation should record:
 
 ```text
-CANDIDATE_TAXONOMY_NORMALIZED = true
-NEW_CLUSTER_CANDIDATES_BATCH_REVIEWED = true
-TARGET_CLUSTER_COUNT_USED = false
-UNJUSTIFIED_NEW_CLUSTERS = 0
-CLUSTER_DICTIONARY_FROZEN = true
+WHEN
+WHY
+AFFECTED CLUSTERS
+AFFECTED ROWS
+COUNT EFFECT
+VALIDATION SCOPE
 ```
+
+For large fresh runs, batch review and a frozen assignment version remain the preferred default.
 
 ---
 
-## 6. Pass 2 — 100% assignment against frozen taxonomy
+## 8. Row assignment
 
-### 6.1 Objective
+For every phrase:
 
-For every active phrase, determine whether it fits an already frozen cluster contract.
+1. preserve original text and provenance;
+2. apply the current domain profile;
+3. apply site/business scope;
+4. attach evidence whose declared scope includes the row;
+5. derive the task signature and expected result;
+6. apply current cluster contracts;
+7. apply current target count, range or category constraints;
+8. apply exact local rules when relevant;
+9. assign, defer, search, create/adapt a candidate, or request owner decision according to the current mode;
+10. record confidence and decisive reasoning.
 
-Allowed states:
+Possible states include:
 
 ```text
-ASSIGN_TO_EXISTING_CLUSTER
+ASSIGNED
 BOUNDARY_REVIEW
 SEARCH_REQUIRED
 NEW_CLUSTER_CANDIDATE
+DEFERRED
+OWNER_DECISION_REQUIRED
+RESERVED_CATEGORY_MATCH
 ```
 
-### 6.2 Prohibitions during Pass 2
-
-```text
-CREATE_NEW_CLUSTER = FORBIDDEN
-RENAME_CLUSTER = FORBIDDEN
-CHANGE_CLUSTER_DEFINITION = FORBIDDEN
-TARGET_CLUSTER_COUNT_OPTIMIZATION = FORBIDDEN
-```
-
-A row that does not fit the frozen dictionary must not mutate the dictionary in place.
-
-### 6.3 Candidate accumulation
-
-All new-task suspicions discovered in Pass 2 are accumulated to completion and reviewed in one consolidated batch only after every row has been classified.
-
-If the batch changes taxonomy, affected rows must be reassigned under the changed frozen dictionary before independent QA begins.
-
-### 6.4 Pass gate
-
-```text
-ACTIVE_ROWS_CLASSIFIED = ACTIVE_ROWS_TOTAL
-UNCLASSIFIED = 0
-IN_PASS_TAXONOMY_MUTATIONS = 0
-NEW_CLUSTER_CANDIDATES_ACCOUNTED = ALL
-```
+A current job may require all rows to be assigned. In that case fallback or low-confidence decisions are allowed when clearly marked.
 
 ---
 
-## 7. Pass 3 — 100% independent row QA
+## 9. Exact rules, tokens and automation
 
-### 7.1 Objective
+Automation may use any technique appropriate to the current task:
 
-Independently test every assignment rather than asking the assignment classifier to approve itself.
+```text
+TOKENS
+REGEX
+DICTIONARIES
+EMBEDDINGS
+LLM CLASSIFICATION
+SERP OVERLAP
+SITE DATA
+EXACT PHRASE TABLES
+BRAND / MODEL TABLES
+LOCAL CLUSTER IDS
+DOMAIN-SPECIFIC PRECEDENCE RULES
+OWNER-PROVIDED MAPPINGS
+```
 
-For each row, the reviewer receives only the information needed to adjudicate the assignment, normally:
+A token or regex can be a candidate signal or a decisive rule depending on the current domain contract.
+
+For material automated rules preserve as applicable:
+
+```text
+RULE ID
+SCOPE
+POSITIVE CONDITION
+DISQUALIFIERS
+EXPECTED OUTPUT
+EVIDENCE OR OWNER SOURCE
+POSITIVE TESTS
+NEGATIVE TESTS
+IMPACT SET
+```
+
+Exact local rules are valid. Their scope must be explicit.
+
+---
+
+## 10. Evidence use
+
+The current job defines evidence coverage and generalization rules.
+
+Possible modes:
+
+```text
+EXACT-ROW-ONLY EVIDENCE
+EXPLICIT FAMILY-LEVEL EVIDENCE
+DOMAIN-RULE GENERALIZATION
+FULL-CORPUS SEARCH VALIDATION
+TARGETED BOUNDARY SEARCH
+NO SEARCH EVIDENCE
+```
+
+Evidence may be transferred beyond an exact row only when its declared scope or an approved generalization rule allows it.
+
+SERP overlap thresholds, similarity thresholds and other numeric settings are allowed when defined for the current project.
+
+No one threshold is assumed automatically for every project.
+
+---
+
+## 11. Independent QA
+
+A strong baseline is independent row-level review against the current cluster contracts.
+
+The reviewer may receive:
 
 ```text
 PHRASE
-ASSIGNED_CLUSTER
-CLUSTER_DEFINITION
-RELEVANT_DIRECT_EVIDENCE_IF_ANY
+ASSIGNED CLUSTER
+CURRENT CLUSTER CONTRACT
+CURRENT DOMAIN PROFILE EXCERPT
+RELEVANT EVIDENCE
+CURRENT COUNT / CATEGORY CONSTRAINT
 ```
 
-The reviewer must not be shown Pass-2 reasoning when avoidable.
+Whether prior assignment reasoning is hidden or shown depends on the QA design.
 
-### 7.2 Required verdict
-
-Every active row receives:
+Possible verdicts:
 
 ```text
 PASS
-or
 FAIL
+ACCEPTED UNDER CONSTRAINT
+OWNER DECISION REQUIRED
 ```
 
-For FAIL preserve:
+For failures preserve:
 
 ```text
-EXPECTED_TASK
-ERROR_CLASS
-NEAREST_CORRECT_CLUSTER_IF_ANY
-NEW_CLUSTER_REQUIRED = NO | CANDIDATE
+EXPECTED TASK
+ERROR CLASS
+EXPECTED CLUSTER OR ACTION
+TAXONOMY CHANGE NEEDED
+COUNT EFFECT
 RATIONALE
 ```
 
-### 7.3 No correction during discovery
-
-Do not repair the first error and restart.
-
-Required sequence:
+### QA coverage modes
 
 ```text
-FREEZE_CANDIDATE
--> FULL_QA_DISCOVERY_TO_COMPLETION
--> COLLECT_ALL_FAILURES_WITHOUT_CORRECTION
--> FREEZE_COMPLETE_ERROR_LEDGER
+FULL ROW QA
+STRATIFIED SAMPLE QA
+CLUSTER-LEVEL QA
+RISK-BASED QA
+OWNER REVIEW
+COMBINATION
 ```
 
-### 7.4 Full-row requirement
+Full row QA is preferred for high-risk or previously unstable corpora. Another mode is valid when explicitly selected and sufficient for the current deliverable.
 
-Sampled cluster QA can supplement Pass 3 but cannot replace it.
+---
+
+## 12. Correction modes
+
+### Consolidated correction
+
+Preferred for large corpora:
 
 ```text
-SAMPLE_QA_PASS != FULL_ROW_QA_PASS
+COMPLETE ERROR DISCOVERY
+-> ROOT-CAUSE GROUPING
+-> ONE CONSOLIDATED CORRECTION
+-> REGRESSION
 ```
 
-### 7.5 Pass gate
+### Iterative correction
+
+Allowed when required by owner instruction, incremental data, tool limits, experiments or staged delivery.
+
+Each iteration records:
 
 ```text
-QA_ROWS = ACTIVE_ROWS_TOTAL
-UNREVIEWED = 0
-ERROR_LEDGER_FROZEN = true
-CORRECTIONS_DURING_PASS3 = 0
+INPUT VERSION
+DISCOVERED ERRORS
+RULE / TAXONOMY CHANGE
+EXPECTED IMPACT SET
+COUNT EFFECT
+VALIDATION
+OUTPUT VERSION
+```
+
+The control objective is to avoid hidden and unbounded patching, not to prohibit legitimate additional runs.
+
+---
+
+## 13. Accounting and regression
+
+After material changes verify applicable items:
+
+```text
+TOTAL ROW PRESERVATION
+ACTIVE ROW PRESERVATION
+NO SILENT DROPS
+STATUS COUNTS
+ASSIGNMENT COUNTS
+EXPECTED CHANGES
+UNEXPECTED CHANGES
+DUPLICATE-GROUP HANDLING
+EVIDENCE-LINK PRESERVATION
+UNRESOLVED-STATE ACCOUNTING
+COUNT / RANGE COMPLIANCE
+REQUIRED CATEGORY COVERAGE
+RESERVED CATEGORY REPORTING
+```
+
+Machine regression proves accounting and change control. Semantic correctness still requires the selected semantic QA mode.
+
+---
+
+## 14. Impact-set review
+
+After corrections, review the provable impact set as applicable:
+
+```text
+CHANGED ROWS
+ROWS IN CHANGED CLUSTERS
+ROWS IN MERGED OR SPLIT CLUSTERS
+SIBLING CLUSTERS ACROSS CHANGED BOUNDARIES
+ROWS AFFECTED BY A CHANGED LOCAL RULE
+ROWS AFFECTED BY A COUNT-CONSTRAINT CHANGE
+ROWS AFFECTED BY A DOMAIN-PROFILE CHANGE
+STATE TRANSITIONS
+NEW OR RETIRED CLUSTERS
+```
+
+A full-corpus recheck is used when impact cannot be bounded reliably or the current QA plan requires it.
+
+---
+
+## 15. Empty, reserved and retired clusters
+
+The current output may contain:
+
+```text
+ACTIVE CLUSTER WITH MEMBERS
+REQUIRED RESERVED EMPTY CATEGORY
+FUTURE CATEGORY
+RETIRED CANDIDATE
+REJECTED CANDIDATE
+```
+
+All are legitimate states when the current taxonomy mode supports them.
+
+Reporting must distinguish them. An empty reserved category must not be falsely presented as an evidence-backed active cluster unless that is the declared reporting convention.
+
+---
+
+## 16. Step boundary
+
+Step 10 produces the clustering result required by the current job.
+
+Whether Step 10 also includes page ownership, campaign grouping, site architecture or another downstream decision depends on the current roadmap and deliverable.
+
+Default roadmap separation may keep those decisions in later steps, but an explicitly combined job is allowed.
+
+```text
+STEP BOUNDARY = CURRENT ROADMAP CONFIGURATION
 ```
 
 ---
 
-## 8. Consolidated correction
+## 17. Final acceptance gate template
 
-After the complete Pass-3 error ledger is frozen:
-
-1. group failures by semantic root cause;
-2. distinguish row-assignment errors from taxonomy-boundary errors;
-3. resolve all supported corrections in one consolidated batch;
-4. send any newly suspected cluster through the material split gate and batch candidate review;
-5. do not create a cluster merely to make an individual failing row fit somewhere.
-
-Required pattern:
+Instantiate the applicable current values:
 
 ```text
-FULL_ERROR_LEDGER
--> ROOT_CAUSE_GROUPING
--> ONE_CONSOLIDATED_CORRECTION_BATCH
-```
-
----
-
-## 9. Full N/N machine regression
-
-After every consolidated correction, reconcile the entire corpus mechanically.
-
-At minimum verify:
-
-```text
-TOTAL_ROW_PRESERVATION
-ACTIVE_ROW_PRESERVATION
-NO_SILENT_DROPS
-EXPECTED_STATUS_COUNTS
-EXPECTED_ASSIGNMENT_CHANGES
-UNEXPECTED_ASSIGNMENT_CHANGES
-DUPLICATE_GROUP_PRESERVATION
-DIRECT_EVIDENCE_LINK_PRESERVATION
-UNRESOLVED_STATE_ACCOUNTING
-```
-
-Machine regression proves accounting and change control. It does not prove semantic correctness.
-
-```text
-MACHINE_REGRESSION_PASS != SEMANTIC_QA_PASS
-```
-
----
-
-## 10. Conditional impact-set semantic recheck
-
-A successful full machine regression does not require another full semantic pass by default.
-
-Re-review the complete semantic impact set, including:
-
-1. every row whose assignment changed;
-2. every row in a cluster whose definition changed;
-3. every row in merged or split clusters;
-4. relevant sibling clusters across a changed boundary;
-5. every `SEARCH_REQUIRED -> assigned` transition;
-6. every `assigned -> SEARCH_REQUIRED` transition;
-7. every new-cluster candidate or accepted new cluster;
-8. every row potentially affected by a changed classification rule.
-
-Required principle:
-
-```text
-SEMANTIC_RECHECK_SCOPE = PROVABLE_IMPACT_SET
-```
-
-A new full-corpus semantic pass is required when the correction is structural enough that the provable impact set approaches the whole corpus or when change propagation cannot be bounded reliably.
-
----
-
-## 11. Residual correction cycle
-
-If the impact recheck finds residual failures:
-
-```text
-COLLECT_ALL_RESIDUAL_FAILURES_WITHOUT_CORRECTION
--> FREEZE_RESIDUAL_LEDGER
--> ONE_CONSOLIDATED_RESIDUAL_CORRECTION
--> FULL_N/N_MACHINE_REGRESSION
--> IMPACT_SET_RECHECK
-```
-
-Repeat until the acceptance gate is met.
-
-Never return to:
-
-```text
-FIND_FIRST_ERROR
--> FIX_IMMEDIATELY
--> RERUN_ALL
--> REPEAT
-```
-
----
-
-## 12. Search/SERP evidence use
-
-Direct SERP evidence is primarily a boundary adjudication signal, not a requirement to probe every phrase.
-
-Prioritize Search review for states such as:
-
-```text
-SPLIT_UNPROVEN
-MERGE_UNPROVEN
-NEW_CLUSTER_CANDIDATE
-MICROCLUSTER_WITH_WEAK_JUSTIFICATION
-SAME_PAGE_TEST_UNCLEAR
-SEMANTIC_TASK_VS_DIRECT_SERP_CONFLICT
-```
-
-Direct evidence may be applied only to the phrase/query or explicitly supported comparison for which it exists. Do not silently transfer evidence to unprobed rows merely because they share a cleanup reason, lexical feature, acquisition source or candidate cluster.
-
-No universal fixed SERP-overlap number is treated as truth across all projects.
-
----
-
-## 13. Final acceptance gate
-
-A Step-10 result may be accepted only when all applicable conditions are true:
-
-```text
-INPUT_MANIFEST_FROZEN = true
-PASS1_ACTIVE_ROWS_REVIEWED = ACTIVE_ROWS_TOTAL
-PASS1_UNREVIEWED = 0
-TAXONOMY_NORMALIZED_AND_FROZEN = true
-UNJUSTIFIED_NEW_CLUSTERS = 0
-PASS2_ACTIVE_ROWS_CLASSIFIED = ACTIVE_ROWS_TOTAL
-PASS2_UNCLASSIFIED = 0
-PASS2_IN_PASS_TAXONOMY_MUTATIONS = 0
-PASS3_QA_ROWS = ACTIVE_ROWS_TOTAL
-PASS3_UNREVIEWED = 0
-PASS3_CORRECTIONS_DURING_DISCOVERY = 0
-COMPLETE_ERROR_LEDGER_FROZEN = true
-CONSOLIDATED_CORRECTION_COMPLETE = true
-FULL_MACHINE_REGRESSION = PASS
+INPUTS_DECLARED = true
+CURRENT_DOMAIN_PROFILE_DEFINED = true
+CURRENT_SITE_AND_BUSINESS_SCOPE_DEFINED = true
+CURRENT_EXECUTION_MODE_DECLARED = true
+CURRENT_TAXONOMY_MODE_DECLARED = true
+CURRENT_COUNT_MODE_DECLARED = true
+CURRENT_EVIDENCE_MODE_DECLARED = true
+CURRENT_UNCERTAINTY_MODE_DECLARED = true
+CURRENT_QA_MODE_DECLARED = true
+REQUIRED_ROWS_ACCOUNTED = CURRENT_REQUIRED_TOTAL
+CURRENT_CLUSTER_CONSTRAINTS_SATISFIED = true
+REQUIRED_CATEGORIES_ACCOUNTED = true
+LOCAL_RULES_SCOPED = true
+EVIDENCE_SCOPE_PRESERVED = true
+CURRENT_SEMANTIC_QA = PASS
+CURRENT_ACCOUNTING_QA = PASS
 UNEXPECTED_ASSIGNMENT_CHANGES = 0
-SILENT_DROPS = 0
-IMPACT_SET_REVIEW_COMPLETE = true
-RESIDUAL_SEMANTIC_FAIL = 0
-DIRECT_SERP_CONTRADICTIONS_UNRESOLVED = 0
-TARGET_CLUSTER_COUNT_USED = false
-STEP11_DECISIONS_MADE_PREMATURELY = 0
+OWNER / CLIENT ACCEPTANCE = CURRENT_REQUIRED_STATE
 ```
 
-Unresolved evidence may remain explicit when the method permits it; it must not be hidden by creating a speculative cluster.
-
----
-
-## 14. Step boundary
-
-Step 10 decides defensible user-task / SERP-compatible clustering.
-
-Step 10 does **not** by itself decide:
-
-- final existing-page ownership;
-- whether a new page must be created;
-- structural keep/expand/split/merge/create action;
-- cannibalization diagnosis;
-- final Search-only site architecture.
-
-Those belong to later governed steps.
+Optional job-specific gates may include:
 
 ```text
-STEP10_CLUSTER != AUTOMATIC_FINAL_PAGE
+EXACT_TARGET_CLUSTER_COUNT_MATCHED
+TARGET_RANGE_MATCHED
+FULL_ROW_QA_COMPLETE
+RESERVED_EMPTY_CATEGORIES_PRESERVED
+SERP_BOUNDARY_REVIEW_COMPLETE
+ALL_ROWS_ASSIGNED
+UNRESOLVED_ROWS_EXPLICIT
 ```
 
 ---
 
-## 15. Method origin / direct sources
+## 18. Method origin
 
-The universal execution design combines direct industry clustering principles with project-level QA controls.
+The framework combines reusable clustering principles with configurable project controls.
 
-Direct external references used for the clustering boundary model include:
+Direct external references may support search-intent compatibility, SERP overlap, soft/hard clustering and human review. They do not eliminate the need to apply the actual subject, site, business, owner and deliverable constraints.
+
+Current references:
 
 - Ahrefs, keyword clustering: https://ahrefs.com/blog/keyword-clustering/
 - Pixel Tools, query clustering by search results: https://tools.pixelplus.ru/optimization/seo-raspredelenie-i-klasterizaciya-zaprosov
@@ -498,33 +609,28 @@ Direct external references used for the clustering boundary model include:
 - Rush Analytics, semantic-core clustering: https://www.rush-analytics.ru/land/klasterizaciya-zaprosov-semanticheskogo-yadra-po-yandex-i-google
 - Keyword Insights, clustering types: https://docs.keywordinsights.ai/learning-center/the-features/keyword-clustering/the-advanced-settings/clustering-types
 
-Reusable methodological conclusions:
-
-```text
-SEARCH_INTENT_COMPATIBILITY_MATTERS = true
-SERP_OVERLAP_CAN_BE_BOUNDARY_EVIDENCE = true
-SOFT_VS_HARD_STRICTNESS_CHANGES_GRANULARITY = true
-AUTOMATIC_CLUSTERING_REQUIRES_HUMAN_ADJUDICATION = true
-NO_INDUSTRY_STANDARD_CLUSTER_COUNT_QUOTA = true
-```
-
 ---
 
-## 16. Permanent markers
+## 19. Permanent markers
 
 ```text
 STEP10_SORTING_QA_METHOD_ACTIVE = true
-STEP10_BASELINE_FULL_SEMANTIC_PASSES = 3
-STEP10_PASS1_TASK_DISCOVERY_ONLY = true
-STEP10_TAXONOMY_FREEZE_BEFORE_ASSIGNMENT = true
-STEP10_PASS2_FROZEN_DICTIONARY_ASSIGNMENT = true
-STEP10_PASS2_TAXONOMY_MUTATION_FORBIDDEN = true
-STEP10_PASS3_FULL_INDEPENDENT_ROW_QA = true
-STEP10_DISCOVERY_CORRECTION_SEPARATION_REQUIRED = true
-STEP10_COMPLETE_ERROR_LEDGER_REQUIRED = true
-STEP10_CONSOLIDATED_CORRECTION_REQUIRED = true
-STEP10_FULL_MACHINE_REGRESSION_REQUIRED = true
-STEP10_CONDITIONAL_IMPACT_RECHECK_ACTIVE = true
-STEP10_TARGET_CLUSTER_COUNT_FORBIDDEN = true
-STEP10_NEW_CLUSTER_REQUIRES_MATERIAL_SPLIT_EVIDENCE = true
+STEP10_UNIVERSAL_FRAMEWORK_IS_CONFIGURABLE = true
+STEP10_DOMAIN_PROFILE_ALLOWED = true
+STEP10_DOMAIN_PROFILE_REQUIRED_WHEN_NEEDED = true
+STEP10_SITE_AND_BUSINESS_DATA_ALLOWED = true
+STEP10_REAL_CLUSTER_IDS_AND_NAMES_ALLOWED = true
+STEP10_EXACT_LOCAL_RULES_ALLOWED = true
+STEP10_JOB_SPECIFIC_THRESHOLDS_ALLOWED = true
+STEP10_EXPLICIT_TARGET_COUNT_OR_RANGE_ALLOWED = true
+STEP10_EXISTING_TAXONOMY_REUSE_ALLOWED = true
+STEP10_FRESH_INDEPENDENT_REBUILD_ALLOWED = true
+STEP10_CONTROLLED_TAXONOMY_MUTATION_ALLOWED = true
+STEP10_RESERVED_EMPTY_CATEGORIES_ALLOWED = true
+STEP10_FULL_ROW_QA_AVAILABLE = true
+STEP10_ALTERNATIVE_QA_MODES_ALLOWED_WHEN_DECLARED = true
+STEP10_CONSOLIDATED_CORRECTION_PREFERRED_FOR_LARGE_CORPORA = true
+STEP10_ITERATIVE_CORRECTION_ALLOWED_WHEN_SCOPED = true
+STEP10_EVIDENCE_GENERALIZATION_ALLOWED_WHEN_DECLARED = true
+STEP10_CURRENT_JOB_CONSTRAINTS_ARE_EXECUTABLE_INPUTS = true
 ```
