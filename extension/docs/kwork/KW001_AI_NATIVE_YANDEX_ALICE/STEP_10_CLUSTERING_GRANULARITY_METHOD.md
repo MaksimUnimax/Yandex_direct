@@ -1,103 +1,190 @@
 # KW-001 — STEP 10 CLUSTERING GRANULARITY METHOD
 
 Date approved: 2026-08-30  
+Last corrected: 2026-08-30  
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
-This file defines the permanent universal Step-10 rule for controlling clustering granularity.
+This file defines a reusable Step-10 method for controlling clustering granularity.
 
-It is methodology only. It must not contain client-specific phrases, sites, cluster counts, cluster IDs, job histories or job-specific thresholds.
+`UNIVERSAL` means the reasoning structure is reusable. It does **not** exclude current-domain vocabulary, the actual site, real cluster IDs, local examples, job-specific thresholds, a required number of groups, or other execution constraints.
+
+---
+
+## MEANING OF UNIVERSAL
+
+The executable method is:
+
+```text
+UNIVERSAL GRANULARITY CORE
++ CURRENT DOMAIN PROFILE
++ CURRENT CORPUS
++ CURRENT SITE / BUSINESS MODEL
++ CURRENT EVIDENCE
++ CURRENT OWNER / CLIENT / DELIVERABLE CONSTRAINTS
+```
+
+Canonical interpretation:
+
+```text
+UNIVERSAL != DOMAIN-FREE
+UNIVERSAL != NO LOCAL RULES
+LOCAL RULE != INVALID RULE
+LOCAL RULE MUST BE SCOPED != LOCAL RULE MUST BE REMOVED
+```
+
+The current execution may define and use:
+
+```text
+REAL CLUSTER IDS AND NAMES
+DOMAIN-SPECIFIC OBJECTS AND SERVICES
+BRANDS, MODELS, MATERIALS, LOCATIONS AND LOCAL LANGUAGE
+SITE-SPECIFIC BOUNDARIES
+EXACT PHRASE EXAMPLES AND EXCEPTIONS
+JOB-SPECIFIC SPLIT / MERGE THRESHOLDS
+A FIXED TARGET CLUSTER COUNT OR RANGE
+REQUIRED CATEGORIES OR RESERVED EMPTY CATEGORIES
+OWNER-PROVIDED CLASSIFICATION RULES
+```
+
+These are part of the executable current method. They are not automatically promoted to every other project.
 
 ---
 
 ## STEP PURPOSE
 
-Step 10 groups active search phrases into defensible user-task / search-intent clusters without either:
+Step 10 groups active phrases into the cluster structure required by the current job while controlling two opposite risks:
 
 ```text
-OVER-SPLITTING -> inventing a new cluster for every modifier, wording nuance or individual correction
-UNDER-SPLITTING -> merging materially different user tasks merely because the object or wording is similar
+OVER-SPLITTING -> more groups than the current task, evidence or deliverable requires
+UNDER-SPLITTING -> fewer groups than the current task, evidence or deliverable can support
 ```
 
-The number of clusters is an output of evidence-backed boundaries. It is never a target, quota or quality metric by itself.
-
-Canonical rule:
+Granularity is determined by the combination of:
 
 ```text
-TARGET_CLUSTER_COUNT = FORBIDDEN
-CLUSTER_COUNT = RESULT_OF_VALIDATED_BOUNDARIES
+USER TASKS
+EXPECTED RESULTS
+CURRENT DOMAIN STRUCTURE
+PAGE / RESULT COMPATIBILITY WHEN RELEVANT
+DIRECT EVIDENCE
+BUSINESS AND SITE SCOPE
+DELIVERABLE CONSTRAINTS
+OWNER DECISIONS
 ```
 
 ---
 
-## CORE GRANULARITY PRINCIPLE
+## CLUSTER-COUNT MODES
 
-The default state is to keep a phrase inside an existing compatible task cluster.
+Cluster count has two valid modes.
 
-A new cluster is an exception that must earn the right to exist.
+### Mode A — unconstrained count
 
-Canonical rules:
+When no explicit count or range is required:
 
 ```text
-DEFAULT = KEEP_IN_EXISTING_COMPATIBLE_CLUSTER
-NO_NEW_CLUSTER_WITHOUT_MATERIAL_SPLIT_EVIDENCE
-NO_MERGE_IF_MATERIAL_USER_TASK_DIFFERS
-UNCERTAINTY != NEW_CLUSTER
+CLUSTER COUNT = RESULT OF CURRENT VALIDATED BOUNDARIES
 ```
 
-A phrase must not create a new cluster merely because it contains a new token, modifier, formulation or previously unseen combination.
+In this mode the analyst does not invent a preferred number merely because it looks tidy.
+
+### Mode B — constrained count or range
+
+When the owner, client, tool, campaign, report, site structure or deliverable requires a number or range:
+
+```text
+EXPLICIT COUNT / RANGE CONSTRAINT
+-> RECORD SOURCE AND PRIORITY
+-> APPLY DURING TAXONOMY DESIGN
+-> RECORD SEMANTIC TRADE-OFFS IF ANY
+-> VERIFY FINAL COMPLIANCE
+```
+
+Canonical interpretation:
+
+```text
+COUNT CONSTRAINT = REAL PROJECT CONSTRAINT
+COUNT CONSTRAINT != SEMANTIC EVIDENCE BY ITSELF
+COUNT CONSTRAINT MAY CONTROL OUTPUT WHEN AUTHORIZED
+```
+
+If the constraint conflicts with the most natural semantic grouping, the conflict must be visible and resolved according to the current owner or delivery priority. The method must not silently ignore the constraint.
+
+---
+
+## BASELINE GRANULARITY PRINCIPLE
+
+When no contrary current-job rule exists, keep semantically compatible phrases together and split materially different tasks.
+
+Default baseline:
+
+```text
+SAME MATERIAL USER TASK -> SAME CLUSTER CANDIDATE
+MATERIAL USER-TASK DIFFERENCE -> SPLIT CANDIDATE
+UNCLEAR BOUNDARY -> REVIEW / EVIDENCE / CURRENT OWNER RULE
+```
+
+The current domain profile may define a token, modifier, brand, product class, location, page type, exact phrase family or other signal as a valid split axis.
 
 ---
 
 ## MATERIAL SPLIT EVIDENCE
 
-A new cluster may be created only when at least one material boundary is established and the parent cluster can no longer truthfully represent the task.
-
-Valid split evidence may include:
+A split may be supported by one or more current-job signals such as:
 
 ```text
 1. DIFFERENT END USER GOAL / TASK OUTCOME
 2. DIFFERENT ACTION OR LIFECYCLE TASK
-3. DIFFERENT PRIMARY OBJECT/SERVICE WHERE THE REQUIRED ANSWER OR OFFER CHANGES MATERIALLY
-4. DIFFERENT INTENT / RESULT TYPE THAT CANNOT BE SATISFIED BY THE SAME PRIMARY RESPONSE
-5. DIFFERENT PAGE-TYPE NEED / SAME-PAGE INCOMPATIBILITY
-6. DIRECT SERP EVIDENCE SHOWING A STABLE MATERIAL BOUNDARY
+3. DIFFERENT PRIMARY OBJECT, SERVICE OR COMPONENT
+4. DIFFERENT INTENT OR EXPECTED RESULT TYPE
+5. DIFFERENT EXECUTION MODE: BUY / HIRE / DIY / LEARN / NAVIGATE / OTHER
+6. DIFFERENT PAGE OR RESULT NEED WHEN PAGE COMPATIBILITY IS IN SCOPE
+7. DIRECT SERP OR OTHER APPROVED EVIDENCE
+8. SITE OR BUSINESS-SCOPE BOUNDARY
+9. OWNER / CLIENT / DELIVERABLE REQUIREMENT
+10. DOMAIN-SPECIFIC RULE OR TAXONOMY CONTRACT
+11. REQUIRED COUNT OR RANGE CONSTRAINT
 ```
 
-No one signal is universally sufficient in every domain. The analyst must explain the causal reason the split is material.
+No single signal is sufficient in every project. A signal can nevertheless be decisive in a specific project when the current domain profile or owner decision says so.
 
-Required question:
-
-```text
-WHAT DIFFERENT USER TASK DOES THE NEW CLUSTER SOLVE THAT THE PARENT CLUSTER CANNOT REPRESENT?
-```
-
-If that cannot be answered concretely, the split is not approved.
-
----
-
-## SAME-PAGE COMPATIBILITY TEST
-
-Before creating a new cluster, evaluate whether both phrase sets can be satisfied by one normal primary page/task response without changing its central intent, page type or principal user outcome.
+For each material split record as applicable:
 
 ```text
-SAME_PRIMARY_PAGE_CAN_SATISFY_BOTH = strong evidence against split
-SAME_PRIMARY_PAGE_CANNOT_SATISFY_BOTH = split candidate
-UNCLEAR = preserve uncertainty / inspect SERP
-```
-
-This is an intent/granularity test. It is not final page ownership and does not authorize Step-11 architecture decisions.
-
-Canonical separation:
-
-```text
-STEP10_SAME_PAGE_COMPATIBILITY_TEST != STEP11_PAGE_OWNERSHIP
+SPLIT AXIS
+CURRENT SCOPE
+SUPPORTING EVIDENCE OR CONSTRAINT
+PARENT / SIBLING CLUSTERS
+EXPECTED RESULT DIFFERENCE
+OUTPUT EFFECT
 ```
 
 ---
 
-## MODIFIER NON-TRIGGER RULE
+## SAME-PAGE OR SAME-RESULT COMPATIBILITY
 
-The following are attributes/modifiers by default and must not create a new cluster automatically:
+When page or result compatibility is relevant, evaluate whether one coherent result can satisfy both groups.
+
+```text
+ONE RESULT CAN SATISFY BOTH -> EVIDENCE TOWARD MERGE
+ONE RESULT CANNOT SATISFY BOTH -> EVIDENCE TOWARD SPLIT
+UNCLEAR -> REVIEW OR CURRENT EVIDENCE ROUTE
+```
+
+This is one possible clustering signal. A current deliverable may cluster for another purpose, such as campaign structure, content inventory, reporting, navigation, product taxonomy or fixed output categories.
+
+Therefore:
+
+```text
+SAME-PAGE TEST = OPTIONAL CURRENT-JOB SIGNAL
+SAME-PAGE TEST != UNIVERSAL OVERRIDE OF ALL OTHER CONSTRAINTS
+```
+
+---
+
+## MODIFIER HANDLING
+
+Common modifiers include:
 
 ```text
 GEO
@@ -118,217 +205,294 @@ FREQUENCY / VOLUME
 ACQUISITION SOURCE / SEED / PROVENANCE
 ```
 
-A modifier may support a split only after material task/page/SERP evidence demonstrates that it changes the search task rather than merely refining the same task.
-
-Canonical rule:
+Default in an unconstrained task-first run:
 
 ```text
-MODIFIER_PRESENT != NEW_CLUSTER
+MODIFIER -> ATTRIBUTE INSIDE THE SAME MATERIAL TASK
+```
+
+Current-job override:
+
+```text
+MODIFIER -> SPLIT AXIS
+```
+
+is valid when supported by any current source, such as:
+
+```text
+DOMAIN TAXONOMY
+SITE STRUCTURE
+SERP BEHAVIOUR
+BUSINESS MODEL
+CLIENT REPORTING NEED
+CAMPAIGN DESIGN
+OWNER INSTRUCTION
+TARGET COUNT / RANGE
+TOOL REQUIREMENT
+```
+
+Brand, geography, material, size or another modifier may therefore remain absorbed in one project and define separate clusters in another.
+
+---
+
+## TAXONOMY-CONSTRUCTION MODES
+
+The current job may use any of these legitimate starting modes:
+
+```text
+FRESH TAXONOMY DISCOVERY
+ADAPT AN EXISTING TAXONOMY
+USE A CLIENT-PROVIDED CATEGORY SET
+USE CURRENT SITE CATEGORIES
+USE A FIXED NUMBER OF GROUPS
+USE A REQUIRED CATEGORY LIST
+USE TOOL-GENERATED CANDIDATES
+USE A PRIOR VALIDATED TAXONOMY
+```
+
+The chosen mode must be declared before assignment.
+
+Historical clusters may be reused when reuse is allowed. They become comparison-only only when the current task explicitly requests an independent rebuild.
+
+---
+
+## CLUSTER CREATION AND ROW CLASSIFICATION
+
+For large or uncertain corpora, the preferred baseline separates task discovery, taxonomy normalization and assignment:
+
+```text
+DISCOVER CURRENT TASKS
+-> BUILD OR ADAPT TAXONOMY
+-> FREEZE CURRENT VERSION
+-> ASSIGN
+-> VERIFY
+```
+
+The current job may also permit controlled in-pass taxonomy growth when:
+
+```text
+THE CORPUS IS SMALL
+THE OWNER REQUIRES INTERACTIVE SORTING
+DATA ARRIVES INCREMENTALLY
+THE TOOL REQUIRES ONLINE CLUSTER CREATION
+THE CATEGORY SET IS BEING CO-DESIGNED
+```
+
+In that mode every mutation must be logged and its impact rechecked.
+
+Canonical distinction:
+
+```text
+UNCONTROLLED TAXONOMY MUTATION = PROCESS RISK
+CONTROLLED, DECLARED TAXONOMY MUTATION = VALID EXECUTION MODE
 ```
 
 ---
 
-## CLUSTER CREATION MUST BE SEPARATE FROM ROW CLASSIFICATION
+## CLUSTER JUSTIFICATION RECORD
 
-Phrase assignment and taxonomy creation are separate analytical operations.
-
-Forbidden pattern:
+For every material new or changed cluster, preserve the fields required by the current job. A strong baseline is:
 
 ```text
-READ ONE PHRASE
--> IT DOES NOT FIT PERFECTLY
--> CREATE NEW CLUSTER IMMEDIATELY
--> CONTINUE
+CLUSTER ID / LABEL
+SCOPE
+PARENT OR NEAREST SIBLING
+MEMBER PHRASES OR REQUIRED CATEGORY SOURCE
+SPLIT AXIS
+USER-TASK OR DELIVERABLE DIFFERENCE
+PAGE / RESULT COMPATIBILITY IF RELEVANT
+DIRECT EVIDENCE STATE
+COUNT-CONSTRAINT EFFECT IF RELEVANT
+OWNER DECISION IF RELEVANT
+FINAL DECISION
 ```
 
-Required pattern:
-
-```text
-DISCOVER / CLASSIFY FULL DECLARED CORPUS
--> COLLECT ALL NEW_CLUSTER_CANDIDATE ITEMS
--> REVIEW ALL CANDIDATES TOGETHER
--> APPLY MATERIAL SPLIT GATE
--> NORMALIZE TAXONOMY
--> FREEZE CLUSTER DICTIONARY
--> REASSIGN / VERIFY FULL CORPUS
-```
-
-Canonical rules:
-
-```text
-CLUSTER_CREATION != PHRASE_CLASSIFICATION
-ROW_ERROR_CORRECTION_CANNOT_AUTO_CREATE_CLUSTER = true
-NEW_CLUSTER_CANDIDATES_ARE_BATCH_REVIEWED = true
-```
+An exact phrase, local term, site category or owner instruction is valid support when it is the real basis of the decision.
 
 ---
 
-## NEW CLUSTER JUSTIFICATION LEDGER
+## MICROCLUSTERS, SINGLETONS AND EMPTY CATEGORIES
 
-Every new cluster created after an existing candidate taxonomy has been formed must have an auditable justification record.
-
-At minimum record:
+Cluster size is a current-job parameter.
 
 ```text
-candidate cluster ID / label
-parent or nearest existing cluster
-phrase set requesting the split
-material user-task difference
-same-page compatibility result
-SERP evidence state if used
-reason parent cluster is insufficient
-review decision: CONFIRMED / REJECTED / SEARCH_REQUIRED
+SMALL CLUSTER MAY BE CORRECT
+SINGLETON MAY BE CORRECT
+LARGE CLUSTER MAY BE INCORRECT
+EMPTY CATEGORY MAY BE REQUIRED
 ```
 
-No justification record -> no new cluster.
-
-Canonical rule:
+A current taxonomy may contain:
 
 ```text
-NEW_CLUSTER_WITHOUT_JUSTIFICATION_LEDGER = FAIL
+ACTIVE EVIDENCE-BACKED CLUSTER
+RESERVED EMPTY CATEGORY
+REQUIRED CLIENT CATEGORY
+FUTURE CATEGORY
+REJECTED CANDIDATE
 ```
+
+They must be reported separately.
+
+Any numerical small/large threshold is allowed when declared for the current job. It is not automatically an industry-wide truth.
 
 ---
 
-## MICROCLUSTER / SINGLETON CONTROL
+## UNCERTAINTY MODES
 
-Small clusters and singleton clusters are not automatically wrong and must not be auto-merged solely by size.
-
-However, they receive mandatory granularity review because they are high-risk for accidental over-splitting.
+The current job must declare one of the following or an equivalent mode:
 
 ```text
-SMALL_CLUSTER != BAD_CLUSTER
-SINGLETON != AUTOMATIC_ERROR
-SMALL_CLUSTER -> MANDATORY_SPLIT_JUSTIFICATION_REVIEW
+UNRESOLVED ROWS ALLOWED
+EVERY ROW MUST BE ASSIGNED
+OWNER DECISION REQUIRED FOR AMBIGUOUS ROWS
+SEARCH / SERP USED FOR AMBIGUITY
+DEFAULT / FALLBACK CLUSTER USED
 ```
 
-Any numerical definition of `small` used for QA triggering is an internal workflow parameter, not an industry truth and must not become an automatic merge rule.
+All are valid when explicit.
 
----
-
-## UNCERTAINTY CONTROL
-
-When a potential split is plausible but not proven:
-
-```text
-DO NOT CREATE A NEW CLUSTER TO REMOVE UNCERTAINTY
-```
-
-Use an explicit unresolved state such as:
+When unresolved states are allowed, possible statuses include:
 
 ```text
 NEW_CLUSTER_CANDIDATE
 SPLIT_UNPROVEN
 BOUNDARY_REVIEW
 SEARCH_REQUIRED
+DEFERRED
 ```
 
-Exact status names may vary by implementation. The invariant is that uncertainty remains visible rather than being converted into taxonomy growth.
-
-Canonical rule:
-
-```text
-UNCERTAINTY_PRESERVATION > FALSE_TAXONOMY_PRECISION
-```
+When all rows must be assigned, preserve lower confidence or fallback reasoning instead of pretending the decision was certain.
 
 ---
 
-## CONSISTENCY-OF-SPLIT-AXIS CONTROL
+## CONSISTENCY OF SPLIT AXES
 
-A taxonomy must not split one family by action, another by modifier, another by brand, and another by geography without evidence explaining why those axes are material in each case.
+Consistency is judged against the current domain profile, not against a requirement that every family use the same split axis.
 
-For every split family ask:
+For each family ask:
 
 ```text
-WHAT AXIS IS CAUSING THE SPLIT?
-IS THAT AXIS MATERIAL TO USER TASK / PAGE COMPATIBILITY / SERP?
-IS THE SAME AXIS HANDLED CONSISTENTLY ACROSS SIBLING PHRASES?
+WHAT AXIS IS USED HERE?
+WHY IS IT MATERIAL OR REQUIRED HERE?
+WHAT CURRENT EVIDENCE OR CONSTRAINT SUPPORTS IT?
+HOW ARE SIBLING PHRASES HANDLED?
 ```
 
-Inconsistent handling of the same modifier or boundary is a QA failure unless explicit evidence explains the difference.
+One family may validly split by action, another by brand, another by material and another by geography when the current evidence or deliverable supports those choices.
 
 ---
 
 ## MERGE CONTROL
 
-The anti-fragmentation rule must not become a forced-merge rule.
-
-Do not merge phrases merely to reduce cluster count when they materially differ by user task, required result type, commercial/informational purpose, lifecycle action, primary object or validated SERP boundary.
-
-Canonical rule:
+A merge may be driven by:
 
 ```text
-LOWER_CLUSTER_COUNT != BETTER_CLUSTERING
-MERGE_REQUIRES_TASK_COMPATIBILITY
+SAME USER TASK
+SAME EXPECTED RESULT
+SAME PAGE / RESULT COMPATIBILITY
+CURRENT COUNT CONSTRAINT
+OWNER / CLIENT CATEGORY DESIGN
+TOOL OR CAMPAIGN REQUIREMENT
+```
+
+If a constraint causes semantically broader clusters, record that fact rather than hiding it.
+
+Likewise, a lower count is not automatically better and a higher count is not automatically worse.
+
+```text
+CLUSTER QUALITY = FITNESS FOR CURRENT PURPOSE
 ```
 
 ---
 
-## KNOWN FAILURE MODES PREVENTED
+## ITERATION AND CORRECTION
 
-### Failure A — endless taxonomy growth
+Batch review and consolidated correction are the preferred baseline for large corpora.
 
-Cause:
+Iterative correction is allowed when required by:
 
 ```text
-new nuance / modifier / discovered error -> immediate new cluster
+OWNER INSTRUCTION
+NEW DATA
+TOOL LIMITS
+MODEL LIMITS
+EXPERIMENT DESIGN
+A/B COMPARISON
+BUDGET OR COST STAGING
+INCREMENTAL DELIVERY
 ```
+
+Each run should declare:
+
+```text
+INPUT VERSION
+PURPOSE
+RULE OR TAXONOMY CHANGE
+EXPECTED IMPACT
+VALIDATION
+OUTPUT VERSION
+```
+
+The method prevents hidden, unbounded patching; it does not ban legitimate additional runs.
+
+---
+
+## KNOWN FAILURE MODES AND CORRECT CONTROLS
+
+### Failure A — local nuance becomes accidental universal law
 
 Control:
 
 ```text
-batch candidate review + material split gate + justification ledger
+KEEP LOCAL RULE
+LABEL ITS SCOPE
+DO NOT SILENTLY PROMOTE IT TO EVERY PROJECT
 ```
 
-### Failure B — broad bucket swallowing distinct tasks
-
-Cause:
-
-```text
-same object / lexical similarity treated as sufficient merge proof
-```
+### Failure B — universal method strips away required domain knowledge
 
 Control:
 
 ```text
-user-task distinction + same-page compatibility + SERP review where materially uncertain
+CURRENT DOMAIN PROFILE IS PART OF EXECUTION
+LOCAL TERMS / IDS / EXAMPLES / THRESHOLDS ARE ALLOWED
 ```
 
-### Failure C — cluster count used as target
-
-Cause:
-
-```text
-analyst attempts to reach a preferred number of clusters
-```
+### Failure C — count constraint is silently ignored
 
 Control:
 
 ```text
-no target count; count is the consequence of validated boundaries
+DECLARE COUNT MODE
+APPLY AUTHORIZED CONSTRAINT
+RECORD TRADE-OFFS
 ```
 
-### Failure D — uncertainty converted into false precision
-
-Cause:
-
-```text
-ambiguous phrase gets a new cluster because no existing cluster feels perfect
-```
+### Failure D — analyst invents a count where none was requested
 
 Control:
 
 ```text
-preserve unresolved state instead of inventing taxonomy
+UNCONSTRAINED MODE -> COUNT EMERGES FROM CURRENT BOUNDARIES
+```
+
+### Failure E — uncertainty is hidden
+
+Control:
+
+```text
+USE THE CURRENT DECLARED UNCERTAINTY MODE
+PRESERVE CONFIDENCE AND DECISION BASIS
 ```
 
 ---
 
 ## EXTERNAL METHOD SUPPORT
 
-The permanent rule is supported by current industry clustering guidance that clusters are fundamentally about shared search intent / page compatibility, with SERP overlap used as evidence and with known trade-offs between broader and stricter clustering.
+Industry clustering guidance supports shared search intent, page/result compatibility, SERP overlap and manual adjudication as useful clustering signals. These signals remain inputs to the current method rather than universal overrides of owner, business, site or deliverable constraints.
 
-Direct methodology references:
+Direct references:
 
 - Ahrefs — Keyword Clustering: https://ahrefs.com/blog/keyword-clustering/
 - SE Ranking — Comprehensive Guide to Keyword Clustering: https://seranking.com/blog/keyword-clustering/
@@ -336,53 +500,68 @@ Direct methodology references:
 - Rush Analytics — keyword clustering guide: https://www.rush-analytics.ru/faq/klasterizaciya-zaprosov-semanticheskogo-yadra-rukovodstvo
 - Keyword Insights — clustering types / centroid vs agglomerative trade-off: https://docs.keywordinsights.ai/learning-center/the-features/keyword-clustering/the-advanced-settings/clustering-types
 
-These sources do not prescribe one universal cluster count. The exact internal states, ledgers and pass-gate mechanics above are project controls derived from the supported principles and owner-approved to prevent repeatable over-splitting and under-splitting failures.
+No external source eliminates the need for a current domain profile and current project constraints.
 
 ---
 
 ## SOURCE-TO-METHOD TRACE
 
 ```text
-shared / similar search intent
--> task compatibility is the primary clustering unit
+shared search intent / same-result compatibility
+-> useful baseline for unconstrained task clustering
 
-same or materially overlapping SERP / same ranking-page pattern
--> evidence for same-page compatibility or boundary review
+SERP overlap
+-> possible boundary evidence where Search evidence is in scope
 
-soft vs hard / centroid vs stricter pairwise clustering trade-off
--> no universal correct cluster count; strictness changes granularity
+soft vs hard clustering
+-> strictness is a configurable current-job choice
 
-manual review after automated grouping
--> machine grouping cannot self-accept semantic boundaries
+manual review
+-> automated grouping benefits from current-domain adjudication
 
-project-observed over-splitting risk
--> new-cluster burden of proof + justification ledger
+owner / client / deliverable constraint
+-> valid current execution constraint that must be recorded and applied
 
-project-observed under-splitting risk
--> no forced merge merely to reduce count
+fixed target count or range
+-> valid constrained mode; not semantic evidence by itself
+
+site / business taxonomy
+-> valid current split or merge axis
+
+local exact rule
+-> valid within declared scope
 ```
 
 ---
 
-## PASS GATE
+## PASS GATE TEMPLATE
 
-Step-10 taxonomy cannot pass unless all of the following are true:
+The current execution must instantiate applicable values:
 
 ```text
-TARGET_CLUSTER_COUNT_USED = false
-NEW_CLUSTER_WITHOUT_MATERIAL_JUSTIFICATION = 0
-NEW_CLUSTER_CREATED_DURING_SINGLE_ROW_PATCH = 0
-UNREVIEWED_NEW_CLUSTER_CANDIDATES = 0
-MODIFIER_ONLY_SPLITS_WITHOUT_EVIDENCE = 0
-UNEXPLAINED_SPLIT_AXIS_INCONSISTENCIES = 0
-FORCED_MERGES_ACROSS_MATERIAL_USER_TASKS = 0
-UNRESOLVED_BOUNDARIES_HIDDEN_AS_CONFIRMED_CLUSTERS = 0
-MICROCLUSTERS_REVIEWED_FOR_SPLIT_JUSTIFICATION = true
-FULL_DECLARED_CORPUS_ACCOUNTED = true
-SEMANTIC_BOUNDARY_QA = PASS
+CURRENT_DOMAIN_PROFILE_DEFINED = true
+CURRENT_TAXONOMY_MODE_DECLARED = true
+CURRENT_COUNT_MODE_DECLARED = true
+CURRENT_UNCERTAINTY_MODE_DECLARED = true
+CURRENT_SPLIT_AXES_RECORDED = true
+CURRENT_CLUSTER_CONSTRAINTS_APPLIED = true
+LOCAL_RULES_SCOPED = true
+REQUIRED_ROWS_ACCOUNTED = CURRENT_REQUIRED_TOTAL
+REQUIRED_CATEGORIES_ACCOUNTED = true
+CURRENT_SEMANTIC_QA = PASS
+CURRENT_DELIVERABLE_QA = PASS
 ```
 
-Machine/accounting success alone is insufficient.
+Optional current-job gates may include:
+
+```text
+TARGET_CLUSTER_COUNT_MATCHED
+TARGET_CLUSTER_RANGE_MATCHED
+RESERVED_EMPTY_CATEGORIES_REPORTED
+MICROCLUSTER_THRESHOLD_APPLIED
+SERP_BOUNDARY_REVIEW_COMPLETE
+OWNER_ACCEPTANCE_RECEIVED
+```
 
 ---
 
@@ -390,15 +569,21 @@ Machine/accounting success alone is insufficient.
 
 ```text
 KW001_STEP10_GRANULARITY_METHOD_APPROVED = true
-KW001_STEP10_TARGET_CLUSTER_COUNT_FORBIDDEN = true
-KW001_STEP10_NO_NEW_CLUSTER_WITHOUT_MATERIAL_SPLIT_EVIDENCE = true
-KW001_STEP10_MODIFIER_NOT_CLUSTER_TRIGGER = true
-KW001_STEP10_CLUSTER_CREATION_SEPARATE_FROM_ROW_CLASSIFICATION = true
-KW001_STEP10_NEW_CLUSTER_JUSTIFICATION_LEDGER_REQUIRED = true
-KW001_STEP10_MICROCLUSTER_REVIEW_REQUIRED = true
-KW001_STEP10_UNCERTAINTY_CANNOT_CREATE_CLUSTER = true
-KW001_STEP10_NO_FORCED_MERGE_FOR_COUNT_REDUCTION = true
-KW001_STEP10_SPLIT_AXIS_CONSISTENCY_REQUIRED = true
+KW001_STEP10_UNIVERSAL_MEANS_REUSABLE_CORE = true
+KW001_STEP10_DOMAIN_PROFILE_ALLOWED = true
+KW001_STEP10_DOMAIN_PROFILE_REQUIRED_WHEN_NEEDED = true
+KW001_STEP10_SITE_SPECIFIC_BOUNDARIES_ALLOWED = true
+KW001_STEP10_REAL_CLUSTER_IDS_AND_LOCAL_EXAMPLES_ALLOWED = true
+KW001_STEP10_JOB_SPECIFIC_THRESHOLDS_ALLOWED = true
+KW001_STEP10_EXPLICIT_TARGET_COUNT_OR_RANGE_ALLOWED = true
+KW001_STEP10_UNCONSTRAINED_COUNT_MODE_ALLOWED = true
+KW001_STEP10_CONSTRAINED_COUNT_MODE_ALLOWED = true
+KW001_STEP10_MODIFIER_AS_ATTRIBUTE_OR_SPLIT_AXIS_ALLOWED = true
+KW001_STEP10_EXISTING_TAXONOMY_REUSE_ALLOWED = true
+KW001_STEP10_CONTROLLED_TAXONOMY_MUTATION_ALLOWED = true
+KW001_STEP10_RESERVED_EMPTY_CATEGORIES_ALLOWED = true
+KW001_STEP10_ITERATIVE_REFINEMENT_ALLOWED_WHEN_SCOPED = true
+KW001_STEP10_LOCAL_RULES_MUST_BE_SCOPED_NOT_REMOVED = true
 ```
 
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-LOCKED**.
