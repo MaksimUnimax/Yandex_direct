@@ -1,0 +1,30 @@
+{
+  "status": "PASS2_MACHINE_ACCOUNTING_PASS__PASS3_INDEPENDENT_SEMANTIC_QA_REQUIRED",
+  "source_rows": 2840,
+  "active_rows": 2332,
+  "assigned_active_rows": 1940,
+  "search_required_active_rows": 392,
+  "preserved_deferred_rows": 174,
+  "preserved_excluded_rows": 334,
+  "active_accounted_rows": 2332,
+  "taxonomy_cluster_ids": 62,
+  "used_cluster_ids": 54,
+  "zero_assignment_cluster_ids": [
+    "GENERAL_GLAZING_SERVICE",
+    "GLAZING_PERMISSION_INFO",
+    "OPEN_BALCONY_FINISHING",
+    "OUTSIDE_OTHER",
+    "OUTSIDE_USED_MARKET",
+    "PRIVATE_HOUSE_WINDOW_PLANNING_INFO",
+    "PVC_DOOR_REPLACEMENT_SERVICE",
+    "WINDOW_CARE_INFO"
+  ],
+  "unknown_cluster_ids": [],
+  "direct_serp_rows_in_full_ledger": 66,
+  "old_step10_input_used": false,
+  "blind84_input_used": false,
+  "target_cluster_count_used": false,
+  "pass2_created_new_cluster": false,
+  "pass3_independent_semantic_qa_required": true,
+  "pass3_complete": false
+}
