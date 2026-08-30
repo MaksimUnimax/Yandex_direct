@@ -57,7 +57,7 @@ Permanent promotion requires explicit owner instruction.
 | Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — no default KEEP; KEEP requires positive evidence; accounting QA != semantic QA; fix causes/classes; uncertainty -> REVIEW. |
 | **Step 8** | **Freeze Search-stage semantic set** | **APPROVED / ACTIVE AFTER METHOD CORRECTION** | **`STEP_08_SEARCH_STAGE_FREEZE_METHOD.md`** — only executable routes; no `REVIEW_BUSINESS`/`REVIEW_SEARCH_AND_BUSINESS` without a real independent evidence source; internal priority is not a semantic route; source-to-method trace required. |
 | Step 9 | Ordinary Yandex Search/SERP validation | **UNVALIDATED** | Must research current Yandex/Search evidence methodology, query sampling/full-scope rules, preservation and page-boundary interpretation before execution. |
-| **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`** — no target cluster count; no new cluster without material split evidence; modifiers are not automatic cluster triggers; cluster creation is separate from row classification; microclusters require justification review; uncertainty must not create taxonomy. |
+| **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY AND SORTING CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`** — no target cluster count; no new cluster without material split evidence; modifiers are not automatic cluster triggers. **`STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`** — derive a complete task signature and expected terminal result; sort by user task rather than token/regex; absorb modifiers by default; distinguish product/bundle, service, component, DIY and information modes; forbid empty active clusters and error-by-error version chains. **`STEP_10_SORTING_AND_QA_METHOD.md`** — full task discovery, frozen-taxonomy assignment, independent full-row QA, one consolidated correction, full regression and bounded impact recheck. |
 | Step 11 | Page ownership mapping | **UNVALIDATED** | Must define evidence required to map a cluster/task to an existing URL and when no current page is suitable. |
 | Step 12 | Structural actions (keep/expand/split/merge/create) | **UNVALIDATED** | Must separate evidence-backed structural action from analyst preference. |
 | Step 13 | Cannibalization diagnosis | **UNVALIDATED** | Must distinguish real competing-page conflict from normal multi-URL visibility. |
@@ -151,7 +151,7 @@ Direct sources used in that correction:
 
 # Step-10 permanent lesson summary
 
-The Step-10 granularity correction established:
+The Step-10 granularity and sorting corrections established:
 
 ```text
 TARGET_CLUSTER_COUNT = FORBIDDEN
@@ -160,13 +160,52 @@ MODIFIER_PRESENT != NEW_CLUSTER
 CLUSTER_CREATION != PHRASE_CLASSIFICATION
 UNCERTAINTY != NEW_CLUSTER
 LOWER_CLUSTER_COUNT != BETTER_CLUSTERING
+
+LEXICAL_MATCH != USER_TASK
+REGEX_MATCH != SEMANTIC_DECISION
+PRODUCT_WITH_INCLUDED_SERVICE != SERVICE_ONLY_REQUEST
+COMPONENT_TASK != WHOLE_OBJECT_TASK
+DIY_RESULT != HIRED_SERVICE_RESULT
+INFORMATION_RESULT != TRANSACTIONAL_RESULT
+ZERO_ASSIGNMENT_CLUSTER != PROVEN_CLUSTER
+PASS != VERSIONED_RETRY
 ```
 
-A new cluster must pass an explicit material split test and be justified in a batch-reviewed candidate ledger. Small clusters are not auto-errors, but require explicit justification review. Reducing cluster count must not force together materially different user tasks.
+Every row must be resolved through a complete task signature:
 
-Canonical authority:
+```text
+PRIMARY_OBJECT
++ OBJECT_SCOPE
++ USER_ACTION_OR_GOAL
++ EXPECTED_TERMINAL_RESULT
++ INTENT_MODE
++ LIFECYCLE_STAGE
++ EXECUTION_MODE
++ BUSINESS_SCOPE_STATE
+```
 
-`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`
+The decisive question is the user's expected terminal result. Modifiers remain attributes by default. A new cluster must pass an explicit material split test and be justified in a batch-reviewed candidate ledger. Assignment is matching a complete task signature to a frozen cluster contract, not matching a token to a cluster name.
+
+The required execution model is one planned semantic pipeline:
+
+```text
+FULL TASK DISCOVERY
+-> ONE TAXONOMY FREEZE
+-> ONE FULL ASSIGNMENT
+-> ONE FULL INDEPENDENT QA DISCOVERY
+-> ONE COMPLETE ERROR LEDGER
+-> ONE CONSOLIDATED CORRECTION BATCH
+-> FULL MACHINE REGRESSION
+-> PROVABLE IMPACT-SET RECHECK
+```
+
+Error-by-error version chains are forbidden. Empty active clusters are not accepted as proven taxonomy. Small clusters are not auto-errors, but require explicit justification review. Reducing cluster count must not force together materially different user tasks.
+
+Canonical authorities:
+
+- `STEP_10_CLUSTERING_GRANULARITY_METHOD.md`
+- `STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`
+- `STEP_10_SORTING_AND_QA_METHOD.md`
 
 ---
 
@@ -181,5 +220,7 @@ KW001_APPROVED_STEP_STILL_REQUIRES_FRESH_RESEARCH = true
 KW001_UNVALIDATED_STEP_REQUIRES_METHOD_RESEARCH = true
 KW001_STEP8_METHOD_APPROVED_AFTER_CORRECTION = true
 KW001_STEP10_GRANULARITY_METHOD_APPROVED = true
+KW001_STEP10_TASK_FIRST_SORTING_METHOD_APPROVED = true
+KW001_STEP10_SORTING_QA_METHOD_APPROVED = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```
