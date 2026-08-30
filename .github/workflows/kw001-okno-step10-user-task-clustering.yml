@@ -7,49 +7,10 @@ on:
     paths:
       - '.github/workflows/kw001-okno-step10-user-task-clustering.yml'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_BUILD.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V2.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V3.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V4.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V5.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V6.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V7.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V8.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V9.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V10.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V11.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V12.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V13.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V14.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V15.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V16.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V17.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V18.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V19.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V20.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V21.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V22.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V23.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V24.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V25.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V26.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V27.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V10.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V11.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V14.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V15.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V19.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V20.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V23.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V24.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN*.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT*.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V10.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V15.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V19.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V26.py'
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V27.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT*.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_SERP_COMPARISONS.tsv'
@@ -75,7 +36,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V27.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V28.py
 
       - name: Enforce Step10 machine accounting gate
         shell: bash
@@ -114,11 +75,11 @@ jobs:
           set -euo pipefail
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py
 
-      - name: Enforce V24 adjudicated semantic collision hard gate
+      - name: Enforce V28 adversarial semantic collision hard gate
         shell: bash
         run: |
           set -euo pipefail
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V24.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V28.py
 
       - name: Enforce V27 unresolved-state hard gate
         shell: bash
@@ -145,6 +106,6 @@ jobs:
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.tsv \
             extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json
           if ! git diff --cached --quiet; then
-            git commit -m "step10: rebuild clusters after V27 unresolved-audit correction"
+            git commit -m "step10: rebuild clusters after V28 manual semantic QA corrections"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
