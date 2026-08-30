@@ -1,0 +1,81 @@
+name: Step10 Fresh R1 Pass3 Semantic Audit
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass3-audit.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_AUDIT.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENT.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REVIEW_PACK.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_TAXONOMY.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Run full independent Pass3 semantic audit
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_AUDIT.py
+
+      - name: Verify Pass3 accounting and show largest transitions
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa = json.loads((root / 'STEP_10_FRESH_R1_PASS3_QA.json').read_text(encoding='utf-8'))
+          assert qa['pass3_rows_reviewed'] == 2332
+          assert qa['pass3_silent_drops'] == 0
+          assert qa['direct_active_rows'] == 66
+          assert qa['taxonomy_cluster_ids'] == 62
+          assert qa['old_step10_input_used'] is False
+          assert qa['blind84_input_used'] is False
+          assert qa['pass2_mutated_by_pass3_audit'] is False
+          assert qa['error_ledger_frozen'] is False
+
+          with (root / 'STEP_10_FRESH_R1_PASS3_ERROR_TRANSITIONS.tsv').open(encoding='utf-8', newline='') as f:
+              rows = list(csv.DictReader(f, delimiter='\t'))
+          print('PASS3_FULL_REVIEW_ACCOUNTING=PASS_2332_OF_2332')
+          print('PASS3_ERROR_ROWS=' + str(qa['pass3_error_rows']))
+          print('PASS3_UNRESOLVED_ROWS=' + str(qa['pass3_unresolved_adjudication_rows']))
+          for row in rows[:30]:
+              print('\t'.join([
+                  row['pass2_assignment_status'],
+                  row['pass2_cluster_id'],
+                  '->',
+                  row['audit_expected_status'],
+                  row['audit_cluster_id'],
+                  row['error_class'],
+                  row['row_count'],
+              ]))
+          PY
+
+      - name: Commit generated Pass3 audit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_FULL_REVIEW.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_TRANSITIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_QA.json
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "step10: generate fresh R1 Pass3 semantic audit"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
