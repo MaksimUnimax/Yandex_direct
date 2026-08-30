@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "bridge_reported_version": "0.1.1",
+  "operation": "batch.nextN",
+  "requested_count": 10,
+  "attempted_steps": 10,
+  "confirmed_provider_executions": 10,
+  "provider_execution_count_exact": true,
+  "stopped_early": false,
+  "progress_after_chunk": {
+    "total": 68,
+    "pending": 38,
+    "succeeded": 30,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 30,
+    "requests_started": 30,
+    "estimated_cost_rub": 14.63999999999999,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "chunk_queries": [
+    {"global_ordinal":21,"query":"остекление беседки","request_id":"search-batch-9f291875-e4fa-4508-ada9-c0888a73514f","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated gazebo glazing service pages dominate; some sites combine gazebo/veranda/terrace"},
+    {"global_ordinal":22,"query":"отделка открытого балкона","request_id":"search-batch-9a91bd63-4248-461c-b05b-8ae7a0719d75","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"open-balcony without glazing has distinct service/information result set"},
+    {"global_ordinal":23,"query":"установка пластиковых окон москва","request_id":"search-batch-843d89f0-e3ec-45be-9045-516a1d8340d7","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated professional installation pages coexist with broad window-commercial pages"},
+    {"global_ordinal":24,"query":"установка пластиковых дверей москва","request_id":"search-batch-12850a9c-8e42-4345-8455-54527262f666","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated PVC-door installation/service pages and service marketplaces dominate"},
+    {"global_ordinal":25,"query":"ремонт пластиковых окон москва","request_id":"search-batch-02c0f817-a457-4923-b638-149a5dc08737","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated window-repair service pages dominate"},
+    {"global_ordinal":26,"query":"ремонт пластиковых дверей москва","request_id":"search-batch-5dfd76fe-662c-4ffd-a025-73315a9550a5","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"door-repair task strongly service-marketplace/specialist oriented"},
+    {"global_ordinal":27,"query":"замена пластиковых окон москва","request_id":"search-batch-2a7d7977-efa1-4117-a780-36f89a9751c1","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"replacement has dedicated landing pages but overlaps installation/price/service pages"},
+    {"global_ordinal":28,"query":"замена пластиковых дверей москва","request_id":"search-batch-2462124b-0fcc-4b16-b737-61a18188706d","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated replacement pages exist, especially balcony/entrance doors, plus service marketplaces"},
+    {"global_ordinal":29,"query":"демонтаж окон москва","request_id":"search-batch-c1609179-b4e5-4fcb-937d-38368758dfe7","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"demolition/dismantling is a distinct professional service SERP"},
+    {"global_ordinal":30,"query":"отделка откосов окон москва","request_id":"search-batch-a3531c22-3272-4195-a417-8b9fda534a04","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated slope-finishing/install service pages dominate"}
+  ],
+  "target_domain_top10_hits_in_chunk": 0,
+  "interpretation_boundary": "Checkpoint of provider execution/accounting and direct-query SERP signals. No page-ownership verdict is made here. Full ranked-row projection will be persisted after batch completion."
+}
