@@ -1,0 +1,39 @@
+{
+  "observed_at": "2026-08-30",
+  "bridge_reported_version": "0.1.1",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "operation": "batch.nextN",
+  "requested_count": 10,
+  "attempted_steps": 10,
+  "confirmed_provider_executions": 10,
+  "provider_execution_count_exact": true,
+  "status": "OK",
+  "progress_after_chunk": {
+    "total": 68,
+    "pending": 58,
+    "succeeded": 10,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 10,
+    "requests_started": 10,
+    "estimated_cost_rub": 4.88,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "queries": [
+    {"ordinal":1,"query":"окна москва купить","request_id":"search-batch-0f41234a-c5ce-4a20-8961-f93e5b1d4c1f","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":2,"query":"окна rehau москва","request_id":"search-batch-a0898461-b22f-4bff-8b21-99e575625e1a","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":3,"query":"алюминиевые окна москва","request_id":"search-batch-a460ef65-0299-4d15-8d03-334e0d5cbb4c","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":4,"query":"деревянные окна москва","request_id":"search-batch-7005484a-7ff3-4630-8c4f-5143b3761d31","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":5,"query":"дерево алюминиевые окна","request_id":"search-batch-d5e2aab4-dc4f-49de-89b4-1b3f5c24b78d","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":6,"query":"мягкие окна москва","request_id":"search-batch-25d866b0-dfa7-4bb6-a84e-f139cd18343f","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":7,"query":"французские окна москва","request_id":"search-batch-06dbab95-a4b6-4b3c-ab82-5eb1ade934ba","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":8,"query":"панорамные окна москва","request_id":"search-batch-ced15ef8-68f2-4965-88b5-8a9a14ab7ec2","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":9,"query":"мансардные окна москва","request_id":"search-batch-a15c4840-049e-4521-8ec4-8898026954af","http_status":200,"result_count":10,"target_domain_in_top10":false},
+    {"ordinal":10,"query":"окна и двери пвх москва","request_id":"search-batch-eb9a534b-d2b8-4fe6-97d0-bfaefa118478","http_status":200,"result_count":10,"target_domain_in_top10":false}
+  ],
+  "target_domain": "okno-msk.ru",
+  "target_domain_top10_query_hits": 0,
+  "interpretation_boundary": "Direct current Yandex Search evidence for these exact ten queries only. Target-domain absence from TOP-10 is not by itself a page-ownership verdict."
+}
