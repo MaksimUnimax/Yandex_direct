@@ -1,7 +1,7 @@
 # KW-001 / OKNO-MSK — JOB FLOW
 
 Date created: 2026-08-28
-Last updated: 2026-08-29
+Last updated: 2026-08-30
 Status: **ACTIVE / JOB-SPECIFIC / DISPOSABLE WITH WORKSPACE**
 
 ## Whole Kwork goal
@@ -213,7 +213,7 @@ Duplicate comparison handoff:
 1 group = DO_NOT_AUTO_MERGE / REVIEW_SEARCH_JOB_BOUNDARY
 ```
 
-These remain Step-10 candidates, not final clusters.
+These remained Step-10 candidates, not Step-09 final clusters.
 
 ### REVIEW_SEARCH accounting truth
 
@@ -246,38 +246,151 @@ STEP09_PREMATURE_PAGE_OWNERSHIP = 0
 STEP09_COMPLETE = true
 ```
 
-## Current step — Step 10 user-task / SERP clustering
+## Step 10 — user-task / SERP clustering
+
+Status: **✅ COMPLETE / FRESH R1 FINAL VERIFIED**
+
+Canonical universal method authorities:
+
+```text
+STEP_10_CLUSTERING_GRANULARITY_METHOD.md
+STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md
+STEP_10_SORTING_AND_QA_METHOD.md
+```
+
+Primary final job artifacts:
+
+```text
+STEP_10_FRESH_R1_TAXONOMY_FINAL.tsv
+STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv
+STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv
+STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv
+STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv
+STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv
+STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv
+STEP_10_FRESH_R1_FINAL_QA.json
+STEP_10_FRESH_R1_PASS3_REPORT.md
+STEP_10_FRESH_R1_PASS3_V5_VERIFIED.marker.json
+```
+
+### Accepted clustering boundary
+
+```text
+CLUSTER = MATERIALLY DISTINCT USER TASK
+LEXICAL_MATCH != USER_TASK
+MODIFIER_PRESENT != NEW_CLUSTER
+REGEX_MATCH != SEMANTIC DECISION
+PRODUCT_WITH_INCLUDED_SERVICE != SERVICE_ONLY REQUEST
+COMPONENT TASK != WHOLE-OBJECT TASK
+DIY RESULT != HIRED-SERVICE RESULT
+INFORMATION RESULT != TRANSACTIONAL RESULT
+UNCERTAINTY != NEW_CLUSTER
+TARGET_CLUSTER_COUNT = FORBIDDEN
+```
+
+The final sorting method resolves the complete task signature and expected terminal result before matching the phrase to a frozen cluster contract. Domain vocabulary remains in the job implementation, not in the universal rule.
+
+### Full-corpus execution truth
+
+```text
+SOURCE_ROWS = 2840
+ACTIVE_ROWS = 2332
+PASS3_INDEPENDENTLY_REVIEWED = 2332/2332
+PASS3_ERROR_LEDGER_ROWS = 927
+CONSOLIDATED_CORRECTION_ROWS = 927
+CORRECTION_BATCHES_APPLIED = 1
+FINAL_ASSIGNED_ACTIVE_ROWS = 2319
+FINAL_SEARCH_REQUIRED_ACTIVE_ROWS = 13
+FINAL_ACTIVE_ACCOUNTED_ROWS = 2332/2332
+PRESERVED_DEFERRED_ROWS = 174
+PRESERVED_EXCLUDED_ROWS = 334
+```
+
+### Taxonomy truth
+
+```text
+INPUT_FROZEN_TAXONOMY_CANDIDATES = 62
+FINAL_ACTIVE_CLUSTERS_WITH_MEMBER_EVIDENCE = 59
+FINAL_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
+RETIRED_ZERO-MEMBER_INPUT_CANDIDATES = 3
+RETIRED_IDS = WINDOW_CARE_INFO, WINDOW_MEASUREMENT_INFO, OUTSIDE_USED_MARKET
+TARGET_CLUSTER_COUNT_USED = false
+```
+
+The three retired IDs remain preserved only as input-history candidates. They are not counted as final clusters because no final active phrase supplied member evidence.
+
+### Final QA truth
+
+```text
+DIRECT_EVIDENCE_EXACT_ROWS_SEEN = 66
+DIRECT_EVIDENCE_TRANSFER_TO_NEIGHBOURS = 0
+IMPACT_ROWS_RECHECKED = 927
+IMPACT_RECHECK_FAILURES = 0
+SEMANTIC_INVARIANT_VIOLATIONS = 0
+SEMANTIC_REGRESSION_CASES = 47
+SEMANTIC_REGRESSION_FAILURES = 0
+FULL_LEDGER_SEMANTIC_SCAN_FAILURES = 0
+OLD_STEP10_INPUT_USED = false
+BLIND84_INPUT_USED = false
+```
+
+### Bridge use and cost
+
+```text
+STEP10_BRIDGE_CLASSIFICATION = BRIDGE_CONDITIONAL
+NEW_STEP10_PROVIDER_REQUESTS = 0
+NEW_STEP10_PROVIDER_COST_RUB = 0
+EXISTING_EXACT_STEP09_SERP_EVIDENCE_REUSED = true
+```
+
+No paid Search call was added merely to force assignment. Thirteen genuinely unresolved active phrases remain explicit for later boundary/search handling.
+
+### Step-10 close truth
+
+```text
+STEP10_PASS1_COMPLETE = true
+STEP10_PASS2_COMPLETE = true
+STEP10_PASS3_COMPLETE = true
+STEP10_COMPLETE_ERROR_LEDGER_FROZEN_BEFORE_CORRECTION = true
+STEP10_ONE_CONSOLIDATED_CORRECTION_BATCH = true
+STEP10_FULL_ACCOUNTING_REGRESSION = PASS
+STEP10_IMPACT_SET_SEMANTIC_RECHECK = PASS
+STEP10_ACTIVE_TAXONOMY_MEMBER_EVIDENCE = PASS
+STEP10_FINAL_STATUS = COMPLETE
+NEXT_STEP_ALLOWED = true
+```
+
+## Current step — Step 11 page ownership
 
 Status: **🔄 PRE-STEP METHODOLOGY RESEARCH REQUIRED / EXECUTION NOT STARTED**
 
 `STEP_RULES_INDEX.md` status:
 
 ```text
-STEP_10_PERMANENT_METHOD = UNVALIDATED
+STEP_11_PERMANENT_METHOD = UNVALIDATED
 ```
 
-Therefore the current allowed work is:
+Current allowed work is limited to the Step-11 pre-step gate:
 
 ```text
-1. restore exact Step-10 goal and inputs;
-2. analyze prior clustering-related failure risks;
-3. perform fresh current methodology research;
-4. create source-to-method trace for every material clustering rule;
-5. define how meaning, direct SERP compatibility, business fit and unresolved Search evidence combine;
-6. explicitly reject automatic one-keyword-one-page and universal overlap-threshold logic;
-7. define Step-10 executable outputs and quantitative PASS gate;
-8. present owner-facing method review with direct source links;
-9. only after required review/authorization execute clustering.
+1. restate the whole Kwork goal and complete roadmap;
+2. read prior page-mapping failure lessons;
+3. research current page-ownership methodology;
+4. define the evidence needed to map a task cluster to an existing URL;
+5. distinguish page ownership from lexical URL-name matching;
+6. define how existing-site evidence, ordinary SERP evidence and unresolved rows combine;
+7. create source-to-method trace and owner-facing method review;
+8. wait for explicit owner authorization before execution.
 ```
 
-Step-10 execution is currently blocked:
+Step-11 execution is blocked until that gate is complete:
 
 ```text
-STEP10_PRE_STEP_RESEARCH_REQUIRED = true
-STEP10_SOURCE_TO_METHOD_TRACE_COMPLETE = false
-STEP10_OWNER_METHOD_REVIEW_COMPLETE = false
-STEP10_EXECUTION_STARTED = false
-STEP10_COMPLETE = false
+STEP11_PRE_STEP_RESEARCH_REQUIRED = true
+STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = false
+STEP11_OWNER_METHOD_REVIEW_COMPLETE = false
+STEP11_EXECUTION_STARTED = false
+STEP11_COMPLETE = false
 ```
 
 ## Full roadmap status
@@ -296,8 +409,8 @@ STEP10_COMPLETE = false
 | 7. Row-level semantic cleanup | Produce trustworthy phrase-level decisions | ✅ COMPLETE AFTER CORRECTION |
 | 8. Freeze Search-stage semantic set | Freeze exact Search input and executable unresolved routes | ✅ COMPLETE AFTER METHOD CORRECTION |
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
-| **10. User-task / SERP clustering** | **Group compatible search jobs** | **🔄 CURRENT — PRE-STEP METHOD RESEARCH REQUIRED** |
-| 11. Page ownership | Map clusters to best existing URLs | ⬜ NOT STARTED |
+| 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
+| **11. Page ownership** | **Map clusters to best existing URLs** | **🔄 CURRENT — PRE-STEP METHOD RESEARCH REQUIRED** |
 | 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
@@ -324,9 +437,19 @@ KW001_OKNO_MSK_STEP09_DIRECT_EVIDENCE_DECISIONS = 75
 KW001_OKNO_MSK_STEP09_ACTIVE_DUPLICATE_COMPARISONS = 8
 KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_ACCOUNTED = 944
 KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_UNRESOLVED = 899
-KW001_OKNO_MSK_STEP10_PRE_STEP_RESEARCH_REQUIRED = true
-KW001_OKNO_MSK_STEP10_SOURCE_TO_METHOD_TRACE_COMPLETE = false
-KW001_OKNO_MSK_STEP10_OWNER_METHOD_REVIEW_COMPLETE = false
-KW001_OKNO_MSK_STEP10_EXECUTION_STARTED = false
-KW001_OKNO_MSK_STEP10_COMPLETE = false
+KW001_OKNO_MSK_STEP10_COMPLETE = true
+KW001_OKNO_MSK_STEP10_ACTIVE_ROWS = 2332
+KW001_OKNO_MSK_STEP10_FINAL_ASSIGNED = 2319
+KW001_OKNO_MSK_STEP10_FINAL_SEARCH_REQUIRED = 13
+KW001_OKNO_MSK_STEP10_INPUT_TAXONOMY_CANDIDATES = 62
+KW001_OKNO_MSK_STEP10_FINAL_ACTIVE_CLUSTERS = 59
+KW001_OKNO_MSK_STEP10_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
+KW001_OKNO_MSK_STEP10_ERROR_LEDGER_ROWS = 927
+KW001_OKNO_MSK_STEP10_CORRECTION_BATCHES = 1
+KW001_OKNO_MSK_STEP10_SEMANTIC_REGRESSION_FAILURES = 0
+KW001_OKNO_MSK_STEP11_PRE_STEP_RESEARCH_REQUIRED = true
+KW001_OKNO_MSK_STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = false
+KW001_OKNO_MSK_STEP11_OWNER_METHOD_REVIEW_COMPLETE = false
+KW001_OKNO_MSK_STEP11_EXECUTION_STARTED = false
+KW001_OKNO_MSK_STEP11_COMPLETE = false
 ```
