@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-08-30",
+  "bridge_reported_version": "0.1.1",
+  "service": "search",
+  "operation": "search",
+  "request_id": "search-20e2712a-8969-45da-9c6d-e1c31ddad5a0",
+  "query": "пластиковые окна москва",
+  "region": "213",
+  "http_status": 200,
+  "request_executed": true,
+  "estimated_cost_rub": 0.488,
+  "result_count": 10,
+  "target_domain": "okno-msk.ru",
+  "target_domain_in_top10": false,
+  "results": [
+    {"rank":1,"url":"https://www.mosokna.ru/kalkulator","domain":"www.mosokna.ru","title":"Калькулятор пластиковых окон: рассчитать стоимость..."},
+    {"rank":2,"url":"https://www.mosokna.ru/","domain":"www.mosokna.ru","title":"Пластиковые окна от производителя в Москве | Московские окна"},
+    {"rank":3,"url":"https://www.mosokna.ru/plastikovye-okna","domain":"www.mosokna.ru","title":"Пластиковые окна в Москве, купить недорогие ПВХ-окна"},
+    {"rank":4,"url":"https://www.mosokna.ru/plastikovye-okna/vidy-okon/dvuhstvorchatoe-okno","domain":"www.mosokna.ru","title":"Двустворчатые пластиковые окна с установкой — купить..."},
+    {"rank":5,"url":"https://www.mosokna.ru/plastikovye-okna-rehau","domain":"www.mosokna.ru","title":"ОКНА РЕХАУ – купить пластиковые окна Рехау в Москве..."},
+    {"rank":6,"url":"https://lemanapro.ru/catalogue/gotovye-okna/","domain":"lemanapro.ru","title":"Готовые окна купить в Москве по низкой цене с доставкой..."},
+    {"rank":7,"url":"https://lemanapro.ru/catalogue/plastikovye-okna/v-kvartiru/","domain":"lemanapro.ru","title":"Пластиковые окна в квартиру купить в Москве по низкой цене..."},
+    {"rank":8,"url":"https://lemanapro.ru/catalogue/plastikovye-okna/","domain":"lemanapro.ru","title":"Пластиковые окна ПВХ купить в Москве по низкой цене в Лемана..."},
+    {"rank":9,"url":"https://www.okna-moskva.ru/","domain":"www.okna-moskva.ru","title":"Пластиковые окна: купить в Москве недорого с установкой..."},
+    {"rank":10,"url":"https://www.okna-moskva.ru/gotovye-plastikovye-okna/","domain":"www.okna-moskva.ru","title":"Купить пластиковые окна по низким ценам в Москве: готовые..."}
+  ],
+  "interpretation_boundary": "Fresh Yandex SERP evidence only. Absence of okno-msk.ru in TOP-10 is not a page-ownership verdict."
+}
