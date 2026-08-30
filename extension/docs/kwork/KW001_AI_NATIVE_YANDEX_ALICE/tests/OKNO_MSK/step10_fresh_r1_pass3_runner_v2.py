@@ -2,8 +2,9 @@
 """Hardened runner for the full fresh-R1 Pass3 QA.
 
 The wrapper fixes module registration for dataclasses, normalizes the Russian
-standalone genitive plural ``окон`` for object recognition, and applies direct
-Step-09 evidence only to the exact query row.
+standalone genitive plural ``окон`` for object recognition, applies direct
+Step-09 evidence only to the exact query row, and binds the Pass3 implementation
+to the canonical singular Pass2 assignment artifact.
 """
 
 from __future__ import annotations
@@ -20,6 +21,11 @@ if SPEC is None or SPEC.loader is None:
 module = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = module
 SPEC.loader.exec_module(module)
+
+# Pass2 canonically writes STEP_10_FRESH_R1_ASSIGNMENT.tsv (singular).
+# Keep the full Pass3 implementation bound to that existing artifact instead
+# of requiring a duplicate or a phantom plural filename.
+module.ASSIGNMENT_NAME = "STEP_10_FRESH_R1_ASSIGNMENT.tsv"
 
 original_classify = module.classify
 
