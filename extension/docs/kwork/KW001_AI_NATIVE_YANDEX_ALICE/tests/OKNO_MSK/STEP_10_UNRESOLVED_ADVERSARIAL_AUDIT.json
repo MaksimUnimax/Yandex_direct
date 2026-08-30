@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "audit_version": "V19",
-  "search_required_rows_scanned": 70,
+  "audit_version": "V27",
+  "search_required_rows_scanned": 64,
   "flagged_rows": 0,
   "flagged_records": 0,
   "audit_counts": {},
@@ -14,5 +14,9 @@
       "step09_handoff": "AMBIGUOUS_PRICE_MATERIAL_BOUNDARY"
     }
   ],
-  "meaning": "V19 hard gate over strengthened unresolved audit. Zero likely-false unresolved rows is necessary but still not sufficient for final manual semantic acceptance."
+  "meaning": "V27 hard gate preserves explicit 'без остекления' as semantic negation of a glazing service. All other inherited likely-false SEARCH_REQUIRED flags remain blocking. Zero residual flags is necessary but not sufficient for final manual semantic acceptance.",
+  "manually_adjudicated_no_glazing_rows": 1,
+  "manually_adjudicated_no_glazing_examples": [
+    "веранда без остекления"
+  ]
 }

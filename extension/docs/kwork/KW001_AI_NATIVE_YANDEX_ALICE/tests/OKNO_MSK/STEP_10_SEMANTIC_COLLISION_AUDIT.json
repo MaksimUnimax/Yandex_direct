@@ -1,9 +1,10 @@
 {
   "status": "PASS",
-  "audit_version": "V19",
+  "audit_version": "V24",
   "active_rows_scanned": 2332,
   "flagged_rows": 0,
   "flagged_records": 0,
   "collision_counts": {},
-  "meaning": "V19 manually-adjudicated collision gate. Zero flags is necessary but still not sufficient for final manual semantic acceptance."
+  "manual_adjudication_basis": "V23 residuals were reviewed individually. Windowsill/hardware-installation taxonomy errors are corrected in classifier V24; one inherited lexical false positive for plastic-door mechanism is explicitly adjudicated here.",
+  "meaning": "V24 adjudicated hard gate. Zero flags is necessary but remains insufficient for final manual semantic acceptance."
 }
