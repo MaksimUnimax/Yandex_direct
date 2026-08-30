@@ -28,9 +28,13 @@ ACCOUNTING_QA != SEMANTIC_QA
 REQUEST_SUCCEEDED != PROJECT_RESULT_COMPLETE
 TRACEABILITY_COMPLETE != FULL_SERP_EVIDENCE_COVERAGE
 BRIDGE_INTERNAL_DURABILITY != PROJECT_EVIDENCE_DURABILITY
+UNIVERSAL_METHOD = REUSABLE_CORE + CURRENT_JOB_PROFILE + CURRENT_CONSTRAINTS
+LOCAL_RULE_MUST_BE_SCOPED != LOCAL_RULE_MUST_BE_REMOVED
 ```
 
 Every major step must satisfy its own methodology status and gate. A completed job-specific rehearsal does not silently promote an `UNVALIDATED` permanent method to `APPROVED`.
+
+A universal method does not exclude domain-specific execution. The current site, business, vocabulary, real IDs, exact phrases, thresholds and owner constraints are legitimate method inputs when their scope is declared.
 
 ## Accepted completed work
 
@@ -248,7 +252,7 @@ STEP09_COMPLETE = true
 
 ## Step 10 — user-task / SERP clustering
 
-Status: **✅ COMPLETE / FRESH R1 FINAL VERIFIED**
+Status: **✅ COMPLETE / FRESH R1 FINAL VERIFIED / UNIVERSALITY RULE CORRECTED**
 
 Canonical universal method authorities:
 
@@ -256,6 +260,14 @@ Canonical universal method authorities:
 STEP_10_CLUSTERING_GRANULARITY_METHOD.md
 STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md
 STEP_10_SORTING_AND_QA_METHOD.md
+```
+
+Corrected universal interpretation:
+
+```text
+UNIVERSAL METHOD != DOMAIN-FREE EXECUTION
+EXECUTABLE METHOD = REUSABLE CORE + CURRENT JOB DOMAIN PROFILE + CURRENT CONSTRAINTS
+LOCAL RULE MUST BE SCOPED != LOCAL RULE MUST BE REMOVED
 ```
 
 Primary final job artifacts:
@@ -273,22 +285,35 @@ STEP_10_FRESH_R1_PASS3_REPORT.md
 STEP_10_FRESH_R1_PASS3_V5_VERIFIED.marker.json
 ```
 
-### Accepted clustering boundary
+### Current-job clustering configuration
 
 ```text
-CLUSTER = MATERIALLY DISTINCT USER TASK
-LEXICAL_MATCH != USER_TASK
-MODIFIER_PRESENT != NEW_CLUSTER
-REGEX_MATCH != SEMANTIC DECISION
-PRODUCT_WITH_INCLUDED_SERVICE != SERVICE_ONLY REQUEST
-COMPONENT TASK != WHOLE-OBJECT TASK
-DIY RESULT != HIRED-SERVICE RESULT
-INFORMATION RESULT != TRANSACTIONAL RESULT
-UNCERTAINTY != NEW_CLUSTER
-TARGET_CLUSTER_COUNT = FORBIDDEN
+DOMAIN_PROFILE = OKNO_MSK WINDOW / DOOR / GLAZING SUBJECT
+ACTUAL_SITE_AND_BUSINESS_SCOPE_USED = true
+REAL_CLUSTER_IDS_AND_NAMES_USED = true
+DOMAIN-SPECIFIC VOCABULARY_USED = true
+EXACT_LOCAL_PHRASES_AND_RULES_USED = true
+LOCAL REGRESSION EXAMPLES USED = true
+EXISTING EXACT STEP09 EVIDENCE USED = true
+COUNT_MODE = UNCONSTRAINED_FOR_THIS_RUN
+EXPLICIT_TARGET_CLUSTER_COUNT_USED = false
 ```
 
-The final sorting method resolves the complete task signature and expected terminal result before matching the phrase to a frozen cluster contract. Domain vocabulary remains in the job implementation, not in the universal rule.
+The absence of a target count is a fact about this run only. It is not a universal prohibition. A future job may require an exact number or range, and the corrected Step-10 rules now allow and require applying that declared constraint.
+
+### Accepted current-run clustering boundary
+
+```text
+CURRENT PRIMARY UNIT = MATERIAL USER TASK
+CURRENT BASELINE = TASK-FIRST
+CURRENT DOMAIN PROFILE MAY OVERRIDE GENERIC SIGNAL PRECEDENCE
+CURRENT EXACT LOCAL RULES ARE VALID WITHIN THEIR DECLARED SCOPE
+CURRENT COUNT MODE = UNCONSTRAINED
+```
+
+The final sorting method resolved the complete task signature and expected terminal result, then applied the actual window/glazing vocabulary, site/business scope, real cluster IDs, exact local rules, local regression phrases and available Search evidence.
+
+These domain details are legitimate and necessary execution inputs. Their scope is job-specific; their presence is not a defect in a universal method.
 
 ### Full-corpus execution truth
 
@@ -315,9 +340,12 @@ FINAL_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
 RETIRED_ZERO-MEMBER_INPUT_CANDIDATES = 3
 RETIRED_IDS = WINDOW_CARE_INFO, WINDOW_MEASUREMENT_INFO, OUTSIDE_USED_MARKET
 TARGET_CLUSTER_COUNT_USED = false
+TARGET_CLUSTER_COUNT_USED_IS_CURRENT_RUN_FACT = true
 ```
 
-The three retired IDs remain preserved only as input-history candidates. They are not counted as final clusters because no final active phrase supplied member evidence.
+The three retired IDs remain preserved only as input-history candidates. They are not counted as final clusters because no final active phrase supplied member evidence in this run.
+
+The corrected universal method nevertheless allows required reserved empty categories in a future job when the current taxonomy or deliverable calls for them.
 
 ### Final QA truth
 
@@ -356,6 +384,7 @@ STEP10_ONE_CONSOLIDATED_CORRECTION_BATCH = true
 STEP10_FULL_ACCOUNTING_REGRESSION = PASS
 STEP10_IMPACT_SET_SEMANTIC_RECHECK = PASS
 STEP10_ACTIVE_TAXONOMY_MEMBER_EVIDENCE = PASS
+STEP10_UNIVERSALITY_CORRECTION_APPLIED = true
 STEP10_FINAL_STATUS = COMPLETE
 NEXT_STEP_ALLOWED = true
 ```
@@ -447,6 +476,11 @@ KW001_OKNO_MSK_STEP10_ZERO_MEMBER_ACTIVE_CLUSTERS = 0
 KW001_OKNO_MSK_STEP10_ERROR_LEDGER_ROWS = 927
 KW001_OKNO_MSK_STEP10_CORRECTION_BATCHES = 1
 KW001_OKNO_MSK_STEP10_SEMANTIC_REGRESSION_FAILURES = 0
+KW001_OKNO_MSK_STEP10_COUNT_MODE = UNCONSTRAINED_FOR_THIS_RUN
+KW001_OKNO_MSK_STEP10_DOMAIN_PROFILE_USED = true
+KW001_OKNO_MSK_STEP10_REAL_CLUSTER_IDS_USED = true
+KW001_OKNO_MSK_STEP10_EXACT_LOCAL_RULES_USED = true
+KW001_OKNO_MSK_STEP10_UNIVERSALITY_CORRECTION_APPLIED = true
 KW001_OKNO_MSK_STEP11_PRE_STEP_RESEARCH_REQUIRED = true
 KW001_OKNO_MSK_STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = false
 KW001_OKNO_MSK_STEP11_OWNER_METHOD_REVIEW_COMPLETE = false
