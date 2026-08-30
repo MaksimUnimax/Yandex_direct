@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "audit_version": "V38",
+  "audit_version": "V39",
   "active_rows_scanned": 2332,
   "flagged_rows": 0,
   "flagged_records": 0,
@@ -120,5 +120,19 @@
     }
   ],
   "adjudication_rule": "Suppression requires exact frozen phrase + exact manually approved V38 target + one of three inherited lexical codes. Any new code, phrase or changed target remains a hard failure.",
-  "meaning": "Inherited lexical audit vocabulary is retained as an adversarial signal, but it cannot veto exact full-manual-discovery corrections merely because its token dictionary predates those reviewed tasks. Zero residual flags remains necessary but not sufficient for final semantic acceptance."
+  "meaning": "Inherited lexical audit vocabulary is retained as an adversarial signal, but it cannot veto exact full-manual-discovery corrections merely because its token dictionary predates those reviewed tasks. Zero residual flags remains necessary but not sufficient for final semantic acceptance.",
+  "suppressed_exact_v39_records": 2,
+  "suppressed_exact_v39_examples": [
+    {
+      "phrase": "панорамные окна 2 2",
+      "cluster_id": "WINDOW_DIMENSIONS_INFO",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "фурнитура оконных сеток",
+      "cluster_id": "MOSQUITO_NETS",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    }
+  ],
+  "adjudication_rule_v39": "Exact phrase + exact frozen V39 target + exact inherited code + exact evidence state only; any drift is blocking."
 }

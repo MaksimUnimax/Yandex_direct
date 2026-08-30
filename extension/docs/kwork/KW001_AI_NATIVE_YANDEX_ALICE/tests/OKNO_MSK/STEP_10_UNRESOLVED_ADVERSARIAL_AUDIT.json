@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "audit_version": "V37",
-  "search_required_rows_scanned": 91,
+  "audit_version": "V39",
+  "search_required_rows_scanned": 89,
   "flagged_rows": 0,
   "flagged_records": 0,
   "audit_counts": {},
@@ -32,5 +32,13 @@
       "assignment_reason": "Phrase combines two material services and should not be forced into one task without boundary evidence"
     }
   ],
-  "adjudication_rule": "Only exact reviewed phrase+audit-code pairs are suppressed, and only while the generated row remains UNRESOLVED/SEARCH_REQUIRED with the exact manually approved assignment_reason and additional_search_required=true. Any semantic/state/reason drift or any new inherited unresolved flag remains blocking."
+  "adjudication_rule": "Only exact reviewed phrase+audit-code pairs are suppressed, and only while the generated row remains UNRESOLVED/SEARCH_REQUIRED with the exact manually approved assignment_reason and additional_search_required=true. Any semantic/state/reason drift or any new inherited unresolved flag remains blocking.",
+  "suppressed_exact_v39_records": 1,
+  "suppressed_exact_v39_examples": [
+    {
+      "phrase": "панорамные окна производство",
+      "audit_code": "UNRESOLVED_CLEAR_SPECIFIC_WINDOW_PRODUCT"
+    }
+  ],
+  "adjudication_rule_v39": "Exact reviewed phrase + exact unresolved code + exact current unresolved state/reason only; any drift is blocking."
 }

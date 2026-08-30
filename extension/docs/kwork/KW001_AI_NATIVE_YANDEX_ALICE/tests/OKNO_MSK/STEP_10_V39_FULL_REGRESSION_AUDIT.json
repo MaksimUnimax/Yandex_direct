@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "v38_baseline_commit": "d33a203a8eb4293f53198db02b28ec6257840034",
+  "rows_compared": 2840,
+  "v39_frozen_manual_errors": 22,
+  "approved_v39_changed_rows": 22,
+  "unplanned_or_unrealized_rows": 0,
+  "failure_count": 0,
+  "meaning": "Regression authority is the exact persisted V38 assignment set across all 2,840 rows. V39 may change semantic assignment/state only for the 22 frozen full-manual-re-audit phrases, and every frozen row must reach its exact target cluster and evidence state."
+}
