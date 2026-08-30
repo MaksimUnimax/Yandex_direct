@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "bridge_reported_version": "0.1.1",
+  "operation": "batch.nextN",
+  "requested_count": 10,
+  "attempted_steps": 10,
+  "confirmed_provider_executions": 10,
+  "provider_execution_count_exact": true,
+  "stopped_early": false,
+  "progress_after_chunk": {
+    "total": 68,
+    "pending": 8,
+    "succeeded": 60,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 60,
+    "requests_started": 60,
+    "estimated_cost_rub": 29.279999999999976,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "chunk_queries": [
+    {"global_ordinal":51,"query":"как застеклить веранду своими руками","request_id":"search-batch-9d7f0179-4afc-4909-8dba-39d303fc3cac","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"DIY veranda/terrace glazing instructions and video guides dominate"},
+    {"global_ordinal":52,"query":"нужно ли разрешение на остекление балкона","request_id":"search-batch-6e8980ef-70bb-49f3-8874-10777f392f14","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"legal/permission informational pages dominate; answers vary by conditions and jurisdictional framing"},
+    {"global_ordinal":53,"query":"какое остекление балкона выбрать","request_id":"search-batch-29122e88-dd88-4d60-84f6-fc330a2e36a7","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"balcony-glazing selection/comparison guides dominate, especially warm-vs-cold/material choice"},
+    {"global_ordinal":54,"query":"остекление веранды фото","request_id":"search-batch-8f248506-07db-4803-bd2c-0dee9e2c137e","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"photo galleries, portfolios and visual inspiration pages dominate"},
+    {"global_ordinal":55,"query":"rehau официальный сайт окна","request_id":"search-batch-37b279eb-f3eb-4839-b02f-1df779feabf2","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"mixed navigational intent: official REHAU properties plus authorized partner/dealer commercial pages"},
+    {"global_ordinal":56,"query":"6 6 с панорамными окнами","request_id":"search-batch-b6cfb6e3-6d30-4a6b-af99-afe3556c4010","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"house-project/catalog intent for 6x6 homes with panoramic windows; not an ordinary window-product task"},
+    {"global_ordinal":57,"query":"ral алюминиевых окон","request_id":"search-batch-f522afbd-1d43-4a3a-bba2-d69ae8a1fbb6","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"RAL color palette/powder-coating reference and configuration pages for aluminium profiles dominate"},
+    {"global_ordinal":58,"query":"rehau окна 2","request_id":"search-batch-e0895730-bdf9-4991-ade9-65b33fbf0758","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"noisy but still predominantly REHAU commercial/window-product pages; numeral 2 is ambiguous"},
+    {"global_ordinal":59,"query":"rehau окна 80","request_id":"search-batch-5f694bcb-915b-48d8-9af5-47207523f0d3","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"REHAU 80 mm profile-system/product intent, especially Intelio 80 / NEO 80"},
+    {"global_ordinal":60,"query":"алюминиевые окна 2","request_id":"search-batch-b9db8114-b8e2-4d15-980e-6238519880b4","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"noisy generic aluminium-window commercial intent; numeral 2 is ambiguous"}
+  ],
+  "target_domain_top10_hits_in_chunk": 0,
+  "interpretation_boundary": "Checkpoint of provider execution/accounting and direct-query SERP signals. Search-required rows are not forcibly assigned to clusters here. No page-ownership verdict is made here. Full ranked-row projection will be persisted after batch completion."
+}
