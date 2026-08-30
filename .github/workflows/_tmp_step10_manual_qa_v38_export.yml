@@ -1,0 +1,48 @@
+name: TEMP Step10 V38 Full Manual QA Export
+
+on:
+  push:
+    branches:
+      - tmp/step10-manual-qa-v38-export-2026-08-30
+    paths:
+      - '.github/workflows/_tmp_step10_manual_qa_v38_export.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp/step10-manual-qa-v38-export-2026-08-30
+      - name: Package V38 full manual-QA inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          zip -j STEP10_V38_FULL_MANUAL_QA_EXPORT.zip \
+            "$D/STEP_10_CLUSTER_ASSIGNMENTS.tsv" \
+            "$D/STEP_10_CLUSTER_SUMMARY.tsv" \
+            "$D/STEP_10_BOUNDARY_REVIEW.tsv" \
+            "$D/STEP_10_QA.json" \
+            "$D/STEP_10_SEMANTIC_QA_SAMPLE.tsv" \
+            "$D/STEP_10_SEMANTIC_COLLISION_AUDIT.tsv" \
+            "$D/STEP_10_SEMANTIC_COLLISION_AUDIT.json" \
+            "$D/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.tsv" \
+            "$D/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.json" \
+            "$D/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.tsv" \
+            "$D/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json" \
+            "$D/STEP_10_V37_FULL_MANUAL_ERROR_LEDGER.tsv" \
+            "$D/STEP_10_V38_DISCOVERY_LEDGER_GATE.json" \
+            "$D/STEP_10_V38_FULL_REGRESSION_AUDIT.tsv" \
+            "$D/STEP_10_V38_FULL_REGRESSION_AUDIT.json" \
+            "$D/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv" \
+            "$D/STEP_09_SERP_COMPARISONS.tsv"
+      - name: Upload V38 full manual-QA inputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: STEP10_V38_FULL_MANUAL_QA_EXPORT
+          path: STEP10_V38_FULL_MANUAL_QA_EXPORT.zip
+          retention-days: 1
