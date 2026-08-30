@@ -2,9 +2,9 @@
 
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
-This file defines how Step 10 must decide what a phrase is about and how it is assigned to a user-task cluster.
+This file defines a reusable decision method for Step-10 phrase clustering.
 
-It is deliberately domain-independent. It must not contain client-specific phrases, sites, products, cluster IDs, target counts, or current-job history.
+`UNIVERSAL` means that the decision structure can be instantiated for different subjects, businesses, sites and deliverables. It does **not** mean that execution must be stripped of domain-specific data.
 
 Canonical companion authorities:
 
@@ -13,51 +13,110 @@ Canonical companion authorities:
 
 ---
 
-## 1. Purpose
+## 0. Meaning of universal
 
-The method exists to prevent three recurrent failures:
-
-1. guessing a cluster from one visible word;
-2. treating modifiers as separate user tasks;
-3. discovering one error, adding one narrow rule, rerunning, and repeating an unbounded patch chain.
-
-The required baseline is:
+The executable method is always the combination of a reusable core and the current job context:
 
 ```text
-UNDERSTAND THE REQUESTED RESULT
--> EXPRESS A COMPLETE TASK SIGNATURE
--> MATCH THAT SIGNATURE TO A FROZEN CLUSTER CONTRACT
--> PRESERVE UNCERTAINTY WHEN NO CONTRACT FITS
+EXECUTABLE_STEP10_METHOD =
+UNIVERSAL_DECISION_CORE
++ CURRENT_JOB_DOMAIN_PROFILE
++ CURRENT_SITE_AND_BUSINESS_SCOPE
++ CURRENT_CLUSTER_CONTRACTS
++ CURRENT_EVIDENCE
++ CURRENT_DELIVERABLE_CONSTRAINTS
 ```
 
-A phrase is not clustered by its most conspicuous token. It is clustered by the result the user is trying to obtain.
+Canonical interpretation:
+
+```text
+UNIVERSAL_METHOD != DOMAIN-FREE_EXECUTION
+UNIVERSAL_METHOD != BAN_ON_LOCAL_RULES
+LOCAL_DETAIL != UNIVERSAL_LAW
+LOCAL_RULE_MUST_BE_SCOPED != LOCAL_RULE_MUST_BE_REMOVED
+```
+
+The current execution may use, and when needed must use:
+
+```text
+DOMAIN OBJECTS AND SERVICES
+THE ACTUAL SITE AND BUSINESS MODEL
+REAL CLUSTER IDS AND CLUSTER NAMES
+CURRENT LANGUAGE AND QUERY FORMS
+BRANDS, MODELS, MATERIALS AND LOCAL TERMINOLOGY
+EXACT PHRASES AND DISAMBIGUATION EXCEPTIONS
+SITE-SPECIFIC OR BUSINESS-SPECIFIC BOUNDARIES
+JOB-SPECIFIC THRESHOLDS
+AN EXPLICIT TARGET CLUSTER COUNT OR RANGE
+CURRENT OWNER OR CLIENT CONSTRAINTS
+```
+
+These details may live in this file, a companion domain profile, a job method file, executable configuration, regression fixtures, or a combination of them.
+
+The only universal separation is scope:
+
+```text
+CURRENT-JOB RULE -> APPLIES TO THE DECLARED JOB / DOMAIN
+REUSABLE RULE -> MAY BE PROMOTED ONLY AFTER ITS REUSABILITY IS ESTABLISHED
+```
+
+A local rule is not weakened or removed merely because it is local. It is labelled and applied at the correct scope.
 
 ---
 
-## 2. Governing equations
+## 1. Purpose
+
+The method determines what result the user is seeking and then maps that result to the most appropriate current cluster contract.
+
+The baseline is:
 
 ```text
-LEXICAL_MATCH != USER_TASK
-OBJECT_WORD != COMPLETE_INTENT
-MODIFIER_PRESENT != NEW_CLUSTER
-ACTION_WORD_ALONE != FINAL_TASK
-REGEX_MATCH != SEMANTIC_DECISION
-PRODUCT_WITH_INCLUDED_SERVICE != SERVICE_ONLY_REQUEST
-COMPONENT_TASK != WHOLE_OBJECT_TASK
-DIY_RESULT != HIRED_SERVICE_RESULT
-INFORMATION_RESULT != TRANSACTIONAL_RESULT
-UNCERTAINTY != NEW_CLUSTER
-ZERO_ASSIGNMENT_CLUSTER != PROVEN_CLUSTER
-PASS != VERSIONED_RETRY
+READ THE COMPLETE REQUEST
+-> APPLY THE CURRENT DOMAIN PROFILE
+-> IDENTIFY THE EXPECTED RESULT
+-> BUILD A TASK SIGNATURE
+-> MATCH IT TO CURRENT CLUSTER CONTRACTS
+-> USE CURRENT EVIDENCE AND CONSTRAINTS
+-> PRESERVE OR RESOLVE UNCERTAINTY AS THE JOB REQUIRES
 ```
 
-The unit of clustering is a materially distinct user task, not a keyword shape.
+A visible token may be decisive when the current domain profile proves that it is decisive. Otherwise it is one signal among several.
+
+---
+
+## 2. Current-job domain profile
+
+Before classification, the execution must define or load the current domain profile.
+
+At minimum it may contain:
+
+```text
+BUSINESS AND SITE SCOPE
+TARGET REGION / LANGUAGE
+OBJECT AND SERVICE VOCABULARY
+OBJECT-PART RELATIONS
+LIFECYCLE ACTIONS
+INTENT AND RESULT TYPES
+REAL CLUSTER IDS AND CONTRACTS
+KNOWN BRANDS / MODELS / SERIES / MATERIALS
+LOCAL SYNONYMS, ABBREVIATIONS AND MISSPELLINGS
+EXACT PHRASE OVERRIDES WHERE NEEDED
+OUTSIDE-SCOPE FAMILIES
+DIRECT EVIDENCE OVERRIDES
+JOB-SPECIFIC THRESHOLDS
+COUNT / RANGE / FORMAT CONSTRAINTS
+OWNER DECISIONS
+```
+
+The domain profile is part of the method, not contamination of it.
+
+A profile can be replaced for a new subject while the decision sequence remains reusable.
 
 ---
 
 ## 3. Required task signature
 
-Before assigning a phrase, derive the following semantic signature when the phrase supports it:
+For each phrase derive, when supported by the wording and evidence:
 
 ```text
 PRIMARY_OBJECT
@@ -73,7 +132,7 @@ DIRECT_EVIDENCE_STATE
 BOUNDARY_UNCERTAINTY
 ```
 
-The normalized task signature is:
+Normalized representation:
 
 ```text
 TASK_SIGNATURE =
@@ -87,55 +146,52 @@ PRIMARY_OBJECT
 + BUSINESS_SCOPE_STATE
 ```
 
-Modifiers are recorded separately. They do not enter the task signature unless evidence shows that they materially change the requested result.
+The current domain profile determines which fields and modifiers are material for the subject being processed.
 
 ---
 
-## 4. Universal decision order
+## 4. Decision order
 
-Every phrase must be resolved in this order. A later signal must not silently override a stronger earlier task signal.
+The following order is the reusable baseline. The domain profile may add, remove or reorder checks when the current subject requires it, provided the resulting precedence is explicit and tested.
 
-### 4.1 Literal request and negation
+### 4.1 Complete literal request
 
-Read the complete phrase, including:
+Read the whole phrase, including:
 
 - negation;
-- prepositions and grammatical relations;
-- whether an action applies to a product, component, service, or information request;
-- whether one item is included with another;
-- whether the user requests the work itself or information about the work.
+- grammatical relations;
+- which action applies to which object;
+- whether a service is the requested result or part of a bundle;
+- whether the user wants the action, information about the action, or a related product;
+- local abbreviations and domain language.
 
-Do not infer omitted words merely to force the phrase into a known cluster.
+A current domain rule may resolve omitted or elliptical wording when the evidence for that interpretation is documented.
 
-```text
-NEGATED_ACTION != REQUESTED_ACTION
-INCLUDED_ACTION != PRIMARY_ACTION_BY_DEFAULT
-```
+### 4.2 Current exact evidence
 
-### 4.2 Exact direct evidence
+Exact Search/SERP evidence, site evidence, owner decisions, or another approved source may resolve a row directly.
 
-If direct Search/SERP or other approved evidence exists for the exact phrase, use it to adjudicate the task boundary.
-
-Exact evidence may confirm, refine, or contradict the semantic reading. A contradiction must remain explicit and be reviewed; it must not be hidden.
+Evidence reuse follows the scope declared by the evidence record:
 
 ```text
-EXACT_EVIDENCE_FOR_ROW -> MAY_ADJUDICATE_ROW
-EVIDENCE_FOR_NEIGHBOUR -> MUST_NOT_BE_INHERITED
+EXACT-ROW EVIDENCE -> EXACT ROW
+EXPLICIT FAMILY EVIDENCE -> DECLARED FAMILY
+DOMAIN RULE -> DECLARED DOMAIN SCOPE
 ```
 
-### 4.3 Explicit scope and navigation
+Evidence may be generalized when the current method explicitly supports that generalization; it must not be generalized silently.
 
-Resolve clear outside-scope, navigational, and destination-seeking tasks before broad product/service attraction.
+### 4.3 Business and site scope
 
-A phrase requesting a destination, official source, marketplace, unrelated profession, or excluded business result must not be pulled into a core cluster merely because it contains a core object word.
+Apply the actual business model, site content, region, supported products/services and deliverable scope.
+
+A phrase can be inside the semantic subject but outside the current business, site or delivery scope. That distinction is job-specific and must use the real current data.
 
 ### 4.4 Expected terminal result
 
-Identify what the user expects to possess, receive, perform, understand, compare, view, or reach when the task is complete.
+Identify what the user expects to possess, receive, perform, understand, compare, view or reach when the task is complete.
 
-The expected terminal result is normally the strongest semantic head.
-
-Examples of universal result classes:
+Typical result classes include:
 
 ```text
 OBTAIN A PRODUCT
@@ -150,14 +206,16 @@ COMPARE OPTIONS
 READ REVIEWS OR REPUTATION
 UNDERSTAND TECHNOLOGY OR FACTS
 FIND DIMENSIONS OR SPECIFICATIONS
-REACH AN OFFICIAL DESTINATION
+REACH A DESTINATION
 VIEW IDEAS OR EXAMPLES
 UNDERSTAND RULES OR PERMISSIONS
 ```
 
+The domain profile may define additional result classes or combine these when the current deliverable requires it.
+
 ### 4.5 Lifecycle action
 
-Separate materially different lifecycle tasks when they change the requested result:
+Possible lifecycle distinctions include:
 
 ```text
 DISCOVER / CHOOSE
@@ -171,11 +229,11 @@ DISMANTLE / REMOVE
 REVIEW / COMPARE
 ```
 
-A shared object does not merge different lifecycle results automatically.
+They become separate clusters only when the current taxonomy or evidence treats them as materially distinct tasks.
 
 ### 4.6 Intent and execution mode
 
-Distinguish at minimum:
+Possible modes include:
 
 ```text
 TRANSACTIONAL PRODUCT
@@ -190,80 +248,77 @@ FACTUAL SPECIFICATION
 NAVIGATIONAL
 INSPIRATION / EXAMPLES
 LEGAL / PERMISSION
-OUTSIDE SCOPE
+OUTSIDE CURRENT SCOPE
 ```
+
+The current job may use a different or more detailed set.
 
 ### 4.7 Material object boundary
 
-Only after action, expected result, and intent are understood should the object or subtype be used to choose between sibling clusters.
+After action and expected result are understood, use the current object hierarchy to distinguish:
 
-A different object may justify a split when it materially changes the content, procedure, answer, commercial result, or same-page compatibility.
+```text
+WHOLE OBJECT
+COMPONENT OR SUBSYSTEM
+ACCESSORY
+CONSUMABLE OR TOOL
+BUNDLE
+CONTEXT OBJECT
+```
 
-A different label, brand, model, material, size, colour, location, or price wording does not justify a split by itself.
+The domain profile decides which object differences are material and which are modifiers.
 
 ---
 
-## 5. Mandatory multi-signal contrast rules
+## 5. Reusable contrast patterns
 
-### 5.1 Product or bundle with an included service vs service-only request
+These are baseline contrasts, not bans on alternative domain logic.
 
-When the primary result is acquiring a product or complete bundle and a service is included, keep the phrase with the product/bundle task unless direct evidence proves a different dominant result.
-
-When the primary result is hiring an action for an already selected, supplied, or existing object, use the service task.
-
-Universal contrast:
+### 5.1 Product or bundle with included service vs service-only request
 
 ```text
-BUY PRODUCT WITH INSTALLATION INCLUDED
--> PRODUCT OR BUNDLE TASK
+ACQUIRE PRODUCT / BUNDLE WITH SERVICE INCLUDED
+-> PRODUCT OR BUNDLE TASK BY DEFAULT
 
-INSTALL THE PRODUCT
--> INSTALLATION SERVICE TASK
+HIRE ACTION FOR AN EXISTING OR SEPARATELY SUPPLIED OBJECT
+-> SERVICE TASK BY DEFAULT
 ```
 
-The mere presence of an installation word must not convert a product purchase into a service-only cluster.
+A current domain rule or direct evidence may establish another interpretation.
 
 ### 5.2 Whole object vs component
 
-Determine whether the user acts on the complete object or on a part, accessory, consumable, tool, or subsystem.
-
 ```text
 BUY / REPLACE / REPAIR WHOLE OBJECT
-!=
+MAY DIFFER FROM
 BUY / REPLACE / REPAIR COMPONENT
 ```
 
-A component word must not be attracted into a broad whole-object commercial cluster solely because both mention the parent object.
+Whether they become separate clusters depends on the current taxonomy and result compatibility.
 
-### 5.3 Product vs consumable or tool used for a service
-
-A product, consumable, or tool used during an action is not the hired action itself.
+### 5.3 Product, consumable or tool used for an action vs hired action
 
 ```text
-BUY MATERIAL OR TOOL FOR ACTION
--> PRODUCT / COMPONENT TASK
+OBTAIN MATERIAL / TOOL / PART FOR ACTION
+MAY MAP TO PRODUCT OR COMPONENT TASK
 
-HIRE ACTION
--> SERVICE TASK
+ORDER THE ACTION ITSELF
+MAY MAP TO SERVICE TASK
 ```
 
 ### 5.4 Hired service vs DIY or technical instruction
 
-A phrase asking how to perform, diagnose, assemble, configure, repair, or install something seeks an informational result unless it also clearly requests a provider.
-
 ```text
-HOW TO PERFORM ACTION
--> DIY / INFORMATION TASK
+LEARN HOW TO PERFORM ACTION
+MAY MAP TO DIY / INFORMATION
 
 ORDER PROFESSIONAL ACTION
--> HIRED SERVICE TASK
+MAY MAP TO SERVICE
 ```
 
-### 5.5 Transaction vs selection, comparison, reviews, and technical information
+### 5.5 Transaction vs information modes
 
-Commercial words do not automatically dominate a clearly informational task.
-
-Separate:
+The current taxonomy may distinguish or combine:
 
 ```text
 BUY / ORDER
@@ -275,40 +330,42 @@ FIND DIMENSIONS OR SPECIFICATIONS
 VIEW EXAMPLES OR DESIGN IDEAS
 ```
 
-Each is a different expected result when the distinction is material and supported by the corpus or direct evidence.
+The choice is governed by the current job's cluster contracts, evidence and delivery requirements.
 
 ### 5.6 Multi-object phrases
 
 For phrases mentioning multiple objects:
 
-1. determine whether one object is the primary target and the others are context/components;
-2. determine whether the user requests a true combined bundle;
-3. use a combined-task cluster only when the expected result materially includes all objects;
-4. do not create a combined cluster from mere co-occurrence.
+1. identify the primary requested result;
+2. determine whether other objects are context, parts or true bundle members;
+3. use a combined cluster when the current taxonomy defines a combined result;
+4. use a single-object cluster when the other terms are contextual;
+5. preserve a local exception when the current domain requires one.
 
 ### 5.7 Mixed lifecycle phrases
 
-When several lifecycle words appear, choose the terminal requested result rather than the first matched verb.
+When several lifecycle signals appear, choose the result according to the current precedence rules and evidence.
 
-Examples of abstract resolution:
+Examples:
 
 ```text
-REPAIR OR REPLACE?
--> use the explicitly requested final state;
--> if genuinely unresolved, preserve boundary uncertainty.
-
 BUY FOR LATER INSTALLATION
--> buying task, not installation service.
+-> OFTEN A BUYING TASK
 
 REVIEWS OF SERVICE PROVIDERS
--> reviews/reputation task, not immediate service order.
+-> OFTEN A REVIEWS / SELECTION TASK
+
+REPAIR OR REPLACE
+-> RESOLVE FROM WORDING, DOMAIN PRACTICE OR EVIDENCE
 ```
+
+`OFTEN` is intentional: the current domain profile may define a different outcome.
 
 ---
 
 ## 6. Modifier handling
 
-The following are attributes by default:
+Possible modifiers include:
 
 ```text
 GEO
@@ -330,26 +387,59 @@ ACQUISITION SOURCE
 FREQUENCY
 ```
 
-A modifier becomes part of a cluster boundary only when one of the following is demonstrated:
+Default mode when no contrary current evidence exists:
+
+```text
+MODIFIER -> ATTRIBUTE INSIDE THE SAME MATERIAL TASK
+```
+
+A current job may promote a modifier to a cluster boundary when:
 
 1. it changes the primary object materially;
 2. it changes the expected terminal result;
-3. it changes the lifecycle action or execution mode;
-4. one coherent result/page cannot satisfy both groups;
-5. exact direct evidence supports a stable separate intent.
+3. it changes lifecycle or execution mode;
+4. it changes page/result compatibility;
+5. direct evidence supports a separate intent;
+6. the owner, client or deliverable explicitly requires the split.
 
-Every exception must be explicit in the cluster contract and split justification.
+Brand, geography, material, size or any other modifier may therefore be either an attribute or a valid split axis. The decision is current-job-specific and must be recorded.
+
+---
+
+## 7. Target count and other output constraints
+
+A fixed cluster count or range is allowed when it is an explicit current-job requirement.
 
 ```text
-DEFAULT = ABSORB MODIFIER
-EXCEPTION = MATERIAL BOUNDARY PROVEN
+NO EXPLICIT COUNT CONSTRAINT
+-> COUNT MAY EMERGE FROM CURRENT TASK BOUNDARIES
+
+EXPLICIT OWNER / CLIENT / DELIVERABLE COUNT OR RANGE
+-> RECORD IT
+-> APPLY IT
+-> RECORD ANY SEMANTIC TRADE-OFF
+```
+
+A count constraint is a real project constraint even though it is not, by itself, semantic evidence.
+
+If the required count conflicts with the most natural semantic grouping, the method must not silently ignore either side. It records the conflict and applies the authorized priority or owner decision.
+
+The same rule applies to:
+
+```text
+MAXIMUM CLUSTER SIZE
+MINIMUM CLUSTER SIZE
+REQUIRED CATEGORY LIST
+REQUIRED OUTPUT FORMAT
+REQUIRED PAGE OR CAMPAIGN LIMIT
+TOOL-SPECIFIC THRESHOLDS
 ```
 
 ---
 
-## 7. Frozen cluster contracts
+## 8. Current cluster contracts
 
-Every accepted cluster must have a contract that is strong enough to classify without guessing:
+Each executable cluster contract should contain the fields needed for the current subject. A strong baseline is:
 
 ```text
 CLUSTER_ID
@@ -363,268 +453,274 @@ LIFECYCLE_STAGE
 EXECUTION_MODE
 INCLUSION_RULE
 EXCLUSION_RULE
-NEAREST_SIBLING_CLUSTERS
-ABSORBED_MODIFIERS
-MATERIAL_BOUNDARIES
-DIRECT_EVIDENCE_STATE
-POSITIVE_EXAMPLES
-NEGATIVE_EXAMPLES
+NEAREST SIBLING CLUSTERS
+ABSORBED MODIFIERS
+MATERIAL BOUNDARIES
+DIRECT EVIDENCE STATE
+POSITIVE EXAMPLES
+NEGATIVE EXAMPLES
+LOCAL EXCEPTIONS
 ```
 
-Assignment is contract matching, not name similarity.
+Real IDs, names, examples and exact phrases are expected here.
 
-For each row ask:
-
-1. Does the complete task signature satisfy the inclusion rule?
-2. Does any exclusion rule apply?
-3. Is a sibling contract more specific to the terminal result?
-4. Would this assignment violate the cluster's object scope, lifecycle, or intent mode?
-5. Is the phrase still ambiguous after reading the full wording and exact evidence?
-
-Assign only when one contract is the strongest compatible contract.
+Assignment is matching the complete current task representation to the current contract set.
 
 ---
 
-## 8. Taxonomy construction without guessing
+## 9. Taxonomy construction
 
-Taxonomy construction must happen after full task discovery, not while classifying the first matching phrase.
-
-Required sequence:
+Reusable sequence:
 
 ```text
-FULL CORPUS TASK SIGNATURES
+REVIEW CURRENT CORPUS
+-> BUILD CURRENT TASK SIGNATURES
 -> NORMALIZE EQUIVALENT TASKS
+-> APPLY CURRENT DOMAIN AND DELIVERABLE CONSTRAINTS
 -> REVIEW MATERIAL DIFFERENCES
--> APPLY SAME-PAGE / RESULT-COMPATIBILITY TEST
--> BATCH-REVIEW ALL NEW-CLUSTER CANDIDATES
--> FREEZE CLUSTER CONTRACTS
--> ASSIGN ALL ROWS
+-> BUILD OR ADAPT CURRENT CLUSTER CONTRACTS
+-> FREEZE THE CURRENT ASSIGNMENT VERSION
+-> ASSIGN AND VERIFY
 ```
 
-A new cluster is allowed only when a material user-task boundary is demonstrated.
+The current job may start from:
 
-A new cluster is forbidden when the only difference is a modifier, lexical form, isolated token, or one classifier exception.
+```text
+A FRESH TAXONOMY
+AN EXISTING TAXONOMY
+A CLIENT-PROVIDED CATEGORY SET
+A FIXED NUMBER OF GROUPS
+A SITE STRUCTURE
+AN AD-CAMPAIGN STRUCTURE
+A TOOL-GENERATED CANDIDATE SET
+```
+
+Historical names, counts and assignments may be reused when reuse is allowed by the current task. They are comparison-only only when an independent rebuild is explicitly required.
 
 ---
 
-## 9. One-pass assignment procedure
+## 10. Assignment procedure
 
-For every active phrase in Pass 2:
+For every active phrase:
 
 1. preserve the original phrase and provenance;
-2. derive the complete task signature;
-3. attach exact direct evidence only when it belongs to that exact phrase;
-4. identify the expected terminal result;
-5. identify object scope, lifecycle, intent, execution mode, and business scope;
-6. record modifiers separately;
-7. compare the signature against all plausible sibling contracts;
-8. assign the strongest compatible existing cluster;
-9. otherwise use `BOUNDARY_REVIEW`, `SEARCH_REQUIRED`, or `NEW_CLUSTER_CANDIDATE` without mutating taxonomy;
-10. preserve confidence and a semantic rationale that names the decisive contrast.
+2. apply the current domain profile;
+3. attach all evidence whose declared scope includes the phrase;
+4. derive the task signature;
+5. identify the expected result and object scope;
+6. apply current count, format and business constraints;
+7. compare the phrase against plausible current cluster contracts;
+8. assign, defer, search, create a candidate, or use a current exact rule as the method permits;
+9. record confidence, decisive reason and evidence scope.
 
-Required row output:
+Suggested row output:
 
 ```text
 PHRASE
 TASK_SIGNATURE
 ASSIGNMENT_STATUS
 CLUSTER_ID_IF_ASSIGNED
-DECISIVE_SEMANTIC_CONTRAST
+DECISIVE_REASON
 CONFIDENCE
-DIRECT_EVIDENCE_EXACT
+EVIDENCE_SCOPE
 MODIFIERS
 BOUNDARY_UNCERTAINTY
+LOCAL_RULE_ID_IF_USED
 ```
 
 ---
 
-## 10. Automation boundary
+## 11. Automation and exact rules
 
-Automation may help retrieve candidate phrases, detect signals, apply a frozen decision table, preserve accounting, and run invariants.
-
-Automation must not redefine the method.
+Automation may use:
 
 ```text
-TOKEN OR REGEX HIT -> CANDIDATE SIGNAL ONLY
-TASK SIGNATURE + CLUSTER CONTRACT -> SEMANTIC DECISION
+TOKENS
+REGEX
+DICTIONARIES
+EMBEDDINGS
+LLM CLASSIFICATION
+SERP OVERLAP
+SITE DATA
+EXACT PHRASE TABLES
+BRAND / MODEL TABLES
+CURRENT CLUSTER IDS
+DOMAIN-SPECIFIC PRECEDENCE RULES
+OWNER-PROVIDED RULES
 ```
 
-Any automated rule promoted after QA must:
+No implementation technique is excluded merely because it is domain-specific.
 
-1. express a universal semantic contrast rather than a client-specific phrase;
-2. state its positive condition;
-3. state disqualifying conditions;
-4. include positive and negative regression examples;
-5. be tested against all rows in its provable impact set;
-6. avoid changing unrelated sibling tasks.
+A reusable core rule should be broadly stated. A local implementation rule may be narrow and exact when that is what correctness requires.
 
-A list of exact phrases may be used only for genuinely opaque unresolved rows or exact direct-evidence identity, never as the general clustering method.
-
----
-
-## 11. Uncertainty and Search routing
-
-Use uncertainty states when the phrase does not expose a stable terminal result or when plausible sibling contracts remain materially incompatible.
+For every material automated rule, preserve as applicable:
 
 ```text
-NO STABLE TASK HEAD -> SEARCH_REQUIRED OR BOUNDARY_REVIEW
-POSSIBLE UNSEEN TASK -> NEW_CLUSTER_CANDIDATE
-AMBIGUITY -> MUST NOT CREATE CLUSTER
+SCOPE
+POSITIVE CONDITION
+DISQUALIFYING CONDITION
+EXPECTED OUTPUT
+EVIDENCE OR OWNER SOURCE
+POSITIVE REGRESSION CASES
+NEGATIVE REGRESSION CASES
+IMPACT SET
 ```
 
-Search/SERP is used to adjudicate material boundaries, not to manufacture confidence for every row.
-
-No evidence may be propagated from one probed phrase to an unprobed neighbour without explicit support.
+Exact phrase mappings and hard-coded IDs are valid implementation tools. Their limitation is scope, not legitimacy.
 
 ---
 
-## 12. Empty clusters, microclusters, and member evidence
+## 12. Uncertainty and Search routing
+
+The current job defines how uncertainty is handled.
+
+Possible states:
 
 ```text
-ZERO_ASSIGNMENT_CLUSTER != PROVEN_CLUSTER
-SMALL_CLUSTER != AUTOMATIC_ERROR
-LARGE_CLUSTER != AUTOMATICALLY COHERENT
+ASSIGNED
+BOUNDARY_REVIEW
+SEARCH_REQUIRED
+NEW_CLUSTER_CANDIDATE
+DEFERRED
+OWNER_DECISION_REQUIRED
 ```
 
-Before final acceptance:
+A job may require every phrase to be assigned; another may allow unresolved rows. Both modes are valid when explicitly declared.
 
-- every zero-assignment cluster must be removed from the active taxonomy or explicitly marked as a non-counted reserved candidate with evidence and rationale;
-- every microcluster must demonstrate a material boundary;
-- every large cluster must pass internal-coherence review;
-- cluster quality must be judged from member tasks and sibling boundaries, not from the attractiveness of the cluster name.
-
-A final active cluster must have member evidence in the frozen corpus.
+Search/SERP may be used for every phrase, only for uncertain boundaries, or not at all, depending on scope, budget and authorization.
 
 ---
 
-## 13. No patch-chain execution
+## 13. Empty clusters, reserved clusters and microclusters
 
-The three semantic passes are planned roles inside one governed execution. They are not permission to create an unlimited series of versioned reruns.
+A zero-member cluster may be valid when the current deliverable requires a predeclared, reserved or future category.
 
-Required execution model:
+Required distinction:
 
 ```text
-ONE PLANNED EXECUTION
-=
-FULL TASK DISCOVERY
-+ ONE TAXONOMY FREEZE
-+ ONE FULL ASSIGNMENT
-+ ONE FULL INDEPENDENT QA DISCOVERY
-+ ONE FROZEN ERROR LEDGER
-+ ONE CONSOLIDATED CORRECTION BATCH
-+ ONE FULL MACHINE REGRESSION
-+ ONE PROVABLE IMPACT-SET RECHECK
+ACTIVE EVIDENCE-BACKED CLUSTER
+RESERVED / EMPTY DECLARED CATEGORY
+REJECTED CANDIDATE
 ```
 
-Forbidden model:
+Do not conflate them in reporting.
+
+Small and singleton clusters may be correct. Large clusters may be incoherent. Size is a review signal whose thresholds are job-specific.
+
+---
+
+## 14. Iteration model
+
+Batch discovery and consolidated correction are the preferred default for large corpora because they reduce uncontrolled local patching.
+
+Iterative refinement is also allowed when required by:
 
 ```text
-FIND ONE ERROR
--> ADD ONE NARROW RULE
--> CREATE NEW VERSION
--> RERUN
--> REPEAT
+OWNER INSTRUCTION
+TOOL LIMITS
+CORPUS SIZE
+INCREMENTAL DATA ARRIVAL
+COST CONTROLS
+MODEL OR PROVIDER LIMITS
+A/B COMPARISON
+EXPERIMENT DESIGN
 ```
 
-A residual correction cycle is allowed only when the consolidated impact recheck finds a real remaining failure. All residual failures must again be collected before one consolidated residual correction.
-
----
-
-## 14. Required semantic QA
-
-The final result must pass all of the following:
-
-### 14.1 Row correctness
-
-Every active row has an independent verdict against its assigned cluster contract.
-
-### 14.2 Cluster cohesion
-
-Every cluster's members share the same material user task and expected result.
-
-### 14.3 Sibling separation
-
-Nearest sibling clusters have explicit, testable boundaries.
-
-### 14.4 Modifier absorption
-
-Modifier-only variations remain together unless a documented exception passes the material split gate.
-
-### 14.5 Contrast regression
-
-At minimum test both sides of each material contrast:
+Each iteration should declare:
 
 ```text
-PRODUCT OR BUNDLE vs SERVICE ONLY
-WHOLE OBJECT vs COMPONENT
-BUY vs HIRE vs DIY
-TRANSACTION vs SELECTION vs COMPARISON vs REVIEWS vs TECHNICAL INFO
-PRIMARY OBJECT vs CONTEXT OBJECT
-IN-SCOPE vs OUTSIDE-SCOPE
-ASSIGNED vs SEARCH_REQUIRED
+PURPOSE
+INPUT VERSION
+CHANGED RULES
+EXPECTED IMPACT SET
+VALIDATION
+OUTPUT VERSION
 ```
 
-### 14.6 Taxonomy evidence
-
-Every final active cluster has at least one member and a valid split justification.
+The method therefore controls hidden or unbounded patching without banning legitimate reruns.
 
 ---
 
-## 15. Acceptance gate
+## 15. Semantic QA
+
+Applicable QA may include:
 
 ```text
-TASK_SIGNATURE_FIELDS_DEFINED = true
-ACTIVE_ROWS_HAVE_TASK_DECISIONS = ACTIVE_ROWS_TOTAL
-TERMINAL_RESULT_RESOLVED_OR_UNCERTAINTY_PRESERVED = ALL
-MODIFIERS_STORED_SEPARATELY = true
-CLUSTER_CONTRACTS_FROZEN_BEFORE_ASSIGNMENT = true
-IN_PASS_TAXONOMY_MUTATIONS = 0
-EXACT_EVIDENCE_TRANSFER_TO_NEIGHBOURS = 0
-ZERO_ASSIGNMENT_ACTIVE_CLUSTERS = 0
-UNJUSTIFIED_MICROCLUSTERS = 0
-FULL_ROW_INDEPENDENT_QA = PASS
-COMPLETE_ERROR_LEDGER_FROZEN = true
-CONSOLIDATED_CORRECTION_BATCHES = 1
-FULL_MACHINE_REGRESSION = PASS
-IMPACT_SET_RECHECK = PASS
-RESIDUAL_SEMANTIC_FAILURES = 0
-TARGET_CLUSTER_COUNT_USED = false
+ROW CORRECTNESS
+CLUSTER COHESION
+SIBLING SEPARATION
+MODIFIER CONSISTENCY
+COUNT-CONSTRAINT COMPLIANCE
+DOMAIN-PROFILE COVERAGE
+EXACT-RULE COVERAGE
+CONTRAST REGRESSION
+ACCOUNTING
+IMPACT-SET REVIEW
+OWNER ACCEPTANCE
 ```
 
-Explicit unresolved rows are allowed. Hidden ambiguity and speculative taxonomy are not.
+The QA plan is configured for the current job rather than assumed identical for every corpus.
 
 ---
 
-## 16. Method origin and scope
+## 16. Acceptance gate template
 
-This method formalizes reusable lessons from comparing independently produced clustering candidates and from full-corpus semantic QA:
+The current job must instantiate the applicable values:
 
-- a more coherent task axis can outperform a larger or more detailed taxonomy;
-- taxonomy quality and row-assignment quality are separate questions;
-- token-first classifiers repeatedly confuse included services, components, lifecycle actions, and information modes;
-- full error discovery before correction prevents endless local patch chains;
-- cluster counts are outputs, never optimization targets.
+```text
+CURRENT_DOMAIN_PROFILE_DEFINED = true
+CURRENT_SITE_AND_BUSINESS_SCOPE_DEFINED = true
+CURRENT_CLUSTER_CONTRACTS_DEFINED = true
+CURRENT_COUNT_MODE_DECLARED = true
+CURRENT_UNCERTAINTY_MODE_DECLARED = true
+ACTIVE_ROWS_ACCOUNTED = CURRENT_REQUIRED_TOTAL
+CURRENT_REQUIRED_QA = PASS
+CURRENT_CONSTRAINTS_SATISFIED_OR_EXPLICITLY_WAIVED = true
+LOCAL_RULES_SCOPED = true
+EVIDENCE_SCOPE_PRESERVED = true
+UNEXPECTED_ASSIGNMENT_CHANGES = 0
+```
 
-The method is universal. Domain-specific vocabulary belongs only in the current job's evidence and implementation layer, never in this rule file.
+Additional gates may be added by the current job.
 
 ---
 
-## 17. Permanent markers
+## 17. Method origin and scope
+
+This method formalizes a reusable task-first decision structure while explicitly supporting subject-specific execution.
+
+Domain-specific vocabulary, sites, cluster IDs, exact phrases, examples, thresholds, target counts and local precedence rules may appear in:
+
+```text
+THIS METHOD FILE
+A COMPANION DOMAIN PROFILE
+A JOB-SPECIFIC METHOD
+EXECUTABLE CONFIGURATION
+REGRESSION TESTS
+OWNER DECISION RECORDS
+```
+
+Their presence does not make the method non-universal. Universality is provided by the ability to replace the profile and reuse the decision architecture.
+
+---
+
+## 18. Permanent markers
 
 ```text
 STEP10_TASK_FIRST_SORTING_METHOD_ACTIVE = true
-STEP10_TASK_SIGNATURE_REQUIRED = true
-STEP10_EXPECTED_TERMINAL_RESULT_REQUIRED = true
-STEP10_LITERAL_NEGATION_AND_RELATION_REVIEW_REQUIRED = true
-STEP10_PRODUCT_BUNDLE_VS_SERVICE_CONTRAST_REQUIRED = true
-STEP10_WHOLE_OBJECT_VS_COMPONENT_CONTRAST_REQUIRED = true
-STEP10_HIRED_SERVICE_VS_DIY_CONTRAST_REQUIRED = true
-STEP10_INFORMATION_MODE_SEPARATION_REQUIRED = true
-STEP10_MODIFIERS_ABSORBED_BY_DEFAULT = true
-STEP10_CLUSTER_CONTRACT_MATCHING_REQUIRED = true
-STEP10_REGEX_IS_SIGNAL_NOT_SEMANTIC_TRUTH = true
-STEP10_ZERO_ASSIGNMENT_ACTIVE_CLUSTER_FORBIDDEN = true
-STEP10_ONE_PLANNED_EXECUTION_MODEL_ACTIVE = true
-STEP10_ERROR_BY_ERROR_VERSION_CHAIN_FORBIDDEN = true
-STEP10_RULES_MUST_BE_DOMAIN_INDEPENDENT = true
+STEP10_UNIVERSAL_METHOD_MEANS_REUSABLE_STRUCTURE = true
+STEP10_DOMAIN_PROFILE_ALLOWED = true
+STEP10_DOMAIN_PROFILE_REQUIRED_WHEN_NEEDED = true
+STEP10_SITE_SPECIFIC_DATA_ALLOWED = true
+STEP10_REAL_CLUSTER_IDS_AND_NAMES_ALLOWED = true
+STEP10_EXACT_LOCAL_PHRASES_AND_RULES_ALLOWED = true
+STEP10_JOB_SPECIFIC_THRESHOLDS_ALLOWED = true
+STEP10_EXPLICIT_TARGET_COUNT_OR_RANGE_ALLOWED = true
+STEP10_LOCAL_RULES_MUST_BE_SCOPED_NOT_REMOVED = true
+STEP10_HISTORICAL_TAXONOMY_REUSE_ALLOWED_WHEN_AUTHORIZED = true
+STEP10_RESERVED_EMPTY_CLUSTERS_ALLOWED_WHEN_DECLARED = true
+STEP10_ITERATIVE_REFINEMENT_ALLOWED_WHEN_SCOPED_AND_VERIFIED = true
+STEP10_TASK_SIGNATURE_BASELINE_ACTIVE = true
+STEP10_EXPECTED_TERMINAL_RESULT_BASELINE_ACTIVE = true
+STEP10_CURRENT_JOB_CONSTRAINTS_ARE_PART_OF_EXECUTION = true
 ```
