@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import csv
+import json
 from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 FULL = ROOT / "STEP_10_FRESH_R1_PASS3_FULL_REVIEW.tsv"
+QA = ROOT / "STEP_10_FRESH_R1_PASS3_QA.json"
 OUT_COMPACT = ROOT / "STEP_10_FRESH_R1_PASS3_ERROR_REVIEW_PACK.tsv"
 OUT_DIRECT = ROOT / "STEP_10_FRESH_R1_PASS3_DIRECT_CONFLICTS.tsv"
 OUT_UNRESOLVED = ROOT / "STEP_10_FRESH_R1_PASS3_UNRESOLVED.tsv"
@@ -23,8 +25,9 @@ def write_tsv(path: Path, fields: list[str], rows: list[dict[str, str]]) -> None
 def main() -> None:
     with FULL.open(encoding="utf-8", newline="") as f:
         rows = list(csv.DictReader(f, delimiter="\t"))
-    if len(rows) != 2332:
-        raise RuntimeError(f"expected 2332 full-review rows, got {len(rows)}")
+    qa = json.loads(QA.read_text(encoding="utf-8"))
+    if len(rows) != 2332 or qa["pass3_rows_reviewed"] != 2332:
+        raise RuntimeError(f"expected 2332 full-review rows, got rows={len(rows)} qa={qa['pass3_rows_reviewed']}")
 
     compact_fields = [
         "error_seq", "qa_row", "phrase", "pass2_assignment_status", "pass2_cluster_id",
@@ -72,12 +75,12 @@ def main() -> None:
                 "audit_rule": row["audit_rule"],
             })
 
-    if len(compact) != 844:
-        raise RuntimeError(f"expected 844 audit errors, got {len(compact)}")
-    if len(direct) != 20:
-        raise RuntimeError(f"expected 20 direct conflicts, got {len(direct)}")
-    if len(unresolved) != 4:
-        raise RuntimeError(f"expected 4 unresolved rows, got {len(unresolved)}")
+    if len(compact) != qa["pass3_error_rows"]:
+        raise RuntimeError(f"error count mismatch: pack={len(compact)} qa={qa['pass3_error_rows']}")
+    if len(direct) != qa["direct_assignment_conflicts_found"]:
+        raise RuntimeError(f"direct conflict mismatch: pack={len(direct)} qa={qa['direct_assignment_conflicts_found']}")
+    if len(unresolved) != qa["pass3_unresolved_adjudication_rows"]:
+        raise RuntimeError(f"unresolved mismatch: pack={len(unresolved)} qa={qa['pass3_unresolved_adjudication_rows']}")
 
     write_tsv(OUT_COMPACT, compact_fields, compact)
     write_tsv(OUT_DIRECT, compact_fields, direct)
