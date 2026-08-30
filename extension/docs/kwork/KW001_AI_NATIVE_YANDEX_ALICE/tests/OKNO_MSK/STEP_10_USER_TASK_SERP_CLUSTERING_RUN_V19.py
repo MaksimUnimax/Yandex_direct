@@ -49,6 +49,12 @@ def classify_v19(phrase: str):
         if "деревян" in p:
             return "WOOD_WINDOWS_COMMERCIAL", "Ready-made wooden window remains a commercial product; dimensions are configuration", "HIGH"
 
+    # Object-specific glazing is a service task and must outrank panoramic/French,
+    # material, and private-house overlays. Reuse V15's already-tested object routing.
+    glazing_result = base.object_glazing_task(p)
+    if glazing_result is not None:
+        return glazing_result
+
     # Roof/skylight demand is a distinct product task and is outside the observed
     # OKNO-MSK public offer model; do not hide it in generic private-house/panoramic clusters.
     if win and base.has(p, "для крыши", "на крыше", "мансард") and not base.has(
@@ -104,6 +110,9 @@ def self_test() -> None:
         "очистить пластиковые окна ремонта": "WINDOW_CARE_INFO",
         "чем отмыть пластиковые окна после ремонта": "WINDOW_CARE_INFO",
         "чем очистить пластиковые окна после ремонта": "WINDOW_CARE_INFO",
+        "застекление веранды в частном доме панорамное остекление": "VERANDA_GLAZING",
+        "деревянное остекление веранды": "VERANDA_GLAZING",
+        "остекление веранды в деревянном доме": "VERANDA_GLAZING",
         "панорамные окна в частном доме": "PANORAMIC_WINDOWS_COMMERCIAL",
         "панорамные окна для частного дома": "PANORAMIC_WINDOWS_COMMERCIAL",
         "французские окна в частном доме": "FRENCH_WINDOWS_COMMERCIAL",
