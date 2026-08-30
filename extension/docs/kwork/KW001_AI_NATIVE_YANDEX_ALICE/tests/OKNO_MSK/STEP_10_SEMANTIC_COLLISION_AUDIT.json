@@ -1,18 +1,9 @@
 {
-  "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
-  "audit_version": "V15",
+  "status": "PASS",
+  "audit_version": "V19",
   "active_rows_scanned": 2332,
-  "flagged_rows": 53,
-  "flagged_records": 53,
-  "collision_counts": {
-    "PANORAMIC_WITHOUT_PURCHASE_SIGNAL": 24,
-    "PRIVATE_HOUSE_PRODUCT_CONTEXT_MISMATCH": 3,
-    "PRIVATE_HOUSE_REQUIREMENTS_WITHOUT_REQUIREMENT_MARKER": 3,
-    "PRIVATE_HOUSE_SELECTION_TOKEN_MISMATCH": 1,
-    "PRIVATE_HOUSE_SWALLOWED_SPECIFIC_WINDOW_TYPE": 3,
-    "REPAIR_SERVICE_WITH_CARE_OR_MATERIAL": 5,
-    "TASK_TOKEN_MISMATCH": 12,
-    "V15_HARDWARE_TOKEN_MISMATCH": 2
-  },
-  "meaning": "V15 task-aware adversarial audit. Zero flags is necessary but not sufficient; manual semantic QA remains mandatory."
+  "flagged_rows": 0,
+  "flagged_records": 0,
+  "collision_counts": {},
+  "meaning": "V19 manually-adjudicated collision gate. Zero flags is necessary but still not sufficient for final manual semantic acceptance."
 }
