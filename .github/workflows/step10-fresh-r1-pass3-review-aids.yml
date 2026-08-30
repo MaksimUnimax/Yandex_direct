@@ -1,0 +1,43 @@
+name: Step10 Fresh R1 Pass3 Review Aids
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass3-review-aids.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REVIEW_AIDS.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_FULL_REVIEW.tsv'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Generate compact review aids
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REVIEW_AIDS.py
+
+      - name: Commit generated review aids
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_REVIEW_PACK.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_DIRECT_CONFLICTS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_UNRESOLVED.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_TRANSITION_SAMPLES.tsv
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "step10: generate fresh R1 Pass3 review aids"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
