@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import re
-
 import STEP_10_USER_TASK_SERP_CLUSTERING_BUILD as b
 import STEP_10_USER_TASK_SERP_CLUSTERING_RUN as runner
 import STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V18 as v18
 
 _v18_classifier = b.classify_semantic
 base = v18.v17.v16.v15
-
-b.TASKS.update({
-    "ROOF_WINDOWS_COMMERCIAL": ("Окна для крыши / мансардные окна", "COMMERCIAL_PRODUCT", "OUTSIDE"),
-})
 
 
 def classify_v19(phrase: str):
@@ -54,15 +48,6 @@ def classify_v19(phrase: str):
     glazing_result = base.object_glazing_task(p)
     if glazing_result is not None:
         return glazing_result
-
-    # Roof/skylight demand is a distinct product task only when no more specific
-    # panoramic/French window family is already the head object. For a query such as
-    # 'панорамное окно на крыше', roof location is a configuration modifier and the
-    # established panoramic-product boundary must be preserved.
-    if win and not panoramic and not french and base.has(p, "для крыши", "на крыше", "мансард") and not base.has(
-        p, "размер", "ширина", "высота", "габарит", "как ", "что такое", "ремонт", "установ", "монтаж"
-    ):
-        return "ROOF_WINDOWS_COMMERCIAL", "Roof/skylight window is a distinct product task when no specific panoramic/French window family is the head object", "HIGH"
 
     # Specific panoramic/French window family beats generic private-house fallback.
     # Explicit informational wording remains informational for that specific family.
@@ -119,7 +104,7 @@ def self_test() -> None:
         "панорамные окна для частного дома": "PANORAMIC_WINDOWS_COMMERCIAL",
         "французские окна в частном доме": "FRENCH_WINDOWS_COMMERCIAL",
         "формы окон для частных домов": "PRIVATE_HOUSE_WINDOWS_SELECTION_INFO",
-        "окна для крыши частных домов": "ROOF_WINDOWS_COMMERCIAL",
+        "окна для крыши частных домов": "PRIVATE_HOUSE_WINDOWS_COMMERCIAL",
         "панорамное окно на крыше": "PANORAMIC_WINDOWS_COMMERCIAL",
         "французские окна в пол": "FRENCH_WINDOWS_COMMERCIAL",
         "французские окна на лоджию": "FRENCH_WINDOWS_COMMERCIAL",
