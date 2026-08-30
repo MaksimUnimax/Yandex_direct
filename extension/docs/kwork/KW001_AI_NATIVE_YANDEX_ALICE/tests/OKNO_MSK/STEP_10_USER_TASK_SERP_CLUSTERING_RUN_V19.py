@@ -55,12 +55,14 @@ def classify_v19(phrase: str):
     if glazing_result is not None:
         return glazing_result
 
-    # Roof/skylight demand is a distinct product task and is outside the observed
-    # OKNO-MSK public offer model; do not hide it in generic private-house/panoramic clusters.
-    if win and base.has(p, "для крыши", "на крыше", "мансард") and not base.has(
+    # Roof/skylight demand is a distinct product task only when no more specific
+    # panoramic/French window family is already the head object. For a query such as
+    # 'панорамное окно на крыше', roof location is a configuration modifier and the
+    # established panoramic-product boundary must be preserved.
+    if win and not panoramic and not french and base.has(p, "для крыши", "на крыше", "мансард") and not base.has(
         p, "размер", "ширина", "высота", "габарит", "как ", "что такое", "ремонт", "установ", "монтаж"
     ):
-        return "ROOF_WINDOWS_COMMERCIAL", "Roof/skylight window is a distinct product task rather than a generic private-house/panoramic modifier", "HIGH"
+        return "ROOF_WINDOWS_COMMERCIAL", "Roof/skylight window is a distinct product task when no specific panoramic/French window family is the head object", "HIGH"
 
     # Specific panoramic/French window family beats generic private-house fallback.
     # Explicit informational wording remains informational for that specific family.
@@ -118,7 +120,7 @@ def self_test() -> None:
         "французские окна в частном доме": "FRENCH_WINDOWS_COMMERCIAL",
         "формы окон для частных домов": "PRIVATE_HOUSE_WINDOWS_SELECTION_INFO",
         "окна для крыши частных домов": "ROOF_WINDOWS_COMMERCIAL",
-        "панорамное окно на крыше": "ROOF_WINDOWS_COMMERCIAL",
+        "панорамное окно на крыше": "PANORAMIC_WINDOWS_COMMERCIAL",
         "французские окна в пол": "FRENCH_WINDOWS_COMMERCIAL",
         "французские окна на лоджию": "FRENCH_WINDOWS_COMMERCIAL",
         "французские окна на террасе": "FRENCH_WINDOWS_COMMERCIAL",
