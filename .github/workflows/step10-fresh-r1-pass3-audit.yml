@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/step10-fresh-r1-pass3-audit.yml'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_AUDIT.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_AUDIT_V2.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENT.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REVIEW_PACK.tsv'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_TAXONOMY.tsv'
@@ -27,7 +28,7 @@ jobs:
 
       - name: Run full independent Pass3 semantic audit
         run: |
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_AUDIT.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_AUDIT_V2.py
 
       - name: Verify Pass3 accounting and show largest transitions
         run: |
@@ -38,6 +39,7 @@ jobs:
 
           root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
           qa = json.loads((root / 'STEP_10_FRESH_R1_PASS3_QA.json').read_text(encoding='utf-8'))
+          assert qa['rule_version'] == 'PASS3_R1_INDEPENDENT_SEMANTIC_AUDIT_V2'
           assert qa['pass3_rows_reviewed'] == 2332
           assert qa['pass3_silent_drops'] == 0
           assert qa['direct_active_rows'] == 66
@@ -76,6 +78,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated changes"
           else
-            git commit -m "step10: generate fresh R1 Pass3 semantic audit"
+            git commit -m "step10: generate refined fresh R1 Pass3 semantic audit"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
