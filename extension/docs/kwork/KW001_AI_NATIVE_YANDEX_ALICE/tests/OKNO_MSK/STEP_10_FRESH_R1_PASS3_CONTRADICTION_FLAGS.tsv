@@ -1,0 +1,6 @@
+flag_code	qa_row	phrase	audit_expected_status	audit_cluster_id	audit_rule	flag_detail
+COMMERCIAL_WITH_REPAIR_CUE	1770	ремонт пластиковых окон и дверей	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	COMBINED_WINDOW_DOOR_PRODUCT_V3	commercial assignment contains an explicit repair/fault cue
+COMMERCIAL_WITH_REPAIR_CUE	1813	ремонт регулировка пластиковых окон и дверей	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	COMBINED_WINDOW_DOOR_PRODUCT_V3	commercial assignment contains an explicit repair/fault cue
+COMMERCIAL_WITH_REPAIR_CUE	1824	ремонт штульповых пластиковых окон дверей	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	COMBINED_WINDOW_DOOR_PRODUCT_V3	commercial assignment contains an explicit repair/fault cue
+COMMERCIAL_WITH_DECISION_CUE	2292	цены на пластиковые окна отзывы	ASSIGNED	PVC_WINDOWS_COMMERCIAL	WINDOW_PRICE_COMMERCIAL	commercial assignment contains review/ranking/comparison wording
+COMMERCIAL_WITH_REPAIR_CUE	2296	цены на ремонт пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	WINDOW_PRICE_COMMERCIAL	commercial assignment contains an explicit repair/fault cue
