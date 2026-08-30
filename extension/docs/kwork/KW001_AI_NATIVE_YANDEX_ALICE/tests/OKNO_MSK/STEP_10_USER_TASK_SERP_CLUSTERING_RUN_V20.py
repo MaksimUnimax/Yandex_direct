@@ -120,7 +120,7 @@ def classify_v20(phrase: str):
     # substring that also matches 'замена оконной фурнитуры'.
     if _has(p, "замена оконной фурнитуры", "заменить оконную фурнитуру", "замена фурнитуры"):
         return "WINDOW_REPAIR", "Replacement of window hardware is component maintenance, not whole-window replacement", "HIGH"
-    if win and _word(p, r"\b(?:стоимость|цена|цены)\b.{0,25}\bзамен\w*\b.{0,20}\bокн(?:о|а|а?ми|ов)?\b"):
+    if win and _word(p, r"\b(?:стоимость|цена|цены)\b.{0,25}\bзамен\w*\b.{0,20}\bокн(?:о|а|ами|ов)?\b"):
         return "WINDOW_REPLACEMENT_SERVICE", "Explicit priced whole-window replacement task", "HIGH"
     if win and _word(p, r"\bзамен\w*\b.{0,12}\b(?:окно|окна|окон)\b") and not _has(p, "фурнитур", "ручк", "уплотн", "стеклопак", "петл", "механизм"):
         if "ремонт" in p:
@@ -132,15 +132,15 @@ def classify_v20(phrase: str):
     if win and _has(p, "установ", "монтаж") and "ремонт" in p:
         return None, "Phrase explicitly mixes installation and repair; keep the service boundary visible", "LOW"
     if door and _word(p, r"\b(?:установка|монтаж)\w*\b.{0,45}\bдвер"):
-        return "PVC_DOOR_INSTALLATION_SERVICE", "Action-headed plastic-door installation/ монтаж request is a service, not door purchase", "HIGH"
+        return "PVC_DOOR_INSTALLATION_SERVICE", "Action-headed plastic-door installation request is a service, not door purchase", "HIGH"
     if win and (_word(p, r"^\s*(?:установка|монтаж)\b") or "изготовление и установка" in p or "установка готовых" in p):
         return "WINDOW_INSTALLATION", "Action-headed window installation request outranks ready-made/material product routing", "HIGH"
 
     # 13) Strong component/accessory head objects before broad aluminium/PVC/Rehau
     # product families. Do not reroute window-headed Rehau profile/system phrases.
     component_head = (
-        _word(p, r"^(?:детск\w*\s+)?замок\b")
-        or _word(p, r"^(?:многозапорн\w*\s+)?замок\b")
+        _word(p, r"^(?:детск\w*\s+)?зам(?:ок|ки|ка|ков)\b")
+        or _word(p, r"^(?:многозапорн\w*\s+)?зам(?:ок|ки|ка|ков)\b")
         or _word(p, r"^(?:механизм|створк\w*|редуктор\w*|ригель\w*|ролик\w*|клапан\w*|заглушк\w*|направляющ\w*|стеклопакет\w*)\b")
         or _word(p, r"\b(?:профил\w*|рам\w*|стеклопакет\w*|ролик\w*|клапан\w*|заглушк\w*|направляющ\w*)\s+(?:для|на)\s+.*\bокн")
         or "подставочный профиль для окон" in p
