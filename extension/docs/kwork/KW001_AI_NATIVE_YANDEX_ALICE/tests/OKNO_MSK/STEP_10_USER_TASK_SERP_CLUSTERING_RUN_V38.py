@@ -31,8 +31,6 @@ def classify_v38(phrase: str):
     install = has(p, "установ", "монтаж", "поставить")
     repair = has(p, "ремонт", "регулир", "почин")
     symptom = has(p, "не закры", "не откры", "плохо закры", "провис", "просел", "просела")
-    panoramic = "панорам" in p and win
-    french = "француз" in p and win
 
     # ------------------------------------------------------------------
     # RC7: explicit commercial repair must outrank symptom/diagnostic routing.
@@ -43,7 +41,6 @@ def classify_v38(phrase: str):
     # ------------------------------------------------------------------
     # RC1: specific head object/action outranks broad material/service family.
     # ------------------------------------------------------------------
-    # Combined window+door installation/repair/product tasks.
     combined_window_door = win and door
     balcony_block_window = "балконный блок" in p and "пластиков" in p and win
     if install and (combined_window_door or balcony_block_window):
@@ -53,7 +50,10 @@ def classify_v38(phrase: str):
     if p in {"алюминиевые окна и двери", "окна двери rehau", "окна двери для частного дома"}:
         return "WINDOW_DOOR_COMMERCIAL", "Combined window+door product task outranks material/brand/private-house fallback", "HIGH"
 
-    # Balcony renovation/finishing plus glazing is a combined service task.
+    # Explicit negation must outrank the combined glazing+finishing rule.
+    # V37 already had a dedicated OPEN_BALCONY_FINISHING task for these cases.
+    if "балкон" in p and "без остеклен" in p and has(p, "отделк", "обшив"):
+        return "OPEN_BALCONY_FINISHING", "Explicit 'без остекления' negates glazing; the remaining task is open-balcony finishing", "HIGH"
     if "балкон" in p and "остеклен" in p and has(p, "отделк", "обшив"):
         return "BALCONY_RENOVATION_WITH_GLAZING_SERVICE", "Balcony renovation/finishing is a co-head service with glazing", "HIGH"
 
@@ -61,6 +61,8 @@ def classify_v38(phrase: str):
     hardware = "фурнитур" in p and win
     if hardware and "чем смазать" in p:
         return "WINDOW_CARE_INFO", "How-to lubrication wording is maintenance/care information", "HIGH"
+    if hardware and has(p, "масло", "смазк") and has(p, "лучш", "выбрать", "какая", "какую"):
+        return "WINDOW_ACCESSORY_SELECTION_INFO", "Selection modifier makes lubricant choice, not generic lubricant shopping, the user task", "HIGH"
     if hardware and has(p, "масло", "смазк"):
         return "WINDOW_ACCESSORIES", "Lubricant/oil is the head product; hardware is its use context", "HIGH"
     if hardware and has(p, "гост", "сертификат"):
@@ -68,13 +70,11 @@ def classify_v38(phrase: str):
     if p in {"производители оконной фурнитуры", "производство оконной фурнитуры"}:
         return None, "Manufacturer/process wording is not ordinary hardware shopping; provider-versus-process intent remains unresolved", "LOW"
 
-    # Explicit finishing actions outrank whole-window product families.
     if has(p, "отделка пластиковых окон", "цена на отделку пластиковых окон", "отделка панорамных окон", "отделка французского окна"):
         return "WINDOW_FINISHING_SERVICE", "Finishing is the explicit action/service; window type is the object/modifier", "HIGH"
     if p == "покраска алюминиевых окон":
         return "WINDOW_FINISHING_SERVICE", "Painting is a surface-finishing service rather than whole-window purchase", "HIGH"
 
-    # Finance and component/material head objects inside glazing wording.
     if p == "остекление веранды в рассрочку":
         return "WINDOW_FINANCE", "Installment finance is the decision-driving commercial goal", "HIGH"
     if p == "стекло остекления балкона":
@@ -87,10 +87,8 @@ def classify_v38(phrase: str):
         return "GLAZING_SELECTION_INFO", "Glazing-system wording is a system/type information-selection task", "HIGH"
 
     # ------------------------------------------------------------------
-    # RC7/RC3: unsupported sub-mode inference must return to a visible boundary.
+    # RC3: unsupported sub-mode inference must return to a visible boundary.
     # ------------------------------------------------------------------
-    # Direct Step-09 row 'окна rehau провисли' is intentionally excluded from this
-    # semantic-only rule because it has its own direct mixed evidence.
     if symptom and p != "окна rehau провисли" and not (repair and "москв" in p):
         return None, "Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent", "LOW"
     if p == "пластиковая дверь своими руками":
@@ -125,7 +123,6 @@ def classify_v38(phrase: str):
 
     # ------------------------------------------------------------------
     # RC2: semantically determinate V37 SEARCH_REQUIRED rows.
-    # These are grouped by semantic class; no direct SERP evidence is manufactured.
     # ------------------------------------------------------------------
     if p == "ral алюминиевых окон":
         return "WINDOW_SELECTION_INFO", "RAL wording is colour/configuration selection information", "HIGH"
