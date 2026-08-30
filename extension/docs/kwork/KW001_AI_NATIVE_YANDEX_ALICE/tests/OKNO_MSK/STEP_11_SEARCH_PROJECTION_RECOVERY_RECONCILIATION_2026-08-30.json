@@ -1,0 +1,55 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "target_domain": "okno-msk.ru",
+  "region": "213",
+  "bridge_reported_version": "0.1.1",
+  "batch_execution": {
+    "queries": 68,
+    "succeeded": 68,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "provider_requests_started": 68,
+    "provider_cost_rub": 33.184,
+    "status": "COMPLETED"
+  },
+  "projection_recovery": {
+    "part_01": {
+      "offset": 0,
+      "limit": 20,
+      "topN": 10,
+      "queries_recovered": 20,
+      "ranked_rows_recovered": 200,
+      "artifact": "STEP_11_SEARCH_PROJECTION_RECOVERY_01_000_019_2026-08-30.tsv",
+      "projection_request_executed": false,
+      "incremental_provider_cost_rub": 0
+    },
+    "part_02": {
+      "offset": 20,
+      "limit": 48,
+      "topN": 10,
+      "queries_recovered": 48,
+      "ranked_rows_recovered": 480,
+      "artifact": "STEP_11_SEARCH_PROJECTION_RAW_02_020_067_2026-08-30.txt",
+      "projection_request_executed": false,
+      "incremental_provider_cost_rub": 0
+    },
+    "queries_recovered_total": 68,
+    "ranked_rows_recovered_total": 680,
+    "query_accounting_reconciles": true,
+    "ranked_row_accounting_reconciles": true,
+    "incremental_provider_requests": 0,
+    "incremental_provider_cost_rub": 0,
+    "target_domain_top10_query_hits": 0,
+    "full_rank_url_domain_title_corpus_durable": true,
+    "full_snippet_modtime_corpus_durable": false,
+    "original_full_provider_envelope_for_final_8_durable": true,
+    "original_full_provider_envelope_for_first_60_durable": false
+  },
+  "fresh_search_with_canary": {
+    "provider_requests": 69,
+    "provider_cost_rub": 33.672,
+    "provider_accounting_reconciles": true
+  },
+  "interpretation_boundary": "Projection recovers rank/url/domain/title from the already executed batch ledger and does not call Yandex Search again. The recovered corpus is durable evidence of current observed TOP-10 behavior for the exact 68 batch queries. Absence of okno-msk.ru from those observed TOP-10 results is not a page-ownership verdict. Current first-party page task fit remains required for Step-11 ownership synthesis. Projection does not expose snippet/modtime, so this recovery does not retroactively make the first 60 full original provider envelopes durable."
+}
