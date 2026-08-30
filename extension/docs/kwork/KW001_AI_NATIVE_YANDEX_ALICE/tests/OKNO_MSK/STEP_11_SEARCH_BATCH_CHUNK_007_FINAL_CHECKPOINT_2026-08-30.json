@@ -1,0 +1,40 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "bridge_reported_version": "0.1.1",
+  "operation": "batch.nextN",
+  "requested_count": 8,
+  "attempted_steps": 8,
+  "confirmed_provider_executions": 8,
+  "provider_execution_count_exact": true,
+  "stopped_early": false,
+  "progress_after_chunk": {
+    "status": "COMPLETED",
+    "total": 68,
+    "input_count": 68,
+    "duplicate_count": 0,
+    "pending": 0,
+    "succeeded": 68,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 68,
+    "requests_started": 68,
+    "estimated_cost_rub": 33.183999999999976,
+    "next_safe_action": "NONE"
+  },
+  "chunk_queries": [
+    {"global_ordinal":61,"query":"алюминиевый м окно","request_id":"search-batch-e1138bd6-f9aa-4161-929e-f7fb1a16f6b5","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"predominantly commercial aluminium-window pages; strong aluminium-window commercial task despite malformed wording"},
+    {"global_ordinal":62,"query":"без алюминиевой окна","request_id":"search-batch-77296810-6adf-48f4-8651-077cf1b2998a","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"mixed PVC commercial, plastic-vs-aluminium comparison and cold-glazing results; task remains ambiguous"},
+    {"global_ordinal":63,"query":"окон п 44 т","request_id":"search-batch-93c81f75-f198-4ef9-a6b2-9a7d973677ae","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"strong P-44T typical-house windows/glazing commercial intent"},
+    {"global_ordinal":64,"query":"оконные блоки фурнитурой","request_id":"search-batch-59d15322-a92f-4132-9ef0-6ce9e0739fe2","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"window-hardware ecommerce/catalog intent dominates"},
+    {"global_ordinal":65,"query":"остекление балкона работу","request_id":"search-batch-782707ec-1971-44c1-8e6a-8628830bcacc","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"service-marketplace/private-master results dominate; strong balcony-glazing service task"},
+    {"global_ordinal":66,"query":"пластиковые двери 70","request_id":"search-batch-04bb4e6c-aa7f-4445-a89d-a2bf051c6b34","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"PVC-door product/ecommerce intent around 70 cm / 700 mm / 70 mm profile"},
+    {"global_ordinal":67,"query":"пластиковые окна домашние окна","request_id":"search-batch-72a91a3f-85e7-4192-8849-b716397e41a2","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"broad PVC/home-window commercial intent"},
+    {"global_ordinal":68,"query":"пластиковые окна комарова","request_id":"search-batch-29c3bf6b-dfd1-4690-9f50-d63bf234c87f","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"mixed broad windows plus geo/local Akademika Komarova and repair/local results; task remains ambiguous"}
+  ],
+  "target_domain_top10_hits_in_chunk": 0,
+  "batch_target_domain_top10_hits_observed": 0,
+  "interpretation_boundary": "Direct Yandex Search evidence only. Absence of okno-msk.ru in TOP-10 is not a page-ownership verdict and does not prove absence of a suitable current site page. Search-required rows are not forcibly assigned here."
+}
