@@ -1,10 +1,12 @@
 {
   "status": "AUDIT_GENERATED__MANUAL_REVIEW_REQUIRED",
-  "audit_version": "V10",
-  "search_required_rows_scanned": 152,
-  "flagged_rows": 0,
-  "flagged_records": 0,
-  "audit_counts": {},
+  "audit_version": "V15",
+  "search_required_rows_scanned": 76,
+  "flagged_rows": 6,
+  "flagged_records": 6,
+  "audit_counts": {
+    "UNRESOLVED_CLEAR_SPECIFIC_WINDOW_PRODUCT": 6
+  },
   "intentionally_mixed_direct_rows": 1,
   "intentionally_mixed_direct_examples": [
     {
@@ -14,5 +16,5 @@
       "step09_handoff": "AMBIGUOUS_PRICE_MATERIAL_BOUNDARY"
     }
   ],
-  "meaning": "Likely false SEARCH_REQUIRED states are flagged; direct rows remain unresolved without a flag only when the direct Step-09 evidence is itself explicitly mixed/ambiguous."
+  "meaning": "V15 unresolved audit flags semantically determinate rows that should not remain SEARCH_REQUIRED. Zero flags is necessary but manual semantic QA remains mandatory."
 }
