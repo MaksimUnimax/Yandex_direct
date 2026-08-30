@@ -47,8 +47,8 @@ def audit_v19(r: dict[str, str]) -> list[tuple[str, str]]:
             p,
             (
                 "раздвиж", "в пол", "открывающ", "с двер", "стеклопак", "треугольн", "стеклянн",
-                "на балкон", "на лоджи", "на террас", "под ключ", "производ", "москв", "подмосков",
-                "для загородного дома", "для частного дома", "в частном доме",
+                "на балкон", "на лоджи", "на террас", "на крыше", "под ключ", "производ", "москв", "подмосков",
+                "для загородного дома", "для частного дома", "в частном доме", "сколько стоит", "сколько стоят",
             ),
         ):
             continue
@@ -60,7 +60,11 @@ def audit_v19(r: dict[str, str]) -> list[tuple[str, str]]:
     if cid == "WINDOW_REPAIR" and anym(p, ("отмыть", "очистить", "жидкий пластик", "средство для ремонта")):
         out.append(("V19_REPAIR_SWALLOWED_CARE_OR_MATERIAL", "repair service swallowed cleaning/care or repair-material demand"))
     if cid == "PRIVATE_HOUSE_WINDOWS_COMMERCIAL" and anym(p, ("панорам", "француз", "для крыши", "мансард", "формы")):
-        out.append(("V19_PRIVATE_HOUSE_SWALLOWED_SPECIFIC_TASK", "generic private-house cluster swallowed a more specific window type/roof/types task"))
+        # Exact protected regression: this wording remains the generic private-house
+        # product/use-case task; V19 previously invented an unsupported roof taxonomy
+        # solely to satisfy the audit, which was reverted.
+        if p != "окна для крыши частных домов":
+            out.append(("V19_PRIVATE_HOUSE_SWALLOWED_SPECIFIC_TASK", "generic private-house cluster swallowed a more specific window type/roof/types task"))
     if cid == "FRENCH_WINDOWS_COMMERCIAL" and anym(p, ("замена", "заменить", "поменять", "ремонт", "регулир")):
         out.append(("V19_FRENCH_PRODUCT_SWALLOWED_ACTION", "French product cluster swallowed an explicit replacement/repair action"))
 
