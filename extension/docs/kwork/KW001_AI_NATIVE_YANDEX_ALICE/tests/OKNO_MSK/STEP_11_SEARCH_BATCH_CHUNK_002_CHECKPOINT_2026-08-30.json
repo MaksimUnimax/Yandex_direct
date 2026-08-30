@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "bridge_reported_version": "0.1.1",
+  "operation": "batch.nextN",
+  "requested_count": 10,
+  "attempted_steps": 10,
+  "confirmed_provider_executions": 10,
+  "provider_execution_count_exact": true,
+  "stopped_early": false,
+  "progress_after_chunk": {
+    "total": 68,
+    "pending": 48,
+    "succeeded": 20,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 20,
+    "requests_started": 20,
+    "estimated_cost_rub": 9.759999999999994,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "chunk_queries": [
+    {"global_ordinal":11,"query":"пластиковые двери москва","request_id":"search-batch-63fdb93a-d374-4578-a03e-4a195b698842","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"commercial PVC-door product pages; entrance/balcony/interior variants coexist"},
+    {"global_ordinal":12,"query":"остекление москва","request_id":"search-batch-291ecfba-a489-4ec0-98f1-d416a510fb1c","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"generic query resolves strongly toward balcony/loggia glazing service pages"},
+    {"global_ordinal":13,"query":"остекление балконов москва","request_id":"search-batch-73796300-e3d6-4526-8538-b09900236ee2","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated balcony/loggia glazing service landings and calculators"},
+    {"global_ordinal":14,"query":"теплое остекление балкона","request_id":"search-batch-a4e0bdb1-0884-47d9-bcb4-8d15090d771b","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated warm-glazing service landings dominate"},
+    {"global_ordinal":15,"query":"холодное остекление балкона","request_id":"search-batch-2fbe63b4-6c75-44f5-bd91-26b27526fd34","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated cold-glazing/aluminium service landings dominate"},
+    {"global_ordinal":16,"query":"остекление балкона с выносом","request_id":"search-batch-78019017-4f00-4502-aa9f-d15fe4d1eed5","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated balcony-outset/extension service landings dominate"},
+    {"global_ordinal":17,"query":"остекление балкона с крышей","request_id":"search-batch-30f48d82-1bdd-49bc-9106-b177c263974b","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated glazing-with-roof / roof-installation pages dominate"},
+    {"global_ordinal":18,"query":"отделка балкона с остеклением","request_id":"search-batch-8de37103-779b-4515-b134-2c9b51f19dbc","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"bundled balcony renovation/finishing plus glazing pages dominate"},
+    {"global_ordinal":19,"query":"остекление веранды","request_id":"search-batch-f601f059-557f-4012-9feb-b1c03c0c8700","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"veranda/terrace/outbuilding glazing service landings dominate"},
+    {"global_ordinal":20,"query":"остекление террасы","request_id":"search-batch-c9779bcb-0a9d-4ab2-b4de-f5c63657b7d2","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"terrace/veranda glazing service landings dominate"}
+  ],
+  "target_domain_top10_hits_in_chunk": 0,
+  "interpretation_boundary": "Checkpoint of provider execution/accounting and direct-query SERP signals. No page-ownership verdict is made here. Full ranked-row projection will be persisted after batch completion."
+}
