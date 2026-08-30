@@ -49,10 +49,14 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 152	балкон без остекления цена	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
 157	балкон под ключ без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
 158	балкон под ключ без остекления цена	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+160	балконная дверь пластиковая с установкой москва	ASSIGNED	PVC_DOORS_COMMERCIAL	true		PASS
+161	балконная дверь пластиковая цена москва с установкой	ASSIGNED	PVC_DOORS_COMMERCIAL	true		PASS
 164	балконная ручка для пластиковых дверей	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+167	балконные двери пластиковые цена с установкой	ASSIGNED	PVC_DOORS_COMMERCIAL	true		PASS
 169	балконные окна алюминиевый профиль	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
 170	балконные окна пластиковые	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 171	балконные окна пластиковые цены	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+175	балконный блок пластиковые окна цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 181	баня панорамное окно терраса	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
 182	баня с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
 184	барнхаус с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
@@ -77,6 +81,7 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 236	виды пластиковых окон для частного дома фото	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
 246	внутренние пластиковые двери	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
 249	вставить окна в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+251	вставить пластиковые окна цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 258	выбираем окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
 260	вызвать мастера по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
 261	вызов мастера ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
@@ -93,6 +98,7 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 345	деревянные пластиковые окна	ASSIGNED	WOOD_WINDOWS_COMMERCIAL	true		PASS
 349	детский замок на пластиковые окна цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
 352	дешевые окна пластиковые от производителя цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+357	дешевые пластиковые окна цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 363	дизайн остекления веранды в доме	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
 364	дизайны панорамных окон	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
 368	добор для пластиковых окон rehau купить	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
@@ -121,6 +127,9 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 429	зазор при установке пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
 430	заказ и установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
 431	заказ окон пластиковых с замером и установкой	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+438	заказать окно пластиковое недорого с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+441	заказать пластиковое окно с установкой цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+445	заказать пластиковые окна в москве с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 451	заказать сетку на окно пластиковое цена	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
 454	заказать установку пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
 459	замена алюминиевых окон	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
@@ -220,6 +229,7 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 705	купить окна пластиковые от производителя для квартиры	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 706	купить окна пластиковые цены от производителя	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 708	купить окно пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+742	купить пластиковые окна с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 743	купить пластиковые цена на окна	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 744	купить ручку для алюминиевого окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
 745	купить ручку для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
@@ -282,9 +292,13 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 933	окна rehau сайт	ASSIGNED	NAVIGATION_BRAND_SITE	true		PASS
 934	окна rehau сайт цены	ASSIGNED	NAVIGATION_BRAND_SITE	true		PASS
 941	окна rehau цвета	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+943	окна rehau цена с установкой	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+944	окна rehau цена с установкой москва	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
 949	окна алюминиевые каталог	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
 950	окна алюминиевые раздвижные цена	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
 957	окна в пол размеры для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+973	окна в рассрочку с установкой недорого	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+976	окна в рассрочку цены с установкой	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
 979	окна в серпухове недорого от производителя пластиковые	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 982	окна двери rehau	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
 987	окна для крыши частных домов	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
@@ -303,10 +317,16 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 1033	окна пластиковые на веранду цены	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1034	окна пластиковые на террасу цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1035	окна пластиковые недорого в москве	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1037	окна пластиковые недорого от производителя с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1038	окна пластиковые недорого от производителя цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1040	окна пластиковые от производителя с доставкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1042	окна пластиковые под ключ цена москва	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1044	окна пластиковые ремонт в домашних условиях	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+1045	окна пластиковые рехау цена с установкой	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+1046	окна пластиковые с установкой балашиха	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1047	окна пластиковые с установкой в московской области	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1048	окна пластиковые с установкой в подмосковье	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1049	окна пластиковые с установкой телефоны	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1055	окна пластиковые чеховский район в рассрочку	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1056	окна пластиковые электросталь от производителя	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1060	окна раздвижные алюминиевые для веранды	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
@@ -316,6 +336,7 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 1070	окна стандартные размеры пластиковые для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
 1075	окна французская решетка	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
 1076	окна французский стиль	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1077	окна чехов пластиковые от производителя с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1086	окно rehau не открывается на проветривание	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
 1087	окно алюминиевое roto	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
 1088	окно балконное алюминиевое раздвижное	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
@@ -329,12 +350,14 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 1099	окно на веранду одинарное пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1100	окно на дачную веранду одинарное пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1101	окно на кухню пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1102	окно на кухню пластиковое цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1105	окно панорамное 2.5	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
 1106	окно панорамное 2.5 метра	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
 1108	окно панорамный блок	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
 1111	окно пластиковое белое	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1112	окно пластиковое в рассрочку телефоны	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1113	окно пластиковое закрыто	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1114	окно пластиковое купить в москве с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1116	окно пластиковое поворотно откидное	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1117	окно пластиковое сколько цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1118	окно пластиковое цена 160 на 160	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
@@ -434,20 +457,41 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 1657	пластиковые двери видео	ASSIGNED	PVC_DOORS_COMMERCIAL	true		PASS
 1677	пластиковые наличники на окна с улицы цена	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
 1706	пластиковые окна в деревянном доме	ASSIGNED	WOOD_WINDOWS_COMMERCIAL	true		PASS
+1716	пластиковые окна в зеленограде с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1717	пластиковые окна в зеленограде с установкой цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1733	пластиковые окна в москве с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1734	пластиковые окна в москве с установкой недорого	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1735	пластиковые окна в москве с установкой отзывы	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
 1736	пластиковые окна в москве с установкой рейтинг	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+1745	пластиковые окна в подольске с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1772	пластиковые окна видео	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
 1775	пластиковые окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
 1778	пластиковые окна домашние окна	SEARCH_REQUIRED		true		PASS
 1780	пластиковые окна замена установка	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
 1783	пластиковые окна комарова	SEARCH_REQUIRED		true		PASS
+1789	пластиковые окна люберцы от производителя с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1795	пластиковые окна москва цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1796	пластиковые окна москва цена с установкой недорого	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1799	пластиковые окна на балкон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1800	пластиковые окна на балкон цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
-1801	пластиковые окна на балкон цена с установкой	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+1801	пластиковые окна на балкон цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1802	пластиковые окна на веранду размеры и цены	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1804	пластиковые окна на дачу цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1808	пластиковые окна на кухню фото цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1810	пластиковые окна на лоджию цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1836	пластиковые окна от производителя размеры	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1839	пластиковые окна от производителя с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1853	пластиковые окна подольск цены с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1859	пластиковые окна рехау в москве с установкой	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+1860	пластиковые окна рехау москва цена с установкой	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+1864	пластиковые окна рехау с установкой	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+1866	пластиковые окна с установкой цена под ключ	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1867	пластиковые окна своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+1883	пластиковые окна цена за м2 с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1884	пластиковые окна цена с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1885	пластиковые окна цена с установкой московская	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1886	пластиковые окна цена с установкой московская область	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1888	пластиковые окна цены с установкой недорого	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1891	пластиковые решетки на окна прозрачные цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1892	пластиковые решетки на окна цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 1893	пластиковый наличник на окно цена	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
@@ -684,6 +728,9 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 2301	система остекления веранды	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
 2302	системы алюминиевых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
 2303	сколько алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2304	сколько пластиковое окно с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2318	сколько стоит пластиковое окно с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2319	сколько стоит пластиковые окна цены с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 2324	сколько стоит установка пластиковых окон в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
 2339	современные окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
 2341	современный дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
@@ -713,8 +760,11 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 2392	стоимость алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
 2393	стоимость замены окна на пластиковые цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
 2398	стоимость панорамных окон	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+2399	стоимость пластикового окна с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2400	стоимость пластикового окна с установкой калькулятор	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 2401	стоимость пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
-2402	стоимость пластиковых окон с установкой в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2402	стоимость пластиковых окон с установкой в москве	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2407	стоят пластиковые окна с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 2408	студия с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
 2409	суть пластиковых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
 2421	теплый подставочный профиль для окон rehau	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
@@ -856,6 +906,7 @@ source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_
 2741	цена на отделку пластиковых окон	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
 2742	цена на пластиковое однокамерное окно	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 2746	цена на пластиковое окно размер	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2756	цена на пластиковые окна с установкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
 2760	цена откосов на окно пластиковое	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
 2761	цена отливов на пластиковые окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
 2762	цена панорамных окон для дома	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
