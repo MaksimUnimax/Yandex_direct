@@ -1,0 +1,41 @@
+name: TEMP Step10 V33 Manual QA Export
+
+on:
+  push:
+    paths:
+      - '.github/workflows/_tmp_step10_manual_qa_v33_export.yml'
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package V33 manual-QA inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'
+          zip -j STEP10_V33_MANUAL_QA_EXPORT.zip \
+            "$BASE"/STEP_10_CLUSTER_ASSIGNMENTS.tsv \
+            "$BASE"/STEP_10_CLUSTER_SUMMARY.tsv \
+            "$BASE"/STEP_10_BOUNDARY_REVIEW.tsv \
+            "$BASE"/STEP_10_QA.json \
+            "$BASE"/STEP_10_SEMANTIC_QA_SAMPLE.tsv \
+            "$BASE"/STEP_10_SEMANTIC_COLLISION_AUDIT.tsv \
+            "$BASE"/STEP_10_SEMANTIC_COLLISION_AUDIT.json \
+            "$BASE"/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.tsv \
+            "$BASE"/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.json \
+            "$BASE"/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.tsv \
+            "$BASE"/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT.json \
+            "$BASE"/STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv \
+            "$BASE"/STEP_09_SERP_COMPARISONS.tsv \
+            "$BASE"/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv
+      - name: Upload V33 manual-QA inputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: STEP10_V33_MANUAL_QA_EXPORT
+          path: STEP10_V33_MANUAL_QA_EXPORT.zip
+          retention-days: 1
