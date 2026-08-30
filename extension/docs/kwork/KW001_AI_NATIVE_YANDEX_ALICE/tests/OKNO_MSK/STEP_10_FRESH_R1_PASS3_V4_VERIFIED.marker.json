@@ -1,0 +1,20 @@
+{
+  "status": "STEP10_FRESH_R1_PASS3_V4_FINAL_VERIFIED",
+  "source_rows": 2840,
+  "active_rows": 2332,
+  "independently_reviewed_rows": 2332,
+  "error_ledger_rows": 876,
+  "consolidated_correction_rows": 876,
+  "correction_batches": 1,
+  "final_assigned_rows": 2319,
+  "final_search_required_rows": 13,
+  "impact_rows_rechecked": 876,
+  "impact_failures": 0,
+  "semantic_invariant_violations": 0,
+  "full_qa_file_rows": 2332,
+  "error_file_rows": 876,
+  "correction_file_rows": 876,
+  "impact_file_rows": 876,
+  "final_qa_sha256": "07cab0d9a0a99e7753c67c47e164ffafdc47825e50fe1387f147531f3f3191d9",
+  "final_assignments_sha256": "ea2cc5760e71c1564bc189692be218f7af95cd35995334d523c4b985bdeacb68"
+}

@@ -1,0 +1,63 @@
+cluster_id	family	user_task	intent_type	business_fit	assigned_rows
+WINDOWS_COMMERCIAL_GENERAL	WINDOW_PRODUCTS	buy/order generic windows	COMMERCIAL	CORE	41
+PVC_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order PVC windows	COMMERCIAL	CORE	240
+REHAU_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order Rehau window products	COMMERCIAL	CORE	100
+ALUMINIUM_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order aluminium windows	COMMERCIAL	CORE	100
+WOOD_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order wooden windows	COMMERCIAL	CORE	5
+TIMBER_ALUMINIUM_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order timber-aluminium windows	COMMERCIAL	CORE	3
+SOFT_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order soft windows	COMMERCIAL	ADJACENT	1
+FRENCH_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order French windows	COMMERCIAL	ADJACENT	57
+PANORAMIC_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order panoramic windows	COMMERCIAL	CORE	72
+ROOF_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order roof/mansard windows	COMMERCIAL	ADJACENT	2
+WINDOWS_DOORS_COMBINED_COMMERCIAL	WINDOW_PRODUCTS	buy/order combined window-and-door products	COMMERCIAL	CORE	9
+PVC_DOORS_COMMERCIAL	DOOR_PRODUCTS	buy/order PVC doors	COMMERCIAL	CORE	111
+GENERAL_GLAZING_SERVICE	GLAZING_SERVICES	order glazing service without a more specific object family	SERVICE	CORE	7
+BALCONY_GLAZING_GENERAL	BALCONY_GLAZING	order balcony/loggia glazing	SERVICE	CORE	128
+BALCONY_GLAZING_WARM	BALCONY_GLAZING	order warm balcony/loggia glazing	SERVICE	CORE	2
+BALCONY_GLAZING_COLD	BALCONY_GLAZING	order cold balcony/loggia glazing	SERVICE	CORE	12
+BALCONY_GLAZING_EXTENSION_SERVICE	BALCONY_GLAZING	order balcony glazing with extension/outset	SERVICE	CORE	4
+BALCONY_GLAZING_ROOF_SERVICE	BALCONY_GLAZING	order balcony glazing with roof construction	SERVICE	CORE	6
+BALCONY_RENOVATION_WITH_GLAZING	BALCONY_GLAZING	order bundled balcony renovation plus glazing	SERVICE	ADJACENT	15
+OUTDOOR_STRUCTURE_GLAZING	OUTDOOR_GLAZING	order glazing of veranda/terrace/gazebo/porch	SERVICE	CORE	128
+OPEN_BALCONY_FINISHING	BALCONY_ADJACENT	finish/renovate an open balcony without glazing as the primary job	SERVICE	ADJACENT	12
+WINDOW_INSTALLATION_SERVICE	WINDOW_SERVICES	professional window installation	SERVICE	CORE	157
+PVC_DOOR_INSTALLATION_SERVICE	DOOR_SERVICES	professional PVC door installation	SERVICE	ADJACENT	11
+WINDOW_REPAIR_SERVICE	WINDOW_SERVICES	professional window repair	SERVICE	ADJACENT	179
+PVC_DOOR_REPAIR_SERVICE	DOOR_SERVICES	professional PVC door repair	SERVICE	ADJACENT	14
+WINDOW_REPLACEMENT_SERVICE	WINDOW_SERVICES	professional window replacement	SERVICE	CORE	23
+PVC_DOOR_REPLACEMENT_SERVICE	DOOR_SERVICES	professional PVC door replacement	SERVICE	ADJACENT	3
+WINDOW_DEMOLITION_SERVICE	WINDOW_SERVICES	window/balcony-frame dismantling or demolition	SERVICE	ADJACENT	2
+WINDOW_FINISHING_SERVICE	FINISHING	professional slopes/surround/window finishing	SERVICE	ADJACENT	20
+WINDOWSILL_REPAIR_SERVICE	FINISHING	professional windowsill repair/restoration	SERVICE	ADJACENT	2
+MOSQUITO_NET_INSTALLATION_SERVICE	ACCESSORIES	professional mosquito-net installation	SERVICE	ADJACENT	11
+MOSQUITO_NET_REPAIR_SERVICE	ACCESSORIES	professional mosquito-net repair	SERVICE	ADJACENT	4
+WINDOW_HARDWARE_SHOPPING	ACCESSORIES	buy window hardware/components	COMMERCIAL	ADJACENT	239
+WINDOW_ACCESSORIES_SHOPPING	ACCESSORIES	buy general window accessories/add-ons	COMMERCIAL	ADJACENT	47
+MOSQUITO_NET_SHOPPING	ACCESSORIES	buy mosquito nets	COMMERCIAL	ADJACENT	32
+WINDOW_SELECTION_INFO	WINDOW_INFO	choose windows/products	INFO	ADJACENT	20
+WINDOW_COMPARISON_INFO	WINDOW_INFO	compare window products/brands/systems	INFO	ADJACENT	18
+WINDOW_REVIEWS_INFO	WINDOW_INFO	read reviews/experience about windows/products	INFO	ADJACENT	22
+WINDOW_PRODUCT_TECH_INFO	WINDOW_INFO	understand window/product technology, definitions and properties	INFO	ADJACENT	27
+WINDOW_DIMENSIONS_INFO	WINDOW_INFO	find window/product dimensions and sizing information	INFO	ADJACENT	20
+PRIVATE_HOUSE_WINDOW_PLANNING_INFO	WINDOW_INFO	plan/specify windows for a private house	INFO	ADJACENT	47
+WINDOW_CARE_INFO	WINDOW_INFO	clean/maintain/care for windows	INFO	ADJACENT	0
+WINDOW_INSTALLATION_DIY_INFO	WINDOW_INFO	learn/do window installation	DIY_INFO	ADJACENT	36
+WINDOW_MEASUREMENT_INFO	WINDOW_INFO	measure window openings/products for installation or order	INFO	ADJACENT	0
+WINDOW_REPAIR_DIY_INFO	WINDOW_INFO	diagnose or repair windows yourself	DIY_INFO	ADJACENT	27
+WINDOW_FINISHING_DIY_INFO	WINDOW_INFO	learn/do window slopes/surround finishing	DIY_INFO	ADJACENT	4
+WINDOW_HARDWARE_INFO	ACCESSORY_INFO	understand/select window hardware and components	INFO	ADJACENT	44
+WINDOW_ACCESSORY_SELECTION_INFO	ACCESSORY_INFO	select general window accessories/add-ons	INFO	ADJACENT	1
+MOSQUITO_NET_SELECTION_INFO	ACCESSORY_INFO	choose mosquito-net type/specification	INFO	ADJACENT	3
+PVC_DOOR_INFO	DOOR_INFO	understand/select PVC doors, dimensions, operation and properties	INFO	ADJACENT	18
+GLAZING_SELECTION_INFO	GLAZING_INFO	choose glazing type/system for a non-specific or non-balcony object	INFO	ADJACENT	11
+GLAZING_DIY_INFO	GLAZING_INFO	learn/do glazing work yourself	DIY_INFO	ADJACENT	7
+GLAZING_PERMISSION_INFO	GLAZING_INFO	understand permission/legal requirements for glazing	INFO	ADJACENT	7
+BALCONY_GLAZING_INFO	GLAZING_INFO	understand/choose balcony glazing	INFO	ADJACENT	13
+GLAZING_DESIGN_INSPIRATION	GLAZING_INFO	view glazing/window design ideas, photos or examples	INFO	ADJACENT	48
+NAVIGATION_BRAND_SITE	NAVIGATION	reach an official brand/manufacturer/site or branded destination	NAVIGATIONAL	ADJACENT	13
+OUTSIDE_CURTAINS_BLINDS	OUTSIDE_SCOPE	curtains/blinds and their selection/install/repair	OUTSIDE	OUTSIDE	59
+OUTSIDE_HEATING_HVAC	OUTSIDE_SCOPE	heating/HVAC/radiators/convectors around windows	OUTSIDE	OUTSIDE	22
+OUTSIDE_REAL_ESTATE_ARCHITECTURE	OUTSIDE_SCOPE	real-estate/architecture/project inspiration not seeking window/glazing work	OUTSIDE	OUTSIDE	42
+OUTSIDE_INTERIOR_DOORS	OUTSIDE_SCOPE	interior-door shopping/information outside PVC exterior/balcony-door scope	OUTSIDE	OUTSIDE	9
+OUTSIDE_USED_MARKET	OUTSIDE_SCOPE	used/second-hand window or door market	OUTSIDE	OUTSIDE	0
+OUTSIDE_OTHER	OUTSIDE_SCOPE	other active query job outside the target business and not represented by a stable outside family	OUTSIDE	OUTSIDE	2

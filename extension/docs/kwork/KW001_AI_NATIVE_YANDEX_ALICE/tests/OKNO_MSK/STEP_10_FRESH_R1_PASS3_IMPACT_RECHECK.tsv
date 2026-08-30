@@ -1,0 +1,877 @@
+source_row	phrase	final_status	final_cluster_id	repeat_decision_stable	semantic_invariant_violations	impact_recheck_verdict
+4	6 6 с панорамными окнами	SEARCH_REQUIRED		true		PASS
+6	accado или vorne фурнитура оконная лучше	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+18	rehau medea ручка окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+20	rehau микролифт для окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+21	rehau ограничитель для окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+22	rehau окна 2	SEARCH_REQUIRED		true		PASS
+23	rehau окна 80	SEARCH_REQUIRED		true		PASS
+26	rehau окна инструкция	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+30	rehau окна режимы	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+44	адрес установки пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+49	акции от производителей пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+59	алюминиевое остекление веранды фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+64	алюминиевые балконные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+65	алюминиевые вертикальные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+66	алюминиевые витражные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+71	алюминиевые накладки на деревянные окна	ASSIGNED	TIMBER_ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+72	алюминиевые накладки на окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+74	алюминиевые окна 2	SEARCH_REQUIRED		true		PASS
+76	алюминиевые окна fapim	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+85	алюминиевые окна видео	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+95	алюминиевые окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+96	алюминиевые окна и двери	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
+100	алюминиевые окна на балкон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+101	алюминиевые окна на балкон раздвижные цена	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+102	алюминиевые окна на балкон цена	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+107	алюминиевые окна остекление	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+114	алюминиевые окна своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+122	алюминиевые раздвижные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+123	алюминиевые раздвижные окна для беседки	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+124	алюминиевые раздвижные окна для веранды в можайске	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+125	алюминиевые раздвижные окна для веранды цена	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+126	алюминиевые раздвижные окна на балкон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+127	алюминиевые рамы для окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+128	алюминиевые распашные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+129	алюминиевые сдвижные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+131	алюминиевый м окно	SEARCH_REQUIRED		true		PASS
+132	алюминиевый м2 окно	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+134	алюминиевый профиль для окон купить	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+136	алюминиевый профиль для раздвижных окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+137	алюминиевый профиль окна балкон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+139	алютех окна из алюминиевого профиля	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+140	анкерная пластина для окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+143	антикошка на пластиковые окна	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+144	антикошка на пластиковые окна установка	ASSIGNED	MOSQUITO_NET_INSTALLATION_SERVICE	true		PASS
+145	антикошка на пластиковые окна цена	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+147	апартаменты с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+151	балкон без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+152	балкон без остекления цена	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+157	балкон под ключ без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+158	балкон под ключ без остекления цена	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+164	балконная ручка для пластиковых дверей	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+169	балконные окна алюминиевый профиль	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+170	балконные окна пластиковые	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+171	балконные окна пластиковые цены	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+181	баня панорамное окно терраса	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+182	баня с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+184	барнхаус с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+185	бассейн с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+189	без алюминиевой окна	SEARCH_REQUIRED		true		PASS
+194	безрамное остекление веранды плюсы и минусы	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+196	безрамное остекление веранды фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+205	блокиратор окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+213	варианты окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+214	варианты остекления балкона	ASSIGNED	BALCONY_GLAZING_INFO	true		PASS
+215	варианты остекления веранды	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+216	варианты остекления веранды в частном доме	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+217	варианты остекления веранды частного	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+218	варианты французских окон	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+226	видео ремонта пластиковых окон своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+227	виды алюминиевых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+229	виды окон для частного дома фото	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+232	виды панорамных окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+233	виды панорамных окон в квартире	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+234	виды пластиковых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+235	виды пластиковых окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+236	виды пластиковых окон для частного дома фото	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+246	внутренние пластиковые двери	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
+249	вставить окна в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+258	выбираем окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+260	вызвать мастера по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+261	вызов мастера ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+262	вынос на балконе с остеклением providal	ASSIGNED	BALCONY_GLAZING_GENERAL	true		PASS
+265	высота окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+266	высота панорамных окон	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+268	высота пластиковых окон	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+269	высота французских окон	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+270	г егорьевск окна в рассрочку телефон	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+272	где заказать установку пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+276	герметик для пластиковых окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+287	гостиная с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+298	гребенка для алюминиевого окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+345	деревянные пластиковые окна	ASSIGNED	WOOD_WINDOWS_COMMERCIAL	true		PASS
+349	детский замок на пластиковые окна цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+352	дешевые окна пластиковые от производителя цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+363	дизайн остекления веранды в доме	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+364	дизайны панорамных окон	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+368	добор для пластиковых окон rehau купить	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+369	дом баня с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+370	дом в лесу с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+371	дом из бруса с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+372	дом крыша с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+374	дом панорамное окно дверь окно	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+375	дом с большими панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+376	дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+377	дом с панорамными окнами двухэтажный	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+378	дом с панорамными окнами купить	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+379	дом с панорамными окнами под ключ	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+380	дом с панорамными окнами с кухни	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+381	дом с террасой и панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+383	дом треугольный как называется с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+385	дома с плоской крышей и панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+387	домик в лесу с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+389	домик с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+411	жидкий пластик для ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+413	жидкое стекло остекление веранды	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+417	завод алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+418	завод окон rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+420	завод пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+423	заглушки для алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+429	зазор при установке пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+430	заказ и установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+431	заказ окон пластиковых с замером и установкой	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+451	заказать сетку на окно пластиковое цена	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+454	заказать установку пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+459	замена алюминиевых окон	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+460	замена балкона на пластиковые окна цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+461	замена балконного блока на французское окно	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+468	замена оконной фурнитуры расценка в смете	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+469	замена остекления балкона	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+471	замена пластиковых дверей	ASSIGNED	PVC_DOOR_REPLACEMENT_SERVICE	true		PASS
+473	замена резинок на пластиковых окнах цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+474	замена резинок на пластиковых окнах цена москва	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+475	замена ручек на пластиковых окнах цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+476	замена сетки на пластиковых окнах цена	ASSIGNED	MOSQUITO_NET_REPAIR_SERVICE	true		PASS
+480	замена уплотнителей на пластиковых окнах цена москва	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+481	замена уплотнительной резинки на пластиковых окнах цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+483	замена уплотнителя на пластиковых окнах цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+484	замена фурнитуры на пластиковых окнах цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+485	замена фурнитуры на пластиковых окнах цена москва	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+486	замена холодного остекления балкона	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+487	заменить алюминиевые окна	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+489	заменить пластиковые двери	ASSIGNED	PVC_DOOR_REPLACEMENT_SERVICE	true		PASS
+491	заменить уплотнитель на пластиковых окнах цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+492	заменить уплотнитель на пластиковых окнах цена москва	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+493	замер и установка пластиковых окон москва	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+494	замки для алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+495	замок для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+497	запчасти для ремонта пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+505	защелка для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+507	изготовление алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+508	изготовление и установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+509	изготовление пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+516	инструкция пластиковых окон	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+518	интерьер с панорамными окнами	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+519	как вставить пластиковое окно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+524	как выбрать окна пластиковые для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+534	как выбрать профиль для пластиковых окон правильно	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+539	как выбрать ручку для пластикового окна	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+540	как выбрать стеклопакет для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+541	как выбрать уплотнитель для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+551	как из обычного окна сделать французское	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+554	как называется дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+557	как открыть пластиковое окно	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+559	как отрегулировать окна rehau	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+560	как отрегулировать пластиковое окно	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+568	как поменять пластиковое окно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+574	как правильно выбрать уплотнитель для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+577	как регулировать окно rehau	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+578	как регулировать пластиковые двери	ASSIGNED	PVC_DOOR_INFO	true		PASS
+582	как сделать пластиковое окно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+583	как сделать французское окно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+584	как сделать французское окно своими руками	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+585	как сейчас выглядят поставки окон rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+586	как снять алюминиевое окно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+587	как снять накладку пластиковой двери	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+588	как снять пластиковое окно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+589	как снять пластиковую балконную дверь	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+590	как снять пластиковую дверь	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+591	как снять пластиковую дверь с петель	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+594	как установить пластиковую дверь	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+599	какие алюминиевые окна лучше	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+600	какие выбрать пластиковые окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+601	какие окна rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+602	какие окна выбрать для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+603	какие окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+606	какие окна лучше для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+609	какие панорамные окна лучше	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+610	какие пластиковые окна лучше	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+611	какие цены на пластиковые окна	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+612	какое окно алюминиевое	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+618	какой профиль окон лучше veka или rehau	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+619	какой профиль окон лучше для частного дома	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+620	какой размер окон выбрать для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+621	какой размер окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+623	калькулятор алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+624	калькулятор окон rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+626	калькулятор пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+627	калькулятор установки пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+631	капитальный ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+633	каркасный дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+637	качественный ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+639	квартира с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+640	квартира с панорамными окнами в москве	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+644	клапана на алюминиевые окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+645	клей для ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+646	клинья для установки пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+654	компании по установке пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+655	компании по установке пластиковых окон в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+656	компания ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+657	комплект для окна алюминиевые	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+661	комплектующие оконной фурнитуры	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+672	корпус пластиковый прозрачная дверь	ASSIGNED	OUTSIDE_OTHER	true		PASS
+673	косметический ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+674	космофен для ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+679	краска для алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+683	крепление для пластиковых окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+686	крыльцо для частного дома с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+689	купить алюминиевые раздвижные окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+705	купить окна пластиковые от производителя для квартиры	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+706	купить окна пластиковые цены от производителя	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+708	купить окно пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+743	купить пластиковые цена на окна	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+744	купить ручку для алюминиевого окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+745	купить ручку для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+746	купить сетку на пластиковое окно москва	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+747	купить сетку на пластиковые окна цена	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+748	купить уплотнитель окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+750	кухня гостиная с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+751	кухня с большим панорамным окном	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+761	логотипы оконной фурнитуры	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+762	лофт с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+766	лучшие компании по остеклению балконов	ASSIGNED	BALCONY_GLAZING_INFO	true		PASS
+767	лучшие окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+768	лучшие панорамные окна	ASSIGNED	WINDOW_SELECTION_INFO	true		PASS
+769	лучшие пластиковые двери	ASSIGNED	PVC_DOOR_INFO	true		PASS
+770	лучшие пластиковые окна	ASSIGNED	WINDOW_SELECTION_INFO	true		PASS
+771	лучшие пластиковые окна rehau	ASSIGNED	WINDOW_SELECTION_INFO	true		PASS
+784	мастер по ремонту окон пластиковых некрасовка москва	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+785	мастер по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+786	мастер по ремонту пластиковых окон москва	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+787	мастера по установке пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+792	механизм пластикового окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+793	механизм пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+798	многозапорный замок на пластиковые двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+804	монтаж алюминиевых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+809	монтаж пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+810	монтажная пластина для пластиковых окон rehau grazio	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+831	набор для ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+834	название оконной фурнитуры	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+835	найти ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+838	накладки на петли для пластиковых окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+840	наличник пластиковый на двери	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+841	наличники для пластиковых окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+846	направляющие для алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+847	нащельник для пластиковых окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+848	не закрывается окно rehau	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+849	не закрывается пластиковая дверь	ASSIGNED	PVC_DOOR_REPAIR_SERVICE	true		PASS
+850	не закрывается пластиковое окно	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+851	не открывается пластиковое окно	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+853	недорогие окна пластиковые от производителя	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+856	нижние петли окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+861	ножницы на окно пластиковое цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+862	номер ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+864	нужен мастер по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+865	нужен ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+867	образцы окон для частных домов	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+868	обшивка балкона без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+869	ограждение панорамных окон	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+870	ограничитель для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+871	ограничитель для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+872	ограничитель открывания алюминиевого окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+877	одноэтажные дома с панорамными окнами и террасой	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+878	одноэтажный дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+880	одноэтажный современный дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+889	окна rehau 70 мм	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+898	окна rehau grazio 70 мм	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+915	окна rehau дилеры	ASSIGNED	NAVIGATION_BRAND_SITE	true		PASS
+917	окна rehau зимний режим	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+919	окна rehau какие лучше	ASSIGNED	WINDOW_SELECTION_INFO	true		PASS
+929	окна rehau провисли	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+933	окна rehau сайт	ASSIGNED	NAVIGATION_BRAND_SITE	true		PASS
+934	окна rehau сайт цены	ASSIGNED	NAVIGATION_BRAND_SITE	true		PASS
+941	окна rehau цвета	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+949	окна алюминиевые каталог	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+950	окна алюминиевые раздвижные цена	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+957	окна в пол размеры для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+979	окна в серпухове недорого от производителя пластиковые	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+982	окна двери rehau	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
+987	окна для крыши частных домов	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+988	окна для кухни частном доме	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+989	окна для санузла в частном доме	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+990	окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+991	окна для частного дома виды	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+993	окна для частного дома фото	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+998	окна зеленоград пластиковые от производителя	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1001	окна из алюминиевого профиля	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1002	окна на балкон пластиковые цены в москве	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1003	окна на балкон сапожок п 44	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+1012	окна панорамные цена для загородного	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1020	окна пвх профиль rehau	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1029	окна пластиковые дешево без установки	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1033	окна пластиковые на веранду цены	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1034	окна пластиковые на террасу цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1035	окна пластиковые недорого в москве	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1038	окна пластиковые недорого от производителя цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1040	окна пластиковые от производителя с доставкой	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1042	окна пластиковые под ключ цена москва	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1044	окна пластиковые ремонт в домашних условиях	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+1055	окна пластиковые чеховский район в рассрочку	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1056	окна пластиковые электросталь от производителя	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1060	окна раздвижные алюминиевые для веранды	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1064	окна с французской раскладкой	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+1067	окна система rehau	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+1069	окна сок панорамное раздвижное остекление	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+1070	окна стандартные размеры пластиковые для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+1075	окна французская решетка	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+1076	окна французский стиль	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1086	окно rehau не открывается на проветривание	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+1087	окно алюминиевое roto	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1088	окно балконное алюминиевое раздвижное	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1091	окно двухкамерное пластиковое	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1092	окно для ванной в частном доме	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+1093	окно для ванной комнаты в частном доме	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+1094	окно для вентиляции в частном доме	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+1095	окно для газовой котельной частного дома	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+1096	окно для газовой котельной частного дома требования	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+1097	окно для котельной в частном доме	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+1099	окно на веранду одинарное пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1100	окно на дачную веранду одинарное пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1101	окно на кухню пластиковое цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1105	окно панорамное 2.5	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1106	окно панорамное 2.5 метра	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1108	окно панорамный блок	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1111	окно пластиковое белое	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1112	окно пластиковое в рассрочку телефоны	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1113	окно пластиковое закрыто	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1116	окно пластиковое поворотно откидное	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1117	окно пластиковое сколько цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1118	окно пластиковое цена 160 на 160	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1119	окно пластиковое цена 30 на 30	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1125	окно французской гостиной	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+1128	окон в котельной требования для частных домов	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+1171	оконная фурнитура бренды	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+1179	оконная фурнитура гост	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+1192	оконная фурнитура для пластиковых окон рейтинг	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+1203	оконная фурнитура марки	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+1210	оконная фурнитура отзывы	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1212	оконная фурнитура размер	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1234	оконные блоки фурнитурой	SEARCH_REQUIRED		true		PASS
+1254	основные функции оконной фурнитуры	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+1274	остекление балкона видео	ASSIGNED	GLAZING_DIY_INFO	true		PASS
+1291	остекление балкона под утепление	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+1295	остекление балкона работу	SEARCH_REQUIRED		true		PASS
+1299	остекление балкона с выносом подоконника	ASSIGNED	BALCONY_GLAZING_EXTENSION_SERVICE	true		PASS
+1302	остекление балкона своими руками	ASSIGNED	GLAZING_DIY_INFO	true		PASS
+1306	остекление балкона стеклопакетом	ASSIGNED	BALCONY_GLAZING_GENERAL	true		PASS
+1308	остекление балкона фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1324	остекление балконов в москве рейтинг	ASSIGNED	BALCONY_GLAZING_INFO	true		PASS
+1328	остекление балконов дизайн	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1338	остекление балконов можно ли	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+1346	остекление балконов разрешение нужно	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+1350	остекление балконов самому	ASSIGNED	GLAZING_DIY_INFO	true		PASS
+1364	остекление веранд фото дизайн	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1378	остекление веранды в частном доме дизайн	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1379	остекление веранды в частном доме дизайн фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1380	остекление веранды в частном доме фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1385	остекление веранды дизайн	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1386	остекление веранды дома фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1394	остекление веранды и террасы алюминиевым профилем фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1398	остекление веранды и террасы фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1403	остекление веранды материалы	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+1411	остекление веранды на даче фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1429	остекление веранды стеклопакетом	ASSIGNED	OUTDOOR_STRUCTURE_GLAZING	true		PASS
+1430	остекление веранды фото	ASSIGNED	OUTDOOR_STRUCTURE_GLAZING	true		PASS
+1438	остекление и утепление балкона	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+1439	остекление и утепление балкона под ключ	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+1443	остекление обшивка балконов	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+1444	остекление окон алюминиевым профилем	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+1446	остекление открытого балкона	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1448	остекление панорамное окно	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+1450	остекление раздвижными алюминиевыми окнами	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+1454	остекление утепление балконов ключ	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+1455	остекление французское окно	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+1464	отделка балкона без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1465	отделка балкона без остекления под ключ	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1466	отделка балкона без остекления цена	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1467	отделка балкона без остекления цена москва	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1468	отделка балкона под ключ москва без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1471	отделка панорамных окон	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+1472	отделка пластиковых окон	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+1473	отделка французского окна	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+1478	отзывы пластиковых дверей	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+1481	откосы для окон частного дома	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1482	откосы для пластиковых окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1485	откосы наружные для пластиковых окон частного дома	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1488	открывание алюминиевых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+1490	открывание пластиковых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+1493	открытый балкон без остекления	ASSIGNED	OPEN_BALCONY_FINISHING	true		PASS
+1497	офис окна rehau в москве	ASSIGNED	NAVIGATION_BRAND_SITE	true		PASS
+1508	панорамное окно варианты	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1510	панорамное окно на кухне	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+1512	панорамное окно с дверью	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
+1513	панорамное окно с дверью в частном доме	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+1514	панорамное окно с дверью на террасу	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
+1525	панорамное треугольное окно	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1536	панорамные окна в частном доме	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+1543	панорамные окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+1544	панорамные окна для частного дома размеры	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+1546	панорамные окна как называются	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1556	панорамные окна на террасу в частном доме	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+1564	панорамные окна с дверью в частном	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
+1565	панорамные окна своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+1568	панорамные пластиковые окна	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+1574	пена установки пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1577	перепланировка французское окно	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+1578	петли для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1580	петли для пластиковых дверей	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1581	петли для пластиковых дверей купить	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1582	петли для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1583	петли для пластиковых окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1584	петли на окна пластиковые цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1585	петли на пластиковые двери балкона	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1586	петля для алюминиевых окон newtec	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1598	пластиковая дверь в ванную	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
+1601	пластиковая дверь в комнату	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
+1602	пластиковая дверь в туалет	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
+1607	пластиковая дверь гармошка	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
+1608	пластиковая дверь купе	ASSIGNED	OUTSIDE_INTERIOR_DOORS	true		PASS
+1615	пластиковая дверь своими руками	ASSIGNED	PVC_DOOR_INFO	true		PASS
+1633	пластиковое окно как выбрать профиль	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+1639	пластиковое окно самостоятельно	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+1648	пластиковые двери 70	SEARCH_REQUIRED		true		PASS
+1657	пластиковые двери видео	ASSIGNED	PVC_DOORS_COMMERCIAL	true		PASS
+1677	пластиковые наличники на окна с улицы цена	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1706	пластиковые окна в деревянном доме	ASSIGNED	WOOD_WINDOWS_COMMERCIAL	true		PASS
+1735	пластиковые окна в москве с установкой отзывы	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+1736	пластиковые окна в москве с установкой рейтинг	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+1772	пластиковые окна видео	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+1775	пластиковые окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+1778	пластиковые окна домашние окна	SEARCH_REQUIRED		true		PASS
+1780	пластиковые окна замена установка	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+1783	пластиковые окна комарова	SEARCH_REQUIRED		true		PASS
+1799	пластиковые окна на балкон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1800	пластиковые окна на балкон цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1801	пластиковые окна на балкон цена с установкой	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+1802	пластиковые окна на веранду размеры и цены	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1808	пластиковые окна на кухню фото цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1836	пластиковые окна от производителя размеры	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1867	пластиковые окна своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+1891	пластиковые решетки на окна прозрачные цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1892	пластиковые решетки на окна цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1893	пластиковый наличник на окно цена	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1896	пластина анкерная для окон ao rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+1899	плиссе на пластиковые окна	ASSIGNED	OUTSIDE_CURTAINS_BLINDS	true		PASS
+1901	площадь окна для газовой котельной частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+1914	подходит ли уплотнитель rehau для окон kbe	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1916	покраска алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1918	поменять окна на пластиковые цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+1919	поменять пластиковую дверь	ASSIGNED	PVC_DOOR_REPLACEMENT_SERVICE	true		PASS
+1920	поменять подоконник на пластиковом окне цена	ASSIGNED	WINDOWSILL_REPAIR_SERVICE	true		PASS
+1921	поменять прокладки на пластиковых окнах цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+1922	поменять резинки на пластиковых окнах цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+1923	поменять резинки на пластиковых окнах цена москва	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+1925	поменять уплотнители на пластиковых окнах цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+1928	после установки пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+1929	поставить окна в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+1930	поставить пластиковое окно в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+1931	поставить пластиковые окна на кухне цена	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+1932	почему алюминиевые окна	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1935	пошаговая инструкция установки пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+1936	пошаговая установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+1937	пошаговая установка пластиковых окон своими руками	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+1938	правильная установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+1942	пример остекления веранды	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1943	примерные цены на пластиковые окна	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1944	примеры остекления балконов	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1945	примеры остекления веранды в частном доме фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1948	проветривание алюминиевые окна	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+1949	провис пластиковой двери	ASSIGNED	PVC_DOOR_REPAIR_SERVICE	true		PASS
+1950	провисла пластиковая дверь	ASSIGNED	PVC_DOOR_REPAIR_SERVICE	true		PASS
+1954	проект одноэтажного дома с панорамными окнами	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1955	проект с панорамными окнами	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1956	проекты домов с панорамными окнами	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1957	проекты домов с панорамными окнами и террасой	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1958	проекты одноэтажных с панорамными окнами	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1959	проекты остекления веранды	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+1960	проем для окна в частном доме	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+1963	производители окон rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+1965	производители пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1966	производители пластиковых окон в москве	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1967	производитель алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1968	производство алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+1969	производство и установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+1971	производство пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+1973	просела пластиковая дверь	ASSIGNED	PVC_DOOR_REPAIR_SERVICE	true		PASS
+1975	противомоскитная сетка для пластиковых окон как выбрать	ASSIGNED	MOSQUITO_NET_SELECTION_INFO	true		PASS
+1979	профиль для пластиковых окон	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1981	профиль пластиковой двери	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1982	профиль пластиковых окон rehau	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+1986	работа установки пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2000	раздвижные окна алюминиевые рама	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2001	раздвижные окна алюминиевые холодное остекление	ASSIGNED	GENERAL_GLAZING_SERVICE	true		PASS
+2004	раздвижные окна на балкон алюминиевые холодное	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2008	раздвижные пластиковые окна на балкон цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2009	размер окна для газовой котельной частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2010	размер окна для котельной в частном доме	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2011	размер окна для санузла в частном доме	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2012	размер окна стандарт для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2013	размер окон в доме п 44	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+2014	размер окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2015	размер окон для частного дома из бруса	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2016	размер окон для частного дома из газобетона	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2019	размеры окон для частного дома фото	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2020	размеры окон п 44	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+2021	размеры окон пвх для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2022	размеры окон пвх стандартные для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2023	размеры пластиковых окон	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+2024	размеры пластиковых окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2025	разрешение на остекление балкона	ASSIGNED	GLAZING_PERMISSION_INFO	true		PASS
+2027	рама пластикового окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2028	рамы на окна пластиковые цена	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2032	рассчитать установку пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2037	регулировка алюминиевых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2040	регулировка и ремонт пластиковых окон в москве	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2042	регулировка окон rehau	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2051	регулировка пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2052	регулировка пластиковых окон rehau	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2053	регулировка пластиковых окон rehau самостоятельно	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2056	редуктор для алюминиевой окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2059	резинки для алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2060	резиновый уплотнитель для пластиковых окон как выбрать	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+2061	рейтинг алюминиевых окон	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2062	рейтинг компаний по остеклению балконов	ASSIGNED	BALCONY_GLAZING_INFO	true		PASS
+2063	рейтинг компаний по установке пластиковых окон	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2064	рейтинг оконной фурнитуры	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+2066	рейтинг остекления балкона	ASSIGNED	BALCONY_GLAZING_INFO	true		PASS
+2067	рейтинг пластиковых окон	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2068	рейтинг по установке пластиковых окон	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2069	рейтинг ремонта пластиковых окон	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2070	рейтинг фирм по установке пластиковых окон	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2071	ремкомплект для ремонта пластикового окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2072	ремонт алюминиевых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2073	ремонт алюминиевых окон в москве	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2074	ремонт алюминиевых окон на лоджии	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2077	ремонт балконных пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2079	ремонт закрывания пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2082	ремонт и обслуживание пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2083	ремонт и профилактика пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2084	ремонт и регулировка пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2087	ремонт механизма пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2088	ремонт механизма пластиковых окон в москве	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2089	ремонт механизма пластиковых окон самостоятельно	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2090	ремонт механизма пластиковых окон своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2094	ремонт окон rehau	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2096	ремонт окон пластиковых деревянных	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2102	ремонт оконных сеток для пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2103	ремонт остекление балкона французские окна	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+2104	ремонт остекление балконов москва	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+2106	ремонт откосов пластиковых окон	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+2107	ремонт отливов пластиковых окон	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+2108	ремонт панорамных окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2118	ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2119	ремонт пластиковых окон 1 1	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2120	ремонт пластиковых окон адрес	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2121	ремонт пластиковых окон адрес и телефон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2122	ремонт пластиковых окон балашиха	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2123	ремонт пластиковых окон в алтуфьево	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2124	ремонт пластиковых окон в бирюлево восточное	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2125	ремонт пластиковых окон в вао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2126	ремонт пластиковых окон в г	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2128	ремонт пластиковых окон в домодедово	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2131	ремонт пластиковых окон в звенигороде	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2132	ремонт пластиковых окон в истре	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2133	ремонт пластиковых окон в королеве	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2134	ремонт пластиковых окон в кузьминках	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2135	ремонт пластиковых окон в люберцах	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2136	ремонт пластиковых окон в митино	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2137	ремонт пластиковых окон в москве	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2139	ремонт пластиковых окон в москве вао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2140	ремонт пластиковых окон в москве зао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2141	ремонт пластиковых окон в москве недорого	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2142	ремонт пластиковых окон в москве недорого цена	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2143	ремонт пластиковых окон в москве рейтинг	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2144	ремонт пластиковых окон в москве сао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2145	ремонт пластиковых окон в москве свао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2146	ремонт пластиковых окон в москве сзао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2147	ремонт пластиковых окон в москве цао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2148	ремонт пластиковых окон в москве юао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2149	ремонт пластиковых окон в москве ювао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2150	ремонт пластиковых окон в москве юзао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2151	ремонт пластиковых окон в наро фоминске	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2153	ремонт пластиковых окон в одинцове	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2154	ремонт пластиковых окон в одинцово	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2155	ремонт пластиковых окон в сао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2157	ремонт пластиковых окон в химках	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2159	ремонт пластиковых окон в щербинке	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2160	ремонт пластиковых окон в ярославском районе москвы	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2161	ремонт пластиковых окон в ясенево москва	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2162	ремонт пластиковых окон видео	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2163	ремонт пластиковых окон видное	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2165	ремонт пластиковых окон вызвать	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2166	ремонт пластиковых окон вызов	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2170	ремонт пластиковых окон зеленоград	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2172	ремонт пластиковых окон инструкция	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2173	ремонт пластиковых окон коммунарка	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2174	ремонт пластиковых окон королев	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2175	ремонт пластиковых окон красногорск	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2176	ремонт пластиковых окон купить	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2177	ремонт пластиковых окон лучше	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2178	ремонт пластиковых окон можайск	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2179	ремонт пластиковых окон московская	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2180	ремонт пластиковых окон московская область	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2181	ремонт пластиковых окон на адмирала руднева	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2182	ремонт пластиковых окон на балконе	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2183	ремонт пластиковых окон на дому	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2184	ремонт пластиковых окон недорого цена	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2185	ремонт пластиковых окон недорогой	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2188	ремонт пластиковых окон новых	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2189	ремонт пластиковых окон отзывы	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2190	ремонт пластиковых окон пик	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2191	ремонт пластиковых окон по области	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2192	ремонт пластиковых окон пушкино	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2193	ремонт пластиковых окон работа	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2194	ремонт пластиковых окон район	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2195	ремонт пластиковых окон раменское	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2196	ремонт пластиковых окон рейтинг компаний	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2197	ремонт пластиковых окон рехау	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2198	ремонт пластиковых окон руками закрывается	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2199	ремонт пластиковых окон самому	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2200	ремонт пластиковых окон самостоятельно	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2201	ремонт пластиковых окон самостоятельно основные дефекты	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2202	ремонт пластиковых окон свао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2203	ремонт пластиковых окон своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2204	ремонт пластиковых окон своими руками пошаговая	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2205	ремонт пластиковых окон служба	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2206	ремонт пластиковых окон телефон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2207	ремонт пластиковых окон троицк	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2209	ремонт пластиковых окон цена	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2210	ремонт пластиковых окон частный	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2212	ремонт пластиковых окон юао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2213	ремонт пластиковых окон юзао	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2215	ремонт подоконника пластикового окна своими руками	ASSIGNED	WINDOW_FINISHING_DIY_INFO	true		PASS
+2222	ремонт сетки для пластиковых окон	ASSIGNED	MOSQUITO_NET_REPAIR_SERVICE	true		PASS
+2224	ремонт стекло пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2234	реутов ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2240	ригель алюминиевый окно	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2242	ролики для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2244	рото для алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2252	ручка алюминиевого окна roto	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2253	ручка для алюминиевого окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2254	ручка для алюминиевого окна черная	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2255	ручка для алюминиевых окон с ригелями	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2256	ручка для пластикового окна	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2257	ручка для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2258	ручка на пластиковое окно цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2260	ручка оконная для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2262	ручка с замком для пластиковых дверей	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2263	ручка стублина для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2264	ручки rehau для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2265	ручки для французских окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2266	ручки для французских окон античное серебро	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2267	ручки окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2270	самому пластиковые окна	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2272	сборка алюминиевых окон	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2275	сверление пластикового окна	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2280	сделать пластиковые откосы на окнах цена	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2281	сделать ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2282	сервис ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2283	серии алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2286	сетка антикошка на пластиковые окна	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2287	сетка антикошка на пластиковые окна цена	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2288	сетка антипыль на пластиковые окна цена	ASSIGNED	MOSQUITO_NET_SELECTION_INFO	true		PASS
+2289	сетка для окон пластиковых купить	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2290	сетка на алюминиевые окна	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2291	сетка на окна rehau	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2292	сетка на пластиковое окно	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2294	сетка на пластиковое окно цена	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2295	сетка на пластиковую дверь	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2296	сетка на раздвижные алюминиевые окна	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2297	сетка окна пластиковые москва	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2298	сетки на пластиковые окна rehau	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2299	сетки на пластиковые окна цена москва	ASSIGNED	MOSQUITO_NET_SHOPPING	true		PASS
+2301	система остекления веранды	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+2302	системы алюминиевых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+2303	сколько алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2324	сколько стоит установка пластиковых окон в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2339	современные окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2341	современный дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+2342	соединители под 45 градусов для окон rehau	ASSIGNED	REHAU_WINDOWS_COMMERCIAL	true		PASS
+2343	спальня с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+2345	специалист по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2350	средняя цена на установку пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2351	средство для ремонта пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2352	срочный ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2353	срочный ремонт пластиковых окон в москве	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2355	ставни для французского окна	ASSIGNED	OUTSIDE_CURTAINS_BLINDS	true		PASS
+2356	стандарт окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2357	стандарт окна пластиковые размеры для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2358	стандартное пластиковое окно	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+2359	стандартные окна для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2360	стандартные размеры окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2361	стандартные размеры панорамных окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2362	стандарты пластиковых окон для частного дома	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2366	створка окна алюминиевая	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2368	створка пластикового окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2369	створки панорамного окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2373	стекло для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2374	стекло на пластиковое окно цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2375	стекло остекления балкона	ASSIGNED	BALCONY_GLAZING_INFO	true		PASS
+2390	стиль дома с панорамными окнами	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+2391	стиль панорамных окон	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+2392	стоимость алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2393	стоимость замены окна на пластиковые цена	ASSIGNED	WINDOW_REPLACEMENT_SERVICE	true		PASS
+2398	стоимость панорамных окон	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+2401	стоимость пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2402	стоимость пластиковых окон с установкой в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2408	студия с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+2409	суть пластиковых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+2421	теплый подставочный профиль для окон rehau	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2427	толщина монолитного поликарбоната для остекления веранды	ASSIGNED	GLAZING_SELECTION_INFO	true		PASS
+2430	треугольный дом с панорамными окнами	ASSIGNED	OUTSIDE_REAL_ESTATE_ARCHITECTURE	true		PASS
+2435	узлы алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+2438	уплотнители на пластиковых окнах цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2439	уплотнитель rehau 952 для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2440	уплотнитель rehau 952 для пластиковых окон пвх	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2441	уплотнитель для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2442	уплотнитель для алюминиевых окон и дверей	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2443	уплотнитель для алюминиевых окон купить	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2444	уплотнитель для окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2445	уплотнитель для окон rehau 952	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2446	уплотнитель для окон rehau raucell	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2447	уплотнитель для окон и дверей rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2448	уплотнитель для окон пвх rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2449	уплотнитель для пластиковой двери	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2450	уплотнитель для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2451	уплотнитель для пластиковых окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2452	уплотнитель для пластиковых окон rehau какой лучше	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+2453	уплотнитель для пластиковых окон rehau купить	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2454	уплотнительная для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2455	уплотнительная резинка для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2456	уплотнительная резинка для пластиковых окон rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2457	уплотнительная резинка окна rehau	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2458	уплотнительные резинки на пластиковые окна цена	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2459	услуги по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2467	установить сетку на пластиковое окно цена	ASSIGNED	MOSQUITO_NET_INSTALLATION_SERVICE	true		PASS
+2469	установка алюминиевых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2470	установка алюминиевых окон цена	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2471	установка алюминиевых раздвижных окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2472	установка антикошка на пластиковые окна москва	ASSIGNED	MOSQUITO_NET_INSTALLATION_SERVICE	true		PASS
+2475	установка готовых пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2480	установка и ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2485	установка ограничителя на пластиковые окна	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2487	установка окон rehau	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2488	установка окон в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2489	установка окон в рассрочку без банка	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2491	установка окон ключ пластиковых в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2492	установка окон от производителя пластиковых цена	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2494	установка окон пвх в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2495	установка окон пластиковых в районе	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2496	установка окон своими руками пошаговая инструкция пластиковых	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2497	установка оконной фурнитуры	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2499	установка откидных пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2503	установка отлива на пластиковое окно своими руками	ASSIGNED	WINDOW_FINISHING_DIY_INFO	true		PASS
+2504	установка отливов на пластиковые окна	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+2505	установка отливов на пластиковые окна цена	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+2517	установка пластиковых балконных окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2520	установка пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2521	установка пластиковых окон rehau	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2523	установка пластиковых окон в деревянном доме	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2524	установка пластиковых окон в доме видео	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2525	установка пластиковых окон в каркасном доме	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2526	установка пластиковых окон в квартире	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2527	установка пластиковых окон в кирпичном доме	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2528	установка пластиковых окон в москве рейтинг компаний	ASSIGNED	WINDOW_REVIEWS_INFO	true		PASS
+2529	установка пластиковых окон в рассрочку	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2531	установка пластиковых окон видео	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2533	установка пластиковых окон где	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2534	установка пластиковых окон двухкамерные	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2535	установка пластиковых окон день	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2536	установка пластиковых окон деревянного дома своими руками	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2537	установка пластиковых окон деревянном	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2538	установка пластиковых окон дома своими руками	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2540	установка пластиковых окон каркасном	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2541	установка пластиковых окон кирпичном	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2542	установка пластиковых окон ключ	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2543	установка пластиковых окон ключ цена	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2544	установка пластиковых окон комнате	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2545	установка пластиковых окон лучшие	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2546	установка пластиковых окон метр	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2547	установка пластиковых окон москва от производителя	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2548	установка пластиковых окон на балконе	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2549	установка пластиковых окон на балконе москва	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2550	установка пластиковых окон на даче	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2551	установка пластиковых окон на лоджии	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2552	установка пластиковых окон недорого	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2553	установка пластиковых окон от производителя дешево	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2555	установка пластиковых окон под ключ	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2556	установка пластиковых окон пошагово	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2557	установка пластиковых окон размером	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2558	установка пластиковых окон рассчитать цену	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2559	установка пластиковых окон самостоятельно	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2560	установка пластиковых окон своими руками	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2561	установка пластиковых окон своими руками видео	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2562	установка пластиковых окон своими руками инструкция	ASSIGNED	WINDOW_INSTALLATION_DIY_INFO	true		PASS
+2563	установка пластиковых окон снаружи	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2565	установка пластиковых окон фото	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2566	установка пластиковых окон чехов	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2567	установка пластиковых окон щелково	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2568	установка пластиковых панелей окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2574	установка сетки антикошка на пластиковые окна	ASSIGNED	MOSQUITO_NET_INSTALLATION_SERVICE	true		PASS
+2575	установка сетки на окно пластиковое	ASSIGNED	MOSQUITO_NET_INSTALLATION_SERVICE	true		PASS
+2576	установка сетки на пластиковые окна цена	ASSIGNED	MOSQUITO_NET_INSTALLATION_SERVICE	true		PASS
+2579	установка створки пластикового окна	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2586	установленное пластиковое окно	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2589	утепление панорамных окон	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+2591	утепленное остекление балконов	ASSIGNED	BALCONY_RENOVATION_WITH_GLAZING	true		PASS
+2592	фасадные панорамные окна	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+2597	фирма осуществляет производство и установку пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2598	фирма по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2599	фирмы алюминиевых окон	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2602	фирмы по установке пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2603	фирмы по установке пластиковых окон в москве	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2604	форма пластиковых окон для частного дома	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2606	формы окон для частных домов	ASSIGNED	WINDOWS_COMMERCIAL_GENERAL	true		PASS
+2607	формы пластиковых окон для частного дома фото	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2608	фото остекления веранды частного	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+2609	фото пластиковых окон для частного дома	ASSIGNED	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	true		PASS
+2610	фото цены на пластиковые окна	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2613	французская раскладка окна 16 мм	ASSIGNED	WINDOW_DIMENSIONS_INFO	true		PASS
+2616	французские балконные окна	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2617	французские вертикальные задвижки для окон	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2627	французские окна в интерьере	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+2640	французские окна на балкон	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2641	французские окна на балкон раздвижные	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2642	французские окна на балкон раздвижные цена	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2643	французские окна на балкон фото	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+2644	французские окна на балкон цена	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2649	французские окна название	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+2662	французский балкон окно в пол	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2664	французский блок окно	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2665	французский замок для мягких окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2666	французский навес над окнами	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2667	французский профиль окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2668	французский тип окон	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	true		PASS
+2670	французское окно алюминиевое	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2678	французское окно оформление	ASSIGNED	GLAZING_DESIGN_INSPIRATION	true		PASS
+2684	французское окно с дверью	ASSIGNED	WINDOWS_DOORS_COMBINED_COMMERCIAL	true		PASS
+2685	французское окно своими руками	ASSIGNED	WINDOW_REPAIR_DIY_INFO	true		PASS
+2728	холодные окна алюминиевые раздвижные	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2729	холодные окна на балкон алюминиевые	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2733	цвета алюминиевых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+2734	цвета пластиковых дверей	ASSIGNED	PVC_DOOR_INFO	true		PASS
+2735	цвета пластиковых окон	ASSIGNED	WINDOW_PRODUCT_TECH_INFO	true		PASS
+2737	цена на балконные окна пластиковые	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2741	цена на отделку пластиковых окон	ASSIGNED	WINDOW_FINISHING_SERVICE	true		PASS
+2742	цена на пластиковое однокамерное окно	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2746	цена на пластиковое окно размер	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2760	цена откосов на окно пластиковое	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2761	цена отливов на пластиковые окна	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2762	цена панорамных окон для дома	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	true		PASS
+2766	цена пластиковых окон без установки	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2768	цена пластиковых окон на заказ	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2770	цена работы на установку окон пластиковых	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2772	цены на изготовление пластиковых окон	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2773	цены на монтаж пластиковых окон	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2778	цены на пластиковые глухие окна	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2799	цены на ремонт пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2800	цены на установку пластиковых окон москва	ASSIGNED	WINDOW_INSTALLATION_SERVICE	true		PASS
+2801	цены окна алюминиевые профили	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	true		PASS
+2802	цены пластиковых окон 1 на м	ASSIGNED	PVC_WINDOWS_COMMERCIAL	true		PASS
+2804	частный мастер по ремонту пластиковых окон	ASSIGNED	WINDOW_REPAIR_SERVICE	true		PASS
+2809	чем смазать оконную фурнитуру	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+2810	чем смазать оконную фурнитуру для пластиковых окон	ASSIGNED	WINDOW_HARDWARE_INFO	true		PASS
+2825	шпросы на пластиковые окна цена	ASSIGNED	WINDOW_ACCESSORIES_SHOPPING	true		PASS
+2826	штапики для алюминиевых окон	ASSIGNED	WINDOW_HARDWARE_SHOPPING	true		PASS
+2837	щит пластиковый прозрачная дверь	ASSIGNED	OUTSIDE_OTHER	true		PASS
