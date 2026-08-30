@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Date: 2026-08-29  
+Date: 2026-08-30  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This file is the index of step-specific methodology coverage.
@@ -57,7 +57,7 @@ Permanent promotion requires explicit owner instruction.
 | Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — no default KEEP; KEEP requires positive evidence; accounting QA != semantic QA; fix causes/classes; uncertainty -> REVIEW. |
 | **Step 8** | **Freeze Search-stage semantic set** | **APPROVED / ACTIVE AFTER METHOD CORRECTION** | **`STEP_08_SEARCH_STAGE_FREEZE_METHOD.md`** — only executable routes; no `REVIEW_BUSINESS`/`REVIEW_SEARCH_AND_BUSINESS` without a real independent evidence source; internal priority is not a semantic route; source-to-method trace required. |
 | Step 9 | Ordinary Yandex Search/SERP validation | **UNVALIDATED** | Must research current Yandex/Search evidence methodology, query sampling/full-scope rules, preservation and page-boundary interpretation before execution. |
-| Step 10 | User-task / SERP clustering | **UNVALIDATED** | Must establish how meaning, SERP compatibility and business compatibility combine; no automatic one-keyword-one-page logic. |
+| **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`** — no target cluster count; no new cluster without material split evidence; modifiers are not automatic cluster triggers; cluster creation is separate from row classification; microclusters require justification review; uncertainty must not create taxonomy. |
 | Step 11 | Page ownership mapping | **UNVALIDATED** | Must define evidence required to map a cluster/task to an existing URL and when no current page is suitable. |
 | Step 12 | Structural actions (keep/expand/split/merge/create) | **UNVALIDATED** | Must separate evidence-backed structural action from analyst preference. |
 | Step 13 | Cannibalization diagnosis | **UNVALIDATED** | Must distinguish real competing-page conflict from normal multi-URL visibility. |
@@ -149,6 +149,27 @@ Direct sources used in that correction:
 
 ---
 
+# Step-10 permanent lesson summary
+
+The Step-10 granularity correction established:
+
+```text
+TARGET_CLUSTER_COUNT = FORBIDDEN
+NO_NEW_CLUSTER_WITHOUT_MATERIAL_SPLIT_EVIDENCE
+MODIFIER_PRESENT != NEW_CLUSTER
+CLUSTER_CREATION != PHRASE_CLASSIFICATION
+UNCERTAINTY != NEW_CLUSTER
+LOWER_CLUSTER_COUNT != BETTER_CLUSTERING
+```
+
+A new cluster must pass an explicit material split test and be justified in a batch-reviewed candidate ledger. Small clusters are not auto-errors, but require explicit justification review. Reducing cluster count must not force together materially different user tasks.
+
+Canonical authority:
+
+`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`
+
+---
+
 Markers:
 
 ```text
@@ -159,5 +180,6 @@ KW001_SOURCE_TO_METHOD_TRACEABILITY_REQUIRED = true
 KW001_APPROVED_STEP_STILL_REQUIRES_FRESH_RESEARCH = true
 KW001_UNVALIDATED_STEP_REQUIRES_METHOD_RESEARCH = true
 KW001_STEP8_METHOD_APPROVED_AFTER_CORRECTION = true
+KW001_STEP10_GRANULARITY_METHOD_APPROVED = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```
