@@ -1,0 +1,288 @@
+from pathlib import Path
+import csv
+import hashlib
+import json
+import re
+import shutil
+import zipfile
+
+BASE = Path("extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK")
+OUT = Path("blind_step10_input")
+ZIP_PATH = Path("STEP10_BLIND_INDEPENDENT_INPUT_2026-08-30.zip")
+
+SELECTED = [
+    "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv",
+    "STEP_08_NONEXACT_DUPLICATE_HANDOFF.tsv",
+    "STEP_08_REVIEW_RESOLUTION_ROUTES.tsv",
+    "STEP_08_SEARCH_STAGE_FREEZE_ACCEPTANCE_2026-08-29.md",
+    "STEP_08_SEARCH_STAGE_FREEZE_RECONCILIATION.md",
+    "STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv",
+    "STEP_09_REVIEW_SEARCH_COVERAGE.tsv",
+    "STEP_09_SEARCH_PROBE_MANIFEST.tsv",
+    "STEP_09_SERP_COMPARISONS.tsv",
+    "STEP_09_SERP_RESULTS.tsv",
+    "STEP_09_SERP_R2_PROJECTION_INDEX.md",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_01.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_02.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_03.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_04.tsv",
+    "STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md",
+    "STEP_09_SEARCH_RECONCILIATION.md",
+    "BUSINESS_AND_PAGE_MODEL.md",
+    "TEST_ORDER.md",
+]
+
+RULES = """# STEP 10 — BLIND RULES AND KNOWN FAILURE MODES
+
+Purpose: independently perform Step 10 user-task / SERP clustering from the supplied Step-08 and Step-09 evidence. This file contains method constraints and known failure modes, but no current Step-10 solution, cluster ledger, classifier, QA result, checkpoint, or answer from another run.
+
+## Core method rules
+
+1. The primary clustering unit is the real user task / search intent, not lexical similarity.
+2. Direct observed ordinary Yandex SERP evidence may strengthen, weaken, or break a proposed semantic grouping.
+3. SERP overlap is evidence, not an automatic universal law. Do not invent one fixed N/10 overlap threshold that mechanically decides every merge.
+4. Business fit is a separate evaluation dimension. Business relevance alone does not prove that two queries belong to one search-intent cluster.
+5. Frequency, common lexical roots, source/seed identity, corrected_reason, Wordstat provenance, or another process field cannot by themselves create a cluster.
+6. A phrase without direct Step-09 SERP must never inherit direct SERP evidence from a tested neighbour merely because wording is similar.
+7. If a material boundary remains genuinely ambiguous, use SEARCH_REQUIRED / boundary review rather than forcing a confident cluster.
+8. ACCOUNTING_QA != SEMANTIC_QA. A script can prove counts and invariants; it cannot prove semantic correctness. Manual and adversarial semantic QA are mandatory.
+9. Step 10 must preserve accounting for all 2840 Step-08 phrase keys, including deferred and excluded rows.
+10. Step 10 does NOT assign target URLs/page ownership, does NOT decide KEEP/EXPAND/SPLIT/MERGE/CREATE page actions, and does NOT diagnose cannibalization. Those are downstream decisions.
+11. New paid Search acquisition is not part of the default blind run. If missing direct SERP materially blocks a decision, record SEARCH_REQUIRED and ask the owner for explicit authorization before any paid/provider query.
+12. Direct Step-09 evidence applies only to the query/control for which it was actually observed. Control anchors may inform reasoning but are not phrase-level direct evidence for untested rows.
+
+## Fixed input/accounting facts to verify from the files
+
+- Total Step-08 phrase keys: 2840
+- CORE_CANDIDATE: 1388
+- REVIEW_SEARCH: 944
+- Active rows: 2332
+- REVIEW_DEFERRED: 174
+- EXCLUDED_PRESERVED: 334
+- Step-09 direct SERP decisions: 75 total
+- Of those, 66 are exact Step-08 phrase keys and 9 are control/anchor SERP queries
+- Duplicate comparisons: 8
+- 899 REVIEW_SEARCH rows were intentionally not directly searched in Step 09
+- Region for Step-09 ordinary Search evidence: Moscow / Yandex region 213
+- Direct SERP depth: TOP-10
+
+All of these must be reconciled from the supplied files rather than blindly trusted.
+
+## Mandatory boundary evidence
+
+The Step-09 duplicate pair:
+- `пластиковые окна от производителя rehau`
+- `пластиковые окна рехау от производителя`
+
+had only 1/10 exact URL overlap in the observed TOP-10. Therefore it is a mandatory DO-NOT-AUTO-MERGE / boundary-review case. Do not erase this evidence merely because the wording is almost identical.
+
+## Known failure modes from prior methodology work — no ready-made answers
+
+These are failure classes to guard against, not a supplied cluster solution:
+
+- Russian morphology can break naive token/stem rules (`окон` vs `окна`, declined geographic forms, inflected component nouns, etc.). Do not assume exact substrings cover Russian morphology.
+- Broad context rules can swallow a more specific task. Examples of dimensions to keep separate in reasoning include object, action, material, window/door subtype, service vs product, DIY vs professional service, informational vs commercial intent, accessory/component vs whole product, and contextual modifiers such as house/apartment/balcony/veranda.
+- Rule precedence matters: a generic contextual modifier must not automatically override a more specific user action or object.
+- A zero-result heuristic/collision audit can still coexist with real semantic errors. Manual review of representative and adversarial examples across every cluster is mandatory.
+- Conversely, heuristic audits can generate false positives. Never 'fix' a correct semantic assignment merely to make an audit numerically zero; adjudicate the reason first, then improve the audit if the flag is false.
+- Direct SERP can reveal a service/product/information boundary that lexical similarity hides. Treat explicit contradictory direct evidence as a hard review signal.
+- Mixed-intent phrases may legitimately remain unresolved. Do not force them only to reduce SEARCH_REQUIRED counts.
+- Do not create new semantic taxonomy merely because a phrase contains a distinctive modifier. A new cluster must correspond to a defensible distinct user task.
+- Re-run regression examples after every systematic classifier/rule change so a new correction does not silently break an earlier boundary.
+
+## Required pre-step research gate
+
+Before clustering, independently research current public methodology. Use fresh web sources and provide direct links in chat. At minimum seek:
+- an official Yandex source relevant to query clustering/search intent if available;
+- at least one reputable SEO methodology source on intent/SERP-based clustering;
+- adversarial/limitation evidence showing why lexical similarity or a universal SERP-overlap threshold is insufficient.
+
+Then explain to the owner, before executing the clustering:
+- the exact Step-10 goal;
+- input scope and accounting;
+- proposed method;
+- why each method element is justified;
+- a source-to-method trace;
+- known failure modes and non-repeat controls;
+- what Step 10 explicitly does not decide;
+- the PASS gate.
+
+The user's prompt authorizes execution after that explanation. Do not ask again unless a new paid/provider request becomes necessary.
+
+## PASS gate
+
+Step 10 may be accepted only if all of the following are true:
+- 2840/2840 phrase keys accounted;
+- 2332 active rows classified or explicitly unresolved;
+- 174 deferred and 334 excluded preserved correctly;
+- all 75 direct Step-09 decisions consumed with exact-vs-control distinction preserved;
+- all 8 duplicate comparisons accounted;
+- zero unprobed rows falsely claiming direct SERP evidence;
+- zero silent drops;
+- material contradictory direct-SERP boundaries reviewed;
+- every working cluster has human-readable user-task semantics and representative/adversarial QA;
+- manual semantic QA passes after corrections, not merely machine QA;
+- no page ownership, structural-action, or cannibalization decisions are smuggled into Step 10;
+- remaining SEARCH_REQUIRED rows/boundaries are listed and assessed for whether they materially block acceptance.
+"""
+
+CONTRACT = """# STEP 10 — OUTPUT CONTRACT FOR BLIND RUN
+
+Produce the following final artifacts with independent content from this blind run. Do not try to reproduce any unseen prior answer.
+
+## 1. STEP_10_CLUSTER_ASSIGNMENTS.tsv
+One row for every one of the 2840 Step-08 phrase keys. Preserve sufficient input identity/state to reconcile the row. Include at minimum: phrase/key, original Step-08 disposition, Step-10 state, cluster_id (when applicable), cluster_name/user_task, evidence_state, direct-SERP flag/reference when truly observed, rationale, and boundary/search-required marker.
+
+## 2. STEP_10_CLUSTER_SUMMARY.tsv
+One row per working cluster. Include at minimum: cluster_id, human-readable cluster/user-task name, member count, evidence-state counts, representative query, direct-SERP member/control evidence summary where applicable, and concise notes.
+
+## 3. STEP_10_BOUNDARY_REVIEW.tsv
+Record materially ambiguous, do-not-auto-merge, contradictory-evidence, and SEARCH_REQUIRED boundaries with the competing interpretations, evidence, and decision/rationale.
+
+## 4. STEP_10_QA.json
+Machine/accounting QA with at least: total=2840; active=2332; CORE_CANDIDATE=1388; REVIEW_SEARCH=944; REVIEW_DEFERRED=174; EXCLUDED_PRESERVED=334; Step-09 evidence total=75 with 66 exact + 9 controls; duplicate comparisons=8; unprobed rows claiming direct SERP=0; silent drops=0; downstream page-ownership decisions=0; structural-action decisions=0; cannibalization decisions=0; manual semantic QA status; remaining SEARCH_REQUIRED count.
+
+## 5. STEP_10_SEMANTIC_QA_SAMPLE.tsv
+Representative plus adversarial samples across every cluster and all important boundary/unresolved classes. This is not a random cosmetic sample: it must be capable of exposing systematic precedence/classification mistakes.
+
+## 6. STEP_10_MANUAL_SEMANTIC_QA_<YYYY-MM-DD>.md
+Document independent manual review, errors found, corrections/reruns performed, adversarial checks, any remaining known uncertainty, and final manual QA verdict.
+
+## 7. STEP_10_RECONCILIATION.md
+Reconcile all Step-08 input rows, Step-09 direct evidence/control anchors/duplicate comparisons, evidence-state usage, unresolved boundaries, and confirm absence of downstream page decisions.
+
+## 8. STEP_10_ACCEPTANCE_<YYYY-MM-DD>.md
+Formal Step-10 acceptance only if the PASS gate truly passes. If a material blocker remains, still create this artifact but mark NOT_ACCEPTED/PARTIAL and state the exact blocker instead of fabricating PASS.
+
+At completion, package these artifacts into one ZIP and provide it to the owner.
+"""
+
+README = """# STEP 10 BLIND INDEPENDENT INPUT PACKAGE
+
+This archive is intentionally blind. It contains the upstream data/evidence needed to execute Step 10 independently, plus a neutral method/error guardrail and output contract.
+
+It deliberately DOES NOT contain:
+- any current or previous Step-10 cluster assignments or cluster summaries;
+- Step-10 boundary/QA/acceptance/reconciliation results from another run;
+- Step-10 builders, classifiers, runners, audit implementations, or V-version code;
+- current Step-10 checkpoints or progress reports;
+- any repository link.
+
+Use only these inputs plus fresh public-web methodology research. Do not seek an existing Step-10 solution. The point is to produce an independent result for blind comparison.
+"""
+
+
+def data_rows(path: Path) -> int:
+    with path.open(encoding="utf-8", newline="") as f:
+        return sum(1 for _ in f) - 1
+
+
+def main() -> None:
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    OUT.mkdir()
+
+    repo_patterns = [
+        re.compile(r"https?://github\.com/MaksimUnimax/Yandex_direct[^\s)>]*", re.I),
+        re.compile(r"https?://raw\.githubusercontent\.com/MaksimUnimax/Yandex_direct[^\s)>]*", re.I),
+    ]
+
+    for name in SELECTED:
+        src = BASE / name
+        if not src.exists():
+            raise SystemExit(f"MISSING REQUIRED INPUT: {src}")
+        text = src.read_text(encoding="utf-8")
+        for pattern in repo_patterns:
+            text = pattern.sub("[REPOSITORY_LINK_REMOVED_FOR_BLIND_TEST]", text)
+        (OUT / name).write_text(text, encoding="utf-8", newline="")
+
+    (OUT / "STEP_10_BLIND_RULES_AND_KNOWN_ERRORS.md").write_text(RULES, encoding="utf-8")
+    (OUT / "STEP_10_OUTPUT_CONTRACT.md").write_text(CONTRACT, encoding="utf-8")
+    (OUT / "README_BLIND_PACKAGE.md").write_text(README, encoding="utf-8")
+
+    with (OUT / "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv").open(encoding="utf-8", newline="") as f:
+        rows = list(csv.DictReader(f, delimiter="\t"))
+    if len(rows) != 2840:
+        raise SystemExit(f"BAD STEP08 ROW COUNT: {len(rows)}")
+
+    disposition = {}
+    for row in rows:
+        key = row["search_stage_disposition"]
+        disposition[key] = disposition.get(key, 0) + 1
+    expected = {
+        "CORE_CANDIDATE": 1388,
+        "REVIEW_SEARCH": 944,
+        "REVIEW_DEFERRED": 174,
+        "EXCLUDED_PRESERVED": 334,
+    }
+    if disposition != expected:
+        raise SystemExit(f"BAD STEP08 DISTRIBUTION: {disposition}")
+
+    decisions_n = data_rows(OUT / "STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv")
+    comparisons_n = data_rows(OUT / "STEP_09_SERP_COMPARISONS.tsv")
+    if decisions_n != 75:
+        raise SystemExit(f"BAD STEP09 DECISION COUNT: {decisions_n}")
+    if comparisons_n != 8:
+        raise SystemExit(f"BAD STEP09 COMPARISON COUNT: {comparisons_n}")
+
+    forbidden_solution_markers = [
+        "STEP_10_CLUSTER_ASSIGNMENTS",
+        "STEP_10_CLUSTER_SUMMARY",
+        "STEP_10_SEMANTIC_COLLISION_AUDIT",
+        "STEP_10_PROGRESS_CHECKPOINT",
+        "STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V",
+        "STEP_10_USER_TASK_SERP_CLUSTERING_BUILD.py",
+    ]
+    for name in SELECTED:
+        text = (OUT / name).read_text(encoding="utf-8")
+        lower = text.lower()
+        if "github.com/maksimunimax/yandex_direct" in lower or "raw.githubusercontent.com/maksimunimax/yandex_direct" in lower:
+            raise SystemExit(f"REPOSITORY LINK LEAK IN {name}")
+        for marker in forbidden_solution_markers:
+            if marker in text:
+                raise SystemExit(f"STEP10 SOLUTION LEAK {marker} IN {name}")
+
+    manifest = {
+        "package_type": "STEP10_BLIND_INDEPENDENT_INPUT",
+        "blindness": {
+            "contains_current_step10_solution": False,
+            "contains_step10_classifier_or_runner": False,
+            "contains_repository_link": False,
+        },
+        "verified_accounting": {
+            "step08_total_phrase_keys": len(rows),
+            "CORE_CANDIDATE": disposition["CORE_CANDIDATE"],
+            "REVIEW_SEARCH": disposition["REVIEW_SEARCH"],
+            "active_rows": disposition["CORE_CANDIDATE"] + disposition["REVIEW_SEARCH"],
+            "REVIEW_DEFERRED": disposition["REVIEW_DEFERRED"],
+            "EXCLUDED_PRESERVED": disposition["EXCLUDED_PRESERVED"],
+            "step09_direct_serp_decisions": decisions_n,
+            "step09_duplicate_comparisons": comparisons_n,
+        },
+        "files": {},
+    }
+    for path in sorted(OUT.iterdir()):
+        data = path.read_bytes()
+        manifest["files"][path.name] = {
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+        }
+    (OUT / "PACKAGE_MANIFEST.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+    if ZIP_PATH.exists():
+        ZIP_PATH.unlink()
+    with zipfile.ZipFile(ZIP_PATH, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+        for path in sorted(OUT.iterdir()):
+            archive.write(path, arcname=f"STEP10_BLIND_INPUT/{path.name}")
+
+    print("BLIND_PACKAGE_PASS")
+    print(f"zip={ZIP_PATH}")
+    print(f"bytes={ZIP_PATH.stat().st_size}")
+    print(f"sha256={hashlib.sha256(ZIP_PATH.read_bytes()).hexdigest()}")
+    print(f"files={len(list(OUT.iterdir()))}")
+
+
+if __name__ == "__main__":
+    main()
