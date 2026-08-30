@@ -84,11 +84,11 @@ jobs:
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_DIRECT_EVIDENCE_CONTRADICTION_AUDIT.py
 
-      - name: Collect inherited V36 semantic collision audit
+      - name: Collect V38 adjudicated semantic collision audit
         continue-on-error: true
         shell: bash
         run: |
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V36.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V38.py
 
       - name: Collect inherited V37 unresolved-state audit
         continue-on-error: true
