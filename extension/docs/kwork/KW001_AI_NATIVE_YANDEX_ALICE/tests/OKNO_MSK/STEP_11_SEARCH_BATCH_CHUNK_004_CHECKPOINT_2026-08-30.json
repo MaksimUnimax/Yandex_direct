@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-08-30",
+  "job_id": "kw001-okno-msk-step11-page-ownership-20260830",
+  "bridge_reported_version": "0.1.1",
+  "operation": "batch.nextN",
+  "requested_count": 10,
+  "attempted_steps": 10,
+  "confirmed_provider_executions": 10,
+  "provider_execution_count_exact": true,
+  "stopped_early": false,
+  "progress_after_chunk": {
+    "total": 68,
+    "pending": 28,
+    "succeeded": 40,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 40,
+    "requests_started": 40,
+    "estimated_cost_rub": 19.519999999999985,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "chunk_queries": [
+    {"global_ordinal":31,"query":"ремонт подоконника пластикового окна","request_id":"search-batch-f0cea73b-2513-4c0d-a5c4-b8cf60b8aabd","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"professional windowsill repair pages dominate, with some DIY informational results"},
+    {"global_ordinal":32,"query":"установка москитной сетки москва","request_id":"search-batch-2bcd7e8f-eba8-4611-bea2-8578fb45a63a","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated mosquito-net installation and made-to-measure service pages dominate"},
+    {"global_ordinal":33,"query":"ремонт москитной сетки москва","request_id":"search-batch-8febf925-93ad-4ea6-8ea0-393e5c661dbc","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"dedicated mosquito-net repair/peretyazhka service pages dominate"},
+    {"global_ordinal":34,"query":"оконная фурнитура купить москва","request_id":"search-batch-f58b36b9-5546-4c77-a373-c111fca76a82","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"specialized ecommerce/category pages for window hardware dominate"},
+    {"global_ordinal":35,"query":"аксессуары для пластиковых окон купить","request_id":"search-batch-8048d630-ef36-4485-a430-df087bdf09fa","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"marketplace and ecommerce category pages dominate accessory-shopping intent"},
+    {"global_ordinal":36,"query":"москитная сетка на окно купить москва","request_id":"search-batch-f7aa1227-1815-4f1e-800d-05d0becf3b5a","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"marketplaces plus specialist product/category pages dominate mosquito-net shopping"},
+    {"global_ordinal":37,"query":"как выбрать пластиковые окна","request_id":"search-batch-6fc8cdee-ff95-421b-9835-0a3026cdbcc9","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"informational guides and editorial choice-support pages dominate"},
+    {"global_ordinal":38,"query":"какие пластиковые окна лучше сравнение","request_id":"search-batch-6f1899d2-09f8-4093-9e3d-bcc803b8ae5f","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"rankings, comparisons and brand-vs-brand editorial pages dominate"},
+    {"global_ordinal":39,"query":"пластиковые окна отзывы","request_id":"search-batch-84a6f954-d2e3-4e08-a2bf-21962980dcf4","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"review aggregators, company review pages and reputation surfaces dominate"},
+    {"global_ordinal":40,"query":"виды пластиковых окон характеристики","request_id":"search-batch-48d5fb5d-f027-47c2-855a-e9ca919adcd5","http_status":200,"result_count":10,"target_domain_in_top10":false,"dominant_signal":"technical/explanatory articles on window types and characteristics dominate"}
+  ],
+  "target_domain_top10_hits_in_chunk": 0,
+  "interpretation_boundary": "Checkpoint of provider execution/accounting and direct-query SERP signals. No page-ownership verdict is made here. Full ranked-row projection will be persisted after batch completion."
+}
