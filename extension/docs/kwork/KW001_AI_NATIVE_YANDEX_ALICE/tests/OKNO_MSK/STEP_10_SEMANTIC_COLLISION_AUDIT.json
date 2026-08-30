@@ -1,10 +1,11 @@
 {
   "status": "PASS",
-  "audit_version": "V33",
+  "audit_version": "V36",
   "active_rows_scanned": 2332,
   "flagged_rows": 0,
   "flagged_records": 0,
   "collision_counts": {},
-  "adjudication_basis": "Full V27/V32 manual QA: window-type 'виды' is valid selection information; reviewed component markers are valid WINDOW_HARDWARE evidence; 'поставить' is an installation verb; blind/curtain hardware is a new distinct outside-core product task.",
-  "meaning": "V33 filters only manually adjudicated inherited lexical false positives and adds a hard gate for blind/curtain hardware. Zero flags remains necessary but not sufficient for final manual semantic acceptance."
+  "reviewed_v34_exact_mappings": 37,
+  "adjudication_basis": "Full V33 manual-QA pass produced explicit V34 phrase-level corrections. Only exact reviewed phrase+cluster pairs may suppress the inherited lexical codes enumerated in ADJUDICATED_LEGACY_CODES; any different cluster or any new collision code remains a hard failure.",
+  "meaning": "V36 preserves V33's adversarial checks while preventing already manually adjudicated V34 corrections from being re-rejected by stale lexical marker vocabularies. Zero flags remains necessary but not sufficient for final manual semantic acceptance."
 }

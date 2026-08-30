@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "audit_version": "V27",
-  "search_required_rows_scanned": 81,
+  "audit_version": "V37",
+  "search_required_rows_scanned": 100,
   "flagged_rows": 0,
   "flagged_records": 0,
   "audit_counts": {},
@@ -14,9 +14,23 @@
       "step09_handoff": "AMBIGUOUS_PRICE_MATERIAL_BOUNDARY"
     }
   ],
-  "meaning": "V27 hard gate preserves explicit 'без остекления' as semantic negation of a glazing service. All other inherited likely-false SEARCH_REQUIRED flags remain blocking. Zero residual flags is necessary but not sufficient for final manual semantic acceptance.",
+  "meaning": "V37 preserves the unresolved hard gate while recognizing two manually verified mixed boundaries that genuinely require additional Search evidence rather than forced semantic clustering. Zero residual flags is necessary but not sufficient for final manual semantic acceptance.",
   "manually_adjudicated_no_glazing_rows": 1,
   "manually_adjudicated_no_glazing_examples": [
     "веранда без остекления"
-  ]
+  ],
+  "manually_adjudicated_mixed_boundary_rows": 2,
+  "manually_adjudicated_mixed_boundary_examples": [
+    {
+      "phrase": "окна сок панорамное раздвижное остекление",
+      "audit_code": "UNRESOLVED_CLEAR_SPECIFIC_WINDOW_PRODUCT",
+      "assignment_reason": "Brand/abbreviation plus panoramic sliding-glazing wording is not safe product-versus-service evidence"
+    },
+    {
+      "phrase": "установка окон и остекление балконов",
+      "audit_code": "UNRESOLVED_CLEAR_OBJECT_GLAZING",
+      "assignment_reason": "Phrase combines two material services and should not be forced into one task without boundary evidence"
+    }
+  ],
+  "adjudication_rule": "Only exact reviewed phrase+audit-code pairs are suppressed, and only while the generated row remains UNRESOLVED/SEARCH_REQUIRED with the exact manually approved assignment_reason and additional_search_required=true. Any semantic/state/reason drift or any new inherited unresolved flag remains blocking."
 }
