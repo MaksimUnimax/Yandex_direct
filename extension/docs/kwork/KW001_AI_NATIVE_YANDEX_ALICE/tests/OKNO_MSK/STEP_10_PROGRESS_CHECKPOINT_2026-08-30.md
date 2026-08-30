@@ -1,109 +1,106 @@
 # KW-001 / OKNO-MSK — STEP 10 PROGRESS CHECKPOINT — 2026-08-30
 
-Status: **ACTIVE / NOT ACCEPTED / V19 MACHINE+HARD GATES PASS / MANUAL SEMANTIC QA FAIL**
+Status: **ACTIVE / NOT ACCEPTED / V37 MACHINE+HARD GATES PASS / FRESH MANUAL QA PENDING**
 
-This checkpoint supersedes the earlier 2026-08-30 state and records the exact stop point requested by the owner.
+This checkpoint supersedes the earlier V19 checkpoint and records the exact stop point requested by the owner.
 
-## 1. Step-10 goal
-
-Build an auditable user-task / SERP clustering layer that determines which phrases express the same or materially compatible user task, which must stay separate, which are supported by direct Step-09 SERP evidence, which are semantic-only, and which remain genuinely unresolved / SEARCH_REQUIRED.
-
-Step 10 must NOT decide page ownership, page keep/merge/split/create actions, cannibalization, Search architecture freeze, or AI-search cases. Those belong to later roadmap steps.
-
-## 2. Current completion state
-
-Substantive implementation progress remains approximately **85–90%**.
-
-Formal state:
+## 1. Current formal state
 
 ```text
 STEP10_EXECUTION_STARTED = true
 STEP10_MACHINE_QA = PASS
 STEP10_DIRECT_SERP_CONTRADICTION_GATE = PASS
-STEP10_V19_COLLISION_HARD_GATE = PASS
-STEP10_V19_UNRESOLVED_HARD_GATE = PASS
-STEP10_MANUAL_SEMANTIC_QA = FAIL / IN PROGRESS
+STEP10_V36_COLLISION_HARD_GATE = PASS
+STEP10_V37_UNRESOLVED_HARD_GATE = PASS
+STEP10_FRESH_MANUAL_SEMANTIC_QA = NOT STARTED AFTER V37 EXPORT
 STEP10_COMPLETE = false
 STEP10_ACCEPTED = false
 STEP11_ALLOWED = false
+OWNER_REQUESTED_STOP = true
 ```
 
-The percentage is only a progress estimate. It does not override the PASS gate.
+The machine/adversarial PASS does not equal Step-10 acceptance. Independent manual semantic QA remains mandatory.
 
-## 3. What changed since the earlier checkpoint
+## 2. Canonical persisted state
 
-The previous V19 roof-taxonomy expansion was found to be unsupported and was removed rather than weakening old regression tests.
-
-Protected boundaries now remain:
+Generated-artifact persistence commit before this checkpoint:
 
 ```text
-панорамное окно на крыше
--> PANORAMIC_WINDOWS_COMMERCIAL
-
-окна для крыши частных домов
--> PRIVATE_HOUSE_WINDOWS_COMMERCIAL
+530112a4766dadf8299970895ddc84b82b3651dc
+message = step10: rebuild clusters after V37 exact unresolved-boundary adjudication
 ```
 
-The attempted separate `ROOF_WINDOWS_COMMERCIAL` taxonomy was removed because it was being introduced to satisfy an audit rather than from sufficiently supported clustering evidence.
-
-Implementation commits after the prior checkpoint:
+Parent orchestration commit:
 
 ```text
-553681f2148b546d3737ef5d101135c02dc127ce
-  step10: preserve panoramic roof boundary in V19
-
-984fbaef00cf7b7d31d89bc45e65f04fb3ef0738
-  step10: remove unsupported V19 roof taxonomy expansion
-
-93f48b7bda50bc68f3c6ec87abbd4b7120e72070
-  step10: adjudicate remaining V19 collision false positives
+75dd766f6f5f1b8f19a57da17736b01d0b2aeea6
+message = step10: run V37 exact unresolved-boundary adjudication
 ```
 
-## 4. V19 full pipeline result
-
-GitHub Actions run:
+Canonical workflow:
 
 ```text
-run = 33286539033
-job = 99190583856
+run = 33289507885
 conclusion = SUCCESS
 ```
 
-All workflow stages passed:
+All canonical workflow stages passed:
 
 ```text
 Build conservative Step10 user-task clusters = PASS
 Step10 machine accounting gate = PASS
 direct Step09 service-product contradiction gate = PASS
-V19 adversarial semantic collision hard gate = PASS
-V19 unresolved-state hard gate = PASS
-generated candidate/artifact commit = PASS
+V36 adjudicated semantic collision hard gate = PASS
+V37 exact unresolved-state hard gate = PASS
+generated candidate/artifact persistence commit = PASS
 ```
 
-Bot-generated V19 candidate commit:
+## 3. Corrective layers added after the previous checkpoint
+
+The implementation advanced through the full manual-QA correction chain up to V37.
+
+Latest material corrections in this continuation:
 
 ```text
-f62932ebe80de18a8ee39113a3080faaf7ecde81
-message = step10: rebuild clusters after V19 specificity and hard-gate corrections
+V35
+  Rehau-specific selection precedence over generic PVC/window selection.
+
+V36 classifier
+  blind/curtain head-object precedence over generic PVC photo+price handling.
+
+V36 semantic collision gate
+  exact phrase+cluster adjudication for previously manually reviewed V34 corrections;
+  any different cluster or any new collision code remains fail-closed.
+
+V37 unresolved gate
+  exact adjudication for two manually reviewed mixed boundaries only while
+  phrase + audit code + UNRESOLVED/SEARCH_REQUIRED state + exact assignment reason
+  + additional_search_required=true remain unchanged.
 ```
 
-## 5. Current V19 machine-QA facts
+No old hard gate was broadly disabled merely to make CI green.
+
+## 4. Current machine-QA facts
+
+From the persisted V37 candidate:
 
 ```text
 total phrase keys = 2840
 active Search-stage rows = 2332
 CORE_CANDIDATE = 1388
 REVIEW_SEARCH = 944
-REVIEW_DEFERRED = 174
-EXCLUDED_PRESERVED = 334
-cluster_count = 73
-SEARCH_REQUIRED = 70
-MIXED_OR_BOUNDARY_REVIEW = 2
-SEMANTIC_SUPPORTED_NO_DIRECT_SERP = 2197
+REVIEW_DEFERRED preserved = 174
+EXCLUDED_PRESERVED preserved = 334
+cluster_count = 93
 SERP_SUPPORTED = 63
-75 Step-09 probes consumed = 66 exact + 9 control anchors
-8 duplicate comparisons consumed
-DUP0004 auto merge = false
+SEMANTIC_SUPPORTED_NO_DIRECT_SERP = 2167
+MIXED_OR_BOUNDARY_REVIEW = 2
+SEARCH_REQUIRED = 100
+direct Step-09 probes consumed = 75/75
+direct exact phrase decisions = 66
+direct control anchors = 9
+duplicate comparisons consumed = 8/8
+DUP-0004 auto-merged = false
 unprobed rows claiming direct SERP = 0
 silent drops = 0
 page ownership decisions = 0
@@ -111,231 +108,154 @@ structural action decisions = 0
 cannibalization decisions = 0
 provider requests = 0
 provider cost = 0 RUB
-```
-
-`STEP_10_QA.json` correctly remains:
-
-```text
-status = MACHINE_QA_PASS__MANUAL_SEMANTIC_QA_REQUIRED
+manual_semantic_qa_required = true
 manual_semantic_qa_pass = false
 ```
 
-## 6. V19 hard-gate facts
+`STEP_10_QA.json` therefore correctly remains:
 
-### Collision hard gate
+```text
+status = MACHINE_QA_PASS__MANUAL_SEMANTIC_QA_REQUIRED
+```
+
+## 5. Current adversarial-gate facts
+
+### Direct Step-09 contradiction gate
+
+```text
+status = PASS
+direct clustered rows with comparable family = 34
+service/product contradictions = 0
+```
+
+### V36 semantic collision gate
 
 ```text
 status = PASS
 active rows scanned = 2332
 flagged rows = 0
 flagged records = 0
+reviewed V34 exact mappings = 37
 ```
 
-Three inherited false positives were manually adjudicated before this PASS:
+The V36 adjudication remains exact and fail-closed: a reviewed phrase is suppressible only while its generated cluster still equals the manually reviewed target and only for the explicitly enumerated inherited lexical collision codes.
 
-```text
-окна для крыши частных домов
-панорамное окно на крыше
-сколько стоит панорамное окно
-```
-
-The classifier was not changed merely to satisfy those audit flags; audit semantics were corrected instead.
-
-### Unresolved hard gate
+### V37 unresolved hard gate
 
 ```text
 status = PASS
-SEARCH_REQUIRED rows scanned = 70
+SEARCH_REQUIRED rows scanned = 100
 flagged rows = 0
 flagged records = 0
 intentionally mixed direct rows = 1
+manually adjudicated no-glazing rows = 1
+manually adjudicated mixed-boundary rows = 2
 ```
 
-Intentionally mixed direct example remains:
+The intentionally mixed direct row remains:
 
 ```text
 цены материала на пластиковые окна
 SP09-039
+MIXED_COMMERCIAL_MATERIAL
 AMBIGUOUS_PRICE_MATERIAL_BOUNDARY
 ```
 
-## 7. Why Step 10 is STILL NOT accepted
-
-After V19 machine/hard-gate PASS, full manual semantic QA was resumed across the cluster summary and representative sample.
-
-Manual QA found real semantic errors that the current hard gates do not detect. Therefore the hard gates are necessary but not sufficient, exactly as the methodology requires.
-
-Confirmed remaining real error classes:
-
-### A. Balcony-glazing demolition lost inside generic glazing
+The two exact manually retained mixed boundaries are:
 
 ```text
-демонтаж остекления балкона
-current = BALCONY_GLAZING
-Step-09 direct evidence = BALCONY_GLAZING_DEMOLITION / COMMERCIAL_SERVICE
+окна сок панорамное раздвижное остекление
+-> UNRESOLVED / SEARCH_REQUIRED
+-> Brand/abbreviation plus panoramic sliding-glazing wording is not safe product-versus-service evidence
+
+установка окон и остекление балконов
+-> UNRESOLVED / SEARCH_REQUIRED
+-> Phrase combines two material services and should not be forced into one task without boundary evidence
 ```
 
-A distinct `WINDOW_DEMOLITION` task already exists, so this service-vs-service subtype boundary needs correction rather than remaining inside generic balcony glazing.
+These are intentionally not force-clustered merely to satisfy the unresolved heuristic.
 
-### B. PVC-door repair DIY swallowed by installation DIY
+## 6. Fresh independent manual-QA export
+
+A fresh export was created from the exact persisted V37 canonical candidate commit `530112a4766dadf8299970895ddc84b82b3651dc`.
+
+Temporary export branch:
 
 ```text
-регулировка пластиковых дверей своими руками
-current = PVC_DOOR_INSTALLATION_DIY
-expected semantic task = PVC_DOOR_REPAIR_DIY
+tmp/step10-manual-qa-v37-export-2026-08-30
 ```
 
-Explicit repair/adjustment action must outrank generic DIY installation handling.
-
-### C. Commercial measurement+installation package classified as informational measurement
-
-Examples:
+Temporary workflow:
 
 ```text
-заказ окон пластиковых с замером и установкой
-замер и установка пластиковых окон москва
-пластиковые окна установка цена с размерами
+run = 33289544561
+conclusion = SUCCESS
 ```
 
-Current cluster:
+Artifact:
 
 ```text
-WINDOW_MEASUREMENT_INFO / INFORMATIONAL
+name = STEP10_V37_MANUAL_QA_EXPORT
+artifact_id = 9725517215
+size = 162232 bytes
+sha256 = e3e2e932e2f58727c8bf2dbe7990f3bc3e2c50082afb7dea0a1e1cd45f8b5cad
 ```
 
-These phrases contain explicit commercial/service intent and should not be reduced to informational measurement merely because measurement/size language is present.
+The artifact was downloaded successfully for the next independent local/manual QA pass.
 
-### D. Direct windowsill-repair evidence remains inside generic window repair
+## 7. Exact stop point
+
+**STOP HERE.**
+
+The fresh V37 export has been prepared, but the new independent manual semantic QA pass over that export has **not** been performed yet.
+
+On explicit resume, continue Step 10 only, in this order:
 
 ```text
-ремонт подоконников пластиковых окон
-current = WINDOW_REPAIR
-Step-09 direct evidence = WINDOWSILL_REPAIR / COMMERCIAL_REPAIR_SERVICE
+1. inventory all 93 clusters;
+2. inspect all 100 SEARCH_REQUIRED rows;
+3. adversarially inspect action / head-object / modifier collision classes;
+4. verify all 75 direct Step-09 decisions against Step-10 assignments;
+5. verify all 8 duplicate comparisons, including mandatory DUP-0004 non-auto-merge;
+6. if any material semantic error is found, add a new corrective layer and rerun the full canonical pipeline;
+7. only after independent manual semantic QA passes, prepare STEP_10_RECONCILIATION.md and formal Step-10 acceptance;
+8. update roadmap and stop before any Step-11 execution.
 ```
 
-A dedicated `WINDOWSILL_REPAIR` cluster already exists, so the specific component-repair task should win.
+Do not use the old V33/V19 manual-QA export as acceptance evidence for the V37 candidate.
 
-### E. SEARCH_REQUIRED hard gate still misses obvious resolvable tasks
-
-Manual inspection of the 70 unresolved rows exposed examples that should not remain unresolved, including:
+## 8. Hard block
 
 ```text
-студия с панорамными окнами
-  -> architecture / real-estate context
-
-теплый пол панорамные окна
-  -> heating context
-
-угловое панорамное окно
-  -> panoramic product/configuration
-
-устанавливаем французские окна
-  -> installation/service
-
-французские вертикальные задвижки для окон
-  -> hardware/component
-
-французские занавески на окна
-  -> curtains
-
-французские окна название
-что значит французское окно
-  -> definition/naming
-
-французский тип окон
-  -> information/types
-
-французское окно распашное
-  -> product/configuration
-
-французское окно оформление
-французское окно примеры
-  -> design/inspiration
-```
-
-Therefore `V19_UNRESOLVED_HARD_GATE = PASS` is not sufficient evidence that all remaining unresolved rows are truly ambiguous. The unresolved audit itself needs another strengthening pass.
-
-## 8. Root cause of current remaining work
-
-The current bottleneck is still classifier/audit precedence, but the failure surface has narrowed significantly.
-
-The recurring semantic pattern is:
-
-```text
-specific action/object/component/user task
-must outrank
-broad material / panoramic / French / DIY / private-house / measurement fallback
-```
-
-The next version must fix classes, not individual strings.
-
-Do NOT reintroduce unsupported taxonomy merely to make an audit green.
-
-## 9. Exact resume point
-
-Next implementation iteration should be **V20**.
-
-V20 should address, as classes:
-
-```text
-1. demolition action > generic object glazing;
-2. PVC-door repair/adjustment DIY > installation DIY;
-3. explicit commercial order/install/price + measurement > informational measurement;
-4. windowsill-specific repair > generic window repair;
-5. French/panoramic object-specific action/component/design/definition/context > generic unresolved fallback;
-6. strengthen unresolved hard gate to flag those obvious resolvable classes.
-```
-
-Then execute in this exact order:
-
-```text
-1. inherited regression corpus + new V20 regression tests;
-2. full 2840-row rebuild;
-3. machine accounting gate;
-4. direct Step-09 contradiction gate;
-5. collision hard gate = zero;
-6. unresolved hard gate = zero likely-false unresolved;
-7. inspect bot-generated HEAD;
-8. repeat manual semantic QA across all 73+ final clusters and every remaining SEARCH_REQUIRED row;
-9. only if manual semantic QA truly passes, write STEP_10_RECONCILIATION.md and formal acceptance;
-10. only after formal Step-10 acceptance may Step 11 pre-step work begin.
-```
-
-## 10. Current canonical stop state
-
-```text
-LATEST_GENERATED_CANDIDATE = V19
-LATEST_GENERATED_CANDIDATE_COMMIT = f62932ebe80de18a8ee39113a3080faaf7ecde81
-LATEST_SUCCESSFUL_WORKFLOW_RUN = 33286539033
-MACHINE_QA = PASS
-DIRECT_SERP_CONTRADICTION_GATE = PASS
-COLLISION_HARD_GATE = PASS
-UNRESOLVED_HARD_GATE = PASS
-MANUAL_SEMANTIC_QA = FAIL
-NEXT_ITERATION = V20
-PAID_PROVIDER_REQUESTS_NEEDED_NOW = no
 STEP10_ACCEPTED = false
 STEP11_BLOCKED = true
 ```
 
-## 11. Links
+Do not start Step-11 methodology, pre-step, execution, URL ownership, structural actions, cannibalization work, or Search-architecture freeze until Step 10 has formal PASS, acceptance/report persistence, roadmap update, and explicit transition handling.
 
-- V19 generated candidate: https://github.com/MaksimUnimax/Yandex_direct/commit/f62932ebe80de18a8ee39113a3080faaf7ecde81
-- Successful V19 workflow run: https://github.com/MaksimUnimax/Yandex_direct/actions/runs/33286539033
-- V19 classifier: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V19.py
-- V19 collision hard gate: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V19.py
-- V19 unresolved hard gate: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V19.py
-- Current QA: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_QA.json
-- Current cluster summary: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_CLUSTER_SUMMARY.tsv
-- Current semantic QA sample: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_QA_SAMPLE.tsv
-
-## Checkpoint marker
+## 9. Resume marker
 
 ```text
-KW001_OKNO_STEP10_2026_08_30_CHECKPOINT = UPDATED_AFTER_V19_FULL_PASS_AND_MANUAL_QA_FAIL
-SUBSTANTIVE_PROGRESS_ESTIMATE = 85_TO_90_PERCENT
-RESUME_FROM = V20_MANUAL_QA_FAILURE_CLASSES
+KW001_OKNO_STEP10_2026_08_30_CHECKPOINT = UPDATED_AFTER_V37_FULL_PIPELINE_PASS
+LATEST_GENERATED_CANDIDATE = V37 PIPELINE OVER V36 CLASSIFIER/AUDIT
+LATEST_GENERATED_CANDIDATE_COMMIT = 530112a4766dadf8299970895ddc84b82b3651dc
+LATEST_SUCCESSFUL_WORKFLOW_RUN = 33289507885
+LATEST_MANUAL_QA_EXPORT_RUN = 33289544561
+LATEST_MANUAL_QA_EXPORT_ARTIFACT_ID = 9725517215
+FRESH_MANUAL_QA_STATUS = PENDING
+RESUME_FROM = V37_FRESH_EXPORT_INDEPENDENT_MANUAL_SEMANTIC_QA
 STEP10_ACCEPTED = false
 STEP11_BLOCKED = true
 OWNER_REQUESTED_STOP = true
 ```
+
+## 10. Links
+
+- persisted V37 candidate commit: https://github.com/MaksimUnimax/Yandex_direct/commit/530112a4766dadf8299970895ddc84b82b3651dc
+- successful canonical V37 workflow: https://github.com/MaksimUnimax/Yandex_direct/actions/runs/33289507885
+- V36 classifier runner: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V36.py
+- V36 collision gate: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_SEMANTIC_COLLISION_AUDIT_V36.py
+- V37 unresolved gate: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_UNRESOLVED_ADVERSARIAL_AUDIT_V37.py
+- current QA: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_QA.json
+- current cluster summary: https://github.com/MaksimUnimax/Yandex_direct/blob/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_CLUSTER_SUMMARY.tsv
+- fresh export workflow: https://github.com/MaksimUnimax/Yandex_direct/actions/runs/33289544561
