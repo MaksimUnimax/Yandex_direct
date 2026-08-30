@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Final Pass3 runner, extending v3 with component-install grammar guards."""
+"""Final Pass3 runner extending the last intact v2 base.
+
+The previously referenced lowercase ``step10_fresh_r1_pass3_runner_v3.py`` was
+never committed.  V4 therefore extends the last real, reviewable base (V2)
+directly and keeps every V4 semantic guard explicit in this file.
+"""
 
 from __future__ import annotations
 
@@ -7,14 +12,14 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-v3_path = HERE / "step10_fresh_r1_pass3_runner_v3.py"
-source = v3_path.read_text(encoding="utf-8")
-terminal = "module.classify = classify_v3\nmodule.invariant_violations = invariants_v3\nraise SystemExit(module.main())"
-replacement = "module.classify = classify_v3\nmodule.invariant_violations = invariants_v3"
+v2_path = HERE / "step10_fresh_r1_pass3_runner_v2.py"
+source = v2_path.read_text(encoding="utf-8")
+terminal = "module.classify = classify_with_guards\nraise SystemExit(module.main())"
+replacement = "module.classify = classify_with_guards"
 if terminal not in source:
-    raise SystemExit("unexpected v3 runner shape")
-namespace = {"__file__": str(v3_path), "__name__": "step10_pass3_v3_library"}
-exec(compile(source.replace(terminal, replacement), str(v3_path), "exec"), namespace)
+    raise SystemExit("unexpected v2 runner shape")
+namespace = {"__file__": str(v2_path), "__name__": "step10_pass3_v2_library"}
+exec(compile(source.replace(terminal, replacement), str(v2_path), "exec"), namespace)
 
 module = namespace["module"]
 base_classify = module.classify
