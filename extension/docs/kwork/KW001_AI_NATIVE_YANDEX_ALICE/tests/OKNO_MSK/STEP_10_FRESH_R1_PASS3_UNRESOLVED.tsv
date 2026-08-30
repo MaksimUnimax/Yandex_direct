@@ -1,5 +1,1 @@
 qa_row	phrase	pass2_assignment_status	pass2_cluster_id	audit_expected_status	audit_cluster_id	audit_rule	error_class
-87	алюминиевые окна остекление	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	SEARCH_REQUIRED		GENERIC_GLAZING_UNRESOLVED	
-1166	остекление панорамное окно	ASSIGNED	PANORAMIC_WINDOWS_COMMERCIAL	SEARCH_REQUIRED		GENERIC_GLAZING_UNRESOLVED	
-1168	остекление раздвижными алюминиевыми окнами	ASSIGNED	ALUMINIUM_WINDOWS_COMMERCIAL	SEARCH_REQUIRED		GENERIC_GLAZING_UNRESOLVED	
-1172	остекление французское окно	ASSIGNED	FRENCH_WINDOWS_COMMERCIAL	SEARCH_REQUIRED		GENERIC_GLAZING_UNRESOLVED	
