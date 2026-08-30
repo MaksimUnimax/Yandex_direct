@@ -1,0 +1,87 @@
+name: Step10 Fresh R1 Pass3 Full
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass3-full.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_full.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: step10-fresh-r1-pass3-full-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  full-pass3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout fresh-run branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Run independent full Pass3 QA
+        run: |
+          python3 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner.py --root "$GITHUB_WORKSPACE"
+
+      - name: Validate completion marker and machine verdict
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          marker = base / 'STEP_10_FRESH_R1_COMPLETE.marker'
+          qa_file = base / 'STEP_10_FRESH_R1_FINAL_QA.json'
+          if not marker.is_file() or not qa_file.is_file():
+              raise SystemExit('Pass3 completion artifacts were not created')
+          qa = json.loads(qa_file.read_text(encoding='utf-8'))
+          required = {
+              'pass3_complete': True,
+              'complete_error_ledger_frozen_before_correction': True,
+              'one_consolidated_correction_batch': True,
+              'full_accounting_regression_pass': True,
+              'impact_set_semantic_recheck_pass': True,
+              'old_step10_input_used': False,
+              'blind84_input_used': False,
+              'target_cluster_count_used': False,
+          }
+          for key, expected in required.items():
+              if qa.get(key) != expected:
+                  raise SystemExit(f'{key}: expected {expected!r}, got {qa.get(key)!r}')
+          if qa.get('pass3_rows_independently_reviewed') != 2332:
+              raise SystemExit('Pass3 did not review all 2332 active rows')
+          if qa.get('final_active_accounted_rows') != 2332:
+              raise SystemExit('Final accounting does not cover all active rows')
+          if qa.get('impact_recheck_failures') != 0 or qa.get('semantic_invariant_violations') != 0:
+              raise SystemExit('Impact semantic recheck is not clean')
+          print(json.dumps(qa, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit frozen Pass3 and final Step10 artifacts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_FINAL_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_COMPLETE.marker
+          if git diff --cached --quiet; then
+            echo 'No Pass3 artifact changes to commit.'
+          else
+            git commit -m 'step10: freeze fresh R1 Pass3 corrections and final QA'
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
