@@ -1,0 +1,160 @@
+name: Step10 Fresh R1 Pass3 Verification
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/step10-fresh-r1-pass3-verification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: step10-fresh-r1-pass3-verification
+  cancel-in-progress: false
+
+jobs:
+  verify-final-pass3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout latest branch state
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Re-execute full Pass3 from frozen inputs
+        run: |
+          python3 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step10_fresh_r1_pass3_runner_v3.py --root "$GITHUB_WORKSPACE" > /tmp/pass3-verification.json
+          cat /tmp/pass3-verification.json
+
+      - name: Verify all final contracts and write verification marker
+        run: |
+          python3 - <<'PY'
+          import csv
+          import hashlib
+          import json
+          from pathlib import Path
+
+          base = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          files = {
+              'full_qa': base / 'STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv',
+              'errors': base / 'STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv',
+              'corrections': base / 'STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv',
+              'assignments': base / 'STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv',
+              'summary': base / 'STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv',
+              'impact': base / 'STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv',
+              'qa': base / 'STEP_10_FRESH_R1_FINAL_QA.json',
+              'report': base / 'STEP_10_FRESH_R1_PASS3_REPORT.md',
+              'complete_marker': base / 'STEP_10_FRESH_R1_COMPLETE.marker',
+          }
+          missing = [str(path) for path in files.values() if not path.exists()]
+          if missing:
+              raise SystemExit('missing final artifacts: ' + ', '.join(missing))
+
+          def rows(path):
+              with path.open('r', encoding='utf-8', newline='') as fh:
+                  return list(csv.DictReader(fh, delimiter='\t'))
+
+          def digest(path):
+              h = hashlib.sha256()
+              with path.open('rb') as fh:
+                  for chunk in iter(lambda: fh.read(1024 * 1024), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          full = rows(files['full_qa'])
+          errors = rows(files['errors'])
+          corrections = rows(files['corrections'])
+          assignments = rows(files['assignments'])
+          summary = rows(files['summary'])
+          impact = rows(files['impact'])
+          qa = json.loads(files['qa'].read_text(encoding='utf-8'))
+
+          active_final = [r for r in assignments if r['source_disposition'] in {'CORE_CANDIDATE', 'REVIEW_SEARCH'}]
+          assigned = [r for r in active_final if r['assignment_status'] == 'ASSIGNED']
+          search_required = [r for r in active_final if r['assignment_status'] == 'SEARCH_REQUIRED']
+          deferred = [r for r in assignments if r['assignment_status'] == 'PRESERVED_DEFERRED']
+          excluded = [r for r in assignments if r['assignment_status'] == 'PRESERVED_EXCLUDED']
+          taxonomy_ids = {r['cluster_id'] for r in summary}
+          unknown = sorted({r['cluster_id'] for r in assigned if r['cluster_id'] not in taxonomy_ids})
+
+          checks = {
+              'source_rows': len(assignments) == 2840,
+              'active_rows': len(active_final) == 2332,
+              'full_qa_rows': len(full) == 2332,
+              'qa_row_sequence': [int(r['qa_row']) for r in full] == list(range(1, 2333)),
+              'error_correction_identity': len(errors) == len(corrections),
+              'correction_ids_unique': len({r['correction_id'] for r in corrections}) == len(corrections),
+              'impact_correction_identity': len(impact) == len(corrections),
+              'all_impact_pass': all(r['impact_recheck_verdict'] == 'PASS' for r in impact),
+              'active_accounting': len(assigned) + len(search_required) == 2332,
+              'preserved_deferred': len(deferred) == 174,
+              'preserved_excluded': len(excluded) == 334,
+              'taxonomy_rows': len(summary) == 62,
+              'unknown_clusters': unknown == [],
+              'qa_pass3_complete': qa.get('pass3_complete') is True,
+              'qa_error_count': qa.get('pass3_error_ledger_rows') == len(errors),
+              'qa_correction_count': qa.get('consolidated_correction_rows') == len(corrections),
+              'qa_one_batch': qa.get('correction_batches_applied') == 1 and qa.get('one_consolidated_correction_batch') is True,
+              'qa_accounting': qa.get('final_active_accounted_rows') == 2332,
+              'qa_impact_count': qa.get('impact_rows_rechecked') == len(impact),
+              'qa_impact_clean': qa.get('impact_recheck_failures') == 0,
+              'qa_invariants_clean': qa.get('semantic_invariant_violations') == 0,
+              'qa_no_old_step10': qa.get('old_step10_input_used') is False,
+              'qa_no_blind84': qa.get('blind84_input_used') is False,
+              'qa_no_target_count': qa.get('target_cluster_count_used') is False,
+          }
+          failed = [name for name, ok in checks.items() if not ok]
+          if failed:
+              raise SystemExit('verification failed: ' + ', '.join(failed))
+
+          marker = {
+              'status': 'STEP10_FRESH_R1_PASS3_INDEPENDENT_VERIFICATION_PASS',
+              'source_rows': len(assignments),
+              'active_rows': len(active_final),
+              'full_qa_rows': len(full),
+              'error_ledger_rows': len(errors),
+              'consolidated_correction_rows': len(corrections),
+              'correction_batches': 1,
+              'final_assigned_rows': len(assigned),
+              'final_search_required_rows': len(search_required),
+              'preserved_deferred_rows': len(deferred),
+              'preserved_excluded_rows': len(excluded),
+              'taxonomy_rows': len(summary),
+              'unknown_cluster_ids': unknown,
+              'impact_rows': len(impact),
+              'impact_failures': 0,
+              'semantic_invariant_violations': 0,
+              'checks': checks,
+              'sha256': {name: digest(path) for name, path in files.items()},
+          }
+          out = base / 'STEP_10_FRESH_R1_PASS3_VERIFIED.marker.json'
+          out.write_text(json.dumps(marker, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(marker, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit verified final artifacts and marker
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_FULL_QA_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_ERROR_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_CONSOLIDATED_CORRECTIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_IMPACT_RECHECK.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_FINAL_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_COMPLETE.marker \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_10_FRESH_R1_PASS3_VERIFIED.marker.json
+          if git diff --cached --quiet; then
+            echo 'Verified artifacts are already current.'
+          else
+            git commit -m 'step10: verify final fresh R1 Pass3 artifacts'
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
