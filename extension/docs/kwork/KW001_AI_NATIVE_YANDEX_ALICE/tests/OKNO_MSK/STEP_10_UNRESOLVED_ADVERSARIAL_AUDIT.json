@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "audit_version": "V37",
-  "search_required_rows_scanned": 100,
+  "search_required_rows_scanned": 91,
   "flagged_rows": 0,
   "flagged_records": 0,
   "audit_counts": {},

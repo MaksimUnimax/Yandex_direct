@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "v37_full_manual_error_rows": 85,
+  "unique_phrases": 85,
+  "root_cause_counts": {
+    "COMMERCIAL_GEO_REPAIR_OVERRIDDEN_BY_SYMPTOM_RULE": 1,
+    "DEFINITION_MISROUTED_AS_SELECTION": 1,
+    "DIY_SERVICE_INFO_INFERRED_WITHOUT_ENOUGH_EVIDENCE": 14,
+    "PHOTO_DESIGN_MODIFIER_OUTRANKED_HEAD_OBJECT": 5,
+    "PRIVATE_HOUSE_MODIFIER_SPLIT_EQUIVALENT_SELECTION": 3,
+    "SEMANTICALLY_DETERMINATE_LEFT_UNRESOLVED": 25,
+    "SPECIFIC_HEAD_OBJECT_OR_ACTION_LOST": 36
+  },
+  "direct_step09_rows_in_frozen_ledger": 0,
+  "v38_resolution_failures": 0,
+  "meaning": "This is the frozen full V37 discovery ledger plus V38 observed resolution. All 85 errors are checked in one pass; the gate reports every residual failure before exiting."
+}

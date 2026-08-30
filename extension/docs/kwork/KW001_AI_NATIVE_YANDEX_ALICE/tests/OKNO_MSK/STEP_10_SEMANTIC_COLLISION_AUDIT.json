@@ -1,11 +1,124 @@
 {
   "status": "PASS",
-  "audit_version": "V36",
+  "audit_version": "V38",
   "active_rows_scanned": 2332,
   "flagged_rows": 0,
   "flagged_records": 0,
   "collision_counts": {},
-  "reviewed_v34_exact_mappings": 37,
-  "adjudication_basis": "Full V33 manual-QA pass produced explicit V34 phrase-level corrections. Only exact reviewed phrase+cluster pairs may suppress the inherited lexical codes enumerated in ADJUDICATED_LEGACY_CODES; any different cluster or any new collision code remains a hard failure.",
-  "meaning": "V36 preserves V33's adversarial checks while preventing already manually adjudicated V34 corrections from being re-rejected by stale lexical marker vocabularies. Zero flags remains necessary but not sufficient for final manual semantic acceptance."
+  "v38_frozen_discovery_rows": 85,
+  "suppressed_exact_inherited_records": 22,
+  "suppressed_exact_inherited_examples": [
+    {
+      "phrase": "ral алюминиевых окон",
+      "cluster_id": "WINDOW_SELECTION_INFO",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "камин панорамные окна",
+      "cluster_id": "OUTSIDE_HEATING",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "окно панорамный блок",
+      "cluster_id": "PANORAMIC_WINDOWS_COMMERCIAL",
+      "collision_code": "PANORAMIC_WITHOUT_PURCHASE_SIGNAL"
+    },
+    {
+      "phrase": "окно французской гостиной",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "отделка панорамных окон",
+      "cluster_id": "WINDOW_FINISHING_SERVICE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "отделка пластиковых окон",
+      "cluster_id": "WINDOW_FINISHING_SERVICE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "отделка французского окна",
+      "cluster_id": "WINDOW_FINISHING_SERVICE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "панорамные окна в здании",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "панорамные окна в каркасном",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "панорамные окна в частном",
+      "cluster_id": "PANORAMIC_WINDOWS_COMMERCIAL",
+      "collision_code": "PANORAMIC_WITHOUT_PURCHASE_SIGNAL"
+    },
+    {
+      "phrase": "панорамные окна для загородного",
+      "cluster_id": "PANORAMIC_WINDOWS_COMMERCIAL",
+      "collision_code": "PANORAMIC_WITHOUT_PURCHASE_SIGNAL"
+    },
+    {
+      "phrase": "панорамные окна и потолок",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "панорамные окна на море",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "перегородка французское окно",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "перепланировка французское окно",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "покраска алюминиевых окон",
+      "cluster_id": "WINDOW_FINISHING_SERVICE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "стекло остекления балкона",
+      "cluster_id": "WINDOW_HARDWARE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "студия с панорамными окнами",
+      "cluster_id": "OUTSIDE_REAL_ESTATE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "утепление панорамных окон",
+      "cluster_id": "WINDOW_REPAIR",
+      "collision_code": "REPAIR_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "цена на отделку пластиковых окон",
+      "cluster_id": "WINDOW_FINISHING_SERVICE",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "чем смазать оконную фурнитуру",
+      "cluster_id": "WINDOW_CARE_INFO",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    },
+    {
+      "phrase": "чем смазать оконную фурнитуру для пластиковых окон",
+      "cluster_id": "WINDOW_CARE_INFO",
+      "collision_code": "TASK_TOKEN_MISMATCH"
+    }
+  ],
+  "adjudication_rule": "Suppression requires exact frozen phrase + exact manually approved V38 target + one of three inherited lexical codes. Any new code, phrase or changed target remains a hard failure.",
+  "meaning": "Inherited lexical audit vocabulary is retained as an adversarial signal, but it cannot veto exact full-manual-discovery corrections merely because its token dictionary predates those reviewed tasks. Zero residual flags remains necessary but not sufficient for final semantic acceptance."
 }

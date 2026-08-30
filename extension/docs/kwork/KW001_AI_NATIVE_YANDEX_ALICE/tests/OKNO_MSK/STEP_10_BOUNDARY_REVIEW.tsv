@@ -9,7 +9,6 @@ CONTROL_ANCHOR_AUDIT	пластиковые окна митино	SP09-070	SERP_
 CONTROL_ANCHOR_AUDIT	теплое остекление балкона	SP09-073	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: WARM_BALCONY_GLAZING / COMMERCIAL_SERVICE; Explicit warm balcony/loggia glazing subtype	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
 CONTROL_ANCHOR_AUDIT	установка пластиковых окон москва	SP09-074	SERP_SUPPORTED_CONTROL_ANCHOR	Control/anchor query consumed at cluster level only: WINDOW_INSTALLATION_MOSCOW / COMMERCIAL_SERVICE; Action-headed window installation request outranks ready-made/material product routing	DIRECT_CONTROL_QUERY__NOT_TRANSFERRED_TO_UNPROBED_PHRASES
 SEARCH_REQUIRED	6 6 с панорамными окнами		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	ral алюминиевых окон		SEARCH_REQUIRED	RAL colour wording is a configuration/appearance task, not safe whole-window purchase evidence	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	алюминиевые окна видео		SEARCH_REQUIRED	Informational marker present but material task boundary remains ambiguous	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	алюминиевые окна остекление		SEARCH_REQUIRED	Mixed/fragment aluminium-window wording does not safely identify product versus service/component intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	алюминиевые окна своими руками		SEARCH_REQUIRED	Bare 'windows + своими руками' lacks the action needed to identify the user task	NO_DIRECT_STEP09_SERP
@@ -21,40 +20,35 @@ SEARCH_REQUIRED	деревянные пластиковые окна		SEARCH_REQ
 SEARCH_REQUIRED	закроем пластиковые окна		SEARCH_REQUIRED	Action fragment does not identify a stable purchase/service user task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	замена балкона на пластиковые окна цена		SEARCH_REQUIRED	Balcony-to-PVC-window replacement wording is materially ambiguous; direct Search evidence is required	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	как сейчас выглядят поставки окон rehau		SEARCH_REQUIRED	Supply-state query is not a window-selection task and needs separate evidence	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	камин панорамные окна		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	корпус пластиковый прозрачная дверь		SEARCH_REQUIRED	Phrase does not safely distinguish whole-door purchase from fabrication/material/outside-product intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	летние панорамные окна		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	мансардное окно rehau		SEARCH_REQUIRED	Brand/product-family compatibility is not safe to assume from the phrase alone	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	не закрывается окно rehau		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	не закрывается пластиковая дверь		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	не закрывается пластиковое окно		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	не открывается пластиковое окно		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна пластиковые какой ремонт		SEARCH_REQUIRED	Repair wording is contextual/ambiguous rather than a clear repair-service request	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окна сок панорамное раздвижное остекление		SEARCH_REQUIRED	Brand/abbreviation plus panoramic sliding-glazing wording is not safe product-versus-service evidence	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окно rehau roto		SEARCH_REQUIRED	Whole product plus hardware-brand wording is a mixed product/component configuration	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	окно rehau не открывается на проветривание		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окно алюминиевое roto		SEARCH_REQUIRED	Whole product plus hardware-brand wording is a mixed product/component configuration	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	окно панорамный блок		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	окно пластиковое закрыто		SEARCH_REQUIRED	State/context fragment lacks a sufficiently explicit material user task	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	окно французской гостиной		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление балкона видео		SEARCH_REQUIRED	Video wording proves informational consumption but not the specific DIY/professional task subtype	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	остекление веранды видео		SEARCH_REQUIRED	Video wording proves informational consumption but not the specific DIY/professional task subtype	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	остекление окон алюминиевым профилем		SEARCH_REQUIRED	Generic glazing-by-profile wording does not safely distinguish service from product/configuration	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	остекление панорамное окно		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	остекление раздвижными алюминиевыми окнами		SEARCH_REQUIRED	Mixed/fragment aluminium-window wording does not safely identify product versus service/component intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	остекление французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	отделка панорамных окон		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	отделка французского окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	открытое панорамное окно		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	открытое пластиковое окно		SEARCH_REQUIRED	State/context fragment lacks a sufficiently explicit material user task	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамное окно на кухне		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	панорамное окно снаружи		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	панорамные окна 2 2		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамные окна в здании		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамные окна в каркасном		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	панорамные окна в россии		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамные окна в частном		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамные окна для загородного		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамные окна и потолок		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	панорамные окна на море		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	панорамные окна пик		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	панорамные окна своими руками		SEARCH_REQUIRED	Bare 'windows + своими руками' lacks the action needed to identify the user task	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	перегородка французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	перепланировка французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковая дверь своими руками		SEARCH_REQUIRED	DIY modifier is present but the action itself is absent; installation cannot be inferred safely	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	пластиковое окно внутри		SEARCH_REQUIRED	State/context fragment lacks a sufficiently explicit material user task	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	пластиковое окно не закрывается ремонт		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	пластиковое окно самостоятельно		SEARCH_REQUIRED	Window + independently/by-yourself wording lacks an explicit action	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	пластиковое окно снаружи		SEARCH_REQUIRED	State/context fragment lacks a sufficiently explicit material user task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	пластиковые двери roto		SEARCH_REQUIRED	Whole product plus hardware-brand wording is a mixed product/component configuration	NO_DIRECT_STEP09_SERP
@@ -69,35 +63,32 @@ SEARCH_REQUIRED	пластиковые окна ремонт установка 
 PHRASE_BOUNDARY	пластиковые окна рехау от производителя	DUP-0004	MIXED_OR_BOUNDARY_REVIEW	Mandatory DUP-0004 override: Step-09 exact URL overlap 1/10; no auto-merge	probe=SP09-051|serp_job=REHAU_MANUFACTURER_WINDOWS
 SEARCH_REQUIRED	пластиковые окна своими руками		SEARCH_REQUIRED	Bare 'windows + своими руками' lacks the action needed to identify the user task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	пластиковые окна улица		SEARCH_REQUIRED	Bare street/context fragment is not enough to infer purchase or navigation	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	плохо закрывается пластиковая дверь		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	под дверь пластиковые		SEARCH_REQUIRED	Phrase does not safely distinguish whole-door purchase from fabrication/material/outside-product intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	подоконник после установки пластикового окна		SEARCH_REQUIRED	Windowsill is mentioned only in post-window-installation context; exact user task remains ambiguous	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	покраска алюминиевых окон		SEARCH_REQUIRED	Surface-treatment/assembly task is distinct from window purchase and needs boundary evidence	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	после установки пластиковых окон		SEARCH_REQUIRED	Post-installation context fragment lacks a concrete user task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	почему пластиковых окнах		SEARCH_REQUIRED	Vague/incomplete informational wording is not safe to force into a comparison or repair service	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	провис пластиковой двери		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	провисла пластиковая дверь		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	производители оконной фурнитуры		SEARCH_REQUIRED	Manufacturer/process wording is not ordinary hardware shopping; provider-versus-process intent remains unresolved	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	производство оконной фурнитуры		SEARCH_REQUIRED	Manufacturer/process wording is not ordinary hardware shopping; provider-versus-process intent remains unresolved	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	производство пластиковых окон		SEARCH_REQUIRED	Bare production wording may mean manufacturing process or manufacturer/provider intent	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	просела пластиковая дверь		SEARCH_REQUIRED	Symptom wording identifies a repair problem but does not prove professional-service versus DIY sub-intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	работа алюминиевые окна		SEARCH_REQUIRED	Mixed/fragment aluminium-window wording does not safely identify product versus service/component intent	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	ремонт и замена пластиковых окон		SEARCH_REQUIRED	Phrase explicitly mixes repair and whole-window replacement; keep the boundary visible	NO_DIRECT_STEP09_SERP
+SEARCH_REQUIRED	ремонт пластиковых окон видео		SEARCH_REQUIRED	Video wording proves informational consumption but not the specific DIY/professional task subtype	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	ремонт пластиковых окон лучше		SEARCH_REQUIRED	Vague/incomplete informational wording is not safe to force into a comparison or repair service	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	самому пластиковые окна		SEARCH_REQUIRED	Bare DIY modifier lacks the action needed to identify the user task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	сборка алюминиевых окон		SEARCH_REQUIRED	Surface-treatment/assembly task is distinct from window purchase and needs boundary evidence	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	сверление пластикового окна		SEARCH_REQUIRED	Action fragment does not identify a stable purchase/service user task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	сделать пластиковую дверь		SEARCH_REQUIRED	Phrase does not safely distinguish whole-door purchase from fabrication/material/outside-product intent	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	современные панорамные окна		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	спальня французское окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	студия с панорамными окнами		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка и ремонт пластиковых окон		SEARCH_REQUIRED	Phrase explicitly mixes installation and repair; keep the service boundary visible	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка окон и остекление балконов		SEARCH_REQUIRED	Phrase combines two material services and should not be forced into one task without boundary evidence	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка пластиковых окон день		SEARCH_REQUIRED	State/fragment installation wording is not enough to infer a stable service task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка пластиковых окон метр		SEARCH_REQUIRED	State/fragment installation wording is not enough to infer a stable service task	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установка пластиковых панелей окон		SEARCH_REQUIRED	Panel-installation wording is not safely equivalent to whole-window installation	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	установленное пластиковое окно		SEARCH_REQUIRED	State/fragment installation wording is not enough to infer a stable service task	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	утепление панорамных окон		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские балконные окна		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские окна в хрущевке		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские окна в частном		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские окна на даче		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские окна на кухню		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
-SEARCH_REQUIRED	французские окна современные		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французские панорамные окна		SEARCH_REQUIRED	Panoramic-window phrase lacks enough evidence to distinguish product purchase from architecture/inspiration/context	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский блок окно		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP
 SEARCH_REQUIRED	французский навес над окнами		SEARCH_REQUIRED	No sufficiently explicit user-task decomposition under conservative Step-10 rules	NO_DIRECT_STEP09_SERP

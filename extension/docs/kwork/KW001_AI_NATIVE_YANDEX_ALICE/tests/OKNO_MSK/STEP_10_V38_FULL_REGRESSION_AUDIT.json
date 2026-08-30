@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "v37_baseline_commit": "530112a4766dadf8299970895ddc84b82b3651dc",
+  "rows_compared": 2840,
+  "v38_discovery_supersessions": 85,
+  "approved_v38_changed_rows": 85,
+  "unplanned_v38_changed_rows": 0,
+  "historical_literal_expectations_scanned": 308,
+  "stale_historical_expectations_vs_v37": 1,
+  "stale_historical_examples": [
+    {
+      "phrase": "окно для котельной в частном доме",
+      "historical_expected": "PRIVATE_HOUSE_WINDOWS_COMMERCIAL",
+      "v37_baseline": "PRIVATE_HOUSE_WINDOW_REQUIREMENTS_INFO",
+      "source_version": "11",
+      "source_file": "STEP_10_USER_TASK_SERP_CLUSTERING_RUN_V11.py"
+    }
+  ],
+  "failure_count": 0,
+  "meaning": "Regression authority is the full persisted V37 assignment set across all 2,840 rows. V38 may alter only the 85 frozen manual-discovery phrases. Historical literal tests are diagnostics; expectations already contradicted by persisted V37 are reported as stale rather than forcing semantic rollback."
+}
