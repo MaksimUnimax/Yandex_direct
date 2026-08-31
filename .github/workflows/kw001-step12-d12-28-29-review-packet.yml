@@ -1,0 +1,41 @@
+name: KW001 Step12 D12-28 D12-29 Review Packet
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_29_REVIEW_PACKET_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Extract exact review packet
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_extract_d12_28_29_review_packet.py
+      - name: Persist packet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $b/STEP_12_D12_28_UNIT_REVIEW_PACKET.tsv $b/STEP_12_D12_28_MEMBER_PHRASES_PACKET.tsv $b/STEP_12_D12_29_IMPLEMENT_REVIEW_PACKET.tsv $b/STEP_12_D12_28_29_REVIEW_PACKET_QA.json
+          git commit -m "step12: persist D12-28 D12-29 review packet [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback and fail closed
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$b/STEP_12_D12_28_29_REVIEW_PACKET_QA.json > /tmp/q.json
+          python - <<'PY'
+          import json
+          q=json.load(open('/tmp/q.json',encoding='utf-8'))
+          assert q['quality_gap_units']==20
+          assert q['prior_implement_links']==28
+          assert q['active_assignment_rows']==2332
+          assert not q['step13_executed']
+          print('D12_28_29_REVIEW_PACKET_READBACK_PASS',q['quality_gap_member_phrases'])
+          PY
