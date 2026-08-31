@@ -1,0 +1,37 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP12_THIRD_AUDIT_V4_INDEPENDENT_PASS",
+  "findings": 0,
+  "structural_units": 160,
+  "assignments": 2332,
+  "phrase_map_rows": 2332,
+  "gap_type_missing": 0,
+  "performance_state_missing": 0,
+  "keep_rows": 58,
+  "keep_overstated_optimization": 0,
+  "relevant_match_counts": {
+    "NOT_APPLICABLE_NO_INTENDED_TARGET": 28,
+    "NOT_DIRECTLY_CHECKED": 110,
+    "SITE_NOT_OBSERVED": 22
+  },
+  "direct_serp_units": 33,
+  "owner_goal_source_counts": {
+    "UNKNOWN": 23,
+    "PUBLIC_SITE_INFERRED": 116,
+    "NOT_APPLICABLE": 7,
+    "PUBLIC_SITE_EXPLICIT": 14
+  },
+  "material_link_units": 72,
+  "internal_link_rows": 72,
+  "internal_link_implement": 32,
+  "expected_pair_keys": 178,
+  "actual_pair_rows": 178,
+  "pair_missing": 0,
+  "pair_extra": 0,
+  "pair_duplicates": 0,
+  "new_page_actions": 0,
+  "proposed_new_refs": 0,
+  "step13_files": [],
+  "step13_executed": false,
+  "verification_origin": "INDEPENDENT_RECOMPUTATION_FROM_V4_ASSIGNMENTS_PERSISTED_STEP09_RAW_AND_DECISIONS"
+}
