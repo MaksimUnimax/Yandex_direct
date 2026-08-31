@@ -1,0 +1,18 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP13_PERSISTED_SEARCH_EVIDENCE_JOINED",
+  "query_family_cases": 21,
+  "case_query_direct_rows": 1,
+  "cases_with_persisted_direct_search": 1,
+  "cases_without_persisted_direct_search": 20,
+  "raw_files_used": [
+    "STEP_09_SERP_RESULTS.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_01.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_02.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_03.tsv",
+    "STEP_09_SERP_R2_PROJECTION_RAW_PART_04.tsv"
+  ],
+  "provider_calls": 0,
+  "fresh_search_executed": false,
+  "queries_with_multiple_candidate_urls_observed": 0
+}

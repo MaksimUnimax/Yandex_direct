@@ -1,0 +1,2 @@
+case_id	query	step09_probe_id	observed_serp_job	dominant_result_type	candidate_urls	target_domain_hits	target_domain_hit_count	candidate_url_hits	candidate_url_hit_count	multiple_candidate_urls_observed	evidence_origin
+QF020	как выбрать пластиковые окна	SP09-059	HOW_TO_CHOOSE_PLASTIC_WINDOWS	INFORMATION_GUIDE	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna;https://okno-msk.ru/stati/kakie-okna-samye-luchshie		0		0	false	PERSISTED_STEP09_DIRECT_SEARCH
