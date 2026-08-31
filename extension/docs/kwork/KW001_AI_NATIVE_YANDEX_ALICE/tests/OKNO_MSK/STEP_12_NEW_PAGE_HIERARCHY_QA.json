@@ -1,0 +1,29 @@
+{
+  "status": "STEP12_D12_07_HIERARCHY_QA_PASS",
+  "candidate_pages_expected": 5,
+  "candidate_pages_accounted": 5,
+  "candidates": [
+    "PANORAMIC_WINDOWS_COMMERCIAL",
+    "WINDOW_REPLACEMENT_SERVICE",
+    "WINDOW_HARDWARE_GUIDE",
+    "PVC_WINDOW_INSTALLATION_DIY_GUIDE",
+    "PVC_WINDOW_REPAIR_DIY_GUIDE"
+  ],
+  "rows_with_explicit_parent_or_nav_location": 5,
+  "rows_with_mandatory_inbound_links": 5,
+  "rows_with_mandatory_outbound_links": 5,
+  "orphan_candidate_rows": 0,
+  "existing_link_targets_verified_against_step01_inventory": true,
+  "panoramic_forced_under_single_material_family": false,
+  "hardware_reviews_included_in_hardware_guide": false,
+  "provisional_candidates_with_missing_search_boundary": 4,
+  "provisional_candidates_preserving_missing_search_boundary": 4,
+  "hierarchy_auto_promotes_confidence": false,
+  "installation_diy_direct_search_page_type_evidence_preserved": true,
+  "new_bridge_requests": 0,
+  "new_bridge_cost_rub": 0.0,
+  "qa_method": "Independent readback of STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv against STEP_01_MERGED_SITE_INVENTORY.md and STEP_12_NEW_PAGE_EVIDENCE_V2.tsv. A hierarchy row passes only when its parent/navigation location and every mandatory existing inbound/outbound target are already verified current-site URLs, and unresolved Search/business boundaries remain explicitly unresolved rather than being erased by hierarchy planning.",
+  "defect_status": {
+    "D12-07": "VERIFIED_FIXED"
+  }
+}
