@@ -75,3 +75,10 @@ STEP_12_CORRECTION_CURRENT_STATE.json
 ```
 
 Historical V1–V4 outputs remain provenance only where they conflict with V5/V6.
+
+## Durable final closure
+
+```text
+FINAL_THIRD_AUDIT_V5_GITHUB_READBACK = true
+STEP13_EXECUTED = false
+```
