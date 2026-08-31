@@ -552,3 +552,12 @@ KW001_OKNO_MSK_STEP12_PHRASE_ACTION_MAP_ROWS = 2332
 KW001_OKNO_MSK_STEP12_NEW_COMMERCIAL_PAGES = 2
 KW001_OKNO_MSK_STEP12_NEW_INFORMATIONAL_PAGES = 3
 KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = PASS
+
+### Accepted correction block — new-page evidence
+
+D12-02 (reopened residual), D12-03 and D12-10 are VERIFIED_FIXED after V5/V2 evidence acceptance. Current open defects: D12-04, D12-05, D12-06, D12-07, D12-11. New pages are not all final: missing direct Search boundaries remain explicit provisional dependencies.
+
+```text
+STEP12_CURRENT_CORRECTION_ITEM = D12-04
+STEP12_OPEN_DEFECTS_CURRENT = D12-04,D12-05,D12-06,D12-07,D12-11
+```
