@@ -1,0 +1,72 @@
+name: KW001 Step12 D12-28 D12-30 Documentation Consistency
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_DOC_CONSISTENCY_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Remove stale post-readback wording and fold clarified Stage12 into main method
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          base=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE')
+          job=base/'tests/OKNO_MSK'
+          idxp=base/'STEP_RULES_INDEX.md'; idx=idxp.read_text(encoding='utf-8')
+          old='Current correction has re-read all 20 historical QUALITY_GAP units (322 phrases), applied 49 exact reassignments, independently revalidated all 28 prior IMPLEMENT links, rebuilt the full 2332-row downstream, and passed independent QA with zero findings. Step remains blocked only until this closure-state commit is itself read back from GitHub.'
+          new='Current correction re-read all 20 historical QUALITY_GAP units (322 phrases), applied 49 exact reassignments, independently revalidated all 28 prior IMPLEMENT links, rebuilt the full 2332-row downstream, passed independent QA with zero findings, and then passed durable closure-state GitHub readback. Step 13 is NOT STARTED / NEXT ALLOWED and remains methodologically UNVALIDATED.'
+          assert old in idx;idx=idx.replace(old,new,1);idxp.write_text(idx,encoding='utf-8')
+
+          mp=base/'STEP_12_STRUCTURAL_ACTION_METHOD.md';m=mp.read_text(encoding='utf-8')
+          old_stage='''## Stage 12 — Define hierarchy/internal links for accepted new/split pages\n\nOnly pages that survived Stage 10 receive new-page hierarchy.'''
+          new_stage='''## Stage 12 — Define new/split hierarchy and validate internal links for material existing-page relations\n\nAccepted new/split pages receive implementation hierarchy. Material existing-page `ROUTE / SECTION / EXPAND / supporting` relations receive an internal-link action only after current source context, current target-task fit and user-next-step usefulness are proven. A routing-graph edge alone cannot produce `IMPLEMENT`; use explicit `DEFER_*` / `NOT_APPLICABLE` when current content does not prove the link.'''
+          assert old_stage in m;m=m.replace(old_stage,new_stage,1)
+          m=m.replace('Current OKNO-MSK correction proof before final state readback:','Current OKNO-MSK correction proof after durable closure-state readback:',1)
+          m=m.replace('The final reusable PASS still requires durable readback of the closure state itself.','Durable closure-state readback passed. `STEP12_COMPLETE` is true for the current job; Step 13 was not executed and is only the next allowed pre-step methodology review.',1)
+          marker='KW001_STEP12_CONFIDENCE_REASON_MUST_MATCH_CURRENT_STATE = true'
+          replacement='''KW001_STEP12_CONFIDENCE_REASON_MUST_MATCH_CURRENT_STATE = true\nKW001_STEP12_ACTION_CANNOT_PROVE_ITSELF = true\nKW001_STEP12_SCHEMA_COMPLETENESS_NOT_EQUAL_EVIDENCE_COMPLETENESS = true\nKW001_STEP12_KNOWN_REGRESSION_ZERO_NOT_EQUAL_GLOBAL_COHERENCE = true\nKW001_STEP12_INTERNAL_LINK_IMPLEMENT_REQUIRES_CURRENT_SOURCE_AND_TARGET_VALIDATION = true\nKW001_STEP12_D12_28_D12_29_D12_30_CORRECTION_CLOSED = true'''
+          assert marker in m;m=m.replace(marker,replacement,1);mp.write_text(m,encoding='utf-8')
+
+          ap=job/'STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md';a=ap.read_text(encoding='utf-8')
+          a=a.replace('Correction evidence before final closure-state readback:','Correction evidence that passed independent QA and was subsequently confirmed by durable closure-state readback:',1)
+          ap.write_text(a,encoding='utf-8')
+          print('STEP12_D12_28_30_DOC_CONSISTENCY_FIXED')
+          PY
+      - name: Persist consistency fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md
+          git commit -m "step12: remove stale closure wording after readback [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Final consistency readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE
+          job=$base/tests/OKNO_MSK
+          git show $remote:$base/STEP_RULES_INDEX.md > /tmp/i.md
+          git show $remote:$base/STEP_12_STRUCTURAL_ACTION_METHOD.md > /tmp/m.md
+          git show $remote:$job/STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md > /tmp/a.md
+          python - <<'PY'
+          i=open('/tmp/i.md',encoding='utf-8').read();m=open('/tmp/m.md',encoding='utf-8').read();a=open('/tmp/a.md',encoding='utf-8').read()
+          assert 'Step remains blocked only until this closure-state commit' not in i
+          assert 'APPROVED / ACTIVE AFTER D12-28..D12-30' in i
+          assert '## Stage 12 — Define new/split hierarchy and validate internal links for material existing-page relations' in m
+          assert 'routing-graph edge alone cannot produce `IMPLEMENT`' in m
+          assert 'Current OKNO-MSK correction proof after durable closure-state readback:' in m
+          assert 'The final reusable PASS still requires durable readback' not in m
+          assert 'KW001_STEP12_D12_28_D12_29_D12_30_CORRECTION_CLOSED = true' in m
+          assert 'subsequently confirmed by durable closure-state readback' in a
+          print('STEP12_D12_28_30_DOC_CONSISTENCY_READBACK_PASS')
+          PY
