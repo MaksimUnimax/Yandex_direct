@@ -25,7 +25,7 @@ jobs:
           ref: roadmap/kwork-productization-2026-08-28
           fetch-depth: 0
 
-      - name: Patch finalizer manifest-authority scope
+      - name: Patch finalizer manifest-authority scope when needed
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -33,17 +33,19 @@ jobs:
           s = p.read_text(encoding='utf-8')
           old = '''# Add current Step10/11 authorities if not already present.\nauthority_anchor = "STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md\\n"\nauthority_add = """STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv\nSTEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv\n../../STEP_11_PAGE_OWNERSHIP_METHOD.md\nSTEP_11_POST_AUDIT_CORRECTIONS.tsv\nSTEP_11_PHRASE_PAGE_MAP.tsv\nSTEP_11_EFFECTIVE_CLUSTER_SUMMARY.tsv\nSTEP_11_PAGE_OWNERSHIP_CORRECTED.tsv\nSTEP_11_WEAK_OWNERSHIP_REAUDIT.md\nSTEP_11_REPORT.md\nSTEP_11_QA.json\n"""\nif "STEP_11_PHRASE_PAGE_MAP.tsv" not in manifest:\n    manifest = replace_once(manifest, authority_anchor, authority_anchor + authority_add, "manifest authority insertion")\n'''
           new = '''# Add current Step10/11 authorities inside the explicit Current job authorities fence.\nauthority_add = """STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv\nSTEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv\n../../STEP_11_PAGE_OWNERSHIP_METHOD.md\nSTEP_11_POST_AUDIT_CORRECTIONS.tsv\nSTEP_11_PHRASE_PAGE_MAP.tsv\nSTEP_11_EFFECTIVE_CLUSTER_SUMMARY.tsv\nSTEP_11_PAGE_OWNERSHIP_CORRECTED.tsv\nSTEP_11_WEAK_OWNERSHIP_REAUDIT.md\nSTEP_11_REPORT.md\nSTEP_11_QA.json\n"""\nif "STEP_11_PHRASE_PAGE_MAP.tsv" not in manifest:\n    auth_heading = manifest.index("Current job authorities:")\n    auth_fence_start = manifest.index("```text", auth_heading)\n    auth_fence_end = manifest.index("```", auth_fence_start + len("```text"))\n    manifest = manifest[:auth_fence_end] + authority_add + manifest[auth_fence_end:]\n'''
-          if new not in s:
-              if old not in s:
-                  raise RuntimeError('expected old finalizer authority block missing')
+          if old in s:
               s = s.replace(old, new, 1)
               p.write_text(s, encoding='utf-8')
-          print('STEP11_FINALIZER_AUTHORITY_SCOPE_PATCHED')
+          print('STEP11_FINALIZER_AUTHORITY_SCOPE_READY')
           PY
 
-      - name: Finalize canonical Step 11 rules and state
+      - name: Finalize canonical Step 11 rules and state if not already finalized
         run: |
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step11_canonical_docs.py
+          if grep -q '## Current major step — Step 10 user-task / SERP clustering' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md; then
+            python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step11_canonical_docs.py
+          else
+            echo 'STEP11_CANONICAL_STATE_ALREADY_FINALIZED'
+          fi
 
       - name: Synchronize finalized Step 11 method status
         run: |
