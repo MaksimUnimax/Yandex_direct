@@ -1,0 +1,55 @@
+name: KW001 Step12 Register D12-19 D12-20
+
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_d12_19_20.py'
+      - '.github/workflows/kw001-step12-register-d12-19-20.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Register defects
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_d12_19_20.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          s=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          rows=list(csv.DictReader((r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          by={x['defect_id']:x for x in rows}
+          assert all(d in s['open_defects'] for d in ['D12-16','D12-17','D12-18','D12-19','D12-20'])
+          assert by['D12-19']['status']=='OPEN' and by['D12-20']['status']=='OPEN'
+          assert s['step13_blocked'] and not s['step12_complete'] and not s['next_step_allowed']
+          print('STEP12_D12_19_20_REGISTRATION_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_OWNER_CHALLENGE_2026-08-31.md
+          git commit -m "step12: register D12-19 and D12-20 [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state.json
+          python - <<'PY'
+          import json
+          s=json.load(open('/tmp/state.json',encoding='utf-8'))
+          assert set(['D12-16','D12-17','D12-18','D12-19','D12-20']).issubset(s['open_defects'])
+          print('STEP12_D12_19_20_GITHUB_READBACK_PASS')
+          PY
