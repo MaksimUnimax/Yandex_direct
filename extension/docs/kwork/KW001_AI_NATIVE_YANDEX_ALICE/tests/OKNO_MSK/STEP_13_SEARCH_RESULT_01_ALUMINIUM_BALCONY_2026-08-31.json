@@ -1,0 +1,118 @@
+{
+  "date": "2026-08-31",
+  "step": 13,
+  "sequence_index": 1,
+  "job_id": "kw001-okno-msk-search-step13-20260831",
+  "query": "алюминиевые окна на балкон",
+  "request_id": "search-batch-f5046823-9767-4db5-aca3-173bf91215df",
+  "item_id": "kw001-okno-msk-search-step13-20260831:efd3343981ab85d9",
+  "status": "SUCCEEDED",
+  "request_executed": true,
+  "http_status": 200,
+  "bridge_version_observed": "0.1.1",
+  "service": "search",
+  "region": "213",
+  "search_type": "SEARCH_TYPE_RU",
+  "groups_on_page": 10,
+  "response_format": "FORMAT_XML",
+  "elapsed_ms": 2292,
+  "estimated_cost_rub": 0.488,
+  "claimed_at": "2026-08-31T14:33:51.301Z",
+  "request_started_at": "2026-08-31T14:33:51.394Z",
+  "completed_at": "2026-08-31T14:33:53.866Z",
+  "job_progress_after_result": {
+    "total": 16,
+    "pending": 15,
+    "succeeded": 1,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "requests_started": 1,
+    "estimated_cost_rub": 0.488,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "results": [
+    {
+      "rank": 1,
+      "url": "https://fabrikaokna.ru/balkony-i-lodzhii/",
+      "domain": "fabrikaokna.ru",
+      "title": "Остекление балконов и лоджий в Москве — цены, монтаж под ключ",
+      "snippet": "Остекление балконов в Москве под ключ. Холодные и теплые системы, расчет цены, монтаж и отделка. Узнайте стоимость остекления лоджии. … Потолок на балконе или лоджии играет важную роль не только в эстетике, но и в тепло- и звукоизоляции.",
+      "modtime": "20250101T223210"
+    },
+    {
+      "rank": 2,
+      "url": "https://www.msk.okna-servise.com/osteklenie-balkonov/holodnoje/",
+      "domain": "www.msk.okna-servise.com",
+      "title": "Холодное остекление балконов в Москве, цена на холодное...",
+      "snippet": "Стоимость холодного остекления балконов и лоджий раздвижным алюминиевым профилем под ключ зависит от нескольких факторов: тип профиля (распашные окна, раздвижные или комбинированные), площади проема, цвета окон, примененного стекла, наличия или отсутствия в т. з. задачи вынести остекление за парапет, необходимости изготовить крышу, а также количества эркерных соединений).",
+      "modtime": "20200618T192737"
+    },
+    {
+      "rank": 3,
+      "url": "https://fabrikaokna.ru/okna/alyuminievye-okna/",
+      "domain": "fabrikaokna.ru",
+      "title": "Алюминиевые окна в Москве — цена за м2, изготовление...",
+      "snippet": "Алюминиевые окна на базе профилей Provedal выбирают для помещений без отопления, например, балконов, лоджий, террас. Это недорогой вариант хорошего качества, если поддержание комфортной температуры не требуется.",
+      "modtime": "20250101T223210"
+    },
+    {
+      "rank": 4,
+      "url": "https://www.balkoni-nedorogo.ru/cold-osteklenie.html",
+      "domain": "www.balkoni-nedorogo.ru",
+      "title": "\"Балконы Недорого\" — остекление алюминиевым профилем...",
+      "snippet": "Французское остекление балкона под ключ с тонированным стеклопакетом. Клиент: Егоров Александр Викторович. Адрес: Москва, ул. Маршала Бирюзова, д. 28. … Остекление балкона алюминиевыми окнами Provedal. Клиент: Лебедева Анастасия Григорьевна.",
+      "modtime": "20190823T030000"
+    },
+    {
+      "rank": 5,
+      "url": "https://rhsolutions.ru/intelio/",
+      "domain": "rhsolutions.ru",
+      "title": "РЕХАУ ИНТЕЛИО - купить профиль INTELIO 80 от производителя",
+      "snippet": null,
+      "modtime": "20190516T150639"
+    },
+    {
+      "rank": 6,
+      "url": "https://aluminarium.ru/alyuminievoe-osteklenie-balkona/",
+      "domain": "aluminarium.ru",
+      "title": "Алюминиевое остекление балкона - цена от 8 000 руб/м2, купить...",
+      "snippet": "Производим алюминиевые окна на современном оборудовании. … На балконах и лоджиях, есть возможность установки балконного блока или раздвижного портала в качестве выхода на балкон, подходит для замены остекления без изменения фасада.",
+      "modtime": "20230829T164455"
+    },
+    {
+      "rank": 7,
+      "url": "https://www.vekamoscow.ru/glazed-balcony-cold-calc/",
+      "domain": "www.vekamoscow.ru",
+      "title": "Калькулятор стоимости холодного остекления балконов и лоджий...",
+      "snippet": "Холодное остекление балконов подразумевает остекление проема алюминиевыми раздвижными или распашными окнами. В отличие от пластиковых рам, такое остекление не утепляет помещение, но защищает от погодных осадков.",
+      "modtime": "20160718T151707"
+    },
+    {
+      "rank": 8,
+      "url": "https://fabrikaokna.ru/alyuminievye-konstruktsii/",
+      "domain": "fabrikaokna.ru",
+      "title": "Алюминиевые системы остекления с завода в Москве по ценам...",
+      "snippet": "Предлагаем заказать алюминиевые системы остекления напрямую с завода в Москве по ценам производителя, недорого с установкой. … Компания «Фабрика Комфорта» изготавливает и устанавливает алюминиевые окна, двери, фасадные системы, противопожарные конструкции и безрамное остекление для жилой и коммерческой недвижимости.",
+      "modtime": "20250101T223210"
+    },
+    {
+      "rank": 9,
+      "url": "https://market.yandex.ru/search?text=%D0%B0%D0%BB%D1%8E%D0%BC%D0%B8%D0%BD%D0%B8%D0%B5%D0%B2%D1%8B%D0%B5%20%D0%BE%D0%BA%D0%BD%D0%B0%20%D0%BD%D0%B0%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%20%D1%80%D0%B0%D0%B7%D0%B4%D0%B2%D0%B8%D0%B6%D0%BD%D1%8B%D0%B5",
+      "domain": "market.yandex.ru",
+      "title": "Алюминиевые окна на балкон раздвижные — купить по низкой...",
+      "snippet": "Алюминиевое раздвижное окно, 3000 x 900мм, белые, на балкон, веранду, террасу.",
+      "modtime": "20210528T111401"
+    },
+    {
+      "rank": 10,
+      "url": "https://al-solution.ru/production/balconies",
+      "domain": "al-solution.ru",
+      "title": "Остекление балконов и лоджий алюминиевым профилем - цены...",
+      "snippet": null,
+      "modtime": "20180319T030000"
+    }
+  ],
+  "result_count": 10,
+  "evidence_persistence_reason": "SUCCESSFUL_SUBSTANTIVE_PROVIDER_EVIDENCE_REQUIRED_FOR_STEP13_ANALYSIS",
+  "analysis_status_at_write": "NOT_YET_ANALYZED__PERSISTED_BEFORE_ANALYSIS_PER_BRIDGE_EVIDENCE_GATE"
+}
