@@ -12,7 +12,8 @@
     "D12-23",
     "D12-24",
     "D12-25",
-    "D12-26"
+    "D12-26",
+    "D12-27"
   ],
   "verified_fixed_defects": [
     "D12-01",
@@ -63,7 +64,8 @@
     "D12-23",
     "D12-24",
     "D12-25",
-    "D12-26"
+    "D12-26",
+    "D12-27"
   ],
   "canonical_defect_ledger": "STEP_12_CORRECTION_DEFECT_LEDGER.tsv",
   "post_close_owner_challenge": "STEP_12_POST_CLOSE_OWNER_CHALLENGE_2026-08-31.md",
