@@ -1,0 +1,58 @@
+name: KW001 Step13 Sync Prestep State
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_13_PRESTEP_STATE_SYNC_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Sync manifest and job flow
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          b=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          m=b/'JOB_MANIFEST.md'
+          s=m.read_text(encoding='utf-8')
+          old='current_major_step = STEP_12_COMPLETE_AFTER_D12_28_D12_29_D12_30_EVIDENCE_INDEPENDENCE_AND_GLOBAL_COHERENCE_REVALIDATION\nnext_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW'
+          new='current_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_COMPLETE_AWAITING_OWNER_AUTHORIZATION\nnext_major_step = STEP_13_EXECUTION_AFTER_EXPLICIT_OWNER_AUTHORIZATION'
+          assert old in s
+          s=s.replace(old,new,1)
+          anchor='STEP_12_SECOND_AUDIT_FINAL_ACCEPTANCE_2026-08-31.md\n'
+          assert anchor in s
+          extra='''STEP_12_D12_28_30_INDEPENDENT_QA.json\nSTEP_12_D12_28_30_FINAL_RECONCILIATION.json\nSTEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md\nSTEP_12_POST_PASS_EVIDENCE_INDEPENDENCE_DEFECT_LEDGER.tsv\n../../STEP_12_FINAL_EXECUTION_PROTOCOL.md\n../../STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md\n../../STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md\nSTEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-08-31.md\nSTEP_13_SOURCE_TO_METHOD_TRACE.tsv\nSTEP_13_CURRENT_STATE.json\n'''
+          if 'STEP_13_CURRENT_STATE.json' not in s:
+              s=s.replace(anchor,anchor+extra,1)
+          m.write_text(s,encoding='utf-8')
+
+          f=b/'JOB_FLOW.md'
+          t=f.read_text(encoding='utf-8')
+          if '## Step 13 pre-step methodology research' not in t:
+              t += '''\n\n---\n\n## Step 13 pre-step methodology research\n\nStatus: **METHOD RESEARCH COMPLETE / EXECUTION NOT STARTED / AWAITING EXPLICIT OWNER AUTHORIZATION AFTER REVIEW**\n\n```text\nINPUT_PAIR_UNIVERSE = 195\nSTEP12_FLAGGED_FOR_FUTURE_SEARCH = 186\nSTEP13_DEPENDENCY_UNITS = 98\nMETHOD_RESEARCH_COMPLETE = true\nSOURCE_TO_METHOD_TRACE_COMPLETE = true\nOWNER_FACING_METHOD_REVIEW_REQUIRED = true\nOWNER_AUTHORIZATION_AFTER_REVIEW = false\nSTEP13_EXECUTION_STARTED = false\nSTEP13_PROVIDER_CALLS = 0\nSTEP13_PROVIDER_COST_RUB = 0\nSTEP14_EXECUTED = false\n```\n\nCanonical current-job authorities:\n\n- `STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-08-31.md`\n- `STEP_13_SOURCE_TO_METHOD_TRACE.tsv`\n- `STEP_13_CURRENT_STATE.json`\n\nExecution sequence after authorization: current-page/task eligibility -> query-family cases -> reuse persisted Search -> fresh ordinary Search only for surviving material unresolved cases -> conflict verdict -> remediation -> independent QA -> GitHub readback.\n'''
+          f.write_text(t,encoding='utf-8')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md
+          git commit -m "step13: sync pre-step research state [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          r=origin/roadmap/kwork-productization-2026-08-28
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $r:$b/JOB_MANIFEST.md > /tmp/m.md
+          git show $r:$b/JOB_FLOW.md > /tmp/f.md
+          grep -q 'STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_COMPLETE_AWAITING_OWNER_AUTHORIZATION' /tmp/m.md
+          grep -q 'STEP_13_CURRENT_STATE.json' /tmp/m.md
+          grep -q 'OWNER_AUTHORIZATION_AFTER_REVIEW = false' /tmp/f.md
+          grep -q 'STEP13_PROVIDER_CALLS = 0' /tmp/f.md
+          echo STEP13_PRESTEP_STATE_SYNC_READBACK_PASS
