@@ -5,7 +5,7 @@ on:
     branches:
       - roadmap/kwork-productization-2026-08-28
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/PLAIN_LANGUAGE_RULE_SYNC_TRIGGER.txt'
+      - extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/PLAIN_LANGUAGE_RULE_SYNC_TRIGGER.txt
 
 permissions:
   contents: write
@@ -18,150 +18,17 @@ jobs:
         with:
           ref: roadmap/kwork-productization-2026-08-28
           fetch-depth: 0
-
-      - name: Strengthen universal plain-language rule
+      - name: Apply rule patch
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/apply_plain_language_rule.py
+      - name: Verify plain-language rule
         run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          gate = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md')
-          text = gate.read_text(encoding='utf-8')
-          start = text.index('### Mandatory non-specialist summary at the end of every pre-step explanation')
-          end = text.index('\n---\n\n## 9. Relationship to YMB completeness rule', start)
-          new = '''### Mandatory plain-language summary before AND after every step
-
-A detailed analytical report is not enough. For **every concrete step**, ChatGPT must also provide a short summary in ordinary everyday language that a person with no SEO, analytics, API or programming background can understand.
-
-The summary is mandatory in two places:
-
-```text
-1. at the END of the pre-step explanation, immediately before execution/authorization;
-2. at the END of the end-of-step report, after the detailed evidence and accounting.
-```
-
-The pre-step summary must answer:
-
-```text
-ЗАЧЕМ НУЖЕН ЭТОТ ШАГ?
-= what useful problem this step solves for the client/project.
-
-ЧТО КОНКРЕТНО МЫ БУДЕМ ДЕЛАТЬ?
-= the practical work in ordinary words, without internal workflow terminology.
-
-ЧТО МЫ ПОЛУЧИМ В КОНЦЕ?
-= the understandable result that will exist when the step is finished.
-```
-
-The end-of-step summary must answer:
-
-```text
-ЗАЧЕМ МЫ ДЕЛАЛИ ЭТОТ ШАГ?
-= one simple reminder of its purpose.
-
-ЧТО МЫ ФАКТИЧЕСКИ СДЕЛАЛИ?
-= what work was really performed.
-
-ЧТО ПОЛУЧИЛОСЬ И ЧТО ЭТО ДАЁТ ДАЛЬШЕ?
-= the practical result and why it matters for the next work/client result.
-```
-
-Hard communication rule:
-
-```text
-PLAIN_LANGUAGE_SUMMARY != TECHNICAL_SUMMARY
-```
-
-Rules for both summaries:
-
-```text
-1. Write for an ordinary person, not an SEO specialist, analyst, developer or API operator.
-2. Do not use internal status names, cluster IDs, protocol names, provider terminology, abbreviations or specialist jargon as the explanation itself.
-3. If a technical term is genuinely unavoidable, immediately translate it into ordinary language in the same sentence.
-4. Never assume the owner should decode terms such as cluster, intent, SERP, ownership, canonical, cannibalization, semantic freeze, provider, route, ledger, batch or similar project vocabulary.
-5. Explain the real-world action instead: for example, not “map cluster to owner”, but “decide which existing page should answer this group of similar searches”.
-6. Keep detailed numbers, sources, costs, statuses and audit terminology in the detailed report above; the plain-language summary exists for comprehension.
-7. The summary does not replace the detailed gate, evidence, QA or roadmap. Both are mandatory.
-8. Never finish a step explanation with only technical wording. The last explanation of the step must always make its purpose, practical work and result understandable without specialist knowledge.
-```
-
-Preferred pre-step shape:
-
-```text
-ПРОСТЫМИ СЛОВАМИ
-
-Зачем нужен этот шаг:
-...
-
-Что конкретно будем делать:
-...
-
-Что получим в конце:
-...
-```
-
-Preferred end-of-step shape:
-
-```text
-ПРОСТЫМИ СЛОВАМИ — ИТОГ
-
-Зачем делали этот шаг:
-...
-
-Что фактически сделали:
-...
-
-Что получили и что это даёт дальше:
-...
-```
-
-Failure condition:
-
-```text
-PLAIN_LANGUAGE_SUMMARY_MISSING = true
--> OWNER_COMMUNICATION_GATE = FAILED
--> STEP_TRANSITION = BLOCKED
-```
-'''
-          text = text[:start] + new + text[end:]
-
-          marker = 'KW001_PRE_STEP_SUMMARY_NUMBERS_STAY_IN_MAIN_TEXT = true\n'
-          add = '''KW001_PLAIN_LANGUAGE_SUMMARY_REQUIRED_BEFORE_AND_AFTER_EVERY_STEP = true
-KW001_PLAIN_LANGUAGE_SUMMARY_MUST_STATE_WHY_HOW_RESULT = true
-KW001_PLAIN_LANGUAGE_SUMMARY_NO_UNEXPLAINED_JARGON = true
-KW001_MISSING_PLAIN_LANGUAGE_SUMMARY_BLOCKS_STEP_TRANSITION = true
-'''
-          if add.strip() not in text:
-              text = text.replace(marker, marker + add, 1)
-          gate.write_text(text, encoding='utf-8')
-
-          step12 = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md')
-          s = step12.read_text(encoding='utf-8')
-          plain = '''## ПРОСТЫМИ СЛОВАМИ
-
-### Зачем нужен этот шаг
-
-Чтобы понять, **что именно менять на сайте по каждой группе похожих поисков людей**. После прошлого шага мы уже знаем, какие запросы относятся к каким темам и какая нынешняя страница подходит или не подходит. Теперь надо решить, что с этим делать на самом сайте.
-
-### Что конкретно будем делать
-
-Для каждой группы запросов посмотрим все входящие в неё фразы и текущие страницы сайта. Затем выберем понятное действие: оставить страницу как есть, дополнить её, добавить отдельный раздел на существующей странице, сделать новую страницу, разделить слишком разную по смыслу страницу или объединить действительно дублирующие страницы. Если отдельная страница не нужна, так и зафиксируем — создавать страницу только ради поисковой фразы не будем.
-
-### Что получим в конце
-
-Получим **понятный список изменений сайта**: какие страницы оставить, какие дополнить, какие новые страницы действительно нужны, а какие создавать не стоит. Это станет основой для следующей проверки и затем для финального плана работ для клиента.
-
-'''
-          anchor = '## Owner authorization gate\n'
-          if plain not in s:
-              s = s.replace(anchor, plain + anchor, 1)
-          step12.write_text(s, encoding='utf-8')
-          PY
-
+          grep -q 'Mandatory plain-language summary before AND after every step' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
+          grep -q 'KW001_PLAIN_LANGUAGE_SUMMARY_NO_UNEXPLAINED_JARGON = true' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md
+          grep -q '## ПРОСТЫМИ СЛОВАМИ' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md
       - name: Commit rule change
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md \
-                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md
           git commit -m "rules: require plain-language summaries before and after every step [skip ci]"
           git push origin HEAD:roadmap/kwork-productization-2026-08-28
