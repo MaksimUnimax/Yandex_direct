@@ -1,0 +1,58 @@
+name: KW001 Step12 Patch D12-05 Dynamic Pair QA
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_patch_d12_05_dynamic_pair_qa.py'
+      - '.github/workflows/kw001-step12-patch-d12-05-dynamic-pair-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Patch independent pair QA
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_patch_d12_05_dynamic_pair_qa.py
+      - name: Verify patched source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_independent_final_qa.py')
+          s=p.read_text(encoding='utf-8')
+          assert 'len(pairs), 189' not in s
+          assert "ACTIONS_V1 = ROOT / 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv'" in s
+          assert "add_check('Q030M'" in s
+          assert "add_check('Q030E'" in s
+          assert 'expected_pair_keys' in s
+          print('STEP12_D12_05_DYNAMIC_PAIR_QA_SOURCE_VERIFY_PASS')
+          PY
+      - name: Persist independent QA correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_independent_final_qa.py
+          git commit -m "step12: independently recompute expected pair universe"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          file=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_independent_final_qa.py
+          git show $remote:$file > /tmp/qa.py
+          python - <<'PY'
+          s=open('/tmp/qa.py',encoding='utf-8').read()
+          assert 'len(pairs), 189' not in s
+          assert 'expected_pair_keys' in s
+          assert "add_check('Q030M'" in s
+          assert "add_check('Q030E'" in s
+          print('STEP12_D12_05_DYNAMIC_PAIR_QA_GITHUB_READBACK_PASS')
+          PY
