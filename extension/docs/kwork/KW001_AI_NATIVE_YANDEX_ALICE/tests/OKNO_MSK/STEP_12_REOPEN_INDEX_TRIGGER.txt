@@ -1,0 +1,2 @@
+trigger=2026-08-31T12:08:00Z
+reason=post-pass D12-28 D12-29 D12-30 evidence-independence and global-coherence correction
