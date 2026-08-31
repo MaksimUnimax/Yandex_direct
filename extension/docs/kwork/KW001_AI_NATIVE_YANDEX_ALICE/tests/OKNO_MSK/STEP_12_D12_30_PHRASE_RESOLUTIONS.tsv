@@ -1,0 +1,50 @@
+phrase	old_structural_unit_id	corrected_structural_unit_id	decision_reason
+ремонт балкона без остекления	BALCONY_RENOVATION_WITH_GLAZING	OPEN_BALCONY_FINISHING	No-glazing renovation contradicts the source unit terminal task of bundled renovation plus glazing.
+проект одноэтажного дома с панорамными окнами	GLAZING_DESIGN_INSPIRATION	OUTSIDE_REAL_ESTATE_ARCHITECTURE	Whole-house architectural project demand is outside glazing-installation portfolio inspiration.
+проект с панорамными окнами	GLAZING_DESIGN_INSPIRATION	OUTSIDE_REAL_ESTATE_ARCHITECTURE	Whole-building project intent is architectural rather than a glazing example task.
+проекты домов с панорамными окнами	GLAZING_DESIGN_INSPIRATION	OUTSIDE_REAL_ESTATE_ARCHITECTURE	House-project intent belongs to architecture/real-estate scope.
+проекты домов с панорамными окнами и террасой	GLAZING_DESIGN_INSPIRATION	OUTSIDE_REAL_ESTATE_ARCHITECTURE	House-and-terrace project intent is architectural planning, not current glazing portfolio navigation.
+проекты одноэтажных с панорамными окнами	GLAZING_DESIGN_INSPIRATION	OUTSIDE_REAL_ESTATE_ARCHITECTURE	Architectural project intent is outside the glazing-design inspiration unit.
+алюминиевое остекление веранды раздвижными конструкциями	OUTDOOR_GLAZING_SELECTION_INFO	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	Explicit aluminium + sliding mechanism defines the existing outdoor aluminium sliding task.
+алюминиевые окна для частного дома	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	ALUMINIUM_WINDOWS_COMMERCIAL	Primary object/material is aluminium windows; private house is application context.
+окна для крыши частных домов	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PRIVATE_HOUSE_ROOF_WINDOW_UNVERIFIED	Roof-window product/service is a distinct unverified business object and must not stay in generic private-house PVC planning.
+окна для кухни частном доме	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PRIVATE_HOUSE_SPECIAL_ROOM_WINDOWS	Explicit special-room private-house task.
+окна для санузла в частном доме	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PRIVATE_HOUSE_SPECIAL_ROOM_WINDOWS	Explicit special-room private-house task.
+площадь окна для газовой котельной частного дома	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	BOILER_ROOM_WINDOW_REQUIREMENTS_INFO	Boiler-room regulatory/requirements task is distinct from generic planning.
+размер окна для газовой котельной частного дома	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	BOILER_ROOM_WINDOW_REQUIREMENTS_INFO	Boiler-room size requirement is a distinct requirements task.
+размер окна для котельной в частном доме	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	BOILER_ROOM_WINDOW_REQUIREMENTS_INFO	Boiler-room size requirement is a distinct requirements task.
+размер окна для санузла в частном доме	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PRIVATE_HOUSE_SPECIAL_ROOM_WINDOWS	Explicit special-room sizing task.
+окна в пол размеры для частного дома	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PANORAMIC_WINDOW_TECH_SELECTION_INFO	Floor-to-ceiling size intent is panoramic-window technical selection.
+панорамные окна для частного дома	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PANORAMIC_WINDOW_TECH_SELECTION_INFO	Explicit panoramic-window object overrides generic private-house planning.
+панорамные окна для частного дома размеры	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PANORAMIC_WINDOW_TECH_SELECTION_INFO	Panoramic sizing is a panoramic technical-selection task.
+стандартные размеры панорамных окон для частного дома	PRIVATE_HOUSE_WINDOW_PLANNING_INFO	PANORAMIC_WINDOW_TECH_SELECTION_INFO	Panoramic standard sizing is a panoramic technical-selection task.
+как открыть пластиковую дверь	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	Door operation/troubleshooting differs from product/dimension information.
+как отрегулировать пластиковую балконную дверь	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	DIY adjustment is a distinct maintenance task.
+как отрегулировать пластиковую дверь	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	DIY adjustment is a distinct maintenance task.
+как отрегулировать пластиковую дверь входную	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	DIY adjustment is a distinct maintenance task.
+как отрегулировать пластиковую дверь на балконе	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	DIY adjustment is a distinct maintenance task.
+как отрегулировать пластиковую дверь на балконе самостоятельно	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	DIY adjustment is a distinct maintenance task.
+как отрегулировать пластиковую дверь самостоятельно	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	DIY adjustment is a distinct maintenance task.
+как регулировать пластиковые двери	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	Adjustment/how-to intent differs from product selection.
+регулировка пластиковых дверей своими руками	PVC_DOOR_INFO	PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO	Explicit DIY adjustment task.
+пластиковая дверь своими руками	PVC_DOOR_INFO	PVC_DOOR_INSTALLATION_REMOVAL_DIY	Explicit DIY build/install intent belongs with existing PVC-door installation/removal DIY.
+алюминиевые окна и двери	WINDOWS_DOORS_COMBINED_COMMERCIAL	ALUMINIUM_WINDOWS_DOORS_COMBINED_COMMERCIAL	Explicit aluminium material defines a separate combined commercial object.
+входные двери с окном для частного дома	WINDOWS_DOORS_COMBINED_COMMERCIAL	PRIVATE_HOUSE_ENTRY_DOOR_WITH_WINDOW_UNVERIFIED	Entry-door-with-window object is not generic combined Rehau window/door demand and business truth is unverified.
+панорамное окно с дверью	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL	Explicit panoramic construction defines the panoramic commercial family.
+панорамное окно с дверью на террасу	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL	Explicit panoramic construction defines the panoramic commercial family; terrace is context.
+панорамные окна с дверью в частном	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL	Explicit panoramic construction defines the panoramic commercial family.
+французское окно с дверью	WINDOWS_DOORS_COMBINED_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit French-window construction belongs to French commercial demand.
+как выбрать резинку для окна пластикового	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_SEAL_SELECTION_INFO	Seal/gasket selection is a coherent component task distinct from handles.
+как выбрать ручку для пластикового окна	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_HANDLES_ACCESSORY	Handle selection has an existing specialist accessory owner.
+как выбрать уплотнитель для пластиковых окон	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_SEAL_SELECTION_INFO	Seal selection is a coherent specialist task.
+как правильно выбрать уплотнитель для пластиковых окон	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_SEAL_SELECTION_INFO	Seal selection is a coherent specialist task.
+резиновый уплотнитель для пластиковых окон как выбрать	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_SEAL_SELECTION_INFO	Seal selection is a coherent specialist task.
+ремонт подоконника пластикового окна своими руками	WINDOW_FINISHING_DIY_INFO	WINDOWSILL_DIY_INFO	Windowsill repair DIY is a different component task from slopes.
+установка откосов на пластиковые окна своими руками	WINDOW_FINISHING_DIY_INFO	WINDOW_SLOPES_DIY_INFO	Slope installation DIY belongs to the existing slopes article task.
+установка отлива на пластиковое окно своими руками	WINDOW_FINISHING_DIY_INFO	WINDOW_DRIP_CAP_DIY_INFO	Drip-cap installation is a separate component task.
+установка подоконника на пластиковые окна своими руками	WINDOW_FINISHING_DIY_INFO	WINDOWSILL_DIY_INFO	Windowsill installation DIY is a separate component task.
+уплотнитель для пластиковых окон rehau какой лучше	WINDOW_HARDWARE_SELECTION_GUIDE	WINDOW_SEAL_SELECTION_INFO	Seal selection is not window-hardware brand/construction selection.
+запчасти оконной фурнитуры	WINDOW_HARDWARE_SELECTION_GUIDE	AFTERMARKET_WINDOW_HARDWARE_SHOPPING_UNSUPPORTED	Parts-shopping intent is commercial aftermarket demand, not informational hardware selection.
+замена алюминиевых окон	WINDOW_REPLACEMENT_SERVICE	ALUMINIUM_WINDOW_REPLACEMENT_SERVICE	Aluminium replacement is materially different from the current PVC replacement service owner.
+заменить алюминиевые окна	WINDOW_REPLACEMENT_SERVICE	ALUMINIUM_WINDOW_REPLACEMENT_SERVICE	Aluminium replacement is materially different from the current PVC replacement service owner.
+почему пластиковых окнах	PVC_WINDOW_TECH_INFO	AMBIGUOUS_PVC_TECH_QUERY	Malformed/incomplete query cannot truthfully remain in a defined technical task without guessing intent.
