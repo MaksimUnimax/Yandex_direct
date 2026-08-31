@@ -45,6 +45,22 @@ jobs:
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step11_canonical_docs.py
 
+      - name: Synchronize finalized Step 11 method status
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_11_PAGE_OWNERSHIP_METHOD.md')
+          s = p.read_text(encoding='utf-8')
+          old = 'Status: **CORRECTED METHOD / PENDING CURRENT-JOB REVALIDATION**  '
+          new = 'Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION**  '
+          if old in s:
+              s = s.replace(old, new, 1)
+              p.write_text(s, encoding='utf-8')
+          elif new not in s:
+              raise RuntimeError('unexpected Step11 method status')
+          print('STEP11_METHOD_STATUS_SYNCHRONIZED')
+          PY
+
       - name: Rebuild corrected Step 11 artifacts
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step11_correct_page_ownership.py
@@ -59,6 +75,7 @@ jobs:
           with (root/'STEP_11_PHRASE_PAGE_MAP.tsv').open(encoding='utf-8', newline='') as f:
               rows = list(csv.DictReader(f, delimiter='\t'))
           report = (root/'STEP_11_REPORT.md').read_text(encoding='utf-8')
+          method = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_11_PAGE_OWNERSHIP_METHOD.md').read_text(encoding='utf-8')
           rules = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md').read_text(encoding='utf-8')
           flow = (root/'JOB_FLOW.md').read_text(encoding='utf-8')
           manifest = (root/'JOB_MANIFEST.md').read_text(encoding='utf-8')
@@ -71,6 +88,8 @@ jobs:
           assert sum(r['effective_assignment_status']=='SEARCH_REQUIRED' for r in rows) == 19
           assert sum(bool(r['target_url']) for r in rows if r['effective_assignment_status']=='SEARCH_REQUIRED') == 0
           assert '{len(search_required)}' not in report
+          assert 'Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION**' in method
+          assert 'PENDING CURRENT-JOB REVALIDATION' not in method
           assert 'APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION' in rules
           assert 'PHRASE_PAGE_MAP_ROWS = 2332' in flow
           assert 'current_major_step = STEP_11_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION' in manifest
@@ -89,6 +108,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated/finalization changes"
           else
-            git commit -m "step11: finalize corrected page ownership state [skip ci]"
+            git commit -m "step11: synchronize finalized method status [skip ci]"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
