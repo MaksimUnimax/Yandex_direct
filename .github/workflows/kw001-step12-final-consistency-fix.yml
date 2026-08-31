@@ -1,0 +1,54 @@
+name: KW001 Step12 Final Consistency Fix
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_final_consistency_fix.py'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Repair final Step12 reporting consistency
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_final_consistency_fix.py
+      - name: Verify repaired state
+        run: |
+          grep -q '| 12 | Decide what pages to keep, strengthen, add, create or deliberately not create | ✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT |' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md
+          grep -q 'current_major_step = STEP_12_COMPLETE_AFTER_FULL_STRUCTURAL_ACTION_AUDIT' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md')
+          s=p.read_text(encoding='utf-8')
+          start=s.index('Current job authorities:')
+          end=s.index('Where older Step-09', start)
+          block=s[start:end]
+          assert block.count('```text') == 1
+          assert block.count('```') == 2
+          assert 'STEP_12_STRUCTURAL_ACTIONS.tsv' in block
+          assert 'JOB_FLOW.md' in block
+          print('STEP12_FINAL_CONSISTENCY_QA_PASS')
+          PY
+      - name: Commit repaired state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+          git commit -m "step12: repair final report and manifest consistency [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md | grep -q '✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md | grep -q 'STEP_12_STRUCTURAL_ACTIONS.tsv'
+          echo STEP12_FINAL_REPAIR_READBACK_PASS
