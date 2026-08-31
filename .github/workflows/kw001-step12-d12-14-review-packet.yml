@@ -1,0 +1,62 @@
+name: KW001 Step12 D12-14 Review Packet
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_d12_14_review_packet.py'
+      - '.github/workflows/kw001-step12-d12-14-review-packet.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build evidence packet
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_d12_14_review_packet.py
+      - name: Verify packet shape
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          summary=list(csv.DictReader((r/'STEP_12_D12_14_REVIEW_SUMMARY.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          rows=list(csv.DictReader((r/'STEP_12_D12_14_REVIEW_PACKET.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          assert len(summary)==4
+          assert {x['structural_unit_id'] for x in summary}=={
+              'PVC_DOOR_INSTALLATION_SERVICE','PVC_WINDOW_OPERATION_DIY','REHAU_OTHER_BRAND_COMPARISON_INFO','WINDOW_DEMOLITION_SERVICE'
+          }
+          assert rows
+          assert all(x['phrase'] for x in rows)
+          print('STEP12_D12_14_REVIEW_PACKET_VERIFY_PASS')
+          PY
+      - name: Persist packet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_14_REVIEW_PACKET.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_14_REVIEW_SUMMARY.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_14_REVIEW_PACKET.md
+          git commit -m "step12: persist D12-14 evidence review packet [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_D12_14_REVIEW_SUMMARY.tsv > /tmp/d12-14-summary.tsv
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('/tmp/d12-14-summary.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert len(rows)==4
+          print('STEP12_D12_14_REVIEW_PACKET_GITHUB_READBACK_PASS')
+          PY
