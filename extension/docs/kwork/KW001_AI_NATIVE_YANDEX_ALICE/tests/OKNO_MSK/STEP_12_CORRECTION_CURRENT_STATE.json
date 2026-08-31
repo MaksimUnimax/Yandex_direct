@@ -6,6 +6,8 @@
   "historical_first_pass_acceptance_withdrawn": true,
   "step13_blocked": true,
   "open_defects": [
+    "D12-14",
+    "D12-15",
     "D12-05"
   ],
   "verified_fixed_defects": [
@@ -22,7 +24,7 @@
     "D12-12",
     "D12-13"
   ],
-  "current_correction_item": "D12-05",
+  "current_correction_item": "D12-14",
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -36,6 +38,8 @@
     "D12-13",
     "D12-11",
     "D12-06",
+    "D12-14",
+    "D12-15",
     "D12-05"
   ],
   "canonical_defect_ledger": "STEP_12_CORRECTION_DEFECT_LEDGER.tsv",
@@ -43,5 +47,5 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "D12-05 only: build independent final Step12 QA with explicit evidence-origin ledger and validate SPLIT/MERGE by attached support evidence rather than blanket failure. Step13 remains blocked and unexecuted."
+  "next_action": "D12-14: resolve four implementable actions with blank primary targets from evidence, then D12-15 regenerate stale hierarchy confidence reasons, then rerun the same durable independent D12-05 QA. Step13 remains blocked and unexecuted."
 }
