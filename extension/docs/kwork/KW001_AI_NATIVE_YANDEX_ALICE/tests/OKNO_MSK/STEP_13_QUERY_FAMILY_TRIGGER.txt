@@ -1,2 +1,2 @@
-trigger=2026-08-31T14:02:00Z
-goal=materialize 21 query-family cases from 27 surviving pairs and exact current phrase evidence before any fresh Search
+trigger=2026-08-31T14:15:00Z
+goal=rebuild 21 query-family cases against ALL 2332 current phrase assignments after global-materialization defect correction
