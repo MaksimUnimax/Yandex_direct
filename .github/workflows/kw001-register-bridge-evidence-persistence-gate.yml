@@ -1,0 +1,61 @@
+name: KW001 Register Bridge Evidence Persistence Gate
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - '.github/workflows/kw001-register-bridge-evidence-persistence-gate.yml'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/BRIDGE_EVIDENCE_PERSISTENCE_GATE.md'
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Register gate in rules architecture
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/RULES_ARCHITECTURE.md')
+          text = p.read_text(encoding='utf-8')
+          changed = False
+          if 'BRIDGE_EVIDENCE_PERSISTENCE_GATE.md' not in text.split('They define HOW', 1)[0]:
+              old = 'JOB_WORKSPACE_LIFECYCLE.md\nRULES_ARCHITECTURE.md'
+              new = 'JOB_WORKSPACE_LIFECYCLE.md\nBRIDGE_EVIDENCE_PERSISTENCE_GATE.md\nRULES_ARCHITECTURE.md'
+              if old not in text:
+                  raise SystemExit('canonical Layer-A file block not found')
+              text = text.replace(old, new, 1)
+              changed = True
+          old_read = 'B. READ UNIVERSAL PROCESS RULES\nC. READ SOURCE_TO_METHOD_TRACEABILITY_GATE.md'
+          new_read = 'B. READ UNIVERSAL PROCESS RULES, INCLUDING BRIDGE_EVIDENCE_PERSISTENCE_GATE.md BEFORE ANY BRIDGE EXECUTION\nC. READ SOURCE_TO_METHOD_TRACEABILITY_GATE.md'
+          if old_read in text:
+              text = text.replace(old_read, new_read, 1)
+              changed = True
+          marker = '### Mandatory dialogue-start Yandex Marketing Bridge capability alignment'
+          section = '''### Mandatory useful Bridge evidence persistence\n\nAuthority: `BRIDGE_EVIDENCE_PERSISTENCE_GATE.md`.\n\nCanonical rule:\n\n```text\nSUCCESSFUL USEFUL BRIDGE EVIDENCE NEEDED DOWNSTREAM\n-> IMMEDIATE GITHUB WRITE\n-> GITHUB READBACK / ACCOUNTING QA\n-> ONLY THEN ANALYZE OR ISSUE THE NEXT PAID PROVIDER ACTION\n\nERROR / EMPTY ACK / CONTROL-PLANE NOISE WITHOUT DOWNSTREAM EVIDENCE\n-> DO NOT ARCHIVE AS EVIDENCE\n-> RECORD ONLY MINIMAL OPERATIONAL STATE WHEN NEEDED\n\nCHAT != DURABLE PROJECT EVIDENCE STORAGE\n```\n\n'''
+          if '### Mandatory useful Bridge evidence persistence' not in text:
+              if marker not in text:
+                  raise SystemExit('Bridge alignment marker not found')
+              text = text.replace(marker, section + marker, 1)
+              changed = True
+          if changed:
+              p.write_text(text, encoding='utf-8')
+          print('changed=', changed)
+      - name: Commit registration
+        run: |
+          if git diff --quiet; then
+            echo 'No changes required'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/RULES_ARCHITECTURE.md
+          git commit -m 'rules: register Bridge evidence persistence gate [skip ci]'
+          git push
