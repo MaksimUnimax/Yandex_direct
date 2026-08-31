@@ -1,0 +1,36 @@
+name: KW001 Step12 D12-27 Chunk Review
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_27_CHUNK_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  chunk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_chunk_d12_27_packet.py
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_D12_27_REVIEW_CHUNK_*.tsv $base/STEP_12_D12_27_REVIEW_CHUNKS.json
+          git commit -m "step12: persist D12-27 review chunks [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_D12_27_REVIEW_CHUNKS.json > /tmp/c.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/c.json',encoding='utf-8'));assert x['total_rows']>0 and x['chunks']
+          print('STEP12_D12_27_CHUNKS_READBACK_PASS',x)
+          PY
