@@ -397,6 +397,43 @@ NEXT_STEP_ALLOWED = true
 
 ---
 
+## Completed step — Step 12 structural actions
+
+Status: **✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT**
+
+```text
+EFFECTIVE_ASSIGNED_CLUSTERS_ACCOUNTED = 75/75
+SEARCH_REQUIRED_ROWS_PRESERVED = 19/19
+PHRASE_ACTION_MAP_ROWS = 2332
+SILENT_CLUSTER_DROPS = 0
+NEW_COMMERCIAL_PAGE = 2
+NEW_INFORMATIONAL_PAGE = 3
+SPLIT_EXISTING_PAGE = 0
+MERGE_STRUCTURALLY_REDUNDANT_PAGES = 0
+NEW_BRIDGE_REQUESTS = 0
+NEW_BRIDGE_COST_RUB = 0.0
+FINAL_GITHUB_READBACK = PASS
+STEP12_COMPLETE = true
+NEXT_STEP_ALLOWED = true
+```
+
+Primary authorities:
+
+```text
+STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md
+STEP_12_SOURCE_TO_METHOD_TRACE.tsv
+STEP_12_STRUCTURAL_ACTIONS.tsv
+STEP_12_PHRASE_ACTION_MAP.tsv
+STEP_12_PAGE_ACTION_ROLLUP.tsv
+STEP_12_SEARCH_REQUIRED_HANDOFF.tsv
+STEP_12_QA.json
+STEP_12_REPORT.md
+```
+
+No Step-13 cannibalization verdict and no Step-14 architecture freeze were made in Step 12.
+
+---
+
 ## Full roadmap status
 
 | Major step | Meaning | Status |
@@ -415,7 +452,7 @@ NEXT_STEP_ALLOWED = true
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
 | **11. Page ownership** | **Map effective clusters and every active phrase to intended existing URL/state** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** |
-| **12. Structural actions** | **Keep/expand/split/merge/create decisions** | **⬜ NOT STARTED / NEXT ALLOWED** |
+| **12. Structural actions** | **Decide what to keep, strengthen, add, create or deliberately not create** | **✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT** |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
 | 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
@@ -473,3 +510,11 @@ KW001_OKNO_MSK_STEP11_BRIDGE_CODEX_IMMEDIATE_PERSISTENCE_RULE_ACTIVE = true
 KW001_OKNO_MSK_STEP11_COMPLETE = true
 KW001_OKNO_MSK_NEXT_STEP_ALLOWED = true
 ```
+
+KW001_OKNO_MSK_STEP12_COMPLETE = true
+KW001_OKNO_MSK_STEP12_EFFECTIVE_CLUSTERS_ACCOUNTED = 75
+KW001_OKNO_MSK_STEP12_SEARCH_REQUIRED_PRESERVED = 19
+KW001_OKNO_MSK_STEP12_PHRASE_ACTION_MAP_ROWS = 2332
+KW001_OKNO_MSK_STEP12_NEW_COMMERCIAL_PAGES = 2
+KW001_OKNO_MSK_STEP12_NEW_INFORMATIONAL_PAGES = 3
+KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = PASS

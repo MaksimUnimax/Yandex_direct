@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_11_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION
-next_major_step = STEP_12_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
+current_major_step = STEP_12_COMPLETE_AFTER_FULL_STRUCTURAL_ACTION_AUDIT
+next_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -33,6 +33,14 @@ PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md
 
 Current job authorities:
 
+STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md
+STEP_12_SOURCE_TO_METHOD_TRACE.tsv
+STEP_12_STRUCTURAL_ACTIONS.tsv
+STEP_12_PHRASE_ACTION_MAP.tsv
+STEP_12_PAGE_ACTION_ROLLUP.tsv
+STEP_12_SEARCH_REQUIRED_HANDOFF.tsv
+STEP_12_QA.json
+STEP_12_REPORT.md
 ```text
 JOB_FLOW.md
 TEST_ORDER.md
