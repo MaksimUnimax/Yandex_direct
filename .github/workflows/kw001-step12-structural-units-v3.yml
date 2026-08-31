@@ -1,0 +1,56 @@
+name: KW001 Step12 Structural Units V3
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_review_fix_structural_units_v3.py'
+      - '.github/workflows/kw001-step12-structural-units-v3.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Apply V3 readback fix
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_review_fix_structural_units_v3.py
+      - name: Verify candidate V3
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          q=json.loads((root/'STEP_12_STRUCTURAL_UNIT_CORRECTION_QA_V3.json').read_text(encoding='utf-8'))
+          assert q['status']=='CANDIDATE_V3_READBACK_FIX_READY_FOR_SEMANTIC_REVIEW'
+          assert q['source_rows']==2332
+          assert q['search_required_rows']==19
+          assert q['historical_outside_rows_silently_in_scope_without_explicit_salvage']==0
+          assert q['historical_no_page_rows_left_as_unchanged_in_scope_base']==0
+          assert q['defects_closed_by_script_alone']==[]
+          print('STEP12_STRUCTURAL_UNITS_V3_CANDIDATE_VERIFY_PASS')
+          PY
+      - name: Persist V3 immediately
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V3.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTIONS_V3.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNITS_V3.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_NO_PAGE_OUTSIDE_SALVAGE_REVIEW_V3.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTION_QA_V3.json
+          git commit -m "step12: persist structural unit V3 readback correction [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTION_QA_V3.json | grep -q 'CANDIDATE_V3_READBACK_FIX_READY_FOR_SEMANTIC_REVIEW'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_NO_PAGE_OUTSIDE_SALVAGE_REVIEW_V3.tsv | grep -q 'OUTSIDE_CONFIRMED'
+          echo STEP12_STRUCTURAL_UNITS_V3_READBACK_PASS
