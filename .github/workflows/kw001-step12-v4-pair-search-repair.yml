@@ -1,0 +1,55 @@
+name: KW001 Step12 V4 Pair Search Repair
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_V4_PAIR_SEARCH_REPAIR_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Patch builder and independent verifier
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/fix_step12_v4_pair_trigger_circularity.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/patch_step12_v4_pair_search_verifier.py
+      - name: Verify source code
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          b=(r/'step12_build_third_audit_v4.py').read_text(encoding='utf-8')
+          v=(r/'step12_verify_third_audit_v4.py').read_text(encoding='utf-8')
+          assert "CONTRIBUTING_UNIT_ALREADY_SEARCH_PROVISIONAL" not in b
+          assert 'Prior recommendation maturity is downstream state' in b
+          for t in ['expected_pairs_requiring_step13','pair_search_flag_mismatches','pair_search_reason_mismatches','expected_dependency_units','HIST=']:
+              assert t in v,t
+          assert "PENDING_STEP13" not in v
+          print('STEP12_V4_PAIR_SEARCH_SOURCE_REPAIR_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/step12_build_third_audit_v4.py $base/step12_verify_third_audit_v4.py
+          git commit -m "step12: remove circular Step13 trigger and verify search reasons [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/step12_build_third_audit_v4.py > /tmp/b.py
+          git show $remote:$base/step12_verify_third_audit_v4.py > /tmp/v.py
+          python - <<'PY'
+          b=open('/tmp/b.py',encoding='utf-8').read();v=open('/tmp/v.py',encoding='utf-8').read()
+          assert 'CONTRIBUTING_UNIT_ALREADY_SEARCH_PROVISIONAL' not in b
+          assert 'pair_search_flag_mismatches' in v and 'expected_dependency_units' in v
+          print('STEP12_V4_PAIR_SEARCH_REPAIR_GITHUB_READBACK_PASS')
+          PY
