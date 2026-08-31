@@ -1,0 +1,42 @@
+name: KW001 Step12 D12-28 D12-30 Final Reconciliation
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_FINAL_RECONCILIATION_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Reconcile final Step12 outputs
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_reconcile_d12_28_30_final.py
+      - name: Persist reconciliation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $b/STEP_12_D12_28_30_FINAL_RECONCILIATION.json
+          git commit -m "step12: persist D12-28 D12-30 final reconciliation [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Durable readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show origin/roadmap/kwork-productization-2026-08-28:$b/STEP_12_D12_28_30_FINAL_RECONCILIATION.json > /tmp/r.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/r.json',encoding='utf-8'))
+          assert r['status']=='STEP12_D12_28_D12_29_D12_30_FINAL_RECONCILIATION_PASS'
+          assert r['source_active_phrases']==2332
+          assert r['final_phrase_action_rows']==2332
+          assert r['independent_findings']==0
+          assert r['new_page_actions']==0
+          assert r['proposed_new_refs']==0
+          assert not r['step13_executed']
+          print('STEP12_D12_28_30_RECONCILIATION_READBACK_PASS')
+          PY
