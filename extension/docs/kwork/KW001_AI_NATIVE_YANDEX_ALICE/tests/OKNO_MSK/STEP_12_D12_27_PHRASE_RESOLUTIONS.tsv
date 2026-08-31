@@ -1,0 +1,66 @@
+row_no	phrase	old_structural_unit_id	corrected_structural_unit_id	decision_reason
+1	аксессуары для пластиковых окон	WINDOW_ACCESSORIES_GENERAL	WINDOW_ACCESSORIES_GENERAL	Generic supported accessory-shopping task belongs to the existing accessory hub.
+2	аксессуары для пластиковых окон и дверей	WINDOW_ACCESSORIES_GENERAL	WINDOW_ACCESSORIES_GENERAL	Generic accessory-shopping wording; no narrower product task is expressed.
+3	аксессуары для пластиковых окон купить	WINDOW_ACCESSORIES_GENERAL	WINDOW_ACCESSORIES_GENERAL	Direct generic accessory purchase task for the existing accessory hub.
+4	балконный блок французское окно	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Product/configuration wording remains part of French-window commercial selection.
+5	большие французские окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Size modifier within the French-window product task.
+6	высокие французские окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Size modifier within the French-window product task.
+7	для пластикового окна аксессуары gu	WINDOW_ACCESSORIES_GENERAL	AFTERMARKET_WINDOW_HARDWARE_SHOPPING_UNSUPPORTED	GU is a hardware/accessory brand query; the broad third-party catalog/business offer is not verified as a supported first-party catalog.
+8	дом с французскими окнами	FRENCH_WINDOWS_COMMERCIAL	GLAZING_DESIGN_INSPIRATION	No purchase/action modifier; wording asks for an architectural/use-case image or inspiration context.
+9	замена балконного блока на французское окно	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Conversion/replacement to a French-window product is a commercial implementation task, not a DIY how-to wording.
+10	имитация французского окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOW_DEFINITION_INFO	User is trying to understand a form/imitation of the concept, not explicitly buy it.
+11	как из обычного окна сделать французское	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOW_INSTALLATION_DIY	Explicit how-to conversion task.
+12	клапана на алюминиевые окна	WINDOW_ACCESSORIES_GENERAL	ALUMINIUM_WINDOW_COMPONENTS_INFO	The object is an aluminium-window component, not the general PVC accessory hub.
+13	комната с французскими окнами	FRENCH_WINDOWS_COMMERCIAL	GLAZING_DESIGN_INSPIRATION	Room/use-case inspiration rather than a purchase formulation.
+14	комплектующие оконной фурнитуры	WINDOW_ACCESSORIES_GENERAL	AFTERMARKET_WINDOW_HARDWARE_SHOPPING_UNSUPPORTED	Broad hardware-parts/catalog demand is not the supported first-party accessory-hub task.
+15	красивое французское окно	FRENCH_WINDOWS_COMMERCIAL	GLAZING_DESIGN_INSPIRATION	Aesthetic/inspiration wording without transactional intent.
+16	окна с французской раскладкой	FRENCH_WINDOWS_COMMERCIAL	WINDOW_DECORATIVE_BARS_ACCESSORY	The requested object is decorative layout/bars, not a French-window construction itself.
+17	окна французская решетка	FRENCH_WINDOWS_COMMERCIAL	WINDOW_DECORATIVE_BARS_ACCESSORY	The requested object is a decorative grid/layout accessory.
+18	окно французской гостиной	FRENCH_WINDOWS_COMMERCIAL	GLAZING_DESIGN_INSPIRATION	Room/style inspiration wording rather than an order task.
+19	остекление французское окно	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	General French-window glazing/product task.
+20	перегородка французское окно	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOW_DEFINITION_INFO	Ambiguous concept/form query; best treated as understanding the French-window form rather than transactional purchase.
+21	пластиковые окна французское окно	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	PVC/French-window product formulation.
+22	раздвижные окна алюминиевые рама	WINDOW_ACCESSORIES_GENERAL	ALUMINIUM_SLIDING_WINDOWS	The object is an aluminium sliding window/frame, not a generic accessory.
+23	сколько стоят французские окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price/commercial intent.
+24	спальня французское окно	FRENCH_WINDOWS_COMMERCIAL	GLAZING_DESIGN_INSPIRATION	Room/use-case inspiration wording without a transaction modifier.
+25	стоимость французского окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price intent.
+26	устанавливаем французские окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOW_INSTALLATION_DIY	Installation-process wording is separated from the product-buying core; no explicit order/price modifier is present.
+27	французские балконные окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	French-window product use on a balcony remains a product/configuration task.
+28	французские вертикальные задвижки для окон	FRENCH_WINDOWS_COMMERCIAL	AFTERMARKET_WINDOW_HARDWARE_SHOPPING_UNSUPPORTED	The requested object is window hardware (vertical bolts), not a French-window landing task.
+29	французские окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Head product term; retained in the commercial product core.
+30	французские окна в квартире	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Apartment use-case of the French-window product.
+31	французские окна в москве в квартирах	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Local apartment/product demand.
+32	французские окна в пол	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Product/configuration attribute.
+33	французские окна в хрущевке	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Housing-type product/use-case demand.
+34	французские окна в частном	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Private-house use case still specifies the French-window product as the primary object.
+35	французские окна в частном доме	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Private-house use case still specifies the French-window product as the primary object.
+36	французские окна в частном доме цена	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price + product use case.
+37	французские окна вместо балконного блока	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Commercial conversion/product task.
+38	французские окна заказать	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit order intent.
+39	французские окна коричневые	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Color modifier within product selection.
+40	французские окна купить	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit purchase intent.
+41	французские окна москва	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Local product demand.
+42	французские окна на балкон	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Balcony use case still specifies the French-window product.
+43	французские окна на балкон раздвижные	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Opening/configuration modifier within French-window product selection.
+44	французские окна на балкон раздвижные цена	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price + configuration intent.
+45	французские окна на балкон цена	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price + balcony use case.
+46	французские окна на даче	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Object/use-case modifier within the French-window product task.
+47	французские окна на кухню	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Room application can be served as product selection/use-case on the French-window owner.
+48	французские окна на лоджию	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Loggia use case still specifies the French-window product.
+49	французские окна на террасе	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Terrace use case still specifies the French-window product.
+50	французские окна современные	FRENCH_WINDOWS_COMMERCIAL	GLAZING_DESIGN_INSPIRATION	Style/inspiration wording without transactional modifier.
+51	французские окна цена	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price intent.
+52	французские окна черные	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Color modifier within product selection.
+53	французский балкон окно в пол	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Product/use-case formulation for floor-to-ceiling French glazing.
+54	французский блок окно	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOW_DEFINITION_INFO	Concept/form wording without a clear transactional modifier.
+55	французский навес над окнами	FRENCH_WINDOWS_COMMERCIAL	OUTSIDE_REAL_ESTATE_ARCHITECTURE	The requested object is an architectural awning/canopy, not the site's window/glazing product task.
+56	французский тип окон	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOW_DEFINITION_INFO	Explicit type/concept understanding task.
+57	французское окно вместо	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Replacement/conversion product intent, albeit truncated.
+58	французское окно вместо балконного	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Replacement/conversion product intent.
+59	французское окно на балкон в квартире	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Apartment/balcony product use case.
+60	французское окно на балкон в квартире арочное	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Shape/use-case modifier within product selection.
+61	французское окно пвх	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	PVC material modifier within the product task.
+62	французское окно раздвижное	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Opening/configuration modifier within the product task.
+63	французское окно раздвижное цена	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit price + configuration intent.
+64	французское окно распашное	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Opening/configuration modifier within the product task.
+65	широкие французские окна	FRENCH_WINDOWS_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Size modifier within the product task.
