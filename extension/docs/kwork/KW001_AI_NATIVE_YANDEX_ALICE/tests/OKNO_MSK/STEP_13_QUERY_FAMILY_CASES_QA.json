@@ -4,10 +4,10 @@
   "input_surviving_pairs": 27,
   "mapped_surviving_pairs": 27,
   "query_family_cases": 21,
-  "phrase_evidence_rows": 210,
+  "phrase_evidence_rows": 217,
   "materialization_state_counts": {
-    "MULTI_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 8,
-    "SINGLE_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 12,
+    "MULTI_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 9,
+    "SINGLE_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 11,
     "ZERO_REGEX_MATCH_IN_FULL_CURRENT_PHRASE_UNIVERSE": 1
   },
   "zero_match_cases": 1,
