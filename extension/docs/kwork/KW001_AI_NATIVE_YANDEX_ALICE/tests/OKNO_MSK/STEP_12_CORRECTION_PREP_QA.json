@@ -1,0 +1,18 @@
+{
+  "status": "PREPARED_FOR_SEMANTIC_CORRECTION_REVIEW",
+  "step11_phrase_rows": 2332,
+  "historical_step12_phrase_rows": 2332,
+  "historical_override_phrases": 191,
+  "historical_override_unique_phrases": 191,
+  "historical_override_candidate_units": 23,
+  "mandatory_mixed_clusters": 8,
+  "no_page_or_outside_clusters_in_review": 24,
+  "total_clusters_in_semantic_review_packet": 29,
+  "defects_closed_by_this_preparation": [],
+  "defects_still_open": [
+    "D12-01",
+    "D12-02",
+    "D12-08",
+    "D12-09"
+  ]
+}
