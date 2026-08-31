@@ -1,0 +1,2 @@
+trigger=2026-08-31
+goal=register final Step12 execution protocol in canonical rules index and resolve stale reopen marker
