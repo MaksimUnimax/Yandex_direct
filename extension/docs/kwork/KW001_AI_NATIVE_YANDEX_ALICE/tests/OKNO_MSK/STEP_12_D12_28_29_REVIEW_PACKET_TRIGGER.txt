@@ -1,2 +1,2 @@
-trigger=2026-08-31T11:42:00Z
-goal=extract exact 20 quality-gap units and 28 prior IMPLEMENT links for evidence-independent review
+trigger=2026-08-31T11:55:00Z
+goal=extract exact 20 quality-gap units, full member summary and 28 prior IMPLEMENT links for evidence-independent review
