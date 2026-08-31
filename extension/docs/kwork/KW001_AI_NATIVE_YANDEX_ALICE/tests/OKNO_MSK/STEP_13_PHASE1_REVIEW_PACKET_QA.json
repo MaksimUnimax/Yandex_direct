@@ -1,0 +1,28 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP13_PHASE1_REVIEW_PACKET_READY",
+  "input_pairs": 195,
+  "normalized_pairs": 195,
+  "unique_pair_ids": 195,
+  "unique_urls": 47,
+  "chunk_size": 15,
+  "chunks": 13,
+  "chunk_files": [
+    "STEP_13_PAIR_REVIEW_CHUNK_01.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_02.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_03.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_04.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_05.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_06.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_07.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_08.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_09.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_10.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_11.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_12.tsv",
+    "STEP_13_PAIR_REVIEW_CHUNK_13.tsv"
+  ],
+  "provider_calls": 0,
+  "step13_search_executed": false,
+  "silent_pair_drops": 0
+}
