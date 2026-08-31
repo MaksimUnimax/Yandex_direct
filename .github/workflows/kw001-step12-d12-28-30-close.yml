@@ -1,0 +1,152 @@
+name: KW001 Step12 D12-28 D12-30 Close
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_CLOSE_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Prepare closure candidate
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_prepare_d12_28_30_closure.py
+      - name: Persist closure candidate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_PASS_EVIDENCE_INDEPENDENCE_DEFECT_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md
+          git commit -m "step12: persist D12-28 D12-30 closure candidate [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Read back closure candidate before completion
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE
+          job=$base/tests/OKNO_MSK
+          git show $remote:$job/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state.json
+          git show $remote:$job/STEP_12_POST_PASS_EVIDENCE_INDEPENDENCE_DEFECT_LEDGER.tsv > /tmp/def.tsv
+          git show $remote:$base/STEP_RULES_INDEX.md > /tmp/index.md
+          git show $remote:$base/STEP_12_STRUCTURAL_ACTION_METHOD.md > /tmp/method.md
+          git show $remote:$job/JOB_MANIFEST.md > /tmp/manifest.md
+          git show $remote:$job/JOB_FLOW.md > /tmp/flow.md
+          git show $remote:$job/STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md > /tmp/accept.md
+          python - <<'PY'
+          import csv,json
+          s=json.load(open('/tmp/state.json',encoding='utf-8'))
+          d=list(csv.DictReader(open('/tmp/def.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert s['status']=='D12_28_D12_29_D12_30_CLOSURE_CANDIDATE_PENDING_FINAL_STATE_READBACK'
+          assert s['open_defects']==[]
+          assert len(s['verified_fixed_defects'])==30
+          assert s['step12_complete'] is False and s['step13_blocked'] is True and s['step13_executed'] is False
+          assert {r['defect_id'] for r in d}=={'D12-28','D12-29','D12-30'}
+          assert all(r['status']=='VERIFIED_FIXED' and r['correction_artifact'] for r in d)
+          idx=open('/tmp/index.md',encoding='utf-8').read(); method=open('/tmp/method.md',encoding='utf-8').read()
+          manifest=open('/tmp/manifest.md',encoding='utf-8').read(); flow=open('/tmp/flow.md',encoding='utf-8').read(); acc=open('/tmp/accept.md',encoding='utf-8').read()
+          assert 'CLOSURE CANDIDATE / D12-28..D12-30' in idx
+          assert '# 14. Post-PASS D12-28..D12-30 correction' in method
+          assert 'SCHEMA COMPLETENESS != EVIDENCE COMPLETENESS' in method
+          assert 'STEP_12_D12_28_D12_29_D12_30_CLOSURE_CANDIDATE_PENDING_FINAL_STATE_READBACK' in manifest
+          assert '## Post-PASS Step-12 correction — D12-28..D12-30' in flow
+          assert 'CLOSURE CANDIDATE / FINAL STATE READBACK PENDING' in acc
+          print('STEP12_D12_28_30_CLOSURE_CANDIDATE_READBACK_PASS')
+          PY
+      - name: Finalize state after candidate readback
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE')
+          job=base/'tests/OKNO_MSK'
+          statep=job/'STEP_12_CORRECTION_CURRENT_STATE.json'
+          s=json.loads(statep.read_text(encoding='utf-8'))
+          assert s['status']=='D12_28_D12_29_D12_30_CLOSURE_CANDIDATE_PENDING_FINAL_STATE_READBACK'
+          s.update({
+            'status':'STEP12_COMPLETE_AFTER_D12_28_D12_29_D12_30_EVIDENCE_INDEPENDENCE_AND_GLOBAL_COHERENCE_REVALIDATION',
+            'step13_blocked':False,
+            'next_action':'Step 12 complete after D12-28..D12-30 evidence-independent correction and closure-state readback. Step 13 is NOT STARTED / NEXT ALLOWED and requires its own fresh pre-step methodology research/review before execution.',
+            'step13_status':'NOT_STARTED_NEXT_ALLOWED','step12_complete':True,'next_step_allowed':True,
+            'next_major_step':'STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW',
+            'final_github_readback':True,'canonical_closure_readback_passed':True
+          })
+          statep.write_text(json.dumps(s,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          recp=job/'STEP_12_D12_28_30_FINAL_RECONCILIATION.json'
+          r=json.loads(recp.read_text(encoding='utf-8'));r['final_github_readback_pending']=False;r['final_github_readback']=True
+          recp.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          idxp=base/'STEP_RULES_INDEX.md';idx=idxp.read_text(encoding='utf-8')
+          old='| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **CLOSURE CANDIDATE / D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION PASS / FINAL STATE READBACK PENDING** |'
+          new='| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** |'
+          assert old in idx;idx=idx.replace(old,new,1);idxp.write_text(idx,encoding='utf-8')
+          methodp=base/'STEP_12_STRUCTURAL_ACTION_METHOD.md';m=methodp.read_text(encoding='utf-8')
+          m=m.replace('Status: **CLOSURE CANDIDATE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE CORRECTION — FINAL STATE READBACK PENDING**','Status: **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION**',1)
+          methodp.write_text(m,encoding='utf-8')
+          manp=job/'JOB_MANIFEST.md';man=manp.read_text(encoding='utf-8')
+          man=man.replace('current_major_step = STEP_12_D12_28_D12_29_D12_30_CLOSURE_CANDIDATE_PENDING_FINAL_STATE_READBACK','current_major_step = STEP_12_COMPLETE_AFTER_D12_28_D12_29_D12_30_EVIDENCE_INDEPENDENCE_AND_GLOBAL_COHERENCE_REVALIDATION',1)
+          man=man.replace('next_major_step = STEP_12_FINAL_STATE_READBACK_THEN_STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW','next_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW',1)
+          man=man.replace('Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**','Status: **COMPLETE / PASS AFTER D12-28..D12-30 + DURABLE CLOSURE READBACK**',1)
+          man=man.replace('Until closure-state readback completes, Step 13 remains blocked.','Closure-state readback passed. Step 13 is NOT STARTED / NEXT ALLOWED and remains methodologically UNVALIDATED.',1)
+          manp.write_text(man,encoding='utf-8')
+          flowp=job/'JOB_FLOW.md';flow=flowp.read_text(encoding='utf-8')
+          flow=flow.replace('| **12. Structural actions** | **Decide what to keep, strengthen, route, defer or create** | **🔁 CLOSURE CANDIDATE AFTER D12-28..D12-30 / FINAL STATE READBACK PENDING** |','| **12. Structural actions** | **Decide what to keep, strengthen, route, defer or create** | **✅ COMPLETE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** |',1)
+          flow=flow.replace('Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**','Status: **✅ COMPLETE / PASS AFTER DURABLE CLOSURE READBACK**',1)
+          flow=flow.replace('Step 13 remains blocked until this closure-state commit receives durable GitHub readback.','Closure-state readback passed. Step 13 is NOT STARTED / NEXT ALLOWED; fresh Step-13 methodology research/review remains required before execution.',1)
+          final='''\n\n### D12-28..D12-30 final closure markers\n\n```text\nKW001_OKNO_MSK_STEP12_COMPLETE_AFTER_D12_28_30 = true\nKW001_OKNO_MSK_STEP12_VERIFIED_FIXED_DEFECTS = 30\nKW001_OKNO_MSK_STEP12_OPEN_DEFECTS = 0\nKW001_OKNO_MSK_STEP12_FINAL_PHRASE_ACTION_MAP_ROWS = 2332\nKW001_OKNO_MSK_STEP12_STRUCTURAL_UNITS = 168\nKW001_OKNO_MSK_STEP12_AFFECTED_PHRASES_REVIEWED = 322\nKW001_OKNO_MSK_STEP12_EXACT_REASSIGNMENTS = 49\nKW001_OKNO_MSK_STEP12_FINAL_QUALITY_GAP_UNITS = 8\nKW001_OKNO_MSK_STEP12_OLD_IMPLEMENT_LINKS_REVIEWED = 28\nKW001_OKNO_MSK_STEP12_RETAINED_IMPLEMENT_LINKS = 15\nKW001_OKNO_MSK_STEP12_FINAL_LINK_ROWS = 58\nKW001_OKNO_MSK_STEP12_CURRENT_DERIVED_PAIR_ROWS = 195\nKW001_OKNO_MSK_STEP12_FUTURE_STEP13_SEARCH_PAIR_ROWS = 186\nKW001_OKNO_MSK_STEP12_STEP13_DEPENDENCY_UNITS = 98\nKW001_OKNO_MSK_STEP12_INDEPENDENT_FINDINGS = 0\nKW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true\nKW001_OKNO_MSK_STEP13_STATUS = NOT_STARTED_NEXT_ALLOWED\nKW001_OKNO_MSK_STEP13_EXECUTED = false\n```\n'''
+          if '### D12-28..D12-30 final closure markers' not in flow:flow+=final
+          flowp.write_text(flow,encoding='utf-8')
+          accp=job/'STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md';acc=accp.read_text(encoding='utf-8')
+          acc=acc.replace('Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**','Status: **PASS AFTER DURABLE CLOSURE READBACK**',1)
+          acc=acc.replace('Step 12 is **not yet marked complete in this candidate commit**. Completion is allowed only after this candidate state, method authority, rules index, defect ledger and job authorities are read back from GitHub.','Closure candidate state, method authority, rules index, defect ledger and job authorities were durably read back from GitHub. `STEP12_COMPLETE=true`; Step 13 was not executed and is only the next allowed pre-step methodology review.',1)
+          accp.write_text(acc,encoding='utf-8')
+          print('STEP12_D12_28_30_FINAL_STATE_READY')
+          PY
+      - name: Persist final completion state
+        run: |
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_FINAL_RECONCILIATION.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md
+          git commit -m "step12: finalize D12-28 D12-30 closure after readback [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Final durable readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE
+          job=$base/tests/OKNO_MSK
+          git show $remote:$job/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/fstate.json
+          git show $remote:$job/STEP_12_D12_28_30_FINAL_RECONCILIATION.json > /tmp/frec.json
+          git show $remote:$base/STEP_RULES_INDEX.md > /tmp/fidx.md
+          git show $remote:$base/STEP_12_STRUCTURAL_ACTION_METHOD.md > /tmp/fmethod.md
+          git show $remote:$job/JOB_MANIFEST.md > /tmp/fman.md
+          git show $remote:$job/JOB_FLOW.md > /tmp/fflow.md
+          git show $remote:$job/STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md > /tmp/facc.md
+          python - <<'PY'
+          import json
+          s=json.load(open('/tmp/fstate.json',encoding='utf-8'));r=json.load(open('/tmp/frec.json',encoding='utf-8'))
+          assert s['step12_complete'] is True and s['step13_blocked'] is False and s['step13_executed'] is False
+          assert s['open_defects']==[] and len(s['verified_fixed_defects'])==30
+          assert s['final_github_readback'] is True and s['canonical_closure_readback_passed'] is True
+          assert r['final_github_readback'] is True and r['final_github_readback_pending'] is False
+          assert 'APPROVED / ACTIVE AFTER D12-28..D12-30' in open('/tmp/fidx.md',encoding='utf-8').read()
+          method=open('/tmp/fmethod.md',encoding='utf-8').read()
+          assert 'APPROVED / ACTIVE AFTER D12-28..D12-30' in method and 'SCHEMA COMPLETENESS != EVIDENCE COMPLETENESS' in method
+          assert 'current_major_step = STEP_12_COMPLETE_AFTER_D12_28_D12_29_D12_30' in open('/tmp/fman.md',encoding='utf-8').read()
+          assert 'KW001_OKNO_MSK_STEP12_COMPLETE_AFTER_D12_28_30 = true' in open('/tmp/fflow.md',encoding='utf-8').read()
+          assert 'PASS AFTER DURABLE CLOSURE READBACK' in open('/tmp/facc.md',encoding='utf-8').read()
+          print('STEP12_D12_28_D12_29_D12_30_FINAL_DURABLE_READBACK_PASS')
+          PY
