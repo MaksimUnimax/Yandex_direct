@@ -82,6 +82,17 @@ def action_for(unit,uid,hacts):
     if role.startswith('PRIMARY_EXISTING') or 'KEEP_EXISTING_STRUCTURE' in hacts:return 'KEEP_EXISTING_STRUCTURE'
     return 'REVIEW_ACTION_REQUIRED'
 
+def page_targets(unit,uid):
+    primary=unit['primary_page_candidate'];supporting=unit['supporting_page']
+    if uid not in NEW_CORE:return primary,supporting
+    candidate_id=NEW_CORE[uid][0]
+    proposed=new[candidate_id]['proposed_page']
+    if not proposed.startswith('PROPOSED_NEW:'):
+        raise RuntimeError(f'Canonical proposed page missing for {uid}: {proposed}')
+    if primary and not primary.startswith('PROPOSED_NEW:') and primary!=proposed and not supporting:
+        supporting=primary
+    return proposed,supporting
+
 def maturity_for(unit,uid,search):
     st=unit['business_scope_state']
     if st.startswith('DEFERRED') or unit['unit_page_role']=='DEFERRED':return 'DEFERRED_PENDING_MISSING_EVIDENCE'
@@ -109,11 +120,16 @@ for u in units:
     uid=u['structural_unit_id'];rs=members[uid];hacts=source_hist_actions(rs)
     task='WEAK' if u['business_scope_state'].startswith('DEFERRED') or 'AMBIGUOUS' in uid else 'STRONG'
     business=business_dim(u,uid);pagefit=page_fit_dim(u,uid,hacts);demand=demand_dim(rs,uid);search=search_dim(rs,u)
-    hierarchy='PENDING_FOR_PROPOSED_PAGE' if (u['primary_page_candidate'].startswith('PROPOSED_NEW:') or uid in NEW_CORE) else ('NOT_APPLICABLE' if pagefit=='NOT_APPLICABLE' else 'EXISTING_STRUCTURE_KNOWN')
+    primary,supporting=page_targets(u,uid)
+    hierarchy='PENDING_FOR_PROPOSED_PAGE' if primary.startswith('PROPOSED_NEW:') else ('NOT_APPLICABLE' if pagefit=='NOT_APPLICABLE' else 'EXISTING_STRUCTURE_KNOWN')
     action=action_for(u,uid,hacts);maturity=maturity_for(u,uid,search);conf,why=confidence(task,business,pagefit,demand,search,hierarchy,maturity,action)
-    out.append({'structural_unit_id':uid,'phrase_count':len(rs),'source_effective_clusters':u['source_effective_clusters'],'user_task':u['user_task'],'intent_type':u['intent_type'],'business_scope_state':u['business_scope_state'],'unit_page_role':u['unit_page_role'],'primary_page_candidate':u['primary_page_candidate'],'supporting_page':u['supporting_page'],'structural_action':action,'task_coherence':task,'business_truth':business,'current_page_fit':pagefit,'demand_support':demand,'search_boundary_support':search,'hierarchy_clarity':hierarchy,'recommendation_maturity':maturity,'final_confidence':conf,'confidence_downgrade_reason':why,'historical_action_mix':';'.join(sorted(set(hacts))),'confidence_origin':'DERIVED_FROM_EXPLICIT_EVIDENCE_DIMENSIONS__NO_DEFAULT'})
+    out.append({'structural_unit_id':uid,'phrase_count':len(rs),'source_effective_clusters':u['source_effective_clusters'],'user_task':u['user_task'],'intent_type':u['intent_type'],'business_scope_state':u['business_scope_state'],'unit_page_role':u['unit_page_role'],'primary_page_candidate':primary,'supporting_page':supporting,'structural_action':action,'task_coherence':task,'business_truth':business,'current_page_fit':pagefit,'demand_support':demand,'search_boundary_support':search,'hierarchy_clarity':hierarchy,'recommendation_maturity':maturity,'final_confidence':conf,'confidence_downgrade_reason':why,'historical_action_mix':';'.join(sorted(set(hacts))),'confidence_origin':'DERIVED_FROM_EXPLICIT_EVIDENCE_DIMENSIONS__NO_DEFAULT'})
 write(OUT,out,list(out[0].keys()))
-qa={'status':'CANDIDATE_CONFIDENCE_V1_READY_FOR_MANUAL_REVIEW','structural_units':len(out),'default_high_confidence_used':False,'rows_without_evidence_dimensions':sum(any(not r[k] for k in ['task_coherence','business_truth','current_page_fit','demand_support','search_boundary_support','hierarchy_clarity','recommendation_maturity','final_confidence']) for r in out),'high_rows':sum(r['final_confidence']=='HIGH' for r in out),'medium_rows':sum(r['final_confidence']=='MEDIUM' for r in out),'low_rows':sum(r['final_confidence']=='LOW' for r in out),'new_page_high_with_material_search_gap':sum(r['structural_action'] in {'NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE'} and r['final_confidence']=='HIGH' and r['search_boundary_support']=='MATERIAL_BOUNDARY_GAP' for r in out),'conditional_business_high_commercial_create':sum(r['structural_action']=='NEW_COMMERCIAL_PAGE' and r['final_confidence']=='HIGH' and r['business_truth'].startswith('CONDITIONAL') for r in out),'review_action_required_rows':sum(r['structural_action']=='REVIEW_ACTION_REQUIRED' for r in out),'defects_closed_by_script_alone':[],'defects_candidate_for_closure_after_manual_review':['D12-04']}
-if len(out)!=len(units) or qa['rows_without_evidence_dimensions'] or qa['new_page_high_with_material_search_gap'] or qa['conditional_business_high_commercial_create'] or qa['review_action_required_rows']:qa['status']='FAIL'
+canonical_new_targets={uid:new[cid]['proposed_page'] for uid,(cid,_) in NEW_CORE.items()}
+new_action_rows=[r for r in out if r['structural_action'] in {'NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE'}]
+new_target_mismatches=[r['structural_unit_id'] for r in new_action_rows if canonical_new_targets.get(r['structural_unit_id'])!=r['primary_page_candidate']]
+replacement=next(r for r in out if r['structural_unit_id']=='WINDOW_REPLACEMENT_SERVICE')
+qa={'status':'CANDIDATE_CONFIDENCE_V1_READY_FOR_MANUAL_REVIEW','structural_units':len(out),'default_high_confidence_used':False,'rows_without_evidence_dimensions':sum(any(not r[k] for k in ['task_coherence','business_truth','current_page_fit','demand_support','search_boundary_support','hierarchy_clarity','recommendation_maturity','final_confidence']) for r in out),'high_rows':sum(r['final_confidence']=='HIGH' for r in out),'medium_rows':sum(r['final_confidence']=='MEDIUM' for r in out),'low_rows':sum(r['final_confidence']=='LOW' for r in out),'new_page_high_with_material_search_gap':sum(r['structural_action'] in {'NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE'} and r['final_confidence']=='HIGH' and r['search_boundary_support']=='MATERIAL_BOUNDARY_GAP' for r in out),'conditional_business_high_commercial_create':sum(r['structural_action']=='NEW_COMMERCIAL_PAGE' and r['final_confidence']=='HIGH' and r['business_truth'].startswith('CONDITIONAL') for r in out),'review_action_required_rows':sum(r['structural_action']=='REVIEW_ACTION_REQUIRED' for r in out),'new_page_action_rows':len(new_action_rows),'new_page_action_primary_target_mismatches':len(new_target_mismatches),'new_page_action_primary_target_mismatch_units':new_target_mismatches,'replacement_service_primary_target_correct':replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/','replacement_service_existing_installation_preserved_as_supporting':replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/','defects_closed_by_script_alone':[],'defects_candidate_for_closure_after_manual_review':['D12-13']}
+if len(out)!=len(units) or qa['rows_without_evidence_dimensions'] or qa['new_page_high_with_material_search_gap'] or qa['conditional_business_high_commercial_create'] or qa['review_action_required_rows'] or qa['new_page_action_primary_target_mismatches'] or not qa['replacement_service_primary_target_correct'] or not qa['replacement_service_existing_installation_preserved_as_supporting']:qa['status']='FAIL'
 OUT_QA.write_text(json.dumps(qa,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(qa,ensure_ascii=False))
