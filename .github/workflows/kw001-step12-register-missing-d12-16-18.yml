@@ -1,0 +1,54 @@
+name: KW001 Step12 Register Missing D12-16 D12-18
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_missing_d12_16_18.py'
+      - '.github/workflows/kw001-step12-register-missing-d12-16-18.yml'
+permissions:
+  contents: write
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_missing_d12_16_18.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rows=list(csv.DictReader((r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          by={x['defect_id']:x for x in rows}
+          s=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          assert all(f'D12-{i:02d}' in by for i in range(1,21))
+          assert all(by[f'D12-{i:02d}']['status']=='OPEN' for i in range(16,21))
+          assert set(f'D12-{i:02d}' for i in range(16,21)).issubset(s['open_defects'])
+          assert s['step13_blocked'] and not s['step12_complete']
+          print('STEP12_D12_16_18_LEDGER_REGISTRATION_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv $base/STEP_12_CORRECTION_CURRENT_STATE.json
+          git commit -m "step12: register missing D12-16 D12-18 in ledger [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv > /tmp/ledger.tsv
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('/tmp/ledger.tsv',encoding='utf-8',newline=''),delimiter='\t'));by={r['defect_id']:r for r in rows}
+          assert all(f'D12-{i:02d}' in by for i in range(1,21))
+          assert all(by[f'D12-{i:02d}']['status']=='OPEN' for i in range(16,21))
+          print('STEP12_D12_16_18_LEDGER_GITHUB_READBACK_PASS')
+          PY
