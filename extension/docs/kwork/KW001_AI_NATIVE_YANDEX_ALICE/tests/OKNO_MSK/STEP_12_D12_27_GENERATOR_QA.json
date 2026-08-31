@@ -1,0 +1,53 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP12_D12_27_V5_CANDIDATE_READY_FOR_INDEPENDENT_QA",
+  "structural_units": 160,
+  "assignment_rows": 2332,
+  "phrase_map_rows": 2332,
+  "gap_type_missing": 0,
+  "gap_type_counts": {
+    "NONE": 130,
+    "QUALITY_GAP": 20,
+    "EVIDENCE_INSUFFICIENT": 10
+  },
+  "create_rows": 0,
+  "performance_state_missing": 0,
+  "keep_rows": 64,
+  "keep_claiming_no_optimization_needed": 0,
+  "relevant_match_state_missing": 0,
+  "relevant_match_counts": {
+    "NOT_APPLICABLE_NO_INTENDED_TARGET": 28,
+    "NOT_DIRECTLY_CHECKED": 110,
+    "SITE_NOT_OBSERVED": 22
+  },
+  "direct_serp_units": 33,
+  "serp_format_state_missing": 0,
+  "owner_goal_source_missing": 0,
+  "owner_goal_source_counts": {
+    "UNKNOWN": 23,
+    "PUBLIC_SITE_INFERRED": 116,
+    "NOT_APPLICABLE": 7,
+    "PUBLIC_SITE_EXPLICIT": 14
+  },
+  "policy_sensitive_unknown_final": 0,
+  "material_link_units": 66,
+  "internal_link_rows": 66,
+  "internal_link_implement": 28,
+  "internal_link_explicit_na_or_defer": 38,
+  "internal_link_proposed_refs": 0,
+  "candidate_pairs": 189,
+  "pairs_requiring_step13": 171,
+  "step13_dependency_units": 108,
+  "new_bridge_requests": 0,
+  "new_bridge_cost_rub": 0.0,
+  "step13_executed": false,
+  "defects_closed_by_generator_alone": [],
+  "d12_27_reviewed_phrases": 65,
+  "d12_27_reassigned_phrases": 20,
+  "assignment_v6_rows": 2332,
+  "assigned_v6_rows": 2313,
+  "zero_member_structural_units": [],
+  "strong_fit_recheck_rows": 6,
+  "strong_fit_keep_rows": 6,
+  "build_origin": "V4_PROVEN_LOGIC_PLUS_D12_27_EXACT_PHRASE_RESOLUTIONS_AND_STRONG_FIT_RECHECK"
+}
