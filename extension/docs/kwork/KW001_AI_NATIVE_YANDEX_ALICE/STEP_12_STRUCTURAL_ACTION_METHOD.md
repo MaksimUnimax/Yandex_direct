@@ -1,6 +1,6 @@
 # Step 12 — Structural action method
 
-Status: **REOPENED / THIRD EXTERNAL METHOD CORRECTION IN PROGRESS — GAP TYPE + PERFORMANCE BOUNDARY + TARGET-VS-RELEVANT + SERP FORMAT + OWNER-GOAL SOURCE + EXISTING-PAGE INTERNAL LINKS**  
+Status: **APPROVED / ACTIVE AFTER THIRD EXTERNAL METHOD AUDIT + D12-27 PHRASE-LEVEL REVALIDATION — GAP TYPE + PERFORMANCE BOUNDARY + TARGET-VS-RELEVANT + SERP FORMAT + OWNER-GOAL SOURCE + EXISTING-PAGE INTERNAL LINKS**  
 Scope: reusable Step-12 method for deciding what an existing site should keep, strengthen, add, create, split, merge or deliberately not create after phrase-level page ownership has been established.  
 Step boundary: structural recommendations only. Real cannibalization diagnosis belongs to Step 13; final Search architecture freeze belongs to Step 14.
 
@@ -898,6 +898,40 @@ POLICY_SENSITIVE_UNKNOWN_OWNER_GOAL_PRESENTED_AS_FINAL = 0
 MATERIAL_ROUTE_WITHOUT_LINK_ACTION_OR_EXPLICIT_NA_DEFER = 0
 INTERNAL_LINK_TO_WITHDRAWN_PROPOSED_NEW_PAGE = 0
 ```
+
+
+
+## Defect 27 — evidence-first page recheck exposed residual mixed structural units
+
+### What happened
+After D12-21 introduced explicit gap diagnosis, evidence-first review of strong current-page fits exposed that `FRENCH_WINDOWS_COMMERCIAL` and `WINDOW_ACCESSORIES_GENERAL` still mixed different terminal user tasks. The French unit combined genuine commercial demand with inspiration, concept, DIY and hardware phrases. The general-accessories unit mixed generic accessory shopping with aftermarket hardware and aluminium-specific component/frame tasks.
+
+### Why it seemed reasonable
+The phrases shared strong lexical/product-family similarity, and earlier correction rounds had already removed several obvious outliers. Once a unit had survived repeated QA, it was easy to treat the unit ID itself as evidence that the remaining members were coherent.
+
+### Why that is wrong
+A structural unit is an analytical hypothesis, not permanent truth. Fresh page/gap evidence can expose a contradiction that was invisible under an earlier coarse boundary. If the unit mixes terminal tasks, every later gap type, page-fit and structural action aggregates incompatible evidence.
+
+### Permanent correction
+Whenever a fresh current-page, gap-type, owner-goal or Search-boundary review materially changes the understanding of a structural unit, re-open **all member phrases of that unit** before retaining the unit as a final boundary.
+
+```text
+MATERIAL LATER EVIDENCE CONTRADICTS OR NARROWS A STRUCTURAL UNIT
+→ EXTRACT ALL MEMBER PHRASES
+→ REVIEW EACH PHRASE AGAINST TERMINAL USER TASK / PAGE EXPECTATION
+→ REASSIGN TO EXISTING VALID UNIT OR EXPLICIT NEW/DEFERRED UNIT
+→ RECOMPUTE UNIT COUNTS / ACTIONS / PHRASE MAP / INTERNAL LINKS / PAIR GRAPH
+→ INDEPENDENT EXACT-PHRASE REGRESSION
+```
+
+Do not review only the phrase that exposed the problem. One contradiction is evidence that the unit boundary itself must be challenged.
+
+**Why:** later evidence must be allowed to falsify an earlier cluster/unit. Otherwise the methodology becomes self-sealing.
+
+### OKNO-MSK regression evidence
+The D12-27 review explicitly inspected 65 phrases. Twenty were reassigned; the French commercial core retained 42 true commercial phrases and the generic-accessory core retained 3 true generic phrases. The final V5/V6 independent verifier checks all 65 exact resolutions and recomputes the downstream graph.
+
+---
 
 
 # 4. Correct Step-12 working model

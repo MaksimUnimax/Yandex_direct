@@ -1,20 +1,12 @@
 {
   "date": "2026-08-31",
   "step": 12,
-  "status": "REOPENED_AFTER_THIRD_EXTERNAL_METHOD_AUDIT",
+  "status": "STEP12_COMPLETE_AFTER_THIRD_EXTERNAL_METHOD_AUDIT_D12_27_PHRASE_LEVEL_REVALIDATION",
   "historical_first_pass_preserved": true,
   "historical_first_pass_acceptance_withdrawn": true,
   "previous_corrected_acceptance_preserved_as_superseded_until_revalidation": true,
-  "step13_blocked": true,
-  "open_defects": [
-    "D12-21",
-    "D12-22",
-    "D12-23",
-    "D12-24",
-    "D12-25",
-    "D12-26",
-    "D12-27"
-  ],
+  "step13_blocked": false,
+  "open_defects": [],
   "verified_fixed_defects": [
     "D12-01",
     "D12-02",
@@ -35,9 +27,16 @@
     "D12-17",
     "D12-18",
     "D12-19",
-    "D12-20"
+    "D12-20",
+    "D12-21",
+    "D12-22",
+    "D12-23",
+    "D12-24",
+    "D12-25",
+    "D12-26",
+    "D12-27"
   ],
-  "current_correction_item": "D12-21",
+  "current_correction_item": null,
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -73,12 +72,12 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "Resolve D12-21..D12-26: gap typing, structural-vs-performance separation, target-vs-relevant URL state, SERP format/angle evidence, owner-goal evidence source, and implementable internal-link actions; rebuild Step12 outputs and independent QA before Step13.",
+  "next_action": "Step 12 complete after third external audit and D12-27 exact phrase revalidation. Step 13 is NOT STARTED / NEXT ALLOWED and requires its own fresh methodology research/review before execution.",
   "step13_executed": false,
-  "step13_status": "BLOCKED_BY_REOPENED_STEP12",
-  "step12_complete": false,
-  "next_step_allowed": false,
-  "next_major_step": "STEP_12_THIRD_EXTERNAL_METHOD_AUDIT_CORRECTION",
+  "step13_status": "NOT_STARTED_NEXT_ALLOWED",
+  "step12_complete": true,
+  "next_step_allowed": true,
+  "next_major_step": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW",
   "final_github_readback": false,
   "canonical_closure_readback_passed": false
 }
