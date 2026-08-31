@@ -122,3 +122,19 @@ NEXT_STEP_ALLOWED = false
 ```
 
 The previously closed D12-01..D12-15 history remains preserved; these are newly discovered post-close defects, not a rewrite of prior provenance.
+
+---
+
+## D12-19 — second false CREATE: replacement page already exists
+
+The accepted Step 12 proposed `PROPOSED_NEW:/uslugi/zamena-okon/`. Fresh first-party discovery found `https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire/`, a current commercial page with price, CTA, replacement rationale, product options and installation workflow. This proves the stale-absence failure was systematic, not a one-off panoramic-page miss. Withdraw CREATE and re-audit the replacement phrase set against current replacement/installation/aluminium/repair pages.
+
+Status: **OPEN**
+
+---
+
+## D12-20 — hardware guide CREATE ignored existing-content reuse
+
+The accepted Step 12 proposed `PROPOSED_NEW:/stati/okonnaya-furnitura-vidy-brendy-kak-vybrat/`. Fresh current-site review shows that `/stati/kak-vybrat-plastikovye-okna/` already contains a substantial hardware-selection section, while specific hardware/accessory pages cover product-level needs. The old logic confused `no single exact owner` with `no useful current content`. Withdraw broad CREATE unless a fresh content-reuse audit proves a distinct uncovered task; prefer expand/section/route actions first.
+
+Status: **OPEN**

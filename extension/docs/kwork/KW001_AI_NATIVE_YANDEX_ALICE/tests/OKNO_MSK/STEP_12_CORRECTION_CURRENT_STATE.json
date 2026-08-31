@@ -9,7 +9,9 @@
   "open_defects": [
     "D12-16",
     "D12-17",
-    "D12-18"
+    "D12-18",
+    "D12-19",
+    "D12-20"
   ],
   "verified_fixed_defects": [
     "D12-01",
@@ -47,7 +49,9 @@
     "D12-05",
     "D12-16",
     "D12-17",
-    "D12-18"
+    "D12-18",
+    "D12-19",
+    "D12-20"
   ],
   "canonical_defect_ledger": "STEP_12_CORRECTION_DEFECT_LEDGER.tsv",
   "post_close_owner_challenge": "STEP_12_POST_CLOSE_OWNER_CHALLENGE_2026-08-31.md",
@@ -55,7 +59,7 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "First resolve D12-16..D12-18. D12-16: replace false panoramic CREATE with current existing-page analysis. D12-17/D12-18: add explicit owner-commercial-objective and existing-content-reuse checks before approving informational content that can substitute for paid services. Then rerun independent Step12 QA. Step13 remains blocked and unexecuted.",
+  "next_action": "Resolve D12-16..D12-20 under the new current-site freshness, owner-goal and existing-content reuse gates; re-evaluate all five former new-page candidates; rebuild Step12 outputs and independent QA. Step13 remains blocked.",
   "step13_executed": false,
   "step13_status": "BLOCKED_BY_REOPENED_STEP12",
   "step12_complete": false,
