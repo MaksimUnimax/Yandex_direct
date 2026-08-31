@@ -1,0 +1,35 @@
+name: KW001 Step13 Persisted Search Evidence
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_13_PERSISTED_SEARCH_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  join:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Join persisted Step9 Search evidence
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step13_join_persisted_search_evidence.py
+      - name: Persist and durable readback
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $b/STEP_13_EXISTING_SEARCH_EVIDENCE.tsv $b/STEP_13_EXISTING_SEARCH_CASE_SUMMARY.tsv $b/STEP_13_EXISTING_SEARCH_EVIDENCE_QA.json
+          git commit -m "step13: persist reused Step9 Search evidence [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:$b/STEP_13_EXISTING_SEARCH_EVIDENCE_QA.json > /tmp/q.json
+          python - <<'PY'
+          import json
+          q=json.load(open('/tmp/q.json'))
+          assert q['query_family_cases']==21
+          assert q['provider_calls']==0 and not q['fresh_search_executed']
+          print('STEP13_PERSISTED_SEARCH_READBACK_PASS',q['case_query_direct_rows'],q['cases_with_persisted_direct_search'])
+          PY
