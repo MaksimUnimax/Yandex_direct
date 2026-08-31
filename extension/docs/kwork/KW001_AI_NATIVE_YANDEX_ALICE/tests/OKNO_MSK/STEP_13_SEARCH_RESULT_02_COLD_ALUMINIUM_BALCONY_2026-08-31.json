@@ -1,0 +1,118 @@
+{
+  "date": "2026-08-31",
+  "step": 13,
+  "sequence_index": 2,
+  "job_id": "kw001-okno-msk-search-step13-20260831",
+  "query": "холодное алюминиевое остекление балконов",
+  "request_id": "search-batch-6d6bf8f8-ca97-4a4d-995b-6b2eefd67132",
+  "item_id": "kw001-okno-msk-search-step13-20260831:737ef870d58620de",
+  "status": "SUCCEEDED",
+  "request_executed": true,
+  "http_status": 200,
+  "bridge_version_observed": "0.1.1",
+  "service": "search",
+  "region": "213",
+  "search_type": "SEARCH_TYPE_RU",
+  "groups_on_page": 10,
+  "response_format": "FORMAT_XML",
+  "elapsed_ms": 2028,
+  "estimated_cost_rub": 0.488,
+  "claimed_at": "2026-08-31T14:37:09.306Z",
+  "request_started_at": "2026-08-31T14:37:09.412Z",
+  "completed_at": "2026-08-31T14:37:11.612Z",
+  "job_progress_after_result": {
+    "total": 16,
+    "pending": 14,
+    "succeeded": 2,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "requests_started": 2,
+    "estimated_cost_rub": 0.976,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "results": [
+    {
+      "rank": 1,
+      "url": "https://www.msk.okna-servise.com/osteklenie-balkonov/holodnoje/",
+      "domain": "www.msk.okna-servise.com",
+      "title": "Холодное остекление балконов в Москве, цена на холодное...",
+      "snippet": "Стоимость холодного остекления балконов и лоджий раздвижным алюминиевым профилем под ключ зависит от нескольких факторов: тип профиля (распашные окна, раздвижные или комбинированные), площади проема, цвета окон, примененного стекла, наличия или отсутствия в т. з. задачи вынести остекление за парапет, необходимости изготовить крышу, а также количества эркерных соединений).",
+      "modtime": "20200618T192737"
+    },
+    {
+      "rank": 2,
+      "url": "https://www.msk.okna-servise.com/holodnoe-osteklenie/",
+      "domain": "www.msk.okna-servise.com",
+      "title": "Холодное остекление",
+      "snippet": "Холодное остекление балконов в Москве. … Холодное остекление балкона. ПОПУЛЯРНО ПРИ ЛЕГКОМ ОСТЕКЛЕНИИ БАЛКОНА: Надежно защитит ваш балкон от ветра, шума и пыли. Температура в остекленном помещении будет в среднем выше на 5 градусов уличной.",
+      "modtime": "20220411T133353"
+    },
+    {
+      "rank": 3,
+      "url": "https://aluminarium.ru/alyuminievoe-osteklenie-balkona/",
+      "domain": "aluminarium.ru",
+      "title": "Алюминиевое остекление балкона - цена от 8 000 руб/м2, купить...",
+      "snippet": "Алюминиевое остекление балкона и лоджии начинается с проекта, а заканчивается монтажом. … Воплощение идеи остекления балкона начинается с проекта, затем изготавливается конструкция из алюминиевого профиля, которая доставляется на объект и устанавливается в соответствии с техническим регламентом.",
+      "modtime": "20230829T164455"
+    },
+    {
+      "rank": 4,
+      "url": "https://www.mosokna.ru/balkony-lodzhii/holodnoe-osteklenie",
+      "domain": "www.mosokna.ru",
+      "title": "Холодное остекление балконов и лоджий алюминиевым...",
+      "snippet": "Цены на холодное остекление балконов и лоджий в типовых домах Москвы. … Компания «Московские окна» осуществляет остекление балконов современным надежным профилем ПВХ и предлагает услуги по холодному остеклению балконов и лоджий алюминиевым профилем.",
+      "modtime": "20151202T231604"
+    },
+    {
+      "rank": 5,
+      "url": "https://www.balkoni-nedorogo.ru/cold-osteklenie.html",
+      "domain": "www.balkoni-nedorogo.ru",
+      "title": "\"Балконы Недорого\" — остекление алюминиевым профилем...",
+      "snippet": "Остекление балкона алюминиевыми окнами Provedal. … Французское остекление балкона под ключ с тонированным стеклопакетом. Клиент: Егоров Александр Викторович. Адрес: Москва, ул. Маршала Бирюзова, д. 28.",
+      "modtime": "20190823T030000"
+    },
+    {
+      "rank": 6,
+      "url": "https://himki.ramokna.ru/osteklenie-balkonov/holodnoe/",
+      "domain": "himki.ramokna.ru",
+      "title": "\"Холодное\" остекление балконов и лоджий алюминиевым...",
+      "snippet": "Качественное остекление балконов и лоджий раздвижной системой Provedal под ключ. Лучшая цена в Химках, гарантия 5 лет. … Алюминиевые створки, раздвигающиеся в обоих направлениях. Возможно остекление со вставками глухих створок.",
+      "modtime": "20180125T062851"
+    },
+    {
+      "rank": 7,
+      "url": "https://www.mosokna.ru/balkony-lodzhii",
+      "domain": "www.mosokna.ru",
+      "title": "Остекление балконов и лоджий под ключ в Москве | Московские...",
+      "snippet": "Холодное остекление — недорогое решение, которое предполагает монтаж раздвижных рам, собранных из алюминиевого профиля. Если вы хотите заказать остекление балконов и лоджий недорого в Москве, выбирайте второй вариант.",
+      "modtime": "20140528T183406"
+    },
+    {
+      "rank": 8,
+      "url": "https://www.plastika-okon.ru/osteklenie-balkonov-i-lodzhij/",
+      "domain": "www.plastika-okon.ru",
+      "title": "Остекление балконов и лоджий под ключ в Москве Цена от...",
+      "snippet": null,
+      "modtime": "20090201T030000"
+    },
+    {
+      "rank": 9,
+      "url": "https://al-solution.ru/production/balconies",
+      "domain": "al-solution.ru",
+      "title": "Остекление балконов и лоджий алюминиевым профилем - цены...",
+      "snippet": null,
+      "modtime": "20180319T030000"
+    },
+    {
+      "rank": 10,
+      "url": "https://www.mosbalkon.ru/osteklenie-balkonov/alyuminiyevoye/",
+      "domain": "www.mosbalkon.ru",
+      "title": "Алюминиевое остекление балконов под ключ по... | МосБалкон",
+      "snippet": "Наша компания предлагает широкий выбор алюминиевых систем для балконов: холодное и теплое остекление, раздвижные и распашные конструкции, панорамное и безрамное остекление. Мы гарантируем низкие цены от производителя — заказать остекление балкона в Москве и Московской области можно недорого, с возможностью получить выгодную скидку.",
+      "modtime": "20250314T062626"
+    }
+  ],
+  "result_count": 10,
+  "evidence_persistence_reason": "SUCCESSFUL_SUBSTANTIVE_PROVIDER_EVIDENCE_REQUIRED_FOR_STEP13_ANALYSIS",
+  "analysis_status_at_write": "NOT_YET_ANALYZED__PERSISTED_BEFORE_ANALYSIS_PER_BRIDGE_EVIDENCE_GATE"
+}
