@@ -1,11 +1,16 @@
 {
   "date": "2026-08-31",
   "step": 12,
-  "status": "STEP12_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_FAIL_CLOSED_CORRECTION_AND_INDEPENDENT_QA",
+  "status": "REOPENED_AFTER_POST_CLOSE_OWNER_BUSINESS_GOAL_CHALLENGE",
   "historical_first_pass_preserved": true,
   "historical_first_pass_acceptance_withdrawn": true,
-  "step13_blocked": false,
-  "open_defects": [],
+  "previous_corrected_acceptance_preserved_as_superseded_until_revalidation": true,
+  "step13_blocked": true,
+  "open_defects": [
+    "D12-16",
+    "D12-17",
+    "D12-18"
+  ],
   "verified_fixed_defects": [
     "D12-01",
     "D12-02",
@@ -23,7 +28,7 @@
     "D12-14",
     "D12-15"
   ],
-  "current_correction_item": null,
+  "current_correction_item": "D12-16",
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -39,19 +44,23 @@
     "D12-06",
     "D12-14",
     "D12-15",
-    "D12-05"
+    "D12-05",
+    "D12-16",
+    "D12-17",
+    "D12-18"
   ],
   "canonical_defect_ledger": "STEP_12_CORRECTION_DEFECT_LEDGER.tsv",
+  "post_close_owner_challenge": "STEP_12_POST_CLOSE_OWNER_CHALLENGE_2026-08-31.md",
   "canonical_correction_plan": "STEP_12_CORRECTION_PLAN_2026-08-31.md",
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "Step 12 is complete. Step 13 is NOT STARTED. If the owner authorizes continuation, first run fresh Step-13 pre-step methodology research/review because Step 13 remains UNVALIDATED in STEP_RULES_INDEX.md.",
+  "next_action": "First resolve D12-16..D12-18. D12-16: replace false panoramic CREATE with current existing-page analysis. D12-17/D12-18: add explicit owner-commercial-objective and existing-content-reuse checks before approving informational content that can substitute for paid services. Then rerun independent Step12 QA. Step13 remains blocked and unexecuted.",
   "step13_executed": false,
-  "step13_status": "NOT_STARTED_NEXT_ALLOWED",
-  "step12_complete": true,
-  "next_step_allowed": true,
-  "next_major_step": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW",
-  "final_github_readback": true,
-  "canonical_closure_readback_passed": true
+  "step13_status": "BLOCKED_BY_REOPENED_STEP12",
+  "step12_complete": false,
+  "next_step_allowed": false,
+  "next_major_step": "STEP_12_POST_CLOSE_OWNER_CHALLENGE_CORRECTION",
+  "final_github_readback": false,
+  "canonical_closure_readback_passed": false
 }
