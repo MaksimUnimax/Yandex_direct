@@ -1,0 +1,35 @@
+name: KW001 Step12 Existing Evidence Inventory
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_discover_existing_demand_search_evidence.py'
+      - '.github/workflows/kw001-step12-evidence-inventory.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build evidence inventory
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_discover_existing_demand_search_evidence.py
+      - name: Persist inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_EXISTING_DEMAND_SEARCH_EVIDENCE_INVENTORY.md
+          git commit -m "step12: inventory existing demand and Search evidence [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_EXISTING_DEMAND_SEARCH_EVIDENCE_INVENTORY.md | grep -q 'producing-step authority'
+          echo STEP12_EXISTING_EVIDENCE_INVENTORY_READBACK_PASS
