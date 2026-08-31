@@ -1,2 +1,2 @@
-trigger=2026-08-31T13:40:00Z
-goal=build compact semantic review packet for all 195 Step13 pairs
+trigger=2026-08-31T13:45:00Z
+goal=rebuild ultra-compact semantic review packet for all 195 Step13 pairs without truncation
