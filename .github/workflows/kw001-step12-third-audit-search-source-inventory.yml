@@ -1,0 +1,50 @@
+name: KW001 Step12 Third Audit Search Source Inventory
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_SEARCH_SOURCE_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build inventory
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_third_audit_search_source_inventory.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_SEARCH_SOURCE_INVENTORY.tsv')
+          rows=list(csv.DictReader(p.open(encoding='utf-8',newline=''),delimiter='\t'))
+          assert rows
+          assert any(r['file'].startswith('STEP_09') for r in rows)
+          assert any(r['file'].startswith('STEP_11') for r in rows)
+          print('STEP12_THIRD_AUDIT_SEARCH_SOURCE_INVENTORY_PASS',len(rows))
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          f=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_SEARCH_SOURCE_INVENTORY.tsv
+          git add $f
+          git commit -m "step12: persist third-audit Search source inventory [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          f=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_SEARCH_SOURCE_INVENTORY.tsv
+          git show $remote:$f > /tmp/inventory.tsv
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('/tmp/inventory.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert rows
+          print('STEP12_THIRD_AUDIT_SEARCH_SOURCE_GITHUB_READBACK_PASS',len(rows))
+          PY
