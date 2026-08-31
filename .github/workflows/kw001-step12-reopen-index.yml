@@ -1,0 +1,42 @@
+name: KW001 Step12 Reopen Rules Index
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REOPEN_INDEX_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Patch Step12 methodology status
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md')
+          t=p.read_text(encoding='utf-8')
+          old='| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER THIRD EXTERNAL METHOD AUDIT + D12-27 PHRASE-LEVEL REVALIDATION** | **`STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — explicit gap diagnosis; structural ownership separated from performance claims; intended-vs-observed Yandex URL state; SERP type/format/angle provenance; owner-goal source strength; implementable internal links for material existing-page `ROUTE/SECTION/EXPAND/support` relations as well as hierarchy for accepted new/split pages; later material evidence must trigger full member-phrase revalidation of affected structural units before acceptance. |'
+          new='| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **REOPENED / POST-PASS D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE CORRECTION IN PROGRESS** | **`STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — historical D12-01..D12-27 corrections remain valid evidence, but prior completion is withdrawn because action-derived QUALITY_GAP and routing-derived IMPLEMENT states were not independently proven and D12-27 known-regression QA was not a global coherence pass. Current acceptance requires fresh current-content evidence for every affected content-changing action, current source+target validation for every IMPLEMENT link, complete 322-phrase member review for the 20 affected units, downstream rebuild, independent recomputation and GitHub readback. Step 13 remains blocked until current-job closure. |'
+          assert old in t
+          t=t.replace(old,new)
+          marker='KW001_STEP12_METHOD_APPROVED_AFTER_THIRD_AUDIT_D12_27 = true'
+          repl='KW001_STEP12_METHOD_APPROVED_AFTER_THIRD_AUDIT_D12_27 = historical_superseded\nKW001_STEP12_REOPENED_AFTER_POST_PASS_EVIDENCE_AUDIT = true\nKW001_STEP12_ACTION_CANNOT_PROVE_ITSELF = true\nKW001_STEP12_KNOWN_REGRESSION_ZERO_NOT_EQUAL_GLOBAL_COHERENCE = true'
+          assert marker in t
+          t=t.replace(marker,repl)
+          p.write_text(t,encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md
+          git commit -m "step12: mark post-pass evidence correction in rules index [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md | grep -F 'D12-28..D12-30 EVIDENCE-INDEPENDENCE'
