@@ -74,6 +74,45 @@ observed installed Bridge version or active service when operationally material
 
 This is not an instruction to archive the entire control response.
 
+## Paid UNKNOWN / no-result retry rule
+
+Owner authorization dated 2026-08-31:
+
+```text
+IF A PAID QUESTION / PROVIDER REQUEST DOES NOT RETURN A USABLE RESULT
+OR RETURNS OUTCOME_UNKNOWN
+THEN UP TO 3 ADDITIONAL PAID RETRIES OF THE SAME QUESTION ARE AUTHORIZED.
+```
+
+This is **three retries after the original failed/unknown attempt**, not three total attempts.
+
+Mandatory communication before every retry:
+
+```text
+BEFORE RETRY N/3, CHAT MUST STATE:
+- exact query/question being retried;
+- retry ordinal: 1/3, 2/3, or 3/3;
+- expected incremental provider cost / budget effect when known;
+- reason for retry (previous attempt returned no usable result / OUTCOME_UNKNOWN).
+```
+
+Retry execution rule:
+
+```text
+FAILED_OR_UNKNOWN_INITIAL_ATTEMPT
+-> RECORD MINIMAL OPERATIONAL STATE
+-> ANNOUNCE RETRY 1/3 IN CHAT
+-> EXECUTE ONE RETRY
+-> IF SUCCESSFUL USEFUL EVIDENCE: IMMEDIATE GITHUB WRITE + READBACK, STOP RETRYING
+-> IF AGAIN NO RESULT / UNKNOWN: ANNOUNCE RETRY 2/3
+-> SAME FOR RETRY 3/3
+-> AFTER RETRY 3/3 FAILS: NO FURTHER PAID REPLAY WITHOUT NEW OWNER AUTHORIZATION
+```
+
+Do not silently retry. The owner has pre-authorized the paid retries, but each one must still be disclosed before execution.
+
+Each retry cost is accounted separately from the original request. A previous job-level cost ceiling does not silently cover retry spend beyond that ceiling; retry spend is authorized by this explicit owner retry rule and must be reported in the current job state/accounting.
+
 ## Analysis source rule
 
 After useful Bridge evidence has been persisted:
@@ -93,6 +132,8 @@ NEXT_PAID_PROVIDER_ACTION_BEFORE_REQUIRED_WRITE_READBACK = PROHIBITED
 CHAT_AS_ONLY_COPY_OF_USEFUL_PROVIDER_EVIDENCE = PROHIBITED
 RUNTIME_STORAGE_AS_ONLY_COPY_OF_USEFUL_PROVIDER_EVIDENCE = PROHIBITED
 ADMINISTRATIVE_BRIDGE_MESSAGE_ARCHIVED_AS_EVIDENCE_WITHOUT_DOWNSTREAM_NEED = PROCESS_NOISE
+SILENT_PAID_RETRY = PROHIBITED
+MORE_THAN_3_RETRIES_AFTER_NO_RESULT_WITHOUT_NEW_OWNER_AUTHORIZATION = PROHIBITED
 ```
 
 If GitHub write or readback fails:
