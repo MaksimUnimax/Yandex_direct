@@ -1,0 +1,67 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP12_D12_28_D12_29_D12_30_FINAL_RECONCILIATION_PASS",
+  "source_active_phrases": 2332,
+  "assigned_phrases": 2313,
+  "unresolved_or_search_required_phrases": 19,
+  "final_phrase_action_rows": 2332,
+  "final_structural_units": 168,
+  "structural_action_counts": {
+    "ADD_SECTION_OR_FAQ_TO_EXISTING": 6,
+    "DEFER_PENDING_EVIDENCE": 20,
+    "EXPAND_EXISTING_PAGE": 2,
+    "KEEP_EXISTING_STRUCTURE": 72,
+    "NO_STANDALONE_PAGE": 15,
+    "OUTSIDE_SCOPE_NO_ACTION": 7,
+    "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": 46
+  },
+  "structural_gap_counts": {
+    "NONE": 149,
+    "STRUCTURAL_EVIDENCE_INSUFFICIENT": 19
+  },
+  "content_enhancement_counts": {
+    "CONTENT_EVIDENCE_INSUFFICIENT": 11,
+    "NONE": 140,
+    "NOT_ASSESSED": 9,
+    "QUALITY_GAP": 8
+  },
+  "legacy_gap_type_counts": {
+    "EVIDENCE_INSUFFICIENT": 20,
+    "NONE": 140,
+    "QUALITY_GAP": 8
+  },
+  "recommendation_maturity_counts": {
+    "DEFERRED_PENDING_MISSING_EVIDENCE": 22,
+    "FINAL_WITHIN_STEP12_EVIDENCE": 45,
+    "PROVISIONAL_PENDING_STEP13_CONFLICT_CHECK": 101
+  },
+  "final_confidence_counts": {
+    "HIGH": 34,
+    "LOW": 22,
+    "MEDIUM": 112
+  },
+  "link_action_counts": {
+    "DEFER_SOURCE_CONTEXT_NOT_MATERIALIZED": 6,
+    "DEFER_TARGET_CONTENT_GAP": 7,
+    "IMPLEMENT": 15,
+    "NOT_APPLICABLE_NO_DISTINCT_SOURCE_CONTEXT": 23,
+    "NOT_APPLICABLE_NO_DISTINCT_TARGET": 7
+  },
+  "final_link_rows": 58,
+  "prior_implement_links_reviewed": 28,
+  "retained_implement_links": 15,
+  "affected_source_units": 20,
+  "affected_source_phrases": 322,
+  "exact_reassignments": 49,
+  "quality_gap_units_after_revalidation": 8,
+  "candidate_pairs": 195,
+  "pairs_requiring_step13": 186,
+  "step13_dependency_units": 98,
+  "new_page_actions": 0,
+  "proposed_new_refs": 0,
+  "quality_gap_without_explicit_missing_need": 0,
+  "independent_findings": 0,
+  "final_github_readback_pending": true,
+  "step13_executed": false,
+  "reconciliation_origin": "V7_ASSIGNMENTS_V6_ACTIONS_V6_MAP_V6_LINKS_V6_PAIRS_PLUS_INDEPENDENT_D12_28_29_30_QA"
+}
