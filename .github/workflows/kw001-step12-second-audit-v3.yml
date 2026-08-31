@@ -1,0 +1,95 @@
+name: KW001 Step12 Second Audit V3
+
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_second_audit_current_v3.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_second_audit_v3.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_CURRENT_SITE_BUSINESS_CORRECTIONS.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_SECOND_AUDIT_FRESHNESS_EVIDENCE.tsv'
+      - '.github/workflows/kw001-step12-second-audit-v3.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: kw001-step12-second-audit-v3
+  cancel-in-progress: false
+jobs:
+  build-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build current-site business-aligned V3
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_second_audit_current_v3.py
+      - name: Run independent second-audit verifier
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_second_audit_v3.py
+      - name: Persist diagnostics and candidate before acceptance
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add \
+            $base/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V3.tsv \
+            $base/STEP_12_STEP13_CANDIDATE_PAIRS_V3.tsv \
+            $base/STEP_12_MATURITY_DEPENDENCY_LEDGER_V3.tsv \
+            $base/STEP_12_PHRASE_ACTION_MAP_FINAL_V3.tsv \
+            $base/STEP_12_SECOND_AUDIT_ACTION_DELTA.tsv \
+            $base/STEP_12_FORMER_NEW_PAGE_CONCEPTS_SECOND_AUDIT.tsv \
+            $base/STEP_12_SECOND_AUDIT_GENERATOR_QA.json \
+            $base/STEP_12_SECOND_AUDIT_INDEPENDENT_QA.json \
+            $base/STEP_12_SECOND_AUDIT_QA_FINDINGS.tsv
+          if git diff --cached --quiet; then
+            echo STEP12_SECOND_AUDIT_V3_DIAGNOSTICS_ALREADY_CURRENT
+          else
+            git commit -m "step12: persist second-audit V3 diagnostics [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+      - name: Structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          for f in STEP_12_SECOND_AUDIT_GENERATOR_QA.json STEP_12_SECOND_AUDIT_INDEPENDENT_QA.json STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V3.tsv STEP_12_PHRASE_ACTION_MAP_FINAL_V3.tsv STEP_12_STEP13_CANDIDATE_PAIRS_V3.tsv STEP_12_SECOND_AUDIT_ACTION_DELTA.tsv STEP_12_FORMER_NEW_PAGE_CONCEPTS_SECOND_AUDIT.tsv; do
+            git show $remote:$base/$f > /tmp/$f
+          done
+          python - <<'PY'
+          import csv,json
+          g=json.load(open('/tmp/STEP_12_SECOND_AUDIT_GENERATOR_QA.json',encoding='utf-8'))
+          q=json.load(open('/tmp/STEP_12_SECOND_AUDIT_INDEPENDENT_QA.json',encoding='utf-8'))
+          a=list(csv.DictReader(open('/tmp/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V3.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          p=list(csv.DictReader(open('/tmp/STEP_12_PHRASE_ACTION_MAP_FINAL_V3.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          pairs=list(csv.DictReader(open('/tmp/STEP_12_STEP13_CANDIDATE_PAIRS_V3.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert len(a)==160 and len(p)==2332
+          assert g['current_unique_proposed_pages']==0
+          assert g['proposed_new_reference_rows']==0
+          assert q['current_new_actions']==0 and q['current_proposed_refs']==0
+          assert q['actual_current_pair_rows']==len(pairs)
+          print('STEP12_SECOND_AUDIT_V3_STRUCTURED_GITHUB_READBACK_PASS')
+          print(json.dumps(g,ensure_ascii=False,indent=2))
+          print(json.dumps(q,ensure_ascii=False,indent=2))
+          PY
+      - name: Final fail-closed acceptance gate
+        run: |
+          python - <<'PY'
+          import json,sys
+          q=json.load(open('/tmp/STEP_12_SECOND_AUDIT_INDEPENDENT_QA.json',encoding='utf-8'))
+          if q['status']!='STEP12_SECOND_AUDIT_V3_INDEPENDENT_PASS' or q['findings']!=0:
+              print('STEP12_SECOND_AUDIT_V3_DIAGNOSTIC_FAIL_PERSISTED',q)
+              sys.exit(1)
+          assert q['source_actions']==160 and q['final_actions_v3']==160
+          assert q['assignments']==2332 and q['phrase_map_rows']==2332
+          assert q['assigned']==2313 and q['unresolved']==19
+          assert q['freshness_concepts']==5 and q['former_new_concepts']==5
+          assert q['business_freshness_missing_rows']==0
+          assert q['missing_pair_keys']==q['extra_pair_keys']==q['duplicate_pair_rows']==0
+          assert q['search_flag_mismatches']==0
+          assert q['expected_dependency_units']==q['actual_dependency_units']
+          assert q['dependency_high_rows']==q['dependency_final_rows']==0
+          assert q['owner_challenge_regression_cases']==6
+          assert q['step13_files']==[] and q['step13_executed'] is False
+          print('STEP12_SECOND_AUDIT_V3_FAIL_CLOSED_PASS')
+          PY
