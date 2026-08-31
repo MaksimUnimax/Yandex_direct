@@ -1,0 +1,26 @@
+{
+  "status": "CANDIDATE_STRUCTURAL_UNITS_BUILT_REVIEW_REQUIRED",
+  "source_phrase_rows": 2332,
+  "final_assignment_rows": 2332,
+  "assigned_structural_unit_rows": 2313,
+  "upstream_search_required_rows": 19,
+  "final_structural_units": 158,
+  "correction_rows": 762,
+  "historical_override_rows": 191,
+  "historical_override_rows_materialized_into_explicit_units": 191,
+  "historical_hidden_runtime_overrides_in_candidate_output": 0,
+  "historical_no_page_or_outside_review_rows": 481,
+  "salvaged_or_explicitly_deferred_from_no_page_or_outside": 393,
+  "outside_confirmed_rows": 71,
+  "no_standalone_confirmed_rows": 17,
+  "mandatory_mixed_original_units_still_used_as_final_units": [],
+  "default_high_confidence_rows": 0,
+  "defects_closed_by_script_alone": [],
+  "defects_candidate_for_closure_after_persisted_readback_review": [
+    "D12-01",
+    "D12-02",
+    "D12-08",
+    "D12-09",
+    "D12-12"
+  ]
+}
