@@ -1,0 +1,45 @@
+name: KW001 Step12 Register Final Execution Protocol
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_FINAL_PROTOCOL_REGISTER_TRIGGER.txt'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Register final Step12 protocol and resolved marker
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md')
+          s=p.read_text(encoding='utf-8')
+          old='**`STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`**'
+          new='**`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`**'
+          assert old in s
+          s=s.replace(old,new,1)
+          oldm='KW001_STEP12_REOPENED_AFTER_POST_PASS_EVIDENCE_AUDIT = true'
+          assert oldm in s
+          s=s.replace(oldm,'KW001_STEP12_REOPENED_AFTER_POST_PASS_EVIDENCE_AUDIT = historical_resolved\nKW001_STEP12_FINAL_EXECUTION_PROTOCOL_ACTIVE = true',1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md
+          git commit -m "step12: register final execution protocol [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md > /tmp/i.md
+          grep -q 'STEP_12_FINAL_EXECUTION_PROTOCOL.md' /tmp/i.md
+          grep -q 'KW001_STEP12_FINAL_EXECUTION_PROTOCOL_ACTIVE = true' /tmp/i.md
+          grep -q 'KW001_STEP12_REOPENED_AFTER_POST_PASS_EVIDENCE_AUDIT = historical_resolved' /tmp/i.md
+          echo STEP12_FINAL_PROTOCOL_INDEX_READBACK_PASS
