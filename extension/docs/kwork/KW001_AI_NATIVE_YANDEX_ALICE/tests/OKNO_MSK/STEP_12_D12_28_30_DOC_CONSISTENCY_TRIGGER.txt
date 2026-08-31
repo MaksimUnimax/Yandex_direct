@@ -1,0 +1,2 @@
+trigger=2026-08-31T13:22:00Z
+goal=remove stale post-readback wording and fold D12-28 D12-29 internal-link evidence rule into main Step12 execution order
