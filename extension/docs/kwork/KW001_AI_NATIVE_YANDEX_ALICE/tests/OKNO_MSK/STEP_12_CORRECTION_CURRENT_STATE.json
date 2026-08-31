@@ -1,18 +1,12 @@
 {
   "date": "2026-08-31",
   "step": 12,
-  "status": "REOPENED_AFTER_POST_CLOSE_OWNER_BUSINESS_GOAL_CHALLENGE",
+  "status": "STEP12_COMPLETE_AFTER_SECOND_EXTERNAL_METHOD_AUDIT_OWNER_GOAL_FRESHNESS_CONTENT_REUSE_AND_INDEPENDENT_QA",
   "historical_first_pass_preserved": true,
   "historical_first_pass_acceptance_withdrawn": true,
   "previous_corrected_acceptance_preserved_as_superseded_until_revalidation": true,
-  "step13_blocked": true,
-  "open_defects": [
-    "D12-16",
-    "D12-17",
-    "D12-18",
-    "D12-19",
-    "D12-20"
-  ],
+  "step13_blocked": false,
+  "open_defects": [],
   "verified_fixed_defects": [
     "D12-01",
     "D12-02",
@@ -28,9 +22,14 @@
     "D12-12",
     "D12-13",
     "D12-14",
-    "D12-15"
+    "D12-15",
+    "D12-16",
+    "D12-17",
+    "D12-18",
+    "D12-19",
+    "D12-20"
   ],
-  "current_correction_item": "D12-16",
+  "current_correction_item": null,
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -59,12 +58,12 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "Resolve D12-16..D12-20 under the new current-site freshness, owner-goal and existing-content reuse gates; re-evaluate all five former new-page candidates; rebuild Step12 outputs and independent QA. Step13 remains blocked.",
+  "next_action": "Step 12 is complete after the second external audit. Step 13 is NOT STARTED / NEXT ALLOWED and still requires its own fresh methodology research/review before execution.",
   "step13_executed": false,
-  "step13_status": "BLOCKED_BY_REOPENED_STEP12",
-  "step12_complete": false,
-  "next_step_allowed": false,
-  "next_major_step": "STEP_12_POST_CLOSE_OWNER_CHALLENGE_CORRECTION",
+  "step13_status": "NOT_STARTED_NEXT_ALLOWED",
+  "step12_complete": true,
+  "next_step_allowed": true,
+  "next_major_step": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW",
   "final_github_readback": false,
   "canonical_closure_readback_passed": false
 }
