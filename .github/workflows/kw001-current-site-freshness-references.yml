@@ -1,0 +1,54 @@
+name: KW001 Current Site Freshness References
+
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/patch_current_site_freshness_references.py'
+      - '.github/workflows/kw001-current-site-freshness-references.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Patch references
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/patch_current_site_freshness_references.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE')
+          s11=(r/'STEP_11_PAGE_OWNERSHIP_METHOD.md').read_text(encoding='utf-8')
+          idx=(r/'STEP_RULES_INDEX.md').read_text(encoding='utf-8')
+          assert 'negative current-site existence claim' in s11
+          assert 'CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md' in s11
+          assert '**REOPENED / SECOND METHOD CORRECTION IN PROGRESS**' in idx
+          assert 'OLD_SITE_INVENTORY != CURRENT_SITE_TRUTH' in idx
+          assert 'Step 13' in idx and 're-read both current URLs' in idx
+          print('CURRENT_SITE_FRESHNESS_REFERENCES_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_11_PAGE_OWNERSHIP_METHOD.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md
+          git commit -m "rules: enforce current-site freshness across roadmap [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md > /tmp/index.md
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_11_PAGE_OWNERSHIP_METHOD.md > /tmp/s11.md
+          python - <<'PY'
+          assert 'CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md' in open('/tmp/index.md',encoding='utf-8').read()
+          assert 'negative current-site existence claim' in open('/tmp/s11.md',encoding='utf-8').read()
+          print('CURRENT_SITE_FRESHNESS_REFERENCES_GITHUB_READBACK_PASS')
+          PY
