@@ -60,8 +60,8 @@
   },
   "new_bridge_requests_during_second_audit": 0,
   "new_bridge_cost_rub_during_second_audit": 0.0,
-  "final_github_readback": false,
-  "canonical_closure_readback_passed": false,
+  "final_github_readback": true,
+  "canonical_closure_readback_passed": true,
   "next_step": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW",
   "step13_status": "NOT_STARTED_NEXT_ALLOWED"
 }

@@ -131,4 +131,11 @@ STEP_12_CORRECTION_CURRENT_STATE.json
 
 Historical V1/V2/new-page evidence/hierarchy artifacts remain as provenance and are superseded where they conflict with V3.
 
-**Step 12 is complete as a closure candidate. Step 13 has not been started. Durable closure requires GitHub readback and final status synchronization.**
+**Step 12 is complete. The canonical closure commit and final status-sync commit both passed GitHub readback. Step 13 has not been started.**
+
+## Durable final closure
+
+```text
+FINAL_SECOND_AUDIT_GITHUB_READBACK = true
+STEP13_EXECUTED = false
+```

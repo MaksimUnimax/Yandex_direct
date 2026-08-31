@@ -1,7 +1,7 @@
 # Step 12 — second-audit final acceptance
 
 Date: 2026-08-31
-Status: **CANDIDATE PASS — DURABLE GITHUB READBACK REQUIRED**
+Status: **PASS AFTER DURABLE GITHUB READBACK**
 
 Accepted only because:
 
@@ -19,4 +19,9 @@ independent findings = 0
 Step13 executed = false
 ```
 
-The owner-goal/current-site/content-reuse correction is not accepted merely because the builder succeeded. It requires the closure commit to be read back from GitHub and a final status-sync commit to be read back again.
+The closure commit was read back from GitHub successfully; this final status-sync is now the canonical accepted state and itself requires/receives a second structured readback.
+
+```text
+FINAL_GITHUB_READBACK = true
+STEP13_EXECUTED = false
+```
