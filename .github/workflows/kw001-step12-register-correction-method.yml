@@ -1,0 +1,52 @@
+name: KW001 Register Step12 Correction Method
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/apply_step12_correction_registration.py'
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Apply Step12 correction registration
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/apply_step12_correction_registration.py
+
+      - name: Verify registration
+        run: |
+          grep -q 'OWNER-APPROVED CORRECTION METHOD / ACTIVE FOR REWORK' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md
+          grep -q '## Step 12 — structural actions: causal correction after external audit' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+          grep -q 'STEP12_CORRECTION_REQUIRED_AFTER_EXTERNAL_METHOD_AUDIT' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md
+          grep -q 'current_major_step = STEP_12_CORRECTION_AFTER_EXTERNAL_METHOD_AUDIT' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+          grep -q 'next_major_step = STEP_12_CORRECTION_EXECUTION_D12_01' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+
+      - name: Commit registration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+          git diff --cached --quiet || git commit -m "step12: register causal correction method and withdraw first-pass acceptance [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+
+      - name: Remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md | grep -q 'OWNER-APPROVED CORRECTION METHOD / ACTIVE FOR REWORK'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md | grep -q 'STEP12_HIDDEN_LEXICAL_OVERRIDE_IS_NOT_ARCHITECTURE'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md | grep -q 'STEP13_BLOCKED_BY_STEP12_CORRECTION = true'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md | grep -q 'STEP_12_CORRECTION_DEFECT_LEDGER.tsv'
+          echo STEP12_CORRECTION_REGISTRATION_READBACK_PASS
