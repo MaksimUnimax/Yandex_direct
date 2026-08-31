@@ -1,0 +1,58 @@
+name: KW001 Step12 Post Close New Page Review
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_post_close_new_page_review_packet.py'
+      - '.github/workflows/kw001-step12-post-close-new-page-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build review packet
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_post_close_new_page_review_packet.py
+      - name: Verify packet
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_NEW_PAGE_REVIEW_PACKET.tsv')
+          rows=list(csv.DictReader(p.open(encoding='utf-8',newline=''),delimiter='\t'))
+          u={r['structural_unit_id'] for r in rows}
+          assert len(rows)>0
+          assert len(u)==12, (len(u),sorted(u))
+          assert all(r['phrase'].strip() for r in rows)
+          print('STEP12_POST_CLOSE_NEW_PAGE_REVIEW_PACKET_PASS',len(rows),len(u))
+          PY
+      - name: Persist packet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_NEW_PAGE_REVIEW_PACKET.tsv
+          if git diff --cached --quiet; then
+            echo PACKET_ALREADY_CURRENT
+          else
+            git commit -m "step12: persist post-close new-page review packet [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_NEW_PAGE_REVIEW_PACKET.tsv > /tmp/review.tsv
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('/tmp/review.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert len({r['structural_unit_id'] for r in rows})==12
+          print('STEP12_POST_CLOSE_NEW_PAGE_REVIEW_GITHUB_READBACK_PASS',len(rows))
+          PY
