@@ -1,0 +1,112 @@
+name: KW001 Step12 D12-05 Independent Final QA
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_materialize_final_phrase_action_map.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_independent_final_qa.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_REVIEW_LEDGER.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_SPLIT_MERGE_REGRESSION_CASES.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNITS_V5.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_NEW_PAGE_EVIDENCE_V2.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STEP13_CANDIDATE_PAIRS.tsv'
+      - '.github/workflows/kw001-step12-d12-05-independent-final-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kw001-step12-d12-05-independent-final-qa
+  cancel-in-progress: false
+
+jobs:
+  independent-final-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Materialize final phrase action map
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_materialize_final_phrase_action_map.py
+
+      - name: Run independent D12-05 QA
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_independent_final_qa.py
+
+      - name: Persist diagnostics before pass/fail gate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PHRASE_ACTION_MAP_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_CHECKS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_REVIEW_RESULTS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_SPLIT_MERGE_REGRESSION_RESULTS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_FINDINGS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_CANDIDATE.json
+          if git diff --cached --quiet; then
+            echo STEP12_D12_05_DIAGNOSTICS_ALREADY_CURRENT
+          else
+            git commit -m "step12: persist independent D12-05 QA diagnostics [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: GitHub structured readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_QA_CANDIDATE.json > /tmp/step12-qa-candidate.json
+          git show $remote:$base/STEP_12_QA_CHECKS.tsv > /tmp/step12-qa-checks.tsv
+          git show $remote:$base/STEP_12_QA_FINDINGS.tsv > /tmp/step12-qa-findings.tsv
+          git show $remote:$base/STEP_12_QA_REVIEW_RESULTS.tsv > /tmp/step12-review-results.tsv
+          git show $remote:$base/STEP_12_SPLIT_MERGE_REGRESSION_RESULTS.tsv > /tmp/step12-split-merge-results.tsv
+          python - <<'PY'
+          import csv, json
+          q=json.load(open('/tmp/step12-qa-candidate.json',encoding='utf-8'))
+          checks=list(csv.DictReader(open('/tmp/step12-qa-checks.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          findings=list(csv.DictReader(open('/tmp/step12-qa-findings.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          reviews=list(csv.DictReader(open('/tmp/step12-review-results.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          sm=list(csv.DictReader(open('/tmp/step12-split-merge-results.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert q['checks_total']==len(checks)
+          assert q['findings_rows']==len(findings)
+          assert q['manual_review_cases']==len(reviews)
+          assert q['split_merge_regression_cases']==len(sm)
+          assert 'qa_self_asserted_pass_fields' in q
+          assert all(r['evidence_origin'] in {'COMPUTED_FROM_DATA','VERIFIED_FROM_PROVENANCE','MANUAL_REVIEW_LEDGER'} for r in checks)
+          assert all(r['source_artifacts'].strip() for r in checks)
+          assert all(r['computation_or_review_method'].strip() for r in checks)
+          print('STEP12_D12_05_STRUCTURED_GITHUB_READBACK_PASS')
+          print(json.dumps(q,ensure_ascii=False,indent=2))
+          PY
+
+      - name: Final D12-05 pass/fail gate after persistence
+        run: |
+          python - <<'PY'
+          import csv, json, sys
+          q=json.load(open('/tmp/step12-qa-candidate.json',encoding='utf-8'))
+          findings=list(csv.DictReader(open('/tmp/step12-qa-findings.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          if q['status']!='D12_05_CANDIDATE_PASS':
+              print('STEP12_D12_05_DIAGNOSTIC_FAIL_PERSISTED')
+              print('FAILED_CHECK_IDS=', q['failed_check_ids'])
+              print('FINDINGS_ROWS=', q['findings_rows'])
+              for row in findings[:30]:
+                  print(row)
+              sys.exit(1)
+          assert q['manual_review_failures']==0
+          assert q['split_merge_regression_failures']==0
+          assert q['unsupported_split_rows']==0
+          assert q['unsupported_merge_rows']==0
+          assert q['qa_self_asserted_pass_fields']==0
+          assert q['step13_executed'] is False
+          assert q['step12_complete'] is False
+          assert q['next_step_allowed'] is False
+          print('STEP12_D12_05_CANDIDATE_PASS_AFTER_DURABLE_READBACK')
+          PY
