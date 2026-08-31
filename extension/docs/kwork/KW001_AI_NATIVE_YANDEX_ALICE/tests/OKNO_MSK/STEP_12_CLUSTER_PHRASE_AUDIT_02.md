@@ -1,0 +1,288 @@
+# Step 12 — cluster phrase audit input 02
+## FRENCH_WINDOWS_COMMERCIAL
+- assigned phrases: **58**
+- user task: buy/order French windows
+- intent: COMMERCIAL
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/francuzskie-okna/
+- ownership confidence: HIGH
+- Step-11 rationale: Dedicated French/floor-to-ceiling commercial page.
+- all member phrases:
+  - балконный блок французское окно
+  - большие французские окна
+  - высокие французские окна
+  - дом с французскими окнами
+  - замена балконного блока на французское окно
+  - имитация французского окна
+  - как из обычного окна сделать французское
+  - комната с французскими окнами
+  - красивое французское окно
+  - окна с французской раскладкой
+  - окна французская решетка
+  - окно французской гостиной
+  - остекление французское окно
+  - перегородка французское окно
+  - пластиковые окна французское окно
+  - сколько стоят французские окна
+  - спальня французское окно
+  - стоимость французского окна
+  - устанавливаем французские окна
+  - французские балконные окна
+  - французские вертикальные задвижки для окон
+  - французские окна
+  - французские окна в квартире
+  - французские окна в москве в квартирах
+  - французские окна в пол
+  - французские окна в хрущевке
+  - французские окна в частном
+  - французские окна в частном доме
+  - французские окна в частном доме цена
+  - французские окна вместо балконного блока
+  - французские окна заказать
+  - французские окна коричневые
+  - французские окна купить
+  - французские окна москва
+  - французские окна на балкон
+  - французские окна на балкон раздвижные
+  - французские окна на балкон раздвижные цена
+  - французские окна на балкон цена
+  - французские окна на даче
+  - французские окна на кухню
+  - французские окна на лоджию
+  - французские окна на террасе
+  - французские окна современные
+  - французские окна цена
+  - французские окна черные
+  - французский балкон окно в пол
+  - французский блок окно
+  - французский навес над окнами
+  - французский тип окон
+  - французское окно вместо
+  - французское окно вместо балконного
+  - французское окно на балкон в квартире
+  - французское окно на балкон в квартире арочное
+  - французское окно пвх
+  - французское окно раздвижное
+  - французское окно раздвижное цена
+  - французское окно распашное
+  - широкие французские окна
+
+## FRENCH_WINDOW_DEFINITION_INFO
+- assigned phrases: **6**
+- user task: understand what French windows are and their forms
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/francuzskie-okna/
+- ownership confidence: HIGH
+- Step-11 rationale: Current French-window page explains the floor-to-ceiling form, use cases and opening types in addition to commercial CTA.
+- all member phrases:
+  - виды французского окна
+  - как выглядит французское окно
+  - французские окна название
+  - французские окна это какие
+  - французское окно как называется
+  - что значит французское окно
+
+## GLASS_UNIT_SELECTION_INFO
+- assigned phrases: **1**
+- user task: choose glazing unit for a PVC window
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/
+- ownership confidence: HIGH
+- Step-11 rationale: Dedicated current glass-unit selection article exactly matches the task.
+- all member phrases:
+  - как выбрать стеклопакет для пластиковых окон
+
+## GLAZING_DESIGN_INSPIRATION
+- assigned phrases: **48**
+- user task: view glazing/window design ideas, photos or examples
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/nashi-raboty/
+- ownership confidence: HIGH
+- Step-11 rationale: Portfolio supplies completed window/balcony/veranda examples.
+- all member phrases:
+  - алюминиевое остекление веранды фото
+  - алюминиевые окна фото
+  - безрамное остекление веранды фото
+  - варианты французских окон
+  - дизайн кухни с панорамными окнами
+  - дизайн остекления веранды в доме
+  - дизайны панорамных окон
+  - дома с панорамными окнами фото
+  - интерьер с панорамными окнами
+  - окна панорамные фото в частный
+  - окна французский стиль
+  - окно с французской раскладкой фото в квартирах
+  - остекление балкона фото
+  - остекление балконов дизайн
+  - остекление веранд фото дизайн
+  - остекление веранды в частном доме дизайн
+  - остекление веранды в частном доме дизайн фото
+  - остекление веранды в частном доме фото
+  - остекление веранды дизайн
+  - остекление веранды дома фото
+  - остекление веранды и террасы алюминиевым профилем фото
+  - остекление веранды и террасы фото
+  - остекление веранды на даче фото
+  - панорамное окно варианты
+  - панорамные окна в частном доме фото
+  - панорамные окна дизайн фото
+  - панорамные окна фото
+  - пластиковые окна фото
+  - пример остекления веранды
+  - примеры остекления балконов
+  - примеры остекления веранды в частном доме фото
+  - проект одноэтажного дома с панорамными окнами
+  - проект с панорамными окнами
+  - проекты домов с панорамными окнами
+  - проекты домов с панорамными окнами и террасой
+  - проекты одноэтажных с панорамными окнами
+  - проекты остекления веранды
+  - стиль дома с панорамными окнами
+  - стиль панорамных окон
+  - терраса с панорамными окнами фото
+  - фото остекления веранды частного
+  - французские окна в интерьере
+  - французские окна на балкон фото
+  - французские окна фото
+  - французское окно дизайн
+  - французское окно оформление
+  - французское окно примеры
+  - что такое французское окно в квартире фото
+
+## GLAZING_DIY_INFO
+- assigned phrases: **7**
+- user task: learn/do glazing work yourself
+- intent: DIY_INFO
+- business fit: ADJACENT
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: No verified current first-party step-by-step DIY glazing page found.
+- all member phrases:
+  - безрамное остекление веранды своими руками
+  - остекление балкона видео
+  - остекление балкона своими руками
+  - остекление балконов самому
+  - остекление веранды видео
+  - остекление веранды монолитным поликарбонатом своими руками
+  - остекление веранды своими руками
+
+## GLAZING_PERMISSION_INFO
+- assigned phrases: **7**
+- user task: understand permission/legal requirements for glazing
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: Current legal/redevelopment content is adjacent but not the permission-to-glaze task.
+- all member phrases:
+  - окно для газовой котельной частного дома требования
+  - окон в котельной требования для частных домов
+  - оконная фурнитура гост
+  - остекление балконов можно ли
+  - остекление балконов разрешение нужно
+  - перепланировка французское окно
+  - разрешение на остекление балкона
+
+## MOSQUITO_NET_INSTALLATION_SERVICE
+- assigned phrases: **11**
+- user task: professional mosquito-net installation
+- intent: SERVICE
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/moskitnye-setki/
+- ownership confidence: HIGH
+- Step-11 rationale: Current mosquito-net page explicitly offers manufacture and installation.
+- all member phrases:
+  - антикошка на пластиковые окна установка
+  - установить москитную сетку на пластиковое окно цена
+  - установить сетку на пластиковое окно цена
+  - установка антикошка на пластиковые окна москва
+  - установка москитной на пластиковое окно
+  - установка москитной сетки на пластиковое окно
+  - установка москитной сетки на пластиковое окно цена
+  - установка москитных сеток на пластиковые окна москва
+  - установка сетки антикошка на пластиковые окна
+  - установка сетки на окно пластиковое
+  - установка сетки на пластиковые окна цена
+
+## MOSQUITO_NET_REPAIR_SERVICE
+- assigned phrases: **4**
+- user task: professional mosquito-net repair
+- intent: SERVICE
+- business fit: ADJACENT
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: No net-repair task on current mosquito or repair pages.
+- all member phrases:
+  - замена сетки на пластиковых окнах цена
+  - пластиковые окна ремонт установка москитной сетки
+  - ремонт москитной сетки на пластиковые окна
+  - ремонт сетки для пластиковых окон
+
+## MOSQUITO_NET_SELECTION_INFO
+- assigned phrases: **3**
+- user task: choose mosquito-net type/specification
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/moskitnye-setki/
+- ownership confidence: HIGH
+- Step-11 rationale: Current page compares types/specifications and sizing.
+- all member phrases:
+  - как выбрать москитную сетку на пластиковое окно
+  - противомоскитная сетка для пластиковых окон как выбрать
+  - сетка антипыль на пластиковые окна цена
+
+## MOSQUITO_NET_SHOPPING
+- assigned phrases: **32**
+- user task: buy mosquito nets
+- intent: COMMERCIAL
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/moskitnye-setki/
+- ownership confidence: HIGH
+- Step-11 rationale: Product types, prices, sizing and order CTA are present.
+- all member phrases:
+  - антикошка на пластиковые окна
+  - антикошка на пластиковые окна цена
+  - заказать москитные сетки на пластиковые окна цены
+  - заказать сетку на окно пластиковое цена
+  - купить сетку на пластиковое окно москва
+  - купить сетку на пластиковые окна цена
+  - москитная сетка антикошка на пластиковые окна цена
+  - москитная сетка на пластиковые окна
+  - москитная сетка на пластиковые окна rehau 133х45
+  - москитная сетка на пластиковые окна купить
+  - москитная сетка на пластиковые окна купить цена
+  - москитная сетка на пластиковые окна цена
+  - москитная сетка на французское окно
+  - москитные сетки на алюминиевые окна
+  - окна пластиковые москитная
+  - окна пластиковые москитная москва
+  - от комаров на окна пластиковые
+  - пластиковая москитная дверь
+  - пластиковые окна москитная сетка москва
+  - сетка антикошка на пластиковые окна
+  - сетка антикошка на пластиковые окна цена
+  - сетка для окон пластиковых купить
+  - сетка на алюминиевые окна
+  - сетка на окна rehau
+  - сетка на пластиковое окно
+  - сетка на пластиковое окно от комаров
+  - сетка на пластиковое окно цена
+  - сетка на пластиковую дверь
+  - сетка на раздвижные алюминиевые окна
+  - сетка окна пластиковые москва
+  - сетки на пластиковые окна rehau
+  - сетки на пластиковые окна цена москва
+

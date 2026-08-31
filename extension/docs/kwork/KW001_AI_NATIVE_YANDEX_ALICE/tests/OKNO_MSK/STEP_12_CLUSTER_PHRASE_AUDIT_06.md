@@ -1,0 +1,243 @@
+# Step 12 — cluster phrase audit input 06
+## SOFT_WINDOWS_COMMERCIAL
+- assigned phrases: **1**
+- user task: buy/order soft windows
+- intent: COMMERCIAL
+- business fit: ADJACENT
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: No current soft/flexible-window product page found.
+- all member phrases:
+  - французские мягкие окна
+
+## TIMBER_ALUMINIUM_WINDOWS_COMMERCIAL
+- assigned phrases: **3**
+- user task: buy/order timber-aluminium windows
+- intent: COMMERCIAL
+- business fit: CORE
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: Current aluminium/PVC pages do not truthfully own hybrid timber-aluminium windows.
+- all member phrases:
+  - алюминиевые накладки на деревянные окна
+  - дерево алюминиевые окна
+  - деревянно алюминиевые окна
+
+## WINDOWSILL_REPAIR_SERVICE
+- assigned phrases: **2**
+- user task: professional windowsill repair/restoration
+- intent: SERVICE
+- business fit: ADJACENT
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: Site sells/replaces sills; repair/restoration task has no truthful owner.
+- all member phrases:
+  - поменять подоконник на пластиковом окне цена
+  - ремонт подоконников пластиковых окон
+
+## WINDOWS_COMMERCIAL_GENERAL
+- assigned phrases: **43**
+- user task: buy/order generic windows
+- intent: COMMERCIAL
+- business fit: CORE
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/
+- ownership confidence: HIGH
+- Step-11 rationale: Generic commercial owner; Search absence was not used as a no-page verdict.
+- all member phrases:
+  - в рассрочку балконные окна
+  - г егорьевск окна в рассрочку телефон
+  - дом п 44 окна
+  - заказать окна в однушку п 44
+  - заказать окно в рассрочку
+  - крыльцо для частного дома окна
+  - купить окна в рассрочку
+  - купить окна в рассрочку без банка
+  - купить окно для газовой котельной частного дома
+  - образцы окон для частных домов
+  - окна в дом в рассрочку
+  - окна в кредит в рассрочку
+  - окна в пол для частного дома
+  - окна в рассрочку
+  - окна в рассрочку банка
+  - окна в рассрочку без банка
+  - окна в рассрочку в москве
+  - окна в рассрочку коломна
+  - окна в рассрочку недорого
+  - окна в рассрочку от производителя
+  - окна в рассрочку подольск
+  - окна в рассрочку с установкой недорого
+  - окна в рассрочку цены
+  - окна в рассрочку цены с установкой
+  - окна в рассрочку щелково
+  - окна века в рассрочку
+  - окна для частного дома купить
+  - окна для частного дома цена
+  - окна домов серии п 44
+  - окна егорьевск в рассрочку
+  - окна и балкон в рассрочку
+  - окна на балкон сапожок п 44
+  - окна под ключ в рассрочку
+  - окна серии п 44
+  - окно для ванной в частном доме
+  - окно для ванной комнаты в частном доме
+  - окно для вентиляции в частном доме
+  - окно для газовой котельной частного дома
+  - окно для котельной в частном доме
+  - окно для котельной в частном доме купить
+  - окно п 44
+  - окно полукруглое для частного дома
+  - формы окон для частных домов
+
+## WINDOWS_DOORS_COMBINED_COMMERCIAL
+- assigned phrases: **9**
+- user task: buy/order combined window-and-door products
+- intent: COMMERCIAL
+- business fit: CORE
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/
+- ownership confidence: MEDIUM
+- Step-11 rationale: Homepage spans windows and PVC doors; separate hubs provide object depth.
+- all member phrases:
+  - алюминиевые окна и двери
+  - входные двери с окном для частного дома
+  - окна двери rehau
+  - окна двери в рассрочку
+  - окна двери для частного дома
+  - панорамное окно с дверью
+  - панорамное окно с дверью на террасу
+  - панорамные окна с дверью в частном
+  - французское окно с дверью
+
+## WINDOW_ACCESSORIES_SHOPPING
+- assigned phrases: **47**
+- user task: buy general window accessories/add-ons
+- intent: COMMERCIAL
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/
+- ownership confidence: HIGH
+- Step-11 rationale: Accessory hub matches general accessory shopping.
+- all member phrases:
+  - аксессуары для пластиковых окон
+  - аксессуары для пластиковых окон и дверей
+  - аксессуары для пластиковых окон купить
+  - алюминиевый профиль для окон купить
+  - алюминиевый профиль для раздвижных окон
+  - алюминиевый профиль окна балкон
+  - балконные окна алюминиевый профиль
+  - герметик для пластиковых окон
+  - для пластикового окна аксессуары gu
+  - добор для пластиковых окон rehau купить
+  - какой профиль окон лучше для частного дома
+  - клапана на алюминиевые окна
+  - комплектующие оконной фурнитуры
+  - крепление для пластиковых окон
+  - наличник пластиковый на двери
+  - наличники для пластиковых окон
+  - нащельник для пластиковых окон
+  - окна пвх профиль rehau
+  - окна стеклопакеты rehau
+  - остекление балкона подоконника
+  - откосы для окон частного дома
+  - откосы для пластиковых окон
+  - откосы наружные для пластиковых окон частного дома
+  - панорамное окно стеклопакет
+  - пластиковые наличники на окна с улицы цена
+  - пластиковый наличник на окно цена
+  - подоконник для пластиковых окон
+  - подоконник французского окна
+  - поменять стеклопакет на пластиковом окне цена
+  - профиль для пластиковых окон
+  - профиль пластиковой двери
+  - профиль пластиковых окон rehau
+  - раздвижные окна алюминиевые рама
+  - рама пластикового окна
+  - сделать пластиковые откосы на окнах цена
+  - створка окна алюминиевая
+  - створка пластикового окна
+  - створки панорамного окна
+  - стеклопакет на пластиковое окно цена
+  - стеклопакеты для пластиковых окон
+  - стеклопакеты французские окна
+  - теплый подставочный профиль для окон rehau
+  - французский профиль окна
+  - цена откосов на окно пластиковое
+  - цена отливов на пластиковые окна
+  - цена пластиковых подоконников на окна
+  - шпросы на пластиковые окна цена
+
+## WINDOW_ACCESSORY_SELECTION_INFO
+- assigned phrases: **1**
+- user task: select general window accessories/add-ons
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/podokonniki/
+- ownership confidence: HIGH
+- Step-11 rationale: The only member phrase asks how to choose a PVC windowsill; the current windowsill page compares materials/types/dimensions and explicitly supports selection.
+- all member phrases:
+  - как выбрать подоконник для пластиковых окон
+
+## WINDOW_DEMOLITION_SERVICE
+- assigned phrases: **2**
+- user task: window/balcony-frame dismantling or demolition
+- intent: SERVICE
+- business fit: ADJACENT
+- Step-11 state: NO_SUITABLE_EXISTING_PAGE
+- current owner: NONE
+- ownership confidence: HIGH
+- Step-11 rationale: Demolition is only a sub-step of installation, not a standalone service owner.
+- all member phrases:
+  - демонтаж алюминиевых окон
+  - демонтаж остекления балкона
+
+## WINDOW_DIMENSIONS_INFO
+- assigned phrases: **20**
+- user task: find window/product dimensions and sizing information
+- intent: INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/stati/standartnye-razmery-okon-v-kvartiru-i-chastnyj-dom/
+- ownership confidence: HIGH
+- Step-11 rationale: Dedicated current dimensions/ГОСТ/house-series article.
+- all member phrases:
+  - алюминиевое окно размеры
+  - алюминиевые окна ширина
+  - алюминиевый м2 окно
+  - высота панорамных окон
+  - высота пластиковых окон
+  - высота французских окон
+  - окна rehau 70 мм
+  - окна rehau grazio 70 мм
+  - окна rehau размеры
+  - окна серия п 44 размеры
+  - панорамные окна размеры
+  - размер окон в доме п 44
+  - размер французского окна
+  - размеры окон п 44
+  - размеры пластиковых окон
+  - серия дома п 44 окна размеры
+  - стандартное пластиковое окно
+  - французская раскладка окна 16 мм
+  - ширина панорамного окна
+  - ширина пластикового окна
+
+## WINDOW_FINISHING_DIY_INFO
+- assigned phrases: **4**
+- user task: learn/do window slopes/surround finishing
+- intent: DIY_INFO
+- business fit: ADJACENT
+- Step-11 state: OWNER_EXISTING
+- current owner: https://okno-msk.ru/stati/chem-otdelat-otkosy-na-oknah/
+- ownership confidence: HIGH
+- Step-11 rationale: Current article provides material choices and step-by-step DIY finishing.
+- all member phrases:
+  - ремонт подоконника пластикового окна своими руками
+  - установка откосов на пластиковые окна своими руками
+  - установка отлива на пластиковое окно своими руками
+  - установка подоконника на пластиковые окна своими руками
+
