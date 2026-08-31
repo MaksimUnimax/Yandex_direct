@@ -1,0 +1,2 @@
+trigger=2026-08-31T12:55:00Z
+goal=reconcile D12-28 D12-29 D12-30 evidence-independent final Step12 outputs before closure
