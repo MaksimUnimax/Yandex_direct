@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_V3_READBACK_FIX_READY_FOR_SEMANTIC_REVIEW",
+  "source_rows": 2332,
+  "search_required_rows": 19,
+  "structural_units": 158,
+  "correction_rows": 879,
+  "readback_fallback_rows_fixed": 117,
+  "historical_no_page_or_outside_review_rows": 481,
+  "salvaged_to_in_scope_units": 127,
+  "explicitly_deferred_rows": 6,
+  "outside_confirmed_rows": 108,
+  "no_standalone_confirmed_rows": 240,
+  "historical_outside_rows_silently_in_scope_without_explicit_salvage": 0,
+  "historical_no_page_rows_left_as_unchanged_in_scope_base": 0,
+  "unit_metadata_inconsistency_rows": 9,
+  "default_high_confidence_rows": 0,
+  "defects_closed_by_script_alone": [],
+  "defects_candidate_for_closure_after_semantic_readback": [
+    "D12-01",
+    "D12-02",
+    "D12-08",
+    "D12-09",
+    "D12-12"
+  ]
+}
