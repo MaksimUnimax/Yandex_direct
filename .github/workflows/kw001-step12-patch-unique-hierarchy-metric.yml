@@ -1,0 +1,47 @@
+name: KW001 Step12 Patch Unique Hierarchy Metric
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_patch_d12_05_unique_hierarchy_metric.py'
+      - '.github/workflows/kw001-step12-patch-unique-hierarchy-metric.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Patch generator QA metric
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_patch_d12_05_unique_hierarchy_metric.py
+      - name: Verify source patch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py')
+          s=p.read_text(encoding='utf-8')
+          assert "'new_page_hierarchy_owner_action_rows'" in s
+          assert "'new_page_hierarchy_rows_materialized_in_actions': len({" in s
+          print('STEP12_D12_05_UNIQUE_HIERARCHY_SOURCE_VERIFY_PASS')
+          PY
+      - name: Persist generator correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py
+          git commit -m "step12: compute hierarchy QA over unique candidate pages"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py | grep -q "new_page_hierarchy_owner_action_rows"
+          echo STEP12_D12_05_UNIQUE_HIERARCHY_GITHUB_READBACK_PASS
