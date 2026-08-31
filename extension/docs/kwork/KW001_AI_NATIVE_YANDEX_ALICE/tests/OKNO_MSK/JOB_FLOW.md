@@ -1,7 +1,7 @@
 # KW-001 / OKNO-MSK — JOB FLOW
 
 Date created: 2026-08-28  
-Last updated: 2026-08-30  
+Last updated: 2026-08-31  
 Status: **ACTIVE / JOB-SPECIFIC / DISPOSABLE WITH WORKSPACE**
 
 ## Whole Kwork goal
@@ -251,9 +251,9 @@ STEP_10_FRESH_R1_PASS3_V5_VERIFIED.marker.json
 
 ---
 
-## Current step — Step 11 page ownership
+## Completed step — Step 11 page ownership
 
-Status: **🟡 PRE-STEP RESEARCH COMPLETE / METHOD REVIEW PRESENTED / AWAITING OWNER EXECUTION AUTHORIZATION**
+Status: **✅ COMPLETE / PASS WITH EXPLICIT UNRESOLVED EVIDENCE ROUTE**
 
 Permanent methodology status:
 
@@ -261,108 +261,98 @@ Permanent methodology status:
 STEP_11_PERMANENT_METHOD = UNVALIDATED
 ```
 
-Current job-specific pre-step authority:
+Job-specific method authority:
 
 ```text
 STEP_11_PRE_STEP_METHOD_REVIEW_2026-08-30.md
+STEP_11_REPORT.md
+STEP_11_QA.json
 ```
 
 ### Step-11 exact goal
 
 For every final Step-10 active cluster, determine whether the current public site has an existing page that can truthfully own that user task.
 
-Required ownership output:
+Step 11 did not make structural `KEEP / EXPAND / SPLIT / MERGE / CREATE` actions and did not diagnose cannibalization.
+
+### Evidence execution truth
 
 ```text
-CLUSTER
--> CURRENT CANDIDATE PAGE(S)
--> CURRENT PAGE PROFILE EVIDENCE
--> SEARCH / WEBMASTER EVIDENCE IF NEEDED
--> PRIMARY OWNER OR NO SUITABLE EXISTING PAGE OR UNRESOLVED
+FINAL_STEP10_CLUSTERS = 59
+CURRENT_PAGE_PROFILE_LEDGER_ROWS = 23
+FRESH_SEARCH_BATCH_QUERIES = 68
+FRESH_SEARCH_BATCH_SUCCEEDED = 68
+FRESH_SEARCH_BATCH_COST_RUB = 33.184
+FRESH_SEARCH_CANARY_REQUESTS = 1
+FRESH_SEARCH_CANARY_COST_RUB = 0.488
+FRESH_SEARCH_TOTAL_REQUESTS = 69
+FRESH_SEARCH_TOTAL_COST_RUB = 33.672
+AUTHORIZED_WEBMASTER_PROPERTY_AVAILABLE = false
 ```
 
-Step 11 does not yet decide structural `KEEP / EXPAND / SPLIT / MERGE / CREATE` actions and does not diagnose cannibalization.
+The live Bridge reported version `0.1.1` during the Step-11 Search execution. The repository product version may differ; runtime was not silently upgraded in the record.
 
-### Fresh research findings
+Observed target-domain TOP10 hits in the 68-query batch were `0`. This was not converted into a no-page verdict.
 
-Current external method research has been completed against:
+A single consolidated full 680-ranked-row Step-11 TSV was not produced. Search execution/accounting and normalized per-query dominant signals are preserved in the start/final and per-chunk checkpoints; this persistence-granularity limitation is explicit in `STEP_11_REPORT.md` and `STEP_11_QA.json`.
+
+### Ownership result
 
 ```text
-Yandex Webmaster advanced query analytics by URL
-Yandex Webmaster query monitoring / URL views
-Yandex Webmaster query/page statistics
-Semrush current keyword mapping guidance
-Ahrefs keyword mapping guidance
-Ahrefs cannibalization guidance
+OWNER_EXISTING = 34
+NO_SUITABLE_EXISTING_PAGE = 18
+OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 1
+OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
+TOTAL_ACCOUNTED = 59/59
+SILENT_CLUSTER_DROPS = 0
 ```
 
-Accepted evidence principles:
+Single unresolved cluster:
 
 ```text
-CURRENT PAGE CONTENT / TASK FIT = REQUIRED FOR OWNER ACCEPTANCE
-LEXICAL URL/TITLE MATCH != OWNERSHIP
-QUERY<->URL WEBMASTER DATA = OWNED SEARCH-BEHAVIOR EVIDENCE
-RANKING URL != AUTOMATIC OWNER
-MULTIPLE URLS != AUTOMATIC CANNIBALIZATION
-NO CURRENT SEARCH VISIBILITY != NO SUITABLE EXISTING PAGE
-NO SUITABLE EXISTING PAGE = STEP11 GAP STATE, NOT STEP12 CREATE DECISION
+GLAZING_SELECTION_INFO
 ```
 
-### Page-research channel plan
+Reason: frozen task boundary says non-specific/non-balcony glazing selection, while the representative direct Search probe resolves mainly to balcony/loggia selection.
 
-Step 11 will deliberately use complementary page-research channels.
+Executable evidence route:
 
 ```text
-Codex
--> batch URL refresh
--> scalable page extraction
--> structured page profiles
--> redirect/template/new-URL flags
-
-ChatGPT Work / Cloud Browser
--> rendered ambiguous-page inspection
--> JS/dynamic content
--> navigation/forms/CTA context
--> authenticated Yandex Webmaster UI evidence when available
-
-ChatGPT public web
--> independent public/search-visible URL discovery and cross-check
-
-Yandex Marketing Bridge ordinary Search
--> conditional evidence only for unresolved material boundaries
--> reuse Step-09 exact evidence first
--> any new provider calls require separate owner authorization and cost accounting
+Run 2-3 additional ordinary Yandex Search probes explicitly scoped to non-balcony generic glazing, then read any surfaced current first-party candidate before changing ownership state.
 ```
 
-The current Bridge Webmaster slice does not expose the newly researched advanced query-by-URL report as a direct operation. Do not pretend that capability exists. If needed, use an actually available authorized Webmaster UI/API route such as Work.
+Step 12 may proceed for resolved clusters. No structural action may be assigned to `GLAZING_SELECTION_INFO` until the boundary is validly closed.
 
-### Ownership states
+### Step-10 SEARCH_REQUIRED handoff
 
 ```text
-OWNER_EXISTING
-NO_SUITABLE_EXISTING_PAGE
-OWNER_UNRESOLVED_EVIDENCE_REQUIRED
-OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP
+SEARCH_REQUIRED_ROWS_ACCOUNTED = 13/13
+LIKELY_RESOLVED_OR_LIKELY_RESOLVED_OUTSIDE = 10
+SEMANTIC_REVIEW_REQUIRED = 3
 ```
 
-### 13 Step-10 SEARCH_REQUIRED phrases
-
-They are not clusters and must not be assigned page owners silently.
-
-Step-11 handoff state:
+Rows still requiring semantic review:
 
 ```text
-UNCLUSTERED_SEARCH_REQUIRED
-PAGE_OWNERSHIP_NOT_APPLICABLE_UNTIL_TASK_RESOLVED
+ral алюминиевых окон
+оконные блоки фурнитурой
+пластиковые окна комарова
 ```
 
-### Planned artifacts after owner authorization
+They remain `PAGE_OWNERSHIP_NOT_APPLICABLE_UNTIL_TASK_RESOLVED`.
+
+### Final Step-11 artifacts
 
 ```text
+STEP_11_CODEX_DISCOVERED_URLS.tsv
+STEP_11_CODEX_PAGE_PROFILE_LEDGER.tsv
+STEP_11_CODEX_PAGE_REFRESH_REPORT.md
 STEP_11_PAGE_PROFILE_LEDGER.tsv
 STEP_11_CLUSTER_PAGE_CANDIDATES.tsv
 STEP_11_PAGE_OWNERSHIP.tsv
 STEP_11_UNCLUSTERED_SEARCH_REQUIRED_HANDOFF.tsv
+STEP_11_SEARCH_BATCH_START_RECEIPT_2026-08-30.json
+STEP_11_SEARCH_BATCH_CHUNK_007_FINAL_CHECKPOINT_2026-08-30.json
 STEP_11_QA.json
 STEP_11_REPORT.md
 ```
@@ -382,9 +372,13 @@ DIRECT_SEARCH_EVIDENCE_TRANSFER_TO_UNPROBED_NEIGHBOURS = 0
 PREMATURE_STEP12_STRUCTURAL_ACTIONS = 0
 PREMATURE_STEP13_CANNIBALIZATION_VERDICTS = 0
 SILENT_CLUSTER_DROPS = 0
-PROVIDER_REQUESTS_RECONCILE = true if provider used
-PROVIDER_COST_RECONCILES = true if provider used
+PROVIDER_REQUESTS_RECONCILE = true
+PROVIDER_COST_RECONCILES = true
 FINAL_OUTPUT_PRESERVED_AND_READ_BACK = true
+MATERIAL_IN_SCOPE_CLUSTERS_WITHOUT_DIRECT_YANDEX_EVIDENCE_ROUTE = 0
+DIRECT_YANDEX_EVIDENCE_WITHHELD_ONLY_TO_SAVE_COST = 0
+OLD_STEP09_EVIDENCE_USED_AS_ARTIFICIAL_REQUEST_CEILING = 0
+PROVIDER_COST_ACCOUNTED = true
 ```
 
 Current Step-11 gate state:
@@ -394,11 +388,11 @@ STEP11_PRE_STEP_RESEARCH_REQUIRED = false
 STEP11_PRE_STEP_RESEARCH_COMPLETE = true
 STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = true
 STEP11_OWNER_METHOD_REVIEW_PRESENTED = true
-STEP11_EXECUTION_AUTHORIZED = false
-STEP11_EXECUTION_STARTED = false
-STEP11_PROVIDER_CALLS_AUTHORIZED = false
-STEP11_COMPLETE = false
-NEXT_STEP_ALLOWED = false
+STEP11_EXECUTION_AUTHORIZED = true
+STEP11_EXECUTION_STARTED = true
+STEP11_PROVIDER_CALLS_AUTHORIZED = true
+STEP11_COMPLETE = true
+NEXT_STEP_ALLOWED = true
 ```
 
 ---
@@ -420,8 +414,8 @@ NEXT_STEP_ALLOWED = false
 | 8. Freeze Search-stage semantic set | Freeze exact Search input and executable unresolved routes | ✅ COMPLETE AFTER METHOD CORRECTION |
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
-| **11. Page ownership** | **Map clusters to best existing URLs** | **🟡 CURRENT — METHOD REVIEWED / AWAITING OWNER EXECUTION AUTHORIZATION** |
-| 12. Structural actions | Keep/expand/split/merge/create decisions | ⬜ NOT STARTED |
+| **11. Page ownership** | **Map clusters to best existing URLs** | **✅ COMPLETE / PASS WITH EXPLICIT UNRESOLVED EVIDENCE ROUTE** |
+| **12. Structural actions** | **Keep/expand/split/merge/create decisions** | **⬜ NOT STARTED / NEXT ALLOWED** |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
 | 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
@@ -457,8 +451,17 @@ KW001_OKNO_MSK_STEP10_UNIVERSALITY_CORRECTION_APPLIED = true
 KW001_OKNO_MSK_STEP11_PRE_STEP_RESEARCH_COMPLETE = true
 KW001_OKNO_MSK_STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = true
 KW001_OKNO_MSK_STEP11_OWNER_METHOD_REVIEW_PRESENTED = true
-KW001_OKNO_MSK_STEP11_EXECUTION_AUTHORIZED = false
-KW001_OKNO_MSK_STEP11_EXECUTION_STARTED = false
-KW001_OKNO_MSK_STEP11_PROVIDER_CALLS_AUTHORIZED = false
-KW001_OKNO_MSK_STEP11_COMPLETE = false
+KW001_OKNO_MSK_STEP11_EXECUTION_AUTHORIZED = true
+KW001_OKNO_MSK_STEP11_EXECUTION_STARTED = true
+KW001_OKNO_MSK_STEP11_PROVIDER_CALLS_AUTHORIZED = true
+KW001_OKNO_MSK_STEP11_PROVIDER_REQUESTS = 69
+KW001_OKNO_MSK_STEP11_PROVIDER_COST_RUB = 33.672
+KW001_OKNO_MSK_STEP11_OWNER_EXISTING = 34
+KW001_OKNO_MSK_STEP11_NO_SUITABLE_EXISTING_PAGE = 18
+KW001_OKNO_MSK_STEP11_OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 1
+KW001_OKNO_MSK_STEP11_OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
+KW001_OKNO_MSK_STEP11_SEARCH_REQUIRED_ACCOUNTED = 13
+KW001_OKNO_MSK_STEP11_SEARCH_REQUIRED_SEMANTIC_REVIEW = 3
+KW001_OKNO_MSK_STEP11_COMPLETE = true
+KW001_OKNO_MSK_NEXT_STEP_ALLOWED = true
 ```
