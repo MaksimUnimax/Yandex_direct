@@ -1,0 +1,119 @@
+case_id	query_family	pair_ids	structural_unit_id	unit_owner_url	phrase
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_PROFILE_PRODUCT	https://okno-msk.ru/alyuminievye-okna	алюминиевый профиль окна балкон
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_PROFILE_PRODUCT	https://okno-msk.ru/alyuminievye-okna	балконные окна алюминиевый профиль
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые балконные окна
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна на балкон
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна на балкон цена
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна на лоджию
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	холодные окна на балкон алюминиевые
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	BALCONY_ALUMINIUM_SLIDING_GENERAL	https://okno-msk.ru/balkony-i-lodzhii	алюминиевые окна лоджию раздвижные
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	BALCONY_ALUMINIUM_SLIDING_GENERAL	https://okno-msk.ru/balkony-i-lodzhii	алюминиевые окна на балкон раздвижные цена
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	BALCONY_ALUMINIUM_SLIDING_GENERAL	https://okno-msk.ru/balkony-i-lodzhii	алюминиевые раздвижные окна на балкон
+QF001	ALUMINIUM_BALCONY_GLAZING_GENERAL_MECHANISM	V6P0009;V6P0033;V6P0036	BALCONY_ALUMINIUM_SLIDING_GENERAL	https://okno-msk.ru/balkony-i-lodzhii	окно балконное алюминиевое раздвижное
+QF002	COLD_OR_SLIDING_ALUMINIUM_BALCONY_GLAZING	V6P0010;V6P0034;V6P0037	BALCONY_ALUMINIUM_SLIDING_COLD	https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie	раздвижные окна на балкон алюминиевые холодное
+QF003	ALUMINIUM_WINDOWS_PRIVATE_HOUSE	V6P0021	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна в дом
+QF003	ALUMINIUM_WINDOWS_PRIVATE_HOUSE	V6P0021	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для частного дома
+QF004	PANORAMIC_ALUMINIUM_WINDOWS	V6P0027	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	панорамные алюминиевые окна
+QF005	ALUMINIUM_WINDOW_INSTALLATION	V6P0030	ALUMINIUM_WINDOW_INSTALLATION_REMOVAL_DIY	https://okno-msk.ru/alyuminievye-okna	как установить алюминиевые окна
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для беседки
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для веранды
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для веранды и террасы
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для веранды и террасы цены
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для веранды цена
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для террасы
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	ALUMINIUM_WINDOWS_COMMERCIAL	https://okno-msk.ru/alyuminievye-okna	алюминиевые окна для террасы цена
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	алюминиевое остекление веранды раздвижными конструкциями
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	алюминиевые окна для веранды и террасы раздвижные
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	алюминиевые окна раздвижные для террасы цены
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	алюминиевые раздвижные окна для беседки
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	алюминиевые раздвижные окна для веранды в можайске
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	алюминиевые раздвижные окна для веранды цена
+QF006	ALUMINIUM_VERANDA_TERRACE_GLAZING	V6P0031;V6P0035;V6P0046	OUTDOOR_ALUMINIUM_SLIDING_GLAZING	https://okno-msk.ru/verandy	окна раздвижные алюминиевые для веранды
+QF007	PANORAMIC_BALCONY_GLAZING	V6P0065	PANORAMIC_BALCONY_GLAZING	https://okno-msk.ru/balkony-i-lodzhii/panoramnoe-osteklenie-balkona	панорамное остекление балкона
+QF007	PANORAMIC_BALCONY_GLAZING	V6P0065	PANORAMIC_BALCONY_GLAZING	https://okno-msk.ru/balkony-i-lodzhii/panoramnoe-osteklenie-balkona	панорамные окна на балконе
+QF007	PANORAMIC_BALCONY_GLAZING	V6P0065	PANORAMIC_BALCONY_GLAZING	https://okno-msk.ru/balkony-i-lodzhii/panoramnoe-osteklenie-balkona	панорамные окна на лоджии
+QF008	PVC_DOOR_INSTALLATION	V6P0088	PVC_DOOR_INSTALLATION_REMOVAL_DIY	https://okno-msk.ru/dveri-rehau	как установить пластиковую дверь
+QF010	WINDOWSILL_INSTALLATION_REPLACEMENT	V6P0132	WINDOW_FINISHING_SERVICE	https://okno-msk.ru/uslugi/otdelka-otkosov	подоконник после установки пластикового окна
+QF010	WINDOWSILL_INSTALLATION_REPLACEMENT	V6P0132	WINDOW_FINISHING_SERVICE	https://okno-msk.ru/uslugi/otdelka-otkosov	установка деревянного подоконника на пластиковые окна
+QF010	WINDOWSILL_INSTALLATION_REPLACEMENT	V6P0132	WINDOW_FINISHING_SERVICE	https://okno-msk.ru/uslugi/otdelka-otkosov	установка подоконника на пластиковые окна
+QF010	WINDOWSILL_INSTALLATION_REPLACEMENT	V6P0132	WINDOW_FINISHING_SERVICE	https://okno-msk.ru/uslugi/otdelka-otkosov	установка подоконника на пластиковые окна цена
+QF010	WINDOWSILL_INSTALLATION_REPLACEMENT	V6P0132	WINDOW_FINISHING_SERVICE	https://okno-msk.ru/uslugi/otdelka-otkosov	установка подоконников под пластиковые окна
+QF011	FRENCH_WINDOW_DECORATIVE_GRID	V6P0139	WINDOW_DECORATIVE_BARS_ACCESSORY	https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/raskladki-v-steklopakety-shprosy	окна с французской раскладкой
+QF011	FRENCH_WINDOW_DECORATIVE_GRID	V6P0139	WINDOW_DECORATIVE_BARS_ACCESSORY	https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/raskladki-v-steklopakety-shprosy	окна французская решетка
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	FRENCH_WINDOWS_COMMERCIAL	https://okno-msk.ru/okna-rehau/francuzskie-okna	французские окна в пол
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	FRENCH_WINDOWS_COMMERCIAL	https://okno-msk.ru/okna-rehau/francuzskie-okna	французский балкон окно в пол
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	большие панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	высокие панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	готовые панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	дача с панорамными окнами
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	заказать панорамное окно
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	летние панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	маленькое панорамное окно
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	остекление панорамное окно
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно 3 на 3
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно в пол
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно открывающееся
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно с дверью
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно с дверью на террасу
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно цена москва
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное треугольное окно
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна 2 2
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна в здании
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна в каркасном
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна в лесу подмосковье
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна в россии
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна в частном
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна для загородного
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна для загородного дома
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна для загородного дома цена
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна купить
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна купить в москве
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна москва
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна под ключ
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна подмосковье
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна производство
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна с дверью в частном
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные окна цена
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамные пластиковые окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	раздвижные панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	сколько стоит панорамное окно
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	современные панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	стеклянные панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	угловое панорамное окно
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	фасадные панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	французские панорамные окна
+QF013	FRENCH_VS_PANORAMIC_FLOOR_TO_CEILING	V6P0147	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	элитные панорамные окна
+QF015	FRENCH_WINDOW_INSTALLATION	V6P0156	FRENCH_WINDOW_INSTALLATION_DIY	https://okno-msk.ru/okna-rehau/francuzskie-okna	как из обычного окна сделать французское
+QF015	FRENCH_WINDOW_INSTALLATION	V6P0156	FRENCH_WINDOW_INSTALLATION_DIY	https://okno-msk.ru/okna-rehau/francuzskie-okna	как сделать французское окно
+QF015	FRENCH_WINDOW_INSTALLATION	V6P0156	FRENCH_WINDOW_INSTALLATION_DIY	https://okno-msk.ru/okna-rehau/francuzskie-okna	как сделать французское окно своими руками
+QF016	PANORAMIC_WINDOWS_PRIVATE_HOUSE	V6P0158	PANORAMIC_PRIVATE_HOUSE_USECASE	https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom	панорамное окно с дверью в частном доме
+QF016	PANORAMIC_WINDOWS_PRIVATE_HOUSE	V6P0158	PANORAMIC_PRIVATE_HOUSE_USECASE	https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom	панорамные окна в частном доме
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_OUTDOOR_GLAZING	https://okno-msk.ru/verandy	беседка с барбекю панорамными окнами
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_OUTDOOR_GLAZING	https://okno-msk.ru/verandy	беседка с панорамными окнами
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_OUTDOOR_GLAZING	https://okno-msk.ru/verandy	веранда с панорамными окнами
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_OUTDOOR_GLAZING	https://okno-msk.ru/verandy	панорамные окна на террасу
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_OUTDOOR_GLAZING	https://okno-msk.ru/verandy	панорамные окна на террасу в частном
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_OUTDOOR_GLAZING	https://okno-msk.ru/verandy	панорамные окна на террасу в частном доме
+QF017	PANORAMIC_VERANDA_TERRACE_GLAZING	V6P0160	PANORAMIC_WINDOWS_COMMERCIAL_CORE	https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie	панорамное окно с дверью на террасу
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	замена окна в квартире на пластиковое цена
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	замена окна на пластиковое цена москва
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	замена окна на пластиковые цена
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	заменить окно на пластиковое цена
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	пластиковые окна замена установка
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	поменять окна на пластиковые цена
+QF018	WINDOW_REPLACEMENT_WITH_INSTALLATION	V6P0164	WINDOW_REPLACEMENT_SERVICE	https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire	стоимость замены окна на пластиковые цена
+QF019	PVC_WINDOW_ADJUSTMENT_TWO_POSITION	V6P0174	PVC_WINDOW_ADJUSTMENT_DIY	https://okno-msk.ru/stati/kak-otregulirovat-plastikovye-okna	как отрегулировать окна rehau
+QF019	PVC_WINDOW_ADJUSTMENT_TWO_POSITION	V6P0174	PVC_WINDOW_ADJUSTMENT_DIY	https://okno-msk.ru/stati/kak-otregulirovat-plastikovye-okna	как отрегулировать пластиковое окно
+QF019	PVC_WINDOW_ADJUSTMENT_TWO_POSITION	V6P0174	PVC_WINDOW_ADJUSTMENT_DIY	https://okno-msk.ru/stati/kak-otregulirovat-plastikovye-okna	как регулировать окно rehau
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	BEST_PVC_REHAU_WINDOWS_COMPARISON	https://okno-msk.ru/stati/kakie-okna-samye-luchshie	лучшие пластиковые окна
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	BEST_PVC_REHAU_WINDOWS_COMPARISON	https://okno-msk.ru/stati/kakie-okna-samye-luchshie	лучшие пластиковые окна rehau
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	BEST_PVC_REHAU_WINDOWS_COMPARISON	https://okno-msk.ru/stati/kakie-okna-samye-luchshie	окна rehau какие лучше
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	WINDOW_SELECTION_INFO	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna	как выбрать пластиковое окно рекомендации эксперта
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	WINDOW_SELECTION_INFO	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna	как выбрать пластиковые окна
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	WINDOW_SELECTION_INFO	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna	как выбрать пластиковые окна для квартиры
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	WINDOW_SELECTION_INFO	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna	как выбрать пластиковые окна для частного
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	WINDOW_SELECTION_INFO	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna	как выбрать пластиковые окна какие
+QF020	PVC_WINDOW_SELECTION_BEST	V6P0179	WINDOW_SELECTION_INFO	https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna	как выбрать пластиковые окна рекомендации
+QF021	PVC_VS_PANORAMIC_WINDOW_SELECTION	V6P0180	PANORAMIC_WINDOW_TECH_SELECTION_INFO	https://okno-msk.ru/stati/panoramnoe-osteklenie-eto-dan-mode-ili-praktichnoe-reshenie	какие панорамные окна лучше
+QF021	PVC_VS_PANORAMIC_WINDOW_SELECTION	V6P0180	PANORAMIC_WINDOW_TECH_SELECTION_INFO	https://okno-msk.ru/stati/panoramnoe-osteklenie-eto-dan-mode-ili-praktichnoe-reshenie	лучшие панорамные окна

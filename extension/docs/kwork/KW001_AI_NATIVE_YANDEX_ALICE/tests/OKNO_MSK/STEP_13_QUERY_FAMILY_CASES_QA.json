@@ -1,0 +1,17 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP13_QUERY_FAMILY_CASES_MATERIALIZED",
+  "input_surviving_pairs": 27,
+  "mapped_surviving_pairs": 27,
+  "query_family_cases": 21,
+  "phrase_evidence_rows": 118,
+  "materialization_state_counts": {
+    "MULTI_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 5,
+    "SINGLE_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 13,
+    "ZERO_REGEX_MATCH_IN_CONTRIBUTING_UNITS": 3
+  },
+  "zero_match_cases": 3,
+  "provider_calls": 0,
+  "step13_search_executed": false,
+  "semantic_boundary": "REGEX_MATERIALIZATION_IS_EVIDENCE_EXTRACTION_ONLY__FINAL_CASE_ELIGIBILITY_AND_CONFLICT_VERDICT_REMAIN_MANUAL"
+}
