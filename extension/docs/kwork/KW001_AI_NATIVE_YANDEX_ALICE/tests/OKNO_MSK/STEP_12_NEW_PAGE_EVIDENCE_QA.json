@@ -1,0 +1,53 @@
+{
+  "status": "CANDIDATE_NEW_PAGE_EVIDENCE_MATRIX_READY_FOR_MANUAL_REVIEW",
+  "candidate_pages": 5,
+  "candidate_ids": [
+    "PANORAMIC_WINDOWS_COMMERCIAL",
+    "WINDOW_HARDWARE_GUIDE",
+    "PVC_WINDOW_INSTALLATION_DIY_GUIDE",
+    "PVC_WINDOW_REPAIR_DIY_GUIDE",
+    "WINDOW_REPLACEMENT_SERVICE"
+  ],
+  "phrase_evidence_rows": 163,
+  "wordstat_source_files_used": [
+    "STEP_03R_S01_RAW_NORMALIZED.tsv",
+    "STEP_03R_S02_RAW_NORMALIZED.tsv",
+    "STEP_03R_S03_RAW_NORMALIZED.tsv",
+    "STEP_03R_S04_RAW_NORMALIZED.tsv",
+    "STEP_03R_S05_RAW_NORMALIZED.tsv",
+    "STEP_03R_S06_RAW_NORMALIZED.tsv",
+    "STEP_03R_S07_RAW_NORMALIZED.tsv",
+    "STEP_03R_S09_RAW_NORMALIZED.tsv",
+    "STEP_03R_S10_RAW_NORMALIZED.tsv",
+    "STEP_03R_S11_RAW_NORMALIZED.tsv",
+    "STEP_03R_S12_RAW_NORMALIZED.tsv",
+    "STEP_03R_S13_RAW_NORMALIZED.tsv",
+    "STEP_03R_S14_RAW_NORMALIZED.tsv",
+    "STEP_03R_S15_RAW_NORMALIZED.tsv",
+    "STEP_03R_S16_RAW_NORMALIZED.tsv",
+    "STEP_03R_S17_RAW_NORMALIZED.tsv",
+    "STEP_03R_S18_RAW_NORMALIZED.tsv",
+    "STEP_05_P2_01_RAW_NORMALIZED.tsv",
+    "STEP_05_P2_02_RAW_NORMALIZED.tsv",
+    "STEP_05_P2_03_RAW_NORMALIZED.tsv",
+    "STEP_05_P2_04_RAW_NORMALIZED.tsv"
+  ],
+  "direct_wordstat_only_for_demand": true,
+  "association_not_counted_as_direct_demand": true,
+  "phrase_counts_not_summed_as_total_unique_demand": true,
+  "step09_direct_query_only_no_transfer": true,
+  "wordstat_raw_vs_step08_mismatch_rows": 0,
+  "wordstat_raw_vs_step08_mismatch_phrases": [],
+  "candidates_without_direct_step09_core_query": [
+    "PANORAMIC_WINDOWS_COMMERCIAL",
+    "PVC_WINDOW_REPAIR_DIY_GUIDE",
+    "WINDOW_REPLACEMENT_SERVICE"
+  ],
+  "defects_closed_by_script_alone": [],
+  "defects_candidate_for_closure_after_manual_review": [
+    "D12-03",
+    "D12-10"
+  ],
+  "new_bridge_requests": 0,
+  "new_bridge_cost_rub": 0.0
+}
