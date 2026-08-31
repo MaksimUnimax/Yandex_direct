@@ -30,9 +30,9 @@ phrase	old_structural_unit_id	corrected_structural_unit_id	decision_reason
 пластиковая дверь своими руками	PVC_DOOR_INFO	PVC_DOOR_INSTALLATION_REMOVAL_DIY	Explicit DIY build/install intent belongs with existing PVC-door installation/removal DIY.
 алюминиевые окна и двери	WINDOWS_DOORS_COMBINED_COMMERCIAL	ALUMINIUM_WINDOWS_DOORS_COMBINED_COMMERCIAL	Explicit aluminium material defines a separate combined commercial object.
 входные двери с окном для частного дома	WINDOWS_DOORS_COMBINED_COMMERCIAL	PRIVATE_HOUSE_ENTRY_DOOR_WITH_WINDOW_UNVERIFIED	Entry-door-with-window object is not generic combined Rehau window/door demand and business truth is unverified.
-панорамное окно с дверью	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL	Explicit panoramic construction defines the panoramic commercial family.
-панорамное окно с дверью на террасу	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL	Explicit panoramic construction defines the panoramic commercial family; terrace is context.
-панорамные окна с дверью в частном	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL	Explicit panoramic construction defines the panoramic commercial family.
+панорамное окно с дверью	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL_CORE	Explicit panoramic construction belongs to the current panoramic commercial core.
+панорамное окно с дверью на террасу	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL_CORE	Explicit panoramic construction belongs to the current panoramic commercial core; terrace is application context.
+панорамные окна с дверью в частном	WINDOWS_DOORS_COMBINED_COMMERCIAL	PANORAMIC_WINDOWS_COMMERCIAL_CORE	Explicit panoramic construction belongs to the current panoramic commercial core; private house is application context.
 французское окно с дверью	WINDOWS_DOORS_COMBINED_COMMERCIAL	FRENCH_WINDOWS_COMMERCIAL	Explicit French-window construction belongs to French commercial demand.
 как выбрать резинку для окна пластикового	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_SEAL_SELECTION_INFO	Seal/gasket selection is a coherent component task distinct from handles.
 как выбрать ручку для пластикового окна	WINDOW_COMPONENT_SELECTION_INFO	WINDOW_HANDLES_ACCESSORY	Handle selection has an existing specialist accessory owner.
