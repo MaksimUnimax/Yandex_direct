@@ -39,50 +39,57 @@ assert set(pair_to_case)==surv,(sorted(surv-set(pair_to_case)),sorted(set(pair_t
 
 by_pair={r['pair_id']:r for r in elig}
 act_by={r['structural_unit_id']:r for r in acts}
-phrases=defaultdict(list)
+# Build full current phrase universe with current unit owner URL. Query-family discovery must
+# inspect ALL 2332 assignments, not only the historical units that caused a candidate pair.
+phrase_rows=[]
 for r in assign:
     uid=(r.get('final_structural_unit_id') or '').strip()
-    if uid: phrases[uid].append(r['phrase'])
+    if not uid:continue
+    owner=norm_url(act_by.get(uid,{}).get('primary_page_candidate',''))
+    phrase_rows.append((uid,owner,r['phrase']))
 
 case_rows=[];evidence_rows=[]
 for d in defs:
     pids=[x for x in d['pair_ids'].split(';') if x]
-    units=[];urls=[]
+    contributing_units=[];urls=[]
     for pid in pids:
         p=by_pair[pid]
         urls.extend([norm_url(p['page_a']),norm_url(p['page_b'])])
-        units.extend([x for x in p['relation_structural_units'].split(';') if x])
-    units=sorted(set(units));urls=sorted(set(u for u in urls if u))
+        contributing_units.extend([x for x in p['relation_structural_units'].split(';') if x])
+    contributing_units=sorted(set(contributing_units));urls=sorted(set(u for u in urls if u))
     pattern=re.compile(d['query_match_regex'],re.I)
     matched=[]
-    for uid in units:
-        owner=norm_url(act_by.get(uid,{}).get('primary_page_candidate',''))
-        for ph in phrases.get(uid,[]):
-            if pattern.search(ph):
-                row={'case_id':d['case_id'],'query_family':d['query_family'],'pair_ids':';'.join(pids),'structural_unit_id':uid,'unit_owner_url':owner,'phrase':ph}
-                matched.append(row);evidence_rows.append(row)
+    for uid,owner,ph in phrase_rows:
+        if pattern.search(ph):
+            scope='CONTRIBUTING_UNIT' if uid in contributing_units else 'GLOBAL_CURRENT_ASSIGNMENT'
+            row={'case_id':d['case_id'],'query_family':d['query_family'],'pair_ids':';'.join(pids),'structural_unit_id':uid,'unit_owner_url':owner,'phrase':ph,'match_scope':scope}
+            matched.append(row);evidence_rows.append(row)
     matched_units=sorted({r['structural_unit_id'] for r in matched})
     owner_urls=sorted({r['unit_owner_url'] for r in matched if r['unit_owner_url']})
     candidate_owner_hits=sorted(set(urls)&set(owner_urls))
-    if not matched: state='ZERO_REGEX_MATCH_IN_CONTRIBUTING_UNITS'
+    candidate_matched=[r for r in matched if r['unit_owner_url'] in set(urls)]
+    contributing_matched=[r for r in matched if r['match_scope']=='CONTRIBUTING_UNIT']
+    if not matched: state='ZERO_REGEX_MATCH_IN_FULL_CURRENT_PHRASE_UNIVERSE'
     elif len(candidate_owner_hits)>=2: state='MULTI_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED'
     elif len(candidate_owner_hits)==1: state='SINGLE_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED'
     elif owner_urls: state='MATCHED_TO_OTHER_CURRENT_OWNER_URLS'
     else: state='MATCHED_BUT_OWNER_UNRESOLVED_OR_NO_PAGE'
     case_rows.append({
       'case_id':d['case_id'],'query_family':d['query_family'],'pair_ids':';'.join(pids),'candidate_urls':';'.join(urls),
-      'contributing_structural_units':';'.join(units),'query_match_regex':d['query_match_regex'],'case_rationale':d['case_rationale'],
-      'matched_phrase_count':len(matched),'matched_structural_units':';'.join(matched_units),'matched_owner_urls':';'.join(owner_urls),
+      'contributing_structural_units':';'.join(contributing_units),'query_match_regex':d['query_match_regex'],'case_rationale':d['case_rationale'],
+      'global_matched_phrase_count':len(matched),'candidate_url_matched_phrase_count':len(candidate_matched),'contributing_unit_matched_phrase_count':len(contributing_matched),
+      'matched_structural_units':';'.join(matched_units),'matched_owner_urls':';'.join(owner_urls),
       'candidate_owner_urls_with_matches':';'.join(candidate_owner_hits),'query_family_materialization_state':state,
       'fresh_search_required':'UNDECIDED_REUSE_PERSISTED_SEARCH_FIRST'})
 
 write(OUT,case_rows,list(case_rows[0].keys()))
-write(EVID,evidence_rows,['case_id','query_family','pair_ids','structural_unit_id','unit_owner_url','phrase'])
+write(EVID,evidence_rows,['case_id','query_family','pair_ids','structural_unit_id','unit_owner_url','phrase','match_scope'])
 states=Counter(r['query_family_materialization_state'] for r in case_rows)
 qa={
- 'date':'2026-08-31','status':'STEP13_QUERY_FAMILY_CASES_MATERIALIZED','input_surviving_pairs':len(surv),'mapped_surviving_pairs':len(pair_to_case),
+ 'date':'2026-08-31','status':'STEP13_QUERY_FAMILY_CASES_GLOBAL_REVALIDATED','input_surviving_pairs':len(surv),'mapped_surviving_pairs':len(pair_to_case),
  'query_family_cases':len(case_rows),'phrase_evidence_rows':len(evidence_rows),'materialization_state_counts':dict(sorted(states.items())),
- 'zero_match_cases':sum(r['matched_phrase_count']==0 for r in case_rows),'provider_calls':0,'step13_search_executed':False,
+ 'zero_match_cases':sum(r['global_matched_phrase_count']==0 for r in case_rows),'provider_calls':0,'step13_search_executed':False,
+ 'correction':'QUERY_FAMILY_REGEX_RECHECKED_AGAINST_ALL_2332_CURRENT_ASSIGNMENTS_NOT_ONLY_PAIR_CONTRIBUTING_UNITS',
  'semantic_boundary':'REGEX_MATERIALIZATION_IS_EVIDENCE_EXTRACTION_ONLY__FINAL_CASE_ELIGIBILITY_AND_CONFLICT_VERDICT_REMAIN_MANUAL'
 }
 QA.write_text(json.dumps(qa,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
