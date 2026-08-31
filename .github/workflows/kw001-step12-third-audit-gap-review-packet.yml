@@ -1,0 +1,50 @@
+name: KW001 Step12 Third Audit Gap Review Packet
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_GAP_PACKET_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build packet
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_third_audit_gap_review_packet.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          q=json.loads((r/'STEP_12_THIRD_AUDIT_GAP_REVIEW_PACKET_QA.json').read_text(encoding='utf-8'))
+          rows=list(csv.DictReader((r/'STEP_12_THIRD_AUDIT_GAP_REVIEW_PACKET.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          assert q=={'rows':36,'expand':14,'section':12,'defer':10,'all_have_phrases':True}
+          assert len(rows)==36
+          print('STEP12_THIRD_AUDIT_GAP_REVIEW_PACKET_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_THIRD_AUDIT_GAP_REVIEW_PACKET.tsv $base/STEP_12_THIRD_AUDIT_GAP_REVIEW_PACKET_QA.json
+          git commit -m "step12: persist evidence-first gap review packet [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_THIRD_AUDIT_GAP_REVIEW_PACKET.tsv > /tmp/p.tsv
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('/tmp/p.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert len(rows)==36
+          print('STEP12_THIRD_AUDIT_GAP_PACKET_GITHUB_READBACK_PASS')
+          PY
