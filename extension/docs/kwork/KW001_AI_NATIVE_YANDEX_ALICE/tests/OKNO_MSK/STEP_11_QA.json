@@ -1,0 +1,116 @@
+{
+  "step": 11,
+  "job": "KW001_AI_NATIVE_YANDEX_ALICE/OKNO_MSK",
+  "verified_at": "2026-08-31",
+  "status": "PASS_WITH_EXPLICIT_UNRESOLVED_EVIDENCE_ROUTE",
+  "inputs": {
+    "final_step10_clusters": 59,
+    "step10_search_required_rows": 13,
+    "authorized_webmaster_property_available": false,
+    "ordinary_yandex_search_region": "213",
+    "bridge_reported_live_version_during_search": "0.1.1"
+  },
+  "page_evidence": {
+    "curated_current_page_profile_rows": 23,
+    "owner_existing_without_current_page_read": 0,
+    "lexical_only_ownership_decisions": 0,
+    "ranking_url_automatically_equated_to_owner": 0,
+    "search_absence_automatically_equated_to_no_page": 0,
+    "no_suitable_existing_page_without_plausible_candidate_review": 0
+  },
+  "ownership_accounting": {
+    "clusters_accounted": 59,
+    "clusters_expected": 59,
+    "owner_existing": 34,
+    "no_suitable_existing_page": 18,
+    "owner_unresolved_evidence_required": 1,
+    "outside_scope_no_target_ownership": 6,
+    "silent_cluster_drops": 0,
+    "sum_reconciles": true
+  },
+  "unresolved": {
+    "count": 1,
+    "cluster_ids": [
+      "GLAZING_SELECTION_INFO"
+    ],
+    "cases_without_executable_evidence_route": 0,
+    "route": "Run 2-3 additional ordinary Yandex Search probes explicitly scoped to non-balcony generic glazing, then read any surfaced current first-party candidate before changing ownership state. No Step-12 structural action may be assigned to this unresolved cluster before that boundary is closed."
+  },
+  "search_required_handoff": {
+    "rows_accounted": 13,
+    "rows_expected": 13,
+    "likely_resolved_or_likely_resolved_outside": 10,
+    "semantic_review_required": 3,
+    "semantic_review_queries": [
+      "ral алюминиевых окон",
+      "оконные блоки фурнитурой",
+      "пластиковые окна комарова"
+    ],
+    "ownership_applied_before_task_resolution": 0
+  },
+  "fresh_search_provider_accounting": {
+    "canary_requests": 1,
+    "canary_cost_rub": 0.488,
+    "batch_queries": 68,
+    "batch_requests_started": 68,
+    "batch_succeeded": 68,
+    "batch_failed_terminal": 0,
+    "batch_outcome_unknown": 0,
+    "batch_pending": 0,
+    "batch_status": "COMPLETED",
+    "batch_cost_rub": 33.184,
+    "fresh_total_requests": 69,
+    "fresh_total_cost_rub": 33.672,
+    "provider_requests_reconcile": true,
+    "provider_cost_reconciles": true,
+    "batch_target_domain_top10_hits": 0,
+    "target_domain_absence_used_as_ownership_verdict": false
+  },
+  "evidence_transfer_and_scope_gates": {
+    "direct_search_evidence_transfer_to_unprobed_neighbours": 0,
+    "material_in_scope_clusters_without_direct_yandex_evidence_route": 0,
+    "direct_yandex_evidence_withheld_only_to_save_cost": 0,
+    "old_step09_evidence_used_as_artificial_request_ceiling": 0,
+    "provider_cost_accounted": true
+  },
+  "step_boundary_gates": {
+    "premature_step12_structural_actions": 0,
+    "premature_step13_cannibalization_verdicts": 0
+  },
+  "persistence": {
+    "page_profile_ledger_preserved": true,
+    "cluster_page_candidates_preserved": true,
+    "page_ownership_preserved": true,
+    "search_required_handoff_preserved": true,
+    "search_batch_start_receipt_preserved": true,
+    "search_batch_final_checkpoint_preserved": true,
+    "step11_report_preserved": true,
+    "final_outputs_read_back_before_qa_finalization": true,
+    "consolidated_full_680_ranked_row_step11_tsv_present": false,
+    "serp_persistence_limitation": "The Step-11 Search Batch is preserved through start/final and per-chunk checkpoints with execution accounting and normalized per-query dominant signals. A single consolidated full 680-ranked-row TSV was not produced in this pass; this limitation is explicit and was not represented as full raw-SERP preservation."
+  },
+  "pass_gate": {
+    "FINAL_STEP10_CLUSTERS_ACCOUNTED": "59/59",
+    "UNCLUSTERED_SEARCH_REQUIRED_ACCOUNTED": "13/13",
+    "OWNER_EXISTING_WITHOUT_CURRENT_PAGE_READ": 0,
+    "LEXICAL_ONLY_OWNERSHIP_DECISIONS": 0,
+    "RANKING_URL_AUTOMATICALLY_EQUATED_TO_OWNER": 0,
+    "SEARCH_ABSENCE_AUTOMATICALLY_EQUATED_TO_NO_PAGE": 0,
+    "NO_SUITABLE_EXISTING_PAGE_WITHOUT_PLAUSIBLE_CANDIDATE_REVIEW": 0,
+    "UNRESOLVED_CASES_WITHOUT_EXECUTABLE_EVIDENCE_ROUTE": 0,
+    "DIRECT_SEARCH_EVIDENCE_TRANSFER_TO_UNPROBED_NEIGHBOURS": 0,
+    "PREMATURE_STEP12_STRUCTURAL_ACTIONS": 0,
+    "PREMATURE_STEP13_CANNIBALIZATION_VERDICTS": 0,
+    "SILENT_CLUSTER_DROPS": 0,
+    "PROVIDER_REQUESTS_RECONCILE": true,
+    "PROVIDER_COST_RECONCILES": true,
+    "FINAL_OUTPUT_PRESERVED_AND_READ_BACK": true,
+    "MATERIAL_IN_SCOPE_CLUSTERS_WITHOUT_DIRECT_YANDEX_EVIDENCE_ROUTE": 0,
+    "DIRECT_YANDEX_EVIDENCE_WITHHELD_ONLY_TO_SAVE_COST": 0,
+    "OLD_STEP09_EVIDENCE_USED_AS_ARTIFICIAL_REQUEST_CEILING": 0,
+    "PROVIDER_COST_ACCOUNTED": true
+  },
+  "step11_complete": true,
+  "next_step_allowed": true,
+  "next_step_constraint": "Step 12 may proceed for resolved clusters. GLAZING_SELECTION_INFO must remain unresolved/no-structural-action until its explicit evidence route is executed or otherwise validly closed. The three SEARCH_REQUIRED semantic-review rows remain outside page ownership until their task is resolved."
+}
