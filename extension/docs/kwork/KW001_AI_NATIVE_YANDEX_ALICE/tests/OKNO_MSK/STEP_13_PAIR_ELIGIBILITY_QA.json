@@ -1,0 +1,23 @@
+{
+  "date": "2026-08-31",
+  "status": "STEP13_PAIR_ELIGIBILITY_ACCOUNTING_PASS",
+  "input_pairs": 195,
+  "manual_decisions": 195,
+  "materialized_rows": 195,
+  "unique_input_pair_ids": 195,
+  "unique_manual_pair_ids": 195,
+  "silent_pair_drops": 0,
+  "extra_pair_ids": 0,
+  "class_counts": {
+    "NORMAL_DISTINCT_INTENT": 3,
+    "NORMAL_DISTINCT_OBJECT_OR_TASK": 81,
+    "NORMAL_HIERARCHICAL_OR_SUPPORTING": 45,
+    "NORMAL_MIXED_INTENT": 39,
+    "SURVIVES_TO_QUERY_FAMILY": 27
+  },
+  "surviving_pairs": 27,
+  "closed_without_fresh_search": 168,
+  "provider_calls": 0,
+  "step13_search_executed": false,
+  "semantic_origin": "MANUAL_PAIR_REVIEW_AGAINST_47_URL_CURRENT_PAGE_ROLE_LEDGER__SCRIPT_CHECKS_ACCOUNTING_ONLY"
+}
