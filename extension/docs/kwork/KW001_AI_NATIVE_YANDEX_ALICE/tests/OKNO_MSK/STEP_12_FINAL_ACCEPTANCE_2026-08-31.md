@@ -29,6 +29,7 @@ CURRENT_DERIVED_PAIR_UNIVERSE = 189
 FUTURE_DIRECT_STEP13_SEARCH_CHECK_PAIRS = 171
 STEP13_DEPENDENCY_UNITS = 107
 STEP13_EXECUTED = false
+FINAL_CANONICAL_GITHUB_READBACK = true
 ```
 
 The pair count is derived dynamically from current routing; it is not an acceptance threshold.
@@ -36,3 +37,5 @@ The pair count is derived dynamically from current routing; it is not an accepta
 ## Next-step boundary
 
 Step 13 is now **NEXT ALLOWED / NOT STARTED**. It remains `UNVALIDATED` as a permanent method in `STEP_RULES_INDEX.md`, so execution requires fresh Step-13 methodology research/review and owner authorization before any cannibalization diagnosis.
+
+The canonical closure commit was read back from GitHub before this final durable-status synchronization. This synchronization itself must also pass a second structured GitHub readback before the job state is reported externally.

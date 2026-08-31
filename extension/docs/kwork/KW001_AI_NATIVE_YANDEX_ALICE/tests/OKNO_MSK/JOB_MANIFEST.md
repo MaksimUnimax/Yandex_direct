@@ -357,6 +357,7 @@ STEP_12_UNSUPPORTED_SPLIT = 0
 STEP_12_UNSUPPORTED_MERGE = 0
 STEP_12_SELF_ASSERTED_QA_FIELDS = 0
 STEP_12_COMPLETE = true
+STEP_12_FINAL_GITHUB_READBACK = true
 STEP_13_STATUS = NOT_STARTED_NEXT_ALLOWED
 STEP_13_EXECUTED = false
 ```
@@ -366,7 +367,6 @@ The current pair count is derived dynamically from the corrected routing graph a
 ## Remaining roadmap
 
 ```text
-Step 12 — structural actions
 Step 13 — cannibalization diagnosis
 Step 14 — Search-only architecture freeze
 Step 15 — AI-case selection

@@ -196,3 +196,13 @@ Step 12 now answers the practical website question without pretending uncertaint
 The correction also changes how trustworthy the output is. Every active phrase is carried through to a final action/unresolved state, page actions have destinations, new pages have a real place in the site, confidence describes current evidence rather than a default, and the next-step overlap universe is generated from the actual routing graph rather than analyst memory.
 
 **Step 12 is complete. Step 13 has not been started.**
+
+
+## Final durable closure readback
+
+The canonical Step-12 closure commit passed structured GitHub readback. The final status synchronization records that durable proof in the canonical QA/state/flow/manifest. A second structured readback of the synchronization commit is required before external reporting.
+
+```text
+FINAL_CANONICAL_GITHUB_READBACK = true
+STEP13_EXECUTED = false
+```

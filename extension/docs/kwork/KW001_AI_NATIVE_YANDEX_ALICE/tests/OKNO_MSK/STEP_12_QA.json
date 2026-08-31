@@ -73,5 +73,7 @@
   "defect_count": 15,
   "open_defects": [],
   "new_bridge_requests_during_final_correction": 0,
-  "new_bridge_cost_rub_during_final_correction": 0.0
+  "new_bridge_cost_rub_during_final_correction": 0.0,
+  "final_github_readback": true,
+  "canonical_closure_readback_passed": true
 }
