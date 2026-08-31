@@ -1,0 +1,11 @@
+{
+  "date": "2026-08-31",
+  "status": "D12_28_D12_29_REVIEW_PACKET_READY",
+  "structural_actions": 160,
+  "quality_gap_units": 20,
+  "quality_gap_member_phrases": 322,
+  "prior_implement_links": 28,
+  "active_assignment_rows": 2332,
+  "step13_executed": false,
+  "packet_origin": "DIRECT_EXTRACTION_FROM_ACCEPTED_V5_ACTIONS_V6_ASSIGNMENTS_AND_V5_LINKS_WITHOUT_REINTERPRETING_ACTIONS"
+}
