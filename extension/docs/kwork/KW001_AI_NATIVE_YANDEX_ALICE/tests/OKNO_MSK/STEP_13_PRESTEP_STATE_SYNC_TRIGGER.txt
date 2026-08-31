@@ -1,0 +1,2 @@
+trigger=2026-08-31
+goal=sync JOB_MANIFEST and JOB_FLOW to Step13 pre-step research complete, execution awaiting explicit owner authorization
