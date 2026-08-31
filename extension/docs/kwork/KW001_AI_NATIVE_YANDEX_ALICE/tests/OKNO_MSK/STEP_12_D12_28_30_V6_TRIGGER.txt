@@ -1,2 +1,2 @@
-trigger=2026-08-31T12:31:00Z
-goal=rebuild Step12 from D12-28 current-content evidence, D12-30 exact phrase resolutions and D12-29 current link validation; persist diagnostics before gate
+trigger=2026-08-31T12:42:00Z
+goal=rebuild Step12 after canonical panoramic-core correction using D12-28 current-content evidence, D12-30 exact phrase resolutions and D12-29 current link validation; persist diagnostics before gate
