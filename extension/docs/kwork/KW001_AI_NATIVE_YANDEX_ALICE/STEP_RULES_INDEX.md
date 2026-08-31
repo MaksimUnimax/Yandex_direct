@@ -17,7 +17,12 @@ Canonical rules:
 ```text
 ROADMAP_STAGE_EXISTS != METHODOLOGY_VALIDATED
 RESEARCH_COLLECTED != METHOD_VALIDATED
+OLD_SITE_INVENTORY != CURRENT_SITE_TRUTH
 ```
+
+Current-site freshness authority for Steps 1, 11, 12, 13, 14 and 20:
+
+`CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`
 
 A universal method is a reusable structure, not a domain-free execution rule:
 
@@ -53,7 +58,7 @@ Permanent promotion requires explicit owner instruction.
 | Stage | Purpose | Permanent methodology status | Canonical method / reusable lesson |
 |---|---|---|---|
 | Step 0 | Order / scope freeze | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — freeze brief before evidence. |
-| Step 1 | Existing-site discovery / business-page model | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — one discovery pass is not automatically complete; cross-check channels and preserve evidence strength. |
+| Step 1 | Existing-site discovery / business-page model | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md` — one discovery pass is not automatically complete; cross-check channels, timestamp the inventory and preserve that it is a baseline snapshot rather than timeless absence proof. |
 | Step 2 | Seed / acquisition probe plan | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — seed is an acquisition probe, not a final keyword/page target. |
 | Step 3 | Wordstat/provider acquisition | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — provider/API success is not collection completion; complete returned evidence must be preserved and verified before advancing. |
 | Step 3R | Repair of incomplete Step-3 acquisition | **JOB-SPECIFIC RECOVERY PATTERN / GOVERNED BY STEP 3** | Step-3 permanent rules + current-job repair evidence. |
@@ -65,16 +70,16 @@ Permanent promotion requires explicit owner instruction.
 | **Step 8** | **Freeze Search-stage semantic set** | **APPROVED / ACTIVE AFTER METHOD CORRECTION** | **`STEP_08_SEARCH_STAGE_FREEZE_METHOD.md`** — only executable routes; no `REVIEW_BUSINESS`/`REVIEW_SEARCH_AND_BUSINESS` without a real independent evidence source; internal priority is not a semantic route; source-to-method trace required. |
 | Step 9 | Ordinary Yandex Search/SERP validation | **UNVALIDATED** | Must research current Yandex/Search evidence methodology, query sampling/full-scope rules, preservation and page-boundary interpretation before execution. |
 | **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY, SORTING AND UNIVERSALITY CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`** — supports unconstrained and explicit fixed-count/range modes; current domain, site, business, client and deliverable constraints may define valid split/merge axes. **`STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`** — reusable task-first baseline plus required current-job domain profile; real cluster IDs, site data, local phrases, exact exceptions, thresholds and owner rules are allowed and applied at declared scope. **`STEP_10_SORTING_AND_QA_METHOD.md`** — configurable execution/QA modes, including fresh rebuild, existing-taxonomy reuse, adaptation, interactive iteration, fixed categories, full or risk-based QA and reserved empty categories. |
-| **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md`** — cluster→owner is necessary but not sufficient; inspect member phrases, persist every Bridge/Codex acquisition immediately to GitHub with readback before the next interaction, distinguish target URL from proven Yandex relevant URL, and materialize/QA every active phrase→effective cluster→target URL/state row. |
-| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA** | **`STEP_12_STRUCTURAL_ACTION_METHOD.md`** — explicit coherent structural units; evidence-backed new-page boundaries; reviewed primary targets for implementable actions; evidence-derived confidence/maturity with current-state reasons; concrete hierarchy; full phrase→action map; deterministic Step-13 pair universe; independent QA with explicit evidence origin and evidence-valid SPLIT/MERGE controls. |
-| Step 13 | Cannibalization diagnosis | **UNVALIDATED** | Must distinguish real competing-page conflict from normal multi-URL visibility. |
-| Step 14 | Search-only architecture freeze | **UNVALIDATED** | Must define what evidence is sufficient to freeze classic Search architecture before AI evidence. |
+| **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — refresh current candidate pages; a `NO_SUITABLE_EXISTING_PAGE` negative claim requires current multi-route absence evidence, not old-inventory absence. |
+| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **REOPENED / SECOND METHOD CORRECTION IN PROGRESS** | **`STEP_12_STRUCTURAL_ACTION_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — current-site recheck immediately before CREATE, existing-content reuse audit, owner-goal/business-potential gate, then evidence-derived action/confidence and independent QA. D12-16..D12-20 are open until current-job revalidation completes. |
+| Step 13 | Cannibalization diagnosis | **UNVALIDATED** | Must distinguish real competing-page conflict from normal multi-URL visibility; before diagnosing a pair, re-read both current URLs under `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`. |
+| Step 14 | Search-only architecture freeze | **UNVALIDATED** | Must define what evidence is sufficient to freeze classic Search architecture before AI evidence and recheck implementation-critical current URLs before freeze. |
 | Step 15 | AI-case selection | **UNVALIDATED** | Must select high-information uncertain cases rather than querying AI search indiscriminately. |
 | Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. |
 | Step 17 | Search-vs-AI comparison | **UNVALIDATED** | Must define comparable evidence units and avoid forcing agreement between different retrieval surfaces. |
 | Step 18 | Prioritization | **UNVALIDATED** | Must research/define how impact, evidence strength, public business relevance, internal client constraints, effort and uncertainty affect priority. |
 | Step 19 | Client deliverables | **UNVALIDATED** | Must map analysis outputs to the sold deliverable and make evidence/uncertainty understandable to the client. |
-| Step 20 | Final QA | **UNVALIDATED** | Must reconcile claims, counts, evidence, URLs/actions and unresolved items against the promised Kwork output. |
+| Step 20 | Final QA | **UNVALIDATED** | Must reconcile claims, counts, evidence, URLs/actions and unresolved items against the promised Kwork output, including a lightweight current-URL/current-role recheck for implementation-critical pages. |
 | Step 21 | Handoff / revisions | **UNVALIDATED** | Must define revision scope, evidence updates, version truth and acceptance boundaries. |
 | Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Close only after work, handoff/revisions and pending provider/operator actions are finished; then mark workspace safe to delete. |
 
@@ -247,6 +252,6 @@ KW001_STEP10_SORTING_QA_METHOD_APPROVED = true
 KW001_STEP10_UNIVERSALITY_CORRECTION_APPROVED = true
 KW001_STEP10_EXPLICIT_TARGET_COUNT_OR_RANGE_ALLOWED = true
 KW001_STEP10_DOMAIN_SPECIFIC_EXECUTION_ALLOWED = true
-KW001_STEP12_METHOD_APPROVED_AFTER_INDEPENDENT_QA = true
+KW001_STEP12_METHOD_REOPENED_AFTER_OWNER_BUSINESS_GOAL_AND_FRESHNESS_CHALLENGE = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```

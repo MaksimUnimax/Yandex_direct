@@ -73,6 +73,8 @@ TARGET_URL != PROVEN_YANDEX_RELEVANT_URL
 
 > plausible current pages were reviewed and none truthfully owns the full frozen user task.
 
+Because this is a **negative current-site existence claim**, it must also satisfy `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`: absence from the Step-1 inventory is not proof. Use current multi-route discovery (broad Codex/browser discovery when needed, plus targeted current first-party reads) and record coverage limitations. If current-site absence is not sufficiently proven, use an explicit unresolved/absence-not-proven state rather than a confident no-page verdict.
+
 It does **not** mean “create a page”. Creation/merge/split/expansion decisions belong to Step 12.
 
 ## 4. Required inputs
@@ -184,7 +186,7 @@ Do not begin ownership from the cluster summary alone.
 
 ### 6.2 Refresh the current public-site page inventory
 
-Use current public-site evidence (Codex/ChatGPT public browsing/first-party reads as allowed by the job) to identify plausible owner candidates.
+Use `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`. Use current public-site evidence (Codex/ChatGPT public browsing/first-party reads as allowed by the job) to identify plausible owner candidates. A small named positive check can be done with targeted web reads; a material negative claim that no page exists on a large site requires broad multi-route discovery and should use Codex/browser as the preferred discovery channel when available.
 
 For material candidates, record:
 
