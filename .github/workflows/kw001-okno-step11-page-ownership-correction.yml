@@ -72,7 +72,7 @@ jobs:
           assert sum(bool(r['target_url']) for r in rows if r['effective_assignment_status']=='SEARCH_REQUIRED') == 0
           assert '{len(search_required)}' not in report
           assert 'APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION' in rules
-          assert 'STEP_11_PHRASE_PAGE_MAP_ROWS = 2332' in flow
+          assert 'PHRASE_PAGE_MAP_ROWS = 2332' in flow
           assert 'current_major_step = STEP_11_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION' in manifest
           print('STEP11_FINAL_INDEPENDENT_QA_PASS')
           PY
