@@ -1,0 +1,27 @@
+{
+  "status": "CANDIDATE_D12_11_D12_06_READY_FOR_INDEPENDENT_VERIFICATION",
+  "source_action_rows": 160,
+  "source_assignment_rows": 2332,
+  "candidate_pairs": 189,
+  "pairs_requiring_direct_step13_search_check": 171,
+  "dependency_action_rows": 104,
+  "dependency_high_rows": 0,
+  "dependency_without_explicit_provisional_or_deferred_maturity": 0,
+  "noncanonical_maturity_rows": 0,
+  "new_page_hierarchy_rows_expected": 5,
+  "new_page_hierarchy_owner_action_rows": 10,
+  "new_page_hierarchy_rows_materialized_in_actions": 5,
+  "historical_manual_followup_true_clusters": 9,
+  "historical_manual_followup_used_as_pair_universe_source": false,
+  "pair_universe_derivation_routes": [
+    "EXPLICIT_PRIMARY_SUPPORTING_EDGE",
+    "NEW_PAGE_HIERARCHY_INBOUND_EDGE",
+    "NEW_PAGE_HIERARCHY_OUTBOUND_EDGE",
+    "SHARED_SOURCE_CLUSTER_PRIMARY_DESTINATIONS"
+  ],
+  "defects_closed_by_generator_alone": [],
+  "defects_candidate_for_closure_after_independent_verification": [
+    "D12-11",
+    "D12-06"
+  ]
+}
