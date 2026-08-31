@@ -1,7 +1,7 @@
 from pathlib import Path
 
 R=Path(__file__).resolve().parent
-ROOT=R.parents[2]
+ROOT=R.parents[1]
 METHOD=ROOT/'STEP_12_STRUCTURAL_ACTION_METHOD.md'
 INDEX=ROOT/'STEP_RULES_INDEX.md'
 
