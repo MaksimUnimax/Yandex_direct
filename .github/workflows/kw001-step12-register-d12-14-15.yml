@@ -1,0 +1,68 @@
+name: KW001 Step12 Register D12-14 D12-15
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_d12_14_15.py'
+      - '.github/workflows/kw001-step12-register-d12-14-15.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Revalidate persisted D12-05 diagnostics and register defects
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_d12_14_15.py
+      - name: Verify registration candidate structurally
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          state=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          assert state['open_defects']==['D12-14','D12-15','D12-05']
+          assert state['current_correction_item']=='D12-14'
+          assert state['step13_blocked'] is True
+          with (r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline='') as f:
+              rows={x['defect_id']:x for x in csv.DictReader(f,delimiter='\t')}
+          assert rows['D12-14']['status']=='OPEN'
+          assert rows['D12-15']['status']=='OPEN'
+          assert rows['D12-05']['status']=='OPEN'
+          print('STEP12_D12_14_15_REGISTRATION_VERIFY_PASS')
+          PY
+      - name: Persist registration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json
+          git commit -m "step12: register D12-14 D12-15 from independent QA [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state.json
+          git show $remote:$base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv > /tmp/ledger.tsv
+          python - <<'PY'
+          import csv,json
+          state=json.load(open('/tmp/state.json',encoding='utf-8'))
+          rows={r['defect_id']:r for r in csv.DictReader(open('/tmp/ledger.tsv',encoding='utf-8',newline=''),delimiter='\t')}
+          assert state['open_defects']==['D12-14','D12-15','D12-05']
+          assert state['current_correction_item']=='D12-14'
+          assert state['step13_blocked'] is True
+          for d in ('D12-14','D12-15','D12-05'):
+              assert rows[d]['status']=='OPEN'
+          print('STEP12_D12_14_15_GITHUB_READBACK_PASS')
+          PY
