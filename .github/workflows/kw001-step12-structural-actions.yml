@@ -1,0 +1,159 @@
+name: KW001 Step12 Structural Actions
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_structural_actions.py'
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Build Step12 structural decisions
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_structural_actions.py
+
+      - name: Candidate QA before persistence
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa = json.loads((root/'STEP_12_QA.json').read_text(encoding='utf-8'))
+          assert qa['status'] == 'READY_FOR_GITHUB_READBACK'
+          assert qa['effective_assigned_clusters_accounted'] == '75/75'
+          assert qa['search_required_rows_preserved'] == '19/19'
+          assert qa['phrase_action_map_rows'] == 2332
+          assert qa['silent_cluster_drops'] == 0
+          assert qa['structural_action_without_reason'] == 0
+          assert qa['structural_action_without_phrase_level_trace'] == 0
+          assert qa['new_page_from_modifier_only'] == 0
+          assert qa['new_page_without_distinct_stable_task'] == 0
+          assert qa['new_page_without_useful_content_rationale'] == 0
+          assert qa['no_suitable_existing_page_auto_create'] == 0
+          assert qa['owner_existing_auto_keep_without_gap_review'] == 0
+          assert qa['split_without_major_logical_task_boundary'] == 0
+          assert qa['merge_based_only_on_suspected_cannibalization'] == 0
+          assert qa['search_required_with_structural_action'] == 0
+          assert qa['outside_scope_new_page_actions'] == 0
+          assert qa['premature_step13_cannibalization_verdicts'] == 0
+          assert qa['premature_step14_architecture_freeze'] == 0
+          assert qa['ai_evidence_used_in_step12'] == 0
+          print('STEP12_CANDIDATE_QA_PASS')
+          PY
+
+      - name: Commit candidate artifacts immediately
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PHRASE_ACTION_MAP.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PAGE_ACTION_ROLLUP.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_SEARCH_REQUIRED_HANDOFF.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md
+          git commit -m "step12: persist structural action candidate [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+
+      - name: GitHub remote readback of candidate
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          for p in \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PHRASE_ACTION_MAP.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PAGE_ACTION_ROLLUP.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_SEARCH_REQUIRED_HANDOFF.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md; do
+              test "$(git show HEAD:$p | sha256sum | cut -d' ' -f1)" = "$(git show $remote:$p | sha256sum | cut -d' ' -f1)"
+          done
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json | grep -q 'READY_FOR_GITHUB_READBACK'
+          echo STEP12_GITHUB_CANDIDATE_READBACK_PASS
+
+      - name: Finalize Step12 after GitHub readback
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa_path = root/'STEP_12_QA.json'
+          qa = json.loads(qa_path.read_text(encoding='utf-8'))
+          qa['final_artifacts_preserved_and_read_back'] = True
+          qa['status'] = 'PASS_AFTER_FULL_STRUCTURAL_ACTION_AUDIT'
+          qa['step12_complete'] = True
+          qa['next_step_allowed'] = True
+          qa_path.write_text(json.dumps(qa, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+
+          report_path = root/'STEP_12_REPORT.md'
+          report = report_path.read_text(encoding='utf-8').replace(
+              '`READY_FOR_GITHUB_READBACK`', '`PASS_AFTER_FULL_STRUCTURAL_ACTION_AUDIT`'
+          )
+          report = report.replace(
+              'FINAL_GITHUB_READBACK = pending',
+              'FINAL_GITHUB_READBACK = PASS'
+          )
+          report_path.write_text(report, encoding='utf-8')
+
+          flow_path = root/'JOB_FLOW.md'
+          flow = flow_path.read_text(encoding='utf-8')
+          old = '| **12. Structural actions** | **Keep/expand/split/merge/create decisions** | **⬜ NOT STARTED / NEXT ALLOWED** |'
+          new = '| **12. Structural actions** | **Decide what to keep, strengthen, add, create or deliberately not create** | **✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT** |'
+          if old in flow:
+              flow = flow.replace(old, new, 1)
+          block = '''\n---\n\n## Completed step — Step 12 structural actions\n\nStatus: **✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT**\n\n```text\nEFFECTIVE_ASSIGNED_CLUSTERS_ACCOUNTED = 75/75\nSEARCH_REQUIRED_ROWS_PRESERVED = 19/19\nPHRASE_ACTION_MAP_ROWS = 2332\nSILENT_CLUSTER_DROPS = 0\nNEW_COMMERCIAL_PAGE = {new_commercial}\nNEW_INFORMATIONAL_PAGE = {new_info}\nSPLIT_EXISTING_PAGE = {split_count}\nMERGE_STRUCTURALLY_REDUNDANT_PAGES = {merge_count}\nNEW_BRIDGE_REQUESTS = 0\nNEW_BRIDGE_COST_RUB = 0.0\nFINAL_GITHUB_READBACK = PASS\nSTEP12_COMPLETE = true\nNEXT_STEP_ALLOWED = true\n```\n\nPrimary authorities:\n\n```text\nSTEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md\nSTEP_12_SOURCE_TO_METHOD_TRACE.tsv\nSTEP_12_STRUCTURAL_ACTIONS.tsv\nSTEP_12_PHRASE_ACTION_MAP.tsv\nSTEP_12_PAGE_ACTION_ROLLUP.tsv\nSTEP_12_SEARCH_REQUIRED_HANDOFF.tsv\nSTEP_12_QA.json\nSTEP_12_REPORT.md\n```\n\nNo Step-13 cannibalization verdict and no Step-14 architecture freeze were made in Step 12.\n'''.format(
+              new_commercial=qa['action_counts'].get('NEW_COMMERCIAL_PAGE',0),
+              new_info=qa['action_counts'].get('NEW_INFORMATIONAL_PAGE',0),
+              split_count=qa['action_counts'].get('SPLIT_EXISTING_PAGE',0),
+              merge_count=qa['action_counts'].get('MERGE_STRUCTURALLY_REDUNDANT_PAGES',0),
+          )
+          if '## Completed step — Step 12 structural actions' not in flow:
+              anchor = '\n---\n\n## Full roadmap status\n'
+              if anchor in flow:
+                  flow = flow.replace(anchor, block + anchor, 1)
+              else:
+                  flow += block
+          markers = '''\nKW001_OKNO_MSK_STEP12_COMPLETE = true\nKW001_OKNO_MSK_STEP12_EFFECTIVE_CLUSTERS_ACCOUNTED = 75\nKW001_OKNO_MSK_STEP12_SEARCH_REQUIRED_PRESERVED = 19\nKW001_OKNO_MSK_STEP12_PHRASE_ACTION_MAP_ROWS = 2332\nKW001_OKNO_MSK_STEP12_NEW_COMMERCIAL_PAGES = {new_commercial}\nKW001_OKNO_MSK_STEP12_NEW_INFORMATIONAL_PAGES = {new_info}\nKW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = PASS\n'''.format(new_commercial=qa['action_counts'].get('NEW_COMMERCIAL_PAGE',0), new_info=qa['action_counts'].get('NEW_INFORMATIONAL_PAGE',0))
+          if 'KW001_OKNO_MSK_STEP12_COMPLETE = true' not in flow:
+              flow += markers
+          flow_path.write_text(flow, encoding='utf-8')
+
+          manifest_path = root/'JOB_MANIFEST.md'
+          manifest = manifest_path.read_text(encoding='utf-8')
+          manifest = manifest.replace('current_major_step = STEP_11_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION', 'current_major_step = STEP_12_COMPLETE_AFTER_FULL_STRUCTURAL_ACTION_AUDIT', 1)
+          manifest = manifest.replace('next_major_step = STEP_12_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW', 'next_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW', 1)
+          auth = '''STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md\nSTEP_12_SOURCE_TO_METHOD_TRACE.tsv\nSTEP_12_STRUCTURAL_ACTIONS.tsv\nSTEP_12_PHRASE_ACTION_MAP.tsv\nSTEP_12_PAGE_ACTION_ROLLUP.tsv\nSTEP_12_SEARCH_REQUIRED_HANDOFF.tsv\nSTEP_12_QA.json\nSTEP_12_REPORT.md\n'''
+          if 'STEP_12_STRUCTURAL_ACTIONS.tsv' not in manifest:
+              pos = manifest.index('```', manifest.index('Current job authorities:') + len('Current job authorities:'))
+              manifest = manifest[:pos] + auth + manifest[pos:]
+          manifest_path.write_text(manifest, encoding='utf-8')
+          PY
+
+      - name: Commit final Step12 state
+        run: |
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+          git commit -m "step12: finalize structural actions after GitHub readback [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+
+      - name: Final GitHub remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json | grep -q 'PASS_AFTER_FULL_STRUCTURAL_ACTION_AUDIT'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md | grep -q 'KW001_OKNO_MSK_STEP12_COMPLETE = true'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md | grep -q 'current_major_step = STEP_12_COMPLETE_AFTER_FULL_STRUCTURAL_ACTION_AUDIT'
+          echo STEP12_FINAL_GITHUB_READBACK_PASS
