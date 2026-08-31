@@ -10,8 +10,8 @@
   "duplicate_pair_rows": 0,
   "search_flag_mismatch_rows": 0,
   "pairs_requiring_direct_step13_search_check": 171,
-  "expected_dependency_units": 104,
-  "actual_dependency_units": 104,
+  "expected_dependency_units": 107,
+  "actual_dependency_units": 107,
   "missing_dependency_units": 0,
   "extra_dependency_units": 0,
   "dependency_high_rows": 0,
@@ -19,6 +19,7 @@
   "noncanonical_maturity_rows": 0,
   "hierarchy_candidate_pages": 5,
   "hierarchy_not_materialized_in_v2": 0,
+  "stale_materialized_hierarchy_reason_rows": 0,
   "historical_manual_followup_true_clusters": 9,
   "historical_true_clusters_without_any_derived_pair": 0,
   "forbidden_step13_verdict_columns": 0,
@@ -34,6 +35,7 @@
     "dependency_final_units": [],
     "noncanonical_maturity_units": [],
     "hierarchy_not_materialized_units": [],
+    "stale_materialized_hierarchy_reason_units": [],
     "historical_true_clusters_without_pair": []
   },
   "verification_origin": "INDEPENDENT_RECOMPUTATION_FROM_SOURCE_ARTIFACTS_NOT_GENERATOR_QA"
