@@ -1,0 +1,79 @@
+name: KW001 Step12 D12-28 D12-29 D12-30 V6
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_28_30_V6_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rebuild-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build evidence-independent Step12 V6
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_d12_28_30_v6.py
+      - name: Run independent verifier but preserve diagnostics before gate
+        run: |
+          set +e
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_d12_28_30_v6.py
+          rc=$?
+          echo "$rc" > /tmp/verifier_rc
+          exit 0
+      - name: Persist candidate and diagnostics before final gate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add \
+            $b/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V7.tsv \
+            $b/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V6.tsv \
+            $b/STEP_12_PHRASE_ACTION_MAP_FINAL_V6.tsv \
+            $b/STEP_12_INTERNAL_LINK_ACTIONS_V6.tsv \
+            $b/STEP_12_STEP13_CANDIDATE_PAIRS_V6.tsv \
+            $b/STEP_12_D12_28_30_BUILD_QA.json \
+            $b/STEP_12_D12_28_30_INDEPENDENT_QA.json \
+            $b/STEP_12_D12_28_30_INDEPENDENT_QA_FINDINGS.tsv
+          git commit -m "step12: persist D12-28 D12-30 V6 diagnostics [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Durable GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$b/STEP_12_D12_28_30_BUILD_QA.json > /tmp/build.json
+          git show $remote:$b/STEP_12_D12_28_30_INDEPENDENT_QA.json > /tmp/ind.json
+          git show $remote:$b/STEP_12_D12_28_30_INDEPENDENT_QA_FINDINGS.tsv > /tmp/find.tsv
+          python - <<'PY'
+          import json,csv
+          build=json.load(open('/tmp/build.json',encoding='utf-8'))
+          ind=json.load(open('/tmp/ind.json',encoding='utf-8'))
+          findings=list(csv.DictReader(open('/tmp/find.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert build['source_assignment_rows']==2332
+          assert build['final_phrase_map_rows']==2332
+          assert build['exact_phrase_resolutions']==49
+          assert build['affected_source_member_phrases']==322
+          assert build['prior_implement_links_reviewed']==28
+          assert ind['source_assignments']==2332
+          assert ind['final_phrase_map_rows']==2332
+          assert ind['affected_source_phrases']==322
+          assert ind['exact_reassignments']==49
+          assert ind['old_implement_links_reviewed']==28
+          assert not ind['step13_executed']
+          assert len(findings)==ind['findings']
+          print('D12_28_30_DURABLE_READBACK',build['final_structural_units'],ind['findings'])
+          PY
+      - name: Final acceptance gate
+        run: |
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show origin/roadmap/kwork-productization-2026-08-28:$b/STEP_12_D12_28_30_INDEPENDENT_QA.json > /tmp/ind.json
+          python - <<'PY'
+          import json
+          q=json.load(open('/tmp/ind.json',encoding='utf-8'))
+          assert q['status']=='STEP12_D12_28_D12_29_D12_30_INDEPENDENT_PASS',q
+          assert q['findings']==0,q
+          print('STEP12_D12_28_D12_29_D12_30_FINAL_GATE_PASS')
+          PY
