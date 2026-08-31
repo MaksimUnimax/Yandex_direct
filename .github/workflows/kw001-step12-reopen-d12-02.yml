@@ -1,0 +1,49 @@
+name: KW001 Step12 Reopen D12-02
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_reopen_d12_02_from_evidence.py'
+      - '.github/workflows/kw001-step12-reopen-d12-02.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  reopen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Reopen from direct evidence
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_reopen_d12_02_from_evidence.py
+      - name: Verify state
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          s=json.loads((root/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          assert 'D12-02' in s['open_defects'] and 'D12-02' not in s['verified_fixed_defects']
+          d={r['defect_id']:r for r in csv.DictReader((root/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8'),delimiter='\t')}
+          assert d['D12-02']['status']=='REOPENED_AFTER_EVIDENCE_MATRIX'
+          print('D12_02_REOPEN_VERIFY_PASS')
+          PY
+      - name: Persist reopen state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json
+          git commit -m "step12: reopen D12-02 after direct Search contradiction [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv | grep -q 'REOPENED_AFTER_EVIDENCE_MATRIX'
+          echo D12_02_REOPEN_READBACK_PASS
