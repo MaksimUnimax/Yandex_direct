@@ -4,8 +4,8 @@
   "default_high_confidence_used": false,
   "rows_without_evidence_dimensions": 0,
   "high_rows": 71,
-  "medium_rows": 80,
-  "low_rows": 9,
+  "medium_rows": 79,
+  "low_rows": 10,
   "new_page_high_with_material_search_gap": 0,
   "conditional_business_high_commercial_create": 0,
   "review_action_required_rows": 0,
@@ -14,8 +14,17 @@
   "new_page_action_primary_target_mismatch_units": [],
   "replacement_service_primary_target_correct": true,
   "replacement_service_existing_installation_preserved_as_supporting": true,
+  "d12_14_resolution_rows": 4,
+  "d12_14_resolution_mismatch_rows": 0,
+  "d12_14_resolution_mismatch_units": [],
+  "d12_14_implementable_blank_targets": 0,
+  "d12_14_implementable_blank_target_units": [],
+  "d12_14_deferred_rows": 1,
+  "d12_14_deferred_units": [
+    "REHAU_OTHER_BRAND_COMPARISON_INFO"
+  ],
   "defects_closed_by_script_alone": [],
   "defects_candidate_for_closure_after_manual_review": [
-    "D12-13"
+    "D12-14"
   ]
 }
