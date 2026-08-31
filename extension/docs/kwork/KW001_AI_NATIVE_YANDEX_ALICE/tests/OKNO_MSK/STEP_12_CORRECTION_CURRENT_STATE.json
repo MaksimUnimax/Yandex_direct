@@ -6,22 +6,22 @@
   "historical_first_pass_acceptance_withdrawn": true,
   "step13_blocked": true,
   "open_defects": [
-    "D12-04",
     "D12-05",
     "D12-06",
-    "D12-07",
     "D12-11"
   ],
   "verified_fixed_defects": [
     "D12-01",
     "D12-02",
     "D12-03",
+    "D12-04",
+    "D12-07",
     "D12-08",
     "D12-09",
     "D12-10",
     "D12-12"
   ],
-  "current_correction_item": "D12-04",
+  "current_correction_item": "D12-11",
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -41,5 +41,5 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "Derive structural-action confidence from explicit evidence dimensions; no default HIGH. Then continue hierarchy/maturity/pair derivation and independent QA."
+  "next_action": "D12-11: make downstream Step13 dependency explicit in recommendation maturity and confidence. Then derive the complete Step13 candidate-pair handoff (D12-06), then run independent QA with review ledger and supported SPLIT/MERGE checks (D12-05)."
 }
