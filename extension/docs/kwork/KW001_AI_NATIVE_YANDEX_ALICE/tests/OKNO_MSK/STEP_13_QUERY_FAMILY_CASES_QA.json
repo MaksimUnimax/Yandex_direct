@@ -1,17 +1,18 @@
 {
   "date": "2026-08-31",
-  "status": "STEP13_QUERY_FAMILY_CASES_MATERIALIZED",
+  "status": "STEP13_QUERY_FAMILY_CASES_GLOBAL_REVALIDATED",
   "input_surviving_pairs": 27,
   "mapped_surviving_pairs": 27,
   "query_family_cases": 21,
-  "phrase_evidence_rows": 118,
+  "phrase_evidence_rows": 343,
   "materialization_state_counts": {
-    "MULTI_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 5,
-    "SINGLE_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 13,
-    "ZERO_REGEX_MATCH_IN_CONTRIBUTING_UNITS": 3
+    "MULTI_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 8,
+    "SINGLE_CANDIDATE_URL_QUERY_FAMILY_MATERIALIZED": 12,
+    "ZERO_REGEX_MATCH_IN_FULL_CURRENT_PHRASE_UNIVERSE": 1
   },
-  "zero_match_cases": 3,
+  "zero_match_cases": 1,
   "provider_calls": 0,
   "step13_search_executed": false,
+  "correction": "QUERY_FAMILY_REGEX_RECHECKED_AGAINST_ALL_2332_CURRENT_ASSIGNMENTS_NOT_ONLY_PAIR_CONTRIBUTING_UNITS",
   "semantic_boundary": "REGEX_MATERIALIZATION_IS_EVIDENCE_EXTRACTION_ONLY__FINAL_CASE_ELIGIBILITY_AND_CONFLICT_VERDICT_REMAIN_MANUAL"
 }
