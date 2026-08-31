@@ -25,29 +25,54 @@ jobs:
           ref: roadmap/kwork-productization-2026-08-28
           fetch-depth: 0
 
-      - name: Build corrected Step 11 artifacts
+      - name: Finalize canonical Step 11 rules and state
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step11_canonical_docs.py
+
+      - name: Rebuild corrected Step 11 artifacts
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step11_correct_page_ownership.py
+
+      - name: Independent final QA
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa = json.loads((root/'STEP_11_QA.json').read_text(encoding='utf-8'))
+          with (root/'STEP_11_PHRASE_PAGE_MAP.tsv').open(encoding='utf-8', newline='') as f:
+              rows = list(csv.DictReader(f, delimiter='\t'))
+          report = (root/'STEP_11_REPORT.md').read_text(encoding='utf-8')
+          rules = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md').read_text(encoding='utf-8')
+          flow = (root/'JOB_FLOW.md').read_text(encoding='utf-8')
+          manifest = (root/'JOB_MANIFEST.md').read_text(encoding='utf-8')
+          assert qa['status'] == 'PASS_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION'
+          assert qa['step11_complete'] is True
+          assert qa['step12_executed'] is False
+          assert len(rows) == 2332 == qa['phrase_page_map_rows']
+          assert len({r['phrase'] for r in rows}) == 2332
+          assert sum(r['effective_assignment_status']=='ASSIGNED' for r in rows) == 2313
+          assert sum(r['effective_assignment_status']=='SEARCH_REQUIRED' for r in rows) == 19
+          assert sum(bool(r['target_url']) for r in rows if r['effective_assignment_status']=='SEARCH_REQUIRED') == 0
+          assert '{len(search_required)}' not in report
+          assert 'APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION' in rules
+          assert 'STEP_11_PHRASE_PAGE_MAP_ROWS = 2332' in flow
+          assert 'current_major_step = STEP_11_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION' in manifest
+          print('STEP11_FINAL_INDEPENDENT_QA_PASS')
+          PY
 
       - name: Show corrected QA
         run: |
           cat extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_QA.json
 
-      - name: Commit generated correction artifacts
+      - name: Commit final corrected Step 11 state
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_POST_AUDIT_CORRECTIONS.tsv \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_PHRASE_PAGE_MAP.tsv \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_EFFECTIVE_CLUSTER_SUMMARY.tsv \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_PAGE_OWNERSHIP_CORRECTED.tsv \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_WEAK_OWNERSHIP_REAUDIT.md \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_QA.json \
-            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_REPORT.md
+          git add -A extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE
           if git diff --cached --quiet; then
-            echo "No generated changes"
+            echo "No generated/finalization changes"
           else
-            git commit -m "step11: materialize corrected phrase-to-page mapping"
+            git commit -m "step11: finalize corrected page ownership state [skip ci]"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
