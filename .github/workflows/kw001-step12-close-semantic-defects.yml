@@ -1,0 +1,58 @@
+name: KW001 Step12 Close Semantic Defects
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_semantic_defects.py'
+      - '.github/workflows/kw001-step12-close-semantic-defects.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Apply verified closures
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_semantic_defects.py
+      - name: Verify state transition
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          s=json.loads((root/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          assert s['current_correction_item']=='D12-03'
+          for d in ['D12-01','D12-02','D12-08','D12-09','D12-12']:
+              assert d in s['verified_fixed_defects'] and d not in s['open_defects']
+          for d in ['D12-03','D12-04','D12-05','D12-06','D12-07','D12-10','D12-11']:
+              assert d in s['open_defects']
+          rows=list(csv.DictReader((root/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8'),delimiter='\t'))
+          by={r['defect_id']:r for r in rows}
+          assert all(by[d]['status']=='VERIFIED_FIXED' and by[d]['correction_artifact'] for d in ['D12-01','D12-02','D12-08','D12-09','D12-12'])
+          print('STEP12_SEMANTIC_DEFECT_CLOSURE_VERIFY_PASS')
+          PY
+      - name: Persist state transition
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md
+          git commit -m "step12: close verified semantic correction defects [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json | grep -q 'D12-03'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv | grep -q $'D12-12\tUPSTREAM_OUTSIDE_SCOPE_CONFLICT_WITH_VERIFIED_SITE_OFFER'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md | grep -q 'STEP12_VERIFIED_FIXED_DEFECTS = D12-01,D12-02,D12-08,D12-09,D12-12'
+          echo STEP12_SEMANTIC_DEFECT_CLOSURE_READBACK_PASS
