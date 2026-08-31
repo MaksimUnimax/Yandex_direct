@@ -1,0 +1,32 @@
+name: KW001 Step12 Fix Second Audit Closure Root
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/patch_step12_second_audit_closure_root.py'
+      - '.github/workflows/kw001-step12-fix-second-audit-closure-root.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/patch_step12_second_audit_closure_root.py
+      - name: Verify
+        run: grep -q 'ROOT=R.parents\[1\]' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_second_audit.py
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_second_audit.py
+          git commit -m "step12: fix second-audit closure rule path [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_second_audit.py | grep -q 'ROOT=R.parents\[1\]'
+          echo STEP12_SECOND_AUDIT_CLOSURE_ROOT_READBACK_PASS
