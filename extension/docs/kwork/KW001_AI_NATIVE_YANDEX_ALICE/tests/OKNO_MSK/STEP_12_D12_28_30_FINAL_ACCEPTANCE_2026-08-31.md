@@ -11,7 +11,7 @@ The previous D12-27 PASS was withdrawn because later external-method review prov
 
 Permanent non-repeat controls are now in `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` and `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md`, and the main Step-12 method explicitly records why the prior PASS was false.
 
-Correction evidence before final closure-state readback:
+Correction evidence that passed independent QA and was subsequently confirmed by durable closure-state readback:
 
 ```text
 D12-28..D12-30 defect-specific status = VERIFIED_FIXED

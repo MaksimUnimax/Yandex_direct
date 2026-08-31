@@ -1208,9 +1208,9 @@ If one false CREATE is found, re-audit all CREATE candidates in that run.
 
 No default HIGH. A material fresh-site gap, owner-policy gap or Step-13 dependency prevents final HIGH.
 
-## Stage 12 — Define hierarchy/internal links for accepted new/split pages
+## Stage 12 — Define new/split hierarchy and validate internal links for material existing-page relations
 
-Only pages that survived Stage 10 receive new-page hierarchy.
+Accepted new/split pages receive implementation hierarchy. Material existing-page `ROUTE / SECTION / EXPAND / supporting` relations receive an internal-link action only after current source context, current target-task fit and user-next-step usefulness are proven. A routing-graph edge alone cannot produce `IMPLEMENT`; use explicit `DEFER_*` / `NOT_APPLICABLE` when current content does not prove the link.
 
 ## Stage 13 — Materialize the full phrase→unit→page/action map
 
@@ -1431,6 +1431,11 @@ KW001_STEP12_DIAGNOSTICS_PERSIST_BEFORE_FINAL_GATE = true
 KW001_STEP12_DYNAMIC_PAIR_UNIVERSE_QA_REQUIRED = true
 KW001_STEP12_IMPLEMENTABLE_ACTION_REQUIRES_PRIMARY_TARGET = true
 KW001_STEP12_CONFIDENCE_REASON_MUST_MATCH_CURRENT_STATE = true
+KW001_STEP12_ACTION_CANNOT_PROVE_ITSELF = true
+KW001_STEP12_SCHEMA_COMPLETENESS_NOT_EQUAL_EVIDENCE_COMPLETENESS = true
+KW001_STEP12_KNOWN_REGRESSION_ZERO_NOT_EQUAL_GLOBAL_COHERENCE = true
+KW001_STEP12_INTERNAL_LINK_IMPLEMENT_REQUIRES_CURRENT_SOURCE_AND_TARGET_VALIDATION = true
+KW001_STEP12_D12_28_D12_29_D12_30_CORRECTION_CLOSED = true
 ```
 
 
@@ -1488,7 +1493,7 @@ Therefore every future Step 12 must also read and obey:
 - `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md`;
 - `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`.
 
-Current OKNO-MSK correction proof before final state readback:
+Current OKNO-MSK correction proof after durable closure-state readback:
 
 ```text
 20 historical QUALITY_GAP units re-read from current content
@@ -1505,4 +1510,4 @@ new page actions = 0
 Step13 executed = false
 ```
 
-The final reusable PASS still requires durable readback of the closure state itself.
+Durable closure-state readback passed. `STEP12_COMPLETE` is true for the current job; Step 13 was not executed and is only the next allowed pre-step methodology review.
