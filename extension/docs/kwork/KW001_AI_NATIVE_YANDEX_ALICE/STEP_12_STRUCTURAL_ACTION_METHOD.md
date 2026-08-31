@@ -1,6 +1,6 @@
 # Step 12 — Structural action method
 
-Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA**  
+Status: **REOPENED / SECOND EXTERNAL METHOD CORRECTION IN PROGRESS — OWNER GOAL + CURRENT-SITE FRESHNESS + CONTENT REUSE**  
 Scope: reusable Step-12 method for deciding what an existing site should keep, strengthen, add, create, split, merge or deliberately not create after phrase-level page ownership has been established.  
 Step boundary: structural recommendations only. Real cannibalization diagnosis belongs to Step 13; final Search architecture freeze belongs to Step 14.
 
@@ -24,6 +24,37 @@ EXACT PHRASES
 ```
 
 The first OKNO-MSK Step-12 run got the broad idea right but implemented several shortcuts that made the final `PASS` stronger than the evidence justified. Those defects are preserved below because a future analyst must understand **why** the shortcuts failed, not merely memorize a replacement checklist.
+
+## 1.1 Second-audit lesson: reading the right material is not enough unless it becomes an executable gate
+
+The owner challenge after the first corrected Step-12 closure exposed a deeper process failure. Before Step 12, the analyst had already read external material saying to review existing pages, use business relevance and avoid unnecessary new content. The work still produced false CREATE recommendations.
+
+### Why this happened despite correct research
+
+The research was treated as **background guidance**, while the implementation/QA only enforced the controls that had been translated into explicit fields and fail-closed checks. Two critical ideas remained narrative instead of executable gates:
+
+```text
+FRESH CURRENT-SITE EXISTENCE CHECK IMMEDIATELY BEFORE CREATE
+OWNER BUSINESS GOAL / DESIRED USER OUTCOME BEFORE CONTENT-STRATEGY ACTION
+```
+
+Therefore the process could honestly say "we considered current page fit" while still inheriting an old inventory absence, and could honestly say "business truth verified" while still recommending content that helps users avoid a paid core service.
+
+Permanent lesson:
+
+```text
+CORRECT RESEARCH != EXECUTABLE CONTROL
+METHOD PRINCIPLE WITHOUT FIELD/GATE/FAIL CONDITION = EASY TO SKIP
+```
+
+Every material external-method conclusion must be converted into one or more of:
+
+- an explicit evidence field;
+- a mandatory execution stage;
+- a fail-closed QA check;
+- a named manual owner-challenge case.
+
+For current-site freshness, the universal authority is `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`.
 
 ---
 
@@ -80,6 +111,35 @@ Rush explicitly connects clustered queries, Wordstat frequency, search-result si
 https://www.semrush.com/blog/keyword-cannibalization-guide/
 
 Multiple pages ranking for related terms do not automatically constitute cannibalization. Harm must be shown separately. Therefore Step 12 may identify possible overlaps but must not diagnose harmful competition; that remains Step 13.
+
+
+### Second external audit — business goal, content reuse and freshness
+
+Additional current sources after the owner challenge:
+
+- Semrush, *Keyword Mapping*, 2026-07-27 — page maps become stale; check/open existing URLs; optimize existing pages before creating new ones; prioritize business relevance + demand.  
+  https://www.semrush.com/blog/keyword-mapping/
+- Semrush, *Content Audit*, 2026-05-04 — evaluate current content against explicit business goals before creating more content.  
+  https://www.semrush.com/blog/content-audit/
+- Semrush, *Content Marketing Strategy*, 2026-08-19 — search demand informs strategy but does not dictate that every searched topic should become an article; content must connect to a business objective.  
+  https://www.semrush.com/blog/content-marketing-strategy-guide/
+- Ahrefs, *Keyword Strategy*, updated 2026-03-13 — SEO goals shape prioritization; business potential is independent of rankability/traffic; low-business-potential topics may attract the wrong audience.  
+  https://ahrefs.com/blog/keyword-strategy/
+- Ahrefs, *Keyword Research / Business Potential* — traffic potential and intent are insufficient without asking what ranking is worth to the business.  
+  https://ahrefs.com/seo/keyword-research
+- Ahrefs, *Product-led Content* — useful informational content should naturally connect the user's problem with the product/service when that supports the strategy; reuse/update strong existing content instead of unnecessary duplication.  
+  https://ahrefs.com/blog/product-led-content/
+- Yandex Webmaster duplicate/low-demand guidance — duplicate or insufficiently distinct pages can waste crawl resources and create search ambiguity.  
+  https://yandex.ru/support/webmaster/ru/site-indexing/low-demand  
+  https://yandex.ru/support/webmaster/en/yandex-indexing/about-doubles
+
+These sources add three mandatory distinctions:
+
+```text
+BUSINESS_TRUTH != OWNER_BUSINESS_GOAL_ALIGNMENT
+PAGE_OWNERSHIP_GAP != CURRENT_CONTENT_GAP
+OLD_INVENTORY_ABSENCE != CURRENT_PAGE_ABSENCE
+```
 
 ---
 
@@ -481,6 +541,137 @@ Why: the goal is neither to protect old labels nor to rescue everything; it is t
 
 ---
 
+
+## Defect 16 — false panoramic CREATE because old absence was treated as current absence
+
+### What the corrected run did
+
+It proposed `PROPOSED_NEW:/panoramnye-okna/` after Step 11 had not verified a broad panoramic owner.
+
+### Why it seemed reasonable
+
+The accepted inventory contained panoramic balcony pages, a panoramic article and related object pages, but not a broad commercial panoramic landing. Strong Wordstat demand and a coherent commercial core made a new page look like a legitimate gap fill.
+
+### Why it was wrong
+
+Fresh current-site discovery later found `https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie/`, a full commercial page with price, order/measurement CTA, product options, installation and warranty. CREATE would have manufactured a duplicate.
+
+### Why the earlier research did not prevent it
+
+The method said "review current page fit", but QA did not require a **fresh timestamped existence search immediately before every CREATE**. The analyst inherited Step-1/Step-11 absence as if it were a current fact.
+
+### Permanent correction
+
+```text
+NEW_PAGE_CANDIDATE
+→ FRESH CURRENT-SITE DISCOVERY
+→ SYNONYM / ALTERNATIVE SLUG / FAMILY CHECK
+→ OPEN + READ PLAUSIBLE EXISTING PAGES
+→ ONLY THEN CREATE CAN SURVIVE
+```
+
+Reason: a false CREATE can create the duplicate/overlap problem that later steps are supposed to diagnose.
+
+---
+
+## Defect 17 — installation DIY search opportunity conflicted with the owner's commercial outcome
+
+### What the corrected run did
+
+It proposed a step-by-step self-installation article because demand was strong and observed Search results were informational guides.
+
+### Why it seemed reasonable
+
+The user task was real, demand was strong, the company has installation expertise, and informational SERPs supported the format. Under an SEO-only model, the evidence looked strong.
+
+### Why it was wrong
+
+The live site sells professional installation, explicitly discourages self-installation and explains technical/safety risks. A neutral enabling tutorial could help the user avoid the paid service the site is built to sell.
+
+### Why the earlier research did not prevent it
+
+`BUSINESS_TRUTH` was interpreted as "the company can truthfully/expertly discuss this topic". That is not the same as "ranking for this topic in this format advances the owner's goal". No explicit `OWNER_PRIMARY_GOAL`, `DESIRED_USER_OUTCOME`, `BUSINESS_POTENTIAL` or `COUNTERPRODUCTIVE_TO_CORE_OFFER` field existed.
+
+### Permanent correction
+
+Before content action:
+
+```text
+OWNER_PRIMARY_GOAL
+DESIRED_USER_OUTCOME
+BUSINESS_POTENTIAL
+CONTENT_ROLE_IN_FUNNEL
+COUNTERPRODUCTIVE_TO_CORE_OFFER?
+```
+
+If the goal is unknown and can materially change the action, do not invent it: DEFER / OWNER_POLICY_REQUIRED.
+
+---
+
+## Defect 18 — broad DIY repair page confused an ownership gap with a content gap
+
+### What the corrected run did
+
+It proposed one broad page for DIY repair + adjustment.
+
+### Why it seemed reasonable
+
+The professional repair page was transactional and did not own the whole informational task; the broad structural unit had real demand.
+
+### Why it was wrong
+
+The current site already has substantial self-help content for adjustment, seasonal mode, stuck/opening problems and insulation. At the same time complex repair is a paid service. A broad new article would duplicate existing self-help and blur the safe-self-help / professional-repair boundary.
+
+### Why the earlier research did not prevent it
+
+Step 12 checked for **one page owner**, not for **distributed current content coverage**. `NO_SINGLE_OWNER` was silently promoted to `CONTENT_GAP`.
+
+### Permanent correction
+
+Every `NEW_INFORMATIONAL_PAGE` candidate must run a current-content reuse audit first:
+
+```text
+WHAT CURRENT CONTENT ALREADY COVERS THE TASK?
+CAN EXISTING ARTICLE/HUB BE EXPANDED?
+CAN EXISTING MATERIALS BE REFRAMED/CONSOLIDATED?
+WHAT DISTINCT TASK REMAINS?
+DOES THAT REMAINING TASK SUPPORT THE OWNER GOAL?
+```
+
+---
+
+## Defect 19 — replacement service was a second false CREATE
+
+### What happened
+
+Step 12 proposed `PROPOSED_NEW:/uslugi/zamena-okon/`. Fresh current-site discovery found `https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire/`, a commercial replacement page with price, CTA, reasons for replacement, product options and installation workflow.
+
+### Why this matters
+
+This proves Defect 16 was systemic. The process had no reliable negative-existence gate for CREATE.
+
+### Permanent correction
+
+All CREATE candidates, commercial and informational, must be rechecked in one batch under `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`. A single discovered false CREATE triggers re-audit of **all** surviving CREATE candidates before the step can close.
+
+---
+
+## Defect 20 — hardware guide CREATE ignored existing-content reuse
+
+### What happened
+
+A new broad guide for window hardware was proposed. Fresh current-site review shows that `https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/` already has a substantial hardware-selection section and the site has specific hardware/accessory pages.
+
+### Why the previous method still failed
+
+The method looked for a dedicated broad owner and treated fragmentation as evidence for a new guide. It did not ask whether **expanding a strong existing high-level selection article** was the better business/content architecture.
+
+### Permanent correction
+
+For informational CREATE candidates, `EXPAND EXISTING` and `ROUTE TO EXISTING SPECIALISTS` are mandatory alternatives that must be explicitly tested before CREATE.
+
+---
+
 # 4. Correct Step-12 working model
 
 A structural action is not chosen directly from `cluster_id` or `ownership_state`.
@@ -488,19 +679,22 @@ A structural action is not chosen directly from `cluster_id` or `ownership_state
 Correct reasoning chain:
 
 ```text
-FULL PHRASE SET
+OWNER PRIMARY GOAL / DESIRED USER OUTCOME
+→ FULL PHRASE SET
 → COHERENT STRUCTURAL UNIT(S)
 → USER TASK AND EXPECTED RESULT
-→ BUSINESS TRUTH
-→ CURRENT EXISTING PAGE FIT
+→ FRESH CURRENT-SITE / CURRENT-CONTENT DISCOVERY
+→ BUSINESS TRUTH + BUSINESS POTENTIAL + CONTENT ROLE
+→ CURRENT EXISTING PAGE FIT / CONTENT REUSE FIT
 → DEMAND EVIDENCE
 → SEARCH/SERP EVIDENCE WHEN IT CAN CHANGE THE PAGE BOUNDARY
-→ ALTERNATIVE STRUCTURAL OPTIONS
+→ ALTERNATIVE STRUCTURAL OPTIONS (KEEP/EXPAND/SECTION/ROUTE/REUSE BEFORE CREATE)
 → ACTION
 → CONFIDENCE / PROVISIONAL STATUS
 → SITE-HIERARCHY IMPLEMENTATION
 → COMPLETE PHRASE MAP
-→ INDEPENDENT QA
+→ DERIVED NEXT-STEP PAIRS
+→ INDEPENDENT QA + OWNER-CHALLENGE CASES
 ```
 
 ### Why this order matters
@@ -540,7 +734,7 @@ Why: a useful answer can exist without a new URL; this avoids thin page inflatio
 
 ## NEW_COMMERCIAL_PAGE / NEW_INFORMATIONAL_PAGE
 
-Use only when the structural unit is coherent and standalone, the business can truthfully fulfil it, no current page can adequately own it, real demand/search evidence supports the boundary at the confidence claimed, and its site placement is explicit.
+Use only when the structural unit is coherent and standalone, the owner/business goal supports attracting and satisfying this demand in the proposed format, the business can truthfully fulfil the promise, a fresh current-site and content-reuse audit proves no adequate current page/content path exists, real demand/search evidence supports the boundary at the confidence claimed, and its site placement is explicit.
 
 Why: `NO_SUITABLE_EXISTING_PAGE` is a gap observation, not proof that filling the gap with a new URL is the best solution.
 
@@ -573,6 +767,11 @@ Every action must expose at least:
 ```text
 TASK_COHERENCE = STRONG / PARTIAL / WEAK
 BUSINESS_TRUTH = VERIFIED / CONDITIONAL / UNVERIFIED
+OWNER_GOAL_ALIGNMENT = STRONG / PARTIAL / WEAK / OWNER_POLICY_REQUIRED
+BUSINESS_POTENTIAL = HIGH / MEDIUM / LOW / NEGATIVE_OR_COUNTERPRODUCTIVE / OWNER_POLICY_REQUIRED
+CONTENT_ROLE = SELL / ASSIST_DECISION / EDUCATE_TO_CONVERT / SELF_SERVICE / AUTHORITY / TRAFFIC_PLAY / DEPRIORITIZE
+FRESH_SITE_CHECK = CURRENT_VERIFIED / MULTI_ROUTE_ABSENCE_VERIFIED / INCOMPLETE
+EXISTING_CONTENT_REUSE = NOT_APPLICABLE / REUSE_PREFERRED / EXPAND_PREFERRED / DISTINCT_GAP_VERIFIED
 CURRENT_PAGE_FIT = STRONG / PARTIAL / NONE / NOT_APPLICABLE
 DEMAND_SUPPORT = STRONG / PARTIAL / WEAK / NOT_AVAILABLE
 SEARCH_BOUNDARY_SUPPORT = STRONG / PARTIAL / WEAK / NOT_NEEDED / NOT_AVAILABLE
@@ -632,99 +831,161 @@ These require an explicit review ledger with the rows/cases inspected. They cann
 
 Verify from artifact provenance and fields that no Step-13 harm verdict, Step-14 freeze or AI evidence was introduced. A constant boolean is not evidence.
 
+
+### Fresh-site / owner-goal checks added after second audit
+
+```text
+EVERY_CREATE_HAS_FRESH_CURRENT_SITE_CHECK = true
+EVERY_CREATE_HAS_EXISTING_CONTENT_REUSE_AUDIT = true
+EVERY_CREATE_HAS_OWNER_GOAL_ALIGNMENT = true
+EVERY_CREATE_HAS_BUSINESS_POTENTIAL = true
+CREATE_WITH_CURRENT_EQUIVALENT_PAGE = 0
+NEUTRAL_ENABLEMENT_COUNTERPRODUCTIVE_TO_CORE_PAID_OFFER = 0 unless owner explicitly approves that strategy
+OLD_INVENTORY_USED_AS_SOLE_ABSENCE_PROOF = 0
+```
+
+These checks must be computed from persisted freshness/business ledgers or explicit manual owner-policy rows, not hard-coded booleans.
+
 ---
 
-# 8. Correct Step-12 execution order — and why each stage comes next
+# 8. Correct Step-12 execution order — revised after owner challenge
 
-## Stage 1 — Freeze accepted upstream inputs
+This order supersedes every earlier Step-12 ordering when there is a conflict. The ordering is causal: each stage prevents a specific failure class before later evidence is allowed to harden the wrong recommendation.
 
-Read the final Step-11 phrase map, ownership ledger, corrections, unresolved rows, current site inventory, Wordstat evidence and available ordinary Search evidence.
+## Stage 1 — Define the owner's business goal and desired user outcome
 
-**Why first:** later structural reasoning is meaningless if it uses stale or superseded inputs.
+Record the best available owner/client goal evidence: leads, direct sales, authority, support/retention, traffic or mixed. If public-site behaviour is used as a proxy, label it `PUBLIC_BUSINESS_GOAL_INFERRED`, not owner-confirmed.
 
-## Stage 2 — Materialize all current phrase memberships
+**Why first:** without the goal, the process can spend time proving an SEO opportunity that the owner should not implement.
 
-Build one working view containing every active phrase, current effective cluster, current owner/no-owner state and existing evidence references.
+## Stage 2 — Freeze accepted upstream phrase-level inputs
 
-**Why:** the cluster name cannot substitute for its members.
+Read final Step-11 phrase map, ownership/corrections/unresolved rows, Wordstat and available Search evidence.
 
-## Stage 3 — Coherence audit before any structural action
+**Why:** later corrections must preserve provenance and exact accounting.
 
-For every unit, identify mixed terminal tasks, objects, page formats and obvious misassignments. Create explicit correction/subunit rows; preserve old history rather than rewriting it silently.
+## Stage 3 — Materialize every phrase and audit semantic coherence
 
-**Why before page decisions:** a wrong semantic boundary produces a wrong architecture even if the chosen page looks plausible.
+Inspect all member phrases; split mixed tasks into explicit structural units or defer ambiguity.
 
-## Stage 4 — Build explicit structural subunits for specialized existing pages
+**Why:** page architecture cannot repair a wrong task boundary.
 
-When phrases clearly belong to an existing child/utility/model page, group them into a named subunit with its own task and evidence. Do not route them one-by-one by substring.
+## Stage 4 — Refresh the current public site before structural actions
 
-**Why:** this converts lexical clues into auditable architecture.
+Use `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`. Broad negative claims use Codex/browser discovery plus targeted web read when available; small named positive checks can use targeted ChatGPT web. Persist the timestamped result.
 
-## Stage 5 — Verify business truth
+**Why here:** old inventory absence is not current absence.
 
-For each proposed commercial/service action, confirm the public site or authorized client evidence shows the product/service is actually offered. Record uncertainty explicitly.
+## Stage 5 — Build current candidate-page and current-content reuse views
 
-**Why before CREATE:** search demand cannot create a product the business does not sell.
+Open/read plausible owners, related articles, hubs, children, services and utilities. For informational candidates, map distributed existing coverage, not only one exact owner.
 
-## Stage 6 — Review current page fit
+**Why:** `NO_SINGLE_OWNER != CONTENT_GAP`.
 
-For each structural unit, compare plausible current pages. Decide whether one already serves the task fully, partially or not at all.
+## Stage 6 — Evaluate business truth, owner-goal alignment and business potential
 
-**Why before new page evidence:** duplication should be avoided before evaluating creation.
+For every material unit record:
 
-## Stage 7 — Attach demand evidence
+```text
+BUSINESS_TRUTH
+OWNER_PRIMARY_GOAL
+DESIRED_USER_OUTCOME
+BUSINESS_POTENTIAL
+CONTENT_ROLE
+COUNTERPRODUCTIVE_TO_CORE_OFFER?
+```
 
-Use already collected Wordstat/frequency evidence to show which units have real demand and which phrases drive it. Phrase count remains coverage only.
+**Why before demand:** high demand does not make a low/negative-value topic strategically correct.
 
-**Why:** standalone pages are an investment and should not be justified by vocabulary size alone.
+## Stage 7 — Attach real demand evidence
 
-## Stage 8 — Attach ordinary Search/SERP evidence where the page boundary is material
+Use Wordstat/frequency evidence. Phrase count is coverage only.
 
-Use existing Step-9/Step-11 Search evidence first. If it does not cover a structural boundary that could change a decision, mark a named gap. Only then consider an authorized Bridge request.
+**Why:** demand strength and vocabulary size are different facts.
 
-**Why:** Search evidence is valuable when it can distinguish one-page vs separate-page expectations; indiscriminate calls waste cost and do not improve every decision.
+## Stage 8 — Attach Search/SERP evidence only where it can change the page boundary
 
-## Stage 9 — Compare structural alternatives
+Use existing evidence first; name any material gap.
 
-For each unit explicitly compare viable choices: keep, expand, section, create, split, merge, no standalone page. Record why the selected option beats the alternatives.
+**Why:** Search tells us what result type is expected, not whether the business should pursue the topic.
 
-**Why:** otherwise action labels become analyst preference.
+## Stage 9 — Compare existing-content alternatives before CREATE
 
-## Stage 10 — Derive confidence and provisional/final status
+Mandatory comparison order:
 
-Calculate confidence from the evidence dimensions. Mark decisions dependent on Step 13 as provisional rather than final implementation instructions.
+```text
+KEEP
+→ EXPAND
+→ ADD SECTION / FAQ
+→ ROUTE TO EXISTING CHILD/SPECIALIST PAGE
+→ REFRAME / CONSOLIDATE EXISTING CONTENT
+→ ONLY THEN EVALUATE CREATE
+```
 
-**Why:** certainty must reflect what is known now and what is deliberately left for later.
+This is not a ban on CREATE. It is proof that CREATE fills a real remaining gap.
 
-## Stage 11 — Define hierarchy and internal-link role
+## Stage 10 — Fresh CREATE gate
 
-For each accepted new/split page, specify parent URL/section, inbound link source/concept, relevant outbound links and commercial handoff for informational pages.
+Every surviving CREATE candidate must pass **again immediately before acceptance**:
 
-**Why:** a page proposal without relationships is not a complete site-structure proposal.
+```text
+CURRENT-SITE EXISTENCE CHECK
++ EXISTING-CONTENT REUSE AUDIT
++ DISTINCT USER TASK
++ REAL DEMAND
++ BUSINESS GOAL / BUSINESS POTENTIAL
++ TRUTHFUL EXPERTISE/OFFER
++ SEARCH BOUNDARY WHEN MATERIAL
++ NO CURRENT EQUIVALENT
++ IMPLEMENTABLE HIERARCHY
+```
 
-## Stage 12 — Materialize the full phrase→structural-unit→page/action map
+If one false CREATE is found, re-audit all CREATE candidates in that run.
 
-Every active phrase must inherit exactly one final structural unit/action or explicit unresolved state. No useful phrase may be stranded because its original cluster was rejected.
+## Stage 11 — Choose action and derive evidence-based confidence/maturity
 
-**Why:** this is where semantic completeness and structural completeness meet.
+No default HIGH. A material fresh-site gap, owner-policy gap or Step-13 dependency prevents final HIGH.
 
-## Stage 13 — Generate the complete Step-13 candidate-pair universe
+## Stage 12 — Define hierarchy/internal links for accepted new/split pages
 
-Derive page pairs from the final routing graph. Do not diagnose cannibalization yet.
+Only pages that survived Stage 10 receive new-page hierarchy.
 
-**Why:** the next step should start from complete possible overlaps, not analyst memory.
+## Stage 13 — Materialize the full phrase→unit→page/action map
 
-## Stage 14 — Independent QA
+Every active phrase receives exactly one final action or explicit unresolved/deferred state.
 
-Compute accounting checks from data, review mixed/action risks through explicit QA ledgers, verify evidence matrices and hierarchy plans, and ensure every claimed pass property has a real derivation.
+## Stage 14 — Derive the complete Step-13 candidate-pair universe
 
-**Why:** the creator of the recommendation must not be able to pass QA merely by setting expected constants.
+Use the final current routing graph. Do not diagnose cannibalization yet.
 
-## Stage 15 — Persist, read back, then accept
+## Stage 15 — Independent QA plus owner-challenge review
 
-Save all final artifacts to canonical GitHub, read them back, parse/check counts, update job flow/manifest and only then mark Step 12 complete.
+Machine QA recomputes accounting/current-site/create/business fields from persisted artifacts. Manual owner-challenge ledger must include at least:
 
-**Why:** a correct result that is not durably preserved is not a reusable project result.
+```text
+WHY DOES THE OWNER WANT THIS PAGE?
+WHAT SHOULD THE USER DO AFTER IT?
+DOES IT HELP OR SUBSTITUTE FOR A CORE PAID OFFER?
+WAS A CURRENT EQUIVALENT PAGE/CONTENT RECHECKED?
+CAN EXISTING CONTENT BE EXPANDED INSTEAD?
+```
+
+**Why:** 46 perfect technical checks cannot compensate for a missing strategic question.
+
+## Stage 16 — Persist to GitHub and structured readback
+
+Save method evidence, freshness ledger, actions, phrase map, QA and report; read them back before acceptance.
+
+## Stage 17 — Plain-language owner report
+
+Always explain:
+- why the step exists;
+- what changed on the site recommendation;
+- what was rejected and why;
+- what remains provisional;
+- what the owner should actually implement.
+
+Only after this may Step 13 become allowed.
 
 ---
 
