@@ -1,0 +1,27 @@
+{
+  "date": "2026-08-31",
+  "status": "D12_28_D12_29_D12_30_V6_CANDIDATE_READY_FOR_INDEPENDENT_QA",
+  "source_assignment_rows": 2332,
+  "final_assignment_rows": 2332,
+  "assigned_rows": 2313,
+  "exact_phrase_resolutions": 49,
+  "affected_source_units": 20,
+  "affected_source_member_phrases": 322,
+  "removed_zero_member_units": [
+    "WINDOW_COMPONENT_SELECTION_INFO",
+    "WINDOW_FINISHING_DIY_INFO"
+  ],
+  "new_explicit_units": 10,
+  "final_structural_units": 168,
+  "quality_gap_units_after_revalidation": 8,
+  "quality_gap_without_explicit_missing_need": 0,
+  "final_phrase_map_rows": 2332,
+  "prior_implement_links_reviewed": 28,
+  "final_link_rows": 58,
+  "final_implement_links": 15,
+  "candidate_pairs": 195,
+  "pairs_requiring_step13": 186,
+  "new_page_actions": 0,
+  "step13_executed": false,
+  "build_origin": "EXPLICIT_D12_28_CURRENT_CONTENT_EVIDENCE_PLUS_D12_30_EXACT_PHRASE_RESOLUTIONS_PLUS_D12_29_CURRENT_LINK_VALIDATION"
+}
