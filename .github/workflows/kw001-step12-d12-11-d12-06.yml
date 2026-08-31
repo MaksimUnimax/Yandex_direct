@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
       - name: Build deterministic pair universe and maturity V2
         run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py
-      - name: Independently verify D12-11 and D12-06 candidate
+      - name: Independently verify D12-11 D12-06 D12-15 candidate
         run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_d12_11_d12_06.py
       - name: Fail-closed acceptance gate
         run: |
@@ -45,6 +45,8 @@ jobs:
           assert g['status']=='CANDIDATE_D12_11_D12_06_READY_FOR_INDEPENDENT_VERIFICATION'
           assert g['new_page_hierarchy_rows_expected']==5
           assert g['new_page_hierarchy_rows_materialized_in_actions']==5
+          assert g['d12_15_stale_materialized_hierarchy_reason_rows']==0
+          assert g['d12_15_reason_regenerated_rows']==160
           assert q['status']=='STEP12_D12_11_D12_06_INDEPENDENT_PASS'
           assert q['source_action_rows_v1']==160
           assert q['corrected_action_rows_v2']==160
@@ -60,11 +62,12 @@ jobs:
           assert q['dependency_final_maturity_rows']==0
           assert q['noncanonical_maturity_rows']==0
           assert q['hierarchy_not_materialized_in_v2']==0
+          assert q['stale_materialized_hierarchy_reason_rows']==0
           assert q['historical_true_clusters_without_any_derived_pair']==0
           assert q['forbidden_step13_verdict_columns']==0
           assert q['self_declared_harm_verdict_cells']==0
           assert q['step13_executed'] is False
-          print('STEP12_D12_13_ALL_HIERARCHY_OWNERS_PASS')
+          print('STEP12_D12_15_REASON_REGENERATION_PASS')
           print('STEP12_D12_11_D12_06_FAIL_CLOSED_GATE_PASS')
           PY
       - name: Persist verified candidate
@@ -76,14 +79,30 @@ jobs:
                   extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_MATURITY_DEPENDENCY_LEDGER.tsv \
                   extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_GENERATOR_QA.json \
                   extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_QA.json
-          git commit -m "step12: persist deterministic pair handoff and maturity v2 [skip ci]"
-          git push origin HEAD:roadmap/kwork-productization-2026-08-28
-      - name: GitHub readback
+          if git diff --cached --quiet; then
+            echo STEP12_D12_11_D12_06_ALREADY_CURRENT
+          else
+            git commit -m "step12: persist deterministic pair handoff and maturity v2 [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+      - name: Structured GitHub readback
         run: |
           git fetch origin roadmap/kwork-productization-2026-08-28
           remote=origin/roadmap/kwork-productization-2026-08-28
-          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_QA.json | grep -q 'STEP12_D12_11_D12_06_INDEPENDENT_PASS'
-          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STEP13_CANDIDATE_PAIRS.tsv | head -1 | grep -q 'later_direct_search_check_needed'
-          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | head -1 | grep -q 'step13_dependency_required'
-          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_GENERATOR_QA.json | grep -q '"new_page_hierarchy_rows_materialized_in_actions": 5'
-          echo STEP12_D12_11_D12_06_GITHUB_READBACK_PASS
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_D12_11_D12_06_GENERATOR_QA.json > /tmp/generator.json
+          git show $remote:$base/STEP_12_D12_11_D12_06_QA.json > /tmp/independent.json
+          git show $remote:$base/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv > /tmp/actions-v2.tsv
+          python - <<'PY'
+          import csv,json
+          g=json.load(open('/tmp/generator.json',encoding='utf-8'))
+          q=json.load(open('/tmp/independent.json',encoding='utf-8'))
+          rows=list(csv.DictReader(open('/tmp/actions-v2.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          assert g['new_page_hierarchy_rows_materialized_in_actions']==5
+          assert g['d12_15_stale_materialized_hierarchy_reason_rows']==0
+          assert q['status']=='STEP12_D12_11_D12_06_INDEPENDENT_PASS'
+          assert q['stale_materialized_hierarchy_reason_rows']==0
+          assert len(rows)==160
+          assert not [r for r in rows if r['hierarchy_clarity'].startswith('MATERIALIZED_') and 'hierarchy is not yet finalized' in r['confidence_downgrade_reason'].lower()]
+          print('STEP12_D12_11_D12_06_D12_15_GITHUB_READBACK_PASS')
+          PY
