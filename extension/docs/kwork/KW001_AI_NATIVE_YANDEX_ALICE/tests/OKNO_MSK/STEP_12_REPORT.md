@@ -26,7 +26,7 @@ Convert the corrected Step-11 phrase/page evidence into a concrete site-structur
 | 9 | Check selected phrases in ordinary Yandex Search | ✅ COMPLETE AFTER CORRECTIONS |
 | 10 | Group phrases by the real task a person wants to solve | ✅ COMPLETE |
 | 11 | Decide which existing page should answer each task and materialize every phrase | ✅ COMPLETE AFTER CORRECTION |
-| 12 | Decide what pages to keep, strengthen, add, create or deliberately not create | 🟡 CURRENT / candidate built, GitHub readback pending |
+| 12 | Decide what pages to keep, strengthen, add, create or deliberately not create | ✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT |
 | 13 | Check whether similar pages actually compete with each other in Search | ⬜ NOT STARTED |
 | 14 | Freeze the classic-Search site structure | ⬜ NOT STARTED |
 | 15 | Choose the cases where AI search can add useful evidence | ⬜ NOT STARTED |
