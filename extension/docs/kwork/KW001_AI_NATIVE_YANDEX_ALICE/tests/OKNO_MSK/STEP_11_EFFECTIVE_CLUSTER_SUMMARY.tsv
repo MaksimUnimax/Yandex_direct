@@ -1,0 +1,76 @@
+cluster_id	family	user_task	intent_type	business_fit	assigned_rows
+ALUMINIUM_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order aluminium windows	COMMERCIAL	CORE	104
+ALUMINIUM_WINDOW_TECH_INFO	WINDOW_INFO	understand aluminium window types/construction/opening/properties	INFO	ADJACENT	8
+BALCONY_GLAZING_COLD	BALCONY_GLAZING	order cold balcony/loggia glazing	SERVICE	CORE	13
+BALCONY_GLAZING_EXTENSION_SERVICE	BALCONY_GLAZING	order balcony glazing with extension/outset	SERVICE	CORE	4
+BALCONY_GLAZING_GENERAL	BALCONY_GLAZING	order balcony/loggia glazing	SERVICE	CORE	130
+BALCONY_GLAZING_PROVIDER_REVIEWS_INFO	GLAZING_INFO	compare/review balcony glazing providers	INFO	ADJACENT	6
+BALCONY_GLAZING_ROOF_SERVICE	BALCONY_GLAZING	order balcony glazing with roof construction	SERVICE	CORE	6
+BALCONY_GLAZING_SELECTION_INFO	GLAZING_INFO	choose balcony glazing type/specification	INFO	ADJACENT	7
+BALCONY_GLAZING_WARM	BALCONY_GLAZING	order warm balcony/loggia glazing	SERVICE	CORE	2
+BALCONY_RENOVATION_WITH_GLAZING	BALCONY_GLAZING	order bundled balcony renovation plus glazing	SERVICE	ADJACENT	15
+FRENCH_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order French windows	COMMERCIAL	ADJACENT	58
+FRENCH_WINDOW_DEFINITION_INFO	WINDOW_INFO	understand what French windows are and their forms	INFO	ADJACENT	6
+GLASS_UNIT_SELECTION_INFO	WINDOW_INFO	choose glazing unit for a PVC window	INFO	ADJACENT	1
+GLAZING_DESIGN_INSPIRATION	GLAZING_INFO	view glazing/window design ideas, photos or examples	INFO	ADJACENT	48
+GLAZING_DIY_INFO	GLAZING_INFO	learn/do glazing work yourself	DIY_INFO	ADJACENT	7
+GLAZING_PERMISSION_INFO	GLAZING_INFO	understand permission/legal requirements for glazing	INFO	ADJACENT	7
+MOSQUITO_NET_INSTALLATION_SERVICE	ACCESSORIES	professional mosquito-net installation	SERVICE	ADJACENT	11
+MOSQUITO_NET_REPAIR_SERVICE	ACCESSORIES	professional mosquito-net repair	SERVICE	ADJACENT	4
+MOSQUITO_NET_SELECTION_INFO	ACCESSORY_INFO	choose mosquito-net type/specification	INFO	ADJACENT	3
+MOSQUITO_NET_SHOPPING	ACCESSORIES	buy mosquito nets	COMMERCIAL	ADJACENT	32
+NAVIGATION_BRAND_SITE	NAVIGATION	reach an official brand/manufacturer/site or branded destination	NAVIGATIONAL	ADJACENT	13
+OPEN_BALCONY_FINISHING	BALCONY_ADJACENT	finish/renovate an open balcony without glazing as the primary job	SERVICE	ADJACENT	12
+OUTDOOR_GLAZING_REVIEWS_INFO	OUTDOOR_GLAZING	read reviews/experience about veranda glazing	INFO	ADJACENT	1
+OUTDOOR_GLAZING_SELECTION_INFO	OUTDOOR_GLAZING	choose veranda/outdoor glazing type, system or material	INFO	ADJACENT	7
+OUTDOOR_GLAZING_SPECIALIZED_INFO	OUTDOOR_GLAZING	understand specialized veranda glazing techniques/materials	INFO	ADJACENT	3
+OUTDOOR_STRUCTURE_GLAZING	OUTDOOR_GLAZING	order glazing of veranda/terrace/gazebo/porch	SERVICE	CORE	128
+OUTSIDE_CURTAINS_BLINDS	OUTSIDE_SCOPE	curtains/blinds and their selection/install/repair	OUTSIDE	OUTSIDE	59
+OUTSIDE_HEATING_HVAC	OUTSIDE_SCOPE	heating/HVAC/radiators/convectors around windows	OUTSIDE	OUTSIDE	22
+OUTSIDE_INTERIOR_DOORS	OUTSIDE_SCOPE	interior-door shopping/information outside PVC exterior/balcony-door scope	OUTSIDE	OUTSIDE	9
+OUTSIDE_OTHER	OUTSIDE_SCOPE	other active query job outside the target business and not represented by a stable outside family	OUTSIDE	OUTSIDE	3
+OUTSIDE_REAL_ESTATE_ARCHITECTURE	OUTSIDE_SCOPE	real-estate/architecture/project inspiration not seeking window/glazing work	OUTSIDE	OUTSIDE	42
+PANORAMIC_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order panoramic windows	COMMERCIAL	CORE	73
+PANORAMIC_WINDOW_TECH_INFO	WINDOW_INFO	understand panoramic-window types/properties	INFO	ADJACENT	2
+PRIVATE_HOUSE_WINDOW_PLANNING_INFO	WINDOW_INFO	plan/specify windows for a private house	INFO	ADJACENT	47
+PVC_ALUMINIUM_COMPARISON_INFO	WINDOW_INFO	compare PVC and aluminium windows	INFO	ADJACENT	5
+PVC_DOORS_COMMERCIAL	DOOR_PRODUCTS	buy/order PVC doors	COMMERCIAL	CORE	114
+PVC_DOOR_INFO	DOOR_INFO	understand/select PVC doors, dimensions, operation and properties	INFO	ADJACENT	18
+PVC_DOOR_INSTALLATION_SERVICE	DOOR_SERVICES	professional PVC door installation	SERVICE	ADJACENT	8
+PVC_DOOR_REPAIR_SERVICE	DOOR_SERVICES	professional PVC door repair	SERVICE	ADJACENT	14
+PVC_DOOR_REPLACEMENT_SERVICE	DOOR_SERVICES	professional PVC door replacement	SERVICE	ADJACENT	3
+PVC_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order PVC windows	COMMERCIAL	CORE	282
+PVC_WINDOW_COLOR_INFO	WINDOW_INFO	understand/select PVC/Rehau window colors and finishes	INFO	ADJACENT	2
+PVC_WINDOW_TECH_INFO	WINDOW_INFO	understand PVC-window types/opening/properties	INFO	ADJACENT	4
+REHAU_INTERNAL_COMPARISON_INFO	WINDOW_INFO	compare Rehau profile systems/models	INFO	ADJACENT	2
+REHAU_KALEVA_COMPARISON_INFO	WINDOW_INFO	compare Rehau and Kaleva window profiles	INFO	ADJACENT	1
+REHAU_OTHER_BRAND_COMPARISON_INFO	WINDOW_INFO	compare Rehau with other brands not covered by a current dedicated page	INFO	ADJACENT	4
+REHAU_VEKA_COMPARISON_INFO	WINDOW_INFO	compare Rehau and VEKA window profiles	INFO	ADJACENT	7
+REHAU_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order Rehau window products	COMMERCIAL	CORE	105
+REHAU_WINDOW_TECH_INFO	WINDOW_INFO	understand Rehau window systems/construction/types	INFO	ADJACENT	3
+ROOF_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order roof/mansard windows	COMMERCIAL	ADJACENT	2
+SOFT_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order soft windows	COMMERCIAL	ADJACENT	1
+TIMBER_ALUMINIUM_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order timber-aluminium windows	COMMERCIAL	CORE	3
+WINDOWSILL_REPAIR_SERVICE	FINISHING	professional windowsill repair/restoration	SERVICE	ADJACENT	2
+WINDOWS_COMMERCIAL_GENERAL	WINDOW_PRODUCTS	buy/order generic windows	COMMERCIAL	CORE	43
+WINDOWS_DOORS_COMBINED_COMMERCIAL	WINDOW_PRODUCTS	buy/order combined window-and-door products	COMMERCIAL	CORE	9
+WINDOW_ACCESSORIES_SHOPPING	ACCESSORIES	buy general window accessories/add-ons	COMMERCIAL	ADJACENT	47
+WINDOW_ACCESSORY_SELECTION_INFO	ACCESSORY_INFO	select general window accessories/add-ons	INFO	ADJACENT	1
+WINDOW_DEMOLITION_SERVICE	WINDOW_SERVICES	window/balcony-frame dismantling or demolition	SERVICE	ADJACENT	2
+WINDOW_DIMENSIONS_INFO	WINDOW_INFO	find window/product dimensions and sizing information	INFO	ADJACENT	20
+WINDOW_FINISHING_DIY_INFO	WINDOW_INFO	learn/do window slopes/surround finishing	DIY_INFO	ADJACENT	4
+WINDOW_FINISHING_SERVICE	FINISHING	professional slopes/surround/window finishing	SERVICE	ADJACENT	20
+WINDOW_HARDWARE_INFO	ACCESSORY_INFO	understand/select window hardware and components	INFO	ADJACENT	41
+WINDOW_HARDWARE_SHOPPING	ACCESSORIES	buy window hardware/components	COMMERCIAL	ADJACENT	239
+WINDOW_INSTALLATION_DIY_INFO	WINDOW_INFO	learn/do window installation	DIY_INFO	ADJACENT	36
+WINDOW_INSTALLATION_SERVICE	WINDOW_SERVICES	professional window installation	SERVICE	CORE	107
+WINDOW_OPERATION_MODE_INFO	WINDOW_INFO	understand/set summer or winter window operating mode	DIY_INFO	ADJACENT	2
+WINDOW_PRODUCT_REVIEWS_INFO	WINDOW_INFO	read product/model reviews or ratings for windows/doors	INFO	ADJACENT	12
+WINDOW_PRODUCT_VIDEO_INFO	WINDOW_INFO	view generic window-product video information	INFO	ADJACENT	2
+WINDOW_PROFILE_SELECTION_INFO	WINDOW_INFO	choose PVC window profile/system	INFO	ADJACENT	2
+WINDOW_PROVIDER_REVIEWS_INFO	WINDOW_INFO	compare/review window installation or repair providers	INFO	ADJACENT	10
+WINDOW_REPAIR_DIY_INFO	WINDOW_INFO	diagnose or repair windows yourself	DIY_INFO	ADJACENT	21
+WINDOW_REPAIR_SERVICE	WINDOW_SERVICES	professional window repair	SERVICE	ADJACENT	185
+WINDOW_REPLACEMENT_SERVICE	WINDOW_SERVICES	professional window replacement	SERVICE	CORE	13
+WINDOW_SELECTION_INFO	WINDOW_INFO	choose windows/products	INFO	ADJACENT	19
+WOOD_WINDOWS_COMMERCIAL	WINDOW_PRODUCTS	buy/order wooden windows	COMMERCIAL	CORE	5

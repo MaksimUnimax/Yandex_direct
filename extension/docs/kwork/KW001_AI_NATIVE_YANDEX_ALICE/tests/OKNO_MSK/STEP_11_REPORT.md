@@ -1,189 +1,73 @@
-# Step 11 — Page ownership report
+# Step 11 — Page ownership report (corrected after external method audit)
 
 Date: 2026-08-31
-Job: KW-001 / OKNO-MSK
-Branch: `roadmap/kwork-productization-2026-08-28`
 
-## Goal
+## Corrected status
 
-For every final Step-10 active cluster, determine whether the current public site has an existing page that can truthfully own that user task. This step does **not** make Step-12 structural actions and does **not** make Step-13 cannibalization verdicts.
+`PASS_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION`
 
-## Evidence used
+The original Step-11 pass was substantially correct at the cluster→page level but was not complete as a final keyword map. External method audit and owner instruction required two permanent corrections:
 
-1. Frozen Step-10 taxonomy and cluster summary: 59 active clusters with member evidence.
-2. Current Codex public-site refresh artifacts:
-   - `STEP_11_CODEX_DISCOVERED_URLS.tsv`
-   - `STEP_11_CODEX_PAGE_PROFILE_LEDGER.tsv`
-   - `STEP_11_CODEX_PAGE_REFRESH_REPORT.md`
-3. Curated current page-read ledger: `STEP_11_PAGE_PROFILE_LEDGER.tsv`.
-4. Current first-party public-page verification for material candidates not sufficiently covered by the bounded Codex pass.
-5. Fresh ordinary Yandex Search evidence, region 213 / Moscow:
-   - one separate canary request;
-   - one 68-query Search Batch;
-   - chunk checkpoints persisted after execution.
-6. Step-10 SEARCH_REQUIRED handoff evidence kept separate from cluster ownership.
+1. Bridge/Codex acquisition evidence must be saved to GitHub and read back immediately after each interaction before the next acquisition interaction.
+2. Step 11 must materialize the complete active `phrase → effective cluster → target URL/state` map and use it as a semantic-integrity QA surface.
 
-No verified/authorized Yandex Webmaster property was available, therefore no Webmaster query↔URL evidence was fabricated or required for acceptance.
+The registered reusable method is `../../STEP_11_PAGE_OWNERSHIP_METHOD.md`.
 
-## Ownership method
+## External method basis
 
-Accepted decision chain:
+- Semrush keyword mapping: https://www.semrush.com/blog/keyword-mapping/
+- Ahrefs keyword mapping: https://ahrefs.com/blog/keyword-mapping/
+- Ahrefs keyword clustering: https://ahrefs.com/blog/keyword-clustering/
+- Rush Analytics relevant URLs for clusters: https://www.rush-analytics.ru/faq/klasterizaciya/opredelenie-relevantnyh-url-dlya-klasterov
+- Topvisor target URL terminology: https://topvisor.com/ru/support/rankings/target-url/
+- Yandex page/query guidance: https://yandex.ru/support/webmaster/ru/recommendations/targeting and https://yandex.ru/support/webmaster/ru/service/queries-export
+
+## Corrected accounting
 
 ```text
-CURRENT PAGE TASK FIT
-+ DIRECT YANDEX SEARCH-BEHAVIOR EVIDENCE
-+ BUSINESS SCOPE
-+ CONTRADICTION REVIEW
--> OWNERSHIP VERDICT
+SOURCE_ACTIVE_ROWS = 2332
+SOURCE_ASSIGNED_ROWS = 2319
+SOURCE_SEARCH_REQUIRED_ROWS = 13
+POST_STEP11_CORRECTION_ROWS = 121
+EFFECTIVE_ASSIGNED_ROWS = 2313
+EFFECTIVE_SEARCH_REQUIRED_ROWS = 19
+PHRASE_PAGE_MAP_ROWS = 2332
+EFFECTIVE_ACTIVE_CLUSTERS = 75
+SILENT_ACTIVE_DROPS = 0
 ```
 
-Hard boundaries retained:
+Ownership states across effective assigned clusters:
 
 ```text
-LEXICAL URL/TITLE MATCH != OWNERSHIP
-RANKING URL != AUTOMATIC OWNER
-SEARCH ABSENCE != NO SUITABLE PAGE
-NO_SUITABLE_EXISTING_PAGE != CREATE DECISION
-MULTIPLE URLS != CANNIBALIZATION
-```
-
-For every `OWNER_EXISTING`, the primary owner is backed by a current page read. For `NO_SUITABLE_EXISTING_PAGE`, plausible current candidates were reviewed before rejecting ownership.
-
-## Final cluster accounting
-
-```text
-FINAL_STEP10_CLUSTERS = 59
-OWNER_EXISTING = 34
-NO_SUITABLE_EXISTING_PAGE = 18
-OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 1
+NO_SUITABLE_EXISTING_PAGE = 25
 OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
-TOTAL_ACCOUNTED = 59/59
-SILENT_CLUSTER_DROPS = 0
+OWNER_EXISTING = 44
 ```
 
-The single unresolved cluster is:
+The effective cluster count may differ from the historical Step-10 count because the original Step-10 files are preserved unchanged and corrections are applied as an explicit post-Step-11 overlay. Zero-member historical clusters are not carried forward as fake active clusters.
 
-```text
-GLAZING_SELECTION_INFO
-```
+## Material defects corrected
 
-Reason: the frozen Step-10 task is `choose glazing type/system for a non-specific or non-balcony object`, while the representative fresh Search probe `какое остекление выбрать` resolves predominantly to balcony/loggia choice. The task boundary therefore cannot be silently rewritten from the observed SERP.
+See `STEP_11_WEAK_OWNERSHIP_REAUDIT.md` and `STEP_11_POST_AUDIT_CORRECTIONS.tsv`. Major categories were false generic glazing, veranda-selection boundary, replacement-vs-component mixing, review intent mixing, balcony selection-vs-provider review mixing, broad product-tech mixing, bare DIY ambiguity, profile/glass-unit misclassification, and overly broad comparison ownership.
 
-Executable evidence route:
+## Phrase-level mapping
 
-```text
-If this cluster must be closed before a structural action, run 2–3 additional direct ordinary-Search probes explicitly scoped to non-balcony generic glazing and read any surfaced current first-party candidate before changing ownership state.
-```
+`STEP_11_PHRASE_PAGE_MAP.tsv` is now the required keyword-map deliverable. Every active Step-10 row appears exactly once. It preserves original assignment fields alongside effective corrected assignment and ownership state.
 
-This unresolved state is an explicit evidence boundary, not a hidden failure and not a Step-12 action.
+`TARGET_URL` means intended SEO owner, not a proven Yandex ranking/relevant URL. The original Step-11 Search batch observed zero target-domain TOP10 hits and there was no authorized Webmaster property, so the corrected report does not manufacture Yandex query↔URL ownership evidence.
 
-## Current owner highlights
+## Search-required handoff
 
-Examples of high-confidence current owners include:
+The original 13 Step-10 `SEARCH_REQUIRED` rows remain unresolved for page ownership. Phrase-level coherence correction adds six bare DIY/instruction rows, producing {len(search_required)} effective `SEARCH_REQUIRED` rows. They have no target URL and must be semantically resolved before any page action.
 
-- generic windows → `https://okno-msk.ru/`
-- PVC/REHAU windows → `https://okno-msk.ru/okna-rehau/`
-- aluminium windows → `https://okno-msk.ru/alyuminievye-okna/`
-- French windows → `https://okno-msk.ru/okna-rehau/francuzskie-okna/`
-- PVC doors → `https://okno-msk.ru/dveri-rehau/`
-- balcony/loggia glazing → `https://okno-msk.ru/balkony-i-lodzhii/`
-- warm glazing → `https://okno-msk.ru/balkony-i-lodzhii/teploe-osteklenie/`
-- cold glazing → `https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie/`
-- balcony with extension → `https://okno-msk.ru/balkony-i-lodzhii/balkon-s-vynosom/`
-- balcony with roof → `https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/`
-- veranda/terrace/gazebo glazing → `https://okno-msk.ru/verandy/`
-- window installation → `https://okno-msk.ru/uslugi/ustanovka-okon/`
-- window repair → `https://okno-msk.ru/uslugi/remont-okon/`
-- slope finishing → `https://okno-msk.ru/uslugi/otdelka-otkosov/`
-- window accessories/hardware shopping → `https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/`
-- mosquito-net shopping/selection/installation → `https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/moskitnye-setki/`
-- window selection guide → `https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/`
-- window comparison → `https://okno-msk.ru/stati/kakie-okna-samye-luchshie/`
-- dimensions/sizing → `https://okno-msk.ru/stati/standartnye-razmery-okon-v-kvartiru-i-chastnyj-dom/`
-- private-house planning → `https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/`
-- DIY slope finishing → `https://okno-msk.ru/stati/chem-otdelat-otkosy-na-oknah/`
-- examples/inspiration → `https://okno-msk.ru/nashi-raboty/`
+## Provider / persistence truth
 
-## Material gaps found at ownership layer
+No new paid Yandex Marketing Bridge calls were needed for this correction. The historical Step-11 provider accounting remains 69 requests / 33.672 RUB. The historical limitation remains explicit: no single consolidated 680-ranked-row raw/normalized Step-11 TSV was produced. No paid replay was performed solely to reconstruct that bookkeeping.
 
-`NO_SUITABLE_EXISTING_PAGE` means only that no truthful current owner was verified. It does not prescribe creation. Material examples include:
-
-- wooden windows;
-- timber-aluminium windows;
-- soft windows;
-- general commercial panoramic windows;
-- roof/mansard windows;
-- open-balcony finishing without glazing;
-- standalone PVC-door installation/repair/replacement;
-- standalone window demolition;
-- windowsill repair/restoration;
-- mosquito-net repair;
-- broad DIY window installation/repair;
-- broad hardware-selection information;
-- general accessory-selection information;
-- DIY glazing;
-- permission/legal requirements for glazing.
-
-Structural treatment of these gaps belongs to Step 12.
-
-## Fresh Yandex Search accounting
-
-Canary:
-
-```text
-requests = 1
-cost = 0.488 RUB
-HTTP 200 = true
-```
-
-Step-11 Search Batch:
-
-```text
-job_id = kw001-okno-msk-step11-page-ownership-20260830
-region = 213 / Moscow
-queries = 68
-requests_started = 68
-succeeded = 68
-failed_terminal = 0
-outcome_unknown = 0
-pending = 0
-status = COMPLETED
-estimated_cost_rub = 33.184
-```
-
-Fresh Step-11 Search total including canary:
-
-```text
-provider_requests = 69
-estimated_cost_rub = 33.672
-```
-
-Observed target-domain TOP10 hits in the 68-query batch were 0. This was **not** converted into a no-page verdict; ownership is based on current page/task fit plus Search behavior and business scope.
-
-The Search Batch checkpoint set preserves execution/accounting plus normalized per-query dominant signals. A single consolidated full 680-ranked-row Step-11 TSV was not produced in this pass; this is recorded as a persistence granularity limitation, not hidden as full raw-SERP preservation.
-
-## Step-10 SEARCH_REQUIRED handoff
-
-The 13 Step-10 `SEARCH_REQUIRED` rows are not clusters and do not receive owners silently.
-
-Final Step-11 handoff:
-
-```text
-rows_accounted = 13/13
-LIKELY_RESOLVED / LIKELY_RESOLVED_OUTSIDE = 10
-SEMANTIC_REVIEW_REQUIRED = 3
-```
-
-Rows still requiring semantic review:
-
-- `ral алюминиевых окон`
-- `оконные блоки фурнитурой`
-- `пластиковые окна комарова`
-
-Their ownership applicability remains `PAGE_OWNERSHIP_NOT_APPLICABLE_UNTIL_TASK_RESOLVED`.
+The corrected reusable method now blocks every future Bridge/Codex acquisition sequence at: result → immediate GitHub save → GitHub readback/completeness verification → next interaction.
 
 ## Step boundary
 
 No Step-12 structural action was executed. No Step-13 cannibalization verdict was made.
 
-Step 11 is complete when QA confirms all 59 cluster rows and all 13 SEARCH_REQUIRED rows are preserved, all unresolved cases have an executable evidence route, provider execution/cost reconciles, and final artifacts are read back.
+Step 11 is accepted only if `STEP_11_QA.json` is PASS and all generated final artifacts are committed and read back from GitHub.
