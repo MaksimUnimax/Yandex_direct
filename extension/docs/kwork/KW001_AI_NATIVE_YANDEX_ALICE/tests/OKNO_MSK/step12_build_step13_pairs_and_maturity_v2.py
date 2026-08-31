@@ -61,6 +61,59 @@ def is_parent_child(a, b):
     return xa.startswith(xb) or xb.startswith(xa)
 
 
+def dedupe(items):
+    return list(dict.fromkeys(x for x in items if x))
+
+
+def regenerate_confidence_reason(row, hierarchy_clarity, new_maturity, dependency, new_conf):
+    old_reason = (row.get('confidence_downgrade_reason') or '').strip()
+    reasons = []
+
+    # Explicit deferred resolutions can contain a carefully reviewed concrete reason
+    # (for example D12-14). Preserve that evidence wording if it is not stale.
+    if new_maturity == 'DEFERRED_PENDING_MISSING_EVIDENCE':
+        if old_reason and 'hierarchy is not yet finalized' not in old_reason.lower():
+            reasons.append(old_reason)
+        else:
+            reasons.append('Deferred because a named material evidence gap remains.')
+        if dependency:
+            reasons.append('Adjacent page-role overlap also remains queued for Step 13 conflict verification.')
+        return '; '.join(dedupe(reasons))
+
+    business = row.get('business_truth', '')
+    if business in {
+        'UNVERIFIED_OR_CONDITIONAL',
+        'CONDITIONAL_BROAD_PRODUCT_OFFER',
+        'CONDITIONAL_STANDALONE_SERVICE_ROLE',
+    }:
+        reasons.append('Business truth or standalone page role remains conditional.')
+
+    if row.get('search_boundary_support') == 'MATERIAL_BOUNDARY_GAP':
+        reasons.append('Material Search page boundary is not directly probed.')
+
+    if hierarchy_clarity == 'PENDING_FOR_PROPOSED_PAGE':
+        reasons.append('New-page hierarchy is not yet finalized.')
+
+    if row.get('task_coherence') != 'STRONG':
+        reasons.append('Task coherence is not strong.')
+
+    page_fit = row.get('current_page_fit', '')
+    if page_fit in {'PARTIAL_OR_SUPPORTING_PAGE_FIT', 'PARTIAL_EXISTING_PAGE_FIT', 'REVIEW_REQUIRED'}:
+        reasons.append('Current page fit is partial or supporting rather than a fully verified primary fit.')
+
+    if dependency:
+        reasons.append('Material adjacent page-role overlap remains for Step 13 conflict verification.')
+
+    reasons = dedupe(reasons)
+    if reasons:
+        return '; '.join(reasons)
+    if new_conf == 'HIGH':
+        return 'Coherent task and current structural role are directly supported; no material unresolved Step-12 evidence dependency remains.'
+    if new_conf == 'MEDIUM':
+        return 'Recommendation remains medium-confidence because current page fit or evidence strength is partial.'
+    return 'Recommendation remains low-confidence because a material unresolved evidence dependency remains.'
+
+
 actions = read_tsv(ACTIONS_V1)
 assignments = read_tsv(ASSIGNMENTS)
 historical = read_tsv(HISTORICAL)
@@ -296,14 +349,18 @@ for row in actions:
     else:
         new_conf = old_conf
 
-    why = row['confidence_downgrade_reason']
-    if new_conf != old_conf:
-        extra = 'Downgraded because the structural recommendation has a material unresolved dependency.'
-        why = (why + '; ' + extra).strip('; ')
+    why = regenerate_confidence_reason(
+        row,
+        out['hierarchy_clarity'],
+        new_maturity,
+        dependency,
+        new_conf,
+    )
 
     out['recommendation_maturity'] = new_maturity
     out['final_confidence'] = new_conf
     out['confidence_downgrade_reason'] = why
+    out['confidence_reason_origin'] = 'REGENERATED_FROM_CURRENT_V2_EVIDENCE_AFTER_HIERARCHY_AND_DEPENDENCY_OVERLAY'
     out['step13_dependency_required'] = 'true' if dependency else 'false'
     out['step13_candidate_pair_ids'] = ';'.join(sorted(pair_ids_by_uid.get(uid, [])))
     out['maturity_dependency_detail'] = ';'.join(dict.fromkeys(reasons)) if reasons else 'NONE'
@@ -329,6 +386,15 @@ canonical_maturity = {
     'PROVISIONAL_PENDING_STEP13_CONFLICT_CHECK',
     'DEFERRED_PENDING_MISSING_EVIDENCE',
 }
+stale_hierarchy_reason_rows = [
+    r for r in v2
+    if r['hierarchy_clarity'].startswith('MATERIALIZED_')
+    and 'hierarchy is not yet finalized' in r['confidence_downgrade_reason'].lower()
+]
+reason_regenerated_rows = [
+    r for r in v2
+    if r.get('confidence_reason_origin') == 'REGENERATED_FROM_CURRENT_V2_EVIDENCE_AFTER_HIERARCHY_AND_DEPENDENCY_OVERLAY'
+]
 qa = {
     'status': 'CANDIDATE_D12_11_D12_06_READY_FOR_INDEPENDENT_VERIFICATION',
     'source_action_rows': len(actions),
@@ -355,17 +421,21 @@ qa = {
         if norm_page(r['primary_page_candidate']) in hierarchy_by_page
         and r['hierarchy_clarity'].startswith('MATERIALIZED_')
     }),
+    'd12_15_reason_regenerated_rows': len(reason_regenerated_rows),
+    'd12_15_stale_materialized_hierarchy_reason_rows': len(stale_hierarchy_reason_rows),
     'historical_manual_followup_true_clusters': sum(hist_followup.values()),
     'historical_manual_followup_used_as_pair_universe_source': False,
     'pair_universe_derivation_routes': sorted({route for p in pair_rows for route in p['derivation_routes'].split(';')}),
     'defects_closed_by_generator_alone': [],
-    'defects_candidate_for_closure_after_independent_verification': ['D12-11', 'D12-06'],
+    'defects_candidate_for_closure_after_independent_verification': ['D12-15', 'D12-11', 'D12-06'],
 }
 if (
     qa['dependency_high_rows']
     or qa['dependency_without_explicit_provisional_or_deferred_maturity']
     or qa['noncanonical_maturity_rows']
     or qa['new_page_hierarchy_rows_materialized_in_actions'] != qa['new_page_hierarchy_rows_expected']
+    or qa['d12_15_reason_regenerated_rows'] != len(v2)
+    or qa['d12_15_stale_materialized_hierarchy_reason_rows']
 ):
     qa['status'] = 'FAIL'
 
