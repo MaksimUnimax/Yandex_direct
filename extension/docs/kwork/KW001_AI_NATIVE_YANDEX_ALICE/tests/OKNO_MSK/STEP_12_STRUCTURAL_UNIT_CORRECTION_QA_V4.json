@@ -1,0 +1,29 @@
+{
+  "status": "CANDIDATE_V4_READY_FOR_MANUAL_SEMANTIC_ACCEPTANCE",
+  "source_rows": 2332,
+  "search_required_rows": 19,
+  "structural_units": 159,
+  "correction_rows": 1037,
+  "historical_override_rows": 191,
+  "historical_override_rows_with_explicit_final_unit": 191,
+  "hidden_runtime_override_rules_in_v4_output": 0,
+  "v4_canonicalized_phrase_rows": 221,
+  "v4_split_balcony_aluminium_rows": 5,
+  "unit_metadata_inconsistency_rows": 0,
+  "unit_metadata_inconsistency_ids": [],
+  "mandatory_mixed_original_units_still_final": [],
+  "historical_no_page_or_outside_review_rows": 481,
+  "salvaged_to_in_scope_units": 127,
+  "explicitly_deferred_rows": 6,
+  "outside_confirmed_rows": 108,
+  "no_standalone_confirmed_rows": 240,
+  "default_high_confidence_rows": 0,
+  "defects_closed_by_script_alone": [],
+  "defects_candidate_for_manual_acceptance": [
+    "D12-01",
+    "D12-02",
+    "D12-08",
+    "D12-09",
+    "D12-12"
+  ]
+}
