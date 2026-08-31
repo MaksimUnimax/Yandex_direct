@@ -7,6 +7,9 @@ on:
     paths:
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py'
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_d12_11_d12_06.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv'
       - '.github/workflows/kw001-step12-d12-11-d12-06.yml'
   workflow_dispatch:
 
@@ -40,6 +43,8 @@ jobs:
           print(json.dumps(g,ensure_ascii=False,indent=2))
           print(json.dumps(q,ensure_ascii=False,indent=2))
           assert g['status']=='CANDIDATE_D12_11_D12_06_READY_FOR_INDEPENDENT_VERIFICATION'
+          assert g['new_page_hierarchy_rows_expected']==5
+          assert g['new_page_hierarchy_rows_materialized_in_actions']==5
           assert q['status']=='STEP12_D12_11_D12_06_INDEPENDENT_PASS'
           assert q['source_action_rows_v1']==160
           assert q['corrected_action_rows_v2']==160
@@ -59,6 +64,7 @@ jobs:
           assert q['forbidden_step13_verdict_columns']==0
           assert q['self_declared_harm_verdict_cells']==0
           assert q['step13_executed'] is False
+          print('STEP12_D12_13_ALL_HIERARCHY_OWNERS_PASS')
           print('STEP12_D12_11_D12_06_FAIL_CLOSED_GATE_PASS')
           PY
       - name: Persist verified candidate
@@ -79,4 +85,5 @@ jobs:
           git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_QA.json | grep -q 'STEP12_D12_11_D12_06_INDEPENDENT_PASS'
           git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STEP13_CANDIDATE_PAIRS.tsv | head -1 | grep -q 'later_direct_search_check_needed'
           git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | head -1 | grep -q 'step13_dependency_required'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_GENERATOR_QA.json | grep -q '"new_page_hierarchy_rows_materialized_in_actions": 5'
           echo STEP12_D12_11_D12_06_GITHUB_READBACK_PASS
