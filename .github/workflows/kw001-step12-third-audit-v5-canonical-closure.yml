@@ -1,0 +1,122 @@
+name: KW001 Step12 Third Audit V5 Canonical Closure
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_V5_CLOSURE_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build closure candidate
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_third_audit_v5.py
+      - name: Verify closure candidate
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE');r=root/'tests/OKNO_MSK'
+          s=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          q=json.loads((r/'STEP_12_QA.json').read_text(encoding='utf-8'))
+          led=list(csv.DictReader((r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline=''),delimiter='\t'));by={x['defect_id']:x for x in led}
+          assert s['step12_complete'] and s['open_defects']==[] and not s['step13_executed'] and s['step13_status']=='NOT_STARTED_NEXT_ALLOWED'
+          assert all(by[f'D12-{i:02d}']['status']=='VERIFIED_FIXED' for i in range(1,28))
+          assert q['tracked_defects']==27 and q['verified_fixed_defects']==27 and q['open_defects']==[]
+          assert q['d12_27_reviewed_phrases']==65 and q['independent_findings']==0
+          assert q['candidate_pair_rows']>0 and q['pair_missing']==0 and q['pair_extra']==0 and q['pair_duplicates']==0
+          assert q['current_new_page_actions']==0 and q['current_proposed_new_reference_rows']==0
+          assert not q['final_github_readback'] and not q['canonical_closure_readback_passed']
+          method=(root/'STEP_12_STRUCTURAL_ACTION_METHOD.md').read_text(encoding='utf-8')
+          index=(root/'STEP_RULES_INDEX.md').read_text(encoding='utf-8')
+          assert 'Defect 27 — evidence-first page recheck exposed residual mixed structural units' in method
+          assert 'APPROVED / ACTIVE AFTER THIRD EXTERNAL METHOD AUDIT + D12-27 PHRASE-LEVEL REVALIDATION' in method
+          assert 'APPROVED / ACTIVE AFTER THIRD EXTERNAL METHOD AUDIT + D12-27 PHRASE-LEVEL REVALIDATION' in index
+          print('STEP12_THIRD_AUDIT_V5_CLOSURE_CANDIDATE_PASS')
+          PY
+      - name: Persist canonical closure candidate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md \
+            $base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+            $base/STEP_12_CORRECTION_CURRENT_STATE.json \
+            $base/STEP_12_QA.json \
+            $base/STEP_12_REPORT.md \
+            $base/STEP_12_THIRD_AUDIT_FINAL_ACCEPTANCE_2026-08-31.md \
+            $base/JOB_FLOW.md $base/JOB_MANIFEST.md
+          git commit -m "step12: close third-audit V5 and D12-27 [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: First structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state1.json
+          git show $remote:$base/STEP_12_QA.json > /tmp/qa1.json
+          git show $remote:$base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv > /tmp/ledger1.tsv
+          git show $remote:$base/STEP_12_D12_27_INDEPENDENT_QA.json > /tmp/d271.json
+          python - <<'PY'
+          import csv,json
+          s=json.load(open('/tmp/state1.json',encoding='utf-8'));q=json.load(open('/tmp/qa1.json',encoding='utf-8'));d=json.load(open('/tmp/d271.json',encoding='utf-8'))
+          rows=list(csv.DictReader(open('/tmp/ledger1.tsv',encoding='utf-8',newline=''),delimiter='\t'));by={r['defect_id']:r for r in rows}
+          assert s['step12_complete'] and s['open_defects']==[] and not s['step13_executed']
+          assert q['tracked_defects']==27 and q['independent_findings']==0 and q['final_github_readback']==False
+          assert d['status']=='STEP12_D12_27_V5_INDEPENDENT_PASS' and d['findings']==0
+          assert all(by[f'D12-{i:02d}']['status']=='VERIFIED_FIXED' for i in range(1,28))
+          print('STEP12_THIRD_AUDIT_V5_FIRST_GITHUB_READBACK_PASS')
+          PY
+      - name: Mark durable readback status
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          sp=r/'STEP_12_CORRECTION_CURRENT_STATE.json';qp=r/'STEP_12_QA.json';rp=r/'STEP_12_REPORT.md';ap=r/'STEP_12_THIRD_AUDIT_FINAL_ACCEPTANCE_2026-08-31.md';fp=r/'JOB_FLOW.md'
+          s=json.loads(sp.read_text(encoding='utf-8'));q=json.loads(qp.read_text(encoding='utf-8'))
+          s['final_github_readback']=True;s['canonical_closure_readback_passed']=True
+          q['final_github_readback']=True;q['canonical_closure_readback_passed']=True
+          sp.write_text(json.dumps(s,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');qp.write_text(json.dumps(q,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          rp.write_text(rp.read_text(encoding='utf-8')+'\n## Durable final closure\n\n```text\nFINAL_THIRD_AUDIT_V5_GITHUB_READBACK = true\nSTEP13_EXECUTED = false\n```\n',encoding='utf-8')
+          txt=ap.read_text(encoding='utf-8').replace('Status: **PASS CANDIDATE / DURABLE GITHUB READBACK PENDING**','Status: **PASS AFTER DURABLE GITHUB READBACK**')
+          ap.write_text(txt+'\nFinal structured GitHub readback: **PASS**.\n',encoding='utf-8')
+          flow=fp.read_text(encoding='utf-8').replace('KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = false','KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true')
+          fp.write_text(flow,encoding='utf-8')
+          print('STEP12_THIRD_AUDIT_V5_DURABLE_STATUS_READY')
+          PY
+      - name: Persist final durable status
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_CORRECTION_CURRENT_STATE.json $base/STEP_12_QA.json $base/STEP_12_REPORT.md $base/STEP_12_THIRD_AUDIT_FINAL_ACCEPTANCE_2026-08-31.md $base/JOB_FLOW.md
+          git commit -m "step12: record third-audit V5 durable readback [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Final structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state2.json
+          git show $remote:$base/STEP_12_QA.json > /tmp/qa2.json
+          git show $remote:$base/STEP_12_REPORT.md > /tmp/report2.md
+          git show $remote:$base/STEP_12_THIRD_AUDIT_FINAL_ACCEPTANCE_2026-08-31.md > /tmp/accept2.md
+          git show $remote:$base/JOB_FLOW.md > /tmp/flow2.md
+          python - <<'PY'
+          import json
+          s=json.load(open('/tmp/state2.json',encoding='utf-8'));q=json.load(open('/tmp/qa2.json',encoding='utf-8'))
+          assert s['step12_complete'] and s['final_github_readback'] and s['canonical_closure_readback_passed'] and not s['step13_executed']
+          assert q['final_github_readback'] and q['canonical_closure_readback_passed'] and q['open_defects']==[] and q['tracked_defects']==27
+          assert 'FINAL_THIRD_AUDIT_V5_GITHUB_READBACK = true' in open('/tmp/report2.md',encoding='utf-8').read()
+          assert 'Status: **PASS AFTER DURABLE GITHUB READBACK**' in open('/tmp/accept2.md',encoding='utf-8').read()
+          assert 'KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true' in open('/tmp/flow2.md',encoding='utf-8').read()
+          print('STEP12_THIRD_AUDIT_V5_FINAL_GITHUB_READBACK_PASS')
+          PY
