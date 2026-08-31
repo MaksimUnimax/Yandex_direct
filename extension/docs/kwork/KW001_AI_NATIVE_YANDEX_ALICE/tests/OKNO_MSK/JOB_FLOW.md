@@ -457,7 +457,7 @@ Step 13 is **NOT STARTED / NEXT ALLOWED** and remains methodologically UNVALIDAT
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
 | **11. Page ownership** | **Map effective clusters and every active phrase to intended existing URL/state** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** |
-| **12. Structural actions** | **Decide what to keep, strengthen, route, defer or create** | **🔁 CLOSURE CANDIDATE AFTER D12-28..D12-30 / FINAL STATE READBACK PENDING** |
+| **12. Structural actions** | **Decide what to keep, strengthen, route, defer or create** | **✅ COMPLETE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED / NEXT ALLOWED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
 | 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
@@ -569,7 +569,7 @@ KW001_OKNO_MSK_STEP13_EXECUTED = false
 
 ## Post-PASS Step-12 correction — D12-28..D12-30
 
-Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**
+Status: **✅ COMPLETE / PASS AFTER DURABLE CLOSURE READBACK**
 
 Why the previous PASS was withdrawn:
 
@@ -605,4 +605,28 @@ INDEPENDENT_FINDINGS = 0
 STEP13_EXECUTED = false
 ```
 
-Step 13 remains blocked until this closure-state commit receives durable GitHub readback.
+Closure-state readback passed. Step 13 is NOT STARTED / NEXT ALLOWED; fresh Step-13 methodology research/review remains required before execution.
+
+
+### D12-28..D12-30 final closure markers
+
+```text
+KW001_OKNO_MSK_STEP12_COMPLETE_AFTER_D12_28_30 = true
+KW001_OKNO_MSK_STEP12_VERIFIED_FIXED_DEFECTS = 30
+KW001_OKNO_MSK_STEP12_OPEN_DEFECTS = 0
+KW001_OKNO_MSK_STEP12_FINAL_PHRASE_ACTION_MAP_ROWS = 2332
+KW001_OKNO_MSK_STEP12_STRUCTURAL_UNITS = 168
+KW001_OKNO_MSK_STEP12_AFFECTED_PHRASES_REVIEWED = 322
+KW001_OKNO_MSK_STEP12_EXACT_REASSIGNMENTS = 49
+KW001_OKNO_MSK_STEP12_FINAL_QUALITY_GAP_UNITS = 8
+KW001_OKNO_MSK_STEP12_OLD_IMPLEMENT_LINKS_REVIEWED = 28
+KW001_OKNO_MSK_STEP12_RETAINED_IMPLEMENT_LINKS = 15
+KW001_OKNO_MSK_STEP12_FINAL_LINK_ROWS = 58
+KW001_OKNO_MSK_STEP12_CURRENT_DERIVED_PAIR_ROWS = 195
+KW001_OKNO_MSK_STEP12_FUTURE_STEP13_SEARCH_PAIR_ROWS = 186
+KW001_OKNO_MSK_STEP12_STEP13_DEPENDENCY_UNITS = 98
+KW001_OKNO_MSK_STEP12_INDEPENDENT_FINDINGS = 0
+KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true
+KW001_OKNO_MSK_STEP13_STATUS = NOT_STARTED_NEXT_ALLOWED
+KW001_OKNO_MSK_STEP13_EXECUTED = false
+```

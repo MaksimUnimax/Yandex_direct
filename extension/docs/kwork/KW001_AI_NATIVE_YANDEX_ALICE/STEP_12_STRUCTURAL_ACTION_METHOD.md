@@ -1,6 +1,6 @@
 # Step 12 — Structural action method
 
-Status: **CLOSURE CANDIDATE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE CORRECTION — FINAL STATE READBACK PENDING**  
+Status: **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION**  
 Scope: reusable Step-12 method for deciding what an existing site should keep, strengthen, add, create, split, merge or deliberately not create after phrase-level page ownership has been established.  
 Step boundary: structural recommendations only. Real cannibalization diagnosis belongs to Step 13; final Search architecture freeze belongs to Step 14.
 

@@ -1,7 +1,7 @@
 # Step 12 — D12-28..D12-30 final acceptance
 
 Date: 2026-08-31  
-Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**
+Status: **PASS AFTER DURABLE CLOSURE READBACK**
 
 The previous D12-27 PASS was withdrawn because later external-method review proved three additional failure classes:
 
@@ -31,4 +31,4 @@ independent findings = 0
 Step13 executed = false
 ```
 
-Step 12 is **not yet marked complete in this candidate commit**. Completion is allowed only after this candidate state, method authority, rules index, defect ledger and job authorities are read back from GitHub.
+Closure candidate state, method authority, rules index, defect ledger and job authorities were durably read back from GitHub. `STEP12_COMPLETE=true`; Step 13 was not executed and is only the next allowed pre-step methodology review.

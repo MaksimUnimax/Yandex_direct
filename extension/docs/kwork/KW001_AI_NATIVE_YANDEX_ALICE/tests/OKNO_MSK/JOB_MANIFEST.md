@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_12_D12_28_D12_29_D12_30_CLOSURE_CANDIDATE_PENDING_FINAL_STATE_READBACK
-next_major_step = STEP_12_FINAL_STATE_READBACK_THEN_STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
+current_major_step = STEP_12_COMPLETE_AFTER_D12_28_D12_29_D12_30_EVIDENCE_INDEPENDENCE_AND_GLOBAL_COHERENCE_REVALIDATION
+next_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = false
@@ -456,7 +456,7 @@ KW001_OKNO_MSK_SAFE_TO_DELETE = false
 
 ## Latest Step-12 authority — post-PASS D12-28..D12-30 correction
 
-Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**
+Status: **COMPLETE / PASS AFTER D12-28..D12-30 + DURABLE CLOSURE READBACK**
 
 Canonical current artifacts:
 
@@ -477,4 +477,4 @@ STEP_12_D12_28_30_FINAL_RECONCILIATION.json
 STEP_12_D12_28_30_FINAL_ACCEPTANCE_2026-08-31.md
 ```
 
-Until closure-state readback completes, Step 13 remains blocked.
+Closure-state readback passed. Step 13 is NOT STARTED / NEXT ALLOWED and remains methodologically UNVALIDATED.

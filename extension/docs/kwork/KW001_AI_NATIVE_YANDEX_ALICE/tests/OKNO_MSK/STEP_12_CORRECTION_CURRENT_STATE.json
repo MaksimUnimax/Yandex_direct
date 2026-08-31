@@ -1,12 +1,12 @@
 {
   "date": "2026-08-31",
   "step": 12,
-  "status": "D12_28_D12_29_D12_30_CLOSURE_CANDIDATE_PENDING_FINAL_STATE_READBACK",
+  "status": "STEP12_COMPLETE_AFTER_D12_28_D12_29_D12_30_EVIDENCE_INDEPENDENCE_AND_GLOBAL_COHERENCE_REVALIDATION",
   "historical_first_pass_preserved": true,
   "historical_first_pass_acceptance_withdrawn": true,
   "third_audit_acceptance_preserved_as_superseded": true,
   "post_pass_evidence_independence_correction_complete": true,
-  "step13_blocked": true,
+  "step13_blocked": false,
   "open_defects": [],
   "verified_fixed_defects": [
     "D12-01",
@@ -51,12 +51,12 @@
   "current_final_reconciliation": "STEP_12_D12_28_30_FINAL_RECONCILIATION.json",
   "current_independent_qa": "STEP_12_D12_28_30_INDEPENDENT_QA.json",
   "rule": "Defect evidence is verified fixed only from causally upstream current evidence plus independent recomputation. Step completion is withheld until the closure state itself is saved and read back from GitHub.",
-  "next_action": "Read back candidate closure state/rules/job authorities from GitHub; only then finalize Step12 completion. Step13 remains blocked during this readback gate.",
+  "next_action": "Step 12 complete after D12-28..D12-30 evidence-independent correction and closure-state readback. Step 13 is NOT STARTED / NEXT ALLOWED and requires its own fresh pre-step methodology research/review before execution.",
   "step13_executed": false,
-  "step13_status": "BLOCKED_PENDING_STEP12_FINAL_STATE_READBACK",
-  "step12_complete": false,
-  "next_step_allowed": false,
-  "next_major_step": "STEP_12_D12_28_D12_29_D12_30_FINAL_STATE_READBACK",
-  "final_github_readback": false,
-  "canonical_closure_readback_passed": false
+  "step13_status": "NOT_STARTED_NEXT_ALLOWED",
+  "step12_complete": true,
+  "next_step_allowed": true,
+  "next_major_step": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW",
+  "final_github_readback": true,
+  "canonical_closure_readback_passed": true
 }

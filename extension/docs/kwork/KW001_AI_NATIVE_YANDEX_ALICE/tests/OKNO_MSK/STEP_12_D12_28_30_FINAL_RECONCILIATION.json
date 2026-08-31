@@ -61,7 +61,8 @@
   "proposed_new_refs": 0,
   "quality_gap_without_explicit_missing_need": 0,
   "independent_findings": 0,
-  "final_github_readback_pending": true,
+  "final_github_readback_pending": false,
   "step13_executed": false,
-  "reconciliation_origin": "V7_ASSIGNMENTS_V6_ACTIONS_V6_MAP_V6_LINKS_V6_PAIRS_PLUS_INDEPENDENT_D12_28_29_30_QA"
+  "reconciliation_origin": "V7_ASSIGNMENTS_V6_ACTIONS_V6_MAP_V6_LINKS_V6_PAIRS_PLUS_INDEPENDENT_D12_28_29_30_QA",
+  "final_github_readback": true
 }
