@@ -200,7 +200,7 @@ for i,((a,b),x) in enumerate(sorted(pairs.items()),1):
     for uid in x['units']:
         r=by[uid]
         if r.get('search_boundary_support')=='MATERIAL_BOUNDARY_GAP':reasons.add('MATERIAL_SEARCH_BOUNDARY_GAP_IN_CONTRIBUTING_UNIT')
-        if 'PENDING_STEP13' in (r.get('recommendation_maturity') or ''):reasons.add('CONTRIBUTING_UNIT_ALREADY_SEARCH_PROVISIONAL')
+        # Prior recommendation maturity is downstream state, not independent evidence; do not use it to trigger Step-13 search.
     if 'SHARED_SOURCE_CLUSTER_PRIMARY_DESTINATIONS' in x['routes'] and not parent_child(a,b):reasons.add('NON_HIERARCHICAL_MULTI_PRIMARY_ROUTE_FROM_SAME_SOURCE_CLUSTER')
     rel=sorted(x['units']);tasks=sorted({by[u]['user_task'] for u in rel})
     ev=[]
