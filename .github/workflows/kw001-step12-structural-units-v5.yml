@@ -1,0 +1,55 @@
+name: KW001 Step12 Structural Units V5
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_patch_structural_units_v5.py'
+      - '.github/workflows/kw001-step12-structural-units-v5.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build V5
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_patch_structural_units_v5.py
+      - name: Verify candidate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          q=json.loads((root/'STEP_12_STRUCTURAL_UNIT_CORRECTION_QA_V5.json').read_text(encoding='utf-8'))
+          assert q['status']=='CANDIDATE_V5_READY_FOR_D12_02_REACCEPTANCE'
+          assert q['source_rows']==2332 and q['search_required_rows']==19
+          assert q['residual_hardware_review_rows_corrected']==1
+          assert q['hardware_generic_reviews_phrase_count']==1
+          assert q['unit_metadata_inconsistency_rows']==0
+          assert q['defects_closed_by_script_alone']==[]
+          print('STEP12_V5_CANDIDATE_PASS')
+          PY
+      - name: Persist V5
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNITS_V5.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTIONS_V5.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTION_QA_V5.json
+          git commit -m "step12: persist V5 residual hardware-review correction [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTION_QA_V5.json | grep -q 'CANDIDATE_V5_READY_FOR_D12_02_REACCEPTANCE'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | grep -q $'оконная фурнитура отзывы\tWINDOW_HARDWARE_SHOPPING\tWINDOW_HARDWARE_GENERIC_REVIEWS_INFO'
+          echo STEP12_V5_READBACK_PASS
