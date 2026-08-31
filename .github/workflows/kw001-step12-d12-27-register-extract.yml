@@ -1,0 +1,52 @@
+name: KW001 Step12 D12-27 Register Extract
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_27_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  register-extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Register and extract
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_d12_27_and_extract.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          led=list(csv.DictReader((r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          by={x['defect_id']:x for x in led};assert by['D12-27']['status']=='OPEN'
+          s=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'));assert 'D12-27' in s['open_defects'] and not s['step12_complete'] and s['step13_blocked']
+          p=list(csv.DictReader((r/'STEP_12_D12_27_MIXED_UNIT_PACKET.tsv').open(encoding='utf-8',newline=''),delimiter='\t'));assert p
+          assert {x['final_structural_unit_id'] for x in p}=={'FRENCH_WINDOWS_COMMERCIAL','WINDOW_ACCESSORIES_GENERAL'}
+          print('STEP12_D12_27_REGISTER_EXTRACT_PASS',len(p))
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv $base/STEP_12_CORRECTION_CURRENT_STATE.json $base/STEP_12_D12_27_MIXED_UNIT_PACKET.tsv $base/STEP_12_D12_27_RESIDUAL_MIXED_UNITS_2026-08-31.md
+          git commit -m "step12: register D12-27 residual mixed units [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_D12_27_MIXED_UNIT_PACKET.tsv > /tmp/p.tsv
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/s.json
+          python - <<'PY'
+          import csv,json
+          p=list(csv.DictReader(open('/tmp/p.tsv',encoding='utf-8',newline=''),delimiter='\t'));s=json.load(open('/tmp/s.json',encoding='utf-8'))
+          assert p and 'D12-27' in s['open_defects'] and not s['step12_complete']
+          print('STEP12_D12_27_GITHUB_READBACK_PASS',len(p))
+          PY
