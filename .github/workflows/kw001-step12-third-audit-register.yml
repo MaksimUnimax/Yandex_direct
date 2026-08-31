@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_third_audit_defects.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_REGISTER_TRIGGER.txt'
   workflow_dispatch:
 permissions:
   contents: write
