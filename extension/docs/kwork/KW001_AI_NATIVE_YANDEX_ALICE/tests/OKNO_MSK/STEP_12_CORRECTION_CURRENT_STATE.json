@@ -6,6 +6,7 @@
   "historical_first_pass_acceptance_withdrawn": true,
   "step13_blocked": true,
   "open_defects": [
+    "D12-02",
     "D12-03",
     "D12-04",
     "D12-05",
@@ -16,12 +17,11 @@
   ],
   "verified_fixed_defects": [
     "D12-01",
-    "D12-02",
     "D12-08",
     "D12-09",
     "D12-12"
   ],
-  "current_correction_item": "D12-03",
+  "current_correction_item": "D12-02_REOPENED_FROM_D12-03_EVIDENCE",
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -41,5 +41,5 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "Build demand/Search evidence matrix for corrected standalone-page candidates using persisted evidence first; D12-03 and D12-10 remain open."
+  "next_action": "Move generic window-hardware reviews out of WINDOW_HARDWARE_SELECTION_GUIDE, rebuild structural units/new-page evidence, repeat D12-02 semantic acceptance, then continue D12-03/D12-10."
 }
