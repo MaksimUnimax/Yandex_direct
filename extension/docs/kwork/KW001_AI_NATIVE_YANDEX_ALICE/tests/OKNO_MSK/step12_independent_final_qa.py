@@ -1,12 +1,14 @@
 import csv
 import json
 from collections import Counter, defaultdict
+from itertools import combinations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 S11 = ROOT / 'STEP_11_PHRASE_PAGE_MAP.tsv'
 ASSIGN = ROOT / 'STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv'
 UNITS = ROOT / 'STEP_12_STRUCTURAL_UNITS_V5.tsv'
+ACTIONS_V1 = ROOT / 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv'
 ACTIONS = ROOT / 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv'
 FINAL_MAP = ROOT / 'STEP_12_PHRASE_ACTION_MAP_FINAL.tsv'
 NEW_EVIDENCE = ROOT / 'STEP_12_NEW_PAGE_EVIDENCE_V2.tsv'
@@ -57,6 +59,10 @@ def norm_page(v):
     return v
 
 
+def split_multi(v):
+    return [x.strip() for x in (v or '').split('||') if x.strip()]
+
+
 def actual_text(v):
     if isinstance(v, bool):
         return 'true' if v else 'false'
@@ -68,6 +74,7 @@ def actual_text(v):
 s11 = read(S11)
 assign = read(ASSIGN)
 units = read(UNITS)
+actions_v1 = read(ACTIONS_V1)
 actions = read(ACTIONS)
 final_map = read(FINAL_MAP)
 new_evidence = read(NEW_EVIDENCE)
@@ -77,6 +84,7 @@ review = read(REVIEW)
 sm_cases = read(SM_CASES)
 state = json.loads(STATE.read_text(encoding='utf-8'))
 
+action_v1_by = {r['structural_unit_id']: r for r in actions_v1}
 action_by = {r['structural_unit_id']: r for r in actions}
 unit_by = {r['structural_unit_id']: r for r in units}
 assign_by_phrase = {r['phrase']: r for r in assign}
@@ -216,9 +224,39 @@ add_check('Q028', 'CONFIDENCE', len(high_with_material_gap), 0, not high_with_ma
 deferred_not_low = [r for r in actions if r['recommendation_maturity'] == 'DEFERRED_PENDING_MISSING_EVIDENCE' and r['final_confidence'] != 'LOW']
 add_check('Q029', 'CONFIDENCE', len(deferred_not_low), 0, not deferred_not_low, 'COMPUTED_FROM_DATA', 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv', 'Deferred recommendations must not carry MEDIUM/HIGH confidence.')
 
-# Pair graph is a candidate universe only.
+# Pair graph is a candidate universe only. Recompute the expected pair-key
+# universe independently from V1 routing inputs instead of asserting a historical count.
+source_uids = defaultdict(set)
+for r in assign:
+    uid = r['final_structural_unit_id']
+    src = r['original_effective_cluster_id']
+    if uid and src:
+        source_uids[src].add(uid)
+
+expected_pair_keys = set()
+for uid, r in action_v1_by.items():
+    a = norm_page(r['primary_page_candidate'])
+    bpage = norm_page(r['supporting_page'])
+    if a and bpage and a != bpage:
+        expected_pair_keys.add(tuple(sorted((a, bpage))))
+for src, uids in source_uids.items():
+    pages = sorted({norm_page(action_v1_by[uid]['primary_page_candidate']) for uid in uids if uid in action_v1_by and norm_page(action_v1_by[uid]['primary_page_candidate'])})
+    expected_pair_keys.update(tuple(sorted(pair)) for pair in combinations(pages, 2))
+for h in hierarchy:
+    candidate = norm_page(h['proposed_url'])
+    for raw in split_multi(h.get('mandatory_inbound_links')) + split_multi(h.get('mandatory_outbound_links')):
+        other = norm_page(raw)
+        if candidate and other and candidate != other:
+            expected_pair_keys.add(tuple(sorted((candidate, other))))
+
+actual_pair_keys = [tuple(sorted((norm_page(r['page_a']), norm_page(r['page_b'])))) for r in pairs]
+actual_pair_key_set = set(actual_pair_keys)
+missing_expected_pairs = sorted(expected_pair_keys - actual_pair_key_set)
+extra_actual_pairs = sorted(actual_pair_key_set - expected_pair_keys)
 pair_id_dups = sum(v > 1 for v in Counter(r['pair_id'] for r in pairs).values())
-add_check('Q030', 'PAIR_GRAPH', len(pairs), 189, len(pairs) == 189, 'COMPUTED_FROM_DATA', 'STEP_12_STEP13_CANDIDATE_PAIRS.tsv', 'Count persisted deterministic candidate pairs.')
+add_check('Q030', 'PAIR_GRAPH', len(pairs), len(expected_pair_keys), len(pairs) == len(expected_pair_keys), 'COMPUTED_FROM_DATA', 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv', 'Independently recompute expected pair-key count from V1 primary/supporting edges, shared-source multi-primary routes, and hierarchy edges.')
+add_check('Q030M', 'PAIR_GRAPH', len(missing_expected_pairs), 0, not missing_expected_pairs, 'COMPUTED_FROM_DATA', 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv', 'Set-difference expected pair keys minus persisted pair keys.')
+add_check('Q030E', 'PAIR_GRAPH', len(extra_actual_pairs), 0, not extra_actual_pairs, 'COMPUTED_FROM_DATA', 'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv', 'Set-difference persisted pair keys minus independently recomputed expected pair keys.')
 add_check('Q031', 'PAIR_GRAPH', pair_id_dups, 0, pair_id_dups == 0, 'COMPUTED_FROM_DATA', 'STEP_12_STEP13_CANDIDATE_PAIRS.tsv', 'Count duplicate pair IDs.')
 self_pairs = [r for r in pairs if norm_page(r['page_a']) == norm_page(r['page_b'])]
 add_check('Q032', 'PAIR_GRAPH', len(self_pairs), 0, not self_pairs, 'COMPUTED_FROM_DATA', 'STEP_12_STEP13_CANDIDATE_PAIRS.tsv', 'Count self-pairs after URL normalization.')
