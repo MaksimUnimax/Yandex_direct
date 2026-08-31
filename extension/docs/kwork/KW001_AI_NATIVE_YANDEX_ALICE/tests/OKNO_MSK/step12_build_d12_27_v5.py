@@ -63,7 +63,7 @@ for src in v3:
     r['source_effective_clusters']=';'.join(sorted(sources[uid]))
     if uid in rb:
         x=rb[uid]
-        r['structural_action']=x['corrected_structural_action']
+        r['structural_action']=x['structural_action_resolution']
         r['primary_page_candidate']=x['current_url']
         r['current_page_fit']='STRONG_EXISTING_PAGE_FIT'
         r['fresh_site_check_status']='CURRENT_FIRST_PARTY_PAGE_RECHECK_2026_08_31'
@@ -91,7 +91,7 @@ for old,new in repls.items():
     assert old in text,old
     text=text.replace(old,new)
 tmp=R/'_tmp_step12_d12_27_v5_engine.py';tmp.write_text(text,encoding='utf-8')
-try:subprocess.run([sys.executable,str(tmp)],cwd=R.parent.parent.parent.parent.parent.parent,check=True)
+try:subprocess.run([sys.executable,str(tmp)],cwd=R,check=True)
 finally:
     if tmp.exists():tmp.unlink()
 
