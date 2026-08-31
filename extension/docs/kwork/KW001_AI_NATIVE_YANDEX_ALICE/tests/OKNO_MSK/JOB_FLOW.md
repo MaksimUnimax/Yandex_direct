@@ -630,3 +630,32 @@ KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true
 KW001_OKNO_MSK_STEP13_STATUS = NOT_STARTED_NEXT_ALLOWED
 KW001_OKNO_MSK_STEP13_EXECUTED = false
 ```
+
+
+---
+
+## Step 13 pre-step methodology research
+
+Status: **METHOD RESEARCH COMPLETE / EXECUTION NOT STARTED / AWAITING EXPLICIT OWNER AUTHORIZATION AFTER REVIEW**
+
+```text
+INPUT_PAIR_UNIVERSE = 195
+STEP12_FLAGGED_FOR_FUTURE_SEARCH = 186
+STEP13_DEPENDENCY_UNITS = 98
+METHOD_RESEARCH_COMPLETE = true
+SOURCE_TO_METHOD_TRACE_COMPLETE = true
+OWNER_FACING_METHOD_REVIEW_REQUIRED = true
+OWNER_AUTHORIZATION_AFTER_REVIEW = false
+STEP13_EXECUTION_STARTED = false
+STEP13_PROVIDER_CALLS = 0
+STEP13_PROVIDER_COST_RUB = 0
+STEP14_EXECUTED = false
+```
+
+Canonical current-job authorities:
+
+- `STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-08-31.md`
+- `STEP_13_SOURCE_TO_METHOD_TRACE.tsv`
+- `STEP_13_CURRENT_STATE.json`
+
+Execution sequence after authorization: current-page/task eligibility -> query-family cases -> reuse persisted Search -> fresh ordinary Search only for surviving material unresolved cases -> conflict verdict -> remediation -> independent QA -> GitHub readback.
