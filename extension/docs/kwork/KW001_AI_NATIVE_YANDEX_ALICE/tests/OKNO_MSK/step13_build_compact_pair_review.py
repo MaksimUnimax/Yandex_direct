@@ -6,7 +6,7 @@ R=Path(__file__).resolve().parent
 PAIR=R/'STEP_13_PAIR_INPUT_NORMALIZED.tsv'
 PAGE=R/'STEP_13_CURRENT_PAGE_EVIDENCE.tsv'
 OUT=R/'STEP_13_PAIR_REVIEW_COMPACT.tsv'
-CHUNK=15
+CHUNK=25
 
 
 def read(p):
@@ -17,17 +17,17 @@ def write(p,rows,fields):
 
 def norm(u):
     p=urlsplit((u or '').strip());path=(p.path or '/').rstrip('/') or '/';return f'https://{p.netloc.lower().removeprefix("www.")}{path}'
+def slug(u):
+    p=urlsplit(u).path.rstrip('/') or '/';return p
 def is_parent(a,b):
     pa=urlsplit(a).path.rstrip('/')+'/';pb=urlsplit(b).path.rstrip('/')+'/'
     return pa!=pb and (pa.startswith(pb) or pb.startswith(pa))
-def short_evidence(s):
-    # Keep at most four representative phrases/groups, compactly.
+def clip(s,n):
+    s=re.sub(r'\s+',' ',(s or '').strip())
+    return s if len(s)<=n else s[:n-3]+'...'
+def first_example(s):
     parts=[re.sub(r'\s+',' ',x.strip()) for x in (s or '').split('||') if x.strip()]
-    out=[]
-    for p in parts[:4]:
-        if len(p)>180:p=p[:177]+'...'
-        out.append(p)
-    return ' || '.join(out)
+    return clip(parts[0] if parts else '',120)
 
 pairs=read(PAIR);pages=read(PAGE)
 assert len(pairs)==195 and len(pages)==47
@@ -43,11 +43,10 @@ for r in pairs:
     elif ('INFORMATION' in B['intent_mode'] or 'DIY' in B['intent_mode']) and ('COMMERCIAL' in A['intent_mode'] or 'SERVICE' in A['intent_mode']):shape='MIXED_INTENT_INFO_VS_COMMERCIAL'
     else:shape='CROSS_ROLE_OR_OBJECT'
     rows.append({
-      'pair_id':r['pair_id'],'page_a':a,'a_role':A['page_role'],'a_object':A['primary_object'],'a_task':A['primary_user_task'],
-      'page_b':b,'b_role':B['page_role'],'b_object':B['primary_object'],'b_task':B['primary_user_task'],
-      'relation_shape':shape,'derivation_routes':r['derivation_routes'],'relation_structural_units':r['relation_structural_units'],
-      'adjacent_task':r['adjacent_task'],'query_examples':short_evidence(r['member_evidence']),
-      'normal_overlap_rationale':r['normal_overlap_rationale'],'step12_search_reason':r['step12_search_reason']})
+      'pair_id':r['pair_id'],'a_path':slug(a),'a_role':A['page_role'],'a_object':clip(A['primary_object'],45),'a_task':clip(A['primary_user_task'],90),
+      'b_path':slug(b),'b_role':B['page_role'],'b_object':clip(B['primary_object'],45),'b_task':clip(B['primary_user_task'],90),
+      'relation_shape':shape,'derivation_routes':clip(r['derivation_routes'],75),'relation_structural_units':clip(r['relation_structural_units'],150),
+      'query_example':first_example(r['member_evidence']),'step12_search_reason':clip(r['step12_search_reason'],100)})
 fields=list(rows[0].keys());write(OUT,rows,fields)
 for old in R.glob('STEP_13_PAIR_REVIEW_COMPACT_CHUNK_*.tsv'):old.unlink()
 for start in range(0,len(rows),CHUNK):
