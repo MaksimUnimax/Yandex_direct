@@ -344,11 +344,17 @@ qa = {
     ),
     'noncanonical_maturity_rows': sum(r['recommendation_maturity'] not in canonical_maturity for r in v2),
     'new_page_hierarchy_rows_expected': len(hierarchy),
-    'new_page_hierarchy_rows_materialized_in_actions': sum(
+    'new_page_hierarchy_owner_action_rows': sum(
         norm_page(r['primary_page_candidate']) in hierarchy_by_page
         and r['hierarchy_clarity'].startswith('MATERIALIZED_')
         for r in v2
     ),
+    'new_page_hierarchy_rows_materialized_in_actions': len({
+        norm_page(r['primary_page_candidate'])
+        for r in v2
+        if norm_page(r['primary_page_candidate']) in hierarchy_by_page
+        and r['hierarchy_clarity'].startswith('MATERIALIZED_')
+    }),
     'historical_manual_followup_true_clusters': sum(hist_followup.values()),
     'historical_manual_followup_used_as_pair_universe_source': False,
     'pair_universe_derivation_routes': sorted({route for p in pair_rows for route in p['derivation_routes'].split(';')}),
