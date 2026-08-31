@@ -1,0 +1,59 @@
+name: KW001 Step12 Build Structural Units V2
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_structural_units_v2.py'
+      - '.github/workflows/kw001-step12-build-structural-units-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build corrected structural units
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_structural_units_v2.py
+      - name: Candidate accounting QA
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          q=json.loads((root/'STEP_12_STRUCTURAL_UNIT_CORRECTION_QA.json').read_text(encoding='utf-8'))
+          assert q['status']=='CANDIDATE_STRUCTURAL_UNITS_BUILT_REVIEW_REQUIRED'
+          assert q['source_phrase_rows']==2332
+          assert q['final_assignment_rows']==2332
+          assert q['upstream_search_required_rows']==19
+          assert q['historical_override_rows']==191
+          assert q['historical_override_rows_materialized_into_explicit_units']==191
+          assert q['historical_hidden_runtime_overrides_in_candidate_output']==0
+          assert q['default_high_confidence_rows']==0
+          assert q['defects_closed_by_script_alone']==[]
+          print('STEP12_STRUCTURAL_UNITS_V2_CANDIDATE_QA_PASS')
+          PY
+      - name: Persist candidate immediately
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V2.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTIONS.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNITS.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_NO_PAGE_OUTSIDE_SALVAGE_REVIEW.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTION_QA.json
+          git commit -m "step12: persist corrected structural unit candidate [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTION_QA.json | grep -q 'CANDIDATE_STRUCTURAL_UNITS_BUILT_REVIEW_REQUIRED'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_UNIT_CORRECTIONS.tsv | grep -q 'CANDIDATE_MATERIALIZED_PENDING_FULL_READBACK_REVIEW'
+          echo STEP12_STRUCTURAL_UNITS_V2_READBACK_PASS
