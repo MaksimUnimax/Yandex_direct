@@ -139,6 +139,11 @@ hierarchy_not_materialized = [
     r['structural_unit_id'] for r in a2
     if norm(r['primary_page_candidate']) in hier_pages and not r['hierarchy_clarity'].startswith('MATERIALIZED_')
 ]
+stale_materialized_hierarchy_reason = [
+    r['structural_unit_id'] for r in a2
+    if r['hierarchy_clarity'].startswith('MATERIALIZED_')
+    and 'hierarchy is not yet finalized' in r['confidence_downgrade_reason'].lower()
+]
 
 forbidden_headers = [h for h in (pairs[0].keys() if pairs else []) if h.lower() in {'cannibalization_verdict', 'harmful_competition_verdict', 'final_conflict_verdict'}]
 self_declared_verdict_cells = []
@@ -171,6 +176,7 @@ qa = {
     'noncanonical_maturity_rows': len(noncanonical),
     'hierarchy_candidate_pages': len(hier_pages),
     'hierarchy_not_materialized_in_v2': len(hierarchy_not_materialized),
+    'stale_materialized_hierarchy_reason_rows': len(stale_materialized_hierarchy_reason),
     'historical_manual_followup_true_clusters': len(hist_true),
     'historical_true_clusters_without_any_derived_pair': len(hist_true_without_derived_pair),
     'forbidden_step13_verdict_columns': len(forbidden_headers),
@@ -186,6 +192,7 @@ qa = {
         'dependency_final_units': dep_final[:20],
         'noncanonical_maturity_units': noncanonical[:20],
         'hierarchy_not_materialized_units': hierarchy_not_materialized[:20],
+        'stale_materialized_hierarchy_reason_units': stale_materialized_hierarchy_reason[:20],
         'historical_true_clusters_without_pair': hist_true_without_derived_pair[:20],
     },
     'verification_origin': 'INDEPENDENT_RECOMPUTATION_FROM_SOURCE_ARTIFACTS_NOT_GENERATOR_QA',
@@ -195,7 +202,8 @@ fail_keys = [
     'missing_pair_keys', 'extra_pair_keys', 'duplicate_pair_rows', 'search_flag_mismatch_rows',
     'missing_dependency_units', 'extra_dependency_units', 'dependency_high_rows',
     'dependency_final_maturity_rows', 'noncanonical_maturity_rows',
-    'hierarchy_not_materialized_in_v2', 'historical_true_clusters_without_any_derived_pair',
+    'hierarchy_not_materialized_in_v2', 'stale_materialized_hierarchy_reason_rows',
+    'historical_true_clusters_without_any_derived_pair',
     'forbidden_step13_verdict_columns', 'self_declared_harm_verdict_cells',
 ]
 if any(qa[k] for k in fail_keys):
