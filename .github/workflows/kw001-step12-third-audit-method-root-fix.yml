@@ -1,0 +1,52 @@
+name: KW001 Step12 Third Audit Method Root Fix
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_METHOD_ROOT_FIX_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Fix root and apply method patch
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/fix_step12_third_audit_method_root.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_apply_third_audit_method_patch.py
+      - name: Verify
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE')
+          m=(root/'STEP_12_STRUCTURAL_ACTION_METHOD.md').read_text(encoding='utf-8')
+          i=(root/'STEP_RULES_INDEX.md').read_text(encoding='utf-8')
+          assert '# 3A. Third external audit' in m
+          for x in ['Defect 21','Defect 22','Defect 23','Defect 24','Defect 25','Defect 26','STRUCTURAL_UNITS_WITHOUT_GAP_TYPE = 0']:
+              assert x in m, x
+          assert 'REOPENED / THIRD METHOD CORRECTION IN PROGRESS' in i
+          print('STEP12_THIRD_AUDIT_METHOD_PATCH_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_apply_third_audit_method_patch.py
+          git commit -m "step12: apply third-audit method gates [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md > /tmp/m.md
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md > /tmp/i.md
+          python - <<'PY'
+          m=open('/tmp/m.md',encoding='utf-8').read();i=open('/tmp/i.md',encoding='utf-8').read()
+          assert '# 3A. Third external audit' in m and 'Defect 26' in m
+          assert 'REOPENED / THIRD METHOD CORRECTION IN PROGRESS' in i
+          print('STEP12_THIRD_AUDIT_METHOD_FINAL_GITHUB_READBACK_PASS')
+          PY
