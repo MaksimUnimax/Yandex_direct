@@ -2,14 +2,14 @@ import csv,json
 from collections import Counter,defaultdict
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
-UNITS=ROOT/'STEP_12_STRUCTURAL_UNITS_V5.tsv';ASSIGN=ROOT/'STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv';HIST=ROOT/'STEP_12_STRUCTURAL_ACTIONS.tsv';STEP08=ROOT/'STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv';STEP09=ROOT/'STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv';NEW=ROOT/'STEP_12_NEW_PAGE_EVIDENCE_V2.tsv';OUT=ROOT/'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv';OUT_QA=ROOT/'STEP_12_CONFIDENCE_QA_V1.json'
+UNITS=ROOT/'STEP_12_STRUCTURAL_UNITS_V5.tsv';ASSIGN=ROOT/'STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv';HIST=ROOT/'STEP_12_STRUCTURAL_ACTIONS.tsv';STEP08=ROOT/'STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv';STEP09=ROOT/'STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv';NEW=ROOT/'STEP_12_NEW_PAGE_EVIDENCE_V2.tsv';D14=ROOT/'STEP_12_D12_14_TARGET_RESOLUTIONS.tsv';OUT=ROOT/'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv';OUT_QA=ROOT/'STEP_12_CONFIDENCE_QA_V1.json'
 
 def read(p):
     with p.open(encoding='utf-8',newline='') as f:return list(csv.DictReader(f,delimiter='\t'))
 def write(p,rows,fields):
     with p.open('w',encoding='utf-8',newline='') as f:
         w=csv.DictWriter(f,fieldnames=fields,delimiter='\t',lineterminator='\n');w.writeheader();w.writerows(rows)
-units=read(UNITS);assign=read(ASSIGN);hist=read(HIST);s08={r['phrase']:r for r in read(STEP08)};s09={r['query']:r for r in read(STEP09)};new={r['candidate_id']:r for r in read(NEW)}
+units=read(UNITS);assign=read(ASSIGN);hist=read(HIST);s08={r['phrase']:r for r in read(STEP08)};s09={r['query']:r for r in read(STEP09)};new={r['candidate_id']:r for r in read(NEW)};d14={r['structural_unit_id']:r for r in read(D14)}
 hist_by={r['cluster_id']:r for r in hist}
 members=defaultdict(list)
 for r in assign:
@@ -24,6 +24,7 @@ NEW_CORE={
 'WINDOW_REPLACEMENT_SERVICE':('WINDOW_REPLACEMENT_SERVICE','NEW_COMMERCIAL_PAGE'),
 }
 NEW_SUPPORT={'WINDOW_COMPONENT_SELECTION_INFO','WINDOW_HARDWARE_STANDARD_INFO','WINDOW_INSTALLATION_MATERIALS_INFO','WINDOW_HARDWARE_MAINTENANCE_INFO'}
+IMPLEMENTABLE_ACTIONS={'KEEP_EXISTING_STRUCTURE','EXPAND_EXISTING_PAGE','ADD_SECTION_OR_FAQ_TO_EXISTING','ROUTE_TO_EXISTING_PAGE_AS_SUBTASK','NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE','INCLUDE_AS_SECTION_IN_PROPOSED_PAGE'}
 
 def source_hist_actions(rs):
     return [hist_by[c]['structural_action'] for c in sorted({r['original_effective_cluster_id'] for r in rs}) if c in hist_by]
@@ -121,15 +122,33 @@ for u in units:
     task='WEAK' if u['business_scope_state'].startswith('DEFERRED') or 'AMBIGUOUS' in uid else 'STRONG'
     business=business_dim(u,uid);pagefit=page_fit_dim(u,uid,hacts);demand=demand_dim(rs,uid);search=search_dim(rs,u)
     primary,supporting=page_targets(u,uid)
+    action=action_for(u,uid,hacts)
+    d14_row=d14.get(uid)
+    if d14_row:
+        if d14_row['resolution_status']!='REVIEWED_D12_14':raise RuntimeError(f'Unreviewed D12-14 resolution for {uid}')
+        action=d14_row['reviewed_structural_action']
+        primary=d14_row['reviewed_primary_page_candidate']
+        supporting=d14_row['reviewed_supporting_page']
     hierarchy='PENDING_FOR_PROPOSED_PAGE' if primary.startswith('PROPOSED_NEW:') else ('NOT_APPLICABLE' if pagefit=='NOT_APPLICABLE' else 'EXISTING_STRUCTURE_KNOWN')
-    action=action_for(u,uid,hacts);maturity=maturity_for(u,uid,search);conf,why=confidence(task,business,pagefit,demand,search,hierarchy,maturity,action)
-    out.append({'structural_unit_id':uid,'phrase_count':len(rs),'source_effective_clusters':u['source_effective_clusters'],'user_task':u['user_task'],'intent_type':u['intent_type'],'business_scope_state':u['business_scope_state'],'unit_page_role':u['unit_page_role'],'primary_page_candidate':primary,'supporting_page':supporting,'structural_action':action,'task_coherence':task,'business_truth':business,'current_page_fit':pagefit,'demand_support':demand,'search_boundary_support':search,'hierarchy_clarity':hierarchy,'recommendation_maturity':maturity,'final_confidence':conf,'confidence_downgrade_reason':why,'historical_action_mix':';'.join(sorted(set(hacts))),'confidence_origin':'DERIVED_FROM_EXPLICIT_EVIDENCE_DIMENSIONS__NO_DEFAULT'})
+    maturity=maturity_for(u,uid,search)
+    if d14_row and action=='DEFER_PENDING_EVIDENCE':maturity='DEFERRED_PENDING_MISSING_EVIDENCE'
+    conf,why=confidence(task,business,pagefit,demand,search,hierarchy,maturity,action)
+    if d14_row and action=='DEFER_PENDING_EVIDENCE':why=d14_row['resolution_reason']
+    out.append({'structural_unit_id':uid,'phrase_count':len(rs),'source_effective_clusters':u['source_effective_clusters'],'user_task':u['user_task'],'intent_type':u['intent_type'],'business_scope_state':u['business_scope_state'],'unit_page_role':u['unit_page_role'],'primary_page_candidate':primary,'supporting_page':supporting,'structural_action':action,'task_coherence':task,'business_truth':business,'current_page_fit':pagefit,'demand_support':demand,'search_boundary_support':search,'hierarchy_clarity':hierarchy,'recommendation_maturity':maturity,'final_confidence':conf,'confidence_downgrade_reason':why,'historical_action_mix':';'.join(sorted(set(hacts))),'confidence_origin':'DERIVED_FROM_EXPLICIT_EVIDENCE_DIMENSIONS__NO_DEFAULT' + ('__D12_14_REVIEWED_RESOLUTION' if d14_row else '')})
 write(OUT,out,list(out[0].keys()))
 canonical_new_targets={uid:new[cid]['proposed_page'] for uid,(cid,_) in NEW_CORE.items()}
 new_action_rows=[r for r in out if r['structural_action'] in {'NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE'}]
 new_target_mismatches=[r['structural_unit_id'] for r in new_action_rows if canonical_new_targets.get(r['structural_unit_id'])!=r['primary_page_candidate']]
 replacement=next(r for r in out if r['structural_unit_id']=='WINDOW_REPLACEMENT_SERVICE')
-qa={'status':'CANDIDATE_CONFIDENCE_V1_READY_FOR_MANUAL_REVIEW','structural_units':len(out),'default_high_confidence_used':False,'rows_without_evidence_dimensions':sum(any(not r[k] for k in ['task_coherence','business_truth','current_page_fit','demand_support','search_boundary_support','hierarchy_clarity','recommendation_maturity','final_confidence']) for r in out),'high_rows':sum(r['final_confidence']=='HIGH' for r in out),'medium_rows':sum(r['final_confidence']=='MEDIUM' for r in out),'low_rows':sum(r['final_confidence']=='LOW' for r in out),'new_page_high_with_material_search_gap':sum(r['structural_action'] in {'NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE'} and r['final_confidence']=='HIGH' and r['search_boundary_support']=='MATERIAL_BOUNDARY_GAP' for r in out),'conditional_business_high_commercial_create':sum(r['structural_action']=='NEW_COMMERCIAL_PAGE' and r['final_confidence']=='HIGH' and r['business_truth'].startswith('CONDITIONAL') for r in out),'review_action_required_rows':sum(r['structural_action']=='REVIEW_ACTION_REQUIRED' for r in out),'new_page_action_rows':len(new_action_rows),'new_page_action_primary_target_mismatches':len(new_target_mismatches),'new_page_action_primary_target_mismatch_units':new_target_mismatches,'replacement_service_primary_target_correct':replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/','replacement_service_existing_installation_preserved_as_supporting':replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/','defects_closed_by_script_alone':[],'defects_candidate_for_closure_after_manual_review':['D12-13']}
-if len(out)!=len(units) or qa['rows_without_evidence_dimensions'] or qa['new_page_high_with_material_search_gap'] or qa['conditional_business_high_commercial_create'] or qa['review_action_required_rows'] or qa['new_page_action_primary_target_mismatches'] or not qa['replacement_service_primary_target_correct'] or not qa['replacement_service_existing_installation_preserved_as_supporting']:qa['status']='FAIL'
+d14_out=[r for r in out if r['structural_unit_id'] in d14]
+d14_blank=[r['structural_unit_id'] for r in d14_out if r['structural_action'] in IMPLEMENTABLE_ACTIONS and not r['primary_page_candidate']]
+d14_deferred=[r['structural_unit_id'] for r in d14_out if r['structural_action']=='DEFER_PENDING_EVIDENCE']
+d14_mismatch=[]
+for r in d14_out:
+    spec=d14[r['structural_unit_id']]
+    if r['structural_action']!=spec['reviewed_structural_action'] or r['primary_page_candidate']!=spec['reviewed_primary_page_candidate'] or r['supporting_page']!=spec['reviewed_supporting_page']:
+        d14_mismatch.append(r['structural_unit_id'])
+qa={'status':'CANDIDATE_CONFIDENCE_V1_READY_FOR_MANUAL_REVIEW','structural_units':len(out),'default_high_confidence_used':False,'rows_without_evidence_dimensions':sum(any(not r[k] for k in ['task_coherence','business_truth','current_page_fit','demand_support','search_boundary_support','hierarchy_clarity','recommendation_maturity','final_confidence']) for r in out),'high_rows':sum(r['final_confidence']=='HIGH' for r in out),'medium_rows':sum(r['final_confidence']=='MEDIUM' for r in out),'low_rows':sum(r['final_confidence']=='LOW' for r in out),'new_page_high_with_material_search_gap':sum(r['structural_action'] in {'NEW_COMMERCIAL_PAGE','NEW_INFORMATIONAL_PAGE'} and r['final_confidence']=='HIGH' and r['search_boundary_support']=='MATERIAL_BOUNDARY_GAP' for r in out),'conditional_business_high_commercial_create':sum(r['structural_action']=='NEW_COMMERCIAL_PAGE' and r['final_confidence']=='HIGH' and r['business_truth'].startswith('CONDITIONAL') for r in out),'review_action_required_rows':sum(r['structural_action']=='REVIEW_ACTION_REQUIRED' for r in out),'new_page_action_rows':len(new_action_rows),'new_page_action_primary_target_mismatches':len(new_target_mismatches),'new_page_action_primary_target_mismatch_units':new_target_mismatches,'replacement_service_primary_target_correct':replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/','replacement_service_existing_installation_preserved_as_supporting':replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/','d12_14_resolution_rows':len(d14_out),'d12_14_resolution_mismatch_rows':len(d14_mismatch),'d12_14_resolution_mismatch_units':d14_mismatch,'d12_14_implementable_blank_targets':len(d14_blank),'d12_14_implementable_blank_target_units':d14_blank,'d12_14_deferred_rows':len(d14_deferred),'d12_14_deferred_units':d14_deferred,'defects_closed_by_script_alone':[],'defects_candidate_for_closure_after_manual_review':['D12-14']}
+if len(out)!=len(units) or qa['rows_without_evidence_dimensions'] or qa['new_page_high_with_material_search_gap'] or qa['conditional_business_high_commercial_create'] or qa['review_action_required_rows'] or qa['new_page_action_primary_target_mismatches'] or not qa['replacement_service_primary_target_correct'] or not qa['replacement_service_existing_installation_preserved_as_supporting'] or qa['d12_14_resolution_rows']!=4 or qa['d12_14_resolution_mismatch_rows'] or qa['d12_14_implementable_blank_targets'] or qa['d12_14_deferred_rows']!=1:qa['status']='FAIL'
 OUT_QA.write_text(json.dumps(qa,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(qa,ensure_ascii=False))
