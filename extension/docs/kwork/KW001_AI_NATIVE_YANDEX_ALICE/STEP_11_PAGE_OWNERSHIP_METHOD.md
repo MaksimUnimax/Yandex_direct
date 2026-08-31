@@ -1,6 +1,6 @@
 # Step 11 — Page ownership / keyword-to-page mapping method
 
-Status: **CORRECTED METHOD / PENDING CURRENT-JOB REVALIDATION**  
+Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION**  
 Scope: reusable Step-11 method for Kwork semantic/site-architecture jobs.  
 Step boundary: page ownership and phrase→page materialization only. Structural actions belong to Step 12; cannibalization verdicts belong to Step 13.
 
