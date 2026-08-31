@@ -1,0 +1,64 @@
+name: KW001 Step12 Close D12-13 D12-11 D12-06
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_d12_13_11_06.py'
+      - '.github/workflows/kw001-step12-close-d12-13-11-06.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Revalidate persisted evidence and close defects
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_close_d12_13_11_06.py
+      - name: Verify closure candidate
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          state=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          assert state['open_defects']==['D12-05']
+          assert state['current_correction_item']=='D12-05'
+          assert state['step13_blocked'] is True
+          with (r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline='') as f:
+              rows={x['defect_id']:x for x in csv.DictReader(f,delimiter='\t')}
+          for d in ('D12-13','D12-11','D12-06'):
+              assert rows[d]['status']=='VERIFIED_FIXED'
+              assert rows[d]['correction_artifact']
+          assert rows['D12-05']['status']=='OPEN'
+          report=(r/'STEP_12_D12_13_11_06_ACCEPTANCE_2026-08-31.md').read_text(encoding='utf-8')
+          assert 'candidate page pairs: 189' in report
+          assert 'Step 13 executed: false' in report
+          print('STEP12_D12_13_11_06_CLOSURE_VERIFY_PASS')
+          PY
+      - name: Persist closure
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_13_11_06_ACCEPTANCE_2026-08-31.md
+          git commit -m "step12: close D12-13 D12-11 D12-06 [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json | grep -q '"D12-05"'
+          test $(git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json | grep -c '"D12-13"') -eq 1
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv | grep '^D12-13' | grep -q 'VERIFIED_FIXED'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv | grep '^D12-11' | grep -q 'VERIFIED_FIXED'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv | grep '^D12-06' | grep -q 'VERIFIED_FIXED'
+          echo STEP12_D12_13_11_06_GITHUB_READBACK_PASS
