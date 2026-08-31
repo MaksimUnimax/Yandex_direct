@@ -1,0 +1,42 @@
+name: KW001 Step12 D12-12 Permanent Lesson
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/apply_step12_d12_12_permanent_lesson.py'
+      - '.github/workflows/kw001-step12-d12-12-permanent.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Apply permanent causal lesson
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/apply_step12_d12_12_permanent_lesson.py
+      - name: Verify
+        run: |
+          grep -q 'Defect 12 — upstream OUTSIDE/NO-PAGE state' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md
+          grep -q 'STEP12_UPSTREAM_OUTSIDE_MUST_YIELD_TO_VERIFIED_CONTRADICTION = true' extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+          git commit -m "step12: make upstream-contradiction salvage rule permanent [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Remote readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md | grep -q 'UPSTREAM STATE'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md | grep -q 'Upstream outside/rejected state can conflict'
+          echo STEP12_D12_12_PERMANENT_READBACK_PASS
