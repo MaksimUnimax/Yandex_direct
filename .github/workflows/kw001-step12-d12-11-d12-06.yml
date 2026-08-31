@@ -1,0 +1,82 @@
+name: KW001 Step12 D12-11 D12-06
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_d12_11_d12_06.py'
+      - '.github/workflows/kw001-step12-d12-11-d12-06.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kw001-step12-d12-11-d12-06
+  cancel-in-progress: false
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build deterministic pair universe and maturity V2
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_step13_pairs_and_maturity_v2.py
+      - name: Independently verify D12-11 and D12-06 candidate
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_d12_11_d12_06.py
+      - name: Fail-closed acceptance gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          g=json.loads((r/'STEP_12_D12_11_D12_06_GENERATOR_QA.json').read_text(encoding='utf-8'))
+          q=json.loads((r/'STEP_12_D12_11_D12_06_QA.json').read_text(encoding='utf-8'))
+          print(json.dumps(g,ensure_ascii=False,indent=2))
+          print(json.dumps(q,ensure_ascii=False,indent=2))
+          assert g['status']=='CANDIDATE_D12_11_D12_06_READY_FOR_INDEPENDENT_VERIFICATION'
+          assert q['status']=='STEP12_D12_11_D12_06_INDEPENDENT_PASS'
+          assert q['source_action_rows_v1']==160
+          assert q['corrected_action_rows_v2']==160
+          assert q['assignment_rows']==2332
+          assert q['actual_pair_rows']==q['expected_pair_keys']
+          assert q['missing_pair_keys']==0
+          assert q['extra_pair_keys']==0
+          assert q['duplicate_pair_rows']==0
+          assert q['search_flag_mismatch_rows']==0
+          assert q['missing_dependency_units']==0
+          assert q['extra_dependency_units']==0
+          assert q['dependency_high_rows']==0
+          assert q['dependency_final_maturity_rows']==0
+          assert q['noncanonical_maturity_rows']==0
+          assert q['hierarchy_not_materialized_in_v2']==0
+          assert q['historical_true_clusters_without_any_derived_pair']==0
+          assert q['forbidden_step13_verdict_columns']==0
+          assert q['self_declared_harm_verdict_cells']==0
+          assert q['step13_executed'] is False
+          print('STEP12_D12_11_D12_06_FAIL_CLOSED_GATE_PASS')
+          PY
+      - name: Persist verified candidate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STEP13_CANDIDATE_PAIRS.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_MATURITY_DEPENDENCY_LEDGER.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_GENERATOR_QA.json \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_QA.json
+          git commit -m "step12: persist deterministic pair handoff and maturity v2 [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_11_D12_06_QA.json | grep -q 'STEP12_D12_11_D12_06_INDEPENDENT_PASS'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STEP13_CANDIDATE_PAIRS.tsv | head -1 | grep -q 'later_direct_search_check_needed'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | head -1 | grep -q 'step13_dependency_required'
+          echo STEP12_D12_11_D12_06_GITHUB_READBACK_PASS
