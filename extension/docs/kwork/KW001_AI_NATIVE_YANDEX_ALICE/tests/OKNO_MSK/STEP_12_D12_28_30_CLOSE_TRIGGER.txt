@@ -1,0 +1,2 @@
+trigger=2026-08-31T13:08:00Z
+goal=two-phase closure for D12-28 D12-29 D12-30 with candidate readback before STEP12_COMPLETE
