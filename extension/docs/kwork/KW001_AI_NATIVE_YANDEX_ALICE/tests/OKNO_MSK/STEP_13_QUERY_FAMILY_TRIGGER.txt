@@ -1,2 +1,2 @@
-trigger=2026-08-31T14:15:00Z
-goal=rebuild 21 query-family cases against ALL 2332 current phrase assignments after global-materialization defect correction
+trigger=2026-08-31T14:24:00Z
+goal=rebuild 21 query-family cases against ALL 2332 current assignments after overlap-boundary refinement for QF003/QF013/QF014/QF016/QF018/QF019
