@@ -1,0 +1,5 @@
+case_id	action_type	computed_supported	expected_supported	pass	support_evidence	case_purpose	evidence_origin
+SM01	SPLIT_EXISTING_PAGE	true	true	true	Independent large user task with distinct terminal outcome and page/search role.	Positive split control: a legitimate split must not be counted as an error merely because action type is SPLIT.	COMPUTED_FROM_DATA
+SM02	SPLIT_EXISTING_PAGE	false	false	true	Only a lexical modifier/token differs; no independent terminal task or page role.	Negative split control: modifier-only page inflation must be rejected.	COMPUTED_FROM_DATA
+SM03	MERGE_STRUCTURALLY_REDUNDANT_PAGES	true	true	true	Both pages serve the same terminal task and page role and independent structural evidence shows redundancy.	Positive merge control: a legitimate merge must not be counted as an error merely because action type is MERGE.	COMPUTED_FROM_DATA
+SM04	MERGE_STRUCTURALLY_REDUNDANT_PAGES	false	false	true	Only suspected cannibalization is offered; the pages still have distinct tasks/roles.	Negative merge control: suspected cannibalization alone cannot justify merge inside Step 12.	COMPUTED_FROM_DATA

@@ -1,0 +1,45 @@
+check_id	category	actual	expected	pass	evidence_origin	source_artifacts	computation_or_review_method
+Q001	ACCOUNTING	2332	2332	true	COMPUTED_FROM_DATA	STEP_11_PHRASE_PAGE_MAP.tsv	Count parsed data rows.
+Q002	ACCOUNTING	2332	2332	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv	Count parsed data rows.
+Q003	ACCOUNTING	2332	2332	true	COMPUTED_FROM_DATA	STEP_12_PHRASE_ACTION_MAP_FINAL.tsv	Count parsed data rows.
+Q004	ACCOUNTING	0	0	true	COMPUTED_FROM_DATA	STEP_11_PHRASE_PAGE_MAP.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv	Compare complete phrase multisets, not row-count only.
+Q005	ACCOUNTING	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_PHRASE_ACTION_MAP_FINAL.tsv	Compare complete phrase multisets.
+Q006	ACCOUNTING	2313	2313	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv	Count rows with non-empty final_structural_unit_id.
+Q007	ACCOUNTING	19	19	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv	Count rows with blank final_structural_unit_id.
+Q008	STRUCTURAL_UNITS	160	160	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNITS_V5.tsv	Count parsed structural units.
+Q009	STRUCTURAL_UNITS	160	160	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count parsed final action rows.
+Q010	STRUCTURAL_UNITS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count duplicate structural_unit_id values.
+Q011	STRUCTURAL_UNITS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNITS_V5.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Symmetric difference of structural-unit ID sets.
+Q012	STRUCTURAL_UNITS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Join every assigned phrase to final action by structural_unit_id.
+Q013	STRUCTURAL_UNITS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Recompute phrase_count from assignments for each action row.
+Q014	PHRASE_ACTION_MAP	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_PHRASE_ACTION_MAP_FINAL.tsv	Independently rejoin each assigned phrase and compare material action fields.
+Q015	PHRASE_ACTION_MAP	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_PHRASE_ACTION_MAP_FINAL.tsv	Search-required rows must remain unresolved with no target or Step13 action.
+Q016	EVIDENCE_DIMENSIONS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count rows with blank required evidence/maturity fields.
+Q017	ACTION_COMPLETENESS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count unresolved placeholder actions.
+Q018	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Validate maturity against the three approved Step-12 states.
+Q019	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count Step13-dependent rows still marked HIGH.
+Q020	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count Step13-dependent rows still marked final.
+Q021	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Every Step13 dependency must expose pair IDs that caused it.
+Q022	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Compare every referenced pair ID to persisted pair ledger IDs.
+Q023	ACTION_TARGETS	4	0	false	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Actions that implement on a page must identify primary_page_candidate.
+Q024	NEW_PAGES	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_NEW_PAGE_EVIDENCE_V2.tsv	NEW_* actions must use canonical proposed-page targets from evidence table.
+Q025	NEW_PAGES	5	5	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count unique proposed pages behind NEW_* action rows; multiple units may share a page.
+Q026	HIERARCHY	0	0	true	COMPUTED_FROM_DATA	STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Compare unique hierarchy candidate pages to normalized action primary targets.
+Q027	HIERARCHY	10	0	false	COMPUTED_FROM_DATA	STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Materialized hierarchy must not retain a downgrade reason claiming hierarchy is not yet finalized.
+Q028	CONFIDENCE	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	HIGH cannot coexist with a material Search/business/maturity gap.
+Q029	CONFIDENCE	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Deferred recommendations must not carry MEDIUM/HIGH confidence.
+Q030	PAIR_GRAPH	189	189	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Count persisted deterministic candidate pairs.
+Q031	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Count duplicate pair IDs.
+Q032	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Count self-pairs after URL normalization.
+Q033	STEP_BOUNDARY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Inspect pair-ledger schema for forbidden Step13 verdict columns.
+Q034	STEP_BOUNDARY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Scan all pair-ledger cells for self-declared harmful-cannibalization verdicts.
+Q035	STEP_BOUNDARY	0	0	true	VERIFIED_FROM_PROVENANCE	GitHub job workspace file inventory	Enumerate current-job files whose names start with STEP_13_.
+Q036	STEP_BOUNDARY	true	true	true	VERIFIED_FROM_PROVENANCE	STEP_12_CORRECTION_CURRENT_STATE.json	Parse structured JSON field, not grep text count.
+Q037	MANUAL_REVIEW	10	10	true	MANUAL_REVIEW_LEDGER	STEP_12_QA_REVIEW_LEDGER.tsv	Count explicit review cases.
+Q038	MANUAL_REVIEW	0	0	true	MANUAL_REVIEW_LEDGER	STEP_12_QA_REVIEW_LEDGER.tsv + cited source artifacts per row	Evaluate every explicit review row against current persisted data.
+Q039	SPLIT_MERGE_REGRESSION	4	4	true	COMPUTED_FROM_DATA	STEP_12_SPLIT_MERGE_REGRESSION_CASES.tsv	Count explicit positive/negative control cases.
+Q040	SPLIT_MERGE_REGRESSION	0	0	true	COMPUTED_FROM_DATA	STEP_12_SPLIT_MERGE_REGRESSION_CASES.tsv	Evaluate SPLIT/MERGE evidence rules; compare computed support to expected control result.
+Q041	SPLIT_MERGE_ACTUAL	0	0	true	MANUAL_REVIEW_LEDGER	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_QA_REVIEW_LEDGER.tsv	Any actual SPLIT/MERGE must have an explicit support-evidence review row; zero actual actions is valid.
+Q042	SPLIT_MERGE_ACTUAL	0	0	true	MANUAL_REVIEW_LEDGER	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_QA_REVIEW_LEDGER.tsv	Count only unsupported/unreviewed SPLIT actions, never all SPLIT actions.
+Q043	SPLIT_MERGE_ACTUAL	0	0	true	MANUAL_REVIEW_LEDGER	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_QA_REVIEW_LEDGER.tsv	Count only unsupported/unreviewed MERGE actions, never all MERGE actions.
+Q044	QA_META	0	0	true	COMPUTED_FROM_DATA	STEP_12_QA_CHECKS.tsv construction rules	Count checks without an allowed origin, source artifact, explicit method, or using ASSUMED language.
