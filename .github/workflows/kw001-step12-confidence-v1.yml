@@ -6,6 +6,7 @@ on:
       - roadmap/kwork-productization-2026-08-28
     paths:
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_evidence_derived_actions_v1.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_D12_14_TARGET_RESOLUTIONS.tsv'
       - '.github/workflows/kw001-step12-confidence-v1.yml'
 
 permissions:
@@ -39,13 +40,28 @@ jobs:
           assert q['new_page_action_primary_target_mismatches']==0
           assert q['replacement_service_primary_target_correct'] is True
           assert q['replacement_service_existing_installation_preserved_as_supporting'] is True
+          assert q['d12_14_resolution_rows']==4
+          assert q['d12_14_implementable_blank_targets']==0
+          assert q['d12_14_deferred_rows']==1
           assert q['defects_closed_by_script_alone']==[]
           rows=list(csv.DictReader((r/'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
-          replacement=next(x for x in rows if x['structural_unit_id']=='WINDOW_REPLACEMENT_SERVICE')
+          by={x['structural_unit_id']:x for x in rows}
+          replacement=by['WINDOW_REPLACEMENT_SERVICE']
           assert replacement['structural_action']=='NEW_COMMERCIAL_PAGE'
           assert replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/'
           assert replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/'
-          print('STEP12_CONFIDENCE_V1_D12_13_CANDIDATE_PASS')
+          assert by['PVC_DOOR_INSTALLATION_SERVICE']['structural_action']=='ADD_SECTION_OR_FAQ_TO_EXISTING'
+          assert by['PVC_DOOR_INSTALLATION_SERVICE']['primary_page_candidate']=='https://okno-msk.ru/dveri-rehau/'
+          assert by['PVC_WINDOW_OPERATION_DIY']['structural_action']=='INCLUDE_AS_SECTION_IN_PROPOSED_PAGE'
+          assert by['PVC_WINDOW_OPERATION_DIY']['primary_page_candidate']=='PROPOSED_NEW:/stati/remont-i-regulirovka-plastikovyh-okon-svoimi-rukami/'
+          assert by['PVC_WINDOW_OPERATION_DIY']['supporting_page']=='https://okno-msk.ru/uslugi/remont-okon/'
+          assert by['REHAU_OTHER_BRAND_COMPARISON_INFO']['structural_action']=='DEFER_PENDING_EVIDENCE'
+          assert by['REHAU_OTHER_BRAND_COMPARISON_INFO']['primary_page_candidate']==''
+          assert by['REHAU_OTHER_BRAND_COMPARISON_INFO']['recommendation_maturity']=='DEFERRED_PENDING_MISSING_EVIDENCE'
+          assert by['REHAU_OTHER_BRAND_COMPARISON_INFO']['final_confidence']=='LOW'
+          assert by['WINDOW_DEMOLITION_SERVICE']['structural_action']=='ADD_SECTION_OR_FAQ_TO_EXISTING'
+          assert by['WINDOW_DEMOLITION_SERVICE']['primary_page_candidate']=='https://okno-msk.ru/uslugi/ustanovka-okon/'
+          print('STEP12_CONFIDENCE_V1_D12_14_CANDIDATE_PASS')
           PY
       - name: Persist candidate
         run: |
@@ -53,8 +69,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv \
                   extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CONFIDENCE_QA_V1.json
-          git commit -m "step12: persist evidence-derived confidence candidate [skip ci]"
-          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          if git diff --cached --quiet; then
+            echo STEP12_CONFIDENCE_V1_ALREADY_CURRENT
+          else
+            git commit -m "step12: persist evidence-derived confidence candidate [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
       - name: Readback
         run: |
           git fetch origin roadmap/kwork-productization-2026-08-28
@@ -66,9 +86,13 @@ jobs:
           q=json.load(open('/tmp/step12-confidence-qa.json',encoding='utf-8'))
           assert q['new_page_action_primary_target_mismatches']==0
           assert q['replacement_service_primary_target_correct'] is True
+          assert q['d12_14_resolution_rows']==4
+          assert q['d12_14_implementable_blank_targets']==0
           rows=list(csv.DictReader(open('/tmp/step12-actions-v1.tsv',encoding='utf-8',newline=''),delimiter='\t'))
-          replacement=next(x for x in rows if x['structural_unit_id']=='WINDOW_REPLACEMENT_SERVICE')
-          assert replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/'
-          assert replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/'
-          print('STEP12_CONFIDENCE_V1_D12_13_READBACK_PASS')
+          by={x['structural_unit_id']:x for x in rows}
+          assert by['PVC_DOOR_INSTALLATION_SERVICE']['primary_page_candidate']=='https://okno-msk.ru/dveri-rehau/'
+          assert by['PVC_WINDOW_OPERATION_DIY']['primary_page_candidate']=='PROPOSED_NEW:/stati/remont-i-regulirovka-plastikovyh-okon-svoimi-rukami/'
+          assert by['REHAU_OTHER_BRAND_COMPARISON_INFO']['structural_action']=='DEFER_PENDING_EVIDENCE'
+          assert by['WINDOW_DEMOLITION_SERVICE']['primary_page_candidate']=='https://okno-msk.ru/uslugi/ustanovka-okon/'
+          print('STEP12_CONFIDENCE_V1_D12_14_READBACK_PASS')
           PY
