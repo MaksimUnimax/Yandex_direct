@@ -24,7 +24,7 @@ jobs:
       - name: Verify candidate
         run: |
           python - <<'PY'
-          import json
+          import csv,json
           from pathlib import Path
           r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
           q=json.loads((r/'STEP_12_CONFIDENCE_QA_V1.json').read_text(encoding='utf-8'))
@@ -35,8 +35,17 @@ jobs:
           assert q['new_page_high_with_material_search_gap']==0
           assert q['conditional_business_high_commercial_create']==0
           assert q['review_action_required_rows']==0
+          assert q['new_page_action_rows']==6
+          assert q['new_page_action_primary_target_mismatches']==0
+          assert q['replacement_service_primary_target_correct'] is True
+          assert q['replacement_service_existing_installation_preserved_as_supporting'] is True
           assert q['defects_closed_by_script_alone']==[]
-          print('STEP12_CONFIDENCE_V1_CANDIDATE_PASS')
+          rows=list(csv.DictReader((r/'STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          replacement=next(x for x in rows if x['structural_unit_id']=='WINDOW_REPLACEMENT_SERVICE')
+          assert replacement['structural_action']=='NEW_COMMERCIAL_PAGE'
+          assert replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/'
+          assert replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/'
+          print('STEP12_CONFIDENCE_V1_D12_13_CANDIDATE_PASS')
           PY
       - name: Persist candidate
         run: |
@@ -50,6 +59,16 @@ jobs:
         run: |
           git fetch origin roadmap/kwork-productization-2026-08-28
           remote=origin/roadmap/kwork-productization-2026-08-28
-          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CONFIDENCE_QA_V1.json | grep -q 'default_high_confidence_used'
-          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | grep -q 'DERIVED_FROM_EXPLICIT_EVIDENCE_DIMENSIONS__NO_DEFAULT'
-          echo STEP12_CONFIDENCE_V1_READBACK_PASS
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CONFIDENCE_QA_V1.json > /tmp/step12-confidence-qa.json
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv > /tmp/step12-actions-v1.tsv
+          python - <<'PY'
+          import csv,json
+          q=json.load(open('/tmp/step12-confidence-qa.json',encoding='utf-8'))
+          assert q['new_page_action_primary_target_mismatches']==0
+          assert q['replacement_service_primary_target_correct'] is True
+          rows=list(csv.DictReader(open('/tmp/step12-actions-v1.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          replacement=next(x for x in rows if x['structural_unit_id']=='WINDOW_REPLACEMENT_SERVICE')
+          assert replacement['primary_page_candidate']=='PROPOSED_NEW:/uslugi/zamena-okon/'
+          assert replacement['supporting_page']=='https://okno-msk.ru/uslugi/ustanovka-okon/'
+          print('STEP12_CONFIDENCE_V1_D12_13_READBACK_PASS')
+          PY
