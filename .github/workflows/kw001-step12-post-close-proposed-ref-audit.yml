@@ -1,0 +1,35 @@
+name: KW001 Step12 Post Close Proposed Ref Audit
+
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_extract_all_proposed_refs_post_close.py'
+      - '.github/workflows/kw001-step12-post-close-proposed-ref-audit.yml'
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_extract_all_proposed_refs_post_close.py
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_ALL_PROPOSED_REFS.tsv
+          git commit -m "step12: persist proposed-page reference audit [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_POST_CLOSE_ALL_PROPOSED_REFS.tsv > /tmp/refs.tsv
+          python - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('/tmp/refs.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          print('STEP12_POST_CLOSE_PROPOSED_REF_AUDIT_READBACK',len(rows))
+          PY
