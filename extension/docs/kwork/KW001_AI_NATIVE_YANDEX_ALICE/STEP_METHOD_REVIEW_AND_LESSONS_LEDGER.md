@@ -936,6 +936,8 @@ Step 12 therefore has to preserve the reasoning chain that turns search demand i
 10. **Phrase count was used as a demand proxy.** Vocabulary size was allowed to strengthen demand narratives without materialized frequency/traffic evidence.
 11. **Downstream dependencies were hidden by final-looking actions.** A recommendation could depend on later conflict testing while still looking implementation-ready.
 
+12. **Upstream outside/rejected state can conflict with later verified site evidence.** A prior scope/no-page label is accepted only until materially contradicted by later phrase-level or current first-party evidence; preserve history and apply an explicit correction overlay rather than blindly inheriting or blindly reversing the state.
+
 ### Root cause
 
 The first method correctly understood the broad principle — do not create a page for every phrase — but moved too quickly from cluster/page evidence to a structural action. Several intermediate proof steps were implicit rather than materialized.
@@ -1068,4 +1070,5 @@ STEP12_SPLIT_MERGE_SUPPORTED_NOT_ZERO_FORCED = true
 STEP12_NO_STANDALONE_PAGE_REQUIRES_USEFUL_SUBTASK_ROUTING = true
 STEP12_STEP13_CANDIDATE_UNIVERSE_MUST_BE_DERIVED = true
 STEP12_HIERARCHY_PLAN_REQUIRED_FOR_NEW_OR_SPLIT_PAGES = true
+STEP12_UPSTREAM_OUTSIDE_MUST_YIELD_TO_VERIFIED_CONTRADICTION = true
 ```
