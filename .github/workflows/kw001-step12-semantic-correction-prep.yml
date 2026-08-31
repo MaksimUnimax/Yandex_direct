@@ -6,6 +6,7 @@ on:
       - roadmap/kwork-productization-2026-08-28
     paths:
       - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_correction_prepare_semantic_review.py'
+      - '.github/workflows/kw001-step12-semantic-correction-prep.yml'
 
 permissions:
   contents: write
