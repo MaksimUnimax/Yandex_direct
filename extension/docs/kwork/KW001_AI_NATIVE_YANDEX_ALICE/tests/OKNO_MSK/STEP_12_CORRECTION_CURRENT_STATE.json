@@ -1,14 +1,15 @@
 {
   "date": "2026-08-31",
   "step": 12,
-  "status": "REOPENED_AFTER_POST_PASS_EVIDENCE_INDEPENDENCE_AUDIT",
+  "status": "REOPENED_AFTER_POST_PASS_EVIDENCE_INDEPENDENCE_AND_GLOBAL_COHERENCE_AUDIT",
   "historical_first_pass_preserved": true,
   "historical_first_pass_acceptance_withdrawn": true,
-  "third_audit_acceptance_preserved_as_superseded_until_d12_28_d12_29_revalidation": true,
+  "third_audit_acceptance_preserved_as_superseded_until_d12_28_d12_29_d12_30_revalidation": true,
   "step13_blocked": true,
   "open_defects": [
     "D12-28",
-    "D12-29"
+    "D12-29",
+    "D12-30"
   ],
   "verified_fixed_defects": [
     "D12-01",
@@ -39,18 +40,19 @@
     "D12-26",
     "D12-27"
   ],
-  "current_correction_item": "D12-28",
+  "current_correction_item": "D12-28_D12-30_COUPLED_CONTENT_AND_COHERENCE_REVALIDATION",
   "canonical_defect_ledger": "STEP_12_CORRECTION_DEFECT_LEDGER.tsv",
   "post_pass_defect_ledger": "STEP_12_POST_PASS_EVIDENCE_INDEPENDENCE_DEFECT_LEDGER.tsv",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "canonical_evidence_independence_rule": "../../STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md",
-  "rule": "A prior PASS is invalidated when a later methodological audit proves that a material claim class was not independently validated. Action/schema consistency cannot substitute for current real-world evidence.",
-  "next_action": "Revalidate all 20 current QUALITY_GAP units from current page content without using the selected action as evidence; revalidate all 28 prior IMPLEMENT internal-link rows against current source context and current target-task fit; rebuild affected Step12 outputs and independent QA before Step13.",
+  "canonical_global_coherence_rule": "../../STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md",
+  "rule": "A prior PASS is invalidated when a later methodological audit proves that a material claim class was not independently validated. Known regression zero is not a global coherence pass; action/schema consistency cannot substitute for current real-world evidence.",
+  "next_action": "Revalidate all 20 historical QUALITY_GAP units and all 322 member phrases for current-content evidence plus terminal-task coherence; reassign every misfit member; revalidate all 28 prior IMPLEMENT internal-link rows against current source context and current target-task fit; rebuild affected Step12 outputs and independent QA before Step13.",
   "step13_executed": false,
-  "step13_status": "BLOCKED_BY_REOPENED_STEP12_D12_28_D12_29",
+  "step13_status": "BLOCKED_BY_REOPENED_STEP12_D12_28_D12_29_D12_30",
   "step12_complete": false,
   "next_step_allowed": false,
-  "next_major_step": "STEP_12_D12_28_D12_29_EVIDENCE_INDEPENDENCE_CORRECTION",
+  "next_major_step": "STEP_12_D12_28_D12_29_D12_30_EVIDENCE_AND_COHERENCE_CORRECTION",
   "final_github_readback": false,
   "canonical_closure_readback_passed": false
 }
