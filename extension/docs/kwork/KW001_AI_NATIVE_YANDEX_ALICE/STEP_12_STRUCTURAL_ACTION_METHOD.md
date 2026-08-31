@@ -1,6 +1,6 @@
 # Step 12 — Structural action method
 
-Status: **APPROVED / ACTIVE AFTER THIRD EXTERNAL METHOD AUDIT + D12-27 PHRASE-LEVEL REVALIDATION — GAP TYPE + PERFORMANCE BOUNDARY + TARGET-VS-RELEVANT + SERP FORMAT + OWNER-GOAL SOURCE + EXISTING-PAGE INTERNAL LINKS**  
+Status: **CLOSURE CANDIDATE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE CORRECTION — FINAL STATE READBACK PENDING**  
 Scope: reusable Step-12 method for deciding what an existing site should keep, strengthen, add, create, split, merge or deliberately not create after phrase-level page ownership has been established.  
 Step boundary: structural recommendations only. Real cannibalization diagnosis belongs to Step 13; final Search architecture freeze belongs to Step 14.
 
@@ -1432,3 +1432,77 @@ KW001_STEP12_DYNAMIC_PAIR_UNIVERSE_QA_REQUIRED = true
 KW001_STEP12_IMPLEMENTABLE_ACTION_REQUIRES_PRIMARY_TARGET = true
 KW001_STEP12_CONFIDENCE_REASON_MUST_MATCH_CURRENT_STATE = true
 ```
+
+
+---
+
+# 14. Post-PASS D12-28..D12-30 correction — why the method failed again
+
+The prior D12-27 closure was later withdrawn after a new external-method audit proved that Step 12 could still pass while material claims were circular or insufficiently falsified. This was **not a lack-of-research failure**. The sources had already identified the right concepts. The failure was translating those concepts into fields and then verifying the fields instead of independently verifying the real-world claim.
+
+Canonical failure chain:
+
+```text
+EXTERNAL PRINCIPLE
+→ ADD FIELD / STATE
+→ GENERATOR POPULATES FIELD FROM ITS OWN ACTION LOGIC
+→ VERIFIER CHECKS FIELD PRESENCE / ACTION CONSISTENCY
+→ FALSE PASS
+```
+
+Concrete failures:
+
+```text
+EXPAND / SECTION
+→ generator wrote QUALITY_GAP
+→ generic gap_evidence restated that fuller coverage was needed
+→ verifier checked that gap_type existed and matched action
+→ current page was not independently required to prove the missing need
+
+ROUTING GRAPH EDGE
+→ generator wrote IMPLEMENT internal link
+→ verifier checked source/target fields and coverage
+→ current source context + current target task fit were not independently required
+
+KNOWN D12-27 PHRASES FIXED
+→ exact regression set became zero
+→ verifier treated that as enough
+→ later review found other mixed units outside the known regression set
+```
+
+Permanent root-cause rules:
+
+```text
+SCHEMA COMPLETENESS != EVIDENCE COMPLETENESS
+ACTION CONSISTENCY != CAUSAL VALIDATION
+ACTION MUST NEVER BE AN EVIDENCE SOURCE FOR ITSELF
+KNOWN URL != PAGE FIT
+ROUTING EDGE != IMPLEMENTABLE LINK
+KNOWN_REGRESSION_ZERO != GLOBAL_SEMANTIC_COHERENCE_PASS
+```
+
+Therefore every future Step 12 must also read and obey:
+
+- `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md`;
+- `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md`;
+- `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md`;
+- `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`.
+
+Current OKNO-MSK correction proof before final state readback:
+
+```text
+20 historical QUALITY_GAP units re-read from current content
+322/322 affected member phrases re-reviewed
+49 exact phrase reassignments
+8 QUALITY_GAP remain, each with explicit missing need
+28/28 historical IMPLEMENT links revalidated
+15 IMPLEMENT retained; 13 downgraded to explicit DEFER states
+2332/2332 final phrase map
+168 structural units
+195 candidate pairs independently reconciled
+independent findings = 0
+new page actions = 0
+Step13 executed = false
+```
+
+The final reusable PASS still requires durable readback of the closure state itself.

@@ -457,7 +457,7 @@ Step 13 is **NOT STARTED / NEXT ALLOWED** and remains methodologically UNVALIDAT
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
 | **11. Page ownership** | **Map effective clusters and every active phrase to intended existing URL/state** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** |
-| **12. Structural actions** | **Decide what to keep, strengthen, route, defer or create** | **✅ COMPLETE AFTER THIRD EXTERNAL METHOD AUDIT + D12-27 PHRASE-LEVEL REVALIDATION** |
+| **12. Structural actions** | **Decide what to keep, strengthen, route, defer or create** | **🔁 CLOSURE CANDIDATE AFTER D12-28..D12-30 / FINAL STATE READBACK PENDING** |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED / NEXT ALLOWED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
 | 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
@@ -565,3 +565,44 @@ KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true
 KW001_OKNO_MSK_STEP13_STATUS = NOT_STARTED_NEXT_ALLOWED
 KW001_OKNO_MSK_STEP13_EXECUTED = false
 ```
+
+
+## Post-PASS Step-12 correction — D12-28..D12-30
+
+Status: **CLOSURE CANDIDATE / FINAL STATE READBACK PENDING**
+
+Why the previous PASS was withdrawn:
+
+```text
+SCHEMA COMPLETENESS WAS TREATED AS EVIDENCE COMPLETENESS
+ACTION CONSISTENCY WAS TREATED AS CAUSAL VALIDATION
+ROUTING GRAPH EDGE WAS TREATED AS IMPLEMENTABLE LINK PROOF
+KNOWN D12-27 REGRESSION ZERO WAS TREATED AS GLOBAL COHERENCE
+```
+
+Current independently verified correction:
+
+```text
+SOURCE_ACTIVE_PHRASES = 2332
+FINAL_PHRASE_ACTION_ROWS = 2332
+ASSIGNED = 2313
+UNRESOLVED_OR_SEARCH_REQUIRED = 19
+STRUCTURAL_UNITS = 168
+AFFECTED_SOURCE_UNITS = 20
+AFFECTED_SOURCE_PHRASES = 322
+EXACT_REASSIGNMENTS = 49
+QUALITY_GAP_AFTER_REVALIDATION = 8
+QUALITY_GAP_WITHOUT_EXPLICIT_MISSING_NEED = 0
+PRIOR_IMPLEMENT_LINKS_REVIEWED = 28
+RETAINED_IMPLEMENT_LINKS = 15
+FINAL_LINK_ROWS = 58
+CANDIDATE_PAIRS = 195
+PAIRS_REQUIRING_STEP13 = 186
+STEP13_DEPENDENCY_UNITS = 98
+NEW_PAGE_ACTIONS = 0
+PROPOSED_NEW_REFS = 0
+INDEPENDENT_FINDINGS = 0
+STEP13_EXECUTED = false
+```
+
+Step 13 remains blocked until this closure-state commit receives durable GitHub readback.
