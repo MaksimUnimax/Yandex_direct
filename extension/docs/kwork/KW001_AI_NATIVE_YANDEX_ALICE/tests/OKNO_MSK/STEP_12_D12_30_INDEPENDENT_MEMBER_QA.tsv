@@ -1,0 +1,21 @@
+structural_unit_id	source_phrase_count	all_source_members_independently_reviewed	detected_misfit_count	expected_retained_source_members	independent_semantic_verdict	independent_reason
+ALUMINIUM_WINDOW_TECH_INFO	8	true	0	8	PASS_COHERENT_AFTER_REVIEW	All eight remaining phrases share aluminium-window technical/property understanding; content sufficiency is evaluated separately.
+BALCONY_GLAZING_SELECTION_INFO	7	true	0	7	PASS_COHERENT_AFTER_REVIEW	All seven phrases are balcony-glazing selection/type/specification needs.
+BALCONY_RENOVATION_WITH_GLAZING	15	true	1	14	PASS_AFTER_REASSIGNMENT	One no-glazing renovation phrase violates the bundled glazing+renovation terminal task.
+FRENCH_WINDOWS_COMMERCIAL	42	true	0	42	PASS_COHERENT_AFTER_REVIEW	Source members are French-window commercial/configuration demand after prior D12-27 cleanup.
+FRENCH_WINDOW_DEFINITION_INFO	10	true	0	10	PASS_COHERENT_AFTER_REVIEW	Members are explanatory terminology/forms/definition needs for French glazing.
+GLAZING_DESIGN_INSPIRATION	54	true	5	49	PASS_AFTER_REASSIGNMENT	Five whole-house architectural-project phrases are not glazing-example/portfolio tasks.
+OUTDOOR_GLAZING_SELECTION_INFO	7	true	1	6	PASS_AFTER_REASSIGNMENT	One explicit aluminium+sliding phrase belongs to the existing outdoor aluminium sliding unit.
+PRIVATE_HOUSE_WINDOW_PLANNING_INFO	47	true	12	35	PASS_AFTER_REASSIGNMENT	Material-specific, roof-window, room-specific, boiler-room and panoramic-size phrases have distinct terminal objects/tasks.
+PVC_DOOR_INFO	18	true	10	8	PASS_AFTER_REASSIGNMENT	Nine operation/adjustment DIY phrases plus one DIY-build/install phrase are not product/dimension information.
+PVC_DOOR_INSTALLATION_SERVICE	8	true	0	8	PASS_COHERENT_AFTER_REVIEW	All members ask for professional PVC-door installation/pricing.
+PVC_WINDOW_INSTALLATION_DIY	26	true	0	26	PASS_COHERENT_AFTER_REVIEW	All members are self-install/removal/how-to PVC-window tasks; business-policy treatment is separate from semantic coherence.
+PVC_WINDOW_REPAIR_DIY_GENERAL	13	true	0	13	PASS_COHERENT_AFTER_REVIEW	All members are broad self-repair/diagnosis tasks for PVC windows.
+PVC_WINDOW_TECH_INFO	4	true	1	3	PASS_AFTER_REASSIGNMENT	One malformed phrase has no trustworthy terminal task; the remaining three are generic PVC-window technical information.
+WINDOWS_DOORS_COMBINED_COMMERCIAL	8	true	6	2	PASS_AFTER_REASSIGNMENT	Material/product-specific aluminium, entry-door, panoramic and French constructions are split from two generic combined-provider queries.
+WINDOW_COMPONENT_SELECTION_INFO	5	true	5	0	ZERO_MEMBER_EXPECTED	Handle selection and seal selection have distinct component owners; old mixed unit must disappear.
+WINDOW_DEMOLITION_SERVICE	2	true	0	2	PASS_COHERENT_AFTER_REVIEW	Both phrases are professional dismantling/demolition tasks; business truth remains separate.
+WINDOW_FINISHING_DIY_INFO	4	true	4	0	ZERO_MEMBER_EXPECTED	Slopes, windowsill and drip-cap DIY are different component tasks; old mixed unit must disappear.
+WINDOW_HARDWARE_SELECTION_GUIDE	30	true	2	28	PASS_AFTER_REASSIGNMENT	One seal-selection phrase and one aftermarket-parts shopping phrase are outside hardware-guide informational selection.
+WINDOW_HARDWARE_STANDARD_INFO	1	true	0	1	PASS_COHERENT_AFTER_REVIEW	Single phrase is a hardware-specific standards-information task; content authority remains unresolved.
+WINDOW_REPLACEMENT_SERVICE	13	true	2	11	PASS_AFTER_REASSIGNMENT	Two aluminium-replacement phrases are distinct from the verified PVC replacement service owner.
