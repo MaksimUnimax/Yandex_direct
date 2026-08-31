@@ -1,0 +1,62 @@
+name: KW001 Step12 Method Owner Goal Freshness V2
+
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/patch_step12_method_owner_goal_freshness_v2.py'
+      - '.github/workflows/kw001-step12-method-owner-goal-freshness-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Patch method
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/patch_step12_method_owner_goal_freshness_v2.py
+      - name: Verify method
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md')
+          s=p.read_text(encoding='utf-8')
+          for token in [
+            '## Defect 16 — false panoramic CREATE',
+            '## Defect 17 — installation DIY',
+            '## Defect 18 — broad DIY repair',
+            '## Defect 19 — replacement service',
+            '## Defect 20 — hardware guide',
+            'OWNER PRIMARY GOAL / DESIRED USER OUTCOME',
+            'CREATE_WITH_CURRENT_EQUIVALENT_PAGE = 0',
+            '## Stage 1 — Define the owner',
+            '## Stage 10 — Fresh CREATE gate',
+            'CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md',
+          ]:
+            assert token in s, token
+          assert 'Status: **REOPENED / SECOND EXTERNAL METHOD CORRECTION IN PROGRESS' in s
+          print('STEP12_METHOD_OWNER_GOAL_FRESHNESS_V2_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md
+          git commit -m "rules: patch Step12 method for owner goal and freshness [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md > /tmp/method.md
+          python - <<'PY'
+          s=open('/tmp/method.md',encoding='utf-8').read()
+          assert '## Defect 20 — hardware guide' in s
+          assert '## Stage 10 — Fresh CREATE gate' in s
+          assert 'CREATE_WITH_CURRENT_EQUIVALENT_PAGE = 0' in s
+          print('STEP12_METHOD_OWNER_GOAL_FRESHNESS_V2_GITHUB_READBACK_PASS')
+          PY
