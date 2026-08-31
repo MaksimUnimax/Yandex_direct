@@ -1,0 +1,2 @@
+trigger=2026-08-31T13:25:00Z
+goal=extract exact 195-pair Step13 review packet and unique URL set before any fresh Search
