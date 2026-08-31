@@ -1,0 +1,16 @@
+{
+  "status": "CANDIDATE_V5_READY_FOR_D12_02_REACCEPTANCE",
+  "source_rows": 2332,
+  "search_required_rows": 19,
+  "structural_units": 160,
+  "correction_rows": 1037,
+  "residual_hardware_review_rows_corrected": 1,
+  "hardware_selection_guide_phrase_count_after_correction": 30,
+  "hardware_generic_reviews_phrase_count": 1,
+  "unit_metadata_inconsistency_rows": 0,
+  "default_high_confidence_rows": 0,
+  "defects_closed_by_script_alone": [],
+  "defects_candidate_for_reacceptance": [
+    "D12-02"
+  ]
+}
