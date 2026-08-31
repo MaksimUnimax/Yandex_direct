@@ -1,0 +1,55 @@
+name: KW001 Step12 Confidence V1
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_evidence_derived_actions_v1.py'
+      - '.github/workflows/kw001-step12-confidence-v1.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build evidence-derived actions/confidence
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_evidence_derived_actions_v1.py
+      - name: Verify candidate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          q=json.loads((r/'STEP_12_CONFIDENCE_QA_V1.json').read_text(encoding='utf-8'))
+          assert q['status']=='CANDIDATE_CONFIDENCE_V1_READY_FOR_MANUAL_REVIEW'
+          assert q['structural_units']==160
+          assert q['default_high_confidence_used'] is False
+          assert q['rows_without_evidence_dimensions']==0
+          assert q['new_page_high_with_material_search_gap']==0
+          assert q['conditional_business_high_commercial_create']==0
+          assert q['review_action_required_rows']==0
+          assert q['defects_closed_by_script_alone']==[]
+          print('STEP12_CONFIDENCE_V1_CANDIDATE_PASS')
+          PY
+      - name: Persist candidate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CONFIDENCE_QA_V1.json
+          git commit -m "step12: persist evidence-derived confidence candidate [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CONFIDENCE_QA_V1.json | grep -q 'default_high_confidence_used'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | grep -q 'DERIVED_FROM_EXPLICIT_EVIDENCE_DIMENSIONS__NO_DEFAULT'
+          echo STEP12_CONFIDENCE_V1_READBACK_PASS
