@@ -21,14 +21,16 @@ Q019	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V
 Q020	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count Step13-dependent rows still marked final.
 Q021	MATURITY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Every Step13 dependency must expose pair IDs that caused it.
 Q022	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Compare every referenced pair ID to persisted pair ledger IDs.
-Q023	ACTION_TARGETS	4	0	false	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Actions that implement on a page must identify primary_page_candidate.
+Q023	ACTION_TARGETS	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Actions that implement on a page must identify primary_page_candidate.
 Q024	NEW_PAGES	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv | STEP_12_NEW_PAGE_EVIDENCE_V2.tsv	NEW_* actions must use canonical proposed-page targets from evidence table.
 Q025	NEW_PAGES	5	5	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Count unique proposed pages behind NEW_* action rows; multiple units may share a page.
 Q026	HIERARCHY	0	0	true	COMPUTED_FROM_DATA	STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Compare unique hierarchy candidate pages to normalized action primary targets.
-Q027	HIERARCHY	10	0	false	COMPUTED_FROM_DATA	STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Materialized hierarchy must not retain a downgrade reason claiming hierarchy is not yet finalized.
+Q027	HIERARCHY	0	0	true	COMPUTED_FROM_DATA	STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Materialized hierarchy must not retain a downgrade reason claiming hierarchy is not yet finalized.
 Q028	CONFIDENCE	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	HIGH cannot coexist with a material Search/business/maturity gap.
 Q029	CONFIDENCE	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv	Deferred recommendations must not carry MEDIUM/HIGH confidence.
-Q030	PAIR_GRAPH	189	189	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Count persisted deterministic candidate pairs.
+Q030	PAIR_GRAPH	189	189	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Independently recompute expected pair-key count from V1 primary/supporting edges, shared-source multi-primary routes, and hierarchy edges.
+Q030M	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Set-difference expected pair keys minus persisted pair keys.
+Q030E	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V1.tsv | STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv | STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv | STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Set-difference persisted pair keys minus independently recomputed expected pair keys.
 Q031	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Count duplicate pair IDs.
 Q032	PAIR_GRAPH	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Count self-pairs after URL normalization.
 Q033	STEP_BOUNDARY	0	0	true	COMPUTED_FROM_DATA	STEP_12_STEP13_CANDIDATE_PAIRS.tsv	Inspect pair-ledger schema for forbidden Step13 verdict columns.
