@@ -220,3 +220,17 @@ We will first repair the groups of searches so each one means one understandable
 ### What the corrected result must give us
 
 A complete plan for all searches in which every recommendation can be explained from evidence, uncertainty is visible instead of hidden, and the next step receives a complete list of page pairs that genuinely need a separate search-conflict check.
+
+## Correction item 12 — do not blindly inherit OUTSIDE when site evidence contradicts it
+
+### What exposed the problem
+
+The full correction review found phrases marked outside/no-page even though the persisted site inventory shows a matching current offer/page. The clearest example is blinds: the site inventory contains an existing blinds page while the entire curtains/blinds cluster had been inherited as outside scope. Other mixed outside/no-page groups also contain salvageable glazing/window-use-case phrases.
+
+### Why this matters
+
+An upstream status is historical evidence, not permission to ignore newer contradictory evidence. If the site actually offers the thing and the phrase asks for that thing, the current step must surface the contradiction and create a correction overlay instead of preserving a false outside label for convenience.
+
+### Repair
+
+Re-audit every historical OUTSIDE/NO_STANDALONE phrase against the verified site inventory. Preserve the old state for provenance, but materialize every in-scope correction and prove that no verified-offer phrase remains stranded.
