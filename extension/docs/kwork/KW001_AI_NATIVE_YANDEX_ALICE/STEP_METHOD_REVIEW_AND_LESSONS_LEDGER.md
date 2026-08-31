@@ -906,3 +906,166 @@ KW001_STEP7_FIX_CAUSE_NOT_ONLY_EXAMPLE = true
 KW001_STEP7_NONEXACT_DUPLICATES_NOT_AUTO_MERGED = true
 KW001_STEP7_SEMANTIC_QA_REQUIRED = true
 ```
+
+
+---
+
+## Step 12 — structural actions: causal correction after external audit
+
+### Step purpose
+
+Turn a phrase-level semantic/page map into a practical, evidence-backed site-structure plan: what to keep, strengthen, add, create, split, merge or deliberately not create.
+
+### Why this step needs its own method
+
+A structurally tidy recommendation can still be wrong if the analyst skips the user-task boundary, uses lexical matching as proof, equates phrase count with demand, invents commercial pages the business cannot fulfil, or lets the same script both create and certify its own result.
+
+Step 12 therefore has to preserve the reasoning chain that turns search demand into a page decision. The output is not merely a taxonomy of action labels.
+
+### Known errors that caused the correction
+
+1. **Hidden lexical overrides were treated as architecture.** Individual phrases were routed to specific pages by substring/token rules without first creating an explicit user-task structural unit.
+2. **Phrase visibility was mistaken for semantic coherence.** A full phrase list existed, but mixed objects/tasks could still survive and receive one action.
+3. **New-page creation was under-evidenced.** Phrase count + page gap + narrative usefulness were treated as enough without a per-candidate demand/Search evidence matrix.
+4. **Confidence defaulted to HIGH.** Confidence reflected the absence of a manual downgrade rather than evidence strength.
+5. **QA partly self-certified the desired result.** Some pass properties were constants or weak proxies, and any SPLIT/MERGE was counted as failure rather than only unsupported actions.
+6. **The next-step overlap universe was hand-curated.** Candidate page pairs were not derived from the complete final routing graph.
+7. **New-page hierarchy was incomplete.** A proposed slug/parent label did not fully specify how the page belongs in navigation and internal linking.
+8. **`NO_STANDALONE_PAGE` could strand useful subtasks.** Rejecting one generic page was treated as if it answered where each useful phrase should go.
+9. **Useful rows could remain trapped inside rejected groups.** Cluster-level protection against an unsupported page could hide phrases that belonged to a valid different task/page.
+10. **Phrase count was used as a demand proxy.** Vocabulary size was allowed to strengthen demand narratives without materialized frequency/traffic evidence.
+11. **Downstream dependencies were hidden by final-looking actions.** A recommendation could depend on later conflict testing while still looking implementation-ready.
+
+### Root cause
+
+The first method correctly understood the broad principle — do not create a page for every phrase — but moved too quickly from cluster/page evidence to a structural action. Several intermediate proof steps were implicit rather than materialized.
+
+Canonical causal error:
+
+```text
+PLAUSIBLE ROUTE / PLAUSIBLE PAGE IDEA
+!=
+EVIDENCE-BACKED STRUCTURAL UNIT + VERIFIED PAGE ROLE
+```
+
+The same pattern also affected QA:
+
+```text
+DESIRED INVARIANT WRITTEN INTO THE SCRIPT
+!=
+INVARIANT INDEPENDENTLY VERIFIED FROM DATA / PROVENANCE / REVIEW LEDGER
+```
+
+### Corrected method / non-repeat controls
+
+The approved corrected sequence is:
+
+```text
+FULL PHRASE SET
+→ COHERENCE AUDIT
+→ EXPLICIT STRUCTURAL UNITS / CORRECTIONS
+→ BUSINESS TRUTH
+→ CURRENT PAGE FIT
+→ DEMAND EVIDENCE
+→ SEARCH/SERP EVIDENCE WHEN MATERIAL TO THE PAGE BOUNDARY
+→ COMPARE STRUCTURAL ALTERNATIVES
+→ ACTION
+→ EVIDENCE-DERIVED CONFIDENCE + PROVISIONAL/FINAL MATURITY
+→ SITE-HIERARCHY / INTERNAL-LINK ROLE
+→ COMPLETE PHRASE→UNIT→PAGE/ACTION MAP
+→ DERIVED STEP-13 CANDIDATE PAIRS
+→ INDEPENDENT QA
+→ GITHUB SAVE + READBACK
+```
+
+Why this order matters:
+
+- coherence must come before demand aggregation, otherwise different tasks are measured together;
+- business truth must come before a commercial CREATE, because search demand cannot create a product/service the business does not offer;
+- current page fit must come before CREATE, otherwise the method can duplicate an existing useful page;
+- phrase count is coverage, not demand; actual demand evidence is required for demand-strength claims;
+- lexical tokens may discover a candidate subunit but may not silently become the final page assignment;
+- confidence is a conclusion from evidence dimensions, never a default value;
+- `NO_STANDALONE_PAGE` still requires routing/defer logic for useful subparts;
+- SPLIT/MERGE are allowed when supported; QA checks evidence for them rather than requiring their count to be zero;
+- Step 13 receives a complete candidate-pair universe but makes the cannibalization diagnosis itself.
+
+### Canonical evidence dimensions for confidence
+
+At minimum preserve:
+
+```text
+TASK_COHERENCE
+BUSINESS_TRUTH
+CURRENT_PAGE_FIT
+DEMAND_SUPPORT
+SEARCH_BOUNDARY_SUPPORT WHEN MATERIAL
+HIERARCHY_CLARITY
+```
+
+A missing material dimension downgrades confidence or makes the action provisional. `HIGH` must never be the default simply because no rejection rule fired.
+
+### QA origin rule
+
+Every material Step-12 QA claim must be traceable to one of:
+
+```text
+COMPUTED_FROM_DATA
+VERIFIED_FROM_PROVENANCE / EXECUTION RECEIPT
+MANUAL_REVIEW_LEDGER WITH EXPLICIT CASES
+```
+
+Hard-coded expected zero/true values are not QA evidence.
+
+### Why these controls are reusable
+
+The failure was not specific to one window site. Any semantic-architecture job can over-trust a cluster label, a matching word, a page slug, a row count or a self-authored QA script. The correction therefore applies to future Step-12 executions regardless of domain; current-job vocabulary and exact boundaries remain configured from that job's evidence.
+
+### Method origin / external support
+
+- Yandex user-need targeting: https://yandex.ru/support/webmaster/ru/recommendations/targeting
+- Yandex site structure: https://yandex.ru/support/webmaster/ru/recommendations/site-structure
+- Yandex logical content splitting: https://yandex.ru/support/webmaster/ru/recommendations/presentation
+- Yandex low-value/low-demand pages: https://yandex.ru/support/webmaster/ru/site-indexing/low-demand
+- Yandex useful content: https://yandex.ru/support/webmaster/ru/threat/useless-content
+- Semrush Keyword Mapping (2026-07-27): https://www.semrush.com/blog/keyword-mapping/
+- Ahrefs Keyword Mapping: https://ahrefs.com/blog/keyword-mapping/
+- Ahrefs Keyword Clustering: https://ahrefs.com/blog/keyword-clustering/
+- Rush Analytics semantic structure / clustering / relevant URL methodology: https://www.rush-analytics.ru/faq/kak-sozdat-strukturu-sayta-na-osnove-semanticheskogo-yadra and related clustering/relevant-URL guides
+- Semrush cannibalization boundary (2026-07-14): https://www.semrush.com/blog/keyword-cannibalization-guide/
+
+### Pass gate
+
+Step 12 cannot pass while any of these are true:
+
+```text
+HIDDEN_LEXICAL_OVERRIDE_RULES_IN_FINAL_ARCHITECTURE > 0
+KNOWN_MIXED_STRUCTURAL_UNITS_LEFT_UNCORRECTED > 0
+ACCEPTED_NEW_PAGE_WITHOUT_REQUIRED_DEMAND/BUSINESS/PAGE-BOUNDARY_EVIDENCE > 0
+DEFAULT_HIGH_CONFIDENCE = true
+CONFIDENCE_WITHOUT_EVIDENCE_DIMENSIONS > 0
+QA_SELF_ASSERTED_PASS_FIELDS > 0
+UNSUPPORTED_SPLIT > 0
+UNSUPPORTED_MERGE > 0
+USEFUL_PHRASES_STRANDED_BY_NO_STANDALONE_PAGE > 0
+ACCEPTED_NEW_OR_SPLIT_PAGES_WITHOUT_HIERARCHY_PLAN > 0
+STEP13_CANDIDATE_UNIVERSE_DERIVED = false
+```
+
+Final acceptance additionally requires complete phrase accounting and GitHub persistence/readback.
+
+Status: **OWNER-APPROVED CORRECTION METHOD / ACTIVE FOR REWORK / FINAL VALIDATION PENDING**.
+
+Markers:
+
+```text
+STEP12_HIDDEN_LEXICAL_OVERRIDE_IS_NOT_ARCHITECTURE = true
+STEP12_PHRASE_VISIBILITY_NOT_EQUAL_COHERENCE = true
+STEP12_PHRASE_COUNT_NOT_EQUAL_DEMAND = true
+STEP12_CONFIDENCE_MUST_BE_EVIDENCE_DERIVED = true
+STEP12_QA_SELF_CERTIFICATION_FORBIDDEN = true
+STEP12_SPLIT_MERGE_SUPPORTED_NOT_ZERO_FORCED = true
+STEP12_NO_STANDALONE_PAGE_REQUIRES_USEFUL_SUBTASK_ROUTING = true
+STEP12_STEP13_CANDIDATE_UNIVERSE_MUST_BE_DERIVED = true
+STEP12_HIERARCHY_PLAN_REQUIRED_FOR_NEW_OR_SPLIT_PAGES = true
+```

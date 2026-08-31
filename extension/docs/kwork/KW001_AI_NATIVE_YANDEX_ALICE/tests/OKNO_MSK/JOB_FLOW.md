@@ -397,9 +397,9 @@ NEXT_STEP_ALLOWED = true
 
 ---
 
-## Completed step — Step 12 structural actions
+## Historical first pass — Step 12 structural actions
 
-Status: **✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT**
+Status: **🔁 CORRECTION REQUIRED AFTER EXTERNAL METHOD AUDIT / HISTORICAL PASS WITHDRAWN**
 
 ```text
 EFFECTIVE_ASSIGNED_CLUSTERS_ACCOUNTED = 75/75
@@ -432,6 +432,35 @@ STEP_12_REPORT.md
 
 No Step-13 cannibalization verdict and no Step-14 architecture freeze were made in Step 12.
 
+
+---
+
+## CURRENT OVERRIDE — Step 12 correction after external audit
+
+This block overrides the historical first-pass Step-12 PASS above.
+
+```text
+STEP12_CORRECTION_REQUIRED_AFTER_EXTERNAL_METHOD_AUDIT = true
+STEP12_HISTORICAL_FIRST_PASS_PRESERVED = true
+STEP12_HISTORICAL_PASS_WITHDRAWN = true
+STEP12_OPEN_DEFECTS = D12-01,D12-02,D12-03,D12-04,D12-05,D12-06,D12-07,D12-08,D12-09,D12-10,D12-11
+STEP12_CURRENT_CORRECTION_ITEM = D12-01
+STEP13_BLOCKED_BY_STEP12_CORRECTION = true
+STEP12_CORRECTED_ACCEPTANCE = pending
+```
+
+Current correction authorities:
+
+```text
+../../STEP_12_STRUCTURAL_ACTION_METHOD.md
+STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md
+STEP_12_CORRECTION_PLAN_2026-08-31.md
+STEP_12_CORRECTION_DEFECT_LEDGER.tsv
+STEP_12_CORRECTION_CURRENT_STATE.json
+```
+
+A defect is not closed because a new file exists. It is closed only after its corrective artifact is produced, its defect-specific verification passes, and GitHub readback confirms the saved result.
+
 ---
 
 ## Full roadmap status
@@ -452,8 +481,8 @@ No Step-13 cannibalization verdict and no Step-14 architecture freeze were made 
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
 | **11. Page ownership** | **Map effective clusters and every active phrase to intended existing URL/state** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** |
-| **12. Structural actions** | **Decide what to keep, strengthen, add, create or deliberately not create** | **✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT** |
-| 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
+| **12. Structural actions** | **Decide what to keep, strengthen, add, create or deliberately not create** | **🔁 CORRECTION / EXTERNAL AUDIT FOUND MATERIAL DEFECTS** |
+| 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⛔ BLOCKED UNTIL STEP 12 CORRECTION PASSES |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
 | 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
 | 16. AI-search evidence | Gather selected Alice/GenSearch evidence | ⬜ NOT STARTED |
@@ -508,10 +537,10 @@ KW001_OKNO_MSK_STEP11_EFFECTIVE_SEARCH_REQUIRED = 19
 KW001_OKNO_MSK_STEP11_EFFECTIVE_ACTIVE_CLUSTERS = 75
 KW001_OKNO_MSK_STEP11_BRIDGE_CODEX_IMMEDIATE_PERSISTENCE_RULE_ACTIVE = true
 KW001_OKNO_MSK_STEP11_COMPLETE = true
-KW001_OKNO_MSK_NEXT_STEP_ALLOWED = true
+KW001_OKNO_MSK_NEXT_STEP_ALLOWED = false
 ```
 
-KW001_OKNO_MSK_STEP12_COMPLETE = true
+KW001_OKNO_MSK_STEP12_COMPLETE = false
 KW001_OKNO_MSK_STEP12_EFFECTIVE_CLUSTERS_ACCOUNTED = 75
 KW001_OKNO_MSK_STEP12_SEARCH_REQUIRED_PRESERVED = 19
 KW001_OKNO_MSK_STEP12_PHRASE_ACTION_MAP_ROWS = 2332
