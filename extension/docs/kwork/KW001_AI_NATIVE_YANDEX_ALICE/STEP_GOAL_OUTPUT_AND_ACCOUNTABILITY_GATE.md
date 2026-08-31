@@ -372,36 +372,63 @@ How much did we get/save/remove/analyze?
 Can we safely move to the next step?
 ```
 
-### Mandatory non-specialist summary at the end of every pre-step explanation
+### Mandatory plain-language summary before AND after every step
 
-After the full detailed pre-step explanation has been given, and immediately before ChatGPT asks for authorization to execute the step, ChatGPT must add a short plain-language summary for a non-specialist.
+A detailed analytical report is not enough. For **every concrete step**, ChatGPT must also provide a short summary in ordinary everyday language that a person with no SEO, analytics, API or programming background can understand.
 
-This summary must answer only these three questions:
+The summary is mandatory in two places:
+
+```text
+1. at the END of the pre-step explanation, immediately before execution/authorization;
+2. at the END of the end-of-step report, after the detailed evidence and accounting.
+```
+
+The pre-step summary must answer:
 
 ```text
 ЗАЧЕМ НУЖЕН ЭТОТ ШАГ?
-= why this step is useful in the overall client task.
+= what useful problem this step solves for the client/project.
 
-ЧТО ОН РЕШАЕТ?
-= what concrete problem, uncertainty or missing piece this step removes.
+ЧТО КОНКРЕТНО МЫ БУДЕМ ДЕЛАТЬ?
+= the practical work in ordinary words, without internal workflow terminology.
 
-КАК МЫ ЭТО ДЕЛАЕМ?
-= the practical action in simple everyday language.
+ЧТО МЫ ПОЛУЧИМ В КОНЦЕ?
+= the understandable result that will exist when the step is finished.
 ```
 
-Rules for this summary:
+The end-of-step summary must answer:
 
 ```text
-1. Use simple language understandable to a person who is not an SEO specialist.
-2. Put this summary at the END of the pre-step explanation, not at the beginning.
-3. Do not duplicate quantitative accounting in this summary.
-4. Do not repeat row counts, request counts, costs, percentages, status markers, provider bookkeeping, reconciliation tables or other technical numbers in this summary.
-5. Keep all numbers, detailed evidence, technical statuses, methodology sources and accounting in the main detailed text above.
-6. The summary does not replace the detailed pre-step gate; it only explains the practical meaning of the step after the detailed evidence has already been shown.
-7. Do not turn the summary into another technical block. Its purpose is comprehension, not auditability.
+ЗАЧЕМ МЫ ДЕЛАЛИ ЭТОТ ШАГ?
+= one simple reminder of its purpose.
+
+ЧТО МЫ ФАКТИЧЕСКИ СДЕЛАЛИ?
+= what work was really performed.
+
+ЧТО ПОЛУЧИЛОСЬ И ЧТО ЭТО ДАЁТ ДАЛЬШЕ?
+= the practical result and why it matters for the next work/client result.
 ```
 
-Preferred owner-facing shape:
+Hard communication rule:
+
+```text
+PLAIN_LANGUAGE_SUMMARY != TECHNICAL_SUMMARY
+```
+
+Rules for both summaries:
+
+```text
+1. Write for an ordinary person, not an SEO specialist, analyst, developer or API operator.
+2. Do not use internal status names, cluster IDs, protocol names, provider terminology, abbreviations or specialist jargon as the explanation itself.
+3. If a technical term is genuinely unavoidable, immediately translate it into ordinary language in the same sentence.
+4. Never assume the owner should decode terms such as cluster, intent, SERP, ownership, canonical, cannibalization, semantic freeze, provider, route, ledger, batch or similar project vocabulary.
+5. Explain the real-world action instead: for example, not “map cluster to owner”, but “decide which existing page should answer this group of similar searches”.
+6. Keep detailed numbers, sources, costs, statuses and audit terminology in the detailed report above; the plain-language summary exists for comprehension.
+7. The summary does not replace the detailed gate, evidence, QA or roadmap. Both are mandatory.
+8. Never finish a step explanation with only technical wording. The last explanation of the step must always make its purpose, practical work and result understandable without specialist knowledge.
+```
+
+Preferred pre-step shape:
 
 ```text
 ПРОСТЫМИ СЛОВАМИ
@@ -409,14 +436,35 @@ Preferred owner-facing shape:
 Зачем нужен этот шаг:
 ...
 
-Что он решает:
+Что конкретно будем делать:
 ...
 
-Как мы это делаем:
+Что получим в конце:
 ...
 ```
 
-This rule applies to the explanation of a step **before execution**. An end-of-step report does not need to repeat this three-part summary unless it is simultaneously introducing the next step.
+Preferred end-of-step shape:
+
+```text
+ПРОСТЫМИ СЛОВАМИ — ИТОГ
+
+Зачем делали этот шаг:
+...
+
+Что фактически сделали:
+...
+
+Что получили и что это даёт дальше:
+...
+```
+
+Failure condition:
+
+```text
+PLAIN_LANGUAGE_SUMMARY_MISSING = true
+-> OWNER_COMMUNICATION_GATE = FAILED
+-> STEP_TRANSITION = BLOCKED
+```
 
 ---
 
@@ -457,4 +505,8 @@ KW001_NEXT_STEP_BLOCKED_UNTIL_CURRENT_GOAL_VERIFIED = true
 KW001_OWNER_FACING_PLAIN_LANGUAGE_REQUIRED = true
 KW001_PRE_STEP_NON_SPECIALIST_SUMMARY_REQUIRED = true
 KW001_PRE_STEP_SUMMARY_NUMBERS_STAY_IN_MAIN_TEXT = true
+KW001_PLAIN_LANGUAGE_SUMMARY_REQUIRED_BEFORE_AND_AFTER_EVERY_STEP = true
+KW001_PLAIN_LANGUAGE_SUMMARY_MUST_STATE_WHY_HOW_RESULT = true
+KW001_PLAIN_LANGUAGE_SUMMARY_NO_UNEXPLAINED_JARGON = true
+KW001_MISSING_PLAIN_LANGUAGE_SUMMARY_BLOCKS_STEP_TRANSITION = true
 ```
