@@ -9,8 +9,13 @@
   "new_page_high_with_material_search_gap": 0,
   "conditional_business_high_commercial_create": 0,
   "review_action_required_rows": 0,
+  "new_page_action_rows": 6,
+  "new_page_action_primary_target_mismatches": 0,
+  "new_page_action_primary_target_mismatch_units": [],
+  "replacement_service_primary_target_correct": true,
+  "replacement_service_existing_installation_preserved_as_supporting": true,
   "defects_closed_by_script_alone": [],
   "defects_candidate_for_closure_after_manual_review": [
-    "D12-04"
+    "D12-13"
   ]
 }
