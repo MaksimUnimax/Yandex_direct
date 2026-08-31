@@ -1,0 +1,53 @@
+name: KW001 Step12 Semantic Correction Prep
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_correction_prepare_semantic_review.py'
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build review evidence
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_correction_prepare_semantic_review.py
+      - name: Verify preparation
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa = json.loads((root/'STEP_12_CORRECTION_PREP_QA.json').read_text(encoding='utf-8'))
+          assert qa['historical_override_phrases'] == 191
+          assert qa['historical_override_unique_phrases'] == 191
+          assert qa['defects_closed_by_this_preparation'] == []
+          rows = list(csv.DictReader((root/'STEP_12_CORRECTION_OVERRIDE_UNIT_AUDIT.tsv').open(encoding='utf-8'), delimiter='\t'))
+          assert len(rows) == qa['historical_override_candidate_units']
+          assert all(r['review_status'] == 'REVIEW_REQUIRED_BEFORE_FINAL_UNIT' for r in rows)
+          print('STEP12_CORRECTION_PREP_VERIFY_PASS')
+          PY
+      - name: Persist preparation immediately
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_OVERRIDE_UNIT_AUDIT.tsv \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_SEMANTIC_REVIEW_INPUT.md \
+                  extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_PREP_QA.json
+          git commit -m "step12: persist semantic correction review evidence [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_PREP_QA.json | grep -q 'PREPARED_FOR_SEMANTIC_CORRECTION_REVIEW'
+          git show $remote:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_OVERRIDE_UNIT_AUDIT.tsv | grep -q 'REVIEW_REQUIRED_BEFORE_FINAL_UNIT'
+          echo STEP12_CORRECTION_PREP_READBACK_PASS
