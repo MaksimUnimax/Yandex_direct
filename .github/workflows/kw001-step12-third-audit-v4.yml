@@ -1,0 +1,59 @@
+name: KW001 Step12 Third Audit V4
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_THIRD_AUDIT_V4_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Build V4
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_build_third_audit_v4.py
+      - name: Independent verify
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_verify_third_audit_v4.py
+      - name: Persist diagnostics before final gate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V4.tsv $base/STEP_12_PHRASE_ACTION_MAP_FINAL_V4.tsv $base/STEP_12_INTERNAL_LINK_ACTIONS.tsv $base/STEP_12_STEP13_CANDIDATE_PAIRS_V4.tsv $base/STEP_12_THIRD_AUDIT_GENERATOR_QA.json $base/STEP_12_THIRD_AUDIT_INDEPENDENT_QA.json $base/STEP_12_THIRD_AUDIT_QA_FINDINGS.tsv
+          git commit -m "step12: persist third-audit V4 diagnostics [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          for f in STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V4.tsv STEP_12_PHRASE_ACTION_MAP_FINAL_V4.tsv STEP_12_INTERNAL_LINK_ACTIONS.tsv STEP_12_STEP13_CANDIDATE_PAIRS_V4.tsv STEP_12_THIRD_AUDIT_GENERATOR_QA.json STEP_12_THIRD_AUDIT_INDEPENDENT_QA.json STEP_12_THIRD_AUDIT_QA_FINDINGS.tsv; do
+            git show $remote:$base/$f > /tmp/$f
+          done
+          python - <<'PY'
+          import csv,json
+          a=list(csv.DictReader(open('/tmp/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V4.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          p=list(csv.DictReader(open('/tmp/STEP_12_PHRASE_ACTION_MAP_FINAL_V4.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          l=list(csv.DictReader(open('/tmp/STEP_12_INTERNAL_LINK_ACTIONS.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          q=json.load(open('/tmp/STEP_12_THIRD_AUDIT_INDEPENDENT_QA.json',encoding='utf-8'))
+          assert len(a)==160 and len(p)==2332
+          assert q['actual_pair_rows']==q['expected_pair_keys']
+          print('STEP12_THIRD_AUDIT_V4_GITHUB_READBACK_PASS',len(a),len(p),len(l),q['findings'])
+          PY
+      - name: Final fail-closed gate
+        run: |
+          python - <<'PY'
+          import json
+          q=json.load(open('/tmp/STEP_12_THIRD_AUDIT_INDEPENDENT_QA.json',encoding='utf-8'))
+          assert q['status']=='STEP12_THIRD_AUDIT_V4_INDEPENDENT_PASS'
+          assert q['findings']==0
+          assert q['gap_type_missing']==0 and q['performance_state_missing']==0 and q['keep_overstated_optimization']==0
+          assert q['pair_missing']==q['pair_extra']==q['pair_duplicates']==0
+          assert q['new_page_actions']==0 and q['proposed_new_refs']==0
+          assert q['step13_files']==[] and q['step13_executed'] is False
+          print('STEP12_THIRD_AUDIT_V4_FAIL_CLOSED_PASS')
+          PY
