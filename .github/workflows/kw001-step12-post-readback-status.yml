@@ -1,0 +1,120 @@
+name: KW001 Step12 Post Readback Status
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step12_post_readback_status.py'
+      - '.github/workflows/kw001-step12-post-readback-status.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  synchronize-and-readback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Revalidate canonical closure before status sync
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/verify_step12_canonical_closure.py
+
+      - name: Synchronize post-readback durable status
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step12_post_readback_status.py
+
+      - name: Verify synchronized state before persistence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa=json.loads((r/'STEP_12_QA.json').read_text(encoding='utf-8'))
+          state=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          flow=(r/'JOB_FLOW.md').read_text(encoding='utf-8')
+          manifest=(r/'JOB_MANIFEST.md').read_text(encoding='utf-8')
+          report=(r/'STEP_12_REPORT.md').read_text(encoding='utf-8')
+          acceptance=(r/'STEP_12_FINAL_ACCEPTANCE_2026-08-31.md').read_text(encoding='utf-8')
+          assert qa['final_github_readback'] is True
+          assert qa['canonical_closure_readback_passed'] is True
+          assert qa['step13_executed'] is False
+          assert state['final_github_readback'] is True
+          assert state['canonical_closure_readback_passed'] is True
+          assert state['step13_executed'] is False
+          assert 'KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true' in flow
+          assert 'pending_final_closure_readback' not in flow
+          assert flow.rstrip().endswith('```')
+          assert 'STEP_12_FINAL_GITHUB_READBACK = true' in manifest
+          remaining=manifest.split('## Remaining roadmap',1)[1]
+          assert 'Step 12 — structural actions' not in remaining
+          assert 'Step 13 — cannibalization diagnosis' in remaining
+          assert 'FINAL_CANONICAL_GITHUB_READBACK = true' in acceptance
+          assert '## Final durable closure readback' in report
+          print('STEP12_POST_READBACK_STATUS_VERIFY_PASS')
+          PY
+
+      - name: Persist durable readback status
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_FINAL_ACCEPTANCE_2026-08-31.md
+          git commit -m "step12: record final GitHub readback and next-step boundary [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+
+      - name: Second structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_QA.json > /tmp/qa.json
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state.json
+          git show $remote:$base/JOB_FLOW.md > /tmp/flow.md
+          git show $remote:$base/JOB_MANIFEST.md > /tmp/manifest.md
+          git show $remote:$base/STEP_12_FINAL_ACCEPTANCE_2026-08-31.md > /tmp/acceptance.md
+          python - <<'PY'
+          import json
+          qa=json.load(open('/tmp/qa.json',encoding='utf-8'))
+          state=json.load(open('/tmp/state.json',encoding='utf-8'))
+          flow=open('/tmp/flow.md',encoding='utf-8').read()
+          manifest=open('/tmp/manifest.md',encoding='utf-8').read()
+          acceptance=open('/tmp/acceptance.md',encoding='utf-8').read()
+          assert qa['status']=='PASS_AFTER_EXTERNAL_METHOD_AUDIT_FAIL_CLOSED_CORRECTIONS_AND_INDEPENDENT_QA'
+          assert qa['final_github_readback'] is True
+          assert qa['canonical_closure_readback_passed'] is True
+          assert qa['step13_executed'] is False
+          assert state['open_defects']==[]
+          assert state['final_github_readback'] is True
+          assert state['canonical_closure_readback_passed'] is True
+          assert state['step13_status']=='NOT_STARTED_NEXT_ALLOWED'
+          assert state['step13_executed'] is False
+          assert 'KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = true' in flow
+          assert 'pending_final_closure_readback' not in flow
+          assert 'STEP_12_FINAL_GITHUB_READBACK = true' in manifest
+          remaining=manifest.split('## Remaining roadmap',1)[1]
+          assert 'Step 12 — structural actions' not in remaining
+          assert remaining.lstrip().startswith('```text\nStep 13 — cannibalization diagnosis')
+          assert 'FINAL_CANONICAL_GITHUB_READBACK = true' in acceptance
+          print('STEP12_SECOND_STRUCTURED_GITHUB_READBACK_PASS')
+          print(json.dumps({
+              'checks':qa['checks_total'],
+              'failed':qa['checks_failed'],
+              'defects_fixed':qa['defect_count'],
+              'phrase_rows':qa['final_phrase_action_rows'],
+              'structural_actions':qa['structural_action_rows'],
+              'pair_rows_current_derived':qa['candidate_pair_rows_current_derived'],
+              'future_step13_search_pairs':qa['candidate_pairs_requiring_future_step13_search_check'],
+              'dependency_units':qa['step13_dependency_units'],
+              'final_github_readback':qa['final_github_readback'],
+              'step13_executed':qa['step13_executed']
+          },ensure_ascii=False,indent=2))
+          PY
