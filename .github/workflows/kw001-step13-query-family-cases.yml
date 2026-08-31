@@ -1,0 +1,36 @@
+name: KW001 Step13 Query Family Cases
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_13_QUERY_FAMILY_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Materialize query-family cases
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step13_materialize_query_family_cases.py
+      - name: Persist and durable readback
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $b/STEP_13_QUERY_FAMILY_CASES.tsv $b/STEP_13_QUERY_FAMILY_PHRASE_EVIDENCE.tsv $b/STEP_13_QUERY_FAMILY_CASES_QA.json
+          git commit -m "step13: persist 21 query-family cases [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:$b/STEP_13_QUERY_FAMILY_CASES_QA.json > /tmp/q.json
+          python - <<'PY'
+          import json
+          q=json.load(open('/tmp/q.json'))
+          assert q['input_surviving_pairs']==27 and q['mapped_surviving_pairs']==27
+          assert q['query_family_cases']==21
+          assert q['provider_calls']==0 and not q['step13_search_executed']
+          print('STEP13_QUERY_FAMILY_READBACK_PASS',q['phrase_evidence_rows'],q['materialization_state_counts'])
+          PY
