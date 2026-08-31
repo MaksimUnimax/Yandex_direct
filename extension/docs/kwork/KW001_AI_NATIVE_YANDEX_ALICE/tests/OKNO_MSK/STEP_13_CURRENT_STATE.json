@@ -1,0 +1,19 @@
+{
+  "date": "2026-08-31",
+  "step": 13,
+  "status": "PRE_STEP_METHODOLOGY_RESEARCH_COMPLETE__AWAITING_EXPLICIT_OWNER_AUTHORIZATION_FOR_EXECUTION",
+  "input_pair_universe": 195,
+  "pairs_marked_by_step12_for_future_search_check": 186,
+  "step13_dependency_units": 98,
+  "pre_step_method_review": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-08-31.md",
+  "source_to_method_trace": "STEP_13_SOURCE_TO_METHOD_TRACE.tsv",
+  "permanent_step13_method_status": "UNVALIDATED_NOT_PROMOTED",
+  "method_review_verdict": "SUPPORTED_WITH_PROJECT_SPECIFIC_FAIL_CLOSED_VERDICT_TAXONOMY",
+  "provider_calls_executed_in_step13": 0,
+  "provider_cost_rub_step13": 0,
+  "step13_execution_started": false,
+  "owner_authorization_after_method_review": false,
+  "next_action": "After explicit owner authorization, execute eligibility/current-page/query-family analysis first; reuse persisted Search evidence; create and execute a fresh ordinary-Search manifest only for surviving material unresolved cases.",
+  "step14_executed": false,
+  "next_step_allowed": false
+}
