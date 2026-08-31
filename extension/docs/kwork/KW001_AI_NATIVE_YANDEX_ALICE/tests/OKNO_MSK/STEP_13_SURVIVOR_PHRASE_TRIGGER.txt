@@ -1,0 +1,2 @@
+trigger=2026-08-31T13:56:00Z
+goal=extract exact current phrase evidence for the 27 surviving Step13 pairs before query-family grouping
