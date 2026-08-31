@@ -1,0 +1,148 @@
+name: KW001 Step12 Canonical Finalization
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step12_canonical.py'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/verify_step12_canonical_closure.py'
+      - '.github/workflows/kw001-step12-canonical-finalization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kw001-step12-canonical-finalization
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Rebuild final phrase map
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_materialize_final_phrase_action_map.py
+
+      - name: Re-run independent Step12 QA before closure
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_independent_final_qa.py
+
+      - name: Pre-finalization gate
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          q=json.loads((r/'STEP_12_QA_CANDIDATE.json').read_text(encoding='utf-8'))
+          checks=list(csv.DictReader((r/'STEP_12_QA_CHECKS.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          findings=list(csv.DictReader((r/'STEP_12_QA_FINDINGS.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          assert q['status']=='D12_05_CANDIDATE_PASS'
+          assert q['checks_total']==46
+          assert q['checks_failed']==0
+          assert q['failed_check_ids']==[]
+          assert q['findings_rows']==0 and findings==[]
+          assert len(checks)==46 and all(x['pass']=='true' for x in checks)
+          assert q['qa_self_asserted_pass_fields']==0
+          assert q['unsupported_split_rows']==0
+          assert q['unsupported_merge_rows']==0
+          assert q['actions_requiring_target_but_blank']==0
+          assert q['stale_materialized_hierarchy_reason_rows']==0
+          assert q['step13_executed'] is False
+          assert q['step12_complete'] is False
+          assert q['next_step_allowed'] is False
+          print('STEP12_PRE_FINALIZATION_INDEPENDENT_QA_PASS')
+          PY
+
+      - name: Finalize canonical Step12 state
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/finalize_step12_canonical.py
+
+      - name: Independently verify canonical closure
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/verify_step12_canonical_closure.py
+
+      - name: Persist canonical closure
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_DEFECT_LEDGER.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_CORRECTION_CURRENT_STATE.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA.json \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_REPORT.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_FINAL_ACCEPTANCE_2026-08-31.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_FLOW.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/JOB_MANIFEST.md \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_PHRASE_ACTION_MAP_FINAL.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_CHECKS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_REVIEW_RESULTS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_SPLIT_MERGE_REGRESSION_RESULTS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_FINDINGS.tsv \
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_QA_CANDIDATE.json
+          git commit -m "step12: finalize corrected canonical state [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+
+      - name: Structured GitHub readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          method=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_12_STRUCTURAL_ACTION_METHOD.md
+          rules=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md
+          git show $remote:$base/STEP_12_QA.json > /tmp/qa.json
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state.json
+          git show $remote:$base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv > /tmp/ledger.tsv
+          git show $remote:$base/JOB_FLOW.md > /tmp/flow.md
+          git show $remote:$base/JOB_MANIFEST.md > /tmp/manifest.md
+          git show $remote:$base/STEP_12_REPORT.md > /tmp/report.md
+          git show $remote:$base/STEP_12_FINAL_ACCEPTANCE_2026-08-31.md > /tmp/acceptance.md
+          git show $remote:$method > /tmp/method.md
+          git show $remote:$rules > /tmp/rules.md
+          python - <<'PY'
+          import csv,json
+          qa=json.load(open('/tmp/qa.json',encoding='utf-8'))
+          state=json.load(open('/tmp/state.json',encoding='utf-8'))
+          ledger=list(csv.DictReader(open('/tmp/ledger.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          flow=open('/tmp/flow.md',encoding='utf-8').read()
+          manifest=open('/tmp/manifest.md',encoding='utf-8').read()
+          report=open('/tmp/report.md',encoding='utf-8').read()
+          acceptance=open('/tmp/acceptance.md',encoding='utf-8').read()
+          method=open('/tmp/method.md',encoding='utf-8').read()
+          rules=open('/tmp/rules.md',encoding='utf-8').read()
+          assert qa['status']=='PASS_AFTER_EXTERNAL_METHOD_AUDIT_FAIL_CLOSED_CORRECTIONS_AND_INDEPENDENT_QA'
+          assert qa['step12_complete'] is True and qa['next_step_allowed'] is True
+          assert qa['step13_executed'] is False
+          assert qa['checks_total']==46 and qa['checks_failed']==0
+          assert qa['all_defects_verified_fixed'] is True
+          assert state['open_defects']==[]
+          assert state['step12_complete'] is True
+          assert state['step13_status']=='NOT_STARTED_NEXT_ALLOWED'
+          assert state['step13_executed'] is False
+          assert len(ledger)==15 and all(r['status']=='VERIFIED_FIXED' for r in ledger)
+          assert 'Step 12 is complete. Step 13 has not been started.' in report
+          assert 'ALL_TRACKED_DEFECTS_VERIFIED_FIXED = 15/15' in acceptance
+          assert 'KW001_STEP12_METHOD_APPROVED_AFTER_INDEPENDENT_QA = true' in method
+          assert '**APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA**' in rules
+          assert 'KW001_OKNO_MSK_STEP12_COMPLETE = true' in flow
+          assert 'KW001_OKNO_MSK_STEP13_STATUS = NOT_STARTED_NEXT_ALLOWED' in flow
+          assert 'STEP12_OPEN_DEFECTS_CURRENT =' not in flow
+          assert 'current_major_step = STEP_12_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_INDEPENDENT_QA' in manifest
+          assert 'next_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW' in manifest
+          assert 'STRUCTURAL_ACTIONS_COMPLETE = true' in manifest
+          print('STEP12_CANONICAL_GITHUB_READBACK_PASS')
+          print(json.dumps({
+              'checks':qa['checks_total'],
+              'defects':len(ledger),
+              'phrase_rows':qa['final_phrase_action_rows'],
+              'structural_actions':qa['structural_action_rows'],
+              'pair_rows_current_derived':qa['candidate_pair_rows_current_derived'],
+              'future_step13_search_pairs':qa['candidate_pairs_requiring_future_step13_search_check'],
+              'dependency_units':qa['step13_dependency_units'],
+              'step13_executed':qa['step13_executed']
+          },ensure_ascii=False,indent=2))
+          PY
