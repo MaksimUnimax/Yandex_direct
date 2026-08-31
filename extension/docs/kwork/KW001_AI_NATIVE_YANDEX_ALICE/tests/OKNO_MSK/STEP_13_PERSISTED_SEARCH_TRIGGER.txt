@@ -1,0 +1,2 @@
+trigger=2026-08-31T14:08:00Z
+goal=join all exact persisted Step9 ordinary Yandex Search evidence to 21 Step13 query-family cases before any fresh provider call
