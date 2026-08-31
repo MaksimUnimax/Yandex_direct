@@ -399,72 +399,76 @@ NEXT_STEP_ALLOWED = true
 
 ## Historical first pass — Step 12 structural actions
 
-Status: **🔁 CORRECTION REQUIRED AFTER EXTERNAL METHOD AUDIT / HISTORICAL PASS WITHDRAWN**
+Status: **🔁 SUPERSEDED / HISTORICAL PASS WITHDRAWN AFTER EXTERNAL METHOD AUDIT**
 
-```text
-EFFECTIVE_ASSIGNED_CLUSTERS_ACCOUNTED = 75/75
-SEARCH_REQUIRED_ROWS_PRESERVED = 19/19
-PHRASE_ACTION_MAP_ROWS = 2332
-SILENT_CLUSTER_DROPS = 0
-NEW_COMMERCIAL_PAGE = 2
-NEW_INFORMATIONAL_PAGE = 3
-SPLIT_EXISTING_PAGE = 0
-MERGE_STRUCTURALLY_REDUNDANT_PAGES = 0
-NEW_BRIDGE_REQUESTS = 0
-NEW_BRIDGE_COST_RUB = 0.0
-FINAL_GITHUB_READBACK = PASS
-STEP12_COMPLETE = true
-NEXT_STEP_ALLOWED = true
-```
-
-Primary authorities:
-
-```text
-STEP_12_PRE_STEP_METHOD_REVIEW_2026-08-31.md
-STEP_12_SOURCE_TO_METHOD_TRACE.tsv
-STEP_12_STRUCTURAL_ACTIONS.tsv
-STEP_12_PHRASE_ACTION_MAP.tsv
-STEP_12_PAGE_ACTION_ROLLUP.tsv
-STEP_12_SEARCH_REQUIRED_HANDOFF.tsv
-STEP_12_QA.json
-STEP_12_REPORT.md
-```
-
-No Step-13 cannibalization verdict and no Step-14 architecture freeze were made in Step 12.
-
+The first-pass artifacts remain preserved for provenance. They are not current acceptance authorities because the external audit found material structural and QA defects.
 
 ---
 
-## CURRENT OVERRIDE — Step 12 correction after external audit
+## Completed step — Step 12 structural actions
 
-This block overrides the historical first-pass Step-12 PASS above.
+Status: **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA**
 
-```text
-STEP12_CORRECTION_REQUIRED_AFTER_EXTERNAL_METHOD_AUDIT = true
-STEP12_HISTORICAL_FIRST_PASS_PRESERVED = true
-STEP12_HISTORICAL_PASS_WITHDRAWN = true
-STEP12_OPEN_DEFECTS = D12-03,D12-04,D12-05,D12-06,D12-07,D12-10,D12-11
-STEP12_CURRENT_CORRECTION_ITEM = D12-03
-STEP12_VERIFIED_FIXED_DEFECTS = D12-01,D12-02,D12-08,D12-09,D12-12
-STEP13_BLOCKED_BY_STEP12_CORRECTION = true
-STEP12_CORRECTED_ACCEPTANCE = pending
-```
-
-Current correction authorities:
+Canonical reusable method:
 
 ```text
 ../../STEP_12_STRUCTURAL_ACTION_METHOD.md
-STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md
-STEP_12_CORRECTION_PLAN_2026-08-31.md
+```
+
+Canonical current-job authorities:
+
+```text
+STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv
+STEP_12_STRUCTURAL_UNITS_V5.tsv
+STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv
+STEP_12_PHRASE_ACTION_MAP_FINAL.tsv
+STEP_12_NEW_PAGE_EVIDENCE_V2.tsv
+STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv
+STEP_12_STEP13_CANDIDATE_PAIRS.tsv
+STEP_12_MATURITY_DEPENDENCY_LEDGER.tsv
+STEP_12_D12_14_TARGET_RESOLUTIONS.tsv
+STEP_12_QA_REVIEW_LEDGER.tsv
+STEP_12_QA_CHECKS.tsv
+STEP_12_QA_REVIEW_RESULTS.tsv
+STEP_12_SPLIT_MERGE_REGRESSION_RESULTS.tsv
+STEP_12_QA_FINDINGS.tsv
+STEP_12_QA.json
+STEP_12_REPORT.md
+STEP_12_FINAL_ACCEPTANCE_2026-08-31.md
 STEP_12_CORRECTION_DEFECT_LEDGER.tsv
 STEP_12_CORRECTION_CURRENT_STATE.json
 ```
 
-A defect is not closed because a new file exists. It is closed only after its corrective artifact is produced, its defect-specific verification passes, and GitHub readback confirms the saved result.
+Final corrected accounting:
 
-### Accepted correction block — semantic units / salvage
+```text
+TRACKED_DEFECTS_VERIFIED_FIXED = 15/15
+SOURCE_ACTIVE_PHRASES = 2332
+FINAL_PHRASE_ACTION_ROWS = 2332
+ASSIGNED = 2313
+SEARCH_REQUIRED = 19
+STRUCTURAL_UNITS = 160
+STRUCTURAL_ACTION_ROWS = 160
+UNIQUE_PROPOSED_NEW_PAGES = 5
+HIERARCHY_CANDIDATE_PAGES = 5/5
+CURRENT_DERIVED_STEP13_CANDIDATE_PAIRS = 189
+PAIRS_REQUIRING_FUTURE_DIRECT_STEP13_SEARCH = 171
+STEP13_DEPENDENCY_UNITS = 107
+INDEPENDENT_QA = 46/46 PASS
+INDEPENDENT_FINDINGS = 0
+MANUAL_REVIEW = 10/10 PASS
+SPLIT_MERGE_REGRESSION = 4/4 PASS
+UNSUPPORTED_SPLIT = 0
+UNSUPPORTED_MERGE = 0
+QA_SELF_ASSERTED_PASS_FIELDS = 0
+BLANK_IMPLEMENTABLE_TARGETS = 0
+STALE_HIERARCHY_REASONS = 0
+STEP13_EXECUTED = false
+```
 
-The semantic foundation correction has passed separate readback/acceptance for D12-01, D12-02, D12-08, D12-09 and D12-12 only. Accepted V4 keeps 2332/2332 phrases, 19 unresolved, materializes 191/191 old hidden overrides into explicit units, removes known mixed original units, and reviews all 481 historical NO_STANDALONE/OUTSIDE phrases. Step 12 remains incomplete because new-page evidence, confidence, hierarchy, Step-13 pair derivation and independent final QA are still open.
+The `189` pair count is current derived job truth, not a hard-coded gate. The independent verifier rebuilds the expected pair-key set from persisted routing inputs and compares missing/extra/duplicate pairs.
+
+Step 13 is now **NOT STARTED / NEXT ALLOWED**. No cannibalization verdict was made in Step 12. Step 13 remains methodologically `UNVALIDATED` and must pass its own pre-step research/review gate before execution.
 
 ---
 
@@ -486,8 +490,8 @@ The semantic foundation correction has passed separate readback/acceptance for D
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
 | **11. Page ownership** | **Map effective clusters and every active phrase to intended existing URL/state** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** |
-| **12. Structural actions** | **Decide what to keep, strengthen, add, create or deliberately not create** | **🔁 CORRECTION / EXTERNAL AUDIT FOUND MATERIAL DEFECTS** |
-| 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⛔ BLOCKED UNTIL STEP 12 CORRECTION PASSES |
+| **12. Structural actions** | **Decide what to keep, strengthen, add, create or deliberately not create** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + INDEPENDENT QA** |
+| 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED / NEXT ALLOWED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
 | 15. AI-case selection | Select high-information uncertain cases | ⬜ NOT STARTED |
 | 16. AI-search evidence | Gather selected Alice/GenSearch evidence | ⬜ NOT STARTED |
@@ -542,22 +546,23 @@ KW001_OKNO_MSK_STEP11_EFFECTIVE_SEARCH_REQUIRED = 19
 KW001_OKNO_MSK_STEP11_EFFECTIVE_ACTIVE_CLUSTERS = 75
 KW001_OKNO_MSK_STEP11_BRIDGE_CODEX_IMMEDIATE_PERSISTENCE_RULE_ACTIVE = true
 KW001_OKNO_MSK_STEP11_COMPLETE = true
-KW001_OKNO_MSK_NEXT_STEP_ALLOWED = false
+KW001_OKNO_MSK_NEXT_STEP_ALLOWED = true
 ```
 
-KW001_OKNO_MSK_STEP12_COMPLETE = false
-KW001_OKNO_MSK_STEP12_EFFECTIVE_CLUSTERS_ACCOUNTED = 75
-KW001_OKNO_MSK_STEP12_SEARCH_REQUIRED_PRESERVED = 19
-KW001_OKNO_MSK_STEP12_PHRASE_ACTION_MAP_ROWS = 2332
-KW001_OKNO_MSK_STEP12_NEW_COMMERCIAL_PAGES = 2
-KW001_OKNO_MSK_STEP12_NEW_INFORMATIONAL_PAGES = 3
-KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = PASS
-
-### Accepted correction block — new-page evidence
-
-D12-02 (reopened residual), D12-03 and D12-10 are VERIFIED_FIXED after V5/V2 evidence acceptance. Current open defects: D12-04, D12-05, D12-06, D12-07, D12-11. New pages are not all final: missing direct Search boundaries remain explicit provisional dependencies.
-
-```text
-STEP12_CURRENT_CORRECTION_ITEM = D12-04
-STEP12_OPEN_DEFECTS_CURRENT = D12-04,D12-05,D12-06,D12-07,D12-11
-```
+KW001_OKNO_MSK_STEP12_COMPLETE = true
+KW001_OKNO_MSK_STEP12_FINAL_PHRASE_ACTION_MAP_ROWS = 2332
+KW001_OKNO_MSK_STEP12_ASSIGNED = 2313
+KW001_OKNO_MSK_STEP12_SEARCH_REQUIRED = 19
+KW001_OKNO_MSK_STEP12_STRUCTURAL_UNITS = 160
+KW001_OKNO_MSK_STEP12_STRUCTURAL_ACTION_ROWS = 160
+KW001_OKNO_MSK_STEP12_UNIQUE_PROPOSED_NEW_PAGES = 5
+KW001_OKNO_MSK_STEP12_HIERARCHY_PAGES = 5
+KW001_OKNO_MSK_STEP12_CURRENT_DERIVED_PAIR_ROWS = 189
+KW001_OKNO_MSK_STEP12_FUTURE_STEP13_SEARCH_PAIR_ROWS = 171
+KW001_OKNO_MSK_STEP12_STEP13_DEPENDENCY_UNITS = 107
+KW001_OKNO_MSK_STEP12_INDEPENDENT_QA_CHECKS = 46
+KW001_OKNO_MSK_STEP12_INDEPENDENT_QA_FAILURES = 0
+KW001_OKNO_MSK_STEP12_ALL_DEFECTS_FIXED = true
+KW001_OKNO_MSK_STEP12_FINAL_GITHUB_READBACK = pending_final_closure_readback
+KW001_OKNO_MSK_STEP13_STATUS = NOT_STARTED_NEXT_ALLOWED
+KW001_OKNO_MSK_STEP13_EXECUTED = false

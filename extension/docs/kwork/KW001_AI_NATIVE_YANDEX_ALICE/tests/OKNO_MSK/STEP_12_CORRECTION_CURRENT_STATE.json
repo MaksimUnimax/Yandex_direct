@@ -1,20 +1,17 @@
 {
   "date": "2026-08-31",
   "step": 12,
-  "status": "CORRECTION_REQUIRED_AFTER_EXTERNAL_METHOD_AUDIT",
+  "status": "STEP12_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_FAIL_CLOSED_CORRECTION_AND_INDEPENDENT_QA",
   "historical_first_pass_preserved": true,
   "historical_first_pass_acceptance_withdrawn": true,
-  "step13_blocked": true,
-  "open_defects": [
-    "D12-14",
-    "D12-15",
-    "D12-05"
-  ],
+  "step13_blocked": false,
+  "open_defects": [],
   "verified_fixed_defects": [
     "D12-01",
     "D12-02",
     "D12-03",
     "D12-04",
+    "D12-05",
     "D12-06",
     "D12-07",
     "D12-08",
@@ -22,9 +19,11 @@
     "D12-10",
     "D12-11",
     "D12-12",
-    "D12-13"
+    "D12-13",
+    "D12-14",
+    "D12-15"
   ],
-  "current_correction_item": "D12-14",
+  "current_correction_item": null,
   "correction_order": [
     "D12-01",
     "D12-02",
@@ -47,5 +46,10 @@
   "canonical_external_audit": "STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md",
   "canonical_reusable_method": "../../STEP_12_STRUCTURAL_ACTION_METHOD.md",
   "rule": "A defect may move from open_defects to verified_fixed_defects only after the correction artifact exists, the defect-specific verification condition passes, and the saved result has been read back from GitHub.",
-  "next_action": "D12-14: resolve four implementable actions with blank primary targets from evidence, then D12-15 regenerate stale hierarchy confidence reasons, then rerun the same durable independent D12-05 QA. Step13 remains blocked and unexecuted."
+  "next_action": "Step 12 is complete. Step 13 is NOT STARTED. If the owner authorizes continuation, first run fresh Step-13 pre-step methodology research/review because Step 13 remains UNVALIDATED in STEP_RULES_INDEX.md.",
+  "step13_executed": false,
+  "step13_status": "NOT_STARTED_NEXT_ALLOWED",
+  "step12_complete": true,
+  "next_step_allowed": true,
+  "next_major_step": "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW"
 }

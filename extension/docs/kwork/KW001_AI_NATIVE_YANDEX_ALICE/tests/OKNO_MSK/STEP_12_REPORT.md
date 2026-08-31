@@ -1,138 +1,198 @@
 # Step 12 — Structural actions report
 
 Date: 2026-08-31
+Status: **PASS AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA**
 
-## Status
+## Executive result
 
-`PASS_AFTER_FULL_STRUCTURAL_ACTION_AUDIT`
+Step 12 is complete. The historical first-pass `PASS_AFTER_FULL_STRUCTURAL_ACTION_AUDIT` is preserved only as superseded provenance and is **not** the current acceptance authority.
 
-## Step goal
+The corrected final authority is based on explicit structural units, phrase-level materialization, evidence-derived confidence/maturity, implementable hierarchy, a deterministic Step-13 candidate-pair handoff, and independent QA that is computed from persisted source artifacts rather than self-asserted constants.
 
-Convert the corrected Step-11 phrase/page evidence into a concrete site-structure action for every effective assigned task without automatically creating pages, inventing products/services, diagnosing cannibalization or using AI evidence early.
+Step 13 is **NOT STARTED**. It is only the next allowed major step and still requires its own pre-step methodology research/review before execution.
 
-## Full roadmap
-
-| Stage | Plain-language meaning | Status |
-|---|---|---|
-| 0 | Freeze what the client asked for | ✅ COMPLETE |
-| 1 | Understand the site and what it sells/explains | ✅ COMPLETE |
-| 2 | Plan how to collect real search demand | ✅ COMPLETE |
-| 3/3R | Collect and repair the first demand dataset | ✅ COMPLETE / historical first pass superseded |
-| 4 | Roughly separate useful directions from noise | ✅ COMPLETE |
-| 5 | Collect missing demand directions | ✅ COMPLETE |
-| 6/6A | Check seasonality and whether collection is sufficient | ✅ COMPLETE |
-| 7 | Clean individual search phrases | ✅ COMPLETE AFTER CORRECTION |
-| 8 | Freeze the set that goes into Search analysis | ✅ COMPLETE AFTER CORRECTION |
-| 9 | Check selected phrases in ordinary Yandex Search | ✅ COMPLETE AFTER CORRECTIONS |
-| 10 | Group phrases by the real task a person wants to solve | ✅ COMPLETE |
-| 11 | Decide which existing page should answer each task and materialize every phrase | ✅ COMPLETE AFTER CORRECTION |
-| 12 | Decide what pages to keep, strengthen, add, create or deliberately not create | ✅ COMPLETE / PASS AFTER FULL STRUCTURAL ACTION AUDIT |
-| 13 | Check whether similar pages actually compete with each other in Search | ⬜ NOT STARTED |
-| 14 | Freeze the classic-Search site structure | ⬜ NOT STARTED |
-| 15 | Choose the cases where AI search can add useful evidence | ⬜ NOT STARTED |
-| 16 | Collect selected AI-search evidence | ⬜ NOT STARTED |
-| 17 | Compare ordinary Search and AI-search behaviour | ⬜ NOT STARTED |
-| 18 | Decide what should be implemented first | ⬜ NOT STARTED |
-| 19 | Build client-ready files | ⬜ NOT STARTED |
-| 20 | Check the final work for contradictions and missing items | ⬜ NOT STARTED |
-| 21 | Deliver and handle allowed revisions | ⬜ NOT STARTED |
-| 22 | Close the job cleanly | ⬜ NOT STARTED |
-
-
-## Accounting
+## Final accounting
 
 ```text
 SOURCE_ACTIVE_PHRASES = 2332
-ASSIGNED_PHRASES = 2313
-SEARCH_REQUIRED = 19
-ASSIGNED_CLUSTERS = 75/75
-PHRASE_ACTION_MAP_ROWS = 2332
-PHRASE_ROUTING_OVERRIDES_TO_KNOWN_EXISTING_CHILD/UTILITY_PAGES = 191
-PAGE_ROLLUP_ROWS = 55
-NEW_BRIDGE_REQUESTS = 0
-NEW_BRIDGE_COST_RUB = 0.0
-FINAL_GITHUB_READBACK = PASS
+FINAL_PHRASE_ACTION_MAP_ROWS = 2332
+ASSIGNED_TO_STRUCTURAL_UNITS = 2313
+SEARCH_REQUIRED / DEFER_UNRESOLVED = 19
+FINAL_STRUCTURAL_UNITS = 160
+FINAL_STRUCTURAL_ACTION_ROWS = 160
+UNIQUE_PROPOSED_NEW_PAGES = 5
+HIERARCHY_CANDIDATE_PAGES_MATERIALIZED = 5/5
+CURRENT_DERIVED_STEP13_CANDIDATE_PAIRS = 189
+PAIRS_REQUIRING_FUTURE_DIRECT_STEP13_SEARCH_CHECK = 171
+STRUCTURAL_UNITS_WITH_STEP13_DEPENDENCY = 107
+INDEPENDENT_QA_CHECKS = 46/46 PASS
+INDEPENDENT_QA_FINDINGS = 0
+MANUAL_SEMANTIC_REVIEW_CASES = 10/10 PASS
+SPLIT_MERGE_REGRESSION_CASES = 4/4 PASS
+ACTUAL_SPLIT_ROWS = 0
+ACTUAL_MERGE_ROWS = 0
+UNSUPPORTED_SPLIT_ROWS = 0
+UNSUPPORTED_MERGE_ROWS = 0
+QA_SELF_ASSERTED_PASS_FIELDS = 0
+IMPLEMENTABLE_ACTIONS_WITH_BLANK_PRIMARY_TARGET = 0
+STALE_MATERIALIZED_HIERARCHY_REASONS = 0
+STEP13_EXECUTED = false
+NEW_BRIDGE_REQUESTS_DURING_FINAL_CORRECTION = 0
+NEW_BRIDGE_COST_RUB_DURING_FINAL_CORRECTION = 0.0
 ```
 
-Cluster-level action counts:
+The current `189` pair count is a **derived property of this corrected routing graph**, not a hard-coded target or reusable threshold. Independent QA rebuilds the expected pair universe from V1 routing inputs and hierarchy edges and checks missing/extra/duplicate pairs.
+
+## Why the historical Step-12 pass was withdrawn
+
+The first pass produced useful broad structural ideas but overclaimed certainty. The external audit and fail-closed correction sequence identified fifteen tracked defects (`D12-01` through `D12-15`). All are now `VERIFIED_FIXED` in `STEP_12_CORRECTION_DEFECT_LEDGER.tsv`.
+
+The most important corrected failure classes were:
+
+- hidden lexical routing overrides instead of explicit user-task structural units;
+- mixed semantic units surviving a phrase-list review;
+- new-page recommendations without a dedicated demand/Search evidence matrix;
+- default HIGH confidence;
+- QA that self-certified desired constants and incorrectly treated all SPLIT/MERGE as errors;
+- manually selected Step-13 follow-up instead of a complete derived routing graph;
+- incomplete new-page hierarchy;
+- useful phrases stranded inside rejected/no-page/outside groups;
+- phrase count used as a demand proxy;
+- Step-13 dependencies hidden behind final-looking recommendations;
+- new-page action targets disconnected from the canonical proposed page;
+- implementable actions with no primary target;
+- stale confidence explanations after hierarchy was already materialized.
+
+Several correction workflows intentionally failed before persistence or before acceptance. Those failures were not bypassed; they exposed the next inconsistency and the method was corrected before rerun.
+
+## Final structural action model
+
+The final action table is `STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv`. Every row exposes explicit evidence dimensions, current hierarchy state, recommendation maturity, confidence, and any derived Step-13 dependency.
+
+Current action counts by structural unit:
 
 ```text
-ADD_SECTION_OR_FAQ_TO_EXISTING = 9
-EXPAND_EXISTING_PAGE = 8
-KEEP_EXISTING_STRUCTURE = 29
-NEW_COMMERCIAL_PAGE = 2
-NEW_INFORMATIONAL_PAGE = 3
-NO_STANDALONE_PAGE = 18
-OUTSIDE_SCOPE_NO_ACTION = 6
+{
+  "ADD_SECTION_OR_FAQ_TO_EXISTING": 8,
+  "DEFER_PENDING_EVIDENCE": 10,
+  "EXPAND_EXISTING_PAGE": 12,
+  "INCLUDE_AS_SECTION_IN_PROPOSED_PAGE": 5,
+  "KEEP_EXISTING_STRUCTURE": 55,
+  "NEW_COMMERCIAL_PAGE": 2,
+  "NEW_INFORMATIONAL_PAGE": 4,
+  "NO_STANDALONE_PAGE": 13,
+  "OUTSIDE_SCOPE_NO_ACTION": 7,
+  "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": 44
+}
 ```
 
-## New pages justified now
+Current confidence distribution:
 
-- `PANORAMIC_WINDOWS_COMMERCIAL` → **PROPOSED_NEW:/panoramnye-okna/** — Panoramic windows are a large, stable commercial task across house/terrace/general purchase queries, and no general commercial panoramic owner exists. Create one useful broad commercial page that explains product options, materials, opening, sizing, price factors and routes object-specific balcony/veranda cases to their pages.
-- `WINDOW_HARDWARE_INFO` → **PROPOSED_NEW:/stati/okonnaya-furnitura-vidy-brendy-kak-vybrat/** — Create one substantial guide to window hardware: what it is, types, major brands, how to choose, compare, maintain and lubricate it. The 41-phrase set represents a stable explanatory/selection task and no broad owner exists.
-- `WINDOW_INSTALLATION_DIY_INFO` → **PROPOSED_NEW:/stati/ustanovka-plastikovyh-okon-svoimi-rukami/** — Create a comprehensive DIY installation guide covering preparation, gaps, dismantling, fixing, sealing, common errors and when professional installation is safer. The 36 phrases form a stable standalone how-to task.
-- `WINDOW_REPAIR_DIY_INFO` → **PROPOSED_NEW:/stati/remont-i-regulirovka-plastikovyh-okon-svoimi-rukami/** — Create a comprehensive DIY diagnostics/adjustment/repair guide for common PVC-window problems. The set has a stable self-help task and no broad current owner.
-- `WINDOW_REPLACEMENT_SERVICE` → **PROPOSED_NEW:/uslugi/zamena-okon/** — Replacement is a distinct end-to-end service task: remove old window, prepare opening, install new window and finish/hand over. The current installation page covers parts of this workflow but has no replacement-specific landing.
+```text
+{
+  "HIGH": 29,
+  "LOW": 12,
+  "MEDIUM": 119
+}
+```
 
-No page was created merely because Step 11 had `NO_SUITABLE_EXISTING_PAGE`; each new-page row has a distinct task and explicit useful-content rationale.
+Current maturity distribution:
 
-## Existing structure discovered during full phrase review
+```text
+{
+  "DEFERRED_PENDING_MISSING_EVIDENCE": 12,
+  "FINAL_WITHIN_STEP12_EVIDENCE": 43,
+  "PROVISIONAL_PENDING_STEP13_CONFLICT_CHECK": 105
+}
+```
 
-Step 12 does not blindly inherit the broad Step-11 owner when a more specific **already existing and previously read** child/utility page clearly matches the phrase. The phrase-level map therefore routes supported subsets to current pages such as credit/instalments, calculator, private-house windows, P-44, aluminium sliding/hinged, panoramic balcony, warm/cold veranda, PVC-door subtypes, REHAU model pages and specific accessory pages.
+A Step-13 dependency cannot remain `HIGH` or `FINAL_WITHIN_STEP12_EVIDENCE`. Independent QA found both contradiction counts equal to zero.
 
-This is a structural routing refinement based only on already persisted first-party discovery evidence; it does not claim those URLs are proven Yandex ranking URLs.
+## Proposed new-page concepts
 
-## Deliberately no standalone page
+The correction preserves five unique proposed page concepts, but Step 12 does **not** pretend that all five are final architecture. Their current evidence/gap state remains explicit:
 
-- `BALCONY_GLAZING_PROVIDER_REVIEWS_INFO` — A first-party seller cannot truthfully become a neutral ranking/review page for competing balcony-glazing providers; no standalone target should be created for this generic reputation task.
-- `GLAZING_DIY_INFO` — The small set mixes balcony and veranda DIY and different technologies; one generic DIY-glazing page would be too broad and thin. Specific DIY guidance can be attached to the relevant object pages or future coherent guides.
-- `GLAZING_PERMISSION_INFO` — The phrases mix balcony permission, French-window redevelopment, boiler-room window requirements and hardware standards; they do not form one useful standalone legal page.
-- `MOSQUITO_NET_REPAIR_SERVICE` — Repair of mosquito nets is not verified as a current offered service; do not create a commercial repair page from demand alone.
-- `OPEN_BALCONY_FINISHING` — The current site explicitly does not offer interior balcony finishing without glazing; creating a landing would contradict the public offer.
-- `OUTDOOR_GLAZING_REVIEWS_INFO` — One generic veranda-glazing review query does not justify a standalone first-party review page.
-- `OUTDOOR_GLAZING_SPECIALIZED_INFO` — Frameless glazing, liquid glass and polycarbonate thickness are different techniques/material questions; the three phrases do not support one coherent standalone document.
-- `PVC_DOOR_REPAIR_SERVICE` — PVC-door repair is not verified as a current offered service; do not publish a service landing based only on query demand.
-- `PVC_DOOR_REPLACEMENT_SERVICE` — PVC-door replacement is not verified as a standalone current service; three phrases alone do not override that business-evidence gap.
-- `ROOF_WINDOWS_COMMERCIAL` — Mansard/roof-window product availability is not verified on the site; do not create a commercial page from two phrases.
-- `SOFT_WINDOWS_COMMERCIAL` — Soft/flexible-window product availability is not verified and the only phrase is ambiguous; no standalone commercial page.
-- `TIMBER_ALUMINIUM_WINDOWS_COMMERCIAL` — Timber-aluminium products are not verified as part of the current offer; do not create a commercial family page until the product is confirmed.
-- `WINDOWSILL_REPAIR_SERVICE` — Repair/restoration of windowsills is not verified as a standalone offered service; current assets cover sills and finishing but not this exact service.
-- `WINDOW_HARDWARE_SHOPPING` — The cluster is a broad aftermarket/third-party hardware catalog task; the target site is not verified as a general parts marketplace. Do not create a massive hardware-store landing.
-- `WINDOW_PRODUCT_REVIEWS_INFO` — Generic product/model reviews and ratings are not one truthful first-party review asset. Do not create a page that pretends neutral third-party review coverage; rating-only phrases can route to the existing comparison article.
-- `WINDOW_PRODUCT_VIDEO_INFO` — Two generic “video” phrases do not justify a standalone page; useful videos should live on the relevant PVC/aluminium product pages or portfolio.
-- `WINDOW_PROVIDER_REVIEWS_INFO` — Generic ratings/reviews of installers and repair providers require neutral comparative evidence; a first-party company site should not create a self-authored ranking page.
-- `WOOD_WINDOWS_COMMERCIAL` — Wooden-window products are not verified as a current offer and the five phrases are partly mixed with plastic windows in wooden houses; no standalone wooden-window commercial page.
+- `PANORAMIC_WINDOWS_COMMERCIAL` → `PROPOSED_NEW:/panoramnye-okna/` — evidence maturity `PROVISIONAL_PENDING_SEARCH_BOUNDARY`; Search boundary: `MATERIAL_SEARCH_PAGE_BOUNDARY_NOT_DIRECTLY_PROBED`.
+- `WINDOW_HARDWARE_GUIDE` → `PROPOSED_NEW:/stati/okonnaya-furnitura-vidy-brendy-kak-vybrat/` — evidence maturity `PROVISIONAL_PENDING_SEARCH_BOUNDARY`; Search boundary: `MATERIAL_SEARCH_PAGE_BOUNDARY_NOT_DIRECTLY_PROBED`.
+- `PVC_WINDOW_INSTALLATION_DIY_GUIDE` → `PROPOSED_NEW:/stati/ustanovka-plastikovyh-okon-svoimi-rukami/` — evidence maturity `EVIDENCE_SUPPORTED_PENDING_ACTION_REEVALUATION`; Search boundary: `NO_GAP_FOR_OBSERVED_CORE_QUERIES__DO_NOT_TRANSFER_TO_UNPROBED_PHRASES`.
+- `PVC_WINDOW_REPAIR_DIY_GUIDE` → `PROPOSED_NEW:/stati/remont-i-regulirovka-plastikovyh-okon-svoimi-rukami/` — evidence maturity `PROVISIONAL_PENDING_SEARCH_BOUNDARY`; Search boundary: `MATERIAL_SEARCH_PAGE_BOUNDARY_NOT_DIRECTLY_PROBED`.
+- `WINDOW_REPLACEMENT_SERVICE` → `PROPOSED_NEW:/uslugi/zamena-okon/` — evidence maturity `PROVISIONAL_PENDING_SEARCH_BOUNDARY`; Search boundary: `MATERIAL_SEARCH_PAGE_BOUNDARY_NOT_DIRECTLY_PROBED`.
 
-## Step-13 handoff
+The hierarchy plan materializes parent/navigation placement plus mandatory inbound/outbound routes for all five. A good hierarchy does not erase a Search/business boundary gap.
 
-The following structural areas require later Search-conflict checking, but **no cannibalization verdict is made here**:
+## D12-14 — four missing-target actions resolved from evidence
 
-- `ALUMINIUM_WINDOWS_COMMERCIAL` — https://okno-msk.ru/alyuminievye-okna/
-- `BALCONY_GLAZING_GENERAL` — https://okno-msk.ru/balkony-i-lodzhii/
-- `OUTDOOR_STRUCTURE_GLAZING` — https://okno-msk.ru/verandy/
-- `PANORAMIC_WINDOWS_COMMERCIAL` — PROPOSED_NEW:/panoramnye-okna/
-- `PVC_WINDOWS_COMMERCIAL` — https://okno-msk.ru/okna-rehau/
-- `REHAU_WINDOWS_COMMERCIAL` — https://okno-msk.ru/okna-rehau/
-- `WINDOWS_COMMERCIAL_GENERAL` — https://okno-msk.ru/
-- `WINDOW_REPLACEMENT_SERVICE` — PROPOSED_NEW:/uslugi/zamena-okon/
-- `WINDOW_SELECTION_INFO` — https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/
+The first independent D12-05 audit found four implementable actions with blank primary targets. They were not repaired by copying the nearest supporting URL. A dedicated phrase/page evidence packet was built first, then each case was resolved:
 
-`SPLIT_EXISTING_PAGE = 0` and `MERGE_STRUCTURALLY_REDUNDANT_PAGES = 0` at this step because current evidence did not justify a structural split/merge without relying on the search-conflict question reserved for Step 13. Empty action categories are accepted; they are not populated for symmetry.
+- `PVC_DOOR_INSTALLATION_SERVICE` → `ADD_SECTION_OR_FAQ_TO_EXISTING` → `https://okno-msk.ru/dveri-rehau/`. No standalone PVC-door-installation owner is verified, but Step11 explicitly records that current door pages bundle installation with product purchase. The implementable recommendation is therefore a clear installation/price section or FAQ on the existing door hub, not a new service landing.
+- `PVC_WINDOW_OPERATION_DIY` → `INCLUDE_AS_SECTION_IN_PROPOSED_PAGE` → `PROPOSED_NEW:/stati/remont-i-regulirovka-plastikovyh-okon-svoimi-rukami/`. The single operation question “как открыть пластиковое окно” is adjacent to troubleshooting but Step11 found no current owner. It belongs as a narrow section in the already evidenced DIY repair/adjustment guide; the professional repair page is supporting/fallback, not the primary informational answer.
+- `REHAU_OTHER_BRAND_COMPARISON_INFO` → `DEFER_PENDING_EVIDENCE` → `NO TARGET / DEFERRED`. Step11 explicitly says no current KBE/Melke-vs-Rehau owner was verified and not to force these queries onto the generic Rehau hub. With zero direct Step09 member queries, neither an existing-section target nor a new standalone comparison page is evidence-backed yet.
+- `WINDOW_DEMOLITION_SERVICE` → `ADD_SECTION_OR_FAQ_TO_EXISTING` → `https://okno-msk.ru/uslugi/ustanovka-okon/`. Step11 explicitly records demolition as a sub-step of installation rather than a standalone service owner. The installation service page is therefore the truthful implementation destination for dismantling/demolition scope and price/process explanation.
 
-## Search-required handoff
+The notable deliberate non-target is `REHAU_OTHER_BRAND_COMPARISON_INFO`: because Step 11 explicitly warned not to force KBE/Melke-vs-Rehau queries onto the generic Rehau hub and there was no direct Step-9 member evidence, the action is `DEFER_PENDING_EVIDENCE`, blank target, LOW confidence.
 
-All 19 unresolved phrases remain `DEFER_UNRESOLVED` with no page action.
+## D12-15 — confidence explanations regenerated from current state
 
-## ПРОСТЫМИ СЛОВАМИ — ИТОГ
+After hierarchy and pair/dependency overlays, the human-readable confidence reason is regenerated from the **current** evidence dimensions for all 160 rows. Resolved hierarchy is no longer listed as a missing condition. Real Search, business-truth or Step-13 uncertainty remains visible where applicable.
 
-### Зачем делали этот шаг
+Independent QA result: `stale_materialized_hierarchy_reason_rows = 0`.
 
-Чтобы превратить список поисковых фраз и страниц в **понятный план того, что менять на сайте**, а не просто собирать данные.
+## D12-05 — independent QA and correct SPLIT/MERGE semantics
 
-### Что фактически сделали
+The canonical QA is no longer the builder's own declaration. `step12_independent_final_qa.py` independently recomputes material properties from persisted source artifacts. Every check records one allowed evidence origin:
 
-Для каждой темы просмотрели все относящиеся к ней фразы и решили: оставить нынешнюю страницу, усилить её, добавить нужный блок, сделать действительно новую страницу или сознательно не создавать страницу. Там, где на сайте уже есть более точная страница — например про рассрочку, конкретный тип двери или конкретную модель окна — фразы направлены туда, а не в слишком общую страницу.
+```text
+COMPUTED_FROM_DATA
+VERIFIED_FROM_PROVENANCE
+MANUAL_REVIEW_LEDGER
+```
 
-### Что получили и что это даёт дальше
+The four explicit SPLIT/MERGE controls prove both sides of the rule:
 
-Получили полный черновик карты изменений сайта: какие нынешние страницы сохраняем, что в них дополняем, какие новые страницы действительно оправданы и какие идеи отвергаем. Следующий шаг будет отдельно проверять, не мешают ли похожие страницы друг другу в поиске; на этом шаге такой вывод специально не делался.
+- a supported independent logical split must pass;
+- a modifier-only split must fail;
+- a same-task structurally redundant merge with evidence must pass;
+- a merge justified only by suspected cannibalization must fail.
+
+Therefore QA counts **unsupported** SPLIT/MERGE actions, not all SPLIT/MERGE actions. In this current job there are no final SPLIT/MERGE actions, and unsupported counts are `0/0`; the positive controls prove that zero is not forced by the evaluator.
+
+The pair-universe QA was also corrected from a historical literal count to dynamic set recomputation. Structured JSON readback is parsed as JSON rather than validated by grep-count heuristics. Diagnostics are persisted before the final gate, so a failed run cannot erase the evidence that explains the failure.
+
+## Step-13 handoff — candidate universe only
+
+`STEP_12_STEP13_CANDIDATE_PAIRS.tsv` currently contains `189` derived page pairs. `171` require a future direct Step-13 Search check under the current derivation rules, and `107` structural units visibly carry a Step-13 dependency.
+
+These are **candidate overlap/conflict checks, not cannibalization verdicts**. The pair ledger contains no harmful-cannibalization verdict column/cell and no `STEP_13_*` execution artifact exists in the job workspace.
+
+## Canonical final artifacts
+
+```text
+STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V5.tsv
+STEP_12_STRUCTURAL_UNITS_V5.tsv
+STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv
+STEP_12_PHRASE_ACTION_MAP_FINAL.tsv
+STEP_12_NEW_PAGE_EVIDENCE_V2.tsv
+STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv
+STEP_12_STEP13_CANDIDATE_PAIRS.tsv
+STEP_12_MATURITY_DEPENDENCY_LEDGER.tsv
+STEP_12_D12_14_TARGET_RESOLUTIONS.tsv
+STEP_12_QA_REVIEW_LEDGER.tsv
+STEP_12_QA_CHECKS.tsv
+STEP_12_QA_REVIEW_RESULTS.tsv
+STEP_12_SPLIT_MERGE_REGRESSION_RESULTS.tsv
+STEP_12_QA_FINDINGS.tsv
+STEP_12_QA.json
+STEP_12_REPORT.md
+STEP_12_CORRECTION_DEFECT_LEDGER.tsv
+STEP_12_CORRECTION_CURRENT_STATE.json
+```
+
+Historical first-pass artifacts remain for provenance but are superseded where they conflict with these corrected authorities.
+
+## Plain-language result
+
+Step 12 now answers the practical website question without pretending uncertainty has disappeared: which existing page should remain or receive more content, where a new page is justified as a candidate, which ideas should not become standalone URLs, and which unresolved tasks must wait for more evidence.
+
+The correction also changes how trustworthy the output is. Every active phrase is carried through to a final action/unresolved state, page actions have destinations, new pages have a real place in the site, confidence describes current evidence rather than a default, and the next-step overlap universe is generated from the actual routing graph rather than analyst memory.
+
+**Step 12 is complete. Step 13 has not been started.**

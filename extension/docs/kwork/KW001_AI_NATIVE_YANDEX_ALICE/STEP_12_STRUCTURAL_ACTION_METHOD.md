@@ -1,6 +1,6 @@
 # Step 12 — Structural action method
 
-Status: **CORRECTION REQUIRED / OWNER-AUTHORIZED METHOD REWRITE IN PROGRESS**  
+Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA**  
 Scope: reusable Step-12 method for deciding what an existing site should keep, strengthen, add, create, split, merge or deliberately not create after phrase-level page ownership has been established.  
 Step boundary: structural recommendations only. Real cannibalization diagnosis belongs to Step 13; final Search architecture freeze belongs to Step 14.
 
@@ -789,10 +789,109 @@ If an evidence gap prevents a material structural boundary from being resolved, 
 
 **How the corrected work should feel:** first understand what people actually mean, then confirm the business really serves that need, then look at the current pages and real search demand, compare the possible website changes, and only after that choose the action. Finally, a separate check tries to find mistakes instead of proving that the chosen answer is correct.
 
+
+---
+
+# 12. Post-audit defects discovered by fail-closed correction — permanent non-repeat controls
+
+The correction itself exposed additional reusable failure classes after the original external audit. They are part of the final approved Step-12 method because they concern structural integrity and QA mechanics, not one site's vocabulary.
+
+## A. NEW_* action target must be the canonical proposed page
+
+A structural action can change from "best current fallback" to `NEW_COMMERCIAL_PAGE` / `NEW_INFORMATIONAL_PAGE`. When that happens, the primary target must also change to the canonical proposed page. The old current page may remain only as a supporting/current-alternative route.
+
+```text
+NEW_PAGE_ACTION
+→ CANONICAL_PROPOSED_PRIMARY_TARGET
+→ HIERARCHY_OWNER_EXISTS
+
+NEW_PAGE_ACTION
+!= EXISTING_FALLBACK_AS_PRIMARY_TARGET
+```
+
+Why: otherwise the action label, implementation target and hierarchy describe different pages and downstream graph derivation becomes incomplete.
+
+## B. Implementable page actions require a reviewed primary destination
+
+Any action that tells the implementer to keep, expand, add a section, route a subtask, create a page, or include content in a proposed page must identify the primary destination.
+
+```text
+IMPLEMENTABLE_PAGE_ACTION
+→ NON_EMPTY_REVIEWED_PRIMARY_TARGET
+```
+
+A blank target is not repaired by copying a supporting page or the lexically nearest URL. Re-evaluate exact phrases and page-fit evidence. If no truthful owner exists, change the action to an explicit deferred/no-standalone state instead of inventing a destination.
+
+## C. Human-readable confidence reasons must be regenerated after evidence-state overlays
+
+Hierarchy, Search-boundary state and downstream dependency can change after an initial confidence pass. When structured evidence fields change, the explanation must be regenerated from the **current** state.
+
+```text
+CURRENT_EVIDENCE_DIMENSIONS
+→ CURRENT_MATURITY
+→ CURRENT_CONFIDENCE
+→ CURRENT_CONFIDENCE_REASON
+```
+
+Resolved evidence must not remain in the downgrade reason. Removing stale wording must not silently strengthen confidence when a real Search/business/Step-13 dependency remains.
+
+## D. QA must use the correct unit of analysis
+
+A QA metric must measure the property it names. Examples of prohibited shortcuts:
+
+```text
+UNIQUE_PAGES_CHECKED_BY_COUNTING_OWNER_ROWS
+STRUCTURED_JSON_VALIDATED_BY_LITERAL_GREP_OCCURRENCE_COUNT
+PAIR_UNIVERSE_VALIDATED_BY_HISTORICAL_LITERAL_PAIR_COUNT
+```
+
+Correct controls:
+
+```text
+UNIQUE PAGE PROPERTY → UNIQUE NORMALIZED PAGE SET
+STRUCTURED STATE → PARSE STRUCTURE AND ASSERT FIELDS
+PAIR UNIVERSE → INDEPENDENTLY RECOMPUTE EXPECTED SET AND COMPARE MISSING/EXTRA/DUPLICATE
+```
+
+## E. Persist diagnostics before the final PASS/FAIL gate
+
+A failed validator is often the most useful evidence in the correction loop. Therefore diagnostic artifacts must be saved/read back before the workflow exits on the final acceptance gate when doing so is safe and does not falsely mark acceptance.
+
+```text
+RUN INDEPENDENT QA
+→ SAVE DIAGNOSTIC ARTIFACTS
+→ GITHUB READBACK / STRUCTURED PARSE
+→ THEN FINAL PASS/FAIL GATE
+```
+
+Why: a failure reason that exists only in transient logs/chat can be lost and force paid or analyst work to be repeated.
+
+## F. SPLIT/MERGE QA validates evidence, not action-name presence
+
+The evaluator must be able to accept a supported SPLIT/MERGE and reject an unsupported one. A current job having zero such final actions does not prove the evaluator works. Positive and negative regression controls are required when this failure class is material.
+
+---
+
+# 13. Final reusable Step-12 pass meaning
+
+`STEP12_COMPLETE` means all required structural outputs are durably materialized and independently checked **within Step-12 evidence**. It does not mean Step 13 has validated overlap/cannibalization or Step 14 has frozen final Search architecture.
+
+Canonical boundary:
+
+```text
+STEP12_COMPLETE
+→ STEP13_MAY_BECOME_NEXT_ALLOWED
+
+STEP12_COMPLETE
+!= STEP13_EXECUTED
+!= CANNIBALIZATION_PROVEN
+!= SEARCH_ARCHITECTURE_FROZEN
+```
+
 Markers:
 
 ```text
-KW001_STEP12_CAUSAL_METHOD_REWRITE_ACTIVE = true
+KW001_STEP12_CAUSAL_METHOD_REWRITE_ACTIVE = false
 KW001_STEP12_FIRST_PASS_SHORTCUTS_DOCUMENTED = true
 KW001_STEP12_HIDDEN_LEXICAL_OVERRIDES_FORBIDDEN = true
 KW001_STEP12_STRUCTURAL_UNITS_REQUIRED = true
@@ -803,5 +902,10 @@ KW001_STEP12_SPLIT_MERGE_MUST_BE_EVIDENCE_VALIDATED_NOT_ZERO_FORCED = true
 KW001_STEP12_NO_STANDALONE_PAGE_REQUIRES_SUBTASK_ROUTING = true
 KW001_STEP12_HIERARCHY_PLAN_REQUIRED_FOR_NEW_PAGES = true
 KW001_STEP12_STEP13_CANDIDATE_UNIVERSE_MUST_BE_DERIVED = true
-KW001_STEP12_FINAL_ACCEPTANCE_PENDING_CORRECTION = true
+KW001_STEP12_FINAL_ACCEPTANCE_PENDING_CORRECTION = false
+KW001_STEP12_METHOD_APPROVED_AFTER_INDEPENDENT_QA = true
+KW001_STEP12_DIAGNOSTICS_PERSIST_BEFORE_FINAL_GATE = true
+KW001_STEP12_DYNAMIC_PAIR_UNIVERSE_QA_REQUIRED = true
+KW001_STEP12_IMPLEMENTABLE_ACTION_REQUIRES_PRIMARY_TARGET = true
+KW001_STEP12_CONFIDENCE_REASON_MUST_MATCH_CURRENT_STATE = true
 ```

@@ -11,11 +11,11 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_12_CORRECTION_AFTER_EXTERNAL_METHOD_AUDIT
-next_major_step = STEP_12_CORRECTION_EXECUTION_D12_04
+current_major_step = STEP_12_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_INDEPENDENT_QA
+next_major_step = STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
 job_work_complete = false
 final_handoff_complete = false
-revision_rework_open = true
+revision_rework_open = false
 provider_operator_action_pending = false
 safe_to_delete = false
 ```
@@ -82,6 +82,18 @@ STEP_12_STRUCTURAL_UNITS_V5.tsv
 STEP_12_NEW_PAGE_EVIDENCE_V2.tsv
 STEP_12_NEW_PAGE_DEMAND_PHRASE_EVIDENCE_V2.tsv
 STEP_12_NEW_PAGE_EVIDENCE_ACCEPTANCE_2026-08-31.md
+STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V2.tsv
+STEP_12_PHRASE_ACTION_MAP_FINAL.tsv
+STEP_12_NEW_PAGE_HIERARCHY_PLAN.tsv
+STEP_12_STEP13_CANDIDATE_PAIRS.tsv
+STEP_12_MATURITY_DEPENDENCY_LEDGER.tsv
+STEP_12_D12_14_TARGET_RESOLUTIONS.tsv
+STEP_12_QA_REVIEW_LEDGER.tsv
+STEP_12_QA_CHECKS.tsv
+STEP_12_QA_REVIEW_RESULTS.tsv
+STEP_12_SPLIT_MERGE_REGRESSION_RESULTS.tsv
+STEP_12_QA_FINDINGS.tsv
+STEP_12_FINAL_ACCEPTANCE_2026-08-31.md
 ```
 
 Where older Step-09 planning state conflicts with the final reconciliation/acceptance or later correction authorities, the later authority wins.
@@ -322,7 +334,34 @@ The historical Step-10 artifacts remain immutable evidence of what was originall
 
 The corrected Step-11 method permanently requires every Bridge/Codex acquisition result to be saved to GitHub and read back before the next acquisition interaction. It also makes the complete phrase-level map a blocking completion requirement.
 
-Step 12 has **not** started. Its methodology remains separately gated by `STEP_RULES_INDEX.md` and the normal pre-step review process.
+## Current accepted major step — Step 12 structural actions
+
+Status: **COMPLETE AFTER EXTERNAL METHOD AUDIT + FAIL-CLOSED CORRECTIONS + INDEPENDENT QA**
+
+```text
+STEP_12_TRACKED_DEFECTS_FIXED = 15/15
+STEP_12_SOURCE_ACTIVE_PHRASES = 2332
+STEP_12_FINAL_PHRASE_ACTION_ROWS = 2332
+STEP_12_ASSIGNED = 2313
+STEP_12_SEARCH_REQUIRED = 19
+STEP_12_STRUCTURAL_UNITS = 160
+STEP_12_STRUCTURAL_ACTION_ROWS = 160
+STEP_12_UNIQUE_PROPOSED_NEW_PAGES = 5
+STEP_12_HIERARCHY_PAGES = 5/5
+STEP_12_CURRENT_DERIVED_PAIR_ROWS = 189
+STEP_12_FUTURE_DIRECT_STEP13_SEARCH_PAIR_ROWS = 171
+STEP_12_STEP13_DEPENDENCY_UNITS = 107
+STEP_12_INDEPENDENT_QA = 46/46 PASS
+STEP_12_FINDINGS = 0
+STEP_12_UNSUPPORTED_SPLIT = 0
+STEP_12_UNSUPPORTED_MERGE = 0
+STEP_12_SELF_ASSERTED_QA_FIELDS = 0
+STEP_12_COMPLETE = true
+STEP_13_STATUS = NOT_STARTED_NEXT_ALLOWED
+STEP_13_EXECUTED = false
+```
+
+The current pair count is derived dynamically from the corrected routing graph and is not a universal threshold. Step 13 remains unexecuted and requires its own pre-step methodology research/review before any diagnosis.
 
 ## Remaining roadmap
 
@@ -346,7 +385,7 @@ Still false:
 FINAL_SEMANTIC_SET_COMPLETE = false
 USER_TASK_SERP_CLUSTERING_COMPLETE = true
 PAGE_OWNERSHIP_COMPLETE = true
-STRUCTURAL_ACTIONS_COMPLETE = false
+STRUCTURAL_ACTIONS_COMPLETE = true
 SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
 AI_EVIDENCE_COMPLETE = false
 CLIENT_DELIVERABLES_COMPLETE = false
