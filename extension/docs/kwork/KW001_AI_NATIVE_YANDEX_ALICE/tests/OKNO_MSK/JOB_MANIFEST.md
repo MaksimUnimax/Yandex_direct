@@ -1,6 +1,6 @@
 # KW-001 / OKNO-MSK — JOB MANIFEST
 
-Date updated: 2026-08-29
+Date updated: 2026-08-31
 Workspace status: **ACTIVE / DISPOSABLE / JOB-SPECIFIC ONLY / LEGACY PATH**
 
 ```text
@@ -11,8 +11,8 @@ canonical_future_workspace_path = extension/docs/kwork/KW001_AI_NATIVE_YANDEX_AL
 workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
-current_major_step = STEP_10_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
-next_major_step = STEP_10_USER_TASK_SERP_CLUSTERING_EXECUTION_AFTER_METHOD_GATE
+current_major_step = STEP_11_COMPLETE_AFTER_EXTERNAL_METHOD_AUDIT_AND_PHRASE_LEVEL_CORRECTION
+next_major_step = STEP_12_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -49,6 +49,16 @@ STEP_09_CURRENT_STATE_AND_EXECUTION_PROTOCOL_2026-08-29.md
 STEP_09_COLLECTION_METHOD_AND_IMMEDIATE_PERSISTENCE_POSTMORTEM_2026-08-29.md
 STEP_09_SEARCH_RECONCILIATION.md
 STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md
+STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv
+STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv
+../../STEP_11_PAGE_OWNERSHIP_METHOD.md
+STEP_11_POST_AUDIT_CORRECTIONS.tsv
+STEP_11_PHRASE_PAGE_MAP.tsv
+STEP_11_EFFECTIVE_CLUSTER_SUMMARY.tsv
+STEP_11_PAGE_OWNERSHIP_CORRECTED.tsv
+STEP_11_WEAK_OWNERSHIP_REAUDIT.md
+STEP_11_REPORT.md
+STEP_11_QA.json
 ```
 
 Where older Step-09 planning state conflicts with the final reconciliation/acceptance or later correction authorities, the later authority wins.
@@ -262,53 +272,38 @@ STEP_09_SEARCH_RECONCILIATION.md
 STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md
 ```
 
-## Current major step — Step 10 user-task / SERP clustering
+## Current accepted major step — Step 11 page ownership / phrase-to-page mapping
 
-Status: **PRE-STEP METHODOLOGY RESEARCH / OWNER REVIEW REQUIRED BEFORE EXECUTION**
-
-Permanent method status from `STEP_RULES_INDEX.md`:
+Status: **COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION**
 
 ```text
-STEP_10_PERMANENT_METHOD = UNVALIDATED
+STEP_10_HISTORICAL_FINAL_ACTIVE_ROWS = 2332
+STEP_10_HISTORICAL_ASSIGNED = 2319
+STEP_10_HISTORICAL_SEARCH_REQUIRED = 13
+STEP_10_HISTORICAL_ACTIVE_CLUSTERS = 59
+STEP_11_POST_AUDIT_CORRECTION_ROWS = 121
+STEP_11_EFFECTIVE_ASSIGNED = 2313
+STEP_11_EFFECTIVE_SEARCH_REQUIRED = 19
+STEP_11_PHRASE_PAGE_MAP_ROWS = 2332
+STEP_11_EFFECTIVE_ACTIVE_CLUSTERS = 75
+STEP_11_OWNER_EXISTING = 44
+STEP_11_NO_SUITABLE_EXISTING_PAGE = 25
+STEP_11_OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
+STEP_11_OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 0
+STEP_11_NEW_BRIDGE_REQUESTS_DURING_CORRECTION = 0
+STEP_11_NEW_BRIDGE_COST_RUB_DURING_CORRECTION = 0.0
+STEP_11_COMPLETE = true
 ```
 
-Current allowed work:
+The historical Step-10 artifacts remain immutable evidence of what was originally accepted. `STEP_11_POST_AUDIT_CORRECTIONS.tsv` is the authoritative downstream correction overlay discovered by phrase-level ownership QA. `STEP_11_PHRASE_PAGE_MAP.tsv` is the current canonical active keyword→page/state map.
 
-```text
-fresh Step-10 methodology research
-source-to-method traceability
-explicit decision model for meaning + observed SERP compatibility + public business fit + unresolved evidence
-quantitative clustering/reconciliation QA design
-PASS gate definition
-owner-facing pre-step method review with direct links
-```
+The corrected Step-11 method permanently requires every Bridge/Codex acquisition result to be saved to GitHub and read back before the next acquisition interaction. It also makes the complete phrase-level map a blocking completion requirement.
 
-Forbidden before Step-10 method review is complete:
-
-```text
-automatic one-keyword-one-page mapping
-universal fixed SERP-overlap threshold treated as truth
-silent transfer from 45 direct REVIEW probes to 899 unprobed rows
-final page ownership
-structural action decisions
-cannibalization conclusions
-```
-
-Current Step-10 transition truth:
-
-```text
-STEP_10_PRE_STEP_RESEARCH_REQUIRED = true
-STEP_10_SOURCE_TO_METHOD_TRACE_COMPLETE = false
-STEP_10_OWNER_METHOD_REVIEW_COMPLETE = false
-STEP_10_EXECUTION_STARTED = false
-STEP_10_COMPLETE = false
-```
+Step 12 has **not** started. Its methodology remains separately gated by `STEP_RULES_INDEX.md` and the normal pre-step review process.
 
 ## Remaining roadmap
 
 ```text
-Step 10 — user-task / SERP clustering
-Step 11 — page ownership
 Step 12 — structural actions
 Step 13 — cannibalization diagnosis
 Step 14 — Search-only architecture freeze
@@ -326,8 +321,8 @@ Still false:
 
 ```text
 FINAL_SEMANTIC_SET_COMPLETE = false
-USER_TASK_SERP_CLUSTERING_COMPLETE = false
-PAGE_OWNERSHIP_COMPLETE = false
+USER_TASK_SERP_CLUSTERING_COMPLETE = true
+PAGE_OWNERSHIP_COMPLETE = true
 STRUCTURAL_ACTIONS_COMPLETE = false
 SEARCH_ONLY_ARCHITECTURE_COMPLETE = false
 AI_EVIDENCE_COMPLETE = false
@@ -355,17 +350,23 @@ then delete the disposable workspace.
 KW001_OKNO_MSK_STEP08_COMPLETE_AFTER_METHOD_CORRECTION = true
 KW001_OKNO_MSK_SEARCH_STAGE_INPUT_FROZEN = true
 KW001_OKNO_MSK_STEP09_COMPLETE = true
-KW001_OKNO_MSK_STEP09_PROVIDER_REQUESTS = 75
-KW001_OKNO_MSK_STEP09_PROVIDER_COST_RUB = 36.600
-KW001_OKNO_MSK_STEP09_NORMALIZED_RANKED_ROWS = 750
-KW001_OKNO_MSK_STEP09_DIRECT_EVIDENCE_DECISIONS = 75
-KW001_OKNO_MSK_STEP09_ACTIVE_DUPLICATE_COMPARISONS = 8
-KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_ACCOUNTED = 944
-KW001_OKNO_MSK_STEP09_REVIEW_SEARCH_UNRESOLVED = 899
-KW001_OKNO_MSK_STEP10_PRE_STEP_RESEARCH_REQUIRED = true
-KW001_OKNO_MSK_STEP10_SOURCE_TO_METHOD_TRACE_COMPLETE = false
-KW001_OKNO_MSK_STEP10_OWNER_METHOD_REVIEW_COMPLETE = false
-KW001_OKNO_MSK_STEP10_EXECUTION_STARTED = false
-KW001_OKNO_MSK_STEP10_COMPLETE = false
+KW001_OKNO_MSK_STEP10_COMPLETE = true
+KW001_OKNO_MSK_STEP10_HISTORICAL_ACTIVE_ROWS = 2332
+KW001_OKNO_MSK_STEP10_HISTORICAL_FINAL_ASSIGNED = 2319
+KW001_OKNO_MSK_STEP10_HISTORICAL_FINAL_SEARCH_REQUIRED = 13
+KW001_OKNO_MSK_STEP10_HISTORICAL_ACTIVE_CLUSTERS = 59
+KW001_OKNO_MSK_STEP11_METHOD_APPROVED_AFTER_EXTERNAL_AUDIT = true
+KW001_OKNO_MSK_STEP11_POST_AUDIT_CORRECTION_ROWS = 121
+KW001_OKNO_MSK_STEP11_EFFECTIVE_ASSIGNED = 2313
+KW001_OKNO_MSK_STEP11_EFFECTIVE_SEARCH_REQUIRED = 19
+KW001_OKNO_MSK_STEP11_PHRASE_PAGE_MAP_ROWS = 2332
+KW001_OKNO_MSK_STEP11_EFFECTIVE_ACTIVE_CLUSTERS = 75
+KW001_OKNO_MSK_STEP11_OWNER_EXISTING = 44
+KW001_OKNO_MSK_STEP11_NO_SUITABLE_EXISTING_PAGE = 25
+KW001_OKNO_MSK_STEP11_OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
+KW001_OKNO_MSK_STEP11_OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 0
+KW001_OKNO_MSK_STEP11_NEW_BRIDGE_REQUESTS_DURING_CORRECTION = 0
+KW001_OKNO_MSK_STEP11_COMPLETE = true
+KW001_OKNO_MSK_NEXT_STEP = STEP_12_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW
 KW001_OKNO_MSK_SAFE_TO_DELETE = false
 ```

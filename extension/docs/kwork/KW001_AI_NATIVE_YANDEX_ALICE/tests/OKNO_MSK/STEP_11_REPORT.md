@@ -58,7 +58,7 @@ See `STEP_11_WEAK_OWNERSHIP_REAUDIT.md` and `STEP_11_POST_AUDIT_CORRECTIONS.tsv`
 
 ## Search-required handoff
 
-The original 13 Step-10 `SEARCH_REQUIRED` rows remain unresolved for page ownership. Phrase-level coherence correction adds six bare DIY/instruction rows, producing {len(search_required)} effective `SEARCH_REQUIRED` rows. They have no target URL and must be semantically resolved before any page action.
+The original 13 Step-10 `SEARCH_REQUIRED` rows remain unresolved for page ownership. Phrase-level coherence correction adds six bare DIY/instruction rows, producing 19 effective `SEARCH_REQUIRED` rows. They have no target URL and must be semantically resolved before any page action.
 
 ## Provider / persistence truth
 

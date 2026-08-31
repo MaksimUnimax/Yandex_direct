@@ -251,34 +251,44 @@ STEP_10_FRESH_R1_PASS3_V5_VERIFIED.marker.json
 
 ---
 
-## Completed step — Step 11 page ownership
+## Completed step — Step 11 page ownership / phrase-to-page mapping
 
-Status: **✅ COMPLETE / PASS WITH EXPLICIT UNRESOLVED EVIDENCE ROUTE**
+Status: **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION**
 
 Permanent methodology status:
 
 ```text
-STEP_11_PERMANENT_METHOD = UNVALIDATED
+STEP_11_PERMANENT_METHOD = APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + OWNER-INSTRUCTED CORRECTION
 ```
 
-Job-specific method authority:
+Canonical method authority:
 
 ```text
-STEP_11_PRE_STEP_METHOD_REVIEW_2026-08-30.md
+../../STEP_11_PAGE_OWNERSHIP_METHOD.md
+```
+
+Current job authorities:
+
+```text
+STEP_11_POST_AUDIT_CORRECTIONS.tsv
+STEP_11_PHRASE_PAGE_MAP.tsv
+STEP_11_EFFECTIVE_CLUSTER_SUMMARY.tsv
+STEP_11_PAGE_OWNERSHIP_CORRECTED.tsv
+STEP_11_WEAK_OWNERSHIP_REAUDIT.md
 STEP_11_REPORT.md
 STEP_11_QA.json
 ```
 
-### Step-11 exact goal
+### Corrected Step-11 goal
 
-For every final Step-10 active cluster, determine whether the current public site has an existing page that can truthfully own that user task.
+For the complete active semantic set, determine a truthful intended existing-page owner (or an explicit no-owner/outside/unresolved state) at effective user-task-cluster level **and materialize the result for every active phrase**.
 
-Step 11 did not make structural `KEEP / EXPAND / SPLIT / MERGE / CREATE` actions and did not diagnose cannibalization.
+Step 11 still does not make Step-12 structural `KEEP / EXPAND / SPLIT / MERGE / CREATE` actions and does not make Step-13 cannibalization verdicts.
 
-### Evidence execution truth
+### Historical acquisition truth preserved
 
 ```text
-FINAL_STEP10_CLUSTERS = 59
+ORIGINAL_FINAL_STEP10_CLUSTERS = 59
 CURRENT_PAGE_PROFILE_LEDGER_ROWS = 23
 FRESH_SEARCH_BATCH_QUERIES = 68
 FRESH_SEARCH_BATCH_SUCCEEDED = 68
@@ -288,109 +298,99 @@ FRESH_SEARCH_CANARY_COST_RUB = 0.488
 FRESH_SEARCH_TOTAL_REQUESTS = 69
 FRESH_SEARCH_TOTAL_COST_RUB = 33.672
 AUTHORIZED_WEBMASTER_PROPERTY_AVAILABLE = false
+NEW_BRIDGE_REQUESTS_DURING_CORRECTION = 0
+NEW_BRIDGE_COST_RUB_DURING_CORRECTION = 0.0
 ```
 
-The live Bridge reported version `0.1.1` during the Step-11 Search execution. The repository product version may differ; runtime was not silently upgraded in the record.
+The live Bridge reported version `0.1.1` during the original Step-11 Search execution. That historical runtime provenance remains unchanged.
 
-Observed target-domain TOP10 hits in the 68-query batch were `0`. This was not converted into a no-page verdict.
+Observed target-domain TOP10 hits in the original 68-query batch were `0`. Therefore corrected `TARGET_URL` means intended SEO owner and is not represented as a proven Yandex relevant/ranking URL.
 
-A single consolidated full 680-ranked-row Step-11 TSV was not produced. Search execution/accounting and normalized per-query dominant signals are preserved in the start/final and per-chunk checkpoints; this persistence-granularity limitation is explicit in `STEP_11_REPORT.md` and `STEP_11_QA.json`.
+The historical persistence limitation remains explicit: a single consolidated full 680-ranked-row Step-11 TSV was not produced. No paid replay was performed solely to reconstruct bookkeeping.
 
-### Ownership result
+### External audit corrections
+
+The original cluster→owner approach was retained, but two missing controls became permanent:
 
 ```text
-OWNER_EXISTING = 34
-NO_SUITABLE_EXISTING_PAGE = 18
-OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 1
+BRIDGE/CODEX RESULT
+-> IMMEDIATE GITHUB SAVE
+-> GITHUB READBACK + COMPLETENESS QA
+-> ONLY THEN NEXT ACQUISITION INTERACTION
+
+CLUSTER OWNERSHIP
+-> FULL PHRASE-LEVEL MATERIALIZATION
+-> FULL MEMBER-PHRASE COHERENCE QA
+```
+
+Phrase-level review exposed upstream cluster defects. Historical Step-10 artifacts remain unchanged; downstream truth uses `STEP_11_POST_AUDIT_CORRECTIONS.tsv` as an explicit correction overlay.
+
+### Corrected effective accounting
+
+```text
+SOURCE_ACTIVE_ROWS = 2332
+SOURCE_ASSIGNED_ROWS = 2319
+SOURCE_SEARCH_REQUIRED_ROWS = 13
+POST_STEP11_CORRECTION_ROWS = 121
+EFFECTIVE_ASSIGNED_ROWS = 2313
+EFFECTIVE_SEARCH_REQUIRED_ROWS = 19
+PHRASE_PAGE_MAP_ROWS = 2332
+EFFECTIVE_ACTIVE_CLUSTERS = 75
+SILENT_ACTIVE_DROPS = 0
+DUPLICATE_PHRASE_MAP_ROWS = 0
+```
+
+Corrected ownership states across effective assigned clusters:
+
+```text
+OWNER_EXISTING = 44
+NO_SUITABLE_EXISTING_PAGE = 25
 OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
-TOTAL_ACCOUNTED = 59/59
-SILENT_CLUSTER_DROPS = 0
+OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 0
 ```
 
-Single unresolved cluster:
+Six historical Step-10 clusters became zero-member after explicit phrase-level reclassification:
 
 ```text
+BALCONY_GLAZING_INFO
+GENERAL_GLAZING_SERVICE
 GLAZING_SELECTION_INFO
+WINDOW_COMPARISON_INFO
+WINDOW_PRODUCT_TECH_INFO
+WINDOW_REVIEWS_INFO
 ```
 
-Reason: frozen task boundary says non-specific/non-balcony glazing selection, while the representative direct Search probe resolves mainly to balcony/loggia selection.
+Their disappearance is not a silent drop: every one of their active member phrases remains in the 2332-row phrase map under a corrected effective cluster or explicit `SEARCH_REQUIRED` state.
 
-Executable evidence route:
+### Search-required handoff
 
 ```text
-Run 2-3 additional ordinary Yandex Search probes explicitly scoped to non-balcony generic glazing, then read any surfaced current first-party candidate before changing ownership state.
+ORIGINAL_STEP10_SEARCH_REQUIRED = 13
+ADDED_BY_STEP11_COHERENCE_AUDIT = 6
+EFFECTIVE_SEARCH_REQUIRED = 19
+SEARCH_REQUIRED_WITH_TARGET_URL = 0
 ```
 
-Step 12 may proceed for resolved clusters. No structural action may be assigned to `GLAZING_SELECTION_INFO` until the boundary is validly closed.
+The six added rows are ambiguous bare DIY/instruction phrases that could not truthfully remain in the repair-DIY cluster without stronger evidence. They must be resolved before any structural action is assigned to them.
 
-### Step-10 SEARCH_REQUIRED handoff
-
-```text
-SEARCH_REQUIRED_ROWS_ACCOUNTED = 13/13
-LIKELY_RESOLVED_OR_LIKELY_RESOLVED_OUTSIDE = 10
-SEMANTIC_REVIEW_REQUIRED = 3
-```
-
-Rows still requiring semantic review:
+### Step-11 PASS gate result
 
 ```text
-ral алюминиевых окон
-оконные блоки фурнитурой
-пластиковые окна комарова
-```
-
-They remain `PAGE_OWNERSHIP_NOT_APPLICABLE_UNTIL_TASK_RESOLVED`.
-
-### Final Step-11 artifacts
-
-```text
-STEP_11_CODEX_DISCOVERED_URLS.tsv
-STEP_11_CODEX_PAGE_PROFILE_LEDGER.tsv
-STEP_11_CODEX_PAGE_REFRESH_REPORT.md
-STEP_11_PAGE_PROFILE_LEDGER.tsv
-STEP_11_CLUSTER_PAGE_CANDIDATES.tsv
-STEP_11_PAGE_OWNERSHIP.tsv
-STEP_11_UNCLUSTERED_SEARCH_REQUIRED_HANDOFF.tsv
-STEP_11_SEARCH_BATCH_START_RECEIPT_2026-08-30.json
-STEP_11_SEARCH_BATCH_CHUNK_007_FINAL_CHECKPOINT_2026-08-30.json
-STEP_11_QA.json
-STEP_11_REPORT.md
-```
-
-### Step-11 PASS gate
-
-```text
-FINAL_STEP10_CLUSTERS_ACCOUNTED = 59/59
-UNCLUSTERED_SEARCH_REQUIRED_ACCOUNTED = 13/13
-OWNER_EXISTING_WITHOUT_CURRENT_PAGE_READ = 0
-LEXICAL_ONLY_OWNERSHIP_DECISIONS = 0
-RANKING_URL_AUTOMATICALLY_EQUATED_TO_OWNER = 0
-SEARCH_ABSENCE_AUTOMATICALLY_EQUATED_TO_NO_PAGE = 0
-NO_SUITABLE_EXISTING_PAGE_WITHOUT_PLAUSIBLE_CANDIDATE_REVIEW = 0
-UNRESOLVED_CASES_WITHOUT_EXECUTABLE_EVIDENCE_ROUTE = 0
-DIRECT_SEARCH_EVIDENCE_TRANSFER_TO_UNPROBED_NEIGHBOURS = 0
+ACTIVE_ROWS_ACCOUNTED = 2332/2332
+SILENT_ACTIVE_DROPS = 0
+DUPLICATE_PHRASE_MAP_ROWS = 0
+ASSIGNED_WITHOUT_EFFECTIVE_CLUSTER = 0
+SEARCH_REQUIRED_WITH_TARGET_URL = 0
+OWNER_EXISTING_WITH_BLANK_TARGET_URL = 0
+NON_OWNER_STATE_WITH_TARGET_URL = 0
+ORIGINAL_MEDIUM_LOW_OWNERSHIP_CLUSTERS_REAUDITED = 11/11
+BRIDGE_PAID_REPLAY_FOR_BOOKKEEPING = 0
+NEW_BRIDGE_REQUESTS_DURING_CORRECTION = 0
+FULL_PHRASE_LEVEL_MAP_MATERIALIZED = true
+CLUSTER_COHERENCE_GATE_ADDED = true
+BRIDGE_CODEX_IMMEDIATE_PERSISTENCE_RULE_ADDED = true
 PREMATURE_STEP12_STRUCTURAL_ACTIONS = 0
 PREMATURE_STEP13_CANNIBALIZATION_VERDICTS = 0
-SILENT_CLUSTER_DROPS = 0
-PROVIDER_REQUESTS_RECONCILE = true
-PROVIDER_COST_RECONCILES = true
-FINAL_OUTPUT_PRESERVED_AND_READ_BACK = true
-MATERIAL_IN_SCOPE_CLUSTERS_WITHOUT_DIRECT_YANDEX_EVIDENCE_ROUTE = 0
-DIRECT_YANDEX_EVIDENCE_WITHHELD_ONLY_TO_SAVE_COST = 0
-OLD_STEP09_EVIDENCE_USED_AS_ARTIFICIAL_REQUEST_CEILING = 0
-PROVIDER_COST_ACCOUNTED = true
-```
-
-Current Step-11 gate state:
-
-```text
-STEP11_PRE_STEP_RESEARCH_REQUIRED = false
-STEP11_PRE_STEP_RESEARCH_COMPLETE = true
-STEP11_SOURCE_TO_METHOD_TRACE_COMPLETE = true
-STEP11_OWNER_METHOD_REVIEW_PRESENTED = true
-STEP11_EXECUTION_AUTHORIZED = true
-STEP11_EXECUTION_STARTED = true
-STEP11_PROVIDER_CALLS_AUTHORIZED = true
 STEP11_COMPLETE = true
 NEXT_STEP_ALLOWED = true
 ```
@@ -414,7 +414,7 @@ NEXT_STEP_ALLOWED = true
 | 8. Freeze Search-stage semantic set | Freeze exact Search input and executable unresolved routes | ✅ COMPLETE AFTER METHOD CORRECTION |
 | 9. Ordinary Yandex Search validation | Bounded real SERP evidence and direct boundary decisions | ✅ COMPLETE AFTER CORRECTIONS |
 | 10. User-task / SERP clustering | Group compatible search jobs | ✅ COMPLETE / FRESH R1 FINAL VERIFIED |
-| **11. Page ownership** | **Map clusters to best existing URLs** | **✅ COMPLETE / PASS WITH EXPLICIT UNRESOLVED EVIDENCE ROUTE** |
+| **11. Page ownership** | **Map effective clusters and every active phrase to intended existing URL/state** | **✅ COMPLETE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** |
 | **12. Structural actions** | **Keep/expand/split/merge/create decisions** | **⬜ NOT STARTED / NEXT ALLOWED** |
 | 13. Cannibalization diagnosis | Confirm real competing-page conflicts | ⬜ NOT STARTED |
 | 14. Search-only architecture freeze | Freeze architecture before AI | ⬜ NOT STARTED |
@@ -456,12 +456,20 @@ KW001_OKNO_MSK_STEP11_EXECUTION_STARTED = true
 KW001_OKNO_MSK_STEP11_PROVIDER_CALLS_AUTHORIZED = true
 KW001_OKNO_MSK_STEP11_PROVIDER_REQUESTS = 69
 KW001_OKNO_MSK_STEP11_PROVIDER_COST_RUB = 33.672
-KW001_OKNO_MSK_STEP11_OWNER_EXISTING = 34
-KW001_OKNO_MSK_STEP11_NO_SUITABLE_EXISTING_PAGE = 18
-KW001_OKNO_MSK_STEP11_OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 1
+KW001_OKNO_MSK_STEP11_OWNER_EXISTING = 44
+KW001_OKNO_MSK_STEP11_NO_SUITABLE_EXISTING_PAGE = 25
+KW001_OKNO_MSK_STEP11_OWNER_UNRESOLVED_EVIDENCE_REQUIRED = 0
 KW001_OKNO_MSK_STEP11_OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP = 6
-KW001_OKNO_MSK_STEP11_SEARCH_REQUIRED_ACCOUNTED = 13
-KW001_OKNO_MSK_STEP11_SEARCH_REQUIRED_SEMANTIC_REVIEW = 3
+KW001_OKNO_MSK_STEP11_SEARCH_REQUIRED_ACCOUNTED = 19
+KW001_OKNO_MSK_STEP11_SEARCH_REQUIRED_SEMANTIC_REVIEW = 19
+
+KW001_OKNO_MSK_STEP11_METHOD_APPROVED_AFTER_EXTERNAL_AUDIT = true
+KW001_OKNO_MSK_STEP11_PHRASE_PAGE_MAP_ROWS = 2332
+KW001_OKNO_MSK_STEP11_POST_AUDIT_CORRECTION_ROWS = 121
+KW001_OKNO_MSK_STEP11_EFFECTIVE_ASSIGNED = 2313
+KW001_OKNO_MSK_STEP11_EFFECTIVE_SEARCH_REQUIRED = 19
+KW001_OKNO_MSK_STEP11_EFFECTIVE_ACTIVE_CLUSTERS = 75
+KW001_OKNO_MSK_STEP11_BRIDGE_CODEX_IMMEDIATE_PERSISTENCE_RULE_ACTIVE = true
 KW001_OKNO_MSK_STEP11_COMPLETE = true
 KW001_OKNO_MSK_NEXT_STEP_ALLOWED = true
 ```

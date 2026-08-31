@@ -716,6 +716,162 @@ Status: **APPROVED / ACTIVE**.
 
 ---
 
+# Step 11 — page ownership / phrase-to-page mapping permanent lesson
+
+Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + OWNER-INSTRUCTED CORRECTION**.
+
+Canonical detailed method:
+
+```text
+STEP_11_PAGE_OWNERSHIP_METHOD.md
+```
+
+## What went wrong in the first OKNO-MSK run
+
+### Known error 1 — Bridge/Codex evidence was not persisted immediately after every acquisition interaction
+
+Wrong action:
+
+Evidence returned by Yandex Marketing Bridge and Codex/site-reading passes was allowed to remain temporarily in conversational/tool state before the complete useful result had been written to the canonical GitHub workspace and read back.
+
+Consequence:
+
+The run came close to losing already acquired evidence. A later context, browser, tool or extension interruption could have destroyed work that had already consumed provider requests and analyst time. Replaying a paid or stateful acquisition later may cost money and may not reproduce the same result exactly.
+
+Root cause:
+
+The older generic rule `REQUEST_SUCCEEDED != PROJECT_RESULT_COMPLETE` described the distinction but did not operationally block the **next** acquisition interaction until durable persistence was verified.
+
+Why the previous method was insufficient:
+
+A provider status, HTTP 200, successful Codex pass, summary in chat, or visible tool result proves only transient execution. It does not prove that the project can recover that evidence later.
+
+Corrected method:
+
+```text
+BRIDGE_OR_CODEX_INTERACTION_COMPLETES
+-> COMPLETE_REQUIRED_RESULT_AVAILABLE
+-> IMMEDIATE_WRITE_TO_CANONICAL_GITHUB_JOB_WORKSPACE
+-> GITHUB_READBACK / PARSE / COMPLETENESS CHECK
+-> ONLY THEN NEXT ACQUISITION INTERACTION
+```
+
+This applies to Bridge provider calls, Bridge batch chunks, Codex URL/page acquisition passes and any equivalent evidence-producing interaction.
+
+Non-repeat control:
+
+```text
+BRIDGE_OR_CODEX_RESULT_IN_CHAT != DURABLE_PROJECT_EVIDENCE
+NEXT_ACQUISITION_BLOCKED_UNTIL_GITHUB_PERSISTENCE_AND_READBACK = true
+```
+
+### Known error 2 — cluster ownership was accepted without materializing the final phrase→page map
+
+Wrong action:
+
+The first pass stopped after producing 59 `cluster → owner/state` rows. The Step-10 phrase ledger made it theoretically possible to derive the page for each phrase, but the actual `phrase → cluster → target URL/state` result was not materialized as a final Step-11 artifact.
+
+Consequence:
+
+The deliverable was harder to audit and use, and more importantly the missing join hid heterogeneous upstream clusters. A cluster label could look reasonable while its actual member phrases did not share one terminal task.
+
+Root cause:
+
+The method treated cluster-level ownership as equivalent to completed keyword mapping.
+
+Why the previous method was insufficient:
+
+Cluster-level reasoning is the right way to avoid one-page-per-keyword fragmentation, but it is only an intermediate abstraction. The final SEO map still has to expose every active phrase against its effective cluster and target/no-target state.
+
+Corrected method:
+
+```text
+CLUSTER OWNERSHIP DECISION
+-> MATERIALIZE EVERY ACTIVE PHRASE
+-> PHRASE + ORIGINAL CLUSTER + EFFECTIVE CLUSTER + TARGET URL/STATE
+-> FULL ACCOUNTING + DUPLICATE + MISSING-OWNER QA
+```
+
+Hard rule:
+
+```text
+CLUSTER_OWNERSHIP_COMPLETE != PHRASE_PAGE_MAPPING_COMPLETE
+```
+
+### Known error 3 — a representative query or cluster label can hide a bad upstream cluster
+
+Observed consequence in OKNO-MSK:
+
+- `GENERAL_GLAZING_SERVICE` was labelled generic, but all seven member phrases were actually aluminium, panoramic, French-window or outside-brand tasks;
+- `GLAZING_SELECTION_INFO` was described as generic/non-balcony, but its actual member phrases were veranda-specific;
+- replacement, reviews, balcony-info, broad technical-info and comparison clusters contained materially different terminal tasks.
+
+Root cause:
+
+Step 11 inspected representative query behaviour and cluster summaries without making full member-phrase coherence a blocking ownership check.
+
+Corrected method:
+
+Every cluster must remain inspectable at phrase level. `MEDIUM`/`LOW` ownership and broad/heterogeneous clusters require all-member review. If a cluster is wrong, preserve the historical upstream artifact and apply an explicit correction overlay/split or unresolved handoff; do not hide the defect by assigning a convenient URL.
+
+Hard rule:
+
+```text
+REPRESENTATIVE_QUERY_BEHAVIOR != PERMISSION_TO_REWRITE_CLUSTER_BOUNDARY
+BAD_UPSTREAM_CLUSTER != VALID_PAGE_OWNER_PROBLEM
+```
+
+### Known error 4 — target URL terminology can be overstated
+
+A page selected by the analyst as the intended SEO owner is not automatically the URL that Yandex currently ranks/associates with the query.
+
+Corrected terminology:
+
+```text
+TARGET_URL = intended SEO owner selected from current page/task evidence
+YANDEX_RELEVANT_URL = directly observed Yandex query↔URL/ranking evidence
+TARGET_URL != PROVEN_YANDEX_RELEVANT_URL
+```
+
+This matters especially when the target domain is absent from observed TOP results or authorized Webmaster query↔URL data is unavailable.
+
+## Why this method is supported externally
+
+Current external method audit used:
+
+- Semrush — keyword mapping: https://www.semrush.com/blog/keyword-mapping/
+- Ahrefs — keyword mapping: https://ahrefs.com/blog/keyword-mapping/
+- Ahrefs — keyword clustering: https://ahrefs.com/blog/keyword-clustering/
+- Rush Analytics — relevant URLs for clusters: https://www.rush-analytics.ru/faq/klasterizaciya/opredelenie-relevantnyh-url-dlya-klasterov
+- Topvisor — target URL terminology: https://topvisor.com/ru/support/rankings/target-url/
+- Yandex Webmaster — page targeting and query↔URL analytics: https://yandex.ru/support/webmaster/ru/recommendations/targeting and https://yandex.ru/support/webmaster/ru/service/queries-export
+
+The sources support cluster→page mapping, intent/page fit and explicit target-URL mapping. The exact internal statuses, correction-overlay schema and GitHub durability gate are project/owner controls created from the failure mode observed in this work.
+
+## Required Step-11 completion gate
+
+Step 11 cannot pass until:
+
+```text
+ALL_ACTIVE_PHRASES_MATERIALIZED = true
+SILENT_ACTIVE_DROPS = 0
+DUPLICATE_PHRASE_MAP_ROWS = 0
+ASSIGNED_WITHOUT_EFFECTIVE_CLUSTER = 0
+ASSIGNED_WITHOUT_OWNERSHIP_ROW = 0
+OWNER_EXISTING_WITH_BLANK_TARGET_URL = 0
+SEARCH_REQUIRED_WITH_TARGET_URL = 0
+MEDIUM_LOW_OWNERSHIP_REAUDIT = 100%
+KNOWN_MIXED_CLUSTERS_LEFT_UNCORRECTED = 0
+BRIDGE_CODEX_ACQUISITION_PERSISTENCE_GATE = PASS
+FINAL_GITHUB_READBACK = PASS
+PREMATURE_STEP12_ACTIONS = 0
+PREMATURE_STEP13_CANNIBALIZATION_VERDICTS = 0
+```
+
+The exact OKNO-MSK phrases, URLs and correction rows remain job-specific Layer-C evidence. The causal method above is reusable Layer-B methodology.
+
+---
+
 # Permanent-update policy
 
 If a future job reveals a potential universal lesson:

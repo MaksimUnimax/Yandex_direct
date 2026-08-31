@@ -402,8 +402,7 @@ manifest = manifest.replace(
     "next_major_step = STEP_12_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW",
     1,
 )
-# Add current Step10/11 authorities if not already present.
-authority_anchor = "STEP_09_SEARCH_ACCEPTANCE_2026-08-29.md\n"
+# Add current Step10/11 authorities inside the explicit Current job authorities fence.
 authority_add = """STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv
 STEP_10_FRESH_R1_CLUSTER_SUMMARY_FINAL.tsv
 ../../STEP_11_PAGE_OWNERSHIP_METHOD.md
@@ -416,7 +415,10 @@ STEP_11_REPORT.md
 STEP_11_QA.json
 """
 if "STEP_11_PHRASE_PAGE_MAP.tsv" not in manifest:
-    manifest = replace_once(manifest, authority_anchor, authority_anchor + authority_add, "manifest authority insertion")
+    auth_heading = manifest.index("Current job authorities:")
+    auth_fence_start = manifest.index("```text", auth_heading)
+    auth_fence_end = manifest.index("```", auth_fence_start + len("```text"))
+    manifest = manifest[:auth_fence_end] + authority_add + manifest[auth_fence_end:]
 
 current_start = manifest.index("## Current major step — Step 10 user-task / SERP clustering")
 remaining_start = manifest.index("## Remaining roadmap", current_start)
