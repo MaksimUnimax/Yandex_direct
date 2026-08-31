@@ -1,0 +1,58 @@
+name: KW001 Step12 Third Audit Register
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_third_audit_defects.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Register defects
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step12_register_third_audit_defects.py
+      - name: Verify candidate
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          r=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rows=list(csv.DictReader((r/'STEP_12_CORRECTION_DEFECT_LEDGER.tsv').open(encoding='utf-8',newline=''),delimiter='\t'))
+          by={x['defect_id']:x for x in rows}
+          ids=[f'D12-{i}' for i in range(21,27)]
+          assert all(by[i]['status']=='OPEN' for i in ids)
+          s=json.loads((r/'STEP_12_CORRECTION_CURRENT_STATE.json').read_text(encoding='utf-8'))
+          assert s['open_defects']==ids
+          assert not s['step12_complete'] and s['step13_blocked'] and not s['next_step_allowed'] and not s['step13_executed']
+          assert (r/'STEP_12_THIRD_EXTERNAL_METHOD_AUDIT_GAPS_2026-08-31.md').exists()
+          print('STEP12_THIRD_AUDIT_REGISTER_CANDIDATE_PASS')
+          PY
+      - name: Persist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add $base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv $base/STEP_12_CORRECTION_CURRENT_STATE.json $base/STEP_12_THIRD_EXTERNAL_METHOD_AUDIT_GAPS_2026-08-31.md $base/JOB_FLOW.md
+          git commit -m "step12: reopen for third external method audit [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+      - name: Readback
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          remote=origin/roadmap/kwork-productization-2026-08-28
+          base=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git show $remote:$base/STEP_12_CORRECTION_CURRENT_STATE.json > /tmp/state.json
+          git show $remote:$base/STEP_12_CORRECTION_DEFECT_LEDGER.tsv > /tmp/ledger.tsv
+          python - <<'PY'
+          import csv,json
+          s=json.load(open('/tmp/state.json',encoding='utf-8'))
+          rows=list(csv.DictReader(open('/tmp/ledger.tsv',encoding='utf-8',newline=''),delimiter='\t'))
+          by={x['defect_id']:x for x in rows}; ids=[f'D12-{i}' for i in range(21,27)]
+          assert s['open_defects']==ids and not s['step12_complete'] and s['step13_blocked']
+          assert all(by[i]['status']=='OPEN' for i in ids)
+          print('STEP12_THIRD_AUDIT_REGISTER_GITHUB_READBACK_PASS')
+          PY
