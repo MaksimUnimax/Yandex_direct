@@ -443,8 +443,9 @@ This block overrides the historical first-pass Step-12 PASS above.
 STEP12_CORRECTION_REQUIRED_AFTER_EXTERNAL_METHOD_AUDIT = true
 STEP12_HISTORICAL_FIRST_PASS_PRESERVED = true
 STEP12_HISTORICAL_PASS_WITHDRAWN = true
-STEP12_OPEN_DEFECTS = D12-01,D12-02,D12-03,D12-04,D12-05,D12-06,D12-07,D12-08,D12-09,D12-10,D12-11
-STEP12_CURRENT_CORRECTION_ITEM = D12-01
+STEP12_OPEN_DEFECTS = D12-03,D12-04,D12-05,D12-06,D12-07,D12-10,D12-11
+STEP12_CURRENT_CORRECTION_ITEM = D12-03
+STEP12_VERIFIED_FIXED_DEFECTS = D12-01,D12-02,D12-08,D12-09,D12-12
 STEP13_BLOCKED_BY_STEP12_CORRECTION = true
 STEP12_CORRECTED_ACCEPTANCE = pending
 ```
@@ -460,6 +461,10 @@ STEP_12_CORRECTION_CURRENT_STATE.json
 ```
 
 A defect is not closed because a new file exists. It is closed only after its corrective artifact is produced, its defect-specific verification passes, and GitHub readback confirms the saved result.
+
+### Accepted correction block — semantic units / salvage
+
+The semantic foundation correction has passed separate readback/acceptance for D12-01, D12-02, D12-08, D12-09 and D12-12 only. Accepted V4 keeps 2332/2332 phrases, 19 unresolved, materializes 191/191 old hidden overrides into explicit units, removes known mixed original units, and reviews all 481 historical NO_STANDALONE/OUTSIDE phrases. Step 12 remains incomplete because new-page evidence, confidence, hierarchy, Step-13 pair derivation and independent final QA are still open.
 
 ---
 

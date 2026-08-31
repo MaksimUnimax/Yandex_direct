@@ -12,7 +12,7 @@ workspace_is_disposable = true
 workspace_contains_universal_rules = false
 legacy_path_allowed_until_close = true
 current_major_step = STEP_12_CORRECTION_AFTER_EXTERNAL_METHOD_AUDIT
-next_major_step = STEP_12_CORRECTION_EXECUTION_D12_01
+next_major_step = STEP_12_CORRECTION_EXECUTION_D12_03
 job_work_complete = false
 final_handoff_complete = false
 revision_rework_open = true
@@ -72,6 +72,11 @@ STEP_12_EXTERNAL_METHOD_AUDIT_2026-08-31.md
 STEP_12_CORRECTION_PLAN_2026-08-31.md
 STEP_12_CORRECTION_DEFECT_LEDGER.tsv
 STEP_12_CORRECTION_CURRENT_STATE.json
+STEP_12_STRUCTURAL_UNIT_ASSIGNMENTS_V4.tsv
+STEP_12_STRUCTURAL_UNITS_V4.tsv
+STEP_12_STRUCTURAL_UNIT_CORRECTIONS_V4.tsv
+STEP_12_NO_PAGE_OUTSIDE_SALVAGE_REVIEW_V4.tsv
+STEP_12_SEMANTIC_CORRECTION_ACCEPTANCE_2026-08-31.md
 ```
 
 Where older Step-09 planning state conflicts with the final reconciliation/acceptance or later correction authorities, the later authority wins.
