@@ -5,15 +5,32 @@
   const DEFAULT_TARIFF_CHECKED_AT = "2026-08-12";
   const SEARCH_TARIFF_CHECKED_AT = "2026-08-28";
   const LEGACY_SEARCH_TARIFF_CHECKED_AT = "2026-08-19";
-  const WEBMASTER_POLICY_SOURCE = "https://yandex.ru/dev/webmaster/doc/ru/";
-  const WEBMASTER_POLICY_CHECKED_AT = "2026-08-26";
+  const WEBMASTER_POLICY_SOURCE = "https://yandex.ru/dev/webmaster/doc/ru/reference/enhanced-export";
+  const WEBMASTER_POLICY_CHECKED_AT = "2026-09-01";
   const METRIKA_POLICY_SOURCE = "https://yandex.ru/dev/metrika/ru/";
   const METRIKA_POLICY_CHECKED_AT = "2026-08-26";
   const DIRECT_POLICY_SOURCE = "https://yandex.ru/dev/direct/doc/ru/concepts/units";
   const DIRECT_POLICY_CHECKED_AT = "2026-08-26";
   const DEFAULT_METHOD_COST_RUB = Object.freeze({ getTop: 0.02, getDynamics: 0.02, getRegionsDistribution: 0.05, getRegionsTree: 0 });
   const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488, genSearch: 5.08 });
-  const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({ listHosts: 0, getSummary: 0, getDiagnostics: 0, getPopularQueries: 0 });
+  const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({
+    listHosts: 0,
+    getSummary: 0,
+    getDiagnostics: 0,
+    getPopularQueries: 0,
+    getAllQueryHistory: 0,
+    getQueryHistory: 0,
+    getIndexingSamples: 0,
+    getInSearchSamples: 0,
+    getExportRegions: 0,
+    getExportLimits: 0,
+    getExportDates: 0,
+    startQueryUrlExport: 0,
+    getQueryUrlExportStatus: 0,
+    collectQueryUrlExport: 0,
+    readQueryUrlExportChunk: 0
+  });
+  const LEGACY_WEBMASTER_METHODS = Object.freeze(["listHosts", "getSummary", "getDiagnostics", "getPopularQueries"]);
   const DEFAULT_METRIKA_METHOD_COST_RUB = Object.freeze({ listCounters: 0, getCounter: 0, getTrafficSummary: 0, getTrafficByTime: 0 });
   const DEFAULT_DIRECT_METHOD_COST_RUB = Object.freeze({ listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
@@ -71,6 +88,19 @@
     return { ...source, allowed_methods: ["search", "genSearch"] };
   }
 
+  function migrateLegacyWebmasterPolicy(raw = {}) {
+    const source = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+    const methods = Array.isArray(source.allowed_methods) ? [...new Set(source.allowed_methods.map(String))] : null;
+    if (!methods || methods.length !== LEGACY_WEBMASTER_METHODS.length || !LEGACY_WEBMASTER_METHODS.every((method) => methods.includes(method))) return source;
+    return {
+      ...source,
+      allowed_methods: [...WEBMASTER_METHODS],
+      method_cost_rub: { ...DEFAULT_WEBMASTER_METHOD_COST_RUB, ...(source.method_cost_rub && typeof source.method_cost_rub === "object" ? source.method_cost_rub : {}) },
+      tariff_checked_at: WEBMASTER_POLICY_CHECKED_AT,
+      tariff_source: WEBMASTER_POLICY_SOURCE
+    };
+  }
+
   function normalizeWordstatPolicy(raw = {}) {
     return normalizePolicy(raw, { defaultMethods: WORDSTAT_METHODS, allowedMethods: WORDSTAT_METHODS, defaultCosts: DEFAULT_METHOD_COST_RUB, defaultTariffCheckedAt: DEFAULT_TARIFF_CHECKED_AT, defaultTariffSource: DEFAULT_TARIFF_SOURCE });
   }
@@ -78,7 +108,7 @@
     return normalizePolicy(migrateLegacySearchPolicy(raw), { defaultMethods: SEARCH_METHODS, allowedMethods: SEARCH_METHODS, defaultCosts: DEFAULT_SEARCH_METHOD_COST_RUB, defaultTariffCheckedAt: SEARCH_TARIFF_CHECKED_AT, defaultTariffSource: DEFAULT_TARIFF_SOURCE });
   }
   function normalizeWebmasterPolicy(raw = {}) {
-    return normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: WEBMASTER_METHODS, allowedMethods: WEBMASTER_METHODS, defaultMaxRequests: 50, defaultMaxCostRub: 0, defaultCosts: DEFAULT_WEBMASTER_METHOD_COST_RUB, defaultTariffCheckedAt: WEBMASTER_POLICY_CHECKED_AT, defaultTariffSource: WEBMASTER_POLICY_SOURCE });
+    return normalizePolicy(migrateLegacyWebmasterPolicy(raw), { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: WEBMASTER_METHODS, allowedMethods: WEBMASTER_METHODS, defaultMaxRequests: 50, defaultMaxCostRub: 0, defaultCosts: DEFAULT_WEBMASTER_METHOD_COST_RUB, defaultTariffCheckedAt: WEBMASTER_POLICY_CHECKED_AT, defaultTariffSource: WEBMASTER_POLICY_SOURCE });
   }
   function normalizeMetrikaPolicy(raw = {}) {
     const base = normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: METRIKA_METHODS, allowedMethods: METRIKA_METHODS, defaultMaxRequests: 50, defaultMaxCostRub: 0, defaultCosts: DEFAULT_METRIKA_METHOD_COST_RUB, defaultTariffCheckedAt: METRIKA_POLICY_CHECKED_AT, defaultTariffSource: METRIKA_POLICY_SOURCE });
@@ -86,13 +116,7 @@
   }
   function normalizeDirectPolicy(raw = {}) {
     const base = normalizePolicy(raw, { defaultAutorunEnabled: false, defaultManualEnabled: true, defaultMethods: DIRECT_METHODS, allowedMethods: DIRECT_METHODS, defaultMaxRequests: 20, defaultMaxCostRub: 0, defaultCosts: DEFAULT_DIRECT_METHOD_COST_RUB, defaultTariffCheckedAt: DIRECT_POLICY_CHECKED_AT, defaultTariffSource: DIRECT_POLICY_SOURCE });
-    return Object.freeze({
-      ...base,
-      max_requests_per_run: Math.min(20, base.max_requests_per_run),
-      max_page_size: Math.min(1000, asPositiveInt(raw.max_page_size, 1000)),
-      max_report_days: Math.min(31, asPositiveInt(raw.max_report_days, 31)),
-      max_report_rows: Math.min(1000, asPositiveInt(raw.max_report_rows, 1000))
-    });
+    return Object.freeze({ ...base, max_requests_per_run: Math.min(20, base.max_requests_per_run), max_page_size: Math.min(1000, asPositiveInt(raw.max_page_size, 1000)), max_report_days: Math.min(31, asPositiveInt(raw.max_report_days, 31)), max_report_rows: Math.min(1000, asPositiveInt(raw.max_report_rows, 1000)) });
   }
 
   function normalizePolicyForService(service, raw = {}) {
@@ -137,7 +161,7 @@
     DEFAULT_METHOD_COST_RUB, DEFAULT_SEARCH_METHOD_COST_RUB, DEFAULT_WEBMASTER_METHOD_COST_RUB, DEFAULT_METRIKA_METHOD_COST_RUB, DEFAULT_DIRECT_METHOD_COST_RUB,
     WORDSTAT_METHODS, SEARCH_METHODS, WEBMASTER_METHODS, METRIKA_METHODS, DIRECT_METHODS,
     SEARCH_TARIFF_CHECKED_AT, LEGACY_SEARCH_TARIFF_CHECKED_AT, WEBMASTER_POLICY_CHECKED_AT, WEBMASTER_POLICY_SOURCE, METRIKA_POLICY_CHECKED_AT, METRIKA_POLICY_SOURCE, DIRECT_POLICY_CHECKED_AT, DIRECT_POLICY_SOURCE,
-    migrateLegacySearchPolicy, normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizePolicyForService,
+    migrateLegacySearchPolicy, migrateLegacyWebmasterPolicy, normalizeWordstatPolicy, normalizeSearchPolicy, normalizeWebmasterPolicy, normalizeMetrikaPolicy, normalizeDirectPolicy, normalizePolicyForService,
     estimateMethodCost, wordstatDecision, searchDecision, webmasterDecision, metrikaDecision, directDecision, decisionForService
   });
 })();
