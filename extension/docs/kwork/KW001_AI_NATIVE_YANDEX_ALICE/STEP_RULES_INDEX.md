@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Date: 2026-08-31  
+Date: 2026-09-01  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This file is the index of step-specific methodology coverage.
@@ -71,8 +71,8 @@ Permanent promotion requires explicit owner instruction.
 | Step 9 | Ordinary Yandex Search/SERP validation | **UNVALIDATED** | Must research current Yandex/Search evidence methodology, query sampling/full-scope rules, preservation and page-boundary interpretation before execution. |
 | **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY, SORTING AND UNIVERSALITY CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`** — supports unconstrained and explicit fixed-count/range modes; current domain, site, business, client and deliverable constraints may define valid split/merge axes. **`STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`** — reusable task-first baseline plus required current-job domain profile; real cluster IDs, site data, local phrases, exact exceptions, thresholds and owner rules are allowed and applied at declared scope. **`STEP_10_SORTING_AND_QA_METHOD.md`** — configurable execution/QA modes, including fresh rebuild, existing-taxonomy reuse, adaptation, interactive iteration, fixed categories, full or risk-based QA and reserved empty categories. |
 | **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — refresh current candidate pages; a `NO_SUITABLE_EXISTING_PAGE` negative claim requires current multi-route absence evidence, not old-inventory absence. |
-| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** | **`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — post-PASS audit proved why the prior PASS was wrong: action/schema consistency was mistaken for causal evidence, routing edges were mistaken for validated links, and known-regression zero was mistaken for global coherence. Current correction re-read all 20 historical QUALITY_GAP units (322 phrases), applied 49 exact reassignments, independently revalidated all 28 prior IMPLEMENT links, rebuilt the full 2332-row downstream, passed independent QA with zero findings, and then passed durable closure-state GitHub readback. Step 13 is NOT STARTED / NEXT ALLOWED and remains methodologically UNVALIDATED. |
-| Step 13 | Cannibalization diagnosis | **UNVALIDATED** | Must distinguish real competing-page conflict from normal multi-URL visibility; before diagnosing a pair, re-read both current URLs under `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`. |
+| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** | **`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — post-PASS audit proved why the prior PASS was wrong: action/schema consistency was mistaken for causal evidence, routing edges were mistaken for validated links, and known-regression zero was mistaken for global coherence. Current correction re-read all 20 historical QUALITY_GAP units (322 phrases), applied 49 exact reassignments, independently revalidated all 28 prior IMPLEMENT links, rebuilt the full 2332-row downstream, passed independent QA with zero findings, and then passed durable closure-state GitHub readback. |
+| **Step 13** | **Competing-page / cannibalization diagnosis** | **APPROVED / ACTIVE AFTER POST-RUN METHOD CORRECTION** | **`STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — the OKNO_MSK post-run audit proved a new failure class: official Yandex query×URL historical evidence was discovered before execution but treated as merely “ideal”, so the step passed without operationalizing a materially required source. Correct method requires a source/access/capability gate, separates current public Search from first-party query×URL history and actual harm, requires QA to detect missing required evidence, and blocks full PASS unless history is used or the owner explicitly approves degraded closure. The current OKNO_MSK Step 13 is REOPENED on that evidence gap; Step 14 is blocked. |
 | Step 14 | Search-only architecture freeze | **UNVALIDATED** | Must define what evidence is sufficient to freeze classic Search architecture before AI evidence and recheck implementation-critical current URLs before freeze. |
 | Step 15 | AI-case selection | **UNVALIDATED** | Must select high-information uncertain cases rather than querying AI search indiscriminately. |
 | Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. |
@@ -234,6 +234,33 @@ Canonical authorities:
 
 ---
 
+# Step-13 permanent lesson summary
+
+The Step-13 post-run correction establishes:
+
+```text
+SOURCE_DISCOVERED != SOURCE_OPERATIONALIZED
+SOURCE_OPERATIONALIZED != EVIDENCE_ACQUIRED
+LIMITATION_DISCLOSED != LIMITATION_GOVERNED
+ACCOUNT ACCESS != TOOL CAPABILITY
+PUBLIC SERP SNAPSHOT != FIRST-PARTY QUERY×URL HISTORY
+CURRENT MULTI-URL SIGNAL != HISTORICAL COMPETITION != HARM
+```
+
+The failure that caused this correction was not missing research. Official Yandex historical query-by-URL analytics had already been found before execution. The failure was allowing that source to remain “ideal evidence” rather than converting it into an executable availability/use gate and acceptance condition.
+
+The Step-13 verifier must therefore detect **missing required evidence**, not only inconsistencies among artifacts that already exist.
+
+Canonical authority:
+
+- `STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md`
+
+Current OKNO_MSK execution-specific postmortem:
+
+- `tests/OKNO_MSK/STEP_13_METHOD_POSTMORTEM_REOPEN_AND_FULL_EXECUTION_RECORD_2026-09-01.md`
+
+---
+
 Markers:
 
 ```text
@@ -259,5 +286,9 @@ KW001_STEP12_ACTION_CANNOT_PROVE_ITSELF = true
 KW001_STEP12_KNOWN_REGRESSION_ZERO_NOT_EQUAL_GLOBAL_COHERENCE = true
 KW001_STEP12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION_ACTIVE = true
 KW001_STEP12_EXISTING_PAGE_INTERNAL_LINK_EXECUTION_RULE_ACTIVE = true
+KW001_STEP13_METHOD_APPROVED_AFTER_POST_RUN_CORRECTION = true
+KW001_STEP13_SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED_FORBIDDEN = true
+KW001_STEP13_FIRST_PARTY_QUERY_URL_HISTORY_GATE_REQUIRED = true
+KW001_STEP13_QA_MUST_TEST_MISSING_REQUIRED_EVIDENCE = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```
