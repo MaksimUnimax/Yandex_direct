@@ -1,11 +1,33 @@
 {
   "date": "2026-09-01",
   "step": 13,
-  "status": "REOPENED_BLOCKING_FINDINGS",
-  "old_pass_withdrawn": true,
-  "why_old_pass_was_wrong": "The old QA validated produced pair/page/Search artifacts but did not test whether the official first-party query×URL history source identified by pre-step research had actually been operationalized. SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED was therefore invisible to the old QA.",
-  "checks_preserved_as_passed": {
-    "historical_base_pairs_accounted": "195/195",
+  "status": "PASS_BASE_PUBLIC_EVIDENCE_MODE",
+  "historical_old_pass_withdrawn": true,
+  "policy_reconciliation_complete": true,
+  "policy_authority": "../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md",
+  "bridge_capability_update": "../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_BRIDGE_CAPABILITY_UPDATE_2026-09-01.md",
+  "reconciliation_record": "STEP_13_POLICY_QA_RECONCILIATION_2026-09-01.md",
+  "access_state": {
+    "yandex_webmaster_access_state": "UNAVAILABLE",
+    "yandex_webmaster_private_evidence_used": false,
+    "okno_msk_host_id_resolved": false,
+    "base_public_evidence_mode": true,
+    "private_history_required_for_base_scope": false
+  },
+  "bridge_capability": {
+    "canonical_branch": "bridge/webmaster-readiness-gzip-v0.1.4",
+    "canonical_head": "8bb1365a9905df8a6d7e09917e81444a9b7f1024",
+    "version": "0.1.4",
+    "full_gate_run": 33491679086,
+    "full_gate_conclusion": "success",
+    "webmaster_method_count": 16,
+    "get_host_info_supported": true,
+    "enhanced_query_url_export_supported": true,
+    "gzip_bytes_first_collection_supported": true,
+    "kwork_branch_embedded_extension_snapshot_is_capability_authority": false
+  },
+  "checks": {
+    "base_pairs_accounted": "195/195",
     "base_pair_silent_drops": 0,
     "freshness_extension_pairs_accounted": "4/4",
     "effective_final_pairs_accounted": "199/199",
@@ -23,6 +45,7 @@
     "current_page_evidence_urls": 49,
     "qf016_specialist_freshness_correction_materialized": true,
     "qf017_specialist_freshness_correction_materialized": true,
+    "confirmed_harmful_cannibalization_cases_from_public_current_evidence": 0,
     "strong_harmful_verdict_from_one_public_serp_snapshot": 0,
     "destructive_remediation_authorized_cases": 0,
     "destructive_remediation_without_qualifying_evidence": 0,
@@ -30,55 +53,34 @@
     "automatic_family_transfer_from_single_query": 0,
     "gensearch_or_alice_calls_in_step13": 0,
     "fresh_ordinary_search_still_required": false,
+    "historical_url_switching_claim_without_private_history": 0,
+    "historical_cannibalization_absence_claim_without_private_history": 0,
+    "historical_harm_claim_without_private_history": 0,
+    "traffic_or_click_loss_claim_without_private_history": 0,
+    "private_history_absence_explicitly_declared": true,
+    "known_base_required_source_silently_skipped_count": 0,
     "step14_executed": false
   },
-  "blocking_checks": {
-    "official_first_party_query_url_history_source_identified_before_execution": true,
-    "first_party_query_url_history_gate_operationalized_before_old_execution": false,
-    "first_party_query_url_history_acquired": false,
-    "owner_approved_degraded_closure_exists": false,
-    "step11_webmaster_zero_host_blocker_inherited_into_old_step13_acceptance": false,
-    "current_webmaster_bridge_supports_enhanced_query_url_export": false,
-    "okno_msk_webmaster_host_id_resolved": false,
-    "runtime_version_boundary_resolved_or_explicitly_accepted": false,
-    "known_required_source_silently_skipped_count": 1
-  },
-  "blocking_findings": [
+  "historical_findings_reconciliation": [
     {
       "finding_id": "S13-F001",
-      "severity": "BLOCKING",
-      "class": "SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED",
-      "detail": "Official Yandex query-by-URL historical analytics were identified in pre-step research, but the method/pass gate did not require acquisition or an explicit degraded-closure decision. Full cannibalization diagnosis therefore lacks historical query×URL evidence."
+      "historical_class": "SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED",
+      "current_status": "RESOLVED_FOR_BASE_MODE",
+      "resolution": "Client-private query×URL history is optional enhancement under the owner-approved base-package policy. Its absence is explicit and all historical/harm claims remain bounded."
     },
     {
       "finding_id": "S13-F002",
-      "severity": "BLOCKING",
-      "class": "ACCESS_AND_TOOL_CAPABILITY_UNRESOLVED",
-      "detail": "The durable Webmaster probe returned hosts=[] so no target hostId is resolved, and the current Webmaster Bridge first slice does not implement the official enhanced query-by-URL export workflow. Account access and tool capability must be resolved separately."
+      "historical_class": "ACCESS_AND_TOOL_CAPABILITY_UNRESOLVED",
+      "current_status": "RESOLVED",
+      "resolution": "Canonical Bridge v0.1.4 now supports Enhanced Export. Current OKNO_MSK access remains unavailable but is optional for base scope."
     }
   ],
-  "blocking_findings_count": 2,
-  "causal_authorities": [
-    "STEP_13_METHOD_POSTMORTEM_REOPEN_AND_FULL_EXECUTION_RECORD_2026-09-01.md",
-    "../../STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md",
-    "STEP_11_WEBMASTER_BRIDGE_PROBE_2026-08-30.md",
-    "STEP_13_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_V2_2026-08-31.md",
-    "STEP_13_SOURCE_TO_METHOD_TRACE.tsv",
-    "STEP_13_PAIR_ELIGIBILITY_QA.json",
-    "STEP_13_QUERY_FAMILY_CASES_QA.json",
-    "STEP_13_PRESEARCH_CASE_DECISIONS.tsv",
-    "STEP_13_CURRENT_PAGE_EVIDENCE.tsv",
-    "STEP_13_CURRENT_PAGE_EVIDENCE_EXTENSION.tsv",
-    "STEP_13_SEARCH_MANIFEST.tsv",
-    "STEP_13_PAIR_UNIVERSE_EXTENSION.tsv",
-    "STEP_13_CONFLICT_DIAGNOSIS.tsv",
-    "STEP_13_REMEDIATION_RECOMMENDATIONS.tsv",
-    "STEP_13_FINAL_PAIR_ACCOUNTING.json",
-    "STEP_13_QA_FINDINGS.tsv",
-    "STEP_13_REPORT.md",
-    "STEP_13_ACCEPTANCE_2026-09-01.md"
-  ],
-  "full_step13_pass_allowed": false,
-  "next_step_allowed": false,
-  "note": "Public/current-page diagnosis and Search accounting remain valid, but full Step13 acceptance is withdrawn until first-party historical query×URL evidence is acquired and analyzed or the owner explicitly approves a degraded evidence closure."
+  "historical_blocking_findings_count": 2,
+  "current_policy_blocking_findings_count": 0,
+  "first_party_query_url_history_acquired": false,
+  "first_party_history_mode": "OPTIONAL_ENHANCEMENT_NOT_EXECUTED",
+  "full_step13_base_package_pass_allowed": true,
+  "step13_complete": true,
+  "next_step_allowed": true,
+  "note": "Step 13 is accepted for the sellable base package on public/current evidence. This does not claim historical URL switching, historical absence of cannibalization, traffic/click loss, or harmful competition without private first-party history."
 }

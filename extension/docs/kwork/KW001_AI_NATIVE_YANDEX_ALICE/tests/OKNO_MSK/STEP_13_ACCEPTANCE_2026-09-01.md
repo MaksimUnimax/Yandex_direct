@@ -1,32 +1,32 @@
 # Step 13 acceptance — OKNO_MSK
 
-Date: 2026-09-01
-Status: **OLD FULL ACCEPTANCE WITHDRAWN / STEP 13 REOPENED**
+Date: 2026-09-01  
+Status: **PASS / COMPLETE FOR BASE KWORK / PUBLIC-CURRENT EVIDENCE MODE**
 
-## Why the old acceptance was wrong
+## Acceptance basis
 
-The original acceptance reconciled pair accounting, current-page evidence, ordinary Search acquisition, provider outcomes, remediation strength and GitHub readback. Those checks were real and remain useful.
+Step 13 was previously reopened because the old acceptance treated first-party Webmaster query×URL history as a hard completion gate. After the owner-approved Layer-A policy was adopted, that hard gate was re-evaluated for the sellable base package.
 
-However, the Step-13 pre-step research had already identified official Yandex first-party query-by-URL historical analytics as materially stronger evidence for real page competition. The execution did not acquire that evidence and the acceptance gate did not require either:
+Current authority:
 
-```text
-FIRST_PARTY_QUERY_URL_HISTORY = AVAILABLE_AND_USED
-```
+- `../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`
+- `../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_BRIDGE_CAPABILITY_UPDATE_2026-09-01.md`
+- `STEP_13_POLICY_QA_RECONCILIATION_2026-09-01.md`
 
-or an explicit owner-approved degraded closure.
-
-This is the exact failure:
+For the current job:
 
 ```text
-SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED
+YANDEX_WEBMASTER_ACCESS_STATE = UNAVAILABLE
+YANDEX_WEBMASTER_PRIVATE_EVIDENCE_USED = false
+BASE_PUBLIC_EVIDENCE_MODE = true
 ```
 
-Therefore the old `COMPLETE/PASS` decision is withdrawn.
+This is an allowed base mode, not a process failure.
 
 ## Preserved completed gates
 
 ```text
-HISTORICAL_BASE_PAIRS_ACCOUNTED = 195/195
+BASE_PAIRS_ACCOUNTED = 195/195
 BASE_SILENT_PAIR_DROPS = 0
 FRESHNESS_EXTENSION_PAIRS = 4/4
 EFFECTIVE_FINAL_PAIR_UNIVERSE = 199
@@ -42,60 +42,73 @@ QF007_RETRY_USED = 1/3
 QF007_RETRY_FINAL_STATUS = SUCCEEDED
 STEP13_PROVIDER_COST_RUB_ACCOUNTED = 8.296
 CURRENT_PAGE_EVIDENCE_URLS = 49
-STRONG_HARMFUL_VERDICT_FROM_ONE_PUBLIC_SERP_SNAPSHOT = 0
+CONFIRMED_HARMFUL_CANNIBALIZATION_FROM_PUBLIC_CURRENT_EVIDENCE = 0
 DESTRUCTIVE_REMEDIATION_AUTHORIZED = 0
 GENSEARCH_OR_ALICE_CALLS = 0
-STEP14_EXECUTED = false
 ```
 
-These facts prove that the public/current-page/Search layer was executed and reconciled. They do not prove that the full cannibalization-diagnosis objective is complete.
+## Claim-boundary acceptance
 
-## Blocking acceptance gates
+The public/current layer may conclude current page-role relationships, ownership mismatch signals, primary/supporting responsibility and current multi-URL visibility signals.
+
+Because private historical query×URL data is unavailable, this acceptance explicitly does **not** claim:
 
 ```text
-FIRST_PARTY_QUERY_URL_HISTORY_SOURCE_IDENTIFIED = true
-FIRST_PARTY_QUERY_URL_HISTORY_ACQUIRED = false
-OWNER_APPROVED_DEGRADED_CLOSURE = false
-OKNO_MSK_WEBMASTER_HOST_ID_RESOLVED = false
-CURRENT_WEBMASTER_BRIDGE_ENHANCED_QUERY_URL_EXPORT_SUPPORTED = false
-RUNTIME_VERSION_BOUNDARY_RESOLVED_OR_ACCEPTED = false
-BLOCKING_QA_FINDINGS = 2
+historical URL switching proved
+historical cannibalization absent
+historical harmful competition proved
+traffic/click loss proved
 ```
 
-Durable evidence already shows that the Webmaster API is reachable but the active OAuth context returned `hosts=[]`; therefore the target host ID is not resolved and must not be guessed.
+The 21 finalized cases all keep `confirmed_harmful_cannibalization=false` and `destructive_remediation_authorized=false`. All 21 remediation recommendations are non-destructive.
 
-Current repository Webmaster protocol is only the first read-only slice (`listHosts`, `getSummary`, `getDiagnostics`, `getPopularQueries`) and does not implement the official enhanced query-by-URL export workflow.
+## Bridge capability actualization
 
-## Correct acceptance decision
+The old Step-13 checkpoint also contained a stale product statement that Webmaster Bridge supported only four methods and lacked Enhanced Export.
+
+Current canonical product authority:
+
+```text
+BRIDGE_PRODUCT_BRANCH = bridge/webmaster-readiness-gzip-v0.1.4
+BRIDGE_PRODUCT_HEAD = 8bb1365a9905df8a6d7e09917e81444a9b7f1024
+BRIDGE_PRODUCT_VERSION = 0.1.4
+BRIDGE_FULL_GATE_RUN = 33491679086
+BRIDGE_FULL_GATE_CONCLUSION = success
+WEBMASTER_METHOD_COUNT = 16
+ENHANCED_QUERY_URL_EXPORT_SUPPORTED = true
+GET_HOST_INFO_SUPPORTED = true
+```
+
+This capability correction does not create OKNO-MSK client access. It removes the obsolete tool-capability blocker and preserves private history as an optional enhanced path.
+
+The `0.1.2` extension files embedded in the Kwork roadmap branch are an older local snapshot and are **not** the current Bridge product capability authority.
+
+## Historical findings reconciliation
+
+```text
+S13-F001 = RESOLVED_FOR_BASE_MODE
+S13-F002 = RESOLVED
+CURRENT_POLICY_BLOCKING_FINDINGS = 0
+```
+
+`S13-F001` remains a valid methodology lesson: a known evidence source must never be silently skipped. It is now explicitly classified as optional private enhancement for base scope.
+
+`S13-F002` is resolved because current Bridge v0.1.4 implements the Enhanced Export surface; unavailable OKNO-MSK private access is optional for base scope.
+
+## Final acceptance decision
 
 ```text
 PUBLIC_CURRENT_PAGE_DIAGNOSIS = COMPLETE
 PAIR_ACCOUNTING = COMPLETE
 ORDINARY_SEARCH_ACQUISITION = COMPLETE
-FIRST_PARTY_QUERY_URL_HISTORY = INCOMPLETE / BLOCKED
-STEP13_FULL_ACCEPTANCE = REOPENED
-STEP13_COMPLETE = false
-NEXT_STEP_ALLOWED = false
+PRIVATE_FIRST_PARTY_HISTORY = OPTIONAL_ENHANCEMENT_NOT_EXECUTED
+CURRENT_POLICY_QA = PASS
+STEP13_BASE_PACKAGE_ACCEPTANCE = PASS
+STEP13_COMPLETE = true
 STEP14_EXECUTED = false
+NEXT_STEP_ALLOWED = true
 ```
 
-## What is required to restore full acceptance
+Step 13 is closed for this base Kwork job.
 
-1. Resolve the Yandex Webmaster account/property context and obtain the target `hostId` from provider evidence.
-2. Resolve an executable first-party query×URL historical evidence route: authorized Webmaster UI/export, governed Bridge enhancement, or another explicitly justified comparable first-party route.
-3. Freeze a focused historical-evidence manifest for the material Step-13 cases.
-4. Acquire, persist and read back the historical evidence.
-5. Re-run case diagnosis separating current signal, historical competition and actual harm.
-6. Rebuild remediation recommendations if historical evidence changes any case.
-7. Re-run independent QA with explicit missing-evidence checks.
-8. Only then restore Step-13 acceptance, unless the owner explicitly accepts a degraded evidence closure.
-
-## Canonical correction authorities
-
-- `../../STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md`
-- `STEP_13_METHOD_POSTMORTEM_REOPEN_AND_FULL_EXECUTION_RECORD_2026-09-01.md`
-- `STEP_13_QA.json`
-- `STEP_13_QA_FINDINGS.tsv`
-- `STEP_13_CURRENT_STATE.json`
-
-Step 14 remains blocked.
+The historical recovery plan remains available only for a future enhanced/with-access run and is not a prerequisite for Step 14.
