@@ -1,7 +1,7 @@
 {
   "date": "2026-09-01",
   "step": 13,
-  "status": "PHASE2_SEARCH_R2_IN_PROGRESS__RESULT_11_PERSISTED__READBACK_PENDING__UNKNOWN_RETRY_POLICY_ACTIVE",
+  "status": "PHASE2_SEARCH_R2_IN_PROGRESS__RESULT_11_PERSISTED__UNKNOWN_RETRY_POLICY_ACTIVE",
   "input_pair_universe": 195,
   "pairs_marked_by_step12_for_future_search_check": 186,
   "step13_dependency_units": 98,
@@ -88,14 +88,14 @@
     "request_id": "search-batch-55721176-a7b5-4ddb-bb9b-1d5040ab4787",
     "result_file": "STEP_13_SEARCH_RESULT_11_FRENCH_WINDOW_INSTALLATION_2026-09-01.json",
     "persisted_before_analysis": true,
-    "github_readback_passed": false
+    "github_readback_passed": true
   },
   "bridge_control_receipt_archived": false,
   "bridge_control_receipt_policy": "CONTROL_PLANE_ACKS_AND_ERRORS_WITHOUT_DOWNSTREAM_EVIDENCE_ARE_NOT_ARCHIVED;ONLY_MINIMAL_OPERATIONAL_STATE_IS_RECORDED",
   "useful_bridge_evidence_persistence_gate": "BRIDGE_EVIDENCE_PERSISTENCE_GATE.md",
-  "fresh_search_allowed_now": false,
-  "provider_operator_action_pending": false,
-  "required_operator_action": "GitHub readback and accounting QA for Search result 11 must pass before analysis or any next provider action. After PASS, continue r2 one provider result at a time; QF007 remains eligible for retry 1/3 in a separate retry job and every retry must be announced in chat before execution with query, retry ordinal and expected incremental cost.",
+  "fresh_search_allowed_now": true,
+  "provider_operator_action_pending": true,
+  "required_operator_action": "Continue r2 one provider result at a time; QF007 remains eligible for retry 1/3 in a separate retry job and every retry must be announced in chat before execution with query, retry ordinal and expected incremental cost.",
   "runtime_version_mismatch_note": "Installed runtime is 0.1.1 while repository source documents 0.1.2. Do not assume nextN is available in the installed runtime; use next unless runtime support is explicitly verified.",
   "search_manifest": "STEP_13_SEARCH_MANIFEST.tsv",
   "step14_executed": false,
