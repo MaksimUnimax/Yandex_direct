@@ -1,0 +1,119 @@
+{
+  "date": "2026-09-01",
+  "job": "OKNO_MSK",
+  "step": 13,
+  "status": "COMPLETE__BASE_PUBLIC_EVIDENCE_MODE",
+  "method_authority": "../../STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md",
+  "research_to_execution_gate": "../../RESEARCH_TO_EXECUTION_SCHEMA_GATE.md",
+  "client_private_access_policy": "../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md",
+  "bridge_capability_update": "../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_BRIDGE_CAPABILITY_UPDATE_2026-09-01.md",
+  "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+  "input_universe": {
+    "base_pair_universe": 195,
+    "pair_universe_extension_rows": 4,
+    "effective_final_pair_universe": 199,
+    "effective_final_pairs_accounted": 199,
+    "silent_pair_drops": 0,
+    "query_family_cases": 21,
+    "current_page_evidence_urls": 49
+  },
+  "required_sources": [
+    {
+      "id": "RTE-S13-001",
+      "source": "current public site evidence",
+      "state": "EXECUTED_AND_PERSISTED",
+      "artifact": "STEP_13_CURRENT_PAGE_EVIDENCE.tsv"
+    },
+    {
+      "id": "RTE-S13-002",
+      "source": "ordinary Yandex Search/SERP evidence",
+      "state": "EXECUTED_AND_PERSISTED",
+      "presearch_cases_closed": 5,
+      "fresh_search_cases_with_usable_evidence": 16
+    },
+    {
+      "id": "RTE-S13-006",
+      "source": "current-site freshness discovery",
+      "state": "EXECUTED_AND_PERSISTED",
+      "trigger_cases": ["QF016", "QF017"],
+      "extension_rows": 4
+    }
+  ],
+  "optional_sources": [
+    {
+      "id": "RTE-S13-003",
+      "source": "Yandex Webmaster first-party query×URL history / enhanced export",
+      "requirement_class": "OPTIONAL_ENHANCEMENT",
+      "access_state": "CLIENT_PRIVATE_DATA_UNAVAILABLE_FOR_CURRENT_TEST_JOB",
+      "tool_capability_state": "AVAILABLE_IN_CURRENT_BRIDGE_V0_1_4",
+      "collection_state": "NOT_EXECUTED_BY_BASE_POLICY",
+      "silent_skip": false,
+      "recovery_plan": "STEP_13_FIRST_PARTY_QUERY_URL_HISTORY_RECOVERY_PLAN_2026-09-01.md"
+    }
+  ],
+  "bridge_capability": {
+    "product_branch": "bridge/webmaster-readiness-gzip-v0.1.4",
+    "product_head": "8bb1365a9905df8a6d7e09917e81444a9b7f1024",
+    "version": "0.1.4",
+    "full_gate_run": 33491679086,
+    "full_gate_conclusion": "success",
+    "webmaster_method_count": 16,
+    "enhanced_query_url_export_supported": true,
+    "get_host_info_supported": true,
+    "gzip_bytes_first_collection_supported": true
+  },
+  "provider_execution": {
+    "provider_boundaries_started_step13": 17,
+    "successful_useful_provider_results_persisted": 16,
+    "provider_outcome_unknown_historical_count": 1,
+    "provider_outcome_unknown_unresolved_count": 0,
+    "qf007_retry_used": "1/3",
+    "qf007_retry_final_status": "SUCCEEDED",
+    "provider_cost_rub_step13_accounted": 8.296,
+    "new_provider_requests_for_schema_hardening": 0
+  },
+  "freshness_requirements": {
+    "material_current_urls_reread": true,
+    "material_current_site_discoveries_incorporated": true,
+    "current_page_evidence_urls": 49
+  },
+  "claim_boundaries": {
+    "allowed": [
+      "current page-role relationships",
+      "normal distinct-task relationships",
+      "normal parent-child relationships",
+      "normal primary-supporting relationships",
+      "current ownership mismatch signals",
+      "current multi-URL visibility signals"
+    ],
+    "forbidden_without_private_or_qualifying_history": [
+      "historical URL switching proved",
+      "historical cannibalization absent",
+      "historical harmful competition proved",
+      "traffic/click loss proved"
+    ],
+    "confirmed_harmful_cannibalization_cases_from_public_current_evidence": 0,
+    "destructive_remediation_authorized_cases": 0
+  },
+  "research_to_execution_requirements": {
+    "material_requirements_total": 9,
+    "material_requirements_accounted": 9,
+    "base_required_unoperationalized": 0,
+    "optional_enhancement_silently_skipped": 0,
+    "planned_as_executed_false_positives": 0,
+    "reverse_trace_missing_for_accepted_claim": 0,
+    "audit": "STEP_13_RESEARCH_TO_EXECUTION_SCHEMA_AUDIT_2026-09-01.md"
+  },
+  "acceptance_requirements": {
+    "pair_accounting_complete": true,
+    "ordinary_search_acquisition_complete": true,
+    "public_current_page_diagnosis_complete": true,
+    "private_history_required_for_base_mode": false,
+    "private_history_required_for_historical_claims": true,
+    "current_policy_qa_pass": true,
+    "research_to_execution_schema_gate_pass": true,
+    "step13_complete": true,
+    "step14_executed": false,
+    "next_step_allowed": true
+  }
+}
