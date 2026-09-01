@@ -13,7 +13,7 @@
         <h1>Yandex Marketing Bridge</h1>
         <p class="lead">ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + Webmaster + Metrika + Direct.</p>
       </div>
-      <span id="versionBadge" class="badge">v0.1.3</span>
+      <span id="versionBadge" class="badge">v0.1.4</span>
     </header>
 
     <div id="status" class="status" role="status">Готово.</div>
@@ -132,9 +132,9 @@
 
     <section>
       <h2>Webmaster policy</h2>
-      <label class="switch-row" for="webmasterManualEnabled"><span><strong>Разрешить Webmaster в ручном режиме</strong><small>v0.1.3: официальный аналитический read/export-контур без изменения сайта.</small></span><input id="webmasterManualEnabled" type="checkbox"></label>
+      <label class="switch-row" for="webmasterManualEnabled"><span><strong>Разрешить Webmaster в ручном режиме</strong><small>v0.1.4: read/export-контур, getHostInfo readiness и gzip-safe collect без изменения сайта.</small></span><input id="webmasterManualEnabled" type="checkbox"></label>
       <div class="grid"><label>Max Webmaster запросов<input id="webmasterMaxRequestsRun" type="number" min="1" max="100000"></label><label>Стоимость<input id="webmasterCost" type="text" value="0 ₽" readonly></label></div>
-      <p class="warning">Autorun Webmaster в production выключен. Доступны текущие read-only методы, история запросов, URL samples и управляемая query×URL export-выгрузка. Start export требует явного quota confirmation; PRO — отдельного подтверждения.</p>
+      <p class="warning">Autorun Webmaster в production выключен. Доступны read-only методы, host_data_status readiness, история запросов, URL samples и управляемая query×URL export-выгрузка. Start export требует явного quota confirmation; PRO — отдельного подтверждения.</p>
     </section>
 
     <section>
