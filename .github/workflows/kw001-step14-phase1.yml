@@ -1,0 +1,46 @@
+name: KW001 Step14 Phase1 URL Recheck
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_14_PHASE1_TRIGGER.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  phase1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Materialize current URL recheck and unresolved review packet
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step14_phase1_current_url_and_unresolved.py
+      - name: Persist and durable readback
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          b=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add \
+            $b/STEP_14_CURRENT_URL_RECHECK.tsv \
+            $b/STEP_14_UNRESOLVED_REVIEW_PACKET.tsv \
+            $b/STEP_14_PHASE1_QA_2026-09-01.json \
+            $b/STEP_14_CURRENT_STATE.json
+          git commit -m "step14: materialize phase1 live URL and unresolved packet [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          git show origin/roadmap/kwork-productization-2026-08-28:$b/STEP_14_PHASE1_QA_2026-09-01.json > /tmp/step14_phase1_qa.json
+          python - <<'PY'
+          import json
+          q=json.load(open('/tmp/step14_phase1_qa.json'))
+          assert q['input_counts']['active_phrases']==2332
+          assert q['input_counts']['structural_units']==168
+          assert q['input_counts']['step12_link_rows']==58
+          assert q['input_counts']['step13_cases']==21
+          assert q['unresolved']['materialized']==19
+          assert q['unresolved']['silent_assignment']==0
+          assert q['unresolved']['silent_drop']==0
+          assert q['provider_calls_executed']==0
+          assert q['gensearch_or_alice_calls']==0
+          print('STEP14_PHASE1_READBACK_PASS', q['status'], q['current_url_recheck'])
+          PY
