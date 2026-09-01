@@ -1,7 +1,7 @@
 {
   "date": "2026-09-01",
   "step": 13,
-  "status": "PASS_PENDING_FINAL_CLOSURE_READBACK",
+  "status": "PASS",
   "checks": {
     "historical_base_pairs_accounted": "195/195",
     "base_pair_silent_drops": 0,
@@ -30,6 +30,7 @@
     "gensearch_or_alice_calls_in_step13": 0,
     "fresh_provider_search_still_required": false,
     "qa_findings_rows": 0,
+    "closure_artifact_readback": "PASS",
     "step14_executed": false
   },
   "causal_authorities": [
@@ -60,9 +61,12 @@
     "STEP_13_PAIR_UNIVERSE_EXTENSION.tsv",
     "STEP_13_CONFLICT_DIAGNOSIS.tsv",
     "STEP_13_REMEDIATION_RECOMMENDATIONS.tsv",
-    "STEP_13_FINAL_PAIR_ACCOUNTING.json"
+    "STEP_13_FINAL_PAIR_ACCOUNTING.json",
+    "STEP_13_QA_FINDINGS.tsv",
+    "STEP_13_REPORT.md",
+    "STEP_13_ACCEPTANCE_2026-09-01.md"
   ],
-  "final_github_closure_readback_passed": false,
-  "next_step_allowed": false,
-  "note": "All semantic/accounting/provider gates pass. The only remaining gate at creation time is readback of the newly materialized closure artifacts and the final synchronized current state."
+  "final_github_closure_readback_passed": true,
+  "next_step_allowed": true,
+  "note": "Step13 semantic, accounting, provider, remediation and closure-readback gates pass. Step14 is next allowed but remains unexecuted."
 }
