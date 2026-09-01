@@ -668,7 +668,16 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
       const decision = policyDecisionForService(item.service, { policy, channel: "manual", method: item.command.method, credentialState: publicCapability(settings, item.service).state, run: budgetRun || {} });
       if (!decision.allow) { const protocol = assertProtocolForService(item.service); reports.push(protocol.formatSkippedReport({ requestId: uid("skip"), command: item.command, reason: decision.reason, metadata: { run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service }, request_executed: false, automatic_retry: false } })); continue; }
       if (operation.run_id) await patchAutoRun(key, (run) => ({ ...run, requests_attempted: Number(run.requests_attempted || 0) + 1, requests_executed: Number(run.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)) }));
-      try { const result = await executeServiceCommand(item.service, item.command, { conversation_key: key, run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service } }); providerExecutions += 1; requestExecutedSummary = true; reports.push(result.report_text); }
+      try {
+        const result = await executeServiceCommand(item.service, item.command, { conversation_key: key, run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service } });
+        const physicalRequestTruth = result?.report_envelope?.request_executed;
+        if (physicalRequestTruth !== false) {
+          providerExecutions += 1;
+          if (physicalRequestTruth === "UNKNOWN") requestExecutedSummary = "UNKNOWN";
+          else if (requestExecutedSummary !== "UNKNOWN") requestExecutedSummary = true;
+        }
+        reports.push(result.report_text);
+      }
       catch (error) {
         const requestExecuted = error.request_executed ?? "UNKNOWN";
         if (requestExecuted === "UNKNOWN") requestExecutedSummary = "UNKNOWN";

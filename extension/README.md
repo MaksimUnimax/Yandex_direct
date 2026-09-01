@@ -5,7 +5,7 @@
 ## Текущая версия
 
 ```text
-Yandex Marketing Bridge = 0.1.2
+Yandex Marketing Bridge = 0.1.3
 ```
 
 Authoritative version fields:
@@ -40,3 +40,7 @@ Gate является живым документом: новый/изменён
 ## Инвариант
 
 `extension/` не используется для данных конкретного заказа. Любые клиентские данные и результаты рабочих API-съёмов должны находиться только в `work/<job_id>/`.
+
+### v0.1.3 — Webmaster KW-001 read surface
+
+The v0.1.3 branch expands the accepted read-only Webmaster service with query history, indexing/in-search URL samples and the official asynchronous query×URL export lifecycle. Export tasks are persisted in `chrome.storage.local`, signed downloads are restricted to the official Yandex storage origin, raw CSV plus normalized rows are retained locally, and large evidence is delivered to ChatGPT in bounded chunks. Stateful export POST has no automatic retry and requires explicit quota confirmation; PRO usage additionally requires an explicit PRO confirmation.

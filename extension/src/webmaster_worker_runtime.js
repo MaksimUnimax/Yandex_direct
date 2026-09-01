@@ -2,6 +2,7 @@
 importScripts(
   "shared/credential_store_model.js",
   "shared/webmaster_protocol.js",
+  "shared/webmaster_export_model.js",
   "shared/metrika_protocol.js",
   "shared/direct_protocol.js",
   "shared/credential_runtime.js",
@@ -83,7 +84,7 @@ importScripts(
     };
   }
   function defaultAutoStartTextForServiceV5(service) {
-    if (service === Registry.SERVICES.WEBMASTER) return "Продолжай текущий сбор Yandex Webmaster по активному плану этого диалога. Команды выводи только как WEBMASTER_API_V1. Используй только read-only методы первого среза. Когда сбор закончен, ответь только: сбор закончен.";
+    if (service === Registry.SERVICES.WEBMASTER) return "Продолжай текущий сбор Yandex Webmaster по активному плану этого диалога. Команды выводи только как WEBMASTER_API_V1. Используй только разрешённые read-only методы. startQueryUrlExport запускай только с явным confirmQuota:true; PRO — только с useProTariff:true и confirmProTariff:true. Не повторяй stateful POST автоматически при неизвестном исходе. Когда сбор закончен, ответь только: сбор закончен.";
     if (service === Registry.SERVICES.METRIKA) return "Продолжай текущий сбор Yandex Metrika по активному плану этого диалога. Команды выводи только как METRIKA_API_V1. Используй только read-only методы первого среза. Когда сбор закончен, ответь только: сбор закончен.";
     if (service === Registry.SERVICES.DIRECT) return "Продолжай текущий сбор Yandex Direct по активному плану этого диалога. Команды выводи только как DIRECT_API_V1. Используй только read-only методы первого среза. Не повторяй Direct POST автоматически при неизвестном исходе. Когда сбор закончен, ответь только: сбор закончен.";
     return originals.defaultAutoStartTextForService(service);

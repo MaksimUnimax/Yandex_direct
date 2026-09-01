@@ -6,6 +6,13 @@
   const CHATGPT_HOSTS = new Set(["chatgpt.com", "chat.openai.com"]);
   const SERVICES = new Set(["wordstat", "search", "webmaster", "metrika", "direct"]);
   const PRODUCTION_AUTORUN_LOCKED = new Set(["webmaster", "metrika", "direct"]);
+  const WEBMASTER_METHODS = Object.freeze([
+    "listHosts", "getSummary", "getDiagnostics", "getPopularQueries",
+    "getAllQueryHistory", "getQueryHistory", "getIndexingSamples", "getInSearchSamples",
+    "getExportRegions", "getExportLimits", "getExportDates",
+    "projectQueryUrlExport", "startQueryUrlExport", "getQueryUrlExportStatus", "collectQueryUrlExport",
+    "getQueryUrlExportManifest", "readQueryUrlExportChunk", "listQueryUrlExportJobs"
+  ]);
   const SERVICE_PROTOCOL = Object.freeze({
     wordstat: "WORDSTAT_API_V1",
     search: "SEARCH_API_V1",
@@ -110,13 +117,18 @@
   }
 
   function webmasterPolicyFromForm() {
+    const current = lastState?.webmaster_policy || {};
+    const currentMethods = Array.isArray(current.allowed_methods)
+      ? current.allowed_methods.map(String).filter((method) => WEBMASTER_METHODS.includes(method))
+      : [];
+    const allowedMethods = currentMethods.length ? currentMethods : [...WEBMASTER_METHODS];
     return {
       autorun_enabled: false,
       manual_enabled: $("webmasterManualEnabled").checked,
-      allowed_methods: ["listHosts", "getSummary", "getDiagnostics", "getPopularQueries"],
+      allowed_methods: allowedMethods,
       max_requests_per_run: asPositiveInt("webmasterMaxRequestsRun", 50),
       max_cost_rub_per_run: 0,
-      method_cost_rub: { listHosts: 0, getSummary: 0, getDiagnostics: 0, getPopularQueries: 0 }
+      method_cost_rub: Object.fromEntries(WEBMASTER_METHODS.map((method) => [method, 0]))
     };
   }
 
@@ -255,7 +267,7 @@
     rendering = true;
     try {
       lastState = state || {};
-      $("versionBadge").textContent = `v${state?.product_version || "0.1.1"}`;
+      $("versionBadge").textContent = `v${state?.product_version || "0.1.3"}`;
       $("conversationMeta").textContent = context.available ? context.conversation_key : "не определён";
       const service = normalizeService(state?.service_context?.active_service);
       $("activeService").value = service;

@@ -56,6 +56,7 @@ function loadPhase3Runtime({ responseText, status = 200 } = {}) {
   ctx.YMBServiceRegistry = { SERVICES: { SEARCH: 'search', WORDSTAT: 'wordstat', WEBMASTER: 'webmaster' } };
   ctx.YMBPolicyModel = { normalizeWebmasterPolicy: (value) => value };
   ctx.WordstatProtocol = {};
+  ctx.YMBWebmasterExportModel = {};
   vm.runInContext(fs.readFileSync(path.join(src, 'shared/search_protocol.js'), 'utf8'), ctx, { filename: 'search_protocol.js' });
   vm.runInContext(fs.readFileSync(path.join(src, 'shared/phase3_provider_runtime.js'), 'utf8'), ctx, { filename: 'phase3_provider_runtime.js' });
   return { runtime: ctx.YMBPhase3ProviderRuntime, requests };

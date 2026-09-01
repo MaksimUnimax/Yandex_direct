@@ -403,3 +403,30 @@ verdict: PASS|FAIL_PRODUCT|FAIL_ARTIFACT|FAIL_HARNESS
 # 7. Handoff rule
 
 ChatGPT must not present an installable candidate to the owner as a working build until the latest exact frozen candidate has a fresh `PASS` from this full gate. Historical PASS is not transferable. Owner real-profile/live acceptance remains a separate later classification and this gate never fabricates it.
+
+## 8. v0.1.3 Webmaster KW-001 read-surface mandatory delta coverage
+
+When `product_version >= 0.1.3`, the full gate additionally requires all of the following without weakening PD-00…PD-17:
+
+```text
+WEBMASTER_V013_PROTOCOL_AND_VALIDATION = PASS
+WEBMASTER_V013_OLD4_COMPATIBILITY = PASS
+WEBMASTER_V013_QUERY_HISTORY = PASS
+WEBMASTER_V013_INDEXING_AND_IN_SEARCH_SAMPLES = PASS
+WEBMASTER_V013_EXPORT_METADATA = PASS
+WEBMASTER_V013_EXPORT_PROJECTION_AND_CONFIRMATION_GUARDS = PASS
+WEBMASTER_V013_EXPORT_POST_NO_AUTO_RETRY = PASS
+WEBMASTER_V013_DURABLE_TASK_RECOVERY = PASS
+WEBMASTER_V013_SIGNED_DOWNLOAD_ALLOWLIST = PASS
+WEBMASTER_V013_CSV_RAW_AND_NORMALIZED_PERSISTENCE = PASS
+WEBMASTER_V013_CHUNKED_LOCAL_READ = PASS
+WEBMASTER_V013_LOCAL_COMMAND_REQUEST_EXECUTED_FALSE = PASS
+WEBMASTER_V013_REMOTE_COMMAND_REQUEST_EXECUTED_TRUE = PASS
+WEBMASTER_V013_MANUAL_PROVIDER_ACCOUNTING_TRUTH = PASS
+WEBMASTER_V013_POPUP_POLICY_PRESERVATION = PASS
+WEBMASTER_V013_POLICY_MIGRATION = PASS
+WEBMASTER_V013_WORDSTAT_SEARCH_METRIKA_DIRECT_REGRESSION = PASS
+WEBMASTER_V013_EXACT_ARTIFACT_IDENTITY = PASS
+```
+
+The controlled gate must stub every Yandex endpoint. Real provider requests remain `0`. A successful `startQueryUrlExport` POST is stateful: network outcome uncertainty must remain `REQUEST_OUTCOME_UNKNOWN_NO_RETRY`; an automatic retry is forbidden. `collectQueryUrlExport` may download only a URL previously returned by the official status endpoint and accepted by the exact `https://storage.mds.yandex.net/get-webmaster-download/` allowlist. Local projection/manifest/chunk/job-list commands must not increment physical provider request accounting.
