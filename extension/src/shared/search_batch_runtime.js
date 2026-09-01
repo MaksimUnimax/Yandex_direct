@@ -77,6 +77,7 @@
         item: options.item ? clone(options.item) : null,
         providerResult: options.providerResult ? clone(options.providerResult) : null,
         projection: options.projection ? clone(options.projection) : null,
+        chunk: options.chunk ? clone(options.chunk) : null,
         requestExecuted: options.requestExecuted ?? false,
         automaticRetry: false,
         costEstimate: job ? { estimated_rub: Number(job.totals?.estimated_cost_rub || 0), max_rub: job.limits?.max_cost_rub ?? null } : null,
@@ -107,6 +108,12 @@
     async function cancel(command) { const { map, job } = await loadJob(command.jobId); const next = Model.cancel(job, { reason: "OWNER_CANCEL", now: now() }); await persistJob(map, next); return { job: next, envelope: envelope(command, next) }; }
     async function projection(command) { const { job } = await loadJob(command.jobId); const value = Projection.projectPage(job, command); return { job, projection: value, envelope: envelope(command, job, { projection: value, requestExecuted: false }) }; }
     async function overlapPage(command) { const { job } = await loadJob(command.jobId); const value = Projection.overlapPage(job, command); return { job, projection: value, envelope: envelope(command, job, { projection: value, requestExecuted: false }) }; }
+
+    function compactChunkItem(item) {
+      const value = clone(item);
+      if (value && typeof value === "object") delete value.result_payload;
+      return value;
+    }
 
     async function next(command, context = {}) {
       const loaded = await loadJob(command.jobId);
@@ -171,6 +178,68 @@
       };
     }
 
+    async function nextN(command, context = {}) {
+      const steps = [];
+      let job = null;
+      let confirmedProviderExecutions = 0;
+      let aggregateRequestExecuted = false;
+      let stopReason = null;
+
+      for (let index = 0; index < command.count; index += 1) {
+        const handled = await next({ action: "next", jobId: command.jobId }, context);
+        job = handled.job;
+        const current = handled.envelope;
+
+        if (current.request_executed === true) {
+          confirmedProviderExecutions += 1;
+          aggregateRequestExecuted = true;
+        } else if (current.request_executed === "UNKNOWN") {
+          aggregateRequestExecuted = "UNKNOWN";
+        }
+
+        steps.push({
+          ordinal: index + 1,
+          status: current.status,
+          reason: current.reason,
+          request_executed: current.request_executed,
+          item: current.item ? compactChunkItem(current.item) : null,
+          provider_result: current.provider_result ? clone(current.provider_result) : null
+        });
+
+        if (current.request_executed === "UNKNOWN") {
+          stopReason = current.reason || "REQUEST_OUTCOME_UNKNOWN_NO_RETRY";
+          break;
+        }
+
+        if (current.status !== "OK" || current.request_executed !== true) {
+          stopReason = current.reason || "NEXT_N_STOPPED_BEFORE_PROVIDER";
+          break;
+        }
+      }
+
+      if (!job) job = (await loadJob(command.jobId)).job;
+      const last = steps.length ? steps[steps.length - 1] : null;
+      const chunk = {
+        requested_count: command.count,
+        attempted_steps: steps.length,
+        confirmed_provider_executions: confirmedProviderExecutions,
+        provider_execution_count_exact: aggregateRequestExecuted !== "UNKNOWN",
+        stopped_early: steps.length < command.count,
+        stop_reason: stopReason,
+        items: steps
+      };
+
+      return {
+        job,
+        envelope: envelope(command, job, {
+          status: last?.status || "OK",
+          reason: stopReason,
+          requestExecuted: aggregateRequestExecuted,
+          chunk
+        })
+      };
+    }
+
     async function handle(rawCommand, context = {}) {
       const command = Protocol.normalizeCommand(rawCommand);
       if (command.action === "start") return start(command);
@@ -181,6 +250,7 @@
       if (command.action === "projection") return projection(command);
       if (command.action === "overlapPage") return overlapPage(command);
       if (command.action === "next") return next(command, context);
+      if (command.action === "nextN") return nextN(command, context);
       fail("UNSUPPORTED_SEARCH_BATCH_ACTION", `Search batch action ${command.action} не поддерживается.`);
     }
 

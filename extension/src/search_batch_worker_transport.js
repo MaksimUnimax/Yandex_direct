@@ -92,10 +92,16 @@
     const command = normalizedBatchCommand(rawCommand);
     const handled = await batchRuntime.handle(command, metadata);
     const envelope = handled.envelope;
+    const chunkItems = Array.isArray(envelope.chunk?.items) ? envelope.chunk.items : [];
+    const requestIds = chunkItems.map((entry) => entry?.item?.request_id).filter(Boolean);
+    const confirmedProviderExecutions = Number(envelope.chunk?.confirmed_provider_executions ?? (envelope.request_executed === true ? 1 : 0));
+    const providerExecutions = envelope.request_executed === "UNKNOWN" ? null : confirmedProviderExecutions;
     return {
       ok: envelope.status !== "ERROR",
-      request_id: envelope.item?.request_id || null,
+      request_id: envelope.item?.request_id || requestIds[requestIds.length - 1] || null,
       request_executed: envelope.request_executed,
+      confirmed_provider_executions: confirmedProviderExecutions,
+      provider_executions: providerExecutions,
       automatic_retry: false,
       report_envelope: envelope,
       report_text: SearchBatchProtocol.formatResultEnvelope(envelope),
@@ -175,6 +181,7 @@
 
     let reportText = "";
     let requestExecuted = false;
+    let confirmedProviderExecutions = 0;
     let providerExecutions = 0;
     if (discovered.error) {
       reportText = formatBridgeError({
@@ -199,7 +206,8 @@
         });
         reportText = result.report_text;
         requestExecuted = result.request_executed;
-        providerExecutions = requestExecuted === true ? 1 : 0;
+        confirmedProviderExecutions = Number(result.confirmed_provider_executions || 0);
+        providerExecutions = requestExecuted === "UNKNOWN" ? 0 : Number(result.provider_executions || 0);
       } catch (error) {
         requestExecuted = error?.request_executed ?? false;
         reportText = formatBridgeError({
@@ -217,7 +225,7 @@
       }
     }
 
-    const prefixResult = providerExecutions > 0 ? await applyPrefixToReport(key, reportText) : { text: reportText, applied: false };
+    const prefixResult = confirmedProviderExecutions > 0 ? await applyPrefixToReport(key, reportText) : { text: reportText, applied: false };
     reportText = prefixResult.text;
     const deliveryId = uid("delivery");
     await putOutbox(key, {
@@ -281,6 +289,19 @@
         assistantTurnId
       });
     }
+    if (parsed.action === "nextN") {
+      return stageAutorunError(key, currentRun, senderTabId, {
+        code: "SEARCH_BATCH_NEXT_N_MANUAL_ONLY",
+        message: "Search batch nextN разрешён только в Manual mode.",
+        stage: "COMMAND_VALIDATION",
+        requestExecuted: false,
+        assistantTurnId,
+        operation: "batch.nextN",
+        recoverable: true,
+        autorunContinues: false
+      });
+    }
+
     const fingerprint = SearchBatchProtocol.commandFingerprint(parsed);
     if (currentRun.last_error?.request_executed === "UNKNOWN" && currentRun.last_command_fingerprint === fingerprint) {
       return { ok: false, accepted: false, code: "REQUEST_OUTCOME_UNKNOWN_NO_RETRY", error: "Предыдущая такая Search batch-команда имеет неизвестный исход. Автоматический повтор запрещён." };
