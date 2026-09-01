@@ -1,0 +1,11 @@
+ledger_id	ledger_type	scope	status	evidence_origin	boundary_or_disposition
+LED001	UNRESOLVED_ACCOUNTING	19/19 DEFER_UNRESOLVED	PASS__ALL_REVIEWED__ARCHITECTURE_MATERIAL_FALSE_19__TRUE_0	STEP_14_UNRESOLVED_REVIEW_PACKET.tsv	Preserve all 19 unassigned; no silent assignment, no silent drop, no page creation or owner reassignment.
+LED002	STEP13_CASE_ACCOUNTING	21/21 query-family cases	PASS__ALL_CONSUMED	STEP_13_CONFLICT_DIAGNOSIS.tsv + STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv	All current ownership/supporting-page boundaries are carried into Search-only architecture.
+LED003	STEP13_SPECIALIST_OVERRIDE	QF016	PASS__CURRENT_SPECIALIST_CONSUMED	https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/ + STEP_14_CURRENT_URL_RECHECK.tsv	Private-house panoramic specialist is primary; general panoramic and broad private-house pages remain supporting.
+LED004	STEP13_SPECIALIST_OVERRIDE	QF017	PASS__CURRENT_SPECIALIST_CONSUMED	https://okno-msk.ru/verandy/panoramnye-okna-na-terrasu/ + STEP_14_CURRENT_URL_RECHECK.tsv	Terrace panoramic specialist is primary; general panoramic and veranda hub remain supporting.
+LED005	HISTORICAL_EVIDENCE_BOUNDARY	ALL	PASS__BOUNDARY_PRESERVED	STEP_13_CURRENT_STATE.json + STEP_13_CONFLICT_DIAGNOSIS.tsv	No first-party query×URL history is available; Step14 does not claim historical absence of competition, owner switching, traffic loss or historical harm.
+LED006	DESTRUCTIVE_ACTION_BOUNDARY	ALL	PASS__ZERO_DESTRUCTIVE_ACTIONS	STEP_13_CONFLICT_DIAGNOSIS.tsv	Merge/delete/redirect/canonical actions authorized by Step14 = 0.
+LED007	NEW_PAGE_BOUNDARY	ALL	PASS__ZERO_NEW_PAGE_ACTIONS	STEP_12_D12_28_30_FINAL_RECONCILIATION.json	No old PROPOSED_NEW reference is revived; supported new-page actions remain 0.
+LED008	AI_BOUNDARY	ALL	PASS__SEARCH_ONLY	STEP_14_EXECUTION_MANIFEST.json	No GenSearch/Alice/Step16 evidence is consumed; Step15 and Step16 remain unexecuted.
+LED009	PROVIDER_BOUNDARY	ALL	PASS__ZERO_PROVIDER_CALLS__ZERO_COST	STEP_14_PHASE1_QA_2026-09-01.json	No new ordinary Search/Webmaster/other Bridge call in Step14; provider cost 0.0 RUB.
+LED010	CURRENT_SITE_BOUNDARY	59 implementation-relevant URLs	PASS__59_59_LIVE__CRITICAL_FAIL_0	STEP_14_CURRENT_URL_RECHECK.tsv + STEP_14_PHASE1_QA_2026-09-01.json	Affected-unit fail-closed gate found no current URL blocker.
