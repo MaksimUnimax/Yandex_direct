@@ -1,9 +1,23 @@
 # KW-001 / OKNO-MSK — JOB FLOW Step 13 sync
 
 Date: 2026-09-01
-Status: **ACTIVE / CURRENT ROADMAP SYNC / STEP 13 REOPENED**
+Status: **ACTIVE / CURRENT ROADMAP SYNC / STEP 13 REOPENED FOR POLICY QA RECONCILIATION**
 
 This file is a current-state synchronization overlay for `JOB_FLOW.md`. It supersedes stale Step-13 status lines in the older `JOB_FLOW.md` snapshot without rewriting historical Step-12 provenance. Canonical machine-readable authority remains `STEP_13_CURRENT_STATE.json`.
+
+Current Layer-A private-data authority:
+
+`../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`
+
+Owner-established current-job state:
+
+```text
+YANDEX_WEBMASTER_ACCESS_STATE = UNAVAILABLE
+YANDEX_WEBMASTER_PRIVATE_EVIDENCE_USED = false
+BASE_PUBLIC_EVIDENCE_MODE = true
+```
+
+The base Kwork no longer treats lack of client Webmaster access as a provider/operator blocker. Historical/private claims remain bounded by available evidence.
 
 ## Current roadmap
 
@@ -24,10 +38,10 @@ This file is a current-state synchronization overlay for `JOB_FLOW.md`. It super
 | 10 | User-task / SERP clustering | ✅ COMPLETE |
 | 11 | Page ownership | ✅ COMPLETE |
 | 12 | Structural actions | ✅ COMPLETE |
-| 13 | Cannibalization diagnosis | 🔄 REOPENED — PUBLIC/CURRENT LAYER COMPLETE, FIRST-PARTY QUERY×URL HISTORY BLOCKED |
-| 14 | Search-only architecture freeze | ⛔ BLOCKED / NOT EXECUTED |
+| 13 | Cannibalization diagnosis | 🔄 REOPENED — PUBLIC/CURRENT LAYER COMPLETE; PRIVATE HISTORY UNAVAILABLE; BASE-MODE POLICY ADOPTED; QA RECONCILIATION REQUIRED |
+| 14 | Search-only architecture freeze | ⛔ BLOCKED / NOT EXECUTED UNTIL STEP-13 POLICY QA CLOSES |
 | 15 | AI-case selection | ⬜ NOT STARTED |
-| 16 | AI-search evidence | ⬜ NOT STARTED |
+| 16 | AI-search evidence | ⬜ NOT STARTED — WEBMASTER ACCESS CHECK REQUIRED; GENSEARCH BASE FALLBACK EXISTS |
 | 17 | Search-vs-AI comparison | ⬜ NOT STARTED |
 | 18 | Prioritization | ⬜ NOT STARTED |
 | 19 | Client deliverables | ⬜ NOT STARTED |
@@ -74,24 +88,37 @@ The Step-13 pre-step research had already identified official Yandex first-party
 SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED = true
 ```
 
-The old QA validated the artifacts that existed instead of testing whether a known required evidence source was missing.
+That methodological finding remains valid: public SERP must not be misrepresented as historical first-party evidence.
 
-Current blocking state:
+What changed is the commercial/base-package policy. The owner has now explicitly established:
+
+```text
+CLIENT_PRIVATE_DATA_UNAVAILABLE
+-> NORMAL BASE MODE
+-> NOT A PROCESS FAILURE
+-> NOT A PURCHASE BLOCKER
+-> BASE STEP MAY CLOSE WITH EXPLICIT EVIDENCE BOUNDARY
+```
+
+Therefore the two historical Step-13 QA findings must now be reconciled against the new Layer-A policy instead of forcing a Webmaster acquisition that this test project cannot provide.
+
+Current state:
 
 ```text
 FIRST_PARTY_QUERY_URL_HISTORY_ACQUIRED = false
-OWNER_APPROVED_DEGRADED_CLOSURE = false
-OKNO_MSK_WEBMASTER_HOST_ID_RESOLVED = false
-CURRENT_WEBMASTER_BRIDGE_ENHANCED_QUERY_URL_EXPORT_SUPPORTED = false
-BLOCKING_QA_FINDINGS = 2
+YANDEX_WEBMASTER_ACCESS_STATE = UNAVAILABLE
+BASE_PUBLIC_EVIDENCE_MODE = true
+PRIVATE HISTORY CLAIMS ALLOWED = false
+PROVIDER_OPERATOR_ACTION_PENDING = false
 STEP13_COMPLETE = false
+CURRENT_POLICY_QA_RERUN_REQUIRED = true
 STEP14_EXECUTED = false
 NEXT_STEP_ALLOWED = false
 ```
 
-## Current Webmaster blockers
+## Current Webmaster capability facts preserved for first future access
 
-Durable Step-11 probe:
+Historical durable Step-11 probe:
 
 ```text
 WEBMASTER_API_REACHABLE = true
@@ -110,24 +137,32 @@ getPopularQueries
 
 It does not implement the official enhanced query-by-URL export workflow.
 
-Version boundary:
+Version evidence:
 
 ```text
 REPOSITORY_EXTENSION_VERSION = 0.1.2
 LAST_DURABLE_LIVE_WEBMASTER_PROBE_RUNTIME = 0.1.1
 ```
 
+These are not current OKNO-MSK execution blockers under base mode. They are preserved capability/access facts to resolve when the first real client Webmaster access becomes available and the mandatory WITH_ACCESS vs WITHOUT_ACCESS comparison is triggered.
+
 ## Current Step-13 authorities
 
-Reusable corrected method:
+Layer-A client-private-data policy:
+
+`../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`
+
+Reusable Step-13 method:
 
 `../../STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md`
+
+Where the older Step-13 hard-history pass condition conflicts with the later owner-approved Layer-A base-package policy, the Layer-A policy has precedence for base Kwork jobs.
 
 Execution postmortem/full record:
 
 `STEP_13_METHOD_POSTMORTEM_REOPEN_AND_FULL_EXECUTION_RECORD_2026-09-01.md`
 
-Recovery plan:
+Historical recovery plan retained for future enhanced/with-access work:
 
 `STEP_13_FIRST_PARTY_QUERY_URL_HISTORY_RECOVERY_PLAN_2026-09-01.md`
 
@@ -139,24 +174,25 @@ Current state/QA:
 `STEP_13_REPORT.md`  
 `STEP_13_ACCEPTANCE_2026-09-01.md`
 
-The existing `STEP_13_CONFLICT_DIAGNOSIS.tsv` and `STEP_13_REMEDIATION_RECOMMENDATIONS.tsv` remain valid as the **public/current evidence layer**, not as immutable full historical acceptance.
+The existing `STEP_13_CONFLICT_DIAGNOSIS.tsv` and `STEP_13_REMEDIATION_RECOMMENDATIONS.tsv` remain valid as the public/current evidence layer.
 
 ## Required next action inside Step 13
 
-Do not execute Step 14.
+Do not execute Step 14 yet.
 
 Do not buy another ordinary Search snapshot.
 
-Step 13 can continue only by resolving the first-party history route:
+Do not attempt to obtain Webmaster access for this test project; the owner has established that it is unavailable.
+
+Next action:
 
 ```text
-1. correct/verify Webmaster account + property context;
-2. resolve installed/runtime version boundary;
-3. re-run listHosts once only after a real correction and persist/read back the result;
-4. obtain exact okno-msk.ru hostId from provider evidence;
-5. resolve an executable query×URL historical route (authorized UI/export, governed Bridge enhancement, or comparable first-party source);
-6. freeze historical manifest;
-7. acquire/persist/read back history;
-8. rerun diagnosis/remediation/QA;
-9. only then restore Step-13 acceptance.
+1. re-run Step-13 QA against CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md;
+2. reclassify absent private query×URL history as an explicit BASE_PUBLIC_EVIDENCE_MODE boundary rather than a blocker;
+3. verify that no historical switching / historical absence / traffic-loss / harm claim exceeds public evidence;
+4. verify all 199/199 accounting and existing public evidence remain intact;
+5. update Step-13 report/remediation wording where the old hard-history gate leaked into conclusions;
+6. write new acceptance state;
+7. GitHub readback;
+8. only if QA has zero current-policy blocking findings may Step 13 close and Step 14 pre-step begin.
 ```
