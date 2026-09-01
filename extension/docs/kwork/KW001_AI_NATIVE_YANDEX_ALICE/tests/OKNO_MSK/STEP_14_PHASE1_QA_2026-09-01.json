@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-01",
+  "job": "OKNO_MSK",
+  "step": 14,
+  "phase": 1,
+  "status": "PASS_PENDING_MANUAL_UNRESOLVED_CLASSIFICATION",
+  "input_counts": {
+    "active_phrases": 2332,
+    "structural_units": 168,
+    "step12_link_rows": 58,
+    "step13_cases": 21
+  },
+  "current_url_recheck": {
+    "unique_urls": 59,
+    "live_pass": 59,
+    "live_fail_or_indeterminate": 0,
+    "critical_fail_closed": 0
+  },
+  "unresolved": {
+    "expected": 19,
+    "materialized": 19,
+    "architecture_material_review_required": 19,
+    "silent_assignment": 0,
+    "silent_drop": 0
+  },
+  "provider_calls_executed": 0,
+  "provider_cost_rub": 0.0,
+  "gensearch_or_alice_calls": 0,
+  "step15_executed": false,
+  "step16_executed": false,
+  "next_action": "Review all 19 unresolved rows, set architecture_material true/false, then run final Step14 freeze."
+}

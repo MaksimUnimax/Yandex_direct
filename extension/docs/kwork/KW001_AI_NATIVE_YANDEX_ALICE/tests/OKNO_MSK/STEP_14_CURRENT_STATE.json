@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "PRE_STEP_RESEARCH_COMPLETE__EXECUTION_SCHEMA_READY__PREPARATION_QA_PASS__AWAITING_OWNER_AUTHORIZATION",
+  "status": "EXECUTION_PHASE1_COMPLETE__CURRENT_URL_RECHECK_MATERIALIZED__UNRESOLVED_REVIEW_REQUIRED",
   "permanent_method_status": "UNVALIDATED",
   "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
   "external_current_method_research_complete": true,
@@ -13,8 +13,8 @@
   "preparation_qa": "STEP_14_PREPARATION_QA_2026-09-01.json",
   "preparation_qa_passed": true,
   "owner_facing_method_review_ready": true,
-  "owner_authorization": false,
-  "execution_started": false,
+  "owner_authorization": true,
+  "execution_started": true,
   "execution_complete": false,
   "provider_calls_authorized": false,
   "provider_calls_executed": 0,
@@ -38,8 +38,12 @@
   },
   "mandatory_current_site_recheck": {
     "required_before_freeze": true,
-    "executed": false,
-    "affected_unit_fail_closed": true
+    "executed": true,
+    "affected_unit_fail_closed": true,
+    "unique_urls_checked": 59,
+    "live_pass": 59,
+    "live_fail_or_indeterminate": 0,
+    "critical_fail_closed": 0
   },
   "mandatory_step13_specialists": {
     "qf016": "https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/",
@@ -78,5 +82,5 @@
   "step15_executed": false,
   "step16_executed": false,
   "next_step_allowed": false,
-  "next_required_action": "Owner explicitly authorizes Step 14 execution. Then execute current-URL recheck first, reconcile corrected Step12/Step13 evidence, freeze only supported Search architecture, run independent QA/readback, and stop before Step15."
+  "next_required_action": "Review all 19 unresolved rows, set architecture_material true/false, then run final Step14 freeze."
 }
