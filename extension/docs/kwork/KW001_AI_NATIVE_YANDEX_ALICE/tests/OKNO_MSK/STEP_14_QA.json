@@ -1,0 +1,114 @@
+{
+  "date": "2026-09-01",
+  "job": "OKNO_MSK",
+  "step": 14,
+  "step_name": "Search-only architecture freeze",
+  "status": "PASS_SEARCH_ONLY_ARCHITECTURE_FREEZE",
+  "execution_complete": true,
+  "job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+  "permanent_method_status": "UNVALIDATED_PENDING_POST_RUN_METHOD_REVIEW",
+  "accounting": {
+    "active_phrases": 2332,
+    "assigned_phrases": 2313,
+    "preserved_unresolved_phrases": 19,
+    "active_phrase_accounting": "2332/2332",
+    "structural_units": 168,
+    "step13_effective_pairs": 199,
+    "step13_effective_pairs_accounted": "199/199",
+    "step13_query_family_cases": 21,
+    "step13_query_family_cases_consumed": "21/21",
+    "step12_link_rows": 58,
+    "step12_link_rows_accounted": "58/58"
+  },
+  "structural_action_counts": {
+    "KEEP_EXISTING_STRUCTURE": 72,
+    "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": 46,
+    "DEFER_PENDING_EVIDENCE": 20,
+    "NO_STANDALONE_PAGE": 15,
+    "OUTSIDE_SCOPE_NO_ACTION": 7,
+    "ADD_SECTION_OR_FAQ_TO_EXISTING": 6,
+    "EXPAND_EXISTING_PAGE": 2,
+    "total": 168
+  },
+  "current_url_recheck": {
+    "derived_unique_urls": 59,
+    "live_pass": 59,
+    "live_fail_or_indeterminate": 0,
+    "critical_fail_closed": 0,
+    "missing_or_role_changed_urls_silently_frozen": 0,
+    "evidence": "STEP_14_CURRENT_URL_RECHECK.tsv"
+  },
+  "unresolved_review": {
+    "expected": 19,
+    "reviewed": 19,
+    "architecture_material_true": 0,
+    "architecture_material_false": 19,
+    "preserved_unassigned": 19,
+    "silent_assignment": 0,
+    "silent_drop": 0,
+    "evidence": "STEP_14_UNRESOLVED_REVIEW_PACKET.tsv"
+  },
+  "step13_boundary_consumption": {
+    "cases_consumed": 21,
+    "qf016_specialist_included": true,
+    "qf017_specialist_included": true,
+    "confirmed_harmful_cannibalization_imported": 0,
+    "destructive_remediation_authorized": 0,
+    "bounded_presearch_wording_preserved": true,
+    "qf019_intent_drift_uncertainty_preserved": true,
+    "evidence": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv"
+  },
+  "internal_link_architecture": {
+    "source_rows": 58,
+    "implement_frozen": 15,
+    "defer_source_context_not_materialized": 6,
+    "defer_target_content_gap": 7,
+    "not_applicable_no_distinct_source_context": 23,
+    "not_applicable_no_distinct_target": 7,
+    "unchanged_defer_or_not_applicable": 43,
+    "promoted_from_defer_or_not_applicable": 0,
+    "unverified_required_implementation_edges": 0,
+    "evidence": "STEP_14_INTERNAL_LINK_ARCHITECTURE.tsv"
+  },
+  "new_page_and_destructive_policy": {
+    "supported_new_page_actions": 0,
+    "resurrected_proposed_new_refs": 0,
+    "merge_actions": 0,
+    "delete_actions": 0,
+    "redirect_actions": 0,
+    "canonical_consolidation_actions": 0
+  },
+  "historical_evidence_boundary": {
+    "first_party_query_url_history_used": false,
+    "historical_cannibalization_absence_claim": false,
+    "historical_owner_switching_absence_claim": false,
+    "historical_harm_absence_claim": false,
+    "traffic_or_click_loss_claim": false
+  },
+  "provider_and_ai": {
+    "fresh_ordinary_search_calls": 0,
+    "webmaster_calls": 0,
+    "other_provider_calls": 0,
+    "provider_cost_rub": 0.0,
+    "gensearch_or_alice_calls": 0,
+    "ai_evidence_used": 0
+  },
+  "stage_boundary": {
+    "step15_executed": false,
+    "step16_executed": false,
+    "next_allowed_action": "STEP15_PRE_STEP_EVIDENCE_AND_METHODOLOGY_REVIEW"
+  },
+  "readback_qa": {
+    "phase1_qa_readback": true,
+    "current_url_recheck_readback": true,
+    "unresolved_review_readback": true,
+    "architecture_freeze_readback": true,
+    "internal_link_architecture_readback": true,
+    "boundary_ledger_readback": true,
+    "report_readback": true,
+    "acceptance_readback": true,
+    "blocking_findings": 0,
+    "final_github_readback": "PASS"
+  },
+  "acceptance": "PASS"
+}
