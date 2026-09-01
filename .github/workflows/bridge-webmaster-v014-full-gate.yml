@@ -1,0 +1,268 @@
+name: bridge-webmaster-v014-full-gate
+
+on:
+  push:
+    branches:
+      - bridge/webmaster-readiness-gzip-v0.1.4
+    paths:
+      - .github/workflows/bridge-webmaster-v014-full-gate.yml
+      - extension/src/**
+      - extension/tests/**
+      - extension/docs/WEBMASTER_V0_1_4_LIVE_FINDINGS_AND_IMPLEMENTATION_PLAN.md
+      - extension/docs/SPECIFICATION_WEBMASTER_V0_1_4_READINESS_GZIP_ADDENDUM.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-artifact-full-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: PD-WM14 authority / Bridge-Kwork separation / versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=b13886df49c4591320f780769e78016eff23301e
+          git diff --name-only "$BASE" HEAD | tee /tmp/wm14-changed.txt
+          if grep -Ev '^(extension/|\.github/workflows/bridge-webmaster-v01(3|4)-(dev|full-gate)\.yml$)' /tmp/wm14-changed.txt | grep -q .; then
+            echo WM14_NON_BRIDGE_DELTA_FAIL >&2
+            exit 1
+          fi
+          if grep -E '^extension/docs/kwork/' /tmp/wm14-changed.txt | grep -q .; then
+            echo WM14_KWORK_LEAK_FAIL >&2
+            exit 1
+          fi
+          test "$(node -p "require('./extension/src/manifest.json').version")" = "0.1.4"
+          test "$(node -p "require('./extension/src/package.json').version")" = "0.1.4"
+          grep -F 'VERSION: "0.1.4"' extension/src/shared/product.js
+          grep -F 'https://storage.mds.yandex.net/*' extension/src/manifest.json
+          ! grep -F '*.yandex.net' extension/src/manifest.json
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/wm14-product-before.sha256
+          echo WM14_AUTHORITY_SEPARATION_VERSION_PASS
+
+      - name: All product/test syntax and manifest validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do node --check "$file"; done < <(find extension/src -type f -name '*.js' -print0 | sort -z)
+          while IFS= read -r -d '' file; do node --check "$file"; done < <(find extension/tests -maxdepth 1 -type f -name '*.test.mjs' -print0 | sort -z)
+          node --check extension/tests/qa_browser/webmaster_v014_browser_runtime.mjs
+          python -m py_compile extension/tests/webmaster_v014_deterministic_packer.py
+          python -m json.tool extension/src/manifest.json >/dev/null
+          python -m json.tool extension/src/package.json >/dev/null
+          echo WM14_ALL_TOUCHED_SYNTAX_PASS
+
+      - name: Focused Webmaster protocol/readiness/gzip/dependency regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/webmaster_v013_protocol.test.mjs \
+            extension/tests/webmaster_v013_runtime.test.mjs \
+            extension/tests/webmaster_v014_protocol.test.mjs \
+            extension/tests/webmaster_v014_runtime.test.mjs \
+            extension/tests/webmaster_v013_dependency_regression.test.mjs \
+            extension/tests/phase5_prior_service_compatibility.test.mjs \
+            extension/tests/credential_runtime_concurrency.test.mjs | tee /tmp/wm14-focused.log
+          echo WM14_FOCUSED_AND_DEPENDENCY_PASS
+
+      - name: Accepted Search Batch and AI/Search regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/search_batch_contract.test.mjs \
+            extension/tests/search_batch_integration.test.mjs \
+            extension/tests/search_batch_recovery.test.mjs \
+            extension/tests/gensearch_search_protocol.test.mjs | tee /tmp/wm14-search-regression.log
+          echo WM14_SEARCH_BATCH_GENSEARCH_REGRESSION_PASS
+
+      - name: Complete source Node suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs | tee /tmp/wm14-source-suite.log
+          echo WM14_COMPLETE_SOURCE_NODE_PASS
+
+      - name: Freeze deterministic exact candidate twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p wm14-output
+          python extension/tests/webmaster_v014_deterministic_packer.py \
+            --src extension/src \
+            --output wm14-output/yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip-candidate.zip \
+            --manifest wm14-output/EXACT_CANDIDATE_MANIFEST.json \
+            --source-commit "$GITHUB_SHA"
+          python extension/tests/webmaster_v014_deterministic_packer.py \
+            --src extension/src \
+            --output wm14-output/rebuilt.zip \
+            --manifest wm14-output/REBUILT_MANIFEST.json \
+            --source-commit "$GITHUB_SHA"
+          cmp --silent wm14-output/yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip-candidate.zip wm14-output/rebuilt.zip
+          rm wm14-output/rebuilt.zip wm14-output/REBUILT_MANIFEST.json
+          sha256sum wm14-output/yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip-candidate.zip | tee /tmp/wm14-artifact-sha.txt
+          echo WM14_DETERMINISTIC_PACKAGE_PASS
+
+      - name: Fresh exact extraction / source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .qa-extracted
+          mkdir -p .qa-extracted/extension/src
+          python - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          manifest = json.loads(Path('wm14-output/EXACT_CANDIDATE_MANIFEST.json').read_text(encoding='utf-8'))
+          archive = Path('wm14-output') / manifest['artifact']
+          dst = Path('.qa-extracted/extension/src')
+          with zipfile.ZipFile(archive) as z:
+              assert z.testzip() is None
+              z.extractall(dst)
+          names = []
+          for item in manifest['file_manifest']:
+              p = dst / item['path']
+              assert p.is_file(), item['path']
+              data = p.read_bytes()
+              assert len(data) == item['bytes'], item['path']
+              assert hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
+              names.append(item['path'])
+          assert len(names) == manifest['files']
+          print('WM14_EXACT_EXTRACTION_IDENTITY_PASS')
+          PY
+          cp -a extension/tests .qa-extracted/extension/tests
+
+      - name: Complete packaged Node suite on exact extracted bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test .qa-extracted/extension/tests/*.test.mjs | tee /tmp/wm14-packaged-suite.log
+          echo WM14_COMPLETE_PACKAGED_NODE_PASS
+
+      - name: Install qualified Puppeteer Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer@24
+          npx puppeteer browsers install chrome
+          command -v xvfb-run
+          echo WM14_CFT_PUPPETEER_READY
+
+      - name: Installed exact-artifact Webmaster v0.1.4 browser runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node .qa-extracted/extension/tests/qa_browser/webmaster_v014_browser_runtime.mjs | tee /tmp/wm14-browser.log
+          for marker in \
+            WM14_BROWSER_POPUP_430X560_FIVE_SERVICE_PASS \
+            WM14_BROWSER_WEBMASTER_SECRET_REDACTION_PASS \
+            WM14_BROWSER_WEBMASTER_CHECK_ONE_GET_PASS \
+            WM14_BROWSER_COMMON_SAVE_FULL_POLICY_PASS \
+            WM14_BROWSER_HOST_READINESS_PASS \
+            WM14_BROWSER_GZIP_EXPORT_LIFECYCLE_PASS \
+            WM14_BROWSER_BOUNDARY_ACCOUNTING_PASS \
+            WM14_BROWSER_BACKUP_SERVICE_ISOLATION_PASS \
+            WM14_BROWSER_REOPEN_SECRET_BLANK_PASS \
+            WM14_CONTROLLED_REAL_YANDEX_REQUESTS=0 \
+            WEBMASTER_V014_BROWSER_RUNTIME_PASS; do
+            grep -F "$marker" /tmp/wm14-browser.log
+          done
+          if grep -E 'browser-(webmaster|mutated-webmaster)-secret' /tmp/wm14-browser.log; then
+            echo WM14_BROWSER_SECRET_LOG_LEAK_FAIL >&2
+            exit 1
+          fi
+
+      - name: Installed exact-artifact popup/common/Direct regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node .qa-extracted/extension/tests/qa_browser/direct_popup_d18.mjs | tee /tmp/wm14-popup-regression.log
+          xvfb-run -a node .qa-extracted/extension/tests/qa_browser/direct_browser_runtime.mjs | tee /tmp/wm14-direct-regression.log
+          grep -F 'D18_POPUP_430X560_PASS' /tmp/wm14-popup-regression.log
+          grep -F 'PHASE5_DIRECT_POPUP_D18_PASS' /tmp/wm14-popup-regression.log
+          grep -F 'PHASE5_DIRECT_BROWSER_RUNTIME_PASS' /tmp/wm14-direct-regression.log
+          grep -F 'D20_CONTROLLED_REAL_YANDEX_REQUESTS=0' /tmp/wm14-direct-regression.log
+          echo WM14_INSTALLED_DIRECT_POPUP_REGRESSION_PASS
+
+      - name: Installed exact-artifact common Manual lifecycle regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node .qa-extracted/extension/tests/qa_browser/direct_manual_worker_lifecycle.mjs | tee /tmp/wm14-manual-regression.log
+          for marker in \
+            D17_DIRECT_LIFECYCLE_SETTINGS_PASS \
+            D17_DIRECT_MANUAL_LIST_AUTOSEND_FALSE_PASS \
+            D17_DIRECT_MANUAL_REPORT_AUTOSEND_TRUE_PASS \
+            D17_DIRECT_REMOUNT_NO_REPLAY_PASS \
+            D17_DIRECT_NO_DUPLICATE_PROVIDER_PASS \
+            D20_DIRECT_LIFECYCLE_REAL_YANDEX_REQUESTS=0 \
+            PHASE5_DIRECT_MANUAL_LIFECYCLE_PASS; do
+            grep -F "$marker" /tmp/wm14-manual-regression.log
+          done
+          echo WM14_COMMON_MANUAL_LIFECYCLE_REGRESSION_PASS
+
+      - name: Installed exact-artifact Search Batch and GenSearch browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node .qa-extracted/extension/tests/qa_browser/search_batch_browser_runtime.mjs | tee /tmp/wm14-search-browser.log
+          xvfb-run -a node .qa-extracted/extension/tests/qa_browser/gensearch_browser_runtime.mjs | tee /tmp/wm14-gensearch-browser.log
+          grep -F 'SEARCH_BATCH_BROWSER_RUNTIME_PASS' /tmp/wm14-search-browser.log
+          grep -F 'GENSEARCH_BROWSER_RUNTIME_PASS' /tmp/wm14-gensearch-browser.log
+          echo WM14_SEARCH_GENSEARCH_BROWSER_REGRESSION_PASS
+
+      - name: Product/artifact immutability evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/wm14-product-after.sha256
+          cmp /tmp/wm14-product-before.sha256 /tmp/wm14-product-after.sha256
+          if [ -f wm14-output/EXACT_CANDIDATE_MANIFEST.json ]; then
+            python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          manifest = json.loads(Path('wm14-output/EXACT_CANDIDATE_MANIFEST.json').read_text(encoding='utf-8'))
+          archive = Path('wm14-output') / manifest['artifact']
+          sha = hashlib.sha256(archive.read_bytes()).hexdigest()
+          assert sha == manifest['sha256']
+          assert archive.stat().st_size == manifest['bytes']
+          for key in ('product_version','source_commit','artifact','sha256','bytes','files','entries','zip_test'):
+              print(f'{key}={manifest[key]}')
+          print('production_modified_during_gate=NO')
+          print('WM14_PRODUCT_ARTIFACT_IMMUTABILITY_PASS')
+          PY
+          else
+            echo 'WM14_ARTIFACT_NOT_CREATED_BEFORE_FAILURE'
+          fi
+
+      - name: Full gate PASS summary
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo real_yandex_requests=0
+          echo production_modified_during_gate=NO
+          echo enabled_not_run_sections=0
+          echo WEBMASTER_V014_EXACT_ARTIFACT_FULL_GATE_PASS
+
+      - name: Upload exact accepted candidate
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip-accepted-${{ github.sha }}
+          path: |
+            wm14-output/yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip-candidate.zip
+            wm14-output/EXACT_CANDIDATE_MANIFEST.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
