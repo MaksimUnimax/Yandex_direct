@@ -1,0 +1,174 @@
+name: bridge-webmaster-v013-development
+
+on:
+  push:
+    branches:
+      - bridge/webmaster-full-read-surface-v0.1.3
+    paths:
+      - .github/workflows/bridge-webmaster-v013-dev.yml
+      - extension/src/**
+      - extension/tests/**
+      - extension/docs/**
+
+permissions:
+  contents: read
+
+jobs:
+  webmaster-v013-development:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Assert Bridge/Kwork separation
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=b13886df49c4591320f780769e78016eff23301e
+          git diff --name-only "$BASE" HEAD | tee /tmp/changed.txt
+          if grep -Ev '^(extension/|\.github/workflows/bridge-webmaster-v013-dev\.yml$)' /tmp/changed.txt | grep -q .; then
+            echo 'Non-Bridge/Kwork file leaked into Bridge feature branch' >&2
+            exit 1
+          fi
+          if grep -E '^extension/docs/kwork/' /tmp/changed.txt | grep -q .; then
+            echo 'Kwork methodology/job file leaked into Bridge product work' >&2
+            exit 1
+          fi
+
+      - name: Syntax/static checks for every touched runtime surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/src/shared/webmaster_protocol.js
+          node --check extension/src/shared/phase3_provider_runtime.js
+          node --check extension/src/shared/policy_model.js
+          node --check extension/src/shared/search_batch_protocol.js
+          node --check extension/src/shared/search_batch_runtime.js
+          node --check extension/src/search_batch_worker_transport.js
+          node --check extension/tests/webmaster_v013_protocol.test.mjs
+          node --check extension/tests/webmaster_v013_runtime.test.mjs
+          node --check extension/tests/webmaster_v013_dependency_regression.test.mjs
+          python -m py_compile extension/tests/webmaster_v013_deterministic_packer.py
+          python -m json.tool extension/src/manifest.json >/dev/null
+          python -m json.tool extension/src/package.json >/dev/null
+
+      - name: Focused Webmaster v0.1.3 protocol emulation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/webmaster_v013_protocol.test.mjs
+
+      - name: Focused Webmaster v0.1.3 provider/export lifecycle emulation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/webmaster_v013_runtime.test.mjs
+
+      - name: Direct dependency and service-isolation regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/webmaster_v013_dependency_regression.test.mjs \
+            extension/tests/phase5_prior_service_compatibility.test.mjs \
+            extension/tests/credential_runtime_concurrency.test.mjs \
+            extension/tests/direct_phase5_contract_closure.test.mjs \
+            extension/tests/direct_phase5_selector_matrix.test.mjs \
+            extension/tests/direct_phase5_ui_runtime_contract.test.mjs
+
+      - name: Accepted v0.1.2 Search Batch regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            extension/tests/search_batch_contract.test.mjs \
+            extension/tests/search_batch_integration.test.mjs \
+            extension/tests/search_batch_recovery.test.mjs
+
+      - name: Full source Node regression suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test extension/tests/*.test.mjs
+
+      - name: Build exact deterministic v0.1.3 candidate twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p bridge-v013-output
+          python extension/tests/webmaster_v013_deterministic_packer.py \
+            --src extension/src \
+            --output bridge-v013-output/yandex-marketing-bridge-0.1.3-webmaster-full-read-candidate.zip \
+            --manifest bridge-v013-output/EXACT_CANDIDATE_MANIFEST.json \
+            --source-commit "$GITHUB_SHA"
+          python extension/tests/webmaster_v013_deterministic_packer.py \
+            --src extension/src \
+            --output bridge-v013-output/rebuilt.zip \
+            --manifest bridge-v013-output/REBUILT_MANIFEST.json \
+            --source-commit "$GITHUB_SHA"
+          cmp --silent bridge-v013-output/yandex-marketing-bridge-0.1.3-webmaster-full-read-candidate.zip bridge-v013-output/rebuilt.zip
+          rm bridge-v013-output/rebuilt.zip bridge-v013-output/REBUILT_MANIFEST.json
+          sha256sum bridge-v013-output/yandex-marketing-bridge-0.1.3-webmaster-full-read-candidate.zip
+
+      - name: Exact extraction and source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p bridge-v013-output/extracted
+          python - <<'PY'
+          import hashlib, json, zipfile
+          from pathlib import Path
+          out = Path('bridge-v013-output')
+          manifest = json.loads((out / 'EXACT_CANDIDATE_MANIFEST.json').read_text(encoding='utf-8'))
+          archive = out / manifest['artifact']
+          with zipfile.ZipFile(archive) as z:
+              assert z.testzip() is None
+              z.extractall(out / 'extracted')
+          for item in manifest['file_manifest']:
+              p = out / 'extracted' / item['path']
+              assert p.is_file(), item['path']
+              data = p.read_bytes()
+              assert len(data) == item['bytes'], item['path']
+              assert hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
+          print('WEBMASTER_V013_EXTRACT_IDENTITY_PASS')
+          PY
+
+      - name: Full packaged Node regression against exact candidate bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf bridge-v013-output/package-work
+          mkdir -p bridge-v013-output/package-work
+          cp -a bridge-v013-output/extracted bridge-v013-output/package-work/src
+          cp -a extension/tests bridge-v013-output/package-work/tests
+          node --test bridge-v013-output/package-work/tests/*.test.mjs
+          rm -rf bridge-v013-output/package-work bridge-v013-output/extracted
+
+      - name: Candidate summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('bridge-v013-output/EXACT_CANDIDATE_MANIFEST.json').read_text(encoding='utf-8'))
+          for key in ('product_version','source_commit','artifact','sha256','bytes','files','entries','zip_test'):
+              print(f'{key}={m[key]}')
+          print('WEBMASTER_V013_DEVELOPMENT_GATE_PASS')
+          PY
+
+      - name: Upload exact candidate and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: yandex-marketing-bridge-0.1.3-webmaster-full-read-${{ github.sha }}
+          path: |
+            bridge-v013-output/yandex-marketing-bridge-0.1.3-webmaster-full-read-candidate.zip
+            bridge-v013-output/EXACT_CANDIDATE_MANIFEST.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
