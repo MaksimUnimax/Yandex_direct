@@ -1,0 +1,62 @@
+{
+  "date": "2026-09-01",
+  "step": 13,
+  "case_id": "QF016",
+  "status": "CURRENT_SITE_EVIDENCE_CORRECTION__PERSISTED_BEFORE_VERDICT_OR_NEXT_PROVIDER_ACTION",
+  "trigger": "QF016 current-page recheck after Search result 12 durable readback",
+  "base_current_page_evidence_file": "STEP_13_CURRENT_PAGE_EVIDENCE.tsv",
+  "base_current_page_evidence_url_count": 47,
+  "base_query_family_file": "STEP_13_QUERY_FAMILY_CASES.tsv",
+  "base_pair_id": "V6P0158",
+  "base_candidate_urls": [
+    "https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie",
+    "https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom"
+  ],
+  "discovery": {
+    "check_timestamp": "2026-09-01",
+    "source_channel": "ChatGPT public web",
+    "query_or_discovery_route": "Open current panoramic commercial page -> follow current first-party 'Панорамное остекление домов и коттеджей' link in 'Смотрите также'",
+    "candidate_url": "https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/",
+    "final_url": "https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/",
+    "page_opened_read": true,
+    "title": "Панорамные окна для загородного дома купить в Москве с остеклением | Стоимость панорамных окон для коттеджа от прозводителя: размеры, цены за м2",
+    "h1": "Панорамное остекление загородных домов",
+    "visible_user_task": "buy/order/plan panoramic glazing specifically for a private/country house or cottage",
+    "commercial_informational_role": "COMMERCIAL_USECASE_SPECIALIST",
+    "cta_or_conversion_role": "Вызвать замерщика; price per m2; calculator/order/contact flow; installation included in commercial offer",
+    "material_inclusions": [
+      "panoramic glazing of a house",
+      "pros of panoramic windows in a private house",
+      "price of panoramic glazing for a country house",
+      "warm panoramic glazing of a house",
+      "cold panoramic glazing of a cottage",
+      "FAQ explicitly about panoramic windows in a private house/cottage"
+    ],
+    "material_exclusions_or_limits": "Current read proves existence and role, not Yandex ranking/traffic history for this URL.",
+    "freshness_limitation": "Current first-party page read on 2026-09-01; no private Webmaster/Metrika history available in this job."
+  },
+  "evidence_independence": {
+    "discovered_url_absent_from_base_current_page_evidence_47_urls": true,
+    "discovered_url_absent_from_base_pair_eligibility_universe": true,
+    "discovered_url_absent_from_base_qf016_candidate_urls": true,
+    "positive_existence_proven_by_current_first_party_open": true
+  },
+  "required_effective_correction": {
+    "effective_current_page_evidence_url_count": 48,
+    "qf016_effective_candidate_urls": [
+      "https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie",
+      "https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom",
+      "https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/"
+    ],
+    "binary_two_url_qf016_verdict_prohibited": true,
+    "new_specialized_url_must_be_considered_before_qf016_ownership_conflict_verdict": true,
+    "step13_final_pair_universe_must_account_for_new_specialized_url_relationships": true,
+    "step13_input_pair_universe_195_remains_historical_base_until_extension_is_materialized": true
+  },
+  "provider_effect": {
+    "new_paid_search_required_for_qf016_due_only_to_this_discovery": false,
+    "reason": "The exact QF016 query already has a successfully persisted ordinary Search snapshot. The correction changes the first-party candidate URL set, not the query that was searched."
+  },
+  "rule_authority": "CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md",
+  "non_repeat_control": "CURRENT_FIRST_PARTY_SPECIALIZED_OWNER_DISCOVERED_DURING_STEP13_MUST_NOT_BE_IGNORED_BECAUSE_IT_WAS_ABSENT_FROM_THE_FROZEN_PAIR_UNIVERSE"
+}
