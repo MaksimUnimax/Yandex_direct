@@ -1,0 +1,144 @@
+name: YMB Webmaster v0.1.3 CI
+
+on:
+  push:
+    branches:
+      - feature/webmaster-kw001-read-surface-v0.1.3
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Apply staged v0.1.3 patch
+        id: patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f .ci/ymb-v013/part00 ]]; then
+            mkdir -p extension/tools
+            cat .ci/ymb-v013/part* > extension/tools/apply_webmaster_v013_patch_embedded.py
+            actual="$(sha256sum extension/tools/apply_webmaster_v013_patch_embedded.py | awk '{print $1}')"
+            test "$actual" = "8eea9b72694dac5c718dd419642b02077c0094e2d999f26c55845575112cf393"
+            python -m py_compile extension/tools/apply_webmaster_v013_patch_embedded.py
+            python extension/tools/apply_webmaster_v013_patch_embedded.py
+            rm -f extension/tools/apply_webmaster_v013_patch_embedded.py
+            rm -rf .ci/ymb-v013
+            echo "staged=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "staged=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Static syntax and JSON
+        run: |
+          set -euo pipefail
+          find extension/src -name '*.js' -print0 | xargs -0 -n1 node --check
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for p in Path('extension/src').rglob('*.json'):
+              json.loads(p.read_text(encoding='utf-8'))
+          print('JSON_PARSE_PASS')
+          PY
+
+      - name: Focused Webmaster v0.1.3 tests
+        run: |
+          set -euo pipefail
+          node --test extension/tests/webmaster_v013_protocol_model.test.mjs extension/tests/webmaster_v013_runtime.test.mjs
+
+      - name: Full canonical extension regression
+        working-directory: extension/src
+        run: npm test
+
+      - name: Version and manifest safety assertions
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path('extension/src/manifest.json').read_text(encoding='utf-8'))
+          package=json.loads(Path('extension/src/package.json').read_text(encoding='utf-8'))
+          product=Path('extension/src/shared/product.js').read_text(encoding='utf-8')
+          assert manifest['version']=='0.1.3'
+          assert package['version']=='0.1.3'
+          assert 'VERSION: "0.1.3"' in product
+          hp=set(manifest['host_permissions'])
+          assert 'https://storage.mds.yandex.net/*' in hp
+          assert 'https://api.webmaster.yandex.net/*' in hp
+          assert all('*://*/*' not in x and '<all_urls>' not in x for x in hp)
+          assert 'storage' in set(manifest['permissions'])
+          print('VERSION_MANIFEST_SAFETY_PASS')
+          PY
+
+      - name: Explicit no-real-provider static guard
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          tests = Path('extension/tests/webmaster_v013_runtime.test.mjs').read_text(encoding='utf-8')
+          assert 'createPhase5Runtime' in tests
+          assert 'env.ctx.fetch = async' in tests
+          print('CONTROLLED_PROVIDER_STUB_GUARD_PASS')
+          PY
+
+      - name: Deterministic builds and extraction identity
+        run: |
+          set -euo pipefail
+          rm -rf dist
+          mkdir -p dist/a dist/b dist/extracted
+          python extension/tools/build_deterministic_zip.py --source extension/src --output dist/a/Yandex-Marketing-Bridge-v0.1.3.zip --manifest dist/a/Yandex-Marketing-Bridge-v0.1.3.manifest.json
+          python extension/tools/build_deterministic_zip.py --source extension/src --output dist/b/Yandex-Marketing-Bridge-v0.1.3.zip --manifest dist/b/Yandex-Marketing-Bridge-v0.1.3.manifest.json
+          cmp dist/a/Yandex-Marketing-Bridge-v0.1.3.zip dist/b/Yandex-Marketing-Bridge-v0.1.3.zip
+          unzip -t dist/a/Yandex-Marketing-Bridge-v0.1.3.zip
+          unzip -q dist/a/Yandex-Marketing-Bridge-v0.1.3.zip -d dist/extracted
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          man=json.loads(Path('dist/a/Yandex-Marketing-Bridge-v0.1.3.manifest.json').read_text(encoding='utf-8'))
+          root=Path('dist/extracted')
+          extracted=[p for p in root.rglob('*') if p.is_file()]
+          assert len(man['files']) == len(extracted), (len(man['files']), len(extracted))
+          for entry in man['files']:
+              data=(root/entry['path']).read_bytes()
+              assert len(data)==entry['bytes'], entry['path']
+              assert hashlib.sha256(data).hexdigest()==entry['sha256'], entry['path']
+          print('ARTIFACT_EXTRACTION_IDENTITY_PASS')
+          PY
+          sha256sum dist/a/Yandex-Marketing-Bridge-v0.1.3.zip | tee dist/a/SHA256SUMS.txt
+
+      - name: Commit staged source only after all tests pass
+        if: steps.patch.outputs.staged == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "YMB CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A extension
+          git add -u .ci
+          git status --short
+          git commit -m "bridge: add Webmaster KW-001 read surface v0.1.3"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload exact clean candidate
+        if: steps.patch.outputs.staged != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: yandex-marketing-bridge-v0.1.3
+          path: |
+            dist/a/Yandex-Marketing-Bridge-v0.1.3.zip
+            dist/a/Yandex-Marketing-Bridge-v0.1.3.manifest.json
+            dist/a/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
