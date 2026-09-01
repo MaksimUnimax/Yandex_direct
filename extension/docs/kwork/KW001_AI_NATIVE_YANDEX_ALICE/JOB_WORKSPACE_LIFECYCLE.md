@@ -1,6 +1,6 @@
 # KW-001 — UNIVERSAL RULES VS PER-JOB WORKSPACE
 
-Date updated: 2026-08-28  
+Date updated: 2026-09-01  
 Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
 This document defines the strict two-layer architecture for KW-001.
@@ -26,8 +26,17 @@ method-origin rules
 approved methodology corrections
 approved prevent-repeat rules
 product/package boundaries
+client private-access policy
 templates
 ```
+
+Mandatory Layer-A companion for client-owned Yandex data:
+
+```text
+CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md
+```
+
+This policy must be read and applied whenever a job reaches a step that can use client-private Yandex Webmaster evidence. The currently known mandatory access-check steps are 11, 12 and 13. The base Kwork must remain executable without mandatory Webmaster access unless the owner explicitly changes the commercial product policy.
 
 ### Owner-lock rule
 
@@ -97,6 +106,7 @@ operator/provider execution records
 client deliverables/drafts
 revision records
 economics/QA records
+client private-access state and exact property when applicable
 ```
 
 It may record **what happened in this job and how this job progressed**.
@@ -156,10 +166,19 @@ Before concrete analysis begins:
 1. create work/<JOB_ID>/;
 2. create JOB_MANIFEST.md;
 3. create/freeze the job's own working flow/brief;
-4. keep all later job-specific files inside this directory.
+4. record the initial YANDEX_WEBMASTER_ACCESS_STATE without making it a purchase blocker;
+5. keep all later job-specific files inside this directory.
 ```
 
 Do not scatter a client/job across the permanent Kwork layer.
+
+Initial private-access state is informational:
+
+```text
+UNKNOWN | UNAVAILABLE | AVAILABLE_NOT_GRANTED | GRANTED_NOT_READY | READY
+```
+
+`UNAVAILABLE` is a normal base-package state under `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`.
 
 ---
 
@@ -224,6 +243,16 @@ is deleted completely after the job closes
 
 Future jobs use `work/<JOB_ID>/`.
 
+For the current OKNO-MSK rehearsal, the owner has explicitly established:
+
+```text
+YANDEX_WEBMASTER_ACCESS_STATE = UNAVAILABLE
+YANDEX_WEBMASTER_PRIVATE_EVIDENCE_USED = false
+BASE_PUBLIC_EVIDENCE_MODE = true
+```
+
+This is a current-job fact recorded in Layer B; the reusable rule governing what that means lives in `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`.
+
 ---
 
 ## 8. Pre-step relationship
@@ -232,9 +261,28 @@ Before each major step, ChatGPT reads:
 
 ```text
 Layer A universal rules
+CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md
 current job JOB_MANIFEST.md
 current job JOB_FLOW.md / relevant step records
 previous step evidence/acceptance
+```
+
+For Steps 11, 12 and 13, the pre-step review must contain the access-state block required by `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` and must explain:
+
+```text
+current access state
+why Webmaster can help in this step
+base path without access
+enhanced path with access
+whether the first-access comparison has already been completed
+```
+
+If access is unavailable:
+
+```text
+DO NOT BLOCK THE BASE JOB MERELY FOR THAT REASON
+DO NOT INVENT PRIVATE PERFORMANCE/HISTORY CLAIMS
+CONTINUE UNDER THE BOUNDED BASE-PUBLIC EVIDENCE MODE FOR THAT STEP
 ```
 
 If self-audit finds a possible flaw in Layer A:
@@ -254,6 +302,25 @@ correct the current job only after the normal owner authorization gate
 
 ---
 
+## 9. First real Webmaster access transition
+
+The first future job whose access state becomes `READY` must not simply switch methods silently.
+
+Apply the mandatory controlled comparison in `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`:
+
+```text
+freeze WITHOUT_ACCESS baseline first
+→ persist/read back
+→ use delegated Webmaster evidence
+→ create WITH_ACCESS result
+→ compare CHANGE / DE_RISK / NEW_FINDING / NO_CHANGE
+→ only after comparison consider changing universal product policy
+```
+
+The same first-access event also triggers a governed Webmaster Bridge capability review. It does not authorize speculative implementation of every available Webmaster API method.
+
+---
+
 Markers:
 
 ```text
@@ -265,4 +332,8 @@ KW001_PER_JOB_WORKSPACE_DISPOSABLE = true
 KW001_JOB_WORKFLOW_BELONGS_IN_JOB_WORKSPACE = true
 KW001_JOB_WORKSPACE_DELETE_AFTER_CLOSE = true
 KW001_FUTURE_JOB_PATH = work/<JOB_ID>/
+KW001_CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_REQUIRED = true
+KW001_WEBMASTER_ACCESS_NOT_REQUIRED_FOR_BASE_JOB = true
+KW001_WEBMASTER_ACCESS_CHECK_REQUIRED_STEPS_11_12_13 = true
+KW001_FIRST_READY_WEBMASTER_JOB_REQUIRES_COMPARISON = true
 ```
