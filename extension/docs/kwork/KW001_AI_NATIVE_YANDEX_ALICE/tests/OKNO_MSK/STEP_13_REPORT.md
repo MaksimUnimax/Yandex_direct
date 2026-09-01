@@ -1,115 +1,174 @@
 # KW001 OKNO_MSK — Step 13 competing-page / cannibalization diagnosis
 
 Date: 2026-09-01
+Status: **REOPENED AFTER POST-RUN METHOD AUDIT / PUBLIC+CURRENT LAYER COMPLETE / FIRST-PARTY HISTORY BLOCKED**
 
-Status at write: **SEMANTIC + ACCOUNTING QA PASS / FINAL GITHUB CLOSURE READBACK PENDING**
+## Executive result
 
-## Goal
+Step 13 completed the full declared pair accounting, current-page freshness work and bounded ordinary Yandex Search program, but the former full `PASS/COMPLETE` status is withdrawn.
 
-Determine whether Step-12 related-page pairs represent genuine competing-page conflicts, normal coexistence, hierarchy/support relationships, or evidence-insufficient cases. A related pair is not treated as cannibalization by default.
+Reason:
 
-## Final accounting
+```text
+SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED
+```
 
-- historical Step-12 pair universe: 195
-- base pairs accounted: 195/195
-- Phase-1 normal relationships closed without fresh Search: 168
-- Phase-1 surviving pairs: 27
-- surviving pairs mapped to query-family cases: 27/27
-- query-family cases: 21
-- cases closed presearch from current-page + 2332-row evidence: 5
-- cases requiring fresh ordinary Yandex Search: 16
-- fresh Search cases with usable evidence after reconciliation: 16/16
-- current-site freshness discoveries added in QF016/QF017: 2 specialist URLs
-- new pair relationships caused by those discoveries: 4
-- effective final pair universe: 199
-- effective final pair accounting: 199/199
-- silent pair drops: 0
-- current page-evidence URLs after extensions: 49
+The pre-step research had already identified official Yandex historical query-by-URL evidence as the strongest source for repeated page competition, but that source was not converted into a mandatory executable/acceptance gate. The step therefore finished with strong current/public evidence but without first-party `query × URL × time` history.
 
-## Provider truth
+Canonical detailed postmortem and complete execution record:
 
-Step 13 used ordinary Yandex Search only. No GenSearch/Alice provider call was used.
+`STEP_13_METHOD_POSTMORTEM_REOPEN_AND_FULL_EXECUTION_RECORD_2026-09-01.md`
 
-The original primary Search job produced 5 successful results and one `OUTCOME_UNKNOWN` for QF007. It was frozen. A separate recovery job completed original manifest items 7-16. After normal work was exhausted, owner-authorized QF007 retry 1/3 was explicitly executed and succeeded. Retries 2/3 are not needed and must not run.
+Corrected reusable method:
 
-- planned direct Search queries: 16
-- usable direct Search results: 16/16
-- historical `OUTCOME_UNKNOWN`: 1
-- unresolved `OUTCOME_UNKNOWN`: 0
-- provider boundaries started: 17
-- successful useful results persisted: 16
-- total Step-13 provider cost accounted: 8.296 RUB
+`../../STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md`
 
-## Diagnosis result
+## Work completed and preserved
 
-The canonical case-level diagnosis is `STEP_13_CONFLICT_DIAGNOSIS.tsv`.
+### Pair and case accounting
 
-No case is classified as confirmed harmful cannibalization. No merge, redirect, noindex, or other destructive remediation is authorized from Step-13 evidence.
+```text
+historical Step-12 pair universe = 195
+base pairs accounted = 195/195
+Phase-1 normal relationships closed without fresh Search = 168
+Phase-1 surviving pairs = 27
+surviving pairs mapped to cases = 27/27
+query-family cases = 21
+presearch cases closed = 5
+```
 
-The dominant pattern is legitimate coexistence with clearer primary responsibility:
+### Ordinary Yandex Search acquisition
 
-- object/use-case specialist versus broad product/category page;
-- specialist service versus product/accessory page;
-- special-form page versus broad use-case page;
-- narrow troubleshooting article versus broad guide;
-- specific comparison/best article versus broad selection guide.
+```text
+fresh Search cases = 16
+usable fresh Search evidence = 16/16
+historical provider OUTCOME_UNKNOWN = 1
+unresolved OUTCOME_UNKNOWN = 0
+QF007 retry used = 1/3
+QF007 retry final status = SUCCEEDED
+provider boundaries started = 17
+successful useful results persisted = 16
+Step-13 provider cost accounted = 8.296 RUB
+GenSearch/Alice calls = 0
+```
 
-QF019 is intentionally bounded as an evidence limitation: the direct query `как открыть пластиковое окно` drifted toward external/emergency opening intent in the saved SERP and therefore does not strongly adjudicate the intended adjustment-vs-two-position troubleshooting pair. The current narrow-vs-broad page boundary is preserved without a harmful-conflict claim.
+### Current-site freshness correction
 
-## Current-site freshness corrections
+Step 13 discovered two material specialist pages absent from the frozen historical evidence:
 
-QF016 current-site re-read discovered:
+QF016:
 
 `https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/`
 
-This specialist page is the most specific current owner for panoramic glazing of private/country houses/cottages. Two new specialist-to-original-candidate relationships were added to the Step-13 effective universe.
-
-QF017 current-site re-read discovered:
+QF017:
 
 `https://okno-msk.ru/verandy/panoramnye-okna-na-terrasu/`
 
-This specialist page is the most specific current owner for panoramic terrace/veranda glazing. Two new specialist-to-original-candidate relationships were added.
+These discoveries created four additional effective pair relationships.
 
-These corrections change the final Step-13 page graph without rewriting the historical Step-12 195-pair provenance.
+Final current/public accounting:
 
-## Evidence-strength boundary
+```text
+freshness extension pairs = 4
+effective pair universe = 199
+effective pairs accounted = 199/199
+silent pair drops = 0
+current page evidence URLs = 49
+```
 
-Step 13 has public current-page evidence and bounded public Yandex SERP snapshots, but no authorized query×URL historical performance series from Webmaster/Metrika for this site. Therefore:
+### Public/current diagnosis
 
-- current ownership patterns can be diagnosed;
-- normal coexistence and mismatch warnings can be identified;
-- one snapshot cannot prove historical URL swapping, traffic loss, or harmful cannibalization;
-- absence of two okno-msk URLs in one TOP10 snapshot is not proof that harmful cannibalization can never occur;
-- destructive remediation is not justified without stronger evidence.
+The preserved public/current evidence does not justify a confirmed harmful-cannibalization verdict or destructive remediation.
 
-## Final remediation posture
+```text
+confirmed harmful cannibalization from existing public/current evidence = 0
+strong harmful verdict from one public SERP snapshot = 0
+destructive remediation authorized = 0
+```
 
-Canonical recommendations are in `STEP_13_REMEDIATION_RECOMMENDATIONS.tsv`.
+The dominant observed pattern remains legitimate coexistence with clearer primary responsibility: specialist vs broad category, specialist service vs supporting product/accessory page, narrow troubleshooting article vs broad guide, and similar primary/supporting boundaries.
 
-Result: preserve the related pages, sharpen responsibility where needed, incorporate the newly discovered QF016/QF017 specialist pages in Step 14, and do not perform destructive consolidation from Step-13 evidence.
+QF019 remains explicitly evidence-limited because the direct query drifted toward external/emergency opening intent.
 
-## QA
+## What was missing
 
-`STEP_13_FINAL_PAIR_ACCOUNTING.json` reconciles the 199 effective pairs.
+No first-party historical query×URL series for `okno-msk.ru` was acquired.
 
-`STEP_13_QA.json` records:
+Therefore Step 13 still lacks the evidence needed to test, over time:
 
-- 199/199 effective pairs accounted;
-- 21/21 cases finalized;
-- 16/16 fresh-search cases usable;
-- unresolved provider outcomes = 0;
-- confirmed harmful cannibalization = 0;
-- destructive remediation authorized = 0;
-- GenSearch/Alice calls = 0;
-- Step 14 executed = false;
-- QA findings = 0.
+- repeated ownership switching between candidate URLs;
+- simultaneous/alternating impressions for the same query family;
+- fragmentation of clicks/impressions;
+- stable one-owner dominance vs incidental secondary visibility;
+- whether any observed competition is actually harmful rather than normal multi-page coverage.
 
-`STEP_13_QA_FINDINGS.tsv` is intentionally header-only because the final QA produced zero findings.
+Official Yandex extended query analytics by URL exposes the relevant dimensions: date, URL, query, region, clicks, impressions and position.
 
-## Roadmap handoff
+## Why this was missed despite pre-step research
 
-After final GitHub readback of the closure artifacts and synchronized `STEP_13_CURRENT_STATE.json`:
+The research correctly found the source but the execution logic treated it as “ideal evidence” instead of a mandatory availability/use gate.
 
-- Step 13 = COMPLETE
-- Step 14 = NEXT ALLOWED, NOT YET EXECUTED
-- Step 14 must freeze the classic-search architecture using the 49-page current evidence universe and the 199-pair Step-13 effective graph, including the QF016/QF017 specialist discoveries.
+The old QA then validated the artifacts that existed instead of asking whether a required evidence source was missing.
+
+The Step-11 Webmaster blocker also was not inherited correctly. Durable Step-11 evidence already showed:
+
+```text
+Webmaster API reachable = true
+active OAuth context hosts = []
+OKNO_MSK hostId resolved = false
+```
+
+Additionally, current repository `webmaster_protocol.js` supports only:
+
+```text
+listHosts
+getSummary
+getDiagnostics
+getPopularQueries
+```
+
+and does not implement the official enhanced query-by-URL export workflow.
+
+The repository extension manifest is `0.1.2`, while the durable Step-11 live probe reported runtime `0.1.1`; that boundary must be resolved or explicitly accepted before new live Webmaster evidence is treated as current production evidence.
+
+## Current QA
+
+The old QA PASS is withdrawn.
+
+Current blocking findings:
+
+```text
+S13-F001 = SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED
+S13-F002 = ACCESS_AND_TOOL_CAPABILITY_UNRESOLVED
+blocking findings = 2
+```
+
+See:
+
+- `STEP_13_QA.json`
+- `STEP_13_QA_FINDINGS.tsv`
+
+## Remaining work
+
+1. Correct/verify the Webmaster account/property context and resolve `okno-msk.ru` hostId from provider evidence.
+2. Resolve an executable first-party query×URL history route: authorized Webmaster UI/export, governed Bridge enhancement, or comparable explicitly justified first-party source.
+3. Freeze a focused historical-evidence manifest for material Step-13 cases.
+4. Acquire and persist complete historical evidence, one provider/export result at a time with readback/completeness QA.
+5. Re-run historical competition analysis.
+6. Rebuild diagnosis/remediation where history changes the public/current verdict.
+7. Re-run independent QA, including missing-required-source checks.
+8. Restore full Step-13 acceptance only after the history gate passes or the owner explicitly approves a degraded closure.
+
+## Current roadmap handoff
+
+```text
+STEP13_PUBLIC_CURRENT_ANALYSIS_COMPLETE = true
+STEP13_PAIR_ACCOUNTING_COMPLETE = true
+STEP13_ORDINARY_SEARCH_COMPLETE = true
+STEP13_FIRST_PARTY_QUERY_URL_HISTORY_COMPLETE = false
+STEP13_COMPLETE = false
+STEP14_EXECUTED = false
+NEXT_STEP_ALLOWED = false
+```
+
+No further paid ordinary Search query is justified at this point. The missing information is first-party historical query×URL behavior, not another public SERP snapshot.
