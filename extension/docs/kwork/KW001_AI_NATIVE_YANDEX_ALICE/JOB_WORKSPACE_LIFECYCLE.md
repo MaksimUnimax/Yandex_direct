@@ -36,7 +36,7 @@ Mandatory Layer-A companion for client-owned Yandex data:
 CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md
 ```
 
-This policy must be read and applied whenever a job reaches a step that can use client-private Yandex Webmaster evidence. The currently known mandatory access-check steps are 11, 12 and 13. The base Kwork must remain executable without mandatory Webmaster access unless the owner explicitly changes the commercial product policy.
+This policy must be read and applied whenever a job reaches a step that can use client-private Yandex Webmaster evidence. The currently known mandatory access-check steps are 11, 12, 13 and 16. The base Kwork must remain executable without mandatory Webmaster access unless the owner explicitly changes the commercial product policy.
 
 ### Owner-lock rule
 
@@ -267,7 +267,7 @@ current job JOB_FLOW.md / relevant step records
 previous step evidence/acceptance
 ```
 
-For Steps 11, 12 and 13, the pre-step review must contain the access-state block required by `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` and must explain:
+For Steps 11, 12, 13 and 16, the pre-step review must contain the access-state block required by `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` and must explain:
 
 ```text
 current access state
@@ -281,8 +281,8 @@ If access is unavailable:
 
 ```text
 DO NOT BLOCK THE BASE JOB MERELY FOR THAT REASON
-DO NOT INVENT PRIVATE PERFORMANCE/HISTORY CLAIMS
-CONTINUE UNDER THE BOUNDED BASE-PUBLIC EVIDENCE MODE FOR THAT STEP
+DO NOT INVENT PRIVATE PERFORMANCE/HISTORY/OWNED-VISIBILITY CLAIMS
+CONTINUE UNDER THE BOUNDED BASE EVIDENCE MODE FOR THAT STEP
 ```
 
 If self-audit finds a possible flaw in Layer A:
@@ -334,6 +334,6 @@ KW001_JOB_WORKSPACE_DELETE_AFTER_CLOSE = true
 KW001_FUTURE_JOB_PATH = work/<JOB_ID>/
 KW001_CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_REQUIRED = true
 KW001_WEBMASTER_ACCESS_NOT_REQUIRED_FOR_BASE_JOB = true
-KW001_WEBMASTER_ACCESS_CHECK_REQUIRED_STEPS_11_12_13 = true
+KW001_WEBMASTER_ACCESS_CHECK_REQUIRED_STEPS_11_12_13_16 = true
 KW001_FIRST_READY_WEBMASTER_JOB_REQUIRES_COMPARISON = true
 ```
