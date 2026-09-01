@@ -1,7 +1,14 @@
 # KW-001 — STEP 13 COMPETING-PAGE / CANNIBALIZATION DIAGNOSIS METHOD
 
-Date: 2026-09-01
-Status: **OWNER-DIRECTED CORRECTED METHOD / ACTIVE FOR STEP 13 / CURRENT OKNO_MSK EXECUTION REOPENED UNTIL FIRST-PARTY HISTORY GATE IS RESOLVED**
+Date: 2026-09-01  
+Status: **OWNER-DIRECTED CORRECTED METHOD / ACTIVE / BASE-PUBLIC AND ENHANCED MODES EXPLICITLY SEPARATED**
+
+Normative companion authorities:
+
+- `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`
+- `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`
+- `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_BRIDGE_CAPABILITY_UPDATE_2026-09-01.md`
+- `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`
 
 ## 1. Step purpose
 
@@ -10,88 +17,55 @@ Step 13 determines whether related current URLs are:
 - legitimate pages for different user tasks;
 - normal parent/child or primary/supporting pages;
 - pages with a current ownership warning signal;
-- pages that repeatedly compete for the same query family;
+- pages that repeatedly compete for the same query family when historical evidence is available;
 - duplicate/near-duplicate candidates;
-- or cases where the available evidence is insufficient for a strong conclusion.
+- or cases where available evidence is insufficient for a stronger conclusion.
 
 The purpose is not to maximize the number of “cannibalization” findings. The purpose is to distinguish normal multi-page coverage from actual query-level competition without inventing certainty.
 
-Canonical distinction:
+Canonical distinctions:
 
 ```text
 RELATED PAGES != CANNIBALIZATION
 CURRENT SERP OVERLAP != HISTORICAL COMPETITION
 HISTORICAL COMPETITION != PROVEN HARM
+BASE PUBLIC DIAGNOSIS != ENHANCED FIRST-PARTY HISTORY DIAGNOSIS
 ```
 
-## 2. Why the first OKNO_MSK Step-13 execution was not methodologically complete
+## 2. Permanent lesson from the first OKNO_MSK execution
 
-The error was **not a lack of external research**.
+The first Step-13 execution found official Yandex query-by-URL historical evidence before execution but failed to convert that research finding into an executable schema decision.
 
-Before execution, Step 13 had already found the official Yandex source describing extended query-by-URL data with the fields:
+The failure class is:
 
 ```text
-date
-host
-URL
-query
-region
-clicks
-impressions
-position
+RESEARCH_TO_EXECUTION_SCHEMA_GAP
 ```
 
-The same pre-step research also stated that historical query×URL evidence is stronger than one public Search snapshot.
-
-However, the execution still finished without this layer and was incorrectly marked PASS.
-
-This failure is classified as:
-
-```text
-SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED
-```
-
-### Exact causal chain of the failure
+Historical causal chain:
 
 ```text
 OFFICIAL SOURCE DISCOVERED
-→ SOURCE RECORDED AS “IDEAL EVIDENCE”
-→ CURRENT ACCESS PROBLEM TREATED AS A LIMITATION
-→ LIMITATION WAS NOT CONVERTED INTO A BLOCKING / DEGRADED ACCEPTANCE GATE
-→ PUBLIC CURRENT-PAGE + SERP WORK CONTINUED
-→ ACCOUNTING / SEARCH / PAGE QA PASSED
-→ QA DID NOT ASK WHETHER THE REQUIRED FIRST-PARTY HISTORY SOURCE HAD BEEN ACQUIRED OR EXPLICITLY WAIVED
-→ STEP 13 WAS MARKED COMPLETE
+-> SOURCE RECORDED AS “IDEAL EVIDENCE”
+-> ACCESS PROBLEM TREATED AS A LIMITATION
+-> LIMITATION NOT CONVERTED INTO MODE / REQUIREMENT CLASS / CLAIM BOUNDARY / ACCEPTANCE FIELD
+-> PUBLIC CURRENT-PAGE + SERP WORK CONTINUED
+-> QA CHECKED EXISTING ARTIFACTS BUT NOT REQUIRED-EVIDENCE COVERAGE
+-> STEP WAS MARKED COMPLETE
 ```
 
-### Concrete mistakes
+The correction is **not** “Webmaster must always be mandatory”. The owner-approved commercial policy later established that private Webmaster evidence is optional for the sellable base Kwork.
 
-1. **A required evidence source was downgraded to optional wording.**  
-   `STEP_13_SOURCE_TO_METHOD_TRACE.tsv` called Yandex query×URL history “ideal evidence” instead of defining an executable availability gate.
-
-2. **The unresolved Step-11 Webmaster blocker was not inherited as a Step-13 dependency.**  
-   Step 11 had already proved that the current Webmaster OAuth context could reach the API but returned `hosts=[]`. The Step-13 pre-step review mentioned lack of Webmaster/Metrika access but did not make resolution or explicit degraded closure mandatory.
-
-3. **Provider capability and account access were conflated.**  
-   There are two independent blockers:
-   - account/property blocker: the active OAuth context sees zero Webmaster hosts;
-   - Bridge capability blocker: the current `webmaster_protocol.js` first slice supports only `listHosts`, `getSummary`, `getDiagnostics`, `getPopularQueries` and does not implement the official enhanced query-by-URL export workflow.
-
-4. **The pass gate checked the evidence we had, not the evidence the method required.**  
-   The old gate reconciled pairs, current pages, Search requests, verdict strength and destructive actions, but contained no mandatory field for first-party query×URL history availability/use/explicit waiver.
-
-5. **A limitation paragraph was mistaken for a control.**  
-   Writing “without Webmaster/Metrika some claims are impossible” is not equivalent to making the step fail/degrade when those data are absent.
-
-6. **The final QA could not detect the omission because the omitted evidence source was not in the QA authority list.**
-
-Canonical non-repeat rule:
+Therefore the permanent non-repeat rule is:
 
 ```text
 SOURCE_DISCOVERED != SOURCE_OPERATIONALIZED
 SOURCE_OPERATIONALIZED != EVIDENCE_ACQUIRED
 LIMITATION_DISCLOSED != LIMITATION_GOVERNED
+OPTIONAL_ENHANCEMENT != SILENTLY_SKIPPED_SOURCE
 ```
+
+Every material research-derived requirement must pass `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`.
 
 ## 3. External method authority
 
@@ -103,26 +77,24 @@ LIMITATION_DISCLOSED != LIMITATION_GOVERNED
 - Search query analytics: `https://yandex.ru/support/webmaster/ru/service/queries-analytic`
 - Duplicate/similar page handling: `https://yandex.ru/support/webmaster/ru/robot-workings/double`
 
-The enhanced export is a first-party evidence source for `query × URL × time` behavior. It can expose date, URL, query, region, clicks, impressions and position. It is therefore directly relevant when Step 13 must distinguish a one-time public SERP observation from repeated page competition.
+The enhanced export is first-party evidence for `query × URL × time` behavior and can expose date, URL, query, region, clicks, impressions and position. It is directly relevant when the task scope requires historical competition diagnosis.
 
 ### Industry corroboration
 
-- Ahrefs keyword cannibalization / intent methodology;
-- Semrush keyword cannibalization methodology;
-- relevant-URL history concepts from rank-tracking practice.
+Ahrefs and Semrush cannibalization/intent methodology supports the principle that shared vocabulary alone is insufficient: user intent, page role and repeated URL competition matter more than lexical overlap.
 
-Industry sources support the principle that same/similar intent and repeated URL competition matter more than lexical overlap alone. Exact KW-001 state names remain project-specific.
+Exact KW-001 states remain project-specific.
 
-## 4. Correct evidence model
+## 4. Evidence model
 
-Step 13 must keep four evidence layers separate.
+Step 13 keeps four evidence layers separate.
 
 ### Layer A — relationship/accounting evidence
 
 Answers:
 
 ```text
-Which related page pairs/candidate URL sets must be investigated?
+Which related page pairs / candidate URL sets must be investigated?
 ```
 
 This is discovery/accounting evidence only. It cannot prove a conflict.
@@ -159,40 +131,75 @@ Did ownership repeatedly alternate or fragment across candidate URLs?
 Were position/impression/click patterns stable, complementary or conflicting?
 ```
 
-This layer is required before a full Step-13 PASS unless the current job explicitly closes under an owner-approved degraded-evidence exception.
+For the sellable **BASE_PUBLIC_EVIDENCE_MODE**, Layer D is an explicit optional enhancement when client-private access is unavailable.
 
-## 5. Mandatory source availability and operationalization gate
+For an explicitly sold/authorized **ENHANCED_WITH_ACCESS** or research-grade historical diagnosis, Layer D may be mandatory by scope.
 
-Before Step-13 execution is allowed to reach final diagnosis, create a source/capability matrix for every material evidence route:
+## 5. Mandatory execution-mode and access gate
+
+Before Step-13 diagnosis, classify the current job mode:
 
 ```text
-SOURCE
-EXPECTED INFORMATION
-ACCESS AVAILABLE?
-TOOL / OPERATION AVAILABLE?
-CREDENTIAL / PROPERTY RESOLVED?
-COLLECTION PLAN
-STORAGE PLAN
-QA CHECK
-IF UNAVAILABLE: BLOCK / DEGRADE / SUBSTITUTE WITH JUSTIFICATION
+BASE_PUBLIC_EVIDENCE_MODE
+ENHANCED_WITH_ACCESS_MODE
+RESEARCH_GRADE_HISTORY_REQUIRED_MODE
 ```
 
-For first-party historical query×URL evidence, valid states are:
+Then build the source/capability/access matrix required by `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`.
+
+Required state fields for the historical route:
+
+```text
+SOURCE_EXISTS
+ACCESS_STATE
+PROPERTY_RESOLVED_STATE
+TOOL_CAPABILITY_STATE
+PROVIDER_READY_STATE
+QUOTA_OR_COST_STATE
+COLLECTION_STATE
+PERSISTENCE_STATE
+CLAIM_BOUNDARY
+```
+
+Valid history-route states include:
 
 ```text
 AVAILABLE_AND_USED
 AVAILABLE_NOT_YET_USED
+OPTIONAL_ENHANCEMENT_UNAVAILABLE__BASE_PUBLIC_MODE_ACCEPTED
 UNAVAILABLE_ACCOUNT_OR_PROPERTY_ACCESS
-UNAVAILABLE_TOOL_CAPABILITY
+UNAVAILABLE_PROVIDER_READINESS
 UNAVAILABLE_PROVIDER_QUOTA_OR_DATE_RANGE
 UNAVAILABLE_OTHER_WITH_EVIDENCE
-OWNER_APPROVED_DEGRADED_CLOSURE
+REQUIRED_BY_ENHANCED_SCOPE_NOT_YET_SATISFIED
 ```
 
-Forbidden state:
+Forbidden:
 
 ```text
 KNOWN_SOURCE_BUT_SILENTLY_SKIPPED
+```
+
+### Base-public policy
+
+Under `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`:
+
+```text
+CLIENT_PRIVATE_DATA_UNAVAILABLE
+-> BASE_PUBLIC_EVIDENCE_MODE
+-> NOT A PROCESS FAILURE
+-> STEP 13 MAY COMPLETE THE BASE-PACKAGE PURPOSE
+-> HISTORICAL/HARM CLAIMS REMAIN BOUNDED TO AVAILABLE EVIDENCE
+```
+
+### Enhanced/history-required policy
+
+If the sold or owner-authorized scope requires historical query×URL diagnosis:
+
+```text
+REQUIRED HISTORY UNAVAILABLE
+-> ENHANCED/HISTORY SCOPE BLOCKED OR DEGRADED
+-> DO NOT RELABEL BASE PUBLIC EVIDENCE AS HISTORY
 ```
 
 ## 6. Correct execution order
@@ -204,48 +211,38 @@ KNOWN_SOURCE_BUT_SILENTLY_SKIPPED
 4. DISCOVER MATERIAL CURRENT SPECIALIST PAGES MISSED BY FROZEN EVIDENCE
 5. EXTEND THE EFFECTIVE PAIR / URL UNIVERSE WHEN CURRENT DISCOVERY REQUIRES IT
 6. GROUP MATERIAL SURVIVORS AS QUERY FAMILY × CANDIDATE URL SET
-7. BUILD SOURCE / CAPABILITY / ACCESS MATRIX
-8. REUSE SAVED HISTORICAL FIRST-PARTY DATA IF IT ALREADY EXISTS
-9. REUSE SAVED ORDINARY SEARCH EVIDENCE
-10. CLOSE CLEAR DISTINCT-TASK / HIERARCHICAL RELATIONSHIPS
-11. COLLECT FOCUSED ORDINARY SEARCH ONLY WHERE CURRENT OWNERSHIP IS STILL MATERIAL
-12. COLLECT / INSPECT FIRST-PARTY QUERY×URL HISTORY FOR MATERIAL COMPETITION CASES
-13. SEPARATE CURRENT SIGNAL, HISTORICAL COMPETITION AND HARM
-14. ASSIGN VERDICT WITH EVIDENCE LEVEL
-15. RECOMMEND REMEDIATION ONLY AFTER THE VERDICT
-16. INDEPENDENT QA MUST CHECK BOTH PRESENT AND MISSING EVIDENCE
-17. GITHUB PERSISTENCE + READBACK
-18. ONLY THEN FINAL ACCEPTANCE
+7. BUILD RESEARCH-TO-EXECUTION REQUIREMENT TRACE
+8. DECLARE CURRENT EXECUTION MODE
+9. BUILD SOURCE / ACCESS / CAPABILITY / COST MATRIX
+10. MATERIALIZE THE EXECUTION MANIFEST
+11. REUSE SAVED FIRST-PARTY HISTORY IF APPLICABLE AND ALREADY PRESENT
+12. REUSE SAVED ORDINARY SEARCH EVIDENCE
+13. CLOSE CLEAR DISTINCT-TASK / HIERARCHICAL RELATIONSHIPS
+14. COLLECT FOCUSED ORDINARY SEARCH ONLY WHERE CURRENT OWNERSHIP IS STILL MATERIAL
+15. IF CURRENT MODE REQUIRES HISTORY, COLLECT / INSPECT FIRST-PARTY QUERY×URL HISTORY
+16. SEPARATE CURRENT SIGNAL, HISTORICAL COMPETITION AND HARM
+17. ASSIGN VERDICT WITH EVIDENCE LEVEL
+18. RECOMMEND REMEDIATION ONLY AFTER THE VERDICT
+19. INDEPENDENT QA CHECKS BOTH PRESENT AND MISSING REQUIRED EVIDENCE
+20. REVERSE-TRACE ACCEPTED CLAIMS TO REQUIREMENT + EVIDENCE + QA
+21. GITHUB PERSISTENCE + READBACK
+22. ONLY THEN FINAL ACCEPTANCE
 ```
+
+No new provider call is justified merely because the provider is available. Fresh calls require explicit information gain and acceptance use.
 
 ## 7. First-party history collection protocol
 
-### Preferred evidence routes
-
-Use current official Yandex Webmaster capabilities in this order as appropriate to the concrete job:
+When history is applicable to the current mode, prefer evidence routes in this order as appropriate:
 
 1. existing saved Webmaster exports already in the job;
-2. Webmaster query/URL monitoring or page/query analytics if they provide the required historical view for the exact case;
+2. Webmaster query/URL monitoring or page/query analytics if they expose the required view;
 3. enhanced query-by-URL export for selected candidate URLs and justified date/region scope;
-4. another first-party source only if it genuinely exposes comparable query×URL historical behavior and the substitution is explicitly documented.
+4. another first-party source only if it genuinely exposes comparable query×URL historical behavior and the substitution is documented.
 
-Do not invent a universal fixed number of days. The concrete job must predeclare a justified window based on:
+Do not invent a universal fixed number of days. Predeclare a justified window based on available dates, seasonality, query volume, case severity, quota, candidate URL count and the client decision being made.
 
-```text
-available dates
-seasonality
-query volume
-case severity
-provider quota
-number of candidate URLs
-client decision being made
-```
-
-The method must preserve why the chosen window is sufficient or why it is only partial.
-
-### Required normalized historical row
-
-At minimum, when available:
+Required normalized row when available:
 
 ```text
 date
@@ -260,23 +257,9 @@ source
 collection_window
 ```
 
-### Historical analysis questions
-
-For each material query-family case:
-
-```text
-Do two or more candidate URLs receive impressions for the same/similar query family?
-Is that simultaneous, alternating, episodic or stable by intent/long-tail?
-Does one URL clearly dominate while another is incidental/supporting?
-Does ownership switch repeatedly across comparable periods?
-Is the apparent switch explained by changed content, seasonality, mixed intent or page availability?
-Are impressions/clicks fragmented in a way consistent with a same-intent competition theory?
-Is there evidence of actual harmful impact, or only multi-URL visibility?
-```
+Historical analysis asks whether multiple candidate URLs receive impressions for the same/similar family, whether visibility is simultaneous or alternating, whether one URL clearly dominates, whether ownership switches repeatedly, whether switching is explainable by intent/seasonality/content, and whether there is actual harm rather than merely multi-URL visibility.
 
 ## 8. Verdict taxonomy
-
-Use evidence-separated verdicts. Do not collapse all overlap into one label.
 
 Permitted classes include:
 
@@ -294,16 +277,7 @@ HARMFUL_IMPACT_SUPPORTED
 EVIDENCE_INSUFFICIENT
 ```
 
-`CONFIRMED_HARMFUL_CANNIBALIZATION` may be used only when the concrete evidence supports all necessary parts of that statement. It must not be inferred from:
-
-```text
-shared keywords
-shared cluster
-related pages
-one public SERP
-one target/relevant mismatch
-multi-URL visibility without harm evidence
-```
+`CONFIRMED_HARMFUL_CANNIBALIZATION` may be used only when evidence supports all necessary parts of that statement. It must not be inferred from shared keywords, shared cluster, related pages, one public SERP, one target/relevant mismatch, or multi-URL visibility without harm evidence.
 
 ## 9. Remediation rules
 
@@ -325,7 +299,38 @@ DEFER_PENDING_HISTORY
 
 Destructive remediation requires qualifying evidence and a check that useful independent intent/value will not be lost.
 
-## 10. Mandatory QA
+## 10. Mandatory execution schema for Step 13
+
+The current job must preserve a reproducible Step-13 execution manifest with at least:
+
+```text
+job
+step
+method_authority
+research_to_execution_gate
+current_job_mode
+base_pair_universe
+effective_pair_universe
+pair_accounting
+query_family_case_count
+current_page_evidence_count
+required_sources
+optional_sources
+webmaster_access_state
+webmaster_tool_capability_state
+ordinary_search_reuse_state
+fresh_search_trigger_state
+provider_boundaries
+provider_cost
+claim_boundaries
+remediation_boundary
+qa_state
+acceptance_state
+```
+
+Material research-derived requirements must receive stable IDs and forward/reverse traceability.
+
+## 11. Mandatory QA
 
 QA must check absence as well as presence.
 
@@ -335,18 +340,22 @@ Required questions:
 Did every declared pair/case reconcile?
 Were current URLs re-read?
 Were newly discovered material pages incorporated?
-Was every official source that materially changes the method operationalized?
-Was first-party query×URL history availability explicitly classified?
-If unavailable, was Step-13 status degraded/blocked instead of silently passed?
-Did the verifier inspect evidence-source omissions rather than only validate existing artifacts?
+Did every material research conclusion become a requirement/mode/action/field/check?
+Was private-history availability explicitly classified?
+If unavailable in base mode, was the optional enhancement state explicit and were historical/harm claims bounded?
+If history is required by enhanced scope, was the step blocked/degraded until that requirement was satisfied?
+Did the verifier inspect missing evidence rather than only validate existing artifacts?
 Did any one-SERP observation become a historical/harm claim?
 Did any destructive action exceed its evidence level?
 Are provider outcomes/costs/readbacks reconciled?
+Can every accepted final claim be reverse-traced to requirement + evidence + QA?
 ```
 
-## 11. Pass gate
+## 12. Pass gates by mode
 
-A full Step-13 PASS requires:
+### BASE_PUBLIC_EVIDENCE_MODE
+
+A full base-package Step-13 PASS requires:
 
 ```text
 PAIR / CASE ACCOUNTING = COMPLETE
@@ -354,52 +363,81 @@ SILENT DROPS = 0
 CURRENT PAGE FRESHNESS = COMPLETE FOR MATERIAL URLS
 MATERIAL CURRENT-SITE DISCOVERIES = INCORPORATED
 PUBLIC SEARCH EVIDENCE = RECONCILED WHERE USED
-FIRST_PARTY_QUERY_URL_HISTORY_GATE = AVAILABLE_AND_USED
-OR OWNER_APPROVED_DEGRADED_CLOSURE = true
-KNOWN_REQUIRED_SOURCE_SILENTLY_SKIPPED = 0
-HISTORICAL CLAIM FROM ONE PUBLIC SERP = 0
-HARM CLAIM WITHOUT HARM EVIDENCE = 0
+CLIENT_PRIVATE_HISTORY_ROUTE = EXPLICITLY CLASSIFIED
+OPTIONAL_ENHANCEMENT_SILENTLY_SKIPPED = 0
+HISTORICAL CLAIM FROM PUBLIC-ONLY EVIDENCE = 0
+HARM CLAIM WITHOUT QUALIFYING EVIDENCE = 0
 DESTRUCTIVE REMEDIATION WITHOUT QUALIFYING EVIDENCE = 0
+RESEARCH_TO_EXECUTION_SCHEMA_GATE = PASS
 INDEPENDENT QA BLOCKING FINDINGS = 0
 FINAL GITHUB READBACK = PASS
 STEP14_EXECUTED = false
 ```
 
-If first-party history is unavailable and no owner-approved degraded closure exists:
+Private query×URL history is **not** required to complete the sellable base scope when unavailable.
+
+### ENHANCED_WITH_ACCESS / RESEARCH_GRADE_HISTORY_REQUIRED
+
+If current scope explicitly requires historical diagnosis:
 
 ```text
-STEP13 = REOPENED / BLOCKED OR DEGRADED
-NEXT_STEP_ALLOWED = false
+FIRST_PARTY_QUERY_URL_HISTORY_GATE = AVAILABLE_AND_USED
 ```
 
-## 12. Current OKNO_MSK application
+or the enhanced/history-required portion cannot receive full PASS.
 
-The public/current-page portion of Step 13 is valuable and remains preserved:
+## 13. Current OKNO_MSK application
+
+Current owner-approved mode:
+
+```text
+MODE = BASE_PUBLIC_EVIDENCE_MODE
+YANDEX_WEBMASTER_ACCESS = UNAVAILABLE
+PRIVATE_FIRST_PARTY_HISTORY_USED = false
+```
+
+Preserved completed evidence:
 
 ```text
 historical base pairs = 195
 effective pair universe after current-site discoveries = 199
 pairs accounted = 199/199
 query-family cases = 21
+presearch cases closed without fresh Search = 5
 fresh ordinary-Search cases with usable evidence = 16/16
 current-page evidence URLs = 49
-confirmed harmful cannibalization from existing evidence = 0
+provider boundaries started = 17
+provider cost accounted = 8.296 RUB
+confirmed harmful cannibalization from public/current evidence = 0
 destructive remediation authorized = 0
 ```
 
-But the full Step-13 PASS is withdrawn because first-party historical query×URL evidence was not acquired and was not governed by an explicit degraded-closure gate.
-
-Current blockers are separately documented in the OKNO_MSK Step-13 postmortem/current state.
-
-## 13. Non-repeat markers
+The historical first-party route is explicitly classified as:
 
 ```text
+OPTIONAL_ENHANCEMENT_UNAVAILABLE__BASE_PUBLIC_MODE_ACCEPTED
+```
+
+The base Step-13 acceptance therefore remains valid, with historical/harm claim boundaries preserved. Step 14 is allowed only through its mandatory pre-step method/evidence review.
+
+Current schema-hardening artifacts:
+
+- `tests/OKNO_MSK/STEP_13_EXECUTION_MANIFEST.json`
+- `tests/OKNO_MSK/STEP_13_RESEARCH_TO_EXECUTION_SCHEMA_AUDIT_2026-09-01.md`
+
+## 14. Non-repeat markers
+
+```text
+STEP13_RESEARCH_TO_EXECUTION_SCHEMA_GAP_FORBIDDEN = true
 STEP13_SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED_FORBIDDEN = true
 STEP13_SOURCE_DISCOVERED_NOT_EQUAL_SOURCE_OPERATIONALIZED = true
 STEP13_LIMITATION_DISCLOSED_NOT_EQUAL_LIMITATION_GOVERNED = true
-STEP13_FIRST_PARTY_QUERY_URL_HISTORY_GATE_REQUIRED = true
+STEP13_BASE_PUBLIC_MODE_SUPPORTED_WITHOUT_PRIVATE_WEBMASTER = true
+STEP13_PRIVATE_HISTORY_OPTIONAL_ENHANCEMENT_MUST_BE_EXPLICIT = true
+STEP13_ENHANCED_HISTORY_SCOPE_REQUIRES_HISTORY_WHEN_DECLARED = true
 STEP13_ACCOUNT_ACCESS_AND_TOOL_CAPABILITY_ARE_SEPARATE = true
+STEP13_EXECUTION_MANIFEST_REQUIRED = true
 STEP13_QA_MUST_TEST_MISSING_REQUIRED_EVIDENCE = true
 STEP13_ONE_SERP_CANNOT_PROVE_HISTORY_OR_HARM = true
-STEP13_FULL_PASS_BLOCKED_WITHOUT_HISTORY_OR_OWNER_DEGRADED_EXCEPTION = true
+STEP13_REVERSE_CLAIM_TRACE_REQUIRED = true
 ```
