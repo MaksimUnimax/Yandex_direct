@@ -31,7 +31,7 @@ jobs:
           set -euo pipefail
           BASE=b13886df49c4591320f780769e78016eff23301e
           git diff --name-only "$BASE" HEAD | tee /tmp/changed.txt
-          if grep -Ev '^(extension/|\.github/workflows/bridge-webmaster-v013-dev\.yml$)' /tmp/changed.txt | grep -q .; then
+          if grep -Ev '^(extension/|\.github/workflows/bridge-webmaster-v013-(dev|full-gate)\.yml$)' /tmp/changed.txt | grep -q .; then
             echo 'Non-Bridge/Kwork file leaked into Bridge feature branch' >&2
             exit 1
           fi
