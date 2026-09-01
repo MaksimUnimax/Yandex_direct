@@ -5,7 +5,7 @@
   const RESULT_PREFIX = "WEBMASTER_RESULT_V1";
   const BASE_URL = "https://api.webmaster.yandex.net/v4";
   const METHODS = Object.freeze([
-    "listHosts", "getSummary", "getDiagnostics", "getPopularQueries",
+    "listHosts", "getHostInfo", "getSummary", "getDiagnostics", "getPopularQueries",
     "getAllQueryHistory", "getQueryHistory",
     "getIndexingSamples", "getInSearchSamples",
     "getExportRegions", "getExportLimits", "getExportDates",
@@ -16,6 +16,7 @@
   const QUERY_INDICATORS = new Set(["TOTAL_SHOWS", "TOTAL_CLICKS", "AVG_SHOW_POSITION", "AVG_CLICK_POSITION"]);
   const DEVICE_TYPES = new Set(["ALL", "DESKTOP", "MOBILE_AND_TABLET", "MOBILE", "TABLET"]);
   const DOWNLOAD_STATUSES = new Set(["IN_PROGRESS", "SUCCESS", "FAILED"]);
+  const HOST_DATA_STATUSES = new Set(["NOT_LOADED", "NOT_INDEXED", "OK"]);
   const LOCAL_METHODS = new Set(["readQueryUrlExportChunk"]);
   const DOWNLOAD_METHODS = new Set(["collectQueryUrlExport"]);
   const COMMON_FIELDS = new Set(["method"]);
@@ -30,7 +31,7 @@
   const EXPORT_COLLECT_FIELDS = new Set(["method", "hostId", "taskId", "previewLimit"]);
   const EXPORT_CHUNK_FIELDS = new Set(["method", "taskId", "offset", "limit"]);
 
-  function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.3"); }
+  function productVersion() { return String(globalThis.YMBProduct?.VERSION || "0.1.4"); }
   function fail(code, message) { const error = new Error(message || code); error.code = code; throw error; }
   function unicodeLength(text) { return Array.from(String(text || "")).length; }
 
@@ -108,7 +109,7 @@
 
   function allowedFieldsForMethod(method) {
     if (method === "listHosts") return COMMON_FIELDS;
-    if (["getSummary", "getDiagnostics", "getExportLimits", "getExportDates"].includes(method)) return HOST_FIELDS;
+    if (["getHostInfo", "getSummary", "getDiagnostics", "getExportLimits", "getExportDates"].includes(method)) return HOST_FIELDS;
     if (method === "getPopularQueries") return POPULAR_FIELDS;
     if (method === "getAllQueryHistory") return HISTORY_ALL_FIELDS;
     if (method === "getQueryHistory") return HISTORY_ONE_FIELDS;
@@ -146,7 +147,7 @@
     validateFields(raw, allowedFieldsForMethod(method), method);
 
     if (method === "listHosts") return Object.freeze({ method });
-    if (["getSummary", "getDiagnostics", "getExportLimits", "getExportDates"].includes(method)) return Object.freeze({ method, hostId: asString(raw.hostId, "hostId", { required: true, max: 1000 }) });
+    if (["getHostInfo", "getSummary", "getDiagnostics", "getExportLimits", "getExportDates"].includes(method)) return Object.freeze({ method, hostId: asString(raw.hostId, "hostId", { required: true, max: 1000 }) });
 
     if (method === "getPopularQueries") {
       const hostId = asString(raw.hostId, "hostId", { required: true, max: 1000 });
@@ -249,6 +250,7 @@
     const userBase = `${BASE_URL}/user/${encodeURIComponent(uid)}`;
     if (normalized.method === "listHosts") return Object.freeze({ method: "GET", url: `${userBase}/hosts` });
     const hostBase = `${userBase}/hosts/${encodeURIComponent(normalized.hostId)}`;
+    if (normalized.method === "getHostInfo") return Object.freeze({ method: "GET", url: hostBase });
     if (normalized.method === "getSummary") return Object.freeze({ method: "GET", url: `${hostBase}/summary` });
     if (normalized.method === "getDiagnostics") return Object.freeze({ method: "GET", url: `${hostBase}/diagnostics` });
     if (normalized.method === "getPopularQueries") {
@@ -274,10 +276,16 @@
     return Object.freeze({ method: "GET", url: `${hostBase}/pro/serp/queries/download/${encodeURIComponent(normalized.taskId)}` });
   }
 
-  function normalizeHost(raw) {
+  function normalizeHost(raw, { includeReadiness = false } = {}) {
     if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
     const out = { host_id: String(raw.host_id || ""), ascii_host_url: String(raw.ascii_host_url || ""), unicode_host_url: String(raw.unicode_host_url || ""), verified: raw.verified === true };
     if (raw.main_mirror && typeof raw.main_mirror === "object" && !Array.isArray(raw.main_mirror)) out.main_mirror = { host_id: String(raw.main_mirror.host_id || ""), ascii_host_url: String(raw.main_mirror.ascii_host_url || ""), unicode_host_url: String(raw.main_mirror.unicode_host_url || ""), verified: raw.main_mirror.verified === true };
+    if (includeReadiness) {
+      const hostDataStatus = raw.host_data_status == null ? null : String(raw.host_data_status);
+      out.host_data_status = hostDataStatus;
+      out.webmaster_data_ready = hostDataStatus === "OK";
+      if (raw.host_display_name != null) out.host_display_name = String(raw.host_display_name);
+    }
     return out;
   }
 
@@ -302,7 +310,12 @@
   function normalizeProviderResult(command, parsed) {
     const normalized = normalizeCommand(command);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) fail("INVALID_WEBMASTER_RESPONSE", "Yandex Webmaster вернул неожиданный JSON-ответ.");
-    if (normalized.method === "listHosts") return { hosts: (Array.isArray(parsed.hosts) ? parsed.hosts : []).map(normalizeHost).filter(Boolean) };
+    if (normalized.method === "listHosts") return { hosts: (Array.isArray(parsed.hosts) ? parsed.hosts : []).map((host) => normalizeHost(host)).filter(Boolean) };
+    if (normalized.method === "getHostInfo") {
+      const host = normalizeHost(parsed, { includeReadiness: true });
+      if (!host) fail("INVALID_WEBMASTER_RESPONSE", "Yandex Webmaster не вернул корректную информацию о сайте.");
+      return host;
+    }
     if (normalized.method === "getSummary") return { sqi: parsed.sqi ?? null, excluded_pages_count: parsed.excluded_pages_count ?? null, searchable_pages_count: parsed.searchable_pages_count ?? null, site_problems: parsed.site_problems && typeof parsed.site_problems === "object" ? parsed.site_problems : {} };
     if (normalized.method === "getDiagnostics") {
       const source = parsed.problems && typeof parsed.problems === "object" && !Array.isArray(parsed.problems) ? parsed.problems : parsed;
@@ -365,7 +378,7 @@
   function isDownloadMethod(method) { return DOWNLOAD_METHODS.has(String(method || "")); }
 
   globalThis.WebmasterProtocol = Object.freeze({
-    PREFIX, RESULT_PREFIX, BASE_URL, METHODS, ORDER_BY, QUERY_INDICATORS, DEVICE_TYPES, DOWNLOAD_STATUSES,
+    PREFIX, RESULT_PREFIX, BASE_URL, METHODS, ORDER_BY, QUERY_INDICATORS, DEVICE_TYPES, DOWNLOAD_STATUSES, HOST_DATA_STATUSES,
     parseCommand, normalizeCommand, buildRequest, normalizeProviderResult, safeErrorPayload, projectQueryUrlExport,
     commandFingerprint, buildResultEnvelope, formatResultEnvelope, formatResultReport, buildSkippedEnvelope, formatSkippedReport,
     isCommandText, isLocalMethod, isDownloadMethod
