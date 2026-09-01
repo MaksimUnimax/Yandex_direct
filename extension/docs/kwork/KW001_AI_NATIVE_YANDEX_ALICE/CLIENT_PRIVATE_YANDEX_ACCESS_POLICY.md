@@ -83,9 +83,12 @@ Known current access-sensitive steps are:
 STEP 11 — PAGE OWNERSHIP
 STEP 12 — STRUCTURAL ACTIONS
 STEP 13 — COMPETING-PAGE / CANNIBALIZATION DIAGNOSIS
+STEP 16 — AI-SEARCH EVIDENCE ACQUISITION
 ```
 
-At the beginning of EACH of these steps, before executing the step, ChatGPT must explicitly check the current job's Yandex Webmaster access state with the owner.
+The current `WORKING_RUNBOOK_FOR_CHATGPT.md` already establishes that Webmaster is optional for the public-site base package and that client-owned Webmaster evidence should be used when available. It also establishes that client-owned `Видимость сайта в Алисе AI` is preferred first-party AI evidence when available, while official GenSearch is the fallback when it is not. In the current 0-22 roadmap, that AI-evidence acquisition belongs to Step 16.
+
+At the beginning of EACH access-sensitive step, before executing the step, ChatGPT must explicitly check the current job's Yandex Webmaster access state with the owner.
 
 Required owner-facing block:
 
@@ -207,11 +210,38 @@ CLIENT_PRIVATE_DATA_UNAVAILABLE
 
 A richer research-grade / enhanced mode may still require first-party history when that enhanced scope is explicitly sold or authorized.
 
+### Step 16 — why access can help
+
+Without private access, the base AI-evidence path remains the accepted official GenSearch route with strict provenance:
+
+```text
+GEN_SEARCH_* != CONSUMER_ALICE_* / OWNED_WEBMASTER_ALICE_*
+```
+
+With suitable client-owned Webmaster access and a currently validated Yandex surface, Step 16 may additionally use first-party owned evidence such as `Видимость сайта в Алисе AI` where relevant.
+
+No-access rule:
+
+```text
+AI EVIDENCE STEP = ALLOWED
+OFFICIAL GENSEARCH PATH = AVAILABLE FOR BASE MODE
+DO NOT CLAIM CLIENT-OWNED ALICE VISIBILITY DATA WAS OBSERVED
+```
+
+With-access rule:
+
+```text
+PRESERVE OWNED WEBMASTER AI EVIDENCE SEPARATELY
+PRESERVE GENSEARCH EVIDENCE SEPARATELY WHEN BOTH ARE USED
+DO NOT RELABEL ONE SURFACE AS THE OTHER
+COMPARE WHETHER OWNED ACCESS CHANGES / DE-RISKS THE AI DECISION
+```
+
 ---
 
 ## 3. Downstream conditional use
 
-Current Steps 14-22 are not automatically declared to require Webmaster access.
+Current Steps 14-22 other than Step 16 are not automatically declared to require Webmaster access.
 
 If fresh methodology research for a later step establishes a material use for client-private Webmaster data, the pre-step review must:
 
@@ -271,6 +301,12 @@ Step 13:
 - actual harm evidence discovered
 - cases that remained NO_CHANGE
 
+Step 16:
+- owned Webmaster AI-visibility evidence newly available
+- AI-case conclusions changed
+- AI-case conclusions only de-risked
+- differences between owned Webmaster AI evidence and GenSearch evidence
+
 Whole job:
 - number of CHANGE decisions
 - number of DE_RISK decisions
@@ -317,7 +353,7 @@ getDiagnostics
 getPopularQueries
 ```
 
-It does not yet implement the official enhanced query-by-URL export workflow needed for richer historical competition analysis.
+It does not yet implement the official enhanced query-by-URL export workflow needed for richer historical competition analysis, and future owned-AI evidence requirements must also be capability-mapped rather than assumed.
 
 The first real client access triggers a capability review, but NOT an uncontrolled speculative rewrite.
 
@@ -326,10 +362,10 @@ Required sequence:
 ```text
 REAL ACCESS AVAILABLE
 -> freeze WITHOUT_ACCESS baseline
--> identify exact private evidence needed by Steps 11/12/13
--> verify current official Yandex API routes
--> map needed evidence to missing Bridge operations
--> define exact protocol / async lifecycle / limits / persistence
+-> identify exact private evidence needed by Steps 11/12/13/16
+-> verify current official Yandex API/UI routes
+-> map needed evidence to existing/missing Bridge operations
+-> define exact protocol / async lifecycle / limits / persistence where Bridge is appropriate
 -> owner-authorized Bridge implementation
 -> focused tests
 -> required full pre-delivery regression before handoff
@@ -476,7 +512,7 @@ BASE_PUBLIC_EVIDENCE_MODE = true
 ```text
 KW001_WEBMASTER_NOT_REQUIRED_FOR_BASE_PURCHASE = true
 KW001_PRIVATE_DATA_UNAVAILABLE_IS_NORMAL_BASE_MODE = true
-KW001_ACCESS_CHECK_REQUIRED_AT_STEPS_11_12_13 = true
+KW001_ACCESS_CHECK_REQUIRED_AT_STEPS_11_12_13_16 = true
 KW001_NO_PASSWORD_OR_SESSION_CREDENTIAL_REQUEST = true
 KW001_DEFAULT_WEBMASTER_ROLE_VIEW = true
 KW001_DELEGATED_SITE_MUST_BE_ADDED_BY_RECIPIENT = true
@@ -486,4 +522,5 @@ KW001_WITHOUT_ACCESS_BASELINE_MUST_BE_FROZEN_FIRST = true
 KW001_FIRST_ACCESS_TRIGGERS_GOVERNED_BRIDGE_CAPABILITY_REVIEW = true
 KW001_NO_UNTESTED_CLAIMS_ABOUT_ACCESS_QUALITY_DELTA = true
 KW001_STEP13_BASE_MODE_NOT_BLOCKED_BY_PRIVATE_DATA_ABSENCE = true
+KW001_STEP16_BASE_MODE_USES_GENSEARCH_WHEN_OWNED_WEBMASTER_AI_EVIDENCE_IS_UNAVAILABLE = true
 ```
