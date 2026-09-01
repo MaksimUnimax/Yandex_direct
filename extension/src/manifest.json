@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
-  "version": "0.1.3",
-  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + read-only Webmaster analytics/export + read-only Metrika + read-only Direct with unified CORE, RUN policy, error delivery and cost guards.",
+  "version": "0.1.4",
+  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + read-only Webmaster analytics/export with readiness inspection and binary-safe gzip collection + read-only Metrika + read-only Direct with unified CORE, RUN policy, error delivery and cost guards.",
   "permissions": [
     "storage",
     "tabs",
