@@ -95,3 +95,45 @@ test('WM13-D06 Metrika and Direct routes remain functional after loading the exp
   assert.equal(direct.ok, true);
   assert.equal(e.requests.length, 2);
 });
+
+test('WM13-D07 Wordstat still traverses the modified Phase3→Phase4→Phase5 provider chain exactly once', async () => {
+  const e = createPhase5Runtime({
+    ymb_service_credentials: {
+      wordstat: { api_key: 'word-key', folder_id: 'word-folder', check_state: 'PRESENT' },
+      webmaster: { oauth_token: 'wm', user_id: '42', check_state: 'PRESENT' }
+    }
+  });
+  e.ctx.fetch = async (url, options = {}) => {
+    e.requests.push({ url: String(url), options: structuredClone(options) });
+    return response(200, { phrases: [{ phrase: 'окна', views: 12 }] });
+  };
+  const result = plain(await e.ctx.YMBPhase5ProviderRuntime.execute('wordstat', { method: 'getTop', phrase: 'окна' }));
+  assert.equal(result.ok, true);
+  assert.equal(result.request_executed, true);
+  assert.equal(e.requests.length, 1);
+  assert.equal(e.requests[0].url, 'https://wordstat.example/word-folder');
+  assert.equal(e.requests[0].options.method, 'POST');
+  assert.equal(e.requests[0].options.headers.Authorization, 'Api-Key word-key');
+  assert.deepEqual(result.report_envelope.result, { phrases: [{ phrase: 'окна', views: 12 }] });
+});
+
+test('WM13-D08 Search still traverses the modified Phase3→Phase4→Phase5 provider chain exactly once', async () => {
+  const e = createPhase5Runtime({
+    ymb_service_credentials: {
+      search: { api_key: 'search-key', folder_id: 'search-folder', check_state: 'PRESENT' },
+      webmaster: { oauth_token: 'wm', user_id: '42', check_state: 'PRESENT' }
+    }
+  });
+  e.ctx.fetch = async (url, options = {}) => {
+    e.requests.push({ url: String(url), options: structuredClone(options) });
+    return response(200, { raw: 'search-ok' });
+  };
+  const result = plain(await e.ctx.YMBPhase5ProviderRuntime.execute('search', { method: 'search', queryText: 'окна' }));
+  assert.equal(result.ok, true);
+  assert.equal(result.request_executed, true);
+  assert.equal(e.requests.length, 1);
+  assert.equal(e.requests[0].url, 'https://search.example/search-folder');
+  assert.equal(e.requests[0].options.method, 'POST');
+  assert.equal(e.requests[0].options.headers.Authorization, 'Api-Key search-key');
+  assert.deepEqual(result.report_envelope.result, { raw: 'search-ok' });
+});
