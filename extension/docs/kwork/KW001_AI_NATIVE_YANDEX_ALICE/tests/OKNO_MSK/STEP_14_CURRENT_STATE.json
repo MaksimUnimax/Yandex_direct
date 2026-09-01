@@ -3,8 +3,8 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "EXECUTION_PHASE1_COMPLETE__CURRENT_URL_RECHECK_MATERIALIZED__UNRESOLVED_REVIEW_REQUIRED",
-  "permanent_method_status": "UNVALIDATED",
+  "status": "COMPLETE__PASS_SEARCH_ONLY_ARCHITECTURE_FREEZE__59_59_CURRENT_URLS__19_19_NON_MATERIAL_UNRESOLVED_PRESERVED__STEP15_PRESTEP_ALLOWED",
+  "permanent_method_status": "UNVALIDATED_PENDING_POST_RUN_METHOD_REVIEW",
   "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
   "external_current_method_research_complete": true,
   "source_to_method_trace_complete": true,
@@ -15,7 +15,11 @@
   "owner_facing_method_review_ready": true,
   "owner_authorization": true,
   "execution_started": true,
-  "execution_complete": false,
+  "execution_complete": true,
+  "qa": "STEP_14_QA.json",
+  "qa_status": "PASS_SEARCH_ONLY_ARCHITECTURE_FREEZE",
+  "acceptance": "STEP_14_ACCEPTANCE_2026-09-01.md",
+  "report": "STEP_14_REPORT.md",
   "provider_calls_authorized": false,
   "provider_calls_executed": 0,
   "provider_cost_rub_step14": 0.0,
@@ -24,17 +28,27 @@
   "gensearch_or_alice_allowed": false,
   "gensearch_or_alice_calls": 0,
   "webmaster_private_history_required": false,
+  "webmaster_private_history_used": false,
   "step13_external_audit_correction_consumed_in_method": true,
   "step13_base_public_pass_preserved": true,
   "step13_historical_harm_claim_boundary_preserved": true,
-  "accounting_baseline": {
+  "accounting_final": {
     "active_phrases": 2332,
     "assigned": 2313,
-    "unresolved_or_search_required": 19,
+    "preserved_unresolved": 19,
     "structural_units": 168,
     "step12_final_link_rows": 58,
     "step13_effective_pairs": 199,
     "step13_query_family_cases": 21
+  },
+  "structural_action_counts": {
+    "KEEP_EXISTING_STRUCTURE": 72,
+    "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": 46,
+    "DEFER_PENDING_EVIDENCE": 20,
+    "NO_STANDALONE_PAGE": 15,
+    "OUTSIDE_SCOPE_NO_ACTION": 7,
+    "ADD_SECTION_OR_FAQ_TO_EXISTING": 6,
+    "EXPAND_EXISTING_PAGE": 2
   },
   "mandatory_current_site_recheck": {
     "required_before_freeze": true,
@@ -48,39 +62,50 @@
   "mandatory_step13_specialists": {
     "qf016": "https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/",
     "qf017": "https://okno-msk.ru/verandy/panoramnye-okna-na-terrasu/",
-    "must_be_consumed": true
+    "consumed": true
   },
-  "unresolved_policy": {
+  "unresolved_final": {
     "baseline_rows": 19,
-    "silent_assignment_allowed": false,
-    "silent_drop_allowed": false,
-    "architecture_material_unresolved_blocks_affected_freeze_unit": true,
-    "non_architecture_material_unresolved_preserved_in_ledger": true
+    "reviewed": 19,
+    "architecture_material_true": 0,
+    "architecture_material_false": 19,
+    "preserved_unassigned": 19,
+    "silent_assignment": 0,
+    "silent_drop": 0
+  },
+  "internal_link_final": {
+    "rows": 58,
+    "implement_frozen": 15,
+    "unchanged_defer_or_not_applicable": 43,
+    "promoted_from_defer_or_not_applicable": 0
   },
   "destructive_and_new_page_policy": {
     "current_supported_new_page_actions": 0,
     "current_supported_destructive_actions": 0,
-    "unsupported_new_page_action_allowed": false,
-    "unsupported_merge_delete_redirect_canonical_allowed": false
+    "resurrected_proposed_new_refs": 0,
+    "merge_delete_redirect_canonical_actions": 0
   },
-  "prepared_artifacts": [
-    "STEP_14_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-09-01.md",
-    "STEP_14_SOURCE_TO_METHOD_TRACE.tsv",
-    "STEP_14_RESEARCH_TO_EXECUTION_SCHEMA.tsv",
-    "STEP_14_EXECUTION_MANIFEST.json",
-    "STEP_14_PREPARATION_QA_2026-09-01.json"
-  ],
-  "planned_execution_outputs": [
+  "historical_claim_boundary": {
+    "historical_cannibalization_absence_claim": false,
+    "historical_owner_switching_absence_claim": false,
+    "historical_harm_absence_claim": false,
+    "traffic_or_click_loss_claim": false
+  },
+  "execution_outputs": [
     "STEP_14_CURRENT_URL_RECHECK.tsv",
+    "STEP_14_UNRESOLVED_REVIEW_PACKET.tsv",
     "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv",
     "STEP_14_INTERNAL_LINK_ARCHITECTURE.tsv",
     "STEP_14_UNRESOLVED_AND_BOUNDARY_LEDGER.tsv",
     "STEP_14_QA.json",
     "STEP_14_REPORT.md",
-    "STEP_14_ACCEPTANCE_2026-09-01.md"
+    "STEP_14_ACCEPTANCE_2026-09-01.md",
+    "JOB_FLOW_STEP14_SYNC_2026-09-01.md"
   ],
+  "github_readback": "PASS",
   "step15_executed": false,
   "step16_executed": false,
-  "next_step_allowed": false,
-  "next_required_action": "Review all 19 unresolved rows, set architecture_material true/false, then run final Step14 freeze."
+  "next_step_allowed": true,
+  "next_step_scope": "STEP15_PRE_STEP_EVIDENCE_AND_METHODOLOGY_REVIEW_ONLY",
+  "next_required_action": "Begin Step 15 pre-step evidence and methodology review using the frozen Step 14 Search-only architecture. Do not execute Step 15 or collect Step 16 AI/GenSearch evidence until the corresponding gate and authorization are complete."
 }
