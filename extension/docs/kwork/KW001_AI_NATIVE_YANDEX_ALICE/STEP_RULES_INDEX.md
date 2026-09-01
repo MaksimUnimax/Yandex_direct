@@ -5,11 +5,12 @@ Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This file is the index of step-specific methodology coverage.
 
-It does not replace detailed method files. It answers two questions before execution:
+It does not replace detailed method files. It answers three questions before execution:
 
 ```text
 1. Has this roadmap stage actually earned a validated permanent method?
 2. Where is the canonical detailed method / lesson authority for it?
+3. Have current research findings been converted into an executable schema for this job?
 ```
 
 Canonical rules:
@@ -17,12 +18,16 @@ Canonical rules:
 ```text
 ROADMAP_STAGE_EXISTS != METHODOLOGY_VALIDATED
 RESEARCH_COLLECTED != METHOD_VALIDATED
+RESEARCH_COLLECTED != EXECUTION_SCHEMA_READY
+SOURCE_DISCOVERED != REQUIREMENT_OPERATIONALIZED
 OLD_SITE_INVENTORY != CURRENT_SITE_TRUTH
 ```
 
-Current-site freshness authority for Steps 1, 11, 12, 13, 14 and 20:
+Universal cross-step authorities:
 
-`CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`
+- `SOURCE_TO_METHOD_TRACEABILITY_GATE.md`
+- `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`
+- `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md` for Steps 1, 11, 12, 13, 14 and 20 where current URL truth matters.
 
 A universal method is a reusable structure, not a domain-free execution rule:
 
@@ -35,9 +40,12 @@ Before executing a major step, ChatGPT must:
 
 ```text
 read SOURCE_TO_METHOD_TRACEABILITY_GATE.md;
+read RESEARCH_TO_EXECUTION_SCHEMA_GATE.md;
 check this index;
 read the listed canonical method/lesson authority;
-then perform fresh current external research for the step.
+perform the required current external research for the step;
+materialize material research requirements into the execution schema/manifest;
+then execute.
 ```
 
 If a material step is `UNVALIDATED` or has no sufficient detailed entry:
@@ -45,6 +53,7 @@ If a material step is `UNVALIDATED` or has no sufficient detailed entry:
 ```text
 CURRENT INTERNET METHOD RESEARCH = REQUIRED
 SOURCE_TO_METHOD TRACE = REQUIRED
+RESEARCH_TO_EXECUTION SCHEMA = REQUIRED
 OWNER-FACING METHOD REVIEW = REQUIRED
 EXECUTION = BLOCKED UNTIL THAT REVIEW IS COMPLETE
 ```
@@ -69,13 +78,13 @@ Permanent promotion requires explicit owner instruction.
 | Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — no default KEEP; KEEP requires positive evidence; accounting QA != semantic QA; fix causes/classes; uncertainty -> REVIEW. |
 | **Step 8** | **Freeze Search-stage semantic set** | **APPROVED / ACTIVE AFTER METHOD CORRECTION** | **`STEP_08_SEARCH_STAGE_FREEZE_METHOD.md`** — only executable routes; no `REVIEW_BUSINESS`/`REVIEW_SEARCH_AND_BUSINESS` without a real independent evidence source; internal priority is not a semantic route; source-to-method trace required. |
 | Step 9 | Ordinary Yandex Search/SERP validation | **UNVALIDATED** | Must research current Yandex/Search evidence methodology, query sampling/full-scope rules, preservation and page-boundary interpretation before execution. |
-| **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY, SORTING AND UNIVERSALITY CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md`** — supports unconstrained and explicit fixed-count/range modes; current domain, site, business, client and deliverable constraints may define valid split/merge axes. **`STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`** — reusable task-first baseline plus required current-job domain profile; real cluster IDs, site data, local phrases, exact exceptions, thresholds and owner rules are allowed and applied at declared scope. **`STEP_10_SORTING_AND_QA_METHOD.md`** — configurable execution/QA modes, including fresh rebuild, existing-taxonomy reuse, adaptation, interactive iteration, fixed categories, full or risk-based QA and reserved empty categories. |
-| **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — refresh current candidate pages; a `NO_SUITABLE_EXISTING_PAGE` negative claim requires current multi-route absence evidence, not old-inventory absence. |
-| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** | **`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — post-PASS audit proved why the prior PASS was wrong: action/schema consistency was mistaken for causal evidence, routing edges were mistaken for validated links, and known-regression zero was mistaken for global coherence. Current correction re-read all 20 historical QUALITY_GAP units (322 phrases), applied 49 exact reassignments, independently revalidated all 28 prior IMPLEMENT links, rebuilt the full 2332-row downstream, passed independent QA with zero findings, and then passed durable closure-state GitHub readback. |
-| **Step 13** | **Competing-page / cannibalization diagnosis** | **APPROVED / ACTIVE AFTER POST-RUN METHOD CORRECTION** | **`STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — the OKNO_MSK post-run audit proved a new failure class: official Yandex query×URL historical evidence was discovered before execution but treated as merely “ideal”, so the step passed without operationalizing a materially required source. Correct method requires a source/access/capability gate, separates current public Search from first-party query×URL history and actual harm, requires QA to detect missing required evidence, and blocks full PASS unless history is used or the owner explicitly approves degraded closure. The current OKNO_MSK Step 13 is REOPENED on that evidence gap; Step 14 is blocked. |
-| Step 14 | Search-only architecture freeze | **UNVALIDATED** | Must define what evidence is sufficient to freeze classic Search architecture before AI evidence and recheck implementation-critical current URLs before freeze. |
+| **Step 10** | **User-task / SERP clustering** | **APPROVED / ACTIVE AFTER GRANULARITY, SORTING AND UNIVERSALITY CORRECTION** | **`STEP_10_CLUSTERING_GRANULARITY_METHOD.md` + `STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md` + `STEP_10_SORTING_AND_QA_METHOD.md`** — reusable task-first core plus declared current-domain profile and constraints; fixed counts/ranges and scoped local rules are allowed when owner/client/deliverable requires them. |
+| **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — refresh current candidate pages; a `NO_SUITABLE_EXISTING_PAGE` negative claim requires current multi-route absence evidence, not old-inventory absence. Client-private Yandex evidence is optional under `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` unless a future enhanced scope explicitly changes that. |
+| **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** | **`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — action/schema consistency cannot prove causal correctness; routing edges are not automatically validated links; known-regression zero is not global coherence. |
+| **Step 13** | **Competing-page / cannibalization diagnosis** | **APPROVED / ACTIVE AFTER POST-RUN METHOD + POLICY + EXECUTION-SCHEMA CORRECTION** | **`STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` + `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md` + `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — official first-party history discovered during research must be explicitly operationalized, but the owner-approved sellable base package does not require private Webmaster access. Base-public mode may pass with explicit historical/harm claim boundaries; enhanced/history-required mode activates the first-party query×URL history gate. Current OKNO_MSK Step 13 is **COMPLETE / PASS_BASE_PUBLIC_EVIDENCE_MODE** and Step 14 is allowed only through its own pre-step method/evidence review. |
+| Step 14 | Search-only architecture freeze | **UNVALIDATED** | Must define what evidence is sufficient to freeze classic Search architecture, consume closed Step-13 outputs without exceeding their claim boundary, and recheck implementation-critical current URLs before freeze. |
 | Step 15 | AI-case selection | **UNVALIDATED** | Must select high-information uncertain cases rather than querying AI search indiscriminately. |
-| Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. |
+| Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` governs optional owned Webmaster AI evidence vs base GenSearch evidence. |
 | Step 17 | Search-vs-AI comparison | **UNVALIDATED** | Must define comparable evidence units and avoid forcing agreement between different retrieval surfaces. |
 | Step 18 | Prioritization | **UNVALIDATED** | Must research/define how impact, evidence strength, public business relevance, internal client constraints, effort and uncertainty affect priority. |
 | Step 19 | Client deliverables | **UNVALIDATED** | Must map analysis outputs to the sold deliverable and make evidence/uncertainty understandable to the client. |
@@ -95,10 +104,14 @@ APPROVED METHOD
 WHY THIS METHOD
 METHOD ORIGIN / DIRECT SOURCES
 SOURCE-TO-METHOD TRACE
+RESEARCH-TO-EXECUTION REQUIREMENT TRACE
+CURRENT JOB MODE / SCOPE
+REPRODUCIBLE EXECUTION MANIFEST
 KNOWN ERROR(S)
 ROOT CAUSE
 CORRECTED METHOD
 NON-REPEAT CONTROLS
+CLAIM BOUNDARIES
 PASS GATE
 STATUS
 ```
@@ -119,15 +132,20 @@ Before every major step:
 
 ```text
 1. read SOURCE_TO_METHOD_TRACEABILITY_GATE.md;
-2. locate current stage in STEP_RULES_INDEX.md;
-3. if APPROVED -> read the listed canonical method and configure it with the current domain profile and current constraints;
-4. if PARTIAL / UNVALIDATED -> do not infer/replay a method; research the step from current sources;
-5. build a source-to-method trace for every material state/rule/route/threshold;
-6. keep required current-job rules and label their scope instead of deleting them for being local;
-7. read current-job evidence, site/business model, deliverable and owner constraints;
-8. explain old errors + root causes + non-repeat controls;
-9. wait for owner authorization when the gate requires it;
-10. execute the configured current method.
+2. read RESEARCH_TO_EXECUTION_SCHEMA_GATE.md;
+3. locate current stage in STEP_RULES_INDEX.md;
+4. if APPROVED -> read the listed canonical method and configure it with the current domain profile and current constraints;
+5. if PARTIAL / UNVALIDATED -> do not infer/replay a method; research the step from current sources;
+6. build a source-to-method trace for every material state/rule/route/threshold;
+7. convert every material research conclusion into requirement_id + class + action/output + failure policy + claim boundary + QA + acceptance check;
+8. materialize a reproducible execution manifest before material provider/execution work;
+9. keep required current-job rules and label their scope instead of deleting them for being local;
+10. read current-job evidence, site/business model, deliverable and owner constraints;
+11. explain old errors + root causes + non-repeat controls where applicable;
+12. apply provider cost/information-gain gates before fresh paid or quota-bearing requests;
+13. wait for owner authorization when the governing gate requires it;
+14. execute the configured current method;
+15. reverse-trace final accepted claims to requirement + evidence + QA before closure.
 ```
 
 Fresh research remains mandatory when current provider/search behaviour or industry understanding may materially affect the step.
@@ -147,23 +165,13 @@ therefore:
 EVALUATION_DIMENSION != EVIDENCE_ROUTE
 ```
 
-A prior method invented `REVIEW_BUSINESS` and `REVIEW_SEARCH_AND_BUSINESS` after collecting external sources that did not support those routes. The permanent non-repeat control is `SOURCE_TO_METHOD_TRACEABILITY_GATE.md`.
-
-Direct sources used in that correction:
-
-- https://yandex.ru/support/webmaster/ru/recommendations/targeting
-- https://yandex.ru/support/webmaster/ru/service/queries-selection
-- https://www.yandex.ru/support/webmaster/ru/service/search-queries
-- https://ahrefs.com/blog/keyword-intent/
-- https://ahrefs.com/blog/keyword-strategy/
-- https://www.semrush.com/blog/keyword-clustering/
-- https://www.semrush.com/blog/keyword-mapping/
+A prior method invented review routes after collecting sources that did not support those routes. The permanent non-repeat control is `SOURCE_TO_METHOD_TRACEABILITY_GATE.md`.
 
 ---
 
 # Step-10 permanent lesson summary
 
-The Step-10 correction now establishes the correct meaning of universality:
+The Step-10 correction establishes:
 
 ```text
 UNIVERSAL METHOD != DOMAIN-FREE EXECUTION
@@ -172,59 +180,7 @@ EXECUTABLE STEP10 = REUSABLE CORE + CURRENT DOMAIN PROFILE + CURRENT CONSTRAINTS
 LOCAL RULE MUST BE SCOPED != LOCAL RULE MUST BE REMOVED
 ```
 
-The current execution may use and, when needed, must use:
-
-```text
-THE ACTUAL SITE AND BUSINESS MODEL
-REAL CLUSTER IDS AND NAMES
-DOMAIN OBJECTS, SERVICES, BRANDS, MODELS AND MATERIALS
-LOCAL LANGUAGE, SYNONYMS, MISSPELLINGS AND EXACT PHRASES
-SITE-SPECIFIC AND BUSINESS-SPECIFIC BOUNDARIES
-JOB-SPECIFIC THRESHOLDS
-OWNER / CLIENT RULES
-A FIXED TARGET COUNT OR RANGE
-REQUIRED OR RESERVED CATEGORIES
-```
-
-Count handling is configurable:
-
-```text
-NO EXPLICIT COUNT CONSTRAINT
--> COUNT MAY EMERGE FROM CURRENT VALIDATED BOUNDARIES
-
-EXPLICIT OWNER / CLIENT / DELIVERABLE COUNT OR RANGE
--> RECORD IT
--> APPLY IT
--> VALIDATE IT
--> RECORD TRADE-OFFS IF ANY
-```
-
-Task-first sorting remains the strong baseline:
-
-```text
-PRIMARY_OBJECT
-+ OBJECT_SCOPE
-+ USER_ACTION_OR_GOAL
-+ EXPECTED_TERMINAL_RESULT
-+ INTENT_MODE
-+ LIFECYCLE_STAGE
-+ EXECUTION_MODE
-+ BUSINESS_SCOPE_STATE
-```
-
-However, a current domain token, regex, exact phrase, cluster ID or owner mapping may be decisive when the current profile declares it decisive.
-
-Valid execution modes include:
-
-```text
-FRESH INDEPENDENT REBUILD
-EXISTING-TAXONOMY ASSIGNMENT
-TAXONOMY ADAPTATION
-FIXED-CATEGORY OR FIXED-COUNT EXECUTION
-INCREMENTAL OR INTERACTIVE EXECUTION
-```
-
-Batch discovery, consolidated correction and full-row QA remain preferred defaults for large unstable corpora. They are not bans on scoped iterative reruns, alternative QA modes, controlled taxonomy mutation or reserved empty categories.
+Count handling is configurable: absent an explicit owner/client/deliverable count, count may emerge from validated boundaries; with an explicit count/range, record it, apply it, validate it and preserve trade-offs.
 
 Canonical authorities:
 
@@ -236,28 +192,51 @@ Canonical authorities:
 
 # Step-13 permanent lesson summary
 
-The Step-13 post-run correction establishes:
+The Step-13 correction now establishes two separate lessons.
+
+### Evidence-separation lesson
 
 ```text
-SOURCE_DISCOVERED != SOURCE_OPERATIONALIZED
-SOURCE_OPERATIONALIZED != EVIDENCE_ACQUIRED
-LIMITATION_DISCLOSED != LIMITATION_GOVERNED
 ACCOUNT ACCESS != TOOL CAPABILITY
 PUBLIC SERP SNAPSHOT != FIRST-PARTY QUERY×URL HISTORY
 CURRENT MULTI-URL SIGNAL != HISTORICAL COMPETITION != HARM
 ```
 
-The failure that caused this correction was not missing research. Official Yandex historical query-by-URL analytics had already been found before execution. The failure was allowing that source to remain “ideal evidence” rather than converting it into an executable availability/use gate and acceptance condition.
+### Research-to-execution lesson
 
-The Step-13 verifier must therefore detect **missing required evidence**, not only inconsistencies among artifacts that already exist.
+```text
+SOURCE_DISCOVERED != SOURCE_OPERATIONALIZED
+RESEARCH_STATEMENT != EXECUTION_CONTROL
+LIMITATION_DISCLOSED != LIMITATION_GOVERNED
+OPTIONAL_ENHANCEMENT != SILENTLY_SKIPPED_SOURCE
+```
 
-Canonical authority:
+The original failure was not missing research. Official Yandex historical query-by-URL analytics had already been found. The failure was allowing that source to remain “ideal evidence” instead of turning it into an explicit requirement class, mode, access/capability state, claim boundary, QA check and acceptance field.
+
+The owner-approved base-package policy then established the correct scope classification:
+
+```text
+BASE_PUBLIC_EVIDENCE_MODE
+-> PRIVATE WEBMASTER HISTORY = OPTIONAL_ENHANCEMENT
+-> STEP 13 MAY PASS WITHOUT PRIVATE ACCESS
+-> HISTORICAL/HARM CLAIMS REMAIN BOUNDED
+
+ENHANCED_WITH_ACCESS / HISTORY_REQUIRED_MODE
+-> FIRST-PARTY QUERY×URL HISTORY MAY BE REQUIRED BY SCOPE
+```
+
+The verifier must therefore detect missing required evidence **and** distinguish an explicitly unavailable optional enhancement from a silently skipped requirement.
+
+Canonical authorities:
 
 - `STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md`
+- `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`
+- `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`
 
-Current OKNO_MSK execution-specific postmortem:
+Current OKNO_MSK schema-hardening evidence:
 
-- `tests/OKNO_MSK/STEP_13_METHOD_POSTMORTEM_REOPEN_AND_FULL_EXECUTION_RECORD_2026-09-01.md`
+- `tests/OKNO_MSK/STEP_13_EXECUTION_MANIFEST.json`
+- `tests/OKNO_MSK/STEP_13_RESEARCH_TO_EXECUTION_SCHEMA_AUDIT_2026-09-01.md`
 
 ---
 
@@ -267,7 +246,12 @@ Markers:
 KW001_STEP_RULES_INDEX_ACTIVE = true
 KW001_ROADMAP_STAGE_NOT_EQUAL_VALIDATED_METHOD = true
 KW001_RESEARCH_COLLECTED_NOT_EQUAL_METHOD_VALIDATED = true
+KW001_RESEARCH_COLLECTED_NOT_EQUAL_EXECUTION_SCHEMA_READY = true
 KW001_SOURCE_TO_METHOD_TRACEABILITY_REQUIRED = true
+KW001_RESEARCH_TO_EXECUTION_SCHEMA_GATE_ACTIVE = true
+KW001_MATERIAL_RESEARCH_REQUIREMENT_OPERATIONALIZATION_REQUIRED = true
+KW001_REPRODUCIBLE_EXECUTION_MANIFEST_REQUIRED = true
+KW001_REVERSE_CLAIM_TRACE_REQUIRED = true
 KW001_UNIVERSAL_METHOD_MEANS_REUSABLE_CORE_PLUS_CURRENT_PROFILE = true
 KW001_LOCAL_RULES_MUST_BE_SCOPED_NOT_REMOVED = true
 KW001_APPROVED_STEP_STILL_REQUIRES_CURRENT_CONFIGURATION = true
@@ -287,8 +271,13 @@ KW001_STEP12_KNOWN_REGRESSION_ZERO_NOT_EQUAL_GLOBAL_COHERENCE = true
 KW001_STEP12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION_ACTIVE = true
 KW001_STEP12_EXISTING_PAGE_INTERNAL_LINK_EXECUTION_RULE_ACTIVE = true
 KW001_STEP13_METHOD_APPROVED_AFTER_POST_RUN_CORRECTION = true
+KW001_STEP13_RESEARCH_TO_EXECUTION_SCHEMA_CORRECTION_ACTIVE = true
 KW001_STEP13_SOURCE_KNOWN_BUT_NOT_OPERATIONALIZED_FORBIDDEN = true
-KW001_STEP13_FIRST_PARTY_QUERY_URL_HISTORY_GATE_REQUIRED = true
-KW001_STEP13_QA_MUST_TEST_MISSING_REQUIRED_EVIDENCE = true
+KW001_STEP13_BASE_PUBLIC_MODE_SUPPORTED_WITHOUT_PRIVATE_WEBMASTER = true
+KW001_STEP13_PRIVATE_HISTORY_OPTIONAL_ENHANCEMENT_EXPLICIT = true
+KW001_STEP13_HISTORY_REQUIRED_ONLY_WHEN_CURRENT_SCOPE_REQUIRES_IT = true
+KW001_STEP13_QA_MUST_TEST_REQUIRED_BUT_MISSING_EVIDENCE = true
+KW001_STEP13_CURRENT_OKNO_BASE_PASS = true
+KW001_STEP14_ALLOWED_ONLY_THROUGH_PRESTEP_REVIEW = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```
