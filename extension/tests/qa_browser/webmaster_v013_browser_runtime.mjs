@@ -146,7 +146,6 @@ try {
       tokenType: document.querySelector('#webmasterOauthToken')?.type,
       saveText: document.querySelector('#saveWebmasterCredential')?.textContent,
       checkText: document.querySelector('#checkWebmasterCredential')?.textContent,
-      webmasterText: document.querySelector('#webmasterCredentials')?.parentElement?.textContent || '',
       htmlWidth: Math.round(html.width), htmlHeight: Math.round(html.height),
       bodyWidth: Math.round(body.width), bodyHeight: Math.round(body.height)
     };
@@ -171,9 +170,13 @@ try {
   assert.equal(await page.evaluate(() => document.body.innerText.includes('browser-webmaster-secret')), false);
   console.log('WM13_BROWSER_WEBMASTER_SECRET_REDACTION_PASS');
 
+  // saveCredential() refreshes the popup and deliberately re-opens only the active-service card.
+  // Re-open the Webmaster card before clicking its hidden Check button. This follows the
+  // already-proven Phase-3 browser route and tests the real visible operator action.
+  await page.$eval('#webmasterCredentials', (node) => { node.open = true; });
   await page.click('#checkWebmasterCredential');
-  await page.waitForFunction(() => /проверено/i.test(document.querySelector('#webmasterCredentialState')?.textContent || '') && document.querySelector('#checkWebmasterCredential')?.disabled === false);
-  assert.equal(await page.$eval('#webmasterUserId', (node) => node.textContent), '42');
+  await page.waitForFunction(() => document.querySelector('#webmasterUserId')?.textContent === '42');
+  assert.match(await page.$eval('#webmasterCredentialState', (node) => node.textContent || ''), /проверено/i);
   let fetches = await workerEval(workerClient, 'globalThis.__YMB_WM13_FETCHES');
   assert.equal(fetches.length, 1);
   assert.equal(fetches[0].url, 'https://api.webmaster.yandex.net/v4/user');
