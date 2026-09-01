@@ -96,6 +96,8 @@
 
   function publicExportManifest(job) {
     if (!job) return null;
+    const csvSha256 = job.csv_sha256 || job.raw_sha256 || null;
+    const csvBytes = Number(job.csv_bytes ?? job.raw_bytes ?? 0);
     return {
       task_id: job.task_id,
       host_id: job.host_id,
@@ -107,8 +109,13 @@
       quota: clone(job.quota || null),
       row_count: Number(job.row_count || 0),
       columns: Array.isArray(job.columns) ? [...job.columns] : [],
-      raw_sha256: job.raw_sha256 || null,
-      raw_bytes: Number(job.raw_bytes || 0),
+      downloaded_sha256: job.downloaded_sha256 || null,
+      downloaded_bytes: Number(job.downloaded_bytes || 0),
+      compression: job.compression || null,
+      csv_sha256: csvSha256,
+      csv_bytes: csvBytes,
+      raw_sha256: csvSha256,
+      raw_bytes: csvBytes,
       parse_warning: job.parse_warning || null,
       download_url_available: Boolean(job.download_url)
     };
@@ -124,10 +131,44 @@
     return url.href;
   }
 
-  async function sha256Text(text) {
-    const bytes = new TextEncoder().encode(String(text || ""));
-    const digest = await crypto.subtle.digest("SHA-256", bytes);
+  async function sha256Bytes(bytes) {
+    const source = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || 0);
+    const digest = await crypto.subtle.digest("SHA-256", source);
     return Array.from(new Uint8Array(digest)).map((item) => item.toString(16).padStart(2, "0")).join("");
+  }
+
+  function isGzipBytes(bytes) {
+    return bytes instanceof Uint8Array && bytes.length >= 2 && bytes[0] === 0x1f && bytes[1] === 0x8b;
+  }
+
+  async function readResponseBytes(response) {
+    if (typeof response?.arrayBuffer === "function") return new Uint8Array(await response.arrayBuffer());
+    let text = "";
+    try { text = await response.text(); } catch { text = ""; }
+    return new TextEncoder().encode(text);
+  }
+
+  function decodeUtf8(bytes, { fatal = true } = {}) {
+    try { return new TextDecoder("utf-8", { fatal }).decode(bytes); }
+    catch (error) {
+      throw executionError(Object.assign(new Error("Webmaster export содержит некорректный UTF-8 после распаковки."), { code: "WEBMASTER_EXPORT_INVALID_UTF8", cause: error }), true);
+    }
+  }
+
+  async function gunzipBytes(bytes) {
+    if (typeof globalThis.DecompressionStream !== "function" || typeof globalThis.Response !== "function") {
+      throw executionError(Object.assign(new Error("Среда расширения не поддерживает безопасную локальную gzip-распаковку Webmaster export."), { code: "WEBMASTER_EXPORT_GZIP_DECOMPRESSION_FAILED" }), true);
+    }
+    try {
+      const source = new globalThis.Response(bytes);
+      if (!source.body) throw new Error("gzip source stream is unavailable");
+      const stream = source.body.pipeThrough(new globalThis.DecompressionStream("gzip"));
+      const buffer = await new globalThis.Response(stream).arrayBuffer();
+      return new Uint8Array(buffer);
+    } catch (error) {
+      if (error?.code === "WEBMASTER_EXPORT_GZIP_DECOMPRESSION_FAILED") throw error;
+      throw executionError(Object.assign(new Error("Не удалось распаковать gzip Webmaster export."), { code: "WEBMASTER_EXPORT_GZIP_DECOMPRESSION_FAILED", cause: error }), true);
+    }
   }
 
   function delimiterScore(text, delimiter) {
@@ -249,20 +290,44 @@
     const downloadUrl = safeDownloadUrl(job.download_url);
     const started = performance.now?.() ?? Date.now();
     let response;
-    try { response = await fetch(downloadUrl, { method: "GET", headers: { Accept: "text/csv,text/plain;q=0.9,*/*;q=0.1" } }); }
+    try { response = await fetch(downloadUrl, { method: "GET", headers: { Accept: "text/csv,application/gzip,application/octet-stream;q=0.9,text/plain;q=0.8,*/*;q=0.1" } }); }
     catch (error) { throw executionError(Object.assign(new Error("Исход скачивания Webmaster export неизвестен; автоматический повтор запрещён."), { code: "REQUEST_OUTCOME_UNKNOWN_NO_RETRY", cause: error }), "UNKNOWN"); }
     const finalUrl = String(response?.url || downloadUrl);
     safeDownloadUrl(finalUrl);
-    let text = "";
-    try { text = await response.text(); } catch { text = ""; }
+    let downloadedBytes;
+    try { downloadedBytes = await readResponseBytes(response); }
+    catch (error) { throw executionError(Object.assign(new Error("Не удалось прочитать байты Webmaster export."), { code: "WEBMASTER_EXPORT_DOWNLOAD_READ_FAILED", cause: error }), true); }
     if (!response.ok) {
-      const payload = Webmaster.safeErrorPayload(response.status, text, null);
+      let text = "";
+      try { text = decodeUtf8(downloadedBytes, { fatal: false }); } catch { text = ""; }
+      const payload = Webmaster.safeErrorPayload(response.status, text, parseJson(text));
       return buildWebmasterReturn({ normalized, metadata, requestId, httpStatus: response.status, started, result: { error: payload, manifest: publicExportManifest(job) }, ok: false, reason: payload.code, requestExecuted: true });
     }
+
+    const downloadedSha256 = await sha256Bytes(downloadedBytes);
+    const compression = isGzipBytes(downloadedBytes) ? "GZIP" : "NONE";
+    const csvBytes = compression === "GZIP" ? await gunzipBytes(downloadedBytes) : downloadedBytes;
+    const text = decodeUtf8(csvBytes, { fatal: true });
     const parsed = normalizeExportCsv(text);
-    const rawBytes = new TextEncoder().encode(text).byteLength;
-    const rawSha256 = await sha256Text(text);
-    const next = { ...job, raw_csv: text, rows: parsed.rows, columns: parsed.columns, delimiter: parsed.delimiter === "\t" ? "TAB" : parsed.delimiter, parse_warning: parsed.warning, row_count: parsed.rows.length, raw_sha256: rawSha256, raw_bytes: rawBytes, collected_at: nowIso(), updated_at: nowIso() };
+    const csvSha256 = await sha256Bytes(csvBytes);
+    const next = {
+      ...job,
+      downloaded_sha256: downloadedSha256,
+      downloaded_bytes: downloadedBytes.byteLength,
+      compression,
+      csv_sha256: csvSha256,
+      csv_bytes: csvBytes.byteLength,
+      raw_csv: text,
+      rows: parsed.rows,
+      columns: parsed.columns,
+      delimiter: parsed.delimiter === "\t" ? "TAB" : parsed.delimiter,
+      parse_warning: parsed.warning,
+      row_count: parsed.rows.length,
+      raw_sha256: csvSha256,
+      raw_bytes: csvBytes.byteLength,
+      collected_at: nowIso(),
+      updated_at: nowIso()
+    };
     await persistExportJob(map, next);
     const preview = parsed.rows.slice(0, normalized.previewLimit);
     return buildWebmasterReturn({ normalized, metadata, requestId, httpStatus: response.status, started, result: { manifest: publicExportManifest(next), preview: { returned: preview.length, limit: normalized.previewLimit, rows: preview } }, requestExecuted: true });
@@ -314,6 +379,11 @@
         collected_at: null,
         rows: null,
         columns: [],
+        downloaded_sha256: null,
+        downloaded_bytes: 0,
+        compression: null,
+        csv_sha256: null,
+        csv_bytes: 0,
         raw_csv: null,
         raw_sha256: null,
         raw_bytes: 0,
@@ -325,7 +395,7 @@
     } else if (normalized.method === "getQueryUrlExportStatus") {
       const loaded = await loadExportJob(normalized.taskId, { required: false });
       const jobs = loaded.map;
-      const existing = loaded.job || { task_id: normalized.taskId, host_id: normalized.hostId, created_at: null, projection: null, quota: null, rows: null, columns: [], raw_csv: null, raw_sha256: null, raw_bytes: 0, row_count: 0, parse_warning: null };
+      const existing = loaded.job || { task_id: normalized.taskId, host_id: normalized.hostId, created_at: null, projection: null, quota: null, rows: null, columns: [], downloaded_sha256: null, downloaded_bytes: 0, compression: null, csv_sha256: null, csv_bytes: 0, raw_csv: null, raw_sha256: null, raw_bytes: 0, row_count: 0, parse_warning: null };
       if (existing.host_id && existing.host_id !== normalized.hostId) throw Object.assign(new Error("hostId не совпадает с durable export job."), { code: "WEBMASTER_EXPORT_HOST_MISMATCH", request_executed: true, automatic_retry: false });
       const next = { ...existing, host_id: normalized.hostId, download_status: result.download_status, updated_at: nowIso() };
       if (result.download_status === "SUCCESS") next.download_url = safeDownloadUrl(result.url);
