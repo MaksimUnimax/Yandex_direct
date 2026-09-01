@@ -1,7 +1,7 @@
 {
   "date": "2026-09-01",
   "step": 13,
-  "status": "COMPLETE__PASS_BASE_PUBLIC_EVIDENCE_MODE__SCHEMA_HARDENED__STEP14_ALLOWED",
+  "status": "COMPLETE__PASS_BASE_PUBLIC_EVIDENCE_MODE__SCHEMA_HARDENED__EXTERNAL_AUDIT_CORRECTED__STEP14_ALLOWED",
   "step13_complete": true,
   "historical_old_complete_status_withdrawn": true,
   "policy_reconciliation_complete": true,
@@ -10,6 +10,15 @@
   "research_to_execution_schema_audit": "STEP_13_RESEARCH_TO_EXECUTION_SCHEMA_AUDIT_2026-09-01.md",
   "execution_manifest": "STEP_13_EXECUTION_MANIFEST.json",
   "schema_hardening_acceptance": "STEP_13_SCHEMA_HARDENING_ACCEPTANCE_2026-09-01.md",
+  "external_audit_correction": "STEP_13_EXTERNAL_AUDIT_CORRECTION_2026-09-01.md",
+  "external_audit_correction_qa": "STEP_13_EXTERNAL_AUDIT_CORRECTION_QA_2026-09-01.json",
+  "external_audit_correction_complete": true,
+  "external_audit_result_reversal": false,
+  "external_audit_claim_boundary_tightened": true,
+  "external_audit_bounded_presearch_labels_applied": true,
+  "external_audit_source_to_method_trace_reconciled": true,
+  "external_audit_new_provider_requests": 0,
+  "external_audit_new_provider_cost_rub": 0.0,
   "material_research_requirements_total": 9,
   "material_research_requirements_accounted": 9,
   "base_required_unoperationalized": 0,
@@ -90,6 +99,8 @@
   "confirmed_harmful_cannibalization_cases_from_existing_public_current_evidence": 0,
   "destructive_remediation_authorized_cases": 0,
   "probe_intent_drift_preserved_as_uncertainty": ["QF019"],
+  "bounded_presearch_no_material_conflict_signal_cases": ["QF003", "QF008", "QF011", "QF021"],
+  "absolute_no_conflict_claim_for_current_ownership_only_evidence_allowed": false,
   "qf016_specialist_url": "https://okno-msk.ru/okna-rehau/po-tipu-doma/panoramnoe-osteklenie-domov-i-kottedzhej/",
   "qf017_specialist_url": "https://okno-msk.ru/verandy/panoramnye-okna-na-terrasu/",
   "corrected_method": "../../STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md",
@@ -112,11 +123,18 @@
   "schema_hardening_final_github_readback_required": false,
   "schema_hardening_final_github_readback_passed": true,
   "schema_hardening_final_github_readback_source_commit": "f76016c9dc5737f625d1122d4f61061a403f7bfd",
+  "external_audit_correction_final_github_readback_required": false,
+  "external_audit_correction_final_github_readback_passed": true,
+  "external_audit_correction_source_commits": [
+    "fde82d0529c3f9ec1657027b30329583c621cc30",
+    "aeacea8973946318e63cd8c70aae8bead80c82cf",
+    "923bd0bb4dac6abb1b7004144402619b29e3d5e2"
+  ],
   "fresh_ordinary_search_allowed_now": false,
   "fresh_ordinary_search_required_now": false,
   "provider_operator_action_pending": false,
   "provider_operator_action_type": null,
   "step14_executed": false,
   "next_step_allowed": true,
-  "next_required_action": "Begin Step 14 only through its mandatory pre-step current research, source-to-method trace, research-to-execution schema, current-site freshness requirements and owner-facing method review; consume the closed Step-13 public/current authorities without exceeding the no-private-history claim boundary."
+  "next_required_action": "Execute Step 14 only after its prepared owner-facing pre-step review receives explicit owner authorization; begin with implementation-critical current-URL recheck, consume the external-audit-corrected Step-13 evidence without exceeding Base Public claim boundaries, and make no fresh provider call unless a new material evidence gap is separately reviewed and authorized."
 }
