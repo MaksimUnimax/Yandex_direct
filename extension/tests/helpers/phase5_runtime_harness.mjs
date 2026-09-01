@@ -37,14 +37,15 @@ export function createPhase5Runtime(initial = {}) {
   const requests = [];
   const ctx = {
     console, Date, JSON, Math, Object, Array, Set, Map, Promise, Error, String, Number, Boolean, RegExp,
-    TextEncoder, Uint8Array, URL, URLSearchParams, performance, crypto: webcrypto, structuredClone,
+    TextEncoder, TextDecoder, Uint8Array, ArrayBuffer, URL, URLSearchParams, performance, crypto: webcrypto, structuredClone,
+    Response, Blob, ReadableStream, TransformStream, DecompressionStream,
     globalThis: null,
     chrome: { runtime: { id: 'test-extension', onMessage: { addListener(fn) { listeners.push(fn); } } }, storage: { local: storage.api } },
     fetch: async (url, options = {}) => {
       requests.push({ url: String(url), options: structuredClone(options) });
       return { ok: true, status: 200, headers: emptyHeaders(), text: async () => JSON.stringify({ result: { Campaigns: [] } }) };
     },
-    YMBProduct: { VERSION: '0.1.1', BRIDGE_ID: 'yandex-marketing-bridge' },
+    YMBProduct: { VERSION: '0.1.4', BRIDGE_ID: 'yandex-marketing-bridge' },
     SearchProtocol: {
       normalizeCommand: (c) => ({ ...c }),
       buildRequest: (_c, folder) => ({ url: `https://search.example/${folder}`, body: { q: 'x' } }),
@@ -83,12 +84,24 @@ export function createPhase5Runtime(initial = {}) {
   return { ctx, storage, listeners, requests };
 }
 
-export function response(status, body, headers = {}) {
+function bytesForBody(body) {
+  if (body instanceof Uint8Array) return new Uint8Array(body);
+  if (body instanceof ArrayBuffer) return new Uint8Array(body);
+  if (ArrayBuffer.isView(body)) return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+  const text = typeof body === 'string' ? body : JSON.stringify(body);
+  return new TextEncoder().encode(text);
+}
+
+export function response(status, body, headers = {}, { url = '' } = {}) {
   const normalized = new Map(Object.entries(headers).map(([key, value]) => [String(key).toLowerCase(), String(value)]));
+  const bytes = bytesForBody(body);
+  const text = typeof body === 'string' ? body : (body instanceof Uint8Array || body instanceof ArrayBuffer || ArrayBuffer.isView(body) ? new TextDecoder().decode(bytes) : JSON.stringify(body));
   return {
     ok: status >= 200 && status < 300,
     status,
+    url,
     headers: { get(name) { return normalized.get(String(name).toLowerCase()) ?? null; } },
-    text: async () => typeof body === 'string' ? body : JSON.stringify(body)
+    text: async () => text,
+    arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
   };
 }
