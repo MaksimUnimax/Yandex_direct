@@ -15,6 +15,7 @@
   const DEFAULT_SEARCH_METHOD_COST_RUB = Object.freeze({ search: 0.488, genSearch: 5.08 });
   const DEFAULT_WEBMASTER_METHOD_COST_RUB = Object.freeze({
     listHosts: 0,
+    getHostInfo: 0,
     getSummary: 0,
     getDiagnostics: 0,
     getPopularQueries: 0,
@@ -31,6 +32,12 @@
     readQueryUrlExportChunk: 0
   });
   const LEGACY_WEBMASTER_METHODS = Object.freeze(["listHosts", "getSummary", "getDiagnostics", "getPopularQueries"]);
+  const V013_WEBMASTER_METHODS = Object.freeze([
+    "listHosts", "getSummary", "getDiagnostics", "getPopularQueries",
+    "getAllQueryHistory", "getQueryHistory", "getIndexingSamples", "getInSearchSamples",
+    "getExportRegions", "getExportLimits", "getExportDates", "startQueryUrlExport",
+    "getQueryUrlExportStatus", "collectQueryUrlExport", "readQueryUrlExportChunk"
+  ]);
   const DEFAULT_METRIKA_METHOD_COST_RUB = Object.freeze({ listCounters: 0, getCounter: 0, getTrafficSummary: 0, getTrafficByTime: 0 });
   const DEFAULT_DIRECT_METHOD_COST_RUB = Object.freeze({ listCampaigns: 0, listAdGroups: 0, listAds: 0, listKeywords: 0, getCampaignPerformance: 0 });
   const WORDSTAT_METHODS = Object.freeze(Object.keys(DEFAULT_METHOD_COST_RUB));
@@ -88,10 +95,15 @@
     return { ...source, allowed_methods: ["search", "genSearch"] };
   }
 
+  function sameMethodSet(methods, expected) {
+    return Array.isArray(methods) && methods.length === expected.length && expected.every((method) => methods.includes(method));
+  }
+
   function migrateLegacyWebmasterPolicy(raw = {}) {
     const source = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
     const methods = Array.isArray(source.allowed_methods) ? [...new Set(source.allowed_methods.map(String))] : null;
-    if (!methods || methods.length !== LEGACY_WEBMASTER_METHODS.length || !LEGACY_WEBMASTER_METHODS.every((method) => methods.includes(method))) return source;
+    const isKnownDefault = sameMethodSet(methods, LEGACY_WEBMASTER_METHODS) || sameMethodSet(methods, V013_WEBMASTER_METHODS);
+    if (!isKnownDefault) return source;
     return {
       ...source,
       allowed_methods: [...WEBMASTER_METHODS],
