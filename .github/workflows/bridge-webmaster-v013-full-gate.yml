@@ -217,14 +217,15 @@ jobs:
           grep -F 'GENSEARCH_BROWSER_RUNTIME_PASS' /tmp/wm13-gensearch-browser.log
           echo WM13_SEARCH_GENSEARCH_BROWSER_REGRESSION_PASS
 
-      - name: Product/artifact immutability and final summary
+      - name: Product/artifact immutability evidence
         if: always()
         shell: bash
         run: |
           set -euo pipefail
           find extension/src -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/wm13-product-after.sha256
           cmp /tmp/wm13-product-before.sha256 /tmp/wm13-product-after.sha256
-          python - <<'PY'
+          if [ -f wm13-output/EXACT_CANDIDATE_MANIFEST.json ]; then
+            python - <<'PY'
           import hashlib, json
           from pathlib import Path
           manifest = json.loads(Path('wm13-output/EXACT_CANDIDATE_MANIFEST.json').read_text(encoding='utf-8'))
@@ -234,11 +235,22 @@ jobs:
           assert archive.stat().st_size == manifest['bytes']
           for key in ('product_version','source_commit','artifact','sha256','bytes','files','entries','zip_test'):
               print(f'{key}={manifest[key]}')
-          print('real_yandex_requests=0')
           print('production_modified_during_gate=NO')
-          print('enabled_not_run_sections=0')
-          print('WEBMASTER_V013_EXACT_ARTIFACT_FULL_GATE_PASS')
+          print('WM13_PRODUCT_ARTIFACT_IMMUTABILITY_PASS')
           PY
+          else
+            echo 'WM13_ARTIFACT_NOT_CREATED_BEFORE_FAILURE'
+          fi
+
+      - name: Full gate PASS summary
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo real_yandex_requests=0
+          echo production_modified_during_gate=NO
+          echo enabled_not_run_sections=0
+          echo WEBMASTER_V013_EXACT_ARTIFACT_FULL_GATE_PASS
 
       - name: Upload exact accepted candidate
         if: success()
