@@ -34,6 +34,20 @@ jobs:
             test "$actual" = "8eea9b72694dac5c718dd419642b02077c0094e2d999f26c55845575112cf393"
             python -m py_compile extension/tools/apply_webmaster_v013_patch_embedded.py
             python extension/tools/apply_webmaster_v013_patch_embedded.py
+            python - <<'PY'
+          from pathlib import Path
+          path = Path('extension/tests/gensearch_search_protocol.test.mjs')
+          text = path.read_text(encoding='utf-8')
+          old = """  ctx.WordstatProtocol = {};
+          vm.runInContext(fs.readFileSync(path.join(src, 'shared/search_protocol.js'), 'utf8'), ctx, { filename: 'search_protocol.js' });"""
+          new = """  ctx.WordstatProtocol = {};
+          vm.runInContext(fs.readFileSync(path.join(src, 'shared/webmaster_export_model.js'), 'utf8'), ctx, { filename: 'webmaster_export_model.js' });
+          vm.runInContext(fs.readFileSync(path.join(src, 'shared/search_protocol.js'), 'utf8'), ctx, { filename: 'search_protocol.js' });"""
+          if text.count(old) != 1:
+              raise SystemExit(f'GenSearch Phase3 harness anchor count != 1: {text.count(old)}')
+          path.write_text(text.replace(old, new), encoding='utf-8')
+          print('GENSEARCH_PHASE3_EXPORT_DEPENDENCY_HARNESS_PATCH_PASS')
+          PY
             rm -f extension/tools/apply_webmaster_v013_patch_embedded.py
             rm -rf .ci/ymb-v013
             echo "staged=true" >> "$GITHUB_OUTPUT"
