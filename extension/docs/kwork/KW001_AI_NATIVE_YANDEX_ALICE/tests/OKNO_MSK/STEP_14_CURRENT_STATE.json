@@ -3,129 +3,59 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_REPOSITORY_INTEGRATED_LOCALLY__RUNNER_CHECKPOINT_PRESERVED__Q1_Q4_QUALIFICATION_READY__STEP15_BLOCKED",
-  "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_AND_EXECUTION_RELIABILITY_CORRECTION",
+  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_BROWSER_FIRST_SITE_PASS_REQUIRED__NO_RUN_SKIP__STEP15_BLOCKED",
+  "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_CORRECTION__BROWSER_FIRST_EXECUTION_CORRECTED",
   "canonical_step_method": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md",
-  "universal_codex_gate": "RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md",
-  "universal_evidence_conflict_gate": "RULES_ARCHITECTURE_CODEX_EVIDENCE_CONFLICT_PRESERVATION_ADDENDUM_2026-09-02.md",
-  "universal_execution_reliability_gate": "RULES_ARCHITECTURE_CODEX_EXECUTION_RELIABILITY_GATE_ADDENDUM_2026-09-02.md",
-  "step14_repository_sync_gate": "STEP_14_CODEX_REPOSITORY_SYNC_GATE.md",
-  "step14_crawler_execution_reliability_gate": "STEP_14_CODEX_CRAWLER_EXECUTION_RELIABILITY_GATE.md",
-  "job_correction_gate": "STEP_14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_AND_GATE_2026-09-02.md",
-  "exact_codex_prompt": "STEP_14A_CODEX_PROMPT_2026-09-02.md",
-  "qualification_prompt": "STEP_14A_CODEX_Q1_Q4_QUALIFICATION_PROMPT_2026-09-02.md",
-  "retry4_checkpoint_artifact": "STEP_14A_CODEX_RETRY4_CHECKPOINT_AND_QUALIFICATION_READY_2026-09-02.md",
+  "browser_first_correction": "STEP_14_CODEX_BROWSER_FIRST_DISCOVERY_CORRECTION_2026-09-02.md",
+  "no_run_skip_rule": "STEP_14_NO_RUN_SKIP_AND_CRAWLER_REMOVAL_RULE_2026-09-02.md",
+  "codex_run_ledger": "STEP_14A_CODEX_RUN_LEDGER_2026-09-02.md",
+  "browser_first_prompt": "STEP_14A_CODEX_BROWSER_FIRST_SITE_PASS_PROMPT_2026-09-02.md",
   "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
   "semantic_freeze": {
     "status": "PROVISIONAL_PASS_PRESERVED",
-    "execution_previously_complete": true,
-    "previous_qa_status": "PASS_SEARCH_ONLY_ARCHITECTURE_FREEZE",
-    "previous_acceptance": "STEP_14_ACCEPTANCE_2026-09-01.md",
-    "previous_report": "STEP_14_REPORT.md",
-    "claim_boundary": "Previous semantic/accounting baseline remains usable, but overall COMPLETE is superseded until deterministic current-site discovery and literal as-is topology are qualified, executed, read back and semantically reconciled."
+    "previous_known_url_recheck": "59/59 LIVE",
+    "previous_link_action_rows": "58/58 accounted",
+    "previous_recommended_implement_edges": 15,
+    "preserved_unresolved": 19,
+    "claim_boundary": "Known-URL freshness and semantic architecture baseline remain usable, but current-site completeness and literal as-is link topology require the independent Codex browser pass before final Step-14 acceptance."
   },
-  "post_run_external_audit": {
-    "completed": true,
-    "result": "PASS_WITH_MANDATORY_CORRECTION",
-    "material_defects": [
-      "KNOWN_URL_RECHECK_WAS_TREATED_AS_CURRENT_SITE_DISCOVERY",
-      "SOURCE_LIVE_PLUS_TARGET_LIVE_PLUS_SEMANTIC_FIT_WAS_TREATED_TOO_CLOSE_TO_EDGE_IMPLEMENTED",
-      "STEP11_CODEX_DISCOVERY_PRECEDENT_WAS_NOT_PROMOTED_INTO_STEP14_ACCEPTANCE_GATE"
+  "codex_run_accounting": {
+    "mandatory": true,
+    "known_runs_accounted_in_ledger": true,
+    "known_ledger_range": "RUN_0_THROUGH_RUN_7_AT_LEDGER_CREATION",
+    "failed_runs_must_remain": true,
+    "later_success_may_erase_earlier_failure": false,
+    "every_new_codex_attempt_must_append_to_ledger": true,
+    "no_run_skip": true
+  },
+  "obsolete_custom_crawler": {
+    "active_execution_mode": "SUPERSEDED_AND_FORBIDDEN",
+    "known_local_code_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step14a_codex_site_discovery.py",
+    "code_removal_required_before_browser_pass": true,
+    "crawler_only_helper_code_removal_required": true,
+    "git_history_preservation_required": true,
+    "historical_run_reports_preservation_required": true,
+    "run_ledger_preservation_required": true,
+    "invalid_or_partial_final_named_outputs_must_not_be_published": true
+  },
+  "active_codex_execution": {
+    "primary_collection_tool": "CODEX_BROWSER",
+    "custom_site_crawler_allowed": false,
+    "browser_pass_executed": false,
+    "required_browser_outputs": [
+      "STEP_14A_CODEX_BROWSER_DISCOVERED_URLS.tsv",
+      "STEP_14A_CODEX_BROWSER_PAGE_PROFILE_LEDGER.tsv",
+      "STEP_14A_CODEX_BROWSER_NEW_URL_RECONCILIATION.tsv",
+      "STEP_14A_CODEX_BROWSER_REQUIRED_EDGE_VERIFICATION.tsv",
+      "STEP_14A_CODEX_BROWSER_PASS_REPORT.md",
+      "STEP_14A_CODEX_RUN_LEDGER_2026-09-02.md"
     ],
-    "non_repeat_control": "Mandatory deterministic current-site discovery plus literal HTML topology evidence and qualified deterministic execution before completeness/topology-dependent Step-14 PASS."
-  },
-  "codex_repository_sync": {
-    "attempt_1": {
-      "status": "BLOCKED_SAFELY_STALE_LOCAL_REPOSITORY_STATE",
-      "local_head": "bd5766a6498577176aaf8d0210a80c670cde4c39"
-    },
-    "attempt_2": {
-      "status": "BLOCKED_SAFELY_STEP11_ADD_ADD_EVIDENCE_CONFLICT",
-      "remote_head_after_fetch": "a9f54e2a5c2721c84024ec442f8dafad40ccdd8d",
-      "backup_ref": "codex/backup-step14a-pre-sync-20260902"
-    },
-    "attempt_3": {
-      "status": "SYNC_COMPLETE_LOCALLY__EVIDENCE_PRESERVED",
-      "remote_head_after_fetch": "148780ef5dc88f4d2daca21fdfaa70b64bc33cc2",
-      "local_head_after_sync": "4675ccd18fa3ac4b12bcbc8ff8191a7220ee01a6",
-      "sync_mode": "SAFE_MERGE_WITH_EVIDENCE_PRESERVATION",
-      "conflict_count": 1,
-      "conflict_classification": "EVIDENCE_PRESERVATION_CONFLICT",
-      "unexplained_evidence_loss": 0,
-      "mandatory_files_present_after_sync": "16/16"
-    },
-    "retry4": {
-      "status": "AUTHORITY_INTEGRATED_LOCALLY__RUNNER_CHECKPOINT_PRESERVED__QUALIFICATION_READY",
-      "local_head_retry4_start": "4675ccd18fa3ac4b12bcbc8ff8191a7220ee01a6",
-      "worktree_retry4_start": "UNCOMMITTED_RUNNER_PLUS_INVALID_FINAL_NAMED_DIAGNOSTIC_ARTIFACTS",
-      "remote_head_after_fetch_retry4": "dbbc8d1b32aec33a956b9ed8e844885da2b296e5",
-      "sync_mode_retry4": "CHECKPOINT_THEN_SAFE_MERGE",
-      "runner_checkpoint_commit": "7f0abb92f0007180923ce43d74670e32d3adc629",
-      "local_head_after_remote_integration": "4dce8e4c1cbc5495e2371b630603718c35a3f62f",
-      "crawler_script_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step14a_codex_site_discovery.py",
-      "checkpoint_contains_claimed_final_step14a_evidence": false,
-      "repository_authority_integration_complete_locally": true
-    },
-    "causal_lessons": [
-      "LOCAL_BRANCH_NAME_MATCH_DOES_NOT_PROVE_REMOTE_STATE_CURRENT",
-      "FILE_NOT_FOUND_IN_STALE_LOCAL_CLONE_DOES_NOT_PROVE_PROJECT_AUTHORITY_MISSING",
-      "FAIL_CLOSED_DOES_NOT_FORBID_LOSSLESS_EVIDENCE_PRESERVATION",
-      "EVIDENCE_CONFLICT_DOES_NOT_AUTHORIZE_PICKING_ONE_VERSION",
-      "PRESERVE_BOTH_DOES_NOT_MAKE_BOTH_CANONICAL"
-    ]
-  },
-  "codex_execution_reliability": {
-    "status": "QUALIFICATION_READY__Q1_Q4_NOT_YET_REPORTED_UNDER_CURRENT_GATE",
-    "runner_added_locally": true,
-    "runner_checkpoint_preserved": true,
-    "runner_pushed": false,
-    "first_failure": "TLS_OPENER_ARGUMENT_BUG_BEFORE_FETCH",
-    "first_failure_reported_fixed": true,
-    "isolated_homepage_http_200_html": true,
-    "bounded_runner_terminal_completion_previously_observed": false,
-    "required_step14a_outputs_valid": false,
-    "stale_final_named_diagnostic_artifacts_present_locally": true,
-    "stale_final_named_diagnostic_artifacts_committed": false,
-    "stale_final_named_artifact_policy": "QUARANTINE_UNIQUE_DIAGNOSTIC_CONTENT_UNDER_NON_FINAL_NAMES_OR_REMOVE_IF_NO_UNIQUE_VALUE; FINAL_REQUIRED_NAMES_MUST_BE_CLEAN_BEFORE_QUALIFICATION_PUBLICATION",
-    "qualification_required": {
-      "Q1_construction_static": "NEXT",
-      "Q2_one_page_runner_fetch_parse_exit": "BLOCKED_UNTIL_Q1_PASS",
-      "Q3_finite_recursive_mini_crawl": "BLOCKED_UNTIL_Q2_PASS",
-      "Q4_bounded_sitemap_probe": "BLOCKED_UNTIL_Q3_PASS",
-      "full_crawl_allowed_before_Q1_Q4_pass": false
-    },
-    "full_crawl_eligibility": false,
-    "qualification_prompt": "STEP_14A_CODEX_Q1_Q4_QUALIFICATION_PROMPT_2026-09-02.md",
-    "required_controls": [
-      "UNIQUE_RUN_ID",
-      "PER_REQUEST_TIMEOUT",
-      "BOUNDED_RETRIES",
-      "GLOBAL_DEADLINE_OR_WATCHDOG",
-      "FINITE_MAX_PAGES_FOR_MINI_CRAWL",
-      "FINITE_SITEMAP_DOCUMENT_AND_URL_BOUNDS",
-      "PROGRESS_HEARTBEAT_OR_CHECKPOINT",
-      "QUEUED_ATTEMPTED_COMPLETED_FAILED_COUNTERS",
-      "EXPLICIT_TERMINAL_STATE_AND_REASON",
-      "CURRENT_RUN_OUTPUT_ATTRIBUTION",
-      "STAGING_OUTPUTS_SEPARATE_FROM_FINAL_ARTIFACTS"
-    ]
-  },
-  "codex_correction": {
-    "required": true,
-    "qualification_complete": false,
-    "full_run_executed": false,
-    "outputs_persisted": false,
-    "github_readback": false,
-    "analytical_reconciliation_complete": false,
-    "final_qa_complete": false,
-    "required_outputs": [
-      "STEP_14A_CODEX_SITE_DISCOVERY_URLS.tsv",
-      "STEP_14A_CODEX_INTERNAL_LINK_GRAPH.tsv",
-      "STEP_14A_CODEX_PAGE_PROFILE_LEDGER.tsv",
-      "STEP_14A_CODEX_UPSTREAM_RECONCILIATION.tsv",
-      "STEP_14A_CODEX_REQUIRED_EDGE_VERIFICATION.tsv",
-      "STEP_14A_CODEX_QA.json",
-      "STEP_14A_CODEX_REPORT.md"
+    "required_edge_baseline": 15,
+    "required_edge_states": [
+      "AS_IS_PRESENT",
+      "AS_IS_ABSENT_PLANNED",
+      "BLOCKED_OR_UNVERIFIED",
+      "NOT_APPLICABLE"
     ]
   },
   "accounting_provisionally_preserved": {
@@ -137,37 +67,10 @@
     "step13_effective_pairs": 199,
     "step13_query_family_cases": 21
   },
-  "previous_known_url_recheck": {
-    "unique_urls_checked": 59,
-    "live_pass": 59,
-    "live_fail_or_indeterminate": 0,
-    "claim_boundary_after_correction": "Known URL freshness only; not current-site completeness proof."
-  },
-  "previous_internal_link_freeze": {
-    "rows": 58,
-    "recommended_implement_edges": 15,
-    "unchanged_defer_or_not_applicable": 43,
-    "claim_boundary_after_correction": "15 IMPLEMENT rows remain recommendations pending literal current HTML as-is classification."
-  },
-  "unresolved_provisionally_preserved": {
-    "baseline_rows": 19,
-    "reviewed": 19,
-    "architecture_material_true": 0,
-    "architecture_material_false": 19,
-    "preserved_unassigned": 19,
-    "silent_assignment": 0,
-    "silent_drop": 0
-  },
   "destructive_and_new_page_policy": {
     "current_supported_new_page_actions": 0,
     "current_supported_destructive_actions": 0,
     "merge_delete_redirect_canonical_actions": 0
-  },
-  "historical_claim_boundary": {
-    "historical_cannibalization_absence_claim": false,
-    "historical_owner_switching_absence_claim": false,
-    "historical_harm_absence_claim": false,
-    "traffic_or_click_loss_claim": false
   },
   "provider_calls_authorized": false,
   "provider_calls_executed": 0,
@@ -177,6 +80,6 @@
   "step15_executed": false,
   "step16_executed": false,
   "next_step_allowed": false,
-  "next_step_scope": "STEP14A_CODEX_Q1_Q4_RUNNER_QUALIFICATION_ONLY__FULL_CRAWL_ONLY_IF_ALL_PASS",
-  "next_required_action": "Owner runs STEP_14A_CODEX_Q1_Q4_QUALIFICATION_PROMPT_2026-09-02.md in Codex. Codex must fetch and safely integrate latest remote authority, quarantine misleading old final-named diagnostic artifacts, inspect/instrument the preserved runner, execute Q1 construction/static qualification, Q2 one-page runner fetch+parse+exit, Q3 finite recursive mini-crawl, and Q4 bounded sitemap probe in sequence. Any failed stage blocks the next/full crawl and requires runner+diagnostics commit and normal push. Only Q1-Q4 PASS may set FULL_CRAWL_ELIGIBLE=true and permit the canonical Step-14A full crawl. Step 15 remains blocked."
+  "next_step_scope": "STEP14A_CODEX_BROWSER_FIRST_SITE_PASS_ONLY",
+  "next_required_action": "Codex must fetch and safely integrate the latest branch, preserve the complete Step-14A run ledger, remove the obsolete local custom crawler code and crawler-only helpers without deleting any historical run evidence, then use the native Codex browser to perform the actual public-site discovery pass over okno-msk.ru, reconcile browser/sitemap discoveries against Step12/13/14 known URLs, verify all 15 planned IMPLEMENT edges from actual current source-page link evidence, append the new run to the run ledger, commit and normal-push the browser evidence. Step 15 remains blocked until ChatGPT GitHub readback, semantic reconciliation and final Step-14 QA."
 }
