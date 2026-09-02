@@ -1,0 +1,95 @@
+{
+  "case_id": "C15-006",
+  "case_role": "DIAGNOSTIC_PROBE",
+  "query_family_id": "QF006",
+  "authoritative_query": "алюминиевые окна для веранды",
+  "attempt_type": "INITIAL",
+  "attempt_ordinal": 1,
+  "observed_at": "2026-09-02T16:40:00+05:00",
+  "bridge_version": "0.1.4",
+  "request_id": "search-c64b9a38-a191-4dae-9d3a-bfe7bc682ea9",
+  "http_status": 200,
+  "request_executed": true,
+  "automatic_retry": false,
+  "provider_cost_rub": 5.08,
+  "message_content": "**Алюминиевые окна для веранды** обеспечивают защиту от пыли и осадков, сохраняют температуру внутри помещения на 5–7 градусов выше, чем на улице. [1] \n\nНекоторые преимущества таких окон:\n\n* **Прочность и стойкость к воздействию** влаги, ультрафиолетового излучения и перепадам температуры. [1] Алюминиевые рамы не деформируются и сохраняют первоначальные геометрические параметры на протяжении всего периода эксплуатации. [1]\n* **Небольшой вес**. [1] Каркас из алюминия намного легче тёплого пластикового, поэтому установка таких конструкций возможна в старые пристройки, стены которых имеют слабую несущую способность. [1]\n* **Продолжительный срок эксплуатации** — до 80 лет. [1] Уплотнители, фурнитура и другие комплектующие заменяются по мере износа. [1]\n* **Возможность реализации различных дизайнерских идей**. [1] Под заказ изготавливаются стандартные прямоугольные изделия или панорамные системы, которые пропускают максимум солнечного света и позволяют любоваться окружающим пейзажем. [1]\n\nВ зависимости от назначения помещения могут использоваться **холодные или тёплые алюминиевые системы**. [4] Холодный алюминий отлично подходит для сезонной эксплуатации, а профили с терморазрывом обеспечивают хорошую теплоизоляцию и комфортное использование пространства в течение всего года. [4]\n\nНекоторые бренды, которые производят алюминиевые окна для веранд: **PROVEDAL, ALUTECH, СИАЛ**. [1]",
+  "message_role": "ROLE_ASSISTANT",
+  "sources_total": 5,
+  "sources_used_count": 2,
+  "sources_full": [
+    {
+      "url": "https://l-okna.ru/alyuminievyie-okna-dlya-verand/",
+      "title": "Остекление веранды алюминиевым профилем - холодное остекление веранды по цене лучшей в Москве | L-okna",
+      "used": true,
+      "observed_role": "VERANDA_USE_CASE__ALUMINIUM_SPECIALIST"
+    },
+    {
+      "url": "https://al-solution.ru/production/terraces-verandas-gazebos",
+      "title": "Алюминиевое остекление террас, веранд, беседок - Цена от производителя 9000 руб за м2 - al-solution.ru - г. Москва",
+      "used": false,
+      "observed_role": "VERANDA_TERRACE_USE_CASE__ALUMINIUM"
+    },
+    {
+      "url": "https://www.svetokna.ru/alyuminievye-okna/dlya-verandy/",
+      "title": "Алюминиевые окна для веранды и террасы - купить в Москве от производителя Светлые окна",
+      "used": false,
+      "observed_role": "VERANDA_USE_CASE__ALUMINIUM_SPECIALIST"
+    },
+    {
+      "url": "https://vipfabrikaokon.ru/osteklenie-verandy-i-terrasy/",
+      "title": "Остекление веранды и террасы в Москве — цена под ключ, окна для террасы и веранды недорого",
+      "used": true,
+      "observed_role": "BROAD_VERANDA_TERRACE_GLAZING_USE_CASE"
+    },
+    {
+      "url": "https://aluminarium.ru/osteklenie-verandy-i-terrasy/",
+      "title": "Алюминиевое остекление веранды и террасы - цена от 8 000 руб/м2 - холодное, теплое, раздвижное - Алюминариум, г. Москва",
+      "used": false,
+      "observed_role": "VERANDA_TERRACE_USE_CASE__ALUMINIUM_OPTIONS"
+    }
+  ],
+  "search_queries_total": 1,
+  "search_queries_full": [
+    {
+      "text": "алюминиевые окна для веранды",
+      "reqId": "1788349449649712-12467319318222941940-q6bvn2ao7chkhxo7-BAL"
+    }
+  ],
+  "fixed_misspell_query": "",
+  "is_answer_rejected": false,
+  "is_bullet_answer": false,
+  "hints": [
+    "Какие недостатки у алюминиевых окон для веранды?",
+    "Как правильно установить алюминиевые окна на веранде?",
+    "Какие материалы используются для изготовления алюминиевых окон?"
+  ],
+  "problematic_answer": false,
+  "transport_wire_format": "json_array",
+  "transport_frame_count": 1,
+  "evidence_usability": "USEFUL",
+  "message_orientation_summary": "The answer preserves the veranda use case while discussing aluminium-window properties and warm/cold system options. It does not narrow the task to sliding, frameless, or another mechanism-specific specialist. The two used sources represent one aluminium-for-veranda specialist and one broad veranda/terrace glazing page; the refined search query remains exactly the original formulation.",
+  "used_target_domain_urls": [],
+  "primary_owner_used": false,
+  "supporting_owner_used": false,
+  "source_order_rank_inference": false,
+  "condition_match_evidence": {
+    "pre_ai_baseline": "Ordinary Search favors the veranda/terrace use-case hub. Aluminium category is supporting; Step14A also surfaced informational choice, sliding-veranda and frameless-veranda specialists.",
+    "change_condition_met": false,
+    "change_condition_reason": "Neither the refined query nor the used sources systematically narrow the generic aluminium-veranda task to sliding, frameless, or another mechanism specialist. The only refined query is the exact original query.",
+    "de_risk_condition_met": false,
+    "de_risk_condition_reason": "The observation is directionally compatible with the frozen model, but because the target-domain /verandy owner is not used and source-array order cannot establish hierarchy, this single observation cannot positively prove the hub-first responsibility strongly enough for DE_RISK.",
+    "no_change_condition_met": true,
+    "no_change_condition_reason": "Both the broad veranda/terrace use-case layer and aluminium-specific layer are present without a mechanism-level narrowing or contradiction. No evidence materially challenges the frozen hub-first model, while no unsupported source-order ranking is inferred.",
+    "insufficient_condition_met": false
+  },
+  "initial_or_confirmation_outcome": "NO_CHANGE",
+  "raw_evidence_ref": "STEP_16_C15-006_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+  "claim_boundary": [
+    "GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER",
+    "GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE",
+    "sources_array_order != source_rank",
+    "single_observation != stable_or_permanent_truth",
+    "selected_case != representative_sample",
+    "Step16_observation != Step17_architecture_decision"
+  ]
+}
