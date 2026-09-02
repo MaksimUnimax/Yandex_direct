@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 16,
   "step_name": "AI-search evidence acquisition",
-  "status": "RESEARCH_ARTIFACTS_PREPARED__OWNER_COMMUNICATION_GATE_REISSUE_REQUIRED__PROVIDER_BLOCKED",
+  "status": "PRE_STEP_FULL_GATE_COMPLETE__AWAITING_OWNER_PROVIDER_AUTHORIZATION",
   "method": {
     "permanent_method_status": "UNVALIDATED",
     "current_job_method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
@@ -12,18 +12,26 @@
     "case_execution_plan": "STEP_16_CASE_EXECUTION_PLAN_2026-09-02.tsv",
     "execution_manifest": "STEP_16_EXECUTION_MANIFEST_2026-09-02.json",
     "historical_job_flow_sync": "JOB_FLOW_STEP16_PRESTEP_SYNC_2026-09-02.md",
-    "current_transition_correction": "JOB_FLOW_STEP16_OWNER_COMMUNICATION_GATE_CORRECTION_2026-09-02.md"
+    "owner_communication_defect_correction": "JOB_FLOW_STEP16_OWNER_COMMUNICATION_GATE_CORRECTION_2026-09-02.md",
+    "owner_facing_gate_reissued": "STEP_16_OWNER_FACING_PRESTEP_GATE_REISSUED_2026-09-02.md"
   },
   "process_correction": {
     "defect_class": "GOAL_FIRST_AND_OWNER_COMMUNICATION_ORDER_VIOLATION",
     "defect_found": true,
-    "research_started_before_complete_live_goal_roadmap_status_block": true,
-    "full_0_22_roadmap_missing_before_research": true,
-    "mandatory_plain_language_prestep_summary_missing_before_research_authorization_boundary": true,
+    "historical_research_started_before_complete_live_goal_roadmap_status_block": true,
+    "historical_full_0_22_roadmap_missing_before_research": true,
+    "historical_plain_language_prestep_summary_missing": true,
     "research_artifacts_invalidated": false,
     "research_artifacts_preserved_as_useful_work": true,
-    "live_owner_gate_must_be_reissued_before_provider_authorization": true,
-    "provider_transition_blocked": true
+    "live_owner_gate_reissued": true,
+    "full_0_22_roadmap_reissued": true,
+    "completed_remaining_reissued": true,
+    "step_goal_solves_output_reissued": true,
+    "prior_errors_root_causes_non_repeat_controls_reissued": true,
+    "method_sources_self_audit_risks_pass_gate_reissued": true,
+    "plain_language_prestep_summary_reissued": true,
+    "owner_communication_gate": "PASS",
+    "provider_transition_blocked_by_communication_gate": false
   },
   "input": {
     "source": "STEP_15_SELECTED_CASES_V2.tsv",
@@ -31,7 +39,8 @@
     "diagnostic_probes": 6,
     "stability_controls": 2,
     "exact_query_match_verified": "8/8",
-    "v1_input_used": false
+    "v1_input_used": false,
+    "selected_set_claim_boundary": "DECISION_DIAGNOSTIC_SET_WITH_STABILITY_CONTROLS__NOT_REPRESENTATIVE_SAMPLE"
   },
   "bridge": {
     "capability_branch": "bridge/webmaster-readiness-gzip-v0.1.4",
@@ -47,13 +56,26 @@
     "yandex_webmaster": "UNAVAILABLE",
     "base_mode": "BASE_PUBLIC_EVIDENCE_MODE",
     "base_ai_route": "OFFICIAL_GENSEARCH",
-    "owned_webmaster_alice": "OPTIONAL_ENHANCEMENT_UNAVAILABLE_NOT_EXECUTED"
+    "owned_webmaster_alice": "OPTIONAL_ENHANCEMENT_UNAVAILABLE_NOT_EXECUTED",
+    "first_access_comparison_state": "NOT_YET_RUN__NOT_THIS_JOB"
+  },
+  "current_external_research": {
+    "checked_at": "2026-09-02",
+    "gensearch_current": true,
+    "response_schema_current": true,
+    "pricing_current": true,
+    "quota_limits_current": true,
+    "webmaster_alice_visibility_current": true,
+    "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
+    "source_array_order_documented_as_ranking": false,
+    "consumer_alice_variability_not_silently_generalized_to_exact_gensearch_behavior": true
   },
   "provider_plan": {
     "initial_calls": 8,
     "initial_unit_cost_rub": 5.08,
     "initial_planned_cost_rub": 40.64,
     "initial_provider_calls_authorized": false,
+    "conditional_semantic_confirmation_trigger": "INITIAL_CHANGE_CANDIDATE_OR_CONTROL_BREAK_CANDIDATE_ONLY",
     "conditional_semantic_confirmation_max_calls": 8,
     "conditional_semantic_confirmation_max_incremental_cost_rub": 40.64,
     "conditional_semantic_confirmation_authorized": false,
@@ -68,6 +90,7 @@
     "source_array_order_not_ranking": true,
     "preregistered_case_conditions_required": true,
     "material_delta_confirmation_required": true,
+    "confirmation_is_project_specific_not_statistical_standard": true,
     "step16_architecture_rewrite_forbidden": true,
     "insufficient_is_valid_outcome": true,
     "full_owner_facing_roadmap_before_method_or_execution": true,
@@ -81,14 +104,23 @@
     "planned_commands_match_exact_v2_queries": true,
     "provider_authorization_false_after_write_readback": true,
     "preparation_artifacts_read_back": true,
-    "preparation_github_readback": "PASS",
-    "owner_communication_gate": "REISSUE_REQUIRED"
+    "research_to_execution_schema_readback": "PASS",
+    "owner_communication_gate": "PASS",
+    "full_roadmap_gate": "PASS",
+    "plain_language_prestep_summary_gate": "PASS",
+    "current_external_method_recheck": "PASS"
+  },
+  "authorization": {
+    "owner_provider_authorization_ready": true,
+    "initial_provider_calls_authorized": false,
+    "semantic_confirmation_provider_calls_authorized": false,
+    "provider_calls_executed": 0,
+    "step16_executed": false
   },
   "execution": {
     "step16_executed": false,
     "first_case": "C15-004",
-    "next_legal_action": "REISSUE_COMPLETE_LIVE_OWNER_FACING_STEP16_GATE",
-    "provider_authorization_may_be_requested_after": "FULL_ROADMAP_COMPLETED_REMAINING_STEP_GOAL_SOLVES_OUTPUT_PRIOR_ERRORS_METHOD_SELF_AUDIT_RISKS_PASS_GATE_AND_PLAIN_LANGUAGE_SUMMARY_PRESENTED",
-    "after_authorization": "BEGIN_C15-004_INITIAL_GENSEARCH_ONLY_THEN_PERSIST_READBACK_QA_BEFORE_ANY_NEXT_PAID_ACTION"
+    "next_legal_action": "OWNER_EXPLICIT_PROVIDER_AUTHORIZATION",
+    "after_authorization": "STATE_YMB_MODE_AND_BEGIN_C15-004_INITIAL_GENSEARCH__THEN_PERSIST_READBACK_QA_BEFORE_ANY_NEXT_PAID_ACTION"
   }
 }
