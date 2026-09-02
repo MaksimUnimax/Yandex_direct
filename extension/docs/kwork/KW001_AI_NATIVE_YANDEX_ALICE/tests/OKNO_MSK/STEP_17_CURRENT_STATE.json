@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "COMPLETE__ANALYTICAL_PASS__FINAL_READBACK_PENDING",
+  "status": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
   "method_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
   "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
   "execution_manifest": "STEP_17_EXECUTION_MANIFEST_2026-09-02.json",
@@ -22,7 +22,6 @@
   },
   "execution": {
     "owner_authorized": true,
-    "started": true,
     "cases_compared": 8,
     "final_verdicts": 8,
     "verdict_counts": {
@@ -58,7 +57,12 @@
   "qa_state": {
     "adversarial_case_review": "8/8 PASS",
     "blocking_findings": 0,
-    "final_github_readback": "PENDING"
+    "final_github_readback": "PASS",
+    "qa_final_commit": "cae49862f543bf0f82c385efd684a3f134223eaa",
+    "report_final_commit": "9f77d8317eceb4f5effaf7844af2e7979b41c66f"
   },
-  "next_legal_action": "FINAL_GITHUB_READBACK__IF_PASS_MARK_STEP17_COMPLETE_AND_ALLOW_STEP18_PRESTEP_ONLY"
+  "next_step_allowed": true,
+  "next_step_scope": "STEP18_PRESTEP_GATE_ONLY",
+  "step18_execution_started": false,
+  "next_legal_action": "STEP18_GOAL_FULL_ROADMAP_METHOD_REVIEW_PRESTEP_ONLY"
 }
