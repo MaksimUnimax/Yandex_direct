@@ -1,0 +1,61 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "status": "IN_PROGRESS__6_OF_8_INITIAL_COMPLETE__NEXT_C15_019",
+  "completed_initial_cases": 6,
+  "total_initial_cases": 8,
+  "completed_case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018"],
+  "remaining_initial_case_ids": ["C15-019","C15-020"],
+  "completed_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE",
+    "C15-007": "DE_RISK",
+    "C15-010": "CHANGE_CONFIRMED",
+    "C15-013": "DE_RISK",
+    "C15-018": "NO_CHANGE"
+  },
+  "latest_case": {
+    "case_id": "C15-018",
+    "case_role": "STABILITY_CONTROL",
+    "query": "замена окна на пластиковое цена москва",
+    "attempt": "INITIAL",
+    "provider_execution": true,
+    "http_status": 200,
+    "request_id": "search-9d0964a5-07ef-432d-b9b7-43c90074783c",
+    "cost_rub": 5.08,
+    "raw_authority": "STEP_16_C15-018_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+    "normalized_observation": "STEP_16_C15-018_INITIAL_OBSERVATION.json",
+    "raw_readback": "PASS",
+    "normalized_readback": "PASS",
+    "evidence_usability": "USEFUL",
+    "outcome": "NO_CHANGE",
+    "confirmation_required": false,
+    "confirmation_reason": "No CONTROL_BREAK_CANDIDATE. Confirmation applies only to CHANGE_CANDIDATE or CONTROL_BREAK_CANDIDATE."
+  },
+  "accounting": {
+    "initial_provider_calls_executed": 6,
+    "confirmation_calls_executed": 1,
+    "retry_calls_executed": 0,
+    "provider_calls_executed_total": 7,
+    "provider_cost_rub_incurred": 35.56,
+    "initial_calls_remaining": 2,
+    "initial_planned_cost_remaining_rub": 10.16
+  },
+  "controls": {
+    "verbatim_raw_required": true,
+    "source_order_rank_inference_used": false,
+    "used_source_count_treated_as_rank": false,
+    "consumer_alice_equivalence_claimed": false,
+    "step17_architecture_change_executed": false,
+    "stability_control_broken": false
+  },
+  "next": {
+    "case_id": "C15-019",
+    "case_role": "DIAGNOSTIC_PROBE",
+    "attempt": "INITIAL",
+    "query": "как открыть пластиковое окно",
+    "expected_incremental_cost_rub": 5.08,
+    "next_paid_action_allowed_after_this_file_readback": true
+  }
+}
