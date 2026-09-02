@@ -1,7 +1,7 @@
 # OKNO_MSK — JOB FLOW SYNC / STEP 17 PRE-STEP
 
 Date: 2026-09-02  
-Status: **STEP 17 PREPARED / METHOD RESEARCH COMPLETE / EXECUTION NOT STARTED / OWNER AUTHORIZATION REQUIRED**
+Status: **STEP 17 PREPARED / METHOD RESEARCH COMPLETE / PREEXECUTION SELF-AUDIT CORRECTED / EXECUTION NOT STARTED / OWNER AUTHORIZATION REQUIRED**
 
 ## Full roadmap
 
@@ -69,10 +69,32 @@ GEN_SEARCH != WEBMASTER_ALICE_VISIBILITY
 EXACT_QUERY != USER_JOB_FAMILY
 SINGLE_RUN != LONG_TERM_STABILITY
 SHORT_WINDOW_REPEAT != LONG_TERM_STABILITY
+INDEPENDENT_NON_AI_EVIDENCE != AI_REPRODUCTION
+UPSTREAM_BASELINE_CORRECTION != AI_DRIVEN_CHANGE
 SOURCE_ORDER != RANK
 USED_SOURCE_COUNT != RANK
 URL_TITLE_ROLE_HINT != MATERIAL_ROLE_PROOF
 ```
+
+## Preexecution self-audit correction
+
+The first Step-17 draft allowed independent non-AI evidence to substitute for reproduction of a material single-run AI contradiction. This was rejected before execution.
+
+Correct rule:
+
+```text
+AI-DRIVEN CHANGE
+-> requires sufficient AI reproduction/evidence strength for the claim
+-> independent non-AI evidence is not a substitute
+
+IF direct non-AI evidence independently proves Step14 baseline wrong/stale
+-> UPSTREAM_BASELINE_CORRECTION_REQUIRED
+-> stop affected Step17 case verdict
+-> correct/re-freeze affected upstream baseline
+-> only then resume comparison
+```
+
+This prevents an upstream Search/current-page error from being mislabeled as "AI changed the architecture".
 
 ## Provider plan
 
@@ -89,7 +111,7 @@ Fresh provider work is permitted only after a blocking evidence gap is documente
 
 ```text
 METHOD RESEARCH COMPLETE = true
-RESEARCH_TO_EXECUTION SCHEMA = PRE-EXECUTION PASS
+RESEARCH_TO_EXECUTION SCHEMA = PRE-EXECUTION PASS AFTER SELF-AUDIT CORRECTION
 EXECUTION MANIFEST = FROZEN FOR OWNER REVIEW
 CASE PLAN = 8/8 PREPARED
 TEN-POINT PRE-EXECUTION CHECK = PASS FOR OWNER REVIEW
