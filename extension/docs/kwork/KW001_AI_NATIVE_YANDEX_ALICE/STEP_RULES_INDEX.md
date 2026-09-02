@@ -87,8 +87,8 @@ Permanent promotion requires explicit owner instruction.
 | **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — refresh current candidate pages; a `NO_SUITABLE_EXISTING_PAGE` negative claim requires current multi-route absence evidence, not old-inventory absence. Client-private Yandex evidence is optional under `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` unless a future enhanced scope explicitly changes that. |
 | **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** | **`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — action/schema consistency cannot prove causal correctness; routing edges are not automatically validated links; known-regression zero is not global coherence. |
 | **Step 13** | **Competing-page / cannibalization diagnosis** | **APPROVED / ACTIVE AFTER POST-RUN METHOD + POLICY + EXECUTION-SCHEMA CORRECTION** | **`STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` + `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md` + `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — official first-party history discovered during research must be explicitly operationalized, but the owner-approved sellable base package does not require private Webmaster access. Base-public mode may pass with explicit historical/harm claim boundaries; enhanced/history-required mode activates the first-party query×URL history gate. Current OKNO_MSK Step 13 is **COMPLETE / PASS_BASE_PUBLIC_EVIDENCE_MODE** and Step 14 is allowed only through its own pre-step method/evidence review. |
-| **Step 14** | **Search-only architecture freeze** | **APPROVED / ACTIVE AFTER POST-RUN DISCOVERY-TOPOLOGY CORRECTION** | **`STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` + `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — target Search architecture must be reconciled against an independently discovered current public-site universe and literal current HTML link topology. A closed known-URL list cannot prove its own completeness; live source/target endpoints do not prove a current `<a href>` edge. When completeness/topology is material, deterministic Codex/code discovery, persisted outputs, GitHub readback, newly discovered URL reconciliation, and literal classification of required edges are mandatory before final PASS. Current OKNO_MSK Step 14 is **REOPENED pending mandatory Step 14A Codex correction**; Step 15 is blocked until that correction is reconciled and accepted. |
-| Step 15 | AI-case selection | **UNVALIDATED** | Must select high-information uncertain cases rather than querying AI search indiscriminately. |
+| **Step 14** | **Search-only architecture freeze** | **APPROVED / ACTIVE AFTER POST-RUN DISCOVERY-TOPOLOGY CORRECTION** | **`STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` + `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — target Search architecture must be reconciled against an independently discovered current public-site universe and literal current HTML link topology. A closed known-URL list cannot prove its own completeness; live source/target endpoints do not prove a current `<a href>` edge. When completeness/topology is material, deterministic Codex/code discovery, persisted outputs, GitHub readback, newly discovered URL reconciliation, and literal classification of required edges are mandatory before final PASS. Current OKNO_MSK Step 14/14A is **FINAL PASS** after the mandatory current-site reconciliation; Step 15 is no longer blocked by Step14. |
+| **Step 15** | **AI-case selection** | **APPROVED / ACTIVE AFTER POST-RUN LINEAGE + STABILITY-CONTROL CORRECTION** | **`STEP_15_AI_CASE_SELECTION_METHOD.md`** — build the candidate universe by exact authoritative QF-ID joins, never manual remapping; separate `DIAGNOSTIC_PROBE` from `STABILITY_CONTROL`; pre-register later outcomes; label the selected set as non-representative unless a separate representative-sampling method exists; a single later material AI delta/control break requires confirmation handoff rather than automatic architecture rewrite. Current OKNO_MSK canonical Step15 result is V2: **25 reviewed / 8 selected (6 diagnostics + 2 controls) / 16 rejected / 1 hold**; V1 is superseded. |
 | Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` governs optional owned Webmaster AI evidence vs base GenSearch evidence. |
 | Step 17 | Search-vs-AI comparison | **UNVALIDATED** | Must define comparable evidence units and avoid forcing agreement between different retrieval surfaces. |
 | Step 18 | Prioritization | **UNVALIDATED** | Must research/define how impact, evidence strength, public business relevance, internal client constraints, effort and uncertainty affect priority. |
@@ -291,15 +291,63 @@ Canonical Step-14 authorities:
 - `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md`
 - current-job correction `tests/OKNO_MSK/STEP_14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_AND_GATE_2026-09-02.md`
 
-Current OKNO_MSK consequence:
+Current OKNO_MSK consequence after the mandatory reconciliation:
 
 ```text
-STEP14_SEMANTIC_FREEZE = PROVISIONAL_PASS_PRESERVED
-STEP14_CURRENT_SITE_COMPLETENESS = REOPENED
-STEP14_AS_IS_TOPOLOGY = REOPENED
-STEP14_OVERALL = REOPENED_PENDING_MANDATORY_CODEX_RUN
-STEP15 = BLOCKED
+STEP14_SEMANTIC_FREEZE = FINAL_PASS
+STEP14_CURRENT_SITE_RECONCILIATION = COMPLETE
+STEP14_AS_IS_TOPOLOGY = 15_OF_15_CLASSIFIED
+STEP14_OVERALL = FINAL_PASS
+STEP15 = ALLOWED
 ```
+
+---
+
+# Step-15 permanent lesson summary
+
+The Step-15 post-run correction establishes four reusable lessons.
+
+### Exact-lineage lesson
+
+```text
+QF LABEL LOOKS RIGHT != QF METADATA IS RIGHT
+MANUAL RECONSTRUCTION != AUTHORITATIVE ID JOIN
+```
+
+The first V1 ledger attached incorrect pair IDs, user jobs, query wording or frozen owners to several valid-looking QF labels. The corrected method requires an exact keyed join from Step13 definition + conflict authorities and zero unresolved lineage mismatches before selection.
+
+### Two-track evaluation lesson
+
+```text
+HIGH INFORMATION GAIN = DIAGNOSTIC VALUE
+STABLE BASELINE = CONTROL VALUE
+DIAGNOSTIC VALUE != ONLY VALID SELECTION VALUE
+```
+
+A high-information-only batch is intentionally edge-heavy. When that threatens interpretation, Step15 must include stable controls with explicit falsification roles rather than rejecting every stable case as decorative.
+
+### Generalization lesson
+
+```text
+DECISION_DIAGNOSTIC_SET_WITH_CONTROLS
+!= REPRESENTATIVE QUERY SAMPLE
+```
+
+Step15 supports selected-decision analysis, not prevalence estimates for all site demand unless a separate representative-sampling method exists.
+
+### Confirmation-handoff lesson
+
+```text
+ONE AI CHANGE / CONTROL BREAK
+!= AUTOMATIC ARCHITECTURE CHANGE
+```
+
+Step15 must pre-register a confirmation requirement for material downstream AI deltas; the exact confirmation mechanism is defined in Step16/17.
+
+Canonical authority:
+
+- `STEP_15_AI_CASE_SELECTION_METHOD.md`
+- current-job correction `tests/OKNO_MSK/STEP_15_POST_RUN_AUDIT_AND_CORRECTION_2026-09-02.md`
 
 ---
 
@@ -349,7 +397,14 @@ KW001_STEP14_ENDPOINTS_LIVE_NOT_EQUAL_EDGE_IMPLEMENTED = true
 KW001_STEP14_RECOMMENDATION_NOT_EQUAL_AS_IS_LINK = true
 KW001_STEP14_CODEX_DISCOVERY_REQUIRED_WHEN_COMPLETENESS_OR_TOPOLOGY_MATERIAL = true
 KW001_STEP14_PRIOR_PROJECT_EVIDENCE_MECHANISM_REVIEW_REQUIRED = true
-KW001_STEP14_CURRENT_OKNO_REOPENED_PENDING_CODEX = true
-KW001_STEP14_STEP15_BLOCKED_UNTIL_CORRECTION_ACCEPTED = true
+KW001_STEP14_CURRENT_OKNO_FINAL_PASS = true
+KW001_STEP14_STEP15_BLOCKED_UNTIL_CORRECTION_ACCEPTED = historical_resolved
+KW001_STEP15_METHOD_APPROVED_AFTER_POST_RUN_CORRECTION = true
+KW001_STEP15_EXACT_QF_JOIN_REQUIRED = true
+KW001_STEP15_MANUAL_QF_METADATA_RECONSTRUCTION_FORBIDDEN = true
+KW001_STEP15_DIAGNOSTIC_CONTROL_TRACKS_SEPARATE = true
+KW001_STEP15_DIAGNOSTIC_SET_NOT_REPRESENTATIVE_BY_DEFAULT = true
+KW001_STEP15_MATERIAL_AI_DELTA_CONFIRMATION_HANDOFF_REQUIRED = true
+KW001_STEP15_CURRENT_OKNO_V2_PASS = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```

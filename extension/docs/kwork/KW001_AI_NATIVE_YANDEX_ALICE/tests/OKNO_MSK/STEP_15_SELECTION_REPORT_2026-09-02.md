@@ -1,127 +1,178 @@
-# OKNO_MSK — Step 15 AI-case selection execution
+# OKNO_MSK — Step 15 AI-case selection — corrected V2
 
 Date: 2026-09-02  
-Status: `PASS / 25 REVIEWED / 6 SELECTED / 18 REJECTED / 1 HOLD / STEP16 NOT STARTED`  
-Owner acceptance: `RECORDED`  
-Bridge/provider mode: `NO_BRIDGE / ZERO_PROVIDER_CALLS`
+Status: **FINAL PASS AFTER POST-RUN CORRECTION**  
+Result: `25 REVIEWED / 8 SELECTED / 16 REJECTED / 1 HOLD / STEP16 NOT STARTED`
 
-## 1. Authorities
+## 1. Canonical authority
 
-- Step14 final closure: `16d7f38b7b48369d3d2687553f7a865b86bf133e`
-- Step15 pre-step research/method review: `07708dc060651d34690319a03f02b999b4cc9efb`
-- Owner accepted the presented Step15 method in chat on 2026-09-02.
-- Permanent Step15 method remains `UNVALIDATED`; this is a job-scoped execution PASS, not a universal-method promotion.
+Permanent method:
 
-## 2. Closed candidate universe
+`../../STEP_15_AI_CASE_SELECTION_METHOD.md`
 
-The execution reviewed a closed, decision-bearing universe rather than all 2332 phrases:
+Post-run correction record:
 
-- 21/21 Step13 query-family boundaries;
-- 4 grouped Step14A material-delta topics not independently represented by a Step13 query-family boundary;
-- total reviewed = 25;
-- silent drops = 0.
+`STEP_15_POST_RUN_AUDIT_AND_CORRECTION_2026-09-02.md`
 
-Every Step14A material delta `D14A001..D14A021` maps to at least one reviewed candidate: 21/21 coverage.
+Canonical V2 evidence:
 
-## 3. Result
+- `STEP_15_CASE_SELECTION_LEDGER_MANIFEST.json`
+- `STEP_15_CASE_SELECTION_LEDGER_V2_PART_01.tsv`
+- `STEP_15_CASE_SELECTION_LEDGER_V2_PART_02.tsv`
+- `STEP_15_CASE_SELECTION_LEDGER_V2_PART_03.tsv`
+- `STEP_15_CASE_SELECTION_LEDGER_V2_PART_04.tsv`
+- `STEP_15_CASE_SELECTION_LEDGER_V2_PART_05.tsv`
+- `STEP_15_SELECTED_CASES_V2.tsv`
+- `STEP_15_STEP14A_DELTA_COVERAGE_V2.tsv`
+- `STEP_15_V2_QA_2026-09-02.json`
+- `STEP_15_CURRENT_STATE.json`
+
+The earlier V1 ledger shards and V1 selected-case shards remain in repository history but are superseded for Step16 decision authority.
+
+## 2. What was corrected
+
+### 2.1 Candidate lineage
+
+V1 contained manual QF metadata drift. V2 is rebuilt from exact authoritative joins:
 
 ```text
-REVIEWED = 25
-SELECTED = 6
-REJECTED = 18
-HOLD = 1
-ACCOUNTING = 25/25
-SELECTED_UNCERTAINTY_FAMILIES = 6
-DUPLICATE_SELECTED_FAMILY = 0
-PROVIDER_CALLS = 0
-GENSEARCH_CALLS = 0
-STEP16_EXECUTED = false
+STEP_13_QUERY_FAMILY_DEFINITIONS.tsv
++ exact QF_ID join
+STEP_13_CONFLICT_DIAGNOSIS.tsv
++ exact Step14A affected_query_families joins / declared structural overlays
 ```
 
-### Selected cases
-
-| Case | Representative query | Uncertainty family | Leverage / uncertainty |
-|---|---|---|---|
-| C15-004 | панорамные алюминиевые окна | COMMERCIAL_VS_INFORMATIONAL_CONTENT_ROLE | HIGH / MEDIUM |
-| C15-006 | алюминиевые окна для веранды | USECASE_VS_MATERIAL_MECHANISM_OWNER | HIGH / MEDIUM |
-| C15-010 | установка подоконников | SERVICE_VS_DIY_PRODUCT_HYBRID | HIGH / HIGH |
-| C15-013 | французские окна | TAXONOMY_INTERSECTION_FRENCH_VS_PANORAMIC | HIGH / MEDIUM |
-| C15-019 | открыть пластиковое окно | INTENT_DRIFT_QUERY_INTERPRETATION | HIGH / HIGH |
-| C15-020 | лучшие пластиковые окна | COMPARATIVE_SELECTION_PAGE_DIFFERENTIATION | HIGH / HIGH |
-
-### Why these six
-
-- `C15-004 / QF004`: mixed panoramic commercial-vs-informational responsibility plus new Step14A same-task commercial competitor and information support.
-- `C15-006 / QF006`: veranda use-case hub versus material/mechanism specialists after Step14A added sliding and frameless pages.
-- `C15-010 / QF010`: strongest service-vs-DIY/product hybrid ordinary Search baseline.
-- `C15-013 / QF013`: French-window taxonomy versus panoramic/floor-to-ceiling/balcony intersection.
-- `C15-019 / QF019`: explicit ordinary-Search intent drift; GenSearch `search_queries[]` can discriminate adjustment versus emergency opening.
-- `C15-020 / QF020`: multiple overlapping choice/profile-comparison articles create a high-value page-role/cannibalization discrimination case.
-
-All six are distinct uncertainty families and all six pass E1–E6.
-
-## 4. HOLD
-
-`C15-023 — glass-unit commercial hub vs informational education vs custom manufacturing` is retained as `HOLD`.
-
-It is architecturally material and AI-observable, but no direct fresh ordinary-Search probe was persisted for a representative query. It is not legal to spend a Step16 GenSearch call on it merely because it looks interesting. If later promoted, establish the direct comparison baseline through a separately authorized extension first.
-
-## 5. Rejection policy
-
-The 18 rejected cases fall into two classes:
-
-1. Hard information-gain rejection — Search/Step14 already makes the responsibility stable enough that a GenSearch call would be decorative.
-2. Diversity/priority rejection — a valid uncertainty exists, but a stronger selected case already covers the same uncertainty family.
-
-No case was selected because of raw frequency alone.
-
-## 6. Pre-registered Step16 interpretation
-
-Every selected row already records:
-
-- frozen Search-only baseline;
-- exact decision at stake;
-- expected information gain;
-- GenSearch observable question;
-- `CHANGE`;
-- `DE_RISK`;
-- `NO_CHANGE`;
-- `INSUFFICIENT`.
-
-This was written before any Step16 evidence acquisition.
-
-## 7. Claim and provider boundary
+V2 QA:
 
 ```text
-GEN_SEARCH_QUERY_OBSERVED != ALICE_FANOUT_OBSERVED
-GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER
-GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE
+STEP13_QF_JOINED = 21/21
+PAIR_ID_MISMATCH = 0
+REPRESENTATIVE_QUERY_MISMATCH = 0
+PRIMARY_OWNER_MISMATCH = 0
+SUPPORTING_URL_MISMATCH = 0
+UNRESOLVED_LINEAGE_MISMATCH = 0
+STEP14A_MATERIAL_DELTA_COVERAGE = 21/21
+```
 
+### 2.2 Stability controls
+
+The first method over-optimized for uncertain/high-information diagnostic cases. V2 keeps the six corrected diagnostic probes and adds two stable controls.
+
+```text
+DIAGNOSTIC_PROBES = 6
+STABILITY_CONTROLS = 2
+SELECTED_TOTAL = 8
+```
+
+This remains inside the job-scoped normal `3–10` range.
+
+## 3. Corrected selected set
+
+### Diagnostic probes
+
+| Case | Exact authoritative query | Frozen Search responsibility | Why selected |
+|---|---|---|---|
+| C15-004 / QF004 | `панорамные алюминиевые окна` | aluminium commercial owner primary; panoramic information supporting | commercial/product vs explanatory synthesis |
+| C15-006 / QF006 | `алюминиевые окна для веранды` | veranda use-case hub primary; aluminium/material support | hub vs material/mechanism specialists |
+| C15-010 / QF010 | `установка подоконника на пластиковые окна` | windowsill object page primary; finishing service support; mixed service/DIY SERP | object/product vs service/DIY interpretation |
+| C15-013 / QF013 | `французские панорамные окна` | French specialist primary; general panoramic support | explicit taxonomy intersection |
+| C15-019 / QF019 | `как открыть пластиковое окно` | narrow troubleshooting pair preserved; probe drifts to emergency/outside opening | direct intent-drift discrimination |
+| C15-020 / QF020 | `лучшие пластиковые окна` | best-windows article specific primary; broad choose-windows guide supporting | overlapping selection/comparison-page differentiation |
+
+### Stability controls
+
+| Case | Exact authoritative query | Stable baseline | Control role |
+|---|---|---|---|
+| C15-007 / QF007 | `панорамное остекление балкона` | 9/10 saved SERP results balcony/loggia-specific; broad panoramic result rank 10 | stable specialist-owner control |
+| C15-018 / QF018 | `замена окна на пластиковое цена москва` | replacement-specific commercial results plus generic installation support | stable transactional replacement control |
+
+The previously discussed V1 `C15-008` is **not** a control. Authoritative QF008 is PVC-door installation with presearch evidence, so it does not meet the corrected fresh-stable-control requirement.
+
+## 4. Selected-case preregistration
+
+Every V2 selected case contains before Step16:
+
+```text
+exact QF ID
+exact representative query
+exact Search evidence mode
+exact primary owner
+exact supporting URL(s)
+exact upstream verdict
+Step14A related deltas
+case_role = DIAGNOSTIC_PROBE | STABILITY_CONTROL
+pre-AI baseline
+evaluation purpose
+expected observable fields
+CHANGE or CONTROL_BREAK condition
+DE_RISK condition
+NO_CHANGE condition
+INSUFFICIENT condition
+confirmation_required_if_material_delta = true
+step16_provider_call_authorized = false
+```
+
+## 5. Control interpretation
+
+Controls do not exist to force agreement.
+
+Expected normal control outcome is `NO_CHANGE` or `DE_RISK`, but observed evidence must be recorded as returned.
+
+Canonical rule:
+
+```text
+SINGLE CONTROL_BREAK
+!= ARCHITECTURE CHANGE
+-> CONFIRMATION / BATCH-VALIDITY REVIEW IN STEP16/17
+```
+
+## 6. HOLD
+
+`C15-023` remains HOLD.
+
+The glass-unit commercial hub / informational article / custom-manufacturing boundary is architecturally useful and AI-observable, but it still lacks a fresh direct ordinary-Search baseline. It cannot be promoted into Step16 just to increase coverage.
+
+## 7. Claim boundary
+
+This eight-case set is:
+
+`DECISION_DIAGNOSTIC_SET_WITH_STABILITY_CONTROLS`
+
+It is **not** a representative sample of all 2332 active phrases/site demand.
+
+Therefore the later AI comparison may support conclusions about these selected architecture decisions and the behavior of the two stable controls. It may not support a prevalence statement such as “AI differs from Search in X% of site demand”.
+
+## 8. Accounting
+
+```text
+CANDIDATE_UNIVERSE = 25
+REVIEWED = 25
+SELECTED = 8
+  DIAGNOSTIC = 6
+  CONTROLS = 2
+REJECTED = 16
+HOLD = 1
+TOTAL = 25
+SILENT_DROPS = 0
+STEP14A_MATERIAL_DELTA_COVERAGE = 21/21
+```
+
+## 9. Provider boundary
+
+```text
 STEP15_PROVIDER_CALLS = 0
 STEP15_GENSEARCH_CALLS = 0
+STEP15_CONSUMER_ALICE_CALLS = 0
 STEP16_PROVIDER_CALL_AUTHORIZED = false
 STEP16_EXECUTED = false
 ```
 
-Step15 PASS does not authorize Step16.
+Step15 correction does not authorize Step16.
 
-## 8. Acceptance gates
+## 10. Final gate
 
-- 25/25 reviewed candidates accounted for: PASS
-- 6 selected within job-scoped normal 3–10 target: PASS
-- selected hard gates E1–E6: 6/6 PASS
-- selected baseline refs nonblank: 6/6 PASS
-- selected future evidence questions nonblank: 6/6 PASS
-- four future outcome conditions pre-registered: 6/6 PASS
-- selected material wrong-source risk: 0
-- duplicate selected uncertainty family: 0
-- Step14A material-delta coverage: 21/21
-- provider calls: 0
-- GenSearch calls: 0
-- Step16 started: no
+```text
+FINAL_GATE = PASS_STEP15_V2_CORRECTED_SELECTION__8_SELECTED__STEP16_NOT_STARTED
+```
 
-`FINAL_GATE = PASS_STEP15_CASE_SELECTION__STEP16_NOT_STARTED`
-
-## 9. Next legal action
-
-Step16 is a separate `UNVALIDATED` acquisition stage. The next legal work is its own current-method research, source-to-method trace, executable acquisition schema and owner-facing review. No GenSearch provider request may be sent before that gate is closed and separately authorized.
+Next legal work: Step16 pre-step current-method/capability research, exact acquisition/confirmation design, source-to-method trace, execution manifest, owner-facing review, then explicit provider authorization before any AI request.

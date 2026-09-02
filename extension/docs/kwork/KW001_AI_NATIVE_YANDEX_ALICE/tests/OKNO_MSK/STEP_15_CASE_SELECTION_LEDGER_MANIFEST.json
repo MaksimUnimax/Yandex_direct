@@ -3,25 +3,42 @@
   "job": "OKNO_MSK",
   "step": 15,
   "artifact": "CASE_SELECTION_LEDGER",
-  "storage": "HUMAN_READABLE_TSV_SHARDS",
-  "parts": [
-    "STEP_15_CASE_SELECTION_LEDGER_PART_01.tsv",
-    "STEP_15_CASE_SELECTION_LEDGER_PART_02.tsv",
-    "STEP_15_CASE_SELECTION_LEDGER_PART_03.tsv",
-    "STEP_15_CASE_SELECTION_LEDGER_PART_04.tsv",
-    "STEP_15_CASE_SELECTION_LEDGER_PART_05.tsv"
+  "canonical_version": "V2_POST_RUN_CORRECTION",
+  "canonical_ledger_parts": [
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_01.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_02.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_03.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_04.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_05.tsv"
   ],
-  "selected_case_parts": [
-    "STEP_15_SELECTED_CASES_PART_01.tsv",
-    "STEP_15_SELECTED_CASES_PART_02.tsv"
-  ],
+  "rows_per_part": 5,
+  "canonical_selected_cases": "STEP_15_SELECTED_CASES_V2.tsv",
+  "canonical_qa": "STEP_15_V2_QA_2026-09-02.json",
   "rows": 25,
-  "rows_per_ledger_part": 5,
-  "verdicts": {"SELECT": 6, "REJECT": 18, "HOLD": 1},
-  "selected_case_ids": ["C15-004","C15-006","C15-010","C15-013","C15-019","C15-020"],
-  "step14a_delta_coverage_artifact": "STEP_15_STEP14A_DELTA_COVERAGE.tsv",
-  "step14a_delta_coverage": "21/21",
+  "verdicts": {"SELECT": 8, "REJECT": 16, "HOLD": 1},
+  "selected_roles": {"DIAGNOSTIC_PROBE": 6, "STABILITY_CONTROL": 2},
+  "selected_case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+  "v1_artifacts": {
+    "status": "SUPERSEDED_FOR_DECISION_AUTHORITY__PRESERVED_AS_HISTORY",
+    "ledger_parts": [
+      "STEP_15_CASE_SELECTION_LEDGER_PART_01.tsv",
+      "STEP_15_CASE_SELECTION_LEDGER_PART_02.tsv",
+      "STEP_15_CASE_SELECTION_LEDGER_PART_03.tsv",
+      "STEP_15_CASE_SELECTION_LEDGER_PART_04.tsv",
+      "STEP_15_CASE_SELECTION_LEDGER_PART_05.tsv"
+    ],
+    "selected_parts": ["STEP_15_SELECTED_CASES_PART_01.tsv","STEP_15_SELECTED_CASES_PART_02.tsv"],
+    "reason": "V1 manual QF lineage drift plus missing stability-control track"
+  },
+  "upstream_authorities": [
+    "STEP_13_QUERY_FAMILY_DEFINITIONS.tsv",
+    "STEP_13_CONFLICT_DIAGNOSIS.tsv",
+    "STEP_14A_ARCHITECTURE_DELTA.tsv"
+  ],
+  "lineage_qa": {"step13_qf_joined": "21/21", "unresolved_mismatches": 0},
   "provider_calls": 0,
   "gensearch_calls": 0,
+  "consumer_alice_calls": 0,
+  "step16_provider_call_authorized": false,
   "step16_executed": false
 }

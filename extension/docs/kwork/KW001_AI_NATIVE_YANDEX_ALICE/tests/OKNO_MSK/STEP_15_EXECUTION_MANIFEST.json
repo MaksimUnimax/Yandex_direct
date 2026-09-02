@@ -3,20 +3,50 @@
   "job": "OKNO_MSK",
   "step": 15,
   "step_name": "AI-case selection",
-  "status": "EXECUTION_COMPLETE__PASS__STEP16_BLOCKED_PENDING_OWN_GATE",
-  "permanent_method_status": "UNVALIDATED__JOB_SCOPED_EXECUTION_PASS",
+  "status": "EXECUTION_COMPLETE__V2_POST_RUN_CORRECTED__PASS__STEP16_BLOCKED_PENDING_OWN_GATE",
+  "canonical_method": "../../STEP_15_AI_CASE_SELECTION_METHOD.md",
   "execution_mode": "NO_BRIDGE_ZERO_PROVIDER_CALLS",
   "step14_baseline_commit": "16d7f38b7b48369d3d2687553f7a865b86bf133e",
-  "prestep_commit": "07708dc060651d34690319a03f02b999b4cc9efb",
-  "owner_acceptance_recorded": true,
-  "candidate_universe": {"step13_query_families": 21, "non_qf_step14a_delta_topics": 4, "total": 25},
-  "result": {"selected": 6, "rejected": 18, "held": 1, "selected_case_ids": ["C15-004","C15-006","C15-010","C15-013","C15-019","C15-020"]},
-  "selection_policy": {"distinct_uncertainty_family_first": true, "job_scoped_target": "normally 3-10", "selected_count_within_target": true},
-  "review_ledger_storage": {"format": "HUMAN_READABLE_TSV_SHARDS", "parts": 5, "rows_per_part": 5, "total_rows": 25},
-  "selected_cases_storage": {"format": "HUMAN_READABLE_TSV_SHARDS", "parts": 2, "total_rows": 6},
+  "authoritative_inputs": [
+    "STEP_13_QUERY_FAMILY_DEFINITIONS.tsv",
+    "STEP_13_CONFLICT_DIAGNOSIS.tsv",
+    "STEP_14A_ARCHITECTURE_DELTA.tsv",
+    "STEP_14_CURRENT_STATE.json",
+    "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv"
+  ],
+  "candidate_construction": {
+    "mode": "EXACT_AUTHORITATIVE_ID_JOIN",
+    "step13_query_families": 21,
+    "step14_only_material_topics": 4,
+    "candidate_universe": 25,
+    "manual_qf_remapping_allowed": false
+  },
+  "selection_tracks": {
+    "diagnostic_probe": {
+      "selected": 6,
+      "gates": ["FROZEN_DECISION_LINK","SPECIFIC_DECISION_AT_STAKE","PRE_AI_BASELINE_EXISTS","COUNTERFACTUAL_INFORMATION_GAIN","OBSERVABLE_MATCH","WRONG_EVIDENCE_SOURCE_REJECT"]
+    },
+    "stability_control": {
+      "selected": 2,
+      "gates": ["STABLE_SEARCH_BASELINE","DISTINCT_STABLE_ARCHETYPE","AI_OBSERVABLE","FALSIFICATION_ROLE","NO_ARCHITECTURE_AUTOCHANGE"]
+    }
+  },
+  "selected_case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+  "selected_case_artifact": "STEP_15_SELECTED_CASES_V2.tsv",
+  "review_ledger_manifest": "STEP_15_CASE_SELECTION_LEDGER_MANIFEST.json",
+  "review_ledger_parts": [
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_01.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_02.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_03.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_04.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_V2_PART_05.tsv"
+  ],
+  "claim_boundary": "DECISION_DIAGNOSTIC_SET_WITH_STABILITY_CONTROLS__NOT_REPRESENTATIVE_SAMPLE",
+  "confirmation_handoff": "MATERIAL_CHANGE_OR_CONTROL_BREAK_REQUIRES_STEP16_17_CONFIRMATION_METHOD",
   "provider_calls_authorized": false,
   "provider_calls_executed": 0,
   "gensearch_calls": 0,
+  "consumer_alice_calls": 0,
   "step16_executed": false,
-  "next_legal_action": "Step16 pre-step method research/review only; no GenSearch request is authorized by Step15 PASS."
+  "next_legal_action": "STEP16_PRE_STEP_METHOD_RESEARCH_AND_OWNER_REVIEW_ONLY"
 }

@@ -1,0 +1,79 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 15,
+  "version": "V2_POST_RUN_CORRECTION",
+  "status": "PASS",
+  "candidate_accounting": {
+    "candidate_universe": 25,
+    "reviewed": 25,
+    "selected_total": 8,
+    "diagnostic_probes_selected": 6,
+    "stability_controls_selected": 2,
+    "rejected": 16,
+    "hold": 1,
+    "silent_drops": 0,
+    "accounting_formula_pass": true
+  },
+  "lineage_qa": {
+    "step13_query_families_expected": 21,
+    "step13_query_families_joined": 21,
+    "qf_id_mismatches": 0,
+    "pair_id_mismatches": 0,
+    "representative_query_mismatches": 0,
+    "primary_owner_mismatches": 0,
+    "supporting_url_mismatches": 0,
+    "unresolved_lineage_mismatches": 0,
+    "v1_lineage_defect_recorded": true,
+    "v1_is_canonical": false,
+    "v2_is_canonical": true
+  },
+  "step14a_delta_coverage": {
+    "artifact": "STEP_15_STEP14A_DELTA_COVERAGE_V2.tsv",
+    "material_deltas_expected": 21,
+    "material_deltas_covered": 21,
+    "coverage": "21/21",
+    "uncovered": 0
+  },
+  "selected_qa": {
+    "selected_with_nonblank_exact_query": 8,
+    "selected_with_baseline_ref": 8,
+    "selected_with_detail_ref": 8,
+    "selected_with_preregistered_change_or_control_break": 8,
+    "selected_with_de_risk": 8,
+    "selected_with_no_change": 8,
+    "selected_with_insufficient": 8,
+    "selected_with_confirmation_required_if_material_delta": 8,
+    "controls_with_fresh_accepted_search_baseline": 2,
+    "controls_with_distinct_stable_archetypes": 2,
+    "controls_expected_normal_outcome_registered": 2,
+    "selected_step16_authorized_true": 0
+  },
+  "control_cases": [
+    {
+      "case_id": "C15-007",
+      "query_family": "QF007",
+      "archetype": "STABLE_SPECIALIST_OWNER",
+      "baseline": "9/10 saved SERP results balcony/loggia-specific; broad panoramic result rank 10"
+    },
+    {
+      "case_id": "C15-018",
+      "query_family": "QF018",
+      "archetype": "STABLE_TRANSACTIONAL_REPLACEMENT_OWNER",
+      "baseline": "replacement-specific commercial SERP; generic installation supporting"
+    }
+  ],
+  "claim_boundary": {
+    "selected_set_type": "DECISION_DIAGNOSTIC_SET_WITH_STABILITY_CONTROLS",
+    "representative_sample": false,
+    "prevalence_claims_authorized": false
+  },
+  "provider_boundary": {
+    "step15_provider_calls": 0,
+    "step15_gensearch_calls": 0,
+    "step15_consumer_alice_calls": 0,
+    "step16_provider_call_authorized": false,
+    "step16_executed": false
+  },
+  "final_gate": "PASS_STEP15_V2_CORRECTED_SELECTION__8_SELECTED__STEP16_NOT_STARTED"
+}
