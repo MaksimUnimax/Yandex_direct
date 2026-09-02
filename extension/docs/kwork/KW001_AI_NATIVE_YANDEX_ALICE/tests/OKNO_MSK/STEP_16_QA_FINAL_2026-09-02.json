@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 16,
   "qa_phase": "FINAL_ACCEPTANCE",
-  "overall_status": "PENDING_FINAL_ARTIFACT_READBACK",
+  "overall_status": "PASS",
   "input_and_execution": {
     "input_selected_cases_expected": 8,
     "input_selected_cases_observed": 8,
@@ -113,13 +113,21 @@
     "PROVIDER_COST_RECONCILED": "100% PASS",
     "CLAIMS_EXCEEDING_EVIDENCE_MODE": "0 PASS",
     "STEP17_ARCHITECTURE_DECISIONS_EXECUTED_IN_STEP16": "0 PASS",
-    "FINAL_GITHUB_READBACK": "PENDING"
+    "FINAL_GITHUB_READBACK": "PASS"
   },
-  "final_artifacts_expected": [
+  "final_artifact_readback_evidence": {
+    "observation_ledger_blob": "cbcb0aa3d68c68f01a6ed81265b5b9343137f786",
+    "report_blob_read_before_final_marker_update": "4fddf9722654ee45198ccac109e4e0d5219686c5",
+    "current_state_blob_read_before_final_marker_update": "5de7c1c0f242ec33b8600eeb7e9566d9f9fe3732",
+    "job_flow_sync_blob_read_before_final_marker_update": "1cedaedfda12e53eb3da38d0764fe9df28ef815b",
+    "all_required_final_artifacts_read_successfully": true
+  },
+  "final_artifacts": [
     "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
     "STEP_16_QA_FINAL_2026-09-02.json",
     "STEP_16_REPORT_2026-09-02.md",
     "STEP_16_CURRENT_STATE.json",
     "JOB_FLOW_STEP16_EXECUTION_SYNC_2026-09-02.md"
-  ]
+  ],
+  "step16_acceptance": "PASS"
 }
