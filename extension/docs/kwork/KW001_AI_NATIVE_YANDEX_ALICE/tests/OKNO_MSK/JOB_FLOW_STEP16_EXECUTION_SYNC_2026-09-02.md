@@ -1,8 +1,8 @@
-# OKNO_MSK — JOB FLOW SYNC / STEP 16 EXECUTION COMPLETE
+# OKNO_MSK — JOB FLOW SYNC / STEP 16 COMPLETE
 
 Date: 2026-09-02  
 Authority type: **latest job-specific Step-16 completion overlay**  
-Status at write: **EXECUTION COMPLETE / FINAL ARTIFACT READBACK PENDING**
+Status: **FINAL ACCEPTANCE PASS / STEP 16 COMPLETE**
 
 ## Current roadmap truth
 
@@ -12,8 +12,8 @@ Status at write: **EXECUTION COMPLETE / FINAL ARTIFACT READBACK PENDING**
 | 14 / 14A | ✅ FINAL PASS |
 | 15 V2 | ✅ FINAL PASS |
 | 16 preparation / owner-facing gate | ✅ COMPLETE / PASS |
-| 16 provider execution | ✅ ALL REQUIRED PROVIDER INTERACTIONS COMPLETE |
-| 16 final artifact readback | 🟡 CURRENT / PENDING |
+| 16 provider execution | ✅ COMPLETE |
+| 16 final QA / artifact readback | ✅ PASS |
 | 17–22 | ⬜ NOT STARTED |
 
 ## Step 16 execution summary
@@ -61,9 +61,10 @@ NORMALIZED OBSERVATIONS = 9
 RAW READBACK = 100%
 NORMALIZED READBACK = 100%
 FINAL LEDGER = STEP_16_OBSERVATION_LEDGER_FINAL.tsv
-FINAL QA = STEP_16_QA_FINAL_2026-09-02.json
-FINAL REPORT = STEP_16_REPORT_2026-09-02.md
-CURRENT STATE = STEP_16_CURRENT_STATE.json
+FINAL QA = STEP_16_QA_FINAL_2026-09-02.json = PASS
+FINAL REPORT = STEP_16_REPORT_2026-09-02.md = READBACK PASS
+CURRENT STATE = STEP_16_CURRENT_STATE.json = COMPLETE
+FINAL GITHUB READBACK = PASS
 ```
 
 C15-004 reconstructed JSON remains non-authoritative historical derivative; authoritative raw is the verbatim text result.
@@ -81,24 +82,49 @@ They record S16-P01 through S16-P09 and remain job-specific Step16 execution evi
 ## Method status
 
 ```text
-CURRENT JOB STEP16 METHOD EXECUTION = PASS PENDING FINAL ARTIFACT READBACK
+CURRENT JOB STEP16 METHOD EXECUTION = PASS
 PERMANENT STEP16 METHOD = UNVALIDATED PENDING FURTHER VALIDATION OR OWNER PROMOTION DECISION
 AUTO-PROMOTION FROM ONE JOB = FORBIDDEN
+```
+
+## Step-16 pass gate
+
+```text
+INPUT_SELECTED_CASES = 8/8 PASS
+INITIAL_CASES_ACCOUNTED = 8/8 PASS
+SILENT_CASE_DROPS = 0 PASS
+USEFUL_RAW_RESULTS_PERSISTED_READBACK = 100% PASS
+NORMALIZED_OBSERVATIONS = 8/8 INITIAL + 1/1 REQUIRED CONFIRMATION PASS
+GENSEARCH_PROVENANCE_VIOLATIONS = 0 PASS
+SOURCE_ORDER_RANKING_INFERENCES = 0 PASS
+PREREGISTERED_CONDITION_USED = 8/8 PASS
+MATERIAL_DELTA_WITHOUT_REQUIRED_CONFIRMATION = 0 PASS
+SILENT_UNKNOWN_AS_EVIDENCE = 0 PASS
+RETRY_ANNOUNCEMENT_VIOLATIONS = 0 PASS_NOT_TRIGGERED
+PROVIDER_CALLS_RECONCILED = 100% PASS
+PROVIDER_COST_RECONCILED = 100% PASS
+CLAIMS_EXCEEDING_EVIDENCE_MODE = 0 PASS
+STEP17_ARCHITECTURE_DECISIONS_EXECUTED_IN_STEP16 = 0 PASS
+FINAL_GITHUB_READBACK = PASS
 ```
 
 ## Next legal transition
 
 ```text
-READ BACK:
-- STEP_16_OBSERVATION_LEDGER_FINAL.tsv
-- STEP_16_QA_FINAL_2026-09-02.json
-- STEP_16_REPORT_2026-09-02.md
-- STEP_16_CURRENT_STATE.json
-- JOB_FLOW_STEP16_EXECUTION_SYNC_2026-09-02.md
+STEP16 = COMPLETE
+STEP17 = NOT STARTED
 
-IF ALL PASS:
--> update final QA/current-state/sync markers to PASS
--> STEP16 = COMPLETE
--> STOP
--> STEP17 requires its own new pre-step goal/full-roadmap/method gate before execution
+Before any Step17 research/execution:
+-> whole Kwork goal
+-> full 0–22 roadmap with Step16 complete / Step17 current
+-> completed work
+-> remaining work
+-> Step17 goal / solves / required output
+-> prior errors / causal non-repeat review
+-> fresh Step17 method/rules/source review
+-> adversarial self-audit / risks / pass gate
+-> final plain-language pre-step summary
+-> owner authorization when required
 ```
+
+No Step17 work is performed by this Step16 completion overlay.
