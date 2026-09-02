@@ -1,0 +1,73 @@
+{
+  "case_id": "C15-018",
+  "case_role": "STABILITY_CONTROL",
+  "query_family_id": "QF018",
+  "authoritative_query": "замена окна на пластиковое цена москва",
+  "attempt_type": "INITIAL",
+  "attempt_ordinal": 1,
+  "observed_at": "2026-09-02T16:40:00+05:00",
+  "bridge_version": "0.1.4",
+  "request_id": "search-9d0964a5-07ef-432d-b9b7-43c90074783c",
+  "http_status": 200,
+  "request_executed": true,
+  "automatic_retry": false,
+  "provider_cost_rub": 5.08,
+  "message_content": "Стоимость замены окон на пластиковые в Москве зависит от модели, размеров и других факторов. [3][4] \n\nНекоторые примеры цен:\n\n* **Компания «Московские окна»**. [1] Одностворчатое окно размером 800 х 1400 мм — от 19 002 рублей, цена «под ключ» — 33 719 рублей. [1] Двухстворчатое окно размером 1300 х 1400 мм — от 26 088 рублей, цена «под ключ» — 46 283 рубля. [1] Трёхстворчатое окно размером 1750 х 1400 мм — от 31 653 рублей, цена «под ключ» — 56 860 рублей. [1] Балконный блок размером 1550 х 1450 мм — от 40 123 рублей, цена «под ключ» — 69 918 рублей. [1]\n* **Компания «Умные Окна»**. [4] Цена на пластиковые окна с установкой «под ключ» — от 5 361 рубля за м². [4] \n* **Компания «Фабрика Окон»**. [9] Одностворчатое окно 80 х 60 — 14 119 рублей, окно 80 х 70 — 13 872 рубля, окно 80 х 120 — 17 983 рубля, окно 90 х 90 — 16 124 рубля. [9] \n\nДля расчёта стоимости можно воспользоваться калькуляторами на сайтах компаний, например: n-okna.ru, msk.okna-servise.com, plastika-okon.ru. [3][5][7]",
+  "message_role": "ROLE_ASSISTANT",
+  "sources_total": 9,
+  "sources_used_count": 6,
+  "sources_full": [
+    {"url":"https://www.mosokna.ru/","title":"Пластиковые окна от производителя в Москве | Московские окна","used":true,"observed_role":"GENERIC_PLASTIC_WINDOWS_COMMERCIAL"},
+    {"url":"https://profi.ru/remont/okna/ustanovka-okon/price/","title":"Стоимость установки окон 💸 - цена за кв.м в Москве, 2026 год","used":false,"observed_role":"GENERIC_INSTALLATION_PRICE_SERVICE"},
+    {"url":"https://n-okna.ru/services/zamena-okon/","title":"Замена окон на пластиковые в Москве - цена за работу, стоимость замены старых окон на новые ПВХ - n-okna.ru","used":true,"observed_role":"REPLACEMENT_SPECIALIST_COMMERCIAL"},
+    {"url":"https://i-okna.ru/","title":"Пластиковые окна РЕХАУ в Москве: Заказать окна ПВХ Рехау от производителя","used":true,"observed_role":"GENERIC_PLASTIC_WINDOWS_COMMERCIAL"},
+    {"url":"https://www.msk.okna-servise.com/pod-klyuch/","title":"Пластиковые окна в Москве от производителя: цены с установкой","used":true,"observed_role":"GENERIC_TURNKEY_WINDOWS_COMMERCIAL"},
+    {"url":"https://i-okna.ru/uslugi/price-list-na-uslugi","title":"Цены на монтаж пластиковых окон — Стоимость установки ПВХ-окон за м² в Москве","used":false,"observed_role":"GENERIC_INSTALLATION_PRICE_SERVICE"},
+    {"url":"https://www.plastika-okon.ru/okna/prices/","title":"Цены на пластиковые окна с установкой в Москве – стоимость окон ПВХ под ключ","used":true,"observed_role":"GENERIC_TURNKEY_WINDOWS_PRICE"},
+    {"url":"https://www.msk.okna-servise.com/","title":"Пластиковые окна в Москве купить недорого, цены на окна ПВХ от 2310 р с установкой","used":false,"observed_role":"GENERIC_PLASTIC_WINDOWS_COMMERCIAL"},
+    {"url":"https://www.fabrikaokon.ru/okna.html","title":"Пластиковые окна в Москве — Окна ПВХ с установкой от производителя","used":true,"observed_role":"GENERIC_TURNKEY_WINDOWS_COMMERCIAL"}
+  ],
+  "search_queries_total": 2,
+  "search_queries_full": [
+    {"text":"пластиковые окна под ключ москва цены","reqId":"1788350273395274-11011601938297245141-hhsihxn5joa5fqjq-BAL"},
+    {"text":"замена окна на пластиковое цена москва","reqId":"1788350272950222-8797430671673991420-ousqxsbs5tck4foe-BAL"}
+  ],
+  "fixed_misspell_query": "замена окна на пластиковое цена Москва",
+  "is_answer_rejected": false,
+  "is_bullet_answer": false,
+  "hints": [
+    "Какие дополнительные услуги предлагают при замене окон?",
+    "Как выбрать качественные пластиковые окна?",
+    "Какие факторы влияют на стоимость замены окон?"
+  ],
+  "problematic_answer": false,
+  "transport_wire_format": "json_array",
+  "transport_frame_count": 1,
+  "evidence_usability": "USEFUL",
+  "message_orientation_summary": "The answer keeps the task explicitly framed as the cost of replacing windows with plastic windows in Moscow and uses one replacement-specific commercial source, while also drawing on a broad set of generic plastic-window / turnkey-price pages. One refined query broadens to generic turnkey plastic-window prices, but the second refined query remains the exact replacement-price formulation. This shows broad commercial support around the replacement transaction, not a clear removal of the replacement task.",
+  "used_target_domain_urls": [],
+  "primary_owner_used": false,
+  "supporting_owner_used": false,
+  "source_order_rank_inference": false,
+  "condition_match_evidence": {
+    "pre_ai_baseline": "Replacement specialist is primary; generic installation/product pages are supporting. Ordinary Search preserved a specific replacement transaction boundary.",
+    "control_break_condition_met": false,
+    "control_break_condition_reason": "The generated answer does not remove the replacement transaction: it opens with the cost of replacing windows, retains the exact replacement query as one refined query, and uses a replacement-specialist source. Broad turnkey/product pages are also used, but their presence does not by itself prove generic ownership or source hierarchy.",
+    "de_risk_condition_met": false,
+    "de_risk_condition_reason": "The observation is compatible with replacement-specific responsibility, but the used-source mix is broad and one refined query generalizes to turnkey plastic-window prices. That is not strong enough to claim independent de-risking of the specialist-owner boundary.",
+    "no_change_condition_met": true,
+    "no_change_condition_reason": "Replacement intent remains explicit while generic plastic-window/turnkey-price pages act as surrounding commercial support. No repeated/generalized removal of the replacement transaction is observed.",
+    "insufficient_condition_met": false
+  },
+  "initial_or_confirmation_outcome": "NO_CHANGE",
+  "raw_evidence_ref": "STEP_16_C15-018_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+  "claim_boundary": [
+    "GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER",
+    "GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE",
+    "sources_array_order != source_rank",
+    "used_source_count_by_role != provider_rank",
+    "single_observation != stable_or_permanent_truth",
+    "selected_case != representative_sample",
+    "Step16_observation != Step17_architecture_decision"
+  ]
+}
