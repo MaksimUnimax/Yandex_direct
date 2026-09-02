@@ -275,6 +275,38 @@ The final Step-16 report must contain detailed evidence/accounting and updated f
 
 Nothing technical may follow that final plain-language explanation.
 
+## Additional mandatory method-validation authority
+
+The post-run external audit found **four additional method-validation defects** that are separate from S16-P01..S16-P09 and must be applied before any future Step-16-like execution:
+
+```text
+S16-M01 — reproducibility / repeat policy was not defined strongly enough before paid execution
+S16-M02 — exact-query evidence was allowed to expand into broader user-job claims
+S16-M03 — GenSearch proxy boundary existed but was not fully enforced in result naming/owner-facing claims
+S16-M04 — Step 16 crossed into Step 17 Search-vs-AI comparison/decision work
+```
+
+Full causes, external source support, blocking gates and the corrected Step-16 execution contract are authoritative in:
+
+`STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md`
+
+Mandatory rule:
+
+```text
+BEFORE ANY FUTURE STEP16-LIKE PAID EXECUTION
+-> READ THIS PARENT RULE
+-> READ STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md
+-> PASS ALL METHOD-VALIDATION PREFLIGHT MARKERS
+-> ONLY THEN PROVIDER EXECUTION MAY BE CONSIDERED
+```
+
+If the addendum is not read and operationalized:
+
+```text
+STEP16_METHOD_VALIDATION = FAILED
+PAID_PROVIDER_EXECUTION = BLOCKED
+```
+
 ## Markers
 
 ```text
@@ -287,4 +319,6 @@ STEP16_USEFUL_PROVIDER_RESULT_PERSIST_BEFORE_ANALYSIS = true
 STEP16_EXACT_V2_LINEAGE_ONLY = true
 STEP16_SOURCE_ORDER_RANK_INFERENCE_FORBIDDEN = true
 STEP16_SINGLE_MATERIAL_DELTA_NOT_ARCHITECTURE_CHANGE = true
+STEP16_METHOD_VALIDATION_ADDENDUM_REQUIRED = true
+STEP16_S16_M01_TO_M04_MUST_BE_REVIEWED_BEFORE_PAID_EXECUTION = true
 ```
