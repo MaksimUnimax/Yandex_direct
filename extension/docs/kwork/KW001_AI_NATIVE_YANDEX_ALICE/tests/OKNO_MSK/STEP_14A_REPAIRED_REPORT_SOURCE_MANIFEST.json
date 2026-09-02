@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": "14A",
+  "source_name": "Вставленная уценка(20260902-054019).md",
+  "source_sha256": "1366c35f8ba45314d4453dba1271536f08bc2072e7292a1404bdc5bde17fe6b7",
+  "source_bytes": 1973597,
+  "full_inventory_rows": 2683,
+  "current_minus_step12_13_14_rows": 2624,
+  "internal_link_topology_rows": 15,
+  "source_storage_state": "LOCAL_CONTENT_ADDRESSED_INPUT__NOT_COPIED_TO_GIT",
+  "git_durable_derived_evidence": [
+    "STEP_14A_CURRENT_SITE_RECONCILIATION_TRANSPORT.json + ordered CHUNK_01..09",
+    "STEP_14A_ARCHITECTURE_DELTA.tsv",
+    "STEP_14A_RECONCILIATION_QA_2026-09-02.json",
+    "STEP_14A_SEMANTIC_RECONCILIATION_2026-09-02.md",
+    "STEP_14_CURRENT_STATE.json"
+  ],
+  "claim_boundary": "The exact repaired Markdown source is content-addressed by SHA-256 and was independently parsed/QA’d in this session, but its full 1.97 MB Markdown bytes are not copied into Git by this closure. Git durable evidence contains the complete 2624-row semantic classification, affected architecture delta, counts, hashes, QA and final state."
+}

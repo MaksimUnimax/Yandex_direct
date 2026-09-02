@@ -1,0 +1,7 @@
+OKNO_MSK Step14A commit manifest
+Date: 2026-09-02
+Base commit: d6b4a431fb651a950e64eed8765dadb2416a7cb4
+Base tree: eacb9b5e5c3ecd6ae84bde42b14ac22d0d3eeca1
+Expected final state: STEP14 FINAL PASS; STEP15 pre-step method research only; STEP16 not started.
+Row ledger: 2624 rows, decoded SHA256 d7329636c7959dcb44f93f59699720e4945ee740ce94b88e3acc033fa457fc6a, chunks 9/9.
+Material delta: 21; material errors 5/5 resolved; topology 15/15; new pages 0; destructive actions 0; provider calls 0.

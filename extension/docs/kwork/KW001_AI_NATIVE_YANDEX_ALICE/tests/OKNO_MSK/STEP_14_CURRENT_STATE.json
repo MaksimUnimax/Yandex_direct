@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "REOPENED__RUN9_BROWSER_PARTIAL_PASS__LINK_TOPOLOGY_15_OF_15_VERIFIED__DISCOVERY_COMPLETENESS_NOT_PROVEN__STEP15_BLOCKED",
+  "status": "PASS__RUN10_DISCOVERY_2683_RECONCILED__NEW_URLS_2624_CLASSIFIED__MATERIAL_21__MATERIAL_ERRORS_0_UNRESOLVED__TOPOLOGY_15_OF_15__STEP15_METHOD_RESEARCH_ALLOWED",
   "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_CORRECTION__BROWSER_FIRST_EXECUTION_CORRECTED",
   "canonical_step_method": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md",
   "browser_first_correction": "STEP_14_CODEX_BROWSER_FIRST_DISCOVERY_CORRECTION_2026-09-02.md",
@@ -12,8 +12,13 @@
   "run9_qa": "STEP_14A_RUN9_RECONCILIATION_QA_2026-09-02.json",
   "run9_link_as_is": "STEP_14A_RUN9_INTERNAL_LINK_AS_IS_RECONCILIATION.tsv",
   "run9_input_package_sha256": "36e4083ca727ac93a0223ae82ec72c08c88e61469db8b4ff184563c899be51d9",
+  "run10_repaired_report_local_sha256": "1366c35f8ba45314d4453dba1271536f08bc2072e7292a1404bdc5bde17fe6b7",
+  "run10_semantic_reconciliation": "STEP_14A_SEMANTIC_RECONCILIATION_2026-09-02.md",
+  "run10_row_classification": "DECODED:STEP_14A_CURRENT_SITE_RECONCILIATION.tsv",
+  "run10_architecture_delta": "STEP_14A_ARCHITECTURE_DELTA.tsv",
+  "run10_reconciliation_qa": "STEP_14A_RECONCILIATION_QA_2026-09-02.json",
   "semantic_freeze": {
-    "status": "PROVISIONAL_PASS_PRESERVED",
+    "status": "FINAL_PASS_AFTER_CURRENT_SITE_RECONCILIATION",
     "active_phrases": 2332,
     "assigned_phrases": 2313,
     "preserved_unresolved": 19,
@@ -21,7 +26,10 @@
     "step13_effective_pairs": 199,
     "step13_query_family_cases": 21,
     "supported_new_page_actions": 0,
-    "supported_destructive_actions": 0
+    "supported_destructive_actions": 0,
+    "base_freeze": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv",
+    "current_site_delta_overlay": "STEP_14A_ARCHITECTURE_DELTA.tsv",
+    "overlay_policy": "Append-only current-site discovery evidence overrides only the explicitly affected unit/query-family boundary. All untouched Step12/13/14 decisions remain inherited."
   },
   "run9_browser_evidence": {
     "accepted_within_observed_scope": true,
@@ -31,7 +39,53 @@
     "opened_read_urls": 8,
     "sitemap_urls_reconciled": false,
     "reported_current_urls_not_in_upstream": 0,
-    "claim_boundary": "0 applies only to Run9-discovered URL -> upstream literal match. It does not prove upstream -> Run9 reverse coverage or complete current public-site discovery."
+    "claim_boundary": "0 applied only to Run9-discovered URL -> upstream literal match and did not prove complete current public-site discovery."
+  },
+  "run10_discovery_evidence": {
+    "accepted": true,
+    "unique_public_urls": 2683,
+    "opened_run10": 1688,
+    "opened_run9_preserved": 9,
+    "errors": 679,
+    "not_html": 307,
+    "pending": 0,
+    "processing": 0,
+    "silent_skip": 0,
+    "unprocessed": 0,
+    "known_step12_13_14_yes": 59,
+    "current_site_minus_step12_13_14": 2624,
+    "row_level_classification_complete": true,
+    "architecture_material": 21,
+    "non_material_with_reason": 1932,
+    "out_of_scope_with_reason": 671,
+    "unclassified": 0,
+    "material_source_errors": 5,
+    "material_errors_live_html_confirmed": 5,
+    "material_errors_unresolved": 0,
+    "direct_xml_sitemap_reconciliation": false,
+    "claim_boundary": "Operational completeness is accepted for the durable recursive main-host crawl because the queue closed with PENDING=0, PROCESSING=0, SILENT_SKIP=0 and all 2624 newly surfaced URLs were classified. This is not a mathematical proof that no undiscoverable URL exists.",
+    "row_level_classification_storage": "LOSSLESS_GZIP_BASE64_TEXT"
+  },
+  "architecture_delta": {
+    "material_urls": 21,
+    "primary_or_state_boundary_changes": 4,
+    "routing_owner_update": 1,
+    "same_task_competitor_candidates": 3,
+    "supporting_or_intersection_updates": 13,
+    "new_page_create_actions": 0,
+    "destructive_actions": 0,
+    "changed_primary_or_state_units": [
+      "OPEN_BALCONY_FINISHING",
+      "PRIVATE_HOUSE_PVC_WINDOWS_WOODEN_HOUSE",
+      "BALCONY_ALUMINIUM_SLIDING_GENERAL",
+      "OUTDOOR_ALUMINIUM_SLIDING_GLAZING"
+    ],
+    "routing_owner_updated_unit": "GLASS_UNIT_PRODUCT_SELECTION",
+    "same_task_competitor_paths": [
+      "/okna-rehau/po-tipu-doma/okna-dlya-kottedzhej-i-zagorodnyh-domov",
+      "/stati/sravnenie-profilej-rehau",
+      "/okna-rehau/panoramnye-okna-rehau"
+    ]
   },
   "internal_link_topology": {
     "status": "PASS",
@@ -43,46 +97,34 @@
     "not_applicable": 0,
     "accounting": "15/15",
     "recommendation_state_separate_from_as_is_state": true,
-    "present_edge_ids": [
-      "IL0008",
-      "IL0009",
-      "IL0025",
-      "IL0038",
-      "IL0047",
-      "IL0049",
-      "IL0062",
-      "IL0065",
-      "IL0066"
-    ],
-    "absent_planned_edge_ids": [
-      "IL0021",
-      "IL0029",
-      "IL0040",
-      "IL0041",
-      "IL0053",
-      "IL0059"
-    ]
+    "present_edge_ids": ["IL0008","IL0009","IL0025","IL0038","IL0047","IL0049","IL0062","IL0065","IL0066"],
+    "absent_planned_edge_ids": ["IL0021","IL0029","IL0040","IL0041","IL0053","IL0059"]
   },
   "discovery_completeness": {
-    "status": "NOT_PROVEN",
+    "status": "PASS_OPERATIONAL_MAIN_HOST_WITH_EXPLICIT_SITEMAP_LIMITATION",
     "run9_forward_reconciliation": "PASS_WITH_BOUNDARY",
-    "reverse_upstream_coverage": "FAIL_NOT_PROVEN",
-    "known_counterexample_calculator": "Step14 had current live https://okno-msk.ru/calculator; Run9 explicitly excluded /calculator from its 158 candidate set.",
-    "known_counterexample_qf017": "Step14 had current live primary specialist https://okno-msk.ru/verandy/panoramnye-okna-na-terrasu; Run9 did not discover it in the 158-row veranda block.",
-    "sitemap_reconciliation": "NOT_COMPLETE",
-    "fresh_external_web_adversarial_check_found_pages_outside_run9": true,
-    "fresh_external_web_examples": [
-      "https://okno-msk.ru/o-kompanii/llm-info-page/",
-      "https://pushkino.okno-msk.ru/",
-      "https://ramenskoe.okno-msk.ru/",
-      "https://krasnogorsk.okno-msk.ru/",
-      "https://odincovo.okno-msk.ru/"
-    ],
-    "scope_boundary": "Freshly surfaced pages require classification; discovery alone does not authorize Search ownership, new-page, merge, delete, redirect or canonical actions."
+    "run10_recursive_queue": "PASS",
+    "run10_new_url_classification": "PASS_2624_OF_2624",
+    "architecture_relevant_error_resolution": "PASS_5_OF_5",
+    "sitemap_reconciliation": "NOT_OBTAINED__LIMITATION_PRESERVED",
+    "geo_subdomains": "OUTSIDE_CURRENT_MAIN_HOST_MOSCOW_BASE_SCOPE_UNLESS_SEPARATELY_SCOPED"
+  },
+  "qa": {
+    "status": "PASS",
+    "classification_rows": 2624,
+    "unique_classification_paths": 2624,
+    "blank_class": 0,
+    "blank_reason": 0,
+    "material_manual_review": "21/21",
+    "material_error_resolution": "5/5",
+    "bulk_spot_check": "60_ROWS_ACROSS_12_LARGEST_REASON_BUCKETS_PASS",
+    "topology": "15/15_PASS"
   },
   "codex_run_accounting": {
     "known_run_history_preserved": true,
     "run9_accepted": true,
+    "run10_repaired_from_durable_evidence": true,
+    "no_full_crawl_rerun_for_semantic_reconciliation": true,
     "no_run_skip": true
   },
   "provider_calls_authorized": false,
@@ -91,7 +133,17 @@
   "gensearch_or_alice_calls": 0,
   "step15_executed": false,
   "step16_executed": false,
-  "next_step_allowed": false,
-  "next_step_scope": "STEP14_DISCOVERY_UNIVERSE_GAP_CLOSURE_AND_SCOPE_CLASSIFICATION_ONLY",
-  "next_required_action": "Do not repeat the 15-edge topology check. Close only the remaining current-public-site discovery gap using current public evidence, including reverse coverage against accepted current URLs, sitemap/public-navigation evidence when obtainable, and scope classification of newly surfaced pages such as the AI/LLM information page and GEO subdomains. Preserve the frozen Search baseline unless a newly surfaced page is proven architecture-material. Step 15 remains blocked until this gap is closed and final Step-14 QA passes."
+  "next_step_allowed": true,
+  "next_step_scope": "STEP15_PRE_STEP_METHOD_RESEARCH_AND_REVIEW_ONLY",
+  "next_required_action": "Step 14 is closed. Before executing Step 15, perform its UNVALIDATED pre-step current-method research, source-to-method trace, research-to-execution schema, owner-facing method review and only then select AI cases. No provider call is authorized by Step-14 PASS.",
+  "run10_classification_reason_codes": "STEP_14A_CLASSIFICATION_REASON_CODES.tsv",
+  "run10_row_classification_transport": "STEP_14A_CURRENT_SITE_RECONCILIATION_TRANSPORT.json",
+  "run10_row_classification_decoded_sha256": "d7329636c7959dcb44f93f59699720e4945ee740ce94b88e3acc033fa457fc6a",
+  "run10_row_classification_transport_parts": [
+    "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_01.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_02.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_03.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_04.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_05.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_06.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_07.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_08.txt","STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_09.txt"
+  ],
+  "run10_row_classification_transport_storage": "SHARDED_BASE64_GZIP_TEXT__LOSSLESS",
+  "run10_repaired_report_source_manifest": "STEP_14A_REPAIRED_REPORT_SOURCE_MANIFEST.json",
+  "run10_repaired_report_storage_state": "LOCAL_CONTENT_ADDRESSED_INPUT__NOT_COPIED_TO_GIT",
+  "step_rules_current_job_status_sync": "STEP_14A_STEP_RULES_INDEX_STATUS_SYNC_2026-09-02.md"
 }

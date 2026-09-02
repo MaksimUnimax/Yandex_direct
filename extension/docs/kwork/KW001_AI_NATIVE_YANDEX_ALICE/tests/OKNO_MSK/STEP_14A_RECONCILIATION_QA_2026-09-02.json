@@ -1,0 +1,93 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": "14A",
+  "gate": "CURRENT_SITE_SEMANTIC_RECONCILIATION",
+  "input_repaired_report": {
+    "path": "STEP_14A_REPAIRED_REPORT_SOURCE_MANIFEST.json -> local content-addressed source",
+    "sha256": "1366c35f8ba45314d4453dba1271536f08bc2072e7292a1404bdc5bde17fe6b7",
+    "bytes": 1973597,
+    "full_inventory_rows": 2683,
+    "current_minus_upstream_rows": 2624,
+    "link_topology_rows": 15,
+    "source_storage_state": "LOCAL_CONTENT_ADDRESSED_INPUT__NOT_COPIED_TO_GIT",
+    "git_durable_derived_evidence": true
+  },
+  "run10_accounting": {
+    "unique_public_urls": 2683,
+    "opened_run10": 1688,
+    "opened_run9_preserved": 9,
+    "errors": 679,
+    "not_html": 307,
+    "pending": 0,
+    "processing": 0,
+    "silent_skip": 0,
+    "known_step12_13_14_yes": 59,
+    "known_step12_13_14_no": 2624,
+    "unprocessed": 0
+  },
+  "classification": {
+    "rows": 2624,
+    "unique_urls": 2624,
+    "blank_architecture_class": 0,
+    "blank_reason_code": 0,
+    "architecture_material": 21,
+    "non_material_with_reason": 1932,
+    "out_of_scope_with_reason": 671,
+    "sum_matches_rows": 1,
+    "fallback_unresolved": 0,
+    "reason_code_dictionary": "STEP_14A_CLASSIFICATION_REASON_CODES.tsv",
+    "reason_code_count": 32,
+    "ledger_storage_mode": "SHARDED_BASE64_GZIP_TEXT__LOSSLESS",
+    "ledger_transport_manifest": "STEP_14A_CURRENT_SITE_RECONCILIATION_TRANSPORT.json",
+    "decoded_tsv_sha256": "d7329636c7959dcb44f93f59699720e4945ee740ce94b88e3acc033fa457fc6a",
+    "decoded_tsv_bytes": 354792,
+    "ledger_transport_parts": [
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_01.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_02.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_03.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_04.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_05.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_06.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_07.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_08.txt",
+      "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_09.txt"
+    ]
+  },
+  "material_review": {
+    "material_urls": 21,
+    "material_source_error": 5,
+    "material_error_live_html_confirmed": 5,
+    "material_error_unresolved": 0,
+    "destructive_actions": 0,
+    "new_page_create_actions": 0,
+    "existing_page_reuse_or_boundary_updates": 21,
+    "delta_sha256": "c084db9469f817f2ef824ee08729b646102b35e6bf512006cb18e0bce2488a13"
+  },
+  "error_reconciliation": {
+    "current_minus_errors": 676,
+    "material_errors": 5,
+    "nonmaterial_or_outscope_errors": 671,
+    "material_errors_unresolved": 0
+  },
+  "spot_check": {
+    "strategy": "deterministic seed=1402; 5 rows from each of 12 largest non-material reason buckets + 21/21 material manual review",
+    "bulk_rows_checked": 60,
+    "material_rows_checked": 21,
+    "bulk_reason_buckets_checked": 12,
+    "semantic_spot_check_result": "PASS"
+  },
+  "topology": {
+    "classified": 15,
+    "as_is_present": 9,
+    "as_is_absent_planned": 6,
+    "blocked_or_unverified": 0,
+    "result": "PASS"
+  },
+  "limitations": {
+    "direct_xml_sitemap_reconciliation": "NOT_OBTAINED_IN_RUN10_BROWSER_ENVIRONMENT",
+    "scope": "main host okno-msk.ru; GEO subdomains remain outside the Moscow base-host architecture freeze unless separately scoped",
+    "claim_boundary": "Run10 recursive current-host discovery reached terminal queue accounting and the 2624 newly discovered URLs were classified. This is an operational completeness gate for the accepted crawl method, not a mathematical proof that no undiscoverable public URL exists."
+  },
+  "final_gate": "PASS"
+}

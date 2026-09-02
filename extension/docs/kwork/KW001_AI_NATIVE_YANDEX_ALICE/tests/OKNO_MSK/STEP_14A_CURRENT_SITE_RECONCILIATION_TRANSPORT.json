@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "artifact": "STEP_14A_CURRENT_SITE_RECONCILIATION.tsv",
+  "storage_mode": "SHARDED_BASE64_GZIP_TEXT__LOSSLESS",
+  "encoding_pipeline": "UTF-8 TSV -> gzip(level=9) -> base64 text -> ordered text shards",
+  "parts": [
+    {"part": 1, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_01.txt", "chars": 4000, "sha256": "7f7f6bd2696c11034288da36902289ec36be0819943b93e2588795a84d326b20"},
+    {"part": 2, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_02.txt", "chars": 4000, "sha256": "37e33bd9437f33822cf3d1863b66883d7cb197a5712252fc642e539ee592d531"},
+    {"part": 3, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_03.txt", "chars": 4000, "sha256": "9c79050e39c7ee492be10e3e696233c0500ce82ce4323443c4b4c12d6d04a0c5"},
+    {"part": 4, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_04.txt", "chars": 4000, "sha256": "10717b6f68fc08d6012e50a6c7dff6c36f42c6928489d93719656a57d14b0b0e"},
+    {"part": 5, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_05.txt", "chars": 4000, "sha256": "360d8885ec537b78cb3e19720aa84b3b00245583af073755a4132712eb5a9342"},
+    {"part": 6, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_06.txt", "chars": 4000, "sha256": "d7d404b416ff4b9633396b4e59ac953ba70b778afaeda9488a2a0b213e85e33e"},
+    {"part": 7, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_07.txt", "chars": 4000, "sha256": "fc3f3bf7d6cb273a901291f28c441930aad7f0203874fc9f1dfb46d53b08dc3f"},
+    {"part": 8, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_08.txt", "chars": 4000, "sha256": "1e61cea54fa96bbb4a68494047287d9b70fa4e52e26c4363172cbd8a5b8dd8fb"},
+    {"part": 9, "file": "STEP_14A_CURRENT_SITE_RECONCILIATION_B64_CHUNK_09.txt", "chars": 556, "sha256": "7438574e7919062f3949ae7fbf5dde1e0ccbad170bd779d157cebc6d68e7b605"}
+  ],
+  "rows": 2624,
+  "columns": ["path", "source_status", "architecture_class", "reason_code"],
+  "base64_chars": 32556,
+  "decoded_bytes": 354792,
+  "decoded_sha256": "d7329636c7959dcb44f93f59699720e4945ee740ce94b88e3acc033fa457fc6a",
+  "gzip_sha256": "241f1c9ed77eb52ce328363870343353c42637397e309e9995b5ea28c785afe4",
+  "reassembly_check": "Concatenate each shard in numeric part order; base64-decode -> gunzip -> UTF-8 TSV; verify 2624 data rows, 2624 unique paths and decoded_sha256."
+}
