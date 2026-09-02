@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "authorization_state": "OWNER_EXPLICITLY_AUTHORIZED_STEP16_EXECUTION",
+  "owner_instruction_received_in_live_dialogue": true,
+  "authorized_scope": {
+    "initial_gensearch_calls": 8,
+    "initial_queries_must_match_step15_v2_exactly": true,
+    "conditional_same_query_confirmation_for_material_change_candidate": true,
+    "conditional_same_query_confirmation_for_material_control_break_candidate": true,
+    "max_conditional_confirmation_calls": 8,
+    "no_usable_or_outcome_unknown_retries": "COVERED_BY_EXISTING_OWNER_PREAUTHORIZED_UP_TO_3_ADDITIONAL_RETRIES_RULE_WITH_MANDATORY_DISCLOSURE"
+  },
+  "cost_boundary": {
+    "initial_unit_cost_rub": 5.08,
+    "initial_planned_cost_rub": 40.64,
+    "conditional_confirmation_unit_cost_rub": 5.08,
+    "conditional_confirmation_max_incremental_cost_rub": 40.64,
+    "failure_retry_cost_accounted_separately": true,
+    "pathological_theoretical_envelope_is_not_planned_spend": true
+  },
+  "execution_controls": {
+    "execution_order_starts_with": "C15-004",
+    "one_paid_interaction_at_a_time": true,
+    "yandex_marketing_bridge_service": "search",
+    "execution_mode": "Manual",
+    "complete_raw_github_write_before_analysis": true,
+    "raw_readback_before_analysis": true,
+    "normalized_observation_write_and_readback_before_next_paid_action": true,
+    "next_paid_action_blocked_on_persistence_failure": true,
+    "step16_process_non_repeat_rules": "STEP_16_PROCESS_NON_REPEAT_RULES_2026-09-02.md",
+    "step16_architecture_rewrite_forbidden": true
+  },
+  "execution_state_at_authorization": {
+    "provider_calls_executed": 0,
+    "provider_cost_rub_incurred": 0.0,
+    "first_case": "C15-004",
+    "first_query": "панорамные алюминиевые окна",
+    "next_legal_action": "STATE_YMB_MODE_AND_ISSUE_C15-004_INITIAL_GENSEARCH_COMMAND"
+  },
+  "supersedes_authorization_flags_in": [
+    "STEP_16_CURRENT_STATE_PRE_EXECUTION.json",
+    "STEP_16_EXECUTION_MANIFEST_2026-09-02.json",
+    "JOB_FLOW_STEP16_PREEXECUTION_READY_SYNC_2026-09-02.md"
+  ],
+  "superseded_fields_only": [
+    "initial_provider_calls_authorized=false",
+    "semantic_confirmation_provider_calls_authorized=false",
+    "next_legal_action=OWNER_EXPLICIT_PROVIDER_AUTHORIZATION"
+  ],
+  "all_other_method_cost_persistence_and_claim_boundaries_remain_in_force": true
+}
