@@ -3,83 +3,95 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_BROWSER_FIRST_SITE_PASS_REQUIRED__NO_RUN_SKIP__STEP15_BLOCKED",
+  "status": "REOPENED__RUN9_BROWSER_PARTIAL_PASS__LINK_TOPOLOGY_15_OF_15_VERIFIED__DISCOVERY_COMPLETENESS_NOT_PROVEN__STEP15_BLOCKED",
   "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_CORRECTION__BROWSER_FIRST_EXECUTION_CORRECTED",
   "canonical_step_method": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md",
   "browser_first_correction": "STEP_14_CODEX_BROWSER_FIRST_DISCOVERY_CORRECTION_2026-09-02.md",
-  "no_run_skip_rule": "STEP_14_NO_RUN_SKIP_AND_CRAWLER_REMOVAL_RULE_2026-09-02.md",
   "codex_run_ledger": "STEP_14A_CODEX_RUN_LEDGER_2026-09-02.md",
-  "browser_first_prompt": "STEP_14A_CODEX_BROWSER_FIRST_SITE_PASS_PROMPT_2026-09-02.md",
-  "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+  "run9_reconciliation": "STEP_14A_RUN9_CHATGPT_RECONCILIATION_2026-09-02.md",
+  "run9_qa": "STEP_14A_RUN9_RECONCILIATION_QA_2026-09-02.json",
+  "run9_link_as_is": "STEP_14A_RUN9_INTERNAL_LINK_AS_IS_RECONCILIATION.tsv",
+  "run9_input_package_sha256": "36e4083ca727ac93a0223ae82ec72c08c88e61469db8b4ff184563c899be51d9",
   "semantic_freeze": {
     "status": "PROVISIONAL_PASS_PRESERVED",
-    "previous_known_url_recheck": "59/59 LIVE",
-    "previous_link_action_rows": "58/58 accounted",
-    "previous_recommended_implement_edges": 15,
-    "preserved_unresolved": 19,
-    "claim_boundary": "Known-URL freshness and semantic architecture baseline remain usable, but current-site completeness and literal as-is link topology require the independent Codex browser pass before final Step-14 acceptance."
-  },
-  "codex_run_accounting": {
-    "mandatory": true,
-    "known_runs_accounted_in_ledger": true,
-    "known_ledger_range": "RUN_0_THROUGH_RUN_7_AT_LEDGER_CREATION",
-    "failed_runs_must_remain": true,
-    "later_success_may_erase_earlier_failure": false,
-    "every_new_codex_attempt_must_append_to_ledger": true,
-    "no_run_skip": true
-  },
-  "obsolete_custom_crawler": {
-    "active_execution_mode": "SUPERSEDED_AND_FORBIDDEN",
-    "known_local_code_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step14a_codex_site_discovery.py",
-    "code_removal_required_before_browser_pass": true,
-    "crawler_only_helper_code_removal_required": true,
-    "git_history_preservation_required": true,
-    "historical_run_reports_preservation_required": true,
-    "run_ledger_preservation_required": true,
-    "invalid_or_partial_final_named_outputs_must_not_be_published": true
-  },
-  "active_codex_execution": {
-    "primary_collection_tool": "CODEX_BROWSER",
-    "custom_site_crawler_allowed": false,
-    "browser_pass_executed": false,
-    "required_browser_outputs": [
-      "STEP_14A_CODEX_BROWSER_DISCOVERED_URLS.tsv",
-      "STEP_14A_CODEX_BROWSER_PAGE_PROFILE_LEDGER.tsv",
-      "STEP_14A_CODEX_BROWSER_NEW_URL_RECONCILIATION.tsv",
-      "STEP_14A_CODEX_BROWSER_REQUIRED_EDGE_VERIFICATION.tsv",
-      "STEP_14A_CODEX_BROWSER_PASS_REPORT.md",
-      "STEP_14A_CODEX_RUN_LEDGER_2026-09-02.md"
-    ],
-    "required_edge_baseline": 15,
-    "required_edge_states": [
-      "AS_IS_PRESENT",
-      "AS_IS_ABSENT_PLANNED",
-      "BLOCKED_OR_UNVERIFIED",
-      "NOT_APPLICABLE"
-    ]
-  },
-  "accounting_provisionally_preserved": {
     "active_phrases": 2332,
-    "assigned": 2313,
+    "assigned_phrases": 2313,
     "preserved_unresolved": 19,
     "structural_units": 168,
-    "step12_final_link_rows": 58,
     "step13_effective_pairs": 199,
-    "step13_query_family_cases": 21
+    "step13_query_family_cases": 21,
+    "supported_new_page_actions": 0,
+    "supported_destructive_actions": 0
   },
-  "destructive_and_new_page_policy": {
-    "current_supported_new_page_actions": 0,
-    "current_supported_destructive_actions": 0,
-    "merge_delete_redirect_canonical_actions": 0
+  "run9_browser_evidence": {
+    "accepted_within_observed_scope": true,
+    "in_app_browser_used": true,
+    "browser_pass_executed": true,
+    "discovered_url_candidates": 158,
+    "opened_read_urls": 8,
+    "sitemap_urls_reconciled": false,
+    "reported_current_urls_not_in_upstream": 0,
+    "claim_boundary": "0 applies only to Run9-discovered URL -> upstream literal match. It does not prove upstream -> Run9 reverse coverage or complete current public-site discovery."
+  },
+  "internal_link_topology": {
+    "status": "PASS",
+    "planned_implement_baseline": 15,
+    "classified": 15,
+    "as_is_present": 9,
+    "as_is_absent_planned": 6,
+    "blocked_or_unverified": 0,
+    "not_applicable": 0,
+    "accounting": "15/15",
+    "recommendation_state_separate_from_as_is_state": true,
+    "present_edge_ids": [
+      "IL0008",
+      "IL0009",
+      "IL0025",
+      "IL0038",
+      "IL0047",
+      "IL0049",
+      "IL0062",
+      "IL0065",
+      "IL0066"
+    ],
+    "absent_planned_edge_ids": [
+      "IL0021",
+      "IL0029",
+      "IL0040",
+      "IL0041",
+      "IL0053",
+      "IL0059"
+    ]
+  },
+  "discovery_completeness": {
+    "status": "NOT_PROVEN",
+    "run9_forward_reconciliation": "PASS_WITH_BOUNDARY",
+    "reverse_upstream_coverage": "FAIL_NOT_PROVEN",
+    "known_counterexample_calculator": "Step14 had current live https://okno-msk.ru/calculator; Run9 explicitly excluded /calculator from its 158 candidate set.",
+    "known_counterexample_qf017": "Step14 had current live primary specialist https://okno-msk.ru/verandy/panoramnye-okna-na-terrasu; Run9 did not discover it in the 158-row veranda block.",
+    "sitemap_reconciliation": "NOT_COMPLETE",
+    "fresh_external_web_adversarial_check_found_pages_outside_run9": true,
+    "fresh_external_web_examples": [
+      "https://okno-msk.ru/o-kompanii/llm-info-page/",
+      "https://pushkino.okno-msk.ru/",
+      "https://ramenskoe.okno-msk.ru/",
+      "https://krasnogorsk.okno-msk.ru/",
+      "https://odincovo.okno-msk.ru/"
+    ],
+    "scope_boundary": "Freshly surfaced pages require classification; discovery alone does not authorize Search ownership, new-page, merge, delete, redirect or canonical actions."
+  },
+  "codex_run_accounting": {
+    "known_run_history_preserved": true,
+    "run9_accepted": true,
+    "no_run_skip": true
   },
   "provider_calls_authorized": false,
   "provider_calls_executed": 0,
   "provider_cost_rub_step14": 0.0,
-  "gensearch_or_alice_allowed": false,
   "gensearch_or_alice_calls": 0,
   "step15_executed": false,
   "step16_executed": false,
   "next_step_allowed": false,
-  "next_step_scope": "STEP14A_CODEX_BROWSER_FIRST_SITE_PASS_ONLY",
-  "next_required_action": "Codex must fetch and safely integrate the latest branch, preserve the complete Step-14A run ledger, remove the obsolete local custom crawler code and crawler-only helpers without deleting any historical run evidence, then use the native Codex browser to perform the actual public-site discovery pass over okno-msk.ru, reconcile browser/sitemap discoveries against Step12/13/14 known URLs, verify all 15 planned IMPLEMENT edges from actual current source-page link evidence, append the new run to the run ledger, commit and normal-push the browser evidence. Step 15 remains blocked until ChatGPT GitHub readback, semantic reconciliation and final Step-14 QA."
+  "next_step_scope": "STEP14_DISCOVERY_UNIVERSE_GAP_CLOSURE_AND_SCOPE_CLASSIFICATION_ONLY",
+  "next_required_action": "Do not repeat the 15-edge topology check. Close only the remaining current-public-site discovery gap using current public evidence, including reverse coverage against accepted current URLs, sitemap/public-navigation evidence when obtainable, and scope classification of newly surfaced pages such as the AI/LLM information page and GEO subdomains. Preserve the frozen Search baseline unless a newly surfaced page is proven architecture-material. Step 15 remains blocked until this gap is closed and final Step-14 QA passes."
 }
