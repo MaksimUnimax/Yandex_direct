@@ -2,7 +2,7 @@
 
 Date: 2026-09-02  
 Authority type: **latest job-specific Step-16 corrected completion overlay**  
-Status: **STEP 16 CORRECTED EVIDENCE ACQUISITION COMPLETE / STEP 17 NOT STARTED**
+Status: **FINAL CORRECTED READBACK PASS / STEP 16 COMPLETE / STEP 17 NOT STARTED**
 
 ## Current roadmap truth
 
@@ -13,13 +13,18 @@ Status: **STEP 16 CORRECTED EVIDENCE ACQUISITION COMPLETE / STEP 17 NOT STARTED*
 | 15 V2 | ✅ FINAL PASS |
 | 16 original method validation | 🔁 FAILED POST-RUN AUDIT / CORRECTED |
 | 16 provider evidence acquisition | ✅ COMPLETE |
-| 16 corrected artifacts / claim boundaries | ✅ COMPLETE PENDING FINAL READBACK |
+| 16 corrected artifacts / claim boundaries | ✅ FINAL READBACK PASS |
 | 17 | ⬜ NOT STARTED |
 | 18–22 | ⬜ NOT STARTED |
 
-## What was corrected
+## Corrected Step-16 meaning
 
-Post-run external audit found four method-validation defects that should have been caught before paid execution:
+```text
+STEP16 = collect/persist official Yandex GenSearch observations
+STEP17 = compare ordinary Search vs corrected GenSearch evidence and make final material/page decisions
+```
+
+## Four method defects corrected
 
 ```text
 S16-M01 — reproducibility/repeat policy under-specified
@@ -32,35 +37,14 @@ Authority:
 
 `STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md`
 
-The paid raw provider evidence remains valid. The old Step-16 final-decision semantics are superseded.
-
-## Corrected Step-16 meaning
+## Evidence surface and test scope
 
 ```text
-STEP16 = collect/persist official Yandex GenSearch observations
-STEP17 = compare ordinary Search vs corrected GenSearch evidence and make final material/page decisions
+EVIDENCE_SURFACE = YANDEX_GENSEARCH_API_PROXY
+TEST_SCOPE = EXACT_QUERY
+DIRECT_CONSUMER_ALICE = NOT EXECUTED
+WEBMASTER_ALICE_VISIBILITY = UNAVAILABLE / NOT EXECUTED
 ```
-
-Evidence surface actually executed:
-
-```text
-YANDEX_GENSEARCH_API_PROXY
-```
-
-Not executed:
-
-```text
-DIRECT CONSUMER ALICE
-WEBMASTER ALICE VISIBILITY FOR OKNO_MSK
-```
-
-Test scope actually executed:
-
-```text
-EXACT_QUERY
-```
-
-Therefore one tested wording must not be generalized into the entire user-job family without more evidence.
 
 ## Provider execution truth
 
@@ -88,17 +72,9 @@ C15-019 = OBSERVATION_MIXED
 C15-020 = OBSERVATION_INSUFFICIENT_FOR_TARGET_SITE_PAGE_ROLE_DECISION
 ```
 
-Corrected observation authority:
+## Old Step-16 labels
 
-`STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json`
-
-Corrected ledger:
-
-`STEP_16_OBSERVATION_LEDGER_FINAL.tsv`
-
-## Old labels
-
-Historical Step-16 labels such as:
+Historical labels such as:
 
 ```text
 DE_RISK
@@ -107,32 +83,24 @@ CHANGE_CANDIDATE
 CHANGE_CONFIRMED
 ```
 
-remain visible only as historical artifacts. They are **not current final Search-vs-AI decision authority**.
+are preserved only as history and are **not current final Search-vs-AI decision authority**.
 
-Especially C15-010:
+C15-010 now means only:
 
 ```text
-SUPPORTED:
 installation/how-to direction reproduced in two same-query observations in a short bounded window
+```
 
-NOT SUPPORTED:
-long-term AI stability
-consumer Alice behavior
+It does NOT mean:
+
+```text
+long-term AI stability proven
+consumer Alice behavior proven
 architecture change confirmed
 new page required
 ```
 
-## Source-role boundary
-
-If Step 17 materially depends on a used source being commercial/informational/DIY/service/specialist/broad, the current page must be opened/read and page-role evidence preserved before that role is used decisively.
-
-```text
-sources[] order != rank
-used-source count != rank
-URL/title alone = weak descriptive role evidence
-```
-
-## Corrected final artifacts
+## Corrected current authorities
 
 ```text
 STEP_16_PRE_STEP_METHOD_REVIEW_2026-09-02.md
@@ -147,6 +115,17 @@ STEP_16_REPORT_2026-09-02.md
 STEP_16_CURRENT_STATE.json
 ```
 
+## Final readback evidence
+
+```text
+CORRECTED OBSERVATION AUTHORITY BLOB = cab34b3593e0f1d988a29c7b462c4e97c189128d
+CORRECTED LEDGER BLOB = 0e334598f1ef667738f1d5f9cb3befb2773ce754
+CORRECTED REPORT BLOB = 71807bc875832182e3a943e60fe5274ac9618fdf
+CORRECTED QA COMMIT = 9360503f7ba46db733ea8446c879c9abe18ba50e
+CORRECTED CURRENT STATE COMMIT = 2a79ee6ee0939b67421c09735a511befb30dae50
+FINAL CORRECTED READBACK = PASS
+```
+
 ## Method status
 
 ```text
@@ -159,19 +138,19 @@ PERMANENT STEP16 METHOD = UNVALIDATED
 ## Next legal transition
 
 ```text
-STEP16 = CORRECTED EVIDENCE ACQUISITION COMPLETE
+STEP16 = COMPLETE IN CORRECTED EVIDENCE-ACQUISITION SENSE
 STEP17 = NOT STARTED
 ```
 
 Before Step 17:
 
 ```text
--> issue a new whole-Kwork goal/full-roadmap block
--> read Step17 method/rules and Step16 correction authority
--> research/validate Step17 comparison method
--> use ordinary Search + corrected Step16 observations + current-site evidence
--> directly inspect material used sources when their page role matters
--> only then issue final Search-vs-GenSearch deltas and architecture/content-role decisions
+-> new whole-Kwork goal/full-roadmap block
+-> Step17 method/rules + Step16 correction authority review
+-> fresh external validation of the comparison method
+-> ordinary Search + corrected Step16 observations + current-site evidence
+-> direct open/read of material used sources when page role matters
+-> only then final Search-vs-GenSearch deltas and architecture/content-role decisions
 ```
 
-No new paid GenSearch call is automatically required by this correction.
+No new paid GenSearch call is automatically required by the Step-16 correction.
