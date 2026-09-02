@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 16,
   "qa_phase": "POST_RUN_METHOD_CORRECTION_ACCEPTANCE",
-  "overall_status": "CORRECTED_PASS__EVIDENCE_ACQUISITION_ONLY",
+  "overall_status": "CORRECTED_PASS__EVIDENCE_ACQUISITION_ONLY__FINAL_READBACK_PASS",
   "original_pre_step_method_validation": "FAILED_POST_RUN_AUDIT",
   "correction_authority": "STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md",
   "corrected_observation_authority": "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
@@ -26,37 +26,10 @@
     "old_final_decision_semantics_authoritative": false
   },
   "method_corrections": {
-    "S16_M01_reproducibility": {
-      "defect_recorded": true,
-      "existing_run_boundary": "Only C15-010 has two same-query observations, in a short window; no long-term stability claim is allowed.",
-      "future_gate": "STEP16_REPEAT_POLICY_FROZEN=true before paid execution"
-    },
-    "S16_M02_query_scope": {
-      "defect_recorded": true,
-      "existing_run_scope": "EXACT_QUERY",
-      "user_job_generalization_authorized": false,
-      "future_gate": "STEP16_TEST_SCOPE_FROZEN=true"
-    },
-    "S16_M03_evidence_surface": {
-      "defect_recorded": true,
-      "existing_run_surface": "YANDEX_GENSEARCH_API_PROXY",
-      "consumer_alice_observed": false,
-      "webmaster_alice_visibility_observed": false,
-      "future_gate": "STEP16_EVIDENCE_SURFACE_FROZEN=true"
-    },
-    "S16_M04_step_boundary": {
-      "defect_recorded": true,
-      "old_step16_final_delta_labels": "SUPERSEDED_AS_FINAL_DECISION_AUTHORITY",
-      "corrected_step16_final_search_vs_ai_verdicts": 0,
-      "corrected_step16_architecture_decisions": 0,
-      "future_gate": "STEP16_STEP17_SCOPE_BOUNDARY_FROZEN=true"
-    }
-  },
-  "source_handling": {
-    "source_order_ranking_inferences": 0,
-    "used_source_count_as_rank_inferences": 0,
-    "url_title_role_labels_decisive_for_material_step17_decision": false,
-    "material_used_source_page_inspection_required_in_step17_when_role_matters": true
+    "S16_M01_reproducibility": "RECORDED_AND_OPERATIONALIZED_FOR_FUTURE_RUNS",
+    "S16_M02_query_scope": "RECORDED_AND_EXISTING_RUN_RESCOPED_TO_EXACT_QUERY",
+    "S16_M03_evidence_surface": "RECORDED_AND_EXISTING_RUN_RENAMED_YANDEX_GENSEARCH_API_PROXY",
+    "S16_M04_step_boundary": "RECORDED_AND_OLD_FINAL_DELTA_LABELS_SUPERSEDED"
   },
   "claim_boundaries": {
     "GenSearch_equals_consumer_Alice": false,
@@ -75,11 +48,13 @@
     "C15-019": "OBSERVATION_MIXED",
     "C15-020": "OBSERVATION_INSUFFICIENT_FOR_TARGET_SITE_PAGE_ROLE_DECISION"
   },
-  "step17_handoff": {
-    "mandatory_formal_comparison_cases": ["C15-010"],
-    "explicit_insufficient_cases": ["C15-020"],
-    "final_search_vs_ai_decisions_already_made": false,
-    "new_paid_gensearch_automatically_required": false
+  "final_readback_evidence": {
+    "corrected_observation_blob": "cab34b3593e0f1d988a29c7b462c4e97c189128d",
+    "corrected_ledger_blob": "0e334598f1ef667738f1d5f9cb3befb2773ce754",
+    "corrected_report_blob": "71807bc875832182e3a943e60fe5274ac9618fdf",
+    "current_state_blob_before_final_marker": "5aa770c6bbf77d71c119a06f52d859a4eddf63d1",
+    "job_flow_blob_before_final_marker": "435554e957f85e99cf3a9d324eba1eba0ed1662b",
+    "all_required_corrected_final_artifacts_read_successfully": true
   },
   "acceptance_gate": {
     "EXACT_QUERY_INPUTS_ACCOUNTED": "8/8 PASS",
@@ -92,6 +67,7 @@
     "OLD_FINAL_STEP16_DELTA_LABELS_SUPERSEDED": "PASS",
     "CORRECTED_STEP16_FINAL_ARCHITECTURE_DECISIONS": "0 PASS",
     "ORIGINAL_METHOD_VALIDATION": "FAILED_POST_RUN_AUDIT__RECORDED_NOT_HIDDEN",
+    "FINAL_CORRECTED_GITHUB_READBACK": "PASS",
     "PERMANENT_STEP16_METHOD": "UNVALIDATED"
   },
   "step16_acceptance": "PASS_FOR_CORRECTED_GENSEARCH_EVIDENCE_ACQUISITION_ONLY",
