@@ -1,0 +1,127 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "artifact": "CORRECTED_OBSERVATION_AUTHORITY_V2",
+  "status": "AUTHORITATIVE_FOR_STEP17_INPUT",
+  "supersedes": "final-decision semantics embedded in STEP_16_*_OBSERVATION.json and the old final ledger/report; old files remain historical derivatives",
+  "evidence_surface": "YANDEX_GENSEARCH_API_PROXY",
+  "test_scope": "EXACT_QUERY",
+  "claim_boundaries": [
+    "GEN_SEARCH != CONSUMER_ALICE",
+    "GEN_SEARCH != WEBMASTER_ALICE_VISIBILITY",
+    "one exact query != whole user-job family",
+    "single run != long-term stability",
+    "short-window repetition != long-term stability",
+    "sources array order != rank",
+    "used-source count != rank",
+    "URL/title role label is weak unless current page was directly inspected",
+    "Step16 observation != Step17 final Search-vs-AI decision"
+  ],
+  "cases": [
+    {
+      "case_id": "C15-004",
+      "query": "панорамные алюминиевые окна",
+      "raw_authority": "STEP_16_C15-004_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-c508723a-768f-4bb0-9fc9-010acb4c8b61",
+      "observation": "The generated answer is explanatory/specification-oriented while the four used sources are pages whose URL/title indicate commercial panoramic/aluminium product or manufacturer context. The refined query remains the exact original wording.",
+      "observation_state": "OBSERVED_DIRECTION",
+      "materiality_marker": "NONE",
+      "ambiguity": "Source page roles were inferred primarily from URL/title during the original run and were not directly inspected inside Step16.",
+      "historical_old_label_not_authoritative": "DE_RISK"
+    },
+    {
+      "case_id": "C15-006",
+      "query": "алюминиевые окна для веранды",
+      "raw_authority": "STEP_16_C15-006_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-c64b9a38-a191-4dae-9d3a-bfe7bc682ea9",
+      "observation": "The generated answer keeps the veranda use case and discusses aluminium properties plus warm/cold systems. Two used sources were returned: one aluminium-for-veranda page and one broader veranda/terrace glazing page by URL/title. The refined query remains exact.",
+      "observation_state": "OBSERVED_DIRECTION",
+      "materiality_marker": "NONE",
+      "ambiguity": "No direct current-page inspection of used sources was performed inside Step16.",
+      "historical_old_label_not_authoritative": "NO_CHANGE"
+    },
+    {
+      "case_id": "C15-007",
+      "query": "панорамное остекление балкона",
+      "raw_authority": "STEP_16_C15-007_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-d74b60f0-9d25-4e2d-9455-ad5f069d9a89",
+      "observation": "The generated answer remains explicitly about panoramic/French glazing of balconies. All five returned used sources have balcony/loggia-specific titles/URLs and the refined query remains exact.",
+      "observation_state": "OBSERVED_DIRECTION",
+      "materiality_marker": "NO_CONTROL_ANOMALY_OBSERVED_IN_THIS_RUN",
+      "ambiguity": "This is one exact-query run, not a stability study over time.",
+      "historical_old_label_not_authoritative": "DE_RISK"
+    },
+    {
+      "case_id": "C15-010",
+      "query": "установка подоконника на пластиковые окна",
+      "raw_authority_initial": "STEP_16_C15-010_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "raw_authority_repeat": "STEP_16_C15-010_CONFIRMATION_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id_initial": "search-0edbc660-7498-4854-8810-db8962a7a187",
+      "request_id_repeat": "search-7b59be88-8af5-4869-9d87-1bfd1f8bcc00",
+      "observation_initial": "The generated answer is a procedural installation/how-to response with measurements, preparation, fitting, supports, fixation, tools and a recommendation to call a company if uncertain. Both used sources in the initial run are how-to pages by URL/title.",
+      "observation_repeat": "The second same-query answer again remains procedural installation guidance, covering measurements, radiator clearance, slope, supports, expansion gap, fixation and tools. The used-source mix broadens to include one professional installation-service page plus two how-to pages.",
+      "observation_state": "MATERIAL_OBSERVATION_REPRODUCED_SHORT_WINDOW",
+      "materiality_marker": "HAND_TO_STEP17_FOR_FORMAL_COMPARISON",
+      "allowed_claim": "Installation/how-to direction reproduced in two same-query observations in a short bounded window.",
+      "forbidden_claims": [
+        "long-term AI stability proven",
+        "consumer Alice behaves this way",
+        "architecture change confirmed",
+        "new page required"
+      ],
+      "historical_old_labels_not_authoritative": ["CHANGE_CANDIDATE","CHANGE_CONFIRMED"]
+    },
+    {
+      "case_id": "C15-013",
+      "query": "французские панорамные окна",
+      "raw_authority": "STEP_16_C15-013_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-92c60034-6607-49c2-84bb-9daca6e4fcaf",
+      "observation": "The generated answer explicitly defines and discusses French panoramic windows/window-doors. Three used sources have French-window-specific titles/URLs; the generic panoramic commercial source is returned but used=false. The refined query remains exact.",
+      "observation_state": "OBSERVED_DIRECTION",
+      "materiality_marker": "NONE",
+      "ambiguity": "Used-page roles were not directly inspected inside Step16.",
+      "historical_old_label_not_authoritative": "DE_RISK"
+    },
+    {
+      "case_id": "C15-018",
+      "query": "замена окна на пластиковое цена москва",
+      "raw_authority": "STEP_16_C15-018_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-9d0964a5-07ef-432d-b9b7-43c90074783c",
+      "observation": "The generated answer is framed around replacement cost in Moscow while drawing on a mixed commercial source set: one replacement-specific page and several broader plastic-window/turnkey-price pages by URL/title. Two refined queries appear: one generic turnkey-price query and the exact replacement query.",
+      "observation_state": "OBSERVATION_MIXED",
+      "materiality_marker": "NO_CONTROL_ANOMALY_CONFIRMED_IN_THIS_SINGLE_RUN",
+      "ambiguity": "One run cannot establish stable control behavior; source-role hierarchy cannot be inferred from counts/order.",
+      "historical_old_label_not_authoritative": "NO_CHANGE"
+    },
+    {
+      "case_id": "C15-019",
+      "query": "как открыть пластиковое окно",
+      "raw_authority": "STEP_16_C15-019_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-14a0e70a-a191-4e66-9573-1045999a7ea3",
+      "observation": "The generated answer mixes jammed-window/hardware troubleshooting, including a window stuck in two positions, with outside/emergency-opening techniques. The three used sources also mix one troubleshooting page and two outside-opening pages by URL/title. The refined query remains the exact ambiguous wording.",
+      "observation_state": "OBSERVATION_MIXED",
+      "materiality_marker": "NONE",
+      "ambiguity": "The exact query itself remains semantically ambiguous in this run.",
+      "historical_old_label_not_authoritative": "NO_CHANGE"
+    },
+    {
+      "case_id": "C15-020",
+      "query": "лучшие пластиковые окна",
+      "raw_authority": "STEP_16_C15-020_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+      "request_id": "search-5a162108-6e18-47e8-b383-9346076b572c",
+      "observation": "The generated answer treats the exact query as a ranking/comparison question and compares profile systems/models. Used sources by URL/title span a best-windows ranking, a window-brand ranking and a profile/manufacturer comparison. Refined queries are 'рейтинг пластиковых окон 2026' and the exact original query. No OKNO_MSK page appears in used evidence.",
+      "observation_state": "OBSERVATION_INSUFFICIENT",
+      "materiality_marker": "INSUFFICIENT_FOR_TARGET_SITE_PAGE_ROLE_DECISION",
+      "ambiguity": "External topic overlap does not establish competition or hierarchy among OKNO_MSK pages.",
+      "historical_old_label_not_authoritative": "INSUFFICIENT"
+    }
+  ],
+  "step17_boundary": {
+    "final_search_vs_ai_verdicts_exist": false,
+    "final_architecture_decisions_exist": false,
+    "mandatory_material_case_for_review": ["C15-010"],
+    "explicit_insufficient_case": ["C15-020"],
+    "step17_must_use_raw_plus_this_corrected_authority": true
+  }
+}
