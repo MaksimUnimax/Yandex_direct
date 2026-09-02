@@ -3,15 +3,17 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_SYNC_RETRY3_REQUIRED__STEP15_BLOCKED",
-  "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_CORRECTION",
+  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_SYNC_LOCALLY_RESOLVED__CRAWLER_EXECUTION_RELIABILITY_BLOCKED__RETRY4_REQUIRED__STEP15_BLOCKED",
+  "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_AND_EXECUTION_RELIABILITY_CORRECTION",
   "canonical_step_method": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md",
   "universal_codex_gate": "RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md",
   "universal_evidence_conflict_gate": "RULES_ARCHITECTURE_CODEX_EVIDENCE_CONFLICT_PRESERVATION_ADDENDUM_2026-09-02.md",
+  "universal_execution_reliability_gate": "RULES_ARCHITECTURE_CODEX_EXECUTION_RELIABILITY_GATE_ADDENDUM_2026-09-02.md",
   "step14_repository_sync_gate": "STEP_14_CODEX_REPOSITORY_SYNC_GATE.md",
+  "step14_crawler_execution_reliability_gate": "STEP_14_CODEX_CRAWLER_EXECUTION_RELIABILITY_GATE.md",
   "job_correction_gate": "STEP_14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_AND_GATE_2026-09-02.md",
   "exact_codex_prompt": "STEP_14A_CODEX_PROMPT_2026-09-02.md",
-  "current_retry_prompt": "STEP_14A_CODEX_RETRY_PROMPT_AFTER_STEP11_EVIDENCE_CONFLICT_2026-09-02.md",
+  "current_retry_prompt": "STEP_14A_CODEX_RETRY_PROMPT_CRAWLER_RELIABILITY_2026-09-02.md",
   "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
   "semantic_freeze": {
     "status": "PROVISIONAL_PASS_PRESERVED",
@@ -19,7 +21,7 @@
     "previous_qa_status": "PASS_SEARCH_ONLY_ARCHITECTURE_FREEZE",
     "previous_acceptance": "STEP_14_ACCEPTANCE_2026-09-01.md",
     "previous_report": "STEP_14_REPORT.md",
-    "note": "The previous semantic/accounting result remains usable as the baseline, but its overall COMPLETE status was superseded by the 2026-09-02 external post-run audit because known-URL recheck did not prove full current-site discovery and endpoint liveness did not prove literal current href implementation."
+    "note": "The previous semantic/accounting result remains usable as the baseline, but its overall COMPLETE status was superseded by the 2026-09-02 post-run audit because known-URL recheck did not prove full current-site discovery and endpoint liveness did not prove literal current href implementation."
   },
   "post_run_external_audit": {
     "completed": true,
@@ -29,15 +31,13 @@
       "SOURCE_LIVE_PLUS_TARGET_LIVE_PLUS_SEMANTIC_FIT_WAS_TREATED_TOO_CLOSE_TO_EDGE_IMPLEMENTED",
       "STEP11_CODEX_DISCOVERY_PRECEDENT_WAS_NOT_PROMOTED_INTO_STEP14_ACCEPTANCE_GATE"
     ],
-    "root_cause": "Anti-speculation and upstream-scope-preservation controls were applied too broadly, causing the accepted upstream URL universe to behave as a closed current-site universe. The link schema also failed to require separate recommendation_state and as_is_topology_state fields.",
-    "non_repeat_control": "Mandatory deterministic Codex/code discovery and literal HTML topology evidence before completeness/topology-dependent Step-14 PASS."
+    "non_repeat_control": "Mandatory deterministic current-site discovery plus literal HTML topology evidence and qualified deterministic execution before completeness/topology-dependent Step-14 PASS."
   },
   "codex_repository_sync": {
     "required": true,
     "attempt_1": {
       "status": "BLOCKED_SAFELY_STALE_LOCAL_REPOSITORY_STATE",
       "local_head": "bd5766a6498577176aaf8d0210a80c670cde4c39",
-      "consequence": "Mandatory Step-14A files appeared absent locally because the clone had not fetched current remote authority.",
       "public_site_requests": 0,
       "step14a_execution_started": false
     },
@@ -50,21 +50,23 @@
       "sync_mode": "SAFE_MERGE_ATTEMPT_ABORTED",
       "conflict_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_CODEX_PAGE_REFRESH_REPORT.md",
       "conflict_type": "add/add",
-      "worktree_after_abort": "clean",
       "local_commit_lost": false,
-      "public_site_requests": 0,
-      "step14a_execution_started": false,
-      "blocked_run_artifact": "STEP_14A_CODEX_BLOCKED_RUN_STEP11_ADD_ADD_CONFLICT_2026-09-02.md"
+      "step14a_execution_started": false
     },
-    "retry_3": {
-      "required": true,
-      "prompt": "STEP_14A_CODEX_RETRY_PROMPT_AFTER_STEP11_EVIDENCE_CONFLICT_2026-09-02.md",
-      "required_method": "FETCH_LATEST_REMOTE__SAFE_MERGE__BLOB_COMPARISON__LOSSLESS_EVIDENCE_PRESERVATION__MANDATORY_FILE_GATE__FULL_STEP14A_EXECUTION__NORMAL_PUSH",
-      "run_executed": false,
-      "merge_complete": false,
-      "outputs_persisted": false,
-      "push_complete": false,
-      "github_readback": false
+    "attempt_3": {
+      "status": "SYNC_COMPLETE_LOCALLY__EVIDENCE_PRESERVED__NOT_PUSHED",
+      "local_head_before_sync": "bd5766a6498577176aaf8d0210a80c670cde4c39",
+      "remote_head_after_fetch": "148780ef5dc88f4d2daca21fdfaa70b64bc33cc2",
+      "relationship": "DIVERGED",
+      "backup_ref": "codex/backup-step14a-pre-sync-20260902",
+      "sync_mode": "SAFE_MERGE_WITH_EVIDENCE_PRESERVATION",
+      "local_head_after_sync": "4675ccd18fa3ac4b12bcbc8ff8191a7220ee01a6",
+      "conflict_count": 1,
+      "conflict_classification": "EVIDENCE_PRESERVATION_CONFLICT",
+      "mandatory_files_present_after_sync": "16/16",
+      "unexplained_evidence_loss": 0,
+      "push_status": "NOT_PUSHED",
+      "blocked_run_artifact": "STEP_14A_CODEX_BLOCKED_RUN_CRAWLER_EXECUTION_RELIABILITY_2026-09-02.md"
     },
     "causal_lessons": [
       "LOCAL_BRANCH_NAME_MATCH_DOES_NOT_PROVE_REMOTE_STATE_CURRENT",
@@ -73,6 +75,38 @@
       "EVIDENCE_CONFLICT_DOES_NOT_AUTHORIZE_PICKING_ONE_VERSION",
       "PRESERVE_BOTH_DOES_NOT_MAKE_BOTH_CANONICAL"
     ]
+  },
+  "codex_execution_reliability": {
+    "status": "BLOCKED__RUNNER_EXECUTION_RELIABILITY_NOT_PROVEN",
+    "runner_added_locally": true,
+    "runner_pushed": false,
+    "first_failure": "TLS_OPENER_ARGUMENT_BUG_BEFORE_FETCH",
+    "first_failure_reported_fixed": true,
+    "isolated_homepage_http_200_html": true,
+    "bounded_runner_attempts_made_public_requests": true,
+    "bounded_runner_terminal_completion_observed": false,
+    "bounded_runner_terminal_error_observed": false,
+    "required_step14a_outputs_updated": false,
+    "qa_valid": false,
+    "claim_boundary": "Isolated HTTP 200 proves basic tested network reachability only. It does not prove runner termination, queue/deduplication/sitemap/finalization correctness, or full crawl completeness.",
+    "qualification_required": {
+      "Q1_construction_static": "REQUIRED",
+      "Q2_one_page_runner_fetch_parse_exit": "REQUIRED",
+      "Q3_finite_recursive_mini_crawl": "REQUIRED",
+      "Q4_sitemap_probe": "REQUIRED",
+      "full_crawl_allowed_before_Q1_Q4_pass": false
+    },
+    "required_controls": [
+      "PER_REQUEST_TIMEOUT",
+      "BOUNDED_RETRIES",
+      "GLOBAL_DEADLINE_OR_WATCHDOG",
+      "PROGRESS_HEARTBEAT_OR_CHECKPOINT",
+      "QUEUED_ATTEMPTED_COMPLETED_FAILED_COUNTERS",
+      "EXPLICIT_TERMINAL_STATE_AND_REASON",
+      "CURRENT_RUN_OUTPUT_ATTRIBUTION",
+      "STAGING_OUTPUTS_SEPARATE_FROM_FINAL_ARTIFACTS"
+    ],
+    "blocked_run_artifact": "STEP_14A_CODEX_BLOCKED_RUN_CRAWLER_EXECUTION_RELIABILITY_2026-09-02.md"
   },
   "codex_correction": {
     "required": true,
@@ -102,15 +136,6 @@
     "step13_effective_pairs": 199,
     "step13_query_family_cases": 21
   },
-  "structural_action_counts_provisionally_preserved": {
-    "KEEP_EXISTING_STRUCTURE": 72,
-    "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": 46,
-    "DEFER_PENDING_EVIDENCE": 20,
-    "NO_STANDALONE_PAGE": 15,
-    "OUTSIDE_SCOPE_NO_ACTION": 7,
-    "ADD_SECTION_OR_FAQ_TO_EXISTING": 6,
-    "EXPAND_EXISTING_PAGE": 2
-  },
   "previous_known_url_recheck": {
     "unique_urls_checked": 59,
     "live_pass": 59,
@@ -135,8 +160,7 @@
   "destructive_and_new_page_policy": {
     "current_supported_new_page_actions": 0,
     "current_supported_destructive_actions": 0,
-    "merge_delete_redirect_canonical_actions": 0,
-    "note": "New Codex discovery alone does not authorize any of these actions."
+    "merge_delete_redirect_canonical_actions": 0
   },
   "historical_claim_boundary": {
     "historical_cannibalization_absence_claim": false,
@@ -152,6 +176,6 @@
   "step15_executed": false,
   "step16_executed": false,
   "next_step_allowed": false,
-  "next_step_scope": "STEP14A_CODEX_RETRY3_SAFE_SYNC_AND_DISCOVERY_TOPOLOGY_ONLY",
-  "next_required_action": "Owner runs STEP_14A_CODEX_RETRY_PROMPT_AFTER_STEP11_EVIDENCE_CONFLICT_2026-09-02.md in Codex. Codex must fetch the latest canonical remote branch, losslessly reconcile the Step-11 add/add evidence conflict by blob comparison/provenance preservation, complete a safe merge preserving both histories, execute the full canonical Step-14A discovery/topology prompt, commit and normal-push the evidence. ChatGPT must then read back every pushed Step-14A artifact, semantically reconcile all newly discovered URLs and all 15 required edges, reopen affected units only when evidence requires it, rerun final QA, and only then decide whether Step 14 can return to COMPLETE."
+  "next_step_scope": "STEP14A_CODEX_RETRY4_RUNNER_QUALIFICATION_AND_DISCOVERY_TOPOLOGY_ONLY",
+  "next_required_action": "Owner runs STEP_14A_CODEX_RETRY_PROMPT_CRAWLER_RELIABILITY_2026-09-02.md in Codex. Codex must preserve local synchronized history and runner work, fetch and safely integrate the latest remote reliability rules, inspect and instrument the actual local runner, pass Q1 construction/static qualification, Q2 one-page runner fetch+parse+exit, Q3 finite recursive mini-crawl, and Q4 bounded sitemap probe before any full crawl. If any stage blocks, Codex must commit and normal-push bounded diagnostic code/evidence when safe so ChatGPT can inspect the actual runner. Only after Q1-Q4 pass may Codex execute the full Step-14A crawl, publish current-run-attributed final artifacts, normal-push them, and return the report for GitHub readback and semantic reconciliation. Step 15 remains blocked."
 }
