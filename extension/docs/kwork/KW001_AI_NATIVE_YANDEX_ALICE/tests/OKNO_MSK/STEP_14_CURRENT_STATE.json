@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_SYNC_LOCALLY_RESOLVED__CRAWLER_EXECUTION_RELIABILITY_BLOCKED__RETRY4_REQUIRED__STEP15_BLOCKED",
+  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_REPOSITORY_INTEGRATED_LOCALLY__RUNNER_CHECKPOINT_PRESERVED__Q1_Q4_QUALIFICATION_READY__STEP15_BLOCKED",
   "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_AND_EXECUTION_RELIABILITY_CORRECTION",
   "canonical_step_method": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md",
   "universal_codex_gate": "RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md",
@@ -13,7 +13,8 @@
   "step14_crawler_execution_reliability_gate": "STEP_14_CODEX_CRAWLER_EXECUTION_RELIABILITY_GATE.md",
   "job_correction_gate": "STEP_14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_AND_GATE_2026-09-02.md",
   "exact_codex_prompt": "STEP_14A_CODEX_PROMPT_2026-09-02.md",
-  "current_retry_prompt": "STEP_14A_CODEX_RETRY_PROMPT_CRAWLER_RELIABILITY_2026-09-02.md",
+  "qualification_prompt": "STEP_14A_CODEX_Q1_Q4_QUALIFICATION_PROMPT_2026-09-02.md",
+  "retry4_checkpoint_artifact": "STEP_14A_CODEX_RETRY4_CHECKPOINT_AND_QUALIFICATION_READY_2026-09-02.md",
   "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
   "semantic_freeze": {
     "status": "PROVISIONAL_PASS_PRESERVED",
@@ -21,7 +22,7 @@
     "previous_qa_status": "PASS_SEARCH_ONLY_ARCHITECTURE_FREEZE",
     "previous_acceptance": "STEP_14_ACCEPTANCE_2026-09-01.md",
     "previous_report": "STEP_14_REPORT.md",
-    "note": "The previous semantic/accounting result remains usable as the baseline, but its overall COMPLETE status was superseded by the 2026-09-02 post-run audit because known-URL recheck did not prove full current-site discovery and endpoint liveness did not prove literal current href implementation."
+    "claim_boundary": "Previous semantic/accounting baseline remains usable, but overall COMPLETE is superseded until deterministic current-site discovery and literal as-is topology are qualified, executed, read back and semantically reconciled."
   },
   "post_run_external_audit": {
     "completed": true,
@@ -34,39 +35,36 @@
     "non_repeat_control": "Mandatory deterministic current-site discovery plus literal HTML topology evidence and qualified deterministic execution before completeness/topology-dependent Step-14 PASS."
   },
   "codex_repository_sync": {
-    "required": true,
     "attempt_1": {
       "status": "BLOCKED_SAFELY_STALE_LOCAL_REPOSITORY_STATE",
-      "local_head": "bd5766a6498577176aaf8d0210a80c670cde4c39",
-      "public_site_requests": 0,
-      "step14a_execution_started": false
+      "local_head": "bd5766a6498577176aaf8d0210a80c670cde4c39"
     },
     "attempt_2": {
       "status": "BLOCKED_SAFELY_STEP11_ADD_ADD_EVIDENCE_CONFLICT",
-      "local_head_before_sync": "bd5766a6498577176aaf8d0210a80c670cde4c39",
       "remote_head_after_fetch": "a9f54e2a5c2721c84024ec442f8dafad40ccdd8d",
-      "relationship": "DIVERGED",
-      "backup_ref": "codex/backup-step14a-pre-sync-20260902",
-      "sync_mode": "SAFE_MERGE_ATTEMPT_ABORTED",
-      "conflict_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_CODEX_PAGE_REFRESH_REPORT.md",
-      "conflict_type": "add/add",
-      "local_commit_lost": false,
-      "step14a_execution_started": false
+      "backup_ref": "codex/backup-step14a-pre-sync-20260902"
     },
     "attempt_3": {
-      "status": "SYNC_COMPLETE_LOCALLY__EVIDENCE_PRESERVED__NOT_PUSHED",
-      "local_head_before_sync": "bd5766a6498577176aaf8d0210a80c670cde4c39",
+      "status": "SYNC_COMPLETE_LOCALLY__EVIDENCE_PRESERVED",
       "remote_head_after_fetch": "148780ef5dc88f4d2daca21fdfaa70b64bc33cc2",
-      "relationship": "DIVERGED",
-      "backup_ref": "codex/backup-step14a-pre-sync-20260902",
-      "sync_mode": "SAFE_MERGE_WITH_EVIDENCE_PRESERVATION",
       "local_head_after_sync": "4675ccd18fa3ac4b12bcbc8ff8191a7220ee01a6",
+      "sync_mode": "SAFE_MERGE_WITH_EVIDENCE_PRESERVATION",
       "conflict_count": 1,
       "conflict_classification": "EVIDENCE_PRESERVATION_CONFLICT",
-      "mandatory_files_present_after_sync": "16/16",
       "unexplained_evidence_loss": 0,
-      "push_status": "NOT_PUSHED",
-      "blocked_run_artifact": "STEP_14A_CODEX_BLOCKED_RUN_CRAWLER_EXECUTION_RELIABILITY_2026-09-02.md"
+      "mandatory_files_present_after_sync": "16/16"
+    },
+    "retry4": {
+      "status": "AUTHORITY_INTEGRATED_LOCALLY__RUNNER_CHECKPOINT_PRESERVED__QUALIFICATION_READY",
+      "local_head_retry4_start": "4675ccd18fa3ac4b12bcbc8ff8191a7220ee01a6",
+      "worktree_retry4_start": "UNCOMMITTED_RUNNER_PLUS_INVALID_FINAL_NAMED_DIAGNOSTIC_ARTIFACTS",
+      "remote_head_after_fetch_retry4": "dbbc8d1b32aec33a956b9ed8e844885da2b296e5",
+      "sync_mode_retry4": "CHECKPOINT_THEN_SAFE_MERGE",
+      "runner_checkpoint_commit": "7f0abb92f0007180923ce43d74670e32d3adc629",
+      "local_head_after_remote_integration": "4dce8e4c1cbc5495e2371b630603718c35a3f62f",
+      "crawler_script_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step14a_codex_site_discovery.py",
+      "checkpoint_contains_claimed_final_step14a_evidence": false,
+      "repository_authority_integration_complete_locally": true
     },
     "causal_lessons": [
       "LOCAL_BRANCH_NAME_MATCH_DOES_NOT_PROVE_REMOTE_STATE_CURRENT",
@@ -77,42 +75,45 @@
     ]
   },
   "codex_execution_reliability": {
-    "status": "BLOCKED__RUNNER_EXECUTION_RELIABILITY_NOT_PROVEN",
+    "status": "QUALIFICATION_READY__Q1_Q4_NOT_YET_REPORTED_UNDER_CURRENT_GATE",
     "runner_added_locally": true,
+    "runner_checkpoint_preserved": true,
     "runner_pushed": false,
     "first_failure": "TLS_OPENER_ARGUMENT_BUG_BEFORE_FETCH",
     "first_failure_reported_fixed": true,
     "isolated_homepage_http_200_html": true,
-    "bounded_runner_attempts_made_public_requests": true,
-    "bounded_runner_terminal_completion_observed": false,
-    "bounded_runner_terminal_error_observed": false,
-    "required_step14a_outputs_updated": false,
-    "qa_valid": false,
-    "claim_boundary": "Isolated HTTP 200 proves basic tested network reachability only. It does not prove runner termination, queue/deduplication/sitemap/finalization correctness, or full crawl completeness.",
+    "bounded_runner_terminal_completion_previously_observed": false,
+    "required_step14a_outputs_valid": false,
+    "stale_final_named_diagnostic_artifacts_present_locally": true,
+    "stale_final_named_diagnostic_artifacts_committed": false,
+    "stale_final_named_artifact_policy": "QUARANTINE_UNIQUE_DIAGNOSTIC_CONTENT_UNDER_NON_FINAL_NAMES_OR_REMOVE_IF_NO_UNIQUE_VALUE; FINAL_REQUIRED_NAMES_MUST_BE_CLEAN_BEFORE_QUALIFICATION_PUBLICATION",
     "qualification_required": {
-      "Q1_construction_static": "REQUIRED",
-      "Q2_one_page_runner_fetch_parse_exit": "REQUIRED",
-      "Q3_finite_recursive_mini_crawl": "REQUIRED",
-      "Q4_sitemap_probe": "REQUIRED",
+      "Q1_construction_static": "NEXT",
+      "Q2_one_page_runner_fetch_parse_exit": "BLOCKED_UNTIL_Q1_PASS",
+      "Q3_finite_recursive_mini_crawl": "BLOCKED_UNTIL_Q2_PASS",
+      "Q4_bounded_sitemap_probe": "BLOCKED_UNTIL_Q3_PASS",
       "full_crawl_allowed_before_Q1_Q4_pass": false
     },
+    "full_crawl_eligibility": false,
+    "qualification_prompt": "STEP_14A_CODEX_Q1_Q4_QUALIFICATION_PROMPT_2026-09-02.md",
     "required_controls": [
+      "UNIQUE_RUN_ID",
       "PER_REQUEST_TIMEOUT",
       "BOUNDED_RETRIES",
       "GLOBAL_DEADLINE_OR_WATCHDOG",
+      "FINITE_MAX_PAGES_FOR_MINI_CRAWL",
+      "FINITE_SITEMAP_DOCUMENT_AND_URL_BOUNDS",
       "PROGRESS_HEARTBEAT_OR_CHECKPOINT",
       "QUEUED_ATTEMPTED_COMPLETED_FAILED_COUNTERS",
       "EXPLICIT_TERMINAL_STATE_AND_REASON",
       "CURRENT_RUN_OUTPUT_ATTRIBUTION",
       "STAGING_OUTPUTS_SEPARATE_FROM_FINAL_ARTIFACTS"
-    ],
-    "blocked_run_artifact": "STEP_14A_CODEX_BLOCKED_RUN_CRAWLER_EXECUTION_RELIABILITY_2026-09-02.md"
+    ]
   },
   "codex_correction": {
     "required": true,
-    "owner_required": true,
-    "prompt_prepared": true,
-    "run_executed": false,
+    "qualification_complete": false,
+    "full_run_executed": false,
     "outputs_persisted": false,
     "github_readback": false,
     "analytical_reconciliation_complete": false,
@@ -140,13 +141,13 @@
     "unique_urls_checked": 59,
     "live_pass": 59,
     "live_fail_or_indeterminate": 0,
-    "claim_boundary_after_correction": "This proves the selected known URLs were live at recheck time. It does not prove complete current-site discovery."
+    "claim_boundary_after_correction": "Known URL freshness only; not current-site completeness proof."
   },
   "previous_internal_link_freeze": {
     "rows": 58,
     "recommended_implement_edges": 15,
     "unchanged_defer_or_not_applicable": 43,
-    "claim_boundary_after_correction": "The 15 IMPLEMENT rows remain recommendations pending literal current HTML classification as AS_IS_PRESENT, AS_IS_ABSENT_PLANNED, BLOCKED_OR_UNVERIFIED, or NOT_APPLICABLE."
+    "claim_boundary_after_correction": "15 IMPLEMENT rows remain recommendations pending literal current HTML as-is classification."
   },
   "unresolved_provisionally_preserved": {
     "baseline_rows": 19,
@@ -176,6 +177,6 @@
   "step15_executed": false,
   "step16_executed": false,
   "next_step_allowed": false,
-  "next_step_scope": "STEP14A_CODEX_RETRY4_RUNNER_QUALIFICATION_AND_DISCOVERY_TOPOLOGY_ONLY",
-  "next_required_action": "Owner runs STEP_14A_CODEX_RETRY_PROMPT_CRAWLER_RELIABILITY_2026-09-02.md in Codex. Codex must preserve local synchronized history and runner work, fetch and safely integrate the latest remote reliability rules, inspect and instrument the actual local runner, pass Q1 construction/static qualification, Q2 one-page runner fetch+parse+exit, Q3 finite recursive mini-crawl, and Q4 bounded sitemap probe before any full crawl. If any stage blocks, Codex must commit and normal-push bounded diagnostic code/evidence when safe so ChatGPT can inspect the actual runner. Only after Q1-Q4 pass may Codex execute the full Step-14A crawl, publish current-run-attributed final artifacts, normal-push them, and return the report for GitHub readback and semantic reconciliation. Step 15 remains blocked."
+  "next_step_scope": "STEP14A_CODEX_Q1_Q4_RUNNER_QUALIFICATION_ONLY__FULL_CRAWL_ONLY_IF_ALL_PASS",
+  "next_required_action": "Owner runs STEP_14A_CODEX_Q1_Q4_QUALIFICATION_PROMPT_2026-09-02.md in Codex. Codex must fetch and safely integrate latest remote authority, quarantine misleading old final-named diagnostic artifacts, inspect/instrument the preserved runner, execute Q1 construction/static qualification, Q2 one-page runner fetch+parse+exit, Q3 finite recursive mini-crawl, and Q4 bounded sitemap probe in sequence. Any failed stage blocks the next/full crawl and requires runner+diagnostics commit and normal push. Only Q1-Q4 PASS may set FULL_CRAWL_ELIGIBLE=true and permit the canonical Step-14A full crawl. Step 15 remains blocked."
 }
