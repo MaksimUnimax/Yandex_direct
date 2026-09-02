@@ -1,0 +1,297 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "step_name": "AI-search evidence acquisition",
+  "status": "FROZEN_FOR_OWNER_REVIEW__PROVIDER_NOT_AUTHORIZED",
+  "method_authority": {
+    "permanent_status": "UNVALIDATED",
+    "job_specific_review": "STEP_16_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
+    "research_to_execution_schema": "STEP_16_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
+    "input_authority": "STEP_15_SELECTED_CASES_V2.tsv",
+    "step15_method": "../../STEP_15_AI_CASE_SELECTION_METHOD.md"
+  },
+  "research_authorities": [
+    "https://aistudio.yandex.ru/en/docs/search-api/concepts/generative-response",
+    "https://aistudio.yandex.ru/ru/docs/search-api/api-ref/GenSearch/search",
+    "https://aistudio.yandex.ru/en/docs/search-api/concepts/limits",
+    "https://aistudio.yandex.ru/ru/docs/search-api/pricing",
+    "https://yandex.ru/support/webmaster/en/alice",
+    "https://yandex.ru/support/webmaster/ru/service/alice-answers",
+    "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+    "../../BRIDGE_EVIDENCE_PERSISTENCE_GATE.md",
+    "../../CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md",
+    "../../RESEARCH_TO_EXECUTION_SCHEMA_GATE.md",
+    "../../SOURCE_TO_METHOD_TRACEABILITY_GATE.md"
+  ],
+  "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+  "access_states": {
+    "yandex_webmaster": "UNAVAILABLE",
+    "owned_webmaster_alice_visibility": "UNAVAILABLE_NOT_EXECUTED",
+    "official_gensearch": "AVAILABLE_PENDING_OWNER_PROVIDER_AUTHORIZATION"
+  },
+  "tool_capability_states": {
+    "bridge_branch": "bridge/webmaster-readiness-gzip-v0.1.4",
+    "bridge_head": "8bb1365a9905df8a6d7e09917e81444a9b7f1024",
+    "bridge_version": "0.1.4",
+    "bridge_full_gate": "33491679086_SUCCESS",
+    "search_service": "AVAILABLE",
+    "gensearch_method": "AVAILABLE",
+    "gensearch_batch": "NOT_AVAILABLE_NOT_REQUIRED",
+    "gensearch_scope_fields_in_bridge_command": "NOT_EXPOSED_NOT_REQUIRED",
+    "new_bridge_engineering": "NOT_REQUIRED"
+  },
+  "input_universe": {
+    "selected_case_count": 8,
+    "selected_set_type": "DECISION_DIAGNOSTIC_SET_WITH_STABILITY_CONTROLS",
+    "representative_sample": false,
+    "case_ids": [
+      "C15-004",
+      "C15-006",
+      "C15-007",
+      "C15-010",
+      "C15-013",
+      "C15-018",
+      "C15-019",
+      "C15-020"
+    ],
+    "queries": [
+      "панорамные алюминиевые окна",
+      "алюминиевые окна для веранды",
+      "панорамное остекление балкона",
+      "установка подоконника на пластиковые окна",
+      "французские панорамные окна",
+      "замена окна на пластиковое цена москва",
+      "как открыть пластиковое окно",
+      "лучшие пластиковые окна"
+    ],
+    "case_plan": "STEP_16_CASE_EXECUTION_PLAN_2026-09-02.tsv",
+    "v1_step15_artifacts_allowed_as_input": false
+  },
+  "required_sources": [
+    "official GenSearch provider result per selected case",
+    "exact frozen Step-15 V2 baseline and preregistered conditions"
+  ],
+  "optional_sources": [
+    {
+      "source": "owned Yandex Webmaster Alice visibility",
+      "state": "UNAVAILABLE_NOT_EXECUTED",
+      "reason": "current job has no usable Webmaster access",
+      "base_step_blocked": false
+    }
+  ],
+  "reuse_existing_evidence": {
+    "step15_v2_selected_cases": "REUSED",
+    "ordinary_search_baselines": "REUSED_BY_REFERENCE_ONLY__NO_FRESH_SEARCH_PLANNED",
+    "step14a_architecture_deltas": "REUSED_BY_STEP15_PRE_REGISTRATION",
+    "consumer_alice_old_project_validation": "METHOD_CONTEXT_ONLY__NOT_OKNO_MSK_EVIDENCE"
+  },
+  "freshness_requirements": {
+    "provider_method_research_checked": "2026-09-02",
+    "pricing_checked": "2026-09-02",
+    "quota_checked": "2026-09-02",
+    "bridge_source_checked": "2026-09-02",
+    "runtime_identity_rule": "first actual delivered provider result must report expected compatible bridge identity; material mismatch blocks next provider action"
+  },
+  "planned_provider_calls": {
+    "initial": {
+      "status": "PLANNED_NOT_AUTHORIZED",
+      "count": 8,
+      "operation": "SEARCH_API_V1 method=genSearch",
+      "mode": "SEQUENTIAL_MANUAL_ONE_COMMAND",
+      "unit_cost_rub": 5.08,
+      "planned_cost_rub": 40.64,
+      "confirm_billable": true
+    },
+    "semantic_confirmation": {
+      "status": "CONDITIONAL_PLANNED_NOT_AUTHORIZED",
+      "trigger": "initial useful observation classified CHANGE_CANDIDATE or CONTROL_BREAK_CANDIDATE",
+      "operation": "same exact authoritative_query, one additional GenSearch observation",
+      "max_count": 8,
+      "unit_cost_rub": 5.08,
+      "max_incremental_cost_rub": 40.64,
+      "purpose": "test bounded reproduction of material direction before Step17 receives architecture-changing evidence",
+      "not_claimed": "statistical representativeness or long-term temporal stability"
+    },
+    "no_usable_or_unknown_retries": {
+      "status": "CONDITIONAL_OWNER_PREAUTHORIZED_BY_EXISTING_RULE_BUT_NOT_YET_TRIGGERED",
+      "trigger": "no usable result or OUTCOME_UNKNOWN",
+      "max_additional_retries_per_failed_original": 3,
+      "max_additional_retries_if_all_8_trigger": 24,
+      "unit_cost_rub": 5.08,
+      "theoretical_max_incremental_cost_rub": 121.92,
+      "mandatory_pre_retry_chat_announcement": true,
+      "same_exact_question_required": true,
+      "after_retry_3_failure": "INSUFFICIENT__NO_MORE_PAID_REPLAY_WITHOUT_NEW_OWNER_AUTHORIZATION"
+    },
+    "theoretical_absolute_envelope": {
+      "description": "Pathological maximum if every case used all 3 failure/unknown retries and later one semantic confirmation.",
+      "provider_calls": 40,
+      "cost_rub": 203.20,
+      "planned_spend": false
+    }
+  },
+  "execution_order": [
+    "C15-004",
+    "C15-006",
+    "C15-007",
+    "C15-010",
+    "C15-013",
+    "C15-018",
+    "C15-019",
+    "C15-020"
+  ],
+  "per_interaction_gate": {
+    "before_command": [
+      "verify exact case_id and authoritative_query against STEP_15_SELECTED_CASES_V2.tsv",
+      "state attempt_type and expected incremental cost",
+      "confirm provider authorization covers this interaction",
+      "for retry: announce retry ordinal/reason/cost in chat",
+      "for semantic confirmation: verify initial material candidate is already durably persisted/read back"
+    ],
+    "after_delivery_before_analysis_or_next_paid_action": [
+      "determine request_executed truth",
+      "determine provider outcome known vs OUTCOME_UNKNOWN",
+      "determine whether result is analytically usable",
+      "persist complete useful raw provider result in GitHub",
+      "read back saved raw result",
+      "reconcile exact query/case identity",
+      "reconcile full message/sources/searchQueries and transport metadata",
+      "materialize normalized observation",
+      "read back normalized observation",
+      "only then classify outcome and allow next paid action"
+    ],
+    "stop_on_failure": true
+  },
+  "raw_evidence_naming": {
+    "initial": "STEP_16_<CASE_ID>_INITIAL_GENSEARCH_RAW.json",
+    "retry": "STEP_16_<CASE_ID>_RETRY_<N>_GENSEARCH_RAW.json",
+    "confirmation": "STEP_16_<CASE_ID>_CONFIRMATION_GENSEARCH_RAW.json"
+  },
+  "normalized_observation_naming": {
+    "initial": "STEP_16_<CASE_ID>_INITIAL_OBSERVATION.json",
+    "retry": "STEP_16_<CASE_ID>_RETRY_<N>_OBSERVATION.json",
+    "confirmation": "STEP_16_<CASE_ID>_CONFIRMATION_OBSERVATION.json"
+  },
+  "normalized_observation_required_fields": [
+    "case_id",
+    "case_role",
+    "query_family_id",
+    "authoritative_query",
+    "attempt_type",
+    "attempt_ordinal",
+    "observed_at",
+    "bridge_version",
+    "request_id",
+    "http_status",
+    "request_executed",
+    "automatic_retry",
+    "provider_cost_rub",
+    "message_content",
+    "message_role",
+    "sources_total",
+    "sources_used_count",
+    "sources_full",
+    "search_queries_total",
+    "search_queries_full",
+    "fixed_misspell_query",
+    "is_answer_rejected",
+    "is_bullet_answer",
+    "hints",
+    "problematic_answer",
+    "transport_wire_format",
+    "transport_frame_count",
+    "evidence_usability",
+    "message_orientation_summary",
+    "used_target_domain_urls",
+    "primary_owner_used",
+    "supporting_owner_used",
+    "source_order_rank_inference",
+    "condition_match_evidence",
+    "initial_or_confirmation_outcome",
+    "raw_evidence_ref",
+    "claim_boundary"
+  ],
+  "outcome_taxonomy": {
+    "initial_allowed": [
+      "CHANGE_CANDIDATE",
+      "CONTROL_BREAK_CANDIDATE",
+      "DE_RISK",
+      "NO_CHANGE",
+      "INSUFFICIENT"
+    ],
+    "confirmation_allowed": [
+      "CHANGE_CONFIRMED",
+      "CONTROL_BREAK_CONFIRMED",
+      "MATERIAL_DELTA_NOT_REPRODUCED",
+      "INSUFFICIENT_FOR_ARCHITECTURE_CHANGE"
+    ],
+    "role_constraints": {
+      "CHANGE_CANDIDATE": "DIAGNOSTIC_PROBE_ONLY",
+      "CONTROL_BREAK_CANDIDATE": "STABILITY_CONTROL_ONLY"
+    },
+    "post_hoc_new_outcome_categories_allowed": false
+  },
+  "confirmation_rule": {
+    "status": "PROJECT_SPECIFIC_BUT_REASONED",
+    "trigger": "material initial candidate only",
+    "same_exact_query": true,
+    "independent_additional_provider_interaction": true,
+    "compare": "material decision direction, not answer-text identity",
+    "if_reproduced": "confirmed material handoff to Step17",
+    "if_not_reproduced": "no architecture-changing handoff; mark nonreproduced/insufficient",
+    "does_not_prove": [
+      "long-term stability",
+      "consumer Alice equivalence",
+      "prevalence across site demand",
+      "source ranking"
+    ]
+  },
+  "claim_boundaries": [
+    "GEN_SEARCH_INPUT != CONSUMER_ALICE_INPUT_OBSERVATION",
+    "GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER",
+    "GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE",
+    "GEN_SEARCH_QUERY_OBSERVED != ALICE_FANOUT_OBSERVED",
+    "sources_array_order != source_rank",
+    "used=true != guaranteed future citation",
+    "single observation != stable/permanent truth",
+    "confirmed bounded reproduction != long-term stability",
+    "selected set != representative sample",
+    "Step16 evidence != Step17 architecture decision",
+    "no Webmaster access != low-quality-by-definition"
+  ],
+  "acceptance_requirements": {
+    "input_selected_cases": "8/8",
+    "initial_cases_accounted": "8/8",
+    "silent_case_drops": 0,
+    "raw_useful_provider_results_persisted_and_read_back_percent": 100,
+    "normalized_observations": "8/8",
+    "gensearch_provenance_violations": 0,
+    "source_order_ranking_inferences": 0,
+    "preregistered_condition_used": "8/8",
+    "material_delta_without_required_confirmation": 0,
+    "silent_unknown_as_evidence": 0,
+    "retry_announcement_violations": 0,
+    "provider_calls_reconciled_percent": 100,
+    "provider_cost_reconciled_percent": 100,
+    "claims_exceeding_evidence_mode": 0,
+    "step17_architecture_decisions_executed_in_step16": 0,
+    "final_github_readback": "PASS"
+  },
+  "planned_final_artifacts": [
+    "per-interaction raw provider result files",
+    "per-interaction normalized observation files",
+    "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
+    "STEP_16_QA_FINAL_2026-09-02.json",
+    "STEP_16_REPORT_2026-09-02.md",
+    "STEP_16_CURRENT_STATE.json",
+    "JOB_FLOW_STEP16_EXECUTION_SYNC_2026-09-02.md"
+  ],
+  "authorization": {
+    "pre_step_preparation_authorized": true,
+    "initial_provider_calls_authorized": false,
+    "semantic_confirmation_provider_calls_authorized": false,
+    "step16_executed": false,
+    "next_legal_action": "OWNER_REVIEW_AND_EXPLICIT_PROVIDER_AUTHORIZATION"
+  }
+}
