@@ -1,0 +1,58 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "status": "IN_PROGRESS__5_OF_8_INITIAL_COMPLETE__NEXT_C15_018",
+  "completed_initial_cases": 5,
+  "total_initial_cases": 8,
+  "completed_case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013"],
+  "remaining_initial_case_ids": ["C15-018","C15-019","C15-020"],
+  "completed_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE",
+    "C15-007": "DE_RISK",
+    "C15-010": "CHANGE_CONFIRMED",
+    "C15-013": "DE_RISK"
+  },
+  "latest_case": {
+    "case_id": "C15-013",
+    "case_role": "DIAGNOSTIC_PROBE",
+    "query": "французские панорамные окна",
+    "attempt": "INITIAL",
+    "provider_execution": true,
+    "http_status": 200,
+    "request_id": "search-92c60034-6607-49c2-84bb-9daca6e4fcaf",
+    "cost_rub": 5.08,
+    "raw_authority": "STEP_16_C15-013_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+    "normalized_observation": "STEP_16_C15-013_INITIAL_OBSERVATION.json",
+    "raw_readback": "PASS",
+    "normalized_readback": "PASS",
+    "evidence_usability": "USEFUL",
+    "outcome": "DE_RISK",
+    "confirmation_required": false,
+    "confirmation_reason": "No CHANGE_CANDIDATE. Confirmation applies only to CHANGE_CANDIDATE or CONTROL_BREAK_CANDIDATE."
+  },
+  "accounting": {
+    "initial_provider_calls_executed": 5,
+    "confirmation_calls_executed": 1,
+    "retry_calls_executed": 0,
+    "provider_calls_executed_total": 6,
+    "provider_cost_rub_incurred": 30.48,
+    "initial_calls_remaining": 3,
+    "initial_planned_cost_remaining_rub": 15.24
+  },
+  "controls": {
+    "verbatim_raw_required": true,
+    "source_order_rank_inference_used": false,
+    "consumer_alice_equivalence_claimed": false,
+    "step17_architecture_change_executed": false
+  },
+  "next": {
+    "case_id": "C15-018",
+    "case_role": "STABILITY_CONTROL",
+    "attempt": "INITIAL",
+    "query": "замена окна на пластиковое цена москва",
+    "expected_incremental_cost_rub": 5.08,
+    "next_paid_action_allowed_after_this_file_readback": true
+  }
+}
