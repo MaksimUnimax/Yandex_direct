@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "PREPARED__METHOD_RESEARCH_COMPLETE__EXECUTION_NOT_STARTED__AWAITING_OWNER_AUTHORIZATION",
+  "status": "PREPARED__METHOD_RESEARCH_COMPLETE__PREEXECUTION_SELF_AUDIT_CORRECTED__EXECUTION_NOT_STARTED__AWAITING_OWNER_AUTHORIZATION",
   "method_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
   "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
   "execution_manifest": "STEP_17_EXECUTION_MANIFEST_2026-09-02.json",
@@ -39,7 +39,16 @@
     "material_source_role_requires_direct_page_read": true,
     "material_target_page_claim_requires_current_evidence": true,
     "unreproduced_ai_only_material_change_allowed": false,
+    "independent_non_ai_evidence_substitutes_for_ai_reproduction": false,
+    "upstream_baseline_correction_gate_active": true,
+    "known_invalid_baseline_allowed_under_final_verdict": false,
     "exact_query_to_user_job_family_generalization_allowed": false
+  },
+  "upstream_baseline_gate": {
+    "trigger": "direct non-AI evidence independently invalidates the Step14 baseline",
+    "state": "UPSTREAM_BASELINE_CORRECTION_REQUIRED",
+    "action": "stop affected case verdict, correct/re-freeze upstream baseline, then resume Step17",
+    "forbidden": "hide upstream defect as AI-driven CHANGE"
   },
   "special_cases": {
     "C15-010": "MANDATORY_FORMAL_COMPARISON__TWO_SHORT_WINDOW_RUNS__DIRECT_SOURCE_AND_TARGET_PAGE_VALIDATION_REQUIRED_BEFORE_CHANGE",
@@ -53,7 +62,7 @@
     "exact_query_boundary_active": true,
     "gensearch_alice_boundary_active": true,
     "source_role_direct_inspection_rule_active": true,
-    "reproducibility_change_gate_active": true,
+    "reproducibility_and_upstream_baseline_separation_active": true,
     "step17_step18_boundary_active": true,
     "unapproved_paid_calls_planned": false,
     "gate_status": "PASS_FOR_OWNER_REVIEW_NOT_EXECUTION_AUTHORIZATION"
