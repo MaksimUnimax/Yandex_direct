@@ -3,11 +3,16 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "EXECUTION_STARTED__OWNER_AUTHORIZED",
+  "status": "COMPLETE__ANALYTICAL_PASS__FINAL_READBACK_PENDING",
   "method_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
   "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
   "execution_manifest": "STEP_17_EXECUTION_MANIFEST_2026-09-02.json",
   "case_plan": "STEP_17_CASE_COMPARISON_PLAN_2026-09-02.tsv",
+  "direct_page_validation": "STEP_17_DIRECT_PAGE_VALIDATION_LEDGER.tsv",
+  "comparison_ledger": "STEP_17_CASE_COMPARISON_LEDGER_FINAL.tsv",
+  "architecture_delta_overlay": "STEP_17_ARCHITECTURE_DELTA_OVERLAY.tsv",
+  "qa": "STEP_17_QA_FINAL_2026-09-02.json",
+  "report": "STEP_17_REPORT_2026-09-02.md",
   "scope": {
     "case_count": 8,
     "test_scope": "EXACT_QUERY",
@@ -15,31 +20,45 @@
     "consumer_alice": "NOT_OBSERVED",
     "webmaster_alice_visibility": "UNAVAILABLE_NOT_EXECUTED"
   },
-  "planned_provider_calls": {
-    "ordinary_search": 0,
-    "gensearch": 0,
-    "webmaster": 0,
-    "planned_provider_cost_rub": 0.0
-  },
-  "material_controls": {
-    "old_step16_final_labels_allowed_as_verdict_input": false,
-    "source_order_rank_inference_allowed": false,
-    "used_source_count_rank_inference_allowed": false,
-    "material_source_role_requires_direct_page_read": true,
-    "material_target_page_claim_requires_current_evidence": true,
-    "unreproduced_ai_only_material_change_allowed": false,
-    "independent_non_ai_evidence_substitutes_for_ai_reproduction": false,
-    "upstream_baseline_correction_gate_active": true,
-    "exact_query_to_user_job_family_generalization_allowed": false
-  },
   "execution": {
     "owner_authorized": true,
     "started": true,
-    "cases_compared": 0,
-    "final_verdicts": 0,
+    "cases_compared": 8,
+    "final_verdicts": 8,
+    "verdict_counts": {
+      "CHANGE": 0,
+      "DE_RISK": 4,
+      "NO_CHANGE": 3,
+      "INSUFFICIENT": 1
+    },
     "architecture_delta_rows": 0,
-    "provider_calls": 0,
+    "direct_page_validation_rows": 15,
+    "direct_page_fetch_blocked_rows": 2,
+    "blocked_rows_used_decisively": 0,
+    "new_ordinary_search_provider_calls": 0,
+    "new_gensearch_provider_calls": 0,
+    "new_webmaster_provider_calls": 0,
     "provider_cost_rub": 0.0
   },
-  "next_legal_action": "EXECUTE_8_CASE_COMPARISON_UNDER_FROZEN_STEP17_METHOD"
+  "case_verdicts": {
+    "C15-004": "DE_RISK",
+    "C15-006": "DE_RISK",
+    "C15-007": "DE_RISK",
+    "C15-010": "NO_CHANGE",
+    "C15-013": "DE_RISK",
+    "C15-018": "NO_CHANGE",
+    "C15-019": "NO_CHANGE",
+    "C15-020": "INSUFFICIENT"
+  },
+  "architecture_result": {
+    "qualified_change_cases": 0,
+    "ai_derived_delta_rows": 0,
+    "effective_step14_architecture_changed": false
+  },
+  "qa_state": {
+    "adversarial_case_review": "8/8 PASS",
+    "blocking_findings": 0,
+    "final_github_readback": "PENDING"
+  },
+  "next_legal_action": "FINAL_GITHUB_READBACK__IF_PASS_MARK_STEP17_COMPLETE_AND_ALLOW_STEP18_PRESTEP_ONLY"
 }
