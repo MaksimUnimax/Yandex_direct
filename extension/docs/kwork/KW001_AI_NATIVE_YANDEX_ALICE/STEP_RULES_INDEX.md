@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Date: 2026-09-01  
+Date: 2026-09-02  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This file is the index of step-specific methodology coverage.
@@ -21,6 +21,10 @@ RESEARCH_COLLECTED != METHOD_VALIDATED
 RESEARCH_COLLECTED != EXECUTION_SCHEMA_READY
 SOURCE_DISCOVERED != REQUIREMENT_OPERATIONALIZED
 OLD_SITE_INVENTORY != CURRENT_SITE_TRUTH
+KNOWN_URL_RECHECK != CURRENT_SITE_DISCOVERY
+UPSTREAM_INPUT_UNIVERSE != CURRENT_SITE_UNIVERSE
+SOURCE_LIVE + TARGET_LIVE != EDGE_IMPLEMENTED
+SEMANTIC_LINK_RECOMMENDATION != CURRENT_AS_IS_LINK
 ```
 
 Universal cross-step authorities:
@@ -28,6 +32,7 @@ Universal cross-step authorities:
 - `SOURCE_TO_METHOD_TRACEABILITY_GATE.md`
 - `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`
 - `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md` for Steps 1, 11, 12, 13, 14 and 20 where current URL truth matters.
+- `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md` when a step acceptance depends on current-site completeness, current link topology, crawl reachability or exact current source->target HTML-link evidence.
 
 A universal method is a reusable structure, not a domain-free execution rule:
 
@@ -82,7 +87,7 @@ Permanent promotion requires explicit owner instruction.
 | **Step 11** | **Page ownership / keyword-to-page mapping** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION** | **`STEP_11_PAGE_OWNERSHIP_METHOD.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — refresh current candidate pages; a `NO_SUITABLE_EXISTING_PAGE` negative claim requires current multi-route absence evidence, not old-inventory absence. Client-private Yandex evidence is optional under `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` unless a future enhanced scope explicitly changes that. |
 | **Step 12** | **Structural actions (keep/expand/split/merge/create)** | **APPROVED / ACTIVE AFTER D12-28..D12-30 EVIDENCE-INDEPENDENCE + GLOBAL-COHERENCE REVALIDATION** | **`STEP_12_FINAL_EXECUTION_PROTOCOL.md` + `STEP_12_STRUCTURAL_ACTION_METHOD.md` + `STEP_12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION.md` + `STEP_12_EVIDENCE_INDEPENDENCE_AND_CURRENT_CONTENT_VALIDATION.md` + `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — action/schema consistency cannot prove causal correctness; routing edges are not automatically validated links; known-regression zero is not global coherence. |
 | **Step 13** | **Competing-page / cannibalization diagnosis** | **APPROVED / ACTIVE AFTER POST-RUN METHOD + POLICY + EXECUTION-SCHEMA CORRECTION** | **`STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` + `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md` + `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — official first-party history discovered during research must be explicitly operationalized, but the owner-approved sellable base package does not require private Webmaster access. Base-public mode may pass with explicit historical/harm claim boundaries; enhanced/history-required mode activates the first-party query×URL history gate. Current OKNO_MSK Step 13 is **COMPLETE / PASS_BASE_PUBLIC_EVIDENCE_MODE** and Step 14 is allowed only through its own pre-step method/evidence review. |
-| Step 14 | Search-only architecture freeze | **UNVALIDATED** | Must define what evidence is sufficient to freeze classic Search architecture, consume closed Step-13 outputs without exceeding their claim boundary, and recheck implementation-critical current URLs before freeze. |
+| **Step 14** | **Search-only architecture freeze** | **APPROVED / ACTIVE AFTER POST-RUN DISCOVERY-TOPOLOGY CORRECTION** | **`STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` + `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — target Search architecture must be reconciled against an independently discovered current public-site universe and literal current HTML link topology. A closed known-URL list cannot prove its own completeness; live source/target endpoints do not prove a current `<a href>` edge. When completeness/topology is material, deterministic Codex/code discovery, persisted outputs, GitHub readback, newly discovered URL reconciliation, and literal classification of required edges are mandatory before final PASS. Current OKNO_MSK Step 14 is **REOPENED pending mandatory Step 14A Codex correction**; Step 15 is blocked until that correction is reconciled and accepted. |
 | Step 15 | AI-case selection | **UNVALIDATED** | Must select high-information uncertain cases rather than querying AI search indiscriminately. |
 | Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` governs optional owned Webmaster AI evidence vs base GenSearch evidence. |
 | Step 17 | Search-vs-AI comparison | **UNVALIDATED** | Must define comparable evidence units and avoid forcing agreement between different retrieval surfaces. |
@@ -142,10 +147,11 @@ Before every major step:
 9. keep required current-job rules and label their scope instead of deleting them for being local;
 10. read current-job evidence, site/business model, deliverable and owner constraints;
 11. explain old errors + root causes + non-repeat controls where applicable;
-12. apply provider cost/information-gain gates before fresh paid or quota-bearing requests;
-13. wait for owner authorization when the governing gate requires it;
-14. execute the configured current method;
-15. reverse-trace final accepted claims to requirement + evidence + QA before closure.
+12. before designing an evidence mechanism, inspect relevant prior project artifacts/tools for an existing stronger deterministic acquisition pattern capable of testing the same factual claim;
+13. apply provider cost/information-gain gates before fresh paid or quota-bearing requests;
+14. wait for owner authorization when the governing gate requires it;
+15. execute the configured current method;
+16. reverse-trace final accepted claims to requirement + evidence + QA before closure.
 ```
 
 Fresh research remains mandatory when current provider/search behaviour or industry understanding may materially affect the step.
@@ -240,6 +246,63 @@ Current OKNO_MSK schema-hardening evidence:
 
 ---
 
+# Step-14 permanent lesson summary
+
+The Step-14 post-run audit establishes three distinct lessons.
+
+### Completeness lesson
+
+```text
+KNOWN_URL_RECHECK != CURRENT_SITE_DISCOVERY
+UPSTREAM_INPUT_UNIVERSE != CURRENT_SITE_UNIVERSE
+A CLOSED LIST CANNOT PROVE ITS OWN COMPLETENESS
+```
+
+The first OKNO_MSK Step-14 run rechecked every URL derived from accepted Step-12/13/14 inputs and got 59/59 live. That was useful freshness evidence for those 59 URLs, but the inference from "all selected known URLs are live" to "current relevant site architecture has been completely discovered" was invalid. Pages absent from the upstream list could never fail that test.
+
+The root cause was not insufficient manual effort. The anti-speculation/scope-preservation control was applied too broadly, so the upstream URL universe behaved as if it were a closed current-site universe. The corrected control is independent deterministic discovery through Codex/code whenever completeness matters.
+
+### Topology lesson
+
+```text
+SOURCE_LIVE + TARGET_LIVE + SEMANTIC_FIT != EDGE_IMPLEMENTED
+SEMANTIC_LINK_RECOMMENDATION != CURRENT_AS_IS_LINK
+```
+
+The first run preserved 15 recommended internal-link edges after current source/target and semantic-role checks. Those checks support keeping the recommendation, but do not prove the literal current HTML `<a href>` exists. The corrected method therefore requires a literal internal-link graph and separate `RECOMMENDATION_STATE` vs `AS_IS_TOPOLOGY_STATE`.
+
+### Evidence-mechanism selection lesson
+
+Step 11 for this same job had already used deterministic Codex-discovery/profile artifacts. The Step-14 pre-step review failed to ask whether an earlier project stage already had a stronger evidence-acquisition mechanism for the same factual claim.
+
+Permanent control:
+
+```text
+BEFORE DESIGNING A STEP EVIDENCE MECHANISM,
+ASK WHETHER A PRIOR PROJECT TOOL/RUN CAN TEST THE CLAIM MORE COMPLETELY OR REPRODUCIBLY.
+
+IF YES:
+USE/EXTEND IT OR EXPLICITLY JUSTIFY WHY IT IS UNSUITABLE.
+```
+
+Canonical Step-14 authorities:
+
+- `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md`
+- `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md`
+- current-job correction `tests/OKNO_MSK/STEP_14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_AND_GATE_2026-09-02.md`
+
+Current OKNO_MSK consequence:
+
+```text
+STEP14_SEMANTIC_FREEZE = PROVISIONAL_PASS_PRESERVED
+STEP14_CURRENT_SITE_COMPLETENESS = REOPENED
+STEP14_AS_IS_TOPOLOGY = REOPENED
+STEP14_OVERALL = REOPENED_PENDING_MANDATORY_CODEX_RUN
+STEP15 = BLOCKED
+```
+
+---
+
 Markers:
 
 ```text
@@ -279,5 +342,14 @@ KW001_STEP13_HISTORY_REQUIRED_ONLY_WHEN_CURRENT_SCOPE_REQUIRES_IT = true
 KW001_STEP13_QA_MUST_TEST_REQUIRED_BUT_MISSING_EVIDENCE = true
 KW001_STEP13_CURRENT_OKNO_BASE_PASS = true
 KW001_STEP14_ALLOWED_ONLY_THROUGH_PRESTEP_REVIEW = true
+KW001_STEP14_METHOD_APPROVED_AFTER_DISCOVERY_TOPOLOGY_CORRECTION = true
+KW001_STEP14_KNOWN_URL_RECHECK_NOT_EQUAL_CURRENT_SITE_DISCOVERY = true
+KW001_STEP14_UPSTREAM_INPUT_UNIVERSE_NOT_EQUAL_CURRENT_SITE_UNIVERSE = true
+KW001_STEP14_ENDPOINTS_LIVE_NOT_EQUAL_EDGE_IMPLEMENTED = true
+KW001_STEP14_RECOMMENDATION_NOT_EQUAL_AS_IS_LINK = true
+KW001_STEP14_CODEX_DISCOVERY_REQUIRED_WHEN_COMPLETENESS_OR_TOPOLOGY_MATERIAL = true
+KW001_STEP14_PRIOR_PROJECT_EVIDENCE_MECHANISM_REVIEW_REQUIRED = true
+KW001_STEP14_CURRENT_OKNO_REOPENED_PENDING_CODEX = true
+KW001_STEP14_STEP15_BLOCKED_UNTIL_CORRECTION_ACCEPTED = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```
