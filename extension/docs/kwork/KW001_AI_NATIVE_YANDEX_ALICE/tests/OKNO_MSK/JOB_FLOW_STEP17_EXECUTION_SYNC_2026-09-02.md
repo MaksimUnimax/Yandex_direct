@@ -1,7 +1,7 @@
 # OKNO_MSK — JOB FLOW SYNC / STEP 17 EXECUTION
 
 Date: 2026-09-02  
-Status: **STEP 17 ANALYTICAL PASS / FINAL GITHUB READBACK PENDING**
+Status: **STEP 17 COMPLETE / FINAL GITHUB READBACK PASS / STEP 18 NOT STARTED**
 
 ## Full roadmap
 
@@ -24,8 +24,8 @@ Status: **STEP 17 ANALYTICAL PASS / FINAL GITHUB READBACK PENDING**
 | 14 / 14A | Search-only architecture freeze + current-site revalidation | ✅ FINAL PASS |
 | 15 V2 | AI-case selection | ✅ FINAL PASS |
 | 16 | GenSearch evidence acquisition | ✅ COMPLETE / POST-RUN CORRECTED |
-| **17** | **Search-vs-GenSearch comparison + bounded delta overlay** | **✅ ANALYTICAL PASS / FINAL READBACK PENDING** |
-| 18 | Prioritization | ⬜ NOT STARTED |
+| **17** | **Search-vs-GenSearch comparison + bounded delta overlay** | **✅ COMPLETE / FINAL READBACK PASS** |
+| 18 | Prioritization | ⬜ NOT STARTED / PRE-STEP GATE ALLOWED |
 | 19 | Client deliverables | ⬜ NOT STARTED |
 | 20 | Final QA | ⬜ NOT STARTED |
 | 21 | Handoff/revisions | ⬜ NOT STARTED |
@@ -69,20 +69,9 @@ STEP_17_ARCHITECTURE_DELTA_OVERLAY ROWS = 0
 STEP14/14A EFFECTIVE ARCHITECTURE CHANGED = false
 ```
 
-## Important corrected result — C15-010
+## Important result — C15-010
 
-Two GenSearch runs genuinely reproduce a procedural/how-to direction in a short window. Step 17 directly validated both external role types and the current OKNO_MSK pages.
-
-The frozen windowsill owner already combines:
-
-```text
-product/pricing/order
-installation service statement
-multi-step installation guidance
-professional-installation warning
-```
-
-and the general installation page supplies supporting windowsill-installation service/pricing.
+Two same-query GenSearch observations reproduce a procedural/how-to direction in a short window. Direct validation shows the frozen windowsill owner already combines product/pricing/order with installation service and multi-step installation guidance, while the general installation page provides supporting professional-service coverage.
 
 Therefore:
 
@@ -91,6 +80,23 @@ C15-010 = NO_CHANGE
 ```
 
 not an architecture `CHANGE`.
+
+## Final QA
+
+```text
+CASES_ACCOUNTED = 8/8 PASS
+OLD_STEP16_FINAL_LABELS_USED_AS_VERDICT_INPUT = 0 PASS
+MATERIAL_USED_SOURCE_ROLES_WITHOUT_DIRECT_VALIDATION = 0 PASS
+MATERIAL_TARGET_PAGE_CLAIMS_WITHOUT_CURRENT_EVIDENCE = 0 PASS
+SOURCE_ORDER_RANK_INFERENCES = 0 PASS
+USED_SOURCE_COUNT_AS_RANK_INFERENCES = 0 PASS
+CONSUMER_ALICE_EQUIVALENCE_CLAIMS = 0 PASS
+USER_JOB_FAMILY_GENERALIZATIONS_FROM_EXACT_QUERY = 0 PASS
+UNREPRODUCED_AI_ONLY_MATERIAL_CHANGE_VERDICTS = 0 PASS
+UPSTREAM_BASELINE_CORRECTION_REQUIRED_CASES = 0 PASS
+INDEPENDENT_QA_BLOCKING_FINDINGS = 0 PASS
+FINAL_GITHUB_READBACK = PASS
+```
 
 ## Current authorities
 
@@ -107,25 +113,11 @@ STEP_17_REPORT_2026-09-02.md
 STEP_17_CURRENT_STATE.json
 ```
 
-## QA truth before final readback
-
-```text
-CASES_ACCOUNTED = 8/8 PASS
-OLD_STEP16_FINAL_LABELS_USED_AS_VERDICT_INPUT = 0 PASS
-MATERIAL_USED_SOURCE_ROLES_WITHOUT_DIRECT_VALIDATION = 0 PASS
-MATERIAL_TARGET_PAGE_CLAIMS_WITHOUT_CURRENT_EVIDENCE = 0 PASS
-SOURCE_ORDER_RANK_INFERENCES = 0 PASS
-CONSUMER_ALICE_EQUIVALENCE_CLAIMS = 0 PASS
-USER_JOB_FAMILY_GENERALIZATIONS_FROM_EXACT_QUERY = 0 PASS
-UNREPRODUCED_AI_ONLY_MATERIAL_CHANGE_VERDICTS = 0 PASS
-UPSTREAM_BASELINE_CORRECTION_REQUIRED_CASES = 0 PASS
-INDEPENDENT_QA_BLOCKING_FINDINGS = 0 PASS
-```
-
 ## Transition
 
 ```text
-STEP17_ANALYTICAL_WORK = COMPLETE
-FINAL_GITHUB_READBACK = PENDING
-STEP18 = BLOCKED UNTIL READBACK PASS
+STEP17 = COMPLETE / FINAL READBACK PASS
+NEXT_STEP_ALLOWED = true
+NEXT_STEP_SCOPE = STEP18 PRE-STEP GATE ONLY
+STEP18_EXECUTION = NOT STARTED
 ```
