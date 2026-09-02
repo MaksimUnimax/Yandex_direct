@@ -1,0 +1,65 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "step_name": "AI-search evidence acquisition",
+  "status": "EXECUTION_COMPLETE__FINAL_ARTIFACT_READBACK_PENDING",
+  "input": {
+    "selected_cases": 8,
+    "diagnostic_probes": 6,
+    "stability_controls": 2,
+    "v2_only": true
+  },
+  "execution": {
+    "initial_cases_executed": 8,
+    "required_confirmations": 1,
+    "confirmations_executed": 1,
+    "retries_executed": 0,
+    "provider_calls_total": 9,
+    "provider_cost_rub_total": 45.72,
+    "provider_actions_remaining_in_step16": 0
+  },
+  "final_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE",
+    "C15-007": "DE_RISK",
+    "C15-010": "CHANGE_CONFIRMED",
+    "C15-013": "DE_RISK",
+    "C15-018": "NO_CHANGE",
+    "C15-019": "NO_CHANGE",
+    "C15-020": "INSUFFICIENT"
+  },
+  "step17_handoff": {
+    "confirmed_material_case_count": 1,
+    "confirmed_material_case_ids": ["C15-010"],
+    "confirmed_control_break_count": 0,
+    "insufficient_case_ids": ["C15-020"],
+    "architecture_change_executed_in_step16": false,
+    "step17_started": false
+  },
+  "persistence": {
+    "authoritative_verbatim_raw_files": 9,
+    "normalized_observation_files": 9,
+    "raw_readback_percent": 100,
+    "normalized_readback_percent": 100,
+    "observation_ledger": "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
+    "qa": "STEP_16_QA_FINAL_2026-09-02.json",
+    "report": "STEP_16_REPORT_2026-09-02.md"
+  },
+  "process_non_repeat_rules": [
+    "STEP_16_PROCESS_NON_REPEAT_RULES_2026-09-02.md",
+    "STEP_16_PROCESS_NON_REPEAT_RULES_COMMAND_SURFACE_ADDENDUM_2026-09-02.md",
+    "STEP_16_PROCESS_NON_REPEAT_RULES_RAW_VERBATIM_ADDENDUM_2026-09-02.md"
+  ],
+  "method_status": {
+    "current_job_execution": "PASS_PENDING_FINAL_ARTIFACT_READBACK",
+    "permanent_step16_method": "UNVALIDATED_PENDING_FURTHER_VALIDATION_OR_OWNER_PROMOTION_DECISION",
+    "automatic_universal_promotion": false
+  },
+  "acceptance": {
+    "substantive_acceptance_checks": "PASS",
+    "final_github_readback": "PENDING",
+    "step16_complete": false
+  },
+  "next_legal_action": "READ_BACK_ALL_FINAL_STEP16_ARTIFACTS__THEN_MARK_STEP16_COMPLETE__DO_NOT_START_STEP17_WITHOUT_NEW_PRESTEP_GATE"
+}
