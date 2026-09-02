@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "FROZEN_FOR_OWNER_REVIEW__EXECUTION_NOT_STARTED",
+  "status": "FROZEN_FOR_OWNER_REVIEW__EXECUTION_NOT_STARTED__PREEXECUTION_SELF_AUDIT_CORRECTED",
   "method_authority": {
     "pre_step_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
     "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
@@ -85,12 +85,26 @@
       "material Search-vs-GenSearch difference",
       "direct source/page validation when page role matters",
       "current target-page evidence",
-      "sufficient reproducibility/evidence strength for material AI-driven contradiction",
+      "sufficient AI reproducibility/evidence strength for an AI-driven material contradiction",
       "explicit Step14 baseline to proposed delta trace"
     ],
     "de_risk_boundary": "additional compatible evidence reduces uncertainty; does not prove long-term AI stability",
     "no_change_boundary": "surface differences do not materially change frozen responsibility/action",
-    "insufficient_boundary": "evidence cannot safely discriminate, including unreproduced material AI-only contradiction"
+    "insufficient_boundary": "evidence cannot safely discriminate, including an unreproduced material AI-only contradiction"
+  },
+  "reproducibility_gate": {
+    "single_gensearch_snapshot_proves_stability": false,
+    "independent_non_ai_evidence_substitutes_for_ai_reproduction": false,
+    "c15_010_boundary": "two same-query short-window observations support bounded reproduction only, not long-term stability",
+    "single_run_material_ai_contradiction": "INSUFFICIENT_FOR_AI_DRIVEN_CHANGE_UNLESS_SEPARATELY_AUTHORIZED_REPRODUCTION_EVIDENCE_IS_OBTAINED"
+  },
+  "upstream_baseline_gate": {
+    "active": true,
+    "trigger": "direct current-page/Search evidence independently proves the frozen Step14 baseline is factually wrong or stale",
+    "state": "UPSTREAM_BASELINE_CORRECTION_REQUIRED",
+    "required_action": "stop affected Step17 case verdict, correct and re-freeze the affected upstream baseline, then resume comparison",
+    "forbidden_relabel": "UPSTREAM_BASELINE_CORRECTION_AS_AI_DRIVEN_CHANGE",
+    "final_verdict_allowed_while_known_baseline_invalid": false
   },
   "architecture_boundary": {
     "baseline": "STEP14_SEARCH_ONLY_ARCHITECTURE",
@@ -124,6 +138,7 @@
     "used_source_pages",
     "used_source_roles_validated",
     "current_target_page_evidence",
+    "upstream_baseline_correction_required",
     "task_delta",
     "commerciality_delta",
     "specificity_delta",
@@ -140,7 +155,7 @@
   ],
   "case_execution_order": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
   "special_case_controls": {
-    "C15-010": "two same-query short-window observations available; allowed claim limited to bounded reproduction; mandatory formal comparison",
+    "C15-010": "two same-query short-window observations available; allowed claim limited to bounded reproduction; mandatory formal comparison and direct source/target-page validation before any CHANGE",
     "C15-020": "Step16 evidence insufficient for target-site page-role decision; Step17 must not force a verdict beyond evidence"
   },
   "claim_boundaries": [
@@ -149,6 +164,8 @@
     "EXACT_QUERY != USER_JOB_FAMILY",
     "SINGLE_RUN != LONG_TERM_STABILITY",
     "SHORT_WINDOW_REPEAT != LONG_TERM_STABILITY",
+    "INDEPENDENT_NON_AI_EVIDENCE != AI_REPRODUCTION",
+    "UPSTREAM_BASELINE_CORRECTION != AI_DRIVEN_CHANGE",
     "SOURCE_ORDER != RANK",
     "USED_SOURCE_COUNT != RANK",
     "URL_TITLE_ROLE_HINT != MATERIAL_ROLE_PROOF",
@@ -167,6 +184,8 @@
     "consumer_alice_equivalence_claims": 0,
     "user_job_family_generalizations_from_exact_query": 0,
     "unreproduced_ai_only_material_change_verdicts": 0,
+    "upstream_baseline_defects_hidden_as_step17_change": 0,
+    "known_invalid_baseline_under_final_verdict": 0,
     "final_verdict_present": "8/8",
     "change_without_explicit_delta_trace": 0,
     "out_of_scope_rearchitecture_actions": 0,
