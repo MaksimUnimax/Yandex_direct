@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "status": "IN_PROGRESS__4_OF_8_INITIAL_COMPLETE__C15_010_CHANGE_CONFIRMED__NEXT_C15_013",
+  "completed_initial_cases": 4,
+  "total_initial_cases": 8,
+  "completed_case_ids": ["C15-004","C15-006","C15-007","C15-010"],
+  "remaining_initial_case_ids": ["C15-013","C15-018","C15-019","C15-020"],
+  "completed_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE",
+    "C15-007": "DE_RISK",
+    "C15-010": "CHANGE_CONFIRMED"
+  },
+  "c15_010_confirmation": {
+    "initial_outcome": "CHANGE_CANDIDATE",
+    "confirmation_outcome": "CHANGE_CONFIRMED",
+    "material_direction": "DIY_OR_INSTALLATION_GUIDANCE_DIFFERENT_FROM_FROZEN_WINDOW_SILL_OBJECT_OWNER",
+    "material_direction_reproduced": true,
+    "initial_raw_authority": "STEP_16_C15-010_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+    "initial_observation": "STEP_16_C15-010_INITIAL_OBSERVATION.json",
+    "confirmation_raw_authority": "STEP_16_C15-010_CONFIRMATION_GENSEARCH_RAW_VERBATIM.txt",
+    "confirmation_observation": "STEP_16_C15-010_CONFIRMATION_OBSERVATION.json",
+    "confirmation_raw_readback": "PASS",
+    "confirmation_normalized_readback": "PASS",
+    "architecture_change_executed": false,
+    "handoff_target": "STEP17"
+  },
+  "accounting": {
+    "initial_provider_calls_executed": 4,
+    "confirmation_calls_executed": 1,
+    "retry_calls_executed": 0,
+    "provider_calls_executed_total": 5,
+    "provider_cost_rub_incurred": 25.40,
+    "initial_calls_remaining": 4,
+    "initial_planned_cost_remaining_rub": 20.32
+  },
+  "controls": {
+    "verbatim_raw_required": true,
+    "source_order_rank_inference_used": false,
+    "consumer_alice_equivalence_claimed": false,
+    "confirmed_bounded_reproduction_not_long_term_stability": true,
+    "step17_architecture_change_executed": false
+  },
+  "next": {
+    "case_id": "C15-013",
+    "case_role": "DIAGNOSTIC_PROBE",
+    "attempt": "INITIAL",
+    "query": "французские панорамные окна",
+    "expected_incremental_cost_rub": 5.08,
+    "next_paid_action_allowed_after_this_file_readback": true
+  }
+}
