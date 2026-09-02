@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 16,
   "step_name": "AI-search evidence acquisition",
-  "status": "PRE_STEP_COMPLETE__AWAITING_OWNER_PROVIDER_AUTHORIZATION",
+  "status": "RESEARCH_ARTIFACTS_PREPARED__OWNER_COMMUNICATION_GATE_REISSUE_REQUIRED__PROVIDER_BLOCKED",
   "method": {
     "permanent_method_status": "UNVALIDATED",
     "current_job_method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
@@ -11,7 +11,19 @@
     "research_to_execution_schema": "STEP_16_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
     "case_execution_plan": "STEP_16_CASE_EXECUTION_PLAN_2026-09-02.tsv",
     "execution_manifest": "STEP_16_EXECUTION_MANIFEST_2026-09-02.json",
-    "job_flow_sync": "JOB_FLOW_STEP16_PRESTEP_SYNC_2026-09-02.md"
+    "historical_job_flow_sync": "JOB_FLOW_STEP16_PRESTEP_SYNC_2026-09-02.md",
+    "current_transition_correction": "JOB_FLOW_STEP16_OWNER_COMMUNICATION_GATE_CORRECTION_2026-09-02.md"
+  },
+  "process_correction": {
+    "defect_class": "GOAL_FIRST_AND_OWNER_COMMUNICATION_ORDER_VIOLATION",
+    "defect_found": true,
+    "research_started_before_complete_live_goal_roadmap_status_block": true,
+    "full_0_22_roadmap_missing_before_research": true,
+    "mandatory_plain_language_prestep_summary_missing_before_research_authorization_boundary": true,
+    "research_artifacts_invalidated": false,
+    "research_artifacts_preserved_as_useful_work": true,
+    "live_owner_gate_must_be_reissued_before_provider_authorization": true,
+    "provider_transition_blocked": true
   },
   "input": {
     "source": "STEP_15_SELECTED_CASES_V2.tsv",
@@ -57,7 +69,9 @@
     "preregistered_case_conditions_required": true,
     "material_delta_confirmation_required": true,
     "step16_architecture_rewrite_forbidden": true,
-    "insufficient_is_valid_outcome": true
+    "insufficient_is_valid_outcome": true,
+    "full_owner_facing_roadmap_before_method_or_execution": true,
+    "plain_language_summary_before_and_after_step": true
   },
   "preparation_qa": {
     "material_research_requirements_accounted_percent": 100,
@@ -67,12 +81,14 @@
     "planned_commands_match_exact_v2_queries": true,
     "provider_authorization_false_after_write_readback": true,
     "preparation_artifacts_read_back": true,
-    "preparation_github_readback": "PASS"
+    "preparation_github_readback": "PASS",
+    "owner_communication_gate": "REISSUE_REQUIRED"
   },
   "execution": {
     "step16_executed": false,
     "first_case": "C15-004",
-    "next_legal_action": "OWNER_EXPLICIT_PROVIDER_AUTHORIZATION",
+    "next_legal_action": "REISSUE_COMPLETE_LIVE_OWNER_FACING_STEP16_GATE",
+    "provider_authorization_may_be_requested_after": "FULL_ROADMAP_COMPLETED_REMAINING_STEP_GOAL_SOLVES_OUTPUT_PRIOR_ERRORS_METHOD_SELF_AUDIT_RISKS_PASS_GATE_AND_PLAIN_LANGUAGE_SUMMARY_PRESENTED",
     "after_authorization": "BEGIN_C15-004_INITIAL_GENSEARCH_ONLY_THEN_PERSIST_READBACK_QA_BEFORE_ANY_NEXT_PAID_ACTION"
   }
 }
