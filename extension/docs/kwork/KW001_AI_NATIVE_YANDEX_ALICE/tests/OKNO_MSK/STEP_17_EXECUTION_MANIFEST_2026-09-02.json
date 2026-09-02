@@ -1,0 +1,193 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 17,
+  "step_name": "Search-vs-GenSearch comparison",
+  "status": "FROZEN_FOR_OWNER_REVIEW__EXECUTION_NOT_STARTED",
+  "method_authority": {
+    "pre_step_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
+    "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
+    "implementation_plan": "../../IMPLEMENTATION_PLAN.md",
+    "input_case_authority": "STEP_15_SELECTED_CASES_V2.tsv",
+    "gensearch_authority": "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
+    "step16_correction": "STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md",
+    "search_only_architecture_authority": "Step14/14A current accepted artifacts"
+  },
+  "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
+  "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+  "test_scope": "EXACT_QUERY",
+  "evidence_surfaces": {
+    "ordinary_yandex_search": "PERSISTED_CURRENT_JOB_EVIDENCE",
+    "yandex_gensearch_api": "PERSISTED_STEP16_EVIDENCE",
+    "consumer_alice": "NOT_EXECUTED",
+    "webmaster_alice_visibility": "UNAVAILABLE_NOT_EXECUTED",
+    "current_public_pages": "DIRECT_READ_CONDITIONAL_WHEN_MATERIAL"
+  },
+  "input_universe": {
+    "case_count": 8,
+    "case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+    "selected_set_type": "DECISION_DIAGNOSTIC_SET_WITH_STABILITY_CONTROLS",
+    "representative_sample": false,
+    "user_job_family_coverage": false
+  },
+  "reuse_existing_evidence": {
+    "step15_v2_search_baselines": "REUSED",
+    "step16_corrected_observations": "REUSED",
+    "step16_raw_verbatim": "REUSED_BY_REFERENCE_AND_READ_WHEN_NEEDED",
+    "step14_search_only_architecture": "REUSED_AS_BASELINE",
+    "step14a_current_site_discovery": "REUSED_WITH_DIRECT_PAGE_READ_WHEN_CONTENT_ROLE_IS_MATERIAL",
+    "old_step16_final_labels": "FORBIDDEN_AS_VERDICT_INPUT"
+  },
+  "planned_external_actions": {
+    "paid_gensearch_calls": 0,
+    "paid_ordinary_search_calls": 0,
+    "webmaster_private_calls": 0,
+    "public_current_page_reads": "CONDITIONAL_REQUIRED_WHEN_SOURCE_OR_TARGET_PAGE_ROLE_IS_MATERIAL",
+    "provider_cost_rub_planned": 0.0
+  },
+  "fresh_request_gate": {
+    "default": "BLOCKED_NOT_NEEDED",
+    "trigger": "existing evidence is materially insufficient for an active Step17 acceptance decision",
+    "required_before_any_request": [
+      "exact unresolved question",
+      "why existing evidence is insufficient",
+      "exact operation/query",
+      "expected information gain",
+      "cost/quota semantics",
+      "retry boundary",
+      "persistence destination",
+      "acceptance use",
+      "explicit owner authorization"
+    ]
+  },
+  "comparison_axes": [
+    "ordinary_search_task",
+    "ordinary_search_content_type",
+    "ordinary_search_format",
+    "ordinary_search_angle",
+    "ordinary_search_specificity",
+    "gensearch_answer_task",
+    "gensearch_answer_mode",
+    "gensearch_refined_queries",
+    "used_source_roles_validated",
+    "current_target_page_role",
+    "task_delta",
+    "commerciality_delta",
+    "specificity_delta",
+    "source_role_delta",
+    "target_site_fit",
+    "reproducibility_state",
+    "materiality_reason"
+  ],
+  "verdict_taxonomy": {
+    "allowed": ["CHANGE","DE_RISK","NO_CHANGE","INSUFFICIENT"],
+    "change_required_evidence": [
+      "material Search-vs-GenSearch difference",
+      "direct source/page validation when page role matters",
+      "current target-page evidence",
+      "sufficient reproducibility/evidence strength for material AI-driven contradiction",
+      "explicit Step14 baseline to proposed delta trace"
+    ],
+    "de_risk_boundary": "additional compatible evidence reduces uncertainty; does not prove long-term AI stability",
+    "no_change_boundary": "surface differences do not materially change frozen responsibility/action",
+    "insufficient_boundary": "evidence cannot safely discriminate, including unreproduced material AI-only contradiction"
+  },
+  "architecture_boundary": {
+    "baseline": "STEP14_SEARCH_ONLY_ARCHITECTURE",
+    "step17_allowed": "CASE_SCOPED_AI_DERIVED_DELTA_OVERLAY_ONLY",
+    "full_architecture_rebuild": false,
+    "step18_prioritization": false,
+    "non_change_units": "INHERIT_STEP14_UNCHANGED",
+    "change_overlay_required_fields": [
+      "affected_step14_unit_or_page",
+      "baseline_search_only_state",
+      "proposed_ai_derived_delta",
+      "delta_reason",
+      "evidence_refs",
+      "confidence_or_limitation",
+      "global_coherence_recheck_required"
+    ]
+  },
+  "case_output_required_fields": [
+    "case_id",
+    "authoritative_query",
+    "case_role",
+    "ordinary_search_baseline",
+    "ordinary_search_task",
+    "ordinary_search_content_type",
+    "ordinary_search_format",
+    "ordinary_search_angle",
+    "ordinary_search_specificity",
+    "gensearch_observation",
+    "gensearch_answer_mode",
+    "gensearch_refined_queries",
+    "used_source_pages",
+    "used_source_roles_validated",
+    "current_target_page_evidence",
+    "task_delta",
+    "commerciality_delta",
+    "specificity_delta",
+    "source_role_delta",
+    "target_site_fit",
+    "reproducibility_state",
+    "materiality_reason",
+    "final_step17_verdict",
+    "architecture_delta_required",
+    "architecture_delta_overlay",
+    "claim_boundary",
+    "evidence_refs",
+    "qa_state"
+  ],
+  "case_execution_order": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+  "special_case_controls": {
+    "C15-010": "two same-query short-window observations available; allowed claim limited to bounded reproduction; mandatory formal comparison",
+    "C15-020": "Step16 evidence insufficient for target-site page-role decision; Step17 must not force a verdict beyond evidence"
+  },
+  "claim_boundaries": [
+    "GEN_SEARCH != CONSUMER_ALICE",
+    "GEN_SEARCH != WEBMASTER_ALICE_VISIBILITY",
+    "EXACT_QUERY != USER_JOB_FAMILY",
+    "SINGLE_RUN != LONG_TERM_STABILITY",
+    "SHORT_WINDOW_REPEAT != LONG_TERM_STABILITY",
+    "SOURCE_ORDER != RANK",
+    "USED_SOURCE_COUNT != RANK",
+    "URL_TITLE_ROLE_HINT != MATERIAL_ROLE_PROOF",
+    "STEP17_DELTA_OVERLAY != WHOLE_SITE_REARCHITECTURE",
+    "STEP17 != STEP18_PRIORITIZATION"
+  ],
+  "acceptance_requirements": {
+    "cases_accounted": "8/8",
+    "ordinary_search_baseline_accounted": "8/8",
+    "corrected_gensearch_observation_accounted": "8/8",
+    "old_step16_final_labels_used_as_verdict_input": 0,
+    "material_used_source_roles_without_direct_validation": 0,
+    "material_target_page_claims_without_current_evidence": 0,
+    "source_order_rank_inferences": 0,
+    "used_source_count_as_rank_inferences": 0,
+    "consumer_alice_equivalence_claims": 0,
+    "user_job_family_generalizations_from_exact_query": 0,
+    "unreproduced_ai_only_material_change_verdicts": 0,
+    "final_verdict_present": "8/8",
+    "change_without_explicit_delta_trace": 0,
+    "out_of_scope_rearchitecture_actions": 0,
+    "unauthorized_provider_calls": 0,
+    "reverse_trace_missing": 0,
+    "independent_qa_blocking_findings": 0,
+    "final_github_readback": "PASS"
+  },
+  "planned_final_artifacts": [
+    "STEP_17_CASE_COMPARISON_LEDGER_FINAL.tsv",
+    "STEP_17_ARCHITECTURE_DELTA_OVERLAY.tsv",
+    "STEP_17_QA_FINAL_2026-09-02.json",
+    "STEP_17_REPORT_2026-09-02.md",
+    "STEP_17_CURRENT_STATE.json",
+    "JOB_FLOW_STEP17_EXECUTION_SYNC_2026-09-02.md"
+  ],
+  "authorization": {
+    "pre_step_preparation_authorized": true,
+    "step17_execution_authorized": false,
+    "provider_calls_authorized": false,
+    "step17_execution_started": false,
+    "next_legal_action": "OWNER_REVIEW_AND_EXPLICIT_STEP17_EXECUTION_AUTHORIZATION"
+  }
+}
