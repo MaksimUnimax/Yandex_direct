@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 15,
+  "artifact": "CASE_SELECTION_LEDGER",
+  "storage": "HUMAN_READABLE_TSV_SHARDS",
+  "parts": [
+    "STEP_15_CASE_SELECTION_LEDGER_PART_01.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_PART_02.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_PART_03.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_PART_04.tsv",
+    "STEP_15_CASE_SELECTION_LEDGER_PART_05.tsv"
+  ],
+  "selected_case_parts": [
+    "STEP_15_SELECTED_CASES_PART_01.tsv",
+    "STEP_15_SELECTED_CASES_PART_02.tsv"
+  ],
+  "rows": 25,
+  "rows_per_ledger_part": 5,
+  "verdicts": {"SELECT": 6, "REJECT": 18, "HOLD": 1},
+  "selected_case_ids": ["C15-004","C15-006","C15-010","C15-013","C15-019","C15-020"],
+  "step14a_delta_coverage_artifact": "STEP_15_STEP14A_DELTA_COVERAGE.tsv",
+  "step14a_delta_coverage": "21/21",
+  "provider_calls": 0,
+  "gensearch_calls": 0,
+  "step16_executed": false
+}

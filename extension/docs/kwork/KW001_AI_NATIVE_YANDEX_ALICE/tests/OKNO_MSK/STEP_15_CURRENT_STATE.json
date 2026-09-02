@@ -3,33 +3,24 @@
   "job": "OKNO_MSK",
   "step": 15,
   "step_name": "AI-case selection",
-  "status": "PRESTEP_RESEARCH_COMPLETE__METHOD_REVIEW_PRESENTED__AWAITING_OWNER_ACCEPTANCE__EXECUTION_NOT_STARTED",
-  "step14_final_pass_commit": "16d7f38b7b48369d3d2687553f7a865b86bf133e",
-  "methodology": {
-    "permanent_status": "UNVALIDATED",
-    "fresh_external_research_complete": true,
-    "source_to_method_trace_complete": true,
-    "research_to_execution_schema_complete": true,
-    "execution_manifest_complete": true,
-    "owner_facing_review_presented": true,
-    "owner_acceptance_after_review": false
-  },
+  "status": "PASS__OWNER_ACCEPTED_METHOD__25_REVIEWED__6_SELECTED__18_REJECTED__1_HELD__STEP16_NOT_STARTED",
+  "permanent_method_status": "UNVALIDATED__JOB_SCOPED_EXECUTION_PASS__NO_PERMANENT_PROMOTION",
+  "prestep_commit": "07708dc060651d34690319a03f02b999b4cc9efb",
+  "owner_acceptance_after_review": true,
   "execution": {
-    "case_selection_started": false,
-    "review_ledger_created": false,
-    "selected_cases": 0,
-    "provider_calls_authorized": false,
-    "provider_calls_executed": 0,
-    "gensearch_calls": 0,
-    "step16_executed": false
+    "case_selection_started": true,
+    "case_selection_completed": true,
+    "review_ledger_created": true,
+    "reviewed_candidates": 25,
+    "selected_cases": 6,
+    "rejected_cases": 18,
+    "held_cases": 1,
+    "selected_case_ids": ["C15-004","C15-006","C15-010","C15-013","C15-019","C15-020"]
   },
-  "job_scoped_count_policy": {
-    "target": "normally 3-10",
-    "source": "IMPLEMENTATION_PLAN.md",
-    "fixed_universal_threshold": false,
-    "fewer_allowed": true,
-    "more_than_10_requires_owner_reviewed_exception": true
-  },
-  "next_step_allowed": false,
-  "next_required_action": "Owner review/acceptance of Step15 proposed method. After acceptance, execute case selection only; no Step16 provider acquisition until its own gate."
+  "coverage": {"step13_query_families_reviewed": "21/21", "step14a_material_delta_ids_covered": "21/21", "silent_drops": 0},
+  "provider": {"calls_authorized": false, "calls_executed": 0, "gensearch_calls": 0, "step16_executed": false},
+  "selected_queries": ["панорамные алюминиевые окна","алюминиевые окна для веранды","установка подоконников","французские окна","открыть пластиковое окно","лучшие пластиковые окна"],
+  "next_step_allowed": true,
+  "next_step_scope": "STEP16_PRE_STEP_METHOD_RESEARCH_AND_OWNER_REVIEW_ONLY",
+  "next_required_action": "Step16 is separately gated. Perform Step16 current-method research/source-to-method trace/owner-facing review before any GenSearch provider request."
 }
