@@ -1,0 +1,65 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": "14A",
+  "run_id": 9,
+  "status": "PARTIAL_PASS_LINK_TOPOLOGY_VERIFIED_DISCOVERY_COMPLETENESS_NOT_PROVEN",
+  "input_package_sha256": "36e4083ca727ac93a0223ae82ec72c08c88e61469db8b4ff184563c899be51d9",
+  "browser_evidence": {
+    "in_app_browser_used": true,
+    "browser_pass_executed": true,
+    "discovered_url_candidates": 158,
+    "opened_read_urls": 8,
+    "sitemap_urls_reconciled": false,
+    "run9_current_urls_not_in_upstream": 0
+  },
+  "internal_link_topology": {
+    "planned_implement_baseline": 15,
+    "classified": 15,
+    "as_is_present": 9,
+    "as_is_absent_planned": 6,
+    "blocked_or_unverified": 0,
+    "not_applicable": 0,
+    "accounting_pass": true,
+    "recommendation_state_separate_from_as_is_state": true,
+    "accepted": true
+  },
+  "discovery_completeness": {
+    "forward_discovered_to_upstream_reconciliation": "PASS_WITH_BOUNDARY",
+    "reverse_upstream_to_run9_reconciliation": "NOT_PROVEN",
+    "known_reverse_counterexample_calculator": true,
+    "known_reverse_counterexample_qf017_terrace_specialist": true,
+    "fresh_public_web_found_urls_outside_run9": true,
+    "fresh_public_web_examples": [
+      "https://okno-msk.ru/o-kompanii/llm-info-page/",
+      "https://pushkino.okno-msk.ru/",
+      "https://ramenskoe.okno-msk.ru/",
+      "https://krasnogorsk.okno-msk.ru/",
+      "https://odincovo.okno-msk.ru/"
+    ],
+    "sitemap_reconciliation_complete": false,
+    "complete_public_site_discovery_proven": false
+  },
+  "architecture_impact": {
+    "semantic_baseline_preserved": true,
+    "new_page_actions_authorized": 0,
+    "destructive_actions_authorized": 0,
+    "affected_units_reopened_from_run9_itself": 0,
+    "newly_surfaced_external_web_pages_require_scope_classification": true
+  },
+  "accounting_preserved": {
+    "active_phrases": 2332,
+    "assigned_phrases": 2313,
+    "preserved_unresolved": 19,
+    "structural_units": 168,
+    "step13_effective_pairs": 199,
+    "step13_query_family_cases": 21
+  },
+  "final_gates": {
+    "step14a_browser_run_accepted_within_scope": true,
+    "step14a_as_is_link_topology_pass": true,
+    "step14a_discovery_completeness_pass": false,
+    "step14_overall_complete": false,
+    "step15_allowed": false
+  }
+}
