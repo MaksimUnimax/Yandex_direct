@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "step_name": "AI-search evidence acquisition",
+  "status": "PRE_STEP_COMPLETE__AWAITING_OWNER_PROVIDER_AUTHORIZATION",
+  "method": {
+    "permanent_method_status": "UNVALIDATED",
+    "current_job_method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
+    "pre_step_review": "STEP_16_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
+    "research_to_execution_schema": "STEP_16_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
+    "case_execution_plan": "STEP_16_CASE_EXECUTION_PLAN_2026-09-02.tsv",
+    "execution_manifest": "STEP_16_EXECUTION_MANIFEST_2026-09-02.json",
+    "job_flow_sync": "JOB_FLOW_STEP16_PRESTEP_SYNC_2026-09-02.md"
+  },
+  "input": {
+    "source": "STEP_15_SELECTED_CASES_V2.tsv",
+    "selected_cases": 8,
+    "diagnostic_probes": 6,
+    "stability_controls": 2,
+    "exact_query_match_verified": "8/8",
+    "v1_input_used": false
+  },
+  "bridge": {
+    "capability_branch": "bridge/webmaster-readiness-gzip-v0.1.4",
+    "head": "8bb1365a9905df8a6d7e09917e81444a9b7f1024",
+    "version": "0.1.4",
+    "full_gate": "33491679086_SUCCESS",
+    "required_service": "search",
+    "required_method": "genSearch",
+    "capability_sufficient": true,
+    "new_engineering_required": false
+  },
+  "access": {
+    "yandex_webmaster": "UNAVAILABLE",
+    "base_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+    "base_ai_route": "OFFICIAL_GENSEARCH",
+    "owned_webmaster_alice": "OPTIONAL_ENHANCEMENT_UNAVAILABLE_NOT_EXECUTED"
+  },
+  "provider_plan": {
+    "initial_calls": 8,
+    "initial_unit_cost_rub": 5.08,
+    "initial_planned_cost_rub": 40.64,
+    "initial_provider_calls_authorized": false,
+    "conditional_semantic_confirmation_max_calls": 8,
+    "conditional_semantic_confirmation_max_incremental_cost_rub": 40.64,
+    "conditional_semantic_confirmation_authorized": false,
+    "failure_unknown_retry_rule": "EXISTING_OWNER_PREAUTHORIZED_RULE__UP_TO_3_ADDITIONAL_RETRIES_AFTER_ORIGINAL_UNUSABLE_OR_UNKNOWN__ANNOUNCE_EACH_RETRY",
+    "provider_calls_executed": 0,
+    "provider_cost_rub_incurred": 0.0
+  },
+  "controls": {
+    "complete_raw_result_before_next_paid_action": true,
+    "github_write_readback_before_analysis_or_next_paid_action": true,
+    "gensearch_consumer_alice_separation": true,
+    "source_array_order_not_ranking": true,
+    "preregistered_case_conditions_required": true,
+    "material_delta_confirmation_required": true,
+    "step16_architecture_rewrite_forbidden": true,
+    "insufficient_is_valid_outcome": true
+  },
+  "preparation_qa": {
+    "material_research_requirements_accounted_percent": 100,
+    "base_required_unoperationalized": 0,
+    "optional_enhancement_silently_skipped": 0,
+    "selected_case_count_reconciled": true,
+    "planned_commands_match_exact_v2_queries": true,
+    "provider_authorization_false_after_write_readback": true,
+    "preparation_artifacts_read_back": true,
+    "preparation_github_readback": "PASS"
+  },
+  "execution": {
+    "step16_executed": false,
+    "first_case": "C15-004",
+    "next_legal_action": "OWNER_EXPLICIT_PROVIDER_AUTHORIZATION",
+    "after_authorization": "BEGIN_C15-004_INITIAL_GENSEARCH_ONLY_THEN_PERSIST_READBACK_QA_BEFORE_ANY_NEXT_PAID_ACTION"
+  }
+}
