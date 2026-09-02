@@ -3,12 +3,15 @@
   "job": "OKNO_MSK",
   "step": 14,
   "step_name": "Search-only architecture freeze",
-  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__MANDATORY_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_REQUIRED__STEP15_BLOCKED",
+  "status": "REOPENED__SEMANTIC_FREEZE_PROVISIONALLY_PRESERVED__CODEX_SYNC_RETRY3_REQUIRED__STEP15_BLOCKED",
   "permanent_method_status": "APPROVED_ACTIVE_AFTER_POST_RUN_DISCOVERY_TOPOLOGY_CORRECTION",
   "canonical_step_method": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md",
   "universal_codex_gate": "RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md",
+  "universal_evidence_conflict_gate": "RULES_ARCHITECTURE_CODEX_EVIDENCE_CONFLICT_PRESERVATION_ADDENDUM_2026-09-02.md",
+  "step14_repository_sync_gate": "STEP_14_CODEX_REPOSITORY_SYNC_GATE.md",
   "job_correction_gate": "STEP_14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_AND_GATE_2026-09-02.md",
   "exact_codex_prompt": "STEP_14A_CODEX_PROMPT_2026-09-02.md",
+  "current_retry_prompt": "STEP_14A_CODEX_RETRY_PROMPT_AFTER_STEP11_EVIDENCE_CONFLICT_2026-09-02.md",
   "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
   "semantic_freeze": {
     "status": "PROVISIONAL_PASS_PRESERVED",
@@ -28,6 +31,48 @@
     ],
     "root_cause": "Anti-speculation and upstream-scope-preservation controls were applied too broadly, causing the accepted upstream URL universe to behave as a closed current-site universe. The link schema also failed to require separate recommendation_state and as_is_topology_state fields.",
     "non_repeat_control": "Mandatory deterministic Codex/code discovery and literal HTML topology evidence before completeness/topology-dependent Step-14 PASS."
+  },
+  "codex_repository_sync": {
+    "required": true,
+    "attempt_1": {
+      "status": "BLOCKED_SAFELY_STALE_LOCAL_REPOSITORY_STATE",
+      "local_head": "bd5766a6498577176aaf8d0210a80c670cde4c39",
+      "consequence": "Mandatory Step-14A files appeared absent locally because the clone had not fetched current remote authority.",
+      "public_site_requests": 0,
+      "step14a_execution_started": false
+    },
+    "attempt_2": {
+      "status": "BLOCKED_SAFELY_STEP11_ADD_ADD_EVIDENCE_CONFLICT",
+      "local_head_before_sync": "bd5766a6498577176aaf8d0210a80c670cde4c39",
+      "remote_head_after_fetch": "a9f54e2a5c2721c84024ec442f8dafad40ccdd8d",
+      "relationship": "DIVERGED",
+      "backup_ref": "codex/backup-step14a-pre-sync-20260902",
+      "sync_mode": "SAFE_MERGE_ATTEMPT_ABORTED",
+      "conflict_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_11_CODEX_PAGE_REFRESH_REPORT.md",
+      "conflict_type": "add/add",
+      "worktree_after_abort": "clean",
+      "local_commit_lost": false,
+      "public_site_requests": 0,
+      "step14a_execution_started": false,
+      "blocked_run_artifact": "STEP_14A_CODEX_BLOCKED_RUN_STEP11_ADD_ADD_CONFLICT_2026-09-02.md"
+    },
+    "retry_3": {
+      "required": true,
+      "prompt": "STEP_14A_CODEX_RETRY_PROMPT_AFTER_STEP11_EVIDENCE_CONFLICT_2026-09-02.md",
+      "required_method": "FETCH_LATEST_REMOTE__SAFE_MERGE__BLOB_COMPARISON__LOSSLESS_EVIDENCE_PRESERVATION__MANDATORY_FILE_GATE__FULL_STEP14A_EXECUTION__NORMAL_PUSH",
+      "run_executed": false,
+      "merge_complete": false,
+      "outputs_persisted": false,
+      "push_complete": false,
+      "github_readback": false
+    },
+    "causal_lessons": [
+      "LOCAL_BRANCH_NAME_MATCH_DOES_NOT_PROVE_REMOTE_STATE_CURRENT",
+      "FILE_NOT_FOUND_IN_STALE_LOCAL_CLONE_DOES_NOT_PROVE_PROJECT_AUTHORITY_MISSING",
+      "FAIL_CLOSED_DOES_NOT_FORBID_LOSSLESS_EVIDENCE_PRESERVATION",
+      "EVIDENCE_CONFLICT_DOES_NOT_AUTHORIZE_PICKING_ONE_VERSION",
+      "PRESERVE_BOTH_DOES_NOT_MAKE_BOTH_CANONICAL"
+    ]
   },
   "codex_correction": {
     "required": true,
@@ -107,6 +152,6 @@
   "step15_executed": false,
   "step16_executed": false,
   "next_step_allowed": false,
-  "next_step_scope": "STEP14A_CODEX_DISCOVERY_TOPOLOGY_CORRECTION_ONLY",
-  "next_required_action": "Owner runs the exact repository prompt STEP_14A_CODEX_PROMPT_2026-09-02.md in Codex on branch roadmap/kwork-productization-2026-08-28, then returns the Codex completion report/commit SHA. ChatGPT must read back all Step-14A artifacts, semantically reconcile every newly discovered URL and all 15 required edges, reopen affected units only when evidence requires it, rerun final QA, and only then decide whether Step 14 can return to COMPLETE."
+  "next_step_scope": "STEP14A_CODEX_RETRY3_SAFE_SYNC_AND_DISCOVERY_TOPOLOGY_ONLY",
+  "next_required_action": "Owner runs STEP_14A_CODEX_RETRY_PROMPT_AFTER_STEP11_EVIDENCE_CONFLICT_2026-09-02.md in Codex. Codex must fetch the latest canonical remote branch, losslessly reconcile the Step-11 add/add evidence conflict by blob comparison/provenance preservation, complete a safe merge preserving both histories, execute the full canonical Step-14A discovery/topology prompt, commit and normal-push the evidence. ChatGPT must then read back every pushed Step-14A artifact, semantically reconcile all newly discovered URLs and all 15 required edges, reopen affected units only when evidence requires it, rerun final QA, and only then decide whether Step 14 can return to COMPLETE."
 }
