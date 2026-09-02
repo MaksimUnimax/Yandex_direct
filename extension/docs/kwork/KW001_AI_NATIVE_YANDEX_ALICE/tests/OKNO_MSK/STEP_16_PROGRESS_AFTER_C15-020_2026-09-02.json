@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "status": "ALL_8_INITIAL_COMPLETE__ALL_REQUIRED_CONFIRMATIONS_COMPLETE__FINALIZATION_QA_PENDING",
+  "completed_initial_cases": 8,
+  "total_initial_cases": 8,
+  "completed_case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+  "remaining_initial_case_ids": [],
+  "completed_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE",
+    "C15-007": "DE_RISK",
+    "C15-010": "CHANGE_CONFIRMED",
+    "C15-013": "DE_RISK",
+    "C15-018": "NO_CHANGE",
+    "C15-019": "NO_CHANGE",
+    "C15-020": "INSUFFICIENT"
+  },
+  "latest_case": {
+    "case_id": "C15-020",
+    "case_role": "DIAGNOSTIC_PROBE",
+    "query": "лучшие пластиковые окна",
+    "attempt": "INITIAL",
+    "provider_execution": true,
+    "http_status": 200,
+    "request_id": "search-5a162108-6e18-47e8-b383-9346076b572c",
+    "cost_rub": 5.08,
+    "raw_authority": "STEP_16_C15-020_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+    "normalized_observation": "STEP_16_C15-020_INITIAL_OBSERVATION.json",
+    "raw_readback": "PASS",
+    "normalized_readback": "PASS",
+    "evidence_usability": "USEFUL_BUT_ROLE_DISCRIMINATION_INSUFFICIENT",
+    "outcome": "INSUFFICIENT",
+    "confirmation_required": false,
+    "confirmation_reason": "Confirmation applies only to CHANGE_CANDIDATE or CONTROL_BREAK_CANDIDATE."
+  },
+  "material_candidates": {
+    "initial_change_candidates": 1,
+    "initial_control_break_candidates": 0,
+    "required_confirmations": 1,
+    "confirmations_executed": 1,
+    "confirmed_material_changes": 1,
+    "confirmed_control_breaks": 0,
+    "material_delta_without_required_confirmation": 0
+  },
+  "accounting": {
+    "initial_provider_calls_executed": 8,
+    "confirmation_calls_executed": 1,
+    "retry_calls_executed": 0,
+    "provider_calls_executed_total": 9,
+    "provider_cost_rub_incurred": 45.72,
+    "initial_planned_cost_rub": 40.64,
+    "confirmation_cost_rub": 5.08,
+    "retry_cost_rub": 0.0,
+    "initial_calls_remaining": 0
+  },
+  "controls": {
+    "verbatim_raw_required": true,
+    "all_useful_results_have_verbatim_raw": true,
+    "all_verbatim_raw_readback_pass": true,
+    "all_normalized_observations_readback_pass": true,
+    "source_order_rank_inference_used": false,
+    "used_source_count_treated_as_rank": false,
+    "consumer_alice_equivalence_claimed": false,
+    "step17_architecture_change_executed": false,
+    "all_initial_cases_accounted": true
+  },
+  "next": {
+    "provider_action": "NONE_REQUIRED",
+    "step16_finalization": [
+      "build final observation ledger",
+      "run final QA/accounting reconciliation",
+      "write Step16 report",
+      "write Step16 current state",
+      "write job-flow Step16 completion sync",
+      "read back final artifacts"
+    ],
+    "step17_not_started": true
+  }
+}
