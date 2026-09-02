@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 17,
+  "step_name": "Search-vs-GenSearch comparison",
+  "status": "PREPARED__METHOD_RESEARCH_COMPLETE__EXECUTION_NOT_STARTED__AWAITING_OWNER_AUTHORIZATION",
+  "method_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
+  "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
+  "execution_manifest": "STEP_17_EXECUTION_MANIFEST_2026-09-02.json",
+  "case_plan": "STEP_17_CASE_COMPARISON_PLAN_2026-09-02.tsv",
+  "input_authorities": {
+    "search_baseline": "STEP_15_SELECTED_CASES_V2.tsv",
+    "gensearch_corrected": "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
+    "gensearch_raw": "authoritative Step16 verbatim raw files",
+    "search_only_architecture": "Step14/14A accepted authorities"
+  },
+  "scope": {
+    "case_count": 8,
+    "test_scope": "EXACT_QUERY",
+    "evidence_surface": "ORDINARY_YANDEX_SEARCH_VS_YANDEX_GENSEARCH_API_PROXY",
+    "consumer_alice": "NOT_OBSERVED",
+    "webmaster_alice_visibility": "UNAVAILABLE_NOT_EXECUTED"
+  },
+  "method_boundary": {
+    "step17": "compare 8 cases, assign CHANGE/DE_RISK/NO_CHANGE/INSUFFICIENT, create bounded AI-derived delta overlay where CHANGE is justified",
+    "full_architecture_rebuild": false,
+    "step18_prioritization": false
+  },
+  "planned_provider_calls": {
+    "ordinary_search": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "planned_provider_cost_rub": 0.0
+  },
+  "material_controls": {
+    "old_step16_final_labels_allowed_as_verdict_input": false,
+    "source_order_rank_inference_allowed": false,
+    "used_source_count_rank_inference_allowed": false,
+    "material_source_role_requires_direct_page_read": true,
+    "material_target_page_claim_requires_current_evidence": true,
+    "unreproduced_ai_only_material_change_allowed": false,
+    "exact_query_to_user_job_family_generalization_allowed": false
+  },
+  "special_cases": {
+    "C15-010": "MANDATORY_FORMAL_COMPARISON__TWO_SHORT_WINDOW_RUNS__DIRECT_SOURCE_AND_TARGET_PAGE_VALIDATION_REQUIRED_BEFORE_CHANGE",
+    "C15-020": "EXPLICIT_STEP16_INSUFFICIENT__DO_NOT_FORCE_TARGET_PAGE_ROLE_DECISION"
+  },
+  "ten_point_pre_execution_gate": {
+    "full_roadmap_loaded": true,
+    "step15_v2_baseline_loaded": true,
+    "step16_corrected_authority_loaded": true,
+    "old_step16_labels_excluded": true,
+    "exact_query_boundary_active": true,
+    "gensearch_alice_boundary_active": true,
+    "source_role_direct_inspection_rule_active": true,
+    "reproducibility_change_gate_active": true,
+    "step17_step18_boundary_active": true,
+    "unapproved_paid_calls_planned": false,
+    "gate_status": "PASS_FOR_OWNER_REVIEW_NOT_EXECUTION_AUTHORIZATION"
+  },
+  "execution": {
+    "started": false,
+    "cases_compared": 0,
+    "final_verdicts": 0,
+    "architecture_delta_rows": 0,
+    "provider_calls": 0,
+    "provider_cost_rub": 0.0
+  },
+  "next_legal_action": "OWNER_REVIEW_AND_EXPLICIT_STEP17_EXECUTION_AUTHORIZATION"
+}
