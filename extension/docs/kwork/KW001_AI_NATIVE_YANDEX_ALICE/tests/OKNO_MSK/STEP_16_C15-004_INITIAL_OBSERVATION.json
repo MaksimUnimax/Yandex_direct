@@ -1,0 +1,95 @@
+{
+  "case_id": "C15-004",
+  "case_role": "DIAGNOSTIC_PROBE",
+  "query_family_id": "QF004",
+  "authoritative_query": "панорамные алюминиевые окна",
+  "attempt_type": "INITIAL",
+  "attempt_ordinal": 1,
+  "observed_at": "2026-09-02T16:40:00+05:00",
+  "bridge_version": "0.1.4",
+  "request_id": "search-c508723a-768f-4bb0-9fc9-010acb4c8b61",
+  "http_status": 200,
+  "request_executed": true,
+  "automatic_retry": false,
+  "provider_cost_rub": 5.08,
+  "message_content": "**Панорамные алюминиевые окна** — это светопрозрачные конструкции увеличенного размера, которые обеспечивают максимальный обзор и наполняют помещение естественным светом. [2]\n\n**Некоторые особенности панорамных алюминиевых окон:**\n\n* **Большой размер**. [3] Стандартная высота секции панорамного окна — 2–2,5 метра, а ширина варьируется от 0,8 до 1,5 метров. [3]\n* **Высокая светопропускная способность**. [1] В комнату проникает максимум солнечного света, интенсивность освещения можно регулировать. [1]\n* **Возможность зрительно расширить пространство**. [1] Комната с прозрачной стеной кажется бесконечной, при наполнении её светом визуально увеличивается высота потолков. [1]\n* **Прочность и надёжность**. [1] Каркас из алюминия лёгкий, устойчивый к механическому воздействию, сохраняет геометрию и не поражается коррозией. [1]\n* **Теплоизоляция**. [1] При использовании «тёплого» профиля и многокамерных стеклопакетов обеспечивается высокий уровень тепловой защиты. [1]\n\n**Панорамные алюминиевые окна могут быть глухими или открывающимися**. [2] В большинстве проектов используются комбинированные решения, где часть остекления остаётся неподвижной, а часть обеспечивает проветривание и удобный доступ на улицу. [2]\n\n**В зависимости от типа профиля**, который используют для изготовления, конструкции делятся на: [1]\n\n* **«Холодные»**. [1] Изготовлены из профильных систем без полиамидной термовставки, имеют низкие термоизоляционные параметры. [1] Устанавливаются на лоджиях, летних верандах и беседках, в помещениях без отопления. [1]\n* **«Тёплые»**. [1] Имеют воздушные камеры в количестве от 3 до 5 и термовставку или полиамида. [1] Используются для остекления частных домов и квартир, коммерческих, офисных и других отапливаемых зданий. [1]\n\n**Некоторые компании, которые занимаются производством панорамных алюминиевых окон:** L-okna, «Окна Роста», «АЛЮТЕХ». [1][3][5]",
+  "message_role": "ROLE_ASSISTANT",
+  "sources_total": 5,
+  "sources_used_count": 4,
+  "sources_full": [
+    {
+      "url": "https://l-okna.ru/panoramnyie-alyuminievyie-okna/",
+      "title": "Панорамные алюминиевые окна по цене лучшей в Москве | L-okna",
+      "used": true,
+      "observed_role": "COMMERCIAL_PRODUCT_SPECIALIST"
+    },
+    {
+      "url": "https://al-solution.ru/production/panoramnye-okna",
+      "title": "Панорамные окна - цена 19 000 руб, купить панорамное остекление дома, квартиры, террасы - al-solution.ru - г. Москва",
+      "used": true,
+      "observed_role": "COMMERCIAL_PANORAMIC_PRODUCT"
+    },
+    {
+      "url": "https://www.oknarosta.ru/aluminievye-okna/panoramnye/",
+      "title": "Панорамные алюминиевые окна в Москве – купить недорого от завода-изготовителя",
+      "used": true,
+      "observed_role": "COMMERCIAL_PRODUCT_SPECIALIST"
+    },
+    {
+      "url": "https://www.okna.ru/alyuminievye-okna/panoramnye-alyuminievye-okna/",
+      "title": "Панорамные алюминиевые окна в Москве, цены - окна KALEVA",
+      "used": false,
+      "observed_role": "COMMERCIAL_PRODUCT_SPECIALIST"
+    },
+    {
+      "url": "https://alutech.ru/kompleksnoe-osteklenie/panoramnoe-osteklenie/panoramnye-okna/",
+      "title": "Алюминиевые панорамные окна цена в Москве | Купить панорамные окна в пол в частный дом",
+      "used": true,
+      "observed_role": "COMMERCIAL_PRODUCT_SPECIALIST"
+    }
+  ],
+  "search_queries_total": 1,
+  "search_queries_full": [
+    {
+      "text": "панорамные алюминиевые окна",
+      "reqId": "1788349209689120-16072899114597621714-jjleoq7twfmpzee5-BAL"
+    }
+  ],
+  "fixed_misspell_query": "",
+  "is_answer_rejected": false,
+  "is_bullet_answer": false,
+  "hints": [
+    "Какие недостатки у панорамных алюминиевых окон?",
+    "Как правильно установить панорамные алюминиевые окна?",
+    "Какие материалы используются для изготовления панорамных окон?"
+  ],
+  "problematic_answer": false,
+  "transport_wire_format": "json_array",
+  "transport_frame_count": 1,
+  "evidence_usability": "USEFUL",
+  "message_orientation_summary": "The answer is explanatory/specification-oriented: definition, size, light transmission, visual-space effect, aluminium strength, thermal insulation, fixed/opening configurations, cold-vs-warm profile selection, and manufacturer examples. It does not shift into a pure informational/how-to-only task; commercial product/specialist pages supply all four used sources.",
+  "used_target_domain_urls": [],
+  "primary_owner_used": false,
+  "supporting_owner_used": false,
+  "source_order_rank_inference": false,
+  "condition_match_evidence": {
+    "pre_ai_baseline": "Ordinary Search is strongly commercial/product-led; aluminium commercial owner is primary, panoramic information supports.",
+    "change_condition_met": false,
+    "change_condition_reason": "The answer contains technical/explanatory material, but the used sources do not favor explanatory panoramic-selection resources over commercial product ownership: all four used sources are commercial panoramic/aluminium product or manufacturer pages, and the only refined search query remains the exact original commercial/product formulation.",
+    "de_risk_condition_met": true,
+    "de_risk_condition_reason": "The generated synthesis is specification/selection-oriented and all used evidence comes from commercial aluminium/panoramic product pages; no used informational article or narrowed explanatory refined query appears.",
+    "no_change_condition_met": false,
+    "insufficient_condition_met": false
+  },
+  "initial_or_confirmation_outcome": "DE_RISK",
+  "raw_evidence_ref": "STEP_16_C15-004_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+  "non_authoritative_reconstruction_ref": "STEP_16_C15-004_INITIAL_GENSEARCH_RAW.json",
+  "claim_boundary": [
+    "GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER",
+    "GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE",
+    "sources_array_order != source_rank",
+    "single_observation != stable_or_permanent_truth",
+    "selected_case != representative_sample",
+    "Step16_observation != Step17_architecture_decision"
+  ]
+}
