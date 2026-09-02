@@ -2,65 +2,68 @@
   "date": "2026-09-02",
   "job": "OKNO_MSK",
   "step": 16,
-  "step_name": "AI-search evidence acquisition",
-  "status": "COMPLETE__FINAL_ACCEPTANCE_PASS__READY_FOR_STEP17_PRESTEP_GATE",
-  "input": {
-    "selected_cases": 8,
-    "diagnostic_probes": 6,
-    "stability_controls": 2,
-    "v2_only": true
-  },
+  "step_name": "Yandex GenSearch evidence acquisition",
+  "status": "COMPLETE__POST_RUN_CORRECTED__EVIDENCE_ACQUISITION_ONLY__STEP17_NOT_STARTED",
+  "original_pre_step_method_validation": "FAILED_POST_RUN_AUDIT",
+  "method_correction_authority": "STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md",
+  "corrected_method_review": "STEP_16_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
+  "corrected_schema": "STEP_16_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
+  "corrected_manifest": "STEP_16_EXECUTION_MANIFEST_2026-09-02.json",
+  "corrected_case_plan": "STEP_16_CASE_EXECUTION_PLAN_2026-09-02.tsv",
+  "corrected_observation_authority": "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
+  "corrected_ledger": "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
+  "corrected_report": "STEP_16_REPORT_2026-09-02.md",
+  "corrected_qa": "STEP_16_QA_FINAL_2026-09-02.json",
+  "evidence_surface": "YANDEX_GENSEARCH_API_PROXY",
+  "test_scope": "EXACT_QUERY",
   "execution": {
-    "initial_cases_executed": 8,
-    "required_confirmations": 1,
-    "confirmations_executed": 1,
-    "retries_executed": 0,
+    "selected_queries": 8,
+    "initial_calls": 8,
+    "additional_same_query_short_window_calls": 1,
+    "additional_case": "C15-010",
+    "retries": 0,
     "provider_calls_total": 9,
     "provider_cost_rub_total": 45.72,
-    "provider_actions_remaining_in_step16": 0
+    "provider_actions_remaining_in_step16": 0,
+    "authoritative_verbatim_raw_files": 9,
+    "verbatim_raw_readback_percent": 100
   },
-  "final_case_outcomes": {
-    "C15-004": "DE_RISK",
-    "C15-006": "NO_CHANGE",
-    "C15-007": "DE_RISK",
-    "C15-010": "CHANGE_CONFIRMED",
-    "C15-013": "DE_RISK",
-    "C15-018": "NO_CHANGE",
-    "C15-019": "NO_CHANGE",
-    "C15-020": "INSUFFICIENT"
+  "corrected_case_states": {
+    "C15-004": "OBSERVED_DIRECTION",
+    "C15-006": "OBSERVED_DIRECTION",
+    "C15-007": "OBSERVED_DIRECTION__NO_CONTROL_ANOMALY_OBSERVED_IN_THIS_RUN",
+    "C15-010": "MATERIAL_OBSERVATION_REPRODUCED_SHORT_WINDOW",
+    "C15-013": "OBSERVED_DIRECTION",
+    "C15-018": "OBSERVATION_MIXED__NO_CONTROL_ANOMALY_CONFIRMED_IN_THIS_SINGLE_RUN",
+    "C15-019": "OBSERVATION_MIXED",
+    "C15-020": "OBSERVATION_INSUFFICIENT_FOR_TARGET_SITE_PAGE_ROLE_DECISION"
+  },
+  "superseded_semantics": {
+    "old_step16_labels": ["DE_RISK","NO_CHANGE","CHANGE_CANDIDATE","CHANGE_CONFIRMED","INSUFFICIENT_as_final_cross_surface_verdict"],
+    "authority_state": "HISTORICAL_ONLY__NOT_FINAL_DECISION_AUTHORITY",
+    "reason": "Final Search-vs-AI comparison belongs to Step17, not Step16."
+  },
+  "claim_boundaries": {
+    "consumer_alice_behavior_proven": false,
+    "webmaster_alice_visibility_observed": false,
+    "user_job_family_behavior_proven": false,
+    "long_term_stability_proven": false,
+    "final_search_vs_ai_decision_complete": false,
+    "architecture_change_executed": false
   },
   "step17_handoff": {
-    "confirmed_material_case_count": 1,
-    "confirmed_material_case_ids": ["C15-010"],
-    "confirmed_control_break_count": 0,
-    "insufficient_case_ids": ["C15-020"],
-    "architecture_change_executed_in_step16": false,
+    "mandatory_formal_comparison": ["C15-010"],
+    "explicit_insufficient_target_role_case": ["C15-020"],
+    "other_cases": "available as exact-query GenSearch observations/control context",
+    "used_source_page_inspection_required_when_role_is_material": true,
+    "new_paid_gensearch_automatically_required": false,
     "step17_started": false
   },
-  "persistence": {
-    "authoritative_verbatim_raw_files": 9,
-    "normalized_observation_files": 9,
-    "raw_readback_percent": 100,
-    "normalized_readback_percent": 100,
-    "observation_ledger": "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
-    "qa": "STEP_16_QA_FINAL_2026-09-02.json",
-    "report": "STEP_16_REPORT_2026-09-02.md",
-    "final_qa_status": "PASS"
-  },
-  "process_non_repeat_rules": [
-    "STEP_16_PROCESS_NON_REPEAT_RULES_2026-09-02.md",
-    "STEP_16_PROCESS_NON_REPEAT_RULES_COMMAND_SURFACE_ADDENDUM_2026-09-02.md",
-    "STEP_16_PROCESS_NON_REPEAT_RULES_RAW_VERBATIM_ADDENDUM_2026-09-02.md"
-  ],
   "method_status": {
-    "current_job_execution": "PASS",
+    "current_job_step16_evidence_acquisition": "CORRECTED_PASS",
+    "original_method_validation": "FAILED_POST_RUN_AUDIT",
     "permanent_step16_method": "UNVALIDATED_PENDING_FURTHER_VALIDATION_OR_OWNER_PROMOTION_DECISION",
     "automatic_universal_promotion": false
   },
-  "acceptance": {
-    "substantive_acceptance_checks": "PASS",
-    "final_github_readback": "PASS",
-    "step16_complete": true
-  },
-  "next_legal_action": "STOP_STEP16__STEP17_REQUIRES_NEW_PRESTEP_GOAL_FULL_ROADMAP_METHOD_GATE_BEFORE_RESEARCH_OR_EXECUTION"
+  "next_legal_action": "READ_BACK_CORRECTED_FINAL_ARTIFACTS__THEN_STOP_STEP16__STEP17_REQUIRES_NEW_PRESTEP_GOAL_FULL_ROADMAP_METHOD_GATE"
 }
