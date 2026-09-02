@@ -17,40 +17,10 @@
     "held_cases": 1,
     "selected_case_ids": ["C15-004","C15-006","C15-010","C15-013","C15-019","C15-020"]
   },
-  "coverage": {
-    "step13_query_families_reviewed": "21/21",
-    "step14a_material_delta_ids_covered": "21/21",
-    "silent_drops": 0
-  },
-  "provider": {
-    "calls_authorized": false,
-    "calls_executed": 0,
-    "gensearch_calls": 0,
-    "step16_executed": false
-  },
-  "selected_queries": [
-    "панорамные алюминиевые окна",
-    "алюминиевые окна для веранды",
-    "установка подоконников",
-    "французские окна",
-    "открыть пластиковое окно",
-    "лучшие пластиковые окна"
-  ],
-  "step16_access_precheck": {
-    "artifact": "STEP_16_ACCESS_MODE_PRECHECK_2026-09-02.md",
-    "yandex_webmaster_access_state": "UNAVAILABLE",
-    "yandex_webmaster_role": "NONE",
-    "yandex_webmaster_private_evidence_used": false,
-    "base_public_evidence_mode": true,
-    "client_private_access_blocks_step16_base": false,
-    "request_client_webmaster_access_now": false,
-    "base_ai_route_without_client_access": "OFFICIAL_GENSEARCH_AFTER_STEP16_METHOD_AND_PROVIDER_AUTHORIZATION",
-    "consumer_alice_public_surface_requires_site_owner_webmaster_access": false,
-    "owned_webmaster_alice_visibility_requires_site_rights": true,
-    "evidence_separation_rule": "GEN_SEARCH_* != CONSUMER_ALICE_* != OWNED_WEBMASTER_ALICE_*",
-    "step16_provider_call_authorized": false
-  },
+  "coverage": {"step13_query_families_reviewed": "21/21", "step14a_material_delta_ids_covered": "21/21", "silent_drops": 0},
+  "provider": {"calls_authorized": false, "calls_executed": 0, "gensearch_calls": 0, "step16_executed": false},
+  "selected_queries": ["панорамные алюминиевые окна","алюминиевые окна для веранды","установка подоконников","французские окна","открыть пластиковое окно","лучшие пластиковые окна"],
   "next_step_allowed": true,
   "next_step_scope": "STEP16_PRE_STEP_METHOD_RESEARCH_AND_OWNER_REVIEW_ONLY",
-  "next_required_action": "Use STEP_16_ACCESS_MODE_PRECHECK_2026-09-02.md, then perform Step16 current-method/capability research, source-to-method trace, research-to-execution schema and owner-facing review before any GenSearch/provider request."
+  "next_required_action": "Step16 is separately gated. Perform Step16 current-method research/source-to-method trace/owner-facing review before any GenSearch provider request."
 }

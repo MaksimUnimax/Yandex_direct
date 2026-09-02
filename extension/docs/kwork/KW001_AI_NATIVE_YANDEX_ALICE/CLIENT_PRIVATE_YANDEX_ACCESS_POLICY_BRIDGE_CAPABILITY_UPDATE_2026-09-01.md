@@ -91,30 +91,3 @@ CLIENT_PRIVATE_DATA_UNAVAILABLE = NORMAL_BASE_MODE
 ```
 
 The first future job with usable client Webmaster access still triggers the controlled WITHOUT_ACCESS vs WITH_ACCESS comparison. Before using Bridge on that future property, the installed runtime and delegated property must be validated against the then-current canonical Bridge build.
-
-## 2026-09-02 access-mode / Alice evidence clarification
-
-Mandatory companion authority:
-
-`CLIENT_ACCESS_MODES_AND_ALICE_EVIDENCE_BOUNDARY_2026-09-02.md`
-
-Read that file together with the parent access policy and this capability snapshot whenever a roadmap step touches Alice, GenSearch, Webmaster-private evidence, Yandex Business admin state, Metrika/Direct private state, or any other client-owned Yandex evidence.
-
-It operationalizes the distinction:
-
-```text
-PUBLIC_SURFACE
-!= PROVIDER_OWN_CONTEXT
-!= CLIENT_PRIVATE_DELEGATED
-!= CLIENT_PRIVATE_OPERATOR_EXPORT
-```
-
-and specifically:
-
-```text
-CONSUMER_ALICE_*
-!= GEN_SEARCH_*
-!= OWNED_WEBMASTER_ALICE_*
-```
-
-Current Bridge capability does not alter that evidence boundary and does not make client-private access mandatory. Account access, tool capability, step authorization and provider-call authorization remain separate gates.
