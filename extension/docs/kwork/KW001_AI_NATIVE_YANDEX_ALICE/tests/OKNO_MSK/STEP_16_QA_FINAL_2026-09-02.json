@@ -2,132 +2,98 @@
   "date": "2026-09-02",
   "job": "OKNO_MSK",
   "step": 16,
-  "qa_phase": "FINAL_ACCEPTANCE",
-  "overall_status": "PASS",
-  "input_and_execution": {
-    "input_selected_cases_expected": 8,
-    "input_selected_cases_observed": 8,
-    "input_selected_cases_pass": true,
-    "initial_cases_expected": 8,
-    "initial_cases_accounted": 8,
-    "initial_cases_pass": true,
-    "silent_case_drops": 0,
-    "silent_case_drops_pass": true,
-    "initial_change_candidates": 1,
-    "initial_control_break_candidates": 0,
-    "required_confirmations": 1,
-    "confirmations_executed": 1,
-    "material_delta_without_required_confirmation": 0,
-    "confirmation_gate_pass": true,
-    "retry_calls_executed": 0,
-    "outcome_unknown_cases": 0
-  },
-  "evidence_persistence": {
-    "useful_provider_interactions": 9,
-    "authoritative_verbatim_raw_files": 9,
-    "authoritative_verbatim_raw_persisted_percent": 100,
-    "authoritative_verbatim_raw_readback_percent": 100,
-    "initial_normalized_observations": 8,
-    "confirmation_normalized_observations": 1,
-    "normalized_observations_total": 9,
-    "normalized_observation_readback_percent": 100,
-    "raw_reconstruction_used_as_authority": false,
-    "raw_persistence_gate_pass": true
-  },
-  "provenance_and_claims": {
-    "gensearch_provenance_violations": 0,
-    "consumer_alice_equivalence_claims": 0,
-    "source_order_ranking_inferences": 0,
-    "used_source_count_as_rank_inferences": 0,
-    "selected_set_representativeness_claims": 0,
-    "long_term_stability_claims_from_confirmation": 0,
-    "claims_exceeding_evidence_mode": 0,
-    "provenance_claim_boundary_pass": true
-  },
-  "method_application": {
-    "preregistered_condition_used_cases": 8,
-    "preregistered_condition_expected_cases": 8,
-    "preregistered_condition_pass": true,
-    "post_hoc_outcome_categories_added": 0,
-    "step17_architecture_decisions_executed_in_step16": 0,
-    "step16_step17_separation_pass": true,
-    "permanent_method_status_before_run": "UNVALIDATED",
-    "current_job_method_verdict_before_run": "PROJECT_SPECIFIC_BUT_REASONED",
-    "post_run_method_evidence": "ONE_REAL_JOB_RUN_COMPLETED_WITH_ALL_ACCEPTANCE_CONTROLS__NOT_SUFFICIENT_FOR_UNIVERSAL_PROMOTION",
-    "permanent_method_status_after_run": "UNVALIDATED_PENDING_FURTHER_VALIDATION_OR_OWNER_PROMOTION_DECISION"
-  },
-  "outcome_reconciliation": {
-    "DE_RISK": 3,
-    "NO_CHANGE": 3,
-    "CHANGE_CONFIRMED": 1,
-    "INSUFFICIENT": 1,
-    "CONTROL_BREAK_CONFIRMED": 0,
-    "total_cases": 8,
-    "outcome_count_reconciles_to_8": true,
-    "step17_material_handoffs": 1,
-    "step17_material_handoff_case_ids": ["C15-010"]
-  },
-  "provider_accounting": {
+  "qa_phase": "POST_RUN_METHOD_CORRECTION_ACCEPTANCE",
+  "overall_status": "CORRECTED_PASS__EVIDENCE_ACQUISITION_ONLY",
+  "original_pre_step_method_validation": "FAILED_POST_RUN_AUDIT",
+  "correction_authority": "STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md",
+  "corrected_observation_authority": "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
+  "execution_accounting": {
+    "selected_exact_queries": 8,
     "initial_calls": 8,
-    "confirmation_calls": 1,
-    "retry_calls": 0,
+    "additional_same_query_short_window_calls": 1,
+    "additional_case": "C15-010",
+    "no_usable_or_unknown_retries": 0,
     "provider_calls_total": 9,
     "unit_cost_rub": 5.08,
-    "initial_cost_rub": 40.64,
-    "confirmation_cost_rub": 5.08,
-    "retry_cost_rub": 0.0,
     "provider_cost_total_rub": 45.72,
-    "provider_calls_reconciled_percent": 100,
-    "provider_cost_reconciled_percent": 100,
     "provider_accounting_pass": true
   },
-  "process_non_repeat_controls": {
-    "S16_P01_goal_first_order_recorded": true,
-    "S16_P02_plain_language_final_position_recorded": true,
-    "S16_P03_rule_operationalization_recorded": true,
-    "S16_P04_provider_success_not_evidence_completion_recorded": true,
-    "S16_P05_exact_v2_lineage_recorded": true,
-    "S16_P06_source_order_and_provenance_recorded": true,
-    "S16_P07_single_delta_not_architecture_change_recorded": true,
-    "S16_P08_manual_command_surface_recorded": true,
-    "S16_P09_verbatim_raw_required_recorded": true,
-    "process_non_repeat_authorities": [
-      "STEP_16_PROCESS_NON_REPEAT_RULES_2026-09-02.md",
-      "STEP_16_PROCESS_NON_REPEAT_RULES_COMMAND_SURFACE_ADDENDUM_2026-09-02.md",
-      "STEP_16_PROCESS_NON_REPEAT_RULES_RAW_VERBATIM_ADDENDUM_2026-09-02.md"
-    ]
+  "persistence": {
+    "authoritative_verbatim_raw_files": 9,
+    "verbatim_raw_readback_percent": 100,
+    "corrected_observation_authority_present": true,
+    "old_normalized_observation_files_preserved_as_history": true,
+    "old_final_decision_semantics_authoritative": false
+  },
+  "method_corrections": {
+    "S16_M01_reproducibility": {
+      "defect_recorded": true,
+      "existing_run_boundary": "Only C15-010 has two same-query observations, in a short window; no long-term stability claim is allowed.",
+      "future_gate": "STEP16_REPEAT_POLICY_FROZEN=true before paid execution"
+    },
+    "S16_M02_query_scope": {
+      "defect_recorded": true,
+      "existing_run_scope": "EXACT_QUERY",
+      "user_job_generalization_authorized": false,
+      "future_gate": "STEP16_TEST_SCOPE_FROZEN=true"
+    },
+    "S16_M03_evidence_surface": {
+      "defect_recorded": true,
+      "existing_run_surface": "YANDEX_GENSEARCH_API_PROXY",
+      "consumer_alice_observed": false,
+      "webmaster_alice_visibility_observed": false,
+      "future_gate": "STEP16_EVIDENCE_SURFACE_FROZEN=true"
+    },
+    "S16_M04_step_boundary": {
+      "defect_recorded": true,
+      "old_step16_final_delta_labels": "SUPERSEDED_AS_FINAL_DECISION_AUTHORITY",
+      "corrected_step16_final_search_vs_ai_verdicts": 0,
+      "corrected_step16_architecture_decisions": 0,
+      "future_gate": "STEP16_STEP17_SCOPE_BOUNDARY_FROZEN=true"
+    }
+  },
+  "source_handling": {
+    "source_order_ranking_inferences": 0,
+    "used_source_count_as_rank_inferences": 0,
+    "url_title_role_labels_decisive_for_material_step17_decision": false,
+    "material_used_source_page_inspection_required_in_step17_when_role_matters": true
+  },
+  "claim_boundaries": {
+    "GenSearch_equals_consumer_Alice": false,
+    "one_exact_query_equals_user_job_family": false,
+    "short_window_repeat_equals_long_term_stability": false,
+    "Step16_observation_equals_Step17_decision": false,
+    "selected_set_representative_of_site_demand": false
+  },
+  "corrected_case_states": {
+    "C15-004": "OBSERVED_DIRECTION",
+    "C15-006": "OBSERVED_DIRECTION",
+    "C15-007": "OBSERVED_DIRECTION__NO_CONTROL_ANOMALY_OBSERVED_IN_THIS_RUN",
+    "C15-010": "MATERIAL_OBSERVATION_REPRODUCED_SHORT_WINDOW",
+    "C15-013": "OBSERVED_DIRECTION",
+    "C15-018": "OBSERVATION_MIXED__NO_CONTROL_ANOMALY_CONFIRMED_IN_THIS_SINGLE_RUN",
+    "C15-019": "OBSERVATION_MIXED",
+    "C15-020": "OBSERVATION_INSUFFICIENT_FOR_TARGET_SITE_PAGE_ROLE_DECISION"
+  },
+  "step17_handoff": {
+    "mandatory_formal_comparison_cases": ["C15-010"],
+    "explicit_insufficient_cases": ["C15-020"],
+    "final_search_vs_ai_decisions_already_made": false,
+    "new_paid_gensearch_automatically_required": false
   },
   "acceptance_gate": {
-    "INPUT_SELECTED_CASES": "8/8 PASS",
-    "INITIAL_CASES_ACCOUNTED": "8/8 PASS",
-    "SILENT_CASE_DROPS": "0 PASS",
-    "USEFUL_RAW_RESULTS_PERSISTED_READBACK": "100% PASS",
-    "NORMALIZED_OBSERVATIONS": "8/8 INITIAL + 1/1 REQUIRED CONFIRMATION PASS",
-    "GENSEARCH_PROVENANCE_VIOLATIONS": "0 PASS",
+    "EXACT_QUERY_INPUTS_ACCOUNTED": "8/8 PASS",
+    "PROVIDER_INTERACTIONS_ACCOUNTED": "9/9 PASS",
+    "VERBATIM_RAW_PERSISTED_READBACK": "9/9 PASS",
+    "PROVIDER_COST_RECONCILED": "45.72 RUB PASS",
+    "GENSEARCH_CONSUMER_ALICE_PROVENANCE": "PASS",
     "SOURCE_ORDER_RANKING_INFERENCES": "0 PASS",
-    "PREREGISTERED_CONDITION_USED": "8/8 PASS",
-    "MATERIAL_DELTA_WITHOUT_REQUIRED_CONFIRMATION": "0 PASS",
-    "SILENT_UNKNOWN_AS_EVIDENCE": "0 PASS",
-    "RETRY_ANNOUNCEMENT_VIOLATIONS": "0 PASS_NOT_TRIGGERED",
-    "PROVIDER_CALLS_RECONCILED": "100% PASS",
-    "PROVIDER_COST_RECONCILED": "100% PASS",
-    "CLAIMS_EXCEEDING_EVIDENCE_MODE": "0 PASS",
-    "STEP17_ARCHITECTURE_DECISIONS_EXECUTED_IN_STEP16": "0 PASS",
-    "FINAL_GITHUB_READBACK": "PASS"
+    "CORRECTED_OBSERVATION_AUTHORITY": "PASS",
+    "OLD_FINAL_STEP16_DELTA_LABELS_SUPERSEDED": "PASS",
+    "CORRECTED_STEP16_FINAL_ARCHITECTURE_DECISIONS": "0 PASS",
+    "ORIGINAL_METHOD_VALIDATION": "FAILED_POST_RUN_AUDIT__RECORDED_NOT_HIDDEN",
+    "PERMANENT_STEP16_METHOD": "UNVALIDATED"
   },
-  "final_artifact_readback_evidence": {
-    "observation_ledger_blob": "cbcb0aa3d68c68f01a6ed81265b5b9343137f786",
-    "report_blob_read_before_final_marker_update": "4fddf9722654ee45198ccac109e4e0d5219686c5",
-    "current_state_blob_read_before_final_marker_update": "5de7c1c0f242ec33b8600eeb7e9566d9f9fe3732",
-    "job_flow_sync_blob_read_before_final_marker_update": "1cedaedfda12e53eb3da38d0764fe9df28ef815b",
-    "all_required_final_artifacts_read_successfully": true
-  },
-  "final_artifacts": [
-    "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
-    "STEP_16_QA_FINAL_2026-09-02.json",
-    "STEP_16_REPORT_2026-09-02.md",
-    "STEP_16_CURRENT_STATE.json",
-    "JOB_FLOW_STEP16_EXECUTION_SYNC_2026-09-02.md"
-  ],
-  "step16_acceptance": "PASS"
+  "step16_acceptance": "PASS_FOR_CORRECTED_GENSEARCH_EVIDENCE_ACQUISITION_ONLY",
+  "step17_status": "NOT_STARTED"
 }
