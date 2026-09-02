@@ -15,6 +15,8 @@ KNOWN_URL_RECHECK != CURRENT_SITE_DISCOVERY
 UPSTREAM_INPUT_UNIVERSE != CURRENT_SITE_UNIVERSE
 SOURCE_LIVE + TARGET_LIVE != EDGE_IMPLEMENTED
 SEMANTIC_LINK_RECOMMENDATION != CURRENT_AS_IS_LINK
+LOCAL_BRANCH_NAME_MATCH != REMOTE_STATE_CURRENT
+FILE_NOT_FOUND_IN_STALE_LOCAL_CLONE != FILE_ABSENT_FROM_CANONICAL_BRANCH
 ```
 
 ## Mandatory gate
@@ -45,6 +47,60 @@ SITE_COMPLETENESS_OR_TOPOLOGY_MATERIAL = true
 ```
 
 ChatGPT's own web reads are an independent semantic/current-content validation layer. They are NOT sufficient evidence of full URL-universe completeness when a deterministic crawl can test that claim.
+
+## Mandatory repository synchronization before Codex authority read
+
+A Codex run must first prove that the local checkout reflects the current canonical remote authority.
+
+Why this exists:
+
+A 2026-09-02 Step-14A attempt was correctly fail-closed by Codex because required files were missing locally. However, the local checkout was at `bd5766a6498577176aaf8d0210a80c670cde4c39` while the canonical remote branch had already advanced to `2407b5fca3b969bd0559619e422951b8d276ddfc`, where the required files existed. The prompt had said only to use the existing branch and had not required a fetch/remote-state comparison first.
+
+The incorrect implication was:
+
+```text
+CORRECT LOCAL BRANCH NAME
+-> LOCAL CHECKOUT IS CURRENT
+-> FILE MISSING LOCALLY
+-> FILE MISSING FROM CANONICAL AUTHORITY
+```
+
+This is invalid.
+
+Before reading mandatory authorities or reporting a required file as absent, Codex must:
+
+```text
+record local branch + local HEAD + worktree state;
+fetch the exact canonical remote branch;
+record refreshed remote HEAD;
+compare local vs remote ancestry/divergence;
+preserve local-only work before synchronization;
+synchronize safely;
+only then perform the read-first/file-existence gate.
+```
+
+If local-only commits exist, they must not be destroyed merely to synchronize. Destructive reset, force-push or silent discard is not authorized. Use a safety backup and fail closed on unresolved conflicts.
+
+Canonical rule:
+
+```text
+DETERMINISTIC_RUN + STALE_INPUTS != VALID_REPRODUCIBLE_EVIDENCE
+
+REMOTE_FETCH_COMPLETE = true
+LOCAL_VS_REMOTE_STATE_RECORDED = true
+SAFE_SYNC_COMPLETE = true
+-> MANDATORY_AUTHORITY_READ MAY BEGIN
+```
+
+The Codex completion report must preserve:
+
+```text
+LOCAL_HEAD_BEFORE_SYNC
+REMOTE_HEAD_AFTER_FETCH
+SYNC_MODE
+LOCAL_HEAD_AFTER_SYNC
+WORKTREE_CLEAN_OR_PRESERVED_STATE
+```
 
 ## Required Codex responsibilities
 
@@ -117,9 +173,10 @@ material crawl/discovery coverage gap unexplained;
 new relevant discovered URL not reconciled;
 required planned internal edge not classified from literal HTML evidence;
 current topology and target recommendation conflated;
-mechanical QA has unresolved blockers.
+mechanical QA has unresolved blockers;
+repository synchronization not proved before authority read.
 ```
 
 ## Non-repeat lesson
 
-The error that triggered this rule was caused by treating a recheck of known upstream URLs as proof of the full current-site universe, and by treating live source/target endpoints plus semantic fit as proof of literal link implementation. The control is therefore not "check more pages manually"; the control is **mandatory deterministic discovery/topology evidence before a completeness-dependent PASS**.
+The error that triggered this rule was caused by treating a recheck of known upstream URLs as proof of the full current-site universe, and by treating live source/target endpoints plus semantic fit as proof of literal link implementation. A later blocked Codex attempt exposed a second process defect: the prompt relied on a branch name without proving that the local clone had fetched the current remote authority. The controls are therefore not "check more pages manually" or "retry Codex"; the controls are **mandatory deterministic discovery/topology evidence plus mandatory repository synchronization before the read-first gate**.
