@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 15,
+  "step_name": "AI-case selection",
+  "status": "PRESTEP_RESEARCH_COMPLETE__METHOD_REVIEW_PRESENTED__AWAITING_OWNER_ACCEPTANCE__EXECUTION_NOT_STARTED",
+  "step14_final_pass_commit": "16d7f38b7b48369d3d2687553f7a865b86bf133e",
+  "methodology": {
+    "permanent_status": "UNVALIDATED",
+    "fresh_external_research_complete": true,
+    "source_to_method_trace_complete": true,
+    "research_to_execution_schema_complete": true,
+    "execution_manifest_complete": true,
+    "owner_facing_review_presented": true,
+    "owner_acceptance_after_review": false
+  },
+  "execution": {
+    "case_selection_started": false,
+    "review_ledger_created": false,
+    "selected_cases": 0,
+    "provider_calls_authorized": false,
+    "provider_calls_executed": 0,
+    "gensearch_calls": 0,
+    "step16_executed": false
+  },
+  "job_scoped_count_policy": {
+    "target": "normally 3-10",
+    "source": "IMPLEMENTATION_PLAN.md",
+    "fixed_universal_threshold": false,
+    "fewer_allowed": true,
+    "more_than_10_requires_owner_reviewed_exception": true
+  },
+  "next_step_allowed": false,
+  "next_required_action": "Owner review/acceptance of Step15 proposed method. After acceptance, execute case selection only; no Step16 provider acquisition until its own gate."
+}

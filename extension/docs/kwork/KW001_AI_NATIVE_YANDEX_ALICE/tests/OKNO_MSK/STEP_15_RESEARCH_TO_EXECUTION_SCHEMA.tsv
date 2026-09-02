@@ -1,0 +1,16 @@
+schema_id	class	control	action_or_output	failure_policy	qa_acceptance
+S15E-01	INPUT	FROZEN_BASELINE	Consume Step14 final state/freeze/delta, Step13 boundaries, Step12 actions, and ordinary Search evidence.	Fail if Step14 final state is not PASS.	All authorities resolve at current branch HEAD.
+S15E-02	CANDIDATE	UNIVERSE	Construct candidates from decision-bearing units/boundaries, not all phrases.	No high-frequency-only candidate creation.	Every candidate has candidate_origin + frozen decision.
+S15E-03	GATE	FROZEN_DECISION_LINK	Require exact frozen structural unit/QF/page boundary.	REJECT.	IDs and frozen owner/action present.
+S15E-04	GATE	SPECIFIC_DECISION_AT_STAKE	Require concrete decision that AI evidence could affect.	REJECT.	decision_at_stake nonblank.
+S15E-05	GATE	PRE_AI_BASELINE_EXISTS	Require pre-AI ordinary Search/Search-only evidence reference.	REJECT.	baseline_ref nonblank.
+S15E-06	GATE	COUNTERFACTUAL_INFORMATION_GAIN	Require at least one plausible CHANGE or DE_RISK observation.	REJECT decorative case.	change_condition or de_risk_condition materially distinct from no_change.
+S15E-07	GATE	OBSERVABLE_MATCH	Require expected evidence to map to GenSearch answer/sources/search_queries observables.	REJECT.	future_evidence_question names observable.
+S15E-08	GATE	WRONG_EVIDENCE_SOURCE_REJECT	Reject cases whose missing evidence is business truth/private analytics/history.	REJECT/HOLD.	wrong_source_risk=NONE for SELECT.
+S15E-09	INTERPRETATION	PRE_REGISTER_OUTCOMES	Write CHANGE/DE_RISK/NO_CHANGE/INSUFFICIENT conditions before Step16.	Fail closed.	Four outcome condition fields nonblank.
+S15E-10	BATCH	DIVERSITY_FIRST	One representative per high-leverage uncertainty family before repeats.	Reject redundant repeat unless CONTROL_REPEAT.	No unexplained SELECT family duplicate.
+S15E-11	PRIORITY	ORDINAL_NO_MAGIC_SCORE	Keep leverage/uncertainty/observability/diversity separate.	No composite unexplained score.	All dimensions populated.
+S15E-12	COUNT	JOB_SCOPED_3_TO_10_TARGET	Normally 3–10 for this rehearsal; fewer allowed; >10 owner-reviewed exception.	Stop for owner review if >10.	Count reconciliation recorded.
+S15E-13	OUTPUT	FULL_REVIEW_LEDGER	Persist SELECT/REJECT/HOLD for all reviewed candidates.	Fail if silent drops.	reviewed = selected + rejected + held.
+S15E-14	PROVIDER	ZERO_CALL_STEP15	No GenSearch/Search/Bridge acquisition in Step15.	Immediate failure.	provider_calls=0.
+S15E-15	HANDOFF	STEP16_NOT_STARTED	Selected rows only prepare future evidence questions; no provider request authorization.	Stop.	step16_executed=false; provider_call_authorized=false.

@@ -1,0 +1,91 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 15,
+  "step_name": "AI-case selection",
+  "status": "PRESTEP_METHOD_READY__OWNER_REVIEW_REQUIRED__EXECUTION_BLOCKED",
+  "permanent_method_status": "UNVALIDATED",
+  "execution_mode": "NO_BRIDGE_ZERO_PROVIDER_CALLS",
+  "step14_baseline_commit": "16d7f38b7b48369d3d2687553f7a865b86bf133e",
+  "authoritative_inputs": [
+    "STEP_14_CURRENT_STATE.json",
+    "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv",
+    "STEP_14A_ARCHITECTURE_DELTA.tsv",
+    "STEP_13_QUERY_FAMILY_DEFINITIONS.tsv",
+    "STEP_13_CONFLICT_DIAGNOSIS.tsv",
+    "STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V6.tsv",
+    "STEP_09_SEARCH_RECONCILIATION.md",
+    "../../IMPLEMENTATION_PLAN.md"
+  ],
+  "candidate_universe_rule": "Decision-bearing frozen units/query-families/page boundaries only; never all 2332 phrases by default.",
+  "hard_eligibility_gates": [
+    "FROZEN_DECISION_LINK",
+    "SPECIFIC_DECISION_AT_STAKE",
+    "PRE_AI_BASELINE_EXISTS",
+    "COUNTERFACTUAL_INFORMATION_GAIN",
+    "OBSERVABLE_MATCH",
+    "WRONG_EVIDENCE_SOURCE_REJECT"
+  ],
+  "future_outcomes": [
+    "CHANGE",
+    "DE_RISK",
+    "NO_CHANGE",
+    "INSUFFICIENT"
+  ],
+  "priority_dimensions": {
+    "decision_leverage": ["HIGH", "MEDIUM", "LOW"],
+    "baseline_uncertainty": ["HIGH", "MEDIUM", "LOW"],
+    "ai_observability_fit": ["HIGH", "MEDIUM", "LOW"],
+    "diversity_contribution": ["NEW_FAMILY", "CONTROL_REPEAT", "REDUNDANT"],
+    "wrong_source_risk": ["NONE", "MATERIAL"]
+  },
+  "selection_verdicts": ["SELECT", "REJECT", "HOLD"],
+  "batch_policy": {
+    "uncertainty_family_first": true,
+    "duplicate_requires_control_reason": true,
+    "job_scoped_target_range": "normally 3-10",
+    "fewer_than_3_allowed_if_quality_gates_leave_fewer": true,
+    "more_than_10_requires_owner_reviewed_exception": true,
+    "universal_fixed_count_claim": false
+  },
+  "required_output_fields": [
+    "case_id",
+    "candidate_origin",
+    "structural_unit_ids",
+    "query_family_ids",
+    "representative_query",
+    "frozen_search_owner_or_action",
+    "ordinary_search_baseline_ref",
+    "uncertainty_family",
+    "specific_decision_at_stake",
+    "decision_leverage",
+    "baseline_uncertainty",
+    "ai_observability_fit",
+    "expected_information_gain",
+    "future_evidence_question",
+    "change_condition",
+    "de_risk_condition",
+    "no_change_condition",
+    "insufficient_condition",
+    "diversity_contribution",
+    "wrong_source_risk",
+    "selection_verdict",
+    "selection_reason",
+    "step16_provider_call_authorized"
+  ],
+  "claim_boundaries": [
+    "GEN_SEARCH_QUERY_OBSERVED != ALICE_FANOUT_OBSERVED",
+    "GEN_SEARCH_ANSWER != CONSUMER_ALICE_ANSWER",
+    "GEN_SEARCH_SOURCE != CONSUMER_ALICE_SOURCE",
+    "GEN_SEARCH_NO_RESULT != NEGATIVE_SEO_FACT",
+    "SELECTED_QUERY != PAGE_RECOMMENDATION"
+  ],
+  "provider_calls_authorized": false,
+  "provider_calls_executed": 0,
+  "gensearch_calls": 0,
+  "step15_execution_authorized": false,
+  "step15_case_selection_executed": false,
+  "step16_executed": false,
+  "owner_review_required": true,
+  "next_legal_action": "Owner accepts/revises this method; then execute Step15 candidate review/selection and persist full ledger. Step16 remains separately gated."
+}
