@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "status": "IN_PROGRESS__C15_004_AND_C15_006_COMPLETE__NEXT_C15_007",
+  "completed_initial_cases": 2,
+  "total_initial_cases": 8,
+  "completed_case_ids": ["C15-004","C15-006"],
+  "remaining_case_ids": ["C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+  "latest_case": {
+    "case_id": "C15-006",
+    "query": "алюминиевые окна для веранды",
+    "attempt": "INITIAL",
+    "provider_execution": true,
+    "http_status": 200,
+    "request_id": "search-c64b9a38-a191-4dae-9d3a-bfe7bc682ea9",
+    "cost_rub": 5.08,
+    "raw_authority": "STEP_16_C15-006_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+    "normalized_observation": "STEP_16_C15-006_INITIAL_OBSERVATION.json",
+    "raw_readback": "PASS",
+    "normalized_readback": "PASS",
+    "evidence_usability": "USEFUL",
+    "outcome": "NO_CHANGE",
+    "confirmation_required": false,
+    "confirmation_reason": "Confirmation applies only to CHANGE_CANDIDATE or CONTROL_BREAK_CANDIDATE."
+  },
+  "completed_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE"
+  },
+  "accounting": {
+    "provider_calls_executed": 2,
+    "provider_cost_rub_incurred": 10.16,
+    "initial_calls_remaining": 6,
+    "initial_planned_cost_remaining_rub": 30.48,
+    "confirmation_calls_executed": 0,
+    "retry_calls_executed": 0
+  },
+  "controls": {
+    "verbatim_raw_required": true,
+    "reconstructed_json_not_raw_authority": true,
+    "source_order_rank_inference_used": false,
+    "consumer_alice_equivalence_claimed": false,
+    "step17_architecture_change_executed": false
+  },
+  "next": {
+    "case_id": "C15-007",
+    "case_role": "STABILITY_CONTROL",
+    "attempt": "INITIAL",
+    "query": "панорамное остекление балкона",
+    "expected_incremental_cost_rub": 5.08,
+    "next_paid_action_allowed_after_this_file_readback": true
+  }
+}
