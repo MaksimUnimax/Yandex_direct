@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 16,
   "step_name": "Yandex GenSearch evidence acquisition",
-  "status": "COMPLETE__POST_RUN_CORRECTED__EVIDENCE_ACQUISITION_ONLY__STEP17_NOT_STARTED",
+  "status": "COMPLETE__POST_RUN_CORRECTED__FINAL_READBACK_PASS__STEP17_NOT_STARTED",
   "original_pre_step_method_validation": "FAILED_POST_RUN_AUDIT",
   "method_correction_authority": "STEP_16_METHOD_VALIDATION_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-02.md",
   "corrected_method_review": "STEP_16_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
@@ -40,8 +40,7 @@
   },
   "superseded_semantics": {
     "old_step16_labels": ["DE_RISK","NO_CHANGE","CHANGE_CANDIDATE","CHANGE_CONFIRMED","INSUFFICIENT_as_final_cross_surface_verdict"],
-    "authority_state": "HISTORICAL_ONLY__NOT_FINAL_DECISION_AUTHORITY",
-    "reason": "Final Search-vs-AI comparison belongs to Step17, not Step16."
+    "authority_state": "HISTORICAL_ONLY__NOT_FINAL_DECISION_AUTHORITY"
   },
   "claim_boundaries": {
     "consumer_alice_behavior_proven": false,
@@ -50,6 +49,13 @@
     "long_term_stability_proven": false,
     "final_search_vs_ai_decision_complete": false,
     "architecture_change_executed": false
+  },
+  "final_readback": {
+    "status": "PASS",
+    "corrected_observation_blob": "cab34b3593e0f1d988a29c7b462c4e97c189128d",
+    "corrected_ledger_blob": "0e334598f1ef667738f1d5f9cb3befb2773ce754",
+    "corrected_report_blob": "71807bc875832182e3a943e60fe5274ac9618fdf",
+    "qa_final_commit": "9360503f7ba46db733ea8446c879c9abe18ba50e"
   },
   "step17_handoff": {
     "mandatory_formal_comparison": ["C15-010"],
@@ -62,8 +68,7 @@
   "method_status": {
     "current_job_step16_evidence_acquisition": "CORRECTED_PASS",
     "original_method_validation": "FAILED_POST_RUN_AUDIT",
-    "permanent_step16_method": "UNVALIDATED_PENDING_FURTHER_VALIDATION_OR_OWNER_PROMOTION_DECISION",
-    "automatic_universal_promotion": false
+    "permanent_step16_method": "UNVALIDATED_PENDING_FURTHER_VALIDATION_OR_OWNER_PROMOTION_DECISION"
   },
-  "next_legal_action": "READ_BACK_CORRECTED_FINAL_ARTIFACTS__THEN_STOP_STEP16__STEP17_REQUIRES_NEW_PRESTEP_GOAL_FULL_ROADMAP_METHOD_GATE"
+  "next_legal_action": "STOP_STEP16__STEP17_REQUIRES_NEW_PRESTEP_GOAL_FULL_ROADMAP_METHOD_GATE"
 }
