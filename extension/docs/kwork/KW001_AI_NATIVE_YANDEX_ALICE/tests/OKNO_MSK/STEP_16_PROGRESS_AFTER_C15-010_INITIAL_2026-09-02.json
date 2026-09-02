@@ -1,0 +1,60 @@
+{
+  "date": "2026-09-02",
+  "job": "OKNO_MSK",
+  "step": 16,
+  "status": "IN_PROGRESS__4_OF_8_INITIAL_COMPLETE__C15_010_CHANGE_CANDIDATE_CONFIRMATION_REQUIRED",
+  "completed_initial_cases": 4,
+  "total_initial_cases": 8,
+  "completed_case_ids": ["C15-004","C15-006","C15-007","C15-010"],
+  "remaining_initial_case_ids": ["C15-013","C15-018","C15-019","C15-020"],
+  "completed_case_outcomes": {
+    "C15-004": "DE_RISK",
+    "C15-006": "NO_CHANGE",
+    "C15-007": "DE_RISK",
+    "C15-010": "CHANGE_CANDIDATE"
+  },
+  "latest_case": {
+    "case_id": "C15-010",
+    "case_role": "DIAGNOSTIC_PROBE",
+    "query": "установка подоконника на пластиковые окна",
+    "attempt": "INITIAL",
+    "provider_execution": true,
+    "http_status": 200,
+    "request_id": "search-0edbc660-7498-4854-8810-db8962a7a187",
+    "cost_rub": 5.08,
+    "raw_authority": "STEP_16_C15-010_INITIAL_GENSEARCH_RAW_VERBATIM.txt",
+    "normalized_observation": "STEP_16_C15-010_INITIAL_OBSERVATION.json",
+    "raw_readback": "PASS",
+    "normalized_readback": "PASS",
+    "evidence_usability": "USEFUL",
+    "outcome": "CHANGE_CANDIDATE",
+    "confirmation_required": true,
+    "confirmation_query": "установка подоконника на пластиковые окна",
+    "confirmation_authorization": "COVERED_BY_OWNER_STEP16_AUTHORIZATION"
+  },
+  "accounting": {
+    "initial_provider_calls_executed": 4,
+    "confirmation_calls_executed": 0,
+    "retry_calls_executed": 0,
+    "provider_calls_executed_total": 4,
+    "provider_cost_rub_incurred": 20.32,
+    "initial_calls_remaining": 4,
+    "initial_planned_cost_remaining_rub": 20.32,
+    "next_confirmation_incremental_cost_rub": 5.08
+  },
+  "controls": {
+    "single_material_observation_not_architecture_change": true,
+    "same_exact_query_confirmation_required": true,
+    "verbatim_raw_required": true,
+    "confirmation_must_be_persisted_and_read_back_before_next_paid_action": true,
+    "step17_architecture_change_executed": false
+  },
+  "next": {
+    "case_id": "C15-010",
+    "attempt": "CONFIRMATION",
+    "query": "установка подоконника на пластиковые окна",
+    "expected_incremental_cost_rub": 5.08,
+    "purpose": "bounded reproduction check of the initial DIY/how-to material direction",
+    "next_paid_action_allowed_after_this_file_readback": true
+  }
+}
