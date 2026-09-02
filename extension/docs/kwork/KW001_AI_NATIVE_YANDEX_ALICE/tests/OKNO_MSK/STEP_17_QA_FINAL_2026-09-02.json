@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "qa_mode": "ADVERSARIAL_SECOND_PASS",
-  "status": "PASS_PENDING_FINAL_ARTIFACT_READBACK",
+  "status": "PASS__FINAL_GITHUB_READBACK_PASS",
   "input_authorities": [
     "STEP_15_SELECTED_CASES_V2.tsv",
     "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
@@ -35,64 +35,56 @@
       "case_id": "C15-004",
       "ledger_verdict": "DE_RISK",
       "strongest_alternative": "NO_CHANGE_OR_INSUFFICIENT",
-      "challenge": "A single explanatory GenSearch answer might merely be stylistic and might not reduce uncertainty.",
-      "resolution": "DE_RISK retained because the exact query remains unchanged, the answer remains panoramic-aluminium-specific, and three directly read used=true sources are commercial product/order pages rather than a conflicting informational ownership class. The original uncertainty was commercial-primary vs explanatory-primary responsibility; observed evidence supports the commercial-primary baseline while adding specification synthesis.",
+      "resolution": "DE_RISK retained because the exact query remains unchanged, the answer remains panoramic-aluminium-specific, and three directly read used=true sources are commercial product/order pages rather than a conflicting informational ownership class. The original commercial-primary-vs-explanatory-primary uncertainty is reduced without a stability claim.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-006",
       "ledger_verdict": "DE_RISK",
       "strongest_alternative": "NO_CHANGE",
-      "challenge": "The observation may simply repeat the ordinary Search use-case without adding enough information to call it de-risking.",
-      "resolution": "DE_RISK retained because this case was specifically selected to test collapse from a veranda use-case hub into material/mechanism specialists. GenSearch keeps the exact veranda task and warm/cold aluminium as subordinate choices; the current /verandy hub directly exposes the same option structure. This directly reduces the selected routing uncertainty.",
+      "resolution": "DE_RISK retained because GenSearch keeps the veranda task and warm/cold aluminium as subordinate choices; the current /verandy hub exposes the same use-case-first option structure.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-007",
       "ledger_verdict": "DE_RISK",
       "strongest_alternative": "NO_CHANGE",
-      "challenge": "One control observation cannot demonstrate stability, so de-risking might overstate strength.",
-      "resolution": "DE_RISK retained with an explicit single-run limitation. The verdict means only that no control break was observed and the specialist boundary receives one additional compatible observation; it does not claim temporal stability.",
+      "resolution": "DE_RISK retained with explicit single-run limitation: no control break is observed, but temporal stability is not claimed.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-010",
       "ledger_verdict": "NO_CHANGE",
       "strongest_alternative": "CHANGE",
-      "challenge": "Both GenSearch runs resolve the exact query procedurally/how-to, which could challenge the frozen windowsill object owner.",
-      "resolution": "CHANGE rejected after direct validation. The current frozen windowsill page itself combines product/pricing/order content with explicit installation service and a multi-step installation section, while the general installation page supplies professional-service support. The AI presentation is more procedural, but the required page responsibility is not materially different. This is a surface/content-mode delta, not an ownership/architecture delta.",
+      "resolution": "CHANGE rejected after direct validation. The current windowsill owner already combines product/pricing/order with explicit installation service and multi-step installation content, while the general installation page supplies professional-service support. AI presentation is more procedural, but page responsibility is not materially different.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-013",
       "ledger_verdict": "DE_RISK",
       "strongest_alternative": "NO_CHANGE",
-      "challenge": "French/panoramic terminology can overlap, so one answer may not truly validate a distinct taxonomy.",
-      "resolution": "DE_RISK retained because GenSearch explicitly defines French-window/window-door semantics, keeps the exact query, uses French-specific returned sources, and leaves the generic panoramic commercial source used=false. The current target is also explicitly French floor-to-ceiling glazing. This directly reduces the selected collapse-vs-distinct-taxonomy uncertainty without claiming stability.",
+      "resolution": "DE_RISK retained because GenSearch preserves explicit French-window/window-door semantics and does not collapse the exact query into generic panoramic responsibility.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-018",
       "ledger_verdict": "NO_CHANGE",
       "strongest_alternative": "DE_RISK",
-      "challenge": "The answer remains replacement-price-specific and therefore might de-risk the replacement specialist owner.",
-      "resolution": "NO_CHANGE retained because GenSearch also expands into a generic turnkey-price refined query and uses a mixed commercial source set. The replacement task is not contradicted, but the evidence does not cleanly reduce uncertainty about specialist-vs-generic support hierarchy. It is sufficient to say no material decision changes, not strong enough to claim de-risking.",
+      "resolution": "NO_CHANGE retained because replacement-price framing remains, but the supporting refined-query/source mix broadens enough that the evidence does not cleanly reduce the specialist-vs-generic support uncertainty.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-019",
       "ledger_verdict": "NO_CHANGE",
       "strongest_alternative": "INSUFFICIENT",
-      "challenge": "The exact query remains ambiguous, which could justify INSUFFICIENT instead of NO_CHANGE.",
-      "resolution": "NO_CHANGE retained because the preregistered NO_CHANGE condition explicitly covers an AI observation that remains ambiguous and therefore supports preserving the cautious frozen boundary rather than reassigning it. GenSearch supplies coherent evidence for both troubleshooting and outside/emergency opening; the ambiguity itself is the relevant result. No new ownership claim is made.",
+      "resolution": "NO_CHANGE retained because the preregistered NO_CHANGE condition explicitly covers continued ambiguity as evidence for preserving the cautious frozen boundary rather than reassigning it.",
       "qa_verdict": "PASS"
     },
     {
       "case_id": "C15-020",
       "ledger_verdict": "INSUFFICIENT",
       "strongest_alternative": "NO_CHANGE",
-      "challenge": "Both ordinary Search and GenSearch are broadly ranking/comparison-led, which might justify NO_CHANGE.",
-      "resolution": "INSUFFICIENT retained because the decision at stake is not only broad task class but differentiation among OKNO_MSK best-windows, broad-selection and profile/manufacturer-comparison roles. No OKNO_MSK page is used in the observed GenSearch answer, and direct reading of the current best-windows page cannot reveal how GenSearch would distinguish it from the other target pages. NO_CHANGE would overstate target-site hierarchy evidence.",
+      "resolution": "INSUFFICIENT retained because GenSearch provides no target-domain evidence that discriminates OKNO_MSK best-windows, broad-selection and profile-comparison page roles. NO_CHANGE would overstate target-site hierarchy evidence.",
       "qa_verdict": "PASS"
     }
   ],
@@ -116,6 +108,17 @@
     "STEP17_PROVIDER_COST_RUB": "0.0 PASS",
     "INDEPENDENT_QA_BLOCKING_FINDINGS": "0 PASS"
   },
-  "final_acceptance_before_readback": "PASS",
-  "final_github_readback": "PENDING"
+  "final_readback_evidence": {
+    "comparison_ledger_blob": "42ec9f6cc5341ba623f2c460c803556cbcba5641",
+    "direct_page_validation_blob": "56d7ba9639294c74d1032dbffd840515b2005f6f",
+    "architecture_delta_overlay_blob": "e8b5ef894b68ec2d9b76d535d0718355ce8da209",
+    "report_blob_before_final_marker": "669ca7d14346b2294189d80c4e53ef9bda9e967a",
+    "current_state_blob_before_final_marker": "fcee0b3177020761ac83420d7a79ece3faaff93e",
+    "job_flow_blob_before_final_marker": "86436b03e0d6a42384adb8bec1b97eac5eabb82f",
+    "all_required_artifacts_read_successfully": true
+  },
+  "final_acceptance": "PASS",
+  "final_github_readback": "PASS",
+  "next_step_allowed": true,
+  "next_step_scope": "STEP18_PRESTEP_GATE_ONLY__STEP18_EXECUTION_NOT_STARTED"
 }
