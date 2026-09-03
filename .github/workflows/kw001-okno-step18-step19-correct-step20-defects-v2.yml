@@ -1,0 +1,79 @@
+name: KW001 OKNO Correct Step20 Defects V2
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_18_STEP19_STEP20_CORRECTION_TRIGGER_V2.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-step18-step19-correct-step20-defects-v2
+  cancel-in-progress: false
+
+jobs:
+  correct-rebuild-qa-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout roadmap branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install package build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --quiet openpyxl python-docx reportlab pypdf
+
+      - name: Materialize Step19 baseline from canonical sources
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_materialize_client_data.py
+
+      - name: Apply Step20-derived Step18 Step19 corrections
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step18_step19_apply_step20_corrections.py
+
+      - name: Build corrected physical package
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_build_physical_client_package.py
+
+      - name: Independent correction QA
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step18_step19_verify_step20_corrections.py
+
+      - name: Persist corrected data builder physical package and QA
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/step19_correction_materialized"
+          git add "$ROOT/step19_build_physical_client_package.py"
+          git add "$ROOT/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx"
+          git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.docx"
+          git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.pdf"
+          git add "$ROOT/STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json"
+          git add "$ROOT/STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json"
+          if git diff --cached --quiet; then
+            echo "No correction changes to persist"
+          else
+            git commit -m "fix(step18-step19): resolve Step20 material defects v2 [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Upload corrected exact package
+        uses: actions/upload-artifact@v4
+        with:
+          name: step18-step19-step20-defect-corrected-package-v2
+          path: |
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_REPORT_CORRECTED.docx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_REPORT_CORRECTED.pdf
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json
+          if-no-files-found: error
+          retention-days: 7
