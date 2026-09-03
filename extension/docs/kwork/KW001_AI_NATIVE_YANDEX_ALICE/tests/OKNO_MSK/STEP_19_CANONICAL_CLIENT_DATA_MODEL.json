@@ -1,0 +1,85 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 19,
+  "status": "AUTHORIZED_EXECUTION__CANONICAL_MODEL_FROZEN",
+  "owner_authorization": "EXPLICIT_STEP19_EXECUTION_AUTHORIZATION_RECEIVED_IN_CHAT",
+  "source_branch": "roadmap/kwork-productization-2026-08-28",
+  "source_head_at_execution_start": "779b424b327a87e1a68697c24831d3e05c75bf20",
+  "rule": "ONE_ACCEPTED_FACT_OR_DECISION__ONE_CANONICAL_REPRESENTATION__MANY_CLIENT_VIEWS",
+  "provider_plan": {
+    "wordstat": 0,
+    "search": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "new_paid_cost_rub": 0.0
+  },
+  "semantic_universe": {
+    "master_phrase_authority": "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv",
+    "master_phrase_keys": 2840,
+    "demand_and_provenance_fields": ["source_occurrences","result_occurrences","association_occurrences","max_result_count","max_association_count","source_ids","provenance"],
+    "demand_label_boundary": "WORDSTAT_PROVIDER_COUNTS__NOT_RELABELED_AS_EXACT_FREQUENCY",
+    "active_assignment_authority": "STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv",
+    "active_phrase_rows": 2332,
+    "current_phrase_page_authority": "STEP_11_PHRASE_PAGE_MAP.tsv",
+    "current_phrase_page_rows": 2332,
+    "preserved_unresolved_rows": 19,
+    "join_key": "phrase",
+    "no_manual_phrase_recopy": true
+  },
+  "architecture": {
+    "structural_authority": "STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V6.tsv",
+    "structural_units": 168,
+    "search_freeze_authority": "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv",
+    "current_site_overlay": "STEP_14A_ARCHITECTURE_DELTA.tsv",
+    "current_site_material_deltas": 21,
+    "internal_link_authority": "STEP_14_INTERNAL_LINK_ARCHITECTURE.tsv",
+    "internal_link_rows": 58,
+    "accepted_implement_links": 15,
+    "new_page_actions": 0,
+    "destructive_actions": 0,
+    "overlay_rule": "STEP14A_CURRENT_SITE_OVERRIDES_ONLY_EXPLICITLY_AFFECTED_BOUNDARIES__OTHER_CURRENT_ACCEPTED_DECISIONS_INHERIT"
+  },
+  "search_vs_ai": {
+    "authority": "STEP_17_CASE_COMPARISON_LEDGER_V2_FINAL.tsv",
+    "governance_authority": "STEP_17_CURRENT_STATE.json",
+    "accepted_cases": 8,
+    "verdict_counts": {"CHANGE":0,"DE_RISK":4,"NO_CHANGE":3,"INSUFFICIENT":1},
+    "architecture_change_cases": 0,
+    "scope": "EXACT_QUERY_BOUNDED_DIAGNOSTIC",
+    "sitewide_ai_visibility_claim_allowed": false,
+    "longitudinal_ai_stability_claim_allowed": false,
+    "ai_business_impact_claim_allowed": false
+  },
+  "priority": {
+    "authority": "STEP_18_ACTION_REGISTER.tsv",
+    "action_rows": 34,
+    "priority_counts": {"P1_HIGH":12,"P2_MEDIUM":20,"P3_LATER":1,"HOLD":1},
+    "work_package_authority": "STEP_18_WORK_PACKAGE_REGISTER.json",
+    "work_packages": 112,
+    "work_package_counts": {"action":31,"internal_link":15,"route":46,"hold":20},
+    "implementation_calibration_authority": "STEP_18_IMPLEMENTATION_CALIBRATION.json",
+    "expected_implementation_priority": "PENDING_CALIBRATION",
+    "final_calendar_or_sprint_schedule_ready": false,
+    "priority_claim": "IDEAL_ANALYTICAL_PRIORITY_NOT_COMMITTED_IMPLEMENTATION_SCHEDULE"
+  },
+  "client_views": {
+    "01_CLIENT_SUMMARY": "DERIVED_LAST_FROM_RECONCILED_02_TO_08",
+    "02_BUSINESS_AND_PAGE_MODEL": "15_OR_FEWER_PRIMARY_DIRECTIONS_FROM_CURRENT_ARCHITECTURE",
+    "03_SEMANTIC_CORE_WORKBOOK": "LOSSLESS_LOGICAL_BUNDLE_OF_STEP08_PLUS_STEP10_PLUS_STEP11_WITH_JOIN_GUIDE",
+    "04_SEARCH_VS_AI_GAP_MATRIX": "EXACTLY_8_ACCEPTED_STEP17_CASES",
+    "05_PAGE_ACTION_MAP": "CURRENT_STEP18_ACTIONS_WITH_STEP14A_PRECEDENCE_AND_DO_NOT_DO_BOUNDARIES",
+    "06_SOURCE_COMPETITOR_OBSERVATIONS": "OBSERVATION_ONLY_FROM_PRIOR_SEARCH_AI_EVIDENCE",
+    "07_PRIORITY_ACTION_PLAN": "34_ANALYTICAL_ACTIONS_WITH_112_PACKAGE_REVERSE_TRACE_AND_PENDING_CALIBRATION",
+    "08_METHOD_AND_LIMITATIONS": "EVIDENCE_MODE_AND_CLAIM_BOUNDARIES",
+    "09_CLIENT_DELIVERY_MESSAGE": "DRAFT_ONLY__DOES_NOT_START_STEP21"
+  },
+  "workflow_boundaries": {
+    "step20_started": false,
+    "step21_started": false,
+    "step22_started": false,
+    "provider_calls_authorized_by_step19": false
+  }
+}
