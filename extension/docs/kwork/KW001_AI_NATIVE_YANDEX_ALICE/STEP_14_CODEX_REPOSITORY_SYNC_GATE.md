@@ -1,226 +1,115 @@
 # KW-001 — Step 14 Codex repository synchronization gate
 
-Date: 2026-09-02
-Status: **ACTIVE / STEP-14-SPECIFIC / OWNER-REQUIRED / UPDATED AFTER ADD-ADD EVIDENCE CONFLICT**
-Stage: Step 14 / Step 14A deterministic site-discovery and topology correction
+Date: 2026-09-02  
+Updated: 2026-09-03  
+Status: **ACTIVE / STEP-14-SPECIFIC / UNIVERSAL / OWNER-REQUIRED**
 
 ## Purpose
 
-A deterministic Codex run is only useful if it reads the current repository authority. A local clone may have the correct branch name while still pointing at an older commit, may contain unpushed local commits, or may have diverged from the remote branch.
+A deterministic run is valid only when it reads the current repository authority and preserves local-only evidence safely.
 
-Therefore:
+Canonical rules:
 
 ```text
 LOCAL_BRANCH_NAME_MATCH != REMOTE_STATE_CURRENT
-LOCAL_ORIGIN_TRACKING_REF != CURRENT_REMOTE_AUTHORITY UNTIL FETCHED
-FILE_NOT_FOUND_IN_LOCAL_CLONE != FILE_ABSENT_FROM_CANONICAL_BRANCH
-SAFE_SYNC != DESTRUCTIVE_HISTORY_REPLACEMENT
-EVIDENCE_CONFLICT != AUTHORIZATION_TO_DROP_ONE_EVIDENCE_VERSION
+LOCAL_TRACKING_REF != CURRENT_REMOTE_AUTHORITY UNTIL FETCHED
+FILE_NOT_FOUND_IN_LOCAL_CLONE != FILE_ABSENT_FROM CANONICAL BRANCH
+SAFE_SYNC != DESTRUCTIVE HISTORY REPLACEMENT
+EVIDENCE_CONFLICT != AUTHORIZATION TO DROP ONE VERSION
 ```
 
-The first Step-14A blocked run on 2026-09-02 exposed a stale-local-state failure. Codex reported branch `roadmap/kwork-productization-2026-08-28` at local HEAD `bd5766a6498577176aaf8d0210a80c670cde4c39` and concluded that the Step-14A authority/input files were absent. The canonical GitHub branch had already advanced and contained those files.
+## Failure history and root causes
 
-The second Step-14A retry correctly fetched current remote state and proved divergence, but a non-destructive merge then produced an add/add conflict in:
+Prior controlled executions exposed two reusable synchronization failures.
 
-`tests/OKNO_MSK/STEP_11_CODEX_PAGE_REFRESH_REPORT.md`
+### S14-SYNC-01 — branch-name identity mistaken for current repository state
 
-Codex again stopped correctly instead of choosing one evidence version. That second stop exposed a different process gap: the synchronization rule said to stop on material conflicts, but did not yet define how to preserve two independently created evidence artifacts when both are legitimate and use the same path.
+A local checkout had the expected branch name but was behind/diverged from the canonical remote. Required authority files were therefore missing locally and could have been misclassified as absent from the project.
 
-The failure was not that Codex refused to continue. Both fail-closed stops were correct. The process errors were:
-
-1. the first prompt allowed the read-first gate against an unrefreshed local clone;
-2. the second sync rule did not distinguish `semantic authority conflict` from `same-path evidence preservation conflict`.
-
----
-
-## Root cause 1 — branch-name identity was mistaken for current repository state
-
-The original prompt said:
+Root cause:
 
 ```text
-Use the existing working branch.
+CORRECT BRANCH NAME
+WAS TREATED AS
+PROOF OF CURRENT REMOTE CONTENT
 ```
 
-This was interpreted as sufficient repository identity. It was not.
+Correction: fetch and compare local/remote state before the read-first/file-existence gate.
 
-The implicit reasoning was:
+### S14-SYNC-02 — all material conflicts treated as one class
+
+A non-destructive synchronization can produce a conflict between independently created evidence artifacts. The original rule correctly failed closed but did not distinguish factual evidence-preservation conflicts from competing semantic/project-authority conflicts.
+
+Root cause:
 
 ```text
-branch name is correct
--> repository context is correct
--> mandatory files should be visible locally
--> missing locally means missing from required branch
+CONFLICT SEVERITY
+WAS NOT SEPARATED FROM
+CONFLICT MEANING
 ```
 
-The invalid implication is the third-to-fourth transition.
+Correction: classify conflicts and preserve both versions losslessly when they are compatible evidence rather than competing authority.
 
-A Git branch name does not guarantee that the local ref equals the current remote ref. A stale clone can truthfully report the right branch name and still be missing newer authority files.
-
-In this incident the local Codex HEAD also contained an unpushed Step-11 commit not addressable by the canonical remote. Therefore a destructive reset would also have been unsafe.
-
----
-
-## Root cause 2 — material conflict was treated as one undifferentiated class
-
-The first synchronization correction correctly required:
-
-```text
-if material conflicts occur -> stop instead of guessing
-```
-
-That is necessary but incomplete.
-
-A conflict can mean different things:
-
-```text
-A. AUTHORITY / SEMANTIC DECISION CONFLICT
-   two versions make competing project decisions or rules;
-   automatic resolution may change project truth;
-   analyst/owner reconciliation is required.
-
-B. SAME-PATH EVIDENCE PRESERVATION CONFLICT
-   two independently created evidence artifacts occupy the same path;
-   both can be preserved without deciding that one evidence version is false;
-   the merge can continue if provenance is explicit and downstream authority is not silently changed.
-```
-
-The Step-11 add/add conflict is class B unless content inspection proves otherwise.
-
-Why stopping forever would also be wrong:
-
-```text
-FAIL_CLOSED is a protection against unsupported decisions.
-FAIL_CLOSED is not a rule that forbids lossless preservation.
-```
-
-If two evidence blobs can both be retained, the correct control is preservation plus provenance, not arbitrary selection and not permanent blockage.
-
-Canonical rule:
-
-```text
-EVIDENCE_VERSION_A + EVIDENCE_VERSION_B
--> COMPARE BOTH BLOBS
--> IF IDENTICAL: RECORD EQUIVALENCE, KEEP CANONICAL PATH
--> IF DIFFERENT BUT BOTH ARE EVIDENCE: PRESERVE BOTH WITH DISTINCT PROVENANCE
--> DO NOT PROMOTE THE RENAMED LOCAL COPY TO CANONICAL AUTHORITY AUTOMATICALLY
--> RECORD RECONCILIATION NOTE
--> CONTINUE SAFE MERGE
-```
-
----
+Concrete branches, commits, hashes, paths and incident files remain job-specific evidence.
 
 ## Correct synchronization method
 
-Before reading Step-14 authority files or declaring any required input absent, Codex must:
+Before reading Step-14 authority files or declaring required inputs absent, Codex must:
 
-1. record `git status --short`, current branch and local HEAD;
+1. record `git status --short`, current branch and local HEAD or equivalent state;
 2. fetch the exact canonical remote branch;
-3. record the refreshed `origin/<branch>` HEAD;
+3. record refreshed remote HEAD;
 4. compare local and remote ancestry/state;
-5. preserve any local-only commits before synchronization;
-6. use fast-forward when the local branch is strictly behind and clean;
-7. when local and remote diverge, create a safety backup ref/branch before integrating local-only commits;
-8. never use `reset --hard`, force-push, or destructive cleanup merely to satisfy this gate;
+5. preserve local-only commits/work before synchronization;
+6. fast-forward only when safe and applicable;
+7. when local and remote diverge, create a safety backup ref/branch before integration;
+8. never use destructive reset, force-push or cleanup merely to satisfy this gate;
 9. attempt safe non-destructive integration;
-10. classify conflicts before deciding whether they require an analyst stop or can be losslessly preserved;
-11. only after synchronization, perform the mandatory file-existence/read-first gate.
+10. classify conflicts before deciding whether they can be preserved mechanically or require analyst/owner reconciliation;
+11. only after clean/safely preserved synchronization, perform the mandatory authority/file read.
 
-Recommended fail-safe pattern:
+## Conflict classification
 
-```text
-git status --short
-git branch --show-current
-git rev-parse HEAD
-git fetch origin roadmap/kwork-productization-2026-08-28
-git rev-parse origin/roadmap/kwork-productization-2026-08-28
+Use `RULES_ARCHITECTURE_CODEX_EVIDENCE_CONFLICT_PRESERVATION_ADDENDUM_2026-09-02.md`.
 
-# Then inspect ancestry/divergence before changing refs.
-# If local-only work exists, preserve it first.
-# No destructive reset/force action is authorized by this gate.
-```
-
-Exact synchronization commands after the fetch may vary according to actual ancestry and local working-tree state. The invariant is preservation + current remote authority + no destructive shortcut.
-
----
-
-## Add/add evidence-conflict resolution method
-
-When a safe merge produces an add/add conflict in an evidence/report artifact, Codex must not immediately choose `ours` or `theirs`.
-
-First inspect both conflict stages.
-
-For a path `P` in a normal merge where current local branch is `ours` and fetched remote is `theirs`, use an equivalent of:
-
-```bash
-git show :2:P > /tmp/local-evidence
-
-git show :3:P > /tmp/remote-evidence
-
-sha256sum /tmp/local-evidence /tmp/remote-evidence
-
-diff -u /tmp/remote-evidence /tmp/local-evidence || true
-```
-
-Also inspect metadata/provenance around both versions when available.
-
-### Case 1 — byte-identical evidence
-
-If the two blobs are byte-identical:
+Minimum classes:
 
 ```text
-EVIDENCE_CONTENT_EQUIVALENT = true
+AUTHORITY_CONFLICT
+EVIDENCE_PRESERVATION_CONFLICT
+BYTE_IDENTICAL_DUPLICATE
+NON_MATERIAL_MECHANICAL_CONFLICT
 ```
 
-Then:
+### Authority conflict
 
-- keep the canonical remote path at `P`;
-- do not create a redundant second file merely to preserve identical bytes;
-- record both blob/hash provenance in the merge reconciliation note;
-- continue the merge.
-
-### Case 2 — content differs, but both are acquisition/extraction evidence
-
-If the blobs differ but neither is a competing owner/rule/acceptance decision:
-
-- keep the current canonical remote version at the original canonical path `P`;
-- preserve the local-only version under a distinct provenance-bearing filename in the same job workspace;
-- the renamed local file must clearly state that it is a preserved local-only evidence variant and is NOT automatically canonical;
-- create a reconciliation note containing original path, local HEAD, remote HEAD, both hashes, summary of material differences, preservation path, and downstream authority boundary;
-- continue the merge.
-
-Recommended preserved name pattern for this incident:
-
-`STEP_11_CODEX_PAGE_REFRESH_REPORT_LOCAL_BD5766A_PRESERVED_2026-09-02.md`
-
-The exact suffix may vary if a collision exists, but provenance may not be lost.
-
-### Case 3 — content differs and contains competing semantic/project authority
-
-If one or both conflict blobs contain competing accepted decisions, methodology authority, ownership decisions, destructive actions, acceptance state, or other project truth rather than mere acquisition evidence:
+Competing versions alter methodology, ownership, scope, acceptance, destructive actions or other project truth.
 
 ```text
-AUTHORITY_CONFLICT = true
+PRESERVE BOTH
 -> STOP
--> PRESERVE BOTH BLOBS
--> REPORT EXACT DIFFERENCE
--> ANALYST / OWNER RECONCILIATION REQUIRED
+-> ANALYST / OWNER RECONCILIATION
 ```
 
-Do not resolve such a conflict mechanically.
+### Evidence-preservation conflict
 
-### Critical invariant
+Two factual evidence variants can coexist without declaring either false.
 
 ```text
-PRESERVE_BOTH != TREAT_BOTH_AS_CANONICAL
+COMPARE BLOBS
+-> KEEP CURRENT CANONICAL REMOTE VERSION AT CANONICAL PATH
+-> PRESERVE LOCAL-ONLY VARIANT UNDER PROVENANCE PATH WHEN NEEDED
+-> RECORD RECONCILIATION NOTE
+-> CONTINUE SAFE INTEGRATION
 ```
 
-The canonical path remains current remote authority unless a later explicit analytical/owner decision changes it. The preserved local copy is durable evidence with provenance, not silent authority promotion.
+### Byte-identical duplicate
 
----
+Record equivalence; do not create redundant evidence copies.
 
 ## Missing-file rule
 
-Codex may report a mandatory Step-14 file as absent only after:
+A mandatory file may be reported absent only after:
 
 ```text
 REMOTE_FETCH_COMPLETE = true
@@ -229,60 +118,26 @@ SAFE_SYNC_COMPLETE = true
 MANDATORY_PATH_CHECKED_AFTER_SYNC = true
 ```
 
-If the canonical remote file exists but the local stale clone did not contain it, the event must be classified as:
+If the canonical remote contains the file but the stale local checkout did not, classify the incident as stale-local repository state, not missing project authority.
+
+## Why this matters
+
+A reproducible algorithm run against stale rules or stale inputs gives a reproducible answer to the wrong project state.
+
+Likewise, a deterministic run after silent evidence loss is not valid evidence.
 
 ```text
-STALE_LOCAL_REPOSITORY_STATE
-```
-
-not:
-
-```text
-MISSING_PROJECT_AUTHORITY
-```
-
----
-
-## Why this matters for Step 14
-
-Step 14 explicitly depends on durable authority and machine-readable upstream evidence. Running the correct crawler against stale rules or stale freeze/link inputs can produce a reproducible answer to the wrong version of the project.
-
-Likewise, destroying or silently selecting between upstream evidence during synchronization can change the factual basis before Step 14A even runs.
-
-Therefore repository synchronization and evidence preservation are part of evidence validity, not merely developer convenience.
-
-Canonical rule:
-
-```text
-DETERMINISTIC_RUN + STALE_INPUTS != VALID_REPRODUCIBLE_EVIDENCE
-DETERMINISTIC_RUN + SILENT_EVIDENCE_LOSS != VALID_REPRODUCIBLE_EVIDENCE
-
 CURRENT_REMOTE_AUTHORITY
 + SAFE_LOCAL_SYNC
 + LOSSLESS_EVIDENCE_CONFLICT_HANDLING
 + READ-FIRST GATE
 + DETERMINISTIC RUN
-= ELIGIBLE STEP14A EVIDENCE
+= ELIGIBLE STEP14 EVIDENCE
 ```
 
----
+## Required completion report
 
-## Non-repeat controls
-
-Every future Codex prompt for a Step-14 completeness/topology run must contain a repository-synchronization phase before the authority-read phase.
-
-If local and remote diverge, the prompt must require:
-
-```text
-LOCAL_BACKUP_REF_CREATED = true
-REMOTE_FETCH_COMPLETE = true
-LOCAL_REMOTE_RELATIONSHIP_CLASSIFIED = true
-NO_DESTRUCTIVE_RESET = true
-CONFLICTS_CLASSIFIED = true when conflicts occur
-EVIDENCE_VARIANTS_PRESERVED = true when lossless preservation applies
-```
-
-The completion report must include:
+Preserve equivalent fields:
 
 ```text
 LOCAL_HEAD_BEFORE_SYNC
@@ -296,50 +151,27 @@ CONFLICT_CLASSIFICATION
 PRESERVED_EVIDENCE_VARIANTS
 ```
 
-A Codex run that omits these fields does not satisfy the Step-14 Codex gate.
-
----
-
-## Incident-specific lesson — 2026-09-02 Step-11 add/add conflict
-
-Observed:
+## Pass gate
 
 ```text
-LOCAL_HEAD_BEFORE_SYNC = bd5766a6498577176aaf8d0210a80c670cde4c39
-REMOTE_HEAD_AFTER_FETCH = a9f54e2a5c2721c84024ec442f8dafad40ccdd8d
-LOCAL_REMOTE_RELATIONSHIP = DIVERGED
-LOCAL_BACKUP_REF = codex/backup-step14a-pre-sync-20260902
-SYNC_MODE = SAFE_MERGE_ATTEMPT_ABORTED
-WORKTREE_STATE_AFTER_SYNC = clean
-CONFLICT_PATH = tests/OKNO_MSK/STEP_11_CODEX_PAGE_REFRESH_REPORT.md
-CONFLICT_TYPE = add/add
+REMOTE_FETCH_COMPLETE = true
+LOCAL_REMOTE_RELATIONSHIP_CLASSIFIED = true
+LOCAL_ONLY_WORK_PRESERVED = true when applicable
+NO_DESTRUCTIVE_RESET_OR_FORCE = true
+CONFLICTS_CLASSIFIED = true when applicable
+AUTHORITY_CONFLICTS_UNRESOLVED = 0
+EVIDENCE_VARIANTS_PRESERVED_OR_PROVEN_DUPLICATE = true when applicable
+MANDATORY_AUTHORITY_READ_AFTER_SYNC = true
 ```
 
-What Codex did correctly:
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
+
+## Markers
 
 ```text
-aborted merge;
-kept local HEAD unchanged;
-preserved backup ref;
-did not choose evidence version;
-did not begin website crawl;
-did not execute Step 14A against unresolved repository state.
-```
-
-What the method lacked:
-
-```text
-no rule distinguished a preserve-both evidence conflict from a semantic authority conflict.
-```
-
-Corrected control:
-
-```text
-retry safe merge
--> inspect stage-2 and stage-3 blobs
--> compare hashes/diff
--> identical: keep canonical path + record equivalence
--> different acquisition evidence: keep remote canonical path + preserve local variant under provenance filename + reconciliation note
--> competing authority: stop for analyst reconciliation
--> only after clean merge proceed to Step 14A read-first gate and crawl
+KW001_STEP14_REMOTE_FETCH_BEFORE_AUTHORITY_READ = true
+KW001_STEP14_BRANCH_NAME_NOT_EQUAL_CURRENT_REMOTE = true
+KW001_STEP14_LOCAL_ONLY_WORK_PRESERVATION_REQUIRED = true
+KW001_STEP14_EVIDENCE_CONFLICT_CLASSIFICATION_REQUIRED = true
+KW001_STEP14_DESTRUCTIVE_SYNC_SHORTCUT_FORBIDDEN = true
 ```
