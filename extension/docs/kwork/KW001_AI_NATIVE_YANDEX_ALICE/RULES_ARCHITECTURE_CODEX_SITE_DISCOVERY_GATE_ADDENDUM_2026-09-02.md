@@ -1,12 +1,13 @@
 # KW-001 — mandatory Codex current-site discovery and topology gate addendum
 
-Date: 2026-09-02
-Status: **ACTIVE / UNIVERSAL PROCESS ADDENDUM / OWNER-APPROVED / OWNER-LOCKED**
+Date: 2026-09-02  
+Updated: 2026-09-03  
+Status: **ACTIVE / UNIVERSAL PROCESS ADDENDUM / OWNER-APPROVED / OWNER-LOCKED**  
 Authority: latest explicit owner instruction; supplements `RULES_ARCHITECTURE.md`, `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`, and step-specific methods.
 
 ## Purpose
 
-This addendum prevents a known-page recheck from being mistaken for complete current-site discovery and prevents live endpoint checks from being mistaken for proof that an internal link actually exists in HTML.
+This addendum prevents a known-page recheck from being mistaken for complete current-site discovery, prevents live endpoint checks from being mistaken for proof that an internal link actually exists, and prevents stale local repository state from being mistaken for canonical project authority.
 
 Canonical non-equivalences:
 
@@ -18,6 +19,24 @@ SEMANTIC_LINK_RECOMMENDATION != CURRENT_AS_IS_LINK
 LOCAL_BRANCH_NAME_MATCH != REMOTE_STATE_CURRENT
 FILE_NOT_FOUND_IN_STALE_LOCAL_CLONE != FILE_ABSENT_FROM_CANONICAL_BRANCH
 ```
+
+## Why this rule exists
+
+Prior controlled executions exposed three reusable failure classes:
+
+1. a closed list of already-known URLs was rechecked and then treated as proof that no material current page had been missed;
+2. source/target endpoint liveness plus semantic compatibility was treated too close to proof that a literal current HTML edge existed;
+3. a Codex run read a correctly named but stale local branch and treated locally missing authority files as if they were absent from the canonical remote state.
+
+### Root causes
+
+```text
+CLOSED INPUT SET WAS ALLOWED TO PROVE ITS OWN COMPLETENESS
+SEMANTIC RECOMMENDATION STATE WAS NOT SEPARATED FROM AS-IS TOPOLOGY STATE
+BRANCH NAME IDENTITY WAS MISTAKEN FOR CURRENT REMOTE STATE
+```
+
+Concrete domains, commit SHAs, file paths, counts and run states remain job-specific evidence and are not part of this universal rule.
 
 ## Mandatory gate
 
@@ -33,39 +52,22 @@ exact current source->target link existence;
 reconciliation of planned architecture against the actual site;
 ```
 
-ChatGPT MUST require a deterministic Codex/code run before the step may close as complete.
-
-Canonical rule:
+ChatGPT MUST require a deterministic Codex/code or other approved enumerable run before the step may close as complete when such a run is feasible and required by the current method.
 
 ```text
 SITE_COMPLETENESS_OR_TOPOLOGY_MATERIAL = true
--> CODEX_DETERMINISTIC_DISCOVERY_RUN_REQUIRED = true
--> CODEX_OUTPUT_PERSISTED_IN_GITHUB = true
+-> DETERMINISTIC_DISCOVERY_RUN_REQUIRED = true
+-> OUTPUT_PERSISTED_IN_GITHUB = true
 -> GITHUB_READBACK_REQUIRED = true
 -> ANALYTICAL_RECONCILIATION_REQUIRED = true
--> ONLY THEN STEP_PASS_MAY_BE_CONSIDERED
+-> ONLY THEN STEP_PASS MAY BE CONSIDERED
 ```
 
-ChatGPT's own web reads are an independent semantic/current-content validation layer. They are NOT sufficient evidence of full URL-universe completeness when a deterministic crawl can test that claim.
+Manual web reads are a semantic/current-content validation layer. They are not sufficient proof of site-scale completeness when a deterministic mechanism can test that claim.
 
-## Mandatory repository synchronization before Codex authority read
+## Mandatory repository synchronization before authority read
 
 A Codex run must first prove that the local checkout reflects the current canonical remote authority.
-
-Why this exists:
-
-A 2026-09-02 Step-14A attempt was correctly fail-closed by Codex because required files were missing locally. However, the local checkout was at `bd5766a6498577176aaf8d0210a80c670cde4c39` while the canonical remote branch had already advanced to `2407b5fca3b969bd0559619e422951b8d276ddfc`, where the required files existed. The prompt had said only to use the existing branch and had not required a fetch/remote-state comparison first.
-
-The incorrect implication was:
-
-```text
-CORRECT LOCAL BRANCH NAME
--> LOCAL CHECKOUT IS CURRENT
--> FILE MISSING LOCALLY
--> FILE MISSING FROM CANONICAL AUTHORITY
-```
-
-This is invalid.
 
 Before reading mandatory authorities or reporting a required file as absent, Codex must:
 
@@ -79,9 +81,7 @@ synchronize safely;
 only then perform the read-first/file-existence gate.
 ```
 
-If local-only commits exist, they must not be destroyed merely to synchronize. Destructive reset, force-push or silent discard is not authorized. Use a safety backup and fail closed on unresolved conflicts.
-
-Canonical rule:
+If local-only commits exist, they must not be destroyed merely to synchronize. Destructive reset, force-push or silent discard is not authorized. Use a safety backup and the evidence-conflict preservation rule where applicable.
 
 ```text
 DETERMINISTIC_RUN + STALE_INPUTS != VALID_REPRODUCIBLE_EVIDENCE
@@ -92,27 +92,29 @@ SAFE_SYNC_COMPLETE = true
 -> MANDATORY_AUTHORITY_READ MAY BEGIN
 ```
 
-The Codex completion report must preserve:
+The completion report must preserve equivalent fields:
 
 ```text
 LOCAL_HEAD_BEFORE_SYNC
 REMOTE_HEAD_AFTER_FETCH
+LOCAL_REMOTE_RELATIONSHIP
 SYNC_MODE
 LOCAL_HEAD_AFTER_SYNC
 WORKTREE_CLEAN_OR_PRESERVED_STATE
+CONFLICT_COUNT / CLASSIFICATION when applicable
 ```
 
-## Required Codex responsibilities
+## Required deterministic responsibilities
 
-The Codex/code layer must, as applicable to the site and step:
+The deterministic collection layer must, as applicable to the current site and step:
 
-1. discover public URLs from the homepage crawl and normal HTML links;
-2. use public sitemap(s) as an additional discovery source, not as the sole source;
-3. normalize and deduplicate URLs while preserving evidence of discovery origin;
+1. discover public URLs from normal same-site HTML navigation/crawl;
+2. use public sitemap(s) as an additional discovery source, not as the sole proof of reachability;
+3. normalize and deduplicate URLs while preserving discovery origin;
 4. fetch/recheck discovered public HTML pages with bounded retries and explicit failure states;
 5. extract literal internal `<a href>` edges from fetched HTML;
-6. persist source URL, target URL, anchor text when available, link evidence/provenance, and fetch state;
-7. calculate or persist crawl depth/reachability sufficient for the current analytical goal;
+6. preserve source URL, target URL, anchor text when available, link evidence/provenance and fetch state;
+7. calculate/preserve crawl depth or reachability sufficient for the current analytical goal;
 8. identify sitemap-only, crawl-only, orphan-candidate, redirect, failed and broken-internal-edge cases when observable;
 9. reconcile newly discovered URLs against the upstream architecture/input universe;
 10. verify every step-required planned internal edge against literal current HTML and classify it separately from the recommendation;
@@ -122,23 +124,23 @@ The Codex/code layer must, as applicable to the site and step:
 ## Separation of responsibilities
 
 ```text
-CODEX / DETERMINISTIC CODE
+DETERMINISTIC CODE / BROWSER AUTOMATION
 = discovery completeness, HTML extraction, link graph, mechanical reconciliation, repeatable QA
 
 CHATGPT ANALYTICAL LAYER
 = semantic relevance, user intent, page responsibility, architecture materiality, affected-unit reopen decisions, claim boundaries
 
 OWNER
-= authorization and any scope/cost/site-mutation decision
+= authorization and scope/cost/site-mutation decisions
 ```
 
-Codex output must not silently make semantic ownership decisions or authorize new pages, redirects, canonicals, merges, deletion, provider spending, or site mutation.
+The deterministic layer must not silently make semantic ownership decisions or authorize new pages, redirects, canonicals, merges, deletion, provider spending or site mutation.
 
 ## Required current-vs-target states
 
 Current topology and recommended architecture must be stored separately.
 
-For planned internal-link actions, at minimum distinguish:
+For planned internal-link actions, distinguish at minimum:
 
 ```text
 AS_IS_PRESENT
@@ -157,19 +159,19 @@ A newly discovered URL does not automatically invalidate the entire upstream arc
 NEWLY_DISCOVERED_URL
 -> semantic relevance review
 -> if architecture-material: reopen only affected unit(s)/case(s)
--> if non-material: persist with reason and keep freeze unchanged
+-> if non-material: persist with reason and keep unaffected decisions unchanged
 ```
 
 No relevant discovered URL may be silently ignored.
 
 ## Fail-closed acceptance
 
-A step depending on site completeness/topology MUST NOT close as PASS when any of these is true:
+A step depending on site completeness/topology MUST NOT close as PASS when any applicable condition below is true:
 
 ```text
-required Codex run not executed;
-Codex outputs not persisted/read back;
-material crawl/discovery coverage gap unexplained;
+required deterministic run not executed;
+outputs not persisted/read back;
+material discovery coverage gap unexplained;
 new relevant discovered URL not reconciled;
 required planned internal edge not classified from literal HTML evidence;
 current topology and target recommendation conflated;
@@ -177,6 +179,16 @@ mechanical QA has unresolved blockers;
 repository synchronization not proved before authority read.
 ```
 
-## Non-repeat lesson
+## Permanent lesson
 
-The error that triggered this rule was caused by treating a recheck of known upstream URLs as proof of the full current-site universe, and by treating live source/target endpoints plus semantic fit as proof of literal link implementation. A later blocked Codex attempt exposed a second process defect: the prompt relied on a branch name without proving that the local clone had fetched the current remote authority. The controls are therefore not "check more pages manually" or "retry Codex"; the controls are **mandatory deterministic discovery/topology evidence plus mandatory repository synchronization before the read-first gate**.
+The controls are not “check more pages manually” or “retry the runner”. They are:
+
+```text
+INDEPENDENT ENUMERABLE DISCOVERY
++ LITERAL TOPOLOGY EVIDENCE
++ CURRENT REMOTE AUTHORITY
++ SAFE REPOSITORY SYNCHRONIZATION
++ SEMANTIC RECONCILIATION
+```
+
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
