@@ -1,7 +1,7 @@
-# OKNO_MSK — JOB FLOW SYNC / STEP 17 V2 CORRECTION
+# OKNO_MSK — JOB FLOW SYNC / STEP 17 V2 FINAL
 
 Date: 2026-09-03  
-Status: **STEP 17 V2 ANALYTICAL CORRECTION COMPLETE / ARTIFACTS WRITTEN / FINAL GITHUB READBACK PENDING / STEP 18 BLOCKED**
+Status: **STEP 17 V2 COMPLETE / FINAL GITHUB READBACK PASS / STEP 18 NOT STARTED / PRE-STEP GATE ALLOWED**
 
 ## Full roadmap
 
@@ -24,14 +24,14 @@ Status: **STEP 17 V2 ANALYTICAL CORRECTION COMPLETE / ARTIFACTS WRITTEN / FINAL 
 | 14 / 14A | Search-only architecture freeze + current-site revalidation | ✅ FINAL PASS |
 | 15 V2 | AI-case selection | ✅ FINAL PASS |
 | 16 | GenSearch evidence acquisition | ✅ COMPLETE / POST-RUN CORRECTED |
-| **17 V2** | **Search-vs-GenSearch comparison + source-worthiness/content layer** | **🟡 CORRECTION COMPLETE / FINAL READBACK PENDING** |
-| 18 | Prioritization | ⛔ BLOCKED UNTIL STEP17 V2 FINAL READBACK PASS |
+| **17 V2** | **Search-vs-GenSearch comparison + source-worthiness/content layer** | **✅ COMPLETE / FINAL READBACK PASS** |
+| 18 | Prioritization | ⬜ NOT STARTED / PRE-STEP GATE ALLOWED |
 | 19 | Client deliverables | ⬜ NOT STARTED |
 | 20 | Final QA | ⬜ NOT STARTED |
 | 21 | Handoff/revisions | ⬜ NOT STARTED |
 | 22 | Job close | ⬜ NOT STARTED |
 
-## Step 17 V2 correction truth
+## Step 17 V2 final truth
 
 ```text
 CASES = 8/8
@@ -40,11 +40,12 @@ DIRECT RAW GENSEARCH TRACE = 8/8 cases / 9 raw observations
 SOURCE-WORTHINESS IMPLICATION = 8/8
 CONTENT-IMPROVEMENT STATE = 8/8
 ORIGINAL CONTRACT FINAL OUTPUT COVERAGE = 100%
+COVERAGE AUDIT = 10/10 PASS
 REVERSE TRACE MISSING = 0
 ADVERSARIAL SELF-REVIEW BLOCKING FINDINGS = 0
+FINAL GITHUB READBACK = PASS
 NEW PROVIDER CALLS = 0
 NEW PAID PROVIDER COST = 0 RUB
-FINAL GITHUB READBACK = PENDING
 ```
 
 ## V2 architecture/material verdicts
@@ -66,7 +67,7 @@ INSUFFICIENT = 1
 ARCHITECTURE DELTA ROWS = 0
 ```
 
-The V2 verdicts were re-evaluated from direct Step13 Search evidence plus raw/corrected Step16 evidence and validated target/source evidence. Matching a historical first-pass label is not treated as proof.
+These verdicts were re-evaluated from direct Step13 Search evidence, raw/corrected Step16 evidence and validated target/source evidence. Old Step16/Step17 labels were not accepted as automatic verdict inputs.
 
 ## New V2 content/source-worthiness result
 
@@ -91,30 +92,53 @@ NOT_APPLICABLE = 1
 SOURCE_WORTHINESS_GAP = 0
 ```
 
-Hard interpretation rule:
+Hard interpretation rule preserved:
 
 ```text
 NO_ARCHITECTURE_CHANGE != NO_CONTENT_CHANGE
 ```
 
-The first pass missed this separate output layer.
-
-## Correction defects closed analytically
+## Corrected failure classes
 
 ```text
-S17-M01 -> CLOSED_IN_V2
-  Source-worthiness/content state is now first-class for all 8 cases.
+S17-M01 = CLOSED
+  Source-worthiness/content implication now exists 8/8.
 
-S17-M02 -> CLOSED_IN_V2
-  Search-side descriptions now reverse-trace to exact persisted Step13 Search JSON; QF007 uses the successful authorized retry after initial OUTCOME_UNKNOWN.
+S17-M02 = CLOSED
+  Ordinary Search is direct-reverse-traced 8/8 to persisted Step13 results.
+  QF007 correctly uses the authorized successful retry after initial OUTCOME_UNKNOWN.
 
-S17-M03 -> CLOSED_IN_V2
-  QA mode is ADVERSARIAL_SELF_REVIEW.
-  Independence state is NOT_INDEPENDENT__SAME_EXECUTION_PROCESS_SECOND_PASS.
+S17-M03 = CLOSED
+  QA mode = ADVERSARIAL_SELF_REVIEW.
+  QA independence = NOT_INDEPENDENT__SAME_EXECUTION_PROCESS_SECOND_PASS.
   No independent-review claim is made.
 ```
 
-## V2 authorities/artifacts
+## Claim boundaries preserved
+
+```text
+NO_ARCHITECTURE_CHANGE != NO_CONTENT_CHANGE
+GEN_SEARCH != CONSUMER_ALICE
+GEN_SEARCH != WEBMASTER_ALICE_VISIBILITY
+EXACT_QUERY != USER_JOB_FAMILY
+SINGLE_RUN != LONG_TERM_STABILITY
+SHORT_WINDOW_REPETITION != LONG_TERM_STABILITY
+SOURCE_ORDER != RANK
+USED_SOURCE_COUNT != RANK
+URL/TITLE ROLE HINT != MATERIAL ROLE/CONTENT PROOF
+```
+
+## Provider/accounting final state
+
+```text
+NEW ORDINARY SEARCH CALLS = 0
+NEW GENSEARCH CALLS = 0
+NEW WEBMASTER CALLS = 0
+NEW PAID PROVIDER COST = 0 RUB
+UNAUTHORIZED PROVIDER CALLS = 0
+```
+
+## Final V2 authorities/artifacts
 
 ```text
 STEP_17_METHOD_FAILURES_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-03.md
@@ -129,23 +153,12 @@ STEP_17_CURRENT_STATE.json
 JOB_FLOW_STEP17_EXECUTION_SYNC_2026-09-02.md
 ```
 
-## Provider/accounting state
+## Transition
 
 ```text
-NEW ORDINARY SEARCH CALLS = 0
-NEW GENSEARCH CALLS = 0
-NEW WEBMASTER CALLS = 0
-NEW PAID PROVIDER COST = 0 RUB
-UNAUTHORIZED PROVIDER CALLS = 0
-```
-
-## Transition gate at this write
-
-The V2 analytical work is complete and artifacts are written, but this sync intentionally does **not** declare final acceptance before mandatory GitHub readback.
-
-```text
-STEP17_V2_FINAL_ACCEPTANCE = PENDING_FINAL_GITHUB_READBACK
-STEP18_PRESTEP_ALLOWED = false
+STEP17_V2_FINAL_ACCEPTANCE = PASS
+STEP17_V2_FINAL_GITHUB_READBACK = PASS
+STEP18_PRESTEP_ALLOWED = true
 STEP18_EXECUTION_STARTED = false
-NEXT_LEGAL_ACTION = FINAL_GITHUB_READBACK_OF_STEP17_V2_ARTIFACT_SET
+NEXT_LEGAL_ACTION = STEP18_PRE_STEP_GATE_ONLY
 ```
