@@ -1,9 +1,9 @@
 # KW-001 — RESEARCH TO EXECUTION SCHEMA GATE
 
-Date: 2026-09-01  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL / OWNER-DIRECTED / PERMANENT NON-REPEAT CONTROL**
 
-This Layer-A gate prevents a recurring failure mode in which useful external research is completed but the discovered requirements never become executable fields, actions, QA checks, or acceptance gates.
+This Layer-A gate prevents a recurring failure mode in which useful external research is completed but the discovered requirements never become executable fields, actions, QA checks or acceptance gates.
 
 Canonical failure class:
 
@@ -23,9 +23,9 @@ QA_OF_EXISTING_ARTIFACTS != QA_OF_REQUIRED_EVIDENCE_COVERAGE
 
 ## 1. When this gate is mandatory
 
-Run this gate before executing any material roadmap step that uses fresh external methodology research, provider/API research, current-site discovery, owner policy, or a newly discovered evidence source that can change the method.
+Run this gate before executing any material roadmap step that uses fresh external methodology research, provider/API research, current-site discovery, owner policy or a newly discovered evidence source that can change the method.
 
-It is especially mandatory when research introduces or changes any of the following:
+It is especially mandatory when research introduces or changes:
 
 ```text
 required evidence source
@@ -45,7 +45,7 @@ acceptance criterion
 
 ## 2. Required research-to-execution record
 
-Every material research-derived requirement must be materialized with at least these fields:
+Every material research-derived requirement must be materialized with equivalent fields:
 
 ```text
 requirement_id
@@ -67,7 +67,7 @@ acceptance_check
 status
 ```
 
-Allowed `requirement_class` values:
+Allowed requirement classes include:
 
 ```text
 BASE_REQUIRED
@@ -77,11 +77,9 @@ FORBIDDEN_CLAIM_BOUNDARY
 METHOD_CONTEXT_ONLY
 ```
 
-A material source may not remain in an ungoverned label such as `ideal`, `nice to have`, `recommended`, or `useful` when it can change whether the step is allowed to pass.
+A material source may not remain in an ungoverned label such as `ideal`, `nice to have`, `recommended` or `useful` when it can change whether the step is allowed to pass.
 
 ## 3. Mandatory conversion sequence
-
-For every material research result:
 
 ```text
 SOURCE
@@ -106,8 +104,6 @@ SOURCE FOUND
 -> EXECUTION CONTINUES
 ```
 
-without the downstream schema above.
-
 ## 4. Evidence-route state model
 
 When a requirement depends on an evidence route, separately classify:
@@ -124,22 +120,15 @@ EVIDENCE_PERSISTED
 EVIDENCE_READ_BACK
 ```
 
-Do not collapse account access, provider readiness, Bridge/tool capability, or quota into one generic `unavailable` state.
+Do not collapse account access, provider readiness, Bridge/tool capability or quota into one generic `unavailable` state.
 
-For private/client evidence, the current `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` controls whether absence means:
+For private/client evidence, `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` controls whether absence means base mode continues, optional enhancement is skipped explicitly, a conditional step blocks, or an enhanced mode blocks.
 
-```text
-BASE MODE CONTINUES
-OPTIONAL ENHANCEMENT NOT EXECUTED
-CONDITIONAL STEP BLOCK
-ENHANCED MODE BLOCK
-```
-
-Absence of an optional enhancement must still be explicitly recorded together with the claims that cannot be made without it.
+Absence of an optional enhancement must still be recorded together with the claims that cannot be made without it.
 
 ## 5. Reproducible execution manifest
 
-Before material execution, the current job must preserve a compact execution manifest containing:
+Before material execution, the current job must preserve a compact execution manifest containing equivalent fields:
 
 ```text
 step
@@ -175,9 +164,9 @@ Planned work must never be written as executed evidence.
 
 ## 6. Provider and paid-request trigger rule
 
-Fresh provider/API/Search calls are allowed only when the manifest proves information gain that cannot be satisfied by already persisted evidence.
+Fresh provider/API/Search calls are allowed only when the manifest proves information gain that cannot be satisfied by persisted evidence.
 
-Before a paid, quota-bearing, or externally rate-limited request, record:
+Before a paid, quota-bearing or externally rate-limited request, record:
 
 ```text
 exact question to resolve
@@ -217,19 +206,9 @@ requirement_id
 
 ## 8. QA must test missing evidence, not only existing files
 
-Independent QA must ask both:
+Independent QA must ask both whether existing artifacts are internally consistent and whether any required research-derived source/field/check is missing entirely.
 
-```text
-ARE THE EXISTING ARTIFACTS INTERNALLY CONSISTENT?
-```
-
-and:
-
-```text
-IS ANY REQUIRED RESEARCH-DERIVED SOURCE / FIELD / CHECK MISSING ENTIRELY?
-```
-
-Required QA questions:
+Required questions include:
 
 ```text
 Did every material research source receive a requirement_id?
@@ -259,37 +238,41 @@ INDEPENDENT_QA_BLOCKING_FINDINGS = 0
 FINAL_GITHUB_READBACK = PASS
 ```
 
-If a material requirement cannot be operationalized, the step must be `BLOCKED`, `DEGRADED`, or switched to a separately defined base/enhanced mode according to the current owner-approved policy. It must not silently pass.
+If a material requirement cannot be operationalized, the step must be blocked, degraded or switched to a separately defined base/enhanced mode according to current owner-approved policy. It must not silently pass.
 
-## 10. Step-13 lesson that established this gate
+## 10. Founding failure lesson
 
-The OKNO_MSK Step-13 post-run review proved the canonical failure:
+A prior controlled execution discovered an official first-party evidence source during method research and described it as “ideal evidence,” but did not convert that finding into an execution mode, access state, artifact requirement, claim boundary and acceptance check before continuing with public evidence.
 
-```text
-OFFICIAL FIRST-PARTY QUERY×URL HISTORY SOURCE WAS DISCOVERED
--> DESCRIBED AS IDEAL EVIDENCE
--> NOT MATERIALIZED AS A MODE / ACCESS / CLAIM / ACCEPTANCE FIELD
--> PUBLIC-CURRENT EXECUTION PASSED
--> LATER REVIEW HAD TO REOPEN AND RECONCILE THE METHOD
-```
-
-The final policy decision for the base Kwork did **not** make private Webmaster history mandatory. Instead, it proved why source classification must be explicit:
+### Root cause
 
 ```text
-BASE_PUBLIC_MODE
--> PRIVATE HISTORY = OPTIONAL_ENHANCEMENT
--> BASE STEP MAY PASS
--> HISTORICAL/HARM CLAIMS REMAIN FORBIDDEN WITHOUT QUALIFYING EVIDENCE
-
-ENHANCED_WITH_ACCESS_MODE
--> PRIVATE HISTORY MAY BECOME REQUIRED BY THE SOLD / AUTHORIZED SCOPE
+SOURCE DISCOVERY
+WAS TREATED AS
+ENOUGH METHOD INTEGRATION
 ```
 
-Therefore the permanent lesson is not "always require Webmaster". The lesson is:
+The later correction showed that the right question was not whether that private source must always be mandatory. The right question was what role that source has in each declared mode and how its absence changes the allowed claim.
+
+Reusable pattern:
+
+```text
+BASE MODE
+-> OPTIONAL ENHANCEMENT EXPLICITLY CLASSIFIED
+-> BASE STEP MAY PASS WHEN SOLD SCOPE ALLOWS IT
+-> CLAIMS REQUIRING THE MISSING SOURCE REMAIN FORBIDDEN
+
+ENHANCED MODE
+-> SOURCE MAY BECOME REQUIRED BY SOLD / AUTHORIZED SCOPE
+```
+
+Therefore:
 
 ```text
 EVERY MATERIAL RESEARCH FINDING MUST BECOME AN EXECUTABLE SCHEMA DECISION.
 ```
+
+Concrete case identity, evidence counts, job mode/results and artifact paths remain Level2.
 
 ## 11. Non-repeat markers
 
@@ -306,3 +289,5 @@ KW001_FORWARD_AND_REVERSE_TRACEABILITY_REQUIRED = true
 KW001_QA_MUST_TEST_REQUIRED_BUT_MISSING_EVIDENCE = true
 KW001_FINAL_CLAIM_REQUIRES_REVERSE_TRACE = true
 ```
+
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
