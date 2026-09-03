@@ -10,8 +10,7 @@ on:
 
 permissions:
   contents: read
-
-actions: read
+  actions: read
 
 concurrency:
   group: kw001-okno-step19-materialize-client-data
