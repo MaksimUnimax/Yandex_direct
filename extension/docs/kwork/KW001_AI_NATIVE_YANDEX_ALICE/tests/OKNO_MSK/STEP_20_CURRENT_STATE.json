@@ -3,8 +3,8 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA",
-  "status": "EXECUTION_COMPLETE__CORRECTION_REQUIRED__PREFINAL_GITHUB_READBACK_PENDING",
-  "step_verdict": "CORRECTION_REQUIRED__STEP21_BLOCKED",
+  "status": "EXECUTION_COMPLETE__FINAL_GITHUB_READBACK_SEALED__CORRECTION_REQUIRED__STEP21_BLOCKED",
+  "step_verdict": "CORRECTION_REQUIRED__3_MATERIAL_DEFECTS__STEP21_BLOCKED",
   "permanent_method_status": "UNVALIDATED_AS_PERMANENT_METHOD",
   "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
   "owner_authorization": {
@@ -69,7 +69,9 @@
     "physical_package_qa": "STEP_20_PHYSICAL_PACKAGE_QA.json",
     "assurance_statement": "STEP_20_ASSURANCE_STATEMENT.md",
     "report": "STEP_20_REPORT.md",
-    "github_readback": "PENDING"
+    "final_readback_seal": "STEP_20_FINAL_READBACK_SEAL_2026-09-03.json",
+    "final_readback_seal_commit": "9b9bbf247b2a205436dbd3ab1fafb0b2cfab13bf",
+    "github_readback": "PASS"
   },
   "claim_boundaries": {
     "expected_implementation_priority": "PENDING_CALIBRATION",
@@ -89,11 +91,12 @@
   },
   "workflow_boundaries": {
     "step20_execution_complete": true,
+    "step20_final_github_readback_complete": true,
     "step20_transition_pass": false,
     "step21_allowed": false,
     "step21_started": false,
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "PREFINAL_GITHUB_READBACK__FINAL_STEP20_SEAL__THEN_OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS"
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS"
 }
