@@ -1,12 +1,25 @@
 # Current-site freshness and existence gate
 
-Status: **ACTIVE / UNIVERSAL / OWNER-REQUESTED 2026-08-31**
+Updated: 2026-09-03  
+Status: **ACTIVE / UNIVERSAL / OWNER-REQUESTED**
 
 ## Plain-language purpose
 
 Websites change while an analysis is in progress. A page inventory collected earlier is a snapshot, not permanent truth. Before recommending a new page, deleting/merging pages, diagnosing overlap, or freezing the final architecture, the analyst must verify what exists **now**.
 
-The OKNO-MSK Step-12 incident proved why this matters: a previously accepted inventory did not contain current commercial pages for panoramic glazing and window replacement. Step 12 therefore proposed new pages that would have duplicated pages already present on the live site.
+A prior controlled execution proved why this matters: a previously accepted inventory omitted current pages that already served tasks later treated as missing. The later structural step therefore proposed new pages that would have duplicated live pages.
+
+### Root cause
+
+```text
+OLDER DISCOVERY SNAPSHOT
+WAS TREATED AS
+CURRENT NEGATIVE EXISTENCE PROOF
+```
+
+The correct control is fresh current-site discovery whenever a material decision depends on an existence/absence claim.
+
+Concrete site identity, missed URLs, products and correction counts remain Level-2 incident evidence.
 
 Hard rule:
 
@@ -25,7 +38,7 @@ NOT_FOUND_EARLIER != ABSENT_NOW
 - deeper in navigation;
 - under a different slug;
 - named by a synonym;
-- nested under another product/object family;
+- nested under another product/service/object family;
 - absent from an older inventory;
 - newly published after the earlier discovery pass.
 
@@ -61,7 +74,7 @@ CODEX/BROWSER BROAD DISCOVERY
 + DURABLE GITHUB INVENTORY/READBACK
 ```
 
-If Codex/browser is unavailable, use at least two independent current discovery routes (for example current navigation/HTML sitemap/site search + external site-restricted web discovery). If coverage is still incomplete, do not assert absence as HIGH confidence: record `DEFERRED/ABSENCE_NOT_PROVEN`.
+If Codex/browser is unavailable, use at least two independent current discovery routes, for example current navigation/HTML sitemap/site search + external site-restricted web discovery. If coverage is still incomplete, do not assert absence as HIGH confidence: record an explicit deferred/absence-not-proven state.
 
 ## Required evidence fields
 
@@ -110,9 +123,9 @@ Why: page ownership is a claim about the current public site.
 
 ### Step 12 — structural actions
 
-Immediately before every `NEW_*` / CREATE recommendation, perform a fresh current-site existence check and existing-content reuse audit. Re-check current existing targets used by material `KEEP/EXPAND/SECTION/ROUTE` decisions when their content role is central to the recommendation.
+Immediately before every `NEW_*` / CREATE recommendation, perform a fresh current-site existence check and existing-content reuse audit. Re-check current existing targets used by material keep/expand/section/route decisions when their content role is central to the recommendation.
 
-Why: a false CREATE can manufacture a duplicate/cannibalization problem that did not exist before the analysis.
+Why: a false CREATE can manufacture a duplicate/competition problem that did not exist before the analysis.
 
 ### Step 13 — overlap/cannibalization diagnosis
 
@@ -145,3 +158,5 @@ FINAL_ARCHITECTURE_FREEZE_WITHOUT_CURRENT_URL_RECHECK = FAIL
 ## Durability
 
 Any Codex/browser or web discovery that materially changes an action must be saved to the canonical GitHub workspace immediately and read back before the next material acquisition/decision batch.
+
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
