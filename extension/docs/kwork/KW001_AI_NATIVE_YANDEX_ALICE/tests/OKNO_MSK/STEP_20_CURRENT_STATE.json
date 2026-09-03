@@ -3,13 +3,13 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA",
-  "status": "PRESTEP_COMPLETE__READBACK_PASS__READY_FOR_OWNER_AUTHORIZATION__EXECUTION_NOT_STARTED",
-  "step_verdict": "PRESTEP_COMPLETE_READY_FOR_OWNER_AUTHORIZATION",
+  "status": "EXECUTION_IN_PROGRESS__START_REVISION_FROZEN__QA_RUNNING",
+  "step_verdict": "NOT_FINAL__QA_IN_PROGRESS",
   "permanent_method_status": "UNVALIDATED_AS_PERMANENT_METHOD",
   "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
   "owner_authorization": {
     "step20_prestep_requested": true,
-    "step20_execution_received": false,
+    "step20_execution_received": true,
     "provider_call_authorization": false,
     "step21_execution_authorization": false
   },
@@ -20,50 +20,24 @@
     "relevant_prior_failure_causes_reviewed": true,
     "current_site_freshness_gate_reviewed": true,
     "fresh_external_method_research_complete": true,
-    "prestep_review": "STEP_20_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-09-03.md",
-    "source_to_method_trace": "STEP_20_SOURCE_TO_METHOD_TRACE.tsv",
     "source_trace_rows": 18,
     "source_trace_rows_traced": 18,
-    "research_to_execution_schema": "STEP_20_RESEARCH_TO_EXECUTION_SCHEMA.tsv",
     "requirements": 42,
     "requirements_ready": 42,
-    "execution_manifest": "STEP_20_EXECUTION_MANIFEST_DRAFT_2026-09-03.json",
-    "prestep_readback_qa": "STEP_20_PRESTEP_READBACK_QA_2026-09-03.json",
-    "adversarial_self_audit_complete": true,
-    "plain_language_why_what_result_prepared": true,
     "github_readback": "PASS_PRE_EXECUTION"
   },
-  "prepared_qa_method": {
-    "verification_layer": true,
-    "validation_layer": true,
-    "data_quality_dimensions": [
-      "COMPLETENESS",
-      "UNIQUENESS",
-      "CONSISTENCY",
-      "TIMELINESS",
-      "VALIDITY",
-      "ACCURACY"
-    ],
-    "claim_reverse_trace_required": true,
-    "current_implementation_critical_url_recheck_required": true,
-    "physical_distribution_hygiene_check_required": true,
-    "mock_demo_distribution_labelling_check_required": true,
-    "material_defect_reopens_affected_prior_stage": true,
-    "silent_prior_step_mutation_during_step20": false
+  "execution_revision": {
+    "execution_start_head": "a661da4cb1fc7d6a0c79d05993d687192b75e443",
+    "execution_start_freeze": "STEP_20_EXECUTION_START_FREEZE_2026-09-03.json",
+    "execution_start_freeze_commit": "38e043e81759edbad03a5c768862b65d82466494",
+    "mixed_revision_execution_allowed": false
   },
-  "step19_handoff": {
-    "step19_status": "COMPLETE_PASS_AFTER_POST_EXTERNAL_AUDIT_CORRECTION__PHYSICAL_PACKAGE_AND_EXECUTION_OPERABILITY_READBACK_SEALED",
+  "step19_handoff_expected_for_reverification": {
     "logical_deliverables": 9,
     "primary_directions": 15,
     "active_semantic_rows": 2332,
     "preserved_search_required": 19,
     "ai_cases": 8,
-    "ai_verdicts": {
-      "CHANGE": 0,
-      "DE_RISK": 4,
-      "NO_CHANGE": 3,
-      "INSUFFICIENT": 1
-    },
     "page_actions": 34,
     "execution_packages": 112,
     "package_breakdown": {
@@ -73,29 +47,30 @@
       "hold_recheck": 20
     },
     "non_hold_packages": 92,
-    "hold_packages": 20,
     "measurement_classes": 7,
     "physical_client_artifacts": 3,
     "supported_new_page_actions": 0,
     "supported_destructive_actions": 0,
     "expected_implementation_priority": "PENDING_CALIBRATION",
-    "final_sprint_or_calendar_schedule_ready": false,
-    "accounting_state": "FROZEN_EXPECTED_HANDOFF_VALUES__NOT_YET_STEP20_REVERIFIED"
-  },
-  "implementation_critical_url_universe": {
-    "count": "TO_MATERIALIZE_MECHANICALLY_AT_EXECUTION_START",
-    "whole_site_negative_absence_research_planned": false,
-    "current_url_final_role_recheck_planned": true
+    "final_sprint_or_calendar_schedule_ready": false
   },
   "step20_execution": {
-    "started": false,
-    "qa_ledgers_created": 0,
-    "current_url_checks_executed": 0,
+    "started": true,
+    "physical_package_downloaded_from_workflow_artifact": true,
+    "physical_artifact_id": 9892930278,
+    "data_materialization_artifact_id": 9891918951,
+    "mechanical_reconciliation_started": true,
+    "implementation_critical_url_universe_materialized": true,
+    "implementation_critical_unique_urls": 48,
+    "current_url_checks_in_progress": true,
     "provider_calls": 0,
     "new_paid_cost_rub": 0.0,
-    "blocking_defects": "NOT_EVALUATED",
-    "material_defects": "NOT_EVALUATED",
-    "minor_defects": "NOT_EVALUATED",
+    "known_defects": {
+      "material": 1,
+      "minor_candidate": 1,
+      "blocking": 0,
+      "note": "Counts are provisional until defect ledger and final QA readback. Material defect currently identified: missing required mock/test/demo identity in physical client package. Minor candidate: stale non-sensitive DOCX template timestamps."
+    },
     "step21_allowed": false
   },
   "formal_assurance_boundary": {
@@ -115,10 +90,11 @@
   },
   "workflow_boundaries": {
     "step20_prestep_complete": true,
-    "step20_execution_started": false,
+    "step20_execution_started": true,
+    "step20_final_verdict_ready": false,
     "step21_started": false,
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP20_EXECUTION"
+  "next_legal_action": "CONTINUE_STEP20_QA__WRITE_LEDGER_AND_DEFECT_CLASSIFICATION__DO_NOT_START_STEP21"
 }
