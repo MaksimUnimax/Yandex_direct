@@ -3,67 +3,37 @@
   "job": "OKNO_MSK",
   "step": 19,
   "step_name": "Client-facing deliverables",
-  "status": "COMPLETE__CLIENT_DELIVERABLES_9_OF_9__QA_PASS__FINAL_GITHUB_READBACK_SEALED__STEP20_PRESTEP_ALLOWED",
-  "step_verdict": "COMPLETE",
-  "permanent_method_status": "UNVALIDATED",
+  "status": "REOPENED_AFTER_EXTERNAL_METHOD_AUDIT__CORRECTION_IN_PROGRESS",
+  "step_verdict": "REOPENED_FOR_CORRECTION",
+  "reopen_reason": "Owner required all externally identified Step19 deliverable/usability/execution-readiness deficiencies to be documented with root cause and corrected before Step19 may be sealed again.",
+  "previous_seal": "STEP_19_FINAL_GITHUB_READBACK_SEAL_2026-09-03.json",
+  "previous_complete_state_superseded_for_current_authority": true,
   "owner_authorization": {
-    "step19_execution_received": true,
-    "step19_execution_authorization_scope": "STEP19_ONLY",
-    "step19_authorization_consumed": true,
-    "provider_call_authorization": false
+    "step19_correction_received": true,
+    "scope": "DOCUMENT_ROOT_CAUSE_AND_CORRECT_ALL_STEP19_POST_EXTERNAL_AUDIT_DEFICIENCIES",
+    "provider_call_authorization": false,
+    "step20_authorization": false
   },
-  "prestep": {
-    "source_to_method_trace_rows": "21/21_TRACED",
-    "research_to_execution_requirements": "22/22_READY",
-    "logical_deliverables_defined": "9/9",
-    "github_readback_qa": "PASS_PRE_EXECUTION"
+  "correction_scope": {
+    "materialized_client_workbook_required": true,
+    "semantic_core_must_be_materialized_from_canonical_sources": true,
+    "canonical_sources_remain_authority": true,
+    "generated_client_view_is_not_new_authority": true,
+    "execution_calibration_board_112_packages_required": true,
+    "measurement_protocol_required": true,
+    "polished_client_report_required": true,
+    "client_usability_gate_required": true,
+    "external_post_audit_root_cause_report_required": true,
+    "future_non_repeat_method_documentation_required": true
   },
-  "execution": {
-    "started": true,
-    "completed": true,
-    "logical_deliverables_created": 9,
-    "canonical_client_data_model": "STEP_19_CANONICAL_CLIENT_DATA_MODEL.json",
-    "primary_client_directions": 15,
-    "semantic_logical_workbook_state": "LOSSLESS_STEP08_STEP10_STEP11_SOURCE_BUNDLE",
-    "semantic_master_phrase_keys": 2840,
-    "semantic_active_phrase_rows": 2332,
-    "semantic_current_phrase_page_rows": 2332,
-    "semantic_preserved_unresolved": 19,
-    "semantic_silent_active_drops": 0,
-    "step17_cases": 8,
-    "step17_verdict_counts": {"CHANGE": 0, "DE_RISK": 4, "NO_CHANGE": 3, "INSUFFICIENT": 1},
-    "page_action_rows": 34,
-    "priority_action_rows": 34,
-    "work_package_trace": 112,
-    "new_page_actions": 0,
-    "destructive_actions": 0
-  },
-  "deliverables": [
-    "STEP_19_01_CLIENT_SUMMARY.md",
-    "STEP_19_02_BUSINESS_AND_PAGE_MODEL.tsv",
-    "STEP_19_03_SEMANTIC_CORE_WORKBOOK.md",
-    "STEP_19_04_SEARCH_VS_AI_GAP_MATRIX.tsv",
-    "STEP_19_05_PAGE_ACTION_MAP.tsv",
-    "STEP_19_06_SOURCE_COMPETITOR_OBSERVATIONS.tsv",
-    "STEP_19_07_PRIORITY_ACTION_PLAN.tsv",
-    "STEP_19_08_METHOD_AND_LIMITATIONS.md",
-    "STEP_19_09_CLIENT_DELIVERY_MESSAGE.md"
-  ],
-  "supporting_artifacts": [
-    "STEP_19_CANONICAL_CLIENT_DATA_MODEL.json",
-    "STEP_19_QA_FINAL_2026-09-03.json",
-    "STEP_19_REPORT_2026-09-03.md",
-    "JOB_FLOW_STEP19_EXECUTION_SYNC_2026-09-03.md",
-    "STEP_19_FINAL_GITHUB_READBACK_SEAL_2026-09-03.json",
-    "JOB_FLOW_STEP19_FINAL_READBACK_SEAL_2026-09-03.md"
-  ],
-  "priority_and_readiness": {
-    "step18_action_register_rows": 34,
-    "priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
-    "work_packages": 112,
-    "work_package_counts": {"exact_action": 31, "internal_link": 15, "route": 46, "hold": 20},
-    "expected_implementation_priority": "PENDING_CALIBRATION",
-    "final_calendar_or_sprint_schedule_ready": false
+  "hard_non_fabrication_boundaries": {
+    "implementation_owner": "TO_CALIBRATE_UNLESS_REAL_INPUT_EXISTS",
+    "effort": "TO_CALIBRATE_UNLESS_REAL_INPUT_EXISTS",
+    "capacity": "TO_CALIBRATE_UNLESS_REAL_INPUT_EXISTS",
+    "calendar_or_sprint_sequence": "BLOCKED_UNTIL_CALIBRATION",
+    "private_business_priority": "UNKNOWN_UNLESS_EXPLICIT_CLIENT_INPUT",
+    "measurement_targets": "DO_NOT_INVENT",
+    "provider_calls": "0_UNLESS_SEPARATELY_AUTHORIZED"
   },
   "provider_execution": {
     "wordstat_calls": 0,
@@ -72,36 +42,16 @@
     "webmaster_calls": 0,
     "metrika_calls": 0,
     "direct_calls": 0,
-    "new_paid_cost_rub": 0.0,
-    "unauthorized_provider_calls": 0
-  },
-  "claim_controls": {
-    "p1_p2_p3_meaning": "IDEAL_ANALYTICAL_PRIORITY_NOT_COMMITTED_IMPLEMENTATION_SCHEDULE",
-    "private_business_priority_guesses": 0,
-    "implementation_owner_effort_capacity_timeline_guesses": 0,
-    "superseded_decisions_shown_as_current": 0,
-    "sitewide_ai_visibility_claims": 0,
-    "longitudinal_ai_stability_claims": 0,
-    "ai_business_impact_claims_from_snapshots": 0,
-    "ranking_traffic_lead_revenue_guarantees": 0,
-    "hidden_new_competitor_audit": false
-  },
-  "qa": {
-    "construction_and_cross_deliverable_qa": "PASS",
-    "qa_artifact": "STEP_19_QA_FINAL_2026-09-03.json",
-    "final_github_readback_complete": true,
-    "final_readback_status": "PASS_FINAL_GITHUB_READBACK_SEALED",
-    "final_readback_seal_artifact": "STEP_19_FINAL_GITHUB_READBACK_SEAL_2026-09-03.json",
-    "job_flow_final_readback_seal": "JOB_FLOW_STEP19_FINAL_READBACK_SEAL_2026-09-03.md"
+    "new_paid_cost_rub": 0.0
   },
   "workflow_boundaries": {
-    "step20_prestep_allowed": true,
+    "step19_correction_started": true,
+    "step19_corrected_final_seal": false,
+    "step20_prestep_allowed": false,
     "step20_started": false,
     "step20_execution_authorized": false,
     "step21_started": false,
-    "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_step_allowed": true,
-  "next_legal_action": "STEP20_PRESTEP_GOAL_FULL_ROADMAP_METHOD_REVIEW_GATE_ONLY"
+  "next_legal_action": "COMPLETE_STEP19_POST_EXTERNAL_AUDIT_CORRECTION__QA__READBACK__RESEAL"
 }
