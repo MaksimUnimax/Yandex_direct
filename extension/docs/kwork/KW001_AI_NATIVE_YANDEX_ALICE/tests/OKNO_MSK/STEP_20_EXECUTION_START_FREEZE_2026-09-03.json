@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "step_name": "Final QA",
+  "status": "EXECUTION_AUTHORIZED__START_REVISION_FROZEN__QA_IN_PROGRESS",
+  "owner_authorization": {
+    "step20_execution_received": true,
+    "authorization_text_equivalent": "Делай",
+    "provider_call_authorization": false,
+    "step21_execution_authorization": false
+  },
+  "execution_start": {
+    "branch": "roadmap/kwork-productization-2026-08-28",
+    "head": "a661da4cb1fc7d6a0c79d05993d687192b75e443",
+    "prestep_state": "PRESTEP_COMPLETE__READBACK_PASS__READY_FOR_OWNER_AUTHORIZATION__EXECUTION_NOT_STARTED",
+    "prestep_seal": "JOB_FLOW_STEP20_PRESTEP_READBACK_SEAL_2026-09-03.md"
+  },
+  "step19_terminal_inputs": {
+    "state": "STEP_19_CURRENT_STATE.json",
+    "seal": "STEP_19_POST_EXTERNAL_AUDIT_FINAL_READBACK_SEAL_2026-09-03.json",
+    "physical_manifest": "STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json",
+    "physical_workflow_run": 33754616728,
+    "physical_workflow_artifact_id": 9892930278,
+    "physical_workflow_artifact_digest": "sha256:3d4e6a4a5f77d3801b02f7c41f9cb31e5b8e0612f521e000f83f3d59e3d60d33"
+  },
+  "frozen_expected_accounting_for_independent_recheck": {
+    "logical_deliverables": 9,
+    "primary_directions": 15,
+    "active_semantic_rows": 2332,
+    "preserved_search_required": 19,
+    "ai_cases": 8,
+    "page_actions": 34,
+    "execution_packages": 112,
+    "hold_packages": 20,
+    "non_hold_packages": 92,
+    "measurement_classes": 7,
+    "physical_client_artifacts": 3
+  },
+  "provider_plan": {
+    "wordstat_calls": 0,
+    "search_calls": 0,
+    "gensearch_calls": 0,
+    "webmaster_calls": 0,
+    "metrika_calls": 0,
+    "direct_calls": 0,
+    "new_paid_cost_rub": 0.0
+  },
+  "execution_boundary": {
+    "silent_step19_mutation_allowed": false,
+    "material_defect_reopens_affected_prior_stage": true,
+    "step21_started": false
+  }
+}
