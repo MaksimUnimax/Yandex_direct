@@ -6,7 +6,7 @@
   "qa_mode": "ADVERSARIAL_SELF_REVIEW",
   "qa_independence_state": "NOT_INDEPENDENT__SAME_EXECUTION_PROCESS_SECOND_PASS",
   "reviewer_or_process": "ChatGPT same execution process, explicit adversarial second-pass review against frozen V2 schema/manifest and original Step17 contract",
-  "result": "PASS_PENDING_FINAL_GITHUB_READBACK",
+  "result": "PASS",
   "checks": {
     "cases_accounted": {"observed": "8/8", "result": "PASS"},
     "ordinary_search_direct_trace": {"observed": "8/8", "result": "PASS"},
@@ -30,7 +30,15 @@
     "qa_mode_label_matches_actual_process": {"observed": true, "result": "PASS"},
     "unauthorized_provider_calls": {"observed": 0, "result": "PASS"},
     "new_paid_provider_cost_rub": {"observed": 0.0, "result": "PASS"},
-    "final_github_readback": {"observed": "PENDING", "result": "PENDING"}
+    "final_github_readback": {"observed": "PASS", "result": "PASS"}
+  },
+  "readback_evidence": {
+    "case_ledger": "READBACK_PASS__LINE_9_C15-020_CONFIRMED__8_CASE_ROWS_PRESENT",
+    "coverage_audit": "READBACK_PASS__10_OF_10_ROWS_PASS",
+    "qa_pending_version": "READBACK_PASS",
+    "report_pending_version": "READBACK_PASS",
+    "current_state_pending_version": "READBACK_PASS",
+    "job_flow_sync_pending_version": "READBACK_PASS"
   },
   "verdict_counts": {
     "CHANGE": 0,
@@ -65,5 +73,5 @@
     "new_webmaster_calls": 0,
     "new_paid_provider_cost_rub": 0.0
   },
-  "acceptance": "PENDING_FINAL_GITHUB_READBACK"
+  "acceptance": "STEP17_V2_FINAL_ACCEPTANCE_PASS"
 }
