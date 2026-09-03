@@ -1,6 +1,7 @@
 # KW-001 — Codex evidence-conflict preservation addendum
 
-Date: 2026-09-02
+Date: 2026-09-02  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL PROCESS ADDENDUM / OWNER-REQUIRED**
 
 ## Purpose
@@ -20,13 +21,19 @@ FAIL_CLOSED != FORBID_LOSSLESS_PRESERVATION
 
 ## Why this rule exists
 
-During OKNO_MSK Step 14A synchronization on 2026-09-02, the Codex local branch and canonical remote branch had diverged. A safe merge produced an add/add conflict at:
+A prior controlled repository-synchronization incident produced an add/add conflict between independently created evidence artifacts at the same path. The execution correctly stopped instead of arbitrarily choosing one version, but the synchronization rule treated every material conflict as one undifferentiated class.
 
-`tests/OKNO_MSK/STEP_11_CODEX_PAGE_REFRESH_REPORT.md`
+### Root cause
 
-The local branch contained a local-only Step-11 commit; the remote branch independently contained a Step-11 report at the same path. Codex correctly aborted rather than choosing `ours` or `theirs`.
+```text
+ALL MATERIAL CONFLICTS
+WERE TREATED AS
+SEMANTIC / AUTHORITY CONFLICTS
+```
 
-The first synchronization rule, however, treated all material conflicts as one class. That was too coarse. Some conflicts are competing authority and require analyst/owner resolution; others are same-path acquisition-evidence conflicts that can be preserved losslessly.
+That was too coarse. Some conflicts contain competing project truth and require analyst/owner resolution; others contain factual acquisition evidence that can be preserved losslessly with explicit provenance.
+
+The reusable lesson is the classification and preservation logic below. The concrete repository path, commits, hashes and evidence versions remain job-specific history and must not be copied into this permanent rule.
 
 ## Required classification
 
@@ -77,6 +84,10 @@ RECORD HASH / PATH EQUIVALENCE
 KEEP CANONICAL REMOTE PATH
 CONTINUE
 ```
+
+### NON_MATERIAL_MECHANICAL_CONFLICT
+
+The conflict is mechanical and contains no competing evidence or project truth. Resolve only after confirming that no evidence/provenance is lost.
 
 ## Mandatory blob inspection
 
@@ -145,7 +156,7 @@ RECONCILIATION_NOTE_WRITTEN = true when material preservation occurred
 
 ## Permanent lesson
 
-Repository synchronization is part of evidence validity. A successful crawl or deterministic calculation performed after silent evidence loss is not reproducible project evidence.
+Repository synchronization is part of evidence validity. A deterministic calculation performed after silent evidence loss is not reproducible project evidence.
 
 ```text
 DETERMINISTIC_EXECUTION
@@ -153,3 +164,5 @@ DETERMINISTIC_EXECUTION
 + LOSSLESS_EVIDENCE_PROVENANCE
 = ELIGIBLE REPRODUCIBLE EVIDENCE
 ```
+
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`: concrete incident identity and values belong only in Level-2 evidence or Git history.
