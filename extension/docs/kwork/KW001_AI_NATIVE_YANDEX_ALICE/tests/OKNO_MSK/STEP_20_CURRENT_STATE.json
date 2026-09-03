@@ -3,28 +3,15 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA",
-  "status": "EXECUTION_IN_PROGRESS__START_REVISION_FROZEN__QA_RUNNING",
-  "step_verdict": "NOT_FINAL__QA_IN_PROGRESS",
+  "status": "EXECUTION_COMPLETE__CORRECTION_REQUIRED__PREFINAL_GITHUB_READBACK_PENDING",
+  "step_verdict": "CORRECTION_REQUIRED__STEP21_BLOCKED",
   "permanent_method_status": "UNVALIDATED_AS_PERMANENT_METHOD",
   "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
   "owner_authorization": {
-    "step20_prestep_requested": true,
     "step20_execution_received": true,
     "provider_call_authorization": false,
+    "step18_step19_correction_authorization": false,
     "step21_execution_authorization": false
-  },
-  "prestep": {
-    "whole_goal_and_full_roadmap_reviewed": true,
-    "step19_terminal_handoff_reviewed": true,
-    "step_rules_index_reviewed": true,
-    "relevant_prior_failure_causes_reviewed": true,
-    "current_site_freshness_gate_reviewed": true,
-    "fresh_external_method_research_complete": true,
-    "source_trace_rows": 18,
-    "source_trace_rows_traced": 18,
-    "requirements": 42,
-    "requirements_ready": 42,
-    "github_readback": "PASS_PRE_EXECUTION"
   },
   "execution_revision": {
     "execution_start_head": "a661da4cb1fc7d6a0c79d05993d687192b75e443",
@@ -32,69 +19,81 @@
     "execution_start_freeze_commit": "38e043e81759edbad03a5c768862b65d82466494",
     "mixed_revision_execution_allowed": false
   },
-  "step19_handoff_expected_for_reverification": {
-    "logical_deliverables": 9,
-    "primary_directions": 15,
-    "active_semantic_rows": 2332,
+  "execution_result": {
+    "qa_execution_complete": true,
+    "verification_layer_complete": true,
+    "validation_layer_complete": true,
+    "logical_deliverables_verified": 9,
+    "primary_directions_verified": 15,
+    "semantic_rows_verified": 2332,
+    "unique_phrase_keys": 2332,
     "preserved_search_required": 19,
-    "ai_cases": 8,
-    "page_actions": 34,
-    "execution_packages": 112,
-    "package_breakdown": {
-      "exact_action": 31,
-      "internal_link": 15,
-      "route_to_existing": 46,
-      "hold_recheck": 20
-    },
+    "ai_cases_verified": 8,
+    "ai_verdicts": {"CHANGE": 0, "DE_RISK": 4, "NO_CHANGE": 3, "INSUFFICIENT": 1},
+    "page_actions_accounted": 34,
+    "execution_packages_accounted": 112,
+    "package_breakdown": {"exact_action": 31, "internal_link": 15, "route_to_existing": 46, "hold_recheck": 20},
     "non_hold_packages": 92,
+    "hold_packages": 20,
     "measurement_classes": 7,
-    "physical_client_artifacts": 3,
-    "supported_new_page_actions": 0,
-    "supported_destructive_actions": 0,
-    "expected_implementation_priority": "PENDING_CALIBRATION",
-    "final_sprint_or_calendar_schedule_ready": false
-  },
-  "step20_execution": {
-    "started": true,
-    "physical_package_downloaded_from_workflow_artifact": true,
-    "physical_artifact_id": 9892930278,
-    "data_materialization_artifact_id": 9891918951,
-    "mechanical_reconciliation_started": true,
-    "implementation_critical_url_universe_materialized": true,
     "implementation_critical_unique_urls": 48,
-    "current_url_checks_in_progress": true,
+    "current_public_url_evidence_resolved": 48,
+    "material_page_role_disappearance_or_repurpose": 0,
+    "physical_client_artifacts_verified": 3,
     "provider_calls": 0,
-    "new_paid_cost_rub": 0.0,
-    "known_defects": {
-      "material": 1,
-      "minor_candidate": 1,
-      "blocking": 0,
-      "note": "Counts are provisional until defect ledger and final QA readback. Material defect currently identified: missing required mock/test/demo identity in physical client package. Minor candidate: stale non-sensitive DOCX template timestamps."
-    },
-    "step21_allowed": false
-  },
-  "formal_assurance_boundary": {
-    "formal_independent_assurer_available": false,
-    "allowed_claim": "ADVERSARIAL_FINAL_QA",
-    "forbidden_claim": "FORMAL_INDEPENDENT_ASSURANCE",
-    "owner_recipient_signoff_remains_step21": true
-  },
-  "provider_plan": {
-    "wordstat_calls": 0,
-    "search_calls": 0,
-    "gensearch_calls": 0,
-    "webmaster_calls": 0,
-    "metrika_calls": 0,
-    "direct_calls": 0,
     "new_paid_cost_rub": 0.0
   },
+  "defects": {
+    "blocking": 0,
+    "material": 3,
+    "minor": 1,
+    "material_ids": ["D20-001", "D20-002", "D20-003"],
+    "minor_ids": ["D20-004"],
+    "defect_ledger": "STEP_20_DEFECT_LEDGER.tsv",
+    "step21_blocked": true
+  },
+  "material_defect_summary": {
+    "D20-001": "Physical XLSX/DOCX/PDF lack the frozen mock/test/demo disclosure required by TEST_ORDER.md; Step19 packaging correction required.",
+    "D20-002": "S18-A012 is partly stale because the current REHAU doors page already contains price/price-estimation guidance; Step18 action must be narrowed then affected Step19 views regenerated.",
+    "D20-003": "S18-A027 is partly stale because the current French-window page already contains a concise definition; Step18 action must be narrowed/reconciled with S18-A009 then affected Step19 views regenerated."
+  },
+  "minor_defect_summary": {
+    "D20-004": "DOCX carries generic python-docx creator metadata and stale 2013 template timestamps; no sensitive personal data; clean during required Step19 rebuild."
+  },
+  "qa_artifacts": {
+    "final_qa_ledger": "STEP_20_FINAL_QA_LEDGER.tsv",
+    "defect_ledger": "STEP_20_DEFECT_LEDGER.tsv",
+    "current_url_role_recheck": "STEP_20_CURRENT_URL_ROLE_RECHECK.tsv",
+    "claim_reverse_trace": "STEP_20_CLAIM_REVERSE_TRACE.tsv",
+    "data_reconciliation": "STEP_20_DATA_RECONCILIATION.json",
+    "physical_package_qa": "STEP_20_PHYSICAL_PACKAGE_QA.json",
+    "assurance_statement": "STEP_20_ASSURANCE_STATEMENT.md",
+    "report": "STEP_20_REPORT.md",
+    "github_readback": "PENDING"
+  },
+  "claim_boundaries": {
+    "expected_implementation_priority": "PENDING_CALIBRATION",
+    "final_sprint_or_calendar_schedule_ready": false,
+    "supported_new_page_actions": 0,
+    "supported_destructive_actions": 0,
+    "formal_independent_assurance_claimed": false,
+    "private_webmaster_metrika_direct_observation_claimed": false,
+    "sitewide_ai_visibility_claimed": false,
+    "longitudinal_ai_stability_claimed": false,
+    "ranking_traffic_lead_revenue_guarantee_claimed": false
+  },
+  "reopened_prior_work": {
+    "step18": "CORRECTION_REQUIRED__S18-A012__S18-A027",
+    "step19": "CORRECTION_REQUIRED__D20-001__REGENERATE_AFTER_STEP18_ACTION_CORRECTION__D20-004_METADATA_HYGIENE",
+    "silent_correction_inside_step20": false
+  },
   "workflow_boundaries": {
-    "step20_prestep_complete": true,
-    "step20_execution_started": true,
-    "step20_final_verdict_ready": false,
+    "step20_execution_complete": true,
+    "step20_transition_pass": false,
+    "step21_allowed": false,
     "step21_started": false,
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "CONTINUE_STEP20_QA__WRITE_LEDGER_AND_DEFECT_CLASSIFICATION__DO_NOT_START_STEP21"
+  "next_legal_action": "PREFINAL_GITHUB_READBACK__FINAL_STEP20_SEAL__THEN_OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS"
 }
