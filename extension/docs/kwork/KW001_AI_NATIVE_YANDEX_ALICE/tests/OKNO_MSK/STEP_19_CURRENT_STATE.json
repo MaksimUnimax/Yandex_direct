@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 19,
+  "step_name": "Client-facing deliverables",
+  "status": "PRESTEP_RESEARCH_AND_METHOD_DRAFT_COMPLETE__READBACK_PENDING__EXECUTION_NOT_STARTED",
+  "permanent_method_status": "UNVALIDATED",
+  "owner_authorization": {
+    "step19_execution_received": false,
+    "provider_call_authorization": false
+  },
+  "prestep": {
+    "whole_goal_and_full_roadmap_reviewed": true,
+    "current_step18_handoff_reviewed": true,
+    "known_failure_causes_and_non_repeat_controls_reviewed": true,
+    "fresh_external_method_research_complete": true,
+    "source_to_method_trace_written": true,
+    "research_to_execution_schema_written": true,
+    "deliverable_contract_written": true,
+    "execution_manifest_written": true,
+    "adversarial_self_audit_complete": true,
+    "plain_language_why_what_result_prepared": true,
+    "github_readback_complete": false
+  },
+  "deliverable_contract": {
+    "logical_deliverables_required": 9,
+    "logical_deliverables_created": 0,
+    "client_workbook_created": false,
+    "client_summary_created": false,
+    "method_and_limitations_created": false,
+    "delivery_message_created": false,
+    "top_level_primary_direction_limit": 15
+  },
+  "current_authoritative_handoff": {
+    "step18_analytical_priority_state": "COMPLETE_PASS",
+    "step18_action_register_rows": 34,
+    "step18_priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
+    "step18_work_packages": 112,
+    "step18_expected_implementation_priority": "PENDING_CALIBRATION",
+    "step18_final_calendar_or_sprint_schedule_ready": false,
+    "step17_accepted_cases": 8
+  },
+  "configured_claim_boundaries": {
+    "p1_p2_p3_meaning": "IDEAL_ANALYTICAL_PRIORITY_NOT_COMMITTED_IMPLEMENTATION_SCHEDULE",
+    "sitewide_ai_visibility_claim": "FORBIDDEN",
+    "longitudinal_ai_stability_claim": "FORBIDDEN",
+    "ai_business_impact_from_bounded_snapshots": "FORBIDDEN",
+    "private_business_priority_guess": "FORBIDDEN",
+    "implementation_owner_effort_capacity_timeline_guess": "FORBIDDEN",
+    "new_competitor_audit_hidden_in_packaging": "FORBIDDEN"
+  },
+  "provider_plan": {
+    "wordstat_calls": 0,
+    "search_calls": 0,
+    "gensearch_calls": 0,
+    "webmaster_calls": 0,
+    "metrika_calls": 0,
+    "direct_calls": 0,
+    "new_paid_cost_rub": 0.0
+  },
+  "workflow_boundaries": {
+    "step19_execution_started": false,
+    "step20_started": false,
+    "step21_started": false,
+    "step22_started": false,
+    "step19_execution_may_start_without_owner_authorization": false
+  },
+  "next_legal_action": "COMPLETE_GITHUB_READBACK_OF_STEP19_PRESTEP_ARTIFACTS__THEN_REQUEST_OWNER_AUTHORIZATION_FOR_STEP19_EXECUTION"
+}
