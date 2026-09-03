@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "status": "CORRECTION_REQUIRED__D20-001__WITH_MINOR_D20-004",
+  "source_workflow": {"run_id": 33754616728, "artifact_id": 9892930278, "artifact_digest": "sha256:3d4e6a4a5f77d3801b02f7c41f9cb31e5b8e0612f521e000f83f3d59e3d60d33"},
+  "identity": {
+    "xlsx": {"file": "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx", "bytes": 457647, "sha256": "024966b5959deea16f1d46b3f0d2e89e437fe4bf5756081472b9f67845c910f3", "identity": "PASS"},
+    "docx": {"file": "STEP_19_CLIENT_REPORT_CORRECTED.docx", "bytes": 43825, "sha256": "2754e7ba9e332c4cc73a733637e9678ff7bc86731ab8bad690f8f3c6643c61ca", "identity": "PASS"},
+    "pdf": {"file": "STEP_19_CLIENT_REPORT_CORRECTED.pdf", "bytes": 59491, "sha256": "0873f6c5f23f2b6d4a6345fde275d523d71df8238d1555cd44ca8b720bfb2145", "identity": "PASS"}
+  },
+  "xlsx": {
+    "sheets": 9, "all_sheets_visible": true, "semantic_rows": 2332, "execution_rows": 112, "measurement_rows": 7,
+    "formula_error_tokens": 0, "comments_parts": 0, "external_links": 0, "connections": 0, "vba": false, "embedded_objects": 0, "custom_properties": false,
+    "demo_test_label_present": false,
+    "visual_tooling_note": "artifact_tool render showed a theme-font display anomaly in some body cells although underlying values/styles and exact source equality/openability passed; treated as QA tooling limitation, not an artifact defect."
+  },
+  "docx": {
+    "openability": "PASS", "rendered_pages": 6, "visual_review": "PASS", "clipped_content": 0, "blank_pages": 0,
+    "comments": 0, "tracked_changes": 0, "external_targets": 0, "embeddings": 0, "custom_properties": false,
+    "custom_xml": "empty standard Microsoft bibliography Sources element only", "demo_test_label_present": false,
+    "core_properties": {"creator": "python-docx", "created": "2013-12-23T23:15:00Z", "modified": "2013-12-23T23:15:00Z", "sensitive_personal_data_found": false},
+    "minor_defect": "D20-004"
+  },
+  "pdf": {
+    "openability": "PASS", "pages": 4, "visual_review": "PASS", "blank_pages": 0, "clipped_content": 0, "encrypted": false, "attachments": 0, "annotations": 0,
+    "metadata": {"Author": "(anonymous)", "Creator": "(unspecified)", "Producer": "ReportLab", "creation_date": "2026-09-03", "modification_date": "2026-09-03"},
+    "demo_test_label_present": false
+  },
+  "contract_distribution_identity": {"requirement": "TEST_ORDER mock commercial rehearsal; derived portfolio/client artifact requires clear test/demo identity", "verdict": "FAIL", "defect_id": "D20-001"},
+  "step19_correction_required": true,
+  "step21_allowed": false
+}
