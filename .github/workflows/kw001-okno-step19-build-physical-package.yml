@@ -42,8 +42,20 @@ jobs:
           s=s.replace('    t=Table(data,', '    t=PDFTable(data,')
           s=s.replace('t=Table([[P(x) for x in row] for row in arch]', 't=PDFTable([[P(x) for x in row] for row in arch]')
           s=s.replace('assert len(PdfReader(PDF).pages) >= 5','assert len(PdfReader(PDF).pages) >= 3')
+
+          # DOCX client-usability correction: table rows must not split across pages,
+          # and table headers should repeat on continuation pages.
+          if 'from docx.oxml import OxmlElement' not in s:
+              s=s.replace('from docx import Document\n', 'from docx import Document\nfrom docx.oxml import OxmlElement\nfrom docx.oxml.ns import qn\n')
+          marker='doc.save(DOCX)'
+          patch='''# Prevent broken-looking table rows in the standalone DOCX.\nfor _table in doc.tables:\n    for _ri, _row in enumerate(_table.rows):\n        _trPr = _row._tr.get_or_add_trPr()\n        _cant = OxmlElement("w:cantSplit")\n        _trPr.append(_cant)\n        if _ri == 0:\n            _hdr = OxmlElement("w:tblHeader")\n            _hdr.set(qn("w:val"), "true")\n            _trPr.append(_hdr)\ndoc.save(DOCX)'''
+          if 'Prevent broken-looking table rows in the standalone DOCX.' not in s:
+              s=s.replace(marker, patch)
+
           if 'tab=Table(displayName=' in s or '    t=Table(data,' in s or 'assert len(PdfReader(PDF).pages) >= 5' in s:
               raise RuntimeError('physical-builder correction incomplete')
+          if 'w:cantSplit' not in s or 'w:tblHeader' not in s:
+              raise RuntimeError('DOCX no-split correction missing')
           p.write_text(s,encoding='utf-8')
           print('STEP19_PHYSICAL_BUILDER_CORRECTION_PASS')
           PY
@@ -55,7 +67,7 @@ jobs:
       - name: Independent physical package QA
         run: |
           python - <<'PY'
-          import hashlib, json
+          import hashlib, json, zipfile
           from pathlib import Path
           from openpyxl import load_workbook
           from docx import Document
@@ -81,6 +93,11 @@ jobs:
           assert len(doc.paragraphs)>30 and len(doc.tables)>=4
           for marker in ['Краткий итог','Execution calibration','Как измерять внедрение','Ограничения']:
             assert marker in doc_text, marker
+          # Structural QA for no-split/repeating-header OOXML.
+          with zipfile.ZipFile(d) as zf:
+            xml=zf.read('word/document.xml').decode('utf-8')
+          assert 'w:cantSplit' in xml
+          assert 'w:tblHeader' in xml
 
           reader=PdfReader(p)
           pages=len(reader.pages)
