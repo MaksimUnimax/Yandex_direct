@@ -1,0 +1,70 @@
+name: KW001 OKNO Step19 Materialize Client Data
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CORRECTION_RUN_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+actions: read
+
+concurrency:
+  group: kw001-okno-step19-materialize-client-data
+  cancel-in-progress: false
+
+jobs:
+  materialize-and-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout roadmap branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 1
+
+      - name: Materialize deterministic client data
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_materialize_client_data.py
+
+      - name: Independent accounting checks
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_correction_materialized')
+          def rows(name):
+              with (root/name).open(encoding='utf-8-sig', newline='') as f:
+                  return list(csv.DictReader(f))
+          sem = rows('STEP_19_03_SEMANTIC_CORE_MATERIALIZED.csv')
+          cal = rows('STEP_19_EXECUTION_CALIBRATION_BOARD_112.csv')
+          met = rows('STEP_19_MEASUREMENT_PROTOCOL.csv')
+          qa = json.loads((root/'STEP_19_CORRECTION_DATA_QA.json').read_text(encoding='utf-8'))
+          assert len(sem) == 2332
+          assert len({r['phrase'] for r in sem}) == 2332
+          assert sum(r['current_assignment_status']=='SEARCH_REQUIRED' for r in sem) == 19
+          assert len(cal) == 112
+          assert len({r['package_id'] for r in cal}) == 112
+          assert sum(r['package_kind']=='EXACT_ACTION' for r in cal) == 31
+          assert sum(r['package_kind']=='INTERNAL_LINK' for r in cal) == 15
+          assert sum(r['package_kind']=='ROUTE_TO_EXISTING' for r in cal) == 46
+          assert sum(r['package_kind']=='HOLD_RECHECK' for r in cal) == 20
+          assert all(r['production_sequence'] in {'PENDING_CALIBRATION','PENDING_CALIBRATION_AFTER_OWNER_ROLE_PREREQUISITES','PENDING_CALIBRATION_AFTER_HIGHER_PRECEDENCE_OVERLAYS','HOLD'} for r in cal)
+          assert len(met) == 7
+          assert qa['status'] == 'PASS_MATERIALIZATION_DATA_BUILD'
+          assert qa['non_fabrication']['committed_schedule_created'] is False
+          assert qa['non_fabrication']['numeric_performance_targets_invented'] is False
+          print('STEP19_CORRECTION_DATA_INDEPENDENT_QA_PASS')
+          PY
+
+      - name: Upload correction data bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: step19-correction-materialized-data
+          path: extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_correction_materialized/*
+          if-no-files-found: error
+          retention-days: 7
