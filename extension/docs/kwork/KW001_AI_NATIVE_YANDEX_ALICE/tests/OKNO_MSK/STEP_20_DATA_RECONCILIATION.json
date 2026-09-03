@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "status": "MECHANICAL_DATA_PASS__CURRENT_ACTION_ACCURACY_CORRECTION_REQUIRED",
+  "quality_dimensions": {
+    "completeness": "PASS",
+    "uniqueness": "PASS",
+    "consistency": "PASS_WITH_CURRENT_ACCURACY_DEFECTS_SEPARATELY_CLASSIFIED",
+    "timeliness": "FAIL_CURRENT_ACTION_SCOPE__D20-002_D20-003",
+    "validity": "PASS",
+    "accuracy": "FAIL_CURRENT_ACTION_SCOPE__D20-002_D20-003"
+  },
+  "mechanical_accounting": {
+    "logical_deliverables": {"expected": 9, "verified": 9},
+    "primary_directions": {"verified": 15, "maximum": 15},
+    "semantic": {"rows": 2332, "unique_phrase_keys": 2332, "preserved_search_required": 19, "silent_active_drops": 0},
+    "ai": {"cases": 8, "verdicts": {"CHANGE": 0, "DE_RISK": 4, "NO_CHANGE": 3, "INSUFFICIENT": 1}},
+    "actions": {"rows": 34, "unique_action_ids": 34, "priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1}},
+    "execution_packages": {"rows": 112, "unique_package_ids": 112, "breakdown": {"exact_action": 31, "internal_link": 15, "route_to_existing": 46, "hold_recheck": 20}, "non_hold": 92},
+    "hold_packages": 20,
+    "measurement_classes": 7,
+    "current_critical_urls": {"unique_urls": 48, "public_evidence_resolved": 48, "material_role_disappearance_or_repurpose": 0, "current_action_scope_defects": 2}
+  },
+  "cross_artifact": {
+    "workbook_non_readme_sheets_exactly_equal_materialized_sources": true,
+    "priority_action_ids_match_action_map": true,
+    "all_package_source_action_ids_valid": true,
+    "all_actions_have_one_or_more_execution_packages": true,
+    "unexpected_key_duplicates": 0,
+    "visible_formula_error_tokens": 0
+  },
+  "current_truth_defects": ["D20-002", "D20-003"],
+  "provider_accounting": {"wordstat": 0, "search": 0, "gensearch": 0, "webmaster": 0, "metrika": 0, "direct": 0, "new_paid_cost_rub": 0.0},
+  "step21_allowed": false
+}
