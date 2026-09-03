@@ -3,26 +3,26 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA",
-  "status": "EXECUTION_COMPLETE__FINAL_GITHUB_READBACK_SEALED__CORRECTION_REQUIRED__STEP21_BLOCKED",
-  "step_verdict": "CORRECTION_REQUIRED__3_MATERIAL_DEFECTS__STEP21_BLOCKED",
+  "status": "PREVIOUS_EXECUTION_COMPLETE__CORRECTION_REQUIRED__UPSTREAM_CORRECTIONS_APPLIED__RERUN_REQUIRED__STEP21_BLOCKED",
+  "step_verdict": "PREVIOUS_CORRECTION_REQUIRED_VERDICT_REMAINS_UNTIL_FRESH_RERUN",
   "permanent_method_status": "UNVALIDATED_AS_PERMANENT_METHOD",
   "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
   "owner_authorization": {
     "step20_execution_received": true,
+    "step18_step19_correction_from_step20_received": true,
+    "step20_rerun_authorization": false,
     "provider_call_authorization": false,
-    "step18_step19_correction_authorization": false,
     "step21_execution_authorization": false
   },
-  "execution_revision": {
+  "previous_execution_revision": {
     "execution_start_head": "a661da4cb1fc7d6a0c79d05993d687192b75e443",
-    "execution_start_freeze": "STEP_20_EXECUTION_START_FREEZE_2026-09-03.json",
-    "execution_start_freeze_commit": "38e043e81759edbad03a5c768862b65d82466494",
-    "mixed_revision_execution_allowed": false
+    "final_readback_seal": "STEP_20_FINAL_READBACK_SEAL_2026-09-03.json",
+    "previous_verdict": "CORRECTION_REQUIRED",
+    "previous_material_defects": ["D20-001", "D20-002", "D20-003"],
+    "previous_minor_defects": ["D20-004"]
   },
-  "execution_result": {
+  "previous_execution_result": {
     "qa_execution_complete": true,
-    "verification_layer_complete": true,
-    "validation_layer_complete": true,
     "logical_deliverables_verified": 9,
     "primary_directions_verified": 15,
     "semantic_rows_verified": 2332,
@@ -38,40 +38,37 @@
     "measurement_classes": 7,
     "implementation_critical_unique_urls": 48,
     "current_public_url_evidence_resolved": 48,
-    "material_page_role_disappearance_or_repurpose": 0,
     "physical_client_artifacts_verified": 3,
     "provider_calls": 0,
     "new_paid_cost_rub": 0.0
   },
-  "defects": {
-    "blocking": 0,
-    "material": 3,
-    "minor": 1,
-    "material_ids": ["D20-001", "D20-002", "D20-003"],
-    "minor_ids": ["D20-004"],
-    "defect_ledger": "STEP_20_DEFECT_LEDGER.tsv",
-    "step21_blocked": true
+  "upstream_corrections_applied": {
+    "authorization_received": true,
+    "report": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_REPORT_2026-09-03.md",
+    "qa": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
+    "successful_workflow_run": 33765988306,
+    "successful_persistence_commit": "4d474b8d832ca0131e5622daf37b094a28c0f5fe",
+    "artifact_id": 9897510555,
+    "artifact_digest": "sha256:b4a8a0796374321c110d2e7290a8ed84c9ea742edeef72ea2e849b2801679879",
+    "D20-001": "CORRECTED_UPSTREAM__TEST_DEMO_VISIBLE_IN_XLSX_DOCX_PDF_AND_CLIENT_SURFACES",
+    "D20-002": "CORRECTED_UPSTREAM__A012_NARROWED_TO_REMAINING_INSTALLATION_PROCESS_GAP",
+    "D20-003": "CORRECTED_UPSTREAM__A027_NO_DUPLICATE_DEFINITION_AND_FOLDED_WITH_A009",
+    "D20-004": "CORRECTED_UPSTREAM__DOCX_GENERIC_LIBRARY_METADATA_CLEANED",
+    "correction_final_readback_complete": false
   },
-  "material_defect_summary": {
-    "D20-001": "Physical XLSX/DOCX/PDF lack the frozen mock/test/demo disclosure required by TEST_ORDER.md; Step19 packaging correction required.",
-    "D20-002": "S18-A012 is partly stale because the current REHAU doors page already contains price/price-estimation guidance; Step18 action must be narrowed then affected Step19 views regenerated.",
-    "D20-003": "S18-A027 is partly stale because the current French-window page already contains a concise definition; Step18 action must be narrowed/reconciled with S18-A009 then affected Step19 views regenerated."
-  },
-  "minor_defect_summary": {
-    "D20-004": "DOCX carries generic python-docx creator metadata and stale 2013 template timestamps; no sensitive personal data; clean during required Step19 rebuild."
-  },
-  "qa_artifacts": {
-    "final_qa_ledger": "STEP_20_FINAL_QA_LEDGER.tsv",
-    "defect_ledger": "STEP_20_DEFECT_LEDGER.tsv",
-    "current_url_role_recheck": "STEP_20_CURRENT_URL_ROLE_RECHECK.tsv",
-    "claim_reverse_trace": "STEP_20_CLAIM_REVERSE_TRACE.tsv",
-    "data_reconciliation": "STEP_20_DATA_RECONCILIATION.json",
-    "physical_package_qa": "STEP_20_PHYSICAL_PACKAGE_QA.json",
-    "assurance_statement": "STEP_20_ASSURANCE_STATEMENT.md",
-    "report": "STEP_20_REPORT.md",
-    "final_readback_seal": "STEP_20_FINAL_READBACK_SEAL_2026-09-03.json",
-    "final_readback_seal_commit": "9b9bbf247b2a205436dbd3ab1fafb0b2cfab13bf",
-    "github_readback": "PASS"
+  "corrected_package_identity_pending_rerun": {
+    "workbook": {
+      "bytes": 458600,
+      "sha256": "9f08cb47b1f4863f90b84c2d3a1ae145341ff5fd5f9c57ee76f2c087c642d499"
+    },
+    "docx": {
+      "bytes": 44078,
+      "sha256": "d68001ee36f1677cf0817e3058e490bdfcc1598da324b3cd62a5670c1644b3dd"
+    },
+    "pdf": {
+      "bytes": 59868,
+      "sha256": "cf4a208ba5286243e41ef5dff31a5d3eea9fdc0dab93800850addcc07663915e"
+    }
   },
   "claim_boundaries": {
     "expected_implementation_priority": "PENDING_CALIBRATION",
@@ -84,19 +81,28 @@
     "longitudinal_ai_stability_claimed": false,
     "ranking_traffic_lead_revenue_guarantee_claimed": false
   },
-  "reopened_prior_work": {
-    "step18": "CORRECTION_REQUIRED__S18-A012__S18-A027",
-    "step19": "CORRECTION_REQUIRED__D20-001__REGENERATE_AFTER_STEP18_ACTION_CORRECTION__D20-004_METADATA_HYGIENE",
-    "silent_correction_inside_step20": false
+  "provider_execution": {
+    "wordstat_calls": 0,
+    "search_calls": 0,
+    "gensearch_calls": 0,
+    "webmaster_calls": 0,
+    "metrika_calls": 0,
+    "direct_calls": 0,
+    "new_paid_cost_rub": 0.0,
+    "unauthorized_provider_calls": 0
   },
   "workflow_boundaries": {
-    "step20_execution_complete": true,
-    "step20_final_github_readback_complete": true,
+    "step18_correction_applied": true,
+    "step19_correction_applied": true,
+    "step20_previous_execution_complete": true,
+    "step20_rerun_required": true,
+    "step20_rerun_authorized": false,
+    "step20_rerun_started": false,
     "step20_transition_pass": false,
     "step21_allowed": false,
     "step21_started": false,
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS"
+  "next_legal_action": "FINAL_READBACK_OF_STEP18_STEP19_CORRECTION__THEN_OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
 }
