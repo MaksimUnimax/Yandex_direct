@@ -3,37 +3,81 @@
   "job": "OKNO_MSK",
   "step": 19,
   "step_name": "Client-facing deliverables",
-  "status": "REOPENED_AFTER_EXTERNAL_METHOD_AUDIT__CORRECTION_IN_PROGRESS",
-  "step_verdict": "REOPENED_FOR_CORRECTION",
-  "reopen_reason": "Owner required all externally identified Step19 deliverable/usability/execution-readiness deficiencies to be documented with root cause and corrected before Step19 may be sealed again.",
-  "previous_seal": "STEP_19_FINAL_GITHUB_READBACK_SEAL_2026-09-03.json",
-  "previous_complete_state_superseded_for_current_authority": true,
+  "status": "POST_EXTERNAL_AUDIT_CORRECTION_COMPLETE__CLIENT_USABILITY_QA_PASS__FINAL_GITHUB_READBACK_PENDING",
+  "step_verdict": "CORRECTION_COMPLETE_PENDING_FINAL_READBACK_SEAL",
+  "previous_first_pass_seal_superseded": true,
   "owner_authorization": {
     "step19_correction_received": true,
     "scope": "DOCUMENT_ROOT_CAUSE_AND_CORRECT_ALL_STEP19_POST_EXTERNAL_AUDIT_DEFICIENCIES",
+    "authorization_consumed_for_correction_execution": true,
     "provider_call_authorization": false,
-    "step20_authorization": false
+    "step20_execution_authorization": false
   },
-  "correction_scope": {
-    "materialized_client_workbook_required": true,
-    "semantic_core_must_be_materialized_from_canonical_sources": true,
-    "canonical_sources_remain_authority": true,
-    "generated_client_view_is_not_new_authority": true,
-    "execution_calibration_board_112_packages_required": true,
-    "measurement_protocol_required": true,
-    "polished_client_report_required": true,
-    "client_usability_gate_required": true,
-    "external_post_audit_root_cause_report_required": true,
-    "future_non_repeat_method_documentation_required": true
+  "root_cause_and_method": {
+    "level2_root_cause_report": "STEP_19_POST_EXTERNAL_AUDIT_ROOT_CAUSE_AND_CORRECTION_PLAN_2026-09-03.md",
+    "external_source_trace": "STEP_19_POST_EXTERNAL_AUDIT_SOURCE_TRACE.tsv",
+    "level1_corrected_method_candidate": "STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md",
+    "step_rules_index_registered": true,
+    "permanent_method_status": "UNVALIDATED__CORRECTED_CANDIDATE_ACTIVE_AS_NON_REPEAT_CONTROL"
   },
-  "hard_non_fabrication_boundaries": {
-    "implementation_owner": "TO_CALIBRATE_UNLESS_REAL_INPUT_EXISTS",
-    "effort": "TO_CALIBRATE_UNLESS_REAL_INPUT_EXISTS",
-    "capacity": "TO_CALIBRATE_UNLESS_REAL_INPUT_EXISTS",
-    "calendar_or_sprint_sequence": "BLOCKED_UNTIL_CALIBRATION",
-    "private_business_priority": "UNKNOWN_UNLESS_EXPLICIT_CLIENT_INPUT",
-    "measurement_targets": "DO_NOT_INVENT",
-    "provider_calls": "0_UNLESS_SEPARATELY_AUTHORIZED"
+  "corrected_execution": {
+    "data_materialization_run": 33752050742,
+    "materialized_semantic_rows": 2332,
+    "preserved_unresolved": 19,
+    "silent_active_drops": 0,
+    "execution_calibration_packages": 112,
+    "package_counts": {"exact_action": 31, "internal_link": 15, "route_to_existing": 46, "hold_recheck": 20},
+    "measurement_classes": 7,
+    "physical_package_run": 33754616728,
+    "physical_package_persisted_commit": "fbcfb5a10d2ed7a26f22f36f8e3f7c4d862d9176",
+    "physical_workflow_artifact_id": 9892930278,
+    "physical_workflow_artifact_digest": "sha256:3d4e6a4a5f77d3801b02f7c41f9cb31e5b8e0612f521e000f83f3d59e3d60d33"
+  },
+  "physical_client_artifacts": {
+    "workbook": {
+      "file": "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx",
+      "bytes": 457647,
+      "sha256": "024966b5959deea16f1d46b3f0d2e89e437fe4bf5756081472b9f67845c910f3",
+      "sheets": 9,
+      "openability": "PASS",
+      "visual_qa": "PASS"
+    },
+    "docx": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.docx",
+      "bytes": 43825,
+      "sha256": "2754e7ba9e332c4cc73a733637e9678ff7bc86731ab8bad690f8f3c6643c61ca",
+      "rendered_pages": 6,
+      "openability": "PASS",
+      "visual_qa": "PASS"
+    },
+    "pdf": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.pdf",
+      "bytes": 59491,
+      "sha256": "0873f6c5f23f2b6d4a6345fde275d523d71df8238d1555cd44ca8b720bfb2145",
+      "pages": 4,
+      "openability": "PASS",
+      "visual_qa": "PASS"
+    },
+    "manifest": "STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json"
+  },
+  "client_usability": {
+    "manual_repo_join_required_for_core_use": false,
+    "semantic_core_materialized": true,
+    "execution_calibration_interface": true,
+    "measurement_interface": true,
+    "standalone_client_report": true,
+    "unknown_execution_values_explicit": true,
+    "client_independent_use_gate": "PASS"
+  },
+  "non_fabrication": {
+    "implementation_owner_guesses": 0,
+    "effort_guesses": 0,
+    "capacity_guesses": 0,
+    "private_business_priority_guesses": 0,
+    "committed_sprint_or_calendar_schedule_created": false,
+    "numeric_performance_targets_invented": false,
+    "expected_implementation_priority": "PENDING_CALIBRATION",
+    "final_calendar_or_sprint_schedule_ready": false
   },
   "provider_execution": {
     "wordstat_calls": 0,
@@ -42,16 +86,23 @@
     "webmaster_calls": 0,
     "metrika_calls": 0,
     "direct_calls": 0,
-    "new_paid_cost_rub": 0.0
+    "new_paid_cost_rub": 0.0,
+    "unauthorized_provider_calls": 0
+  },
+  "qa": {
+    "correction_qa": "PASS_CORRECTED_PRE_FINAL_STATE_READBACK",
+    "qa_artifact": "STEP_19_POST_EXTERNAL_AUDIT_CORRECTION_QA_2026-09-03.json",
+    "correction_report": "STEP_19_POST_EXTERNAL_AUDIT_CORRECTION_REPORT_2026-09-03.md",
+    "job_flow_sync": "JOB_FLOW_STEP19_POST_EXTERNAL_AUDIT_CORRECTION_SYNC_2026-09-03.md",
+    "final_github_readback_complete": false
   },
   "workflow_boundaries": {
-    "step19_correction_started": true,
-    "step19_corrected_final_seal": false,
     "step20_prestep_allowed": false,
     "step20_started": false,
     "step20_execution_authorized": false,
     "step21_started": false,
+    "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "COMPLETE_STEP19_POST_EXTERNAL_AUDIT_CORRECTION__QA__READBACK__RESEAL"
+  "next_legal_action": "FINAL_GITHUB_READBACK_OF_CORRECTED_STEP19_AUTHORITIES__WRITE_CORRECTED_SEAL__FINAL_STATE_UPDATE"
 }
