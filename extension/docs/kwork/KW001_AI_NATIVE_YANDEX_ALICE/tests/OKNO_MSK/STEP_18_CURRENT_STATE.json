@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 18,
   "step_name": "Prioritization + implementation readiness",
-  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__STEP20_CURRENT_CONTENT_CORRECTION_APPLIED__IMPLEMENTATION_SCHEDULE_PENDING_CALIBRATION",
+  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__STEP20_CURRENT_CONTENT_CORRECTION_APPLIED_AND_READBACK_SEALED__IMPLEMENTATION_SCHEDULE_PENDING_CALIBRATION",
   "permanent_method_status": "APPROVED_ACTIVE",
   "permanent_method_authority": "STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md",
   "owner_authorization": {
@@ -28,14 +28,14 @@
   "step20_current_content_corrections": {
     "D20-002": {
       "action_id": "S18-A012",
-      "status": "CORRECTED",
+      "status": "CORRECTED_AND_READBACK_SEALED",
       "current_truth": "Door price/price-estimation guidance is already materially present.",
       "corrected_action": "Retain existing price/price-estimation guidance and strengthen only still-missing door-specific professional installation scope/process.",
       "do_not_do": "Do not duplicate existing price factors/calculator/measurer guidance."
     },
     "D20-003": {
       "action_id": "S18-A027",
-      "status": "CORRECTED",
+      "status": "CORRECTED_AND_READBACK_SEALED",
       "current_truth": "A concise French-window definition is already materially present.",
       "corrected_action": "Do not add a duplicate basic definition; only residual naming/distinction guidance may be folded into S18-A009 if still missing.",
       "dependency": "S18-A009"
@@ -108,18 +108,23 @@
   },
   "step20_defect_correction": {
     "qa_artifact": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
+    "report": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_REPORT_2026-09-03.md",
+    "final_readback_seal": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_FINAL_READBACK_SEAL_2026-09-03.json",
+    "final_readback_seal_commit": "2ef64f546909bd4b8ce029687016cbf49b9bfc69",
     "successful_workflow_run": 33765988306,
     "correction_data_persisted": true,
+    "final_github_readback_complete": true,
     "step20_rerun_required": true,
     "step21_allowed": false
   },
-  "step_verdict": "MODE_A_ANALYTICAL_PRIORITY_COMPLETE_PASS_WITH_STEP20_CURRENT_CONTENT_CORRECTIONS__MODE_B_IMPLEMENTATION_SCHEDULE_PENDING_REAL_CALIBRATION",
+  "step_verdict": "MODE_A_ANALYTICAL_PRIORITY_COMPLETE_PASS_WITH_STEP20_CURRENT_CONTENT_CORRECTIONS_READBACK_SEALED__MODE_B_IMPLEMENTATION_SCHEDULE_PENDING_REAL_CALIBRATION",
   "next_step_allowed": false,
   "workflow_boundary": {
     "step19_correction_applied": true,
     "step20_previous_execution_verdict": "CORRECTION_REQUIRED",
+    "step20_rerun_required": true,
     "step20_rerun_authorized": false,
     "step21_started": false
   },
-  "next_legal_action": "FINAL_READBACK_OF_STEP18_STEP19_CORRECTION__THEN_OWNER_AUTHORIZATION_FOR_STEP20_RERUN"
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
 }
