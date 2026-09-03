@@ -42,8 +42,8 @@
       "sha256": "699c3ffdc6aad74154f2bd78a4a7a765d01017b497e9af008d5255861dea81f0"
     },
     "STEP_19_EXECUTION_CALIBRATION_BOARD_112.csv": {
-      "bytes": 120072,
-      "sha256": "c1e396f247bfc66e1af07fe46096c0b9b75d27bfb8405797303a2076ec9f090e"
+      "bytes": 120756,
+      "sha256": "b7f85ce239778f7c407e43d8a9ac36a68ca05440db5a5c88a2450ed0f42c99fb"
     },
     "STEP_19_MEASUREMENT_PROTOCOL.csv": {
       "bytes": 5610,
@@ -58,16 +58,21 @@
       "sha256": "75bbac0414ca3cbc81db98bac43597049d0597fce1c9898dbb52f29a4ae1899e"
     },
     "STEP_19_05_PAGE_ACTION_MAP.tsv": {
-      "bytes": 12729,
-      "sha256": "91e5d64c09447e0d2dd46a6be1fc0a6643403f5f47e5d5ace9298c9fd6541604"
+      "bytes": 13734,
+      "sha256": "60373f7ed24a1aeac9b9aaf47637b429ddc2ec74ecf4a40dde83c2e08d77c3c1"
     },
     "STEP_19_06_SOURCE_COMPETITOR_OBSERVATIONS.tsv": {
       "bytes": 4449,
       "sha256": "8056524f2dbe843a1681c12f300dfbc4f8a81e429e5f8295f3f1313ec2c0e45b"
     },
     "STEP_19_07_PRIORITY_ACTION_PLAN.tsv": {
-      "bytes": 8125,
-      "sha256": "cdf0573594f7a8668b1e9c5bfca670dab9740030406262c04642b68ec4c2821d"
+      "bytes": 8343,
+      "sha256": "c7a2f80d3eee1f42356b5beecb5025b876d99e05efc2b0fa94027049f97bbeab"
     }
+  },
+  "step20_defect_correction": {
+    "D20-002": "APPLIED_TO_A012_ACTION_PRIORITY_CALIBRATION",
+    "D20-003": "APPLIED_TO_A027_ACTION_PRIORITY_CALIBRATION",
+    "authority_overlay": "STEP_18_STEP20_CURRENT_CONTENT_CORRECTION_OVERLAY.tsv"
   }
 }

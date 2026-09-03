@@ -7,6 +7,8 @@ The script is intentionally deterministic at the data/content level and is execu
 
 from __future__ import annotations
 
+from datetime import datetime
+
 import csv
 import hashlib
 import json
@@ -95,6 +97,10 @@ assert sum(r["package_kind"] == "HOLD_RECHECK" for r in calibration) == 20
 # XLSX
 # ---------------------------------------------------------------------------
 wb = Workbook()
+wb.properties.title = "TEST/DEMO CASE — OKNO-MSK"
+wb.properties.subject = "Mock commercial rehearsal / demonstration analysis"
+wb.properties.creator = ""
+wb.properties.lastModifiedBy = ""
 ws = wb.active
 ws.title = "README"
 
@@ -106,11 +112,17 @@ white_bold = Font(color="FFFFFF", bold=True)
 blue_bold = Font(color=BLUE, bold=True)
 
 ws.merge_cells("A1:H1")
-ws["A1"] = "OKNO-MSK — Step19 corrected client workbook"
+ws["A1"] = "TEST/DEMO CASE — OKNO-MSK — Step19 corrected client workbook"
 ws["A1"].font = Font(size=16, bold=True, color="FFFFFF")
 ws["A1"].fill = header_fill
 ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
 ws.row_dimensions[1].height = 28
+ws.merge_cells("A2:H2")
+ws["A2"] = "TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement."
+ws["A2"].font = Font(bold=True, color="9C0006")
+ws["A2"].fill = warn_fill
+ws["A2"].alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+ws.row_dimensions[2].height = 34
 
 for cell, value in [("A3","Ключевой показатель"),("B3","Значение"),("D3","Аналитический приоритет"),("E3","Actions")]:
     ws[cell] = value; ws[cell].fill = header_fill; ws[cell].font = white_bold
@@ -231,6 +243,13 @@ rx.close()
 # DOCX
 # ---------------------------------------------------------------------------
 doc=Document()
+doc.core_properties.title = "TEST/DEMO CASE — OKNO-MSK"
+doc.core_properties.subject = "Mock commercial rehearsal / demonstration analysis"
+doc.core_properties.author = ""
+doc.core_properties.last_modified_by = ""
+doc.core_properties.comments = ""
+doc.core_properties.created = datetime(2026, 9, 3, 0, 0, 0)
+doc.core_properties.modified = datetime(2026, 9, 3, 0, 0, 0)
 sec=doc.sections[0]; sec.top_margin=Inches(.65); sec.bottom_margin=Inches(.65); sec.left_margin=Inches(.7); sec.right_margin=Inches(.7)
 for sty in ["Normal","Title","Heading 1","Heading 2"]:
     doc.styles[sty].font.name="Arial"
@@ -243,6 +262,8 @@ r=p.add_run("OKNO-MSK"); r.bold=True; r.font.size=Pt(28); r.font.color.rgb=RGBCo
 p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER
 r=p.add_run("Семантика, архитектура страниц и план действий\nпод Yandex Search + bounded Search-vs-AI диагностику"); r.bold=True; r.font.size=Pt(17)
 p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.add_run("Исправленный клиентский отчёт Step19").italic=True
+p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+r=p.add_run("TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement."); r.bold=True; r.font.color.rgb=RGBColor(156,0,6)
 
 def dtbl(rows):
     t=doc.add_table(rows=1,cols=2); t.style="Table Grid"; t.alignment=WD_TABLE_ALIGNMENT.CENTER
@@ -342,7 +363,7 @@ def pdf_table(rows,widths=None):
     t.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,0),colors.HexColor("#1F4E78")),("TEXTCOLOR",(0,0),(-1,0),colors.white),("FONTNAME",(0,0),(-1,-1),font),("GRID",(0,0),(-1,-1),.4,colors.grey),("VALIGN",(0,0),(-1,-1),"TOP"),("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white,colors.HexColor("#EAF3F8")])]))
     return t
 
-story=[P("OKNO-MSK","CTitle"),P("Семантика, архитектура страниц и план действий под Yandex Search + bounded Search-vs-AI диагностику","CSub"),Spacer(1,6*mm)]
+story=[P("TEST/DEMO CASE — OKNO-MSK","CTitle"),P("Mock commercial rehearsal; not an actual paid-client engagement.","CSub"),P("Семантика, архитектура страниц и план действий под Yandex Search + bounded Search-vs-AI диагностику","CSub"),Spacer(1,6*mm)]
 story.append(pdf_table([("Показатель","Результат"),("Active semantic/page map","2332"),("Основные направления","15"),("Search-vs-AI cases","8"),("Page actions","34"),("Execution packages","112"),("Correction provider calls","0; cost 0 RUB")]))
 story += [PageBreak(),P("1. Краткий итог","CSub"),P("Сайту не нужен механический рост числа посадочных страниц. Основной путь — сохранить доказанных владельцев, развести роли близких страниц, использовать exact specialists и закрыть bounded content gaps."),pdf_table([("Показатель","Результат"),("Supported new-page actions","0"),("Supported destructive actions","0"),("P1/P2/P3/HOLD","12 / 20 / 1 / 1"),("Final schedule","PENDING_CALIBRATION")])]
 for x in ["Закрепить specialist owners перед downstream routing/links.","Развести overlap без автоматического merge/delete/redirect.","Усилить существующие страницы по доказанным content needs.","Не снимать HOLD до закрытия named blocker."]:
@@ -378,6 +399,7 @@ manifest={
     "source_data":"step19_correction_materialized",
     "logical_accounting":{"directions":15,"semantic_rows":2332,"unresolved":19,"ai_cases":8,"page_actions":34,"execution_packages":112,"measurement_classes":7},
     "non_fabrication":{"new_provider_calls":0,"new_paid_cost_rub":0.0,"committed_schedule":False,"numeric_targets_invented":False},
+    "distribution_identity":{"test_demo_case":True,"mock_commercial_rehearsal":True,"actual_paid_client_engagement":False},
     "artifacts":{}
 }
 for p in [XLSX,DOCX,PDF]:
