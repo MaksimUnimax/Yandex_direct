@@ -1,0 +1,61 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "seal_type": "FINAL_QA_EXECUTION_GITHUB_READBACK",
+  "status": "PASS_STEP20_EXECUTION_READBACK__QA_VERDICT_CORRECTION_REQUIRED",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "readback_input_head": "1f626aac5621d96e70bd5117cecc8e9e36bf699f",
+  "execution_start_head": "a661da4cb1fc7d6a0c79d05993d687192b75e443",
+  "owner_authorization_scope": "STEP20_EXECUTION_ONLY",
+  "readback": {
+    "final_qa_ledger": {"file": "STEP_20_FINAL_QA_LEDGER.tsv", "blob_sha": "08e00b84dd9a31831c8b6c6d88ddbe055122490e", "persistence_gate": "PASS_GITHUB_READBACK"},
+    "defect_ledger": {"file": "STEP_20_DEFECT_LEDGER.tsv", "blob_sha": "58a85f7444187122dd15527206bfc84f5dd53efa", "material_defects": 3, "minor_defects": 1, "status": "PASS_READBACK"},
+    "current_url_role_recheck": {"file": "STEP_20_CURRENT_URL_ROLE_RECHECK.tsv", "blob_sha": "38e25776f4cf916e2bf2f727e25c88bd07500a64", "url_rows": 48, "status": "PASS_READBACK"},
+    "claim_reverse_trace": {"file": "STEP_20_CLAIM_REVERSE_TRACE.tsv", "blob_sha": "f0c2fabad8f76ba1a7b478e19123adb8a1ea4ece", "claim_rows": 22, "status": "PASS_READBACK"},
+    "data_reconciliation": {"file": "STEP_20_DATA_RECONCILIATION.json", "blob_sha": "97b5bc28427dfe648e1bf4f8fd47e3d9ab0a5faa", "status": "MECHANICAL_DATA_PASS__CURRENT_ACTION_ACCURACY_CORRECTION_REQUIRED"},
+    "physical_package_qa": {"file": "STEP_20_PHYSICAL_PACKAGE_QA.json", "blob_sha": "5cb7db036651bf41b62af3d69d8ceb2650570924", "status": "CORRECTION_REQUIRED__D20-001__WITH_MINOR_D20-004"},
+    "assurance_statement": {"file": "STEP_20_ASSURANCE_STATEMENT.md", "blob_sha": "7ea2e8cba550594096ac18344dd7802a0a959a5b", "status": "ADVERSARIAL_FINAL_QA_NOT_FORMAL_INDEPENDENT_ASSURANCE"},
+    "report": {"file": "STEP_20_REPORT.md", "blob_sha": "bf200286082df7b19a43415b71d22c99544bcf92", "status": "COMPLETE__CORRECTION_REQUIRED__STEP21_BLOCKED"},
+    "prefinal_current_state": {"file": "STEP_20_CURRENT_STATE.json", "blob_sha": "8f546ed9c4017fd153be3ba487a7b1f378b06f47", "status": "EXECUTION_COMPLETE__CORRECTION_REQUIRED__PREFINAL_GITHUB_READBACK_PENDING"},
+    "execution_flow_sync": {"file": "JOB_FLOW_STEP20_EXECUTION_SYNC_2026-09-03.md", "blob_sha": "4d060d801e5a2cbd983f0324335f689d1ef052f2", "status": "STEP20_QA_EXECUTED_CORRECTION_REQUIRED_STEP21_BLOCKED"}
+  },
+  "verified_accounting": {
+    "logical_deliverables": 9,
+    "primary_directions": 15,
+    "primary_direction_limit": 15,
+    "semantic_rows": 2332,
+    "unique_phrase_keys": 2332,
+    "preserved_search_required": 19,
+    "ai_cases": 8,
+    "ai_verdicts": {"CHANGE": 0, "DE_RISK": 4, "NO_CHANGE": 3, "INSUFFICIENT": 1},
+    "page_actions": 34,
+    "execution_packages": 112,
+    "package_breakdown": {"exact_action": 31, "internal_link": 15, "route_to_existing": 46, "hold_recheck": 20},
+    "non_hold_packages": 92,
+    "measurement_classes": 7,
+    "implementation_critical_urls": 48,
+    "current_public_url_evidence_resolved": 48,
+    "physical_client_artifacts": 3
+  },
+  "defect_verdict": {
+    "blocking": 0,
+    "material": 3,
+    "minor": 1,
+    "material_ids": ["D20-001", "D20-002", "D20-003"],
+    "minor_ids": ["D20-004"],
+    "step18_correction_required": true,
+    "step19_correction_required": true,
+    "step21_allowed": false
+  },
+  "provider_accounting": {"wordstat": 0, "search": 0, "gensearch": 0, "webmaster": 0, "metrika": 0, "direct": 0, "new_paid_cost_rub": 0.0},
+  "workflow_boundary": {
+    "step20_execution_complete": true,
+    "step20_transition_verdict": "CORRECTION_REQUIRED",
+    "step21_started": false,
+    "step21_handoff_claimed": false,
+    "step22_started": false
+  },
+  "verdict": "STEP20_EXECUTION_COMPLETE__FINAL_QA_FOUND_3_MATERIAL_DEFECTS__CORRECTION_REQUIRED__STEP21_BLOCKED__GITHUB_READBACK_SEALED",
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS"
+}
