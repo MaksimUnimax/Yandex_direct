@@ -1,7 +1,7 @@
 # OKNO_MSK job flow sync — Step 18 execution
 
 Date: 2026-09-03  
-Status: **STEP18 EXECUTED / ANALYTICAL QA PASS / FINAL GITHUB READBACK PENDING AT WRITE TIME**
+Status: **STEP18 COMPLETE / PASS / GITHUB READBACK VERIFIED / STEP19 PRE-STEP ALLOWED ONLY**
 
 This overlay supersedes older job-flow status lines where they conflict with the current accepted state. It is job-specific Level-2 state and does not promote Step18 to permanent methodology.
 
@@ -30,13 +30,13 @@ This overlay supersedes older job-flow status lines where they conflict with the
 | 15 | Select bounded AI diagnostic/control cases | ✅ COMPLETE / V2 CORRECTED |
 | 16 | Acquire the authorized selective GenSearch evidence | ✅ COMPLETE |
 | 17 | Compare Search vs AI evidence with bounded confidence/claim rules | ✅ COMPLETE / V3 BOUNDED DIAGNOSTIC |
-| 18 | Turn accepted actions into an evidence-backed implementation order | 🟡 EXECUTED / FINAL READBACK PENDING |
-| 19 | Build the actual client-facing deliverables from accepted analysis | ⬜ NOT STARTED |
+| 18 | Turn accepted actions into an evidence-backed implementation order | ✅ COMPLETE / PASS |
+| 19 | Build the actual client-facing deliverables from accepted analysis | ⬜ NOT STARTED / PRE-STEP ALLOWED |
 | 20 | Reconcile final claims, counts, URLs/actions and promised output | ⬜ NOT STARTED |
 | 21 | Handoff and process client revisions without rewriting history | ⬜ NOT STARTED |
 | 22 | Close the job only after handoff/revisions/provider actions are finished | ⬜ NOT STARTED |
 
-## Step18 execution result
+## Step18 final result
 
 ```text
 ACTION_REGISTER_ROWS = 34
@@ -47,7 +47,7 @@ HOLD_ACTION_ROWS = 1
 HOLD_SOURCE_UNITS = 20
 ```
 
-Accounting:
+Full accounting:
 
 ```text
 STRUCTURAL_UNITS = 168/168
@@ -70,6 +70,7 @@ AI_ONLY_ARCHITECTURE_PROMOTIONS = 0
 UNAUTHORIZED_NEW_PAGE_ACTIONS = 0
 UNAUTHORIZED_DESTRUCTIVE_ACTIONS = 0
 DUPLICATE_CANONICAL_ACTIONS = 0
+EVERY_HOLD_HAS_RECHECK_TRIGGER = true
 ```
 
 Provider/Bridge execution:
@@ -82,26 +83,37 @@ WEBMASTER = 0
 METRIKA = 0
 DIRECT = 0
 NEW_PAID_COST_RUB = 0
+UNAUTHORIZED_PROVIDER_CALLS = 0
 ```
 
-## Current transition
+## Completed work after Step18
 
-At this write point Step18 analysis and analytical QA are complete, but the workflow transition is deliberately not sealed until every new Step18 artifact is reread from GitHub.
+Steps 0 through 18 are complete at the current accepted job truth, including all corrections/revalidations recorded by their later authorities. Step18 adds the verified implementation-priority layer without modifying permanent methodology.
+
+## Remaining work
 
 ```text
-STEP18_ANALYTICAL_EXECUTION = COMPLETE
-STEP18_ANALYTICAL_QA = PASS
-STEP18_FINAL_GITHUB_READBACK = PENDING
-STEP19_EXECUTION_AUTHORIZED = false
-NEXT_LEGAL_ACTION = FINAL_STEP18_GITHUB_READBACK_AND_SEAL
+19. Client deliverables — first its own pre-step methodology/evidence review, because Step19 permanent methodology is UNVALIDATED; execution is not authorized.
+20. Final QA — after client deliverables exist.
+21. Handoff / revisions — after final QA.
+22. Job close — only after handoff/revisions and all pending actions are finished.
 ```
 
-After successful readback, Step19 may enter its own pre-step methodology/evidence review only. Because Step19 permanent methodology is `UNVALIDATED`, Step18 completion does not authorize Step19 execution.
+## Transition
+
+```text
+STEP18_VERDICT = COMPLETE_PASS
+STEP18_FINAL_GITHUB_READBACK = true
+NEXT_STEP_ALLOWED = true
+NEXT_STEP_SCOPE = STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW_ONLY
+STEP19_EXECUTION_AUTHORIZED = false
+NEXT_LEGAL_ACTION = STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW
+```
 
 ## ПРОСТЫМИ СЛОВАМИ — ИТОГ
 
-**Зачем делали этот шаг:** чтобы из большого количества уже проверенных решений сделать нормальную очередь работ, а не отдавать клиенту бессвязный список рекомендаций.
+**Зачем делали этот шаг:** чтобы превратить все уже проверенные выводы по сайту в понятную очередь реальных работ.
 
-**Что фактически сделали:** расставили подтверждённые изменения по очередности, отдельно вынесли спорные темы, сохранили ограничения и не добавили новых страниц, удалений или слияний, которых предыдущие проверки не разрешали.
+**Что фактически сделали:** собрали подтверждённые изменения в единый список, расставили их по очередности, сначала поставили исправления ролей страниц и самые важные подтверждённые пробелы, затем вспомогательные улучшения и ссылки, а 20 спорных тем оставили на проверку до появления нужных данных. Никаких неподтверждённых новых страниц, удалений или слияний не добавили.
 
-**Что получили и что это даёт дальше:** получили готовый порядок работ. После контрольного чтения файлов из GitHub можно будет считать Step18 закрытым и переходить только к подготовке следующего шага — сборке понятных клиентских материалов.
+**Что получили и что это даёт дальше:** Step18 закрыт. Теперь есть проверенный план: 12 действий делать в первую очередь, 20 — следующим уровнем, большой пакет маршрутизации — после них, а спорные темы не трогать без новых фактов. Следующий разрешённый этап — только подготовить метод Step19, который превратит этот анализ в понятные материалы для клиента.
