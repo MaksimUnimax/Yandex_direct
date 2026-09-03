@@ -1,0 +1,104 @@
+name: KW001 OKNO Step19 Build Physical Client Package
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_PHYSICAL_BUILD_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-step19-build-physical-package
+  cancel-in-progress: false
+
+jobs:
+  build-qa-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout roadmap branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install document/spreadsheet/PDF build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --quiet openpyxl python-docx reportlab pypdf
+
+      - name: Build physical client package
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_build_physical_client_package.py
+
+      - name: Independent physical package QA
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from openpyxl import load_workbook
+          from docx import Document
+          from pypdf import PdfReader
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          x=root/'STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx'
+          d=root/'STEP_19_CLIENT_REPORT_CORRECTED.docx'
+          p=root/'STEP_19_CLIENT_REPORT_CORRECTED.pdf'
+          m=root/'STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json'
+          manifest=json.loads(m.read_text(encoding='utf-8'))
+
+          wb=load_workbook(x,read_only=True,data_only=False)
+          expected=['README','02_Page_Model','03_Semantic_Core','04_Search_vs_AI','05_Page_Actions','06_Source_Obs','07_Priority_Plan','Execution_Calibration','Measurement']
+          assert wb.sheetnames==expected
+          assert wb['03_Semantic_Core'].max_row-1==2332
+          assert wb['Execution_Calibration'].max_row-1==112
+          assert wb['Measurement'].max_row-1==7
+          wb.close()
+
+          doc=Document(d)
+          assert len(doc.paragraphs)>30 and len(doc.tables)>=4
+          pages=len(PdfReader(p).pages)
+          assert pages>=5
+
+          def sha(path):
+            h=hashlib.sha256(); h.update(path.read_bytes()); return h.hexdigest()
+          for f in [x,d,p]:
+            assert manifest['artifacts'][f.name]['bytes']==f.stat().st_size
+            assert manifest['artifacts'][f.name]['sha256']==sha(f)
+          assert manifest['logical_accounting']['semantic_rows']==2332
+          assert manifest['logical_accounting']['execution_packages']==112
+          assert manifest['non_fabrication']['committed_schedule'] is False
+          assert manifest['non_fabrication']['numeric_targets_invented'] is False
+          print('STEP19_PHYSICAL_PACKAGE_INDEPENDENT_QA_PASS', pages)
+          PY
+
+      - name: Persist physical package and manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx"
+          git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.docx"
+          git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.pdf"
+          git add "$ROOT/STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json"
+          if git diff --cached --quiet; then
+            echo "No physical package changes"
+          else
+            git commit -m "step19: persist corrected physical client package [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Upload exact persisted package as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: step19-corrected-physical-client-package
+          path: |
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_REPORT_CORRECTED.docx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_REPORT_CORRECTED.pdf
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json
+          if-no-files-found: error
+          retention-days: 7
