@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA",
-  "status": "PREVIOUS_EXECUTION_COMPLETE__CORRECTION_REQUIRED__UPSTREAM_CORRECTIONS_APPLIED__RERUN_REQUIRED__STEP21_BLOCKED",
+  "status": "PREVIOUS_EXECUTION_COMPLETE__CORRECTION_REQUIRED__UPSTREAM_CORRECTIONS_APPLIED_AND_READBACK_SEALED__RERUN_REQUIRED__STEP21_BLOCKED",
   "step_verdict": "PREVIOUS_CORRECTION_REQUIRED_VERDICT_REMAINS_UNTIL_FRESH_RERUN",
   "permanent_method_status": "UNVALIDATED_AS_PERMANENT_METHOD",
   "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
@@ -46,6 +46,8 @@
     "authorization_received": true,
     "report": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_REPORT_2026-09-03.md",
     "qa": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
+    "final_readback_seal": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_FINAL_READBACK_SEAL_2026-09-03.json",
+    "final_readback_seal_commit": "2ef64f546909bd4b8ce029687016cbf49b9bfc69",
     "successful_workflow_run": 33765988306,
     "successful_persistence_commit": "4d474b8d832ca0131e5622daf37b094a28c0f5fe",
     "artifact_id": 9897510555,
@@ -54,7 +56,8 @@
     "D20-002": "CORRECTED_UPSTREAM__A012_NARROWED_TO_REMAINING_INSTALLATION_PROCESS_GAP",
     "D20-003": "CORRECTED_UPSTREAM__A027_NO_DUPLICATE_DEFINITION_AND_FOLDED_WITH_A009",
     "D20-004": "CORRECTED_UPSTREAM__DOCX_GENERIC_LIBRARY_METADATA_CLEANED",
-    "correction_final_readback_complete": false
+    "correction_final_readback_complete": true,
+    "correction_final_readback_verdict": "PASS"
   },
   "corrected_package_identity_pending_rerun": {
     "workbook": {
@@ -104,5 +107,5 @@
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "FINAL_READBACK_OF_STEP18_STEP19_CORRECTION__THEN_OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
 }
