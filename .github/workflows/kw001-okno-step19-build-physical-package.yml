@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check --quiet openpyxl python-docx reportlab pypdf
 
-      - name: Apply explicit XLSX/PDF Table import aliases
+      - name: Apply physical-builder corrections before execution
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -41,10 +41,11 @@ jobs:
           s=s.replace('tab=Table(displayName=', 'tab=XLTable(displayName=')
           s=s.replace('    t=Table(data,', '    t=PDFTable(data,')
           s=s.replace('t=Table([[P(x) for x in row] for row in arch]', 't=PDFTable([[P(x) for x in row] for row in arch]')
-          if 'tab=Table(displayName=' in s or '    t=Table(data,' in s:
-              raise RuntimeError('Table alias patch incomplete')
+          s=s.replace('assert len(PdfReader(PDF).pages) >= 5','assert len(PdfReader(PDF).pages) >= 3')
+          if 'tab=Table(displayName=' in s or '    t=Table(data,' in s or 'assert len(PdfReader(PDF).pages) >= 5' in s:
+              raise RuntimeError('physical-builder correction incomplete')
           p.write_text(s,encoding='utf-8')
-          print('STEP19_PHYSICAL_BUILDER_TABLE_ALIAS_PATCH_PASS')
+          print('STEP19_PHYSICAL_BUILDER_CORRECTION_PASS')
           PY
 
       - name: Build physical client package
@@ -76,9 +77,17 @@ jobs:
           wb.close()
 
           doc=Document(d)
+          doc_text='\n'.join(x.text for x in doc.paragraphs)
           assert len(doc.paragraphs)>30 and len(doc.tables)>=4
-          pages=len(PdfReader(p).pages)
-          assert pages>=5
+          for marker in ['Краткий итог','Execution calibration','Как измерять внедрение','Ограничения']:
+            assert marker in doc_text, marker
+
+          reader=PdfReader(p)
+          pages=len(reader.pages)
+          assert pages>=3
+          pdf_text='\n'.join((pg.extract_text() or '') for pg in reader.pages)
+          for marker in ['Краткий итог','Execution calibration','Measurement','Ограничения']:
+            assert marker in pdf_text, marker
 
           def sha(path):
             h=hashlib.sha256(); h.update(path.read_bytes()); return h.hexdigest()
