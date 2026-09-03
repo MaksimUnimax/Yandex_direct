@@ -1,6 +1,7 @@
 # KW-001 — CLIENT PRIVATE YANDEX ACCESS POLICY
 
 Date: 2026-09-01  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This is a Layer-A universal operating rule for KW-001.
@@ -15,6 +16,8 @@ CLIENT PRIVATE DATA IS OPTIONAL ENHANCEMENT, NOT A PURCHASE BLOCKER.
 THE FIRST REAL JOB THAT PROVIDES WEBMASTER ACCESS MUST BE USED FOR A CONTROLLED WITH-ACCESS VS WITHOUT-ACCESS COMPARISON.
 ONLY AFTER THAT COMPARISON MAY WE CLAIM HOW MATERIAL THE ACCESS IS TO QUALITY, CHANGE THE PACKAGE POLICY, OR DESIGN THE FINAL WEBMASTER BRIDGE EXPANSION.
 ```
+
+Capability-specific statements are governed separately from this commercial/access decision. The current reusable Bridge capability authority is `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_BRIDGE_CAPABILITY_UPDATE_2026-09-01.md` together with the canonical Bridge product branch named there. This parent policy must not be used as a stale fixed method-list snapshot.
 
 ---
 
@@ -243,23 +246,27 @@ COMPARE WHETHER OWNED ACCESS CHANGES / DE-RISKS THE AI DECISION
 
 Current Steps 14-22 other than Step 16 are not automatically declared to require Webmaster access.
 
-If fresh methodology research for a later step establishes a material use for client-private Webmaster data, the pre-step review must:
+If a validated step method establishes a material use for client-private Webmaster data, the pre-step review must:
 
 ```text
 1. identify that use explicitly;
 2. classify it as BASE-REQUIRED or OPTIONAL-ENHANCEMENT;
 3. preserve the base-package no-mandatory-access promise unless the owner explicitly changes the product;
-4. add that step to this policy only under owner authorization.
+4. add a new mandatory access-sensitive step to this policy only under owner authorization.
 ```
 
 Current known downstream handling:
 
 ```text
-Step 18 prioritization may later use first-party performance as an OPTIONAL enhancement if its future validated method supports it.
-Step 20 final QA must reconcile private evidence if private evidence was used earlier, but must not demand new Webmaster access merely to close a base job.
+Step 18 has an approved permanent prioritization / implementation-readiness method.
+First-party Webmaster/Metrika performance evidence may strengthen business/performance/measurement calibration when available and in scope.
+Such evidence remains OPTIONAL for the analytical-priority base path and must never be fabricated when absent.
+Implementation-ready mode requires real owner/effort/capacity/business/measurement inputs appropriate to the sold scope, but that requirement does not make Webmaster access universally mandatory; another valid current client/implementer evidence source may satisfy the relevant calibration field.
+
+Step 20 final QA must reconcile private evidence if private evidence was used earlier, but must not demand new Webmaster access merely to close a base job unless the validated Step20 scope explicitly requires it.
 ```
 
-These are conditional notes, not validated mandatory Webmaster requirements for Steps 18/20.
+These are governed downstream notes, not a blanket private-access requirement for Steps 18/20.
 
 ---
 
@@ -340,41 +347,48 @@ change any future access requirement.
 
 ---
 
-## 5. First access also triggers governed Webmaster Bridge enhancement work
+## 5. First access also triggers governed Bridge capability verification
 
-Current Yandex Marketing Bridge Webmaster support is a limited first slice.
-
-As of this policy adoption, the current protocol supports:
+The parent access policy does **not** define a frozen list of supported Webmaster methods. Current reusable Bridge capability is governed by:
 
 ```text
-listHosts
-getSummary
-getDiagnostics
-getPopularQueries
+CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_BRIDGE_CAPABILITY_UPDATE_2026-09-01.md
++ the canonical Bridge product branch identified by that authority
 ```
 
-It does not yet implement the official enhanced query-by-URL export workflow needed for richer historical competition analysis, and future owned-AI evidence requirements must also be capability-mapped rather than assumed.
+Therefore:
 
-The first real client access triggers a capability review, but NOT an uncontrolled speculative rewrite.
+```text
+PARENT ACCESS POLICY != BRIDGE CAPABILITY SNAPSHOT
+OLDER EMBEDDED EXTENSION SNAPSHOT != CURRENT BRIDGE PRODUCT AUTHORITY
+BRIDGE CAPABILITY != CLIENT ACCESS
+BRIDGE CAPABILITY != PROPERTY RESOLVED
+BRIDGE CAPABILITY != PRIVATE EVIDENCE USED
+```
+
+The first real client access triggers a capability/readiness review, but NOT an uncontrolled speculative rewrite and NOT an assumption that required methods are missing.
 
 Required sequence:
 
 ```text
 REAL ACCESS AVAILABLE
 -> freeze WITHOUT_ACCESS baseline
--> identify exact private evidence needed by Steps 11/12/13/16
--> verify current official Yandex API/UI routes
--> map needed evidence to existing/missing Bridge operations
--> define exact protocol / async lifecycle / limits / persistence where Bridge is appropriate
--> owner-authorized Bridge implementation
--> focused tests
--> required full pre-delivery regression before handoff
+-> identify exact private evidence needed by the affected analytical steps
+-> read current Bridge capability authority
+-> verify the then-current official Yandex API/UI route when material
+-> validate installed runtime / Bridge version against canonical product authority
+-> map each required evidence item to an existing supported Bridge operation when available
+-> resolve delegated property/host readiness
+-> only if a named evidence requirement is not supported, define the smallest governed Bridge enhancement
+-> obtain owner authorization for any actual Bridge implementation
+-> run focused tests for changed capability when applicable
+-> run required pre-delivery regression when Bridge code changed
 -> live read-only acceptance on the delegated property
 -> WITH_ACCESS analytical pass
 -> comparison
 ```
 
-Do not add broad Webmaster functionality merely because the API exposes it. Extend only the surfaces justified by the real analytical job and then preserve reusable capability where accepted.
+Do not add broad Webmaster functionality merely because the API exposes it. Do not re-implement functionality that current capability authority already proves. Extend only a named missing evidence surface justified by the real analytical job, and preserve reusable capability only after the normal product gates pass.
 
 ---
 
@@ -520,7 +534,10 @@ KW001_EXACT_PROPERTY_VARIANT_REQUIRED = true
 KW001_FIRST_REAL_ACCESS_COMPARISON_REQUIRED = true
 KW001_WITHOUT_ACCESS_BASELINE_MUST_BE_FROZEN_FIRST = true
 KW001_FIRST_ACCESS_TRIGGERS_GOVERNED_BRIDGE_CAPABILITY_REVIEW = true
+KW001_PARENT_ACCESS_POLICY_DEFERS_BRIDGE_CAPABILITY_TO_CURRENT_CAPABILITY_AUTHORITY = true
+KW001_DO_NOT_REIMPLEMENT_ALREADY_SUPPORTED_BRIDGE_CAPABILITY = true
 KW001_NO_UNTESTED_CLAIMS_ABOUT_ACCESS_QUALITY_DELTA = true
 KW001_STEP13_BASE_MODE_NOT_BLOCKED_BY_PRIVATE_DATA_ABSENCE = true
 KW001_STEP16_BASE_MODE_USES_GENSEARCH_WHEN_OWNED_WEBMASTER_AI_EVIDENCE_IS_UNAVAILABLE = true
+KW001_STEP18_PRIVATE_FIRST_PARTY_EVIDENCE_OPTIONAL_FOR_ANALYTICAL_PRIORITY_MODE = true
 ```
