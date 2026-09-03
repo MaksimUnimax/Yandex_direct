@@ -1,0 +1,43 @@
+requirement_id	status	verdict_detail	defect_ids	evidence_or_finding
+R20-001	PASS	PASS		Execution-start revision frozen at a661da4... before Step20 QA; freeze persisted.
+R20-002	PASS	PASS		Verification and intended-use validation handled as separate layers.
+R20-003	PASS	PASS		No formal-independent-assurance claim; assurance boundary disclosed.
+R20-004	PASS	PASS		9/9 logical deliverables present/current/separately identifiable.
+R20-005	PASS	PASS		15 primary directions; frozen limit <=15.
+R20-006	PASS	PASS		2332 semantic rows reconcile exactly to materialized source.
+R20-007	PASS	PASS		19 SEARCH_REQUIRED/unresolved states preserved.
+R20-008	PASS	PASS		Expected unique phrase/action/package/AI/measurement keys have no unexpected duplicates.
+R20-009	PASS	PASS		Repeated structural counts/states reconcile; material current-content defects are separately recorded.
+R20-010	PASS	PASS		Critical IDs/enums/states/URL formats/file identities are valid.
+R20-011	FAIL	FAIL_D20-002_D20-003	D20-002;D20-003	Two material action scopes no longer accurately describe current missing content.
+R20-012	PASS	PASS		48 unique implementation-critical URLs mechanically derived and rechecked with current public evidence.
+R20-013	PASS	PASS_WITH_ACTION_SCOPE_EXCEPTIONS		Page roles remain materially as expected; A012/A027 current-content action scopes need narrowing.
+R20-014	PASS	PASS		No new whole-site absence claim made from named URL checks.
+R20-015	PASS	PASS		AI scope remains 8 bounded diagnostics; forbidden sitewide/longitudinal claims absent.
+R20-016	PASS	PASS		AI verdicts reconcile: 0/4/3/1.
+R20-017	PASS	PASS		Supported new-page actions = 0.
+R20-018	PASS	PASS		Supported destructive actions = 0.
+R20-019	PASS	PASS		No committed sprint/calendar/NOW-NEXT-LATER production schedule.
+R20-020	PASS	PASS		Owner/effort/capacity unknowns remain explicit calibration states; no guesses.
+R20-021	PASS	PASS		20 HOLD/recheck packages preserved; no low-value/rejection misclassification.
+R20-022	PASS	PASS		7 measurement classes; no invented numeric KPI target.
+R20-023	PASS	PASS		No private Webmaster/Metrika/Direct evidence presented as current observation.
+R20-024	PASS	PASS		Wordstat observed-count semantics retained; no silent exact-frequency relabel.
+R20-025	PASS	PASS		3/3 physical artifact names/sizes/SHA-256 identities match manifest/workflow artifact.
+R20-026	PASS	PASS		Formula/error-token scan found 0 visible formula errors; not used as substitute for semantic QA.
+R20-027	PASS	PASS_WITH_MINOR_D20-004	D20-004	No sensitive comments/revisions/external links/hidden payload found; generic stale DOCX core timestamps recorded as minor hygiene issue.
+R20-028	PASS	PASS		PDF identity/openability/page/content/metadata scan shows no material distribution defect.
+R20-029	FAIL	FAIL_D20-001	D20-001	Required mock/test/demo distribution identity is missing from the physical client package.
+R20-030	FAIL	FAIL_D20-002_D20-003	D20-002;D20-003	34/34 actions accounted, but two current-content action scopes are stale.
+R20-031	PASS	PASS		112/112 work-package IDs individually addressable.
+R20-032	PASS	PASS		31 exact action + 15 link + 46 route + 20 HOLD = 112.
+R20-033	PASS	PASS		92 non-HOLD packages preserved without implying production readiness.
+R20-034	PASS	PASS		Client-independent-use gate passes: core use requires no manual repo join.
+R20-035	FAIL	FAIL_D20-002_D20-003	D20-002;D20-003	Summary/detail structure reconciles, but current action accuracy defects propagate to client-facing recommendations.
+R20-036	PASS	PASS		Delivery message does not claim actual Step21 handoff/revision completion.
+R20-037	PASS	PASS		Material defects are assigned to Step18/19 correction; Step20 does not silently patch upstream.
+R20-038	PASS	PASS		Minor metadata issue is not misclassified as material; material contract/current-content defects are not downgraded.
+R20-039	PASS	PASS		Provider calls = 0; new paid cost = 0 RUB.
+R20-040	PENDING	PENDING_READBACK		Will pass only after all Step20 ledgers/report/state are persisted and read back from GitHub.
+R20-041	PASS	PASS		Assurance statement records limitations, public-page evidence boundary and lack of formal independent assurer.
+R20-042	PASS	PASS		Step21 not started and remains blocked because Step20 has unresolved material defects.
