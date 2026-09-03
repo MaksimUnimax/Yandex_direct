@@ -1,0 +1,7 @@
+STEP18_STEP19_STEP20_DEFECT_CORRECTION_V2
+owner_authorized=2026-09-03
+source_defects=D20-001,D20-002,D20-003,D20-004
+provider_calls=0
+attempt=3
+previous_failed_runs=33765153795,33765468333
+metadata_fix=PYTHON_DOCX_AUTHOR_FIELD
