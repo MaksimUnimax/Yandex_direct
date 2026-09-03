@@ -57,7 +57,6 @@ assert {r["action_id"] for r in action_overlay} == {"S18-A012", "S18-A027"}
 assert {r["action_id"] for r in priority_overlay} == {"S18-A012", "S18-A027"}
 assert {r["action_id"] for r in step18_overlay} == {"S18-A012", "S18-A027"}
 
-# Apply to materialized client action/priority views.
 action_path = OUT / "STEP_19_05_PAGE_ACTION_MAP.tsv"
 priority_path = OUT / "STEP_19_07_PRIORITY_ACTION_PLAN.tsv"
 cal_path = OUT / "STEP_19_EXECUTION_CALIBRATION_BOARD_112.csv"
@@ -66,7 +65,6 @@ priority = apply_overlay(read_tsv(priority_path), priority_overlay)
 write_tsv(action_path, actions)
 write_tsv(priority_path, priority)
 
-# Apply Step18 higher-precedence correction to exact execution packages.
 corr = {r["action_id"]: r for r in step18_overlay}
 cal = read_csv(cal_path)
 touched = set()
@@ -82,22 +80,20 @@ for row in cal:
 assert touched == {"S18-A012", "S18-A027"}
 write_csv(cal_path, cal)
 
-# Exact overlay equality checks, not brittle substring proxies.
 a_by = {r["action_id"]: r for r in actions}
 p_by = {r["action_id"]: r for r in priority}
 aov = {r["action_id"]: r for r in action_overlay}
 pov = {r["action_id"]: r for r in priority_overlay}
 for aid in ("S18-A012", "S18-A027"):
     for field in ("priority", "client_action", "target_page_or_scope", "dependency_or_sequence", "do_not_do_boundary", "verification_or_recheck", "evidence_authority"):
-        assert a_by[aid][field] == aov[aid][field], (aid, field, a_by[aid][field], aov[aid][field])
+        assert a_by[aid][field] == aov[aid][field], (aid, field)
     for field in ("analytical_priority", "client_readable_reason", "work_package_trace", "implementation_owner", "effort", "capacity", "expected_implementation_priority", "scheduling_state", "measurement_class_or_rule"):
-        assert p_by[aid][field] == pov[aid][field], (aid, field, p_by[aid][field], pov[aid][field])
+        assert p_by[aid][field] == pov[aid][field], (aid, field)
 cal_by = {r["source_action_id"]: r for r in cal if r["source_action_id"] in corr}
 assert cal_by["S18-A012"]["what_to_do"] == corr["S18-A012"]["description"]
 assert cal_by["S18-A027"]["what_to_do"] == corr["S18-A027"]["description"]
 assert cal_by["S18-A027"]["depends_on_action_ids"] == "S18-A009"
 
-# Update materialization QA provenance/hashes.
 qa_path = OUT / "STEP_19_CORRECTION_DATA_QA.json"
 qa = json.loads(qa_path.read_text(encoding="utf-8"))
 qa["step20_defect_correction"] = {
@@ -109,7 +105,6 @@ for p in (action_path, priority_path, cal_path):
     qa["outputs"][p.name] = {"bytes": p.stat().st_size, "sha256": sha(p)}
 qa_path.write_text(json.dumps(qa, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-# Patch the physical builder idempotently.
 builder = ROOT / "step19_build_physical_client_package.py"
 s = builder.read_text(encoding="utf-8")
 if "from datetime import datetime" not in s:
@@ -123,12 +118,13 @@ if 'wb.properties.title = "TEST/DEMO CASE — OKNO-MSK"' not in s:
     s = s.replace('wb = Workbook()\n', 'wb = Workbook()\nwb.properties.title = "TEST/DEMO CASE — OKNO-MSK"\nwb.properties.subject = "Mock commercial rehearsal / demonstration analysis"\nwb.properties.creator = ""\nwb.properties.lastModifiedBy = ""\n')
 
 if 'doc.core_properties.title = "TEST/DEMO CASE — OKNO-MSK"' not in s:
-    core = '''doc=Document()\ndoc.core_properties.title = "TEST/DEMO CASE — OKNO-MSK"\ndoc.core_properties.subject = "Mock commercial rehearsal / demonstration analysis"\ndoc.core_properties.author = ""\ndoc.core_properties.last_modified_by = ""\ndoc.core_properties.created = datetime(2026, 9, 3, 0, 0, 0)\ndoc.core_properties.modified = datetime(2026, 9, 3, 0, 0, 0)'''
+    core = '''doc=Document()\ndoc.core_properties.title = "TEST/DEMO CASE — OKNO-MSK"\ndoc.core_properties.subject = "Mock commercial rehearsal / demonstration analysis"\ndoc.core_properties.author = ""\ndoc.core_properties.last_modified_by = ""\ndoc.core_properties.comments = ""\ndoc.core_properties.created = datetime(2026, 9, 3, 0, 0, 0)\ndoc.core_properties.modified = datetime(2026, 9, 3, 0, 0, 0)'''
     s = s.replace('doc=Document()', core)
 else:
-    # Repair any earlier creator-property patch if encountered on rerun.
     s = s.replace('doc.core_properties.creator = ""', 'doc.core_properties.author = ""')
     s = s.replace('datetime(2026, 9, 3, tzinfo=timezone.utc)', 'datetime(2026, 9, 3, 0, 0, 0)')
+    if 'doc.core_properties.comments = ""' not in s:
+        s = s.replace('doc.core_properties.last_modified_by = ""', 'doc.core_properties.last_modified_by = ""\ndoc.core_properties.comments = ""')
 if 'r=p.add_run("TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement.")' not in s:
     marker = 'p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.add_run("Исправленный клиентский отчёт Step19").italic=True'
     patch = marker + '\np=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER\nr=p.add_run("TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement."); r.bold=True; r.font.color.rgb=RGBColor(156,0,6)'
@@ -139,6 +135,7 @@ if '"distribution_identity"' not in s:
 for marker in (
     'TEST/DEMO CASE — OKNO-MSK',
     'doc.core_properties.author = ""',
+    'doc.core_properties.comments = ""',
     'doc.core_properties.created = datetime(2026, 9, 3, 0, 0, 0)',
     '"distribution_identity"',
 ):
