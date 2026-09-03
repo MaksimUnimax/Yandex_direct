@@ -1,68 +1,74 @@
 {
-  "date": "2026-09-02",
+  "date": "2026-09-03",
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
-  "method_review": "STEP_17_PRE_STEP_METHOD_REVIEW_2026-09-02.md",
-  "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_2026-09-02.json",
-  "execution_manifest": "STEP_17_EXECUTION_MANIFEST_2026-09-02.json",
-  "case_plan": "STEP_17_CASE_COMPARISON_PLAN_2026-09-02.tsv",
-  "direct_page_validation": "STEP_17_DIRECT_PAGE_VALIDATION_LEDGER.tsv",
-  "comparison_ledger": "STEP_17_CASE_COMPARISON_LEDGER_FINAL.tsv",
-  "architecture_delta_overlay": "STEP_17_ARCHITECTURE_DELTA_OVERLAY.tsv",
-  "qa": "STEP_17_QA_FINAL_2026-09-02.json",
-  "report": "STEP_17_REPORT_2026-09-02.md",
-  "scope": {
+  "status": "CORRECTION_REQUIRED__POST_RUN_EXTERNAL_AUDIT__STEP18_BLOCKED",
+  "historical_first_pass": {
+    "status_before_audit": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
+    "historical_case_verdicts": {
+      "C15-004": "DE_RISK",
+      "C15-006": "DE_RISK",
+      "C15-007": "DE_RISK",
+      "C15-010": "NO_CHANGE",
+      "C15-013": "DE_RISK",
+      "C15-018": "NO_CHANGE",
+      "C15-019": "NO_CHANGE",
+      "C15-020": "INSUFFICIENT"
+    },
+    "qualified_architecture_change_cases": 0,
+    "architecture_delta_rows": 0,
+    "provider_cost_rub": 0.0,
+    "verdict_status_after_audit": "PRESERVED_AS_HISTORICAL_FIRST_PASS__NOT_AUTOMATICALLY_DISCARDED__REQUIRES_V2_COMPLETION_BEFORE_FINAL_ACCEPTANCE"
+  },
+  "post_run_audit": {
+    "audit_date": "2026-09-03",
+    "audit_result": "CORRECTION_REQUIRED",
+    "defects": {
+      "S17-M01": "Required source-worthiness implication/content-gap output from original implementation contract was not materialized.",
+      "S17-M02": "Final ordinary-Search descriptions were not directly reverse-traced case-by-case to concrete persisted SERP evidence; Step15 baseline was used too heavily as final trace.",
+      "S17-M03": "Adversarial self-review was partially labelled with independent-QA acceptance vocabulary without demonstrated independence."
+    },
+    "root_cause": "Method research was performed, but no final original-contract-to-schema-to-artifact-to-QA coverage audit was run. Rule plausibility was checked more thoroughly than output completeness.",
+    "key_claim_correction": "NO_ARCHITECTURE_CHANGE does not prove NO_CONTENT_CHANGE or NO_SOURCE_WORTHINESS_GAP."
+  },
+  "current_authorities": {
+    "failure_addendum": "STEP_17_METHOD_FAILURES_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-03.md",
+    "method_v2": "STEP_17_PRE_STEP_METHOD_REVIEW_V2_2026-09-03.md",
+    "schema_v2": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_V2_2026-09-03.json",
+    "manifest_v2": "STEP_17_EXECUTION_MANIFEST_V2_2026-09-03.json",
+    "historical_first_pass_ledger": "STEP_17_CASE_COMPARISON_LEDGER_FINAL.tsv",
+    "historical_first_pass_qa": "STEP_17_QA_FINAL_2026-09-02.json",
+    "historical_first_pass_report": "STEP_17_REPORT_2026-09-02.md"
+  },
+  "required_correction_outputs": {
     "case_count": 8,
-    "test_scope": "EXACT_QUERY",
-    "evidence_surface": "ORDINARY_YANDEX_SEARCH_VS_YANDEX_GENSEARCH_API_PROXY",
-    "consumer_alice": "NOT_OBSERVED",
-    "webmaster_alice_visibility": "UNAVAILABLE_NOT_EXECUTED"
+    "search_direct_trace_required": "8/8",
+    "gensearch_direct_trace_required": "8/8",
+    "source_worthiness_implication_required": "8/8",
+    "content_improvement_state_required": "8/8",
+    "original_contract_coverage_audit_required": true,
+    "qa_mode_label_must_match_actual_process": true
+  },
+  "provider_plan": {
+    "new_ordinary_search_calls": 0,
+    "new_gensearch_calls": 0,
+    "new_webmaster_calls": 0,
+    "planned_provider_cost_rub": 0.0,
+    "new_paid_calls_required_by_audit": false,
+    "policy": "Reuse persisted evidence first; fresh provider call only after specific blocking evidence gap + information-gain gate + explicit owner authorization."
   },
   "execution": {
-    "owner_authorized": true,
-    "cases_compared": 8,
-    "final_verdicts": 8,
-    "verdict_counts": {
-      "CHANGE": 0,
-      "DE_RISK": 4,
-      "NO_CHANGE": 3,
-      "INSUFFICIENT": 1
-    },
-    "architecture_delta_rows": 0,
-    "direct_page_validation_rows": 15,
-    "direct_page_fetch_blocked_rows": 2,
-    "blocked_rows_used_decisively": 0,
-    "new_ordinary_search_provider_calls": 0,
-    "new_gensearch_provider_calls": 0,
-    "new_webmaster_provider_calls": 0,
-    "provider_cost_rub": 0.0
+    "v2_correction_started": false,
+    "v2_cases_complete": 0,
+    "v2_source_worthiness_states": 0,
+    "v2_search_direct_traces": 0,
+    "v2_final_acceptance": "NOT_RUN"
   },
-  "case_verdicts": {
-    "C15-004": "DE_RISK",
-    "C15-006": "DE_RISK",
-    "C15-007": "DE_RISK",
-    "C15-010": "NO_CHANGE",
-    "C15-013": "DE_RISK",
-    "C15-018": "NO_CHANGE",
-    "C15-019": "NO_CHANGE",
-    "C15-020": "INSUFFICIENT"
+  "step18": {
+    "prestep_allowed": false,
+    "execution_started": false,
+    "block_reason": "STEP17_V2_CORRECTION_NOT_COMPLETE"
   },
-  "architecture_result": {
-    "qualified_change_cases": 0,
-    "ai_derived_delta_rows": 0,
-    "effective_step14_architecture_changed": false
-  },
-  "qa_state": {
-    "adversarial_case_review": "8/8 PASS",
-    "blocking_findings": 0,
-    "final_github_readback": "PASS",
-    "qa_final_commit": "cae49862f543bf0f82c385efd684a3f134223eaa",
-    "report_final_commit": "9f77d8317eceb4f5effaf7844af2e7979b41c66f"
-  },
-  "next_step_allowed": true,
-  "next_step_scope": "STEP18_PRESTEP_GATE_ONLY",
-  "step18_execution_started": false,
-  "next_legal_action": "STEP18_GOAL_FULL_ROADMAP_METHOD_REVIEW_PRESTEP_ONLY"
+  "next_legal_action": "EXECUTE_STEP17_V2_CORRECTION_USING_EXISTING_EVIDENCE__THEN_FINAL_READBACK__ONLY_THEN_STEP18_PRESTEP"
 }
