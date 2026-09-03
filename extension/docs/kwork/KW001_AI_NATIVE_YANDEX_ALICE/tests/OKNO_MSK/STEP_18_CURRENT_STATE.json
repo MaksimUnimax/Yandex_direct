@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 18,
   "step_name": "Prioritization + implementation readiness",
-  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__IMPLEMENTATION_READINESS_GOVERNED__EXPECTED_PRIORITY_PENDING_CALIBRATION__STEP19_PRESTEP_ALLOWED",
+  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__IMPLEMENTATION_READINESS_GOVERNED__EXPECTED_PRIORITY_PENDING_CALIBRATION__FINAL_READBACK_SEALED__STEP19_PRESTEP_ALLOWED",
   "permanent_method_status": "APPROVED_ACTIVE",
   "permanent_method_authority": "STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md",
   "owner_authorization": {
@@ -86,7 +86,9 @@
     "STEP_18_POST_AUDIT_CORRECTION_QA_2026-09-03.json",
     "STEP_18_POST_AUDIT_CORRECTION_REPORT_2026-09-03.md"
   ],
-  "final_github_readback_after_post_audit_correction": false,
+  "final_github_readback_after_post_audit_correction": true,
+  "final_readback_qa_status": "PASS_FINAL_GITHUB_READBACK",
+  "final_readback_seal_artifact": "STEP_18_FINAL_POST_AUDIT_READBACK_SEAL_2026-09-03.json",
   "step_verdict": "MODE_A_ANALYTICAL_PRIORITY_COMPLETE_PASS__MODE_B_IMPLEMENTATION_SCHEDULE_PENDING_REAL_CALIBRATION",
   "next_step_allowed": true,
   "step19": {
@@ -95,5 +97,5 @@
     "execution_authorized": false,
     "handoff_claim_requirement": "P1/P2/P3 must be labelled analytical priority; final implementation schedule remains pending owner/effort/capacity calibration."
   },
-  "next_legal_action": "UNIVERSAL_RULES_AUDIT_AND_FINAL_STEP18_READBACK_SEAL__THEN_STEP19_PRESTEP"
+  "next_legal_action": "STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW_ONLY"
 }
