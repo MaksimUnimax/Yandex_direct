@@ -1,67 +1,57 @@
 # KW-001 — DIALOGUE AND ANALYTICAL DISCIPLINE
 
-Date: 2026-08-29  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL KW-001 OPERATING RULE**
 
-This rule applies during KW-001 productization, test execution, methodology review and later client-order work.
+This rule applies during productization, test execution, methodology review and client-order work. Concrete rehearsal/client identities and current-job facts belong in Level2.
 
-## Rule — do not agree automatically with the owner
+---
 
-**RULE**  
+## Rule 1 — do not agree automatically with the owner
+
 When the owner questions, rejects or challenges an analytical decision, ChatGPT must not automatically agree, reverse the decision or rewrite the workflow merely because the objection was strongly stated.
 
-ChatGPT must first:
+Required sequence:
 
 ```text
-1. restate the disputed analytical point clearly;
+1. restate the disputed analytical point;
 2. explain why the current decision/rule exists;
 3. distinguish assumption from measured evidence;
-4. check the objection against the current runbook, provider evidence and relevant external methodology;
-5. state whether the objection reveals:
-   A. a real defect,
-   B. an explanation/communication defect,
+4. check the objection against current rules, evidence and relevant external methodology;
+5. classify the objection as:
+   A. real defect,
+   B. explanation/communication defect,
    C. unresolved uncertainty,
-   D. no defect in the current method;
-6. change the workflow only when evidence or sound reasoning justifies the change.
+   D. no defect in current method;
+6. change the workflow only when evidence or sound reasoning justifies it.
 ```
 
-**PURPOSE**  
-Prevent conversational agreement from replacing analytical judgment. The owner should receive an explanation of what is correct, what is uncertain and what is actually wrong, rather than a model that mirrors the latest objection.
+### Failure history and root cause
 
-**EVIDENCE**  
-During productization, a diagnostic Wordstat seed was challenged because it sounded unlikely as a frequent user formulation. ChatGPT initially treated the objection as proof that the seed plan itself was wrong, then recognized that the seed was an acquisition probe rather than a final accepted keyword. The real defect was primarily the explanation: the distinction between `seed used to test a demand family` and `keyword retained in the final semantic core` had not been made clearly enough.
+A prior controlled execution showed that an owner objection to a diagnostic acquisition seed was initially treated as proof that the seed plan itself was wrong, even though the seed's role was to probe a demand family rather than become a final accepted keyword.
 
-**FAILURE IF IGNORED**  
-If ChatGPT agrees reflexively:
+Root cause:
 
 ```text
-valid methodology can be abandoned without evidence;
-the workflow can oscillate from message to message;
-provider tests can be redesigned around intuition instead of measurement;
-previously frozen gates lose meaning;
-the owner cannot tell whether a real analytical defect was found or the assistant merely complied;
-future client recommendations become less trustworthy.
+OWNER OBJECTION / STRONG WORDING
+WAS ALLOWED TO SUBSTITUTE FOR
+ANALYTICAL RE-VALIDATION
 ```
 
-**REVIEW TRIGGER**  
-None for the core principle. The exact explanation format may evolve, but analytical conclusions must never be changed solely to agree with the owner.
+The actual issue in that incident was primarily communication: the distinction between a probe and a final retained item had not been explained clearly enough.
 
-## Dialogue behavior
-
-In live dialogue ChatGPT must use this rule explicitly in behavior:
+### Control
 
 ```text
-owner objection
-→ do not answer "yes, you're right" by default
-→ explain current logic
-→ identify evidence and uncertainty
-→ say clearly whether the method changes or stays
-→ if it changes, state exactly what evidence caused the change
+OWNER OBJECTION
+→ DO NOT REFLEXIVELY AGREE
+→ EXPLAIN CURRENT LOGIC
+→ IDENTIFY EVIDENCE AND UNCERTAINTY
+→ DETERMINE WHETHER THE METHOD CHANGES
+→ IF IT CHANGES, STATE THE EVIDENCE / CAUSE
 ```
 
-Strong language, confidence or repetition from the owner does not increase evidentiary weight.
-
-The owner remains the commercial/scope authority. Therefore explicit owner decisions about business scope, price, exclusions, priorities or authorization remain binding as client/project inputs. This rule applies to analytical truth and methodology, not to overriding the owner's legitimate scope decisions.
+Strong language, confidence or repetition from the owner does not increase evidentiary weight. Explicit owner decisions about commercial scope, authorization, price, exclusions or actual client priorities remain binding inputs.
 
 Marker:
 
@@ -71,56 +61,34 @@ KW001_DIALOGUE_ANALYTICAL_DISCIPLINE_ACTIVE = true
 
 ---
 
-## Rule — always state the required YMB mode before an operator command
+## Rule 2 — state the required Yandex Marketing Bridge mode before an operator command
 
-**RULE**  
-Before asking the owner/operator to send any Yandex Marketing Bridge command, ChatGPT must explicitly state the extension state required for that command.
+Before asking the owner/operator to send any Bridge command, ChatGPT must explicitly state the extension state required for that command.
 
-At minimum state:
+At minimum:
 
 ```text
 ACTIVE SERVICE = wordstat | search | webmaster | metrika | direct
-EXECUTION MODE = Manual | Autorun | other accepted mode if explicitly required
+EXECUTION MODE = Manual | Autorun | other accepted mode
 ADDITIONAL STATE = paused/bound/owner-tab/etc. only when relevant
 ```
 
-Do not rely on the command prefix, previous turn, or operator memory to imply the required mode.
+Do not rely on command prefix, previous turn or operator memory to imply state.
 
-**PURPOSE**  
-Prevent avoidable admission failures and operator ambiguity. The operator should be able to read one instruction and know exactly how YMB must be configured before sending the command.
+### Failure history and root cause
 
-**EVIDENCE**  
-A live rehearsal attempted a `WORDSTAT_BATCH_API_V1` command while the active service remained `search`. Bridge correctly rejected it with `SERVICE_NOT_ACTIVE` and `request_executed=false`. The provider was protected, but the operator step was unnecessarily repeated because ChatGPT had not explicitly stated the required extension service/mode immediately before the command.
+A controlled execution sent a command while a different service remained active. Bridge correctly rejected it before provider execution, but the operator step had to be repeated.
 
-**FAILURE IF IGNORED**  
-If mode is not stated explicitly:
+Root cause:
 
 ```text
-commands can be rejected by SERVICE_NOT_ACTIVE;
-the operator must infer state from context;
-manual vs autorun requirements can be confused;
-repeat attempts waste operator time;
-more dangerous failures can occur if a future command has stricter owner-tab/pause/binding requirements.
+REQUIRED OPERATOR STATE
+WAS LEFT IMPLICIT IN DIALOGUE CONTEXT
 ```
 
-**REVIEW TRIGGER**  
-This rule may be simplified only if YMB later selects the correct service/mode automatically and that behavior is formally accepted and fail-safe.
+### Control
 
-### Required live-dialogue format
-
-Immediately before every YMB command, write a compact instruction such as:
-
-```text
-YMB MODE:
-- Active service: Wordstat
-- Execution mode: Manual
-- Manual mode: ON
-
-Then send exactly this command:
-...
-```
-
-If no toggle is needed for a field, state that clearly rather than omitting the field when omission could create ambiguity.
+Immediately before every operator command, state the required service/mode and any material toggle explicitly. If a field requires no change, say so when omission could create ambiguity.
 
 Marker:
 
@@ -130,97 +98,68 @@ KW001_EXPLICIT_YMB_MODE_INSTRUCTION_ACTIVE = true
 
 ---
 
-## Rule — mandatory pre-step evidence and methodology review before execution
+## Rule 3 — mandatory pre-step evidence and methodology review
 
-**RULE**  
-Before every new analytical/project execution step, ChatGPT must STOP before execution and perform a visible pre-step review. The next step may not begin merely because the previous step passed.
+Before every new major analytical/project execution step, ChatGPT must stop before execution and perform a visible pre-step review.
 
-The pre-step review must happen in this order:
+Required order:
 
 ```text
-1. identify the exact next step and its intended output;
-2. explain in plain language what will be done and what will explicitly NOT be done;
-3. reread the previous step's evidence/acceptance and check whether its conclusions still support the next step;
-4. identify the methodology/rules proposed for the next step;
-5. classify the origin of every material method rule as:
+1. identify exact next step and intended output;
+2. explain plainly what will and will not be done;
+3. reread prior accepted evidence/limitations relevant to the next step;
+4. identify proposed methodology/rules;
+5. classify material method origin:
    OFFICIAL
    INDUSTRY_PRACTICE
    PROJECT_TEST_VALIDATED
    ANALYST_HEURISTIC
-6. search current external materials relevant to the method BEFORE execution;
-7. prefer official/primary sources; when no official standard exists, cross-check with credible practitioner/tool methodology rather than one unsupported article;
-8. compare the planned method with those sources and with project evidence;
-9. explicitly look for defects in ChatGPT's own previous work, not only evidence that confirms it;
-10. classify the review result as:
+6. research current external method sources before execution where required;
+7. prefer official/primary sources and corroborate where no official standard exists;
+8. compare planned method with sources and project evidence;
+9. deliberately challenge the assistant's own previous work;
+10. classify review result:
     SUPPORTED
     PROJECT_SPECIFIC_BUT_REASONED
     QUESTIONABLE
     CORRECTION_REQUIRED
-11. if a material rule is only an ANALYST_HEURISTIC, say so explicitly; never present it as an industry or Yandex standard;
-12. if CORRECTION_REQUIRED, do not execute the next step until the defect is corrected/re-frozen;
-13. show the owner the pre-step explanation, source links/citations, uncertainties and proposed corrections;
-14. wait for explicit owner authorization;
-15. only then execute the step.
+11. label heuristics honestly;
+12. if correction is required, repair/re-freeze before execution;
+13. show owner method, sources, uncertainty and corrections;
+14. give the mandatory plain-language why/how/result summary;
+15. obtain explicit owner authorization when the major-step gate requires it;
+16. only then execute.
 ```
 
-A project-authored runbook or earlier ChatGPT document is **not independent proof** that its own method is correct. It may define the current workflow, but methodology validation must trace back to one or more of:
+### Failure history and root cause
+
+A prior controlled execution used an internally coherent cleanup method, but an owner-requested retrospective audit exposed that methodology validation was occurring only when challenged. Project-authored rules were too close to becoming their own authority.
+
+Root cause:
 
 ```text
-official provider/search-engine documentation;
-credible external industry methodology;
-measured project/provider evidence;
-controlled project tests;
-explicitly labelled analyst reasoning/heuristic.
+PROJECT METHOD DOCUMENT
+WAS ALLOWED TO FUNCTION AS
+INDEPENDENT PROOF OF ITS OWN METHOD
 ```
 
-**PURPOSE**  
-Prevent a self-reinforcing workflow where ChatGPT writes a rule, later cites its own rule as authority, and continues executing without checking whether the rule is actually supported by current provider semantics, established practice or observed evidence.
+### Control
 
-This gate also makes the owner understand not just WHAT happens next, but WHY the step exists, where the method came from, what uncertainty remains and what would make us change it.
+A project runbook defines current process but does not independently validate it. Material method claims must trace to official/provider documentation, credible external industry practice, measured project evidence, controlled project tests, or explicitly labelled analyst reasoning.
 
-**EVIDENCE**  
-During the OKNO-MSK rehearsal, Step 04 cleanup used a conservative `KEEP / REJECT_OBVIOUS / REVIEW` triage. The logic was internally coherent, but the owner correctly requested a retrospective methodological audit rather than accepting the project-authored runbook as sufficient authority. That exposed a process weakness: method validation was happening when challenged, rather than systematically before every new step.
-
-**FAILURE IF IGNORED**  
-Without this gate:
+Canonical sequence:
 
 ```text
-ChatGPT can accidentally treat its own previous document as external authority;
-heuristics can silently become "standards";
-methodological errors can propagate through later expensive provider stages;
-cleanup can remove valuable terms before SERP/business evidence exists;
-provider budgets can be spent on poorly justified expansion;
-owner cannot independently evaluate why a step is being performed;
-corrections happen late, after downstream artifacts depend on the mistake.
+EXPLAIN
+→ RESEARCH / CHECK SOURCES
+→ SELF-AUDIT
+→ OWNER AUTHORIZATION WHEN REQUIRED
+→ EXECUTE
 ```
 
-**REVIEW TRIGGER**  
-The exact presentation may become shorter if the workflow is mature and repeatedly validated, but the mandatory sequence `explain → research/check sources → self-audit → owner authorization → execute` must remain unless the owner explicitly changes this operating rule.
+This applies to each major analytical/project step or material method/evidence-type change; it does not require rerunning the entire external methodology review before every item inside an already researched/authorized acquisition batch.
 
-### Mandatory pre-step live-dialogue format
-
-Before execution ChatGPT must provide, at minimum:
-
-```text
-NEXT STEP
-WHAT I WILL DO
-WHY THIS STEP EXISTS
-METHOD ORIGIN
-CURRENT EXTERNAL SOURCES
-WHAT I FOUND WHEN CHALLENGING MY OWN METHOD
-RISKS / UNCERTAINTIES
-WHAT I WILL NOT DO YET
-PROPOSED GATE
-WAITING FOR OWNER AUTHORIZATION
-```
-
-For external methodology claims, provide direct source citations/links. If no authoritative external standard was found, write that explicitly.
-
-### Step boundary
-
-This rule applies to each major analytical/project step or gate. It does not require repeating the full external methodology search before every individual `batch.next` item inside an already researched, frozen and owner-authorized provider step. A new batch, new methodology, new evidence type, cleanup stage, clustering stage, page-mapping stage, Search stage, AI stage, QA/finalization stage, or material workflow change requires a new pre-step review.
-
-Marker:
+Markers:
 
 ```text
 KW001_PRE_STEP_EVIDENCE_METHOD_REVIEW_ACTIVE = true
@@ -229,21 +168,20 @@ KW001_OWNER_AUTHORIZATION_BEFORE_EACH_MAJOR_STEP = true
 
 ---
 
-## Rule — provider work is complete only when the complete result is preserved and verified
+## Rule 4 — provider work is complete only when the complete result is preserved and verified
 
-**RULE**  
-The purpose of a provider step is to obtain usable project evidence, not merely to execute an API call.
+A provider step exists to obtain usable project evidence, not merely to execute an API call.
 
-A provider request or provider item counts as **COMPLETE for the project** only when all of the following are true:
+A provider request/item is complete for the project only when:
 
 ```text
-1. the provider request has a known successful outcome;
-2. the complete result required by the step is preserved in the current job workspace;
-3. preservation is verified against the provider response or expected returned-row/count truth;
-4. the preserved result is readable and available for the next analytical step.
+1. provider outcome is known and usable;
+2. the complete result required by the step is preserved in the job workspace;
+3. preservation is verified against response/count/field truth;
+4. persisted result is readable and usable for the next stage.
 ```
 
-The following by themselves are **NOT** evidence that the project step is complete:
+The following alone never prove project completion:
 
 ```text
 HTTP 200
@@ -252,66 +190,35 @@ item_status = SUCCEEDED
 succeeded = N
 terminal = N
 cost recorded
-summary/checkpoint with representative examples only
+summary/checkpoint containing only examples
 ```
 
-If the provider returned 200 rows and only representative examples or a summary were preserved, that request is **NOT COMPLETE for the project**.
+### Failure history and root cause
 
-### Mandatory stop condition
+A controlled acquisition execution produced technically successful provider calls but preserved only summaries/representative examples for some larger result sets. Later analysis therefore lacked the complete row universe it needed.
 
-If complete preservation or verification fails:
+Root cause:
 
 ```text
-current item = FAILED_OR_INCOMPLETE_FOR_PROJECT
-current major step = NOT_COMPLETE
-next provider item = BLOCKED
-next analytical step = BLOCKED
+TECHNICAL REQUEST SUCCESS
+WAS TREATED AS
+PROJECT EVIDENCE COMPLETION
 ```
 
-ChatGPT must STOP immediately. It must not continue through the remaining batch merely because the provider call itself succeeded.
+### Control
 
-Recovery must first restore a complete, verified result for the current item. Only then may the next item be executed.
-
-### Purpose hierarchy
-
-For every provider-driven step, ChatGPT must distinguish:
+If complete preservation/verification fails:
 
 ```text
-TECHNICAL EXECUTION
-= did a provider call occur and what was its transport/provider outcome?
-
-PROJECT COMPLETION
-= is the full evidence required by the job preserved, verified and usable?
+CURRENT ITEM = INCOMPLETE FOR PROJECT
+CURRENT MAJOR STEP = NOT COMPLETE
+NEXT PROVIDER ITEM = BLOCKED
+NEXT ANALYTICAL STEP = BLOCKED
 ```
 
-`TECHNICAL EXECUTION = SUCCESS` does not imply `PROJECT COMPLETION = SUCCESS`.
+Recovery first restores the complete verified current result. Only then may acquisition continue.
 
-When reporting status to the owner, project completion controls the step verdict.
-
-**PURPOSE**  
-Prevent false progress where API requests are counted as completed work although the evidence needed for the actual client task was not preserved. The business goal is to collect and use the data, not to maximize successfully executed requests.
-
-**EVIDENCE**  
-During the OKNO-MSK rehearsal, the first Wordstat acquisition pass executed successful provider calls but preserved only summaries and representative examples for many returned result sets. Later steps therefore lacked the complete phrase rows required for full cleanup. Treating the successful calls as a completed acquisition step allowed downstream work to proceed on an incomplete evidence base.
-
-**FAILURE IF IGNORED**  
-If this rule is ignored:
-
-```text
-provider calls can succeed while the actual dataset is lost;
-downstream analysis can silently operate on examples instead of the complete evidence;
-expansion decisions can be made from an incomplete source set;
-acceptance gates can report false completion;
-provider cost and operator time can be wasted on later steps that must be redone;
-project progress becomes request-count progress instead of result-delivery progress.
-```
-
-**REVIEW TRIGGER**  
-None for the core principle. Storage format may change, but a provider-driven project item must never be marked complete without complete verified usable evidence.
-
-### Required per-item live gate
-
-Before moving from provider item N to provider item N+1, ChatGPT must verify and state internally or visibly as appropriate:
+Before provider item N+1:
 
 ```text
 provider outcome known = true
@@ -320,7 +227,7 @@ preserved row/count truth verified = true
 result usable for next stage = true
 ```
 
-If any value is false, STOP.
+If any is false, stop.
 
 Markers:
 
@@ -329,3 +236,9 @@ KW001_PROVIDER_RESULT_PRESERVATION_GATE_ACTIVE = true
 KW001_TECHNICAL_SUCCESS_IS_NOT_PROJECT_COMPLETION = true
 KW001_NEXT_PROVIDER_ITEM_BLOCKED_UNTIL_RESULT_VERIFIED = true
 ```
+
+---
+
+## Permanent universality boundary
+
+This file stores failure classes, root causes and controls. Concrete case names, domains, queries, provider receipts/counts and current job status remain Level2 evidence under `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
