@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-03",
+  "step": 18,
+  "status": "POST_AUDIT_WORK_PACKAGE_DECOMPOSITION_COMPLETE",
+  "purpose": "Separate analytical action accounting from implementation granularity without inventing owner, effort or capacity.",
+  "package_count": 112,
+  "accounting": {
+    "exact_action_packages": 31,
+    "exact_internal_link_packages": 15,
+    "exact_route_packages": 46,
+    "exact_hold_recheck_packages": 20,
+    "total": 112
+  },
+  "package_id_rules": {
+    "S18-WP-A001..A031": "one package for each exact source action S18-A001..S18-A031",
+    "S18-WP-L001..L015": "one package for each exact accepted Step14 IMPLEMENT link",
+    "S18-WP-R001..R046": "one package for each exact ROUTE_TO_EXISTING_PAGE_AS_SUBTASK structural unit",
+    "S18-WP-H001..H020": "one package for each exact HOLD/recheck source unit"
+  },
+  "calibration_profiles": {
+    "non_hold": "CAL_UNCONFIRMED_EXECUTION",
+    "hold": "CAL_HOLD_BLOCKED"
+  },
+  "exact_action_packages": [
+    {"package_id":"S18-WP-A001","source_action_id":"S18-A001","analytical_priority":"P1_HIGH","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A002","source_action_id":"S18-A002","analytical_priority":"P1_HIGH","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A003","source_action_id":"S18-A003","analytical_priority":"P1_HIGH","measurement_class":"M02_OVERLAP_DIFFERENTIATION"},
+    {"package_id":"S18-WP-A004","source_action_id":"S18-A004","analytical_priority":"P1_HIGH","measurement_class":"M02_OVERLAP_DIFFERENTIATION"},
+    {"package_id":"S18-WP-A005","source_action_id":"S18-A005","analytical_priority":"P1_HIGH","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A006","source_action_id":"S18-A006","analytical_priority":"P1_HIGH","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A007","source_action_id":"S18-A007","analytical_priority":"P1_HIGH","measurement_class":"M02_OVERLAP_DIFFERENTIATION"},
+    {"package_id":"S18-WP-A008","source_action_id":"S18-A008","analytical_priority":"P1_HIGH","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A009","source_action_id":"S18-A009","analytical_priority":"P1_HIGH","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A010","source_action_id":"S18-A010","analytical_priority":"P1_HIGH","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A011","source_action_id":"S18-A011","analytical_priority":"P1_HIGH","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A012","source_action_id":"S18-A012","analytical_priority":"P1_HIGH","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A013","source_action_id":"S18-A013","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A014","source_action_id":"S18-A014","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A015","source_action_id":"S18-A015","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A016","source_action_id":"S18-A016","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A017","source_action_id":"S18-A017","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A018","source_action_id":"S18-A018","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A019","source_action_id":"S18-A019","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A020","source_action_id":"S18-A020","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A021","source_action_id":"S18-A021","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A022","source_action_id":"S18-A022","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A023","source_action_id":"S18-A023","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A024","source_action_id":"S18-A024","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A025","source_action_id":"S18-A025","analytical_priority":"P2_MEDIUM","measurement_class":"M01_OWNER_ROLE_CORRECTION"},
+    {"package_id":"S18-WP-A026","source_action_id":"S18-A026","analytical_priority":"P2_MEDIUM","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A027","source_action_id":"S18-A027","analytical_priority":"P2_MEDIUM","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A028","source_action_id":"S18-A028","analytical_priority":"P2_MEDIUM","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A029","source_action_id":"S18-A029","analytical_priority":"P2_MEDIUM","measurement_class":"M03_CONTENT_ENHANCEMENT"},
+    {"package_id":"S18-WP-A030","source_action_id":"S18-A030","analytical_priority":"P2_MEDIUM","measurement_class":"M04_AI_BOUNDED_CONTENT_RECHECK"},
+    {"package_id":"S18-WP-A031","source_action_id":"S18-A031","analytical_priority":"P2_MEDIUM","measurement_class":"M04_AI_BOUNDED_CONTENT_RECHECK"}
+  ],
+  "internal_link_packages": [
+    {"package_id":"S18-WP-L001","source_action_id":"S18-A032","link_refs":["LNK001","IL0008"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L002","source_action_id":"S18-A032","link_refs":["LNK002","IL0009"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L003","source_action_id":"S18-A032","link_refs":["LNK003","IL0021"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L004","source_action_id":"S18-A032","link_refs":["LNK004","IL0025"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L005","source_action_id":"S18-A032","link_refs":["LNK005","IL0029"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L006","source_action_id":"S18-A032","link_refs":["LNK006","IL0038"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L007","source_action_id":"S18-A032","link_refs":["LNK007","IL0040"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L008","source_action_id":"S18-A032","link_refs":["LNK008","IL0041"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L009","source_action_id":"S18-A032","link_refs":["LNK009","IL0047"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L010","source_action_id":"S18-A032","link_refs":["LNK010","IL0049"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L011","source_action_id":"S18-A032","link_refs":["LNK011","IL0053"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L012","source_action_id":"S18-A032","link_refs":["LNK012","IL0059"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L013","source_action_id":"S18-A032","link_refs":["LNK013","IL0062"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L014","source_action_id":"S18-A032","link_refs":["LNK014","IL0065"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"},
+    {"package_id":"S18-WP-L015","source_action_id":"S18-A032","link_refs":["LNK015","IL0066"],"analytical_priority":"P2_MEDIUM","measurement_class":"M05_INTERNAL_LINK_IMPLEMENT"}
+  ],
+  "route_packages": [
+    "ALUMINIUM_PROFILE_PRODUCT","ALUMINIUM_WINDOW_COMPONENTS_INFO","ALUMINIUM_WINDOW_HANDLE_ACCESSORY","ALUMINIUM_WINDOW_INSTALLATION_REMOVAL_DIY","ALUMINIUM_WINDOW_REVIEW_SUPPORT","ALUMINIUM_WINDOW_VIDEO_CONTENT","BALCONY_ALUMINIUM_SLIDING_COLD","BALCONY_ALUMINIUM_SLIDING_GENERAL","BALCONY_GLAZING_PERMISSION_INFO","BALCONY_GLAZING_WINDOWSILL_OPTION","BOILER_ROOM_WINDOW_REQUIREMENTS_INFO","FRENCH_WINDOW_DIY_GENERAL","FRENCH_WINDOW_INSTALLATION_DIY","FRENCH_WINDOW_REDEVELOPMENT_PERMISSION_INFO","FRENCH_WINDOW_REVIEW_SUPPORT","GLASS_UNIT_PRODUCT_SELECTION","GLASS_UNIT_REPAIR_DIY","MOSQUITO_NET_REPLACEMENT_SUPPORT","OUTDOOR_ALUMINIUM_SLIDING_GLAZING","OUTDOOR_GLAZING_SPECIAL_TECH_INFO","OUTDOOR_STRUCTURE_GLAZING__INSTALLMENT_CONDITION","PANORAMIC_WINDOW_TECH_SELECTION_INFO","PRIVATE_HOUSE_SPECIAL_ROOM_WINDOWS","PVC_DOOR_HANDLE_ACCESSORY","PVC_DOOR_INSTALLATION_REMOVAL_DIY","PVC_DOOR_REVIEW_SUPPORT","PVC_PROFILE_PRODUCT_SELECTION","PVC_WINDOWS_COMMERCIAL__INSTALLMENT_CONDITION","PVC_WINDOW_OPERATION_DIY","PVC_WINDOW_REVIEW_SUPPORT","PVC_WINDOW_VIDEO_CONTENT","REHAU_DELIGHT_REVIEW_SUPPORT","REHAU_GRAZIO_REVIEW_SUPPORT","REHAU_WINDOWS_COMMERCIAL__INSTALLMENT_CONDITION","REHAU_WINDOW_REVIEW_SUPPORT","WINDOWS_COMMERCIAL_GENERAL__INSTALLMENT_CONDITION","WINDOWS_DOORS_COMBINED_COMMERCIAL__INSTALLMENT_CONDITION","WINDOW_BLINDS_INSTALLATION","WINDOW_FINISHING_ACCESSORY_COMPONENTS","WINDOW_FRAME_SASH_COMPONENT","WINDOW_HARDWARE_MAINTENANCE_INFO","WINDOW_INSTALLATION_MATERIALS_INFO","WINDOW_INSTALLATION_SERVICE__INSTALLMENT_CONDITION","WINDOW_OR_DOOR_GLASS_COMPONENT","WINDOW_PRODUCT_RATING_COMPARISON_INFO","WINDOW_SAFETY_HARDWARE_ACCESSORY"
+  ],
+  "route_package_contract": {
+    "source_action_id": "S18-A033",
+    "package_ids": "S18-WP-R001..S18-WP-R046 in the exact array order above",
+    "analytical_priority": "P3_LATER",
+    "measurement_class": "M06_ROUTE_TO_EXISTING",
+    "execution_rule": "Use the accepted current Step12/Step14/Step14A target authority for the exact structural unit; do not create a new URL and do not treat this array as one executable task."
+  },
+  "hold_packages": [
+    {"package_id":"S18-WP-H001","hold_id":"S18-H001","structural_unit_id":"MOSQUITO_NET_REPAIR_UNVERIFIED"},
+    {"package_id":"S18-WP-H002","hold_id":"S18-H002","structural_unit_id":"OUTDOOR_GLAZING_DIY_INFO"},
+    {"package_id":"S18-WP-H003","hold_id":"S18-H003","structural_unit_id":"OUTDOOR_GLAZING_MATERIAL_AMBIGUOUS"},
+    {"package_id":"S18-WP-H004","hold_id":"S18-H004","structural_unit_id":"PANORAMIC_WINDOW_OPERATION_AMBIGUOUS"},
+    {"package_id":"S18-WP-H005","hold_id":"S18-H005","structural_unit_id":"PRIVATE_HOUSE_ENTRY_DOOR_WITH_WINDOW_UNVERIFIED"},
+    {"package_id":"S18-WP-H006","hold_id":"S18-H006","structural_unit_id":"PRIVATE_HOUSE_ROOF_WINDOW_UNVERIFIED"},
+    {"package_id":"S18-WP-H007","hold_id":"S18-H007","structural_unit_id":"PVC_DOOR_OPERATION_ADJUSTMENT_DIY_INFO"},
+    {"package_id":"S18-WP-H008","hold_id":"S18-H008","structural_unit_id":"REHAU_OTHER_BRAND_COMPARISON_INFO"},
+    {"package_id":"S18-WP-H009","hold_id":"S18-H009","structural_unit_id":"WINDOWSILL_DIY_INFO"},
+    {"package_id":"S18-WP-H010","hold_id":"S18-H010","structural_unit_id":"WINDOWSILL_REPAIR_UNVERIFIED"},
+    {"package_id":"S18-WP-H011","hold_id":"S18-H011","structural_unit_id":"WINDOW_BLINDS_REPAIR_UNVERIFIED"},
+    {"package_id":"S18-WP-H012","hold_id":"S18-H012","structural_unit_id":"WINDOW_DEMOLITION_SERVICE"},
+    {"package_id":"S18-WP-H013","hold_id":"S18-H013","structural_unit_id":"WINDOW_DRIP_CAP_DIY_INFO"},
+    {"package_id":"S18-WP-H014","hold_id":"S18-H014","structural_unit_id":"WINDOW_HARDWARE_STANDARD_INFO"},
+    {"package_id":"S18-WP-H015","hold_id":"S18-H015","structural_unit_id":"WOOD_VS_PVC_WINDOWS_AMBIGUOUS"},
+    {"package_id":"S18-WP-H016","hold_id":"S18-H016","structural_unit_id":"ALUMINIUM_WINDOWS_DOORS_COMBINED_COMMERCIAL"},
+    {"package_id":"S18-WP-H017","hold_id":"S18-H017","structural_unit_id":"ALUMINIUM_WINDOW_REPLACEMENT_SERVICE"},
+    {"package_id":"S18-WP-H018","hold_id":"S18-H018","structural_unit_id":"AMBIGUOUS_PVC_DIY"},
+    {"package_id":"S18-WP-H019","hold_id":"S18-H019","structural_unit_id":"AMBIGUOUS_PVC_TECH_QUERY"},
+    {"package_id":"S18-WP-H020","hold_id":"S18-H020","structural_unit_id":"BALCONY_GLAZING_DIY_INFO"}
+  ],
+  "hold_package_contract": {
+    "source_action_id": "S18-A034",
+    "analytical_priority": "HOLD",
+    "measurement_class": "M07_HOLD",
+    "execution_rule": "No implementation action until the exact blocker and recheck trigger in STEP_18_HOLD_RECHECK_LEDGER.tsv is resolved."
+  },
+  "claim_boundary": "This register fixes execution granularity. It does not itself assign an implementation owner, estimate effort, reserve capacity or create a final schedule."
+}
