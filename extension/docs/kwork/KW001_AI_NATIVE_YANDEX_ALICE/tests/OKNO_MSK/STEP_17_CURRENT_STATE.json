@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "V2_ARTIFACTS_WRITTEN__FINAL_READBACK_PENDING__STEP18_BLOCKED",
+  "status": "V2_COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
   "historical_first_pass": {
     "status_before_audit": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
     "historical_case_verdicts": {
@@ -84,7 +84,8 @@
     "v2_original_contract_coverage": "100%",
     "v2_reverse_trace_missing": 0,
     "v2_adversarial_self_review_blocking_findings": 0,
-    "v2_final_acceptance": "PENDING_FINAL_GITHUB_READBACK"
+    "v2_final_github_readback": "PASS",
+    "v2_final_acceptance": "PASS"
   },
   "provider_execution": {
     "new_ordinary_search_calls": 0,
@@ -94,9 +95,9 @@
     "unauthorized_provider_calls": 0
   },
   "step18": {
-    "prestep_allowed": false,
+    "prestep_allowed": true,
     "execution_started": false,
-    "block_reason": "STEP17_V2_FINAL_GITHUB_READBACK_PENDING"
+    "block_reason": null
   },
-  "next_legal_action": "FINAL_GITHUB_READBACK_OF_STEP17_V2_ARTIFACT_SET__VALIDATE_ACCEPTANCE_GATE__THEN_STEP18_PRESTEP_ONLY_IF_PASS"
+  "next_legal_action": "STEP18_PRE_STEP_GATE_ONLY"
 }
