@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 18,
   "step_name": "Prioritization",
-  "status": "EXECUTED__ANALYTICAL_QA_PASS__FINAL_GITHUB_READBACK_PENDING",
+  "status": "COMPLETE_PASS__PRIORITY_REGISTER_VERIFIED__STEP19_PRESTEP_ALLOWED",
   "permanent_method_status": "UNVALIDATED",
   "owner_authorization": {
     "received": true,
@@ -19,7 +19,7 @@
   },
   "execution": {
     "execution_started": true,
-    "execution_complete_analytically": true,
+    "execution_complete": true,
     "action_register_created": true,
     "priority_tiers_assigned": true,
     "action_register_rows": 34,
@@ -60,7 +60,9 @@
     "STEP_18_HOLD_RECHECK_LEDGER.tsv",
     "STEP_18_QA.json",
     "STEP_18_REPORT.md",
-    "STEP_18_CURRENT_STATE.json"
+    "STEP_18_CURRENT_STATE.json",
+    "JOB_FLOW_STEP18_EXECUTION_SYNC_2026-09-03.md",
+    "STEP_18_FINAL_READBACK_QA_2026-09-03.json"
   ],
   "provider_execution": {
     "wordstat_calls": 0,
@@ -69,12 +71,16 @@
     "webmaster_calls": 0,
     "metrika_calls": 0,
     "direct_calls": 0,
-    "new_paid_cost_rub": 0.0
+    "new_paid_cost_rub": 0.0,
+    "unauthorized_provider_calls": 0
   },
-  "final_github_readback": false,
+  "final_github_readback": true,
+  "step_verdict": "COMPLETE_PASS",
+  "next_step_allowed": true,
   "step19": {
-    "prestep_allowed_after_final_step18_readback": true,
+    "prestep_allowed": true,
+    "permanent_method_status": "UNVALIDATED",
     "execution_authorized": false
   },
-  "next_legal_action": "FINAL_STEP18_GITHUB_READBACK_AND_SEAL"
+  "next_legal_action": "STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW"
 }
