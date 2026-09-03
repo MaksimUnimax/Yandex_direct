@@ -1,115 +1,97 @@
-# KW-001 — Step 14 Codex browser-first discovery correction
+# KW-001 — Step 14 native-tool-first discovery correction
 
-Date: 2026-09-02
-Status: **ACTIVE / STEP-14-SPECIFIC / OWNER-REQUIRED / SUPERSEDES CRAWLER-FIRST EXECUTION DESIGN**
+Date: 2026-09-02  
+Updated: 2026-09-03  
+Status: **ACTIVE / STEP-14-SPECIFIC / UNIVERSAL / OWNER-REQUIRED**
 
-## What was wrong
+## Purpose
 
-The Step-14A correction correctly established that a deterministic independent Codex pass is required to discover the current public site and current internal-link topology.
+When Step 14 needs independent current-site discovery, choose the strongest already-available native evidence tool before building custom collection infrastructure.
 
-However, the execution design then made an unnecessary and incorrect tool-selection jump:
+## Failure and root cause
 
-```text
-NEED INDEPENDENT CODEX SITE PASS
--> BUILD CUSTOM CRAWLER
--> QUALIFY CUSTOM CRAWLER
--> DEBUG CRAWLER TERMINATION
-```
-
-That was the wrong execution path for this environment because Codex already has a browser capable of opening the public site, navigating links and inspecting current rendered pages.
-
-The result was process drift: instead of collecting the site, work shifted into building and debugging collection infrastructure.
-
-Canonical lesson:
+A prior controlled execution correctly required independent deterministic discovery, but then assumed that this automatically required a new custom crawler. Work drifted from collecting evidence into building and debugging collection infrastructure.
 
 ```text
-CODEX_PASS_REQUIRED != CUSTOM_CRAWLER_REQUIRED
-
-AVAILABLE_NATIVE_BROWSER_CAPABILITY
--> USE BROWSER FIRST FOR PUBLIC SITE DISCOVERY/READING
--> USE CODE ONLY AS A NARROW HELPER WHEN THE BROWSER CANNOT PRODUCE A REQUIRED MECHANICAL RESULT
+DETERMINISTIC PASS REQUIRED != CUSTOM CRAWLER REQUIRED
 ```
 
-## Root cause
+Root cause:
 
-The method correctly recognized that ChatGPT manual web reads are not a completeness authority by themselves. But that was overgeneralized into the assumption that only a custom crawler could provide the independent Codex pass.
+```text
+"manual analyst reading is not completeness proof"
+WAS OVERGENERALIZED INTO
+"only a custom crawler can provide acceptable independent evidence"
+```
 
 The missing question was:
 
 ```text
-WHAT IS THE STRONGEST AVAILABLE NATIVE TOOL IN THE ACTUAL CODEX ENVIRONMENT FOR THIS EVIDENCE?
+WHAT CURRENT NATIVE TOOL CAN OBSERVE THE REQUIRED FACT DIRECTLY, REPRODUCIBLY AND WITH SUFFICIENT COVERAGE?
 ```
 
-Because Codex has a browser, the first execution choice should have been browser-native discovery, not building a new crawler.
+Concrete domains, paths, counts and incident data belong in Level-2 evidence, not this permanent rule.
 
-## Corrected Step-14 execution rule
+## Corrected method
 
-For OKNO_MSK Step 14A:
+Before selecting a collection implementation:
+
+1. define the exact factual observation required;
+2. inspect current native tool capabilities in the execution environment;
+3. choose the simplest reproducible tool that can meet coverage, output and termination requirements;
+4. introduce custom code only for a named capability gap.
+
+When a native browser is sufficient, it may be used to:
 
 ```text
-PRIMARY COLLECTION TOOL = CODEX BROWSER
+open <CURRENT_SITE_URL>;
+inspect current navigation and public pages;
+follow same-site links systematically;
+record URL/final URL/title/H1/discovery provenance as applicable;
+verify <CURRENT_REQUIRED_EDGE_SET> against literal current page/DOM evidence;
+use sitemap(s) as an additional discovery route;
+reconcile discovered URLs with accepted upstream URLs;
+persist outputs for semantic review.
 ```
 
-Codex must use the browser to:
+Code remains valid as a narrow helper for normalization, deduplication, joins, counts, artifact formatting or a mechanical operation the native browser cannot reliably perform.
 
-1. open `https://okno-msk.ru/`;
-2. inspect the current rendered homepage/navigation/footer;
-3. follow same-site public links systematically;
-4. open discovered relevant/public pages;
-5. record current URL, final URL, title/H1 and discovery path/source;
-6. inspect source pages for the 15 planned Step-14 internal-link recommendations and determine whether the target link actually exists in the current page/link DOM;
-7. use public sitemap(s), if available, as an additional discovery route;
-8. reconcile browser-discovered URLs against Step 12/13/14 known URLs;
-9. surface all newly discovered URLs for ChatGPT semantic review;
-10. persist results and normal-push them to GitHub.
+If the native tool cannot meet the required completeness, scale or repeatability, a qualified code/crawler path may be used under the deterministic execution reliability gate.
 
-## Use of code
+## Evidence boundary
 
-Code is allowed only as a narrow helper, for example:
+Discovery evidence does not itself authorize semantic or structural changes.
+
+The collection layer must not automatically:
 
 ```text
-normalizing an already collected URL list;
-deduplicating browser-collected URLs;
-joining collected results against Step-12/13/14 TSV inputs;
-counting rows;
-producing final TSV/JSON artifacts from browser evidence.
-```
-
-Code must NOT become a new custom site-crawler project when the browser can perform the site pass.
-
-## Required evidence boundary
-
-Browser discovery is still evidence collection, not semantic ownership authority.
-
-Codex must not automatically:
-
-```text
-create new pages;
-change phrase ownership;
-merge/delete pages;
+create pages;
+change semantic/page ownership;
+merge or delete pages;
 set redirects/canonicals;
-change Step-13 conclusions;
-execute Step 15.
+change accepted upstream decisions;
+execute downstream analytical stages.
 ```
 
-ChatGPT performs the semantic reconciliation after Codex persists the browser-collected evidence.
+Semantic reconciliation remains an analytical responsibility after evidence persistence.
 
-## Non-repeat control
-
-Before designing an evidence mechanism, ask in this order:
+## Non-repeat sequence
 
 ```text
-1. WHAT FACT MUST BE OBSERVED?
-2. WHICH NATIVE TOOL ALREADY AVAILABLE IN THE EXECUTION ENVIRONMENT CAN OBSERVE IT DIRECTLY?
-3. IS CUSTOM CODE ACTUALLY NECESSARY?
+WHAT FACT MUST BE OBSERVED?
+-> WHAT NATIVE TOOL CAN OBSERVE IT?
+-> DOES IT MEET COVERAGE / REPEATABILITY / TERMINATION NEEDS?
+-> WHAT NAMED GAP, IF ANY, REQUIRES CUSTOM CODE?
 ```
 
-Do not build infrastructure merely because deterministic evidence is needed.
+Do not build infrastructure merely because the evidence requirement is deterministic.
 
-Canonical marker:
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
+
+## Markers
 
 ```text
-KW001_STEP14_CODEX_BROWSER_FIRST_DISCOVERY_ACTIVE = true
+KW001_STEP14_TOOL_CAPABILITY_FIRST_DISCOVERY_ACTIVE = true
 KW001_STEP14_CUSTOM_CRAWLER_NOT_REQUIRED_BY_DEFAULT = true
-KW001_STEP14_NATIVE_BROWSER_BEFORE_CUSTOM_COLLECTION_CODE = true
+KW001_STEP14_NATIVE_CAPABILITY_BEFORE_CUSTOM_COLLECTION_CODE = true
 ```
