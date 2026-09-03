@@ -20,6 +20,8 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.table import Table as XLTable, TableStyleInfo
 from openpyxl.utils import get_column_letter
 from docx import Document
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches, Pt, RGBColor
@@ -301,6 +303,16 @@ doc.add_paragraph("Практический порядок: отчёт → 05_Pa
 doc.add_heading("9. Методические ссылки correction",1)
 for x in ["https://searchengineland.com/make-seo-reports-more-actionable-479746","https://ahrefs.com/blog/keyword-mapping/","https://ahrefs.com/blog/seo-topical-map/","https://www.semrush.com/blog/what-is-an-seo-report/","https://yandex.ru/support/webmaster/ru/service/popular-queries","https://yandex.ru/support/webmaster/ru/service/queries-export","https://yandex.ru/support/webmaster/ru/recommendations/site-structure"]:
     doc.add_paragraph(x,style="List Bullet")
+# Prevent broken-looking table rows in the standalone DOCX.
+for _table in doc.tables:
+    for _ri, _row in enumerate(_table.rows):
+        _trPr = _row._tr.get_or_add_trPr()
+        _cant = OxmlElement("w:cantSplit")
+        _trPr.append(_cant)
+        if _ri == 0:
+            _hdr = OxmlElement("w:tblHeader")
+            _hdr.set(qn("w:val"), "true")
+            _trPr.append(_hdr)
 doc.save(DOCX)
 # reopen QA
 rd=Document(DOCX); assert len(rd.paragraphs)>30; assert len(rd.tables)>=4

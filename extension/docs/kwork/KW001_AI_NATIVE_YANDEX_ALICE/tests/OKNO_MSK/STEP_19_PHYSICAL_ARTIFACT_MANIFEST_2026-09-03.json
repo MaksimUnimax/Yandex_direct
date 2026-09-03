@@ -21,16 +21,16 @@
   },
   "artifacts": {
     "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx": {
-      "bytes": 457648,
-      "sha256": "24797ef1fc4fba6a2419e02a7b6987862b0f9d07650869c627ce8255678239ec"
+      "bytes": 457647,
+      "sha256": "024966b5959deea16f1d46b3f0d2e89e437fe4bf5756081472b9f67845c910f3"
     },
     "STEP_19_CLIENT_REPORT_CORRECTED.docx": {
-      "bytes": 43784,
-      "sha256": "9e96c22d148b56879515dce56ddb66810a4e95a40f7ca668ed97c53a099ec414"
+      "bytes": 43825,
+      "sha256": "2754e7ba9e332c4cc73a733637e9678ff7bc86731ab8bad690f8f3c6643c61ca"
     },
     "STEP_19_CLIENT_REPORT_CORRECTED.pdf": {
       "bytes": 59491,
-      "sha256": "e121ba21017d77d6a6cb34ac3fc15c92e45b96a0c2d1d3052f77327006678241"
+      "sha256": "0873f6c5f23f2b6d4a6345fde275d523d71df8238d1555cd44ca8b720bfb2145"
     }
   },
   "openability": {
