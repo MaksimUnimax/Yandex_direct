@@ -130,13 +130,13 @@ HOLD не означает:
 
 ## Что делать дальше с этим пакетом
 
-1. Начать с `05_PAGE_ACTION_MAP` — там конкретно написано, что изменить и чего не делать.
-2. Затем открыть `07_PRIORITY_ACTION_PLAN` — он показывает аналитическую важность и связь с 112 work packages.
-3. Для семантики использовать `03_SEMANTIC_CORE_WORKBOOK`: current phrase→page truth хранится без ручного дублирования в canonical Step8/10/11 tables и собирается по exact `phrase`.
-4. `02_BUSINESS_AND_PAGE_MODEL` даёт верхнеуровневую карту из 15 направлений.
-5. `04_SEARCH_VS_AI_GAP_MATRIX` показывает все 8 AI-кейсов с ограничениями.
-6. Перед планированием sprint получить оценку исполнителя по owner/effort/capacity/dependencies.
-7. После внедрения проверять не обещанный рост, а сначала факт корректной реализации и затем доступные performance metrics.
+1. Начать с `05_Page_Actions` в `STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx` — там конкретно написано, что изменить и чего не делать.
+2. Затем открыть `07_Priority_Plan` — он показывает аналитическую важность и связь с 112 work packages.
+3. Для семантики открыть лист `03_Semantic_Core` в `STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx`: 2332 active phrase → task → page rows уже материализованы; ручной JOIN внутренних repo-файлов не требуется. Canonical Step8/10/11 tables остаются источником истины и audit layer.
+4. `02_Page_Model` даёт верхнеуровневую карту из 15 направлений.
+5. `04_Search_vs_AI` показывает все 8 AI-кейсов с ограничениями.
+6. Перед планированием sprint открыть `Execution_Calibration` и получить реальную оценку исполнителя по owner/effort/capacity/dependencies.
+7. После внедрения использовать `Measurement`: сначала проверить факт корректной реализации, затем — доступные performance metrics без выдуманных KPI.
 
 ## Итог
 
