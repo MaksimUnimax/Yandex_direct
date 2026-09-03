@@ -3,10 +3,11 @@
   "job": "OKNO_MSK",
   "step": 19,
   "step_name": "Client-facing deliverables",
-  "status": "PRESTEP_COMPLETE__READBACK_PASS__READY_FOR_OWNER_AUTHORIZATION__EXECUTION_NOT_STARTED",
+  "status": "EXECUTION_COMPLETE__9_OF_9_DELIVERABLES__QA_PASS__FINAL_GITHUB_READBACK_PENDING",
   "permanent_method_status": "UNVALIDATED",
   "owner_authorization": {
-    "step19_execution_received": false,
+    "step19_execution_received": true,
+    "step19_execution_authorization_scope": "STEP19_ONLY",
     "provider_call_authorization": false
   },
   "prestep": {
@@ -14,72 +15,86 @@
     "current_step18_handoff_reviewed": true,
     "known_failure_causes_and_non_repeat_controls_reviewed": true,
     "fresh_external_method_research_complete": true,
-    "source_to_method_trace_written": true,
     "source_to_method_trace_rows": "21/21_TRACED",
-    "research_to_execution_schema_written": true,
     "research_to_execution_requirements": "22/22_READY",
-    "deliverable_contract_written": true,
     "logical_deliverables_defined": "9/9",
-    "execution_manifest_written": true,
-    "adversarial_self_audit_complete": true,
-    "plain_language_why_what_result_prepared": true,
-    "github_readback_complete": true,
-    "github_readback_qa": "PASS_PRE_EXECUTION",
-    "github_readback_qa_artifact": "STEP_19_PRESTEP_READBACK_QA_2026-09-03.json",
-    "job_flow_readback_seal": "JOB_FLOW_STEP19_PRESTEP_READBACK_SEAL_2026-09-03.md"
+    "github_readback_qa": "PASS_PRE_EXECUTION"
   },
-  "deliverable_contract": {
-    "logical_deliverables_required": 9,
-    "logical_deliverables_created": 0,
-    "client_workbook_created": false,
-    "client_summary_created": false,
-    "method_and_limitations_created": false,
-    "delivery_message_created": false,
-    "top_level_primary_direction_limit": 15
+  "execution": {
+    "started": true,
+    "completed": true,
+    "canonical_client_data_model": "STEP_19_CANONICAL_CLIENT_DATA_MODEL.json",
+    "logical_deliverables_created": 9,
+    "primary_client_directions": 15,
+    "semantic_logical_workbook_state": "LOSSLESS_STEP08_STEP10_STEP11_SOURCE_BUNDLE",
+    "semantic_master_phrase_keys": 2840,
+    "semantic_active_phrase_rows": 2332,
+    "semantic_current_phrase_page_rows": 2332,
+    "semantic_preserved_unresolved": 19,
+    "step17_cases": 8,
+    "page_action_rows": 34,
+    "priority_action_rows": 34,
+    "work_package_trace": 112
   },
-  "current_authoritative_handoff": {
-    "step18_analytical_priority_state": "COMPLETE_PASS",
+  "deliverables": [
+    "STEP_19_01_CLIENT_SUMMARY.md",
+    "STEP_19_02_BUSINESS_AND_PAGE_MODEL.tsv",
+    "STEP_19_03_SEMANTIC_CORE_WORKBOOK.md",
+    "STEP_19_04_SEARCH_VS_AI_GAP_MATRIX.tsv",
+    "STEP_19_05_PAGE_ACTION_MAP.tsv",
+    "STEP_19_06_SOURCE_COMPETITOR_OBSERVATIONS.tsv",
+    "STEP_19_07_PRIORITY_ACTION_PLAN.tsv",
+    "STEP_19_08_METHOD_AND_LIMITATIONS.md",
+    "STEP_19_09_CLIENT_DELIVERY_MESSAGE.md"
+  ],
+  "supporting_artifacts": [
+    "STEP_19_CANONICAL_CLIENT_DATA_MODEL.json",
+    "STEP_19_QA_FINAL_2026-09-03.json",
+    "STEP_19_REPORT_2026-09-03.md",
+    "JOB_FLOW_STEP19_EXECUTION_SYNC_2026-09-03.md"
+  ],
+  "priority_and_readiness": {
     "step18_action_register_rows": 34,
-    "step18_priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
-    "step18_work_packages": 112,
-    "step18_expected_implementation_priority": "PENDING_CALIBRATION",
-    "step18_final_calendar_or_sprint_schedule_ready": false,
-    "step17_accepted_cases": 8
+    "priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
+    "work_packages": 112,
+    "work_package_counts": {"exact_action": 31, "internal_link": 15, "route": 46, "hold": 20},
+    "expected_implementation_priority": "PENDING_CALIBRATION",
+    "final_calendar_or_sprint_schedule_ready": false
   },
-  "configured_method": {
-    "canonical_client_data_model_required": true,
-    "executive_layer_and_detailed_evidence_layer_separated": true,
-    "client_summary_written_last_from_reconciled_detail": true,
-    "source_competitor_observations_only_no_new_audit": true,
-    "cross_deliverable_reconciliation_required": true,
-    "file_openability_and_readback_required": true
-  },
-  "configured_claim_boundaries": {
-    "p1_p2_p3_meaning": "IDEAL_ANALYTICAL_PRIORITY_NOT_COMMITTED_IMPLEMENTATION_SCHEDULE",
-    "implementation_schedule": "PENDING_CALIBRATION",
-    "sitewide_ai_visibility_claim": "FORBIDDEN",
-    "longitudinal_ai_stability_claim": "FORBIDDEN",
-    "ai_business_impact_from_bounded_snapshots": "FORBIDDEN",
-    "private_business_priority_guess": "FORBIDDEN",
-    "implementation_owner_effort_capacity_timeline_guess": "FORBIDDEN",
-    "new_competitor_audit_hidden_in_packaging": "FORBIDDEN"
-  },
-  "provider_plan": {
+  "provider_execution": {
     "wordstat_calls": 0,
     "search_calls": 0,
     "gensearch_calls": 0,
     "webmaster_calls": 0,
     "metrika_calls": 0,
     "direct_calls": 0,
-    "new_paid_cost_rub": 0.0
+    "new_paid_cost_rub": 0.0,
+    "unauthorized_provider_calls": 0
+  },
+  "claim_controls": {
+    "p1_p2_p3_meaning": "IDEAL_ANALYTICAL_PRIORITY_NOT_COMMITTED_IMPLEMENTATION_SCHEDULE",
+    "private_business_priority_guesses": 0,
+    "implementation_owner_effort_capacity_timeline_guesses": 0,
+    "superseded_decisions_shown_as_current": 0,
+    "sitewide_ai_visibility_claims": 0,
+    "longitudinal_ai_stability_claims": 0,
+    "ai_business_impact_claims_from_snapshots": 0,
+    "ranking_traffic_lead_revenue_guarantees": 0,
+    "hidden_new_competitor_audit": false,
+    "new_page_actions": 0,
+    "destructive_actions": 0
+  },
+  "qa": {
+    "construction_and_cross_deliverable_qa": "PASS_PRE_FINAL_STATE_SYNC",
+    "qa_artifact": "STEP_19_QA_FINAL_2026-09-03.json",
+    "final_github_readback_complete": false
   },
   "workflow_boundaries": {
-    "step19_execution_started": false,
     "step20_started": false,
+    "step20_execution_authorized": false,
     "step21_started": false,
-    "step22_started": false,
-    "step19_execution_may_start_without_owner_authorization": false
+    "step22_started": false
   },
-  "prestep_verdict": "PASS_PRE_EXECUTION",
-  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP19_EXECUTION"
+  "next_step_allowed": false,
+  "next_legal_action": "FINAL_GITHUB_READBACK_AND_SEAL_STEP19__THEN_STEP20_PRESTEP_ONLY"
 }
