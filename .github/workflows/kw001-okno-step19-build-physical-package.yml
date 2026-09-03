@@ -30,6 +30,23 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check --quiet openpyxl python-docx reportlab pypdf
 
+      - name: Apply explicit XLSX/PDF Table import aliases
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_build_physical_client_package.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('from openpyxl.worksheet.table import Table, TableStyleInfo','from openpyxl.worksheet.table import Table as XLTable, TableStyleInfo')
+          s=s.replace('from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle','from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table as PDFTable, TableStyle')
+          s=s.replace('tab=Table(displayName=', 'tab=XLTable(displayName=')
+          s=s.replace('    t=Table(data,', '    t=PDFTable(data,')
+          s=s.replace('t=Table([[P(x) for x in row] for row in arch]', 't=PDFTable([[P(x) for x in row] for row in arch]')
+          if 'tab=Table(displayName=' in s or '    t=Table(data,' in s:
+              raise RuntimeError('Table alias patch incomplete')
+          p.write_text(s,encoding='utf-8')
+          print('STEP19_PHYSICAL_BUILDER_TABLE_ALIAS_PATCH_PASS')
+          PY
+
       - name: Build physical client package
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_build_physical_client_package.py
@@ -75,11 +92,12 @@ jobs:
           print('STEP19_PHYSICAL_PACKAGE_INDEPENDENT_QA_PASS', pages)
           PY
 
-      - name: Persist physical package and manifest
+      - name: Persist corrected builder, physical package and manifest
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/step19_build_physical_client_package.py"
           git add "$ROOT/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx"
           git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.docx"
           git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.pdf"
