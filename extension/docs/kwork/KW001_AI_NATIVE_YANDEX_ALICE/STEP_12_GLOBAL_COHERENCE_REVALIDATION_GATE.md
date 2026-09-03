@@ -1,146 +1,193 @@
-# Step 12 — Global coherence revalidation gate after later evidence
+# KW-001 — Step 12 global coherence revalidation gate
 
 Date: 2026-08-31  
-Status: **APPROVED / ACTIVE / PERMANENT NON-REPEAT CONTROL**
+Updated: 2026-09-03  
+Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-REQUIRED**
 
-## Why this rule exists
+## Purpose
 
-The D12-27 correction correctly re-opened two known mixed structural units and explicitly reviewed 65 phrases. The independent verifier then proved that those 65 exact resolutions were applied and that the two known units no longer contained the known wrong members.
+A local correction to one structural unit or phrase family can expose a broader failure in the underlying semantic partition. Step12 must therefore revalidate global coherence after material boundary corrections instead of assuming that fixing the originally reported row/class is sufficient.
 
-That was still not enough.
+## Failure class
 
-During the later D12-28 current-content audit, other accepted units were found to contain incompatible terminal tasks, for example:
+A prior correction successfully repaired several locally identified assignments/actions, but phrase-level review showed that adjacent structural units still mixed materially different terminal user tasks.
+
+Generic conflict examples include:
 
 ```text
-BALCONY_RENOVATION_WITH_GLAZING
-  contains "ремонт балкона без остекления"
-
-PVC_DOOR_INFO
-  combines product/dimension/color questions with DIY adjustment/repair questions
-
-WINDOW_COMPONENT_SELECTION_INFO
-  combines handle selection with seal/gasket selection
-
-WINDOW_FINISHING_DIY_INFO
-  combines slopes, windowsill repair/installation and drip-cap installation
-
-WINDOW_HARDWARE_SELECTION_GUIDE
-  includes a seal-selection phrase inside a hardware-guide unit
+A service/bundle unit that also contains a standalone product task;
+a broad technical-information unit that also contains a repair/replacement task;
+a commercial unit that contains a DIY/how-to subtask;
+an accessory/product unit that contains a professional service task;
+a broad object unit that hides a more specific object/lifecycle boundary.
 ```
 
-Therefore the prior D12-27 PASS validated the **known regression set**, not global semantic coherence of every unit that could be affected by later evidence.
-
-## Exact failure
-
-The failed assumption was:
+### Root cause
 
 ```text
-KNOWN BAD EXAMPLES FIXED
-+ KNOWN REGRESSION SET = 0
-→ GLOBAL CLASS IS CLEAN
+KNOWN FAILURE SET
+WAS TREATED AS
+COMPLETE FAILURE UNIVERSE
 ```
 
-That implication is invalid.
-
-Permanent distinction:
+and:
 
 ```text
-KNOWN_REGRESSION_ZERO
-!= GLOBAL_SEMANTIC_COHERENCE_PASS
+LOCAL PATCH SUCCESS
+WAS TREATED AS
+GLOBAL SEMANTIC COHERENCE PROOF
 ```
 
-A regression list is a minimum non-repeat check. It is never proof that no other member of the affected analytical class violates the same rule.
+The correct control is an independent global phrase-level coherence pass after material structural corrections.
 
-## Root cause
+Concrete domains, phrase families, unit IDs, counts and correction batches remain Level-2 evidence.
 
-```text
-D12_27_REVIEW_SCOPE_WAS_LIMITED_TO_ALREADY_DISCOVERED_UNITS
-EXACT_PHRASE_REGRESSION_WAS_MISTAKEN_FOR_FULL_CLASS_REVALIDATION
-THE VERIFIER PROVED APPLICATION OF KNOWN RESOLUTIONS BUT DID NOT ADVERSARIALLY RECHALLENGE EVERY AFFECTED UNIT
-LATER CONTENT EVIDENCE WAS ALLOWED TO CHANGE ACTION/GAP STATE WITHOUT FORCING A NEW COHERENCE PASS ACROSS THE WHOLE AFFECTED CLASS
-```
+## Mandatory global review
 
-This is another instance of the same higher-level failure: the verifier checked the expected artifact mechanics but did not sufficiently try to falsify the remaining analytical boundaries.
+After any Step12 correction that changes structural-unit membership, boundaries, owner roles, content actions or route states materially, review the complete affected semantic universe with enough independence to detect **new conflict classes**, not only regress the known edits.
 
-## Permanent rule
-
-Whenever later material evidence changes, narrows, or challenges a decision class, every affected structural unit must be re-audited for member coherence before the class can receive a new PASS.
+For every active phrase/unit derive or re-check as applicable:
 
 ```text
-LATER EVIDENCE CHANGES / CHALLENGES UNIT INTERPRETATION
-→ IDENTIFY COMPLETE AFFECTED UNIT CLASS
-→ MATERIALIZE ALL MEMBER PHRASES FOR EVERY UNIT IN THAT CLASS
-→ RECHECK EACH MEMBER AGAINST TERMINAL USER TASK / OBJECT / FORMAT / EXPECTED OWNER
-→ SPLIT / REASSIGN / DEFER WRONG MEMBERS
-→ REBUILD UNIT COUNTS + ACTIONS + PHRASE MAP + LINKS + PAIR GRAPH
-→ INDEPENDENT VERIFIER RECOMPUTES COHERENCE FROM MEMBER PHRASES
-```
-
-The complete affected class may be narrower than all 160 units, but it must be defined by a causal criterion, not by a manually selected list of already-known mistakes.
-
-For example, D12-28 affects all units whose final action/content-gap diagnosis depends on a fresh current-content read. Therefore all 20 historical `QUALITY_GAP` units and all of their 322 member phrases must be challenged, not only the first unit that disproved its old action.
-
-## Required semantic fields for revalidation
-
-For every affected unit preserve:
-
-```text
-STRUCTURAL_UNIT_ID
-MEMBER_PHRASE_COUNT
-TERMINAL_USER_TASK
 PRIMARY_OBJECT
-EXPECTED_RESULT_OR_PAGE_ROLE
-ALL_MEMBER_PHRASES_REVIEWED = true
-MISFIT_MEMBER_COUNT
-MISFIT_PHRASES
-MISFIT_RESOLUTION
-COHERENCE_VERDICT = STRONG / PARTIAL / FAIL / EVIDENCE_INSUFFICIENT
+OBJECT_SCOPE
+USER_ACTION_OR_GOAL
+EXPECTED_TERMINAL_RESULT
+INTENT_MODE
+LIFECYCLE_STAGE
+EXECUTION_MODE
+BUSINESS_SCOPE_STATE
+CURRENT_STRUCTURAL_UNIT
+CURRENT_PAGE_ROLE / OWNER STATE
 ```
 
-A `STRONG` verdict cannot be obtained only because the unit survived a previous pass.
+Then test whether every structural unit is coherent under its accepted contract.
 
-## Fail-closed checks
+## Mandatory contradiction patterns
+
+Flag a unit when phrases inside it materially disagree on one or more of:
 
 ```text
-AFFECTED_UNITS_WITHOUT_FULL_MEMBER_REVIEW = 0
-KNOWN_MISFIT_PHRASES_LEFT_IN_ORIGINAL_UNIT = 0
-COHERENCE_PASS_DERIVED_ONLY_FROM_PRIOR_UNIT_ID = 0
-ACTION_OR_GAP_REBUILT_BEFORE_MEMBER_COHERENCE = 0
-AFFECTED_PHRASE_ACCOUNTING_MISMATCH = 0
-GLOBAL_ACCOUNTING_AFTER_REASSIGNMENT = 2332/2332 for current OKNO-MSK job
+terminal result;
+whole object vs component;
+product vs hired service;
+hired service vs DIY/how-to;
+buy vs repair vs replace vs maintain;
+commercial transaction vs neutral information;
+current business scope;
+page-role compatibility;
+current owner truth.
 ```
 
-Independent QA must include both:
+A modifier difference alone does not require a split unless the current domain/profile/evidence makes it material.
+
+## Correction procedure
+
+For each newly discovered coherence defect:
 
 ```text
-KNOWN REGRESSION ASSERTIONS
-AND
-AN ADVERSARIAL FULL-MEMBER REVIEW / RECOMPUTATION FOR THE COMPLETE AFFECTED CLASS
+1. record the defect class;
+2. identify all affected phrases/units, not only the trigger phrase;
+3. define the corrected task/structural boundary;
+4. reassign/mutate units according to current accepted method;
+5. recompute affected owner/action/link evidence;
+6. revalidate current page/content evidence where a material action changes;
+7. preserve old-to-new provenance;
+8. rerun global accounting;
+9. rerun global coherence review until no material new conflict class is discovered.
 ```
 
-## Current OKNO-MSK implication
+Do not stop merely because the originally reported examples now pass.
 
-The post-PASS audit adds a third open defect:
+## Accounting gate
+
+The current job must instantiate its own expected totals. Do not hard-code rehearsal numbers into this permanent method.
+
+Required pattern:
 
 ```text
-D12-30 = D12-27 correction proved the known 65-phrase regression set but did not establish global coherence for all units later affected by content-evidence revalidation.
+GLOBAL_ACCOUNTING_AFTER_REASSIGNMENT
+= CURRENT_JOB_ACTUAL_ACCOUNTED_TOTAL / CURRENT_JOB_EXPECTED_ACTIVE_TOTAL
 ```
 
-The 20 D12-28 units contain 322 member phrases and form the mandatory current affected class. Any additional units reached by phrase reassignment must also enter the revalidation graph before acceptance.
+Pass requires equality and zero silent drops.
 
-Until this passes:
+Where exact occurrence and unique-phrase universes both matter, reconcile both separately.
+
+## Impact propagation
+
+If phrase/unit membership changes, downstream artifacts that depend on the changed boundary must be invalidated or regenerated as applicable:
 
 ```text
-STEP12_COMPLETE = false
-STEP13_BLOCKED = true
+page ownership
+structural action
+content-gap state
+internal-link recommendation
+competing-page diagnosis inputs
+architecture freeze
+later AI-case selection
+priority records
 ```
+
+The exact downstream set is determined by the current roadmap and dependency trace.
+
+## Independent QA
+
+A valid global-coherence verifier must be capable of discovering an error not present in the original defect list.
+
+```text
+VERIFIER ONLY CHECKS KNOWN CORRECTIONS
+!= GLOBAL COHERENCE QA
+```
+
+Preferred outputs include:
+
+```text
+units reviewed
+phrases/rows reviewed
+new conflict classes found
+new affected rows
+reassignments
+splits/merges if authorized
+unresolved boundary rows
+accounting result
+unexpected changes
+```
+
+## Pass gate
+
+```text
+CURRENT_JOB_ACTIVE_TOTAL_ACCOUNTED = true
+SILENT_DROPS = 0
+UNEXPECTED_DUPLICATION = 0
+ALL MATERIAL CHANGED UNITS REVALIDATED = true
+GLOBAL COHERENCE REVIEW COMPLETE = true
+NEW MATERIAL CONFLICT CLASS IN FINAL PASS = 0
+AFFECTED DOWNSTREAM OUTPUTS REBUILT = true
+CURRENT PAGE/EVIDENCE GATES RE-RUN WHERE ACTION CHANGED = true
+FINAL INDEPENDENT QA = PASS
+GITHUB READBACK = PASS
+```
+
+A pass with unresolved newly discovered boundary conflicts is forbidden.
+
+## Permanent lesson
+
+```text
+LOCAL CORRECTION != GLOBAL CORRECTNESS
+KNOWN DEFECTS FIXED != FAILURE UNIVERSE EXHAUSTED
+ARITHMETIC ACCOUNTING != SEMANTIC COHERENCE
+```
+
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
 
 ## Markers
 
 ```text
-KW001_STEP12_KNOWN_REGRESSION_ZERO_NOT_EQUAL_GLOBAL_COHERENCE = true
-KW001_STEP12_LATER_EVIDENCE_REQUIRES_COMPLETE_AFFECTED_CLASS_REVIEW = true
-KW001_STEP12_FULL_MEMBER_REVIEW_REQUIRED_FOR_AFFECTED_UNITS = true
-KW001_STEP12_PRIOR_UNIT_ID_CANNOT_PROVE_COHERENCE = true
-KW001_STEP12_D12_27_LOCAL_REGRESSION_SCOPE_FAILURE_DOCUMENTED = true
+KW001_STEP12_GLOBAL_COHERENCE_GATE_ACTIVE = true
+KW001_STEP12_LOCAL_PATCH_NOT_EQUAL_GLOBAL_PASS = true
+KW001_STEP12_GLOBAL_PHRASE_OR_UNIT_REVIEW_REQUIRED_AFTER_MATERIAL_BOUNDARY_CHANGE = true
+KW001_STEP12_CURRENT_JOB_TOTALS_MUST_BE_PARAMETERIZED = true
+KW001_STEP12_DOWNSTREAM_IMPACT_PROPAGATION_REQUIRED = true
+KW001_STEP12_GLOBAL_QA_MUST_DISCOVER_NEW_CLASSES = true
 ```
