@@ -1,152 +1,132 @@
-# Step 12 — third-audit execution-order clarification
+# KW-001 — Step 12 third-audit execution-order clarification
 
 Date: 2026-08-31  
-Status: **APPROVED / ACTIVE / CANONICAL COMPANION TO `STEP_12_STRUCTURAL_ACTION_METHOD.md`**
+Updated: 2026-09-03  
+Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-REQUIRED**
 
 ## Purpose
 
-The third external audit added D12-21..D12-26 and the D12-27 phrase-level revalidation lesson to the permanent Step-12 method. One legacy sentence remained in Section 8 of `STEP_12_STRUCTURAL_ACTION_METHOD.md`:
+Clarify that when Step12 is reopened after a material methodological contradiction, the correction must be executed in a causally valid order. A verifier cannot certify outputs that were generated from stale boundaries, and a local patch cannot substitute for regeneration of the affected dependency graph.
+
+## Failure class and root cause
+
+A prior controlled correction exposed a risk of validating downstream rows before all upstream semantic/boundary changes had been fully materialized.
+
+Root cause:
 
 ```text
-Stage 12 — Define hierarchy/internal links for accepted new/split pages
-Only pages that survived Stage 10 receive new-page hierarchy.
+CORRECTION DISCOVERY
+AND
+CORRECTED-STATE REGENERATION
+AND
+INDEPENDENT VERIFICATION
+WERE NOT KEPT AS SEPARATE PHASES
 ```
 
-That wording is incomplete after D12-26. It correctly describes **new-page hierarchy**, but it can be misread as limiting internal-link implementation to new/split pages. The approved third-audit rule is broader: material relationships among existing pages must also become implementation-ready link actions.
+This can create a false PASS where the verifier checks artifacts that are internally consistent but still depend on pre-correction state.
 
-This file resolves that wording conflict without changing any other Step-12 boundary.
+Concrete job counts, phrase/unit IDs, URLs and regression totals belong in Level-2 evidence.
 
-## Canonical precedence
+## Mandatory correction order
 
-Where Section 8 Stage 12 of `STEP_12_STRUCTURAL_ACTION_METHOD.md` conflicts with this clarification, this clarification controls.
+When a Step12 third/reopen audit is required:
 
 ```text
-THIRD_AUDIT_EXECUTION_ORDER
-> LEGACY SECOND_AUDIT_STAGE_12_WORDING
+1. FREEZE CURRENT AUTHORITATIVE INPUTS
+2. REGISTER KNOWN DEFECT CLASSES + ROOT CAUSES
+3. RUN INDEPENDENT GLOBAL COHERENCE DISCOVERY
+4. MATERIALIZE ALL REQUIRED PHRASE/UNIT BOUNDARY CHANGES
+5. RECONCILE COMPLETE CURRENT INPUT ACCOUNTING
+6. REBUILD AFFECTED PAGE-ROLE / STRUCTURAL ACTION OUTPUTS
+7. RE-RUN CURRENT-PAGE CONTENT VALIDATION FOR CONTENT-CHANGING ACTIONS
+8. REBUILD AFFECTED INTERNAL-LINK ACTIONS
+9. RE-RUN SOURCE-CONTEXT + TARGET-FIT LINK VALIDATION
+10. PROPAGATE CHANGES TO ALL AFFECTED DOWNSTREAM ARTIFACTS
+11. RUN INDEPENDENT SEMANTIC / EVIDENCE QA ON THE REBUILT STATE
+12. RUN REGRESSION / ACCOUNTING QA
+13. PERSIST DIAGNOSTICS + OUTPUTS
+14. GITHUB READBACK
+15. ONLY THEN RESTORE STEP PASS
 ```
 
-All other permanent rules, defect history, evidence requirements, pass gates and Step-13 boundaries in `STEP_12_STRUCTURAL_ACTION_METHOD.md` remain in force.
+Do not verify an artifact and then later mutate an upstream boundary that determines the artifact.
 
-## Replacement execution meaning for Stage 12
+## Independence rule
 
-After the structural action and evidence-derived maturity/confidence have been selected:
-
-### A. Accepted NEW / SPLIT page actions
-
-Materialize implementation hierarchy, including as applicable:
+The final verifier must receive the rebuilt current evidence state, not an old action as proof of its own correctness.
 
 ```text
-PARENT URL / SECTION
-INBOUND LINK SOURCE(S)
-ANCHOR / LINK CONCEPT
-OUTBOUND SUPPORT / CHILD LINKS
-COMMERCIAL CONVERSION LINK WHEN INFORMATIONAL
-BREADCRUMB / NAVIGATION ROLE
+REBUILT RAW/CURRENT EVIDENCE
+-> RECOMPUTED EXPECTED DECISION
+-> COMPARE WITH FINAL GENERATED DECISION
 ```
 
-A new/split page is not implementation-ready if its place in the site graph is unknown.
+A verifier that merely checks final schema or that all fields agree is insufficient.
 
-### B. Material existing-page relationships
+## Global-coherence interaction
 
-For material `ROUTE`, `SECTION`, `EXPAND` and supporting-page relationships, materialize an internal-link implementation row with:
+`STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md` applies before final rebuild/acceptance when the correction is capable of exposing previously unknown task-boundary conflicts.
+
+The current-job regression proof must be stored in Level-2 artifacts and should demonstrate equivalent properties:
 
 ```text
-structural_unit_id
-source_url
-target_url
-link_action_state
-relation_type
-placement_context
-anchor_concept
-user_journey_purpose
-business_handoff
-evidence_origin
+CURRENT_JOB_EXPECTED_ACTIVE_TOTAL reconciles exactly;
+all affected units/rows are explicitly enumerated;
+known defect classes are corrected;
+new conflict classes from independent review are resolved or fail-closed;
+affected downstream artifacts are regenerated;
+unexpected changes are zero or explicitly reviewed.
 ```
 
-When current evidence does not justify a distinct source/target link, use an explicit state such as:
+Do not copy the current job's exact totals into this permanent rule.
+
+## Downstream invalidation rule
+
+When upstream Step12 membership/action changes materially, every downstream artifact whose input dependency intersects the changed set is no longer automatically valid.
 
 ```text
-NOT_APPLICABLE
-DEFER_SOURCE_CONTEXT_NOT_MATERIALIZED
+CHANGED INPUT
+-> CALCULATE IMPACT SET
+-> INVALIDATE / REBUILD AFFECTED DOWNSTREAM OUTPUTS
+-> DO NOT REUSE OLD PASS BLINDLY
 ```
 
-Do not invent a link, source page, target page, anchor or placement merely to satisfy coverage.
+Unchanged downstream artifacts may be retained only when the impact trace proves they are outside the changed dependency set.
 
-### C. Fail-closed coverage
-
-Before Step 12 can pass:
+## Pass gate
 
 ```text
-MATERIAL_ROUTE_WITHOUT_LINK_ACTION_OR_EXPLICIT_NA_DEFER = 0
-INTERNAL_LINK_TO_WITHDRAWN_PROPOSED_NEW_PAGE = 0
+KNOWN DEFECT ROOT CAUSES ADDRESSED = true
+GLOBAL COHERENCE DISCOVERY COMPLETE = true when applicable
+ALL REQUIRED BOUNDARY CHANGES MATERIALIZED = true
+CURRENT JOB ACCOUNTING RECONCILES = true
+AFFECTED STRUCTURAL ACTIONS REBUILT = true
+AFFECTED CONTENT EVIDENCE REVALIDATED = true
+AFFECTED LINK ACTIONS REBUILT = true
+AFFECTED DOWNSTREAM OUTPUTS REBUILT OR PROVEN UNAFFECTED = true
+INDEPENDENT QA = PASS
+REGRESSION QA = PASS
+UNEXPECTED CHANGES = 0 or explicitly accepted
+GITHUB READBACK = PASS
 ```
 
-Internal linking is therefore part of implementing the accepted structural graph, not a new-page-only SEO task.
-
-## Third-audit execution order
-
-The canonical order is:
+## Permanent lesson
 
 ```text
-1. OWNER GOAL + EVIDENCE SOURCE
-2. FULL PHRASE SET / COHERENT STRUCTURAL UNIT
-3. FRESH CURRENT-SITE + CONTENT-REUSE CHECK
-4. GAP TYPE DIAGNOSIS
-5. STRUCTURAL OWNER FIT
-6. PERFORMANCE EVIDENCE STATE
-7. REAL DEMAND
-8. INTENDED TARGET vs OBSERVED YANDEX RELEVANT URL
-9. SERP CONTENT TYPE / FORMAT / ANGLE WHEN MATERIAL
-10. KEEP / EXPAND / SECTION / ROUTE / REUSE BEFORE CREATE
-11. ACTION + STRUCTURAL-ONLY vs OPTIMIZATION-READY MEANING
-12. EVIDENCE-DERIVED CONFIDENCE / MATURITY
-13. HIERARCHY FOR NEW/SPLIT + INTERNAL-LINK IMPLEMENTATION FOR MATERIAL EXISTING-PAGE RELATIONS
-14. FULL PHRASE MAP
-15. DERIVED STEP-13 PAIR UNIVERSE
-16. INDEPENDENT QA + OWNER CHALLENGE
-17. GITHUB SAVE + STRUCTURED READBACK
-18. PLAIN-LANGUAGE OWNER REPORT
+PATCHED ROWS != CORRECTED SYSTEM
+VERIFIER BEFORE REBUILD != INDEPENDENT FINAL QA
+OLD DOWNSTREAM PASS != VALID AFTER UPSTREAM MUTATION
 ```
 
-## D12-27 falsification rule remains mandatory
-
-If later material evidence changes or narrows the understanding of a structural unit:
-
-```text
-MATERIAL LATER EVIDENCE CONTRADICTS OR NARROWS A STRUCTURAL UNIT
-→ REOPEN ALL MEMBER PHRASES
-→ REVIEW EACH PHRASE AGAINST TERMINAL USER TASK / PAGE EXPECTATION
-→ REASSIGN TO A VALID UNIT OR EXPLICIT NEW/DEFERRED UNIT
-→ RECOMPUTE ACTIONS / PHRASE MAP / INTERNAL LINKS / PAIR GRAPH
-→ INDEPENDENT EXACT-PHRASE REGRESSION
-```
-
-A previously accepted structural-unit ID is not evidence that its members remain coherent.
-
-## Current-job regression proof
-
-For OKNO-MSK, the accepted third-audit closure demonstrates this rule with:
-
-```text
-D12-21..D12-27 = VERIFIED_FIXED
-active phrases = 2332/2332 accounted
-D12-27 reviewed phrases = 65
-D12-27 reassigned phrases = 20
-material internal-link units = 66
-internal-link rows = 66
-independent findings = 0
-Step13 executed = false
-final GitHub readback = PASS
-```
-
-The current-job evidence proves the gate can be implemented; it does not turn OKNO-MSK-specific counts or URLs into universal thresholds.
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
 
 ## Markers
 
 ```text
-KW001_STEP12_THIRD_AUDIT_EXECUTION_ORDER_CLARIFICATION_ACTIVE = true
-KW001_STEP12_EXISTING_PAGE_INTERNAL_LINKS_REQUIRED_WHEN_MATERIAL = true
-KW001_STEP12_NEW_PAGE_HIERARCHY_AND_EXISTING_PAGE_LINKING_ARE_DISTINCT = true
-KW001_STEP12_NO_INVENTED_INTERNAL_LINKS = true
-KW001_STEP12_D12_27_FULL_MEMBER_REOPEN_ON_MATERIAL_CONTRADICTION = true
+KW001_STEP12_THIRD_AUDIT_ORDER_ACTIVE = true
+KW001_STEP12_DISCOVERY_BEFORE_REBUILD = true
+KW001_STEP12_REBUILD_BEFORE_FINAL_VERIFICATION = true
+KW001_STEP12_CURRENT_TOTALS_PARAMETERIZED = true
+KW001_STEP12_DOWNSTREAM_INVALIDATION_REQUIRED = true
+KW001_STEP12_CURRENT_JOB_REGRESSION_PROOF_STAYS_LEVEL2 = true
 ```
