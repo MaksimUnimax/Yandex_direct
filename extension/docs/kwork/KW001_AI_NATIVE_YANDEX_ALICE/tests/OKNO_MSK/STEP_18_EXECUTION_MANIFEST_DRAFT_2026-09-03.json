@@ -1,0 +1,267 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 18,
+  "step_name": "Prioritization",
+  "status": "PREPARED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "permanent_method_status": "UNVALIDATED",
+  "current_job_mode": "BASE_PUBLIC_EVIDENCE_MODE",
+  "roadmap_branch": "roadmap/kwork-productization-2026-08-28",
+  "preparation_start_head": "70dc2c3d7fe91d9310bc4681e0873628d0b476ed",
+  "method_authority": [
+    "../../STEP_RULES_INDEX.md",
+    "../../PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md",
+    "../../SOURCE_TO_METHOD_TRACEABILITY_GATE.md",
+    "../../RESEARCH_TO_EXECUTION_SCHEMA_GATE.md",
+    "../../STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md",
+    "../../WORKING_RUNBOOK_FOR_CHATGPT.md"
+  ],
+  "job_specific_method_artifacts": [
+    "STEP_18_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-09-03.md",
+    "STEP_18_SOURCE_TO_METHOD_TRACE.tsv",
+    "STEP_18_RESEARCH_TO_EXECUTION_SCHEMA.tsv"
+  ],
+  "research_authorities": [
+    "https://yandex.ru/support/webmaster/ru/epos",
+    "https://yandex.ru/support/webmaster/en/search-quality",
+    "https://yandex.ru/support/webmaster/en/service/statistics",
+    "https://yandex.ru/support/webmaster/en/service/popular-queries",
+    "https://yandex.ru/support/webmaster/en/service/queries-export",
+    "https://yandex.ru/support/metrica/en/general/goals",
+    "https://yandex.ru/support/metrica/en/content/entry-pages",
+    "https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers/",
+    "https://www.semrush.com/blog/seo-roadmap/",
+    "https://ahrefs.com/blog/keyword-strategy/",
+    "https://ahrefs.com/seo/keyword-research",
+    "https://www.semrush.com/blog/keyword-mapping/"
+  ],
+  "input_universe": {
+    "canonical_search_architecture": [
+      "STEP_14_REPORT.md",
+      "STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv",
+      "STEP_14_INTERNAL_LINK_ARCHITECTURE.tsv",
+      "JOB_FLOW_STEP14A_FINAL_SYNC_2026-09-02.md",
+      "STEP_14A_ARCHITECTURE_DELTA.tsv"
+    ],
+    "structural_lineage": [
+      "STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V6.tsv",
+      "STEP_12_PHRASE_ACTION_MAP_FINAL_V6.tsv"
+    ],
+    "search_boundary_lineage": [
+      "STEP_13_CONFLICT_DIAGNOSIS.tsv",
+      "STEP_13_REPORT.md"
+    ],
+    "ai_selection_and_evidence_lineage": [
+      "STEP_15_SELECTED_CASES_V2.tsv",
+      "STEP_16_OBSERVATION_LEDGER_FINAL.tsv",
+      "STEP_17_CASE_COMPARISON_LEDGER_V2_FINAL.tsv",
+      "STEP_17_V3_SCOPE_CONFIDENCE_LEDGER.tsv",
+      "STEP_17_CURRENT_STATE.json",
+      "STEP_17_V3_METHOD_STRENGTHENING_AND_REVALIDATION_2026-09-03.md"
+    ],
+    "business_scope": [
+      "JOB_MANIFEST.md",
+      "BUSINESS_AND_PAGE_MODEL.md"
+    ]
+  },
+  "known_accounting_targets": {
+    "active_phrases": 2332,
+    "assigned_phrases": 2313,
+    "preserved_unresolved_phrases": 19,
+    "structural_units": 168,
+    "step14_link_rows": 58,
+    "step14_implement_link_rows": 15,
+    "step14a_material_deltas": 21,
+    "step17_cases": 8,
+    "step17_content_expansion_candidates": 3,
+    "authorized_new_page_actions": 0,
+    "authorized_destructive_actions": 0
+  },
+  "action_universe_assembly": {
+    "precedence": [
+      "STEP14_STEP14A_CURRENT_ARCHITECTURE",
+      "STEP14_IMPLEMENT_LINKS",
+      "STEP17_V3_AI_CONTENT_OVERLAYS",
+      "CURRENT_JOB_CLIENT_CONSTRAINTS"
+    ],
+    "structural_action_handling": {
+      "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": "IMPLEMENTATION_CANDIDATE",
+      "ADD_SECTION_OR_FAQ_TO_EXISTING": "IMPLEMENTATION_CANDIDATE",
+      "EXPAND_EXISTING_PAGE": "IMPLEMENTATION_CANDIDATE",
+      "DEFER_PENDING_EVIDENCE": "HOLD_OR_RECHECK_UNLESS_LATER_ACCEPTED_OVERLAY_RESOLVES",
+      "KEEP_EXISTING_STRUCTURE": "PRESERVED_NO_ACTION_UNLESS_LATER_DISTINCT_OVERLAY",
+      "NO_STANDALONE_PAGE": "PRESERVED_NO_ACTION",
+      "OUTSIDE_SCOPE_NO_ACTION": "PRESERVED_NO_ACTION"
+    },
+    "step14a_rule": "ACCOUNT_21_OF_21_AND_OVERLAY_AFFECTED_CANONICAL_ACTION_WHEN_SAME_CHANGE",
+    "step17_rule": "ACCOUNT_8_OF_8_AND_ATTACH_AI_CONTENT_EVIDENCE_TO_EXISTING_ACTION_WHERE_POSSIBLE",
+    "dedup_rule": "ONE_IMPLEMENTATION_CHANGE_ONE_CANONICAL_ACTION_KEY_MULTIPLE_EVIDENCE_REFERENCES_ALLOWED",
+    "forbidden_resurrection": [
+      "NEW_PAGE",
+      "MERGE",
+      "DELETE",
+      "REDIRECT",
+      "CANONICAL_CONSOLIDATION"
+    ]
+  },
+  "priority_dimensions": [
+    "HUMAN_DEMAND",
+    "USER_TASK_IMPORTANCE",
+    "PUBLIC_BUSINESS_RELEVANCE",
+    "SEARCH_OPPORTUNITY",
+    "STRUCTURAL_RISK_URGENCY",
+    "EVIDENCE_STRENGTH",
+    "AI_DIAGNOSTIC_SUPPORT",
+    "IMPLEMENTATION_EFFORT",
+    "DEPENDENCY_READINESS",
+    "UNCERTAINTY_RECHECK_STATE"
+  ],
+  "allowed_priority_tiers": [
+    "P1_HIGH",
+    "P2_MEDIUM",
+    "P3_LATER",
+    "HOLD"
+  ],
+  "dependency_roles": [
+    "PREREQUISITE",
+    "INDEPENDENT",
+    "DOWNSTREAM"
+  ],
+  "priority_rules": {
+    "magic_numeric_score": "FORBIDDEN",
+    "low_demand_only_downgrade": "FORBIDDEN",
+    "evidence_strength_equals_business_impact": "FORBIDDEN",
+    "unknown_effort_guess": "FORBIDDEN",
+    "private_business_priority_guess": "FORBIDDEN",
+    "ai_only_architecture_promotion": "FORBIDDEN",
+    "hold_requires_named_uncertainty_and_recheck_trigger": true,
+    "p1_requires": "PREREQUISITE_OR_MATERIAL_USER_BUSINESS_SEARCH_STRUCTURAL_IMPACT_WITH_NO_BLOCKING_UNCERTAINTY",
+    "p2_requires": "VALID_MEANINGFUL_ACTION_WITHOUT_P1_BLOCKER_URGENCY_OR_WITH_MODERATE_RELATIVE_IMPACT_EVIDENCE",
+    "p3_requires": "VALID_NONBLOCKED_ACTION_WITH_LOWER_RELATIVE_URGENCY_IMPACT_OR_DOWNSTREAM_SEQUENCE",
+    "tie_break_order": [
+      "DEPENDENCY_PREREQUISITE_NECESSITY",
+      "USER_AND_PUBLIC_BUSINESS_IMPACT",
+      "STRUCTURAL_RISK_URGENCY",
+      "HUMAN_DEMAND_AND_SEARCH_OPPORTUNITY",
+      "EVIDENCE_STRENGTH_AND_UNCERTAINTY",
+      "IMPLEMENTATION_EFFORT_IF_KNOWN",
+      "BOUNDED_AI_DIAGNOSTIC_SUPPORT"
+    ]
+  },
+  "required_action_fields": [
+    "action_id",
+    "canonical_action_key",
+    "action_type",
+    "description",
+    "target_url_or_scope",
+    "source_step_ids",
+    "source_evidence_paths",
+    "affected_structural_unit_ids",
+    "affected_delta_ids",
+    "affected_step17_case_ids",
+    "human_demand",
+    "user_task_importance",
+    "public_business_relevance",
+    "search_opportunity",
+    "structural_risk_urgency",
+    "evidence_strength",
+    "ai_diagnostic_support",
+    "implementation_effort",
+    "dependency_role",
+    "depends_on_action_ids",
+    "uncertainty_state",
+    "priority_tier",
+    "priority_reason",
+    "limitations",
+    "recheck_trigger",
+    "client_confirmation_needed"
+  ],
+  "required_outputs_after_authorized_execution": [
+    "STEP_18_ACTION_REGISTER.tsv",
+    "STEP_18_PRIORITY_SUMMARY.tsv",
+    "STEP_18_HOLD_RECHECK_LEDGER.tsv",
+    "STEP_18_QA.json",
+    "STEP_18_REPORT.md",
+    "STEP_18_CURRENT_STATE.json",
+    "JOB_FLOW_STEP18_EXECUTION_SYNC_<DATE>.md"
+  ],
+  "private_sources": {
+    "webmaster": {
+      "requirement_class": "OPTIONAL_ENHANCEMENT",
+      "access_state": "UNAVAILABLE_IN_BASE_REHEARSAL",
+      "bridge_capability_state": "AVAILABLE_CONDITIONALLY",
+      "base_step18_blocked": false,
+      "forbidden_without_source": [
+        "HISTORICAL_TRAFFIC_LOSS_CLAIM",
+        "HISTORICAL_OWNER_SWITCHING_CLAIM",
+        "FIRST_PARTY_QUERY_URL_PERFORMANCE_PRIORITY"
+      ]
+    },
+    "metrika": {
+      "requirement_class": "OPTIONAL_ENHANCEMENT",
+      "access_state": "UNAVAILABLE_IN_BASE_REHEARSAL",
+      "bridge_capability_state": "AVAILABLE_CONDITIONALLY",
+      "base_step18_blocked": false,
+      "forbidden_without_source": [
+        "CONVERSION_BASED_PRIORITY",
+        "REVENUE_BASED_PRIORITY"
+      ]
+    },
+    "direct": {
+      "requirement_class": "OPTIONAL_ENHANCEMENT",
+      "access_state": "UNAVAILABLE_IN_BASE_REHEARSAL",
+      "bridge_capability_state": "AVAILABLE_CONDITIONALLY",
+      "base_step18_blocked": false,
+      "forbidden_without_source": [
+        "PAID_PERFORMANCE_BASED_PRIORITY"
+      ]
+    }
+  },
+  "provider_plan": {
+    "reuse_existing_evidence": true,
+    "planned_wordstat_calls": 0,
+    "planned_search_calls": 0,
+    "planned_gensearch_calls": 0,
+    "planned_webmaster_calls": 0,
+    "planned_metrika_calls": 0,
+    "planned_direct_calls": 0,
+    "planned_paid_cost_rub": 0.0,
+    "conditional_bridge_allowed_only_after_new_owner_authorization": true,
+    "information_gain_requirement_currently_identified": false
+  },
+  "claim_boundaries": [
+    "NO_RANKING_GUARANTEE",
+    "NO_TRAFFIC_OR_REVENUE_LIFT_GUARANTEE",
+    "NO_HISTORICAL_CANNIBALIZATION_HARM_CLAIM",
+    "NO_SITEWIDE_OR_STABLE_ALICE_VISIBILITY_CLAIM",
+    "NO_GENSEARCH_EQUALS_CONSUMER_ALICE_CLAIM",
+    "NO_PRIVATE_CLIENT_PRIORITY_OR_EFFORT_GUESS",
+    "NO_NEW_PAGE_OR_DESTRUCTIVE_ACTION_WITHOUT_ACCEPTED_UPSTREAM_REOPEN"
+  ],
+  "acceptance_requirements": {
+    "current_action_universe_accounted": true,
+    "structural_units_accounted": "168/168",
+    "step14a_material_deltas_accounted": "21/21",
+    "step14_link_rows_accounted": "58/58",
+    "step14_implement_links_accounted": "15/15",
+    "step17_cases_accounted": "8/8",
+    "step17_content_expansion_candidates_accounted": "3/3",
+    "silent_drops": 0,
+    "duplicate_canonical_actions": 0,
+    "magic_numeric_priority_score_used": false,
+    "private_client_priority_guesses": 0,
+    "unknown_effort_guesses": 0,
+    "ai_only_architecture_promotions": 0,
+    "unauthorized_new_page_actions": 0,
+    "unauthorized_destructive_actions": 0,
+    "every_p1_p2_has_evidence_reason_limitations": true,
+    "every_hold_has_recheck_trigger": true,
+    "forward_trace_pass": true,
+    "reverse_trace_pass": true,
+    "adversarial_qa_pass": true,
+    "final_github_readback": true
+  },
+  "execution_started": false,
+  "owner_authorization_received_for_execution": false,
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP18_EXECUTION"
+}
