@@ -1,6 +1,6 @@
 # KW-001 — UNIVERSAL RULES VS PER-JOB WORKSPACE
 
-Date updated: 2026-09-01  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
 This document defines the strict two-layer architecture for KW-001.
@@ -15,7 +15,7 @@ Permanent layer:
 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/
 ```
 
-This layer contains only reusable universal material for the Kwork itself, for example:
+This layer contains reusable universal material only, for example:
 
 ```text
 workflow/runbook
@@ -30,31 +30,30 @@ client private-access policy
 templates
 ```
 
-Mandatory Layer-A companion for client-owned Yandex data:
+Mandatory companions include:
 
 ```text
 CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md
+PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md
 ```
-
-This policy must be read and applied whenever a job reaches a step that can use client-private Yandex Webmaster evidence. The currently known mandatory access-check steps are 11, 12, 13 and 16. The base Kwork must remain executable without mandatory Webmaster access unless the owner explicitly changes the commercial product policy.
 
 ### Owner-lock rule
 
-**Universal rules do not change during execution of a concrete job unless the owner explicitly instructs ChatGPT to change/add/remove a universal rule.**
+Universal rules do not change during execution of a concrete job unless the owner explicitly instructs ChatGPT to change/add/remove a universal rule.
 
-Finding a possible defect during a job does **not** authorize ChatGPT to edit the permanent method.
+Finding a possible defect during a job does **not** itself authorize permanent-method mutation.
 
-Allowed behavior without owner instruction:
+Allowed without owner instruction:
 
 ```text
 identify possible universal-rule problem
-explain it in the owner-facing report
+explain it
 show evidence/sources
 propose a change
 WAIT
 ```
 
-Forbidden behavior without owner instruction:
+Forbidden without owner instruction:
 
 ```text
 automatically update universal runbook
@@ -63,7 +62,7 @@ automatically add prevent-repeat rules
 rewrite permanent methodology because one case behaved differently
 ```
 
-Only an explicit owner instruction such as `внеси это в общие правила`, `исправь методику`, `запиши это как постоянное правило` authorizes mutation of Layer A.
+Only explicit owner instruction authorizes Layer-A mutation.
 
 ---
 
@@ -77,7 +76,7 @@ Canonical future path:
 extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/work/<JOB_ID>/
 ```
 
-This is **not** a methodology directory. It is the complete working memory and execution history of one concrete job.
+This is not a methodology directory. It is the working memory and execution history of one concrete job.
 
 It may contain:
 
@@ -91,9 +90,7 @@ business/page model
 open client questions
 seed plans
 all words/phrases
-raw Wordstat evidence
-raw Search/SERP evidence
-raw GenSearch evidence
+raw provider evidence
 cleaned phrase tables
 review queues
 cluster candidates
@@ -101,7 +98,7 @@ page maps
 matrices
 step plans/checkpoints/status/acceptances
 intermediate calculations
-job-specific decisions and corrections
+job-specific decisions/corrections
 operator/provider execution records
 client deliverables/drafts
 revision records
@@ -128,13 +125,14 @@ owner-approved corrections to methodology
 ### Layer A must not contain
 
 ```text
-client domains
-client URLs
-client keyword lists
+client/test case identity
+client domains or URLs
+client keyword/product/service lists
 raw provider results
-case-specific matrices
-case-specific page maps
-case-specific conclusions
+case-specific matrices or page maps
+case-specific conclusions/counts/status
+case-specific provider receipts/costs
+case-specific commit/branch incidents as method inputs
 ```
 
 ### Layer B may contain
@@ -154,7 +152,7 @@ permanent prevent-repeat policy
 claims that a case-specific decision governs future jobs
 ```
 
-A job file may say `for this job we corrected X because Y evidence showed Z`; it must not say `therefore all future jobs must always do X` unless the owner has separately authorized that universal rule in Layer A.
+A job file may say `for this job we corrected X because Y evidence showed Z`; it must not say `therefore all future jobs must always do X` unless the owner separately authorized that universal rule in Layer A.
 
 ---
 
@@ -166,13 +164,13 @@ Before concrete analysis begins:
 1. create work/<JOB_ID>/;
 2. create JOB_MANIFEST.md;
 3. create/freeze the job's own working flow/brief;
-4. record the initial YANDEX_WEBMASTER_ACCESS_STATE without making it a purchase blocker;
-5. keep all later job-specific files inside this directory.
+4. record initial client-private access state without making it a purchase blocker unless product policy says otherwise;
+5. keep later job-specific files inside this directory.
 ```
 
 Do not scatter a client/job across the permanent Kwork layer.
 
-Initial private-access state is informational:
+Initial private-access state can use equivalent values:
 
 ```text
 UNKNOWN | UNAVAILABLE | AVAILABLE_NOT_GRANTED | GRANTED_NOT_READY | READY
@@ -184,9 +182,7 @@ UNKNOWN | UNAVAILABLE | AVAILABLE_NOT_GRANTED | GRANTED_NOT_READY | READY
 
 ## 5. Job lifecycle
 
-The job directory is temporary from the moment it is created.
-
-Lifecycle:
+The job directory is temporary from creation.
 
 ```text
 CREATE JOB DIRECTORY
@@ -196,9 +192,9 @@ CREATE JOB DIRECTORY
 → DELETE THE ENTIRE JOB DIRECTORY
 ```
 
-There is **no mandatory lesson-extraction or automatic universal-method update at job close**.
+There is no mandatory lesson extraction or automatic universal-method update at job close.
 
-If during the job the owner explicitly ordered a universal-rule change, that change is made directly in Layer A at that time. It is not dependent on final job cleanup.
+If during the job the owner explicitly ordered a universal-rule change, that change is made directly in Layer A at that time. It is not dependent on final cleanup.
 
 ---
 
@@ -211,47 +207,36 @@ job work complete = true
 final deliverable/handoff complete = true
 open revision/rework = false
 provider/operator action pending = false
-owner has not requested the workspace to be retained = true
+owner has not requested workspace retention = true
 safe_to_delete = true
 ```
 
-Then delete the entire directory from the repository.
-
-Do not retain old job directories merely as methodology history.
-
-Git history may of course contain old commits, but the active branch must not keep the closed workspace tree.
+Do not retain old job directories merely as methodology history. Git history may preserve past commits, but active branch policy follows the lifecycle rule.
 
 ---
 
-## 7. Current legacy OKNO-MSK workspace
+## 7. Legacy workspace handling
 
-Current active rehearsal already lives at:
+Older active rehearsals/jobs may already live under legacy paths such as:
 
 ```text
-extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/
+extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/<CASE_ID>/
 ```
 
-Do not move it mid-run merely for naming consistency.
+Do not move an active job mid-run merely for naming consistency when relocation itself would create avoidable state/provenance risk.
 
-Treat it exactly as Layer B:
+Treat every such legacy path exactly as Layer B:
 
 ```text
-contains only OKNO-MSK job evidence + workflow
+contains only that job's evidence + workflow
 is temporary
-is deleted completely after the job closes
+must not define universal rules
+is deleted under the normal close/deletion gate
 ```
 
-Future jobs use `work/<JOB_ID>/`.
+Concrete case IDs/access states belong inside that Level-2 workspace and must not be copied into this permanent lifecycle rule.
 
-For the current OKNO-MSK rehearsal, the owner has explicitly established:
-
-```text
-YANDEX_WEBMASTER_ACCESS_STATE = UNAVAILABLE
-YANDEX_WEBMASTER_PRIVATE_EVIDENCE_USED = false
-BASE_PUBLIC_EVIDENCE_MODE = true
-```
-
-This is a current-job fact recorded in Layer B; the reusable rule governing what that means lives in `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`.
+Future jobs use `work/<JOB_ID>/` unless owner-approved architecture changes.
 
 ---
 
@@ -267,20 +252,10 @@ current job JOB_FLOW.md / relevant step records
 previous step evidence/acceptance
 ```
 
-For Steps 11, 12, 13 and 16, the pre-step review must contain the access-state block required by `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` and must explain:
+For access-sensitive steps, apply the current access policy. If access is unavailable:
 
 ```text
-current access state
-why Webmaster can help in this step
-base path without access
-enhanced path with access
-whether the first-access comparison has already been completed
-```
-
-If access is unavailable:
-
-```text
-DO NOT BLOCK THE BASE JOB MERELY FOR THAT REASON
+DO NOT BLOCK A BASE JOB MERELY FOR THAT REASON WHEN POLICY ALLOWS BASE MODE
 DO NOT INVENT PRIVATE PERFORMANCE/HISTORY/OWNED-VISIBILITY CLAIMS
 CONTINUE UNDER THE BOUNDED BASE EVIDENCE MODE FOR THAT STEP
 ```
@@ -293,35 +268,35 @@ DO NOT EDIT LAYER A
 WAIT FOR EXPLICIT OWNER INSTRUCTION
 ```
 
-If self-audit finds a flaw only in the current job execution/artifact:
+If self-audit finds a flaw only in current job execution/artifact:
 
 ```text
-report it in the pre-step review
-correct the current job only after the normal owner authorization gate
+report it
+correct current job under the applicable authorization gate
 ```
 
 ---
 
-## 9. First real Webmaster access transition
+## 9. First real private-access transition
 
-The first future job whose access state becomes `READY` must not simply switch methods silently.
+The first future job whose relevant private-access state becomes usable must apply the controlled comparison defined by `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` before universal commercial/method claims are changed.
 
-Apply the mandatory controlled comparison in `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`:
+Canonical pattern:
 
 ```text
 freeze WITHOUT_ACCESS baseline first
 → persist/read back
-→ use delegated Webmaster evidence
+→ use delegated private evidence
 → create WITH_ACCESS result
-→ compare CHANGE / DE_RISK / NEW_FINDING / NO_CHANGE
+→ compare change/de-risk/new-finding/no-change
 → only after comparison consider changing universal product policy
 ```
 
-The same first-access event also triggers a governed Webmaster Bridge capability review. It does not authorize speculative implementation of every available Webmaster API method.
+A first-access event may trigger a governed Bridge capability review. It does not authorize speculative implementation of every available API method.
 
 ---
 
-Markers:
+## Markers
 
 ```text
 KW001_TWO_LAYER_ARCHITECTURE_ACTIVE = true
@@ -334,6 +309,7 @@ KW001_JOB_WORKSPACE_DELETE_AFTER_CLOSE = true
 KW001_FUTURE_JOB_PATH = work/<JOB_ID>/
 KW001_CLIENT_PRIVATE_YANDEX_ACCESS_POLICY_REQUIRED = true
 KW001_WEBMASTER_ACCESS_NOT_REQUIRED_FOR_BASE_JOB = true
-KW001_WEBMASTER_ACCESS_CHECK_REQUIRED_STEPS_11_12_13_16 = true
-KW001_FIRST_READY_WEBMASTER_JOB_REQUIRES_COMPARISON = true
+KW001_FIRST_READY_PRIVATE_ACCESS_JOB_REQUIRES_COMPARISON = true
 ```
+
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
