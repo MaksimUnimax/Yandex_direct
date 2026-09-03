@@ -3,31 +3,55 @@
   "job": "OKNO_MSK",
   "step": 18,
   "step_name": "Prioritization + implementation readiness",
-  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__IMPLEMENTATION_READINESS_GOVERNED__EXPECTED_PRIORITY_PENDING_CALIBRATION__FINAL_READBACK_SEALED__STEP19_PRESTEP_ALLOWED",
+  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__STEP20_CURRENT_CONTENT_CORRECTION_APPLIED__IMPLEMENTATION_SCHEDULE_PENDING_CALIBRATION",
   "permanent_method_status": "APPROVED_ACTIVE",
   "permanent_method_authority": "STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md",
   "owner_authorization": {
     "step18_execution_received": true,
     "post_audit_permanent_rule_correction_received": true,
     "post_audit_step18_correction_received": true,
+    "step20_defect_correction_received": true,
+    "step20_defect_correction_scope": ["D20-002", "D20-003"],
     "provider_call_authorization": false
   },
   "analytical_priority": {
-    "state": "COMPLETE_PASS",
+    "state": "COMPLETE_PASS_WITH_HIGHER_PRECEDENCE_CURRENT_CONTENT_OVERLAY",
     "interpretation": "IDEAL_ANALYTICAL_PRIORITY",
     "action_register_rows": 34,
     "priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
     "hold_source_units": 20,
-    "reported_as_final_implementation_schedule": false
+    "reported_as_final_implementation_schedule": false,
+    "base_action_register": "STEP_18_ACTION_REGISTER.tsv",
+    "current_content_correction_overlay": "STEP_18_STEP20_CURRENT_CONTENT_CORRECTION_OVERLAY.tsv",
+    "overlay_precedence": "A012_AND_A027_FIELDS_IN_OVERLAY_SUPERSEDE_MATCHING_BASE_ACTION_FIELDS"
+  },
+  "step20_current_content_corrections": {
+    "D20-002": {
+      "action_id": "S18-A012",
+      "status": "CORRECTED",
+      "current_truth": "Door price/price-estimation guidance is already materially present.",
+      "corrected_action": "Retain existing price/price-estimation guidance and strengthen only still-missing door-specific professional installation scope/process.",
+      "do_not_do": "Do not duplicate existing price factors/calculator/measurer guidance."
+    },
+    "D20-003": {
+      "action_id": "S18-A027",
+      "status": "CORRECTED",
+      "current_truth": "A concise French-window definition is already materially present.",
+      "corrected_action": "Do not add a duplicate basic definition; only residual naming/distinction guidance may be folded into S18-A009 if still missing.",
+      "dependency": "S18-A009"
+    }
   },
   "work_packages": {
-    "state": "COMPLETE",
+    "state": "COMPLETE_WITH_HIGHER_PRECEDENCE_STEP20_OVERLAY",
     "total": 112,
     "exact_action_packages": 31,
     "exact_internal_link_packages": 15,
     "exact_route_packages": 46,
     "exact_hold_recheck_packages": 20,
-    "artifact": "STEP_18_WORK_PACKAGE_REGISTER.json"
+    "base_artifact": "STEP_18_WORK_PACKAGE_REGISTER.json",
+    "current_correction_overlay": "STEP_18_STEP20_WORK_PACKAGE_CORRECTION_OVERLAY.tsv",
+    "corrected_package_ids": ["S18-WP-A012", "S18-WP-A027"],
+    "overlay_precedence": "CORRECTED_PACKAGE_FIELDS_SUPERSEDE_MATCHING_BASE_PACKAGE_FIELDS"
   },
   "implementation_readiness": {
     "state": "PARTIAL_NOT_SCHEDULE_READY",
@@ -37,7 +61,8 @@
     "capacity_state": "UNKNOWN_FOR_NON_HOLD_PACKAGES",
     "expected_implementation_priority": "PENDING_CALIBRATION",
     "final_calendar_or_sprint_schedule_ready": false,
-    "artifact": "STEP_18_IMPLEMENTATION_CALIBRATION.json"
+    "artifact": "STEP_18_IMPLEMENTATION_CALIBRATION.json",
+    "corrected_exact_package_surface": "STEP_18_STEP20_WORK_PACKAGE_CORRECTION_OVERLAY.tsv"
   },
   "measurement": {
     "state": "DEFINED",
@@ -53,6 +78,8 @@
     "step17_cases": "8/8",
     "step17_content_expansion_candidates": "3/3",
     "preserved_unresolved_phrases": "19/19",
+    "action_rows": "34/34",
+    "work_packages": "112/112",
     "silent_drops": 0,
     "duplicate_canonical_actions": 0
   },
@@ -79,23 +106,20 @@
     "new_paid_cost_rub": 0.0,
     "unauthorized_provider_calls": 0
   },
-  "post_audit_outputs": [
-    "STEP_18_WORK_PACKAGE_REGISTER.json",
-    "STEP_18_IMPLEMENTATION_CALIBRATION.json",
-    "STEP_18_MEASUREMENT_PLAN.tsv",
-    "STEP_18_POST_AUDIT_CORRECTION_QA_2026-09-03.json",
-    "STEP_18_POST_AUDIT_CORRECTION_REPORT_2026-09-03.md"
-  ],
-  "final_github_readback_after_post_audit_correction": true,
-  "final_readback_qa_status": "PASS_FINAL_GITHUB_READBACK",
-  "final_readback_seal_artifact": "STEP_18_FINAL_POST_AUDIT_READBACK_SEAL_2026-09-03.json",
-  "step_verdict": "MODE_A_ANALYTICAL_PRIORITY_COMPLETE_PASS__MODE_B_IMPLEMENTATION_SCHEDULE_PENDING_REAL_CALIBRATION",
-  "next_step_allowed": true,
-  "step19": {
-    "prestep_allowed": true,
-    "permanent_method_status": "UNVALIDATED",
-    "execution_authorized": false,
-    "handoff_claim_requirement": "P1/P2/P3 must be labelled analytical priority; final implementation schedule remains pending owner/effort/capacity calibration."
+  "step20_defect_correction": {
+    "qa_artifact": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
+    "successful_workflow_run": 33765988306,
+    "correction_data_persisted": true,
+    "step20_rerun_required": true,
+    "step21_allowed": false
   },
-  "next_legal_action": "STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW_ONLY"
+  "step_verdict": "MODE_A_ANALYTICAL_PRIORITY_COMPLETE_PASS_WITH_STEP20_CURRENT_CONTENT_CORRECTIONS__MODE_B_IMPLEMENTATION_SCHEDULE_PENDING_REAL_CALIBRATION",
+  "next_step_allowed": false,
+  "workflow_boundary": {
+    "step19_correction_applied": true,
+    "step20_previous_execution_verdict": "CORRECTION_REQUIRED",
+    "step20_rerun_authorized": false,
+    "step21_started": false
+  },
+  "next_legal_action": "FINAL_READBACK_OF_STEP18_STEP19_CORRECTION__THEN_OWNER_AUTHORIZATION_FOR_STEP20_RERUN"
 }
