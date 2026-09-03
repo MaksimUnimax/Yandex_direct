@@ -1,116 +1,129 @@
 # 03 — Semantic core workbook
 
-Status: **CLIENT LOGICAL DELIVERABLE / LOSSLESS SOURCE-BUNDLE VIEW**  
-Date: 2026-09-03
+Status: **CLIENT PHYSICAL DELIVERABLE / MATERIALIZED DERIVED VIEW / CANONICAL SOURCES PRESERVED**  
+Date: 2026-09-03  
+Post-external-audit correction: **APPLIED**
 
-## What this deliverable is
+## What changed after the external method audit
 
-The accepted semantic core is intentionally **not copied into a new manually maintained 2332-row table**. Copying the same phrase decisions into a second hand-built table would create a divergence risk and violate the Step19 canonical-data rule.
+The first Step19 pass made a correct data-governance decision — do not create a second hand-maintained semantic truth — but implemented that principle incorrectly. It left this deliverable as a join guide that required the recipient to combine internal Step8/10/11 files manually.
 
-The client-facing logical workbook is therefore a lossless three-layer bundle joined by the exact `phrase` key:
+That implementation is superseded.
 
-1. **Demand + original provenance layer** — `STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv`
-2. **Final active task/cluster assignment layer** — `STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv`
-3. **Current phrase → page/state layer** — `STEP_11_PHRASE_PAGE_MAP.tsv`
+The corrected client deliverable is the physical workbook:
 
-These existing canonical TSVs are part of logical deliverable 03 and remain the row-level authority. This guide explains how to read them together.
+```text
+STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx
+sheet: 03_Semantic_Core
+```
+
+The sheet contains the actual **2332 active phrase rows** materialized mechanically from the accepted canonical authorities. The client no longer needs to perform a manual JOIN to see the promised phrase → task → page map.
+
+The canonical authorities remain:
+
+1. `STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv` — demand/provenance lineage;
+2. `STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv` — task/cluster assignment lineage;
+3. `STEP_11_PHRASE_PAGE_MAP.tsv` — current accepted phrase → page/state authority.
+
+The XLSX is explicitly a **DERIVED / MATERIALIZED client view**, not a competing source of truth. Corrections must be made upstream and the workbook regenerated.
+
+## Correct canonicality rule
+
+```text
+DO NOT HAND-MAINTAIN A SECOND TRUTH
+!=
+DO NOT MATERIALIZE A CLIENT VIEW
+```
+
+Correct implementation:
+
+```text
+CANONICAL SOURCES
+-> DETERMINISTIC MATERIALIZATION
+-> CLIENT XLSX
+-> ROW/ID/HASH QA
+```
+
+The deterministic builder is persisted as:
+
+`step19_materialize_client_data.py`
+
+The correction data build was independently checked in GitHub Actions run `33752050742` and persisted to the roadmap branch.
 
 ## Accounting
 
 ```text
-MASTER EXACT PHRASE KEYS = 2840
-ACTIVE PHRASE ROWS = 2332
-CURRENT PHRASE→PAGE ROWS = 2332
+MASTER EXACT PHRASE KEYS UPSTREAM = 2840
+ACTIVE PHRASE ROWS MATERIALIZED IN XLSX = 2332
+CURRENT PHRASE→PAGE ROWS MATERIALIZED = 2332
 PRESERVED UNRESOLVED / SEARCH_REQUIRED = 19
 SILENT ACTIVE PHRASE DROPS = 0
 ```
 
-The inactive/excluded rows remain in the Step08 master table for auditability and are not silently deleted from history.
+The inactive/excluded Step08 rows remain preserved upstream for auditability; they are not silently converted into active client rows.
 
-## Join contract
+## Materialized fields
 
-Canonical key:
+The physical `03_Semantic_Core` sheet includes, in one filterable row-level view:
 
-```text
-phrase
-```
-
-Required relationship:
-
-```text
-STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv
-  phrase
-  + corrected_status / corrected_reason
-  + source_occurrences
-  + result_occurrences / association_occurrences
-  + max_result_count / max_association_count
-  + source_ids / provenance
-  + search_stage_disposition / next_resolution_route
-
-JOIN phrase ->
-
-STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv
-  phrase
-  + effective_intent_group
-  + final_cluster_id
-  + status
-  + confidence
-  + classification_reason / search evidence
-
-JOIN phrase ->
-
-STEP_11_PHRASE_PAGE_MAP.tsv
-  phrase
-  + effective_status
-  + effective_cluster_id
-  + target_page_state
-  + target_url
-  + ownership_confidence
-  + phrase_coherence
-  + correction_source
-  + reason
-  + lineage_status
-```
-
-For active phrases, the Step11 row is the current page/state authority when an older cluster-level representation conflicts with it.
+- phrase;
+- observed Wordstat/provider result/association counts;
+- explicit demand-semantics boundary;
+- source occurrences and provenance;
+- Step08 Search-stage disposition;
+- Step10 assignment status/cluster/confidence/evidence lineage;
+- current Step11 assignment status and cluster;
+- user task / intent / business fit;
+- current target URL;
+- ownership state and confidence;
+- mapping applicability and reason;
+- correction/evidence provenance;
+- explicit materialized-view status.
 
 ## Demand semantics
 
-`max_result_count`, `max_association_count` and related fields are preserved as the observed Wordstat/provider counts from the accepted acquisition/cleanup lineage.
-
-They are **not relabelled as exact-match frequency** unless the underlying provider request actually used exact operator semantics. Client interpretation should therefore be:
+Provider counts remain labelled as observed counts.
 
 ```text
-DEMAND SIGNAL / WORDSTAT OBSERVED COUNT
+WORDSTAT OBSERVED COUNT
 != GUARANTEED EXACT QUERY FREQUENCY
 ```
 
+They are not relabelled as exact-match frequency unless the underlying provider request actually used the required exact operator semantics.
+
 ## Page mapping semantics
 
-`target_url` means the intended current SEO/page owner selected by the accepted analytical workflow. It does **not** automatically mean that Yandex Webmaster or current organic ranking proved the same URL for that phrase.
+`current_target_url` means the current intended SEO/page owner selected by the accepted analytical workflow. It does **not** automatically mean that Yandex Webmaster or current organic ranking has proved that same URL for every phrase.
 
-Where the state is unresolved, the workbook preserves the unresolved state instead of manufacturing a page.
+Private Webmaster/Metrika evidence was not used in the base-public rehearsal. Where a phrase remains unresolved, the workbook preserves `SEARCH_REQUIRED` instead of manufacturing a target.
 
 ## Current architecture overlay
 
-Page/action implementation should be read together with:
+Implementation should be read together with:
 
-- `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE.tsv`
-- `STEP_14A_ARCHITECTURE_DELTA.tsv`
-- `STEP_19_05_PAGE_ACTION_MAP.tsv`
+- workbook sheet `02_Page_Model`;
+- workbook sheet `05_Page_Actions`;
+- workbook sheet `07_Priority_Plan`;
+- workbook sheet `Execution_Calibration`;
+- workbook sheet `Measurement`;
+- canonical Step14/Step14A authorities for exact affected page boundaries.
 
-Step14A later current-site discoveries override only the explicitly affected page/task boundaries. Unaffected accepted phrase mappings remain inherited.
+Later explicit Step14A discoveries override only the governed boundaries they actually affect. Unaffected accepted decisions remain inherited.
 
 ## Client usage
 
-For semantic/content implementation:
+The corrected usage is now:
 
-1. Start with `STEP_11_PHRASE_PAGE_MAP.tsv` to see the current page/state for every active phrase.
-2. Join by exact `phrase` to `STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv` for task/cluster context.
-3. Join by exact `phrase` to `STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv` for accepted demand/provenance context.
-4. Use `STEP_19_05_PAGE_ACTION_MAP.tsv` for what should actually be changed.
-5. Use `STEP_19_07_PRIORITY_ACTION_PLAN.tsv` for analytical importance and calibration status.
+1. Open `STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx`.
+2. Use `03_Semantic_Core` directly; filter/sort the materialized rows — **no manual repo join is required**.
+3. Use `02_Page_Model` for the 15-direction page-role view.
+4. Use `05_Page_Actions` for the exact supported page/action changes and do-not-do boundaries.
+5. Use `07_Priority_Plan` for analytical importance.
+6. Use `Execution_Calibration` for the 112 exact work packages and real owner/effort/capacity calibration.
+7. Use `Measurement` for implementation acceptance and future measurement routes.
 
 ## Claim boundary
 
-This workbook is an evidence-backed semantic/page map. It is not a ranking guarantee, traffic forecast, revenue forecast, or committed development schedule.
+This workbook is an evidence-backed semantic/page/action implementation interface. It is not a ranking guarantee, traffic forecast, revenue forecast or committed development schedule.
+
+The implementation sequence remains `PENDING_CALIBRATION` until real owner/effort/capacity/dependency inputs are supplied.
