@@ -1,212 +1,211 @@
 # KW-001 — Codex deterministic execution reliability gate addendum
 
 Date: 2026-09-02  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL PROCESS ADDENDUM / OWNER-APPROVED / OWNER-LOCKED**
 
 ## Purpose
 
 A deterministic crawler or evidence runner is useful only if the process can be shown to terminate, expose progress, classify failure, and produce outputs attributable to the current run.
 
-A successful isolated network request does not prove that the full crawler is executable.
+A successful isolated network request does not prove that the full runner is executable.
 
 Canonical non-equivalences:
 
 ```text
-SINGLE_REQUEST_HTTP_200 != CRAWLER_EXECUTION_RELIABLE
+SINGLE_REQUEST_HTTP_200 != RUNNER_EXECUTION_RELIABLE
 RUNNER_STARTED != RUNNER_COMPLETED
 NO_ERROR_STREAM != SUCCESS
 PROCESS_STILL_SILENT != PROCESS_HEALTHY
 OLD_OUTPUT_FILE_PRESENT != CURRENT_RUN_OUTPUT_PRODUCED
 ```
 
-This rule was added after the OKNO_MSK Step-14A Codex execution on 2026-09-02. The runner initially failed before fetching because of a TLS/opener argument bug. After that bug was corrected, isolated public HTTPS access to the homepage returned HTTP 200 HTML, but subsequent bounded crawler runs produced neither a completion nor a terminal error stream and did not update the required output artifacts. The correct response was to withhold Step-14A PASS.
+## Why this rule exists
 
-The lesson is causal: network reachability had been tested, but crawler termination/reliability had not.
+A prior controlled execution exposed the following reusable failure class: an evidence runner first failed during client construction, later passed an isolated live request, but a broader bounded run did not reach a terminal state or update the required outputs. Withholding analytical PASS was correct.
+
+### Root cause
+
+```text
+NETWORK REACHABILITY
+WAS TREATED AS A PROXY FOR
+FULL RUNNER TERMINATION / RELIABILITY
+```
+
+The missing control was a staged qualification ladder that proves each independent execution surface before site-scale or corpus-scale work.
+
+Concrete domains, timestamps, commit IDs, URLs and run results belong in Level-2 incident evidence and are not part of this universal rule.
 
 ---
 
-# 1. What the failure proved and did not prove
+## 1. What an isolated successful request proves
 
-The isolated diagnostic proved only:
+It may prove only the bounded network/fetch fact that was actually tested.
 
-```text
-PUBLIC_SITE_TLS_HTTP_REACHABILITY = AVAILABLE for the tested request
-```
-
-It did not prove:
+It does not prove:
 
 ```text
-crawl queue terminates;
-URL deduplication terminates;
-sitemap traversal terminates;
-redirect handling terminates;
-HTML parsing terminates;
-all per-request timeouts are bounded;
-output finalization executes;
+queue termination;
+URL/item deduplication termination;
+recursive discovery termination;
+redirect handling termination;
+parser termination;
+per-request bounds;
+output finalization;
 required artifacts belong to the current run.
 ```
 
-Therefore the correct failure classification is an execution-reliability blocker, not a site-unavailable blocker and not a successful crawl.
+Therefore a broader non-terminating execution is an execution-reliability blocker, not proof that the source is unavailable and not a successful collection.
 
 ---
 
-# 2. Mandatory staged execution before a full deterministic crawl
+## 2. Mandatory staged qualification before a full deterministic run
 
-When a new or materially changed Codex crawler/runner is required for acceptance, the following stages are mandatory.
+When a new or materially changed deterministic runner is required for acceptance, qualify applicable stages in order.
 
-## Stage A — static / construction smoke
+### Q1 — construction/static smoke
 
-Before public requests:
+Before production requests:
 
-- import/instantiate the runner and HTTP client/opener path;
-- exercise URL normalization and same-site classification on fixed examples;
-- exercise queue/deduplication termination on a tiny synthetic graph when practical;
-- verify CLI/config parsing for explicit bounds;
-- verify the runner can produce a terminal state and diagnostics even on controlled failure.
+```text
+runner imports/starts;
+client/opener construction succeeds;
+normalization/scope classification terminates on fixed examples;
+explicit bounds/config parse successfully;
+controlled failure produces an observable terminal state.
+```
 
-A previously observed construction bug, such as the Step-14A TLS/opener argument failure, must receive a regression check when practical.
+Known implementation bugs should receive regression checks when practical.
 
-## Stage B — one-page live smoke
+### Q2 — one-item live fetch/parse/exit
 
-Fetch exactly one known public HTML page with explicit timeout and no recursive expansion.
+Run exactly one known bounded item with recursion disabled or equivalent one-item configuration.
 
 Required evidence:
 
 ```text
-request attempted;
-terminal status recorded;
-HTTP/fetch state recorded;
-content type recorded;
-HTML parse completed;
-internal href extraction completed;
-process exited cleanly within the configured bound.
+attempt recorded;
+terminal fetch state recorded;
+content/protocol state recorded;
+parser returned;
+extraction returned;
+runner exited within configured bounds;
+diagnostic output belongs to current run.
 ```
 
-`HTTP 200` without parser/termination evidence is insufficient.
+An ad hoc request outside the runner does not substitute for Q2.
 
-## Stage C — bounded mini-crawl
+### Q3 — finite mini-run
 
-Run a deliberately small crawl, normally a small fixed `max_pages` / equivalent bound, sufficient to exercise:
+Run a deliberately small explicit bound sufficient to exercise real iteration/queue expansion.
+
+It must demonstrate, where applicable:
 
 ```text
-queue expansion;
+queue/input expansion;
 deduplication;
-relative/absolute href handling;
-redirect/final URL handling;
-page ledger write;
-link-graph write;
-progress/checkpoint emission;
+normalization;
+multiple item completion;
+profile/data writes;
+edge/relation writes;
+progress/checkpoint updates;
 normal terminal completion.
 ```
 
-The exact page count is implementation-specific, but the bound must be small and explicit.
+The exact item count is implementation-defined. It must be finite and large enough to exercise the recursion/iteration path.
 
-A full-site crawl is blocked until the mini-crawl reaches a clean terminal state.
+### Q4 — alternate discovery/source probe
 
-## Stage D — sitemap probe
+If the full runner has a materially different acquisition path such as sitemap recursion, archive traversal, pagination or secondary indexes, test that path separately under explicit bounds.
 
-Sitemap discovery/parsing must be tested separately enough to distinguish sitemap problems from normal HTML crawl problems.
+### Q5 — full run
 
-A pathological sitemap or sitemap index must not be allowed to create an unbounded run.
-
-## Stage E — full crawl
-
-Only after Stages A-D pass may the full deterministic crawl run.
+Only after Q1-Q4 pass may the full deterministic evidence run execute.
 
 ---
 
-# 3. Observability is part of correctness
+## 3. Observability is part of correctness
 
-A crawler used as acceptance evidence must expose enough state to diagnose a stall without guessing.
+A runner used as acceptance evidence must expose enough state to diagnose a stall without guessing.
 
-At minimum the runner must make observable:
-
-```text
-run_id;
-start timestamp;
-current phase;
-URLs queued;
-URLs dequeued/attempted;
-URLs completed;
-URLs failed/indeterminate;
-current URL or latest completed URL where safe;
-last progress timestamp;
-configured page/time bounds;
-terminal state;
-terminal reason.
-```
-
-Progress may be written to stdout/stderr, a dedicated diagnostic/checkpoint file, or both.
-
-Required principle:
+At minimum preserve equivalent fields:
 
 ```text
-SILENT_LONG_RUNNING_PROCESS_WITHOUT_HEARTBEAT
-!=
-ACCEPTABLE DETERMINISTIC EVIDENCE RUN
+run_id
+phase
+started_at
+last_progress_at
+configured_request_timeout
+configured_retry_bound
+configured_item_bound_if_any
+configured_global_deadline
+queued_or_planned_count
+attempted_count
+completed_count
+failed_or_indeterminate_count
+latest_completed_item_or_cursor
+current_output_stage
+terminal_state
+terminal_reason
+finished_at
 ```
 
-The exact progress interval may be implementation-specific, but it must be frequent enough to distinguish active progress from a stall.
+Canonical rule:
+
+```text
+NO TERMINAL STATE + NO OBSERVABLE PROGRESS
+-> RESULT = INVALID / BLOCKED
+```
 
 ---
 
-# 4. Hard bounds and termination
+## 4. Hard bounds and termination
 
-Every network request must have an explicit timeout.
+Every external request must have an explicit timeout.
 
-The overall run must also have a bounded completion policy so a stalled queue/parser/finalizer cannot wait indefinitely.
+The overall run must have a bounded completion policy so a stalled queue/parser/finalizer cannot wait indefinitely.
 
-At minimum support equivalent controls for:
+Use equivalent controls for applicable surfaces:
 
 ```text
 per-request timeout;
 bounded retries;
-maximum pages or equivalent discovery safety bound for smoke/diagnostic modes;
-overall wall-clock deadline or watchdog;
-maximum redirect handling;
-finite sitemap traversal / deduplication.
+maximum items/pages for diagnostic modes;
+overall deadline/watchdog;
+maximum redirects;
+finite recursion/deduplicated frontier.
 ```
 
-If a full production crawl intentionally has no low `max_pages`, it still requires a global safety/termination mechanism and deduplicated finite URL frontier.
-
-A deadline hit must produce an explicit bounded state such as:
-
-```text
-TIMEOUT_BLOCKED
-```
-
-not a silent disappearance.
+A deadline hit must produce a terminal bounded state such as `TIMEOUT_BLOCKED`, not silence.
 
 ---
 
-# 5. Output attribution and stale-output protection
+## 5. Output attribution and stale-output protection
 
-Required acceptance artifacts must not be mistaken for outputs of the current run merely because files already exist.
+Required artifacts cannot be accepted merely because files already exist.
 
-Each run must make it possible to prove output attribution using equivalent evidence such as:
-
-```text
-run_id;
-started_at;
-finished_at;
-input/config identity;
-output row counts;
-current-run file update/write evidence;
-terminal status.
-```
-
-Recommended execution discipline:
+Each run must make output attribution possible through equivalent evidence such as:
 
 ```text
-CURRENT RUN writes temporary/staging outputs
--> current run reaches terminal success
--> deterministic QA passes
--> atomically/prominently publish required final artifacts
+run_id
+started_at
+finished_at
+input/config identity
+output counts
+current-run write/update evidence
+terminal status
 ```
 
-A failed or incomplete diagnostic run must not overwrite previously accepted required artifacts with partial data.
+Preferred discipline:
 
-Canonical rule:
+```text
+CURRENT RUN -> STAGING OUTPUTS
+-> TERMINAL SUCCESS
+-> DETERMINISTIC QA
+-> PUBLISH FINAL REQUIRED ARTIFACTS
+```
+
+A failed diagnostic run must not overwrite previously accepted final artifacts with partial data.
 
 ```text
 OUTPUT_FILE_EXISTS != CURRENT_RUN_SUCCESS
@@ -214,42 +213,40 @@ OUTPUT_FILE_EXISTS != CURRENT_RUN_SUCCESS
 
 ---
 
-# 6. Failure isolation
+## 6. Failure isolation
 
-When a full runner stalls but an isolated page request succeeds, do not immediately blame the site or retry the full run blindly.
+When a broad run stalls but a bounded request succeeds, identify the smallest failing layer instead of blindly replaying the full run.
 
-Isolate the failing layer in this order or an equivalently diagnostic order:
+Example diagnostic order:
 
 ```text
-HTTP client construction/TLS
--> single fetch
--> HTML parse
--> href extraction/normalization
+client construction/network
+-> one fetch
+-> parse
+-> extraction/normalization
 -> queue/deduplication
--> bounded multi-page crawl
--> sitemap parsing
--> output/checkpoint writing
+-> bounded multi-item execution
+-> alternate discovery source
+-> output/checkpoint write
 -> finalization/QA
 ```
-
-The goal is to identify the smallest stage that fails to reach a terminal state.
 
 Do not change multiple unrelated layers at once unless evidence requires it.
 
 ---
 
-# 7. Fail-closed policy
+## 7. Fail-closed policy
 
 A deterministic evidence run cannot be accepted when:
 
 ```text
 runner has no terminal state;
-mini-crawl does not terminate;
+mini-run does not terminate;
 progress cannot distinguish work from stall;
 required outputs are unchanged/stale;
-current-run output attribution is missing;
+current-run attribution is missing;
 material timeout/fetch failures are silently dropped;
-full crawl is launched before the executable smoke gate passes.
+full run started before applicable qualification stages passed.
 ```
 
 Then:
@@ -259,75 +256,59 @@ DETERMINISTIC_EXECUTION_RELIABILITY = FAIL_OR_BLOCKED
 STEP_ACCEPTANCE = BLOCKED
 ```
 
-Do not substitute manual evidence and call it equivalent when the step specifically requires deterministic site-scale enumeration/topology.
+Do not substitute a weaker manual collection method and claim equivalent completeness when the step explicitly requires deterministic enumeration.
 
 ---
 
-# 8. Separation of concerns
+## 8. Separation of concerns
 
 ```text
 NETWORK_REACHABILITY
 != RUNNER_EXECUTABILITY
-!= CRAWL_COMPLETENESS
+!= COLLECTION_COMPLETENESS
 != SEMANTIC_CORRECTNESS
 ```
 
 Each requires its own evidence.
 
-Codex/code owns deterministic execution and mechanical evidence.
-ChatGPT owns semantic interpretation and final analytical reconciliation.
-The owner controls authorization and scope.
-
 ---
 
-# 9. Non-repeat lesson
+## 9. Permanent non-repeat chain
 
-The OKNO_MSK Step-14A failure chain was:
-
-```text
-new runner created
--> first run exposed TLS/opener construction bug
--> bug corrected
--> isolated site request returned HTTP 200 HTML
--> broader bounded runner started
--> no terminal completion/error stream
--> required output artifacts not updated
-```
-
-The mistaken shortcut to prevent is:
+The shortcut to prevent is:
 
 ```text
 ISOLATED REQUEST WORKS
--> THEREFORE FULL CRAWLER SHOULD WORK
--> RETRY FULL CRAWL
+-> ASSUME FULL RUNNER WORKS
+-> REPLAY BROAD RUN
 ```
 
 The corrected chain is:
 
 ```text
 construction/static smoke
--> one-page fetch+parse+exit
--> bounded mini-crawl+outputs+exit
--> sitemap probe
--> full crawl with heartbeat/checkpoints/deadline
+-> one-item fetch+parse+exit
+-> bounded mini-run+outputs+exit
+-> alternate-source probe when applicable
+-> full run with heartbeat/checkpoints/deadline
 -> deterministic QA
 -> final artifact publication
 ```
 
-The purpose is not extra ceremony. Each stage tests a different failure surface and narrows the cause before expensive or opaque site-scale execution.
+Each stage tests a different failure surface and narrows the cause before expensive/opaque execution.
 
----
+This rule follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
 
-Markers:
+## Markers
 
 ```text
 KW001_CODEX_EXECUTION_RELIABILITY_GATE_ACTIVE = true
-KW001_SINGLE_HTTP_200_NOT_EQUAL_CRAWLER_RELIABLE = true
-KW001_NEW_OR_CHANGED_CRAWLER_REQUIRES_STAGED_SMOKE = true
-KW001_BOUNDED_MINI_CRAWL_REQUIRED_BEFORE_FULL_RUN = true
-KW001_CRAWLER_PROGRESS_HEARTBEAT_REQUIRED = true
-KW001_CRAWLER_TERMINAL_STATE_REQUIRED = true
-KW001_CRAWLER_GLOBAL_SAFETY_BOUND_REQUIRED = true
+KW001_SINGLE_HTTP_200_NOT_EQUAL_RUNNER_RELIABLE = true
+KW001_NEW_OR_CHANGED_RUNNER_REQUIRES_STAGED_SMOKE = true
+KW001_BOUNDED_MINI_RUN_REQUIRED_BEFORE_FULL_RUN = true
+KW001_RUNNER_PROGRESS_HEARTBEAT_REQUIRED = true
+KW001_RUNNER_TERMINAL_STATE_REQUIRED = true
+KW001_RUNNER_GLOBAL_SAFETY_BOUND_REQUIRED = true
 KW001_CURRENT_RUN_OUTPUT_ATTRIBUTION_REQUIRED = true
 KW001_STALE_OUTPUT_NOT_ACCEPTABLE_AS_CURRENT_EVIDENCE = true
 KW001_FAILED_DIAGNOSTIC_MUST_NOT_PUBLISH_PARTIAL_FINAL_ARTIFACTS = true
