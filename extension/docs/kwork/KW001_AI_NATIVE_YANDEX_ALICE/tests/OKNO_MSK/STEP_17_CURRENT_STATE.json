@@ -3,25 +3,9 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "V2_COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
-  "historical_first_pass": {
-    "status_before_audit": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
-    "historical_case_verdicts": {
-      "C15-004": "DE_RISK",
-      "C15-006": "DE_RISK",
-      "C15-007": "DE_RISK",
-      "C15-010": "NO_CHANGE",
-      "C15-013": "DE_RISK",
-      "C15-018": "NO_CHANGE",
-      "C15-019": "NO_CHANGE",
-      "C15-020": "INSUFFICIENT"
-    },
-    "qualified_architecture_change_cases": 0,
-    "architecture_delta_rows": 0,
-    "provider_cost_rub": 0.0,
-    "verdict_status_after_audit": "HISTORICAL_ONLY__NOT_USED_AS_AUTOMATIC_V2_INPUT"
-  },
-  "v2_result": {
+  "status": "V3_METHOD_GOVERNANCE_PASS__BOUNDED_DIAGNOSTIC__STEP18_PRESTEP_ALLOWED",
+  "historical_v2_result": {
+    "status": "PRESERVED_AS_EVIDENCE_AND_CASE_VERDICT_BASE",
     "case_verdicts": {
       "C15-004": "DE_RISK",
       "C15-006": "DE_RISK",
@@ -48,46 +32,58 @@
       "C15-019": "NOT_APPLICABLE",
       "C15-020": "CONTENT_EXPANSION_CANDIDATE"
     },
-    "content_improvement_counts": {
-      "NO_MATERIAL_CONTENT_GAP_OBSERVED": 2,
-      "CONTENT_EXPANSION_CANDIDATE": 3,
-      "SOURCE_WORTHINESS_GAP": 0,
-      "INSUFFICIENT": 2,
-      "NOT_APPLICABLE": 1
-    },
     "qualified_architecture_change_cases": 0,
-    "architecture_delta_rows": 0,
-    "key_result": "NO_ARCHITECTURE_CHANGE != NO_CONTENT_CHANGE"
+    "architecture_delta_rows": 0
   },
-  "post_run_audit_correction": {
-    "S17-M01": "CLOSED_IN_V2__SOURCE_WORTHINESS_AND_CONTENT_LAYER_MATERIALIZED_8_OF_8",
-    "S17-M02": "CLOSED_IN_V2__DIRECT_PERSISTED_SEARCH_REVERSE_TRACE_8_OF_8",
-    "S17-M03": "CLOSED_IN_V2__QA_MODE_TRUTHFULLY_LABELLED_ADVERSARIAL_SELF_REVIEW"
+  "v3_method_governance": {
+    "result": "PASS",
+    "scope": "BOUNDED_DIAGNOSTIC",
+    "method_quality_assessment": "approximately 9/10",
+    "case_count": 8,
+    "ai_scope": {
+      "EXACT_QUERY_DIAGNOSTIC": 8,
+      "USER_JOB_FAMILY_SUPPORTED": 0
+    },
+    "temporal_state": {
+      "SINGLE_SNAPSHOT": 7,
+      "SHORT_WINDOW_REPRODUCED": 1,
+      "TIME_SEPARATED_REPRODUCED": 0,
+      "LONGITUDINAL_FIRST_PARTY_SIGNAL": 0
+    },
+    "architecture_confidence": {
+      "HIGH": 0,
+      "MODERATE": 7,
+      "LOW": 1
+    },
+    "content_confidence": {
+      "MODERATE": 5,
+      "LOW": 3
+    },
+    "decisive_direct_source_provenance_missing": 0,
+    "unsupported_family_level_claims": 0,
+    "unsupported_stability_claims": 0,
+    "sitewide_ai_visibility_claim": "FORBIDDEN",
+    "longitudinal_ai_stability_claim": "FORBIDDEN"
+  },
+  "permanent_method_correction": {
+    "status": "OWNER_AUTHORIZED__ACTIVE",
+    "canonical_method": "STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md",
+    "promotion_addendum": "STEP_17_PERMANENT_METHOD_PROMOTION_AND_NON_REPEAT_ADDENDUM_2026-09-03.md",
+    "historical_unvalidated_index_row": "SUPERSEDED_FOR_STEP17_BY_OWNER_AUTHORIZED_ADDENDUM",
+    "core_non_repeat_rule": "LIMITATION_DISCLOSED != LIMITATION_GOVERNED"
   },
   "current_authorities": {
-    "failure_addendum": "STEP_17_METHOD_FAILURES_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-03.md",
-    "method_v2": "STEP_17_PRE_STEP_METHOD_REVIEW_V2_2026-09-03.md",
-    "schema_v2": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_V2_2026-09-03.json",
-    "manifest_v2": "STEP_17_EXECUTION_MANIFEST_V2_2026-09-03.json",
-    "case_ledger_v2": "STEP_17_CASE_COMPARISON_LEDGER_V2_FINAL.tsv",
-    "coverage_audit_v2": "STEP_17_ORIGINAL_CONTRACT_COVERAGE_AUDIT.tsv",
-    "qa_v2": "STEP_17_QA_V2_FINAL_2026-09-03.json",
-    "report_v2": "STEP_17_REPORT_V2_2026-09-03.md"
+    "v2_case_ledger": "STEP_17_CASE_COMPARISON_LEDGER_V2_FINAL.tsv",
+    "v2_direct_page_ledger": "STEP_17_DIRECT_PAGE_VALIDATION_LEDGER.tsv",
+    "v2_report": "STEP_17_REPORT_V2_2026-09-03.md",
+    "v3_permanent_method": "../../STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md",
+    "v3_promotion_addendum": "../../STEP_17_PERMANENT_METHOD_PROMOTION_AND_NON_REPEAT_ADDENDUM_2026-09-03.md",
+    "v3_scope_confidence_ledger": "STEP_17_V3_SCOPE_CONFIDENCE_LEDGER.tsv",
+    "v3_provenance_supplement": "STEP_17_DIRECT_SOURCE_PROVENANCE_V3_SUPPLEMENT.tsv",
+    "v3_report": "STEP_17_V3_METHOD_STRENGTHENING_AND_REVALIDATION_2026-09-03.md",
+    "v3_qa": "STEP_17_QA_V3_FINAL_2026-09-03.json"
   },
-  "execution": {
-    "v2_correction_started": true,
-    "v2_cases_complete": 8,
-    "v2_source_worthiness_states": 8,
-    "v2_content_improvement_states": 8,
-    "v2_search_direct_traces": 8,
-    "v2_gensearch_direct_traces": 8,
-    "v2_original_contract_coverage": "100%",
-    "v2_reverse_trace_missing": 0,
-    "v2_adversarial_self_review_blocking_findings": 0,
-    "v2_final_github_readback": "PASS",
-    "v2_final_acceptance": "PASS"
-  },
-  "provider_execution": {
+  "provider_execution_v3": {
     "new_ordinary_search_calls": 0,
     "new_gensearch_calls": 0,
     "new_webmaster_calls": 0,
@@ -97,7 +93,16 @@
   "step18": {
     "prestep_allowed": true,
     "execution_started": false,
-    "block_reason": null
+    "block_reason": null,
+    "required_ai_handoff_fields": [
+      "architecture_verdict",
+      "content_verdict",
+      "ai_scope_class",
+      "ai_temporal_state",
+      "confidence_state",
+      "evidence_limitations",
+      "recheck_trigger"
+    ]
   },
   "next_legal_action": "STEP18_PRE_STEP_GATE_ONLY"
 }
