@@ -2,17 +2,12 @@
   "date": "2026-09-03",
   "job": "OKNO_MSK",
   "step": 18,
-  "qa_scope": "PRIORITIZATION_EXECUTION_AND_RECONCILIATION",
-  "status": "PASS_PENDING_FINAL_GITHUB_READBACK",
+  "qa_scope": "PRIORITIZATION_EXECUTION_RECONCILIATION_AND_GITHUB_READBACK",
+  "status": "PASS",
   "owner_authorization_received": true,
   "action_register": {
     "rows": 34,
-    "priority_counts": {
-      "P1_HIGH": 12,
-      "P2_MEDIUM": 20,
-      "P3_LATER": 1,
-      "HOLD": 1
-    },
+    "priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
     "hold_source_units": 20,
     "duplicate_canonical_actions": 0,
     "magic_numeric_priority_score_used": false,
@@ -37,18 +32,8 @@
       "DEFER_PENDING_EVIDENCE_accounted_by_S18_A034_and_hold_ledger": 20,
       "NO_STANDALONE_PAGE_preserved_no_action": 15,
       "OUTSIDE_SCOPE_NO_ACTION_preserved_no_action": 7,
-      "ADD_SECTION_OR_FAQ_TO_EXISTING_exact_actions": [
-        "S18-A009",
-        "S18-A010",
-        "S18-A012",
-        "S18-A026",
-        "S18-A027",
-        "S18-A028"
-      ],
-      "EXPAND_EXISTING_PAGE_exact_actions": [
-        "S18-A011",
-        "S18-A029"
-      ]
+      "ADD_SECTION_OR_FAQ_TO_EXISTING_exact_actions": ["S18-A009","S18-A010","S18-A012","S18-A026","S18-A027","S18-A028"],
+      "EXPAND_EXISTING_PAGE_exact_actions": ["S18-A011","S18-A029"]
     },
     "preserved_base_no_action_units": 94,
     "base_action_or_hold_units": 74,
@@ -57,11 +42,7 @@
   "step14a_delta_accounting": {
     "expected": 21,
     "accounted": 21,
-    "delta_ids": [
-      "D14A001","D14A002","D14A003","D14A004","D14A005","D14A006","D14A007",
-      "D14A008","D14A009","D14A010","D14A011","D14A012","D14A013","D14A014",
-      "D14A015","D14A016","D14A017","D14A018","D14A019","D14A020","D14A021"
-    ],
+    "delta_ids": ["D14A001","D14A002","D14A003","D14A004","D14A005","D14A006","D14A007","D14A008","D14A009","D14A010","D14A011","D14A012","D14A013","D14A014","D14A015","D14A016","D14A017","D14A018","D14A019","D14A020","D14A021"],
     "unauthorized_destructive_actions": 0,
     "unauthorized_new_page_actions": 0
   },
@@ -128,7 +109,18 @@
     "new_paid_provider_cost_rub": 0.0,
     "unauthorized_provider_calls": 0
   },
-  "final_github_readback": false,
-  "final_readback_artifact": "PENDING",
-  "next_gate": "WRITE_REPORT_STATE_FLOW_THEN_FINAL_READBACK"
+  "github_readback": {
+    "action_register": {"read": true, "blob_sha": "251746a2bad24a678057e5eaa71813538c81348a"},
+    "priority_summary": {"read": true, "blob_sha": "def86cf457546f02b120c6bee82a73874795bf8f"},
+    "hold_recheck_ledger": {"read": true, "blob_sha": "d78e9476016923801d897fb001f92a899c13f00f"},
+    "report": {"read": true, "blob_sha": "0f570ae01be95c249126c08b27fac9f1d8a5ba0f"},
+    "state_before_final_seal": {"read": true, "blob_sha": "61a8bff2b3847b6af2848ea07fd9e70393a61518"},
+    "job_flow_before_final_seal": {"read": true, "blob_sha": "d871681f7c29af6133016963068d22d3c7f1dfa3"}
+  },
+  "final_github_readback": true,
+  "final_readback_artifact": "STEP_18_FINAL_READBACK_QA_2026-09-03.json",
+  "step_verdict": "COMPLETE_PASS",
+  "next_step_allowed": true,
+  "next_step_scope": "STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW_ONLY",
+  "step19_execution_authorized": false
 }
