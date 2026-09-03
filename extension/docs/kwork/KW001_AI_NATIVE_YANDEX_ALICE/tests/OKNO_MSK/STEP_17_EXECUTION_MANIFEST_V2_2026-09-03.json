@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 17,
+  "version": "V2_POST_AUDIT_CORRECTION",
+  "status": "FROZEN_FOR_CORRECTION__EXECUTION_NOT_STARTED__STEP18_BLOCKED",
+  "method_authority": {
+    "failure_addendum": "STEP_17_METHOD_FAILURES_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-03.md",
+    "method_review": "STEP_17_PRE_STEP_METHOD_REVIEW_V2_2026-09-03.md",
+    "research_to_execution_schema": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_V2_2026-09-03.json",
+    "original_contract": "../../IMPLEMENTATION_PLAN.md",
+    "input_cases": "STEP_15_SELECTED_CASES_V2.tsv",
+    "gensearch_authority": "STEP_16_OBSERVATIONS_CORRECTED_V2_2026-09-02.json",
+    "historical_step17_ledger": "STEP_17_CASE_COMPARISON_LEDGER_FINAL.tsv"
+  },
+  "reason_for_reopen": [
+    "S17-M01 required source-worthiness implication was not materialized",
+    "S17-M02 Search-side claims lacked direct final reverse trace to concrete persisted SERP evidence",
+    "S17-M03 adversarial self-review was partially labelled as independent QA"
+  ],
+  "input_universe": {
+    "cases": 8,
+    "case_ids": ["C15-004","C15-006","C15-007","C15-010","C15-013","C15-018","C15-019","C15-020"],
+    "test_scope": "EXACT_QUERY",
+    "representative_sample": false
+  },
+  "reuse_existing_evidence": {
+    "existing_step17_architecture_verdicts": "REVIEWED_NOT_AUTOMATICALLY_DISCARDED",
+    "persisted_ordinary_search": "REUSE_AND_DIRECTLY_TRACE",
+    "step15_baselines": "REUSE_AS_SUMMARY_NOT_SOLE_FINAL_TRACE",
+    "step16_raw_and_corrected": "REUSE",
+    "step17_direct_page_reads": "REUSE_WHERE_SUFFICIENT",
+    "new_paid_calls": "NOT_REQUIRED_BY_DEFAULT"
+  },
+  "required_case_fields_v2": [
+    "case_id",
+    "authoritative_query",
+    "ordinary_search_direct_evidence_refs",
+    "ordinary_search_observed_result_count",
+    "ordinary_search_decisive_result_refs",
+    "ordinary_search_task",
+    "ordinary_search_content_type",
+    "ordinary_search_format",
+    "ordinary_search_angle",
+    "ordinary_search_specificity",
+    "ordinary_search_task_derivation_note",
+    "ordinary_search_trace_state",
+    "gensearch_raw_refs",
+    "gensearch_observation",
+    "gensearch_answer_mode",
+    "gensearch_refined_queries",
+    "used_source_pages",
+    "used_source_roles_validated",
+    "current_target_page_evidence",
+    "source_worthiness_evidence",
+    "source_worthiness_implication",
+    "content_gap_vs_used_sources",
+    "content_improvement_state",
+    "content_improvement_action_if_any",
+    "content_claim_boundary",
+    "task_delta",
+    "commerciality_delta",
+    "specificity_delta",
+    "source_role_delta",
+    "target_site_fit",
+    "reproducibility_state",
+    "materiality_reason",
+    "final_step17_verdict",
+    "architecture_delta_required",
+    "architecture_delta_overlay",
+    "claim_boundary",
+    "evidence_refs",
+    "qa_state"
+  ],
+  "two_layer_result_model": {
+    "architecture_material_verdict": ["CHANGE","DE_RISK","NO_CHANGE","INSUFFICIENT"],
+    "content_improvement_state": ["NO_MATERIAL_CONTENT_GAP_OBSERVED","CONTENT_EXPANSION_CANDIDATE","SOURCE_WORTHINESS_GAP","INSUFFICIENT","NOT_APPLICABLE"],
+    "hard_rule": "NO_ARCHITECTURE_CHANGE != NO_CONTENT_CHANGE"
+  },
+  "qa_policy": {
+    "required_first_layer": "ADVERSARIAL_SELF_REVIEW",
+    "independent_review_optional": true,
+    "independent_label_allowed_without_demonstrated_independence": false,
+    "required_marker_if_no_independent_review": "ADVERSARIAL_SELF_REVIEW_BLOCKING_FINDINGS"
+  },
+  "planned_provider_calls": {
+    "ordinary_search": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "provider_cost_rub": 0.0,
+    "fresh_call_rule": "Only after existing evidence recovery fails and exact information-gain gate + owner authorization passes"
+  },
+  "planned_v2_artifacts": [
+    "STEP_17_CASE_COMPARISON_LEDGER_V2_FINAL.tsv",
+    "STEP_17_ORIGINAL_CONTRACT_COVERAGE_AUDIT.tsv",
+    "STEP_17_QA_V2_FINAL_2026-09-03.json",
+    "STEP_17_REPORT_V2_2026-09-03.md",
+    "STEP_17_CURRENT_STATE.json",
+    "JOB_FLOW_STEP17_EXECUTION_SYNC_2026-09-02.md"
+  ],
+  "acceptance_requirements": {
+    "cases_accounted": "8/8",
+    "search_direct_trace": "8/8",
+    "gensearch_direct_trace": "8/8",
+    "source_worthiness_implication": "8/8",
+    "content_improvement_state": "8/8",
+    "material_source_role_without_direct_validation": 0,
+    "material_source_worthiness_without_direct_validation": 0,
+    "material_target_content_without_current_evidence": 0,
+    "old_step16_label_contamination": 0,
+    "source_order_rank_inference": 0,
+    "consumer_alice_equivalence": 0,
+    "unreproduced_ai_only_change": 0,
+    "qa_mode_label_matches_actual_process": true,
+    "original_contract_final_output_coverage": "100%",
+    "reverse_trace_missing": 0,
+    "unauthorized_provider_calls": 0,
+    "final_github_readback": "PASS"
+  },
+  "authorization": {
+    "correction_method_preparation": true,
+    "correction_execution_started": false,
+    "step18_execution_allowed": false,
+    "next_legal_action": "STEP17_V2_CORRECTION_EXECUTION_ONLY"
+  }
+}
