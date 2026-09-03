@@ -1,5 +1,7 @@
 # 01 — Краткий итог для клиента
 
+**TEST/DEMO CASE — mock commercial rehearsal, не реальный оплачиваемый клиентский проект.**
+
 Дата: 2026-09-03  
 Сайт: `https://okno-msk.ru/`  
 Регион анализа: Москва  
@@ -46,9 +48,9 @@ SUPPORTED DESTRUCTIVE ACTIONS = 0
 - `французские окна` — проверить и при необходимости усилить configuration/replacement и French-vs-panoramic selection depth;
 - `окна в частный дом` — добавить стандартные/нестандартные размеры проёмов, sizing guidance и объяснение роли индивидуального замера;
 - guide по выбору окон — расширить блоки по фурнитуре, конструкции и брендам;
-- `двери REHAU` — добавить door-specific installation scope/process и price/price-estimation guidance.
+- `двери REHAU` — **сохранить уже существующую price/price-estimation guidance** и усиливать только реально недостающий door-specific installation scope/process.
 
-P2 содержит более узкие support/routing и content задачи: Provedal, cold+panoramic intersections, custom glass-unit manufacturing, apartment-selection support, veranda types/frameless support, ventilation guidance, размеры PVC doors, taxonomy портфолио и две bounded AI-content rechecks.
+P2 содержит более узкие support/routing и content задачи: Provedal, cold+panoramic intersections, custom glass-unit manufacturing, apartment-selection support, veranda types/frameless support, ventilation guidance, размеры PVC doors, taxonomy портфолио и две bounded AI-content rechecks. Для French-window definition отдельный новый definition block больше не предлагается: базовое определение уже есть; возможное остаточное naming/distinction guidance должно быть объединено с более широким French-window action.
 
 ## Search-vs-AI: что реально показала проверка
 
@@ -66,7 +68,7 @@ INSUFFICIENT = 1
 AI-проверка **не потребовала менять Search-архитектуру ни в одном кейсе**. Но в трёх случаях она помогла сформировать bounded content candidates:
 
 - panoramic aluminium — проверить explanatory/specification depth внутри текущего aluminium owner;
-- French windows — усилить definition/selection depth внутри существующей French page;
+- French windows — проверить/усилить selection/distinction depth внутри существующей French page; базовое определение уже присутствует и не должно дублироваться;
 - best plastic windows — проверить свежесть ranking evidence, критерии сравнения и методологию.
 
 В остальных кейсах AI либо подтвердил текущую границу, либо данных было недостаточно для безопасного content/action вывода.
