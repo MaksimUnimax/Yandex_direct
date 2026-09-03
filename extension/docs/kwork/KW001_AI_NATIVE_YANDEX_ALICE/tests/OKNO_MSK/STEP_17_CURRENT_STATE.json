@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "V2_CORRECTION_IN_PROGRESS__STEP18_BLOCKED",
+  "status": "V2_ARTIFACTS_WRITTEN__FINAL_READBACK_PENDING__STEP18_BLOCKED",
   "historical_first_pass": {
     "status_before_audit": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
     "historical_case_verdicts": {
@@ -19,56 +19,84 @@
     "qualified_architecture_change_cases": 0,
     "architecture_delta_rows": 0,
     "provider_cost_rub": 0.0,
-    "verdict_status_after_audit": "PRESERVED_AS_HISTORICAL_FIRST_PASS__REQUIRES_V2_COMPLETION_BEFORE_FINAL_ACCEPTANCE"
+    "verdict_status_after_audit": "HISTORICAL_ONLY__NOT_USED_AS_AUTOMATIC_V2_INPUT"
   },
-  "post_run_audit": {
-    "audit_date": "2026-09-03",
-    "audit_result": "CORRECTION_REQUIRED",
-    "defects": {
-      "S17-M01": "Required source-worthiness implication/content-gap output from original implementation contract was not materialized.",
-      "S17-M02": "Final ordinary-Search descriptions were not directly reverse-traced case-by-case to concrete persisted SERP evidence; Step15 baseline was used too heavily as final trace.",
-      "S17-M03": "Adversarial self-review was partially labelled with independent-QA acceptance vocabulary without demonstrated independence."
+  "v2_result": {
+    "case_verdicts": {
+      "C15-004": "DE_RISK",
+      "C15-006": "DE_RISK",
+      "C15-007": "DE_RISK",
+      "C15-010": "NO_CHANGE",
+      "C15-013": "DE_RISK",
+      "C15-018": "NO_CHANGE",
+      "C15-019": "NO_CHANGE",
+      "C15-020": "INSUFFICIENT"
     },
-    "root_cause": "Method research was performed, but no final original-contract-to-schema-to-artifact-to-QA coverage audit was run. Rule plausibility was checked more thoroughly than output completeness.",
-    "key_claim_correction": "NO_ARCHITECTURE_CHANGE does not prove NO_CONTENT_CHANGE or NO_SOURCE_WORTHINESS_GAP."
+    "verdict_counts": {
+      "CHANGE": 0,
+      "DE_RISK": 4,
+      "NO_CHANGE": 3,
+      "INSUFFICIENT": 1
+    },
+    "content_improvement_states": {
+      "C15-004": "CONTENT_EXPANSION_CANDIDATE",
+      "C15-006": "INSUFFICIENT",
+      "C15-007": "NO_MATERIAL_CONTENT_GAP_OBSERVED",
+      "C15-010": "NO_MATERIAL_CONTENT_GAP_OBSERVED",
+      "C15-013": "CONTENT_EXPANSION_CANDIDATE",
+      "C15-018": "INSUFFICIENT",
+      "C15-019": "NOT_APPLICABLE",
+      "C15-020": "CONTENT_EXPANSION_CANDIDATE"
+    },
+    "content_improvement_counts": {
+      "NO_MATERIAL_CONTENT_GAP_OBSERVED": 2,
+      "CONTENT_EXPANSION_CANDIDATE": 3,
+      "SOURCE_WORTHINESS_GAP": 0,
+      "INSUFFICIENT": 2,
+      "NOT_APPLICABLE": 1
+    },
+    "qualified_architecture_change_cases": 0,
+    "architecture_delta_rows": 0,
+    "key_result": "NO_ARCHITECTURE_CHANGE != NO_CONTENT_CHANGE"
+  },
+  "post_run_audit_correction": {
+    "S17-M01": "CLOSED_IN_V2__SOURCE_WORTHINESS_AND_CONTENT_LAYER_MATERIALIZED_8_OF_8",
+    "S17-M02": "CLOSED_IN_V2__DIRECT_PERSISTED_SEARCH_REVERSE_TRACE_8_OF_8",
+    "S17-M03": "CLOSED_IN_V2__QA_MODE_TRUTHFULLY_LABELLED_ADVERSARIAL_SELF_REVIEW"
   },
   "current_authorities": {
     "failure_addendum": "STEP_17_METHOD_FAILURES_AND_CORRECT_EXECUTION_ADDENDUM_2026-09-03.md",
     "method_v2": "STEP_17_PRE_STEP_METHOD_REVIEW_V2_2026-09-03.md",
     "schema_v2": "STEP_17_RESEARCH_TO_EXECUTION_SCHEMA_V2_2026-09-03.json",
     "manifest_v2": "STEP_17_EXECUTION_MANIFEST_V2_2026-09-03.json",
-    "historical_first_pass_ledger": "STEP_17_CASE_COMPARISON_LEDGER_FINAL.tsv",
-    "historical_first_pass_qa": "STEP_17_QA_FINAL_2026-09-02.json",
-    "historical_first_pass_report": "STEP_17_REPORT_2026-09-02.md"
-  },
-  "required_correction_outputs": {
-    "case_count": 8,
-    "search_direct_trace_required": "8/8",
-    "gensearch_direct_trace_required": "8/8",
-    "source_worthiness_implication_required": "8/8",
-    "content_improvement_state_required": "8/8",
-    "original_contract_coverage_audit_required": true,
-    "qa_mode_label_must_match_actual_process": true
-  },
-  "provider_plan": {
-    "new_ordinary_search_calls": 0,
-    "new_gensearch_calls": 0,
-    "new_webmaster_calls": 0,
-    "planned_provider_cost_rub": 0.0,
-    "new_paid_calls_required_by_audit": false,
-    "policy": "Reuse persisted evidence first; fresh provider call only after specific blocking evidence gap + information-gain gate + explicit owner authorization."
+    "case_ledger_v2": "STEP_17_CASE_COMPARISON_LEDGER_V2_FINAL.tsv",
+    "coverage_audit_v2": "STEP_17_ORIGINAL_CONTRACT_COVERAGE_AUDIT.tsv",
+    "qa_v2": "STEP_17_QA_V2_FINAL_2026-09-03.json",
+    "report_v2": "STEP_17_REPORT_V2_2026-09-03.md"
   },
   "execution": {
     "v2_correction_started": true,
-    "v2_cases_complete": 0,
-    "v2_source_worthiness_states": 0,
-    "v2_search_direct_traces": 0,
-    "v2_final_acceptance": "NOT_RUN"
+    "v2_cases_complete": 8,
+    "v2_source_worthiness_states": 8,
+    "v2_content_improvement_states": 8,
+    "v2_search_direct_traces": 8,
+    "v2_gensearch_direct_traces": 8,
+    "v2_original_contract_coverage": "100%",
+    "v2_reverse_trace_missing": 0,
+    "v2_adversarial_self_review_blocking_findings": 0,
+    "v2_final_acceptance": "PENDING_FINAL_GITHUB_READBACK"
+  },
+  "provider_execution": {
+    "new_ordinary_search_calls": 0,
+    "new_gensearch_calls": 0,
+    "new_webmaster_calls": 0,
+    "new_paid_provider_cost_rub": 0.0,
+    "unauthorized_provider_calls": 0
   },
   "step18": {
     "prestep_allowed": false,
     "execution_started": false,
-    "block_reason": "STEP17_V2_CORRECTION_NOT_COMPLETE"
+    "block_reason": "STEP17_V2_FINAL_GITHUB_READBACK_PENDING"
   },
-  "next_legal_action": "LOCATE_PERSISTED_SEARCH_EVIDENCE_FOR_8_CASES__BUILD_SOURCE_WORTHINESS_AND_CONTENT_GAP_LAYER__RECHECK_VERDICTS__QA__FINAL_READBACK"
+  "next_legal_action": "FINAL_GITHUB_READBACK_OF_STEP17_V2_ARTIFACT_SET__VALIDATE_ACCEPTANCE_GATE__THEN_STEP18_PRESTEP_ONLY_IF_PASS"
 }
