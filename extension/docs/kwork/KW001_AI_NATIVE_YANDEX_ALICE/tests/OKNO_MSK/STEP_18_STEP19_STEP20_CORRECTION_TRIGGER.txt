@@ -2,4 +2,6 @@ STEP18_STEP19_STEP20_DEFECT_CORRECTION
 owner_authorized=2026-09-03
 source_defects=D20-001,D20-002,D20-003,D20-004
 provider_calls=0
-attempt=1
+attempt=2
+previous_failed_run=33765153795
+overlay_fix=A027_PRIORITY_COLUMN_RESTORED
