@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-03",
+  "step": 19,
+  "status": "PHYSICAL_PACKAGE_BUILT_AND_OPENABILITY_QA_PASS",
+  "view_type": "DERIVED_NOT_CANONICAL",
+  "source_data": "step19_correction_materialized",
+  "logical_accounting": {
+    "directions": 15,
+    "semantic_rows": 2332,
+    "unresolved": 19,
+    "ai_cases": 8,
+    "page_actions": 34,
+    "execution_packages": 112,
+    "measurement_classes": 7
+  },
+  "non_fabrication": {
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0.0,
+    "committed_schedule": false,
+    "numeric_targets_invented": false
+  },
+  "artifacts": {
+    "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx": {
+      "bytes": 457648,
+      "sha256": "24797ef1fc4fba6a2419e02a7b6987862b0f9d07650869c627ce8255678239ec"
+    },
+    "STEP_19_CLIENT_REPORT_CORRECTED.docx": {
+      "bytes": 43784,
+      "sha256": "9e96c22d148b56879515dce56ddb66810a4e95a40f7ca668ed97c53a099ec414"
+    },
+    "STEP_19_CLIENT_REPORT_CORRECTED.pdf": {
+      "bytes": 59491,
+      "sha256": "e121ba21017d77d6a6cb34ac3fc15c92e45b96a0c2d1d3052f77327006678241"
+    }
+  },
+  "openability": {
+    "xlsx_reopened": true,
+    "docx_reopened": true,
+    "pdf_pages": 4
+  }
+}

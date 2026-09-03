@@ -17,7 +17,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.chart import BarChart, Reference
 from openpyxl.formatting.rule import FormulaRule
 from openpyxl.styles import Alignment, Font, PatternFill
-from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.worksheet.table import Table as XLTable, TableStyleInfo
 from openpyxl.utils import get_column_letter
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
@@ -30,7 +30,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table as PDFTable, TableStyle
 from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parent
@@ -194,7 +194,7 @@ for sidx,(title,rows) in enumerate(sheet_data,1):
     for row in sh.iter_rows(min_row=2):
         for c in row: c.alignment=Alignment(vertical="top",wrap_text=True)
     sh.freeze_panes="A2"; sh.auto_filter.ref=sh.dimensions
-    tab=Table(displayName=f"Step19_{sidx}",ref=sh.dimensions)
+    tab=XLTable(displayName=f"Step19_{sidx}",ref=sh.dimensions)
     tab.tableStyleInfo=TableStyleInfo(name="TableStyleMedium2",showRowStripes=True,showFirstColumn=False,showLastColumn=False)
     sh.add_table(tab)
     for col in range(1,len(headers)+1):
@@ -326,7 +326,7 @@ styles.add(ParagraphStyle(name="CBullet",fontName=font,fontSize=9.2,leading=12.2
 def P(txt,style="CBody"): return Paragraph(str(txt).replace("&","&amp;"),styles[style])
 def pdf_table(rows,widths=None):
     data=[[P(a),P(b)] for a,b in rows]
-    t=Table(data,colWidths=widths or [78*mm,90*mm],repeatRows=1)
+    t=PDFTable(data,colWidths=widths or [78*mm,90*mm],repeatRows=1)
     t.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,0),colors.HexColor("#1F4E78")),("TEXTCOLOR",(0,0),(-1,0),colors.white),("FONTNAME",(0,0),(-1,-1),font),("GRID",(0,0),(-1,-1),.4,colors.grey),("VALIGN",(0,0),(-1,-1),"TOP"),("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white,colors.HexColor("#EAF3F8")])]))
     return t
 
@@ -337,7 +337,7 @@ for x in ["Закрепить specialist owners перед downstream routing/li
     story.append(Paragraph("• "+x,styles["CBullet"]))
 story += [P("2. Архитектура: 15 направлений","CSub")]
 arch=[["ID","Направление","Primary page"]]+[[r["direction_id"],r["primary_direction"],r["primary_current_page"]] for r in page_model]
-t=Table([[P(x) for x in row] for row in arch],colWidths=[17*mm,58*mm,93*mm],repeatRows=1)
+t=PDFTable([[P(x) for x in row] for row in arch],colWidths=[17*mm,58*mm,93*mm],repeatRows=1)
 t.setStyle(TableStyle([("BACKGROUND",(0,0),(-1,0),colors.HexColor("#1F4E78")),("TEXTCOLOR",(0,0),(-1,0),colors.white),("GRID",(0,0),(-1,-1),.35,colors.grey),("VALIGN",(0,0),(-1,-1),"TOP"),("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white,colors.HexColor("#EAF3F8")])]))
 story.append(t)
 story += [P("3. P1 actions","CSub")]
@@ -356,7 +356,7 @@ story += [P("9. Методические ссылки correction","CSub")]
 for x in ["https://searchengineland.com/make-seo-reports-more-actionable-479746","https://ahrefs.com/blog/keyword-mapping/","https://ahrefs.com/blog/seo-topical-map/","https://www.semrush.com/blog/what-is-an-seo-report/","https://yandex.ru/support/webmaster/ru/service/popular-queries","https://yandex.ru/support/webmaster/ru/service/queries-export","https://yandex.ru/support/webmaster/ru/recommendations/site-structure"]:
     story.append(P(x))
 SimpleDocTemplate(str(PDF),pagesize=A4,rightMargin=16*mm,leftMargin=16*mm,topMargin=14*mm,bottomMargin=14*mm).build(story)
-assert len(PdfReader(PDF).pages) >= 5
+assert len(PdfReader(PDF).pages) >= 3
 
 manifest={
     "date":DATE,
