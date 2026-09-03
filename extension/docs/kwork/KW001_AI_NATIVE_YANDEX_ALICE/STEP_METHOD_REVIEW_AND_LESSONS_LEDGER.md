@@ -1,1074 +1,591 @@
 # KW-001 — STEP METHOD REVIEW AND LESSONS LEDGER
 
-Date updated: 2026-08-29  
+Updated: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
-This file contains permanent, owner-approved KW-001 methodology lessons and corrections accumulated so far.
+This file contains permanent owner-approved methodology lessons. It is **not** a current-job log.
 
-It is part of Layer A/B permanent methodology as defined by `RULES_ARCHITECTURE.md` and is **not** a per-job execution log.
+Concrete client/test names, domains, URLs, phrases, products, clusters, action IDs, row counts, provider receipts/costs, commit SHAs, job artifact paths and current step results are forbidden here under `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
 
 ## Owner-lock rule
 
-This file does **not** update automatically after each job step.
-
-During a concrete job ChatGPT may discover a possible reusable lesson, but without explicit owner instruction it may only:
+A concrete job may expose a reusable lesson, but permanent promotion requires explicit owner authorization.
 
 ```text
-report the finding;
-show evidence/sources;
-propose a permanent change;
-wait for owner instruction.
+JOB INCIDENT
+-> MAY PRODUCE PROPOSED LESSON
+-> OWNER REVIEW / AUTHORIZATION
+-> ONLY THEN PERMANENT METHOD UPDATE
 ```
 
-Only explicit owner authorization allows adding/removing/changing a permanent lesson here.
-
-Concrete client/job words, URLs, provider results, matrices, page decisions and job histories must not be copied into this file.
-
-## Mandatory read
-
-Before every major step ChatGPT must read this file as part of the stable universal method, but must not mutate it unless explicitly authorized by the owner.
+Concrete proof remains in Level2/Git history. The permanent lesson keeps the **failure class, root cause, false assumption, corrected control and pass boundary**.
 
 ## Mandatory causal-use rule
 
-This ledger is not a list of actions to repeat mechanically.
+This ledger is not a checklist to replay mechanically.
 
-Before applying a lesson to a new step ChatGPT must be able to explain:
+Before applying a lesson, explain:
 
 ```text
-WHAT FAILED BEFORE
+WHAT FAILED
 WHY IT FAILED
 WHAT FALSE ASSUMPTION / PROCESS GAP CAUSED IT
-HOW THE APPROVED CONTROL BLOCKS THAT CAUSE
-WHY THAT CAUSE IS RELEVANT TO THE CURRENT STEP
+HOW THE CONTROL BLOCKS THAT CAUSE
+WHY THAT CAUSE IS RELEVANT NOW
 WHETHER CURRENT EXTERNAL RESEARCH STILL SUPPORTS THE METHOD
 ```
 
-If this causal explanation cannot be produced, method validation has not happened.
-
-Canonical rule:
-
 ```text
-RULE_RECALL_WITHOUT_CAUSAL_UNDERSTANDING != METHOD_VALIDATION
+RULE RECALL WITHOUT CAUSAL UNDERSTANDING != METHOD VALIDATION
 ```
 
-## Required structure for every validated step entry
-
-Each step entry should preserve, where applicable:
-
-```text
-STEP PURPOSE
-APPROVED METHOD
-WHY THIS METHOD
-KNOWN ERROR(S)
-ROOT CAUSE
-CORRECTED METHOD
-NON-REPEAT CONTROLS
-METHOD ORIGIN / EXTERNAL SUPPORT
-PASS GATE
-STATUS
-```
-
-A future step with no validated methodology must be marked `UNVALIDATED` and researched before execution rather than inferred mechanically from neighbouring steps.
+Detailed step methods listed in `STEP_RULES_INDEX.md` override this summary when more specific.
 
 ---
 
-# OWNER-APPROVED STEP METHODOLOGY LESSONS
+# OWNER-APPROVED PERMANENT LESSONS
 
-## Step 0 — order / scope freeze
+## Step 0 — scope freeze
 
-### Step purpose
+**Purpose:** preserve the client/order goal and boundaries before evidence changes recommendations.
 
-Freeze what the client actually asked for before evidence gathering starts, so later data cannot silently rewrite the order.
+**Failure class:** later evidence can silently redefine the original task.
 
-### Approved method
+**Root cause:**
 
-- Freeze business, region, goal, scope, known exclusions and requested outputs before provider evidence.
-- Later findings may change recommendations but must not silently rewrite the original brief.
+```text
+EVOLVING ANALYSIS
+WAS ALLOWED TO CHANGE
+THE ORIGINAL SUCCESS CRITERION
+```
 
-### Why this method
-
-Without a frozen starting state, later evidence can be interpreted against a moving target and the analysis can appear internally consistent while no longer answering the original client task.
-
-### Known error / failure prevented
-
-Do not let later evidence retroactively redefine the order so the analysis appears cleaner than it really was.
-
-### Method origin
-
-`PROJECT_TEST_VALIDATED + ANALYST_DISCIPLINE`.
-
-### Pass gate
-
-The brief/scope is explicit enough that a later analyst can distinguish original client constraints from later evidence-led recommendations.
+**Control:** freeze initial business, region, scope, exclusions and promised outputs. Later findings may change recommendations but not rewrite what was originally requested.
 
 Status: **APPROVED / ACTIVE**.
 
 ---
 
-## Step 1 — existing-site discovery and business/page model
+## Step 1 — existing-site / business discovery
 
-### Step purpose
+**Purpose:** build the factual current-site/business model before search-demand evidence drives recommendations.
 
-Build a factual model of the existing business/site before using search-demand evidence to recommend page changes.
+**Failure class:** one successful discovery pass was treated as the whole site.
 
-### Approved method
+**Root cause:**
 
-- For a non-trivial existing site, combine deep internal architecture discovery with an independent public/search-visible discovery channel.
-- Preserve evidence states: opened/read is stronger than discovered-link or inferred-template evidence.
-- Merge complementary passes rather than selecting one report and discarding the other.
-- Site architecture is factual/business discovery input; it does not prove that every current page deserves its own SEO target.
+```text
+DISCOVERY SUCCESS
+WAS CONFUSED WITH
+DISCOVERY COMPLETENESS
+```
 
-### Why this method
-
-One discovery channel can miss public pages, templates, content families or business signals. Cross-channel discovery reduces the chance that the later semantic model is built on an incomplete picture of the actual site.
-
-### Known error
-
-A single discovery pass was treated as if it represented the whole site.
-
-### Root cause
-
-Discovery success was confused with discovery completeness.
-
-### Corrected method / non-repeat control
-
-A single discovery pass must not be treated as complete for a non-trivial site unless completeness is demonstrated and recorded. Use an independent second discovery channel and preserve the evidence strength of each finding.
-
-### Method origin
-
-`PROJECT_TEST_VALIDATED + INDUSTRY_REASONING`.
-
-### Pass gate
-
-The merged business/page model is cross-checked, evidence states are explicit, and unresolved discovery gaps are recorded instead of inferred away.
+**Control:** for non-trivial sites use sufficiently independent discovery routes when completeness matters, preserve evidence strength/provenance, timestamp current evidence and apply `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`.
 
 Status: **APPROVED / ACTIVE**.
 
 ---
 
-## Step 2 — seed/query plan
+## Step 2 — seed / acquisition plan
 
-### Step purpose
+**Purpose:** create bounded probes that reveal demand vocabulary without pre-deciding the final semantic core.
 
-Create bounded acquisition probes that expose search-demand vocabulary without predetermining the final semantic core from the existing site structure.
+**Failure class:** seed relevance was confused with final keyword/page relevance.
 
-### Approved method
+**Root cause:**
 
-- A seed is an acquisition probe, not a final semantic-core keyword.
-- Do not mirror every existing URL into one seed; use bounded representative roots so provider evidence can challenge current site taxonomy.
-- Every second-pass expansion must have an explicit reason/information purpose.
-- Numerical request/row caps used for rehearsal economics are project controls, not industry standards.
+```text
+MEASUREMENT INSTRUMENT
+WAS TREATED AS
+FINAL OBJECT OF SELECTION
+```
 
-### Why this method
-
-Seeds are measurement instruments. Treating them as final targets causes the acquisition plan to reproduce analyst assumptions or the current URL tree rather than reveal actual demand.
-
-### Known error
-
-Seed relevance was confused with final keyword/page relevance.
-
-### Root cause
-
-The acquisition probe itself was treated as the object being selected for the final semantic set.
-
-### Corrected method / non-repeat control
-
-Always explain what uncertainty each seed is probing and never defend/reject it based on intuition alone when measurement is the purpose of the probe.
-
-### Method origin
-
-`PROJECT_TEST_VALIDATED + ANALYST_HEURISTIC`.
-
-### Pass gate
-
-Every seed has a declared acquisition purpose and no seed is treated as final semantic/page evidence solely because it was selected for provider acquisition.
+**Control:** every seed has an explicit uncertainty/information purpose. `SEED != FINAL KEYWORD` and current URL taxonomy must not automatically become the acquisition taxonomy.
 
 Status: **APPROVED / ACTIVE**.
 
 ---
 
-## Step 3 — Wordstat provider acquisition
+## Step 3 — provider acquisition
 
-### Step purpose
+**Purpose:** preserve a complete reusable acquisition dataset, not merely successful API calls.
 
-Collect a complete reusable demand-evidence dataset that later semantic work can audit and reproduce.
+**Failure class:** provider requests could succeed technically while only counts/examples or incomplete returned rows were durably saved.
 
-### Approved method
-
-- Freeze the manifest before provider execution.
-- Preserve exact phrase, region, device, provider request identity, cost and outcome state.
-- `SEED != FINAL KEYWORD`.
-- `RAW WORDSTAT != CLIENT SEMANTIC CORE`.
-- Wordstat associations are similar-query vocabulary evidence, not automatically accepted semantic-core phrases.
-- A successful sparse response is not a provider failure and not proof of zero demand.
-- `OUTCOME_UNKNOWN` must never be blindly replayed.
-- Before every YMB command explicitly state active service and execution mode.
-- Replay safety is determined by provider-execution truth and accepted recovery policy, not UI appearance.
-
-### Why this method
-
-The step exists to preserve data for later reasoning, not to accumulate successful API statuses. If complete returned evidence is missing, later cleanup and expansion cannot be audited even when every provider call technically succeeded.
-
-### Owner-approved correction — provider execution is not collection completion
-
-The goal of Step 3 is to **collect a complete reusable dataset**, not to execute a target number of API requests.
-
-A Step-3 provider item is complete only when the complete result required by the step has been preserved and verified before the next provider item is allowed.
-
-Mandatory per-item sequence:
+**Root cause:**
 
 ```text
-DEFINE WHAT MUST BE COLLECTED
-→ EXECUTE ONE PROVIDER ITEM
-→ RECEIVE PROVIDER RESULT
-→ PRESERVE THE COMPLETE REQUIRED RESULT
-→ VERIFY PRESERVED COUNTS/FIELDS AGAINST PROVIDER TRUTH
-→ CONFIRM THE SAVED RESULT IS READABLE/USABLE
-→ ONLY THEN ALLOW THE NEXT PROVIDER ITEM
+TECHNICAL REQUEST SUCCESS
+WAS TREATED AS
+DATA-COLLECTION GOAL COMPLETION
 ```
 
-The following do **not** prove Step-3 completion by themselves:
+**Control:** per acquisition item:
 
 ```text
-HTTP 200
-status = OK
-request_executed = true
-item_status = SUCCEEDED
-batch succeeded count
-provider request count
-cost recorded
-representative examples
-summary/checkpoint without complete returned rows
+DEFINE REQUIRED RESULT
+-> EXECUTE
+-> RECEIVE COMPLETE RESULT
+-> IMMEDIATE GITHUB SAVE
+-> READBACK / COUNT / FIELD RECONCILIATION
+-> ONLY THEN NEXT ITEM
 ```
 
-If the provider returns a result set and only representative examples are preserved, that item is **INCOMPLETE FOR THE PROJECT** even though the API request succeeded.
-
-If the current item is incomplete:
-
-```text
-CURRENT_ITEM = INCOMPLETE
-NEXT_PROVIDER_ITEM = BLOCKED
-STEP_3 = NOT_COMPLETE
-NEXT_ANALYTICAL_STEP = BLOCKED
-```
-
-For Wordstat `getTop`, preservation must explicitly account for the complete returned arrays required by the concrete step, including `results[]` and `associations[]` when those arrays are part of the acquisition objective. `totalCount` is demand/frequency evidence and must not be confused with the number of returned rows saved.
-
-### Error that caused this correction
-
-A controlled KW-001 rehearsal executed a multi-item Wordstat pass and recorded successful provider outcomes, but many item checkpoints preserved only counts and representative examples rather than the complete returned phrase rows. The batch was then incorrectly accepted as complete and downstream analysis proceeded without a complete reusable acquisition dataset.
-
-### Root cause
-
-```text
-technical success was treated as the goal
-instead of verifying whether the actual data-collection goal had been achieved
-```
-
-### Failure prevented
-
-Without this correction:
-
-```text
-a provider batch can look complete while the dataset needed by the client task is missing;
-subsequent cleanup can operate on examples instead of all collected phrases;
-expansion choices can be made from incomplete evidence;
-several later steps can become invalid and require rework;
-operator time and provider cost can be wasted;
-request-count progress can replace actual project progress.
-```
-
-### Required Step-3 completion report
-
-At the end of a Step-3 collection pass, the report must reconcile at minimum:
-
-```text
-provider items planned
-provider items attempted
-provider items actually executed
-provider items with known outcomes
-results rows returned
-association rows returned where applicable
-rows saved
-rows verified
-items incomplete
-outcome_unknown
-provider cost
-```
-
-### Non-repeat controls / pass gate
-
-If the relevant counts do not reconcile, Step 3 cannot pass. The next provider item is blocked until the current required result is completely saved and verified.
-
-### Method origin
-
-`OFFICIAL provider semantics + PROJECT_TEST_VALIDATED + OWNER-APPROVED PROCESS CORRECTION`.
+`HTTP 200`, `SUCCEEDED`, request count or cost alone do not prove project completeness. `OUTCOME_UNKNOWN` is never blindly replayed.
 
 Status: **APPROVED / ACTIVE**.
 
 ---
 
-## Step 4 — first post-Wordstat triage / cleanup preparation
+## Step 3R — recovery of incomplete acquisition
 
-### Step purpose
+This is a job-specific recovery pattern governed by Step3 durability/accounting rules, not a separate universal analytical method.
 
-Separate obvious noise/scope problems from potentially useful demand and identify unresolved families before true row-level semantic cleanup.
+Status: **JOB-SPECIFIC RECOVERY PATTERN**.
 
-### Approved rules
+---
 
-- Do not treat raw Wordstat output as a ready semantic core.
-- Preserve ambiguous potentially valuable demand for later business/SERP resolution rather than deleting it prematurely.
-- Wordstat associations are vocabulary/expansion evidence, not automatically accepted keywords.
-- Do not make final cluster/page decisions before ordinary SERP evidence when page-boundary uncertainty remains.
-- Business-priority unknowns must remain unresolved rather than being silently promoted or deleted.
+## Step 4 — first post-acquisition triage
 
-### Why this method
+**Purpose:** remove obvious noise/scope failures while preserving useful uncertainty for later row-level/Search resolution.
 
-Early triage should reduce obvious noise without destroying evidence needed for later intent/page decisions. It is preparation for row-level cleanup, not a substitute for it.
+**Failure classes:** family-level triage overstated as full cleanup; low frequency used as irrelevance; association volume over-promoted into semantic acceptance.
 
-### Approved correction A — family-level triage is not full cleanup
-
-Do not call a family/pattern review `complete semantic cleanup`.
-
-Before final semantic-core freeze, row-level retained/excluded provenance must exist for the phrases used in the workflow.
-
-### Root cause of correction A
-
-A higher-level pattern/family decision was incorrectly treated as if every underlying phrase had been individually accounted for.
-
-### Approved correction B — separate exclusion reasons
-
-Use distinct states/reasons such as:
+**Root causes:**
 
 ```text
-KEEP
-REVIEW
-EXCLUDE_IRRELEVANT
-EXCLUDE_SCOPE
-EXCLUDE_MECHANICAL
+CATEGORY COVERAGE != ROW-LEVEL ACCOUNTING
+LOW FREQUENCY != IRRELEVANCE
+ASSOCIATION / VOLUME SIGNAL != SEMANTIC FIT
 ```
 
-A semantically valid phrase outside the frozen client scope is not the same thing as irrelevant demand.
-
-### Approved correction C — frequency rule
-
-Canonical rule:
-
-```text
-LOW_FREQUENCY_ALONE != PROOF_OF_IRRELEVANCE
-```
-
-Frequency may still contribute later to prioritization/page decisions together with relevance, business value, cluster/topic size and SERP evidence.
-
-### Approved correction D — association confidence
-
-A high-count broad association may justify an acquisition probe without becoming a strong semantic candidate.
-
-Use probe confidence/status concepts such as:
-
-```text
-EXPANSION_PROBE_READY
-EXPANSION_PROBE_AMBIGUOUS
-EXPANSION_PROBE_REVIEW
-```
-
-### External support already checked when owner approved this correction
-
-Official Yandex Wordstat GetTop:
-- https://aistudio.yandex.ru/docs/ru/search-api/api-ref/Wordstat/getTop
-
-External corroboration:
-- https://www.semrush.com/blog/keyword-clustering/
-- https://ahrefs.com/blog/keyword-mapping/
-- https://ahrefs.com/blog/keyword-intent/
-
-Exact internal status names remain project-specific mechanics, not claimed industry standards.
-
-### Non-repeat controls / pass gate
-
-Do not claim full cleanup from family-level evidence. Preserve ambiguous rows. Keep scope/irrelevance/mechanical reasons separated. Do not use volume or association status as automatic acceptance/rejection proof.
-
-### Method origin
-
-`OFFICIAL + INDUSTRY_PRACTICE + ANALYST_HEURISTIC (owner-approved correction)`.
+**Control:** distinct KEEP/REVIEW/exclusion reasons, low-frequency non-equivalence, association as probe vocabulary, and no claim of full cleanup without row-level provenance.
 
 Status: **APPROVED / ACTIVE**.
 
 ---
 
-## Step 5 — targeted Wordstat expansion pass #2
+## Step 5 — targeted second acquisition
 
-### Step purpose
+**Purpose:** run a second bounded acquisition only for named information gaps left by pass one.
 
-Use a bounded second acquisition pass only where the first pass left a material demand-coverage uncertainty.
-
-Status: **NOT YET UNIVERSALLY VALIDATED BY EXECUTION**.
-
-### Current stable pre-step questions
+Permanent partial lesson:
 
 ```text
-Does each proposed probe add information rather than duplicate pass #1?
-Is the phrase a semantic target or only an acquisition probe?
-What exact uncertainty will its provider result resolve?
-Is the business family actually in scope or still client-unknown?
-Is a broad association being over-promoted merely because of count?
-Can the uncertainty be resolved more appropriately by later SERP evidence instead?
+SECOND ACQUISITION
+REQUIRES EXPLICIT INFORMATION GAIN
+!= RECURSIVE KEYWORD COLLECTION
 ```
 
-### Why these controls exist
+Each probe must state the uncertainty it can resolve and why persisted evidence cannot already answer it.
 
-A second acquisition pass can easily become recursive keyword collection with no decision value. Each probe therefore needs a declared information gain and must not be justified merely by volume or lexical adjacency.
+Status: **PARTIALLY DEFINED / NOT YET UNIVERSALLY VALIDATED**.
 
-A concrete job's exact Step-5 probe manifest belongs in that job workspace and does not belong here.
+---
+
+## Step 6 — demand dynamics / seasonality
+
+No owner-approved reusable method has yet been fully earned.
+
+Status: **UNVALIDATED**.
+
+---
+
+## Step 6A — acquisition coverage revalidation
+
+No owner-approved reusable method has yet been fully earned.
+
+Status: **UNVALIDATED**.
 
 ---
 
 ## Step 7 — row-level semantic cleanup
 
-### Step purpose
+**Purpose:** classify every acquired phrase occurrence/unique phrase conservatively without pretending unresolved task/page questions are solved.
 
-Transform the complete acquired phrase universe into an auditable phrase-level decision set in which every source occurrence is accounted for and every unique phrase is explicitly classified without pretending that unresolved intent/page questions are already solved.
+### Failure 1 — family triage overstated as row-level cleanup
 
-This step answers:
+**Root cause:** category-level decisions were treated as member-level accounting.
 
-```text
-Is this phrase clearly relevant enough to remain in the working semantic set now?
-Is it clearly irrelevant / outside scope / mechanical noise?
-Or is it genuinely uncertain and therefore REVIEW?
-```
+**Control:** exact source occurrence + unique phrase reconciliation; every active row receives an explicit state.
 
-It does **not** decide final page ownership, final clustering, cannibalization or final Search architecture.
+### Failure 2 — default KEEP fallthrough
 
-### Approved method
-
-1. Preserve every source occurrence and provenance before semantic decisions.
-2. Use conservative exact normalization for exact duplicate accounting; do not use stemming/lemmatization/word reordering as automatic merge proof.
-3. Maintain one auditable decision record per exact normalized phrase.
-4. Use explicit decision states:
+**Root cause:**
 
 ```text
-KEEP
-REVIEW
-EXCLUDE_IRRELEVANT
-EXCLUDE_SCOPE
-EXCLUDE_MECHANICAL
+NO REJECTION RULE MATCHED
+WAS TREATED AS
+POSITIVE RELEVANCE EVIDENCE
 ```
 
-5. `KEEP` requires **positive semantic/business evidence**. It must never mean merely `no exclusion rule matched`.
-6. A potentially relevant phrase without sufficient positive evidence goes to `REVIEW`, not automatically to KEEP and not silently to exclusion.
-7. Low frequency alone never proves irrelevance.
-8. Association-only evidence never auto-promotes a phrase to KEEP.
-9. Non-exact lexical duplicates are surfaced as candidates and are not automatically merged without stronger intent/page evidence.
-10. Run arithmetic/provenance QA **and** semantic QA. Arithmetic success alone cannot pass semantic cleanup.
-11. Semantic QA must include adversarial MUST_KEEP and MUST_NOT_KEEP cases across the main phrase families and known failure classes.
-12. If semantic QA finds a new class of false decisions, fix the **cause/class**, rerun the whole decision set, and repeat until additional review is no longer producing material new failure classes.
-13. Do not self-accept the result merely because the classifier/script runs successfully; the acceptance must reflect the declared semantic goal and remaining uncertainty.
+**Control:** KEEP requires positive semantic/business evidence. Ambiguous potentially useful demand goes to REVIEW.
 
-### Why this method
+### Failure 3 — arithmetic QA substituted for semantic QA
 
-Semantic cleanup is a relevance/intent decision problem, not a string-filtering problem.
+**Root cause:** no dropped/duplicate rows was treated as proof that the decisions themselves were correct.
 
-A deterministic prefilter is useful for obvious cases, but a negative dictionary cannot prove positive relevance. Therefore absence of a rejection signal cannot logically serve as evidence for KEEP.
+**Control:** adversarial semantic QA capable of finding new error classes; fix causes/classes and rerun the whole set.
 
-Likewise, exact accounting proves that no rows disappeared, but it does not prove the decisions attached to those rows are semantically correct.
+### Failure 4 — volume/association used as semantic proof
 
-The method intentionally prefers REVIEW over false certainty because later ordinary Search evidence can resolve mixed intent/page boundaries more safely than an aggressive cleanup heuristic.
+**Control:** low frequency alone never excludes; high count/association alone never promotes.
 
-### Known error 1 — family-level triage was previously overstated as complete cleanup
+Status: **APPROVED / ACTIVE AFTER CORRECTION**.
 
-What was wrong:
+---
 
-A higher-level family/pattern pass was described as if all phrases had been semantically cleaned.
+## Step 8 — Search-stage semantic freeze
 
-Root cause:
+Detailed authority: `STEP_08_SEARCH_STAGE_FREEZE_METHOD.md`.
+
+**Core failure:** evaluation dimensions such as business relevance/internal priority were turned into supposed evidence routes even though no independent source could execute those routes.
+
+**Root cause:**
 
 ```text
-coverage of categories was confused with row-level decision completeness
+EVALUATION DIMENSION
+WAS CONFUSED WITH
+OBSERVABLE EVIDENCE SOURCE
 ```
 
-Correction:
-
-Require full phrase-level accounting and explicit decision provenance before Step 7 can even be evaluated.
-
-Non-repeat control:
+**Control:** source-to-method trace; unresolved routes must identify a real independent evidence source and executable action.
 
 ```text
-SOURCE_OCCURRENCES_RECONCILE = true
-UNIQUE_PHRASES_RECONCILE = true
-UNCLASSIFIED = 0
+EVALUATION_DIMENSION != EVIDENCE_ROUTE
 ```
-
-### Known error 2 — default KEEP fallthrough
-
-What was wrong:
-
-A classifier allowed phrases that matched no known exclusion/review rule to fall through into KEEP.
-
-This created the false logic:
-
-```text
-NOT KNOWN BAD -> KEEP
-```
-
-instead of the required logic:
-
-```text
-POSITIVE RELEVANCE / BUSINESS FIT ESTABLISHED -> KEEP
-UNCERTAIN -> REVIEW
-CLEARLY WRONG -> EXCLUDE_*
-```
-
-Root cause:
-
-The method was built primarily as a negative filter. Dictionary completeness was implicitly treated as if it proved semantic correctness.
-
-Why this is dangerous:
-
-Any phrase class missing from the negative dictionaries becomes a false KEEP even when its intent is navigational, DIY, technical, architectural, real-estate, component-specific, malformed or otherwise unresolved.
-
-Corrected method:
-
-```text
-DEFAULT_KEEP_FALLTHROUGH = false
-KEEP_REQUIRES_POSITIVE_REASON = true
-UNCERTAINTY_DEFAULT = REVIEW
-```
-
-Every KEEP must have an explicit positive reason tied to a known business/content family or another positively established relevant user need.
-
-### Known error 3 — machine/accounting QA was mistaken for semantic QA
-
-What was wrong:
-
-The earlier pipeline could reconcile all rows, exact duplicates and statuses while still making poor relevance decisions.
-
-Root cause:
-
-```text
-structural correctness was treated as analytical correctness
-```
-
-Correction:
-
-Step 7 requires two independent gates:
-
-```text
-A. ACCOUNTING / PROVENANCE QA
-B. SEMANTIC DECISION QA
-```
-
-Both must pass.
-
-### Known error 4 — brittle literal dictionaries / morphology and word order
-
-What was wrong:
-
-Literal substring rules missed inflected forms or reordered phrase forms. A semantic class could therefore change only because the words appeared in a different grammatical form/order.
-
-Root cause:
-
-String matching was allowed to stand in for semantic understanding.
-
-Correction:
-
-Use literal/rule logic only as an auditable aid, then adversarially test morphological/order variants. When QA finds a miss, fix the semantic class or normalization logic rather than adding only the single observed phrase whenever a broader causal rule exists.
-
-Non-repeat control:
-
-Semantic QA must deliberately include inflection and word-order variants for known risk classes.
-
-### Known error 5 — isolated patching instead of causal correction
-
-What was wrong:
-
-When an individual false decision appears, it is tempting to add that exact phrase to an exception list and move on.
-
-Root cause:
-
-The symptom is easier to patch than identifying the general class of requests that produced it.
-
-Corrected method:
-
-For every semantic QA failure ask:
-
-```text
-What general intent/class caused this?
-What other phrases can fail for the same reason?
-Can the correction be expressed as a defensible class-level rule?
-Will this rule create false negatives elsewhere?
-What positive controls prove core queries still remain KEEP?
-```
-
-Then rerun the entire corpus.
-
-Canonical rule:
-
-```text
-FIX_CAUSE_NOT_ONLY_EXAMPLE = true
-```
-
-### Known error 6 — non-exact duplicates can be over-merged
-
-What was wrong/risk:
-
-Spelling, transliteration, token-order or light morphological similarity can look like duplicate semantics without proving identical intent/page ownership.
-
-Root cause:
-
-Lexical similarity can be confused with search-task equivalence.
-
-Corrected method:
-
-Exact normalization may deduplicate exact phrase keys conservatively. Non-exact duplicates are only candidate groups until later intent/SERP evidence supports merging.
-
-### Known error 7 — semantic cleanup can accidentally decide later-stage questions
-
-Risk:
-
-A cleanup classifier can begin deciding page architecture, final clustering, commercial priority or cannibalization simply because the phrase appears related.
-
-Root cause:
-
-The boundary between relevance cleanup and Search/page validation becomes blurred.
-
-Corrected method:
-
-If the phrase is plausibly relevant but final intent/page/business boundary needs evidence, keep it in REVIEW. Do not force later-stage decisions into Step 7.
-
-### Required reasoning sequence before executing Step 7
-
-ChatGPT must understand and explain this sequence before authorization:
-
-```text
-1. WHAT EXACT SOURCE UNIVERSE MUST BE ACCOUNTED FOR?
-2. WHAT DOES KEEP MEAN POSITIVELY IN THIS BUSINESS/SCOPE?
-3. WHICH DECISIONS CAN BE SAFE DETERMINISTIC EXCLUSIONS?
-4. WHICH INTENT/SCOPE/PAGE BOUNDARIES MUST REMAIN REVIEW?
-5. WHAT NORMALIZATION IS SAFE FOR EXACT ACCOUNTING?
-6. WHAT NON-EXACT SIMILARITY MUST NOT BE AUTO-MERGED?
-7. WHAT KNOWN ERROR CLASSES MUST THE SEMANTIC QA ATTACK?
-8. WHAT POSITIVE CONTROL CASES PROTECT AGAINST OVER-CLEANING?
-9. HOW WILL WE KNOW THE QA HAS STOPPED FINDING MATERIAL NEW FAILURE CLASSES?
-10. WHAT REMAINS FOR ORDINARY Search AFTER THIS STEP?
-```
-
-If ChatGPT cannot explain why each decision/gate exists, Step 7 is not ready to run.
-
-### External support checked for this lesson
-
-Official/current search-demand and user-need guidance:
-- https://yandex.ru/support2/wordstat/ru/interface/new
-- https://yandex.ru/support/webmaster/en/recommendations/targeting
-
-External industry methodology used to challenge the project method:
-- https://journal.topvisor.com/ru/seo-kitchen/how-to-understand-from-which-requests-clean-the-core/
-- https://www.rush-analytics.ru/blog/chto-takoe-klasterizacziya-zaprosov
-- https://ahrefs.com/blog/keyword-intent/
-- https://ahrefs.com/blog/keyword-clustering/
-- https://ahrefs.com/blog/keyword-mapping/
-- https://www.semrush.com/blog/keyword-clustering/
-
-No external authority mandates the exact five internal statuses or one exact normalization recipe. Those remain project-specific, owner-approved controls.
-
-### Mandatory non-repeat controls
-
-Before Step 7 can pass:
-
-```text
-ALL_SOURCE_OCCURRENCES_ACCOUNTED = true
-ALL_UNIQUE_EXACT_PHRASES_CLASSIFIED = true
-UNCLASSIFIED = 0
-DEFAULT_KEEP_FALLTHROUGH = false
-EVERY_KEEP_HAS_POSITIVE_REASON = true
-LOW_FREQUENCY_ONLY_EXCLUSIONS = 0
-ASSOCIATION_AUTO_KEEP = false
-NONEXACT_DUPLICATES_AUTO_MERGED = 0
-ARITHMETIC_QA = PASS
-PROVENANCE_QA = PASS
-SEMANTIC_QA = PASS
-KNOWN_FALSE_KEEP_CLASSES_TESTED = true
-CORE_MUST_KEEP_CONTROLS_TESTED = true
-NEW_QA_FAILURE_CLASS -> FIX_CAUSE + RERUN_WHOLE_SET
-```
-
-### Pass gate
-
-Step 7 is complete only when:
-
-```text
-1. the entire declared source universe reconciles;
-2. every unique exact phrase has an explicit decision and reason;
-3. KEEP is based on positive evidence, never default fallthrough;
-4. uncertain relevant demand is preserved as REVIEW;
-5. safe exclusions remain reason-separated;
-6. non-exact candidates are not silently merged;
-7. adversarial semantic QA passes without known material failure classes being ignored;
-8. the result remains explicitly separate from final clustering/page ownership/Search validation;
-9. the current job acceptance record documents remaining limitations;
-10. NEXT_STEP_ALLOWED is based on this analytical gate, not script/workflow success.
-```
-
-### Method origin
-
-`OFFICIAL + INDUSTRY_PRACTICE + PROJECT_TEST_VALIDATED + OWNER-APPROVED PROCESS CORRECTION`.
 
 Status: **APPROVED / ACTIVE**.
 
 ---
 
-# Step 11 — page ownership / phrase-to-page mapping permanent lesson
+## Step 9 — ordinary Search validation
 
-Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + OWNER-INSTRUCTED CORRECTION**.
+No owner-approved reusable full method has yet been earned.
 
-Canonical detailed method:
-
-```text
-STEP_11_PAGE_OWNERSHIP_METHOD.md
-```
-
-## What went wrong in the first OKNO-MSK run
-
-### Known error 1 — Bridge/Codex evidence was not persisted immediately after every acquisition interaction
-
-Wrong action:
-
-Evidence returned by Yandex Marketing Bridge and Codex/site-reading passes was allowed to remain temporarily in conversational/tool state before the complete useful result had been written to the canonical GitHub workspace and read back.
-
-Consequence:
-
-The run came close to losing already acquired evidence. A later context, browser, tool or extension interruption could have destroyed work that had already consumed provider requests and analyst time. Replaying a paid or stateful acquisition later may cost money and may not reproduce the same result exactly.
-
-Root cause:
-
-The older generic rule `REQUEST_SUCCEEDED != PROJECT_RESULT_COMPLETE` described the distinction but did not operationally block the **next** acquisition interaction until durable persistence was verified.
-
-Why the previous method was insufficient:
-
-A provider status, HTTP 200, successful Codex pass, summary in chat, or visible tool result proves only transient execution. It does not prove that the project can recover that evidence later.
-
-Corrected method:
-
-```text
-BRIDGE_OR_CODEX_INTERACTION_COMPLETES
--> COMPLETE_REQUIRED_RESULT_AVAILABLE
--> IMMEDIATE_WRITE_TO_CANONICAL_GITHUB_JOB_WORKSPACE
--> GITHUB_READBACK / PARSE / COMPLETENESS CHECK
--> ONLY THEN NEXT ACQUISITION INTERACTION
-```
-
-This applies to Bridge provider calls, Bridge batch chunks, Codex URL/page acquisition passes and any equivalent evidence-producing interaction.
-
-Non-repeat control:
-
-```text
-BRIDGE_OR_CODEX_RESULT_IN_CHAT != DURABLE_PROJECT_EVIDENCE
-NEXT_ACQUISITION_BLOCKED_UNTIL_GITHUB_PERSISTENCE_AND_READBACK = true
-```
-
-### Known error 2 — cluster ownership was accepted without materializing the final phrase→page map
-
-Wrong action:
-
-The first pass stopped after producing 59 `cluster → owner/state` rows. The Step-10 phrase ledger made it theoretically possible to derive the page for each phrase, but the actual `phrase → cluster → target URL/state` result was not materialized as a final Step-11 artifact.
-
-Consequence:
-
-The deliverable was harder to audit and use, and more importantly the missing join hid heterogeneous upstream clusters. A cluster label could look reasonable while its actual member phrases did not share one terminal task.
-
-Root cause:
-
-The method treated cluster-level ownership as equivalent to completed keyword mapping.
-
-Why the previous method was insufficient:
-
-Cluster-level reasoning is the right way to avoid one-page-per-keyword fragmentation, but it is only an intermediate abstraction. The final SEO map still has to expose every active phrase against its effective cluster and target/no-target state.
-
-Corrected method:
-
-```text
-CLUSTER OWNERSHIP DECISION
--> MATERIALIZE EVERY ACTIVE PHRASE
--> PHRASE + ORIGINAL CLUSTER + EFFECTIVE CLUSTER + TARGET URL/STATE
--> FULL ACCOUNTING + DUPLICATE + MISSING-OWNER QA
-```
-
-Hard rule:
-
-```text
-CLUSTER_OWNERSHIP_COMPLETE != PHRASE_PAGE_MAPPING_COMPLETE
-```
-
-### Known error 3 — a representative query or cluster label can hide a bad upstream cluster
-
-Observed consequence in OKNO-MSK:
-
-- `GENERAL_GLAZING_SERVICE` was labelled generic, but all seven member phrases were actually aluminium, panoramic, French-window or outside-brand tasks;
-- `GLAZING_SELECTION_INFO` was described as generic/non-balcony, but its actual member phrases were veranda-specific;
-- replacement, reviews, balcony-info, broad technical-info and comparison clusters contained materially different terminal tasks.
-
-Root cause:
-
-Step 11 inspected representative query behaviour and cluster summaries without making full member-phrase coherence a blocking ownership check.
-
-Corrected method:
-
-Every cluster must remain inspectable at phrase level. `MEDIUM`/`LOW` ownership and broad/heterogeneous clusters require all-member review. If a cluster is wrong, preserve the historical upstream artifact and apply an explicit correction overlay/split or unresolved handoff; do not hide the defect by assigning a convenient URL.
-
-Hard rule:
-
-```text
-REPRESENTATIVE_QUERY_BEHAVIOR != PERMISSION_TO_REWRITE_CLUSTER_BOUNDARY
-BAD_UPSTREAM_CLUSTER != VALID_PAGE_OWNER_PROBLEM
-```
-
-### Known error 4 — target URL terminology can be overstated
-
-A page selected by the analyst as the intended SEO owner is not automatically the URL that Yandex currently ranks/associates with the query.
-
-Corrected terminology:
-
-```text
-TARGET_URL = intended SEO owner selected from current page/task evidence
-YANDEX_RELEVANT_URL = directly observed Yandex query↔URL/ranking evidence
-TARGET_URL != PROVEN_YANDEX_RELEVANT_URL
-```
-
-This matters especially when the target domain is absent from observed TOP results or authorized Webmaster query↔URL data is unavailable.
-
-## Why this method is supported externally
-
-Current external method audit used:
-
-- Semrush — keyword mapping: https://www.semrush.com/blog/keyword-mapping/
-- Ahrefs — keyword mapping: https://ahrefs.com/blog/keyword-mapping/
-- Ahrefs — keyword clustering: https://ahrefs.com/blog/keyword-clustering/
-- Rush Analytics — relevant URLs for clusters: https://www.rush-analytics.ru/faq/klasterizaciya/opredelenie-relevantnyh-url-dlya-klasterov
-- Topvisor — target URL terminology: https://topvisor.com/ru/support/rankings/target-url/
-- Yandex Webmaster — page targeting and query↔URL analytics: https://yandex.ru/support/webmaster/ru/recommendations/targeting and https://yandex.ru/support/webmaster/ru/service/queries-export
-
-The sources support cluster→page mapping, intent/page fit and explicit target-URL mapping. The exact internal statuses, correction-overlay schema and GitHub durability gate are project/owner controls created from the failure mode observed in this work.
-
-## Required Step-11 completion gate
-
-Step 11 cannot pass until:
-
-```text
-ALL_ACTIVE_PHRASES_MATERIALIZED = true
-SILENT_ACTIVE_DROPS = 0
-DUPLICATE_PHRASE_MAP_ROWS = 0
-ASSIGNED_WITHOUT_EFFECTIVE_CLUSTER = 0
-ASSIGNED_WITHOUT_OWNERSHIP_ROW = 0
-OWNER_EXISTING_WITH_BLANK_TARGET_URL = 0
-SEARCH_REQUIRED_WITH_TARGET_URL = 0
-MEDIUM_LOW_OWNERSHIP_REAUDIT = 100%
-KNOWN_MIXED_CLUSTERS_LEFT_UNCORRECTED = 0
-BRIDGE_CODEX_ACQUISITION_PERSISTENCE_GATE = PASS
-FINAL_GITHUB_READBACK = PASS
-PREMATURE_STEP12_ACTIONS = 0
-PREMATURE_STEP13_CANNIBALIZATION_VERDICTS = 0
-```
-
-The exact OKNO-MSK phrases, URLs and correction rows remain job-specific Layer-C evidence. The causal method above is reusable Layer-B methodology.
+Status: **UNVALIDATED**.
 
 ---
 
-# Permanent-update policy
+## Step 10 — user-task / Search clustering
 
-If a future job reveals a potential universal lesson:
+Detailed authorities:
 
-```text
-1. report it to the owner in the step report;
-2. provide evidence and source support;
-3. do not edit this file;
-4. wait for explicit owner instruction;
-5. only then update the permanent universal method if instructed.
-```
+- `STEP_10_CLUSTERING_GRANULARITY_METHOD.md`
+- `STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`
+- `STEP_10_SORTING_AND_QA_METHOD.md`
 
-Markers:
+**Core lesson:** a universal method does not mean domain-free execution or a ban on scoped local rules.
 
 ```text
-KW001_PERMANENT_LESSONS_LEDGER_ACTIVE = true
-KW001_PERMANENT_LESSONS_OWNER_LOCKED = true
-KW001_NO_AUTOMATIC_LESSON_PROMOTION = true
-KW001_RULE_RECALL_WITHOUT_CAUSAL_UNDERSTANDING_INVALID = true
-KW001_STEP3_PROVIDER_EXECUTION_NOT_COLLECTION_COMPLETION = true
-KW001_STEP3_NEXT_ITEM_BLOCKED_UNTIL_COMPLETE_RESULT_VERIFIED = true
-KW001_STEP3_COMPLETION_COUNTS_MUST_RECONCILE = true
-KW001_FAMILY_TRIAGE_NOT_EQUAL_FULL_CLEANUP = true
-KW001_SCOPE_EXCLUSION_SEPARATE_FROM_IRRELEVANCE = true
-KW001_LOW_FREQUENCY_ALONE_NOT_IRRELEVANCE_PROOF = true
-KW001_ASSOCIATION_IS_PROBE_NOT_ACCEPTED_KEYWORD = true
-KW001_STEP7_DEFAULT_KEEP_FALLTHROUGH_FORBIDDEN = true
-KW001_STEP7_KEEP_REQUIRES_POSITIVE_REASON = true
-KW001_STEP7_UNCERTAINTY_DEFAULT_REVIEW = true
-KW001_STEP7_ARITHMETIC_QA_NOT_SEMANTIC_QA = true
-KW001_STEP7_FIX_CAUSE_NOT_ONLY_EXAMPLE = true
-KW001_STEP7_NONEXACT_DUPLICATES_NOT_AUTO_MERGED = true
-KW001_STEP7_SEMANTIC_QA_REQUIRED = true
+EXECUTABLE METHOD
+= REUSABLE TASK-FIRST CORE
++ CURRENT DOMAIN PROFILE
++ CURRENT CONSTRAINTS
 ```
 
+**Root cause prevented:** stripping all local rules in the name of universality can remove real deliverable/business constraints just as badly as hard-coding one client's vocabulary into the core method.
+
+Status: **APPROVED / ACTIVE**.
 
 ---
 
-## Step 12 — structural actions: causal correction after external audit
+## Step 11 — page ownership / phrase→page mapping
 
-### Step purpose
+Detailed authority: `STEP_11_PAGE_OWNERSHIP_METHOD.md`.
 
-Turn a phrase-level semantic/page map into a practical, evidence-backed site-structure plan: what to keep, strengthen, add, create, split, merge or deliberately not create.
+### Failure 1 — transient acquisition evidence
 
-### Why this step needs its own method
+**Root cause:** request/tool success treated as durable project evidence.
 
-A structurally tidy recommendation can still be wrong if the analyst skips the user-task boundary, uses lexical matching as proof, equates phrase count with demand, invents commercial pages the business cannot fulfil, or lets the same script both create and certify its own result.
+**Control:** save/readback before next provider/browser/code acquisition.
 
-Step 12 therefore has to preserve the reasoning chain that turns search demand into a page decision. The output is not merely a taxonomy of action labels.
+### Failure 2 — cluster ownership treated as complete phrase mapping
 
-### Known errors that caused the correction
+**Root cause:** cluster-level completeness substituted for final member-row accounting.
 
-1. **Hidden lexical overrides were treated as architecture.** Individual phrases were routed to specific pages by substring/token rules without first creating an explicit user-task structural unit.
-2. **Phrase visibility was mistaken for semantic coherence.** A full phrase list existed, but mixed objects/tasks could still survive and receive one action.
-3. **New-page creation was under-evidenced.** Phrase count + page gap + narrative usefulness were treated as enough without a per-candidate demand/Search evidence matrix.
-4. **Confidence defaulted to HIGH.** Confidence reflected the absence of a manual downgrade rather than evidence strength.
-5. **QA partly self-certified the desired result.** Some pass properties were constants or weak proxies, and any SPLIT/MERGE was counted as failure rather than only unsupported actions.
-6. **The next-step overlap universe was hand-curated.** Candidate page pairs were not derived from the complete final routing graph.
-7. **New-page hierarchy was incomplete.** A proposed slug/parent label did not fully specify how the page belongs in navigation and internal linking.
-8. **`NO_STANDALONE_PAGE` could strand useful subtasks.** Rejecting one generic page was treated as if it answered where each useful phrase should go.
-9. **Useful rows could remain trapped inside rejected groups.** Cluster-level protection against an unsupported page could hide phrases that belonged to a valid different task/page.
-10. **Phrase count was used as a demand proxy.** Vocabulary size was allowed to strengthen demand narratives without materialized frequency/traffic evidence.
-11. **Downstream dependencies were hidden by final-looking actions.** A recommendation could depend on later conflict testing while still looking implementation-ready.
+**Control:** one final phrase→page row per active phrase.
 
-12. **Upstream outside/rejected state can conflict with later verified site evidence.** A prior scope/no-page label is accepted only until materially contradicted by later phrase-level or current first-party evidence; preserve history and apply an explicit correction overlay rather than blindly inheriting or blindly reversing the state.
+### Failure 3 — representative query/cluster label treated as every member's task
 
-### Root cause
+**Control:** full member coherence review; explicit correction overlay/split/unresolved state when contradicted.
 
-The first method correctly understood the broad principle — do not create a page for every phrase — but moved too quickly from cluster/page evidence to a structural action. Several intermediate proof steps were implicit rather than materialized.
+### Failure 4 — target page conflated with observed Search relevant URL
 
-Canonical causal error:
+**Control:** analyst target and observed Search behavior are separate evidence dimensions.
 
-```text
-PLAUSIBLE ROUTE / PLAUSIBLE PAGE IDEA
-!=
-EVIDENCE-BACKED STRUCTURAL UNIT + VERIFIED PAGE ROLE
-```
+Status: **APPROVED / ACTIVE**.
 
-The same pattern also affected QA:
+---
+
+## Step 12 — structural/content-routing actions
+
+Detailed authority: `STEP_12_STRUCTURAL_ACTION_METHOD.md` and companion Step12 gates.
+
+Key permanent causal lessons:
 
 ```text
-DESIRED INVARIANT WRITTEN INTO THE SCRIPT
-!=
-INVARIANT INDEPENDENTLY VERIFIED FROM DATA / PROVENANCE / REVIEW LEDGER
+LEXICAL CLUE != PAGE/TASK AUTHORITY
+PHRASE VISIBILITY != COHERENCE PROOF
+PHRASE COUNT != DEMAND
+ACTION LABEL != DIAGNOSIS
+ACTION != EVIDENCE FOR ITSELF
+NO SINGLE OWNER != CONTENT GAP
+OLD INVENTORY ABSENCE != CURRENT SITE ABSENCE
+BUSINESS TRUTH != CLIENT/OWNER STRATEGIC GOAL
+KEEP STRUCTURAL OWNER != PERFORMANCE GOOD
+ROUTING EDGE != IMPLEMENTABLE CURRENT LINK
+KNOWN DEFECTS FIXED != GLOBAL COHERENCE PROVEN
+HISTORICAL DOWNSTREAM PASS != VALID AFTER MATERIAL UPSTREAM MUTATION
 ```
 
-### Corrected method / non-repeat controls
+**Root pattern:** repeated false PASSes came from substituting representation consistency/previous acceptance for independent current evidence and falsification.
 
-The approved corrected sequence is:
+**Control:** current site/content, business goal evidence, real demand, Search boundary when material, alternatives before CREATE, evidence-derived confidence, independent global coherence, downstream invalidation/rebuild and GitHub readback.
+
+Status: **APPROVED / ACTIVE**.
+
+---
+
+## Step 13 — competing-page / cannibalization diagnosis
+
+Detailed authority: `STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md`.
+
+### Failure 1 — research source found but not operationalized
+
+**Root cause:** official/evidence source discovery was allowed to remain narrative “ideal evidence” rather than becoming a requirement/mode/access state/claim boundary/QA gate.
 
 ```text
-FULL PHRASE SET
-→ COHERENCE AUDIT
-→ EXPLICIT STRUCTURAL UNITS / CORRECTIONS
-→ BUSINESS TRUTH
-→ CURRENT PAGE FIT
-→ DEMAND EVIDENCE
-→ SEARCH/SERP EVIDENCE WHEN MATERIAL TO THE PAGE BOUNDARY
-→ COMPARE STRUCTURAL ALTERNATIVES
-→ ACTION
-→ EVIDENCE-DERIVED CONFIDENCE + PROVISIONAL/FINAL MATURITY
-→ SITE-HIERARCHY / INTERNAL-LINK ROLE
-→ COMPLETE PHRASE→UNIT→PAGE/ACTION MAP
-→ DERIVED STEP-13 CANDIDATE PAIRS
-→ INDEPENDENT QA
-→ GITHUB SAVE + READBACK
+SOURCE_DISCOVERED != SOURCE_OPERATIONALIZED
+LIMITATION_DISCLOSED != LIMITATION_GOVERNED
 ```
 
-Why this order matters:
-
-- coherence must come before demand aggregation, otherwise different tasks are measured together;
-- business truth must come before a commercial CREATE, because search demand cannot create a product/service the business does not offer;
-- current page fit must come before CREATE, otherwise the method can duplicate an existing useful page;
-- phrase count is coverage, not demand; actual demand evidence is required for demand-strength claims;
-- lexical tokens may discover a candidate subunit but may not silently become the final page assignment;
-- confidence is a conclusion from evidence dimensions, never a default value;
-- `NO_STANDALONE_PAGE` still requires routing/defer logic for useful subparts;
-- SPLIT/MERGE are allowed when supported; QA checks evidence for them rather than requiring their count to be zero;
-- Step 13 receives a complete candidate-pair universe but makes the cannibalization diagnosis itself.
-
-### Canonical evidence dimensions for confidence
-
-At minimum preserve:
+### Failure 2 — current overlap/history/harm conflated
 
 ```text
-TASK_COHERENCE
-BUSINESS_TRUTH
-CURRENT_PAGE_FIT
-DEMAND_SUPPORT
-SEARCH_BOUNDARY_SUPPORT WHEN MATERIAL
-HIERARCHY_CLARITY
+CURRENT MULTI-URL SIGNAL
+!= HISTORICAL COMPETITION
+!= PROVEN HARM
 ```
 
-A missing material dimension downgrades confidence or makes the action provisional. `HIGH` must never be the default simply because no rejection rule fired.
+### Control
 
-### QA origin rule
+Declared base-public vs enhanced/history-required mode; explicit optional/unavailable states; claim boundary mechanically changes with evidence mode; no destructive remediation beyond evidence level.
 
-Every material Step-12 QA claim must be traceable to one of:
+Status: **APPROVED / ACTIVE**.
+
+---
+
+## Step 14 — Search-only architecture freeze
+
+Detailed authority: `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` and companion discovery/reliability/sync rules.
+
+### Failure 1 — closed known URL set treated as complete current site
+
+**Root cause:** anti-speculation was overextended into a ban on independent discovery.
 
 ```text
-COMPUTED_FROM_DATA
-VERIFIED_FROM_PROVENANCE / EXECUTION RECEIPT
-MANUAL_REVIEW_LEDGER WITH EXPLICIT CASES
+CLOSED LIST CANNOT PROVE ITS OWN COMPLETENESS
 ```
 
-Hard-coded expected zero/true values are not QA evidence.
+### Failure 2 — source/target existence treated as current edge
 
-### Why these controls are reusable
-
-The failure was not specific to one window site. Any semantic-architecture job can over-trust a cluster label, a matching word, a page slug, a row count or a self-authored QA script. The correction therefore applies to future Step-12 executions regardless of domain; current-job vocabulary and exact boundaries remain configured from that job's evidence.
-
-### Method origin / external support
-
-- Yandex user-need targeting: https://yandex.ru/support/webmaster/ru/recommendations/targeting
-- Yandex site structure: https://yandex.ru/support/webmaster/ru/recommendations/site-structure
-- Yandex logical content splitting: https://yandex.ru/support/webmaster/ru/recommendations/presentation
-- Yandex low-value/low-demand pages: https://yandex.ru/support/webmaster/ru/site-indexing/low-demand
-- Yandex useful content: https://yandex.ru/support/webmaster/ru/threat/useless-content
-- Semrush Keyword Mapping (2026-07-27): https://www.semrush.com/blog/keyword-mapping/
-- Ahrefs Keyword Mapping: https://ahrefs.com/blog/keyword-mapping/
-- Ahrefs Keyword Clustering: https://ahrefs.com/blog/keyword-clustering/
-- Rush Analytics semantic structure / clustering / relevant URL methodology: https://www.rush-analytics.ru/faq/kak-sozdat-strukturu-sayta-na-osnove-semanticheskogo-yadra and related clustering/relevant-URL guides
-- Semrush cannibalization boundary (2026-07-14): https://www.semrush.com/blog/keyword-cannibalization-guide/
-
-### Pass gate
-
-Step 12 cannot pass while any of these are true:
+**Root cause:** recommendation and as-is topology were not separate fields.
 
 ```text
-HIDDEN_LEXICAL_OVERRIDE_RULES_IN_FINAL_ARCHITECTURE > 0
-KNOWN_MIXED_STRUCTURAL_UNITS_LEFT_UNCORRECTED > 0
-ACCEPTED_NEW_PAGE_WITHOUT_REQUIRED_DEMAND/BUSINESS/PAGE-BOUNDARY_EVIDENCE > 0
-DEFAULT_HIGH_CONFIDENCE = true
-CONFIDENCE_WITHOUT_EVIDENCE_DIMENSIONS > 0
-QA_SELF_ASSERTED_PASS_FIELDS > 0
-UNSUPPORTED_SPLIT > 0
-UNSUPPORTED_MERGE > 0
-USEFUL_PHRASES_STRANDED_BY_NO_STANDALONE_PAGE > 0
-ACCEPTED_NEW_OR_SPLIT_PAGES_WITHOUT_HIERARCHY_PLAN > 0
-STEP13_CANDIDATE_UNIVERSE_DERIVED = false
+SOURCE_LIVE + TARGET_LIVE != EDGE_IMPLEMENTED
 ```
 
-Final acceptance additionally requires complete phrase accounting and GitHub persistence/readback.
+### Failure 3 — deterministic evidence requirement became unnecessary custom infrastructure
 
-Status: **OWNER-APPROVED CORRECTION METHOD / ACTIVE FOR REWORK / FINAL VALIDATION PENDING**.
+**Root cause:** manual-reading limitations were overgeneralized into custom crawler requirement.
 
-Markers:
+**Control:** native-tool capability review before custom code.
+
+### Failure 4 — isolated network success treated as runner reliability
+
+**Control:** staged runner qualification + observability + hard bounds + terminal state.
+
+### Failure 5 — branch identity treated as current authority / conflicts not semantically classified
+
+**Control:** fetch/compare/safe sync and evidence-conflict classification before authority read.
+
+Status: **APPROVED / ACTIVE**.
+
+---
+
+## Step 15 — AI-case selection
+
+Detailed authority: `STEP_15_AI_CASE_SELECTION_METHOD.md`.
+
+### Failure 1 — candidate lineage manually reconstructed
+
+**Root cause:** memory/manual remapping substituted for exact authoritative-ID joins.
+
+**Control:** exact upstream lineage joins; representative query/owner/pair references come from authority.
+
+### Failure 2 — information-gain logic used as the only selection track
+
+**Root cause:** diagnostic probe value was treated as the entire evaluation-design requirement.
+
+**Control:** diagnostic probes and stability controls are separate roles when controls are needed for interpretation.
+
+### Failure 3 — diagnostic set overgeneralized
+
+**Control:** selected set is non-representative unless a separate sampling design proves representativeness.
+
+Status: **APPROVED / ACTIVE**.
+
+---
+
+## Step 16 — AI evidence acquisition
+
+No owner-approved reusable full method has yet been earned.
+
+Status: **UNVALIDATED**.
+
+---
+
+## Step 17 — Search-vs-AI comparison
+
+Detailed authority: `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md`.
+
+Permanent lessons:
 
 ```text
-STEP12_HIDDEN_LEXICAL_OVERRIDE_IS_NOT_ARCHITECTURE = true
-STEP12_PHRASE_VISIBILITY_NOT_EQUAL_COHERENCE = true
-STEP12_PHRASE_COUNT_NOT_EQUAL_DEMAND = true
-STEP12_CONFIDENCE_MUST_BE_EVIDENCE_DERIVED = true
-STEP12_QA_SELF_CERTIFICATION_FORBIDDEN = true
-STEP12_SPLIT_MERGE_SUPPORTED_NOT_ZERO_FORCED = true
-STEP12_NO_STANDALONE_PAGE_REQUIRES_USEFUL_SUBTASK_ROUTING = true
-STEP12_STEP13_CANDIDATE_UNIVERSE_MUST_BE_DERIVED = true
-STEP12_HIERARCHY_PLAN_REQUIRED_FOR_NEW_OR_SPLIT_PAGES = true
-STEP12_UPSTREAM_OUTSIDE_MUST_YIELD_TO_VERIFIED_CONTRADICTION = true
+EXACT-QUERY OBSERVATION != USER-JOB-FAMILY GENERALIZATION
+SINGLE SNAPSHOT != LONGITUDINAL STABILITY
+GENSEARCH/AI PROXY != CONSUMER SURFACE CLAIM
+NO ARCHITECTURE CHANGE != NO CONTENT CHANGE
+SOURCE URL/TITLE != DIRECT CONTENT EVIDENCE
+LIMITATION DISCLOSED BUT NOT BOUNDING CLAIM != VALID LIMITATION GOVERNANCE
 ```
+
+**Root pattern:** first-pass comparison risked compressing scope/confidence/provenance and content-vs-architecture into one verdict.
+
+**Control:** scope ledger, temporal evidence class, architecture/content verdict separation, direct source provenance and no architecture CHANGE from one bounded AI snapshot alone.
+
+Status: **APPROVED / ACTIVE**.
+
+---
+
+## Step 18 — prioritization / implementation readiness
+
+Detailed authority: `STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md`.
+
+This lesson was promoted after an owner-authorized external method audit.
+
+### Failure 1 — analytical priority overstated as implementation-ready order
+
+**What failed:** evidence-based priority tiers were sound, but the final wording treated them too close to a ready production sequence while real implementation variables remained unknown.
+
+**Root cause:**
+
+```text
+ANALYTICAL IMPORTANCE
++ EXPLICIT UNKNOWN IMPLEMENTATION FIELDS
+WERE STILL ALLOWED TO PRODUCE
+IMPLEMENTATION-READY LANGUAGE
+```
+
+**Control:** separate `IDEAL_ANALYTICAL_PRIORITY` from `EXPECTED_IMPLEMENTATION_PRIORITY`; missing real calibration forces `PENDING_CALIBRATION` and blocks implementation-ready wording.
+
+### Failure 2 — “do not guess effort” was mistaken for finishing the effort problem
+
+**Root cause:** the no-fabrication safety rule had no second-stage calibration workflow.
+
+```text
+NO GUESS != CALIBRATION COMPLETE
+```
+
+**Control:** effort state/value/evidence source; real implementer/client/history evidence required for implementation-ready ordering.
+
+### Failure 3 — execution owner/capacity/timeline missing
+
+**Root cause:** the step was designed as analyst ranking rather than a two-layer analytical-versus-organizational decision.
+
+**Control:** owner, owner confirmation, capacity, delivery window and dependency readiness fields for implementation-ready mode.
+
+### Failure 4 — recheck trigger used as if it were an outcome measurement plan
+
+**Root cause:** uncertainty governance and post-implementation evaluation were conflated.
+
+```text
+RECHECK TRIGGER != SUCCESS METRIC
+```
+
+**Control:** expected outcome, baseline, success metric, measurement source/window/readiness and post-implementation review trigger.
+
+### Failure 5 — accounting batch masqueraded as executable work item
+
+**Root cause:** accounting convenience substituted for task granularity.
+
+```text
+ACCOUNTING BATCH != IMPLEMENTATION WORK PACKAGE
+```
+
+**Control:** decompose large batches by real shared execution properties while preserving exact source membership.
+
+### Failure 6 — public business relevance too close to client-confirmed importance
+
+**Root cause:** no-guess policy existed but stronger business-priority wording was not mechanically gated by a client-importance state.
+
+```text
+PUBLIC BUSINESS RELEVANCE != CLIENT-CONFIRMED BUSINESS IMPORTANCE
+```
+
+**Control:** separate client business importance state/value and allow it to alter expected implementation priority only when real evidence exists.
+
+### Failure 7 — technical detail substituted for owner-facing explanation
+
+**Root cause:** technical completeness was mistaken for owner comprehension.
+
+**Control:** mandatory plain-language `why / what / result` summary before authorization and after execution under `STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md`.
+
+Status: **APPROVED / ACTIVE AFTER CORRECTION**.
+
+---
+
+## Steps 19–21
+
+No owner-approved reusable full methods have yet been earned.
+
+```text
+STEP19 = UNVALIDATED
+STEP20 = UNVALIDATED
+STEP21 = UNVALIDATED
+```
+
+Fresh method research/review is required before material execution.
+
+---
+
+## Step 22 — job close
+
+Partially governed by `JOB_WORKSPACE_LIFECYCLE.md`.
+
+Permanent boundary:
+
+```text
+DELIVERABLE PRODUCED != JOB SAFE TO CLOSE
+```
+
+Close only after required handoff/revisions and pending provider/operator actions are finished and current job state explicitly allows closure.
+
+Status: **PARTIALLY DEFINED**.
+
+---
+
+# Permanent universality self-check
+
+Before modifying this ledger:
+
+```text
+CAUSE PRESERVED = true
+CONCRETE JOB IDENTITY COPIED = false
+CONCRETE CLIENT DOMAIN/URL COPIED = false
+CURRENT JOB COUNTS/IDS/SHAS COPIED = false
+CURRENT JOB RESULT/STATUS COPIED = false
+DETAILED JOB PROOF REMAINS LEVEL2 = true
+```
+
+A permanent lesson should tell the next analyst **why the previous approach failed and what mechanism prevents recurrence**, without teaching the next analyst the vocabulary or numbers of a prior client.
