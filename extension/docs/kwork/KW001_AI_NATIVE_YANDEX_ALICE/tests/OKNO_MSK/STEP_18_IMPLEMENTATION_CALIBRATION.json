@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-03",
+  "step": 18,
+  "status": "CALIBRATION_MATERIALIZED__FINAL_SCHEDULE_NOT_READY",
+  "work_package_count": 112,
+  "analytical_priority_state": "COMPLETE_PASS",
+  "expected_implementation_priority_state": "PENDING_CALIBRATION",
+  "implementation_readiness": "PARTIAL_NOT_SCHEDULE_READY",
+  "profiles": {
+    "CAL_UNCONFIRMED_EXECUTION": {
+      "applies_to_package_count": 92,
+      "applies_to": "31 exact actions + 15 exact internal-link packages + 46 exact route packages",
+      "implementability_state": "ANALYTICALLY_DEFINED__OWNER_EFFORT_CAPACITY_PENDING",
+      "execution_owner": "UNCONFIRMED",
+      "owner_confirmation_state": "PENDING_CLIENT_OR_IMPLEMENTER",
+      "effort_state": "UNKNOWN",
+      "effort_estimation_source": "NONE",
+      "capacity_state": "UNKNOWN",
+      "scheduling_state": "NOT_READY",
+      "expected_implementation_priority": "PENDING_CALIBRATION",
+      "private_business_priority_state": "UNKNOWN_UNLESS_EXPLICIT_CLIENT_INPUT",
+      "blocking_reason": "The current job has evidence for what should be changed and why, but does not contain a real implementation owner, effort estimate, capacity/calendar constraint or confirmed production sequence.",
+      "next_input": "Before publishing a final implementation schedule, obtain owner/team assignment, implementation estimate and capacity/calendar constraints for the material work package or an authorized batch with homogeneous implementation mechanics.",
+      "claim_boundary": "P1/P2/P3 remains analytical importance/order under current evidence; it is not a promised sprint/calendar order."
+    },
+    "CAL_HOLD_BLOCKED": {
+      "applies_to_package_count": 20,
+      "applies_to": "S18-WP-H001..S18-WP-H020",
+      "implementability_state": "BLOCKED_BY_NAMED_UNCERTAINTY",
+      "execution_owner": "UNCONFIRMED",
+      "owner_confirmation_state": "CONDITIONAL_BY_HOLD_ROW",
+      "effort_state": "NOT_ESTIMATED_WHILE_BLOCKED",
+      "effort_estimation_source": "NONE",
+      "capacity_state": "NOT_APPLICABLE_WHILE_BLOCKED",
+      "scheduling_state": "BLOCKED",
+      "expected_implementation_priority": "NOT_APPLICABLE_UNTIL_BLOCKER_RESOLVED",
+      "private_business_priority_state": "UNKNOWN_WHERE_MATERIAL",
+      "blocking_reason": "The source HOLD row has a named unresolved business-truth, owner-policy, ambiguity or authoritative-evidence blocker.",
+      "next_input": "Resolve the exact recheck trigger in STEP_18_HOLD_RECHECK_LEDGER.tsv, then re-enter Step18 prioritization for that package.",
+      "claim_boundary": "HOLD is unresolved, not low value and not rejection."
+    }
+  },
+  "missing_real_execution_inputs": [
+    "EXECUTION_OWNER_ASSIGNMENT",
+    "IMPLEMENTATION_EFFORT_ESTIMATE",
+    "TEAM_CAPACITY_OR_CALENDAR_CONSTRAINT",
+    "ACTUAL_DEPLOYMENT_SEQUENCE_WHERE_DEPENDENCIES_ARE_NOT_SUFFICIENT",
+    "CLIENT_PRIVATE_BUSINESS_PRIORITY_IF_THE_CLIENT_WANTS BUSINESS-WEIGHTED FINAL SCHEDULING"
+  ],
+  "not_missing_for_analytical_pass": [
+    "ANALYTICAL_IMPACT_REASON",
+    "EVIDENCE_STRENGTH",
+    "DEPENDENCY_ROLE",
+    "UNCERTAINTY/HOLD_STATE",
+    "PUBLIC_BUSINESS_RELEVANCE",
+    "BOUNDED_AI_SUPPORT_WHERE_APPLICABLE"
+  ],
+  "hard_rules": [
+    "ANALYTICAL_PRIORITY != IMPLEMENTATION_SCHEDULE",
+    "UNKNOWN_EFFORT != LOW_EFFORT",
+    "UNCONFIRMED_OWNER != ASSIGNED_OWNER",
+    "P1_HIGH != DO_FIRST_REGARDLESS_OF_DEPENDENCIES_AND_CAPACITY",
+    "PENDING_CALIBRATION MUST REMAIN VISIBLE IN CLIENT DELIVERABLES UNTIL REAL EXECUTION INPUTS EXIST"
+  ],
+  "provider_calls_executed": 0,
+  "new_paid_provider_cost_rub": 0.0
+}
