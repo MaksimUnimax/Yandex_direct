@@ -1,0 +1,152 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "seal_type": "STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS_FINAL_GITHUB_READBACK",
+  "status": "PASS_FINAL_CORRECTION_READBACK_SEALED__STEP20_RERUN_REQUIRED",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "readback_input_head": "6560c4f68d447fa93d3913af14dd7cf44f82c56a",
+  "owner_authorization_scope": "CORRECT_D20_001_D20_002_D20_003_D20_004_IN_STEP18_STEP19_ONLY",
+  "step20_rerun_authorized": false,
+  "step21_authorized": false,
+  "readback": {
+    "step18_action_correction_overlay": {
+      "file": "STEP_18_STEP20_CURRENT_CONTENT_CORRECTION_OVERLAY.tsv",
+      "blob_sha": "c7f756a7d1bf36d316a5ad3711a16e240347d0d2",
+      "corrected_actions": ["S18-A012", "S18-A027"],
+      "status": "PASS"
+    },
+    "step18_work_package_correction_overlay": {
+      "file": "STEP_18_STEP20_WORK_PACKAGE_CORRECTION_OVERLAY.tsv",
+      "blob_sha": "49cbcba1ffe4b033a73f0dce833db23a44e60a33",
+      "corrected_packages": ["S18-WP-A012", "S18-WP-A027"],
+      "status": "PASS"
+    },
+    "step19_repo_native_action_view": {
+      "file": "STEP_19_05_PAGE_ACTION_MAP.tsv",
+      "blob_sha": "231dac93e45a670ca2c5b19af04ff1e6e9a13919",
+      "A012_corrected": true,
+      "A027_corrected": true,
+      "status": "PASS"
+    },
+    "step19_repo_native_priority_view": {
+      "file": "STEP_19_07_PRIORITY_ACTION_PLAN.tsv",
+      "blob_sha": "97678adf287c2fcd5bab2a358f69e262d691b6f5",
+      "A012_corrected": true,
+      "A027_corrected": true,
+      "status": "PASS"
+    },
+    "step18_current_state": {
+      "file": "STEP_18_CURRENT_STATE.json",
+      "blob_sha": "4fad1980562c22a5642b191eb8fc8abf1cf77aa9",
+      "status": "PASS_PREFINAL_CORRECTION_STATE"
+    },
+    "step19_current_state": {
+      "file": "STEP_19_CURRENT_STATE.json",
+      "blob_sha": "22327298b49902d6a7710dbf2519a65d490fb685",
+      "status": "PASS_PREFINAL_CORRECTION_STATE"
+    },
+    "step20_current_state": {
+      "file": "STEP_20_CURRENT_STATE.json",
+      "blob_sha": "0b00e391e56b505abd5a071b1744836eb13fc65d",
+      "status": "PASS_PREVIOUS_VERDICT_PRESERVED_RERUN_REQUIRED"
+    },
+    "correction_qa": {
+      "file": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
+      "blob_sha": "4deb45dff62a2f1d2430ddfc50ed150fdc2834b9",
+      "status": "PASS_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS"
+    },
+    "physical_manifest": {
+      "file": "STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json",
+      "blob_sha": "7a073ac497cb691e25676ae4d1970baecca8842a",
+      "test_demo_case": true,
+      "status": "PASS"
+    },
+    "correction_report": {
+      "file": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_REPORT_2026-09-03.md",
+      "blob_sha": "f04630d6a58513aab9437afbca5784e4fd56915f",
+      "status": "PASS"
+    },
+    "client_summary": {
+      "file": "STEP_19_01_CLIENT_SUMMARY.md",
+      "blob_sha": "af3c85837ead7fbb37fd8a517006b413ce80092b",
+      "test_demo_visible": true,
+      "A012_A027_client_wording_corrected": true
+    },
+    "delivery_message": {
+      "file": "STEP_19_09_CLIENT_DELIVERY_MESSAGE.md",
+      "blob_sha": "bd3b87dae3088dc6bfff1f48c30addc2c6634de4",
+      "test_demo_visible": true,
+      "handoff_claimed": false
+    },
+    "job_flow_correction_sync": {
+      "file": "JOB_FLOW_STEP18_STEP19_CORRECTION_FROM_STEP20_SYNC_2026-09-03.md",
+      "blob_sha": "8210378c8b1c54a14f414b450d91d9fe56852529",
+      "status": "PASS_PREFINAL_SYNC"
+    }
+  },
+  "workflow_evidence": {
+    "failed_runs_preserved": [33765153795, 33765468333, 33765760718],
+    "successful_run": 33765988306,
+    "successful_run_status": "completed",
+    "successful_run_conclusion": "success",
+    "successful_persistence_commit": "4d474b8d832ca0131e5622daf37b094a28c0f5fe",
+    "artifact_id": 9897510555,
+    "artifact_digest": "sha256:b4a8a0796374321c110d2e7290a8ed84c9ea742edeef72ea2e849b2801679879"
+  },
+  "resolved_defects": {
+    "D20-001": "RESOLVED_UPSTREAM__TEST_DEMO_DISTRIBUTION_IDENTITY",
+    "D20-002": "RESOLVED_UPSTREAM__A012_CURRENT_CONTENT_SCOPE",
+    "D20-003": "RESOLVED_UPSTREAM__A027_CURRENT_CONTENT_SCOPE_AND_A009_DEPENDENCY",
+    "D20-004": "RESOLVED_UPSTREAM__DOCX_METADATA_HYGIENE"
+  },
+  "physical_artifacts": {
+    "workbook": {
+      "bytes": 458600,
+      "sha256": "9f08cb47b1f4863f90b84c2d3a1ae145341ff5fd5f9c57ee76f2c087c642d499",
+      "sheets": 9,
+      "test_demo_visible": true,
+      "local_exact_artifact_qa": "PASS"
+    },
+    "docx": {
+      "bytes": 44078,
+      "sha256": "d68001ee36f1677cf0817e3058e490bdfcc1598da324b3cd62a5670c1644b3dd",
+      "pages_visually_reviewed": 6,
+      "pages_passed": 6,
+      "test_demo_visible": true,
+      "metadata_hygiene": "PASS"
+    },
+    "pdf": {
+      "bytes": 59868,
+      "sha256": "cf4a208ba5286243e41ef5dff31a5d3eea9fdc0dab93800850addcc07663915e",
+      "pages_visually_reviewed": 4,
+      "pages_passed": 4,
+      "test_demo_visible": true
+    }
+  },
+  "accounting": {
+    "primary_directions": 15,
+    "semantic_rows": 2332,
+    "preserved_search_required": 19,
+    "ai_cases": 8,
+    "actions": 34,
+    "execution_packages": 112,
+    "package_breakdown": {"exact_action": 31, "internal_link": 15, "route_to_existing": 46, "hold_recheck": 20},
+    "measurement_classes": 7,
+    "supported_new_page_actions": 0,
+    "supported_destructive_actions": 0,
+    "provider_calls": 0,
+    "new_paid_cost_rub": 0.0
+  },
+  "workflow_boundary": {
+    "step18_correction_complete": true,
+    "step19_correction_complete": true,
+    "step20_previous_verdict": "CORRECTION_REQUIRED",
+    "step20_rerun_required": true,
+    "step20_rerun_started": false,
+    "step21_allowed": false,
+    "step21_started": false,
+    "step22_started": false
+  },
+  "verdict": "STEP18_STEP19_STEP20_DEFECT_CORRECTIONS_COMPLETE__FINAL_GITHUB_READBACK_SEALED__STEP20_RERUN_REQUIRED__STEP21_BLOCKED",
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
+}
