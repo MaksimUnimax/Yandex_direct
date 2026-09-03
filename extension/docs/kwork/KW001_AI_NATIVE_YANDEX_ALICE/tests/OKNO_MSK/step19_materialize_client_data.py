@@ -405,9 +405,9 @@ qa = {
         "unknown_owner_values_replaced_with_guess": 0,
         "unknown_effort_values_replaced_with_guess": 0,
         "unknown_capacity_values_replaced_with_guess": 0,
-        "committed_schedule_created": false,
-        "numeric_performance_targets_invented": false,
-        "new_provider_calls_required": false,
+        "committed_schedule_created": False,
+        "numeric_performance_targets_invented": False,
+        "new_provider_calls_required": False,
     },
     "outputs": {},
 }

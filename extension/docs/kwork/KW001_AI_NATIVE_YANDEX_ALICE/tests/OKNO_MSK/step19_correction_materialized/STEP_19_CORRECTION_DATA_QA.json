@@ -1,0 +1,73 @@
+{
+  "date": "2026-09-03",
+  "step": 19,
+  "status": "PASS_MATERIALIZATION_DATA_BUILD",
+  "view_type": "DERIVED_NOT_CANONICAL",
+  "canonical_sources": {
+    "semantic": [
+      "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv",
+      "STEP_10_FRESH_R1_ASSIGNMENTS_FINAL.tsv",
+      "STEP_11_PHRASE_PAGE_MAP.tsv"
+    ],
+    "actions": [
+      "STEP_18_ACTION_REGISTER.tsv",
+      "STEP_18_WORK_PACKAGE_REGISTER.json",
+      "STEP_18_HOLD_RECHECK_LEDGER.tsv"
+    ]
+  },
+  "accounting": {
+    "step08_master_phrase_rows": 2840,
+    "step10_master_phrase_rows": 2840,
+    "step11_active_phrase_rows": 2332,
+    "materialized_semantic_rows": 2332,
+    "unresolved_current_rows": 19,
+    "execution_calibration_rows": 112,
+    "exact_action_packages": 31,
+    "internal_link_packages": 15,
+    "route_packages": 46,
+    "hold_packages": 20,
+    "measurement_classes": 7
+  },
+  "non_fabrication": {
+    "unknown_owner_values_replaced_with_guess": 0,
+    "unknown_effort_values_replaced_with_guess": 0,
+    "unknown_capacity_values_replaced_with_guess": 0,
+    "committed_schedule_created": false,
+    "numeric_performance_targets_invented": false,
+    "new_provider_calls_required": false
+  },
+  "outputs": {
+    "STEP_19_03_SEMANTIC_CORE_MATERIALIZED.csv": {
+      "bytes": 1438569,
+      "sha256": "699c3ffdc6aad74154f2bd78a4a7a765d01017b497e9af008d5255861dea81f0"
+    },
+    "STEP_19_EXECUTION_CALIBRATION_BOARD_112.csv": {
+      "bytes": 120072,
+      "sha256": "c1e396f247bfc66e1af07fe46096c0b9b75d27bfb8405797303a2076ec9f090e"
+    },
+    "STEP_19_MEASUREMENT_PROTOCOL.csv": {
+      "bytes": 5610,
+      "sha256": "7bce72ce3aa805ce752c36cd070ccf8c182b8450a92bae55131f98a5bfb3a91b"
+    },
+    "STEP_19_02_BUSINESS_AND_PAGE_MODEL.tsv": {
+      "bytes": 11358,
+      "sha256": "1c80e545b02742565367e7a149173faf516dfcd8b9aee1c0b170d5c2ee5916ca"
+    },
+    "STEP_19_04_SEARCH_VS_AI_GAP_MATRIX.tsv": {
+      "bytes": 5717,
+      "sha256": "75bbac0414ca3cbc81db98bac43597049d0597fce1c9898dbb52f29a4ae1899e"
+    },
+    "STEP_19_05_PAGE_ACTION_MAP.tsv": {
+      "bytes": 12729,
+      "sha256": "91e5d64c09447e0d2dd46a6be1fc0a6643403f5f47e5d5ace9298c9fd6541604"
+    },
+    "STEP_19_06_SOURCE_COMPETITOR_OBSERVATIONS.tsv": {
+      "bytes": 4449,
+      "sha256": "8056524f2dbe843a1681c12f300dfbc4f8a81e429e5f8295f3f1313ec2c0e45b"
+    },
+    "STEP_19_07_PRIORITY_ACTION_PLAN.tsv": {
+      "bytes": 8125,
+      "sha256": "cdf0573594f7a8668b1e9c5bfca670dab9740030406262c04642b68ec4c2821d"
+    }
+  }
+}
