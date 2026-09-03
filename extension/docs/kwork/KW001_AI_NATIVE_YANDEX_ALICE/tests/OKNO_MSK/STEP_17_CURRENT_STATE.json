@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 17,
   "step_name": "Search-vs-GenSearch comparison",
-  "status": "CORRECTION_REQUIRED__POST_RUN_EXTERNAL_AUDIT__STEP18_BLOCKED",
+  "status": "V2_CORRECTION_IN_PROGRESS__STEP18_BLOCKED",
   "historical_first_pass": {
     "status_before_audit": "COMPLETE__FINAL_READBACK_PASS__STEP18_PRESTEP_ALLOWED",
     "historical_case_verdicts": {
@@ -19,7 +19,7 @@
     "qualified_architecture_change_cases": 0,
     "architecture_delta_rows": 0,
     "provider_cost_rub": 0.0,
-    "verdict_status_after_audit": "PRESERVED_AS_HISTORICAL_FIRST_PASS__NOT_AUTOMATICALLY_DISCARDED__REQUIRES_V2_COMPLETION_BEFORE_FINAL_ACCEPTANCE"
+    "verdict_status_after_audit": "PRESERVED_AS_HISTORICAL_FIRST_PASS__REQUIRES_V2_COMPLETION_BEFORE_FINAL_ACCEPTANCE"
   },
   "post_run_audit": {
     "audit_date": "2026-09-03",
@@ -59,7 +59,7 @@
     "policy": "Reuse persisted evidence first; fresh provider call only after specific blocking evidence gap + information-gain gate + explicit owner authorization."
   },
   "execution": {
-    "v2_correction_started": false,
+    "v2_correction_started": true,
     "v2_cases_complete": 0,
     "v2_source_worthiness_states": 0,
     "v2_search_direct_traces": 0,
@@ -70,5 +70,5 @@
     "execution_started": false,
     "block_reason": "STEP17_V2_CORRECTION_NOT_COMPLETE"
   },
-  "next_legal_action": "EXECUTE_STEP17_V2_CORRECTION_USING_EXISTING_EVIDENCE__THEN_FINAL_READBACK__ONLY_THEN_STEP18_PRESTEP"
+  "next_legal_action": "LOCATE_PERSISTED_SEARCH_EVIDENCE_FOR_8_CASES__BUILD_SOURCE_WORTHINESS_AND_CONTENT_GAP_LAYER__RECHECK_VERDICTS__QA__FINAL_READBACK"
 }
