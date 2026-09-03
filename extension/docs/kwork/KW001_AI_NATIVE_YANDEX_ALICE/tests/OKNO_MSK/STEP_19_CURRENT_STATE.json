@@ -3,8 +3,8 @@
   "job": "OKNO_MSK",
   "step": 19,
   "step_name": "Client-facing deliverables",
-  "status": "STEP20_DEFECT_CORRECTIONS_APPLIED__PHYSICAL_PACKAGE_REBUILT_QA_PASS__CORRECTION_READBACK_PENDING__STEP20_RERUN_REQUIRED",
-  "step_verdict": "CORRECTION_APPLIED_PASS__AWAITING_FINAL_CORRECTION_READBACK_AND_STEP20_RERUN",
+  "status": "STEP20_DEFECT_CORRECTIONS_APPLIED__PHYSICAL_PACKAGE_REBUILT_QA_PASS__FINAL_CORRECTION_READBACK_SEALED__STEP20_RERUN_REQUIRED",
+  "step_verdict": "CORRECTION_APPLIED_AND_READBACK_SEALED__AWAITING_FRESH_STEP20_FINAL_QA",
   "previous_first_pass_seal_superseded": true,
   "previous_post_external_audit_seal_superseded_for_current_artifact_identity": true,
   "owner_authorization": {
@@ -24,6 +24,8 @@
   "step20_defect_correction": {
     "report": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_REPORT_2026-09-03.md",
     "qa": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
+    "final_readback_seal": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_FINAL_READBACK_SEAL_2026-09-03.json",
+    "final_readback_seal_commit": "2ef64f546909bd4b8ce029687016cbf49b9bfc69",
     "step18_action_overlay": "STEP_18_STEP20_CURRENT_CONTENT_CORRECTION_OVERLAY.tsv",
     "step18_work_package_overlay": "STEP_18_STEP20_WORK_PACKAGE_CORRECTION_OVERLAY.tsv",
     "step19_action_overlay": "STEP_19_STEP20_ACTION_VIEW_CORRECTION_OVERLAY.tsv",
@@ -37,7 +39,8 @@
     "successful_workflow_status": "completed_success",
     "successful_persistence_commit": "4d474b8d832ca0131e5622daf37b094a28c0f5fe",
     "workflow_artifact_id": 9897510555,
-    "workflow_artifact_digest": "sha256:b4a8a0796374321c110d2e7290a8ed84c9ea742edeef72ea2e849b2801679879"
+    "workflow_artifact_digest": "sha256:b4a8a0796374321c110d2e7290a8ed84c9ea742edeef72ea2e849b2801679879",
+    "final_github_readback_complete": true
   },
   "corrected_execution": {
     "materialized_semantic_rows": 2332,
@@ -83,6 +86,7 @@
       "openability": "PASS",
       "test_demo_visible": true,
       "generic_python_docx_creator_removed": true,
+      "generic_python_docx_comments_removed": true,
       "stale_2013_core_timestamps_removed": true
     },
     "pdf": {
@@ -116,7 +120,7 @@
     "client_summary_points_to_physical_workbook": true,
     "client_delivery_message_points_to_physical_package": true,
     "mock_demo_identity_visible": true,
-    "client_independent_use_gate": "PASS_PENDING_STEP20_RERUN_FINAL_ASSURANCE"
+    "client_independent_use_gate": "PASS_PENDING_FRESH_STEP20_FINAL_ASSURANCE"
   },
   "non_fabrication": {
     "implementation_owner_guesses": 0,
@@ -144,7 +148,8 @@
     "step20_defect_correction_qa": "PASS_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS",
     "qa_artifact": "STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json",
     "exact_successful_workflow_artifact_downloaded_and_rechecked": true,
-    "final_correction_github_readback_complete": false,
+    "final_correction_github_readback_complete": true,
+    "final_correction_readback_verdict": "PASS",
     "step20_rerun_required": true
   },
   "workflow_boundaries": {
@@ -152,6 +157,7 @@
     "step19_correction_complete": true,
     "step20_previous_execution_complete": true,
     "step20_previous_verdict": "CORRECTION_REQUIRED",
+    "step20_rerun_required": true,
     "step20_rerun_authorized": false,
     "step20_rerun_started": false,
     "step21_allowed": false,
@@ -159,5 +165,5 @@
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "FINAL_GITHUB_READBACK_AND_CORRECTION_SEAL__THEN_OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP20_RERUN_ON_CORRECTED_PACKAGE"
 }
