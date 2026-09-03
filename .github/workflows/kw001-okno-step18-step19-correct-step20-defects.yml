@@ -1,0 +1,265 @@
+name: KW001 OKNO Correct Step20 Defects in Step18 Step19
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_18_STEP19_STEP20_CORRECTION_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-step18-step19-correct-step20-defects
+  cancel-in-progress: false
+
+jobs:
+  correct-rebuild-qa-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout roadmap branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install package build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --quiet openpyxl python-docx reportlab pypdf
+
+      - name: Materialize current Step19 data baseline
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_materialize_client_data.py
+
+      - name: Apply Step20 action corrections to derived client data
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          out = root / 'step19_correction_materialized'
+
+          def read_tsv(path):
+              with path.open(encoding='utf-8-sig', newline='') as f:
+                  return list(csv.DictReader(f, delimiter='\t'))
+          def write_tsv(path, rows):
+              with path.open('w', encoding='utf-8-sig', newline='') as f:
+                  w = csv.DictWriter(f, fieldnames=list(rows[0]), delimiter='\t', extrasaction='ignore')
+                  w.writeheader(); w.writerows(rows)
+          def read_csv(path):
+              with path.open(encoding='utf-8-sig', newline='') as f:
+                  return list(csv.DictReader(f))
+          def write_csv(path, rows):
+              with path.open('w', encoding='utf-8-sig', newline='') as f:
+                  w = csv.DictWriter(f, fieldnames=list(rows[0]), extrasaction='ignore')
+                  w.writeheader(); w.writerows(rows)
+          def apply(rows, overlay, key='action_id'):
+              ov = {r[key]: r for r in overlay}
+              found = set()
+              for row in rows:
+                  if row.get(key) in ov:
+                      found.add(row[key])
+                      for k, v in ov[row[key]].items():
+                          if k != key and v != '':
+                              row[k] = v
+              assert found == set(ov), (found, set(ov))
+              return rows
+          def sha(path):
+              h=hashlib.sha256(); h.update(path.read_bytes()); return h.hexdigest()
+
+          action_overlay = read_tsv(root/'STEP_19_STEP20_ACTION_VIEW_CORRECTION_OVERLAY.tsv')
+          priority_overlay = read_tsv(root/'STEP_19_STEP20_PRIORITY_VIEW_CORRECTION_OVERLAY.tsv')
+          step18_overlay = read_tsv(root/'STEP_18_STEP20_CURRENT_CONTENT_CORRECTION_OVERLAY.tsv')
+
+          action_path = out/'STEP_19_05_PAGE_ACTION_MAP.tsv'
+          priority_path = out/'STEP_19_07_PRIORITY_ACTION_PLAN.tsv'
+          cal_path = out/'STEP_19_EXECUTION_CALIBRATION_BOARD_112.csv'
+
+          actions = apply(read_tsv(action_path), action_overlay)
+          priority = apply(read_tsv(priority_path), priority_overlay)
+          write_tsv(action_path, actions)
+          write_tsv(priority_path, priority)
+
+          corr = {r['action_id']: r for r in step18_overlay}
+          cal = read_csv(cal_path)
+          touched = set()
+          for row in cal:
+              aid = row.get('source_action_id')
+              if aid in corr:
+                  c = corr[aid]; touched.add(aid)
+                  row['what_to_do'] = c['description']
+                  row['dependency_role'] = c['dependency_role']
+                  row['depends_on_action_ids'] = c['depends_on_action_ids']
+                  row['recheck_or_blocker'] = c['recheck_trigger']
+                  row['claim_boundary'] = c['limitations']
+          assert touched == {'S18-A012','S18-A027'}
+          write_csv(cal_path, cal)
+
+          a12 = next(r for r in actions if r['action_id']=='S18-A012')
+          a27 = next(r for r in actions if r['action_id']=='S18-A027')
+          p12 = next(r for r in priority if r['action_id']=='S18-A012')
+          p27 = next(r for r in priority if r['action_id']=='S18-A027')
+          c12 = next(r for r in cal if r['source_action_id']=='S18-A012')
+          c27 = next(r for r in cal if r['source_action_id']=='S18-A027')
+          assert 'Сохранить уже существующую' in a12['client_action']
+          assert 'Не добавлять повторное' in a27['client_action']
+          assert 'already present' in p12['client_readable_reason']
+          assert 'basic French-window definition is already present' in p27['client_readable_reason']
+          assert c12['what_to_do'].startswith('Retain the current door price/price-estimation guidance')
+          assert c27['what_to_do'].startswith('Do not add a duplicate basic French-window definition')
+          assert c27['depends_on_action_ids'] == 'S18-A009'
+
+          qa_path = out/'STEP_19_CORRECTION_DATA_QA.json'
+          qa = json.loads(qa_path.read_text(encoding='utf-8'))
+          qa['step20_defect_correction'] = {
+              'D20-002': 'APPLIED_TO_A012_ACTION_PRIORITY_CALIBRATION',
+              'D20-003': 'APPLIED_TO_A027_ACTION_PRIORITY_CALIBRATION',
+              'authority_overlay': 'STEP_18_STEP20_CURRENT_CONTENT_CORRECTION_OVERLAY.tsv'
+          }
+          for p in [action_path, priority_path, cal_path]:
+              qa['outputs'][p.name] = {'bytes': p.stat().st_size, 'sha256': sha(p)}
+          qa_path.write_text(json.dumps(qa, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+          print('STEP20_ACTION_CORRECTION_MATERIALIZATION_PASS')
+          PY
+
+      - name: Patch physical builder for TEST DEMO and metadata hygiene
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_build_physical_client_package.py')
+          s=p.read_text(encoding='utf-8')
+          if 'from datetime import datetime, timezone' not in s:
+              s=s.replace('from __future__ import annotations\n', 'from __future__ import annotations\n\nfrom datetime import datetime, timezone\n')
+          s=s.replace('ws["A1"] = "OKNO-MSK — Step19 corrected client workbook"', 'ws["A1"] = "TEST/DEMO CASE — OKNO-MSK — Step19 corrected client workbook"')
+          demo_xlsx='''ws.merge_cells("A2:H2")\nws["A2"] = "TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement."\nws["A2"].font = Font(bold=True, color="9C0006")\nws["A2"].fill = warn_fill\nws["A2"].alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)\nws.row_dimensions[2].height = 34'''
+          if 'mock commercial rehearsal; not an actual paid-client engagement.' not in s:
+              s=s.replace('ws.row_dimensions[1].height = 28', 'ws.row_dimensions[1].height = 28\n'+demo_xlsx)
+          if 'wb.properties.title = "TEST/DEMO CASE — OKNO-MSK"' not in s:
+              s=s.replace('wb = Workbook()\n', 'wb = Workbook()\nwb.properties.title = "TEST/DEMO CASE — OKNO-MSK"\nwb.properties.subject = "Mock commercial rehearsal / demonstration analysis"\nwb.properties.creator = ""\nwb.properties.lastModifiedBy = ""\n')
+
+          core='''doc.core_properties.title = "TEST/DEMO CASE — OKNO-MSK"\ndoc.core_properties.subject = "Mock commercial rehearsal / demonstration analysis"\ndoc.core_properties.creator = ""\ndoc.core_properties.last_modified_by = ""\ndoc.core_properties.created = datetime(2026, 9, 3, tzinfo=timezone.utc)\ndoc.core_properties.modified = datetime(2026, 9, 3, tzinfo=timezone.utc)'''
+          if 'doc.core_properties.title = "TEST/DEMO CASE — OKNO-MSK"' not in s:
+              s=s.replace('doc=Document()\n', 'doc=Document()\n'+core+'\n')
+          demo_doc='''p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER\nr=p.add_run("TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement."); r.bold=True; r.font.color.rgb=RGBColor(156,0,6)'''
+          if 'r=p.add_run("TEST/DEMO CASE — mock commercial rehearsal; not an actual paid-client engagement.")' not in s:
+              s=s.replace('p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.add_run("Исправленный клиентский отчёт Step19").italic=True', 'p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.add_run("Исправленный клиентский отчёт Step19").italic=True\n'+demo_doc)
+          s=s.replace('story=[P("OKNO-MSK","CTitle"),P("Семантика, архитектура страниц и план действий под Yandex Search + bounded Search-vs-AI диагностику","CSub"),Spacer(1,6*mm)]', 'story=[P("TEST/DEMO CASE — OKNO-MSK","CTitle"),P("Mock commercial rehearsal; not an actual paid-client engagement.","CSub"),P("Семантика, архитектура страниц и план действий под Yandex Search + bounded Search-vs-AI диагностику","CSub"),Spacer(1,6*mm)]')
+          s=s.replace('"non_fabrication":{"new_provider_calls":0,"new_paid_cost_rub":0.0,"committed_schedule":False,"numeric_targets_invented":False},', '"non_fabrication":{"new_provider_calls":0,"new_paid_cost_rub":0.0,"committed_schedule":False,"numeric_targets_invented":False},\n    "distribution_identity":{"test_demo_case":True,"mock_commercial_rehearsal":True,"actual_paid_client_engagement":False},')
+          for marker in ['TEST/DEMO CASE — OKNO-MSK','doc.core_properties.created = datetime(2026, 9, 3','distribution_identity']:
+              assert marker in s, marker
+          p.write_text(s,encoding='utf-8')
+          print('STEP20_PHYSICAL_BUILDER_PATCH_PASS')
+          PY
+
+      - name: Build corrected physical package
+        run: |
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_build_physical_client_package.py
+
+      - name: Independent correction QA
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json, zipfile
+          from pathlib import Path
+          from openpyxl import load_workbook
+          from docx import Document
+          from pypdf import PdfReader
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          data=root/'step19_correction_materialized'
+          x=root/'STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx'
+          d=root/'STEP_19_CLIENT_REPORT_CORRECTED.docx'
+          p=root/'STEP_19_CLIENT_REPORT_CORRECTED.pdf'
+          m=root/'STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json'
+
+          wb=load_workbook(x,read_only=True,data_only=False)
+          assert wb.sheetnames == ['README','02_Page_Model','03_Semantic_Core','04_Search_vs_AI','05_Page_Actions','06_Source_Obs','07_Priority_Plan','Execution_Calibration','Measurement']
+          assert 'TEST/DEMO CASE' in str(wb['README']['A1'].value)
+          assert 'mock commercial rehearsal' in str(wb['README']['A2'].value)
+          hdr=[c.value for c in wb['05_Page_Actions'][1]]
+          rows=[dict(zip(hdr,[c.value for c in r])) for r in wb['05_Page_Actions'].iter_rows(min_row=2)]
+          a12=next(r for r in rows if r['action_id']=='S18-A012'); a27=next(r for r in rows if r['action_id']=='S18-A027')
+          assert 'Сохранить уже существующую' in a12['client_action']
+          assert 'Не добавлять повторное' in a27['client_action']
+          ch=[c.value for c in wb['Execution_Calibration'][1]]
+          cr=[dict(zip(ch,[c.value for c in r])) for r in wb['Execution_Calibration'].iter_rows(min_row=2)]
+          c12=next(r for r in cr if r['source_action_id']=='S18-A012'); c27=next(r for r in cr if r['source_action_id']=='S18-A027')
+          assert c12['what_to_do'].startswith('Retain the current door price/price-estimation guidance')
+          assert c27['depends_on_action_ids']=='S18-A009'
+          wb.close()
+
+          doc=Document(d)
+          text='\n'.join(q.text for q in doc.paragraphs)
+          assert 'TEST/DEMO CASE' in text and 'mock commercial rehearsal' in text
+          assert 'Сохранить уже существующую price/price-estimation guidance' in text
+          assert (doc.core_properties.creator or '') != 'python-docx'
+          assert doc.core_properties.created.year == 2026 and doc.core_properties.modified.year == 2026
+          with zipfile.ZipFile(d) as zf:
+              xml=zf.read('word/document.xml').decode('utf-8')
+          assert 'w:cantSplit' in xml and 'w:tblHeader' in xml
+
+          reader=PdfReader(p)
+          pdf_text='\n'.join((pg.extract_text() or '') for pg in reader.pages)
+          assert 'TEST/DEMO CASE' in pdf_text and 'Mock commercial rehearsal' in pdf_text
+
+          manifest=json.loads(m.read_text(encoding='utf-8'))
+          assert manifest['distribution_identity']['test_demo_case'] is True
+          assert manifest['distribution_identity']['actual_paid_client_engagement'] is False
+          def sha(path):
+              h=hashlib.sha256(); h.update(path.read_bytes()); return h.hexdigest()
+          for f in [x,d,p]:
+              assert manifest['artifacts'][f.name]['bytes']==f.stat().st_size
+              assert manifest['artifacts'][f.name]['sha256']==sha(f)
+
+          qa={
+              'date':'2026-09-03','status':'PASS_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS',
+              'resolved':{
+                  'D20-001':'TEST_DEMO_VISIBLE_IN_XLSX_DOCX_PDF_AND_MANIFEST',
+                  'D20-002':'A012_NARROWED_TO_INSTALLATION_SCOPE_PROCESS_EXISTING_PRICE_GUIDANCE_RETAINED',
+                  'D20-003':'A027_NO_DUPLICATE_DEFINITION_RESIDUAL_DISTINCTION_FOLDED_WITH_A009',
+                  'D20-004':'DOCX_CORE_METADATA_CLEANED_TO_2026_NO_PYTHON_DOCX_CREATOR'
+              },
+              'accounting':{'semantic_rows':2332,'actions':34,'execution_packages':112,'hold_packages':20,'measurement_classes':7},
+              'provider_calls':0,'new_paid_cost_rub':0.0,
+              'physical_artifacts':manifest['artifacts'],
+              'step20_rerun_required':True,
+              'step21_allowed':False
+          }
+          (root/'STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json').write_text(json.dumps(qa,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('STEP18_STEP19_STEP20_DEFECT_CORRECTION_QA_PASS')
+          PY
+
+      - name: Persist corrected data builder package and QA
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/step19_correction_materialized"
+          git add "$ROOT/step19_build_physical_client_package.py"
+          git add "$ROOT/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx"
+          git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.docx"
+          git add "$ROOT/STEP_19_CLIENT_REPORT_CORRECTED.pdf"
+          git add "$ROOT/STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json"
+          git add "$ROOT/STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json"
+          if git diff --cached --quiet; then
+            echo "No correction changes to persist"
+          else
+            git commit -m "fix(step18-step19): resolve Step20 material defects [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Upload corrected exact package
+        uses: actions/upload-artifact@v4
+        with:
+          name: step18-step19-step20-defect-corrected-package
+          path: |
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_REPORT_CORRECTED.docx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_CLIENT_REPORT_CORRECTED.pdf
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_18_STEP19_STEP20_DEFECT_CORRECTION_QA_2026-09-03.json
+          if-no-files-found: error
+          retention-days: 7
