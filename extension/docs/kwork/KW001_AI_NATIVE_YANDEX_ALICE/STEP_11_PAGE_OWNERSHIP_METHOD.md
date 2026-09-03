@@ -1,331 +1,335 @@
-# Step 11 — Page ownership / keyword-to-page mapping method
+# KW-001 — STEP 11 PAGE OWNERSHIP / PHRASE-TO-PAGE MAPPING METHOD
 
-Status: **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + PHRASE-LEVEL CORRECTION**  
-Scope: reusable Step-11 method for Kwork semantic/site-architecture jobs.  
-Step boundary: page ownership and phrase→page materialization only. Structural actions belong to Step 12; cannibalization verdicts belong to Step 13.
+Updated: 2026-09-03  
+Status: **APPROVED / ACTIVE / UNIVERSAL**  
+Scope: decide which current public page should own each accepted user-task cluster and materialize the complete phrase→page mapping.  
+Boundary: structural actions belong to Step12; competing-page/harm diagnosis belongs to Step13.
 
-## 1. What Step 11 must produce
+Companion authorities:
 
-Step 11 answers two related but different questions:
+- `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`
+- `BRIDGE_EVIDENCE_PERSISTENCE_GATE.md`
+- `SOURCE_TO_METHOD_TRACEABILITY_GATE.md`
+- `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`
+- `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`
 
-1. **Cluster ownership:** does the current public site have an existing page that truthfully satisfies the user task represented by a semantic cluster, and if yes, what is the intended target URL?
-2. **Phrase-level page map:** after ownership is decided, which exact active phrases map to that owner through their effective cluster, and which phrases remain without an applicable target because the cluster has no suitable page, is outside scope, or still requires semantic/search resolution?
+Concrete job domains, URLs, cluster IDs, phrases, counts, provider receipts and correction results belong in Level-2 evidence.
 
-The step is not complete if only question 1 is answered. A cluster-only ownership ledger is analytically useful but is not yet a complete keyword map because the final deliverable and QA must expose every active phrase against its effective cluster and target-page state.
+---
 
-Canonical relationship:
+## 1. Required result
+
+Step11 answers two different questions:
+
+1. **Cluster ownership:** does the current public site have a page that truthfully satisfies the user task represented by the current effective cluster/unit?
+2. **Phrase-level map:** after ownership is decided, which exact active phrases inherit that owner and which remain unresolved/no-page/outside?
 
 ```text
 PHRASE
 → EFFECTIVE USER-TASK CLUSTER
-→ TARGET PAGE / EXPLICIT NO-PAGE STATE
+→ TARGET PAGE / EXPLICIT NO-PAGE OR UNRESOLVED STATE
 ```
 
-Do not replace this with independent page selection for each lexical variant. Queries with the same stable user task should normally share one cluster and one target page; however, the full phrase list must still be materialized after cluster ownership so the mapping is inspectable and auditable.
+A cluster-only ownership ledger is not a complete keyword-to-page map.
 
-## 2. External method grounding
+---
 
-Current external sources that constrain this method:
+## 2. External grounding
 
-- Semrush, *Keyword Mapping: A Step-by-Step Guide for 2026*: related keywords are grouped into clusters and each cluster is mapped to the page that best satisfies search intent; existing suggested pages must be reviewed before acceptance; the keyword map must expose the keyword/topic group and target URL/status.  
-  https://www.semrush.com/blog/keyword-mapping/
-- Ahrefs, *Keyword Mapping for SEO*: queries with the same or sufficiently similar intent normally belong to one page rather than one page per lexical variant.  
-  https://ahrefs.com/blog/keyword-mapping/
-- Ahrefs, *Keyword Clustering*: SERP/intention clustering is useful but imperfect; ambiguous and mixed boundaries require manual review rather than blind inheritance.  
-  https://ahrefs.com/blog/keyword-clustering/
-- Rush Analytics, *Определение релевантных URL для кластеров*: after clustering, determine which page should be promoted for the cluster; a selected URL is assigned to the cluster and to all keywords in that cluster.  
-  https://www.rush-analytics.ru/faq/klasterizaciya/opredelenie-relevantnyh-url-dlya-klasterov
-- Topvisor, *Целевые URL*: distinguish an SEO-assigned target URL from a search-engine relevant/ranking URL.  
-  https://topvisor.com/ru/support/rankings/target-url/
-- Yandex Webmaster recommendations on satisfying the user's formulated need and query↔URL analytics.  
-  https://yandex.ru/support/webmaster/ru/recommendations/targeting  
-  https://yandex.ru/support/webmaster/ru/service/queries-export
+- Semrush Keyword Mapping: https://www.semrush.com/blog/keyword-mapping/
+- Ahrefs Keyword Mapping: https://ahrefs.com/blog/keyword-mapping/
+- Ahrefs Keyword Clustering: https://ahrefs.com/blog/keyword-clustering/
+- Rush Analytics relevant URLs: https://www.rush-analytics.ru/faq/klasterizaciya/opredelenie-relevantnyh-url-dlya-klasterov
+- Topvisor target URLs: https://topvisor.com/ru/support/rankings/target-url/
+- Yandex user-need guidance: https://yandex.ru/support/webmaster/ru/recommendations/targeting
+- Yandex query↔URL evidence: https://yandex.ru/support/webmaster/ru/service/queries-export
 
-These sources support the reusable core, but do not replace current-site reading, current business scope, current search behavior, or job-specific evidence.
+These support grouping same-task queries, assigning a target page after current-page review, and separating analyst-assigned target URL from search-engine-selected relevant URL.
+
+---
 
 ## 3. Mandatory terminology
 
-### 3.1 Target URL / owner
+### TARGET / OWNER
 
-`TARGET_EXISTING_URL` or `OWNER_EXISTING` means:
+`OWNER_EXISTING` means the current site has a page verified as a truthful intended owner for the user task. It is an analytical mapping decision.
 
-> the current site has a page that the analyst has verified as a truthful intended owner for the cluster's user task.
+### SEARCH-ENGINE RELEVANT URL
 
-This is an SEO mapping decision.
-
-### 3.2 Yandex relevant URL
-
-`YANDEX_RELEVANT_URL` means:
-
-> a URL that Yandex is actually surfacing/associating with the query, verified by current Search results or authorized Yandex Webmaster query↔URL data.
-
-Do not call an analyst-selected target URL a Yandex relevant URL without direct evidence.
-
-Hard rule:
+A current Search/Webmaster-observed relevant URL is an observed search behavior fact.
 
 ```text
-TARGET_URL != PROVEN_YANDEX_RELEVANT_URL
+TARGET_URL != PROVEN_SEARCH_ENGINE_RELEVANT_URL
 ```
 
-### 3.3 No suitable existing page
+### NO_SUITABLE_EXISTING_PAGE
 
-`NO_SUITABLE_EXISTING_PAGE` means only:
+Means only that current plausible pages were reviewed and none truthfully owns the full task.
 
-> plausible current pages were reviewed and none truthfully owns the full frozen user task.
-
-Because this is a **negative current-site existence claim**, it must also satisfy `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`: absence from the Step-1 inventory is not proof. Use current multi-route discovery (broad Codex/browser discovery when needed, plus targeted current first-party reads) and record coverage limitations. If current-site absence is not sufficiently proven, use an explicit unresolved/absence-not-proven state rather than a confident no-page verdict.
-
-It does **not** mean “create a page”. Creation/merge/split/expansion decisions belong to Step 12.
-
-## 4. Required inputs
-
-Before execution, read and reconcile:
-
-1. the current branch/HEAD and canonical job workspace;
-2. current Layer-A process rules;
-3. `STEP_RULES_INDEX.md` and this registered Step-11 method;
-4. the current job manifest/flow and frozen business/region/scope constraints;
-5. the final Step-10 phrase assignment ledger, not only its cluster summary;
-6. the final Step-10 cluster summary/taxonomy;
-7. unresolved/Search-required handoffs from the previous step;
-8. current public-site inventory and page reads;
-9. available current Yandex Search/Webmaster evidence when required;
-10. previous Step-11 mistakes and non-repeat controls below.
-
-### Why the full phrase ledger is mandatory before ownership
-
-A cluster label can look coherent while its actual member phrases are not. Page ownership imposed on a bad upstream cluster hides the original semantic defect. Therefore Step 11 must retain the ability to inspect all member phrases and must reject or repair an incoherent cluster before assigning a page.
-
-## 5. Critical non-repeat control — Bridge/Codex evidence durability
-
-### Incident that caused this rule
-
-In the OKNO-MSK Step-11 run, Bridge and Codex acquisition results were allowed to exist temporarily in conversational/tool state before all of the useful evidence had been durably written to the canonical GitHub job workspace. The run came close to losing results that had already cost provider requests and analyst work. Replaying paid or stateful acquisition later may be expensive, impossible, or not reproduce the same evidence.
-
-The previous generic rule `REQUEST_SUCCEEDED != PROJECT_RESULT_COMPLETE` was correct but insufficiently operational. It did not force persistence **immediately after each acquisition interaction**.
-
-### Permanent rule
-
-For every Bridge or Codex acquisition interaction that produces evidence used by the job:
+Because this is a negative current-site claim, it must satisfy the current-site freshness/existence gate.
 
 ```text
-INTERACTION EXECUTION TRUTH
+NO_SUITABLE_EXISTING_PAGE != CREATE_DECISION
+```
+
+Creation belongs to Step12.
+
+---
+
+## 4. Permanent failure history — what failed, why, control
+
+### M11-01 — acquisition evidence was allowed to remain transient
+
+**Failure:** provider/browser/code results could exist in conversation/tool state while additional acquisition continued, before useful evidence had been durably written and read back from the canonical job workspace.
+
+**Root cause:**
+
+```text
+REQUEST / TOOL EXECUTION SUCCESS
+WAS TREATED AS
+PROJECT EVIDENCE DURABILITY
+```
+
+A general “request succeeded != project complete” statement was not operational enough because it did not block the next acquisition interaction.
+
+**Control:**
+
+```text
+ACQUISITION INTERACTION
 → COMPLETE REQUIRED RESULT AVAILABLE
-→ IMMEDIATE SAVE TO CANONICAL GITHUB JOB WORKSPACE
-→ GITHUB READBACK / PARSE / COMPLETENESS VERIFY
-→ ONLY THEN THE NEXT ACQUISITION INTERACTION MAY START
+→ IMMEDIATE GITHUB WRITE
+→ GITHUB READBACK / PARSE / COMPLETENESS CHECK
+→ ONLY THEN NEXT ACQUISITION INTERACTION
 ```
 
-Never collect several Bridge/Codex interactions with the intention to “save everything at the end”.
+This applies especially to paid, stateful or non-reproducible acquisition.
 
-### Why
+---
 
-Tool/provider success proves only that the interaction happened. It does not prove project durability. Conversation context, browser state, provider state, extension state, or a later tool failure can disappear. GitHub persistence plus readback turns transient evidence into reusable project evidence and prevents needless paid replay.
+### M11-02 — cluster ownership was mistaken for complete phrase mapping
 
-### Bridge-specific mandatory record
+**Failure:** the step could produce a clean cluster→page ownership table without materializing every active phrase against its effective cluster and page state.
 
-Before any Yandex Marketing Bridge call, state:
+**Root cause:**
 
 ```text
-YMB MODE:
-- Active service: <wordstat|search|webmaster|metrika|direct>
-- Execution mode: <Manual|Autorun|accepted other>
-- Manual mode: ON   # when relevant
+CLUSTER-LEVEL DECISION COMPLETENESS
+WAS TREATED AS
+PHRASE-LEVEL DELIVERY / ACCOUNTING COMPLETENESS
 ```
 
-Also define before execution:
+This also hid heterogeneous clusters because the final mapping was not forced to expose every member row.
+
+**Control:** one final phrase→page row per current active phrase, with exact accounting and explicit unresolved/no-page states.
+
+---
+
+### M11-03 — a cluster label/representative query was trusted more than full member phrases
+
+**Failure:** an apparently coherent cluster could contain materially different terminal tasks, yet page ownership was assigned to the label or representative query.
+
+**Root cause:**
 
 ```text
-YMB STEP OBJECTIVE
-YMB REQUIRED SAVED RESULT
-YMB COMPLETENESS CHECK
-YMB STOP CONDITION
+REPRESENTATIVE QUERY / CLUSTER LABEL
+WAS TREATED AS
+PROOF OF EVERY MEMBER'S TERMINAL TASK
 ```
 
-After each interaction record and persist:
-
-- provider execution truth;
-- project result, not only HTTP/status/cost;
-- raw/normalized data required by the job;
-- request/job IDs when available;
-- completeness/accounting state;
-- cost state when billable;
-- limitation if any evidence could not be preserved.
-
-If the required result is incomplete, stop. Do not issue the next Bridge interaction merely because the previous request returned HTTP 200 or `SUCCEEDED`.
-
-### Codex-specific mandatory record
-
-A Codex/site-review pass is also acquisition. Persist immediately:
-
-- discovered URL inventory;
-- exact pages actually opened/read;
-- page profile fields needed for ownership;
-- final URL/title/H1/visible task/CTA and important limitations;
-- any page that could not be read;
-- acquisition timestamp/source provenance.
-
-Then read the saved artifact back from GitHub before another acquisition batch.
-
-## 6. Step-11 execution sequence
-
-### 6.1 Freeze the input and build a cluster-membership view
-
-Start from the final Step-10 phrase ledger. For every active phrase preserve at minimum:
-
-- phrase;
-- Step-10 assignment status;
-- Step-10 cluster ID;
-- user task / intent / business fit;
-- assignment confidence/evidence mode;
-- unresolved state where applicable.
-
-Do not begin ownership from the cluster summary alone.
-
-**Why:** the cluster summary hides heterogeneous member phrases. Step 11 is a downstream semantic integrity checkpoint, not a blind consumer of labels.
-
-### 6.2 Refresh the current public-site page inventory
-
-Use `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`. Use current public-site evidence (Codex/ChatGPT public browsing/first-party reads as allowed by the job) to identify plausible owner candidates. A small named positive check can be done with targeted web reads; a material negative claim that no page exists on a large site requires broad multi-route discovery and should use Codex/browser as the preferred discovery channel when available.
-
-For material candidates, record:
-
-- current URL/final URL;
-- title/H1 and visible page purpose;
-- product/service/information task actually covered;
-- CTA/transactional capability where relevant;
-- important inclusions/exclusions;
-- parent/child/sibling page relationships when they affect ownership.
-
-Persist every acquisition batch immediately under the durability protocol in section 5.
-
-**Why:** a URL name or old sitemap entry is not proof that a current page can own a task. Ownership is about current content and user outcome.
-
-### 6.3 Build the candidate ledger before deciding ownership
-
-For each active cluster, list plausible current candidate URLs and evidence for/against each one.
-
-Do not choose an owner by title/URL token overlap.
-
-**Why:** a similarly named page may be too narrow, transactional instead of informational, a sub-step rather than a standalone service, or a different object entirely.
-
-### 6.4 Audit cluster coherence before accepting an owner
-
-This is mandatory and was missing from the first OKNO-MSK Step-11 run.
-
-For every cluster, and especially every `MEDIUM`/`LOW` ownership candidate or broad heterogeneous cluster:
-
-1. inspect all member phrases, not only a representative phrase;
-2. ask whether they share one stable terminal user task;
-3. compare the frozen cluster label with the actual member phrases;
-4. if a subset clearly has a different task, correct via an explicit post-Step-10 overlay/split rather than silently changing the cluster meaning;
-5. if an individual phrase remains ambiguous, move it to `SEARCH_REQUIRED` / explicit unresolved state rather than forcing it onto a page;
-6. preserve the original Step-10 artifact and record corrections separately so history is auditable.
-
-**Why:** a representative SERP query is evidence about that query, not permission to rewrite the meaning of every phrase in the cluster. A bad cluster cannot be repaired by assigning it a convenient URL.
-
-Hard rule:
+**Control:** before accepting ownership, inspect all members for broad/weak/mixed clusters and allow explicit correction overlays/splits or unresolved handoff.
 
 ```text
 REPRESENTATIVE_QUERY_BEHAVIOR != PERMISSION_TO_REWRITE_CLUSTER_BOUNDARY
 ```
 
-### 6.5 Use Yandex Search only where it resolves a real decision boundary
+---
 
-Search evidence may establish dominant result type, object boundary, commercial/informational intent, or page-type expectation.
+### M11-04 — lexical URL/title similarity could dominate page-fit reasoning
 
-Do not use ranking absence as proof that the target site lacks a suitable page.
+**Failure:** a similarly named page can look like the obvious owner even when it serves a different object, lifecycle stage, intent or subtask.
 
-Do not transfer one query's SERP evidence automatically to unprobed neighbours.
-
-If direct Yandex evidence is required, use the Bridge protocol and immediate GitHub persistence gate in section 5.
-
-**Why:** Search behavior helps define user expectation, but ownership still requires current first-party page fit.
-
-### 6.6 Decide cluster ownership
-
-Accepted decision chain:
+**Root cause:**
 
 ```text
-CURRENT PAGE TASK FIT
-+ CURRENT SEARCH-BEHAVIOR EVIDENCE WHEN MATERIAL
+LEXICAL MATCH
+WAS TREATED AS
+CURRENT USER-TASK FIT
+```
+
+**Control:** current content/page purpose and user outcome are mandatory; lexical similarity is only candidate discovery evidence.
+
+---
+
+### M11-05 — search absence could be confused with site absence
+
+**Failure:** a target-domain page not observed in current Search can be mistakenly treated as proof that the site has no suitable page.
+
+**Root cause:**
+
+```text
+SEARCH VISIBILITY OBSERVATION
+WAS TREATED AS
+CURRENT SITE INVENTORY FACT
+```
+
+**Control:** Search and current-site discovery remain separate evidence routes.
+
+---
+
+### M11-06 — unresolved semantic/search boundaries could be forced into convenient ownership
+
+**Failure:** pressure for a complete map can cause ambiguous phrases/tasks to be assigned to a page without sufficient evidence.
+
+**Root cause:**
+
+```text
+OUTPUT COMPLETENESS
+WAS PRIORITIZED OVER
+TRUTHFUL UNCERTAINTY
+```
+
+**Control:** explicit `OWNER_UNRESOLVED_EVIDENCE_REQUIRED` / `SEARCH_REQUIRED` or equivalent state with no fabricated target.
+
+---
+
+## 5. Required inputs
+
+Before execution read/reconcile:
+
+```text
+current branch/HEAD and job workspace
+current Level-1 rules and Step11 method
+current job scope/business/region constraints
+final upstream phrase assignment ledger
+final upstream cluster/unit summary
+unresolved/Search-required handoffs
+current public-site discovery/page evidence
+persisted Search/Webmaster evidence when required
+previous Step11 failure classes + controls
+```
+
+Start from the phrase ledger, not the cluster summary alone.
+
+---
+
+## 6. Correct execution sequence
+
+### 6.1 Freeze phrase-level input
+
+For every active phrase preserve upstream assignment status, effective cluster/unit, user task/intent/business fit, confidence/evidence mode and unresolved state.
+
+### 6.2 Refresh current public-site evidence
+
+Apply `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`.
+
+For material candidate pages preserve equivalent observations:
+
+```text
+current/final URL
+title/H1
+visible task/page purpose
+product/service/information role
+CTA/transaction capability when material
+important inclusions/exclusions
+parent/child/sibling relation when it affects ownership
+read/discovery provenance
+```
+
+A named positive check can be narrow. A material negative “no suitable page exists” claim requires sufficient current discovery coverage.
+
+### 6.3 Persist acquisition immediately
+
+Every useful provider/browser/code acquisition batch follows the durability gate before another acquisition begins.
+
+### 6.4 Build candidate ledger
+
+For each effective task/cluster list plausible current candidate pages with evidence for/against each. Do not select by URL/title token alone.
+
+### 6.5 Audit cluster coherence
+
+For broad, heterogeneous, medium/low-confidence or contradicted clusters:
+
+```text
+READ ALL MEMBERS
+→ TEST ONE STABLE TERMINAL USER TASK
+→ IF MATERIAL SUBTASK DIFFERS, CREATE EXPLICIT CORRECTION OVERLAY/SPLIT
+→ IF AMBIGUOUS, MOVE TO EXPLICIT UNRESOLVED/SEARCH REQUIRED
+→ PRESERVE ORIGINAL UPSTREAM HISTORY
+```
+
+### 6.6 Use Search only where it resolves a real boundary
+
+Search may help determine result type, task/object boundary or page expectation. It does not prove site absence and must not be generalized beyond its actual query evidence.
+
+### 6.7 Decide ownership
+
+Allowed equivalent states:
+
+```text
+OWNER_EXISTING
+NO_SUITABLE_EXISTING_PAGE
+OWNER_UNRESOLVED_EVIDENCE_REQUIRED
+OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP
+```
+
+Decision chain:
+
+```text
+FULL MEMBER-PHRASE COHERENCE
++ CURRENT PAGE TASK FIT
 + BUSINESS SCOPE
++ SEARCH BEHAVIOR WHEN MATERIAL
 + CONTRADICTION REVIEW
-+ FULL MEMBER-PHRASE COHERENCE CHECK
 → OWNERSHIP VERDICT
 ```
 
-Allowed ownership states:
+### 6.8 Materialize complete phrase→page map
 
-- `OWNER_EXISTING`
-- `NO_SUITABLE_EXISTING_PAGE`
-- `OWNER_UNRESOLVED_EVIDENCE_REQUIRED`
-- `OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP`
-
-For every `OWNER_EXISTING`, the current target page must have been read and its task fit documented.
-
-For every `NO_SUITABLE_EXISTING_PAGE`, plausible current candidates must have been reviewed before rejection.
-
-For every unresolved state, provide an executable evidence route; do not hide uncertainty inside a confidence label.
-
-### 6.7 Materialize the complete phrase→page map
-
-After effective cluster ownership is frozen, join the final effective phrase assignments to ownership and create one row per active phrase.
-
-Minimum fields:
+Minimum equivalent fields:
 
 ```text
 phrase
 original_assignment_status
-original_cluster_id
+original_cluster_or_unit_id
 effective_assignment_status
-effective_cluster_id
-cluster_user_task
+effective_cluster_or_unit_id
+user_task
 intent_type
 business_fit
 assignment_confidence
 target_url
 ownership_state
 ownership_confidence
-page_mapping_applicability
+mapping_applicability
 mapping_reason
 evidence_provenance
 correction_source
 ```
 
-Rules:
+Every effective assigned phrase resolves to exactly one effective ownership row. Unresolved/Search-required phrases have no fabricated target.
 
-- every effective `ASSIGNED` phrase must resolve to exactly one effective cluster ownership row;
-- `OWNER_EXISTING` requires a non-empty target URL;
-- `NO_SUITABLE_EXISTING_PAGE`, unresolved, and outside-scope states keep target URL blank unless the schema explicitly distinguishes a rejected candidate from a target;
-- `SEARCH_REQUIRED` phrases have no target URL and remain `PAGE_OWNERSHIP_NOT_APPLICABLE_UNTIL_TASK_RESOLVED`;
-- no active phrase may disappear merely because it did not fit a page.
+### 6.9 Adversarial review
 
-**Why:** this is the client-usable keyword map and the machine-auditable proof that cluster ownership really covers the semantic set. A cluster-only ownership table cannot prove phrase-level completeness or reveal a bad mixed cluster as reliably.
-
-Hard rule:
+Re-open at minimum:
 
 ```text
-CLUSTER_OWNERSHIP_COMPLETE != PHRASE_PAGE_MAPPING_COMPLETE
+medium/low ownership decisions
+unusually broad task units
+mixed product/service/info/DIY/review tasks
+whole object vs component tasks
+current pages that are plausible only lexically
+third-party/aftermarket/catalog demand outside actual business offer
 ```
 
-### 6.8 Adversarial review of weak or broad decisions
+The verifier must try to find misassigned members, not merely confirm selected URLs.
 
-At minimum, re-open every `MEDIUM`/`LOW` ownership decision and every unusually broad cluster. Inspect all member phrases and current page evidence.
+### 6.10 Persist, QA, read back, report
 
-Challenge:
+Write all final/diagnostic artifacts, read them back from GitHub, reconcile counts and then give the mandatory plain-language end summary.
 
-- mixed product vs service intent;
-- product/model reviews vs company/provider reviews;
-- generic task labels whose phrases are object-specific;
-- broad technical-information clusters containing multiple product families;
-- component repair/replacement mixed with whole-product replacement;
-- commercial hub used for a genuinely informational task;
-- third-party aftermarket/catalog demand mapped to a site that does not sell those products.
+---
 
-**Why:** these are precisely the cases where a superficially plausible target URL can hide upstream clustering errors.
-
-## 7. Hard boundaries / forbidden shortcuts
+## 7. Hard boundaries
 
 ```text
 LEXICAL_URL_OR_TITLE_MATCH != OWNERSHIP
@@ -333,93 +337,116 @@ RANKING_URL != AUTOMATIC_OWNER
 SEARCH_ABSENCE != NO_SUITABLE_EXISTING_PAGE
 NO_SUITABLE_EXISTING_PAGE != CREATE_DECISION
 MULTIPLE_URLS != CANNIBALIZATION
-TARGET_URL != PROVEN_YANDEX_RELEVANT_URL
+TARGET_URL != PROVEN_SEARCH_ENGINE_RELEVANT_URL
 REPRESENTATIVE_QUERY != WHOLE_CLUSTER_EVIDENCE
 CLUSTER_OWNERSHIP_COMPLETE != PHRASE_PAGE_MAPPING_COMPLETE
 REQUEST_SUCCEEDED != PROJECT_RESULT_COMPLETE
-BRIDGE_OR_CODEX_RESULT_IN_CHAT != DURABLE_PROJECT_EVIDENCE
+TRANSIENT TOOL RESULT != DURABLE PROJECT EVIDENCE
 ```
 
-Never make Step-12 `KEEP / EXPAND / SPLIT / MERGE / CREATE` decisions in Step 11.  
-Never make Step-13 cannibalization verdicts in Step 11.
+Do not execute Step12 structural actions or Step13 cannibalization verdicts inside Step11.
 
-## 8. Required artifacts and why each exists
+---
 
-A completed Step 11 should preserve:
+## 8. Required job artifacts
 
-1. **current URL discovery inventory** — proves what public pages were considered;
-2. **current page-profile/read ledger** — proves actual page purpose, not lexical guesses;
-3. **cluster→candidate ledger** — shows alternatives and contradictions considered;
-4. **cluster ownership ledger** — records final target/no-page state;
-5. **post-upstream correction overlay, if needed** — preserves original Step-10 history while making downstream semantics correct;
-6. **phrase→page map** — materializes every active phrase against its effective cluster and target state;
-7. **unresolved/Search-required handoff** — prevents ambiguous phrases from being silently forced into ownership;
-8. **provider/Codex acquisition receipts/checkpoints/results** — preserves execution and reusable evidence;
-9. **QA JSON/report** — proves accounting, invariants, limitations and step boundary;
-10. **current job-flow update** — prevents the next dialogue from relying on stale step status.
+Equivalent outputs should preserve:
 
-## 9. Mandatory QA gate
+```text
+CURRENT URL DISCOVERY INVENTORY
+CURRENT PAGE READ/PROFILE LEDGER
+CLUSTER/UNIT CANDIDATE LEDGER
+OWNERSHIP LEDGER
+POST-UPSTREAM CORRECTION OVERLAY when needed
+PHRASE→PAGE MAP
+UNRESOLVED / SEARCH-REQUIRED HANDOFF
+ACQUISITION RECEIPTS / CHECKPOINTS / RESULTS
+QA
+REPORT
+CURRENT STATE / JOB FLOW UPDATE
+```
 
-Step 11 cannot be accepted until all applicable checks pass:
+---
+
+## 9. QA gates
 
 ### Accounting
 
 ```text
-ACTIVE_INPUT_ROWS == PHRASE_PAGE_MAP_ROWS
-ACTIVE_ASSIGNED + ACTIVE_SEARCH_REQUIRED == ACTIVE_INPUT_ROWS
-SILENT_ACTIVE_DROPS == 0
-UNKNOWN_EFFECTIVE_CLUSTER_IDS == 0
-DUPLICATE_PHRASE_MAP_ROWS == 0
+CURRENT_ACTIVE_INPUT_ROWS == FINAL_PHRASE_PAGE_MAP_ROWS
+SILENT_ACTIVE_DROPS = 0
+UNKNOWN_EFFECTIVE_CLUSTER_IDS = 0
+DUPLICATE_FINAL_PHRASE_ROWS = 0
 ```
 
 ### Ownership integrity
 
 ```text
-ASSIGNED_WITHOUT_OWNERSHIP_ROW == 0
-OWNER_EXISTING_WITH_BLANK_TARGET_URL == 0
-NO_SUITABLE_WITH_TARGET_URL == 0
-UNRESOLVED_WITHOUT_EXECUTABLE_ROUTE == 0
-OUTSIDE_SCOPE_WITH_TARGET_OWNERSHIP == 0
-SEARCH_REQUIRED_WITH_TARGET_URL == 0
-MULTIPLE_EFFECTIVE_OWNERS_PER_CLUSTER == 0
+ASSIGNED_WITHOUT_OWNERSHIP_ROW = 0
+OWNER_EXISTING_WITH_BLANK_TARGET = 0
+OWNER_EXISTING_WITHOUT_CURRENT_PAGE_READ = 0
+NO_SUITABLE_EXISTING_PAGE_WITHOUT_CURRENT_NEGATIVE_EVIDENCE = 0
+SEARCH_REQUIRED_WITH_TARGET_URL = 0
+TARGET_URL_LABELLED_AS_SEARCH_RELEVANT_WITHOUT DIRECT EVIDENCE = 0
 ```
 
-### Semantic integrity
+### Coherence/corrections
 
 ```text
-MEDIUM_LOW_OWNERSHIP_ROWS_REAUDITED == 100%
-KNOWN_MIXED_CLUSTERS_LEFT_UNCORRECTED == 0
-REPRESENTATIVE_QUERY_USED_TO_SILENTLY_REWRITE_CLUSTER == 0
-LEXICAL_ONLY_OWNER_DECISIONS == 0
-SEARCH_ABSENCE_USED_AS_NO_PAGE_VERDICT == 0
+BROAD_OR_WEAK_UNITS_REVIEWED = true
+MATERIAL MIXED UNITS LEFT UNCORRECTED = 0
+REPRESENTATIVE_QUERY_USED_TO_REWRITE_UNPROBED MEMBERS = 0
+ORIGINAL UPSTREAM HISTORY SILENTLY OVERWRITTEN = 0
 ```
 
 ### Evidence durability
 
 ```text
-BRIDGE_ACQUISITION_RESULTS_SAVED_BEFORE_NEXT_INTERACTION == true
-CODEX_ACQUISITION_RESULTS_SAVED_BEFORE_NEXT_INTERACTION == true
-FINAL_ARTIFACTS_READ_BACK_FROM_GITHUB == true
-PROVIDER_REQUEST_AND_COST_ACCOUNTING_RECONCILES == true   # when provider used
-KNOWN_PERSISTENCE_LIMITATIONS_RECORDED == true
+USEFUL ACQUISITION BATCHES PERSISTED = true
+READBACK COMPLETE = true
+NEXT ACQUISITION STARTED BEFORE PRIOR SAVE/READBACK = 0
 ```
 
 ### Step boundary
 
 ```text
-PREMATURE_STEP12_STRUCTURAL_ACTIONS == 0
-PREMATURE_STEP13_CANNIBALIZATION_VERDICTS == 0
+PREMATURE STEP12 ACTIONS = 0
+PREMATURE STEP13 HARM VERDICTS = 0
 ```
 
-Only after the phrase-level map, correction audit, evidence durability checks and quantitative reconciliation pass may Step 11 be marked complete.
+Only after all applicable gates pass may Step11 complete.
 
-## 10. OKNO-MSK correction lesson that must remain attached to this method
+---
 
-The first OKNO-MSK Step-11 pass correctly used cluster→page ownership logic, page reads and Yandex Search behavior, but two methodological gaps remained:
+## 10. Pass meaning
 
-1. **Acquisition evidence was not always persisted immediately after each Bridge/Codex interaction.** This risked losing paid/non-reproducible work. The permanent durability gate in section 5 now blocks the next acquisition interaction until save+readback succeeds.
-2. **The step stopped at 59 cluster ownership rows and did not materialize the final active phrase→page map.** That omission also hid several heterogeneous Step-10 clusters. The permanent phrase-level materialization and coherence audit in sections 6.4, 6.7 and 6.8 now make this a blocking QA requirement.
+```text
+STEP11_COMPLETE
+= CURRENT OWNERSHIP DECISIONS + COMPLETE PHRASE→PAGE MAP + DURABLE EVIDENCE + QA
 
-During correction, phrase-level review exposed examples of why the new control is necessary: a supposedly generic glazing cluster contained specific aluminium/panoramic/French-window phrases; a supposedly generic glazing-selection cluster was actually veranda-specific; replacement, review and broad technical-information clusters mixed materially different terminal tasks. The correct response is an explicit correction overlay/split or unresolved handoff, not a convenient URL assignment.
+STEP11_COMPLETE
+!= STRUCTURAL ACTIONS EXECUTED
+!= CANNIBALIZATION PROVEN
+```
 
-This lesson is reusable. The exact OKNO-MSK phrases/URLs remain job-specific evidence and must not become universal lexical rules.
+---
+
+## 11. Permanent markers
+
+```text
+KW001_STEP11_METHOD_ACTIVE = true
+KW001_STEP11_JOB_SPECIFIC_RESULTS_FORBIDDEN_IN_PERMANENT_METHOD = true
+KW001_STEP11_TRANSIENT_ACQUISITION_NOT_DURABLE_EVIDENCE = true
+KW001_STEP11_SAVE_READBACK_BEFORE_NEXT_ACQUISITION = true
+KW001_STEP11_CLUSTER_OWNERSHIP_NOT_EQUAL_PHRASE_MAP = true
+KW001_STEP11_FULL_MEMBER_COHERENCE_REVIEW_REQUIRED_WHEN_MATERIAL = true
+KW001_STEP11_REPRESENTATIVE_QUERY_NOT_EQUAL_WHOLE_CLUSTER = true
+KW001_STEP11_TARGET_NOT_EQUAL_SEARCH_RELEVANT_URL = true
+KW001_STEP11_SEARCH_ABSENCE_NOT_EQUAL_SITE_ABSENCE = true
+KW001_STEP11_NO_SUITABLE_PAGE_NOT_EQUAL_CREATE = true
+KW001_STEP11_UNRESOLVED_STATE_MUST_NOT_BE_FORCED_TO_TARGET = true
+```
+
+## ПРОСТЫМИ СЛОВАМИ
+
+Step11 нужен, чтобы понять, какая существующая страница должна отвечать на каждую реальную задачу пользователя, и затем показать это для каждой отдельной фразы. Нельзя выбрать страницу только по похожему названию, по одному показательному запросу или потому, что так удобнее заполнить таблицу. Сначала проверяются все фразы и текущие страницы, спорные случаи остаются спорными, а каждое полезное внешнее наблюдение сохраняется в GitHub до следующего сбора данных.
