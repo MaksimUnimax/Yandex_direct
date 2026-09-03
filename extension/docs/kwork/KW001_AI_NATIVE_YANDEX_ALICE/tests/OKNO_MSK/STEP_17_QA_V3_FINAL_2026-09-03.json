@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 17,
+  "qa_version": "V3_METHOD_GOVERNANCE_STRENGTHENING",
+  "result": "PASS",
+  "acceptance": "STEP17_V3_BOUNDED_DIAGNOSTIC_METHOD_GOVERNANCE_PASS",
+  "core_readback_commit": "f23999fde1ed164411b7f41c9655ceba0d57570e",
+  "checks": {
+    "permanent_step17_method_created": true,
+    "owner_authorized_method_promotion_addendum_created": true,
+    "external_method_audit_completed": true,
+    "official_yandex_method_sources_present": true,
+    "industry_prompt_variability_sources_present": true,
+    "selected_cases_accounted": "8/8",
+    "ordinary_search_direct_trace_preserved_from_v2": "8/8",
+    "raw_ai_trace_preserved_from_v2": "8/8 cases / 9 observations",
+    "architecture_verdict_present": "8/8",
+    "content_verdict_present": "8/8",
+    "ai_scope_class_present": "8/8",
+    "ai_temporal_state_present": "8/8",
+    "architecture_confidence_present": "8/8",
+    "content_confidence_present": "8/8",
+    "allowed_claim_present": "8/8",
+    "recheck_trigger_present": "8/8",
+    "exact_query_diagnostic": "8/8",
+    "user_job_family_supported": "0/8",
+    "single_snapshot": "7/8",
+    "short_window_reproduced": "1/8",
+    "time_separated_reproduced": "0/8",
+    "longitudinal_first_party_signal": "0/8",
+    "decisive_direct_source_provenance_missing_after_v3": 0,
+    "unsupported_family_level_claims": 0,
+    "unsupported_stability_claims": 0,
+    "source_order_as_rank_claims": 0,
+    "url_title_as_material_content_proof_claims": 0,
+    "gensearch_as_consumer_alice_claims": 0,
+    "architecture_content_conflations": 0,
+    "ai_source_content_fit_as_citation_probability_claims": 0,
+    "new_provider_calls": 0,
+    "new_paid_provider_cost_rub": 0,
+    "core_files_github_readback": "PASS"
+  },
+  "v2_verdicts": {
+    "status": "PRESERVED",
+    "reason": "V3 strengthens method, evidence scope, claim governance and provenance; no new evidence reverses the accepted V2 case verdicts."
+  },
+  "scope_boundary": {
+    "current_step17_scope": "BOUNDED_DIAGNOSTIC",
+    "sitewide_ai_visibility_claim": "FORBIDDEN",
+    "user_job_family_prevalence_claim": "FORBIDDEN",
+    "longitudinal_ai_stability_claim": "FORBIDDEN",
+    "consumer_alice_equivalence_claim": "FORBIDDEN"
+  },
+  "qa_mode": "ADVERSARIAL_SELF_REVIEW_PLUS_EXTERNAL_METHOD_AUDIT",
+  "qa_independence_state": "NOT_INDEPENDENT__SAME_EXECUTION_PROCESS_FOR_REPO_QA",
+  "method_quality_assessment": {
+    "previous_v2_bounded_diagnostic_estimate": "approximately 8/10",
+    "v3_method_governance_estimate": "approximately 9/10",
+    "note": "This is an analyst quality assessment, not a provider metric or a substitute for longitudinal data."
+  },
+  "step18": {
+    "prestep_allowed": true,
+    "execution_started": false
+  },
+  "next_legal_action": "STEP18_PRE_STEP_GATE_ONLY"
+}
