@@ -1,7 +1,9 @@
 # KW-001 — AI-Native Semantic Rebuild: implementation plan
 
-Date: 2026-08-28
-Status: **ACTIVE / COMMERCIAL END-TO-END REHEARSAL REQUIRED**
+Updated: 2026-09-03  
+Status: **ACTIVE / COMMERCIAL END-TO-END REHEARSAL REQUIRED / UNIVERSAL PRODUCT PLAN**
+
+This is the permanent productization plan. Concrete rehearsal/client names, domains, case-specific results and current job progress belong in Level2.
 
 ## 1. Working Kwork
 
@@ -17,27 +19,11 @@ Initial delivery target:
 
 `4–5 days`
 
-This price/scope is provisional until the complete rehearsal measures real work time and provider cost.
+This price/scope is provisional until sufficiently different end-to-end rehearsals measure real work time, operator burden and provider cost.
 
-## 2. What is already proven
+## 2. What the product must be able to do
 
-Technical/methodological evidence already exists:
-
-```text
-O-001 comparative methodology gate = PASS
-consumer-Alice evidence produced material/de-risking deltas on blood_sand
-GenSearch proxy validation = PASS
-GenSearch production hand = accepted
-ordinary Search = accepted
-Wordstat + durable batch = accepted
-Search batch/TOP evidence = accepted
-```
-
-These facts authorize productization but do not replace the commercial rehearsal.
-
-## 3. Base-package promise to test
-
-The base package must be deliverable using current accepted capabilities only:
+The reusable product capability must support:
 
 ```text
 business/site understanding
@@ -52,11 +38,11 @@ prioritized recommendations
 client workbook/report
 ```
 
-Optional account evidence such as Webmaster/Metrika/Direct may be used only when actually available to a real client and must not be necessary for the base-package promise.
+Optional account evidence such as Webmaster/Metrika/Direct may be used only when actually available and governed by `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md`. It must not be silently required for the base-package promise.
 
-## 4. Explicit non-promises
+## 3. Explicit non-promises
 
-The card/runbook must never promise:
+Never promise:
 
 ```text
 guaranteed Alice inclusion/citation
@@ -70,28 +56,24 @@ AI evidence must always change the SEO decision
 
 A valid outcome may be `NO_CHANGE`: AI evidence can confirm a strong ordinary-search decision.
 
-## 5. Test-project requirement
+## 4. Rehearsal diversity requirement
 
-Before READY_TO_SELL, execute at least **two materially different test orders**.
+Before READY_TO_SELL, execute at least two materially different test orders.
 
-Preferred test profiles:
+Preferred generic profiles:
 
 ### Test A — commercial catalog / product family
-
-Must have:
 
 ```text
 multiple related product/category intents
 existing public pages
-meaning/selection/compatibility questions where AI could plausibly differ from transactional SERP
+meaning/selection/compatibility questions where AI could plausibly differ from transactional Search
 observable Yandex demand
 ```
 
 Purpose: stress commercial vs explanatory/hybrid page-job decisions.
 
 ### Test B — service or mixed information-commerce business
-
-Must have:
 
 ```text
 clear commercial conversion goal
@@ -100,13 +82,13 @@ existing public competitor/source landscape
 observable Yandex demand
 ```
 
-Purpose: prove the method is not overfit to symbols/jewelry/blood_sand.
+Purpose: demonstrate that the method is not overfit to one domain, vocabulary or site architecture.
 
-`blood_sand` remains regression/methodology authority but does not count as both required new commercial rehearsals.
+Any prior project/test may remain historical regression evidence in Git history/Level2, but no concrete test identity is a permanent method input.
 
-## 6. Mock-client order freeze
+## 5. Mock-client order freeze
 
-Before analysing each test site, create a test-order record containing:
+Before analysing each test site, create a Level2 test-order record containing:
 
 ```text
 site URL
@@ -120,253 +102,129 @@ competitors supplied or NONE
 requested output
 assumed client questions
 frozen timestamp
+private-access state
 ```
 
-Do not alter the mock brief after seeing provider evidence merely to make the result look better. Any revision must be logged as a client revision.
+Do not alter the brief after seeing provider evidence merely to make the result look better. Any real revision is logged as a client revision.
 
-## 7. Full execution sequence to rehearse
+## 6. End-to-end rehearsal sequence
 
-### Step 1 — intake and business model
+The active detailed step order is governed by `STEP_RULES_INDEX.md` and current step-method authorities. This section states the product-level intent, not a competing roadmap.
 
-ChatGPT maps:
+### Intake / scope
+
+Freeze offer, audience, conversion jobs, regions, existing page roles, exclusions and unresolved client questions.
+
+### Demand acquisition
+
+Use bounded seed/probe logic, acquire Wordstat evidence under Bridge durability rules, preserve complete required results and account cost.
+
+### Ordinary Search baseline
+
+Acquire current Search evidence only for decision-relevant roots/boundaries and preserve exact provenance.
+
+### Search-only semantic/page architecture
+
+Before AI evidence can influence the result:
 
 ```text
-offer
-audience
-conversion jobs
-regions
-existing page roles
-commercial exclusions
-business ambiguity requiring client clarification
+clean/group demand
+resolve user tasks
+map current page ownership
+build evidence-backed structural/content actions
+check competing-page boundaries within evidence mode
+freeze Search-only architecture against current-site evidence
 ```
 
-Output: `BUSINESS_MODEL.md` or equivalent test record.
+### AI diagnostic design and acquisition
 
-### Step 2 — seed/query plan
+Select a bounded diagnostic/control set under the current Step15 method, acquire GenSearch evidence under the current Step16 gate, then compare Search and AI under Step17 claim limits.
 
-ChatGPT creates a bounded query plan with reason for every important seed/root.
+Do not bulk-run the semantic core through AI merely because the provider is available.
 
-Separate at minimum:
+### Step18 — prioritization and implementation readiness
+
+Use `STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md`.
+
+The product must preserve two distinct layers:
 
 ```text
-commercial roots
-selection/comparison roots
-meaning/how/why roots
-problem/solution roots
-brand/product-family roots where relevant
+IDEAL_ANALYTICAL_PRIORITY
+= evidence-based importance/order from demand, user task, public business relevance, Search opportunity, risk, evidence, dependencies and uncertainty.
+
+EXPECTED_IMPLEMENTATION_PRIORITY
+= real execution order after owner, effort, capacity, delivery window, client business importance and measurement readiness are calibrated when the deliverable requires an implementation-ready roadmap.
 ```
 
-### Step 3 — Wordstat human-demand acquisition
-
-Use current accepted Wordstat/Wordstat batch hands.
-
-Record:
+Canonical boundary:
 
 ```text
-exact commands/jobs
-region/device
-provider request count
-cost estimate
-raw result references
+IDEAL_ANALYTICAL_PRIORITY != IMPLEMENTATION_READY_ORDER
 ```
 
-ChatGPT then cleans and groups evidence. Do not let Bridge make subjective relevance decisions.
+Do not collapse human demand, AI diagnostic value, commercial/business value, evidence confidence or implementation effort into an unexplained magic score.
 
-### Step 4 — ordinary Yandex Search evidence
+If owner/effort/capacity/business-priority inputs are unavailable and the sold scope is analytical recommendations, preserve `PENDING_CALIBRATION` rather than fabricate them.
 
-Choose decision-relevant roots/page-boundary questions.
+### Client deliverables
 
-Use ordinary Search or Search batch as appropriate.
+The rehearsal must actually produce the sellable artifacts, not merely describe them.
 
-Record:
-
-```text
-query
-region
-ranked URL/domain evidence
-page/source types
-commercial vs informational orientation
-important competitors/sources
-```
-
-### Step 5 — pre-AI decision baseline
-
-Before opening current-test GenSearch evidence, freeze a compact baseline for decision-relevant clusters:
+Minimum base-package artifact classes:
 
 ```text
-current page job
-split/merge/new-page/reject hypothesis
-priority reason
-main uncertainty
-what AI evidence could realistically change/de-risk
-```
-
-This is not required to be a scientific isolated Pass-A experiment for every paid order. It is an operational discipline so AI evidence has a traceable decision role rather than being decorative.
-
-### Step 6 — AI test-set selection
-
-ChatGPT selects only queries for which AI evidence could change or materially de-risk a decision.
-
-For each selected query record:
-
-```text
-query
-reason_selected
-specific decision at stake
-expected information gain
-```
-
-Default target for the base rehearsal: small bounded set, normally about 3–10 queries depending on project complexity. Do not bulk-run the semantic core through GenSearch.
-
-### Step 7 — official GenSearch acquisition
-
-Use current accepted `SEARCH_API_V1 method=genSearch` hand.
-
-Preserve separately:
-
-```text
-GEN_SEARCH_INPUT
-GEN_SEARCH_ANSWER
-GEN_SEARCH_SOURCE
-GEN_SEARCH_SOURCE_USED
-GEN_SEARCH_QUERY_OBSERVED
-```
-
-Record request count and estimated provider cost.
-
-### Step 8 — Search-vs-AI comparison
-
-For each AI-tested decision classify:
-
-```text
-ordinary Search user job
-AI user job
-source-type difference
-commercial/explanatory difference
-source-worthiness implication
-material decision delta = CHANGE / DE_RISK / NO_CHANGE / INSUFFICIENT
-```
-
-Do not force CHANGE.
-
-### Step 9 — final semantic/page architecture
-
-ChatGPT decides per cluster/page:
-
-```text
-KEEP_EXISTING
-EXPAND_EXISTING
-MERGE
-SPLIT
-NEW_COMMERCIAL_PAGE
-NEW_INFORMATIONAL_PAGE
-HYBRID_CONTENT_COMMERCE
-FAQ_OR_SECTION_ONLY
-REJECT
-MANUAL_REVIEW
-```
-
-Resolve cannibalization and conflicting jobs explicitly.
-
-### Step 10 — H/A/C/O reasoning
-
-Keep reasons distinct:
-
-```text
-H = human demand
-A = AI importance
-C = commercial value
-O = owned-asset/source value
-```
-
-Do not collapse into an unexplained magic score.
-
-### Step 11 — client deliverables
-
-The rehearsal must actually produce the intended sellable artifacts, not just describe them.
-
-Minimum base-package artifact set:
-
-```text
-1. Semantic/page map workbook
+1. semantic/page map workbook
 2. Search-vs-AI gap matrix
-3. Source/competitor map
-4. Prioritized action plan
-5. Short methodology/limitations sheet
-6. Final client delivery message
+3. source/competitor map
+4. prioritized action plan
+5. methodology/limitations sheet
+6. final client delivery message
 ```
 
-Candidate workbook columns include:
+Where an implementation-ready roadmap is promised, add calibrated work packages, ownership, effort/capacity, delivery waves and measurement plan.
 
-```text
-cluster/page
-query/phrase
-human-demand evidence
-ordinary Search job
-AI job
-current/target page
-H reason
-A reason
-C reason
-O reason
-decision
-priority
-confidence/review state
-source notes
-```
-
-The exact schema is frozen only after the first full test run proves what is useful and not bloated.
-
-### Step 12 — QA
+### Final QA
 
 Check at minimum:
 
 ```text
 no invented provider facts
-Wordstat region correct
-Search provenance correct
-GenSearch provenance correct
+provider region/scope/provenance correct
 no GenSearch==Alice claim
 no guaranteed outcomes
-no orphan important cluster
-no unsupported new-page recommendation
-no obvious cannibalization left unresolved
-deliverable files open correctly
+no orphan important task
+no unsupported new-page/destructive recommendation
+no current-site completeness claim from a closed old list
+no implementation-ready claim without required calibration
+no accounting batch presented as an executable work item
 client can understand next actions without reading raw evidence
+files open and reconcile
 ```
 
-### Step 13 — economics and operator burden
+### Economics / operator burden
 
 Measure:
 
 ```text
 ChatGPT work stages / approximate effort
-Wordstat requests + estimated cost
-ordinary Search requests + estimated cost
-GenSearch requests + estimated cost
+provider requests + estimated cost
 owner/operator actions required
 elapsed wall-clock constraints
 revision-sensitive stages
+implementation-calibration burden where included
 ```
 
-Use these observations to confirm/revise `7,500 RUB` and package limits.
+Use observations to confirm/revise package price, scope and limits.
 
-### Step 14 — simulated client revision
+### Simulated client revision
 
-Every test must include one realistic revision, for example:
+Every test must include one realistic revision such as product/service scope correction, changed priority, geography clarification or rejection of a proposed action.
 
-```text
-client says one category is not sold
-client adds a priority service/product
-client rejects a proposed new page
-client clarifies geography/audience
-```
+Re-run only affected reasoning/evidence where justified. Prove the workflow can revise without replaying unrelated paid provider work or rewriting history.
 
-Re-run only affected reasoning/evidence where justified. Prove the workflow can revise without restarting the whole order or replaying paid provider work blindly.
+## 7. Test evidence files
 
-## 8. Test evidence files
-
-For each accepted test project create:
+For each accepted test project create equivalent Level2 artifacts:
 
 ```text
 TEST_ORDER_<id>.md
@@ -378,9 +236,9 @@ TEST_REVISION_<id>.md
 
 Never store credentials/secrets.
 
-## 9. Card finalization after tests
+## 8. Card finalization after tests
 
-Only after accepted test runs freeze:
+Only after accepted varied test runs freeze:
 
 ```text
 final Kwork title
@@ -397,15 +255,11 @@ non-guarantee language
 
 Marketing copy must be derived from observed workflow truth.
 
-## 10. Final autonomous runbook
+## 9. Final autonomous runbook
 
-After the execution logic is stable, create:
+The final runbook must satisfy `extension/docs/KWORK_RUNBOOK_STANDARD_2026-08-28.md`, current Level1 rules and a clean-context rehearsal.
 
-`extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/RUNBOOK_FOR_CHATGPT.md`
-
-It must satisfy `extension/docs/KWORK_RUNBOOK_STANDARD_2026-08-28.md` and pass a clean-context rehearsal.
-
-## 11. KW-001 acceptance markers
+## 10. Product acceptance markers
 
 ```text
 KW001_TEST_A_END_TO_END_PASS
@@ -418,12 +272,6 @@ KW001_CLEAN_CONTEXT_RUNBOOK_REHEARSAL_PASS
 KW001_READY_TO_SELL
 ```
 
-All are required.
+All are required before READY_TO_SELL.
 
-## 12. Immediate next action
-
-```text
-select Test A and Test B candidate sites
-freeze two mock client briefs BEFORE provider analysis
-then execute Test A end to end
-```
+This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
