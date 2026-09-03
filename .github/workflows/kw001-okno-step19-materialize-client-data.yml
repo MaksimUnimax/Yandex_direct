@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 concurrency:
@@ -24,7 +24,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: roadmap/kwork-productization-2026-08-28
-          fetch-depth: 1
+          fetch-depth: 0
+
+      - name: Apply known Python literal correction
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_materialize_client_data.py')
+          s = p.read_text(encoding='utf-8')
+          s2 = s.replace('"committed_schedule_created": false,', '"committed_schedule_created": False,')
+          s2 = s2.replace('"numeric_performance_targets_invented": false,', '"numeric_performance_targets_invented": False,')
+          s2 = s2.replace('"new_provider_calls_required": false,', '"new_provider_calls_required": False,')
+          if s2 == s and ': false,' in s:
+              raise RuntimeError('unexpected remaining Python false literal')
+          p.write_text(s2, encoding='utf-8')
+          print('STEP19_PYTHON_LITERAL_CORRECTION_APPLIED')
+          PY
 
       - name: Materialize deterministic client data
         run: |
@@ -59,6 +74,19 @@ jobs:
           assert qa['non_fabrication']['numeric_performance_targets_invented'] is False
           print('STEP19_CORRECTION_DATA_INDEPENDENT_QA_PASS')
           PY
+
+      - name: Persist corrected materializer and generated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_materialize_client_data.py
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/step19_correction_materialized
+          if git diff --cached --quiet; then
+            echo "No materialized changes"
+          else
+            git commit -m "step19: persist corrected materialized client data [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
 
       - name: Upload correction data bundle
         uses: actions/upload-artifact@v4
