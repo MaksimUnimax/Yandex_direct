@@ -3,8 +3,8 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA",
-  "status": "PRESTEP_PREPARED__READBACK_PENDING__EXECUTION_NOT_STARTED",
-  "step_verdict": "PRESTEP_PENDING_READBACK",
+  "status": "PRESTEP_COMPLETE__READBACK_PASS__READY_FOR_OWNER_AUTHORIZATION__EXECUTION_NOT_STARTED",
+  "step_verdict": "PRESTEP_COMPLETE_READY_FOR_OWNER_AUTHORIZATION",
   "permanent_method_status": "UNVALIDATED_AS_PERMANENT_METHOD",
   "method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
   "owner_authorization": {
@@ -28,9 +28,28 @@
     "requirements": 42,
     "requirements_ready": 42,
     "execution_manifest": "STEP_20_EXECUTION_MANIFEST_DRAFT_2026-09-03.json",
+    "prestep_readback_qa": "STEP_20_PRESTEP_READBACK_QA_2026-09-03.json",
     "adversarial_self_audit_complete": true,
     "plain_language_why_what_result_prepared": true,
-    "github_readback": "PENDING"
+    "github_readback": "PASS_PRE_EXECUTION"
+  },
+  "prepared_qa_method": {
+    "verification_layer": true,
+    "validation_layer": true,
+    "data_quality_dimensions": [
+      "COMPLETENESS",
+      "UNIQUENESS",
+      "CONSISTENCY",
+      "TIMELINESS",
+      "VALIDITY",
+      "ACCURACY"
+    ],
+    "claim_reverse_trace_required": true,
+    "current_implementation_critical_url_recheck_required": true,
+    "physical_distribution_hygiene_check_required": true,
+    "mock_demo_distribution_labelling_check_required": true,
+    "material_defect_reopens_affected_prior_stage": true,
+    "silent_prior_step_mutation_during_step20": false
   },
   "step19_handoff": {
     "step19_status": "COMPLETE_PASS_AFTER_POST_EXTERNAL_AUDIT_CORRECTION__PHYSICAL_PACKAGE_AND_EXECUTION_OPERABILITY_READBACK_SEALED",
@@ -39,13 +58,34 @@
     "active_semantic_rows": 2332,
     "preserved_search_required": 19,
     "ai_cases": 8,
+    "ai_verdicts": {
+      "CHANGE": 0,
+      "DE_RISK": 4,
+      "NO_CHANGE": 3,
+      "INSUFFICIENT": 1
+    },
     "page_actions": 34,
     "execution_packages": 112,
+    "package_breakdown": {
+      "exact_action": 31,
+      "internal_link": 15,
+      "route_to_existing": 46,
+      "hold_recheck": 20
+    },
     "non_hold_packages": 92,
     "hold_packages": 20,
     "measurement_classes": 7,
+    "physical_client_artifacts": 3,
+    "supported_new_page_actions": 0,
+    "supported_destructive_actions": 0,
     "expected_implementation_priority": "PENDING_CALIBRATION",
-    "final_sprint_or_calendar_schedule_ready": false
+    "final_sprint_or_calendar_schedule_ready": false,
+    "accounting_state": "FROZEN_EXPECTED_HANDOFF_VALUES__NOT_YET_STEP20_REVERIFIED"
+  },
+  "implementation_critical_url_universe": {
+    "count": "TO_MATERIALIZE_MECHANICALLY_AT_EXECUTION_START",
+    "whole_site_negative_absence_research_planned": false,
+    "current_url_final_role_recheck_planned": true
   },
   "step20_execution": {
     "started": false,
@@ -74,10 +114,11 @@
     "new_paid_cost_rub": 0.0
   },
   "workflow_boundaries": {
+    "step20_prestep_complete": true,
     "step20_execution_started": false,
     "step21_started": false,
     "step21_handoff_claimed": false,
     "step22_started": false
   },
-  "next_legal_action": "READBACK_STEP20_PRESTEP_ARTIFACTS__THEN_OWNER_AUTHORIZATION_FOR_STEP20_EXECUTION"
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP20_EXECUTION"
 }
