@@ -38,6 +38,6 @@ R20-036	PASS	PASS		Delivery message does not claim actual Step21 handoff/revisio
 R20-037	PASS	PASS		Material defects are assigned to Step18/19 correction; Step20 does not silently patch upstream.
 R20-038	PASS	PASS		Minor metadata issue is not misclassified as material; material contract/current-content defects are not downgraded.
 R20-039	PASS	PASS		Provider calls = 0; new paid cost = 0 RUB.
-R20-040	PENDING	PENDING_READBACK		Will pass only after all Step20 ledgers/report/state are persisted and read back from GitHub.
+R20-040	PASS	PASS_GITHUB_READBACK		All Step20 execution ledgers/report/state/flow were persisted and read back from GitHub before final seal.
 R20-041	PASS	PASS		Assurance statement records limitations, public-page evidence boundary and lack of formal independent assurer.
 R20-042	PASS	PASS		Step21 not started and remains blocked because Step20 has unresolved material defects.
