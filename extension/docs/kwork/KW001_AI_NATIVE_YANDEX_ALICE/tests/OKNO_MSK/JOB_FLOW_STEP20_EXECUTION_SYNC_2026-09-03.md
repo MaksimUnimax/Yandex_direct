@@ -1,11 +1,11 @@
-# OKNO_MSK job-flow — Step20 execution sync
+# OKNO_MSK job-flow — Step20 execution final sync
 
 Date: 2026-09-03  
-Status: **STEP20 QA EXECUTED / CORRECTION_REQUIRED / STEP21 BLOCKED / PREFINAL GITHUB READBACK PENDING**
+Status: **STEP20 QA EXECUTED / FINAL GITHUB READBACK SEALED / CORRECTION_REQUIRED / STEP21 BLOCKED**
 
 ## Step20 result
 
-Step20 adversarial Final QA was executed on the exact current Step19 client package.
+Step20 adversarial Final QA was executed on the exact current Step19 client package and its execution authorities were read back from GitHub.
 
 The mechanical package reconciliation is strong, but the final handoff gate does not pass because three unresolved MATERIAL defects were found.
 
@@ -15,6 +15,10 @@ MATERIAL DEFECTS = 3
 MINOR DEFECTS = 1
 STEP21_ALLOWED = false
 ```
+
+Final readback authority:
+
+`STEP_20_FINAL_READBACK_SEAL_2026-09-03.json`
 
 ## Verified accounting
 
@@ -80,30 +84,41 @@ NEW PAID COST = 0 RUB
 
 ## Workflow consequence
 
-Step20 does not silently edit Step18/19. The discovered defects explicitly reopen those stages for correction.
+Step20 did not silently edit Step18/19. The discovered defects explicitly reopen those stages for correction.
 
 | Step | Status |
 |---|---|
-| 0–17 | ✅ COMPLETE |
+| 0 Scope/order freeze | ✅ COMPLETE |
+| 1 Current site/business discovery | ✅ COMPLETE |
+| 2 Bounded acquisition planning | ✅ COMPLETE |
+| 3 Wordstat acquisition | ✅ COMPLETE |
+| 3R Recovery/reconciliation | ✅ COMPLETE |
+| 4 First family triage | ✅ COMPLETE |
+| 5 Targeted expansion | ✅ COMPLETE |
+| 6 Demand dynamics/seasonality | ✅ COMPLETE / PRESERVED |
+| 6A Coverage revalidation | ✅ COMPLETE |
+| 7 Row-level semantic cleanup | ✅ COMPLETE AFTER CORRECTION |
+| 8 Search-stage semantic freeze | ✅ COMPLETE AFTER METHOD CORRECTION |
+| 9 Ordinary Yandex Search validation | ✅ COMPLETE AFTER METHOD/PERSISTENCE CORRECTIONS |
+| 10 User-task/Search clustering | ✅ COMPLETE / VERIFIED |
+| 11 Page ownership / phrase→page mapping | ✅ COMPLETE AFTER EXTERNAL AUDIT + PHRASE CORRECTION |
+| 12 Structural/content-routing actions + links | ✅ COMPLETE AFTER CORRECTIONS + INDEPENDENT QA |
+| 13 Competing-page diagnosis | ✅ COMPLETE / BASE-PUBLIC BOUNDED |
+| 14 Search-only architecture freeze | ✅ FINAL PASS |
+| 14A Current-site/topology reconciliation | ✅ FINAL PASS |
+| 15 AI-case selection | ✅ COMPLETE |
+| 16 AI evidence acquisition | ✅ COMPLETE |
+| 17 Search-vs-AI comparison | ✅ COMPLETE / BOUNDED DIAGNOSTIC |
 | **18 Prioritization/readiness** | **🔁 CORRECTION REQUIRED — S18-A012 + S18-A027** |
 | **19 Client-facing deliverables** | **🔁 CORRECTION REQUIRED — demo/test identity + regeneration after Step18 correction + DOCX metadata hygiene** |
-| **20 Final QA** | **✅ EXECUTED / VERDICT CORRECTION_REQUIRED** |
+| **20 Final QA** | **✅ EXECUTED / FINAL READBACK SEALED / VERDICT CORRECTION_REQUIRED** |
 | **21 Handoff/revisions** | **⛔ BLOCKED** |
 | 22 Job close | ⬜ NOT STARTED |
 
-## Current readback boundary
-
-All Step20 execution artifacts have been written, but the final GitHub readback/seal has not yet been completed at the point of this sync.
-
-Next action inside Step20:
+## Next legal action
 
 ```text
-READ BACK ALL STEP20 EXECUTION AUTHORITIES
--> MARK PERSISTENCE/READBACK REQUIREMENT PASS
--> WRITE STEP20 FINAL READBACK SEAL
--> FINAL CURRENT-STATE/FLOW SYNC
+OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS
 ```
 
-After that, the next legal owner action is:
-
-`OWNER_AUTHORIZATION_FOR_STEP18_STEP19_CORRECTION_FROM_STEP20_DEFECTS`
+Step21 and Step22 remain blocked/not started.
