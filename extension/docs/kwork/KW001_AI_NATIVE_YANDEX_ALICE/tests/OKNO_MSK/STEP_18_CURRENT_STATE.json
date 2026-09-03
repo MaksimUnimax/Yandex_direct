@@ -2,36 +2,48 @@
   "date": "2026-09-03",
   "job": "OKNO_MSK",
   "step": 18,
-  "step_name": "Prioritization",
-  "status": "COMPLETE_PASS__PRIORITY_REGISTER_VERIFIED__STEP19_PRESTEP_ALLOWED",
-  "permanent_method_status": "UNVALIDATED",
+  "step_name": "Prioritization + implementation readiness",
+  "status": "COMPLETE_PASS_ANALYTICAL_PRIORITY__IMPLEMENTATION_READINESS_GOVERNED__EXPECTED_PRIORITY_PENDING_CALIBRATION__STEP19_PRESTEP_ALLOWED",
+  "permanent_method_status": "APPROVED_ACTIVE",
+  "permanent_method_authority": "STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md",
   "owner_authorization": {
-    "received": true,
-    "scope": "STEP18_EXECUTION",
+    "step18_execution_received": true,
+    "post_audit_permanent_rule_correction_received": true,
+    "post_audit_step18_correction_received": true,
     "provider_call_authorization": false
   },
-  "prestep": {
-    "review": "COMPLETE",
-    "source_to_method_trace": "PASS",
-    "research_to_execution_schema": "PASS",
-    "execution_manifest": "USED",
-    "adversarial_method_self_audit": "PASS"
-  },
-  "execution": {
-    "execution_started": true,
-    "execution_complete": true,
-    "action_register_created": true,
-    "priority_tiers_assigned": true,
+  "analytical_priority": {
+    "state": "COMPLETE_PASS",
+    "interpretation": "IDEAL_ANALYTICAL_PRIORITY",
     "action_register_rows": 34,
-    "priority_counts": {
-      "P1_HIGH": 12,
-      "P2_MEDIUM": 20,
-      "P3_LATER": 1,
-      "HOLD": 1
-    },
+    "priority_counts": {"P1_HIGH": 12, "P2_MEDIUM": 20, "P3_LATER": 1, "HOLD": 1},
     "hold_source_units": 20,
-    "provider_calls_executed": 0,
-    "paid_provider_cost_rub": 0.0
+    "reported_as_final_implementation_schedule": false
+  },
+  "work_packages": {
+    "state": "COMPLETE",
+    "total": 112,
+    "exact_action_packages": 31,
+    "exact_internal_link_packages": 15,
+    "exact_route_packages": 46,
+    "exact_hold_recheck_packages": 20,
+    "artifact": "STEP_18_WORK_PACKAGE_REGISTER.json"
+  },
+  "implementation_readiness": {
+    "state": "PARTIAL_NOT_SCHEDULE_READY",
+    "non_hold_packages": 92,
+    "execution_owner": "UNCONFIRMED_FOR_NON_HOLD_PACKAGES",
+    "effort_state": "UNKNOWN_FOR_NON_HOLD_PACKAGES",
+    "capacity_state": "UNKNOWN_FOR_NON_HOLD_PACKAGES",
+    "expected_implementation_priority": "PENDING_CALIBRATION",
+    "final_calendar_or_sprint_schedule_ready": false,
+    "artifact": "STEP_18_IMPLEMENTATION_CALIBRATION.json"
+  },
+  "measurement": {
+    "state": "DEFINED",
+    "measurement_classes": 7,
+    "artifact": "STEP_18_MEASUREMENT_PLAN.tsv",
+    "ranking_traffic_revenue_guarantees": 0
   },
   "accounting": {
     "structural_units": "168/168",
@@ -48,22 +60,15 @@
     "magic_numeric_priority_score_used": false,
     "private_client_priority_guesses": 0,
     "unknown_effort_guesses": 0,
+    "execution_owner_guesses": 0,
+    "capacity_guesses": 0,
+    "timeline_guesses": 0,
     "ai_only_architecture_promotions": 0,
     "unauthorized_new_page_actions": 0,
     "unauthorized_destructive_actions": 0,
     "sitewide_ai_visibility_claim": "FORBIDDEN",
     "longitudinal_ai_stability_claim": "FORBIDDEN"
   },
-  "outputs": [
-    "STEP_18_ACTION_REGISTER.tsv",
-    "STEP_18_PRIORITY_SUMMARY.tsv",
-    "STEP_18_HOLD_RECHECK_LEDGER.tsv",
-    "STEP_18_QA.json",
-    "STEP_18_REPORT.md",
-    "STEP_18_CURRENT_STATE.json",
-    "JOB_FLOW_STEP18_EXECUTION_SYNC_2026-09-03.md",
-    "STEP_18_FINAL_READBACK_QA_2026-09-03.json"
-  ],
   "provider_execution": {
     "wordstat_calls": 0,
     "search_calls": 0,
@@ -74,13 +79,21 @@
     "new_paid_cost_rub": 0.0,
     "unauthorized_provider_calls": 0
   },
-  "final_github_readback": true,
-  "step_verdict": "COMPLETE_PASS",
+  "post_audit_outputs": [
+    "STEP_18_WORK_PACKAGE_REGISTER.json",
+    "STEP_18_IMPLEMENTATION_CALIBRATION.json",
+    "STEP_18_MEASUREMENT_PLAN.tsv",
+    "STEP_18_POST_AUDIT_CORRECTION_QA_2026-09-03.json",
+    "STEP_18_POST_AUDIT_CORRECTION_REPORT_2026-09-03.md"
+  ],
+  "final_github_readback_after_post_audit_correction": false,
+  "step_verdict": "MODE_A_ANALYTICAL_PRIORITY_COMPLETE_PASS__MODE_B_IMPLEMENTATION_SCHEDULE_PENDING_REAL_CALIBRATION",
   "next_step_allowed": true,
   "step19": {
     "prestep_allowed": true,
     "permanent_method_status": "UNVALIDATED",
-    "execution_authorized": false
+    "execution_authorized": false,
+    "handoff_claim_requirement": "P1/P2/P3 must be labelled analytical priority; final implementation schedule remains pending owner/effort/capacity calibration."
   },
-  "next_legal_action": "STEP19_PRE_STEP_METHOD_RESEARCH_AND_OWNER_FACING_REVIEW"
+  "next_legal_action": "UNIVERSAL_RULES_AUDIT_AND_FINAL_STEP18_READBACK_SEAL__THEN_STEP19_PRESTEP"
 }
