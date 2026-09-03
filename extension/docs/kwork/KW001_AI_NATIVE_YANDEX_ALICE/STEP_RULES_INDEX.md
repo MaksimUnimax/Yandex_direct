@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Date: 2026-09-02  
+Date: 2026-09-03  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This file is the index of step-specific methodology coverage.
@@ -90,7 +90,7 @@ Permanent promotion requires explicit owner instruction.
 | **Step 14** | **Search-only architecture freeze** | **APPROVED / ACTIVE AFTER POST-RUN DISCOVERY-TOPOLOGY CORRECTION** | **`STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` + `RULES_ARCHITECTURE_CODEX_SITE_DISCOVERY_GATE_ADDENDUM_2026-09-02.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`** — target Search architecture must be reconciled against an independently discovered current public-site universe and literal current HTML link topology. A closed known-URL list cannot prove its own completeness; live source/target endpoints do not prove a current `<a href>` edge. When completeness/topology is material, deterministic Codex/code discovery, persisted outputs, GitHub readback, newly discovered URL reconciliation, and literal classification of required edges are mandatory before final PASS. Current OKNO_MSK Step 14/14A is **FINAL PASS** after the mandatory current-site reconciliation; Step 15 is no longer blocked by Step14. |
 | **Step 15** | **AI-case selection** | **APPROVED / ACTIVE AFTER POST-RUN LINEAGE + STABILITY-CONTROL CORRECTION** | **`STEP_15_AI_CASE_SELECTION_METHOD.md`** — build the candidate universe by exact authoritative QF-ID joins, never manual remapping; separate `DIAGNOSTIC_PROBE` from `STABILITY_CONTROL`; pre-register later outcomes; label the selected set as non-representative unless a separate representative-sampling method exists; a single later material AI delta/control break requires confirmation handoff rather than automatic architecture rewrite. Current OKNO_MSK canonical Step15 result is V2: **25 reviewed / 8 selected (6 diagnostics + 2 controls) / 16 rejected / 1 hold**; V1 is superseded. |
 | Step 16 | AI-search evidence acquisition | **UNVALIDATED** | Must research current Alice/GenSearch/Webmaster capabilities, preserve complete evidence and separate model/search behaviour from classic SERP evidence. `CLIENT_PRIVATE_YANDEX_ACCESS_POLICY.md` governs optional owned Webmaster AI evidence vs base GenSearch evidence. |
-| Step 17 | Search-vs-AI comparison | **UNVALIDATED** | Must define comparable evidence units and avoid forcing agreement between different retrieval surfaces. |
+| **Step 17** | **Search-vs-AI comparison** | **APPROVED / ACTIVE AFTER POST-RUN EXTERNAL METHOD AUDIT + SCOPE/CONFIDENCE/PROVENANCE CORRECTION** | **`STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md`** — direct-trace Search and raw AI evidence; explicitly govern exact-query vs user-job-family scope and snapshot vs longitudinal scope; separate architecture from content-fit verdicts; every material limitation must change allowed claim/confidence/PASS; decisive direct source reads require 1:1 provenance; a single AI snapshot cannot alone qualify an architecture `CHANGE`. |
 | Step 18 | Prioritization | **UNVALIDATED** | Must research/define how impact, evidence strength, public business relevance, internal client constraints, effort and uncertainty affect priority. |
 | Step 19 | Client deliverables | **UNVALIDATED** | Must map analysis outputs to the sold deliverable and make evidence/uncertainty understandable to the client. |
 | Step 20 | Final QA | **UNVALIDATED** | Must reconcile claims, counts, evidence, URLs/actions and unresolved items against the promised Kwork output, including a lightweight current-URL/current-role recheck for implementation-critical pages. |
@@ -351,6 +351,91 @@ Canonical authority:
 
 ---
 
+# Step-17 permanent lesson summary
+
+The Step-17 post-run external audit and V3 correction establish six reusable lessons.
+
+### Method-validation lesson
+
+```text
+JOB OUTPUT COMPLETENESS != PERMANENT METHOD VALIDATION
+JOB PASS != PERMANENT STEP METHOD EARNED
+```
+
+The V2 job could show 8/8 cases, complete output coverage and passing QA while the permanent index still marked Step17 `UNVALIDATED`. The process error was allowing a successful job artifact to look like a validated reusable method.
+
+### Limitation-governance lesson
+
+```text
+LIMITATION DISCLOSED != LIMITATION GOVERNED
+
+LIMITATION
+-> CLAIM SCOPE
+-> CONFIDENCE STATE
+-> CONFIRMATION / RECHECK TRIGGER
+-> PASS CONSEQUENCE
+```
+
+Writing `EXACT_QUERY != USER_JOB_FAMILY` or `SINGLE_RUN != LONG_TERM_STABILITY` is not enough. The limitation must mechanically restrict what the final verdict is allowed to claim.
+
+### Prompt-scope and temporal lesson
+
+```text
+ONE EXACT QUERY = EXACT_QUERY_DIAGNOSTIC
+ONE EXACT QUERY != USER_JOB_FAMILY_COVERAGE
+SINGLE_OBSERVATION = SNAPSHOT_ONLY
+SHORT_WINDOW_REPRODUCTION != LONGITUDINAL_STABILITY
+```
+
+A material AI-driven architecture `CHANGE` cannot be accepted from one AI snapshot alone. Representative same-job reformulation and/or time-separated evidence becomes mandatory when the stronger claim depends on wording robustness or temporal stability.
+
+### Architecture/content separation lesson
+
+```text
+NO_ARCHITECTURE_CHANGE != NO_CONTENT_CHANGE
+ARCHITECTURE_VERDICT != CONTENT_FIT_VERDICT
+```
+
+AI evidence may preserve page ownership while still exposing a bounded improvement opportunity inside the accepted owner.
+
+### Provenance lesson
+
+```text
+EVERY DECISIVE DIRECT EXTERNAL PAGE READ
+-> DEDICATED 1:1 PROVENANCE ROW
+```
+
+A direct-read fact mentioned only inside a case narrative is not sufficient durable provenance. Missing decisive provenance blocks Step17 final PASS.
+
+### Source-content-fit lesson
+
+```text
+AI_SOURCE_CONTENT_FIT != PROBABILITY_OF_AI_CITATION
+SOURCE_ORDER != RANK
+URL/TITLE != MATERIAL CONTENT PROOF
+```
+
+Directly read source content may support a bounded content-improvement hypothesis; it cannot prove future AI citation, and displayed source order/count cannot be treated as ranking.
+
+Canonical authorities:
+
+- `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md`
+- `STEP_17_PERMANENT_METHOD_PROMOTION_AND_NON_REPEAT_ADDENDUM_2026-09-03.md`
+
+Current OKNO_MSK consequence after V3:
+
+```text
+STEP17_V2_CASE_VERDICTS = PRESERVED
+STEP17_V3_FINAL_ACCEPTANCE = PASS
+STEP17_V3_FINAL_SCOPE = BOUNDED_DIAGNOSTIC
+STEP17_V3_PERMANENT_METHOD = ACTIVE
+STEP17_SITEWIDE_AI_VISIBILITY_CLAIM = FORBIDDEN
+STEP17_LONGITUDINAL_AI_STABILITY_CLAIM = FORBIDDEN
+STEP18_PRESTEP_ALLOWED = true
+```
+
+---
+
 Markers:
 
 ```text
@@ -406,5 +491,16 @@ KW001_STEP15_DIAGNOSTIC_CONTROL_TRACKS_SEPARATE = true
 KW001_STEP15_DIAGNOSTIC_SET_NOT_REPRESENTATIVE_BY_DEFAULT = true
 KW001_STEP15_MATERIAL_AI_DELTA_CONFIRMATION_HANDOFF_REQUIRED = true
 KW001_STEP15_CURRENT_OKNO_V2_PASS = true
+KW001_STEP17_METHOD_APPROVED_AFTER_EXTERNAL_AUDIT = true
+KW001_STEP17_JOB_PASS_NOT_EQUAL_METHOD_VALIDATED = true
+KW001_STEP17_LIMITATION_MUST_GOVERN_CLAIM = true
+KW001_STEP17_EXACT_QUERY_NOT_EQUAL_USER_JOB_FAMILY = true
+KW001_STEP17_SINGLE_RUN_NOT_EQUAL_STABILITY = true
+KW001_STEP17_SHORT_WINDOW_REPEAT_NOT_EQUAL_LONGITUDINAL = true
+KW001_STEP17_MATERIAL_AI_ARCHITECTURE_CHANGE_REQUIRES_CONFIRMATION = true
+KW001_STEP17_ARCHITECTURE_AND_CONTENT_VERDICTS_SEPARATE = true
+KW001_STEP17_AI_SOURCE_CONTENT_FIT_NOT_EQUAL_CITATION_PROBABILITY = true
+KW001_STEP17_DECISIVE_DIRECT_READ_PROVENANCE_1_TO_1_REQUIRED = true
+KW001_STEP17_CURRENT_OKNO_V3_BOUNDED_DIAGNOSTIC_PASS = true
 KW001_PERMANENT_PROMOTION_REQUIRES_OWNER_APPROVAL = true
 ```
