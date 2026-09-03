@@ -1,0 +1,94 @@
+{
+  "date": "2026-09-03",
+  "job": "OKNO_MSK",
+  "step": 18,
+  "step_name": "Prioritization",
+  "status": "PRE_STEP_METHOD_REVIEW_COMPLETE__READY_FOR_OWNER_AUTHORIZATION__EXECUTION_NOT_STARTED",
+  "permanent_method_status": "UNVALIDATED",
+  "job_specific_preparation": {
+    "pre_step_review": "COMPLETE",
+    "source_to_method_trace": "PASS_PRE_EXECUTION",
+    "research_to_execution_schema": "PASS_PRE_EXECUTION",
+    "execution_manifest": "PREPARED_NOT_EXECUTED",
+    "adversarial_method_self_audit": "PASS",
+    "unsupported_material_method_elements": 0,
+    "non_executable_evidence_routes": 0,
+    "magic_numeric_priority_score_planned": false
+  },
+  "prepared_artifacts": {
+    "pre_step_review": "STEP_18_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-09-03.md",
+    "source_to_method_trace": "STEP_18_SOURCE_TO_METHOD_TRACE.tsv",
+    "research_to_execution_schema": "STEP_18_RESEARCH_TO_EXECUTION_SCHEMA.tsv",
+    "execution_manifest": "STEP_18_EXECUTION_MANIFEST_DRAFT_2026-09-03.json"
+  },
+  "preparation_commit_chain": [
+    "dae3aa49d859aa5e37ac5db891c60c51015764c2",
+    "7bcedf0a74f739e12eb68c2c00b534e7d12a06ef",
+    "f17a5ac8c816003dcd960217b09e40b569df2643",
+    "cc1fc432125d993e068d64f23e3461a42369b292"
+  ],
+  "accepted_input_accounting_targets": {
+    "structural_units": 168,
+    "step14a_material_deltas": 21,
+    "step14_link_rows": 58,
+    "step14_implement_links": 15,
+    "step17_cases": 8,
+    "step17_content_expansion_candidates": 3,
+    "preserved_unresolved_phrases": 19,
+    "authorized_new_page_actions": 0,
+    "authorized_destructive_actions": 0
+  },
+  "priority_model": {
+    "type": "CATEGORICAL_AUDITABLE_NO_MAGIC_SCORE",
+    "dimensions": [
+      "HUMAN_DEMAND",
+      "USER_TASK_IMPORTANCE",
+      "PUBLIC_BUSINESS_RELEVANCE",
+      "SEARCH_OPPORTUNITY",
+      "STRUCTURAL_RISK_URGENCY",
+      "EVIDENCE_STRENGTH",
+      "AI_DIAGNOSTIC_SUPPORT",
+      "IMPLEMENTATION_EFFORT",
+      "DEPENDENCY_READINESS",
+      "UNCERTAINTY_RECHECK_STATE"
+    ],
+    "tiers": [
+      "P1_HIGH",
+      "P2_MEDIUM",
+      "P3_LATER",
+      "HOLD"
+    ],
+    "dependency_roles": [
+      "PREREQUISITE",
+      "INDEPENDENT",
+      "DOWNSTREAM"
+    ]
+  },
+  "current_job_boundaries": {
+    "private_webmaster_access": "UNAVAILABLE_BASE_REHEARSAL_OPTIONAL_ENHANCEMENT",
+    "private_metrika_access": "UNAVAILABLE_BASE_REHEARSAL_OPTIONAL_ENHANCEMENT",
+    "private_direct_access": "UNAVAILABLE_BASE_REHEARSAL_OPTIONAL_ENHANCEMENT",
+    "internal_priority_fields": "UNKNOWN_WHERE_NOT_EXPLICIT",
+    "implementation_effort": "UNKNOWN_UNLESS_EXPLICIT_EVIDENCE_EXISTS",
+    "ai_scope": "BOUNDED_EXACT_QUERY_DIAGNOSTIC",
+    "sitewide_ai_visibility_claim": "FORBIDDEN",
+    "longitudinal_ai_stability_claim": "FORBIDDEN",
+    "new_page_actions_currently_authorized": 0,
+    "destructive_actions_currently_authorized": 0
+  },
+  "provider_plan": {
+    "reuse_existing_evidence": true,
+    "new_provider_calls_planned": 0,
+    "new_paid_cost_rub_planned": 0.0,
+    "bridge_state": "CONDITIONAL_ONLY_AFTER_EXACT_INFORMATION_GAIN_GAP_AND_OWNER_AUTHORIZATION"
+  },
+  "execution": {
+    "owner_authorization_received": false,
+    "execution_started": false,
+    "action_register_created": false,
+    "priority_tiers_assigned": false,
+    "provider_calls_executed": 0,
+    "paid_provider_cost_rub": 0.0
+  },
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP18_EXECUTION"
+}
