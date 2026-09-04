@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "policy_type": "LEVEL2_JOB_SPECIFIC_FRESHNESS_CONFIGURATION",
+  "current_site_transport_check": {
+    "artifact": "STEP_20_RERUN_HTTP_AVAILABILITY.tsv",
+    "checked_from_utc": "2026-09-04T01:32:54Z",
+    "checked_through_utc": "2026-09-04T01:33:10Z",
+    "urls": 48,
+    "http_200": 48,
+    "redirects": 0,
+    "errors": 0
+  },
+  "current_content_check": {
+    "fingerprint_artifact": "STEP_20_RERUN_CURRENT_CONTENT_FINGERPRINT.tsv",
+    "summary_artifact": "STEP_20_RERUN_CURRENT_CONTENT_SUMMARY.json",
+    "analytical_review_artifact": "STEP_20_RERUN_CURRENT_TRUTH_RECHECK.tsv",
+    "fresh_full_text_urls": 48,
+    "identity_compatible": 48,
+    "action_sensitive_deep_reviews": 10
+  },
+  "validity_window": {
+    "hours": 72,
+    "basis": "short delivery window for this mock commercial rehearsal on a changeable public commercial site",
+    "valid_through_utc": "2026-09-07T01:37:05Z",
+    "universal_rule": false
+  },
+  "expiry_triggers": [
+    "handoff occurs after the declared valid_through time",
+    "known site deploy or material content change",
+    "business/offer scope change is reported",
+    "redirect or URL structure changes",
+    "material upstream analytical correction",
+    "material rebuild or mutation of client-facing package"
+  ],
+  "handoff_gate": "Before Step21 actual distribution, confirm the validity window has not expired and no event-trigger has occurred; otherwise rerun affected current-site checks before handoff.",
+  "claim_boundary": "Freshness is a time-bounded release condition, not a timeless truth about the site.",
+  "non_repeat_controls": [
+    "TIMESTAMP != FRESHNESS GOVERNANCE",
+    "FRESH AT QA TIME != FRESH AT DELIVERY TIME"
+  ]
+}
