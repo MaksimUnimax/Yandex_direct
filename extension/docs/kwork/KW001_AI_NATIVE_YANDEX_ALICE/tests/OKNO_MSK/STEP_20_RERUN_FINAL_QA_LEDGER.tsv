@@ -1,0 +1,51 @@
+qa_id	gate	status	evidence	boundary_or_residual
+Q20R-001	Approved universal Step20 method is registered and read before execution	PASS	STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md; STEP_RULES_INDEX.md	Method is universal; current values remain Level2.
+Q20R-002	Declared intended-use and assurance mode before testing	PASS	STEP_20_RERUN_EXECUTION_START_FREEZE_2026-09-04.json	MODE_A_TEST_DEMO_REHEARSAL only.
+Q20R-003	Risk register created before substantive rerun testing	PASS	STEP_20_RERUN_RISK_REGISTER.tsv	17 pre-registered failure families with release consequence.
+Q20R-004	Exact release candidate frozen	PASS	STEP_20_RERUN_EXECUTION_START_FREEZE_2026-09-04.json	No mixed-revision assurance.
+Q20R-005	Exact corrected physical identities match frozen manifest	PASS	STEP_20_RERUN_MECHANICAL_QA.json; physical QA	Any later material rebuild invalidates this verdict.
+Q20R-006	9/9 logical client deliverables accounted	PASS	Step19 current state; mechanical QA	No logical deliverable silently omitted.
+Q20R-007	Primary direction contract limit	PASS	15 directions / max 15	No expansion beyond frozen contract.
+Q20R-008	Semantic materialization completeness	PASS	2332 active rows	Derived workbook remains tied to canonical Step8/10/11 lineage.
+Q20R-009	Unresolved semantic states preserved	PASS	19 SEARCH_REQUIRED	No forced certainty.
+Q20R-010	AI case universe and verdict accounting	PASS	8 cases: CHANGE 0 / DE_RISK 4 / NO_CHANGE 3 / INSUFFICIENT 1	Bounded diagnostic only.
+Q20R-011	Page-action accounting	PASS	34/34 actions	Corrected A012/A027 included.
+Q20R-012	Execution package accounting	PASS	112/112 packages	31 action + 15 link + 46 route + 20 HOLD.
+Q20R-013	HOLD state preservation	PASS	20/20 HOLD	HOLD != low value/rejection.
+Q20R-014	Measurement layer	PASS	7 measurement classes	No fabricated numeric KPI.
+Q20R-015	Six-dimensional data quality: completeness	PASS	STEP_20_RERUN_DATA_QUALITY.json	
+Q20R-016	Six-dimensional data quality: uniqueness	PASS	STEP_20_RERUN_DATA_QUALITY.json; materialization QA	
+Q20R-017	Six-dimensional data quality: consistency	PASS	STEP_20_RERUN_DATA_QUALITY.json	Internal agreement did not substitute for accuracy.
+Q20R-018	Six-dimensional data quality: timeliness	PASS_WITH_EXPIRY	STEP_20_RERUN_DATA_QUALITY.json; freshness authority	Time-bounded.
+Q20R-019	Six-dimensional data quality: validity	PASS	STEP_20_RERUN_DATA_QUALITY.json	
+Q20R-020	Six-dimensional data quality: accuracy	PASS_FOR_DECLARED_SCOPE	Fresh current-content snapshot + action-sensitive review	Expires under freshness policy.
+Q20R-021	HTTP availability separated from role/content evidence	PASS	STEP_20_RERUN_HTTP_AVAILABILITY.tsv	48/48 HTTP 200, zero redirects/errors; not used alone as role proof.
+Q20R-022	Fresh full-text current-content retrieval	PASS	STEP_20_RERUN_CURRENT_CONTENT_SUMMARY.json	48/48 fresh bodies; 48/48 identity compatible.
+Q20R-023	Action-sensitive current-content review	PASS	STEP_20_RERUN_CURRENT_TRUTH_RECHECK.tsv	10 deep reviews; no new material action contradiction.
+Q20R-024	A012 corrected scope remains current	PASS	Fresh door-page text snapshot; current truth ledger	Existing price guidance retained; installation scope/process only.
+Q20R-025	A027/A009 corrected scope remains current	PASS	Fresh French-window text snapshot; current truth ledger	No duplicate basic definition.
+Q20R-026	Other content-enhancement claims use narrow gap semantics	PASS	Current truth ledger	Partial existing content is not mislabeled as complete absence.
+Q20R-027	No unsupported new-page action	PASS	Claim reverse trace	0 supported new-page actions.
+Q20R-028	No unsupported destructive action	PASS	Claim reverse trace	0 supported destructive actions.
+Q20R-029	Analytical priority not overstated as production schedule	PASS	Priority/calibration surfaces	PENDING_CALIBRATION; no committed sprint/calendar.
+Q20R-030	AI scope not overgeneralized	PASS	Claim reverse trace + mechanical scan	No sitewide/longitudinal/business-impact claim.
+Q20R-031	Performance guarantees absent	PASS	Claim reverse trace + mechanical scan	No ranking/traffic/lead/revenue guarantee.
+Q20R-032	Private evidence boundary preserved	PASS	Claim reverse trace	No current Webmaster/Metrika/Direct observation claimed.
+Q20R-033	Wordstat semantics preserved	PASS	Claim reverse trace	Observed-provider count != guaranteed exact frequency.
+Q20R-034	TEST/DEMO distribution identity	PASS	XLSX/DOCX/PDF/summary/delivery + manifest	Must remain visible in future rebuilds.
+Q20R-035	Hidden/private distribution payload and metadata hygiene	PASS	STEP_20_RERUN_PHYSICAL_PACKAGE_QA.json	No material sensitive/stale payload found.
+Q20R-036	Workbook structural/readability QA	PASS	artifact_tool inspection; physical QA	9 visible sheets; text-labelled critical states; 0 formula-error tokens.
+Q20R-037	DOCX visual and accessibility QA	PASS	6/6 rendered visual PASS; a11y audit 0 high/0 medium/0 low	
+Q20R-038	PDF visual QA	PASS	4/4 rendered visual PASS	
+Q20R-039	PDF accessibility state	PASS_FOR_MODE_A_WITH_MINOR_RESIDUAL	STEP_20_RERUN_ACCESSIBILITY_QA.json; D20R-001	PDF untagged; accessible DOCX alternative exists; no PDF-accessibility-compliance claim.
+Q20R-040	Analyst intended-use scenario validation	PASS	STEP_20_RERUN_INTENDED_USE_VALIDATION.tsv	12/12 scenario tasks pass.
+Q20R-041	Real user/commissioner validation claim	PASS_BOUNDARY	STEP_20_RERUN_INTENDED_USE_VALIDATION.tsv	NOT_APPLICABLE_TO_REHEARSAL and explicitly not called complete.
+Q20R-042	Assurance independence appropriate to declared Mode A	PASS_WITH_EXPLICIT_LIMITATION	STEP_20_RERUN_ASSURANCE_INDEPENDENCE.json	Independent mechanical verifier present; formal independent analytical assurance not claimed.
+Q20R-043	Freshness window and expiry triggers	PASS	STEP_20_RERUN_FRESHNESS_AND_EXPIRY.json	Recheck required if handoff after expiry or event trigger.
+Q20R-044	Exact release bundle build provenance	PASS_SIGNED_ATTESTATION	STEP_20_RERUN_PROVENANCE.json	GitHub attestation id 45139802; provenance != analytical correctness.
+Q20R-045	Pre-registered risk closure	PASS_WITH_ONE_ACCEPTED_MINOR_RESIDUAL	STEP_20_RERUN_RISK_REGISTER.tsv	No blocking/material risk remains for Mode A.
+Q20R-046	Defect severity/release consequence	PASS	STEP_20_RERUN_DEFECT_LEDGER.tsv	0 BLOCKING; 0 MATERIAL; 1 accepted MINOR accessibility residual.
+Q20R-047	Known defect fixes not reused as automatic PASS	PASS	Fresh rerun freeze + new HTTP/content/mechanical/accessibility/provenance evidence	Old CORRECTION_REQUIRED verdict remains historical.
+Q20R-048	Actual handoff/revision completion not falsely claimed	PASS	Delivery draft + workflow state	Step21 not started.
+Q20R-049	Provider/cost boundary	PASS	Provider calls 0; new paid cost 0 RUB	No Bridge acquisition used.
+Q20R-050	Persist and read back all enhanced Step20 authorities before terminal verdict	PENDING	Will be set only after GitHub readback of rerun ledgers/report/state	No terminal Step20 PASS until this becomes PASS_GITHUB_READBACK.
