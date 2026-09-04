@@ -4,7 +4,7 @@
   "branch": "roadmap/kwork-productization-2026-08-28",
   "job_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK",
   "authority_state_file": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
-  "authority_state_blob_sha": "e6361119894d6cc5ae79fa816211f505bfd7831b",
+  "authority_state_blob_sha": "18740938b145abf2fc61535384361a93be5737d1",
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "execution_protocol_status": "EXPERIMENTAL_OWNER_APPROVED",
   "owner_override": "STOP_AFTER_EACH_COMPLETED_MINI_STEP_AND_REPORT_BEFORE_NEXT_MINI_STEP",
