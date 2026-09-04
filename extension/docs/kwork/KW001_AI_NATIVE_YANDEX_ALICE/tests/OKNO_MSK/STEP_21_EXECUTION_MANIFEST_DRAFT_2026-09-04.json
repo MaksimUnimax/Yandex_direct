@@ -1,0 +1,125 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 21,
+  "step_name": "Handoff / revisions",
+  "status": "PREPARED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "permanent_method_status": "UNVALIDATED",
+  "current_job_method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
+  "handoff_mode": "MODE_A_TEST_DEMO_REHEARSAL",
+  "authorization": {
+    "prestep_authorized": true,
+    "step21_execution_authorized": false,
+    "provider_call_authorized": false,
+    "step22_authorized": false
+  },
+  "authoritative_inputs": [
+    "TEST_ORDER.md",
+    "STEP_19_09_CLIENT_DELIVERY_MESSAGE.md",
+    "STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json",
+    "STEP_20_CURRENT_STATE.json",
+    "STEP_20_RERUN_FINAL_READBACK_SEAL_2026-09-04.json",
+    "STEP_20_RERUN_FRESHNESS_AND_EXPIRY.json",
+    "STEP_20_RERUN_ASSURANCE_STATEMENT.md",
+    "STEP_20_RERUN_PROVENANCE.json",
+    "STEP_20_RERUN_DEFECT_LEDGER.tsv"
+  ],
+  "release_candidate": {
+    "workbook": {
+      "file": "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx",
+      "bytes": 458600,
+      "sha256": "9f08cb47b1f4863f90b84c2d3a1ae145341ff5fd5f9c57ee76f2c087c642d499"
+    },
+    "docx": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.docx",
+      "bytes": 44078,
+      "sha256": "d68001ee36f1677cf0817e3058e490bdfcc1598da324b3cd62a5670c1644b3dd"
+    },
+    "pdf": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.pdf",
+      "bytes": 59868,
+      "sha256": "cf4a208ba5286243e41ef5dff31a5d3eea9fdc0dab93800850addcc07663915e"
+    },
+    "step20_signed_attestation_id": "45139802",
+    "step20_release_bundle_sha256": "f1c06b653c5b7540d03ad8ae6d5872ac24d87011a8cab211d06dd5be2ec79623",
+    "test_demo_identity_required": true
+  },
+  "freshness_gate": {
+    "source": "STEP_20_RERUN_FRESHNESS_AND_EXPIRY.json",
+    "valid_through_utc_at_prestep": "2026-09-07T01:37:05Z",
+    "execution_must_recheck_immediately_before_distribution": true,
+    "event_triggered_expiry": true,
+    "distribution_if_expired": "BLOCK_AND_REFRESH_REQUIRED_STEP20_CURRENT_SITE_ASSURANCE"
+  },
+  "planned_execution_phases": [
+    "01_FREEZE_STEP21_EXECUTION_HEAD_AND_EXACT_DISTRIBUTION_CANDIDATE",
+    "02_RECHECK_HANDOFF_TIME_FRESHNESS_AND_EVENT_TRIGGERS",
+    "03_BUILD_HANDOFF_MANIFEST_AND_RECIPIENT_FACING_HANDOFF_NOTE",
+    "04_VERIFY_TEST_DEMO_ASSURANCE_LIMITATION_AND_ACCESSIBILITY_DISCLOSURES",
+    "05_RECORD_SIMULATED_TEST_DEMO_DISTRIBUTION_EVENT",
+    "06_RECORD_SEPARATE_SIMULATED_RECEIPT_AND_REVIEW_STATES",
+    "07_RUN_SIMULATED_ACCEPTANCE_CHECKLIST_WITHOUT_REAL_CLIENT_ACCEPTANCE_CLAIM",
+    "08_RUN_SYNTHETIC_CLARIFICATION_ONLY_REVISION_DRILL_WITH_NO_PACKAGE_MUTATION",
+    "09_RUN_SYNTHETIC_SCOPE_CHANGE_DRILL_AND_PROVE_UPSTREAM_REOPEN_WITHOUT_EXECUTING_CHANGE",
+    "10_RECONCILE_REVISION_AND_VERSION_ACCOUNTING",
+    "11_DECIDE_STEP21_CLOSURE_AND_STEP22_ELIGIBILITY",
+    "12_PERSIST_AND_READ_BACK_ALL_STEP21_AUTHORITIES",
+    "13_WRITE_FINAL_STEP21_READBACK_SEAL"
+  ],
+  "planned_execution_artifacts": [
+    "STEP_21_HANDOFF_MANIFEST.json",
+    "STEP_21_HANDOFF_NOTE.md",
+    "STEP_21_HANDOFF_FRESHNESS_CHECK.json",
+    "STEP_21_HANDOFF_STATE_LEDGER.tsv",
+    "STEP_21_ACCEPTANCE_CHECKLIST.tsv",
+    "STEP_21_REVISION_LEDGER.tsv",
+    "STEP_21_REVISION_IMPACT_LEDGER.tsv",
+    "STEP_21_VERSION_LINEAGE.tsv",
+    "STEP_21_REVISION_ACCOUNTING.json",
+    "STEP_21_REPORT.md",
+    "STEP_21_CURRENT_STATE.json",
+    "JOB_FLOW_STEP21_EXECUTION_SYNC_2026-09-04.md",
+    "STEP_21_FINAL_READBACK_SEAL_2026-09-04.json"
+  ],
+  "synthetic_revision_drills": {
+    "clarification_only": {
+      "synthetic": true,
+      "example": "Does P1 mean the first mandatory sprint?",
+      "expected_class": "CLARIFICATION_ONLY",
+      "expected_effect": "ANSWER_FROM_EXISTING_AUTHORITY_NO_PACKAGE_MUTATION"
+    },
+    "material_scope_change": {
+      "synthetic": true,
+      "example": "Change the analysis region to a different market and treat it as the same completed scope.",
+      "expected_class": "SCOPE_CHANGE_NEW_REQUIREMENT",
+      "expected_effect": "DO_NOT_EXECUTE__REOPEN_SCOPE_AND_AFFECTED_DOWNSTREAM_WORK_IF_REAL_AND_APPROVED"
+    }
+  },
+  "provider_plan": {
+    "wordstat": 0,
+    "search": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "new_paid_cost_rub": 0.0,
+    "rule": "ANY_NEW_PROVIDER_EVIDENCE_NEEDED_BY_REVISION_REQUIRES_SEPARATE_OWNER_AUTHORIZATION"
+  },
+  "pass_gate": {
+    "exact_distribution_identity_verified": true,
+    "handoff_time_freshness_required": true,
+    "test_demo_disclosure_required": true,
+    "distribution_receipt_review_acceptance_states_separate": true,
+    "real_client_acceptance_fabrication_forbidden": true,
+    "revision_intake_and_impact_control_required": true,
+    "unapproved_baseline_mutation_forbidden": true,
+    "material_revision_requires_new_version_and_required_reqa": true,
+    "open_accepted_revisions_at_close_allowed": false,
+    "github_readback_required": true,
+    "step22_only_after_step21_closure": true
+  },
+  "execution_started": false,
+  "actual_handoff_claimed": false,
+  "actual_revision_cycle_claimed": false,
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP21_EXECUTION"
+}
