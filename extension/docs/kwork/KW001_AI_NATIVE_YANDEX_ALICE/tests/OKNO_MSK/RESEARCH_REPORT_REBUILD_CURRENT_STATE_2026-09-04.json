@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "EXECUTION_STARTED__STAGE_2_READY_FOR_SINGLE_PASS_WORK_EXECUTION",
+  "status": "STAGE_2_COMPLETE__READBACK_PASS__STAGE_3_NOT_STARTED",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -20,7 +20,7 @@
   "stage_progress": {
     "stage_0": "COMPLETE",
     "stage_1": "COMPLETE",
-    "stage_2": "ACTIVE_READY_FOR_SINGLE_PASS_WORK_EXECUTION",
+    "stage_2": "COMPLETE",
     "stage_3": "NOT_STARTED",
     "stage_4": "NOT_STARTED",
     "stage_5": "CONDITIONAL_NOT_STARTED",
@@ -61,8 +61,21 @@
       "baseline_freeze_blob_sha": "f38b2fee1ae5d6f6fd83c8a68e17741b8381e462",
       "defect_register_blob_sha": "683dd1c4530f083ae8922a6f955a60db13e6c2b4",
       "defect_rows": 11,
-      "stage0_pass_rows": ["RRD-011"],
-      "open_rows_forward": ["RRD-001", "RRD-002", "RRD-003", "RRD-004", "RRD-005", "RRD-006", "RRD-007", "RRD-008", "RRD-009", "RRD-010"]
+      "stage0_pass_rows": [
+        "RRD-011"
+      ],
+      "open_rows_forward": [
+        "RRD-001",
+        "RRD-002",
+        "RRD-003",
+        "RRD-004",
+        "RRD-005",
+        "RRD-006",
+        "RRD-007",
+        "RRD-008",
+        "RRD-009",
+        "RRD-010"
+      ]
     },
     "provider_calls": 0,
     "paid_cost_rub": 0
@@ -89,40 +102,81 @@
     "paid_cost_rub": 0
   },
   "stage_2": {
-    "status": "ACTIVE_READY_FOR_SINGLE_PASS_WORK_EXECUTION",
+    "status": "COMPLETE__READBACK_PASS",
     "execution_unit": "ENTIRE_STAGE_2",
     "audit_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
-    "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
-    "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-    "historical_mini_step_contract": "RESEARCH_REBUILD_STAGE_02_00_AUDIT_CONTRACT_AND_MINISTEPS_2026-09-04.md",
-    "historical_mini_step_contract_status": "SUPERSEDED_PROVENANCE_ONLY",
-    "historical_runtime_checkpoints_status": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-    "mandatory_mini_steps": false,
-    "mandatory_durable_blocks": false,
-    "intermediate_owner_report_stops": false,
-    "semantic_result_rule": "COUNTS_HASHES_FILE_INVENTORY_AND_FACT_OF_AI_CALL_ARE_NOT_STAGE_2_RESULTS",
-    "required_chain": "QUESTION__INPUT__ACTUAL_WORK__EVIDENCE__CONCLUSION__DECISION__DOWNSTREAM_EFFECT__GAP_OR_POSITIVE_FINDING__REWORK_OR_REPACKAGE",
-    "ai_native_rule": "SEARCH_ONLY_DECISION__WHY_AI_CASE__PRESERVED_AI_EVIDENCE__COMPARISON__CHANGED_CONFIRMED_NO_CHANGE_UNCERTAINTY__DOWNSTREAM_EFFECT__CLIENT_VISIBLE_IMPLICATION",
-    "required_scope": [
-      "BUSINESS_SITE_AND_RESEARCH_BOUNDARIES",
-      "DEMAND_COLLECTION_CLEANING_AND_PRESERVATION",
-      "QUERY_GROUPING_AND_SEMANTIC_MODEL",
-      "YANDEX_SEARCH_RESULTS_AND_COMPETITIVE_PATTERNS",
-      "QUERY_TO_PAGE_ASSIGNMENT_CONFLICTS_AND_STRUCTURE_DECISIONS",
-      "AI_CASE_SELECTION_AND_AI_EVIDENCE",
-      "SEARCH_VS_AI_DECISION_DELTA",
-      "PRIORITIES_RECOMMENDATIONS_AND_IMPLEMENTABILITY",
-      "TRANSFER_TO_CLIENT_REPORT_AND_WORKBOOK",
-      "POSITIVE_FINDINGS_AND_DO_NOT_CHANGE_AREAS",
-      "DEFECT_CLASSIFICATION_AND_PP01_PP19_COVERAGE",
-      "STAGE_2_ACCEPTANCE_AND_STAGE_3_INPUT"
-    ],
-    "required_output": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_2026-09-04.md",
-    "completion_sequence": "COMPLETE_FULL_STAGE_2_AUDIT__WRITE_FINAL_ARTIFACTS__UPDATE_EXECUTION_LOG__UPDATE_CURRENT_STATE__UPDATE_CURSOR__SAVE_GITHUB__READBACK__STOP_AND_REPORT_OWNER",
-    "after_stage_2_behavior": "STOP_AND_REPORT_OWNER__DO_NOT_START_STAGE_3",
+    "main_artifact": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_2026-09-04.md",
+    "supporting_artifact": "RESEARCH_REBUILD_STAGE_02_SEMANTIC_PROPAGATION_DEFECT_2026-09-04.tsv",
+    "old_client_package_status": "HISTORICAL_VERIFIED_PACKAGE__WITHDRAWN_AS_FINAL_CLIENT_DELIVERABLE_PENDING_REBUILD",
+    "acceptance_result": "FULL_CHAIN_AUDITED__PP01_PP19_ASSESSED__REPACKAGE_REANALYZE_AND_MISSING_DATA_SEPARATED",
+    "primary_findings": {
+      "substantial_old_research_exists": true,
+      "client_package_meets_full_product_promise": false,
+      "semantic_correction_rows": 69,
+      "v7_rows_with_stale_task_metadata": 69,
+      "v7_intent_metadata_mismatches": 38,
+      "v7_business_scope_mismatches": 33,
+      "v7_page_role_mismatches": 57,
+      "v7_primary_page_mismatches": 54,
+      "client_rows_missing_corrected_unit_id": 69,
+      "ai_cases": 8,
+      "preserved_ai_observations": 9,
+      "ai_architecture_changes": 0,
+      "ai_de_risk_or_confirmed": 4,
+      "ai_no_change": 3,
+      "ai_insufficient": 1,
+      "ai_supported_content_actions": [
+        "S18-A009",
+        "S18-A030",
+        "S18-A031"
+      ]
+    },
+    "pp_coverage": {
+      "passed": [
+        "PP-02",
+        "PP-05",
+        "PP-16",
+        "PP-17",
+        "PP-18"
+      ],
+      "passed_in_analysis_but_client_partial": [
+        "PP-06",
+        "PP-11"
+      ],
+      "partial": [
+        "PP-01",
+        "PP-04",
+        "PP-07",
+        "PP-08",
+        "PP-10",
+        "PP-13"
+      ],
+      "failed": [
+        "PP-03",
+        "PP-09",
+        "PP-12",
+        "PP-14",
+        "PP-15"
+      ],
+      "not_assessable_source_gap": [
+        "PP-19"
+      ]
+    },
+    "readback": {
+      "status": "PASS",
+      "main_artifact_blob_sha": "268d8e6bf8381f7a17e95f406f66373276bc34d1",
+      "supporting_artifact_blob_sha": "71b42e04297aad4352eed901e237c597712697d8",
+      "supporting_rows": 69,
+      "corrected_unit_ids_propagated_to_client": 0,
+      "creation_commit_shas": [
+        "f31730c87111a511fc250dcfec542bae6f2ff077",
+        "f7c8e4d280f04e7554291f275d8dbb061cc713bc"
+      ]
+    },
     "external_call_policy": "NO_NEW_EXTERNAL_OR_PAID_CALLS_BEFORE_SEPARATE_AUTHORIZATION",
     "provider_calls": 0,
-    "paid_cost_rub": 0
+    "paid_cost_rub": 0,
+    "after_stage_2_behavior": "STOP_AND_REPORT_OWNER__DO_NOT_START_STAGE_3"
   },
   "primary_defects_to_investigate": [
     "AI_NATIVE_SEMANTIC_REBUILD_NOT_VISIBLE_AS_A_CLIENT_RESULT",
@@ -138,6 +192,6 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "EXECUTE_FULL_STAGE_2_END_TO_END_IN_CHATGPT_WORK__SAVE_RESULT__READBACK__REPORT_OWNER__DO_NOT_START_STAGE_3",
+  "next_action": "AWAIT_OWNER_CONTINUATION__NEXT_ROADMAP_STAGE_IS_STAGE_3_AI_SEARCH_REBUILD_AUDIT__DO_NOT_START_AUTOMATICALLY",
   "execution_started": true
 }
