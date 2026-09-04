@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "assurance_mode": "MODE_A_TEST_DEMO_REHEARSAL",
+  "accessibility_requirement_state": "BEST_EFFORT_STANDARD_NOT_CONTRACTUAL_COMPLIANCE_GATE_FOR_THIS_REHEARSAL",
+  "workbook": {
+    "file": "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx",
+    "tooling": "artifact_tool inspection plus direct OOXML structural inspection",
+    "sheets": 9,
+    "hidden_sheets": 0,
+    "comments_parts": 0,
+    "external_links_parts": 0,
+    "vba_parts": 0,
+    "formula_error_tokens_found": 0,
+    "sheet_names_meaningful": true,
+    "table_headers_explicit": true,
+    "critical_states_text_labelled_not_color_only": true,
+    "calibration_unknowns_text_labelled": true,
+    "verdict": "PASS_BEST_EFFORT_STRUCTURAL_ACCESSIBILITY"
+  },
+  "docx": {
+    "file": "STEP_19_CLIENT_REPORT_CORRECTED.docx",
+    "audit_tool": "/home/oai/skills/docx/scripts/a11y_audit.py",
+    "high_findings": 0,
+    "medium_findings": 0,
+    "low_findings": 0,
+    "rendered_pages_previously_reviewed_on_same_sha256": "6/6_PASS",
+    "verdict": "PASS_AUTOMATED_ACCESSIBILITY_AUDIT_AND_VISUAL_READABILITY"
+  },
+  "pdf": {
+    "file": "STEP_19_CLIENT_REPORT_CORRECTED.pdf",
+    "pages": 4,
+    "encrypted": false,
+    "tagged": false,
+    "outline_items": 0,
+    "attachments": 0,
+    "annotations": 0,
+    "rendered_pages_previously_reviewed_on_same_sha256": "4/4_PASS",
+    "verdict": "ACCESSIBILITY_LIMITATION_UNTAGGED_PDF_ACCEPTABLE_FOR_MODE_A_WITH_ACCESSIBLE_DOCX_ALTERNATIVE",
+    "claim_boundary": "This is not a claim of PDF accessibility compliance. If an accessible/tagged PDF is contractually required, the package must be regenerated through an accessible PDF workflow before release."
+  },
+  "accessible_alternative": {
+    "file": "STEP_19_CLIENT_REPORT_CORRECTED.docx",
+    "state": "AVAILABLE_AND_AUTOMATED_A11Y_AUDIT_PASS"
+  },
+  "release_consequence": "PASS_FOR_DECLARED_MODE_A_ONLY__RESIDUAL_PDF_ACCESSIBILITY_LIMITATION_DISCLOSED",
+  "non_repeat_control": "VISUALLY_READABLE != ACCESSIBLE"
+}
