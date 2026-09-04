@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 21,
+  "step_name": "Handoff / revisions",
+  "status": "PRESTEP_ARTIFACTS_WRITTEN__READBACK_PENDING__EXECUTION_NOT_STARTED",
+  "permanent_method_status": "UNVALIDATED",
+  "current_job_method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
+  "owner_authorization": {
+    "step21_prestep_received": true,
+    "step21_execution_received": false,
+    "provider_call_authorization": false,
+    "step22_execution_authorization": false
+  },
+  "upstream_handoff": {
+    "step19_package_state": "CORRECTED_PHYSICAL_PACKAGE_QA_READBACK_SEALED",
+    "step20_state": "FRESH_ENHANCED_RERUN_PASS_FOR_MODE_A_FINAL_READBACK_SEALED",
+    "step21_allowed_by_step20": true,
+    "step21_started_before_this_prestep": false,
+    "release_candidate_files": 3,
+    "step20_blocking_defects": 0,
+    "step20_material_defects": 0,
+    "step20_accepted_minor_residuals": 1,
+    "accepted_minor_residual": "UNTAGGED_PDF_ACCEPTED_FOR_MODE_A_WITH_ACCESSIBLE_DOCX_ALTERNATIVE"
+  },
+  "freshness": {
+    "source": "STEP_20_RERUN_FRESHNESS_AND_EXPIRY.json",
+    "valid_through_utc_at_prestep": "2026-09-07T01:37:05Z",
+    "must_recheck_at_execution_before_distribution": true,
+    "event_triggered_expiry_enabled": true
+  },
+  "prestep": {
+    "whole_goal_and_full_roadmap_reviewed": true,
+    "previous_step_handoff_reviewed": true,
+    "relevant_permanent_failures_reviewed": true,
+    "fresh_external_method_research_complete": true,
+    "method_research_artifact": "STEP_21_PRE_STEP_METHODOLOGY_RESEARCH_AND_REVIEW_2026-09-04.md",
+    "source_to_method_trace": "STEP_21_SOURCE_TO_METHOD_TRACE.tsv",
+    "source_trace_rows": 16,
+    "source_trace_status": "16_OF_16_TRACED",
+    "research_to_execution_schema": "STEP_21_RESEARCH_TO_EXECUTION_SCHEMA.tsv",
+    "execution_requirements": 40,
+    "execution_requirements_status": "40_OF_40_READY",
+    "handoff_state_model": "STEP_21_HANDOFF_STATE_MODEL_DRAFT.tsv",
+    "revision_impact_matrix": "STEP_21_REVISION_IMPACT_MATRIX_DRAFT.tsv",
+    "execution_manifest": "STEP_21_EXECUTION_MANIFEST_DRAFT_2026-09-04.json",
+    "adversarial_self_audit_complete": true,
+    "plain_language_summary_prepared": true,
+    "github_readback": "PENDING"
+  },
+  "execution_design": {
+    "mode": "MODE_A_TEST_DEMO_REHEARSAL",
+    "real_paid_client_handoff_allowed_to_be_claimed": false,
+    "real_client_acceptance_allowed_to_be_claimed": false,
+    "simulated_handoff_rehearsal": true,
+    "simulated_clarification_revision_drill": true,
+    "simulated_material_scope_change_drill": true,
+    "synthetic_drills_can_mutate_client_truth": false,
+    "provider_calls_default": 0,
+    "new_paid_cost_rub_default": 0.0
+  },
+  "workflow_boundaries": {
+    "step21_execution_started": false,
+    "actual_handoff_claimed": false,
+    "actual_revision_cycle_claimed": false,
+    "step22_allowed": false,
+    "step22_started": false
+  },
+  "next_legal_action": "COMPLETE_STEP21_PRESTEP_GITHUB_READBACK__THEN_OWNER_AUTHORIZATION_FOR_STEP21_EXECUTION"
+}
