@@ -6,9 +6,26 @@
   "analyst_adversarial_self_qa": true,
   "independent_mechanical_verifier": {
     "required": true,
-    "route": "separate GitHub Actions workflow with deterministic mechanical assertions and public HTTP checks",
+    "route": "separate GitHub Actions workflow with deterministic mechanical assertions and fresh public HTTP checks",
     "workflow": "KW001 OKNO Step20 Enhanced Final Assurance Rerun",
-    "status": "RUNNING_OR_PENDING_FINAL_READBACK_AT_TIME_OF_THIS_RECORD"
+    "workflow_run_id": 33826172895,
+    "status": "COMPLETED_SUCCESS",
+    "verified_scope": [
+      "exact frozen release-candidate identities",
+      "48 direct HTTP availability checks",
+      "logical package counts and corrected A012/A027 propagation",
+      "claim-boundary negative scans",
+      "TEST/DEMO identity",
+      "DOCX metadata hygiene",
+      "release-bundle build provenance"
+    ]
+  },
+  "fresh_current_content_route": {
+    "workflow_run_id": 33826432798,
+    "status": "COMPLETED_SUCCESS",
+    "fresh_full_text_urls": 48,
+    "identity_compatible": 48,
+    "analytical_role_judgment_performed_by": "same analyst under adversarial review; action-sensitive pages separately deep-reviewed"
   },
   "formal_independent_analytical_assurer": {
     "present": false,
@@ -20,8 +37,9 @@
     "state": "NOT_APPLICABLE_TO_MOCK_REHEARSAL",
     "interpretation": "NOT_EQUIVALENT_TO_COMPLETED_REAL_USER_VALIDATION"
   },
-  "release_claim_boundary": "Any eventual Step20 PASS can be described only as adversarial final QA/release assurance for the declared TEST/DEMO Mode A. It must not be described as formal independent analytical assurance or real-user acceptance.",
+  "release_claim_boundary": "A Step20 PASS may be described only as adversarial final QA/release assurance for the declared TEST/DEMO Mode A. It is not formal independent analytical assurance and not real-user acceptance.",
   "future_mode_b_c_rule": "Ordinary consequential external/client release or high-impact use must satisfy the stronger independent-review requirement defined by STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md.",
+  "verdict": "PASS_INDEPENDENCE_REQUIREMENT_FOR_DECLARED_MODE_A_WITH_EXPLICIT_LIMITATION",
   "non_repeat_controls": [
     "INDEPENDENT COMPUTATIONAL CHECK != INDEPENDENT ANALYTICAL ASSURANCE",
     "ANALYST SCENARIO VALIDATION != REAL USER VALIDATION"
