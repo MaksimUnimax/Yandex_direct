@@ -1,0 +1,17 @@
+state_order	state	meaning	entry_evidence	exit_condition	forbidden_inference
+1	HANDOFF_READY	Exact Step20-assured package and Step21 handoff manifest are ready; nothing has been distributed yet	Step20 terminal PASS + freshness gate + exact package identity	Distribution event is durably recorded	HANDOFF_READY != DISTRIBUTED
+2	SIMULATED_TEST_DEMO_DISTRIBUTED	For current rehearsal only, exact package has been presented through the declared simulated/internal distribution route	Timestamp + exact package/version + channel + TEST/DEMO disclosure	Separate simulated receipt acknowledgement	DISTRIBUTED != RECEIVED
+3	SIMULATED_TEST_DEMO_RECEIPT_ACKNOWLEDGED	The rehearsal records that the package is available/received in the simulated recipient workflow	Receipt event with version identity	Review begins	RECEIVED != REVIEWED
+4	SIMULATED_TEST_DEMO_UNDER_REVIEW	Acceptance checklist/scenario review is being performed	Review start + checklist version	Checklist complete and disposition recorded	REVIEWED != ACCEPTED
+5	SIMULATED_TEST_DEMO_ACCEPTED_AS_REHEARSAL_OUTPUT	The rehearsal package meets the predefined simulated acceptance criteria for the tested scope	Completed acceptance checklist + no blocking open revision	Revision window closes or revision request enters workflow	SIMULATED_ACCEPTED != REAL_CLIENT_ACCEPTED; SIMULATED_ACCEPTED != REAL_USER_VALIDATED
+6	REVISION_REQUESTED	A revision/clarification input has been durably recorded	Unique revision ID + source + request text/summary + timestamp	Classification complete	REQUESTED != APPROVED
+7	REVISION_TRIAGED	Revision class and initial completeness are known	Revision class + affected surface + missing-info state	Impact analysis complete	TRIAGED != APPROVED
+8	REVISION_IMPACT_ASSESSED	Affected steps/artifacts/evidence/QA/version/provider consequences are known	Impact ledger	Disposition by authorized role	IMPACT_ASSESSED != APPROVED
+9	REVISION_APPROVED	Requested change is authorized within defined scope	Disposition evidence + approval authority	Required work begins	APPROVED != IMPLEMENTED
+10	REVISION_REJECTED_OR_DEFERRED	Request does not enter current baseline	Reason + disposition	No further action or future named trigger	REJECTED/DEFERRED must not mutate package
+11	REVISION_IN_PROGRESS	Authorized revision work is being executed	Reopen route + version plan	Required correction/rebuild complete	IN_PROGRESS != COMPLETE
+12	RE_QA_REQUIRED	Changed analytical/package truth requires specified QA before redistribution	Changed-version identity + invalidated prior QA	Required QA passes	PACKAGE_CHANGED != SAFE_TO_REDISTRIBUTE
+13	REVISION_READY_FOR_REDISTRIBUTION	Revised version passed required QA and has exact new identity	Fresh QA + hashes/version lineage	Redistribution event	READY != REDISTRIBUTED
+14	REVISION_REDISTRIBUTED	New exact version has been redistributed	New version distribution record	Receipt/review/acceptance loop completes	NEW_VERSION must not overwrite prior distributed version identity
+15	REVISION_CLOSED	One revision request has no remaining response/change/QA/redistribution obligation	Closure evidence	N/A	REVISION_CLOSED != STEP21_CLOSED if other revisions remain
+16	HANDOFF_REVISION_CYCLE_CLOSED	All handoff and revision obligations for the current rehearsal are closed	Acceptance state + all revision rows reconciled + no open accepted revision	Step22 may be prepared	CYCLE_CLOSED required before Step22 transition
