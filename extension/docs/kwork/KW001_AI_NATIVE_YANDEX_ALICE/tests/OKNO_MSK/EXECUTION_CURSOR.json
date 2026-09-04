@@ -1,0 +1,27 @@
+{
+  "project": "OKNO_MSK_RESEARCH_REPORT_REBUILD",
+  "repo": "MaksimUnimax/Yandex_direct",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "job_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK",
+  "authority_state_file": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
+  "authority_state_blob_sha": "e6361119894d6cc5ae79fa816211f505bfd7831b",
+  "stage": "2",
+  "current_mini_step": "2.1",
+  "status": "ACTIVE",
+  "next_action": "EXECUTE_2_1_END_TO_END_ANALYTICAL_CHAIN",
+  "continuous_until": "2.13_READBACK_PASS_OR_REAL_BLOCKER",
+  "external_call_policy": "NO_NEW_EXTERNAL_OR_PAID_CALLS_BEFORE_AUTHORIZED_GATE",
+  "startup_protocol": [
+    "READ_THIS_FILE_FIRST",
+    "DO_NOT_RECONSTRUCT_CHAT_HISTORY",
+    "DO_NOT_READ_ROADMAP_OR_EXECUTION_LOG_UNLESS_CURRENT_ACTION_REQUIRES_IT",
+    "READ_ONLY_SOURCE_ARTIFACTS_REQUIRED_FOR_CURRENT_MINI_STEP",
+    "EXECUTE_CURRENT_MINI_STEP_IMMEDIATELY",
+    "AFTER_COMMIT_AND_READBACK_UPDATE_THIS_CURSOR_TO_NEXT_MINI_STEP"
+  ],
+  "stop_only_for": [
+    "REAL_EXTERNAL_BLOCKER",
+    "MISSING_REQUIRED_EVIDENCE_REQUIRING_OWNER_DECISION",
+    "UNAUTHORIZED_EXTERNAL_OR_PAID_CALL"
+  ]
+}
