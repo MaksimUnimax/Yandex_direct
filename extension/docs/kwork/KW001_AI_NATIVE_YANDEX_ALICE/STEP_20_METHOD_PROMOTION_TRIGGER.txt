@@ -1,0 +1,3 @@
+STEP20_METHOD_PROMOTION
+owner_authorized=2026-09-04
+scope=universal_final_qa_release_assurance
