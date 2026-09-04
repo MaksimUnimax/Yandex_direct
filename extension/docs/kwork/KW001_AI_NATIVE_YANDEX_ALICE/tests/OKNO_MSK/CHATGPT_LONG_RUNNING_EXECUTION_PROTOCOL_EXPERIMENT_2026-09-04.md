@@ -65,11 +65,11 @@ At minimum use:
 3. `RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md`
 4. `RESEARCH_REBUILD_STAGE_01_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX_2026-09-04.md`
 5. `RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md`
-6. `RESEARCH_REBUILD_STAGE_02_00_AUDIT_CONTRACT_AND_MINISTEPS_2026-09-04.md` — despite the historical filename, its current contents are the unified Stage 2 audit contract.
+6. `RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md`
 7. `RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md`
 8. the actual preserved old research artifacts and raw evidence needed to audit the chain.
 
-The project roadmap and Stage 1 acceptance matrix define what Stage 2 must prove. Historical runtime checkpoints are secondary provenance only.
+The project roadmap and Stage 1 acceptance matrix define what Stage 2 must prove. Historical mini-step/runtime-checkpoint files are secondary provenance only and MUST NOT control execution.
 
 ## 5. Persistence rule for this Work experiment
 
