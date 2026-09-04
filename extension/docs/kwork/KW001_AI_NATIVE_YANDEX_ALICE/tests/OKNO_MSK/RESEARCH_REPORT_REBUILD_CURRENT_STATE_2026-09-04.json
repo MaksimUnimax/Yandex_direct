@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "EXECUTION_STARTED__STAGE_1_READBACK_COMPLETE__STAGE_2_READY",
+  "status": "EXECUTION_STARTED__STAGE_2_IN_PROGRESS__MINI_STEP_2_0_COMPLETE__MINI_STEP_2_1_READY",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -17,7 +17,7 @@
   "stage_progress": {
     "stage_0": "COMPLETE",
     "stage_1": "COMPLETE",
-    "stage_2": "READY_NOT_STARTED",
+    "stage_2": "IN_PROGRESS",
     "stage_3": "NOT_STARTED",
     "stage_4": "NOT_STARTED",
     "stage_5": "CONDITIONAL_NOT_STARTED",
@@ -98,6 +98,32 @@
     "provider_calls": 0,
     "paid_cost_rub": 0
   },
+  "stage_2": {
+    "status": "IN_PROGRESS",
+    "audit_contract": "RESEARCH_REBUILD_STAGE_02_00_AUDIT_CONTRACT_AND_MINISTEPS_2026-09-04.md",
+    "semantic_result_rule": "COUNTS_HASHES_FILE_INVENTORY_AND_FACT_OF_AI_CALL_ARE_NOT_STAGE_2_RESULTS",
+    "required_chain": "QUESTION__INPUT__ACTUAL_WORK__EVIDENCE__CONCLUSION__DECISION__DOWNSTREAM_EFFECT__GAP_OR_POSITIVE_FINDING__REWORK_OR_REPACKAGE",
+    "goal_restatement_after_every_mini_step": true,
+    "mini_steps": {
+      "2.0": "COMPLETE_PENDING_READBACK",
+      "2.1": "READY_AFTER_2_0_READBACK",
+      "2.2": "NOT_STARTED",
+      "2.3": "NOT_STARTED",
+      "2.4": "NOT_STARTED",
+      "2.5": "NOT_STARTED",
+      "2.6": "NOT_STARTED",
+      "2.7": "NOT_STARTED",
+      "2.8": "NOT_STARTED",
+      "2.9": "NOT_STARTED",
+      "2.10": "NOT_STARTED",
+      "2.11": "NOT_STARTED",
+      "2.12": "NOT_STARTED",
+      "2.13": "NOT_STARTED"
+    },
+    "next_mini_step": "2.1_RECONSTRUCT_END_TO_END_ANALYTICAL_CHAIN_AFTER_2_0_READBACK",
+    "provider_calls": 0,
+    "paid_cost_rub": 0
+  },
   "primary_defects_to_investigate": [
     "AI_NATIVE_SEMANTIC_REBUILD_NOT_VISIBLE_AS_A_CLIENT_RESULT",
     "CURRENT_CLIENT_CONCLUSIONS_ARE_NOT_READABLE_OR_SELF_EXPLANATORY",
@@ -110,9 +136,9 @@
     "RUSSIAN_SEO_SPECIALIST_IMPLEMENTATION_GUIDE",
     "SELF_CONTAINED_AI_KNOWLEDGE_DOCUMENT"
   ],
-  "persistence_rule": "PERSIST_EACH_STAGE__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK_BEFORE_NEXT_STAGE",
+  "persistence_rule": "PERSIST_EACH_MINI_STEP__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK_BEFORE_NEXT_MINI_STEP",
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "EXECUTE_STAGE_2_FULL_WORK_AUDIT_AGAINST_PP_01_TO_PP_19",
+  "next_action": "READBACK_STAGE_2_0_THEN_EXECUTE_MINI_STEP_2_1_END_TO_END_ANALYTICAL_CHAIN",
   "execution_started": true
 }
