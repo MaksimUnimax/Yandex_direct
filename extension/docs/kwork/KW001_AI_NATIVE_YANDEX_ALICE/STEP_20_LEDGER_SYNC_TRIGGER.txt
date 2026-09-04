@@ -1,0 +1,3 @@
+STEP20_LEDGER_SYNC
+owner_authorization_source=prior_explicit_instruction_to_record_step20_universal_rules
+scope=status_and_causal_authority_consistency_only
