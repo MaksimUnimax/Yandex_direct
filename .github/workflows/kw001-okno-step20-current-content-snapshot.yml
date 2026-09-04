@@ -1,0 +1,121 @@
+name: KW001 OKNO Step20 Fresh Current Content Snapshot
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_CONTENT_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-step20-current-content-snapshot
+  cancel-in-progress: false
+
+jobs:
+  current-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install fetch/parser dependencies
+        run: python -m pip install --disable-pip-version-check --quiet requests beautifulsoup4
+
+      - name: Fetch fresh full-text snapshots for 48 implementation-critical URLs
+        run: |
+          python - <<'PY'
+          import csv, datetime, hashlib, json, re
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          from difflib import SequenceMatcher
+          from pathlib import Path
+          import requests
+          from bs4 import BeautifulSoup
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          old=root/'STEP_20_CURRENT_URL_ROLE_RECHECK.tsv'
+          with old.open(encoding='utf-8-sig',newline='') as f:
+              rows=list(csv.DictReader(f,delimiter='\t'))
+          assert len(rows)==48
+          session=requests.Session(); session.headers.update({'User-Agent':'Mozilla/5.0 Step20-Current-Content-QA/1.0'})
+
+          def norm(s):
+              return re.sub(r'\s+',' ',(s or '').strip().lower())
+
+          def fetch(r):
+              now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+              u=r['requested_url']
+              try:
+                  resp=session.get(u,allow_redirects=True,timeout=30)
+                  status=resp.status_code; final=resp.url
+                  html=resp.text
+                  soup=BeautifulSoup(html,'html.parser')
+                  for tag in soup(['script','style','noscript','svg']): tag.decompose()
+                  title=soup.title.get_text(' ',strip=True) if soup.title else ''
+                  h1=soup.find('h1'); h1=h1.get_text(' ',strip=True) if h1 else ''
+                  headings=[x.get_text(' ',strip=True) for x in soup.find_all(['h2','h3'])[:12]]
+                  text='\n'.join(line.strip() for line in soup.get_text('\n').splitlines() if line.strip())
+                  text=re.sub(r'\n{3,}','\n\n',text)
+                  sha=hashlib.sha256(text.encode('utf-8')).hexdigest()
+                  expected=r.get('observed_visible_identity','')
+                  similarity=max(SequenceMatcher(None,norm(expected),norm(title)).ratio(),SequenceMatcher(None,norm(expected),norm(h1)).ratio()) if expected else 1.0
+                  verdict='FRESH_CONTENT_RETRIEVED_IDENTITY_COMPATIBLE' if status==200 and similarity>=0.45 else 'REVIEW_IDENTITY_OR_STATUS'
+                  return {
+                      'url_id':r['url_id'],'requested_url':u,'http_status':status,'final_url':final,'checked_at_utc':now,
+                      'title':title,'h1':h1,'heading_sample':' | '.join(headings),'text_chars':len(text),'content_text_sha256':sha,
+                      'previous_observed_identity':expected,'identity_similarity':f'{similarity:.3f}','content_verdict':verdict,'error':'',
+                      'full_text':text
+                  }
+              except Exception as e:
+                  return {'url_id':r['url_id'],'requested_url':u,'http_status':'','final_url':'','checked_at_utc':now,'title':'','h1':'','heading_sample':'','text_chars':0,'content_text_sha256':'','previous_observed_identity':r.get('observed_visible_identity',''),'identity_similarity':'','content_verdict':'TRANSPORT_OR_PARSE_ERROR','error':type(e).__name__+': '+str(e)[:300],'full_text':''}
+
+          results=[]
+          with ThreadPoolExecutor(max_workers=4) as ex:
+              futs=[ex.submit(fetch,r) for r in rows]
+              for fut in as_completed(futs): results.append(fut.result())
+          order={r['url_id']:i for i,r in enumerate(rows)}; results.sort(key=lambda x:order[x['url_id']])
+          fields=[k for k in results[0] if k!='full_text']
+          fp=root/'STEP_20_RERUN_CURRENT_CONTENT_FINGERPRINT.tsv'
+          with fp.open('w',encoding='utf-8-sig',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=fields,delimiter='\t'); w.writeheader(); w.writerows([{k:r[k] for k in fields} for r in results])
+          snap=root/'STEP_20_RERUN_CURRENT_CONTENT_SNAPSHOT.jsonl'
+          with snap.open('w',encoding='utf-8') as f:
+              for r in results:
+                  f.write(json.dumps({'url_id':r['url_id'],'url':r['requested_url'],'checked_at_utc':r['checked_at_utc'],'title':r['title'],'h1':r['h1'],'text':r['full_text']},ensure_ascii=False)+'\n')
+          summary={
+              'date':'2026-09-04','rows':len(results),
+              'fresh_200':sum(r['http_status']==200 for r in results),
+              'identity_compatible':sum(r['content_verdict']=='FRESH_CONTENT_RETRIEVED_IDENTITY_COMPATIBLE' for r in results),
+              'review_or_error':sum(r['content_verdict']!='FRESH_CONTENT_RETRIEVED_IDENTITY_COMPATIBLE' for r in results),
+              'snapshot_file':snap.name,
+              'interpretation':'Fresh text retrieval supports current content/identity review; analytical role still requires analyst judgment for action-sensitive pages.'
+          }
+          (root/'STEP_20_RERUN_CURRENT_CONTENT_SUMMARY.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+
+      - name: Persist fingerprints and summary
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/STEP_20_RERUN_CURRENT_CONTENT_FINGERPRINT.tsv"
+          git add "$ROOT/STEP_20_RERUN_CURRENT_CONTENT_SUMMARY.json"
+          if git diff --cached --quiet; then echo 'No current-content changes'; else
+            git commit -m 'qa(step20): persist fresh current-content fingerprints [skip ci]'
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Upload fresh text snapshots for analytical role review
+        uses: actions/upload-artifact@v4
+        with:
+          name: step20-rerun-current-content-snapshot
+          path: extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_CURRENT_CONTENT_SNAPSHOT.jsonl
+          if-no-files-found: error
+          retention-days: 3
