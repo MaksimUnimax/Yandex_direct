@@ -1,0 +1,73 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "status": "PASS_PHYSICAL_DISTRIBUTION_QA_FOR_DECLARED_MODE_A_WITH_DISCLOSED_PDF_ACCESSIBILITY_RESIDUAL",
+  "release_candidate": {
+    "workbook": {
+      "file": "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx",
+      "bytes": 458600,
+      "sha256": "9f08cb47b1f4863f90b84c2d3a1ae145341ff5fd5f9c57ee76f2c087c642d499",
+      "openability": "PASS",
+      "sheets": 9,
+      "semantic_rows": 2332,
+      "execution_rows": 112,
+      "measurement_rows": 7,
+      "test_demo_visible": true,
+      "hidden_sheets": 0,
+      "comments_parts": 0,
+      "external_links_parts": 0,
+      "vba_parts": 0,
+      "formula_error_tokens": 0,
+      "key_surface_visual_review": "PASS"
+    },
+    "docx": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.docx",
+      "bytes": 44078,
+      "sha256": "d68001ee36f1677cf0817e3058e490bdfcc1598da324b3cd62a5670c1644b3dd",
+      "openability": "PASS",
+      "rendered_pages": 6,
+      "visual_review": "6_OF_6_PASS",
+      "test_demo_visible": true,
+      "comments_or_tracked_changes_material": false,
+      "external_links_or_embedded_payload_material": false,
+      "generic_python_docx_metadata_present": false,
+      "stale_2013_template_dates_present": false,
+      "automated_accessibility_audit": "0_HIGH_0_MEDIUM_0_LOW"
+    },
+    "pdf": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.pdf",
+      "bytes": 59868,
+      "sha256": "cf4a208ba5286243e41ef5dff31a5d3eea9fdc0dab93800850addcc07663915e",
+      "openability": "PASS",
+      "pages": 4,
+      "visual_review": "4_OF_4_PASS",
+      "test_demo_visible": true,
+      "encrypted": false,
+      "attachments": 0,
+      "annotations": 0,
+      "tagged": false,
+      "accessibility_state": "UNTAGGED_PDF_RESIDUAL_ACCEPTED_FOR_MODE_A_WITH_ACCESSIBLE_DOCX_ALTERNATIVE"
+    }
+  },
+  "distribution_identity": {
+    "test_demo_case": true,
+    "mock_commercial_rehearsal": true,
+    "actual_paid_client_engagement": false,
+    "verdict": "PASS"
+  },
+  "provenance": {
+    "release_bundle": "STEP_20_RERUN_RELEASE_BUNDLE.tar.gz",
+    "bundle_sha256": "f1c06b653c5b7540d03ad8ae6d5872ac24d87011a8cab211d06dd5be2ec79623",
+    "workflow_run": 33826172895,
+    "signed_attestation": true,
+    "attestation_id": "45139802",
+    "verdict": "PASS_SIGNED_BUILD_PROVENANCE",
+    "claim_boundary": "Build provenance does not prove analytical correctness."
+  },
+  "release_blocking_defects": 0,
+  "material_defects": 0,
+  "minor_or_residual_items": [
+    "PDF is visually readable but untagged; this is accepted only under declared Mode A because the DOCX alternative passes automated accessibility audit."
+  ]
+}
