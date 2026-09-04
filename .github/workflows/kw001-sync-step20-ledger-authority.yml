@@ -1,0 +1,89 @@
+name: KW001 Sync Step20 Ledger Authority
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_20_LEDGER_SYNC_TRIGGER.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Repair previously authorized Step20 ledger status
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md')
+          s = p.read_text(encoding='utf-8')
+          old = '''## Steps 19–21
+
+No owner-approved reusable full methods have yet been earned.
+
+```text
+STEP19 = UNVALIDATED
+STEP20 = UNVALIDATED
+STEP21 = UNVALIDATED
+```
+
+Fresh method research/review is required before material execution.
+'''
+          new = '''## Steps 19–21
+
+### Step 19 — client deliverables
+
+A corrected owner-directed method candidate exists, but permanent validation has not yet been earned.
+
+```text
+STEP19 = UNVALIDATED / CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL
+```
+
+Fresh method research/review remains required before material reuse unless the owner later promotes a permanent method.
+
+### Step 20 — final QA / release assurance
+
+Detailed authority: `STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md`.
+
+The owner-directed external method audit and correction established the reusable causal boundary:
+
+```text
+RESEARCH READ != REQUIREMENT OPERATIONALIZED
+```
+
+Final assurance must begin from intended use and pre-registered risk, freeze the exact release candidate, separate verification from validation and HTTP availability from content/role truth, govern freshness expiry, test accessibility/distribution state, declare assurance-independence mode, preserve exact provenance, and require a fresh Step20 rerun after material mutation.
+
+```text
+STEP20 = APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION
+```
+
+### Step 21 — handoff / revisions
+
+No owner-approved reusable full method has yet been earned.
+
+```text
+STEP21 = UNVALIDATED
+```
+
+Fresh method research/review is required before material execution.
+'''
+          if old not in s:
+              raise RuntimeError('stale Steps 19–21 ledger block not found exactly')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          print('STEP20_LEDGER_AUTHORITY_SYNC_PASS')
+          PY
+      - name: Persist ledger sync
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md
+          git commit -m 'method(step20): sync permanent lessons authority [skip ci]'
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
