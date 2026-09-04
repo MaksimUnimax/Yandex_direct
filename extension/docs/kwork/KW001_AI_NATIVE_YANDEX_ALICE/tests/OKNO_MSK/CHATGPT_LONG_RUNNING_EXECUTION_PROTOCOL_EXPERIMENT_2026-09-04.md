@@ -1,289 +1,148 @@
-# CHATGPT LONG-RUNNING EXECUTION PROTOCOL — EXPERIMENT
+# STAGE 2 EXECUTION MODE — SINGLE-PASS WORK EXPERIMENT
 
 Date: 2026-09-04
 Project: `OKNO_MSK`
 Repository: `MaksimUnimax/Yandex_direct`
 Branch: `roadmap/kwork-productization-2026-08-28`
-Status: **EXPERIMENTAL / REVERSIBLE**
+Status: **OWNER-APPROVED SINGLE-PASS WORK EXPERIMENT**
 
 ## 1. Purpose
 
-This protocol exists because one analytical mini-step may be larger than one ChatGPT conversation. The goal is to preserve completed work online while it is being performed, so a new conversation continues from the last durable analytical point instead of reconstructing and repeating the mini-step.
+The owner is testing execution of the entire Stage 2 in ChatGPT Work as one coherent end-to-end task.
 
-This protocol changes execution and persistence mechanics only. It does **not** reduce source coverage, evidence requirements, analytical depth, QA requirements, product acceptance criteria, or authorization gates.
+This file supersedes the previous runtime behavior that divided Stage 2 into mini-steps and divided a mini-step into durable `B###` checkpoint blocks.
 
-Core invariant:
+The change is execution-only. It MUST NOT reduce analytical scope, source coverage, evidence requirements, acceptance criteria, quality, traceability, or the owner’s product requirements.
 
-`COMPLETED_ANALYTICAL_WORK_MUST_BECOME_DURABLE_BEFORE_STARTING_TOO_MUCH_NEW_WORK`
+## 2. Effective execution unit
 
-A mini-step is allowed to span multiple conversations.
+The execution unit is now:
 
-## 2. Quality invariant — no quality reduction for token economy
+`ENTIRE_STAGE_2`
 
-Forbidden optimizations:
+Do not execute Stage 2 as `2.0..2.13` workflow units.
+Do not create or use `B001/B002/...` runtime checkpoints as execution boundaries.
+Do not stop for intermediate Stage-2 reports.
+Do not ask for confirmation between internal analytical areas of Stage 2 unless a real authorization blocker exists.
 
-- reading only a convenient subset of required evidence;
-- replacing raw evidence with an unverifiable summary;
-- skipping contradictory or inconvenient sources;
-- closing a mini-step because the chat is near its limit;
-- treating a checkpoint as proof that the underlying analysis is correct;
-- restarting a completed durable block merely because a new conversation started.
+Existing historical mini-step/checkpoint artifacts may be read as provenance or evidence, but they do not control execution and are not a resume protocol.
 
-All sources required by the active mini-step remain in scope. Raw evidence stays authoritative in GitHub. A checkpoint stores analytical work and exact source locators; it does not replace the source.
+## 3. Stage 2 quality invariant
 
-## 3. Execution unit: durable analytical block
+Stage 2 must still perform the complete audit defined by the project roadmap, Stage 1 acceptance matrix, owner clarification, and the unified Stage 2 audit contract.
 
-A conversation is **not** a unit of work.
+Forbidden shortcuts include:
 
-A mini-step such as `2.1` is divided into a small number of coherent analytical blocks. A block ends only at a meaningful analytical boundary, for example one completed handoff in the research chain.
+- treating file counts, row counts, request counts, SHA values, or the mere fact of an AI call as analytical results;
+- auditing only the client-facing files instead of the full old research chain;
+- replacing raw evidence with unsupported summaries;
+- skipping contradictory, inconvenient, or negative evidence;
+- assuming planned work was actually performed without verifying saved evidence;
+- treating an AI response as valuable unless its effect on a decision is demonstrated;
+- rewriting presentation while hiding a defect in the underlying analysis;
+- omitting positive findings where the existing site/research decision is already correct.
 
-Default planning target for a large mini-step: approximately **5–8 durable blocks**. This is not a quota. Use fewer or more only when the analytical structure requires it.
+Core analytical chain:
 
-Do **not** checkpoint after every GitHub read or arbitrary time interval. That persistence overhead would consume the session.
+`question -> input -> actual work -> evidence -> conclusion -> decision -> downstream effect -> gap or positive finding -> rework or repackage decision`
 
-Do **not** wait until the entire mini-step is finished. That would expose too much completed work to loss on interruption.
+Core AI-native rule:
 
-Target cycle:
+`AI_NATIVE_VALUE != FACT_OF_AI_REQUESTS`
 
-`coherent source group -> analysis -> meaningful analytical result -> ONE durable checkpoint -> immediately continue inside the same mini-step`
+For AI-related findings, establish where possible:
 
-## 4. Online persistence implementation
+`search-only decision -> reason for AI check -> preserved AI evidence -> comparison -> changed / confirmed / no_change / uncertainty -> effect on semantics/pages/content/priorities -> client-visible implication`
 
-Use append-only checkpoint files under the job workspace, grouped by mini-step:
+## 4. Source and authority order
 
-`runtime_checkpoints/<mini-step>/B001.md`
-`runtime_checkpoints/<mini-step>/B002.md`
-`runtime_checkpoints/<mini-step>/B003.md`
-`...`
+Before executing Stage 2, read the current repository state rather than reconstructing old chat history.
 
-Each completed block is written once as a new file. Do not repeatedly rewrite a growing journal for every block.
+At minimum use:
 
-Why:
+1. `EXECUTION_CURSOR.json`
+2. `RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json`
+3. `RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md`
+4. `RESEARCH_REBUILD_STAGE_01_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX_2026-09-04.md`
+5. `RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md`
+6. `RESEARCH_REBUILD_STAGE_02_00_AUDIT_CONTRACT_AND_MINISTEPS_2026-09-04.md` — despite the historical filename, its current contents are the unified Stage 2 audit contract.
+7. `RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md`
+8. the actual preserved old research artifacts and raw evidence needed to audit the chain.
 
-- one checkpoint requires one small GitHub create operation;
-- already persisted blocks never need rewriting;
-- GitHub commit history provides durable online persistence;
-- a chat interruption cannot erase committed blocks;
-- recovery can locate the latest block by listing only the small active-mini-step checkpoint directory.
+The project roadmap and Stage 1 acceptance matrix define what Stage 2 must prove. Historical runtime checkpoints are secondary provenance only.
 
-Checkpoint files are runtime/recovery artifacts, not the final client deliverable.
+## 5. Persistence rule for this Work experiment
 
-## 5. Required checkpoint completeness
+Do not persist Stage 2 as a sequence of mandatory analytical blocks or mini-step artifacts.
 
-Every durable block must preserve enough information for another conversation to continue and for the later synthesis to audit the reasoning outcome without needing the old chat.
+Work through the complete Stage 2 analysis coherently, then materialize the complete Stage 2 result in GitHub.
 
-Required fields:
+Required completion sequence:
 
-1. `BLOCK_ID`
-2. `MINI_STEP`
-3. `STATUS = COMPLETE`
-4. `SOURCE_SET`
-   - repository path;
-   - source SHA/blob identity when available;
-   - exact row IDs, line ranges, sections, or artifact identifiers where relevant.
-5. `QUESTION`
-   - what was checked and why it matters.
-6. `WHAT_WAS_ACTUALLY_DONE`
-7. `OBSERVATIONS`
-   - all decision-relevant factual observations from this block.
-8. `EVIDENCE`
-   - exact source locators for the observations.
-9. `INTERPRETATION`
-10. `SUPPORTED_CONCLUSIONS`
-11. `UNSUPPORTED_OR_NOT_PROVEN`
-12. `DECISIONS`
-   - accepted, rejected, deferred; with reasons.
-13. `DOWNSTREAM_EFFECT`
-14. `CONTRADICTIONS`
-15. `UNKNOWNS_OR_OPEN_GAPS`
-16. `ARTIFACT_CHANGES_ALREADY_MATERIALIZED`
-17. `NEXT_EXACT_ACTION`
-   - next source/group/range/question.
+`complete full Stage 2 audit -> write final Stage 2 artifact(s) -> update execution log -> update current state -> update execution cursor -> save to GitHub -> read back saved result/state -> report to owner in chat`
 
-The checkpoint does not store hidden chain-of-thought. It stores the complete reproducible work product:
+Supporting artifacts may be created when they materially improve auditability, but they MUST NOT recreate a mandatory mini-step/checkpoint workflow.
 
-`evidence -> interpretation -> conclusion -> decision -> downstream effect`.
+## 6. External data boundary
 
-## 6. Raw evidence preservation
+Stage 2 is primarily an audit of work and evidence already preserved in the repository.
 
-Do not duplicate whole large source files into checkpoints unless unavoidable.
+No new paid/provider/external data calls are authorized by this execution-mode change.
 
-Preserve source identity as:
+If existing evidence is insufficient, record exactly:
 
-`repo_path + SHA/blob + exact locator`.
+- what evidence is missing;
+- why it matters;
+- which conclusion depends on it;
+- whether later re-analysis would require a new external/provider call.
 
-This keeps checkpoint overhead low while making every material finding reversible to raw evidence.
+Do not silently obtain paid/provider data without separate authorization.
 
-If the source identity changes, affected checkpoint conclusions are `STALE_PENDING_REVALIDATION` until rechecked.
+## 7. Stage 2 completion gate
 
-## 7. Maximum acceptable loss on interruption
+Stage 2 is complete only when the full end-to-end audit has been performed and the final result demonstrates, against `PP-01..PP-19` where applicable:
 
-At any time, every previously completed durable block must remain recoverable online.
+- what was actually done in the old research;
+- what evidence supports it;
+- which conclusions and decisions were justified;
+- which were weak, missing, contradictory, over-compressed, or unsupported;
+- what propagated correctly to later work and what was lost;
+- where the analysis itself must be reopened versus where only packaging/explanation must be rebuilt;
+- what was already correct and should remain unchanged;
+- what the AI-search layer genuinely changed, confirmed, failed to prove, or left uncertain;
+- what concrete input Stage 2 hands to Stage 3 and later rebuild stages.
 
-If the conversation terminates unexpectedly, the maximum acceptable loss is only the currently unfinished block.
+The final Stage 2 artifact must be readable as one coherent audit, not as disconnected service notes.
 
-A new conversation must not redo `B001..B00N` when those blocks are already durable and their source identities remain valid.
+## 8. Owner-facing stop
 
-## 8. Recovery in a new conversation
+After Stage 2 is fully saved and GitHub readback passes, STOP.
 
-Recovery is continuation, not reconstruction of the old chat.
+Do not start Stage 3 automatically.
 
-Required startup sequence:
+Return a chat report containing:
 
-1. Read the small project execution cursor/current active mini-step.
-2. List only `runtime_checkpoints/<active-mini-step>/`.
-3. Read only the lexicographically latest completed block.
-4. Resume from its `NEXT_EXACT_ACTION`.
-5. Read older checkpoint blocks only when needed for cross-block synthesis, contradiction resolution, QA, or final mini-step closure.
-6. Do not reread the whole execution log, roadmap, old conversations, or already-processed raw sources merely to rediscover progress.
-
-If no checkpoint exists for the active mini-step, start its first planned block.
-
-## 9. Checkpoint overhead control
-
-The checkpoint itself must be compact but complete with respect to decision-relevant analytical state.
-
-Do not paste raw tables or long source text when an exact locator is sufficient.
-
-Do not include:
-
-- repeated roadmap prose;
-- generic methodology already frozen elsewhere;
-- tool schemas;
-- full directory listings;
-- full prior checkpoint text;
-- narrative status padding.
-
-Checkpoint frequency must be chosen so that:
-
-`expected_rework_if_chat_dies < checkpoint_overhead`
-
-If checkpoints become more expensive than the work they protect, increase block size. If too much completed work is being held only inside the chat, decrease block size.
-
-## 10. Mini-step completion gate
-
-Checkpoint completion is NOT mini-step completion.
-
-Before a mini-step can be closed:
-
-1. required source coverage is complete or every missing source is explicitly labeled and justified;
-2. all planned durable blocks are complete;
-3. cross-block contradictions are reconciled or explicitly unresolved;
-4. important conclusions are traceable back to raw evidence;
-5. the mini-step acceptance criteria are satisfied;
-6. a final mini-step artifact is materialized in GitHub;
-7. GitHub readback passes;
-8. the execution cursor/state is advanced to the next mini-step.
-
-Only then is the mini-step `COMPLETE`.
-
-## 11. REQUIRED USER STOP AFTER EVERY COMPLETED MINI-STEP
-
-**This experimental protocol explicitly changes the previous no-stop behavior between Stage 2 mini-steps.**
-
-Durable blocks inside a mini-step do NOT cause a user-facing stop. After a checkpoint, work continues immediately inside the same mini-step.
-
-But after the entire mini-step has passed its completion gate, the assistant MUST STOP and provide the user a completion report before starting the next mini-step.
-
-The report must contain all of the following.
-
-### A. What was done in the completed mini-step
-
-Include:
-
-- objective of the mini-step;
-- what sources/areas were actually analyzed;
-- main findings;
+- what Stage 2 audited;
+- the most important findings;
 - what was correct and retained;
-- what was defective, missing, contradictory, or unproven;
-- what must be repaired/rebuilt/rechecked;
-- materialized artifacts;
+- what is defective/unproven/missing;
+- which items require re-analysis versus repackaging;
+- the AI-native findings;
+- created/updated artifact paths;
 - commit/readback status;
-- cost/provider-call status when relevant.
+- provider-call/cost status;
+- exact status of Stage 2 and the next roadmap stage.
 
-### B. Full project roadmap
+## 9. Effective operating rule
 
-List the **entire roadmap**, not only the current area, with the status of every major stage/step so the owner can always see the whole project position.
+`STAGE_2_EXECUTION = ONE_COHERENT_END_TO_END_WORK_RUN`
 
-Use concise status markers such as:
+`NO_MANDATORY_MINI_STEPS`
 
-`COMPLETE / ACTIVE / NOT_STARTED / BLOCKED / CONDITIONAL`.
+`NO_MANDATORY_B###_CHECKPOINT_BLOCKS`
 
-Do not omit future stages merely because they are not yet active.
+`NO_INTERMEDIATE_OWNER_REPORTS`
 
-### C. Full roadmap of the current stage/step
+`FULL_ANALYTICAL_SCOPE_AND_QUALITY_REQUIREMENTS_REMAIN`
 
-List **all mini-steps/substeps of the active major stage**, including:
-
-- completed mini-steps;
-- the mini-step just completed;
-- remaining mini-steps;
-- their current statuses;
-- the exact next mini-step and its purpose.
-
-For current Stage 2 this means showing `2.0..2.13` every time a Stage 2 mini-step is completed.
-
-### D. Explicit stop
-
-After the report, do not automatically start the next mini-step. Wait for the owner's next instruction.
-
-This owner-facing stop occurs only at **mini-step completion**, not at internal durable-block checkpoints.
-
-## 12. Rules inside a mini-step
-
-Once the owner starts/continues a mini-step:
-
-- do not stop after each source;
-- do not stop after each checkpoint;
-- do not ask for confirmation between durable blocks unless a genuine authorization/blocker condition exists;
-- keep analyzing and persisting blocks until the mini-step completion gate is reached or a real blocker occurs;
-- if the current conversation ends, resume in the next conversation from the latest durable block rather than restarting the mini-step.
-
-## 13. Real blockers
-
-Execution may stop before mini-step completion only for a real blocker, including:
-
-- required evidence is unavailable and owner decision is necessary;
-- an external/paid/provider action requires authorization not currently granted;
-- repository state makes safe continuation impossible;
-- a material contradiction cannot be resolved without owner input.
-
-Running low on chat budget is **not** a blocker. Persist the current coherent block if complete, then the next conversation continues.
-
-## 14. Rollback
-
-This protocol is experimental.
-
-Rollback requires:
-
-1. mark this protocol `REJECTED/ROLLED_BACK` or delete the working copy if desired;
-2. stop creating new `runtime_checkpoints/` blocks;
-3. retain already created checkpoint files only as provenance unless the owner chooses to delete them;
-4. restore the previous execution/persistence behavior explicitly chosen by the owner.
-
-Rollback must not alter or discard substantive research findings already validated independently of this protocol.
-
-## 15. Experimental success criteria
-
-After trying this protocol, evaluate:
-
-- how much of a mini-step is completed per conversation;
-- how many tokens/tool calls are spent on persistence versus analysis;
-- how much work is repeated after a chat interruption;
-- whether recovery begins from the correct exact point;
-- whether source/evidence completeness is preserved;
-- whether the owner-facing mini-step reports remain complete and understandable.
-
-The protocol is successful only if it reduces repeated work and recovery cost **without decreasing analytical quality or source coverage**.
-
-## 16. Current operating rule
-
-Effective immediately for this experiment:
-
-`WITHIN_MINI_STEP = CONTINUE_THROUGH_DURABLE_BLOCKS_WITHOUT_USER_STOP`
-
-`AFTER_MINI_STEP_COMPLETE = STOP_AND_REPORT`
-
-`MINI_STEP_REPORT = WHAT_WAS_DONE + FULL_PROJECT_ROADMAP + FULL_CURRENT_STAGE_ROADMAP`
-
-`NEXT_MINI_STEP_START = ONLY_AFTER_OWNER_INSTRUCTION`
+`AFTER_STAGE_2_SAVE_AND_READBACK = STOP_AND_REPORT`
