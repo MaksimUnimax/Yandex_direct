@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Updated: 2026-09-03  
+Updated: 2026-09-04  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This index records **permanent methodology coverage**, not the progress/result of any current client job.
@@ -75,7 +75,7 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 | Step 17 | Search-vs-AI comparison | **APPROVED / ACTIVE** | `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md` — exact-query vs family scope and snapshot vs longitudinal scope explicit; architecture/content verdicts separate; single AI snapshot cannot alone authorize architecture change. |
 | **Step 18** | **Prioritization / implementation readiness** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md`** — ideal analytical priority != implementation-ready order; no-guess effort is only a safety control, not calibration; owner/effort/capacity/business importance/measurement required when implementation-ready mode is claimed; accounting batch != executable work package. |
 | **Step 19** | **Client deliverables** | **UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL** | **`STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md`** — canonical source != materialized client view; logical deliverable != physical client artifact; unknown implementation facts require an explicit calibration interface; recheck trigger != measurement plan; traceability PASS != client-usability PASS. Fresh method research remains required until permanent validation is explicitly earned. |
-| Step 20 | Final QA | **UNVALIDATED AS PERMANENT METHOD** | Must reconcile deliverable claims, counts, evidence, URLs/actions, unresolved states and current implementation-critical truth. |
+| **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md`** — risk register precedes testing; verification != validation; consistency != accuracy; live HTTP availability != content/role evidence; current evidence needs expiry logic; accessibility and assurance-independence are explicit modes; material mutation invalidates the old QA verdict and requires a fresh release-candidate freeze/rerun. |
 | Step 21 | Handoff / revisions | **UNVALIDATED AS PERMANENT METHOD** | Must define revision scope, version truth, evidence update and acceptance boundaries. |
 | Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Close only after deliverables, revisions and pending provider/operator actions are finished. |
 
