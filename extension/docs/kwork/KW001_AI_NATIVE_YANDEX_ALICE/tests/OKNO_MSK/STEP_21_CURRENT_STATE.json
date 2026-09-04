@@ -3,7 +3,7 @@
   "job": "OKNO_MSK",
   "step": 21,
   "step_name": "Handoff / revisions",
-  "status": "PRESTEP_ARTIFACTS_WRITTEN__READBACK_PENDING__EXECUTION_NOT_STARTED",
+  "status": "PRESTEP_COMPLETE__READBACK_PASS__READY_FOR_OWNER_AUTHORIZATION__EXECUTION_NOT_STARTED",
   "permanent_method_status": "UNVALIDATED",
   "current_job_method_verdict": "PROJECT_SPECIFIC_BUT_REASONED",
   "owner_authorization": {
@@ -16,7 +16,6 @@
     "step19_package_state": "CORRECTED_PHYSICAL_PACKAGE_QA_READBACK_SEALED",
     "step20_state": "FRESH_ENHANCED_RERUN_PASS_FOR_MODE_A_FINAL_READBACK_SEALED",
     "step21_allowed_by_step20": true,
-    "step21_started_before_this_prestep": false,
     "release_candidate_files": 3,
     "step20_blocking_defects": 0,
     "step20_material_defects": 0,
@@ -42,11 +41,17 @@
     "execution_requirements": 40,
     "execution_requirements_status": "40_OF_40_READY",
     "handoff_state_model": "STEP_21_HANDOFF_STATE_MODEL_DRAFT.tsv",
+    "handoff_states": 16,
     "revision_impact_matrix": "STEP_21_REVISION_IMPACT_MATRIX_DRAFT.tsv",
+    "revision_classes": 6,
     "execution_manifest": "STEP_21_EXECUTION_MANIFEST_DRAFT_2026-09-04.json",
+    "planned_execution_phases": 13,
     "adversarial_self_audit_complete": true,
     "plain_language_summary_prepared": true,
-    "github_readback": "PENDING"
+    "prestep_qa": "STEP_21_PRESTEP_READBACK_QA_2026-09-04.json",
+    "prestep_qa_status": "PASS_PRE_EXECUTION",
+    "prestep_readback_seal": "JOB_FLOW_STEP21_PRESTEP_READBACK_SEAL_2026-09-04.md",
+    "github_readback": "PASS"
   },
   "execution_design": {
     "mode": "MODE_A_TEST_DEMO_REHEARSAL",
@@ -56,6 +61,9 @@
     "simulated_clarification_revision_drill": true,
     "simulated_material_scope_change_drill": true,
     "synthetic_drills_can_mutate_client_truth": false,
+    "distribution_receipt_review_acceptance_states_separate": true,
+    "unapproved_revision_can_mutate_baseline": false,
+    "material_package_mutation_requires_new_version_and_reqa": true,
     "provider_calls_default": 0,
     "new_paid_cost_rub_default": 0.0
   },
@@ -66,5 +74,5 @@
     "step22_allowed": false,
     "step22_started": false
   },
-  "next_legal_action": "COMPLETE_STEP21_PRESTEP_GITHUB_READBACK__THEN_OWNER_AUTHORIZATION_FOR_STEP21_EXECUTION"
+  "next_legal_action": "OWNER_AUTHORIZATION_FOR_STEP21_EXECUTION"
 }
