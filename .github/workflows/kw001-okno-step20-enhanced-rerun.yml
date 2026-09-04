@@ -1,0 +1,278 @@
+name: KW001 OKNO Step20 Enhanced Final Assurance Rerun
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: kw001-okno-step20-enhanced-rerun
+  cancel-in-progress: false
+
+jobs:
+  mechanical-assurance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact roadmap branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install QA dependencies
+        run: python -m pip install --disable-pip-version-check --quiet requests openpyxl python-docx pypdf
+
+      - name: Verify frozen release-candidate identities
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          freeze=json.loads((root/'STEP_20_RERUN_EXECUTION_START_FREEZE_2026-09-04.json').read_text(encoding='utf-8'))
+          manifest=json.loads((root/'STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json').read_text(encoding='utf-8'))
+          def sha(p):
+              h=hashlib.sha256(); h.update(p.read_bytes()); return h.hexdigest()
+          for key in ('workbook','docx','pdf'):
+              f=freeze['release_candidate'][key]['file']
+              p=root/f
+              assert p.stat().st_size == freeze['release_candidate'][key]['bytes']
+              assert sha(p) == freeze['release_candidate'][key]['sha256']
+              assert manifest['artifacts'][f]['bytes'] == p.stat().st_size
+              assert manifest['artifacts'][f]['sha256'] == sha(p)
+          print('STEP20_FROZEN_RELEASE_CANDIDATE_IDENTITY_PASS')
+          PY
+
+      - name: Fresh HTTP availability for all implementation-critical URLs
+        run: |
+          python - <<'PY'
+          import csv, datetime, time
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          from pathlib import Path
+          import requests
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          src=root/'STEP_20_CURRENT_URL_ROLE_RECHECK.tsv'
+          out=root/'STEP_20_RERUN_HTTP_AVAILABILITY.tsv'
+          with src.open(encoding='utf-8-sig',newline='') as f:
+              rows=list(csv.DictReader(f,delimiter='\t'))
+          seen=[]; urls=[]
+          for r in rows:
+              u=r['requested_url']
+              if u not in seen:
+                  seen.append(u); urls.append((r['url_id'],u))
+          assert len(urls)==48, len(urls)
+
+          session=requests.Session()
+          session.headers.update({'User-Agent':'Mozilla/5.0 Step20-Final-QA/1.0 (+public release assurance)'})
+          def check(item):
+              uid,u=item
+              started=datetime.datetime.now(datetime.timezone.utc)
+              try:
+                  resp=session.get(u,allow_redirects=True,timeout=25,stream=True)
+                  chain=' > '.join(str(x.status_code) for x in resp.history) if resp.history else ''
+                  status=resp.status_code
+                  final=resp.url
+                  redirects=len(resp.history)
+                  verdict='LIVE_2XX' if 200 <= status < 300 else ('LIVE_3XX_FINAL' if 300 <= status < 400 else 'NON_2XX')
+                  err=''
+                  resp.close()
+              except Exception as e:
+                  status=''; final=''; redirects=''; chain=''; verdict='TRANSPORT_ERROR'; err=type(e).__name__+': '+str(e)[:300]
+              return {
+                  'url_id':uid,'requested_url':u,'http_status':status,'final_url':final,
+                  'redirect_count':redirects,'redirect_status_chain':chain,
+                  'checked_at_utc':started.isoformat(),'transport_verdict':verdict,'error':err
+              }
+          results=[]
+          with ThreadPoolExecutor(max_workers=4) as ex:
+              futs=[ex.submit(check,x) for x in urls]
+              for f in as_completed(futs): results.append(f.result())
+          order={uid:i for i,(uid,_) in enumerate(urls)}
+          results.sort(key=lambda r:order[r['url_id']])
+          with out.open('w',encoding='utf-8-sig',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=list(results[0]),delimiter='\t'); w.writeheader(); w.writerows(results)
+          live=sum(r['transport_verdict']=='LIVE_2XX' for r in results)
+          errors=sum(r['transport_verdict']=='TRANSPORT_ERROR' for r in results)
+          non2=sum(r['transport_verdict']=='NON_2XX' for r in results)
+          print('HTTP_URLS',len(results),'LIVE_2XX',live,'ERRORS',errors,'NON2XX',non2)
+          PY
+
+      - name: Independent mechanical package and claim-boundary QA
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json, re, zipfile
+          from pathlib import Path
+          from openpyxl import load_workbook
+          from docx import Document
+          from pypdf import PdfReader
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          x=root/'STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx'
+          d=root/'STEP_19_CLIENT_REPORT_CORRECTED.docx'
+          p=root/'STEP_19_CLIENT_REPORT_CORRECTED.pdf'
+          http=root/'STEP_20_RERUN_HTTP_AVAILABILITY.tsv'
+
+          wb=load_workbook(x,read_only=True,data_only=False)
+          assert wb.sheetnames==['README','02_Page_Model','03_Semantic_Core','04_Search_vs_AI','05_Page_Actions','06_Source_Obs','07_Priority_Plan','Execution_Calibration','Measurement']
+          assert wb['03_Semantic_Core'].max_row-1==2332
+          assert wb['Execution_Calibration'].max_row-1==112
+          assert wb['Measurement'].max_row-1==7
+          assert 'TEST/DEMO CASE' in str(wb['README']['A1'].value)
+          ah=[c.value for c in wb['05_Page_Actions'][1]]
+          ar=[dict(zip(ah,[c.value for c in row])) for row in wb['05_Page_Actions'].iter_rows(min_row=2)]
+          assert len(ar)==34
+          a12=next(r for r in ar if r['action_id']=='S18-A012')
+          a27=next(r for r in ar if r['action_id']=='S18-A027')
+          assert 'Сохранить уже существующую' in a12['client_action']
+          assert 'Не добавлять повторное' in a27['client_action']
+          ph=[c.value for c in wb['07_Priority_Plan'][1]]
+          pr=[dict(zip(ph,[c.value for c in row])) for row in wb['07_Priority_Plan'].iter_rows(min_row=2)]
+          assert len(pr)==34
+          assert next(r for r in pr if r['action_id']=='S18-A012')['analytical_priority']=='P1_HIGH'
+          assert next(r for r in pr if r['action_id']=='S18-A027')['analytical_priority']=='P2_MEDIUM'
+          ch=[c.value for c in wb['Execution_Calibration'][1]]
+          cr=[dict(zip(ch,[c.value for c in row])) for row in wb['Execution_Calibration'].iter_rows(min_row=2)]
+          assert len(cr)==112 and len({r['package_id'] for r in cr})==112
+          assert sum(r['package_kind']=='HOLD_RECHECK' for r in cr)==20
+          assert next(r for r in cr if r['source_action_id']=='S18-A027')['depends_on_action_ids']=='S18-A009'
+          wb.close()
+
+          doc=Document(d)
+          doc_text='\n'.join(q.text for q in doc.paragraphs)
+          assert 'TEST/DEMO CASE' in doc_text
+          assert 'Сохранить уже существующую price/price-estimation guidance' in doc_text
+          assert (doc.core_properties.author or '')==''
+          assert (doc.core_properties.last_modified_by or '')==''
+          assert 'python-docx' not in (doc.core_properties.comments or '').lower()
+          assert doc.core_properties.created.year==2026 and doc.core_properties.modified.year==2026
+          with zipfile.ZipFile(d) as zf:
+              core=zf.read('docProps/core.xml').decode('utf-8',errors='ignore').lower()
+          assert 'python-docx' not in core
+
+          reader=PdfReader(p)
+          pdf_text='\n'.join((pg.extract_text() or '') for pg in reader.pages)
+          assert len(reader.pages)==4 and 'TEST/DEMO CASE' in pdf_text
+
+          combined='\n'.join([doc_text,pdf_text] + [str(v) for r in ar for v in r.values()] + [str(v) for r in pr for v in r.values()])
+          forbidden=[
+              r'guaranteed (traffic|ranking|revenue|leads?)',
+              r'final sprint .* ready',
+              r'sitewide ai visibility.*(proven|confirmed)',
+              r'longitudinal ai stability.*(proven|confirmed)'
+          ]
+          for pat in forbidden:
+              assert not re.search(pat,combined,re.I), pat
+          assert 'PENDING_CALIBRATION' in combined
+
+          with http.open(encoding='utf-8-sig',newline='') as f:
+              hrs=list(csv.DictReader(f,delimiter='\t'))
+          assert len(hrs)==48
+          summary={
+              'date':'2026-09-04',
+              'status':'MECHANICAL_VERIFIER_COMPLETE',
+              'package_identity':'PASS',
+              'logical_accounting':{'semantic_rows':2332,'page_actions':34,'execution_packages':112,'hold_packages':20,'measurement_classes':7},
+              'corrected_action_checks':{'A012':'PASS','A027':'PASS','A027_depends_on_A009':'PASS'},
+              'claim_boundary_scan':'PASS',
+              'test_demo_identity':'PASS',
+              'docx_metadata_hygiene':'PASS',
+              'http_transport':{
+                  'rows':48,
+                  'live_2xx':sum(r['transport_verdict']=='LIVE_2XX' for r in hrs),
+                  'non_2xx':sum(r['transport_verdict']=='NON_2XX' for r in hrs),
+                  'transport_errors':sum(r['transport_verdict']=='TRANSPORT_ERROR' for r in hrs),
+                  'redirected':sum(str(r['redirect_count']).isdigit() and int(r['redirect_count'])>0 for r in hrs)
+              },
+              'formal_independent_analytical_assurance':False,
+              'independence_role':'INDEPENDENT_MECHANICAL_VERIFIER_ONLY'
+          }
+          (root/'STEP_20_RERUN_MECHANICAL_QA.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+
+      - name: Build exact release provenance bundle
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          tar -czf "$ROOT/STEP_20_RERUN_RELEASE_BUNDLE.tar.gz" \
+            -C "$ROOT" \
+            STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx \
+            STEP_19_CLIENT_REPORT_CORRECTED.docx \
+            STEP_19_CLIENT_REPORT_CORRECTED.pdf \
+            STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json
+          sha256sum "$ROOT/STEP_20_RERUN_RELEASE_BUNDLE.tar.gz" > "$ROOT/STEP_20_RERUN_RELEASE_BUNDLE.sha256"
+
+      - name: Attest exact release bundle provenance
+        id: attest
+        continue-on-error: true
+        uses: actions/attest@v4
+        with:
+          subject-path: extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_RELEASE_BUNDLE.tar.gz
+
+      - name: Record provenance state
+        env:
+          ATTEST_OUTCOME: ${{ steps.attest.outcome }}
+          ATTEST_URL: ${{ steps.attest.outputs.attestation-url }}
+          ATTEST_ID: ${{ steps.attest.outputs.attestation-id }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          bundle=root/'STEP_20_RERUN_RELEASE_BUNDLE.tar.gz'
+          h=hashlib.sha256(bundle.read_bytes()).hexdigest()
+          outcome=os.environ.get('ATTEST_OUTCOME','unknown')
+          data={
+              'date':'2026-09-04',
+              'bundle':bundle.name,
+              'bytes':bundle.stat().st_size,
+              'sha256':h,
+              'workflow_run_id':os.environ.get('GITHUB_RUN_ID'),
+              'workflow_sha':os.environ.get('GITHUB_SHA'),
+              'attestation_attempted':True,
+              'attestation_outcome':outcome,
+              'attestation_url':os.environ.get('ATTEST_URL',''),
+              'attestation_id':os.environ.get('ATTEST_ID',''),
+              'interpretation':'ATTESTATION_PROVES_BUILD_PROVENANCE_NOT_ANALYTICAL_CORRECTNESS',
+              'mode_a_gate':'PASS_IF_HASH_AND_RUN_LINEAGE_VALID_EVEN_IF_PLATFORM_ATTESTATION_UNAVAILABLE'
+          }
+          (root/'STEP_20_RERUN_PROVENANCE.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(data,ensure_ascii=False))
+          PY
+
+      - name: Persist enhanced rerun mechanical evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/STEP_20_RERUN_HTTP_AVAILABILITY.tsv"
+          git add "$ROOT/STEP_20_RERUN_MECHANICAL_QA.json"
+          git add "$ROOT/STEP_20_RERUN_PROVENANCE.json"
+          git add "$ROOT/STEP_20_RERUN_RELEASE_BUNDLE.sha256"
+          if git diff --cached --quiet; then
+            echo 'No enhanced rerun evidence changes'
+          else
+            git commit -m 'qa(step20): persist enhanced rerun mechanical assurance [skip ci]'
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Upload exact enhanced rerun bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: step20-enhanced-rerun-release-bundle
+          path: |
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_RELEASE_BUNDLE.tar.gz
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_RELEASE_BUNDLE.sha256
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_HTTP_AVAILABILITY.tsv
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_MECHANICAL_QA.json
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_20_RERUN_PROVENANCE.json
+          if-no-files-found: error
+          retention-days: 7
