@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "release_candidate": "STEP20_RERUN_FROZEN_CORRECTED_STEP19_PACKAGE",
+  "status": "PASS_SIX_DIMENSION_DATA_QUALITY_FOR_DECLARED_MODE_A",
+  "dimensions": {
+    "completeness": {
+      "verdict": "PASS",
+      "evidence": "9/9 logical deliverables, 15/15 primary directions, 2332 semantic rows, 19 unresolved SEARCH_REQUIRED, 8 AI cases, 34 actions, 112 execution packages, 20 HOLD packages, 7 measurement classes and 3 physical client artifacts remain explicitly accounted."
+    },
+    "uniqueness": {
+      "verdict": "PASS",
+      "evidence": "Current materialization authority preserves unique phrase keys; enhanced mechanical verifier confirms 112 unique package IDs and the package/action surfaces remain one-row-per-addressable identifier where required. No correction changed the semantic universe."
+    },
+    "consistency": {
+      "verdict": "PASS",
+      "evidence": "Repo-native Step19 action/priority views, materialized workbook action/priority/calibration rows and Step18 higher-precedence correction overlays agree for corrected A012/A027. Counts and claim boundaries reconcile across workbook/report/summary/delivery surfaces."
+    },
+    "timeliness": {
+      "verdict": "PASS_WITH_EXPLICIT_EXPIRY",
+      "evidence": "48/48 implementation-critical URLs received fresh HTTP checks and fresh full-text snapshots on 2026-09-04; current role/action-sensitive review is governed by STEP_20_RERUN_FRESHNESS_AND_EXPIRY.json and expires at the declared handoff boundary or earlier event trigger."
+    },
+    "validity": {
+      "verdict": "PASS",
+      "evidence": "Exact physical identities match the frozen manifest; expected sheet names/counts, action IDs, package IDs, enum-like states, URL forms and workflow boundaries are valid. TEST/DEMO identity is explicit."
+    },
+    "accuracy": {
+      "verdict": "PASS_FOR_CURRENT_DECLARED_SCOPE",
+      "evidence": "Fresh current-text review confirms corrected door/French-window scopes and rechecks other action-sensitive content. 48 fresh content identities remain compatible with accepted roles; no new material page-role disappearance or action contradiction was found."
+    }
+  },
+  "critical_distinction": "CONSISTENCY_PASS_DID_NOT_SUBSTITUTE_FOR_CURRENT_WORLD_ACCURACY; fresh transport/content checks were executed separately.",
+  "provider_calls": 0,
+  "new_paid_cost_rub": 0.0
+}
