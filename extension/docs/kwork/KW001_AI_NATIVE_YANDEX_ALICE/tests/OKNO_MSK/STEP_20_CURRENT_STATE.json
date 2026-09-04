@@ -3,8 +3,8 @@
   "job": "OKNO_MSK",
   "step": 20,
   "step_name": "Final QA / release assurance",
-  "status": "RERUN_EXECUTION_COMPLETE__PREFINAL_GITHUB_READBACK_PENDING",
-  "step_verdict": "PREFINAL_PASS_FOR_DECLARED_MODE_A__TERMINAL_PASS_BLOCKED_ONLY_BY_GITHUB_READBACK",
+  "status": "RERUN_COMPLETE__FINAL_GITHUB_READBACK_SEALED__PASS_FOR_MODE_A__STEP21_ALLOWED_NOT_STARTED",
+  "step_verdict": "PASS_FOR_DECLARED_MODE_A_TEST_DEMO_RELEASE_ASSURANCE__0_BLOCKING__0_MATERIAL__1_ACCEPTED_MINOR_ACCESSIBILITY_RESIDUAL",
   "permanent_method_status": "APPROVED_ACTIVE_AFTER_OWNER_DIRECTED_EXTERNAL_METHOD_AUDIT_CORRECTION",
   "permanent_method_authority": "STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md",
   "owner_authorization": {
@@ -18,7 +18,7 @@
     "verdict": "CORRECTION_REQUIRED",
     "material_defects": ["D20-001", "D20-002", "D20-003"],
     "minor_defects": ["D20-004"],
-    "status": "HISTORICAL_SUPERSEDED_AS_RELEASE_VERDICT_ONLY_AFTER_FRESH_RERUN_FINAL_SEAL"
+    "status": "HISTORICAL_SUPERSEDED_AS_CURRENT_RELEASE_VERDICT_BY_FRESH_RERUN_FINAL_SEAL"
   },
   "rerun_execution_revision": {
     "freeze_artifact": "STEP_20_RERUN_EXECUTION_START_FREEZE_2026-09-04.json",
@@ -43,7 +43,8 @@
     "risk_families": 17,
     "blocking_remaining": 0,
     "material_remaining": 0,
-    "minor_accepted_for_mode_a": 1
+    "minor_accepted_for_mode_a": 1,
+    "status": "PASS_RELEASE_GATE_FOR_MODE_A"
   },
   "verification_and_data_quality": {
     "logical_deliverables": 9,
@@ -91,7 +92,8 @@
     "level2_validity_window_hours": 72,
     "valid_through_utc": "2026-09-07T01:37:05Z",
     "event_triggered_expiry_enabled": true,
-    "handoff_requires_freshness_recheck": true
+    "handoff_requires_freshness_recheck": true,
+    "status": "CURRENTLY_VALID"
   },
   "claim_reverse_trace": {
     "artifact": "STEP_20_RERUN_CLAIM_REVERSE_TRACE.tsv",
@@ -103,7 +105,8 @@
     "sitewide_ai_visibility_claimed": false,
     "longitudinal_ai_stability_claimed": false,
     "ranking_traffic_lead_revenue_guarantee_claimed": false,
-    "private_webmaster_metrika_direct_current_observation_claimed": false
+    "private_webmaster_metrika_direct_current_observation_claimed": false,
+    "status": "PASS"
   },
   "physical_distribution_assurance": {
     "artifact": "STEP_20_RERUN_PHYSICAL_PACKAGE_QA.json",
@@ -120,11 +123,17 @@
     "artifact": "STEP_20_RERUN_INTENDED_USE_VALIDATION.tsv",
     "analyst_scenarios": 12,
     "analyst_scenarios_passed": 12,
-    "real_user_validation_claimed": false
+    "real_user_validation_claimed": false,
+    "status": "PASS_ANALYST_SCENARIOS_WITH_REAL_USER_BOUNDARY"
+  },
+  "assurance_independence": {
+    "artifact": "STEP_20_RERUN_ASSURANCE_INDEPENDENCE.json",
+    "status": "PASS_FOR_MODE_A_WITH_EXPLICIT_LIMITATION"
   },
   "provenance": {
     "artifact": "STEP_20_RERUN_PROVENANCE.json",
     "workflow_run": 33826172895,
+    "current_content_workflow_run": 33826432798,
     "release_bundle_sha256": "f1c06b653c5b7540d03ad8ae6d5872ac24d87011a8cab211d06dd5be2ec79623",
     "signed_artifact_attestation": true,
     "attestation_id": "45139802",
@@ -142,7 +151,9 @@
     "final_qa_ledger": "STEP_20_RERUN_FINAL_QA_LEDGER.tsv",
     "assurance_statement": "STEP_20_RERUN_ASSURANCE_STATEMENT.md",
     "report": "STEP_20_RERUN_REPORT_2026-09-04.md",
-    "github_readback": "PENDING"
+    "final_readback_seal": "STEP_20_RERUN_FINAL_READBACK_SEAL_2026-09-04.json",
+    "final_readback_seal_commit": "b86a3c76bb824a9d6564987a1f7afb817d1ad828",
+    "github_readback": "PASS"
   },
   "provider_execution": {
     "wordstat_calls": 0,
@@ -156,12 +167,13 @@
   },
   "workflow_boundaries": {
     "step20_rerun_execution_complete": true,
-    "step20_terminal_readback_complete": false,
-    "step20_transition_pass": false,
-    "step21_allowed": false,
+    "step20_terminal_readback_complete": true,
+    "step20_transition_pass": true,
+    "step21_allowed": true,
     "step21_started": false,
     "step21_handoff_claimed": false,
-    "step22_started": false
+    "step22_started": false,
+    "handoff_freshness_must_be_rechecked_before_distribution": true
   },
-  "next_legal_action": "FINAL_GITHUB_READBACK_OF_STEP20_RERUN_AUTHORITIES"
+  "next_legal_action": "STEP21_PRESTEP_METHOD_RESEARCH_AND_HANDOFF_REVISION_GATE"
 }
