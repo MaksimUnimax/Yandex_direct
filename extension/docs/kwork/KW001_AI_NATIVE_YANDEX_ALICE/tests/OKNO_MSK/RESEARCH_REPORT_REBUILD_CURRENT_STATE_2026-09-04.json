@@ -1,0 +1,48 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
+  "status": "ROADMAP_CREATED__OWNER_REVIEW_PENDING__EXECUTION_NOT_STARTED",
+  "trigger": "OWNER_REVIEW_OF_CURRENT_CLIENT_DELIVERABLES",
+  "owner_scope": {
+    "full_prior_work_may_be_reviewed": true,
+    "analytical_steps_may_be_reopened_if_defective": true,
+    "documentation_may_be_corrected": true,
+    "all_material_results_must_be_persisted": true,
+    "roadmap_requires_owner_review_before_execution": true,
+    "new_provider_calls_unconditionally_authorized": false
+  },
+  "primary_defects_to_investigate": [
+    "AI_NATIVE_SEMANTIC_REBUILD_NOT_VISIBLE_AS_A_CLIENT_RESULT",
+    "CURRENT_CLIENT_CONCLUSIONS_ARE_NOT_READABLE_OR_SELF_EXPLANATORY",
+    "INTERNAL_ANALYTICAL_LABELS_REPLACE_FULL_EXPLANATION",
+    "CURRENT_OUTPUT_DOES_NOT_READ_AS_A_COMPLETE_RESEARCH_WORK",
+    "CURRENT_RECOMMENDATIONS_INSUFFICIENTLY_SHOW_AS_IS_TO_BE_AND_IMPLEMENTATION_EXAMPLES"
+  ],
+  "required_output_layers": [
+    "PLAIN_RUSSIAN_CLIENT_RESEARCH_REPORT",
+    "RUSSIAN_SEO_SPECIALIST_IMPLEMENTATION_GUIDE",
+    "SELF_CONTAINED_AI_KNOWLEDGE_DOCUMENT"
+  ],
+  "research_composition_required": [
+    "INTRODUCTION",
+    "OBJECTIVES_AND_SCOPE",
+    "SOURCE_DATA_AND_METHODS",
+    "RESULTS",
+    "INTERPRETATION",
+    "PAGE_BY_PAGE_FINDINGS",
+    "AS_IS_TO_BE_RECOMMENDATIONS",
+    "IMPLEMENTATION_EXAMPLES",
+    "POSITIVE_NO_CHANGE_FINDINGS",
+    "AI_SEARCH_IMPACT_CHAPTER",
+    "IMPLEMENTATION_ORDER",
+    "LIMITATIONS",
+    "CONCLUSION",
+    "APPENDICES"
+  ],
+  "persistence_rule": "PERSIST_EACH_STAGE__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK_BEFORE_NEXT_STAGE",
+  "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
+  "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
+  "next_action": "OWNER_REVIEW_AND_CONFIRM_ROADMAP",
+  "execution_started": false
+}
