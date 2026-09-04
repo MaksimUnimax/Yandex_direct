@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "execution_type": "FRESH_RERUN_AFTER_MATERIAL_STEP18_STEP19_CORRECTION",
+  "status": "EXECUTION_START_FROZEN",
+  "owner_authorization": {
+    "step20_rerun_received": true,
+    "level1_method_correction_received": true,
+    "step21_authorized": false,
+    "provider_calls_authorized": false
+  },
+  "method_authority": "STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md",
+  "method_status": "APPROVED_ACTIVE_AFTER_OWNER_DIRECTED_EXTERNAL_METHOD_AUDIT_CORRECTION",
+  "intended_use": {
+    "mode": "MODE_A_TEST_DEMO_REHEARSAL",
+    "release_identity": "TEST_DEMO_CASE",
+    "actual_paid_client_engagement": false,
+    "formal_independent_analytical_assurance_required_for_this_mode": false,
+    "analyst_adversarial_qa_required": true,
+    "independent_mechanical_verifier_required": true,
+    "real_user_commissioner_validation_state": "NOT_APPLICABLE_TO_REHEARSAL_NOT_EQUIVALENT_TO_COMPLETED_REAL_USER_VALIDATION"
+  },
+  "release_candidate": {
+    "branch": "roadmap/kwork-productization-2026-08-28",
+    "frozen_head_before_step20_rerun_execution_artifacts": "4e01b6dbd5970bedd8fe91de4663ff8ee684d997",
+    "mixed_revision_execution_allowed": false,
+    "workbook": {
+      "file": "STEP_19_CLIENT_WORKBOOK_CORRECTED.xlsx",
+      "bytes": 458600,
+      "sha256": "9f08cb47b1f4863f90b84c2d3a1ae145341ff5fd5f9c57ee76f2c087c642d499"
+    },
+    "docx": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.docx",
+      "bytes": 44078,
+      "sha256": "d68001ee36f1677cf0817e3058e490bdfcc1598da324b3cd62a5670c1644b3dd"
+    },
+    "pdf": {
+      "file": "STEP_19_CLIENT_REPORT_CORRECTED.pdf",
+      "bytes": 59868,
+      "sha256": "cf4a208ba5286243e41ef5dff31a5d3eea9fdc0dab93800850addcc07663915e"
+    },
+    "physical_manifest": "STEP_19_PHYSICAL_ARTIFACT_MANIFEST_2026-09-03.json"
+  },
+  "freshness_policy": {
+    "current_site_role_evidence_window_hours_for_this_demo_rerun": 72,
+    "window_reason": "Short job-specific delivery window for a volatile public commercial site; this is Level2 configuration, not a permanent universal constant.",
+    "expiry_triggers": [
+      "handoff later than 72 hours after fresh Step20 current-truth check",
+      "known site deploy/content change",
+      "client reports offer/business change",
+      "redirect/URL-structure change",
+      "material upstream analytical correction",
+      "material rebuild of client-facing files"
+    ]
+  },
+  "provider_plan": {
+    "wordstat": 0,
+    "search": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "new_paid_cost_rub": 0.0
+  },
+  "transition_rule": "No Step21 until the fresh corrected-package Step20 rerun reaches a persisted/readback PASS for the declared Mode A scope."
+}
