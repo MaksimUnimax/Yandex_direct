@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "EXECUTION_STARTED__STAGE_2_IN_PROGRESS__MINI_STEP_2_0_READBACK_PASS__MINI_STEP_2_1_READY",
+  "status": "EXECUTION_STARTED__STAGE_2_IN_PROGRESS__MINI_STEP_2_0_READBACK_PASS__MINI_STEP_2_1_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -104,17 +104,25 @@
     "semantic_result_rule": "COUNTS_HASHES_FILE_INVENTORY_AND_FACT_OF_AI_CALL_ARE_NOT_STAGE_2_RESULTS",
     "required_chain": "QUESTION__INPUT__ACTUAL_WORK__EVIDENCE__CONCLUSION__DECISION__DOWNSTREAM_EFFECT__GAP_OR_POSITIVE_FINDING__REWORK_OR_REPACKAGE",
     "goal_restatement_after_every_mini_step": true,
+    "continuous_execution_rule": "AFTER_EACH_MINI_STEP__PERSIST_SEMANTIC_RESULT__UPDATE_EXECUTION_LOG__UPDATE_CURRENT_STATE__GITHUB_READBACK__IMMEDIATELY_START_NEXT_MINI_STEP_WITHOUT_USER_REPORT_STOP",
+    "continuous_execution_rule_embedded_in_every_mini_step_2_0_to_2_13": true,
+    "stop_allowed_only_for": [
+      "REAL_EXTERNAL_BLOCKER",
+      "MISSING_REQUIRED_EVIDENCE_REQUIRING_OWNER_DECISION",
+      "NEW_EXTERNAL_OR_PAID_CALL_OUTSIDE_CURRENT_AUTHORIZATION"
+    ],
     "readback_2_0": {
       "status": "PASS",
-      "artifact_blob_sha": "f5bd4c04738a9b63d7c57e2a0720809ddbeff08e",
+      "artifact_blob_sha": "f1dc9112641fab78a8dd9a4d998a90b92110473a",
       "semantic_contract_present": true,
       "anti_inventory_rule_present": true,
       "goal_restatement_rule_present": true,
+      "continuous_execution_rule_present_in_every_mini_step": true,
       "mini_step_range": "2.0..2.13"
     },
     "mini_steps": {
       "2.0": "COMPLETE_READBACK_PASS",
-      "2.1": "READY",
+      "2.1": "ACTIVE",
       "2.2": "NOT_STARTED",
       "2.3": "NOT_STARTED",
       "2.4": "NOT_STARTED",
@@ -144,9 +152,9 @@
     "RUSSIAN_SEO_SPECIALIST_IMPLEMENTATION_GUIDE",
     "SELF_CONTAINED_AI_KNOWLEDGE_DOCUMENT"
   ],
-  "persistence_rule": "PERSIST_EACH_MINI_STEP__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK_BEFORE_NEXT_MINI_STEP",
+  "persistence_rule": "PERSIST_EACH_MINI_STEP__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK__IMMEDIATELY_CONTINUE_WITHOUT_STOP",
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "EXECUTE_MINI_STEP_2_1_END_TO_END_ANALYTICAL_CHAIN",
+  "next_action": "EXECUTE_MINI_STEP_2_1_END_TO_END_ANALYTICAL_CHAIN_AND_CONTINUE_AUTOMATICALLY",
   "execution_started": true
 }
