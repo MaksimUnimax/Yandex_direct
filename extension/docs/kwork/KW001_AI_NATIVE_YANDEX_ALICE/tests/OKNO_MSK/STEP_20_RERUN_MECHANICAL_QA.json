@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-04",
+  "status": "MECHANICAL_VERIFIER_COMPLETE",
+  "package_identity": "PASS",
+  "logical_accounting": {
+    "semantic_rows": 2332,
+    "page_actions": 34,
+    "execution_packages": 112,
+    "hold_packages": 20,
+    "measurement_classes": 7
+  },
+  "corrected_action_checks": {
+    "A012": "PASS",
+    "A027": "PASS",
+    "A027_depends_on_A009": "PASS"
+  },
+  "claim_boundary_scan": "PASS",
+  "test_demo_identity": "PASS",
+  "docx_metadata_hygiene": "PASS",
+  "http_transport": {
+    "rows": 48,
+    "live_2xx": 48,
+    "non_2xx": 0,
+    "transport_errors": 0,
+    "redirected": 0
+  },
+  "formal_independent_analytical_assurance": false,
+  "independence_role": "INDEPENDENT_MECHANICAL_VERIFIER_ONLY"
+}

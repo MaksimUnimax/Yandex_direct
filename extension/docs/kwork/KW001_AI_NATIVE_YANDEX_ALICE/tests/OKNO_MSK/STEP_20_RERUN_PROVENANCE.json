@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-04",
+  "bundle": "STEP_20_RERUN_RELEASE_BUNDLE.tar.gz",
+  "bytes": 533849,
+  "sha256": "f1c06b653c5b7540d03ad8ae6d5872ac24d87011a8cab211d06dd5be2ec79623",
+  "workflow_run_id": "33826172895",
+  "workflow_sha": "79f7aa339d24e3dad25ed29e9f2fb9e27a7ff932",
+  "attestation_attempted": true,
+  "attestation_outcome": "success",
+  "attestation_url": "https://github.com/MaksimUnimax/Yandex_direct/attestations/45139802",
+  "attestation_id": "45139802",
+  "interpretation": "ATTESTATION_PROVES_BUILD_PROVENANCE_NOT_ANALYTICAL_CORRECTNESS",
+  "mode_a_gate": "PASS_IF_HASH_AND_RUN_LINEAGE_VALID_EVEN_IF_PLATFORM_ATTESTATION_UNAVAILABLE"
+}
