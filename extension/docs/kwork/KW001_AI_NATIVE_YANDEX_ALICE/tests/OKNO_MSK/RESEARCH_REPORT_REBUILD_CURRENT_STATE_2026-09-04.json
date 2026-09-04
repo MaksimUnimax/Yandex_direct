@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "EXECUTION_STARTED__STAGE_2_IN_PROGRESS__MINI_STEP_2_0_READBACK_PASS__MINI_STEP_2_1_ACTIVE",
+  "status": "EXECUTION_STARTED__STAGE_2_READY_FOR_SINGLE_PASS_WORK_EXECUTION",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -12,12 +12,15 @@
     "documentation_correction_allowed": true,
     "new_provider_calls_unconditionally_authorized": false,
     "real_step21_handoff_authorized_by_this_phrase": false,
-    "step22_authorized": false
+    "step22_authorized": false,
+    "stage_2_single_pass_work_experiment_authorized": true,
+    "stage_2_mini_step_execution_cancelled": true,
+    "stage_2_durable_block_checkpoint_execution_cancelled": true
   },
   "stage_progress": {
     "stage_0": "COMPLETE",
     "stage_1": "COMPLETE",
-    "stage_2": "IN_PROGRESS",
+    "stage_2": "ACTIVE_READY_FOR_SINGLE_PASS_WORK_EXECUTION",
     "stage_3": "NOT_STARTED",
     "stage_4": "NOT_STARTED",
     "stage_5": "CONDITIONAL_NOT_STARTED",
@@ -58,21 +61,8 @@
       "baseline_freeze_blob_sha": "f38b2fee1ae5d6f6fd83c8a68e17741b8381e462",
       "defect_register_blob_sha": "683dd1c4530f083ae8922a6f955a60db13e6c2b4",
       "defect_rows": 11,
-      "stage0_pass_rows": [
-        "RRD-011"
-      ],
-      "open_rows_forward": [
-        "RRD-001",
-        "RRD-002",
-        "RRD-003",
-        "RRD-004",
-        "RRD-005",
-        "RRD-006",
-        "RRD-007",
-        "RRD-008",
-        "RRD-009",
-        "RRD-010"
-      ]
+      "stage0_pass_rows": ["RRD-011"],
+      "open_rows_forward": ["RRD-001", "RRD-002", "RRD-003", "RRD-004", "RRD-005", "RRD-006", "RRD-007", "RRD-008", "RRD-009", "RRD-010"]
     },
     "provider_calls": 0,
     "paid_cost_rub": 0
@@ -99,57 +89,38 @@
     "paid_cost_rub": 0
   },
   "stage_2": {
-    "status": "IN_PROGRESS",
-    "audit_contract": "RESEARCH_REBUILD_STAGE_02_00_AUDIT_CONTRACT_AND_MINISTEPS_2026-09-04.md",
-    "execution_protocol_override": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
-    "execution_protocol_status": "EXPERIMENTAL_OWNER_APPROVED",
+    "status": "ACTIVE_READY_FOR_SINGLE_PASS_WORK_EXECUTION",
+    "execution_unit": "ENTIRE_STAGE_2",
+    "audit_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
+    "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
+    "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
+    "historical_mini_step_contract": "RESEARCH_REBUILD_STAGE_02_00_AUDIT_CONTRACT_AND_MINISTEPS_2026-09-04.md",
+    "historical_mini_step_contract_status": "SUPERSEDED_PROVENANCE_ONLY",
+    "historical_runtime_checkpoints_status": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
+    "mandatory_mini_steps": false,
+    "mandatory_durable_blocks": false,
+    "intermediate_owner_report_stops": false,
     "semantic_result_rule": "COUNTS_HASHES_FILE_INVENTORY_AND_FACT_OF_AI_CALL_ARE_NOT_STAGE_2_RESULTS",
     "required_chain": "QUESTION__INPUT__ACTUAL_WORK__EVIDENCE__CONCLUSION__DECISION__DOWNSTREAM_EFFECT__GAP_OR_POSITIVE_FINDING__REWORK_OR_REPACKAGE",
-    "goal_restatement_after_every_mini_step": true,
-    "prior_continuous_execution_rule": "AFTER_EACH_MINI_STEP__PERSIST_SEMANTIC_RESULT__UPDATE_EXECUTION_LOG__UPDATE_CURRENT_STATE__GITHUB_READBACK__IMMEDIATELY_START_NEXT_MINI_STEP_WITHOUT_USER_REPORT_STOP",
-    "prior_continuous_execution_rule_embedded_in_every_mini_step_2_0_to_2_13": true,
-    "prior_no_stop_between_mini_steps_status": "SUPERSEDED_BY_LATEST_OWNER_INSTRUCTION_FOR_EXPERIMENT",
-    "effective_execution_rule": "WITHIN_MINI_STEP_CONTINUE_ACROSS_DURABLE_BLOCKS__AFTER_MINI_STEP_COMPLETION_STOP_AND_REPORT_BEFORE_NEXT_MINI_STEP",
-    "durable_checkpoint_rule": "PERSIST_COHERENT_ANALYTICAL_BLOCKS_ONLINE_DURING_MINI_STEP__DO_NOT_CHECKPOINT_EVERY_TOOL_CALL__DO_NOT_WAIT_UNTIL_MINI_STEP_END",
-    "checkpoint_directory_template": "runtime_checkpoints/<mini-step>/B###.md",
-    "mini_step_completion_report_gate": true,
-    "required_mini_step_report": [
-      "WHAT_WAS_DONE_IN_COMPLETED_MINI_STEP",
-      "FULL_PROJECT_ROADMAP_WITH_ALL_MAJOR_STATUSES",
-      "FULL_CURRENT_STAGE_ROADMAP_WITH_ALL_MINI_STEP_STATUSES_AND_EXACT_NEXT_MINI_STEP"
+    "ai_native_rule": "SEARCH_ONLY_DECISION__WHY_AI_CASE__PRESERVED_AI_EVIDENCE__COMPARISON__CHANGED_CONFIRMED_NO_CHANGE_UNCERTAINTY__DOWNSTREAM_EFFECT__CLIENT_VISIBLE_IMPLICATION",
+    "required_scope": [
+      "BUSINESS_SITE_AND_RESEARCH_BOUNDARIES",
+      "DEMAND_COLLECTION_CLEANING_AND_PRESERVATION",
+      "QUERY_GROUPING_AND_SEMANTIC_MODEL",
+      "YANDEX_SEARCH_RESULTS_AND_COMPETITIVE_PATTERNS",
+      "QUERY_TO_PAGE_ASSIGNMENT_CONFLICTS_AND_STRUCTURE_DECISIONS",
+      "AI_CASE_SELECTION_AND_AI_EVIDENCE",
+      "SEARCH_VS_AI_DECISION_DELTA",
+      "PRIORITIES_RECOMMENDATIONS_AND_IMPLEMENTABILITY",
+      "TRANSFER_TO_CLIENT_REPORT_AND_WORKBOOK",
+      "POSITIVE_FINDINGS_AND_DO_NOT_CHANGE_AREAS",
+      "DEFECT_CLASSIFICATION_AND_PP01_PP19_COVERAGE",
+      "STAGE_2_ACCEPTANCE_AND_STAGE_3_INPUT"
     ],
-    "stop_before_mini_step_completion_only_for": [
-      "REAL_EXTERNAL_BLOCKER",
-      "MISSING_REQUIRED_EVIDENCE_REQUIRING_OWNER_DECISION",
-      "NEW_EXTERNAL_OR_PAID_CALL_OUTSIDE_CURRENT_AUTHORIZATION",
-      "MATERIAL_CONTRADICTION_REQUIRING_OWNER_DECISION"
-    ],
-    "readback_2_0": {
-      "status": "PASS",
-      "artifact_blob_sha": "f1dc9112641fab78a8dd9a4d998a90b92110473a",
-      "semantic_contract_present": true,
-      "anti_inventory_rule_present": true,
-      "goal_restatement_rule_present": true,
-      "continuous_execution_rule_present_in_every_mini_step": true,
-      "mini_step_range": "2.0..2.13"
-    },
-    "mini_steps": {
-      "2.0": "COMPLETE_READBACK_PASS",
-      "2.1": "ACTIVE",
-      "2.2": "NOT_STARTED",
-      "2.3": "NOT_STARTED",
-      "2.4": "NOT_STARTED",
-      "2.5": "NOT_STARTED",
-      "2.6": "NOT_STARTED",
-      "2.7": "NOT_STARTED",
-      "2.8": "NOT_STARTED",
-      "2.9": "NOT_STARTED",
-      "2.10": "NOT_STARTED",
-      "2.11": "NOT_STARTED",
-      "2.12": "NOT_STARTED",
-      "2.13": "NOT_STARTED"
-    },
-    "next_mini_step": "2.1_RECONSTRUCT_END_TO_END_ANALYTICAL_CHAIN",
+    "required_output": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_2026-09-04.md",
+    "completion_sequence": "COMPLETE_FULL_STAGE_2_AUDIT__WRITE_FINAL_ARTIFACTS__UPDATE_EXECUTION_LOG__UPDATE_CURRENT_STATE__UPDATE_CURSOR__SAVE_GITHUB__READBACK__STOP_AND_REPORT_OWNER",
+    "after_stage_2_behavior": "STOP_AND_REPORT_OWNER__DO_NOT_START_STAGE_3",
+    "external_call_policy": "NO_NEW_EXTERNAL_OR_PAID_CALLS_BEFORE_SEPARATE_AUTHORIZATION",
     "provider_calls": 0,
     "paid_cost_rub": 0
   },
@@ -165,9 +136,8 @@
     "RUSSIAN_SEO_SPECIALIST_IMPLEMENTATION_GUIDE",
     "SELF_CONTAINED_AI_KNOWLEDGE_DOCUMENT"
   ],
-  "persistence_rule": "WITHIN_MINI_STEP_PERSIST_COHERENT_DURABLE_BLOCKS_ONLINE__AFTER_MINI_STEP_FINAL_ARTIFACT_AND_READBACK_STOP_AND_REPORT_OWNER",
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "EXECUTE_MINI_STEP_2_1_USING_DURABLE_BLOCKS__THEN_STOP_AND_REPORT_BEFORE_2_2",
+  "next_action": "EXECUTE_FULL_STAGE_2_END_TO_END_IN_CHATGPT_WORK__SAVE_RESULT__READBACK__REPORT_OWNER__DO_NOT_START_STAGE_3",
   "execution_started": true
 }
