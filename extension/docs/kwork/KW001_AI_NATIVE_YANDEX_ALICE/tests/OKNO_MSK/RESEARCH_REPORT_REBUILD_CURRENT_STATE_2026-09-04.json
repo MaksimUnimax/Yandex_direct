@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "EXECUTION_STARTED__STAGE_0_READBACK_COMPLETE__STAGE_1_READY",
+  "status": "EXECUTION_STARTED__STAGE_1_READBACK_COMPLETE__STAGE_2_READY",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -16,8 +16,8 @@
   },
   "stage_progress": {
     "stage_0": "COMPLETE",
-    "stage_1": "READY_NOT_STARTED",
-    "stage_2": "NOT_STARTED",
+    "stage_1": "COMPLETE",
+    "stage_2": "READY_NOT_STARTED",
     "stage_3": "NOT_STARTED",
     "stage_4": "NOT_STARTED",
     "stage_5": "CONDITIONAL_NOT_STARTED",
@@ -77,6 +77,27 @@
     "provider_calls": 0,
     "paid_cost_rub": 0
   },
+  "stage_1": {
+    "artifact": "RESEARCH_REBUILD_STAGE_01_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX_2026-09-04.md",
+    "readback": {
+      "status": "PASS",
+      "artifact_blob_sha": "4fc701230d8deb688a562cd11c3c66f651b7eefe",
+      "acceptance_rows": 19,
+      "acceptance_id_range": "PP-01..PP-19"
+    },
+    "authority_sources": [
+      "../../IMPLEMENTATION_PLAN.md",
+      "TEST_ORDER.md",
+      "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
+      "RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md"
+    ],
+    "source_gap": "FINAL_KWORK_CARD_DESCRIPTION_AND_APPROVED_DEMO_PACKAGE_NOT_YET_FROZEN__IMPLEMENTATION_PLAN_DEFERS_FINALIZATION_UNTIL_ACCEPTED_VARIED_TEST_RUNS",
+    "original_product_promise_separated_from_owner_rebuild_overlay": true,
+    "required_test_deliverable_classes": 9,
+    "ai_native_acceptance_rule": "SEARCH_ONLY_DECISION_THEN_SELECTIVE_AI_EVIDENCE_THEN_EXPLICIT_DECISION_DELTA_OR_PROVEN_NO_CHANGE_THEN_CLIENT_VISIBLE_ACTION",
+    "provider_calls": 0,
+    "paid_cost_rub": 0
+  },
   "primary_defects_to_investigate": [
     "AI_NATIVE_SEMANTIC_REBUILD_NOT_VISIBLE_AS_A_CLIENT_RESULT",
     "CURRENT_CLIENT_CONCLUSIONS_ARE_NOT_READABLE_OR_SELF_EXPLANATORY",
@@ -92,6 +113,6 @@
   "persistence_rule": "PERSIST_EACH_STAGE__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK_BEFORE_NEXT_STAGE",
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "EXECUTE_STAGE_1_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX",
+  "next_action": "EXECUTE_STAGE_2_FULL_WORK_AUDIT_AGAINST_PP_01_TO_PP_19",
   "execution_started": true
 }
