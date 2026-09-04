@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "EXECUTION_STARTED__STAGE_0_COMPLETE__STAGE_1_READY_AFTER_READBACK",
+  "status": "EXECUTION_STARTED__STAGE_0_READBACK_COMPLETE__STAGE_1_READY",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -15,7 +15,7 @@
     "step22_authorized": false
   },
   "stage_progress": {
-    "stage_0": "COMPLETE_PENDING_READBACK",
+    "stage_0": "COMPLETE",
     "stage_1": "READY_NOT_STARTED",
     "stage_2": "NOT_STARTED",
     "stage_3": "NOT_STARTED",
@@ -29,7 +29,8 @@
     "stage_11": "NOT_STARTED",
     "stage_12": "NOT_STARTED",
     "stage_13": "NOT_STARTED",
-    "stage_14": "NOT_STARTED"
+    "stage_14": "NOT_STARTED",
+    "stage_15": "NOT_STARTED"
   },
   "stage_0": {
     "baseline_freeze": "RESEARCH_REBUILD_STAGE_00_BASELINE_FREEZE_2026-09-04.md",
@@ -52,6 +53,27 @@
         "sha256": "cf4a208ba5286243e41ef5dff31a5d3eea9fdc0dab93800850addcc07663915e"
       }
     ],
+    "readback": {
+      "status": "PASS",
+      "baseline_freeze_blob_sha": "f38b2fee1ae5d6f6fd83c8a68e17741b8381e462",
+      "defect_register_blob_sha": "683dd1c4530f083ae8922a6f955a60db13e6c2b4",
+      "defect_rows": 11,
+      "stage0_pass_rows": [
+        "RRD-011"
+      ],
+      "open_rows_forward": [
+        "RRD-001",
+        "RRD-002",
+        "RRD-003",
+        "RRD-004",
+        "RRD-005",
+        "RRD-006",
+        "RRD-007",
+        "RRD-008",
+        "RRD-009",
+        "RRD-010"
+      ]
+    },
     "provider_calls": 0,
     "paid_cost_rub": 0
   },
@@ -70,6 +92,6 @@
   "persistence_rule": "PERSIST_EACH_STAGE__UPDATE_LOG__UPDATE_STATE__GITHUB_READBACK_BEFORE_NEXT_STAGE",
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "READBACK_STAGE_0_THEN_EXECUTE_STAGE_1_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX",
+  "next_action": "EXECUTE_STAGE_1_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX",
   "execution_started": true
 }
