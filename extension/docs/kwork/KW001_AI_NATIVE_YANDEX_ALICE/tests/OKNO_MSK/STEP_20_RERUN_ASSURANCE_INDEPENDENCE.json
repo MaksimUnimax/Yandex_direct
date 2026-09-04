@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-04",
+  "job": "OKNO_MSK",
+  "step": 20,
+  "declared_mode": "MODE_A_TEST_DEMO_REHEARSAL",
+  "analyst_adversarial_self_qa": true,
+  "independent_mechanical_verifier": {
+    "required": true,
+    "route": "separate GitHub Actions workflow with deterministic mechanical assertions and public HTTP checks",
+    "workflow": "KW001 OKNO Step20 Enhanced Final Assurance Rerun",
+    "status": "RUNNING_OR_PENDING_FINAL_READBACK_AT_TIME_OF_THIS_RECORD"
+  },
+  "formal_independent_analytical_assurer": {
+    "present": false,
+    "required_for_declared_mode_a": false,
+    "claim_allowed": false
+  },
+  "real_user_or_commissioner_validation": {
+    "performed": false,
+    "state": "NOT_APPLICABLE_TO_MOCK_REHEARSAL",
+    "interpretation": "NOT_EQUIVALENT_TO_COMPLETED_REAL_USER_VALIDATION"
+  },
+  "release_claim_boundary": "Any eventual Step20 PASS can be described only as adversarial final QA/release assurance for the declared TEST/DEMO Mode A. It must not be described as formal independent analytical assurance or real-user acceptance.",
+  "future_mode_b_c_rule": "Ordinary consequential external/client release or high-impact use must satisfy the stronger independent-review requirement defined by STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md.",
+  "non_repeat_controls": [
+    "INDEPENDENT COMPUTATIONAL CHECK != INDEPENDENT ANALYTICAL ASSURANCE",
+    "ANALYST SCENARIO VALIDATION != REAL USER VALIDATION"
+  ]
+}
