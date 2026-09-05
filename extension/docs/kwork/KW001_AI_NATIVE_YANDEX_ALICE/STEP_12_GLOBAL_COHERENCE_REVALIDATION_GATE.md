@@ -1,7 +1,7 @@
 # KW-001 — Step 12 global coherence revalidation gate
 
 Date: 2026-08-31  
-Updated: 2026-09-03  
+Updated: 2026-09-05  
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-REQUIRED**
 
 ## Purpose
@@ -99,6 +99,18 @@ For each newly discovered coherence defect:
 
 Do not stop merely because the originally reported examples now pass.
 
+## Correction atomicity gate
+
+For each changed canonical phrase/unit identity, load the target unit contract and rebuild every field governed by that contract before downstream propagation.
+
+```text
+NEW UNIT ID + OLD UNIT-DERIVED TASK / INTENT / SCOPE / PAGE ROLE / OWNER / MATURITY
+=> FAIL
+```
+
+QA must compare the corrected row to the canonical target contract, not only to the correction overlay or old row. Independently sourced fields may remain only when their lineage proves they do not depend on the changed unit.
+
+If any declared downstream materializer consumes a base assignment plus selected overlays, its precedence/join logic must be tested against the complete correction universe.
 ## Accounting gate
 
 The current job must instantiate its own expected totals. Do not hard-code rehearsal numbers into this permanent method.
@@ -161,9 +173,12 @@ CURRENT_JOB_ACTIVE_TOTAL_ACCOUNTED = true
 SILENT_DROPS = 0
 UNEXPECTED_DUPLICATION = 0
 ALL MATERIAL CHANGED UNITS REVALIDATED = true
+CORRECTED_ROWS_MATCH_CANONICAL_TARGET_CONTRACT = true
+IDENTIFIER_ONLY_CORRECTIONS = 0
 GLOBAL COHERENCE REVIEW COMPLETE = true
 NEW MATERIAL CONFLICT CLASS IN FINAL PASS = 0
 AFFECTED DOWNSTREAM OUTPUTS REBUILT = true
+COMPLETE_CORRECTION_UNIVERSE_RECONCILED_THROUGH_DECLARED_CONSUMERS = true
 CURRENT PAGE/EVIDENCE GATES RE-RUN WHERE ACTION CHANGED = true
 FINAL INDEPENDENT QA = PASS
 GITHUB READBACK = PASS
@@ -177,6 +192,7 @@ A pass with unresolved newly discovered boundary conflicts is forbidden.
 LOCAL CORRECTION != GLOBAL CORRECTNESS
 KNOWN DEFECTS FIXED != FAILURE UNIVERSE EXHAUSTED
 ARITHMETIC ACCOUNTING != SEMANTIC COHERENCE
+CORRECTED ID != CORRECTED SEMANTIC STATE
 ```
 
 This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
@@ -189,5 +205,8 @@ KW001_STEP12_LOCAL_PATCH_NOT_EQUAL_GLOBAL_PASS = true
 KW001_STEP12_GLOBAL_PHRASE_OR_UNIT_REVIEW_REQUIRED_AFTER_MATERIAL_BOUNDARY_CHANGE = true
 KW001_STEP12_CURRENT_JOB_TOTALS_MUST_BE_PARAMETERIZED = true
 KW001_STEP12_DOWNSTREAM_IMPACT_PROPAGATION_REQUIRED = true
+KW001_STEP12_CORRECTED_ROW_TARGET_CONTRACT_QA_REQUIRED = true
+KW001_STEP12_IDENTIFIER_ONLY_CORRECTION_IS_FAIL = true
+KW001_STEP12_COMPLETE_CORRECTION_UNIVERSE_FORWARD_AUDIT_REQUIRED = true
 KW001_STEP12_GLOBAL_QA_MUST_DISCOVER_NEW_CLASSES = true
 ```

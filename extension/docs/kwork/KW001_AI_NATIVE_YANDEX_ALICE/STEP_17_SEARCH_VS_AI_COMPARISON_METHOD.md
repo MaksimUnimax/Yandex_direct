@@ -1,6 +1,6 @@
 # KW-001 — STEP 17 SEARCH-vs-AI COMPARISON METHOD
 
-Updated: 2026-09-03  
+Updated: 2026-09-05  
 Status: **APPROVED / ACTIVE / UNIVERSAL / POST-RUN CORRECTED**
 
 Concrete case IDs, queries, URLs, row counts, provider results and current job verdicts belong only in the current Level-2 workspace.
@@ -316,6 +316,29 @@ A content candidate is a bounded within-owner hypothesis. It is not proof of new
 
 ---
 
+## 8A. Complete AI causal-result object
+
+Every material selected case must preserve one causal object that survives into prioritization and client delivery:
+
+```text
+WHY SELECTED BEFORE AI
+-> FROZEN SEARCH-ONLY DECISION
+-> PRESERVED AI EVIDENCE
+-> SEARCH-vs-AI COMPARISON
+-> CHANGE | DE_RISK | NO_CHANGE | INSUFFICIENT
+-> ARCHITECTURE EFFECT
+-> CONTENT EFFECT
+-> EXACT DOWNSTREAM ACTION OR EXPLICIT NO-ACTION
+-> CLIENT-VISIBLE IMPLICATION
+-> LIMITATION / RECHECK
+```
+
+```text
+AI_NATIVE_VALUE != FACT_OF_AI_REQUESTS
+SUPPORTED NO_CHANGE / DE_RISK != NO ANALYTICAL RESULT
+```
+
+A case may produce no new page or action and still be a material result when it confirms a frozen decision, reduces change risk or preserves uncertainty. Such a result must not disappear from downstream client views.
 ## 9. Confidence and claim governance
 
 Confidence is categorical/evidence-derived; no magic numeric score is required.
@@ -353,6 +376,7 @@ Equivalent artifacts should preserve:
 pre-step/method review
 research-to-execution schema / manifest
 case comparison ledger
+complete per-case causal-result ledger
 direct source provenance ledger
 claim-scope/confidence ledger
 contract/requirement coverage audit
@@ -369,6 +393,11 @@ Corrections must not silently overwrite historical accepted evidence.
 
 ```text
 ALL SELECTED CASES ACCOUNTED = true
+ALL CASES HAVE PRE_AI_SELECTION_RATIONALE = true
+ALL CASES HAVE FROZEN_SEARCH_BASELINE = true
+ALL CASES HAVE EXACT_ACTION_OR_EXPLICIT_NO_ACTION = true
+ALL CASES HAVE_CLIENT_VISIBLE_IMPLICATION = true
+SUPPORTED_NO_CHANGE_OR_DE_RISK_RESULTS_DROPPED = 0
 ORDINARY SEARCH DIRECT TRACE COMPLETE = true
 RAW AI TRACE COMPLETE = true
 ARCHITECTURE VERDICT PRESENT = true
@@ -400,11 +429,19 @@ A job may PASS as a **bounded diagnostic** with exact-query/snapshot evidence wh
 
 ## 14. Handoff to Step18
 
-Pass per-case/action:
+Pass the complete per-case causal object, not only terminal verdict fields:
 
 ```text
+selection_rationale_before_ai
+frozen_search_only_decision_ref
+preserved_ai_evidence_ref
+search_vs_ai_comparison
 architecture_verdict
 content_verdict
+architecture_effect
+content_effect
+exact_downstream_action_or_explicit_no_action
+client_visible_implication
 ai_scope_class
 ai_temporal_state
 confidence_state
@@ -441,6 +478,10 @@ KW001_STEP17_CONFIDENCE_MUST_CHANGE_ALLOWED_CLAIM = true
 KW001_STEP17_NO_MAGIC_NUMERICAL_CONFIDENCE_SCORE = true
 KW001_STEP17_BASE_DIAGNOSTIC_PASS_WITHOUT_PRIVATE_ACCESS_ALLOWED = true
 KW001_STEP17_PROVIDER_REPLAY_REQUIRES_INFORMATION_GAIN = true
+KW001_STEP17_COMPLETE_AI_CAUSAL_RESULT_OBJECT_REQUIRED = true
+KW001_STEP17_AI_NATIVE_VALUE_NOT_EQUAL_REQUEST_FACT = true
+KW001_STEP17_SUPPORTED_NO_CHANGE_AND_DE_RISK_MUST_REACH_CLIENT = true
+KW001_STEP17_EXACT_ACTION_OR_EXPLICIT_NO_ACTION_REQUIRED = true
 ```
 
 This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.

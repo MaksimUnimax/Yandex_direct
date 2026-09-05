@@ -1,6 +1,6 @@
 # Current-site freshness and existence gate
 
-Updated: 2026-09-03  
+Updated: 2026-09-05  
 Status: **ACTIVE / UNIVERSAL / OWNER-REQUESTED**
 
 ## Plain-language purpose
@@ -145,6 +145,21 @@ Run a lightweight current-URL/final-role recheck for every implementation-critic
 
 Why: the client should not receive recommendations based on pages that moved, disappeared, or changed role during the project.
 
+## Accepted newer discovery authority must propagate
+
+A later accepted current-site discovery that materially changes page existence, role or topology supersedes the older snapshot for its governed scope. Recording the newer inventory is not sufficient by itself.
+
+```text
+EARLY DISCOVERY SNAPSHOT != FINAL CURRENT-SITE COMPLETENESS AUTHORITY
+
+MATERIAL NEW CURRENT-SITE FACT
+-> IDENTIFY AFFECTED TASKS / PAGES / RELATIONSHIPS
+-> INVALIDATE DEPENDENT OWNERSHIP / STRUCTURAL / PAIR / ARCHITECTURE / ACTION PASSES
+-> REBUILD AFFECTED CONSUMERS FROM THE NEW ACCEPTED AUTHORITY
+-> RECONCILE + READBACK
+```
+
+The older snapshot remains historical evidence. It must not continue as the executable input for an affected downstream decision merely because that decision previously passed.
 ## Non-repeat controls
 
 ```text
@@ -153,6 +168,7 @@ NO_SUITABLE_EXISTING_PAGE_WITHOUT_NEGATIVE_DISCOVERY_EVIDENCE = FAIL
 OLD_SITE_INVENTORY_USED_AS_SOLE_ABSENCE_PROOF = FAIL
 MATERIAL_NEGATIVE_EXISTENCE_CLAIM_FROM_ONE_WEAK_DISCOVERY_CHANNEL = FAIL
 FINAL_ARCHITECTURE_FREEZE_WITHOUT_CURRENT_URL_RECHECK = FAIL
+MATERIAL_NEW_SITE_AUTHORITY_NOT_PROPAGATED_TO_AFFECTED_CONSUMERS = FAIL
 ```
 
 ## Durability

@@ -1,6 +1,6 @@
 # KW-001 — STEP 20 FINAL QA AND RELEASE ASSURANCE METHOD
 
-Updated: 2026-09-04  
+Updated: 2026-09-05  
 Status: **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION**  
 Scope: **UNIVERSAL / LEVEL 1 / NO JOB-SPECIFIC VALUES**
 
@@ -41,6 +41,18 @@ DELIVERABLE EXISTS
 
 ---
 
+### Mandatory assurance dimensions
+
+Global release assurance has three distinct applicable dimensions:
+
+```text
+PHYSICAL / DISTRIBUTION QA
++ SEMANTIC / CANONICAL AUTHORITY QA
++ PRODUCT / DELIVERABLE ACCEPTANCE QA
+= GLOBAL RELEASE PASS
+```
+
+Physical correctness cannot compensate for stale semantic authority. Internal semantic consistency cannot compensate for failure to deliver the promised usable product. Each dimension has its own evidence, tests and blocking verdict.
 ## 2. Why the first Step20 method was incomplete even after research
 
 The first method review had read good sources and already understood several correct ideas: verification vs validation, current-page freshness, physical-package QA and defect blocking. The failure was **not primarily lack of research**.
@@ -148,6 +160,16 @@ The corrected method treats attestation as a risk-proportionate enhancement, not
 
 ---
 
+### Root cause I — consistent derivatives were mistaken for independent semantic validation
+
+A release candidate can contain several tables and reports generated from the same stale or partially corrected path. They may agree with each other while all disagree with the current canonical authority.
+
+```text
+CONSISTENT BUGGY DERIVATIVES
+!= INDEPENDENT SEMANTIC VALIDATION
+```
+
+The corrected method requires a complete correction-universe forward audit from the current authority and at least one semantic check whose expected result is derived independently of the potentially defective generation path.
 ## 3. Direct method sources and what they require
 
 The method was corrected from the following reusable external authorities. Current jobs must still verify that these sources remain applicable when material standards change.
@@ -367,6 +389,34 @@ NOT FROM MEMORY
 
 ---
 
+### Complete correction-universe forward audit
+
+For every final correction ledger or changed authority set, derive the complete governed universe and reconcile:
+
+```text
+CORRECTION
+-> FINAL CANONICAL MASTER
+-> EVERY MATERIAL CLIENT VIEW
+-> NARRATIVE CLAIM / ACTION
+-> PHYSICAL CLIENT PACKAGE
+```
+
+Use current authority to compute the expected result. A sibling derivative produced by the same materializer is not the only allowed semantic oracle.
+
+Required outputs include equivalent fields:
+
+```text
+correction_or_mutation_id
+affected_entity_key
+expected_current_canonical_state
+final_master_state
+consumer_artifact_and_field
+physical_artifact_location
+reconciliation_verdict
+independent_oracle_source
+```
+
+If the correction universe cannot be bounded, reopen the full promised semantic/action universe.
 ## 8. Phase 3 — verification and six-dimensional data QA
 
 Verification asks whether the release candidate matches its specification and accepted upstream authority.
@@ -389,7 +439,9 @@ Every current-world fact has a collection timestamp and an intended-use freshnes
 IDs, enums, URL formats, file identities, state transitions and allowed values satisfy their schema/contracts.
 
 ### Accuracy
-The current client statement matches current external reality/evidence, not merely another table containing the same statement.
+The current client statement matches current canonical authority and, where the claim concerns current external reality, current direct evidence. Another table generated from the same path cannot be the only proof.
+
+For changed semantic/entity assignments, compare dependent fields with the canonical target-entity contract, not only with the changed ID or a sibling derivative.
 
 ```text
 CONSISTENT WITH ITSELF
@@ -609,6 +661,8 @@ Use realistic recipient tasks, for example:
 - Can they see what evidence is current vs historical/limited?
 - Can they find measurement/acceptance guidance?
 - Can they use the package without manual reconstruction of internal files?
+- Does the package visibly satisfy each applicable product-promise/acceptance criterion rather than only matching internal schemas?
+- Can they distinguish ordinary Search evidence, AI causal results, supported positive no-change findings and unresolved states?
 
 For a rehearsal with no real recipient, `REAL_USER_OR_COMMISSIONER_VALIDATION` may be `NOT_APPLICABLE_TO_REHEARSAL`, but that state is not equivalent to a completed real-user test.
 
@@ -780,9 +834,13 @@ Step20 may return release PASS only when all applicable conditions are true:
 
 - exact revision frozen;
 - risk mode declared;
+- physical/distribution, semantic/canonical and product/deliverable assurance dimensions separately pass;
 - risk register complete;
 - all promised logical/physical deliverables accounted;
 - completeness/uniqueness/consistency/timeliness/validity/accuracy reviewed;
+- complete correction universe reconciles through final master, every material client view and physical package;
+- no semantic correctness claim relies only on sibling derivatives from the same generation path;
+- all applicable product-promise/acceptance criteria have explicit release evidence/verdict;
 - implementation-critical current-world claims are fresh enough for intended handoff;
 - HTTP availability and content/role evidence are not conflated;
 - material claims reverse-trace to current evidence and limitations;
@@ -834,6 +892,8 @@ ANALYST SCENARIO VALIDATION != REAL USER VALIDATION
 INDEPENDENT COMPUTATIONAL CHECK != INDEPENDENT ANALYTICAL ASSURANCE
 HASH MATCH != SIGNED BUILD PROVENANCE
 KNOWN DEFECTS RESOLVED != GLOBAL FINAL QA PASS
+CONSISTENT BUGGY DERIVATIVES != INDEPENDENT SEMANTIC VALIDATION
+PHYSICAL QA PASS != SEMANTIC QA PASS != PRODUCT ACCEPTANCE PASS
 OLD QA PASS/CORRECTION_REQUIRED != VERDICT FOR A NEW REVISION
 ```
 
@@ -854,6 +914,8 @@ Before execution, explain in plain language:
 After execution, explain:
 
 - what was tested;
+- whether physical/distribution, semantic/canonical and product/deliverable assurance each passed;
+- whether the complete correction universe reached every material client view and physical artifact;
 - what defects were found;
 - what remains uncertain;
 - whether the exact revision may move to handoff;

@@ -1,6 +1,6 @@
 # KW-001 — RESEARCH TO EXECUTION SCHEMA GATE
 
-Updated: 2026-09-03  
+Updated: 2026-09-05  
 Status: **ACTIVE / UNIVERSAL / OWNER-DIRECTED / PERMANENT NON-REPEAT CONTROL**
 
 This Layer-A gate prevents a recurring failure mode in which useful external research is completed but the discovered requirements never become executable fields, actions, QA checks or acceptance gates.
@@ -221,6 +221,86 @@ Did the acceptance gate inspect required-but-absent evidence?
 Was the final execution manifest persisted and read back?
 ```
 
+## 8A. Material authority mutation and uncertainty-continuity gate
+
+### Failure class
+
+A material accepted key, assignment, taxonomy object, current-site fact or action authority can change while fields and consumers derived from the old authority remain apparently valid.
+
+```text
+CORRECTED ID != CORRECTED SEMANTIC STATE
+UPSTREAM MUTATION INVALIDATES DEPENDENT DOWNSTREAM PASS UNTIL REBUILT
+```
+
+### Root cause and false assumption
+
+The unsafe assumption is that updating the visible canonical identifier, one overlay row or one immediate output automatically updates the meaning carried by dependent fields and later artifacts. A second unsafe assumption is that a historical downstream PASS survives a material authority mutation unless a known regression fails.
+
+### Required mutation record
+
+Before restoring PASS, materialize equivalent fields:
+
+```text
+mutation_id
+old_authority_revision
+new_authority_revision
+changed_keys_or_entities
+semantic_change_class
+derived_field_impact_set
+downstream_consumer_impact_set
+invalidated_passes
+rebuild_plan
+reconciliation_authority
+independent_qa_plan
+readback_state
+```
+
+Required sequence:
+
+```text
+MATERIAL AUTHORITY MUTATION
+-> DERIVE IMPACT SET
+-> INVALIDATE AFFECTED PASSES
+-> REBUILD ALL ENTITY-DERIVED FIELDS
+-> REBUILD ALL MATERIAL DOWNSTREAM CONSUMERS
+-> RECONCILE AGAINST NEW CANONICAL AUTHORITY
+-> INDEPENDENT QA
+-> PERSIST + READBACK
+-> ONLY THEN RESTORE PASS
+```
+
+If the impact set cannot be bounded reliably, the full dependent universe is reopened.
+
+### Uncertainty continuity
+
+Equivalent unresolved states such as `REVIEW`, `DEFERRED`, `SEARCH_REQUIRED`, `UNRESOLVED` and `HOLD` are governed data, not blanks to be completed for presentation.
+
+```text
+OUTPUT COMPLETENESS MUST NOT ERASE TRUTHFUL UNCERTAINTY
+```
+
+A transition from unresolved to resolved requires:
+
+```text
+new qualifying evidence
++ explicit decision authority
++ old-to-new transition lineage
++ dependent-field rebuild
++ downstream materialization
+```
+
+Renaming an uncertainty state across steps is allowed only through an explicit state map that preserves or truthfully changes its meaning.
+
+### Generic QA consequence
+
+```text
+MUTATED_ENTITIES_WITH_STALE_DERIVED_FIELDS = 0
+MATERIAL_CONSUMERS_LEFT_ON_SUPERSEDED_AUTHORITY = 0
+AFFECTED_PASS_REUSED_WITHOUT_REBUILD_OR_PROOF = 0
+UNRESOLVED_TO_RESOLVED_WITHOUT_EVIDENCE_LINEAGE = 0
+CORRECTION_UNIVERSE_FORWARD_RECONCILIATION = PASS
+FINAL_READBACK_OF_REBUILT_STATE = PASS
+```
 ## 9. Pass gate
 
 A step cannot pass this gate unless:
@@ -235,6 +315,10 @@ PLANNED_AS_EXECUTED_FALSE_POSITIVES = 0
 PROVIDER_CALL_WITHOUT_INFORMATION_GAIN_JUSTIFICATION = 0
 REVERSE_TRACE_MISSING_FOR_ACCEPTED_CLAIM = 0
 INDEPENDENT_QA_BLOCKING_FINDINGS = 0
+MUTATED_ENTITIES_WITH_STALE_DERIVED_FIELDS = 0
+MATERIAL_CONSUMERS_LEFT_ON_SUPERSEDED_AUTHORITY = 0
+UNRESOLVED_TO_RESOLVED_WITHOUT_EVIDENCE_LINEAGE = 0
+CORRECTION_UNIVERSE_FORWARD_RECONCILIATION = PASS when material mutation exists
 FINAL_GITHUB_READBACK = PASS
 ```
 
@@ -288,6 +372,10 @@ KW001_PROVIDER_REQUEST_INFORMATION_GAIN_REQUIRED = true
 KW001_FORWARD_AND_REVERSE_TRACEABILITY_REQUIRED = true
 KW001_QA_MUST_TEST_REQUIRED_BUT_MISSING_EVIDENCE = true
 KW001_FINAL_CLAIM_REQUIRES_REVERSE_TRACE = true
+KW001_MATERIAL_AUTHORITY_MUTATION_INVALIDATES_DEPENDENT_PASS = true
+KW001_CORRECTED_ID_NOT_EQUAL_CORRECTED_SEMANTIC_STATE = true
+KW001_UNCERTAINTY_CONTINUITY_REQUIRED = true
+KW001_CORRECTION_UNIVERSE_FORWARD_RECONCILIATION_REQUIRED = true
 ```
 
 This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.

@@ -1,5 +1,7 @@
 # Step 12 — Final execution protocol
 
+Updated: 2026-09-05  
+
 Date: 2026-08-31  
 Status: **APPROVED / ACTIVE / OWNER-REQUESTED / PERMANENT STEP-12 AUTHORITY**
 
@@ -274,18 +276,24 @@ User-visible content is not automatically proof that the search crawler receives
 
 This state does not create a technical SEO audit inside Step 12; it limits the strength of structural/content claims when visibility is material.
 
-### Stage 12 — materialize complete downstream outputs
+### Stage 12 — materialize the final canonical master and complete downstream outputs
 
-Rebuild from the final phrase assignments and actions:
+Start from the accepted correction universe and the current canonical unit/action contracts. Do not patch only the canonical ID.
 
 ```text
-FINAL STRUCTURAL UNITS
-FINAL STRUCTURAL ACTIONS
-FULL PHRASE→UNIT→PAGE/ACTION MAP
-INTERNAL-LINK ACTIONS
-MATURITY / DEPENDENCY STATE
-STEP-13 CANDIDATE-PAIR UNIVERSE
+CORRECTION / FINAL UNIT ID
+-> TARGET UNIT CONTRACT
+-> REBUILD TASK / INTENT / BUSINESS SCOPE / PAGE ROLE / OWNER / MATURITY
+-> FINAL CANONICAL PHRASE→UNIT→PAGE/ACTION MASTER
+-> FINAL STRUCTURAL UNITS
+-> FINAL STRUCTURAL ACTIONS
+-> INTERNAL-LINK ACTIONS
+-> MATURITY / DEPENDENCY STATE
+-> STEP-13 CANDIDATE-PAIR UNIVERSE
+-> DECLARED LATER CONSUMERS
 ```
+
+Fields independently sourced rather than unit-derived may be preserved only with explicit lineage. Declare the final canonical phrase/structural master and require downstream materializers to consume it; base assignments and overlays remain provenance.
 
 Pair/cannibalization candidates are a **handoff**, not a Step-12 cannibalization verdict.
 
@@ -297,6 +305,9 @@ Required adversarial checks include:
 
 ```text
 FULL PHRASE ACCOUNTING
+ALL CORRECTED ROWS MATCH THEIR TARGET UNIT CONTRACT
+NO NEW UNIT ID RETAINS OLD UNIT-DERIVED METADATA
+CORRECTION UNIVERSE RECONCILES THROUGH EVERY DECLARED CONSUMER
 GLOBAL AFFECTED-CLASS SEMANTIC COHERENCE
 QUALITY_GAP RECOMPUTATION FROM CURRENT CONTENT + MEMBER NEEDS
 CREATE RECOMPUTATION FROM CURRENT SITE + REUSE ALTERNATIVES
@@ -414,6 +425,9 @@ KW001_STEP12_ROUTING_EDGE_NOT_IMPLEMENTABLE_LINK = true
 KW001_STEP12_SEARCH_VISIBLE_CONTENT_BOUNDARY_EXPLICIT_WHEN_MATERIAL = true
 KW001_STEP12_INDEPENDENT_VERIFIER_MUST_FALSIFY_DECISIONS = true
 KW001_STEP12_DIAGNOSTICS_PERSIST_BEFORE_FINAL_GATE = true
+KW001_STEP12_FINAL_MASTER_MUST_JOIN_TARGET_UNIT_CONTRACT = true
+KW001_STEP12_IDENTIFIER_ONLY_CORRECTION_FORBIDDEN = true
+KW001_STEP12_CORRECTION_UNIVERSE_FORWARD_RECONCILIATION_REQUIRED = true
 KW001_STEP12_TWO_PHASE_CLOSURE_READBACK_REQUIRED = true
 KW001_STEP12_COMPLETE_NOT_EQUAL_FINAL_SEARCH_ARCHITECTURE = true
 ```

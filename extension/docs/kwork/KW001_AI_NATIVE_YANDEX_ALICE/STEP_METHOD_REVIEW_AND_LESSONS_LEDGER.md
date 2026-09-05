@@ -1,6 +1,6 @@
 # KW-001 — STEP METHOD REVIEW AND LESSONS LEDGER
 
-Updated: 2026-09-03  
+Updated: 2026-09-05  
 Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
 This file contains permanent owner-approved methodology lessons. It is **not** a current-job log.
@@ -260,9 +260,23 @@ Status: **APPROVED / ACTIVE**.
 
 ## Step 9 — ordinary Search validation
 
-No owner-approved reusable full method has yet been earned.
+No owner-approved reusable full method has yet been earned. The stage remains unvalidated as a complete permanent method.
 
-Status: **UNVALIDATED**.
+Reusable non-repeat boundaries earned without promoting the full method:
+
+```text
+EXACT QUERY OBSERVATION != UNPROBED QUERY EVIDENCE
+EXACT QUERY OBSERVATION != FAMILY COVERAGE WITHOUT DECLARED GENERALIZATION
+NORMALIZED PROJECTION != RAW PROVIDER BODY
+RAW FIDELITY LIMITATION MUST CHANGE THE CLAIM THAT MAY BE MADE
+ORDINARY SEARCH EVIDENCE MUST REMAIN CLIENT-VISIBLE WHEN MATERIAL
+```
+
+**Root cause prevented:** bounded query evidence or a normalized export can be mistaken for broader/raw evidence, and material ordinary-Search reasoning can disappear when a later AI layer is packaged.
+
+**Control:** preserve exact observation scope, declared generalization rule, raw/projection state and client-facing downstream use. These controls do not validate sampling, provider acquisition or the complete Step-9 method.
+
+Status: **UNVALIDATED / NARROW NON-REPEAT CONTROLS ACTIVE**.
 
 ---
 
@@ -284,6 +298,14 @@ EXECUTABLE METHOD
 ```
 
 **Root cause prevented:** stripping all local rules in the name of universality can remove real deliverable/business constraints just as badly as hard-coding one client's vocabulary into the core method.
+
+Additional atomic-correction lesson:
+
+```text
+CORRECTED CLUSTER / TASK ID != CORRECTED ROW
+```
+
+When canonical assignment changes, every field derived from the target cluster/task contract must be rebuilt and compared with that target contract; checking only that the ID changed is insufficient.
 
 Status: **APPROVED / ACTIVE**.
 
@@ -336,11 +358,12 @@ KEEP STRUCTURAL OWNER != PERFORMANCE GOOD
 ROUTING EDGE != IMPLEMENTABLE CURRENT LINK
 KNOWN DEFECTS FIXED != GLOBAL COHERENCE PROVEN
 HISTORICAL DOWNSTREAM PASS != VALID AFTER MATERIAL UPSTREAM MUTATION
+NEW CANONICAL UNIT ID + OLD CANONICAL UNIT METADATA = FAIL
 ```
 
 **Root pattern:** repeated false PASSes came from substituting representation consistency/previous acceptance for independent current evidence and falsification.
 
-**Control:** current site/content, business goal evidence, real demand, Search boundary when material, alternatives before CREATE, evidence-derived confidence, independent global coherence, downstream invalidation/rebuild and GitHub readback.
+**Control:** current site/content, business goal evidence, real demand, Search boundary when material, alternatives before CREATE, evidence-derived confidence, atomic correction materialization against the canonical target-unit contract, independent global coherence, downstream invalidation/rebuild and GitHub readback.
 
 Status: **APPROVED / ACTIVE**.
 
@@ -441,7 +464,18 @@ Status: **APPROVED / ACTIVE**.
 
 No owner-approved reusable full method has yet been earned.
 
-Status: **UNVALIDATED**.
+Narrow evidence-integrity boundaries may be reused without claiming a validated acquisition method:
+
+```text
+AI REQUEST EXECUTED != AI-NATIVE ANALYTICAL VALUE
+PROVIDER / PROXY SURFACE != CONSUMER SURFACE
+NORMALIZED OBSERVATION != VERBATIM RAW EVIDENCE
+AI EVIDENCE NOT PERSISTED + READ BACK != DURABLE EVIDENCE
+```
+
+These boundaries govern preservation and claims only. They do not validate provider choice, probing design, sampling, repetition cadence or the complete Step-16 method.
+
+Status: **UNVALIDATED / NARROW NON-REPEAT CONTROLS ACTIVE**.
 
 ---
 
@@ -463,6 +497,25 @@ LIMITATION DISCLOSED BUT NOT BOUNDING CLAIM != VALID LIMITATION GOVERNANCE
 **Root pattern:** first-pass comparison risked compressing scope/confidence/provenance and content-vs-architecture into one verdict.
 
 **Control:** scope ledger, temporal evidence class, architecture/content verdict separation, direct source provenance and no architecture CHANGE from one bounded AI snapshot alone.
+
+Every material case must also preserve a downstream causal object:
+
+```text
+WHY SELECTED BEFORE AI
+-> FROZEN SEARCH-ONLY DECISION
+-> AI EVIDENCE
+-> SEARCH-vs-AI COMPARISON
+-> CHANGE | DE_RISK | NO_CHANGE | INSUFFICIENT
+-> ARCHITECTURE EFFECT
+-> CONTENT EFFECT
+-> EXACT DOWNSTREAM ACTION OR EXPLICIT NO-ACTION
+-> LIMITATION / RECHECK
+```
+
+```text
+AI_NATIVE_VALUE != FACT_OF_AI_REQUESTS
+SUPPORTED NO_CHANGE / DE_RISK != NO RESULT
+```
 
 Status: **APPROVED / ACTIVE**.
 
@@ -541,21 +594,46 @@ PUBLIC BUSINESS RELEVANCE != CLIENT-CONFIRMED BUSINESS IMPORTANCE
 
 **Control:** mandatory plain-language `why / what / result` summary before authorization and after execution under `STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md`.
 
+### Failure 8 — analytical action mistaken for implementation specification
+
+**Root cause:** a prioritized analytical row was treated as executable merely because it had an action label, target and priority.
+
+**Control:** `ANALYTICAL ACTION != IMPLEMENTATION SPECIFICATION`. A material action may remain `IMPLEMENTATION_SPEC_STATE = NOT_READY / PENDING_DETAIL` until current state, direct evidence, reason, target state, exact object/location, required topics/relationships, justified example, acceptance criteria, dependencies and do-not-do boundary are materialized where applicable. Missing private owner/effort/capacity/timing remains explicit and is never fabricated.
+
 Status: **APPROVED / ACTIVE AFTER CORRECTION**.
 
 ---
 
 ## Steps 19–21
 
-No owner-approved reusable full methods have yet been earned.
+Current permanent-method state:
 
 ```text
-STEP19 = UNVALIDATED
-STEP20 = UNVALIDATED
+STEP19 = UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE / ACTIVE NON-REPEAT CONTROL
+STEP20 = APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION
 STEP21 = UNVALIDATED
 ```
 
-Fresh method research/review is required before material execution.
+Step19 non-repeat boundary:
+
+```text
+ONE CURRENT FINAL SEMANTIC MASTER -> ALL CLIENT SEMANTIC VIEWS
+ONE CURRENT CANONICAL ACTION AUTHORITY -> ALL CLIENT ACTION / BUSINESS / PAGE / REPORT VIEWS
+POLISHED DERIVATIVE != CURRENT AUTHORITY PROOF
+```
+
+Step20 non-repeat boundary:
+
+```text
+PHYSICAL / DISTRIBUTION QA
++ SEMANTIC / CANONICAL AUTHORITY QA
++ PRODUCT / DELIVERABLE ACCEPTANCE QA
+= GLOBAL RELEASE PASS
+
+CONSISTENT BUGGY DERIVATIVES != INDEPENDENT SEMANTIC VALIDATION
+```
+
+Step19 remains unvalidated as a complete permanent method. Step21 still requires fresh method research/review. The specific current Step20 authority supersedes the older grouped status and is recorded in `STEP_20_PERMANENT_LESSONS_LEDGER_AUTHORITY_CORRECTION_2026-09-04.md`.
 
 ---
 
@@ -575,6 +653,27 @@ Status: **PARTIALLY DEFINED**.
 
 ---
 
+## Cross-step authority mutation and uncertainty continuity
+
+**Failure class:** a material authority mutation can update a visible key while dependent fields and downstream consumers retain the old semantic state; output-completeness pressure can also erase unresolved states.
+
+**Root cause:** correction was treated as a local patch and historical PASS as timeless.
+
+**Control:** apply `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`:
+
+```text
+MATERIAL AUTHORITY MUTATION
+-> IMPACT SET
+-> DEPENDENT-FIELD REBUILD
+-> MATERIAL-CONSUMER REBUILD
+-> CURRENT-AUTHORITY RECONCILIATION
+-> INDEPENDENT QA
+-> READBACK
+
+OUTPUT COMPLETENESS MUST NOT ERASE TRUTHFUL UNCERTAINTY
+```
+
+Status: **ACTIVE / UNIVERSAL CROSS-STEP NON-REPEAT CONTROL**.
 # Permanent universality self-check
 
 Before modifying this ledger:

@@ -1,5 +1,7 @@
 # KW-001 — STEP 18 PRIORITIZATION AND IMPLEMENTATION-READINESS METHOD
 
+Updated: 2026-09-05  
+
 Date: 2026-09-03  
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-AUTHORIZED AFTER EXTERNAL METHOD AUDIT**
 
@@ -295,6 +297,23 @@ OWNER COMPREHENSION
 
 ---
 
+### E18-08 — analytical action was mistaken for an implementation specification
+
+**What failed**
+
+A prioritized action with a target and short description could be counted as an executable work package even though the executor still lacked the current-state diagnosis, exact change location/content and acceptance test.
+
+**Root cause**
+
+```text
+ANALYTICAL ACTION
+WAS MISTAKEN FOR
+IMPLEMENTATION SPECIFICATION
+```
+
+**Corrected control**
+
+Track a separate `implementation_spec_state`. Analytical-priority PASS does not upgrade that state. A material action is implementation-spec ready only when the applicable current-state, evidence, target-state, exact-location/content, example and acceptance fields are materialized. Missing private owner, effort, capacity or timing remains a separate calibration issue and is never invented to make the specification look complete.
 ## 4. Priority model — keep dimensions separate
 
 Do not collapse the following into an unexplained score:
@@ -520,6 +539,28 @@ SOURCE ACTIONS / UNITS
 
 remains reversible.
 
+### Phase 7A — materialize implementation specifications
+
+For each material work package, populate or explicitly mark not applicable/pending:
+
+```text
+AS_IS_CURRENT_STATE
+DIRECT_EVIDENCE
+WHY_CHANGE_IS_NEEDED
+TO_BE_TARGET_STATE
+TARGET_PAGE_OR_OBJECT
+EXACT_BLOCK_OR_LOCATION
+REQUIRED_TOPICS_PHRASES_QUESTIONS_RELATIONSHIPS
+IMPLEMENTATION_EXAMPLE_WHEN_JUSTIFIED
+ACCEPTANCE_CRITERIA
+DEPENDENCIES
+DO_NOT_DO_OR_CLAIM_BOUNDARY
+IMPLEMENTATION_SPEC_STATE = READY | NOT_READY | PENDING_DETAIL
+```
+
+`NOT_READY / PENDING_DETAIL` is a truthful valid analytical output. It blocks an implementation-spec-ready claim, not the underlying analytical priority.
+
+Do not fabricate page content, private priorities, effort, owner, capacity or timing. If a current-page/content read is required to write the specification truthfully, record that dependency.
 ### Phase 8 — implementation calibration
 
 For every executable work package collect or classify:
@@ -675,6 +716,16 @@ client_business_importance
 timeline_or_delivery_window
 expected_implementation_priority
 implementation_ready_state
+implementation_spec_state
+as_is_current_state
+direct_evidence
+why_change_is_needed
+to_be_target_state
+exact_block_or_location
+required_topics_phrases_questions_relationships
+implementation_example_when_justified
+acceptance_criteria
+do_not_do_or_claim_boundary
 expected_outcome
 success_metric
 baseline_state
@@ -757,6 +808,7 @@ unknowns preserved
 HOLD governed by blocker + trigger
 dependencies materialized
 ideal priority assigned
+implementation specification state explicit for every material work package
 claim boundaries explicit
 full QA + readback pass
 plain-language owner summary present
@@ -771,6 +823,8 @@ STEP18_IMPLEMENTATION_READINESS_PASS = true
 only when the current mode requires it and every material executable work package has sufficient real:
 
 ```text
+implementation specification fields complete or explicitly not applicable
+implementation_spec_state = READY
 owner
 owner confirmation
 implementation effort evidence
@@ -837,5 +891,9 @@ KW001_STEP18_NO_MAGIC_SCORE_REQUIRED = true
 KW001_STEP18_AI_SUPPORT_NOT_EQUAL_AI_ARCHITECTURE_AUTHORITY = true
 KW001_STEP18_PROVIDER_CAPABILITY_NOT_EQUAL_PROVIDER_NEED = true
 KW001_STEP18_PLAIN_LANGUAGE_SUMMARY_REQUIRED = true
+KW001_STEP18_ANALYTICAL_ACTION_NOT_EQUAL_IMPLEMENTATION_SPECIFICATION = true
+KW001_STEP18_IMPLEMENTATION_SPEC_STATE_REQUIRED = true
+KW001_STEP18_IMPLEMENTATION_SPEC_READY_REQUIRES_APPLICABLE_DETAIL = true
+KW001_STEP18_PENDING_DETAIL_MUST_NOT_BE_FABRICATED = true
 KW001_STEP18_JOB_SPECIFIC_RESULTS_FORBIDDEN_IN_PERMANENT_METHOD = true
 ```

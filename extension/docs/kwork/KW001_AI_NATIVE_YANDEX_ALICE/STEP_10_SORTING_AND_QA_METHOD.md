@@ -1,5 +1,7 @@
 # Step 10 — Universal Sorting and QA Method
 
+Updated: 2026-09-05  
+
 Status: **APPROVED / ACTIVE / UNIVERSAL / OWNER-LOCKED**
 
 This file defines a reusable execution and QA framework for Step-10 clustering.
@@ -480,6 +482,42 @@ The control objective is to avoid hidden and unbounded patching, not to prohibit
 
 ---
 
+## 12A. Atomic correction materialization
+
+A correction that changes a row's canonical task/cluster identity is one semantic transaction, not an identifier-only patch.
+
+```text
+CORRECTED CANONICAL ID
+-> LOAD TARGET CLUSTER / TASK CONTRACT
+-> REBUILD EVERY CONTRACT-DERIVED ROW FIELD
+-> PRESERVE INDEPENDENT SOURCE FIELDS
+-> RECOMPUTE IMPACTED SUMMARIES / HANDOFFS
+-> COMPARE CORRECTED ROW AGAINST TARGET CONTRACT
+-> QA + READBACK
+```
+
+Equivalent derived fields include, when governed by the current contract:
+
+```text
+user task
+intent / execution mode
+business fit or scope
+expected result/page role
+canonical owner class
+confidence/maturity reason
+other cluster-derived metadata
+```
+
+Fields proven independent may be retained, but the proof must be explicit. A row containing a new canonical ID together with metadata inherited from the old canonical object fails semantic QA even when counts and IDs reconcile.
+
+Required checks:
+
+```text
+CORRECTED_ROWS_WITH_TARGET_CONTRACT_MISMATCH = 0
+IDENTIFIER_ONLY_CORRECTIONS = 0
+DEPENDENT_SUMMARIES_LEFT_ON_OLD_ASSIGNMENT = 0
+UNRESOLVED_TO_RESOLVED_WITHOUT_EVIDENCE_LINEAGE = 0
+```
 ## 13. Accounting and regression
 
 After material changes verify applicable items:
@@ -577,6 +615,10 @@ LOCAL_RULES_SCOPED = true
 EVIDENCE_SCOPE_PRESERVED = true
 CURRENT_SEMANTIC_QA = PASS
 CURRENT_ACCOUNTING_QA = PASS
+CORRECTED_ROWS_WITH_TARGET_CONTRACT_MISMATCH = 0
+IDENTIFIER_ONLY_CORRECTIONS = 0
+DEPENDENT_SUMMARIES_LEFT_ON_OLD_ASSIGNMENT = 0
+UNRESOLVED_TO_RESOLVED_WITHOUT_EVIDENCE_LINEAGE = 0
 UNEXPECTED_ASSIGNMENT_CHANGES = 0
 OWNER / CLIENT ACCEPTANCE = CURRENT_REQUIRED_STATE
 ```
@@ -631,6 +673,9 @@ STEP10_FULL_ROW_QA_AVAILABLE = true
 STEP10_ALTERNATIVE_QA_MODES_ALLOWED_WHEN_DECLARED = true
 STEP10_CONSOLIDATED_CORRECTION_PREFERRED_FOR_LARGE_CORPORA = true
 STEP10_ITERATIVE_CORRECTION_ALLOWED_WHEN_SCOPED = true
+STEP10_CANONICAL_ASSIGNMENT_CORRECTION_IS_ATOMIC = true
+STEP10_CORRECTED_ROWS_MUST_MATCH_TARGET_CONTRACT = true
+STEP10_IDENTIFIER_ONLY_CORRECTION_FORBIDDEN = true
 STEP10_EVIDENCE_GENERALIZATION_ALLOWED_WHEN_DECLARED = true
 STEP10_CURRENT_JOB_CONSTRAINTS_ARE_EXECUTABLE_INPUTS = true
 ```

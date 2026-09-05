@@ -1,8 +1,7 @@
 # KW-001 — STEP 19 CLIENT DELIVERABLE PACKAGING METHOD
 
 Status: **OWNER-DIRECTED CORRECTED METHOD CANDIDATE / ACTIVE NON-REPEAT CONTROL / UNIVERSAL VALIDATION NOT YET CLAIMED**  
-Updated: 2026-09-03
-
+Updated: 2026-09-05  
 This is a Level1 step-specific method. It contains no current-client/domain/action IDs or current-job counts.
 
 The method was written after an owner-directed external methodology audit exposed a packaging/execution failure class. It is mandatory reading before any future Step19 material execution, but the step remains `UNVALIDATED` as a universally proven full method until a later owner-approved validation/promotion explicitly changes that status.
@@ -107,6 +106,47 @@ The correct implementation is to generate the workbook from authority.
 
 ---
 
+# 3A. Current-authority materialization manifest
+
+Before generation, declare the only executable final authorities and their precedence. A client materializer must not reconstruct truth independently from older steps when a later accepted authority supersedes them.
+
+```text
+ONE CURRENT FINAL SEMANTIC MASTER
+-> ALL CLIENT SEMANTIC VIEWS
+
+ONE CURRENT CANONICAL ACTION AUTHORITY
+-> ALL CLIENT ACTION / BUSINESS / PAGE / REPORT VIEWS
+```
+
+The manifest must preserve equivalent fields:
+
+```text
+final_canonical_source_authorities
+explicit_overlay_precedence
+stable_join_keys
+entity_derived_client_fields
+source_revision_identity
+generation_code_or_version
+material_consumer_artifacts
+correction_universe
+forward_reconciliation_tests
+```
+
+Required forward trace:
+
+```text
+UPSTREAM CORRECTION
+-> FINAL CANONICAL MASTER
+-> WORKBOOK / TABLE ROW
+-> ACTION / PAGE / BUSINESS VIEW
+-> NARRATIVE REPORT
+-> PHYSICAL CLIENT FILE
+```
+
+```text
+POLISHED MATERIALIZATION != CURRENT AUTHORITY PROOF
+CLIENT VIEW CONSISTENCY != CANONICAL SEMANTIC CORRECTNESS
+```
 # 4. Mandatory pre-execution deliverable contract
 
 Before writing client prose, freeze a contract containing both logical and physical requirements.
@@ -117,6 +157,12 @@ Each output must define:
 logical_deliverable_name
 purpose / recipient decision
 canonical_source_authorities
+source_revision_identity
+overlay_precedence
+stable_join_keys
+dependent_client_fields
+generation_code_or_version
+material_consumer_artifacts
 physical_artifact_type
 required_filename_or equivalent explicit output
 required sheets / sections / columns
@@ -174,6 +220,17 @@ Typical sheets:
 9. measurement protocol.
 
 Exact sheet names may vary by contract, but all required logical deliverables must remain separately identifiable.
+
+When material to the sold scope, the client layer must expose four different evidence/result classes rather than compressing them into one table:
+
+1. ordinary Search evidence and what it proves;
+2. the complete AI causal chain;
+3. explicit positive `KEEP / RETAIN / NO_CHANGE / DE_RISK` findings;
+4. unresolved, deferred, Search-required and hold states.
+
+```text
+POSITIVE NO-CHANGE RESULT != UNCHECKED / UNRESOLVED
+```
 
 ## Layer C — durable technical evidence
 
@@ -360,7 +417,10 @@ For a workbook deliverable:
 - formulas have no visible errors;
 - row/ID counts reconcile to canonical authority;
 - unresolved/unknown values are intentional, not accidental blank cells;
-- a visual render of key ranges is inspected before delivery.
+- a visual render of key ranges is inspected before delivery;
+- the complete correction universe reconciles from final authority to every applicable sheet/view;
+- dependent fields match the current canonical entity contract, not merely another generated table;
+- no client view silently resolves an upstream unresolved/deferred state.
 
 `FILE EXISTS` is not workbook QA.
 
@@ -377,6 +437,9 @@ For a client report:
 - raw exports do not dominate the main narrative;
 - claim boundaries are concise and explicit;
 - report does not claim handoff/revisions/closure before those workflow steps occur;
+- business/page/action/summary instructions do not contradict the canonical action authority or each other;
+- material ordinary-Search evidence is not displaced by AI evidence;
+- supported positive no-change/de-risk findings remain visible and are distinct from unchecked/unresolved states;
 - render to pages and visually inspect layout before delivery.
 
 ---
@@ -408,20 +471,22 @@ The required order is:
 2. FRESH METHOD RESEARCH WHEN REQUIRED
 3. FREEZE ANALYTICAL SOURCE SNAPSHOT
 4. FREEZE LOGICAL + PHYSICAL DELIVERABLE CONTRACT
-5. BUILD NORMALIZED CANONICAL CLIENT MODEL
-6. MATERIALIZE FULL WORKBOOK FROM CANONICAL SOURCES
-7. MATERIALIZE EXACT WORK-PACKAGE CALIBRATION BOARD
-8. MATERIALIZE MEASUREMENT PROTOCOL
-9. BUILD OTHER DETAIL VIEWS
-10. CROSS-RECONCILE DETAIL VIEWS
-11. WRITE EXECUTIVE/NARRATIVE REPORT LAST
-12. RUN ANALYTICAL RECONCILIATION QA
-13. RUN CLIENT-INDEPENDENT-USE QA
-14. RENDER/OPEN/VERIFY PHYSICAL ARTIFACTS
-15. PERSIST TEXT + BINARY ARTIFACTS
-16. GITHUB/STORAGE READBACK + HASH/COUNT QA
-17. UPDATE CURRENT STATE
-18. ONLY THEN STEP19 PASS
+5. FREEZE CURRENT-AUTHORITY MATERIALIZATION MANIFEST
+6. BUILD NORMALIZED CANONICAL CLIENT MODEL FROM THE FINAL SEMANTIC MASTER + CANONICAL ACTION AUTHORITY
+7. MATERIALIZE FULL WORKBOOK FROM CANONICAL SOURCES
+8. MATERIALIZE EXACT WORK-PACKAGE CALIBRATION BOARD
+9. MATERIALIZE MEASUREMENT PROTOCOL
+10. BUILD OTHER DETAIL VIEWS
+11. FORWARD-RECONCILE COMPLETE CORRECTION UNIVERSE THROUGH ALL MATERIAL VIEWS
+12. CROSS-RECONCILE BUSINESS / PAGE / ACTION / REPORT VIEWS
+13. WRITE EXECUTIVE/NARRATIVE REPORT LAST
+14. RUN ANALYTICAL + CANONICAL RECONCILIATION QA
+15. RUN CLIENT-INDEPENDENT-USE QA
+16. RENDER/OPEN/VERIFY PHYSICAL ARTIFACTS
+17. PERSIST TEXT + BINARY ARTIFACTS
+18. GITHUB/STORAGE READBACK + HASH/COUNT QA
+19. UPDATE CURRENT STATE
+20. ONLY THEN STEP19 PASS
 ```
 
 The order matters. Writing the summary/report before the data and calibration surfaces are reconciled invites omissions and contradictions.
@@ -452,6 +517,11 @@ Step19 passes only when all required dimensions pass:
 ```text
 ANALYTICAL INTEGRITY = PASS
 CANONICAL RECONCILIATION = PASS
+CURRENT-AUTHORITY MATERIALIZATION MANIFEST = PASS
+CORRECTION-UNIVERSE FORWARD RECONCILIATION = PASS
+CROSS-VIEW SEMANTIC CONTRADICTIONS = 0
+UNRESOLVED STATES SILENTLY RESOLVED = 0
+REQUIRED SEARCH / AI / POSITIVE / UNCERTAINTY LAYERS VISIBLE = PASS
 CLAIM GOVERNANCE = PASS
 PHYSICAL ARTIFACT CONTRACT = PASS
 MATERIALIZED CLIENT WORKBOOK = PASS
@@ -473,6 +543,9 @@ Before executing Step19, the analyst must be able to explain in plain language:
 2. why unknown effort/owner/timing still require fields and a calibration workflow;
 3. why recheck triggers do not measure implementation success;
 4. why internal traceability cannot prove client usability;
-5. why a logical deliverable cannot silently substitute for a promised physical artifact.
+5. why a logical deliverable cannot silently substitute for a promised physical artifact;
+6. why a polished view generated from superseded inputs is still wrong;
+7. why two mutually consistent derivatives from one defective path do not validate canonical truth;
+8. why positive no-change findings and unresolved states must remain separate.
 
 If these causes cannot be explained, merely reading this file is not enough to claim method compliance.
