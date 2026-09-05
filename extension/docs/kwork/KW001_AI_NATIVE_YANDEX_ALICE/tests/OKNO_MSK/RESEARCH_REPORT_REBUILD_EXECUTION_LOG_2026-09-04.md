@@ -261,3 +261,87 @@ GitHub readback основных артефактов:
 
 Следующий этап только после продолжения владельца: **Этап 3. Отдельный аудит пересбора под поиск с искусственным интеллектом**.
 
+### Запись 10 — 2026-09-05 — перенос уроков Stage 2 в постоянную методику и полный review roadmap 0–15
+
+Основание: прямое разрешение владельца исправить доказанные Stage-2 reusable failure classes в Level 1 и до Stage 3 перепроверить всю rebuild-roadmap как dependency chain.
+
+Граница исполнения:
+- Stage 3 не запускался;
+- Stage 4–15 не выполнялись;
+- исторические evidence/provider/client artifacts не редактировались;
+- новые provider/external/paid calls запрещены и не выполнялись.
+
+Изменены постоянные authorities:
+- `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`;
+- `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md`;
+- `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md`;
+- `STEP_RULES_INDEX.md`;
+- `STEP_10_SORTING_AND_QA_METHOD.md`;
+- `STEP_12_STRUCTURAL_ACTION_METHOD.md`;
+- `STEP_12_FINAL_EXECUTION_PROTOCOL.md`;
+- `STEP_12_GLOBAL_COHERENCE_REVALIDATION_GATE.md`;
+- `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md`;
+- `STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md`;
+- `STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md`;
+- `STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md`.
+
+Главные постоянные non-repeat controls:
+- material authority mutation invalidates dependent PASS;
+- corrected ID is not a corrected semantic state;
+- correction atomically rebuilds target-contract-derived fields and material consumers;
+- truthful uncertainty survives every handoff;
+- newer accepted current-site authority propagates to affected decisions;
+- exact-query/raw-fidelity limits govern ordinary-Search claims;
+- AI value is a preserved decision delta or supported no-change/de-risk, not request count;
+- analytical action is separate from implementation specification;
+- client views use one current semantic master and one action authority;
+- final release PASS requires physical/distribution, semantic/canonical and product/deliverable QA;
+- consistent derivatives from one defective path are not independent semantic validation.
+
+Deliberately not promoted:
+- Step 9 remains unvalidated as a full method; only narrow non-repeat controls are active;
+- Step 16 remains unvalidated as a full method; only narrow evidence/claim controls are active;
+- Step 19 remains an unvalidated corrected method candidate;
+- no new full method was fabricated for an unvalidated stage.
+
+Created:
+- `RESEARCH_REBUILD_POST_STAGE_02_METHOD_AND_ROADMAP_REVIEW_2026-09-04.md`.
+
+Updated:
+- `RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md` with current status and binding Stage-2 dependency overlay.
+
+Roadmap review:
+- all Stages 0–15 reviewed;
+- Stage 0–2 remain complete;
+- Stage 3 remains not started and is the next research stage;
+- stage order remains unchanged;
+- no dependency defect blocking Stage 3 was found;
+- later mandatory reanalysis is located in Stage 5/6/12 and final semantic/product QA in Stage 14.
+
+Universality audit:
+
+```text
+LEVEL1_FILES_CHECKED = 12
+JOB_SPECIFIC_BINDINGS_IN_NEW_LEVEL1_TEXT = 0
+KNOWN_CLIENT_DOMAIN_IN_NEW_UNIVERSAL_RULES = 0
+CURRENT_JOB_EXACT_COUNTS_AS_PERMANENT_THRESHOLDS = 0
+CURRENT_JOB_ACTION_IDS_AS_UNIVERSAL_INPUTS = 0
+FULL_METHOD_FALSELY_PROMOTED_FOR_UNVALIDATED_STAGE = 0
+DUPLICATE_RULES_ADDED_WHERE_STRONGER_RULE_ALREADY_EXISTED = 0
+STAGE2_REUSABLE_FAILURE_CLASSES_ACCOUNTED = 100%
+VERDICT = PASS
+```
+
+GitHub commit: `5d8947132a5116c7225382d07010e2a187e931bb`.
+
+Readback:
+- 14/14 modified/created method, roadmap and review files read from the active remote branch;
+- 14/14 blob SHA values matched the written blobs;
+- universality known-binding scan after readback: 0 findings;
+- review artifact contains complete Stage 0–15 matrix and 16 full stage cards.
+
+Provider/external calls: 0. Paid cost: 0 рублей.
+
+Decision:
+`POST_STAGE_2_METHOD_AND_ROADMAP_REVIEW_COMPLETE__READBACK_PASS__STAGE_3_NEXT_NOT_STARTED`.
+

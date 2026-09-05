@@ -659,3 +659,57 @@ Canonical current-job authorities:
 - `STEP_13_CURRENT_STATE.json`
 
 Execution sequence after authorization: current-page/task eligibility -> query-family cases -> reuse persisted Search -> fresh ordinary Search only for surviving material unresolved cases -> conflict verdict -> remediation -> independent QA -> GitHub readback.
+
+---
+
+## Research-rebuild authority overlay after Stage 2 — 2026-09-05
+
+Status: **POST-STAGE-2 METHOD + ROADMAP REVIEW COMPLETE / STAGE 3 NOT STARTED**
+
+The earlier per-step records above remain preserved execution provenance for the old research chain. They do not override the current research-rebuild authorities:
+
+- `EXECUTION_CURSOR.json`;
+- `RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json`;
+- `RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md`;
+- `RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_2026-09-04.md`;
+- `RESEARCH_REBUILD_POST_STAGE_02_METHOD_AND_ROADMAP_REVIEW_2026-09-04.md`.
+
+Current rebuild progression:
+
+```text
+REBUILD_STAGE_0 = COMPLETE
+REBUILD_STAGE_1 = COMPLETE
+REBUILD_STAGE_2 = COMPLETE / READBACK PASS
+POST_STAGE_2_PERMANENT_METHOD_CORRECTION = COMPLETE / READBACK PASS
+POST_STAGE_2_ROADMAP_0_15_REVIEW = COMPLETE / READBACK PASS
+REBUILD_STAGE_3 = NOT STARTED / NEXT
+REBUILD_STAGES_4_15 = NOT STARTED
+```
+
+Binding dependency consequence:
+
+```text
+MATERIAL AUTHORITY MUTATION
+-> INVALIDATE DEPENDENT PASS
+-> REBUILD ENTITY-DERIVED FIELDS
+-> REBUILD MATERIAL CONSUMERS
+-> RECONCILE AGAINST CURRENT AUTHORITY
+-> INDEPENDENT QA
+-> READBACK
+```
+
+Later rebuild requirements now explicitly include:
+
+- atomic final semantic-master reconstruction before dependent client materialization;
+- preservation of unresolved/deferred/Search-required/hold states until evidence-backed transition;
+- complete AI causal result from pre-AI selection through exact action or explicit no-action;
+- separate implementation-specification readiness;
+- one current semantic master and one current action authority for all client views;
+- distinct physical/distribution, semantic/canonical and product/deliverable final QA.
+
+Permanent methodology/roadmap commit: `5d8947132a5116c7225382d07010e2a187e931bb`.
+
+Provider/external calls in this review: `0`. Paid cost: `0`.
+
+Next permitted research stage after owner continuation: **Stage 3 — separate AI-search rebuild audit**. This overlay does not execute or authorize Stage 3.
+
