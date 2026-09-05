@@ -422,3 +422,12 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - All 34 actions and all 8 AI cases are visible; old-package contradictions are not propagated.
 - QA result: PASS. New provider calls: 0. Paid cost: 0.
 - Stage 09 plain-Russian client research report is next.
+
+
+## 2026-09-05 — Stage 09 complete: plain-Russian client research report
+
+- Derived a customer-readable Russian narrative from the Stage 08 master without changing analytical truth.
+- The report explains what was researched, what is correct, what should change, what Search proved, what AI contributed, what remains uncertain and how implementation will be accepted.
+- Internal IDs are not used as a substitute for explanation.
+- QA result: PASS. New provider calls: 0. Paid cost: 0.
+- Stage 10 SEO specialist implementation guide is next.

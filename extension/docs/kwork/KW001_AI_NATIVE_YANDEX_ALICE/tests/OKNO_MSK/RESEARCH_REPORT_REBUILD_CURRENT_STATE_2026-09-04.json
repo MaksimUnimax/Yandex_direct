@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_8_COMPLETE__STAGE_9_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_9_COMPLETE__STAGE_10_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -32,7 +32,7 @@
     "stage_6": "COMPLETE",
     "stage_7": "COMPLETE",
     "stage_8": "COMPLETE",
-    "stage_9": "NOT_STARTED",
+    "stage_9": "COMPLETE",
     "stage_10": "NOT_STARTED",
     "stage_11": "NOT_STARTED",
     "stage_12": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_9_PLAIN_RUSSIAN_CLIENT_RESEARCH_REPORT",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_10_SEO_SPECIALIST_IMPLEMENTATION_GUIDE",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -429,13 +429,22 @@
     "commit_sha": "f28595830cc0bde2d3d794487d30ca229054b06f"
   },
   "stage_8": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "master_report": "RESEARCH_REBUILD_STAGE_08_MASTER_RESEARCH_REPORT_2026-09-05.md",
     "qa": "RESEARCH_REBUILD_STAGE_08_QA_2026-09-05.json",
     "master_chars": 21893,
     "master_lines": 272,
     "actions_visible": 34,
     "ai_cases_visible": 8,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "e2161dfa587fb5ccdb3600ea9077a1cceea3da97"
+  },
+  "stage_9": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "client_report": "RESEARCH_REBUILD_STAGE_09_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_09_QA_2026-09-05.json",
+    "language": "RUSSIAN_PLAIN_CLIENT",
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

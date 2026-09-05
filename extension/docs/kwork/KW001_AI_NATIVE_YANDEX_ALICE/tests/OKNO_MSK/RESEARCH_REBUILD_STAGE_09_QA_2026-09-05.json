@@ -1,0 +1,22 @@
+{
+  "stage": 9,
+  "status": "PASS",
+  "checks": {
+    "plain_russian": true,
+    "internal_codes_used_as_primary_explanation": false,
+    "answers_what_researched": true,
+    "answers_current_state": true,
+    "answers_what_change": true,
+    "ordinary_search_visible": true,
+    "ai_contribution_visible": true,
+    "positive_findings_visible": true,
+    "uncertainty_visible": true,
+    "implementation_order_visible": true,
+    "acceptance_visible": true,
+    "semantic_counts_match": true,
+    "ai_counts_match": true,
+    "new_provider_calls": 0,
+    "paid_cost": 0
+  },
+  "result": "PASS__CLIENT_READABLE_RESEARCH_REPORT_DERIVED_FROM_MASTER"
+}
