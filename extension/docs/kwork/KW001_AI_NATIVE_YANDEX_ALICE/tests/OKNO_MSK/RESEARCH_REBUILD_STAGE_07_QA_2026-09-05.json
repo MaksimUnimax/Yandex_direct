@@ -1,0 +1,22 @@
+{
+  "stage": 7,
+  "status": "PASS",
+  "checks": {
+    "search": 75,
+    "ai": 8,
+    "positive": 7,
+    "uncertainty": 5,
+    "total": 95,
+    "searchCases": 21,
+    "all_evidence_ids_unique": true,
+    "search_scope_bounded": true,
+    "ai_causal_fields_complete": true,
+    "ai_architecture_change_count": 0,
+    "positive_findings_visible": 7,
+    "uncertainty_categories_visible": 5,
+    "ordinary_search_not_replaced_by_ai": true,
+    "new_provider_calls": 0,
+    "paid_cost": 0
+  },
+  "result": "PASS__SEARCH_AI_POSITIVE_AND_UNCERTAINTY_LAYERS_SEPARATED"
+}

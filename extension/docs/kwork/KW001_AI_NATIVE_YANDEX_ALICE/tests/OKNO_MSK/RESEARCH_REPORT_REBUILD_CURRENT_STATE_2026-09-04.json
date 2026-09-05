@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_6_COMPLETE__STAGE_7_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_7_COMPLETE__STAGE_8_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -30,7 +30,7 @@
     "stage_4": "COMPLETE",
     "stage_5": "COMPLETE",
     "stage_6": "COMPLETE",
-    "stage_7": "NOT_STARTED",
+    "stage_7": "COMPLETE",
     "stage_8": "NOT_STARTED",
     "stage_9": "NOT_STARTED",
     "stage_10": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_7_EVIDENCE_AND_EXPLANATION_RECONSTRUCTION",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_8_MASTER_RESEARCH_REPORT",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -390,7 +390,7 @@
     "readback_status": "PASS"
   },
   "stage_6": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_06_AS_IS_TO_BE_IMPLEMENTATION_SPECIFICATIONS_2026-09-05.md",
     "specification_register": "RESEARCH_REBUILD_STAGE_06_AS_IS_TO_BE_IMPLEMENTATION_SPECIFICATIONS_2026-09-05.tsv",
     "internal_link_specifications": "RESEARCH_REBUILD_STAGE_06_INTERNAL_LINK_SPECIFICATIONS_2026-09-05.tsv",
@@ -408,6 +408,22 @@
       "S18-A011"
     ],
     "hold_action": "S18-A034",
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "fd6c9ea72cf2982433c4567eff865091902744cf"
+  },
+  "stage_7": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_07_EVIDENCE_AND_EXPLANATION_RECONSTRUCTION_2026-09-05.md",
+    "evidence_register": "RESEARCH_REBUILD_STAGE_07_EVIDENCE_REGISTER_2026-09-05.tsv",
+    "search_case_explanation": "RESEARCH_REBUILD_STAGE_07_SEARCH_CASE_EXPLANATION_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_07_QA_2026-09-05.json",
+    "evidence_rows": 95,
+    "search_observations": 75,
+    "search_case_rows": 21,
+    "ai_cases": 8,
+    "positive_findings": 7,
+    "uncertainty_classes": 5,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

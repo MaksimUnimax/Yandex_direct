@@ -403,3 +403,13 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Narrowed the PVC-door task to installation scope/process while retaining existing price guidance; kept unsupported brand availability conditional.
 - QA result: PASS. New governed provider calls: 0. Public first-party page checks: 14. Paid cost: 0.
 - Stage 07 is next and continuous execution remains active.
+
+
+## 2026-09-05 — Stage 07 complete: evidence and explanation reconstruction
+
+- Restored ordinary Yandex Search as a separate analytical evidence layer: 75 exact-query observations and 21 query-family explanation rows.
+- Preserved exact-query/generalization and normalized-projection/raw-body claim boundaries.
+- Materialized the full eight-case AI causal chain with 0 CHANGE, 4 DE_RISK, 3 NO_CHANGE and 1 INSUFFICIENT.
+- Exposed seven positive retain/no-change findings and five uncertainty classes.
+- QA result: PASS. Ordinary Search was not replaced by AI. New provider calls: 0. Paid cost: 0.
+- Stage 08 master research report is next.
