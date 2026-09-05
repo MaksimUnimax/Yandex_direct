@@ -1,0 +1,22 @@
+{
+  "stage": 11,
+  "status": "PASS",
+  "checks": {
+    "json_parse": true,
+    "self_contained": true,
+    "semantic_rows": 2840,
+    "unit_rows": 168,
+    "action_rows": 34,
+    "implementation_rows": 34,
+    "evidence_rows": 95,
+    "search_case_rows": 21,
+    "ai_cases": 8,
+    "uncertainty_rows": 221,
+    "link_rows": 15,
+    "routing_rows": 46,
+    "interpretation_rules": 11,
+    "new_provider_calls": 0,
+    "paid_cost": 0
+  },
+  "result": "PASS__SELF_CONTAINED_AI_RECIPIENT_LAYER"
+}

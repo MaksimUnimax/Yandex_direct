@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_10_COMPLETE__STAGE_11_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_11_COMPLETE__STAGE_12_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -34,7 +34,7 @@
     "stage_8": "COMPLETE",
     "stage_9": "COMPLETE",
     "stage_10": "COMPLETE",
-    "stage_11": "NOT_STARTED",
+    "stage_11": "COMPLETE",
     "stage_12": "NOT_STARTED",
     "stage_13": "NOT_STARTED",
     "stage_14": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_11_SELF_CONTAINED_AI_KNOWLEDGE_DOCUMENT",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_12_WORKBOOK_APPENDIX_CLIENT_DATA_MATERIALIZATION",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -450,12 +450,27 @@
     "commit_sha": "435a0951ed404431feeccb9d8ceb70da5db471d4"
   },
   "stage_10": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "seo_guide": "RESEARCH_REBUILD_STAGE_10_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
     "qa": "RESEARCH_REBUILD_STAGE_10_QA_2026-09-05.json",
     "action_cards": 34,
     "link_rows": 15,
     "routing_rows": 46,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "ad1d29e14f12ed5de9771a6dab0d10869d98bc0d"
+  },
+  "stage_11": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "ai_knowledge_document": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json",
+    "usage_guide": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_GUIDE_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_11_QA_2026-09-05.json",
+    "semantic_rows": 2840,
+    "unit_rows": 168,
+    "action_rows": 34,
+    "evidence_rows": 95,
+    "uncertainty_rows": 221,
+    "self_contained": true,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

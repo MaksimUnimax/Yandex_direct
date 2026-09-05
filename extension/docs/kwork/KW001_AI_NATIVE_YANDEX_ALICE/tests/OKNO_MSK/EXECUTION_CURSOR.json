@@ -7,13 +7,13 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "10",
-  "status": "STAGE_10_COMPLETE__CONTINUING_TO_STAGE_11",
+  "stage": "11",
+  "status": "STAGE_11_COMPLETE__CONTINUING_TO_STAGE_12",
   "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "EXECUTE_STAGE_11_SELF_CONTAINED_AI_KNOWLEDGE_DOCUMENT",
+  "next_action": "EXECUTE_STAGE_12_WORKBOOK_APPENDIX_CLIENT_DATA_MATERIALIZATION",
   "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
@@ -176,12 +176,27 @@
     "commit_sha": "435a0951ed404431feeccb9d8ceb70da5db471d4"
   },
   "stage_10_completion": {
-    "status": "PASS__READBACK_PENDING",
+    "status": "PASS__GITHUB_READBACK_PASS",
     "seo_guide": "RESEARCH_REBUILD_STAGE_10_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
     "qa": "RESEARCH_REBUILD_STAGE_10_QA_2026-09-05.json",
     "action_cards": 34,
     "link_rows": 15,
     "routing_rows": 46,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "ad1d29e14f12ed5de9771a6dab0d10869d98bc0d"
+  },
+  "stage_11_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "ai_knowledge_document": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json",
+    "usage_guide": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_GUIDE_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_11_QA_2026-09-05.json",
+    "self_contained": true,
+    "semantic_rows": 2840,
+    "unit_rows": 168,
+    "action_rows": 34,
+    "evidence_rows": 95,
+    "uncertainty_rows": 221,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }
