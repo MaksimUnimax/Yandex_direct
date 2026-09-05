@@ -1,0 +1,18 @@
+{
+  "stage": 10,
+  "status": "PASS",
+  "checks": {
+    "all_action_cards": 34,
+    "all_action_ids_unique": true,
+    "all_action_states_visible": true,
+    "link_rows_visible": 15,
+    "route_rows_visible": 46,
+    "not_ready_explicit": true,
+    "hold_explicit": true,
+    "no_private_scheduling_fabrication": true,
+    "acceptance_templates_present": true,
+    "new_provider_calls": 0,
+    "paid_cost": 0
+  },
+  "result": "PASS__SEO_GUIDE_EXECUTABLE_WITH_TRUTHFUL_NON_READY_BOUNDARIES"
+}
