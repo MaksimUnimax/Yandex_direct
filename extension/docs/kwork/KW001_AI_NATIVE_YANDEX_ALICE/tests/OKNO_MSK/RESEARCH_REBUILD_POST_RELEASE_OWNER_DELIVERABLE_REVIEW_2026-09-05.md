@@ -472,3 +472,50 @@ AI KNOWLEDGE DOCUMENT != INTERNAL EXECUTION_CURSOR
 - [x] Release file 04 — Workbook: structural/materialization review complete; direct binary owner usability check pending if material
 - [x] Release README / delivery message: defect set recorded
 - [x] Final package-level recipient experience: defect set recorded
+
+## 11. Correction materialization closure — 2026-09-05
+
+Owner review findings `CR-01..CR-06`, `SG-01..SG-06` and `AI-01..AI-08` have now been materialized into a new current recipient set. The historical release and this review remain unchanged as evidence of the former product defect; the new release is a separate current authority.
+
+### Corrected current recipient set
+
+- №01: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf` plus editable/source forms;
+- №02: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf` plus editable/source forms;
+- №03: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md` — exactly one physical Markdown file, with no companion file;
+- release authority: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json`;
+- recipient QA: `RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.md` and `.json`.
+
+### Shared execution truth corrected before materialization
+
+The 34-action universe is retained without new analytical decisions, but recipient execution semantics are now explicit:
+
+- 8 actions are `READY` physical site changes;
+- 19 actions are `READY_ANALYTICAL_MAPPING` with `REAL_SITE_CHANGE = NO`;
+- 4 actions remain `NOT_READY__EVIDENCE_REQUIRED`;
+- S18-A027 is merged into S18-A009 and creates no separate change;
+- the 15 accepted link relationships remain `PENDING_DETAIL__PLACEMENT_NOT_PROVEN`, because exact source block, surrounding context and placement rationale are not preserved;
+- all 46 routing rows are semantic ownership mappings, not site changes;
+- 20 units remain on `HOLD__EVIDENCE_REQUIRED`.
+
+This is governed by `RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_AUTHORITY_CORRECTED_2026-09-05.tsv` and its link/routing companions. No missing precision was invented.
+
+### Recipient results
+
+- №01 now exposes the full material research: 21 Search cases, all 75 exact observations, all 8 AI causal cases, the complete 34-result map, 8 confirmed implementation changes, positive findings and uncertainty by material class.
+- №02 is Russian recipient prose and resolves implementation mode, physical-change state, evidence meaning, exact action, boundaries and acceptance for every action. It does not call analytical routing or under-specified links READY site work.
+- №03 embeds the complete current knowledge universe in one Markdown file: 2,840 semantic rows, 168 canonical units, 34 corrected actions, 75 exact Search observations, 21 Search cases, 8 AI cases, 15 link relations, 46 routing mappings, 14 page validations and 221 uncertainty records, plus connected interpretation and answer boundaries.
+
+### QA and remaining acceptance boundary
+
+Deterministic recipient QA is `PASS`: the №02 and №03 worksets are equal, 69 corrected semantic rows reconcile with their canonical target contracts, three-view material contradictions are zero, and unsupported new analytical decisions are zero. DOCX/PDF parsing, visual rendering and structural checks also pass; raw URL display remains an intentional low-severity accessibility trade-off because exact page objects are part of the professional evidence.
+
+The clean-context walkthrough placed only №03 in an isolated directory and verified that the document contains the necessary connected knowledge for research scope, positive findings, Search, AI, READY work, link limitations, uncertainty, acceptance and the physical-access boundary. It made no external/provider or LLM call.
+
+```text
+CORRECTION_MATERIALIZATION = COMPLETE
+ANALYST_RECIPIENT_QA = PASS
+FINAL_OWNER_RECIPIENT_ACCEPTANCE = RECHECK_REQUIRED
+NEXT_ACTION = OWNER_RECHECK_CORRECTED_RECIPIENT_DOCUMENTS_01_02_03
+```
+
+No Stage 0–15 research stage was restarted. Step 21/22 were not executed. New provider calls and paid cost are both zero.

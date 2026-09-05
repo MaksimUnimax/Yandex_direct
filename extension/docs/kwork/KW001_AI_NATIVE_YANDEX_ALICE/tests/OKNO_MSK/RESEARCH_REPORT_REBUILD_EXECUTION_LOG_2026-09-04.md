@@ -487,3 +487,16 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Historical old package preserved outside release and remains withdrawn as current client truth.
 - New governed provider calls in Stages 3–15: 0; public first-party page checks: 14; paid calls/cost: 0 / 0 RUB.
 - Research-rebuild Stages 0–15 COMPLETE. Step 21/22 were not executed.
+
+## 2026-09-05 — Post-release unified correction materialization
+
+- Recovered current Stage 5–8 analytical authorities and treated the former Stage 9–15 recipient files as historical defect evidence rather than current truth.
+- Corrected the shared execution handoff before rematerialization: 8 physical `READY` site changes, 19 analytical-only mappings, 4 evidence-required rechecks, S18-A027 combined with S18-A009, 15 links held at `PENDING_DETAIL`, 46 routes preserved as no-site-change semantic mappings, and 20 HOLD units preserved.
+- Materialized a full 43-page Russian client research report exposing 21 Search cases, all 75 exact observations, all 8 AI causal cases, the complete result map, positive findings and material uncertainty.
+- Materialized a 57-page Russian SEO guide with implementation mode, real-site-change state, human-readable evidence meaning, place/action/boundary/acceptance and truthful non-ready states.
+- Materialized №03 as exactly one 1.1 MB Markdown knowledge document with 2,840 semantic rows, 168 units, 34 actions, Search and AI evidence, links, routes, current page validations and 221 uncertainty rows; no companion file exists.
+- Independent deterministic recipient QA: PASS. №02 confirmed workset equals №03; 69 atomic corrections have zero target-contract mismatch; cross-view material contradictions=0; unsupported new analytical decisions=0.
+- DOCX/PDF rendered and visually inspected; structural geometry and parse checks passed. Low-severity raw-URL accessibility notices are intentionally retained as exact page locators.
+- New governed provider calls: 0. Paid cost: 0 RUB. Step 21/22 not executed.
+- Corrected release: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/`.
+- Next action after GitHub readback: owner recheck of corrected recipient documents №01, №02 and №03. Historical release remains preserved as provenance.

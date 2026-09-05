@@ -1,0 +1,85 @@
+{
+  "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
+  "release_date": "2026-09-05",
+  "status": "CORRECTED_RECIPIENT_SET_MATERIALIZED__ANALYST_RECIPIENT_QA_PASS__OWNER_RECHECK_REQUIRED",
+  "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
+  "historical_release_preserved": true,
+  "canonical_sources": {
+    "semantic_master": "../RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
+    "unit_authority": "../RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
+    "action_authority": "../RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_AUTHORITY_CORRECTED_2026-09-05.tsv",
+    "implementation_authority": "../RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_CORRECTION_2026-09-05.md",
+    "evidence_authority": "../RESEARCH_REBUILD_STAGE_07_EVIDENCE_REGISTER_2026-09-05.tsv",
+    "ai_causal_authority": "../RESEARCH_REBUILD_STAGE_03_AI_CAUSAL_LEDGER_2026-09-05.tsv",
+    "master_research": "../RESEARCH_REBUILD_STAGE_08_MASTER_RESEARCH_REPORT_2026-09-05.md"
+  },
+  "recipient_artifacts": [
+    {
+      "variant": "01",
+      "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
+      "format": "pdf",
+      "size_bytes": 431992,
+      "sha256": "afe354195f959f0f36b0dc04aea828dd8e9c46fb7af8644a374946e07f6ceb66",
+      "pages": 43,
+      "recipient_contract": "NORMAL_CLIENT_UNDERSTANDS_FULL_RESEARCH_FROM_DOCUMENT_01_ALONE"
+    },
+    {
+      "variant": "02",
+      "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
+      "format": "pdf",
+      "size_bytes": 547169,
+      "sha256": "3f589c03bc44f5127aa9f93697e3120729149f8f6985c11fa921424c867ec61a",
+      "pages": 57,
+      "recipient_contract": "SEO_SPECIALIST_CAN_EXECUTE_EVIDENCE_SUPPORTED_READY_WORK_WITHOUT_REPOSITORY_ARCHAEOLOGY"
+    },
+    {
+      "variant": "03",
+      "path": "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md",
+      "format": "markdown",
+      "size_bytes": 1119673,
+      "sha256": "d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0",
+      "physical_file_count_for_variant": 1,
+      "companion_files": [],
+      "recipient_contract": "FRESH_OFFLINE_AI_CAN_EXPLAIN_COMPLETE_RESEARCH_AND_CONFIRMED_WORK_USING_ONLY_THIS_ONE_FILE"
+    }
+  ],
+  "editable_and_source_files": [
+    {
+      "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
+      "size_bytes": 45008,
+      "sha256": "0e4b31a18d333931f107bfa84da64966718631aeae6fa2f5c5da149d75bb34b2"
+    },
+    {
+      "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
+      "size_bytes": 48359,
+      "sha256": "4c9f4aeded8b23c8ed7741d10a989ba79696d8fac3fa10a48de11cdd01df2d3c"
+    },
+    {
+      "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
+      "size_bytes": 164740,
+      "sha256": "ac8d0dfc5f76b9c0e6b2d21aa7e62c4ef63111f0208c87fd8f5fb0548eff2af7"
+    },
+    {
+      "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
+      "size_bytes": 188496,
+      "sha256": "764f697fb5ad7ca6f5982b000b6053652460f854c8bb7b937a2041688fff80d8"
+    }
+  ],
+  "qa": {
+    "authority": "../RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
+    "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
+    "analyst_recipient_qa": "PASS",
+    "document_01": "PASS",
+    "document_02": "PASS",
+    "document_03_offline_clean_context": "PASS",
+    "variant_02_confirmed_workset_equals_variant_03": "PASS",
+    "three_view_material_contradictions": 0,
+    "unsupported_new_analytical_decisions": 0,
+    "semantic_atomic_correction_rows_checked": 69,
+    "semantic_atomic_correction_failures": 0,
+    "owner_recheck": "REQUIRED"
+  },
+  "provider_calls": 0,
+  "paid_cost_rub": 0,
+  "step21_22_executed": false
+}

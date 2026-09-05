@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": 33,
+  "failed": 0,
+  "document_01": "PASS",
+  "document_02": "PASS",
+  "document_03": "PASS__OFFLINE_CLEAN_CONTEXT_DOCUMENT_WALKTHROUGH",
+  "variant_02_equals_variant_03": true,
+  "material_contradictions": 0,
+  "unsupported_new_analytical_decisions": 0,
+  "provider_calls": 0,
+  "paid_cost_rub": 0,
+  "owner_recheck": "REQUIRED"
+}

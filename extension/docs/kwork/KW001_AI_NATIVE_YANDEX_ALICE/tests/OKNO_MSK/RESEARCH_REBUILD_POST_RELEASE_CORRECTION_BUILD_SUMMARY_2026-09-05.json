@@ -1,0 +1,48 @@
+{
+  "actions": 34,
+  "real_site_ready": [
+    "S18-A009",
+    "S18-A010",
+    "S18-A012",
+    "S18-A026",
+    "S18-A028",
+    "S18-A029",
+    "S18-A030",
+    "S18-A031"
+  ],
+  "analytical_only": [
+    "S18-A001",
+    "S18-A002",
+    "S18-A005",
+    "S18-A006",
+    "S18-A008",
+    "S18-A013",
+    "S18-A014",
+    "S18-A015",
+    "S18-A016",
+    "S18-A017",
+    "S18-A018",
+    "S18-A019",
+    "S18-A020",
+    "S18-A021",
+    "S18-A022",
+    "S18-A023",
+    "S18-A024",
+    "S18-A025",
+    "S18-A033"
+  ],
+  "not_ready": [
+    "S18-A003",
+    "S18-A004",
+    "S18-A007",
+    "S18-A011"
+  ],
+  "link_rows_pending": 15,
+  "route_rows_analytical": 46,
+  "semantic_rows": 2840,
+  "unit_rows": 168,
+  "search_exact_observations": 75,
+  "search_material_cases": 21,
+  "ai_cases": 8,
+  "uncertainty_rows": 221
+}
