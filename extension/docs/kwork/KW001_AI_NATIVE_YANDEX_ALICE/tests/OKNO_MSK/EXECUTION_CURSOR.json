@@ -7,13 +7,13 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "4",
-  "status": "STAGE_4_COMPLETE__CONTINUING_TO_STAGE_5",
+  "stage": "5",
+  "status": "STAGE_5_COMPLETE__CONTINUING_TO_STAGE_6",
   "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "EXECUTE_STAGE_5_REAL_ANALYTICAL_REWORK__BUILD_ONE_FINAL_SEMANTIC_MASTER",
+  "next_action": "EXECUTE_STAGE_6_AS_IS_TO_BE_AND_IMPLEMENTATION_SPECIFICATIONS",
   "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
@@ -101,11 +101,29 @@
     "commit_sha": "d1b036ce88d9d86bea7216c6d0e415a7e8826b87"
   },
   "stage_4_completion": {
-    "status": "PASS__READBACK_PENDING",
+    "status": "PASS__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_CLASSIFICATION_2026-09-05.md",
     "register": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_REGISTER_2026-09-05.tsv",
     "qa": "RESEARCH_REBUILD_STAGE_04_QA_2026-09-05.json",
     "rows": 25,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "b7882936ca11b8304d91e3f0093a87514a7d0845"
+  },
+  "stage_5_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "semantic_master": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
+    "master_rows": 2840,
+    "assigned": 2313,
+    "search_required": 19,
+    "deferred": 174,
+    "excluded": 334,
+    "hold_phrase_rows": 42,
+    "explicit_corrections": 69,
+    "correction_failures": 0,
+    "target_contract_failures": 0,
+    "unit_authority_rows": 168,
+    "action_authority_rows": 34,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

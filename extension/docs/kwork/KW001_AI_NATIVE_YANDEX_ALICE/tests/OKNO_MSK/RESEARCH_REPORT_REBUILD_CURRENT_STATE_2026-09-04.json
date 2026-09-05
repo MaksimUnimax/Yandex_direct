@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_4_COMPLETE__STAGE_5_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_5_COMPLETE__STAGE_6_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -28,7 +28,7 @@
     "stage_2": "COMPLETE",
     "stage_3": "COMPLETE",
     "stage_4": "COMPLETE",
-    "stage_5": "NOT_STARTED",
+    "stage_5": "COMPLETE",
     "stage_6": "NOT_STARTED",
     "stage_7": "NOT_STARTED",
     "stage_8": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_5_REAL_ANALYTICAL_REWORK",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_6_AS_IS_TO_BE_IMPLEMENTATION_SPECIFICATIONS",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -349,7 +349,7 @@
   },
   "stage_4": {
     "date": "2026-09-05",
-    "status": "COMPLETE__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_CLASSIFICATION_2026-09-05.md",
     "register": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_REGISTER_2026-09-05.tsv",
     "qa": "RESEARCH_REBUILD_STAGE_04_QA_2026-09-05.json",
@@ -361,6 +361,30 @@
       "POSITIVE_NO_CHANGE": 5,
       "INSUFFICIENT_EVIDENCE": 2
     },
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "readback": {
+      "status": "PASS",
+      "commit_sha": "b7882936ca11b8304d91e3f0093a87514a7d0845",
+      "files": 3
+    }
+  },
+  "stage_5": {
+    "date": "2026-09-05",
+    "status": "COMPLETE__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_05_ANALYTICAL_REWORK_REPORT_2026-09-05.md",
+    "semantic_master": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
+    "unit_authority": "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
+    "action_authority": "RESEARCH_REBUILD_STAGE_05_CANONICAL_ACTION_AUTHORITY_2026-09-05.tsv",
+    "uncertainty_register": "RESEARCH_REBUILD_STAGE_05_RESIDUAL_UNCERTAINTY_REGISTER_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_05_QA_2026-09-05.json",
+    "master_rows": 2840,
+    "assigned_rows": 2313,
+    "explicit_corrections": 69,
+    "correction_failures": 0,
+    "target_contract_failures": 0,
+    "step14a_exact_owner_overrides": 5,
+    "action_rows": 34,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

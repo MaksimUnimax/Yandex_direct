@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-05",
+  "stage": 5,
+  "status": "PASS",
+  "source_rows": 2840,
+  "unique_phrases": 2840,
+  "master_rows": 2840,
+  "master_state_counts": {
+    "EXCLUDED_PRESERVED": 334,
+    "ASSIGNED": 2271,
+    "SEARCH_REQUIRED": 19,
+    "ASSIGNED_HOLD": 42,
+    "REVIEW_DEFERRED": 174
+  },
+  "step11_rows": 2332,
+  "v7_rows": 2332,
+  "assigned_rows": 2313,
+  "structural_units": 168,
+  "explicit_correction_rows_unique": 69,
+  "explicit_correction_failures": 0,
+  "assigned_target_contract_failures": 0,
+  "unmapped_active_rows": 0,
+  "uncertainty_register_rows": 221,
+  "uncertainty_state_counts": {
+    "SEARCH_REQUIRED": 19,
+    "REVIEW_DEFERRED": 174,
+    "HOLD": 20,
+    "LOW_CONFIDENCE": 2,
+    "CURRENT_OVERLAP_RECHECK": 6
+  },
+  "step14a_exact_owner_overrides": 5,
+  "action_authority_rows": 34,
+  "step20_action_overlays_applied": 2,
+  "new_page_actions": 0,
+  "destructive_actions": 0,
+  "new_provider_calls": 0,
+  "new_paid_cost_rub": 0,
+  "next_stage": 6
+}

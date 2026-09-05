@@ -377,3 +377,18 @@ Stage 2 и Stage 3 сведены в единый 25-row disposition register:
 Все 16 material Stage-2 findings, 8 AI cases и PP-19 source gap имеют evidence, PP, downstream stage, recovery и blocker/data condition. Новые provider calls=0; стоимость=0 ₽.
 
 Следующий этап выполняется автоматически: Stage 5 — единый final semantic master.
+
+### Запись 13 — 2026-09-05 — Stage 5: реальная аналитическая пересборка
+
+Статус: `COMPLETE / READBACK PENDING`.
+
+Созданы:
+- единый final semantic master: 2 840 unique rows;
+- canonical unit authority: 168 units;
+- canonical action authority: 34 actions;
+- residual uncertainty register;
+- independent QA.
+
+Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED=174, EXCLUDED_PRESERVED=334. Применено 69 explicit corrections (D12-27=20, D12-30=49); correction failures=0; target-contract mismatches=0; unmapped active rows=0. Step14A exact owner overlays=5. A012/A027 используют Step20 correction precedence. New pages=0; destructive actions=0. Provider calls=0; cost=0 ₽.
+
+Следующий этап выполняется автоматически: Stage 6.
