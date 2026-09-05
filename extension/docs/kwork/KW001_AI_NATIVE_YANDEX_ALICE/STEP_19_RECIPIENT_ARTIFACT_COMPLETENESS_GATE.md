@@ -131,67 +131,108 @@ MIXED INTERNAL LANGUAGE ACCEPTABLE IN SOURCE
 != MIXED INTERNAL LANGUAGE ACCEPTABLE IN RECIPIENT ARTIFACT
 ```
 
-## 8. AI research knowledge handoff completeness
+## 8. AI site-specific implementation-consultant completeness
 
-When a deliverable is promised for another AI/LLM, first declare its actual recipient purpose. For a research-knowledge handoff, the purpose is to transfer the accepted results and meaning of the completed research so that a new AI can use those results in a later task explicitly supplied by the user.
+When a promised AI artifact is intended to let a non-specialist client implement the confirmed recommendations through an AI assistant, its purpose must be declared exactly at that level.
 
-It is not an execution-control artifact unless the contract separately and explicitly says so.
+The artifact must transform a compatible AI/LLM into a site-specific implementation consultant for the researched project. The client loads the artifact, asks ordinary-language questions, receives explanations and step-by-step instructions, and performs the confirmed site changes themselves.
+
+Where a parallel human-specialist guide exists, both paths must represent the same confirmed analytical workset:
 
 ```text
-AI RESEARCH KNOWLEDGE HANDOFF
-!= INTERNAL EXECUTION HANDOFF
+HUMAN SPECIALIST GUIDE
+= PROFESSIONAL IMPLEMENTER EXECUTES CONFIRMED WORK
 
-RESEARCH CONTEXT TRANSFER
-!= CONTINUE ROADMAP FROM LAST CHECKPOINT
+AI CONSULTANT ARTIFACT
+= AI EXPLAINS THE SAME CONFIRMED WORK TO THE CLIENT
+-> CLIENT EXECUTES IT
+```
+
+The AI artifact must not silently invent a different site plan merely because the AI can generate additional ideas.
+
+### 8.1 Knowledge depth
+
+The AI consultant cannot be only a command list. It must contain enough research logic to explain unfamiliar follow-up questions within the accepted evidence boundary.
+
+Make the following recoverable when material:
+
+```text
+BUSINESS / SITE / SCOPE
+RESEARCH PURPOSE AND METHOD
+CURRENT PAGE / SEMANTIC MODEL
+CURRENT STATE
+USER TASKS / QUERIES / GROUPS
+ORDINARY SEARCH OBSERVATIONS AND BOUNDARIES
+AI-SEARCH OBSERVATIONS AND DECISION DELTA
+INTERPRETATION
+CONFIRMED DECISION
+WHY THAT DECISION WAS MADE
+ALTERNATIVES REJECTED WHEN MATERIAL
+TARGET STATE
+EXACT IMPLEMENTATION ACTIONS
+DEPENDENCIES / ORDER
+POSITIVE ELEMENTS THAT MUST NOT BE BROKEN
+ACCEPTANCE CHECK
+UNCERTAINTY / CONFIDENCE / REOPEN CONDITIONS
+```
+
+The AI must be able to explain both `WHY` and `HOW`, not merely repeat an action label.
+
+### 8.2 Client questions the artifact must support
+
+The artifact must be designed for plain-language questions from a client without specialist knowledge. Applicable examples include:
+
+```text
+WHAT IS WRONG ON THIS PAGE?
+WHAT IS ALREADY CORRECT AND MUST NOT BE BROKEN?
+WHY IS THIS A PROBLEM?
+WHAT EVIDENCE SUPPORTS IT?
+WHAT SHOULD I FIX FIRST?
+HOW DO I FIX IT STEP BY STEP?
+WHAT SHOULD THE PAGE LOOK LIKE AFTERWARD?
+WHAT BLOCKS / TOPICS / QUESTIONS / PHRASES SHOULD CHANGE?
+WHICH QUERIES BELONG OR DO NOT BELONG TO THIS PAGE?
+DO I NEED A SEPARATE PAGE AND WHY?
+CAN A PAGE BE MERGED / MOVED / REMOVED AND WHY?
+HOW SHOULD PAGES BE LINKED?
+WHAT TASK SHOULD I GIVE A DEVELOPER OR WRITER?
+I HAVE COMPLETED PART OF THE CONFIRMED WORK; WHAT CONFIRMED IMPLEMENTATION STEP COMES NEXT?
+HOW DO I CHECK THAT THE CHANGE WAS IMPLEMENTED CORRECTLY?
+WHERE IS THE EVIDENCE INSUFFICIENT FOR A CATEGORICAL ANSWER?
+```
+
+### 8.3 Internal-execution boundary
+
+The AI artifact may guide **client site implementation**. That is different from continuing the analyst's internal research roadmap.
+
+```text
+AI CLIENT IMPLEMENTATION CONSULTANT
+!= INTERNAL RESEARCH EXECUTION HANDOFF
+
+CLIENT SITE IMPLEMENTATION PROGRESS
+!= INTERNAL ROADMAP CHECKPOINT
 
 AI KNOWLEDGE DOCUMENT
-!= EXECUTION CURSOR
+!= EXECUTION_CURSOR
 ```
 
-A research knowledge handoff must make the following recoverable without repository reconstruction:
+A question such as “I already completed part of the work; what next?” refers to the client's progress through the confirmed implementation workset, not to Stage/Step continuation in the research repository.
+
+### 8.4 Primary physical format
+
+The primary format must be chosen for the AI-recipient task, not for serialization convenience.
+
+For an LLM-oriented consultant/context artifact, a self-contained Markdown document is the default unless the job contract demonstrates that another physical format is equally or more usable for the target AI environment.
+
+Structured `JSON/CSV/TSV` may be companion data layers when row-level completeness or deterministic processing requires them. They do not automatically replace the primary knowledge/instruction artifact.
 
 ```text
-WHAT WAS RESEARCHED
-BUSINESS / SITE / SCOPE
-RESEARCH PURPOSE
-EVIDENCE CLASSES AND METHOD
-CURRENT ACCEPTED MODEL / AUTHORITIES
-MATERIAL FINDINGS
-WHY MATERIAL DECISIONS WERE MADE
-ORDINARY SEARCH CONTRIBUTION
-AI CAUSAL CONTRIBUTION
-KEEP / RETAIN / NO_CHANGE / DE_RISK RESULTS
-SUPPORTED CHANGES
-UNCERTAINTY / HOLD / RECHECK / SEARCH_REQUIRED
-CLAIM BOUNDARIES / FORBIDDEN INFERENCES
+MACHINE-READABLE != AI-CONSULTANT-USABLE
+JSON_PARSE_PASS != AI-CONSULTANT PASS
+ALL ROWS PRESENT != PRACTICAL GUIDANCE RECOVERABLE
 ```
 
-The normal usage contract is:
-
-```text
-USER LOADS PRIMARY AI KNOWLEDGE DOCUMENT
--> AI TREATS IT AS SELF-CONTAINED RESEARCH CONTEXT
--> USER PROVIDES A NEW TASK
--> AI USES THE RESEARCH RESULTS / EVIDENCE / BOUNDARIES FOR THAT TASK
-```
-
-Loading the artifact alone must not imply permission or instruction to execute another internal roadmap stage.
-
-### 8.1 Primary physical format
-
-The primary physical format must be chosen for the recipient task, not for serialization convenience.
-
-For an LLM-oriented research/context handoff, a self-contained narrative Markdown document is the default unless the job contract demonstrates that another physical format is equally or more usable for the target AI environment.
-
-Structured `JSON/CSV/TSV` may be supplied as appendices or machine-readable companion layers when row-level completeness or deterministic processing requires them. They do not automatically replace the primary knowledge/context artifact.
-
-```text
-MACHINE-READABLE != LLM-USABLE
-JSON_PARSE_PASS != AI_HANDOFF_PASS
-ALL ROWS PRESENT != RESEARCH MEANING RECOVERABLE
-```
-
-If a non-Markdown format is chosen as the sole primary AI handoff, the deliverable contract must record why that format better satisfies the actual recipient task and how equivalent context comprehension will be tested.
+If a non-Markdown format is chosen as the sole primary AI artifact, the contract must record why and how equivalent consultation quality will be tested.
 
 ## 9. Workbook front-door usability
 
@@ -228,7 +269,8 @@ CAN A SPECIALIST DISTINGUISH READY FROM ANALYTICAL-ONLY / HOLD / RECHECK?
 CAN THE RECIPIENT UNDERSTAND WHY A MATERIAL DECISION WAS MADE?
 CAN SEARCH AND AI CONTRIBUTIONS BE FOUND WITHOUT MANUAL JOINS?
 CAN UNCERTAINTY BE DISTINGUISHED FROM NO-CHANGE?
-CAN A NEW AI USE THE RESEARCH KNOWLEDGE ARTIFACT FOR A USER-SUPPLIED TASK WITHOUT EXECUTION-STATE RECONSTRUCTION?
+CAN A NEW AI TURN THE ARTIFACT INTO PRACTICAL PLAIN-LANGUAGE IMPLEMENTATION HELP FOR A NON-SPECIALIST CLIENT?
+DOES THE AI CONSULTANT PRESERVE THE SAME CONFIRMED WORKSET AS THE HUMAN SPECIALIST PATH?
 ```
 
 ## 11. PASS gate
@@ -243,10 +285,13 @@ MATERIAL_AI_CAUSAL_RESULTS_VISIBLE = true when in scope
 FULL_MATERIAL_DECISION_MAP_VISIBLE = true
 MATERIAL_UNCERTAINTY_EXPLAINED = true
 RECIPIENT_LANGUAGE_COMPLIANT = true
-AI_HANDOFF_PURPOSE_EXPLICIT = true when AI handoff promised
-AI_HANDOFF_NOT_CONFLATED_WITH_EXECUTION_CURSOR = true when research handoff promised
-AI_HANDOFF_PRIMARY_FORMAT_RECIPIENT_JUSTIFIED = true when AI handoff promised
-AI_HANDOFF_RESEARCH_MEANING_SELF_CONTAINED = true when AI handoff promised
+AI_CONSULTANT_PURPOSE_EXPLICIT = true when AI consultant artifact promised
+AI_CONSULTANT_WORKSET_EQUALS_CONFIRMED_SPECIALIST_WORKSET = true when parallel specialist path exists
+AI_CONSULTANT_CAN_EXPLAIN_WHY_AND_HOW = true
+AI_CONSULTANT_CAN_GIVE_STEP_BY_STEP_IMPLEMENTATION_HELP = true
+AI_CONSULTANT_CAN_EXPLAIN_ACCEPTANCE_CHECK = true
+AI_CONSULTANT_NOT_CONFLATED_WITH_INTERNAL_EXECUTION_CURSOR = true
+AI_CONSULTANT_PRIMARY_FORMAT_RECIPIENT_JUSTIFIED = true
 WORKBOOK_FRONT_DOOR_USABLE = true when workbook promised
 RECIPIENT_TASK_WALKTHROUGH = PASS
 ```
@@ -259,9 +304,9 @@ INTERNAL EVIDENCE EXISTS != RECIPIENT CAN SEE RESEARCH
 AGGREGATE AI COUNTS != AI CAUSAL RESULT
 CORRECT DATABASE != CLIENT-USABLE WORKBOOK
 PACKAGE-WIDE COMPLETENESS != RECIPIENT-ARTIFACT COMPLETENESS
-MACHINE-READABLE != LLM-USABLE
-SELF-CONTAINED DATA != SELF-CONTAINED KNOWLEDGE
-AI RESEARCH HANDOFF != EXECUTION CHECKPOINT
+MACHINE-READABLE != AI-CONSULTANT-USABLE
+SELF-CONTAINED DATA != SELF-CONTAINED PRACTICAL CONSULTANT KNOWLEDGE
+AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
 ```
 
 This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
