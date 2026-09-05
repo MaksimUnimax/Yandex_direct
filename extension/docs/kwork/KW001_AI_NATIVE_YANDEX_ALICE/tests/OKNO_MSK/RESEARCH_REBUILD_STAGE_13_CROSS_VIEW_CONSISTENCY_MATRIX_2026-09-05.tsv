@@ -1,0 +1,27 @@
+claim_id	canonical_claim	oracle_truth	client_report_view	seo_guide_view	ai_knowledge_view	workbook_view	result	reopen_required
+CV-01	SOURCE_UNIVERSE	2,840 unique phrases preserved	Visible as counts	Guide preserves implementation scope	headline_findings + semantic_master=2840	Summary + Semantic Master=2840	PASS	NO
+CV-02	ASSIGNED	2,313 assigned	Visible	Guide uses canonical ownership	headline_findings=2313	Summary=2313	PASS	NO
+CV-03	SEARCH_REQUIRED	19 phrases	Visible as unresolved	Explicitly not auto-resolved	19 + residual rows	Summary + Uncertainty	PASS	NO
+CV-04	REVIEW_DEFERRED	174 phrases	Visible as unresolved	Explicitly not auto-resolved	174 + residual rows	Summary + Uncertainty	PASS	NO
+CV-05	EXCLUDED	334 preserved excluded	Visible	No implementation task inferred	334 + semantic states	Summary + Semantic Master	PASS	NO
+CV-06	STRUCTURAL_UNITS	168	Explained as architecture basis	Routes/actions derive from units	canonical_units=168	Units=168	PASS	NO
+CV-07	NEW_PAGES	0 justified	No mass page creation	No new URL unless authority says so	headline_findings.new_page_actions=0	Manifest/README principle	PASS	NO
+CV-08	ACTIONS	34 current actions	Material recommendations described	34 action cards	canonical_actions/specs=34	Actions/Implementation=34	PASS	NO
+CV-09	LINKS	15 READY links	Implementation sequence mentions 15	15 exact rows	internal_links=15	Links=15	PASS	NO
+CV-10	ROUTES	46 route units	Explained	46 exact rows	routes=46	Routes=46	PASS	NO
+CV-11	HOLD	20 units / 42 phrase rows	Visible	S18-A034 HOLD, no fabrication	headline + uncertainty	Summary + Uncertainty	PASS	NO
+CV-12	AI_CHANGE	0	No AI architecture change	No AI-based new page	ai verdict=0	AI Cases/Summary=0	PASS	NO
+CV-13	AI_DE_RISK	4	Four de-risk	Same causal truth	ai verdict=4	AI Cases/Summary=4	PASS	NO
+CV-14	AI_NO_CHANGE	3	Three no-change	No forced action	ai verdict=3	AI Cases/Summary=3	PASS	NO
+CV-15	AI_INSUFFICIENT	1	One insufficient	Uncertainty preserved	ai verdict=1	AI Cases/Summary=1	PASS	NO
+CV-16	BALCONY_FINISH_OWNER	/balkony-i-lodzhii/otdelka-balkonov	Exact specialist listed	S18-A001 exact owner	semantic/unit owner	Semantic/Units/Actions agree	PASS	NO
+CV-17	SLIDING_BALCONY_OWNER	/balkony-i-lodzhii/razdvizhnye-okna-na-balkon	Exact specialist listed	S18-A002 exact owner	semantic/unit owner	Semantic/Units/Actions agree	PASS	NO
+CV-18	WOODEN_HOUSE_OWNER	/okna-rehau/po-tipu-doma/okna-v-derevyannyj-dom	Exact specialist listed	S18-A005 exact owner	semantic/unit owner	Semantic/Units/Actions agree	PASS	NO
+CV-19	GLASS_UNIT_OWNER	/okna-rehau/steklopakety-dlya-plastikovykh-okon	Exact specialist listed	S18-A006 exact owner	semantic/unit owner	Semantic/Units/Actions agree	PASS	NO
+CV-20	SLIDING_VERANDA_OWNER	/verandy/razdvizhnye-okna-na-verandu	Exact specialist listed	S18-A008 exact owner	semantic/unit owner	Semantic/Units/Actions agree	PASS	NO
+CV-21	DOOR_PRICE	Retain current prices; add installation scope/process	Explicit	S18-A012 exact boundary	specification exact	Implementation exact	PASS	NO
+CV-22	FRENCH_DEFINITION	Do not duplicate; combine residual distinction with A009	Explicit	S18-A027 no separate change	specification exact	Implementation exact	PASS	NO
+CV-23	OVERLAP	A003/A004/A007 NOT_READY; no destructive action	Explained as three pairs	Exact NOT_READY cards	spec states	Implementation states	PASS	NO
+CV-24	HARDWARE_BRANDS	A011 NOT_READY until availability confirmation	Explicit	Exact NOT_READY card	spec state	Implementation state	PASS	NO
+CV-25	RANKING_FRESHNESS	Update 2024 framing/method	Explicit	S18-A031 exact acceptance	specification exact	Implementation exact	PASS	NO
+CV-26	CLAIM_BOUNDARY	No traffic/conversion/harm inference	Explicit limitations	Per-action do-not-do	global limitations	README/Manifest/Evidence	PASS	NO

@@ -7,13 +7,13 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "12",
-  "status": "STAGE_12_COMPLETE__CONTINUING_TO_STAGE_13",
+  "stage": "13",
+  "status": "STAGE_13_COMPLETE__CONTINUING_TO_STAGE_14",
   "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "EXECUTE_STAGE_13_THREE_RECIPIENT_CONSISTENCY_REVIEW",
+  "next_action": "EXECUTE_STAGE_14_FINAL_RELEASE_QA",
   "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
@@ -202,13 +202,26 @@
     "commit_sha": "b1e49b8238c422f8582643cd28850361a8e024bf"
   },
   "stage_12_completion": {
-    "status": "PASS__READBACK_PENDING",
+    "status": "PASS__GITHUB_READBACK_PASS",
     "workbook": "OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx",
     "manifest": "RESEARCH_REBUILD_STAGE_12_MATERIALIZATION_MANIFEST_2026-09-05.md",
     "qa": "RESEARCH_REBUILD_STAGE_12_QA_2026-09-05.json",
     "sha256": "3a5961d35df8da02b94c18914f35cf58a3c049ae95be7aed2223c32793295e07",
     "size_bytes": 656682,
     "sheets": 12,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "6b4c6a3ff512b11a779d7d4cd4cea3d026e160de",
+    "workbook_blob_sha": "afdd4ba499b48e8a50c46f47e3cf29e04a78c008"
+  },
+  "stage_13_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_13_THREE_RECIPIENT_CONSISTENCY_REVIEW_2026-09-05.md",
+    "matrix": "RESEARCH_REBUILD_STAGE_13_CROSS_VIEW_CONSISTENCY_MATRIX_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_13_QA_2026-09-05.json",
+    "material_claims": 26,
+    "contradictions": 0,
+    "reopens_required": 0,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

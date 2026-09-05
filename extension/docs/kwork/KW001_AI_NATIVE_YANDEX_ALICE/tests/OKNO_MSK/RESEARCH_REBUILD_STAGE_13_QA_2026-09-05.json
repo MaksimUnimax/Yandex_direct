@@ -1,0 +1,22 @@
+{
+  "stage": 13,
+  "status": "PASS",
+  "checks": {
+    "material_claims": 26,
+    "client_report_present": true,
+    "seo_guide_present": true,
+    "ai_knowledge_present": true,
+    "workbook_present": true,
+    "oracle_independent": true,
+    "contradictions": 0,
+    "reopens_required": 0,
+    "semantic_counts_reconciled": true,
+    "page_owners_reconciled": true,
+    "actions_reconciled": true,
+    "ai_reconciled": true,
+    "uncertainty_reconciled": true,
+    "new_provider_calls": 0,
+    "paid_cost": 0
+  },
+  "result": "PASS__THREE_RECIPIENT_AND_WORKBOOK_ANALYTICAL_TRUTH_CONSISTENT"
+}
