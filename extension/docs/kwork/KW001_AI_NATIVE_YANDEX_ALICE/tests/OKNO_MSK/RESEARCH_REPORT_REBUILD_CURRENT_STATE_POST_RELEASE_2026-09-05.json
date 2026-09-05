@@ -2,18 +2,20 @@
   "date": "2026-09-05",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_0_TO_15_HISTORICALLY_COMPLETE__POST_RELEASE_OWNER_REVIEW_ACTIVE__REWORK_REQUIRED",
+  "status": "STAGE_0_TO_15_HISTORICALLY_COMPLETE__POST_RELEASE_DEFECT_DISCOVERY_COMPLETE__UNIFIED_CORRECTION_MATERIALIZATION_NEXT",
   "historical_state_authority": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
   "historical_release": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_manifest": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
   "historical_release_pass_preserved_as_provenance": true,
   "final_recipient_acceptance_reopened": true,
   "post_release_owner_review": "RESEARCH_REBUILD_POST_RELEASE_OWNER_DELIVERABLE_REVIEW_2026-09-05.md",
+  "defect_discovery_status": "COMPLETE",
   "reviewed_release_files": {
     "01_client_research_report": "DEFECT_SET_RECORDED",
     "02_seo_specialist_guide": "DEFECT_SET_RECORDED",
     "03_ai_site_specific_seo_consultant": "RECIPIENT_PURPOSE_FORMAT_PRACTICAL_QA_DEFECT_SET_RECORDED__CORRECTED_PHYSICAL_MD_PENDING",
-    "04_workbook": "STRUCTURAL_MATERIALIZATION_DEFECT_SET_RECORDED__DIRECT_BINARY_OWNER_USABILITY_CHECK_PENDING_IF_MATERIAL"
+    "04_workbook": "STRUCTURAL_MATERIALIZATION_DEFECT_SET_RECORDED__DIRECT_BINARY_OWNER_USABILITY_CHECK_PENDING_IF_MATERIAL",
+    "release_readme_delivery_package_experience": "DEFECT_SET_RECORDED"
   },
   "ai_variant_03": {
     "source_owner_authority": "RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md",
@@ -52,8 +54,8 @@
     "STEP_19_RECIPIENT_ARTIFACT_COMPLETENESS_GATE.md",
     "STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md"
   ],
-  "next_action": "CONTINUE_POST_RELEASE_OWNER_DELIVERABLE_REVIEW__RELEASE_README_DELIVERY_MESSAGE_AND_PACKAGE_LEVEL_RECIPIENT_EXPERIENCE",
-  "correction_materialization_not_started": true,
+  "next_action": "BEGIN_UNIFIED_POST_RELEASE_CORRECTION_MATERIALIZATION_PASS",
+  "correction_materialization_status": "NOT_STARTED__NEXT_AUTHORIZED_WORK_UNIT",
   "step21_22_authorized": false,
   "new_provider_calls_authorized": false,
   "new_provider_calls_during_post_release_review": 0,
