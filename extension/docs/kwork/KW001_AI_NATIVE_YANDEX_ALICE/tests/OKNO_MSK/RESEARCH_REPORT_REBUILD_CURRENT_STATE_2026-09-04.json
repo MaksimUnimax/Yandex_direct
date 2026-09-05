@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_7_COMPLETE__STAGE_8_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_8_COMPLETE__STAGE_9_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -31,7 +31,7 @@
     "stage_5": "COMPLETE",
     "stage_6": "COMPLETE",
     "stage_7": "COMPLETE",
-    "stage_8": "NOT_STARTED",
+    "stage_8": "COMPLETE",
     "stage_9": "NOT_STARTED",
     "stage_10": "NOT_STARTED",
     "stage_11": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_8_MASTER_RESEARCH_REPORT",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_9_PLAIN_RUSSIAN_CLIENT_RESEARCH_REPORT",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -413,7 +413,7 @@
     "commit_sha": "fd6c9ea72cf2982433c4567eff865091902744cf"
   },
   "stage_7": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_07_EVIDENCE_AND_EXPLANATION_RECONSTRUCTION_2026-09-05.md",
     "evidence_register": "RESEARCH_REBUILD_STAGE_07_EVIDENCE_REGISTER_2026-09-05.tsv",
     "search_case_explanation": "RESEARCH_REBUILD_STAGE_07_SEARCH_CASE_EXPLANATION_2026-09-05.tsv",
@@ -424,6 +424,18 @@
     "ai_cases": 8,
     "positive_findings": 7,
     "uncertainty_classes": 5,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "f28595830cc0bde2d3d794487d30ca229054b06f"
+  },
+  "stage_8": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "master_report": "RESEARCH_REBUILD_STAGE_08_MASTER_RESEARCH_REPORT_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_08_QA_2026-09-05.json",
+    "master_chars": 21893,
+    "master_lines": 272,
+    "actions_visible": 34,
+    "ai_cases_visible": 8,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

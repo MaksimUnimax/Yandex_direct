@@ -7,13 +7,13 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "7",
-  "status": "STAGE_7_COMPLETE__CONTINUING_TO_STAGE_8",
+  "stage": "8",
+  "status": "STAGE_8_COMPLETE__CONTINUING_TO_STAGE_9",
   "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "EXECUTE_STAGE_8_MASTER_RESEARCH_REPORT",
+  "next_action": "EXECUTE_STAGE_9_PLAIN_RUSSIAN_CLIENT_RESEARCH_REPORT",
   "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
@@ -144,7 +144,7 @@
     "commit_sha": "fd6c9ea72cf2982433c4567eff865091902744cf"
   },
   "stage_7_completion": {
-    "status": "PASS__READBACK_PENDING",
+    "status": "PASS__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_07_EVIDENCE_AND_EXPLANATION_RECONSTRUCTION_2026-09-05.md",
     "evidence_register": "RESEARCH_REBUILD_STAGE_07_EVIDENCE_REGISTER_2026-09-05.tsv",
     "evidence_rows": 95,
@@ -153,6 +153,16 @@
     "ai_cases": 8,
     "positive_findings": 7,
     "uncertainty_classes": 5,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "f28595830cc0bde2d3d794487d30ca229054b06f"
+  },
+  "stage_8_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "master_report": "RESEARCH_REBUILD_STAGE_08_MASTER_RESEARCH_REPORT_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_08_QA_2026-09-05.json",
+    "actions_visible": 34,
+    "ai_cases_visible": 8,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }
