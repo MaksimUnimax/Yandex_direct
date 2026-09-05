@@ -713,3 +713,18 @@ Provider/external calls in this review: `0`. Paid cost: `0`.
 
 Next permitted research stage after owner continuation: **Stage 3 — separate AI-search rebuild audit**. This overlay does not execute or authorize Stage 3.
 
+
+
+---
+
+## Research-rebuild completion overlay — 2026-09-05
+
+Status: **REBUILD STAGES 0–15 COMPLETE / NEW CLIENT PACKAGE RELEASED / GITHUB READBACK PASS**
+
+Current release: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/`.
+
+The historical Step 13 and earlier workflow records above remain provenance only. Current client truth is the Stage 5 canonical semantic/action authority materialized through Stages 6–15. Stage 13 cross-view contradictions: 0. Stage 14 physical/semantic/product result: PASS.
+
+Uncertainty remains explicit: SEARCH_REQUIRED, REVIEW_DEFERRED, HOLD, low-confidence and overlap-recheck states may transition only with evidence and lineage. No governed provider calls were made in rebuild Stages 3–15; 14 public first-party pages were checked; paid cost 0 RUB.
+
+No Step 21/22 execution was authorized or performed. There is no next stage inside the research-rebuild roadmap.

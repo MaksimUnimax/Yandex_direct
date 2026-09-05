@@ -477,3 +477,13 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - PP-01..PP-18 PASS; PP-19 NOT_APPLICABLE__BOUNDARY_PASS; global release result PASS.
 - Governed provider calls: 0; public first-party page checks carried from Stage 6: 14; paid cost: 0 RUB.
 - Stage 15 release authorized by Stage 14 PASS.
+
+## 2026-09-05 — Stage 15 release
+
+- Materialized versioned client package: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/`.
+- Released client PDF, SEO implementation PDF, self-contained AI JSON and canonical workbook; included editable DOCX and Markdown sources.
+- Artifact materialization commit: `c3b88f04b94d3564ac1da8cb07765ac1fc69ef53`.
+- Exact GitHub readback: PDFs/DOCX/workbook base64 exact; AI JSON same accepted Git blob; text/source identities verified.
+- Historical old package preserved outside release and remains withdrawn as current client truth.
+- New governed provider calls in Stages 3–15: 0; public first-party page checks: 14; paid calls/cost: 0 / 0 RUB.
+- Research-rebuild Stages 0–15 COMPLETE. Step 21/22 were not executed.

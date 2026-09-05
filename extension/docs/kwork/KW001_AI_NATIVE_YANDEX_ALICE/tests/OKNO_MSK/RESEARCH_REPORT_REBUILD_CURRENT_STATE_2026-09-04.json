@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_14_COMPLETE__STAGE_15_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__NEW_CLIENT_PACKAGE_RELEASED__GITHUB_READBACK_PASS",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -38,7 +38,7 @@
     "stage_12": "COMPLETE",
     "stage_13": "COMPLETE",
     "stage_14": "COMPLETE",
-    "stage_15": "NOT_STARTED"
+    "stage_15": "COMPLETE"
   },
   "stage_0": {
     "baseline_freeze": "RESEARCH_REBUILD_STAGE_00_BASELINE_FREEZE_2026-09-04.md",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_15_RELEASE_NEW_CLIENT_PACKAGE",
+  "next_action": "NONE__RESEARCH_REBUILD_COMPLETE__DO_NOT_START_STEP21_22",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -502,7 +502,7 @@
     "commit_sha": "8fda5bd7f86d9cf275d5d7ae9e01e704a79d2593"
   },
   "stage_14": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__QA_PASS__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_14_FINAL_RELEASE_ASSURANCE_2026-09-05.md",
     "pp_matrix": "RESEARCH_REBUILD_STAGE_14_PP01_PP19_ACCEPTANCE_2026-09-05.tsv",
     "qa": "RESEARCH_REBUILD_STAGE_14_PHYSICAL_SEMANTIC_PRODUCT_QA_2026-09-05.json",
@@ -520,6 +520,46 @@
     "rendered_pages_visually_inspected": 45,
     "governed_provider_calls": 0,
     "public_first_party_page_checks": 14,
-    "new_paid_cost_rub": 0
+    "new_paid_cost_rub": 0,
+    "commit_sha": "6b3f09ea04f5378cf45f36b8cb3b8a1cc5277398"
+  },
+  "stage_15": {
+    "status": "COMPLETE__RELEASED__GITHUB_ARTIFACT_READBACK_PASS",
+    "release_directory": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
+    "release_report": "RESEARCH_REBUILD_STAGE_15_RELEASE_NEW_CLIENT_PACKAGE_2026-09-05.md",
+    "release_manifest": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
+    "artifact_materialization_commit_sha": "c3b88f04b94d3564ac1da8cb07765ac1fc69ef53",
+    "main_artifacts": [
+      "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
+      "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
+      "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json",
+      "04_OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx"
+    ],
+    "readback": {
+      "text_exact": true,
+      "binary_base64_exact": true,
+      "ai_json_same_accepted_blob": true,
+      "workbook_base64_exact": true,
+      "historical_old_package_in_release": false
+    },
+    "qa": {
+      "stage_14_global": "PASS",
+      "physical": "PASS",
+      "semantic": "PASS",
+      "product": "PASS",
+      "pp_01_to_18": "PASS",
+      "pp_19": "NOT_APPLICABLE__BOUNDARY_PASS",
+      "cross_view_contradictions": 0,
+      "correction_failures": 0
+    },
+    "external_activity": {
+      "new_governed_provider_calls_stages_3_to_15": 0,
+      "public_first_party_page_checks": 14,
+      "paid_calls": 0,
+      "paid_cost_rub": 0
+    },
+    "historical_package": "PRESERVED_UNTOUCHED__WITHDRAWN_AS_CURRENT_CLIENT_TRUTH",
+    "next_research_rebuild_stage": "NONE",
+    "step21_22_executed": false
   }
 }
