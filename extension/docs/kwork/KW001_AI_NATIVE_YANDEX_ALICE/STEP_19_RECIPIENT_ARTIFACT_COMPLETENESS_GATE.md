@@ -131,24 +131,30 @@ MIXED INTERNAL LANGUAGE ACCEPTABLE IN SOURCE
 != MIXED INTERNAL LANGUAGE ACCEPTABLE IN RECIPIENT ARTIFACT
 ```
 
-## 8. AI site-specific implementation-consultant completeness
+## 8. AI site-specific consultant completeness
 
-When a promised AI artifact is intended to let a non-specialist client implement the confirmed recommendations through an AI assistant, its purpose must be declared exactly at that level.
+When a promised AI artifact is intended to let a non-specialist client use the completed research through an AI assistant, the **primary acceptance condition is independence and self-containment**.
 
-The artifact must transform a compatible AI/LLM into a site-specific implementation consultant for the researched project. The client loads the artifact, asks ordinary-language questions, receives explanations and step-by-step instructions, and performs the confirmed site changes themselves.
+The artifact must contain enough information for a compatible AI/LLM to explain the completed research and the confirmed implementation work without relying on outside context that the artifact promises to replace.
 
-Where a parallel human-specialist guide exists, both paths must represent the same confirmed analytical workset:
+The AI should be able to explain to the client:
 
 ```text
-HUMAN SPECIALIST GUIDE
-= PROFESSIONAL IMPLEMENTER EXECUTES CONFIRMED WORK
-
-AI CONSULTANT ARTIFACT
-= AI EXPLAINS THE SAME CONFIRMED WORK TO THE CLIENT
--> CLIENT EXECUTES IT
+WHAT WAS RESEARCHED
+WHAT WAS FOUND
+WHAT IS ALREADY CORRECT
+WHAT IS WRONG / INSUFFICIENT
+WHY EACH MATERIAL FINDING EXISTS
+WHAT EVIDENCE SUPPORTS IT
+WHAT MUST REMAIN UNCHANGED
+WHAT SHOULD BE CHANGED
+WHERE THE CHANGE APPLIES
+HOW THE CONFIRMED CHANGE SHOULD BE PERFORMED
+HOW TO CHECK THE RESULT
+WHAT REMAINS UNCERTAIN / UNRESOLVED
 ```
 
-The AI artifact must not silently invent a different site plan merely because the AI can generate additional ideas.
+If the artifact cannot explain a material accepted finding or confirmed action without another source that should have been included, self-containment fails.
 
 ### 8.1 Knowledge depth
 
@@ -169,8 +175,8 @@ CONFIRMED DECISION
 WHY THAT DECISION WAS MADE
 ALTERNATIVES REJECTED WHEN MATERIAL
 TARGET STATE
-EXACT IMPLEMENTATION ACTIONS
-DEPENDENCIES / ORDER
+EXACT IMPLEMENTATION ACTIONS AT THE PROVEN LEVEL OF DETAIL
+DEPENDENCIES / ORDER WHEN PROVEN
 POSITIVE ELEMENTS THAT MUST NOT BE BROKEN
 ACCEPTANCE CHECK
 UNCERTAINTY / CONFIDENCE / REOPEN CONDITIONS
@@ -183,12 +189,14 @@ The AI must be able to explain both `WHY` and `HOW`, not merely repeat an action
 The artifact must be designed for plain-language questions from a client without specialist knowledge. Applicable examples include:
 
 ```text
-WHAT IS WRONG ON THIS PAGE?
+WHAT EXACTLY WAS RESEARCHED?
+WHAT DID THE RESEARCH FIND ON THIS PAGE / TOPIC?
 WHAT IS ALREADY CORRECT AND MUST NOT BE BROKEN?
 WHY IS THIS A PROBLEM?
 WHAT EVIDENCE SUPPORTS IT?
-WHAT SHOULD I FIX FIRST?
-HOW DO I FIX IT STEP BY STEP?
+WHAT SHOULD BE CHANGED?
+WHERE DOES THE CHANGE APPLY?
+HOW SHOULD A PERSON WITH SITE ACCESS IMPLEMENT IT?
 WHAT SHOULD THE PAGE LOOK LIKE AFTERWARD?
 WHAT BLOCKS / TOPICS / QUESTIONS / PHRASES SHOULD CHANGE?
 WHICH QUERIES BELONG OR DO NOT BELONG TO THIS PAGE?
@@ -196,43 +204,59 @@ DO I NEED A SEPARATE PAGE AND WHY?
 CAN A PAGE BE MERGED / MOVED / REMOVED AND WHY?
 HOW SHOULD PAGES BE LINKED?
 WHAT TASK SHOULD I GIVE A DEVELOPER OR WRITER?
-I HAVE COMPLETED PART OF THE CONFIRMED WORK; WHAT CONFIRMED IMPLEMENTATION STEP COMES NEXT?
 HOW DO I CHECK THAT THE CHANGE WAS IMPLEMENTED CORRECTLY?
 WHERE IS THE EVIDENCE INSUFFICIENT FOR A CATEGORICAL ANSWER?
 ```
 
-### 8.3 Internal-execution boundary
+### 8.3 AI consultation is not direct site modification
 
-The AI artifact may guide **client site implementation**. That is different from continuing the analyst's internal research roadmap.
+The artifact equips the AI to **explain** the completed research and implementation instructions. It does not by itself grant CMS/server/code access.
 
 ```text
-AI CLIENT IMPLEMENTATION CONSULTANT
-!= INTERNAL RESEARCH EXECUTION HANDOFF
+AI EXPLAINS WHAT / WHY / WHERE / HOW
+!= AI DIRECTLY MODIFIES THE SITE
+```
 
-CLIENT SITE IMPLEMENTATION PROGRESS
-!= INTERNAL ROADMAP CHECKPOINT
+A human or separately authorized system with real site access performs the physical change.
+
+### 8.4 Internal-execution boundary
+
+The AI artifact must not be confused with the analyst's internal research workflow.
+
+```text
+AI RESEARCH / IMPLEMENTATION CONSULTANT
+!= INTERNAL RESEARCH EXECUTION HANDOFF
 
 AI KNOWLEDGE DOCUMENT
 != EXECUTION_CURSOR
 ```
 
-A question such as “I already completed part of the work; what next?” refers to the client's progress through the confirmed implementation workset, not to Stage/Step continuation in the research repository.
+### 8.5 Physical-format and self-containment contract
 
-### 8.4 Primary physical format
+The format must serve the declared AI-recipient task.
 
-The primary format must be chosen for the AI-recipient task, not for serialization convenience.
+For an LLM-oriented self-contained knowledge/instruction artifact, Markdown is the default because narrative reasoning, evidence, structured tables and instructions can coexist in one LLM-readable document.
 
-For an LLM-oriented consultant/context artifact, a self-contained Markdown document is the default unless the job contract demonstrates that another physical format is equally or more usable for the target AI environment.
+If the **job contract promises one self-contained final AI document**, that promise is absolute:
 
-Structured `JSON/CSV/TSV` may be companion data layers when row-level completeness or deterministic processing requires them. They do not automatically replace the primary knowledge/instruction artifact.
+```text
+ONE-DOCUMENT PROMISE
+= ONE COMPLETE PRIMARY FILE
+= NO REQUIRED COMPANION DATA
+= NO REQUIRED ANNEX
+= NO SECOND CONTEXT FILE
+```
+
+A companion `JSON/CSV/TSV/XLSX/PDF` must never be used to satisfy information that the declared one-document AI artifact is required to contain.
+
+If a job contract separately permits multiple AI-recipient files, that must be explicit before materialization; package convenience cannot silently weaken a one-document promise.
 
 ```text
 MACHINE-READABLE != AI-CONSULTANT-USABLE
 JSON_PARSE_PASS != AI-CONSULTANT PASS
-ALL ROWS PRESENT != PRACTICAL GUIDANCE RECOVERABLE
+ALL DATA SOMEWHERE IN PACKAGE != SELF-CONTAINED AI KNOWLEDGE
+SECOND FILE REQUIRED != ONE-DOCUMENT SELF-CONTAINMENT PASS
 ```
-
-If a non-Markdown format is chosen as the sole primary AI artifact, the contract must record why and how equivalent consultation quality will be tested.
 
 ## 9. Workbook front-door usability
 
@@ -269,8 +293,9 @@ CAN A SPECIALIST DISTINGUISH READY FROM ANALYTICAL-ONLY / HOLD / RECHECK?
 CAN THE RECIPIENT UNDERSTAND WHY A MATERIAL DECISION WAS MADE?
 CAN SEARCH AND AI CONTRIBUTIONS BE FOUND WITHOUT MANUAL JOINS?
 CAN UNCERTAINTY BE DISTINGUISHED FROM NO-CHANGE?
-CAN A NEW AI TURN THE ARTIFACT INTO PRACTICAL PLAIN-LANGUAGE IMPLEMENTATION HELP FOR A NON-SPECIALIST CLIENT?
-DOES THE AI CONSULTANT PRESERVE THE SAME CONFIRMED WORKSET AS THE HUMAN SPECIALIST PATH?
+CAN A NEW OFFLINE AI EXPLAIN THE COMPLETE MATERIAL RESEARCH AND CONFIRMED CHANGES FROM ITS PROMISED ARTIFACT ALONE?
+CAN THAT AI EXPLAIN HOW A HUMAN SHOULD IMPLEMENT EACH CONFIRMED CHANGE AT THE PROVEN DETAIL LEVEL?
+DOES THE AI ARTIFACT PRESERVE THE SAME CONFIRMED WORKSET AS THE HUMAN SPECIALIST PATH WHEN BOTH ARE PROMISED?
 ```
 
 ## 11. PASS gate
@@ -285,13 +310,15 @@ MATERIAL_AI_CAUSAL_RESULTS_VISIBLE = true when in scope
 FULL_MATERIAL_DECISION_MAP_VISIBLE = true
 MATERIAL_UNCERTAINTY_EXPLAINED = true
 RECIPIENT_LANGUAGE_COMPLIANT = true
-AI_CONSULTANT_PURPOSE_EXPLICIT = true when AI consultant artifact promised
-AI_CONSULTANT_WORKSET_EQUALS_CONFIRMED_SPECIALIST_WORKSET = true when parallel specialist path exists
-AI_CONSULTANT_CAN_EXPLAIN_WHY_AND_HOW = true
-AI_CONSULTANT_CAN_GIVE_STEP_BY_STEP_IMPLEMENTATION_HELP = true
-AI_CONSULTANT_CAN_EXPLAIN_ACCEPTANCE_CHECK = true
-AI_CONSULTANT_NOT_CONFLATED_WITH_INTERNAL_EXECUTION_CURSOR = true
-AI_CONSULTANT_PRIMARY_FORMAT_RECIPIENT_JUSTIFIED = true
+AI_ARTIFACT_COMPLETE_RESEARCH_KNOWLEDGE_SELF_CONTAINED = true when AI artifact promised
+AI_ARTIFACT_CAN_EXPLAIN_ALL_MATERIAL_FINDINGS = true when promised
+AI_ARTIFACT_CAN_EXPLAIN_ALL_CONFIRMED_CHANGES = true when promised
+AI_ARTIFACT_CAN_EXPLAIN_WHY_WHERE_AND_HOW = true when promised
+AI_ARTIFACT_REQUIRES_NO_UNDECLARED_SECOND_CONTEXT = true
+AI_ARTIFACT_WORKSET_EQUALS_CONFIRMED_SPECIALIST_WORKSET = true when parallel specialist path exists
+AI_ARTIFACT_NOT_CONFLATED_WITH_INTERNAL_EXECUTION_CURSOR = true
+AI_ARTIFACT_NOT_CONFLATED_WITH_DIRECT_SITE_MODIFICATION = true
+ONE_DOCUMENT_PROMISE_SATISFIED_BY_ONE_FILE = true when one-document contract exists
 WORKBOOK_FRONT_DOOR_USABLE = true when workbook promised
 RECIPIENT_TASK_WALKTHROUGH = PASS
 ```
@@ -305,8 +332,10 @@ AGGREGATE AI COUNTS != AI CAUSAL RESULT
 CORRECT DATABASE != CLIENT-USABLE WORKBOOK
 PACKAGE-WIDE COMPLETENESS != RECIPIENT-ARTIFACT COMPLETENESS
 MACHINE-READABLE != AI-CONSULTANT-USABLE
-SELF-CONTAINED DATA != SELF-CONTAINED PRACTICAL CONSULTANT KNOWLEDGE
-AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
+SELF-CONTAINED DATA != SELF-CONTAINED PRACTICAL KNOWLEDGE
+SECOND FILE REQUIRED != ONE-DOCUMENT SELF-CONTAINMENT
+AI CONSULTATION != DIRECT SITE MODIFICATION
+AI CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
 ```
 
 This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
