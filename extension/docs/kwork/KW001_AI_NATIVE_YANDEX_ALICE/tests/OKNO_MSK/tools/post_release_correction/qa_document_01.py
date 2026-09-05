@@ -29,8 +29,15 @@ KNOWLEDGE = JOB / "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_2026-09-05.js
 QA_JSON = JOB / "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.json"
 QA_MD = JOB / "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.md"
 
-CORRECTED_QF = {"QF001", "QF005", "QF006", "QF010", "QF013", "QF015", "QF016", "QF017"}
+CORRECTED_QF = {"QF001", "QF003", "QF005", "QF006", "QF010", "QF013", "QF015", "QF016", "QF017"}
 EXPECTED_READY = {"S18-A009", "S18-A010", "S18-A026", "S18-A028", "S18-A029", "S18-A030", "S18-A031"}
+QF_DISPLAY_TITLES = {
+    "QF003": "алюминиевые окна для частного дома",
+    "QF008": "монтаж ПВХ-дверей",
+    "QF009": "раздвижная балконная дверь",
+    "QF011": "декоративная раскладка во французском окне",
+    "QF021": "выбор между обычным и панорамным окном",
+}
 
 
 def read_tsv(path: Path) -> list[dict]:
@@ -40,6 +47,10 @@ def read_tsv(path: Path) -> list[dict]:
 
 def norm_url(value: str) -> str:
     return str(value or "").strip().rstrip("/")
+
+
+def norm_phrase(value: str) -> str:
+    return " ".join(str(value or "").split()).casefold()
 
 
 def chunks(text: str, prefix: str) -> dict[str, str]:
@@ -60,7 +71,7 @@ def main() -> None:
     ai_rows = read_tsv(AI)
     knowledge = json.loads(KNOWLEDGE.read_text(encoding="utf-8"))
     qf_authority = {row["case_id"]: row for row in knowledge["search_case_explanations"]}
-    semantic_by_phrase = {row["phrase"].strip().casefold(): row for row in semantic}
+    semantic_by_phrase = {norm_phrase(row["phrase"]): row for row in semantic}
     checks: list[tuple[str, bool, str]] = []
 
     def check(name: str, condition: bool, detail: str) -> None:
@@ -81,12 +92,24 @@ def main() -> None:
     check("QF_VISIBILITY", set(qf) == {f"QF{i:03d}" for i in range(1, 22)}, f"count={len(qf)}")
     qf_results = []
     unresolved = []
+    stored_stage13_cases = []
+    title_exact_no_stored_cases = []
+    true_family_only_cases = []
     for case_id in sorted(qf):
         authority = qf_authority[case_id]
         query = authority["representative_query"].strip()
         body = qf[case_id]
-        exact = semantic_by_phrase.get(query.casefold()) if query else None
+        display_title = query or QF_DISPLAY_TITLES[case_id]
+        title_exact = semantic_by_phrase.get(norm_phrase(display_title))
+        exact = semantic_by_phrase.get(norm_phrase(query)) if query else title_exact
         if query:
+            stage13_matches = []
+            for path in sorted(JOB.glob("STEP_13_SEARCH_RESULT_*.json")):
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                if payload.get("status") == "SUCCEEDED" and norm_phrase(payload.get("query", "")) == norm_phrase(query):
+                    stage13_matches.append(path.name)
+            if stage13_matches:
+                stored_stage13_cases.append(case_id)
             check(f"{case_id}_EXACT_ROW", exact is not None, query)
             check(f"{case_id}_EXACT_OWNER", f"**Exact-query owner:** {exact['final_primary_page']}" in body, exact["final_primary_page"])
             check(f"{case_id}_UNIT", f"`{exact['final_structural_unit_id']}`" in body, exact["final_structural_unit_id"])
@@ -96,14 +119,33 @@ def main() -> None:
             differs = norm_url(authority["primary_url"]) != norm_url(exact["final_primary_page"])
             if differs:
                 check(f"{case_id}_DISTINCTION", "Семейная интерпретация отличается от exact-query owner" in body, "explicit exact/family boundary")
-            qf_results.append({"case_id": case_id, "result": "FIX" if differs else "PASS", "exact_owner": exact["final_primary_page"], "family_distinction_required": differs})
+            qf_results.append({"case_id": case_id, "result": "FIX" if differs else "PASS", "resolution_class": "STORED_REPRESENTATIVE_QUERY", "exact_owner": exact["final_primary_page"], "family_distinction_required": differs})
+        elif title_exact:
+            title_exact_no_stored_cases.append(case_id)
+            check(f"{case_id}_TITLE_EXACT_ROW", exact is not None, display_title)
+            check(f"{case_id}_TITLE_EXACT_OWNER", f"**Exact-query owner:** {exact['final_primary_page']}" in body, exact["final_primary_page"])
+            check(f"{case_id}_TITLE_UNIT", f"`{exact['final_structural_unit_id']}`" in body, exact["final_structural_unit_id"])
+            check(f"{case_id}_TITLE_STATE", f"`{exact['final_semantic_state']}`" in body and f"`{exact['uncertainty_state']}`" in body, "state + uncertainty")
+            check(f"{case_id}_TITLE_SUPPORT", (exact["final_supporting_pages"] or "нет") in body, exact["final_supporting_pages"])
+            check(f"{case_id}_TITLE_ACTION", f"`{exact['canonical_structural_action']}`" in body, exact["canonical_structural_action"])
+            unit = units[exact["final_structural_unit_id"]]
+            check(f"{case_id}_TITLE_UNIT_AUTHORITY", norm_url(unit["final_primary_page"]) == norm_url(exact["final_primary_page"]), unit["final_primary_page"])
+            check(f"{case_id}_MISSING_REP_PROVENANCE", "**Исходное поле representative_query:** не было заполнено" in body and "историческое поле QF-authority не переписывается" in body, "missing stored representative provenance visible")
+            check(f"{case_id}_SEMANTIC_IS_NOT_SEARCH", "Это не означает, что для фразы был выполнен отдельный exact Search-проход" in body and "Stage-5-семантики" in body, "semantic assignment kept separate from Search")
+            check(f"{case_id}_NOT_FALSE_FAMILY_ONLY", "exact Search и exact owner по этой карточке не заявляются" not in body and "документ не назначает карточке exact-query owner" not in body, "known exact authority must not be suppressed")
+            qf_results.append({"case_id": case_id, "result": "FIX", "resolution_class": "STAGE5_EXACT_TITLE_MATCH__NO_STORED_REPRESENTATIVE_QUERY", "exact_owner": exact["final_primary_page"], "family_distinction_required": norm_url(authority["primary_url"]) != norm_url(exact["final_primary_page"])})
         else:
-            check(f"{case_id}_NO_EXACT_INVENTED", "exact Search и exact owner по этой карточке не заявляются" in body and "документ не назначает ей exact-query owner" in body, "family-only boundary")
-            qf_results.append({"case_id": case_id, "result": "PASS", "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE", "family_distinction_required": False})
+            true_family_only_cases.append(case_id)
+            check(f"{case_id}_NO_EXACT_INVENTED", "exact Search и exact owner по этой карточке не заявляются" in body and "документ не назначает карточке exact-query owner" in body, "family-only boundary")
+            qf_results.append({"case_id": case_id, "result": "PASS", "resolution_class": "TRUE_FAMILY_ONLY__NO_STORED_QUERY_OR_STAGE5_TITLE_MATCH", "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE", "family_distinction_required": False})
         check(f"{case_id}_EVIDENCE_BASIS", "**Основание решения.**" in body and "Техническая трасса:" in body, "visible evidence bridge")
         check(f"{case_id}_NO_PHYSICAL_ACTION", "Никакой физической правки только из QF-карточки" in body, "analytical/site boundary")
 
     fixed = {row["case_id"] for row in qf_results if row["result"] == "FIX"}
+    check("QF_STORED_REPRESENTATIVE_WITH_EXACT_STAGE13", len(stored_stage13_cases) == 16, str(stored_stage13_cases))
+    check("QF_TITLE_EXACT_NO_STORED_REPRESENTATIVE", title_exact_no_stored_cases == ["QF003"], str(title_exact_no_stored_cases))
+    check("QF_TRUE_FAMILY_ONLY", true_family_only_cases == ["QF008", "QF009", "QF011", "QF021"], str(true_family_only_cases))
+    check("QF_RESOLUTION_CLASS_UNIVERSE", len(stored_stage13_cases) + len(title_exact_no_stored_cases) + len(true_family_only_cases) == 21, "16 + 1 + 4")
     check("QF_CORRECTED_SET", fixed == CORRECTED_QF, f"fixed={sorted(fixed)}")
     check("QF_UNRESOLVED", not unresolved, str(unresolved))
 
@@ -123,7 +165,7 @@ def main() -> None:
     ]
     for row in ai_rows:
         body = ai_chunks[row["case_id"]]
-        exact = semantic_by_phrase[row["query"].strip().casefold()]
+        exact = semantic_by_phrase[norm_phrase(row["query"])]
         check(f"{row['case_id']}_CAUSAL_CHAIN", all(label in body for label in required_ai_labels), "all causal labels")
         check(f"{row['case_id']}_VERDICT", f"`{row['verdict']}`" in body and f"`{row['architecture_effect']}`" in body, row["verdict"])
         check(f"{row['case_id']}_CURRENT_EXACT_OWNER", exact["final_primary_page"] in body, exact["final_primary_page"])
@@ -162,7 +204,8 @@ def main() -> None:
         "",
         "## Итог",
         "",
-        f"- QF: 21/21 PASS after correction; material routing fixes: {len(fixed)}; unresolved: 0.",
+        f"- QF: 21/21 PASS after correction; corrected cards: {len(fixed)} (8 routing + QF003 traceability); unresolved: 0.",
+        f"- QF evidence classes: {len(stored_stage13_cases)} stored representative + exact Stage-13; {len(title_exact_no_stored_cases)} Stage-5 exact-title without stored representative; {len(true_family_only_cases)} true family-only.",
         "- Search: 75/75 exact observations remain exact-query scoped.",
         "- AI: 8/8 causal chains contain before-AI, observation, delta, verdict, architecture effect, action and limitation.",
         "- Actions: 7 fully READY physical changes; 1 partial S18-A012; 19 analytical mappings; 4 evidence rechecks.",
@@ -181,7 +224,19 @@ def main() -> None:
         "scope": "DOCUMENT_01_ONLY",
         "checks": len(checks),
         "failed": 0,
-        "qf": {"pass_after_correction": 21, "corrected": len(fixed), "unresolved": 0, "rows": qf_results},
+        "qf": {
+            "pass_after_correction": 21,
+            "corrected": len(fixed),
+            "routing_corrected": 8,
+            "traceability_corrected": 1,
+            "unresolved": 0,
+            "resolution_classes": {
+                "stored_representative_with_exact_stage13": stored_stage13_cases,
+                "stage5_exact_title_without_stored_representative": title_exact_no_stored_cases,
+                "true_family_only": true_family_only_cases,
+            },
+            "rows": qf_results,
+        },
         "search_exact_observations": {"reviewed": 75, "pass": 75},
         "ai_causal_cases": {"reviewed": 8, "pass": 8},
         "actions": {

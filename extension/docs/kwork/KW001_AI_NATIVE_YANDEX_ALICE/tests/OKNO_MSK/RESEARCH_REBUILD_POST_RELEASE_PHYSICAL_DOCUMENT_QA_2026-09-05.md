@@ -52,3 +52,27 @@
 
 `DOCUMENT_01_PHYSICAL_PDF_QA = PASS`  
 `DOCUMENT_01_OWNER_REVIEW = PENDING`
+
+## Повторная физическая QA документа №01 после owner-review rework QF003
+
+Предыдущий 57-страничный результат выше сохранён как история. После исправления обобщённого QF resolver и карточки QF003 canonical Markdown, DOCX и PDF №01 построены заново; документы №02 и №03 не материализовывались.
+
+| Документ | Страниц | Формат | Результат |
+|---|---:|---|---|
+| №01 — полный клиентский отчёт после QF003 rework | 58 | PDF 1.7, Letter | `PASS` |
+
+Проверено:
+
+- DOCX package integrity: `PASS`; emitted PDF и финальная delivery-копия идентичны по SHA-256;
+- PDF открывается и парсится; `58/58` страниц имеют непустое содержимое;
+- все `58/58` страницы просмотрены по отдельным PNG полного рендера;
+- QF003 на страницах 6–7 полностью показывает provenance пустого `representative_query`, exact-title Stage-5 assignment, owner `/alyuminievye-okna/`, supporting page, Search boundary и отсутствие самостоятельной CMS-команды;
+- QF008/QF009/QF011/QF021 остались читаемыми true family-only карточками;
+- `S18-A012` на страницах 46 и 50–51 сохранил `READY_PARTIAL__BUSINESS_DETAIL_REQUIRED` и видимую `PENDING_BUSINESS_DETAIL` границу;
+- итоговые количества `7 full READY + 1 partial A012 + 19 analytical + 4 recheck` сохранены;
+- заключение полностью присутствует на страницах 57–58; страница 58 содержит окончание вывода и не является случайной пустой страницей;
+- clipping, overlap, потерянные кириллические глифы, разрушенные длинными URL блоки, критически оторванные заголовки и случайные пустые страницы не обнаружены;
+- автоматический raster edge/blank scan: `58/58 PASS`, тёмных пикселей на физической кромке нет; минимальные границы содержимого подтверждают штатные поля.
+
+`DOCUMENT_01_PHYSICAL_PDF_QA = PASS__58_OF_58_PAGES`  
+`DOCUMENT_01_OWNER_REVIEW = PENDING`

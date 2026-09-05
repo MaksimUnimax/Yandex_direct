@@ -95,6 +95,16 @@ Corrected №01 честно сообщает, что только одно из
 
 Если ответ приходится восстанавливать вручную из других разделов, это остаточный recipient traceability defect №01.
 
+### OR-06 — №01: QF003 скрывал существующую exact Stage-5 строку из-за пустого `representative_query`
+
+**Статус:** CONFIRMED RESIDUAL OWNER-REVIEW DEFECT -> CORRECTED; GENERALIZED GENERATOR AND INDEPENDENT QA FIXED.
+
+Предыдущий `ANALYST_RECHECK_PASS` был повторно открыт после owner review. В QF-authority у `QF003 — алюминиевые окна для частного дома` исторически не было заполнено поле `representative_query`, поэтому прежний генератор сразу относил карточку к family-only. При этом её отображаемый заголовок буквально совпадает с текущей фразой Stage-5, где уже зафиксированы `ASSIGNED`, единица `ALUMINIUM_WINDOWS_COMMERCIAL` и exact owner `https://okno-msk.ru/alyuminievye-okna/`.
+
+Исправлено общее правило разрешения карточек: сохранённая representative phrase имеет первый приоритет; при её отсутствии отдельно проверяется нормализованный отображаемый заголовок против Stage-5; family-only разрешён только при отсутствии обоих совпадений. Историческое пустое поле не переписано и не выдано за сохранённую representative phrase. Exact semantic assignment не выдан за несуществующее exact Search-наблюдение.
+
+Детерминированная QA теперь независимо содержит собственную карту отображаемых заголовков и сравнивает recipient text со Stage-5, не вызывая resolver генератора. Старый PDF до пересборки был намеренно проверен новым валидатором и дал ожидаемый fail на `QF003_TITLE_EXACT_OWNER`, что подтвердило закрытие исходной слепой зоны теста.
+
 ### OR-05 — №03: фактическая совместимость размера/объёма с реальной локальной моделью не доказана
 
 **Статус:** ACCEPTANCE BOUNDARY, NOT YET CLASSIFIED AS DEFECT.
@@ -153,7 +163,7 @@ FINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN
 |---|---|---|---|
 | QF001 | `FIX -> PASS` | `/alyuminievye-okna/` | да |
 | QF002 | `PASS` | `/balkony-i-lodzhii/holodnoe-osteklenie/` | нет |
-| QF003 | `PASS` | нет репрезентативной точной фразы | family-only карточка |
+| QF003 | `FIX -> PASS` | `/alyuminievye-okna/` | нет; требовалось разграничить пустое историческое поле и literal title match Stage-5 |
 | QF004 | `PASS` | `/alyuminievye-okna/` | нет |
 | QF005 | `FIX -> PASS` | `/uslugi/ustanovka-okon/` | да |
 | QF006 | `FIX -> PASS` | `/alyuminievye-okna/` | да |
@@ -173,9 +183,9 @@ FINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN
 | QF020 | `PASS` | `/stati/kakie-okna-samye-luchshie/` | нет |
 | QF021 | `PASS` | нет репрезентативной точной фразы | family-only карточка |
 
-Результат: `21/21 PASS`; исправлено карточек: `8`; нерешённых: `0`. QF005/QF006 не были приняты по прежнему предположению: их расхождения подтверждены текущей Stage-5 и исправлены. WD-01 остаётся снятым ложным замечанием.
+Результат: `21/21 PASS`; исправлено карточек: `9` (`8` routing corrections + `1` traceability correction QF003); нерешённых: `0`. QF005/QF006 не были приняты по прежнему предположению: их расхождения подтверждены текущей Stage-5 и исправлены. WD-01 остаётся снятым ложным замечанием.
 
-Отдельно снята прежняя неточная формулировка «одно точное Step-09 наблюдение». Ни одна из 21 репрезентативных фраз буквально не совпадает с 75 строками Step-09; для 16 карточек с точной фразой существуют сохранённые поздние exact-Search результаты Stage-13, а QF020 имеет только связанное, но не тождественное наблюдение `SP09-059`. Документ теперь называет реальный слой evidence и не расширяет его scope.
+Отдельно снята прежняя неточная формулировка «одно точное Step-09 наблюдение». Ни одна из 21 репрезентативных фраз буквально не совпадает с 75 строками Step-09. Текущая трёхклассовая картина: `16` карточек имеют сохранённую representative phrase и поздний exact-Search Stage-13; `1` карточка (QF003) не имеет сохранённой representative phrase, но её заголовок буквально совпадает с exact Stage-5 строкой; `4` карточки (QF008, QF009, QF011, QF021) являются настоящими family-only без literal title match в Stage-5. QF020 имеет только связанное, но не тождественное наблюдение `SP09-059`. Документ теперь называет реальный слой evidence и не расширяет его scope.
 
 ### 6.2. Исправление доказательной трассировки
 
@@ -198,9 +208,22 @@ FINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN
 - action/result map: `34/34 PASS` относительно corrected shared implementation authority;
 - KEEP / NO_CHANGE и запреты на разрушительные изменения видимы;
 - `SEARCH_REQUIRED`, `REVIEW_DEFERRED`, `HOLD`, `NOT_READY__EVIDENCE_REQUIRED`, `PENDING_DETAIL` и `PENDING_BUSINESS_DETAIL` имеют определения и reopen rules;
-- детерминированная QA: `285/285 PASS` в `RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.json`;
+- детерминированная QA: `298/298 PASS` в `RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.json`; обобщённый title-fallback invariant применён ко всем 21 карточкам;
 - Markdown/DOCX/PDF material equivalence: `PASS`;
-- физическая PDF QA: `57/57` страниц просмотрены, clipping/overlap/blank page/missing glyph/сломанных URL или отсутствующего окончания не найдено; шрифты встроены с Unicode.
+- физическая PDF QA после QF003 rework: `58/58` страниц просмотрены, clipping/overlap/blank page/missing glyph/сломанных URL или отсутствующего окончания не найдено; шрифты встроены с Unicode.
+
+### 6.5. Закрытие повторного owner-review rework QF003
+
+Предыдущий analyst PASS был корректно переоткрыт как `REOPENED__REWORK_REQUIRED`, а не использован как основание скрыть новый дефект. После исправления QF003 явно показывает:
+
+- пустое исходное поле `representative_query` как provenance-факт;
+- literal match заголовка с текущей Stage-5 строкой;
+- `ASSIGNED`, `ALUMINIUM_WINDOWS_COMMERCIAL`, коммерческую задачу покупки/заказа, exact owner `/alyuminievye-okna/`, supporting page `/alyuminievye-okna/provedal` и `KEEP_EXISTING_STRUCTURE`;
+- совпадение family owner и exact owner;
+- отсутствие отдельного Step-09 и exact Stage-13 Search-прохода для этой фразы;
+- запрет превращать semantic assignment в выдуманное Search-наблюдение или самостоятельную CMS-задачу.
+
+Четыре оставшиеся family-only карточки повторно проверены обобщённым правилом и не изменены: их заголовки не имеют буквального совпадения в текущей Stage-5. `S18-A012`, все action counts, `75/75` Search и `8/8` AI не регрессировали. Документы №02 и №03 в этом rework не изменялись и не переоценивались.
 
 ## 7. Текущий gate после аналитической перепроверки №01
 

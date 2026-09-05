@@ -18,9 +18,9 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 625134,
-      "sha256": "d7bfe30b988b8a0153e115de149ddc9009399993cca6672c1180c1a4d6d5418e",
-      "pages": 57,
+      "size_bytes": 628127,
+      "sha256": "1af28c2ab65641e9c89baea90054da9cf7bed234421e2beeef1ce697445cbb00",
+      "pages": 58,
       "recipient_contract": "NORMAL_CLIENT_UNDERSTANDS_FULL_RESEARCH_FROM_DOCUMENT_01_ALONE"
     },
     {
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 61264,
-      "sha256": "3abb350815807506ce3223e740a62d125fd2c6c47aaad85531c96758ec9ffecf"
+      "size_bytes": 61894,
+      "sha256": "4a44d1ccc37be4a676599de58818e6c2381b74f79781c1cfbe98fa7b7c019cc8"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 243903,
-      "sha256": "13f0c116cf57061f1325a77be1d07457ca3b0749bd4251b9ccf4714fbf955b10"
+      "size_bytes": 246543,
+      "sha256": "19bb1abf0793427b4c339b5533b9aad2f7cb2ebee2d2a3f86cd7ad2e2850fe62"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
@@ -71,11 +71,12 @@
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
     "analyst_recipient_qa": "DOCUMENT_01_PASS",
     "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
-    "document_01_checks": 285,
-    "document_01_qf_cards": "21_OF_21_PASS__8_CORRECTED__0_UNRESOLVED",
+    "document_01_checks": 298,
+    "document_01_qf_cards": "21_OF_21_PASS__9_CORRECTED__0_UNRESOLVED",
+    "document_01_qf_resolution_classes": "16_STORED_REPRESENTATIVE_WITH_EXACT_STAGE13__1_STAGE5_EXACT_TITLE_WITHOUT_STORED_REPRESENTATIVE__4_TRUE_FAMILY_ONLY",
     "document_01_search_observations": "75_OF_75_PASS",
     "document_01_ai_causal_cases": "8_OF_8_PASS",
-    "document_01_physical_pdf": "57_OF_57_PAGES_PASS",
+    "document_01_physical_pdf": "58_OF_58_PAGES_PASS",
     "document_02": "OWNER_REVIEW_PENDING__NOT_ADVANCED_IN_DOCUMENT_01_TASK",
     "document_03_offline_clean_context": "OWNER_REVIEW_PENDING__NOT_ADVANCED_IN_DOCUMENT_01_TASK",
     "variant_02_confirmed_workset_equals_variant_03": "HISTORICAL_PACKAGE_QA_RESULT__NOT_RECHECKED_IN_DOCUMENT_01_TASK",

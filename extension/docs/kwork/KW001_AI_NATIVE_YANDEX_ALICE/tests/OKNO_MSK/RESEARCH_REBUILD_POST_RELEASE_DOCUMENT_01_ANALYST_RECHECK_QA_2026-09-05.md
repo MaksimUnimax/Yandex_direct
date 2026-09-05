@@ -6,7 +6,8 @@
 
 ## Итог
 
-- QF: 21/21 PASS after correction; material routing fixes: 8; unresolved: 0.
+- QF: 21/21 PASS after correction; corrected cards: 9 (8 routing + QF003 traceability); unresolved: 0.
+- QF evidence classes: 16 stored representative + exact Stage-13; 1 Stage-5 exact-title without stored representative; 4 true family-only.
 - Search: 75/75 exact observations remain exact-query scoped.
 - AI: 8/8 causal chains contain before-AI, observation, delta, verdict, architecture effect, action and limitation.
 - Actions: 7 fully READY physical changes; 1 partial S18-A012; 19 analytical mappings; 4 evidence rechecks.
@@ -37,7 +38,16 @@
 | `QF002_UNIT_AUTHORITY` | `PASS` | https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie/ |
 | `QF002_EVIDENCE_BASIS` | `PASS` | visible evidence bridge |
 | `QF002_NO_PHYSICAL_ACTION` | `PASS` | analytical/site boundary |
-| `QF003_NO_EXACT_INVENTED` | `PASS` | family-only boundary |
+| `QF003_TITLE_EXACT_ROW` | `PASS` | алюминиевые окна для частного дома |
+| `QF003_TITLE_EXACT_OWNER` | `PASS` | https://okno-msk.ru/alyuminievye-okna/ |
+| `QF003_TITLE_UNIT` | `PASS` | ALUMINIUM_WINDOWS_COMMERCIAL |
+| `QF003_TITLE_STATE` | `PASS` | state + uncertainty |
+| `QF003_TITLE_SUPPORT` | `PASS` | https://okno-msk.ru/alyuminievye-okna/provedal |
+| `QF003_TITLE_ACTION` | `PASS` | KEEP_EXISTING_STRUCTURE |
+| `QF003_TITLE_UNIT_AUTHORITY` | `PASS` | https://okno-msk.ru/alyuminievye-okna/ |
+| `QF003_MISSING_REP_PROVENANCE` | `PASS` | missing stored representative provenance visible |
+| `QF003_SEMANTIC_IS_NOT_SEARCH` | `PASS` | semantic assignment kept separate from Search |
+| `QF003_NOT_FALSE_FAMILY_ONLY` | `PASS` | known exact authority must not be suppressed |
 | `QF003_EVIDENCE_BASIS` | `PASS` | visible evidence bridge |
 | `QF003_NO_PHYSICAL_ACTION` | `PASS` | analytical/site boundary |
 | `QF004_EXACT_ROW` | `PASS` | панорамные алюминиевые окна |
@@ -157,7 +167,11 @@
 | `QF021_NO_EXACT_INVENTED` | `PASS` | family-only boundary |
 | `QF021_EVIDENCE_BASIS` | `PASS` | visible evidence bridge |
 | `QF021_NO_PHYSICAL_ACTION` | `PASS` | analytical/site boundary |
-| `QF_CORRECTED_SET` | `PASS` | fixed=['QF001', 'QF005', 'QF006', 'QF010', 'QF013', 'QF015', 'QF016', 'QF017'] |
+| `QF_STORED_REPRESENTATIVE_WITH_EXACT_STAGE13` | `PASS` | ['QF001', 'QF002', 'QF004', 'QF005', 'QF006', 'QF007', 'QF010', 'QF012', 'QF013', 'QF014', 'QF015', 'QF016', 'QF017', 'QF018', 'QF019', 'QF020'] |
+| `QF_TITLE_EXACT_NO_STORED_REPRESENTATIVE` | `PASS` | ['QF003'] |
+| `QF_TRUE_FAMILY_ONLY` | `PASS` | ['QF008', 'QF009', 'QF011', 'QF021'] |
+| `QF_RESOLUTION_CLASS_UNIVERSE` | `PASS` | 16 + 1 + 4 |
+| `QF_CORRECTED_SET` | `PASS` | fixed=['QF001', 'QF003', 'QF005', 'QF006', 'QF010', 'QF013', 'QF015', 'QF016', 'QF017'] |
 | `QF_UNRESOLVED` | `PASS` | [] |
 | `SEARCH_75_VISIBILITY` | `PASS` | authority=75 report=75 |
 | `SP09-001_SCOPE` | `PASS` | аксессуары для пластиковых окон |

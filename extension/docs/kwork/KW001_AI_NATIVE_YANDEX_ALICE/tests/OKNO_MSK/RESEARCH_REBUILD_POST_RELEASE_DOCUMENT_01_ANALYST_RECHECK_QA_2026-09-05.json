@@ -1,136 +1,188 @@
 {
   "status": "PASS",
   "scope": "DOCUMENT_01_ONLY",
-  "checks": 285,
+  "checks": 298,
   "failed": 0,
   "qf": {
     "pass_after_correction": 21,
-    "corrected": 8,
+    "corrected": 9,
+    "routing_corrected": 8,
+    "traceability_corrected": 1,
     "unresolved": 0,
+    "resolution_classes": {
+      "stored_representative_with_exact_stage13": [
+        "QF001",
+        "QF002",
+        "QF004",
+        "QF005",
+        "QF006",
+        "QF007",
+        "QF010",
+        "QF012",
+        "QF013",
+        "QF014",
+        "QF015",
+        "QF016",
+        "QF017",
+        "QF018",
+        "QF019",
+        "QF020"
+      ],
+      "stage5_exact_title_without_stored_representative": [
+        "QF003"
+      ],
+      "true_family_only": [
+        "QF008",
+        "QF009",
+        "QF011",
+        "QF021"
+      ]
+    },
     "rows": [
       {
         "case_id": "QF001",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF002",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF003",
-        "result": "PASS",
-        "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
+        "result": "FIX",
+        "resolution_class": "STAGE5_EXACT_TITLE_MATCH__NO_STORED_REPRESENTATIVE_QUERY",
+        "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF004",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF005",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/uslugi/ustanovka-okon/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF006",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF007",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/balkony-i-lodzhii/panoramnoe-osteklenie-balkona/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF008",
         "result": "PASS",
+        "resolution_class": "TRUE_FAMILY_ONLY__NO_STORED_QUERY_OR_STAGE5_TITLE_MATCH",
         "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
         "family_distinction_required": false
       },
       {
         "case_id": "QF009",
         "result": "PASS",
+        "resolution_class": "TRUE_FAMILY_ONLY__NO_STORED_QUERY_OR_STAGE5_TITLE_MATCH",
         "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
         "family_distinction_required": false
       },
       {
         "case_id": "QF010",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/uslugi/otdelka-otkosov/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF011",
         "result": "PASS",
+        "resolution_class": "TRUE_FAMILY_ONLY__NO_STORED_QUERY_OR_STAGE5_TITLE_MATCH",
         "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
         "family_distinction_required": false
       },
       {
         "case_id": "QF012",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/uslugi/remont-okon/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF013",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF014",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/okna-rehau/francuzskie-okna/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF015",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/uslugi/ustanovka-okon/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF016",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF017",
         "result": "FIX",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/verandy/",
         "family_distinction_required": true
       },
       {
         "case_id": "QF018",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF019",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/stati/okno-otkrylos-v-dvuh-polozheniyah-chto-delat/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF020",
         "result": "PASS",
+        "resolution_class": "STORED_REPRESENTATIVE_QUERY",
         "exact_owner": "https://okno-msk.ru/stati/kakie-okna-samye-luchshie/",
         "family_distinction_required": false
       },
       {
         "case_id": "QF021",
         "result": "PASS",
+        "resolution_class": "TRUE_FAMILY_ONLY__NO_STORED_QUERY_OR_STAGE5_TITLE_MATCH",
         "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
         "family_distinction_required": false
       }

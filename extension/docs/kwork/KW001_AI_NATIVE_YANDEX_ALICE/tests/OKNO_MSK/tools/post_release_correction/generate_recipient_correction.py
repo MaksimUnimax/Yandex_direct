@@ -245,7 +245,7 @@ SEARCH_TITLE_RU = {
 QF_EVIDENCE_BASIS_RU = {
     "QF001": "Сохранённая поисковая выдача показывает смешение балконного объекта и алюминиевого материала. Итоговая семантическая строка разрешает точную фразу в пользу алюминиевого коммерческого владельца; семейный объектный вывод не может её переопределить.",
     "QF002": "Выдача и итоговая структурная единица сходятся на холодном балконном сценарии. Поздняя проверка структуры добавила узкие страницы холодного панорамного остекления и Provedal только как поддержку.",
-    "QF003": "В карточке нет одной репрезентативной точной фразы. Семейный вывод основан на совокупности текущих алюминиевых назначений и различии материала «алюминий» от PVC-сценария частного дома; exact owner не заявляется.",
+    "QF003": "В исходной QF-authority поле representative_query не заполнено, но заголовок карточки буквально совпадает с текущей Stage-5-фразой. Поэтому exact semantic owner известен: алюминиевый коммерческий раздел. Это семантическое назначение не создаёт отсутствующее Search-наблюдение и не доказывает историческую конкуренцию.",
     "QF004": "Точная семантика и структурная единица закрепляют коммерческий алюминиевый раздел. Обычная выдача и AI-кейс C15-004 допускают объясняющий панорамный блок, но не новую страницу и не смену владельца.",
     "QF005": "Выдача содержит и DIY-материал об алюминии, и профессиональную услугу. Текущая точная семантика классифицирует нейтральную установочную фразу как услугу и закрепляет страницу монтажа.",
     "QF006": "Выдача и AI-кейс C15-006 подтвердили важность объектного контекста веранды на уровне семейства. Однако текущая точная семантическая строка относится к коммерческому выбору алюминиевых окон; AI не имеет права переопределить Stage-5.",
@@ -583,41 +583,74 @@ def normalized_url(value: str) -> str:
     return str(value or "").strip().rstrip("/")
 
 
+def normalized_phrase(value: str) -> str:
+    return " ".join(str(value or "").split()).casefold()
+
+
 def exact_stage13_search_sources(query: str) -> list[str]:
     if not query:
         return []
     matches = []
     for path in sorted(JOB.glob("STEP_13_SEARCH_RESULT_*.json")):
         payload = json.loads(path.read_text(encoding="utf-8"))
-        if str(payload.get("query", "")).strip().casefold() == query.strip().casefold() and payload.get("status") == "SUCCEEDED":
+        if normalized_phrase(payload.get("query", "")) == normalized_phrase(query) and payload.get("status") == "SUCCEEDED":
             matches.append(path.name)
     return matches
 
 
+def qf_exact_resolution(c: dict, semantic: dict[str, dict]) -> tuple[str, str, dict | None]:
+    """Resolve semantic exact authority without rewriting QF provenance.
+
+    A stored representative query has priority.  When it is absent, the human
+    display title is checked literally against current Stage-5.  Only a title
+    without a Stage-5 match is genuinely family-only.
+    """
+    stored_query = c["representative_query"].strip()
+    display_title = stored_query or SEARCH_TITLE_RU[c["case_id"]]
+    if stored_query:
+        return display_title, "STORED_REPRESENTATIVE_QUERY", semantic.get(normalized_phrase(stored_query))
+    title_exact = semantic.get(normalized_phrase(display_title))
+    if title_exact:
+        return display_title, "STAGE5_EXACT_TITLE_MATCH__NO_STORED_REPRESENTATIVE_QUERY", title_exact
+    return display_title, "TRUE_FAMILY_ONLY__NO_STORED_QUERY_OR_STAGE5_TITLE_MATCH", None
+
+
 def qf_card(c: dict, data: dict) -> str:
-    semantic = {r["phrase"].strip().casefold(): r for r in data["semantic_master"]}
+    semantic = {normalized_phrase(r["phrase"]): r for r in data["semantic_master"]}
     units = {u["structural_unit_id"]: u for u in data["canonical_units"]}
-    exact_query = c["representative_query"].strip()
-    exact = semantic.get(exact_query.casefold()) if exact_query else None
+    stored_query = c["representative_query"].strip()
+    title, resolution_class, exact = qf_exact_resolution(c, semantic)
+    semantic_query = exact["phrase"].strip() if exact else ""
     unit = units.get(exact["final_structural_unit_id"]) if exact and exact.get("final_structural_unit_id") else None
-    title = exact_query or SEARCH_TITLE_RU[c["case_id"]]
     step09_exact = [
         e for e in data["evidence_register"]
         if e["layer"] == "ORDINARY_YANDEX_SEARCH"
-        and exact_query
-        and e["question_or_query"].strip().casefold() == exact_query.casefold()
+        and semantic_query
+        and normalized_phrase(e["question_or_query"]) == normalized_phrase(semantic_query)
     ]
-    stage13 = exact_stage13_search_sources(exact_query)
-    if step09_exact:
-        search_state = "Есть точное Step-09-наблюдение: " + ", ".join(f"`{e['evidence_id']}`" for e in step09_exact) + "."
+    stage13 = exact_stage13_search_sources(semantic_query)
+    if resolution_class == "STAGE5_EXACT_TITLE_MATCH__NO_STORED_REPRESENTATIVE_QUERY":
+        search_state = "В исходной QF-authority отдельное поле `representative_query` не было заполнено. "
+        if step09_exact:
+            search_state += "Для текста заголовка есть точное Step-09-наблюдение: " + ", ".join(f"`{e['evidence_id']}`" for e in step09_exact) + ". "
+        else:
+            search_state += "Точного Step-09-наблюдения для текста заголовка нет. "
+        if stage13:
+            search_state += "Есть сохранённый точный Stage-13 Search-проход: " + ", ".join(f"`{p}`" for p in stage13) + ". "
+        else:
+            search_state += "Отдельный точный Stage-13 Search-проход для него не сохранён. "
+        search_state += "Это не означает, что для фразы был выполнен отдельный exact Search-проход: показанный ниже owner следует из текущей Stage-5-семантики, а не из выдуманного Search-наблюдения."
+    elif resolution_class == "STORED_REPRESENTATIVE_QUERY":
+        if step09_exact:
+            search_state = "Есть точное Step-09-наблюдение: " + ", ".join(f"`{e['evidence_id']}`" for e in step09_exact) + "."
+        else:
+            search_state = "Точного Step-09-наблюдения для этой representative phrase нет."
+        if stage13:
+            search_state += " Есть более поздний сохранённый точный Search-проход: " + ", ".join(f"`{p}`" for p in stage13) + "."
+        else:
+            search_state += " Владелец не выводится из несуществующего точного наблюдения."
     else:
-        search_state = "Точного Step-09-наблюдения для этой representative phrase нет."
-    if stage13:
-        search_state += " Есть более поздний сохранённый точный Search-проход: " + ", ".join(f"`{p}`" for p in stage13) + "."
-    elif exact_query:
-        search_state += " Владелец не выводится из несуществующего точного наблюдения."
-    else:
-        search_state = "Репрезентативная точная фраза не была зафиксирована; exact Search и exact owner по этой карточке не заявляются."
+        search_state = "Репрезентативная точная фраза не была зафиксирована, и заголовок не имеет буквального совпадения в текущей Stage-5; exact Search и exact owner по этой карточке не заявляются."
     if c["case_id"] == "QF020":
         search_state += " Связанное Step-09-наблюдение `SP09-059` относится к другой фразе «как выбрать пластиковые окна» и используется только в её границах."
 
@@ -631,7 +664,7 @@ def qf_card(c: dict, data: dict) -> str:
 **Структурное решение:** `{exact['canonical_structural_action']}` ({STRUCTURAL_ACTION_RU.get(exact['canonical_structural_action'], exact['canonical_structural_action'])}).  
 **Проверка единицы.** Каноническая власть структурной единицы {'совпадает с exact-query owner' if unit and normalized_url(unit['final_primary_page']) == normalized_url(exact['final_primary_page']) else 'не подтверждает автоматическое назначение; неопределённость сохранена'}."""
     else:
-        exact_block = "**Текущая каноническая семантика точной фразы.** Не применяется: в карточке нет одной зафиксированной representative phrase. Поэтому документ не назначает ей exact-query owner."
+        exact_block = "**Текущая каноническая семантика точной фразы.** Не применяется: нет ни сохранённой representative phrase, ни буквального совпадения заголовка с текущей Stage-5. Поэтому документ не назначает карточке exact-query owner."
 
     family_owner = c["primary_url"] or "не назначен: семейный вывод не создаёт нового владельца"
     family_support = (c["supporting_urls"] or "нет").replace(";", "; ")
@@ -642,10 +675,16 @@ def qf_card(c: dict, data: dict) -> str:
         "Семейный основной URL не противоречит exact-query owner." if exact else
         "Это только семейная интерпретация; она не создаёт владельца для отсутствующей точной фразы."
     )
+    if resolution_class == "STORED_REPRESENTATIVE_QUERY":
+        representative_line = f"**Сохранённая representative phrase:** «{stored_query}»."
+    elif resolution_class == "STAGE5_EXACT_TITLE_MATCH__NO_STORED_REPRESENTATIVE_QUERY":
+        representative_line = f"**Исходное поле representative_query:** не было заполнено. **Разрешение по заголовку:** текст «{title}» буквально присутствует как точная фраза в текущей Stage-5; историческое поле QF-authority не переписывается."
+    else:
+        representative_line = "**Исходное поле representative_query:** не было заполнено; заголовок описывает family-level тему и не имеет буквального совпадения в текущей Stage-5."
     return f"""### {c['case_id']} — {title}
 
 **Тема семейства:** `{c['query_family']}`.  
-**Репрезентативная точная фраза:** {f'«{exact_query}»' if exact_query else 'не зафиксирована; заголовок описывает тему family-level карточки'}.  
+{representative_line}  
 **Точное Search-состояние.** {search_state}
 
 {exact_block}
@@ -669,7 +708,21 @@ def build_client_report(data: dict, actions: list[dict]) -> str:
     partial_actions = [a for a in actions if a["real_site_change"] == "PARTIAL"]
     analytical_actions = [a for a in actions if a["recipient_state"] == "READY_ANALYTICAL_MAPPING"]
     recheck_actions = [a for a in actions if a["recipient_state"] == "NOT_READY__EVIDENCE_REQUIRED"]
-    exact_stage13_count = sum(bool(exact_stage13_search_sources(c["representative_query"])) for c in data["search_case_explanations"])
+    semantic_by_phrase = {normalized_phrase(r["phrase"]): r for r in data["semantic_master"]}
+    stored_stage13_count = sum(
+        bool(c["representative_query"].strip()) and bool(exact_stage13_search_sources(c["representative_query"].strip()))
+        for c in data["search_case_explanations"]
+    )
+    title_exact_no_stored_count = sum(
+        not c["representative_query"].strip()
+        and normalized_phrase(SEARCH_TITLE_RU[c["case_id"]]) in semantic_by_phrase
+        for c in data["search_case_explanations"]
+    )
+    true_family_only_count = sum(
+        not c["representative_query"].strip()
+        and normalized_phrase(SEARCH_TITLE_RU[c["case_id"]]) not in semantic_by_phrase
+        for c in data["search_case_explanations"]
+    )
     out = [f"""# OKNO_MSK — полный отчёт исследования для владельца
 
 **Исправленный выпуск:** 2026-09-05  
@@ -696,7 +749,7 @@ def build_client_report(data: dict, actions: list[dict]) -> str:
 - Структурная модель: **168 единиц**.
 - Исправленные переназначения: **69 строк**, проверка новой единицы и всех зависимых полей прошла без расхождений.
 - Обычный Яндекс: **75 сохранённых точных наблюдений**; каждое относится только к фактически проверенному запросу.
-- Материальные семейства владения: **21**. Ни одна representative phrase не совпадает буквально с 75 строками Step-09; у QF020 есть связанное, но не тождественное наблюдение `SP09-059`. Для **{exact_stage13_count}** representative phrases сохранён отдельный более поздний точный Search-проход Stage 13; в пяти family-level карточках representative phrase не была зафиксирована.
+- Материальные семейства владения: **21**. Ни одна stored representative phrase не совпадает буквально с 75 строками Step-09; у QF020 есть связанное, но не тождественное наблюдение `SP09-059`. Текущие классы доказательства: **{stored_stage13_count}** карточек имеют сохранённую representative phrase и отдельный точный Stage-13 Search-проход; **{title_exact_no_stored_count}** карточка не имеет сохранённого `representative_query`, но её заголовок буквально совпадает с текущей Stage-5-фразой; **{true_family_only_count}** карточки не имеют ни сохранённой representative phrase, ни буквального title-match в Stage-5. Stage-5 semantic assignment не считается Search-наблюдением.
 - AI-кейсы: **8**, выбранные для проверки конкретных Search-only решений.
 - Текущая страница: 14 реализационно-чувствительных URL повторно открыты 2026-09-05 без платных вызовов.
 
@@ -734,7 +787,7 @@ def build_client_report(data: dict, actions: list[dict]) -> str:
         out.append(f"### {title}\n\n{fact} **Решение:** {decision}\n")
 
     out.append("## 6. Двадцать одно материальное Search-семейство: exact owner, family owner и основание\n")
-    out.append(f"Обычный Search не спрятан за счётчиками. Для {exact_stage13_count} representative phrases существует сохранённый точный Stage-13-проход; 75 Step-09-наблюдений приведены отдельно и не подменяют его. В каждой карточке сначала показана текущая Stage-5-семантика точной фразы, затем — отдельная семейная интерпретация и реальная доказательная опора.\n")
+    out.append(f"Обычный Search не спрятан за счётчиками. Для {stored_stage13_count} сохранённых representative phrases существует отдельный точный Stage-13-проход; ещё {title_exact_no_stored_count} карточка разрешается по буквальному Stage-5 title-match без подмены Search evidence; {true_family_only_count} карточки остаются истинно family-only. Все 75 Step-09-наблюдений приведены отдельно. В каждой карточке сначала показана текущая Stage-5-семантика точной фразы, затем — отдельная семейная интерпретация и реальная доказательная опора.\n")
     for c in data["search_case_explanations"]:
         out.append(qf_card(c, data))
 
