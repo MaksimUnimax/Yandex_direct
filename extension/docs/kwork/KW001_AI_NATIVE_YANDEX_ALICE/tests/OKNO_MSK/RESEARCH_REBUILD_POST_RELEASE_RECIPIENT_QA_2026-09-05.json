@@ -1,14 +1,21 @@
 {
-  "status": "PASS",
+  "status": "HISTORICAL_PACKAGE_QA_PASS__SUPERSEDED_FOR_DOCUMENT_01_BY_ANALYST_RECHECK",
   "checks": 33,
   "failed": 0,
-  "document_01": "PASS",
-  "document_02": "PASS",
-  "document_03": "PASS__OFFLINE_CLEAN_CONTEXT_DOCUMENT_WALKTHROUGH",
+  "document_01": "SUPERSEDED_BY_RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.json__PASS",
+  "document_02": "HISTORICAL_QA_PASS__OWNER_REVIEW_PENDING__NOT_RECHECKED_IN_DOCUMENT_01_TASK",
+  "document_03": "HISTORICAL_QA_PASS__OWNER_REVIEW_PENDING__NOT_RECHECKED_IN_DOCUMENT_01_TASK",
   "variant_02_equals_variant_03": true,
-  "material_contradictions": 0,
+  "material_contradictions": "HISTORICAL_RESULT__CURRENT_DOCUMENT_01_RESULT_IS_0",
   "unsupported_new_analytical_decisions": 0,
   "provider_calls": 0,
   "paid_cost_rub": 0,
-  "owner_recheck": "REQUIRED"
+  "owner_recheck": "ACTIVE",
+  "current_document": "01",
+  "document_01_analyst_recheck": "PASS",
+  "document_01_owner_review": "PENDING",
+  "document_02_owner_review": "PENDING",
+  "document_03_owner_review": "PENDING",
+  "final_owner_recipient_acceptance": "OPEN",
+  "note": "The 33 checks below are preserved provenance of initial package materialization. Shared authority now classifies S18-A012 as partial/business-detail-dependent. Document 01 has been rebuilt and superseded by its 285-check QA; documents 02 and 03 were intentionally not advanced or rechecked in this task."
 }

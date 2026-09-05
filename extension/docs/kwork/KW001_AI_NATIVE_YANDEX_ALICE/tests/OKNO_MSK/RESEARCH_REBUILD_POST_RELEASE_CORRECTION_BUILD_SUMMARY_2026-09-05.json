@@ -3,12 +3,14 @@
   "real_site_ready": [
     "S18-A009",
     "S18-A010",
-    "S18-A012",
     "S18-A026",
     "S18-A028",
     "S18-A029",
     "S18-A030",
     "S18-A031"
+  ],
+  "real_site_partial_business_detail_required": [
+    "S18-A012"
   ],
   "analytical_only": [
     "S18-A001",

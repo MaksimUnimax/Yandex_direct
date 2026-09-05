@@ -4,6 +4,8 @@
 **Метод:** независимые детерминированные проверки текущих властей и получательских задач  
 **Новые provider-вызовы:** 0
 
+> Исторический статус: этот файл сохраняет deterministic package QA первоначальной materialization. После owner recheck shared authority классифицирует `S18-A012` как `READY_PARTIAL__BUSINESS_DETAIL_REQUIRED`; документ №01 пересобран и проверен отдельным authority `RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.md` (`285/285 PASS`). №02 и №03 в задаче №01 намеренно не пересобирались и не переоценивались; их owner review остаётся pending.
+
 ## Результаты
 
 | Gate | Result | Detail |
@@ -50,5 +52,9 @@
 
 ## Итог
 
-`ANALYST_RECIPIENT_QA = PASS`  
-`OWNER_RECHECK = REQUIRED_BY_POST_RELEASE_ACCEPTANCE_GATE`
+`HISTORICAL_PACKAGE_ANALYST_QA = PASS`  
+`DOCUMENT_01_ANALYST_RECHECK = PASS`  
+`DOCUMENT_01_OWNER_REVIEW = PENDING`  
+`DOCUMENT_02_OWNER_REVIEW = PENDING`  
+`DOCUMENT_03_OWNER_REVIEW = PENDING`  
+`FINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN`

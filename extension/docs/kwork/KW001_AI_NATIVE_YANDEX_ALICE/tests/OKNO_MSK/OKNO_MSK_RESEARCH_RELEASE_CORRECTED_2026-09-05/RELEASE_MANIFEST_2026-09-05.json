@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "CORRECTED_RECIPIENT_SET_MATERIALIZED__ANALYST_RECIPIENT_QA_PASS__OWNER_RECHECK_REQUIRED",
+  "status": "DOCUMENT_01_ANALYST_RECHECK_PASS__DOCUMENT_01_OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -18,9 +18,9 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 431992,
-      "sha256": "afe354195f959f0f36b0dc04aea828dd8e9c46fb7af8644a374946e07f6ceb66",
-      "pages": 43,
+      "size_bytes": 625134,
+      "sha256": "d7bfe30b988b8a0153e115de149ddc9009399993cca6672c1180c1a4d6d5418e",
+      "pages": 57,
       "recipient_contract": "NORMAL_CLIENT_UNDERSTANDS_FULL_RESEARCH_FROM_DOCUMENT_01_ALONE"
     },
     {
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 45008,
-      "sha256": "0e4b31a18d333931f107bfa84da64966718631aeae6fa2f5c5da149d75bb34b2"
+      "size_bytes": 61264,
+      "sha256": "3abb350815807506ce3223e740a62d125fd2c6c47aaad85531c96758ec9ffecf"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 164740,
-      "sha256": "ac8d0dfc5f76b9c0e6b2d21aa7e62c4ef63111f0208c87fd8f5fb0548eff2af7"
+      "size_bytes": 243903,
+      "sha256": "13f0c116cf57061f1325a77be1d07457ca3b0749bd4251b9ccf4714fbf955b10"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
@@ -66,18 +66,29 @@
     }
   ],
   "qa": {
-    "authority": "../RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
+    "authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_ANALYST_RECHECK_QA_2026-09-05.json",
+    "historical_package_qa": "../RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
-    "analyst_recipient_qa": "PASS",
-    "document_01": "PASS",
-    "document_02": "PASS",
-    "document_03_offline_clean_context": "PASS",
-    "variant_02_confirmed_workset_equals_variant_03": "PASS",
-    "three_view_material_contradictions": 0,
+    "analyst_recipient_qa": "DOCUMENT_01_PASS",
+    "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+    "document_01_checks": 285,
+    "document_01_qf_cards": "21_OF_21_PASS__8_CORRECTED__0_UNRESOLVED",
+    "document_01_search_observations": "75_OF_75_PASS",
+    "document_01_ai_causal_cases": "8_OF_8_PASS",
+    "document_01_physical_pdf": "57_OF_57_PAGES_PASS",
+    "document_02": "OWNER_REVIEW_PENDING__NOT_ADVANCED_IN_DOCUMENT_01_TASK",
+    "document_03_offline_clean_context": "OWNER_REVIEW_PENDING__NOT_ADVANCED_IN_DOCUMENT_01_TASK",
+    "variant_02_confirmed_workset_equals_variant_03": "HISTORICAL_PACKAGE_QA_RESULT__NOT_RECHECKED_IN_DOCUMENT_01_TASK",
+    "three_view_material_contradictions_in_document_01": 0,
     "unsupported_new_analytical_decisions": 0,
     "semantic_atomic_correction_rows_checked": 69,
     "semantic_atomic_correction_failures": 0,
-    "owner_recheck": "REQUIRED"
+    "current_document": "01",
+    "document_01_owner_review": "PENDING",
+    "document_02_owner_review": "PENDING",
+    "document_03_owner_review": "PENDING",
+    "final_owner_recipient_acceptance": "OPEN",
+    "owner_recheck": "ACTIVE"
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,

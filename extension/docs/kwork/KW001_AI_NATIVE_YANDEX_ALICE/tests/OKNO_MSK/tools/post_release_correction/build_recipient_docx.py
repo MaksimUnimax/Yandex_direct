@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import subprocess
 from pathlib import Path
 
@@ -265,18 +266,23 @@ def build(md_path: Path, out_path: Path, preset: str, label: str):
 
 
 def main():
-    build(
-        SOURCES / "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-        EDITABLE / "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-        "standard_business_brief",
-        "OKNO_MSK · полный отчёт исследования для владельца",
-    )
-    build(
-        SOURCES / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-        EDITABLE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-        "compact_reference_guide",
-        "OKNO_MSK · руководство SEO-специалиста",
-    )
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--document", choices=("01", "02", "all"), default="all")
+    args = parser.parse_args()
+    if args.document in {"01", "all"}:
+        build(
+            SOURCES / "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
+            EDITABLE / "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
+            "standard_business_brief",
+            "OKNO_MSK · полный отчёт исследования для владельца",
+        )
+    if args.document in {"02", "all"}:
+        build(
+            SOURCES / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
+            EDITABLE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
+            "compact_reference_guide",
+            "OKNO_MSK · руководство SEO-специалиста",
+        )
 
 
 if __name__ == "__main__":

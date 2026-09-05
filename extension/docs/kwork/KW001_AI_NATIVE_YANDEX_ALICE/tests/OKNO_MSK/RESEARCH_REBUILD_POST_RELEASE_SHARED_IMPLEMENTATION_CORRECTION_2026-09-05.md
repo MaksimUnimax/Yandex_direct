@@ -11,7 +11,8 @@
 
 ## Итог
 
-- `READY` физических изменений сайта: 8.
+- `READY` полностью готовых физических изменений сайта: 7.
+- `READY_PARTIAL__BUSINESS_DETAIL_REQUIRED`: 1 — S18-A012; разрешена только нейтральная часть без company-specific обещаний.
 - `READY_ANALYTICAL_MAPPING`, без изменения сайта: 19.
 - `NOT_READY__EVIDENCE_REQUIRED`: 4.
 - `PENDING_DETAIL__PLACEMENT_NOT_PROVEN`: S18-A032 и все 15 link-строк.

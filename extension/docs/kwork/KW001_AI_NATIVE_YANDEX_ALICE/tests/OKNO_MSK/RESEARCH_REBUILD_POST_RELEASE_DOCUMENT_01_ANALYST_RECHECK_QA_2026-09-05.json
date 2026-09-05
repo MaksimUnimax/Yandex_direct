@@ -1,0 +1,162 @@
+{
+  "status": "PASS",
+  "scope": "DOCUMENT_01_ONLY",
+  "checks": 285,
+  "failed": 0,
+  "qf": {
+    "pass_after_correction": 21,
+    "corrected": 8,
+    "unresolved": 0,
+    "rows": [
+      {
+        "case_id": "QF001",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF002",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF003",
+        "result": "PASS",
+        "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF004",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF005",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/uslugi/ustanovka-okon/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF006",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/alyuminievye-okna/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF007",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/balkony-i-lodzhii/panoramnoe-osteklenie-balkona/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF008",
+        "result": "PASS",
+        "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF009",
+        "result": "PASS",
+        "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF010",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/uslugi/otdelka-otkosov/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF011",
+        "result": "PASS",
+        "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF012",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/uslugi/remont-okon/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF013",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF014",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/okna-rehau/francuzskie-okna/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF015",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/uslugi/ustanovka-okon/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF016",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF017",
+        "result": "FIX",
+        "exact_owner": "https://okno-msk.ru/verandy/",
+        "family_distinction_required": true
+      },
+      {
+        "case_id": "QF018",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF019",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/stati/okno-otkrylos-v-dvuh-polozheniyah-chto-delat/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF020",
+        "result": "PASS",
+        "exact_owner": "https://okno-msk.ru/stati/kakie-okna-samye-luchshie/",
+        "family_distinction_required": false
+      },
+      {
+        "case_id": "QF021",
+        "result": "PASS",
+        "exact_owner": "NOT_APPLICABLE__NO_REPRESENTATIVE_EXACT_PHRASE",
+        "family_distinction_required": false
+      }
+    ]
+  },
+  "search_exact_observations": {
+    "reviewed": 75,
+    "pass": 75
+  },
+  "ai_causal_cases": {
+    "reviewed": 8,
+    "pass": 8
+  },
+  "actions": {
+    "total": 34,
+    "fully_ready_real_site": 7,
+    "partial_business_detail_required": 1,
+    "analytical_mapping": 19,
+    "evidence_recheck": 4,
+    "no_separate_change": 1,
+    "pending_detail": 1,
+    "hold": 1
+  },
+  "markdown_docx_pdf_equivalence": "PASS",
+  "document_01_analyst_recheck": "PASS",
+  "document_01_owner_review": "PENDING",
+  "provider_calls": 0,
+  "paid_cost_rub": 0
+}
