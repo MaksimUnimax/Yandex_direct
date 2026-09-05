@@ -6,6 +6,14 @@
 
 Этот документ исправляет recipient-purpose, physical-format и acceptance-contract для release file №03. Он не переписывает исторический Stage-11/Stage-15 provenance и не утверждает, что corrected physical artifact уже материализован.
 
+Обязательные owner authorities:
+
+- `RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md`;
+- `RESEARCH_REBUILD_STAGE_01_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX_2026-09-04.md`;
+- `RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md`.
+
+При конфликте краткой поздней формулировки с назначением варианта №03 из owner clarification действует owner clarification.
+
 ## 1. Исторический факт
 
 Исторический Stage-11/Stage-15 выпуск материализовал AI knowledge artifact как JSON:
@@ -14,206 +22,305 @@
 
 Исторический Stage-11 QA проверял parseability, self-contained data presence и counts. Эти артефакты сохраняются как evidence того, что реально было выпущено.
 
-Они не являются доказательством того, что JSON был правильным основным recipient format для LLM.
+Исторический факт `JSON EXISTS / JSON PARSES / DATA COUNTS RECONCILE` сам по себе не доказывает выполнение owner-defined recipient task.
 
-## 2. Для чего нужен третий документ
+## 2. Правильное назначение третьего документа
 
-Release file №03 нужен для **передачи результатов выполненного исследования другой AI-системе**.
+Release file №03 — **самодостаточный AI SEO-консультант по конкретному исследованному сайту**.
 
-Пользователь должен иметь возможность загрузить один основной AI knowledge document в новый чат / новую AI-систему и затем дать конкретную новую пользовательскую задачу, для которой нужны результаты этого исследования.
+После загрузки только этого документа совместимая AI-система должна быть способна выступать для заказчика как персональный специалист по поисковому продвижению именно по исследованному сайту.
 
-Новый AI должен получить из документа достаточный контекст, чтобы правильно понимать и использовать результаты исследования без необходимости заново объяснять проект пользователем и без необходимости восстанавливать смысл из GitHub, прежних чатов или внутренних служебных файлов.
-
-Главная функция:
+У заказчика после исследования есть два альтернативных пути внедрения одного и того же подтвержденного набора работ:
 
 ```text
-COMPLETED RESEARCH
--> SELF-CONTAINED AI-READABLE KNOWLEDGE HANDOFF
--> USER SUPPLIES A NEW TASK
--> AI USES THE RESEARCH RESULTS FOR THAT TASK
+ВАРИАНТ №02
+= ЧЕЛОВЕК-SEO-СПЕЦИАЛИСТ ПОЛУЧАЕТ ПРОФЕССИОНАЛЬНОЕ РУКОВОДСТВО
+-> ВЫПОЛНЯЕТ РАБОТЫ НА САЙТЕ
+
+ВАРИАНТ №03
+= ЗАКАЗЧИК ЗАГРУЖАЕТ AI KNOWLEDGE DOCUMENT В AI-СИСТЕМУ
+-> AI ВЫПОЛНЯЕТ РОЛЬ ПЕРСОНАЛЬНОГО SEO-КОНСУЛЬТАНТА
+-> ОБЪЯСНЯЕТ РАБОТЫ ПРОСТЫМИ СЛОВАМИ И ПОШАГОВО
+-> ЗАКАЗЧИК САМОСТОЯТЕЛЬНО ВНОСИТ ИЗМЕНЕНИЯ НА САЙТЕ
 ```
 
-## 3. Для чего третий документ НЕ нужен
+Варианты №02 и №03 должны вести к **одним и тем же подтвержденным изменениям**. Различаются исполнитель и форма передачи знаний, а не аналитическая истина.
 
-Release file №03 не является:
+## 3. Главный пользовательский сценарий
 
-- execution cursor;
-- roadmap handoff;
-- checkpoint recovery file;
-- внутренней очередью review;
-- инструкцией автоматически продолжать Stage/Step;
-- разрешением выполнять следующий внутренний этап;
-- заменой отдельного пользовательского запроса.
+```text
+ЗАКАЗЧИК
+-> ЗАГРУЖАЕТ ТОЛЬКО ДОКУМЕНТ №03 В ДОСТУПНУЮ AI-СИСТЕМУ
+-> ЗАДАЕТ ОБЫЧНЫЕ ВОПРОСЫ СВОИМИ СЛОВАМИ
+-> AI ОБЪЯСНЯЕТ:
+   ЧТО НА САЙТЕ ПРАВИЛЬНО / НЕПРАВИЛЬНО
+   ПОЧЕМУ
+   ЧЕМ ЭТО ПОДТВЕРЖДЕНО
+   ЧТО НУЖНО ИЗМЕНИТЬ
+   КАК ИМЕННО ИЗМЕНИТЬ ПОШАГОВО
+   ЧТО НЕЛЬЗЯ СЛОМАТЬ
+   КАК ПРОВЕРИТЬ ГОТОВЫЙ РЕЗУЛЬТАТ
+-> ЗАКАЗЧИК САМОСТОЯТЕЛЬНО ВНОСИТ ИЗМЕНЕНИЯ
+```
+
+Заказчик не обязан знать SEO, внутреннюю методику исследования, структуру семантического ядра, внутренние ID или терминологию проекта.
+
+AI должен переводить профессиональные знания из документа в понятные инструкции и объяснения.
+
+## 4. Какая именно «работа» имеется в виду
+
+Работа, которую помогает выполнять №03, — **внедрение подтвержденных рекомендаций исследования на сайте заказчика**.
+
+Это может включать, только если соответствующее действие подтверждено accepted research authority:
+
+- изменение содержания конкретной страницы;
+- добавление/перестройку смысловых блоков;
+- корректировку тем, вопросов и формулировок;
+- перераспределение семантики между существующими страницами;
+- настройку внутренних переходов;
+- подготовку понятного технического задания разработчику или автору текста;
+- проверку уже внесенного изменения по acceptance criterion;
+- выбор следующей подтвержденной работы после того, как заказчик сообщает, что часть внедрения уже выполнена.
+
+Фраза «что делать дальше» относится к **прогрессу заказчика по внедрению изменений на сайте**, а не к внутреннему Stage/Step проекта исследования.
+
+## 5. Для чего №03 НЕ предназначен
+
+№03 не является:
+
+- `EXECUTION_CURSOR` внутреннего проекта;
+- handoff-файлом для продолжения исследовательского roadmap;
+- checkpoint recovery для ChatGPT/Codex;
+- очередью post-release review;
+- разрешением автоматически запускать новый исследовательский этап;
+- заменой GitHub state management.
 
 Обязательная граница:
 
 ```text
-AI RESEARCH KNOWLEDGE HANDOFF
-!= INTERNAL EXECUTION HANDOFF
+AI CLIENT IMPLEMENTATION CONSULTANT
+!= INTERNAL RESEARCH EXECUTION HANDOFF
 
-RESEARCH CONTEXT TRANSFER
-!= CONTINUE ROADMAP FROM LAST CHECKPOINT
-
-AI KNOWLEDGE DOCUMENT
-!= EXECUTION_CURSOR
+CLIENT SITE IMPLEMENTATION PROGRESS
+!= INTERNAL ROADMAP CHECKPOINT
 ```
 
-Сам факт загрузки №03 не запускает никакую работу. Новая работа определяется только отдельной задачей пользователя.
+То есть AI по №03 **помогает заказчику внедрять результат исследования**, но не «продолжает наш проект с текущей точки».
 
-## 4. Как пользователь должен использовать №03
+## 6. Почему №03 не может быть только списком инструкций
 
-1. Открыть новый чат / новую AI-систему.
-2. Загрузить основной AI knowledge document.
-3. Указать, что документ содержит самодостаточный контекст результатов исследования и должен использоваться как source context.
-4. Дать конкретную новую задачу.
-5. AI использует зафиксированные выводы, evidence, решения, ограничения и uncertainty именно для этой пользовательской задачи.
-6. Если в документе нет факта, AI не должен превращать его в известный.
+Чтобы AI мог отвечать на вопросы, которые невозможно перечислить заранее, документ должен передавать полную логику исследования, достаточную для корректного reasoning в пределах подтвержденных данных.
 
-Примеры допустимого применения после загрузки №03:
+Для каждого существенного решения по возможности должны быть доступны:
 
-- объяснить, почему по конкретной странице/теме принято определенное решение;
-- подготовить производный материал на основе исследования;
-- сравнить варианты с учетом уже доказанных findings;
-- разобрать Search/AI evidence по конкретному вопросу;
-- использовать research findings при новой SEO-задаче пользователя;
-- показать, какие выводы подтверждены, а какие остаются HOLD/RECHECK/SEARCH_REQUIRED.
+- исходный факт;
+- состояние страницы/группы страниц сейчас;
+- пользовательская задача;
+- связанные запросы и смысловые группы;
+- ordinary Search observations;
+- AI-search observations;
+- интерпретация;
+- принятое решение;
+- почему оно принято;
+- существенные отвергнутые альтернативы;
+- целевое состояние;
+- конкретные действия по внедрению;
+- зависимости;
+- положительные элементы, которые нельзя случайно сломать;
+- ограничения evidence;
+- степень уверенности;
+- условия пересмотра решения;
+- критерий готовности / способ проверки результата.
 
-Эти примеры не являются автоматической очередью действий.
+AI должен уметь не только повторить команду, но и объяснить её смысл применительно к вопросу заказчика.
 
-## 5. Что основной AI knowledge document должен передавать
+## 7. Что основной AI knowledge document обязан содержать
 
-Документ должен позволять новому AI восстановить смысл выполненного исследования, а не только наличие строк/ID.
+### О бизнесе и сайте
 
-Минимальный material knowledge universe:
+- компания / бизнес-модель в пределах исследованного scope;
+- основные услуги/направления;
+- география и существенные ограничения;
+- существующая структура сайта;
+- значимые страницы, их фактическое и целевое назначение;
+- существенные особенности текущего содержания.
+
+### О спросе и семантике
+
+- исследованные направления и запросы;
+- итоговые смысловые группы;
+- пользовательские задачи;
+- очищенные, исключенные и спорные группы там, где это влияет на решения;
+- привязка запросов/групп к страницам;
+- конфликты и пересечения.
+
+### Об ordinary Search
+
+- что проверялось;
+- что наблюдалось;
+- что evidence подтверждает / не подтверждает;
+- как это повлияло на page/semantic decisions;
+- границы evidence.
+
+### Об AI-search evidence
+
+- какие cases проверялись и почему;
+- что наблюдалось;
+- где AI подтвердил обычное решение;
+- где изменил/дополнил/снизил уверенность;
+- где ничего не изменил и почему это все равно является результатом.
+
+### По каждой существенной странице / группе страниц
+
+- AS-IS;
+- что правильно и что нельзя ломать;
+- что неправильно / отсутствует;
+- почему;
+- evidence;
+- TO-BE;
+- связанные и исключенные запросы;
+- необходимые действия;
+- внутренние связи;
+- примеры, если обоснованы;
+- приоритет;
+- порядок/зависимости внедрения;
+- acceptance criterion;
+- limitations / uncertainty.
+
+### Об архитектуре и внедрении
+
+- текущее и целевое дерево/роли страниц;
+- что сохранить;
+- что изменить;
+- что создать/объединить/разделить/удалить только если доказано;
+- зависимости между работами;
+- подтвержденный порядок работ там, где он обоснован;
+- способы проверки выполнения.
+
+## 8. Какие вопросы AI по №03 обязан поддерживать
+
+Не закрытый перечень, но минимум:
+
+- Что на этой странице сейчас не так?
+- Что уже сделано правильно и что нельзя ломать?
+- Почему это проблема?
+- Чем вывод подтвержден?
+- Насколько это важно?
+- Что исправить в первую очередь?
+- Как именно исправить пошагово?
+- Как должна выглядеть страница после исправления?
+- Какие блоки/темы/вопросы/формулировки добавить или изменить?
+- Какие запросы относятся / не относятся к этой странице?
+- Нужна ли отдельная страница и почему?
+- Можно ли удалить/объединить/перенести страницу и почему?
+- Как связать страницу с другими страницами?
+- Какое ТЗ дать разработчику?
+- Какое ТЗ дать автору текста?
+- Какой пример можно использовать?
+- Я уже выполнил часть работ — что из подтвержденного плана делать дальше?
+- Как проверить, что изменение выполнено правильно?
+- Можно ли реализовать решение иначе и какие последствия следуют из имеющихся данных?
+- Что будет, если ничего не менять — только в пределах реально доказанного;
+- Какие рекомендации основаны на ordinary Search, а какие дополнительно подтверждены/скорректированы AI-search evidence?
+- Где данных недостаточно и категоричный ответ запрещен?
+
+## 9. Жесткая самодостаточность / offline contract
+
+При приемке предполагается строгий сценарий:
 
 ```text
-WHAT WAS RESEARCHED
-BUSINESS / SITE / SCOPE
-RESEARCH PURPOSE
-RESEARCH METHOD
-EVIDENCE CLASSES
-ORDINARY SEARCH ROLE AND BOUNDARIES
-AI EVIDENCE ROLE AND BOUNDARIES
-CURRENT ACCEPTED SEMANTIC / PAGE MODEL
-MATERIAL FINDINGS
-MATERIAL DECISIONS
-WHY EACH MATERIAL DECISION EXISTS
-KEEP / RETAIN / NO_CHANGE / DE_RISK FINDINGS
-SUPPORTED CHANGES
-NO-ACTION / NO-DESTRUCTIVE-ACTION BOUNDARIES
-UNCERTAINTY
-SEARCH_REQUIRED
-REVIEW_DEFERRED
-HOLD / RECHECK
-FORBIDDEN OR UNSUPPORTED CLAIMS
-CURRENT RESEARCH AUTHORITY PRIORITY
-```
-
-По материальным выводам должна быть восстановима эквивалентная причинная цепочка:
-
-```text
-FACT / OBSERVATION
--> EVIDENCE OBJECT
--> INTERPRETATION
--> SUPPORTED DECISION
--> LIMITATION
--> ACTION OR EXPLICIT NO-ACTION
-```
-
-## 6. Исправленный primary physical format
-
-Основной corrected release file №03 должен быть материализован как **LLM-readable Markdown document (`.md`)**.
-
-Причина: primary artifact должен быть оптимизирован под чтение, понимание контекста и reasoning новой AI-системой, а не под удобство serialization/counting.
-
-Structured JSON может быть сохранен как дополнительное приложение для полного row-level universe и машинных связей, если это полезно для конкретного AI/tooling environment.
-
-Но:
-
-```text
-MACHINE-READABLE
-!= LLM-USABLE
-
-JSON_PARSE_PASS
-!= AI_HANDOFF_PASS
-
-ALL ROWS PRESENT
-!= RESEARCH MEANING RECOVERABLE
-
-SELF-CONTAINED DATA
-!= SELF-CONTAINED KNOWLEDGE
-```
-
-Если в будущем другой формат будет выбран как sole primary AI artifact, deliverable contract обязан отдельно доказать, почему он лучше или эквивалентен для реальной recipient task.
-
-## 7. Что делать с историческим JSON
-
-Исторический JSON не удаляется и не переписывается задним числом.
-
-Он остается:
-
-```text
-HISTORICAL STAGE-11 / STAGE-15 PROVENANCE
-```
-
-и может быть повторно использован при corrected materialization как structured source/data annex, если его содержимое reconciles with current research authorities.
-
-Он не должен автоматически называться текущим accepted primary AI knowledge document после исправления.
-
-## 8. Исправленный AI recipient QA
-
-Старый QA вида `json_parse + row counts + self_contained=true` недостаточен.
-
-Требуется clean-context recipient test.
-
-Условия теста:
-
-```text
-NEW AI CONTEXT
+LOCAL / SEPARATE LLM
+NO INTERNET
+NO LIVE SITE
+NO YANDEX / SEARCH ENGINE ACCESS
+NO EXTERNAL PROVIDER / API
+NO GITHUB
 NO PREVIOUS CHAT
-NO GITHUB CONTEXT
-NO EXECUTION CURSOR
-NO HIDDEN PROJECT STATE
-PRIMARY AI KNOWLEDGE DOCUMENT ONLY
-+ EXPLICIT USER TASK
+NO INTERNAL PROJECT FILES
+ONLY ONE FINAL DOCUMENT №03
 ```
 
-AI должен корректно уметь:
+В этом сценарии AI должен иметь достаточно информации, чтобы отвечать на практические вопросы заказчика по внедрению в пределах проведенного исследования.
 
-- объяснить предмет и цель исследования;
-- восстановить material research findings;
-- объяснить причины material decisions;
-- отделить `KEEP/NO_CHANGE` от `HOLD/RECHECK`;
-- объяснить вклад ordinary Search и границу переноса evidence;
-- объяснить material AI causal case и его decision delta;
-- распознать uncertainty как uncertainty;
-- назвать unsupported claim, который нельзя делать;
-- использовать research context в новой пользовательской задаче;
-- не требовать внутреннего Stage/Step state для понимания исследования;
-- не начинать внутреннюю roadmap execution без отдельной команды пользователя.
+Если существенный ответ требует выдумать отсутствующий факт, обратиться к внешнему источнику или попросить внутренний файл, который должен был быть включен в №03, документ недостаточно самодостаточен.
+
+## 10. Исправленный primary physical format
+
+Corrected current release file №03 должен быть материализован как **LLM-readable Markdown document (`.md`)**.
+
+Это post-release recipient-format correction. Исходный owner contract требовал самодостаточности и практической AI-консультационной функции; он разрешал машинно-ориентированную структуру и технические идентификаторы, если они повышают точность, но не требовал JSON и отдельно запрещал потерю человекочитаемого смысла.
+
+Markdown используется как primary knowledge/instruction layer для LLM. Structured JSON может сохраняться как companion data annex для полного row-level universe и машинных связей, если это помогает конкретной системе.
+
+```text
+MACHINE-READABLE != AI-CONSULTANT-USABLE
+JSON_PARSE_PASS != AI-SEO-CONSULTANT PASS
+ALL ROWS PRESENT != PRACTICAL IMPLEMENTATION GUIDANCE RECOVERABLE
+```
+
+## 11. Что делать с историческим JSON
+
+Исторический JSON не удаляется и не переписывается задним числом. Он остается Stage-11/Stage-15 provenance и может быть источником/companion structured data при corrected materialization после reconciliation с current authorities.
+
+Он не должен автоматически считаться current accepted primary №03 после recipient-format correction.
+
+## 12. Исправленный clean-context AI recipient QA
+
+Условия:
+
+```text
+NEW / LOCAL-CONTEXT AI
+ONLY FINAL №03
+NO EXTERNAL ACCESS
+CLIENT-LIKE QUESTIONS IN PLAIN LANGUAGE
+```
+
+QA должен проверить не только знание исследования, но и практическую консультацию по внедрению.
+
+AI должен уметь:
+
+- объяснить проблему и доказательство;
+- объяснить, что уже правильно и что нельзя ломать;
+- дать пошаговое действие по конкретной странице/блоку;
+- сформировать понятное ТЗ разработчику/автору;
+- объяснить приоритет и зависимости;
+- объяснить acceptance criterion;
+- после сообщения пользователя о выполненной части работ определить следующий **подтвержденный шаг внедрения**, не смешивая это с internal roadmap;
+- различать READY / NO_CHANGE / HOLD / RECHECK / SEARCH_REQUIRED;
+- объяснить ordinary Search и AI causal contribution;
+- не выдумывать отсутствующий факт;
+- не предлагать иной набор работ, чем подтвержденный вариант №02.
 
 Hard PASS markers:
 
 ```text
-AI_HANDOFF_PURPOSE_CORRECT = true
-AI_HANDOFF_PRIMARY_FORMAT_RECIPIENT_JUSTIFIED = true
-AI_HANDOFF_RESEARCH_MEANING_SELF_CONTAINED = true
-AI_HANDOFF_NOT_EXECUTION_CURSOR = true
-AI_HANDOFF_CLEAN_CONTEXT_QA = PASS
-AI_HANDOFF_UNSUPPORTED_INFERENCE_RATE = 0 for declared hard-boundary cases
+AI_SITE_SPECIFIC_SEO_CONSULTANT_PURPOSE = true
+AI_CLIENT_CAN_IMPLEMENT_WITHOUT_SEO_KNOWLEDGE = true
+AI_VARIANT_03_WORKSET_EQUALS_VARIANT_02_CONFIRMED_WORKSET = true
+AI_OFFLINE_SELF_CONTAINED = true
+AI_CAN_EXPLAIN_WHY = true
+AI_CAN_EXPLAIN_HOW_STEP_BY_STEP = true
+AI_CAN_EXPLAIN_ACCEPTANCE_CHECK = true
+AI_CAN_PRESERVE_POSITIVE_NO_CHANGE = true
+AI_CAN_PRESERVE_UNCERTAINTY = true
+AI_INTERNAL_ROADMAP_CONFLATION = 0
+AI_UNSUPPORTED_FACT_INVENTION = 0 for declared hard-boundary tests
+AI_CLEAN_CONTEXT_RECIPIENT_QA = PASS
 ```
 
-## 9. Что должно быть исправлено при едином correction/materialization pass
+## 13. Что должно быть исправлено при едином correction/materialization pass
 
-1. Создать corrected current №03 `.md` из current accepted research authorities.
-2. Сохранить narrative/context layer как primary.
-3. При необходимости вынести полный structured row-level слой в companion JSON/data annex.
-4. Не переносить в назначение №03 `EXECUTION_CURSOR`, roadmap continuation или checkpoint semantics.
-5. Обновить corrected release README/manifest уже для нового corrected artifact set, а не переписывать исторический Stage-15 manifest.
-6. Провести clean-context AI recipient QA.
-7. Cross-reconcile corrected №03 с client report, SEO guide и workbook.
-8. Только после этого возвращать current recipient acceptance для AI artifact.
+1. Материализовать corrected current №03 `.md` как site-specific AI SEO consultant knowledge/instruction document.
+2. Передать полную research logic и evidence, а не только команды.
+3. Передать тот же подтвержденный workset, что вариант №02.
+4. Сделать инструкции понятными заказчику без SEO-знаний через AI.
+5. Включить достаточную implementation detail, dependencies и acceptance checks.
+6. JSON при необходимости сохранить только как structured companion layer.
+7. Не переносить в №03 внутренний `EXECUTION_CURSOR`, исследовательский roadmap или checkpoint semantics.
+8. Провести offline/clean-context practical implementation QA.
+9. Cross-reconcile №03 с №02 по workset и с №01/workbook по аналитической truth.
+10. Только после этого возвращать current recipient acceptance для AI artifact.
 
-## 10. Историческая граница
+## 14. Историческая граница
 
-Stage 0–15 historical completion и исторические commit/blob SHA остаются provenance. Этот correction authority объясняет, **что должно быть текущей исправленной версией**, а не меняет историю того, что было выпущено.
+Stage 0–15 historical completion и исторические commit/blob SHA остаются provenance. Этот correction authority определяет **current corrected recipient contract**, а не меняет историю того, что было выпущено.
