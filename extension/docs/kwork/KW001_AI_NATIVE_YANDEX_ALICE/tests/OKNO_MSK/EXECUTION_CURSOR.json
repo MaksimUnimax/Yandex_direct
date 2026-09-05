@@ -3,7 +3,7 @@
   "repo": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "job_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK",
-  "authority_state_file": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
+  "authority_state_file": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json",
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__POST_RELEASE_OWNER_REVIEW_ACTIVE",
