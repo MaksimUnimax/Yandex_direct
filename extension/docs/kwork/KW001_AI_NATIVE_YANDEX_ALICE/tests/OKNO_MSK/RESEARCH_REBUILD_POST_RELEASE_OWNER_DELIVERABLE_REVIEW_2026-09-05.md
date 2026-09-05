@@ -20,7 +20,7 @@ CORRECT DATABASE
 != CLIENT-USABLE WORKBOOK
 
 MACHINE-READABLE
-!= LLM-USABLE
+!= AI-CONSULTANT-USABLE
 
 INTERNAL QA PASS
 != OWNER / COMMISSIONER ACCEPTANCE
@@ -188,42 +188,47 @@ EVIDENCE_LOCATOR = технический источник для трассир
 
 **Correct rule:** `FIELDS PRESENT != EXECUTION DECISION RESOLVED`.
 
-## 4. Release file 03 — AI knowledge document
+## 4. Release file 03 — AI SEO-консультант по конкретному сайту
 
 Исторический release artifact: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json`.
 
-Исторический Stage-11 guide: `RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_GUIDE_2026-09-05.md`.
+Обязательное исходное owner authority: `RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md`.
 
-Исторический Stage-11 QA: `RESEARCH_REBUILD_STAGE_11_QA_2026-09-05.json`.
+Stage-1 acceptance authority: `RESEARCH_REBUILD_STAGE_01_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX_2026-09-04.md`.
+
+Current correction authority: `RESEARCH_REBUILD_POST_RELEASE_AI_KNOWLEDGE_RECIPIENT_CONTRACT_CORRECTION_2026-09-05.md`.
 
 ### Для чего файл №03 нужен на самом деле
 
-Файл №03 нужен для **передачи результатов выполненного исследования другой AI-системе**.
+В owner clarification назначение зафиксировано однозначно: №03 нельзя трактовать только как архив знаний, контекст для продолжения проекта другой AI-системой или внутренний перенос состояния между диалогами.
 
-Пользователь должен иметь возможность загрузить один основной AI knowledge document в новый чат / новую AI-систему и затем дать конкретную новую задачу, для которой нужны результаты этого исследования. Новый AI должен получить достаточный контекст о том, что исследовалось, какие данные/evidence использовались, какие решения приняты и почему, что подтверждено, что рекомендовано, что осталось неопределенным и какие выводы делать нельзя.
+№03 — самостоятельный клиентский путь **внедрения тех же подтвержденных работ по сайту**, которые в варианте №02 выполняет человек — SEO-специалист.
 
-Это **не** execution cursor, не roadmap handoff, не checkpoint и не инструкция автоматически продолжать внутренний проект.
-
-```text
-AI RESEARCH KNOWLEDGE HANDOFF
-!= INTERNAL EXECUTION HANDOFF
-
-RESEARCH CONTEXT TRANSFER
-!= CONTINUE ROADMAP FROM LAST CHECKPOINT
-```
-
-Любая новая работа определяется отдельным запросом пользователя. Файл №03 только переносит знания о выполненном исследовании, необходимые AI для такой новой задачи.
-
-### Как должен использоваться исправленный №03
+Правильная модель:
 
 ```text
-USER UPLOADS ONE PRIMARY AI KNOWLEDGE DOCUMENT
--> AI READS IT AS SELF-CONTAINED RESEARCH CONTEXT
--> USER PROVIDES A NEW TASK
--> AI USES THE RESEARCH FINDINGS / EVIDENCE / BOUNDARIES FOR THAT TASK
+№02
+= ЧЕЛОВЕК-SEO-СПЕЦИАЛИСТ ВЫПОЛНЯЕТ ПОДТВЕРЖДЕННЫЕ РАБОТЫ
+
+№03
+= AI СТАНОВИТСЯ ПЕРСОНАЛЬНЫМ SEO-КОНСУЛЬТАНТОМ ПО ЭТОМУ САЙТУ
+-> ЗАКАЗЧИК ЗАДАЕТ ОБЫЧНЫЕ ВОПРОСЫ
+-> AI ОБЪЯСНЯЕТ ЧТО / ПОЧЕМУ / КАК / КАК ПРОВЕРИТЬ
+-> ЗАКАЗЧИК САМОСТОЯТЕЛЬНО ВНОСИТ ИЗМЕНЕНИЯ
 ```
 
-Новый AI не должен самостоятельно восстанавливать Stage/Step, `EXECUTION_CURSOR`, review queue или автоматически выполнять следующий внутренний этап только потому, что knowledge document был загружен.
+Заказчик не обязан разбираться в SEO. AI должен переводить полную профессиональную логику исследования в понятные пошаговые инструкции.
+
+### Что означает «я уже выполнил часть работ — что делать дальше»
+
+Это вопрос о **прогрессе заказчика по внедрению подтвержденных изменений на сайте**.
+
+Он не имеет отношения к Stage/Step, `EXECUTION_CURSOR`, post-release review или продолжению внутреннего исследовательского roadmap.
+
+```text
+CLIENT SITE IMPLEMENTATION PROGRESS
+!= INTERNAL RESEARCH ROADMAP CHECKPOINT
+```
 
 ### Что сделано правильно исторической Stage-11 materialization
 
@@ -235,94 +240,85 @@ USER UPLOADS ONE PRIMARY AI KNOWLEDGE DOCUMENT
 - exact-query Search evidence не разрешалось автоматически переносить на всё семейство;
 - AI verdict не приравнивался к decision value без delta.
 
-То есть Stage 11 сохранил значительный объем правильной исследовательской truth. Дефект относится прежде всего к recipient contract, primary format и recipient-specific QA, а не является доказательством потери всего canonical data layer.
+То есть Stage 11 сохранил значительный объем правильной research truth. Дефект не доказывает потерю canonical data; он относится к recipient function, primary format, practical implementation usability и QA.
 
-### AI-01 — JSON выбран как основной AI knowledge document без доказанного recipient-format основания
+### AI-01 — финальная materialization/packaging не доказывает owner-defined функцию «персональный SEO-консультант»
 
-**Ошибка:** исторический Stage-11 guide просто объявил `.json` основным AI-артефактом. Постоянный product contract не требовал именно JSON и не доказывал, что serialization-oriented формат лучше всего выполняет задачу передачи исследовательского контекста LLM.
+**Ошибка:** наличие self-contained data bundle и interpretation rules не доказывает, что заказчик без SEO-знаний может загрузить №03, задать обычный вопрос и получить практическое объяснение и пошаговую инструкцию по внедрению.
 
-**Как исправить:** исправленный основной файл №03 материализовать как самодостаточный LLM-readable Markdown document (`.md`). JSON может оставаться дополнительным структурированным data annex для полного row-level universe, но не автоматически подменять основной knowledge/context layer.
+**Как исправить:** corrected №03 должен прямо строиться как AI consultant knowledge/instruction document и проходить practical client-question QA.
 
-**Correct rule:** `MACHINE-READABLE != LLM-USABLE`.
+### AI-02 — JSON выбран как основной AI artifact без доказанного recipient-format основания
 
-### AI-02 — self-contained data ошибочно приравнен к self-contained knowledge
+Roadmap разрешал машинно-ориентированную структуру и технические идентификаторы, если они повышают точность, но требовал сохранить человекочитаемый смысл. Требования «основной файл обязательно JSON» в owner contract нет.
 
-**Ошибка:** наличие всех таблиц/rows/IDs само по себе не доказывает, что новый AI восстановит смысл исследования: цель, метод, причинность решений, роль evidence, ограничения и uncertainty.
-
-**Как исправить:** основной `.md` должен связно материализовать как минимум:
+**Как исправить:** corrected primary №03 материализовать как self-contained LLM-readable Markdown (`.md`). JSON может оставаться companion data annex для row-level completeness.
 
 ```text
-WHAT WAS RESEARCHED
-BUSINESS / SITE / SCOPE
-RESEARCH PURPOSE
-EVIDENCE CLASSES AND METHOD
-CURRENT SEMANTIC / PAGE MODEL
-MATERIAL FINDINGS
-WHY EACH MATERIAL DECISION EXISTS
-ORDINARY SEARCH CONTRIBUTION
-AI CAUSAL CONTRIBUTION
-KEEP / RETAIN / NO_CHANGE / DE_RISK
-RECOMMENDED CHANGES
-UNCERTAINTY / HOLD / RECHECK / SEARCH_REQUIRED
-CLAIM BOUNDARIES / FORBIDDEN INFERENCES
-CURRENT RESEARCH AUTHORITY PRIORITY
+MACHINE-READABLE != AI-CONSULTANT-USABLE
 ```
 
-Полные row-level данные могут находиться в приложении/структурированном слое, но knowledge document не должен заставлять AI самостоятельно реконструировать повествование из массива внутренних объектов.
+### AI-03 — полная research logic должна обслуживать практическое внедрение, а не только справочный поиск по данным
 
-### AI-03 — Stage-11 QA проверял serialization/counts, а не реальную задачу AI-получателя
+№03 нельзя сводить ни к списку команд, ни к data archive. Для material decisions AI должен иметь цепочку current state → evidence → interpretation → decision → why → target state → exact action → dependencies/do-not-break → acceptance → limitation.
 
-Исторический QA проверял `json_parse`, `self_contained` и counts по semantic/unit/action/evidence/search/AI/uncertainty/link/routing rows.
+Иначе AI не сможет корректно отвечать на незаранее перечисленные вопросы заказчика.
 
-Это полезная data-integrity проверка, но она не отвечает на вопрос:
+### AI-04 — не доказано равенство практического workset между №02 и №03
 
-> сможет ли новая AI-система, получив только основной файл №03 и новую пользовательскую задачу, правильно использовать результаты исследования без GitHub/старых чатов и без выдумывания отсутствующего контекста?
+Owner authority требует, чтобы оба пути реализовывали **одни и те же подтвержденные изменения**.
 
-**Correct rule:** `JSON_PARSE_PASS != AI_HANDOFF_PASS`.
-
-### AI-04 — отсутствовал clean-context AI recipient walkthrough
-
-**Как исправить:** перед PASS провести реальный clean-context test. Новая AI-сессия получает только основной knowledge document и набор recipient tasks, например:
-
-- объяснить, почему для конкретной material page/topic принято текущее решение;
-- отделить подтвержденный `NO_CHANGE/KEEP` от `HOLD/RECHECK`;
-- показать, что именно ordinary Search поддержал и где заканчивается evidence boundary;
-- объяснить material AI case и его decision delta;
-- назвать unsupported claim, который нельзя делать;
-- использовать результаты исследования для новой производной пользовательской задачи без repository reconstruction.
-
-PASS возможен только если ответы соответствуют current research authorities и не требуют внутреннего execution state.
-
-### AI-05 — release usage был сформулирован слишком технически
-
-Исторический README говорил AI-системе «загрузить файл 03 и следовать interpretation rules». Это не объясняло нормальный recipient workflow и усиливало восприятие №03 как автономного исполнительного пакета.
-
-**Как исправить:** usage должен быть пользовательским:
+Stage-13 cross-view consistency проверил 26 material claims, но practical AI-consultant acceptance должна отдельно доказать:
 
 ```text
-UPLOAD KNOWLEDGE DOCUMENT
--> TREAT AS RESEARCH CONTEXT
--> USER ASKS A NEW TASK
--> AI USES RESEARCH RESULTS FOR THAT TASK
+VARIANT_03_CONFIRMED_WORKSET
+== VARIANT_02_CONFIRMED_WORKSET
 ```
 
-### AI-06 — non-purpose boundary не был достаточно жестко зафиксирован
+AI не должен добавлять новые неподтвержденные работы только потому, что модель умеет генерировать SEO-идеи.
 
-Документация должна прямо запрещать смешение AI knowledge document с внутренними файлами управления выполнением.
+### AI-05 — Stage-11 QA проверял serialization/counts, а не практическую задачу заказчика
+
+Исторический QA проверял `json_parse`, `self_contained` и counts. Это data-integrity QA, а не proof того, что локальная/new-context LLM умеет провести заказчика по внедрению.
+
+**Correct rule:** `JSON_PARSE_PASS != AI-SEO-CONSULTANT PASS`.
+
+### AI-06 — отсутствовал строгий offline practical walkthrough по owner questions
+
+Owner clarification требует моделировать отдельную локальную LLM без интернета, live-site, Yandex, API, GitHub, предыдущего диалога и внутренних файлов; ей доступен только №03.
+
+Нужно проверять вопросы типа:
+
+- что на странице не так;
+- что уже правильно и нельзя ломать;
+- почему это проблема и чем подтверждено;
+- как исправить пошагово;
+- какие блоки/темы/запросы менять;
+- как связать страницы;
+- какое ТЗ дать разработчику/автору;
+- как проверить результат;
+- после выполненной части подтвержденных работ — какой шаг внедрения следующий;
+- где данных недостаточно и категоричный ответ запрещен.
+
+### AI-07 — внутренняя project-execution semantics должна быть явно отделена от клиентского внедрения
+
+Чтобы не повторять текущую ошибку интерпретации, corrected contract фиксирует:
 
 ```text
-AI KNOWLEDGE DOCUMENT != EXECUTION_CURSOR
-AI KNOWLEDGE DOCUMENT != ROADMAP CHECKPOINT
-AI KNOWLEDGE DOCUMENT != AUTOMATIC NEXT-STAGE INSTRUCTION
+AI CLIENT IMPLEMENTATION CONSULTANT
+!= INTERNAL RESEARCH EXECUTION HANDOFF
+
+AI KNOWLEDGE DOCUMENT
+!= EXECUTION_CURSOR
 ```
 
-Новый AI может выполнять новую работу только по отдельной пользовательской задаче; сам факт загрузки №03 не является разрешением или инструкцией продолжать внутренний roadmap.
+№03 помогает заказчику реализовать подтвержденные изменения на **сайте**, а не продолжать наш repository roadmap.
 
-### AI-07 — физический corrected artifact еще не материализован
+### AI-08 — corrected physical №03 еще не материализован
 
-На момент этого review в историческом release физически лежит JSON №03. Исправленный Markdown №03 должен быть создан в едином correction/materialization pass после завершения defect discovery, затем проверен clean-context AI recipient QA и только после этого заменять исторический JSON как current accepted recipient artifact.
+На момент review физически существует исторический JSON. Corrected `.md` должен быть создан в едином correction/materialization pass, reconciled с №02 и проверен offline practical AI QA.
 
-Исторический JSON и release manifest сохраняются как provenance того, что реально было выпущено; они не переписываются задним числом так, будто исправленный `.md` существовал в Stage 15.
+Исторический JSON и Stage-15 manifest сохраняются как provenance и не переписываются задним числом.
 
 ## 5. Release file 04 — rebuilt workbook
 
@@ -401,7 +397,7 @@ RECIPIENT-SPECIFIC PRODUCT CONTRACT IS TESTED TOO WEAKLY
 OWNER FINDS MATERIAL RECIPIENT DEFECTS AFTER RELEASE
 ```
 
-Stage 19/20 должны проверять не только наличие знания в package, а самостоятельную полноту каждого обещанного recipient artifact для его конкретного получателя.
+Stage 19/20 должны проверять не только наличие знания в package, а самостоятельную полноту каждого обещанного recipient artifact для его конкретного получателя и реальной recipient task.
 
 Отдельные non-equivalences:
 
@@ -409,8 +405,8 @@ Stage 19/20 должны проверять не только наличие з�
 PACKAGE-WIDE TRUTH != RECIPIENT-ARTIFACT COMPLETENESS
 FIELDS PRESENT != EXECUTABLE SPECIALIST TASK
 CORRECT DATABASE != CLIENT-USABLE WORKBOOK
-MACHINE-READABLE != LLM-USABLE
-AI RESEARCH HANDOFF != EXECUTION CHECKPOINT
+MACHINE-READABLE != AI-CONSULTANT-USABLE
+AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
 ```
 
 ## 7. Required correction pass after review closes
@@ -421,14 +417,17 @@ AI RESEARCH HANDOFF != EXECUTION CHECKPOINT
 2. расширить client report из master authority, а не изобретать новое исследование;
 3. полностью локализовать recipient-facing SEO instructions;
 4. довести routing/link/ownership work packages до явного implementation mode и точного placement там, где это требуется;
-5. материализовать corrected release file №03 как self-contained LLM-readable Markdown research knowledge handoff; JSON при необходимости оставить только как structured data annex;
-6. не включать в №03 `EXECUTION_CURSOR`, roadmap continuation или автоматическую next-stage semantics как его назначение;
-7. пересобрать workbook из исправленных client/spec authorities;
-8. сохранить technical detail sheets, но дать нормальную recipient front door;
-9. повторить cross-view reconciliation;
-10. провести отдельный clean-context AI recipient walkthrough для №03;
-11. повторить recipient-specific product QA;
-12. только после owner/commissioner review вернуть финальный recipient acceptance.
+5. материализовать corrected release file №03 как self-contained Markdown AI SEO-consultant document для заказчика;
+6. обеспечить, что №03 содержит тот же подтвержденный workset, что №02, но объясняет его для клиента без SEO-знаний;
+7. включить в №03 достаточные WHY / HOW / dependencies / do-not-break / acceptance checks и полную research logic;
+8. JSON при необходимости оставить companion structured data layer, но не считать serialization proof recipient usability;
+9. не переносить в №03 `EXECUTION_CURSOR`, внутренний roadmap или checkpoint semantics;
+10. пересобрать workbook из исправленных client/spec authorities;
+11. сохранить technical detail sheets, но дать нормальную recipient front door;
+12. повторить cross-view reconciliation, включая equality workset №02 ↔ №03;
+13. провести offline clean-context practical AI-consultant walkthrough;
+14. повторить recipient-specific product QA;
+15. только после owner/commissioner review вернуть финальный recipient acceptance.
 
 ## 8. Permanent lessons promoted by this review
 
@@ -437,17 +436,17 @@ AI RESEARCH HANDOFF != EXECUTION CHECKPOINT
 Для AI recipient обязательно закрепить:
 
 ```text
-AI RESEARCH KNOWLEDGE HANDOFF != EXECUTION HANDOFF
-MACHINE-READABLE != LLM-USABLE
-JSON_PARSE_PASS != AI_HANDOFF_PASS
-SELF-CONTAINED DATA != SELF-CONTAINED KNOWLEDGE
+AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION HANDOFF
+MACHINE-READABLE != AI-CONSULTANT-USABLE
+JSON_PARSE_PASS != AI-CONSULTANT PASS
+AI PATH CONFIRMED WORKSET == HUMAN SPECIALIST PATH CONFIRMED WORKSET
 ```
 
 ## 9. Review status by physical release file
 
 - [x] Release file 01 — Client research report: defect set recorded
 - [x] Release file 02 — SEO specialist guide: defect set recorded
-- [x] Release file 03 — AI knowledge document: recipient-purpose / format / QA defect set recorded; corrected physical `.md` pending correction pass
+- [x] Release file 03 — AI SEO-consultant artifact: recipient-purpose / format / practical implementation / QA defect set recorded; corrected physical `.md` pending correction pass
 - [x] Release file 04 — Workbook: structural/materialization review complete; direct binary owner usability check remains pending if material
 - [ ] Release README / delivery message — recipient wording review
 - [ ] Final package-level recipient experience
