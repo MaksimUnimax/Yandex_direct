@@ -371,7 +371,7 @@
   },
   "stage_5": {
     "date": "2026-09-05",
-    "status": "COMPLETE__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_05_ANALYTICAL_REWORK_REPORT_2026-09-05.md",
     "semantic_master": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
     "unit_authority": "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
@@ -387,7 +387,8 @@
     "action_rows": 34,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0,
-    "readback_status": "PASS"
+    "readback_status": "PASS",
+    "commit_sha": "a505c50b77dce02af105f48d43f30fdc66fd30e6"
   },
   "stage_6": {
     "status": "COMPLETE__GITHUB_READBACK_PASS",
