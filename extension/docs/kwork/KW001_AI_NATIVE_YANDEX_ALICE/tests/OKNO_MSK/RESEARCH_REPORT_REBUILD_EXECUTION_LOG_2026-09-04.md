@@ -362,3 +362,18 @@ Decision:
 - `RESEARCH_REBUILD_STAGE_03_QA_2026-09-05.json`.
 
 Следующий этап выполняется автоматически: Stage 4.
+
+### Запись 12 — 2026-09-05 — Stage 4: финальная defect/recovery classification
+
+Статус: `COMPLETE / READBACK PENDING`.
+
+Stage 2 и Stage 3 сведены в единый 25-row disposition register:
+- REPACKAGE=7;
+- RETAIN=3;
+- REANALYZE=8;
+- POSITIVE_NO_CHANGE=5;
+- INSUFFICIENT_EVIDENCE=2.
+
+Все 16 material Stage-2 findings, 8 AI cases и PP-19 source gap имеют evidence, PP, downstream stage, recovery и blocker/data condition. Новые provider calls=0; стоимость=0 ₽.
+
+Следующий этап выполняется автоматически: Stage 5 — единый final semantic master.

@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_3_COMPLETE__STAGE_4_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_4_COMPLETE__STAGE_5_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -27,7 +27,7 @@
     "stage_1": "COMPLETE",
     "stage_2": "COMPLETE",
     "stage_3": "COMPLETE",
-    "stage_4": "NOT_STARTED",
+    "stage_4": "COMPLETE",
     "stage_5": "NOT_STARTED",
     "stage_6": "NOT_STARTED",
     "stage_7": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_4_FINAL_DEFECT_RECOVERY_CLASSIFICATION",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_5_REAL_ANALYTICAL_REWORK",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -321,7 +321,7 @@
   },
   "stage_3": {
     "date": "2026-09-05",
-    "status": "COMPLETE__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "main_artifact": "RESEARCH_REBUILD_STAGE_03_AI_SEARCH_REBUILD_AUDIT_2026-09-05.md",
     "causal_ledger": "RESEARCH_REBUILD_STAGE_03_AI_CAUSAL_LEDGER_2026-09-05.tsv",
     "qa": "RESEARCH_REBUILD_STAGE_03_QA_2026-09-05.json",
@@ -339,6 +339,28 @@
       "S18-A030",
       "S18-A031"
     ],
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "readback": {
+      "status": "PASS",
+      "commit_sha": "d1b036ce88d9d86bea7216c6d0e415a7e8826b87",
+      "files": 3
+    }
+  },
+  "stage_4": {
+    "date": "2026-09-05",
+    "status": "COMPLETE__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_CLASSIFICATION_2026-09-05.md",
+    "register": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_REGISTER_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_04_QA_2026-09-05.json",
+    "rows": 25,
+    "disposition_counts": {
+      "REPACKAGE": 7,
+      "RETAIN": 3,
+      "REANALYZE": 8,
+      "POSITIVE_NO_CHANGE": 5,
+      "INSUFFICIENT_EVIDENCE": 2
+    },
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

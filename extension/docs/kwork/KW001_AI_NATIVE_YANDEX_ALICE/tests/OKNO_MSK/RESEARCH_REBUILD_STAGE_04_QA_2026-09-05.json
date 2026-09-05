@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-05",
+  "stage": 4,
+  "status": "PASS",
+  "rows": 25,
+  "disposition_counts": {
+    "REPACKAGE": 7,
+    "RETAIN": 3,
+    "REANALYZE": 8,
+    "POSITIVE_NO_CHANGE": 5,
+    "INSUFFICIENT_EVIDENCE": 2
+  },
+  "stage2_findings_accounted": 16,
+  "stage3_cases_accounted": 8,
+  "pp19_gap_accounted": 1,
+  "new_provider_calls": 0,
+  "new_paid_cost_rub": 0,
+  "next_stage": 5
+}

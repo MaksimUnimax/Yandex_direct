@@ -7,13 +7,13 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "3",
-  "status": "STAGE_3_COMPLETE__CONTINUING_TO_STAGE_4",
+  "stage": "4",
+  "status": "STAGE_4_COMPLETE__CONTINUING_TO_STAGE_5",
   "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "EXECUTE_STAGE_4_FINAL_DEFECT_RECOVERY_CLASSIFICATION",
+  "next_action": "EXECUTE_STAGE_5_REAL_ANALYTICAL_REWORK__BUILD_ONE_FINAL_SEMANTIC_MASTER",
   "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
@@ -83,7 +83,7 @@
     "new_provider_calls_unconditionally_authorized": false
   },
   "stage_3_completion": {
-    "status": "PASS__READBACK_PENDING",
+    "status": "PASS__GITHUB_READBACK_PASS",
     "main_artifact": "RESEARCH_REBUILD_STAGE_03_AI_SEARCH_REBUILD_AUDIT_2026-09-05.md",
     "causal_ledger": "RESEARCH_REBUILD_STAGE_03_AI_CAUSAL_LEDGER_2026-09-05.tsv",
     "qa": "RESEARCH_REBUILD_STAGE_03_QA_2026-09-05.json",
@@ -96,6 +96,16 @@
       "INSUFFICIENT": 1
     },
     "architecture_changes": 0,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "d1b036ce88d9d86bea7216c6d0e415a7e8826b87"
+  },
+  "stage_4_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_CLASSIFICATION_2026-09-05.md",
+    "register": "RESEARCH_REBUILD_STAGE_04_FINAL_DEFECT_RECOVERY_REGISTER_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_04_QA_2026-09-05.json",
+    "rows": 25,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }
