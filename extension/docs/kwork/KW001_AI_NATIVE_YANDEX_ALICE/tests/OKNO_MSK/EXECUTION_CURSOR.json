@@ -7,13 +7,13 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "11",
-  "status": "STAGE_11_COMPLETE__CONTINUING_TO_STAGE_12",
+  "stage": "12",
+  "status": "STAGE_12_COMPLETE__CONTINUING_TO_STAGE_13",
   "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "EXECUTE_STAGE_12_WORKBOOK_APPENDIX_CLIENT_DATA_MATERIALIZATION",
+  "next_action": "EXECUTE_STAGE_13_THREE_RECIPIENT_CONSISTENCY_REVIEW",
   "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
@@ -187,7 +187,7 @@
     "commit_sha": "ad1d29e14f12ed5de9771a6dab0d10869d98bc0d"
   },
   "stage_11_completion": {
-    "status": "PASS__READBACK_PENDING",
+    "status": "PASS__GITHUB_READBACK_PASS",
     "ai_knowledge_document": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json",
     "usage_guide": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_GUIDE_2026-09-05.md",
     "qa": "RESEARCH_REBUILD_STAGE_11_QA_2026-09-05.json",
@@ -197,6 +197,18 @@
     "action_rows": 34,
     "evidence_rows": 95,
     "uncertainty_rows": 221,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "b1e49b8238c422f8582643cd28850361a8e024bf"
+  },
+  "stage_12_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "workbook": "OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx",
+    "manifest": "RESEARCH_REBUILD_STAGE_12_MATERIALIZATION_MANIFEST_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_12_QA_2026-09-05.json",
+    "sha256": "3a5961d35df8da02b94c18914f35cf58a3c049ae95be7aed2223c32793295e07",
+    "size_bytes": 656682,
+    "sheets": 12,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

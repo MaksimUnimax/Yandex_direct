@@ -449,3 +449,13 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Added interpretation rules and safe retrieval/answer boundaries.
 - QA result: PASS. New provider calls: 0. Paid cost: 0.
 - Stage 12 workbook/data materialization is next.
+
+
+## 2026-09-05 — Stage 12 complete: workbook/client data materialization
+
+- Generated a new 12-sheet Excel workbook from the current Stage 05 semantic and action authorities.
+- Materialized 2,840 semantic rows, 168 units, 34 actions/specs, 95 evidence rows, 8 AI cases, 15 links, 46 routes and 221 uncertainty rows.
+- Declared source revisions, overlay precedence, stable keys, generator version and all material consumers.
+- Rendered and visually inspected all sheets; formula-error scan returned zero matches.
+- Workbook SHA-256: 3a5961d35df8da02b94c18914f35cf58a3c049ae95be7aed2223c32793295e07.
+- New provider calls: 0. Paid cost: 0. Stage 13 consistency review is next.

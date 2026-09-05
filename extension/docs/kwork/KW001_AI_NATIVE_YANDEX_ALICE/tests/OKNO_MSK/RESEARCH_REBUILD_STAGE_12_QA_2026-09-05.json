@@ -1,0 +1,35 @@
+{
+  "stage": 12,
+  "status": "PASS",
+  "workbook": {
+    "filename": "OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx",
+    "size_bytes": 656682,
+    "sha256": "3a5961d35df8da02b94c18914f35cf58a3c049ae95be7aed2223c32793295e07",
+    "file_type": "Microsoft Excel 2007+",
+    "sheets": 12
+  },
+  "checks": {
+    "semantic_rows": 2840,
+    "unit_rows": 168,
+    "action_rows": 34,
+    "implementation_rows": 34,
+    "evidence_rows": 95,
+    "ai_rows": 8,
+    "link_rows": 15,
+    "routing_rows": 46,
+    "uncertainty_rows": 221,
+    "summary_values_reconciled": true,
+    "formula_error_matches": 0,
+    "rendered_sheets": 12,
+    "visual_pass_sheets": 12,
+    "clipped_or_broken_summary": false,
+    "current_semantic_master_only": true,
+    "current_action_authority_only": true,
+    "overlay_precedence_declared": true,
+    "stable_keys_declared": true,
+    "historical_artifacts_overwritten": false,
+    "new_provider_calls": 0,
+    "paid_cost": 0
+  },
+  "result": "PASS__CURRENT_AUTHORITY_WORKBOOK_MATERIALIZED"
+}

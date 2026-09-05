@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_11_COMPLETE__STAGE_12_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_12_COMPLETE__STAGE_13_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -35,7 +35,7 @@
     "stage_9": "COMPLETE",
     "stage_10": "COMPLETE",
     "stage_11": "COMPLETE",
-    "stage_12": "NOT_STARTED",
+    "stage_12": "COMPLETE",
     "stage_13": "NOT_STARTED",
     "stage_14": "NOT_STARTED",
     "stage_15": "NOT_STARTED"
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_12_WORKBOOK_APPENDIX_CLIENT_DATA_MATERIALIZATION",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_13_THREE_RECIPIENT_CONSISTENCY_REVIEW",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -461,7 +461,7 @@
     "commit_sha": "ad1d29e14f12ed5de9771a6dab0d10869d98bc0d"
   },
   "stage_11": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__GITHUB_READBACK_PASS",
     "ai_knowledge_document": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json",
     "usage_guide": "RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_GUIDE_2026-09-05.md",
     "qa": "RESEARCH_REBUILD_STAGE_11_QA_2026-09-05.json",
@@ -471,6 +471,19 @@
     "evidence_rows": 95,
     "uncertainty_rows": 221,
     "self_contained": true,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "b1e49b8238c422f8582643cd28850361a8e024bf"
+  },
+  "stage_12": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "workbook": "OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx",
+    "report": "RESEARCH_REBUILD_STAGE_12_WORKBOOK_MATERIALIZATION_2026-09-05.md",
+    "manifest": "RESEARCH_REBUILD_STAGE_12_MATERIALIZATION_MANIFEST_2026-09-05.md",
+    "qa": "RESEARCH_REBUILD_STAGE_12_QA_2026-09-05.json",
+    "workbook_sha256": "3a5961d35df8da02b94c18914f35cf58a3c049ae95be7aed2223c32793295e07",
+    "workbook_size_bytes": 656682,
+    "sheets": 12,
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }
