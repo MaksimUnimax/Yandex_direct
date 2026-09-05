@@ -47,7 +47,7 @@ PRIMARY PHYSICAL FORMAT AND WHY IT FITS THE RECIPIENT
 WHAT THE ARTIFACT IS EXPLICITLY NOT FOR
 ```
 
-A different artifact may supplement the recipient view, but may not silently satisfy a requirement declared self-contained in the current artifact.
+A different artifact may supplement the recipient view only when the contract permits it; it may never silently satisfy information declared self-contained in the current artifact.
 
 ## 3. Depth validation for research reports
 
@@ -84,97 +84,74 @@ RECIPIENT LANGUAGE IS COMPLIANT
 
 Routing/link/ownership rows require their own mode-specific tests.
 
-## 5. AI site-specific SEO consultant validation
+## 5. AI artifact — independence and self-containment validation
 
-When an AI artifact is intended to let a non-specialist client implement confirmed recommendations through an AI assistant, Step20 must test that exact client scenario.
+When an AI artifact is promised as a self-contained way to use the completed research, Step20 must test **independence first**.
 
-The intended function is:
-
-```text
-CLIENT LOADS ONE SELF-CONTAINED AI ARTIFACT
--> AI BECOMES A SITE-SPECIFIC SEO IMPLEMENTATION CONSULTANT
--> CLIENT ASKS QUESTIONS IN ORDINARY LANGUAGE
--> AI EXPLAINS WHAT / WHY / HOW / WHAT NOT TO BREAK / HOW TO CHECK
--> CLIENT IMPLEMENTS THE CONFIRMED SITE CHANGES
-```
-
-If a human-specialist implementation guide exists in parallel, both recipient paths must represent the same confirmed workset.
+The exact hard scenario is:
 
 ```text
-HUMAN SPECIALIST PATH WORKSET
-== AI CONSULTANT PATH CONFIRMED WORKSET
-```
-
-The AI artifact is not accepted if it merely acts as an archive/reference and cannot support practical implementation.
-
-### 5.1 Internal-execution boundary
-
-The AI may guide the client's **site implementation progress**. That must not be confused with the analyst's internal research roadmap.
-
-```text
-AI CLIENT IMPLEMENTATION CONSULTANT
-!= INTERNAL RESEARCH EXECUTION HANDOFF
-
-CLIENT SITE IMPLEMENTATION PROGRESS
-!= INTERNAL ROADMAP CHECKPOINT
-
-AI KNOWLEDGE DOCUMENT
-!= EXECUTION_CURSOR
-```
-
-A client question such as “I completed part of the work; what should I do next?” must be interpreted against the confirmed implementation workset, dependencies and priorities—not against internal Stage/Step state.
-
-### 5.2 Primary-format validation
-
-Do not accept a primary physical format merely because it is easy to serialize or count.
-
-For an LLM-oriented consultant/context artifact, Markdown is the default primary format unless the deliverable contract demonstrates that another physical format is equally or more usable for the target AI environment.
-
-Structured JSON/CSV/TSV may be companion data layers. If a non-Markdown format is the sole primary artifact, QA must validate why it better serves the client-consultation task and prove equivalent practical consultation quality.
-
-```text
-MACHINE-READABLE != AI-CONSULTANT-USABLE
-JSON_PARSE_PASS != AI-CONSULTANT PASS
-ALL DATA PRESENT != PRACTICAL IMPLEMENTATION GUIDANCE RECOVERABLE
-```
-
-### 5.3 Strict offline / clean-context walkthrough
-
-Use a fresh/local AI context with:
-
-```text
+SEPARATE / LOCAL LLM
 NO PREVIOUS CHAT
 NO GITHUB
 NO INTERNAL PROJECT FILES
 NO LIVE SITE
 NO INTERNET
 NO SEARCH ENGINE
-NO PROVIDER / API
+NO EXTERNAL PROVIDER / API
 ONLY THE PROMISED FINAL AI ARTIFACT
 ```
 
-Ask practical plain-language client questions. Verify that the AI can correctly:
+The AI artifact passes only if, in that environment, the model can explain the completed research and the confirmed implementation work at the promised depth without needing another source that the artifact should contain.
+
+The model must be able to recover and explain:
 
 ```text
-EXPLAIN WHAT IS WRONG ON A MATERIAL PAGE
+WHAT WAS RESEARCHED
+WHAT WAS FOUND
+WHAT IS ALREADY CORRECT
+WHAT IS WRONG / INSUFFICIENT
+WHY EACH MATERIAL FINDING EXISTS
+WHAT EVIDENCE SUPPORTS IT
+WHAT MUST REMAIN UNCHANGED
+WHAT SHOULD BE CHANGED
+WHERE THE CHANGE APPLIES
+HOW THE CONFIRMED CHANGE SHOULD BE PERFORMED
+HOW TO CHECK THE RESULT
+WHAT REMAINS UNCERTAIN / UNRESOLVED
+```
+
+```text
+SELF-CONTAINED = CAN ANSWER FROM THE ARTIFACT ITSELF
+NOT = CAN FIND THE ANSWER SOMEWHERE ELSE IN THE PACKAGE
+```
+
+### 5.1 Practical plain-language walkthrough
+
+Ask a fresh model practical client questions without specialist terminology. Verify that the AI can correctly:
+
+```text
+EXPLAIN THE RESEARCH SCOPE
+EXPLAIN A MATERIAL FINDING ON A PAGE / TOPIC
 EXPLAIN WHAT IS ALREADY CORRECT AND MUST NOT BE BROKEN
 EXPLAIN WHY THE FINDING EXISTS
 EXPLAIN THE SUPPORTING EVIDENCE AND ITS LIMITS
-GIVE A STEP-BY-STEP IMPLEMENTATION PATH
+EXPLAIN WHAT SHOULD BE CHANGED
+EXPLAIN WHERE THE CHANGE APPLIES
+EXPLAIN HOW A HUMAN WITH SITE ACCESS SHOULD IMPLEMENT IT
 IDENTIFY RELEVANT / EXCLUDED QUERIES OR TOPICS WHEN MATERIAL
 EXPLAIN PAGE / BLOCK / LINK RELATIONSHIPS
 CREATE A CLEAR TASK FOR A DEVELOPER OR WRITER WHEN SUPPORTED
-EXPLAIN PRIORITY / DEPENDENCIES
+EXPLAIN PRIORITY / DEPENDENCIES WHEN PROVEN
 EXPLAIN THE ACCEPTANCE CHECK
-HANDLE “I COMPLETED PART OF THE WORK; WHAT CONFIRMED STEP IS NEXT?”
 DISTINGUISH READY / NO_CHANGE / HOLD / RECHECK / SEARCH_REQUIRED
 EXPLAIN ORDINARY SEARCH AND AI-SEARCH CONTRIBUTION
 REFUSE TO INVENT A MISSING FACT
 ```
 
-The AI must not require the client to understand specialist terminology or the internal research repository to follow the instructions.
+If a material accepted finding exists elsewhere in the package but is not recoverable from the promised AI artifact itself, the AI artifact fails.
 
-### 5.4 Reasoning-depth validation
+### 5.2 Reasoning-depth validation
 
 The AI artifact cannot be only an instruction list. Test that the model can explain the reasoning behind a recommendation and adapt that explanation to a client question while remaining inside the accepted evidence boundary.
 
@@ -189,30 +166,86 @@ CURRENT FACT / STATE
 -> WHY
 -> TARGET STATE
 -> IMPLEMENTATION ACTION
+-> WHERE IT APPLIES
 -> DEPENDENCIES / DO-NOT-BREAK BOUNDARY
 -> ACCEPTANCE CHECK
 -> LIMITATION / REOPEN CONDITION
 ```
 
-### 5.5 Fail conditions
+### 5.3 AI consultation is not direct site modification
 
-The AI consultant artifact fails if any applicable condition is true:
+The artifact equips the AI to explain `WHAT / WHY / WHERE / HOW`. It does not by itself grant CMS, code, server or account access.
 
 ```text
-ARCHIVE_ONLY_NOT_PRACTICAL_CONSULTANT
-KNOWS_WHAT_BUT_CANNOT_EXPLAIN_WHY
-UNDERSTANDS_PROBLEM_BUT_CANNOT_EXPLAIN_HOW_STEP_BY_STEP
-CANNOT_BIND_GUIDANCE_TO_CONCRETE_PAGE_QUERY_BLOCK_OR_RELATIONSHIP
-CANNOT_EXPLAIN_POSITIVE_KEEP_NO_CHANGE
-CANNOT_CREATE_CLEAR_IMPLEMENTER_TASK_WHEN SUPPORTED
-CANNOT_EXPLAIN_PRIORITY_OR_DEPENDENCIES
-CANNOT_EXPLAIN_ACCEPTANCE_CHECK
-REQUIRES_EXTERNAL_ACCESS_FOR_INFORMATION_THAT_SHOULD_BE_SELF_CONTAINED
-INVENTS_MISSING_FACTS
-CONFUSES_FACT / ANALYTICAL_CONCLUSION / LIMITATION / UNCERTAINTY
-AI_WORKSET_DIFFERS_FROM_CONFIRMED_HUMAN_SPECIALIST_WORKSET
-CLIENT_MUST_ALREADY_KNOW_SEO_TO_USE_THE_GUIDANCE
-CONFUSES_CLIENT_IMPLEMENTATION_PROGRESS_WITH_INTERNAL_RESEARCH_ROADMAP
+AI EXPLAINS IMPLEMENTATION
+!= AI PHYSICALLY MODIFIES THE SITE
+```
+
+The physical change is performed by a human or separately authorized system with the required access.
+
+### 5.4 Internal-execution boundary
+
+The AI artifact must not be confused with the analyst's internal research roadmap.
+
+```text
+AI RESEARCH / IMPLEMENTATION CONSULTANT
+!= INTERNAL RESEARCH EXECUTION HANDOFF
+
+AI KNOWLEDGE DOCUMENT
+!= EXECUTION_CURSOR
+```
+
+### 5.5 One-document contract validation
+
+If the job promises **one final self-contained AI document**, QA must enforce that literally.
+
+```text
+ONLY ONE FINAL AI DOCUMENT PROVIDED
+NO SECOND CONTEXT FILE
+NO REQUIRED COMPANION JSON/CSV/TSV/XLSX/PDF
+NO GITHUB / CHAT / INTERNAL FILE DEPENDENCY
+```
+
+A model that needs a second file to explain a material finding or confirmed change causes FAIL.
+
+Where the contract specifically names Markdown as the corrected AI format, QA must test that one Markdown file as the entire recipient input.
+
+```text
+SECOND FILE REQUIRED != SELF-CONTAINED PASS
+ALL DATA SOMEWHERE IN PACKAGE != ONE-DOCUMENT PASS
+JSON_PARSE_PASS != AI KNOWLEDGE PASS
+```
+
+### 5.6 Workset reconciliation
+
+If a human-specialist implementation guide exists in parallel, the confirmed analytical workset represented by the AI artifact must reconcile with it.
+
+```text
+HUMAN SPECIALIST CONFIRMED WORKSET
+== AI ARTIFACT CONFIRMED WORKSET
+```
+
+This does not mean the AI artifact can rely on the specialist guide at runtime. Reconciliation is a QA operation performed before delivery; the final AI recipient still receives only the artifact promised by its own contract.
+
+### 5.7 Fail conditions
+
+The AI artifact fails if any applicable condition is true:
+
+```text
+CANNOT EXPLAIN A MATERIAL RESEARCH FINDING FROM THE ARTIFACT ALONE
+CANNOT EXPLAIN A MATERIAL POSITIVE / KEEP RESULT
+KNOWS WHAT BUT CANNOT EXPLAIN WHY
+UNDERSTANDS THE PROBLEM BUT CANNOT EXPLAIN HOW AT THE PROVEN DETAIL LEVEL
+CANNOT BIND GUIDANCE TO THE CONCRETE PAGE / QUERY / BLOCK / RELATIONSHIP WHEN THAT IS PROVEN
+CANNOT EXPLAIN ACCEPTANCE CHECK
+REQUIRES A SECOND FILE FOR KNOWLEDGE PROMISED AS SELF-CONTAINED
+REQUIRES GITHUB / PREVIOUS CHAT / INTERNAL PROJECT FILES
+REQUIRES EXTERNAL ACCESS FOR INFORMATION THAT SHOULD HAVE BEEN INCLUDED
+INVENTS MISSING FACTS OR IMPLEMENTATION DETAIL
+CONFUSES FACT / ANALYTICAL CONCLUSION / LIMITATION / UNCERTAINTY
+AI WORKSET DIFFERS FROM CONFIRMED HUMAN-SPECIALIST WORKSET
+CONFUSES AI CONSULTATION WITH DIRECT SITE MODIFICATION
+CONFUSES CLIENT QUESTIONS WITH INTERNAL RESEARCH ROADMAP
 ```
 
 ## 6. Workbook recipient-usability validation
@@ -280,13 +313,15 @@ EACH_PROMISED_RECIPIENT_ARTIFACT_CONTRACT = PASS
 RECIPIENT_LANGUAGE_QA = PASS
 RESEARCH_DEPTH_QA = PASS when full research promised
 SPECIALIST_EXECUTABILITY_QA = PASS when implementation guide promised
-AI_SITE_SPECIFIC_SEO_CONSULTANT_QA = PASS when AI consultant artifact promised
-AI_CLIENT_CAN_IMPLEMENT_WITHOUT_SPECIALIST_KNOWLEDGE = true when promised
+AI_OFFLINE_SELF_CONTAINED = true when AI artifact promised
+AI_CAN_EXPLAIN_FULL_MATERIAL_RESEARCH = true when promised
+AI_CAN_EXPLAIN_FULL_CONFIRMED_CHANGE_SET = true when promised
+AI_CAN_EXPLAIN_WHY_WHERE_AND_HOW = true when promised
+AI_CAN_EXPLAIN_ACCEPTANCE_CHECK = true when promised
+AI_REQUIRES_NO_UNDECLARED_SECOND_CONTEXT = true
+ONE_DOCUMENT_PROMISE_SATISFIED_BY_ONE_FILE = true when promised
 AI_WORKSET_EQUALS_CONFIRMED_SPECIALIST_WORKSET = true when parallel paths promised
-AI_OFFLINE_SELF_CONTAINED = true when promised
-AI_CAN_EXPLAIN_WHY_AND_HOW = true
-AI_CAN_EXPLAIN_ACCEPTANCE_CHECK = true
-AI_PRIMARY_FORMAT_JUSTIFIED = true
+AI_DOES_NOT_CLAIM_DIRECT_SITE_MODIFICATION = true
 AI_INTERNAL_ROADMAP_CONFLATION = 0
 WORKBOOK_RECIPIENT_USABILITY_QA = PASS when workbook promised
 SEARCH_AI_VISIBILITY_QA = PASS when in scope
@@ -301,8 +336,11 @@ SECTION EXISTS != REQUIRED DEPTH EXISTS
 FIELDS NONEMPTY != TASK EXECUTABLE
 VISUAL PASS != WORKBOOK USABILITY PASS
 MACHINE-READABLE != AI-CONSULTANT-USABLE
-JSON_PARSE_PASS != AI-CONSULTANT PASS
-AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
+ALL DATA SOMEWHERE IN PACKAGE != SELF-CONTAINED AI ARTIFACT
+SECOND FILE REQUIRED != ONE-DOCUMENT SELF-CONTAINMENT
+JSON_PARSE_PASS != AI KNOWLEDGE PASS
+AI CONSULTATION != DIRECT SITE MODIFICATION
+AI CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
 ANALYST QA != OWNER ACCEPTANCE
 ```
 
