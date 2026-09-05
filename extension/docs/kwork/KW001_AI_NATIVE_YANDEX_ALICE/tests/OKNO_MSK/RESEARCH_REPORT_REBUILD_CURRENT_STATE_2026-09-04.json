@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_5_COMPLETE__STAGE_6_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_6_COMPLETE__STAGE_7_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -29,7 +29,7 @@
     "stage_3": "COMPLETE",
     "stage_4": "COMPLETE",
     "stage_5": "COMPLETE",
-    "stage_6": "NOT_STARTED",
+    "stage_6": "COMPLETE",
     "stage_7": "NOT_STARTED",
     "stage_8": "NOT_STARTED",
     "stage_9": "NOT_STARTED",
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_6_AS_IS_TO_BE_IMPLEMENTATION_SPECIFICATIONS",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_7_EVIDENCE_AND_EXPLANATION_RECONSTRUCTION",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -385,6 +385,29 @@
     "target_contract_failures": 0,
     "step14a_exact_owner_overrides": 5,
     "action_rows": 34,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "readback_status": "PASS"
+  },
+  "stage_6": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_06_AS_IS_TO_BE_IMPLEMENTATION_SPECIFICATIONS_2026-09-05.md",
+    "specification_register": "RESEARCH_REBUILD_STAGE_06_AS_IS_TO_BE_IMPLEMENTATION_SPECIFICATIONS_2026-09-05.tsv",
+    "internal_link_specifications": "RESEARCH_REBUILD_STAGE_06_INTERNAL_LINK_SPECIFICATIONS_2026-09-05.tsv",
+    "routing_specifications": "RESEARCH_REBUILD_STAGE_06_ROUTING_SPECIFICATIONS_2026-09-05.tsv",
+    "current_site_validation": "RESEARCH_REBUILD_STAGE_06_CURRENT_SITE_VALIDATION_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_06_QA_2026-09-05.json",
+    "action_rows": 34,
+    "link_rows": 15,
+    "routing_rows": 46,
+    "current_public_page_validations": 14,
+    "not_ready_actions": [
+      "S18-A003",
+      "S18-A004",
+      "S18-A007",
+      "S18-A011"
+    ],
+    "hold_action": "S18-A034",
     "new_provider_calls": 0,
     "new_paid_cost_rub": 0
   }

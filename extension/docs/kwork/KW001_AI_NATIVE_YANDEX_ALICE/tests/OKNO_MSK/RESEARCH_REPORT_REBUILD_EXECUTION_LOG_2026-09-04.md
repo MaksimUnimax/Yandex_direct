@@ -392,3 +392,14 @@ Stage 2 и Stage 3 сведены в единый 25-row disposition register:
 Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED=174, EXCLUDED_PRESERVED=334. Применено 69 explicit corrections (D12-27=20, D12-30=49); correction failures=0; target-contract mismatches=0; unmapped active rows=0. Step14A exact owner overlays=5. A012/A027 используют Step20 correction precedence. New pages=0; destructive actions=0. Provider calls=0; cost=0 ₽.
 
 Следующий этап выполняется автоматически: Stage 6.
+
+
+## 2026-09-05 — Stage 06 complete: AS-IS → TO-BE and implementation specifications
+
+- Consumed the Stage 05 canonical semantic, unit and action authorities.
+- Revalidated 14 implementation-sensitive current first-party pages because the Stage 05 material authority mutation invalidated the earlier freshness PASS.
+- Materialized 34 action specifications, 15 accepted contextual-link specifications and 46 routing specifications.
+- Preserved four NOT_READY analytical actions and the 20-unit HOLD batch instead of fabricating completion.
+- Narrowed the PVC-door task to installation scope/process while retaining existing price guidance; kept unsupported brand availability conditional.
+- QA result: PASS. New governed provider calls: 0. Public first-party page checks: 14. Paid cost: 0.
+- Stage 07 is next and continuous execution remains active.
