@@ -499,4 +499,5 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - DOCX/PDF rendered and visually inspected; structural geometry and parse checks passed. Low-severity raw-URL accessibility notices are intentionally retained as exact page locators.
 - New governed provider calls: 0. Paid cost: 0 RUB. Step 21/22 not executed.
 - Corrected release: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/`.
+- GitHub materialization commits: `f99beaea8855d5cd7a0ed5737d5b536b2ee7d912`, `a22c4be3298ac3026f43c436a2e29970198db89c`; final 25-path blob/size readback mismatches=0.
 - Next action after GitHub readback: owner recheck of corrected recipient documents №01, №02 and №03. Historical release remains preserved as provenance.

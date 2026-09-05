@@ -65,7 +65,7 @@
     "STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md"
   ],
   "next_action": "OWNER_RECHECK_CORRECTED_RECIPIENT_DOCUMENTS_01_02_03",
-  "correction_materialization_status": "COMPLETE__ANALYST_RECIPIENT_QA_PASS__GITHUB_READBACK_PENDING",
+  "correction_materialization_status": "COMPLETE__ANALYST_RECIPIENT_QA_PASS__GITHUB_READBACK_PASS__OWNER_RECHECK_REQUIRED",
   "corrected_recipient_release": {
     "directory": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
     "manifest": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
@@ -77,6 +77,11 @@
     "shared_implementation_authority": "RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_AUTHORITY_CORRECTED_2026-09-05.tsv",
     "recipient_qa_markdown": "RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.md",
     "recipient_qa_json": "RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
+    "github_readback": "RESEARCH_REBUILD_POST_RELEASE_GITHUB_READBACK_2026-09-05.md",
+    "materialization_commit_shas": [
+      "f99beaea8855d5cd7a0ed5737d5b536b2ee7d912",
+      "a22c4be3298ac3026f43c436a2e29970198db89c"
+    ],
     "analyst_recipient_qa": "PASS",
     "owner_recheck": "REQUIRED",
     "ready_real_site_actions": 8,
