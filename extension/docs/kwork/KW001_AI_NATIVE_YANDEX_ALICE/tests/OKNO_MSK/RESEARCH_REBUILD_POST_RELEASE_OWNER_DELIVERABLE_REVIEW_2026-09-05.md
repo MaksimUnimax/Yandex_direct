@@ -1,8 +1,8 @@
 # OKNO_MSK — post-release owner deliverable review
 
 Дата открытия: 2026-09-05  
-Статус: **IN_PROGRESS / OWNER_REVIEW_REWORK_REQUIRED**  
-Класс работы: **POST_RELEASE_OWNER_DELIVERABLE_REVIEW / NOT A NEW ROADMAP STAGE**  
+Статус: **DEFECT_DISCOVERY_COMPLETE / OWNER_REVIEW_REWORK_REQUIRED / CORRECTION PASS NEXT**  
+Класс работы: **POST_RELEASE OWNER DELIVERABLE REVIEW / NOT A NEW ROADMAP STAGE**  
 Исходный release: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05`  
 Исходный release authority: Stage 0–15 completed; этот review не стирает исторический release PASS, но **перекрывает утверждение о финальной recipient acceptance до закрытия выявленных дефектов**.
 
@@ -385,7 +385,71 @@ Implementation/Actions/Links/Routes materialized из тех же row-level auth
 
 GitHub connector подтверждает persisted binary identity и materialization sources, но в текущем owner-review ходе бинарный XLSX еще не был независимо открыт локально как spreadsheet. Поэтому layout-level новые claims сверх persisted Stage-12/14 render QA не делаются. Если визуальный/interactive usability станет material для correction, workbook должен быть открыт как workbook и проверен напрямую перед закрытием review.
 
-## 6. Общий root cause четырех основных deliverables
+## 6. Release README / delivery message / package-level recipient experience
+
+Исторические источники:
+
+- `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/README_RU.md`;
+- `RESEARCH_REBUILD_STAGE_14_CLIENT_DELIVERY_MESSAGE_RU_2026-09-05.md`;
+- `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json`.
+
+### PKG-01 — №03 описан как JSON-база/самостоятельный контекст, а не как AI SEO-консультант для внедрения
+
+README называет №03 «самодостаточной базой знания», а delivery message — «единой JSON-базой фактов, семантики, доказательств, решений, действий и ограничений».
+
+Это сужает owner-defined client function.
+
+**Как исправить в corrected release:** описывать №03 как самодостаточный AI SEO-consultant document, который заказчик загружает в AI, задаёт обычные вопросы и по понятным пошаговым инструкциям самостоятельно внедряет подтвержденные изменения.
+
+### PKG-02 — пакет не показывает два альтернативных пути внедрения
+
+Owner clarification требует явного выбора:
+
+```text
+PATH A
+№02 -> HUMAN SEO SPECIALIST -> IMPLEMENTS CONFIRMED WORK
+
+PATH B
+№03 -> AI SEO CONSULTANT -> CLIENT IMPLEMENTS THE SAME CONFIRMED WORK
+```
+
+Исторический README/delivery message этого выбора не материализуют.
+
+### PKG-03 — секция «Как читать» делает №03 вторичным контекстом, а не самостоятельным путем реализации
+
+Фраза «AI-документ используется как самостоятельный контекст» недостаточна. Клиенту должно быть понятно, **зачем ему №03 и что он делает после загрузки**.
+
+Corrected package usage должен объяснять сценарий:
+
+```text
+IF YOU IMPLEMENT THROUGH A HUMAN SPECIALIST -> USE №02
+IF YOU IMPLEMENT YOURSELF WITH AI HELP -> LOAD №03 INTO AI AND ASK PLAIN-LANGUAGE IMPLEMENTATION QUESTIONS
+USE №01 TO UNDERSTAND THE RESEARCH
+USE №04 FOR STRUCTURED DETAIL / AUDIT / WORKING DATA
+```
+
+### PKG-04 — corrected release manifest должен отражать правильную recipient role и новый primary format
+
+Исторический manifest обязан остаться provenance и не переписывается задним числом.
+
+В новом corrected artifact set role №03 должна отражать site-specific AI SEO consultant function, а primary path — corrected `.md`. Companion JSON, если сохранится, должен иметь отдельную structured-data role.
+
+### PKG-05 — package-level QA не проверял, понимает ли заказчик, какой путь внедрения выбрать
+
+Corrected package QA должен проверить, что клиент без знания repository history может ответить:
+
+- какой файл читать для понимания исследования;
+- какой файл отдать SEO-специалисту;
+- какой файл загрузить в AI, если хочет внедрять сам;
+- как именно пользоваться AI-вариантом;
+- где смотреть рабочие таблицы/evidence;
+- какие состояния не являются готовыми к внедрению.
+
+### PKG-06 — финальная recipient acceptance должна быть восстановлена только новым corrected release
+
+Исторический README/manifest сохраняют исторический Stage-14/15 PASS. Текущий state overlay честно помечает recipient rework. Новый corrected release должен получить новый manifest/readback/recipient QA, не маскируя старый выпуск под исправленный.
+
+## 7. Общий root cause
 
 ```text
 DEEP ANALYSIS EXISTS
@@ -407,11 +471,12 @@ FIELDS PRESENT != EXECUTABLE SPECIALIST TASK
 CORRECT DATABASE != CLIENT-USABLE WORKBOOK
 MACHINE-READABLE != AI-CONSULTANT-USABLE
 AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
+FILES PRESENT != CLIENT UNDERSTANDS WHICH IMPLEMENTATION PATH TO USE
 ```
 
-## 7. Required correction pass after review closes
+## 8. Required unified correction/materialization pass
 
-После разбора всех финальных deliverables выполнить один согласованный correction pass:
+Defect discovery по четырем физическим release files и package-level delivery surfaces завершен. Следующее действие — один согласованный correction/materialization pass:
 
 1. не менять без причины Stage-5 semantic/action truth;
 2. расширить client report из master authority, а не изобретать новое исследование;
@@ -424,16 +489,18 @@ AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
 9. не переносить в №03 `EXECUTION_CURSOR`, внутренний roadmap или checkpoint semantics;
 10. пересобрать workbook из исправленных client/spec authorities;
 11. сохранить technical detail sheets, но дать нормальную recipient front door;
-12. повторить cross-view reconciliation, включая equality workset №02 ↔ №03;
-13. провести offline clean-context practical AI-consultant walkthrough;
-14. повторить recipient-specific product QA;
-15. только после owner/commissioner review вернуть финальный recipient acceptance.
+12. создать corrected README/delivery message с явными PATH A / PATH B;
+13. создать новый corrected release manifest, не переписывая исторический Stage-15 manifest;
+14. повторить cross-view reconciliation, включая equality workset №02 ↔ №03;
+15. провести offline clean-context practical AI-consultant walkthrough;
+16. повторить recipient-specific product QA и package-level client-navigation QA;
+17. только после owner/commissioner review вернуть финальный recipient acceptance.
 
-## 8. Permanent lessons promoted by this review
+## 9. Permanent lessons promoted by this review
 
-Постоянные companion gates для Steps 18–20 должны содержать универсальные failure classes и hard gates. В Level1 нельзя переносить конкретные домены, URL, action IDs или counts этого теста.
+Постоянные companion gates для Steps 18–20 содержат универсальные failure classes и hard gates. В Level1 нельзя переносить конкретные домены, URL, action IDs или counts этого теста.
 
-Для AI recipient обязательно закрепить:
+Для AI recipient обязательно закреплено:
 
 ```text
 AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION HANDOFF
@@ -442,13 +509,15 @@ JSON_PARSE_PASS != AI-CONSULTANT PASS
 AI PATH CONFIRMED WORKSET == HUMAN SPECIALIST PATH CONFIRMED WORKSET
 ```
 
-## 9. Review status by physical release file
+## 10. Review status by physical release file / surface
 
 - [x] Release file 01 — Client research report: defect set recorded
 - [x] Release file 02 — SEO specialist guide: defect set recorded
 - [x] Release file 03 — AI SEO-consultant artifact: recipient-purpose / format / practical implementation / QA defect set recorded; corrected physical `.md` pending correction pass
 - [x] Release file 04 — Workbook: structural/materialization review complete; direct binary owner usability check remains pending if material
-- [ ] Release README / delivery message — recipient wording review
-- [ ] Final package-level recipient experience
+- [x] Release README / delivery message: defect set recorded
+- [x] Final package-level recipient experience: defect set recorded
 
-Следующий диагностический объект: **release README / delivery message и package-level recipient experience**.
+**DEFECT DISCOVERY COMPLETE.**
+
+Следующее действие: **BEGIN UNIFIED POST-RELEASE CORRECTION / MATERIALIZATION PASS**.
