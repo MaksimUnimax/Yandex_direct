@@ -4,11 +4,11 @@
 Статус: **IN_PROGRESS / OWNER_REVIEW_REWORK_REQUIRED**  
 Класс работы: **POST_RELEASE_OWNER_DELIVERABLE_REVIEW / NOT A NEW ROADMAP STAGE**  
 Исходный release: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05`  
-Исходный release authority: Stage 0–15 completed; этот review не стирает исторический release PASS, но **перекрывает утверждение о финальной клиентской приемке до закрытия выявленных дефектов**.
+Исходный release authority: Stage 0–15 completed; этот review не стирает исторический release PASS, но **перекрывает утверждение о финальной recipient acceptance до закрытия выявленных дефектов**.
 
 ## 1. Зачем открыт review
 
-После завершения Stage 0–15 владелец начал читать сами конечные клиентские артефакты, а не только QA-отчеты об их наличии и согласованности. Проверка показала новый класс дефекта: глубокая аналитика и корректная каноническая база могут существовать, но конкретный recipient-facing файл все равно может быть слишком сжатым, слишком внутренним или недостаточно исполнимым для обещанного назначения.
+После завершения Stage 0–15 владелец начал проверять сами конечные recipient-specific артефакты, а не только QA-отчеты об их наличии и согласованности. Проверка показала новый класс дефекта: глубокая аналитика и корректная каноническая база могут существовать, но конкретный файл для конкретного получателя все равно может быть слишком сжатым, слишком внутренним, недостаточно исполнимым или неправильно материализованным для своего назначения.
 
 Новая обязательная граница:
 
@@ -19,13 +19,18 @@ PACKAGE-WIDE TRUTH EXISTS
 CORRECT DATABASE
 != CLIENT-USABLE WORKBOOK
 
+MACHINE-READABLE
+!= LLM-USABLE
+
 INTERNAL QA PASS
 != OWNER / COMMISSIONER ACCEPTANCE
 ```
 
-Исторические Stage 0–15 артефакты не переписываются в ходе диагностического review. Сначала фиксируется полный defect set по каждому финальному deliverable, затем выполняется единый correction/materialization pass и повторная recipient-specific QA.
+Исторические Stage 0–15 артефакты сохраняются как provenance. В диагностическом review сначала фиксируется полный defect set по каждому финальному deliverable, затем выполняется единый correction/materialization pass и повторная recipient-specific QA.
 
-## 2. Reviewed artifact 01 — клиентский исследовательский отчет
+Нумерация в этом review всегда совпадает с физической нумерацией release-файлов. Отдельная скрытая очередь `Reviewed artifact 01/02/03` запрещена, потому что она ранее привела к тому, что workbook №04 был назван «artifact 03» и смешан с реальным release file №03.
+
+## 2. Release file 01 — клиентский исследовательский отчет
 
 Источник: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/sources/OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md`.
 
@@ -105,7 +110,7 @@ INTERNAL QA PASS
 
 **Correct rule:** `EVIDENCE EXISTS SOMEWHERE IN PACKAGE != PROMISED CLIENT REPORT COMPLETE`.
 
-## 3. Reviewed artifact 02 — SEO implementation guide
+## 3. Release file 02 — SEO implementation guide
 
 Источник: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/sources/OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md`.
 
@@ -183,7 +188,143 @@ EVIDENCE_LOCATOR = технический источник для трассир
 
 **Correct rule:** `FIELDS PRESENT != EXECUTION DECISION RESOLVED`.
 
-## 4. Reviewed artifact 03 — rebuilt workbook
+## 4. Release file 03 — AI knowledge document
+
+Исторический release artifact: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json`.
+
+Исторический Stage-11 guide: `RESEARCH_REBUILD_STAGE_11_AI_KNOWLEDGE_DOCUMENT_GUIDE_2026-09-05.md`.
+
+Исторический Stage-11 QA: `RESEARCH_REBUILD_STAGE_11_QA_2026-09-05.json`.
+
+### Для чего файл №03 нужен на самом деле
+
+Файл №03 нужен для **передачи результатов выполненного исследования другой AI-системе**.
+
+Пользователь должен иметь возможность загрузить один основной AI knowledge document в новый чат / новую AI-систему и затем дать конкретную новую задачу, для которой нужны результаты этого исследования. Новый AI должен получить достаточный контекст о том, что исследовалось, какие данные/evidence использовались, какие решения приняты и почему, что подтверждено, что рекомендовано, что осталось неопределенным и какие выводы делать нельзя.
+
+Это **не** execution cursor, не roadmap handoff, не checkpoint и не инструкция автоматически продолжать внутренний проект.
+
+```text
+AI RESEARCH KNOWLEDGE HANDOFF
+!= INTERNAL EXECUTION HANDOFF
+
+RESEARCH CONTEXT TRANSFER
+!= CONTINUE ROADMAP FROM LAST CHECKPOINT
+```
+
+Любая новая работа определяется отдельным запросом пользователя. Файл №03 только переносит знания о выполненном исследовании, необходимые AI для такой новой задачи.
+
+### Как должен использоваться исправленный №03
+
+```text
+USER UPLOADS ONE PRIMARY AI KNOWLEDGE DOCUMENT
+-> AI READS IT AS SELF-CONTAINED RESEARCH CONTEXT
+-> USER PROVIDES A NEW TASK
+-> AI USES THE RESEARCH FINDINGS / EVIDENCE / BOUNDARIES FOR THAT TASK
+```
+
+Новый AI не должен самостоятельно восстанавливать Stage/Step, `EXECUTION_CURSOR`, review queue или автоматически выполнять следующий внутренний этап только потому, что knowledge document был загружен.
+
+### Что сделано правильно исторической Stage-11 materialization
+
+- полный semantic master был сохранен в data layer;
+- 168 canonical units и 34 actions были включены;
+- Search/AI evidence, Search-case explanations, links, routes, page validations и uncertainty были включены;
+- current-vs-historical authority boundary была явно задана;
+- запрет на превращение uncertainty в решение был сохранен;
+- exact-query Search evidence не разрешалось автоматически переносить на всё семейство;
+- AI verdict не приравнивался к decision value без delta.
+
+То есть Stage 11 сохранил значительный объем правильной исследовательской truth. Дефект относится прежде всего к recipient contract, primary format и recipient-specific QA, а не является доказательством потери всего canonical data layer.
+
+### AI-01 — JSON выбран как основной AI knowledge document без доказанного recipient-format основания
+
+**Ошибка:** исторический Stage-11 guide просто объявил `.json` основным AI-артефактом. Постоянный product contract не требовал именно JSON и не доказывал, что serialization-oriented формат лучше всего выполняет задачу передачи исследовательского контекста LLM.
+
+**Как исправить:** исправленный основной файл №03 материализовать как самодостаточный LLM-readable Markdown document (`.md`). JSON может оставаться дополнительным структурированным data annex для полного row-level universe, но не автоматически подменять основной knowledge/context layer.
+
+**Correct rule:** `MACHINE-READABLE != LLM-USABLE`.
+
+### AI-02 — self-contained data ошибочно приравнен к self-contained knowledge
+
+**Ошибка:** наличие всех таблиц/rows/IDs само по себе не доказывает, что новый AI восстановит смысл исследования: цель, метод, причинность решений, роль evidence, ограничения и uncertainty.
+
+**Как исправить:** основной `.md` должен связно материализовать как минимум:
+
+```text
+WHAT WAS RESEARCHED
+BUSINESS / SITE / SCOPE
+RESEARCH PURPOSE
+EVIDENCE CLASSES AND METHOD
+CURRENT SEMANTIC / PAGE MODEL
+MATERIAL FINDINGS
+WHY EACH MATERIAL DECISION EXISTS
+ORDINARY SEARCH CONTRIBUTION
+AI CAUSAL CONTRIBUTION
+KEEP / RETAIN / NO_CHANGE / DE_RISK
+RECOMMENDED CHANGES
+UNCERTAINTY / HOLD / RECHECK / SEARCH_REQUIRED
+CLAIM BOUNDARIES / FORBIDDEN INFERENCES
+CURRENT RESEARCH AUTHORITY PRIORITY
+```
+
+Полные row-level данные могут находиться в приложении/структурированном слое, но knowledge document не должен заставлять AI самостоятельно реконструировать повествование из массива внутренних объектов.
+
+### AI-03 — Stage-11 QA проверял serialization/counts, а не реальную задачу AI-получателя
+
+Исторический QA проверял `json_parse`, `self_contained` и counts по semantic/unit/action/evidence/search/AI/uncertainty/link/routing rows.
+
+Это полезная data-integrity проверка, но она не отвечает на вопрос:
+
+> сможет ли новая AI-система, получив только основной файл №03 и новую пользовательскую задачу, правильно использовать результаты исследования без GitHub/старых чатов и без выдумывания отсутствующего контекста?
+
+**Correct rule:** `JSON_PARSE_PASS != AI_HANDOFF_PASS`.
+
+### AI-04 — отсутствовал clean-context AI recipient walkthrough
+
+**Как исправить:** перед PASS провести реальный clean-context test. Новая AI-сессия получает только основной knowledge document и набор recipient tasks, например:
+
+- объяснить, почему для конкретной material page/topic принято текущее решение;
+- отделить подтвержденный `NO_CHANGE/KEEP` от `HOLD/RECHECK`;
+- показать, что именно ordinary Search поддержал и где заканчивается evidence boundary;
+- объяснить material AI case и его decision delta;
+- назвать unsupported claim, который нельзя делать;
+- использовать результаты исследования для новой производной пользовательской задачи без repository reconstruction.
+
+PASS возможен только если ответы соответствуют current research authorities и не требуют внутреннего execution state.
+
+### AI-05 — release usage был сформулирован слишком технически
+
+Исторический README говорил AI-системе «загрузить файл 03 и следовать interpretation rules». Это не объясняло нормальный recipient workflow и усиливало восприятие №03 как автономного исполнительного пакета.
+
+**Как исправить:** usage должен быть пользовательским:
+
+```text
+UPLOAD KNOWLEDGE DOCUMENT
+-> TREAT AS RESEARCH CONTEXT
+-> USER ASKS A NEW TASK
+-> AI USES RESEARCH RESULTS FOR THAT TASK
+```
+
+### AI-06 — non-purpose boundary не был достаточно жестко зафиксирован
+
+Документация должна прямо запрещать смешение AI knowledge document с внутренними файлами управления выполнением.
+
+```text
+AI KNOWLEDGE DOCUMENT != EXECUTION_CURSOR
+AI KNOWLEDGE DOCUMENT != ROADMAP CHECKPOINT
+AI KNOWLEDGE DOCUMENT != AUTOMATIC NEXT-STAGE INSTRUCTION
+```
+
+Новый AI может выполнять новую работу только по отдельной пользовательской задаче; сам факт загрузки №03 не является разрешением или инструкцией продолжать внутренний roadmap.
+
+### AI-07 — физический corrected artifact еще не материализован
+
+На момент этого review в историческом release физически лежит JSON №03. Исправленный Markdown №03 должен быть создан в едином correction/materialization pass после завершения defect discovery, затем проверен clean-context AI recipient QA и только после этого заменять исторический JSON как current accepted recipient artifact.
+
+Исторический JSON и release manifest сохраняются как provenance того, что реально было выпущено; они не переписываются задним числом так, будто исправленный `.md` существовал в Stage 15.
+
+## 5. Release file 04 — rebuilt workbook
 
 Artifact: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/04_OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx`.
 
@@ -248,7 +389,7 @@ Implementation/Actions/Links/Routes materialized из тех же row-level auth
 
 GitHub connector подтверждает persisted binary identity и materialization sources, но в текущем owner-review ходе бинарный XLSX еще не был независимо открыт локально как spreadsheet. Поэтому layout-level новые claims сверх persisted Stage-12/14 render QA не делаются. Если визуальный/interactive usability станет material для correction, workbook должен быть открыт как workbook и проверен напрямую перед закрытием review.
 
-## 5. Общий root cause трех первых deliverables
+## 6. Общий root cause четырех основных deliverables
 
 ```text
 DEEP ANALYSIS EXISTS
@@ -257,12 +398,22 @@ DEEP ANALYSIS EXISTS
 BUT
 RECIPIENT-SPECIFIC PRODUCT CONTRACT IS TESTED TOO WEAKLY
 =
-OWNER FINDS MATERIAL PACKAGING/EXECUTION DEFECTS AFTER RELEASE
+OWNER FINDS MATERIAL RECIPIENT DEFECTS AFTER RELEASE
 ```
 
-Stage 19/20 должны проверять не только наличие знания в package, а самостоятельную полноту каждого обещанного recipient artifact.
+Stage 19/20 должны проверять не только наличие знания в package, а самостоятельную полноту каждого обещанного recipient artifact для его конкретного получателя.
 
-## 6. Required correction pass after review closes
+Отдельные non-equivalences:
+
+```text
+PACKAGE-WIDE TRUTH != RECIPIENT-ARTIFACT COMPLETENESS
+FIELDS PRESENT != EXECUTABLE SPECIALIST TASK
+CORRECT DATABASE != CLIENT-USABLE WORKBOOK
+MACHINE-READABLE != LLM-USABLE
+AI RESEARCH HANDOFF != EXECUTION CHECKPOINT
+```
+
+## 7. Required correction pass after review closes
 
 После разбора всех финальных deliverables выполнить один согласованный correction pass:
 
@@ -270,23 +421,35 @@ Stage 19/20 должны проверять не только наличие з�
 2. расширить client report из master authority, а не изобретать новое исследование;
 3. полностью локализовать recipient-facing SEO instructions;
 4. довести routing/link/ownership work packages до явного implementation mode и точного placement там, где это требуется;
-5. пересобрать workbook из исправленных client/spec authorities;
-6. сохранить technical detail sheets, но дать нормальную recipient front door;
-7. повторить cross-view reconciliation;
-8. повторить recipient-specific product QA;
-9. только после owner/commissioner review вернуть `FINAL CLIENT ACCEPTANCE`.
+5. материализовать corrected release file №03 как self-contained LLM-readable Markdown research knowledge handoff; JSON при необходимости оставить только как structured data annex;
+6. не включать в №03 `EXECUTION_CURSOR`, roadmap continuation или автоматическую next-stage semantics как его назначение;
+7. пересобрать workbook из исправленных client/spec authorities;
+8. сохранить technical detail sheets, но дать нормальную recipient front door;
+9. повторить cross-view reconciliation;
+10. провести отдельный clean-context AI recipient walkthrough для №03;
+11. повторить recipient-specific product QA;
+12. только после owner/commissioner review вернуть финальный recipient acceptance.
 
-## 7. Permanent lessons promoted by this review
+## 8. Permanent lessons promoted by this review
 
-Постоянные companion gates создаются для Steps 18–20. В Level1 нельзя переносить конкретные домены, URL, action IDs или counts этого теста; туда идут только универсальные failure classes и hard gates.
+Постоянные companion gates для Steps 18–20 должны содержать универсальные failure classes и hard gates. В Level1 нельзя переносить конкретные домены, URL, action IDs или counts этого теста.
 
-## 8. Review queue
+Для AI recipient обязательно закрепить:
 
-- [x] Client research report
-- [x] SEO specialist guide
-- [x] Workbook — structural/materialization review complete; direct binary owner usability check remains optional/pending if needed
-- [ ] Self-contained AI knowledge document — NEXT
-- [ ] Release README / delivery message
+```text
+AI RESEARCH KNOWLEDGE HANDOFF != EXECUTION HANDOFF
+MACHINE-READABLE != LLM-USABLE
+JSON_PARSE_PASS != AI_HANDOFF_PASS
+SELF-CONTAINED DATA != SELF-CONTAINED KNOWLEDGE
+```
+
+## 9. Review status by physical release file
+
+- [x] Release file 01 — Client research report: defect set recorded
+- [x] Release file 02 — SEO specialist guide: defect set recorded
+- [x] Release file 03 — AI knowledge document: recipient-purpose / format / QA defect set recorded; corrected physical `.md` pending correction pass
+- [x] Release file 04 — Workbook: structural/materialization review complete; direct binary owner usability check remains pending if material
+- [ ] Release README / delivery message — recipient wording review
 - [ ] Final package-level recipient experience
 
-Следующий документ: **self-contained AI knowledge document**.
+Следующий диагностический объект: **release README / delivery message и package-level recipient experience**.
