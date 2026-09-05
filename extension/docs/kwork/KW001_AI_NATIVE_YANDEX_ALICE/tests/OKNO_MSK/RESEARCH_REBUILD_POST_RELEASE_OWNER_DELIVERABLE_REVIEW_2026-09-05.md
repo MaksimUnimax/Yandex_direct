@@ -10,7 +10,7 @@
 
 После завершения Stage 0–15 владелец начал проверять сами конечные recipient-specific артефакты, а не только QA-отчеты об их наличии и согласованности. Проверка показала новый класс дефекта: глубокая аналитика и корректная каноническая база могут существовать, но конкретный файл для конкретного получателя все равно может быть слишком сжатым, слишком внутренним, недостаточно исполнимым или неправильно материализованным для своего назначения.
 
-Новая обязательная граница:
+Обязательные границы:
 
 ```text
 PACKAGE-WIDE TRUTH EXISTS
@@ -20,7 +20,10 @@ CORRECT DATABASE
 != CLIENT-USABLE WORKBOOK
 
 MACHINE-READABLE
-!= AI-CONSULTANT-USABLE
+!= AI-USABLE SELF-CONTAINED KNOWLEDGE
+
+ALL DATA SOMEWHERE IN PACKAGE
+!= ONE INDEPENDENT AI DOCUMENT
 
 INTERNAL QA PASS
 != OWNER / COMMISSIONER ACCEPTANCE
@@ -28,7 +31,7 @@ INTERNAL QA PASS
 
 Исторические Stage 0–15 артефакты сохраняются как provenance. В диагностическом review сначала фиксируется полный defect set по каждому финальному deliverable, затем выполняется единый correction/materialization pass и повторная recipient-specific QA.
 
-Нумерация в этом review всегда совпадает с физической нумерацией release-файлов. Отдельная скрытая очередь `Reviewed artifact 01/02/03` запрещена, потому что она ранее привела к тому, что workbook №04 был назван «artifact 03» и смешан с реальным release file №03.
+Нумерация в этом review всегда совпадает с физической нумерацией release-файлов. Отдельная скрытая очередь `Reviewed artifact 01/02/03` запрещена.
 
 ## 2. Release file 01 — клиентский исследовательский отчет
 
@@ -49,8 +52,6 @@ INTERNAL QA PASS
 
 **Ошибка:** глубокая Stage-8 truth layer существует, но клиентский отчет в основном показывает краткие итоги и ограниченный список приоритетных рекомендаций. Он не материализует обещанную исследовательскую цепочку по существенным выводам.
 
-**Почему это проблема:** первоначальная причина rebuild — клиент не должен реконструировать исследование из внутренних файлов. Наличие master report где-то в package не заменяет полноту самого обещанного клиентского research report.
-
 **Как исправить:** расширить клиентский report из текущего master authority. Для каждого материального finding или группы однотипных findings показывать эквивалентную цепочку:
 
 ```text
@@ -69,46 +70,35 @@ INTERNAL QA PASS
 
 ### CR-02 — ordinary Search показан почти только агрегированными выводами
 
-**Ошибка:** клиент видит несколько общих тезисов, тогда как accepted evidence содержит отдельные material Search cases.
+Добавить client-readable Search case layer: запрос/семейство, наблюдение, какой тип задачи/страницы поддержан, downstream decision и граница evidence.
 
-**Как исправить:** добавить client-readable Search case layer: запрос/семейство, что наблюдалось, какой тип задачи/страницы подтвержден, какое решение из этого следует и какая граница переноса доказательства.
+### CR-03 — AI causal work чрезмерно агрегирован
 
-**Non-repeat:** `SEARCH EVIDENCE PRESENT IN INTERNAL LEDGER != SEARCH RESEARCH VISIBLE TO CLIENT`.
-
-### CR-03 — AI causal work снова чрезмерно агрегирован
-
-**Ошибка:** сводные verdict counts видимы, но полный смысл отдельных AI cases почти не показан в клиентском report.
-
-**Как исправить:** для каждого material AI case дать компактную карточку:
+Для каждого material AI case показать:
 
 ```text
 ПОЧЕМУ ВЫБРАЛИ
 -> РЕШЕНИЕ ДО AI
 -> ЧТО ПОКАЗАЛ AI
 -> ЧТО ИЗМЕНИЛОСЬ / ПОДТВЕРДИЛОСЬ / ОСТАЛОСЬ НЕДОСТАТОЧНЫМ
--> КАКОЕ ДЕЙСТВИЕ ИЛИ NO-ACTION СЛЕДУЕТ
+-> ДЕЙСТВИЕ ИЛИ NO-ACTION
 -> ОГРАНИЧЕНИЕ
 ```
 
-**Non-repeat:** `AI CAUSAL LEDGER COMPLETE != AI VALUE CLIENT-VISIBLE`.
-
 ### CR-04 — полная карта решений схлопнута в небольшой список приоритетов
 
-**Ошибка:** полный action universe существует, но обычный клиент не получает компактной полной карты `retain / reroute / improve / no-new-page / recheck / hold`.
-
-**Как исправить:** добавить сводную карту всех материальных решений по страницам/темам с человекочитаемым статусом и ссылкой на подробное SEO-ТЗ.
+Добавить полную человекочитаемую карту `retain / reroute / improve / no-new-page / recheck / hold`.
 
 ### CR-05 — uncertainty показана числами, но недостаточно объяснена тематически
 
-**Ошибка:** counts честно сохранены, но клиенту трудно понять, какие классы тем туда попали, почему они не закрыты и влияет ли это на готовые рекомендации.
-
-**Как исправить:** сгруппировать uncertainty по причинам/темам/влиянию и дать правило, когда каждый класс надо переоткрыть.
+Сгруппировать uncertainty по причинам/темам/влиянию и дать правило reopen/resolve.
 
 ### CR-06 — package-level completeness ошибочно использована как доказательство client-report completeness
 
-**Root cause:** QA проверила, что нужное знание существует где-то в согласованном package, но не проверила, что конкретный promised recipient artifact сам выполняет свой контракт.
-
-**Correct rule:** `EVIDENCE EXISTS SOMEWHERE IN PACKAGE != PROMISED CLIENT REPORT COMPLETE`.
+```text
+EVIDENCE EXISTS SOMEWHERE IN PACKAGE
+!= PROMISED CLIENT REPORT COMPLETE
+```
 
 ## 3. Release file 02 — SEO implementation guide
 
@@ -116,21 +106,15 @@ INTERNAL QA PASS
 
 ### Что сделано правильно
 
-Контентные action cards в значительной части реально содержат `AS-IS`, evidence, `TO-BE`, точное логическое место, темы, фразы, вопросы, implementation example, acceptance и do-not-do boundary. `NOT_READY`/`HOLD` не были искусственно превращены в готовые задания. Список внутренних ссылок и routing map также материализованы.
+Контентные action cards в значительной части содержат `AS-IS`, evidence, `TO-BE`, логическое место, темы, фразы, вопросы, implementation example, acceptance и do-not-do boundary. `NOT_READY`/`HOLD` не были искусственно превращены в готовые задания. Links и routing map материализованы.
 
-### SG-01 — русскоязычный specialist artifact содержит большой объем англоязычной внутренней прозы
+### SG-01 — смешанная внутренняя английская проза
 
-**Ошибка:** поля `AS-IS`, `WHY`, `TO-BE`, internal relationships и do-not-do в routing/action rows часто остаются английскими служебными формулировками.
+Recipient-facing explanatory/executable text нужно полностью локализовать на русский; английский оставить только для URL, IDs, неизменяемых имен и стандартных technical tokens.
 
-**Как исправить:** весь объясняющий и исполнимый текст recipient-facing SEO guide должен быть на требуемом языке. Латиница/английский допускаются для URL, ID, стандартных технических токенов и неизменяемых имен, но не вместо объяснения действия.
+### SG-02 — routing/ownership row ошибочно считается готовым website implementation ticket
 
-**Non-repeat:** `SOURCE LANGUAGE MAY BE INTERNAL != RECIPIENT INSTRUCTION LANGUAGE`.
-
-### SG-02 — routing/ownership action ошибочно считается готовым website implementation ticket
-
-**Ошибка:** аналитически правильный owner/routing row часто содержит шаблонное `семантическое владение, хлебные крошки и контекстные ссылки`, не указывая, требуется ли вообще изменение реального сайта и какое именно.
-
-**Как исправить:** каждому READY work package присвоить явный `IMPLEMENTATION_MODE`, например эквивалент:
+Каждому READY work package нужен явный `IMPLEMENTATION_MODE`, например:
 
 ```text
 SEMANTIC_MAPPING_ONLY
@@ -143,13 +127,11 @@ RECHECK_ONLY
 HOLD
 ```
 
-Для каждого mode обязательны свои точные поля. Аналитическое переназначение владельца не должно автоматически превращаться в правку breadcrumbs/контента/навигации.
+Аналитическое переназначение owner не должно автоматически становиться правкой breadcrumbs/контента/навигации.
 
-### SG-03 — link specification недостаточно точна для непосредственного внедрения
+### SG-03 — link specification недостаточно точна
 
-**Ошибка:** `source -> target -> meaning` полезно, но исполнитель все еще выбирает место и формулировку сам.
-
-**Как исправить:** для READY link-task материализовать:
+Для READY link-task нужны:
 
 ```text
 SOURCE_PAGE
@@ -161,192 +143,195 @@ WHY_THIS_PLACEMENT
 ACCEPTANCE_CHECK
 ```
 
-Если placement не доказан, задача остается `PENDING_DETAIL`, а не `READY_LINK`.
+Если placement не доказан — `PENDING_DETAIL`, а не `READY_LINK`.
 
-### SG-04 — routing map не определяет, что именно должен сделать исполнитель
+### SG-04 — routing map не определяет реальное действие исполнителя
 
-**Ошибка:** `primary page + support pages` — хорошая архитектурная карта, но инструкция уровня «отразить задачу либо дать переход» оставляет исполнительское решение неразрешенным.
+Для каждой routing row определить `implementation_mode`, `real_site_change yes/no`, точный объект/место изменения и acceptance.
 
-**Как исправить:** для каждой routing row отдельно зафиксировать `implementation_mode`, real-site change yes/no, target block/link/navigation location и acceptance.
-
-### SG-05 — technical source locator подменяет объяснение evidence
-
-**Ошибка:** поле «Доказательство» часто содержит только имя внутреннего TSV/ledger.
-
-**Как исправить:** recipient-facing spec должен содержать две части:
+### SG-05 — technical locator подменяет объяснение evidence
 
 ```text
-EVIDENCE_MEANING = коротко, какой наблюдаемый факт поддерживает решение
+EVIDENCE_MEANING = наблюдаемый факт, поддерживающий решение
 EVIDENCE_LOCATOR = технический источник для трассировки
 ```
 
-Файл/ID — это locator, а не объяснение доказательства.
+### SG-06 — наличие полей приравнено к исполнимости
 
-### SG-06 — полнота карточки проверялась по наличию полей, а не по фактической исполнимости каждого типа action
+```text
+FIELDS PRESENT != EXECUTION DECISION RESOLVED
+```
 
-**Root cause:** единый шаблон action-card был применен к разным типам работы; для content actions он часто достаточен, для routing/link/ownership — нет.
-
-**Correct rule:** `FIELDS PRESENT != EXECUTION DECISION RESOLVED`.
-
-## 4. Release file 03 — AI SEO-консультант по конкретному сайту
+## 4. Release file 03 — один независимый AI knowledge document
 
 Исторический release artifact: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.json`.
 
-Обязательное исходное owner authority: `RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md`.
-
-Stage-1 acceptance authority: `RESEARCH_REBUILD_STAGE_01_PRODUCT_PROMISE_AND_ACCEPTANCE_MATRIX_2026-09-04.md`.
+Обязательное owner authority: `RESEARCH_REPORT_REBUILD_OWNER_CLARIFICATION_AI_IMPLEMENTATION_PATH_2026-09-04.md`.
 
 Current correction authority: `RESEARCH_REBUILD_POST_RELEASE_AI_KNOWLEDGE_RECIPIENT_CONTRACT_CORRECTION_2026-09-05.md`.
 
-### Для чего файл №03 нужен на самом деле
+### Главное назначение №03
 
-В owner clarification назначение зафиксировано однозначно: №03 нельзя трактовать только как архив знаний, контекст для продолжения проекта другой AI-системой или внутренний перенос состояния между диалогами.
+**Главное условие №03 — полная независимость и самодостаточность.**
 
-№03 — самостоятельный клиентский путь **внедрения тех же подтвержденных работ по сайту**, которые в варианте №02 выполняет человек — SEO-специалист.
-
-Правильная модель:
+Заказчику передается **один финальный Markdown-документ**. Он загружает его в совместимую AI-систему. Даже отдельная локальная модель без интернета, live-site, Search, provider/API, GitHub, предыдущих чатов, внутренних project files и других release artifacts должна по этому одному документу полностью понять полезный контекст выполненного исследования и объяснить заказчику:
 
 ```text
-№02
-= ЧЕЛОВЕК-SEO-СПЕЦИАЛИСТ ВЫПОЛНЯЕТ ПОДТВЕРЖДЕННЫЕ РАБОТЫ
-
-№03
-= AI СТАНОВИТСЯ ПЕРСОНАЛЬНЫМ SEO-КОНСУЛЬТАНТОМ ПО ЭТОМУ САЙТУ
--> ЗАКАЗЧИК ЗАДАЕТ ОБЫЧНЫЕ ВОПРОСЫ
--> AI ОБЪЯСНЯЕТ ЧТО / ПОЧЕМУ / КАК / КАК ПРОВЕРИТЬ
--> ЗАКАЗЧИК САМОСТОЯТЕЛЬНО ВНОСИТ ИЗМЕНЕНИЯ
+ЧТО ИССЛЕДОВАЛИ
+ЧТО НАШЛИ
+ЧТО НА САЙТЕ УЖЕ ПРАВИЛЬНО
+ЧТО НЕПРАВИЛЬНО / НЕДОСТАТОЧНО
+ПОЧЕМУ
+ЧЕМ ПОДТВЕРЖДЕНО
+ЧТО НУЖНО СОХРАНИТЬ
+ЧТО НУЖНО ИСПРАВИТЬ
+ГДЕ ИМЕННО
+КАК ИМЕННО
+КАКИЕ ЗАПРОСЫ / ТЕМЫ / ЗАДАЧИ ОТНОСЯТСЯ К РЕШЕНИЮ
+КАК ПРОВЕРИТЬ РЕЗУЛЬТАТ
+ГДЕ ДАННЫХ НЕДОСТАТОЧНО
 ```
 
-Заказчик не обязан разбираться в SEO. AI должен переводить полную профессиональную логику исследования в понятные пошаговые инструкции.
+№03 должен передавать не только actions, но и полную research logic, достаточную для ответов на незаранее перечисленные вопросы в пределах evidence.
 
-### Что означает «я уже выполнил часть работ — что делать дальше»
+### Роль AI и физическое изменение сайта
 
-Это вопрос о **прогрессе заказчика по внедрению подтвержденных изменений на сайте**.
-
-Он не имеет отношения к Stage/Step, `EXECUTION_CURSOR`, post-release review или продолжению внутреннего исследовательского roadmap.
+AI по №03 объясняет `WHAT / WHY / WHERE / HOW`, формирует инструкции и при необходимости ТЗ. Сам документ не дает AI CMS/server/code access и не означает, что AI физически изменяет сайт.
 
 ```text
-CLIENT SITE IMPLEMENTATION PROGRESS
-!= INTERNAL RESEARCH ROADMAP CHECKPOINT
+AI EXPLAINS / ADVISES / PREPARES INSTRUCTIONS
+!= AI PHYSICALLY MODIFIES THE SITE
 ```
 
-### Что сделано правильно исторической Stage-11 materialization
+Изменение выполняет человек или отдельно авторизованная система с реальным доступом.
 
-- полный semantic master был сохранен в data layer;
-- 168 canonical units и 34 actions были включены;
-- Search/AI evidence, Search-case explanations, links, routes, page validations и uncertainty были включены;
-- current-vs-historical authority boundary была явно задана;
-- запрет на превращение uncertainty в решение был сохранен;
-- exact-query Search evidence не разрешалось автоматически переносить на всё семейство;
-- AI verdict не приравнивался к decision value без delta.
-
-То есть Stage 11 сохранил значительный объем правильной research truth. Дефект не доказывает потерю canonical data; он относится к recipient function, primary format, practical implementation usability и QA.
-
-### AI-01 — финальная materialization/packaging не доказывает owner-defined функцию «персональный SEO-консультант»
-
-**Ошибка:** наличие self-contained data bundle и interpretation rules не доказывает, что заказчик без SEO-знаний может загрузить №03, задать обычный вопрос и получить практическое объяснение и пошаговую инструкцию по внедрению.
-
-**Как исправить:** corrected №03 должен прямо строиться как AI consultant knowledge/instruction document и проходить practical client-question QA.
-
-### AI-02 — JSON выбран как основной AI artifact без доказанного recipient-format основания
-
-Roadmap разрешал машинно-ориентированную структуру и технические идентификаторы, если они повышают точность, но требовал сохранить человекочитаемый смысл. Требования «основной файл обязательно JSON» в owner contract нет.
-
-**Как исправить:** corrected primary №03 материализовать как self-contained LLM-readable Markdown (`.md`). JSON может оставаться companion data annex для row-level completeness.
+### ONE-DOCUMENT hard contract
 
 ```text
-MACHINE-READABLE != AI-CONSULTANT-USABLE
+ONLY ONE FINAL DOCUMENT №03
+= ONE MARKDOWN FILE
+= NO COMPANION JSON
+= NO DATA ANNEX
+= NO SECOND CONTEXT FILE
 ```
 
-### AI-03 — полная research logic должна обслуживать практическое внедрение, а не только справочный поиск по данным
+Исторический JSON остается только provenance старого выпуска и **не входит в corrected №03**.
 
-№03 нельзя сводить ни к списку команд, ни к data archive. Для material decisions AI должен иметь цепочку current state → evidence → interpretation → decision → why → target state → exact action → dependencies/do-not-break → acceptance → limitation.
+### AI-01 — историческая materialization не доказала полную автономность
 
-Иначе AI не сможет корректно отвечать на незаранее перечисленные вопросы заказчика.
+Self-contained data bundle и interpretation rules не доказывают, что локальная модель по одному artifact знает **все material findings, positive findings, confirmed changes, WHY, WHERE, HOW и acceptance**.
 
-### AI-04 — не доказано равенство практического workset между №02 и №03
+**Как исправить:** corrected №03 должен содержать всю необходимую research truth внутри одного `.md` и проходить strict offline clean-context QA.
 
-Owner authority требует, чтобы оба пути реализовывали **одни и те же подтвержденные изменения**.
+### AI-02 — JSON выбран основным форматом без owner requirement
 
-Stage-13 cross-view consistency проверил 26 material claims, но practical AI-consultant acceptance должна отдельно доказать:
+Owner contract не требовал JSON. Историческая проверка `json_parse + counts` доказала serialization/data integrity, а не выполнение recipient task.
+
+**Как исправить:** corrected №03 = один self-contained LLM-readable `.md`.
+
+```text
+JSON_PARSE_PASS != AI_KNOWLEDGE_PASS
+```
+
+Никакой companion JSON/annex не допускается как часть варианта №03.
+
+### AI-03 — недостаточно просто знать WHAT; AI должен объяснять WHY / WHERE / HOW
+
+Для каждого material decision №03 должен позволять восстановить эквивалентную цепочку:
+
+```text
+CURRENT STATE
+-> EVIDENCE
+-> INTERPRETATION
+-> DECISION
+-> WHY
+-> WHAT MUST REMAIN UNCHANGED
+-> TARGET STATE
+-> CONFIRMED CHANGE OR NO-ACTION
+-> WHERE IT APPLIES
+-> HOW TO PERFORM IT AT THE PROVEN DETAIL LEVEL
+-> DEPENDENCIES WHEN PROVEN
+-> ACCEPTANCE CHECK
+-> LIMITATION / UNCERTAINTY
+```
+
+### AI-04 — №03 должен включать весь material research universe, а не только изменения
+
+Внутри одного файла должны быть доступны:
+
+- scope и method;
+- бизнес/сайт;
+- page roles/architecture;
+- semantic/query/task logic;
+- ordinary Search evidence и boundaries;
+- AI-search causal cases;
+- positive `KEEP / NO_CHANGE` findings;
+- confirmed changes;
+- `HOLD / RECHECK / SEARCH_REQUIRED / DEFERRED`;
+- uncertainty и reopen conditions.
+
+### AI-05 — practical workset должен быть reconciled с №02, но №03 не может зависеть от №02 во время использования
 
 ```text
 VARIANT_03_CONFIRMED_WORKSET
 == VARIANT_02_CONFIRMED_WORKSET
 ```
 
-AI не должен добавлять новые неподтвержденные работы только потому, что модель умеет генерировать SEO-идеи.
+Это cross-view QA перед release. После delivery локальная модель получает только №03 и не должна просить №02.
 
-### AI-05 — Stage-11 QA проверял serialization/counts, а не практическую задачу заказчика
+### AI-06 — Stage-11 QA проверял serialization/counts, а не реальную автономность
 
-Исторический QA проверял `json_parse`, `self_contained` и counts. Это data-integrity QA, а не proof того, что локальная/new-context LLM умеет провести заказчика по внедрению.
-
-**Correct rule:** `JSON_PARSE_PASS != AI-SEO-CONSULTANT PASS`.
-
-### AI-06 — отсутствовал строгий offline practical walkthrough по owner questions
-
-Owner clarification требует моделировать отдельную локальную LLM без интернета, live-site, Yandex, API, GitHub, предыдущего диалога и внутренних файлов; ей доступен только №03.
-
-Нужно проверять вопросы типа:
-
-- что на странице не так;
-- что уже правильно и нельзя ломать;
-- почему это проблема и чем подтверждено;
-- как исправить пошагово;
-- какие блоки/темы/запросы менять;
-- как связать страницы;
-- какое ТЗ дать разработчику/автору;
-- как проверить результат;
-- после выполненной части подтвержденных работ — какой шаг внедрения следующий;
-- где данных недостаточно и категоричный ответ запрещен.
-
-### AI-07 — внутренняя project-execution semantics должна быть явно отделена от клиентского внедрения
-
-Чтобы не повторять текущую ошибку интерпретации, corrected contract фиксирует:
+Новый QA должен запускать separate/local model с:
 
 ```text
-AI CLIENT IMPLEMENTATION CONSULTANT
-!= INTERNAL RESEARCH EXECUTION HANDOFF
-
-AI KNOWLEDGE DOCUMENT
-!= EXECUTION_CURSOR
+NO INTERNET
+NO LIVE SITE
+NO SEARCH
+NO PROVIDER / API
+NO GITHUB
+NO PREVIOUS CHAT
+NO INTERNAL FILES
+NO OTHER RELEASE FILES
+ONLY ONE №03 (.md)
 ```
 
-№03 помогает заказчику реализовать подтвержденные изменения на **сайте**, а не продолжать наш repository roadmap.
+и проверять, что она объясняет весь material research и весь confirmed change set, включая `WHY / WHERE / HOW / acceptance`, без выдумывания отсутствующих деталей.
+
+### AI-07 — внутренний roadmap не относится к назначению №03
+
+```text
+AI KNOWLEDGE DOCUMENT
+!= EXECUTION_CURSOR
+
+AI RESEARCH / SEO CONSULTATION
+!= INTERNAL RESEARCH EXECUTION HANDOFF
+```
 
 ### AI-08 — corrected physical №03 еще не материализован
 
-На момент review физически существует исторический JSON. Corrected `.md` должен быть создан в едином correction/materialization pass, reconciled с №02 и проверен offline practical AI QA.
-
-Исторический JSON и Stage-15 manifest сохраняются как provenance и не переписываются задним числом.
+На момент review существует исторический JSON. Новый единый `.md` должен быть создан в correction/materialization pass и пройти strict offline/self-contained QA.
 
 ## 5. Release file 04 — rebuilt workbook
 
 Artifact: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/04_OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx`.
 
-Основания текущего review: Stage-12 materialization manifest/QA + канонические row-level source specifications, из которых workbook построен. Бинарный workbook не переписывается в этом диагностическом проходе.
-
 ### Что сделано правильно
 
-- workbook построен из current semantic master и current action authority, а не из withdrawn historical workbook;
-- correction/overlay precedence разрешен upstream и не реконструируется ad hoc;
-- materialized full semantic core, units, actions, implementation, evidence, AI, links, routes и uncertainty;
+- workbook построен из current semantic master и current action authority;
+- correction/overlay precedence разрешен upstream;
+- materialized semantic core, units, actions, implementation, evidence, AI, links, routes и uncertainty;
 - `NOT_READY/HOLD` сохранены;
 - formula/source/count/readback QA прошли.
 
-Это исправляет старый критический materialization defect.
+### WB-01 — semantic correctness ошибочно приравнена к recipient workbook usability
 
-### WB-01 — semantic correctness ошибочно приравнена к client workbook usability
+```text
+CORRECT DATABASE != CLIENT-USABLE WORKBOOK
+```
 
-**Ошибка класса QA:** Stage-12 PASS доказывает корректность authority, row counts, формул, render/openability и source reconciliation. Он не доказывает, что workbook является удобной самостоятельной decision surface для получателя.
+### WB-02 — workbook front door слишком внутренне ориентирован
 
-**Correct rule:** `CORRECT DATABASE != CLIENT-USABLE WORKBOOK`.
-
-### WB-02 — workbook front door остается слишком внутренне ориентированным
-
-Материализация организована вокруг технических слоев `Semantic Master / Units / Actions / Implementation / Evidence / AI Cases / Links / Routes / Uncertainty`. Такие листы полезны как audit/detail layer, но для клиентского workbook требуется отдельная front-door decision surface, которая не заставляет получателя понимать внутреннюю архитектуру проекта.
-
-**Как исправить:** сохранить полные authority sheets как detail/appendix, но добавить/усилить человекочитаемые входные листы:
+Сохранить technical sheets как detail/audit layer, но дать recipient-oriented surfaces, например:
 
 ```text
 КАК ПОЛЬЗОВАТЬСЯ
@@ -357,35 +342,25 @@ Artifact: `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/04_OKNO_MSK_REBUILT_RESEARCH_WOR
 ПОИСК И AI — ЧТО ДОКАЗАНО
 ```
 
-Названия и объяснения recipient-facing листов должны соответствовать языковому контракту.
+### WB-03 — workbook наследует mixed-language и implementation-precision дефекты source authorities
 
-### WB-03 — workbook наследует mixed-language и implementation-precision дефекты Stage-6/SEO source
+```text
+MATERIALIZED DEFECT != RESOLVED DEFECT
+```
 
-Implementation/Actions/Links/Routes materialized из тех же row-level authorities. Поэтому англоязычная внутренняя проза, template routing instructions, filename-only evidence и неразрешенный implementation mode не должны считаться исправленными только потому, что появились в XLSX.
+### WB-04 — Links и Routes нельзя считать implementation-ready только по наличию строк
 
-**Correct rule:** `MATERIALIZED DEFECT != RESOLVED DEFECT`.
+Для links нужны placement/anchor/context; для routes — explicit implementation mode и real-site change. Отличать `ANALYTICAL_ROUTE` от `READY_IMPLEMENTATION_TASK`.
 
-### WB-04 — Links и Routes нельзя считать полностью implementation-ready только по наличию строк
+### WB-05 — нет отдельного recipient-task walkthrough hard gate
 
-Для links нужны placement/anchor/context поля; для routes — explicit implementation mode и real-site change. Пока это не материализовано, workbook должен различать `ANALYTICAL_ROUTE` от `READY_IMPLEMENTATION_TASK`.
+Нужно проверить, что пользователь без repository knowledge может найти решение, понять evidence, отличить `READY / NO_CHANGE / HOLD / RECHECK` и найти Search/AI/uncertainty без manual joins.
 
-### WB-05 — workbook QA не содержит recipient-task walkthrough как отдельный hard gate
+### WB-06 — direct binary visual re-review pending
 
-Текущий QA подтверждает render/visual/formulas/counts, но не фиксирует проверку сценариев вроде:
+Бинарный XLSX в текущем owner-review еще не был независимо открыт локально как spreadsheet; новые layout-level claims сверх persisted Stage-12/14 QA не делаются до прямой проверки.
 
-- клиент без знания репозитория находит решение по странице;
-- специалист понимает, какое реальное изменение сайта требуется;
-- пользователь отличает `READY`, `NO_CHANGE`, `HOLD`, `RECHECK`;
-- evidence можно понять без открытия внутреннего TSV;
-- Search/AI/uncertainty находятся без manual join нескольких листов.
-
-**Как исправить:** добавить recipient-task walkthrough и usability verdict независимо от physical render QA.
-
-### WB-06 — direct binary visual re-review pending in this owner review
-
-GitHub connector подтверждает persisted binary identity и materialization sources, но в текущем owner-review ходе бинарный XLSX еще не был независимо открыт локально как spreadsheet. Поэтому layout-level новые claims сверх persisted Stage-12/14 render QA не делаются. Если визуальный/interactive usability станет material для correction, workbook должен быть открыт как workbook и проверен напрямую перед закрытием review.
-
-## 6. Release README / delivery message / package-level recipient experience
+## 6. Release README / delivery message / package experience
 
 Исторические источники:
 
@@ -393,61 +368,40 @@ GitHub connector подтверждает persisted binary identity и materiali
 - `RESEARCH_REBUILD_STAGE_14_CLIENT_DELIVERY_MESSAGE_RU_2026-09-05.md`;
 - `OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json`.
 
-### PKG-01 — №03 описан как JSON-база/самостоятельный контекст, а не как AI SEO-консультант для внедрения
+### PKG-01 — №03 описан как JSON-база/контекст вместо одного независимого AI knowledge document
 
-README называет №03 «самодостаточной базой знания», а delivery message — «единой JSON-базой фактов, семантики, доказательств, решений, действий и ограничений».
+Corrected README должен объяснять главное:
 
-Это сужает owner-defined client function.
+- №03 — один `.md`;
+- его загружают в AI как **единственный** контекст исследования;
+- даже offline/local model должна по нему объяснить весь material research, все confirmed findings и все confirmed changes;
+- AI объясняет `WHAT / WHY / WHERE / HOW / acceptance`;
+- второй файл не требуется.
 
-**Как исправить в corrected release:** описывать №03 как самодостаточный AI SEO-consultant document, который заказчик загружает в AI, задаёт обычные вопросы и по понятным пошаговым инструкциям самостоятельно внедряет подтвержденные изменения.
-
-### PKG-02 — пакет не показывает два альтернативных пути внедрения
-
-Owner clarification требует явного выбора:
-
-```text
-PATH A
-№02 -> HUMAN SEO SPECIALIST -> IMPLEMENTS CONFIRMED WORK
-
-PATH B
-№03 -> AI SEO CONSULTANT -> CLIENT IMPLEMENTS THE SAME CONFIRMED WORK
-```
-
-Исторический README/delivery message этого выбора не материализуют.
-
-### PKG-03 — секция «Как читать» делает №03 вторичным контекстом, а не самостоятельным путем реализации
-
-Фраза «AI-документ используется как самостоятельный контекст» недостаточна. Клиенту должно быть понятно, **зачем ему №03 и что он делает после загрузки**.
-
-Corrected package usage должен объяснять сценарий:
+### PKG-02 — пакет должен ясно объяснять роли №01 / №02 / №03 / №04
 
 ```text
-IF YOU IMPLEMENT THROUGH A HUMAN SPECIALIST -> USE №02
-IF YOU IMPLEMENT YOURSELF WITH AI HELP -> LOAD №03 INTO AI AND ASK PLAIN-LANGUAGE IMPLEMENTATION QUESTIONS
-USE №01 TO UNDERSTAND THE RESEARCH
-USE №04 FOR STRUCTURED DETAIL / AUDIT / WORKING DATA
+№01 = ПОНЯТЬ ПОЛНОЕ ИССЛЕДОВАНИЕ КАК ЗАКАЗЧИК
+№02 = ПЕРЕДАТЬ ПРОФЕССИОНАЛЬНОМУ SEO-СПЕЦИАЛИСТУ
+№03 = ЗАГРУЗИТЬ ОДИН САМОДОСТАТОЧНЫЙ .md В AI ДЛЯ НЕЗАВИСИМОГО ОБЪЯСНЕНИЯ ИССЛЕДОВАНИЯ И ПОДТВЕРЖДЕННЫХ РАБОТ
+№04 = STRUCTURED WORKING / ANALYTICAL WORKBOOK
 ```
 
-### PKG-04 — corrected release manifest должен отражать правильную recipient role и новый primary format
+### PKG-03 — corrected package usage не должен требовать второй artifact для №03
 
-Исторический manifest обязан остаться provenance и не переписывается задним числом.
+Любая инструкция вида «загрузите №03 плюс JSON/workbook/guide» нарушает контракт.
 
-В новом corrected artifact set role №03 должна отражать site-specific AI SEO consultant function, а primary path — corrected `.md`. Companion JSON, если сохранится, должен иметь отдельную structured-data role.
+### PKG-04 — corrected release manifest должен отражать один физический №03 `.md`
 
-### PKG-05 — package-level QA не проверял, понимает ли заказчик, какой путь внедрения выбрать
+Исторический manifest остается provenance. В corrected manifest №03 — один `.md`; historical JSON не является companion deliverable.
 
-Corrected package QA должен проверить, что клиент без знания repository history может ответить:
+### PKG-05 — package-level QA должен проверить понимание назначения файлов
 
-- какой файл читать для понимания исследования;
-- какой файл отдать SEO-специалисту;
-- какой файл загрузить в AI, если хочет внедрять сам;
-- как именно пользоваться AI-вариантом;
-- где смотреть рабочие таблицы/evidence;
-- какие состояния не являются готовыми к внедрению.
+Клиент должен понимать, какой файл читать, какой отдавать специалисту, какой загружать в AI и что №03 полностью автономен.
 
-### PKG-06 — финальная recipient acceptance должна быть восстановлена только новым corrected release
+### PKG-06 — финальная recipient acceptance возвращается только после corrected release и повторной QA
 
-Исторический README/manifest сохраняют исторический Stage-14/15 PASS. Текущий state overlay честно помечает recipient rework. Новый corrected release должен получить новый manifest/readback/recipient QA, не маскируя старый выпуск под исправленный.
+Исторический Stage-15 PASS сохраняется как provenance, но не закрывает текущий rework.
 
 ## 7. Общий root cause
 
@@ -461,63 +415,60 @@ RECIPIENT-SPECIFIC PRODUCT CONTRACT IS TESTED TOO WEAKLY
 OWNER FINDS MATERIAL RECIPIENT DEFECTS AFTER RELEASE
 ```
 
-Stage 19/20 должны проверять не только наличие знания в package, а самостоятельную полноту каждого обещанного recipient artifact для его конкретного получателя и реальной recipient task.
-
-Отдельные non-equivalences:
+Особенно для №03:
 
 ```text
-PACKAGE-WIDE TRUTH != RECIPIENT-ARTIFACT COMPLETENESS
-FIELDS PRESENT != EXECUTABLE SPECIALIST TASK
-CORRECT DATABASE != CLIENT-USABLE WORKBOOK
-MACHINE-READABLE != AI-CONSULTANT-USABLE
-AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION CHECKPOINT
-FILES PRESENT != CLIENT UNDERSTANDS WHICH IMPLEMENTATION PATH TO USE
+DATA IS PRESENT
+!= LOCAL MODEL CAN INDEPENDENTLY EXPLAIN THE FULL RESEARCH
+
+ONE JSON PARSES
+!= ONE AI DOCUMENT IS SELF-CONTAINED
+
+SECOND FILE CAN SUPPLY MISSING KNOWLEDGE
+!= ONE-DOCUMENT CONTRACT PASS
 ```
 
 ## 8. Required unified correction/materialization pass
 
-Defect discovery по четырем физическим release files и package-level delivery surfaces завершен. Следующее действие — один согласованный correction/materialization pass:
+Defect discovery по четырем release files и package-level surfaces завершен. Следующее действие — единый correction/materialization pass:
 
-1. не менять без причины Stage-5 semantic/action truth;
-2. расширить client report из master authority, а не изобретать новое исследование;
+1. не менять без аналитической причины Stage-5 semantic/action truth;
+2. расширить client report из master authority;
 3. полностью локализовать recipient-facing SEO instructions;
-4. довести routing/link/ownership work packages до явного implementation mode и точного placement там, где это требуется;
-5. материализовать corrected release file №03 как self-contained Markdown AI SEO-consultant document для заказчика;
-6. обеспечить, что №03 содержит тот же подтвержденный workset, что №02, но объясняет его для клиента без SEO-знаний;
-7. включить в №03 достаточные WHY / HOW / dependencies / do-not-break / acceptance checks и полную research logic;
-8. JSON при необходимости оставить companion structured data layer, но не считать serialization proof recipient usability;
-9. не переносить в №03 `EXECUTION_CURSOR`, внутренний roadmap или checkpoint semantics;
-10. пересобрать workbook из исправленных client/spec authorities;
-11. сохранить technical detail sheets, но дать нормальную recipient front door;
-12. создать corrected README/delivery message с явными PATH A / PATH B;
-13. создать новый corrected release manifest, не переписывая исторический Stage-15 manifest;
-14. повторить cross-view reconciliation, включая equality workset №02 ↔ №03;
-15. провести offline clean-context practical AI-consultant walkthrough;
-16. повторить recipient-specific product QA и package-level client-navigation QA;
-17. только после owner/commissioner review вернуть финальный recipient acceptance.
+4. довести routing/link/ownership work packages до явного implementation mode и доказанного placement;
+5. материализовать №03 как **ровно один self-contained Markdown document**;
+6. встроить в №03 весь material research universe, необходимый local/offline model;
+7. встроить весь confirmed workset, согласованный с №02;
+8. для каждого material finding/action обеспечить `WHAT / WHY / WHERE / HOW / ACCEPTANCE` на доказанном уровне;
+9. включить positive `KEEP / NO_CHANGE`, ordinary Search, AI-search evidence, uncertainty и unresolved states;
+10. не выпускать и не требовать никакой companion JSON/CSV/TSV/XLSX/PDF/annex как часть №03;
+11. не переносить в №03 `EXECUTION_CURSOR`, internal roadmap или checkpoint semantics;
+12. пересобрать workbook после исправления shared authorities;
+13. создать corrected README/delivery message с точными ролями файлов;
+14. создать новый corrected manifest, не переписывая historical Stage-15 manifest;
+15. повторить cross-view reconciliation №01/№02/№03/№04;
+16. провести strict offline clean-context AI QA: separate/local model + only №03;
+17. повторить recipient-specific product QA и owner/commissioner recheck.
 
 ## 9. Permanent lessons promoted by this review
 
-Постоянные companion gates для Steps 18–20 содержат универсальные failure classes и hard gates. В Level1 нельзя переносить конкретные домены, URL, action IDs или counts этого теста.
-
-Для AI recipient обязательно закреплено:
+Для AI recipient обязательно:
 
 ```text
-AI CLIENT IMPLEMENTATION CONSULTANT != INTERNAL RESEARCH EXECUTION HANDOFF
-MACHINE-READABLE != AI-CONSULTANT-USABLE
-JSON_PARSE_PASS != AI-CONSULTANT PASS
-AI PATH CONFIRMED WORKSET == HUMAN SPECIALIST PATH CONFIRMED WORKSET
+PRIMARY CONTRACT = INDEPENDENCE / SELF-CONTAINMENT
+ONLY PROMISED AI DOCUMENT MUST CONTAIN ALL REQUIRED KNOWLEDGE
+MACHINE-READABLE != AI-USABLE SELF-CONTAINED KNOWLEDGE
+JSON_PARSE_PASS != AI_KNOWLEDGE_PASS
+SECOND FILE REQUIRED != ONE-DOCUMENT PASS
+AI EXPLAINS IMPLEMENTATION != AI PHYSICALLY MODIFIES SITE
+AI KNOWLEDGE DOCUMENT != INTERNAL EXECUTION_CURSOR
 ```
 
 ## 10. Review status by physical release file / surface
 
 - [x] Release file 01 — Client research report: defect set recorded
 - [x] Release file 02 — SEO specialist guide: defect set recorded
-- [x] Release file 03 — AI SEO-consultant artifact: recipient-purpose / format / practical implementation / QA defect set recorded; corrected physical `.md` pending correction pass
-- [x] Release file 04 — Workbook: structural/materialization review complete; direct binary owner usability check remains pending if material
+- [x] Release file 03 — AI knowledge document: independence/self-containment/format/reasoning/implementation-detail/offline-QA defect set recorded; corrected one-file `.md` pending
+- [x] Release file 04 — Workbook: structural/materialization review complete; direct binary owner usability check pending if material
 - [x] Release README / delivery message: defect set recorded
 - [x] Final package-level recipient experience: defect set recorded
-
-**DEFECT DISCOVERY COMPLETE.**
-
-Следующее действие: **BEGIN UNIFIED POST-RELEASE CORRECTION / MATERIALIZATION PASS**.
