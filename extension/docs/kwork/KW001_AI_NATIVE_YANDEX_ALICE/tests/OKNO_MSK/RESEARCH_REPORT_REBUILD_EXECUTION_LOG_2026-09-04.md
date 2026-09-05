@@ -345,3 +345,20 @@ Provider/external calls: 0. Paid cost: 0 рублей.
 Decision:
 `POST_STAGE_2_METHOD_AND_ROADMAP_REVIEW_COMPLETE__READBACK_PASS__STAGE_3_NEXT_NOT_STARTED`.
 
+### Запись 11 — 2026-09-05 — Stage 3: отдельный AI-search rebuild audit
+
+Статус: `COMPLETE / READBACK PENDING`.
+
+Выполнено:
+- восстановлены 8/8 preregistered AI-кейсов и 9/9 raw GenSearch observations;
+- для каждого сохранена цепочка why-selected → Search-only baseline → AI evidence → Search-vs-AI comparison → verdict → architecture/content effect → action/no-action → client implication → limitation;
+- итог: CHANGE=0, DE_RISK=4, NO_CHANGE=3, INSUFFICIENT=1; architecture changes=0;
+- подтверждены только три bounded content actions: S18-A009, S18-A030, S18-A031;
+- новые provider calls=0; новая стоимость=0 ₽.
+
+Артефакты:
+- `RESEARCH_REBUILD_STAGE_03_AI_SEARCH_REBUILD_AUDIT_2026-09-05.md`;
+- `RESEARCH_REBUILD_STAGE_03_AI_CAUSAL_LEDGER_2026-09-05.tsv`;
+- `RESEARCH_REBUILD_STAGE_03_QA_2026-09-05.json`.
+
+Следующий этап выполняется автоматически: Stage 4.

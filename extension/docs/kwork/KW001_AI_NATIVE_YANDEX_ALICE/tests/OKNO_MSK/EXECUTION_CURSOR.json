@@ -7,14 +7,14 @@
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
   "execution_protocol_status": "OWNER_APPROVED_SINGLE_PASS_WORK_EXPERIMENT",
-  "stage": "2",
-  "status": "STAGE_2_COMPLETE__POST_STAGE_2_METHOD_AND_ROADMAP_REVIEW_COMPLETE__STOPPED_BEFORE_STAGE_3",
-  "execution_unit": "POST_STAGE_2_METHOD_AND_ROADMAP_REVIEW",
+  "stage": "3",
+  "status": "STAGE_3_COMPLETE__CONTINUING_TO_STAGE_4",
+  "execution_unit": "CONTINUOUS_RESEARCH_REBUILD_STAGE_3_TO_15",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
   "historical_mini_step_and_runtime_checkpoint_files": "PROVENANCE_ONLY_NOT_EXECUTION_CONTROL",
-  "next_action": "REPORT_OWNER_AND_STOP__NEXT_RESEARCH_STAGE_STAGE_3_AI_SEARCH_REBUILD_AUDIT__DO_NOT_START_WITHOUT_CONTINUATION",
-  "external_call_policy": "NO_NEW_EXTERNAL_OR_PAID_CALLS_BEFORE_SEPARATE_AUTHORIZATION",
+  "next_action": "EXECUTE_STAGE_4_FINAL_DEFECT_RECOVERY_CLASSIFICATION",
+  "external_call_policy": "USE_PRESERVED_EVIDENCE_FIRST__STOP_BEFORE_NEW_GOVERNED_PROVIDER_CALL_AND_MATERIALIZE_EXTERNAL_DATA_REQUIREMENT_PACKAGE",
   "startup_protocol": [
     "READ_THIS_FILE_FIRST",
     "READ_AUTHORITY_CURRENT_STATE",
@@ -75,5 +75,28 @@
     "later_stages_started": false,
     "provider_calls": 0,
     "paid_cost_rub": 0
+  },
+  "owner_continuation_2026_09_05": {
+    "authorized_stages": "3..15",
+    "continuous_execution": true,
+    "step21_22_authorized": false,
+    "new_provider_calls_unconditionally_authorized": false
+  },
+  "stage_3_completion": {
+    "status": "PASS__READBACK_PENDING",
+    "main_artifact": "RESEARCH_REBUILD_STAGE_03_AI_SEARCH_REBUILD_AUDIT_2026-09-05.md",
+    "causal_ledger": "RESEARCH_REBUILD_STAGE_03_AI_CAUSAL_LEDGER_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_03_QA_2026-09-05.json",
+    "case_count": 8,
+    "raw_observations": 9,
+    "verdict_counts": {
+      "CHANGE": 0,
+      "DE_RISK": 4,
+      "NO_CHANGE": 3,
+      "INSUFFICIENT": 1
+    },
+    "architecture_changes": 0,
+    "new_provider_calls": 0,
+    "new_paid_cost_rub": 0
   }
 }
