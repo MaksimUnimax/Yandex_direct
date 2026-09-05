@@ -73,9 +73,9 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 | Step 15 | AI-case selection | **APPROVED / ACTIVE** | `STEP_15_AI_CASE_SELECTION_METHOD.md` — exact upstream lineage; diagnostic probes and stability controls separate; selected diagnostic set not representative by default. |
 | Step 16 | AI-search evidence acquisition | **UNVALIDATED AS PERMANENT METHOD / NARROW NON-REPEAT CONTROLS ACTIVE** | Fresh full provider/surface/probing research remains required. `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` governs only raw preservation, proxy/consumer claim separation and the rule that a request is not analytical value. |
 | Step 17 | Search-vs-AI comparison | **APPROVED / ACTIVE** | `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md` — exact-query/family and temporal scope explicit; architecture/content separate; every case preserves selection rationale, frozen baseline, comparison, verdict and exact downstream action or explicit no-action; supported `NO_CHANGE/DE_RISK` remains a client-visible result. |
-| **Step 18** | **Prioritization / implementation readiness** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md`** — ideal priority != production schedule; accounting batch != work package; analytical action != implementation specification; missing content/location/evidence/example/acceptance detail keeps `IMPLEMENTATION_SPEC_STATE` not ready without fabricating private calibration. |
-| **Step 19** | **Client deliverables** | **UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL** | **`STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md`** — one current semantic master feeds every semantic view; one current action authority feeds action/business/page/report views; manifest fixes overlay precedence and source revisions; cross-view contradictions and loss of Search/AI/positive/uncertain findings block PASS. Fresh full-method validation remains required. |
-| **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md`** — physical/distribution, semantic/canonical and product/deliverable QA are distinct mandatory dimensions; every correction is traced through final master, every material client view and physical package; consistent derivatives from one defective path are not independent semantic proof. |
+| **Step 18** | **Prioritization / implementation readiness** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md` + `STEP_18_EXECUTION_TICKET_COMPLETENESS_GATE.md`** — ideal priority != production schedule; accounting batch != work package; analytical action/route != executable website ticket; every READY package needs explicit implementation mode, mode-specific location/detail, evidence meaning + locator and recipient-language compliance. |
+| **Step 19** | **Client deliverables** | **UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL** | **`STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md` + `STEP_19_RECIPIENT_ARTIFACT_COMPLETENESS_GATE.md`** — one current semantic/action truth feeds all views, but package-wide completeness != recipient-artifact completeness; executive summary != full research report; aggregate Search/AI counts != client-visible research; correct database != client-usable workbook. Fresh full-method validation remains required. |
+| **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md` + `STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md`** — physical, semantic and product QA remain distinct; additionally each promised recipient artifact needs its own depth/language/usability/executability QA; package-wide PASS != recipient-specific PASS; analyst assurance != owner/commissioner acceptance. |
 | Step 21 | Handoff / revisions | **UNVALIDATED AS PERMANENT METHOD** | Must define revision scope, version truth, evidence update and acceptance boundaries. |
 | Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Close only after deliverables, revisions and pending provider/operator actions are finished. |
 
@@ -158,9 +158,28 @@ NO GUESS != CALIBRATION COMPLETE
 RECHECK TRIGGER != SUCCESS METRIC
 ACCOUNTING BATCH != IMPLEMENTATION WORK PACKAGE
 PUBLIC BUSINESS RELEVANCE != CLIENT-CONFIRMED BUSINESS IMPORTANCE
+ANALYTICAL ROUTE != EXECUTABLE WEBSITE TICKET
+FIELDS PRESENT != EXECUTION DECISION RESOLVED
+EVIDENCE LOCATOR != EVIDENCE EXPLANATION
 ```
 
 In analytical-priority mode, missing implementation calibration is an explicit claim boundary. In implementation-ready mode, material missing calibration blocks the stronger PASS.
+
+---
+
+## Post-release recipient-acceptance lesson summary
+
+A later owner/recipient walkthrough can reveal defects even when canonical truth, counts, files and package-wide QA are correct. Future Steps 18–20 must therefore test the promised recipient task itself.
+
+```text
+PACKAGE-WIDE COMPLETENESS != RECIPIENT-ARTIFACT COMPLETENESS
+EXECUTIVE SUMMARY != FULL RESEARCH REPORT
+CORRECT DATABASE != CLIENT-USABLE WORKBOOK
+RENDER PASS != WORKBOOK-USABILITY PASS
+ANALYST ASSURANCE PASS != OWNER / COMMISSIONER ACCEPTANCE
+```
+
+A recipient-facing report must expose the material research at the depth promised; a specialist guide must resolve the actual implementation mode; and final QA must evaluate each promised artifact against its own recipient contract rather than allowing another package artifact to silently supply missing depth.
 
 ---
 
