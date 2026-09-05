@@ -80,7 +80,9 @@
     "github_readback": "RESEARCH_REBUILD_POST_RELEASE_GITHUB_READBACK_2026-09-05.md",
     "materialization_commit_shas": [
       "f99beaea8855d5cd7a0ed5737d5b536b2ee7d912",
-      "a22c4be3298ac3026f43c436a2e29970198db89c"
+      "a22c4be3298ac3026f43c436a2e29970198db89c",
+      "9ddcbeab6dd07f834c08604f7dbad77b15b1525b",
+      "9f18834d8e7f812cbac3da503a53377dc9c072d0"
     ],
     "analyst_recipient_qa": "DOCUMENT_01_PASS",
     "document_01_analyst_recheck": "PASS",
@@ -104,6 +106,8 @@
       "true_family_only": 4
     },
     "document_01_owner_review_residual_defect": "QF003_EMPTY_REPRESENTATIVE_QUERY_MASKED_EXACT_STAGE5_TITLE_MATCH__CORRECTED",
+    "document_01_latest_material_correction_commit_sha": "9f18834d8e7f812cbac3da503a53377dc9c072d0",
+    "document_01_latest_github_content_readback": "PASS",
     "current_document": "01",
     "document_02_owner_review": "PENDING",
     "document_03_owner_review": "PENDING",

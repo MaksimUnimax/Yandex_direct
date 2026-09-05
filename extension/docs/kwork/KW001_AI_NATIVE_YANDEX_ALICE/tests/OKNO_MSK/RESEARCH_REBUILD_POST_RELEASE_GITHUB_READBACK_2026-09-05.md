@@ -84,3 +84,51 @@ DOCUMENT_03_OWNER_REVIEW = PENDING
 FINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN
 NEXT_ACTION = OWNER_REVIEW_CORRECTED_DOCUMENT_01
 ```
+
+## Повторный GitHub readback после owner-review исправления QF003
+
+**Исходный remote HEAD перед rework:** `21a2d87e9c8755cfe6fdeb4121637796ae692033`
+
+**Материальный correction commit:** `9f18834d8e7f812cbac3da503a53377dc9c072d0`
+
+**Материальных путей:** 13
+
+**Результат:** `PASS`
+
+Коммит опубликован fast-forward и прочитан обратно через GitHub connector. Remote source №01 подтверждает, что QF003 сохраняет исторически пустое поле `representative_query`, но разрешает буквальное совпадение заголовка с текущей Stage-5-фразой `алюминиевые окна для частного дома`. Карточка показывает `ASSIGNED`, единицу `ALUMINIUM_WINDOWS_COMMERCIAL`, коммерческую задачу, exact owner `https://okno-msk.ru/alyuminievye-okna/`, supporting page `/alyuminievye-okna/provedal`, действие `KEEP_EXISTING_STRUCTURE` и отдельно сообщает об отсутствии выполненного exact Search-прохода.
+
+Независимый QA readback подтвердил:
+
+- `298/298` checks, `failed = 0`;
+- QF `21/21`, исправлено `9`, unresolved `0`;
+- доказательные классы QF: `16` stored representative + exact Stage-13, `1` Stage-5 exact-title без stored representative (`QF003`), `4` true family-only (`QF008`, `QF009`, `QF011`, `QF021`);
+- Search `75/75`, AI `8/8`;
+- `S18-A012 = READY_PARTIAL__BUSINESS_DETAIL_REQUIRED` и итоговые action counts не регрессировали;
+- PDF №01 имеет `58` страниц; manifest/state/cursor содержат текущие gate и hashes;
+- файлы №02 и №03 отсутствуют в 13-путевом diff и не продвигались.
+
+Binary/source identity readback:
+
+```text
+PDF    Git blob = dccd14c75fe9520721b468f5690dba31edbd5c63
+DOCX   Git blob = cd874e0aab3dd57ac0311c43694f3c752f032a4f
+SOURCE Git blob = cbb51296badced35716cd215c78f05f3dc361d45
+PDF    SHA-256 = 1af28c2ab65641e9c89baea90054da9cf7bed234421e2beeef1ce697445cbb00
+DOCX   SHA-256 = 4a44d1ccc37be4a676599de58818e6c2381b74f79781c1cfbe98fa7b7c019cc8
+SOURCE SHA-256 = 19bb1abf0793427b4c339b5533b9aad2f7cb2ebee2d2a3f86cd7ad2e2850fe62
+RESULT = PASS
+```
+
+Final document №01 gate after repeated readback:
+
+```text
+CURRENT_DOCUMENT = 01
+DOCUMENT_01_ANALYST_RECHECK = PASS
+DOCUMENT_01_OWNER_REVIEW = PENDING
+DOCUMENT_02_OWNER_REVIEW = PENDING
+DOCUMENT_03_OWNER_REVIEW = PENDING
+FINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN
+NEXT_ACTION = OWNER_REVIEW_CORRECTED_DOCUMENT_01
+```
+
+Новые provider-вызовы: `0`. Step 21/22 не выполнялись.

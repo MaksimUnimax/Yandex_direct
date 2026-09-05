@@ -39,7 +39,9 @@
     "github_readback": "RESEARCH_REBUILD_POST_RELEASE_GITHUB_READBACK_2026-09-05.md",
     "materialization_commit_shas": [
       "f99beaea8855d5cd7a0ed5737d5b536b2ee7d912",
-      "a22c4be3298ac3026f43c436a2e29970198db89c"
+      "a22c4be3298ac3026f43c436a2e29970198db89c",
+      "9ddcbeab6dd07f834c08604f7dbad77b15b1525b",
+      "9f18834d8e7f812cbac3da503a53377dc9c072d0"
     ],
     "ready_real_site_actions": 7,
     "partial_business_detail_required_actions": 1,
@@ -72,6 +74,8 @@
     "document_03_owner_review": "PENDING",
     "final_owner_recipient_acceptance": "OPEN",
     "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
+    "latest_material_correction_commit_sha": "9f18834d8e7f812cbac3da503a53377dc9c072d0",
+    "latest_github_content_readback": "PASS",
     "qf_cards_checked": 21,
     "qf_cards_corrected": 9,
     "qf_unresolved": 0,
