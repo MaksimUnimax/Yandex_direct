@@ -2,7 +2,7 @@
   "date": "2026-09-04",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_13_COMPLETE__STAGE_14_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
+  "status": "STAGE_14_COMPLETE__STAGE_15_NEXT__CONTINUOUS_EXECUTION_ACTIVE",
   "trigger": "OWNER_APPROVED_REBUILD_ROADMAP_AND_ORDERED_EXECUTION",
   "owner_authorization": {
     "rebuild_roadmap_execution_received": true,
@@ -37,7 +37,7 @@
     "stage_11": "COMPLETE",
     "stage_12": "COMPLETE",
     "stage_13": "COMPLETE",
-    "stage_14": "NOT_STARTED",
+    "stage_14": "COMPLETE",
     "stage_15": "NOT_STARTED"
   },
   "stage_0": {
@@ -197,7 +197,7 @@
   ],
   "roadmap_file": "RESEARCH_REPORT_REBUILD_ROADMAP_2026-09-04.md",
   "execution_log": "RESEARCH_REPORT_REBUILD_EXECUTION_LOG_2026-09-04.md",
-  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_14_FINAL_RELEASE_QA",
+  "next_action": "CONTINUE_AUTOMATICALLY_TO_STAGE_15_RELEASE_NEW_CLIENT_PACKAGE",
   "execution_started": true,
   "post_stage_2_method_and_roadmap_review": {
     "date": "2026-09-05",
@@ -490,7 +490,7 @@
     "workbook_blob_sha": "afdd4ba499b48e8a50c46f47e3cf29e04a78c008"
   },
   "stage_13": {
-    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "status": "COMPLETE__QA_PASS__GITHUB_READBACK_PASS",
     "report": "RESEARCH_REBUILD_STAGE_13_THREE_RECIPIENT_CONSISTENCY_REVIEW_2026-09-05.md",
     "matrix": "RESEARCH_REBUILD_STAGE_13_CROSS_VIEW_CONSISTENCY_MATRIX_2026-09-05.tsv",
     "qa": "RESEARCH_REBUILD_STAGE_13_QA_2026-09-05.json",
@@ -498,6 +498,28 @@
     "contradictions": 0,
     "reopens_required": 0,
     "new_provider_calls": 0,
+    "new_paid_cost_rub": 0,
+    "commit_sha": "8fda5bd7f86d9cf275d5d7ae9e01e704a79d2593"
+  },
+  "stage_14": {
+    "status": "COMPLETE__QA_PASS__READBACK_PENDING",
+    "report": "RESEARCH_REBUILD_STAGE_14_FINAL_RELEASE_ASSURANCE_2026-09-05.md",
+    "pp_matrix": "RESEARCH_REBUILD_STAGE_14_PP01_PP19_ACCEPTANCE_2026-09-05.tsv",
+    "qa": "RESEARCH_REBUILD_STAGE_14_PHYSICAL_SEMANTIC_PRODUCT_QA_2026-09-05.json",
+    "delivery_message": "RESEARCH_REBUILD_STAGE_14_CLIENT_DELIVERY_MESSAGE_RU_2026-09-05.md",
+    "dimensions": {
+      "physical": "PASS",
+      "semantic": "PASS",
+      "product": "PASS"
+    },
+    "pp": {
+      "pass": 18,
+      "not_applicable_boundary_pass": 1,
+      "fail": 0
+    },
+    "rendered_pages_visually_inspected": 45,
+    "governed_provider_calls": 0,
+    "public_first_party_page_checks": 14,
     "new_paid_cost_rub": 0
   }
 }

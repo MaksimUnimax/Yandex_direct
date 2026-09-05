@@ -468,3 +468,12 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Contradictions: 0. Producing-authority reopens required: 0.
 - QA result: PASS. New provider calls: 0. Paid cost: 0.
 - Stage 14 independent final release QA is next.
+
+## 2026-09-05 — Stage 14 final release assurance
+
+- Ran independent physical/distribution, semantic/canonical and product/deliverable QA.
+- Visually inspected 45 rendered PDF pages; DOCX/PDF/workbook/AI JSON structure passed.
+- Reconciled 69 accepted corrections and 26 material cross-view claims against current canonical authorities; failures/contradictions: 0.
+- PP-01..PP-18 PASS; PP-19 NOT_APPLICABLE__BOUNDARY_PASS; global release result PASS.
+- Governed provider calls: 0; public first-party page checks carried from Stage 6: 14; paid cost: 0 RUB.
+- Stage 15 release authorized by Stage 14 PASS.

@@ -1,0 +1,92 @@
+{
+  "date": "2026-09-05",
+  "stage": 14,
+  "status": "PASS",
+  "dimensions": {
+    "physical_distribution": {
+      "status": "PASS",
+      "files_opened_or_parsed": [
+        "client DOCX",
+        "client PDF",
+        "SEO DOCX",
+        "SEO PDF",
+        "workbook XLSX",
+        "AI JSON"
+      ],
+      "client_report_pages": 7,
+      "seo_guide_pages": 38,
+      "rendered_pages_visually_inspected": 45,
+      "docx_zip_integrity": true,
+      "pdf_text_extractable": true,
+      "workbook_sheets": 12,
+      "workbook_formula_errors": 0,
+      "historical_old_package_excluded_from_release": true,
+      "accessibility": {
+        "high_findings": 0,
+        "medium_findings": 2,
+        "disposition": "JUSTIFIED_FALSE_POSITIVE__COVER_KEY_VALUE_METADATA_TABLE_HAS_NO_SEMANTIC_HEADER"
+      },
+      "file_hashes": {
+        "OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx": {
+          "size_bytes": 46321,
+          "sha256": "be88d7b78107640a77889b6b8a136106fb78e4d3db0651353358051ded037813"
+        },
+        "OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf": {
+          "size_bytes": 182542,
+          "sha256": "d768cfcf344fd7e1838d35b7420b4035d81468d7cfa11fdf904fc5c9568ac5ce"
+        },
+        "OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx": {
+          "size_bytes": 65600,
+          "sha256": "0e0bfed5cc796ed84dc4ede8efc0f3a0b847c4b7843f9f3921a6cc815f3f3e6e"
+        },
+        "OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf": {
+          "size_bytes": 767211,
+          "sha256": "8106fa4c1222ec563b99430e97f7d63d34a0570407991926a3d7809da031de98"
+        },
+        "OKNO_MSK_REBUILT_RESEARCH_WORKBOOK_2026-09-05.xlsx": {
+          "size_bytes": 656682,
+          "sha256": "3a5961d35df8da02b94c18914f35cf58a3c049ae95be7aed2223c32793295e07"
+        }
+      }
+    },
+    "semantic_canonical_authority": {
+      "status": "PASS",
+      "semantic_rows": 2840,
+      "units": 168,
+      "actions": 34,
+      "uncertainty_rows": 221,
+      "accepted_correction_rows": 69,
+      "correction_failures": 0,
+      "target_contract_failures": 0,
+      "cross_view_claims": 26,
+      "cross_view_contradictions": 0,
+      "reopens_required": 0,
+      "independent_oracle": "STAGE_05_CANONICAL_AUTHORITIES_PLUS_STAGE_03_AI_CAUSAL_LEDGER",
+      "same_generation_derivative_used_as_only_oracle": false,
+      "uncertainty_silently_resolved": false
+    },
+    "product_deliverable_acceptance": {
+      "status": "PASS",
+      "pp_pass": 18,
+      "pp_not_applicable_boundary_pass": 1,
+      "pp_fail": 0,
+      "required_result_classes": 9,
+      "required_result_classes_present": 9,
+      "recipient_layers": [
+        "plain-Russian client report",
+        "Russian SEO implementation guide",
+        "self-contained AI knowledge document",
+        "workbook/data layer"
+      ],
+      "implementation_ready_claim_bounded": true,
+      "positive_no_change_visible": true,
+      "search_layer_visible": true,
+      "ai_causal_layer_visible": true
+    }
+  },
+  "governed_provider_calls": 0,
+  "public_first_party_page_checks": 14,
+  "paid_cost_rub": 0,
+  "global_result": "PASS__PHYSICAL_PLUS_SEMANTIC_PLUS_PRODUCT_ACCEPTANCE",
+  "next_stage": 15
+}
