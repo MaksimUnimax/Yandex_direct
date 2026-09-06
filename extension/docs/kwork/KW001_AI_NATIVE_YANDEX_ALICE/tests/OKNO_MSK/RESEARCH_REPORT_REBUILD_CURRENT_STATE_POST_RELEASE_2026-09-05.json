@@ -82,13 +82,14 @@
       "f99beaea8855d5cd7a0ed5737d5b536b2ee7d912",
       "a22c4be3298ac3026f43c436a2e29970198db89c",
       "9ddcbeab6dd07f834c08604f7dbad77b15b1525b",
-      "9f18834d8e7f812cbac3da503a53377dc9c072d0"
+      "9f18834d8e7f812cbac3da503a53377dc9c072d0",
+      "6e7a92143b0419a5ba07b6495fba84aab3222f70"
     ],
     "analyst_recipient_qa": "DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_PASS",
     "document_01_analyst_recheck": "PASS",
     "document_01_owner_review": "PENDING__AWAITING_OWNER_RECHECK",
     "document_01_owner_review_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md",
-    "document_01_owner_review_commit_sha": "210750fb39939c05781188fb3782afdf87ad2a30",
+    "document_01_owner_review_commit_sha": "NOT_APPLICABLE__OWNER_REVIEW_PENDING",
     "document_01_qa_markdown": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md",
     "document_01_qa_json": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json",
     "document_01_pdf_pages": 14,
@@ -109,7 +110,7 @@
     },
     "document_01_owner_review_residual_defect": "QF003_EMPTY_REPRESENTATIVE_QUERY_MASKED_EXACT_STAGE5_TITLE_MATCH__CORRECTED",
     "document_01_latest_material_correction_commit_sha": "6e7a92143b0419a5ba07b6495fba84aab3222f70",
-    "document_01_latest_github_content_readback": "PENDING_FINAL_REMOTE_READBACK",
+    "document_01_latest_github_content_readback": "PASS",
     "current_document": "01",
     "document_02_owner_review": "PENDING",
     "document_03_owner_review": "PENDING",
@@ -133,7 +134,8 @@
     "document_01_client_forbidden_internal_latin": 0,
     "document_01_source_native_brands_preserved": true,
     "document_01_verbatim_brand_query_spelling_preserved": true,
-    "document_01_internal_process_narrative": 0
+    "document_01_internal_process_narrative": 0,
+    "document_01_github_readback_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_GITHUB_READBACK_2026-09-06.md"
   },
   "step21_22_authorized": false,
   "new_provider_calls_authorized": false,

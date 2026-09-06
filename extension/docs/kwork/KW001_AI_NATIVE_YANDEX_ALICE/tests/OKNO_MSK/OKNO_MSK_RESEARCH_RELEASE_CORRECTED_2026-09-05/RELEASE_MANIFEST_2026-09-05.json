@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_01_RUSSIAN_CLIENT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+  "status": "DOCUMENT_01_RUSSIAN_CLIENT_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -70,9 +70,9 @@
     "historical_package_qa": "../RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
     "document_01_owner_review_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md",
-    "analyst_recipient_qa": "DOCUMENT_01_PASS",
+    "analyst_recipient_qa": "DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_PASS",
     "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
-    "document_01_checks": 298,
+    "document_01_checks": 12,
     "document_01_qf_cards": "21_OF_21_PASS__9_CORRECTED__0_UNRESOLVED",
     "document_01_qf_resolution_classes": "16_STORED_REPRESENTATIVE_WITH_EXACT_STAGE13__1_STAGE5_EXACT_TITLE_WITHOUT_STORED_REPRESENTATIVE__4_TRUE_FAMILY_ONLY",
     "document_01_search_observations": "75_OF_75_PASS",
@@ -90,11 +90,13 @@
     "document_02_owner_review": "PENDING",
     "document_03_owner_review": "PENDING",
     "final_owner_recipient_acceptance": "OPEN",
-    "owner_recheck": "ACTIVE__DOCUMENT_01_PASS__DOCUMENT_02_PENDING",
+    "owner_recheck": "ACTIVE__DOCUMENT_01_REWORKED__OWNER_REVIEW_PENDING",
     "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
     "document_01_forbidden_internal_latin": 0,
     "document_01_source_native_brands_preserved": true,
-    "document_01_verbatim_brand_query_spelling_preserved": true
+    "document_01_verbatim_brand_query_spelling_preserved": true,
+    "document_01_github_readback": "PASS",
+    "document_01_github_readback_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_GITHUB_READBACK_2026-09-06.md"
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,

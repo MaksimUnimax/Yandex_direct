@@ -31,7 +31,7 @@
     "NO_NEW_EXTERNAL_OR_PAID_CALLS_WITHOUT_SEPARATE_AUTHORIZATION"
   ],
   "post_release_correction_2026_09_05": {
-    "status": "COMPLETE__ANALYST_RECIPIENT_QA_PASS__GITHUB_READBACK_PASS__OWNER_RECHECK_ACTIVE__DOCUMENT_01_PASS__DOCUMENT_02_PENDING",
+    "status": "COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
     "corrected_release_directory": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
     "release_manifest": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
     "shared_implementation_authority": "RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_AUTHORITY_CORRECTED_2026-09-05.tsv",
@@ -41,7 +41,8 @@
       "f99beaea8855d5cd7a0ed5737d5b536b2ee7d912",
       "a22c4be3298ac3026f43c436a2e29970198db89c",
       "9ddcbeab6dd07f834c08604f7dbad77b15b1525b",
-      "9f18834d8e7f812cbac3da503a53377dc9c072d0"
+      "9f18834d8e7f812cbac3da503a53377dc9c072d0",
+      "6e7a92143b0419a5ba07b6495fba84aab3222f70"
     ],
     "ready_real_site_actions": 7,
     "partial_business_detail_required_actions": 1,
@@ -62,11 +63,11 @@
     "unsupported_new_analytical_decisions": 0,
     "new_provider_calls": 0,
     "paid_cost_rub": 0,
-    "owner_recheck": "ACTIVE__DOCUMENT_01_PASS__DOCUMENT_02_PENDING",
+    "owner_recheck": "ACTIVE__DOCUMENT_01_REWORKED__OWNER_REVIEW_PENDING",
     "step21_22_executed": false
   },
   "document_01_owner_recheck_2026_09_05": {
-    "status": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__SOURCE_NATIVE_BRANDS_PRESERVED",
+    "status": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__SOURCE_NATIVE_BRANDS_PRESERVED__GITHUB_READBACK_PASS",
     "current_document": "01",
     "document_01_analyst_recheck": "PASS",
     "document_01_owner_review": "PENDING__AWAITING_OWNER_RECHECK",
@@ -75,9 +76,9 @@
     "final_owner_recipient_acceptance": "OPEN",
     "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
     "latest_material_correction_commit_sha": "6e7a92143b0419a5ba07b6495fba84aab3222f70",
-    "latest_github_content_readback": "PENDING_FINAL_REMOTE_READBACK",
-    "owner_review_pass_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REVIEW_PASS_2026-09-06.md",
-    "owner_review_pass_commit_sha": "210750fb39939c05781188fb3782afdf87ad2a30",
+    "latest_github_content_readback": "PASS",
+    "owner_review_pass_authority": "WITHDRAWN__OWNER_REVIEW_PENDING",
+    "owner_review_pass_commit_sha": "NOT_APPLICABLE__OWNER_REVIEW_PENDING",
     "qf_cards_checked": 21,
     "qf_cards_corrected": 9,
     "qf_unresolved": 0,
@@ -101,7 +102,7 @@
     "hold_actions": 1,
     "markdown_docx_pdf_equivalence": "PASS",
     "physical_pdf_qa": "PASS__14_OF_14_PAGES",
-    "deterministic_qa_checks": 298,
+    "deterministic_qa_checks": 12,
     "owner_review_residual_defect": "QF003_EMPTY_REPRESENTATIVE_QUERY_MASKED_EXACT_STAGE5_TITLE_MATCH__CORRECTED",
     "qa_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json",
     "owner_recheck_authority": "RESEARCH_REBUILD_POST_RELEASE_OWNER_RECHECK_FINDINGS_2026-09-05.md",
@@ -111,7 +112,8 @@
     "forbidden_internal_latin": 0,
     "source_native_brands_preserved": true,
     "verbatim_brand_query_spelling_preserved": true,
-    "internal_process_narrative": 0
+    "internal_process_narrative": 0,
+    "github_readback_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_GITHUB_READBACK_2026-09-06.md"
   },
   "required_stage_2_output": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_2026-09-04.md",
   "stage_2_completion_report": [
