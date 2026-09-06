@@ -1,12 +1,35 @@
 # KW-001 — Step 20 commissioner-facing narrative and de-AI gate
 
 Updated: 2026-09-06  
-Status: **ACTIVE / UNIVERSAL / PERMANENT NON-REPEAT CONTROL**  
+Status: **ACTIVE AS LEGACY SHARED QUALITY BRIDGE / REPORT-SPECIFIC ROUTING REQUIRED**  
 Scope: **Step 19 materialization + Step 20 recipient acceptance / Level 1**
 
 This gate prevents an analytically correct report from failing as a paid deliverable because it is written for an invented recipient role, does not answer the commissioned Kwork directly, exposes internal workflow language, or reads like a generated template instead of a coherent report for a non-specialist commissioner.
 
 Concrete client domains, URLs, counts, query strings, brands, action IDs and current-job findings are forbidden in this Level-1 rule. Those belong in Level 2.
+
+## Report-specific applicability correction
+
+This file originated from the owner-directed rework of **Report №01**. It must not be applied wholesale to every deliverable. Canonical applicability now routes through:
+
+`STEP_20_REPORT_SPECIFIC_ACCEPTANCE_ROUTING.md`
+
+Report-specific authorities:
+
+- `STEP_20_REPORT_01_CUSTOMER_RESEARCH_REPORT_GATE.md` — full customer-facing research-report rules and the complete Report №01 failure inventory;
+- `STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md` — only the transferable writing-quality controls plus the denser technical requirements needed by an SEO/implementation specialist;
+- Report №03 — no presentation rules are inherited automatically before its own review.
+
+```text
+REPORT_01_SIMPLICITY != REPORT_02_SIMPLICITY
+REPORT_01_FAILURE_INVENTORY != AUTOMATIC_REPORT_02_FAILURE_INVENTORY
+CONNECTED HUMAN NARRATIVE = SHARED
+NATURAL NON-GENERATED WORDING = SHARED
+MEANINGFUL SECTIONS = SHARED
+SPECIALIST TERMINOLOGY = ALLOWED / EXPECTED IN REPORT_02
+```
+
+The sections below remain useful historical/shared guidance, but the report-specific gates above control final acceptance.
 
 ## 1. Recipient identity: commissioner, not an invented role
 
@@ -253,7 +276,7 @@ RESTATING THE SAME CONCLUSION IN INTRODUCTION, SUMMARY, METHOD AND FINAL SECTION
 
 The correction is not to remove meaningful structure. The correction is to keep semantic sections while making the prose inside and between them concrete, connected and specific to the actual research.
 
-## 13. Known failure inventory from owner-directed post-release rework
+## 13. Report №01 failure inventory from owner-directed post-release rework
 
 The following failure classes must not be reintroduced:
 
