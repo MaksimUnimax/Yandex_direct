@@ -36,22 +36,28 @@ def main():
         'для владельца сайта',
         'владельцу сайта',
         'владелец бизнеса',
-        '## 5. Как распределены основные группы поискового спроса'
+        '## 5. Как распределены основные группы поискового спроса',
+        'Алиса не дала оснований пересматривать общий вывод',
+        'Главное, что показала Алиса',
+        'Таким образом, Алиса дала практическую пользу',
+        'Алиса сохранила',
+        'Алиса усилила',
+        'Алиса это подтвердила'
     ]
     for bad in forbidden:
         assert bad not in text, bad
 
     required = [
         'Задача работы',
-        'сайт в целом построен правильно',
+        'уже хорошо оптимизирован в части соответствия спросу как под обычную выдачу Яндекса, так и под выдачу Алисы',
         '2 415', '550', '2 965', '2 840', '334', '174', '2 332', '2 313', '19', '168',
         '75 конкретным', '25 тем', 'шесть тем', 'два контрольных', '16 тем', 'одну тему', '34 значимых вывода',
-        'Алиса не дала оснований пересматривать общий вывод по структуре сайта',
+        'Сравнение с выдачей Алисы не дало оснований пересматривать общий вывод по структуре сайта',
         'Семь доработок можно передавать в работу сейчас',
         'Что нужно изменить на сайте',
         'Что уже сделано правильно',
         'Что нужно уточнить у компании',
-        'По части соответствия поисковому спросу'
+        'По результатам пересборки поискового ядра'
     ]
     for marker in required:
         assert marker in text, marker
@@ -73,7 +79,7 @@ def main():
     headings = re.findall(r'^##\s+(.+)$', text, re.M)
     expected_headings = [
         'Результат исследования', 'Как проводилась работа', 'Что показала обычная выдача Яндекса',
-        'Что добавила Алиса', 'Что нужно изменить на сайте', 'Что уже сделано правильно',
+        'Что дала проверка выдачи Алисы', 'Что нужно изменить на сайте', 'Что уже сделано правильно',
         'Что нужно уточнить у компании', 'Итог'
     ]
     for h in expected_headings:
@@ -92,7 +98,7 @@ def main():
     ntext = norm(ptext).lower()
     assert norm(TITLE).lower() in ntext
     for marker in [
-        'Задача работы', 'сайт в целом построен правильно', '2 965', '2 840', '2 332', '2 313',
+        'Задача работы', 'уже хорошо оптимизирован в части соответствия спросу как под обычную выдачу Яндекса, так и под выдачу Алисы', '2 965', '2 840', '2 332', '2 313',
         '75', '25', 'Панорамные алюминиевые окна', 'Что нужно изменить на сайте',
         'Что уже сделано правильно', 'Итог'
     ]:
@@ -120,6 +126,8 @@ def main():
             'commissioner_role_not_invented': True,
             'kwork_task_visible_before_method': True,
             'direct_site_verdict_visible': True,
+            'dual_surface_optimization_verdict_explicit': True,
+            'alice_not_presented_as_research_agent': True,
             'semantic_sections_preserved': True,
             'connected_narrative_not_microblock_dump': True,
             'full_workflow_explained_in_plain_language': True,
@@ -182,7 +190,7 @@ def main():
     man['status'] = 'DOCUMENT_01_COMMISSIONER_NARRATIVE_ANALYST_RECHECK_PASS__COMMISSIONER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
     art = man['recipient_artifacts'][0]
     art['size_bytes'] = PDF.stat().st_size; art['sha256'] = sha(PDF); art['pages'] = pages
-    art['recipient_contract'] = 'NON_SPECIALIST_COMMISSIONER_CAN_UNDERSTAND_KWORK_ANSWER_FULL_WORKFLOW_ORDINARY_YANDEX_OUTPUT_ALICE_VALUE_SITE_VERDICT_AND_ACTIONS_FROM_DOCUMENT_01_ALONE'
+    art['recipient_contract'] = 'NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_KWORK_ANSWER_FULL_WORKFLOW_DUAL_SURFACE_OPTIMIZATION_VERDICT_ORDINARY_YANDEX_OUTPUT_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE'
     for item in man['editable_and_source_files']:
         if item['path'] == 'editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx':
             item['size_bytes'] = DOCX.stat().st_size; item['sha256'] = sha(DOCX)
@@ -195,6 +203,8 @@ def main():
     man['qa']['document_01_physical_pdf'] = f'{pages}_OF_{pages}_PAGES_RENDER_PASS'
     man['qa']['document_01_commissioner_role'] = 'PASS__NO_INVENTED_OWNER_ROLE'
     man['qa']['document_01_kwork_answer_visible'] = True
+    man['qa']['document_01_dual_surface_optimization_verdict'] = True
+    man['qa']['document_01_alice_research_agency'] = 'PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR'
     man['qa']['document_01_connected_narrative'] = True
     man['qa']['document_01_semantic_sectioning'] = True
     man['qa']['document_01_full_workflow_plain_language'] = True

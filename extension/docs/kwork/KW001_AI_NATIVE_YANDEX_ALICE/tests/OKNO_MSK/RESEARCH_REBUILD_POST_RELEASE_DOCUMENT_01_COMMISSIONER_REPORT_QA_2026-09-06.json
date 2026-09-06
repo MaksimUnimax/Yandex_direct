@@ -5,6 +5,8 @@
     "commissioner_role_not_invented": true,
     "kwork_task_visible_before_method": true,
     "direct_site_verdict_visible": true,
+    "dual_surface_optimization_verdict_explicit": true,
+    "alice_not_presented_as_research_agent": true,
     "semantic_sections_preserved": true,
     "connected_narrative_not_microblock_dump": true,
     "full_workflow_explained_in_plain_language": true,
@@ -57,14 +59,14 @@
     "pdf_pages": 8
   },
   "sha256": {
-    "md": "204d478eeff2001fb6f1f685d13025c37f8a73f181a73bd48a7877015c003537",
-    "docx": "6dc42e81edf94fd4cf0a647269b9fb90e45bfd4c953fa22061860c97ab7708a7",
-    "pdf": "7b089fb315daefc5fe5792de8fce311e9001b251d081afb6bd364072c6636e08"
+    "md": "aa0bfccb7d57d01dbe7559e8352169879f5f6399e487050dd828498c047a36b7",
+    "docx": "6e8f55fffe2696c52f91bcbd37d0113667494ac0a98cf7f9433bc18b60623ddf",
+    "pdf": "264db9cd631610e1980050163533ae181e3cd0d7d55bbdc289edc5cce3e505b7"
   },
   "size_bytes": {
-    "md": 42087,
-    "docx": 50308,
-    "pdf": 179748
+    "md": 43188,
+    "docx": 50531,
+    "pdf": 180369
   },
   "provider_calls_during_rebuild": 0,
   "next_action": "COMMISSIONER_REVIEW_CORRECTED_DOCUMENT_01"
