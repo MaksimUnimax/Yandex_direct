@@ -90,7 +90,8 @@
       "7ad4fd1d6a6cb716cb737aa2689c7a1cd30aead2",
       "251751852f67a3ea0ec60a03e9e8ed4ec7ddd97a",
       "397ab274b587699efcd377d31441cc6ffd3926e1",
-      "43ca096ba7fe3ff9422ef2b03400bad543e7aa80"
+      "43ca096ba7fe3ff9422ef2b03400bad543e7aa80",
+      "819251d656b6f8db8bff9dd04cc526285f6627fd"
     ],
     "analyst_recipient_qa": "DOCUMENT_01_FINAL_CUSTOMER_CONTRACT_PASS",
     "document_01_analyst_recheck": "PASS",
@@ -101,9 +102,9 @@
     "document_01_qa_json": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REPORT_QA_2026-09-06.json",
     "document_01_pdf_pages": 7,
     "document_01_pdf_size_bytes": 106047,
-    "document_01_pdf_sha256": "034a5c95eb4f2be1bd54ce683a6f54ff3606beba0ca6bf170c2e247a8d5b95ed",
+    "document_01_pdf_sha256": "ac1f43727ceda571e78f3c2076a3db4af0721287311af2fe5d26a4d8bf3d7e1b",
     "document_01_docx_size_bytes": 49165,
-    "document_01_docx_sha256": "b366f3f988f7ef82c8de81829a61c09a453c871071c27f3ba7373cbd49dc5bdf",
+    "document_01_docx_sha256": "2fbb9736c6d9f3c8787f7072ac5b26a01b1d93790eadacbb98ef607d9ca6387a",
     "document_01_source_size_bytes": 40057,
     "document_01_source_sha256": "e5c6ffcf9abeec1567eec3eaada383f574037394c970c4ebd9373efa26bb9b1d",
     "document_01_deterministic_qa_checks": 29,
@@ -116,7 +117,7 @@
       "true_family_only": 4
     },
     "document_01_owner_review_residual_defect": "SEMANTIC_CORE_FRAMING_AND_OWNER_LANGUAGE_REWORK__CORRECTED_PENDING_OWNER_RECHECK",
-    "document_01_latest_material_correction_commit_sha": "43ca096ba7fe3ff9422ef2b03400bad543e7aa80",
+    "document_01_latest_material_correction_commit_sha": "819251d656b6f8db8bff9dd04cc526285f6627fd",
     "document_01_latest_github_content_readback": "PASS__FINAL_CUSTOMER_CONTRACT_RECONCILED",
     "current_document": "01",
     "document_02_owner_review": "PENDING",
