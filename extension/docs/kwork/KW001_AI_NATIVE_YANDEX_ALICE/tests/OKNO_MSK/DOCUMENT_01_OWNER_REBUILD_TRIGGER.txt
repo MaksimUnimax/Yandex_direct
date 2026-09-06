@@ -1,8 +1,10 @@
-2026-09-06 Report 01 semantic-core framing rebuild retry after materializer metadata repair
+2026-09-06 Report 01 final owner-review wording rerun
 Scope: DOCUMENT_01_ONLY
 Research object: search/semantic core, search demand and query-to-page distribution.
 User intent: grouping criterion only, not the research object.
 2,840: unique formulations after deduplication, not 2,840 exact-frequency measurements.
+Wordstat: explicitly state broad collection without exact-frequency operators; preserve row-level count semantics.
+Alice: explicitly position the tested Yandex Search surface as a generative answer based on Alice technologies.
 Apply all nine owner-review language/value corrections and regenerate source, DOCX, PDF, QA, manifest, authoritative state and remote readback.
 Do not advance Document 02 or Document 03.
 No new provider calls.
