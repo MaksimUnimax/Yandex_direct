@@ -58,14 +58,14 @@
   "wordstat_count_semantics": "CUSTOMER_TEXT_USES_RUSSIAN_DEMAND_FREQUENCY_EXPLANATION__NO_INTERNAL_COUNT_FIELD__NO_FALSE_OPERATOR_EXACT_CLAIM",
   "research_object_semantics": "SEARCH_CORE_AND_DEMAND_TO_PAGE_DISTRIBUTION__INTENT_IS_GROUPING_CRITERION_ONLY",
   "sha256": {
-    "md": "78d82221959572c0f4d13094fdc67890778df3ae9f5e94468ddb44c13d0d9fe5",
-    "docx": "db85570c6699facd4c1ea7bff21f9ab2c9b0c4ed01a1d78e738854e94d81005e",
-    "pdf": "26c02d33664afa96ec2ce7862ab8f54d21240da02ef8832b53b3a7c62e53c182"
+    "md": "e5c6ffcf9abeec1567eec3eaada383f574037394c970c4ebd9373efa26bb9b1d",
+    "docx": "b366f3f988f7ef82c8de81829a61c09a453c871071c27f3ba7373cbd49dc5bdf",
+    "pdf": "034a5c95eb4f2be1bd54ce683a6f54ff3606beba0ca6bf170c2e247a8d5b95ed"
   },
   "size_bytes": {
-    "md": 40061,
-    "docx": 49162,
-    "pdf": 106048
+    "md": 40057,
+    "docx": 49165,
+    "pdf": 106047
   },
   "provider_calls_during_rebuild": 0,
   "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01"

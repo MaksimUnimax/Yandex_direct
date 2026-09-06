@@ -18,8 +18,8 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 106048,
-      "sha256": "26c02d33664afa96ec2ce7862ab8f54d21240da02ef8832b53b3a7c62e53c182",
+      "size_bytes": 106047,
+      "sha256": "034a5c95eb4f2be1bd54ce683a6f54ff3606beba0ca6bf170c2e247a8d5b95ed",
       "pages": 7,
       "recipient_contract": "NON_SPECIALIST_CUSTOMER_GETS_KWORK_ANSWER_SEARCH_CORE_FREQUENCY_WORK_ORDINARY_YANDEX_ALICE_VERDICT_AND_ACTIONS_WITHOUT_RAW_75_QUERY_DUMP"
     },
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 49162,
-      "sha256": "db85570c6699facd4c1ea7bff21f9ab2c9b0c4ed01a1d78e738854e94d81005e"
+      "size_bytes": 49165,
+      "sha256": "b366f3f988f7ef82c8de81829a61c09a453c871071c27f3ba7373cbd49dc5bdf"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 40061,
-      "sha256": "78d82221959572c0f4d13094fdc67890778df3ae9f5e94468ddb44c13d0d9fe5"
+      "size_bytes": 40057,
+      "sha256": "e5c6ffcf9abeec1567eec3eaada383f574037394c970c4ebd9373efa26bb9b1d"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
