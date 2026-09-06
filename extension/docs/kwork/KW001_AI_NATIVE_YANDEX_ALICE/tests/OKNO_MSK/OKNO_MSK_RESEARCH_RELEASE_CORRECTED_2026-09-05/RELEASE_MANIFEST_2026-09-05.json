@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_01_CUSTOMER_REPORT_ANALYST_RECHECK_PASS__CUSTOMER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+  "status": "DOCUMENT_01_SEMANTIC_CORE_FRAMING_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -18,10 +18,10 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 180369,
-      "sha256": "264db9cd631610e1980050163533ae181e3cd0d7d55bbdc289edc5cce3e505b7",
-      "pages": 8,
-      "recipient_contract": "NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_KWORK_ANSWER_FULL_WORKFLOW_DUAL_SURFACE_OPTIMIZATION_VERDICT_ORDINARY_YANDEX_OUTPUT_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE"
+      "size_bytes": 200538,
+      "sha256": "4591598241e6528b542c3e274862f3c64f90a1becac151d592923df080130045",
+      "pages": 10,
+      "recipient_contract": "NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_SEMANTIC_CORE_REBUILD_WORDSTAT_SCOPE_QUERY_TO_PAGE_DISTRIBUTION_ORDINARY_YANDEX_VALIDATION_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE"
     },
     {
       "variant": "02",
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 50531,
-      "sha256": "6e8f55fffe2696c52f91bcbd37d0113667494ac0a98cf7f9433bc18b60623ddf"
+      "size_bytes": 52500,
+      "sha256": "1ea24043099ec8c4955baf88d35942d379c355c01d728cf2a5a87357bb67c57c"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 43188,
-      "sha256": "aa0bfccb7d57d01dbe7559e8352169879f5f6399e487050dd828498c047a36b7"
+      "size_bytes": 51321,
+      "sha256": "232030778a3c7378d35dc10397f48f0262d4facd043ecc111c51d711ac49caff"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
@@ -71,12 +71,11 @@
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
     "document_01_rework_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_REWORK_FINDINGS_2026-09-06.md",
     "document_01_readback_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_READBACK_2026-09-06.md",
-    "analyst_recipient_qa": "DOCUMENT_01_CUSTOMER_CONNECTED_KWORK_REPORT_PASS",
-    "document_01": "ANALYST_RECHECK_PASS__CUSTOMER_REVIEW_PENDING",
+    "analyst_recipient_qa": "DOCUMENT_01_SEMANTIC_CORE_CLIENT_REPORT_PASS",
+    "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_01_search_observations": "75_OF_75_PASS",
     "document_01_alice_cases": "8_OF_8_COMPLETE__25_REVIEWED__6_DECISION_SENSITIVE__2_CONTROLS__16_REPEATED_TYPES_NOT_SELECTED__1_HELD",
-    "document_01_scope_counts": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE__2840_EXACT__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_TASKS__75_ORDINARY_OUTPUT__25_ALICE_CANDIDATES__8_ALICE_CASES__34_RESULTS",
-    "document_01_physical_pdf": "8_OF_8_PAGES_RENDER_PASS",
+    "document_01_physical_pdf": "10_OF_10_PAGES_RENDER_PASS",
     "document_01_main_report_21_item_routing_dump": "ABSENT",
     "document_01_main_report_34_item_result_dump": "ABSENT__STRUCTURED_AUTHORITY_PRESERVED",
     "document_01_ready_recommendations": 7,
@@ -84,7 +83,6 @@
     "document_01_surface_vocabulary": "ORDINARY_YANDEX_OUTPUT__ALICE_OUTPUT__PASS",
     "document_01_single_alice_client_label": true,
     "document_01_complete_alice_verification_explanation": true,
-    "document_01_exact_count_relationship_explained": true,
     "document_01_vague_whole_array_hits": 0,
     "document_01_customer_role": "PASS__CUSTOMER_NOT_INVENTED_OWNER_ROLE",
     "document_01_kwork_answer_visible": true,
@@ -98,12 +96,24 @@
     "document_02": "NOT_STARTED__UNTOUCHED",
     "document_03": "NOT_STARTED__UNTOUCHED",
     "final_customer_recipient_acceptance": "OPEN",
-    "next_action": "CUSTOMER_REVIEW_CORRECTED_DOCUMENT_01",
-    "document_01_github_readback": "PASS__FINAL_SOURCE_DOCX_PDF_QA_AND_REMOTE_READBACK_VERIFIED",
-    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE__2840_EXACT__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_TASKS__75_ORDINARY_OUTPUT__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS",
+    "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
+    "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
     "document_01_dual_surface_optimization_verdict": true,
     "document_01_alice_research_agency": "PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR",
-    "report_specific_step20_routing": "PASS__REPORT01_CUSTOMER__REPORT02_SPECIALIST__REPORT03_REVIEW_REQUIRED"
+    "report_specific_step20_routing": "PASS__REPORT01_CUSTOMER__REPORT02_SPECIALIST__REPORT03_REVIEW_REQUIRED",
+    "document_01_semantic_core_primary_object": true,
+    "document_01_user_intent_role": "GROUPING_CRITERION_ONLY__NOT_RESEARCH_OBJECT",
+    "document_01_wordstat_count_semantics": "2840_UNIQUE_FORMULATIONS__NOT_2840_EXACT_FREQUENCY_MEASUREMENTS",
+    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS",
+    "document_01_ordinary_yandex_subset_relation": "75_TARGETED_VALIDATION_OBSERVATIONS_INSIDE_ALREADY_ANALYZED_SEMANTIC_CORE",
+    "document_01_ready_recommendations_with_explicit_why": 7,
+    "document_01_negative_pseudo_actions_in_main_plan": 0,
+    "document_01_internal_taxonomy_hits": 0,
+    "document_01_source_native_brands_preserved": true,
+    "document_01_owner_review": "PENDING__AWAITING_RECHECK",
+    "document_02_owner_review": "PENDING__NOT_STARTED",
+    "document_03_owner_review": "PENDING__NOT_STARTED",
+    "final_owner_recipient_acceptance": "OPEN"
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,

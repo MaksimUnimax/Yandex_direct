@@ -10,7 +10,7 @@ DOCX = REL / 'editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx'
 PDF = REL / '01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf'
 QA_PATH = ROOT / 'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json'
 MAN_PATH = REL / 'RELEASE_MANIFEST_2026-09-05.json'
-TITLE = 'ОКНО МОСКВА — исследование спроса в Яндексе: обычная выдача и выдача Алисы'
+TITLE = 'ОКНО МОСКВА — поисковое ядро сайта: спрос, обычный Яндекс и ответы Алисы'
 
 
 def sha(p):
@@ -23,72 +23,82 @@ def norm(s):
 
 def main():
     text = MD.read_text(encoding='utf-8')
+    low = text.lower()
     assert text.splitlines()[0] == '# ' + TITLE
 
+    # Hard fail inventory from owner review + semantic-core framing repair.
     forbidden = [
-        'Главное за одну минуту',
-        'Как использовать результаты',
-        'генеративный поиск',
-        'нейросетевой поиск',
-        'Алиса/ИИ',
-        'весь массив',
-        'полный объём этого этапа',
-        'для владельца сайта',
-        'владельцу сайта',
-        'владелец бизнеса',
-        '## 5. Как распределены основные группы поискового спроса',
-        'Алиса не дала оснований пересматривать общий вывод',
-        'Главное, что показала Алиса',
-        'Таким образом, Алиса дала практическую пользу',
-        'Алиса сохранила',
-        'Алиса усилила',
-        'Алиса это подтвердила'
+        'главное за одну минуту', 'как использовать результаты',
+        'для владельца сайта', 'владельцу сайта', 'владелец бизнеса',
+        '2 840 точных поисковых формулировок', 'точных поисковых формулировок',
+        'пользовательских задач', 'пользовательская задача',
+        'спорные семьи', 'спорные семейства', 'изменения запрещены', 'частично готов',
+        'связанные страницы', 'семантический маппинг', 'family owner', 'structural unit',
+        'causal delta', 'proxy', 'ready', 'recheck', 'search_required', 'pending_business_detail',
+        'цель — не расширять сайт', 'цель не расширять сайт любой ценой',
+        'не создавать новые страницы'
     ]
     for bad in forbidden:
-        assert bad not in text, bad
+        assert bad not in low, bad
 
     required = [
-        'Задача работы',
-        'уже хорошо оптимизирован в части соответствия спросу как под обычную выдачу Яндекса, так и под выдачу Алисы',
-        '2 415', '550', '2 965', '2 840', '334', '174', '2 332', '2 313', '19', '168',
-        '75 конкретным', '25 тем', 'шесть тем', 'два контрольных', '16 тем', 'одну тему', '34 значимых вывода',
-        'Сравнение с выдачей Алисы не дало оснований пересматривать общий вывод по структуре сайта',
+        'Задача работы — пересобрать поисковое ядро сайта для Москвы',
+        '18 широких стартовых формулировок',
+        'Первый проход Wordstat дал 2 415 исходных строк',
+        'Это расширение добавило ещё 550 строк',
+        'Всего перед очисткой было 2 965 исходных строк',
+        'Сбор Wordstat выполнялся в широком режиме для обнаружения формулировок',
+        '2 840 после очистки — это число уникальных поисковых формулировок',
+        'а не 2 840 отдельных замеров точной частотности',
+        '2 332 активные поисковые формулировки', '2 313', '19', '168 групп поискового спроса',
+        'Это было критерием для правильного объединения запросов и распределения их по страницам, а не отдельным предметом исследования',
+        '75 проверок — не весь объём исследования',
+        'Восемь выбрали для полного сравнения',
+        'шесть — потому что ответ мог уточнить решение по странице',
+        'две — как контроль уже ясного вывода обычной выдачи',
+        'Ещё 16 тем повторяли', 'одну тему оставили без дальнейшей проверки',
+        '34 значимых вывода',
+        'Под ответами Алисы здесь имеется в виду ответ в поиске Яндекса, сформированный с помощью технологий Алисы',
+        'Главный результат: сравнение с ответами Алисы не изменило общую картину распределения спроса по сайту',
         'Семь доработок можно передавать в работу сейчас',
-        'Что нужно изменить на сайте',
-        'Что уже сделано правильно',
-        'Что нужно уточнить у компании',
-        'По результатам пересборки поискового ядра'
+        'Что нужно уточнить у компании для двух следующих улучшений',
+        'Сайт → Wordstat → очистка и объединение повторов → 168 групп поискового спроса'
     ]
     for marker in required:
         assert marker in text, marker
 
-    # Appendix must preserve exactly 75 ordinary-Yandex observation rows.
-    assert len(re.findall(r'^\|\s*\d+\s*\|', text, re.M)) == 75
+    # Every ready recommendation must carry explicit client reasoning.
+    assert text.count('**Почему это важно:**') == 7
+    assert text.count('**Что рекомендуется сделать:**') == 7
+    assert text.count('**Что обнаружено:**') == 7
+    assert text.count('**Что сохранить:**') == 7
+    assert text.count('**Как должен выглядеть результат:**') == 7
+    assert text.count('**Как проверить:**') == 7
 
-    # Alice detail must remain eight cases.
-    alice_rows = re.findall(r'^\|\s*(?!№|---)([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|$', text, re.M)
-    # The first 4-col row is the header; exact case names are checked separately.
-    for q in [
+    # Evidence completeness.
+    assert len(re.findall(r'^\|\s*\d+\s*\|', text, re.M)) == 75
+    alice_queries = [
         'панорамные алюминиевые окна', 'алюминиевые окна для веранды', 'панорамное остекление балкона',
         'установка подоконника на пластиковые окна', 'французские панорамные окна',
         'замена окна на пластиковое цена москва', 'как открыть пластиковое окно', 'лучшие пластиковые окна'
-    ]:
-        assert f'| {q} |' in text, q
-
-    # Semantic sectioning must remain; the connected report must not collapse into one wall of text.
-    headings = re.findall(r'^##\s+(.+)$', text, re.M)
-    expected_headings = [
-        'Результат исследования', 'Как проводилась работа', 'Что показала обычная выдача Яндекса',
-        'Что дала проверка выдачи Алисы', 'Что нужно изменить на сайте', 'Что уже сделано правильно',
-        'Что нужно уточнить у компании', 'Итог'
     ]
-    for h in expected_headings:
+    for q in alice_queries:
+        assert f'| {q} |' in text, q
+    for native in ['REHAU', 'Provedal', 'KBE', 'Accado', 'Vorne', 'Futurus', 'fapim', 'rehau thermo']:
+        assert native in text, native
+
+    headings = re.findall(r'^##\s+(.+)$', text, re.M)
+    for h in [
+        'Результат исследования', 'Как проводилась работа', 'Что показала обычная выдача Яндекса',
+        'Что дала проверка ответов Алисы', 'Что нужно изменить на сайте',
+        'Что на сайте уже работает правильно', 'Что нужно уточнить у компании для двух следующих улучшений', 'Итог'
+    ]:
         assert h in headings, h
 
     d = Document(DOCX)
     dtext = '\n'.join(p.text for p in d.paragraphs)
     assert TITLE in dtext
-    assert len(d.tables) == 9, len(d.tables)  # eight Alice evidence cards + one 75-row appendix table
+    assert len(d.tables) == 9, len(d.tables)  # eight Alice cards + one 75-row appendix
 
     reader = PdfReader(PDF)
     assert not reader.is_encrypted
@@ -96,11 +106,10 @@ def main():
     assert 8 <= pages <= 14, pages
     ptext = '\n'.join((p.extract_text() or '') for p in reader.pages)
     ntext = norm(ptext).lower()
-    assert norm(TITLE).lower() in ntext
     for marker in [
-        'Задача работы', 'уже хорошо оптимизирован в части соответствия спросу как под обычную выдачу Яндекса, так и под выдачу Алисы', '2 965', '2 840', '2 332', '2 313',
-        '75', '25', 'Панорамные алюминиевые окна', 'Что нужно изменить на сайте',
-        'Что уже сделано правильно', 'Итог'
+        TITLE, 'Задача работы', '2 965', '2 840', '2 332', '2 313', '168 групп поискового спроса',
+        '75 проверок', 'Под ответами Алисы', 'Что нужно изменить на сайте',
+        'Что на сайте уже работает правильно', 'Итог'
     ]:
         assert norm(marker).lower() in ntext, marker
 
@@ -120,35 +129,32 @@ def main():
         assert sha(REL / rel) == want, rel
 
     qa = {
-        'status': 'ANALYST_RECHECK_PASS__COMMISSIONER_REVIEW_PENDING',
+        'status': 'ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING',
         'scope': 'DOCUMENT_01_ONLY',
         'checks': {
-            'commissioner_role_not_invented': True,
-            'kwork_task_visible_before_method': True,
-            'direct_site_verdict_visible': True,
-            'dual_surface_optimization_verdict_explicit': True,
-            'alice_not_presented_as_research_agent': True,
-            'semantic_sections_preserved': True,
-            'connected_narrative_not_microblock_dump': True,
-            'full_workflow_explained_in_plain_language': True,
+            'semantic_core_is_primary_research_object': True,
+            'user_intent_is_grouping_criterion_not_research_object': True,
+            'wordstat_broad_discovery_mode_explained': True,
+            'unique_2840_not_exact_frequency_measurements': True,
+            '168_units_presented_as_demand_groups': True,
+            'full_semantic_workflow_visible': True,
             'wordstat_2415_plus_550_to_2965_explained': True,
-            'cleanup_to_2840_explained': True,
             '334_excluded_and_174_deferred_explained': True,
             '2332_active_2313_assigned_19_unresolved_explained': True,
-            '168_user_tasks_explained': True,
-            'ordinary_yandex_75_is_targeted_deep_check_not_total_scope': True,
+            'ordinary_yandex_75_is_targeted_validation_not_total_scope': True,
             'alice_25_candidates_to_8_complete_checks_explained': True,
             'alice_6_decision_sensitive_plus_2_controls_explained': True,
             'alice_16_repeated_types_plus_1_held_explained': True,
-            'alice_value_stated_as_result_not_method_only': True,
-            'client_surface_uses_vydacha_and_alice_consistently': True,
-            'old_21_item_routing_dump_absent': True,
-            'old_generic_how_to_use_results_section_absent': True,
-            'fake_one_minute_heading_absent': True,
-            'seven_recommendations_written_as_connected_prose': True,
+            'alice_not_presented_as_research_author': True,
+            'seven_recommendations_have_explicit_finding_why_action_place_preserve_result_check': True,
             'positive_existing_site_findings_visible': True,
-            'two_company_fact_requests_visible': True,
-            'appendix_75_exact_ordinary_yandex_rows': True,
+            'two_company_fact_requests_visible_without_partial_ready_framing': True,
+            'negative_pseudo_actions_absent_from_main_plan': True,
+            'false_opposite_goal_absent': True,
+            'internal_status_and_project_taxonomy_absent_from_client_text': True,
+            'source_native_brands_and_verbatim_queries_preserved': True,
+            'appendix_75_ordinary_yandex_rows': True,
+            'eight_alice_comparison_cases': True,
             'docx_content_present': True,
             'pdf_openable_not_encrypted': True,
             'pdf_all_pages_rendered': True,
@@ -160,13 +166,13 @@ def main():
             'wordstat_first_pass_rows': 2415,
             'wordstat_expansion_rows': 550,
             'source_rows_before_cleanup': 2965,
-            'exact_phrase_keys_after_cleanup': 2840,
+            'unique_search_formulations_after_deduplication': 2840,
             'excluded_rows': 334,
             'deferred_rows': 174,
-            'active_rows_for_page_task_analysis': 2332,
-            'assigned_rows': 2313,
-            'unresolved_search_required_rows': 19,
-            'user_tasks': 168,
+            'active_formulations_for_page_distribution_analysis': 2332,
+            'assigned_formulations': 2313,
+            'unresolved_formulations': 19,
+            'demand_groups': 168,
             'ordinary_yandex_observations': 75,
             'alice_candidates_reviewed': 25,
             'alice_cases_selected': 8,
@@ -179,51 +185,65 @@ def main():
             'company_fact_requests': 2,
             'pdf_pages': pages
         },
+        'wordstat_count_semantics': '2840_UNIQUE_SEARCH_FORMULATIONS_AFTER_DEDUPLICATION__NOT_2840_EXACT_FREQUENCY_MEASUREMENTS',
+        'research_object_semantics': 'SEMANTIC_SEARCH_CORE_AND_QUERY_TO_PAGE_DISTRIBUTION__USER_INTENT_IS_GROUPING_CRITERION_ONLY',
         'sha256': {'md': sha(MD), 'docx': sha(DOCX), 'pdf': sha(PDF)},
         'size_bytes': {'md': MD.stat().st_size, 'docx': DOCX.stat().st_size, 'pdf': PDF.stat().st_size},
         'provider_calls_during_rebuild': 0,
-        'next_action': 'COMMISSIONER_REVIEW_CORRECTED_DOCUMENT_01'
+        'next_action': 'OWNER_REVIEW_CORRECTED_DOCUMENT_01'
     }
     QA_PATH.write_text(json.dumps(qa, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
     man = json.loads(MAN_PATH.read_text(encoding='utf-8'))
-    man['status'] = 'DOCUMENT_01_COMMISSIONER_NARRATIVE_ANALYST_RECHECK_PASS__COMMISSIONER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
+    man['status'] = 'DOCUMENT_01_SEMANTIC_CORE_FRAMING_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
     art = man['recipient_artifacts'][0]
-    art['size_bytes'] = PDF.stat().st_size; art['sha256'] = sha(PDF); art['pages'] = pages
-    art['recipient_contract'] = 'NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_KWORK_ANSWER_FULL_WORKFLOW_DUAL_SURFACE_OPTIMIZATION_VERDICT_ORDINARY_YANDEX_OUTPUT_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE'
+    art['size_bytes'] = PDF.stat().st_size
+    art['sha256'] = sha(PDF)
+    art['pages'] = pages
+    art['recipient_contract'] = 'NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_SEMANTIC_CORE_REBUILD_WORDSTAT_SCOPE_QUERY_TO_PAGE_DISTRIBUTION_ORDINARY_YANDEX_VALIDATION_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE'
     for item in man['editable_and_source_files']:
         if item['path'] == 'editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx':
             item['size_bytes'] = DOCX.stat().st_size; item['sha256'] = sha(DOCX)
         if item['path'] == 'sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md':
             item['size_bytes'] = MD.stat().st_size; item['sha256'] = sha(MD)
-    man['qa']['authority'] = '../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json'
-    man['qa']['document_01_owner_review_authority'] = '../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_REWORK_FINDINGS_2026-09-06.md'
-    man['qa']['analyst_recipient_qa'] = 'DOCUMENT_01_COMMISSIONER_CONNECTED_KWORK_REPORT_PASS'
-    man['qa']['document_01'] = 'ANALYST_RECHECK_PASS__COMMISSIONER_REVIEW_PENDING'
-    man['qa']['document_01_physical_pdf'] = f'{pages}_OF_{pages}_PAGES_RENDER_PASS'
-    man['qa']['document_01_commissioner_role'] = 'PASS__NO_INVENTED_OWNER_ROLE'
-    man['qa']['document_01_kwork_answer_visible'] = True
-    man['qa']['document_01_dual_surface_optimization_verdict'] = True
-    man['qa']['document_01_alice_research_agency'] = 'PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR'
-    man['qa']['document_01_connected_narrative'] = True
-    man['qa']['document_01_semantic_sectioning'] = True
-    man['qa']['document_01_full_workflow_plain_language'] = True
-    man['qa']['document_01_scope_chain'] = '2415_FIRST_PASS__550_EXPANSION__2965_SOURCE__2840_EXACT__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_TASKS__75_ORDINARY_OUTPUT__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS'
-    man['qa']['document_01_alice_cases'] = '8_OF_8_COMPLETE__25_REVIEWED__6_DECISION_SENSITIVE__2_CONTROLS__16_REPEATED_TYPES_NOT_SELECTED__1_HELD'
-    man['qa']['document_01_main_report_21_item_routing_dump'] = 'ABSENT'
-    man['qa']['document_01_generic_disclaimer_section'] = 'ABSENT'
-    man['qa']['document_01_fake_reading_time_heading'] = 'ABSENT'
-    man['qa']['document_01_ready_recommendations'] = 7
-    man['qa']['document_01_company_fact_requests'] = 2
-    man['qa']['current_document'] = '01'
-    man['qa']['document_01_owner_review'] = 'REOPENED__COMMISSIONER_REVIEW_PENDING'
-    man['qa']['document_02_owner_review'] = 'PENDING__NOT_STARTED'
-    man['qa']['document_03_owner_review'] = 'PENDING__NOT_STARTED'
-    man['qa']['next_action'] = 'COMMISSIONER_REVIEW_CORRECTED_DOCUMENT_01'
-    man['qa']['document_01_github_readback'] = 'PENDING_POST_COMMIT_READBACK'
+
+    mqa = man.setdefault('qa', {})
+    # Remove stale labels that encoded the defect we are repairing.
+    for stale in [
+        'document_01_exact_count_relationship_explained', 'document_01_scope_counts',
+        'document_01_scope_chain', 'document_01_user_tasks', 'document_01_168_user_tasks_explained'
+    ]:
+        mqa.pop(stale, None)
+    mqa.update({
+        'authority': '../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json',
+        'analyst_recipient_qa': 'DOCUMENT_01_SEMANTIC_CORE_CLIENT_REPORT_PASS',
+        'document_01': 'ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING',
+        'document_01_physical_pdf': f'{pages}_OF_{pages}_PAGES_RENDER_PASS',
+        'document_01_semantic_core_primary_object': True,
+        'document_01_user_intent_role': 'GROUPING_CRITERION_ONLY__NOT_RESEARCH_OBJECT',
+        'document_01_wordstat_count_semantics': '2840_UNIQUE_FORMULATIONS__NOT_2840_EXACT_FREQUENCY_MEASUREMENTS',
+        'document_01_scope_chain': '2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS',
+        'document_01_ordinary_yandex_subset_relation': '75_TARGETED_VALIDATION_OBSERVATIONS_INSIDE_ALREADY_ANALYZED_SEMANTIC_CORE',
+        'document_01_alice_cases': '8_OF_8_COMPLETE__25_REVIEWED__6_DECISION_SENSITIVE__2_CONTROLS__16_REPEATED_TYPES_NOT_SELECTED__1_HELD',
+        'document_01_ready_recommendations': 7,
+        'document_01_ready_recommendations_with_explicit_why': 7,
+        'document_01_company_fact_requests': 2,
+        'document_01_negative_pseudo_actions_in_main_plan': 0,
+        'document_01_internal_taxonomy_hits': 0,
+        'document_01_source_native_brands_preserved': True,
+        'current_document': '01',
+        'document_01_owner_review': 'PENDING__AWAITING_RECHECK',
+        'document_02_owner_review': 'PENDING__NOT_STARTED',
+        'document_03_owner_review': 'PENDING__NOT_STARTED',
+        'final_owner_recipient_acceptance': 'OPEN',
+        'next_action': 'OWNER_REVIEW_CORRECTED_DOCUMENT_01',
+        'document_01_github_readback': 'PENDING_POST_COMMIT_READBACK'
+    })
+    man['provider_calls'] = 0
+    man['paid_cost_rub'] = 0
     MAN_PATH.write_text(json.dumps(man, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
-    print('DOCUMENT_01_COMMISSIONER_RECIPIENT_QA_PASS', pages, sha(MD), sha(DOCX), sha(PDF))
+    print('DOCUMENT_01_SEMANTIC_CORE_RECIPIENT_QA_PASS', pages, sha(MD), sha(DOCX), sha(PDF))
 
 
 if __name__ == '__main__':
