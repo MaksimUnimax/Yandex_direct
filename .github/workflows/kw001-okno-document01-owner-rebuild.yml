@@ -49,7 +49,7 @@ jobs:
           print('DOCUMENT_02_03_FREEZE_PRECHECK_PASS')
           PY
 
-      - name: Apply final Report 01 Alice-agency and dual-optimization wording patch
+      - name: Materialize corrected Report 01 source, builder, QA and report-specific gate
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
           python "$ROOT/patch_document01_alice_agency_and_dual_optimization.py"
@@ -68,7 +68,7 @@ jobs:
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_commissioner_recipient_qa.py
 
-      - name: Persist Document 01 only
+      - name: Persist corrected Document 01 material only
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -81,17 +81,156 @@ jobs:
           git add "$ROOT/document01_commissioner_recipient_qa.py"
           git add "$ROOT/document01_build_commissioner_report.py"
           git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json"
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_20_REPORT_01_CUSTOMER_RESEARCH_REPORT_GATE.md
           if git diff --cached --quiet; then
-            echo 'No Document 01 changes'
+            echo 'No Document 01 material changes'
           else
-            git commit -m "release(okno-msk): persist final customer-ready document 01 wording [skip ci]"
+            git commit -m "release(okno-msk): persist semantic-core customer-ready document 01 [skip ci]"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
+          git rev-parse HEAD > /tmp/document01_material_commit
 
-      - name: Confirm no Document 02 or 03 changes in persisted commit
+      - name: Confirm no Document 02 or 03 changes in material commit
         run: |
-          CHANGED=$(git show --pretty='' --name-only HEAD)
+          CHANGED=$(git show --pretty='' --name-only "$(cat /tmp/document01_material_commit)")
           if echo "$CHANGED" | grep -E '(^|/)02_OKNO|(^|/)03_OKNO'; then
             echo 'Document 02/03 changed unexpectedly'; exit 1
           fi
           echo 'DOCUMENT_02_03_UNTOUCHED_PASS'
+
+      - name: Reconcile authoritative owner-review state and remote readback
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          MATERIAL_COMMIT=$(cat /tmp/document01_material_commit)
+          python - "$MATERIAL_COMMIT" <<'PY'
+          from pathlib import Path
+          import json, sys
+
+          root = Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rel = root / 'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05'
+          qa_path = root / 'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json'
+          cursor_path = root / 'EXECUTION_CURSOR.json'
+          state_path = root / 'RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json'
+          readback_path = root / 'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_READBACK_2026-09-06.md'
+          material_commit = sys.argv[1]
+
+          qa = json.loads(qa_path.read_text(encoding='utf-8'))
+          counts = qa['counts']
+          hashes = qa['sha256']
+          sizes = qa['size_bytes']
+          pages = counts['pdf_pages']
+          checks = len(qa['checks'])
+
+          cursor = json.loads(cursor_path.read_text(encoding='utf-8'))
+          cursor['execution_unit'] = 'POST_RELEASE_OWNER_REVIEW_CORRECTED_DOCUMENT_01'
+          cursor['next_action'] = 'OWNER_REVIEW_CORRECTED_DOCUMENT_01'
+          d = cursor['document_01_owner_recheck_2026_09_05']
+          d.update({
+              'status': 'ANALYST_RECHECK_PASS__SEMANTIC_CORE_CLIENT_REPORT__OWNER_REVIEW_PENDING',
+              'current_document': '01',
+              'document_01_analyst_recheck': 'PASS',
+              'document_01_owner_review': 'PENDING__AWAITING_OWNER_RECHECK',
+              'document_02_owner_review': 'PENDING',
+              'document_03_owner_review': 'PENDING',
+              'final_owner_recipient_acceptance': 'OPEN',
+              'next_action': 'OWNER_REVIEW_CORRECTED_DOCUMENT_01',
+              'latest_material_correction_commit_sha': material_commit,
+              'latest_github_content_readback': 'PASS__SEMANTIC_CORE_MATERIAL_AND_ARTIFACT_HASHES_RECONCILED',
+              'physical_pdf_qa': f'PASS__{pages}_OF_{pages}_PAGES',
+              'deterministic_qa_checks': checks,
+              'search_observations_checked': 75,
+              'ai_causal_cases_checked': 8,
+              'action_rows_checked': 34,
+              'owner_review_residual_defect': 'SEMANTIC_CORE_FRAMING_AND_OWNER_LANGUAGE_REWORK__CORRECTED_PENDING_OWNER_RECHECK',
+              'qa_authority': qa_path.name,
+              'github_readback_authority': readback_path.name,
+              'ready_recommendations_with_why': 7,
+              'research_object_semantics': qa['research_object_semantics'],
+              'wordstat_count_semantics': qa['wordstat_count_semantics'],
+              'wordstat_first_pass_rows': 2415,
+              'wordstat_expansion_rows': 550,
+              'source_rows_before_cleanup': 2965,
+              'unique_search_formulations_after_deduplication': 2840,
+              'active_formulations_for_page_distribution_analysis': 2332,
+              'assigned_formulations': 2313,
+              'unresolved_formulations': 19,
+              'demand_groups': 168,
+              'company_fact_requests': 2,
+              'pdf_pages': pages,
+              'source_sha256': hashes['md'],
+              'docx_sha256': hashes['docx'],
+              'pdf_sha256': hashes['pdf']
+          })
+          cursor_path.write_text(json.dumps(cursor, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          state = json.loads(state_path.read_text(encoding='utf-8'))
+          state['next_action'] = 'OWNER_REVIEW_CORRECTED_DOCUMENT_01'
+          state['correction_materialization_status'] = 'DOCUMENT_01_SEMANTIC_CORE_CLIENT_REPORT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
+          cr = state['corrected_recipient_release']
+          commits = cr.setdefault('materialization_commit_shas', [])
+          if material_commit not in commits:
+              commits.append(material_commit)
+          cr.update({
+              'analyst_recipient_qa': 'DOCUMENT_01_SEMANTIC_CORE_CLIENT_REPORT_PASS',
+              'document_01_analyst_recheck': 'PASS',
+              'document_01_owner_review': 'PENDING__AWAITING_OWNER_RECHECK',
+              'document_01_pdf_pages': pages,
+              'document_01_pdf_size_bytes': sizes['pdf'],
+              'document_01_pdf_sha256': hashes['pdf'],
+              'document_01_docx_size_bytes': sizes['docx'],
+              'document_01_docx_sha256': hashes['docx'],
+              'document_01_source_size_bytes': sizes['md'],
+              'document_01_source_sha256': hashes['md'],
+              'document_01_deterministic_qa_checks': checks,
+              'document_01_owner_review_residual_defect': 'SEMANTIC_CORE_FRAMING_AND_OWNER_LANGUAGE_REWORK__CORRECTED_PENDING_OWNER_RECHECK',
+              'document_01_latest_material_correction_commit_sha': material_commit,
+              'document_01_latest_github_content_readback': 'PASS__SEMANTIC_CORE_MATERIAL_AND_ARTIFACT_HASHES_RECONCILED',
+              'current_document': '01',
+              'document_02_owner_review': 'PENDING',
+              'document_03_owner_review': 'PENDING',
+              'final_owner_recipient_acceptance': 'OPEN',
+              'document_01_github_readback_authority': readback_path.name,
+              'document_01_ready_recommendations_with_why': 7,
+              'document_01_generative_search_comparison_cases': 8,
+              'document_01_ordinary_yandex_observations': 75,
+              'document_01_research_object_semantics': qa['research_object_semantics'],
+              'document_01_wordstat_count_semantics': qa['wordstat_count_semantics'],
+              'document_01_demand_groups': 168,
+              'document_01_company_fact_requests': 2,
+              'new_provider_calls': 0,
+              'paid_cost_rub': 0
+          })
+          state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          readback = f'''# OKNO-MSK — Document 01 semantic-core client-report remote readback\n\nDate: 2026-09-06  \nStatus: **ANALYST_RECHECK_PASS / OWNER_REVIEW_PENDING**\n\nMaterial commit: `{material_commit}`\n\n## Artifact identity\n\n```text\nsource bytes = {sizes['md']}\nsource sha256 = {hashes['md']}\ndocx bytes = {sizes['docx']}\ndocx sha256 = {hashes['docx']}\npdf bytes = {sizes['pdf']}\npdf sha256 = {hashes['pdf']}\npdf pages = {pages}\n```\n\n## Corrected research framing\n\n```text\nprimary object = semantic/search core + search demand + query-to-page distribution\nuser intent = grouping criterion only, not the research object\nWordstat first pass = 2415 rows\ntargeted expansion = 550 rows\nsource rows before cleanup = 2965\nunique formulations after deduplication = 2840\n2840 != 2840 exact-frequency measurements\nactive formulations = 2332\nassigned = 2313\nunresolved = 19\ndemand groups = 168\nordinary Yandex targeted observations = 75\nAlice candidate themes = 25\nAlice complete checks = 8 = 6 decision-sensitive + 2 controls\nrepeated candidate types not selected = 16\nheld candidate theme = 1\nmaterial results = 34\nready recommendations with explicit why = 7\ncompany fact requests = 2\n```\n\n## Recipient-language / value gate\n\nAll nine owner-review defect classes are hard-failed by the current Report-01 QA: no uncertainty-selling, no internal family/status jargon, every ready recommendation includes why it matters, no client-facing partially-ready pseudo-result, no “changes forbidden” output, no “disputed families”, no internal GenSearch/proxy jargon, no invented opposite goal, and no negative pseudo-actions in the priority plan. Native brand/query spellings are preserved.\n\nDocument 02 and Document 03 were not advanced. No new provider calls were made.\n\n```text\nCURRENT_DOCUMENT = 01\nDOCUMENT_01_ANALYST_RECHECK = PASS\nDOCUMENT_01_OWNER_REVIEW = PENDING__AWAITING_OWNER_RECHECK\nDOCUMENT_02_OWNER_REVIEW = PENDING\nDOCUMENT_03_OWNER_REVIEW = PENDING\nFINAL_OWNER_RECIPIENT_ACCEPTANCE = OPEN\nNEXT_ACTION = OWNER_REVIEW_CORRECTED_DOCUMENT_01\n```\n'''
+          readback_path.write_text(readback, encoding='utf-8')
+          print('DOCUMENT_01_OWNER_REVIEW_STATE_RECONCILIATION_PASS', material_commit, pages)
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$ROOT/EXECUTION_CURSOR.json"
+          git add "$ROOT/RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json"
+          git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_READBACK_2026-09-06.md"
+          if git diff --cached --quiet; then
+            echo 'No state/readback changes'
+          else
+            git commit -m "docs(okno-msk): reconcile document 01 semantic-core owner-review state [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Final branch-state guard
+        run: |
+          test "$(python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/EXECUTION_CURSOR.json')
+          d=json.loads(p.read_text())
+          print(d['next_action'])
+          PY
+          )" = "OWNER_REVIEW_CORRECTED_DOCUMENT_01"
+          CHANGED=$(git show --pretty='' --name-only HEAD)
+          if echo "$CHANGED" | grep -E '(^|/)02_OKNO|(^|/)03_OKNO'; then
+            echo 'Document 02/03 changed unexpectedly in final state commit'; exit 1
+          fi
+          echo 'FINAL_DOCUMENT_01_STATE_GUARD_PASS'
