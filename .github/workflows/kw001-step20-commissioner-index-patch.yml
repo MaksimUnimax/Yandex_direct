@@ -21,14 +21,15 @@ jobs:
           fetch-depth: 0
       - name: Patch Step20 routing and lesson summary
         run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/patch_step20_commissioner_index.py
-      - name: Persist index patch
+      - name: Persist Step20 routing patch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_RULES_INDEX.md
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_20_CLIENT_REPORT_COMMISSIONER_NARRATIVE_AND_DEAI_GATE.md
           if git diff --cached --quiet; then
-            echo 'No index changes'
+            echo 'No Step20 routing changes'
           else
-            git commit -m "docs(kw001): route Step20 commissioner narrative gate [skip ci]"
+            git commit -m "docs(kw001): persist report-specific Step20 routing [skip ci]"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
