@@ -1,0 +1,207 @@
+name: OKNO document 01 materialization
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/.doc01_payload/READY
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Reconstruct verified payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'
+          STAGE="$JOB/.doc01_payload"
+          cat "$STAGE"/chunk_* > /tmp/doc01_payload.b64
+          base64 -d /tmp/doc01_payload.b64 > /tmp/doc01_payload.tar.gz
+          echo '5a29a9d39fc8232fd7f6ec2e2963e5fcc9501c53bc3f27f4c1b5cda5d5edd772  /tmp/doc01_payload.tar.gz' | sha256sum -c -
+          rm -rf /tmp/doc01_payload
+          mkdir -p /tmp/doc01_payload
+          tar -xzf /tmp/doc01_payload.tar.gz -C /tmp/doc01_payload
+          cp -a /tmp/doc01_payload/. "$JOB/"
+
+      - name: Verify exact recipient bytes and local QA authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          job=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          qa=json.loads((job/'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json').read_text(encoding='utf-8'))
+          files={
+            'markdown':job/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md',
+            'docx':job/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx',
+            'pdf':job/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf',
+          }
+          assert qa['status']=='PASS'
+          assert qa['checks']['latin_visible_zero'] is True
+          assert qa['checks']['process_narrative_zero'] is True
+          assert qa['checks']['internal_ascii_markers_zero'] is True
+          assert qa['checks']['visual_all_pages_pass'] is True
+          assert qa['counts']=={'families':21,'assistant_cases':8,'observations':75,'actions':34}
+          assert qa['pdf_pages']==14
+          for key,path in files.items():
+              digest=hashlib.sha256(path.read_bytes()).hexdigest()
+              assert digest==qa['sha256'][key], (key,digest,qa['sha256'][key])
+              assert path.stat().st_size==qa['size_bytes'][key]
+          print('EXACT_PAYLOAD_AND_QA_IDENTITY_PASS')
+          PY
+
+      - name: Commit exact document materialization
+        id: material
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$JOB/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md"
+          git add "$JOB/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx"
+          git add "$JOB/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
+          git add "$JOB/tools/post_release_correction/generate_document_01_client_ru.py"
+          git add "$JOB/tools/post_release_correction/qa_document_01_client_ru.py"
+          git add "$JOB/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json"
+          git add "$JOB/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md"
+          git commit -m 'docs(okno-msk): materialize Russian-only document 01'
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Reconcile state and revoke obsolete pass
+        env:
+          MATERIAL_SHA: ${{ steps.material.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          job=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          mat=os.environ['MATERIAL_SHA']
+          qa_name='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json'
+          pass_name='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md'
+          qa=json.loads((job/qa_name).read_text(encoding='utf-8'))
+
+          sp=job/'RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json'
+          state=json.loads(sp.read_text(encoding='utf-8'))
+          state['status']='STAGE_0_TO_15_HISTORICALLY_COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_OWNER_REVIEW_PASS__DOCUMENT_02_OWNER_REVIEW_PENDING'
+          state['next_action']='OWNER_REVIEW_CORRECTED_DOCUMENT_02'
+          state['correction_materialization_status']='DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_OWNER_REVIEW_PASS__DOCUMENT_02_03_NOT_ADVANCED'
+          state['reviewed_release_files']['01_client_research_report']='OWNER_REVIEW_PASS__RUSSIAN_CLIENT_CONTRACT'
+          r=state['corrected_recipient_release']
+          r['analyst_recipient_qa']='DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_PASS'
+          r['document_01_analyst_recheck']='PASS'
+          r['document_01_owner_review']='PASS'
+          r['document_01_owner_review_authority']=pass_name
+          r['document_01_owner_review_commit_sha']=mat
+          r['document_01_qa_json']=qa_name
+          r['document_01_qa_markdown']=pass_name
+          r['document_01_pdf_pages']=qa['pdf_pages']
+          r['document_01_pdf_size_bytes']=qa['size_bytes']['pdf']
+          r['document_01_pdf_sha256']=qa['sha256']['pdf']
+          r['document_01_docx_size_bytes']=qa['size_bytes']['docx']
+          r['document_01_docx_sha256']=qa['sha256']['docx']
+          r['document_01_source_size_bytes']=qa['size_bytes']['markdown']
+          r['document_01_source_sha256']=qa['sha256']['markdown']
+          r['document_01_latest_material_correction_commit_sha']=mat
+          r['document_01_latest_github_content_readback']='PENDING_FINAL_REMOTE_READBACK'
+          r['document_01_client_visible_latin_words']=0
+          r['document_01_internal_process_narrative']=0
+          r['document_01_russian_client_contract_qa']=qa_name
+          r['current_document']='02'
+          r['document_02_owner_review']='PENDING'
+          r['document_03_owner_review']='PENDING'
+          r['final_owner_recipient_acceptance']='OPEN'
+          r['owner_recheck']='ACTIVE__DOCUMENT_01_RUSSIAN_CLIENT_PASS__DOCUMENT_02_PENDING'
+          if mat not in r.get('materialization_commit_shas',[]): r.setdefault('materialization_commit_shas',[]).append(mat)
+          sp.write_text(json.dumps(state,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          cp=job/'EXECUTION_CURSOR.json'
+          cur=json.loads(cp.read_text(encoding='utf-8'))
+          cur['execution_protocol_status']='RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_OWNER_REVIEW_PASS__DOCUMENT_02_OWNER_REVIEW_PENDING'
+          cur['status']='RESEARCH_REBUILD_COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_OWNER_REVIEW_PASS__DOCUMENT_02_OWNER_REVIEW_PENDING'
+          cur['execution_unit']='POST_RELEASE_OWNER_REVIEW_DOCUMENT_02_PENDING_START'
+          cur['next_action']='OWNER_REVIEW_CORRECTED_DOCUMENT_02'
+          pr=cur.get('post_release_correction_2026_09_05',{})
+          pr['status']='COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_OWNER_REVIEW_PASS__DOCUMENT_02_PENDING'
+          pr['owner_recheck']='ACTIVE__DOCUMENT_01_RUSSIAN_CLIENT_PASS__DOCUMENT_02_PENDING'
+          if mat not in pr.get('materialization_commit_shas',[]): pr.setdefault('materialization_commit_shas',[]).append(mat)
+          d=cur.get('document_01_owner_recheck_2026_09_05',{})
+          d['status']='OWNER_REVIEW_PASS__RUSSIAN_CLIENT_CONTRACT'
+          d['current_document']='02'
+          d['document_01_analyst_recheck']='PASS'
+          d['document_01_owner_review']='PASS'
+          d['document_02_owner_review']='PENDING'
+          d['document_03_owner_review']='PENDING'
+          d['final_owner_recipient_acceptance']='OPEN'
+          d['next_action']='OWNER_REVIEW_CORRECTED_DOCUMENT_02'
+          d['latest_material_correction_commit_sha']=mat
+          d['latest_github_content_readback']='PENDING_FINAL_REMOTE_READBACK'
+          d['owner_review_pass_authority']=pass_name
+          d['owner_review_pass_commit_sha']=mat
+          d['physical_pdf_qa']='PASS__14_OF_14_PAGES'
+          d['client_visible_latin_words']=0
+          d['internal_process_narrative']=0
+          d['russian_client_contract_qa']=qa_name
+          cp.write_text(json.dumps(cur,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          mp=job/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json'
+          man=json.loads(mp.read_text(encoding='utf-8'))
+          man['status']='DOCUMENT_01_RUSSIAN_CLIENT_CONTRACT_OWNER_REVIEW_PASS__DOCUMENT_02_03_NOT_ADVANCED'
+          for art in man['recipient_artifacts']:
+              if art.get('variant')=='01':
+                  art['size_bytes']=qa['size_bytes']['pdf']; art['sha256']=qa['sha256']['pdf']; art['pages']=qa['pdf_pages']
+          for art in man['editable_and_source_files']:
+              if art['path'].startswith('editable/01_'):
+                  art['size_bytes']=qa['size_bytes']['docx']; art['sha256']=qa['sha256']['docx']
+              if art['path'].startswith('sources/01_'):
+                  art['size_bytes']=qa['size_bytes']['markdown']; art['sha256']=qa['sha256']['markdown']
+          q=man['qa']
+          q['authority']='../'+qa_name
+          q['document_01_owner_review_authority']='../'+pass_name
+          q['document_01']='OWNER_REVIEW_PASS__RUSSIAN_CLIENT_CONTRACT'
+          q['document_01_physical_pdf']='14_OF_14_PAGES_PASS'
+          q['document_01_client_visible_latin_words']=0
+          q['document_01_internal_process_narrative']=0
+          q['current_document']='02'
+          q['document_01_owner_review']='PASS'
+          q['document_02_owner_review']='PENDING'
+          q['document_03_owner_review']='PENDING'
+          q['final_owner_recipient_acceptance']='OPEN'
+          q['owner_recheck']='ACTIVE__DOCUMENT_01_RUSSIAN_CLIENT_PASS__DOCUMENT_02_PENDING'
+          q['next_action']='OWNER_REVIEW_CORRECTED_DOCUMENT_02'
+          mp.write_text(json.dumps(man,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          banner='> **ОТОЗВАНО 2026-09-06.** Этот результат приёмки был отменён после обнаружения нарушения клиентского языкового контракта. Текущая власть: `'+pass_name+'`.\n\n'
+          for name in ['RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REVIEW_PASS_2026-09-06.md','RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_PASS_GITHUB_READBACK_2026-09-06.md']:
+              p=job/name
+              if p.exists():
+                  text=p.read_text(encoding='utf-8')
+                  if not text.startswith('> **ОТОЗВАНО'):
+                      p.write_text(banner+text,encoding='utf-8')
+          PY
+
+          git add "$JOB/RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json" \
+                  "$JOB/EXECUTION_CURSOR.json" \
+                  "$JOB/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json" \
+                  "$JOB/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REVIEW_PASS_2026-09-06.md" \
+                  "$JOB/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_PASS_GITHUB_READBACK_2026-09-06.md"
+          git rm -r "$JOB/.doc01_payload"
+          git rm '.github/workflows/okno_doc01_materialize_2026_09_06.yml'
+          git commit -m 'docs(okno-msk): reconcile document 01 Russian client pass'
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
