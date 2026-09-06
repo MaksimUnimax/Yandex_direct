@@ -18,8 +18,8 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 200538,
-      "sha256": "4591598241e6528b542c3e274862f3c64f90a1becac151d592923df080130045",
+      "size_bytes": 200614,
+      "sha256": "78753698d7ac2284641902d1bcff9b6828f74035aaafceb372f07dfe79548dd2",
       "pages": 10,
       "recipient_contract": "NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_SEMANTIC_CORE_REBUILD_WORDSTAT_SCOPE_QUERY_TO_PAGE_DISTRIBUTION_ORDINARY_YANDEX_VALIDATION_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE"
     },
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 52500,
-      "sha256": "1ea24043099ec8c4955baf88d35942d379c355c01d728cf2a5a87357bb67c57c"
+      "size_bytes": 52495,
+      "sha256": "c1372de99d517a6ac397555cfde2ed22066fdcc68c9594257a71b93c9280c3f3"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 51321,
-      "sha256": "232030778a3c7378d35dc10397f48f0262d4facd043ecc111c51d711ac49caff"
+      "size_bytes": 51252,
+      "sha256": "991a192928cc6cdd9f465f7033e0bc95c3f609d1bc72fa841852ea260c6a1faf"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
@@ -104,7 +104,6 @@
     "document_01_semantic_core_primary_object": true,
     "document_01_user_intent_role": "GROUPING_CRITERION_ONLY__NOT_RESEARCH_OBJECT",
     "document_01_wordstat_count_semantics": "2840_UNIQUE_FORMULATIONS__NOT_2840_EXACT_FREQUENCY_MEASUREMENTS",
-    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS",
     "document_01_ordinary_yandex_subset_relation": "75_TARGETED_VALIDATION_OBSERVATIONS_INSIDE_ALREADY_ANALYZED_SEMANTIC_CORE",
     "document_01_ready_recommendations_with_explicit_why": 7,
     "document_01_negative_pseudo_actions_in_main_plan": 0,
@@ -113,7 +112,8 @@
     "document_01_owner_review": "PENDING__AWAITING_RECHECK",
     "document_02_owner_review": "PENDING__NOT_STARTED",
     "document_03_owner_review": "PENDING__NOT_STARTED",
-    "final_owner_recipient_acceptance": "OPEN"
+    "final_owner_recipient_acceptance": "OPEN",
+    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS"
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,

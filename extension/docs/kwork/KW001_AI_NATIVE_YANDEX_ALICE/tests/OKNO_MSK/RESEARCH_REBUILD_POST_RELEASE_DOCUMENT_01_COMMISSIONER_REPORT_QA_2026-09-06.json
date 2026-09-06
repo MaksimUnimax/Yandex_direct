@@ -58,14 +58,14 @@
   "wordstat_count_semantics": "2840_UNIQUE_SEARCH_FORMULATIONS_AFTER_DEDUPLICATION__NOT_2840_EXACT_FREQUENCY_MEASUREMENTS",
   "research_object_semantics": "SEMANTIC_SEARCH_CORE_AND_QUERY_TO_PAGE_DISTRIBUTION__USER_INTENT_IS_GROUPING_CRITERION_ONLY",
   "sha256": {
-    "md": "232030778a3c7378d35dc10397f48f0262d4facd043ecc111c51d711ac49caff",
-    "docx": "1ea24043099ec8c4955baf88d35942d379c355c01d728cf2a5a87357bb67c57c",
-    "pdf": "4591598241e6528b542c3e274862f3c64f90a1becac151d592923df080130045"
+    "md": "991a192928cc6cdd9f465f7033e0bc95c3f609d1bc72fa841852ea260c6a1faf",
+    "docx": "c1372de99d517a6ac397555cfde2ed22066fdcc68c9594257a71b93c9280c3f3",
+    "pdf": "78753698d7ac2284641902d1bcff9b6828f74035aaafceb372f07dfe79548dd2"
   },
   "size_bytes": {
-    "md": 51321,
-    "docx": 52500,
-    "pdf": 200538
+    "md": 51252,
+    "docx": 52495,
+    "pdf": 200614
   },
   "provider_calls_during_rebuild": 0,
   "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01"
