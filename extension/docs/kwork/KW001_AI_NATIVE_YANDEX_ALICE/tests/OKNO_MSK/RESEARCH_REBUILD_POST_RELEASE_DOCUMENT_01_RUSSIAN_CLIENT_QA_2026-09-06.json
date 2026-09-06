@@ -1,0 +1,123 @@
+{
+  "status": "PASS",
+  "checks": {
+    "forbidden_internal_latin_zero": true,
+    "source_native_latin_preserved": true,
+    "verbatim_brand_query_spelling_preserved": true,
+    "process_narrative_zero": true,
+    "internal_ascii_markers_zero": true,
+    "families_21": true,
+    "assistant_cases_8": true,
+    "observations_75": true,
+    "actions_34": true,
+    "key_sections_equivalent": true,
+    "pdf_pages_nonzero": true,
+    "visual_all_pages_pass": true
+  },
+  "counts": {
+    "families": 21,
+    "assistant_cases": 8,
+    "observations": 75,
+    "actions": 34
+  },
+  "pdf_pages": 14,
+  "source_native_latin_tokens": {
+    "markdown_visible": [
+      "Accado",
+      "Futurus",
+      "KBE",
+      "Provedal",
+      "REHAU",
+      "Thermo",
+      "Vorne",
+      "fapim",
+      "kbe",
+      "provedal",
+      "rehau",
+      "thermo"
+    ],
+    "docx_visible": [
+      "Accado",
+      "Futurus",
+      "KBE",
+      "Provedal",
+      "REHAU",
+      "Thermo",
+      "Vorne",
+      "fapim",
+      "kbe",
+      "provedal",
+      "rehau",
+      "thermo"
+    ],
+    "pdf_visible": [
+      "Accado",
+      "Futurus",
+      "KBE",
+      "Provedal",
+      "REHAU",
+      "Thermo",
+      "Vorne",
+      "fapim",
+      "kbe",
+      "provedal",
+      "rehau",
+      "thermo"
+    ]
+  },
+  "forbidden_internal_latin_tokens": {
+    "markdown_visible": [],
+    "docx_visible": [],
+    "pdf_visible": []
+  },
+  "forbidden_process_hits": {
+    "markdown_visible": [],
+    "docx_visible": [],
+    "pdf_visible": []
+  },
+  "internal_ascii_markers": [],
+  "brand_query_spelling_rows": {
+    "2": "алюминиевые окна fapim",
+    "12": "окна rehau 70",
+    "13": "окна rehau kbe",
+    "14": "окна rehau официальный",
+    "15": "окна rehau провисли",
+    "17": "окна стеклопакеты rehau",
+    "41": "provedal остекление веранды",
+    "42": "алюминиевые окна provedal",
+    "43": "алюминиевые окна проведал",
+    "44": "окна rehau в рассрочку",
+    "45": "окна рехау в рассрочку",
+    "46": "оконная фурнитура rehau",
+    "47": "оконная фурнитура рехау",
+    "48": "пластиковые окна rehau",
+    "49": "пластиковые окна от производителя rehau",
+    "50": "пластиковые окна рехау",
+    "51": "пластиковые окна рехау от производителя",
+    "53": "проведал остекление веранды",
+    "57": "rehau thermo окна",
+    "60": "какой профиль rehau выбрать",
+    "61": "окна rehau москва"
+  },
+  "key_section_presence_all_three": {
+    "Семь изменений, которые можно внедрять": true,
+    "Одна частично готовая работа": true,
+    "Четыре вопроса, где изменения пока запрещены": true,
+    "Двадцать одно спорное семейство запросов": true,
+    "Восемь проверок поискового помощника": true,
+    "Все 75 сохранённых наблюдений обычного Яндекса": true,
+    "Полная карта 34 решений": true,
+    "Неопределённость и условия повторного открытия": true,
+    "Приоритет действий владельца": true
+  },
+  "sha256": {
+    "markdown": "e238a18ae8aa66856f09ed541617502a812fa3d1c12a87625d6ee6acbdd6150a",
+    "docx": "5b77029737fb917cd4fe24c2b0f667cd3dab1737a84deb2b668ba6a78d24f8ca",
+    "pdf": "833ff2726e3ac80ccb73b2f8af2e18cffc03eb659075a7151a70be7b683a07fa"
+  },
+  "size_bytes": {
+    "markdown": 61535,
+    "docx": 52792,
+    "pdf": 288025
+  }
+}
