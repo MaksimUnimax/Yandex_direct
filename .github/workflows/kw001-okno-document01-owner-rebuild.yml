@@ -53,6 +53,7 @@ jobs:
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
           python "$ROOT/patch_document01_final_customer_contract.py"
+          python "$ROOT/patch_document01_final_polish.py"
           python "$ROOT/patch_step20_report01_final_rules.py"
 
       - name: Build Document 01 DOCX and PDF
