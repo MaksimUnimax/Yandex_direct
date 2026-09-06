@@ -12,9 +12,9 @@ New provider calls: **0**
 
 Document №01 was rebuilt from the commissioner-facing Markdown source, generated as DOCX and PDF, independently QA-tested, committed and read back from the active roadmap branch.
 
-Successful rebuild workflow: `34030094115`.
+Final successful rebuild workflow: `34030879681`.
 
-Physical persistence commit: `fc69dde281ab9271a0c095de8b3c7052e61bf816`.
+Final physical persistence commit: `6472a417` (the workflow persistence commit created after the final plain-language cleanup).
 
 The workflow passed all material steps, including the pre-build byte freeze for Documents №02/№03 and the post-commit `DOCUMENT_02_03_UNTOUCHED_PASS` check.
 
@@ -24,22 +24,22 @@ Source Markdown:
 
 `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md`
 
-- size: `42,082` bytes;
-- SHA-256: `21418991d0498f0bbd190ccc52090a42674b186fea3aadad2cb97adb21e7777f`.
+- size: `42,087` bytes;
+- SHA-256: `204d478eeff2001fb6f1f685d13025c37f8a73f181a73bd48a7877015c003537`.
 
 Editable DOCX:
 
 `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx`
 
-- size: `50,310` bytes;
-- SHA-256: `8837096cfbdb78c444064e34af44cd4f172d98508a74b03d2ad5300047fd0379`.
+- size: `50,308` bytes;
+- SHA-256: `6dc42e81edf94fd4cf0a647269b9fb90e45bfd4c953fa22061860c97ab7708a7`.
 
 Recipient PDF:
 
 `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf`
 
-- size: `179,753` bytes;
-- SHA-256: `75b15b5d9f9d879d1e6a88089647d9a524b34021a23fb6f90ff22ee260ea9e58`;
+- size: `179,748` bytes;
+- SHA-256: `7b089fb315daefc5fe5792de8fce311e9001b251d081afb6bd364072c6636e08`;
 - pages: `8`;
 - PDF openability / non-encryption / all-page render QA: PASS.
 
@@ -77,7 +77,7 @@ The current numerical provenance is explained in context:
 
 The 75 ordinary-Yandex observations are explained as deeper exact-query validations inside the larger demand analysis, not as the entire research volume.
 
-The 8 Alice checks are explicitly described as the complete Alice verification performed for this job, not an incomplete fragment or an undefined internal stage.
+The 8 Alice checks are explicitly described as the complete Alice verification performed for this job, not an incomplete fragment or an undefined internal stage. The final plain-language cleanup also removed the residual phrase referring to `previous steps` and replaced it with direct wording about the demand analysis.
 
 ## Alice value verified
 
