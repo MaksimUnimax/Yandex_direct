@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+  "status": "DOCUMENT_01_COMMISSIONER_NARRATIVE_ANALYST_RECHECK_PASS__COMMISSIONER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -18,10 +18,10 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 205594,
-      "sha256": "917c9910108668aaee008a973c94b0a87802ee9e4ca06b5b1522251a60f601ef",
-      "pages": 10,
-      "recipient_contract": "NORMAL_CLIENT_UNDERSTANDS_FULL_RESEARCH_AND_ORDINARY_YANDEX_OUTPUT_VS_ALICE_OUTPUT_VALUE_FROM_DOCUMENT_01_ALONE"
+      "size_bytes": 179753,
+      "sha256": "75b15b5d9f9d879d1e6a88089647d9a524b34021a23fb6f90ff22ee260ea9e58",
+      "pages": 8,
+      "recipient_contract": "NON_SPECIALIST_COMMISSIONER_CAN_UNDERSTAND_KWORK_ANSWER_FULL_WORKFLOW_ORDINARY_YANDEX_OUTPUT_ALICE_VALUE_SITE_VERDICT_AND_ACTIONS_FROM_DOCUMENT_01_ALONE"
     },
     {
       "variant": "02",
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 52370,
-      "sha256": "795de08bc9757e74c12c3a5bc7d5be42e40532071bc17f09911854c3a4c10cb3"
+      "size_bytes": 50310,
+      "sha256": "8837096cfbdb78c444064e34af44cd4f172d98508a74b03d2ad5300047fd0379"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 47941,
-      "sha256": "105ff37bd98afec875986b79c8d9220b074bc6118e40a61d3190ce1357702742"
+      "size_bytes": 42082,
+      "sha256": "21418991d0498f0bbd190ccc52090a42674b186fea3aadad2cb97adb21e7777f"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
@@ -66,18 +66,18 @@
     }
   ],
   "qa": {
-    "authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REPORT_QA_2026-09-06.json",
+    "authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json",
     "historical_package_qa": "../RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
-    "document_01_owner_review_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_REWORK_FINDINGS_2026-09-06.md",
+    "document_01_owner_review_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_REWORK_FINDINGS_2026-09-06.md",
     "document_01_readback_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_READBACK_2026-09-06.md",
-    "analyst_recipient_qa": "DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_PASS",
-    "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+    "analyst_recipient_qa": "DOCUMENT_01_COMMISSIONER_CONNECTED_KWORK_REPORT_PASS",
+    "document_01": "ANALYST_RECHECK_PASS__COMMISSIONER_REVIEW_PENDING",
     "document_01_search_observations": "75_OF_75_PASS",
-    "document_01_alice_cases": "8_OF_8_PASS__COMPLETE_SELECTED_SCOPE__25_REVIEWED__6_DECISION_SENSITIVE__2_CONTROLS",
+    "document_01_alice_cases": "8_OF_8_COMPLETE__25_REVIEWED__6_DECISION_SENSITIVE__2_CONTROLS__16_REPEATED_TYPES_NOT_SELECTED__1_HELD",
     "document_01_scope_counts": "2840_ACCEPTED__2313_ASSIGNED__168_TASKS__75_ORDINARY_OUTPUT_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CASES__34_RESULTS",
-    "document_01_physical_pdf": "10_OF_10_PAGES_PASS",
-    "document_01_main_report_21_item_routing_dump": "REMOVED",
+    "document_01_physical_pdf": "8_OF_8_PAGES_RENDER_PASS",
+    "document_01_main_report_21_item_routing_dump": "ABSENT",
     "document_01_main_report_34_item_result_dump": "REMOVED__STRUCTURED_AUTHORITY_PRESERVED",
     "document_01_ready_recommendations_with_why": 7,
     "document_01_company_fact_requests": 2,
@@ -89,12 +89,21 @@
     "document_02": "OWNER_REVIEW_PENDING__NOT_ADVANCED_IN_DOCUMENT_01_TASK",
     "document_03_offline_clean_context": "OWNER_REVIEW_PENDING__NOT_ADVANCED_IN_DOCUMENT_01_TASK",
     "current_document": "01",
-    "document_01_owner_review": "PENDING__AWAITING_OWNER_RECHECK",
+    "document_01_owner_review": "REOPENED__COMMISSIONER_REVIEW_PENDING",
     "document_02_owner_review": "PENDING__NOT_STARTED",
     "document_03_owner_review": "PENDING__NOT_STARTED",
     "final_owner_recipient_acceptance": "OPEN",
-    "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
-    "document_01_github_readback": "PASS__REMOTE_SOURCE_QA_MANIFEST_PHYSICAL_RELEASE_VERIFIED"
+    "next_action": "COMMISSIONER_REVIEW_CORRECTED_DOCUMENT_01",
+    "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
+    "document_01_commissioner_role": "PASS__NO_INVENTED_OWNER_ROLE",
+    "document_01_kwork_answer_visible": true,
+    "document_01_connected_narrative": true,
+    "document_01_semantic_sectioning": true,
+    "document_01_full_workflow_plain_language": true,
+    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE__2840_EXACT__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_TASKS__75_ORDINARY_OUTPUT__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS",
+    "document_01_generic_disclaimer_section": "ABSENT",
+    "document_01_fake_reading_time_heading": "ABSENT",
+    "document_01_ready_recommendations": 7
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,
