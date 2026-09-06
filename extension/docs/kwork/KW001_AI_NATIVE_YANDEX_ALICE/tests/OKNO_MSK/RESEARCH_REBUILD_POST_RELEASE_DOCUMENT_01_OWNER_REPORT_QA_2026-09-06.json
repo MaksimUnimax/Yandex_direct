@@ -62,13 +62,13 @@
   ],
   "sha256": {
     "md": "105ff37bd98afec875986b79c8d9220b074bc6118e40a61d3190ce1357702742",
-    "docx": "11f19d758f7445035c6d756e9b126fb9602f3a7519b7693c4e359a379a5ab844",
-    "pdf": "7040c7a9d25266002c7bce7104c399d6c50e94d130ebe8e20ff7fe4a755103fb"
+    "docx": "795de08bc9757e74c12c3a5bc7d5be42e40532071bc17f09911854c3a4c10cb3",
+    "pdf": "917c9910108668aaee008a973c94b0a87802ee9e4ca06b5b1522251a60f601ef"
   },
   "size_bytes": {
     "md": 47941,
-    "docx": 52381,
-    "pdf": 216609
+    "docx": 52370,
+    "pdf": 205594
   },
   "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
   "provider_calls_during_rebuild": 0
