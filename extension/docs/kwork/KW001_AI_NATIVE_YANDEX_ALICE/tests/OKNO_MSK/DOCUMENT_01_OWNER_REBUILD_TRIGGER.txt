@@ -1,1 +1,1 @@
-2026-09-06T11:50Z final Report 01 rebuild: explicit dual-surface optimization verdict and Alice-as-evidence wording
+2026-09-06T12:08Z retry final Report 01 rebuild after builder QA alignment
