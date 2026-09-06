@@ -5,22 +5,41 @@
     "source_native_latin_preserved": true,
     "verbatim_brand_query_spelling_preserved": true,
     "process_narrative_zero": true,
+    "owner_value_framing_forbidden_zero": true,
     "internal_ascii_markers_zero": true,
-    "families_21": true,
+    "required_headings_all_three": true,
+    "ready_recommendations_7": true,
+    "ready_cards_have_why_and_full_chain": true,
+    "business_inputs_2": true,
+    "demand_groups_21": true,
     "assistant_cases_8": true,
     "observations_75": true,
-    "actions_34": true,
-    "key_sections_equivalent": true,
+    "results_34": true,
+    "executive_summary_not_uncertainty_led": true,
+    "priority_plan_has_no_negative_pseudo_actions": true,
+    "owner_value_sections_precede_methodology": true,
+    "assistant_cases_use_positive_client_framing": true,
     "pdf_pages_nonzero": true,
     "visual_all_pages_pass": true
   },
   "counts": {
-    "families": 21,
+    "ready_recommendations": 7,
+    "business_inputs": 2,
+    "demand_groups": 21,
     "assistant_cases": 8,
     "observations": 75,
-    "actions": 34
+    "results": 34
   },
   "pdf_pages": 14,
+  "card_label_counts": {
+    "Что обнаружено:": 7,
+    "Почему это важно:": 7,
+    "Что рекомендуется сделать:": 7,
+    "Где:": 7,
+    "Что сохранить:": 7,
+    "Как должен выглядеть результат:": 7,
+    "Как проверить:": 7
+  },
   "source_native_latin_tokens": {
     "markdown_visible": [
       "Accado",
@@ -75,7 +94,15 @@
     "docx_visible": [],
     "pdf_visible": []
   },
+  "forbidden_client_framing_hits": {
+    "markdown_visible": [],
+    "docx_visible": [],
+    "pdf_visible": []
+  },
   "internal_ascii_markers": [],
+  "executive_summary_forbidden_hits": [],
+  "priority_negative_pseudo_action_hits": [],
+  "assistant_negative_framing_hits": [],
   "brand_query_spelling_rows": {
     "2": "алюминиевые окна fapim",
     "12": "окна rehau 70",
@@ -99,25 +126,27 @@
     "60": "какой профиль rehau выбрать",
     "61": "окна rehau москва"
   },
-  "key_section_presence_all_three": {
-    "Семь изменений, которые можно внедрять": true,
-    "Одна частично готовая работа": true,
-    "Четыре вопроса, где изменения пока запрещены": true,
-    "Двадцать одно спорное семейство запросов": true,
-    "Восемь проверок поискового помощника": true,
-    "Все 75 сохранённых наблюдений обычного Яндекса": true,
-    "Полная карта 34 решений": true,
-    "Неопределённость и условия повторного открытия": true,
-    "Приоритет действий владельца": true
+  "required_heading_presence_all_three": {
+    "Краткий вывод": true,
+    "Что на сайте уже работает правильно": true,
+    "Семь приоритетных улучшений существующих страниц": true,
+    "Что уточнить у компании для двух следующих улучшений": true,
+    "Как распределены основные группы поискового спроса": true,
+    "Дополнительная проверка восьми важных тем": true,
+    "Что передать в работу в первую очередь": true,
+    "Что было проверено": true,
+    "Приложение 1. Что показала выдача Яндекса по 75 конкретным запросам": true,
+    "Приложение 2. Сводная карта результатов исследования": true,
+    "Границы применения выводов": true
   },
   "sha256": {
-    "markdown": "e238a18ae8aa66856f09ed541617502a812fa3d1c12a87625d6ee6acbdd6150a",
-    "docx": "5b77029737fb917cd4fe24c2b0f667cd3dab1737a84deb2b668ba6a78d24f8ca",
-    "pdf": "833ff2726e3ac80ccb73b2f8af2e18cffc03eb659075a7151a70be7b683a07fa"
+    "markdown": "0f614e3599a44171f4cdd6245eb74596779aa374d56a5390a506f5ba9df097c2",
+    "docx": "4611cc5d40bb630f9ba45685ef25f1cc591121e1296c1d1c446157e1a56c4225",
+    "pdf": "d8babb0c4462099302dacf77119381aa1d7c5abfc858f05b90c871bf35691793"
   },
   "size_bytes": {
-    "markdown": 61535,
-    "docx": 52792,
-    "pdf": 288025
+    "markdown": 63598,
+    "docx": 52986,
+    "pdf": 285311
   }
 }
