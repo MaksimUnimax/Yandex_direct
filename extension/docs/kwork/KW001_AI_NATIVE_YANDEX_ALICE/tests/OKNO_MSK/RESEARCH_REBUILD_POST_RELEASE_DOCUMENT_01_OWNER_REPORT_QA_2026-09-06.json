@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "checks": {
+    "ordinary_labels_8": true,
+    "generative_labels_8": true,
+    "site_meaning_labels_8": true,
+    "seven_recommendations_have_why": true,
+    "official_generative_yandex_visible": true,
+    "alice_technology_visible": true,
+    "demand_groups_21": true,
+    "ordinary_yandex_rows_75": true,
+    "research_results_rows_34": true,
+    "forbidden_internal_terms_absent": true,
+    "brands_and_source_spellings_preserved": true,
+    "docx_core_content_present": true,
+    "pdf_core_content_present": true,
+    "docx_forbidden_terms_absent": true,
+    "pdf_forbidden_terms_absent": true
+  },
+  "counts": {
+    "generative_comparison_cases": 8,
+    "priority_recommendations": 7,
+    "company_fact_requests": 2,
+    "demand_groups": 21,
+    "ordinary_yandex_observations": 75,
+    "research_result_rows": 34,
+    "pdf_pages": 12
+  },
+  "forbidden_hits": {},
+  "preserved_brand_spellings": [
+    "REHAU",
+    "Provedal",
+    "KBE",
+    "Accado",
+    "Vorne",
+    "Futurus",
+    "fapim",
+    "rehau thermo"
+  ],
+  "sha256": {
+    "md": "6aa0366727c094d48fda0baee7b8ee68dde337e2cfb4cb09fc4d2bb728a9e040",
+    "docx": "73b3a9f548a56ef32bb1367aea9c67fd34ce5ae18d324d7337ede7fd2ac0c9bd",
+    "pdf": "97a6a82cab023f0175ad74b2823134b5d427798c65506dcef35e5f550f39f38a"
+  },
+  "provider_calls_during_rebuild": 0
+}
