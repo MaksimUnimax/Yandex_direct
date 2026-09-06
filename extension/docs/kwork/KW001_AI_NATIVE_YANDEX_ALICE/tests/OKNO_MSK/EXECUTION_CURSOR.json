@@ -6,9 +6,9 @@
   "authority_state_file": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json",
   "execution_protocol": "CHATGPT_LONG_RUNNING_EXECUTION_PROTOCOL_EXPERIMENT_2026-09-04.md",
   "stage_2_contract": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_CONTRACT_2026-09-04.md",
-  "execution_protocol_status": "RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "execution_protocol_status": "RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
   "stage": "15",
-  "status": "RESEARCH_REBUILD_COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "status": "RESEARCH_REBUILD_COMPLETE__DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
   "execution_unit": "POST_RELEASE_OWNER_REVIEW_CORRECTED_DOCUMENT_01",
   "mini_step_execution": "DISABLED_SUPERSEDED",
   "durable_block_checkpoint_execution": "DISABLED_SUPERSEDED",
@@ -31,7 +31,7 @@
     "NO_NEW_EXTERNAL_OR_PAID_CALLS_WITHOUT_SEPARATE_AUTHORIZATION"
   ],
   "post_release_correction_2026_09_05": {
-    "status": "COMPLETE__DOCUMENT_01_RUSSIAN_CLIENT_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+    "status": "COMPLETE__DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
     "corrected_release_directory": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
     "release_manifest": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
     "shared_implementation_authority": "RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_AUTHORITY_CORRECTED_2026-09-05.tsv",
@@ -42,7 +42,8 @@
       "a22c4be3298ac3026f43c436a2e29970198db89c",
       "9ddcbeab6dd07f834c08604f7dbad77b15b1525b",
       "9f18834d8e7f812cbac3da503a53377dc9c072d0",
-      "6e7a92143b0419a5ba07b6495fba84aab3222f70"
+      "6e7a92143b0419a5ba07b6495fba84aab3222f70",
+      "d17d4885d6a2a4dd7095c191dc9186b868119052"
     ],
     "ready_real_site_actions": 7,
     "partial_business_detail_required_actions": 1,
@@ -63,11 +64,11 @@
     "unsupported_new_analytical_decisions": 0,
     "new_provider_calls": 0,
     "paid_cost_rub": 0,
-    "owner_recheck": "ACTIVE__DOCUMENT_01_REWORKED__OWNER_REVIEW_PENDING",
+    "owner_recheck": "ACTIVE__DOCUMENT_01_OWNER_VALUE_REWORKED__OWNER_REVIEW_PENDING",
     "step21_22_executed": false
   },
   "document_01_owner_recheck_2026_09_05": {
-    "status": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__SOURCE_NATIVE_BRANDS_PRESERVED__GITHUB_READBACK_PASS",
+    "status": "ANALYST_RECHECK_PASS__OWNER_VALUE_PLAIN_LANGUAGE__OWNER_REVIEW_PENDING__GITHUB_READBACK_PASS",
     "current_document": "01",
     "document_01_analyst_recheck": "PASS",
     "document_01_owner_review": "PENDING__AWAITING_OWNER_RECHECK",
@@ -75,7 +76,7 @@
     "document_03_owner_review": "PENDING",
     "final_owner_recipient_acceptance": "OPEN",
     "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
-    "latest_material_correction_commit_sha": "6e7a92143b0419a5ba07b6495fba84aab3222f70",
+    "latest_material_correction_commit_sha": "d17d4885d6a2a4dd7095c191dc9186b868119052",
     "latest_github_content_readback": "PASS",
     "owner_review_pass_authority": "WITHDRAWN__OWNER_REVIEW_PENDING",
     "owner_review_pass_commit_sha": "NOT_APPLICABLE__OWNER_REVIEW_PENDING",
@@ -102,10 +103,10 @@
     "hold_actions": 1,
     "markdown_docx_pdf_equivalence": "PASS",
     "physical_pdf_qa": "PASS__14_OF_14_PAGES",
-    "deterministic_qa_checks": 12,
+    "deterministic_qa_checks": 20,
     "owner_review_residual_defect": "QF003_EMPTY_REPRESENTATIVE_QUERY_MASKED_EXACT_STAGE5_TITLE_MATCH__CORRECTED",
     "qa_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json",
-    "owner_recheck_authority": "RESEARCH_REBUILD_POST_RELEASE_OWNER_RECHECK_FINDINGS_2026-09-05.md",
+    "owner_recheck_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_VALUE_REWORK_FINDINGS_2026-09-06.md",
     "new_provider_calls": 0,
     "paid_cost_rub": 0,
     "step21_22_executed": false,
@@ -113,7 +114,12 @@
     "source_native_brands_preserved": true,
     "verbatim_brand_query_spelling_preserved": true,
     "internal_process_narrative": 0,
-    "github_readback_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_GITHUB_READBACK_2026-09-06.md"
+    "github_readback_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_VALUE_GITHUB_READBACK_2026-09-06.md",
+    "owner_value_framing_forbidden_hits": 0,
+    "negative_pseudo_actions_in_priority": 0,
+    "ready_recommendations_with_why": 7,
+    "owner_first_structure": true,
+    "assistant_client_positive_framing": true
   },
   "required_stage_2_output": "RESEARCH_REBUILD_STAGE_02_FULL_AUDIT_2026-09-04.md",
   "stage_2_completion_report": [
