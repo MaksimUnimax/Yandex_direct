@@ -70,6 +70,7 @@
     "historical_package_qa": "../RESEARCH_REBUILD_POST_RELEASE_RECIPIENT_QA_2026-09-05.json",
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
     "document_01_owner_review_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_REWORK_FINDINGS_2026-09-06.md",
+    "document_01_readback_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_READBACK_2026-09-06.md",
     "analyst_recipient_qa": "DOCUMENT_01_OWNER_SURFACE_SCOPE_ACTIONABILITY_PASS",
     "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_01_search_observations": "75_OF_75_PASS",
@@ -93,7 +94,7 @@
     "document_03_owner_review": "PENDING__NOT_STARTED",
     "final_owner_recipient_acceptance": "OPEN",
     "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
-    "document_01_github_readback": "PENDING_POST_COMMIT_READBACK"
+    "document_01_github_readback": "PASS__REMOTE_SOURCE_QA_MANIFEST_PHYSICAL_RELEASE_VERIFIED"
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,
