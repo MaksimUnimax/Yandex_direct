@@ -1,4 +1,4 @@
-name: KW001 OKNO Document 01 Owner Rebuild
+name: KW001 OKNO Document 01 Commissioner Rebuild
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: kw001-okno-document01-owner-rebuild
+  group: kw001-okno-document01-commissioner-rebuild
   cancel-in-progress: false
 
 jobs:
@@ -53,14 +53,14 @@ jobs:
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
           REL="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
-          python "$ROOT/document01_build_owner_report.py"
+          python "$ROOT/document01_build_commissioner_report.py"
           rm -f "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
           libreoffice --headless --convert-to pdf --outdir "$REL" "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx"
           test -s "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
 
-      - name: Independent recipient QA and manifest refresh
+      - name: Independent commissioner-recipient QA and manifest refresh
         run: |
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_owner_recipient_qa.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_commissioner_recipient_qa.py
 
       - name: Persist Document 01 only
         run: |
@@ -71,11 +71,11 @@ jobs:
           git add "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
           git add "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx"
           git add "$REL/RELEASE_MANIFEST_2026-09-05.json"
-          git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REPORT_QA_2026-09-06.json"
+          git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json"
           if git diff --cached --quiet; then
             echo 'No Document 01 physical changes'
           else
-            git commit -m "release(okno-msk): persist owner-ready document 01 physical rebuild [skip ci]"
+            git commit -m "release(okno-msk): persist commissioner-ready document 01 rebuild [skip ci]"
             git push origin HEAD:roadmap/kwork-productization-2026-08-28
           fi
 
