@@ -1,1 +1,1 @@
-2026-09-06T11:49Z route Step20 through report-specific Report01/Report02 acceptance gates
+2026-09-06T12:06Z persist report-specific Step20 routing in legacy gate and index
