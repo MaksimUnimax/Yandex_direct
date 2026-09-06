@@ -1,6 +1,6 @@
 # KW-001 — Step 20 recipient acceptance depth gate
 
-Updated: 2026-09-05  
+Updated: 2026-09-06  
 Status: **ACTIVE / UNIVERSAL / OWNER-DIRECTED PERMANENT NON-REPEAT CONTROL**  
 Scope: **Step 20 companion gate / Level 1**
 
@@ -279,6 +279,59 @@ When Search or AI contribution is part of the product promise, verify the recipi
 ```text
 SEARCH CASES INTERNAL ONLY => RECIPIENT-VISIBILITY FAIL when Search research is promised
 AI VERDICT COUNTS ONLY => RECIPIENT-VISIBILITY FAIL when AI causal contribution is promised
+```
+
+### 8.1 Official Yandex GenSearch / Alice AI positioning — permanent non-repeat rule
+
+When KW-001 uses the official Yandex GenSearch method as the governed generative-search evidence source, Step20 must preserve the product meaning correctly.
+
+The recipient-facing interpretation is:
+
+```text
+ORDINARY YANDEX SEARCH
++ OFFICIAL YANDEX GENERATIVE SEARCH BASED ON ALICE AI TECHNOLOGY
+= THE TWO SEARCH SURFACES COMPARED BY THE PRODUCT
+```
+
+Do not downgrade official GenSearch in the client report to wording equivalent to:
+
+```text
+MERE PROXY
+NOT REALLY ALICE-RELATED
+INSUFFICIENT UNTIL A SECOND CONSUMER-ALICE UI RUN IS PERFORMED
+```
+
+A historical one-time comparison between GenSearch and consumer Alice may remain implementation-validation evidence. It is **not** a per-job requirement and must not silently create a second mandatory acquisition layer for every client order.
+
+The standard KW-001 job must not require a separate consumer-Alice UI capture merely because GenSearch is not byte-for-byte identical to a particular consumer interface response.
+
+At the same time provenance must remain truthful:
+
+```text
+GEN_SEARCH_OBSERVATION = OFFICIAL YANDEX GENERATIVE-SEARCH EVIDENCE
+GEN_SEARCH_OBSERVATION != CLAIM OF AN EXACT CAPTURED CONSUMER-UI RESPONSE
+```
+
+Therefore recipient wording should explain the source in normal product language, for example:
+
+```text
+официальный генеративный поиск Яндекса на базе технологий Alice AI
+```
+
+and then show what that generative-search evidence changed, confirmed or clarified relative to ordinary Yandex Search.
+
+Do not expose internal provider/proxy-validation terminology unless the recipient contract explicitly asks for methodology internals.
+
+A separate consumer-Alice UI observation is required only when it is explicitly part of the sold scope or a later owner-approved research question. It is not a default Step20 acceptance dependency.
+
+Hard fail conditions:
+
+```text
+CLIENT REPORT SELLS ALICE / GENERATIVE SEARCH BUT HIDES THE GENSEARCH CONTRIBUTION
+CLIENT REPORT CALLS OFFICIAL GENSEARCH A MERE PROXY AND DEVALUES THE SOLD AI LAYER
+CLIENT REPORT INVENTS A MANDATORY CONSUMER-ALICE UI RECHECK NOT PRESENT IN THE PRODUCT CONTRACT
+CLIENT REPORT RELABELS A GENSEARCH OBSERVATION AS AN EXACT CAPTURE OF A CONSUMER-UI RESPONSE
+AI CONTRIBUTION IS PRESENT ONLY AS INTERNAL COUNTS / CODES RATHER THAN CLIENT-VISIBLE VALUE
 ```
 
 ## 9. Owner / commissioner acceptance boundary
