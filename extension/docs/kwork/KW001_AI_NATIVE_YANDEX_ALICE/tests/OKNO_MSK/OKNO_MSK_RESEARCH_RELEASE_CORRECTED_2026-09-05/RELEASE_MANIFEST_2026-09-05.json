@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_01_SEMANTIC_CORE_FRAMING_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+  "status": "DOCUMENT_01_FINAL_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -18,10 +18,10 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 200614,
-      "sha256": "78753698d7ac2284641902d1bcff9b6828f74035aaafceb372f07dfe79548dd2",
-      "pages": 10,
-      "recipient_contract": "NON_SPECIALIST_CUSTOMER_CAN_UNDERSTAND_SEMANTIC_CORE_REBUILD_WORDSTAT_SCOPE_QUERY_TO_PAGE_DISTRIBUTION_ORDINARY_YANDEX_VALIDATION_ALICE_VALUE_AND_ACTIONS_FROM_DOCUMENT_01_ALONE"
+      "size_bytes": 106048,
+      "sha256": "26c02d33664afa96ec2ce7862ab8f54d21240da02ef8832b53b3a7c62e53c182",
+      "pages": 7,
+      "recipient_contract": "NON_SPECIALIST_CUSTOMER_GETS_KWORK_ANSWER_SEARCH_CORE_FREQUENCY_WORK_ORDINARY_YANDEX_ALICE_VERDICT_AND_ACTIONS_WITHOUT_RAW_75_QUERY_DUMP"
     },
     {
       "variant": "02",
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 52495,
-      "sha256": "c1372de99d517a6ac397555cfde2ed22066fdcc68c9594257a71b93c9280c3f3"
+      "size_bytes": 49162,
+      "sha256": "db85570c6699facd4c1ea7bff21f9ab2c9b0c4ed01a1d78e738854e94d81005e"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 51252,
-      "sha256": "991a192928cc6cdd9f465f7033e0bc95c3f609d1bc72fa841852ea260c6a1faf"
+      "size_bytes": 40061,
+      "sha256": "78d82221959572c0f4d13094fdc67890778df3ae9f5e94468ddb44c13d0d9fe5"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
@@ -71,11 +71,11 @@
     "physical_document_authority": "../RESEARCH_REBUILD_POST_RELEASE_PHYSICAL_DOCUMENT_QA_2026-09-05.md",
     "document_01_rework_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_REWORK_FINDINGS_2026-09-06.md",
     "document_01_readback_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_NARRATIVE_READBACK_2026-09-06.md",
-    "analyst_recipient_qa": "DOCUMENT_01_SEMANTIC_CORE_CLIENT_REPORT_PASS",
+    "analyst_recipient_qa": "DOCUMENT_01_FINAL_CUSTOMER_CONTRACT_PASS",
     "document_01": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
-    "document_01_search_observations": "75_OF_75_PASS",
-    "document_01_alice_cases": "8_OF_8_COMPLETE__25_REVIEWED__6_DECISION_SENSITIVE__2_CONTROLS__16_REPEATED_TYPES_NOT_SELECTED__1_HELD",
-    "document_01_physical_pdf": "10_OF_10_PAGES_RENDER_PASS",
+    "document_01_search_observations": "75_TARGETED_CHECKS_EXPLAINED__RAW_APPENDIX_ABSENT",
+    "document_01_alice_cases": "8_OF_8_COMPLETE__25_CANDIDATES__6_DECISION_SENSITIVE__2_CONTROLS",
+    "document_01_physical_pdf": "7_OF_7_PAGES_RENDER_PASS",
     "document_01_main_report_21_item_routing_dump": "ABSENT",
     "document_01_main_report_34_item_result_dump": "ABSENT__STRUCTURED_AUTHORITY_PRESERVED",
     "document_01_ready_recommendations": 7,
@@ -113,7 +113,13 @@
     "document_02_owner_review": "PENDING__NOT_STARTED",
     "document_03_owner_review": "PENDING__NOT_STARTED",
     "final_owner_recipient_acceptance": "OPEN",
-    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS"
+    "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS",
+    "document_01_site_url_in_title": true,
+    "document_01_frequency_work_visible": true,
+    "document_01_internal_count_field_absent": true,
+    "document_01_positive_no_change_page_catalogue": "ABSENT__AGGREGATE_SITE_RESULT_ONLY",
+    "document_01_raw_75_query_appendix": "ABSENT",
+    "document_01_full_rebuild_claim": "ABSENT__RESEARCH_CONCLUDES_FULL_REBUILD_NOT_REQUIRED"
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,
