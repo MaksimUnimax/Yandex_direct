@@ -1,1 +1,1 @@
-2026-09-06T10:43Z owner-directed Document 01 surface/scope/actionability rebuild retry after PDF text-normalization QA fix
+2026-09-06T11:08Z commissioner-facing connected Kwork report rebuild after narrative/de-AI rework
