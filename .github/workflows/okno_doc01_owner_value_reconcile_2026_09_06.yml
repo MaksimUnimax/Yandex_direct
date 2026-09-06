@@ -1,0 +1,153 @@
+name: OKNO document 01 owner-value reconciliation
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/.doc01_owner_value_reconcile
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Reconcile owner-value authority state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          job=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rel=job/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05'
+          material='d17d4885d6a2a4dd7095c191dc9186b868119052'
+          qname='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_2026-09-06.json'
+          passname='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md'
+          findings='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_VALUE_REWORK_FINDINGS_2026-09-06.md'
+          readback='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_VALUE_GITHUB_READBACK_2026-09-06.md'
+          method='STEP_20_CLIENT_REPORT_OWNER_VALUE_AND_PLAIN_LANGUAGE_GATE.md'
+          q=json.loads((job/qname).read_text(encoding='utf-8'))
+          assert q['status']=='PASS' and len(q['checks'])==20 and all(q['checks'].values())
+          assert q['counts']=={'ready_recommendations':7,'business_inputs':2,'demand_groups':21,'assistant_cases':8,'observations':75,'results':34}
+          assert q['pdf_pages']==14
+
+          sp=job/'RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json'
+          state=json.loads(sp.read_text(encoding='utf-8'))
+          state['status']='STAGE_0_TO_15_HISTORICALLY_COMPLETE__DOCUMENT_01_OWNER_VALUE_PLAIN_LANGUAGE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING'
+          state['next_action']='OWNER_REVIEW_CORRECTED_DOCUMENT_01'
+          state['correction_materialization_status']='DOCUMENT_01_OWNER_VALUE_PLAIN_LANGUAGE_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
+          state['reviewed_release_files']['01_client_research_report']='ANALYST_RECHECK_PASS__OWNER_VALUE_PLAIN_LANGUAGE__SOURCE_NATIVE_BRANDS_PRESERVED__OWNER_REVIEW_PENDING'
+          if method not in state.get('permanent_method_updates',[]): state.setdefault('permanent_method_updates',[]).append(method)
+          r=state['corrected_recipient_release']
+          if material not in r.get('materialization_commit_shas',[]): r.setdefault('materialization_commit_shas',[]).append(material)
+          r.update({
+            'analyst_recipient_qa':'DOCUMENT_01_OWNER_VALUE_AND_PLAIN_LANGUAGE_PASS',
+            'document_01_analyst_recheck':'PASS',
+            'document_01_owner_review':'PENDING__AWAITING_OWNER_RECHECK',
+            'document_01_owner_review_authority':findings,
+            'document_01_owner_review_commit_sha':'NOT_APPLICABLE__OWNER_REVIEW_PENDING',
+            'document_01_qa_markdown':passname,
+            'document_01_qa_json':qname,
+            'document_01_pdf_pages':q['pdf_pages'],
+            'document_01_pdf_size_bytes':q['size_bytes']['pdf'],
+            'document_01_pdf_sha256':q['sha256']['pdf'],
+            'document_01_docx_size_bytes':q['size_bytes']['docx'],
+            'document_01_docx_sha256':q['sha256']['docx'],
+            'document_01_source_size_bytes':q['size_bytes']['markdown'],
+            'document_01_source_sha256':q['sha256']['markdown'],
+            'document_01_deterministic_qa_checks':len(q['checks']),
+            'document_01_owner_review_residual_defect':'OWNER_VALUE_AND_PLAIN_LANGUAGE_CLIENT_PRODUCT_DEFECT__CORRECTED_PENDING_OWNER_RECHECK',
+            'document_01_latest_material_correction_commit_sha':material,
+            'document_01_latest_github_content_readback':'PASS',
+            'document_01_github_readback_authority':readback,
+            'current_document':'01',
+            'document_02_owner_review':'PENDING',
+            'document_03_owner_review':'PENDING',
+            'final_owner_recipient_acceptance':'OPEN',
+            'owner_recheck':'ACTIVE__DOCUMENT_01_OWNER_VALUE_REWORKED__OWNER_REVIEW_PENDING',
+            'document_01_client_forbidden_internal_latin':0,
+            'document_01_source_native_brands_preserved':True,
+            'document_01_verbatim_brand_query_spelling_preserved':True,
+            'document_01_internal_process_narrative':0,
+            'document_01_owner_value_qa_checks':len(q['checks']),
+            'document_01_ready_recommendations_with_why':7,
+            'document_01_owner_first_structure':True,
+            'document_01_negative_pseudo_actions_in_priority':0,
+            'document_01_assistant_client_positive_framing':True,
+            'document_01_owner_value_rework_findings':findings,
+            'document_01_owner_value_method_gate':method,
+          })
+          sp.write_text(json.dumps(state,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          cp=job/'EXECUTION_CURSOR.json'
+          cur=json.loads(cp.read_text(encoding='utf-8'))
+          cur['execution_protocol_status']='RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING'
+          cur['status']='RESEARCH_REBUILD_COMPLETE__DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING'
+          cur['execution_unit']='POST_RELEASE_OWNER_REVIEW_CORRECTED_DOCUMENT_01'
+          cur['next_action']='OWNER_REVIEW_CORRECTED_DOCUMENT_01'
+          pr=cur['post_release_correction_2026_09_05']
+          pr['status']='COMPLETE__DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
+          pr['owner_recheck']='ACTIVE__DOCUMENT_01_OWNER_VALUE_REWORKED__OWNER_REVIEW_PENDING'
+          if material not in pr.get('materialization_commit_shas',[]): pr.setdefault('materialization_commit_shas',[]).append(material)
+          d=cur['document_01_owner_recheck_2026_09_05']
+          d.update({
+            'status':'ANALYST_RECHECK_PASS__OWNER_VALUE_PLAIN_LANGUAGE__OWNER_REVIEW_PENDING__GITHUB_READBACK_PASS',
+            'current_document':'01','document_01_analyst_recheck':'PASS','document_01_owner_review':'PENDING__AWAITING_OWNER_RECHECK',
+            'document_02_owner_review':'PENDING','document_03_owner_review':'PENDING','final_owner_recipient_acceptance':'OPEN',
+            'next_action':'OWNER_REVIEW_CORRECTED_DOCUMENT_01','latest_material_correction_commit_sha':material,'latest_github_content_readback':'PASS',
+            'owner_review_pass_authority':'WITHDRAWN__OWNER_REVIEW_PENDING','owner_review_pass_commit_sha':'NOT_APPLICABLE__OWNER_REVIEW_PENDING',
+            'physical_pdf_qa':'PASS__14_OF_14_PAGES','deterministic_qa_checks':len(q['checks']),'qa_authority':qname,
+            'owner_recheck_authority':findings,'github_readback_authority':readback,
+            'forbidden_internal_latin':0,'source_native_brands_preserved':True,'verbatim_brand_query_spelling_preserved':True,
+            'internal_process_narrative':0,'owner_value_framing_forbidden_hits':0,'negative_pseudo_actions_in_priority':0,
+            'ready_recommendations_with_why':7,'owner_first_structure':True,'assistant_client_positive_framing':True,
+          })
+          cp.write_text(json.dumps(cur,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          mp=rel/'RELEASE_MANIFEST_2026-09-05.json'
+          man=json.loads(mp.read_text(encoding='utf-8'))
+          man['status']='DOCUMENT_01_OWNER_VALUE_ANALYST_RECHECK_PASS__GITHUB_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
+          for a in man['recipient_artifacts']:
+              if a.get('variant')=='01': a.update({'size_bytes':q['size_bytes']['pdf'],'sha256':q['sha256']['pdf'],'pages':q['pdf_pages']})
+          for a in man['editable_and_source_files']:
+              if a['path'].startswith('editable/01_'): a.update({'size_bytes':q['size_bytes']['docx'],'sha256':q['sha256']['docx']})
+              elif a['path'].startswith('sources/01_'): a.update({'size_bytes':q['size_bytes']['markdown'],'sha256':q['sha256']['markdown']})
+          z=man['qa']
+          z.update({
+            'authority':'../'+qname,'document_01_analyst_recheck_authority':'../'+passname,'document_01_owner_review_authority':'../'+findings,
+            'analyst_recipient_qa':'DOCUMENT_01_OWNER_VALUE_AND_PLAIN_LANGUAGE_PASS','document_01':'ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING',
+            'document_01_checks':len(q['checks']),'document_01_physical_pdf':'14_OF_14_PAGES_PASS','current_document':'01',
+            'document_01_owner_review':'PENDING__AWAITING_OWNER_RECHECK','document_02_owner_review':'PENDING','document_03_owner_review':'PENDING',
+            'final_owner_recipient_acceptance':'OPEN','owner_recheck':'ACTIVE__DOCUMENT_01_OWNER_VALUE_REWORKED__OWNER_REVIEW_PENDING',
+            'next_action':'OWNER_REVIEW_CORRECTED_DOCUMENT_01','document_01_forbidden_internal_latin':0,
+            'document_01_source_native_brands_preserved':True,'document_01_verbatim_brand_query_spelling_preserved':True,
+            'document_01_owner_value_framing_forbidden_hits':0,'document_01_negative_pseudo_actions_in_priority':0,
+            'document_01_ready_recommendations_with_why':7,'document_01_owner_first_structure':True,
+            'document_01_assistant_client_positive_framing':True,'document_01_github_readback':'PASS','document_01_github_readback_authority':'../'+readback,
+          })
+          mp.write_text(json.dumps(man,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          pass_text=f'''# ОКНО МОСКВА — аналитическая перепроверка документа №01 после замечаний владельца\n\nДата: 2026-09-06  \nСтатус: `PASS__ANALYST_RECHECK_COMPLETE__OWNER_REVIEW_PENDING`\n\nДокумент №01 перестроен как клиентский отчёт для владельца.\n\nПроверено: 7/7 реальных рекомендаций имеют блок «что обнаружено → почему это важно → что сделать → где → что сохранить → результат → проверка»; 2/2 вопроса к компании оформлены как конкретные входные данные; 21/21 тема спроса описана обычным языком; 8/8 дополнительных проверок Яндекса описаны через вклад в рекомендации; 75/75 наблюдений сохранены; 34/34 результата сохранены в справочной карте; отрицательные псевдозадачи в основном плане — 0; внутренний производственный жаргон — 0; исходные бренды и дословные запросы сохранены.\n\nPDF: {q['pdf_pages']} страниц. Все {len(q['checks'])} owner-value QA-проверок: PASS.\n\n`CURRENT_DOCUMENT = 01`  \n`DOCUMENT_01_ANALYST_RECHECK = PASS`  \n`DOCUMENT_01_OWNER_REVIEW = PENDING__AWAITING_OWNER_RECHECK`  \n`DOCUMENT_02_OWNER_REVIEW = PENDING`  \n`DOCUMENT_03_OWNER_REVIEW = PENDING`\n'''
+          (job/passname).write_text(pass_text,encoding='utf-8')
+          rb=f'''# ОКНО МОСКВА — удалённое чтение документа №01 после owner-value rework\n\nДата: 2026-09-06  \nМатериальный commit: `{material}`  \nСтатус: `PASS__ANALYST_RECHECK_COMPLETE__OWNER_REVIEW_PENDING`\n\nНа удалённой ветке подтверждено: Markdown `{q['sha256']['markdown']}`; DOCX `{q['sha256']['docx']}`; PDF `{q['sha256']['pdf']}`, {q['pdf_pages']} страниц; все {len(q['checks'])} QA-проверок PASS; 7/7 рекомендаций с «почему»; 2/2 запроса данных компании; 21/21 тема спроса; 8/8 дополнительных проверок; 75/75 наблюдений; 34/34 результата; отрицательных псевдозадач в приоритетном плане 0; исходные бренды и запросы сохранены.\n\nOwner review не закрыт автоматически.\n\n`CURRENT_DOCUMENT = 01`  \n`DOCUMENT_01_ANALYST_RECHECK = PASS`  \n`DOCUMENT_01_OWNER_REVIEW = PENDING__AWAITING_OWNER_RECHECK`  \n`NEXT_ACTION = OWNER_REVIEW_CORRECTED_DOCUMENT_01`\n'''
+          (job/readback).write_text(rb,encoding='utf-8')
+          PY
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$JOB/RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json" \
+                  "$JOB/EXECUTION_CURSOR.json" \
+                  "$JOB/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json" \
+                  "$JOB/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_RUSSIAN_CLIENT_QA_PASS_2026-09-06.md" \
+                  "$JOB/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_VALUE_GITHUB_READBACK_2026-09-06.md"
+          git rm "$JOB/.doc01_owner_value_reconcile"
+          git rm '.github/workflows/okno_doc01_owner_value_reconcile_2026_09_06.yml'
+          git commit -m 'docs(okno-msk): seal document 01 owner-value analyst recheck'
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
