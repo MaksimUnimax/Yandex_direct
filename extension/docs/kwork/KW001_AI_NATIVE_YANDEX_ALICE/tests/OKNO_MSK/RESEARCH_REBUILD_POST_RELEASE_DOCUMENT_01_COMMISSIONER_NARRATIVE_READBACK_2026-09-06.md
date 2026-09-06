@@ -14,7 +14,7 @@ Document №01 was rebuilt from the commissioner-facing Markdown source, generat
 
 Successful rebuild workflow: `34030094115`.
 
-Physical persistence commit: `fc69dde2` (workflow persistence commit; full SHA is available in branch history).
+Physical persistence commit: `fc69dde281ab9271a0c095de8b3c7052e61bf816`.
 
 The workflow passed all material steps, including the pre-build byte freeze for Documents №02/№03 and the post-commit `DOCUMENT_02_03_UNTOUCHED_PASS` check.
 
