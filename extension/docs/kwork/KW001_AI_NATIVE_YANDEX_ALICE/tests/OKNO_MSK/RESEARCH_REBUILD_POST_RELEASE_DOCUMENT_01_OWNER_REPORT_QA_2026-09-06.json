@@ -1,33 +1,56 @@
 {
-  "status": "PASS",
+  "status": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "scope": "DOCUMENT_01_ONLY",
   "checks": {
-    "ordinary_labels_8": true,
-    "generative_labels_8": true,
-    "site_meaning_labels_8": true,
-    "seven_recommendations_have_why": true,
-    "official_generative_yandex_visible": true,
-    "alice_technology_visible": true,
-    "demand_groups_21": true,
+    "exact_client_title_ordinary_output_and_alice_output": true,
+    "client_surface_term_is_vydacha_not_search_process": true,
+    "alice_single_client_facing_label": true,
+    "forbidden_client_aliases_absent": true,
+    "alice_stage_described_as_complete_scope": true,
+    "alice_selection_25_to_8_explained": true,
+    "alice_design_6_decision_sensitive_plus_2_controls_explained": true,
+    "alice_16_rejected_plus_1_hold_accounted": true,
+    "exact_scope_counts_2840_2313_168_75_25_8_34_visible": true,
+    "scope_count_relationship_explained": true,
+    "vague_whole_array_wording_absent": true,
     "ordinary_yandex_rows_75": true,
-    "research_results_rows_34": true,
-    "forbidden_internal_terms_absent": true,
-    "brands_and_source_spellings_preserved": true,
-    "docx_core_content_present": true,
-    "pdf_core_content_present": true,
-    "docx_forbidden_terms_absent": true,
-    "pdf_forbidden_terms_absent": true
+    "alice_cases_8": true,
+    "seven_recommendations_have_finding_why_change_location_preserve_target_check": true,
+    "exhaustive_21_item_no_action_routing_removed_from_main_report": true,
+    "exhaustive_34_item_result_dump_removed_from_main_report": true,
+    "34_result_authority_preserved_as_structured_reference": true,
+    "two_company_fact_requests_visible": true,
+    "docx_render_visual_qa_10_of_10_pages": true,
+    "pdf_preflight_openable_not_encrypted_10_pages": true,
+    "pdf_render_visual_qa_10_of_10_pages": true,
+    "document_02_not_modified": true,
+    "document_03_not_modified": true,
+    "provider_calls_during_rebuild_zero": true
   },
   "counts": {
-    "generative_comparison_cases": 8,
-    "priority_recommendations": 7,
-    "company_fact_requests": 2,
-    "demand_groups": 21,
+    "accepted_queries": 2840,
+    "assigned_queries": 2313,
+    "user_tasks": 168,
     "ordinary_yandex_observations": 75,
+    "alice_selection_candidates_reviewed": 25,
+    "alice_cases_selected": 8,
+    "alice_decision_sensitive_cases": 6,
+    "alice_stability_controls": 2,
+    "alice_candidates_rejected": 16,
+    "alice_candidates_held": 1,
     "research_result_rows": 34,
-    "pdf_pages": 12
+    "ready_recommendations": 7,
+    "company_fact_requests": 2,
+    "pdf_pages": 10
   },
-  "forbidden_hits": {},
-  "preserved_brand_spellings": [
+  "forbidden_client_terms_checked": [
+    "генеративный поиск",
+    "нейросетевой поиск",
+    "Алиса/ИИ",
+    "AI",
+    "весь массив"
+  ],
+  "preserved_source_native_spellings": [
     "REHAU",
     "Provedal",
     "KBE",
@@ -38,9 +61,15 @@
     "rehau thermo"
   ],
   "sha256": {
-    "md": "6aa0366727c094d48fda0baee7b8ee68dde337e2cfb4cb09fc4d2bb728a9e040",
-    "docx": "73b3a9f548a56ef32bb1367aea9c67fd34ce5ae18d324d7337ede7fd2ac0c9bd",
-    "pdf": "97a6a82cab023f0175ad74b2823134b5d427798c65506dcef35e5f550f39f38a"
+    "md": "105ff37bd98afec875986b79c8d9220b074bc6118e40a61d3190ce1357702742",
+    "docx": "11f19d758f7445035c6d756e9b126fb9602f3a7519b7693c4e359a379a5ab844",
+    "pdf": "7040c7a9d25266002c7bce7104c399d6c50e94d130ebe8e20ff7fe4a755103fb"
   },
+  "size_bytes": {
+    "md": 47941,
+    "docx": 52381,
+    "pdf": 216609
+  },
+  "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
   "provider_calls_during_rebuild": 0
 }
