@@ -69,6 +69,25 @@ jobs:
         run: |
           python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_commissioner_recipient_qa.py
 
+      - name: Prepare visual QA artifact
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          REL="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          OUT=/tmp/report01_visual_qa
+          rm -rf "$OUT" && mkdir -p "$OUT"
+          pdftoppm -png -r 140 "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf" "$OUT/page"
+          cp "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf" "$OUT/"
+          cp "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx" "$OUT/"
+          cp "$REL/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md" "$OUT/"
+
+      - name: Upload visual QA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: okno-msk-report01-final-visual-qa
+          path: /tmp/report01_visual_qa
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Persist corrected Document 01 material only
         run: |
           git config user.name "github-actions[bot]"
