@@ -1,10 +1,13 @@
-2026-09-06 Report 01 final owner-review wording rerun
+2026-09-06 Report 01 final customer-contract rerun
 Scope: DOCUMENT_01_ONLY
-Research object: search/semantic core, search demand and query-to-page distribution.
-User intent: grouping criterion only, not the research object.
-2,840: unique formulations after deduplication, not 2,840 exact-frequency measurements.
-Wordstat: explicitly state broad collection without exact-frequency operators; preserve row-level count semantics.
-Alice: explicitly position the tested Yandex Search surface as a generative answer based on Alice technologies.
-Apply all nine owner-review language/value corrections and regenerate source, DOCX, PDF, QA, manifest, authoritative state and remote readback.
+Add site URL to title.
+Use search phrases, not raw row terminology, in customer text.
+Explain Wordstat demand/frequency work in Russian; no internal English field names.
+Do not claim the site core was fully rebuilt when the research conclusion is that full rebuild is unnecessary.
+Explain Alice selection causally: completed core analysis -> ordinary Yandex validation -> 25 candidate themes -> 8 selected checks.
+Use stable customer term: выдача Алисы.
+Summarize already-correct site structure without cataloguing a few example pages.
+Remove the raw appendix of 75 ordinary-Yandex observations from Report 01; preserve those observations only in internal evidence.
+Regenerate source, DOCX, PDF, QA, manifest, authoritative state and remote readback.
 Do not advance Document 02 or Document 03.
 No new provider calls.
