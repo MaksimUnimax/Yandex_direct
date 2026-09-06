@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Updated: 2026-09-05  
+Updated: 2026-09-06  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This index records **permanent methodology coverage**, not the progress/result of any current client job.
@@ -75,7 +75,7 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 | Step 17 | Search-vs-AI comparison | **APPROVED / ACTIVE** | `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md` — exact-query/family and temporal scope explicit; architecture/content separate; every case preserves selection rationale, frozen baseline, comparison, verdict and exact downstream action or explicit no-action; supported `NO_CHANGE/DE_RISK` remains a client-visible result. |
 | **Step 18** | **Prioritization / implementation readiness** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md` + `STEP_18_EXECUTION_TICKET_COMPLETENESS_GATE.md`** — ideal priority != production schedule; accounting batch != work package; analytical action/route != executable website ticket; every READY package needs explicit implementation mode, mode-specific location/detail, evidence meaning + locator and recipient-language compliance. |
 | **Step 19** | **Client deliverables** | **UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL** | **`STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md` + `STEP_19_RECIPIENT_ARTIFACT_COMPLETENESS_GATE.md`** — one current semantic/action truth feeds all views, but package-wide completeness != recipient-artifact completeness; executive summary != full research report; aggregate Search/AI counts != client-visible research; correct database != client-usable workbook. Fresh full-method validation remains required. |
-| **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md` + `STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md`** — physical, semantic and product QA remain distinct; additionally each promised recipient artifact needs its own depth/language/usability/executability QA; package-wide PASS != recipient-specific PASS; analyst assurance != owner/commissioner acceptance. |
+| **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_20_FINAL_QA_AND_RELEASE_ASSURANCE_METHOD.md` + `STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md` + `STEP_20_CLIENT_REPORT_OWNER_VALUE_AND_PLAIN_LANGUAGE_GATE.md`** — physical, semantic and product QA remain distinct; each promised artifact needs recipient-specific depth/language/usability QA; the sold product identity and AI/neural-search differentiator must be client-visible when in contract; selected Search/AI checks must be explained against the full research scope with selection rationale; each section must clearly distinguish completed findings from recommendations/future inputs; package-wide PASS != recipient-specific PASS; analyst assurance != owner/commissioner acceptance. |
 | Step 21 | Handoff / revisions | **UNVALIDATED AS PERMANENT METHOD** | Must define revision scope, version truth, evidence update and acceptance boundaries. |
 | Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Close only after deliverables, revisions and pending provider/operator actions are finished. |
 
@@ -177,9 +177,13 @@ EXECUTIVE SUMMARY != FULL RESEARCH REPORT
 CORRECT DATABASE != CLIENT-USABLE WORKBOOK
 RENDER PASS != WORKBOOK-USABILITY PASS
 ANALYST ASSURANCE PASS != OWNER / COMMISSIONER ACCEPTANCE
+SOLD PRODUCT IDENTITY IN METHOD != SOLD PRODUCT IDENTITY VISIBLE TO CLIENT
+TARGETED SEARCH / AI CHECK COUNT != EXPLANATION OF FULL WORK SCOPE
+SELECTED AI CASES != SELF-EXPLANATORY AI VALUE
+RESULT MAP != CLIENT KNOWS WHETHER IT IS ALREADY DONE OR A FUTURE TASK
 ```
 
-A recipient-facing report must expose the material research at the depth promised; a specialist guide must resolve the actual implementation mode; and final QA must evaluate each promised artifact against its own recipient contract rather than allowing another package artifact to silently supply missing depth.
+A recipient-facing report must expose the material research at the depth promised; explain the full completed work before presenting selected validation subsets; make the AI/neural-search differentiator visible when it is part of the sold product; explain why Search/AI subsets were selected from the full scope; clearly distinguish completed findings from actions the client still needs to perform; a specialist guide must resolve the actual implementation mode; and final QA must evaluate each promised artifact against its own recipient contract rather than allowing another package artifact to silently supply missing depth.
 
 ---
 
