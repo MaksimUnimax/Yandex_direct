@@ -1,0 +1,48 @@
+name: OKNO document 01 recipient QA diagnostic
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/.doc01_src/DIAG
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+      - name: Reconstruct scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'; SRC="$JOB/.doc01_src"
+          cat "$SRC"/gen_*.b64 | base64 -d | gzip -dc > "$JOB/tools/post_release_correction/generate_document_01_client_ru.py"
+          cat "$SRC"/qa_*.b64 | base64 -d | gzip -dc > "$JOB/tools/post_release_correction/qa_document_01_client_ru.py"
+          echo '3595242db56d6aa7f923e20e3ad012c6876da10d344c3dffcb39785e308079c3  '"$JOB"'/tools/post_release_correction/generate_document_01_client_ru.py' | sha256sum -c -
+          echo '9ec668a595f7bd56a48adba8b3aa5c914f384525b78f484d63e4807ca7a2661f  '"$JOB"'/tools/post_release_correction/qa_document_01_client_ru.py' | sha256sum -c -
+      - name: Build and print QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK'; RELEASE="$JOB/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          python -m pip install --quiet python-docx pypdf
+          if ! command -v libreoffice >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq libreoffice-writer fonts-liberation >/dev/null; fi
+          python "$JOB/tools/post_release_correction/generate_document_01_client_ru.py" >/tmp/gen.json
+          rm -f "$RELEASE/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
+          libreoffice --headless --convert-to pdf --outdir "$RELEASE" "$RELEASE/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx" >/tmp/lo.txt 2>&1
+          set +e
+          python "$JOB/tools/post_release_correction/qa_document_01_client_ru.py" --markdown "$RELEASE/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md" --docx "$RELEASE/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx" --pdf "$RELEASE/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf" --visual-pages-pass 14 >/tmp/qa.json
+          rc=$?
+          set -e
+          echo QA_RETURN_CODE=$rc
+          cat /tmp/qa.json
+          python - <<'PY'
+          from pypdf import PdfReader
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf')
+          print('REMOTE_PDF_PAGES=',len(PdfReader(str(p)).pages))
+          print('REMOTE_PDF_BYTES=',p.stat().st_size)
+          PY
