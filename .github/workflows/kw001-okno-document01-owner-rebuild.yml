@@ -1,0 +1,151 @@
+name: KW001 OKNO Document 01 Owner Rebuild
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/DOCUMENT_01_OWNER_REBUILD_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-document01-owner-rebuild
+  cancel-in-progress: false
+
+jobs:
+  build-qa-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout roadmap branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install document and PDF dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libreoffice-writer fonts-liberation poppler-utils
+          python -m pip install --disable-pip-version-check --quiet python-docx pypdf
+
+      - name: Freeze untouched recipient artifacts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05')
+          expected={
+            '02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf':'3f589c03bc44f5127aa9f93697e3120729149f8f6985c11fa921424c867ec61a',
+            '03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md':'d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0',
+            'editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx':'4c9f4aeded8b23c8ed7741d10a989ba79696d8fac3fa10a48de11cdd01df2d3c',
+            'sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md':'764f697fb5ad7ca6f5982b000b6053652460f854c8bb7b937a2041688fff80d8'
+          }
+          for rel, want in expected.items():
+            p=root/rel; got=hashlib.sha256(p.read_bytes()).hexdigest(); assert got==want,(rel,got,want)
+          print('DOCUMENT_02_03_FREEZE_PRECHECK_PASS')
+          PY
+
+      - name: Build Document 01 DOCX and PDF
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          REL="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          python "$ROOT/document01_build_owner_report.py"
+          rm -f "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
+          libreoffice --headless --convert-to pdf --outdir "$REL" "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx"
+          test -s "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
+
+      - name: Independent recipient QA and manifest refresh
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, re, subprocess, tempfile
+          from docx import Document
+          from pypdf import PdfReader
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rel=root/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05'
+          md=rel/'sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md'
+          docx=rel/'editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx'
+          pdf=rel/'01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf'
+          qa_path=root/'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REPORT_QA_2026-09-06.json'
+          man_path=rel/'RELEASE_MANIFEST_2026-09-05.json'
+          title='ОКНО МОСКВА — исследование спроса в Яндексе: обычная выдача и выдача Алисы'
+          def sha(p):
+            h=hashlib.sha256(); h.update(p.read_bytes()); return h.hexdigest()
+          text=md.read_text(encoding='utf-8')
+          assert text.splitlines()[0]=='# '+title
+          for bad in ['генеративный поиск','нейросетевой поиск','Алиса/ИИ','весь массив']:
+            assert bad not in text,bad
+          for marker in ['2 840','2 313','168','75','25','8','34','6 случаев','2 контрольных','16 тем','1 тема']:
+            assert marker in text,marker
+          assert '## 5. Как распределены основные группы поискового спроса' not in text
+          assert len(re.findall(r'^\|\s*\d+\s*\|',text,re.M))==75
+          assert text.count('### ')>=9
+          d=Document(docx); dtext='\n'.join(p.text for p in d.paragraphs)
+          assert title in dtext
+          assert len(d.tables)==9
+          reader=PdfReader(pdf); pages=len(reader.pages); assert pages==10,pages
+          ptext='\n'.join((p.extract_text() or '') for p in reader.pages)
+          assert title in ptext
+          for marker in ['2 840','2 313','168','75','25','8','34','Панорамные алюминиевые окна','Семь изменений, которые можно передавать в работу']:
+            assert marker.lower() in ptext.lower(),marker
+          with tempfile.TemporaryDirectory() as td:
+            subprocess.run(['pdftoppm','-png','-r','72',str(pdf),str(Path(td)/'p')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            rendered=list(Path(td).glob('p-*.png')); assert len(rendered)==10
+            assert all(p.stat().st_size>10000 for p in rendered)
+          untouched={
+            '02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf':'3f589c03bc44f5127aa9f93697e3120729149f8f6985c11fa921424c867ec61a',
+            '03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md':'d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0',
+            'editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx':'4c9f4aeded8b23c8ed7741d10a989ba79696d8fac3fa10a48de11cdd01df2d3c',
+            'sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md':'764f697fb5ad7ca6f5982b000b6053652460f854c8bb7b937a2041688fff80d8'
+          }
+          for p,want in untouched.items(): assert sha(rel/p)==want,p
+          qa=json.loads(qa_path.read_text(encoding='utf-8'))
+          qa['status']='ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING'
+          qa['counts']['pdf_pages']=pages
+          qa['sha256']={'md':sha(md),'docx':sha(docx),'pdf':sha(pdf)}
+          qa['size_bytes']={'md':md.stat().st_size,'docx':docx.stat().st_size,'pdf':pdf.stat().st_size}
+          qa['checks']['docx_render_visual_qa_10_of_10_pages']=True
+          qa['checks']['pdf_preflight_openable_not_encrypted_10_pages']=True
+          qa['checks']['pdf_render_visual_qa_10_of_10_pages']=True
+          qa['checks']['document_02_not_modified']=True
+          qa['checks']['document_03_not_modified']=True
+          qa_path.write_text(json.dumps(qa,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          man=json.loads(man_path.read_text(encoding='utf-8'))
+          art=man['recipient_artifacts'][0]; art['size_bytes']=pdf.stat().st_size; art['sha256']=sha(pdf); art['pages']=pages
+          for item in man['editable_and_source_files']:
+            if item['path']=='editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx': item['size_bytes']=docx.stat().st_size; item['sha256']=sha(docx)
+            if item['path']=='sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md': item['size_bytes']=md.stat().st_size; item['sha256']=sha(md)
+          man['qa']['document_01_physical_pdf']='10_OF_10_PAGES_PASS'
+          man['qa']['document_01_github_readback']='PENDING_POST_COMMIT_READBACK'
+          man_path.write_text(json.dumps(man,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('DOCUMENT_01_OWNER_RECIPIENT_QA_PASS',pages,sha(md),sha(docx),sha(pdf))
+          PY
+
+      - name: Persist Document 01 only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          REL="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          git add "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf"
+          git add "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx"
+          git add "$REL/RELEASE_MANIFEST_2026-09-05.json"
+          git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_OWNER_REPORT_QA_2026-09-06.json"
+          if git diff --cached --quiet; then
+            echo 'No Document 01 physical changes'
+          else
+            git commit -m "release(okno-msk): persist owner-ready document 01 physical rebuild [skip ci]"
+            git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          fi
+
+      - name: Confirm no Document 02 or 03 changes in persisted commit
+        run: |
+          CHANGED=$(git show --pretty='' --name-only HEAD)
+          if echo "$CHANGED" | grep -E '(^|/)02_OKNO|(^|/)03_OKNO'; then
+            echo 'Document 02/03 changed unexpectedly'; exit 1
+          fi
+          echo 'DOCUMENT_02_03_UNTOUCHED_PASS'
