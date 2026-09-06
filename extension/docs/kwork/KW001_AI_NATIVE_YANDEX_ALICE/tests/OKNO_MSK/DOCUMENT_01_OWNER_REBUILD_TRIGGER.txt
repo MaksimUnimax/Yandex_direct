@@ -1,6 +1,6 @@
-2026-09-06 Report 01 final customer-contract polish rerun
+2026-09-06 Report 01 final visual-QA artifact rerun
 Scope: DOCUMENT_01_ONLY
-All prior final-contract corrections remain mandatory.
-Fix final grammar and regenerate source, DOCX, PDF, QA, manifest, state and readback.
+No content changes intended beyond already accepted final customer-contract corrections.
+Rebuild and upload final PDF/DOCX/MD plus rendered pages for visual inspection.
 Do not advance Document 02 or Document 03.
 No new provider calls.
