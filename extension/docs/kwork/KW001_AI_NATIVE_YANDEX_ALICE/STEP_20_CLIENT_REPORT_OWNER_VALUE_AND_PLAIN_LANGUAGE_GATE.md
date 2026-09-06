@@ -256,6 +256,14 @@ INTERNAL_QUERY_FAMILY_OR_CAUSAL_TAXONOMY_EXPOSED_AS_CLIENT_STRUCTURE
 SEARCH_OR_AI_METHOD_EXPLAINED_IN_PROVIDER/PROJECT JARGON
 SOURCE_NATIVE_BRAND_OR_VERBATIM_QUERY_TRANSLITERATED WITHOUT CONTRACTUAL REASON
 CLIENT_MUST_UNDERSTAND_INTERNAL_RESEARCH_PROCESS TO UNDERSTAND A RECOMMENDATION
+SOLD_PRODUCT_DIFFERENTIATOR_ABSENT_FROM_TITLE_OR_FIRST_SCREEN_WHEN_CORE_TO_CONTRACT
+UNEXPLAINED_AI_OR_NEURAL_SEARCH_TERM_IN_CLIENT_PROSE
+FULL_RESEARCH_WORKFLOW_NOT_EXPLAINED_IN_CLIENT_LANGUAGE
+SUBSET_COUNT_PRESENT_WITHOUT_RELATION_TO_FULL_SCOPE_OR_SELECTION_RATIONALE
+SEARCH_OBSERVATION_COUNT_AMBIGUOUS_AS_TOTAL_DEMAND_SCOPE
+AI_CASE_COUNT_PRESENT_WITHOUT_SELECTION_RATIONALE_OR CLIENT VALUE
+SECTION_DOES_NOT_MAKE_CLEAR WHETHER IT IS A COMPLETED FINDING, CURRENT STATE, RECOMMENDATION OR FUTURE INPUT
+EXECUTION_DATE_OR_INTERNAL_METADATA_DISPLACES CLIENT VALUE ON THE FIRST SCREEN WITHOUT CONTRACTUAL NEED
 ```
 
 ## 12. PASS gate
@@ -273,6 +281,14 @@ SEARCH_AI_METHOD_SUBORDINATE_TO_CLIENT_CONCLUSION = true
 NO_FALSE_OPPOSITE_GOAL = true
 NO_NEGATIVE_PSEUDO_ACTIONS_IN_MAIN_ACTION_PLAN = true
 SOURCE_NATIVE_BRANDS_AND_VERBATIM_EVIDENCE_PRESERVED = true
+SOLD_PRODUCT_IDENTITY_VISIBLE = true
+AI_NEURAL_SEARCH_VALUE_VISIBLE_WHEN_PRODUCT_DIFFERENTIATOR = true
+FULL_WORK_NARRATIVE_EXPLAINED_IN_CLIENT_LANGUAGE = true
+EACH_MATERIAL_SUBSET_COUNT_EXPLAINED_AGAINST_FULL_SCOPE = true
+SEARCH_VALIDATION_SUBSET_RELATION_TO_FULL_DEMAND_EXPLAINED = true
+AI_CASE_SELECTION_RATIONALE_VISIBLE = true when AI subset exists
+SECTION_COMPLETION_STATE_UNAMBIGUOUS = true
+FIRST_SCREEN_METADATA_DOES_NOT_DISPLACE_CLIENT_VALUE = true
 OWNER_WALKTHROUGH = PASS
 ```
 
@@ -281,5 +297,171 @@ OWNER_WALKTHROUGH = PASS
 The purpose is to prevent a technically correct research package from becoming an unsellable or confusing client document.
 
 Step 19 must materialize the research into owner language. Step 20 must verify the report as a client product, not as an analyst reading their own work.
+
+## 14. Sold-product identity must be visible, not inferred
+
+The report title, subtitle and first client-facing screen must reflect the actual sold product promise. A material product differentiator must not disappear behind a generic title such as "search research", "site audit" or "demand analysis".
+
+When AI / neural-search / assistant evidence is a core part of the sold method, the client must see that role immediately in ordinary client vocabulary.
+
+```text
+INTERNAL PROJECT NAME CONTAINS AI
+!= CLIENT CAN SEE AI VALUE
+
+AI SECTION EXISTS DEEP IN REPORT
+!= SOLD AI DIFFERENTIATOR IS VISIBLE
+```
+
+The first screen must make clear, in client language:
+
+```text
+WHAT WAS RESEARCHED
+WHICH SEARCH / AI SYSTEMS WERE USED WHEN MATERIAL
+WHY THE COMBINATION MATTERS
+WHAT BUSINESS / SITE DECISIONS IT PRODUCED
+```
+
+A report must not rely on the client knowing an internal project code or repository name to understand what they bought.
+
+## 15. Client terminology for AI / neural search
+
+Words such as "generative", "LLM", "AI surface" or product-internal mode names are not assumed to be client vocabulary.
+
+If a specialist term is materially useful, immediately translate it into ordinary language, for example:
+
+```text
+NEURAL-NETWORK SEARCH / SEARCH WITH AI
+AN AI-GENERATED ANSWER IN YANDEX
+YANDEX SEARCH USING ALICE TECHNOLOGIES
+AN ALICE-BASED AI ANSWER
+```
+
+Use the product/surface name only after the ordinary-language meaning is clear.
+
+```text
+SPECIALIST LABEL FIRST, EXPLANATION LATER = FAIL
+ORDINARY CLIENT MEANING FIRST, OPTIONAL TECHNICAL NAME SECOND = PASS
+```
+
+The report must use the vocabulary a non-specialist client is likely to know. Technical precision must be preserved without forcing the client to learn internal terminology.
+
+## 16. Explain the whole completed work before presenting selected checks
+
+A full research report must explain the complete work performed, not only expose selected evidence counts and final recommendation cards.
+
+Before selected Search or AI checks are presented, the client must be able to reconstruct the completed work in ordinary language, with an equivalent chain such as:
+
+```text
+BUSINESS / SITE SCOPE STUDIED
+→ FULL DEMAND SET COLLECTED / ANALYZED
+→ PHRASES GROUPED BY USER TASK
+→ EXISTING PAGES MATCHED TO THOSE TASKS
+→ AMBIGUOUS / DECISION-CRITICAL CASES CHECKED IN ORDINARY SEARCH
+→ SELECTED HIGH-VALUE CASES CHECKED WITH AI / NEURAL SEARCH
+→ SEARCH AND AI RESULTS COMPARED
+→ PAGE ROLES / CONTENT NEEDS DECIDED
+→ PRACTICAL RECOMMENDATIONS PRODUCED
+```
+
+The exact sequence may vary by job, but the client must understand what was actually completed and how one stage led to the next.
+
+A list of counts without this causal narrative does not satisfy a full research-report promise.
+
+## 17. Every subset count must explain its denominator, selection rule and purpose
+
+Whenever the report exposes a subset of a larger research universe, it must answer three questions in the same section or immediately before it:
+
+```text
+1. SUBSET OF WHAT FULL SCOPE?
+2. WHY WERE THESE CASES SELECTED?
+3. WHAT DECISION DID THIS SUBSET HELP MAKE OR VERIFY?
+```
+
+Examples include:
+
+```text
+MANUALLY CHECKED SEARCH QUERIES
+AI / NEURAL-SEARCH CASES
+DEEP-DIVE PAGE CASES
+PRIORITY THEMES
+REPRESENTATIVE EXAMPLES
+```
+
+The report must not make a targeted validation subset look like the total amount of research performed.
+
+```text
+TARGETED OBSERVATIONS
+!= TOTAL DEMAND ANALYZED
+
+SELECTED DEEP CHECKS
+!= ONLY CASES STUDIED
+```
+
+If the full semantic/demand universe was processed systematically but only a smaller set received exact manual Search observations, say so explicitly and explain the selection logic.
+
+## 18. AI-case selection and AI value must both be explained
+
+When AI / neural-search checks are intentionally selective, the client report must not merely state the number of cases.
+
+It must explain, in ordinary language:
+
+```text
+WHY AI WAS NOT RUN AS A MEANINGLESS REPETITION FOR EVERY PHRASE
+HOW THE CASES WERE CHOSEN
+WHAT KIND OF UNCERTAINTY OR DECISION EACH CHECK COULD AFFECT
+WHAT THE AI ANSWER ADDED TO ORDINARY SEARCH
+WHAT IT CONFIRMED, CHANGED OR LEFT UNCHANGED
+HOW THE RESULT AFFECTED THE SITE RECOMMENDATION
+```
+
+Valid selection logic can include cases where AI could materially:
+
+```text
+CHANGE A PAGE DECISION
+CONFIRM A RISKY / AMBIGUOUS DECISION
+REVEAL A USER-EXPLANATION NEED NOT CLEAR FROM ORDINARY RESULTS
+TEST WHETHER TWO CLOSE PAGE ROLES REMAIN DISTINCT
+SHOW THAT THE PRE-AI DECISION SHOULD REMAIN UNCHANGED
+```
+
+If AI / Alice / neural-search analysis is a central product differentiator, its contribution must be visible in the title/first screen, method explanation, detailed evidence and final conclusions — not isolated in one technical subsection.
+
+## 19. Every section must make clear: completed result, current state, recommendation or future input
+
+A non-specialist client must never have to guess whether a section describes:
+
+```text
+WHAT THE RESEARCH ALREADY DETERMINED
+WHAT THE SITE ALREADY HAS
+WHAT THE CLIENT SHOULD CHANGE NOW
+WHAT NEEDS ONE MISSING FACT BEFORE A FUTURE CHANGE
+WHAT IS ONLY AN EXPLANATORY MAP / REFERENCE
+```
+
+A heading such as "how demand is distributed" is insufficient by itself when the client cannot tell whether this is a completed analytical result or a task they are expected to perform.
+
+Each map, catalogue or grouped result must include a plain-language lead-in equivalent to:
+
+```text
+WE HAVE ALREADY DETERMINED THIS DURING THE RESEARCH
+THIS SECTION SHOWS THE RESULT, NOT A NEW TASK
+USE IT TO UNDERSTAND WHICH EXISTING PAGE SHOULD ANSWER EACH USER NEED
+ONLY ITEMS EXPLICITLY MARKED AS RECOMMENDATIONS REQUIRE SITE CHANGES
+```
+
+This distinction is mandatory throughout the document.
+
+## 20. Client-facing metadata must not replace product explanation
+
+Dates, version labels, internal document status and production metadata may be retained where contractually or operationally useful, but they must not occupy prime narrative space on the first screen at the expense of explaining the product and result.
+
+Prefer metadata in a compact secondary location such as a footer, document-properties block, filename, version block or final reference section when a prominent date adds no client value.
+
+```text
+DOCUMENT HAS A DATE
+!= DATE SHOULD LEAD THE CLIENT NARRATIVE
+```
+
+The first screen belongs to the sold product, research purpose, important evidence sources and useful result.
 
 This file follows `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
