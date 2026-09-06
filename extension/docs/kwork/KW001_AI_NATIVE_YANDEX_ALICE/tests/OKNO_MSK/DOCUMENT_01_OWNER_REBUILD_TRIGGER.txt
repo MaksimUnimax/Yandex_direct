@@ -1,1 +1,1 @@
-2026-09-06T10:40Z owner-directed Document 01 surface/scope/actionability rebuild
+2026-09-06T10:43Z owner-directed Document 01 surface/scope/actionability rebuild retry after PDF text-normalization QA fix
