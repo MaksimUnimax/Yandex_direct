@@ -47,7 +47,6 @@ Latin/English is allowed only when it is genuinely necessary and comes from an e
 - official product or brand name;
 - direct URL;
 - official API/method/field name when the technical identifier itself is material;
-- filename or stable source identifier in a clearly secondary technical traceability field;
 - a professional term that is explicitly used by the current authoritative source and has no clearer Russian replacement for the recipient task.
 
 A project-internal code does **not** become an allowed professional term merely because the recipient is a specialist.
@@ -64,7 +63,12 @@ P1_HIGH
 REAL_SITE_CHANGE
 ```
 
-These may remain in internal authorities, but the client report must present their meaning in Russian. If technical traceability is genuinely needed, the raw code may appear only secondarily after the Russian meaning and must not structure the document.
+These may remain in internal authorities and QA, but they must not appear in the client report at all. The same prohibition applies to project action IDs, source filenames and QA references even when they are labelled as technical detail.
+
+```text
+CLIENT REPORT = NO PROJECT-INTERNAL ACTION IDS / FILENAMES / QA IDS
+INTERNAL TRACEABILITY BELONGS IN PROJECT EVIDENCE
+```
 
 ```text
 SPECIALIST RECIPIENT != PERMISSION TO DUMP INTERNAL SCHEMA
@@ -189,6 +193,10 @@ Example pattern:
 6. Verify the acceptance criteria.
 
 Steps must describe the work, not internal analysis stages.
+
+Every ready action must have its own action-specific sequence. Repeating a generic pattern such as “open page — preserve elements — add material — check limitations — check acceptance” does not satisfy this requirement. The steps must name the verified current headings/blocks, the exact insertion sequence, the content decision already made, the elements to preserve and the item-specific acceptance check. The implementer executes the decision and must not be left to repeat the analysis.
+
+If an action classifies or filters existing objects, the report must supply the actual object-to-category mapping or a complete deterministic mapping rule covering every existing object. Any object that cannot be classified from evidence must have an explicit fallback or make the action not ready.
 
 ### 5.7 Example of how the result may look
 
@@ -411,7 +419,7 @@ This keeps Report №02 executable rather than enormous.
 
 ---
 
-## 10. Evidence must be explained before technical traceability
+## 10. Evidence must be explained; technical traceability stays in project evidence
 
 A filename such as an internal TSV/JSON/MD artifact is not an explanation of why the action is correct.
 
@@ -422,14 +430,7 @@ Primary client presentation:
 plain-language explanation of the observed evidence and causal conclusion
 ```
 
-Optional secondary traceability:
-
-```text
-Техническая трассировка:
-source filename / stable ID / evidence locator
-```
-
-The specialist should understand the action without opening the internal artifact.
+Source filenames, stable project IDs and QA locators belong only in repository evidence. They are forbidden in the client-facing Markdown, DOCX and PDF. The specialist should understand the action without opening the internal artifact.
 
 ---
 
@@ -582,6 +583,58 @@ The internal method/evidence record should preserve what each source influenced.
 
 **Correct control:** example text is supplied only within the supported factual boundary; otherwise give structure/meaning requirements and explicitly mark missing facts.
 
+### Failure A — internal traceability leaked into client report
+
+**What failed:** the report removed internal status codes but still exposed action IDs, internal filenames and QA references.
+
+**Root cause:** secondary traceability was incorrectly treated as client-useful technical detail.
+
+**Correct control:** the client report contains no project-internal action IDs, filenames or QA IDs. Repository evidence preserves them separately.
+
+### Failure B — generic steps were presented as implementation steps
+
+**What failed:** ready actions repeated nearly the same generic editing sequence.
+
+**Root cause:** structured card completeness was confused with executable detail.
+
+**Correct control:** every ready action has its own action-specific steps and leaves no actual editing sequence for the implementer to infer.
+
+### Failure C — ambiguous placement in a ready action
+
+**What failed:** placement used alternatives such as “before the calculator or request form”, “after disadvantages or in advice” and “after opening methods or profile comparison”.
+
+**Correct control:** a ready implementation has one evidenced placement. If alternatives are all that evidence supports, downgrade the exact-placement claim or obtain a current-page read. Never invent a placement.
+
+### Failure D — implementation analysis was left to the implementer
+
+**What failed:** a filtering action named desired categories but did not map existing portfolio objects to them.
+
+**Correct control:** classification/filtering instructions supply the object-to-category mapping or mark unresolved classification as not ready. The implementer executes the decision and does not repeat the research.
+
+### Failure E — placeholder in a ready implementation example
+
+**What failed:** a ready action contained an unresolved value such as `[дата проверки]`.
+
+**Correct control:** ready client instructions contain no placeholders. Split a safe ready correction from a later evidence-dependent update when fresh facts are required.
+
+### Failure F — numbering implied an implementation sequence
+
+**What failed:** numbering was described as the required implementation order even though analytical priority is not a schedule.
+
+**Correct control:** numbering is navigation and acceptance identification only. Actual sequencing requires owner/implementer calibration with resources, effort and dependencies where relevant.
+
+### Failure G — duplicate link pair hidden by row-count QA
+
+**What failed:** two authority rows produced an indistinguishable repeated source-to-target pair in the client table.
+
+**Correct control:** authority row count is not the same as unique client link decisions. Validate `(source URL, target URL)` uniqueness. Consolidate an identical decision; if the same pair represents distinct contexts, show one pair with multiple reasons or clearly distinguish the subrows.
+
+### Failure H — bibliography did not cover a material evidence surface
+
+**What failed:** the report discussed Alice evidence without a current Alice/Yandex AI methodology or documentation source.
+
+**Correct control:** every material external method or result surface discussed in the report has a current revalidated source when a public source exists. Bibliography completeness is semantic, not merely a minimum item count.
+
 ---
 
 ## 16. Report №02 PASS gate
@@ -594,13 +647,18 @@ DOCUMENT PURPOSE = IMPLEMENTATION GUIDE
 CURRENT EXTERNAL METHOD / SOURCE REVIEW = PASS
 SOURCE LIST FRESHLY REVALIDATED FOR THIS JOB = PASS
 PROJECT-INVENTED CLIENT ENGLISH = 0
-UNEXPLAINED INTERNAL ENUMS = 0
+PROJECT-INTERNAL IDS IN CLIENT REPORT = 0
+PROJECT-INTERNAL FILENAMES IN CLIENT REPORT = 0
+PROJECT-INTERNAL ENUMS IN CLIENT REPORT = 0
+CLIENT PLACEHOLDERS = 0
 READY PHYSICAL CHANGES IDENTIFIABLE = true
 EACH READY CHANGE HAS DIRECT PAGE/OBJECT = true where applicable
 EACH READY CHANGE EXPLAINS CURRENT DEFECT = true
 EACH READY CHANGE EXPLAINS WHY = true
 EACH READY CHANGE HAS EXACT LOCATION = true where evidence supports implementation readiness
 EACH READY CHANGE HAS STEP-BY-STEP ACTION = true
+READY ACTION GENERIC STEP TEMPLATE REUSE = 0
+CLASSIFICATION ACTIONS INCLUDE COMPLETE OBJECT-TO-CATEGORY DECISION = true
 CONTENT CHANGES HAVE SAFE PRACTICAL EXAMPLE = true where evidence allows
 PROPOSED ADDITIONS ARE VISUALLY DISTINGUISHABLE = true
 UNSUPPORTED BUSINESS FACTS IN EXAMPLES = 0
@@ -609,6 +667,8 @@ ACCEPTANCE CRITERIA PRESENT = true
 PARTIAL / BLOCKED ITEMS SEPARATED FROM READY = true
 ANALYTICAL MAPPING SEPARATED FROM PHYSICAL SITE CHANGE = true
 POTENTIAL LINKS WITHOUT EXACT CONTEXT PRESENTED AS READY = 0
+VISIBLE LINK PAIRS UNIQUE OR EXPLICITLY DISTINGUISHED = true
+UNEXPLAINED DUPLICATE VISIBLE LINK PAIRS = 0
 FULL SEMANTIC CORE IS NOT REDUNDANTLY DUMPED INTO ACTION CARDS = true
 EVIDENCE MEANING PRECEDES INTERNAL LOCATOR = true
 ANALYTICAL PRIORITY NOT MISREPRESENTED AS SCHEDULE = true
@@ -616,6 +676,7 @@ NO-CHANGE / PRESERVE FINDINGS VISIBLE = true
 FINAL NUMBERED MATERIALS LIST PRESENT = true
 EACH MATERIAL HAS TITLE + SOURCE + DIRECT URL = true
 MATERIALS LIST CONTAINS ONLY CURRENTLY USED / REVALIDATED SOURCES = true
+BIBLIOGRAPHY COVERS EVERY MATERIAL EXTERNAL METHOD / RESULT SURFACE = true
 NATURAL RUSSIAN TECHNICAL PROSE = true
 GENERATED TEMPLATE FILLER = absent
 OWNER / IMPLEMENTER TASK WALKTHROUGH = PASS
