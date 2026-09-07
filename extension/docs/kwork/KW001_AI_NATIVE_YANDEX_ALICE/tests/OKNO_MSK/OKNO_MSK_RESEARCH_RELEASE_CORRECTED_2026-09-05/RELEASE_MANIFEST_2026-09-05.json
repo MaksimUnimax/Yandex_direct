@@ -18,8 +18,8 @@
       "variant": "01",
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 106700,
-      "sha256": "51fad46db34a1a2c7e547bc319726f65209ae92734ca4163b58d9815d7d90aa9",
+      "size_bytes": 106346,
+      "sha256": "714cf19b18628524f6d2b1f19460b80139f81bf1315b176b1d8480b2598d976c",
       "pages": 7,
       "recipient_contract": "ALICE_NATIVE_KWORK_ANSWER__SEARCH_CORE_FREQUENCY_ORDINARY_YANDEX_ALICE_COMPATIBILITY_AND_ACTIONS__NO_RAW_75_QUERY_DUMP"
     },
@@ -46,8 +46,8 @@
   "editable_and_source_files": [
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
-      "size_bytes": 48936,
-      "sha256": "2212b81251825b13cf7039675fd00a53a8d7ba2c3885bc58ab7d9b1719ac1544"
+      "size_bytes": 48884,
+      "sha256": "d608682e52aecd156a20c9f4f4b2ff721b3881f1d69df79a6c8ab5608bd21896"
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
@@ -56,8 +56,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
-      "size_bytes": 39579,
-      "sha256": "7617753b96948bb85daddc739108a37cab6abdd3db9ae78a3f98186c7d211d29"
+      "size_bytes": 39554,
+      "sha256": "ea908c17d555da4362c49758d093a3a0328ecd33a884dc66e55fdafb89e8fd00"
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
