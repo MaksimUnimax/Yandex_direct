@@ -1,4 +1,4 @@
-2026-09-07 Report 01 client-language correction
+2026-09-07 Report 01 client-language correction — rerun
 Scope: DOCUMENT_01_ONLY
 Only client-text correction: remove internal marketplace/product term Kwork/кворк and replace the opening with coherent customer-facing wording.
 Record this leakage as a permanent Report 01 hard-fail rule.
