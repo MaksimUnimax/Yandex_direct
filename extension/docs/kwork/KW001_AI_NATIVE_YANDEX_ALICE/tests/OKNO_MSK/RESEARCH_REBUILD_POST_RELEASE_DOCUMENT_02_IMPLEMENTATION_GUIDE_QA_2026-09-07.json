@@ -1,74 +1,47 @@
 {
-  "artifact": "DOCUMENT_02_SPECIALIST_IMPLEMENTATION_GUIDE_SECOND_OWNER_REVIEW_CORRECTION",
+  "artifact": "DOCUMENT_02_SCOPE_FREEZE_REMEDIATION",
   "status": "PASS",
   "owner_review": "PENDING",
   "date": "2026-09-07",
   "counts": {
-    "ready": 7,
-    "partial": 1,
+    "ready": 3,
+    "partial": 5,
     "mapping_only": 46,
     "blocked_recheck": 4,
     "deferred_topics": 20,
     "internal_link_authority_rows": 15,
     "visible_unique_link_decisions": 14,
-    "portfolio_objects_mapped": 224,
     "bibliography": 10,
-    "pdf_pages": 35
+    "pdf_pages": 19
   },
   "language_qa": {
-    "status": "PASS",
-    "per_format": {
-      "markdown": {
-        "ids": 0,
-        "filenames": 0,
-        "enums_or_abbreviations": 0,
-        "placeholders": 0
-      },
-      "docx": {
-        "ids": 0,
-        "filenames": 0,
-        "enums_or_abbreviations": 0,
-        "placeholders": 0
-      },
-      "pdf": {
-        "ids": 0,
-        "filenames": 0,
-        "enums_or_abbreviations": 0,
-        "placeholders": 0
-      }
+    "markdown": {
+      "ids": 0,
+      "filenames": 0,
+      "enums_or_abbreviations": 0,
+      "placeholders": 0
     },
-    "project_internal_ids_in_client_report": 0,
-    "project_internal_filenames_in_client_report": 0,
-    "project_internal_enums_in_client_report": 0,
-    "client_placeholders": 0,
-    "remaining_latin_allowlist": [
-      "URLs",
-      "REHAU/Accado/Vorne/Futurus/Provedal/RAL",
-      "SEO",
-      "Alice AI official product term",
-      "publisher names and exact external titles"
-    ]
+    "docx": {
+      "ids": 0,
+      "filenames": 0,
+      "enums_or_abbreviations": 0,
+      "placeholders": 0
+    },
+    "pdf": {
+      "ids": 0,
+      "filenames": 0,
+      "enums_or_abbreviations": 0,
+      "placeholders": 0
+    }
   },
-  "ready_action_generic_step_template_reuse": 0,
-  "exact_placement": {
-    "Уточнить страницу французских окон": "PASS",
-    "Объяснить выбор размеров окон для частного дома": "PASS",
-    "Добавить практическое объяснение вентиляции при алюминиевом остеклении": "PASS",
-    "Добавить критерии выбора размеров ПВХ-двери": "PASS",
-    "Сделать портфолио удобным для выбора похожей работы": "PASS",
-    "Раскрыть выбор панорамного алюминиевого остекления": "PASS",
-    "Убрать ложную актуальность из рейтинга 2024 года": "PASS"
+  "collection_scope_qa": {
+    "report_stage_new_project_fact_collection": 0,
+    "unauthorized_current_site_recollection_after_clarification": 0,
+    "unauthorized_search_recollection": 0,
+    "unauthorized_wordstat_recollection": 0,
+    "unauthorized_alice_ai_recollection": 0,
+    "post_hoc_report_stage_evidence_used_to_upgrade_readiness": 0
   },
-  "portfolio_category_counts": {
-    "Все работы": 224,
-    "Веранды": 14,
-    "Холодное остекление": 46,
-    "Балконы и лоджии": 116,
-    "Тёплое остекление": 32,
-    "Алюминиевые конструкции": 7,
-    "Панорамное остекление": 13
-  },
-  "duplicate_visible_link_pairs_without_explanation": 0,
   "bibliography_semantic_coverage": {
     "wordstat": true,
     "wordstat_operators": true,
@@ -83,8 +56,8 @@
   "cross_format_equivalence": "PASS",
   "visual_qa": {
     "artifact": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
-    "pdf_sha256": "cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211",
-    "pages_total": 35,
+    "pdf_sha256": "4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a",
+    "pages_total": 19,
     "pages_inspected": [
       1,
       2,
@@ -104,163 +77,209 @@
       16,
       17,
       18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29,
-      30,
-      31,
-      32,
-      33,
-      34,
-      35
+      19
     ],
     "inspection_date_utc": "2026-09-07",
-    "render_method": "Final PDF rendered with pdftoppm at 110 dpi; DOCX independently rendered through LibreOffice by render_docx.py.",
+    "render_method": "Final optimized PDF rendered page-by-page with Poppler at 110 dpi; DOCX independently rendered with render_docx.py and LibreOffice.",
     "checks": {
       "all_pages_rendered": true,
       "no_clipping": true,
       "no_overflow": true,
       "no_broken_tables": true,
       "no_empty_pages": true,
-      "ready_actions_inspected": true,
-      "exact_placement_paragraphs_inspected": true,
-      "action_specific_numbered_steps_inspected": true,
+      "three_ready_actions_inspected": true,
+      "five_partial_actions_inspected": true,
+      "preexisting_exact_placement_claims_inspected": true,
       "bold_proposed_wording_visible": true,
-      "portfolio_mapping_inspected": true,
-      "partial_installation_block_inspected": true,
+      "portfolio_partial_boundary_inspected": true,
+      "partial_installation_boundary_inspected": true,
       "blocked_items_inspected": true,
       "link_table_inspected": true,
       "preserve_section_inspected": true,
       "bibliography_inspected": true,
+      "no_visible_posthoc_portfolio_mapping": true,
       "no_visible_placeholders": true,
-      "no_visible_internal_ids_or_filenames": true,
-      "no_ugly_raw_technical_tokens": true
+      "no_visible_internal_ids_or_filenames": true
     },
     "notes": [
-      "The 224-row portfolio mapping remains continuous and legible across pages 11-20.",
-      "The 46-row semantic mapping table remains continuous and legible across pages 26-30.",
-      "The 14 visible internal-link decisions and ten bibliography items are legible on pages 32-35."
+      "The three ready actions and their preserved-research placement boundaries are legible on pages 2-6.",
+      "All five downgraded partial actions, including the portfolio evidence boundary, are legible on pages 7-9.",
+      "The 46 semantic mappings, four blocked items, 14 visible link decisions, preservation rules and ten bibliography items are legible on pages 9-19."
     ],
     "status": "PASS"
   },
-  "source_freshness": {
-    "status": "PASS",
-    "checked_on": "2026-09-07",
-    "included_items": 10,
-    "checked_urls": 11
-  },
-  "provider_calls": 0,
-  "protected_artifacts_modified": {
-    "document_01": false,
-    "document_03": false,
-    "semantic_core_04": false
-  },
-  "files": {
-    "markdown": {
-      "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-      "sha256": "0d1bb02c5292f7b0f73c5ac83719d0259039d9a4830443be4cc5c4790db4e8a0",
-      "size": 120112
-    },
-    "docx": {
-      "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-      "sha256": "a1dd8709633c96d08daca96f1125da68547bdaf944c278f51e31f6cc19e47a11",
-      "size": 46397
-    },
-    "pdf": {
-      "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
-      "sha256": "cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211",
-      "size": 794418,
-      "pages": 35
-    }
+  "protected_artifacts": {
+    "document_01": true,
+    "document_03": true,
+    "semantic_core_04": true
   },
   "checks": [
     {
-      "name": "ready_action_count",
-      "status": "PASS",
-      "detail": 7
-    },
-    {
-      "name": "ready_action_titles_exact",
+      "name": "section_structure",
       "status": "PASS",
       "detail": null
     },
     {
-      "name": "ready_direct_urls_exact",
+      "name": "ready_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "partial_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "ready_titles",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "partial_titles",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "ready_urls",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "summary_counts",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "preexisting_ready_placement_authority",
+      "status": "PASS",
+      "detail": {
+        "S18-A009": "После вводного определения, до ценовых/конфигурационных блоков.",
+        "S18-A028": "После видов дверных створок, до цен.",
+        "S18-A031": "Раздел «Рейтинг производителей оконных профилей»."
+      }
+    },
+    {
+      "name": "ready_exact_placement_count",
       "status": "PASS",
       "detail": [
-        "https://okno-msk.ru/okna-rehau/francuzskie-okna",
-        "https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom",
-        "https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami",
-        "https://okno-msk.ru/dveri-rehau",
-        "https://okno-msk.ru/nashi-raboty",
-        "https://okno-msk.ru/alyuminievye-okna/",
-        "https://okno-msk.ru/stati/kakie-okna-samye-luchshie"
+        "Непосредственно между существующим вводным определением французского окна и следующей за ним ценовой/конфигурационной частью. Эта граница зафиксирована завершённым исследованием.",
+        "Сразу после существующего блока о видах дверных створок и до блока с ценами. Эта граница зафиксирована завершённым исследованием.",
+        "Внутри существующего раздела «Рейтинг производителей оконных профилей», непосредственно перед сохранённым списком производителей. Раздел и проблемная историческая формулировка зафиксированы завершённым исследованием."
       ]
     },
     {
-      "name": "exact_implementation_location_present",
+      "name": "ready_exact_placements_unambiguous",
       "status": "PASS",
       "detail": [
-        "Сразу после раздела «Особенности французского остекления» и перед разделом «Преимущества панорамных конструкций».",
-        "После раздела «С нами купить окна для частного дома просто» и перед разделом «Калькулятор окон для частного дома».",
-        "После раздела «Недостатки алюминиевых окон» и перед разделом «Советы по остеклению балкона алюминиевым профилем».",
-        "Сразу после раздела «Виды дверных створок» и перед разделом «Фурнитура».",
-        "Непосредственно под заголовком «Наши работы» и перед первой карточкой портфолио; фильтрация должна охватывать все 19 страниц портфолио, а не только открытую страницу списка.",
-        "После раздела «Особенности профилей Provedal» и перед разделом «Выбор цвета по шкале RAL».",
-        "Внутри раздела «Рейтинг производителей оконных профилей»: заменить точную фразу «В этом году рейтинг возглавляют:» непосредственно перед существующим списком производителей."
+        "Непосредственно между существующим вводным определением французского окна и следующей за ним ценовой/конфигурационной частью. Эта граница зафиксирована завершённым исследованием.",
+        "Сразу после существующего блока о видах дверных створок и до блока с ценами. Эта граница зафиксирована завершённым исследованием.",
+        "Внутри существующего раздела «Рейтинг производителей оконных профилей», непосредственно перед сохранённым списком производителей. Раздел и проблемная историческая формулировка зафиксированы завершённым исследованием."
       ]
     },
     {
-      "name": "ambiguous_ready_locations",
+      "name": "posthoc_exact_headings_absent",
       "status": "PASS",
-      "detail": []
+      "detail": null
     },
     {
-      "name": "action_specific_steps_present",
+      "name": "ready_action_specific_steps",
       "status": "PASS",
-      "detail": [
-        7,
-        7,
-        7,
-        7,
-        8,
-        7,
-        7
-      ]
+      "detail": null
     },
     {
       "name": "ready_action_generic_step_template_reuse",
       "status": "PASS",
-      "detail": [
-        "2544762460ca283891a3dd80ee583cb4a5cb132793306e20dfe0a9cfad939953",
-        "562799ead0d98367c1e381f21d8d72c7088f624c66d214e7c17adbb094034dd1",
-        "ac0911cb7e8f57d3cf91f09b3603b29eed80a0cc3d4bfd3e6e629f9c5e36867b",
-        "30f37a0ef4de960356f72204d9f2e9cf914e4287249d1539c99d6c97bea5c7df",
-        "77236ada3deb6e67313edfa72ffdb1bfcf48bd15dc5ab319eb80425c5212cfc8",
-        "1e7c0ec90b945d2c5e38e4a982ea28d8450ae6a41d1308f11c4d9604ba4e6abc",
-        "4327efef704cafded1043ea6b318e5dd74c7cf27efbaa41ec1ce362599a0bd9e"
-      ]
+      "detail": 3
     },
     {
-      "name": "action_specific_current_headings",
+      "name": "ready_bold_examples",
       "status": "PASS",
-      "detail": [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true
-      ]
+      "detail": null
+    },
+    {
+      "name": "numbering_not_schedule",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a029_partial",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "posthoc_portfolio_mapping_absent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a031_no_placeholder",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a012_partial_boundary",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "mapping_only_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "blocked_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "deferred_topics",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "link_authority_rows",
+      "status": "PASS",
+      "detail": 15
+    },
+    {
+      "name": "visible_unique_link_decisions",
+      "status": "PASS",
+      "detail": 14
+    },
+    {
+      "name": "duplicate_visible_link_pairs_without_explanation",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "visible_links_derive_from_authority",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "bibliography_count",
+      "status": "PASS",
+      "detail": 10
+    },
+    {
+      "name": "bibliography_semantic_coverage",
+      "status": "PASS",
+      "detail": {
+        "wordstat": true,
+        "wordstat_operators": true,
+        "targeting": true,
+        "clustering": true,
+        "mapping": true,
+        "intent": true,
+        "cannibalization": true,
+        "internal_links": true,
+        "alice_yandex_ai": true
+      }
+    },
+    {
+      "name": "external_methodology_bibliography_freshness",
+      "status": "PASS",
+      "detail": null
     },
     {
       "name": "project_internal_ids_in_client_report",
@@ -359,122 +378,31 @@
       }
     },
     {
-      "name": "portfolio_authority_object_count",
+      "name": "posthoc_evidence_quarantined",
       "status": "PASS",
-      "detail": 224
+      "detail": null
     },
     {
-      "name": "portfolio_client_object_mapping_count",
+      "name": "posthoc_report_stage_evidence_used_to_upgrade_readiness",
       "status": "PASS",
-      "detail": 224
+      "detail": null
     },
     {
-      "name": "portfolio_category_counts",
+      "name": "report_project_facts_trace_to_preexisting_research_authority",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "report_stage_project_data_recollection_qa",
       "status": "PASS",
       "detail": {
-        "Все работы": 224,
-        "Веранды": 14,
-        "Холодное остекление": 46,
-        "Балконы и лоджии": 116,
-        "Тёплое остекление": 32,
-        "Алюминиевые конструкции": 7,
-        "Панорамное остекление": 13
+        "report_stage_new_project_fact_collection": 0,
+        "unauthorized_current_site_recollection_after_clarification": 0,
+        "unauthorized_search_recollection": 0,
+        "unauthorized_wordstat_recollection": 0,
+        "unauthorized_alice_ai_recollection": 0,
+        "post_hoc_report_stage_evidence_used_to_upgrade_readiness": 0
       }
-    },
-    {
-      "name": "portfolio_unsupported_category_absent",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "portfolio_fallback_and_multi_category_rules",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "historical_ranking_safe_correction",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "historical_ranking_no_placeholder",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "a012_partial_boundary",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "mapping_only_rows",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "blocked_recheck_count",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "deferred_topic_count",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "internal_link_authority_rows",
-      "status": "PASS",
-      "detail": 15
-    },
-    {
-      "name": "visible_unique_client_link_decisions",
-      "status": "PASS",
-      "detail": 14
-    },
-    {
-      "name": "duplicate_visible_link_pairs_without_explanation",
-      "status": "PASS",
-      "detail": []
-    },
-    {
-      "name": "consolidated_duplicate_link_explained",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "bibliography_is_final_substantive_section",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "bibliography_item_count",
-      "status": "PASS",
-      "detail": 10
-    },
-    {
-      "name": "bibliography_titles_and_urls",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "bibliography_semantic_coverage",
-      "status": "PASS",
-      "detail": {
-        "wordstat": true,
-        "wordstat_operators": true,
-        "targeting": true,
-        "clustering": true,
-        "mapping": true,
-        "intent": true,
-        "cannibalization": true,
-        "internal_links": true,
-        "alice_yandex_ai": true
-      }
-    },
-    {
-      "name": "alice_yandex_ai_bibliography_coverage",
-      "status": "PASS",
-      "detail": null
     },
     {
       "name": "markdown_docx_pdf_required_content_equivalence",
@@ -493,7 +421,7 @@
     {
       "name": "docx_expected_tables",
       "status": "PASS",
-      "detail": 5
+      "detail": 3
     },
     {
       "name": "pdf_no_empty_pages",
@@ -503,20 +431,20 @@
     {
       "name": "docx_not_corrupt",
       "status": "PASS",
-      "detail": 46397
+      "detail": 32962
     },
     {
       "name": "pdf_not_corrupt",
       "status": "PASS",
-      "detail": 794418
+      "detail": 251306
     },
     {
       "name": "visual_qa_all_pages",
       "status": "PASS",
       "detail": {
         "artifact": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
-        "pdf_sha256": "cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211",
-        "pages_total": 35,
+        "pdf_sha256": "4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a",
+        "pages_total": 19,
         "pages_inspected": [
           1,
           2,
@@ -536,50 +464,34 @@
           16,
           17,
           18,
-          19,
-          20,
-          21,
-          22,
-          23,
-          24,
-          25,
-          26,
-          27,
-          28,
-          29,
-          30,
-          31,
-          32,
-          33,
-          34,
-          35
+          19
         ],
         "inspection_date_utc": "2026-09-07",
-        "render_method": "Final PDF rendered with pdftoppm at 110 dpi; DOCX independently rendered through LibreOffice by render_docx.py.",
+        "render_method": "Final optimized PDF rendered page-by-page with Poppler at 110 dpi; DOCX independently rendered with render_docx.py and LibreOffice.",
         "checks": {
           "all_pages_rendered": true,
           "no_clipping": true,
           "no_overflow": true,
           "no_broken_tables": true,
           "no_empty_pages": true,
-          "ready_actions_inspected": true,
-          "exact_placement_paragraphs_inspected": true,
-          "action_specific_numbered_steps_inspected": true,
+          "three_ready_actions_inspected": true,
+          "five_partial_actions_inspected": true,
+          "preexisting_exact_placement_claims_inspected": true,
           "bold_proposed_wording_visible": true,
-          "portfolio_mapping_inspected": true,
-          "partial_installation_block_inspected": true,
+          "portfolio_partial_boundary_inspected": true,
+          "partial_installation_boundary_inspected": true,
           "blocked_items_inspected": true,
           "link_table_inspected": true,
           "preserve_section_inspected": true,
           "bibliography_inspected": true,
+          "no_visible_posthoc_portfolio_mapping": true,
           "no_visible_placeholders": true,
-          "no_visible_internal_ids_or_filenames": true,
-          "no_ugly_raw_technical_tokens": true
+          "no_visible_internal_ids_or_filenames": true
         },
         "notes": [
-          "The 224-row portfolio mapping remains continuous and legible across pages 11-20.",
-          "The 46-row semantic mapping table remains continuous and legible across pages 26-30.",
-          "The 14 visible internal-link decisions and ten bibliography items are legible on pages 32-35."
+          "The three ready actions and their preserved-research placement boundaries are legible on pages 2-6.",
+          "All five downgraded partial actions, including the portfolio evidence boundary, are legible on pages 7-9.",
+          "The 46 semantic mappings, four blocked items, 14 visible link decisions, preservation rules and ten bibliography items are legible on pages 9-19."
         ],
         "status": "PASS"
       }
@@ -593,5 +505,6 @@
         "semantic_core_04": true
       }
     }
-  ]
+  ],
+  "failed": []
 }

@@ -603,7 +603,7 @@ The internal method/evidence record should preserve what each source influenced.
 
 **What failed:** placement used alternatives such as “before the calculator or request form”, “after disadvantages or in advice” and “after opening methods or profile comparison”.
 
-**Correct control:** a ready implementation has one evidenced placement. If alternatives are all that evidence supports, downgrade the exact-placement claim or obtain a current-page read. Never invent a placement.
+**Correct control:** a ready implementation has one placement evidenced by the completed preserved research. If that research supports only alternatives, do not collect new project evidence during report materialization. Downgrade readiness or mark implementation-placement confirmation as required. A new page read is a separate owner-authorized research/revalidation task. Never invent a placement.
 
 ### Failure D — implementation analysis was left to the implementer
 
@@ -635,6 +635,24 @@ The internal method/evidence record should preserve what each source influenced.
 
 **Correct control:** every material external method or result surface discussed in the report has a current revalidated source when a public source exists. Bibliography completeness is semantic, not merely a minimum item count.
 
+### Critical failure — report materialization expanded into new research
+
+**What failed:** the second owner-review correction tried to improve implementation completeness by performing new client-site reads and a large portfolio classification after the research had already been completed.
+
+**Why this is serious:** it silently expanded scope, consumed substantial time, changed the evidence base during reporting, risked presenting post-hoc evidence as original research, could incorrectly upgrade readiness and made project cost unpredictable.
+
+**Root cause:**
+
+```text
+REPORT QUALITY GAP
+WAS TREATED AS
+AUTHORIZATION FOR NEW EVIDENCE COLLECTION
+```
+
+**Correct control:** report materialization uses the completed research authority. If required evidence is missing: disclose the gap → downgrade or block the item → name the future evidence required. Do not collect the missing project fact during reporting unless the owner explicitly authorizes a separate evidence-producing step.
+
+The only standing distinction is external methodology/bibliography freshness required by the report contract: it may be revalidated, but it must not be used to create or upgrade project-specific findings.
+
 ---
 
 ## 16. Report №02 PASS gate
@@ -658,7 +676,15 @@ EACH READY CHANGE EXPLAINS WHY = true
 EACH READY CHANGE HAS EXACT LOCATION = true where evidence supports implementation readiness
 EACH READY CHANGE HAS STEP-BY-STEP ACTION = true
 READY ACTION GENERIC STEP TEMPLATE REUSE = 0
-CLASSIFICATION ACTIONS INCLUDE COMPLETE OBJECT-TO-CATEGORY DECISION = true
+FULLY READY CLASSIFICATION ACTIONS INCLUDE COMPLETE OBJECT-TO-CATEGORY DECISION = true
+REPORT-STAGE NEW PROJECT FACT COLLECTION = 0
+UNAUTHORIZED CURRENT-SITE RECOLLECTION = 0
+UNAUTHORIZED SEARCH RECOLLECTION = 0
+UNAUTHORIZED WORDSTAT RECOLLECTION = 0
+UNAUTHORIZED ALICE / AI RECOLLECTION = 0
+POST-HOC REPORT-STAGE EVIDENCE USED TO UPGRADE READINESS = 0
+REPORT PROJECT FACTS TRACE TO PRE-EXISTING RESEARCH AUTHORITY = PASS
+EXTERNAL METHODOLOGY BIBLIOGRAPHY FRESHNESS = PASS
 CONTENT CHANGES HAVE SAFE PRACTICAL EXAMPLE = true where evidence allows
 PROPOSED ADDITIONS ARE VISUALLY DISTINGUISHABLE = true
 UNSUPPORTED BUSINESS FACTS IN EXAMPLES = 0
@@ -682,4 +708,4 @@ GENERATED TEMPLATE FILLER = absent
 OWNER / IMPLEMENTER TASK WALKTHROUGH = PASS
 ```
 
-Report №02 must be directly executable. The implementer should be able to open the document, choose item 1, follow its steps on the linked page, compare the result with the supplied example/meaning, verify acceptance, then move to item 2 without reconstructing the research repository.
+Every item marked fully ready in Report №02 must be directly executable from the completed research. Partial or blocked items must instead expose the missing evidence and the future confirmation needed. Numbering remains navigation/acceptance identification and never implies implementation order.

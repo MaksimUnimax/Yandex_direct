@@ -1,7 +1,17 @@
 # Report №02 — current-site placement evidence for second owner-review correction
 
+> **QUARANTINED — POST_HOC_REPORT_STAGE_COLLECTION**
+>
+> **NOT ORIGINAL RESEARCH AUTHORITY**
+>
+> **NOT AUTHORIZED TO UPGRADE READINESS**
+>
+> **PROVENANCE / OWNER-IDENTIFIED INCIDENT HISTORY ONLY**
+
+This evidence was collected during report materialization under an owner instruction that was later revoked. It did not exist in the completed Stage 0–15 research, must not be merged into that authority, and is not eligible to prove exact placement, current wording, portfolio classification or any other readiness upgrade in Report №02.
+
 Checked: **2026-09-07**  
-Scope: public pages of `okno-msk.ru` used only to verify current headings, block order, exact insertion locations and visible portfolio objects.  
+Historical scope actually performed: public pages of `okno-msk.ru` were read after research completion to verify current headings, block order, insertion locations and visible portfolio objects. This was an unauthorized report-stage scope expansion and is not current analytical authority.
 Provider acquisition calls: **0**.
 
 This is repository evidence. Internal action IDs are retained here for traceability and are prohibited in the client-facing Markdown, DOCX and PDF.

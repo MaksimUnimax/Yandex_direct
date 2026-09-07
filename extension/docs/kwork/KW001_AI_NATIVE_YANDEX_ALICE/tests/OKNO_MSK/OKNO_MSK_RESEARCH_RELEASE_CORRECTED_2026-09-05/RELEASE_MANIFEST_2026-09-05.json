@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_02_SECOND_OWNER_REVIEW_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "status": "DOCUMENT_02_REPORT_SCOPE_FREEZE_REMEDIATION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -28,10 +28,10 @@
       "variant": "02",
       "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 794418,
-      "sha256": "cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211",
-      "pages": 35,
-      "recipient_contract": "RUSSIAN_EXECUTABLE_SPECIALIST_GUIDE__7_READY_WITH_EXACT_PLACEMENT__224_PORTFOLIO_MAPPINGS__1_PARTIAL__46_MAPPING_ONLY__4_BLOCKED__15_LINK_AUTHORITY_ROWS__14_VISIBLE_LINK_DECISIONS__OWNER_REVIEW_PENDING"
+      "size_bytes": 251306,
+      "sha256": "4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a",
+      "pages": 19,
+      "recipient_contract": "RUSSIAN_SPECIALIST_GUIDE_FROM_COMPLETED_RESEARCH_ONLY__3_READY_WITH_PREEXISTING_PLACEMENT__5_PARTIAL__0_POSTHOC_PORTFOLIO_MAPPINGS__46_MAPPING_ONLY__4_BLOCKED__15_LINK_AUTHORITY_ROWS__14_VISIBLE_LINK_DECISIONS__OWNER_REVIEW_PENDING"
     },
     {
       "variant": "03",
@@ -75,8 +75,8 @@
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-      "size_bytes": 46397,
-      "sha256": "a1dd8709633c96d08daca96f1125da68547bdaf944c278f51e31f6cc19e47a11"
+      "size_bytes": 32962,
+      "sha256": "4e1d66bab0b57dafb801523f1428bfbc972eb3b1a02855aa3f99aa5041e1b54d"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
@@ -85,8 +85,8 @@
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-      "size_bytes": 120112,
-      "sha256": "0d1bb02c5292f7b0f73c5ac83719d0259039d9a4830443be4cc5c4790db4e8a0"
+      "size_bytes": 64343,
+      "sha256": "31865ced072f34e92ec30ebb03beea1e4c6baf06597044902e2f4147df938a7c"
     }
   ],
   "qa": {
@@ -120,7 +120,7 @@
     "document_02": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_03": "NOT_STARTED__UNTOUCHED",
     "final_customer_recipient_acceptance": "OPEN",
-    "next_action": "OWNER_REVIEW_SECOND_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
+    "next_action": "OWNER_REVIEW_SCOPE_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
     "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
     "document_01_dual_surface_optimization_verdict": true,
     "document_01_alice_research_agency": "PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR",
@@ -168,26 +168,35 @@
     "document_02_qa_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_GUIDE_QA_2026-09-07.json",
     "document_02_correction_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_GUIDE_CORRECTION_2026-09-07.md",
     "document_02_method_references": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_METHOD_REFERENCES_2026-09-07.md",
-    "document_02_ready_physical_actions": 7,
-    "document_02_partial_actions": 1,
+    "document_02_ready_physical_actions": 3,
+    "document_02_partial_actions": 5,
     "document_02_mapping_only_results": 46,
     "document_02_blocked_recheck_items": 4,
     "document_02_internal_link_authority_rows": 15,
     "document_02_visible_unique_link_decisions": 14,
     "document_02_duplicate_visible_link_pairs_without_explanation": 0,
-    "document_02_portfolio_objects_mapped": 224,
+    "document_02_client_post_hoc_portfolio_mapping_rows": 0,
+    "document_02_post_hoc_site_evidence_quarantined": true,
+    "document_02_post_hoc_report_stage_evidence_used_to_upgrade_readiness": 0,
+    "document_02_report_stage_new_project_fact_collection_after_clarification": 0,
+    "document_02_unauthorized_current_site_recollection_after_clarification": 0,
+    "document_02_unauthorized_search_recollection": 0,
+    "document_02_unauthorized_wordstat_recollection": 0,
+    "document_02_unauthorized_alice_ai_recollection": 0,
+    "document_02_report_project_facts_trace_to_pre_existing_research_authority": "PASS",
+    "document_02_external_methodology_bibliography_freshness": "PASS",
     "document_02_project_internal_ids_in_client_report": 0,
     "document_02_project_internal_filenames_in_client_report": 0,
     "document_02_project_internal_enums_in_client_report": 0,
     "document_02_client_placeholders": 0,
     "document_02_ready_action_generic_step_template_reuse": 0,
-    "document_02_ready_actions_with_exact_evidenced_placement": 7,
+    "document_02_ready_actions_with_exact_evidenced_placement": 3,
     "document_02_bibliography_items": 10,
     "document_02_alice_yandex_ai_bibliography_coverage": "PASS",
     "document_02_bibliography_currently_revalidated": true,
     "document_02_md_docx_pdf_equivalence": "PASS",
-    "document_02_visual_qa": "PASS__35_OF_35_PAGES",
-    "document_02_deterministic_qa": "PASS__40_OF_40",
+    "document_02_visual_qa": "PASS__19_OF_19_PAGES",
+    "document_02_deterministic_qa": "PASS__45_OF_45",
     "document_02_owner_review_state": "PENDING",
     "document_01_modified_during_document_02_rebuild": false,
     "document_03_modified_during_document_02_rebuild": false,

@@ -577,3 +577,20 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Provider calls: 0. Document №03 was not started.
 - Current state: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
 - Next action: `OWNER_REVIEW_SECOND_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.
+
+## 2026-09-07 — Owner-identified Report №02 research-scope incident and remediation
+
+- Owner identified that the initial second-correction instruction had wrongly authorized new OKNO_MSK page reads and a 224-card portfolio classification during report materialization.
+- Classified the event as a serious process failure: a report-quality gap had been treated as authorization for new evidence collection, silently expanding scope and risking post-hoc readiness upgrades.
+- Fetched and integrated remote commit `54202abf62d46caf529751c133b5864e9935f9d1`; its universal rule `REPORT MATERIALIZATION != NEW RESEARCH` remains unchanged and authoritative.
+- Quarantined `RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CURRENT_SITE_PLACEMENT_EVIDENCE_2026-09-07.md` and `RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_PORTFOLIO_MAPPING_EVIDENCE_2026-09-07.tsv` as post-hoc report-stage collection, not original research authority and not eligible to upgrade readiness.
+- Removed all post-hoc placement and portfolio-classification influence from the generator and client Markdown/DOCX/PDF. No post-hoc portfolio rows remain in the client report.
+- Re-evaluated the seven former ready actions only against preserved pre-existing authorities. Final state: 3 ready, 5 partial, 4 blocked/recheck; the portfolio action is partial because the completed research did not classify its cards.
+- Retained ready placement only for French-window explanatory depth, PVC-door size criteria and the safe 2024 ranking correction, because those boundaries were already present in the completed research authority.
+- Retained the freshly verified ten-source external methodology bibliography, including two official Yandex/Alice AI materials; it does not create new project facts.
+- After owner clarification: new OKNO_MSK site reads 0; Search calls 0; Wordstat calls 0; Alice/AI calls 0.
+- Regenerated Report №02 from source: Markdown `31865ced072f34e92ec30ebb03beea1e4c6baf06597044902e2f4147df938a7c` (64,343 bytes), DOCX `4e1d66bab0b57dafb801523f1428bfbc972eb3b1a02855aa3f99aa5041e1b54d` (32,962 bytes), PDF `4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a` (251,306 bytes; 19 pages).
+- Deterministic QA: `PASS`, 45/45. Report-stage project-data recollection QA: `PASS`. Cross-format equivalence: `PASS`. Visual QA: `PASS`, all 19 final PDF pages and the independent DOCX render inspected.
+- Documents №01, №03 and semantic core №04 remained byte-identical. Document №03 was not started.
+- Current result: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
+- Next action: `OWNER_REVIEW_SCOPE_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.

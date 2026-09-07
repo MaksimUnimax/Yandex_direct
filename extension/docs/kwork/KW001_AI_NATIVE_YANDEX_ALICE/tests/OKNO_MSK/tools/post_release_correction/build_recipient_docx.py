@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 from docx import Document
@@ -277,6 +279,28 @@ def build(md_path: Path, out_path: Path, preset: str, label: str):
     style_doc(out_path, preset, label)
 
 
+def export_optimized_pdf(docx_path: Path, pdf_path: Path):
+    """Export the generated DOCX and optimize that export for distribution."""
+    soffice = shutil.which("soffice")
+    gs = shutil.which("gs")
+    if not soffice or not gs:
+        raise RuntimeError("Both soffice and gs are required to materialize Report №02 PDF")
+    pdf_path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="report02_pdf_") as temp_dir:
+        subprocess.run([
+            soffice, "--headless", "--convert-to", "pdf", "--outdir", temp_dir, str(docx_path)
+        ], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        raw_pdf = Path(temp_dir) / f"{docx_path.stem}.pdf"
+        if not raw_pdf.exists():
+            raise RuntimeError(f"LibreOffice did not create {raw_pdf}")
+        subprocess.run([
+            gs, "-q", "-dNOPAUSE", "-dBATCH", "-dSAFER", "-sDEVICE=pdfwrite",
+            "-dCompatibilityLevel=1.7", "-dPDFSETTINGS=/printer",
+            "-dDetectDuplicateImages=true", "-dCompressFonts=true",
+            f"-sOutputFile={pdf_path}", str(raw_pdf),
+        ], check=True)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--document", choices=("01", "02", "all"), default="all")
@@ -289,11 +313,16 @@ def main():
             "OKNO_MSK · полный отчёт исследования для владельца",
         )
     if args.document in {"02", "all"}:
+        report02_docx = EDITABLE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx"
         build(
             SOURCES / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-            EDITABLE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
+            report02_docx,
             "compact_reference_guide",
             "OKNO_MSK · руководство специалиста",
+        )
+        export_optimized_pdf(
+            report02_docx,
+            RELEASE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
         )
 
 
