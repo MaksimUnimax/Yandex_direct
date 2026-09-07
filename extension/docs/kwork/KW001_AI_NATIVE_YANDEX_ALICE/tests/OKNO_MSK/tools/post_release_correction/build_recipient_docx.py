@@ -66,6 +66,13 @@ def set_repeat_header(row):
     trPr.append(node)
 
 
+def prevent_row_split(row):
+    trPr = row._tr.get_or_add_trPr()
+    node = OxmlElement("w:cantSplit")
+    node.set(qn("w:val"), "true")
+    trPr.append(node)
+
+
 def set_table_geometry(table, widths: list[int]):
     total = sum(widths)
     tblPr = table._tbl.tblPr
@@ -213,8 +220,11 @@ def style_doc(path: Path, preset: str, running_label: str):
         table.alignment = WD_TABLE_ALIGNMENT.LEFT
         table.autofit = False
         n = len(table.columns)
+        first_header = table.cell(0, 0).text.strip() if table.rows else ""
         if n == 2:
             widths = [2700, 6660]
+        elif n == 3 and first_header == "Страница / позиция":
+            widths = [1050, 4810, 3500]
         elif n == 4:
             widths = [1400, 2800, 2460, 2700]
         elif n == 5:
@@ -226,6 +236,7 @@ def style_doc(path: Path, preset: str, running_label: str):
         set_table_geometry(table, widths)
         set_repeat_header(table.rows[0])
         for ri, row in enumerate(table.rows):
+            prevent_row_split(row)
             for cell in row.cells:
                 cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
                 if ri == 0:
@@ -237,7 +248,8 @@ def style_doc(path: Path, preset: str, running_label: str):
                     p.paragraph_format.space_after = Pt(2)
                     p.paragraph_format.line_spacing = 1.0
                     for run in p.runs:
-                        set_font(run, "Calibri", 8.5 if n >= 5 else 9.5, INK if ri == 0 else None, ri == 0)
+                        compact_table = n >= 5 or (n == 3 and first_header == "Страница / позиция")
+                        set_font(run, "Calibri", 8.5 if compact_table else 9.5, INK if ri == 0 else None, ri == 0)
 
     core = doc.core_properties
     core.title = running_label
@@ -281,7 +293,7 @@ def main():
             SOURCES / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
             EDITABLE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
             "compact_reference_guide",
-            "OKNO_MSK · руководство SEO-специалиста",
+            "OKNO_MSK · руководство специалиста",
         )
 
 

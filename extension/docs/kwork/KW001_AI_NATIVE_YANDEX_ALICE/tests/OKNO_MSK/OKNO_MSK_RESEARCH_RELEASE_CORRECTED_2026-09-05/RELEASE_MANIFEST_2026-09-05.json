@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_02_SPECIALIST_IMPLEMENTATION_GUIDE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "status": "DOCUMENT_02_SECOND_OWNER_REVIEW_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -28,10 +28,10 @@
       "variant": "02",
       "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 489931,
-      "sha256": "07aa3778f6804336b24147b085c2a74f76ba6719f02d19bab5cc81fe7918319b",
-      "pages": 24,
-      "recipient_contract": "RUSSIAN_EXECUTABLE_SPECIALIST_GUIDE__7_READY__1_PARTIAL__46_MAPPING_ONLY__4_BLOCKED__15_LINK_CANDIDATES__OWNER_REVIEW_PENDING"
+      "size_bytes": 794418,
+      "sha256": "cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211",
+      "pages": 35,
+      "recipient_contract": "RUSSIAN_EXECUTABLE_SPECIALIST_GUIDE__7_READY_WITH_EXACT_PLACEMENT__224_PORTFOLIO_MAPPINGS__1_PARTIAL__46_MAPPING_ONLY__4_BLOCKED__15_LINK_AUTHORITY_ROWS__14_VISIBLE_LINK_DECISIONS__OWNER_REVIEW_PENDING"
     },
     {
       "variant": "03",
@@ -75,8 +75,8 @@
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-      "size_bytes": 35617,
-      "sha256": "0384ed7f7bae42c4446daa56bbd3e8856f90840aaff044b5a09500493e4c0a0c"
+      "size_bytes": 46397,
+      "sha256": "a1dd8709633c96d08daca96f1125da68547bdaf944c278f51e31f6cc19e47a11"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
@@ -85,8 +85,8 @@
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-      "size_bytes": 79047,
-      "sha256": "2546f9661a0f2da022e6a56bc728d345eb64318fd8697605e75d1c576bd01a4f"
+      "size_bytes": 120112,
+      "sha256": "0d1bb02c5292f7b0f73c5ac83719d0259039d9a4830443be4cc5c4790db4e8a0"
     }
   ],
   "qa": {
@@ -120,7 +120,7 @@
     "document_02": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_03": "NOT_STARTED__UNTOUCHED",
     "final_customer_recipient_acceptance": "OPEN",
-    "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
+    "next_action": "OWNER_REVIEW_SECOND_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
     "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
     "document_01_dual_surface_optimization_verdict": true,
     "document_01_alice_research_agency": "PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR",
@@ -172,11 +172,22 @@
     "document_02_partial_actions": 1,
     "document_02_mapping_only_results": 46,
     "document_02_blocked_recheck_items": 4,
-    "document_02_internal_link_candidates": 15,
-    "document_02_project_invented_english_client_terms": 0,
+    "document_02_internal_link_authority_rows": 15,
+    "document_02_visible_unique_link_decisions": 14,
+    "document_02_duplicate_visible_link_pairs_without_explanation": 0,
+    "document_02_portfolio_objects_mapped": 224,
+    "document_02_project_internal_ids_in_client_report": 0,
+    "document_02_project_internal_filenames_in_client_report": 0,
+    "document_02_project_internal_enums_in_client_report": 0,
+    "document_02_client_placeholders": 0,
+    "document_02_ready_action_generic_step_template_reuse": 0,
+    "document_02_ready_actions_with_exact_evidenced_placement": 7,
+    "document_02_bibliography_items": 10,
+    "document_02_alice_yandex_ai_bibliography_coverage": "PASS",
     "document_02_bibliography_currently_revalidated": true,
     "document_02_md_docx_pdf_equivalence": "PASS",
-    "document_02_visual_qa": "PASS__24_OF_24_PAGES",
+    "document_02_visual_qa": "PASS__35_OF_35_PAGES",
+    "document_02_deterministic_qa": "PASS__40_OF_40",
     "document_02_owner_review_state": "PENDING",
     "document_01_modified_during_document_02_rebuild": false,
     "document_03_modified_during_document_02_rebuild": false,

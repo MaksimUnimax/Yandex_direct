@@ -1,0 +1,39 @@
+{
+  "artifact": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
+  "pdf_sha256": "cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211",
+  "pages_total": 35,
+  "pages_inspected": [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    31, 32, 33, 34, 35
+  ],
+  "inspection_date_utc": "2026-09-07",
+  "render_method": "Final PDF rendered with pdftoppm at 110 dpi; DOCX independently rendered through LibreOffice by render_docx.py.",
+  "checks": {
+    "all_pages_rendered": true,
+    "no_clipping": true,
+    "no_overflow": true,
+    "no_broken_tables": true,
+    "no_empty_pages": true,
+    "ready_actions_inspected": true,
+    "exact_placement_paragraphs_inspected": true,
+    "action_specific_numbered_steps_inspected": true,
+    "bold_proposed_wording_visible": true,
+    "portfolio_mapping_inspected": true,
+    "partial_installation_block_inspected": true,
+    "blocked_items_inspected": true,
+    "link_table_inspected": true,
+    "preserve_section_inspected": true,
+    "bibliography_inspected": true,
+    "no_visible_placeholders": true,
+    "no_visible_internal_ids_or_filenames": true,
+    "no_ugly_raw_technical_tokens": true
+  },
+  "notes": [
+    "The 224-row portfolio mapping remains continuous and legible across pages 11-20.",
+    "The 46-row semantic mapping table remains continuous and legible across pages 26-30.",
+    "The 14 visible internal-link decisions and ten bibliography items are legible on pages 32-35."
+  ],
+  "status": "PASS"
+}

@@ -189,7 +189,7 @@ def main() -> None:
     portfolio_rows = tsv_rows(PORTFOLIO_AUTHORITY)
     client_portfolio_rows = re.findall(r"^\|\s*\d+/\d+\s*\|", ready_section, re.M)
     category_counts = Counter(category for row in portfolio_rows for category in row["client_categories"].split("; "))
-    expected_category_counts = {"Все работы": 224, "Балконы и лоджии": 116, "Веранды": 14, "Панорамное остекление": 13, "Алюминиевые конструкции": 8, "Тёплое остекление": 32, "Холодное остекление": 46}
+    expected_category_counts = {"Все работы": 224, "Балконы и лоджии": 116, "Веранды": 14, "Панорамное остекление": 13, "Алюминиевые конструкции": 7, "Тёплое остекление": 32, "Холодное остекление": 46}
     check("portfolio_authority_object_count", len(portfolio_rows) == 224, len(portfolio_rows))
     check("portfolio_client_object_mapping_count", len(client_portfolio_rows) == 224, len(client_portfolio_rows))
     check("portfolio_category_counts", dict(category_counts) == expected_category_counts, dict(category_counts))

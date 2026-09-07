@@ -561,3 +561,19 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Documents №01 and №03 and semantic core №04 remained byte-identical. Provider calls: 0.
 - Document №02 state: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
 - Next action: `OWNER_REVIEW_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.
+
+## 2026-09-07 — Document №02 second owner-review correction
+
+- Preserved the first rebuild's `ANALYST_QA_PASS`, then recorded the actual owner verdict `FAIL`; owner acceptance was not inferred from analyst QA.
+- Added all nine owner-found failure classes to the permanent Report №02 gate: internal traceability leakage, generic steps, ambiguous placement, portfolio analysis left to the implementer, ready placeholder, numbering presented as schedule, unexplained duplicate link pair, missing Alice/Yandex AI bibliography coverage and language QA that missed internal identifiers.
+- Re-read the seven current public target pages and persisted exact current placement evidence; every ready action now has one evidenced insertion/replacement location and its own concrete editing sequence.
+- Inventoried all 224 current portfolio cards across 19 pages and materialized a complete object→category mapping. Multi-category rules and the «Все работы» fallback are explicit.
+- Removed all project-internal action IDs, filenames, QA references, machine enums, CTA and unresolved placeholders from client Markdown, DOCX and PDF; each format passed the strengthened scan with zero hits.
+- Preserved S18-A012 as a separate partial action, split the 2024 ranking into a safe ready correction and a non-ready future refresh, and kept Documents №01, №03 and semantic core №04 byte-identical.
+- Reconciled 15 internal-link authority rows into 14 visible unique client decisions; unexplained duplicate visible pairs: 0.
+- Revalidated eleven methodology URLs and retained ten relevant current sources, including two official Yandex sources covering Alice AI and Yandex ranking/AI inclusion.
+- Regenerated Markdown → DOCX → PDF from source. Deterministic QA: `PASS`, 40/40; cross-format equivalence: `PASS`; visual QA: `PASS`, all 35 pages of the final PDF plus the independent DOCX render inspected.
+- Final Report №02 hashes: Markdown `0d1bb02c5292f7b0f73c5ac83719d0259039d9a4830443be4cc5c4790db4e8a0`; DOCX `a1dd8709633c96d08daca96f1125da68547bdaf944c278f51e31f6cc19e47a11`; PDF `cadba268ebcd163bf07793245ec3bc60dbbf01714bab0d223dd346bcab861211` (35 pages).
+- Provider calls: 0. Document №03 was not started.
+- Current state: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
+- Next action: `OWNER_REVIEW_SECOND_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.
