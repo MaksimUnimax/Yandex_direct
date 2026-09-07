@@ -2,17 +2,17 @@
 
 Status: **ANALYST_RECHECK_PASS / OWNER_REVIEW_PENDING**
 
-Material commit: `819251d656b6f8db8bff9dd04cc526285f6627fd`
+Material commit: `2d20c1f607ef37c04cc256f26d362ebe40f38edb`
 
 ## Artifact identity
 
 ```text
-source bytes = 40057
-source sha256 = e5c6ffcf9abeec1567eec3eaada383f574037394c970c4ebd9373efa26bb9b1d
-docx bytes = 49165
-docx sha256 = 2fbb9736c6d9f3c8787f7072ac5b26a01b1d93790eadacbb98ef607d9ca6387a
-pdf bytes = 106047
-pdf sha256 = ac1f43727ceda571e78f3c2076a3db4af0721287311af2fe5d26a4d8bf3d7e1b
+source bytes = 39579
+source sha256 = 7617753b96948bb85daddc739108a37cab6abdd3db9ae78a3f98186c7d211d29
+docx bytes = 48936
+docx sha256 = 2212b81251825b13cf7039675fd00a53a8d7ba2c3885bc58ab7d9b1719ac1544
+pdf bytes = 106700
+pdf sha256 = 51fad46db34a1a2c7e547bc319726f65209ae92734ca4163b58d9815d7d90aa9
 pdf pages = 7
 ```
 
