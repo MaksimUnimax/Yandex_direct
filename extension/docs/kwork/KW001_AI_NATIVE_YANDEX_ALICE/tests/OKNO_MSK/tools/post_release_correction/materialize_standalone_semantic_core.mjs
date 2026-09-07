@@ -13,7 +13,128 @@ const ACTIVE_STATES = new Set(["ASSIGNED", "ASSIGNED_HOLD", "SEARCH_REQUIRED"]);
 const ASSIGNED_STATES = new Set(["ASSIGNED", "ASSIGNED_HOLD"]);
 const METRIC_TYPE = "BROAD_GETTOP_NO_OPERATORS";
 const AGGREGATION_RULE = "MAX_PER_PHRASE_SEPARATELY_FOR_RESULT_AND_ASSOCIATION";
-const CLAIM_BOUNDARY = "Broad Wordstat getTop, Москва 213, DEVICE_ALL, без операторов; не exact-частотность и не прогноз трафика";
+const METRIC_DISPLAY = "Топы запросов Вордстата, без операторов";
+const AGGREGATION_DISPLAY = "При повторных наблюдениях сохранено максимальное значение отдельно для популярных и похожих запросов";
+const CLAIM_BOUNDARY = "Статистика из раздела «Топы запросов» Вордстата по Москве, для всех устройств, без операторов. Значение нельзя трактовать как точную частотность фразы или прогноз трафика.";
+
+const DISPLAY_MAPS = Object.freeze({
+  semanticStatus: Object.freeze({
+    ASSIGNED: "Назначено",
+    ASSIGNED_HOLD: "Назначено, внедрение требует дополнительной проверки",
+    SEARCH_REQUIRED: "Требуется проверка в обычном поиске Яндекса",
+    REVIEW_DEFERRED: "Проверка отложена",
+    EXCLUDED_PRESERVED: "Исключено, сохранено для полноты исследования",
+  }),
+  intent: Object.freeze({
+    AMBIGUOUS: "Неоднозначный",
+    COMMERCIAL: "Коммерческий",
+    COMMERCIAL_INFO: "Коммерческий с информационной потребностью",
+    COMMERCIAL_OR_INFO: "Коммерческий или информационный",
+    COMMERCIAL_OR_SERVICE: "Коммерческий или сервисный",
+    DIY_INFO: "Информационный — самостоятельное выполнение",
+    INFO: "Информационный",
+    INFO_OR_COMMERCIAL: "Информационный или коммерческий",
+    INFO_OR_SHOPPING: "Информационный или выбор товара",
+    NAVIGATIONAL: "Навигационный",
+    NAVIGATIONAL_COMMERCIAL: "Навигационный с коммерческой целью",
+    OUTSIDE: "Вне целевой тематики",
+    SERVICE: "Сервисный",
+    SERVICE_OR_COMMERCIAL: "Сервисный или коммерческий",
+    SERVICE_OR_SELECTION: "Сервисный или выбор услуги/решения",
+  }),
+  businessScope: Object.freeze({
+    DEFERRED_PENDING_BUSINESS_TRUTH: "Отложено до подтверждения фактов о предложении компании",
+    DEFERRED_PENDING_MISSING_EVIDENCE: "Отложено до получения недостающих доказательств",
+    DEFERRED_PENDING_OWNER_POLICY: "Отложено до решения владельца",
+    IN_SCOPE: "Входит в подтверждённое предложение",
+    IN_SCOPE_ADJACENT: "Смежно с подтверждённым предложением",
+    NO_STANDALONE_FIRST_PARTY: "Релевантно без отдельной собственной страницы",
+    NO_STANDALONE_UNVERIFIED_BUSINESS: "Отдельная страница не подтверждена фактами о предложении",
+    OUTSIDE_SCOPE: "Вне подтверждённого предложения",
+  }),
+  pageRole: Object.freeze({
+    BASE_UNIT_PENDING_ACTION_REEVALUATION: "Базовая единица; действие требует повторной оценки",
+    DEFERRED: "Роль страницы отложена",
+    NEW_COMMERCIAL_CANDIDATE: "Кандидат на новую коммерческую страницу",
+    NEW_INFORMATIONAL_CANDIDATE: "Кандидат на новую информационную страницу",
+    NEW_INFORMATIONAL_SUBUNIT_CANDIDATE: "Кандидат на отдельный информационный подраздел",
+    NO_STANDALONE_UNVERIFIED_CATALOG: "Отдельная страница каталога не подтверждена",
+    NO_STANDALONE_UNVERIFIED_PRODUCT: "Отдельная страница продукта не подтверждена",
+    NO_STANDALONE_UNVERIFIED_SERVICE: "Отдельная страница услуги не подтверждена",
+    OUTSIDE: "Страница не требуется: запрос вне предложения",
+    PRIMARY_EXISTING_HUB: "Основной существующий раздел",
+    PRIMARY_EXISTING_INFO: "Основная существующая информационная страница",
+    PRIMARY_EXISTING_PORTFOLIO: "Основная существующая страница портфолио",
+    PRIMARY_EXISTING_PRODUCT: "Основная существующая страница продукта",
+    PRIMARY_EXISTING_SERVICE: "Основная существующая страница услуги",
+    PRIMARY_EXISTING_TRUST_COMMERCIAL: "Основная существующая коммерческая страница доверия и репутации",
+    PRIMARY_EXISTING_UTILITY: "Основной существующий инструмент или сервисный раздел",
+    PROVISIONAL_EXISTING_INFO: "Предварительно назначенная существующая информационная страница",
+    PROVISIONAL_OBJECT_VS_MATERIAL_PAGE: "Предварительное назначение: страница объекта или материала",
+    SUPPORTING_CONTENT: "Поддерживающий контент",
+    SUPPORTING_CROSS_CUTTING_UTILITY: "Поддерживающий сквозной инструмент или раздел",
+    SUPPORTING_EXISTING_INFO: "Поддерживающая существующая информационная страница",
+    SUPPORTING_EXISTING_PAGE: "Поддерживающая существующая страница",
+    SUPPORTING_PRODUCT_CONTENT: "Поддерживающий контент о продукте",
+    SUPPORTING_SAFETY_CONTENT: "Поддерживающий контент о безопасности",
+    SUPPORTING_SERVICE_OR_PRODUCT: "Поддерживающая страница услуги или продукта",
+    UNSERVABLE_NEUTRAL_REVIEW: "Нейтральный обзор без подтверждённой возможности обслужить спрос",
+  }),
+  structuralAction: Object.freeze({
+    ADD_SECTION_OR_FAQ_TO_EXISTING: "Добавить раздел или ответы на вопросы на существующую страницу",
+    DEFER_PENDING_EVIDENCE: "Отложить до получения подтверждений",
+    EXPAND_EXISTING_PAGE: "Расширить существующую страницу",
+    KEEP_EXISTING_STRUCTURE: "Сохранить текущую структуру",
+    NO_STANDALONE_PAGE: "Отдельная страница не требуется",
+    OUTSIDE_SCOPE_NO_ACTION: "Вне рамок предложения — действий не требуется",
+    ROUTE_TO_EXISTING_PAGE_AS_SUBTASK: "Отнести к существующей странице как подзадачу",
+  }),
+  maturity: Object.freeze({
+    DEFERRED_PENDING_MISSING_EVIDENCE: "Решение отложено: не хватает доказательств",
+    FINAL_AFTER_STEP14A_CURRENT_SITE_DISCOVERY: "Финальное после актуальной проверки структуры сайта",
+    FINAL_WITHIN_STEP12_EVIDENCE: "Финальное в пределах имеющихся доказательств",
+    PROVISIONAL_PENDING_STEP13_CONFLICT_CHECK: "Предварительное до проверки возможного конфликта страниц",
+  }),
+  uncertainty: Object.freeze({
+    CURRENT_OVERLAP_RECHECK: "Требуется повторно проверить текущее пересечение страниц",
+    HOLD: "Решение приостановлено до снятия неопределённости",
+    LOW_CONFIDENCE: "Низкая уверенность — требуется дополнительное подтверждение",
+    NONE: "Дополнительная неопределённость не зафиксирована",
+    RESOLVED_EXCLUSION: "Исключение подтверждено",
+    UNRESOLVED_DEFERRED: "Неопределённость сохранена, проверка отложена",
+    UNRESOLVED_SEARCH_REQUIRED: "Неопределённость требует проверки в обычном поиске Яндекса",
+  }),
+  confidence: Object.freeze({ HIGH: "Высокая", MEDIUM: "Средняя", LOW: "Низкая" }),
+  searchDisposition: Object.freeze({
+    CORE_CANDIDATE: "Кандидат в рабочее семантическое ядро",
+    EXCLUDED_PRESERVED: "Исключено, сохранено для полноты исследования",
+    REVIEW_DEFERRED: "Проверка отложена",
+    REVIEW_SEARCH: "Передать на проверку в обычном поиске Яндекса",
+  }),
+  resolutionRoute: Object.freeze({
+    NO_ACTIVE_SEARCH_ROUTE: "Активная проверка в поиске не требуется",
+    ORDINARY_SEARCH_ELIGIBLE: "Можно проверить в обычной выдаче Яндекса",
+    REVIEW_DEFERRED: "Проверка отложена",
+    REVIEW_SEARCH: "Проверить в обычной выдаче Яндекса",
+  }),
+  frequencyRole: Object.freeze({
+    "RESULT + ASSOCIATION": "Есть данные по популярным и похожим запросам",
+    RESULT: "Есть данные по популярным запросам",
+    ASSOCIATION_ONLY: "Есть данные только по похожим запросам",
+    NO_POSITIVE_COUNT: "Положительных значений не зафиксировано",
+  }),
+  gapType: Object.freeze({
+    EVIDENCE_INSUFFICIENT: "Недостаточно доказательств",
+    NONE: "Содержательный пробел не зафиксирован",
+    QUALITY_GAP: "Нуждается в улучшении качества содержания",
+  }),
+  contentEnhancement: Object.freeze({
+    CONTENT_EVIDENCE_INSUFFICIENT: "Недостаточно доказательств для изменения содержания",
+    NONE: "Изменение содержания не требуется",
+    NOT_ASSESSED: "Содержание не оценивалось",
+    QUALITY_GAP: "Содержание нуждается в улучшении",
+  }),
+});
 
 function parseArgs(argv) {
   const result = {};
@@ -78,20 +199,99 @@ function frequencyRole(resultCount, associationCount) {
   return "NO_POSITIVE_COUNT";
 }
 
+function displayEnum(group, code, fieldName) {
+  if (!code) return "Не применимо по финальному решению";
+  const value = DISPLAY_MAPS[group]?.[code];
+  if (!value) throw new Error(`Unknown client-visible enum without Russian display label: ${fieldName}=${code}`);
+  return value;
+}
+
+function clientTask(intentCode, representativePhrase) {
+  const subject = `«${representativePhrase}»`;
+  const templates = {
+    AMBIGUOUS: `Уточнить неоднозначную задачу по теме ${subject}`,
+    COMMERCIAL: `Выбрать или заказать по теме ${subject}`,
+    COMMERCIAL_INFO: `Изучить условия и выбрать решение по теме ${subject}`,
+    COMMERCIAL_OR_INFO: `Уточнить: выбор/заказ или получение информации по теме ${subject}`,
+    COMMERCIAL_OR_SERVICE: `Уточнить: покупка продукта или заказ услуги по теме ${subject}`,
+    DIY_INFO: `Разобраться, как выполнить самостоятельно задачу по теме ${subject}`,
+    INFO: `Получить информацию по теме ${subject}`,
+    INFO_OR_COMMERCIAL: `Уточнить: получить информацию или выбрать решение по теме ${subject}`,
+    INFO_OR_SHOPPING: `Изучить варианты и при необходимости выбрать товар по теме ${subject}`,
+    NAVIGATIONAL: `Перейти к официальному сайту или нужному разделу по теме ${subject}`,
+    NAVIGATIONAL_COMMERCIAL: `Найти официальный коммерческий раздел по теме ${subject}`,
+    OUTSIDE: `Запрос вне подтверждённого предложения по теме ${subject}`,
+    SERVICE: `Заказать профессиональную услугу по теме ${subject}`,
+    SERVICE_OR_COMMERCIAL: `Уточнить: заказать услугу или купить решение по теме ${subject}`,
+    SERVICE_OR_SELECTION: `Выбрать подходящую услугу или решение по теме ${subject}`,
+  };
+  const value = templates[intentCode];
+  if (!value) throw new Error(`Unknown intent for client task display: ${intentCode}`);
+  return value;
+}
+
+function reopenDisplay(row) {
+  if (row.final_semantic_state === "SEARCH_REQUIRED") {
+    return "Проверить точную фразу в обычной выдаче Яндекса, затем подтвердить задачу, кластер и целевую страницу";
+  }
+  if (row.final_semantic_state === "REVIEW_DEFERRED") {
+    return "Возобновить проверку только после появления нового подтверждающего источника или уточнения задачи";
+  }
+  if (row.final_semantic_state === "EXCLUDED_PRESERVED") {
+    return "Возвращать в рабочее ядро только при появлении нового доказательства релевантности предложению сайта";
+  }
+  if (row.uncertainty_state === "HOLD") {
+    return "Сначала снять зафиксированную блокирующую неопределённость; до этого физическое внедрение запрещено";
+  }
+  if (row.uncertainty_state === "CURRENT_OVERLAP_RECHECK") {
+    return "Повторно проверить текущее пересечение страниц в выдаче Яндекса до структурного изменения";
+  }
+  if (row.uncertainty_state === "LOW_CONFIDENCE") {
+    return "Получить дополнительное подтверждение задачи, интента или владельца страницы";
+  }
+  return "Пересмотр не требуется по текущему финальному решению";
+}
+
+function routeReasonDisplay(row) {
+  if (row.final_semantic_state === "SEARCH_REQUIRED") {
+    return "Сохранённых доказательств недостаточно для окончательного назначения фразы кластеру и странице";
+  }
+  if (row.final_semantic_state === "REVIEW_DEFERRED") {
+    return "Фраза сохранена для аудита, но немедленная проверка не обоснована";
+  }
+  if (row.final_semantic_state === "EXCLUDED_PRESERVED") {
+    return "Фраза исключена из рабочего ядра, но сохранена для полноты исходного корпуса";
+  }
+  return "Маршрут соответствует текущему финальному семантическому решению";
+}
+
+function unitReopenDisplay(unit) {
+  if (unit.uncertainty_state === "HOLD" || unit.structural_action === "DEFER_PENDING_EVIDENCE") {
+    return "Сначала получить недостающее подтверждение и снять блокирующую неопределённость";
+  }
+  if (unit.uncertainty_state === "CURRENT_OVERLAP_RECHECK") {
+    return "Повторно проверить текущее пересечение страниц в выдаче Яндекса до структурного изменения";
+  }
+  if (unit.uncertainty_state === "LOW_CONFIDENCE") {
+    return "Получить дополнительное подтверждение задачи, интента или владельца страницы";
+  }
+  return "Пересмотр не требуется по текущему финальному решению";
+}
+
 function targetDisplay(row) {
   if (row.final_primary_page) return row.final_primary_page;
   if (ASSIGNED_STATES.has(row.final_semantic_state)) {
-    return `НЕТ ОТДЕЛЬНОЙ СТРАНИЦЫ — ${row.canonical_structural_action}`;
+    return `НЕТ ОТДЕЛЬНОЙ СТРАНИЦЫ — ${displayEnum("structuralAction", row.canonical_structural_action, "canonical_structural_action")}`;
   }
-  if (row.final_semantic_state === "SEARCH_REQUIRED") return "НЕ НАЗНАЧЕНО — SEARCH_REQUIRED";
+  if (row.final_semantic_state === "SEARCH_REQUIRED") return "НЕ НАЗНАЧЕНО — требуется проверка в обычном поиске Яндекса";
   return "НЕ ПРИМЕНИМО — ВНЕ АКТИВНОГО ЯДРА";
 }
 
 function missingText(row, fieldName) {
   if (row[fieldName]) return row[fieldName];
-  if (row.final_semantic_state === "SEARCH_REQUIRED") return "НЕ НАЗНАЧЕНО — SEARCH_REQUIRED";
+  if (row.final_semantic_state === "SEARCH_REQUIRED") return "НЕ НАЗНАЧЕНО — требуется проверка в обычном поиске Яндекса";
   if (!ACTIVE_STATES.has(row.final_semantic_state)) return "НЕ ПРИМЕНИМО — ВНЕ АКТИВНОГО ЯДРА";
-  return "НЕ ПРИМЕНИМО ПО CANONICAL AUTHORITY";
+  return "НЕ ПРИМЕНИМО ПО ФИНАЛЬНОМУ РЕШЕНИЮ";
 }
 
 const REPRESENTATIVE_OVERRIDES = {
@@ -161,26 +361,27 @@ function priorityFor(row) {
   const action = row.canonical_structural_action;
   const maturity = row.canonical_recommendation_maturity;
   const uncertainty = row.uncertainty_state;
-  if (!ACTIVE_STATES.has(state)) return ["P5 — ВНЕ РАБОЧЕГО ЯДРА", `status=${state}`];
+  const demand = `число запросов = ${row.resultCount}`;
+  if (!ACTIVE_STATES.has(state)) return ["P5 — ВНЕ РАБОЧЕГО ЯДРА", `статус: ${displayEnum("semanticStatus", state, "final_semantic_state")}`];
   if (state === "SEARCH_REQUIRED") {
-    return ["P0 — СНЯТЬ SEARCH_REQUIRED", `status=${state}; uncertainty=${uncertainty}; broad_result=${row.resultCount}`];
+    return ["P0 — ПРОВЕСТИ ПРОВЕРКУ В ЯНДЕКСЕ", `статус: ${displayEnum("semanticStatus", state, "final_semantic_state")}; неопределённость: ${displayEnum("uncertainty", uncertainty, "uncertainty_state")}; ${demand}`];
   }
   if (uncertainty === "HOLD" || action === "DEFER_PENDING_EVIDENCE" || maturity.startsWith("DEFERRED")) {
-    return ["P0 — СНЯТЬ НЕОПРЕДЕЛЁННОСТЬ", `action=${action}; maturity=${maturity}; uncertainty=${uncertainty}; broad_result=${row.resultCount}`];
+    return ["P0 — СНЯТЬ НЕОПРЕДЕЛЁННОСТЬ", `рекомендация: ${displayEnum("structuralAction", action, "canonical_structural_action")}; готовность: ${displayEnum("maturity", maturity, "canonical_recommendation_maturity")}; неопределённость: ${displayEnum("uncertainty", uncertainty, "uncertainty_state")}; ${demand}`];
   }
   if (["ADD_SECTION_OR_FAQ_TO_EXISTING", "EXPAND_EXISTING_PAGE"].includes(action)) {
     if (maturity.startsWith("FINAL")) {
-      return ["P1 — ГОТОВОЕ ИЗМЕНЕНИЕ", `action=${action}; maturity=${maturity}; uncertainty=${uncertainty}; broad_result=${row.resultCount}`];
+      return ["P1 — ГОТОВОЕ ИЗМЕНЕНИЕ", `рекомендация: ${displayEnum("structuralAction", action, "canonical_structural_action")}; готовность: ${displayEnum("maturity", maturity, "canonical_recommendation_maturity")}; неопределённость: ${displayEnum("uncertainty", uncertainty, "uncertainty_state")}; ${demand}`];
     }
-    return ["P2 — ПРОВЕРИТЬ ПЕРЕД ВНЕДРЕНИЕМ", `action=${action}; maturity=${maturity}; uncertainty=${uncertainty}; broad_result=${row.resultCount}`];
+    return ["P2 — ПРОВЕРИТЬ ПЕРЕД ВНЕДРЕНИЕМ", `рекомендация: ${displayEnum("structuralAction", action, "canonical_structural_action")}; готовность: ${displayEnum("maturity", maturity, "canonical_recommendation_maturity")}; неопределённость: ${displayEnum("uncertainty", uncertainty, "uncertainty_state")}; ${demand}`];
   }
   if (["KEEP_EXISTING_STRUCTURE", "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK"].includes(action)) {
-    return ["P3 — СОХРАНИТЬ / МАРШРУТИЗИРОВАТЬ", `action=${action}; maturity=${maturity}; uncertainty=${uncertainty}; broad_result=${row.resultCount}`];
+    return ["P3 — СОХРАНИТЬ / ОТНЕСТИ К СТРАНИЦЕ", `рекомендация: ${displayEnum("structuralAction", action, "canonical_structural_action")}; готовность: ${displayEnum("maturity", maturity, "canonical_recommendation_maturity")}; неопределённость: ${displayEnum("uncertainty", uncertainty, "uncertainty_state")}; ${demand}`];
   }
   if (["NO_STANDALONE_PAGE", "OUTSIDE_SCOPE_NO_ACTION"].includes(action)) {
-    return ["P4 — БЕЗ ОТДЕЛЬНОЙ СТРАНИЦЫ", `action=${action}; business_boundary=${row.canonical_business_scope_state}; broad_result=${row.resultCount}`];
+    return ["P4 — БЕЗ ОТДЕЛЬНОЙ СТРАНИЦЫ", `рекомендация: ${displayEnum("structuralAction", action, "canonical_structural_action")}; граница предложения: ${displayEnum("businessScope", row.canonical_business_scope_state, "canonical_business_scope_state")}; ${demand}`];
   }
-  return ["P2 — ПРОВЕРИТЬ ПЕРЕД ВНЕДРЕНИЕМ", `status=${state}; action=${action}; maturity=${maturity}; uncertainty=${uncertainty}; broad_result=${row.resultCount}`];
+  return ["P2 — ПРОВЕРИТЬ ПЕРЕД ВНЕДРЕНИЕМ", `статус: ${displayEnum("semanticStatus", state, "final_semantic_state")}; рекомендация: ${displayEnum("structuralAction", action, "canonical_structural_action")}; готовность: ${displayEnum("maturity", maturity, "canonical_recommendation_maturity")}; неопределённость: ${displayEnum("uncertainty", uncertainty, "uncertainty_state")}; ${demand}`];
 }
 
 function colLetter(index) {
@@ -232,11 +433,11 @@ function addStatusFormatting(sheet, rowCount, statusColumn, activeColumn, pageCo
   if (rowCount < 2) return;
   const last = rowCount;
   sheet.getRange(`${statusColumn}2:${statusColumn}${last}`).conditionalFormats.add("containsText", {
-    text: "SEARCH_REQUIRED",
+    text: "Требуется проверка в обычном поиске Яндекса",
     format: { fill: "#FEE2E2", font: { color: "#991B1B", bold: true } },
   });
   sheet.getRange(`${statusColumn}2:${statusColumn}${last}`).conditionalFormats.add("containsText", {
-    text: "ASSIGNED_HOLD",
+    text: "внедрение требует дополнительной проверки",
     format: { fill: "#FEF3C7", font: { color: "#92400E", bold: true } },
   });
   sheet.getRange(`${activeColumn}2:${activeColumn}${last}`).conditionalFormats.add("containsText", {
@@ -343,6 +544,11 @@ for (const row of joined) {
   const representative = row.assigned ? representativeByUnit.get(row.final_structural_unit_id) : null;
   row.representative = representative;
   row.clusterName = representative ? capitalize(representative.phrase) : missingText(row, "final_structural_unit_id");
+  row.clientTask = representative
+    ? clientTask(row.canonical_intent_type, representative.phrase)
+    : row.final_semantic_state === "SEARCH_REQUIRED"
+      ? "Пользовательская задача будет определена после проверки в обычном поиске Яндекса"
+      : "Пользовательская задача не применяется к строке вне рабочего ядра";
   row.targetDisplay = targetDisplay(row);
 }
 
@@ -352,7 +558,7 @@ for (const row of joined) {
   row.clusterRank = clusterRanks.get(row.id) ?? null;
   row.pageRank = pageRanks.get(row.id) ?? null;
   [row.priority, row.priorityBasis] = priorityFor(row);
-  if (row.clusterRank) row.priorityBasis += `; rank_in_cluster=${row.clusterRank}`;
+  if (row.clusterRank) row.priorityBasis += `; место внутри кластера = ${row.clusterRank}`;
 }
 
 const uniqueFinalUrls = new Set(assignedRows.filter((row) => row.final_primary_page).map((row) => row.final_primary_page));
@@ -368,61 +574,61 @@ if (uniqueFinalUrls.size !== 60) throw new Error(`Final URL invariant failed: ${
 
 const phraseHeaders = [
   "ID фразы", "Поисковая фраза", "Статус фразы", "В рабочем ядре", "Регион", "Код региона", "Устройства",
-  "Wordstat result count", "Wordstat association count", "Тип частотности", "Правило агрегации", "Источники Wordstat",
-  "Количество source occurrences", "Дата снимка", "ID структурной единицы", "Кластер", "Основной запрос кластера",
+  "Число запросов — популярные", "Число запросов — похожие", "Тип статистики Вордстата", "Правило объединения наблюдений", "Идентификаторы источников Вордстата",
+  "Количество исходных наблюдений", "Дата сбора / снимка", "ID структурной единицы", "Кластер", "Основной запрос кластера",
   "Пользовательская задача", "Интент", "Граница бизнеса", "Уверенность назначения", "URL до финальной сверки",
   "Финальная целевая страница", "Поддерживающие страницы", "Роль страницы", "Рекомендация", "Готовность решения",
   "Неопределённость", "Что нужно для пересмотра", "Ранг внутри кластера", "Ранг внутри страницы",
-  "Операционный приоритет", "Основание приоритета", "Комментарий / граница вывода", "Provenance",
+  "Операционный приоритет", "Основание приоритета", "Комментарий / граница вывода", "Происхождение данных",
 ];
 
 function phraseMatrix(rows) {
   return rows.map((row) => [
     row.id,
     row.phrase,
-    row.final_semantic_state,
+    displayEnum("semanticStatus", row.final_semantic_state, "final_semantic_state"),
     row.active ? "ДА" : "НЕТ",
     "Москва",
     213,
-    "DEVICE_ALL",
+    "Все устройства",
     row.resultCount,
     row.associationCount,
-    `${METRIC_TYPE}__${row.frequencyRole}`,
-    AGGREGATION_RULE,
+    `${METRIC_DISPLAY}; ${displayEnum("frequencyRole", row.frequencyRole, "frequency_role")}`,
+    AGGREGATION_DISPLAY,
     row.sourceIds,
     row.sourceOccurrences,
     row.snapshotDate,
     missingText(row, "final_structural_unit_id"),
     row.clusterName,
     row.representative?.phrase ?? missingText(row, "final_structural_unit_id"),
-    missingText(row, "canonical_user_task"),
-    missingText(row, "canonical_intent_type"),
-    missingText(row, "canonical_business_scope_state"),
-    row.canonical_final_confidence || row.semantic_confidence || "НЕ УКАЗАНО",
+    row.clientTask,
+    row.canonical_intent_type ? displayEnum("intent", row.canonical_intent_type, "canonical_intent_type") : "Не применимо по финальному решению",
+    row.canonical_business_scope_state ? displayEnum("businessScope", row.canonical_business_scope_state, "canonical_business_scope_state") : "Не применимо по финальному решению",
+    displayEnum("confidence", row.canonical_final_confidence || row.semantic_confidence, "confidence"),
     row.step11_target_url || (row.active ? "НЕ БЫЛО СОХРАНЁННОГО URL" : "НЕ ПРИМЕНИМО — ВНЕ АКТИВНОГО ЯДРА"),
     row.targetDisplay,
     row.final_supporting_pages || (row.assigned ? "НЕТ КАНОНИЧЕСКОЙ ПОДДЕРЖИВАЮЩЕЙ СТРАНИЦЫ" : missingText(row, "final_supporting_pages")),
-    missingText(row, "canonical_unit_page_role"),
-    missingText(row, "canonical_structural_action"),
-    missingText(row, "canonical_recommendation_maturity"),
-    row.uncertainty_state || "НЕ УКАЗАНО",
-    row.explicit_missing_needs || row.nextResolutionRoute || (row.active ? "ПЕРЕСМОТР НЕ ТРЕБУЕТСЯ ПО ТЕКУЩЕЙ AUTHORITY" : "НЕ ПРИМЕНИМО"),
+    row.canonical_unit_page_role ? displayEnum("pageRole", row.canonical_unit_page_role, "canonical_unit_page_role") : "Не применимо по финальному решению",
+    row.canonical_structural_action ? displayEnum("structuralAction", row.canonical_structural_action, "canonical_structural_action") : "Не применимо по финальному решению",
+    row.canonical_recommendation_maturity ? displayEnum("maturity", row.canonical_recommendation_maturity, "canonical_recommendation_maturity") : "Не применимо по финальному решению",
+    displayEnum("uncertainty", row.uncertainty_state, "uncertainty_state"),
+    reopenDisplay(row),
     row.clusterRank,
     row.pageRank,
     row.priority,
     row.priorityBasis,
-    [row.claim_boundary, row.routeReason, CLAIM_BOUNDARY].filter(Boolean).join(" | "),
-    `Stage-5:${row.authority_lineage || "FINAL_SEMANTIC_MASTER"} | Step-08:${row.demandProvenance}`,
+    [routeReasonDisplay(row), CLAIM_BOUNDARY].join(" | "),
+    `Финальное семантическое решение Stage 5: ${row.authority_lineage || "FINAL_SEMANTIC_MASTER"} | Данные спроса Step 08: ${row.demandProvenance}`,
   ]);
 }
 
 const clusterHeaders = [
-  "ID структурной единицы", "Кластер", "Основной запрос кластера", "Wordstat result у основного запроса",
-  "Количество активных фраз", "Максимальный broad result", "Медиана broad result", "Сумма broad result (неаддитивно)",
+  "ID структурной единицы", "Кластер", "Основной запрос кластера", "Число запросов у основного запроса",
+  "Количество активных фраз", "Максимальное число запросов", "Медианное число запросов", "Сумма числа запросов (не считать объёмом рынка)",
   "Ведущие фразы", "Пользовательская задача", "Интент", "Граница бизнеса", "Финальная страница / группа",
   "Поддерживающие страницы", "Роль страницы", "Рекомендация", "Готовность решения", "Уверенность", "Неопределённость",
   "Что нужно для пересмотра", "Операционный приоритет", "Основание приоритета", "Граница метрики",
-  "Source authority", "Higher-precedence authority",
+  "Источник решения (файл)", "Приоритетный источник решения (файл)",
 ];
 
 const clusterRows = [...membersByUnit.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([unitId, members]) => {
@@ -442,22 +648,22 @@ const clusterRows = [...membersByUnit.entries()].sort(([a], [b]) => a.localeComp
       median(members.map((row) => row.resultCount)),
       members.reduce((sum, row) => sum + row.resultCount, 0),
       [...members].sort((a, b) => b.resultCount - a.resultCount || a.phrase.localeCompare(b.phrase, "ru")).slice(0, 5).map((row) => `${row.phrase} [${row.resultCount}]`).join("; "),
-      unit.user_task,
-      unit.intent_type,
-      unit.business_scope_state,
-      unit.final_primary_page || `НЕТ ОТДЕЛЬНОЙ СТРАНИЦЫ — ${unit.structural_action}`,
+      clientTask(unit.intent_type, representative.phrase),
+      displayEnum("intent", unit.intent_type, "intent_type"),
+      displayEnum("businessScope", unit.business_scope_state, "business_scope_state"),
+      unit.final_primary_page || `НЕТ ОТДЕЛЬНОЙ СТРАНИЦЫ — ${displayEnum("structuralAction", unit.structural_action, "structural_action")}`,
       unit.final_supporting_pages || "НЕТ КАНОНИЧЕСКОЙ ПОДДЕРЖИВАЮЩЕЙ СТРАНИЦЫ",
-      unit.unit_page_role,
-      unit.structural_action,
-      unit.recommendation_maturity,
-      unit.final_confidence,
-      unit.uncertainty_state,
-      unit.explicit_missing_needs || "ПЕРЕСМОТР НЕ ТРЕБУЕТСЯ ПО ТЕКУЩЕЙ AUTHORITY",
+      displayEnum("pageRole", unit.unit_page_role, "unit_page_role"),
+      displayEnum("structuralAction", unit.structural_action, "structural_action"),
+      displayEnum("maturity", unit.recommendation_maturity, "recommendation_maturity"),
+      displayEnum("confidence", unit.final_confidence, "final_confidence"),
+      displayEnum("uncertainty", unit.uncertainty_state, "uncertainty_state"),
+      unitReopenDisplay(unit),
       prioritySource.priority,
-      `cluster action=${unit.structural_action}; maturity=${unit.recommendation_maturity}; uncertainty=${unit.uncertainty_state}; representative broad_result=${representative.resultCount}`,
-      "SUM broad result — неаддитивный индикатор; фразы могут пересекаться по показываемым запросам",
+      `Рекомендация: ${displayEnum("structuralAction", unit.structural_action, "structural_action")}; готовность: ${displayEnum("maturity", unit.recommendation_maturity, "recommendation_maturity")}; неопределённость: ${displayEnum("uncertainty", unit.uncertainty_state, "uncertainty_state")}; число запросов у основного запроса = ${representative.resultCount}`,
+      "Сумма числа запросов — неаддитивный относительный индикатор: показываемые запросы могут пересекаться",
       unit.source_authority,
-      unit.higher_precedence_authority || "NONE",
+      unit.higher_precedence_authority === "NONE" ? "Дополнительного приоритетного источника нет" : unit.higher_precedence_authority,
     ],
   };
 });
@@ -469,8 +675,8 @@ for (const row of assignedRows) {
 }
 if (pageGroups.size !== 63) throw new Error(`Page summary invariant failed: ${pageGroups.size}`);
 const pageHeaders = [
-  "Финальная страница / группа", "Тип строки", "Количество фраз", "Количество кластеров", "Максимальный broad result",
-  "Медиана broad result", "Сумма broad result (неаддитивно)", "Ведущие фразы", "Кластеры", "Роли страницы",
+  "Финальная страница / группа", "Тип строки", "Количество фраз", "Количество кластеров", "Максимальное число запросов",
+  "Медианное число запросов", "Сумма числа запросов (не считать объёмом рынка)", "Ведущие фразы", "Кластеры", "Роли страницы",
   "Рекомендации", "Готовность", "Неопределённость", "Операционный приоритет", "Основание приоритета", "Комментарий",
 ];
 const pageRows = [...pageGroups.entries()].sort(([a], [b]) => {
@@ -491,12 +697,12 @@ const pageRows = [...pageGroups.entries()].sort(([a], [b]) => {
     members.reduce((sum, row) => sum + row.resultCount, 0),
     sorted.slice(0, 8).map((row) => `${row.phrase} [${row.resultCount}]`).join("; "),
     uniqueSorted(members.map((row) => row.clusterName)).join("; "),
-    uniqueSorted(members.map((row) => row.canonical_unit_page_role)).join("; "),
-    uniqueSorted(members.map((row) => row.canonical_structural_action)).join("; "),
-    uniqueSorted(members.map((row) => row.canonical_recommendation_maturity)).join("; "),
-    uniqueSorted(members.map((row) => row.uncertainty_state)).join("; "),
+    uniqueSorted(members.map((row) => displayEnum("pageRole", row.canonical_unit_page_role, "canonical_unit_page_role"))).join("; "),
+    uniqueSorted(members.map((row) => displayEnum("structuralAction", row.canonical_structural_action, "canonical_structural_action"))).join("; "),
+    uniqueSorted(members.map((row) => displayEnum("maturity", row.canonical_recommendation_maturity, "canonical_recommendation_maturity"))).join("; "),
+    uniqueSorted(members.map((row) => displayEnum("uncertainty", row.uncertainty_state, "uncertainty_state"))).join("; "),
     bestPriority.priority,
-    `лучший операционный класс в группе; broad_result_max=${Math.max(...members.map((row) => row.resultCount))}; не бизнес-приоритет`,
+    `Лучший операционный класс в группе; максимальное число запросов = ${Math.max(...members.map((row) => row.resultCount))}; это не оценка бизнес-приоритета`,
     target.startsWith("НЕТ ОТДЕЛЬНОЙ")
       ? "Пустой Stage-5 URL сохранён намеренно; причина указана в названии группы"
       : "Карта назначения из Stage-5; наличие нескольких кластеров на URL само по себе не доказывает каннибализацию",
@@ -504,85 +710,87 @@ const pageRows = [...pageGroups.entries()].sort(([a], [b]) => {
 });
 
 const searchHeaders = [
-  "ID фразы", "Поисковая фраза", "Wordstat result count", "Wordstat association count", "Регион", "Тип частотности",
-  "Статус", "Неопределённость", "Search-stage disposition", "Следующий маршрут разрешения", "Причина маршрута",
+  "ID фразы", "Поисковая фраза", "Число запросов — популярные", "Число запросов — похожие", "Регион и устройства", "Тип статистики Вордстата",
+  "Статус", "Неопределённость", "Статус перед проверкой в Яндексе", "Следующий маршрут проверки", "Причина маршрута",
   "ID структурной единицы", "Финальная страница", "Что нужно для пересмотра", "Операционный приоритет",
-  "Граница вывода", "Источники Wordstat", "Provenance",
+  "Граница вывода", "Идентификаторы источников Вордстата", "Происхождение данных",
 ];
 const searchMatrix = searchRequiredRows.sort((a, b) => b.resultCount - a.resultCount || a.phrase.localeCompare(b.phrase, "ru")).map((row) => [
   row.id,
   row.phrase,
   row.resultCount,
   row.associationCount,
-  "Москва (213), DEVICE_ALL",
-  `${METRIC_TYPE}__${row.frequencyRole}`,
-  row.final_semantic_state,
-  row.uncertainty_state,
-  row.searchStageDisposition,
-  row.nextResolutionRoute,
-  row.routeReason,
-  "НЕ НАЗНАЧЕНО — SEARCH_REQUIRED",
-  "НЕ НАЗНАЧЕНО — SEARCH_REQUIRED",
-  row.explicit_missing_needs || row.nextResolutionRoute,
+  "Москва (код региона 213), все устройства",
+  `${METRIC_DISPLAY}; ${displayEnum("frequencyRole", row.frequencyRole, "frequency_role")}`,
+  displayEnum("semanticStatus", row.final_semantic_state, "final_semantic_state"),
+  displayEnum("uncertainty", row.uncertainty_state, "uncertainty_state"),
+  displayEnum("searchDisposition", row.searchStageDisposition, "search_stage_disposition"),
+  displayEnum("resolutionRoute", row.nextResolutionRoute, "next_resolution_route"),
+  routeReasonDisplay(row),
+  "НЕ НАЗНАЧЕНО — требуется проверка в обычном поиске Яндекса",
+  "НЕ НАЗНАЧЕНО — требуется проверка в обычном поиске Яндекса",
+  reopenDisplay(row),
   row.priority,
-  [row.claim_boundary, CLAIM_BOUNDARY].filter(Boolean).join(" | "),
+  [routeReasonDisplay(row), CLAIM_BOUNDARY].join(" | "),
   row.sourceIds,
-  `Stage-5:${row.authority_lineage || "FINAL_SEMANTIC_MASTER"} | Step-08:${row.demandProvenance}`,
+  `Финальное семантическое решение Stage 5: ${row.authority_lineage || "FINAL_SEMANTIC_MASTER"} | Данные спроса Step 08: ${row.demandProvenance}`,
 ]);
 
-const dictionaryHeaders = ["Раздел", "Код / поле", "Пояснение", "Как использовать", "Источник / граница"];
+const dictionaryHeaders = ["Раздел", "Технический код", "Русское отображение", "Значение / пояснение", "Как использовать", "Источник / граница"];
+
+function dictionaryEnumRows(section, field, displayMap, usage, source) {
+  return Object.entries(displayMap).map(([code, label]) => [
+    section,
+    code,
+    label,
+    "Понятное русское отображение внутреннего значения; технический код приведён в соседней колонке",
+    usage,
+    source,
+  ]);
+}
+
 const dictionaryRows = [
-  ["Сводка", "Всего уникальных фраз", 2840, "Полный инвентарь находится на листе 01_Все_фразы", "Stage-5 final semantic master"],
-  ["Сводка", "Активное ядро", 2332, "Основной рабочий список на листе 02_Активное_ядро", "ASSIGNED + ASSIGNED_HOLD + SEARCH_REQUIRED"],
-  ["Сводка", "Назначено", 2313, "Имеет каноническую структурную единицу", "Stage-5"],
-  ["Сводка", "SEARCH_REQUIRED", 19, "Отдельная очередь разрешения на листе 05_SEARCH_REQUIRED", "URL и кластер не выдумываются"],
-  ["Сводка", "Канонические кластеры", 168, "Одна строка на листе 03_Кластеры", "Stage-5 unit authority"],
-  ["Сводка", "Финальные URL", 60, "Плюс 3 управляемые группы без URL на листе 04_Страницы", "Stage-5 final_primary_page"],
-  ["Статус фразы", "ASSIGNED", "Активная фраза назначена канонической структурной единице", "Можно фильтровать по кластеру, странице и действию", "Stage-5"],
-  ["Статус фразы", "ASSIGNED_HOLD", "Назначение сохранено, но внедрение удерживается из-за неопределённости", "Не превращать в READY-действие", "Stage-5"],
-  ["Статус фразы", "SEARCH_REQUIRED", "Активная фраза пока не имеет финального кластера/URL", "Сначала выполнить указанное evidence/review действие", "Stage-5"],
-  ["Статус фразы", "REVIEW_DEFERRED", "Фраза сохранена, но не включена в рабочее ядро", "Не назначать страницу без нового основания", "Stage-5"],
-  ["Статус фразы", "EXCLUDED_PRESERVED", "Исключённая фраза сохранена для аудита", "Не использовать как рабочую семантику", "Stage-5"],
-  ["Флаг", "В рабочем ядре = ДА", "ASSIGNED, ASSIGNED_HOLD или SEARCH_REQUIRED", "Лист 02 содержит только эти строки", "Производное поле"],
-  ["Частотность", METRIC_TYPE, "Broad Wordstat getTop без операторов", "Грубая сортировка и сравнение внутри принятого распределения", "Яндекс Вордстат; region=213; DEVICE_ALL; operators=NONE"],
-  ["Частотность", "Wordstat result count", "Максимальный сохранённый result count для точного текста строки", "Основной числовой показатель спроса в книге", "Step-08; не exact-match"],
-  ["Частотность", "Wordstat association count", "Максимальный сохранённый association count", "Вспомогательный provenance-сигнал; у активных строк есть собственный result count", "Step-08"],
-  ["Частотность", AGGREGATION_RULE, "Повторные source occurrences сведены максимумом отдельно для result и association", "Не складывать повторы одной фразы", "Step-08 acceptance rule"],
-  ["Частотность", "Сумма broad result (неаддитивно)", "Сумма строк внутри кластера/страницы", "Использовать только как относительный индикатор: запросы могут перекрываться", "Не является уникальным объёмом рынка"],
-  ["Репрезентант", "Основной запрос кластера", "Фраза-член кластера, выбранная воспроизводимо по смысловой центральности, читаемости и broad result", "Название кластера повторяет эту русскую фразу; точечные overrides выбирают только другую реальную фразу того же кластера", "Материализатор; Stage-5 membership не меняется"],
-  ["Ранг", "Ранг внутри кластера", "Убывание Wordstat result count; при равенстве — алфавит фразы и стабильный ID", "Это broad-ранг, не exact-demand rank", "Производное поле"],
-  ["Ранг", "Ранг внутри страницы", "То же правило внутри финального URL или управляемой no-page группы", "SEARCH_REQUIRED не ранжируется по странице", "Производное поле"],
-  ["Приоритет", "P0 — СНЯТЬ НЕОПРЕДЕЛЁННОСТЬ / SEARCH_REQUIRED", "Есть блокирующая неопределённость, HOLD или deferred evidence", "Сначала разрешить указанную причину", "Не означает высокий коммерческий потенциал"],
-  ["Приоритет", "P1 — ГОТОВОЕ ИЗМЕНЕНИЕ", "Stage-5 требует расширения/блока и зрелость FINAL", "Можно планировать исполнение в пределах отдельной implementation authority", "Не заменяет specialist guide"],
-  ["Приоритет", "P2 — ПРОВЕРИТЬ ПЕРЕД ВНЕДРЕНИЕМ", "Физическое изменение не имеет полностью финальной зрелости", "Нужна указанная проверка", "Производное поле"],
-  ["Приоритет", "P3 — СОХРАНИТЬ / МАРШРУТИЗИРОВАТЬ", "Существующая структура сохраняется или фраза идёт подзадачей на текущую страницу", "Не создавать отдельную страницу только из-за фразы", "Stage-5 action"],
-  ["Приоритет", "P4 — БЕЗ ОТДЕЛЬНОЙ СТРАНИЦЫ", "NO_STANDALONE_PAGE или OUTSIDE_SCOPE_NO_ACTION", "Не заполнять URL искусственно", "Stage-5 action"],
-  ["Приоритет", "P5 — ВНЕ РАБОЧЕГО ЯДРА", "REVIEW_DEFERRED или EXCLUDED_PRESERVED", "Сохранять для аудита, не внедрять", "Stage-5 status"],
-  ["No-page", "NO_STANDALONE_PAGE", "Канонически не нужна отдельная first-party страница", "Оставить URL пустым; работать только в разрешённой роли", "246 назначенных фраз"],
-  ["No-page", "OUTSIDE_SCOPE_NO_ACTION", "Пользовательская задача вне подтверждённой границы бизнеса", "Не создавать посадочную страницу", "115 назначенных фраз"],
-  ["No-page", "DEFER_PENDING_EVIDENCE", "Страница не назначается до получения указанного доказательства", "Соблюдать HOLD/reopen requirement", "32 назначенные фразы"],
-  ["Интент", "COMMERCIAL / SERVICE", "Покупка/заказ продукта или профессиональной услуги", "Использовать вместе с user task и business boundary", "Stage-5 canonical intent"],
-  ["Интент", "INFO / DIY_INFO", "Информационная или самостоятельная задача", "Не превращать автоматически в коммерческую страницу", "Stage-5 canonical intent"],
-  ["Интент", "MIXED / AMBIGUOUS / NAVIGATIONAL", "Смешанный, неясный или навигационный сценарий", "Соблюдать точное кодовое значение и неопределённость", "Stage-5 canonical intent"],
-  ["Граница бизнеса", "IN_SCOPE / IN_SCOPE_ADJACENT", "Подтверждённая или смежная задача сайта", "Проверять финальную роль страницы", "Stage-5"],
-  ["Граница бизнеса", "NO_STANDALONE_*", "Тема может быть релевантна, но отдельная first-party страница не подтверждена", "Не создавать URL", "Stage-5"],
-  ["Граница бизнеса", "OUTSIDE_SCOPE", "Вне подтверждённого предложения", "Без физического действия", "Stage-5"],
-  ["Граница бизнеса", "DEFERRED_PENDING_*", "Не хватает business truth, evidence или owner policy", "Следовать reopen requirement", "Stage-5"],
-  ["Рекомендация", "KEEP_EXISTING_STRUCTURE", "Сохранить существующую структуру", "Не создавать/сливать страницы без отдельного основания", "Stage-5"],
-  ["Рекомендация", "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK", "Маршрутизировать как подзадачу на существующую страницу", "Это аналитическое назначение, не новая CMS-страница", "Stage-5"],
-  ["Рекомендация", "ADD_SECTION_OR_FAQ_TO_EXISTING / EXPAND_EXISTING_PAGE", "Расширить существующую страницу", "Исполнять по specialist guide и границам доказательств", "Stage-5"],
-  ["Рекомендация", "NO_STANDALONE_PAGE / OUTSIDE_SCOPE_NO_ACTION / DEFER_PENDING_EVIDENCE", "Сохранить управляемое отсутствие отдельного URL", "Не заполнять пустой URL догадкой", "Stage-5"],
-  ["Зрелость", "FINAL_*", "Решение финально в пределах указанного слоя доказательств", "Не расширять его за claim boundary", "Stage-5"],
-  ["Зрелость", "PROVISIONAL_*", "Назначение принято, но код зрелости сохраняет требование проверки", "Проверить перед физическим внедрением", "Stage-5"],
-  ["Зрелость", "DEFERRED_*", "Решение отложено до missing evidence", "Не внедрять", "Stage-5"],
-  ["Неопределённость", "NONE", "Дополнительной неопределённости в canonical unit не зафиксировано", "Соблюдать общую границу метрики", "Stage-5"],
-  ["Неопределённость", "HOLD", "Физическое действие удерживается", "Сначала выполнить reopen requirement", "Stage-5"],
-  ["Неопределённость", "CURRENT_OVERLAP_RECHECK / LOW_CONFIDENCE", "Нужна точечная повторная проверка", "Не объявлять доказанную каннибализацию", "Stage-5"],
-  ["Provenance", "Источники Wordstat", "S01–S18 — первый pass; P2-01–P2-04 — targeted expansion", "Фильтровать и трассировать происхождение count", "Step-08 source_ids"],
-  ["Provenance", "Authority", "Stage-5 даёт финальную семантическую/page truth; Step-08 — demand/provenance", "Старый Step-19 не является финальной authority", "Материализатор не читает Step-19"],
-  ["Методика", "Яндекс Вордстат", "Официальное описание метрики и операторов", "https://yandex.ru/support2/wordstat/ru/interface/new | https://yandex.ru/support2/wordstat/ru/content/operators", "Проверено 2026-09-07"],
-  ["Методика", "Keyword clustering / mapping", "Разделение фразы, кластера и страницы", "https://www.semrush.com/blog/keyword-clustering/ | https://www.semrush.com/blog/keyword-mapping/", "Проверено 2026-09-07"],
-  ["Методика", "Intent / cannibalization boundary", "Интент важнее объёма; пересечение не равно доказанному ущербу", "https://ahrefs.com/blog/keyword-intent/ | https://ahrefs.com/blog/keyword-cannibalization/", "Проверено 2026-09-07"],
+  ["Сводка", "—", "Всего уникальных фраз", 2840, "Полный инвентарь находится на листе 01_Все_фразы", "Финальная семантическая таблица Stage 5"],
+  ["Сводка", "—", "Активное ядро", 2332, "Основной рабочий список находится на листе 02_Активное_ядро", "Назначенные фразы и очередь проверки в Яндексе"],
+  ["Сводка", "—", "Назначено", 2313, "Каждая строка имеет каноническую структурную единицу", "Финальная семантическая таблица Stage 5"],
+  ["Сводка", "SEARCH_REQUIRED", "Требуется проверка в обычном поиске Яндекса", 19, "Отдельная очередь находится на пятом листе; кластер и URL не выдумываются", "Финальная семантическая таблица Stage 5"],
+  ["Сводка", "—", "Канонические кластеры", 168, "Одна строка на листе 03_Кластеры", "Таблица структурных единиц Stage 5"],
+  ["Сводка", "—", "Финальные URL", 60, "Дополнительно показаны три управляемые группы без URL", "Поле финальной целевой страницы Stage 5"],
+  ["Частотность", METRIC_TYPE, METRIC_DISPLAY, "Популярные запросы, содержащие заданную фразу, и похожие запросы из раздела «Топы запросов»", "Использовать для грубой сортировки и сравнения внутри принятого распределения", "Вордстат; Москва, код 213; все устройства; без операторов"],
+  ["Частотность", "result count", "Число запросов — популярные", "Сохранённое число для популярного запроса с точным текстом строки", "Основной числовой показатель спроса в книге; не точная частотность", "Данные спроса Step 08"],
+  ["Частотность", "association count", "Число запросов — похожие", "Сохранённое число для похожего запроса с точным текстом строки", "Вспомогательный показатель происхождения фразы", "Данные спроса Step 08"],
+  ["Частотность", AGGREGATION_RULE, AGGREGATION_DISPLAY, "Повторные наблюдения одной фразы не складываются", "Сравнивать фразы без двойного счёта повторных источников", "Правило объединения Step 08"],
+  ["Частотность", "—", "Сумма числа запросов (не считать объёмом рынка)", "Сумма строк внутри кластера или страницы", "Только относительный индикатор: показываемые запросы могут пересекаться", "Не является уникальным объёмом рынка"],
+  ["Частотность", "GetTop / DEVICE_ALL / results[] / associations[] / phrase / count", "Технические обозначения API", "Нужны для воспроизводимости получения данных, но не используются как основной язык рабочих листов", "Смотреть только при техническом аудите происхождения данных", "https://aistudio.yandex.ru/ru/docs/search-api/operations/wordstat-gettop"],
+  ["Репрезентант", "—", "Основной запрос кластера", "Реальная фраза-член кластера, выбранная воспроизводимо по смысловой центральности, читаемости и числу запросов", "Название кластера повторяет эту русскую фразу; точечные уточнения выбирают только другую реальную фразу того же кластера", "Материализатор; принадлежность Stage 5 не меняется"],
+  ["Ранг", "—", "Ранг внутри кластера", "Убывание числа популярных запросов; при равенстве — алфавит фразы и стабильный ID", "Это относительный ранг по статистике без операторов, не ранг точного спроса", "Производное поле"],
+  ["Ранг", "—", "Ранг внутри страницы", "То же правило внутри финального URL или управляемой группы без URL", "Нерешённые фразы не ранжируются по странице", "Производное поле"],
+  ["Приоритет", "P0", "Сначала снять неопределённость или провести проверку в Яндексе", "Есть блокирующая неопределённость, отложенное доказательство или нерешённое назначение", "Сначала разрешить указанную причину", "Не означает высокий коммерческий потенциал"],
+  ["Приоритет", "P1", "Готовое изменение", "Финальное решение требует расширения существующей страницы", "Планировать исполнение только вместе с отдельным руководством специалиста", "Не заменяет руководство по внедрению"],
+  ["Приоритет", "P2", "Проверить перед внедрением", "Физическое изменение ещё не имеет полностью финальной зрелости", "Выполнить указанную проверку", "Производное поле"],
+  ["Приоритет", "P3", "Сохранить или отнести к существующей странице", "Существующая структура сохраняется либо фраза является подзадачей текущей страницы", "Не создавать отдельную страницу только из-за фразы", "Финальное структурное действие Stage 5"],
+  ["Приоритет", "P4", "Без отдельной страницы", "Отдельная страница не нужна или тема вне предложения", "Не заполнять URL искусственно", "Финальное структурное действие Stage 5"],
+  ["Приоритет", "P5", "Вне рабочего ядра", "Проверка отложена или фраза исключена", "Сохранять для аудита, не внедрять", "Финальный статус Stage 5"],
+  ["Происхождение данных", "source IDs", "Идентификаторы источников Вордстата", "Идентификаторы первого и дополнительного проходов", "Фильтровать и трассировать происхождение числа запросов", "Данные спроса Step 08"],
+  ["Происхождение данных", "source occurrences", "Количество исходных наблюдений", "Сколько исходных наблюдений содержали эту фразу", "Показывает повторное обнаружение без суммирования частотности", "Данные спроса Step 08"],
+  ["Власть решения", "Stage 5", "Финальное семантическое решение", "Определяет статус, кластер, интент, границу предложения, страницу и действие", "Не заменять старой материализацией Step 19", "Финальная семантическая таблица и таблица структурных единиц"],
+  ...dictionaryEnumRows("Статус фразы", "final_semantic_state", DISPLAY_MAPS.semanticStatus, "Фильтровать рабочее ядро и очередь проверки; русское значение является основным отображением", "Финальная семантическая таблица Stage 5"),
+  ...dictionaryEnumRows("Интент", "canonical_intent_type", DISPLAY_MAPS.intent, "Использовать вместе с пользовательской задачей и границей предложения", "Финальная семантическая таблица Stage 5"),
+  ...dictionaryEnumRows("Граница предложения", "canonical_business_scope_state", DISPLAY_MAPS.businessScope, "Не создавать страницу за пределами подтверждённого предложения", "Финальная семантическая таблица Stage 5"),
+  ...dictionaryEnumRows("Роль страницы", "canonical_unit_page_role", DISPLAY_MAPS.pageRole, "Показывает роль владельца или поддерживающей страницы", "Таблица структурных единиц Stage 5"),
+  ...dictionaryEnumRows("Рекомендация", "canonical_structural_action", DISPLAY_MAPS.structuralAction, "Не путать аналитическое назначение с физической CMS-задачей", "Финальная семантическая таблица Stage 5"),
+  ...dictionaryEnumRows("Готовность решения", "canonical_recommendation_maturity", DISPLAY_MAPS.maturity, "Проверять перед физическим внедрением", "Финальная семантическая таблица Stage 5"),
+  ...dictionaryEnumRows("Неопределённость", "uncertainty_state", DISPLAY_MAPS.uncertainty, "Следовать правилу пересмотра; не скрывать нерешённое", "Stage 5 и сохранённый семантический handoff"),
+  ...dictionaryEnumRows("Уверенность", "confidence", DISPLAY_MAPS.confidence, "Не использовать как замену доказательствам", "Stage 5"),
+  ...dictionaryEnumRows("Статус перед проверкой", "search_stage_disposition", DISPLAY_MAPS.searchDisposition, "Определяет маршрут на этапе обычного поиска Яндекса", "Сохранённый семантический handoff Step 08"),
+  ...dictionaryEnumRows("Маршрут проверки", "next_resolution_route", DISPLAY_MAPS.resolutionRoute, "Показывает реальное следующее действие для нерешённой фразы", "Сохранённый семантический handoff Step 08"),
+  ...dictionaryEnumRows("Наличие статистики", "frequency_role", DISPLAY_MAPS.frequencyRole, "Различает популярные и похожие запросы без технических API-ярлыков", "Данные спроса Step 08"),
+  ...dictionaryEnumRows("Пробел содержания", "canonical_gap_type", DISPLAY_MAPS.gapType, "Не превращать недостаток доказательств в готовую задачу", "Stage 5"),
+  ...dictionaryEnumRows("Состояние содержания", "canonical_content_enhancement_state", DISPLAY_MAPS.contentEnhancement, "Отделять подтверждённое улучшение от неоценённого или недоказанного", "Stage 5"),
+  ["Методика", "—", "Официальная терминология интерфейса Вордстата", "Вордстат, Топы запросов, популярные запросы, похожие запросы, число запросов, регион, тип устройства", "Использовать как основной язык клиентских листов", "https://yandex.ru/support2/wordstat/ru/interface/new"],
+  ["Методика", "—", "Операторы Вордстата", "Сбор выполнен без операторов, поэтому показатель нельзя называть точной частотностью", "Сохранять границу вывода", "https://yandex.ru/support2/wordstat/ru/content/operators"],
+  ["Методика", "—", "Кластеризация и назначение страниц", "Разделение фразы, кластера и страницы", "Не создавать отдельную страницу автоматически для каждой фразы", "https://www.semrush.com/blog/keyword-clustering/ | https://www.semrush.com/blog/keyword-mapping/"],
+  ["Методика", "—", "Интент и граница каннибализации", "Интент важнее одного числа запросов; пересечение не равно доказанному ущербу", "Не рекомендовать объединение/удаление без доказательств", "https://ahrefs.com/blog/keyword-intent/ | https://ahrefs.com/blog/keyword-cannibalization/"],
 ];
 
 const workbook = Workbook.create();
@@ -633,7 +841,7 @@ setColumnWidths(activeSheet, [19, 42, 22, 14, 14, 11, 15, 18, 20, 34, 34, 24, 16
 setColumnWidths(clusterSheet, [38, 38, 38, 20, 18, 18, 18, 23, 72, 48, 24, 34, 50, 44, 34, 38, 34, 22, 24, 48, 38, 54, 54, 38, 38], clusterRows.length + 1);
 setColumnWidths(pageSheet, [58, 27, 17, 18, 20, 18, 23, 84, 72, 54, 54, 46, 36, 38, 50, 64], pageRows.length + 1);
 setColumnWidths(searchSheet, [19, 46, 18, 20, 24, 36, 22, 28, 32, 40, 56, 36, 42, 48, 38, 64, 24, 70], searchMatrix.length + 1);
-setColumnWidths(dictionarySheet, [24, 42, 68, 68, 68], dictionaryRows.length + 1);
+setColumnWidths(dictionarySheet, [24, 45, 55, 68, 68, 68], dictionaryRows.length + 1);
 
 for (const sheet of [allSheet, activeSheet]) {
   sheet.getRange(`H2:I${sheet === allSheet ? sortedAll.length + 1 : sortedActive.length + 1}`).format.numberFormat = "#,##0";
@@ -655,7 +863,7 @@ addTable(dictionarySheet, dictionaryRows.length + 1, dictionaryHeaders.length, "
 addStatusFormatting(allSheet, sortedAll.length + 1, "C", "D", "W", "AF");
 addStatusFormatting(activeSheet, sortedActive.length + 1, "C", "D", "W", "AF");
 searchSheet.getRange(`G2:G${searchMatrix.length + 1}`).conditionalFormats.add("containsText", {
-  text: "SEARCH_REQUIRED",
+  text: "Требуется проверка в обычном поиске Яндекса",
   format: { fill: "#FEE2E2", font: { color: "#991B1B", bold: true } },
 });
 clusterSheet.getRange(`U2:U${clusterRows.length + 1}`).conditionalFormats.add("beginsWith", {
