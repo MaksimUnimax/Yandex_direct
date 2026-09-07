@@ -474,3 +474,13 @@ RAW_75_QUERY_APPENDIX_ABSENT = true
 POSITIVE_SITE_RESULT_AGGREGATE = true
 ```
 
+### 13.11 Internal product/platform wording must not leak into Report №01
+
+`Kwork` / `кворк` are internal marketplace/product-context terms. They may be used in project methodology, but they must never appear in the customer-facing research report. Report №01 must speak only about the customer's site, the work, the research, the findings and the recommendations.
+
+```text
+INTERNAL_PRODUCT_OR_PLATFORM_TERM_EXPOSED_TO_CUSTOMER = FAIL
+KWORK_WORD_ABSENT_FROM_REPORT_01 = true
+CLIENT_REPORT_USES_WORK_RESEARCH_SITE_LANGUAGE_ONLY = true
+```
+

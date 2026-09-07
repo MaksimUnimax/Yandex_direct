@@ -60,14 +60,14 @@
   "wordstat_count_semantics": "CUSTOMER_TEXT_STATES_POSITIVE_FREQUENCY_WORK_ONLY__NO_INTERNAL_FIELD__NO_UNPERFORMED_PROCEDURE_NARRATIVE",
   "research_object_semantics": "ALICE_NATIVE_SEARCH_CORE_FOR_MODERN_YANDEX__ORDINARY_YANDEX_AND_ALICE_ARE_CORE_EVIDENCE_SURFACES",
   "sha256": {
-    "md": "ea908c17d555da4362c49758d093a3a0328ecd33a884dc66e55fdafb89e8fd00",
-    "docx": "d608682e52aecd156a20c9f4f4b2ff721b3881f1d69df79a6c8ab5608bd21896",
-    "pdf": "714cf19b18628524f6d2b1f19460b80139f81bf1315b176b1d8480b2598d976c"
+    "md": "e0bb70cb12fc9c7c4c3e49ae6de15eb48cf03d7ea9a422cd1c6dcbd07ecccbbc",
+    "docx": "26a359759287b7c357e9ee0fe45cd4547e49801e72845db050ab763e50596829",
+    "pdf": "79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08"
   },
   "size_bytes": {
-    "md": 39554,
-    "docx": 48884,
-    "pdf": 106346
+    "md": 39539,
+    "docx": 48876,
+    "pdf": 106406
   },
   "provider_calls_during_rebuild": 0,
   "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01"
