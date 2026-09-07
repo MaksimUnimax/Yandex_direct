@@ -525,3 +525,16 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Materialization authority: `RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_MATERIALIZATION_2026-09-07.md`; QA: `RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_QA_2026-09-07.json`.
 - Documents №01–№03 were not changed. New provider calls: 0. Step 21/22 were not executed.
 - Next action: `OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02`.
+
+## 2026-09-07 — Standalone semantic-core owner-language correction
+
+- Owner review found that the initial workbook's data was correct but client-facing fields leaked internal English API/project schema.
+- Promoted permanent Level-1 controls for standalone-core acceptance, Russian display language, complete Step3 acquisition persistence, union-compatible Step5 expansion and 100% Step8 demand/provenance handoff.
+- Corrected the reproducible materializer; no manual binary patch was used for content.
+- Regenerated the same six-sheet XLSX from unchanged Stage-5 + Step-08 authorities.
+- Data invariants remained 2840 / 2332 / 2313 / 19 / 168 / 60; governed no-URL rows remained 393 = 246 / 115 / 32.
+- Independent data/workbook/language/visual QA: PASS; 154488 ordinary client cells scanned, 26684 technical/ID cells explicitly exempted, forbidden unexplained English hits = 0, unmapped enums = 0.
+- Old XLSX SHA-256: `d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550`.
+- Corrected XLSX SHA-256: `4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522`; size: 1431394 bytes.
+- Documents №01–№03 were not modified. Provider calls: 0.
+- Next action remains: `OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02`.

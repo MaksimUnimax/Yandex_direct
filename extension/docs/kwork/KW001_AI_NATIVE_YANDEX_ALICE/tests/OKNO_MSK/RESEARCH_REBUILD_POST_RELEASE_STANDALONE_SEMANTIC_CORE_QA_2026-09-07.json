@@ -3,9 +3,17 @@
   "artifact": "STANDALONE_SEMANTIC_CORE_XLSX",
   "qa_date": "2026-09-07",
   "status": "PASS",
+  "initial_data_qa": "PASS",
+  "owner_language_review": "FAIL_FOUND",
+  "language_correction": "COMPLETE",
+  "current_data_qa": "PASS",
+  "current_workbook_qa": "PASS",
+  "current_russian_language_qa": "PASS",
+  "current_visual_qa": "PASS",
+  "final_current_status": "PASS",
   "xlsx_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx",
-  "xlsx_size_bytes": 1276115,
-  "xlsx_sha256": "d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550",
+  "xlsx_size_bytes": 1431394,
+  "xlsx_sha256": "4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522",
   "authority": {
     "semantic_and_page_truth": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
     "unit_truth": "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
@@ -33,7 +41,7 @@
     "03_Кластеры": 168,
     "04_Страницы": 63,
     "05_SEARCH_REQUIRED": 19,
-    "06_Справочник": 51
+    "06_Справочник": 122
   },
   "wordstat_semantics": {
     "method": "getTop",
@@ -43,6 +51,30 @@
     "workbook_label": "BROAD_GETTOP_NO_OPERATORS",
     "exact_frequency_claimed": false,
     "active_phrases_with_positive_result_count": 2332
+  },
+  "recipient_language_qa": {
+    "status": "PASS",
+    "assertion_count": 4,
+    "worksheets_scanned": 6,
+    "nonempty_cells_scanned": 181172,
+    "ordinary_client_cells_scanned": 154488,
+    "technical_code_or_id_cells_exempted": 26684,
+    "forbidden_hits": 0,
+    "primary_english_machine_value_leakage": 0,
+    "unknown_source_enum_codes": {},
+    "missing_dictionary_display_pairs": 0,
+    "allowed_technical_headers": [
+      "ID структурной единицы",
+      "ID фразы",
+      "Идентификаторы источников Вордстата",
+      "Источник / граница",
+      "Источник решения (файл)",
+      "Код региона",
+      "Приоритетный источник решения (файл)",
+      "Происхождение данных",
+      "Технический код"
+    ],
+    "rule": "NO UNEXPLAINED INTERNAL ENGLISH IN CLIENT PRESENTATION"
   },
   "old_step19_staleness_vs_stage5": {
     "cluster": 803,
@@ -56,32 +88,32 @@
       {
         "sheet": "01_Все_фразы",
         "exists": true,
-        "size_bytes": 374338
+        "size_bytes": 506582
       },
       {
         "sheet": "02_Активное_ядро",
         "exists": true,
-        "size_bytes": 394773
+        "size_bytes": 570684
       },
       {
         "sheet": "03_Кластеры",
         "exists": true,
-        "size_bytes": 995386
+        "size_bytes": 972607
       },
       {
         "sheet": "04_Страницы",
         "exists": true,
-        "size_bytes": 812966
+        "size_bytes": 765020
       },
       {
         "sheet": "05_SEARCH_REQUIRED",
         "exists": true,
-        "size_bytes": 630596
+        "size_bytes": 731046
       },
       {
         "sheet": "06_Справочник",
         "exists": true,
-        "size_bytes": 530001
+        "size_bytes": 521394
       }
     ],
     "inspected_items": [
@@ -149,7 +181,7 @@
     {
       "name": "dictionary_nonempty",
       "status": "PASS",
-      "actual": 51,
+      "actual": 122,
       "expected": ">=40"
     },
     {
@@ -295,13 +327,13 @@
         "Регион",
         "Код региона",
         "Устройства",
-        "Wordstat result count",
-        "Wordstat association count",
-        "Тип частотности",
-        "Правило агрегации",
-        "Источники Wordstat",
-        "Количество source occurrences",
-        "Дата снимка",
+        "Число запросов — популярные",
+        "Число запросов — похожие",
+        "Тип статистики Вордстата",
+        "Правило объединения наблюдений",
+        "Идентификаторы источников Вордстата",
+        "Количество исходных наблюдений",
+        "Дата сбора / снимка",
         "ID структурной единицы",
         "Кластер",
         "Основной запрос кластера",
@@ -322,7 +354,7 @@
         "Операционный приоритет",
         "Основание приоритета",
         "Комментарий / граница вывода",
-        "Provenance"
+        "Происхождение данных"
       ],
       "expected": [
         "ID фразы",
@@ -332,13 +364,13 @@
         "Регион",
         "Код региона",
         "Устройства",
-        "Wordstat result count",
-        "Wordstat association count",
-        "Тип частотности",
-        "Правило агрегации",
-        "Источники Wordstat",
-        "Количество source occurrences",
-        "Дата снимка",
+        "Число запросов — популярные",
+        "Число запросов — похожие",
+        "Тип статистики Вордстата",
+        "Правило объединения наблюдений",
+        "Идентификаторы источников Вордстата",
+        "Количество исходных наблюдений",
+        "Дата сбора / снимка",
         "ID структурной единицы",
         "Кластер",
         "Основной запрос кластера",
@@ -359,7 +391,7 @@
         "Операционный приоритет",
         "Основание приоритета",
         "Комментарий / граница вывода",
-        "Provenance"
+        "Происхождение данных"
       ]
     },
     {
@@ -495,38 +527,62 @@
       "expected": 0
     },
     {
+      "name": "recipient_language_all_source_enums_mapped",
+      "status": "PASS",
+      "actual": {},
+      "expected": {}
+    },
+    {
+      "name": "recipient_language_dictionary_covers_display_maps",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "recipient_language_headers_are_client_facing",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "recipient_language_unexplained_internal_english_zero",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
       "name": "all_sheet_previews_materialized",
       "status": "PASS",
       "actual": [
         {
           "sheet": "01_Все_фразы",
           "exists": true,
-          "size_bytes": 374338
+          "size_bytes": 506582
         },
         {
           "sheet": "02_Активное_ядро",
           "exists": true,
-          "size_bytes": 394773
+          "size_bytes": 570684
         },
         {
           "sheet": "03_Кластеры",
           "exists": true,
-          "size_bytes": 995386
+          "size_bytes": 972607
         },
         {
           "sheet": "04_Страницы",
           "exists": true,
-          "size_bytes": 812966
+          "size_bytes": 765020
         },
         {
           "sheet": "05_SEARCH_REQUIRED",
           "exists": true,
-          "size_bytes": 630596
+          "size_bytes": 731046
         },
         {
           "sheet": "06_Справочник",
           "exists": true,
-          "size_bytes": 530001
+          "size_bytes": 521394
         }
       ],
       "expected": "6 non-empty PNG previews"

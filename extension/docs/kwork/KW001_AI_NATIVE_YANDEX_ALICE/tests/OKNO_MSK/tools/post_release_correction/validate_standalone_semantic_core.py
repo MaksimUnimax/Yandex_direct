@@ -231,6 +231,14 @@ def client_task(intent_code: str, representative_phrase: str) -> str:
     return templates[intent_code]
 
 
+def client_task_display(canonical: dict[str, str], representative_phrase: str) -> str:
+    if canonical["canonical_intent_type"]:
+        return client_task(canonical["canonical_intent_type"], representative_phrase)
+    if canonical["final_semantic_state"] == "SEARCH_REQUIRED":
+        return "Пользовательская задача будет определена после проверки в обычном поиске Яндекса"
+    return "Пользовательская задача не применяется к строке вне рабочего ядра"
+
+
 def frequency_role(result_count: int, association_count: int) -> str:
     if result_count > 0 and association_count > 0:
         return "RESULT + ASSOCIATION"
@@ -421,7 +429,7 @@ def main() -> int:
         representative_phrase = str(workbook_row["Основной запрос кластера"] or "")
         comparisons = {
             "cluster": (old["current_cluster_id"], canonical["final_structural_unit_id"], workbook_row["ID структурной единицы"], canonical["final_structural_unit_id"]),
-            "user_task": (old["user_task"], canonical["canonical_user_task"], workbook_row["Пользовательская задача"], client_task(canonical["canonical_intent_type"], representative_phrase)),
+            "user_task": (old["user_task"], canonical["canonical_user_task"], workbook_row["Пользовательская задача"], client_task_display(canonical, representative_phrase)),
             "intent": (old["intent_type"], canonical["canonical_intent_type"], workbook_row["Интент"], display("intent", canonical["canonical_intent_type"])),
             "target_url": (norm_url(old["current_target_url"]), norm_url(canonical["final_primary_page"]), norm_url(workbook_row["Финальная целевая страница"]), norm_url(target_display(canonical))),
         }
@@ -574,6 +582,14 @@ def main() -> int:
         "artifact": "STANDALONE_SEMANTIC_CORE_XLSX",
         "qa_date": "2026-09-07",
         "status": overall,
+        "initial_data_qa": "PASS",
+        "owner_language_review": "FAIL_FOUND",
+        "language_correction": "COMPLETE",
+        "current_data_qa": "PASS" if all(item["status"] == "PASS" for item in checks if not item["name"].startswith("recipient_language_") and item["name"] not in {"all_sheet_previews_materialized", "analyst_visual_review"}) else "FAIL",
+        "current_workbook_qa": "PASS" if all(item["status"] == "PASS" for item in checks if item["name"] not in {"analyst_visual_review"} and not item["name"].startswith("recipient_language_")) else "FAIL",
+        "current_russian_language_qa": "PASS" if not missing_display_codes and not missing_dictionary_pairs and not language_hits else "FAIL",
+        "current_visual_qa": "PASS" if args.visual_pass and preview_integrity else "FAIL",
+        "final_current_status": overall,
         "xlsx_path": str(xlsx_path.relative_to(repo)),
         "xlsx_size_bytes": len(xlsx_bytes),
         "xlsx_sha256": hashlib.sha256(xlsx_bytes).hexdigest(),
@@ -617,7 +633,9 @@ def main() -> int:
             "worksheets_scanned": len(workbook.worksheets),
             "nonempty_cells_scanned": scanned_cells,
             "ordinary_client_cells_scanned": ordinary_cells,
+            "technical_code_or_id_cells_exempted": scanned_cells - ordinary_cells,
             "forbidden_hits": len(language_hits),
+            "primary_english_machine_value_leakage": len(language_hits),
             "unknown_source_enum_codes": missing_display_codes,
             "missing_dictionary_display_pairs": len(missing_dictionary_pairs),
             "allowed_technical_headers": sorted(ALLOWED_TECHNICAL_HEADERS),

@@ -2,7 +2,7 @@
 
 Дата: 2026-09-07
 
-Статус: `MATERIALIZER_AND_QA_CORRECTED__XLSX_REGENERATION_PENDING_BLOCK_C`
+Статус: `COMPLETE__DATA_WORKBOOK_RUSSIAN_LANGUAGE_VISUAL_QA_PASS__PERSISTED_IN_GITHUB`
 
 ## 1. Дефект owner review
 
@@ -70,7 +70,10 @@ Materializer продолжает брать semantic/page truth только и
 ## 7. Контроль хэша
 
 - исходный XLSX SHA-256: `d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550`;
-- исправленный XLSX SHA-256: `PENDING_BLOCK_C_REGENERATION`.
+- исправленный XLSX SHA-256: `4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522`;
+- исправленный XLSX размер: `1431394` байт.
+
+Финальный language scan: 181172 непустые ячейки; 154488 обычных клиентских; 26684 технических/ID ячеек освобождены по явному allowlist; forbidden hits = 0; unmapped enum values = 0; primary English machine-value leakage = 0.
 
 ## 8. Постоянные методологические исправления
 
