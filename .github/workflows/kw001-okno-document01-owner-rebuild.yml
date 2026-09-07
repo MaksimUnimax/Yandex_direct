@@ -99,6 +99,8 @@ jobs:
           git add "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx"
           git add "$REL/RELEASE_MANIFEST_2026-09-05.json"
           git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json"
+          git add "$ROOT/document01_build_commissioner_report.py"
+          git add "$ROOT/document01_commissioner_recipient_qa.py"
           git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_20_REPORT_01_CUSTOMER_RESEARCH_REPORT_GATE.md
           if git diff --cached --quiet; then
             echo 'No Document 01 material changes'
