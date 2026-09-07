@@ -4,36 +4,18 @@ ROOT = Path(__file__).resolve().parent
 GATE = (ROOT / '../../STEP_20_REPORT_01_CUSTOMER_RESEARCH_REPORT_GATE.md').resolve()
 text = GATE.read_text(encoding='utf-8')
 
-marker = '## 13. Superseding owner corrections — final Report №01 presentation contract'
-addition = r'''
+text = text.replace('Updated: 2026-09-06', 'Updated: 2026-09-07')
 
-## 13. Superseding owner corrections — final Report №01 presentation contract
+# Remove older wording that made Alice look like an optional post-check.
+text = text.replace(
+    'Alice-based answers in Yandex are an additional selected verification layer. They do not replace the semantic-core analysis and must not be presented as the author of the research conclusion.',
+    'Alice-based answers in Yandex are a core evidence surface of the sold Alice-native semantic rebuild. They do not replace the semantic-core analysis and must not be presented as the author of the research conclusion.'
+)
+text = text.replace('WHY ALICE WAS USED AFTER ORDINARY YANDEX', 'HOW ALICE WAS USED AS A CORE SURFACE OF THE KWORK')
+text = text.replace('→ WHAT THE SELECTED ALICE-BASED CHECKS ADDED', '→ HOW THE CORE / PAGE DISTRIBUTION CORRESPONDS TO ALICE\n→ WHY SELECTED ALICE CASES WERE THEN USED FOR DEEPER REFINEMENT')
 
-The rules in this section supersede any older Report №01 wording that conflicts with them.
-
-### 13.1 Site URL belongs in the title
-
-The customer must see the researched site directly in the title. A project name without the site URL is not sufficient.
-
-```text
-REPORT_01_TITLE_CONTAINS_RESEARCHED_SITE_URL = true
-```
-
-### 13.2 Customer language uses search phrases, not storage-row vocabulary
-
-Internal storage terminology such as `row`, `record`, field names or wire labels must not leak into the non-specialist report when the customer-facing meaning is simply a search phrase or a demand indicator.
-
-```text
-INTERNAL: 2415 rows
-CUSTOMER: 2415 search phrases
-
-INTERNAL: Wordstat field count
-CUSTOMER: numeric demand / frequency indicator returned with the phrase
-```
-
-Report №01 must not expose an English internal field name such as `count`.
-
-### 13.3 Frequency work must be visible without inventing exact-frequency measurements
+# Report 01 must describe completed work, not advertise procedures that were not performed.
+old_frequency = '''### 13.3 Frequency work must be visible without inventing exact-frequency measurements
 
 The report must explain that Wordstat collection was performed for the target region and that a numeric demand indicator accompanied the collected phrases. This is part of semantic-core work and must not disappear behind only logical/intent discussion.
 
@@ -42,21 +24,21 @@ At the same time, broad discovery collection must not be mislabeled as operator-
 ```text
 DEMAND / FREQUENCY WORK VISIBLE = true
 EXACT-FREQUENCY CLAIM WITHOUT EXACT-OPERATOR EVIDENCE = false
-```
+```'''
+new_frequency = '''### 13.3 Frequency work must be visible in positive client language
 
-### 13.4 Do not claim that a full rebuild was performed when the research conclusion is that it is unnecessary
+Report №01 must state what was actually done: Wordstat demand was collected for the target region, search phrases were obtained together with their demand/frequency indicators, and those values were used when analysing the semantic core.
 
-Report №01 must distinguish:
+Do not turn the client narrative into a list of procedures that were not performed when their absence is not a real limitation of the sold result.
 
 ```text
-COLLECTED / ANALYZED RESEARCH CORE FOR THE JOB
-!=
-FULL REBUILD OF THE SITE'S EXISTING CORE / STRUCTURE
-```
+DEMAND / FREQUENCY WORK VISIBLE = true
+UNPERFORMED_PROCEDURE_NARRATIVE_USED_AS_PSEUDO_LIMITATION = false
+```'''
+if old_frequency in text:
+    text = text.replace(old_frequency, new_frequency, 1)
 
-When the research shows that the existing distribution is already broadly correct, the customer-facing conclusion must say that a full rebuild is not required and that only targeted corrections are justified.
-
-### 13.5 Alice case count must arise from the narrative, not appear as a floating number
+old_alice_count = '''### 13.5 Alice case count must arise from the narrative, not appear as a floating number
 
 Before the number of selected Alice checks is stated, the report must explain:
 
@@ -68,72 +50,46 @@ WHAT SELECTION QUESTION WAS APPLIED
 THEN WHY THE FINAL SELECTED COUNT RESULTED
 ```
 
-A naked `25 -> 8` transition without this causal bridge is FAIL.
+A naked `25 -> 8` transition without this causal bridge is FAIL.'''
+new_alice_count = '''### 13.5 Alice case count must be subordinate to the overall Alice-compatibility verdict
 
-### 13.6 Positive site result must be summarized, not turned into a catalogue of a few correct pages
+Report №01 must first explain that checking the semantic core against Alice is a core part of the Kwork and state the site-wide conclusion about whether the current demand-to-page distribution corresponds to Alice output.
 
-For a non-specialist customer, Report №01 must not enumerate several already-correct pages merely to prove that positive checks existed. Such a list can falsely imply that only those pages were studied.
-
-The main report should state the site-wide conclusion in aggregate form:
-
-```text
-A MATERIAL PART OF THE EXISTING DEMAND-TO-PAGE DISTRIBUTION IS ALREADY CORRECT
-THEREFORE MASS RESTRUCTURING IS NOT REQUIRED
-WORK SHOULD FOCUS ON THE IDENTIFIED TARGETED IMPROVEMENTS
-```
-
-Concrete URLs belong in ready recommendations or where a specific example is necessary to understand a material decision, not in a no-change catalogue.
-
-### 13.7 The raw 75-query appendix is forbidden in Report №01
-
-The 75 exact ordinary-Yandex observations remain preserved in internal evidence authorities. They must not be dumped into the customer report as a raw appendix.
-
-Report №01 may state that 75 targeted checks were performed and explain why they were selected, but the raw observation register belongs to internal evidence / specialist materials.
-
-This supersedes the older `SUPPORTING APPENDIX` recommendation in this gate for the 75-query Search register.
+Only after that conclusion is clear may the report explain the bounded deep-dive set:
 
 ```text
-RAW_75_QUERY_APPENDIX_IN_REPORT_01 = FAIL
-INTERNAL_75_QUERY_EVIDENCE_PRESERVED = true
+ALICE IS A CORE PRODUCT SURFACE
+→ OVERALL ALICE-COMPATIBILITY VERDICT FOR THE SITE
+→ 25 THEMES WHERE A DEEPER CHECK COULD REFINE A DECISION
+→ 8 DEEP-DIVE CASES = 6 DECISION-SENSITIVE + 2 CONTROLS
 ```
 
-### 13.8 Alice vocabulary for Report №01
+The eight cases must never read as the entire amount or entire value of the work with Alice.'''
+if old_alice_count in text:
+    text = text.replace(old_alice_count, new_alice_count, 1)
 
-The agreed customer-facing concept is `выдача Алисы`. Do not rotate between `AI`, `ИИ`, `generative`, `neural`, technical provider labels or other aliases in Report №01.
+# Hard-fail additions are idempotent.
+anchor = 'GENERATIVE / AI / NEURAL ALIAS USED INSTEAD OF AGREED ALICE VOCABULARY\n'
+extra = ('ALICE_PRESENTED_AS_ADDITIONAL_OR_OPTIONAL_POST_CHECK\n'
+         'EIGHT_ALICE_DEEP_DIVES_PRESENTED_AS_TOTAL_ALICE_SCOPE\n'
+         'OVERALL_ALICE_COMPATIBILITY_VERDICT_MISSING_BEFORE_DEEP_DIVES\n'
+         'UNPERFORMED_FREQUENCY_PROCEDURE_NARRATED_AS_CLIENT_LIMITATION\n')
+if anchor in text and 'EIGHT_ALICE_DEEP_DIVES_PRESENTED_AS_TOTAL_ALICE_SCOPE' not in text:
+    text = text.replace(anchor, anchor + extra, 1)
 
-Technical names may remain in provenance/evidence files, but the customer report must use one stable ordinary-language name.
+pass_anchor = 'ALICE_CUSTOMER_VOCABULARY_STABLE = true\n'
+pass_extra = ('ALICE_IS_CORE_PRODUCT_SURFACE = true\n'
+              'ALICE_COMPATIBILITY_VERDICT_VISIBLE_BEFORE_DEEP_DIVES = true\n'
+              'EIGHT_ALICE_CASES_IDENTIFIED_AS_DEEP_DIVES_NOT_TOTAL_SCOPE = true\n'
+              'UNPERFORMED_FREQUENCY_PROCEDURE_NARRATIVE_ABSENT = true\n')
+if pass_anchor in text and 'ALICE_IS_CORE_PRODUCT_SURFACE = true' not in text:
+    text = text.replace(pass_anchor, pass_anchor + pass_extra, 1)
 
-### 13.9 Additional hard FAILs
-
-```text
-SITE_URL_ABSENT_FROM_REPORT01_TITLE
-RAW_STORAGE_ROW_TERM_USED_WHERE_CUSTOMER_MEANS_SEARCH_PHRASE
-ENGLISH_INTERNAL_WORDSTAT_FIELD_NAME_EXPOSED
-FREQUENCY_WORK_MISSING_FROM_WORKFLOW_NARRATIVE
-FULL_REBUILD_CLAIMED_AS COMPLETED WHEN RESEARCH SAYS FULL REBUILD IS UNNECESSARY
-ALICE_FINAL_CASE_COUNT APPEARS BEFORE CANDIDATE / SELECTION LOGIC
-POSITIVE_RESULT_EXPANDED_INTO SMALL CATALOGUE OF ALREADY-CORRECT PAGES
-RAW_75_QUERY_APPENDIX PRESENT IN REPORT_01
-GENERATIVE / AI / NEURAL ALIAS USED INSTEAD OF AGREED ALICE VOCABULARY
-```
-
-### 13.10 Updated PASS additions
-
-```text
-SITE_URL_VISIBLE_IN_TITLE = true
-SEARCH_PHRASE_COUNTS_WRITTEN_AS PHRASES FOR CUSTOMER = true
-WORDSTAT_DEMAND_INDICATOR_EXPLAINED_IN RUSSIAN = true
-FREQUENCY_WORK_VISIBLE_WITHOUT FALSE EXACTNESS = true
-FULL_REBUILD_NOT_CLAIMED_WHEN UNNECESSARY = true
-ALICE_SELECTION_CAUSAL_BRIDGE_VISIBLE = true
-POSITIVE_SITE_RESULT_SUMMARIZED WITHOUT NO-CHANGE PAGE CATALOGUE = true
-RAW_75_QUERY_APPENDIX_ABSENT = true
-ALICE_CUSTOMER_VOCABULARY_STABLE = true
-```
-'''
-
-if marker not in text:
-    text = text.rstrip() + addition + '\n'
+# Final self-checks: the gate itself must no longer teach the wrong narrative.
+assert 'Alice-based answers in Yandex are an additional selected verification layer' not in text
+assert 'WHY ALICE WAS USED AFTER ORDINARY YANDEX' not in text
+assert 'EIGHT_ALICE_DEEP_DIVES_PRESENTED_AS_TOTAL_ALICE_SCOPE' in text
+assert 'UNPERFORMED_FREQUENCY_PROCEDURE_NARRATIVE_ABSENT = true' in text
 
 GATE.write_text(text, encoding='utf-8')
-print('STEP20_REPORT01_FINAL_RULES_PATCH_PASS', GATE)
+print('STEP20_REPORT01_ALICE_NATIVE_RULES_PATCH_PASS', GATE)
