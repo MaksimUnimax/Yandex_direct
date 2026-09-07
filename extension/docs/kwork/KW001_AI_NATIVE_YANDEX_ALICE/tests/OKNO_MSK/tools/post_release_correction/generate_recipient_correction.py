@@ -12,6 +12,8 @@ import argparse
 import csv
 import hashlib
 import json
+import subprocess
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -1135,7 +1137,17 @@ def main() -> None:
         action="store_true",
         help="Update shared implementation authority and recipient document №01 without materializing №02/№03.",
     )
+    parser.add_argument(
+        "--document-02-only",
+        action="store_true",
+        help="Rebuild only recipient Document №02 from current corrected authorities.",
+    )
     args = parser.parse_args()
+    if args.document_01_only and args.document_02_only:
+        parser.error("Choose only one document-only mode")
+    if args.document_02_only:
+        subprocess.run([sys.executable, str(HERE.parent / "build_report02_implementation_guide.py")], check=True)
+        return
     data = json.loads(KNOWLEDGE_JSON.read_text(encoding="utf-8"))
     specs = {s["action_id"]: s for s in data["implementation_specifications"]}
     actions = [corrected_action(a, specs[a["action_id"]]) for a in data["canonical_actions"]]
