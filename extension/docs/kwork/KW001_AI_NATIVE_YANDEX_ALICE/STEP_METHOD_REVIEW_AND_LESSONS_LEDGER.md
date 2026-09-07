@@ -132,6 +132,19 @@ DEFINE REQUIRED RESULT
 
 `HTTP 200`, `SUCCEEDED`, request count or cost alone do not prove project completeness. `OUTCOME_UNKNOWN` is never blindly replayed.
 
+Reusable semantic-core readiness additionally requires one durable occurrence row for every row returned by every authorized request. Preserve exact phrase, numeric count, popular/result versus similar/association role, method/report type, seed/request, region/IDs, device filter, operator mode/expression, collection/snapshot time, request/acquisition/source IDs, raw or durable raw-equivalent evidence, normalized row, requested/returned/provider-total counts, pagination and explicit truncation/completeness state when available.
+
+Do not persist only examples, aggregates, accepted phrases or future active phrases. Preserve every raw duplicate occurrence; deduplicate only into a separate normalized layer with a declared aggregation rule.
+
+```text
+FULL VOLUME
+= ALL ROWS RETURNED BY ALL AUTHORIZED REQUESTS
++ DECLARED REQUEST/PROVIDER LIMITS
++ DECLARED TRUNCATION/COMPLETENESS STATE
+```
+
+Step3 semantic-core readiness fails if any preserved occurrence cannot answer phrase, count, row type, region, devices, operators, request/seed, collection time, raw/provenance location and truncation state, or if an available material field was discarded.
+
 Status: **APPROVED / ACTIVE**.
 
 ---
@@ -178,7 +191,43 @@ REQUIRES EXPLICIT INFORMATION GAIN
 
 Each probe must state the uncertainty it can resolve and why persisted evidence cannot already answer it.
 
+When authorized, Step5 must return the same complete union-compatible occurrence schema as Step3. Preserve frequency, role, region, devices, operators, seed/request, timestamp, lineage, raw evidence and limit/truncation state. Do not keep only newly accepted phrases or collapse raw second-pass observations during merge/deduplication.
+
 Status: **PARTIALLY DEFINED / NOT YET UNIVERSALLY VALIDATED**.
+
+---
+
+## Cross-step lesson — reusable acquisition data must survive final materialization
+
+**What failed:** late semantic-core materialization could discover that provider fields already acquired earlier were absent from the frozen handoff or client-ready model.
+
+**Why:** the early step optimized its persisted schema for immediate analysis instead of the promised reusable final deliverable.
+
+**Root cause / false assumption:**
+
+```text
+EARLY STEP OPTIMIZED FOR IMMEDIATE ANALYSIS
+INSTEAD OF
+PRESERVING REUSABLE FINAL-DELIVERABLE DATA
+
+DOWNSTREAM-INACTIVE ROW
+WAS TREATED AS
+DISCARDABLE ACQUISITION EVIDENCE
+```
+
+**Corrected control:**
+
+```text
+COLLECT ONCE
+PRESERVE COMPLETELY
+DERIVE MANY VIEWS LATER
+```
+
+Step3 preserves the complete returned occurrence layer; Step5 is union-compatible; Step8 guarantees a 100% phrase-key join to demand/provenance; Step19 separates machine fields from client display fields; Step20 tests the standalone workbook as a recipient artifact.
+
+Provider recollection at Step19/20 is not normal recovery when the provider already returned the needed fields. New acquisition requires a genuinely new information requirement, not repair of our own persistence loss.
+
+**PASS boundary:** every returned occurrence is durable; raw duplicates survive; limits/truncation are explicit; phrase→demand/provenance join coverage is 100%; silent field loss is zero; final display language is recipient-appropriate; data, workbook and language QA pass independently.
 
 ---
 

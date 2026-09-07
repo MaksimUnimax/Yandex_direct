@@ -46,6 +46,22 @@ It does **not** inherit the non-specialist simplicity requirement. Professional 
 
 A repeated structured action schema may be appropriate in Report №02 because the specialist must execute and verify work. The same repeated schema can be a failure in Report №01 when it makes a customer-facing narrative read like a generated questionnaire.
 
+## Отдельный результат — полное семантическое ядро
+
+Canonical authority:
+
+`STEP_20_STANDALONE_SEMANTIC_CORE_GATE.md`
+
+Purpose: give an SEO/semantic/implementation specialist a standalone XLSX for filtering, sorting, cluster review, phrase→page work, unresolved review and prioritization.
+
+```text
+REPORT №02 SPECIALIST GUIDE
+!=
+STANDALONE SEMANTIC CORE XLSX
+```
+
+They may serve similar specialist recipients, but they are separate physical deliverables. The standalone core requires its own data reconciliation, workbook usability, technical-traceability boundary and Russian recipient-language QA.
+
 ## Report №03
 
 No new report-specific universal presentation gate is promoted here yet. Report №03 must be reviewed against its own recipient task before Report №01 or Report №02 rules are copied into it.
@@ -60,7 +76,7 @@ SHARED_RULE MUST BE EXPLICITLY IDENTIFIED AS SHARED
 
 Before final QA of any deliverable:
 
-1. identify the report number and recipient task;
+1. identify the report/deliverable and recipient task;
 2. read the common Step 20 QA authorities;
 3. read the matching report-specific gate;
 4. apply only the shared rules plus the correct report-specific rules;

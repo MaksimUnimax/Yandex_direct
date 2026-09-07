@@ -42,6 +42,24 @@ SUCCESSFUL USEFUL PROVIDER EVIDENCE RECEIVED
 
 The full useful evidence must be preserved with enough fidelity for downstream work. If normalization is used, do not discard unique source fields that are required later.
 
+### Semantic-core-ready acquisition minimum
+
+For every phrase occurrence returned by an authorized provider request, preserve every available/request-defined field needed for later semantic-core materialization: exact phrase text, numeric count, row role (popular/result or similar/association), acquisition method/report type, seed/request phrase, region/region IDs, device filter, operator mode/expression, acquisition/snapshot time, request/acquisition/source IDs, raw response or durable equivalent, normalized row, requested limit, returned/total counts, pagination and explicit truncation/completeness state, plus provider response identity/hash when available.
+
+```text
+EVERY RETURNED ROW FROM EVERY AUTHORIZED REQUEST MUST BE DURABLY PRESERVED
+```
+
+Do not save only examples, aggregates, accepted/high-frequency rows or future active phrases. Excluded, deferred, uncertain, low-frequency, association-only and duplicate-candidate rows remain acquisition evidence. Filtering is downstream.
+
+When a phrase occurs more than once, preserve every raw occurrence and maintain a separate normalized/aggregated layer with a declared aggregation rule. Deduplication must not destroy observation history.
+
+`FULL VOLUME` means all rows returned by all authorized requests plus declared provider/request limits and truncation/completeness state. It does not claim knowledge of an unobservable infinite universe.
+
+Before Step 3 claims semantic-core readiness, every preserved occurrence must answer: phrase, count, row type, region, devices, operators, request/seed, collection time, raw evidence/provenance ID and whether the response was limited/truncated. Discarding an available material field required by the promised core is FAIL.
+
+Any authorized Step 5 second acquisition must use the same union-compatible schema as Step 3. It must preserve raw occurrences and the same demand/provenance fields, not only newly accepted phrases.
+
 ## What MUST NOT be archived as evidence merely because Bridge returned it
 
 Do not create evidence files for routine control-plane noise that has no downstream analytical value, including:

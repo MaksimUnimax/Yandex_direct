@@ -262,6 +262,21 @@ Required properties:
 - source revision/provenance is visible;
 - filters and frozen headers support real client use.
 
+The materializer must distinguish canonical machine fields from client display fields:
+
+```text
+CANONICAL / MACHINE FIELD != CLIENT DISPLAY FIELD
+SOURCE ENUM LANGUAGE != AUTOMATIC CLIENT LANGUAGE
+```
+
+Machine IDs/codes may remain for reproducibility in clearly labelled secondary technical fields or a dictionary. Ordinary recipient-facing headers, statuses, metric descriptions, recommendations and explanations must use the recipient's language. For a Russian client artifact:
+
+```text
+CLIENT_DISPLAY_LANGUAGE = RUSSIAN
+```
+
+An English-coded canonical source does not authorize raw enum/API labels as the workbook's primary meaning. Every client-visible enum requires a deterministic Russian display label; an unknown unmapped enum fails the build.
+
 Hard gate:
 
 ```text
@@ -421,6 +436,9 @@ For a workbook deliverable:
 - the complete correction universe reconciles from final authority to every applicable sheet/view;
 - dependent fields match the current canonical entity contract, not merely another generated table;
 - no client view silently resolves an upstream unresolved/deferred state.
+- client-facing headers and ordinary categorical values use the declared recipient language;
+- technical API/project codes appear only in explicit secondary technical/provenance surfaces;
+- a recipient-language scan reports zero unexplained internal English and zero unmapped client-visible enums.
 
 `FILE EXISTS` is not workbook QA.
 
@@ -525,6 +543,7 @@ REQUIRED SEARCH / AI / POSITIVE / UNCERTAINTY LAYERS VISIBLE = PASS
 CLAIM GOVERNANCE = PASS
 PHYSICAL ARTIFACT CONTRACT = PASS
 MATERIALIZED CLIENT WORKBOOK = PASS
+RECIPIENT LANGUAGE QA = PASS
 EXECUTION-CALIBRATION INTERFACE = PASS
 MEASUREMENT INTERFACE = PASS
 CLIENT-INDEPENDENT-USE = PASS

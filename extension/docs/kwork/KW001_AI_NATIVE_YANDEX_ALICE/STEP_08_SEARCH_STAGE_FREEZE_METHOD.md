@@ -185,6 +185,31 @@ reconciliation
 hashes/version identity
 ```
 
+### 8. Freeze the complete demand/provenance handoff
+
+The immutable semantic handoff must preserve, or provide a mechanically exact deterministic join to, the complete acquisition-demand/provenance layer for every phrase in the preserved universe.
+
+Required traceability includes, when supplied or request-defined:
+
+- observed count(s) and result/similar-query role;
+- acquisition method/report type;
+- region and region IDs;
+- device filter;
+- operator mode/expression;
+- seed/request and source IDs;
+- acquisition/snapshot date;
+- raw or durable raw-equivalent provider evidence;
+- source occurrence history and declared aggregation rule.
+
+Step 8 must not freeze only semantic status while forcing Step 19/20 to reconstruct missing frequency/provenance manually from historical raw folders. Excluded, deferred and unresolved phrases retain the same traceability because later correction may reactivate or reinterpret them.
+
+```text
+SEMANTIC_FREEZE_COMPLETE = true
+DEMAND_PROVENANCE_HANDOFF_COMPLETE = true
+PHRASE_KEY_JOIN_COVERAGE = 100%
+SILENT_FIELD_LOSS = 0
+```
+
 ## Known error — unsupported business routing taxonomy
 
 ### What failed
@@ -248,6 +273,9 @@ SILENT_DROPS = 0
 UPSTREAM_STATUS_REWRITES = 0
 NONEXACT_AUTO_MERGES = 0
 SEARCH_PROVIDER_CALLS_DURING_FREEZE = 0
+DEMAND_PROVENANCE_HANDOFF_COMPLETE = true
+PHRASE_KEY_JOIN_COVERAGE = 100%
+SILENT_FIELD_LOSS = 0
 ```
 
 ## Pass gate
@@ -264,6 +292,7 @@ Step 8 passes only when:
 7. no final clustering/page ownership is performed;
 8. immutable snapshot identity/reconciliation exists;
 9. source-to-method traceability passes.
+10. every frozen phrase has complete demand/provenance traceability through a 100% deterministic key join.
 ```
 
 ## What Step 8 does NOT decide
