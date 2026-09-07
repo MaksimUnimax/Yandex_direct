@@ -501,3 +501,15 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Corrected release: `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/`.
 - GitHub materialization commits: `f99beaea8855d5cd7a0ed5737d5b536b2ee7d912`, `a22c4be3298ac3026f43c436a2e29970198db89c`; final 25-path blob/size readback mismatches=0.
 - Next action after GitHub readback: owner recheck of corrected recipient documents №01, №02 and №03. Historical release remains preserved as provenance.
+
+## 2026-09-07 — Standalone semantic-core data audit
+
+- Completed a row-level audit of all preserved Wordstat, cleanup, clustering, page-mapping, Stage-5 and prior Step-19 semantic artifacts at source HEAD `d4e88e1f406c91b544a40c7ed10287f41da26f7f`.
+- Reconciled 2,965 raw rows → 2,840 unique phrases → 2,332 active → 2,313 assigned + 19 SEARCH_REQUIRED → 168 canonical structural units.
+- Confirmed that every unique phrase has a positive observed provider count and every active phrase has its own Wordstat result count for Moscow region 213 / DEVICE_ALL.
+- Confirmed that all collected counts are broad `getTop` snapshots with operators `NONE`, not exact/phrase-match frequency.
+- Determined that no new provider collection is required for the base standalone semantic core.
+- Marked the old Step-19 semantic-core materialization stale for final cluster/intent/page authority; it must not be delivered as the final standalone core.
+- Persisted audit authority: `RESEARCH_REBUILD_POST_RELEASE_SEMANTIC_CORE_DATA_AUDIT_2026-09-07.md`.
+- Standalone semantic-core XLSX remains not materialized. Documents №01–№03 were not changed. Provider calls: 0.
+- Next action: `MATERIALIZE_NEW_STANDALONE_SEMANTIC_CORE_XLSX_FROM_STAGE5_FINAL_SEMANTIC_TRUTH__STEP08_FREQUENCY_PROVENANCE__STAGE5_UNIT_AUTHORITY`.

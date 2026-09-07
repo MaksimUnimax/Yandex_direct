@@ -2,7 +2,7 @@
   "date": "2026-09-05",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "STAGE_0_TO_15_HISTORICALLY_COMPLETE__DOCUMENT_01_YANDEX_GENSEARCH_ALICE_AI_OWNER_REPORT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "status": "STAGE_0_TO_15_HISTORICALLY_COMPLETE__SEMANTIC_CORE_DATA_AUDIT_COMPLETE__STANDALONE_CORE_NOT_MATERIALIZED",
   "historical_state_authority": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
   "historical_release": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_manifest": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
@@ -14,6 +14,7 @@
     "01_client_research_report": "ANALYST_RECHECK_PASS__YANDEX_GENSEARCH_ALICE_AI_OWNER_REPORT__OWNER_REVIEW_PENDING",
     "02_seo_specialist_guide": "CORRECTED_CURRENT_RECIPIENT_ARTIFACT__ANALYST_QA_PASS__OWNER_RECHECK_REQUIRED",
     "03_ai_site_specific_seo_consultant": "CORRECTED_EXACTLY_ONE_SELF_CONTAINED_MARKDOWN__OFFLINE_CLEAN_CONTEXT_QA_PASS__OWNER_RECHECK_REQUIRED",
+    "standalone_semantic_core": "DATA_AUDIT_COMPLETE__PERSISTED_IN_GITHUB__XLSX_NOT_MATERIALIZED",
     "04_workbook": "STRUCTURAL_MATERIALIZATION_DEFECT_SET_RECORDED__DIRECT_BINARY_OWNER_USABILITY_CHECK_PENDING_IF_MATERIAL",
     "release_readme_delivery_package_experience": "CORRECTED_CURRENT_RELEASE_README_AND_MANIFEST__ANALYST_QA_PASS"
   },
@@ -65,7 +66,7 @@
     "STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md",
     "STEP_20_CLIENT_REPORT_OWNER_VALUE_AND_PLAIN_LANGUAGE_GATE.md"
   ],
-  "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
+  "next_action": "MATERIALIZE_NEW_STANDALONE_SEMANTIC_CORE_XLSX_FROM_STAGE5_FINAL_SEMANTIC_TRUTH__STEP08_FREQUENCY_PROVENANCE__STAGE5_UNIT_AUTHORITY",
   "correction_materialization_status": "DOCUMENT_01_FINAL_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "corrected_recipient_release": {
     "directory": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
@@ -167,6 +168,32 @@
     "document_01_internal_count_field": "ABSENT",
     "document_01_positive_no_change_page_catalogue": "ABSENT",
     "document_01_full_rebuild_claim": "ABSENT__RESEARCH_CONCLUDES_FULL_REBUILD_NOT_REQUIRED"
+  },
+  "semantic_core_data_audit_2026_09_07": {
+    "status": "COMPLETE__PERSISTED_IN_GITHUB",
+    "authority": "RESEARCH_REBUILD_POST_RELEASE_SEMANTIC_CORE_DATA_AUDIT_2026-09-07.md",
+    "audit_source_head": "d4e88e1f406c91b544a40c7ed10287f41da26f7f",
+    "reconciliation": {
+      "raw_rows": 2965,
+      "unique_phrases": 2840,
+      "active_phrases": 2332,
+      "assigned_phrases": 2313,
+      "search_required_phrases": 19,
+      "canonical_structural_units": 168
+    },
+    "base_provider_collection_required": false,
+    "frequency_semantics": "WORDSTAT_GETTOP_BROAD_SNAPSHOT__MOSCOW_213__DEVICE_ALL__NO_OPERATORS__NOT_EXACT_FREQUENCY",
+    "legacy_step19_semantic_core": "STALE_FOR_FINAL_CLUSTER_INTENT_PAGE_AUTHORITY__DO_NOT_USE_AS_FINAL",
+    "legacy_step19_mismatch_counts": {
+      "cluster_or_unit": 803,
+      "user_task": 851,
+      "intent": 185,
+      "target_url": 518
+    },
+    "standalone_semantic_core_xlsx_materialized": false,
+    "documents_01_02_03_modified": false,
+    "new_provider_calls": 0,
+    "next_action": "MATERIALIZE_NEW_STANDALONE_SEMANTIC_CORE_XLSX_FROM_STAGE5_FINAL_SEMANTIC_TRUTH__STEP08_FREQUENCY_PROVENANCE__STAGE5_UNIT_AUTHORITY"
   },
   "step21_22_authorized": false,
   "new_provider_calls_authorized": false,
