@@ -538,3 +538,14 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Corrected XLSX SHA-256: `4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522`; size: 1431394 bytes.
 - Documents №01–№03 were not modified. Provider calls: 0.
 - Next action remains: `OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02`.
+
+## 2026-09-07 — Final standalone semantic-core worksheet-title correction
+
+- Residual owner review found that the first language correction covered headers and cells but not visible worksheet titles; `05_SEARCH_REQUIRED` remained exposed as a client-facing internal code.
+- Root cause recorded: `CELL LANGUAGE QA WAS INCORRECTLY TREATED AS WHOLE-WORKBOOK LANGUAGE QA`.
+- Materializer now emits `05_Проверка_в_Яндексе`; canonical `SEARCH_REQUIRED` remains unchanged in semantic authority and explicit technical fields.
+- Validator now scans worksheet titles, client-facing headers and ordinary client cells. Final results: 6 worksheet titles scanned, title hits = 0; 154488 ordinary client cells scanned, 26684 technical/ID cells exempted, cell hits = 0, unmapped enums = 0.
+- Regenerated XLSX from unchanged Stage-5 + Step-08 authorities. Data invariants: 2840 / 2332 / 2313 / 19 / 168 / 60; governed no-URL rows: 393 = 246 / 115 / 32.
+- Data, workbook, Russian client-language and visual QA: PASS. Final XLSX SHA-256: `cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a`; size: 1431390 bytes.
+- Documents №01–№03 were not modified. Provider calls: 0.
+- Next action remains: `OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02`.

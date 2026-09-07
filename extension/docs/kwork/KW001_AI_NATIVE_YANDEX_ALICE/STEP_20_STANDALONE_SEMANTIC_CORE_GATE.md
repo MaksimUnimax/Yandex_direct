@@ -48,6 +48,15 @@ PROJECT ENUM != CLIENT EXPLANATION
 
 Primary headers, statuses, intent, business boundaries, page roles, recommendations, readiness, uncertainty, priorities, metric descriptions and explanatory notes must use clear Russian professional language.
 
+A visible worksheet title is part of client presentation language:
+
+```text
+WORKSHEET TITLE IS PART OF CLIENT PRESENTATION LANGUAGE
+CELL LANGUAGE QA != WHOLE-WORKBOOK LANGUAGE QA
+```
+
+Visible sheet names must use the recipient language and must not expose an internal project/API enum as their primary meaning.
+
 Stable phrase/unit/source IDs, URLs, filenames, product names and explicit technical-code fields may retain Latin characters or machine codes. They are secondary traceability. The recipient must not need them to understand the decision.
 
 Every client-visible categorical value must use a deterministic display map. An unknown enum without a Russian display label is a build failure.
@@ -101,6 +110,8 @@ RUSSIAN CLIENT-LANGUAGE QA = PASS
 TECHNICAL TRACEABILITY = PRESERVED
 UNEXPLAINED INTERNAL ENGLISH = 0
 UNKNOWN UNMAPPED CLIENT ENUMS = 0
+CLIENT-FACING WORKSHEET TITLES = RECIPIENT LANGUAGE
+UNEXPLAINED INTERNAL ENGLISH IN WORKSHEET TITLES = 0
 ```
 
 ## 7. Acquisition-to-deliverable continuity
@@ -139,6 +150,8 @@ REQUIRED VIEWS = PASS
 WORKBOOK USABILITY = PASS
 VISUAL QA OF EVERY SHEET = PASS
 RUSSIAN CLIENT-LANGUAGE QA = PASS
+CLIENT-FACING WORKSHEET TITLES = RECIPIENT LANGUAGE
+UNEXPLAINED INTERNAL ENGLISH IN WORKSHEET TITLES = 0
 UNEXPLAINED INTERNAL ENGLISH = 0
 TECHNICAL TRACEABILITY = PRESERVED
 PERSISTED REMOTE READBACK = PASS

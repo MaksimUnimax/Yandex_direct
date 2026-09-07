@@ -5,6 +5,8 @@
   "status": "PASS",
   "initial_data_qa": "PASS",
   "owner_language_review": "FAIL_FOUND",
+  "first_language_correction": "PARTIAL__RESIDUAL_WORKSHEET_TITLE_DEFECT_FOUND",
+  "final_language_correction": "PASS",
   "language_correction": "COMPLETE",
   "current_data_qa": "PASS",
   "current_workbook_qa": "PASS",
@@ -12,8 +14,8 @@
   "current_visual_qa": "PASS",
   "final_current_status": "PASS",
   "xlsx_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx",
-  "xlsx_size_bytes": 1431394,
-  "xlsx_sha256": "4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522",
+  "xlsx_size_bytes": 1431390,
+  "xlsx_sha256": "cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a",
   "authority": {
     "semantic_and_page_truth": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
     "unit_truth": "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
@@ -40,7 +42,7 @@
     "02_Активное_ядро": 2332,
     "03_Кластеры": 168,
     "04_Страницы": 63,
-    "05_SEARCH_REQUIRED": 19,
+    "05_Проверка_в_Яндексе": 19,
     "06_Справочник": 122
   },
   "wordstat_semantics": {
@@ -54,8 +56,13 @@
   },
   "recipient_language_qa": {
     "status": "PASS",
-    "assertion_count": 4,
+    "assertion_count": 6,
     "worksheets_scanned": 6,
+    "worksheet_titles_scanned": 6,
+    "worksheet_title_language_qa": "PASS",
+    "unexplained_internal_english_in_worksheet_titles": 0,
+    "worksheet_title_forbidden_hits": 0,
+    "worksheet_title_hits": [],
     "nonempty_cells_scanned": 181172,
     "ordinary_client_cells_scanned": 154488,
     "technical_code_or_id_cells_exempted": 26684,
@@ -106,7 +113,7 @@
         "size_bytes": 765020
       },
       {
-        "sheet": "05_SEARCH_REQUIRED",
+        "sheet": "05_Проверка_в_Яндексе",
         "exists": true,
         "size_bytes": 731046
       },
@@ -136,7 +143,7 @@
         "02_Активное_ядро",
         "03_Кластеры",
         "04_Страницы",
-        "05_SEARCH_REQUIRED",
+        "05_Проверка_в_Яндексе",
         "06_Справочник"
       ],
       "expected": [
@@ -144,7 +151,7 @@
         "02_Активное_ядро",
         "03_Кластеры",
         "04_Страницы",
-        "05_SEARCH_REQUIRED",
+        "05_Проверка_в_Яндексе",
         "06_Справочник"
       ]
     },
@@ -473,19 +480,19 @@
       "expected": []
     },
     {
-      "name": "05_SEARCH_REQUIRED__freeze_panes",
+      "name": "05_Проверка_в_Яндексе__freeze_panes",
       "status": "PASS",
       "actual": "C2",
       "expected": "non-empty"
     },
     {
-      "name": "05_SEARCH_REQUIRED__table_and_filter",
+      "name": "05_Проверка_в_Яндексе__table_and_filter",
       "status": "PASS",
       "actual": 1,
       "expected": 1
     },
     {
-      "name": "05_SEARCH_REQUIRED__no_hidden_columns",
+      "name": "05_Проверка_в_Яндексе__no_hidden_columns",
       "status": "PASS",
       "actual": [],
       "expected": []
@@ -539,6 +546,18 @@
       "expected": 0
     },
     {
+      "name": "worksheet_title_language_qa",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "unexplained_internal_english_in_worksheet_titles_zero",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
       "name": "recipient_language_headers_are_client_facing",
       "status": "PASS",
       "actual": 0,
@@ -575,7 +594,7 @@
           "size_bytes": 765020
         },
         {
-          "sheet": "05_SEARCH_REQUIRED",
+          "sheet": "05_Проверка_в_Яндексе",
           "exists": true,
           "size_bytes": 731046
         },

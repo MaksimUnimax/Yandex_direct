@@ -437,6 +437,7 @@ For a workbook deliverable:
 - dependent fields match the current canonical entity contract, not merely another generated table;
 - no client view silently resolves an upstream unresolved/deferred state.
 - client-facing headers and ordinary categorical values use the declared recipient language;
+- visible worksheet titles use the declared recipient language and expose no unexplained internal project/API enum;
 - technical API/project codes appear only in explicit secondary technical/provenance surfaces;
 - a recipient-language scan reports zero unexplained internal English and zero unmapped client-visible enums.
 

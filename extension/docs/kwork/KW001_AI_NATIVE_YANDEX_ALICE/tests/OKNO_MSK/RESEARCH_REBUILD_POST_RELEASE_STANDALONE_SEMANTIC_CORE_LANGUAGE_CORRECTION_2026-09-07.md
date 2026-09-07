@@ -69,11 +69,38 @@ Materializer продолжает брать semantic/page truth только и
 
 ## 7. Контроль хэша
 
-- исходный XLSX SHA-256: `d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550`;
-- исправленный XLSX SHA-256: `4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522`;
-- исправленный XLSX размер: `1431394` байт.
+- исходный XLSX до первой языковой коррекции SHA-256: `d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550`;
+- XLSX после первой, частичной языковой коррекции SHA-256: `4f3835b32d6d59969bb947d12dcbd33e36044d3ce8ae47670c83c4fdcdfd5522`;
+- финально исправленный XLSX SHA-256: `cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a`;
+- финально исправленный XLSX размер: `1431390` байт.
 
 Финальный language scan: 181172 непустые ячейки; 154488 обычных клиентских; 26684 технических/ID ячеек освобождены по явному allowlist; forbidden hits = 0; unmapped enum values = 0; primary English machine-value leakage = 0.
+
+## 7A. Остаточный дефект названия листа
+
+Повторная owner review установила, что первая языковая коррекция успешно перевела заголовки и значения ячеек, но оставила видимое название листа `05_SEARCH_REQUIRED`. Валидатор проверял содержимое ячеек, но не считал названия листов частью клиентского представления.
+
+```text
+CELL LANGUAGE QA
+WAS INCORRECTLY TREATED AS
+WHOLE-WORKBOOK LANGUAGE QA
+```
+
+Исправленное правило:
+
+```text
+WORKBOOK CLIENT LANGUAGE
+= SHEET TITLES
++ HEADERS
++ ORDINARY CLIENT CELLS
++ HUMAN EXPLANATIONS
+```
+
+Клиентский лист переименован в `05_Проверка_в_Яндексе`. Канонический внутренний статус `SEARCH_REQUIRED` не изменён. Validator теперь отдельно сканирует worksheet titles и требует `UNEXPLAINED_INTERNAL_ENGLISH_IN_WORKSHEET_TITLES = 0`.
+
+Финальная проверка: названий листов проверено 6; запрещённых попаданий в названиях — 0; обычных клиентских ячеек проверено 154488; технических/ID ячеек освобождено по allowlist 26684; запрещённых попаданий в заголовках и обычных ячейках — 0; неизвестных unmapped enum — 0. Data QA, workbook QA, Russian client-language QA и визуальный просмотр всех шести листов: `PASS`.
+
+История результата сохранена явно: `INITIAL_DATA_QA = PASS`; `FIRST_OWNER_LANGUAGE_REVIEW = FAIL`; `FIRST_LANGUAGE_CORRECTION = PARTIAL__RESIDUAL_SHEET_TITLE_DEFECT_FOUND`; `FINAL_LANGUAGE_CORRECTION = PASS`.
 
 ## 8. Постоянные методологические исправления
 

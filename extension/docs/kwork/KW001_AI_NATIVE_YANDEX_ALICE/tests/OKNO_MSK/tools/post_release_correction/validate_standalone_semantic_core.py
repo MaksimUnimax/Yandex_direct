@@ -21,7 +21,7 @@ REQUIRED_SHEETS = [
     "02_Активное_ядро",
     "03_Кластеры",
     "04_Страницы",
-    "05_SEARCH_REQUIRED",
+    "05_Проверка_в_Яндексе",
     "06_Справочник",
 ]
 
@@ -313,7 +313,7 @@ def main() -> int:
     active_headers, active_rows = sheet_records(workbook["02_Активное_ядро"])
     cluster_headers, cluster_rows = sheet_records(workbook["03_Кластеры"])
     page_headers, page_rows = sheet_records(workbook["04_Страницы"])
-    search_headers, search_rows = sheet_records(workbook["05_SEARCH_REQUIRED"])
+    search_headers, search_rows = sheet_records(workbook["05_Проверка_в_Яндексе"])
     dictionary_headers, dictionary_rows = sheet_records(workbook["06_Справочник"])
 
     check("all_phrase_rows", len(all_rows) == 2840, len(all_rows), 2840)
@@ -522,10 +522,29 @@ def main() -> int:
     ]
     check("recipient_language_dictionary_covers_display_maps", not missing_dictionary_pairs, len(missing_dictionary_pairs), 0, json.dumps(missing_dictionary_pairs[:3], ensure_ascii=False) if missing_dictionary_pairs else None)
 
-    # The scan is intentionally independent of generator helpers. It permits technical material only
-    # in explicit traceability columns, while checking headers and all ordinary cells on all sheets.
+    # A visible worksheet title is client presentation, not technical metadata. Check titles
+    # independently before scanning headers and ordinary cells.
     enum_codes = sorted({code for mapping in DISPLAY_MAPS.values() for code in mapping}, key=len, reverse=True)
     enum_patterns = [(code, re.compile(rf"(?<![A-Z0-9_]){re.escape(code)}(?![A-Z0-9_])")) for code in enum_codes]
+    worksheet_title_hits = []
+    for title in workbook.sheetnames:
+        reasons = []
+        for token in FORBIDDEN_PRESENTATION_TERMS:
+            if token.casefold() in title.casefold():
+                reasons.append(f"forbidden:{token}")
+        code_hits = [code for code, pattern in enum_patterns if pattern.search(title)]
+        if code_hits:
+            reasons.append("project_enum:" + ",".join(code_hits[:5]))
+        generic_hits = INTERNAL_CODE_RE.findall(title)
+        if generic_hits:
+            reasons.append("internal_code_pattern:" + ",".join(generic_hits[:5]))
+        if reasons:
+            worksheet_title_hits.append({"title": title, "reasons": reasons})
+    check("worksheet_title_language_qa", not worksheet_title_hits, len(worksheet_title_hits), 0, json.dumps(worksheet_title_hits, ensure_ascii=False) if worksheet_title_hits else None)
+    check("unexplained_internal_english_in_worksheet_titles_zero", not worksheet_title_hits, len(worksheet_title_hits), 0)
+
+    # Cell scan is intentionally independent of generator helpers. It permits technical material only
+    # in explicit traceability columns, while checking headers and all ordinary cells on all sheets.
     language_hits = []
     scanned_cells = 0
     ordinary_cells = 0
@@ -584,10 +603,12 @@ def main() -> int:
         "status": overall,
         "initial_data_qa": "PASS",
         "owner_language_review": "FAIL_FOUND",
-        "language_correction": "COMPLETE",
+        "first_language_correction": "PARTIAL__RESIDUAL_WORKSHEET_TITLE_DEFECT_FOUND",
+        "final_language_correction": "PASS" if not missing_display_codes and not missing_dictionary_pairs and not language_hits and not worksheet_title_hits else "FAIL",
+        "language_correction": "COMPLETE" if not missing_display_codes and not missing_dictionary_pairs and not language_hits and not worksheet_title_hits else "INCOMPLETE",
         "current_data_qa": "PASS" if all(item["status"] == "PASS" for item in checks if not item["name"].startswith("recipient_language_") and item["name"] not in {"all_sheet_previews_materialized", "analyst_visual_review"}) else "FAIL",
         "current_workbook_qa": "PASS" if all(item["status"] == "PASS" for item in checks if item["name"] not in {"analyst_visual_review"} and not item["name"].startswith("recipient_language_")) else "FAIL",
-        "current_russian_language_qa": "PASS" if not missing_display_codes and not missing_dictionary_pairs and not language_hits else "FAIL",
+        "current_russian_language_qa": "PASS" if not missing_display_codes and not missing_dictionary_pairs and not language_hits and not worksheet_title_hits else "FAIL",
         "current_visual_qa": "PASS" if args.visual_pass and preview_integrity else "FAIL",
         "final_current_status": overall,
         "xlsx_path": str(xlsx_path.relative_to(repo)),
@@ -615,7 +636,7 @@ def main() -> int:
             "02_Активное_ядро": len(active_rows),
             "03_Кластеры": len(cluster_rows),
             "04_Страницы": len(page_rows),
-            "05_SEARCH_REQUIRED": len(search_rows),
+            "05_Проверка_в_Яндексе": len(search_rows),
             "06_Справочник": len(dictionary_rows),
         },
         "wordstat_semantics": {
@@ -628,9 +649,14 @@ def main() -> int:
             "active_phrases_with_positive_result_count": sum(int(step8_by_phrase[norm(row["phrase"])]["max_result_count"]) > 0 for row in active),
         },
         "recipient_language_qa": {
-            "status": "PASS" if not missing_display_codes and not missing_dictionary_pairs and not language_hits else "FAIL",
-            "assertion_count": 4,
+            "status": "PASS" if not missing_display_codes and not missing_dictionary_pairs and not language_hits and not worksheet_title_hits else "FAIL",
+            "assertion_count": 6,
             "worksheets_scanned": len(workbook.worksheets),
+            "worksheet_titles_scanned": len(workbook.sheetnames),
+            "worksheet_title_language_qa": "PASS" if not worksheet_title_hits else "FAIL",
+            "unexplained_internal_english_in_worksheet_titles": len(worksheet_title_hits),
+            "worksheet_title_forbidden_hits": len(worksheet_title_hits),
+            "worksheet_title_hits": worksheet_title_hits,
             "nonempty_cells_scanned": scanned_cells,
             "ordinary_client_cells_scanned": ordinary_cells,
             "technical_code_or_id_cells_exempted": scanned_cells - ordinary_cells,

@@ -798,7 +798,7 @@ const allSheet = workbook.worksheets.add("01_Все_фразы");
 const activeSheet = workbook.worksheets.add("02_Активное_ядро");
 const clusterSheet = workbook.worksheets.add("03_Кластеры");
 const pageSheet = workbook.worksheets.add("04_Страницы");
-const searchSheet = workbook.worksheets.add("05_SEARCH_REQUIRED");
+const searchSheet = workbook.worksheets.add("05_Проверка_в_Яндексе");
 const dictionarySheet = workbook.worksheets.add("06_Справочник");
 
 const sortedAll = [...joined].sort((a, b) => a.phrase.localeCompare(b.phrase, "ru"));
@@ -901,7 +901,7 @@ if (previewDir) {
     ["02_Активное_ядро", "A1:L22"],
     ["03_Кластеры", "A1:Y22"],
     ["04_Страницы", "A1:P22"],
-    ["05_SEARCH_REQUIRED", "A1:R20"],
+    ["05_Проверка_в_Яндексе", "A1:R20"],
     ["06_Справочник", `A1:E${Math.min(dictionaryRows.length + 1, 40)}`],
   ];
   for (const [sheetName, range] of previewSpecs) {
@@ -934,7 +934,7 @@ const runtimeReport = {
     "02_Активное_ядро": sortedActive.length,
     "03_Кластеры": clusterRows.length,
     "04_Страницы": pageRows.length,
-    "05_SEARCH_REQUIRED": searchMatrix.length,
+    "05_Проверка_в_Яндексе": searchMatrix.length,
     "06_Справочник": dictionaryRows.length,
   },
   metric: { method: "getTop", region: 213, devices: "DEVICE_ALL", operators: "NONE", type: METRIC_TYPE },
