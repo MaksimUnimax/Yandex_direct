@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_01_ALICE_NATIVE_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__STANDALONE_SEMANTIC_CORE_QA_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+  "status": "DOCUMENT_02_SPECIALIST_IMPLEMENTATION_GUIDE_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -28,10 +28,10 @@
       "variant": "02",
       "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 547169,
-      "sha256": "3f589c03bc44f5127aa9f93697e3120729149f8f6985c11fa921424c867ec61a",
-      "pages": 57,
-      "recipient_contract": "SEO_SPECIALIST_CAN_EXECUTE_EVIDENCE_SUPPORTED_READY_WORK_WITHOUT_REPOSITORY_ARCHAEOLOGY"
+      "size_bytes": 489931,
+      "sha256": "07aa3778f6804336b24147b085c2a74f76ba6719f02d19bab5cc81fe7918319b",
+      "pages": 24,
+      "recipient_contract": "RUSSIAN_EXECUTABLE_SPECIALIST_GUIDE__7_READY__1_PARTIAL__46_MAPPING_ONLY__4_BLOCKED__15_LINK_CANDIDATES__OWNER_REVIEW_PENDING"
     },
     {
       "variant": "03",
@@ -75,8 +75,8 @@
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-      "size_bytes": 48359,
-      "sha256": "4c9f4aeded8b23c8ed7741d10a989ba79696d8fac3fa10a48de11cdd01df2d3c"
+      "size_bytes": 35617,
+      "sha256": "0384ed7f7bae42c4446daa56bbd3e8856f90840aaff044b5a09500493e4c0a0c"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
@@ -85,8 +85,8 @@
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-      "size_bytes": 188496,
-      "sha256": "764f697fb5ad7ca6f5982b000b6053652460f854c8bb7b937a2041688fff80d8"
+      "size_bytes": 79047,
+      "sha256": "2546f9661a0f2da022e6a56bc728d345eb64318fd8697605e75d1c576bd01a4f"
     }
   ],
   "qa": {
@@ -115,12 +115,12 @@
     "document_01_full_workflow_plain_language": true,
     "document_01_generic_disclaimer_section": "ABSENT",
     "document_01_fake_reading_time_heading": "ABSENT",
-    "current_document": "01",
+    "current_document": "02",
     "document_01_customer_review": "PENDING__AWAITING_RECHECK",
-    "document_02": "NOT_STARTED__UNTOUCHED",
+    "document_02": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_03": "NOT_STARTED__UNTOUCHED",
     "final_customer_recipient_acceptance": "OPEN",
-    "next_action": "OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02",
+    "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
     "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
     "document_01_dual_surface_optimization_verdict": true,
     "document_01_alice_research_agency": "PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR",
@@ -134,7 +134,7 @@
     "document_01_internal_taxonomy_hits": 0,
     "document_01_source_native_brands_preserved": true,
     "document_01_owner_review": "PENDING__AWAITING_RECHECK",
-    "document_02_owner_review": "PENDING__NOT_STARTED",
+    "document_02_owner_review": "PENDING__ANALYST_RECHECK_PASS",
     "document_03_owner_review": "PENDING__NOT_STARTED",
     "final_owner_recipient_acceptance": "OPEN",
     "document_01_scope_chain": "2415_FIRST_PASS__550_EXPANSION__2965_SOURCE_ROWS__2840_UNIQUE_FORMULATIONS__334_EXCLUDED__174_DEFERRED__2332_ACTIVE__2313_ASSIGNED__19_UNRESOLVED__168_DEMAND_GROUPS__75_ORDINARY_YANDEX_OBSERVATIONS__25_ALICE_CANDIDATES__8_ALICE_CHECKS__34_RESULTS",
@@ -164,7 +164,24 @@
     "standalone_semantic_core_current_version": "CORRECTED",
     "standalone_semantic_core_final_qa": "PASS",
     "standalone_semantic_core_new_provider_calls": 0,
-    "standalone_semantic_core_documents_01_02_03_modified": false
+    "standalone_semantic_core_documents_01_02_03_modified": false,
+    "document_02_qa_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_GUIDE_QA_2026-09-07.json",
+    "document_02_correction_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_GUIDE_CORRECTION_2026-09-07.md",
+    "document_02_method_references": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_METHOD_REFERENCES_2026-09-07.md",
+    "document_02_ready_physical_actions": 7,
+    "document_02_partial_actions": 1,
+    "document_02_mapping_only_results": 46,
+    "document_02_blocked_recheck_items": 4,
+    "document_02_internal_link_candidates": 15,
+    "document_02_project_invented_english_client_terms": 0,
+    "document_02_bibliography_currently_revalidated": true,
+    "document_02_md_docx_pdf_equivalence": "PASS",
+    "document_02_visual_qa": "PASS__24_OF_24_PAGES",
+    "document_02_owner_review_state": "PENDING",
+    "document_01_modified_during_document_02_rebuild": false,
+    "document_03_modified_during_document_02_rebuild": false,
+    "semantic_core_04_modified_during_document_02_rebuild": false,
+    "document_02_rebuild_new_provider_calls": 0
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,

@@ -218,7 +218,7 @@ def style_doc(path: Path, preset: str, running_label: str):
         elif n == 4:
             widths = [1400, 2800, 2460, 2700]
         elif n == 5:
-            widths = [900, 1300, 800, 1700, 4660]
+            widths = [500, 1800, 2300, 2300, 2460]
         else:
             base = 9360 // n
             widths = [base] * n

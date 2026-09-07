@@ -549,3 +549,15 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Data, workbook, Russian client-language and visual QA: PASS. Final XLSX SHA-256: `cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a`; size: 1431390 bytes.
 - Documents №01–№03 were not modified. Provider calls: 0.
 - Next action remains: `OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02`.
+
+## 2026-09-07 — Document №02 rebuilt as executable specialist guide
+
+- Read the current Report №02 Level-1 acceptance gate and current Stage-5, routing, action, evidence and post-release correction authorities.
+- Rebuilt the reproducible Markdown source and generator. The guide now starts with seven independently numbered ready site changes: `S18-A009`, `S18-A010`, `S18-A026`, `S18-A028`, `S18-A029`, `S18-A030`, `S18-A031`.
+- Kept `S18-A012` in a separate partial section; separated 46 semantic assignments, four blocked/recheck items and 15 potential internal links from physical CMS work.
+- Added eight implementation examples; proposed additions are bold in all eight. Full phrase membership remains in semantic core №04 rather than being duplicated in №02.
+- Revalidated eight current public methodology sources on 2026-09-07 and recorded their exact use.
+- Materialized Markdown → DOCX → PDF. Independent QA: `PASS`, 25/25. Visual QA: `PASS`, all 24 PDF pages inspected. Project-invented English/Latin client terms: 0.
+- Documents №01 and №03 and semantic core №04 remained byte-identical. Provider calls: 0.
+- Document №02 state: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
+- Next action: `OWNER_REVIEW_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.

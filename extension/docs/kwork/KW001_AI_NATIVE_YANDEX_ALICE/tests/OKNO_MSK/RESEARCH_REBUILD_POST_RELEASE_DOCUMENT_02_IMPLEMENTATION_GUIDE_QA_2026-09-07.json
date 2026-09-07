@@ -1,0 +1,225 @@
+{
+  "artifact": "DOCUMENT_02_SPECIALIST_IMPLEMENTATION_GUIDE",
+  "status": "PASS",
+  "date": "2026-09-07",
+  "counts": {
+    "ready": 7,
+    "partial": 1,
+    "mapping_only": 46,
+    "blocked_recheck": 4,
+    "internal_link_candidates": 15,
+    "examples": 8,
+    "bold_examples": 8,
+    "bibliography": 8,
+    "pdf_pages": 24
+  },
+  "language_qa": {
+    "status": "PASS",
+    "project_invented_english_latin_client_terms": 0,
+    "remaining_latin_allowlist": [
+      "URLs",
+      "REHAU/Accado/Vorne/Futurus brand names",
+      "SEO",
+      "secondary technical identifiers",
+      "secondary evidence filenames",
+      "exact English titles of external publications"
+    ]
+  },
+  "cross_format_equivalence": "PASS",
+  "visual_qa": {
+    "status": "PASS",
+    "pages": 24,
+    "all_pages_inspected": true
+  },
+  "source_freshness": {
+    "status": "PASS",
+    "checked_on": "2026-09-07",
+    "items": 8
+  },
+  "provider_calls": 0,
+  "protected_artifacts_modified": {
+    "document_01": false,
+    "document_03": false,
+    "semantic_core_04": false
+  },
+  "files": {
+    "markdown": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
+      "sha256": "2546f9661a0f2da022e6a56bc728d345eb64318fd8697605e75d1c576bd01a4f",
+      "size": 79047
+    },
+    "docx": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
+      "sha256": "0384ed7f7bae42c4446daa56bbd3e8856f90840aaff044b5a09500493e4c0a0c",
+      "size": 35617
+    },
+    "pdf": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
+      "sha256": "07aa3778f6804336b24147b085c2a74f76ba6719f02d19bab5cc81fe7918319b",
+      "size": 489931
+    }
+  },
+  "checks": [
+    {
+      "name": "ready_action_ids_exact",
+      "status": "PASS",
+      "detail": [
+        "S18-A009",
+        "S18-A010",
+        "S18-A026",
+        "S18-A028",
+        "S18-A029",
+        "S18-A030",
+        "S18-A031"
+      ]
+    },
+    {
+      "name": "partial_action_ids_present",
+      "status": "PASS",
+      "detail": [
+        "S18-A012"
+      ]
+    },
+    {
+      "name": "blocked_action_ids_exact",
+      "status": "PASS",
+      "detail": [
+        "S18-A003",
+        "S18-A004",
+        "S18-A007",
+        "S18-A011"
+      ]
+    },
+    {
+      "name": "ready_action_count",
+      "status": "PASS",
+      "detail": 7
+    },
+    {
+      "name": "implementation_examples",
+      "status": "PASS",
+      "detail": 8
+    },
+    {
+      "name": "bold_proposed_additions",
+      "status": "PASS",
+      "detail": 136
+    },
+    {
+      "name": "mapping_only_rows",
+      "status": "PASS",
+      "detail": 46
+    },
+    {
+      "name": "internal_link_candidates",
+      "status": "PASS",
+      "detail": 15
+    },
+    {
+      "name": "bibliography_is_final_substantive_section",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "bibliography_urls_exact",
+      "status": "PASS",
+      "detail": [
+        "https://yandex.ru/support2/wordstat/ru/interface/new",
+        "https://yandex.ru/support2/wordstat/ru/content/operators",
+        "https://yandex.ru/support/webmaster/ru/recommendations/targeting",
+        "https://www.semrush.com/blog/keyword-clustering/",
+        "https://www.semrush.com/blog/keyword-mapping/",
+        "https://ahrefs.com/blog/keyword-intent/",
+        "https://ahrefs.com/blog/keyword-cannibalization/",
+        "https://ahrefs.com/blog/internal-links-for-seo/"
+      ]
+    },
+    {
+      "name": "bibliography_item_count",
+      "status": "PASS",
+      "detail": 8
+    },
+    {
+      "name": "project_invented_english_client_terms",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "name": "no_giant_phrase_dump",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a012_not_fully_ready",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "markdown_required_tokens",
+      "status": "PASS",
+      "detail": "markdown"
+    },
+    {
+      "name": "docx_required_tokens",
+      "status": "PASS",
+      "detail": "docx"
+    },
+    {
+      "name": "pdf_required_tokens",
+      "status": "PASS",
+      "detail": "pdf"
+    },
+    {
+      "name": "ready_direct_urls",
+      "status": "PASS",
+      "detail": [
+        "https://okno-msk.ru/okna-rehau/francuzskie-okna",
+        "https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom",
+        "https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami",
+        "https://okno-msk.ru/dveri-rehau",
+        "https://okno-msk.ru/nashi-raboty",
+        "https://okno-msk.ru/alyuminievye-okna/",
+        "https://okno-msk.ru/stati/kakie-okna-samye-luchshie"
+      ]
+    },
+    {
+      "name": "docx_bold_examples",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "pdf_page_count",
+      "status": "PASS",
+      "detail": 24
+    },
+    {
+      "name": "pdf_no_empty_pages",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "docx_tables",
+      "status": "PASS",
+      "detail": 3
+    },
+    {
+      "name": "docx_not_corrupt",
+      "status": "PASS",
+      "detail": 35617
+    },
+    {
+      "name": "pdf_not_corrupt",
+      "status": "PASS",
+      "detail": 489931
+    },
+    {
+      "name": "visual_qa_all_pages",
+      "status": "PASS",
+      "detail": {
+        "pages_inspected": 24,
+        "rendered": true,
+        "recipient_usability": "PASS"
+      }
+    }
+  ]
+}

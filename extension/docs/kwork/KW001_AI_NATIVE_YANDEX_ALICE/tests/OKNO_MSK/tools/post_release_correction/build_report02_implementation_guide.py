@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 HERE = Path(__file__).resolve()
@@ -100,6 +101,23 @@ def rows(path: Path) -> list[dict[str, str]]:
 
 def clean(value: str) -> str:
     return " ".join(str(value or "").replace("|", ";").split())
+
+
+def compact_link(url: str) -> str:
+    """Keep the exact URL as a hyperlink while showing a readable page path."""
+    url = clean(url)
+    if not url or url == "Не требуется":
+        return "Не требуется"
+    parsed = urlsplit(url)
+    label = parsed.path or "/"
+    if parsed.query:
+        label += "?" + parsed.query
+    return f"[{label}]({url})"
+
+
+def compact_links(value: str) -> str:
+    links = [compact_link(item) for item in clean(value).split(";") if item]
+    return "<br>".join(links) if links else "Не требуется"
 
 
 def representative_by_unit() -> dict[str, str]:
@@ -256,7 +274,7 @@ def build() -> str:
 
 **Основание решения**
 
-{a012['evidence_meaning_ru']}
+Текущая страница подтверждает тему монтажа и необходимость понятного перехода к профессиональному процессу, но не подтверждает договорный состав услуги. Поэтому к публикации готова только нейтральная профессиональная часть; фактические границы услуги остаются заблокированными до ответа компании.
 
 **Техническая трассировка:** `{clean(a012['evidence_locator'])}`
 
@@ -265,12 +283,12 @@ def build() -> str:
 Следующие 46 строк фиксируют, какую существующую страницу использовать для темы. Они нужны для семантической и контентной работы. Из них не следует добавлять меню, хлебные крошки, ссылки, новые блоки или новые URL. Полный состав фраз находится в книге №04.
 
 | № | Тема / пользовательская задача | Основная страница | Поддерживающая страница | Что делать специалисту |
-|---:|---|---|---|---|
-""")
+|---:|---|---|---|---|""")
     for index, route in enumerate(routes, 1):
         topic = reps.get(route["structural_unit_id"], "Тема без активной представительской фразы")
-        support = clean(route["final_supporting_pages"]) or "Не требуется"
-        parts.append(f"| {index} | {topic} | {route['final_primary_page'] or 'Не назначена'} | {support} | Учесть назначение в семантической и контентной работе; физически страницу не менять. |")
+        primary = compact_link(route["final_primary_page"]) if route["final_primary_page"] else "Не назначена"
+        support = compact_links(route["final_supporting_pages"])
+        parts.append(f"| {index} | {topic} | {primary} | {support} | Учесть назначение в семантической и контентной работе; физически страницу не менять. |")
 
     parts.append("""
 ## 7. Нужна дополнительная проверка — пока не внедрять
@@ -306,10 +324,9 @@ def build() -> str:
 Эти связи пока не являются готовыми заданиями на размещение ссылок. Для каждой связи известны исходная и целевая страницы, но не доказаны точный исходный блок, окружающий контекст и безопасный анкорный смысл.
 
 | № | Исходная страница | Целевая страница | Что известно | Чего не хватает |
-|---:|---|---|---|---|
-""")
+|---:|---|---|---|---|""")
     for index, link in enumerate(links, 1):
-        parts.append(f"| {index} | {link['source_url']} | {link['target_url']} | Тематическая связь сохранена исследованием. | Точный блок, окружающее предложение, анкорный смысл и проверка конфликта с владельцем страницы. |")
+        parts.append(f"| {index} | {compact_link(link['source_url'])} | {compact_link(link['target_url'])} | Тематическая связь сохранена исследованием. | Точный блок, окружающее предложение, анкорный смысл и проверка конфликта с владельцем страницы. |")
 
     parts.append("""
 Ссылка может стать заданием только после фиксации точного места, контекста, целевой страницы, смысла анкора, пользы перехода и отсутствия конфликта с навигацией. Если естественного места нет, ссылку размещать не нужно.
