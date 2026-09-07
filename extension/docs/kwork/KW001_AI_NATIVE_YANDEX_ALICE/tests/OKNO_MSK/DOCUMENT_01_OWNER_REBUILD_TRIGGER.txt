@@ -1,4 +1,4 @@
-2026-09-07 Report 01 Alice-first owner-review rebuild — rerun after obsolete overlay removal
+2026-09-07 Report 01 Alice-first owner-review rebuild — rerun after gate patch repair
 Scope: DOCUMENT_01_ONLY
 Canonical Kwork goal: rebuild / re-evaluate the semantic core under modern Yandex Search with Alice as a core product surface, not an additional post-check.
 Customer report must show the overall Alice-compatibility verdict before the 25-theme / 8-deep-dive explanation.
