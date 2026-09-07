@@ -1,0 +1,545 @@
+{
+  "project": "OKNO_MSK",
+  "artifact": "STANDALONE_SEMANTIC_CORE_XLSX",
+  "qa_date": "2026-09-07",
+  "status": "PASS",
+  "xlsx_path": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx",
+  "xlsx_size_bytes": 1276115,
+  "xlsx_sha256": "d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550",
+  "authority": {
+    "semantic_and_page_truth": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
+    "unit_truth": "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
+    "frequency_and_provenance": "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv",
+    "old_step19": "STALE_PROVENANCE_ONLY__NOT_FINAL_AUTHORITY"
+  },
+  "verified_counts": {
+    "all_phrases": 2840,
+    "active_phrases": 2332,
+    "assigned_phrases": 2313,
+    "search_required": 19,
+    "canonical_units": 168,
+    "unique_final_urls": 60,
+    "page_summary_rows": 63,
+    "intentional_no_url_rows": 393,
+    "no_page_breakdown": {
+      "NO_STANDALONE_PAGE": 246,
+      "OUTSIDE_SCOPE_NO_ACTION": 115,
+      "DEFER_PENDING_EVIDENCE": 32
+    }
+  },
+  "sheet_rows_excluding_header": {
+    "01_Все_фразы": 2840,
+    "02_Активное_ядро": 2332,
+    "03_Кластеры": 168,
+    "04_Страницы": 63,
+    "05_SEARCH_REQUIRED": 19,
+    "06_Справочник": 51
+  },
+  "wordstat_semantics": {
+    "method": "getTop",
+    "region": 213,
+    "devices": "DEVICE_ALL",
+    "operators": "NONE",
+    "workbook_label": "BROAD_GETTOP_NO_OPERATORS",
+    "exact_frequency_claimed": false,
+    "active_phrases_with_positive_result_count": 2332
+  },
+  "old_step19_staleness_vs_stage5": {
+    "cluster": 803,
+    "user_task": 851,
+    "intent": 185,
+    "target_url": 518
+  },
+  "visual_qa": {
+    "status": "PASS",
+    "previews": [
+      {
+        "sheet": "01_Все_фразы",
+        "exists": true,
+        "size_bytes": 374338
+      },
+      {
+        "sheet": "02_Активное_ядро",
+        "exists": true,
+        "size_bytes": 394773
+      },
+      {
+        "sheet": "03_Кластеры",
+        "exists": true,
+        "size_bytes": 995386
+      },
+      {
+        "sheet": "04_Страницы",
+        "exists": true,
+        "size_bytes": 812966
+      },
+      {
+        "sheet": "05_SEARCH_REQUIRED",
+        "exists": true,
+        "size_bytes": 630596
+      },
+      {
+        "sheet": "06_Справочник",
+        "exists": true,
+        "size_bytes": 530001
+      }
+    ],
+    "inspected_items": [
+      "headers",
+      "wrapping",
+      "column widths",
+      "Cyrillic",
+      "long URLs",
+      "status highlighting",
+      "sheet order",
+      "nonblank endings"
+    ]
+  },
+  "checks": [
+    {
+      "name": "required_sheet_order",
+      "status": "PASS",
+      "actual": [
+        "01_Все_фразы",
+        "02_Активное_ядро",
+        "03_Кластеры",
+        "04_Страницы",
+        "05_SEARCH_REQUIRED",
+        "06_Справочник"
+      ],
+      "expected": [
+        "01_Все_фразы",
+        "02_Активное_ядро",
+        "03_Кластеры",
+        "04_Страницы",
+        "05_SEARCH_REQUIRED",
+        "06_Справочник"
+      ]
+    },
+    {
+      "name": "all_phrase_rows",
+      "status": "PASS",
+      "actual": 2840,
+      "expected": 2840
+    },
+    {
+      "name": "active_phrase_rows",
+      "status": "PASS",
+      "actual": 2332,
+      "expected": 2332
+    },
+    {
+      "name": "cluster_rows",
+      "status": "PASS",
+      "actual": 168,
+      "expected": 168
+    },
+    {
+      "name": "page_summary_rows",
+      "status": "PASS",
+      "actual": 63,
+      "expected": "60 URL + 3 governed no-page groups"
+    },
+    {
+      "name": "search_required_rows",
+      "status": "PASS",
+      "actual": 19,
+      "expected": 19
+    },
+    {
+      "name": "dictionary_nonempty",
+      "status": "PASS",
+      "actual": 51,
+      "expected": ">=40"
+    },
+    {
+      "name": "all_phrase_uniqueness",
+      "status": "PASS",
+      "actual": 2840,
+      "expected": 2840
+    },
+    {
+      "name": "active_phrase_uniqueness",
+      "status": "PASS",
+      "actual": 2332,
+      "expected": 2332
+    },
+    {
+      "name": "all_phrase_set_equals_stage5",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "active_phrase_set_equals_stage5",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "phrase_id_unique",
+      "status": "PASS",
+      "actual": 2840,
+      "expected": 2840
+    },
+    {
+      "name": "stage5_phrase_field_equivalence",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "step08_frequency_provenance_equivalence",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "frequency_cells_numeric",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "all_active_have_positive_result",
+      "status": "PASS",
+      "actual": 2332,
+      "expected": 2332
+    },
+    {
+      "name": "cluster_ids_equal_stage5_units",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "cluster_representatives_are_real_members",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "unique_final_urls",
+      "status": "PASS",
+      "actual": 60,
+      "expected": 60
+    },
+    {
+      "name": "page_summary_contains_all_final_urls",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "intentional_no_page_breakdown",
+      "status": "PASS",
+      "actual": {
+        "NO_STANDALONE_PAGE": 246,
+        "OUTSIDE_SCOPE_NO_ACTION": 115,
+        "DEFER_PENDING_EVIDENCE": 32
+      },
+      "expected": {
+        "NO_STANDALONE_PAGE": 246,
+        "OUTSIDE_SCOPE_NO_ACTION": 115,
+        "DEFER_PENDING_EVIDENCE": 32
+      }
+    },
+    {
+      "name": "search_required_exact_set",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "search_required_boundaries_explicit",
+      "status": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "old_step19_staleness_reconciled",
+      "status": "PASS",
+      "actual": {
+        "cluster": 803,
+        "user_task": 851,
+        "target_url": 518,
+        "intent": 185
+      },
+      "expected": {
+        "cluster": 803,
+        "user_task": 851,
+        "intent": 185,
+        "target_url": 518
+      }
+    },
+    {
+      "name": "old_step19_did_not_overwrite_stage5",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "generator_does_not_read_old_step19",
+      "status": "PASS",
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "phrase_schema_exact",
+      "status": "PASS",
+      "actual": [
+        "ID фразы",
+        "Поисковая фраза",
+        "Статус фразы",
+        "В рабочем ядре",
+        "Регион",
+        "Код региона",
+        "Устройства",
+        "Wordstat result count",
+        "Wordstat association count",
+        "Тип частотности",
+        "Правило агрегации",
+        "Источники Wordstat",
+        "Количество source occurrences",
+        "Дата снимка",
+        "ID структурной единицы",
+        "Кластер",
+        "Основной запрос кластера",
+        "Пользовательская задача",
+        "Интент",
+        "Граница бизнеса",
+        "Уверенность назначения",
+        "URL до финальной сверки",
+        "Финальная целевая страница",
+        "Поддерживающие страницы",
+        "Роль страницы",
+        "Рекомендация",
+        "Готовность решения",
+        "Неопределённость",
+        "Что нужно для пересмотра",
+        "Ранг внутри кластера",
+        "Ранг внутри страницы",
+        "Операционный приоритет",
+        "Основание приоритета",
+        "Комментарий / граница вывода",
+        "Provenance"
+      ],
+      "expected": [
+        "ID фразы",
+        "Поисковая фраза",
+        "Статус фразы",
+        "В рабочем ядре",
+        "Регион",
+        "Код региона",
+        "Устройства",
+        "Wordstat result count",
+        "Wordstat association count",
+        "Тип частотности",
+        "Правило агрегации",
+        "Источники Wordstat",
+        "Количество source occurrences",
+        "Дата снимка",
+        "ID структурной единицы",
+        "Кластер",
+        "Основной запрос кластера",
+        "Пользовательская задача",
+        "Интент",
+        "Граница бизнеса",
+        "Уверенность назначения",
+        "URL до финальной сверки",
+        "Финальная целевая страница",
+        "Поддерживающие страницы",
+        "Роль страницы",
+        "Рекомендация",
+        "Готовность решения",
+        "Неопределённость",
+        "Что нужно для пересмотра",
+        "Ранг внутри кластера",
+        "Ранг внутри страницы",
+        "Операционный приоритет",
+        "Основание приоритета",
+        "Комментарий / граница вывода",
+        "Provenance"
+      ]
+    },
+    {
+      "name": "other_schemas_present",
+      "status": "PASS",
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "01_Все_фразы__freeze_panes",
+      "status": "PASS",
+      "actual": "C2",
+      "expected": "non-empty"
+    },
+    {
+      "name": "01_Все_фразы__table_and_filter",
+      "status": "PASS",
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "01_Все_фразы__no_hidden_columns",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "02_Активное_ядро__freeze_panes",
+      "status": "PASS",
+      "actual": "C2",
+      "expected": "non-empty"
+    },
+    {
+      "name": "02_Активное_ядро__table_and_filter",
+      "status": "PASS",
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "02_Активное_ядро__no_hidden_columns",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "03_Кластеры__freeze_panes",
+      "status": "PASS",
+      "actual": "C2",
+      "expected": "non-empty"
+    },
+    {
+      "name": "03_Кластеры__table_and_filter",
+      "status": "PASS",
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "03_Кластеры__no_hidden_columns",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "04_Страницы__freeze_panes",
+      "status": "PASS",
+      "actual": "C2",
+      "expected": "non-empty"
+    },
+    {
+      "name": "04_Страницы__table_and_filter",
+      "status": "PASS",
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "04_Страницы__no_hidden_columns",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "05_SEARCH_REQUIRED__freeze_panes",
+      "status": "PASS",
+      "actual": "C2",
+      "expected": "non-empty"
+    },
+    {
+      "name": "05_SEARCH_REQUIRED__table_and_filter",
+      "status": "PASS",
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "05_SEARCH_REQUIRED__no_hidden_columns",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "06_Справочник__freeze_panes",
+      "status": "PASS",
+      "actual": "C2",
+      "expected": "non-empty"
+    },
+    {
+      "name": "06_Справочник__table_and_filter",
+      "status": "PASS",
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "06_Справочник__no_hidden_columns",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "main_sheets_no_merged_cells",
+      "status": "PASS",
+      "actual": [],
+      "expected": []
+    },
+    {
+      "name": "required_formulas_present",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "formula_text_has_no_error_tokens",
+      "status": "PASS",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "name": "all_sheet_previews_materialized",
+      "status": "PASS",
+      "actual": [
+        {
+          "sheet": "01_Все_фразы",
+          "exists": true,
+          "size_bytes": 374338
+        },
+        {
+          "sheet": "02_Активное_ядро",
+          "exists": true,
+          "size_bytes": 394773
+        },
+        {
+          "sheet": "03_Кластеры",
+          "exists": true,
+          "size_bytes": 995386
+        },
+        {
+          "sheet": "04_Страницы",
+          "exists": true,
+          "size_bytes": 812966
+        },
+        {
+          "sheet": "05_SEARCH_REQUIRED",
+          "exists": true,
+          "size_bytes": 630596
+        },
+        {
+          "sheet": "06_Справочник",
+          "exists": true,
+          "size_bytes": 530001
+        }
+      ],
+      "expected": "6 non-empty PNG previews"
+    },
+    {
+      "name": "analyst_visual_review",
+      "status": "PASS",
+      "actual": true,
+      "expected": true,
+      "note": "Flag is set only after the analyst views all six rendered previews"
+    }
+  ],
+  "failure_count": 0,
+  "new_provider_calls": 0,
+  "documents_01_02_03_modified_by_materializer": false
+}

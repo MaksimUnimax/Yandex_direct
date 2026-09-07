@@ -1,12 +1,13 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_01_ALICE_NATIVE_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
+  "status": "DOCUMENT_01_ALICE_NATIVE_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__STANDALONE_SEMANTIC_CORE_QA_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
     "semantic_master": "../RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
     "unit_authority": "../RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
+    "wordstat_frequency_and_provenance": "../STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv",
     "action_authority": "../RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_AUTHORITY_CORRECTED_2026-09-05.tsv",
     "implementation_authority": "../RESEARCH_REBUILD_POST_RELEASE_SHARED_IMPLEMENTATION_CORRECTION_2026-09-05.md",
     "evidence_authority": "../RESEARCH_REBUILD_STAGE_07_EVIDENCE_REGISTER_2026-09-05.tsv",
@@ -41,6 +42,19 @@
       "physical_file_count_for_variant": 1,
       "companion_files": [],
       "recipient_contract": "FRESH_OFFLINE_AI_CAN_EXPLAIN_COMPLETE_RESEARCH_AND_CONFIRMED_WORK_USING_ONLY_THIS_ONE_FILE"
+    },
+    {
+      "variant": "04",
+      "path": "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx",
+      "format": "xlsx",
+      "size_bytes": 1276115,
+      "sha256": "d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550",
+      "sheets": 6,
+      "all_unique_phrases": 2840,
+      "active_phrases": 2332,
+      "canonical_clusters": 168,
+      "search_required_phrases": 19,
+      "recipient_contract": "STANDALONE_MACHINE_READABLE_SEMANTIC_CORE_FOR_FILTERING_CLUSTERING_PAGE_MAPPING_PRIORITIZATION_AND_LATER_SEO_WORK"
     }
   ],
   "editable_and_source_files": [
@@ -96,7 +110,7 @@
     "document_02": "NOT_STARTED__UNTOUCHED",
     "document_03": "NOT_STARTED__UNTOUCHED",
     "final_customer_recipient_acceptance": "OPEN",
-    "next_action": "OWNER_REVIEW_CORRECTED_DOCUMENT_01",
+    "next_action": "OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02",
     "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
     "document_01_dual_surface_optimization_verdict": true,
     "document_01_alice_research_agency": "PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR",
@@ -122,7 +136,19 @@
     "document_01_full_rebuild_claim": "ABSENT__RESEARCH_CONCLUDES_FULL_REBUILD_NOT_REQUIRED",
     "document_01_alice_scope": "CORE_PRODUCT_SURFACE__25_CANDIDATE_THEMES__8_DEEP_DIVES_NOT_TOTAL_SCOPE",
     "document_01_alice_compatibility_verdict": "SITE_BROADLY_MATCHES_ALICE_OUTPUT__NO_SYSTEMIC_REBUILD_REQUIRED",
-    "document_01_unperformed_frequency_procedure_narrative": "ABSENT"
+    "document_01_unperformed_frequency_procedure_narrative": "ABSENT",
+    "standalone_semantic_core_authority": "../RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_MATERIALIZATION_2026-09-07.md",
+    "standalone_semantic_core_qa_authority": "../RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_QA_2026-09-07.json",
+    "standalone_semantic_core_method_references": "../RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_METHOD_REFERENCES_2026-09-07.md",
+    "standalone_semantic_core": "PASS__SIX_SHEETS__OWNER_REVIEW_PENDING",
+    "standalone_semantic_core_rows": "2840_ALL__2332_ACTIVE__168_CLUSTERS__63_PAGE_GROUPS__19_SEARCH_REQUIRED__51_DICTIONARY",
+    "standalone_semantic_core_frequency_coverage": "2840_OF_2840__2332_OF_2332_ACTIVE",
+    "standalone_semantic_core_frequency_semantics": "WORDSTAT_GETTOP_BROAD_SNAPSHOT__MOSCOW_213__DEVICE_ALL__NO_OPERATORS__NOT_EXACT_FREQUENCY",
+    "standalone_semantic_core_old_step19_leakage": 0,
+    "standalone_semantic_core_formula_errors": 0,
+    "standalone_semantic_core_visual_qa": "PASS__ALL_6_SHEETS",
+    "standalone_semantic_core_new_provider_calls": 0,
+    "standalone_semantic_core_documents_01_02_03_modified": false
   },
   "provider_calls": 0,
   "paid_cost_rub": 0,

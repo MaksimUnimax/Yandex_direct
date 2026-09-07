@@ -513,3 +513,15 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Persisted audit authority: `RESEARCH_REBUILD_POST_RELEASE_SEMANTIC_CORE_DATA_AUDIT_2026-09-07.md`.
 - Standalone semantic-core XLSX remains not materialized. Documents №01–№03 were not changed. Provider calls: 0.
 - Next action: `MATERIALIZE_NEW_STANDALONE_SEMANTIC_CORE_XLSX_FROM_STAGE5_FINAL_SEMANTIC_TRUTH__STEP08_FREQUENCY_PROVENANCE__STAGE5_UNIT_AUTHORITY`.
+
+## 2026-09-07 — Standalone semantic-core XLSX materialization
+
+- Materialized `OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx` directly from Stage-5 final semantic truth and unit authority, with Step-08 Wordstat frequency/provenance joined by exact normalized phrase.
+- Workbook contains 2,840 full-corpus rows, 2,332 active rows, 168 cluster rows, 63 page/group summary rows, 19 SEARCH_REQUIRED rows and a 51-row field/status dictionary.
+- The broad Wordstat metric remains explicitly labelled as Moscow region 213, `getTop`, `DEVICE_ALL`, operators `NONE`; it is not presented as exact operator frequency.
+- Independent validation against Stage 5 and Step 08: PASS. Formula errors: 0. Old Step-19 stale cluster/intent/page leakage: 0.
+- Rendered and visually inspected all six sheets; Cyrillic, tables, filters, frozen columns, wrapping, URLs and final rows passed.
+- XLSX SHA-256: `d0df6724ed00af70bd07a8f1a22dcc2679d6023f1c4938697c3a793679a8d550`; size: 1,276,115 bytes.
+- Materialization authority: `RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_MATERIALIZATION_2026-09-07.md`; QA: `RESEARCH_REBUILD_POST_RELEASE_STANDALONE_SEMANTIC_CORE_QA_2026-09-07.json`.
+- Documents №01–№03 were not changed. New provider calls: 0. Step 21/22 were not executed.
+- Next action: `OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02`.
