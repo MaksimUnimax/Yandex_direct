@@ -2,6 +2,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / 'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md'
+BUILDER = ROOT / 'document01_build_commissioner_report.py'
+QA = ROOT / 'document01_commissioner_recipient_qa.py'
 text = SRC.read_text(encoding='utf-8')
 
 # The authoritative Alice-first contract is materialized before this hook.
@@ -33,9 +35,17 @@ for forbidden in [
 ]:
     assert forbidden not in text, forbidden
 
+positive_marker = 'Восемь карточек ниже показывают углублённо зафиксированные случаи разных типов.'
 assert 'Главная задача кворка — пересобрать и проверить поисковое ядро' in text
-assert 'Восемь карточек ниже показывают углублённо зафиксированные случаи разных типов.' in text
+assert positive_marker in text
 assert 'Главный результат проверки: существующее распределение основных групп спроса по страницам в целом соответствует выдаче Алисы' in text
-
 SRC.write_text(text, encoding='utf-8')
+
+# Keep deterministic build/QA markers aligned with the final positive client wording.
+for path in [BUILDER, QA]:
+    code = path.read_text(encoding='utf-8')
+    code = code.replace('Восемь карточек ниже — не весь объём работы с Алисой', positive_marker)
+    path.write_text(code, encoding='utf-8')
+    assert positive_marker in code
+
 print('DOCUMENT_01_FINAL_POLISH_PASS')
