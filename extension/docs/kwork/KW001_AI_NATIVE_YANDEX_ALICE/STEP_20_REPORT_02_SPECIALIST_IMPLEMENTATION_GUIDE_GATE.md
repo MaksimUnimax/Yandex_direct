@@ -1,192 +1,624 @@
 # KW-001 — Step 20 Report №02 specialist implementation-guide gate
 
-Updated: 2026-09-06  
-Status: **ACTIVE / UNIVERSAL / REPORT-02-SPECIFIC TRANSFER CONTROL**  
-Scope: **Report №02 only — SEO / implementation specialist guide**
+Updated: 2026-09-07  
+Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**  
+Scope: **Report №02 only — implementation guide for the specialist who will directly apply changes**
 
-This gate defines which presentation lessons transfer from Report №01 and which do not. It does not mark any current Report №02 artifact PASS; it governs the next owner review and rework of Report №02.
+This gate defines the permanent recipient contract for Report №02. It does not mark any current job artifact PASS by itself.
+
+---
 
 ## 1. Recipient and purpose
 
-The recipient is an SEO specialist / implementer who must understand the research lineage and execute safe, evidence-backed changes.
+Recipient: the specialist who will directly apply the accepted changes to the site.
 
-Report №02 is not required to be simplified to non-specialist language. Professional terminology is expected when it improves precision.
+Report №02 is not a summary of the research and not an internal action database. It is an **implementation instruction**.
 
 ```text
-REPORT_01 = CUSTOMER RESEARCH ANSWER
-REPORT_02 = SPECIALIST IMPLEMENTATION GUIDE
+REPORT №01
+= explain what was researched, what was found and what it means to the commissioner
+
+REPORT №02
+= show the implementer exactly what is wrong, where it is wrong, why it matters, what to do, how it may look and how to verify the result
+
+STANDALONE SEMANTIC CORE
+= full working phrase / cluster / page dataset used alongside Report №02 when semantic detail is needed
 ```
 
-## 2. What transfers from Report №01
+The implementer must not need repository archaeology, internal project history or interpretation of machine codes in order to perform the work.
 
-The following writing-quality rules remain mandatory:
+---
+
+## 2. Language rule — internal invented English is forbidden in the client document
+
+For a Russian Report №02, all terminology invented by the project, model, generator or internal schema must be shown in Russian.
 
 ```text
-MEANINGFUL SEMANTIC SECTIONS
-CONNECTED NARRATIVE BETWEEN SECTIONS
-NATURAL HUMAN WORDING
-NO GENERATED / TEMPLATE-LIKE FILLER
-NO ABSURD OR UNDEFINED PHRASES
-NO FAKE READING-TIME HEADINGS
-NO VAGUE META-PHRASES WITHOUT A REFERENT
-NO INTERNAL DATABASE DUMP USED AS THE DOCUMENT OUTLINE
-CLAIM → EVIDENCE → ACTION CONTINUITY
-EXACT COUNTS / SELECTION LOGIC WHEN MATERIAL
+PROJECT-INVENTED TERM -> RUSSIAN CLIENT TERM
+INTERNAL ENUM -> RUSSIAN CLIENT EXPLANATION
+INTERNAL MODE NAME -> RUSSIAN CLIENT EXPLANATION
+INTERNAL PRIORITY CODE -> RUSSIAN CLIENT EXPLANATION
+INTERNAL READINESS CODE -> RUSSIAN CLIENT EXPLANATION
+INTERNAL EVIDENCE ROUTE -> RUSSIAN CLIENT EXPLANATION
 ```
 
-A specialist report may be dense, but it must still read like a coherent technical document written by a competent analyst, not like a generated form or stitched QA export.
+Latin/English is allowed only when it is genuinely necessary and comes from an external official/current source or is an unavoidable proper technical identifier, for example:
 
-## 3. What does NOT transfer from Report №01
+- official product or brand name;
+- direct URL;
+- official API/method/field name when the technical identifier itself is material;
+- filename or stable source identifier in a clearly secondary technical traceability field;
+- a professional term that is explicitly used by the current authoritative source and has no clearer Russian replacement for the recipient task.
 
-Do not impose Report №01's maximum-simplicity requirement on Report №02.
+A project-internal code does **not** become an allowed professional term merely because the recipient is a specialist.
 
-The following are allowed and often required when defined correctly:
-
-```text
-SEO TERMINOLOGY
-SEMANTIC CLUSTERING TERMINOLOGY
-PAGE OWNERSHIP / INTENT / ROUTING TERMINOLOGY
-ARCHITECTURE / CANNIBALIZATION / OVERLAP TERMINOLOGY
-IMPLEMENTATION MODES
-READINESS / DEPENDENCY / CONFIDENCE STATES
-EVIDENCE LOCATORS
-ACCEPTANCE CRITERIA
-```
-
-The specialist should not have to reverse-engineer technical meaning from oversimplified customer wording.
-
-## 4. Report №02 must explain the depth of completed research more fully
-
-The specialist must understand not only the final action but how the action was derived.
-
-The report should explain, at an appropriate technical level:
+Examples of the failure to prevent:
 
 ```text
-SITE / OFFER INVENTORY
-→ DEMAND ACQUISITION
-→ TARGETED EXPANSION
-→ CLEANUP / EXCLUSIONS / DEFERRED STATES
-→ CLUSTERING BY USER TASK
-→ PHRASE-TO-PAGE / PAGE-OWNERSHIP MAPPING
-→ ORDINARY YANDEX VALIDATION
-→ ALICE CASE SELECTION AND VALIDATION
-→ SEARCH-vs-ALICE COMPARISON
-→ STRUCTURAL / CONTENT / NAVIGATION DECISION
-→ IMPLEMENTATION READINESS
-```
-
-This is important for two reasons:
-
-1. the specialist can verify that a recommendation is not an isolated guess;
-2. the specialist can see the real scale of the research and understand which filters, selections and reconciliations produced the final action.
-
-Counts should be shown when they materially explain the funnel or prove completeness, but not as vanity metrics.
-
-## 5. Selection, filtering and clustering must be technically legible
-
-Report №02 should explain:
-
-- what entered the research;
-- what was excluded and on what principle;
-- what remained deferred / unresolved and why;
-- how queries were grouped into user tasks;
-- how task clusters were mapped to pages;
-- how ambiguous cases were escalated to ordinary Yandex checks;
-- how Alice cases were selected and why the selected set was sufficient;
-- how later corrections propagated into the final semantic and action authorities.
-
-The goal is not to reproduce every internal file. The goal is to make the analytical chain auditable enough that a specialist trusts and can use the result.
-
-## 6. Report №02 must be implementation-dense
-
-For every real site change that is ready to execute, the specialist should be able to find the information needed to implement it without repository archaeology.
-
-Depending on action type, the guide should provide:
-
-```text
-ACTION ID / TRACEABLE REFERENCE
-TARGET URL OR OBJECT
-IMPLEMENTATION MODE
-CURRENT STATE
-PROBLEM / CAUSAL REASON
-EVIDENCE MEANING + LOCATOR
-EXACT CHANGE
-EXACT LOCATION / BLOCK / COMPONENT WHEN KNOWN
-DEPENDENCIES
-WHAT MUST BE PRESERVED
-WHAT MUST NOT BE CLAIMED OR CHANGED
-READINESS / BLOCKER STATE
-ACCEPTANCE CRITERIA
-FOLLOW-UP CHECK WHEN REQUIRED
-```
-
-Unlike Report №01, a repeated structured action schema is acceptable here when it improves execution consistency. The repeated fields must carry real content and must not become filler.
-
-## 7. Physical change must be separated from analytical mapping
-
-A specialist guide must make a hard distinction between:
-
-```text
-SEMANTIC_MAPPING_ONLY
 CONTENT_BLOCK
-NAVIGATION_CHANGE
-CONTEXTUAL_LINK
+SEMANTIC_MAPPING_ONLY
 RECHECK_ONLY
-NO_SITE_CHANGE
-HOLD / NOT_READY
+READY_ANALYTICAL_MAPPING
+NOT_READY__EVIDENCE_REQUIRED
+P1_HIGH
+REAL_SITE_CHANGE
 ```
 
-An analytical page assignment must not silently become a CMS change. A possible internal link must not become implementation-ready without exact source context and placement evidence.
-
-## 8. Natural language still matters
-
-Technical precision does not justify awkward generated phrasing.
-
-Avoid:
-
-- repeated corporate filler;
-- undefined abstract phrases such as `этот этап`, `значимая ценность`, `данный слой`;
-- sentences whose subject is an AI system when the actual actor is the research process;
-- robotic restatement of the same status in every paragraph;
-- huge blocks of status tokens with no human explanation of what they mean for implementation.
-
-Use specialist terms, but connect them with normal explanatory prose.
-
-## 9. Alice wording in Report №02
-
-Report №02 may use more technical language than Report №01, but research agency still belongs to the analysis.
-
-Prefer:
+These may remain in internal authorities, but the client report must present their meaning in Russian. If technical traceability is genuinely needed, the raw code may appear only secondarily after the Russian meaning and must not structure the document.
 
 ```text
-"проверка выдачи Алисы подтверждает..."
-"сопоставление ordinary Yandex / Alice evidence..."
-"в Alice-output case зафиксирован..."
+SPECIALIST RECIPIENT != PERMISSION TO DUMP INTERNAL SCHEMA
+TECHNICAL PRECISION != INTERNAL ENGLISH ENUMS
 ```
 
-Avoid writing as though Alice independently performed the semantic research, selected the architecture or authored the implementation decision.
+---
 
-## 10. Report №02 PASS gate
+## 3. Core difference from Report №01
+
+Report №01 answers:
+
+```text
+WHAT WAS DONE?
+WHAT WAS FOUND?
+WHAT DOES IT MEAN?
+```
+
+Report №02 answers:
+
+```text
+WHAT EXACTLY MUST BE CHANGED?
+ON WHICH PAGE?
+WHAT IS WRONG NOW?
+WHY IS IT WRONG / INCOMPLETE?
+WHERE EXACTLY SHOULD THE CHANGE BE MADE?
+WHAT STEPS SHOULD THE IMPLEMENTER TAKE?
+WHAT MAY THE RESULT LOOK LIKE?
+WHAT MUST NOT BE BROKEN OR INVENTED?
+HOW DO WE VERIFY THAT THE CHANGE WAS IMPLEMENTED CORRECTLY?
+```
+
+Report №02 may use professional SEO/search/content terminology when it is genuinely useful, but it must remain normal Russian technical prose rather than a translated database export.
+
+---
+
+## 4. Every actionable deficiency must be a separate numbered implementation item
+
+Do not compress actionable deficiencies merely because there are many of them.
+
+```text
+ONE MATERIAL IMPLEMENTATION DEFICIENCY / CHANGE
+-> ONE NUMBERED IMPLEMENTATION ITEM
+```
+
+If there are 7 actions, show 7 items. If there are 37, show 37 items unless several are truly the same atomic change on the same object and can be executed/accepted together without losing meaning.
+
+The implementer should be able to mark each numbered item independently as:
+
+- done;
+- not done;
+- blocked;
+- requires clarification.
+
+A giant narrative paragraph containing several different changes is not acceptable.
+
+---
+
+## 5. Mandatory structure of every ready implementation item
+
+For every real site change that is sufficiently supported to execute, include all material fields below in natural Russian.
+
+### 5.1 Number and short action name
+
+A concise action title that tells the implementer what must happen.
+
+### 5.2 Exact page / object
+
+Give the direct public URL whenever the work belongs to a concrete page.
+
+If the work belongs to another exact object, identify it unambiguously.
+
+### 5.3 What is wrong now
+
+Explain the actual current deficiency in normal language.
+
+Examples of acceptable deficiency descriptions:
+
+- the page owns the correct search task but does not explain a material subtask;
+- two pages have overlapping roles that require verification before any destructive change;
+- the page lacks a necessary explanatory block;
+- the navigation path does not expose a supported destination;
+- the content makes a claim broader than current business evidence supports.
+
+Do not write only an internal status or action label.
+
+### 5.4 Why this is a problem
+
+Explain the causal reason supported by the research:
+
+- what user/search task is not fully answered;
+- what ordinary Yandex evidence showed when material;
+- what current-page/content evidence showed;
+- what Alice/AI evidence added or did not add when material;
+- why the proposed correction follows from that evidence.
+
+This must be a real explanation, not a filename used as a substitute for reasoning.
+
+### 5.5 Where exactly to change
+
+Specify the implementable location when evidence supports it:
+
+- after which existing block;
+- before which form/calculator/section;
+- inside which existing section;
+- in which navigation element;
+- on which exact page.
+
+If the exact placement is not evidenced, do not invent it. Move the item to the blocked/clarification section instead of pretending it is implementation-ready.
+
+### 5.6 Step-by-step implementation
+
+Write concrete numbered implementation steps.
+
+Example pattern:
+
+1. Open the exact page.
+2. Locate the stated block.
+3. Preserve the listed existing content/element.
+4. Insert/change the specified material.
+5. Do not add unsupported company facts.
+6. Verify the acceptance criteria.
+
+Steps must describe the work, not internal analysis stages.
+
+### 5.7 Example of how the result may look
+
+When the task involves text/content, provide a practical example of the resulting fragment whenever evidence allows it.
+
+If an exact current-page excerpt is available and safe to reproduce, the report may show a short relevant current fragment followed by the proposed version.
+
+The proposed addition/change must be visually obvious.
+
+For Markdown/source material, new wording should be highlighted in **bold** inside the example.
+
+Example pattern:
+
+```markdown
+Current meaning:
+«Замер и установка выполняются специалистами компании.»
+
+Possible corrected fragment:
+«Замер и установка выполняются специалистами компании. **Перед монтажом специалист проверяет проём и согласованную комплектацию. После установки выполняются регулировка конструкции и итоговая проверка работы двери.**»
+```
+
+The example is an implementation aid, not permission to invent business facts. Any company-specific inclusions, exclusions, warranties, materials, prices, terms or obligations require direct evidence.
+
+If no exact wording is justified, say explicitly that the implementer must preserve the required meaning rather than copy fabricated prose.
+
+### 5.8 What must be preserved
+
+State what the specialist must not accidentally remove/change:
+
+- correct page ownership;
+- current useful block;
+- current URL;
+- existing price/calculator where relevant;
+- supported claims;
+- working navigation;
+- supported page separation.
+
+Positive `KEEP / NO CHANGE / DE-RISK` findings are implementation constraints, not missing work.
+
+### 5.9 What must not be claimed or invented
+
+Explicitly state any evidence boundary relevant to implementation.
+
+Examples:
+
+- do not promise an unconfirmed product/brand;
+- do not state company-specific service inclusions without business confirmation;
+- do not invent universal dimensions/norms;
+- do not merge/delete/redirect pages when harm has not been proven;
+- do not create a new page where the accepted result is semantic routing to an existing page.
+
+### 5.10 Acceptance criteria
+
+State how the implementer/recipient verifies that this exact item is complete.
+
+Acceptance must test the requested implementation result, not merely that “content was edited”.
+
+---
+
+## 6. Partial / blocked items must not look ready
+
+A finding may be valid while part of the implementation detail is unsupported.
+
+Split the item into:
+
+```text
+WHAT IS ALREADY SUPPORTED AND MAY BE DONE
++
+WHAT REQUIRES ADDITIONAL FACT / CHECK BEFORE PUBLICATION OR IMPLEMENTATION
+```
+
+For a blocked item explain:
+
+1. the exact unresolved question;
+2. why current evidence is insufficient;
+3. what evidence/fact must be obtained;
+4. what action becomes permissible after that evidence exists;
+5. what must remain unchanged until then.
+
+Do not attach a ready-looking text example to a claim whose factual content is not supported.
+
+---
+
+## 7. Separate physical site changes from analytical mapping
+
+Report №02 must not make semantic/page mapping look like a site edit.
+
+Use clear Russian sections such as:
+
+- **Изменения сайта, готовые к внедрению**;
+- **Можно выполнить частично — требуется подтверждение отдельных фактов**;
+- **Семантические назначения — сайт физически не менять**;
+- **Нужна дополнительная проверка — пока не внедрять**;
+- **Потенциальные внутренние ссылки — не готовы без точного места и контекста**;
+- **Что сохранить без изменений**.
+
+Internal mode names may exist in technical evidence but must not be the visible client section names.
+
+---
+
+## 8. Recommended document architecture
+
+Unless a current job requires an equally clear equivalent, Report №02 should be organized in this order.
+
+### 8.1 What this document is and how to use it
+
+Explain that:
+
+- Report №02 is the implementation guide;
+- the separate semantic-core workbook contains the full phrase/cluster/page data;
+- the specialist should use the workbook when full semantic detail is needed rather than expecting all phrases to be repeated inside every implementation item.
+
+### 8.2 Short technical explanation of how the implementation plan was obtained
+
+Explain the research chain at a useful specialist level:
+
+```text
+site/business inventory
+-> demand acquisition
+-> targeted expansion when justified
+-> cleanup/exclusions/deferred states
+-> task/intent clustering
+-> phrase-to-page/page ownership mapping
+-> ordinary Yandex validation
+-> Alice/AI validation when in scope
+-> comparison/reconciliation
+-> structural/content/navigation decision
+-> implementation readiness
+```
+
+Use exact counts when they prove completeness or explain the funnel. Do not turn counts into the narrative itself.
+
+### 8.3 Summary map of work
+
+Before the detailed cards, show the recipient what categories exist:
+
+- ready physical changes;
+- partial changes;
+- mapping-only results;
+- blocked/recheck items;
+- potential internal links requiring more detail;
+- explicit no-change/preserve findings.
+
+### 8.4 Ready physical changes
+
+Put the work that can actually be implemented now first.
+
+Each action gets the full implementation-item structure from Section 5.
+
+### 8.5 Partial changes requiring business/detail confirmation
+
+Keep supported content separate from unsupported company-specific facts.
+
+### 8.6 Semantic assignments without physical site changes
+
+Use a compact table or compact numbered register rather than repeating full implementation cards.
+
+Recommended fields:
+
+- topic/task;
+- main page;
+- supporting page when applicable;
+- what the mapping means;
+- explicit statement that no physical site change follows from this row;
+- reference to the full semantic-core workbook for the complete phrase set.
+
+### 8.7 Do not implement yet
+
+Group overlap/cannibalization uncertainty, unconfirmed assortment/business facts, hold states and other evidence-blocked actions here.
+
+Each item must state the blocker and the evidence required to reopen it.
+
+### 8.8 Potential internal links
+
+A proposed link is not implementation-ready until there is an exact source page/block/context, target, anchor meaning and conflict check.
+
+If those details are absent, state clearly that the link is a candidate requiring clarification rather than a placement instruction.
+
+### 8.9 What must remain unchanged
+
+Give the specialist a compact preservation list:
+
+- existing pages/owners that research supports;
+- pages that should not be merged/deleted/redirected;
+- tasks that should remain on existing pages;
+- supported no-change/de-risk findings.
+
+### 8.10 Verification after implementation
+
+Explain how to confirm both:
+
+- technical implementation acceptance;
+- later search/analytics observation when relevant and available.
+
+Do not promise traffic/revenue outcomes without evidence.
+
+### 8.11 Materials used
+
+This section is mandatory and must be the final substantive section of Report №02.
+
+---
+
+## 9. Do not duplicate the full semantic core inside every action card
+
+If a standalone semantic-core workbook exists, long lists of all related phrases should not be repeated in every implementation item merely because they are available.
+
+For a ready action, keep only what helps execution:
+
+- cluster/topic name;
+- main representative query when useful;
+- a small number of illustrative queries when they clarify the user task;
+- direct reference to the relevant sheet/view in the semantic-core workbook for the complete phrase set.
+
+```text
+FULL SEMANTIC DETAIL BELONGS IN THE SEMANTIC CORE
+IMPLEMENTATION DETAIL BELONGS IN REPORT №02
+```
+
+This keeps Report №02 executable rather than enormous.
+
+---
+
+## 10. Evidence must be explained before technical traceability
+
+A filename such as an internal TSV/JSON/MD artifact is not an explanation of why the action is correct.
+
+Primary client presentation:
+
+```text
+Основание решения:
+plain-language explanation of the observed evidence and causal conclusion
+```
+
+Optional secondary traceability:
+
+```text
+Техническая трассировка:
+source filename / stable ID / evidence locator
+```
+
+The specialist should understand the action without opening the internal artifact.
+
+---
+
+## 11. Priority must not masquerade as a production schedule
+
+Report №02 may show analytical importance, but the wording must distinguish it from actual implementation scheduling.
+
+Russian primary display example:
+
+```text
+Аналитический приоритет: высокий
+```
+
+An internal priority code is not necessary in the main document and, if retained for traceability, is secondary only.
+
+```text
+ANALYTICAL PRIORITY != COMMITTED IMPLEMENTATION ORDER
+```
+
+Do not invent `сейчас / потом / спринт / срок / трудоёмкость` without owner/implementer calibration.
+
+---
+
+## 12. Wordstat / demand explanation in Report №02
+
+When demand data materially supports an action, explain the preserved metric once in the methodology/research-chain section and then use it consistently.
+
+For Yandex Wordstat data, client-facing terminology must follow current official Yandex documentation for the relevant interface/method.
+
+Do not call no-operator/broad observations exact phrase frequency or traffic forecast.
+
+Do not present overlapping cluster sums as unique market volume.
+
+The full phrase-level frequency detail belongs in the standalone semantic core when that artifact exists.
+
+---
+
+## 13. Alice / AI wording
+
+Use the actual tested surface name and current official terminology.
+
+Do not write as though Alice independently performed the research or authored the architecture decision.
+
+Correct causal structure:
+
+```text
+research selected a case
+-> Alice/AI output was observed
+-> it was compared with the frozen Search-only decision
+-> the comparison changed, confirmed, de-risked or failed to resolve a decision
+```
+
+When AI adds no implementation change, that is a valid result and should be expressed as a preservation/de-risk conclusion where relevant.
+
+---
+
+## 14. Mandatory final numbered list of materials used
+
+The end of Report №02 must contain a numbered list of the external materials actually used to define/verify the work.
+
+Each item must include:
+
+1. material/article/document title;
+2. publisher/source;
+3. direct URL.
+
+Example form:
+
+```text
+1. «Название материала» — Яндекс. https://...
+2. «Название статьи» — Semrush. https://...
+3. «Название материала» — Ahrefs. https://...
+```
+
+The list must include the materials actually used for the current project/research/method decisions, not every source ever seen by the project.
+
+### 14.1 Freshness rule — sources must be revalidated for every project
+
+A previous project source list is never copied blindly into a new project.
+
+Before executing Report №02 for each new job:
+
+1. perform fresh source/method review appropriate to the current task;
+2. verify that each reused source still exists and remains current/relevant;
+3. search for newer official/current guidance where the topic is time-sensitive or methodology has materially evolved;
+4. keep a previously used source only if fresh review confirms it is still suitable;
+5. remove sources that were not actually used in the current work;
+6. add newly used sources.
+
+```text
+PREVIOUS PROJECT SOURCE LIST != CURRENT PROJECT SOURCE AUTHORITY
+SAME URL MAY REAPPEAR ONLY AFTER FRESH REVALIDATION
+```
+
+The internal method/evidence record should preserve what each source influenced. The client report needs the clean final numbered bibliography with direct links.
+
+---
+
+## 15. Known failure classes to prevent
+
+### Failure 1 — internal action database used as the report
+
+**Symptom:** document opens with internal modes/statuses and then repeats one database-shaped card after another.
+
+**Root cause:** internal execution representation was treated as recipient documentation.
+
+**Correct control:** organize by implementer task and use Russian human-readable sections/cards.
+
+### Failure 2 — action says what to do but not what is wrong
+
+**Root cause:** final recommendation was copied without causal explanation.
+
+**Correct control:** every ready action has `what is wrong -> why -> where -> steps -> example -> acceptance`.
+
+### Failure 3 — evidence filename replaces evidence meaning
+
+**Correct control:** explain observed evidence in normal language; filename is secondary traceability only.
+
+### Failure 4 — huge phrase lists obscure implementation
+
+**Correct control:** complete phrase sets stay in standalone semantic core; Report №02 keeps only execution-relevant examples/representatives.
+
+### Failure 5 — unsupported company fact embedded in a ready text example
+
+**Correct control:** split supported generic implementation from business-specific facts requiring confirmation.
+
+### Failure 6 — analytical mapping presented as site work
+
+**Correct control:** explicit separate section saying the site is not physically changed by these mappings.
+
+### Failure 7 — potential internal link presented as ready
+
+**Correct control:** exact source context/placement/target/anchor meaning required before implementation-ready status.
+
+### Failure 8 — no-change result disappears
+
+**Correct control:** include a preservation section so specialist knows what not to “improve”.
+
+### Failure 9 — internal English/project codes treated as professional terminology
+
+**Correct control:** only external official/current terminology or unavoidable proper technical identifiers may remain Latin/English; everything invented by the project is Russian in the client document.
+
+### Failure 10 — same bibliography copied project to project
+
+**Root cause:** method memory substituted for current method/source review.
+
+**Correct control:** fresh source validation every job; old links survive only after current revalidation and actual use.
+
+### Failure 11 — examples look authoritative despite insufficient evidence
+
+**Correct control:** example text is supplied only within the supported factual boundary; otherwise give structure/meaning requirements and explicitly mark missing facts.
+
+---
+
+## 16. Report №02 PASS gate
 
 Report №02 may pass only when:
 
 ```text
-RECIPIENT = SEO / IMPLEMENTATION SPECIALIST
-SEMANTIC_SECTIONS = clear
-CONNECTED_TECHNICAL_NARRATIVE = true
-PROFESSIONAL_TERMINOLOGY = allowed_and_defined
-RESEARCH_FUNNEL_EXPLAINED = true
-FILTERING / EXCLUSION / DEFERRED LOGIC_EXPLAINED = true
-CLUSTERING_AND_PAGE_MAPPING_EXPLAINED = true
-ORDINARY_YANDEX_VALIDATION_ROLE_EXPLAINED = true
-ALICE_SELECTION_AND_COMPARISON_EXPLAINED = true
-ACTION_DERIVATION_TRACEABLE = true
-PHYSICAL_CHANGE_SEPARATED_FROM_ANALYTICAL_MAPPING = true
-READY_ACTIONS_HAVE_EXECUTABLE_DETAIL = true
-BLOCKED_ACTIONS_HAVE_CLEAR_BLOCKER_AND_REQUIRED_EVIDENCE = true
-ACCEPTANCE_CRITERIA_PRESENT_WHERE_IMPLEMENTATION_READY = true
-NATURAL_HUMAN_TECHNICAL_PROSE = true
-GENERATED_TEMPLATE_FILLER = absent
+RECIPIENT = DIRECT IMPLEMENTER
+DOCUMENT PURPOSE = IMPLEMENTATION GUIDE
+CURRENT EXTERNAL METHOD / SOURCE REVIEW = PASS
+SOURCE LIST FRESHLY REVALIDATED FOR THIS JOB = PASS
+PROJECT-INVENTED CLIENT ENGLISH = 0
+UNEXPLAINED INTERNAL ENUMS = 0
+READY PHYSICAL CHANGES IDENTIFIABLE = true
+EACH READY CHANGE HAS DIRECT PAGE/OBJECT = true where applicable
+EACH READY CHANGE EXPLAINS CURRENT DEFECT = true
+EACH READY CHANGE EXPLAINS WHY = true
+EACH READY CHANGE HAS EXACT LOCATION = true where evidence supports implementation readiness
+EACH READY CHANGE HAS STEP-BY-STEP ACTION = true
+CONTENT CHANGES HAVE SAFE PRACTICAL EXAMPLE = true where evidence allows
+PROPOSED ADDITIONS ARE VISUALLY DISTINGUISHABLE = true
+UNSUPPORTED BUSINESS FACTS IN EXAMPLES = 0
+WHAT TO PRESERVE IS EXPLICIT = true
+ACCEPTANCE CRITERIA PRESENT = true
+PARTIAL / BLOCKED ITEMS SEPARATED FROM READY = true
+ANALYTICAL MAPPING SEPARATED FROM PHYSICAL SITE CHANGE = true
+POTENTIAL LINKS WITHOUT EXACT CONTEXT PRESENTED AS READY = 0
+FULL SEMANTIC CORE IS NOT REDUNDANTLY DUMPED INTO ACTION CARDS = true
+EVIDENCE MEANING PRECEDES INTERNAL LOCATOR = true
+ANALYTICAL PRIORITY NOT MISREPRESENTED AS SCHEDULE = true
+NO-CHANGE / PRESERVE FINDINGS VISIBLE = true
+FINAL NUMBERED MATERIALS LIST PRESENT = true
+EACH MATERIAL HAS TITLE + SOURCE + DIRECT URL = true
+MATERIALS LIST CONTAINS ONLY CURRENTLY USED / REVALIDATED SOURCES = true
+NATURAL RUSSIAN TECHNICAL PROSE = true
+GENERATED TEMPLATE FILLER = absent
+OWNER / IMPLEMENTER TASK WALKTHROUGH = PASS
 ```
 
-Report №02 must demonstrate both the depth of the research and the exact implementation consequence. It should not be simplified into Report №01, and it should not be reduced to an internal action database dump.
+Report №02 must be directly executable. The implementer should be able to open the document, choose item 1, follow its steps on the linked page, compare the result with the supplied example/meaning, verify acceptance, then move to item 2 without reconstructing the research repository.
