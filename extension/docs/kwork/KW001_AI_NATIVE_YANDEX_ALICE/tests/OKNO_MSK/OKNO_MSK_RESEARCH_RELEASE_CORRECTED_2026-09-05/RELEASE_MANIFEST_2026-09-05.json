@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_02_REPORT_SCOPE_FREEZE_REMEDIATION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "status": "DOCUMENT_02_FINAL_NARROW_A031_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -28,10 +28,10 @@
       "variant": "02",
       "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 251306,
-      "sha256": "4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a",
+      "size_bytes": 251160,
+      "sha256": "5f590d88c6da7912bc04a73f9ce9c60e7c4a15a6b54b56a007d831844a0c9f88",
       "pages": 19,
-      "recipient_contract": "RUSSIAN_SPECIALIST_GUIDE_FROM_COMPLETED_RESEARCH_ONLY__3_READY_WITH_PREEXISTING_PLACEMENT__5_PARTIAL__0_POSTHOC_PORTFOLIO_MAPPINGS__46_MAPPING_ONLY__4_BLOCKED__15_LINK_AUTHORITY_ROWS__14_VISIBLE_LINK_DECISIONS__OWNER_REVIEW_PENDING"
+      "recipient_contract": "RUSSIAN_SPECIALIST_GUIDE_FROM_COMPLETED_RESEARCH_ONLY__A031_2024_ATTACHED_TO_RANKING_NOT_ARTICLE_PUBLICATION_DATE__3_READY_WITH_PREEXISTING_PLACEMENT__5_PARTIAL__0_POSTHOC_PORTFOLIO_MAPPINGS__46_MAPPING_ONLY__4_BLOCKED__15_LINK_AUTHORITY_ROWS__14_VISIBLE_LINK_DECISIONS__OWNER_REVIEW_PENDING"
     },
     {
       "variant": "03",
@@ -75,8 +75,8 @@
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-      "size_bytes": 32962,
-      "sha256": "4e1d66bab0b57dafb801523f1428bfbc972eb3b1a02855aa3f99aa5041e1b54d"
+      "size_bytes": 32862,
+      "sha256": "5307486541988d97fb21b9772b1c543865671728605a9cd383d98360a14453f3"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
@@ -85,8 +85,8 @@
     },
     {
       "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
-      "size_bytes": 64343,
-      "sha256": "31865ced072f34e92ec30ebb03beea1e4c6baf06597044902e2f4147df938a7c"
+      "size_bytes": 64547,
+      "sha256": "cbaad2ad0e8d6be4413fa0384cb3ca7e87ca9c83e202e9209f0d31ffafcc6ffd"
     }
   ],
   "qa": {
@@ -120,7 +120,7 @@
     "document_02": "ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_03": "NOT_STARTED__UNTOUCHED",
     "final_customer_recipient_acceptance": "OPEN",
-    "next_action": "OWNER_REVIEW_SCOPE_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
+    "next_action": "OWNER_REVIEW_FINAL_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
     "document_01_github_readback": "PENDING_POST_COMMIT_READBACK",
     "document_01_dual_surface_optimization_verdict": true,
     "document_01_alice_research_agency": "PASS__ALICE_OUTPUT_USED_AS_EVIDENCE_NOT_RESEARCH_AUTHOR",
@@ -191,12 +191,17 @@
     "document_02_client_placeholders": 0,
     "document_02_ready_action_generic_step_template_reuse": 0,
     "document_02_ready_actions_with_exact_evidenced_placement": 3,
+    "document_02_a031_article_publication_date_claims": 0,
+    "document_02_a031_ranking_year_2024_claim": true,
+    "document_02_a031_current_ranking_claims": 0,
+    "document_02_a031_new_ranking_date_claims": 0,
+    "document_02_temporal_fact_attribution": "PASS",
     "document_02_bibliography_items": 10,
     "document_02_alice_yandex_ai_bibliography_coverage": "PASS",
     "document_02_bibliography_currently_revalidated": true,
     "document_02_md_docx_pdf_equivalence": "PASS",
     "document_02_visual_qa": "PASS__19_OF_19_PAGES",
-    "document_02_deterministic_qa": "PASS__45_OF_45",
+    "document_02_deterministic_qa": "PASS__53_OF_53",
     "document_02_owner_review_state": "PENDING",
     "document_01_modified_during_document_02_rebuild": false,
     "document_03_modified_during_document_02_rebuild": false,

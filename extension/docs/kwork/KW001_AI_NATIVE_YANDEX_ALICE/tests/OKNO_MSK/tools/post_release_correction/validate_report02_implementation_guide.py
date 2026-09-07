@@ -62,6 +62,18 @@ INTERNAL_ID_RE = re.compile(r"\b(?:S18-A\d+|Stage\d+|CV\d+|OR-\d+)\b", re.I)
 INTERNAL_FILENAME_RE = re.compile(r"\bSTEP_[A-Z0-9_]+(?:\.(?:tsv|json|md|txt))?\b|\b[A-Z0-9_]+\.(?:tsv|json|xlsx)\b")
 INTERNAL_ENUM_RE = re.compile(r"\b(?:CONTENT_BLOCK(?:_PARTIAL)?|SEMANTIC_MAPPING_ONLY|RECHECK_ONLY|READY(?:_[A-Z0-9_]+)?|P[12]_[A-Z0-9_*]+|REAL_SITE_CHANGE|TO_CALIBRATE|SEARCH_REQUIRED|CTA)\b", re.I)
 PLACEHOLDER_RE = re.compile(r"\[(?:дата|указать)[^\]]*\]|\b(?:TBD|TODO|TO_CALIBRATE|XXX)\b", re.I)
+ARTICLE_PUBLICATION_2024_RE = re.compile(
+    r"(?:опубликован(?:а|о|ы|ный|ная|ное|ном)?\s+в\s+2024|"
+    r"опубликованн(?:ый|ая|ое|ом)\s+в\s+2024|"
+    r"публикаци(?:я|и|ю|ей)\s+(?:статьи|материала)?\s*(?:в\s+|за\s+)?2024)",
+    re.I,
+)
+CURRENT_RANKING_CLAIM_RE = re.compile(
+    r"(?:актуальн(?:ый|ым|ого|ому)\s+рейтинг|текущ(?:ий|им|его|ему)\s+рейтинг|"
+    r"рейтинг\s+(?:актуален|актуальный|текущий)\s+(?:на\s+)?(?:сегодня|текущую дату|2026))",
+    re.I,
+)
+NEW_RANKING_DATE_RE = re.compile(r"(?:рейтинг\s+(?:за\s+)?20(?:25|26)|20(?:25|26)\s+год\s+относится\s+к\s+рейтингу)", re.I)
 
 
 def sha(path: Path) -> str:
@@ -140,6 +152,26 @@ def main() -> int:
     check("a029_partial", "Подготовить навигацию по портфолио" in partial and "Полная разметка существующих карточек" in partial and "Точный набор фильтров определяется только после полной разметки карточек" in partial)
     check("posthoc_portfolio_mapping_absent", "224" not in md and "Страница / позиция" not in md and "Готовое соответствие" not in md)
     check("a031_no_placeholder", "2024" in ready and not PLACEHOLDER_RE.search(ready))
+    a031 = section(ready, "### 3. Убрать ложную актуальность из рейтинга 2024 года", "") if False else ready.split("### 3. Убрать ложную актуальность из рейтинга 2024 года", 1)[1]
+    a031_location = "В разделе «Рейтинг производителей оконных профилей», в той части, где рейтинг 2024 года назван актуальным «в этом году»."
+    a031_format_checks = {}
+    for name, text in formats.items():
+        card = text.split("Убрать ложную актуальность из рейтинга 2024 года", 1)[1].split("Частичные пункты", 1)[0]
+        a031_format_checks[name] = {
+            "article_publication_date_claims": len(ARTICLE_PUBLICATION_2024_RE.findall(card)),
+            "ranking_year_2024_present": "рейтинг производителей за 2024 год" in normalized(card),
+            "current_ranking_claims": len(CURRENT_RANKING_CLAIM_RE.findall(card)),
+            "new_ranking_date_claims": len(NEW_RANKING_DATE_RE.findall(card)),
+        }
+    check("a031_ready", "Убрать ложную актуальность из рейтинга 2024 года" in ready)
+    check("a031_ranking_year_2024_claim", all(value["ranking_year_2024_present"] for value in a031_format_checks.values()), a031_format_checks)
+    check("a031_article_publication_date_claim", all(value["article_publication_date_claims"] == 0 for value in a031_format_checks.values()), a031_format_checks)
+    check("a031_current_ranking_claim", all(value["current_ranking_claims"] == 0 for value in a031_format_checks.values()), a031_format_checks)
+    check("a031_new_ranking_date", all(value["new_ranking_date_claims"] == 0 for value in a031_format_checks.values()), a031_format_checks)
+    check("a031_ranking_positions_changed", "Сохраните существующий список производителей и его порядок" in a031 and "Не меняйте позиции рейтинга" in a031)
+    check("a031_exact_location_trace", a031_location in a031 and action_rows["S18-A031"]["exact_location_ru"] == "Раздел «Рейтинг производителей оконных профилей»." and "непосредственно перед сохранённым списком" not in a031)
+    temporal_fact_attribution = all(value["article_publication_date_claims"] == 0 and value["ranking_year_2024_present"] and value["current_ranking_claims"] == 0 and value["new_ranking_date_claims"] == 0 for value in a031_format_checks.values())
+    check("temporal_fact_attribution", temporal_fact_attribution, {"expected": "ranking year 2024 only; no article publication date or current/new ranking claim", "formats": a031_format_checks})
     check("a012_partial_boundary", "Уточнить роль монтажа" in partial and "состав услуги" in partial and "Компания должна подтвердить" in partial)
 
     route_count = len(tsv_rows(ROUTE_AUTHORITY))
@@ -212,7 +244,7 @@ def main() -> int:
     check("markdown_docx_pdf_required_content_equivalence", all(equivalence.values()), equivalence)
     doc = Document(DOCX)
     bold_text = " ".join(run.text for p in doc.paragraphs for run in p.runs if run.bold)
-    check("docx_bold_proposed_additions", all(term in bold_text for term in ["До выбора конфигурации", "При выборе двери", "В опубликованном в 2024 году", "Профессиональный монтаж", "Направления будущей разметки"]))
+    check("docx_bold_proposed_additions", all(term in bold_text for term in ["До выбора конфигурации", "При выборе двери", "Ниже приведён рейтинг производителей за 2024 год", "Профессиональный монтаж", "Направления будущей разметки"]))
     check("docx_expected_tables", len(doc.tables) == 3, len(doc.tables))
     check("pdf_no_empty_pages", all((page.extract_text() or "").strip() for page in reader.pages))
     check("docx_not_corrupt", DOCX.stat().st_size > 30000, DOCX.stat().st_size)
@@ -226,7 +258,7 @@ def main() -> int:
 
     failed = [item["name"] for item in checks if item["status"] == "FAIL"]
     payload = {
-        "artifact": "DOCUMENT_02_SCOPE_FREEZE_REMEDIATION",
+        "artifact": "DOCUMENT_02_FINAL_NARROW_A031_TEMPORAL_ATTRIBUTION_CORRECTION",
         "status": "PASS" if not failed else "FAIL",
         "owner_review": "PENDING",
         "date": "2026-09-07",

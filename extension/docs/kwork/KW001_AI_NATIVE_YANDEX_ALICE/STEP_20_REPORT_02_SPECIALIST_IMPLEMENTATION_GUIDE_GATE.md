@@ -653,6 +653,23 @@ AUTHORIZATION FOR NEW EVIDENCE COLLECTION
 
 The only standing distinction is external methodology/bibliography freshness required by the report contract: it may be revalidated, but it must not be used to create or upgrade project-specific findings.
 
+### Failure I — temporal attribute was transferred to the wrong object
+
+**What failed:** evidence that a ranking refers to 2024 was rewritten as a claim that the article itself was published in 2024.
+
+**Root cause:** a time attribute attached to one evidenced fact was silently transferred to another fact.
+
+**Correct control:** a temporal attribute must remain attached to the exact evidenced object.
+
+```text
+RANKING YEAR != PUBLICATION DATE
+OBSERVATION DATE != PAGE PUBLICATION DATE
+DATA SNAPSHOT DATE != CONTENT UPDATE DATE
+CURRENT-YEAR WORDING != VERIFIED CURRENT PUBLICATION DATE
+```
+
+If the exact temporal fact is not preserved in accepted evidence, do not infer it during report writing.
+
 ---
 
 ## 16. Report №02 PASS gate
@@ -685,6 +702,7 @@ UNAUTHORIZED ALICE / AI RECOLLECTION = 0
 POST-HOC REPORT-STAGE EVIDENCE USED TO UPGRADE READINESS = 0
 REPORT PROJECT FACTS TRACE TO PRE-EXISTING RESEARCH AUTHORITY = PASS
 EXTERNAL METHODOLOGY BIBLIOGRAPHY FRESHNESS = PASS
+TEMPORAL FACT ATTRIBUTION = EXACT EVIDENCE MATCH
 CONTENT CHANGES HAVE SAFE PRACTICAL EXAMPLE = true where evidence allows
 PROPOSED ADDITIONS ARE VISUALLY DISTINGUISHABLE = true
 UNSUPPORTED BUSINESS FACTS IN EXAMPLES = 0

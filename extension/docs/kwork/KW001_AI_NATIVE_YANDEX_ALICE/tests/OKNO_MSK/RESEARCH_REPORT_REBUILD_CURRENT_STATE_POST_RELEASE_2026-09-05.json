@@ -3,7 +3,7 @@
   "last_updated": "2026-09-07",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "DOCUMENT_02_REPORT_SCOPE_FREEZE_REMEDIATION__ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "status": "DOCUMENT_02_FINAL_NARROW_A031_CORRECTION__ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
   "historical_state_authority": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
   "historical_release": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_manifest": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
@@ -71,8 +71,8 @@
     ,"STEP_08_SEARCH_STAGE_FREEZE_METHOD.md"
     ,"BRIDGE_EVIDENCE_PERSISTENCE_GATE.md"
   ],
-  "next_action": "OWNER_REVIEW_SCOPE_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
-  "correction_materialization_status": "DOCUMENT_02_REPORT_SCOPE_FREEZE_REMEDIATION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "next_action": "OWNER_REVIEW_FINAL_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
+  "correction_materialization_status": "DOCUMENT_02_FINAL_NARROW_A031_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "corrected_recipient_release": {
     "directory": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
     "manifest": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
@@ -229,8 +229,8 @@
     "next_action": "OWNER_REVIEW_STANDALONE_SEMANTIC_CORE_XLSX_AND_CORRECTED_DOCUMENT_01__DO_NOT_START_DOCUMENT_02"
   },
   "document_02_specialist_guide_rebuild_2026_09_07": {
-    "status": "REPORT_SCOPE_FREEZE_REMEDIATION__ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
-    "review_history": "FIRST_REBUILD_ANALYST_QA_PASS__OWNER_REVIEW_FAIL__SECOND_CORRECTION_UNAUTHORIZED_REPORT_STAGE_SITE_RECOLLECTION__OWNER_IDENTIFIED_PROCESS_FAILURE__SCOPE_FREEZE_REMEDIATION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+    "status": "FINAL_NARROW_A031_CORRECTION__ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+    "review_history": "FIRST_REBUILD_ANALYST_QA_PASS__OWNER_REVIEW_FAIL__SECOND_CORRECTION_UNAUTHORIZED_REPORT_STAGE_SITE_RECOLLECTION__OWNER_IDENTIFIED_PROCESS_FAILURE__SCOPE_FREEZE_REMEDIATION_ANALYST_RECHECK_PASS__OWNER_RESIDUAL_A031_TEMPORAL_ATTRIBUTION_FAIL__FINAL_NARROW_A031_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_02_rebuilt_to_current_specialist_implementation_contract": true,
     "ready_physical_actions": 3,
     "ready_action_ids": ["S18-A009", "S18-A028", "S18-A031"],
@@ -260,12 +260,19 @@
     "client_placeholders": 0,
     "ready_action_generic_step_template_reuse": 0,
     "ready_actions_with_exact_evidenced_placement": 3,
+    "a031_article_publication_date_claims": 0,
+    "a031_ranking_year_2024_claim": true,
+    "a031_current_ranking_claims": 0,
+    "a031_new_ranking_date_claims": 0,
+    "a031_ranking_positions_changed": false,
+    "a031_exact_location_trace": "COMPLETED_PRE_EXISTING_RESEARCH_ONLY",
+    "temporal_fact_attribution": "PASS",
     "bibliography_currently_revalidated": true,
     "bibliography_items": 10,
     "alice_yandex_ai_bibliography_coverage": "PASS",
     "markdown_docx_pdf_equivalence": "PASS",
     "visual_qa": "PASS__19_OF_19_PAGES",
-    "deterministic_qa": "PASS__45_OF_45",
+    "deterministic_qa": "PASS__53_OF_53",
     "qa_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_GUIDE_QA_2026-09-07.json",
     "correction_authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_GUIDE_CORRECTION_2026-09-07.md",
     "method_references": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_METHOD_REFERENCES_2026-09-07.md",
@@ -273,7 +280,7 @@
     "document_03_modified": false,
     "semantic_core_04_modified": false,
     "new_provider_calls": 0,
-    "next_action": "OWNER_REVIEW_SCOPE_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+    "next_action": "OWNER_REVIEW_FINAL_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
   },
   "step21_22_authorized": false,
   "new_provider_calls_authorized": false,

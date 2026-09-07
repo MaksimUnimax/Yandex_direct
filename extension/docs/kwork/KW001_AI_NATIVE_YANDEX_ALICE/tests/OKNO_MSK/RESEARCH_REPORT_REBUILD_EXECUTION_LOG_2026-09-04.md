@@ -594,3 +594,17 @@ Accounting: ASSIGNED=2271, ASSIGNED_HOLD=42, SEARCH_REQUIRED=19, REVIEW_DEFERRED
 - Documents №01, №03 and semantic core №04 remained byte-identical. Document №03 was not started.
 - Current result: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
 - Next action: `OWNER_REVIEW_SCOPE_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.
+
+## 2026-09-07 — Final narrow A031 temporal-attribution correction
+
+- Owner found one residual evidence overstatement after the scope-freeze remediation: the ranking's 2024 year had been transferred to an unsupported article publication-date claim, and the placement had been strengthened beyond the preserved authority.
+- Preserved the completed authority boundary: `Раздел «Рейтинг производителей оконных профилей».` No current-site, Search, Wordstat, Alice/AI or business-fact collection was performed.
+- Rewrote A031 so 2024 attaches only to the ranking; removed every client claim that the article was published in 2024; retained the safe ready status, existing ranking order and future-update boundary.
+- Final placement wording: `В разделе «Рейтинг производителей оконных профилей», в той части, где рейтинг 2024 года назван актуальным «в этом году».`
+- Added the permanent failure class `TEMPORAL ATTRIBUTE WAS TRANSFERRED TO THE WRONG OBJECT` and validator controls for publication-date, current-ranking and new-ranking-date claims.
+- Regenerated Report №02 from source: Markdown `cbaad2ad0e8d6be4413fa0384cb3ca7e87ca9c83e202e9209f0d31ffafcc6ffd` (64,547 bytes), DOCX `5307486541988d97fb21b9772b1c543865671728605a9cd383d98360a14453f3` (32,862 bytes), PDF `5f590d88c6da7912bc04a73f9ce9c60e7c4a15a6b54b56a007d831844a0c9f88` (251,160 bytes; 19 pages).
+- Deterministic QA: `PASS`, 53/53. Temporal-fact attribution: `PASS`. Publication-date claims: 0. Post-hoc evidence used: 0. Cross-format equivalence: `PASS`.
+- Visual QA: `PASS`; all 19 final PDF pages and all 19 independently rendered DOCX pages inspected. The revised A031 example is visibly bold on page 6.
+- Documents №01, №03 and semantic core №04 remained byte-identical. Document №03 was not started.
+- Current result: `ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING`.
+- Next action: `OWNER_REVIEW_FINAL_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03`.

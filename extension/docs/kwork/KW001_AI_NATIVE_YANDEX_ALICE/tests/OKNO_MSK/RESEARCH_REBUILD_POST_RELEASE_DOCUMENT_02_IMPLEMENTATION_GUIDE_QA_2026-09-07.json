@@ -1,5 +1,5 @@
 {
-  "artifact": "DOCUMENT_02_SCOPE_FREEZE_REMEDIATION",
+  "artifact": "DOCUMENT_02_FINAL_NARROW_A031_TEMPORAL_ATTRIBUTION_CORRECTION",
   "status": "PASS",
   "owner_review": "PENDING",
   "date": "2026-09-07",
@@ -56,7 +56,7 @@
   "cross_format_equivalence": "PASS",
   "visual_qa": {
     "artifact": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
-    "pdf_sha256": "4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a",
+    "pdf_sha256": "5f590d88c6da7912bc04a73f9ce9c60e7c4a15a6b54b56a007d831844a0c9f88",
     "pages_total": 19,
     "pages_inspected": [
       1,
@@ -80,7 +80,7 @@
       19
     ],
     "inspection_date_utc": "2026-09-07",
-    "render_method": "Final optimized PDF rendered page-by-page with Poppler at 110 dpi; DOCX independently rendered with render_docx.py and LibreOffice.",
+    "render_method": "Final optimized PDF rendered page-by-page with Poppler at 120 dpi; DOCX independently rendered with render_docx.py and LibreOffice.",
     "checks": {
       "all_pages_rendered": true,
       "no_clipping": true,
@@ -91,6 +91,9 @@
       "five_partial_actions_inspected": true,
       "preexisting_exact_placement_claims_inspected": true,
       "bold_proposed_wording_visible": true,
+      "a031_temporal_attribution_wording_inspected": true,
+      "a031_example_bold_and_legible": true,
+      "a031_article_publication_date_not_asserted": true,
       "portfolio_partial_boundary_inspected": true,
       "partial_installation_boundary_inspected": true,
       "blocked_items_inspected": true,
@@ -103,6 +106,7 @@
     },
     "notes": [
       "The three ready actions and their preserved-research placement boundaries are legible on pages 2-6.",
+      "The corrected A031 instruction is legible on pages 5-6: 2024 is attached only to the ranking, no article publication date is asserted, and the revised example is visibly bold.",
       "All five downgraded partial actions, including the portfolio evidence boundary, are legible on pages 7-9.",
       "The 46 semantic mappings, four blocked items, 14 visible link decisions, preservation rules and ten bibliography items are legible on pages 9-19."
     ],
@@ -164,7 +168,7 @@
       "detail": [
         "Непосредственно между существующим вводным определением французского окна и следующей за ним ценовой/конфигурационной частью. Эта граница зафиксирована завершённым исследованием.",
         "Сразу после существующего блока о видах дверных створок и до блока с ценами. Эта граница зафиксирована завершённым исследованием.",
-        "Внутри существующего раздела «Рейтинг производителей оконных профилей», непосредственно перед сохранённым списком производителей. Раздел и проблемная историческая формулировка зафиксированы завершённым исследованием."
+        "В разделе «Рейтинг производителей оконных профилей», в той части, где рейтинг 2024 года назван актуальным «в этом году». Это самая точная граница, установленная завершённым исследованием."
       ]
     },
     {
@@ -173,7 +177,7 @@
       "detail": [
         "Непосредственно между существующим вводным определением французского окна и следующей за ним ценовой/конфигурационной частью. Эта граница зафиксирована завершённым исследованием.",
         "Сразу после существующего блока о видах дверных створок и до блока с ценами. Эта граница зафиксирована завершённым исследованием.",
-        "Внутри существующего раздела «Рейтинг производителей оконных профилей», непосредственно перед сохранённым списком производителей. Раздел и проблемная историческая формулировка зафиксированы завершённым исследованием."
+        "В разделе «Рейтинг производителей оконных профилей», в той части, где рейтинг 2024 года назван актуальным «в этом году». Это самая точная граница, установленная завершённым исследованием."
       ]
     },
     {
@@ -215,6 +219,144 @@
       "name": "a031_no_placeholder",
       "status": "PASS",
       "detail": null
+    },
+    {
+      "name": "a031_ready",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a031_ranking_year_2024_claim",
+      "status": "PASS",
+      "detail": {
+        "markdown": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "docx": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "pdf": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        }
+      }
+    },
+    {
+      "name": "a031_article_publication_date_claim",
+      "status": "PASS",
+      "detail": {
+        "markdown": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "docx": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "pdf": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        }
+      }
+    },
+    {
+      "name": "a031_current_ranking_claim",
+      "status": "PASS",
+      "detail": {
+        "markdown": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "docx": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "pdf": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        }
+      }
+    },
+    {
+      "name": "a031_new_ranking_date",
+      "status": "PASS",
+      "detail": {
+        "markdown": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "docx": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        },
+        "pdf": {
+          "article_publication_date_claims": 0,
+          "ranking_year_2024_present": true,
+          "current_ranking_claims": 0,
+          "new_ranking_date_claims": 0
+        }
+      }
+    },
+    {
+      "name": "a031_ranking_positions_changed",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a031_exact_location_trace",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "temporal_fact_attribution",
+      "status": "PASS",
+      "detail": {
+        "expected": "ranking year 2024 only; no article publication date or current/new ranking claim",
+        "formats": {
+          "markdown": {
+            "article_publication_date_claims": 0,
+            "ranking_year_2024_present": true,
+            "current_ranking_claims": 0,
+            "new_ranking_date_claims": 0
+          },
+          "docx": {
+            "article_publication_date_claims": 0,
+            "ranking_year_2024_present": true,
+            "current_ranking_claims": 0,
+            "new_ranking_date_claims": 0
+          },
+          "pdf": {
+            "article_publication_date_claims": 0,
+            "ranking_year_2024_present": true,
+            "current_ranking_claims": 0,
+            "new_ranking_date_claims": 0
+          }
+        }
+      }
     },
     {
       "name": "a012_partial_boundary",
@@ -431,19 +573,19 @@
     {
       "name": "docx_not_corrupt",
       "status": "PASS",
-      "detail": 32962
+      "detail": 32862
     },
     {
       "name": "pdf_not_corrupt",
       "status": "PASS",
-      "detail": 251306
+      "detail": 251160
     },
     {
       "name": "visual_qa_all_pages",
       "status": "PASS",
       "detail": {
         "artifact": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
-        "pdf_sha256": "4de84deb43ce2b821970abed72915ed167930e57defd1e8311d7b02ea5e2f17a",
+        "pdf_sha256": "5f590d88c6da7912bc04a73f9ce9c60e7c4a15a6b54b56a007d831844a0c9f88",
         "pages_total": 19,
         "pages_inspected": [
           1,
@@ -467,7 +609,7 @@
           19
         ],
         "inspection_date_utc": "2026-09-07",
-        "render_method": "Final optimized PDF rendered page-by-page with Poppler at 110 dpi; DOCX independently rendered with render_docx.py and LibreOffice.",
+        "render_method": "Final optimized PDF rendered page-by-page with Poppler at 120 dpi; DOCX independently rendered with render_docx.py and LibreOffice.",
         "checks": {
           "all_pages_rendered": true,
           "no_clipping": true,
@@ -478,6 +620,9 @@
           "five_partial_actions_inspected": true,
           "preexisting_exact_placement_claims_inspected": true,
           "bold_proposed_wording_visible": true,
+          "a031_temporal_attribution_wording_inspected": true,
+          "a031_example_bold_and_legible": true,
+          "a031_article_publication_date_not_asserted": true,
           "portfolio_partial_boundary_inspected": true,
           "partial_installation_boundary_inspected": true,
           "blocked_items_inspected": true,
@@ -490,6 +635,7 @@
         },
         "notes": [
           "The three ready actions and their preserved-research placement boundaries are legible on pages 2-6.",
+          "The corrected A031 instruction is legible on pages 5-6: 2024 is attached only to the ranking, no article publication date is asserted, and the revised example is visibly bold.",
           "All five downgraded partial actions, including the portfolio evidence boundary, are legible on pages 7-9.",
           "The 46 semantic mappings, four blocked items, 14 visible link decisions, preservation rules and ten bibliography items are legible on pages 9-19."
         ],
