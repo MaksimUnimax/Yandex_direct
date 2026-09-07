@@ -62,11 +62,13 @@ for path in [BUILDER, QA]:
     code = code.replace('Восемь карточек ниже — не весь объём работы с Алисой', positive_marker)
     code = code.replace("'Главная задача кворка — пересобрать и проверить поисковое ядро',", "'Цель работы — пересобрать поисковое ядро сайта «Окно Москва» с учётом выдачи Алисы.',")
     code = code.replace("'Главная задача кворка',", "'Цель работы — пересобрать поисковое ядро',")
+    code = code.replace("'под Алису — под современную выдачу Яндекса',", "'Поиск в Яндексе изменился:',")
     if "'кворк', 'kwork'" not in code:
         code = code.replace("'исходных строк',", "'исходных строк', 'кворк', 'kwork',", 1)
     path.write_text(code, encoding='utf-8')
     assert positive_marker in code
     assert 'Главная задача кворка' not in code
+    assert 'под Алису — под современную выдачу Яндекса' not in code
     assert "'кворк', 'kwork'" in code
 
 # Permanent non-repeat rule: internal marketplace/product terminology is allowed
