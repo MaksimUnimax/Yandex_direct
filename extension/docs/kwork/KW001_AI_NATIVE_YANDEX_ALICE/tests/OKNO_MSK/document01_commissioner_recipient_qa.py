@@ -10,7 +10,7 @@ DOCX = REL / 'editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx'
 PDF = REL / '01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf'
 QA_PATH = ROOT / 'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json'
 MAN_PATH = REL / 'RELEASE_MANIFEST_2026-09-05.json'
-TITLE = 'ОКНО МОСКВА — https://okno-msk.ru/ — исследование спроса в Яндексе: обычная выдача и выдача Алисы'
+TITLE = 'ОКНО МОСКВА — https://okno-msk.ru/ — поисковое ядро под Алису и обычную выдачу Яндекса'
 
 
 def sha(p):
@@ -24,38 +24,48 @@ def norm(s):
 def main():
     text = MD.read_text(encoding='utf-8')
     assert text.splitlines()[0] == '# ' + TITLE
+    low = text.lower()
 
     forbidden = [
         'исходных строк', '`count`', 'генеративный', 'нейросетевой', 'Алиса/ИИ',
         '## Приложение.', 'Полный список 75 проверенных',
         'После пересборки ядра', 'В работе пересобрано поисковое ядро',
-        'Задача работы — пересобрать поисковое ядро',
+        'Исследование должно было показать, нужна ли сайту полная пересборка',
+        'точная частотность', 'операторами Wordstat',
+        'только как дополнительную проверку', 'дополнительное сравнение с выдачей Алисы',
+        'дополнительная проверка выдачи Алисы',
         'Специализированная страница панорамного остекления балкона соответствует спросу',
         'Общая страница веранды и раздел алюминиевых окон выполняют разные роли',
         'Страница замены окна и общая страница монтажа',
         'Главное за одну минуту', 'Как использовать результаты', 'полный объём этого этапа',
         'для владельца сайта', 'владельцу сайта', 'владелец бизнеса'
     ]
-    low = text.lower()
     for bad in forbidden:
         assert bad.lower() not in low, bad
 
     required = [
         TITLE,
-        'Задача работы — собрать и проверить поисковое ядро сайта для Москвы',
-        'Главный вывод исследования: сайт «Окно Москва» уже хорошо оптимизирован под выявленный спрос как в обычной выдаче Яндекса, так и в выдаче Алисы',
-        'полностью пересобирать ядро и структуру сайта не требуется',
-        '2 415 поисковых фраз', 'ещё 550 фраз', '2 965 поисковых фраз',
-        'числовой показатель спроса', 'частотность в широком соответствии',
+        'Главная задача кворка — пересобрать и проверить поисковое ядро',
+        'под Алису — под современную выдачу Яндекса',
+        'существующее распределение основных групп спроса по страницам сайта уже в целом хорошо соответствует как обычной выдаче Яндекса, так и выдаче Алисы',
+        'полностью перестраивать существующее ядро и структуру сайта не требуется',
+        '2 415 поисковых фраз', '550 фраз', '2 965 поисковых фраз',
+        'показатель частотности по Москве',
         '2 840 уникальных поисковых фраз', '2 332 активные поисковые фразы',
         '2 313', '19', '168 групп поискового спроса',
-        '75 проверок', '25 тем', 'полностью проверили 8', 'шесть тем', 'два контрольных запроса',
-        '16 тем', '34 значимых вывода',
-        '## Что дала проверка выдачи Алисы',
-        'полностью пересобирать существующее распределение ядра по сайту не требуется'
+        '75 проверок',
+        '## Как сайт соответствует выдаче Алисы',
+        'существующее распределение основных групп спроса по страницам в целом соответствует выдаче Алисы',
+        '25 тем', '8 разобрали углублённо', 'шесть разных случаев', 'два контрольных запроса',
+        'Восемь карточек ниже — не весь объём работы с Алисой',
+        'семь точечных улучшений'
     ]
     for marker in required:
         assert marker in text, marker
+
+    overall = 'Главный результат проверки: существующее распределение основных групп спроса по страницам в целом соответствует выдаче Алисы'
+    deep = 'Из этих 25 тем 8 разобрали углублённо'
+    assert text.index(overall) < text.index(deep)
 
     assert len(re.findall(r'^\|\s*\d+\s*\|', text, re.M)) == 0
     assert text.count('**Почему это важно:**') == 7
@@ -81,13 +91,19 @@ def main():
     ptext = '\n'.join((p.extract_text() or '') for p in reader.pages)
     ntext = norm(ptext).lower()
     for marker in [
-        'https://okno-msk.ru/', 'собрать и проверить поисковое ядро сайта для Москвы',
+        'https://okno-msk.ru/', 'поисковое ядро под Алису',
+        'Главная задача кворка', 'показатель частотности по Москве',
         '2 415 поисковых фраз', '2 965 поисковых фраз', '2 840 уникальных поисковых фраз',
-        'числовой показатель спроса', 'частотность в широком соответствии',
-        '75 проверок', '25 тем', 'выдачи Алисы', 'Что нужно изменить на сайте', 'Итог'
+        '75 проверок', 'Как сайт соответствует выдаче Алисы',
+        'Восемь карточек ниже — не весь объём работы с Алисой',
+        'Что нужно изменить на сайте', 'Итог'
     ]:
         assert norm(marker).lower() in ntext, marker
-    for bad in ['Приложение. Что показала обычная выдача', 'count', 'генеративный']:
+    for bad in [
+        'Приложение. Что показала обычная выдача', 'count', 'генеративный',
+        'точная частотность', 'операторами Wordstat', 'только как дополнительную проверку',
+        'дополнительное сравнение с выдачей Алисы', 'дополнительная проверка выдачи Алисы'
+    ]:
         assert bad.lower() not in ntext, bad
 
     with tempfile.TemporaryDirectory() as td:
@@ -110,21 +126,23 @@ def main():
         'scope': 'DOCUMENT_01_ONLY',
         'checks': {
             'site_url_visible_in_title': True,
+            'alice_first_kwork_goal_explicit': True,
+            'alice_is_core_product_surface_not_additional': True,
             'semantic_core_is_primary_research_object': True,
-            'full_rebuild_not_falsely_claimed': True,
+            'commissioned_alice_rebuild_goal_distinguished_from_no_full_rebuild_result': True,
             'direct_dual_surface_optimization_verdict_visible': True,
             'wordstat_phrase_counts_written_as_phrases_not_rows': True,
             'english_internal_wordstat_field_name_absent': True,
-            'wordstat_demand_indicator_explained_in_russian': True,
-            'frequency_work_visible_without_false_exact_frequency_claim': True,
-            'unique_2840_not_exact_frequency_measurements': True,
+            'wordstat_frequency_work_explained_in_russian': True,
+            'unperformed_frequency_procedures_not_narrated_to_customer': True,
             '168_units_presented_as_demand_groups': True,
             'ordinary_yandex_75_is_targeted_validation_not_total_scope': True,
             'raw_75_query_appendix_absent': True,
-            'alice_selection_causal_bridge_visible': True,
-            'alice_25_candidates_to_8_complete_checks_explained': True,
+            'alice_overall_compatibility_verdict_visible': True,
+            'alice_overall_verdict_precedes_deep_dive_selection': True,
+            'alice_25_candidate_themes_explained': True,
+            'alice_eight_cases_are_deep_dives_not_total_alice_scope': True,
             'alice_6_decision_sensitive_plus_2_controls_explained': True,
-            'alice_16_repeated_types_plus_1_held_explained': True,
             'alice_not_presented_as_research_author': True,
             'alice_customer_vocabulary_is_vydacha_alice': True,
             'positive_site_result_is_aggregate_not_page_catalogue': True,
@@ -151,19 +169,19 @@ def main():
             'unresolved_search_phrases': 19,
             'demand_groups': 168,
             'ordinary_yandex_targeted_checks': 75,
-            'alice_candidates_reviewed': 25,
-            'alice_cases_selected': 8,
+            'alice_candidate_themes_reviewed': 25,
+            'alice_deep_dive_cases': 8,
             'alice_decision_sensitive_cases': 6,
             'alice_controls': 2,
-            'alice_candidates_not_selected_repeated_types': 16,
-            'alice_candidates_held': 1,
+            'alice_repeated_candidate_types_not_deep_dived': 16,
+            'alice_candidate_not_deep_dived': 1,
             'material_results_internal_authority': 34,
             'ready_recommendations': 7,
             'company_fact_requests': 2,
             'pdf_pages': pages
         },
-        'wordstat_count_semantics': 'CUSTOMER_TEXT_USES_RUSSIAN_DEMAND_FREQUENCY_EXPLANATION__NO_INTERNAL_COUNT_FIELD__NO_FALSE_OPERATOR_EXACT_CLAIM',
-        'research_object_semantics': 'SEARCH_CORE_AND_DEMAND_TO_PAGE_DISTRIBUTION__INTENT_IS_GROUPING_CRITERION_ONLY',
+        'wordstat_count_semantics': 'CUSTOMER_TEXT_STATES_POSITIVE_FREQUENCY_WORK_ONLY__NO_INTERNAL_FIELD__NO_UNPERFORMED_PROCEDURE_NARRATIVE',
+        'research_object_semantics': 'ALICE_NATIVE_SEARCH_CORE_FOR_MODERN_YANDEX__ORDINARY_YANDEX_AND_ALICE_ARE_CORE_EVIDENCE_SURFACES',
         'sha256': {'md': sha(MD), 'docx': sha(DOCX), 'pdf': sha(PDF)},
         'size_bytes': {'md': MD.stat().st_size, 'docx': DOCX.stat().st_size, 'pdf': PDF.stat().st_size},
         'provider_calls_during_rebuild': 0,
@@ -172,24 +190,25 @@ def main():
     QA_PATH.write_text(json.dumps(qa, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
     man = json.loads(MAN_PATH.read_text(encoding='utf-8'))
-    man['status'] = 'DOCUMENT_01_FINAL_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
+    man['status'] = 'DOCUMENT_01_ALICE_NATIVE_CUSTOMER_CONTRACT_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_02_03_NOT_ADVANCED'
     art = man['recipient_artifacts'][0]
     art['size_bytes'] = PDF.stat().st_size; art['sha256'] = sha(PDF); art['pages'] = pages
-    art['recipient_contract'] = 'NON_SPECIALIST_CUSTOMER_GETS_KWORK_ANSWER_SEARCH_CORE_FREQUENCY_WORK_ORDINARY_YANDEX_ALICE_VERDICT_AND_ACTIONS_WITHOUT_RAW_75_QUERY_DUMP'
+    art['recipient_contract'] = 'ALICE_NATIVE_KWORK_ANSWER__SEARCH_CORE_FREQUENCY_ORDINARY_YANDEX_ALICE_COMPATIBILITY_AND_ACTIONS__NO_RAW_75_QUERY_DUMP'
     for item in man['editable_and_source_files']:
         if item['path'] == 'editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx':
             item['size_bytes'] = DOCX.stat().st_size; item['sha256'] = sha(DOCX)
         if item['path'] == 'sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md':
             item['size_bytes'] = MD.stat().st_size; item['sha256'] = sha(MD)
     man['qa']['authority'] = '../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_01_COMMISSIONER_REPORT_QA_2026-09-06.json'
-    man['qa']['analyst_recipient_qa'] = 'DOCUMENT_01_FINAL_CUSTOMER_CONTRACT_PASS'
+    man['qa']['analyst_recipient_qa'] = 'DOCUMENT_01_ALICE_NATIVE_CUSTOMER_CONTRACT_PASS'
     man['qa']['document_01'] = 'ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING'
     man['qa']['document_01_physical_pdf'] = f'{pages}_OF_{pages}_PAGES_RENDER_PASS'
     man['qa']['document_01_search_observations'] = '75_TARGETED_CHECKS_EXPLAINED__RAW_APPENDIX_ABSENT'
-    man['qa']['document_01_alice_cases'] = '8_OF_8_COMPLETE__25_CANDIDATES__6_DECISION_SENSITIVE__2_CONTROLS'
+    man['qa']['document_01_alice_scope'] = 'CORE_PRODUCT_SURFACE__25_CANDIDATE_THEMES__8_DEEP_DIVES_NOT_TOTAL_SCOPE'
+    man['qa']['document_01_alice_compatibility_verdict'] = 'SITE_BROADLY_MATCHES_ALICE_OUTPUT__NO_SYSTEMIC_REBUILD_REQUIRED'
     man['qa']['document_01_site_url_in_title'] = True
     man['qa']['document_01_frequency_work_visible'] = True
-    man['qa']['document_01_internal_count_field_absent'] = True
+    man['qa']['document_01_unperformed_frequency_procedure_narrative'] = 'ABSENT'
     man['qa']['document_01_positive_no_change_page_catalogue'] = 'ABSENT__AGGREGATE_SITE_RESULT_ONLY'
     man['qa']['document_01_raw_75_query_appendix'] = 'ABSENT'
     man['qa']['document_01_full_rebuild_claim'] = 'ABSENT__RESEARCH_CONCLUDES_FULL_REBUILD_NOT_REQUIRED'
@@ -197,7 +216,7 @@ def main():
     man['qa']['next_action'] = 'OWNER_REVIEW_CORRECTED_DOCUMENT_01'
     MAN_PATH.write_text(json.dumps(man, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
-    print('DOCUMENT_01_FINAL_CUSTOMER_QA_PASS', pages, sha(MD), sha(DOCX), sha(PDF))
+    print('DOCUMENT_01_ALICE_NATIVE_CUSTOMER_QA_PASS', pages, sha(MD), sha(DOCX), sha(PDF))
 
 
 if __name__ == '__main__':
