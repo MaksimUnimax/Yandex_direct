@@ -1,9 +1,10 @@
-2026-09-07 Report 01 Alice-first owner-review rebuild — rerun after gate patch repair
+2026-09-07 Report 01 Alice-first owner-review rebuild — final positive-language rerun
 Scope: DOCUMENT_01_ONLY
 Canonical Kwork goal: rebuild / re-evaluate the semantic core under modern Yandex Search with Alice as a core product surface, not an additional post-check.
-Customer report must show the overall Alice-compatibility verdict before the 25-theme / 8-deep-dive explanation.
-Eight Alice cases are deep dives, not the total scope or total value of Alice work.
-Wordstat section must describe only completed frequency work in Russian client language; do not narrate unperformed exact-frequency procedures.
+Customer report must state the overall Alice-compatibility verdict before the 25-theme / 8-deep-dive explanation.
+Eight Alice cases are deep dives within the Alice-native core work.
+Wordstat section describes completed frequency work in Russian client language only.
+Remove defensive references to superseded report versions; describe completed work positively.
 Keep site URL in title, aggregate positive site conclusion, raw 75-query appendix absent, and concrete pages only where materially needed.
 Rebuild source, DOCX, PDF, QA, manifest, state and remote readback; upload rendered pages for visual inspection.
 Do not advance Document 02 or Document 03.
