@@ -132,7 +132,7 @@ observable Yandex demand
 
 Purpose: demonstrate that the method is not overfit to one domain, vocabulary or site architecture.
 
-At least one varied rehearsal after 2026-09-08 must explicitly exercise `STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md` before that method is promoted from roadmap candidate to project-test-validated permanent method.
+`STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md` has completed its required project-test validation and is now a permanent approved KW-001 method. Future varied rehearsals must continue to exercise it as regression/portability/economics evidence, but permanent Step5A promotion no longer depends on another first-execution gate.
 
 Any prior project/test may remain historical regression evidence in Git history/Level2, but no concrete test identity is a permanent method input.
 
@@ -174,6 +174,8 @@ Use bounded seed/probe logic, acquire Wordstat evidence under Bridge durability 
 ### Step5A — competitor semantic expansion
 
 Use `STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`.
+
+Step5A is an **APPROVED / ACTIVE permanent acquisition-coverage stage** in the default KW-001 roadmap. Execute it after initial Wordstat acquisition/targeted expansion and before final semantic cleanup/freeze. If a required evidence route is genuinely unavailable, preserve the blocker explicitly rather than silently skipping the stage.
 
 This stage is an **additional acquisition/coverage loop**, not a substitute for the original demand collection and not a full competitor audit.
 
@@ -326,7 +328,7 @@ revision-sensitive stages
 implementation-calibration burden where included
 ```
 
-Use observations to confirm/revise package price, scope and limits. Step5A must be measured specifically because it is a newly added coverage layer and may change the 7,500 RUB / 4–5 day provisional economics.
+Use observations to confirm/revise package price, scope and limits. Step5A must be measured specifically because it is an approved additional coverage layer and may materially affect the 7,500 RUB / 4–5 day provisional economics.
 
 ### Simulated client revision
 
