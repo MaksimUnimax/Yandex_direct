@@ -70,8 +70,11 @@ MATERIAL AUTHORITY MUTATION INVALIDATES DEPENDENT PASS
 UNCERTAINTY CONTINUITY
 CONCRETE STEP MUST EMBED ITS OWN GATES
 END-OF-STEP QUANTITATIVE ACCOUNTING
-MANDATORY 10-POINT RESULT QUALITY SCORE
-QUALITY_SCORE >= 9/10 + ALL HARD GATES FOR PASS
+MANDATORY RESULT QUALITY SCORE
+EACH QUALITY CRITERION = 0–10, NEVER 0–1
+DEFAULT TEN CRITERIA TOTAL = 0–100
+FINAL QUALITY SCORE = AVERAGE = 0–10
+QUALITY_SCORE >= 9/10 + QUALITY_TOTAL >= 90/100 + ALL HARD GATES FOR PASS
 LATE REVIEW MAY INVALIDATE AN OLD PASS/SCORE
 NEXT_STEP_ALLOWED EXPLICIT DECISION
 JOB CLOSE ONLY AFTER HANDOFF/REVISIONS/PENDING ACTIONS CLOSED
@@ -204,23 +207,45 @@ Output completeness must not erase truthful uncertainty.
 
 ---
 
-# 8. Mandatory 10-point result quality scoring
+# 8. Mandatory result quality scoring
 
 Canonical authority:
 
 `RESULT_QUALITY_SCORING_RULE.md`
 
-After every major step/rework/deliverable, score the result on a 0–10 scale and explain the lost points.
+After every major step/rework/deliverable, evaluate **every criterion independently on its own 0–10 scale** and explain the lost points.
+
+Forbidden:
 
 ```text
-PASS REQUIRES QUALITY_SCORE >= 9.0 / 10
-AND ALL HARD PASS GATES
-AND NO OPEN CRITICAL DEFECT
+10 criteria × 1 point each
+1.0/1.0 per criterion
+0.9/1.0 per criterion
 ```
 
-A later external/owner/recipient review may invalidate an earlier PASS and require rescoring/rework.
+Required default calculation:
 
-The score must be shown both in durable QA/state and in the owner-facing chat summary.
+```text
+10 criteria × max 10 points
+→ QUALITY_TOTAL = 0–100
+→ QUALITY_SCORE = QUALITY_TOTAL / 10 = 0–10
+```
+
+PASS requires:
+
+```text
+QUALITY_TOTAL >= 90 / 100
+AND
+QUALITY_SCORE >= 9.0 / 10
+AND
+ALL HARD PASS GATES
+AND
+NO OPEN CRITICAL DEFECT
+```
+
+A later external/owner/recipient review may invalidate an earlier PASS and require criterion-by-criterion rescoring/rework.
+
+The per-criterion table, total /100 and final average /10 must be shown both in durable QA/state and in the owner-facing chat summary.
 
 ---
 
@@ -229,6 +254,8 @@ The score must be shown both in durable QA/state and in the owner-facing chat su
 ```text
 KW002_LEVEL1_CANONICAL_INHERITED_RULE_AUTHORITY = INHERITED_KW001_UNIVERSAL_RULES.md
 KW002_RESULT_QUALITY_SCORE_AUTHORITY = RESULT_QUALITY_SCORING_RULE.md
+KW002_EACH_QUALITY_CRITERION_OUT_OF_TEN = true
+KW002_ONE_POINT_PER_CRITERION_SCORING_FORBIDDEN = true
 KW002_SHORT_RULE_SUMMARY_DOES_NOT_REPLACE_INHERITED_RULES = true
 KW002_LEVEL1_OWNER_LOCKED = true
 ```
