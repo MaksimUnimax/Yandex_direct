@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 00 COMPLETE / STEP 01 NEXT ALLOWED / RESEARCH NOT YET STARTED**
+Status: **STEP 00 COMPLETE / STEP 01 CURRENT / WORK EXECUTION REQUIRED**
 
 ## Whole-job goal
 
@@ -35,15 +35,15 @@ EXISTING SEMANTIC CORE = NONE
 EXISTING SITE ARCHITECTURE = NONE
 OLD BLOOD_SAND ANALYTICAL SOURCES = SEALED
 PROVIDER CALLS = 0
-WORK HANDOFFS = 0
+WORK HANDOFFS EXECUTED = 0
 ```
 
 ## Full roadmap / current status
 
-| Step | Purpose | Status | Blocking condition to start |
+| Step | Purpose | Status | Blocking condition to start/complete |
 |---|---|---|---|
 | 00 | Freeze order/scope/source boundary and formally accept intake | COMPLETE | PASS recorded in `STEP_00_SCOPE_AND_SOURCE_FREEZE_2026-09-08.md` |
-| 01 | Build factual business + complete admitted assortment model | NOT_STARTED / NEXT_ALLOWED | Step 01 pre-step review + owner authorization; full client catalog available |
+| 01 | Build factual business + complete admitted assortment model | CURRENT / WORK_EXECUTION_REQUIRED | owner canonical Work prompt + Work execution + return QA |
 | 02 | Build seed/acquisition map | NOT_STARTED | Step 01 PASS |
 | 03 | Primary Wordstat acquisition | NOT_STARTED | Step 02 PASS + Bridge authorization |
 | 04 | First family triage | NOT_STARTED | Step 03 complete persisted evidence |
@@ -76,12 +76,16 @@ complete admitted WB/Ozon client catalog inputs materialized
 20 unrelated WB seller lines separated as client-declared out of scope
 source whitelist / old-research deny boundary frozen
 Step 00 scope/order/source freeze executed and passed
+Step 01 pre-step review completed
+Step 01 Work trigger evaluated = TRUE
+Step 01 Work handoff manifest materialized
 ```
 
 ## Remaining work
 
 ```text
-Step 01 factual business + assortment model
+Step 01 Work execution over complete 164-row input
+Step 01 return QA / persistence / readback / PASS
 Step 02 seed/acquisition map
 Step 03 Wordstat
 Step 04 triage
@@ -129,16 +133,25 @@ provider estimated cost = 0 RUB
 Work handoffs executed = 0
 ```
 
-## Current exact next action
+## Current exact action / blocker
+
+Canonical Step 01 pre-step/work authority:
 
 ```text
-STEP 01 PRE-STEP REVIEW / BUSINESS + COMPLETE ASSORTMENT MODEL
+STEP_01_PRE_STEP_REVIEW_AND_WORK_HANDOFF_2026-09-08.md
 ```
 
-Step 01 has not started. It must execute its own Level-1 pre-step gate before analysis.
+Current state:
 
 ```text
-STEP_00_COMPLETE = true
-NEXT_STEP_ALLOWED = true
-NEXT_STEP = 01
+STEP_01_STARTED = true
+STEP_01_PRE_STEP_REVIEW = COMPLETE
+STEP_01_WORK_TRIGGER = true
+STEP_01_WORK_MANIFEST = PREPARED
+OWNER_CANONICAL_WORK_PROMPT_AVAILABLE = false
+STEP_01_WORK_EXECUTION = BLOCKED_PENDING_OWNER_PROMPT
+STEP_01_COMPLETE = false
+NEXT_STEP_ALLOWED = false
 ```
+
+No ordinary-chat sample/partial fallback is allowed by the owner-locked Work rule.
