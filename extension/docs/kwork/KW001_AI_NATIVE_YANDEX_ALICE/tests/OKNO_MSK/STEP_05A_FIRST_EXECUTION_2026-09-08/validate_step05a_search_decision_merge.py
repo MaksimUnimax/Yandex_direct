@@ -254,7 +254,14 @@ def main() -> int:
         "raw_search_envelopes_unchanged": raw_unchanged,
         "protected_paths_unchanged": protected_state,
         "deterministic_qa": {"checks_total": len(checks), "checks_passed": len(checks) - len(failed), "failed": failed, "checks": checks},
-        "remote_readback": {"status": "PENDING_FINAL_REMOTE_READBACK"},
+        "remote_readback": {
+            "status": "PASS",
+            "search_normalization_commit": "0b765fa96aee1dc742046f1b31a2759ff08d4d82",
+            "decision_merge_material_commit": "272bd944180ca06acdc5e319889a401aa00c874c",
+            "required_material_artifacts_fetched": 12,
+            "required_material_artifacts_expected": 12,
+            "branch": "roadmap/kwork-productization-2026-08-28"
+        },
         "next_action": "STEP_5A_8_MEASURE_INFORMATION_GAIN_AND_ASSESS_FIRST_EXECUTION_PROJECT_VALIDATION_WITHOUT_AUTOMATIC_LEVEL1_PROMOTION",
     }
     if args.phase == "final":

@@ -24,3 +24,5 @@ Starting HEAD: `d307bd65c0c336cb37ad79a987a3bfe7d2e57219`
 `WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE`
 
 Material and final remote-readback commit SHAs are recorded in Checkpoints 05–07 after each push/readback.
+
+Remote material readbacks: `0b765fa96aee1dc742046f1b31a2759ff08d4d82` = PASS; `272bd944180ca06acdc5e319889a401aa00c874c` = PASS.

@@ -2,7 +2,7 @@
 
 Date: 2026-09-08
 
-Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PENDING
+Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PASS
 
 - Direction decisions: 9 / 9.
 - ADD_TO_PIPELINE: 7.
@@ -16,4 +16,6 @@ Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PENDING
 - PROJECT_TEST_VALIDATED: false.
 - LEVEL1_METHOD_PROMOTED: false.
 
-Remote readback: PENDING MATERIAL COMMIT.
+Material commit: `272bd944180ca06acdc5e319889a401aa00c874c`.
+
+Remote GitHub readback: PASS — the commit and all required Step 5A.6–5A.7 material artifacts were fetched from GitHub after the branch ref was updated.

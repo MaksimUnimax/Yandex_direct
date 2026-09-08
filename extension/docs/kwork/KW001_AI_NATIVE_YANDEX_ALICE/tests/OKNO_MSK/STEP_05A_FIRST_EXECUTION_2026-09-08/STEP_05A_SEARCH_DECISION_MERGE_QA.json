@@ -440,6 +440,7 @@
         "detail": [
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_05_SEARCH_NORMALIZATION_AND_INTENT.md",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_06_SEARCH_DECISION_MERGE.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_07_SEARCH_DECISION_MERGE_REMOTE_READBACK.md",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_ACCEPTED_PHRASE_MERGE_RECONCILIATION.tsv",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_ACCEPTED_SEMANTIC_PIPELINE_DELTA.tsv",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_COMPETITOR_QUERY_VISIBILITY_MATRIX.tsv",
@@ -458,7 +459,12 @@
     ]
   },
   "remote_readback": {
-    "status": "PENDING_FINAL_REMOTE_READBACK"
+    "status": "PASS",
+    "search_normalization_commit": "0b765fa96aee1dc742046f1b31a2759ff08d4d82",
+    "decision_merge_material_commit": "272bd944180ca06acdc5e319889a401aa00c874c",
+    "required_material_artifacts_fetched": 12,
+    "required_material_artifacts_expected": 12,
+    "branch": "roadmap/kwork-productization-2026-08-28"
   },
   "next_action": "STEP_5A_8_MEASURE_INFORMATION_GAIN_AND_ASSESS_FIRST_EXECUTION_PROJECT_VALIDATION_WITHOUT_AUTOMATIC_LEVEL1_PROMOTION",
   "artifact_files": {
@@ -499,24 +505,24 @@
       "size_bytes": 2224
     },
     "STEP_05A_SEARCH_DECISION_MERGE_EXECUTION_LOG.md": {
-      "sha256": "fbecd573600ba317c006c82f04a1ac479a13311770e0d04fcb500ec0f50744d3",
-      "size_bytes": 1113
+      "sha256": "6cba6d54c3984cedb9736709da8d841e2ea1a620a567d153a758173f12b541d1",
+      "size_bytes": 1243
     },
     "CHECKPOINT_05_SEARCH_NORMALIZATION_AND_INTENT.md": {
       "sha256": "515f4c3daf053f1fda71a7f034bfdfbaee96ad0e4e10bbf4213ccff119bd4314",
       "size_bytes": 700
     },
     "CHECKPOINT_06_SEARCH_DECISION_MERGE.md": {
-      "sha256": "7eca9d08065848bc23290167522127f5a08da5c3bb80f65b9e97a70b5001d430",
-      "size_bytes": 566
+      "sha256": "486bd8ab34eed59db32f3d410f49e363c68bc83c13f241e2613ebc2e0c301521",
+      "size_bytes": 739
     },
     "build_step05a_search_decision_merge.py": {
-      "sha256": "c8c3b537391c1524947b24179fb7425e5154b61f75c07f5ed26c58e57b81c017",
-      "size_bytes": 39616
+      "sha256": "490f86f3af78bd29556d46d842e93249ad0816ff80726a2ab6ffbff8402cd4b4",
+      "size_bytes": 39919
     },
     "validate_step05a_search_decision_merge.py": {
-      "sha256": "559ad8f2134e38c67a0ff294ac58af6281222960dc932740d77ac899de9af344",
-      "size_bytes": 20642
+      "sha256": "dc1563fd6de640a27f8aa577c90fe7e2577f5a00ca013465b52ddc44c5079e94",
+      "size_bytes": 20992
     }
   }
 }

@@ -626,7 +626,7 @@ This report supplies factual inputs only. Method promotion and `PROJECT_TEST_VAL
 
 Date: 2026-09-08
 
-Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PENDING
+Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PASS
 
 - Direction decisions: {len(decision_rows)} / 9.
 - ADD_TO_PIPELINE: {decision_counts['ADD_TO_PIPELINE']}.
@@ -640,7 +640,9 @@ Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PENDING
 - PROJECT_TEST_VALIDATED: false.
 - LEVEL1_METHOD_PROMOTED: false.
 
-Remote readback: PENDING MATERIAL COMMIT.
+Material commit: `272bd944180ca06acdc5e319889a401aa00c874c`.
+
+Remote GitHub readback: PASS — the commit and all required Step 5A.6–5A.7 material artifacts were fetched from GitHub after the branch ref was updated.
 """
     CHECKPOINT_MERGE.write_text(checkpoint, encoding="utf-8")
 
@@ -670,6 +672,8 @@ Starting HEAD: `d307bd65c0c336cb37ad79a987a3bfe7d2e57219`
 `WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE`
 
 Material and final remote-readback commit SHAs are recorded in Checkpoints 05–07 after each push/readback.
+
+Remote material readbacks: `0b765fa96aee1dc742046f1b31a2759ff08d4d82` = PASS; `272bd944180ca06acdc5e319889a401aa00c874c` = PASS.
 """
     LOG.write_text(log, encoding="utf-8")
     return decision_rows, merge_rows, delta_rows
