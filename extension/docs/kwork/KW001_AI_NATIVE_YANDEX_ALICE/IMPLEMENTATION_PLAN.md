@@ -1,6 +1,6 @@
 # KW-001 — AI-Native Semantic Rebuild: implementation plan
 
-Updated: 2026-09-07  
+Updated: 2026-09-08  
 Status: **ACTIVE / COMMERCIAL END-TO-END REHEARSAL REQUIRED / UNIVERSAL PRODUCT PLAN**
 
 This is the permanent productization plan. Concrete rehearsal/client names, domains, case-specific results and current job progress belong in Level2.
@@ -65,6 +65,9 @@ The reusable product capability must support:
 ```text
 business/site understanding
 human-demand evidence from Yandex Wordstat
+competitor-derived semantic discovery from real Yandex-search competitors
+Wordstat expansion of genuinely new competitor-derived topics/seeds
+current Yandex query → competitor domain/URL visibility evidence
 ordinary Yandex Search evidence
 Alice / GenSearch evidence sufficient to evaluate the core for the new Yandex search experience
 semantic cleanup/grouping
@@ -74,6 +77,8 @@ source/competitor observations
 prioritized recommendations
 client workbook/report
 ```
+
+The competitor layer is a bounded semantic-coverage mechanism, not a deep competitor SEO audit. It must remain executable without a mandatory third-party reverse-domain database. External reverse-domain data may be optional enrichment only when independently available/authorized.
 
 The workflow may use a bounded diagnostic/control sample rather than bulk-running every phrase through Alice. This is an efficiency and evidence-design choice only. It must never be presented as meaning that Alice is secondary to the product.
 
@@ -91,9 +96,13 @@ guaranteed traffic/leads/revenue
 GenSearch == consumer Alice
 source order == ranking
 AI evidence must always change the SEO decision
+competitor page topic == competitor ranks for that exact query
+complete enumeration of every organic keyword of a competitor without evidence that supports that scope
 ```
 
 A valid outcome may be `NO_CHANGE`: Alice evidence can confirm that the existing semantic/page decision is already suitable for the new search experience.
+
+A valid competitor-expansion outcome may also be that the second independent competitor route adds little or no material in-scope demand. The method must report that truth rather than force artificial additions.
 
 ## 4. Rehearsal diversity requirement
 
@@ -123,6 +132,8 @@ observable Yandex demand
 
 Purpose: demonstrate that the method is not overfit to one domain, vocabulary or site architecture.
 
+At least one varied rehearsal after 2026-09-08 must explicitly exercise `STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md` before that method is promoted from roadmap candidate to project-test-validated permanent method.
+
 Any prior project/test may remain historical regression evidence in Git history/Level2, but no concrete test identity is a permanent method input.
 
 ## 5. Mock-client order freeze
@@ -146,6 +157,8 @@ private-access state
 
 Do not alter the brief after seeing provider evidence merely to make the result look better. Any real revision is logged as a client revision.
 
+Client-supplied competitors are hints. The workflow must still distinguish business rivals from the domains that actually compete in current Yandex results for the researched demand.
+
 ## 6. End-to-end rehearsal sequence
 
 The active detailed step order is governed by `STEP_RULES_INDEX.md` and current step-method authorities. This section states the product-level intent, not a competing roadmap.
@@ -158,16 +171,51 @@ Freeze offer, audience, conversion jobs, regions, existing page roles, exclusion
 
 Use bounded seed/probe logic, acquire Wordstat evidence under Bridge durability rules, preserve complete required results and account cost.
 
+### Step5A — competitor semantic expansion
+
+Use `STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`.
+
+This stage is an **additional acquisition/coverage loop**, not a substitute for the original demand collection and not a full competitor audit.
+
+Canonical product-level flow:
+
+```text
+initial acquired semantic set
+→ current Yandex Search on representative in-scope query families
+→ identify real recurring organic competitors
+→ inspect evidence-bearing competitor URLs/pages for missed topics/seeds
+→ compare those topics with already acquired demand
+→ genuinely new competitor-derived seeds go to Wordstat
+→ preserve every returned occurrence under the same union-compatible acquisition model as Step3/Step5
+→ current Yandex Search rechecks material new candidate queries/families
+→ business/scope fit + Wordstat demand + current Search evidence drive ADD / ALREADY_COVERED / REJECT / HOLD
+→ confirmed additions merge into the same semantic pipeline before final cleanup/freeze
+```
+
+Critical boundaries:
+
+```text
+COMPETITOR PAGE TOPIC != EXACT QUERY RANKING
+COMPETITOR RANKING != AUTOMATIC KEYWORD ACCEPTANCE
+COMPETITOR-DERIVED SEED != FINAL KEYWORD
+COMPETITOR EXPANSION != DEEP COMPETITOR SEO AUDIT
+TESTED QUERY VISIBILITY != FULL COMPETITOR KEYWORD UNIVERSE
+```
+
+External reverse-domain databases/exports are optional enrichment only. They must not become a silent base-package dependency.
+
 ### Ordinary Search baseline
 
 Acquire current Search evidence only for decision-relevant roots/boundaries and preserve exact provenance.
+
+Search calls used inside Step5A for competitor discovery/confirmation have a different acquisition purpose and do not remove the later requirement to obtain the ordinary Search evidence required by downstream semantic/page decisions.
 
 ### Search-only semantic/page architecture
 
 Before Alice evidence can influence the result:
 
 ```text
-clean/group demand
+clean/group demand, including confirmed competitor-derived additions
 resolve user tasks
 map current page ownership
 build evidence-backed structural/content actions
@@ -216,11 +264,24 @@ Minimum base-package artifact classes:
 ```text
 1. semantic/page map workbook
 2. Search-vs-Alice gap matrix
-3. source/competitor map
+3. competitor/source map including competitor-derived semantic gaps and their evidence state
 4. prioritized action plan
 5. methodology/limitations sheet
 6. final client delivery message
 ```
+
+The competitor/source view must explain in recipient language:
+
+```text
+which domains were treated as real search competitors and why
+which additional topics/seeds came from competitor evidence
+which new Wordstat demand was found
+which tested competitor/query relationships were actually confirmed in current Yandex results
+which candidates were added / already covered / rejected / held
+which downstream cluster/page decisions changed because of that evidence
+```
+
+Confirmed competitor-derived phrases must also exist in the common semantic core; they may not live only in a separate competitor worksheet.
 
 Where an implementation-ready roadmap is promised, add calibrated work packages, ownership, effort/capacity, delivery waves and measurement plan.
 
@@ -231,6 +292,12 @@ Check at minimum:
 ```text
 Kwork goal remains explicit: semantic core under Alice / modern Yandex search
 Alice is not reframed as an optional/additional afterthought
+competitor semantic expansion executed or explicitly blocked with evidence before semantic freeze
+competitor page topic is never presented as exact-query ranking without Search evidence
+no claim of full competitor keyword-universe coverage without a supporting reverse-domain/index evidence route
+external reverse-domain provider is not silently required for the base package
+competitor-derived Wordstat rows preserve complete Step3/Step5-compatible provenance
+confirmed competitor additions are merged into the common core rather than isolated in a decorative worksheet
 no invented provider facts
 provider region/scope/provenance correct
 no GenSearch==consumer-Alice overclaim
@@ -250,14 +317,16 @@ Measure:
 
 ```text
 ChatGPT work stages / approximate effort
-provider requests + estimated cost
+initial provider requests + estimated cost
+additional Step5A Search/Wordstat requests + estimated cost
+competitor public-page review burden
 owner/operator actions required
 elapsed wall-clock constraints
 revision-sensitive stages
 implementation-calibration burden where included
 ```
 
-Use observations to confirm/revise package price, scope and limits.
+Use observations to confirm/revise package price, scope and limits. Step5A must be measured specifically because it is a newly added coverage layer and may change the 7,500 RUB / 4–5 day provisional economics.
 
 ### Simulated client revision
 
@@ -276,6 +345,8 @@ TEST_DELIVERABLE_INDEX_<id>.md
 TEST_ECONOMICS_<id>.md
 TEST_REVISION_<id>.md
 ```
+
+When Step5A is executed, its competitor discovery, page evidence, derived seeds, Wordstat occurrences, query-visibility checks and merge reconciliation must also be durably represented in Level2 evidence. They may be separate files or equivalent sections/tables as long as lineage and counts are auditable.
 
 Never store credentials/secrets.
 
@@ -298,15 +369,20 @@ non-guarantee language
 
 Marketing copy must be derived from observed workflow truth and must preserve the Alice-native commercial objective.
 
+The final card may mention competitor-semantic checking only at the depth actually validated in rehearsals. It must not market the narrow Step5A layer as a full competitor SEO audit or as complete reverse-domain keyword recovery.
+
 ## 9. Final autonomous runbook
 
 The final runbook must satisfy `extension/docs/KWORK_RUNBOOK_STANDARD_2026-08-28.md`, current Level1 rules and a clean-context rehearsal.
+
+The runbook must include Step5A in the executable order and preserve its claim boundaries before `KW001_CLEAN_CONTEXT_RUNBOOK_REHEARSAL_PASS` can pass.
 
 ## 10. Product acceptance markers
 
 ```text
 KW001_TEST_A_END_TO_END_PASS
 KW001_TEST_B_END_TO_END_PASS
+KW001_COMPETITOR_SEMANTIC_EXPANSION_REHEARSAL_PASS
 KW001_DELIVERABLE_SET_PASS
 KW001_REVISION_FLOW_PASS
 KW001_ECONOMICS_RECORDED
