@@ -308,11 +308,177 @@ def build_wordstat_package() -> None:
     write_tsv(WORDSTAT_PACKAGE, WORDSTAT_FIELDS, rows)
 
 
+def build_report() -> None:
+    pages = read_tsv(PAGE_EVIDENCE)
+    candidates = read_tsv(SEED_CANDIDATES)
+    package = read_tsv(WORDSTAT_PACKAGE)
+    specs = json.loads(SEED_DECISIONS.read_text(encoding="utf-8"))
+    access_counts = Counter(row["http_or_browser_access_state"] for row in pages)
+    page_types = Counter(row["page_type"] for row in pages)
+    decision_counts = Counter(row["seed_decision"] for row in specs)
+    qa_status = "PENDING"
+    if QA.exists():
+        qa_status = json.loads(QA.read_text(encoding="utf-8")).get("status", "PENDING")
+
+    lines = [
+        "# KW-001 / OKNO_MSK — Step 5A competitor-page inspection report",
+        "",
+        "Date: 2026-09-08  ",
+        f"Status: **ANALYST QA {qa_status} / OWNER REVIEW PENDING / METHOD NOT PROMOTED**",
+        "",
+        "## 1. Completed scope",
+        "",
+        "This execution completed Step 5A.2 and Step 5A.3 for the frozen competitor universe. It opened only the 44 exact public competitor URLs preserved by the prior Step 9 ranking evidence, recorded one page-evidence row per target, derived concise candidate directions from observed page elements, reconciled every candidate against the completed OKNO_MSK semantic authority and produced an exact Wordstat requirement package for Main ChatGPT.",
+        "",
+        "No Yandex Search, Wordstat, Alice, GenSearch, Webmaster, Metrika or Direct provider call was made. No reverse-domain provider, extra competitor URL or whole-site crawl was used.",
+        "",
+        "## 2. Page accounting",
+        "",
+        "```text",
+        "SELECTED_DOMAINS = 9 / 9",
+        "AUTHORIZED_URL_TARGETS = 44 / 44",
+        f"ACCESSIBLE_AT_REQUESTED_URL = {access_counts.get('ACCESSIBLE', 0)}",
+        f"REDIRECTED_ACCESSIBLE = {access_counts.get('REDIRECTED_ACCESSIBLE', 0)}",
+        f"INACCESSIBLE = {sum(value for key, value in access_counts.items() if key not in {'ACCESSIBLE', 'REDIRECTED_ACCESSIBLE'})}",
+        "OUT_OF_SCOPE_URLS_OPENED_AS_EVIDENCE_TARGETS = 0",
+        "```",
+        "",
+        "The single redirect was `I030`: the requested URL without a trailing slash resolved to the same page with a trailing slash. Requested and final URLs are both preserved.",
+        "",
+        "### Page types",
+        "",
+        "| Page type | Count |",
+        "|---|---:|",
+    ]
+    for page_type, count in sorted(page_types.items()):
+        lines.append(f"| `{page_type}` | {count} |")
+
+    lines += [
+        "",
+        "## 3. Candidate reconciliation",
+        "",
+        "```text",
+        f"RAW_PAGE_DERIVED_CANDIDATE_OCCURRENCES = {len(candidates)}",
+        f"DEDUPLICATED_CANDIDATE_DIRECTIONS = {len(specs)}",
+        f"DUPLICATE_PAGE_SUPPORT_ROWS = {sum(row['seed_decision'] == 'DUPLICATE_OF_ANOTHER_COMPETITOR_SEED' for row in candidates)}",
+        f"ALREADY_COVERED_EXACT_OR_CLOSE = {decision_counts.get('ALREADY_COVERED_EXACT_OR_CLOSE', 0)}",
+        f"POTENTIALLY_NEW_WORDSTAT_SEED = {decision_counts.get('POTENTIALLY_NEW_WORDSTAT_SEED', 0)}",
+        f"OFF_SCOPE_BUSINESS = {decision_counts.get('OFF_SCOPE_BUSINESS', 0)}",
+        f"INSUFFICIENT_PAGE_EVIDENCE = {decision_counts.get('INSUFFICIENT_PAGE_EVIDENCE', 0)}",
+        f"HOLD_REVIEW = {decision_counts.get('HOLD_REVIEW', 0)}",
+        "```",
+        "",
+        "A repeated topic from another page is retained in the candidate register as lineage but does not create another Wordstat seed. Every one of the 44 pages contributes to at least one candidate lineage.",
+        "",
+        "## 4. Exact Wordstat requirement package",
+        "",
+        "These are acquisition probes, not accepted keywords and not ranking claims.",
+        "",
+        "| Priority | Seed | Axis | Competitors | Pages | Source IDs |",
+        "|---:|---|---|---:|---:|---|",
+    ]
+    for row in package:
+        lines.append(
+            f"| {row['wordstat_seed_order']} | **{row['normalized_candidate_seed']}** | "
+            f"{row['semantic_axis']} | {row['supporting_competitor_count']} | "
+            f"{row['supporting_page_count']} | {row['supporting_source_ids'].replace(' | ', ', ')} |"
+        )
+
+    lines += [
+        "",
+        "All package rows use region `213`, device scope `ALL` and authorization state `RETURN_TO_MAIN_CHATGPT_FOR_BRIDGE_EXECUTION`.",
+        "",
+        "## 5. Rejected and held directions",
+        "",
+        "Off-scope/unverified competitor assortment:",
+        "",
+    ]
+    for spec in specs:
+        if spec["seed_decision"] == "OFF_SCOPE_BUSINESS":
+            lines.append(f"- **{spec['normalized_candidate_seed']}** — {spec['rationale']}")
+    lines += ["", "Held before Wordstat:", ""]
+    for spec in specs:
+        if spec["seed_decision"] == "HOLD_REVIEW":
+            lines.append(f"- **{spec['normalized_candidate_seed']}** — {spec['rationale']}")
+
+    lines += [
+        "",
+        "## 6. Claim boundary",
+        "",
+        "```text",
+        "COMPETITOR PAGE TOPIC",
+        "!= ACCEPTED KEYWORD",
+        "!= EXACT QUERY RANKING CLAIM",
+        "!= FULL COMPETITOR KEYWORD UNIVERSE",
+        "```",
+        "",
+        "The persisted page register describes only publicly observed page elements. Competitor claims, brands, prices, product properties and service lists were not transferred into OKNO_MSK business truth.",
+        "",
+        "## 7. Protection and provider accounting",
+        "",
+        "```text",
+        "NEW_YANDEX_SEARCH_CALLS = 0",
+        "NEW_WORDSTAT_CALLS = 0",
+        "NEW_ALICE_CALLS = 0",
+        "NEW_GENSEARCH_CALLS = 0",
+        "NEW_WEBMASTER_CALLS = 0",
+        "NEW_METRIKA_CALLS = 0",
+        "NEW_DIRECT_CALLS = 0",
+        "NEW_PAID_PROVIDER_COST_RUB = 0",
+        "CLIENT_RELEASE_MODIFIED = false",
+        "DOCUMENTS_01_02_03_MODIFIED = false",
+        "SEMANTIC_CORE_04_MODIFIED = false",
+        "LEVEL1_METHOD_PROMOTED = false",
+        "PROJECT_TEST_VALIDATED = false",
+        "OWNER_REVIEW = pending",
+        "```",
+        "",
+        "## 8. Next action",
+        "",
+        "Return the 14-row package to Main ChatGPT for owner/Bridge-controlled Wordstat execution. Do not start any Wordstat or Search acquisition from Work.",
+    ]
+    REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def build_log() -> None:
+    lines = [
+        "# Step 5A competitor-page inspection execution log",
+        "",
+        "Date: 2026-09-08",
+        "",
+        "## Durable blocks",
+        "",
+        "1. Baseline and exact 44-URL inventory — remote commit `c920e41de760de9d4fc18af02c4af05621ab21e4`; remote readback PASS.",
+        "2. First material page-evidence tranche (I001–I010) — remote commit `5ff51a84fcd2a3d0b5718661591655ee448e0015`; remote readback PASS.",
+        "3. Complete page evidence (I001–I044) — remote commit `2cc378810f208c2415b7bc9572beabe6c1cdce04`; remote readback PASS.",
+        "4. Candidate reconciliation and deduplication — remote commit `24962d5f8bb2a7af22e4be6e643db8712c373179`; remote readback PASS.",
+        "5. Wordstat package, report and deterministic QA — committed after this log is generated; remote readback is required before completion.",
+        "",
+        "## Acquisition boundary",
+        "",
+        "- Exact public competitor targets opened: 44.",
+        "- Extra evidence targets opened: 0.",
+        "- New Yandex Search / Wordstat / Alice / GenSearch / Webmaster / Metrika / Direct calls: 0.",
+        "- Reverse-domain provider calls: 0.",
+        "- Paid provider cost: 0 RUB.",
+        "",
+        "## Result",
+        "",
+        "- Page evidence: 44/44.",
+        "- Raw candidate occurrences: 92.",
+        "- Deduplicated directions: 43.",
+        "- Surviving Wordstat seeds: 14.",
+        "- Client release, Documents 01–03 and semantic-core XLSX: unchanged.",
+        "- Level-1 Step 5A state: not promoted; owner review pending.",
+    ]
+    LOG.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--phase",
-        choices=["baseline", "page-evidence", "seed-candidates", "wordstat-package"],
+        choices=["baseline", "page-evidence", "seed-candidates", "wordstat-package", "report", "log"],
         required=True,
     )
     args = parser.parse_args()
@@ -324,6 +490,10 @@ def main() -> int:
         build_seed_candidates()
     elif args.phase == "wordstat-package":
         build_wordstat_package()
+    elif args.phase == "report":
+        build_report()
+    elif args.phase == "log":
+        build_log()
     return 0
 
 

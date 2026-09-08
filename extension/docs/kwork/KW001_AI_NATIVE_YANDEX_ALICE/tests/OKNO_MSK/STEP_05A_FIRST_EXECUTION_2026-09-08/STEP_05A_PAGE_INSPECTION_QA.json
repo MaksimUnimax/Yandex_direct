@@ -1,0 +1,391 @@
+{
+  "status": "PASS",
+  "execution_scope": "STEP_5A_2_TO_5A_3",
+  "starting_head": "09486a6fd2cf09fd2ef362e1e13456441a75717c",
+  "project_test_validated": false,
+  "owner_review": "PENDING",
+  "counts": {
+    "selected_domains": 9,
+    "authorized_urls": 44,
+    "page_evidence_rows": 44,
+    "accessible_at_requested_url": 43,
+    "redirected_accessible": 1,
+    "inaccessible": 0,
+    "page_types": {
+      "ARTICLE_GUIDE": 3,
+      "COMMERCIAL_CATEGORY": 5,
+      "COMMERCIAL_LANDING": 2,
+      "COMMERCIAL_PRODUCT": 6,
+      "COMMERCIAL_SERVICE": 13,
+      "COMPARISON_SELECTION": 4,
+      "HOME_OR_HUB": 4,
+      "MIXED_COMMERCIAL_INFORMATIONAL": 2,
+      "PORTFOLIO_GALLERY": 1,
+      "PRICE_FINANCE": 4
+    },
+    "raw_candidate_occurrences": 92,
+    "deduplicated_candidate_directions": 43,
+    "duplicate_support_rows": 49,
+    "unique_decisions": {
+      "ALREADY_COVERED_EXACT_OR_CLOSE": 22,
+      "POTENTIALLY_NEW_WORDSTAT_SEED": 14,
+      "OFF_SCOPE_BUSINESS": 3,
+      "HOLD_REVIEW": 4
+    },
+    "wordstat_requirement_rows": 14
+  },
+  "provider_calls": {
+    "yandex_search": 0,
+    "wordstat": 0,
+    "alice": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "reverse_domain_provider": 0
+  },
+  "paid_provider_cost_rub": 0,
+  "protected_artifacts_modified": {
+    "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf": false,
+    "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf": false,
+    "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md": false,
+    "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx": false
+  },
+  "corrected_client_release_modified": false,
+  "level1_method_promoted": false,
+  "deterministic_qa": {
+    "checks_total": 48,
+    "checks_passed": 48,
+    "failed": [],
+    "checks": [
+      {
+        "name": "required_artifacts_exist",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "selected_domains_expected_9",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "authorized_url_targets_expected_44",
+        "status": "PASS",
+        "detail": 44
+      },
+      {
+        "name": "authorized_url_targets_accounted_44",
+        "status": "PASS",
+        "detail": 44
+      },
+      {
+        "name": "page_evidence_rows_44",
+        "status": "PASS",
+        "detail": 44
+      },
+      {
+        "name": "inspection_ids_exact",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "out_of_scope_urls_opened_as_evidence_targets_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "page_access_state_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "page_access_failures_explicit",
+        "status": "PASS",
+        "detail": 0
+      },
+      {
+        "name": "redirects_have_requested_and_final_urls",
+        "status": "PASS",
+        "detail": 1
+      },
+      {
+        "name": "page_types_bounded",
+        "status": "PASS",
+        "detail": {
+          "COMMERCIAL_CATEGORY": 5,
+          "COMMERCIAL_PRODUCT": 6,
+          "PRICE_FINANCE": 4,
+          "HOME_OR_HUB": 4,
+          "COMMERCIAL_SERVICE": 13,
+          "MIXED_COMMERCIAL_INFORMATIONAL": 2,
+          "COMMERCIAL_LANDING": 2,
+          "ARTICLE_GUIDE": 3,
+          "COMPARISON_SELECTION": 4,
+          "PORTFOLIO_GALLERY": 1
+        }
+      },
+      {
+        "name": "accessible_pages_have_titles_and_h1",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "page_claim_boundaries_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "requested_domains_match_selected_domain",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "seed_specs_deduplicated",
+        "status": "PASS",
+        "detail": 43
+      },
+      {
+        "name": "seed_spec_schema_exact",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "seed_source_schema_exact",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "all_pages_contribute_candidate_lineage",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "semantic_match_authority_references_valid",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "raw_page_derived_candidate_rows_92",
+        "status": "PASS",
+        "detail": 92
+      },
+      {
+        "name": "deduplicated_candidate_directions_43",
+        "status": "PASS",
+        "detail": 43
+      },
+      {
+        "name": "candidate_seed_ids_unique",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "seeds_without_page_lineage_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "seeds_from_url_slug_only_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "seeds_from_domain_name_only_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "candidate_page_metadata_matches_evidence",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "semantic_candidates_compared_to_existing_core_all",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "duplicate_support_rows_49",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "candidate_unique_decision_counts",
+        "status": "PASS",
+        "detail": {
+          "POTENTIALLY_NEW_WORDSTAT_SEED": 14,
+          "ALREADY_COVERED_EXACT_OR_CLOSE": 22,
+          "OFF_SCOPE_BUSINESS": 3,
+          "HOLD_REVIEW": 4
+        }
+      },
+      {
+        "name": "potentially_new_seeds_deduped",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "wordstat_flags_match_decisions",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "wordstat_requirement_rows_surviving_only",
+        "status": "PASS",
+        "detail": 14
+      },
+      {
+        "name": "wordstat_requirement_rows_14",
+        "status": "PASS",
+        "detail": 14
+      },
+      {
+        "name": "wordstat_priority_consecutive",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "wordstat_region_213",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "wordstat_device_all",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "wordstat_return_to_main_authorization",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "wordstat_support_counts_positive",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "report_required_results_present",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "report_all_wordstat_seeds_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "level1_method_not_promoted",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "new_yandex_provider_calls_0",
+        "status": "PASS",
+        "detail": {
+          "yandex_search": 0,
+          "wordstat": 0,
+          "alice": 0,
+          "gensearch": 0,
+          "webmaster": 0,
+          "metrika": 0,
+          "direct": 0,
+          "reverse_domain_provider": 0
+        }
+      },
+      {
+        "name": "new_paid_provider_cost_rub_0",
+        "status": "PASS",
+        "detail": 0
+      },
+      {
+        "name": "protected_artifact_hashes_unchanged",
+        "status": "PASS",
+        "detail": {
+          "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf": "79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08",
+          "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf": "b1a2848f781fe12dfe8293cfe2f88e796c967ce9eee7f9b251b171ac73060056",
+          "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md": "d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0",
+          "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx": "cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a"
+        }
+      },
+      {
+        "name": "corrected_client_release_tree_unchanged",
+        "status": "PASS",
+        "detail": "a011ea5b5afa00a21031a254eb86ca6bd7b7a89f"
+      },
+      {
+        "name": "all_changes_isolated_to_step05a_execution",
+        "status": "PASS",
+        "detail": [
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_01_COMPETITOR_PAGE_INSPECTION_BASELINE.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_COMPETITOR_PAGE_EVIDENCE.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_COMPETITOR_PAGE_OBSERVATIONS.json",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_DERIVED_SEED_CANDIDATES.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_PAGE_INSPECTION_EXECUTION_LOG.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_PAGE_INSPECTION_QA.json",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_PAGE_INSPECTION_REPORT.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_SEED_DECISIONS.json",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_REQUIREMENT_PACKAGE.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_page_inspection.py",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_page_inspection.py"
+        ]
+      },
+      {
+        "name": "documents_01_02_03_modified_false",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "semantic_core_04_modified_false",
+        "status": "PASS",
+        "detail": null
+      }
+    ]
+  },
+  "artifact_files": {
+    "CHECKPOINT_01_COMPETITOR_PAGE_INSPECTION_BASELINE.md": {
+      "sha256": "67d2c717aeff8b096edeba0b78e1db5b0ce76268bf0f034ce0506d4c216ec424",
+      "size_bytes": 7466
+    },
+    "STEP_05A_COMPETITOR_PAGE_OBSERVATIONS.json": {
+      "sha256": "509208c004e53aa33b7c70cdf62920d972d93fa97dfcb028d78f5857380b0ed4",
+      "size_bytes": 88789
+    },
+    "STEP_05A_COMPETITOR_PAGE_EVIDENCE.tsv": {
+      "sha256": "d2a2ad750b3c5f97f5b5d9de93a7f2a32bf6fe71f3e2075545298ebfde6b1639",
+      "size_bytes": 63045
+    },
+    "STEP_05A_SEED_DECISIONS.json": {
+      "sha256": "6028ca2032b7399f63f09bf5c2b44d171afa6712ca688bff92f8d561bf6c87cf",
+      "size_bytes": 49322
+    },
+    "STEP_05A_DERIVED_SEED_CANDIDATES.tsv": {
+      "sha256": "65529e64d7f2d0cc12f98ed917269d8ab3f387c90f4edd79bf85d015399c3bbb",
+      "size_bytes": 85385
+    },
+    "STEP_05A_WORDSTAT_REQUIREMENT_PACKAGE.tsv": {
+      "sha256": "a5a2f7c348ccd9d22b8943f1651ba4c2d96e4e71399016ad9aa4451842f4d95d",
+      "size_bytes": 6161
+    },
+    "STEP_05A_PAGE_INSPECTION_REPORT.md": {
+      "sha256": "419774d8fc9daad70f4fd38b626c3d4d9b964cbfab9f936c7b7aed10025fbb2d",
+      "size_bytes": 7503
+    },
+    "STEP_05A_PAGE_INSPECTION_EXECUTION_LOG.md": {
+      "sha256": "340044735875f991883d7c348d7f093ba99c9e0d8476bab6ece32cdce2428f5a",
+      "size_bytes": 1272
+    },
+    "build_step05a_page_inspection.py": {
+      "sha256": "0c59535f33be01503615ee60cfd91c8b4f81c9722f4ecde91fb56b6ed17c1f0f",
+      "size_bytes": 21576
+    },
+    "validate_step05a_page_inspection.py": {
+      "sha256": "8334aa7b20fbbcd5c3e7d62bfa36a8bdb1ddcf529a1219ab74cc49df4cd12018",
+      "size_bytes": 15451
+    }
+  },
+  "remote_readback": {
+    "material_blocks": "PASS",
+    "finalization_commit": "PENDING_EXTERNAL_READBACK"
+  }
+}
