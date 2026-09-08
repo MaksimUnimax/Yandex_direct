@@ -1,0 +1,138 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-wordstat-gap-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+    "status": "RUNNING",
+    "total": 14,
+    "input_count": 14,
+    "duplicate_count": 0,
+    "pending": 6,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 8,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 8,
+    "requests_started": 8,
+    "estimated_cost_rub": 0.16,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T06:27:23.521Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "command": {
+      "devices": ["DEVICE_ALL"],
+      "method": "getTop",
+      "numPhrases": 200,
+      "phrase": "окна для старого фонда",
+      "regions": ["213"]
+    },
+    "completed_at": "2026-09-08T06:27:23.891Z",
+    "error": null,
+    "estimated_cost_rub": 0.02,
+    "fingerprint": "2ad9e5f883c76185",
+    "item_id": "kw001-okno-msk-step05a-wordstat-gap-20260908:2ad9e5f883c76185",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "wordstat-batch-27435d89-6033-4252-bc08-684856a5d98e",
+    "request_started_at": "2026-09-08T06:27:23.526Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "result_ref": "wordstat-batch-27435d89-6033-4252-bc08-684856a5d98e",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T06:27:23.891Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-batch-27435d89-6033-4252-bc08-684856a5d98e",
+      "run_id": null,
+      "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "окна для старого фонда",
+        "numPhrases": 200,
+        "regions": ["213"],
+        "devices": ["DEVICE_ALL"]
+      },
+      "http_status": 200,
+      "elapsed_ms": 357,
+      "result": {
+        "totalCount": "5"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "wordstat",
+    "operation": "getTop",
+    "request_id": "wordstat-batch-27435d89-6033-4252-bc08-684856a5d98e",
+    "run_id": null,
+    "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.02,
+      "tariff_checked_at": "2026-08-12",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "wordstat"
+    },
+    "command": {
+      "method": "getTop",
+      "phrase": "окна для старого фонда",
+      "numPhrases": 200,
+      "regions": ["213"],
+      "devices": ["DEVICE_ALL"]
+    },
+    "http_status": 200,
+    "elapsed_ms": 357,
+    "result": {
+      "totalCount": "5"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "cost_estimate": {
+    "estimated_rub": 0.16,
+    "max_rub": 0.28
+  },
+  "policy": {
+    "max_requests": 14,
+    "max_cost_rub": 0.28
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
