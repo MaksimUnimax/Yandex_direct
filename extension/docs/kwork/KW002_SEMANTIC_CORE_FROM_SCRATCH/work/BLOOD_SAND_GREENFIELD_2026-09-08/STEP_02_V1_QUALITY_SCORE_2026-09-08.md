@@ -4,9 +4,17 @@ Date: 2026-09-08
 
 Evaluated version: original 97-probe Step-02 result before external-method rework.
 
+Owner scoring clarification applied retroactively:
+
+```text
+EACH CRITERION = 0–10
+NOT 0–1
+```
+
 Verdict:
 
 ```text
+QUALITY_TOTAL = 65 / 100
 QUALITY_SCORE = 6.5 / 10
 STATUS = REWORK_REQUIRED
 STEP_03_ALLOWED = false
@@ -14,32 +22,33 @@ STEP_03_ALLOWED = false
 
 ## Dimension score
 
-| Dimension | Score | Reason |
+| Критерий | Балл из 10 | Причина |
 |---|---:|---|
-| Goal/output completeness | 1.0/1.0 | Seed map, coverage, deferred list, report and QA existed. |
-| Method/source support | 0.7/1.0 | Core `seed = discovery probe` was supported, but quality-specific refinement rules were missing. |
-| Evidence/provenance integrity | 1.0/1.0 | Client/Ozon lineage and analyst-composed labels were preserved. |
-| Coverage/completeness | 0.6/1.0 | 76/76 catalog rows had routes, but quality coverage was conflated with catalog accounting coverage. |
-| Analytical correctness/claim boundaries | 0.8/1.0 | No premature SEO decisions, but noisy bare names were over-promoted to PRIMARY. |
-| Adversarial QA quality | 0.4/1.0 | QA checked counts/lineage but failed to challenge search usefulness/noise sufficiently. |
-| Persistence/readback/reproducibility | 1.0/1.0 | Remote GitHub readback passed. |
-| Owner/client usability/plain language | 0.7/1.0 | Report was understandable, but it overstated readiness by presenting PASS. |
-| Information gain/cost/efficiency | 0.2/1.0 | Many exact-name rationales were boilerplate; provider-cost saving could influence deferral too much. |
-| Downstream readiness | 0.1/1.0 | Step 03 should not have been opened before reworking high-noise/refinement/synonym coverage. |
-| **TOTAL** | **6.5/10** | **Material rework required.** |
+| Цель и полнота результата | **10/10** | Seed map, coverage, deferred list, report and QA existed. |
+| Методика и источники | **7/10** | Core `seed = discovery probe` был поддержан, но quality-specific refinement rules отсутствовали. |
+| Evidence / provenance integrity | **10/10** | Client/Ozon lineage и analyst-composed labels были сохранены. |
+| Coverage / полнота | **6/10** | 76/76 catalog rows имели routes, но quality coverage была смешана с catalog accounting coverage. |
+| Аналитическая корректность / claim boundaries | **8/10** | Не было преждевременных SEO-решений, но noisy bare names были слишком легко продвинуты в PRIMARY. |
+| Качество adversarial QA | **4/10** | QA хорошо проверял counts/lineage, но недостаточно атаковал search usefulness/noise. |
+| Persistence / readback / reproducibility | **10/10** | Remote GitHub readback прошёл. |
+| Понятность владельцу/клиенту | **7/10** | Отчёт был понятен, но ошибочно создавал впечатление готовности через PASS. |
+| Information gain / cost / efficiency | **2/10** | Многие exact-name rationales были шаблонными; экономия provider calls могла слишком сильно влиять на deferral. |
+| Готовность следующего шага | **1/10** | Step 03 был открыт до появления search-probe-quality QA и refinement/synonym controls. |
+| **СУММА** | **65/100** | 10 критериев × максимум 10 баллов. |
+| **ИТОГОВАЯ ОЦЕНКА** | **6.5/10** | `65 / 10 = 6.5`. Material defects / rework required. |
 
-## What lost points
+## Что сняло баллы
 
 ```text
-- bare ambiguous names counted as sufficient quality routes;
-- no mandatory refinement strategy for HIGH-noise names;
-- automobile synonym/use-context coverage was not systematic;
-- exact seller names dominated PRIMARY by default;
-- expected information gain was repetitive/weakly discriminating;
-- Step 03 was opened before a search-probe-quality QA existed.
+- bare ambiguous names считались достаточными quality routes;
+- HIGH-noise names не имели обязательной refinement strategy;
+- automobile synonym/use-context coverage не была системной;
+- exact seller names слишком автоматически становились PRIMARY;
+- expected information gain был повторяющимся и слабо различал now/later/control;
+- Step 03 был открыт до отдельного search-probe-quality QA.
 ```
 
-## What raises the score
+## Что подняло бы оценку
 
 ```text
 - separate catalog-lineage coverage from search-quality coverage;
@@ -50,3 +59,9 @@ STEP_03_ALLOWED = false
 - materialize a deterministic corrected primary acquisition manifest;
 - rerun adversarial QA and remote readback.
 ```
+
+## ПРОСТЫМИ СЛОВАМИ
+
+**Оценка V1:** 65/100, то есть **6.5/10**.
+
+Файлы и учёт были сделаны хорошо, но сам список запросов был недостаточно качественно подготовлен к Wordstat: слишком много неоднозначных названий считались хорошими основными входами. Поэтому V1 правильно остаётся `REWORK_REQUIRED / SUPERSEDED`.
