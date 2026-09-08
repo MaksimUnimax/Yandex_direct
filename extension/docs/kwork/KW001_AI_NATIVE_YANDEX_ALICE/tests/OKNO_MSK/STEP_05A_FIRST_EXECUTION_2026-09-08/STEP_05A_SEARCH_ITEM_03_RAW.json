@@ -1,0 +1,191 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+    "status": "RUNNING",
+    "total": 9,
+    "input_count": 9,
+    "duplicate_count": 0,
+    "pending": 6,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 3,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 3,
+    "requests_started": 3,
+    "estimated_cost_rub": 1.464,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T07:29:28.676Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "многофункциональный стеклопакет что это",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T07:29:29.757Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "faeb3219f4365b72",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-20260908:faeb3219f4365b72",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "search-batch-5f164e60-ef37-4b43-babd-27d490aaec69",
+    "request_started_at": "2026-09-08T07:29:28.679Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": "search-batch-5f164e60-ef37-4b43-babd-27d490aaec69",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T07:29:29.757Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "search",
+      "operation": "search",
+      "request_id": "search-batch-5f164e60-ef37-4b43-babd-27d490aaec69",
+      "run_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.488,
+        "tariff_checked_at": "2026-08-19",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "search"
+      },
+      "command": {
+        "method": "search",
+        "queryText": "многофункциональный стеклопакет что это",
+        "searchType": "SEARCH_TYPE_RU",
+        "page": 0,
+        "groupsOnPage": 10,
+        "familyMode": "FAMILY_MODE_MODERATE",
+        "fixTypoMode": "FIX_TYPO_MODE_ON",
+        "sortMode": "SORT_MODE_BY_RELEVANCE",
+        "sortOrder": "SORT_ORDER_DESC",
+        "groupMode": "GROUP_MODE_FLAT",
+        "docsInGroup": 1,
+        "maxPassages": 4,
+        "region": "213",
+        "l10n": "LOCALIZATION_RU"
+      },
+      "http_status": 200,
+      "elapsed_ms": 1069,
+      "result": {
+        "results": [
+          {"rank":1,"url":"https://moscowremontnik.ru/blog/materialy/multifunkcionalnyj-steklopaket/","domain":"moscowremontnik.ru","title":"Мультифункциональный стеклопакет: что это такое, разница...","snippet":"Тепловая рамка также улучшает звукоизоляционные свойства стеклопакета. Достоинства. Помимо сокращения расходов на вентилирование воздуха летом и отопление помещений зимой, у многофункциональных стеклопакетов немало достоинств. Уменьшение потерь тепловой энергии обеспечивается минимум на 78% в сравнении с обычным стеклом.","modtime":"20221206T132251"},
+          {"rank":2,"url":"https://www.mosokna.ru/stati/mnogofunktsionalnye-steklopakety-znakomimsya-s-innovatsionnymi-tekhnologiyami","domain":"www.mosokna.ru","title":"Многофункциональные стеклопакеты: инновации в остеклении","snippet":"Многофункциональные стеклопакеты: знакомимся с инновационными технологиями. … Одна из наиболее интересных и актуальных новинок — многофункциональный стеклопакет (МФ). Что это такое? Центральный элемент МФ-конструкции — стекло с многослойным покрытием второго поколения iM, способное избирательно пропускать инфракрасные тепловые волны.","modtime":"20200908T162634"},
+          {"rank":3,"url":"https://m-strana.ru/articles/multifunktsionalnoe-steklo/","domain":"m-strana.ru","title":"Мультифункциональное стекло в пластиковых окнах: что это и как...","snippet":"Производители маркируют характеристики многофункциональных окон. … Многофункциональные стеклопакеты защищают растения от солнечных ожогов летом и обморожений листвы зимой. Обработанные поверхности изнутри не разогреваются в жару и остаются теплыми в морозы.","modtime":"20220205T140548"},
+          {"rank":4,"url":"https://oknafactoria.ru/articles/steklopaket-s-multifunkczionalnym-steklom-plyusy-minusy-i-osobennosti-vybora/","domain":"oknafactoria.ru","title":"Мультифункциональные окна: плюсы, минусы, особенности выбора","snippet":"Что касается цены, то многофункциональный стеклопакет выходит незначительно дороже, примерно на 5-10%, поэтому стоимость не должна быть решающим фактором при выборе остекления. … Чтобы принять решение о том, стоит ли устанавливать многофункциональный стеклопакет, рассмотрите преимущества такого решения","modtime":"20240307T222551"},
+          {"rank":5,"url":"https://i-okna.ru/articles/multifunctional-glass","domain":"i-okna.ru","title":"Мультифункциональное стекло — кратко и понятно","snippet":"Что такое мультифункциональное стекло Как работает покрытие Многослойный стеклопакет: 3 типа покрытия Простая поверхность или с напылением: в чем разница Мультифункциональное стекло: популярные фирмы-производители Контроль ГОСТ: важная особенность, плюсы и минусы Мультифункциональное стекло вредит зеленым насаждениям: правда или нет Как понять, что перед вами многофункциональный стеклопакет Стекло с...","modtime":"20201221T000426"},
+          {"rank":6,"url":"https://okna-zel.ru/info/multifunktsionalnyy-steklopaket","domain":"okna-zel.ru","title":"Мультифункциональный стеклопакет и его отличие от других типов","snippet":"В конструкцию многофункционального стеклопакета добавлено стекло с магнетронным нанопокрытием. Мультифункциональный стеклопакет Стекло. Уникальное стекло изготавливается на вакуумно-магнетронной установке путем нанесения многократного напыления на готовый лист.","modtime":"20200104T041920"},
+          {"rank":7,"url":"https://www.oknamedia.ru/novosti/chto-nuzhno-znat-o-multifunktsionalnom-stekle-50441","domain":"www.oknamedia.ru","title":"Мультифункциональное стекло для цветов и растений, что нужно...","snippet":"Мультистекло для стеклопакетов - что это? … Если необходимо поставить очень теплый стеклопакет, к примеру, для загородного дома, то для увеличения теплосбережения в двухкамерном стеклопакете вместе с мультифункциональным стеклом лучше использовать энергосберегающее i-стекло.","modtime":"20191217T100258"},
+          {"rank":8,"url":"https://sofos-okna.ru/stati/multifunktsionalnyy-steklopaket","domain":"sofos-okna.ru","title":"Мультифункциональный стеклопакет для пластиковых окон","snippet":"Мультифункциональный стеклопакет и его отличие от других типов. При выборе окна, конечно, важно определить профиль – его технические характеристики и производителя. Но во многом комфортность использования окна, микроклимат в помещении зависит от стеклопакета, который непосредственно влияет на тепло- и звукоизоляцию.","modtime":"20210305T133041"},
+          {"rank":9,"url":"https://okna2-0.ru/blog/chem-otlichayutsya-ehnergosberegayushchie-steklopakety-ot-multifunkcionalnyh/","domain":"okna2-0.ru","title":"Энергосберегающие или мультифункциональные стеклопакеты","snippet":"Окна с энергосберегающим стеклом Окна с энергосберегающим стеклопакетом Окна с мультифункциональным стеклопакетом. Что такое стеклопакет, какие стекла для него используются. … Дополнительные признаки, как легко проверить многофункциональное стекло установлено в стеклопакете или нет","modtime":"20230211T114527"},
+          {"rank":10,"url":"https://oknavekker.ru/production/dopolnitelnie-materiali-i-uslugi/multifunkcionalnoe-energosberegayushee-steklo/","domain":"oknavekker.ru","title":"Новости - Мультифункциональное... | Окна Веккер Киров","snippet":"Мультифункциональный стеклопакет (солнцезащитный и энергосберегающий) – это такой стеклопакет, который содержит специальное стекло с многослойным напылением, которое наносится на поверхность стекла, при экологически чистом глубоковакуумном магнетронном процессе, где одним из функциональных слоев является высокоселективный слой – серебро.","modtime":"20180323T224413"}
+        ],
+        "result_count": 10,
+        "response_format": "FORMAT_XML"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "search",
+    "operation": "search",
+    "request_id": "search-batch-5f164e60-ef37-4b43-babd-27d490aaec69",
+    "run_id": null,
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.488,
+      "tariff_checked_at": "2026-08-19",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "search"
+    },
+    "command": {
+      "method": "search",
+      "queryText": "многофункциональный стеклопакет что это",
+      "searchType": "SEARCH_TYPE_RU",
+      "page": 0,
+      "groupsOnPage": 10,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC",
+      "groupMode": "GROUP_MODE_FLAT",
+      "docsInGroup": 1,
+      "maxPassages": 4,
+      "region": "213",
+      "l10n": "LOCALIZATION_RU"
+    },
+    "http_status": 200,
+    "elapsed_ms": 1069,
+    "result": {
+      "results": [
+        {"rank":1,"url":"https://moscowremontnik.ru/blog/materialy/multifunkcionalnyj-steklopaket/","domain":"moscowremontnik.ru","title":"Мультифункциональный стеклопакет: что это такое, разница...","snippet":"Тепловая рамка также улучшает звукоизоляционные свойства стеклопакета. Достоинства. Помимо сокращения расходов на вентилирование воздуха летом и отопление помещений зимой, у многофункциональных стеклопакетов немало достоинств. Уменьшение потерь тепловой энергии обеспечивается минимум на 78% в сравнении с обычным стеклом.","modtime":"20221206T132251"},
+        {"rank":2,"url":"https://www.mosokna.ru/stati/mnogofunktsionalnye-steklopakety-znakomimsya-s-innovatsionnymi-tekhnologiyami","domain":"www.mosokna.ru","title":"Многофункциональные стеклопакеты: инновации в остеклении","snippet":"Многофункциональные стеклопакеты: знакомимся с инновационными технологиями. … Одна из наиболее интересных и актуальных новинок — многофункциональный стеклопакет (МФ). Что это такое? Центральный элемент МФ-конструкции — стекло с многослойным покрытием второго поколения iM, способное избирательно пропускать инфракрасные тепловые волны.","modtime":"20200908T162634"},
+        {"rank":3,"url":"https://m-strana.ru/articles/multifunktsionalnoe-steklo/","domain":"m-strana.ru","title":"Мультифункциональное стекло в пластиковых окнах: что это и как...","snippet":"Производители маркируют характеристики многофункциональных окон. … Многофункциональные стеклопакеты защищают растения от солнечных ожогов летом и обморожений листвы зимой. Обработанные поверхности изнутри не разогреваются в жару и остаются теплыми в морозы.","modtime":"20220205T140548"},
+        {"rank":4,"url":"https://oknafactoria.ru/articles/steklopaket-s-multifunkczionalnym-steklom-plyusy-minusy-i-osobennosti-vybora/","domain":"oknafactoria.ru","title":"Мультифункциональные окна: плюсы, минусы, особенности выбора","snippet":"Что касается цены, то многофункциональный стеклопакет выходит незначительно дороже, примерно на 5-10%, поэтому стоимость не должна быть решающим фактором при выборе остекления. … Чтобы принять решение о том, стоит ли устанавливать многофункциональный стеклопакет, рассмотрите преимущества такого решения","modtime":"20240307T222551"},
+        {"rank":5,"url":"https://i-okna.ru/articles/multifunctional-glass","domain":"i-okna.ru","title":"Мультифункциональное стекло — кратко и понятно","snippet":"Что такое мультифункциональное стекло Как работает покрытие Многослойный стеклопакет: 3 типа покрытия Простая поверхность или с напылением: в чем разница Мультифункциональное стекло: популярные фирмы-производители Контроль ГОСТ: важная особенность, плюсы и минусы Мультифункциональное стекло вредит зеленым насаждениям: правда или нет Как понять, что перед вами многофункциональный стеклопакет Стекло с...","modtime":"20201221T000426"},
+        {"rank":6,"url":"https://okna-zel.ru/info/multifunktsionalnyy-steklopaket","domain":"okna-zel.ru","title":"Мультифункциональный стеклопакет и его отличие от других типов","snippet":"В конструкцию многофункционального стеклопакета добавлено стекло с магнетронным нанопокрытием. Мультифункциональный стеклопакет Стекло. Уникальное стекло изготавливается на вакуумно-магнетронной установке путем нанесения многократного напыления на готовый лист.","modtime":"20200104T041920"},
+        {"rank":7,"url":"https://www.oknamedia.ru/novosti/chto-nuzhno-znat-o-multifunktsionalnom-stekle-50441","domain":"www.oknamedia.ru","title":"Мультифункциональное стекло для цветов и растений, что нужно...","snippet":"Мультистекло для стеклопакетов - что это? … Если необходимо поставить очень теплый стеклопакет, к примеру, для загородного дома, то для увеличения теплосбережения в двухкамерном стеклопакете вместе с мультифункциональным стеклом лучше использовать энергосберегающее i-стекло.","modtime":"20191217T100258"},
+        {"rank":8,"url":"https://sofos-okna.ru/stati/multifunktsionalnyy-steklopaket","domain":"sofos-okna.ru","title":"Мультифункциональный стеклопакет для пластиковых окон","snippet":"Мультифункциональный стеклопакет и его отличие от других типов. При выборе окна, конечно, важно определить профиль – его технические характеристики и производителя. Но во многом комфортность использования окна, микроклимат в помещении зависит от стеклопакета, который непосредственно влияет на тепло- и звукоизоляцию.","modtime":"20210305T133041"},
+        {"rank":9,"url":"https://okna2-0.ru/blog/chem-otlichayutsya-ehnergosberegayushchie-steklopakety-ot-multifunkcionalnyh/","domain":"okna2-0.ru","title":"Энергосберегающие или мультифункциональные стеклопакеты","snippet":"Окна с энергосберегающим стеклом Окна с энергосберегающим стеклопакетом Окна с мультифункциональным стеклопакетом. Что такое стеклопакет, какие стекла для него используются. … Дополнительные признаки, как легко проверить многофункциональное стекло установлено в стеклопакете или нет","modtime":"20230211T114527"},
+        {"rank":10,"url":"https://oknavekker.ru/production/dopolnitelnie-materiali-i-uslugi/multifunkcionalnoe-energosberegayushee-steklo/","domain":"oknavekker.ru","title":"Новости - Мультифункциональное... | Окна Веккер Киров","snippet":"Мультифункциональный стеклопакет (солнцезащитный и энергосберегающий) – это такой стеклопакет, который содержит специальное стекло с многослойным напылением, которое наносится на поверхность стекла, при экологически чистом глубоковакуумном магнетронном процессе, где одним из функциональных слоев является высокоселективный слой – серебро.","modtime":"20180323T224413"}
+      ],
+      "result_count": 10,
+      "response_format": "FORMAT_XML"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 1.464,
+    "max_rub": 4.392
+  },
+  "policy": {
+    "max_requests": 9,
+    "max_cost_rub": 4.392
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
