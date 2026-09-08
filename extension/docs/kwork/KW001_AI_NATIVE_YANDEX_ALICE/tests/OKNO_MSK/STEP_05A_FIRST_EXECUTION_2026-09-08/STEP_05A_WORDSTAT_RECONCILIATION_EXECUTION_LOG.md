@@ -13,4 +13,14 @@
 - Preserved `EMPTY_PROVIDER_RESULT` and `TOTALCOUNT_ONLY` distinctions.
 - Persisted competitor-page → seed → raw Wordstat lineage without provider calls.
 
+Remote readback: PASS at remote commit `48d6689a53ff4b21144213a4c1feb7016ab7ef42`.
+
+## 2026-09-08 — material block 2
+
+- Reconciled all 160 returned rows against current semantic authority or an explicit noise/scope/hold boundary.
+- Kept 56 already-covered rows, 51 irrelevant-noise rows, 26 off-scope rows and 7 HOLD rows out of the Search package.
+- Preserved 20 phrase occurrences across 8 genuinely new returned-phrase families.
+- Added one separately evidenced `totalCount`-only direction (`окна для старого фонда`) without inventing a phrase row.
+- Materialized exactly 9 deduplicated ordinary-Yandex-Search requirements for Main ChatGPT.
+
 Remote readback: pending commit/push.
