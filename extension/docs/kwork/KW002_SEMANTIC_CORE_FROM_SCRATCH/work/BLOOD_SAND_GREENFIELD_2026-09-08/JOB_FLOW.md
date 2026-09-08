@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **NOT STARTED / ROADMAP OWNER REVIEW PENDING**
+Status: **CLIENT INPUT CAPTURED / EXECUTION NOT STARTED / ROADMAP OWNER REVIEW PENDING**
 
 ## Whole-job goal
 
@@ -19,12 +19,30 @@ semantic core
 
 No prior Blood & Sand SEO research is an execution input before final freeze.
 
+## Intake state before Step 00 execution
+
+Completed documentation/intake preparation:
+
+```text
+CLIENT_SUPPLIED_BRIEF = MATERIALIZED
+CLIENT BUSINESS/REGION/GOAL = FROZEN AS SIMULATED CLIENT INPUT
+CLIENT-SUPPLIED COMPETITORS = NONE
+EXISTING SEMANTIC CORE = NONE
+EXISTING SITE ARCHITECTURE = NONE
+RAW ASSORTMENT SOURCE = 1 WHITELISTED Ozon raw catalog source
+OLD BLOOD_SAND ANALYTICAL SOURCES = SEALED
+PROVIDER CALLS = 0
+WORK HANDOFFS = 0
+```
+
+This capture is preparation for Step 00. It does not itself authorize research or provider execution.
+
 ## Step status
 
 | Step | Purpose | Status | Blocking condition to start |
 |---|---|---|---|
-| 00 | Freeze order/scope/source boundary | NOT_STARTED | owner accepts prepared KW-002 roadmap |
-| 01 | Business + assortment model | NOT_STARTED | Step 00 PASS + clean raw assortment input |
+| 00 | Freeze order/scope/source boundary and formally accept intake | NOT_STARTED | owner accepts prepared KW-002 roadmap |
+| 01 | Business + complete admitted assortment model | NOT_STARTED | Step 00 PASS + whitelisted raw assortment source |
 | 02 | Seed/acquisition map | NOT_STARTED | Step 01 PASS |
 | 03 | Primary Wordstat acquisition | NOT_STARTED | Step 02 PASS + Bridge authorization |
 | 04 | First family triage | NOT_STARTED | Step 03 complete persisted evidence |
