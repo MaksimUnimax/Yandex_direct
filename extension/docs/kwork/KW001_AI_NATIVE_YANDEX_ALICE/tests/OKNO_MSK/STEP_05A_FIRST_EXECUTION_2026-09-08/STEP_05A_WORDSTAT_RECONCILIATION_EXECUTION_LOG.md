@@ -23,4 +23,15 @@ Remote readback: PASS at remote commit `48d6689a53ff4b21144213a4c1feb7016ab7ef42
 - Added one separately evidenced `totalCount`-only direction (`окна для старого фонда`) without inventing a phrase row.
 - Materialized exactly 9 deduplicated ordinary-Yandex-Search requirements for Main ChatGPT.
 
-Remote readback: pending commit/push.
+Remote readback: PASS across reconciliation artifacts at remote commits `24ae9e2e7439ad27e05d7b88548cb1f7b0a67932` and `5b69ade84d48fde45be8a81b96cf909f2cc0b353`.
+
+## 2026-09-08 — deterministic QA
+
+- Independent checks: 47/47 PASS.
+- Raw provider envelopes unchanged: PASS.
+- Client release and Documents 01–03 / semantic-core 04 unchanged: PASS.
+- Level-1 Step 5A method not promoted: PASS.
+- New provider calls by Work: 0.
+- Final Search-recheck requirements: 9.
+
+Final remote readback receipt: pending finalization commit.

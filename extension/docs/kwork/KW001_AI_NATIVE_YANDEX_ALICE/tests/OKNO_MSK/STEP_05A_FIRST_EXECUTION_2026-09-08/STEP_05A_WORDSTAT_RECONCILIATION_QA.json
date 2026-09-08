@@ -1,0 +1,418 @@
+{
+  "status": "PASS",
+  "execution_scope": "STEP_5A_5_WORDSTAT_RECONCILIATION",
+  "starting_head": "e733d4051e5a0704d60370b14326fd1bc23a655a",
+  "project_test_validated": false,
+  "owner_review": "PENDING",
+  "counts": {
+    "seeds_accounted": 14,
+    "provider_shapes": {
+      "EMPTY_PROVIDER_RESULT": 4,
+      "RESULT_ROWS_ASSOCIATIONS_TOTALCOUNT": 8,
+      "TOTALCOUNT_ONLY": 2
+    },
+    "direct_wordstat_rows": 21,
+    "association_rows": 139,
+    "total_returned_phrase_rows": 160,
+    "reconciliation_classes": {
+      "ALREADY_COVERED_EXACT_OR_CLOSE": 56,
+      "HOLD_EVIDENCE": 7,
+      "NOISE_IRRELEVANT": 51,
+      "OFF_SCOPE_BUSINESS": 26,
+      "POTENTIALLY_NEW_SEARCH_RECHECK": 20
+    },
+    "deduplicated_returned_phrase_directions": 8,
+    "additional_totalcount_only_search_direction": 1,
+    "final_search_recheck_calls_required": 9
+  },
+  "exact_search_recheck_queries": [
+    "гидроизоляция для открытого балкона",
+    "солнцезащитный стеклопакет",
+    "многофункциональный стеклопакет что это",
+    "ударопрочный стеклопакет",
+    "окна для старого фонда",
+    "балконы под офис",
+    "кладовая на балконе",
+    "шумоизоляция на крышу балкона",
+    "армирование оконного профиля"
+  ],
+  "provider_calls_by_work": {
+    "yandex_search": 0,
+    "wordstat": 0,
+    "alice": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "web_search_substitute": 0
+  },
+  "raw_provider_envelopes_unchanged": {
+    "STEP_05A_WORDSTAT_BATCH_START_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_01_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_02_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_03_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_04_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_05_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_06_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_07_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_08_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_09_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_10_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_11_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_12_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_13_RAW.json": true,
+    "STEP_05A_WORDSTAT_ITEM_14_RAW.json": true
+  },
+  "protected_artifacts_modified": {
+    "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf": false,
+    "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf": false,
+    "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md": false,
+    "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx": false
+  },
+  "corrected_client_release_modified": false,
+  "level1_method_promoted": false,
+  "deterministic_qa": {
+    "checks_total": 47,
+    "checks_passed": 47,
+    "failed": [],
+    "checks": [
+      {
+        "name": "required_artifacts_exist",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "seed_acquisition_rows_exactly_14",
+        "status": "PASS",
+        "detail": 14
+      },
+      {
+        "name": "authorized_seed_order_exact",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "authorized_seed_text_exact",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "duplicate_seed_accounting_inflation_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "all_seed_requests_executed_successfully",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "provider_shape_counts_exact",
+        "status": "PASS",
+        "detail": {
+          "TOTALCOUNT_ONLY": 2,
+          "EMPTY_PROVIDER_RESULT": 4,
+          "RESULT_ROWS_ASSOCIATIONS_TOTALCOUNT": 8
+        }
+      },
+      {
+        "name": "empty_provider_results_preserved_4",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "empty_provider_results_not_fabricated_zero",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "totalcount_only_preserved_2",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "totalcount_only_phrase_rows_not_invented",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "all_actual_provider_rows_preserved_exact",
+        "status": "PASS",
+        "detail": {
+          "actual": 160,
+          "expected": 160
+        }
+      },
+      {
+        "name": "fabricated_phrase_rows_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "direct_result_rows_exact_21",
+        "status": "PASS",
+        "detail": 21
+      },
+      {
+        "name": "association_rows_exact_139",
+        "status": "PASS",
+        "detail": 139
+      },
+      {
+        "name": "returned_phrase_rows_exact_160",
+        "status": "PASS",
+        "detail": 160
+      },
+      {
+        "name": "raw_lineage_complete",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "competitor_page_lineage_complete",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "semantic_reconciliation_rows_exact_160",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "semantic_reconciliation_row_ids_exact",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "semantic_classes_bounded",
+        "status": "PASS",
+        "detail": {
+          "POTENTIALLY_NEW_SEARCH_RECHECK": 20,
+          "NOISE_IRRELEVANT": 51,
+          "ALREADY_COVERED_EXACT_OR_CLOSE": 56,
+          "OFF_SCOPE_BUSINESS": 26,
+          "HOLD_EVIDENCE": 7
+        }
+      },
+      {
+        "name": "every_material_row_reconciled",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "semantic_authority_references_valid",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "potentially_new_rows_have_full_lineage",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "new_rows_are_actual_direct_results",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "obvious_noise_not_promoted",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_requirements_exact_9",
+        "status": "PASS",
+        "detail": 9
+      },
+      {
+        "name": "search_priorities_consecutive",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_queries_exact",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_query_duplicates_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_direction_duplicates_0",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_region_213",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_top10",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_unresolved_question_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_existing_evidence_gap_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_downstream_gate_bounded",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "search_requirement_only",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "totalcount_only_search_lineage_explicit",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "p46_not_redundantly_rechecked",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "raw_provider_envelopes_unchanged",
+        "status": "PASS",
+        "detail": {
+          "STEP_05A_WORDSTAT_BATCH_START_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_01_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_02_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_03_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_04_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_05_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_06_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_07_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_08_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_09_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_10_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_11_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_12_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_13_RAW.json": true,
+          "STEP_05A_WORDSTAT_ITEM_14_RAW.json": true
+        }
+      },
+      {
+        "name": "new_yandex_provider_calls_0",
+        "status": "PASS",
+        "detail": {
+          "yandex_search": 0,
+          "wordstat": 0,
+          "alice": 0,
+          "gensearch": 0,
+          "webmaster": 0,
+          "metrika": 0,
+          "direct": 0,
+          "web_search_substitute": 0
+        }
+      },
+      {
+        "name": "protected_artifact_hashes_unchanged",
+        "status": "PASS",
+        "detail": {
+          "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf": "79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08",
+          "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf": "b1a2848f781fe12dfe8293cfe2f88e796c967ce9eee7f9b251b171ac73060056",
+          "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md": "d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0",
+          "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx": "cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a"
+        }
+      },
+      {
+        "name": "corrected_client_release_tree_unchanged",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "level1_method_not_promoted",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "name": "all_changes_isolated_to_step05a_execution",
+        "status": "PASS",
+        "detail": [
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_02_WORDSTAT_NORMALIZATION.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_03_WORDSTAT_RECONCILIATION.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_SEARCH_RECHECK_REQUIREMENT_PACKAGE.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_RECONCILIATION_EXECUTION_LOG.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_RECONCILIATION_QA.json",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_RECONCILIATION_REPORT.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_RETURNED_PHRASE_LEDGER.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_SEED_ACQUISITION_LEDGER.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_SEMANTIC_RECONCILIATION.tsv",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_wordstat_reconciliation.py",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_wordstat_reconciliation.py"
+        ]
+      },
+      {
+        "name": "report_required_tokens_present",
+        "status": "PASS",
+        "detail": []
+      },
+      {
+        "name": "report_all_search_queries_present",
+        "status": "PASS",
+        "detail": null
+      }
+    ]
+  },
+  "artifact_files": {
+    "STEP_05A_WORDSTAT_SEED_ACQUISITION_LEDGER.tsv": {
+      "sha256": "6e96049223862c46100e728d345d5945e7ce59056e04cd0fc4a27e67561f15ab",
+      "size_bytes": 9594
+    },
+    "STEP_05A_WORDSTAT_RETURNED_PHRASE_LEDGER.tsv": {
+      "sha256": "0cf849ededfb8297a5892b4a466d9b869bcc11565c66c90522b39334bde583d9",
+      "size_bytes": 156762
+    },
+    "STEP_05A_WORDSTAT_SEMANTIC_RECONCILIATION.tsv": {
+      "sha256": "bade7495fc68e535da1d653a0053695ea296b2f9a5f707980ee6cefd3b33a27d",
+      "size_bytes": 120739
+    },
+    "STEP_05A_SEARCH_RECHECK_REQUIREMENT_PACKAGE.tsv": {
+      "sha256": "8dc146fb5e6837623a392589d0f20a49f8e922040485660f56efa15bbb0ffbf9",
+      "size_bytes": 14374
+    },
+    "STEP_05A_WORDSTAT_RECONCILIATION_REPORT.md": {
+      "sha256": "1a6a9647b8864cb8f642c2bb9848bfef0d84c140952125f4c885adc253fd1cd4",
+      "size_bytes": 4229
+    },
+    "STEP_05A_WORDSTAT_RECONCILIATION_EXECUTION_LOG.md": {
+      "sha256": "6315abdd61efaff85078c3da2ba6ea406e4f4761b8eaeedbf714443106a32431",
+      "size_bytes": 1850
+    },
+    "CHECKPOINT_02_WORDSTAT_NORMALIZATION.md": {
+      "sha256": "58dcd3d6b476cb6f39a2064c59036658ff3ef2dec984055b61e8ebb554adf0a9",
+      "size_bytes": 897
+    },
+    "CHECKPOINT_03_WORDSTAT_RECONCILIATION.md": {
+      "sha256": "4cfb32e9bb6a60a311df1a58c79db4ee0f74908c49053e3fd372872841aeb630",
+      "size_bytes": 796
+    },
+    "build_step05a_wordstat_reconciliation.py": {
+      "sha256": "f4877c3725df20d23bde994e14ce8b48020381c3aec842fe8b615c6fae29acfc",
+      "size_bytes": 34655
+    },
+    "validate_step05a_wordstat_reconciliation.py": {
+      "sha256": "9f1761751260f8e44fdcadfd4d3c87781599ddabf9534215d558f5de036fd2b6",
+      "size_bytes": 16714
+    }
+  },
+  "remote_readback": {
+    "status": "PENDING_FINAL_REMOTE_READBACK",
+    "material_blocks": "PASS"
+  },
+  "next_action": "MAIN_CHATGPT_STEP_5A_6_EXECUTE_ONLY_THE_MATERIALIZED_SEARCH_RECHECK_PACKAGE_VIA_YANDEX_BRIDGE"
+}
