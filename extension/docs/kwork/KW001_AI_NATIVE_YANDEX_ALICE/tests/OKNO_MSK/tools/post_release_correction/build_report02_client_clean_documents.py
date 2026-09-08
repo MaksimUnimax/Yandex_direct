@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build recipient Report №02 without an empty TOC and without orphan field labels."""
+"""Build recipient Report №02 with stable page layout."""
 from __future__ import annotations
 
 import subprocess
@@ -12,25 +12,26 @@ import build_recipient_docx as base
 HERE = Path(__file__).resolve()
 JOB = HERE.parents[2]
 RELEASE = JOB / "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
-SOURCE = RELEASE / "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md"
-DOCX = RELEASE / "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx"
-PDF = RELEASE / "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf"
-LABEL = "OKNO_MSK · руководство специалиста"
+SOURCE = RELEASE / "sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md"
+DOCX = RELEASE / "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx"
+PDF = RELEASE / "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf"
+LABEL = "Внедрение рекомендации"
 
 KEEP_WITH_NEXT_LABELS = {
-    "Проблема",
-    "Что изменить",
-    "Где изменить",
-    "Работы",
-    "Пример смысловой реализации",
-    "Сохранить",
-    "Критерии приёмки",
-    "Что уже определено",
-    "Что уточнить",
-    "Содержание будущего блока",
-    "Результат уточнения",
-    "Что проверить",
-    "Результат проверки",
+    "Зачем менять",
+    "Что сделать",
+    "Где",
+    "Порядок работы",
+    "Пример",
+    "Проверка результата",
+    "Что хотим добавить",
+    "Что хотим изменить",
+    "Что нужно уточнить",
+    "После уточнения",
+    "Что нужно понять",
+    "Зачем",
+    "Как проверить",
+    "Решение по результату",
 }
 
 
@@ -39,10 +40,8 @@ def build_docx() -> None:
     lines = SOURCE.read_text(encoding="utf-8").splitlines()
     if lines and lines[0].startswith("# "):
         lines = lines[1:]
-    temp_md = DOCX.with_suffix(".client-clean.pandoc.md")
+    temp_md = DOCX.with_suffix(".pandoc.md")
     temp_md.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    # Report №02 deliberately has no generated TOC. In this compact specialist guide
-    # Pandoc/LibreOffice rendered an empty TOC heading without entries.
     subprocess.run([
         "/usr/bin/pandoc", str(temp_md), "--from=gfm", "--to=docx",
         "--metadata", f"title={LABEL}", "--metadata", "lang=ru",
