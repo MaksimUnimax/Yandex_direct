@@ -42,10 +42,46 @@ EXPECTED_DOMAINS = [
     "elit-balkon.ru",
 ]
 
+PAGE_FIELDS = [
+    "inspection_id",
+    "competitor_domain",
+    "requested_url",
+    "final_url",
+    "source_step09_query_index",
+    "source_step09_query_text",
+    "source_step09_rank",
+    "http_or_browser_access_state",
+    "observation_date",
+    "page_type",
+    "page_title",
+    "h1",
+    "material_h2_h3_topics",
+    "material_commercial_axes",
+    "material_product_service_axes",
+    "material_use_case_axes",
+    "material_problem_solution_axes",
+    "price_or_calculator_presence",
+    "portfolio_or_examples_presence",
+    "installation_process_presence",
+    "faq_presence",
+    "trust_or_proof_elements_presence",
+    "relevant_internal_navigation_labels",
+    "page_evidence_notes",
+    "claim_boundary",
+]
+
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle, delimiter="\t"))
+
+
+def write_tsv(path: Path, fields: list[str], rows: list[dict[str, object]]) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, delimiter="\t", lineterminator="\n")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: row.get(field, "") for field in fields})
 
 
 def authorized_targets() -> list[dict[str, object]]:
@@ -133,12 +169,42 @@ def build_checkpoint() -> None:
     CHECKPOINT.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def build_page_evidence() -> None:
+    targets = authorized_targets()
+    observations = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
+    if not isinstance(observations, list):
+        raise ValueError("Observation input must be a JSON array")
+    by_id = {row["inspection_id"]: row for row in observations}
+    if len(by_id) != len(observations):
+        raise ValueError("Duplicate inspection_id in observation input")
+    authorized_ids = {row["inspection_id"] for row in targets}
+    if not set(by_id).issubset(authorized_ids):
+        raise ValueError(f"Out-of-scope observation IDs: {sorted(set(by_id) - authorized_ids)}")
+
+    rows: list[dict[str, object]] = []
+    for target in targets:
+        observation = by_id.get(target["inspection_id"])
+        if observation is None:
+            continue
+        requested = str(target["requested_url"])
+        if observation.get("requested_url") != requested:
+            raise ValueError(f"Requested URL mismatch for {target['inspection_id']}")
+        merged = {**target, **observation}
+        missing = [field for field in PAGE_FIELDS if field not in merged]
+        if missing:
+            raise ValueError(f"Missing fields for {target['inspection_id']}: {missing}")
+        rows.append(merged)
+    write_tsv(PAGE_EVIDENCE, PAGE_FIELDS, rows)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=["baseline"], required=True)
+    parser.add_argument("--phase", choices=["baseline", "page-evidence"], required=True)
     args = parser.parse_args()
     if args.phase == "baseline":
         build_checkpoint()
+    elif args.phase == "page-evidence":
+        build_page_evidence()
     return 0
 
 
