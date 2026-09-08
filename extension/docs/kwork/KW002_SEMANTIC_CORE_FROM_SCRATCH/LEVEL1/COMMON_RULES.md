@@ -38,15 +38,16 @@ Before every major KW-002 step read:
 
 ```text
 1. INHERITED_KW001_UNIVERSAL_RULES.md
-2. METHOD_SOURCE_AND_EVIDENCE_RULES.md
-3. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
-4. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
-5. WORK_HANDOFF_RULE.md when large-data risk exists
-6. current Level-2 step method
-7. current work/<JOB_ID>/ manifest/flow/evidence
+2. RESULT_QUALITY_SCORING_RULE.md
+3. METHOD_SOURCE_AND_EVIDENCE_RULES.md
+4. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
+5. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
+6. WORK_HANDOFF_RULE.md when large-data risk exists
+7. current Level-2 step method
+8. current work/<JOB_ID>/ manifest/flow/evidence
 ```
 
-The inherited authority includes, at minimum:
+The inherited and owner-added Level-1 authority includes, at minimum:
 
 ```text
 GOAL-FIRST BEFORE METHOD/EXECUTION
@@ -69,6 +70,9 @@ MATERIAL AUTHORITY MUTATION INVALIDATES DEPENDENT PASS
 UNCERTAINTY CONTINUITY
 CONCRETE STEP MUST EMBED ITS OWN GATES
 END-OF-STEP QUANTITATIVE ACCOUNTING
+MANDATORY 10-POINT RESULT QUALITY SCORE
+QUALITY_SCORE >= 9/10 + ALL HARD GATES FOR PASS
+LATE REVIEW MAY INVALIDATE AN OLD PASS/SCORE
 NEXT_STEP_ALLOWED EXPLICIT DECISION
 JOB CLOSE ONLY AFTER HANDOFF/REVISIONS/PENDING ACTIONS CLOSED
 ```
@@ -200,10 +204,31 @@ Output completeness must not erase truthful uncertainty.
 
 ---
 
+# 8. Mandatory 10-point result quality scoring
+
+Canonical authority:
+
+`RESULT_QUALITY_SCORING_RULE.md`
+
+After every major step/rework/deliverable, score the result on a 0–10 scale and explain the lost points.
+
+```text
+PASS REQUIRES QUALITY_SCORE >= 9.0 / 10
+AND ALL HARD PASS GATES
+AND NO OPEN CRITICAL DEFECT
+```
+
+A later external/owner/recipient review may invalidate an earlier PASS and require rescoring/rework.
+
+The score must be shown both in durable QA/state and in the owner-facing chat summary.
+
+---
+
 ## Marker
 
 ```text
 KW002_LEVEL1_CANONICAL_INHERITED_RULE_AUTHORITY = INHERITED_KW001_UNIVERSAL_RULES.md
+KW002_RESULT_QUALITY_SCORE_AUTHORITY = RESULT_QUALITY_SCORING_RULE.md
 KW002_SHORT_RULE_SUMMARY_DOES_NOT_REPLACE_INHERITED_RULES = true
 KW002_LEVEL1_OWNER_LOCKED = true
 ```
