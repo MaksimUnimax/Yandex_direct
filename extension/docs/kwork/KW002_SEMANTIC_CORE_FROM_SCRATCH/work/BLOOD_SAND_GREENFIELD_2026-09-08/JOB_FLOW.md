@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 02 COMPLETE / PASS / STEP 03 NEXT ALLOWED**
+Status: **STEP 02 REWORK_REQUIRED / STEP 03 BLOCKED**
 
 ## Whole-job goal
 
@@ -37,9 +37,9 @@ WORK HANDOFFS EXECUTED = 1
 | Step | Purpose | Status |
 |---|---|---|
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / corrected to Ozon-only |
-| 01 | Build factual business + complete assortment model from 76 Ozon cards | ✅ COMPLETE / PASS / MAIN RETURN QA PASS |
-| 02 | Build seed/acquisition map | ✅ COMPLETE / PASS / REMOTE READBACK PASS |
-| 03 | Primary Wordstat acquisition | ⏭️ NEXT ALLOWED / NOT STARTED |
+| 01 | Build factual business + complete assortment model | ✅ COMPLETE / PASS / MAIN RETURN QA PASS |
+| 02 | Build seed/acquisition map | 🔴 REWORK_REQUIRED after external method audit |
+| 03 | Primary Wordstat acquisition | ⛔ BLOCKED until Step 02 re-PASS |
 | 04 | First family triage | ⬜ NOT STARTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex competitor discovery | ⬜ NOT STARTED |
@@ -63,50 +63,44 @@ WORK HANDOFFS EXECUTED = 1
 ## Completed work
 
 ```text
-KW-002 Level 1 + inherited KW-001 universal rules
-KW-002 Level 2 roadmap + inherited same-step rules
-client brief captured
-Ozon 76-row client catalog materialized
-source whitelist / old-research deny boundary frozen
-Step 00 executed and corrected to Ozon-only
-Step 01 76-row factual assortment model materialized
-Step 01 ambiguity ledger = 10 issues
-Step 01 Work QA = PASS
+Step 00 scope/source freeze = PASS after Ozon-only correction
+Step 01 Ozon 76-row factual assortment model = PASS
 Step 01 main ChatGPT return QA = PASS
-Step 02 external method review = COMPLETE
-Step 02 seed map = 97 probes
-Step 02 primary acquisition probes = 67
-Step 02 deferred/targeted probes = 30
-Step 02 coverage matrix = 76/76 cards covered by primary route
-Step 02 duplicate normalized seed phrases = 0
-Step 02 provider calls = 0
-Step 02 QA = PASS
-Step 02 remote GitHub readback = PASS
+Step 02 version-1 seed map materialized = 97 probes
+Step 02 version-1 remote readback = PASS
+Step 02 external internet/method review = COMPLETE
+```
+
+## Invalidated prior completion
+
+The previous `STEP_02 COMPLETE / PASS` is no longer current truth.
+
+Superseding audit:
+
+```text
+STEP_02_EXTERNAL_METHOD_AUDIT_2026-09-08.md
+```
+
+Reason:
+
+```text
+catalog lineage coverage != proof of good search-discovery probe coverage
+high-noise bare primary seeds need refinement/qualified routes
+use-context synonym coverage is incomplete
+exact seller-name bias is too strong
+information-gain rationale is too generic
 ```
 
 ## Remaining work
 
 ```text
-Step 03 primary Wordstat acquisition
-Step 04 first family triage
-Step 05 targeted expansion / coverage control
-Step 06 current Yandex competitor discovery
-Step 07 competitor semantic expansion
-Step 08 competitor-derived Wordstat expansion
-Step 09 candidate semantic master freeze
-Step 10 row-level cleanup / intent / user job
-Step 11 Search-stage semantic freeze
-Step 12 ordinary Yandex Search evidence
-Step 13 SERP + task-first clustering
-Step 14 query→page + Search-only IA
-Step 15 AI-search case selection
-Step 16 AI-search evidence acquisition
-Step 17 Search-vs-AI reconciliation
-Step 18 final core + IA + Page Jobs + internal links
-Step 19 client deliverables
-Step 20 final QA / recipient acceptance
-Step 21 revision rehearsal / Kwork measurement
-Step 22 final handoff / close
+Step 02 rework
+→ rebuild seed priorities / qualified probes / synonym coverage
+→ new adversarial QA
+→ remote readback
+→ only then Step 03
+
+Then Steps 03–22.
 ```
 
 ## Provider/accounting truth
@@ -119,31 +113,18 @@ provider estimated cost = 0 RUB
 Work handoffs executed = 1
 ```
 
-## Step 02 accepted truth
-
-```text
-STEP_02_SEED_ROWS_TOTAL = 97
-STEP_02_PRIMARY_SEEDS = 67
-STEP_02_DEFERRED_TARGETED_SEEDS = 30
-STEP_02_COVERAGE_ROWS = 76
-STEP_02_CARDS_WITHOUT_PRIMARY_ROUTE = 0
-STEP_02_DUPLICATE_NORMALIZED_SEEDS = 0
-STEP_02_SEEDS_WITHOUT_PURPOSE = 0
-STEP_02_SEEDS_WITHOUT_SOURCE_LINEAGE = 0
-STEP_02_ALL_STATUS = DISCOVERY_PROBE
-STEP_02_WORDSTAT_CALLS = 0
-STEP_02_SEARCH_CALLS = 0
-STEP_02_AI_SEARCH_CALLS = 0
-STEP_02_REMOTE_GITHUB_READBACK = PASS
-```
-
 ## Current exact action
 
 ```text
-STEP_02_COMPLETE = true
+STEP_02_V1_SEEDS = 97
+STEP_02_V1_PRIMARY = 67
+STEP_02_V1_DEFERRED = 30
+STEP_02_EXTERNAL_METHOD_AUDIT = FAIL
+STEP_02_COMPLETE = false
+STEP_02_STATUS = REWORK_REQUIRED
 STEP_03_STARTED = false
-NEXT_STEP_ALLOWED = true
-NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
+NEXT_STEP_ALLOWED = false
+NEXT_STEP = STEP_02_REWORK
 ```
 
-Before the first Wordstat request Step 03 must perform its own pre-step/provider gate. The 67 primary seeds are the default acquisition set; the 30 deferred probes are not automatically billable/executable.
+No Wordstat provider command is allowed until Step 02 is corrected and passes a new external-method-aware QA.
