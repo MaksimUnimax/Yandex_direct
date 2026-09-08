@@ -3,8 +3,8 @@
   "generated_date": "2026-09-08",
   "phase": "FINAL",
   "status": "PASS",
-  "assertion_count": 225,
-  "passed_assertions": 225,
+  "assertion_count": 227,
+  "passed_assertions": 227,
   "failed_assertions": 0,
   "required_assertions": {
     "GATE_ROWS": 10,
@@ -36,7 +36,14 @@
     "level1_method_promoted": false
   },
   "remote_readback": {
-    "status": "PENDING_FINAL_RECEIPT"
+    "status": "PASS",
+    "metrics_commit": "8a234f3c736fc9594881387ae49e5c6996cddd33",
+    "validation_commit": "a8eb434065d407cd9d858e45abd5d7b65adb4063",
+    "client_preview_correction_commit": "a5f32b70db1fb4c0250874fa8174b92e60002785",
+    "required_and_supporting_artifacts_read_back": 12,
+    "client_preview_correction_artifacts_read_back": 10,
+    "protected_remote_sha_comparisons_passed": 9,
+    "receipt_commit_state": "THIS_QA_AND_RECEIPT_AWAIT_FINAL_RECEIPT_COMMIT"
   },
   "checked_files": [
     {
@@ -81,13 +88,13 @@
     },
     {
       "file": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md",
-      "sha256": "b8403168ccd7ec18c8335735192a8bd3aef903588d06113707088e8093cc1c35",
-      "size_bytes": 2159
+      "sha256": "ca0af6abd3ead7df671f5055abc0d5d09bcb8946cc5c422936e45e44bb481e65",
+      "size_bytes": 2472
     },
     {
       "file": "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md",
-      "sha256": "4115e1802181c7f0a99f6a2d5266cfeabd624ee482fc4b51b3832578aebae81a",
-      "size_bytes": 1786
+      "sha256": "b0db3413e9807406d729b2cce3b85f866c53354609c539a6049add949ecc3c29",
+      "size_bytes": 3635
     }
   ],
   "assertions": [
@@ -819,12 +826,12 @@
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG_MD",
       "status": "PASS",
-      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md; bytes=2159"
+      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md; bytes=2472"
     },
     {
       "id": "ARTIFACT_EXISTS_CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK_MD",
       "status": "PASS",
-      "detail": "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md; bytes=1786"
+      "detail": "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md; bytes=3635"
     },
     {
       "id": "GATE_ROWS",
@@ -1215,6 +1222,16 @@
       "id": "REPORT_NO_PAGE_OWNERSHIP_ACTION",
       "status": "PASS",
       "detail": "explicit protection boundary"
+    },
+    {
+      "id": "REMOTE_READBACK_MATERIAL_COMMIT",
+      "status": "PASS",
+      "detail": "expected=a5f32b70db1fb4c0250874fa8174b92e60002785; actual=a5f32b70db1fb4c0250874fa8174b92e60002785"
+    },
+    {
+      "id": "REMOTE_READBACK_RECEIPT_PRESENT",
+      "status": "PASS",
+      "detail": "final receipt included"
     }
   ]
 }

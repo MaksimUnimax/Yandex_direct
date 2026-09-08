@@ -34,7 +34,10 @@ Starting HEAD: `69bf89875d176731e9614c76b0f39b38330bd8c6`
 - New provider/substitute web calls: 0.
 - Deterministic QA: PASS 225/225 before remote readback.
 - Gate 10 remains OWNER_REVIEW_REQUIRED; PROJECT_TEST_VALIDATED remains false; Level-1 method remains NOT_PROMOTED.
-- Correction commits/readbacks are recorded in the final remote-readback checkpoint.
+- Authenticated material commit: `a5f32b70db1fb4c0250874fa8174b92e60002785`.
+- Material remote readback: PASS, 10/10 correction artifacts with exact Git-blob equality.
+- Later remote HEADs `a03e3f6969881e282c6c053486b42e379631f8b6` and `6af08061b723e928329b039dbe2f586143f9d7e7` preserved before the final receipt commit.
+- Final receipt commit/readback is recorded by the closing lifecycle check.
 
 ## Lifecycle
 

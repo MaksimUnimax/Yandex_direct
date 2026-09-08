@@ -16,6 +16,7 @@ const REPO = execFileSync("git", ["rev-parse", "--show-toplevel"], { cwd: OUT, e
 const STARTING_HEAD = "69bf89875d176731e9614c76b0f39b38330bd8c6";
 const CLIENT_PREVIEW_HANDOFF_EXPECTED_HEAD = "d5bcbaa99caf7c453ffe7279ac8231790e57156a";
 const CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD = "05b05a9d713d2581d11006d5a8863d277034da5a";
+const CLIENT_PREVIEW_MATERIAL_REMOTE_COMMIT = "a5f32b70db1fb4c0250874fa8174b92e60002785";
 const finalMode = args.includes("--final");
 const remoteIndex = args.indexOf("--remote-readback-commit");
 const remoteReadbackCommit = remoteIndex >= 0 ? args[remoteIndex + 1] : null;
@@ -178,7 +179,7 @@ const allowedPrefix = path.relative(REPO, OUT).replaceAll(path.sep, "/") + "/";
 const changed = execFileSync("git", ["diff", "--name-only", STARTING_HEAD, CLIENT_PREVIEW_HANDOFF_EXPECTED_HEAD], { cwd: REPO, encoding: "utf8" }).trim().split("\n").filter(Boolean);
 const authorizedHandoff = "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_CLIENT_PREVIEW_OWNER_REVIEW_CORRECTION_WORK_HANDOFF_2026-09-08.md";
 check("CHANGES_ISOLATED_TO_STEP05A_EXECUTION", changed.every((p) => p.startsWith(allowedPrefix) || p === authorizedHandoff), changed.join(" | "));
-const correctionChanged = execFileSync("git", ["diff", "--name-only", CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD], { cwd: REPO, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+const correctionChanged = execFileSync("git", ["diff", "--name-only", CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD, CLIENT_PREVIEW_MATERIAL_REMOTE_COMMIT], { cwd: REPO, encoding: "utf8" }).trim().split("\n").filter(Boolean);
 check("CLIENT_PREVIEW_CORRECTION_CHANGES_ISOLATED", correctionChanged.every((p) => p.startsWith(allowedPrefix)), correctionChanged.join(" | "));
 check("CORRECTION_DOCUMENT_01_UNCHANGED", !correctionChanged.some((p) => /(?:^|\/)01_OKNO_MSK_CLIENT_RESEARCH_REPORT/.test(p)), "Document 01 absent from correction diff");
 check("CORRECTION_DOCUMENT_03_UNCHANGED", !correctionChanged.some((p) => /(?:^|\/)03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT/.test(p)), "Document 03 absent from correction diff");
@@ -289,7 +290,7 @@ if (finalMode) {
   check("REPORT_NO_PAGE_OWNERSHIP_ACTION", report.includes("Page ownership, creation, deletion, split/merge or implementation action created: false"), "explicit protection boundary");
 }
 if (remoteReadbackCommit) {
-  check("REMOTE_READBACK_MATERIAL_COMMIT", /^[0-9a-f]{40}$/.test(remoteReadbackCommit) && remoteReadbackCommit !== CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD, remoteReadbackCommit);
+  exact("REMOTE_READBACK_MATERIAL_COMMIT", remoteReadbackCommit, CLIENT_PREVIEW_MATERIAL_REMOTE_COMMIT);
   check("REMOTE_READBACK_RECEIPT_PRESENT", artifacts.includes("CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md"), "final receipt included");
 }
 
@@ -337,6 +338,7 @@ const qa = {
     validation_commit: "a8eb434065d407cd9d858e45abd5d7b65adb4063",
     client_preview_correction_commit: remoteReadbackCommit,
     required_and_supporting_artifacts_read_back: 12,
+    client_preview_correction_artifacts_read_back: 10,
     protected_remote_sha_comparisons_passed: 9,
     receipt_commit_state: "THIS_QA_AND_RECEIPT_AWAIT_FINAL_RECEIPT_COMMIT",
   } : { status: "PENDING_FINAL_RECEIPT" },
