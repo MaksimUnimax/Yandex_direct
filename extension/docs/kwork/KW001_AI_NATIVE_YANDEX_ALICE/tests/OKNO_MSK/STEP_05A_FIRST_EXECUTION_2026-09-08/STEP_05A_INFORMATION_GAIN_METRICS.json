@@ -1,0 +1,266 @@
+{
+  "schema": "STEP_05A_INFORMATION_GAIN_METRICS_V1",
+  "generated_date": "2026-09-08",
+  "evidence_scope": "PRESERVED_STEP_5A_1_THROUGH_5A_7_ONLY",
+  "starting_head": "69bf89875d176731e9614c76b0f39b38330bd8c6",
+  "counts": {
+    "preserved_discovery_queries": 75,
+    "preserved_discovery_top10_rows": 750,
+    "normalized_discovery_domains": 237,
+    "selected_competitor_domains": 9,
+    "competitor_target_urls": 44,
+    "accessible_at_requested_url": 43,
+    "redirected_accessible": 1,
+    "inaccessible": 0,
+    "candidate_occurrences": 92,
+    "deduplicated_candidate_directions": 43,
+    "duplicate_page_support_occurrences": 49,
+    "already_covered_page_directions": 22,
+    "potentially_new_wordstat_seeds": 14,
+    "off_scope_page_directions": 3,
+    "hold_review_page_directions": 4,
+    "wordstat_executions": 14,
+    "wordstat_returned_rows": 160,
+    "wordstat_direct_rows": 21,
+    "wordstat_association_rows": 139,
+    "wordstat_already_covered_rows": 56,
+    "wordstat_noise_rows": 51,
+    "wordstat_off_scope_rows": 26,
+    "wordstat_hold_rows": 7,
+    "potentially_new_wordstat_occurrences": 20,
+    "search_recheck_requirements": 9,
+    "search_succeeded": 7,
+    "search_outcome_unknown": 2,
+    "successful_search_top10_rows": 70,
+    "visibility_matrix_cells": 81,
+    "visible_selected_competitor_cells": 11,
+    "selected_competitor_ranking_rows": 12,
+    "unique_selected_competitors_visible": 7,
+    "selected_competitors_not_observed": 2,
+    "exact_previously_inspected_url_matches": 0,
+    "same_domain_different_url_visibility_cells": 11,
+    "same_domain_different_url_ranking_rows": 12,
+    "add_to_pipeline_directions": 7,
+    "hold_evidence_directions": 2,
+    "accepted_delta_rows": 16,
+    "suppressed_close_variants": 3,
+    "retained_occurrence_holds": 1,
+    "rejected_after_search": 0,
+    "unknown_retries": 0,
+    "website_text_as_ranking_overclaims": 0,
+    "full_competitor_keyword_universe_overclaims": 0
+  },
+  "frozen_baseline": {
+    "unique_semantic_phrases": 2840,
+    "active_phrases": 2332,
+    "assigned_phrases": 2313,
+    "search_required_phrases": 19,
+    "canonical_structural_units": 168,
+    "accepted_delta_normalized_overlap_count": 0,
+    "accepted_delta_internal_duplicate_count": 0,
+    "projected_unique_phrase_count_if_delta_survives_normal_downstream_pipeline": 2856,
+    "projection_boundary": "ARITHMETIC_ONLY__DELTA_IS_NOT_FROZEN_TRUTH_AND_REMAINS_SUBJECT_TO_NORMAL_DOWNSTREAM_PROCESSING"
+  },
+  "rates": {
+    "candidate_occurrence_to_deduplicated_direction_consolidation": {
+      "numerator": 43,
+      "denominator": 92,
+      "rate_decimal": 0.4673913043478261,
+      "rate_percent": 46.73913043478261
+    },
+    "duplicate_support_compression_share": {
+      "numerator": 49,
+      "denominator": 92,
+      "rate_decimal": 0.532608695652174,
+      "rate_percent": 53.2608695652174
+    },
+    "deduplicated_direction_to_wordstat_seed": {
+      "numerator": 14,
+      "denominator": 43,
+      "rate_decimal": 0.32558139534883723,
+      "rate_percent": 32.55813953488372
+    },
+    "pre_wordstat_filtered_or_held_direction_share": {
+      "numerator": 29,
+      "denominator": 43,
+      "rate_decimal": 0.6744186046511628,
+      "rate_percent": 67.44186046511628
+    },
+    "already_covered_direction_share": {
+      "numerator": 22,
+      "denominator": 43,
+      "rate_decimal": 0.5116279069767442,
+      "rate_percent": 51.162790697674424
+    },
+    "wordstat_returned_row_to_potentially_new_search_occurrence": {
+      "numerator": 20,
+      "denominator": 160,
+      "rate_decimal": 0.125,
+      "rate_percent": 12.5
+    },
+    "wordstat_rows_filtered_covered_noise_offscope_hold": {
+      "numerator": 140,
+      "denominator": 160,
+      "rate_decimal": 0.875,
+      "rate_percent": 87.5
+    },
+    "wordstat_seed_to_search_recheck_direction": {
+      "numerator": 9,
+      "denominator": 14,
+      "rate_decimal": 0.6428571428571429,
+      "rate_percent": 64.28571428571429
+    },
+    "search_requirement_to_add_direction": {
+      "numerator": 7,
+      "denominator": 9,
+      "rate_decimal": 0.7777777777777778,
+      "rate_percent": 77.77777777777779
+    },
+    "successful_search_requirement_to_add_direction": {
+      "numerator": 7,
+      "denominator": 7,
+      "rate_decimal": 1,
+      "rate_percent": 100
+    },
+    "search_decision_hold_rate": {
+      "numerator": 2,
+      "denominator": 9,
+      "rate_decimal": 0.2222222222222222,
+      "rate_percent": 22.22222222222222
+    },
+    "potentially_new_occurrence_to_accepted_delta_row": {
+      "numerator": 16,
+      "denominator": 20,
+      "rate_decimal": 0.8,
+      "rate_percent": 80
+    },
+    "post_search_suppressed_or_held_occurrence_share": {
+      "numerator": 4,
+      "denominator": 20,
+      "rate_decimal": 0.2,
+      "rate_percent": 20
+    },
+    "accepted_delta_to_frozen_unique_baseline_expansion": {
+      "numerator": 16,
+      "denominator": 2840,
+      "rate_decimal": 0.005633802816901409,
+      "rate_percent": 0.5633802816901409
+    },
+    "accepted_delta_to_frozen_active_baseline_ratio": {
+      "numerator": 16,
+      "denominator": 2332,
+      "rate_decimal": 0.00686106346483705,
+      "rate_percent": 0.6861063464837049
+    },
+    "final_add_direction_to_page_derived_direction_yield": {
+      "numerator": 7,
+      "denominator": 43,
+      "rate_decimal": 0.16279069767441862,
+      "rate_percent": 16.27906976744186
+    },
+    "selected_competitor_visibility_density": {
+      "numerator": 11,
+      "denominator": 81,
+      "rate_decimal": 0.13580246913580246,
+      "rate_percent": 13.580246913580247
+    },
+    "unique_selected_competitors_visible_share": {
+      "numerator": 7,
+      "denominator": 9,
+      "rate_decimal": 0.7777777777777778,
+      "rate_percent": 77.77777777777779
+    }
+  },
+  "provider_cost_efficiency": {
+    "wordstat_cost_rub": 0.27999999999999997,
+    "search_cost_rub": 4.3919999999999995,
+    "total_incremental_provider_cost_rub": 4.672,
+    "wordstat_cost_per_seed_rub": 0.019999999999999997,
+    "wordstat_cost_per_returned_row_rub": 0.0017499999999999998,
+    "search_cost_per_paid_requirement_boundary_rub": 0.48799999999999993,
+    "search_cost_per_successful_requirement_rub": 0.6274285714285713,
+    "total_cost_per_add_direction_rub": 0.6674285714285714,
+    "total_cost_per_accepted_delta_row_rub": 0.292,
+    "total_cost_per_successfully_resolved_search_requirement_rub": 0.6674285714285714,
+    "boundary": "DESCRIPTIVE_INCREMENTAL_COGS_ONLY__NOT_A_QUALITY_TARGET_OR_REJECTION_RULE"
+  },
+  "filtering_and_derisking": {
+    "page_directions_not_sent_to_wordstat": 29,
+    "wordstat_rows_not_sent_to_search_recheck": 140,
+    "potentially_new_occurrences_not_added_to_delta": 4,
+    "holds_preserved_without_fabrication": 2,
+    "close_variants_suppressed_without_delta_inflation": 3,
+    "website_text_as_ranking_overclaims_prevented": 0,
+    "full_competitor_keyword_universe_overclaims_prevented": 0
+  },
+  "competitor_visibility": {
+    "selected_domains": [
+      "aluminarium.ru",
+      "elit-balkon.ru",
+      "fabrikaokon.ru",
+      "i-okna.ru",
+      "mosokna.ru",
+      "msk.okna-servise.com",
+      "okna-germany.ru",
+      "okna-moskva.ru",
+      "oknafactoria.ru"
+    ],
+    "visible_domains_in_successful_rechecks": [
+      "elit-balkon.ru",
+      "fabrikaokon.ru",
+      "i-okna.ru",
+      "mosokna.ru",
+      "msk.okna-servise.com",
+      "okna-germany.ru",
+      "oknafactoria.ru"
+    ],
+    "not_observed_domains_in_successful_rechecks": [
+      "aluminarium.ru",
+      "okna-moskva.ru"
+    ],
+    "zero_selected_competitor_visible_but_add_supported": [
+      {
+        "direction_id": "OPEN_BALCONY_WATERPROOFING",
+        "query": "гидроизоляция для открытого балкона"
+      }
+    ],
+    "exact_previously_inspected_url_matches": 0,
+    "same_domain_different_url_visibility_cells": 11,
+    "same_domain_different_url_ranking_rows": 12,
+    "claim_boundary": "EXACT_SUCCESSFUL_RECHECKS_ONLY__NOT_FULL_COMPETITOR_KEYWORD_UNIVERSE"
+  },
+  "stopping_assessment": {
+    "material_new_information": "YES__7_SEARCH_CONFIRMED_DIRECTIONS_AND_16_ACCEPTED_OCCURRENCES",
+    "evidence_mix": "STRONG_FILTERING_WITH_MATERIAL_POSITIVE_NOVELTY",
+    "stop_this_rehearsal": true,
+    "stop_reason": "The authorized bounded chain is complete; it produced material additions, preserved two unknowns as holds, and provides no authority for recursive competitor/seed expansion.",
+    "permanent_diminishing_gain_threshold_validated": false,
+    "threshold_reason": "A single project execution cannot establish a reusable saturation threshold.",
+    "future_rehearsal_observation": "Measure marginal accepted directions and accepted occurrences per added domain/page batch together with covered/noise/off-scope/hold shares and cost; extend while a distinct bounded batch still yields material in-scope additions, and consider stopping earlier when varied consecutive batches predominantly repeat or add noise."
+  },
+  "verdicts": {
+    "FIRST_EXECUTION_TECHNICAL_VALIDATION": "PASS_9_OF_9_DETERMINISTIC_GATES",
+    "FIRST_EXECUTION_INFORMATION_GAIN_VERDICT": "MATERIAL_POSITIVE_GAIN_WITH_STRONG_FILTERING_VALUE",
+    "CLIENT_FACING_USEFULNESS_GATE": "OWNER_REVIEW_REQUIRED",
+    "RECOMMENDED_PROJECT_TEST_VALIDATION": "RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW",
+    "ACTUAL_PROJECT_TEST_VALIDATED_STATE": "false__PENDING_OWNER_REVIEW",
+    "LEVEL1_METHOD_PROMOTION_STATE": "NOT_PROMOTED",
+    "PERMANENT_DIMINISHING_GAIN_THRESHOLD_STATE": "NOT_VALIDATED_SINGLE_REHEARSAL"
+  },
+  "propagation_state": "PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE",
+  "provider_calls_by_work": {
+    "yandex_search": 0,
+    "wordstat": 0,
+    "alice": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "substitute_web_search": 0,
+    "competitor_page_reads": 0
+  },
+  "next_actions": [
+    "OWNER_REVIEW_STEP_5A_FIRST_EXECUTION_VALIDATION_AND_CLIENT_FACING_PREVIEW",
+    "PROPAGATE_STEP_5A_ACCEPTED_SEMANTIC_PIPELINE_DELTA_THROUGH_NORMAL_DOWNSTREAM_PIPELINE"
+  ]
+}
