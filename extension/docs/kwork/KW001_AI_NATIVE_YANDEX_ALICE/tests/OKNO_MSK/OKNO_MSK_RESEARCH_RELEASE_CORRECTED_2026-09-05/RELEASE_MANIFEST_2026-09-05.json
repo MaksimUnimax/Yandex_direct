@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "status": "DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -15,50 +15,127 @@
     "master_research": "../RESEARCH_REBUILD_STAGE_08_MASTER_RESEARCH_REPORT_2026-09-05.md"
   },
   "recipient_artifacts": [
-    {"variant":"01","path":"01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf","format":"pdf","size_bytes":106406,"sha256":"79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08","pages":7,"state":"UNCHANGED"},
-    {"variant":"02","path":"02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf","format":"pdf","size_bytes":172766,"sha256":"36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5","pages":14,"recipient_contract":"RUSSIAN_SPECIALIST_GUIDE__POSITIVE_REQUIRED_ACTIONS_ONLY__3_READY__5_CLARIFICATIONS__46_SEMANTIC_ASSIGNMENTS__4_ADDITIONAL_CHECKS__14_INTERNAL_LINK_PAIRS__0_CLIENT_PROCESS_META__0_NEGATIVE_PSEUDO_ACTIONS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING"},
-    {"variant":"03","path":"03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md","format":"markdown","size_bytes":1119673,"sha256":"d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0","physical_file_count_for_variant":1,"state":"UNCHANGED"},
-    {"variant":"04","path":"04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx","format":"xlsx","size_bytes":1431390,"sha256":"cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a","sheets":6,"sheet_names":["01_Все_фразы","02_Активное_ядро","03_Кластеры","04_Страницы","05_Проверка_в_Яндексе","06_Справочник"],"all_unique_phrases":2840,"active_phrases":2332,"canonical_clusters":168,"search_required_phrases":19,"dictionary_rows":122,"state":"UNCHANGED"}
+    {
+      "variant": "01",
+      "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
+      "format": "pdf",
+      "size_bytes": 106406,
+      "sha256": "79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08",
+      "pages": 7,
+      "state": "UNCHANGED"
+    },
+    {
+      "variant": "02",
+      "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf",
+      "format": "pdf",
+      "size_bytes": 170501,
+      "sha256": "b1a2848f781fe12dfe8293cfe2f88e796c967ce9eee7f9b251b171ac73060056",
+      "pages": 14,
+      "recipient_contract": "VNEDRENIE_REKOMENDATSII__PLAIN_ACTION_FIRST__3_READY__5_CLARIFICATIONS__46_TOPIC_PAGE_ROWS__4_CHECKS__14_PAGE_LINK_ROWS__OWNER_REVIEW_PENDING"
+    },
+    {
+      "variant": "03",
+      "path": "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md",
+      "format": "markdown",
+      "size_bytes": 1119673,
+      "sha256": "d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0",
+      "physical_file_count_for_variant": 1,
+      "state": "UNCHANGED"
+    },
+    {
+      "variant": "04",
+      "path": "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx",
+      "format": "xlsx",
+      "size_bytes": 1431390,
+      "sha256": "cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a",
+      "sheets": 6,
+      "sheet_names": [
+        "01_Все_фразы",
+        "02_Активное_ядро",
+        "03_Кластеры",
+        "04_Страницы",
+        "05_Проверка_в_Яндексе",
+        "06_Справочник"
+      ],
+      "all_unique_phrases": 2840,
+      "active_phrases": 2332,
+      "canonical_clusters": 168,
+      "search_required_phrases": 19,
+      "dictionary_rows": 122,
+      "state": "UNCHANGED"
+    }
   ],
   "editable_and_source_files": [
-    {"path":"editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx","size_bytes":48876,"sha256":"26a359759287b7c357e9ee0fe45cd4547e49801e72845db050ab763e50596829","state":"UNCHANGED"},
-    {"path":"editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx","size_bytes":28280,"sha256":"a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1"},
-    {"path":"sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md","size_bytes":39539,"sha256":"e0bb70cb12fc9c7c4c3e49ae6de15eb48cf03d7ea9a422cd1c6dcbd07ecccbbc","state":"UNCHANGED"},
-    {"path":"sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md","size_bytes":37540,"sha256":"caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"}
+    {
+      "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
+      "size_bytes": 48876,
+      "sha256": "26a359759287b7c357e9ee0fe45cd4547e49801e72845db050ab763e50596829",
+      "state": "UNCHANGED"
+    },
+    {
+      "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
+      "size_bytes": 39539,
+      "sha256": "e0bb70cb12fc9c7c4c3e49ae6de15eb48cf03d7ea9a422cd1c6dcbd07ecccbbc",
+      "state": "UNCHANGED"
+    },
+    {
+      "path": "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx",
+      "size_bytes": 28278,
+      "sha256": "89cadf22dd58be22087d7c98bbe7b896df710d968f1ef29350b25c71546c427d"
+    },
+    {
+      "path": "sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md",
+      "size_bytes": 38342,
+      "sha256": "1db049b413ea02f407b8efa23cb4bc7e7b0d61b1e421f0eccd8d22fe23c442f4"
+    }
   ],
   "document_02": {
-    "ready_actions":3,
-    "clarification_items":5,
-    "semantic_assignments":46,
-    "additional_checks":4,
-    "internal_link_authority_rows":15,
-    "visible_unique_internal_link_pairs":14,
-    "bibliography_items":10,
-    "client_negative_pseudo_action_hits":0,
-    "client_obvious_open_find_navigate_hits":0,
-    "client_process_meta_hits":0,
-    "client_project_internal_traceability_hits":0,
-    "current_job_negative_particle_ne_hits":0,
-    "post_hoc_evidence_used":0,
-    "new_project_specific_data_collection":0,
-    "markdown_docx_pdf_language_scan":"PASS__0_0_0",
-    "empty_toc_heading_hits":0,
-    "orphan_field_labels":0,
-    "visual_qa":"PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14",
-    "materialization_commit":"8c597880f7f9b3b9d051d626b7e6c4efb1e2779b",
-    "owner_review":"PENDING"
+    "ready_actions": 3,
+    "clarification_items": 5,
+    "semantic_assignments": 46,
+    "additional_checks": 4,
+    "internal_link_authority_rows": 15,
+    "visible_unique_internal_link_pairs": 14,
+    "bibliography_items": 10,
+    "client_negative_pseudo_action_hits": 0,
+    "client_obvious_open_find_navigate_hits": 0,
+    "client_process_meta_hits": 0,
+    "client_project_internal_traceability_hits": 0,
+    "current_job_negative_particle_ne_hits": 0,
+    "post_hoc_evidence_used": 0,
+    "new_project_specific_data_collection": 0,
+    "markdown_docx_pdf_language_scan": "PASS__0_0_0",
+    "empty_toc_heading_hits": 0,
+    "orphan_field_labels": 0,
+    "visual_qa": "PENDING_OWNER_READBACK__14_PAGE_FINAL_PDF_RENDERED",
+    "materialization_commit": "8c597880f7f9b3b9d051d626b7e6c4efb1e2779b",
+    "owner_review": "PENDING",
+    "visible_title": "Внедрение рекомендации",
+    "topic_page_rows": 46,
+    "client_role_branding_hits": 0,
+    "standalone_preservation_section_hits": 0,
+    "topic_page_what_why_how": "PASS",
+    "page_link_what_why_how": "PASS",
+    "additional_checks_purpose_method_decision": "PASS"
   },
   "qa": {
-    "document_02_cleanup_authority":"../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md",
-    "document_02_cleanup_qa":"../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json",
-    "document_02_method_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
-    "document_02_layout_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md",
-    "document_02_owner_review":"PENDING",
-    "document_03":"NOT_STARTED__UNTOUCHED",
-    "next_action":"OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+    "document_02_cleanup_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md",
+    "document_02_cleanup_qa": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json",
+    "document_02_method_gate": "../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
+    "document_02_layout_gate": "../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md",
+    "document_02_owner_review": "PENDING",
+    "document_03": "NOT_STARTED__UNTOUCHED",
+    "next_action": "OWNER_REVIEW_IMPLEMENTATION_RECOMMENDATIONS_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
+    "document_02_format_review": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_REPORT_FORMAT_REVIEW_2026-09-08.md",
+    "document_02_format_gate": "../../STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md",
+    "document_02_implementation_qa": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json"
   },
-  "protected_artifacts":{"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false},
-  "provider_calls":0,
-  "paid_cost_rub":0,
-  "step21_22_executed":false
+  "protected_artifacts": {
+    "document_01_modified": false,
+    "document_03_modified": false,
+    "semantic_core_04_modified": false
+  },
+  "provider_calls": 0,
+  "paid_cost_rub": 0,
+  "step21_22_executed": false
 }
