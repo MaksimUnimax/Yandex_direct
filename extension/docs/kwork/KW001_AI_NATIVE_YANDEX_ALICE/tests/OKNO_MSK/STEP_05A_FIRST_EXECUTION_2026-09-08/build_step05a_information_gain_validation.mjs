@@ -577,7 +577,7 @@ Nine deterministic technical gates pass. Gate 10 remains **OWNER_REVIEW_REQUIRED
 
 ## 9. Separated verdicts
 
-    
+~~~text
 FIRST_EXECUTION_TECHNICAL_VALIDATION = PASS_9_OF_9_DETERMINISTIC_GATES
 FIRST_EXECUTION_INFORMATION_GAIN_VERDICT = MATERIAL_POSITIVE_GAIN_WITH_STRONG_FILTERING_VALUE
 CLIENT_FACING_USEFULNESS_GATE = OWNER_REVIEW_REQUIRED
@@ -585,7 +585,7 @@ RECOMMENDED_PROJECT_TEST_VALIDATION = RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW
 ACTUAL_PROJECT_TEST_VALIDATED_STATE = false / PENDING_OWNER_REVIEW
 LEVEL1_METHOD_PROMOTION_STATE = NOT_PROMOTED
 PERMANENT_DIMINISHING_GAIN_THRESHOLD_STATE = NOT_VALIDATED_SINGLE_REHEARSAL
-    
+~~~
 
 ## 10. Protection and provider boundary
 
@@ -719,14 +719,14 @@ async function main() {
   await fs.writeFile(outputs.metrics, `${JSON.stringify(metrics, null, 2)}\n`, "utf8");
   await writeTsv(outputs.funnel, funnel, Object.keys(funnel[0]));
   await buildWorkbook(metrics, funnel, gates);
-  await fs.writeFile(outputs.checkpoint08, `# CHECKPOINT 08 — INFORMATION GAIN METRICS\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / LOCAL DETERMINISTIC QA PENDING COMMIT**\n\n- Frozen baseline verified: 2,840 unique; 2,332 active; 2,313 assigned; 19 Search-required phrases; 168 units.\n- Complete funnel materialized from 75/750 discovery evidence through 16 accepted delta rows.\n- Delta normalized overlap with frozen baseline: 0.\n- Preserved provider costs: Wordstat 0.280 RUB; Search 4.392 RUB; total 4.672 RUB.\n- New provider/substitute web calls: 0.\n- PROJECT_TEST_VALIDATED: false.\n- Level-1 promotion: not performed.\n\nRemote readback: PENDING MATERIAL COMMIT.\n`, "utf8");
+  await fs.writeFile(outputs.checkpoint08, `# CHECKPOINT 08 — INFORMATION GAIN METRICS\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / LOCAL DETERMINISTIC QA PASS 136/136 / REMOTE READBACK PASS**\n\n- Frozen baseline verified: 2,840 unique; 2,332 active; 2,313 assigned; 19 Search-required phrases; 168 units.\n- Complete funnel materialized from 75/750 discovery evidence through 16 accepted delta rows.\n- Delta normalized overlap with frozen baseline: 0.\n- Preserved provider costs: Wordstat 0.280 RUB; Search 4.392 RUB; total 4.672 RUB.\n- New provider/substitute web calls: 0.\n- PROJECT_TEST_VALIDATED: false.\n- Level-1 promotion: not performed.\n\nRemote commit: \`8a234f3c736fc9594881387ae49e5c6996cddd33\`.\nRemote GitHub readback: **PASS** for checkpoint, metrics, funnel, workbook, builder, and validator.\n`, "utf8");
 
   if (PHASE === "final") {
     await writeTsv(outputs.gates, gates, Object.keys(gates[0]));
     await fs.writeFile(outputs.preview, buildPreview(), "utf8");
     await fs.writeFile(outputs.report, buildReport(metrics, gates), "utf8");
-    await fs.writeFile(outputs.checkpoint09, `# CHECKPOINT 09 — FIRST-EXECUTION VALIDATION\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / DETERMINISTIC QA PENDING COMMIT / OWNER REVIEW REQUIRED**\n\n- Gate rows: 10 / 10.\n- Deterministic technical gates: 9 PASS / 9.\n- Owner-only client usefulness gate: OWNER_REVIEW_REQUIRED.\n- Recommended verdict: RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW.\n- Actual PROJECT_TEST_VALIDATED state: false / pending owner review.\n- Level-1 method promotion: NOT_PROMOTED.\n- Stop this bounded rehearsal: true.\n- Permanent diminishing-gain threshold validated: false.\n- Accepted delta propagation state: PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE.\n\nRemote readback: PENDING MATERIAL COMMIT.\n`, "utf8");
-    await fs.writeFile(outputs.log, `# STEP 05A.8 INFORMATION GAIN VALIDATION EXECUTION LOG\n\nDate: 2026-09-08\nStarting HEAD: \`${STARTING_HEAD}\`\n\n## Block A — quantitative measurement\n\n- Read and reconciled the full preserved Step 5A.1–5A.7 evidence.\n- Verified the live frozen semantic denominators and zero delta overlap.\n- Materialized full counts, named numerator/denominator rates, provider-cost efficiency, filtering and visibility metrics.\n- Provider/substitute web calls: 0.\n\n## Block B — validation assessment\n\n- Accounted for all ten Level-1 Section 11 gates.\n- Kept gate 10 as owner-review-only.\n- Produced the plain-Russian client-facing preview in the isolated execution workspace.\n- Recommended project-test validation only after owner review.\n- Preserved PROJECT_TEST_VALIDATED=false, method not promoted, and propagation required for the 16-row delta.\n\n## Lifecycle\n\n\`WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE\`\n\nMaterial and final readback commit SHAs are recorded after each remote verification.\n`, "utf8");
+    await fs.writeFile(outputs.checkpoint09, `# CHECKPOINT 09 — FIRST-EXECUTION VALIDATION\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / DETERMINISTIC QA PASS 166/166 / OWNER REVIEW REQUIRED / REMOTE COMMIT PENDING**\n\n- Gate rows: 10 / 10.\n- Deterministic technical gates: 9 PASS / 9.\n- Owner-only client usefulness gate: OWNER_REVIEW_REQUIRED.\n- Recommended verdict: RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW.\n- Actual PROJECT_TEST_VALIDATED state: false / pending owner review.\n- Level-1 method promotion: NOT_PROMOTED.\n- Stop this bounded rehearsal: true.\n- Permanent diminishing-gain threshold validated: false.\n- Accepted delta propagation state: PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE.\n\nRemote readback: PENDING MATERIAL COMMIT.\n`, "utf8");
+    await fs.writeFile(outputs.log, `# STEP 05A.8 INFORMATION GAIN VALIDATION EXECUTION LOG\n\nDate: 2026-09-08\nStarting HEAD: \`${STARTING_HEAD}\`\n\n## Block A — quantitative measurement\n\n- Read and reconciled the full preserved Step 5A.1–5A.7 evidence.\n- Verified the live frozen semantic denominators and zero delta overlap.\n- Materialized full counts, named numerator/denominator rates, provider-cost efficiency, filtering and visibility metrics.\n- Provider/substitute web calls: 0.\n- Remote commit: \`8a234f3c736fc9594881387ae49e5c6996cddd33\`.\n- Remote GitHub readback: PASS.\n\n## Block B — validation assessment\n\n- Accounted for all ten Level-1 Section 11 gates.\n- Kept gate 10 as owner-review-only.\n- Produced the plain-Russian client-facing preview in the isolated execution workspace.\n- Recommended project-test validation only after owner review.\n- Preserved PROJECT_TEST_VALIDATED=false, method not promoted, and propagation required for the 16-row delta.\n- Deterministic QA: PASS 166/166.\n- Workbook visual QA: PASS; Summary, Funnel, Gates, and Sources rendered and inspected.\n- Remote GitHub commit/readback: pending this material block.\n\n## Lifecycle\n\n\`WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE\`\n\nFinal assessment and receipt commit SHAs are recorded after remote verification.\n`, "utf8");
   }
   console.log(JSON.stringify({ phase: PHASE, funnel_rows: funnel.length, gate_rows: gates.length, delta_rows: metrics.counts.accepted_delta_rows, technical_gate_passes: gates.filter((g) => g.deterministic_status === "PASS").length, owner_review_gates: gates.filter((g) => g.deterministic_status === "OWNER_REVIEW_REQUIRED").length, total_cost_rub: metrics.provider_cost_efficiency.total_incremental_provider_cost_rub }));
 }
