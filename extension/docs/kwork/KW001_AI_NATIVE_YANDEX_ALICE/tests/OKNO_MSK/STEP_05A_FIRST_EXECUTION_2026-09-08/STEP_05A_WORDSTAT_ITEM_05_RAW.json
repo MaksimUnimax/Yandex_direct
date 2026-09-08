@@ -1,0 +1,186 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-wordstat-gap-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+    "status": "RUNNING",
+    "total": 14,
+    "input_count": 14,
+    "duplicate_count": 0,
+    "pending": 9,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 5,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 5,
+    "requests_started": 5,
+    "estimated_cost_rub": 0.1,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T06:23:11.372Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "command": {
+      "devices": ["DEVICE_ALL"],
+      "method": "getTop",
+      "numPhrases": 200,
+      "phrase": "многофункциональный стеклопакет",
+      "regions": ["213"]
+    },
+    "completed_at": "2026-09-08T06:23:11.760Z",
+    "error": null,
+    "estimated_cost_rub": 0.02,
+    "fingerprint": "08f9ddeecf390aa6",
+    "item_id": "kw001-okno-msk-step05a-wordstat-gap-20260908:08f9ddeecf390aa6",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "wordstat-batch-bd26c85f-96a9-4784-98a3-582b573ef07d",
+    "request_started_at": "2026-09-08T06:23:11.377Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "result_ref": "wordstat-batch-bd26c85f-96a9-4784-98a3-582b573ef07d",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T06:23:11.760Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-batch-bd26c85f-96a9-4784-98a3-582b573ef07d",
+      "run_id": null,
+      "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "многофункциональный стеклопакет",
+        "numPhrases": 200,
+        "regions": ["213"],
+        "devices": ["DEVICE_ALL"]
+      },
+      "http_status": 200,
+      "elapsed_ms": 374,
+      "result": {
+        "results": [
+          {"phrase": "многофункциональный стеклопакет что это", "count": "5"},
+          {"phrase": "многофункциональное стекло в стеклопакете что это", "count": "1"}
+        ],
+        "associations": [
+          {"phrase": "из моего окна 2", "count": "914"},
+          {"phrase": "из моего окна 1", "count": "638"},
+          {"phrase": "человек за окном", "count": "2510"},
+          {"phrase": "самолет ру", "count": "2633"},
+          {"phrase": "из моего окна сколько частей", "count": "160"},
+          {"phrase": "одно окно", "count": "13748"},
+          {"phrase": "стеклов", "count": "6955"},
+          {"phrase": "кно", "count": "1607"},
+          {"phrase": "створка", "count": "22001"},
+          {"phrase": "окогу", "count": "1247"},
+          {"phrase": "из моего окна 1 часть смотреть", "count": "204"},
+          {"phrase": "расцвела под окошком", "count": "812"},
+          {"phrase": "из моего окна 1 часть", "count": "279"},
+          {"phrase": "из моего окна все части", "count": "86"},
+          {"phrase": "вид из окна", "count": "3913"},
+          {"phrase": "f okno ru", "count": "264"},
+          {"phrase": "как называется окно в самолете", "count": "81"},
+          {"phrase": "наши окна", "count": "1556"}
+        ],
+        "totalCount": "11"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "wordstat",
+    "operation": "getTop",
+    "request_id": "wordstat-batch-bd26c85f-96a9-4784-98a3-582b573ef07d",
+    "run_id": null,
+    "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.02,
+      "tariff_checked_at": "2026-08-12",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "wordstat"
+    },
+    "command": {
+      "method": "getTop",
+      "phrase": "многофункциональный стеклопакет",
+      "numPhrases": 200,
+      "regions": ["213"],
+      "devices": ["DEVICE_ALL"]
+    },
+    "http_status": 200,
+    "elapsed_ms": 374,
+    "result": {
+      "results": [
+        {"phrase": "многофункциональный стеклопакет что это", "count": "5"},
+        {"phrase": "многофункциональное стекло в стеклопакете что это", "count": "1"}
+      ],
+      "associations": [
+        {"phrase": "из моего окна 2", "count": "914"},
+        {"phrase": "из моего окна 1", "count": "638"},
+        {"phrase": "человек за окном", "count": "2510"},
+        {"phrase": "самолет ру", "count": "2633"},
+        {"phrase": "из моего окна сколько частей", "count": "160"},
+        {"phrase": "одно окно", "count": "13748"},
+        {"phrase": "стеклов", "count": "6955"},
+        {"phrase": "кно", "count": "1607"},
+        {"phrase": "створка", "count": "22001"},
+        {"phrase": "окогу", "count": "1247"},
+        {"phrase": "из моего окна 1 часть смотреть", "count": "204"},
+        {"phrase": "расцвела под окошком", "count": "812"},
+        {"phrase": "из моего окна 1 часть", "count": "279"},
+        {"phrase": "из моего окна все части", "count": "86"},
+        {"phrase": "вид из окна", "count": "3913"},
+        {"phrase": "f okno ru", "count": "264"},
+        {"phrase": "как называется окно в самолете", "count": "81"},
+        {"phrase": "наши окна", "count": "1556"}
+      ],
+      "totalCount": "11"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "cost_estimate": {
+    "estimated_rub": 0.1,
+    "max_rub": 0.28
+  },
+  "policy": {
+    "max_requests": 14,
+    "max_cost_rub": 0.28
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
