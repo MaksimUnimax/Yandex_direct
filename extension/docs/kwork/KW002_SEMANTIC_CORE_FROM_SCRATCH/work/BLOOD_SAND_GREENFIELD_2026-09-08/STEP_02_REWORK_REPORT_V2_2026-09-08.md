@@ -2,7 +2,7 @@
 
 Дата: 2026-09-08
 
-Статус: **REWORK EXECUTED / LOCAL QA PENDING FINAL REMOTE READBACK**
+Статус: **COMPLETE / PASS AFTER REWORK / REMOTE READBACK PASS**
 
 ## 1. Почему Step 02 был открыт заново
 
@@ -43,6 +43,12 @@ information gain must discriminate now/later/redundant/control
 primary acquisition manifest must be deterministic
 Step-02 score >= 9/10 + all hard gates
 ```
+
+Новый универсальный Level-1 authority:
+
+`LEVEL1/RESULT_QUALITY_SCORING_RULE.md`
+
+Теперь каждый major step/rework получает обязательную оценку /10; ниже 9/10 PASS невозможен даже при корректных файлах/row counts.
 
 ## 3. Что изменено в текущей работе
 
@@ -86,7 +92,7 @@ Qualified probe не объявляет конкретный товар амул
 
 19 неоднозначных bare names больше не являются основным quality route.
 
-Distinct/сравнительно низкошумные названия сохранены как primary discovery probes.
+Distinct/сравнительно низкошумные названия сохранены как primary discovery probes только после ambiguity/noise screening.
 
 Более шумные bare формы остаются audit/control material и могут быть активированы позже, если qualified результаты создадут конкретный вопрос.
 
@@ -97,6 +103,25 @@ Distinct/сравнительно низкошумные названия сох
 12 scoped sign probes остаются primary.
 
 Variant markers `Античность / Античность 2 / Символы` остаются deferred до появления базового demand evidence.
+
+### 3.5 Information gain
+
+Приоритет теперь задаётся не шаблоном «покрывает название», а классами:
+
+```text
+BROAD_VOCABULARY_DISCOVERY
+CONFIRMED_USE_CONTEXT
+USE_CONTEXT_COMBINATION
+UNIQUE_DISCOVERY_BRANCH
+ALTERNATE_WORDING_BRANCH
+SCOPED_FAMILY_COVERAGE
+NOISE_REFINEMENT
+SYNONYM_USE_CONTEXT_COVERAGE
+```
+
+Authority:
+
+`STEP_02_V2_INFORMATION_GAIN_POLICY.csv`
 
 ## 4. V2 accounting
 
@@ -121,6 +146,7 @@ STEP_02_V2_ADDITIONAL_PROBES.csv
 STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv
 STEP_02_DEFERRED_CONTROL_MANIFEST_V2.csv
 STEP_02_SEARCH_PROBE_QUALITY_COVERAGE_V2.csv
+STEP_02_V2_INFORMATION_GAIN_POLICY.csv
 STEP_02_REWORK_REPORT_V2_2026-09-08.md
 STEP_02_QA_REPORT_V2_2026-09-08.md
 ```
@@ -133,15 +159,24 @@ Only this file defines the current executable primary set:
 
 `STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv`
 
-Expected rows:
-
-```text
-79
-```
+Remote readback confirmed final run order = **79**.
 
 Step 03 must not reconstruct current priorities from the old 97-row V1 file.
 
-## 7. What still is NOT decided
+## 7. OR-operator handoff boundary
+
+19 qualified probes use Yandex Wordstat OR syntax.
+
+```text
+OR_OPERATOR_DOCUMENTED_BY_YANDEX = true
+BRIDGE_OR_OPERATOR_EXECUTION_VERIFIED = false
+```
+
+Step 03 must verify actual Bridge/provider behavior before mass execution.
+
+If grouped OR is unsupported, each Q-probe splits deterministically into three class-qualified probes (`амулет`, `оберег`, `талисман`) with parent Q lineage preserved. No branch may be silently dropped.
+
+## 8. What still is NOT decided
 
 Step 02 V2 still does not claim:
 
@@ -160,7 +195,7 @@ AI-search behavior
 
 Those require later evidence.
 
-## 8. Provider state
+## 9. Provider state
 
 ```text
 WORDSTAT CALLS DURING STEP 02 REWORK = 0
@@ -169,24 +204,31 @@ AI SEARCH CALLS = 0
 PROVIDER COST = 0 RUB
 ```
 
-## 9. Quality scoring
+## 10. Quality score
 
-Final scoring is governed by `LEVEL1/RESULT_QUALITY_SCORING_RULE.md`.
-
-Target for acceptance:
+Final V2 score from adversarial QA:
 
 ```text
-QUALITY_SCORE >= 9.0 / 10
+QUALITY_SCORE = 9.3 / 10
 ALL HARD GATES = PASS
 REMOTE READBACK = PASS
+STEP_02 = COMPLETE / PASS AFTER V2 REWORK
 ```
 
-The final score and pass verdict are recorded in `STEP_02_QA_REPORT_V2_2026-09-08.md` after remote readback.
+За что сняты 0.7 балла:
+
+```text
+- часть ambiguity/noise screening остаётся аналитической эвристикой до реального Wordstat evidence;
+- grouped OR behavior через фактический Bridge path ещё требует Step-03 verification;
+- реальную полезность конкретных probes подтвердят только Step 03/04 данные.
+```
 
 ## ПРОСТЫМИ СЛОВАМИ
 
 **Зачем исправляли:** первый список был аккуратно оформлен, но некоторые стартовые запросы могли увести Wordstat в общий информационный шум вместо товарного спроса.
 
-**Что фактически исправили:** для неоднозначных названий добавили уточнённые товарные probes, расширили автомобильные формулировки, отделили broad control от реального quality coverage и сформировали новый точный список того, что должен запускать Step 03.
+**Что фактически исправили:** для неоднозначных названий добавили уточнённые товарные probes, расширили автомобильные формулировки, отделили broad control от реального quality coverage, переписали логику information gain и сформировали новый точный список того, что должен запускать Step 03.
 
-**Что получаем:** Wordstat теперь будет запускаться не по «любому запросу на карточку», а по проверенному набору маршрутов, где шум и уточнение управляются заранее.
+**Что получили:** текущий основной набор — 79 проверенных маршрутов; ещё 49 bare/variant/alternate probes сохранены как deferred/control. Wordstat теперь будет запускаться не по «любому запросу на карточку», а по набору, где шум и уточнение управляются заранее.
+
+**Оценка результата:** **9.3/10**. Идти дальше можно, но Step 03 сначала обязан проверить реальное исполнение OR-оператора через Bridge.
