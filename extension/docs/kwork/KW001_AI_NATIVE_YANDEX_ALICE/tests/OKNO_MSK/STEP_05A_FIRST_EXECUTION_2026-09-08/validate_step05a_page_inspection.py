@@ -203,6 +203,14 @@ def main() -> int:
     artifact_paths = [CHECKPOINT, OBSERVATIONS, PAGE_EVIDENCE, SEED_DECISIONS, SEED_CANDIDATES, WORDSTAT_PACKAGE, REPORT, LOG, BUILDER, Path(__file__)]
     artifact_files = {path.name: {"sha256": sha256(path), "size_bytes": path.stat().st_size} for path in artifact_paths}
     failed = [item["name"] for item in checks if item["status"] == "FAIL"]
+    existing_readback: dict[str, object] = {}
+    if QA.exists():
+        existing_readback = json.loads(QA.read_text(encoding="utf-8")).get("remote_readback", {})
+    remote_readback = (
+        existing_readback
+        if existing_readback.get("status") == "PASS"
+        else {"material_blocks": "PASS", "finalization_commit": "PENDING_EXTERNAL_READBACK"}
+    )
     payload = {
         "status": "PASS" if not failed else "FAIL",
         "execution_scope": "STEP_5A_2_TO_5A_3",
@@ -230,7 +238,7 @@ def main() -> int:
         "level1_method_promoted": False,
         "deterministic_qa": {"checks_total": len(checks), "checks_passed": len(checks) - len(failed), "failed": failed, "checks": checks},
         "artifact_files": artifact_files,
-        "remote_readback": {"material_blocks": "PASS", "finalization_commit": "PENDING_EXTERNAL_READBACK"},
+        "remote_readback": remote_readback,
     }
     QA.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"status": payload["status"], "checks": len(checks), "failed": failed, "counts": payload["counts"]}, ensure_ascii=False))

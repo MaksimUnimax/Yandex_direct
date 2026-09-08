@@ -8,7 +8,8 @@ Date: 2026-09-08
 2. First material page-evidence tranche (I001–I010) — remote commit `5ff51a84fcd2a3d0b5718661591655ee448e0015`; remote readback PASS.
 3. Complete page evidence (I001–I044) — remote commit `2cc378810f208c2415b7bc9572beabe6c1cdce04`; remote readback PASS.
 4. Candidate reconciliation and deduplication — remote commit `24962d5f8bb2a7af22e4be6e643db8712c373179`; remote readback PASS.
-5. Wordstat package, report and deterministic QA — committed after this log is generated; remote readback is required before completion.
+5. Wordstat package, report and deterministic QA — remote commit `e797f54b777e6367091d8a32932e112d37339bb6`; remote artifact SHA-256 readback PASS.
+6. Readback receipt — this log and QA receipt are committed after the verified finalization block and read back once more before completion.
 
 ## Acquisition boundary
 

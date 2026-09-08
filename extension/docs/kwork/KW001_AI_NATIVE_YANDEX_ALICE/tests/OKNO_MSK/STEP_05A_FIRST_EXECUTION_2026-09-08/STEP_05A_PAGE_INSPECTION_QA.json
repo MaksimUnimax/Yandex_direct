@@ -372,20 +372,24 @@
       "size_bytes": 7503
     },
     "STEP_05A_PAGE_INSPECTION_EXECUTION_LOG.md": {
-      "sha256": "340044735875f991883d7c348d7f093ba99c9e0d8476bab6ece32cdce2428f5a",
-      "size_bytes": 1272
+      "sha256": "b13c6fa148f7bbab63636ddc916c545b7f425f198bfc3106dd3db964f1fa3bcb",
+      "size_bytes": 1426
     },
     "build_step05a_page_inspection.py": {
       "sha256": "0c59535f33be01503615ee60cfd91c8b4f81c9722f4ecde91fb56b6ed17c1f0f",
       "size_bytes": 21576
     },
     "validate_step05a_page_inspection.py": {
-      "sha256": "8334aa7b20fbbcd5c3e7d62bfa36a8bdb1ddcf529a1219ab74cc49df4cd12018",
-      "size_bytes": 15451
+      "sha256": "61af02f193ecb222f8bfd9e2c9d6a8c9443f30c8263687d489309578c416ae83",
+      "size_bytes": 15753
     }
   },
   "remote_readback": {
+    "status": "PASS",
     "material_blocks": "PASS",
-    "finalization_commit": "PENDING_EXTERNAL_READBACK"
+    "finalization_commit": "e797f54b777e6367091d8a32932e112d37339bb6",
+    "verified_remote_head": "e797f54b777e6367091d8a32932e112d37339bb6",
+    "artifact_sha256_equivalence": "PASS",
+    "protected_release_tree": "a011ea5b5afa00a21031a254eb86ca6bd7b7a89f"
   }
 }
