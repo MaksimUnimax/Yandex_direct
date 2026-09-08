@@ -1,6 +1,6 @@
 # KW-001 — Step 20 report-specific acceptance routing
 
-Updated: 2026-09-07  
+Updated: 2026-09-08  
 Status: **ACTIVE / UNIVERSAL ROUTING / REPORT-SPECIFIC RULE SEPARATION**  
 Scope: **Step 19 materialization + Step 20 recipient acceptance**
 
@@ -14,7 +14,7 @@ COMMON HUMAN-WRITING QUALITY
 
 ## Universal research-scope freeze during report materialization
 
-Step 19/20 is primarily a **materialization, explanation and recipient-acceptance stage for research that has already been performed**. It is not permission to silently start a new research pass merely because the report would look more complete with additional evidence.
+Step 19/20 is primarily a materialization, explanation and recipient-acceptance stage for research that has already been performed. It is not permission to silently start a new research pass merely because the report would look more complete with additional evidence.
 
 This is a critical cost and scope boundary.
 
@@ -33,7 +33,7 @@ When a report exposes that a desired field, exact placement, classification, cur
 1. state the evidence boundary honestly;
 2. downgrade readiness or move the item to clarification / additional-check status where necessary;
 3. identify the exact missing evidence;
-4. do **not** acquire that evidence during report production unless the owner separately authorizes a new research/revalidation task.
+4. do not acquire that evidence during report production unless the owner separately authorizes a new research/revalidation task.
 
 The reporting stage must not silently expand scope by:
 
@@ -58,7 +58,7 @@ NOT:
 
 ### Allowed exception — external methodology/source freshness
 
-Freshly checking **external public methodology/documentation sources** for the report bibliography is different from recollecting project facts. It is allowed or required when the report contract requires current sources, provided it does not change project-specific analytical conclusions by itself.
+Freshly checking external public methodology/documentation sources for the report bibliography is different from recollecting project facts. It is allowed or required when the report contract requires current sources, provided it does not change project-specific analytical conclusions by itself.
 
 ```text
 FRESH METHODOLOGY / BIBLIOGRAPHY REVIEW = ALLOWED WHEN REQUIRED
@@ -79,11 +79,17 @@ Report №01 therefore carries the full set of lessons discovered during the own
 
 ## Report №02 — specialist implementation guide
 
-Canonical authority:
+Client-content authority:
 
 `STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md`
 
-Purpose: let an SEO specialist or implementer understand what was researched, how the conclusions were derived, and exactly what must be changed or preserved on the site.
+Physical-layout authority:
+
+`STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md`
+
+Both gates are mandatory for Report №02 acceptance. Passing the content/language gate does not waive physical DOCX/PDF inspection, and passing the physical gate does not waive the specialist-language contract.
+
+Purpose: let an SEO specialist or implementer understand what was researched, how the conclusions were derived, and exactly what must be changed or clarified on the site.
 
 Report №02 inherits only the transferable quality controls from Report №01:
 
@@ -97,9 +103,16 @@ CLAIM → EVIDENCE → ACTION CONTINUITY
 EXACT SCOPE / SELECTION LOGIC WHEN MATERIAL
 ```
 
-It does **not** inherit the non-specialist simplicity requirement. Professional SEO, semantic, architecture and implementation terminology is allowed and expected when it helps execution. Report №02 also requires denser technical explanation of acquisition, filtering, exclusions, clustering, mapping, validation, uncertainty and implementation details.
+Professional SEO, semantic, architecture and implementation terminology is allowed when it helps execution, but the client-facing guide must remain a competent specialist brief rather than an internal audit log, process diary or beginner tutorial.
 
-A repeated structured action schema may be appropriate in Report №02 because the specialist must execute and verify work. The same repeated schema can be a failure in Report №01 when it makes a customer-facing narrative read like a generated questionnaire.
+The current permanent owner lessons for Report №02 include:
+
+- describe required work and concrete clarification, not lists of things the specialist should not do;
+- keep internal process history out of client prose;
+- remove obvious `open / find / navigate / check` filler from implementation steps;
+- avoid duplicated instructions across cards and table rows;
+- preserve evidence scope without launching new project research during reporting;
+- validate physical layout for empty TOC furniture, orphan field labels, clipping, tables and final committed PDF rendering.
 
 ## Отдельный результат — полное семантическое ядро
 
@@ -133,7 +146,9 @@ Before final QA of any deliverable:
 
 1. identify the report/deliverable and recipient task;
 2. read the common Step 20 QA authorities;
-3. read the matching report-specific gate;
-4. apply only the shared rules plus the correct report-specific rules;
-5. verify that report production did not silently acquire new project-specific evidence outside the completed research scope;
-6. do not mark another report PASS merely because one report's gate passed.
+3. read the matching report-specific gate(s);
+4. for Report №02, read and pass both the specialist implementation-guide gate and the physical-layout gate;
+5. apply only the shared rules plus the correct report-specific rules;
+6. verify that report production did not silently acquire new project-specific evidence outside the completed research scope;
+7. inspect the final committed recipient artifact, not only source text or a predecessor render;
+8. do not mark another report PASS merely because one report's gate passed.
