@@ -1,0 +1,331 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-final-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-final-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-final-20260908",
+    "status": "COMPLETED",
+    "total": 2,
+    "input_count": 2,
+    "duplicate_count": 0,
+    "pending": 0,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 2,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 2,
+    "requests_started": 2,
+    "estimated_cost_rub": 0.976,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "NONE"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T08:24:51.575Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "армирование оконного профиля",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T08:24:53.872Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "288752bdf8bc658b",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-final-20260908:288752bdf8bc658b",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "search-batch-b2114b25-6c21-4d5a-9ebf-e6d1765ae75e",
+    "request_started_at": "2026-09-08T08:24:51.581Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": "search-batch-b2114b25-6c21-4d5a-9ebf-e6d1765ae75e",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T08:24:53.872Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "search",
+      "operation": "search",
+      "request_id": "search-batch-b2114b25-6c21-4d5a-9ebf-e6d1765ae75e",
+      "run_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.488,
+        "tariff_checked_at": "2026-08-19",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "search"
+      },
+      "command": {
+        "method": "search",
+        "queryText": "армирование оконного профиля",
+        "searchType": "SEARCH_TYPE_RU",
+        "page": 0,
+        "groupsOnPage": 10,
+        "familyMode": "FAMILY_MODE_MODERATE",
+        "fixTypoMode": "FIX_TYPO_MODE_ON",
+        "sortMode": "SORT_MODE_BY_RELEVANCE",
+        "sortOrder": "SORT_ORDER_DESC",
+        "groupMode": "GROUP_MODE_FLAT",
+        "docsInGroup": 1,
+        "maxPassages": 4,
+        "region": "213",
+        "l10n": "LOCALIZATION_RU"
+      },
+      "http_status": 200,
+      "elapsed_ms": 2277,
+      "result": {
+        "results": [
+          {
+            "rank": 1,
+            "url": "https://www.fabrikaokon.ru/poleznoe/armirovanie-okon.html",
+            "domain": "www.fabrikaokon.ru",
+            "title": "Армирование окон из пластика по ГОСТу — что это, особенности...",
+            "snippet": "Что такое армирование? Армирование — это оцинкованный стальной вкладыш, который собирается из отдельных планок или имеет вид сварной конструкции. Его цель состоит в том, чтобы не давать оконной раме менять форму. Интересно знать ! Чтобы понять, как действует армирование, представим, что мы установили окна без стального вкладыша.",
+            "modtime": "20230125T161754"
+          },
+          {
+            "rank": 2,
+            "url": "https://www.oknastar.ru/stati/armirovanie-plastikovyh-okon/",
+            "domain": "www.oknastar.ru",
+            "title": "Армирование пластиковых окон по ГОСТу: виды и изготовление...",
+            "snippet": "Армирование пластиковых окон. Зачем требуется армирование? Требования к армированию по ГОСТ. Армированный профиль. Какие есть замены металлопрокату? Процесс производства армированных профилей. Виды армированного профиля. Варианты армирующих профилей у ведущих производителей.",
+            "modtime": "20190114T103822"
+          },
+          {
+            "rank": 3,
+            "url": "https://vmeste.severstal.com/industries/build/krupnym-pererabotchikam-i-treyderam/kak-vybrat-armirovanie-dlya-pvkh-okon/",
+            "domain": "vmeste.severstal.com",
+            "title": "Как выбрать армирование для ПВХ-окон? | Северсталь Вместе",
+            "snippet": "На данный момент «Дельта» производит более 250 видов профилей и продолжает увеличивать ассортимент продукции, включая нестандартное и эксклюзивное армирование по запросу клиентов. Источник: журнал «Оконное производство».",
+            "modtime": "20240609T195335"
+          },
+          {
+            "rank": 4,
+            "url": "https://oknafactoria.ru/articles/armirovanie-plastikovyh-okon-chto-eto-i-dlya-chego-nado/",
+            "domain": "oknafactoria.ru",
+            "title": "Армирование пластиковых окон: для чего делают, каким бывает...",
+            "snippet": "Виды армирования пластиковых окон. Как изготавливают армирующие вкладыши. Какие профили предлагают производители пластиковых рам. Видео-описание. Правила выбора окна с надежным армированием. Как понять, что армирование неправильное. Особенности армирования при различных типах остекления.",
+            "modtime": "20240308T062813"
+          },
+          {
+            "rank": 5,
+            "url": "https://www.okna.ru/blog/likbez/metall-v-plastike-chto-takoe-armirovanie-okon/",
+            "domain": "www.okna.ru",
+            "title": "Металл в пластике. Что такое армирование окон? | Окна Kaleva",
+            "snippet": "Армирующий профиль – скрытый, но очень важный элемент вашего окна. Я бы даже сказал, «несущий». С некачественным армированием (или вообще без него) окно не удержит форму, не сможет сопротивляться ветру и прослужит недолго. Я уже рассказывал, что оконный профиль – это основа окна.",
+            "modtime": "20160426T222030"
+          },
+          {
+            "rank": 6,
+            "url": "https://technookna.ru/blog/armirovanie",
+            "domain": "technookna.ru",
+            "title": "Армирование пластиковых окон: что это и из чего состоит",
+            "snippet": "Стоит отметить, что армирование служит не только для усиления конструкции и повышения ее жесткости, но так же для того, чтобы крепко соединять оконный профиль с проемом за счет анкерных болтов или нагелей. В створках армирование играет не менее важную роль. Оно помогает поддерживать стабильность подвижных элементов окна...",
+            "modtime": "20240927T162620"
+          },
+          {
+            "rank": 7,
+            "url": "https://oknafactoria.ru/articles/zamknutoe-armirovanie-profilya-plastikovogo-okna-kak-rabotaet-sistema-zachem-nuzhna-i-kogda-ona-opravdana/",
+            "domain": "oknafactoria.ru",
+            "title": "Замкнутое армирование профиля пластикового окна: как...",
+            "snippet": "Производственный процесс и монтаж армирования внутри профиля … Практические советы по выбору профиля и армирования для вашего проекта … Заключительные мысли о замкнутом армировании профиля пластикового окна",
+            "modtime": "20250919T214135"
+          },
+          {
+            "rank": 8,
+            "url": "https://okna-germany.ru/blog/chto-takoe-armirovanie-plastikovyh-okon",
+            "domain": "okna-germany.ru",
+            "title": "Армирование пластиковых окон, функции и назначение",
+            "snippet": "Что такое армирование, для чего оно необходимо. Пластиковые оконные конструкции полые внутри для обеспечения теплоизоляции, поэтому для их упрочнения используется металлический элемент (армирующий профиль, или усилительный).",
+            "modtime": "20220805T030437"
+          },
+          {
+            "rank": 9,
+            "url": "https://aprimatic.msk.ru/blog/aprimatic/chto-takoe-armirovanie-plastikovykh-okon-vsyo-chto-nuzhno-znat-pered-pokupkoy/",
+            "domain": "aprimatic.msk.ru",
+            "title": "Что такое армирование пластиковых окон — назначение, виды...",
+            "snippet": "Что такое армирование ПВХ-окон. Армирование — это процесс усиления пластикового оконного профиля металлическим вкладышем (армирующим профилем), который монтируется внутрь профиля рамы или створки на этапе изготовления окна.",
+            "modtime": "20250409T175107"
+          },
+          {
+            "rank": 10,
+            "url": "https://www.oknatrade.ru/help/armirovanie-okonnogo-profilya-preimushchestva-tekhnologii-i-alternativnye-varianty/",
+            "domain": "www.oknatrade.ru",
+            "title": "Армирование для пвх профилей, пластиковых окон",
+            "snippet": "Что представляет собой технология армирования. Оконные пластиковые профили представляют собой полые изнутри изделия. Более подробно об этих изделиях можно прочитать в отдельном материале на ОкнаТрейд. Пустоты внутри профиля поделены перегородками на отдельные камеры, количество которых зависит от типа и марки системы.",
+            "modtime": "20171011T120000"
+          }
+        ],
+        "result_count": 10,
+        "response_format": "FORMAT_XML"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "search",
+    "operation": "search",
+    "request_id": "search-batch-b2114b25-6c21-4d5a-9ebf-e6d1765ae75e",
+    "run_id": null,
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.488,
+      "tariff_checked_at": "2026-08-19",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "search"
+    },
+    "command": {
+      "method": "search",
+      "queryText": "армирование оконного профиля",
+      "searchType": "SEARCH_TYPE_RU",
+      "page": 0,
+      "groupsOnPage": 10,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC",
+      "groupMode": "GROUP_MODE_FLAT",
+      "docsInGroup": 1,
+      "maxPassages": 4,
+      "region": "213",
+      "l10n": "LOCALIZATION_RU"
+    },
+    "http_status": 200,
+    "elapsed_ms": 2277,
+    "result": {
+      "results": [
+        {
+          "rank": 1,
+          "url": "https://www.fabrikaokon.ru/poleznoe/armirovanie-okon.html",
+          "domain": "www.fabrikaokon.ru",
+          "title": "Армирование окон из пластика по ГОСТу — что это, особенности...",
+          "snippet": "Что такое армирование? Армирование — это оцинкованный стальной вкладыш, который собирается из отдельных планок или имеет вид сварной конструкции. Его цель состоит в том, чтобы не давать оконной раме менять форму. Интересно знать ! Чтобы понять, как действует армирование, представим, что мы установили окна без стального вкладыша.",
+          "modtime": "20230125T161754"
+        },
+        {
+          "rank": 2,
+          "url": "https://www.oknastar.ru/stati/armirovanie-plastikovyh-okon/",
+          "domain": "www.oknastar.ru",
+          "title": "Армирование пластиковых окон по ГОСТу: виды и изготовление...",
+          "snippet": "Армирование пластиковых окон. Зачем требуется армирование? Требования к армированию по ГОСТ. Армированный профиль. Какие есть замены металлопрокату? Процесс производства армированных профилей. Виды армированного профиля. Варианты армирующих профилей у ведущих производителей.",
+          "modtime": "20190114T103822"
+        },
+        {
+          "rank": 3,
+          "url": "https://vmeste.severstal.com/industries/build/krupnym-pererabotchikam-i-treyderam/kak-vybrat-armirovanie-dlya-pvkh-okon/",
+          "domain": "vmeste.severstal.com",
+          "title": "Как выбрать армирование для ПВХ-окон? | Северсталь Вместе",
+          "snippet": "На данный момент «Дельта» производит более 250 видов профилей и продолжает увеличивать ассортимент продукции, включая нестандартное и эксклюзивное армирование по запросу клиентов. Источник: журнал «Оконное производство».",
+          "modtime": "20240609T195335"
+        },
+        {
+          "rank": 4,
+          "url": "https://oknafactoria.ru/articles/armirovanie-plastikovyh-okon-chto-eto-i-dlya-chego-nado/",
+          "domain": "oknafactoria.ru",
+          "title": "Армирование пластиковых окон: для чего делают, каким бывает...",
+          "snippet": "Виды армирования пластиковых окон. Как изготавливают армирующие вкладыши. Какие профили предлагают производители пластиковых рам. Видео-описание. Правила выбора окна с надежным армированием. Как понять, что армирование неправильное. Особенности армирования при различных типах остекления.",
+          "modtime": "20240308T062813"
+        },
+        {
+          "rank": 5,
+          "url": "https://www.okna.ru/blog/likbez/metall-v-plastike-chto-takoe-armirovanie-okon/",
+          "domain": "www.okna.ru",
+          "title": "Металл в пластике. Что такое армирование окон? | Окна Kaleva",
+          "snippet": "Армирующий профиль – скрытый, но очень важный элемент вашего окна. Я бы даже сказал, «несущий». С некачественным армированием (или вообще без него) окно не удержит форму, не сможет сопротивляться ветру и прослужит недолго. Я уже рассказывал, что оконный профиль – это основа окна.",
+          "modtime": "20160426T222030"
+        },
+        {
+          "rank": 6,
+          "url": "https://technookna.ru/blog/armirovanie",
+          "domain": "technookna.ru",
+          "title": "Армирование пластиковых окон: что это и из чего состоит",
+          "snippet": "Стоит отметить, что армирование служит не только для усиления конструкции и повышения ее жесткости, но так же для того, чтобы крепко соединять оконный профиль с проемом за счет анкерных болтов или нагелей. В створках армирование играет не менее важную роль. Оно помогает поддерживать стабильность подвижных элементов окна...",
+          "modtime": "20240927T162620"
+        },
+        {
+          "rank": 7,
+          "url": "https://oknafactoria.ru/articles/zamknutoe-armirovanie-profilya-plastikovogo-okna-kak-rabotaet-sistema-zachem-nuzhna-i-kogda-ona-opravdana/",
+          "domain": "oknafactoria.ru",
+          "title": "Замкнутое армирование профиля пластикового окна: как...",
+          "snippet": "Производственный процесс и монтаж армирования внутри профиля … Практические советы по выбору профиля и армирования для вашего проекта … Заключительные мысли о замкнутом армировании профиля пластикового окна",
+          "modtime": "20250919T214135"
+        },
+        {
+          "rank": 8,
+          "url": "https://okna-germany.ru/blog/chto-takoe-armirovanie-plastikovyh-okon",
+          "domain": "okna-germany.ru",
+          "title": "Армирование пластиковых окон, функции и назначение",
+          "snippet": "Что такое армирование, для чего оно необходимо. Пластиковые оконные конструкции полые внутри для обеспечения теплоизоляции, поэтому для их упрочнения используется металлический элемент (армирующий профиль, или усилительный).",
+          "modtime": "20220805T030437"
+        },
+        {
+          "rank": 9,
+          "url": "https://aprimatic.msk.ru/blog/aprimatic/chto-takoe-armirovanie-plastikovykh-okon-vsyo-chto-nuzhno-znat-pered-pokupkoy/",
+          "domain": "aprimatic.msk.ru",
+          "title": "Что такое армирование пластиковых окон — назначение, виды...",
+          "snippet": "Что такое армирование ПВХ-окон. Армирование — это процесс усиления пластикового оконного профиля металлическим вкладышем (армирующим профилем), который монтируется внутрь профиля рамы или створки на этапе изготовления окна.",
+          "modtime": "20250409T175107"
+        },
+        {
+          "rank": 10,
+          "url": "https://www.oknatrade.ru/help/armirovanie-okonnogo-profilya-preimushchestva-tekhnologii-i-alternativnye-varianty/",
+          "domain": "www.oknatrade.ru",
+          "title": "Армирование для пвх профилей, пластиковых окон",
+          "snippet": "Что представляет собой технология армирования. Оконные пластиковые профили представляют собой полые изнутри изделия. Более подробно об этих изделиях можно прочитать в отдельном материале на ОкнаТрейд. Пустоты внутри профиля поделены перегородками на отдельные камеры, количество которых зависит от типа и марки системы.",
+          "modtime": "20171011T120000"
+        }
+      ],
+      "result_count": 10,
+      "response_format": "FORMAT_XML"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 0.976,
+    "max_rub": 0.976
+  },
+  "policy": {
+    "max_requests": 2,
+    "max_cost_rub": 0.976
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
