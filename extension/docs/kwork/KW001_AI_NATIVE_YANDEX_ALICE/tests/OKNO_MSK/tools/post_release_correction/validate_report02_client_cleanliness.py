@@ -117,20 +117,20 @@ def main() -> int:
         ]),
     )
 
-    sec3 = text.split("## 3. Что уточнить перед внедрением", 1)[1].split("## 4.", 1)[0]
+    sec3 = text.split("## 3. Что уточнить перед внедрением", 1)[1].split("\n## 4. Распределение тем по страницам", 1)[0]
     add("clarification_items", len(re.findall(r"^### \d+\.", sec3, re.M)) == 5, len(re.findall(r"^### \d+\.", sec3, re.M)))
 
-    sec4 = text.split("## 4. Распределение тем по страницам", 1)[1].split("## 5.", 1)[0]
+    sec4 = text.split("## 4. Распределение тем по страницам", 1)[1].split("\n## 5. Проверки перед следующими изменениями", 1)[0]
     sec4_rows = len(re.findall(r"^\| \d+ \|", sec4, re.M))
     add("topic_page_rows", sec4_rows == 46, sec4_rows)
     add("topic_page_what_why_how", all(x in sec4 for x in ["**Что это.**", "**Для чего.**", "**Как использовать.**"]))
     add("topic_page_plain_columns", all(x in sec4 for x in ["Тема / вопрос пользователя", "Где раскрывать тему", "Связанная страница"]))
 
-    sec5 = text.split("## 5. Проверки перед следующими изменениями", 1)[1].split("## 6.", 1)[0]
+    sec5 = text.split("## 5. Проверки перед следующими изменениями", 1)[1].split("\n## 6. Связи между страницами", 1)[0]
     add("additional_checks_count", len(re.findall(r"^### \d+\.", sec5, re.M)) == 4, len(re.findall(r"^### \d+\.", sec5, re.M)))
     add("additional_checks_explain_purpose_method_decision", all(sec5.count(x) == 4 for x in ["**Что нужно понять**", "**Зачем**", "**Как проверить**", "**Решение по результату**"]))
 
-    sec6 = text.split("## 6. Связи между страницами", 1)[1].split("## 7.", 1)[0]
+    sec6 = text.split("## 6. Связи между страницами", 1)[1].split("\n## 7. Как проверить результат", 1)[0]
     sec6_rows = len(re.findall(r"^\| \d+ \|", sec6, re.M))
     add("page_link_rows", sec6_rows == 14, sec6_rows)
     add("page_link_what_why_how", all(x in sec6 for x in ["**Что это.**", "**Для чего.**", "**Как внедрять.**"]))
