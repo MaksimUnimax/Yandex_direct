@@ -22,6 +22,7 @@ SELECTION = OUT / "STEP_05A_COMPETITOR_CANDIDATE_SELECTION.tsv"
 SERP = OUT / "STEP_05A_SERP_COMBINED_750.tsv"
 CHECKPOINT = OUT / "CHECKPOINT_01_COMPETITOR_PAGE_INSPECTION_BASELINE.md"
 OBSERVATIONS = OUT / "STEP_05A_COMPETITOR_PAGE_OBSERVATIONS.json"
+SEED_DECISIONS = OUT / "STEP_05A_SEED_DECISIONS.json"
 PAGE_EVIDENCE = OUT / "STEP_05A_COMPETITOR_PAGE_EVIDENCE.tsv"
 SEED_CANDIDATES = OUT / "STEP_05A_DERIVED_SEED_CANDIDATES.tsv"
 WORDSTAT_PACKAGE = OUT / "STEP_05A_WORDSTAT_REQUIREMENT_PACKAGE.tsv"
@@ -68,6 +69,43 @@ PAGE_FIELDS = [
     "relevant_internal_navigation_labels",
     "page_evidence_notes",
     "claim_boundary",
+]
+
+SEED_FIELDS = [
+    "seed_id",
+    "normalized_candidate_seed",
+    "semantic_axis",
+    "competitor_domain",
+    "source_requested_url",
+    "source_final_url",
+    "source_step09_query_index",
+    "source_step09_query_text",
+    "source_step09_rank",
+    "source_page_element_type",
+    "source_page_element_text",
+    "source_page_evidence_summary",
+    "existing_semantic_match_state",
+    "existing_semantic_match_examples",
+    "business_scope_state",
+    "seed_decision",
+    "wordstat_required",
+    "wordstat_priority",
+    "rationale",
+    "claim_boundary",
+]
+
+WORDSTAT_FIELDS = [
+    "wordstat_seed_order",
+    "normalized_candidate_seed",
+    "semantic_axis",
+    "supporting_competitor_count",
+    "supporting_page_count",
+    "supporting_source_ids",
+    "why_existing_core_is_insufficient",
+    "business_scope_state",
+    "recommended_wordstat_region",
+    "recommended_device_scope",
+    "provider_call_authorization_state",
 ]
 
 
@@ -197,14 +235,95 @@ def build_page_evidence() -> None:
     write_tsv(PAGE_EVIDENCE, PAGE_FIELDS, rows)
 
 
+def build_seed_candidates() -> None:
+    pages = {row["inspection_id"]: row for row in read_tsv(PAGE_EVIDENCE)}
+    specs = json.loads(SEED_DECISIONS.read_text(encoding="utf-8"))
+    if not isinstance(specs, list):
+        raise ValueError("Seed decisions must be a JSON array")
+    normalized = [row["normalized_candidate_seed"] for row in specs]
+    if len(normalized) != len(set(normalized)):
+        raise ValueError("Seed decisions must be semantically deduplicated by normalized seed")
+
+    rows: list[dict[str, object]] = []
+    for spec_index, spec in enumerate(specs, 1):
+        sources = spec.get("sources", [])
+        if not sources:
+            raise ValueError(f"Seed has no page lineage: {spec['normalized_candidate_seed']}")
+        for source_index, source in enumerate(sources, 1):
+            page = pages.get(source["inspection_id"])
+            if page is None:
+                raise ValueError(f"Unknown page source: {source['inspection_id']}")
+            decision = spec["seed_decision"] if source_index == 1 else "DUPLICATE_OF_ANOTHER_COMPETITOR_SEED"
+            row = {
+                "seed_id": f"CS{spec_index:03d}-{source_index:02d}",
+                "normalized_candidate_seed": spec["normalized_candidate_seed"],
+                "semantic_axis": spec["semantic_axis"],
+                "competitor_domain": page["competitor_domain"],
+                "source_requested_url": page["requested_url"],
+                "source_final_url": page["final_url"],
+                "source_step09_query_index": page["source_step09_query_index"],
+                "source_step09_query_text": page["source_step09_query_text"],
+                "source_step09_rank": page["source_step09_rank"],
+                "source_page_element_type": source["element_type"],
+                "source_page_element_text": source["element_text"],
+                "source_page_evidence_summary": page["page_evidence_notes"],
+                "existing_semantic_match_state": spec["existing_semantic_match_state"],
+                "existing_semantic_match_examples": " | ".join(spec["existing_semantic_match_examples"]),
+                "business_scope_state": spec["business_scope_state"],
+                "seed_decision": decision,
+                "wordstat_required": str(spec["wordstat_required"]).lower() if source_index == 1 else "false",
+                "wordstat_priority": spec["wordstat_priority"] if source_index == 1 else "NOT_APPLICABLE_DUPLICATE",
+                "rationale": spec["rationale"] if source_index == 1 else f"Duplicate page support for {spec['normalized_candidate_seed']}; retained as lineage, not a second seed.",
+                "claim_boundary": spec["claim_boundary"],
+            }
+            rows.append(row)
+    write_tsv(SEED_CANDIDATES, SEED_FIELDS, rows)
+
+
+def build_wordstat_package() -> None:
+    specs = json.loads(SEED_DECISIONS.read_text(encoding="utf-8"))
+    pages = {row["inspection_id"]: row for row in read_tsv(PAGE_EVIDENCE)}
+    surviving = sorted(
+        (row for row in specs if row["seed_decision"] == "POTENTIALLY_NEW_WORDSTAT_SEED"),
+        key=lambda row: int(row["wordstat_priority"]),
+    )
+    rows: list[dict[str, object]] = []
+    for order, spec in enumerate(surviving, 1):
+        source_ids = [source["inspection_id"] for source in spec["sources"]]
+        rows.append(
+            {
+                "wordstat_seed_order": order,
+                "normalized_candidate_seed": spec["normalized_candidate_seed"],
+                "semantic_axis": spec["semantic_axis"],
+                "supporting_competitor_count": len({pages[source_id]["competitor_domain"] for source_id in source_ids}),
+                "supporting_page_count": len(set(source_ids)),
+                "supporting_source_ids": " | ".join(source_ids),
+                "why_existing_core_is_insufficient": spec["rationale"],
+                "business_scope_state": spec["business_scope_state"],
+                "recommended_wordstat_region": "213",
+                "recommended_device_scope": "ALL",
+                "provider_call_authorization_state": "RETURN_TO_MAIN_CHATGPT_FOR_BRIDGE_EXECUTION",
+            }
+        )
+    write_tsv(WORDSTAT_PACKAGE, WORDSTAT_FIELDS, rows)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=["baseline", "page-evidence"], required=True)
+    parser.add_argument(
+        "--phase",
+        choices=["baseline", "page-evidence", "seed-candidates", "wordstat-package"],
+        required=True,
+    )
     args = parser.parse_args()
     if args.phase == "baseline":
         build_checkpoint()
     elif args.phase == "page-evidence":
         build_page_evidence()
+    elif args.phase == "seed-candidates":
+        build_seed_candidates()
+    elif args.phase == "wordstat-package":
+        build_wordstat_package()
     return 0
 
 
