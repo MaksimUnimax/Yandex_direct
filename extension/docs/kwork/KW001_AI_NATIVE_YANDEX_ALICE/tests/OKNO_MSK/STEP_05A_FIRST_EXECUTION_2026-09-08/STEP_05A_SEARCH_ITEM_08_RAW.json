@@ -1,0 +1,331 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-final-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-final-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-final-20260908",
+    "status": "RUNNING",
+    "total": 2,
+    "input_count": 2,
+    "duplicate_count": 0,
+    "pending": 1,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 1,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 1,
+    "requests_started": 1,
+    "estimated_cost_rub": 0.488,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T08:22:31.952Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "шумоизоляция на крышу балкона",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T08:22:34.302Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "d365fbf076cbe1d9",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-final-20260908:d365fbf076cbe1d9",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "search-batch-9abce177-5f0b-4c1f-a4ad-cd097ae5de3d",
+    "request_started_at": "2026-09-08T08:22:31.957Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": "search-batch-9abce177-5f0b-4c1f-a4ad-cd097ae5de3d",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T08:22:34.302Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "search",
+      "operation": "search",
+      "request_id": "search-batch-9abce177-5f0b-4c1f-a4ad-cd097ae5de3d",
+      "run_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.488,
+        "tariff_checked_at": "2026-08-19",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "search"
+      },
+      "command": {
+        "method": "search",
+        "queryText": "шумоизоляция на крышу балкона",
+        "searchType": "SEARCH_TYPE_RU",
+        "page": 0,
+        "groupsOnPage": 10,
+        "familyMode": "FAMILY_MODE_MODERATE",
+        "fixTypoMode": "FIX_TYPO_MODE_ON",
+        "sortMode": "SORT_MODE_BY_RELEVANCE",
+        "sortOrder": "SORT_ORDER_DESC",
+        "groupMode": "GROUP_MODE_FLAT",
+        "docsInGroup": 1,
+        "maxPassages": 4,
+        "region": "213",
+        "l10n": "LOCALIZATION_RU"
+      },
+      "http_status": 200,
+      "elapsed_ms": 2331,
+      "result": {
+        "results": [
+          {
+            "rank": 1,
+            "url": "https://www.ozon.ru/category/shumoizolyatsiya-kozyrka-balkona/",
+            "domain": "www.ozon.ru",
+            "title": "Шумоизоляция козырька балкона купить на OZON по низкой цене",
+            "snippet": null,
+            "modtime": "20221013T133721"
+          },
+          {
+            "rank": 2,
+            "url": "https://www.ozon.ru/product/nabor-vibroizolyatsionnyy-material-shumoizolyatsiya-otliva-otkosa-kozyrka-tolshchina-2-3mm-5-listov-353196511/",
+            "domain": "www.ozon.ru",
+            "title": "Набор - Виброизоляционный материал, шумоизоляция...",
+            "snippet": "Преимущества шумоизоляции козырьков балкона и отливов окна. … Покупала для подклейки профлиста на крыше балкона, стало гораздо тише (ждала дождя, чтобы проверить). единственное что получилось не совсем ровно (не много выходила за профлист) теперь брызги попадают на балкон при сильном и продолжительном дожде.",
+            "modtime": "20211031T133106"
+          },
+          {
+            "rank": 3,
+            "url": "https://www.wildberries.ru/catalog/tags/shumoizoljacija-dlja-balkona",
+            "domain": "www.wildberries.ru",
+            "title": "Шумоизоляция для балкона - Купить в интернет магазине...",
+            "snippet": "Шумоизоляция для балкона - Большой выбор в интернет-магазине WildBerries.ru. Бесплатная доставка и постоянные скидки!",
+            "modtime": "20250425T021711"
+          },
+          {
+            "rank": 4,
+            "url": "https://www.ozon.ru/product/shumoizolyatsiya-dlya-kozyrka-balkona-ot-dozhdya-10h3-serebro-3094000774/",
+            "domain": "www.ozon.ru",
+            "title": "Шумоизоляция для козырька балкона от дождя 10х3...",
+            "snippet": "Шумоизоляцию под козырёк (козырёк, навес над балконом) клеят на внутреннюю (нижнюю) поверхность козырька — то есть со стороны, обращённой вниз в помещение/на балкон. Это уменьшает шум от дождя и вибрацию.",
+            "modtime": "20251115T211039"
+          },
+          {
+            "rank": 5,
+            "url": "https://market.yandex.ru/search?text=%D0%B7%D0%B2%D1%83%D0%BA%D0%BE%D0%B8%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F%20%D0%BA%D0%BE%D0%B7%D1%8B%D1%80%D1%8C%D0%BA%D0%B0%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B0%20%D0%BE%D1%82%20%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F%20%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C",
+            "domain": "market.yandex.ru",
+            "title": "Звукоизоляция козырька балкона от дождя купить — купить по...",
+            "snippet": "Шумоизоляция на козырек кондиционера S 900*550, влагостойкая, негорючая, серая, АкваНевод-42. … Звукоизоляционная изоляция крыши, серая акустическая изоляция толщиной 13 мм, Универсальная шумоизоляционная подложка для крыши, балкона и кондиционера режет ножницами, теплоизоляция.",
+            "modtime": "20210625T044658"
+          },
+          {
+            "rank": 6,
+            "url": "https://oknakremlin.ru/stati-i-novosti/remont/shumoizolyacziya-zheleznoj-kryshi-vynosnogo-balkona-i-lodzhii/",
+            "domain": "oknakremlin.ru",
+            "title": "Шумоизоляция железной крыши выносного балкона и лоджии",
+            "snippet": "Шумоизоляция железной крыши на балконе производится материалами, приклеиваемыми на ее поверхность с внутренней или наружной стороны — поглощение звука происходит за счет свойств материала и увеличения массы листа.",
+            "modtime": "20180808T181641"
+          },
+          {
+            "rank": 7,
+            "url": "https://xn--b1aafeqcbxpcbxdjdebh.xn--p1ai/shymoizoliaciia-kryshi-balkona-ot-dojdia/",
+            "domain": "xn--b1aafeqcbxpcbxdjdebh.xn--p1ai",
+            "title": "Шумоизоляция крыши балкона от дождя - Деревянные дома...",
+            "snippet": "Внутренняя звукоизоляция помещения. Шумоизоляция крыши балкона от дождя, именно такой способ звукоизоляции применяется чаще всего, т. к. для его реализации не требуется преодолевать дополнительных сложностей, которые возникают при необходимости опуститься на крышу балкона.",
+            "modtime": "20180527T042532"
+          },
+          {
+            "rank": 8,
+            "url": "https://market.yandex.ru/search?text=%D0%B2%D0%B8%D0%B1%D1%80%D0%BE%D1%88%D1%83%D0%BC%D0%BE%D0%B8%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D1%80%D1%8B%D1%88%D1%83%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B0",
+            "domain": "market.yandex.ru",
+            "title": "Виброшумоизоляция на крышу балкона — купить по низкой цене...",
+            "snippet": "Шумоизоляция для автомобиля SGM А4, 12 листов/Виброизоляция 4мм для капота, пола, крыши, дверей машины/Комплект звукоизоляции: самоклеящаяся шумка для авто. … Комплект шумоизоляции на крышу автомобиля от SGM: виброизоляция Basic 2 мм, звукоизоляция Sonox 15.",
+            "modtime": "20210808T000850"
+          },
+          {
+            "rank": 9,
+            "url": "https://www.elit-balkon.ru/krysha-na-balkon/shumoizolyaciya-kozyrka-i-otliva-na-balkone-ili-lodzhii-moskva",
+            "domain": "www.elit-balkon.ru",
+            "title": "Шумоизоляция крыши балкона - услуга в Москве | ЭлитБалкон",
+            "snippet": "Выполняется шумоизоляция козырька на балконе из самоклеящегося резинового герметика толщиной 3 мм и шириной 200 мм, который наклеивается на внешние части железа, и с помощью которого возможно снизить шум до минимума. … Место выполнения работ Москва. Цена крыши на балкон вполне доступна.",
+            "modtime": "20140930T001941"
+          },
+          {
+            "rank": 10,
+            "url": "https://market.yandex.ru/search?text=%D1%88%D1%83%D0%BC%D0%BE%D0%B8%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%B7%D1%8B%D1%80%D0%B5%D0%BA%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B0%20%D0%BE%D1%82%20%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F%20%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C",
+            "domain": "market.yandex.ru",
+            "title": "Шумоизоляция на козырек балкона от дождя купить — купить по...",
+            "snippet": "Звукоизоляционная изоляция крыши, серая акустическая изоляция толщиной 13 мм, Универсальная шумоизоляционная подложка для крыши, балкона и кондиционера режет ножницами, теплоизоляция. … Шумоизоляция для отливов на окнах TONLOS TAPE, самоклеящаяся вибродемпфирующая лента для отливов 50 х 2000мм, 2 шт.",
+            "modtime": "20210624T084735"
+          }
+        ],
+        "result_count": 10,
+        "response_format": "FORMAT_XML"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "search",
+    "operation": "search",
+    "request_id": "search-batch-9abce177-5f0b-4c1f-a4ad-cd097ae5de3d",
+    "run_id": null,
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.488,
+      "tariff_checked_at": "2026-08-19",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "search"
+    },
+    "command": {
+      "method": "search",
+      "queryText": "шумоизоляция на крышу балкона",
+      "searchType": "SEARCH_TYPE_RU",
+      "page": 0,
+      "groupsOnPage": 10,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC",
+      "groupMode": "GROUP_MODE_FLAT",
+      "docsInGroup": 1,
+      "maxPassages": 4,
+      "region": "213",
+      "l10n": "LOCALIZATION_RU"
+    },
+    "http_status": 200,
+    "elapsed_ms": 2331,
+    "result": {
+      "results": [
+        {
+          "rank": 1,
+          "url": "https://www.ozon.ru/category/shumoizolyatsiya-kozyrka-balkona/",
+          "domain": "www.ozon.ru",
+          "title": "Шумоизоляция козырька балкона купить на OZON по низкой цене",
+          "snippet": null,
+          "modtime": "20221013T133721"
+        },
+        {
+          "rank": 2,
+          "url": "https://www.ozon.ru/product/nabor-vibroizolyatsionnyy-material-shumoizolyatsiya-otliva-otkosa-kozyrka-tolshchina-2-3mm-5-listov-353196511/",
+          "domain": "www.ozon.ru",
+          "title": "Набор - Виброизоляционный материал, шумоизоляция...",
+          "snippet": "Преимущества шумоизоляции козырьков балкона и отливов окна. … Покупала для подклейки профлиста на крыше балкона, стало гораздо тише (ждала дождя, чтобы проверить). единственное что получилось не совсем ровно (не много выходила за профлист) теперь брызги попадают на балкон при сильном и продолжительном дожде.",
+          "modtime": "20211031T133106"
+        },
+        {
+          "rank": 3,
+          "url": "https://www.wildberries.ru/catalog/tags/shumoizoljacija-dlja-balkona",
+          "domain": "www.wildberries.ru",
+          "title": "Шумоизоляция для балкона - Купить в интернет магазине...",
+          "snippet": "Шумоизоляция для балкона - Большой выбор в интернет-магазине WildBerries.ru. Бесплатная доставка и постоянные скидки!",
+          "modtime": "20250425T021711"
+        },
+        {
+          "rank": 4,
+          "url": "https://www.ozon.ru/product/shumoizolyatsiya-dlya-kozyrka-balkona-ot-dozhdya-10h3-serebro-3094000774/",
+          "domain": "www.ozon.ru",
+          "title": "Шумоизоляция для козырька балкона от дождя 10х3...",
+          "snippet": "Шумоизоляцию под козырёк (козырёк, навес над балконом) клеят на внутреннюю (нижнюю) поверхность козырька — то есть со стороны, обращённой вниз в помещение/на балкон. Это уменьшает шум от дождя и вибрацию.",
+          "modtime": "20251115T211039"
+        },
+        {
+          "rank": 5,
+          "url": "https://market.yandex.ru/search?text=%D0%B7%D0%B2%D1%83%D0%BA%D0%BE%D0%B8%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F%20%D0%BA%D0%BE%D0%B7%D1%8B%D1%80%D1%8C%D0%BA%D0%B0%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B0%20%D0%BE%D1%82%20%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F%20%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C",
+          "domain": "market.yandex.ru",
+          "title": "Звукоизоляция козырька балкона от дождя купить — купить по...",
+          "snippet": "Шумоизоляция на козырек кондиционера S 900*550, влагостойкая, негорючая, серая, АкваНевод-42. … Звукоизоляционная изоляция крыши, серая акустическая изоляция толщиной 13 мм, Универсальная шумоизоляционная подложка для крыши, балкона и кондиционера режет ножницами, теплоизоляция.",
+          "modtime": "20210625T044658"
+        },
+        {
+          "rank": 6,
+          "url": "https://oknakremlin.ru/stati-i-novosti/remont/shumoizolyacziya-zheleznoj-kryshi-vynosnogo-balkona-i-lodzhii/",
+          "domain": "oknakremlin.ru",
+          "title": "Шумоизоляция железной крыши выносного балкона и лоджии",
+          "snippet": "Шумоизоляция железной крыши на балконе производится материалами, приклеиваемыми на ее поверхность с внутренней или наружной стороны — поглощение звука происходит за счет свойств материала и увеличения массы листа.",
+          "modtime": "20180808T181641"
+        },
+        {
+          "rank": 7,
+          "url": "https://xn--b1aafeqcbxpcbxdjdebh.xn--p1ai/shymoizoliaciia-kryshi-balkona-ot-dojdia/",
+          "domain": "xn--b1aafeqcbxpcbxdjdebh.xn--p1ai",
+          "title": "Шумоизоляция крыши балкона от дождя - Деревянные дома...",
+          "snippet": "Внутренняя звукоизоляция помещения. Шумоизоляция крыши балкона от дождя, именно такой способ звукоизоляции применяется чаще всего, т. к. для его реализации не требуется преодолевать дополнительных сложностей, которые возникают при необходимости опуститься на крышу балкона.",
+          "modtime": "20180527T042532"
+        },
+        {
+          "rank": 8,
+          "url": "https://market.yandex.ru/search?text=%D0%B2%D0%B8%D0%B1%D1%80%D0%BE%D1%88%D1%83%D0%BC%D0%BE%D0%B8%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D1%80%D1%8B%D1%88%D1%83%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B0",
+          "domain": "market.yandex.ru",
+          "title": "Виброшумоизоляция на крышу балкона — купить по низкой цене...",
+          "snippet": "Шумоизоляция для автомобиля SGM А4, 12 листов/Виброизоляция 4мм для капота, пола, крыши, дверей машины/Комплект звукоизоляции: самоклеящаяся шумка для авто. … Комплект шумоизоляции на крышу автомобиля от SGM: виброизоляция Basic 2 мм, звукоизоляция Sonox 15.",
+          "modtime": "20210808T000850"
+        },
+        {
+          "rank": 9,
+          "url": "https://www.elit-balkon.ru/krysha-na-balkon/shumoizolyaciya-kozyrka-i-otliva-na-balkone-ili-lodzhii-moskva",
+          "domain": "www.elit-balkon.ru",
+          "title": "Шумоизоляция крыши балкона - услуга в Москве | ЭлитБалкон",
+          "snippet": "Выполняется шумоизоляция козырька на балконе из самоклеящегося резинового герметика толщиной 3 мм и шириной 200 мм, который наклеивается на внешние части железа, и с помощью которого возможно снизить шум до минимума. … Место выполнения работ Москва. Цена крыши на балкон вполне доступна.",
+          "modtime": "20140930T001941"
+        },
+        {
+          "rank": 10,
+          "url": "https://market.yandex.ru/search?text=%D1%88%D1%83%D0%BC%D0%BE%D0%B8%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%B7%D1%8B%D1%80%D0%B5%D0%BA%20%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B0%20%D0%BE%D1%82%20%D0%B4%D0%BE%D0%B6%D0%B4%D1%8F%20%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C",
+          "domain": "market.yandex.ru",
+          "title": "Шумоизоляция на козырек балкона от дождя купить — купить по...",
+          "snippet": "Звукоизоляционная изоляция крыши, серая акустическая изоляция толщиной 13 мм, Универсальная шумоизоляционная подложка для крыши, балкона и кондиционера режет ножницами, теплоизоляция. … Шумоизоляция для отливов на окнах TONLOS TAPE, самоклеящаяся вибродемпфирующая лента для отливов 50 х 2000мм, 2 шт.",
+          "modtime": "20210624T084735"
+        }
+      ],
+      "result_count": 10,
+      "response_format": "FORMAT_XML"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 0.488,
+    "max_rub": 0.976
+  },
+  "policy": {
+    "max_requests": 2,
+    "max_cost_rub": 0.976
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
