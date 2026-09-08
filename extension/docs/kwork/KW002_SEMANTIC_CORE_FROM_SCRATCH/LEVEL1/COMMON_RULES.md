@@ -1,21 +1,92 @@
-# KW-002 — LEVEL 1 COMMON RULES
+# KW-002 — LEVEL 1 COMMON RULES INDEX
 
-Status: **ACTIVE / OWNER-AUTHORIZED SCAFFOLD**
+Status: **ACTIVE / OWNER-AUTHORIZED / OWNER-LOCKED**
 
-Level 1 contains only universal cross-step rules for KW-002. It does not contain current client facts or step-specific execution detail.
+This file is the Level-1 entry point for KW-002.
 
-## 1. Product identity
+## 0. Canonical inheritance rule
 
-KW-002 is a from-scratch semantic-core and planned-site-architecture product for modern Yandex search.
+The previously shortened KW-002 common-rule scaffold is **not sufficient by itself**.
+
+Canonical inherited universal authority:
+
+`INHERITED_KW001_UNIVERSAL_RULES.md`
+
+It contains the actual reusable rules transferred from KW-001, including their purpose, failure class/root cause and pass boundary.
+
+```text
+DO NOT REDUCE AN INHERITED RULE TO A FILE REFERENCE OR ONE-LINE LABEL.
+DO NOT RE-INVENT A RULE THAT KW-001 HAS ALREADY EARNED/CORRECTED.
+DO NOT APPLY A KW-001 JOB-SPECIFIC VALUE AS A KW-002 UNIVERSAL RULE.
+```
+
+For KW-002 documentation hierarchy:
+
+```text
+LEVEL 1 = general universal Kwork rules
+LEVEL 2 = universal rules/method for concrete roadmap steps
+work/<JOB_ID>/ = concrete order data/evidence/status/artifacts
+```
+
+The older KW-001 terminology that called current-job workspace `Level 2` is not used as KW-002 documentation terminology.
+
+---
+
+# 1. Mandatory Level-1 authorities
+
+Before every major KW-002 step read:
+
+```text
+1. INHERITED_KW001_UNIVERSAL_RULES.md
+2. METHOD_SOURCE_AND_EVIDENCE_RULES.md
+3. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
+4. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
+5. WORK_HANDOFF_RULE.md when large-data risk exists
+6. current Level-2 step method
+7. current work/<JOB_ID>/ manifest/flow/evidence
+```
+
+The inherited authority includes, at minimum:
+
+```text
+GOAL-FIRST BEFORE METHOD/EXECUTION
+FULL ROADMAP BEFORE/AFTER EVERY MAJOR STEP
+COMPLETED + REMAINING STATUS TRUTH
+PLAIN-LANGUAGE WHY/WHAT/RESULT SUMMARY
+FRESH REREAD OF PRIOR ERRORS + NON-REPEAT CONTROLS
+METHOD ORIGIN CLASSIFICATION
+SOURCE→METHOD TRACEABILITY
+RESEARCH→EXECUTION SCHEMA
+INFORMATION-GAIN JUSTIFICATION FOR NEW PROVIDER CALLS
+QUALITY > PROVIDER-COST MINIMIZATION
+EXPLICIT BRIDGE SERVICE/MODE BEFORE COMMANDS
+PROVIDER SUCCESS != PROJECT COMPLETION
+COMPLETE RETURNED EVIDENCE PERSISTENCE + READBACK BEFORE NEXT PROVIDER ACTION
+OWNER ANALYTICAL OBJECTION != AUTOMATIC METHOD REVERSAL
+PERMANENT METHOD OWNER-LOCK
+JOB DATA MUST NOT CONTAMINATE UNIVERSAL RULES
+MATERIAL AUTHORITY MUTATION INVALIDATES DEPENDENT PASS
+UNCERTAINTY CONTINUITY
+CONCRETE STEP MUST EMBED ITS OWN GATES
+END-OF-STEP QUANTITATIVE ACCOUNTING
+NEXT_STEP_ALLOWED EXPLICIT DECISION
+JOB CLOSE ONLY AFTER HANDOFF/REVISIONS/PENDING ACTIONS CLOSED
+```
+
+---
+
+# 2. KW-002 product identity
+
+KW-002 builds a semantic core and planned site architecture **from scratch** for modern Yandex.
 
 ```text
 FROM SCRATCH
-= do not require an existing semantic core
-= do not require an existing final page structure
-= do not treat client guesses as search truth
+= no existing semantic core required
+= no existing final site structure required
+= client guesses do not become search truth
 ```
 
-The method considers both:
+The method considers:
 
 ```text
 ordinary Yandex organic Search
@@ -23,25 +94,35 @@ ordinary Yandex organic Search
 Yandex generative search/answers including Alice AI evidence where decision-relevant
 ```
 
-AI-search evidence is used to understand user-task orientation, source/page types and whether Search-only page decisions should be changed, enriched or de-risked. It is not an instruction to ask a conversational assistant for SEO advice.
+AI-search evidence is evidence about how modern Yandex answers/frames user tasks and what source/page types it uses. It is **not** asking a conversational assistant how SEO should be done.
 
-## 2. No artificial keyword-count cap
+---
 
-There is no permanent product rule such as `MAX_FINAL_KEYWORDS = 500`.
+# 3. No universal keyword-count cap
 
-The order freezes its own scope. Technical provider batch sizes are execution chunks only.
+There is no permanent rule `MAX_FINAL_KEYWORDS = 500`.
+
+```text
+RAW CANDIDATES = as many as evidence collection legitimately produces inside frozen business/scope
+FINAL CORE = all retained phrases that survive the method and belong to the sold/frozen order scope
+BRIDGE BATCH LIMIT = execution chunk only
+```
 
 Forbidden:
 
 ```text
-truncate a valid semantic family only because a batch limit was reached
-pad a weak niche to reach a sales number
-sample a large dataset and present the sample as the full result
+truncate a valid family because one batch is full
+pad a weak niche to hit a sales number
+sample a large dataset and call it complete
 ```
 
-## 3. Evidence before conclusion
+When complete large-data processing is unsafe in ordinary chat, apply `WORK_HANDOFF_RULE.md`.
 
-For every material claim distinguish:
+---
+
+# 4. Evidence classes must remain separate
+
+For material claims distinguish:
 
 ```text
 CLIENT FACT
@@ -53,149 +134,76 @@ PROJECT DERIVATION / ANALYST JUDGMENT
 UNKNOWN / HOLD
 ```
 
-Never convert one evidence class into another.
+Never convert one class into another.
 
 Examples:
 
 ```text
-competitor page contains topic X != people search for X
-Wordstat returns phrase X != X belongs to client business
-competitor ranks for query Q != every phrase on competitor page ranks
-Search overlap != automatic same-page decision
-AI answer contains topic X != X requires a new SEO page
+competitor page topic != proven demand
+Wordstat phrase != business relevance
+competitor visible for one query != full competitor keyword universe
+SERP overlap != automatic same-page decision
+AI answer topic != automatic new SEO page
 ```
 
-## 4. Before every major step
+---
 
-Required sequence:
+# 5. Search-only baseline before AI-search reconciliation
+
+KW-002 must first be capable of showing what ordinary Yandex Search evidence alone produces.
 
 ```text
-1. state whole-job goal and current step goal;
-2. state what has already been completed and what remains;
-3. read Level 1 rules;
-4. read the current Level 2 step method;
-5. read current work/<JOB_ID>/ manifest/flow/evidence;
-6. review relevant external methodology when the step requires it;
-7. identify inherited KW-001 rules and whether adaptation is required;
-8. self-audit for missing evidence, false assumptions and prior-job contamination;
-9. explain plainly WHY / WHAT / EXPECTED RESULT to owner;
-10. obtain owner authorization when the step gate requires it;
-11. execute only that authorized step;
-12. preserve the complete result;
-13. read back / QA / update job flow;
-14. report what changed and what comes next.
+SEARCH-ONLY SEMANTIC/PAGE ARCHITECTURE
+→ FREEZE
+→ AI-SEARCH EVIDENCE
+→ COMPARISON
+→ CHANGE | ENRICH | DE_RISK | NO_CHANGE | HOLD
 ```
 
-## 5. Do not automatically agree with owner analytical objections
+AI evidence must not retroactively contaminate the baseline.
 
-Owner decisions on scope, authorization, real business facts and commercial priorities are binding.
+A supported `NO_CHANGE` is a valid result; do not force a split/new page/content requirement just to manufacture AI value.
 
-But an analytical objection must still be checked against evidence before changing the method/result.
+---
 
-```text
-OWNER OBJECTION
-→ restate disputed point
-→ distinguish evidence from assumption
-→ recheck method + evidence + external sources
-→ classify REAL DEFECT / COMMUNICATION DEFECT / UNCERTAINTY / NO DEFECT
-→ change only when justified
-```
+# 6. Client-facing output rule
 
-This rule is inherited from KW-001 `DIALOGUE_AND_ANALYTICAL_DISCIPLINE.md`.
-
-## 6. Bridge state must be explicit before operator commands
-
-Before every Yandex Marketing Bridge command state:
+Final artifacts must tell the client, in ordinary language:
 
 ```text
-ACTIVE SERVICE
-EXECUTION MODE
-MATERIAL ADDITIONAL STATE
-EXPECTED PROVIDER REQUEST COUNT / BILLABLE STATUS when relevant
-```
-
-Do not rely on previous dialogue context to imply the mode.
-
-## 7. Provider success is not project completion
-
-A provider item/step is complete only when:
-
-```text
-provider outcome known
-+ complete required result preserved
-+ count/field/provenance truth verified
-+ persisted result readable for next step
-```
-
-`HTTP 200`, `SUCCEEDED`, request count or cost record alone is insufficient.
-
-If preservation fails, the next provider item and next analytical step are blocked until recovery.
-
-Inherited from KW-001 evidence-persistence discipline.
-
-## 8. Universal rules, step rules and job data are separate
-
-```text
-LEVEL 1 = common reusable rules
-LEVEL 2 = reusable step methods
-work/<JOB_ID>/ = concrete job truth
-```
-
-A job-specific incident may justify proposing a reusable correction, but concrete client names, queries, URLs, counts, request IDs and current-job outcomes must not become permanent Level 1/Level 2 inputs.
-
-Permanent change requires explicit owner authorization.
-
-## 9. Large-data rule
-
-If complete analysis cannot be performed reliably in the ordinary chat context because the dataset is large, the solution is not sampling or truncation.
-
-Use the dedicated `WORK_HANDOFF_RULE.md`.
-
-## 10. Search-only causal freeze before AI-search reconciliation
-
-The method must be able to show what ordinary Search evidence alone would have produced before AI-search evidence is allowed to change the result.
-
-```text
-SEARCH-ONLY BASELINE FIRST
-→ freeze
-→ AI-search evidence
-→ compare
-→ CHANGE / ENRICH / DE_RISK / NO_CHANGE / HOLD
-```
-
-This prevents AI-search evidence from retroactively contaminating the baseline and allows the client/productization test to show whether it added decision value.
-
-## 11. No forced AI delta
-
-A valid outcome is `NO_CHANGE`.
-
-Never create a new page, split a cluster or exaggerate a content requirement merely to prove that Alice AI "changed something".
-
-## 12. Client-facing language
-
-Final client artifacts must explain:
-
-```text
-what we researched
-why it matters
-what we found
-how phrases were grouped
-which page should answer which demand
-what structure is recommended
-what ordinary Search showed
-what AI-search evidence changed or confirmed
+what was researched
+what demand was found
+what was removed and why
+how queries were grouped
+which page should answer which group
+what site structure follows
+what competitor evidence added
+what ordinary Yandex Search showed
+what AI-search evidence changed/confirmed/did not prove
 what remains uncertain
 ```
 
-Internal step IDs, provider protocol names and QA jargon are traceability details, not the main client narrative.
+Internal IDs/protocol/status vocabulary is secondary traceability, not the client narrative.
 
-## 13. Stop/hold discipline
+---
 
-If a material conclusion lacks evidence:
+# 7. Fail-closed truthfulness
+
+If a material decision lacks evidence:
 
 ```text
 DO NOT GUESS
-→ HOLD / REVIEW / EVIDENCE_REQUIRED
+→ HOLD / REVIEW / SEARCH_REQUIRED / EVIDENCE_REQUIRED / DEFERRED
 ```
 
-A smaller truthful core is better than a larger invented core.
+Output completeness must not erase truthful uncertainty.
+
+---
+
+## Marker
+
+```text
+KW002_LEVEL1_CANONICAL_INHERITED_RULE_AUTHORITY = INHERITED_KW001_UNIVERSAL_RULES.md
+KW002_SHORT_RULE_SUMMARY_DOES_NOT_REPLACE_INHERITED_RULES = true
+KW002_LEVEL1_OWNER_LOCKED = true
+```
