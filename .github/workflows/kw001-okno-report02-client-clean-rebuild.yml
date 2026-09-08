@@ -48,7 +48,7 @@ jobs:
       - name: Build DOCX and PDF
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
-          python "$ROOT/tools/post_release_correction/build_recipient_docx.py" --document 02
+          python "$ROOT/tools/post_release_correction/build_report02_client_clean_documents.py"
 
       - name: Cross-format language and structural QA
         run: |
@@ -88,6 +88,7 @@ jobs:
               hits += [x for x in internal if re.search(x,text,re.I)]
               if hits:
                   raise SystemExit(f'{label} CLIENT_LANGUAGE_FAIL {hits}')
+          assert 'Содержание' not in pdf_text, 'EMPTY_TOC_HEADING_FAIL'
           assert len(re.findall(r'^\| \d+ \|', md_text.split('## 6. Семантические назначения',1)[1].split('## 7.',1)[0], re.M))==46
           assert len(re.findall(r'^\| \d+ \|', md_text.split('## 8. Внутренние связи для детализации',1)[1].split('## 9.',1)[0], re.M))==14
           assert not re.search(r'опубликован\w*\s+в\s+2024|дата публикации', md_text, re.I)
@@ -101,7 +102,7 @@ jobs:
               'scope':'DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP',
               'owner_review':'PENDING',
               'counts':{'ready':3,'clarification':5,'semantic_assignments':46,'additional_checks':4,'internal_links':14,'bibliography':10,'pdf_pages':pages},
-              'cross_format':{'banned_language_hits_md':0,'banned_language_hits_docx':0,'banned_language_hits_pdf':0,'essential_section_equivalence':'PASS','a031_ranking_year_consistency':'PASS'},
+              'cross_format':{'banned_language_hits_md':0,'banned_language_hits_docx':0,'banned_language_hits_pdf':0,'empty_toc_heading_hits':0,'essential_section_equivalence':'PASS','a031_ranking_year_consistency':'PASS'},
               'artifacts':{
                   'markdown':{'size_bytes':md.stat().st_size,'sha256':sha(md)},
                   'docx':{'size_bytes':docx.stat().st_size,'sha256':sha(docx)},
@@ -123,7 +124,7 @@ jobs:
                   a['size_bytes']=docx.stat().st_size; a['sha256']=sha(docx)
               if a['path'].startswith('sources/02_'):
                   a['size_bytes']=md.stat().st_size; a['sha256']=sha(md)
-          m['document_02']['visual_qa']=f'PASS__{pages}_OF_{pages}_PDF__DOCX_RENDER_REQUIRED_FOR_OWNER_READBACK'
+          m['document_02']['visual_qa']=f'PENDING_OWNER_READBACK__{pages}_PAGE_FINAL_PDF_RENDERED'
           manifest.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print('REPORT02_CLIENT_CLEAN_CROSS_FORMAT_QA_PASS',pages,sha(md),sha(docx),sha(pdf))
           PY
