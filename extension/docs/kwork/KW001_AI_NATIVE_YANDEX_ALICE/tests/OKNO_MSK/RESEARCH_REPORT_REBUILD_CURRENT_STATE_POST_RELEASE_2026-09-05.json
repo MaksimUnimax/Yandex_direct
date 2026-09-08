@@ -1,9 +1,9 @@
 {
   "date": "2026-09-05",
-  "last_updated": "2026-09-07",
+  "last_updated": "2026-09-08",
   "job": "OKNO_MSK",
   "track": "RESEARCH_REPORT_REBUILD_AND_ANALYTICAL_REAUDIT",
-  "status": "DOCUMENT_02_FINAL_NARROW_A031_CORRECTION__ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "status": "DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING",
   "historical_state_authority": "RESEARCH_REPORT_REBUILD_CURRENT_STATE_2026-09-04.json",
   "historical_release": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_manifest": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
@@ -13,7 +13,7 @@
   "defect_discovery_status": "COMPLETE",
   "reviewed_release_files": {
     "01_client_research_report": "ANALYST_RECHECK_PASS__YANDEX_GENSEARCH_ALICE_AI_OWNER_REPORT__OWNER_REVIEW_PENDING",
-    "02_seo_specialist_guide": "CORRECTED_CURRENT_RECIPIENT_ARTIFACT__ANALYST_QA_PASS__OWNER_RECHECK_REQUIRED",
+    "02_seo_specialist_guide": "CLIENT_INSTRUCTION_CLEANUP__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING",
     "03_ai_site_specific_seo_consultant": "CORRECTED_EXACTLY_ONE_SELF_CONTAINED_MARKDOWN__OFFLINE_CLEAN_CONTEXT_QA_PASS__OWNER_RECHECK_REQUIRED",
     "standalone_semantic_core": "CORRECTED__DATA_WORKBOOK_RUSSIAN_LANGUAGE_VISUAL_QA_PASS__PERSISTED_IN_GITHUB__OWNER_REVIEW_PENDING",
     "04_workbook": "HISTORICAL_STAGE12_WORKBOOK__NOT_STANDALONE_CORE__PROVENANCE_ONLY",
@@ -65,14 +65,17 @@
     "STEP_18_EXECUTION_TICKET_COMPLETENESS_GATE.md",
     "STEP_19_RECIPIENT_ARTIFACT_COMPLETENESS_GATE.md",
     "STEP_20_RECIPIENT_ACCEPTANCE_DEPTH_GATE.md",
-    "STEP_20_CLIENT_REPORT_OWNER_VALUE_AND_PLAIN_LANGUAGE_GATE.md"
-    ,"STEP_20_STANDALONE_SEMANTIC_CORE_GATE.md"
-    ,"STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md"
-    ,"STEP_08_SEARCH_STAGE_FREEZE_METHOD.md"
-    ,"BRIDGE_EVIDENCE_PERSISTENCE_GATE.md"
+    "STEP_20_CLIENT_REPORT_OWNER_VALUE_AND_PLAIN_LANGUAGE_GATE.md",
+    "STEP_20_STANDALONE_SEMANTIC_CORE_GATE.md",
+    "STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md",
+    "STEP_08_SEARCH_STAGE_FREEZE_METHOD.md",
+    "BRIDGE_EVIDENCE_PERSISTENCE_GATE.md",
+    "STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
+    "STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md",
+    "STEP_20_REPORT_SPECIFIC_ACCEPTANCE_ROUTING.md"
   ],
-  "next_action": "OWNER_REVIEW_FINAL_CORRECTED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
-  "correction_materialization_status": "DOCUMENT_02_FINAL_NARROW_A031_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "next_action": "OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03",
+  "correction_materialization_status": "DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "corrected_recipient_release": {
     "directory": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
     "manifest": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
@@ -180,7 +183,12 @@
     "document_01_frequency_work_visible": true,
     "document_01_internal_count_field": "ABSENT",
     "document_01_positive_no_change_page_catalogue": "ABSENT",
-    "document_01_full_rebuild_claim": "ABSENT__RESEARCH_CONCLUDES_FULL_REBUILD_NOT_REQUIRED"
+    "document_01_full_rebuild_claim": "ABSENT__RESEARCH_CONCLUDES_FULL_REBUILD_NOT_REQUIRED",
+    "document_02_source_sha256": "caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814",
+    "document_02_docx_sha256": "a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1",
+    "document_02_pdf_sha256": "36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5",
+    "document_02_pdf_pages": 14,
+    "document_02_status": "CLIENT_INSTRUCTION_CLEANUP__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING"
   },
   "semantic_core_data_audit_2026_09_07": {
     "status": "COMPLETE__PERSISTED_IN_GITHUB",
@@ -233,12 +241,27 @@
     "review_history": "FIRST_REBUILD_ANALYST_QA_PASS__OWNER_REVIEW_FAIL__SECOND_CORRECTION_UNAUTHORIZED_REPORT_STAGE_SITE_RECOLLECTION__OWNER_IDENTIFIED_PROCESS_FAILURE__SCOPE_FREEZE_REMEDIATION_ANALYST_RECHECK_PASS__OWNER_RESIDUAL_A031_TEMPORAL_ATTRIBUTION_FAIL__FINAL_NARROW_A031_CORRECTION_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
     "document_02_rebuilt_to_current_specialist_implementation_contract": true,
     "ready_physical_actions": 3,
-    "ready_action_ids": ["S18-A009", "S18-A028", "S18-A031"],
+    "ready_action_ids": [
+      "S18-A009",
+      "S18-A028",
+      "S18-A031"
+    ],
     "partial_actions": 5,
-    "partial_action_ids": ["S18-A010", "S18-A012", "S18-A026", "S18-A029", "S18-A030"],
+    "partial_action_ids": [
+      "S18-A010",
+      "S18-A012",
+      "S18-A026",
+      "S18-A029",
+      "S18-A030"
+    ],
     "mapping_only_results": 46,
     "blocked_recheck_items": 4,
-    "blocked_recheck_ids": ["S18-A003", "S18-A004", "S18-A007", "S18-A011"],
+    "blocked_recheck_ids": [
+      "S18-A003",
+      "S18-A004",
+      "S18-A007",
+      "S18-A011"
+    ],
     "internal_link_authority_rows": 15,
     "visible_unique_link_decisions": 14,
     "duplicate_visible_link_pairs_without_explanation": 0,
@@ -285,5 +308,37 @@
   "step21_22_authorized": false,
   "new_provider_calls_authorized": false,
   "new_provider_calls_during_post_release_review": 0,
-  "paid_cost_rub_during_post_release_review": 0
+  "paid_cost_rub_during_post_release_review": 0,
+  "document_02_client_instruction_cleanup_2026_09_08": {
+    "status": "CLIENT_INSTRUCTION_CLEANUP__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING",
+    "authority": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md",
+    "qa": "RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json",
+    "content_gate": "../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
+    "layout_gate": "../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md",
+    "ready_actions": 3,
+    "clarification_items": 5,
+    "semantic_assignments": 46,
+    "additional_checks": 4,
+    "visible_internal_link_pairs": 14,
+    "bibliography_items": 10,
+    "client_negative_pseudo_action_hits": 0,
+    "client_obvious_open_find_navigate_hits": 0,
+    "client_process_meta_hits": 0,
+    "client_project_internal_traceability_hits": 0,
+    "current_job_negative_particle_ne_hits": 0,
+    "post_hoc_evidence_used": 0,
+    "new_project_specific_data_collection": 0,
+    "source_sha256": "caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814",
+    "docx_sha256": "a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1",
+    "pdf_sha256": "36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5",
+    "pdf_pages": 14,
+    "empty_toc_heading_hits": 0,
+    "orphan_field_labels": 0,
+    "independent_final_pdf_visual_readback": "PASS__14_OF_14",
+    "materialization_commit": "8c597880f7f9b3b9d051d626b7e6c4efb1e2779b",
+    "document_01_modified": false,
+    "document_03_modified": false,
+    "semantic_core_04_modified": false,
+    "next_action": "OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+  }
 }
