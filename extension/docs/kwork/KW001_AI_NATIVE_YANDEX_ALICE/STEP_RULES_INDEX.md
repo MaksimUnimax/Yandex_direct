@@ -60,7 +60,7 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 | Step 3R | Repair incomplete Step3 acquisition | **JOB-SPECIFIC RECOVERY PATTERN / GOVERNED BY STEP3** | Step3 permanent rules + current Level2 repair evidence. |
 | Step 4 | First post-acquisition triage | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — family triage is not row-level cleanup; low frequency alone is not irrelevance. |
 | Step 5 | Targeted second acquisition / expansion | **PARTIALLY DEFINED / OWNER-APPROVED DATA-PRESERVATION BOUNDARY ACTIVE** | Bounded information-gain method still needs fresh validation; when authorized, output must use the same union-compatible complete occurrence/demand/provenance schema as Step3. |
-| **Step 5A** | **Competitor semantic expansion / missed-demand coverage** | **OWNER-AUTHORIZED ROADMAP METHOD CANDIDATE / EXTERNAL-METHOD-RESEARCHED / NOT YET PROJECT-TEST-VALIDATED** | **`STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`** — discover real recurring Yandex-search competitors; use evidence-bearing competitor pages only as sources of candidate topics/seeds; expand genuinely new seeds through Wordstat under Step3/5 durability; use current Yandex Search to support tested query→competitor visibility claims; merge confirmed additions into the common semantic pipeline. `COMPETITOR PAGE TOPIC != EXACT QUERY RANKING`; tested query visibility != full competitor keyword universe; no mandatory reverse-domain provider. |
+| **Step 5A** | **Competitor semantic expansion / missed-demand coverage** | **APPROVED / ACTIVE / PROJECT-TEST-VALIDATED / OWNER-CANONIZED** | **`STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`** — permanent bounded competitor-derived acquisition loop: discover real recurring Yandex-search competitors; use evidence-bearing competitor pages only as sources of candidate topics/seeds; expand genuinely new seeds through Wordstat under Step3/5 durability; use current Yandex Search to support tested query→competitor visibility claims; merge confirmed additions into the common semantic pipeline before cleanup/freeze. `COMPETITOR PAGE TOPIC != EXACT QUERY RANKING`; tested query visibility != full competitor keyword universe; no mandatory reverse-domain provider; no automatic page creation; client result must expose material findings rather than counts alone. |
 | Step 6 | Demand dynamics / seasonality | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required. |
 | Step 6A | Acquisition coverage revalidation | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required. |
 | Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — no default KEEP; positive evidence required; accounting QA != semantic QA; uncertainty stays explicit. |
@@ -82,16 +82,18 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 
 ---
 
-## Step5A insertion boundary
+## Step5A permanent insertion boundary
 
-Owner instruction on 2026-09-08 explicitly authorizes Step5A as a permanent KW-001 roadmap stage. This authorization does not erase the methodology-validation distinction.
+Step5A is a permanent KW-001 roadmap stage and has completed its declared project-test validation plus explicit owner acceptance. Concrete proof remains in Level2 rehearsal evidence; no case-specific values are promoted into this universal index.
 
 ```text
 ROADMAP_STAGE_EXISTS = true
 OWNER_AUTHORIZED_ROADMAP_INSERTION = true
 EXTERNAL_METHOD_RESEARCH_COMPLETED_FOR_INSERTION = true
-PROJECT_TEST_VALIDATED = false
-FULL_PERMANENT_METHOD_PROMOTION = pending first varied execution evidence/review
+PROJECT_TEST_VALIDATED = true
+OWNER_CLIENT_USEFULNESS_GATE = accepted
+FULL_PERMANENT_METHOD_PROMOTION = APPROVED_ACTIVE
+PERMANENT_DIMINISHING_GAIN_THRESHOLD_VALIDATED = false
 ```
 
 Required order boundary:
@@ -105,6 +107,8 @@ INITIAL WORDSTAT ACQUISITION / TARGETED EXPANSION
 ```
 
 Step5A may use bounded Search observations for competitor discovery and exact tested competitor/query confirmation. Those acquisition-purpose Search observations do not automatically satisfy Step9's later Search-validation duties for clustering/page decisions.
+
+Confirmed `ADD_TO_PIPELINE` occurrences must enter the same downstream semantic pipeline before the next real freeze/release. A completed Step5A worksheet/report is not a substitute for propagation into cleanup, freeze, clustering, page ownership and later architecture/AI stages.
 
 ---
 
@@ -226,7 +230,7 @@ SEMANTIC SECTIONS REQUIRED != DISCONNECTED MICRO-BLOCK FRAGMENTATION
 COMPLETE CLIENT REPORT != QA CHECKLIST USED AS DOCUMENT OUTLINE
 EXACT COUNTS SUPPORT NARRATIVE != COUNTS ARE THE NARRATIVE
 INTERNAL STAGE LANGUAGE != COMMISSIONER-FACING WORK DESCRIPTION
-GENERATED TEMPLATE SYMMETRY != CLEAR CLIENT STRUCTURE
+GENERATED TEMPLATE_SYMMETRY != CLEAR CLIENT STRUCTURE
 GENERIC DISCLAIMER SECTION != ANSWER TO THE KWORK
 ```
 
@@ -237,9 +241,3 @@ A recipient-facing report must expose the material research at the depth promise
 ## Universality requirement
 
 Every permanent method change must pass `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
-
-```text
-JOB-SPECIFIC PROOF MAY EARN A PERMANENT RULE
-BUT
-JOB-SPECIFIC VALUES MUST NOT BECOME PERMANENT METHOD INPUTS
-```
