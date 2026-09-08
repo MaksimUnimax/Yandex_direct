@@ -4,47 +4,83 @@ Status: **FROZEN PRE-EXECUTION SOURCE BOUNDARY / CLIENT INPUT MATERIALIZED / ROA
 
 ## 1. Purpose
 
-The Blood & Sand rehearsal must prove that KW-002 can build a semantic core and site architecture from scratch. Existing project research therefore cannot be used as hidden training material for the current execution.
+The Blood & Sand rehearsal must prove that KW-002 can build a semantic core and site architecture from scratch. Existing project research therefore cannot be used as hidden analytical input.
 
-## 2. Client-supplied authority
-
-The canonical simulated client brief is:
+## 2. Canonical client-supplied authorities
 
 ```text
-extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/CLIENT_SUPPLIED_BRIEF.md
+CLIENT_SUPPLIED_BRIEF.md
+CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
+CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
+CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
+CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
 ```
 
-That file is treated as owner/client input, not as an analytical conclusion.
+These are treated as client/order inputs, not SEO conclusions.
 
-## 3. Exact raw assortment source admitted for the clean rehearsal
+## 3. Exact marketplace source artifacts admitted for the clean rehearsal
 
-The client is treated as having supplied one raw current/catalog attachment from its marketplace operations:
+### Source A — Wildberries current seller cards
 
 ```text
 repository = MaksimUnimax/blood_sand
-ref used for source freeze = main at/after 4f92c32ab6412a8116edf344fdb6150b07d78862
-path = marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
-source class = CLIENT_SUPPLIED_RAW_ASSORTMENT
+source path = marketing/data/normalized/marketplace/wildberries/20260908__wb__cards-list__fresh-current108-identities.csv
+source class = CLIENT_SUPPLIED_MARKETPLACE_LISTING_IDENTITIES
+observed rows = 108
+client-declared in-scope rows = 88
+client-declared out-of-scope rows = 20
 ```
 
-This source is admitted only as raw business/product identity data.
+Allowed use:
+
+```text
+nmID / listing identity
+SKU/barcode identity
+exact current listing title
+client-declared scope membership
+```
+
+The source is a mechanically normalized identity list from the current seller-card collection. Its SEO/analytical interpretation is forbidden at intake.
+
+### Source B — Ozon product/listing identities
+
+```text
+repository = MaksimUnimax/blood_sand
+source path = marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
+source class = CLIENT_SUPPLIED_RAW_MARKETPLACE_CATALOG
+returned product/listing rows = 76
+```
 
 Allowed fields/uses:
 
 ```text
 product_id
-SKU / marketplace sku identity
-offer_id / current product title
-presence of a product identity in the supplied catalog
+marketplace SKU identity
+offer_id / product title
+presence of a product/listing identity in the supplied catalog
 ```
 
-Stock quantities/reserved quantities may be preserved as raw source fields but are not to be used as SEO demand, priority or page-creation evidence unless a later authorized step explicitly needs current availability as a business constraint.
+Stock quantities/reserved quantities may remain in the raw source but are not SEO-demand or SEO-priority evidence.
 
-The file must not be interpreted as an existing SEO taxonomy. Product titles are acquisition/business vocabulary only.
+## 4. Intake accounting
 
-If the owner later supplies a fresher or broader raw catalog/export before Step 01, it must be added through an explicit source-manifest revision. It must not silently replace this frozen source.
+```text
+WB target listing rows = 88
+Ozon listing rows = 76
+Total admitted in-scope marketplace listing rows before reconciliation = 164
+Cross-platform unique-product count = NOT YET DETERMINED
+```
 
-## 4. Allowed before final KW-002 freeze
+The catalog may contain duplicates, variants, repeated symbols and cross-platform representations. Step 01 must resolve the factual product/variant model where needed.
+
+```text
+LISTING ROW != UNIQUE PRODUCT
+SAME TITLE != AUTOMATIC SAME VARIANT
+PRODUCT TITLE != SEARCH QUERY
+PRODUCT EXISTS != SEO PRIORITY
+```
+
+## 5. Allowed before final KW-002 freeze
 
 Allowed source classes:
 
@@ -52,14 +88,14 @@ Allowed source classes:
 A. KW-002 Level 1 documentation;
 B. KW-002 Level 2 step documentation;
 C. this job manifest/flow/source files;
-D. CLIENT_SUPPLIED_BRIEF.md;
-E. the exact admitted raw assortment source in Section 3;
+D. the canonical client-supplied files in Section 2;
+E. the exact marketplace source artifacts in Section 3;
 F. current external methodology sources explicitly approved for the current step;
-G. fresh Wordstat/Search/GenSearch evidence acquired during this KW-002 job under its own provenance;
-H. fresh public competitor pages discovered by this KW-002 job through current Yandex Search, when the relevant Level-2 step authorizes them.
+G. fresh Wordstat/Search/AI-search evidence acquired during this KW-002 job under its own provenance;
+H. fresh public competitor pages discovered by this KW-002 job through current Yandex Search when the relevant Level-2 step authorizes them.
 ```
 
-## 5. Default deny for all other Blood & Sand project materials
+## 6. Default deny for all other Blood & Sand project materials
 
 Before final freeze:
 
@@ -70,7 +106,7 @@ EXCEPTION = exact source(s) explicitly whitelisted in this file
 
 Do not use other files merely because they contain convenient product names or summaries.
 
-## 6. Sealed / prohibited before final freeze
+## 7. Sealed / prohibited before final freeze
 
 Do not open or use as execution inputs any prior Blood & Sand analytical artifacts containing conclusions from earlier research, including equivalents of:
 
@@ -90,20 +126,19 @@ prior conclusions copied into another repository/test
 prior normalized/derived/ledger data that encodes analytical decisions
 ```
 
-Specific file names do not need to be enumerated here; the rule is class-based so renamed/copy files remain prohibited.
+Exception: the exact WB current identity file in Section 3 is admitted only for its listing identity/title fields; no external conclusions attached to it may be imported.
 
-## 7. Raw business facts vs old analysis
+## 8. Raw/current business facts vs old analysis
 
 Allowed:
 
 ```text
 brand/business description supplied in CLIENT_SUPPLIED_BRIEF.md
-product name
-product_id / SKU
-offer_id / raw product title
-actual product identity in the admitted raw catalog
+client-declared product scope
+exact product/listing title
+product/listing/SKU identity
+marketplace sales-channel fact
 region/business operations supplied by owner
-current sales channel fact supplied by owner
 ```
 
 Not allowed before final freeze:
@@ -120,7 +155,7 @@ Not allowed before final freeze:
 
 Those are analytical conclusions and must be re-earned.
 
-## 8. Clean-context requirement
+## 9. Clean-context requirement
 
 Any clean new conversation or ChatGPT Work execution used for this rehearsal receives a whitelist of allowed paths/files.
 
@@ -128,19 +163,25 @@ Any clean new conversation or ChatGPT Work execution used for this rehearsal rec
 DEFAULT = DENY OLD BLOOD_SAND RESEARCH
 ```
 
-If a needed raw business fact currently exists only inside a mixed research artifact, do not open the mixed artifact as a shortcut. Obtain the fact from the admitted raw catalog, a new raw client export, a current public product source explicitly admitted by the owner, or a direct owner statement.
+If a needed business fact is missing from the current admitted product inputs, obtain it from a new client statement or newly admitted raw/current source rather than opening an old mixed research artifact.
 
-## 9. After final freeze
+## 10. After final freeze
 
 Only after Step 20 has frozen the new KW-002 result may prior Blood & Sand research be opened for a separate regression comparison.
 
-The comparison must record that the prior work was opened **after** the new result freeze and must not rewrite the already frozen baseline without explicit correction/versioning.
+The comparison must record that the prior work was opened after the new result freeze and must not silently rewrite the already frozen baseline.
 
-## 10. Current source-freeze markers
+## 11. Current source-freeze markers
 
 ```text
 CLIENT_BRIEF_MATERIALIZED = true
-RAW_ASSORTMENT_SOURCE_COUNT = 1
+CLIENT_ASSORTMENT_MANIFEST_MATERIALIZED = true
+WB_SOURCE_ROWS_OBSERVED = 108
+WB_IN_SCOPE_ROWS_ADMITTED = 88
+WB_OUT_OF_SCOPE_ROWS_DECLARED = 20
+OZON_ROWS_ADMITTED = 76
+IN_SCOPE_LISTING_ROWS_BEFORE_RECONCILIATION = 164
+CROSS_PLATFORM_UNIQUE_PRODUCT_COUNT = NOT_YET_DETERMINED
 OLD_BLOOD_SAND_ANALYTICAL_INPUTS_ALLOWED = 0
 WORDSTAT_PRIOR_INPUTS_ALLOWED = 0
 SEARCH_PRIOR_INPUTS_ALLOWED = 0
