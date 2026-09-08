@@ -2,7 +2,7 @@
 
 Дата: 2026-09-08
 
-Статус до remote readback: **LOCAL QA PASS / REMOTE READBACK PENDING**
+Статус: **COMPLETE / PASS / REMOTE GITHUB READBACK PASS**
 
 ## 1. Проверяемый результат
 
@@ -106,25 +106,24 @@ AI-search conclusions
 
 ## 8. PASS gate
 
-До удалённого readback:
+Remote readback выполнен после записи всех пяти файлов.
 
 ```text
 LOCAL_QA = PASS
-REMOTE_GITHUB_READBACK = PENDING
-STEP_02_COMPLETE = PENDING_REMOTE_READBACK
-NEXT_STEP_ALLOWED = false
-```
-
-После записи всех пяти файлов и remote readback должны быть подтверждены:
-
-```text
+REMOTE_SEED_MAP_SHA = 1ca81f86625d7ea4932df09041e6708c08f7a526
+REMOTE_COVERAGE_MATRIX_SHA = b88429634cdf31e3c5bb98f0f03f6410d9145b0d
+REMOTE_DEFERRED_PROBES_SHA = f5217b22515c162b5c6889dd026dfb188c67b4d1
+REMOTE_REPORT_SHA_PRE_FINAL_STATUS = 9dbe7a67e1a8da0b7d1cc94812fa44c8dbddc3c3
+REMOTE_SEED_LAST_ROW = S097
+REMOTE_COVERAGE_LAST_ROW = 76
+REMOTE_DEFERRED_LAST_ROW = S097
 REMOTE_SEED_ROWS = 97
 REMOTE_COVERAGE_ROWS = 76
 REMOTE_DEFERRED_ROWS = 30
 REMOTE_GITHUB_READBACK = PASS
 ```
 
-Только тогда:
+Финальный переход:
 
 ```text
 STEP_02 = COMPLETE / PASS
