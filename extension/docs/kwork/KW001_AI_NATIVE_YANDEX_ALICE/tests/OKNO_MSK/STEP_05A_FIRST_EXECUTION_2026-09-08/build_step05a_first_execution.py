@@ -24,6 +24,7 @@ OUT = Path(__file__).resolve().parent
 STARTING_HEAD = "c043fda14c51b18f4016aa26ff3e3f7e7c121a13"
 COMBINED = OUT / "STEP_05A_SERP_COMBINED_750.tsv"
 DOMAIN_FREQUENCY = OUT / "STEP_05A_DOMAIN_FREQUENCY.tsv"
+IMPACT_TRACE = OUT / "STEP_05A_QUERY_IMPACT_TRACE.tsv"
 QA = OUT / "STEP_05A_FIRST_EXECUTION_QA.json"
 
 SOURCE_FILES = [
@@ -65,6 +66,57 @@ DOMAIN_FIELDS = [
     "representative_urls",
     "source_scope",
 ]
+
+IMPACT_FIELDS = [
+    "query_index",
+    "probe_id",
+    "query",
+    "top3_result_domains",
+    "top10_result_domains",
+    "observed_serp_job",
+    "dominant_result_type",
+    "step9_handoff",
+    "step9_confidence",
+    "step9_evidence_scope",
+    "step10_exact_join",
+    "step10_input_disposition",
+    "step10_status",
+    "step10_user_task",
+    "step10_intent_orientation",
+    "step10_cluster_id",
+    "step10_cluster_role",
+    "step10_evidence_state",
+    "step10_assignment_reason",
+    "step11_exact_phrase_join",
+    "step11_target_url",
+    "step11_ownership_state",
+    "step11_cluster_owner_url",
+    "step11_cluster_ownership_state",
+    "final_master_exact_join",
+    "final_semantic_state",
+    "final_structural_unit_id",
+    "canonical_user_task",
+    "canonical_intent_type",
+    "canonical_business_scope_state",
+    "final_primary_page",
+    "final_supporting_pages",
+    "canonical_structural_action",
+    "canonical_recommendation_maturity",
+    "canonical_final_confidence",
+    "impact_classification",
+    "impact_reason",
+    "trace_status",
+    "authority_lineage",
+    "claim_boundary",
+]
+
+IMPACT_CLASSES = {
+    "CHANGED_DECISION",
+    "DE_RISKED_DECISION",
+    "CONFIRMED_EXISTING_DECISION",
+    "NO_MATERIAL_DOWNSTREAM_EFFECT",
+    "UNRESOLVED_TRACE",
+}
 
 COMPETITOR_CLASSES = {
     "DIRECT_BUSINESS_COMPETITOR",
@@ -578,14 +630,216 @@ def phase_domains() -> None:
     )
 
 
+def phase_impact() -> None:
+    combined = read_tsv(COMBINED)
+    decisions = read_tsv(JOB / "STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv")
+    assignments = read_tsv(JOB / "STEP_10_CLUSTER_ASSIGNMENTS.tsv")
+    phrase_map = read_tsv(JOB / "STEP_11_PHRASE_PAGE_MAP.tsv")
+    ownership = read_tsv(JOB / "STEP_11_PAGE_OWNERSHIP_CORRECTED.tsv")
+    final_master = read_tsv(JOB / "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv")
+    unit_authority = read_tsv(JOB / "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv")
+
+    serp_by_query: dict[int, list[dict[str, str]]] = defaultdict(list)
+    for row in combined:
+        serp_by_query[int(row["query_index"])].append(row)
+    for rows in serp_by_query.values():
+        rows.sort(key=lambda row: int(row["rank"]))
+
+    assignment_by_phrase = {row["phrase"].strip().lower(): row for row in assignments}
+    phrase_map_by_phrase = {row["phrase"].strip().lower(): row for row in phrase_map}
+    master_by_phrase = {row["phrase"].strip().lower(): row for row in final_master}
+    ownership_by_cluster = {row["CLUSTER_ID"]: row for row in ownership}
+    unit_by_id = {row["structural_unit_id"]: row for row in unit_authority}
+
+    output_rows: list[dict[str, object]] = []
+    for query_index, decision in enumerate(decisions, start=1):
+        query = decision["query"]
+        key = query.strip().lower()
+        assignment = assignment_by_phrase.get(key)
+        mapping = phrase_map_by_phrase.get(key)
+        master = master_by_phrase.get(key)
+        cluster_id = assignment["cluster_id"] if assignment else ""
+        cluster_owner = ownership_by_cluster.get(cluster_id)
+        unit = unit_by_id.get(master["final_structural_unit_id"] if master else "")
+        serp_rows = serp_by_query[query_index]
+
+        if assignment and assignment.get("cluster_role") == "BOUNDARY_REVIEW":
+            impact = "DE_RISKED_DECISION"
+            impact_reason = (
+                "The preserved Step 10 boundary override uses exact Step 9 overlap evidence to prevent an automatic merge or stronger ownership claim."
+            )
+        elif not assignment or not master or not assignment.get("cluster_id") or assignment.get("cluster_role") == "UNRESOLVED":
+            impact = "UNRESOLVED_TRACE"
+            if assignment:
+                impact_reason = (
+                    "An exact Step 9 decision exists, but the preserved downstream row remains unresolved and does not support a stronger causal trace."
+                )
+            else:
+                impact_reason = (
+                    "The completed downstream phrase authorities contain no exact query/phrase row; no family-level causal transfer was invented."
+                )
+        elif master.get("canonical_structural_action") in {
+            "DEFER_PENDING_EVIDENCE",
+            "OUTSIDE_SCOPE_NO_ACTION",
+            "NO_STANDALONE_PAGE",
+        }:
+            impact = "DE_RISKED_DECISION"
+            impact_reason = (
+                "Direct Step 9 evidence supports a boundary, outside-scope, no-standalone-page or evidence-hold route and reduces the risk of unsupported page expansion."
+            )
+        elif assignment.get("corrected_status") == "KEEP":
+            impact = "CONFIRMED_EXISTING_DECISION"
+            impact_reason = (
+                "The phrase was already a core candidate; its explicit Step 9 join confirms the task/cluster that the later canonical authority preserves."
+            )
+        elif assignment.get("corrected_status") == "REVIEW":
+            impact = "CHANGED_DECISION"
+            impact_reason = (
+                "Direct Step 9 evidence resolves a review-state phrase into the preserved Step 10 user task/cluster; the later canonical route is recorded without claiming Search alone caused every downstream choice."
+            )
+        else:
+            impact = "NO_MATERIAL_DOWNSTREAM_EFFECT"
+            impact_reason = (
+                "The exact observation is preserved, but the completed authorities do not record a material changed, de-risked or confirmed downstream decision."
+            )
+
+        lineage = [
+            f"STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv#{decision['probe_id']}",
+            f"STEP_05A_SERP_COMBINED_750.tsv#query_index={query_index}",
+        ]
+        if assignment:
+            lineage.append(f"STEP_10_CLUSTER_ASSIGNMENTS.tsv#phrase={query}")
+        if mapping:
+            lineage.append(f"STEP_11_PHRASE_PAGE_MAP.tsv#phrase={query}")
+        if cluster_owner:
+            lineage.append(f"STEP_11_PAGE_OWNERSHIP_CORRECTED.tsv#CLUSTER_ID={cluster_id}")
+        if master:
+            lineage.append(f"RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv#phrase={query}")
+        if unit:
+            lineage.append(
+                "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv"
+                f"#structural_unit_id={master['final_structural_unit_id']}"
+            )
+
+        master_claim_boundary = master.get("claim_boundary", "") if master else ""
+        claim_boundary = (
+            "EXACT_STEP09_QUERY_ONLY__NO_UNPROBED_OR_FAMILY_CAUSAL_TRANSFER"
+            + (f" | {master_claim_boundary}" if master_claim_boundary else "")
+        )
+        output_rows.append(
+            {
+                "query_index": query_index,
+                "probe_id": decision["probe_id"],
+                "query": query,
+                "top3_result_domains": " | ".join(row["normalized_domain"] for row in serp_rows[:3]),
+                "top10_result_domains": " | ".join(row["normalized_domain"] for row in serp_rows),
+                "observed_serp_job": decision["observed_serp_job"],
+                "dominant_result_type": decision["dominant_result_type"],
+                "step9_handoff": decision["step10_handoff"],
+                "step9_confidence": decision["confidence"],
+                "step9_evidence_scope": decision["evidence_scope"],
+                "step10_exact_join": "true" if assignment else "false",
+                "step10_input_disposition": assignment.get("input_disposition", "") if assignment else "",
+                "step10_status": assignment.get("corrected_status", "") if assignment else "",
+                "step10_user_task": assignment.get("user_task", "") if assignment else "",
+                "step10_intent_orientation": assignment.get("intent_orientation", "") if assignment else "",
+                "step10_cluster_id": cluster_id,
+                "step10_cluster_role": assignment.get("cluster_role", "") if assignment else "",
+                "step10_evidence_state": assignment.get("cluster_evidence_state", "") if assignment else "",
+                "step10_assignment_reason": assignment.get("assignment_reason", "") if assignment else "",
+                "step11_exact_phrase_join": "true" if mapping else "false",
+                "step11_target_url": mapping.get("target_url", "") if mapping else "",
+                "step11_ownership_state": mapping.get("ownership_state", "") if mapping else "",
+                "step11_cluster_owner_url": cluster_owner.get("PRIMARY_OWNER_URL_IF_RESOLVED", "") if cluster_owner else "",
+                "step11_cluster_ownership_state": cluster_owner.get("OWNERSHIP_STATE", "") if cluster_owner else "",
+                "final_master_exact_join": "true" if master else "false",
+                "final_semantic_state": master.get("final_semantic_state", "") if master else "",
+                "final_structural_unit_id": master.get("final_structural_unit_id", "") if master else "",
+                "canonical_user_task": unit.get("user_task", "") if unit else master.get("canonical_user_task", "") if master else "",
+                "canonical_intent_type": unit.get("intent_type", "") if unit else master.get("canonical_intent_type", "") if master else "",
+                "canonical_business_scope_state": unit.get("business_scope_state", "") if unit else master.get("canonical_business_scope_state", "") if master else "",
+                "final_primary_page": unit.get("final_primary_page", "") if unit else master.get("final_primary_page", "") if master else "",
+                "final_supporting_pages": unit.get("final_supporting_pages", "") if unit else master.get("final_supporting_pages", "") if master else "",
+                "canonical_structural_action": unit.get("structural_action", "") if unit else master.get("canonical_structural_action", "") if master else "",
+                "canonical_recommendation_maturity": unit.get("recommendation_maturity", "") if unit else master.get("canonical_recommendation_maturity", "") if master else "",
+                "canonical_final_confidence": unit.get("final_confidence", "") if unit else master.get("canonical_final_confidence", "") if master else "",
+                "impact_classification": impact,
+                "impact_reason": impact_reason,
+                "trace_status": "UNRESOLVED" if impact == "UNRESOLVED_TRACE" else "TRACE_RESOLVED_WITH_EXPLICIT_BOUNDARY",
+                "authority_lineage": " | ".join(lineage),
+                "claim_boundary": claim_boundary,
+            }
+        )
+
+    write_tsv(IMPACT_TRACE, IMPACT_FIELDS, output_rows)
+    impact_counts = Counter(str(row["impact_classification"]) for row in output_rows)
+    checks = {
+        "impact_rows_75": len(output_rows) == 75,
+        "query_indexes_1_to_75": [int(row["query_index"]) for row in output_rows] == list(range(1, 76)),
+        "probe_ids_unique_75": len({str(row["probe_id"]) for row in output_rows}) == 75,
+        "impact_classes_allowed": set(impact_counts).issubset(IMPACT_CLASSES),
+        "impact_counts_reconcile_75": sum(impact_counts.values()) == 75,
+        "step10_exact_joins_66": sum(row["step10_exact_join"] == "true" for row in output_rows) == 66,
+        "step11_exact_phrase_joins_66": sum(row["step11_exact_phrase_join"] == "true" for row in output_rows) == 66,
+        "final_master_exact_joins_66": sum(row["final_master_exact_join"] == "true" for row in output_rows) == 66,
+        "unresolved_trace_not_overstated": all(
+            row["step10_cluster_id"] == "" or row["step10_cluster_role"] == "UNRESOLVED"
+            for row in output_rows
+            if row["impact_classification"] == "UNRESOLVED_TRACE"
+        ),
+        "resolved_trace_has_downstream_join": all(
+            row["step10_exact_join"] == "true" and row["final_master_exact_join"] == "true"
+            for row in output_rows
+            if row["impact_classification"] != "UNRESOLVED_TRACE"
+        ),
+        "exact_query_claim_boundary_all_rows": all(
+            "EXACT_STEP09_QUERY_ONLY" in str(row["claim_boundary"]) for row in output_rows
+        ),
+        "authority_lineage_all_rows": all(row["authority_lineage"] for row in output_rows),
+    }
+    if not all(checks.values()):
+        failed = [name for name, passed in checks.items() if not passed]
+        raise RuntimeError(f"Impact-trace QA failed: {failed}")
+
+    payload = load_qa()
+    payload["phase_status"]["query_impact_trace"] = "PASS"
+    payload["query_impact_trace"] = {
+        "status": "PASS",
+        "path": IMPACT_TRACE.name,
+        "sha256": sha256(IMPACT_TRACE),
+        "size_bytes": IMPACT_TRACE.stat().st_size,
+        "rows": len(output_rows),
+        "impact_counts": {name: impact_counts.get(name, 0) for name in sorted(IMPACT_CLASSES)},
+        "step10_exact_joins": sum(row["step10_exact_join"] == "true" for row in output_rows),
+        "unresolved_queries": [
+            {"query_index": row["query_index"], "probe_id": row["probe_id"], "query": row["query"]}
+            for row in output_rows
+            if row["impact_classification"] == "UNRESOLVED_TRACE"
+        ],
+        "checks": checks,
+    }
+    save_qa(payload)
+    print(
+        json.dumps(
+            {
+                "phase": "impact",
+                "status": "PASS",
+                "rows": len(output_rows),
+                "impact_counts": payload["query_impact_trace"]["impact_counts"],
+            },
+            ensure_ascii=False,
+        )
+    )
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=["combined", "domains"], required=True)
+    parser.add_argument("--phase", choices=["combined", "domains", "impact"], required=True)
     args = parser.parse_args()
     if args.phase == "combined":
         phase_combined()
     elif args.phase == "domains":
         phase_domains()
+    elif args.phase == "impact":
+        phase_impact()
     return 0
 
 

@@ -18,7 +18,8 @@
   "public_competitor_page_inspection_completed": false,
   "phase_status": {
     "combined_serp_ledger": "PASS",
-    "domain_frequency_and_classification": "PASS"
+    "domain_frequency_and_classification": "PASS",
+    "query_impact_trace": "PASS"
   },
   "combined_serp_ledger": {
     "status": "PASS",
@@ -298,6 +299,87 @@
       "shortlist_is_direct": true,
       "recurrence_not_equated_with_comparability": true,
       "source_scope_preserved_only": true
+    }
+  },
+  "query_impact_trace": {
+    "status": "PASS",
+    "path": "STEP_05A_QUERY_IMPACT_TRACE.tsv",
+    "sha256": "4925a04a4fa02ceab1371ac2faa1103a61f3a3cd13478eb9003b103ffe079db6",
+    "size_bytes": 128509,
+    "rows": 75,
+    "impact_counts": {
+      "CHANGED_DECISION": 26,
+      "CONFIRMED_EXISTING_DECISION": 19,
+      "DE_RISKED_DECISION": 20,
+      "NO_MATERIAL_DOWNSTREAM_EFFECT": 0,
+      "UNRESOLVED_TRACE": 10
+    },
+    "step10_exact_joins": 66,
+    "unresolved_queries": [
+      {
+        "query_index": 39,
+        "probe_id": "SP09-039",
+        "query": "цены материала на пластиковые окна"
+      },
+      {
+        "query_index": 57,
+        "probe_id": "SP09-057",
+        "query": "rehau thermo окна"
+      },
+      {
+        "query_index": 60,
+        "probe_id": "SP09-060",
+        "query": "какой профиль rehau выбрать"
+      },
+      {
+        "query_index": 62,
+        "probe_id": "SP09-062",
+        "query": "остекление балкона п 46"
+      },
+      {
+        "query_index": 65,
+        "probe_id": "SP09-065",
+        "query": "остекление балконов москва"
+      },
+      {
+        "query_index": 66,
+        "probe_id": "SP09-066",
+        "query": "остекление беседки"
+      },
+      {
+        "query_index": 68,
+        "probe_id": "SP09-068",
+        "query": "остекление террасы"
+      },
+      {
+        "query_index": 70,
+        "probe_id": "SP09-070",
+        "query": "пластиковые окна митино"
+      },
+      {
+        "query_index": 73,
+        "probe_id": "SP09-073",
+        "query": "теплое остекление балкона"
+      },
+      {
+        "query_index": 74,
+        "probe_id": "SP09-074",
+        "query": "установка пластиковых окон москва"
+      }
+    ],
+    "checks": {
+      "impact_rows_75": true,
+      "query_indexes_1_to_75": true,
+      "probe_ids_unique_75": true,
+      "impact_classes_allowed": true,
+      "impact_counts_reconcile_75": true,
+      "step10_exact_joins_66": true,
+      "step11_exact_phrase_joins_66": true,
+      "final_master_exact_joins_66": true,
+      "unresolved_trace_not_overstated": true,
+      "resolved_trace_has_downstream_join": true,
+      "exact_query_claim_boundary_all_rows": true,
+      "authority_lineage_all_rows": true
     }
   }
 }
