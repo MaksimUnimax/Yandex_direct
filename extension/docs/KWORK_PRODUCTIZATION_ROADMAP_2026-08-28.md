@@ -1,6 +1,7 @@
 # KWORK PRODUCTIZATION ROADMAP
 
 Date: 2026-08-28
+Updated: 2026-09-08
 Status: **ACTIVE PRODUCTIZATION ROADMAP / NO PRODUCT BYTE CHANGE**
 Branch: `roadmap/kwork-productization-2026-08-28`
 
@@ -80,6 +81,9 @@ Current technical basis:
 Wordstat + Wordstat batch
 ordinary Yandex Search
 Search batch / TOP evidence
+public competitor-page review as a semantic-discovery source
+competitor-derived Wordstat expansion
+current Yandex query → competitor domain/URL visibility evidence
 Webmaster where client access exists
 Metrika where client access exists
 Direct where relevant and available
@@ -87,6 +91,33 @@ official GenSearch
 accepted O-001 comparative methodology
 accepted GenSearch proxy validation
 ```
+
+KW-001 now includes a required **competitor semantic expansion layer** before final semantic cleanup/freeze.
+
+Canonical intent:
+
+```text
+initial business/site seeds
+→ Yandex Wordstat acquisition
+→ targeted second acquisition where needed
+→ current Yandex Search identifies real organic competitors
+→ inspect evidence-bearing competitor pages for missing topics/seeds
+→ new competitor-derived seeds return to Wordstat
+→ current Yandex Search confirms tested query ↔ competitor visibility and page type
+→ relevant additions merge into the common semantic pipeline
+→ final cleanup / Search architecture / Alice comparison
+```
+
+This layer is intentionally narrow. It exists to answer:
+
+```text
+WHAT IMPORTANT SEARCH DEMAND OR TOPICS DID OUR OWN STARTING VOCABULARY MISS,
+AND WHICH OF THOSE ARE ACTUALLY SUPPORTED BY CURRENT YANDEX DEMAND + SEARCH EVIDENCE?
+```
+
+It does **not** turn KW-001 into a full competitor SEO audit. Public competitor pages provide candidate topics/seeds; Wordstat proves demand around them; current Yandex Search is required for any claim that a competitor is visible for a tested exact query. Without a reverse-domain visibility database, KW-001 must not claim that it enumerated the competitor's complete organic keyword universe.
+
+External reverse-domain services/exports may be used as optional enrichment if independently authorized and available, but they are **not a dependency of the base KW-001 package**. The canonical method candidate is `KW001_AI_NATIVE_YANDEX_ALICE/STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`.
 
 Important: O-001/blood_sand and GenSearch gates prove methodology/provider value. They do **not** by themselves prove the complete Kwork delivery flow. KW-001 therefore starts with a full commercial rehearsal from mock client brief to final workbook/report.
 
@@ -152,6 +183,8 @@ selected GenSearch only when decision-relevant
 ChatGPT opportunity / priority analysis
 client action plan
 ```
+
+KW-004 remains a separate, broader niche/competitor opportunity product. The narrow competitor-semantic loop inside KW-001 exists only to improve semantic-core coverage and does not silently import KW-004's broader competitor-analysis scope.
 
 Status: `QUEUED_AFTER_KW-003`
 
@@ -221,6 +254,8 @@ client CSV/XLSX export
 → prioritized client artifact
 ```
 
+KW-008 remains materially different from KW-001 Step5A. KW-008 is a dedicated reverse-domain/export-driven gap product; KW-001 Step5A is a bounded Yandex-native coverage loop and does not require a reverse-domain export/provider.
+
 Status: `REQUIRES_IMPORT_WORKFLOW`
 
 ## 5. Explicitly out of this roadmap
@@ -229,6 +264,7 @@ Status: `REQUIRES_IMPORT_WORKFLOW`
 Google provider development = deferred / separate future decision
 technical SEO / crawler audit = excluded by owner decision
 more Alice/GenSearch plumbing without a newly proven gap = not authorized
+mandatory paid reverse-domain competitor provider for KW-001 = not authorized
 ```
 
 ## 6. Sequential execution rule
@@ -286,5 +322,5 @@ If any answer is NO, the Kwork remains `NOT_READY_TO_SELL`.
 
 ```text
 ACTIVE = KW-001 AI-Native Semantic Rebuild
-NEXT = create KW-001 implementation package, freeze test-order protocol, select test projects, then run the first complete rehearsal
+NEXT = reconcile KW-001 detailed step order with the new competitor semantic expansion stage, validate Step5A on the next authorized varied rehearsal, then continue toward final commercial acceptance
 ```
