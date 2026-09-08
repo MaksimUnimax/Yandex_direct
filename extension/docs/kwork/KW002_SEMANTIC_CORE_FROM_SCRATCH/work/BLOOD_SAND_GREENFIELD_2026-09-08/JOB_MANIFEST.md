@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 01 COMPLETE / MAIN RETURN QA PASS / STEP 02 PRE-STEP REVIEW COMPLETE / OWNER AUTHORIZATION PENDING**
+Status: **STEP 02 COMPLETE / PASS / STEP 03 NEXT ALLOWED**
 
 ## 1. Job identity
 
@@ -102,19 +102,6 @@ Step 01 Work execution is complete and accepted.
 
 ## 8. Step 01 acceptance
 
-Authorities:
-
-```text
-STEP_01_OZON_LISTING_MODEL.csv
-STEP_01_ASSORTMENT_CONCEPT_MODEL.csv
-STEP_01_BUSINESS_AND_ASSORTMENT_MODEL.md
-STEP_01_UNKNOWN_OR_AMBIGUITY_LEDGER.csv
-STEP_01_QA_REPORT.md
-STEP_01_MAIN_CHATGPT_RETURN_QA_2026-09-08.md
-```
-
-Accepted truth:
-
 ```text
 STEP_01_INPUT_ROWS_ACCOUNTED = 76
 STEP_01_SILENT_DROPS = 0
@@ -128,38 +115,66 @@ STEP_01_COMPLETE = true
 
 The four Step-01 neutral accounting buckets are not SEO clusters or future site categories.
 
-## 9. Step 02 method/pre-step state
-
-Canonical pre-step authority:
+## 9. Step 02 accepted artifacts
 
 ```text
 STEP_02_PRE_STEP_REVIEW_2026-09-08.md
+STEP_02_SEED_MAP.csv
+STEP_02_COVERAGE_MATRIX.csv
+STEP_02_DEFERRED_OR_TARGETED_PROBES.csv
+STEP_02_REPORT.md
+STEP_02_QA_REPORT.md
 ```
 
-External method sources reviewed for Step 02 include:
+Accepted Step-02 truth:
 
 ```text
-Yandex Wordstat overview
-Yandex Wordstat API structure / topRequests
-Yandex Webmaster targeting guidance
-Yandex Wordstat operators
-Ahrefs seed-keyword guidance as industry corroboration
+STEP_02_SEED_ROWS_TOTAL = 97
+STEP_02_PRIMARY_SEEDS = 67
+STEP_02_DEFERRED_TARGETED_SEEDS = 30
+STEP_02_DUPLICATE_NORMALIZED_SEEDS = 0
+STEP_02_SEEDS_WITHOUT_SOURCE_LINEAGE = 0
+STEP_02_SEEDS_WITHOUT_PURPOSE = 0
+STEP_02_SEEDS_NOT_DISCOVERY_PROBE = 0
+STEP_02_COVERAGE_ROWS = 76
+STEP_02_CARDS_WITHOUT_PRIMARY_ROUTE = 0
+STEP_02_WORDSTAT_CALLS = 0
+STEP_02_SEARCH_CALLS = 0
+STEP_02_AI_SEARCH_CALLS = 0
+STEP_02_WB_ROWS_USED = 0
+STEP_02_OLD_RESEARCH_CONTAMINATION = 0
+STEP_02_REMOTE_GITHUB_READBACK = PASS
+STEP_02_COMPLETE = true
 ```
 
-Current Step-02 execution design:
+All Step-02 seeds are acquisition/discovery probes only.
 
 ```text
-STEP_02_GOAL = build discovery probes for future Wordstat acquisition
 SEED != FINAL KEYWORD
 SEED != CLUSTER
 SEED != PAGE
-STEP_02_WORK_REQUIRED = false under current input
-STEP_02_BRIDGE_REQUIRED = false
-STEP_02_PROVIDER_CALLS_ALLOWED = 0
-STEP_02_OUTPUT = seed map + coverage + deferred/targeted probes + QA/report
 ```
 
-## 10. Current execution state
+## 10. Step 03 input boundary
+
+Step 03 primary acquisition should start from the **67 `PRIMARY` seeds** in `STEP_02_SEED_MAP.csv`.
+
+The 30 `DEFERRED_TARGETED` probes must not automatically create provider calls. They can be activated later only when a named coverage gap or information-gain question justifies them.
+
+Before any Wordstat command Step 03 must run its own pre-step/provider gate and state:
+
+```text
+ACTIVE SERVICE
+EXECUTION MODE
+EXACT QUESTION
+EXPECTED REQUEST COUNT
+EXPECTED COST / QUOTA EFFECT
+REQUIRED SAVED RESULT
+COMPLETENESS CHECK
+STOP CONDITION
+```
+
+## 11. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
@@ -171,11 +186,16 @@ CLIENT_PRODUCT_CATALOG_OZON_ROWS = 76
 WB_PRODUCT_ROWS_ALLOWED = 0
 STEP_01_COMPLETE = true
 STEP_01_MAIN_RETURN_QA = PASS
-STEP_02_STARTED = false
+STEP_02_STARTED = true
 STEP_02_PRE_STEP_REVIEW = COMPLETE
-STEP_02_OWNER_AUTHORIZATION = PENDING
-NEXT_STEP_ALLOWED = false
-NEXT_ACTION = OWNER_AUTHORIZES_STEP_02_EXECUTION
+STEP_02_OWNER_AUTHORIZATION = GRANTED_BY_USER_DO_IT
+STEP_02_EXECUTION = COMPLETE
+STEP_02_QA = PASS
+STEP_02_REMOTE_GITHUB_READBACK = PASS
+STEP_02_COMPLETE = true
+STEP_03_STARTED = false
+NEXT_STEP_ALLOWED = true
+NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
 PROVIDER_CALLS_FOR_KW002_JOB = 0
 WORK_HANDOFFS_EXECUTED = 1
 ```
