@@ -1,10 +1,10 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **CLIENT INPUT CAPTURED / EXECUTION NOT STARTED / ROADMAP OWNER REVIEW PENDING**
+Status: **STEP 00 COMPLETE / STEP 01 NEXT ALLOWED / RESEARCH NOT YET STARTED**
 
 ## Whole-job goal
 
-Build from scratch, using only the frozen allowed inputs and fresh KW-002 evidence:
+Build from scratch, using only frozen client inputs and fresh KW-002 evidence:
 
 ```text
 semantic core
@@ -19,31 +19,32 @@ semantic core
 
 No prior Blood & Sand SEO research is an execution input before final freeze.
 
-## Intake state before Step 00 execution
-
-Completed documentation/intake preparation:
+## Current frozen client-input state
 
 ```text
-CLIENT_SUPPLIED_BRIEF = MATERIALIZED
-CLIENT BUSINESS/REGION/GOAL = FROZEN AS SIMULATED CLIENT INPUT
+CLIENT_SUPPLIED_BRIEF = FROZEN
+CLIENT_ASSORTMENT_MANIFEST = FROZEN
+WB SELLER ACCOUNT OBSERVED = 108 listing rows
+WB IN-SCOPE CLIENT CATALOG = 88 rows
+WB CLIENT-DECLARED OUT-OF-SCOPE = 20 rows
+OZON CLIENT CATALOG = 76 rows
+TOTAL IN-SCOPE MARKETPLACE LISTING ROWS BEFORE RECONCILIATION = 164
+CROSS-PLATFORM UNIQUE PRODUCT COUNT = NOT YET DETERMINED
 CLIENT-SUPPLIED COMPETITORS = NONE
 EXISTING SEMANTIC CORE = NONE
 EXISTING SITE ARCHITECTURE = NONE
-RAW ASSORTMENT SOURCE = 1 WHITELISTED Ozon raw catalog source
 OLD BLOOD_SAND ANALYTICAL SOURCES = SEALED
 PROVIDER CALLS = 0
 WORK HANDOFFS = 0
 ```
 
-This capture is preparation for Step 00. It does not itself authorize research or provider execution.
-
-## Step status
+## Full roadmap / current status
 
 | Step | Purpose | Status | Blocking condition to start |
 |---|---|---|---|
-| 00 | Freeze order/scope/source boundary and formally accept intake | NOT_STARTED | owner accepts prepared KW-002 roadmap |
-| 01 | Business + complete admitted assortment model | NOT_STARTED | Step 00 PASS + whitelisted raw assortment source |
-| 02 | Seed/acquisition map | NOT_STARTED | Step 01 PASS |
+| 00 | Freeze order/scope/source boundary and formally accept intake | COMPLETE | PASS recorded in `STEP_00_SCOPE_AND_SOURCE_FREEZE_2026-09-08.md` |
+| 01 | Build factual business + complete admitted assortment model | NOT_STARTED / NEXT_ALLOWED | Step 01 pre-step review + owner authorization; full client catalog available |
+| 02 | Build seed/acquisition map | NOT_STARTED | Step 01 PASS |
 | 03 | Primary Wordstat acquisition | NOT_STARTED | Step 02 PASS + Bridge authorization |
 | 04 | First family triage | NOT_STARTED | Step 03 complete persisted evidence |
 | 05 | Targeted expansion / coverage | NOT_STARTED | Step 04 gap queue |
@@ -64,6 +65,45 @@ This capture is preparation for Step 00. It does not itself authorize research o
 | 20 | Final QA / recipient acceptance | NOT_STARTED | Step 19 files materialized |
 | 21 | Revision rehearsal + Kwork measurement | NOT_STARTED | Step 20 PASS |
 | 22 | Job close | NOT_STARTED | final handoff + measurements complete |
+
+## Completed work
+
+```text
+KW-002 Level 1 scaffold and inherited KW-001 universal rules
+KW-002 Level 2 roadmap and inherited same-step rules
+client brief captured
+complete admitted WB/Ozon client catalog inputs materialized
+20 unrelated WB seller lines separated as client-declared out of scope
+source whitelist / old-research deny boundary frozen
+Step 00 scope/order/source freeze executed and passed
+```
+
+## Remaining work
+
+```text
+Step 01 factual business + assortment model
+Step 02 seed/acquisition map
+Step 03 Wordstat
+Step 04 triage
+Step 05 targeted expansion
+Step 06 real Yandex competitors
+Step 07 competitor semantic expansion
+Step 08 competitor-derived Wordstat
+Step 09 candidate master freeze
+Step 10 row-level cleanup/intent/task
+Step 11 Search-stage freeze
+Step 12 ordinary Yandex Search evidence
+Step 13 clustering
+Step 14 query→page + Search-only IA
+Step 15 AI-search case selection
+Step 16 AI-search evidence
+Step 17 Search-vs-AI reconciliation
+Step 18 final core/IA/Page Jobs/internal links
+Step 19 client deliverables
+Step 20 final QA/recipient acceptance
+Step 21 revision rehearsal/productization measurement
+Step 22 final handoff/job close
+```
 
 ## Test-only regression gate
 
@@ -92,7 +132,13 @@ Work handoffs executed = 0
 ## Current exact next action
 
 ```text
-OWNER REVIEW OF PREPARED KW-002 DOCUMENTATION / ROADMAP
+STEP 01 PRE-STEP REVIEW / BUSINESS + COMPLETE ASSORTMENT MODEL
 ```
 
-Do not start Step 00 automatically.
+Step 01 has not started. It must execute its own Level-1 pre-step gate before analysis.
+
+```text
+STEP_00_COMPLETE = true
+NEXT_STEP_ALLOWED = true
+NEXT_STEP = 01
+```
