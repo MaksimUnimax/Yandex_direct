@@ -2,7 +2,7 @@
 
 Date: 2026-08-28
 Updated: 2026-09-08
-Status: **ACTIVE PRODUCTIZATION ROADMAP / NO PRODUCT BYTE CHANGE**
+Status: **ACTIVE PRODUCTIZATION ROADMAP / OWNER-DIRECTED KW002 SWITCH**
 Branch: `roadmap/kwork-productization-2026-08-28`
 
 ## 1. Permanent worker model
@@ -13,6 +13,9 @@ ChatGPT Plus
 
 Yandex Marketing Bridge
 = controlled authenticated hands for provider acquisition, persistence, batching, policy, recovery and delivery
+
+ChatGPT Work
+= large-data execution environment used only under the owner-approved Work handoff rule and owner-supplied prompt
 
 Human owner/operator
 = authorization boundary / local operator / irreducible live actions / commercial owner
@@ -44,24 +47,17 @@ A Kwork is `READY_TO_SELL` only after all of the following are complete:
 
 Writing a card is not implementation. Existing technical tests are supporting evidence, not a substitute for a commercial end-to-end rehearsal.
 
-## 3. Per-Kwork permanent artifact set
+## 3. Per-Kwork documentation architecture
 
-Every implemented Kwork receives a folder:
+Every implemented Kwork must keep three distinct stores:
 
 ```text
-extension/docs/kwork/<KW-ID>/
-  PRODUCT_CARD.md
-  TEST_PLAN.md
-  TEST_RUN_<project>.md
-  SAMPLE_DELIVERABLES.md
-  ECONOMICS_AND_LIMITS.md
-  RUNBOOK_FOR_CHATGPT.md
-  FINAL_ACCEPTANCE.md
+LEVEL 1 = universal cross-step rules for the Kwork
+LEVEL 2 = universal rules/methods for individual roadmap steps
+work/<JOB_ID>/ = concrete client/test order data, evidence, status and deliverables
 ```
 
-`RUNBOOK_FOR_CHATGPT.md` is created/frozen only after the real workflow has been exercised and corrected.
-
-The runbook must allow ChatGPT in a clean new conversation to understand the order from the document alone.
+Concrete job data must not be copied into Level 1 or Level 2 as permanent inputs. Reusable lessons may be promoted only after owner authorization and after case-specific values are removed/parameterized.
 
 ## 4. Productization order
 
@@ -92,62 +88,85 @@ accepted O-001 comparative methodology
 accepted GenSearch proxy validation
 ```
 
-KW-001 now includes a required **competitor semantic expansion layer** before final semantic cleanup/freeze.
+KW-001 includes a required competitor semantic expansion layer before final semantic cleanup/freeze.
 
-Canonical intent:
-
-```text
-initial business/site seeds
-→ Yandex Wordstat acquisition
-→ targeted second acquisition where needed
-→ current Yandex Search identifies real organic competitors
-→ inspect evidence-bearing competitor pages for missing topics/seeds
-→ new competitor-derived seeds return to Wordstat
-→ current Yandex Search confirms tested query ↔ competitor visibility and page type
-→ relevant additions merge into the common semantic pipeline
-→ final cleanup / Search architecture / Alice comparison
-```
-
-This layer is intentionally narrow. It exists to answer:
+Current state:
 
 ```text
-WHAT IMPORTANT SEARCH DEMAND OR TOPICS DID OUR OWN STARTING VOCABULARY MISS,
-AND WHICH OF THOSE ARE ACTUALLY SUPPORTED BY CURRENT YANDEX DEMAND + SEARCH EVIDENCE?
+technical rehearsal evidence exists
+Step5A technical validation = PASS
+owner review / final commercial productization = still open
+READY_TO_SELL = false
 ```
 
-It does **not** turn KW-001 into a full competitor SEO audit. Public competitor pages provide candidate topics/seeds; Wordstat proves demand around them; current Yandex Search is required for any claim that a competitor is visible for a tested exact query. Without a reverse-domain visibility database, KW-001 must not claim that it enumerated the competitor's complete organic keyword universe.
+Status: **PAUSED_AT_OWNER_REVIEW / NOT COMPLETE / NOT READY_TO_SELL**
 
-External reverse-domain services/exports may be used as optional enrichment if independently authorized and available, but they are **not a dependency of the base KW-001 package**. The canonical method candidate is `KW001_AI_NATIVE_YANDEX_ALICE/STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`.
+Owner decision on 2026-09-08 explicitly pauses KW-001 productization so that KW-002 can be developed and rehearsed on a clean greenfield commercial-catalog case. This is a sequencing override, not a claim that KW-001 passed final acceptance.
 
-Important: O-001/blood_sand and GenSearch gates prove methodology/provider value. They do **not** by themselves prove the complete Kwork delivery flow. KW-001 therefore starts with a full commercial rehearsal from mock client brief to final workbook/report.
-
-Status: **ACTIVE / FIRST TO IMPLEMENT**
-
-#### KW-002 — Semantic core + page mapping
+#### KW-002 — Greenfield semantic core + clustering + site architecture
 
 Working title:
 
-`Соберу семантическое ядро под Яндекс до 500 запросов и распределю по страницам`
+`Соберу с нуля семантическое ядро и структуру сайта под современный Яндекс — обычная выдача + Алиса AI`
 
-Starting test price: **3,000 RUB**
+Core commercial goal:
+
+```text
+client business / assortment / region
+→ discover real Yandex demand from scratch
+→ expand coverage through real Yandex-search competitors
+→ clean and classify demand
+→ acquire current ordinary Yandex SERP evidence
+→ cluster by user task + intent + SERP similarity
+→ assign one primary page owner for each retained cluster
+→ freeze Search-only site architecture
+→ use bounded AI-search evidence to test whether the modern Yandex generative experience changes, enriches or de-risks page-job decisions
+→ reconcile Search + AI-search evidence
+→ produce final semantic core + query-to-page map + site structure + Page Jobs + client-ready artifacts
+```
+
+Important wording boundary:
+
+```text
+AI-SEARCH EVIDENCE != ASKING ALICE FOR SEO ADVICE
+```
+
+The product studies how Yandex Search and Yandex generative answers represent user tasks and source/page types. It does not treat a conversational assistant as an SEO consultant.
+
+No universal final-keyword cap is defined. Scope is frozen per order. Provider/job batch limits are technical chunk sizes only and may require multiple batches; they are not a product-level semantic limit.
 
 Core hands:
 
 ```text
 Wordstat batch
-ChatGPT cleanup / intent / grouping
-page-job / target-page mapping
-optional bounded ordinary Search evidence
+ordinary Search batch / TOP evidence
+TOP/domain overlap projections
+public competitor-page semantic discovery
+competitor-derived Wordstat expansion
+ChatGPT cleanup / intent / user-task analysis / clustering judgment
+page ownership / query-to-page mapping
+Search-only IA freeze
+bounded GenSearch / AI-search evidence when decision-relevant
+Search-vs-AI reconciliation
 artifact generation
+ChatGPT Work for large datasets under the owner-approved handoff rule
 ```
 
-Status: `QUEUED_AFTER_KW-001`
+Test case selected:
 
-#### KW-003 — Yandex SERP clustering up to 500 keys
+```text
+Blood & Sand = clean greenfield commercial-catalog rehearsal
+prior Blood & Sand SEO research = SEALED / not an execution input
+only minimum client-like business facts + raw current assortment inputs are allowed before final freeze
+```
+
+Status: **ACTIVE / OWNER-DIRECTED FIRST IMPLEMENTATION**
+
+#### KW-003 — Yandex SERP clustering
 
 Working title:
 
-`Кластеризую до 500 ключей по реальному ТОПу Яндекса и распределю по страницам`
+`Кластеризую ключи по реальному ТОПу Яндекса и распределю по страницам`
 
 Starting test price: **2,500 RUB**
 
@@ -162,6 +181,8 @@ ChatGPT clustering judgment
 page mapping
 client workbook
 ```
+
+KW-003 remains a separately sellable standalone clustering product. The fact that KW-002 uses SERP evidence internally does not eliminate KW-003 as an independent service for clients who already have a keyword set.
 
 Status: `QUEUED_AFTER_KW-002`
 
@@ -184,78 +205,22 @@ ChatGPT opportunity / priority analysis
 client action plan
 ```
 
-KW-004 remains a separate, broader niche/competitor opportunity product. The narrow competitor-semantic loop inside KW-001 exists only to improve semantic-core coverage and does not silently import KW-004's broader competitor-analysis scope.
+KW-004 remains a separate, broader niche/competitor opportunity product. The bounded competitor-semantic loop inside KW-002 exists to improve semantic coverage and does not silently import a full competitor SEO audit.
 
 Status: `QUEUED_AFTER_KW-003`
 
 ### WAVE B — commercially promising, but current Bridge slice is insufficient
 
-These Kworks are not allowed to be advertised as fully supported until the required capability gate passes.
-
 #### KW-005 — Full Yandex Direct + Metrika audit
-
-Target starting price after implementation: **6,000 RUB**
-
-Missing hands to research/implement include, where official APIs permit:
-
-```text
-Direct search-query evidence
-placement/network evidence
-richer campaign/strategy evidence
-performance dimensions below campaign where needed
-ad/UTM evidence required by the final audit contract
-Metrika goals/conversions
-traffic-source/campaign dimensions
-UTM dimensions
-revenue/e-commerce evidence where available
-```
-
 Status: `REQUIRES_PRODUCT_GAP_WORK`
 
 #### KW-006 — Recurring Yandex Direct optimization / analyst loop
-
-Target starting price after implementation: **12,000 RUB/month** for a tightly bounded first package.
-
-First safe model should remain:
-
-```text
-Bridge collects evidence
-→ ChatGPT produces explicit change plan
-→ owner/client applies approved changes
-→ Bridge re-measures
-→ ChatGPT compares outcome
-```
-
-Do not require Direct write automation for the first sellable version.
-
-Depends on KW-005 read-evidence expansion.
-
 Status: `REQUIRES_PRODUCT_GAP_WORK`
 
-#### KW-007 — Exact-frequency enrichment for 5k–10k keywords
-
-Target starting price after implementation/economics validation: **4,000 RUB**
-
-Need official provider-contract research and proof of exact-frequency semantics/economics at scale. Reuse existing durable batch infrastructure if the provider path is valid.
-
+#### KW-007 — Exact-frequency enrichment for large keyword sets
 Status: `REQUIRES_PROVIDER_CONTRACT_RESEARCH`
 
 #### KW-008 — Competitor keyword-gap analysis from client export
-
-Target starting price: **4,500 RUB**
-
-Preferred first implementation is importer-first rather than new paid provider integration:
-
-```text
-client CSV/XLSX export
-→ normalize competitor / keyword / URL / position / frequency fields
-→ ChatGPT gap analysis
-→ clustering / target-page mapping
-→ prioritized client artifact
-```
-
-KW-008 remains materially different from KW-001 Step5A. KW-008 is a dedicated reverse-domain/export-driven gap product; KW-001 Step5A is a bounded Yandex-native coverage loop and does not require a reverse-domain export/provider.
-
 Status: `REQUIRES_IMPORT_WORKFLOW`
 
 ## 5. Explicitly out of this roadmap
@@ -263,33 +228,34 @@ Status: `REQUIRES_IMPORT_WORKFLOW`
 ```text
 Google provider development = deferred / separate future decision
 technical SEO / crawler audit = excluded by owner decision
-more Alice/GenSearch plumbing without a newly proven gap = not authorized
-mandatory paid reverse-domain competitor provider for KW-001 = not authorized
+mandatory paid reverse-domain competitor provider for KW-002 = not authorized
+artificial universal keyword-count cap for KW-002 = forbidden
 ```
 
-## 6. Sequential execution rule
+## 6. Active sequencing rule
 
-Only one Kwork is active for productization at a time.
+Normally only one Kwork is active for productization at a time.
+
+Current owner-directed sequence:
 
 ```text
-KW-001 complete + FINAL_ACCEPTANCE
-→ KW-002
-→ KW-003
-→ KW-004
-→ reassess real market/test evidence
-→ then begin Wave B capability work in priority order
+KW-001 = PAUSED_AT_OWNER_REVIEW
+KW-002 = ACTIVE
+→ complete KW-002 documentation + Blood & Sand greenfield rehearsal + deliverables + revision + productization measurement + owner review
+→ then owner decides whether to return to KW-001 finalization or continue to KW-003
 ```
 
-Do not start Wave-B engineering merely because it is listed here. First complete the current-capability offers and learn from their real execution.
+This override must remain explicit so a paused Kwork is never misreported as complete.
 
 ## 7. Test-project philosophy
 
 A test project must be treated like a real client order:
 
 ```text
-synthetic/mock brief written before analysis
-scope and price-equivalent package fixed before work
+mock/client-like brief written before analysis
+scope frozen before work
 inputs frozen
+prior research sealed when the goal is a from-scratch rehearsal
 provider requests accounted
 all assumptions marked
 client deliverables actually built
@@ -297,17 +263,34 @@ final delivery message written
 revision scenario tested
 ```
 
-Whenever practical, use materially different public/test sites so the procedure is not overfit to one niche.
+A prior project may be reused as a test business, but previous analytical conclusions must not silently replace the current test order's recorded inputs.
 
-A prior project may be reused as regression evidence, but previous knowledge must not silently replace the current test order's recorded inputs.
+## 8. Large-data Work rule
 
-## 8. Final acceptance question for every Kwork
+When a step requires large-table processing or complete multi-file analysis that cannot be handled reliably in the ordinary chat context, ChatGPT must not sample, truncate or compress the job merely to fit the conversation.
+
+Instead:
+
+```text
+identify the exact large-data execution unit
+→ freeze allowed input paths and prohibited sources
+→ use the owner-supplied canonical ChatGPT Work prompt
+→ execute the large-data unit in Work
+→ return the produced artifacts/results
+→ independently verify counts/provenance/QA in the main workflow
+→ persist/read back before continuing
+```
+
+The owner supplies and controls the canonical Work prompt. ChatGPT must not invent a replacement prompt once the owner has supplied the canonical one.
+
+## 9. Final acceptance question for every Kwork
 
 Before `READY_TO_SELL`, answer YES to all:
 
 ```text
 Can ChatGPT execute the job from the runbook in a clean context?
 Does Bridge provide every promised external fact/evidence surface?
+Can large-data steps be handed to Work without losing source/provenance/QA requirements?
 Are owner actions explicit and minimal?
 Is every deliverable actually producible?
 Are price/scope consistent with measured effort and provider cost?
@@ -318,9 +301,10 @@ Can a real order be started without redesigning the methodology?
 
 If any answer is NO, the Kwork remains `NOT_READY_TO_SELL`.
 
-## 9. Current next action
+## 10. Current next action
 
 ```text
-ACTIVE = KW-001 AI-Native Semantic Rebuild
-NEXT = reconcile KW-001 detailed step order with the new competitor semantic expansion stage, validate Step5A on the next authorized varied rehearsal, then continue toward final commercial acceptance
+ACTIVE = KW-002 Greenfield Semantic Core + Site Architecture
+TEST = Blood & Sand
+NEXT = materialize KW-002 Level 1 common rules + Level 2 step methods + isolated Blood & Sand work/<JOB_ID>/ manifest/flow, then begin Step 0 only after owner review of the prepared roadmap
 ```
