@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — WORK HANDOFF LOG
 
-Status: **STEP 01 EXECUTED / RETURN QA PASS / REMOTE READBACK PENDING**
+Status: **STEP 01 EXECUTED / RETURN QA PASS / REMOTE READBACK PASS**
 
 This file records large-data executions sent to ChatGPT Work under `LEVEL1/WORK_HANDOFF_RULE.md`.
 
@@ -38,8 +38,10 @@ RETURNED_SOURCE_ROWS = 76
 RETURNED_CONCEPT_ROWS = 4
 RETURNED_AMBIGUITY_ROWS = 10
 RETURN_QA_RESULT = PASS
-GITHUB_READBACK = PENDING
-FINAL_STATE = COMPLETE_LOCALLY / PENDING_REMOTE_READBACK
+GITHUB_READBACK = PASS
+GITHUB_READBACK_COMMIT = c2aec991b7b9434ca44ea28f74ab0679d9b4c221
+GITHUB_READBACK_FILES_VERIFIED = 8
+FINAL_STATE = COMPLETE / PASS
 ```
 
-The complete Work execution used the Ozon-only source and zero provider/web calls. Step 02 remains blocked until the committed artifacts pass remote GitHub readback.
+The complete Work execution used the Ozon-only source and zero provider/web calls. Eight committed files matched local blob SHA values during remote readback. Step 02 is allowed but was not started in this execution.

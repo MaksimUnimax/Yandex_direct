@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 01 COMPLETE LOCALLY / QA PASS / REMOTE READBACK PENDING**
+Status: **STEP 01 COMPLETE / PASS / STEP 02 ALLOWED BUT NOT STARTED**
 
 ## Whole-job goal
 
@@ -38,8 +38,8 @@ WORK HANDOFFS EXECUTED = 1
 | Step | Purpose | Status |
 |---|---|---|
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / corrected to Ozon-only |
-| 01 | Build factual business + complete assortment model from 76 Ozon cards | 🟡 COMPLETE LOCALLY / QA PASS / REMOTE READBACK PENDING |
-| 02 | Build seed/acquisition map | ⬜ NOT STARTED |
+| 01 | Build factual business + complete assortment model from 76 Ozon cards | ✅ COMPLETE / PASS / REMOTE READBACK PASS |
+| 02 | Build seed/acquisition map | ⏭️ NEXT ALLOWED / NOT STARTED |
 | 03 | Primary Wordstat acquisition | ⬜ NOT STARTED |
 | 04 | First family triage | ⬜ NOT STARTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
@@ -83,8 +83,7 @@ Step 01 local adversarial QA passed
 ## Remaining work
 
 ```text
-Step 01 commit / push / remote GitHub readback / final PASS
-Steps 02–22
+Steps 02–22; Step 02 is allowed but was not started in this execution
 ```
 
 ## Provider/accounting truth
@@ -104,7 +103,9 @@ STEP_01_OUTPUT_ROWS = 76
 STEP_01_NEUTRAL_CONCEPTS = 4
 STEP_01_AMBIGUITY_ISSUES = 10
 STEP_01_LOCAL_QA = PASS
-NEXT ACTION = COMMIT PUSH AND VERIFY STEP 01 FROM REMOTE GITHUB
+STEP_01_REMOTE_GITHUB_READBACK = PASS
+STEP_01_READBACK_COMMIT = c2aec991b7b9434ca44ea28f74ab0679d9b4c221
+NEXT ACTION = STOP AFTER STEP 01; STEP 02 NOT STARTED
 ```
 
 Current state:
@@ -114,6 +115,7 @@ STEP_01_STARTED = true
 STEP_01_PRE_STEP_REVIEW = COMPLETE
 STEP_01_WORK_PROMPT = READY
 STEP_01_WORK_EXECUTION = COMPLETE
-STEP_01_COMPLETE = PENDING_REMOTE_READBACK
-NEXT_STEP_ALLOWED = false
+STEP_01_COMPLETE = true
+NEXT_STEP_ALLOWED = true
+NEXT_STEP = STEP_02_SEED_ACQUISITION_MAP
 ```

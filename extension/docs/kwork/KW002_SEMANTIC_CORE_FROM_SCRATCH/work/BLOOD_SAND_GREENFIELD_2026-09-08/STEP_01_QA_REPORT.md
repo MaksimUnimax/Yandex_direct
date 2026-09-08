@@ -6,7 +6,7 @@
 
 Локальный QA: **PASS**
 
-Финальный статус до GitHub readback: **PENDING_REMOTE_READBACK**
+Финальный статус: **PASS / REMOTE_GITHUB_READBACK_PASS**
 
 ## 1. Подход к проверке
 
@@ -142,7 +142,7 @@ STEP_01_QA_REPORT.md = PRESENT
 BUSINESS_AND_ASSORTMENT_MODEL_MATERIALIZED = true
 ```
 
-## 7. Локальный PASS gate
+## 7. Финальный PASS gate
 
 ```text
 WORK_SOURCE_WHITELIST = PASS
@@ -157,15 +157,21 @@ CATALOG_CONCEPT_AS_SEO_CLUSTER_CLAIMS = 0
 OLD_RESEARCH_CONTAMINATION = 0
 BUSINESS_AND_ASSORTMENT_MODEL_MATERIALIZED = true
 LOCAL_QA = PASS
-REMOTE_GITHUB_READBACK = PENDING
+REMOTE_GITHUB_READBACK = PASS
+REMOTE_READBACK_COMMIT = c2aec991b7b9434ca44ea28f74ab0679d9b4c221
+REMOTE_FILES_FETCHED = 8
+REMOTE_BLOB_SHA_MISMATCHES = 0
+REMOTE_STEP_01_LISTING_ROWS = 76
+REMOTE_STEP_01_CONCEPT_ROWS = 4
+REMOTE_STEP_01_AMBIGUITY_ROWS = 10
 ```
 
-До удалённого чтения:
+Финальный переход:
 
 ```text
-STEP_01 = COMPLETE_LOCALLY / PENDING_REMOTE_READBACK
-NEXT_STEP_ALLOWED = false
+STEP_01 = COMPLETE / PASS
+NEXT_STEP_ALLOWED = true
 NEXT_STEP = STEP_02_SEED_ACQUISITION_MAP
 ```
 
-Финальный `COMPLETE / PASS` и разрешение Step 02 могут быть зафиксированы только после коммита, отправки и проверки файлов из удалённой ветки GitHub.
+Все восемь файлов первого удалённого коммита прочитаны по точному commit ref. Их blob SHA совпали с локальными файлами; удалённые CSV содержали 76 строк карточек, 4 строки нейтральных направлений и 10 строк неопределённостей. Step 02 разрешён, но в этом исполнении не запускался.
