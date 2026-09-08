@@ -4,17 +4,19 @@ Job: `BLOOD_SAND_GREENFIELD_2026-09-08`
 Status: **FROZEN CLIENT-LIKE INPUT / PRE-RESEARCH**  
 Freeze date: 2026-09-08
 
-This file contains only information that is treated as if it was supplied by the client at order intake. It is not an SEO analysis and must not contain conclusions from prior Blood & Sand research.
+This file contains only information treated as if it was supplied by the client at order intake. It is not SEO analysis and must not contain conclusions from prior Blood & Sand research.
 
 ## 1. Business / brand
 
 ```text
 Brand: «Кровь и Песок» / Blood & Sand
 Business type: product brand / seller
-Primary product type: hanging automotive symbolic accessories / amulet-style pendants intended for placement in a car, including rear-view-mirror hanging products
+What the client says it sells: амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля
 Primary market: Russia
 Delivery geography: Russia / nationwide
 ```
+
+Do not replace this wording with an analyst-invented narrower product category before the assortment and demand are researched.
 
 ## 2. Current sales channels
 
@@ -38,53 +40,104 @@ choose an appropriate product,
 and proceed toward purchase.
 ```
 
-Purchase may be completed directly on the future site and/or through marketplace links. The exact future checkout/direct-commerce architecture is not fixed by this semantic-core order and must not be invented by the analyst.
+Purchase may later be completed directly on the future site and/or through marketplace links. The exact future checkout/direct-commerce architecture is not fixed by this semantic-core order and must not be invented by the analyst.
 
-## 4. Assortment supplied by the client
+## 4. Exact assortment supplied by the client
 
-The client supplies the current raw product/catalog data from marketplace sales channels as the product source for this order.
+The client supplies the actual marketplace product/listing catalogs and explicitly identifies which seller lines belong to this website order.
 
-Authorized raw assortment attachments/sources are frozen separately in `ALLOWED_INPUTS_AND_SEALED_SOURCES.md`.
+Canonical assortment authority:
 
-The analyst must treat product titles/SKU/listing identities as raw business facts, not as an existing SEO taxonomy.
+```text
+CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
+CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
+CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
+CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
+```
 
-Examples visible in the supplied raw catalog include product names such as:
+Frozen accounting:
+
+```text
+Wildberries seller account observed = 108 listing cards
+Wildberries cards explicitly in scope for this site = 88
+Wildberries other seller lines explicitly out of scope = 20
+Ozon supplied listing identities = 76
+Total admitted in-scope marketplace listing rows before cross-platform reconciliation = 164
+Cross-platform unique-product count = NOT YET DETERMINED
+```
+
+The client is supplying concrete product/listing facts, not an SEO category tree.
+
+Examples of actual supplied names include:
 
 ```text
 Печать Велеса
-Велес
+Велес / Знак Велеса
 Алатырь (Крест Сварога)
-Вегвизир / Рунический компас
-Шлем ужаса / Эгисхьяльм
-Триглав
-Ратиборец
-Молвинец
-Колядник
-Знич
-Громовик
-Всеславец
-Боговник
+Макошь
 Родимич
-Белобог
+Хорс
+Мара
+Стрибог
+Семаргл
+Всеславец
+Сварог
+Чур
 Чернобог
-Валькнут
-Гунгнир
+Боговник
+Триглав
+Звезда Лады
+Ратиборец
+Белобог
+Даждьбог
+Жива
+Молвинец
+Знич
+Перун
+Звезда Руси
+Вегвизир / Рунический компас
 Древо Жизни
-Ом / Аум
+Гунгнир
+Валькнут
+Шлем ужаса / Эгисхьяльм
 Инь и Ян
-знаки зодиака
-и другие позиции, присутствующие в полном переданном raw catalog
+Ом / Аум
+Бусидо - Путь Воина
+Молитва Иоанна Златоуста
+Спаси и Сохрани
+Герб России
+Русская Община
+RSOTM
+Soldier Of Fortune
+знаки зодиака: Овен, Телец, Близнецы, Рак, Лев, Дева, Весы, Скорпион, Стрелец, Козерог, Водолей, Рыбы
+зодиакальные варианты/серии, включая Античность и Символы
 ```
 
-This list is illustrative only. Step 01 must account for the complete authorized raw assortment attachment rather than using this example list as the full catalog.
+This examples block is not the catalog. The exact listing rows and IDs in the client-supplied catalog files are the authority.
 
-## 5. Assortment boundary supplied by the client
+## 5. Assortment interpretation boundary
 
-The client states that the target website/order concerns the branded automotive symbolic product line that belongs to Blood & Sand.
+The client has told us which concrete marketplace listings belong to the target product line. The analyst must not invent additional products or silently discard supplied ones.
 
-If marketplace seller-account exports also contain unrelated product lines, those unrelated lines are outside the intended website scope and must be identified from product facts during Step 01 rather than silently mixed into the semantic core.
+But intake still does NOT pre-decide:
 
-The client does not provide an SEO priority among product names/families. Product presence in the assortment does not mean that a separate SEO page must exist.
+```text
+which listings are the same underlying product across marketplaces
+which rows are variants rather than separate products
+which names form one search family
+which products are SEO priorities
+which products require separate pages
+which broad category labels Yandex users actually use
+```
+
+Those are research/analysis tasks for later KW-002 steps.
+
+```text
+RAW LISTING ROW != UNIQUE PRODUCT MODEL
+PRODUCT TITLE != PROVEN SEARCH TERM
+PRODUCT EXISTS != SEO PRIORITY
+PRODUCT EXISTS != SEPARATE SEO PAGE
+```
 
 ## 6. Region / language
 
@@ -120,7 +173,7 @@ existing Search conclusions = NONE
 existing Alice/AI-search conclusions = NONE
 ```
 
-The client is not asking us to clean or rebuild an old semantic core. The order starts from business/assortment facts.
+The client is not asking us to clean or rebuild an old semantic core. The order starts from business and exact assortment facts.
 
 ## 9. Competitors
 
@@ -136,7 +189,8 @@ Client-supplied boundaries:
 
 ```text
 - do not invent products/services that are not actually sold;
-- do not mix unrelated seller-account product lines into the Blood & Sand website core;
+- use the client-supplied in-scope catalog rather than analyst assumptions about the assortment;
+- keep the 20 client-declared unrelated WB seller lines outside this website order;
 - do not treat mystical/symbolic claims as proven physical effects;
 - do not guarantee Yandex rankings, traffic, sales or inclusion/citation in Alice AI;
 - do not assume a final direct-vs-marketplace checkout model inside this order;
@@ -173,6 +227,7 @@ real organic competitors
 search intent
 SERP page-type patterns
 cluster boundaries
+which supplied products/listings collapse into common search families
 which queries belong on the same page
 which separate pages are justified
 final IA
@@ -189,7 +244,7 @@ It must not be silently enriched with old Blood & Sand research before the new K
 
 ```text
 CLIENT FACT != PRIOR RESEARCH CONCLUSION
-RAW ASSORTMENT != SEO TAXONOMY
+CLIENT-SUPPLIED PRODUCT CATALOG != SEO TAXONOMY
 PRODUCT EXISTS != SEPARATE SEO PAGE REQUIRED
 CLIENT PRODUCT NAME != PROVEN SEARCH TERM
 ```
