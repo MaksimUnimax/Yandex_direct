@@ -95,6 +95,7 @@
     "banned_language_hits_md": 0,
     "banned_language_hits_docx": 0,
     "banned_language_hits_pdf": 0,
+    "empty_toc_heading_hits": 0,
     "essential_section_equivalence": "PASS",
     "a031_ranking_year_consistency": "PASS"
   },
@@ -104,12 +105,12 @@
       "sha256": "caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"
     },
     "docx": {
-      "size_bytes": 28556,
-      "sha256": "6f7e7a61d8fb6a765a0d74ad6e8371b0098bf6ee4383f8b739bfa2ec7a4bcb62"
+      "size_bytes": 28280,
+      "sha256": "a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1"
     },
     "pdf": {
-      "size_bytes": 172803,
-      "sha256": "c1b5c2b854134585d4419858a3e45556dfe716426520ebf598e72943773b3921"
+      "size_bytes": 172766,
+      "sha256": "36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5"
     }
   },
   "new_project_specific_data_collection": 0,

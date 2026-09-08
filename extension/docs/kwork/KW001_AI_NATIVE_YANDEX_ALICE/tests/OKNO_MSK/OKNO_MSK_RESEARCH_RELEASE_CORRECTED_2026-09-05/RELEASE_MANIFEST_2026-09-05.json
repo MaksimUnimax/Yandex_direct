@@ -28,8 +28,8 @@
       "variant": "02",
       "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
       "format": "pdf",
-      "size_bytes": 172803,
-      "sha256": "c1b5c2b854134585d4419858a3e45556dfe716426520ebf598e72943773b3921",
+      "size_bytes": 172766,
+      "sha256": "36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5",
       "pages": 14,
       "recipient_contract": "RUSSIAN_SPECIALIST_GUIDE__POSITIVE_REQUIRED_ACTIONS_ONLY__3_READY__5_CLARIFICATIONS__46_SEMANTIC_ASSIGNMENTS__4_ADDITIONAL_CHECKS__14_INTERNAL_LINK_PAIRS__0_CLIENT_PROCESS_META__0_NEGATIVE_PSEUDO_ACTIONS__OWNER_REVIEW_PENDING"
     },
@@ -74,8 +74,8 @@
     },
     {
       "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
-      "size_bytes": 28556,
-      "sha256": "6f7e7a61d8fb6a765a0d74ad6e8371b0098bf6ee4383f8b739bfa2ec7a4bcb62"
+      "size_bytes": 28280,
+      "sha256": "a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
@@ -105,7 +105,7 @@
     "post_hoc_evidence_used": 0,
     "new_project_specific_data_collection": 0,
     "markdown_docx_pdf_language_scan": "PASS__0_0_0",
-    "visual_qa": "PASS__14_OF_14_PDF__DOCX_RENDER_REQUIRED_FOR_OWNER_READBACK",
+    "visual_qa": "PENDING_OWNER_READBACK__14_PAGE_FINAL_PDF_RENDERED",
     "owner_review": "PENDING"
   },
   "qa": {
