@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 00 COMPLETE / ORDER FROZEN / STEP 01 NEXT ALLOWED**
+Status: **STEP 00 COMPLETE / STEP 01 CURRENT / WORK PROMPT REQUIRED**
 
 ## 1. Job identity
 
@@ -15,6 +15,7 @@ REGION = Russia
 LANGUAGE = Russian
 PRIMARY_SEARCH_ENGINE = Yandex
 OWNER_START_AUTHORIZATION = 2026-09-08 / explicit chat instruction «начинаем работу по заказу»
+OWNER_CONTINUE_AUTHORIZATION = 2026-09-08 / explicit chat instruction «продолжаем работу»
 ```
 
 ## 2. Frozen client-input authorities
@@ -83,7 +84,7 @@ TOTAL admitted in-scope marketplace listing rows before cross-platform reconcili
 CROSS-PLATFORM UNIQUE PRODUCT COUNT = NOT YET DETERMINED
 ```
 
-The following are hard boundaries:
+Hard boundaries:
 
 ```text
 MARKETPLACE LISTING ROW != UNIQUE PRODUCT MODEL
@@ -93,7 +94,7 @@ PRODUCT EXISTS != SEO PRIORITY
 PRODUCT EXISTS != AUTOMATIC SEPARATE PAGE
 ```
 
-Cross-platform identity/variant/family reconciliation belongs to Step 01.
+Cross-platform identity/variant/family reconciliation is the current Step 01 work.
 
 ## 5. Client did not supply
 
@@ -176,7 +177,7 @@ Current conversation memory of those conclusions is not evidence.
 
 ## 10. Large-data execution rule
 
-If a step requires complete analysis of a large dataset and ordinary chat would risk sampling, truncation, skipped rows or lost provenance:
+Owner-locked rule:
 
 ```text
 LARGE DATA
@@ -187,7 +188,15 @@ LARGE DATA
 → only then accept step result
 ```
 
-No Work handoff has occurred yet.
+Step 01 Work trigger has now been evaluated as TRUE because the step requires complete reconciliation of 164 in-scope rows across two marketplace catalog files, with row-level normalization/deduplication/join QA.
+
+Canonical current pre-step/handoff authority:
+
+```text
+STEP_01_PRE_STEP_REVIEW_AND_WORK_HANDOFF_2026-09-08.md
+```
+
+No Work execution has occurred yet.
 
 ## 11. Step 00 acceptance authority
 
@@ -232,12 +241,17 @@ CLIENT_IN_SCOPE_LISTING_ROWS_BEFORE_RECONCILIATION = 164
 CROSS_PLATFORM_UNIQUE_PRODUCT_COUNT = NOT_YET_DETERMINED
 CLIENT_SOURCE_BOUNDARY_FROZEN = true
 RAW_ASSORTMENT_SOURCE_COUNT = 2
-STEP_00_STARTED = true
 STEP_00_COMPLETE = true
 STEP_00_VERDICT = PASS
-STEP_01_STARTED = false
-NEXT_STEP_ALLOWED = true
-NEXT_STEP = STEP_01_BUSINESS_AND_COMPLETE_ASSORTMENT_MODEL
+STEP_01_STARTED = true
+STEP_01_PRE_STEP_REVIEW = COMPLETE
+STEP_01_WORK_TRIGGER = true
+STEP_01_WORK_MANIFEST = PREPARED
+OWNER_CANONICAL_WORK_PROMPT_AVAILABLE = false
+STEP_01_WORK_EXECUTION = BLOCKED_PENDING_OWNER_PROMPT
+STEP_01_COMPLETE = false
+NEXT_STEP_ALLOWED = false
+NEXT_STEP = STEP_01_WORK_EXECUTION_AFTER_OWNER_PROMPT
 PROVIDER_CALLS_FOR_KW002_JOB = 0
 WORK_HANDOFFS_FOR_KW002_JOB = 0
 ```
