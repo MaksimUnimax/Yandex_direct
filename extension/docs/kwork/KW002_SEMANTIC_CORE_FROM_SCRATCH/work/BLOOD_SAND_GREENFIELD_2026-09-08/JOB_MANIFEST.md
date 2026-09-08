@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 02 REWORK_REQUIRED AFTER EXTERNAL METHOD AUDIT / STEP 03 BLOCKED**
+Status: **STEP 02 V2 COMPLETE / PASS 9.3/10 / STEP 03 NEXT ALLOWED**
 
 ## 1. Job identity
 
@@ -23,7 +23,7 @@ Brand = «Кровь и Песок» / Blood & Sand
 Business = product brand / seller
 Client wording = амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля
 Sales channels = Ozon + Wildberries
-Assortment authority for this KW-002 test = Ozon only
+Assortment authority = Ozon only
 Primary market/search geography = Russia
 New owned website planned = YES
 ```
@@ -36,8 +36,6 @@ CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
 CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
 ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
-
-Accounting:
 
 ```text
 OZON PRODUCT/LISTING ROWS = 76
@@ -68,76 +66,128 @@ STEP_01_MAIN_RETURN_QA = PASS
 STEP_01_COMPLETE = true
 ```
 
-## 6. Step 02 historical materialization
+## 6. Universal quality rule
 
-Historical files remain authoritative for what version 1 contained:
+Current Level-1 authority:
 
 ```text
-STEP_02_PRE_STEP_REVIEW_2026-09-08.md
-STEP_02_SEED_MAP.csv
-STEP_02_COVERAGE_MATRIX.csv
-STEP_02_DEFERRED_OR_TARGETED_PROBES.csv
-STEP_02_REPORT.md
-STEP_02_QA_REPORT.md
+LEVEL1/RESULT_QUALITY_SCORING_RULE.md
 ```
 
-Version-1 accounting remains:
+Every major step/rework/deliverable must now receive a 10-point score.
 
 ```text
-STEP_02_V1_SEED_ROWS_TOTAL = 97
-STEP_02_V1_PRIMARY_SEEDS = 67
-STEP_02_V1_DEFERRED_TARGETED_SEEDS = 30
-STEP_02_V1_DUPLICATE_NORMALIZED_SEEDS = 0
-STEP_02_V1_COVERAGE_ROWS = 76
-STEP_02_V1_WORDSTAT_CALLS = 0
+PASS requires score >= 9.0/10
+AND all hard gates PASS
+AND no open critical defect
+```
+
+## 7. Step 02 V1 historical result
+
+Historical V1 remains preserved:
+
+```text
+STEP_02_V1_SEEDS = 97
+STEP_02_V1_PRIMARY = 67
+STEP_02_V1_DEFERRED = 30
 STEP_02_V1_REMOTE_READBACK = PASS
+STEP_02_V1_EXTERNAL_AUDIT = FAIL
+STEP_02_V1_QUALITY_SCORE = 6.5/10
+STEP_02_V1_STATUS = SUPERSEDED / REWORK_REQUIRED
 ```
 
-## 7. Step 02 external method audit
-
-Superseding authority:
+Authorities:
 
 ```text
 STEP_02_EXTERNAL_METHOD_AUDIT_2026-09-08.md
+STEP_02_V1_QUALITY_SCORE_2026-09-08.md
 ```
 
-External materials used include current official Yandex Webmaster, Yandex Direct, Wordstat GetTop/operators/pricing documentation and Ahrefs/Semrush seed-keyword/ecommerce guidance.
+## 8. Permanent Step-02 correction
 
-Audit verdict:
+Current Level-2 authority:
 
 ```text
-STEP_02_PREVIOUS_PASS = INVALIDATED
-STEP_02_STATUS = REWORK_REQUIRED
-STEP_03_ALLOWED = false
+LEVEL2/STEP_02_SEED_ACQUISITION_QUALITY_GATE.md
 ```
 
-Main defects:
+Permanent corrected rules include:
 
 ```text
-1. catalog-route coverage was treated as if it proved search-probe quality;
-2. high-noise bare-name seeds were PRIMARY without mandatory qualified/refinement route;
-3. automobile use-context synonyms/variants were not systematically covered;
-4. primary set is too dependent on exact seller names;
-5. expected_information_gain rationale is boilerplate for many exact-name seeds;
-6. PRIMARY/DEFERRED rationale must not be driven by trivial direct Yandex API cost.
+CATALOG_LINEAGE_COVERAGE != SEARCH_PROBE_QUALITY_COVERAGE
+HIGH-noise bare primary requires refinement/control governance
+material use context requires bounded synonym/formulation plan
+seller name != automatic PRIMARY
+information gain must discriminate now/later/control/redundant
+cost alone cannot justify deferral
+current primary set must be deterministic
+Step 02 score must be >=9/10
 ```
 
-## 8. Required Step 02 correction
+## 9. Step 02 V2 current authority
 
-Before Step 03:
+Current artifacts:
 
 ```text
-- rebuild primary/deferred seed priorities;
-- add probe-quality coverage gate, not only card-lineage coverage;
-- require qualified/refinement route for high-noise bare seeds;
-- add bounded synonym/use-context coverage for car-related demand;
-- rebalance broad/qualified/exact-name/alternate-writing/brand probes;
-- replace generic information-gain text with discriminating rationale;
-- rerun adversarial QA;
-- perform remote GitHub readback.
+STEP_02_V2_DECISION_OVERLAY.csv
+STEP_02_V2_ADDITIONAL_PROBES.csv
+STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv
+STEP_02_DEFERRED_CONTROL_MANIFEST_V2.csv
+STEP_02_SEARCH_PROBE_QUALITY_COVERAGE_V2.csv
+STEP_02_V2_INFORMATION_GAIN_POLICY.csv
+STEP_02_REWORK_REPORT_V2_2026-09-08.md
+STEP_02_QA_REPORT_V2_2026-09-08.md
 ```
 
-## 9. Current execution state
+Accepted truth:
+
+```text
+V1_RETAINED_PRIMARY = 48
+V1_BARE_PROBES_DEMOTED = 19
+V2_QUALIFIED_REFINEMENT_PROBES = 19
+V2_USE_SYNONYM_PROBES = 12
+V2_NEW_PROBES_TOTAL = 31
+V2_PRIMARY_MANIFEST_ROWS = 79
+V2_DEFERRED_CONTROL_ROWS = 49
+V2_SEARCH_QUALITY_COVERAGE_GROUPS = 26
+V2_SEARCH_QUALITY_COVERAGE_PASS = 26
+V2_QUALITY_SCORE = 9.3/10
+V2_QA = PASS
+V2_REMOTE_READBACK = PASS
+STEP_02_COMPLETE = true
+```
+
+Current Step-03 seed authority is only:
+
+```text
+STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv
+```
+
+Do not reconstruct current execution from the old V1 97-row seed map.
+
+## 10. Step 03 handoff boundary
+
+Step 03 may start only after its own provider gate.
+
+19 V2 qualified probes use grouped Wordstat OR syntax.
+
+```text
+OR_OPERATOR_DOCUMENTED_BY_YANDEX = true
+BRIDGE_OR_OPERATOR_EXECUTION_VERIFIED = false
+```
+
+Step 03 must verify actual Bridge/provider behavior before mass execution.
+
+Fallback if grouped OR is unsupported:
+
+```text
+parent Q probe
+→ split into three child probes with амулет / оберег / талисман
+→ preserve parent lineage
+→ do not silently drop the acquisition branch
+```
+
+## 11. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
@@ -148,13 +198,15 @@ STEP_01_COMPLETE = true
 STEP_01_MAIN_RETURN_QA = PASS
 STEP_02_STARTED = true
 STEP_02_V1_MATERIALIZED = true
-STEP_02_EXTERNAL_METHOD_AUDIT = COMPLETE
-STEP_02_EXTERNAL_METHOD_VERDICT = FAIL
-STEP_02_COMPLETE = false
-STEP_02_STATUS = REWORK_REQUIRED
+STEP_02_V1_QUALITY_SCORE = 6.5/10
+STEP_02_V1_STATUS = SUPERSEDED
+STEP_02_V2_REWORK = COMPLETE
+STEP_02_V2_QA = PASS
+STEP_02_V2_QUALITY_SCORE = 9.3/10
+STEP_02_COMPLETE = true
 STEP_03_STARTED = false
-NEXT_STEP_ALLOWED = false
-NEXT_STEP = STEP_02_REWORK
+NEXT_STEP_ALLOWED = true
+NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
 PROVIDER_CALLS_FOR_KW002_JOB = 0
 WORK_HANDOFFS_EXECUTED = 1
 ```
