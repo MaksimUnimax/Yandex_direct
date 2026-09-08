@@ -1,77 +1,343 @@
-# KW-001 — Step 20 Report №02 specialist implementation-guide gate
+# KW-001 — Step 20 Report №02 canonical implementation-report gate
 
 Updated: 2026-09-08  
-Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED**  
-Scope: **Report №02 only — implementation guide for the specialist who will directly apply changes**
+Status: **ACTIVE / UNIVERSAL / OWNER-LOCKED / CANONICAL FOR REPORT №02**  
+Scope: **Report №02 only**
 
-This gate defines the permanent recipient contract for Report №02. It does not mark a current artifact PASS by itself.
+> Legacy filename note: the file name contains `SPECIALIST_IMPLEMENTATION_GUIDE` for repository continuity. The client-facing document itself MUST NOT be named or framed as a specialist/SEO guide.
 
----
+This is the primary permanent authority for how Report №02 must be built in future jobs.
 
-## 1. Recipient and purpose
+Supplemental authorities:
 
-Recipient: SEO specialist, editor or developer who will perform the accepted work.
+- `STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md` — plain-language report architecture;
+- `STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md` — DOCX/PDF physical layout.
 
-Report №02 is an implementation guide. It must let the specialist understand:
-
-- which page/object is involved;
-- what problem was found;
-- what exact change is required;
-- where the change belongs when the completed research proved placement;
-- which professional operations to perform;
-- what the result may look like;
-- what must be preserved as part of the accepted result;
-- how the completed result is accepted;
-- which concrete fact must first be clarified when the work is not yet implementation-ready.
-
-The report is not an internal action database, repository audit log, process diary or tutorial on how to open a page/editor.
+All three must agree. If a supplemental gate conflicts with this file, this file wins until the conflict is corrected.
 
 ---
 
-## 2. Report materialization must not expand into new research
+## 1. What Report №02 is
 
-The reporting stage materializes the completed research authority.
+Visible client title:
 
 ```text
-REPORT MATERIALIZATION != NEW PROJECT RESEARCH
+Внедрение рекомендации
 ```
 
-If a detail required for implementation is missing from preserved evidence:
+Purpose:
 
 ```text
-NAME THE CONCRETE CLARIFICATION
--> KEEP THE ITEM OUT OF THE FULLY READY SET
--> STATE THE RESULT REQUIRED FROM THAT CLARIFICATION
+COMPLETED RESEARCH
+-> CONCRETE SITE ACTIONS
+-> CONCRETE CLARIFICATIONS
+-> PLAIN SUPPORTING TABLES
+-> CLEAR IMPLEMENTATION / CHECK METHOD
 ```
 
-Do not collect a missing project fact during report writing unless the owner explicitly authorizes a separate evidence-producing task.
+Report №02 is not a second research report, not an internal project database, not an audit log and not a document identified by the recipient's profession.
 
-Examples of unauthorized report-stage expansion:
+The client must be able to understand the document even without SEO expertise.
 
-- rereading client pages to rescue exact placement;
-- recrawling large site sections;
-- classifying objects that were not classified during the completed research;
-- repeating Search / Wordstat / Alice / AI acquisition;
-- collecting new business facts from the client.
+Permanent rule:
 
-External methodology/bibliography freshness may be revalidated when required by the report contract. It must not create or upgrade project-specific findings.
+```text
+DOCUMENT IDENTITY = PURPOSE / RESULT
+DOCUMENT IDENTITY != RECIPIENT JOB TITLE
+```
 
-Post-hoc evidence created by an unauthorized report-stage expansion remains provenance only and cannot upgrade readiness.
+Forbidden client-facing identity/branding unless a separate owner contract explicitly requires it:
+
+- «руководство специалиста»;
+- «SEO-специалист»;
+- «для SEO-специалиста»;
+- «для редактора»;
+- «для разработчика»;
+- other profession-first naming.
 
 ---
 
-## 3. Client report contains required work, not absence of work
+## 2. Report №02 is action-first
 
-The client-facing Report №02 must describe what the specialist actually needs to do.
+The main document must answer, in this order:
+
+1. what can be implemented now;
+2. what needs one concrete clarification before implementation;
+3. where each topic belongs on the existing site and how to use that information;
+4. what unresolved questions must be checked, why and how;
+5. which existing pages should be connected and how such a connection is implemented;
+6. how to check the completed result;
+7. which external materials were actually used.
+
+Research-method detail is secondary. Report №01 carries the full research narrative. Report №04 carries the detailed phrase/data workbook.
+
+Do not lead Report №02 with a long funnel of collection, cleanup, clustering, provider calls or internal stages unless a specific short fact is required to understand an implementation decision.
+
+---
+
+## 3. Canonical client structure
+
+Default Report №02 structure:
 
 ```text
-CLIENT REPORT = REQUIRED ACTIONS + REQUIRED CLARIFICATIONS + ACCEPTANCE RESULT
+# Внедрение рекомендации
+
+1. Что находится в документе
+2. Готовые рекомендации
+3. Что уточнить перед внедрением
+4. Распределение тем по страницам
+5. Проверки перед следующими изменениями
+6. Связи между страницами
+7. Как проверить результат
+8. Материалы, использованные в исследовании
+```
+
+A different section count is allowed only when the job genuinely has no material for one of these blocks or requires an additional block. The logic remains the same.
+
+The opening section should explain the contents in ordinary Russian and may include a compact map such as:
+
+- ready recommendations;
+- recommendations after clarification;
+- topic-to-page rows;
+- checks before further changes;
+- page-to-page connections.
+
+The summary must explain what each block means, not merely show counts.
+
+---
+
+## 4. Fully ready recommendation — required format
+
+Each ready recommendation is a self-contained implementation task.
+
+Use the following fields when applicable:
+
+```text
+Страница
+Зачем менять
+Что сделать
+Где
+Порядок работы
+Пример
+Проверка результата
+```
+
+### 4.1 `Зачем менять`
+
+Explain the actual user/site problem in normal Russian.
+
+Do not restate an internal status, action code or research enum.
+
+### 4.2 `Что сделать`
+
+State the final requested change directly.
+
+### 4.3 `Где`
+
+Give one evidence-backed placement when placement is required.
+
+If the completed research supports only alternatives, the recommendation is not fully ready and moves to the clarification section.
+
+### 4.4 `Порядок работы`
+
+Only professional implementation operations belong here.
+
+Good:
+
+1. Добавить подраздел …
+2. Разделить понятия …
+3. Раскрыть сценарий …
+4. Связать окончательные параметры с замером …
+
+Bad filler:
+
+- «Откройте страницу»;
+- «Перейдите по ссылке»;
+- «Найдите блок»;
+- «Найдите заголовок»;
+- «Проверьте результат» as a fake implementation step.
+
+### 4.5 `Пример`
+
+Use a practical wording/example when it materially helps implementation and is supported by evidence.
+
+Project-proposed additions may be highlighted in bold.
+
+### 4.6 `Проверка результата`
+
+Describe the observable finished state.
+
+Material preservation requirements belong here or inside the concrete action when needed, for example:
+
+- existing price/calculator remains available;
+- existing URL remains the same;
+- existing manufacturer order remains the same.
+
+Do not create a separate defensive section made mostly of preservation rules.
+
+---
+
+## 5. Recommendations requiring clarification
+
+A useful but incomplete recommendation is not hidden and is not inflated into a ready task.
+
+Use:
+
+```text
+Страница
+Что хотим добавить / изменить
+Что нужно уточнить
+После уточнения
+```
+
+The missing fact must be concrete.
+
+Good:
+
+- выбрать одно место размещения блока;
+- получить у компании фактический состав услуги;
+- подтвердить применимость функции для конкретной системы;
+- разметить существующие карточки по категориям.
+
+Bad:
+
+- «получить доказательство»;
+- «не выдавать за готовую задачу»;
+- «действие остаётся частичным»;
+- generic status language.
+
+`После уточнения` must explain what concrete deliverable/action becomes possible once the answer is obtained.
+
+---
+
+## 6. Topic-to-page mapping must be understandable to a non-specialist
+
+Do not call the client section merely «семантические назначения» without explanation.
+
+Preferred section name:
+
+```text
+Распределение тем по страницам
+```
+
+Before the table explain three things:
+
+### Что это
+
+Each row shows a topic/user question and the existing page where that topic should primarily be disclosed. A related page may cover a neighbouring question.
+
+### Для чего
+
+The table is used when preparing new text or updating existing pages so the topic strengthens the correct existing page instead of being scattered arbitrarily.
+
+### Как использовать
+
+Explain the columns in ordinary Russian:
+
+```text
+Тема / вопрос пользователя
+Где раскрывать тему
+Связанная страница
+```
+
+The main page is where the core information on the topic belongs. The related page is where the neighbouring/continuing question can be covered.
+
+A bare sentence such as «использовать при ведении семантического ядра и контент-плана» is insufficient.
+
+Do not repeat identical defensive phrases on every row.
+
+---
+
+## 7. Additional checks must explain purpose, method and decision
+
+Preferred section name:
+
+```text
+Проверки перед следующими изменениями
+```
+
+Every check must answer:
+
+```text
+ЧТО НУЖНО ПОНЯТЬ
+ЗАЧЕМ ЭТО НУЖНО
+КАК ПРОВЕРИТЬ
+КАКОЕ РЕШЕНИЕ ПРИНИМАЕТСЯ ПО РЕЗУЛЬТАТУ
+```
+
+A reader without SEO expertise must understand why the check exists.
+
+Do not write «провести дополнительную проверку» without explaining the decision it supports.
+
+---
+
+## 8. Page-to-page connections must explain what they are and how to implement them
+
+Do not present bare source→target pairs as unexplained technical candidates.
+
+Preferred section name:
+
+```text
+Связи между страницами
+```
+
+Before the table explain:
+
+### Что это
+
+The first page is where the transition begins; the second is where the visitor goes for continuation or deeper detail on the topic.
+
+### Для чего
+
+The connection helps a visitor move naturally from a general explanation to a more detailed service, instruction or related material. It also connects closely related site content into a coherent path.
+
+### Как внедрять
+
+On the source page, choose the paragraph where the target topic naturally appears. Add a meaningful link whose wording describes the target content. Check that the sentence reads naturally and the link leads to the intended page.
+
+Preferred columns:
+
+```text
+Откуда ведём
+Куда ведём
+```
+
+The table defines the direction of the transition. The exact paragraph and wording are chosen during implementation from the existing source text unless already proved by completed research.
+
+A bare instruction such as «определить блок, окружающий текст и формулировку ссылки» is a failure because it describes missing detail without explaining the task.
+
+Duplicate source→target authority rows must be consolidated into one visible pair unless materially different contexts are explicitly shown.
+
+---
+
+## 9. No standalone defensive preservation section
+
+A standalone client section equivalent to:
+
+```text
+Требования к существующей структуре
+Что нельзя менять
+Что не делать
+```
+
+is forbidden.
+
+If preservation matters to a concrete recommendation, state it only in that recommendation or its result-check.
+
+Client space is for required work, useful explanation and concrete clarification.
+
+---
+
+## 10. Client report describes required work, not absence of work
+
+Permanent rule:
+
+```text
+CLIENT REPORT = WHAT TO DO + WHY + HOW + RESULT
 CLIENT REPORT != LIST OF THINGS NOT TO DO
 ```
 
-### 3.1 Negative pseudo-actions are forbidden
-
-Do not fill the client report with instructions such as:
+Avoid negative pseudo-actions such as:
 
 - «не создавать»;
 - «не менять»;
@@ -79,170 +345,77 @@ Do not fill the client report with instructions such as:
 - «не размещать»;
 - «не объединять»;
 - «не выдавать за готовую задачу»;
-- «не считать скрытой задачей»;
 - «из этого не следует…».
 
-If preservation is material, write it as a positive required action:
+When preservation is genuinely part of acceptance, phrase it positively and locally:
 
 ```text
-BAD: Не создавать новый URL.
-GOOD: Использовать существующий URL.
-
 BAD: Не менять цены и калькулятор.
-GOOD: Сохранить существующие цены и калькулятор.
+GOOD: Цены и калькулятор остаются на месте.
 ```
 
-If an item needs more evidence, write the exact next action:
+Do not remove legitimate factual negation from normal Russian merely to satisfy a mechanical rule. The ban is on pseudo-actions and defensive policy prose, not on the Russian particle «не» itself.
 
-```text
-BAD: Не внедрять до получения доказательства.
-GOOD: Уточнить у компании состав монтажной услуги.
-GOOD: Выбрать одно место размещения блока.
-GOOD: Разметить карточки по категориям.
-```
+---
 
-### 3.2 Process-history narration is forbidden in the client report
+## 11. No internal process narration in client prose
 
-Do not tell the recipient about internal process events that are irrelevant to execution, including wording equivalent to:
+Do not tell the client about report-production controls such as:
 
 - «новые факты не собирались»;
 - «отчёт не расширяет исследование»;
-- «post-hoc evidence не использовался»;
-- «отдельно санкционированная работа»;
-- «провайдеры не вызывались»;
-- internal correction history / owner-fail history / QA history.
+- post-hoc evidence;
+- quarantine;
+- provider-call count;
+- owner FAIL history;
+- validator history;
+- internal state-machine transitions.
 
-Such information belongs in repository evidence, correction logs and QA only.
+These belong in repository QA/provenance only.
 
-The client report may explain the actual completed research and actual evidence boundaries when they materially affect the specialist's decision.
-
----
-
-## 4. Specialist instructions contain professional operations only
-
-The specialist already knows how to open a URL, find a heading and use an editor.
-
-The `Работы` / step-by-step section must contain only meaningful professional operations.
-
-Forbidden filler steps include:
-
-- «Откройте страницу»;
-- «Перейдите по ссылке»;
-- «Найдите указанный блок»;
-- «Найдите заголовок»;
-- «Проверьте результат» as a substitute for acceptance criteria;
-- generic «сохраните всё остальное»;
-- any obvious UI/navigation mechanics that do not change the implementation decision.
-
-Correct action steps start directly with the change, for example:
-
-1. Добавить подраздел …
-2. Разделить понятия …
-3. Раскрыть сценарий …
-4. Связать окончательные параметры с замером …
-
-Location is stated once in `Где изменить`. Acceptance is stated once in `Критерии приёмки`. Do not repeat those fields as pseudo-steps.
+The client report may explain a real evidence limitation when that limitation directly affects what can be implemented.
 
 ---
 
-## 5. Mandatory structure of a fully ready item
+## 12. Report materialization must not become new project research
 
-For every fully ready real site change, include:
+This is a critical cost boundary.
 
-1. short action name;
-2. direct page/object;
-3. `Проблема` — actual deficiency in normal Russian;
-4. `Что изменить` — exact requested result;
-5. `Где изменить` — one evidenced placement where required;
-6. `Работы` — action-specific professional operations only;
-7. practical example where useful and evidence-safe;
-8. `Сохранить` — only material elements that form part of the accepted result;
-9. `Критерии приёмки` — observable completed-state criteria.
+```text
+REPORT MATERIALIZATION != NEW PROJECT RESEARCH
+```
 
-Do not duplicate the same instruction across several fields.
+If completed research lacks exact placement, classification, business detail, Search evidence, current-page fact or other implementation evidence:
 
-A ready action is executable from the completed research. If exact placement/classification/business detail is missing, the item moves to the clarification section.
+```text
+DISCLOSE CONCRETE GAP
+-> MOVE TO CLARIFICATION / CHECK
+-> STATE THE REQUIRED ANSWER
+```
 
----
+Do not silently fill the gap by:
 
-## 6. Items requiring clarification
+- rereading the client site;
+- recrawling a large site section;
+- classifying a new object set;
+- repeating Search / Wordstat / Alice / AI calls;
+- collecting new business facts.
 
-A non-ready but useful finding is presented as a concrete work package, not as a meta-status lecture.
+A separate owner-authorized research/revalidation task may do this, but it is new work and must not be backdated into the completed research.
 
-Use:
-
-- `Что уже определено`;
-- `Что уточнить`;
-- `Содержание будущего блока` or `Результат уточнения` when relevant.
-
-Do not write:
-
-- «задание остаётся частичным»;
-- «не должно выдаваться за готовое»;
-- «получить названное доказательство»;
-- «граница приёмки сейчас»;
-- generic readiness/status explanations.
-
-The recipient should see exactly which fact or implementation decision is missing.
+Fresh external methodology/bibliography validation is allowed when the report contract requires current references, provided it does not create or upgrade project-specific findings.
 
 ---
 
-## 7. Semantic assignments and internal links
+## 13. Evidence precision
 
-### 7.1 Semantic assignments
+### 13.1 Ready means evidenced enough to implement
 
-If the standalone semantic core exists, Report №02 may show a compact register:
+A recommendation is ready only when the completed evidence supports the page/object, required change and necessary implementation detail.
 
-- topic/task;
-- main page;
-- supporting page(s).
+Do not rescue readiness with post-report research.
 
-Do not repeat an identical sentence such as «физически страницу не менять» on every row.
-
-A short section-level explanation is enough: these assignments are used for semantic-core and content-plan work.
-
-### 7.2 Internal links
-
-A link relationship that lacks exact context is shown as a pair requiring detailing.
-
-Client-visible fields should be useful to the specialist, for example:
-
-- source page;
-- target page;
-- section-level instruction explaining what must be detailed: exact source block, surrounding text, link wording and user-transition role.
-
-Do not repeat the same `чего не хватает` sentence 14 times.
-
-Duplicate source→target authority rows must be consolidated into one visible decision unless the contexts are materially distinct and explicitly shown.
-
----
-
-## 8. Positive preservation language
-
-Preservation constraints are allowed when they are actual implementation requirements, but must be phrased positively.
-
-Examples:
-
-- «Сохранить существующий URL»;
-- «Сохранить текущий порядок производителей»;
-- «Сохранить существующие цены и калькулятор»;
-- «Сохранить раздельные роли страниц до результата проверки».
-
-A whole client-facing section made of prohibitions is forbidden.
-
----
-
-## 9. Evidence precision
-
-### 9.1 Exact placement
-
-Placement must come from completed preserved evidence.
-
-If evidence supports only alternatives, do not browse the site during reporting to choose one. Put the item in the clarification section and state the exact placement decision that must be made later.
-
-### 9.2 Temporal facts
-
-A temporal attribute remains attached to the exact evidenced object.
+### 13.2 Temporal facts stay attached to the evidenced object
 
 ```text
 RANKING YEAR != PUBLICATION DATE
@@ -251,143 +424,192 @@ DATA SNAPSHOT DATE != CONTENT UPDATE DATE
 CURRENT-YEAR WORDING != VERIFIED PUBLICATION DATE
 ```
 
-Do not transfer a date/year from one fact to another during client writing.
+### 13.3 Business facts require business evidence
 
-### 9.3 Business facts
+Company-specific inclusions, exclusions, materials, warranties, obligations, prices or service boundaries require direct business evidence.
 
-Company-specific inclusions, exclusions, warranties, materials, obligations, prices or service boundaries require direct business evidence.
+When missing, ask for the exact concrete fact in the clarification section.
 
-When missing, write the concrete clarification required from the company.
+### 13.4 Placeholders are forbidden in ready recommendations
 
----
-
-## 10. Client language and internal traceability
-
-For a Russian report:
-
-- project-invented terms/codes are expressed in normal Russian or omitted;
-- project action IDs, internal filenames, QA IDs and internal enum values are forbidden in the client report;
-- official brands, URLs and unavoidable external technical identifiers may remain Latin/English;
-- internal traceability stays in repository evidence.
-
-```text
-CLIENT REPORT = NO PROJECT-INTERNAL IDS / FILENAMES / ENUMS / QA LOCATORS
-```
+No `[дата проверки]`, TBD, TODO or invented future values in ready client text.
 
 ---
 
-## 11. Research explanation and Wordstat/Alice wording
+## 14. Client language and traceability
 
-The report may briefly explain how the implementation plan was obtained when that helps the specialist:
+Report №02 is written in natural Russian.
 
-- site/business inventory;
-- demand collection and cleanup;
-- clustering/task grouping;
-- phrase/page mapping;
-- ordinary Yandex validation;
-- Alice/AI comparison when material;
-- final implementation decision.
+Project-internal traceability must stay out of client prose:
 
-Do not narrate internal correction mechanics.
+- action IDs;
+- filenames;
+- QA IDs;
+- internal enum values;
+- Stage/Step/CV/OR labels;
+- repository-only terminology.
 
-For Wordstat, use the official meaning of the preserved metric. Broad/no-operator observations are not exact phrase frequency or a traffic forecast.
+Official brands, URLs and unavoidable official external identifiers may remain in their official form.
 
-Alice/AI output is evidence observed and compared with the research decision; it is not the research author.
+Do not identify the report through a profession label such as SEO specialist/editor/developer.
 
 ---
 
-## 12. Bibliography
+## 15. Bibliography
 
-The final substantive section contains the external materials actually used.
+The final substantive section lists external materials actually used when they are material to the report.
 
-Each item includes:
+Each item contains:
 
 1. title;
 2. publisher/source;
 3. direct URL.
 
-Sources are freshly revalidated when the job/report contract requires it. A prior project bibliography is not copied blindly.
+The bibliography must cover material external surfaces actually discussed, including Yandex/Alice material where relevant.
+
+Do not blindly copy a prior bibliography without required freshness validation.
 
 ---
 
-## 13. Known failure classes — permanent memory
+## 16. Physical DOCX/PDF quality
 
-The following failures are owner-identified and must be prevented in every future Report №02:
+The final committed artifact must pass the layout gate.
 
-### Failure A — internal traceability leaked into client report
-Action IDs, filenames, QA references or internal enum values were shown to the recipient.
-
-### Failure B — generic steps were presented as implementation steps
-Repeated template steps replaced action-specific professional operations.
-
-### Failure C — ambiguous placement was presented as ready
-Alternative locations were written as if the implementation was fully defined.
-
-### Failure D — analysis was left to the implementer
-A category/filter task named categories but did not supply the completed mapping or explicitly request the missing mapping work.
-
-### Failure E — placeholder in a ready instruction
-A ready example contained an unresolved value such as `[дата проверки]`.
-
-### Failure F — numbering implied a schedule
-Document numbering was presented as implementation order without a real schedule decision.
-
-### Failure G — duplicate link pair hidden by row-count QA
-Two authority rows became the same visible source→target decision.
-
-### Failure H — bibliography missed a material evidence surface
-The report discussed Alice/AI while the bibliography lacked the current official surface documentation.
-
-### Failure I — temporal attribute transferred to the wrong object
-`ranking 2024` was rewritten as `article published in 2024`.
-
-### Failure J — report materialization expanded into new research
-Missing implementation detail triggered new site reads / portfolio classification during reporting.
-
-### Failure K — internal process narration leaked into client prose
-The report told the recipient that new facts were not collected, scope was not expanded, evidence was quarantined, or a later check required special authorization.
-
-### Failure L — negative pseudo-actions replaced actual work
-The report repeatedly told the specialist what not to create/change/implement instead of stating the required action or clarification.
-
-### Failure M — obvious browser/editor mechanics were called implementation steps
-Steps such as «откройте страницу», «найдите блок», «проверьте» inflated the guide without helping a specialist perform the work.
-
-### Failure N — the same instruction was repeated across fields/rows
-Location, preservation, acceptance or semantic no-change text was duplicated instead of being stated once in the proper section.
-
----
-
-## 14. Report №02 PASS gate
-
-Report №02 may pass only when:
+At minimum:
 
 ```text
-RECIPIENT = DIRECT SPECIALIST / IMPLEMENTER
-CLIENT PURPOSE = EXECUTION
-REPORT-STAGE NEW PROJECT FACT COLLECTION = 0 unless separately owner-authorized
-POST-HOC EVIDENCE USED TO UPGRADE READINESS = 0
-PROJECT-INTERNAL IDS / FILENAMES / ENUMS / QA LOCATORS IN CLIENT REPORT = 0
-CLIENT PLACEHOLDERS = 0
-PROCESS-HISTORY NARRATION IN CLIENT REPORT = 0
-NEGATIVE PSEUDO-ACTION INSTRUCTIONS = 0
-OBVIOUS OPEN/FIND/NAVIGATE/CHECK FILLER STEPS = 0
-READY ACTION GENERIC STEP TEMPLATE REUSE = 0
-READY ACTIONS HAVE DIRECT PAGE/OBJECT = true where applicable
-READY ACTIONS HAVE ONE EVIDENCED PLACEMENT = true where placement is required
-READY ACTIONS HAVE ACTION-SPECIFIC PROFESSIONAL OPERATIONS = true
-READY ACTIONS HAVE PRACTICAL EXAMPLE = true where useful and evidence-safe
-READY ACTIONS HAVE OBSERVABLE ACCEPTANCE CRITERIA = true
-CLARIFICATION ITEMS NAME THE EXACT MISSING FACT/DECISION = true
-SEMANTIC ASSIGNMENTS ARE COMPACT AND NON-REPETITIVE = true
-INTERNAL LINK DECISIONS ARE UNIQUE OR EXPLICITLY DISTINGUISHED = true
-TEMPORAL FACT ATTRIBUTION = EXACT EVIDENCE MATCH
-UNSUPPORTED BUSINESS FACTS = 0
-BIBLIOGRAPHY COVERS MATERIAL EXTERNAL SURFACES = true
-NATURAL RUSSIAN TECHNICAL PROSE = true
-GENERATED / TEMPLATE FILLER = absent
-MD / DOCX / PDF CONTENT EQUIVALENCE = PASS
-PHYSICAL PDF / DOCX VISUAL QA = PASS
+EMPTY CONTENTS / TOC HEADING = 0
+ORPHAN FIELD LABELS = 0
+CLIPPED TEXT = 0
+OVERLAPPED TEXT = 0
+BROKEN GLYPHS = 0
+BROKEN TABLES = 0
+DIRECT URLS LEGIBLE = true
+BOLD EXAMPLES LEGIBLE = true
+FINAL COMMITTED PDF PAGES VISUALLY INSPECTED = true
 ```
 
-A PASS document should read like a competent specialist brief: concise, concrete and directly useful. It must not read like an audit log, policy memo or beginner tutorial.
+Do not claim visual PASS from a predecessor render or a different binary.
+
+---
+
+## 17. Owner-identified failure classes — permanent memory
+
+Every future Report №02 must explicitly avoid all failures below.
+
+### Failure A — internal traceability leaked into client report
+Action IDs, filenames, QA references or internal enums were shown to the client.
+
+### Failure B — generic template steps replaced real implementation
+Seven different actions were given nearly identical generic step lists.
+
+### Failure C — ambiguous placement was presented as ready
+Alternatives such as «before X or Y» were written as implementation-ready.
+
+### Failure D — analysis was left to the implementer
+A filtering/classification task named categories but left the actual mapping to the person receiving a supposedly ready instruction.
+
+### Failure E — placeholder remained in a ready example
+A ready recommendation contained an unresolved `[дата проверки]`-style placeholder.
+
+### Failure F — numbering was presented as schedule
+Document numbering implied execution order without a real scheduling decision.
+
+### Failure G — duplicate visible link pair was hidden by row-count QA
+Two internal authority rows became the same client-visible source→target pair.
+
+### Failure H — bibliography missed a material external surface
+The report discussed Alice/AI while the bibliography lacked relevant current official Yandex material.
+
+### Failure I — temporal attribute was transferred to the wrong fact
+`ranking for 2024` became `article published in 2024`.
+
+### Failure J — report production expanded into expensive new research
+Missing report detail triggered new client-site reads and a 224-card / 19-page portfolio classification after research was already complete.
+
+### Failure K — internal process narration leaked into client prose
+The report discussed what the project did not collect, scope controls, quarantine or authorization instead of the result.
+
+### Failure L — negative pseudo-actions replaced required work
+The client was told what not to create/change/implement instead of what to do.
+
+### Failure M — obvious browser/editor mechanics were presented as implementation
+Instructions such as «откройте», «найдите», «перейдите», «проверьте» padded the steps.
+
+### Failure N — instructions were duplicated across fields and rows
+Location, preservation, acceptance and no-change wording repeated instead of appearing once in the right place.
+
+### Failure O — empty contents furniture was shipped
+The PDF displayed «Содержание» with no useful contents entries.
+
+### Failure P — mini-heading was orphaned from its content
+Labels such as «Что уточнить» or «Пример» remained alone at the bottom of a page.
+
+### Failure Q — recipient profession became the document identity
+The document was branded as a specialist/SEO guide instead of naming the result.
+
+### Failure R — 46-row topic table had no plain-language operational meaning
+The reader saw «семантические назначения» but could not understand what the rows were for or how to use them.
+
+### Failure S — 14 page pairs were unexplained technical candidates
+The report listed pairs and requested «block/context/link wording» without explaining what the transition meant, why it helped or how it was implemented.
+
+### Failure T — standalone «Требования к существующей структуре» section
+A defensive preservation list occupied client space without advancing implementation.
+
+### Failure U — implementation report reproduced research framing instead of an action plan
+The document mixed research narrative, raw registers and internal workflow instead of prioritizing recommendations and usable next steps.
+
+---
+
+## 18. Canonical PASS gate for Report №02
+
+Report №02 may pass only when all applicable checks below pass:
+
+```text
+VISIBLE TITLE = Внедрение рекомендации
+CLIENT PROFESSION / ROLE BRANDING = absent
+ACTION-FIRST STRUCTURE = true
+READY RECOMMENDATIONS = WHAT + WHY + WHERE + HOW + EXAMPLE/RESULT CHECK where applicable
+GENERIC READY STEP REUSE = 0
+READY AMBIGUOUS PLACEMENT = 0
+CLIENT PLACEHOLDERS = 0
+CLARIFICATION ITEMS NAME EXACT ANSWER NEEDED = true
+TOPIC-TO-PAGE REGISTER HAS WHAT / WHY / HOW = true
+TOPIC-TO-PAGE COLUMNS ARE PLAIN RUSSIAN = true
+ADDITIONAL CHECKS HAVE PURPOSE + METHOD + DECISION = true
+PAGE-CONNECTION REGISTER HAS WHAT / WHY / HOW = true
+PAGE-CONNECTION COLUMNS ARE PLAIN RUSSIAN = true
+DUPLICATE VISIBLE PAGE PAIRS WITHOUT EXPLANATION = 0
+STANDALONE PRESERVATION / PROHIBITION SECTION = absent
+NEGATIVE PSEUDO-ACTION INSTRUCTIONS = 0
+OBVIOUS OPEN / FIND / NAVIGATE FILLER STEPS = 0
+PROCESS-HISTORY NARRATION IN CLIENT REPORT = 0
+PROJECT-INTERNAL IDS / FILENAMES / ENUMS / QA LOCATORS = 0
+REPORT-STAGE NEW PROJECT FACT COLLECTION = 0 unless separately owner-authorized
+POST-HOC EVIDENCE USED TO UPGRADE READINESS = 0
+TEMPORAL FACT ATTRIBUTION = EXACT EVIDENCE MATCH
+UNSUPPORTED BUSINESS FACTS = 0
+RAW RESEARCH FUNNEL DOMINATING REPORT = absent
+BIBLIOGRAPHY COVERS MATERIAL EXTERNAL SURFACES = true
+NON-SPECIALIST OWNER CAN EXPLAIN EVERY NON-OBVIOUS SECTION = true
+NATURAL RUSSIAN PROSE = true
+GENERATED / TEMPLATE FILLER = absent
+MD / DOCX / PDF CONTENT EQUIVALENCE = PASS
+EMPTY TOC HEADING = 0
+ORPHAN FIELD LABELS = 0
+FINAL COMMITTED PDF VISUAL READBACK = PASS
+```
+
+The final question before PASS is simple:
+
+```text
+CAN A PERSON WHO DID NOT PARTICIPATE IN THE RESEARCH UNDERSTAND:
+WHAT TO DO,
+WHY TO DO IT,
+HOW TO DO IT,
+WHAT MUST BE CLARIFIED,
+AND WHAT EACH SUPPORTING TABLE IS FOR?
+```
+
+If not, Report №02 is not ready.
