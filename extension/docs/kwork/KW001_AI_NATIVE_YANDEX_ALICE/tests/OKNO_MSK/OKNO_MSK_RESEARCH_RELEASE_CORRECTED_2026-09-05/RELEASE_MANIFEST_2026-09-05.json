@@ -1,7 +1,7 @@
 {
   "release_id": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
   "release_date": "2026-09-05",
-  "status": "DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
+  "status": "DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED",
   "supersedes_recipient_documents_from": "OKNO_MSK_RESEARCH_RELEASE_2026-09-05",
   "historical_release_preserved": true,
   "canonical_sources": {
@@ -107,8 +107,8 @@
     "markdown_docx_pdf_language_scan": "PASS__0_0_0",
     "empty_toc_heading_hits": 0,
     "orphan_field_labels": 0,
-    "visual_qa": "PENDING_OWNER_READBACK__14_PAGE_FINAL_PDF_RENDERED",
-    "materialization_commit": "8c597880f7f9b3b9d051d626b7e6c4efb1e2779b",
+    "visual_qa": "PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14",
+    "materialization_commit": "64509ac399f284c92b0c00acff7af4f1eee77e71",
     "owner_review": "PENDING",
     "visible_title": "Внедрение рекомендации",
     "topic_page_rows": 46,
