@@ -7,8 +7,6 @@ Owner instruction: 2026-09-08
 
 Large-data work must not be degraded merely to fit an ordinary chat context.
 
-Canonical rule:
-
 ```text
 LARGE DATA
 != SAMPLE IT
@@ -19,43 +17,53 @@ LARGE DATA
 → HAND OFF THE COMPLETE EXECUTION UNIT TO CHATGPT WORK
 ```
 
-The Work handoff exists to preserve completeness, joins, row-level QA, traceability and artifact generation when an ordinary conversation is not a reliable execution environment for the whole dataset.
-
 ## 2. Trigger
 
 Use ChatGPT Work when one or more are true:
 
 ```text
-- the step requires complete analysis of a large table or several large files;
+- complete analysis of a large table or several large files is required;
 - row-level joins/deduplication/reconciliation cannot be verified reliably in ordinary chat;
-- the full provider evidence would otherwise be sampled or omitted;
+- full provider evidence would otherwise be sampled or omitted;
 - pairwise/cluster analysis creates a large intermediate universe;
 - a final workbook/report must be generated from large structured inputs;
-- ordinary-context limits create a material risk of skipped rows, lost provenance, partial QA or repeated restart/reconstruction.
+- ordinary-context limits materially risk skipped rows, lost provenance, partial QA or repeated reconstruction.
 ```
 
 This is a quality trigger, not an arbitrary row-count threshold.
 
-## 3. Owner-supplied prompt authority
+## 3. Canonical Work prompt authority
 
-The canonical Work prompt is supplied by the owner.
+The MAIN CHATGPT WORKFLOW prepares the exact Work prompt for the current step. The owner/user only relays that prompt to ChatGPT Work.
 
 ```text
-OWNER WORK PROMPT = AUTHORITATIVE HANDOFF TEMPLATE
+MAIN CHATGPT = PROMPT AUTHOR
+OWNER / USER = PROMPT RELAY
+CHATGPT WORK = EXECUTION ENVIRONMENT
 ```
 
-Once supplied:
+Mandatory sequence:
 
-- use that prompt;
-- fill only the current step/job variables it explicitly allows;
-- do not silently rewrite its execution contract;
-- do not invent a replacement prompt because another wording seems convenient.
+```text
+CURRENT STEP PRE-STEP REVIEW
+→ WORK TRIGGER CONFIRMED
+→ PRE-HANDOFF MANIFEST FROZEN
+→ MAIN CHATGPT WRITES COMPLETE CANONICAL WORK PROMPT
+→ OWNER RELAYS PROMPT TO WORK WITHOUT NEEDING TO DESIGN IT
+→ WORK EXECUTES
+→ OWNER RETURNS WORK RESULT/ARTIFACTS
+→ MAIN CHATGPT RUNS RETURN QA
+```
 
-Before the owner supplies the canonical prompt, the project may prepare the handoff manifest but must not pretend a different generic prompt is the approved Work contract.
+The owner is not responsible for inventing, completing or correcting the Work prompt.
+
+Main ChatGPT must include all current step/job constraints in the prompt and must not ask the owner to supply a methodology prompt that the project already knows how to construct.
+
+If the owner edits the prompt intentionally, the latest explicit owner instruction has authority. Otherwise the generated prompt is the canonical handoff contract for that execution.
 
 ## 4. Required pre-handoff manifest
 
-Before Work receives a large-data task, freeze:
+Before writing the Work prompt, freeze:
 
 ```text
 JOB_ID
@@ -73,7 +81,7 @@ QA / ACCEPTANCE CHECKS
 STOP CONDITIONS
 ```
 
-For clean tests, the source whitelist is mandatory. Work may not browse/open sealed prior-research artifacts merely because they exist in the repository.
+For clean tests, the source whitelist is mandatory.
 
 ## 5. Work is execution environment, not authority
 
@@ -81,9 +89,7 @@ For clean tests, the source whitelist is mandatory. Work may not browse/open sea
 WORK OUTPUT != AUTOMATICALLY ACCEPTED TRUTH
 ```
 
-Work must obey the same Level 1 and Level 2 rules as ordinary execution.
-
-Work is not allowed to:
+Work must obey the same Level 1 and Level 2 rules as ordinary execution and may not:
 
 - create new permanent methodology;
 - override client scope;
@@ -110,41 +116,28 @@ After Work finishes:
 9. only then mark the step complete and continue.
 ```
 
-If verification fails, the step remains incomplete.
-
 ## 7. No ordinary-chat fallback by quality reduction
 
-If a Work-triggered step cannot currently be run in Work, do not silently switch to:
+If a Work-triggered step cannot be run in Work, do not silently switch to representative samples, first-N rows, manual examples or summary-only processing.
 
-```text
-representative sample only
-first N rows
-manual examples
-summary without full processing
-```
-
-Instead record `WORK_EXECUTION_REQUIRED / BLOCKED` or split the work into complete, independently valid execution units only when the Level 2 step method permits such partitioning without loss of global coherence.
+Record `WORK_EXECUTION_REQUIRED / BLOCKED`, or split into complete independently valid units only when the Level 2 method explicitly permits it without loss of global coherence.
 
 ## 8. Relation to Bridge
-
-Yandex Marketing Bridge remains the governed provider-acquisition hand.
-
-ChatGPT Work may analyze preserved provider evidence and create artifacts, but it does not automatically become authorized to perform provider calls.
-
-Canonical separation:
 
 ```text
 BRIDGE = PROVIDER EVIDENCE ACQUISITION / PERSISTENCE
 WORK = LARGE-DATA ANALYSIS / TRANSFORMATION / ARTIFACT EXECUTION
-CHATGPT MAIN WORKFLOW = METHOD CONTROL / DECISIONS / QA / OWNER COMMUNICATION
-OWNER = AUTHORIZATION / CANONICAL WORK PROMPT
+MAIN CHATGPT = METHOD CONTROL / WORK PROMPT AUTHOR / DECISIONS / RETURN QA / OWNER COMMUNICATION
+OWNER = AUTHORIZATION / PROMPT RELAY / RESULT RETURN
 ```
 
-## 9. Marker
+## 9. Markers
 
 ```text
 KW002_WORK_HANDOFF_RULE_ACTIVE = true
-KW002_OWNER_SUPPLIED_WORK_PROMPT_REQUIRED = true
+KW002_MAIN_CHATGPT_WRITES_WORK_PROMPT = true
+KW002_OWNER_RELAYS_WORK_PROMPT = true
+KW002_OWNER_DOES_NOT_HAVE_TO_DESIGN_WORK_PROMPT = true
 KW002_LARGE_DATA_MUST_NOT_BE_SAMPLED_FOR_CONTEXT_CONVENIENCE = true
 KW002_WORK_OUTPUT_REQUIRES_RETURN_QA = true
 ```
