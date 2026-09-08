@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 00 COMPLETE / STEP 01 CURRENT / WORK PROMPT REQUIRED**
+Status: **STEP 00 COMPLETE AFTER Ozon-ONLY CORRECTION / STEP 01 CURRENT / WORK PROMPT GENERATED**
 
 ## 1. Job identity
 
@@ -14,89 +14,45 @@ SITE_STATE = NEW_SITE
 REGION = Russia
 LANGUAGE = Russian
 PRIMARY_SEARCH_ENGINE = Yandex
-OWNER_START_AUTHORIZATION = 2026-09-08 / explicit chat instruction «начинаем работу по заказу»
-OWNER_CONTINUE_AUTHORIZATION = 2026-09-08 / explicit chat instruction «продолжаем работу»
 ```
 
-## 2. Frozen client-input authorities
+## 2. Frozen client truth
+
+```text
+Brand = «Кровь и Песок» / Blood & Sand
+Business = product brand / seller
+Client wording = амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля
+Sales channels = Ozon + Wildberries
+Assortment authority for this KW-002 test = Ozon only
+Primary market/search geography = Russia
+New owned website planned = YES
+```
+
+The analyst may not replace the client wording with a narrower invented category before research.
+
+## 3. Current authoritative assortment input
+
+Canonical files:
 
 ```text
 CLIENT_SUPPLIED_BRIEF.md
 CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
-CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
 CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
-CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
 ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-### Business facts supplied by client
+Current accounting:
 
 ```text
-Brand: «Кровь и Песок» / Blood & Sand
-Business: product brand / seller
-Client wording: амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля
-Existing sales channels: Ozon + Wildberries
-Primary search/market geography: Russia
-Delivery geography: Russia / nationwide
-New owned website planned: YES
+OZON PRODUCT/LISTING ROWS = 76
+WB PRODUCT/LISTING ROWS ALLOWED IN STEP 01 = 0
+STEP 01 INPUT ROWS = 76
+CROSS_PLATFORM RECONCILIATION = NOT APPLICABLE
 ```
 
-The analyst may not replace the client wording with a narrower invented search/category definition before Step 01/02 research.
+Previously created WB catalog files remain only as superseded history and are prohibited as Step-01/02 inputs.
 
-## 3. Future-site goal supplied by client
-
-```text
-1. Yandex users can discover the brand/products.
-2. Users can understand what products exist and how they differ.
-3. Users can choose an appropriate product.
-4. Users can proceed toward purchase.
-```
-
-The exact future direct-vs-marketplace checkout model is outside this semantic-core order and remains unresolved.
-
-## 4. Frozen assortment accounting
-
-### Wildberries
-
-```text
-source = blood_sand/marketing/data/normalized/marketplace/wildberries/20260908__wb__cards-list__fresh-current108-identities.csv
-seller-account rows observed = 108
-client-declared in-scope rows = 88
-client-declared other/out-of-scope rows = 20
-in-scope copy = CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
-out-of-scope copy = CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
-```
-
-### Ozon
-
-```text
-source = blood_sand/marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
-supplied listing/product rows = 76
-copy = CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
-```
-
-### Reconciled intake count
-
-```text
-WB in-scope listing rows = 88
-Ozon listing rows = 76
-TOTAL admitted in-scope marketplace listing rows before cross-platform reconciliation = 164
-CROSS-PLATFORM UNIQUE PRODUCT COUNT = NOT YET DETERMINED
-```
-
-Hard boundaries:
-
-```text
-MARKETPLACE LISTING ROW != UNIQUE PRODUCT MODEL
-SAME/RELATED TITLE ACROSS MARKETPLACES != AUTOMATIC SAME PRODUCT/VARIANT
-PRODUCT TITLE != PROVEN SEARCH TERM
-PRODUCT EXISTS != SEO PRIORITY
-PRODUCT EXISTS != AUTOMATIC SEPARATE PAGE
-```
-
-Cross-platform identity/variant/family reconciliation is the current Step 01 work.
-
-## 5. Client did not supply
+## 4. Client did not supply
 
 ```text
 semantic core = NONE
@@ -113,145 +69,114 @@ Search/SERP conclusions = NONE
 Alice/AI-search conclusions = NONE
 ```
 
-These are research outputs, not intake assumptions.
-
-## 6. Client-supplied constraints
+## 5. Client/business constraints
 
 ```text
-- do not invent products/services that are not actually sold;
-- use the client-supplied product catalogs as assortment authority;
-- keep the 20 client-declared unrelated WB seller lines outside this website order;
-- do not pre-cluster the catalog into SEO categories at intake;
-- symbolic/mystical statements must not be presented as proven physical effects;
-- no Yandex ranking / traffic / sales guarantees;
-- no Alice AI inclusion/citation guarantees;
-- do not invent final direct-vs-marketplace checkout model;
-- full site copywriting excluded;
-- web design/development excluded.
+- do not invent products/services not actually sold;
+- use all 76 Ozon cards as current assortment authority;
+- do not reintroduce WB product cards without explicit owner revision;
+- do not pre-cluster catalog into SEO categories at intake;
+- symbolic/mystical statements are not proven physical effects;
+- no Yandex ranking/traffic/sales guarantees;
+- no Alice inclusion/citation guarantees;
+- direct-vs-marketplace checkout remains outside this order;
+- full site copywriting/design/development excluded.
 ```
 
-## 7. Frozen promised KW-002 outputs
+## 6. Promised KW-002 outputs
 
 ```text
-complete in-scope current-Yandex demand evidence within the order scope
+current-Yandex demand evidence
 cleaned semantic core
 user-task / intent classification
-current-Yandex-SERP-backed clusters
+SERP-backed clusters
 query→target-page mapping
 planned site IA
-Page Jobs / role of each planned search page
-recommended internal-link relationships
-competitor-derived semantic gaps with demand validation
-bounded Search-vs-AI-search decision evidence where material
+Page Jobs
+internal-link relationships
+validated competitor-derived semantic gaps
+bounded Search-vs-AI-search decision evidence
 client-ready deliverables
 ```
 
-No artificial fixed keyword-count target is part of the order.
+No artificial fixed keyword-count target.
 
-## 8. Explicit Kwork exclusions
+## 7. Clean-baseline rule
 
-```text
-client-site economics / CAC / margin modeling
-full website text writing
-web design
-technical website implementation
-technical SEO crawler audit
-ranking guarantees
-Alice citation guarantees
-full reverse-domain keyword-universe claims without separately authorized supporting evidence
-```
-
-## 9. Clean-baseline / old-research rule
-
-Until the new KW-002 result is frozen after Step 20:
+Until Step 20 final freeze:
 
 ```text
 PRIOR BLOOD_SAND SEO RESEARCH = SEALED / FORBIDDEN EXECUTION INPUT
 DEFAULT BLOOD_SAND PROJECT MATERIAL = DENY
-EXCEPTIONS = only exact sources whitelisted in ALLOWED_INPUTS_AND_SEALED_SOURCES.md
+EXCEPTIONS = exact sources whitelisted in ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-Forbidden old analytical inputs include prior Wordstat, seeds, Search/SERP, Alice/AI, opportunity maps, competitor findings, buyer-research conclusions, SEO priorities, clusters, query→page, IA and Page Jobs.
+Forbidden old inputs include prior Wordstat/seeds, Search/SERP, Alice/AI, opportunity maps, competitor findings, buyer-research conclusions, SEO priorities, clusters, query→page, IA and Page Jobs.
 
-Current conversation memory of those conclusions is not evidence.
+## 8. Step 00 authority
 
-## 10. Large-data execution rule
-
-Owner-locked rule:
-
-```text
-LARGE DATA
-→ owner canonical Work prompt
-→ ChatGPT Work execution
-→ return artifacts
-→ row/count/join/provenance QA
-→ only then accept step result
-```
-
-Step 01 Work trigger has now been evaluated as TRUE because the step requires complete reconciliation of 164 in-scope rows across two marketplace catalog files, with row-level normalization/deduplication/join QA.
-
-Canonical current pre-step/handoff authority:
-
-```text
-STEP_01_PRE_STEP_REVIEW_AND_WORK_HANDOFF_2026-09-08.md
-```
-
-No Work execution has occurred yet.
-
-## 11. Step 00 acceptance authority
-
-Canonical Step 00 execution record:
+Original Step 00:
 
 ```text
 STEP_00_SCOPE_AND_SOURCE_FREEZE_2026-09-08.md
 ```
 
-Step 00 verified:
+Current correction:
 
 ```text
-brief frozen = true
-business wording frozen = true
-region/language/search engine frozen = true
-site state frozen = true
-WB in-scope rows physically persisted = 88
-WB out-of-scope rows physically persisted = 20
-Ozon rows physically persisted = 76
-in-scope listing accounting = 164
-cross-platform unique count intentionally unresolved = true
-promised outputs frozen = true
-exclusions frozen = true
-source whitelist frozen = true
-old research denied = true
-provider calls during Step 00 = 0
-Work handoffs during Step 00 = 0
+STEP_00_ASSORTMENT_SCOPE_CORRECTION_OZON_ONLY_2026-09-08.md
 ```
 
-## 12. Current execution state
+Current Step 00 truth:
+
+```text
+STEP_00_CURRENT_VERDICT = COMPLETE / PASS
+OZON_ROWS_FROZEN = 76
+WB_ROWS_ACTIVE = 0
+CROSS_PLATFORM_JOIN = false
+OLD_RESEARCH_DENIED = true
+PROVIDER_CALLS = 0
+```
+
+## 9. Work execution rule / prompt authority
+
+```text
+MAIN_CHATGPT = writes canonical Work prompt
+OWNER_USER = relays prompt to ChatGPT Work
+CHATGPT_WORK = executes complete unit
+MAIN_CHATGPT = return QA / acceptance
+```
+
+Current Step-01 Work authorities:
+
+```text
+STEP_01_PRE_STEP_REVIEW_AND_WORK_HANDOFF_2026-09-08.md
+STEP_01_CHATGPT_WORK_PROMPT_2026-09-08.md
+WORK_HANDOFF_LOG.md
+```
+
+## 10. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
 ROADMAP_OWNER_APPROVED = true
 ORDER_SCOPE_FROZEN = true
-CLIENT_SUPPLIED_BRIEF_MATERIALIZED = true
-CLIENT_ASSORTMENT_MANIFEST_MATERIALIZED = true
-CLIENT_PRODUCT_CATALOG_WB_IN_SCOPE_ROWS = 88
-CLIENT_PRODUCT_CATALOG_OZON_ROWS = 76
-CLIENT_OTHER_WB_ROWS_EXCLUDED = 20
-CLIENT_IN_SCOPE_LISTING_ROWS_BEFORE_RECONCILIATION = 164
-CROSS_PLATFORM_UNIQUE_PRODUCT_COUNT = NOT_YET_DETERMINED
-CLIENT_SOURCE_BOUNDARY_FROZEN = true
-RAW_ASSORTMENT_SOURCE_COUNT = 2
 STEP_00_COMPLETE = true
-STEP_00_VERDICT = PASS
+STEP_00_VERDICT = PASS_AFTER_OZON_ONLY_CORRECTION
+CLIENT_ASSORTMENT_SOURCE_COUNT = 1
+CLIENT_PRODUCT_CATALOG_OZON_ROWS = 76
+WB_PRODUCT_ROWS_ALLOWED = 0
 STEP_01_STARTED = true
 STEP_01_PRE_STEP_REVIEW = COMPLETE
 STEP_01_WORK_TRIGGER = true
 STEP_01_WORK_MANIFEST = PREPARED
-OWNER_CANONICAL_WORK_PROMPT_AVAILABLE = false
-STEP_01_WORK_EXECUTION = BLOCKED_PENDING_OWNER_PROMPT
+STEP_01_WORK_PROMPT = GENERATED
+WORK_PROMPT_AUTHOR = MAIN_CHATGPT
+WORK_PROMPT_RELAY = OWNER_USER
+STEP_01_WORK_EXECUTION = NOT_STARTED
 STEP_01_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_STEP = STEP_01_WORK_EXECUTION_AFTER_OWNER_PROMPT
+NEXT_ACTION = OWNER_RELAYS_STEP_01_CHATGPT_WORK_PROMPT_TO_WORK
 PROVIDER_CALLS_FOR_KW002_JOB = 0
-WORK_HANDOFFS_FOR_KW002_JOB = 0
+WORK_HANDOFFS_EXECUTED = 0
 ```
