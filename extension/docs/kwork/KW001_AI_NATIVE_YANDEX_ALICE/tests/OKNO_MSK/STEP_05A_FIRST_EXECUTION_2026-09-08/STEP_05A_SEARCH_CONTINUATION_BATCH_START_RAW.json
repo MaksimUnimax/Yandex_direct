@@ -1,0 +1,61 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.start",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-continuation-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "start",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-continuation-20260908",
+    "queries": [
+      "балконы под офис",
+      "кладовая на балконе",
+      "шумоизоляция на крышу балкона",
+      "армирование оконного профиля"
+    ],
+    "searchType": "SEARCH_TYPE_RU",
+    "region": "213",
+    "groupsOnPage": 10,
+    "maxRequests": 4,
+    "maxCostRub": 1.952,
+    "confirmBillable": true
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-continuation-20260908",
+    "status": "RUNNING",
+    "total": 4,
+    "input_count": 4,
+    "duplicate_count": 0,
+    "pending": 4,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 0,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 0,
+    "requests_started": 0,
+    "estimated_cost_rub": 0,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": null,
+  "provider_result": null,
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 0,
+    "max_rub": 1.952
+  },
+  "policy": {
+    "max_requests": 4,
+    "max_cost_rub": 1.952
+  },
+  "request_executed": false,
+  "automatic_retry": false
+}
