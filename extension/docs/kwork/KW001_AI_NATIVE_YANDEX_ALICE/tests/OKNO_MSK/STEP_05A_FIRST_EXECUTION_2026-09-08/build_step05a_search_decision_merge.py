@@ -104,7 +104,7 @@ QUERY_ANALYSIS = {
     2: ("COMMERCIAL_PRODUCT_AND_SERVICE_DOMINANT", "PRODUCT_PROCUREMENT", "Nine of ten rows are product, service, landing or manufacturer offer sources; the tested job is commercial selection/procurement of a sun-protection glass-unit configuration.", "HIGH"),
     3: ("ARTICLE_AND_INFORMATION_DOMINANT", "LEARNING_SELECTION", "The TOP10 is led by guides, publishers and one comparison; the tested job is explanatory selection of a multifunctional glass unit.", "HIGH"),
     4: ("COMMERCIAL_PRODUCT_DOMINANT_WITH_GUIDE", "PRODUCT_PROCUREMENT_AND_SELECTION", "Product pages dominate, with a supporting guide and manufacturer sources; the tested job is procurement/selection of an impact-resistant glass-unit option.", "HIGH"),
-    6: ("INSPIRATION_INFORMATION_WITH_SERVICE_OPTIONS", "USE_CASE_INSPIRATION_AND_SERVICE_DISCOVERY", "Editorial/inspiration and portfolio rows dominate, while three service/portfolio offers show a realizable balcony-office renovation job.", "HIGH"),
+    6: ("INSPIRATION_INFORMATION_WITH_SERVICE_OPTIONS", "USE_CASE_INSPIRATION_AND_SERVICE_DISCOVERY", "Editorial/inspiration and portfolio rows dominate; two service rows and three portfolio rows show a realizable balcony-office renovation job.", "HIGH"),
     8: ("MARKETPLACE_DOMINANT_WITH_SERVICE_AND_GUIDES", "PRODUCT_PROCUREMENT_WITH_SERVICE_DISCOVERY", "Seven marketplace rows dominate, with two guides and one specialist service result; the task is mainly material procurement but includes an observable service job.", "HIGH"),
     9: ("ARTICLE_AND_EXPERT_SOURCE_DOMINANT", "TECHNICAL_LEARNING_SELECTION", "Eight guides and two manufacturer/expert sources dominate; the tested job is technical learning and selection around profile reinforcement.", "HIGH"),
 }
@@ -326,7 +326,7 @@ def build_search_block():
 
 Date: 2026-09-08
 
-Status: MATERIALIZED / LOCAL DETERMINISTIC CHECK PENDING COMMIT
+Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PASS
 
 - Search requirements accounted: {len(acquisition_rows)} / 9.
 - Successful requirements: {sum(r['search_acquisition_state'] == 'SUCCEEDED' for r in acquisition_rows)}.
@@ -337,7 +337,9 @@ Status: MATERIALIZED / LOCAL DETERMINISTIC CHECK PENDING COMMIT
 - Selected-competitor visible query/domain cells: {sum(r['visibility_state'] == 'VISIBLE_IN_TOP10' for r in matrix_rows)}.
 - New provider calls by Work: 0.
 
-Remote readback: PENDING MATERIAL COMMIT.
+Material commit: `0b765fa96aee1dc742046f1b31a2759ff08d4d82`.
+
+Remote GitHub readback: PASS — commit metadata and the acquisition, SERP-row, intent and visibility artifacts were fetched from the remote commit after its branch ref was updated.
 """
     CHECKPOINT_SEARCH.write_text(checkpoint, encoding="utf-8")
     return acquisition_rows, serp_rows, intent_rows, matrix_rows
@@ -510,7 +512,17 @@ def build_final_block(acquisition_rows, serp_rows, intent_rows, matrix_rows):
             "preserved_serp_rows": 750,
             "selected_competitor_domains": 9,
             "authorized_competitor_urls": 44,
+            "competitor_pages_accessible_at_requested_url": 43,
+            "competitor_pages_redirected_accessible": 1,
+            "competitor_pages_inaccessible": 0,
             "derived_candidate_seeds": 92,
+            "deduplicated_candidate_directions": 43,
+            "candidate_direction_decisions": {
+                "ALREADY_COVERED_EXACT_OR_CLOSE": 22,
+                "POTENTIALLY_NEW_WORDSTAT_SEED": 14,
+                "OFF_SCOPE_BUSINESS": 3,
+                "HOLD_REVIEW": 4
+            },
             "wordstat_seed_executions": 14,
             "wordstat_returned_rows": 160,
             "potentially_new_wordstat_occurrences": 20,
@@ -544,7 +556,7 @@ def build_final_block(acquisition_rows, serp_rows, intent_rows, matrix_rows):
 
 Date: 2026-09-08
 
-Status: **ANALYST QA PENDING / OWNER REVIEW PENDING**
+Status: **ANALYST QA PASS / OWNER REVIEW PENDING**
 
 ## Outcome
 
@@ -577,6 +589,8 @@ The bounded preserved Search acquisition is fully reconciled: all 9 requirements
 - CLIENT_DELIVERABLES_MODIFIED = false
 - LEVEL1_METHOD_PROMOTED = false
 - PROJECT_TEST_VALIDATED = false
+
+Upstream bounded impact input retained for Step 5A.8: 75 preserved queries / 750 ranking rows; 9 selected domains; 44 inspected targets (43 accessible at the requested URL, 1 accessible after redirect, 0 inaccessible); 92 candidate occurrences consolidated to 43 directions; 14 Wordstat seeds; 160 returned Wordstat rows.
 
 ## Direction decisions
 
@@ -612,7 +626,7 @@ This report supplies factual inputs only. Method promotion and `PROJECT_TEST_VAL
 
 Date: 2026-09-08
 
-Status: MATERIALIZED / DETERMINISTIC QA PENDING COMMIT
+Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PENDING
 
 - Direction decisions: {len(decision_rows)} / 9.
 - ADD_TO_PIPELINE: {decision_counts['ADD_TO_PIPELINE']}.

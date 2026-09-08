@@ -28,6 +28,7 @@ MERGE = OUT / "STEP_05A_ACCEPTED_PHRASE_MERGE_RECONCILIATION.tsv"
 DELTA = OUT / "STEP_05A_ACCEPTED_SEMANTIC_PIPELINE_DELTA.tsv"
 REPORT = OUT / "STEP_05A_SEARCH_DECISION_MERGE_REPORT.md"
 INFO_GAIN = OUT / "STEP_05A_INFORMATION_GAIN_INPUT.json"
+PAGE_INSPECTION_QA = OUT / "STEP_05A_PAGE_INSPECTION_QA.json"
 LOG = OUT / "STEP_05A_SEARCH_DECISION_MERGE_EXECUTION_LOG.md"
 CHECKPOINT_05 = OUT / "CHECKPOINT_05_SEARCH_NORMALIZATION_AND_INTENT.md"
 CHECKPOINT_06 = OUT / "CHECKPOINT_06_SEARCH_DECISION_MERGE.md"
@@ -201,8 +202,10 @@ def main() -> int:
         check("delta_union_propagation_state", all(row["propagation_state"] == "PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE" for row in delta))
 
         info = json.loads(INFO_GAIN.read_text(encoding="utf-8"))
+        page_qa_counts = json.loads(PAGE_INSPECTION_QA.read_text(encoding="utf-8"))["counts"]
         check("information_gain_input_factual_only", info["scope"] == "FACTUAL_INPUT_FOR_STEP_5A_8_ONLY" and info["project_test_validated"] is False and info["level1_method_promoted"] is False)
         check("information_gain_counts_reconcile", info["search_counts"]["successful_serp_rows"] == 70 and info["semantic_pipeline_delta_rows"] == len(delta))
+        check("information_gain_page_inspection_counts_trace_to_prior_qa", info["upstream_counts"]["authorized_competitor_urls"] == page_qa_counts["authorized_urls"] == 44 and info["upstream_counts"]["competitor_pages_accessible_at_requested_url"] == page_qa_counts["accessible_at_requested_url"] == 43 and info["upstream_counts"]["competitor_pages_redirected_accessible"] == page_qa_counts["redirected_accessible"] == 1 and info["upstream_counts"]["competitor_pages_inaccessible"] == page_qa_counts["inaccessible"] == 0 and info["upstream_counts"]["deduplicated_candidate_directions"] == page_qa_counts["deduplicated_candidate_directions"] == 43)
         report = REPORT.read_text(encoding="utf-8")
         required_tokens = [
             "SEARCH_REQUIREMENTS = 9", "SEARCH_SUCCEEDED = 7", "SEARCH_OUTCOME_UNKNOWN = 2", "SEARCH_SERP_ROWS = 70",

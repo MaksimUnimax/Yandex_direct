@@ -1,0 +1,69 @@
+{
+  "scope": "FACTUAL_INPUT_FOR_STEP_5A_8_ONLY",
+  "project_test_validated": false,
+  "level1_method_promoted": false,
+  "starting_search_decision_merge_head": "d307bd65c0c336cb37ad79a987a3bfe7d2e57219",
+  "upstream_counts": {
+    "preserved_serp_queries": 75,
+    "preserved_serp_rows": 750,
+    "selected_competitor_domains": 9,
+    "authorized_competitor_urls": 44,
+    "competitor_pages_accessible_at_requested_url": 43,
+    "competitor_pages_redirected_accessible": 1,
+    "competitor_pages_inaccessible": 0,
+    "derived_candidate_seeds": 92,
+    "deduplicated_candidate_directions": 43,
+    "candidate_direction_decisions": {
+      "ALREADY_COVERED_EXACT_OR_CLOSE": 22,
+      "POTENTIALLY_NEW_WORDSTAT_SEED": 14,
+      "OFF_SCOPE_BUSINESS": 3,
+      "HOLD_REVIEW": 4
+    },
+    "wordstat_seed_executions": 14,
+    "wordstat_returned_rows": 160,
+    "potentially_new_wordstat_occurrences": 20
+  },
+  "search_counts": {
+    "requirements": 9,
+    "succeeded": 7,
+    "outcome_unknown": 2,
+    "successful_serp_rows": 70,
+    "selected_competitor_visibility_cells": 11,
+    "selected_competitor_ranking_rows": 12,
+    "exact_previously_inspected_url_matches": 0,
+    "page_type_counts": {
+      "ARTICLE_GUIDE": 20,
+      "COMMERCIAL_LANDING": 1,
+      "COMMERCIAL_PRODUCT": 13,
+      "COMMERCIAL_SERVICE": 6,
+      "COMPARISON_SELECTION": 1,
+      "INFORMATIONAL_PUBLISHER": 6,
+      "MANUFACTURER_BRAND_SOURCE": 10,
+      "MARKETPLACE": 10,
+      "PORTFOLIO_GALLERY": 3
+    }
+  },
+  "decision_counts": {
+    "ADD_TO_PIPELINE": 7,
+    "HOLD_EVIDENCE": 2
+  },
+  "merge_counts": {
+    "MERGE_ACCEPTED": 16,
+    "RETAIN_HOLD": 1,
+    "SUPPRESSED_AS_CLOSE_VARIANT_DUPLICATE": 3
+  },
+  "semantic_pipeline_delta_rows": 16,
+  "provider_calls_by_work": {
+    "yandex_search": 0,
+    "wordstat": 0,
+    "alice": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "web_search_substitute": 0
+  },
+  "propagation_state": "PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE",
+  "validation_boundary": "NO_INFORMATION_GAIN_VERDICT_AND_NO_LEVEL1_PROMOTION_IN_THIS_TASK",
+  "next_action": "STEP_5A_8_MEASURE_INFORMATION_GAIN_AND_ASSESS_FIRST_EXECUTION_PROJECT_VALIDATION_WITHOUT_AUTOMATIC_LEVEL1_PROMOTION"
+}

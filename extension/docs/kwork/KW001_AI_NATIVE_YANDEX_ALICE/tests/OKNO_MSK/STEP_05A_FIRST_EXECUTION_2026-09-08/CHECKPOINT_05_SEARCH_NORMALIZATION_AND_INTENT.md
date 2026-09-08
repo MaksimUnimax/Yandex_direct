@@ -2,7 +2,7 @@
 
 Date: 2026-09-08
 
-Status: MATERIALIZED / LOCAL DETERMINISTIC CHECK PENDING COMMIT
+Status: MATERIALIZED / DETERMINISTIC QA PASS / REMOTE READBACK PASS
 
 - Search requirements accounted: 9 / 9.
 - Successful requirements: 7.
@@ -13,4 +13,6 @@ Status: MATERIALIZED / LOCAL DETERMINISTIC CHECK PENDING COMMIT
 - Selected-competitor visible query/domain cells: 11.
 - New provider calls by Work: 0.
 
-Remote readback: PENDING MATERIAL COMMIT.
+Material commit: `0b765fa96aee1dc742046f1b31a2759ff08d4d82`.
+
+Remote GitHub readback: PASS — commit metadata and the acquisition, SERP-row, intent and visibility artifacts were fetched from the remote commit after its branch ref was updated.
