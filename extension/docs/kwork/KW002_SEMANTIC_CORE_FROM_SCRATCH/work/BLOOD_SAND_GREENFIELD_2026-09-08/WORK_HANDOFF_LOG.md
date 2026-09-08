@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — WORK HANDOFF LOG
 
-Status: **STEP 01 HANDOFF PREPARED / PROMPT GENERATED / NOT EXECUTED**
+Status: **STEP 01 EXECUTED / RETURN QA PASS / REMOTE READBACK PENDING**
 
 This file records large-data executions sent to ChatGPT Work under `LEVEL1/WORK_HANDOFF_RULE.md`.
 
@@ -32,11 +32,14 @@ EXPECTED_OUTPUTS = 5 required Step-01 artifacts defined in the current handoff m
 MANDATORY_QA = 76/76 rows accounted; WB rows used=0; silent drops=0; unsupported factual inference=0; old-research contamination=0
 START_STATE = PREPARED
 PROMPT_STATE = GENERATED
-WORK_EXECUTION_STATE = NOT_STARTED
-RETURNED_ARTIFACTS = NONE
-RETURN_QA_RESULT = NOT_RUN
-GITHUB_READBACK = NOT_RUN
-FINAL_STATE = READY_FOR_OWNER_TO_RELAY_PROMPT_TO_WORK
+WORK_EXECUTION_STATE = COMPLETE
+RETURNED_ARTIFACTS = STEP_01_OZON_LISTING_MODEL.csv; STEP_01_ASSORTMENT_CONCEPT_MODEL.csv; STEP_01_BUSINESS_AND_ASSORTMENT_MODEL.md; STEP_01_UNKNOWN_OR_AMBIGUITY_LEDGER.csv; STEP_01_QA_REPORT.md
+RETURNED_SOURCE_ROWS = 76
+RETURNED_CONCEPT_ROWS = 4
+RETURNED_AMBIGUITY_ROWS = 10
+RETURN_QA_RESULT = PASS
+GITHUB_READBACK = PENDING
+FINAL_STATE = COMPLETE_LOCALLY / PENDING_REMOTE_READBACK
 ```
 
-No Work execution has occurred yet.
+The complete Work execution used the Ozon-only source and zero provider/web calls. Step 02 remains blocked until the committed artifacts pass remote GitHub readback.
