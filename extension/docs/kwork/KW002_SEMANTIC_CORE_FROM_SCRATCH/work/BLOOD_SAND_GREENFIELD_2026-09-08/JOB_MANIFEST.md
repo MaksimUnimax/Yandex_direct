@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **CLIENT INPUT MATERIALIZED / NOT STARTED / OWNER ROADMAP REVIEW REQUIRED**
+Status: **STEP 00 COMPLETE / ORDER FROZEN / STEP 01 NEXT ALLOWED**
 
 ## 1. Job identity
 
@@ -10,249 +10,144 @@ JOB_ID = BLOOD_SAND_GREENFIELD_2026-09-08
 JOB_TYPE = PRODUCTIZATION_REHEARSAL
 EXECUTION_MODE = CLEAN_FROM_SCRATCH
 BUSINESS = Blood & Sand / «Кровь и Песок»
-SITE_STATE = NEW_SITE / no existing production site is an analytical baseline
+SITE_STATE = NEW_SITE
 REGION = Russia
 LANGUAGE = Russian
 PRIMARY_SEARCH_ENGINE = Yandex
+OWNER_START_AUTHORIZATION = 2026-09-08 / explicit chat instruction «начинаем работу по заказу»
 ```
 
-## 2. Frozen simulated client brief
-
-Canonical client-input authorities:
+## 2. Frozen client-input authorities
 
 ```text
 CLIENT_SUPPLIED_BRIEF.md
 CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
+CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
+CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
+CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
+ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-The rehearsal imitates a real Kwork buyer who wants the semantic core and future site structure built from scratch and has not supplied prior SEO research.
-
-### Business facts supplied by the client
+### Business facts supplied by client
 
 ```text
-- Brand: «Кровь и Песок» / Blood & Sand.
-- Business: product brand / seller.
-- What the client says it sells: амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля.
-- Existing sales channels: Ozon and Wildberries.
-- Primary market / SEO geography: Russia.
-- Delivery geography stated by client: Russia / nationwide.
-- A new owned website is planned.
+Brand: «Кровь и Песок» / Blood & Sand
+Business: product brand / seller
+Client wording: амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля
+Existing sales channels: Ozon + Wildberries
+Primary search/market geography: Russia
+Delivery geography: Russia / nationwide
+New owned website planned: YES
 ```
 
-The analyst must not replace the client wording with a narrower invented category before Step 01/02 research.
+The analyst may not replace the client wording with a narrower invented search/category definition before Step 01/02 research.
 
-### Future-site goal supplied by the client
+## 3. Future-site goal supplied by client
 
 ```text
-Yandex user should be able to:
-1. discover the brand/products;
-2. understand what products exist and how they differ;
-3. choose an appropriate product;
-4. proceed toward purchase.
+1. Yandex users can discover the brand/products.
+2. Users can understand what products exist and how they differ.
+3. Users can choose an appropriate product.
+4. Users can proceed toward purchase.
 ```
 
-Purchase may later be direct and/or through marketplace links. The exact final direct-vs-marketplace checkout architecture is not fixed by this KW-002 order.
+The exact future direct-vs-marketplace checkout model is outside this semantic-core order and remains unresolved.
 
-## 3. Exact assortment supplied by the client
-
-The client supplies concrete marketplace listing/product facts rather than an SEO category tree.
+## 4. Frozen assortment accounting
 
 ### Wildberries
 
-Source checked:
-
 ```text
-MaksimUnimax/blood_sand
-marketing/data/normalized/marketplace/wildberries/20260908__wb__cards-list__fresh-current108-identities.csv
-```
-
-Client scope decision for this order:
-
-```text
-WB account listing rows observed = 108
-WB in-scope listing rows = 88
-WB other seller-line rows explicitly out of scope = 20
-```
-
-The 88 exact in-scope rows are copied into:
-
-```text
-CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
-```
-
-The 20 client-declared out-of-scope rows are copied into:
-
-```text
-CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
+source = blood_sand/marketing/data/normalized/marketplace/wildberries/20260908__wb__cards-list__fresh-current108-identities.csv
+seller-account rows observed = 108
+client-declared in-scope rows = 88
+client-declared other/out-of-scope rows = 20
+in-scope copy = CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
+out-of-scope copy = CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
 ```
 
 ### Ozon
 
-Source checked:
-
 ```text
-MaksimUnimax/blood_sand
-marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
+source = blood_sand/marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
+supplied listing/product rows = 76
+copy = CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
 ```
 
-Returned listing/product identities = **76**.
-
-The 76 exact rows are copied into:
+### Reconciled intake count
 
 ```text
-CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
-```
-
-### Intake accounting
-
-```text
-TOTAL IN-SCOPE MARKETPLACE LISTING ROWS ADMITTED BEFORE CROSS-PLATFORM RECONCILIATION = 164
+WB in-scope listing rows = 88
+Ozon listing rows = 76
+TOTAL admitted in-scope marketplace listing rows before cross-platform reconciliation = 164
 CROSS-PLATFORM UNIQUE PRODUCT COUNT = NOT YET DETERMINED
 ```
 
-This distinction is mandatory:
+The following are hard boundaries:
 
 ```text
 MARKETPLACE LISTING ROW != UNIQUE PRODUCT MODEL
-SAME/RELATED TITLE ON TWO MARKETPLACES != AUTOMATIC SAME PRODUCT/VARIANT
+SAME/RELATED TITLE ACROSS MARKETPLACES != AUTOMATIC SAME PRODUCT/VARIANT
 PRODUCT TITLE != PROVEN SEARCH TERM
 PRODUCT EXISTS != SEO PRIORITY
 PRODUCT EXISTS != AUTOMATIC SEPARATE PAGE
 ```
 
-Step 01 must reconcile duplicates, variants, families and actual product boundaries from the client-supplied catalog without importing old Blood & Sand SEO conclusions.
+Cross-platform identity/variant/family reconciliation belongs to Step 01.
 
-## 4. Client-supplied product examples
-
-The exact catalog rows are the authority. Actual supplied names include, among others:
+## 5. Client did not supply
 
 ```text
-Печать Велеса
-Велес / Знак Велеса
-Алатырь (Крест Сварога)
-Макошь
-Родимич
-Хорс
-Мара
-Стрибог
-Семаргл
-Всеславец
-Сварог
-Чур
-Чернобог
-Боговник
-Триглав
-Звезда Лады
-Ратиборец
-Белобог
-Даждьбог
-Жива
-Молвинец
-Знич
-Перун
-Звезда Руси
-Вегвизир / Рунический компас
-Древо Жизни
-Гунгнир
-Валькнут
-Шлем ужаса / Эгисхьяльм
-Инь и Ян
-Ом / Аум
-Бусидо - Путь Воина
-Молитва Иоанна Златоуста
-Спаси и Сохрани
-Герб России
-Русская Община
-RSOTM
-Soldier Of Fortune
-12 знаков зодиака и несколько фактических серий/вариантов
+semantic core = NONE
+keyword list = NONE
+SEO page map = NONE
+final site architecture = NONE
+target URL list = NONE
+category structure to preserve = NONE
+SEO competitor list = NONE
+intent classification = NONE
+clustering = NONE
+keyword-to-page mapping = NONE
+Search/SERP conclusions = NONE
+Alice/AI-search conclusions = NONE
 ```
 
-Do not turn this example list into the Step-01 catalog; use all admitted rows.
+These are research outputs, not intake assumptions.
 
-## 5. What the client did NOT supply
-
-```text
-existing semantic core = NONE
-existing keyword list = NONE
-existing SEO page map = NONE
-existing final site architecture = NONE
-existing target URL list = NONE
-existing category structure that must be preserved = NONE
-existing SEO competitor list = NONE
-existing intent classification = NONE
-existing clustering = NONE
-existing keyword-to-page mapping = NONE
-existing Search/SERP conclusions = NONE
-existing Alice/AI-search conclusions = NONE
-```
-
-The lack of these inputs is intentional. KW-002 must research them from scratch.
-
-## 6. Competitors supplied by client
+## 6. Client-supplied constraints
 
 ```text
-CLIENT_SUPPLIED_COMPETITORS = NONE
-```
-
-Real organic competitors must be independently discovered from current Yandex results in the relevant Level-2 step.
-
-## 7. Business / truth constraints supplied by the client
-
-```text
-- do not invent products or services that are not actually sold;
-- use the client-supplied product catalogs as the assortment authority;
+- do not invent products/services that are not actually sold;
+- use the client-supplied product catalogs as assortment authority;
 - keep the 20 client-declared unrelated WB seller lines outside this website order;
 - do not pre-cluster the catalog into SEO categories at intake;
 - symbolic/mystical statements must not be presented as proven physical effects;
-- do not guarantee Yandex position, traffic, sales or Alice AI inclusion/citation;
-- do not invent the final direct-vs-marketplace checkout model inside this order;
-- full website copywriting is outside this order;
-- web design/development is outside this order.
+- no Yandex ranking / traffic / sales guarantees;
+- no Alice AI inclusion/citation guarantees;
+- do not invent final direct-vs-marketplace checkout model;
+- full site copywriting excluded;
+- web design/development excluded.
 ```
 
-## 8. Requested result of the KW-002 order
-
-Produce a site-ready semantic architecture from scratch:
+## 7. Frozen promised KW-002 outputs
 
 ```text
-complete in-scope Yandex demand evidence within the frozen business scope
+complete in-scope current-Yandex demand evidence within the order scope
 cleaned semantic core
 user-task / intent classification
 current-Yandex-SERP-backed clusters
-query -> target-page mapping
+query→target-page mapping
 planned site IA
 Page Jobs / role of each planned search page
 recommended internal-link relationships
-competitor-derived semantic gaps with actual demand validation
-Search-vs-AI-search decision evidence where decision-relevant
+competitor-derived semantic gaps with demand validation
+bounded Search-vs-AI-search decision evidence where material
 client-ready deliverables
 ```
 
-No artificial fixed final-keyword count is a job target.
+No artificial fixed keyword-count target is part of the order.
 
-## 9. What KW-002 must research rather than receive from the client
-
-```text
-search vocabulary
-search-demand universe
-frequency/demand observations
-seasonality where material
-real organic competitors
-competitor-derived missing demand
-search intent
-SERP result/page-type patterns
-cross-marketplace unique product/variant model where needed for search architecture
-cluster boundaries
-same-page vs separate-page decisions
-query-to-page ownership
-final site IA
-Page Jobs
-internal-link model
-whether bounded AI-search evidence changes, enriches, de-risks or leaves unchanged the Search-only decisions
-```
-
-## 10. Explicit exclusions from this Kwork
+## 8. Explicit Kwork exclusions
 
 ```text
 client-site economics / CAC / margin modeling
@@ -262,64 +157,72 @@ technical website implementation
 technical SEO crawler audit
 ranking guarantees
 Alice citation guarantees
-reverse-domain keyword-universe claims without an authorized supporting provider/export
+full reverse-domain keyword-universe claims without separately authorized supporting evidence
 ```
 
-## 11. Prior-research contamination rule
+## 9. Clean-baseline / old-research rule
 
-Until the new KW-002 result is fully frozen after Step 20:
+Until the new KW-002 result is frozen after Step 20:
 
 ```text
 PRIOR BLOOD_SAND SEO RESEARCH = SEALED / FORBIDDEN EXECUTION INPUT
+DEFAULT BLOOD_SAND PROJECT MATERIAL = DENY
+EXCEPTIONS = only exact sources whitelisted in ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-This includes prior Wordstat, Search, Alice, opportunity, competitor, buyer-research conclusions, clustering and page-architecture conclusions.
+Forbidden old analytical inputs include prior Wordstat, seeds, Search/SERP, Alice/AI, opportunity maps, competitor findings, buyer-research conclusions, SEO priorities, clusters, query→page, IA and Page Jobs.
 
-The current conversation's memory of those conclusions is not evidence and must not be passed to a clean Work/execution context.
+Current conversation memory of those conclusions is not evidence.
 
-## 12. Allowed source authority
+## 10. Large-data execution rule
 
-Exact whitelist is governed by:
+If a step requires complete analysis of a large dataset and ordinary chat would risk sampling, truncation, skipped rows or lost provenance:
 
 ```text
-ALLOWED_INPUTS_AND_SEALED_SOURCES.md
+LARGE DATA
+→ owner canonical Work prompt
+→ ChatGPT Work execution
+→ return artifacts
+→ row/count/join/provenance QA
+→ only then accept step result
 ```
 
-Current admitted job inputs before fresh KW-002 acquisition:
+No Work handoff has occurred yet.
+
+## 11. Step 00 acceptance authority
+
+Canonical Step 00 execution record:
 
 ```text
-KW002 Level 1 rules
-KW002 Level 2 step rules
-CLIENT_SUPPLIED_BRIEF.md
-CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
-CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
-CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
-CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
-JOB_MANIFEST.md / JOB_FLOW.md
-the two exact marketplace source artifacts admitted in the source whitelist
-current external method sources when authorized for a step
+STEP_00_SCOPE_AND_SOURCE_FREEZE_2026-09-08.md
 ```
 
-All other Blood & Sand analytical sources are denied by default.
-
-## 13. Execution context
-
-Each large-data Work handoff must receive only:
+Step 00 verified:
 
 ```text
-KW002 LEVEL1
-KW002 relevant LEVEL2 step
-this job workspace allowed sources
-current accepted upstream job artifacts
-owner canonical Work prompt
+brief frozen = true
+business wording frozen = true
+region/language/search engine frozen = true
+site state frozen = true
+WB in-scope rows physically persisted = 88
+WB out-of-scope rows physically persisted = 20
+Ozon rows physically persisted = 76
+in-scope listing accounting = 164
+cross-platform unique count intentionally unresolved = true
+promised outputs frozen = true
+exclusions frozen = true
+source whitelist frozen = true
+old research denied = true
+provider calls during Step 00 = 0
+Work handoffs during Step 00 = 0
 ```
 
-No unlisted Blood & Sand research files may be opened.
-
-## 14. Acceptance state
+## 12. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
+ROADMAP_OWNER_APPROVED = true
+ORDER_SCOPE_FROZEN = true
 CLIENT_SUPPLIED_BRIEF_MATERIALIZED = true
 CLIENT_ASSORTMENT_MANIFEST_MATERIALIZED = true
 CLIENT_PRODUCT_CATALOG_WB_IN_SCOPE_ROWS = 88
@@ -329,10 +232,12 @@ CLIENT_IN_SCOPE_LISTING_ROWS_BEFORE_RECONCILIATION = 164
 CROSS_PLATFORM_UNIQUE_PRODUCT_COUNT = NOT_YET_DETERMINED
 CLIENT_SOURCE_BOUNDARY_FROZEN = true
 RAW_ASSORTMENT_SOURCE_COUNT = 2
-ROADMAP_OWNER_APPROVED = false
-STEP_00_STARTED = false
+STEP_00_STARTED = true
+STEP_00_COMPLETE = true
+STEP_00_VERDICT = PASS
+STEP_01_STARTED = false
+NEXT_STEP_ALLOWED = true
+NEXT_STEP = STEP_01_BUSINESS_AND_COMPLETE_ASSORTMENT_MODEL
 PROVIDER_CALLS_FOR_KW002_JOB = 0
 WORK_HANDOFFS_FOR_KW002_JOB = 0
 ```
-
-Do not begin analysis/provider acquisition until the owner accepts the prepared documentation/roadmap.
