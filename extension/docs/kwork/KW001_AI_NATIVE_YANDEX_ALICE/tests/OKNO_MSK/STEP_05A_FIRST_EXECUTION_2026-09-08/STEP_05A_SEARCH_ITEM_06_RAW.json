@@ -1,0 +1,191 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-continuation-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-continuation-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-continuation-20260908",
+    "status": "RUNNING",
+    "total": 4,
+    "input_count": 4,
+    "duplicate_count": 0,
+    "pending": 3,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 1,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 1,
+    "requests_started": 1,
+    "estimated_cost_rub": 0.488,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T08:06:12.427Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "балконы под офис",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T08:06:14.989Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "703914f5fc0e1313",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-continuation-20260908:703914f5fc0e1313",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "search-batch-8f0ebedf-b6cb-4941-9836-e8350700fce3",
+    "request_started_at": "2026-09-08T08:06:12.432Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": "search-batch-8f0ebedf-b6cb-4941-9836-e8350700fce3",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T08:06:14.989Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "search",
+      "operation": "search",
+      "request_id": "search-batch-8f0ebedf-b6cb-4941-9836-e8350700fce3",
+      "run_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.488,
+        "tariff_checked_at": "2026-08-19",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "search"
+      },
+      "command": {
+        "method": "search",
+        "queryText": "балконы под офис",
+        "searchType": "SEARCH_TYPE_RU",
+        "page": 0,
+        "groupsOnPage": 10,
+        "familyMode": "FAMILY_MODE_MODERATE",
+        "fixTypoMode": "FIX_TYPO_MODE_ON",
+        "sortMode": "SORT_MODE_BY_RELEVANCE",
+        "sortOrder": "SORT_ORDER_DESC",
+        "groupMode": "GROUP_MODE_FLAT",
+        "docsInGroup": 1,
+        "maxPassages": 4,
+        "region": "213",
+        "l10n": "LOCALIZATION_RU"
+      },
+      "http_status": 200,
+      "elapsed_ms": 2547,
+      "result": {
+        "results": [
+          {"rank":1,"url":"https://dzen.ru/a/aIR-XTRQM05b6jaf","domain":"dzen.ru","title":"Балкон как кабинет: превращаем 3 м² в полноценное... | Дзен","snippet":"Балкон-кабинет невозможен без электричества. Понадобятся розетки для компьютера, освещения, обогревателя. Электрику должен прокладывать профессионал — самодеятельность опасна. Стол — центральны.","modtime":"20250727T115111"},
+          {"rank":2,"url":"https://www.fabrikaokon.ru/balkon/rabochee-mesto.html","domain":"www.fabrikaokon.ru","title":"Отделка и ремонт балкона или лоджии под рабочее место...","snippet":"Идеи ремонта рабочего места на балконах и лоджиях. Как обустроить балкон или лоджию под рабочее место. Заказать утепление, отделку и обстановку балкона для организации рабочего места.","modtime":"20200717T030000"},
+          {"rank":3,"url":"https://www.mvideo.ru/blog/pomogaem-razobratsya/kabinet-na-balkone-minimum-vlozhenij-maksimum-uspeha","domain":"www.mvideo.ru","title":"Превращаем балкон в домашний офис: минимум вложений...","snippet":"Но есть решение — балкон! Многие уверены, что обустройство такого кабинета потребует серьезного ремонта и больших вложений, но на практике все гораздо проще. Если грамотно подойти к подготовке, выбрать компактную мебель и продумать освещение, даже пару квадратных метров можно превратить в удобный домашний офис на балконе.","modtime":"20260624T172539"},
+          {"rank":4,"url":"https://ru.pinterest.com/ideas/%D0%BA%D0%B0%D0%B1%D0%B8%D0%BD%D0%B5%D1%82-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B5-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/938648506628/","domain":"ru.pinterest.com","title":"Кабинет На Балконе Дизайн","snippet":"Ищите и сохраняйте идеи на тему «кабинет на балконе дизайн» в Pinterest.","modtime":"20231121T042338"},
+          {"rank":5,"url":"https://projekt-msk.ru/kabinet-na-lodzhii","domain":"projekt-msk.ru","title":"Кабинет на балконе или лоджии под ключ","snippet":"Заказать стильный кабинет из балкона в Москве и Московской области под ключ от 10 до 14 дней, цена от 10 200 рублей за м2, Предоставление рассрочки через банки партнеры на 6 или 10 месяцев на всю стоимость работ, без процентов. … Кабинет для подростка на лоджии. Офис на лоджии с комбинацией отделочных материалов.","modtime":"20240801T163419"},
+          {"rank":6,"url":"https://projekt-msk.ru/primery-rabot/primer-143","domain":"projekt-msk.ru","title":"Кабинет на лоджии под ключ - Пример №143","snippet":"Офис на лоджии утюжок серийного дома П-44Т. Работать дома для многих из нас становится необходимостью, но в квартире не всегда получается организовать рабочую зону и трудиться с комфортом. Вашему вниманию представлен вариант организации рабочего пространства прямо на лоджии. … Балкон под ключ в рассрочку. на 6 или 10 месяцев без процентов.","modtime":"20210427T115649"},
+          {"rank":7,"url":"https://okna812.ru/articles/kabinet-na-balkone-obustrojstvo-rabochej-zony/","domain":"okna812.ru","title":"Кабинет на балконе: обустроить рабочую зону – примеры дизайна...","snippet":"Уютный кабинет на балконе Рабочее место на балконе Кабинет на лоджии. Офис на балконе ул. Коллонтай. Содержание статьи: 1. Готовый проект: как мы обустроили нашему Клиенту кабинет на балконе в ЖК «Континенты».","modtime":"20231102T111621"},
+          {"rank":8,"url":"https://znaet.petrovich.ru/remont/balkon-lodzhiya/otdelka/obzor/5-prichin-pochemu-ne-stoit-prevrashchat-lodzhiyu-v-kabinet/","domain":"znaet.petrovich.ru","title":"5 причин, почему не стоит превращать лоджию... - «Петрович.Знает»","snippet":"Если утеплить балкон экструзионным пенополистиролом и отделать вагонкой или гипсокартоном, то парапет (ограждение балкона) станет толще в среднем на 60–110 мм. Если утеплять каменной ватой, это потребует почти вдвое больше места.","modtime":"20220325T120519"},
+          {"rank":9,"url":"https://ru.pinterest.com/ideas/%D0%BA%D0%B0%D0%B1%D0%B8%D0%BD%D0%B5%D1%82-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B5-%D1%81-%D0%BF%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%BD%D1%8B%D0%BC%D0%B8-%D0%BE%D0%BA%D0%BD%D0%B0%D0%BC%D0%B8/932755129379/","domain":"ru.pinterest.com","title":"Кабинет На Балконе С Панорамными Окнами","snippet":"Ищите и сохраняйте идеи на тему «кабинет на балконе с панорамными окнами» в Pinterest.","modtime":"20231121T040933"},
+          {"rank":10,"url":"https://mcmaison.ru/how-to/flats/rabochee-mesto-na-balkone-10-idei-i-reshenii-id6843134/","domain":"mcmaison.ru","title":"Рабочее место на балконе и лоджии: 40+ примеров | Marie Claire...","snippet":"На балконе можно сделать лаундж-зону, место для летних чаепитий, зимний сад или небольшой рабочий уголок — и работать практически на свежем воздухе с видом на природу или городской пейзаж. Для этого многого не потребуется: компактный рабочий столик, рабочее кресло и пара полок для хранения документов и бумаг — и домашний офис готов!","modtime":"20191026T162449"}
+        ],
+        "result_count": 10,
+        "response_format": "FORMAT_XML"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "search",
+    "operation": "search",
+    "request_id": "search-batch-8f0ebedf-b6cb-4941-9836-e8350700fce3",
+    "run_id": null,
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.488,
+      "tariff_checked_at": "2026-08-19",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "search"
+    },
+    "command": {
+      "method": "search",
+      "queryText": "балконы под офис",
+      "searchType": "SEARCH_TYPE_RU",
+      "page": 0,
+      "groupsOnPage": 10,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC",
+      "groupMode": "GROUP_MODE_FLAT",
+      "docsInGroup": 1,
+      "maxPassages": 4,
+      "region": "213",
+      "l10n": "LOCALIZATION_RU"
+    },
+    "http_status": 200,
+    "elapsed_ms": 2547,
+    "result": {
+      "results": [
+        {"rank":1,"url":"https://dzen.ru/a/aIR-XTRQM05b6jaf","domain":"dzen.ru","title":"Балкон как кабинет: превращаем 3 м² в полноценное... | Дзен","snippet":"Балкон-кабинет невозможен без электричества. Понадобятся розетки для компьютера, освещения, обогревателя. Электрику должен прокладывать профессионал — самодеятельность опасна. Стол — центральны.","modtime":"20250727T115111"},
+        {"rank":2,"url":"https://www.fabrikaokon.ru/balkon/rabochee-mesto.html","domain":"www.fabrikaokon.ru","title":"Отделка и ремонт балкона или лоджии под рабочее место...","snippet":"Идеи ремонта рабочего места на балконах и лоджиях. Как обустроить балкон или лоджию под рабочее место. Заказать утепление, отделку и обстановку балкона для организации рабочего места.","modtime":"20200717T030000"},
+        {"rank":3,"url":"https://www.mvideo.ru/blog/pomogaem-razobratsya/kabinet-na-balkone-minimum-vlozhenij-maksimum-uspeha","domain":"www.mvideo.ru","title":"Превращаем балкон в домашний офис: минимум вложений...","snippet":"Но есть решение — балкон! Многие уверены, что обустройство такого кабинета потребует серьезного ремонта и больших вложений, но на практике все гораздо проще. Если грамотно подойти к подготовке, выбрать компактную мебель и продумать освещение, даже пару квадратных метров можно превратить в удобный домашний офис на балконе.","modtime":"20260624T172539"},
+        {"rank":4,"url":"https://ru.pinterest.com/ideas/%D0%BA%D0%B0%D0%B1%D0%B8%D0%BD%D0%B5%D1%82-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B5-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/938648506628/","domain":"ru.pinterest.com","title":"Кабинет На Балконе Дизайн","snippet":"Ищите и сохраняйте идеи на тему «кабинет на балконе дизайн» в Pinterest.","modtime":"20231121T042338"},
+        {"rank":5,"url":"https://projekt-msk.ru/kabinet-na-lodzhii","domain":"projekt-msk.ru","title":"Кабинет на балконе или лоджии под ключ","snippet":"Заказать стильный кабинет из балкона в Москве и Московской области под ключ от 10 до 14 дней, цена от 10 200 рублей за м2, Предоставление рассрочки через банки партнеры на 6 или 10 месяцев на всю стоимость работ, без процентов. … Кабинет для подростка на лоджии. Офис на лоджии с комбинацией отделочных материалов.","modtime":"20240801T163419"},
+        {"rank":6,"url":"https://projekt-msk.ru/primery-rabot/primer-143","domain":"projekt-msk.ru","title":"Кабинет на лоджии под ключ - Пример №143","snippet":"Офис на лоджии утюжок серийного дома П-44Т. Работать дома для многих из нас становится необходимостью, но в квартире не всегда получается организовать рабочую зону и трудиться с комфортом. Вашему вниманию представлен вариант организации рабочего пространства прямо на лоджии. … Балкон под ключ в рассрочку. на 6 или 10 месяцев без процентов.","modtime":"20210427T115649"},
+        {"rank":7,"url":"https://okna812.ru/articles/kabinet-na-balkone-obustrojstvo-rabochej-zony/","domain":"okna812.ru","title":"Кабинет на балконе: обустроить рабочую зону – примеры дизайна...","snippet":"Уютный кабинет на балконе Рабочее место на балконе Кабинет на лоджии. Офис на балконе ул. Коллонтай. Содержание статьи: 1. Готовый проект: как мы обустроили нашему Клиенту кабинет на балконе в ЖК «Континенты».","modtime":"20231102T111621"},
+        {"rank":8,"url":"https://znaet.petrovich.ru/remont/balkon-lodzhiya/otdelka/obzor/5-prichin-pochemu-ne-stoit-prevrashchat-lodzhiyu-v-kabinet/","domain":"znaet.petrovich.ru","title":"5 причин, почему не стоит превращать лоджию... - «Петрович.Знает»","snippet":"Если утеплить балкон экструзионным пенополистиролом и отделать вагонкой или гипсокартоном, то парапет (ограждение балкона) станет толще в среднем на 60–110 мм. Если утеплять каменной ватой, это потребует почти вдвое больше места.","modtime":"20220325T120519"},
+        {"rank":9,"url":"https://ru.pinterest.com/ideas/%D0%BA%D0%B0%D0%B1%D0%B8%D0%BD%D0%B5%D1%82-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%BB%D0%BA%D0%BE%D0%BD%D0%B5-%D1%81-%D0%BF%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%BD%D1%8B%D0%BC%D0%B8-%D0%BE%D0%BA%D0%BD%D0%B0%D0%BC%D0%B8/932755129379/","domain":"ru.pinterest.com","title":"Кабинет На Балконе С Панорамными Окнами","snippet":"Ищите и сохраняйте идеи на тему «кабинет на балконе с панорамными окнами» в Pinterest.","modtime":"20231121T040933"},
+        {"rank":10,"url":"https://mcmaison.ru/how-to/flats/rabochee-mesto-na-balkone-10-idei-i-reshenii-id6843134/","domain":"mcmaison.ru","title":"Рабочее место на балконе и лоджии: 40+ примеров | Marie Claire...","snippet":"На балконе можно сделать лаундж-зону, место для летних чаепитий, зимний сад или небольшой рабочий уголок — и работать практически на свежем воздухе с видом на природу или городской пейзаж. Для этого многого не потребуется: компактный рабочий столик, рабочее кресло и пара полок для хранения документов и бумаг — и домашний офис готов!","modtime":"20191026T162449"}
+      ],
+      "result_count": 10,
+      "response_format": "FORMAT_XML"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 0.488,
+    "max_rub": 1.952
+  },
+  "policy": {
+    "max_requests": 4,
+    "max_cost_rub": 1.952
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
