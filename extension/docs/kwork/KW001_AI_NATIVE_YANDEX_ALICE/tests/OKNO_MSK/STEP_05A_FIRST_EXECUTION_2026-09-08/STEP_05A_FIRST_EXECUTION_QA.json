@@ -17,7 +17,8 @@
   },
   "public_competitor_page_inspection_completed": false,
   "phase_status": {
-    "combined_serp_ledger": "PASS"
+    "combined_serp_ledger": "PASS",
+    "domain_frequency_and_classification": "PASS"
   },
   "combined_serp_ledger": {
     "status": "PASS",
@@ -162,5 +163,141 @@
     "path": "STEP_05A_SERP_COMBINED_750.tsv",
     "sha256": "268aef1c47c338cc3796f87cd399f165c65777025ea67311681d589f3984f006",
     "size_bytes": 274545
+  },
+  "domain_frequency": {
+    "status": "PASS",
+    "path": "STEP_05A_DOMAIN_FREQUENCY.tsv",
+    "sha256": "0c6f0c5dca2bb4677dd8b2085ec8e39b380c0c2ace25a113cbfd0c45de612386",
+    "size_bytes": 127213,
+    "normalized_domains": 237,
+    "classification_counts": {
+      "AGGREGATOR_DIRECTORY": 4,
+      "DIRECT_BUSINESS_COMPETITOR": 78,
+      "INFORMATIONAL_PUBLISHER": 15,
+      "MANUFACTURER_OR_BRAND_SOURCE": 9,
+      "MARKETPLACE": 9,
+      "ORGANIC_COMPETITOR_OTHER_MODEL": 39,
+      "OTHER_REVIEW": 2,
+      "UNKNOWN": 77,
+      "YANDEX_PLATFORM": 4
+    },
+    "top_recurring_direct_competitors": [
+      {
+        "domain": "mosokna.ru",
+        "appearances": 80,
+        "distinct_queries": 22,
+        "top3": 22,
+        "best_rank": 2
+      },
+      {
+        "domain": "i-okna.ru",
+        "appearances": 19,
+        "distinct_queries": 14,
+        "top3": 7,
+        "best_rank": 1
+      },
+      {
+        "domain": "msk.okna-servise.com",
+        "appearances": 19,
+        "distinct_queries": 13,
+        "top3": 10,
+        "best_rank": 1
+      },
+      {
+        "domain": "okna-moskva.ru",
+        "appearances": 16,
+        "distinct_queries": 13,
+        "top3": 6,
+        "best_rank": 1
+      },
+      {
+        "domain": "oknafactoria.ru",
+        "appearances": 13,
+        "distinct_queries": 10,
+        "top3": 3,
+        "best_rank": 1
+      },
+      {
+        "domain": "okna-germany.ru",
+        "appearances": 9,
+        "distinct_queries": 9,
+        "top3": 1,
+        "best_rank": 1
+      },
+      {
+        "domain": "fabrikaokon.ru",
+        "appearances": 8,
+        "distinct_queries": 8,
+        "top3": 3,
+        "best_rank": 2
+      },
+      {
+        "domain": "svetokna.ru",
+        "appearances": 7,
+        "distinct_queries": 7,
+        "top3": 3,
+        "best_rank": 1
+      },
+      {
+        "domain": "oknastreet.ru",
+        "appearances": 6,
+        "distinct_queries": 6,
+        "top3": 1,
+        "best_rank": 3
+      },
+      {
+        "domain": "ramokna.ru",
+        "appearances": 6,
+        "distinct_queries": 6,
+        "top3": 3,
+        "best_rank": 1
+      },
+      {
+        "domain": "al-solution.ru",
+        "appearances": 6,
+        "distinct_queries": 5,
+        "top3": 1,
+        "best_rank": 3
+      },
+      {
+        "domain": "aluminarium.ru",
+        "appearances": 6,
+        "distinct_queries": 5,
+        "top3": 4,
+        "best_rank": 1
+      },
+      {
+        "domain": "okno.ru",
+        "appearances": 6,
+        "distinct_queries": 5,
+        "top3": 2,
+        "best_rank": 2
+      },
+      {
+        "domain": "elit-balkon.ru",
+        "appearances": 6,
+        "distinct_queries": 4,
+        "top3": 3,
+        "best_rank": 1
+      },
+      {
+        "domain": "mosbalkon.ru",
+        "appearances": 6,
+        "distinct_queries": 4,
+        "top3": 0,
+        "best_rank": 5
+      }
+    ],
+    "phase_d_shortlist_count": 11,
+    "checks": {
+      "domain_rows_equal_normalized_domains": true,
+      "appearance_sum_750": true,
+      "all_classes_allowed": true,
+      "all_domains_classified": true,
+      "metrics_monotonic": true,
+      "shortlist_is_direct": true,
+      "recurrence_not_equated_with_comparability": true,
+      "source_scope_preserved_only": true
+    }
   }
 }
