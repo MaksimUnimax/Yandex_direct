@@ -21,10 +21,11 @@ Starting HEAD: `69bf89875d176731e9614c76b0f39b38330bd8c6`
 - Preserved PROJECT_TEST_VALIDATED=false, method not promoted, and propagation required for the 16-row delta.
 - Deterministic QA: PASS 166/166.
 - Workbook visual QA: PASS; Summary, Funnel, Gates, and Sources rendered and inspected.
-- Remote GitHub commit/readback: pending this material block.
+- Remote commit: `a8eb434065d407cd9d858e45abd5d7b65adb4063`.
+- Remote GitHub readback: PASS for all validation artifacts and nine protected-authority SHA comparisons.
 
 ## Lifecycle
 
 `WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE`
 
-Final assessment and receipt commit SHAs are recorded after remote verification.
+Final receipt is committed after the readback recorded above.

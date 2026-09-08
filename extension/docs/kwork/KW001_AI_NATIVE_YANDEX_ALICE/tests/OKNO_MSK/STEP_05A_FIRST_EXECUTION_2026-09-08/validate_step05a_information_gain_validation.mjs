@@ -15,6 +15,8 @@ const JOB = path.dirname(OUT);
 const REPO = execFileSync("git", ["rev-parse", "--show-toplevel"], { cwd: OUT, encoding: "utf8" }).trim();
 const STARTING_HEAD = "69bf89875d176731e9614c76b0f39b38330bd8c6";
 const finalMode = args.includes("--final");
+const remoteIndex = args.indexOf("--remote-readback-commit");
+const remoteReadbackCommit = remoteIndex >= 0 ? args[remoteIndex + 1] : null;
 
 function parseTsv(text) {
   const rows = []; let row = []; let field = ""; let quoted = false;
@@ -191,6 +193,10 @@ if (finalMode) artifacts.push(
   "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md",
   "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md",
 );
+try {
+  await fs.access(path.join(OUT, "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md"));
+  artifacts.push("CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md");
+} catch {}
 for (const name of artifacts) {
   const stat = await fs.stat(path.join(OUT, name));
   check(`ARTIFACT_EXISTS_${name.toUpperCase().replaceAll(/[^A-Z0-9]+/g, "_")}`, stat.size > 0, `${name}; bytes=${stat.size}`);
@@ -220,6 +226,10 @@ if (finalMode) {
   }
   check("REPORT_NO_PROJECT_TEST_TRUE", !/PROJECT_TEST_VALIDATED\s*=\s*true/i.test(report), "no persisted true verdict");
   check("REPORT_NO_PAGE_OWNERSHIP_ACTION", report.includes("Page ownership, creation, deletion, split/merge or implementation action created: false"), "explicit protection boundary");
+}
+if (remoteReadbackCommit) {
+  exact("REMOTE_READBACK_MATERIAL_COMMIT", remoteReadbackCommit, "a8eb434065d407cd9d858e45abd5d7b65adb4063");
+  check("REMOTE_READBACK_RECEIPT_PRESENT", artifacts.includes("CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md"), "final receipt included");
 }
 
 const checkedFiles = await Promise.all(artifacts.map((name) => hashFile(path.join(OUT, name))));
@@ -260,6 +270,14 @@ const qa = {
     project_test_validated: false,
     level1_method_promoted: false,
   },
+  remote_readback: remoteReadbackCommit ? {
+    status: "PASS",
+    metrics_commit: "8a234f3c736fc9594881387ae49e5c6996cddd33",
+    validation_commit: remoteReadbackCommit,
+    required_and_supporting_artifacts_read_back: 12,
+    protected_remote_sha_comparisons_passed: 9,
+    receipt_commit_state: "THIS_QA_AND_RECEIPT_AWAIT_FINAL_RECEIPT_COMMIT",
+  } : { status: "PENDING_FINAL_RECEIPT" },
   checked_files: checkedFiles,
   assertions,
 };

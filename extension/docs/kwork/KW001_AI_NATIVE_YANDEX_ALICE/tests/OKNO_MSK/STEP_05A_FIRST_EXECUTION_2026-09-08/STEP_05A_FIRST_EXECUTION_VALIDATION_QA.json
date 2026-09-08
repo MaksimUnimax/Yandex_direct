@@ -3,8 +3,8 @@
   "generated_date": "2026-09-08",
   "phase": "FINAL",
   "status": "PASS",
-  "assertion_count": 166,
-  "passed_assertions": 166,
+  "assertion_count": 169,
+  "passed_assertions": 169,
   "failed_assertions": 0,
   "required_assertions": {
     "GATE_ROWS": 10,
@@ -35,6 +35,14 @@
     "project_test_validated": false,
     "level1_method_promoted": false
   },
+  "remote_readback": {
+    "status": "PASS",
+    "metrics_commit": "8a234f3c736fc9594881387ae49e5c6996cddd33",
+    "validation_commit": "a8eb434065d407cd9d858e45abd5d7b65adb4063",
+    "required_and_supporting_artifacts_read_back": 12,
+    "protected_remote_sha_comparisons_passed": 9,
+    "receipt_commit_state": "THIS_QA_AND_RECEIPT_AWAIT_FINAL_RECEIPT_COMMIT"
+  },
   "checked_files": [
     {
       "file": "STEP_05A_INFORMATION_GAIN_METRICS.json",
@@ -48,8 +56,8 @@
     },
     {
       "file": "STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx",
-      "sha256": "cd681dfcaf955fe6cca211abc8eb65e3e4a85f4b51c655b4608184031a714857",
-      "size_bytes": 18108
+      "sha256": "a8b3a3963fadb419559fa9b5dc13f53c5c7ce9e49bd3d13790454123c1d59d18",
+      "size_bytes": 18107
     },
     {
       "file": "STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv",
@@ -73,13 +81,18 @@
     },
     {
       "file": "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md",
-      "sha256": "bd341c440e510d9d932473ea55d7d834f182d071d110fa7d65d57c2e85e1ca0b",
-      "size_bytes": 692
+      "sha256": "cbd039bc145aa4231fa627653e18f17800c0cb7c12e7166a2d47fd507b063f06",
+      "size_bytes": 813
     },
     {
       "file": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md",
-      "sha256": "cfd2fb987c36aa115c7c5e8fe59121fd73a2c5dc6673a794a29407f5c467f236",
-      "size_bytes": 1297
+      "sha256": "bc60c256b703f93d6c0d275e8ac6b6018b0cbf15ef26d982d905eba81288c36f",
+      "size_bytes": 1383
+    },
+    {
+      "file": "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md",
+      "sha256": "4115e1802181c7f0a99f6a2d5266cfeabd624ee482fc4b51b3832578aebae81a",
+      "size_bytes": 1786
     }
   ],
   "assertions": [
@@ -721,7 +734,7 @@
     {
       "id": "CHANGES_ISOLATED_TO_STEP05A_EXECUTION",
       "status": "PASS",
-      "detail": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_08_INFORMATION_GAIN_METRICS.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_FUNNEL.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_METRICS.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_information_gain_validation.mjs | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_information_gain_validation.mjs"
+      "detail": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_08_INFORMATION_GAIN_METRICS.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_QA.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_FUNNEL.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_METRICS.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_information_gain_validation.mjs | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_information_gain_validation.mjs"
     },
     {
       "id": "PROTECTED_UNCHANGED_STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD_MD",
@@ -761,7 +774,7 @@
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW_XLSX",
       "status": "PASS",
-      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx; bytes=18108"
+      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx; bytes=18107"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER_TSV",
@@ -786,12 +799,17 @@
     {
       "id": "ARTIFACT_EXISTS_CHECKPOINT_09_FIRST_EXECUTION_VALIDATION_MD",
       "status": "PASS",
-      "detail": "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md; bytes=692"
+      "detail": "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md; bytes=813"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG_MD",
       "status": "PASS",
-      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md; bytes=1297"
+      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md; bytes=1383"
+    },
+    {
+      "id": "ARTIFACT_EXISTS_CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK_MD",
+      "status": "PASS",
+      "detail": "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md; bytes=1786"
     },
     {
       "id": "GATE_ROWS",
@@ -912,6 +930,16 @@
       "id": "REPORT_NO_PAGE_OWNERSHIP_ACTION",
       "status": "PASS",
       "detail": "explicit protection boundary"
+    },
+    {
+      "id": "REMOTE_READBACK_MATERIAL_COMMIT",
+      "status": "PASS",
+      "detail": "expected=a8eb434065d407cd9d858e45abd5d7b65adb4063; actual=a8eb434065d407cd9d858e45abd5d7b65adb4063"
+    },
+    {
+      "id": "REMOTE_READBACK_RECEIPT_PRESENT",
+      "status": "PASS",
+      "detail": "final receipt included"
     }
   ]
 }
