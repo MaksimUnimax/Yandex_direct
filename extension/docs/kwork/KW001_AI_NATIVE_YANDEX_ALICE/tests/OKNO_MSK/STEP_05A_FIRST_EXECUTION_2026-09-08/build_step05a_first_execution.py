@@ -25,6 +25,9 @@ STARTING_HEAD = "c043fda14c51b18f4016aa26ff3e3f7e7c121a13"
 COMBINED = OUT / "STEP_05A_SERP_COMBINED_750.tsv"
 DOMAIN_FREQUENCY = OUT / "STEP_05A_DOMAIN_FREQUENCY.tsv"
 IMPACT_TRACE = OUT / "STEP_05A_QUERY_IMPACT_TRACE.tsv"
+CANDIDATE_SELECTION = OUT / "STEP_05A_COMPETITOR_CANDIDATE_SELECTION.tsv"
+REPORT = OUT / "STEP_05A_FIRST_EXECUTION_REPORT.md"
+EXECUTION_LOG = OUT / "EXECUTION_LOG.md"
 QA = OUT / "STEP_05A_FIRST_EXECUTION_QA.json"
 
 SOURCE_FILES = [
@@ -110,6 +113,27 @@ IMPACT_FIELDS = [
     "claim_boundary",
 ]
 
+CANDIDATE_FIELDS = [
+    "selection_order",
+    "normalized_domain",
+    "selection_state",
+    "total_top10_appearances",
+    "distinct_queries",
+    "top1_appearances",
+    "top3_appearances",
+    "top5_appearances",
+    "best_rank",
+    "median_rank",
+    "competitor_class",
+    "relevant_query_task_areas",
+    "strongest_preserved_rankings",
+    "why_useful_semantic_gap_source",
+    "exact_ranking_urls_to_inspect_next",
+    "selection_or_exclusion_reason",
+    "source_authority",
+    "claim_boundary",
+]
+
 IMPACT_CLASSES = {
     "CHANGED_DECISION",
     "DE_RISKED_DECISION",
@@ -144,6 +168,35 @@ PHASE_D_SHORTLIST = {
     "al-solution.ru",
     "aluminarium.ru",
     "elit-balkon.ru",
+}
+
+SELECTED_COMPETITORS = [
+    "mosokna.ru",
+    "i-okna.ru",
+    "msk.okna-servise.com",
+    "okna-moskva.ru",
+    "oknafactoria.ru",
+    "okna-germany.ru",
+    "fabrikaokon.ru",
+    "aluminarium.ru",
+    "elit-balkon.ru",
+]
+
+SELECTION_REASONS = {
+    "mosokna.ru": "Highest recurrence in the preserved set and broad coverage of PVC/Rehau, price, finance, product and balcony tasks through multiple ranking URLs.",
+    "i-okna.ru": "Frequent Rehau-focused transactional visibility plus preserved repair, price and finance pages provides a concentrated brand-family comparison source.",
+    "msk.okna-servise.com": "Strong TOP-3 recurrence across balcony subtypes, house-series, installation, price and cold/warm glazing tasks.",
+    "okna-moskva.ru": "Broad product visibility combined with Rehau, instalment, balcony-roof and veranda pages adds cross-task comparison value.",
+    "oknafactoria.ru": "Preserved results bridge service pages and editorial pages across open balcony, porch, repair, Provedal, selection and cold glazing.",
+    "okna-germany.ru": "A content-led set of preserved Rehau comparison/selection/repair and Provedal URLs is useful for testing missed informational directions.",
+    "fabrikaokon.ru": "Preserved rankings cover timber-aluminium windows, wooden balcony glazing, warm/cold subtypes and installation information/service.",
+    "aluminarium.ru": "Repeated high positions in aluminium windows and outdoor-structure glazing provide a specialist contrast to broad PVC/window competitors.",
+    "elit-balkon.ru": "Focused preserved visibility for open-balcony finishing, demolition and roof glazing supplies a specialist balcony-service comparison.",
+}
+
+SHORTLIST_EXCLUSIONS = {
+    "al-solution.ru": "Not selected in the bounded set because its preserved aluminium/terrace/Provedal coverage is substantially represented by selected specialist and content candidates.",
+    "svetokna.ru": "Not selected in the bounded set because its mixed wood/aluminium/veranda/balcony coverage overlaps selected Fabrika Okon and Aluminarium evidence.",
 }
 
 YANDEX_DOMAINS = {"yandex.ru", "market.yandex.ru", "uslugi.yandex.ru", "dzen.ru"}
@@ -830,9 +883,363 @@ def phase_impact() -> None:
             ensure_ascii=False,
         )
     )
+
+
+def markdown_escape(value: object) -> str:
+    return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def phase_final() -> None:
+    combined = read_tsv(COMBINED)
+    domain_rows = read_tsv(DOMAIN_FREQUENCY)
+    impact_rows = read_tsv(IMPACT_TRACE)
+    decisions = read_tsv(JOB / "STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv")
+    decision_by_index = {index: row for index, row in enumerate(decisions, start=1)}
+    domain_by_name = {row["normalized_domain"]: row for row in domain_rows}
+    serp_by_domain: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in combined:
+        serp_by_domain[row["normalized_domain"]].append(row)
+
+    candidate_rows: list[dict[str, object]] = []
+    ordered_shortlist = SELECTED_COMPETITORS + sorted(PHASE_D_SHORTLIST - set(SELECTED_COMPETITORS))
+    for order, domain in enumerate(ordered_shortlist, start=1):
+        frequency = domain_by_name[domain]
+        ranked_rows = sorted(
+            serp_by_domain[domain],
+            key=lambda row: (int(row["rank"]), int(row["query_index"]), row["url"]),
+        )
+        task_areas: list[str] = []
+        strongest: list[str] = []
+        for row in ranked_rows:
+            query_index = int(row["query_index"])
+            area = decision_by_index[query_index]["observed_serp_job"]
+            if area not in task_areas and len(task_areas) < 8:
+                task_areas.append(area)
+            ranking = f'Q{query_index}/R{row["rank"]}: {row["query_text"]}'
+            if ranking not in strongest and len(strongest) < 6:
+                strongest.append(ranking)
+
+        is_selected = domain in SELECTED_COMPETITORS
+        inspection_urls: list[str] = []
+        represented_areas: set[str] = set()
+        if is_selected:
+            for row in ranked_rows:
+                query_index = int(row["query_index"])
+                area = decision_by_index[query_index]["observed_serp_job"]
+                if row["url"] in {item.split(" ", 1)[1] for item in inspection_urls}:
+                    continue
+                if area not in represented_areas:
+                    inspection_urls.append(f'Q{query_index}/R{row["rank"]} {row["url"]}')
+                    represented_areas.add(area)
+                if len(inspection_urls) == 5:
+                    break
+            if len(inspection_urls) < 5:
+                existing_urls = {item.split(" ", 1)[1] for item in inspection_urls}
+                for row in ranked_rows:
+                    if row["url"] not in existing_urls:
+                        inspection_urls.append(f'Q{row["query_index"]}/R{row["rank"]} {row["url"]}')
+                        existing_urls.add(row["url"])
+                    if len(inspection_urls) == 5:
+                        break
+
+        candidate_rows.append(
+            {
+                "selection_order": order if is_selected else "",
+                "normalized_domain": domain,
+                "selection_state": "SELECTED_FOR_NEXT_STEP5A_PAGE_INSPECTION" if is_selected else "NOT_SELECTED_BOUNDED_REDUNDANCY",
+                "total_top10_appearances": frequency["total_top10_appearances"],
+                "distinct_queries": frequency["distinct_queries"],
+                "top1_appearances": frequency["top1_appearances"],
+                "top3_appearances": frequency["top3_appearances"],
+                "top5_appearances": frequency["top5_appearances"],
+                "best_rank": frequency["best_rank"],
+                "median_rank": frequency["median_rank"],
+                "competitor_class": frequency["competitor_class"],
+                "relevant_query_task_areas": " | ".join(task_areas),
+                "strongest_preserved_rankings": " | ".join(strongest),
+                "why_useful_semantic_gap_source": SELECTION_REASONS.get(domain, ""),
+                "exact_ranking_urls_to_inspect_next": " | ".join(inspection_urls),
+                "selection_or_exclusion_reason": SELECTION_REASONS.get(domain, SHORTLIST_EXCLUSIONS.get(domain, "")),
+                "source_authority": "STEP_05A_SERP_COMBINED_750.tsv + STEP_05A_DOMAIN_FREQUENCY.tsv + STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv",
+                "claim_boundary": "PRESERVED_RANKING_VISIBILITY_ONLY__PAGE_TOPICS_AND_NEW_SEEDS_NOT_INSPECTED_OR_INFERRED",
+            }
+        )
+
+    write_tsv(CANDIDATE_SELECTION, CANDIDATE_FIELDS, candidate_rows)
+    selected_rows = [row for row in candidate_rows if row["selection_state"].startswith("SELECTED")]
+    combined_urls_by_domain = {
+        domain: {row["url"] for row in rows} for domain, rows in serp_by_domain.items()
+    }
+    candidate_checks = {
+        "shortlist_rows_11": len(candidate_rows) == 11,
+        "selected_candidates_9": len(selected_rows) == 9,
+        "selected_domains_unique": len({row["normalized_domain"] for row in selected_rows}) == 9,
+        "selected_domains_are_direct_competitors": all(row["competitor_class"] == "DIRECT_BUSINESS_COMPETITOR" for row in selected_rows),
+        "selected_domains_have_recurrence": all(int(row["distinct_queries"]) >= 4 for row in selected_rows),
+        "selected_domains_have_exact_next_urls": all(row["exact_ranking_urls_to_inspect_next"] for row in selected_rows),
+        "selected_urls_derive_from_preserved_serp": all(
+            all(
+                item.split(" ", 1)[1] in combined_urls_by_domain[str(row["normalized_domain"])]
+                for item in str(row["exact_ranking_urls_to_inspect_next"]).split(" | ")
+            )
+            for row in selected_rows
+        ),
+        "nonselected_shortlist_explained": all(
+            row["selection_or_exclusion_reason"] and not row["exact_ranking_urls_to_inspect_next"]
+            for row in candidate_rows
+            if not row["selection_state"].startswith("SELECTED")
+        ),
+        "no_page_topic_or_seed_inference": all("NOT_INSPECTED_OR_INFERRED" in row["claim_boundary"] for row in candidate_rows),
+    }
+    if not all(candidate_checks.values()):
+        failed = [name for name, passed in candidate_checks.items() if not passed]
+        raise RuntimeError(f"Candidate-selection QA failed: {failed}")
+
+    impact_counts = Counter(row["impact_classification"] for row in impact_rows)
+    class_counts = Counter(row["competitor_class"] for row in domain_rows)
+    top_direct = [row for row in domain_rows if row["competitor_class"] == "DIRECT_BUSINESS_COMPETITOR"][:15]
+    unresolved = [row for row in impact_rows if row["impact_classification"] == "UNRESOLVED_TRACE"]
+
+    report_lines = [
+        "# KW-001 / OKNO_MSK — Step 5A first execution report",
+        "",
+        "Date: 2026-09-08  ",
+        "Status: **ANALYST QA PASS / OWNER REVIEW PENDING / METHOD NOT PROMOTED**",
+        "",
+        "## 1. What this execution completed",
+        "",
+        "This isolated execution processed the complete preserved ordinary-Yandex dataset: 75 queries and 750 ranked TOP-10 rows for region 213. It reconstructed one deterministic ledger, measured recurring domains, separated recurrence from business comparability, traced every query as far as completed downstream evidence allows and selected a bounded set of real search competitors for the next Step 5A subphase.",
+        "",
+        "No new Yandex Search, Wordstat, Alice, GenSearch, Webmaster, Metrika or Direct call was made. No public competitor page was opened. Client deliverables and historical Step 0–20 authorities were not modified.",
+        "",
+        "## 2. Source accounting",
+        "",
+        "```text",
+        "SOURCE_QUERIES = 75",
+        "SOURCE_RANKED_ROWS = 750",
+        "ACCOUNTED_QUERIES = 75",
+        "ACCOUNTED_RANKED_ROWS = 750",
+        "SILENT_ROW_DROPS = 0",
+        "DUPLICATE_ROW_INFLATION = 0",
+        "NORMALIZED_DOMAINS = 237",
+        "REGION = 213",
+        "RANKS_PER_QUERY = 1..10",
+        "```",
+        "",
+        "The canary row source and four R2 projection parts were combined only through their common supported fields. Unavailable R2 snippets, request IDs, HTTP fields and raw XML were not invented.",
+        "",
+        "## 3. Domain recurrence and classification",
+        "",
+        f"All 237 normalized domains were assigned one routing class. Where the preserved hostname/title/URL fields were insufficient, the class remains `UNKNOWN` ({class_counts.get('UNKNOWN', 0)} domains) rather than being guessed.",
+        "",
+        "| Class | Domains |",
+        "|---|---:|",
+    ]
+    for class_name in sorted(COMPETITOR_CLASSES):
+        report_lines.append(f"| `{class_name}` | {class_counts.get(class_name, 0)} |")
+    report_lines.extend([
+        "",
+        "Top recurring direct-business competitors from the preserved ledger:",
+        "",
+        "| Domain | TOP-10 appearances | Distinct queries | TOP-3 | Best rank |",
+        "|---|---:|---:|---:|---:|",
+    ])
+    for row in top_direct:
+        report_lines.append(
+            f"| {row['normalized_domain']} | {row['total_top10_appearances']} | {row['distinct_queries']} | {row['top3_appearances']} | {row['best_rank']} |"
+        )
+    report_lines.extend([
+        "",
+        "Recurrence was not treated as business equivalence. High-frequency non-direct surfaces such as the REHAU online shop, Avito, Ozon and Yandex services remain manufacturer, marketplace or platform observations.",
+        "",
+        "## 4. What ordinary Yandex Search changed or confirmed",
+        "",
+        "Every Step 9 query has one impact row with an exact-query claim boundary:",
+        "",
+        "| Impact class | Queries | Meaning in this execution |",
+        "|---|---:|---|",
+        f"| `CHANGED_DECISION` | {impact_counts.get('CHANGED_DECISION', 0)} | Direct evidence resolved a review-state phrase into a preserved task/cluster. |",
+        f"| `DE_RISKED_DECISION` | {impact_counts.get('DE_RISKED_DECISION', 0)} | Evidence supported a boundary, hold, outside-scope or no-standalone-page route. |",
+        f"| `CONFIRMED_EXISTING_DECISION` | {impact_counts.get('CONFIRMED_EXISTING_DECISION', 0)} | Evidence confirmed a task/cluster already carried as a core candidate. |",
+        f"| `NO_MATERIAL_DOWNSTREAM_EFFECT` | {impact_counts.get('NO_MATERIAL_DOWNSTREAM_EFFECT', 0)} | Observation existed without a material traceable downstream effect. |",
+        f"| `UNRESOLVED_TRACE` | {impact_counts.get('UNRESOLVED_TRACE', 0)} | No exact completed downstream join or the preserved row remained unresolved. |",
+        "",
+        "There are 66 exact Step 10 / Step 11 phrase / final-master joins. Ten queries remain unresolved rather than receiving family-level causal attribution:",
+        "",
+    ])
+    for row in unresolved:
+        report_lines.append(f"- Q{row['query_index']} / {row['probe_id']}: {row['query']}")
+    report_lines.extend([
+        "",
+        "These impact classes describe the role explicitly traceable in preserved evidence. They do not claim that Search alone caused every later structural decision.",
+        "",
+        "## 5. Bounded competitor selection for the next Step 5A subphase",
+        "",
+        "Nine competitors were selected from an eleven-domain shortlist. Selection combines recurrence, direct/partial business comparability and task diversity; it is not a market-share ranking.",
+        "",
+        "| # | Domain | Queries | TOP-3 | Best | Why retained |",
+        "|---:|---|---:|---:|---:|---|",
+    ])
+    for row in selected_rows:
+        report_lines.append(
+            f"| {row['selection_order']} | {row['normalized_domain']} | {row['distinct_queries']} | {row['top3_appearances']} | {row['best_rank']} | {markdown_escape(row['why_useful_semantic_gap_source'])} |"
+        )
+    report_lines.extend([
+        "",
+        "Not selected in the bounded set:",
+        "",
+    ])
+    for row in candidate_rows:
+        if not row["selection_state"].startswith("SELECTED"):
+            report_lines.append(f"- **{row['normalized_domain']}** — {row['selection_or_exclusion_reason']}")
+    report_lines.extend([
+        "",
+        "### Exact preserved ranking URLs to inspect next",
+        "",
+        "These URLs are evidence-bearing inspection targets only. Their page topics were not inspected in this execution and no candidate seed was inferred from the URL alone.",
+        "",
+    ])
+    for row in selected_rows:
+        report_lines.append(f"- **{row['normalized_domain']}**")
+        for item in str(row["exact_ranking_urls_to_inspect_next"]).split(" | "):
+            label, url = item.split(" ", 1)
+            report_lines.append(f"  - {label}: {url}")
+    report_lines.extend([
+        "",
+        "## 6. Method-validation result",
+        "",
+        "```text",
+        "REAL_SEARCH_COMPETITOR_DISCOVERY = PASS",
+        "PRESERVED_QUERY_TO_COMPETITOR_VISIBILITY = PASS",
+        "RECURRENCE_VS_BUSINESS_COMPARABILITY_BOUNDARY = PASS",
+        "QUERY_IMPACT_TRACE = PASS_WITH_10_EXPLICIT_UNRESOLVED_ROWS",
+        "COMPETITOR_PAGE_TO_SEED_LINEAGE = NOT_EXECUTED",
+        "WORDSTAT_COMPETITOR_EXPANSION = NOT_EXECUTED",
+        "NEW_CANDIDATE_SEARCH_RECHECK = NOT_EXECUTED",
+        "WEBSITE_TEXT_AS_RANKING_OVERCLAIM = 0",
+        "FULL_COMPETITOR_KEYWORD_UNIVERSE_OVERCLAIM = 0",
+        "PROJECT_TEST_VALIDATED = false",
+        "OWNER_REVIEW = PENDING",
+        "```",
+        "",
+        "This execution validates the preserved-SERP discovery, classification, impact-trace and bounded-selection operations. It does not satisfy the full permanent promotion gate because competitor-page inspection, page→seed lineage, Wordstat expansion, candidate filtering, Search recheck and merge reconciliation were intentionally not executed.",
+        "",
+        "## 7. Exact next evidence boundary",
+        "",
+        "Next authorized work must first inspect only the exact selected ranking URLs recorded in `STEP_05A_COMPETITOR_CANDIDATE_SELECTION.tsv` and persist page-level provenance. Only then can exact candidate seeds be named.",
+        "",
+        "```text",
+        "EXACT_NEW_WORDSTAT_SEEDS_REQUIRED_NOW = NONE__NOT_YET_EVIDENCED",
+        "EXACT_NEW_SEARCH_QUERIES_REQUIRED_NOW = NONE__PENDING_PAGE_INSPECTION_AND_WORDSTAT_RESULTS",
+        "NEXT_EVIDENCE_PRODUCING_STEP = OWNER_AUTHORIZED_SELECTED_COMPETITOR_PAGE_INSPECTION",
+        "```",
+        "",
+        "The absence of exact seeds at this boundary is intentional: inventing them from domain names or URL slugs would violate `COMPETITOR PAGE TOPIC != EXACT QUERY RANKING` and the lineage requirement.",
+        "",
+        "## 8. Durable artifact set",
+        "",
+        "- `CHECKPOINT_00_BASELINE_AND_REUSE_INVENTORY.md`",
+        "- `STEP_05A_SERP_COMBINED_750.tsv`",
+        "- `STEP_05A_DOMAIN_FREQUENCY.tsv`",
+        "- `STEP_05A_QUERY_IMPACT_TRACE.tsv`",
+        "- `STEP_05A_COMPETITOR_CANDIDATE_SELECTION.tsv`",
+        "- `STEP_05A_FIRST_EXECUTION_QA.json`",
+        "- `STEP_05A_FIRST_EXECUTION_REPORT.md`",
+        "- `EXECUTION_LOG.md`",
+        "- `build_step05a_first_execution.py`",
+        "- `validate_step05a_first_execution.py`",
+        "",
+        "Optional page-evidence and derived-seed files were not created because no competitor page was inspected.",
+    ])
+    REPORT.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
+
+    log_lines = [
+        "# KW-001 / OKNO_MSK — Step 5A first execution log",
+        "",
+        "Date: 2026-09-08",
+        "",
+        "## Durable blocks",
+        "",
+        "| Block | Result | Remote commit / readback |",
+        "|---|---|---|",
+        "| 0. Baseline / reuse inventory | PASS | `925a00b528a48f6e2825cb892fa4c445f010ac90` / PASS |",
+        "| A. Combined 75-query / 750-row ledger | PASS | `ca3178fff1630ebd3ef8dddf4aa1cd2c512ca941` / PASS |",
+        "| B. Domain frequency / classification | PASS | `918c414822760f6b9ab0f317f2922f10f5fc27ad` / PASS |",
+        "| C. Query impact trace | PASS | `31c9ecb0ca43d2da901ce3dc22203bb0059e7003` / PASS |",
+        "| D. Candidate selection / report / final QA | PASS | containing finalization commit / remote readback required before completion |",
+        "",
+        "## Acquisition boundary",
+        "",
+        "```text",
+        "NEW_YANDEX_SEARCH_CALLS = 0",
+        "NEW_WORDSTAT_CALLS = 0",
+        "NEW_ALICE_CALLS = 0",
+        "NEW_GENSEARCH_CALLS = 0",
+        "NEW_WEBMASTER_CALLS = 0",
+        "NEW_METRIKA_CALLS = 0",
+        "NEW_DIRECT_CALLS = 0",
+        "NEW_PAID_PROVIDER_COST_RUB = 0",
+        "PUBLIC_COMPETITOR_PAGE_INSPECTION = false",
+        "```",
+        "",
+        "## Scope protection",
+        "",
+        "All task changes remain under `STEP_05A_FIRST_EXECUTION_2026-09-08/`. The corrected client release, Documents 01–03, semantic-core XLSX and historical Step 0–20 outputs were not modified.",
+        "",
+        "## Final routing",
+        "",
+        "```text",
+        "PROJECT_TEST_VALIDATED = false",
+        "OWNER_REVIEW = PENDING",
+        "NEXT_ACTION = OWNER_REVIEW_STEP_05A_FIRST_EXECUTION__THEN_AUTHORIZE_SELECTED_COMPETITOR_PAGE_INSPECTION_IF_ACCEPTED",
+        "```",
+    ]
+    EXECUTION_LOG.write_text("\n".join(log_lines) + "\n", encoding="utf-8")
+
+    payload = load_qa()
+    payload["phase_status"]["competitor_candidate_selection"] = "PASS"
+    payload["phase_status"]["first_execution_report"] = "PASS"
+    payload["competitor_candidate_selection"] = {
+        "status": "PASS",
+        "path": CANDIDATE_SELECTION.name,
+        "sha256": sha256(CANDIDATE_SELECTION),
+        "size_bytes": CANDIDATE_SELECTION.stat().st_size,
+        "shortlist_rows": len(candidate_rows),
+        "selected_count": len(selected_rows),
+        "selected_domains": [row["normalized_domain"] for row in selected_rows],
+        "checks": candidate_checks,
+    }
+    payload["report"] = {
+        "path": REPORT.name,
+        "sha256": sha256(REPORT),
+        "size_bytes": REPORT.stat().st_size,
+    }
+    payload["execution_log"] = {
+        "path": EXECUTION_LOG.name,
+        "sha256": sha256(EXECUTION_LOG),
+        "size_bytes": EXECUTION_LOG.stat().st_size,
+    }
+    payload["exact_new_wordstat_seeds_required_now"] = []
+    payload["exact_new_search_queries_required_now"] = []
+    payload["next_evidence_boundary"] = "OWNER_AUTHORIZED_SELECTED_COMPETITOR_PAGE_INSPECTION"
+    payload["status"] = "ANALYST_QA_PENDING_DETERMINISTIC_VALIDATOR"
+    payload["project_test_validated"] = False
+    payload["owner_review"] = "PENDING"
+    save_qa(payload)
+    print(
+        json.dumps(
+            {
+                "phase": "final",
+                "status": "PASS_PENDING_INDEPENDENT_VALIDATOR",
+                "selected_competitors": payload["competitor_candidate_selection"]["selected_domains"],
+                "report": str(REPORT),
+            },
+            ensure_ascii=False,
+        )
+    )
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=["combined", "domains", "impact"], required=True)
+    parser.add_argument("--phase", choices=["combined", "domains", "impact", "final"], required=True)
     args = parser.parse_args()
     if args.phase == "combined":
         phase_combined()
@@ -840,6 +1247,8 @@ def main() -> int:
         phase_domains()
     elif args.phase == "impact":
         phase_impact()
+    elif args.phase == "final":
+        phase_final()
     return 0
 
 
