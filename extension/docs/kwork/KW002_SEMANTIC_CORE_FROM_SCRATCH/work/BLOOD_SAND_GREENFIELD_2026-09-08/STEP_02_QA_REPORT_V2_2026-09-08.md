@@ -195,33 +195,55 @@ ONE Q-PROBE
 → do not silently drop the branch
 ```
 
-## 6. 10-point quality score
+## 6. QUALITY SCORE — EACH CRITERION IS SCORED 0–10
 
 Governed by `LEVEL1/RESULT_QUALITY_SCORING_RULE.md`.
 
-| Dimension | Score | Evidence |
+**This table uses the owner-corrected rule: every criterion has its own 0–10 scale. It is forbidden to treat ten criteria as ten 0–1 components.**
+
+| Критерий | Балл из 10 | Основание |
 |---|---:|---|
-| Goal/output completeness | 1.0/1.0 | Corrected primary/deferred manifests and quality coverage exist. |
-| Method/source support | 1.0/1.0 | V2 directly operationalizes Yandex + industry audit findings. |
-| Input evidence/provenance integrity | 1.0/1.0 | V1 lineage retained; every new probe points to client/V1 source. |
-| Coverage/completeness | 1.0/1.0 | Catalog lineage retained and separate quality-coverage matrix passes 26/26 groups. |
-| Analytical correctness/claim boundaries | 0.9/1.0 | Qualified diagnostics are explicit; slight residual heuristic judgment remains in low-vs-ambiguous screening. |
-| Adversarial QA quality | 0.9/1.0 | All six audit defects explicitly retested; final provider behavior still belongs to Step 03. |
-| Persistence/readback/reproducibility | 1.0/1.0 | All V2 manifests read back remotely with terminal rows/SHA verified. |
-| Owner/client usability/plain language | 0.9/1.0 | Rework report explains changes clearly; internal manifests remain technical by necessity. |
-| Information gain/cost/execution efficiency | 0.9/1.0 | Priority is now reason-class driven; no cost-only deferrals. |
-| Downstream readiness | 0.7/1.0 | Step-03 primary set is deterministic, but grouped OR behavior still needs Bridge/provider verification. |
-| **TOTAL** | **9.3/10** | **PASS** |
+| Цель и полнота результата | **10/10** | Исправленные primary/deferred manifests и отдельное quality coverage материализованы полностью. |
+| Методика и источники | **10/10** | V2 напрямую operationalizes выводы официального Яндекса и отраслевого внешнего аудита. |
+| Входные данные и provenance | **10/10** | V1 lineage сохранена; каждый новый probe связан с клиентским фактом/V1 source. |
+| Coverage / полнота покрытия | **10/10** | Catalog lineage сохранён, отдельная search-quality matrix проходит 26/26 material groups. |
+| Аналитическая корректность и границы утверждений | **9/10** | Qualified diagnostics размечены корректно; остаётся небольшая эвристичность в low-vs-ambiguous screening до реального Wordstat. |
+| Качество adversarial QA | **9/10** | Все шесть дефектов внешнего аудита ретестированы; фактическое provider-поведение относится уже к Step 03. |
+| Persistence / readback / воспроизводимость | **10/10** | Все V2 manifests прочитаны обратно с remote, terminal rows и SHA проверены. |
+| Понятность владельцу/клиенту | **9/10** | Rework-report объясняет исправления простым языком; внутренние manifests остаются техническими по необходимости. |
+| Information gain / стоимость / эффективность | **9/10** | Priority теперь определяется классами информационного выигрыша, cost-only deferrals отсутствуют. |
+| Готовность следующего шага | **7/10** | Primary manifest детерминирован, но реальное поведение grouped OR через Bridge ещё нужно проверить на Step 03. |
+| **СУММА** | **93/100** | 10 критериев × максимум 10 баллов. |
+| **ИТОГОВАЯ ОЦЕНКА** | **9.3/10** | `93 / 10 = 9.3`. PASS candidate. |
 
 ### За что сняты баллы
 
 ```text
-- часть ambiguity/noise screening остаётся аналитической эвристикой до реального Wordstat evidence;
-- OR-operator behavior through the actual Bridge path ещё не проверен;
-- итоговая полезность отдельных probes всё равно будет подтверждаться Step 03/04 реальными данными.
-```
+Аналитическая корректность: -1
+Причина: часть ambiguity/noise screening остаётся аналитической эвристикой до реального Wordstat evidence.
+Блокирует PASS: нет.
+Что даст 10/10: подтверждение/коррекция screening на реальном Step-03/04 evidence.
 
-Это не блокирует Step 02, потому что hard gates шага выполнены, а fallback для OR-route определён.
+Adversarial QA: -1
+Причина: actual provider execution ещё не происходил; QA пока проверяет подготовленный acquisition design.
+Блокирует PASS: нет, потому что provider execution принадлежит следующему шагу.
+Что даст 10/10: успешный Step-03 capability/provider check без обнаружения новой методической дыры.
+
+Понятность: -1
+Причина: часть внутренних manifests неизбежно техническая.
+Блокирует PASS: нет.
+Что даст 10/10: дополнительная recipient-friendly визуализация/выжимка, если она окажется реально нужна владельцу/клиенту.
+
+Information gain / эффективность: -1
+Причина: полезность отдельных probes до реального Wordstat всё ещё прогнозная.
+Блокирует PASS: нет.
+Что даст 10/10: подтверждение, что primary routes дают различимый полезный вклад без лишней дубликации.
+
+Готовность следующего шага: -3
+Причина: grouped OR syntax документирован Яндексом, но ещё не проверен через фактический Yandex Marketing Bridge route.
+Блокирует PASS Step 02: нет, поскольку определён deterministic fallback.
+Что даст 10/10: успешный capability check OR-route или подтверждённый deterministic split без потери lineage.
+```
 
 ## 7. Final PASS gate
 
@@ -233,6 +255,7 @@ USE_CONTEXT_SYNONYM_PLAN = PASS
 INFO_GAIN_RATIONALE = PASS
 PRIMARY_ACQUISITION_MANIFEST = MATERIALIZED / 79 ROWS
 DEFERRED_CONTROL_MANIFEST = MATERIALIZED / 49 ROWS
+STEP02_QUALITY_TOTAL = 93 / 100
 STEP02_QUALITY_SCORE = 9.3 / 10
 ALL_HARD_GATES = PASS
 REMOTE_READBACK = PASS
@@ -245,3 +268,13 @@ STEP_02 = COMPLETE / PASS AFTER V2 REWORK
 NEXT_STEP_ALLOWED = true
 NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
 ```
+
+## ПРОСТЫМИ СЛОВАМИ — ОЦЕНКА
+
+**Оценка результата:** 93/100, то есть **9.3/10**.
+
+**Что сделано хорошо:** исправлены все шесть дефектов первой версии, новый Wordstat manifest детерминирован и проверен, шумные запросы управляются отдельно.
+
+**За что сняты баллы:** мы ещё не видели реальные ответы Wordstat по этим probes и не проверили grouped OR через сам Bridge.
+
+**Можно ли идти дальше:** да, Step 02 проходит PASS. На Step 03 сначала обязателен capability/provider check, а не массовый запуск вслепую.
