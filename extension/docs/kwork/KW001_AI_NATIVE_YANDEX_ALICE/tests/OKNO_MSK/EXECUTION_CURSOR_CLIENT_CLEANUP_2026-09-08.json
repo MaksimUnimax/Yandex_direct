@@ -1,0 +1,16 @@
+{
+  "project":"OKNO_MSK_RESEARCH_REPORT_REBUILD",
+  "branch":"roadmap/kwork-productization-2026-08-28",
+  "stage":15,
+  "stage_0_to_15":"COMPLETE",
+  "current_document":"02",
+  "status":"DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP__ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING",
+  "cleanup_authority":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md",
+  "cleanup_qa":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json",
+  "permanent_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
+  "counts":{"ready_actions":3,"clarification_items":5,"semantic_assignments":46,"additional_checks":4,"visible_internal_link_pairs":14,"bibliography_items":10},
+  "client_language":{"negative_pseudo_action_hits":0,"obvious_open_find_navigate_filler_hits":0,"process_meta_hits":0,"internal_traceability_hits":0,"current_job_negative_particle_ne_hits":0},
+  "scope":{"post_hoc_evidence_used":0,"new_project_specific_data_collection":0},
+  "protected_artifacts":{"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false},
+  "next_action":"OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+}
