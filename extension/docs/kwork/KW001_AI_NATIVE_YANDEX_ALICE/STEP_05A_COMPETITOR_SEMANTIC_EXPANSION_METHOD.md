@@ -1,7 +1,7 @@
 # KW-001 — STEP 5A COMPETITOR SEMANTIC EXPANSION METHOD
 
 Updated: 2026-09-08  
-Status: **OWNER-AUTHORIZED ROADMAP METHOD CANDIDATE / EXTERNAL-METHOD-RESEARCHED / FIRST EXECUTION MUST VALIDATE PROJECT OPERATIONS**
+Status: **APPROVED / ACTIVE / PROJECT-TEST-VALIDATED / OWNER-CANONIZED PERMANENT METHOD**
 
 ## 1. Purpose
 
@@ -84,7 +84,7 @@ Supported claim:
 
 Keywords/topics competitors rank for but the target does not are a standard source of new SEO/content opportunities. These sources describe reverse-domain databases as one way to obtain the gap; KW-001 does not make such a database mandatory.
 
-### PROJECT-SPECIFIC ADDITION
+### PROJECT-SPECIFIC ADDITION — VALIDATED PERMANENT ORCHESTRATION
 
 The exact low-cost KW-001 loop:
 
@@ -96,7 +96,9 @@ ranked competitor page
 → merge into shared semantic acquisition layer
 ```
 
-is a project-specific execution design. External sources support the individual evidence mechanics and the value of competitor gaps, but they do not define this exact Yandex-only orchestration. It must therefore remain labelled project-specific and be validated in the next authorized rehearsal before being described as project-test-proven.
+is a project-specific execution design. External sources support the individual evidence mechanics and the value of competitor gaps, but they do not define this exact Yandex-only orchestration.
+
+The orchestration has now passed an owner-accepted varied project execution and is therefore approved as the permanent Step 5A workflow for KW-001. Future jobs still require current job evidence, bounded acquisition, preserved provenance and all claim boundaries in this method. Project-test validation of the workflow does **not** establish a universal numeric saturation threshold for every market or site.
 
 ## 4. Inputs
 
@@ -254,7 +256,7 @@ Do not crawl competitors or generate recursive Wordstat seeds indefinitely.
 
 Stop when additional competitor pages/domains mostly repeat already known semantic directions or add noise rather than material new in-scope demand.
 
-No permanent numeric saturation threshold is authorized yet. The first varied rehearsals must measure the practical stopping rule.
+No universal numeric saturation threshold is authorized. Each job must use an explicit bounded information-gain stop assessment. Future varied executions may refine a reusable stopping heuristic, but the absence of a universal number does not block the approved Step 5A method.
 
 ## 6. Modes
 
@@ -311,6 +313,8 @@ which candidates were added / already covered / rejected / held
 which later clusters/pages changed because of this evidence
 ```
 
+The recipient-ready view must expose material accepted phrases and concrete tested query → competitor → observed position evidence when those facts exist; summary counts alone are not sufficient for the usefulness gate.
+
 ## 8. Explicit non-goals
 
 Step5A does not promise:
@@ -337,7 +341,7 @@ automatic page creation for every competitor topic
 | Confirm exact query ↔ competitor visibility | Official Yandex Search API | executable current Yandex search-result evidence | interpret returned order/domain/URL for the tested query | query visibility matrix |
 | Merge accepted candidates into main semantic pipeline | Step3/Step5 durability rules | collect once / preserve completely / union-compatible acquisition | competitor source becomes another lineage, not a separate truth silo | merge reconciliation |
 | External reverse-domain database remains optional | Product boundary + industry gap sources | such databases are one route to competitor keyword gaps | base KW-001 remains executable without them | no mandatory external-provider dependency |
-| Stop on diminishing information gain | Project-specific heuristic | no authoritative universal threshold found | no hard number until varied rehearsals measure it | explicit stop rationale |
+| Stop on diminishing information gain | Project-specific heuristic | no authoritative universal threshold found | bounded job-level information-gain stop assessment; future varied executions may refine reusable heuristics | explicit stop rationale |
 
 ## 10. Failure classes and non-repeat controls
 
@@ -379,9 +383,17 @@ Control: inspect only evidence required for semantic expansion; deep technical/l
 
 Control: base method is executable with public competitor pages + Wordstat + Yandex Search; reverse-domain sources remain optional enrichment.
 
-## 11. First-execution validation gate
+### Failure G — accepted competitor-derived additions are left outside the main pipeline
 
-Before this method can be upgraded to `PROJECT_TEST_VALIDATED / APPROVED ACTIVE`, an authorized varied rehearsal must demonstrate at minimum:
+Control: every `ADD_TO_PIPELINE` occurrence must be merged into the same downstream cleanup/freeze/clustering/ownership chain as ordinary acquisition before the next real release. A competitor worksheet is evidence/materialization, not an alternate semantic truth silo.
+
+### Failure H — client receives only aggregate counts instead of inspectable result
+
+Control: recipient-facing materialization must expose the material new directions/phrases and concrete tested competitor visibility facts at the depth needed to understand what was actually found and why it matters.
+
+## 11. Permanent project-test validation gate
+
+Step 5A has earned `PROJECT_TEST_VALIDATED / APPROVED ACTIVE` status through an owner-accepted varied execution. The following ten conditions remain permanent regression gates for future material changes to the method:
 
 ```text
 real-search-competitor discovery works in the target region
@@ -396,12 +408,18 @@ external reverse-domain provider required for base execution = false
 client-facing competitor-gap result is understandable and materially useful
 ```
 
-Until that happens:
+Permanent state:
 
 ```text
 ROADMAP_STAGE_EXISTS = true
 OWNER_AUTHORIZATION_TO_ADD_STAGE = true
-EXTERNAL_METHOD_RESEARCH = complete for roadmap insertion
-PROJECT_TEST_VALIDATED = false
-FULL_PERMANENT_METHOD_PROMOTION = pending first execution evidence/review
+EXTERNAL_METHOD_RESEARCH = complete
+PROJECT_TEST_VALIDATED = true
+OWNER_CLIENT_USEFULNESS_GATE = accepted
+FULL_PERMANENT_METHOD_PROMOTION = APPROVED_ACTIVE
+PERMANENT_DIMINISHING_GAIN_THRESHOLD_VALIDATED = false
 ```
+
+The proof that earned promotion belongs in Level2 rehearsal evidence and Git history; concrete case domains, counts, costs and phrases must not become permanent Level1 inputs.
+
+A future material change to the Step 5A mechanics must re-run the affected regression gates and preserve the same claim boundaries. The approved method does not authorize recursive competitor crawling, mandatory third-party reverse-domain providers, automatic page creation, or bypassing downstream semantic processing.
