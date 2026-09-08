@@ -1,14 +1,15 @@
 {
   "project":"OKNO_MSK",
-  "state":"POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING",
+  "state":"POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS_ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING",
   "research_stage_0_to_15":"COMPLETE",
   "current_document":"02",
   "current_release":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
-  "current_report_02_contract":"SPECIALIST_IMPLEMENTATION_GUIDE__REQUIRED_ACTIONS_AND_CONCRETE_CLARIFICATIONS_ONLY",
-  "counts":{"ready_actions":3,"clarification_items":5,"semantic_assignments":46,"additional_checks":4,"internal_link_pairs":14,"bibliography_items":10},
-  "quality":{"negative_pseudo_action_hits":0,"obvious_open_find_navigate_hits":0,"client_process_meta_hits":0,"project_internal_traceability_hits":0,"current_job_negative_particle_ne_hits":0,"post_hoc_evidence_used":0,"new_project_specific_data_collection":0,"md_docx_pdf_language_scan":"PASS__0_0_0","empty_toc_heading_hits":0,"orphan_field_labels":0,"pdf_visual_qa":"PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14"},
-  "artifacts":{"markdown_sha256":"caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814","docx_sha256":"a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1","pdf_sha256":"36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5","pdf_pages":14,"materialization_commit":"8c597880f7f9b3b9d051d626b7e6c4efb1e2779b"},
-  "authorities":{"report_02_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md","report_02_layout_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md","cleanup":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md","cleanup_qa":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json","release_manifest":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json"},
+  "current_report_02_visible_title":"Внедрение рекомендации",
+  "current_report_02_contract":"ACTION_FIRST_IMPLEMENTATION_RECOMMENDATIONS__PLAIN_LANGUAGE__NO_RECIPIENT_ROLE_BRANDING",
+  "counts":{"ready_actions":3,"clarification_items":5,"topic_page_rows":46,"additional_checks":4,"page_link_rows":14,"bibliography_items":10},
+  "quality":{"client_role_branding_hits":0,"old_heading_hits":0,"standalone_preservation_section_hits":0,"topic_page_what_why_how":"PASS","page_link_what_why_how":"PASS","additional_checks_purpose_method_decision":"PASS","negative_pseudo_action_hits":0,"obvious_open_find_navigate_hits":0,"client_process_meta_hits":0,"project_internal_traceability_hits":0,"current_job_negative_particle_ne_hits":0,"post_hoc_evidence_used":0,"new_project_specific_data_collection":0,"md_docx_pdf_equivalence":"PASS","empty_toc_heading_hits":0,"orphan_field_labels":0,"pdf_visual_qa":"PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14"},
+  "artifacts":{"markdown":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md","markdown_sha256":"1db049b413ea02f407b8efa23cb4bc7e7b0d61b1e421f0eccd8d22fe23c442f4","docx":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx","docx_sha256":"89cadf22dd58be22087d7c98bbe7b896df710d968f1ef29350b25c71546c427d","pdf":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf","pdf_sha256":"b1a2848f781fe12dfe8293cfe2f88e796c967ce9eee7f9b251b171ac73060056","pdf_pages":14,"materialization_commit":"64509ac399f284c92b0c00acff7af4f1eee77e71"},
+  "authorities":{"report_02_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md","report_02_layout_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md","report_02_format_gate":"../../STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md","format_review":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_REPORT_FORMAT_REVIEW_2026-09-08.md","implementation_qa":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json","release_manifest":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json"},
   "protected_artifacts":{"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false},
-  "next_action":"OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+  "next_action":"OWNER_REVIEW_IMPLEMENTATION_RECOMMENDATIONS_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
 }
