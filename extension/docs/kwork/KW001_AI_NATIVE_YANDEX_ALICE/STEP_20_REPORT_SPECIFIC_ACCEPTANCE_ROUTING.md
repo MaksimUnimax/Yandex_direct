@@ -8,7 +8,7 @@ Step 20 must not apply one report's presentation rules blindly to every delivera
 
 ```text
 COMMON HUMAN-WRITING QUALITY
-+ REPORT-SPECIFIC RECIPIENT CONTRACT
++ REPORT-SPECIFIC CLIENT CONTRACT
 = STEP 20 ACCEPTANCE FOR THAT REPORT
 ```
 
@@ -31,8 +31,8 @@ AUTOMATIC AUTHORIZATION TO COLLECT IT NOW
 When a report exposes that a desired field, exact placement, classification, current-page detail, business fact, Search observation, AI observation or other project fact was not established by the completed research, the default response is:
 
 1. state the evidence boundary honestly;
-2. downgrade readiness or move the item to clarification / additional-check status where necessary;
-3. identify the exact missing evidence;
+2. move the item to clarification / additional-check status where necessary;
+3. identify the exact missing evidence or answer;
 4. do not acquire that evidence during report production unless the owner separately authorizes a new research/revalidation task.
 
 The reporting stage must not silently expand scope by:
@@ -43,29 +43,9 @@ The reporting stage must not silently expand scope by:
 - collecting new business facts to rescue an unsupported ready action;
 - using post-hoc evidence to upgrade `not ready / partial / unresolved` into ready without an explicitly authorized new evidence step.
 
-This failure is especially serious when it creates material time, provider or browsing cost after the research was already declared complete.
+Freshly checking external public methodology/documentation sources for bibliography freshness is different from recollecting project facts and may be allowed when the report contract requires it.
 
-```text
-COMPLETED RESEARCH AUTHORITY
--> REPORT MATERIALIZATION
-
-IF EVIDENCE GAP FOUND:
--> DISCLOSE / DOWNGRADE / NAME REQUIRED EVIDENCE
-
-NOT:
--> SILENTLY PERFORM NEW RESEARCH
-```
-
-### Allowed exception — external methodology/source freshness
-
-Freshly checking external public methodology/documentation sources for the report bibliography is different from recollecting project facts. It is allowed or required when the report contract requires current sources, provided it does not change project-specific analytical conclusions by itself.
-
-```text
-FRESH METHODOLOGY / BIBLIOGRAPHY REVIEW = ALLOWED WHEN REQUIRED
-FRESH PROJECT FACT / SITE / SEARCH / AI EVIDENCE COLLECTION = OWNER-AUTHORIZED NEW WORK ONLY
-```
-
-Any explicitly owner-authorized new research/revalidation must be recorded as a separate evidence-producing step with its own scope, cost boundary and authority. It must not be backdated or presented as if it belonged to the original completed research.
+Any explicitly owner-authorized new research/revalidation must be recorded as a separate evidence-producing step. It must not be backdated or presented as if it belonged to the original completed research.
 
 ## Report №01 — customer research report
 
@@ -73,46 +53,59 @@ Canonical authority:
 
 `STEP_20_REPORT_01_CUSTOMER_RESEARCH_REPORT_GATE.md`
 
-Purpose: give the customer of the Kwork a complete, understandable answer to the commissioned research question without requiring SEO expertise or repository knowledge.
+Purpose: give the customer a complete, understandable answer to the commissioned research question without requiring specialist knowledge or repository context.
 
-Report №01 therefore carries the full set of lessons discovered during the owner-directed rewrite of the first report: direct answer to the Kwork, plain language, connected explanation of the work, explicit site verdict, clear role of ordinary Yandex output and Alice output, selected-check explanation, natural recommendations and evidence moved to appendices when detail interrupts the answer.
+## Report №02 — «Внедрение рекомендации»
 
-## Report №02 — specialist implementation guide
-
-Client-content authority:
+Primary canonical authority:
 
 `STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md`
+
+The filename is historical. The client-facing document itself is purpose-led and must use the visible title:
+
+```text
+Внедрение рекомендации
+```
+
+Supplemental format authority:
+
+`STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md`
 
 Physical-layout authority:
 
 `STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md`
 
-Both gates are mandatory for Report №02 acceptance. Passing the content/language gate does not waive physical DOCX/PDF inspection, and passing the physical gate does not waive the specialist-language contract.
+All three gates are mandatory for Report №02 acceptance.
 
-Purpose: let an SEO specialist or implementer understand what was researched, how the conclusions were derived, and exactly what must be changed or clarified on the site.
-
-Report №02 inherits only the transferable quality controls from Report №01:
+Report №02 purpose:
 
 ```text
-MEANINGFUL SEMANTIC SECTIONS
-CONNECTED NARRATIVE
-NATURAL HUMAN WORDING
-NO GENERATED / TEMPLATE-LIKE FILLER
-NO UNDEFINED OR ABSURD PHRASES
-CLAIM → EVIDENCE → ACTION CONTINUITY
-EXACT SCOPE / SELECTION LOGIC WHEN MATERIAL
+COMPLETED RESEARCH
+-> CONCRETE SITE RECOMMENDATIONS
+-> CONCRETE CLARIFICATIONS
+-> EXPLAINED SUPPORTING TABLES
+-> CLEAR NEXT ACTION / IMPLEMENTATION METHOD
 ```
 
-Professional SEO, semantic, architecture and implementation terminology is allowed when it helps execution, but the client-facing guide must remain a competent specialist brief rather than an internal audit log, process diary or beginner tutorial.
+It is not identified by the recipient profession. It must be understandable even to a non-specialist owner while still being concrete enough for implementation.
 
-The current permanent owner lessons for Report №02 include:
+Current permanent owner lessons for Report №02 include:
 
-- describe required work and concrete clarification, not lists of things the specialist should not do;
-- keep internal process history out of client prose;
-- remove obvious `open / find / navigate / check` filler from implementation steps;
-- avoid duplicated instructions across cards and table rows;
-- preserve evidence scope without launching new project research during reporting;
-- validate physical layout for empty TOC furniture, orphan field labels, clipping, tables and final committed PDF rendering.
+- visible title names the result, not an SEO/specialist/editor/developer role;
+- main document is action-first, not a second research report;
+- ready recommendation explains what, why, where, how and the completed result;
+- incomplete recommendation states the exact clarification required;
+- every non-obvious table explains what it is, why it exists and how to use it;
+- the 46 topic rows are presented as `Распределение тем по страницам` in ordinary Russian;
+- the 14 page pairs are presented as `Связи между страницами` with purpose and implementation method;
+- the four unresolved checks explain purpose, method and resulting decision;
+- no standalone `Требования к существующей структуре` / prohibition section;
+- no negative pseudo-actions, process diary, internal IDs or beginner `open/find/navigate` filler;
+- no report-stage new project research to fill evidence gaps;
+- no ambiguous placement or invented temporal/business facts;
+- final committed PDF must pass physical visual readback.
+
+The full owner-identified failure history A–U, including physical failures O–P, is preserved in the primary canonical Report №02 gate and must be read before generating a future Report №02.
 
 ## Отдельный результат — полное семантическое ядро
 
@@ -120,15 +113,13 @@ Canonical authority:
 
 `STEP_20_STANDALONE_SEMANTIC_CORE_GATE.md`
 
-Purpose: give an SEO/semantic/implementation specialist a standalone XLSX for filtering, sorting, cluster review, phrase→page work, unresolved review and prioritization.
+The standalone semantic-core workbook is a separate physical deliverable and has its own acceptance contract.
 
 ```text
-REPORT №02 SPECIALIST GUIDE
+REPORT №02 «ВНЕДРЕНИЕ РЕКОМЕНДАЦИИ»
 !=
 STANDALONE SEMANTIC CORE XLSX
 ```
-
-They may serve similar specialist recipients, but they are separate physical deliverables. The standalone core requires its own data reconciliation, workbook usability, technical-traceability boundary and Russian recipient-language QA.
 
 ## Report №03
 
@@ -144,11 +135,12 @@ SHARED_RULE MUST BE EXPLICITLY IDENTIFIED AS SHARED
 
 Before final QA of any deliverable:
 
-1. identify the report/deliverable and recipient task;
+1. identify the report/deliverable and its actual client task;
 2. read the common Step 20 QA authorities;
 3. read the matching report-specific gate(s);
-4. for Report №02, read and pass both the specialist implementation-guide gate and the physical-layout gate;
-5. apply only the shared rules plus the correct report-specific rules;
-6. verify that report production did not silently acquire new project-specific evidence outside the completed research scope;
-7. inspect the final committed recipient artifact, not only source text or a predecessor render;
-8. do not mark another report PASS merely because one report's gate passed.
+4. for Report №02, read the primary canonical gate, the implementation-report format gate and the physical-layout gate;
+5. apply the Report №02 client-visible title/structure from the canonical gate, not legacy filename wording;
+6. verify that every non-obvious section can be explained in ordinary Russian by a reader who did not participate in the research;
+7. verify that report production did not silently acquire new project-specific evidence outside the completed research scope;
+8. inspect the final committed recipient artifact, not only source text or a predecessor render;
+9. do not mark another report PASS merely because one report's gate passed.
