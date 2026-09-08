@@ -34,4 +34,10 @@ Remote readback: PASS across reconciliation artifacts at remote commits `24ae9e2
 - New provider calls by Work: 0.
 - Final Search-recheck requirements: 9.
 
-Final remote readback receipt: pending finalization commit.
+## 2026-09-08 — final remote readback
+
+- Remote artifact/QA HEAD read: `98e7dde0c697e3abadf01c578e9ed91ceb56d2b0`.
+- All 11 produced artifacts at that checkpoint matched local SHA-256 values.
+- GitHub connector commit readback: PASS.
+- Protected release tree identity: PASS (`a011ea5b5afa00a21031a254eb86ca6bd7b7a89f`).
+- Final receipt commit/readback is the closing lifecycle block.

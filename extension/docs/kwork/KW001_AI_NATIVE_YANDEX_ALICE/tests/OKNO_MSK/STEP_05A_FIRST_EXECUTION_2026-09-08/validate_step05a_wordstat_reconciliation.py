@@ -27,6 +27,7 @@ REPORT = OUT / "STEP_05A_WORDSTAT_RECONCILIATION_REPORT.md"
 LOG = OUT / "STEP_05A_WORDSTAT_RECONCILIATION_EXECUTION_LOG.md"
 CHECKPOINT_02 = OUT / "CHECKPOINT_02_WORDSTAT_NORMALIZATION.md"
 CHECKPOINT_03 = OUT / "CHECKPOINT_03_WORDSTAT_RECONCILIATION.md"
+CHECKPOINT_04 = OUT / "CHECKPOINT_04_WORDSTAT_REMOTE_READBACK.md"
 BUILDER = OUT / "build_step05a_wordstat_reconciliation.py"
 QA = OUT / "STEP_05A_WORDSTAT_RECONCILIATION_QA.json"
 
@@ -103,7 +104,7 @@ def main() -> int:
     def check(name: str, passed: bool, detail: object = None) -> None:
         checks.append({"name": name, "status": "PASS" if passed else "FAIL", "detail": detail})
 
-    required = [ACQUISITION, RETURNED, RECONCILIATION, SEARCH_PACKAGE, REPORT, LOG, CHECKPOINT_02, CHECKPOINT_03, BUILDER, Path(__file__)]
+    required = [ACQUISITION, RETURNED, RECONCILIATION, SEARCH_PACKAGE, REPORT, LOG, CHECKPOINT_02, CHECKPOINT_03, CHECKPOINT_04, BUILDER, Path(__file__)]
     check("required_artifacts_exist", all(path.exists() for path in required), [path.name for path in required if not path.exists()])
 
     package = read_tsv(WORDSTAT_PACKAGE)
@@ -204,7 +205,7 @@ def main() -> int:
     check("report_required_tokens_present", all(token in report for token in tokens), [token for token in tokens if token not in report])
     check("report_all_search_queries_present", all(query in report for query in EXPECTED_SEARCH_QUERIES))
 
-    artifact_paths = [ACQUISITION, RETURNED, RECONCILIATION, SEARCH_PACKAGE, REPORT, LOG, CHECKPOINT_02, CHECKPOINT_03, BUILDER, Path(__file__)]
+    artifact_paths = [ACQUISITION, RETURNED, RECONCILIATION, SEARCH_PACKAGE, REPORT, LOG, CHECKPOINT_02, CHECKPOINT_03, CHECKPOINT_04, BUILDER, Path(__file__)]
     artifact_files = {path.name: {"sha256": sha256(path), "size_bytes": path.stat().st_size} for path in artifact_paths}
     existing_readback: dict[str, object] = {}
     if QA.exists():

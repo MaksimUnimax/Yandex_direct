@@ -345,6 +345,7 @@
         "detail": [
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_02_WORDSTAT_NORMALIZATION.md",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_03_WORDSTAT_RECONCILIATION.md",
+          "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_04_WORDSTAT_REMOTE_READBACK.md",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_SEARCH_RECHECK_REQUIREMENT_PACKAGE.tsv",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_RECONCILIATION_EXECUTION_LOG.md",
           "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_WORDSTAT_RECONCILIATION_QA.json",
@@ -390,8 +391,8 @@
       "size_bytes": 4229
     },
     "STEP_05A_WORDSTAT_RECONCILIATION_EXECUTION_LOG.md": {
-      "sha256": "6315abdd61efaff85078c3da2ba6ea406e4f4761b8eaeedbf714443106a32431",
-      "size_bytes": 1850
+      "sha256": "eb4e8945d13da84ffbd5f61bcff43b1a0d71535fc560e96732c6e7cdfd9fcba6",
+      "size_bytes": 2176
     },
     "CHECKPOINT_02_WORDSTAT_NORMALIZATION.md": {
       "sha256": "58dcd3d6b476cb6f39a2064c59036658ff3ef2dec984055b61e8ebb554adf0a9",
@@ -401,18 +402,26 @@
       "sha256": "4cfb32e9bb6a60a311df1a58c79db4ee0f74908c49053e3fd372872841aeb630",
       "size_bytes": 796
     },
+    "CHECKPOINT_04_WORDSTAT_REMOTE_READBACK.md": {
+      "sha256": "642747c7a196a236d76ed77e8049e19d236437c2cd916a0e6dc2a7962025e073",
+      "size_bytes": 1317
+    },
     "build_step05a_wordstat_reconciliation.py": {
       "sha256": "f4877c3725df20d23bde994e14ce8b48020381c3aec842fe8b615c6fae29acfc",
       "size_bytes": 34655
     },
     "validate_step05a_wordstat_reconciliation.py": {
-      "sha256": "9f1761751260f8e44fdcadfd4d3c87781599ddabf9534215d558f5de036fd2b6",
-      "size_bytes": 16714
+      "sha256": "97c8e5ae3dfd10096286d3672d8089eafc07ff2d6bbbb32819e38b6a072f0197",
+      "size_bytes": 16810
     }
   },
   "remote_readback": {
-    "status": "PENDING_FINAL_REMOTE_READBACK",
-    "material_blocks": "PASS"
+    "status": "PASS",
+    "material_blocks": "PASS",
+    "artifact_qa_remote_head": "98e7dde0c697e3abadf01c578e9ed91ceb56d2b0",
+    "remote_local_artifact_sha256_identity": "PASS",
+    "github_connector_commit_readback": "PASS",
+    "protected_release_tree_identity": "PASS"
   },
   "next_action": "MAIN_CHATGPT_STEP_5A_6_EXECUTE_ONLY_THE_MATERIALIZED_SEARCH_RECHECK_PACKAGE_VIA_YANDEX_BRIDGE"
 }
