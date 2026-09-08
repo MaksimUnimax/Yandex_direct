@@ -1,6 +1,6 @@
 # KW-001 — STEP RULES INDEX
 
-Updated: 2026-09-06  
+Updated: 2026-09-08  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This index records **permanent methodology coverage**, not the progress/result of any current client job.
@@ -60,6 +60,7 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 | Step 3R | Repair incomplete Step3 acquisition | **JOB-SPECIFIC RECOVERY PATTERN / GOVERNED BY STEP3** | Step3 permanent rules + current Level2 repair evidence. |
 | Step 4 | First post-acquisition triage | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — family triage is not row-level cleanup; low frequency alone is not irrelevance. |
 | Step 5 | Targeted second acquisition / expansion | **PARTIALLY DEFINED / OWNER-APPROVED DATA-PRESERVATION BOUNDARY ACTIVE** | Bounded information-gain method still needs fresh validation; when authorized, output must use the same union-compatible complete occurrence/demand/provenance schema as Step3. |
+| **Step 5A** | **Competitor semantic expansion / missed-demand coverage** | **OWNER-AUTHORIZED ROADMAP METHOD CANDIDATE / EXTERNAL-METHOD-RESEARCHED / NOT YET PROJECT-TEST-VALIDATED** | **`STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`** — discover real recurring Yandex-search competitors; use evidence-bearing competitor pages only as sources of candidate topics/seeds; expand genuinely new seeds through Wordstat under Step3/5 durability; use current Yandex Search to support tested query→competitor visibility claims; merge confirmed additions into the common semantic pipeline. `COMPETITOR PAGE TOPIC != EXACT QUERY RANKING`; tested query visibility != full competitor keyword universe; no mandatory reverse-domain provider. |
 | Step 6 | Demand dynamics / seasonality | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required. |
 | Step 6A | Acquisition coverage revalidation | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required. |
 | Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — no default KEEP; positive evidence required; accounting QA != semantic QA; uncertainty stays explicit. |
@@ -78,6 +79,32 @@ A scoped local/job rule is valid when required, but its concrete values belong i
 | **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **Common Step20 gates + `STEP_20_REPORT_SPECIFIC_ACCEPTANCE_ROUTING.md` + `STEP_20_STANDALONE_SEMANTIC_CORE_GATE.md`** — package, report and standalone-XLSX acceptance are distinct. The semantic core requires data QA + workbook QA + Russian recipient-language QA, preserved secondary technical traceability and zero unexplained internal English. |
 | Step 21 | Handoff / revisions | **UNVALIDATED AS PERMANENT METHOD** | Must define revision scope, version truth, evidence update and acceptance boundaries. |
 | Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Close only after deliverables, revisions and pending provider/operator actions are finished. |
+
+---
+
+## Step5A insertion boundary
+
+Owner instruction on 2026-09-08 explicitly authorizes Step5A as a permanent KW-001 roadmap stage. This authorization does not erase the methodology-validation distinction.
+
+```text
+ROADMAP_STAGE_EXISTS = true
+OWNER_AUTHORIZED_ROADMAP_INSERTION = true
+EXTERNAL_METHOD_RESEARCH_COMPLETED_FOR_INSERTION = true
+PROJECT_TEST_VALIDATED = false
+FULL_PERMANENT_METHOD_PROMOTION = pending first varied execution evidence/review
+```
+
+Required order boundary:
+
+```text
+INITIAL WORDSTAT ACQUISITION / TARGETED EXPANSION
+→ STEP 5A COMPETITOR SEMANTIC EXPANSION
+→ REMAINING PRE-FREEZE DEMAND/COVERAGE CONTROLS
+→ STEP 7 ROW-LEVEL CLEANUP
+→ STEP 8 SEARCH-STAGE FREEZE
+```
+
+Step5A may use bounded Search observations for competitor discovery and exact tested competitor/query confirmation. Those acquisition-purpose Search observations do not automatically satisfy Step9's later Search-validation duties for clustering/page decisions.
 
 ---
 
@@ -107,9 +134,17 @@ A step marked `UNVALIDATED` means only:
 WE HAVE NOT YET EARNED A PERMANENT REUSABLE METHOD
 ```
 
-The next material execution requires fresh current research and owner-facing method review under the governing pre-step gate.
+An owner-authorized roadmap method candidate means:
 
-Permanent promotion of a previously unvalidated method requires explicit owner instruction.
+```text
+THE STAGE IS NOW PART OF THE PRODUCT ROADMAP
+BUT
+ITS PROJECT OPERATIONS STILL REQUIRE THE DECLARED FIRST-EXECUTION VALIDATION BEFORE PROJECT-TEST-VALIDATED PROMOTION
+```
+
+The next material execution requires fresh current research and owner-facing method review under the governing pre-step gate when the listed method status says partial/unvalidated/candidate.
+
+Permanent promotion of a previously unvalidated/candidate method requires explicit owner instruction.
 
 ---
 
@@ -119,7 +154,7 @@ Permanent promotion of a previously unvalidated method requires explicit owner i
 1. READ UNIVERSAL CROSS-STEP GATES.
 2. LOCATE CURRENT STAGE HERE.
 3. IF APPROVED -> READ THE LISTED METHOD + RELEVANT COMPANION GATES.
-4. IF PARTIAL/UNVALIDATED -> DO FRESH METHOD RESEARCH BEFORE EXECUTION; IF A CORRECTED CANDIDATE/NON-REPEAT METHOD IS LISTED, READ IT BEFORE RESEARCH SO THE KNOWN FAILURE CAUSE IS NOT REINTRODUCED.
+4. IF PARTIAL/UNVALIDATED/CANDIDATE -> READ THE LISTED METHOD candidate first, then perform the fresh/current review required by its status before execution so known claim boundaries and failure causes are not reintroduced.
 5. READ CURRENT JOB LEVEL2 STATE/EVIDENCE SEPARATELY.
 6. BUILD SOURCE-TO-METHOD TRACE.
 7. BUILD RESEARCH-TO-EXECUTION SCHEMA / MANIFEST.
