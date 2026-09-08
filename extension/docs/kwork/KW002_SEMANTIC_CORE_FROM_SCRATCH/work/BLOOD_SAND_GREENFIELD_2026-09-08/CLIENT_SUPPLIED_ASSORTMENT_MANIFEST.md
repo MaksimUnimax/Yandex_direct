@@ -1,143 +1,128 @@
 # KW-002 Blood & Sand — CLIENT-SUPPLIED ASSORTMENT MANIFEST
 
-Status: **FROZEN CLIENT INPUT / PRE-RESEARCH**  
+Status: **FROZEN CLIENT INPUT / Ozon-ONLY CORRECTION ACTIVE**  
 Date: 2026-09-08
 
 ## 1. What the client says it sells
-
-Client description for this order:
 
 ```text
 Амулеты, обереги и талисманы.
 В ассортименте есть в том числе товары для автомобиля.
 ```
 
-Do not replace this client wording with an analyst-invented product category before Step 01.
+Do not replace this client wording with an analyst-invented SEO/category definition before demand research.
 
-## 2. Exact product catalogs supplied by the client
+## 2. Owner correction — authoritative catalog source
 
-### Wildberries
-
-Current seller-card source checked in Blood & Sand:
+Latest owner instruction:
 
 ```text
-MaksimUnimax/blood_sand
-marketing/data/normalized/marketplace/wildberries/20260908__wb__cards-list__fresh-current108-identities.csv
+USE ONLY OZON PRODUCT CARDS FOR THIS ORDER
+REASON = Ozon catalog is the more current assortment authority and does not contain the duplicate-card problem relevant to this intake
+WILDBERRIES CATALOG = SUPERSEDED / NOT AN EXECUTION INPUT FOR STEP 01
 ```
 
-Observed account total: **108 listing cards**.
-
-For the KW-002 site/order the client explicitly marks:
-
-```text
-88 listing cards = IN SCOPE
-20 listing cards = OTHER SELLER LINES / OUT OF SCOPE FOR THIS SITE
-```
-
-The 88 exact in-scope rows are copied into:
-
-```text
-CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
-```
-
-The 20 explicitly excluded rows are copied into:
-
-```text
-CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
-```
-
-### Ozon
-
-Full admitted Ozon catalog source checked in Blood & Sand:
+Therefore the client is treated as supplying one authoritative product catalog for the current order:
 
 ```text
 MaksimUnimax/blood_sand
 marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
 ```
 
-Returned product/listing identities: **76**.
-
-All 76 exact product/listing identity rows are copied into:
+Copied job input:
 
 ```text
 CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
 ```
 
-## 3. What these files mean
+Exact Ozon listing/product identities: **76**.
 
-They are client-supplied business/product facts only.
+## 3. WB files retained only as superseded history
+
+The previously materialized WB files remain in Git history/job workspace for correction traceability but are NOT current Step-01 inputs:
 
 ```text
-MARKETPLACE LISTING ROW != UNIQUE PRODUCT MODEL
-SAME NAME ON TWO MARKETPLACES != AUTOMATIC SAME SKU/VARIANT
+CLIENT_SUPPLIED_PRODUCT_CATALOG.csv = SUPERSEDED_NOT_ALLOWED
+CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv = SUPERSEDED_NOT_ALLOWED
+```
+
+Do not use them in assortment modeling, matching, seed planning or QA counts.
+
+## 4. What the Ozon catalog means
+
+The 76 rows are client-supplied business/product facts.
+
+```text
+OZON LISTING ROW = CURRENT CLIENT-SUPPLIED PRODUCT CARD FOR THIS TEST
 PRODUCT TITLE != SEARCH QUERY
 PRODUCT EXISTS != SEO PRIORITY
 PRODUCT EXISTS != SEPARATE SEO PAGE
 ```
 
-Step 01 must reconcile duplicates, variants, families and true product boundaries from the supplied catalog without importing old Blood & Sand SEO conclusions.
+There is no cross-marketplace matching task in Step 01 after this correction.
 
-## 4. Examples of actual supplied product names
+## 5. Actual product names present in the supplied Ozon catalog
 
-The catalog itself, not this example block, is authoritative. It contains actual names/variants including:
+The file itself is authoritative. It includes exact product names such as:
 
 ```text
-Макошь
-Родимич
-Хорс
-Мара
-Стрибог
-Семаргл
-Всеславец
-Сварог
-Чур
-Чернобог
-Боговник
-Триглав
-Звезда Лады
-Ратиборец
-Белобог
-Даждьбог
-Алатырь (Крест Сварога)
-Знак Велеса
-Жива
-Молвинец
-Знич
-Печать Велеса
-Велес
-Перун
-Звезда Руси
-Вегвизир / Рунический компас
-Древо Жизни
-Гунгнир
-Валькнут
-Шлем ужаса / Эгисхьяльм
-Инь и Ян
-Ом / Аум
-Бусидо - Путь Воина
-Молитва Иоанна Златоуста
-Спаси и Сохрани
-Герб России
-Русская Община
 RSOTM
 Soldier Of Fortune
-знаки зодиака: Овен, Телец, Близнецы, Рак, Лев, Дева, Весы, Скорпион, Стрелец, Козерог, Водолей, Рыбы
-зодиакальные варианты/серии, включая Античность и Символы
+Бусидо - Путь Воина
+Шлем ужаса - Эгисхьяльм
+Вегвизир - Рунический компас
+Гунгнир
+Валькнут
+Древо Жизни
+Ом / Аум
+Инь и Ян
+Белобог
+Чернобог
+Велес
+Печать Велеса
+Алатырь (Крест Сварога)
+Триглав
+Ратиборец
+Молвинец
+Колядник
+Знич
+Громовик
+Всеславец
+Боговник
+Родимич
+Молитва Иоанн Златоуст
+Жива
+Сварог
+Перун
+Стрибог
+Макошь
+Семаргл
+Хорс
+Мара
+Звезда Лады
+Даждьбог
+Спаси и Сохрани
+Чур
+Герб России
+12 знаков зодиака
+варианты знаков зодиака «Античность»
+варианты знаков зодиака «Символы»
 ```
 
-## 5. No pre-clustering at intake
+The complete 76-row file, not this example block, is the execution universe.
 
-The client supplies names/listings, not an SEO taxonomy.
+## 6. No pre-clustering at intake
 
-Do not pre-label these into permanent SEO groups such as `Slavic`, `Norse`, `automotive`, `religious`, `zodiac` as final search clusters at intake. Such labels may later be derived during Step 01/02 when supported by the catalog and fresh search research.
+The client supplies products, not SEO taxonomy.
 
-## 6. Accounting
+Step 01 may derive a neutral factual assortment model from explicit product names/series/variants, but it must not decide search demand, SEO clusters, page structure or priorities.
+
+## 7. Corrected accounting
 
 ```text
-WB account listing rows observed = 108
-WB in-scope listing rows supplied to KW-002 = 88
-WB out-of-scope listing rows declared by client = 20
-Ozon listing rows supplied = 76
-Total admitted in-scope marketplace listing rows before cross-platform reconciliation = 164
-Cross-platform unique-product count = NOT YET DETERMINED
+AUTHORITATIVE PRODUCT CATALOGS = 1
+OZON ROWS ADMITTED = 76
+WB ROWS ADMITTED TO STEP 01 = 0
+STEP 01 INPUT ROWS = 76
+CROSS_PLATFORM RECONCILIATION = NOT APPLICABLE
 ```
