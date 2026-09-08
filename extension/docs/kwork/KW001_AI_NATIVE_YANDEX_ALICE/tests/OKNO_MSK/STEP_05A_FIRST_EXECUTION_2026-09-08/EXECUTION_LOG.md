@@ -10,7 +10,9 @@ Date: 2026-09-08
 | A. Combined 75-query / 750-row ledger | PASS | `ca3178fff1630ebd3ef8dddf4aa1cd2c512ca941` / PASS |
 | B. Domain frequency / classification | PASS | `918c414822760f6b9ab0f317f2922f10f5fc27ad` / PASS |
 | C. Query impact trace | PASS | `31c9ecb0ca43d2da901ce3dc22203bb0059e7003` / PASS |
-| D. Candidate selection / report / final QA | PASS | containing finalization commit / remote readback required before completion |
+| D. Candidate selection / report / final QA | PASS | `9376000ef969ce335da99df1846a0674e3295260` / PASS |
+
+Finalization readback confirmed the remote branch HEAD, all ten isolated execution files, the `751 / 238 / 76 / 12` physical line counts for combined/domain/impact/candidate TSV files, the final QA payload and exact remote/local tree equality.
 
 ## Acquisition boundary
 

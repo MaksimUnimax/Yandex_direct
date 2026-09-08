@@ -830,8 +830,8 @@
       "size_bytes": 12067
     },
     "EXECUTION_LOG.md": {
-      "sha256": "b8d2c3b3b5cf801e124683b96e5dd039c309f5cdacc0afcee060c344658c33ce",
-      "size_bytes": 1349
+      "sha256": "96fbf39f6c1eade4f306f7b6cb8a51ad9a24ecad6737033948ded8d3e209626b",
+      "size_bytes": 1568
     },
     "build_step05a_first_execution.py": {
       "sha256": "ce09ea08e96d06baced2a818b733b765a451af117551e7d8dc96fb553f51da8d",
@@ -843,6 +843,18 @@
     }
   },
   "remote_readback": {
-    "status": "PENDING_AFTER_FINALIZATION_COMMIT"
+    "status": "PASS",
+    "material_finalization_commit": "9376000ef969ce335da99df1846a0674e3295260",
+    "remote_head_observed": "9376000ef969ce335da99df1846a0674e3295260",
+    "remote_tree": "ce7ac089f56818e259ae014cb42e1873061d7e17",
+    "local_tree": "ce7ac089f56818e259ae014cb42e1873061d7e17",
+    "tree_content_diff": 0,
+    "required_remote_files_read": 10,
+    "combined_physical_lines": 751,
+    "domain_frequency_physical_lines": 238,
+    "query_impact_physical_lines": 76,
+    "candidate_selection_physical_lines": 12,
+    "optional_page_evidence_present": false,
+    "optional_derived_seed_file_present": false
   }
 }
