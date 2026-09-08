@@ -1,0 +1,117 @@
+name: KW001 OKNO Report02 Implementation State Sync
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/REPORT02_IMPLEMENTATION_STATE_SYNC_TRIGGER.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Sync canonical state
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rel=root/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05'
+          commit='64509ac399f284c92b0c00acff7af4f1eee77e71'
+          next_action='OWNER_REVIEW_IMPLEMENTATION_RECOMMENDATIONS_DOCUMENT_02__DO_NOT_START_DOCUMENT_03'
+          status='DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING'
+
+          manifest=rel/'RELEASE_MANIFEST_2026-09-05.json'
+          m=json.loads(manifest.read_text(encoding='utf-8'))
+          m['status']=status+'__DOCUMENT_03_NOT_ADVANCED'
+          d2=m.setdefault('document_02',{})
+          d2['visual_qa']='PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14'
+          d2['materialization_commit']=commit
+          d2['owner_review']='PENDING'
+          m.setdefault('qa',{})['next_action']=next_action
+          manifest.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          cursor=root/'EXECUTION_CURSOR.json'
+          c=json.loads(cursor.read_text(encoding='utf-8'))
+          c['authority_state_file']='RESEARCH_REPORT_REBUILD_CURRENT_STATE_CLIENT_CLEANUP_2026-09-08.json'
+          c['execution_protocol_status']='RESEARCH_REBUILD_STAGE_0_TO_15_COMPLETE__DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS'
+          c['status']=status
+          c['execution_unit']='POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS'
+          c['next_action']=next_action
+          startup=c.setdefault('startup_protocol',[])
+          for item in [
+              'READ_STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE',
+              'READ_STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE',
+              'READ_RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_REPORT_FORMAT_REVIEW_2026-09-08',
+              'READ_RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08',
+              'READ_AUTHORITY_CURRENT_STATE',
+          ]:
+              if item not in startup:
+                  startup.insert(1,item)
+          block=c.setdefault('document_02_specialist_guide_rebuild_2026_09_07',{})
+          block.update({
+              'status':'IMPLEMENTATION_RECOMMENDATIONS__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING',
+              'client_visible_title':'Внедрение рекомендации',
+              'client_recipient_role_branding_hits':0,
+              'ready_physical_actions':3,
+              'partial_actions':5,
+              'mapping_only_results':46,
+              'blocked_recheck_items':4,
+              'visible_unique_link_decisions':14,
+              'standalone_preservation_section_hits':0,
+              'topic_page_what_why_how':'PASS',
+              'page_link_what_why_how':'PASS',
+              'additional_checks_purpose_method_decision':'PASS',
+              'markdown_docx_pdf_equivalence':'PASS',
+              'visual_qa':'PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14',
+              'deterministic_qa':'PASS__24_OF_24',
+              'materialization_commit_sha':commit,
+              'client_markdown':'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md',
+              'client_docx':'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx',
+              'client_pdf':'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf',
+              'next_action':next_action,
+          })
+          cursor.write_text(json.dumps(c,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          state=root/'RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json'
+          s=json.loads(state.read_text(encoding='utf-8'))
+          s['last_updated']='2026-09-08'
+          s['status']=status
+          s['next_action']=next_action
+          s['correction_materialization_status']=status+'__DOCUMENT_03_NOT_ADVANCED'
+          if isinstance(s.get('reviewed_release_files'),dict):
+              s['reviewed_release_files']['02_seo_specialist_guide']='IMPLEMENTATION_RECOMMENDATIONS__ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_RECHECK_REQUIRED'
+          cr=s.setdefault('corrected_recipient_release',{})
+          cr['document_02']='02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf'
+          cr['document_02_visible_title']='Внедрение рекомендации'
+          cr['document_02_pdf_pages']=14
+          cr['document_02_pdf_sha256']='b1a2848f781fe12dfe8293cfe2f88e796c967ce9eee7f9b251b171ac73060056'
+          cr['document_02_markdown_sha256']='1db049b413ea02f407b8efa23cb4bc7e7b0d61b1e421f0eccd8d22fe23c442f4'
+          cr['document_02_docx_sha256']='89cadf22dd58be22087d7c98bbe7b896df710d968f1ef29350b25c71546c427d'
+          cr['document_02_owner_review']='PENDING'
+          cr['document_02_format_gate']='STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md'
+          cr['document_02_format_review']='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_REPORT_FORMAT_REVIEW_2026-09-08.md'
+          cr['document_02_implementation_qa']='RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json'
+          state.write_text(json.dumps(s,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+
+      - name: Persist state sync
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          git add "$ROOT/EXECUTION_CURSOR.json"
+          git add "$ROOT/RESEARCH_REPORT_REBUILD_CURRENT_STATE_POST_RELEASE_2026-09-05.json"
+          git add "$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json"
+          git commit -m "state(okno-msk): sync implementation recommendations report 02 [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
