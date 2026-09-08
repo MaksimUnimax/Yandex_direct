@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 02 V2 COMPLETE / PASS 9.3/10 / STEP 03 NEXT ALLOWED**
+Status: **STEP 02 V2 COMPLETE / PASS 93/100 = 9.3/10 / STEP 03 NEXT ALLOWED**
 
 ## 1. Job identity
 
@@ -74,10 +74,28 @@ Current Level-1 authority:
 LEVEL1/RESULT_QUALITY_SCORING_RULE.md
 ```
 
-Every major step/rework/deliverable must now receive a 10-point score.
+Every major step/rework/deliverable must now be scored as follows:
 
 ```text
-PASS requires score >= 9.0/10
+EACH CRITERION = 0–10
+DEFAULT CRITERIA = 10
+QUALITY_TOTAL = 0–100
+QUALITY_SCORE = QUALITY_TOTAL / 10 = 0–10
+```
+
+Forbidden:
+
+```text
+1.0/1.0 per criterion
+0.9/1.0 per criterion
+10 criteria treated as 10 one-point components
+```
+
+PASS requires:
+
+```text
+QUALITY_TOTAL >= 90/100
+AND QUALITY_SCORE >= 9.0/10
 AND all hard gates PASS
 AND no open critical defect
 ```
@@ -92,6 +110,7 @@ STEP_02_V1_PRIMARY = 67
 STEP_02_V1_DEFERRED = 30
 STEP_02_V1_REMOTE_READBACK = PASS
 STEP_02_V1_EXTERNAL_AUDIT = FAIL
+STEP_02_V1_QUALITY_TOTAL = 65/100
 STEP_02_V1_QUALITY_SCORE = 6.5/10
 STEP_02_V1_STATUS = SUPERSEDED / REWORK_REQUIRED
 ```
@@ -121,7 +140,7 @@ seller name != automatic PRIMARY
 information gain must discriminate now/later/control/redundant
 cost alone cannot justify deferral
 current primary set must be deterministic
-Step 02 score must be >=9/10
+Step 02 quality score must satisfy the universal Level-1 0–10-per-criterion rule
 ```
 
 ## 9. Step 02 V2 current authority
@@ -151,6 +170,7 @@ V2_PRIMARY_MANIFEST_ROWS = 79
 V2_DEFERRED_CONTROL_ROWS = 49
 V2_SEARCH_QUALITY_COVERAGE_GROUPS = 26
 V2_SEARCH_QUALITY_COVERAGE_PASS = 26
+V2_QUALITY_TOTAL = 93/100
 V2_QUALITY_SCORE = 9.3/10
 V2_QA = PASS
 V2_REMOTE_READBACK = PASS
@@ -198,10 +218,12 @@ STEP_01_COMPLETE = true
 STEP_01_MAIN_RETURN_QA = PASS
 STEP_02_STARTED = true
 STEP_02_V1_MATERIALIZED = true
+STEP_02_V1_QUALITY_TOTAL = 65/100
 STEP_02_V1_QUALITY_SCORE = 6.5/10
 STEP_02_V1_STATUS = SUPERSEDED
 STEP_02_V2_REWORK = COMPLETE
 STEP_02_V2_QA = PASS
+STEP_02_V2_QUALITY_TOTAL = 93/100
 STEP_02_V2_QUALITY_SCORE = 9.3/10
 STEP_02_COMPLETE = true
 STEP_03_STARTED = false
