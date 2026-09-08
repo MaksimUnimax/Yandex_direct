@@ -97,7 +97,7 @@ The earlier page supplied topic/seed lineage only. Exact-query visibility claims
 | 7 | `FULL_COMPETITOR_KEYWORD_UNIVERSE_OVERCLAIM_EQUALS_0` | PASS | overclaims=0; evidence limited to 75 discovery queries and 7 successful exact-query rechecks |
 | 8 | `MERGE_COUNTS_RECONCILE` | PASS | 20 = 16 MERGE_ACCEPTED + 3 close-variant suppressions + 1 retained hold + 0 rejected; delta rows=16 |
 | 9 | `EXTERNAL_REVERSE_DOMAIN_PROVIDER_REQUIRED_FOR_BASE_EXECUTION_EQUALS_FALSE` | PASS | Complete 5A.1-5A.7 rehearsal executed with preserved Yandex Search, public-page evidence and Wordstat; reverse-domain provider calls=0 |
-| 10 | `CLIENT_FACING_COMPETITOR_GAP_RESULT_IS_UNDERSTANDABLE_AND_MATERIALLY_USEFUL` | OWNER_REVIEW_REQUIRED | Plain-Russian preview contains 9 competitors, 44 pages, 7 confirmed directions, 2 unresolved directions, 16 prepared phrases and the no-new-page boundary |
+| 10 | `CLIENT_FACING_COMPETITOR_GAP_RESULT_IS_UNDERSTANDABLE_AND_MATERIALLY_USEFUL` | OWNER_REVIEW_REQUIRED | Plain-Russian preview contains all 16 accepted phrases in 7 directions; 7 exact-query checks; 11 visible query-domain cells; 12 ranking rows; explicit zero-selected-competitor case; 2 unresolved directions; no-new-page boundary |
 
 Nine deterministic technical gates pass. Gate 10 remains **OWNER_REVIEW_REQUIRED**; Work verified that the preview is complete and plain-language, but only the owner/recipient may decide whether it is understandable and materially useful.
 
@@ -124,7 +124,7 @@ PERMANENT_DIMINISHING_GAIN_THRESHOLD_STATE = NOT_VALIDATED_SINGLE_REHEARSAL
 
 ## 11. Next actions
 
-1. **OWNER_REVIEW_STEP_5A_FIRST_EXECUTION_VALIDATION_AND_CLIENT_FACING_PREVIEW**
+1. **OWNER_REVIEW_REVISED_STEP_5A_CLIENT_FACING_PREVIEW_AND_EXPLICITLY_ACCEPT_OR_REJECT_GATE_10**
 2. Independently before any next real release: **PROPAGATE_STEP_5A_ACCEPTED_SEMANTIC_PIPELINE_DELTA_THROUGH_NORMAL_DOWNSTREAM_PIPELINE**
 
 Neither action is executed in this task.

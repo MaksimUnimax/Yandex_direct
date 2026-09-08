@@ -3,8 +3,8 @@
   "generated_date": "2026-09-08",
   "phase": "FINAL",
   "status": "PASS",
-  "assertion_count": 169,
-  "passed_assertions": 169,
+  "assertion_count": 225,
+  "passed_assertions": 225,
   "failed_assertions": 0,
   "required_assertions": {
     "GATE_ROWS": 10,
@@ -36,18 +36,13 @@
     "level1_method_promoted": false
   },
   "remote_readback": {
-    "status": "PASS",
-    "metrics_commit": "8a234f3c736fc9594881387ae49e5c6996cddd33",
-    "validation_commit": "a8eb434065d407cd9d858e45abd5d7b65adb4063",
-    "required_and_supporting_artifacts_read_back": 12,
-    "protected_remote_sha_comparisons_passed": 9,
-    "receipt_commit_state": "THIS_QA_AND_RECEIPT_AWAIT_FINAL_RECEIPT_COMMIT"
+    "status": "PENDING_FINAL_RECEIPT"
   },
   "checked_files": [
     {
       "file": "STEP_05A_INFORMATION_GAIN_METRICS.json",
-      "sha256": "1ce0743e54a7a2c853948ced9fd32ea11dfbb92d0784b0f4da943baf2cea6716",
-      "size_bytes": 10028
+      "sha256": "ecb1e28db2f24887362e1a89c52a27fbd4d2e2065813bce25923d7855e275adb",
+      "size_bytes": 10045
     },
     {
       "file": "STEP_05A_INFORMATION_GAIN_FUNNEL.tsv",
@@ -56,23 +51,23 @@
     },
     {
       "file": "STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx",
-      "sha256": "a8b3a3963fadb419559fa9b5dc13f53c5c7ce9e49bd3d13790454123c1d59d18",
-      "size_bytes": 18107
+      "sha256": "0d8177d30deb25136de73cecdd063900cdcef5ee76aaac8e73e44d32abef77f8",
+      "size_bytes": 20885
     },
     {
       "file": "STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv",
-      "sha256": "6a84f2d2d50b0281f8908db1af5ea8dee5386660fce5532fb815099badaa0a46",
-      "size_bytes": 5052
+      "sha256": "45db649a10f6fdc37868e631622c6f330237cb2d5b8c93066c1a724d38afe44c",
+      "size_bytes": 5134
     },
     {
       "file": "STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md",
-      "sha256": "f2c79579e31bed5d009796cf1d813f65aaa81b1bfb5f3c56f92eb67fd5bbcb26",
-      "size_bytes": 9122
+      "sha256": "ad9ba970704ca5b706ea85ddc8caf92ea5ec31447fb81861b8b850ffde4519e8",
+      "size_bytes": 9213
     },
     {
       "file": "STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md",
-      "sha256": "c0065499f49e648e65e38e9e6a26d81b6b900b20bab76d8f6b65437ce8670196",
-      "size_bytes": 6021
+      "sha256": "289ba30174123f4de311d2c71eaecadd49fd46e7eb1e7959955c57f9da20c947",
+      "size_bytes": 10808
     },
     {
       "file": "CHECKPOINT_08_INFORMATION_GAIN_METRICS.md",
@@ -81,13 +76,13 @@
     },
     {
       "file": "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md",
-      "sha256": "cbd039bc145aa4231fa627653e18f17800c0cb7c12e7166a2d47fd507b063f06",
-      "size_bytes": 813
+      "sha256": "dcc1fbfb993f264429a19cfe5c213eb4ff98abdebbc7262e1433a454e31bcfb9",
+      "size_bytes": 919
     },
     {
       "file": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md",
-      "sha256": "bc60c256b703f93d6c0d275e8ac6b6018b0cbf15ef26d982d905eba81288c36f",
-      "size_bytes": 1383
+      "sha256": "b8403168ccd7ec18c8335735192a8bd3aef903588d06113707088e8093cc1c35",
+      "size_bytes": 2159
     },
     {
       "file": "CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md",
@@ -734,7 +729,27 @@
     {
       "id": "CHANGES_ISOLATED_TO_STEP05A_EXECUTION",
       "status": "PASS",
-      "detail": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_08_INFORMATION_GAIN_METRICS.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_QA.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_FUNNEL.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_METRICS.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_information_gain_validation.mjs | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_information_gain_validation.mjs"
+      "detail": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_CLIENT_PREVIEW_OWNER_REVIEW_CORRECTION_WORK_HANDOFF_2026-09-08.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_08_INFORMATION_GAIN_METRICS.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_QA.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_FUNNEL.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_METRICS.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_information_gain_validation.mjs | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_information_gain_validation.mjs"
+    },
+    {
+      "id": "CLIENT_PREVIEW_CORRECTION_CHANGES_ISOLATED",
+      "status": "PASS",
+      "detail": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_QA.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_METRICS.json | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/build_step05a_information_gain_validation.mjs | extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_FIRST_EXECUTION_2026-09-08/validate_step05a_information_gain_validation.mjs"
+    },
+    {
+      "id": "CORRECTION_DOCUMENT_01_UNCHANGED",
+      "status": "PASS",
+      "detail": "Document 01 absent from correction diff"
+    },
+    {
+      "id": "CORRECTION_DOCUMENT_03_UNCHANGED",
+      "status": "PASS",
+      "detail": "Document 03 absent from correction diff"
+    },
+    {
+      "id": "CORRECTION_SEMANTIC_CORE_XLSX_UNCHANGED",
+      "status": "PASS",
+      "detail": "semantic-core workbook absent from correction diff"
     },
     {
       "id": "PROTECTED_UNCHANGED_STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD_MD",
@@ -764,7 +779,7 @@
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_METRICS_JSON",
       "status": "PASS",
-      "detail": "STEP_05A_INFORMATION_GAIN_METRICS.json; bytes=10028"
+      "detail": "STEP_05A_INFORMATION_GAIN_METRICS.json; bytes=10045"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_FUNNEL_TSV",
@@ -774,22 +789,22 @@
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW_XLSX",
       "status": "PASS",
-      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx; bytes=18107"
+      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_REVIEW.xlsx; bytes=20885"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER_TSV",
       "status": "PASS",
-      "detail": "STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv; bytes=5052"
+      "detail": "STEP_05A_FIRST_EXECUTION_VALIDATION_GATE_REGISTER.tsv; bytes=5134"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT_MD",
       "status": "PASS",
-      "detail": "STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md; bytes=9122"
+      "detail": "STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md; bytes=9213"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU_MD",
       "status": "PASS",
-      "detail": "STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md; bytes=6021"
+      "detail": "STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md; bytes=10808"
     },
     {
       "id": "ARTIFACT_EXISTS_CHECKPOINT_08_INFORMATION_GAIN_METRICS_MD",
@@ -799,12 +814,12 @@
     {
       "id": "ARTIFACT_EXISTS_CHECKPOINT_09_FIRST_EXECUTION_VALIDATION_MD",
       "status": "PASS",
-      "detail": "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md; bytes=813"
+      "detail": "CHECKPOINT_09_FIRST_EXECUTION_VALIDATION.md; bytes=919"
     },
     {
       "id": "ARTIFACT_EXISTS_STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG_MD",
       "status": "PASS",
-      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md; bytes=1383"
+      "detail": "STEP_05A_INFORMATION_GAIN_VALIDATION_EXECUTION_LOG.md; bytes=2159"
     },
     {
       "id": "ARTIFACT_EXISTS_CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK_MD",
@@ -882,6 +897,276 @@
       "detail": "plain-Russian preview"
     },
     {
+      "id": "PREVIEW_ACCEPTED_PHRASE_LIST_COUNT",
+      "status": "PASS",
+      "detail": "expected=16; actual=16"
+    },
+    {
+      "id": "PREVIEW_ACCEPTED_PHRASE_LIST_UNIQUE",
+      "status": "PASS",
+      "detail": "expected=16; actual=16"
+    },
+    {
+      "id": "PREVIEW_ACCEPTED_PHRASES_EXACT_DELTA_MATCH",
+      "status": "PASS",
+      "detail": "accepted client list equals all 16 delta phrases"
+    },
+    {
+      "id": "PREVIEW_ACCEPTED_DIRECTION_GROUPS",
+      "status": "PASS",
+      "detail": "expected=7; actual=7"
+    },
+    {
+      "id": "PREVIEW_ACCEPTED_GROUP_DECLARED_TOTAL",
+      "status": "PASS",
+      "detail": "expected=16; actual=16"
+    },
+    {
+      "id": "PREVIEW_SUPPRESSED_OR_HELD_NOT_ACCEPTED",
+      "status": "PASS",
+      "detail": "гидроизоляция балконов открытого типа | солнцезащитные окна стеклопакеты | многофункциональное стекло в стеклопакете что это | кладовая на балконе"
+    },
+    {
+      "id": "PREVIEW_SUCCESSFUL_DIRECTIONS_SOURCE_COUNT",
+      "status": "PASS",
+      "detail": "expected=7; actual=7"
+    },
+    {
+      "id": "PREVIEW_UNRESOLVED_DIRECTIONS_SOURCE_COUNT",
+      "status": "PASS",
+      "detail": "expected=2; actual=2"
+    },
+    {
+      "id": "PREVIEW_EXACT_QUERY_VISIBILITY_ROWS",
+      "status": "PASS",
+      "detail": "expected=7; actual=7"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_1",
+      "status": "PASS",
+      "detail": "гидроизоляция для открытого балкона"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_1",
+      "status": "PASS",
+      "detail": "expected=0; actual=0"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_1",
+      "status": "PASS",
+      "detail": "expected=0; actual=0"
+    },
+    {
+      "id": "PREVIEW_ZERO_VISIBILITY_WORDING_1",
+      "status": "PASS",
+      "detail": "ни один из девяти выбранных конкурентов не найден в первых десяти результатах"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_2",
+      "status": "PASS",
+      "detail": "солнцезащитный стеклопакет"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_2",
+      "status": "PASS",
+      "detail": "expected=2; actual=2"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_2",
+      "status": "PASS",
+      "detail": "expected=2; actual=2"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_2_mosokna_ru",
+      "status": "PASS",
+      "detail": "mosokna.ru: 3"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_2_msk_okna_servise_com",
+      "status": "PASS",
+      "detail": "msk.okna-servise.com: 10"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_3",
+      "status": "PASS",
+      "detail": "многофункциональный стеклопакет что это"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_3",
+      "status": "PASS",
+      "detail": "expected=3; actual=3"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_3",
+      "status": "PASS",
+      "detail": "expected=3; actual=3"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_3_mosokna_ru",
+      "status": "PASS",
+      "detail": "mosokna.ru: 2"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_3_oknafactoria_ru",
+      "status": "PASS",
+      "detail": "oknafactoria.ru: 4"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_3_i_okna_ru",
+      "status": "PASS",
+      "detail": "i-okna.ru: 5"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_4",
+      "status": "PASS",
+      "detail": "ударопрочный стеклопакет"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_4",
+      "status": "PASS",
+      "detail": "expected=1; actual=1"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_4",
+      "status": "PASS",
+      "detail": "expected=1; actual=1"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_4_oknafactoria_ru",
+      "status": "PASS",
+      "detail": "oknafactoria.ru: 8"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_6",
+      "status": "PASS",
+      "detail": "балконы под офис"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_6",
+      "status": "PASS",
+      "detail": "expected=1; actual=1"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_6",
+      "status": "PASS",
+      "detail": "expected=1; actual=1"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_6_fabrikaokon_ru",
+      "status": "PASS",
+      "detail": "fabrikaokon.ru: 2"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_8",
+      "status": "PASS",
+      "detail": "шумоизоляция на крышу балкона"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_8",
+      "status": "PASS",
+      "detail": "expected=1; actual=1"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_8",
+      "status": "PASS",
+      "detail": "expected=1; actual=1"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_8_elit_balkon_ru",
+      "status": "PASS",
+      "detail": "elit-balkon.ru: 9"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_QUERY_9",
+      "status": "PASS",
+      "detail": "армирование оконного профиля"
+    },
+    {
+      "id": "PREVIEW_VISIBILITY_CELL_COUNT_9",
+      "status": "PASS",
+      "detail": "expected=3; actual=3"
+    },
+    {
+      "id": "PREVIEW_RANKING_ROW_COUNT_9",
+      "status": "PASS",
+      "detail": "expected=4; actual=4"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_9_fabrikaokon_ru",
+      "status": "PASS",
+      "detail": "fabrikaokon.ru: 1"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_9_oknafactoria_ru",
+      "status": "PASS",
+      "detail": "oknafactoria.ru: 4,7"
+    },
+    {
+      "id": "PREVIEW_EXACT_RANK_TRACE_9_okna_germany_ru",
+      "status": "PASS",
+      "detail": "okna-germany.ru: 8"
+    },
+    {
+      "id": "PREVIEW_VISIBLE_QUERY_DOMAIN_CELLS",
+      "status": "PASS",
+      "detail": "expected=11; actual=11"
+    },
+    {
+      "id": "PREVIEW_SELECTED_COMPETITOR_RANKING_ROWS",
+      "status": "PASS",
+      "detail": "expected=12; actual=12"
+    },
+    {
+      "id": "SOURCE_VISIBLE_QUERY_DOMAIN_CELLS",
+      "status": "PASS",
+      "detail": "expected=11; actual=11"
+    },
+    {
+      "id": "SOURCE_SELECTED_COMPETITOR_RANKING_ROWS",
+      "status": "PASS",
+      "detail": "expected=12; actual=12"
+    },
+    {
+      "id": "PREVIEW_WATERPROOFING_ZERO_VISIBILITY_EXPLICIT",
+      "status": "PASS",
+      "detail": "zero selected visibility plus multi-factor pass explanation"
+    },
+    {
+      "id": "PREVIEW_DISCOVERY_VS_RANKING_BOUNDARY",
+      "status": "PASS",
+      "detail": "page-topic discovery separated from exact-query Search proof"
+    },
+    {
+      "id": "PREVIEW_INSPECTED_URL_RANKING_OVERCLAIM_ZERO",
+      "status": "PASS",
+      "detail": "44 discovery pages are not claimed as exact-query ranking URLs"
+    },
+    {
+      "id": "PREVIEW_FILTERING_PATH_EXPLICIT",
+      "status": "PASS",
+      "detail": "complete 43->14->160->20->16 path"
+    },
+    {
+      "id": "PREVIEW_UNRESOLVED_VISIBLE_COUNT",
+      "status": "PASS",
+      "detail": "expected=2; actual=2"
+    },
+    {
+      "id": "PREVIEW_UNRESOLVED_EXACT_MATCH",
+      "status": "PASS",
+      "detail": "окна для старого фонда | кладовая на балконе"
+    },
+    {
+      "id": "PREVIEW_NO_AUTOMATIC_PAGE_DECISION",
+      "status": "PASS",
+      "detail": "normal downstream propagation retained"
+    },
+    {
+      "id": "PREVIEW_NO_DEVELOPER_JARGON",
+      "status": "PASS",
+      "detail": "no developer jargon in client preview"
+    },
+    {
       "id": "REPORT_BOUNDARY_e6b7aa59",
       "status": "PASS",
       "detail": "PASS_9_OF_9_DETERMINISTIC_GATES"
@@ -930,16 +1215,6 @@
       "id": "REPORT_NO_PAGE_OWNERSHIP_ACTION",
       "status": "PASS",
       "detail": "explicit protection boundary"
-    },
-    {
-      "id": "REMOTE_READBACK_MATERIAL_COMMIT",
-      "status": "PASS",
-      "detail": "expected=a8eb434065d407cd9d858e45abd5d7b65adb4063; actual=a8eb434065d407cd9d858e45abd5d7b65adb4063"
-    },
-    {
-      "id": "REMOTE_READBACK_RECEIPT_PRESENT",
-      "status": "PASS",
-      "detail": "final receipt included"
     }
   ]
 }

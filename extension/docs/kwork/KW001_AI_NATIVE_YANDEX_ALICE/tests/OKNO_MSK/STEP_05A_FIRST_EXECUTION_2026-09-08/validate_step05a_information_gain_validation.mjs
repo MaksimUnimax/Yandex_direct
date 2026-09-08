@@ -14,6 +14,8 @@ const OUT = path.resolve(args[workspaceIndex + 1]);
 const JOB = path.dirname(OUT);
 const REPO = execFileSync("git", ["rev-parse", "--show-toplevel"], { cwd: OUT, encoding: "utf8" }).trim();
 const STARTING_HEAD = "69bf89875d176731e9614c76b0f39b38330bd8c6";
+const CLIENT_PREVIEW_HANDOFF_EXPECTED_HEAD = "d5bcbaa99caf7c453ffe7279ac8231790e57156a";
+const CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD = "05b05a9d713d2581d11006d5a8863d277034da5a";
 const finalMode = args.includes("--final");
 const remoteIndex = args.indexOf("--remote-readback-commit");
 const remoteReadbackCommit = remoteIndex >= 0 ? args[remoteIndex + 1] : null;
@@ -160,6 +162,10 @@ exact("PROPAGATION_REQUIRED", metrics.propagation_state, "PROPAGATION_REQUIRED_B
 check("PROVIDER_CALLS_ZERO", Object.values(metrics.provider_calls_by_work).every((v) => v === 0), JSON.stringify(metrics.provider_calls_by_work));
 
 const delta = await readTsv("STEP_05A_ACCEPTED_SEMANTIC_PIPELINE_DELTA.tsv");
+const decisions = await readTsv("STEP_05A_FINAL_GAP_DECISION_REGISTER.tsv");
+const merge = await readTsv("STEP_05A_ACCEPTED_PHRASE_MERGE_RECONCILIATION.tsv");
+const visibility = await readTsv("STEP_05A_COMPETITOR_QUERY_VISIBILITY_MATRIX.tsv");
+const searchSerp = await readTsv("STEP_05A_SEARCH_SERP_ROW_LEDGER.tsv");
 const master = await readTsv(path.relative(OUT, path.join(JOB, "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv")));
 const norm = (s) => s.toLocaleLowerCase("ru-RU").replace(/[^\p{L}\p{N}]+/gu, " ").trim().replace(/\s+/g, " ");
 const masterSet = new Set(master.map((r) => norm(r.phrase)));
@@ -169,8 +175,14 @@ exact("LIVE_DELTA_FROZEN_OVERLAP", delta.filter((r) => masterSet.has(norm(r.phra
 check("DELTA_PROPAGATION_STATE_PRESERVED", delta.every((r) => r.propagation_state === "PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE"), "16/16 rows preserve propagation boundary");
 
 const allowedPrefix = path.relative(REPO, OUT).replaceAll(path.sep, "/") + "/";
-const changed = execFileSync("git", ["diff", "--name-only", STARTING_HEAD], { cwd: REPO, encoding: "utf8" }).trim().split("\n").filter(Boolean);
-check("CHANGES_ISOLATED_TO_STEP05A_EXECUTION", changed.every((p) => p.startsWith(allowedPrefix)), changed.join(" | "));
+const changed = execFileSync("git", ["diff", "--name-only", STARTING_HEAD, CLIENT_PREVIEW_HANDOFF_EXPECTED_HEAD], { cwd: REPO, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+const authorizedHandoff = "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_05A_CLIENT_PREVIEW_OWNER_REVIEW_CORRECTION_WORK_HANDOFF_2026-09-08.md";
+check("CHANGES_ISOLATED_TO_STEP05A_EXECUTION", changed.every((p) => p.startsWith(allowedPrefix) || p === authorizedHandoff), changed.join(" | "));
+const correctionChanged = execFileSync("git", ["diff", "--name-only", CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD], { cwd: REPO, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+check("CLIENT_PREVIEW_CORRECTION_CHANGES_ISOLATED", correctionChanged.every((p) => p.startsWith(allowedPrefix)), correctionChanged.join(" | "));
+check("CORRECTION_DOCUMENT_01_UNCHANGED", !correctionChanged.some((p) => /(?:^|\/)01_OKNO_MSK_CLIENT_RESEARCH_REPORT/.test(p)), "Document 01 absent from correction diff");
+check("CORRECTION_DOCUMENT_03_UNCHANGED", !correctionChanged.some((p) => /(?:^|\/)03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT/.test(p)), "Document 03 absent from correction diff");
+check("CORRECTION_SEMANTIC_CORE_XLSX_UNCHANGED", !correctionChanged.some((p) => /(?:^|\/)04_OKNO_MSK_(?:FULL_SEMANTIC_CORE|REBUILT_RESEARCH_WORKBOOK).*\.xlsx$/.test(p)), "semantic-core workbook absent from correction diff");
 const forbiddenPaths = [
   "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md",
   "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
@@ -221,6 +233,55 @@ if (finalMode) {
   const previewForbidden = [/STEP_/i, /\.tsv\b/i, /\.json\b/i, /\.md\b/i, /ADD_TO_PIPELINE/, /HOLD_EVIDENCE/, /PROJECT_TEST/, /\bSERP\b/, /_[A-Z0-9]+_/];
   check("PREVIEW_INTERNAL_TOKEN_LEAKAGE_ZERO", previewForbidden.every((pattern) => !pattern.test(preview)), "no internal enum/file token in client preview");
   check("PREVIEW_CYRILLIC_DOMINANT", (preview.match(/[А-Яа-яЁё]/g) ?? []).length > (preview.match(/[A-Za-z]/g) ?? []).length, "plain-Russian preview");
+
+  const acceptedSection = preview.match(/## Какие 16 фраз приняты\n([\s\S]*?)\n## Что показала отдельная проверка позиций/)?.[1] ?? "";
+  const acceptedPhrases = [...acceptedSection.matchAll(/^- «([^»]+)»$/gm)].map((match) => match[1]);
+  const deltaPhrases = delta.map((row) => row.phrase);
+  exact("PREVIEW_ACCEPTED_PHRASE_LIST_COUNT", acceptedPhrases.length, 16);
+  exact("PREVIEW_ACCEPTED_PHRASE_LIST_UNIQUE", new Set(acceptedPhrases.map(norm)).size, 16);
+  check("PREVIEW_ACCEPTED_PHRASES_EXACT_DELTA_MATCH", deltaPhrases.every((phrase) => acceptedPhrases.includes(phrase)) && acceptedPhrases.every((phrase) => deltaPhrases.includes(phrase)), "accepted client list equals all 16 delta phrases");
+  const acceptedGroupHeadings = [...acceptedSection.matchAll(/^### \d+\. (.+?) — (\d+) (?:фраза|фразы|фраз)$/gm)];
+  exact("PREVIEW_ACCEPTED_DIRECTION_GROUPS", acceptedGroupHeadings.length, 7);
+  exact("PREVIEW_ACCEPTED_GROUP_DECLARED_TOTAL", acceptedGroupHeadings.reduce((sum, match) => sum + Number(match[2]), 0), 16);
+  const excludedPhrases = merge.filter((row) => row.phrase_merge_state !== "MERGE_ACCEPTED").map((row) => row.returned_phrase);
+  check("PREVIEW_SUPPRESSED_OR_HELD_NOT_ACCEPTED", excludedPhrases.every((phrase) => !acceptedPhrases.includes(phrase)), excludedPhrases.join(" | "));
+
+  const successful = decisions.filter((row) => row.search_acquisition_state === "SUCCEEDED").sort((a, b) => Number(a.search_priority) - Number(b.search_priority));
+  const unresolved = decisions.filter((row) => row.search_acquisition_state === "OUTCOME_UNKNOWN").sort((a, b) => Number(a.search_priority) - Number(b.search_priority));
+  exact("PREVIEW_SUCCESSFUL_DIRECTIONS_SOURCE_COUNT", successful.length, 7);
+  exact("PREVIEW_UNRESOLVED_DIRECTIONS_SOURCE_COUNT", unresolved.length, 2);
+  const visibilitySection = preview.match(/## Что показала отдельная проверка позиций\n([\s\S]*?)\n## Что осталось неопределённым/)?.[1] ?? "";
+  const clientVisibilityRows = [...visibilitySection.matchAll(/^\| «([^»]+)» \| (.+) \| (\d+) \| (\d+) \|$/gm)].map((match) => ({ query: match[1], observed: match[2], cells: Number(match[3]), rows: Number(match[4]) }));
+  exact("PREVIEW_EXACT_QUERY_VISIBILITY_ROWS", clientVisibilityRows.length, 7);
+  const rankPhrase = (ranks) => ranks.length === 1 ? `${ranks[0]}-е место` : `${ranks.slice(0, -1).map((rank) => `${rank}-е`).join(", ")} и ${ranks.at(-1)}-е места`;
+  for (const direction of successful) {
+    const clientRow = clientVisibilityRows.find((row) => row.query === direction.representative_query);
+    check(`PREVIEW_VISIBILITY_QUERY_${direction.search_priority}`, Boolean(clientRow), direction.representative_query);
+    const rankingRows = searchSerp.filter((row) => row.tested_query === direction.representative_query && row.selected_step5a_competitor === "true").sort((a, b) => Number(a.rank) - Number(b.rank));
+    const domainRanks = new Map();
+    for (const row of rankingRows) {
+      if (!domainRanks.has(row.selected_competitor_domain)) domainRanks.set(row.selected_competitor_domain, []);
+      domainRanks.get(row.selected_competitor_domain).push(Number(row.rank));
+    }
+    exact(`PREVIEW_VISIBILITY_CELL_COUNT_${direction.search_priority}`, clientRow.cells, domainRanks.size);
+    exact(`PREVIEW_RANKING_ROW_COUNT_${direction.search_priority}`, clientRow.rows, rankingRows.length);
+    for (const [domain, ranks] of domainRanks.entries()) check(`PREVIEW_EXACT_RANK_TRACE_${direction.search_priority}_${domain.replaceAll(/[^a-z0-9]+/gi, "_")}`, clientRow.observed.includes(`${domain} — ${rankPhrase(ranks)}`), `${domain}: ${ranks.join(",")}`);
+    if (domainRanks.size === 0) check(`PREVIEW_ZERO_VISIBILITY_WORDING_${direction.search_priority}`, clientRow.observed.includes("ни один из девяти выбранных конкурентов не найден"), clientRow.observed);
+  }
+  exact("PREVIEW_VISIBLE_QUERY_DOMAIN_CELLS", clientVisibilityRows.reduce((sum, row) => sum + row.cells, 0), 11);
+  exact("PREVIEW_SELECTED_COMPETITOR_RANKING_ROWS", clientVisibilityRows.reduce((sum, row) => sum + row.rows, 0), 12);
+  exact("SOURCE_VISIBLE_QUERY_DOMAIN_CELLS", visibility.filter((row) => row.visibility_state === "VISIBLE_IN_TOP10").length, 11);
+  exact("SOURCE_SELECTED_COMPETITOR_RANKING_ROWS", searchSerp.filter((row) => row.selected_step5a_competitor === "true").length, 12);
+  check("PREVIEW_WATERPROOFING_ZERO_VISIBILITY_EXPLICIT", visibilitySection.includes("Ни один из девяти выбранных конкурентов не был замечен") && visibilitySection.includes("Направление всё равно прошло отбор"), "zero selected visibility plus multi-factor pass explanation");
+  check("PREVIEW_DISCOVERY_VS_RANKING_BOUNDARY", preview.includes("использовалось только для поиска возможных пропусков") && preview.includes("Позиции сайтов по точным фразам независимо проверялись"), "page-topic discovery separated from exact-query Search proof");
+  check("PREVIEW_INSPECTED_URL_RANKING_OVERCLAIM_ZERO", preview.includes("не приписываем 44 изученным тематическим страницам позиции") && preview.includes("совпадений с адресами исходных 44 страниц не было"), "44 discovery pages are not claimed as exact-query ranking URLs");
+  check("PREVIEW_FILTERING_PATH_EXPLICIT", preview.includes("43 направления → 14 тем для Wordstat → 160 возвращённых строк → 20 кандидатов для проверки в Яндексе → 16 принятых фраз"), "complete 43->14->160->20->16 path");
+  const unresolvedSection = preview.match(/## Что осталось неопределённым\n([\s\S]*?)\n## Итог для семантического ядра/)?.[1] ?? "";
+  const unresolvedBullets = [...unresolvedSection.matchAll(/^- (.+?)[.;]$/gm)].map((match) => match[1]);
+  exact("PREVIEW_UNRESOLVED_VISIBLE_COUNT", unresolvedBullets.length, 2);
+  check("PREVIEW_UNRESOLVED_EXACT_MATCH", unresolved.every((row) => unresolvedBullets.includes(row.representative_query)) && unresolvedBullets.every((query) => unresolved.some((row) => row.representative_query === query)), unresolvedBullets.join(" | "));
+  check("PREVIEW_NO_AUTOMATIC_PAGE_DECISION", preview.includes("не означают автоматическое создание новых страниц") && preview.includes("проверку назначения существующим страницам"), "normal downstream propagation retained");
+  check("PREVIEW_NO_DEVELOPER_JARGON", !/\b(?:Gate|QA|delta|pipeline|frozen|owner|routing|enum|checkpoint)\b/i.test(preview), "no developer jargon in client preview");
   for (const token of ["PASS_9_OF_9_DETERMINISTIC_GATES", "MATERIAL_POSITIVE_GAIN_WITH_STRONG_FILTERING_VALUE", "OWNER_REVIEW_REQUIRED", "RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW", "false / PENDING_OWNER_REVIEW", "NOT_PROMOTED", "NOT_VALIDATED_SINGLE_REHEARSAL", "PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE"]) {
     check(`REPORT_BOUNDARY_${crypto.createHash("md5").update(token).digest("hex").slice(0, 8)}`, report.includes(token), token);
   }
@@ -228,7 +289,7 @@ if (finalMode) {
   check("REPORT_NO_PAGE_OWNERSHIP_ACTION", report.includes("Page ownership, creation, deletion, split/merge or implementation action created: false"), "explicit protection boundary");
 }
 if (remoteReadbackCommit) {
-  exact("REMOTE_READBACK_MATERIAL_COMMIT", remoteReadbackCommit, "a8eb434065d407cd9d858e45abd5d7b65adb4063");
+  check("REMOTE_READBACK_MATERIAL_COMMIT", /^[0-9a-f]{40}$/.test(remoteReadbackCommit) && remoteReadbackCommit !== CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD, remoteReadbackCommit);
   check("REMOTE_READBACK_RECEIPT_PRESENT", artifacts.includes("CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md"), "final receipt included");
 }
 
@@ -273,7 +334,8 @@ const qa = {
   remote_readback: remoteReadbackCommit ? {
     status: "PASS",
     metrics_commit: "8a234f3c736fc9594881387ae49e5c6996cddd33",
-    validation_commit: remoteReadbackCommit,
+    validation_commit: "a8eb434065d407cd9d858e45abd5d7b65adb4063",
+    client_preview_correction_commit: remoteReadbackCommit,
     required_and_supporting_artifacts_read_back: 12,
     protected_remote_sha_comparisons_passed: 9,
     receipt_commit_state: "THIS_QA_AND_RECEIPT_AWAIT_FINAL_RECEIPT_COMMIT",

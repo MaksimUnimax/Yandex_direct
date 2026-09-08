@@ -23,6 +23,19 @@ if (!new Set(["metrics", "final"]).has(PHASE)) throw new Error(`Unsupported phas
 
 const JOB = path.dirname(OUT);
 const STARTING_HEAD = "69bf89875d176731e9614c76b0f39b38330bd8c6";
+const CLIENT_PREVIEW_HANDOFF_EXPECTED_HEAD = "d5bcbaa99caf7c453ffe7279ac8231790e57156a";
+const CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD = "05b05a9d713d2581d11006d5a8863d277034da5a";
+const CLIENT_PREVIEW_CORRECTION_STARTING_HEAD = CLIENT_PREVIEW_CORRECTION_INTEGRATED_HEAD;
+
+const CLIENT_DIRECTION_LABELS = new Map([
+  ["OPEN_BALCONY_WATERPROOFING", "Гидроизоляция открытого балкона"],
+  ["SUN_PROTECTION_GLASS_UNIT", "Солнцезащитные стеклопакеты"],
+  ["MULTIFUNCTIONAL_GLASS_UNIT", "Особенности многофункциональных стеклопакетов"],
+  ["IMPACT_RESISTANT_GLASS_UNIT", "Ударопрочные стеклопакеты"],
+  ["BALCONY_AS_OFFICE", "Переоборудование балкона под рабочее место"],
+  ["BALCONY_ROOF_SOUNDPROOFING", "Шумоизоляция крыши балкона"],
+  ["WINDOW_PROFILE_REINFORCEMENT", "Армирование оконного профиля"],
+]);
 
 const files = {
   pageQa: path.join(OUT, "STEP_05A_PAGE_INSPECTION_QA.json"),
@@ -352,7 +365,7 @@ function deriveMetrics(e) {
     propagation_state: "PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE",
     provider_calls_by_work: { yandex_search: 0, wordstat: 0, alice: 0, gensearch: 0, webmaster: 0, metrika: 0, direct: 0, substitute_web_search: 0, competitor_page_reads: 0 },
     next_actions: [
-      "OWNER_REVIEW_STEP_5A_FIRST_EXECUTION_VALIDATION_AND_CLIENT_FACING_PREVIEW",
+      "OWNER_REVIEW_REVISED_STEP_5A_CLIENT_FACING_PREVIEW_AND_EXPLICITLY_ACCEPT_OR_REJECT_GATE_10",
       "PROPAGATE_STEP_5A_ACCEPTED_SEMANTIC_PIPELINE_DELTA_THROUGH_NORMAL_DOWNSTREAM_PIPELINE",
     ],
   };
@@ -411,12 +424,63 @@ function buildGates(metrics) {
     { gate_order: 7, gate_id: "FULL_COMPETITOR_KEYWORD_UNIVERSE_OVERCLAIM_EQUALS_0", gate_statement: "No full competitor keyword-universe claim is made", evidence_files: source(["STEP_05A_FIRST_EXECUTION_REPORT.md", "STEP_05A_SEARCH_DECISION_MERGE_REPORT.md", "STEP_05A_SEARCH_DECISION_MERGE_QA.json"]), supporting_counts_facts: "overclaims=0; evidence limited to 75 discovery queries and 7 successful exact-query rechecks", deterministic_status: "PASS", unresolved_evidence: "Full reverse-domain visibility remains outside the base method and was not attempted.", work_authorized_to_close: "true", recommended_owner_action: "No technical rework indicated." },
     { gate_order: 8, gate_id: "MERGE_COUNTS_RECONCILE", gate_statement: "Merge counts reconcile", evidence_files: source(["STEP_05A_ACCEPTED_PHRASE_MERGE_RECONCILIATION.tsv", "STEP_05A_ACCEPTED_SEMANTIC_PIPELINE_DELTA.tsv", "STEP_05A_SEARCH_DECISION_MERGE_QA.json"]), supporting_counts_facts: "20 = 16 MERGE_ACCEPTED + 3 close-variant suppressions + 1 retained hold + 0 rejected; delta rows=16", deterministic_status: "PASS", unresolved_evidence: "None for the acquisition delta; downstream propagation is still pending.", work_authorized_to_close: "true", recommended_owner_action: "Authorize downstream propagation only as a separate action." },
     { gate_order: 9, gate_id: "EXTERNAL_REVERSE_DOMAIN_PROVIDER_REQUIRED_FOR_BASE_EXECUTION_EQUALS_FALSE", gate_statement: "An external reverse-domain provider is not required for base execution", evidence_files: source(["STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md", "STEP_05A_FIRST_EXECUTION_REPORT.md", "STEP_05A_FIRST_EXECUTION_VALIDATION_REPORT.md"]), supporting_counts_facts: "Complete 5A.1-5A.7 rehearsal executed with preserved Yandex Search, public-page evidence and Wordstat; reverse-domain provider calls=0", deterministic_status: "PASS", unresolved_evidence: "Optional enrichment value was not tested and is not required for this gate.", work_authorized_to_close: "true", recommended_owner_action: "Retain optional-provider boundary." },
-    { gate_order: 10, gate_id: "CLIENT_FACING_COMPETITOR_GAP_RESULT_IS_UNDERSTANDABLE_AND_MATERIALLY_USEFUL", gate_statement: "The client-facing competitor-gap result is understandable and materially useful", evidence_files: source(["STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md", "STEP_05A_FIRST_EXECUTION_VALIDATION_QA.json"]), supporting_counts_facts: "Plain-Russian preview contains 9 competitors, 44 pages, 7 confirmed directions, 2 unresolved directions, 16 prepared phrases and the no-new-page boundary", deterministic_status: "OWNER_REVIEW_REQUIRED", unresolved_evidence: "Only the owner/recipient can accept usefulness and understandability; deterministic completeness/language checks cannot self-certify this gate.", work_authorized_to_close: "false", recommended_owner_action: "Read the preview and explicitly accept, request edits, or reject the client-facing presentation." },
+    { gate_order: 10, gate_id: "CLIENT_FACING_COMPETITOR_GAP_RESULT_IS_UNDERSTANDABLE_AND_MATERIALLY_USEFUL", gate_statement: "The client-facing competitor-gap result is understandable and materially useful", evidence_files: source(["STEP_05A_CLIENT_FACING_COMPETITOR_GAP_PREVIEW_RU.md", "STEP_05A_FIRST_EXECUTION_VALIDATION_QA.json"]), supporting_counts_facts: "Plain-Russian preview contains all 16 accepted phrases in 7 directions; 7 exact-query checks; 11 visible query-domain cells; 12 ranking rows; explicit zero-selected-competitor case; 2 unresolved directions; no-new-page boundary", deterministic_status: "OWNER_REVIEW_REQUIRED", unresolved_evidence: "Only the owner/recipient can accept usefulness and understandability; deterministic completeness/language checks cannot self-certify this gate.", work_authorized_to_close: "false", recommended_owner_action: "Read the revised preview and explicitly accept, request edits, or reject the client-facing presentation." },
   ];
 }
 
 
-function buildPreview() {
+function buildClientPreviewEvidence(e) {
+  const successfulDirections = e.decisions
+    .filter((row) => row.search_acquisition_state === "SUCCEEDED")
+    .sort((a, b) => Number(a.search_priority) - Number(b.search_priority));
+  const acceptedGroups = successfulDirections.map((direction) => ({
+    directionId: direction.deduplicated_direction_id,
+    label: CLIENT_DIRECTION_LABELS.get(direction.deduplicated_direction_id),
+    testedQuery: direction.representative_query,
+    phrases: e.delta
+      .filter((row) => row.step5a_direction_id === direction.deduplicated_direction_id)
+      .map((row) => row.phrase),
+  }));
+  const visibilityRows = successfulDirections.map((direction) => {
+    const rankingRows = e.searchSerp
+      .filter((row) => row.tested_query === direction.representative_query && row.selected_step5a_competitor === "true")
+      .sort((a, b) => Number(a.rank) - Number(b.rank));
+    const domainRanks = new Map();
+    for (const row of rankingRows) {
+      if (!domainRanks.has(row.selected_competitor_domain)) domainRanks.set(row.selected_competitor_domain, []);
+      domainRanks.get(row.selected_competitor_domain).push(Number(row.rank));
+    }
+    return {
+      query: direction.representative_query,
+      competitors: [...domainRanks.entries()].map(([domain, ranks]) => ({ domain, ranks })),
+      visibleCells: domainRanks.size,
+      rankingRows: rankingRows.length,
+    };
+  });
+  const unresolved = e.decisions
+    .filter((row) => row.search_acquisition_state === "OUTCOME_UNKNOWN")
+    .sort((a, b) => Number(a.search_priority) - Number(b.search_priority))
+    .map((row) => row.representative_query);
+  return { acceptedGroups, visibilityRows, unresolved };
+}
+
+function ordinalRanks(ranks) {
+  if (ranks.length === 1) return `${ranks[0]}-е место`;
+  return `${ranks.slice(0, -1).map((rank) => `${rank}-е`).join(", ")} и ${ranks.at(-1)}-е места`;
+}
+
+function buildPreview(e) {
+  const preview = buildClientPreviewEvidence(e);
+  const acceptedSections = preview.acceptedGroups.map((group, index) => {
+    const noun = group.phrases.length === 1 ? "фраза" : group.phrases.length < 5 ? "фразы" : "фраз";
+    return `### ${index + 1}. ${group.label} — ${group.phrases.length} ${noun}\n\n${group.phrases.map((phrase) => `- «${phrase}»`).join("\n")}`;
+  }).join("\n\n");
+  const visibilityLines = preview.visibilityRows.map((row) => {
+    const observed = row.competitors.length
+      ? row.competitors.map(({ domain, ranks }) => `${domain} — ${ordinalRanks(ranks)}`).join("; ")
+      : "ни один из девяти выбранных конкурентов не найден в первых десяти результатах";
+    return `| «${row.query}» | ${observed} | ${row.visibleCells} | ${row.rankingRows} |`;
+  }).join("\n");
   return `# Что дала проверка семантики по реальным конкурентам
 
 ## Зачем это проверяли
@@ -428,6 +492,8 @@ function buildPreview() {
 Мы выбрали девять поисковых конкурентов, которые встречались в сохранённой выдаче Яндекса: mosokna.ru, i-okna.ru, msk.okna-servise.com, okna-moskva.ru, oknafactoria.ru, okna-germany.ru, fabrikaokon.ru, aluminarium.ru и elit-balkon.ru.
 
 У них проверили 44 страницы, ранее найденные в выдаче. 43 страницы открылись по исходному адресу, одна — после обычного перенаправления. Недоступных страниц не было.
+
+Тематическое содержание этих страниц использовалось только для поиска возможных пропусков. Оно не доказывает, что изученная страница занимает позицию по новой точной фразе. Позиции сайтов по точным фразам независимо проверялись в текущей выдаче Яндекса.
 
 На страницах обнаружили 92 упоминания дополнительных тем. После объединения повторов осталось 43 самостоятельных направления:
 
@@ -442,26 +508,34 @@ function buildPreview() {
 
 После удаления уже известных запросов, шума, неподходящих товаров и неподтверждённых услуг осталось 20 потенциально новых формулировок. Они образовали девять направлений, которые требовали проверки в текущей выдаче Яндекса.
 
-## Какие направления подтвердились
+Полный путь отбора: **43 направления → 14 тем для Wordstat → 160 возвращённых строк → 20 кандидатов для проверки в Яндексе → 16 принятых фраз**.
 
-Достаточные данные выдачи удалось получить по семи направлениям:
+## Какие 16 фраз приняты
 
-1. гидроизоляция открытого балкона;
-2. солнцезащитные стеклопакеты;
-3. объяснение особенностей многофункциональных стеклопакетов;
-4. ударопрочные стеклопакеты;
-5. переоборудование балкона под рабочее место;
-6. шумоизоляция крыши балкона;
-7. армирование оконного профиля.
+Достаточные данные выдачи удалось получить по семи направлениям. Ниже приведены все 16 принятых фраз — без сокращений и выборочных примеров.
 
-В успешных проверках встретились семь из девяти выбранных конкурентов. При этом направление по гидроизоляции открытого балкона подтвердилось по составу выдачи, реальному спросу и соответствию услугам компании, хотя ни один из девяти заранее выбранных конкурентов не вошёл по этому точному запросу в первые десять результатов. Это показывает, зачем решение принималось не по одному признаку, а по совокупности данных.
+${acceptedSections}
+
+## Что показала отдельная проверка позиций
+
+Для каждого из семи успешно проверенных направлений ниже указан точный запрос, выбранные конкуренты, действительно замеченные в первых десяти результатах, и их позиции. Колонка «сайты» считает сочетания «запрос + сайт», а колонка «позиции» — отдельные строки выдачи; один сайт мог встретиться двумя страницами.
+
+| Точный проверенный запрос | Выбранные конкуренты и точные позиции | Наблюдаемых сайтов | Наблюдаемых позиций |
+|---|---|---:|---:|
+${visibilityLines}
+| **Итого** | **Семь успешных проверок** | **11** | **12** |
+
+Ни один из девяти выбранных конкурентов не был замечен в первых десяти результатах по запросу «гидроизоляция для открытого балкона». Направление всё равно прошло отбор: для него одновременно были подтверждены реальный спрос, подходящий состав выдачи, соответствие подтверждённым услугам компании и отсутствие такого направления в действующем ядре.
+
+Мы не приписываем 44 изученным тематическим страницам позиции по новым точным запросам. В 12 найденных позициях показывались другие страницы тех же сайтов; совпадений с адресами исходных 44 страниц не было.
+
+В совокупности успешных проверок встретились семь из девяти выбранных конкурентов. Это ограниченное наблюдение по семи точным запросам, а не перечень всех запросов, по которым показываются эти сайты.
 
 ## Что осталось неопределённым
 
 По двум темам надёжный результат текущей выдачи не был получен:
 
-- окна для старого фонда;
-- кладовая на балконе.
+${preview.unresolved.map((query, index) => `- ${query}${index === preview.unresolved.length - 1 ? "." : ";"}`).join("\n")}
 
 Эти темы не объявлены ни подходящими, ни неподходящими. Они сохранены отдельно до будущей проверки. Повторные запросы в рамках этого прохода не выполнялись, а отсутствующий результат не подменялся предположениями.
 
@@ -598,7 +672,7 @@ PERMANENT_DIMINISHING_GAIN_THRESHOLD_STATE = NOT_VALIDATED_SINGLE_REHEARSAL
 
 ## 11. Next actions
 
-1. **OWNER_REVIEW_STEP_5A_FIRST_EXECUTION_VALIDATION_AND_CLIENT_FACING_PREVIEW**
+1. **OWNER_REVIEW_REVISED_STEP_5A_CLIENT_FACING_PREVIEW_AND_EXPLICITLY_ACCEPT_OR_REJECT_GATE_10**
 2. Independently before any next real release: **PROPAGATE_STEP_5A_ACCEPTED_SEMANTIC_PIPELINE_DELTA_THROUGH_NORMAL_DOWNSTREAM_PIPELINE**
 
 Neither action is executed in this task.
@@ -606,13 +680,14 @@ Neither action is executed in this task.
 }
 
 
-async function buildWorkbook(metrics, funnel, gates) {
+async function buildWorkbook(metrics, funnel, gates, evidence) {
   const wb = Workbook.create();
   const summary = wb.worksheets.add("Summary");
   const funnelSheet = wb.worksheets.add("Funnel");
   const gateSheet = wb.worksheets.add("Gates");
+  const previewSheet = wb.worksheets.add("Client Preview");
   const sourceSheet = wb.worksheets.add("Sources");
-  for (const sheet of [summary, funnelSheet, gateSheet, sourceSheet]) sheet.showGridLines = false;
+  for (const sheet of [summary, funnelSheet, gateSheet, previewSheet, sourceSheet]) sheet.showGridLines = false;
 
   const titleStyle = { fill: "#1F4E78", font: { bold: true, color: "#FFFFFF", size: 16 }, verticalAlignment: "center" };
   const headerStyle = { fill: "#D9EAF7", font: { bold: true, color: "#17365D" }, wrapText: true, borders: { preset: "outside", style: "thin", color: "#9FBAD0" } };
@@ -672,6 +747,51 @@ async function buildWorkbook(metrics, funnel, gates) {
   for (let i = 0; i < gates.length; i += 1) gateSheet.getRangeByIndexes(i + 1, statusCol, 1, 1).format = gates[i].deterministic_status === "PASS" ? passStyle : ownerStyle;
   gateSheet.freezePanes.freezeRows(1);
 
+  const clientPreview = buildClientPreviewEvidence(evidence);
+  previewSheet.getRange("A1:F2").merge();
+  previewSheet.getRange("A1").values = [["Клиентский обзор: найденные пропуски и проверенные позиции"]];
+  previewSheet.getRange("A1:F2").format = titleStyle;
+  previewSheet.getRange("A4:B9").values = [
+    ["Этап отбора", "Количество"],
+    ["Самостоятельные направления", 43],
+    ["Темы для Wordstat", 14],
+    ["Возвращённые строки", 160],
+    ["Кандидаты для проверки в Яндексе", 20],
+    ["Принятые фразы", 16],
+  ];
+  previewSheet.getRange("A4:B4").format = headerStyle;
+  previewSheet.getRange("A5:A9").format = labelStyle;
+
+  const phraseRows = clientPreview.acceptedGroups.flatMap((group) => group.phrases.map((phrase) => [group.label, phrase]));
+  previewSheet.getRange("A11:B11").values = [["Подтверждённое направление", "Принятая поисковая фраза"]];
+  previewSheet.getRange("A11:B11").format = headerStyle;
+  previewSheet.getRangeByIndexes(11, 0, phraseRows.length, 2).values = phraseRows;
+
+  const visibilityRows = clientPreview.visibilityRows.map((row) => [
+    row.query,
+    row.competitors.length ? row.competitors.map(({ domain }) => domain).join("; ") : "Выбранные конкуренты не найдены",
+    row.competitors.length ? row.competitors.map(({ domain, ranks }) => `${domain}: ${ranks.join(", ")}`).join("; ") : "0",
+    row.visibleCells,
+    row.rankingRows,
+  ]);
+  previewSheet.getRange("D4:H4").values = [["Точный проверенный запрос", "Найденные выбранные конкуренты", "Точные позиции", "Сайты", "Позиции"]];
+  previewSheet.getRange("D4:H4").format = headerStyle;
+  previewSheet.getRangeByIndexes(4, 3, visibilityRows.length, 5).values = visibilityRows;
+  previewSheet.getRange("D12:H12").values = [["Итого", "7 успешных проверок", "11 сочетаний запрос + сайт / 12 строк выдачи", 11, 12]];
+  previewSheet.getRange("D12:H12").format = passStyle;
+  previewSheet.getRange("D14:H14").merge();
+  previewSheet.getRange("D14").values = [["По гидроизоляции открытого балкона: 0 выбранных конкурентов в первых десяти результатах; направление прошло по совокупности спроса, состава выдачи, бизнес-соответствия и новизны."]];
+  previewSheet.getRange("D14:H14").format = ownerStyle;
+  previewSheet.getRange("D16:E18").values = [
+    ["Нерешённые темы", "Состояние"],
+    [clientPreview.unresolved[0], "Оставлена до будущей проверки"],
+    [clientPreview.unresolved[1], "Оставлена до будущей проверки"],
+  ];
+  previewSheet.getRange("D16:E16").format = headerStyle;
+  previewSheet.getRange("D20:H20").merge();
+  previewSheet.getRange("D20").values = [["16 фраз не означают автоматическое создание новых страниц: до реального релиза требуется обычная дальнейшая обработка."]];
+  previewSheet.getRange("D20:H20").format = ownerStyle;
+
   const sourceRows = [
     ["Authority", "Rows/facts", "Use", "Boundary"],
     ["STEP_05A_SERP_COMBINED_750.tsv", "75 queries / 750 rows", "Discovery denominator", "Preserved Search only"],
@@ -685,7 +805,7 @@ async function buildWorkbook(metrics, funnel, gates) {
   sourceSheet.getRange("A1:D1").format = headerStyle;
   sourceSheet.freezePanes.freezeRows(1);
 
-  for (const sheet of [summary, funnelSheet, gateSheet, sourceSheet]) {
+  for (const sheet of [summary, funnelSheet, gateSheet, previewSheet, sourceSheet]) {
     const used = sheet.getUsedRange();
     used.format.wrapText = true;
     used.format.verticalAlignment = "top";
@@ -695,15 +815,16 @@ async function buildWorkbook(metrics, funnel, gates) {
   summary.getRange("A:A").format.columnWidth = 34; summary.getRange("D:D").format.columnWidth = 48; summary.getRange("E:E").format.columnWidth = 58; summary.getRange("F:F").format.columnWidth = 20;
   funnelSheet.getRange("E:E").format.columnWidth = 48; funnelSheet.getRange("L:L").format.columnWidth = 46; funnelSheet.getRange("M:M").format.columnWidth = 60;
   gateSheet.getRange("B:C").format.columnWidth = 48; gateSheet.getRange("D:D").format.columnWidth = 58; gateSheet.getRange("E:E").format.columnWidth = 58; gateSheet.getRange("G:H").format.columnWidth = 48;
+  previewSheet.getRange("A:A").format.columnWidth = 42; previewSheet.getRange("B:B").format.columnWidth = 48; previewSheet.getRange("D:D").format.columnWidth = 42; previewSheet.getRange("E:F").format.columnWidth = 42; previewSheet.getRange("G:H").format.columnWidth = 14;
   sourceSheet.getRange("A:A").format.columnWidth = 54; sourceSheet.getRange("B:D").format.columnWidth = 38;
-  for (const sheet of [summary, funnelSheet, gateSheet, sourceSheet]) {
+  for (const sheet of [summary, funnelSheet, gateSheet, previewSheet, sourceSheet]) {
     sheet.getUsedRange().format.wrapText = true;
     sheet.getUsedRange().format.autofitRows();
   }
 
   const xlsx = await SpreadsheetFile.exportXlsx(wb);
   await xlsx.save(outputs.workbook);
-  for (const [sheetName, outName] of [["Summary", "step05a8_summary.png"], ["Funnel", "step05a8_funnel.png"], ["Gates", "step05a8_gates.png"], ["Sources", "step05a8_sources.png"]]) {
+  for (const [sheetName, outName] of [["Summary", "step05a8_summary.png"], ["Funnel", "step05a8_funnel.png"], ["Gates", "step05a8_gates.png"], ["Client Preview", "step05a8_client_preview.png"], ["Sources", "step05a8_sources.png"]]) {
     const blob = await wb.render({ sheetName, autoCrop: "all", scale: 1, format: "png" });
     await fs.writeFile(path.join("/tmp", outName), new Uint8Array(await blob.arrayBuffer()));
   }
@@ -718,15 +839,15 @@ async function main() {
   const gates = buildGates(metrics);
   await fs.writeFile(outputs.metrics, `${JSON.stringify(metrics, null, 2)}\n`, "utf8");
   await writeTsv(outputs.funnel, funnel, Object.keys(funnel[0]));
-  await buildWorkbook(metrics, funnel, gates);
+  await buildWorkbook(metrics, funnel, gates, evidence);
   await fs.writeFile(outputs.checkpoint08, `# CHECKPOINT 08 — INFORMATION GAIN METRICS\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / LOCAL DETERMINISTIC QA PASS 136/136 / REMOTE READBACK PASS**\n\n- Frozen baseline verified: 2,840 unique; 2,332 active; 2,313 assigned; 19 Search-required phrases; 168 units.\n- Complete funnel materialized from 75/750 discovery evidence through 16 accepted delta rows.\n- Delta normalized overlap with frozen baseline: 0.\n- Preserved provider costs: Wordstat 0.280 RUB; Search 4.392 RUB; total 4.672 RUB.\n- New provider/substitute web calls: 0.\n- PROJECT_TEST_VALIDATED: false.\n- Level-1 promotion: not performed.\n\nRemote commit: \`8a234f3c736fc9594881387ae49e5c6996cddd33\`.\nRemote GitHub readback: **PASS** for checkpoint, metrics, funnel, workbook, builder, and validator.\n`, "utf8");
 
   if (PHASE === "final") {
     await writeTsv(outputs.gates, gates, Object.keys(gates[0]));
-    await fs.writeFile(outputs.preview, buildPreview(), "utf8");
+    await fs.writeFile(outputs.preview, buildPreview(evidence), "utf8");
     await fs.writeFile(outputs.report, buildReport(metrics, gates), "utf8");
-    await fs.writeFile(outputs.checkpoint09, `# CHECKPOINT 09 — FIRST-EXECUTION VALIDATION\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / DETERMINISTIC QA PASS 166/166 / OWNER REVIEW REQUIRED / REMOTE READBACK PASS**\n\n- Gate rows: 10 / 10.\n- Deterministic technical gates: 9 PASS / 9.\n- Owner-only client usefulness gate: OWNER_REVIEW_REQUIRED.\n- Recommended verdict: RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW.\n- Actual PROJECT_TEST_VALIDATED state: false / pending owner review.\n- Level-1 method promotion: NOT_PROMOTED.\n- Stop this bounded rehearsal: true.\n- Permanent diminishing-gain threshold validated: false.\n- Accepted delta propagation state: PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE.\n\nRemote commit: \`a8eb434065d407cd9d858e45abd5d7b65adb4063\`.\nRemote GitHub readback: **PASS** for the complete validation package and protected-authority identities.\n`, "utf8");
-    await fs.writeFile(outputs.log, `# STEP 05A.8 INFORMATION GAIN VALIDATION EXECUTION LOG\n\nDate: 2026-09-08\nStarting HEAD: \`${STARTING_HEAD}\`\n\n## Block A — quantitative measurement\n\n- Read and reconciled the full preserved Step 5A.1–5A.7 evidence.\n- Verified the live frozen semantic denominators and zero delta overlap.\n- Materialized full counts, named numerator/denominator rates, provider-cost efficiency, filtering and visibility metrics.\n- Provider/substitute web calls: 0.\n- Remote commit: \`8a234f3c736fc9594881387ae49e5c6996cddd33\`.\n- Remote GitHub readback: PASS.\n\n## Block B — validation assessment\n\n- Accounted for all ten Level-1 Section 11 gates.\n- Kept gate 10 as owner-review-only.\n- Produced the plain-Russian client-facing preview in the isolated execution workspace.\n- Recommended project-test validation only after owner review.\n- Preserved PROJECT_TEST_VALIDATED=false, method not promoted, and propagation required for the 16-row delta.\n- Deterministic QA: PASS 166/166.\n- Workbook visual QA: PASS; Summary, Funnel, Gates, and Sources rendered and inspected.\n- Remote commit: \`a8eb434065d407cd9d858e45abd5d7b65adb4063\`.\n- Remote GitHub readback: PASS for all validation artifacts and nine protected-authority SHA comparisons.\n\n## Lifecycle\n\n\`WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE\`\n\nFinal receipt is committed after the readback recorded above.\n`, "utf8");
+    await fs.writeFile(outputs.checkpoint09, `# CHECKPOINT 09 — FIRST-EXECUTION VALIDATION\n\nDate: 2026-09-08\n\nStatus: **MATERIALIZED / DETERMINISTIC QA PASS 225/225 / OWNER REVIEW REQUIRED / CLIENT PREVIEW CORRECTED**\n\n- Gate rows: 10 / 10.\n- Deterministic technical gates: 9 PASS / 9.\n- Owner-only client usefulness gate: OWNER_REVIEW_REQUIRED.\n- Revised client preview: 16 accepted phrases / 7 directions / 7 successful exact-query checks / 11 visible query-domain cells / 12 ranking rows.\n- Recommended verdict: RECOMMEND_VALIDATE_AFTER_OWNER_REVIEW.\n- Actual PROJECT_TEST_VALIDATED state: false / pending owner review.\n- Level-1 method promotion: NOT_PROMOTED.\n- Accepted delta propagation state: PROPAGATION_REQUIRED_BEFORE_NEXT_REAL_RELEASE.\n- New provider/substitute web calls: 0.\n\nOriginal validation commit: \`a8eb434065d407cd9d858e45abd5d7b65adb4063\`.\nCorrection commit/readback: recorded in CHECKPOINT_10_INFORMATION_GAIN_VALIDATION_REMOTE_READBACK.md.\n`, "utf8");
+    await fs.writeFile(outputs.log, `# STEP 05A.8 INFORMATION GAIN VALIDATION EXECUTION LOG\n\nDate: 2026-09-08\nStarting HEAD: \`${STARTING_HEAD}\`\n\n## Block A — quantitative measurement\n\n- Read and reconciled the full preserved Step 5A.1–5A.7 evidence.\n- Verified the live frozen semantic denominators and zero delta overlap.\n- Materialized full counts, named numerator/denominator rates, provider-cost efficiency, filtering and visibility metrics.\n- Provider/substitute web calls: 0.\n- Remote commit: \`8a234f3c736fc9594881387ae49e5c6996cddd33\`.\n- Remote GitHub readback: PASS.\n\n## Block B — validation assessment\n\n- Accounted for all ten Level-1 Section 11 gates.\n- Kept gate 10 as owner-review-only.\n- Produced the first plain-Russian client-facing preview.\n- Recommended project-test validation only after owner review.\n- Preserved PROJECT_TEST_VALIDATED=false, method not promoted, and propagation required for the 16-row delta.\n- Original deterministic QA: PASS 169/169 after final receipt.\n- Original remote validation commit: \`a8eb434065d407cd9d858e45abd5d7b65adb4063\`.\n- Original remote readback: PASS.\n\n## Block C — client-facing preview owner-review correction\n\n- Correction starting HEAD: \`${CLIENT_PREVIEW_CORRECTION_STARTING_HEAD}\`.\n- Materialized all 16 accepted phrases under seven confirmed demand directions.\n- Reconciled seven successful exact-query checks to 11 visible query-domain cells and 12 selected-competitor ranking rows.\n- Made the zero-selected-competitor waterproofing result and its multi-factor acceptance rationale explicit.\n- Preserved two unresolved topics and the no-automatic-page / downstream-propagation boundary.\n- Workbook visual QA covers Summary, Funnel, Gates, Client Preview, and Sources.\n- New provider/substitute web calls: 0.\n- Deterministic QA: PASS 225/225 before remote readback.\n- Gate 10 remains OWNER_REVIEW_REQUIRED; PROJECT_TEST_VALIDATED remains false; Level-1 method remains NOT_PROMOTED.\n- Correction commits/readbacks are recorded in the final remote-readback checkpoint.\n\n## Lifecycle\n\n\`WORK -> SAVE -> COMMIT -> REMOTE GITHUB READBACK -> CONTINUE\`\n\nFinal receipt is committed after the correction readback.\n`, "utf8");
   }
   console.log(JSON.stringify({ phase: PHASE, funnel_rows: funnel.length, gate_rows: gates.length, delta_rows: metrics.counts.accepted_delta_rows, technical_gate_passes: gates.filter((g) => g.deterministic_status === "PASS").length, owner_review_gates: gates.filter((g) => g.deterministic_status === "OWNER_REVIEW_REQUIRED").length, total_cost_rub: metrics.provider_cost_efficiency.total_incremental_provider_cost_rub }));
 }
