@@ -1,0 +1,166 @@
+{
+  "artifact": "OKNO_MSK_STEP_05A_FIRST_EXECUTION",
+  "date": "2026-09-08",
+  "starting_head": "c043fda14c51b18f4016aa26ff3e3f7e7c121a13",
+  "status": "IN_PROGRESS",
+  "project_test_validated": false,
+  "owner_review": "PENDING",
+  "provider_calls": {
+    "yandex_search": 0,
+    "wordstat": 0,
+    "alice": 0,
+    "gensearch": 0,
+    "webmaster": 0,
+    "metrika": 0,
+    "direct": 0,
+    "paid_cost_rub": 0
+  },
+  "public_competitor_page_inspection_completed": false,
+  "phase_status": {
+    "combined_serp_ledger": "PASS"
+  },
+  "combined_serp_ledger": {
+    "status": "PASS",
+    "checks": {
+      "source_queries_75": true,
+      "source_ranked_rows_750": true,
+      "accounted_queries_75": true,
+      "accounted_ranked_rows_750": true,
+      "silent_row_drops_0": true,
+      "duplicate_row_inflation_0": true,
+      "region_213_only": true,
+      "ranks_1_to_10_per_query": true,
+      "one_query_text_per_index": true,
+      "required_fields_populated": true
+    },
+    "source_accounting": [
+      {
+        "source_file": "STEP_09_SERP_RESULTS.tsv",
+        "data_rows": 10,
+        "query_indexes": [
+          1
+        ],
+        "query_count": 1,
+        "sha256": "3c2bb777982be527808dab06eae045c5c50b5603830681d3f9752c4c44f3460c"
+      },
+      {
+        "source_file": "STEP_09_SERP_R2_PROJECTION_RAW_PART_01.tsv",
+        "data_rows": 190,
+        "query_indexes": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "query_count": 19,
+        "sha256": "98c5e166feb603b85ca17ecb4f4217b2c6ba03b519dec108d29fed8f6f5dd18c"
+      },
+      {
+        "source_file": "STEP_09_SERP_R2_PROJECTION_RAW_PART_02.tsv",
+        "data_rows": 190,
+        "query_indexes": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "query_count": 19,
+        "sha256": "31c579dd4c992c6167de896454641424a4a244940a040f041540fd833745df61"
+      },
+      {
+        "source_file": "STEP_09_SERP_R2_PROJECTION_RAW_PART_03.tsv",
+        "data_rows": 190,
+        "query_indexes": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58
+        ],
+        "query_count": 19,
+        "sha256": "ca75c8577a43dfd3741732ccffecaa4a365f4f4b8897d83f4f19e256a86658cf"
+      },
+      {
+        "source_file": "STEP_09_SERP_R2_PROJECTION_RAW_PART_04.tsv",
+        "data_rows": 170,
+        "query_indexes": [
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75
+        ],
+        "query_count": 17,
+        "sha256": "e995d52e24bf655a8e84735a9b545ec87d8a95289f5a1e99a224e1673512a4cf"
+      }
+    ],
+    "source_queries": 75,
+    "source_ranked_rows": 750,
+    "accounted_queries": 75,
+    "accounted_ranked_rows": 750,
+    "silent_row_drops": 0,
+    "duplicate_row_inflation": 0,
+    "normalized_domains": 237,
+    "region": 213,
+    "ranks_per_query": "1..10",
+    "path": "STEP_05A_SERP_COMBINED_750.tsv",
+    "sha256": "268aef1c47c338cc3796f87cd399f165c65777025ea67311681d589f3984f006",
+    "size_bytes": 274545
+  }
+}
