@@ -1,0 +1,101 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+  "run_id": null,
+  "status": "ERROR",
+  "reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+    "status": "RUNNING",
+    "total": 9,
+    "input_count": 9,
+    "duplicate_count": 0,
+    "pending": 4,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 4,
+    "failed_terminal": 0,
+    "outcome_unknown": 1,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 5,
+    "requests_started": 5,
+    "estimated_cost_rub": 2.44,
+    "active_item_id": null,
+    "stop_reason": "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION",
+    "next_safe_action": "RECONCILE_UNKNOWN"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T07:36:40.426Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "окна для старого фонда",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T07:37:11.505Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "a022ac7f4dc8c323",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-20260908:a022ac7f4dc8c323",
+    "outcome_unknown_reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+    "request_executed": true,
+    "request_id": "search-batch-02843120-5147-4169-aa11-366b3228221e",
+    "request_started_at": "2026-09-08T07:36:40.432Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": null,
+    "status": "OUTCOME_UNKNOWN",
+    "updated_at": "2026-09-08T07:37:11.505Z",
+    "result_payload": {
+      "status": "ERROR",
+      "reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+      "request_executed": "UNKNOWN",
+      "automatic_retry": false,
+      "error": {
+        "code": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+        "message": "Исход Yandex Search request неизвестен; автоматический повтор запрещён."
+      }
+    }
+  },
+  "provider_result": {
+    "status": "ERROR",
+    "reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+    "request_executed": "UNKNOWN",
+    "automatic_retry": false,
+    "error": {
+      "code": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+      "message": "Исход Yandex Search request неизвестен; автоматический повтор запрещён."
+    }
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 2.44,
+    "max_rub": 4.392
+  },
+  "policy": {
+    "max_requests": 9,
+    "max_cost_rub": 4.392
+  },
+  "request_executed": "UNKNOWN",
+  "automatic_retry": false
+}
