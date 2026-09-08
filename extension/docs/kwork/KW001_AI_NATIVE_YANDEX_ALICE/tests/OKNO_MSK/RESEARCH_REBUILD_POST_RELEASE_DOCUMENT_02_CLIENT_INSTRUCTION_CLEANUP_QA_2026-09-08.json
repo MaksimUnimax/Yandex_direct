@@ -4,81 +4,21 @@
   "checks_total": 15,
   "checks_passed": 15,
   "checks": [
-    {
-      "name": "client_negative_pseudo_action_phrases",
-      "status": "PASS",
-      "detail": []
-    },
-    {
-      "name": "obvious_open_find_navigate_mechanics",
-      "status": "PASS",
-      "detail": []
-    },
-    {
-      "name": "project_internal_traceability",
-      "status": "PASS",
-      "detail": []
-    },
-    {
-      "name": "current_job_negative_particle_ne_hits",
-      "status": "PASS",
-      "detail": []
-    },
-    {
-      "name": "ready_count",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "clarification_count",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "semantic_assignment_rows",
-      "status": "PASS",
-      "detail": 46
-    },
-    {
-      "name": "internal_link_rows",
-      "status": "PASS",
-      "detail": 14
-    },
-    {
-      "name": "semantic_repeated_no_change_instruction_absent",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "client_process_meta_absent",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "a031_publication_date_claim_absent",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "a031_ranking_year_present",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "bibliography_count",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "alice_bibliography",
-      "status": "PASS",
-      "detail": null
-    },
-    {
-      "name": "section_structure",
-      "status": "PASS",
-      "detail": null
-    }
+    {"name":"client_negative_pseudo_action_phrases","status":"PASS","detail":[]},
+    {"name":"obvious_open_find_navigate_mechanics","status":"PASS","detail":[]},
+    {"name":"project_internal_traceability","status":"PASS","detail":[]},
+    {"name":"current_job_negative_particle_ne_hits","status":"PASS","detail":[]},
+    {"name":"ready_count","status":"PASS","detail":3},
+    {"name":"clarification_count","status":"PASS","detail":5},
+    {"name":"semantic_assignment_rows","status":"PASS","detail":46},
+    {"name":"internal_link_rows","status":"PASS","detail":14},
+    {"name":"semantic_repeated_no_change_instruction_absent","status":"PASS","detail":null},
+    {"name":"client_process_meta_absent","status":"PASS","detail":null},
+    {"name":"a031_publication_date_claim_absent","status":"PASS","detail":null},
+    {"name":"a031_ranking_year_present","status":"PASS","detail":null},
+    {"name":"bibliography_count","status":"PASS","detail":10},
+    {"name":"alice_bibliography","status":"PASS","detail":null},
+    {"name":"section_structure","status":"PASS","detail":null}
   ],
   "scope": "DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP",
   "owner_review": "PENDING",
@@ -99,25 +39,27 @@
     "essential_section_equivalence": "PASS",
     "a031_ranking_year_consistency": "PASS"
   },
-  "artifacts": {
-    "markdown": {
-      "size_bytes": 37540,
-      "sha256": "caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"
-    },
-    "docx": {
-      "size_bytes": 28280,
-      "sha256": "a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1"
-    },
-    "pdf": {
-      "size_bytes": 172766,
-      "sha256": "36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5"
-    }
+  "physical_layout": {
+    "layout_gate": "../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md",
+    "standalone_empty_contents_heading": 0,
+    "orphan_field_labels": 0,
+    "clipped_text": 0,
+    "overlapped_text": 0,
+    "broken_glyphs": 0,
+    "broken_tables": 0,
+    "urls_legible": true,
+    "bold_examples_legible": true,
+    "final_pdf_pages_inspected": 14,
+    "final_pdf_pages_total": 14,
+    "independent_final_pdf_visual_readback": "PASS__14_OF_14"
   },
+  "artifacts": {
+    "markdown": {"size_bytes":37540,"sha256":"caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"},
+    "docx": {"size_bytes":28280,"sha256":"a0eb4672a170bb30320cfadb4d3f225b4d6e7bc39d0c91a7335bcb316535b1d1"},
+    "pdf": {"size_bytes":172766,"sha256":"36de1d6e740ffd281a3707c8f342379c1cc06bec37f31a0eff4833eb923a13b5"}
+  },
+  "materialization_commit": "8c597880f7f9b3b9d051d626b7e6c4efb1e2779b",
   "new_project_specific_data_collection": 0,
   "post_hoc_evidence_used": 0,
-  "protected_artifacts": {
-    "document_01_modified": false,
-    "document_03_modified": false,
-    "semantic_core_04_modified": false
-  }
+  "protected_artifacts": {"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false}
 }
