@@ -1,0 +1,331 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+    "status": "RUNNING",
+    "total": 9,
+    "input_count": 9,
+    "duplicate_count": 0,
+    "pending": 5,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 4,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 4,
+    "requests_started": 4,
+    "estimated_cost_rub": 1.952,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T07:31:33.775Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "ударопрочный стеклопакет",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T07:31:35.795Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "49f5d0ecdbc19922",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-20260908:49f5d0ecdbc19922",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "search-batch-d7fc7dc3-4a96-480d-813e-2566e57067d8",
+    "request_started_at": "2026-09-08T07:31:33.778Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": "search-batch-d7fc7dc3-4a96-480d-813e-2566e57067d8",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T07:31:35.795Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "search",
+      "operation": "search",
+      "request_id": "search-batch-d7fc7dc3-4a96-480d-813e-2566e57067d8",
+      "run_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.488,
+        "tariff_checked_at": "2026-08-19",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "search"
+      },
+      "command": {
+        "method": "search",
+        "queryText": "ударопрочный стеклопакет",
+        "searchType": "SEARCH_TYPE_RU",
+        "page": 0,
+        "groupsOnPage": 10,
+        "familyMode": "FAMILY_MODE_MODERATE",
+        "fixTypoMode": "FIX_TYPO_MODE_ON",
+        "sortMode": "SORT_MODE_BY_RELEVANCE",
+        "sortOrder": "SORT_ORDER_DESC",
+        "groupMode": "GROUP_MODE_FLAT",
+        "docsInGroup": 1,
+        "maxPassages": 4,
+        "region": "213",
+        "l10n": "LOCALIZATION_RU"
+      },
+      "http_status": 200,
+      "elapsed_ms": 2007,
+      "result": {
+        "results": [
+          {
+            "rank": 1,
+            "url": "https://www.ok-vesta.ru/windows/steklopaket/steklopaket_udaroprochnyi/",
+            "domain": "www.ok-vesta.ru",
+            "title": "Ударопрочные стеклопакеты с использованием армированных...",
+            "snippet": "Особенности ударопрочных стеклопакетов. Стойкость стеклопакета к механическому воздействию определяется наличием в его конструкции специального упрочненного стекла, свойства которого достигаются тремя основными способами",
+            "modtime": "20160613T104512"
+          },
+          {
+            "rank": 2,
+            "url": "https://oknabm.ru/catalog/accessories/steklopaket/protivoudarnye/",
+            "domain": "oknabm.ru",
+            "title": "Купить противоударные стеклопакеты в Москве от...",
+            "snippet": "Противоударные стеклопакеты в каталоге на сайте oknabm.ru с доставкой по Москве и области. … Ударостойкие или \"противоударные\" стеклопакеты подходят для противодействия проникновению в частную собственность, а также для предупреждения случайного разбития стекла.",
+            "modtime": "20181019T174131"
+          },
+          {
+            "rank": 3,
+            "url": "https://izolux.ru/steklopakety/vidy-steklopaketov/udaroprochnye-steklopakety/",
+            "domain": "izolux.ru",
+            "title": "Ударопрочные стеклопакеты различных классов защиты – Цены...",
+            "snippet": "Ударопрочные стеклопакеты достаточно эффективно защищены от разрушения. … Противоударная пленка защищает окно от разрушения, помещение — от ультрафиолета. Это обеспечивает сохранность предметов интерьера, декора, антиквариата, различных экспонатов от хищения и выгорания на солнце.",
+            "modtime": "20180508T191242"
+          },
+          {
+            "rank": 4,
+            "url": "https://okno.ru/okna-rehau/protivoudarnyj-steklopaket/",
+            "domain": "okno.ru",
+            "title": "Противоударный стеклопакет - Цены на ударопрочные окна...",
+            "snippet": "Ударопрочные и бронировочные пленки состоят из полиэстера и клея и имеют похожую на сендвич структуру. Основное их преимущество — возможность наклеивания на самое обычное стекло. То есть ими можно повысить охранные функции уже установленного стеклопакета.",
+            "modtime": "20171016T030000"
+          },
+          {
+            "rank": 5,
+            "url": "https://okno-bezram-fachwerk.ru/protivoudarnyi_stieklopakiet",
+            "domain": "okno-bezram-fachwerk.ru",
+            "title": "Противоударные стеклопакеты Триплекс для безрамного...",
+            "snippet": "Противоударные стеклопакеты триплекс позволяют реализовать эту концепцию без компромиссов в безопасности. Звукоизоляция: Многослойная структура стеклопакета эффективно поглощает звуковые волны, создавая тихую и комфортную атмосферу в вашем доме.",
+            "modtime": "20250110T223920"
+          },
+          {
+            "rank": 6,
+            "url": "https://www.stis.ru/products/udarostoykiy-steklopaket/",
+            "domain": "www.stis.ru",
+            "title": "Ударостойкий стеклопакет STiS — прочность и безопасность",
+            "snippet": "Ударостойкие стеклопакеты позволяют не волноваться о риске повреждения окна злоумышленниками или случайно попавшим в окно тяжелым предметом. Мы производим безопасные стеклопакеты двух видов: 1. Антивандальные модели, разработанные нашими экспертами специально для защиты от злоумышленников — ударопрочные, с...",
+            "modtime": "20140816T055800"
+          },
+          {
+            "rank": 7,
+            "url": "https://www.phototech.ru/steklopakety/udaroprochnye-steklopakety/",
+            "domain": "www.phototech.ru",
+            "title": "Ударопрочные стеклопакеты в Москве – купить по доступной...",
+            "snippet": "Ударопрочные стеклопакеты изготавливаются из композиционных (многослойных) стекол. … Мы занимаемся разработкой, изготовлением и монтажом противоударных стеклопакетов класса защиты Р1А, Р2А, Р3А, Р4А, Р5А в зданиях разного назначения.",
+            "modtime": "20240806T135420"
+          },
+          {
+            "rank": 8,
+            "url": "https://oknafactoria.ru/articles/protivoudarnyj-steklopaket-vidy-preimushhestva-kak-vybrat-podhodyashhij/",
+            "domain": "oknafactoria.ru",
+            "title": "Противоударное стекло для окон: какое бывает, как выбрать...",
+            "snippet": "Что такое противоударный стеклопакет. Стеклопакет состоит из стекол и промежутков между ними: два стекла с воздушной прослойкой и дистанционной рамкой называются камерой.иОт прочности стеклянной поверхности зависит прочность, долговечность и взломостойкость стеклопакета и всего окна в целом. Ударопрочные стекла могут изготавливаться...",
+            "modtime": "20240309T002748"
+          },
+          {
+            "rank": 9,
+            "url": "https://mirseifov.ru/bronirovannye-okna/product/udarostoykoe-okno/",
+            "domain": "mirseifov.ru",
+            "title": "Ударостойкие окна купить ударостойкие окна для дома...",
+            "snippet": "Ударостойкое окно. Ударостойкие стеклопакеты используются для защиты окон, дверей, витрин и перегородок от внешнего механического воздействия. … Почему бронированные двери и окна работают лучше вместе. Достигнуть максимального уровня защиты помещения от злоумышленников можно установив бронированные двери и окна.",
+            "modtime": "20230821T143055"
+          },
+          {
+            "rank": 10,
+            "url": "https://www.stis.ru/about_glass/bronirovannye-steklopakety/",
+            "domain": "www.stis.ru",
+            "title": "Бронированные стеклопакеты | STiS",
+            "snippet": "Если вопрос безопасности стоит для вас особенно остро и вам необходимы окна с повышенной защитой, компания STiS готова предложить вам бронированные (ударопрочные) стеклопакеты.",
+            "modtime": "20140926T104128"
+          }
+        ],
+        "result_count": 10,
+        "response_format": "FORMAT_XML"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "search",
+    "operation": "search",
+    "request_id": "search-batch-d7fc7dc3-4a96-480d-813e-2566e57067d8",
+    "run_id": null,
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.488,
+      "tariff_checked_at": "2026-08-19",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "search"
+    },
+    "command": {
+      "method": "search",
+      "queryText": "ударопрочный стеклопакет",
+      "searchType": "SEARCH_TYPE_RU",
+      "page": 0,
+      "groupsOnPage": 10,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC",
+      "groupMode": "GROUP_MODE_FLAT",
+      "docsInGroup": 1,
+      "maxPassages": 4,
+      "region": "213",
+      "l10n": "LOCALIZATION_RU"
+    },
+    "http_status": 200,
+    "elapsed_ms": 2007,
+    "result": {
+      "results": [
+        {
+          "rank": 1,
+          "url": "https://www.ok-vesta.ru/windows/steklopaket/steklopaket_udaroprochnyi/",
+          "domain": "www.ok-vesta.ru",
+          "title": "Ударопрочные стеклопакеты с использованием армированных...",
+          "snippet": "Особенности ударопрочных стеклопакетов. Стойкость стеклопакета к механическому воздействию определяется наличием в его конструкции специального упрочненного стекла, свойства которого достигаются тремя основными способами",
+          "modtime": "20160613T104512"
+        },
+        {
+          "rank": 2,
+          "url": "https://oknabm.ru/catalog/accessories/steklopaket/protivoudarnye/",
+          "domain": "oknabm.ru",
+          "title": "Купить противоударные стеклопакеты в Москве от...",
+          "snippet": "Противоударные стеклопакеты в каталоге на сайте oknabm.ru с доставкой по Москве и области. … Ударостойкие или \"противоударные\" стеклопакеты подходят для противодействия проникновению в частную собственность, а также для предупреждения случайного разбития стекла.",
+          "modtime": "20181019T174131"
+        },
+        {
+          "rank": 3,
+          "url": "https://izolux.ru/steklopakety/vidy-steklopaketov/udaroprochnye-steklopakety/",
+          "domain": "izolux.ru",
+          "title": "Ударопрочные стеклопакеты различных классов защиты – Цены...",
+          "snippet": "Ударопрочные стеклопакеты достаточно эффективно защищены от разрушения. … Противоударная пленка защищает окно от разрушения, помещение — от ультрафиолета. Это обеспечивает сохранность предметов интерьера, декора, антиквариата, различных экспонатов от хищения и выгорания на солнце.",
+          "modtime": "20180508T191242"
+        },
+        {
+          "rank": 4,
+          "url": "https://okno.ru/okna-rehau/protivoudarnyj-steklopaket/",
+          "domain": "okno.ru",
+          "title": "Противоударный стеклопакет - Цены на ударопрочные окна...",
+          "snippet": "Ударопрочные и бронировочные пленки состоят из полиэстера и клея и имеют похожую на сендвич структуру. Основное их преимущество — возможность наклеивания на самое обычное стекло. То есть ими можно повысить охранные функции уже установленного стеклопакета.",
+          "modtime": "20171016T030000"
+        },
+        {
+          "rank": 5,
+          "url": "https://okno-bezram-fachwerk.ru/protivoudarnyi_stieklopakiet",
+          "domain": "okno-bezram-fachwerk.ru",
+          "title": "Противоударные стеклопакеты Триплекс для безрамного...",
+          "snippet": "Противоударные стеклопакеты триплекс позволяют реализовать эту концепцию без компромиссов в безопасности. Звукоизоляция: Многослойная структура стеклопакета эффективно поглощает звуковые волны, создавая тихую и комфортную атмосферу в вашем доме.",
+          "modtime": "20250110T223920"
+        },
+        {
+          "rank": 6,
+          "url": "https://www.stis.ru/products/udarostoykiy-steklopaket/",
+          "domain": "www.stis.ru",
+          "title": "Ударостойкий стеклопакет STiS — прочность и безопасность",
+          "snippet": "Ударостойкие стеклопакеты позволяют не волноваться о риске повреждения окна злоумышленниками или случайно попавшим в окно тяжелым предметом. Мы производим безопасные стеклопакеты двух видов: 1. Антивандальные модели, разработанные нашими экспертами специально для защиты от злоумышленников — ударопрочные, с...",
+          "modtime": "20140816T055800"
+        },
+        {
+          "rank": 7,
+          "url": "https://www.phototech.ru/steklopakety/udaroprochnye-steklopakety/",
+          "domain": "www.phototech.ru",
+          "title": "Ударопрочные стеклопакеты в Москве – купить по доступной...",
+          "snippet": "Ударопрочные стеклопакеты изготавливаются из композиционных (многослойных) стекол. … Мы занимаемся разработкой, изготовлением и монтажом противоударных стеклопакетов класса защиты Р1А, Р2А, Р3А, Р4А, Р5А в зданиях разного назначения.",
+          "modtime": "20240806T135420"
+        },
+        {
+          "rank": 8,
+          "url": "https://oknafactoria.ru/articles/protivoudarnyj-steklopaket-vidy-preimushhestva-kak-vybrat-podhodyashhij/",
+          "domain": "oknafactoria.ru",
+          "title": "Противоударное стекло для окон: какое бывает, как выбрать...",
+          "snippet": "Что такое противоударный стеклопакет. Стеклопакет состоит из стекол и промежутков между ними: два стекла с воздушной прослойкой и дистанционной рамкой называются камерой.иОт прочности стеклянной поверхности зависит прочность, долговечность и взломостойкость стеклопакета и всего окна в целом. Ударопрочные стекла могут изготавливаться...",
+          "modtime": "20240309T002748"
+        },
+        {
+          "rank": 9,
+          "url": "https://mirseifov.ru/bronirovannye-okna/product/udarostoykoe-okno/",
+          "domain": "mirseifov.ru",
+          "title": "Ударостойкие окна купить ударостойкие окна для дома...",
+          "snippet": "Ударостойкое окно. Ударостойкие стеклопакеты используются для защиты окон, дверей, витрин и перегородок от внешнего механического воздействия. … Почему бронированные двери и окна работают лучше вместе. Достигнуть максимального уровня защиты помещения от злоумышленников можно установив бронированные двери и окна.",
+          "modtime": "20230821T143055"
+        },
+        {
+          "rank": 10,
+          "url": "https://www.stis.ru/about_glass/bronirovannye-steklopakety/",
+          "domain": "www.stis.ru",
+          "title": "Бронированные стеклопакеты | STiS",
+          "snippet": "Если вопрос безопасности стоит для вас особенно остро и вам необходимы окна с повышенной защитой, компания STiS готова предложить вам бронированные (ударопрочные) стеклопакеты.",
+          "modtime": "20140926T104128"
+        }
+      ],
+      "result_count": 10,
+      "response_format": "FORMAT_XML"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 1.952,
+    "max_rub": 4.392
+  },
+  "policy": {
+    "max_requests": 9,
+    "max_cost_rub": 4.392
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
