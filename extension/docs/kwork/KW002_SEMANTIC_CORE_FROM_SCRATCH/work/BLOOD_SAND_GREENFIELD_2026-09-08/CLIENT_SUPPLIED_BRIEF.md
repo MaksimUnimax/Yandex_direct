@@ -1,10 +1,10 @@
 # KW-002 — CLIENT-SUPPLIED BRIEF
 
 Job: `BLOOD_SAND_GREENFIELD_2026-09-08`  
-Status: **FROZEN CLIENT-LIKE INPUT / PRE-RESEARCH**  
+Status: **FROZEN CLIENT-LIKE INPUT / Ozon-ONLY ASSORTMENT CORRECTION ACTIVE**  
 Freeze date: 2026-09-08
 
-This file contains only information treated as if it was supplied by the client at order intake. It is not SEO analysis and must not contain conclusions from prior Blood & Sand research.
+This file contains only information treated as if supplied by the client at order intake. It is not SEO analysis.
 
 ## 1. Business / brand
 
@@ -16,22 +16,27 @@ Primary market: Russia
 Delivery geography: Russia / nationwide
 ```
 
-Do not replace this wording with an analyst-invented narrower product category before the assortment and demand are researched.
+Do not replace this wording with an analyst-invented narrower product category before assortment and demand research.
 
 ## 2. Current sales channels
 
-The client states that products are already sold through marketplaces:
+The client states that products are sold through:
 
 ```text
 Ozon
 Wildberries
 ```
 
-The client is planning a new owned website. The website is not supplied as an existing SEO structure and is not an analytical baseline for this order.
+However, for THIS KW-002 order the client supplies Ozon as the authoritative assortment catalog because it is the more current and non-duplicating product-card source for the test.
 
-## 3. What the future site should achieve
+```text
+ASSORTMENT AUTHORITY = Ozon only
+WB = sales-channel fact only; not Step-01 catalog input
+```
 
-Client goal in ordinary language:
+A new owned website is planned.
+
+## 3. Future-site goal
 
 ```text
 people searching in Yandex should be able to find the brand/products,
@@ -40,100 +45,43 @@ choose an appropriate product,
 and proceed toward purchase.
 ```
 
-Purchase may later be completed directly on the future site and/or through marketplace links. The exact future checkout/direct-commerce architecture is not fixed by this semantic-core order and must not be invented by the analyst.
+The exact future direct-vs-marketplace checkout architecture is outside this semantic-core order.
 
 ## 4. Exact assortment supplied by the client
 
-The client supplies the actual marketplace product/listing catalogs and explicitly identifies which seller lines belong to this website order.
-
-Canonical assortment authority:
+Canonical assortment authorities:
 
 ```text
 CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
-CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
 CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
-CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
 ```
 
 Frozen accounting:
 
 ```text
-Wildberries seller account observed = 108 listing cards
-Wildberries cards explicitly in scope for this site = 88
-Wildberries other seller lines explicitly out of scope = 20
-Ozon supplied listing identities = 76
-Total admitted in-scope marketplace listing rows before cross-platform reconciliation = 164
-Cross-platform unique-product count = NOT YET DETERMINED
+Ozon product/listing cards supplied = 76
+WB cards used as Step-01 assortment input = 0
+Cross-platform reconciliation required = NO
 ```
 
-The client is supplying concrete product/listing facts, not an SEO category tree.
-
-Examples of actual supplied names include:
-
-```text
-Печать Велеса
-Велес / Знак Велеса
-Алатырь (Крест Сварога)
-Макошь
-Родимич
-Хорс
-Мара
-Стрибог
-Семаргл
-Всеславец
-Сварог
-Чур
-Чернобог
-Боговник
-Триглав
-Звезда Лады
-Ратиборец
-Белобог
-Даждьбог
-Жива
-Молвинец
-Знич
-Перун
-Звезда Руси
-Вегвизир / Рунический компас
-Древо Жизни
-Гунгнир
-Валькнут
-Шлем ужаса / Эгисхьяльм
-Инь и Ян
-Ом / Аум
-Бусидо - Путь Воина
-Молитва Иоанна Златоуста
-Спаси и Сохрани
-Герб России
-Русская Община
-RSOTM
-Soldier Of Fortune
-знаки зодиака: Овен, Телец, Близнецы, Рак, Лев, Дева, Весы, Скорпион, Стрелец, Козерог, Водолей, Рыбы
-зодиакальные варианты/серии, включая Античность и Символы
-```
-
-This examples block is not the catalog. The exact listing rows and IDs in the client-supplied catalog files are the authority.
+Previously materialized WB files are retained only as superseded history and are not allowed inputs after the owner correction.
 
 ## 5. Assortment interpretation boundary
 
-The client has told us which concrete marketplace listings belong to the target product line. The analyst must not invent additional products or silently discard supplied ones.
+The analyst must process all 76 Ozon rows and may derive only neutral factual assortment concepts/series/variants from explicit client product data.
 
-But intake still does NOT pre-decide:
+Do NOT decide at intake:
 
 ```text
-which listings are the same underlying product across marketplaces
-which rows are variants rather than separate products
-which names form one search family
-which products are SEO priorities
-which products require separate pages
-which broad category labels Yandex users actually use
+search demand
+SEO priorities
+SEO clusters
+separate-page need
+site IA
+query→page ownership
 ```
 
-Those are research/analysis tasks for later KW-002 steps.
-
 ```text
-RAW LISTING ROW != UNIQUE PRODUCT MODEL
 PRODUCT TITLE != PROVEN SEARCH TERM
 PRODUCT EXISTS != SEO PRIORITY
 PRODUCT EXISTS != SEPARATE SEO PAGE
@@ -147,8 +95,6 @@ Primary language: Russian
 Search engine in scope: Yandex
 ```
 
-No city-only/local-service restriction is supplied.
-
 ## 7. Existing website / structure state
 
 ```text
@@ -158,8 +104,6 @@ existing target URL list = NONE
 existing category structure to preserve = NONE
 existing page map = NONE
 ```
-
-The new architecture must be derived from the current order evidence; the client is not supplying a desired SEO page tree as truth.
 
 ## 8. Existing SEO data supplied by client
 
@@ -173,33 +117,27 @@ existing Search conclusions = NONE
 existing Alice/AI-search conclusions = NONE
 ```
 
-The client is not asking us to clean or rebuild an old semantic core. The order starts from business and exact assortment facts.
-
 ## 9. Competitors
 
 ```text
 client-supplied competitors = NONE
 ```
 
-The analyst must independently discover real current organic competitors in Yandex during the relevant KW-002 steps.
+Real organic competitors must be discovered independently from current Yandex evidence later.
 
-## 10. Business exclusions / constraints
-
-Client-supplied boundaries:
+## 10. Business constraints
 
 ```text
-- do not invent products/services that are not actually sold;
-- use the client-supplied in-scope catalog rather than analyst assumptions about the assortment;
-- keep the 20 client-declared unrelated WB seller lines outside this website order;
+- do not invent products/services not actually sold;
+- use all 76 Ozon product cards as the assortment authority;
+- do not reintroduce WB cards into Step 01 without a new owner revision;
 - do not treat mystical/symbolic claims as proven physical effects;
-- do not guarantee Yandex rankings, traffic, sales or inclusion/citation in Alice AI;
-- do not assume a final direct-vs-marketplace checkout model inside this order;
-- full website copywriting, design and development are outside this order.
+- do not guarantee Yandex rankings, traffic, sales or Alice inclusion/citation;
+- do not invent final direct-vs-marketplace checkout model;
+- full site copywriting/design/development are outside this order.
 ```
 
-## 11. Requested result of the order
-
-The client expects a complete from-scratch semantic/site-structure result sufficient to continue website planning:
+## 11. Requested result
 
 ```text
 semantic core based on current Yandex demand
@@ -207,16 +145,16 @@ cleaned and classified phrases
 clusters based on user task / intent / current Yandex result evidence
 query -> target-page mapping
 recommended site information architecture
-Page Jobs / role of each planned search page
-recommended relationships/internal linking between the planned pages
-competitor-derived missed-demand findings that are actually validated
-comparison of ordinary Yandex Search decisions with bounded evidence from Yandex generative search/Alice AI where decision-relevant
+Page Jobs
+internal-link relationships
+validated competitor-derived missed-demand findings
+comparison of ordinary Yandex Search decisions with bounded Yandex generative/Alice AI evidence where decision-relevant
 client-ready files and explanation
 ```
 
 No artificial fixed final-keyword count is supplied by the client.
 
-## 12. What the client did NOT give us and therefore we must research ourselves
+## 12. What the client did NOT give us
 
 ```text
 search vocabulary
@@ -227,7 +165,6 @@ real organic competitors
 search intent
 SERP page-type patterns
 cluster boundaries
-which supplied products/listings collapse into common search families
 which queries belong on the same page
 which separate pages are justified
 final IA
@@ -236,15 +173,11 @@ internal-link model
 whether AI-search evidence changes or confirms Search-only decisions
 ```
 
-## 13. Client-input authority boundary
-
-Everything above is treated as client/order input.
-
-It must not be silently enriched with old Blood & Sand research before the new KW-002 result is frozen.
+## 13. Authority boundary
 
 ```text
 CLIENT FACT != PRIOR RESEARCH CONCLUSION
-CLIENT-SUPPLIED PRODUCT CATALOG != SEO TAXONOMY
+CLIENT PRODUCT CATALOG != SEO TAXONOMY
 PRODUCT EXISTS != SEPARATE SEO PAGE REQUIRED
 CLIENT PRODUCT NAME != PROVEN SEARCH TERM
 ```
