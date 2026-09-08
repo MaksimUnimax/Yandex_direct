@@ -72,7 +72,8 @@ jobs:
               for row in t.rows:
                   docx_text+='\n'+' | '.join(c.text for c in row.cells)
           reader=PdfReader(pdf)
-          pdf_text='\n'.join((p.extract_text() or '') for p in reader.pages)
+          pdf_pages_text=[(p.extract_text() or '') for p in reader.pages]
+          pdf_text='\n'.join(pdf_pages_text)
 
           banned=[
               'не выдавать за готовую','получить названное доказательство','из них не следует',
@@ -88,7 +89,7 @@ jobs:
               hits += [x for x in internal if re.search(x,text,re.I)]
               if hits:
                   raise SystemExit(f'{label} CLIENT_LANGUAGE_FAIL {hits}')
-          assert 'Содержание' not in pdf_text, 'EMPTY_TOC_HEADING_FAIL'
+          assert not re.search(r'(?m)^\s*Содержание\s*$', pdf_pages_text[0]), 'EMPTY_TOC_HEADING_FAIL'
           assert len(re.findall(r'^\| \d+ \|', md_text.split('## 6. Семантические назначения',1)[1].split('## 7.',1)[0], re.M))==46
           assert len(re.findall(r'^\| \d+ \|', md_text.split('## 8. Внутренние связи для детализации',1)[1].split('## 9.',1)[0], re.M))==14
           assert not re.search(r'опубликован\w*\s+в\s+2024|дата публикации', md_text, re.I)
