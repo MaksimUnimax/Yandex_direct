@@ -2,16 +2,11 @@
 
 Дата: 2026-09-08
 
-Статус: **COMPLETE / PASS / REMOTE GITHUB READBACK PASS**
+Статус: **SUPERSEDED BY EXTERNAL METHOD AUDIT / REWORK_REQUIRED**
 
-## 1. Проверяемый результат
+## 1. Исторический локальный/структурный QA
 
-- `STEP_02_SEED_MAP.csv`
-- `STEP_02_COVERAGE_MATRIX.csv`
-- `STEP_02_DEFERRED_OR_TARGETED_PROBES.csv`
-- `STEP_02_REPORT.md`
-
-## 2. Количественный QA
+Первоначальный QA подтвердил корректность materialization и accounting:
 
 ```text
 SEED_ROWS_TOTAL = 97
@@ -23,110 +18,67 @@ SEEDS_WITHOUT_SOURCE_LINEAGE = 0
 SEEDS_NOT_DISCOVERY_PROBE = 0
 COVERAGE_ROWS = 76
 COVERAGE_ROWS_WITHOUT_PRIMARY_ROUTE = 0
-```
-
-## 3. Seed-class accounting
-
-```text
-CLIENT_HEAD_CLASS = 3
-EXPLICIT_USE_OR_FORM = 2
-ANALYST_COMPOSED_USE_DIAGNOSTIC = 3
-EXACT_NAMED_PRODUCT_OR_SYMBOL = 38
-ZODIAC_FAMILY = 1
-ZODIAC_SIGN_SCOPED = 12
-EXPLICIT_ALIAS_OR_ALTERNATE_WRITING = 10
-VARIANT_MARKER_DIAGNOSTIC = 26
-BRAND = 2
-TOTAL = 97
-```
-
-Priority reconciliation:
-
-```text
-PRIMARY = 67
-DEFERRED_TARGETED = 30
-TOTAL = 97
-```
-
-## 4. Adversarial method checks
-
-```text
-ALL_SEEDS_HAVE_SOURCE_LINEAGE = true
-ALL_SEEDS_HAVE_EXPLICIT_PURPOSE = true
-ALL_SEEDS_STATUS_DISCOVERY_PROBE = true
-CLIENT_TERMS_RELABELLED_AS_PROVEN_DEMAND = 0
-ANALYST_COMPOSED_SEEDS_UNLABELLED = 0
-STEP01_NAC_BUCKETS_USED_AS_SEO_TAXONOMY = 0
-UNSUPPORTED_PRODUCT_FACTS_USED = 0
-MATERIAL_CLIENT_CARDS_WITHOUT_PRIMARY_PROBE_ROUTE = 0
-REDUNDANT_NORMALIZED_SEEDS = 0
-STANDALONE_INTERNAL_VARIANT_MARKER_PRIMARY_SEEDS = 0
-```
-
-## 5. Provider / contamination checks
-
-```text
 WORDSTAT_CALLS = 0
 SEARCH_CALLS = 0
 AI_SEARCH_CALLS = 0
 WB_ROWS_USED = 0
 OLD_RESEARCH_CONTAMINATION = 0
-```
-
-## 6. Coverage checks
-
-`STEP_02_COVERAGE_MATRIX.csv` содержит 76 строк.
-
-```text
-EXPECTED_OZON_CARDS = 76
-COVERAGE_ROWS = 76
-CARDS_WITH_PRIMARY_PROBE_ROUTE = 76
-CARDS_WITHOUT_PRIMARY_PROBE_ROUTE = 0
-```
-
-Variant-marker probes не заменяют basic routes: variant-карточки уже имеют основной route через конкретное название/знак, а variant probe записан как deferred.
-
-## 7. Claim-boundary checks
-
-В Step 02 не создано:
-
-```text
-KEEP/REJECT keyword verdicts
-final frequency values
-search intent
-SEO clusters
-query→page ownership
-site IA
-SEO priority
-competitor conclusions
-AI-search conclusions
-```
-
-Наличие probe означает только, что эту формулировку целесообразно использовать как измерительный вход или сохранить как отложенный diagnostic.
-
-## 8. PASS gate
-
-Remote readback выполнен после записи всех пяти файлов.
-
-```text
-LOCAL_QA = PASS
-REMOTE_SEED_MAP_SHA = 1ca81f86625d7ea4932df09041e6708c08f7a526
-REMOTE_COVERAGE_MATRIX_SHA = b88429634cdf31e3c5bb98f0f03f6410d9145b0d
-REMOTE_DEFERRED_PROBES_SHA = f5217b22515c162b5c6889dd026dfb188c67b4d1
-REMOTE_REPORT_SHA_PRE_FINAL_STATUS = 9dbe7a67e1a8da0b7d1cc94812fa44c8dbddc3c3
-REMOTE_SEED_LAST_ROW = S097
-REMOTE_COVERAGE_LAST_ROW = 76
-REMOTE_DEFERRED_LAST_ROW = S097
-REMOTE_SEED_ROWS = 97
-REMOTE_COVERAGE_ROWS = 76
-REMOTE_DEFERRED_ROWS = 30
 REMOTE_GITHUB_READBACK = PASS
 ```
 
-Финальный переход:
+Этот QA остаётся исторически верным в части файлов, количества строк, lineage и запретов.
+
+## 2. Почему прежний PASS больше не действует
+
+После требования владельца выполнен отдельный внешний методический аудит по официальным материалам Яндекса и отраслевым статьям:
+
+```text
+STEP_02_EXTERNAL_METHOD_AUDIT_2026-09-08.md
+```
+
+Аудит установил, что первоначальный QA проверял:
+
+```text
+card has a primary route
+```
+
+но не проверял достаточно строго:
+
+```text
+primary route is search-discovery-quality
+ambiguous bare seed has a qualified/refinement route
+synonym/use-context coverage is sufficient
+PRIMARY vs DEFERRED rationale is discriminating rather than boilerplate
+```
+
+Поэтому старое утверждение:
 
 ```text
 STEP_02 = COMPLETE / PASS
-NEXT_STEP_ALLOWED = true
-NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
 ```
+
+отменено поздней проверкой.
+
+## 3. Текущий финальный verdict
+
+```text
+STEP_02_STRUCTURAL_ACCOUNTING_QA = PASS
+STEP_02_EXTERNAL_METHOD_QA = FAIL
+STEP_02 = REWORK_REQUIRED
+NEXT_STEP_ALLOWED = false
+STEP_03 = BLOCKED
+```
+
+## 4. Обязательные исправления перед новым PASS
+
+```text
+SEARCH_PROBE_QUALITY_COVERAGE_REQUIRED = true
+HIGH_NOISE_BARE_SEEDS_REQUIRE_REFINEMENT_ROUTE = true
+SYSTEMATIC_BOUNDED_USE_SYNONYM_COVERAGE_REQUIRED = true
+EXACT_NAME_PRIMARY_BIAS_MUST_BE_REVIEWED = true
+INFORMATION_GAIN_RATIONALE_MUST_BE_DISCRIMINATING = true
+PRIMARY_DEFERRED_REVIEW_MUST_IGNORE_TRIVIAL_DIRECT_API_COST = true
+NEW_REMOTE_READBACK_REQUIRED = true
+```
+
+Новый Step-02 PASS может быть выставлен только после пересборки seed map/coverage/QA и удалённого readback.
