@@ -1,0 +1,68 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "batch.start",
+  "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "start",
+    "jobId": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+    "phrases": [
+      "остекление балкона П-46",
+      "остекление балкона с выносом по полу",
+      "гидроизоляция открытого балкона",
+      "солнцезащитный стеклопакет",
+      "многофункциональный стеклопакет",
+      "ударопрочный стеклопакет",
+      "Provedal C640 или P400",
+      "окна для старого фонда",
+      "окна для квартиры под аренду",
+      "балкон под офис",
+      "балкон-кладовая",
+      "фальш-крыша на балкон",
+      "шумоизоляция крыши балкона",
+      "армирование оконного профиля"
+    ],
+    "numPhrases": 200,
+    "regions": ["213"],
+    "devices": ["DEVICE_ALL"],
+    "maxRequests": 14,
+    "maxCostRub": 0.28
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-wordstat-gap-20260908",
+    "status": "RUNNING",
+    "total": 14,
+    "input_count": 14,
+    "duplicate_count": 0,
+    "pending": 14,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 0,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 0,
+    "requests_started": 0,
+    "estimated_cost_rub": 0,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": null,
+  "provider_result": null,
+  "cost_estimate": {
+    "estimated_rub": 0,
+    "max_rub": 0.28
+  },
+  "policy": {
+    "max_requests": 14,
+    "max_cost_rub": 0.28
+  },
+  "request_executed": false,
+  "automatic_retry": false
+}
