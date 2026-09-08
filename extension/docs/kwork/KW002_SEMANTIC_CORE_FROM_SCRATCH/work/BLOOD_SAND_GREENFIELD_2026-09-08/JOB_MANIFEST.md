@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 02 COMPLETE / PASS / STEP 03 NEXT ALLOWED**
+Status: **STEP 02 REWORK_REQUIRED AFTER EXTERNAL METHOD AUDIT / STEP 03 BLOCKED**
 
 ## 1. Job identity
 
@@ -55,52 +55,7 @@ DEFAULT BLOOD_SAND PROJECT MATERIAL = DENY
 EXCEPTIONS = exact sources whitelisted in ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-Forbidden old inputs include prior Wordstat/seeds, Search/SERP, Alice/AI, opportunity maps, competitor findings, buyer-research conclusions, SEO priorities, clusters, query→page, IA and Page Jobs.
-
-## 5. Client did not supply
-
-```text
-semantic core = NONE
-keyword list = NONE
-SEO page map = NONE
-final site architecture = NONE
-SEO competitor list = NONE
-intent classification = NONE
-clustering = NONE
-Search/SERP conclusions = NONE
-Alice/AI-search conclusions = NONE
-```
-
-## 6. Promised KW-002 outputs
-
-```text
-current-Yandex demand evidence
-cleaned semantic core
-user-task / intent classification
-SERP-backed clusters
-query→target-page mapping
-planned site IA
-Page Jobs
-internal-link relationships
-validated competitor-derived semantic gaps
-bounded Search-vs-AI-search decision evidence
-client-ready deliverables
-```
-
-No artificial fixed keyword-count target.
-
-## 7. Work prompt authority
-
-```text
-MAIN_CHATGPT = writes canonical Work prompt when Work is required
-OWNER_USER = relays prompt to ChatGPT Work
-CHATGPT_WORK = executes complete unit
-MAIN_CHATGPT = return QA / acceptance
-```
-
-Step 01 Work execution is complete and accepted.
-
-## 8. Step 01 acceptance
+## 5. Step 01 accepted truth
 
 ```text
 STEP_01_INPUT_ROWS_ACCOUNTED = 76
@@ -113,9 +68,9 @@ STEP_01_MAIN_RETURN_QA = PASS
 STEP_01_COMPLETE = true
 ```
 
-The four Step-01 neutral accounting buckets are not SEO clusters or future site categories.
+## 6. Step 02 historical materialization
 
-## 9. Step 02 accepted artifacts
+Historical files remain authoritative for what version 1 contained:
 
 ```text
 STEP_02_PRE_STEP_REVIEW_2026-09-08.md
@@ -126,76 +81,80 @@ STEP_02_REPORT.md
 STEP_02_QA_REPORT.md
 ```
 
-Accepted Step-02 truth:
+Version-1 accounting remains:
 
 ```text
-STEP_02_SEED_ROWS_TOTAL = 97
-STEP_02_PRIMARY_SEEDS = 67
-STEP_02_DEFERRED_TARGETED_SEEDS = 30
-STEP_02_DUPLICATE_NORMALIZED_SEEDS = 0
-STEP_02_SEEDS_WITHOUT_SOURCE_LINEAGE = 0
-STEP_02_SEEDS_WITHOUT_PURPOSE = 0
-STEP_02_SEEDS_NOT_DISCOVERY_PROBE = 0
-STEP_02_COVERAGE_ROWS = 76
-STEP_02_CARDS_WITHOUT_PRIMARY_ROUTE = 0
-STEP_02_WORDSTAT_CALLS = 0
-STEP_02_SEARCH_CALLS = 0
-STEP_02_AI_SEARCH_CALLS = 0
-STEP_02_WB_ROWS_USED = 0
-STEP_02_OLD_RESEARCH_CONTAMINATION = 0
-STEP_02_REMOTE_GITHUB_READBACK = PASS
-STEP_02_COMPLETE = true
+STEP_02_V1_SEED_ROWS_TOTAL = 97
+STEP_02_V1_PRIMARY_SEEDS = 67
+STEP_02_V1_DEFERRED_TARGETED_SEEDS = 30
+STEP_02_V1_DUPLICATE_NORMALIZED_SEEDS = 0
+STEP_02_V1_COVERAGE_ROWS = 76
+STEP_02_V1_WORDSTAT_CALLS = 0
+STEP_02_V1_REMOTE_READBACK = PASS
 ```
 
-All Step-02 seeds are acquisition/discovery probes only.
+## 7. Step 02 external method audit
+
+Superseding authority:
 
 ```text
-SEED != FINAL KEYWORD
-SEED != CLUSTER
-SEED != PAGE
+STEP_02_EXTERNAL_METHOD_AUDIT_2026-09-08.md
 ```
 
-## 10. Step 03 input boundary
+External materials used include current official Yandex Webmaster, Yandex Direct, Wordstat GetTop/operators/pricing documentation and Ahrefs/Semrush seed-keyword/ecommerce guidance.
 
-Step 03 primary acquisition should start from the **67 `PRIMARY` seeds** in `STEP_02_SEED_MAP.csv`.
-
-The 30 `DEFERRED_TARGETED` probes must not automatically create provider calls. They can be activated later only when a named coverage gap or information-gain question justifies them.
-
-Before any Wordstat command Step 03 must run its own pre-step/provider gate and state:
+Audit verdict:
 
 ```text
-ACTIVE SERVICE
-EXECUTION MODE
-EXACT QUESTION
-EXPECTED REQUEST COUNT
-EXPECTED COST / QUOTA EFFECT
-REQUIRED SAVED RESULT
-COMPLETENESS CHECK
-STOP CONDITION
+STEP_02_PREVIOUS_PASS = INVALIDATED
+STEP_02_STATUS = REWORK_REQUIRED
+STEP_03_ALLOWED = false
 ```
 
-## 11. Current execution state
+Main defects:
+
+```text
+1. catalog-route coverage was treated as if it proved search-probe quality;
+2. high-noise bare-name seeds were PRIMARY without mandatory qualified/refinement route;
+3. automobile use-context synonyms/variants were not systematically covered;
+4. primary set is too dependent on exact seller names;
+5. expected_information_gain rationale is boilerplate for many exact-name seeds;
+6. PRIMARY/DEFERRED rationale must not be driven by trivial direct Yandex API cost.
+```
+
+## 8. Required Step 02 correction
+
+Before Step 03:
+
+```text
+- rebuild primary/deferred seed priorities;
+- add probe-quality coverage gate, not only card-lineage coverage;
+- require qualified/refinement route for high-noise bare seeds;
+- add bounded synonym/use-context coverage for car-related demand;
+- rebalance broad/qualified/exact-name/alternate-writing/brand probes;
+- replace generic information-gain text with discriminating rationale;
+- rerun adversarial QA;
+- perform remote GitHub readback.
+```
+
+## 9. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
 ROADMAP_OWNER_APPROVED = true
 ORDER_SCOPE_FROZEN = true
 STEP_00_COMPLETE = true
-STEP_00_VERDICT = PASS_AFTER_OZON_ONLY_CORRECTION
-CLIENT_PRODUCT_CATALOG_OZON_ROWS = 76
-WB_PRODUCT_ROWS_ALLOWED = 0
 STEP_01_COMPLETE = true
 STEP_01_MAIN_RETURN_QA = PASS
 STEP_02_STARTED = true
-STEP_02_PRE_STEP_REVIEW = COMPLETE
-STEP_02_OWNER_AUTHORIZATION = GRANTED_BY_USER_DO_IT
-STEP_02_EXECUTION = COMPLETE
-STEP_02_QA = PASS
-STEP_02_REMOTE_GITHUB_READBACK = PASS
-STEP_02_COMPLETE = true
+STEP_02_V1_MATERIALIZED = true
+STEP_02_EXTERNAL_METHOD_AUDIT = COMPLETE
+STEP_02_EXTERNAL_METHOD_VERDICT = FAIL
+STEP_02_COMPLETE = false
+STEP_02_STATUS = REWORK_REQUIRED
 STEP_03_STARTED = false
-NEXT_STEP_ALLOWED = true
-NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
+NEXT_STEP_ALLOWED = false
+NEXT_STEP = STEP_02_REWORK
 PROVIDER_CALLS_FOR_KW002_JOB = 0
 WORK_HANDOFFS_EXECUTED = 1
 ```
