@@ -1,0 +1,221 @@
+name: KW001 OKNO Report02 Implementation Recommendations
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/REPORT02_IMPLEMENTATION_RECOMMENDATIONS_TRIGGER.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-report02-implementation-recommendations
+  cancel-in-progress: false
+
+jobs:
+  build-qa-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq pandoc libreoffice ghostscript poppler-utils >/dev/null
+          python -m pip install --disable-pip-version-check --quiet python-docx pypdf
+
+      - name: Regenerate Report 02 Markdown
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          python "$ROOT/tools/post_release_correction/build_report02_implementation_guide.py"
+
+      - name: Validate client structure and language
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          RELEASE="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          python "$ROOT/tools/post_release_correction/validate_report02_client_cleanliness.py" \
+            "$RELEASE/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md" \
+            --out /tmp/report02_implementation_qa.json
+
+      - name: Build DOCX and PDF
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          python "$ROOT/tools/post_release_correction/build_report02_client_clean_documents.py"
+
+      - name: Cross-format QA and patch release manifest
+        run: |
+          python - <<'PY'
+          import hashlib, json, re
+          from pathlib import Path
+          from docx import Document
+          from pypdf import PdfReader
+
+          root=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK')
+          rel=root/'OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05'
+          md=rel/'sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md'
+          docx=rel/'editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx'
+          pdf=rel/'02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf'
+          qa=root/'RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json'
+
+          md_text=md.read_text(encoding='utf-8')
+          d=Document(docx)
+          docx_text='\n'.join(p.text for p in d.paragraphs)
+          for t in d.tables:
+              for row in t.rows:
+                  docx_text+='\n'+' | '.join(c.text for c in row.cells)
+          reader=PdfReader(pdf)
+          pdf_pages=[(p.extract_text() or '') for p in reader.pages]
+          pdf_text='\n'.join(pdf_pages)
+
+          banned=[
+              'руководство специалиста','SEO-специалиста','для редактора','для разработчика','Документ №02 для',
+              'Требования к существующей структуре','Семантические назначения','Внутренние связи для детализации',
+              'не выдавать за готовую','получить названное доказательство','из них не следует',
+              'не внедрять','не размещать','что сейчас запрещено','граница приёмки сейчас',
+              'отдельно санкционировать','новые факты не собирались','post-hoc'
+          ]
+          roles=[r'\bспециалист\w*\b',r'\bредактор\w*\b',r'\bразработчик\w*\b']
+          internal=[r'S18-A\d+',r'STEP_[A-Z0-9_]+',r'Stage\d+',r'CV\d+',r'OR-\d+',r'\bCONTENT_BLOCK\b',r'\bSEMANTIC_MAPPING_ONLY\b',r'\bRECHECK_ONLY\b']
+          for label,text in [('md',md_text),('docx',docx_text),('pdf',pdf_text)]:
+              hits=[x for x in banned if x.casefold() in text.casefold()]
+              hits += [x for x in roles if re.search(x,text,re.I)]
+              hits += [x for x in internal if re.search(x,text,re.I)]
+              if hits:
+                  raise SystemExit(f'{label} FORMAT_FAIL {hits}')
+
+          assert md_text.startswith('# Внедрение рекомендации\n')
+          assert re.search(r'(?m)^\s*Внедрение рекомендации\s*$', pdf_pages[0])
+          assert not re.search(r'(?m)^\s*Содержание\s*$', pdf_pages[0])
+          assert '## 9.' not in md_text
+
+          sec4=md_text.split('## 4. Распределение тем по страницам',1)[1].split('## 5.',1)[0]
+          sec5=md_text.split('## 5. Проверки перед следующими изменениями',1)[1].split('## 6.',1)[0]
+          sec6=md_text.split('## 6. Связи между страницами',1)[1].split('## 7.',1)[0]
+          assert len(re.findall(r'^\| \d+ \|',sec4,re.M))==46
+          assert len(re.findall(r'^\| \d+ \|',sec6,re.M))==14
+          for marker in ['**Что это.**','**Для чего.**','**Как использовать.**']:
+              assert marker in sec4, marker
+          for marker in ['**Что это.**','**Для чего.**','**Как внедрять.**']:
+              assert marker in sec6, marker
+          for marker in ['**Что нужно понять**','**Зачем**','**Как проверить**','**Решение по результату**']:
+              assert sec5.count(marker)==4, marker
+
+          assert not re.search(r'опубликован\w*\s+в\s+2024|дата публикации',md_text,re.I)
+          assert 'рейтинг производителей за 2024 год' in md_text
+          pages=len(reader.pages)
+
+          def sha(path):
+              h=hashlib.sha256(); h.update(path.read_bytes()); return h.hexdigest()
+
+          base=json.loads(Path('/tmp/report02_implementation_qa.json').read_text(encoding='utf-8'))
+          base.update({
+              'scope':'DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS_REBUILD',
+              'owner_review':'PENDING',
+              'counts':{'ready':3,'clarification':5,'topic_page_rows':46,'additional_checks':4,'page_link_rows':14,'bibliography':10,'pdf_pages':pages},
+              'cross_format':{
+                  'role_branding_hits_md':0,'role_branding_hits_docx':0,'role_branding_hits_pdf':0,
+                  'old_heading_hits_md':0,'old_heading_hits_docx':0,'old_heading_hits_pdf':0,
+                  'standalone_preservation_section_hits':0,'empty_toc_heading_hits':0,
+                  'essential_section_equivalence':'PASS'
+              },
+              'artifacts':{
+                  'markdown':{'path':str(md.relative_to(rel)),'size_bytes':md.stat().st_size,'sha256':sha(md)},
+                  'docx':{'path':str(docx.relative_to(rel)),'size_bytes':docx.stat().st_size,'sha256':sha(docx)},
+                  'pdf':{'path':str(pdf.relative_to(rel)),'size_bytes':pdf.stat().st_size,'sha256':sha(pdf)}
+              },
+              'new_project_specific_data_collection':0,
+              'post_hoc_evidence_used':0,
+              'protected_artifacts':{'document_01_modified':False,'document_03_modified':False,'semantic_core_04_modified':False}
+          })
+          qa.write_text(json.dumps(base,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          manifest=rel/'RELEASE_MANIFEST_2026-09-05.json'
+          m=json.loads(manifest.read_text(encoding='utf-8'))
+          for a in m['recipient_artifacts']:
+              if a['variant']=='02':
+                  a['path']=pdf.name
+                  a['size_bytes']=pdf.stat().st_size
+                  a['sha256']=sha(pdf)
+                  a['pages']=pages
+                  a['recipient_contract']='VNEDRENIE_REKOMENDATSII__PLAIN_ACTION_FIRST__3_READY__5_CLARIFICATIONS__46_TOPIC_PAGE_ROWS__4_CHECKS__14_PAGE_LINK_ROWS__OWNER_REVIEW_PENDING'
+          m['editable_and_source_files']=[a for a in m['editable_and_source_files'] if not (a['path'].startswith('editable/02_') or a['path'].startswith('sources/02_'))]
+          m['editable_and_source_files'].extend([
+              {'path':str(docx.relative_to(rel)),'size_bytes':docx.stat().st_size,'sha256':sha(docx)},
+              {'path':str(md.relative_to(rel)),'size_bytes':md.stat().st_size,'sha256':sha(md)},
+          ])
+          d2=m.setdefault('document_02',{})
+          d2.update({
+              'visible_title':'Внедрение рекомендации',
+              'ready_actions':3,
+              'clarification_items':5,
+              'topic_page_rows':46,
+              'additional_checks':4,
+              'visible_unique_internal_link_pairs':14,
+              'client_role_branding_hits':0,
+              'standalone_preservation_section_hits':0,
+              'topic_page_what_why_how':'PASS',
+              'page_link_what_why_how':'PASS',
+              'additional_checks_purpose_method_decision':'PASS',
+              'new_project_specific_data_collection':0,
+              'post_hoc_evidence_used':0,
+              'visual_qa':f'PENDING_OWNER_READBACK__{pages}_PAGE_FINAL_PDF_RENDERED',
+              'owner_review':'PENDING'
+          })
+          m['status']='DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS_ANALYST_RECHECK_PASS__OWNER_REVIEW_PENDING__DOCUMENT_03_NOT_ADVANCED'
+          m['qa']['document_02_format_review']='../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_REPORT_FORMAT_REVIEW_2026-09-08.md'
+          m['qa']['document_02_format_gate']='../../STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md'
+          m['qa']['document_02_implementation_qa']='../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json'
+          m['qa']['next_action']='OWNER_REVIEW_IMPLEMENTATION_RECOMMENDATIONS_DOCUMENT_02__DO_NOT_START_DOCUMENT_03'
+          manifest.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          print('REPORT02_IMPLEMENTATION_RECOMMENDATIONS_QA_PASS',pages,sha(md),sha(docx),sha(pdf))
+          PY
+
+      - name: Render final PDF for visual readback
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          RELEASE="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          rm -rf /tmp/report02-implementation-render
+          mkdir -p /tmp/report02-implementation-render
+          pdftoppm -png -r 150 "$RELEASE/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf" /tmp/report02-implementation-render/page >/dev/null 2>&1
+          test "$(find /tmp/report02-implementation-render -name 'page-*.png' | wc -l)" -ge 1
+
+      - name: Persist rebuilt Report 02
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          RELEASE="$ROOT/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05"
+          git add "$RELEASE/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md"
+          git add "$RELEASE/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx"
+          git add "$RELEASE/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf"
+          git add "$RELEASE/RELEASE_MANIFEST_2026-09-05.json"
+          git add "$ROOT/RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json"
+          for OLD in \
+            "$RELEASE/sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md" \
+            "$RELEASE/editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx" \
+            "$RELEASE/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf"; do
+            if [ -e "$OLD" ]; then git rm "$OLD"; fi
+          done
+          git commit -m "docs(okno-msk): materialize implementation recommendations report 02 [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+
+      - name: Upload exact report and renders
+        uses: actions/upload-artifact@v4
+        with:
+          name: report02-implementation-recommendations-readback
+          path: |
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx
+            extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf
+            /tmp/report02-implementation-render/*.png
+          if-no-files-found: error
+          retention-days: 7
