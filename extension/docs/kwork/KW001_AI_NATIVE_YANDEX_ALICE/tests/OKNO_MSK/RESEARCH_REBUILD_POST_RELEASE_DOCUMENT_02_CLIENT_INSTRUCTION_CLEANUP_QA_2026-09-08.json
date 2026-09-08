@@ -1,24 +1,84 @@
 {
-  "artifact": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
+  "artifact": "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
   "status": "PASS",
   "checks_total": 15,
   "checks_passed": 15,
   "checks": [
-    {"name":"client_negative_pseudo_action_phrases","status":"PASS","detail":[]},
-    {"name":"obvious_open_find_navigate_mechanics","status":"PASS","detail":[]},
-    {"name":"project_internal_traceability","status":"PASS","detail":[]},
-    {"name":"current_job_negative_particle_ne_hits","status":"PASS","detail":[]},
-    {"name":"ready_count","status":"PASS","detail":3},
-    {"name":"clarification_count","status":"PASS","detail":5},
-    {"name":"semantic_assignment_rows","status":"PASS","detail":46},
-    {"name":"internal_link_rows","status":"PASS","detail":14},
-    {"name":"semantic_repeated_no_change_instruction_absent","status":"PASS","detail":null},
-    {"name":"client_process_meta_absent","status":"PASS","detail":null},
-    {"name":"a031_publication_date_claim_absent","status":"PASS","detail":null},
-    {"name":"a031_ranking_year_present","status":"PASS","detail":null},
-    {"name":"bibliography_count","status":"PASS","detail":10},
-    {"name":"alice_bibliography","status":"PASS","detail":null},
-    {"name":"section_structure","status":"PASS","detail":null}
+    {
+      "name": "client_negative_pseudo_action_phrases",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "obvious_open_find_navigate_mechanics",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "project_internal_traceability",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "current_job_negative_particle_ne_hits",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "ready_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "clarification_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "semantic_assignment_rows",
+      "status": "PASS",
+      "detail": 46
+    },
+    {
+      "name": "internal_link_rows",
+      "status": "PASS",
+      "detail": 14
+    },
+    {
+      "name": "semantic_repeated_no_change_instruction_absent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "client_process_meta_absent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a031_publication_date_claim_absent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "a031_ranking_year_present",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "bibliography_count",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "alice_bibliography",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "section_structure",
+      "status": "PASS",
+      "detail": null
+    }
   ],
   "scope": "DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP",
   "owner_review": "PENDING",
@@ -29,7 +89,7 @@
     "additional_checks": 4,
     "internal_links": 14,
     "bibliography": 10,
-    "pdf_pages": 8
+    "pdf_pages": 14
   },
   "cross_format": {
     "banned_language_hits_md": 0,
@@ -38,24 +98,25 @@
     "essential_section_equivalence": "PASS",
     "a031_ranking_year_consistency": "PASS"
   },
-  "visual_qa": {
-    "docx_render_pages": 8,
-    "docx_pages_inspected": "1-8",
-    "pdf_render_pages": 8,
-    "pdf_pages_inspected": "1-8",
-    "no_clipping": true,
-    "no_overlap": true,
-    "tables_legible": true,
-    "urls_legible": true,
-    "bold_examples_visible": true,
-    "status": "PASS"
-  },
   "artifacts": {
-    "markdown": {"size_bytes":37540,"sha256":"caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"},
-    "docx": {"size_bytes":50687,"sha256":"809b457e30385cfbd16e2b21c05b43adcb9e58642dca62ca22507ef83bf87031"},
-    "pdf": {"size_bytes":317926,"sha256":"eeaab4e774536617e94971c02d284b3d9351ee09406b4fb9673e7c27023394a5"}
+    "markdown": {
+      "size_bytes": 37540,
+      "sha256": "caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"
+    },
+    "docx": {
+      "size_bytes": 28556,
+      "sha256": "6f7e7a61d8fb6a765a0d74ad6e8371b0098bf6ee4383f8b739bfa2ec7a4bcb62"
+    },
+    "pdf": {
+      "size_bytes": 172803,
+      "sha256": "c1b5c2b854134585d4419858a3e45556dfe716426520ebf598e72943773b3921"
+    }
   },
   "new_project_specific_data_collection": 0,
   "post_hoc_evidence_used": 0,
-  "protected_artifacts": {"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false}
+  "protected_artifacts": {
+    "document_01_modified": false,
+    "document_03_modified": false,
+    "semantic_core_04_modified": false
+  }
 }

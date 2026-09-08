@@ -15,46 +15,113 @@
     "master_research": "../RESEARCH_REBUILD_STAGE_08_MASTER_RESEARCH_REPORT_2026-09-05.md"
   },
   "recipient_artifacts": [
-    {"variant":"01","path":"01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf","format":"pdf","size_bytes":106406,"sha256":"79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08","pages":7,"state":"UNCHANGED"},
-    {"variant":"02","path":"02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf","format":"pdf","size_bytes":317926,"sha256":"eeaab4e774536617e94971c02d284b3d9351ee09406b4fb9673e7c27023394a5","pages":8,"recipient_contract":"RUSSIAN_SPECIALIST_GUIDE__POSITIVE_REQUIRED_ACTIONS_ONLY__3_READY__5_CLARIFICATIONS__46_SEMANTIC_ASSIGNMENTS__4_ADDITIONAL_CHECKS__14_INTERNAL_LINK_PAIRS__0_CLIENT_PROCESS_META__0_NEGATIVE_PSEUDO_ACTIONS__OWNER_REVIEW_PENDING"},
-    {"variant":"03","path":"03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md","format":"markdown","size_bytes":1119673,"sha256":"d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0","physical_file_count_for_variant":1,"state":"UNCHANGED"},
-    {"variant":"04","path":"04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx","format":"xlsx","size_bytes":1431390,"sha256":"cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a","sheets":6,"sheet_names":["01_Все_фразы","02_Активное_ядро","03_Кластеры","04_Страницы","05_Проверка_в_Яндексе","06_Справочник"],"all_unique_phrases":2840,"active_phrases":2332,"canonical_clusters":168,"search_required_phrases":19,"dictionary_rows":122,"state":"UNCHANGED"}
+    {
+      "variant": "01",
+      "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.pdf",
+      "format": "pdf",
+      "size_bytes": 106406,
+      "sha256": "79450c2f0dc58ea064b72b7c400f6db7b908cb455c72003584c5e59c9b9fad08",
+      "pages": 7,
+      "state": "UNCHANGED"
+    },
+    {
+      "variant": "02",
+      "path": "02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.pdf",
+      "format": "pdf",
+      "size_bytes": 172803,
+      "sha256": "c1b5c2b854134585d4419858a3e45556dfe716426520ebf598e72943773b3921",
+      "pages": 14,
+      "recipient_contract": "RUSSIAN_SPECIALIST_GUIDE__POSITIVE_REQUIRED_ACTIONS_ONLY__3_READY__5_CLARIFICATIONS__46_SEMANTIC_ASSIGNMENTS__4_ADDITIONAL_CHECKS__14_INTERNAL_LINK_PAIRS__0_CLIENT_PROCESS_META__0_NEGATIVE_PSEUDO_ACTIONS__OWNER_REVIEW_PENDING"
+    },
+    {
+      "variant": "03",
+      "path": "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md",
+      "format": "markdown",
+      "size_bytes": 1119673,
+      "sha256": "d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0",
+      "physical_file_count_for_variant": 1,
+      "state": "UNCHANGED"
+    },
+    {
+      "variant": "04",
+      "path": "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-07.xlsx",
+      "format": "xlsx",
+      "size_bytes": 1431390,
+      "sha256": "cee26a8d7d4a8381d4706c7940b739c3afca652034e9e3630053e35bd0184e3a",
+      "sheets": 6,
+      "sheet_names": [
+        "01_Все_фразы",
+        "02_Активное_ядро",
+        "03_Кластеры",
+        "04_Страницы",
+        "05_Проверка_в_Яндексе",
+        "06_Справочник"
+      ],
+      "all_unique_phrases": 2840,
+      "active_phrases": 2332,
+      "canonical_clusters": 168,
+      "search_required_phrases": 19,
+      "dictionary_rows": 122,
+      "state": "UNCHANGED"
+    }
   ],
   "editable_and_source_files": [
-    {"path":"editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx","size_bytes":48876,"sha256":"26a359759287b7c357e9ee0fe45cd4547e49801e72845db050ab763e50596829","state":"UNCHANGED"},
-    {"path":"editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx","size_bytes":50687,"sha256":"809b457e30385cfbd16e2b21c05b43adcb9e58642dca62ca22507ef83bf87031"},
-    {"path":"sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md","size_bytes":39539,"sha256":"e0bb70cb12fc9c7c4c3e49ae6de15eb48cf03d7ea9a422cd1c6dcbd07ecccbbc","state":"UNCHANGED"},
-    {"path":"sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md","size_bytes":37540,"sha256":"caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"}
+    {
+      "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.docx",
+      "size_bytes": 48876,
+      "sha256": "26a359759287b7c357e9ee0fe45cd4547e49801e72845db050ab763e50596829",
+      "state": "UNCHANGED"
+    },
+    {
+      "path": "editable/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.docx",
+      "size_bytes": 28556,
+      "sha256": "6f7e7a61d8fb6a765a0d74ad6e8371b0098bf6ee4383f8b739bfa2ec7a4bcb62"
+    },
+    {
+      "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-05.md",
+      "size_bytes": 39539,
+      "sha256": "e0bb70cb12fc9c7c4c3e49ae6de15eb48cf03d7ea9a422cd1c6dcbd07ecccbbc",
+      "state": "UNCHANGED"
+    },
+    {
+      "path": "sources/02_OKNO_MSK_SEO_IMPLEMENTATION_GUIDE_RU_2026-09-05.md",
+      "size_bytes": 37540,
+      "sha256": "caf0e01dc6f232299c6edcba46712e7405a81addbbbf324a8670950e53017814"
+    }
   ],
   "document_02": {
-    "ready_actions":3,
-    "clarification_items":5,
-    "semantic_assignments":46,
-    "additional_checks":4,
-    "internal_link_authority_rows":15,
-    "visible_unique_internal_link_pairs":14,
-    "bibliography_items":10,
-    "client_negative_pseudo_action_hits":0,
-    "client_obvious_open_find_navigate_hits":0,
-    "client_process_meta_hits":0,
-    "client_project_internal_traceability_hits":0,
-    "current_job_negative_particle_ne_hits":0,
-    "post_hoc_evidence_used":0,
-    "new_project_specific_data_collection":0,
-    "markdown_docx_pdf_language_scan":"PASS__0_0_0",
-    "visual_qa":"PASS__8_OF_8_DOCX__8_OF_8_PDF",
-    "owner_review":"PENDING"
+    "ready_actions": 3,
+    "clarification_items": 5,
+    "semantic_assignments": 46,
+    "additional_checks": 4,
+    "internal_link_authority_rows": 15,
+    "visible_unique_internal_link_pairs": 14,
+    "bibliography_items": 10,
+    "client_negative_pseudo_action_hits": 0,
+    "client_obvious_open_find_navigate_hits": 0,
+    "client_process_meta_hits": 0,
+    "client_project_internal_traceability_hits": 0,
+    "current_job_negative_particle_ne_hits": 0,
+    "post_hoc_evidence_used": 0,
+    "new_project_specific_data_collection": 0,
+    "markdown_docx_pdf_language_scan": "PASS__0_0_0",
+    "visual_qa": "PASS__14_OF_14_PDF__DOCX_RENDER_REQUIRED_FOR_OWNER_READBACK",
+    "owner_review": "PENDING"
   },
   "qa": {
-    "document_02_cleanup_authority":"../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md",
-    "document_02_cleanup_qa":"../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json",
-    "document_02_method_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
-    "document_02_owner_review":"PENDING",
-    "document_03":"NOT_STARTED__UNTOUCHED",
-    "next_action":"OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+    "document_02_cleanup_authority": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_2026-09-08.md",
+    "document_02_cleanup_qa": "../RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_CLIENT_INSTRUCTION_CLEANUP_QA_2026-09-08.json",
+    "document_02_method_gate": "../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md",
+    "document_02_owner_review": "PENDING",
+    "document_03": "NOT_STARTED__UNTOUCHED",
+    "next_action": "OWNER_REVIEW_CLIENT_CLEANED_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
   },
-  "protected_artifacts":{"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false},
-  "provider_calls":0,
-  "paid_cost_rub":0,
-  "step21_22_executed":false
+  "protected_artifacts": {
+    "document_01_modified": false,
+    "document_03_modified": false,
+    "semantic_core_04_modified": false
+  },
+  "provider_calls": 0,
+  "paid_cost_rub": 0,
+  "step21_22_executed": false
 }
