@@ -18,10 +18,11 @@ PRIMARY_SEARCH_ENGINE = Yandex
 
 ## 2. Frozen simulated client brief
 
-Canonical client-input authority:
+Canonical client-input authorities:
 
 ```text
 CLIENT_SUPPLIED_BRIEF.md
+CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
 ```
 
 The rehearsal imitates a real Kwork buyer who wants the semantic core and future site structure built from scratch and has not supplied prior SEO research.
@@ -31,12 +32,14 @@ The rehearsal imitates a real Kwork buyer who wants the semantic core and future
 ```text
 - Brand: «Кровь и Песок» / Blood & Sand.
 - Business: product brand / seller.
-- Main product scope for this order: hanging automotive symbolic accessories / amulet-style pendants intended for use in a car, including rear-view-mirror hanging products.
+- What the client says it sells: амулеты, обереги и талисманы; в ассортименте есть в том числе товары для автомобиля.
 - Existing sales channels: Ozon and Wildberries.
 - Primary market / SEO geography: Russia.
 - Delivery geography stated by client: Russia / nationwide.
 - A new owned website is planned.
 ```
+
+The analyst must not replace the client wording with a narrower invented category before Step 01/02 research.
 
 ### Future-site goal supplied by the client
 
@@ -50,68 +53,122 @@ Yandex user should be able to:
 
 Purchase may later be direct and/or through marketplace links. The exact final direct-vs-marketplace checkout architecture is not fixed by this KW-002 order.
 
-## 3. Raw assortment supplied by the client
+## 3. Exact assortment supplied by the client
 
-The client supplies raw marketplace product/catalog data rather than an SEO category tree.
+The client supplies concrete marketplace listing/product facts rather than an SEO category tree.
 
-Exact admitted source:
+### Wildberries
+
+Source checked:
+
+```text
+MaksimUnimax/blood_sand
+marketing/data/normalized/marketplace/wildberries/20260908__wb__cards-list__fresh-current108-identities.csv
+```
+
+Client scope decision for this order:
+
+```text
+WB account listing rows observed = 108
+WB in-scope listing rows = 88
+WB other seller-line rows explicitly out of scope = 20
+```
+
+The 88 exact in-scope rows are copied into:
+
+```text
+CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
+```
+
+The 20 client-declared out-of-scope rows are copied into:
+
+```text
+CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
+```
+
+### Ozon
+
+Source checked:
 
 ```text
 MaksimUnimax/blood_sand
 marketing/data/raw/marketplace/ozon/20260811T1025Z__ozon__stocks-current__all.json
 ```
 
-Allowed use before Step 01 is limited to raw business/product identity fields. Step 01 must analyze the complete admitted catalog rather than rely on representative examples.
+Returned listing/product identities = **76**.
 
-Examples of raw product names visible in that supplied catalog include:
+The 76 exact rows are copied into:
+
+```text
+CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
+```
+
+### Intake accounting
+
+```text
+TOTAL IN-SCOPE MARKETPLACE LISTING ROWS ADMITTED BEFORE CROSS-PLATFORM RECONCILIATION = 164
+CROSS-PLATFORM UNIQUE PRODUCT COUNT = NOT YET DETERMINED
+```
+
+This distinction is mandatory:
+
+```text
+MARKETPLACE LISTING ROW != UNIQUE PRODUCT MODEL
+SAME/RELATED TITLE ON TWO MARKETPLACES != AUTOMATIC SAME PRODUCT/VARIANT
+PRODUCT TITLE != PROVEN SEARCH TERM
+PRODUCT EXISTS != SEO PRIORITY
+PRODUCT EXISTS != AUTOMATIC SEPARATE PAGE
+```
+
+Step 01 must reconcile duplicates, variants, families and actual product boundaries from the client-supplied catalog without importing old Blood & Sand SEO conclusions.
+
+## 4. Client-supplied product examples
+
+The exact catalog rows are the authority. Actual supplied names include, among others:
 
 ```text
 Печать Велеса
-Велес
+Велес / Знак Велеса
 Алатырь (Крест Сварога)
-Вегвизир / Рунический компас
-Шлем ужаса / Эгисхьяльм
-Триглав
-Ратиборец
-Молвинец
-Колядник
-Знич
-Громовик
-Всеславец
-Боговник
+Макошь
 Родимич
-Белобог
+Хорс
+Мара
+Стрибог
+Семаргл
+Всеславец
+Сварог
+Чур
 Чернобог
-Валькнут
-Гунгнир
+Боговник
+Триглав
+Звезда Лады
+Ратиборец
+Белобог
+Даждьбог
+Жива
+Молвинец
+Знич
+Перун
+Звезда Руси
+Вегвизир / Рунический компас
 Древо Жизни
-Ом / Аум
+Гунгнир
+Валькнут
+Шлем ужаса / Эгисхьяльм
 Инь и Ян
-знаки зодиака
-и другие позиции из полного переданного raw catalog
+Ом / Аум
+Бусидо - Путь Воина
+Молитва Иоанна Златоуста
+Спаси и Сохрани
+Герб России
+Русская Община
+RSOTM
+Soldier Of Fortune
+12 знаков зодиака и несколько фактических серий/вариантов
 ```
 
-These examples are NOT a complete product universe and NOT an SEO taxonomy.
-
-## 4. Client-supplied assortment boundary
-
-```text
-TARGET BUSINESS LINE
-= Blood & Sand branded automotive symbolic product line
-
-UNRELATED SELLER-ACCOUNT PRODUCT LINES
-= OUT OF SCOPE for this future site's semantic core unless client explicitly revises the order
-```
-
-If an admitted raw marketplace export contains unrelated lines, Step 01 must identify them from product/business facts and preserve the exclusion reason.
-
-The client does not assign SEO priority to any symbol/product family in advance.
-
-```text
-PRODUCT EXISTS != SEO PRIORITY
-PRODUCT TITLE != PROVEN SEARCH TERM
-PRODUCT FAMILY != AUTOMATIC SEPARATE PAGE
-```
+Do not turn this example list into the Step-01 catalog; use all admitted rows.
 
 ## 5. What the client did NOT supply
 
@@ -144,7 +201,9 @@ Real organic competitors must be independently discovered from current Yandex re
 
 ```text
 - do not invent products or services that are not actually sold;
-- do not mix unrelated seller-account lines into the Blood & Sand site core;
+- use the client-supplied product catalogs as the assortment authority;
+- keep the 20 client-declared unrelated WB seller lines outside this website order;
+- do not pre-cluster the catalog into SEO categories at intake;
 - symbolic/mystical statements must not be presented as proven physical effects;
 - do not guarantee Yandex position, traffic, sales or Alice AI inclusion/citation;
 - do not invent the final direct-vs-marketplace checkout model inside this order;
@@ -183,6 +242,7 @@ real organic competitors
 competitor-derived missing demand
 search intent
 SERP result/page-type patterns
+cross-marketplace unique product/variant model where needed for search architecture
 cluster boundaries
 same-page vs separate-page decisions
 query-to-page ownership
@@ -225,14 +285,18 @@ Exact whitelist is governed by:
 ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-Current admitted job sources before fresh KW-002 acquisition:
+Current admitted job inputs before fresh KW-002 acquisition:
 
 ```text
 KW002 Level 1 rules
 KW002 Level 2 step rules
 CLIENT_SUPPLIED_BRIEF.md
+CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
+CLIENT_SUPPLIED_PRODUCT_CATALOG.csv
+CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
+CLIENT_SUPPLIED_OUT_OF_SCOPE_SELLER_LINES.csv
 JOB_MANIFEST.md / JOB_FLOW.md
-one explicitly admitted raw Ozon assortment file
+the two exact marketplace source artifacts admitted in the source whitelist
 current external method sources when authorized for a step
 ```
 
@@ -257,8 +321,14 @@ No unlisted Blood & Sand research files may be opened.
 ```text
 DOCUMENTATION_PREPARED = true
 CLIENT_SUPPLIED_BRIEF_MATERIALIZED = true
+CLIENT_ASSORTMENT_MANIFEST_MATERIALIZED = true
+CLIENT_PRODUCT_CATALOG_WB_IN_SCOPE_ROWS = 88
+CLIENT_PRODUCT_CATALOG_OZON_ROWS = 76
+CLIENT_OTHER_WB_ROWS_EXCLUDED = 20
+CLIENT_IN_SCOPE_LISTING_ROWS_BEFORE_RECONCILIATION = 164
+CROSS_PLATFORM_UNIQUE_PRODUCT_COUNT = NOT_YET_DETERMINED
 CLIENT_SOURCE_BOUNDARY_FROZEN = true
-RAW_ASSORTMENT_SOURCE_COUNT = 1
+RAW_ASSORTMENT_SOURCE_COUNT = 2
 ROADMAP_OWNER_APPROVED = false
 STEP_00_STARTED = false
 PROVIDER_CALLS_FOR_KW002_JOB = 0
