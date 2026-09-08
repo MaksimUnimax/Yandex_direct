@@ -1,0 +1,191 @@
+{
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "search",
+  "operation": "batch.next",
+  "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "kw001-okno-msk-step05a-search-recheck-20260908"
+  },
+  "progress": {
+    "job_id": "kw001-okno-msk-step05a-search-recheck-20260908",
+    "status": "RUNNING",
+    "total": 9,
+    "input_count": 9,
+    "duplicate_count": 0,
+    "pending": 7,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 2,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 2,
+    "requests_started": 2,
+    "estimated_cost_rub": 0.976,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-08T07:27:27.471Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "command": {
+      "docsInGroup": 1,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "groupMode": "GROUP_MODE_FLAT",
+      "groupsOnPage": 10,
+      "l10n": "LOCALIZATION_RU",
+      "maxPassages": 4,
+      "method": "search",
+      "page": 0,
+      "queryText": "солнцезащитный стеклопакет",
+      "region": "213",
+      "searchType": "SEARCH_TYPE_RU",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC"
+    },
+    "completed_at": "2026-09-08T07:27:29.499Z",
+    "error": null,
+    "estimated_cost_rub": 0.488,
+    "fingerprint": "01e95cd9965c5df9",
+    "item_id": "kw001-okno-msk-step05a-search-recheck-20260908:01e95cd9965c5df9",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "search-batch-a4ebdcc7-ca57-41a4-a22b-2423a0b360a6",
+    "request_started_at": "2026-09-08T07:27:27.474Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:search-batch",
+    "result_ref": "search-batch-a4ebdcc7-ca57-41a4-a22b-2423a0b360a6",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-08T07:27:29.499Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "search",
+      "operation": "search",
+      "request_id": "search-batch-a4ebdcc7-ca57-41a4-a22b-2423a0b360a6",
+      "run_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.488,
+        "tariff_checked_at": "2026-08-19",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "search"
+      },
+      "command": {
+        "method": "search",
+        "queryText": "солнцезащитный стеклопакет",
+        "searchType": "SEARCH_TYPE_RU",
+        "page": 0,
+        "groupsOnPage": 10,
+        "familyMode": "FAMILY_MODE_MODERATE",
+        "fixTypoMode": "FIX_TYPO_MODE_ON",
+        "sortMode": "SORT_MODE_BY_RELEVANCE",
+        "sortOrder": "SORT_ORDER_DESC",
+        "groupMode": "GROUP_MODE_FLAT",
+        "docsInGroup": 1,
+        "maxPassages": 4,
+        "region": "213",
+        "l10n": "LOCALIZATION_RU"
+      },
+      "http_status": 200,
+      "elapsed_ms": 2016,
+      "result": {
+        "results": [
+          {"rank":1,"url":"https://oknatitan.ru/solncezashhishhayushhie.html","domain":"oknatitan.ru","title":"Купить солнцезащитный стеклопакет в СПб... | Окна Титан","snippet":"Солнцезащитные стеклопакеты: производство и монтаж в СПб. Солнцезащитный стеклопакет отражает до 50% солнечного излучения — в жаркий день в доме не нужен кондиционер.","modtime":"20150416T045813"},
+          {"rank":2,"url":"https://geometry-group.ru/remont-okon/solntsezashchitnye-steklopakety","domain":"geometry-group.ru","title":"Солнцезащитные стеклопакеты для окон в Москве","snippet":"Структура солнцезащитного стёклопакета мало чем отличается от строения обыкновенного стекла и самым главным различием будет являться наличие вышеупомянутых \"нано-частицы\" на одной из сторон.","modtime":"20221012T084031"},
+          {"rank":3,"url":"https://www.mosokna.ru/plastikovye-okna/tehnologii/solar","domain":"www.mosokna.ru","title":"Солнцезащитные стеклопакеты: окна с напылением Solar","snippet":"По солнцезащитным и энергосберегающим свойствам эти окна не уступают Мультипакетам™, а изнутри совершенно прозрачны. … * Обычные стекла, используемые во всех стеклопакетах Московские окна — пропускание 87%.","modtime":"20151208T232156"},
+          {"rank":4,"url":"https://www.okonsib.ru/solntsezaschitnye-steklopakety-kupit.html","domain":"www.okonsib.ru","title":"Солнцезащитные стеклопакеты- расчет стоимости...","snippet":"Солнцезащитный стеклопакет станет хорошим решением для Вашего комфорта. А заказать товар по оптимальной цене можете у нас – в компании «Консиб».","modtime":"20190418T121050"},
+          {"rank":5,"url":"https://rhsolutions.ru/solntcezashit-okna/","domain":"rhsolutions.ru","title":"Солнцезащитные окна - купить пластиковые окна с защитой от...","snippet":"Солнцезащитные стеклопакеты помогут сохранить комфортную температуру в любое время года, защитят мебель и домашний текстиль от выгорания, а также помогут сохранить семейный бюджет, ведь пользоваться кондиционером придется реже.","modtime":"20240827T103335"},
+          {"rank":6,"url":"https://favor-group.ru/catalog/okna/zenitnye/dvukhkamernyy/","domain":"favor-group.ru","title":"Зенитные окна двухкамерные — от 136 000 ₽/шт | ФС-Групп Москва","snippet":"Заказать зенитные окна (фонари) двухкамерные. 8 позиций в наличии. Гарантия производителя. На рынке более 20 лет. Бережная транспортировка по Москве и Московской области.","modtime":"20211223T212641"},
+          {"rank":7,"url":"https://steklopaket-msk.ru/solntsezashchitnye.html","domain":"steklopaket-msk.ru","title":"Установить атермальные стеклопакеты в Москве","snippet":"Детская комната в новой квартире выходит на южную сторону, как только заехали - было принято решение менять стеклопакеты на солнцезащитные.","modtime":"20211126T124648"},
+          {"rank":8,"url":"https://www.plastika-okon.ru/aksessuary/steklopakety/solncezaschitnye/","domain":"www.plastika-okon.ru","title":"Солнцезащитные стеклопакеты от производителя в Москве","snippet":"Тогда вам точно нужны пластиковые окна с солнцезащитными стеклопакетами, которые эффективно защищают помещения от перегрева в теплый сезон и обеспечивают отличное энергосбережение в холодное время года.","modtime":"20170616T151207"},
+          {"rank":9,"url":"https://www.stis.ru/products/solntsezashchitnyy-steklopaket/","domain":"www.stis.ru","title":"Солнцезащитный стеклопакет STiS — защита от жары...","snippet":"Солнцезащитные свойства стеклопакета достигаются за счет стекол с тончайшим магнетронным напылением, которое не видно человеческому глазу.","modtime":"20140816T103500"},
+          {"rank":10,"url":"https://www.msk.okna-servise.com/plastikovye-okna/komplektuyushhie/steklopakety/solncezaschitnye/","domain":"www.msk.okna-servise.com","title":"Солнцезащитные стеклопакеты для окон пвх в Москве, цены на...","snippet":"Солнцезащитные стеклопакета технологически производятся точно также, как обычные, с той лишь разницей, что в обычных стеклопакетах установлено прозрачное 4-мм стекло марки м1, а в солнцезащитных стеклопакетах используют стекла со специальными свойствами: поглощение и (или) отражение части солнечного излучения.","modtime":"20210916T090035"}
+        ],
+        "result_count": 10,
+        "response_format": "FORMAT_XML"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "search",
+    "operation": "search",
+    "request_id": "search-batch-a4ebdcc7-ca57-41a4-a22b-2423a0b360a6",
+    "run_id": null,
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.488,
+      "tariff_checked_at": "2026-08-19",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "search"
+    },
+    "command": {
+      "method": "search",
+      "queryText": "солнцезащитный стеклопакет",
+      "searchType": "SEARCH_TYPE_RU",
+      "page": 0,
+      "groupsOnPage": 10,
+      "familyMode": "FAMILY_MODE_MODERATE",
+      "fixTypoMode": "FIX_TYPO_MODE_ON",
+      "sortMode": "SORT_MODE_BY_RELEVANCE",
+      "sortOrder": "SORT_ORDER_DESC",
+      "groupMode": "GROUP_MODE_FLAT",
+      "docsInGroup": 1,
+      "maxPassages": 4,
+      "region": "213",
+      "l10n": "LOCALIZATION_RU"
+    },
+    "http_status": 200,
+    "elapsed_ms": 2016,
+    "result": {
+      "results": [
+        {"rank":1,"url":"https://oknatitan.ru/solncezashhishhayushhie.html","domain":"oknatitan.ru","title":"Купить солнцезащитный стеклопакет в СПб... | Окна Титан","snippet":"Солнцезащитные стеклопакеты: производство и монтаж в СПб. Солнцезащитный стеклопакет отражает до 50% солнечного излучения — в жаркий день в доме не нужен кондиционер.","modtime":"20150416T045813"},
+        {"rank":2,"url":"https://geometry-group.ru/remont-okon/solntsezashchitnye-steklopakety","domain":"geometry-group.ru","title":"Солнцезащитные стеклопакеты для окон в Москве","snippet":"Структура солнцезащитного стёклопакета мало чем отличается от строения обыкновенного стекла и самым главным различием будет являться наличие вышеупомянутых \"нано-частицы\" на одной из сторон.","modtime":"20221012T084031"},
+        {"rank":3,"url":"https://www.mosokna.ru/plastikovye-okna/tehnologii/solar","domain":"www.mosokna.ru","title":"Солнцезащитные стеклопакеты: окна с напылением Solar","snippet":"По солнцезащитным и энергосберегающим свойствам эти окна не уступают Мультипакетам™, а изнутри совершенно прозрачны. … * Обычные стекла, используемые во всех стеклопакетах Московские окна — пропускание 87%.","modtime":"20151208T232156"},
+        {"rank":4,"url":"https://www.okonsib.ru/solntsezaschitnye-steklopakety-kupit.html","domain":"www.okonsib.ru","title":"Солнцезащитные стеклопакеты- расчет стоимости...","snippet":"Солнцезащитный стеклопакет станет хорошим решением для Вашего комфорта. А заказать товар по оптимальной цене можете у нас – в компании «Консиб».","modtime":"20190418T121050"},
+        {"rank":5,"url":"https://rhsolutions.ru/solntcezashit-okna/","domain":"rhsolutions.ru","title":"Солнцезащитные окна - купить пластиковые окна с защитой от...","snippet":"Солнцезащитные стеклопакеты помогут сохранить комфортную температуру в любое время года, защитят мебель и домашний текстиль от выгорания, а также помогут сохранить семейный бюджет, ведь пользоваться кондиционером придется реже.","modtime":"20240827T103335"},
+        {"rank":6,"url":"https://favor-group.ru/catalog/okna/zenitnye/dvukhkamernyy/","domain":"favor-group.ru","title":"Зенитные окна двухкамерные — от 136 000 ₽/шт | ФС-Групп Москва","snippet":"Заказать зенитные окна (фонари) двухкамерные. 8 позиций в наличии. Гарантия производителя. На рынке более 20 лет. Бережная транспортировка по Москве и Московской области.","modtime":"20211223T212641"},
+        {"rank":7,"url":"https://steklopaket-msk.ru/solntsezashchitnye.html","domain":"steklopaket-msk.ru","title":"Установить атермальные стеклопакеты в Москве","snippet":"Детская комната в новой квартире выходит на южную сторону, как только заехали - было принято решение менять стеклопакеты на солнцезащитные.","modtime":"20211126T124648"},
+        {"rank":8,"url":"https://www.plastika-okon.ru/aksessuary/steklopakety/solncezaschitnye/","domain":"www.plastika-okon.ru","title":"Солнцезащитные стеклопакеты от производителя в Москве","snippet":"Тогда вам точно нужны пластиковые окна с солнцезащитными стеклопакетами, которые эффективно защищают помещения от перегрева в теплый сезон и обеспечивают отличное энергосбережение в холодное время года.","modtime":"20170616T151207"},
+        {"rank":9,"url":"https://www.stis.ru/products/solntsezashchitnyy-steklopaket/","domain":"www.stis.ru","title":"Солнцезащитный стеклопакет STiS — защита от жары...","snippet":"Солнцезащитные свойства стеклопакета достигаются за счет стекол с тончайшим магнетронным напылением, которое не видно человеческому глазу.","modtime":"20140816T103500"},
+        {"rank":10,"url":"https://www.msk.okna-servise.com/plastikovye-okna/komplektuyushhie/steklopakety/solncezaschitnye/","domain":"www.msk.okna-servise.com","title":"Солнцезащитные стеклопакеты для окон пвх в Москве, цены на...","snippet":"Солнцезащитные стеклопакета технологически производятся точно также, как обычные, с той лишь разницей, что в обычных стеклопакетах установлено прозрачное 4-мм стекло марки м1, а в солнцезащитных стеклопакетах используют стекла со специальными свойствами: поглощение и (или) отражение части солнечного излучения.","modtime":"20210916T090035"}
+      ],
+      "result_count": 10,
+      "response_format": "FORMAT_XML"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "projection": null,
+  "chunk": null,
+  "cost_estimate": {
+    "estimated_rub": 0.976,
+    "max_rub": 4.392
+  },
+  "policy": {
+    "max_requests": 9,
+    "max_cost_rub": 4.392
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
