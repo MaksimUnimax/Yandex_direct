@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 02 V2 COMPLETE / PASS 9.3/10 / STEP 03 NEXT ALLOWED**
+Status: **STEP 02 V2 COMPLETE / PASS 93/100 = 9.3/10 / STEP 03 NEXT ALLOWED**
 
 ## Whole-job goal
 
@@ -38,7 +38,7 @@ WORK HANDOFFS EXECUTED = 1
 |---|---|---|
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / corrected to Ozon-only |
 | 01 | Build factual business + complete assortment model | ✅ COMPLETE / PASS / MAIN RETURN QA PASS |
-| 02 | Build seed/acquisition map | ✅ COMPLETE / V2 REWORK PASS / **9.3/10** |
+| 02 | Build seed/acquisition map | ✅ COMPLETE / V2 REWORK PASS / **93/100 = 9.3/10** |
 | 03 | Primary Wordstat acquisition | ⏭️ NEXT ALLOWED / NOT STARTED |
 | 04 | First family triage | ⬜ NOT STARTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
@@ -68,16 +68,16 @@ Step 01 Ozon 76-row factual assortment model = PASS
 Step 01 main ChatGPT return QA = PASS
 Step 02 V1 materialized = 97 probes / 67 primary / 30 deferred
 Step 02 V1 remote readback = PASS
-Step 02 external internet/method audit = FAIL / V1 score 6.5/10
+Step 02 external internet/method audit = FAIL / V1 score 65/100 = 6.5/10
 Step 02 permanent Level-2 quality gate added
-Level-1 mandatory 10-point scoring rule added
+Level-1 mandatory per-criterion 0–10 scoring rule added
 Step 02 V2 decision overlay = 24 rows
 Step 02 V2 new probes = 31
 Step 02 V2 primary acquisition manifest = 79 rows
 Step 02 V2 deferred/control manifest = 49 rows
 Step 02 V2 search-quality coverage = 26/26 PASS groups
 Step 02 V2 information-gain policy = 8 discriminating classes
-Step 02 V2 QA = PASS / 9.3/10
+Step 02 V2 QA = PASS / 93/100 = 9.3/10
 Step 02 V2 remote readback = PASS
 ```
 
@@ -86,6 +86,7 @@ Step 02 V2 remote readback = PASS
 V1 is preserved only as history:
 
 ```text
+STEP_02_V1_QUALITY_TOTAL = 65/100
 STEP_02_V1_SCORE = 6.5/10
 STEP_02_V1_STATUS = REWORK_REQUIRED / SUPERSEDED
 ```
@@ -138,6 +139,7 @@ STEP_02_V2_QUALIFIED_REFINEMENTS = 19
 STEP_02_V2_USE_SYNONYM_PROBES = 12
 STEP_02_V2_SEARCH_QUALITY_GROUPS = 26
 STEP_02_V2_SEARCH_QUALITY_GROUPS_PASS = 26
+STEP_02_V2_QUALITY_TOTAL = 93/100
 STEP_02_V2_QUALITY_SCORE = 9.3/10
 STEP_02_V2_QA = PASS
 STEP_02_V2_REMOTE_READBACK = PASS
@@ -156,6 +158,7 @@ Do not use the old 67-primary V1 set as current authority.
 ```text
 STEP_02_COMPLETE = true
 STEP_02_CURRENT_VERSION = V2
+STEP_02_QUALITY_TOTAL = 93/100
 STEP_02_QUALITY_SCORE = 9.3/10
 STEP_03_STARTED = false
 NEXT_STEP_ALLOWED = true
