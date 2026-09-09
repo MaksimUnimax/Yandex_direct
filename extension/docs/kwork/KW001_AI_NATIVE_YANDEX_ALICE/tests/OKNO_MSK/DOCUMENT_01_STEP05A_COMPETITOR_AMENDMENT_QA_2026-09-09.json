@@ -1,0 +1,12 @@
+{
+  "schema": "OKNO_MSK_DOCUMENT01_STEP05A_COMPETITOR_AMENDMENT_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "checks_total": 104,
+  "checks_passed": 104,
+  "checks_failed": [],
+  "pdf_pages": 8,
+  "source_sha256": "389d178df973ca086b878b076e78bb11b372bec65e59a4e90f0a8292272f035c",
+  "docx_sha256": "929be337e5b15ab9e631892df404c887ff26bcfd67732e481907a2cd91f4066b",
+  "pdf_sha256": "0fcce1e671f1936d22977894df1b815bc28ae2769fd236f64005a7e6c4f1fca2"
+}
