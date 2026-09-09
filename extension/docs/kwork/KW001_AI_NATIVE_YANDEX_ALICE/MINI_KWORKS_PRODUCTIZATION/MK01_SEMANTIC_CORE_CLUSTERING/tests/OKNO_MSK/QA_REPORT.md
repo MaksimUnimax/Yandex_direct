@@ -1,12 +1,12 @@
 # MK01 / OKNO_MSK — QA report
 
-Статус: **G0–G11 PASS / G12 PENDING FINAL QA-BUNDLE REMOTE READBACK**
+Статус: **G0–G12 PASS / REHEARSAL PASS**
 
 Дата: **2026-09-09**  
 Текущая materialization authority: `MK01_MATERIALIZATION_MANIFEST_2026-09-09.json`  
 Независимый машинный отчёт: `MK01_REHEARSAL_QA_2026-09-09.json`
 
-Phase 5 пока не объявляется завершённой: G12 будет переведён в PASS только после commit/push/readback исправленного workbook, QA bundle и method corrections.
+Исправленный workbook, QA bundle и method corrections опубликованы в commit `9ea0143c4c5370a8e7b49a858596da79076d52a9` и прочитаны обратно с remote. G12 закрыт только после этой проверки.
 
 ## Итоговые счётчики
 
@@ -56,7 +56,7 @@ status = PASS
 | G9 Workbook physical / visual | **PASS** | XLSX повторно импортирован; 7/7 листов отрендерены. Таблицы и filters есть на 6 data sheets; freeze panes: `C6/C6/B6/B6/B6/A6`; формульных ошибок до export и после import = 0; critical hidden sheets/columns = 0. Первый лист и рабочий-first порядок групп перепроверены после исправлений. |
 | G10 Recipient task | **PASS** | Отдельный walkthrough в `RECIPIENT_REVIEW.md`: из файла без репозитория определяются scope/region, полный набор, active core, группы, uncertainty, exclusions/reasons, значение показателей, next step и excluded product work. |
 | G11 Provider reuse | **PASS** | До действий выполнен source-authority audit. Все данные построены из сохранённых Wordstat/Search authorities. Новых Wordstat/Search/GenSearch/Alice/Webmaster/Metrika/Direct/Google calls = 0. |
-| G12 Persistence / remote readback | **PENDING** | Materialization block `c2d728b8f0411a933909bb51bf3c5fc78fd4d6a8` был прочитан с remote, но последующие QA fixes изменили workbook/manifest/method. Gate будет закрыт только после публикации и readback текущего полного набора. |
+| G12 Persistence / remote readback | **PASS** | Materialization block `c2d728b8f0411a933909bb51bf3c5fc78fd4d6a8` прочитан с remote. Исправленный полный QA/method/result block опубликован как `9ea0143c4c5370a8e7b49a858596da79076d52a9`; local/remote tree=`65ce29a71ed20d4bc91b5578bd3829e38ecb6a13`. Remote QA=50/50, manifest counts=2840/2185/187/468/59, XLSX blob=`4b8d416731ee98fc749c2b01458b2002690d4c6d`. |
 
 ## G3 — контрастная ручная проверка строк
 
@@ -87,4 +87,4 @@ status = PASS
 3. **Первый лист**: поздняя настройка ширины шага перезаписывала ширину той же worksheet column и делала summary нечитаемым. Геометрия определена один раз для всего листа, после чего он повторно отрендерен.
 4. **Recipient vocabulary/order**: удалён необъяснённый термин `provenance`; рабочие группы поставлены перед исключёнными в cluster summary.
 
-После исправлений независимый набор из 50 проверок выполнен полностью: **50 PASS / 0 FAIL**. G12 остаётся единственным незакрытым gate до remote readback текущей версии.
+После исправлений независимый набор из 50 проверок выполнен полностью: **50 PASS / 0 FAIL**. Remote readback текущей версии выполнен; **G0–G12 PASS**.

@@ -2,7 +2,7 @@
   "schema": "MK01_OKNO_MSK_INDEPENDENT_QA_V1",
   "date": "2026-09-09",
   "status": "PASS",
-  "remote_materialization_commit": "c2d728b8f0411a933909bb51bf3c5fc78fd4d6a8",
+  "remote_materialization_commit": "9ea0143c4c5370a8e7b49a858596da79076d52a9",
   "counts": {
     "source_occurrences": 2965,
     "source_universe": 2840,
@@ -375,7 +375,7 @@
     },
     "remote_materialization_commit_recorded": {
       "status": "PASS",
-      "evidence": "c2d728b8f0411a933909bb51bf3c5fc78fd4d6a8"
+      "evidence": "9ea0143c4c5370a8e7b49a858596da79076d52a9"
     }
   }
 }
