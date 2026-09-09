@@ -1,12 +1,12 @@
 # MK01 — PRODUCT PACKAGING
 
-Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
+Status: **CLIENT PACKAGING VALIDATED / COMMERCIAL V1 SYNCHRONIZED**
 
 Рабочее название продукта:
 
 **«Семантическое ядро для сайта: сбор, чистка и кластеризация»**
 
-Этот файл определяет, как уже проверенный аналитический результат MK01 превращается в понятную клиентскую поставку. Здесь нет цены, SLA или коммерческих лимитов: они относятся к Phase 8 и должны опираться на измеренную трудоёмкость.
+Этот файл определяет, как проверенный аналитический результат MK01 превращается в понятную клиентскую поставку. Цена и коммерческие пределы V1 зафиксированы отдельно в `PHASE_8_PRICE_LIMITS_ECONOMICS.md` и не должны расходиться с карточкой.
 
 ## 1. Что получает клиент
 
@@ -27,14 +27,35 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 
 Полный audit TSV/TSV.GZ, cluster TSV, manifest, machine-QA JSON, build receipts и другие технические sidecar-файлы являются внутренними материалами производства и контроля. Они не заменяют XLSX и не должны автоматически отправляться клиенту, если в заказе отдельно не требуется расширенный технический архив.
 
-## 2. Что должен понять клиент без репозитория
+## 2. Текущий коммерческий V1
+
+```text
+12,000 ₽
+5 calendar days
+1 existing public website
+1 primary region
+up to 10 agreed business directions
+up to 1,500 governed unique phrases
+up to 40 justified exact-query Yandex Search checks
+```
+
+Add-ons:
+
+```text
++500 governed phrases = +4,000 ₽ / +2 days
++10 justified Search checks = +1,500 ₽ / +1 day
+```
+
+Эти числа описывают коммерческий объём глубокой обработки, а не разрешение отбрасывать провайдерские данные. Переполнение проходит `COMMERCIAL VOLUME GATE` из `EXECUTION_ROADMAP.md`.
+
+## 3. Что должен понять клиент без репозитория
 
 После получения результата клиент должен самостоятельно понимать:
 
 - какой сайт и регион исследованы;
 - какие направления входили и не входили в работу;
 - что спрос исследован по Яндексу;
-- сколько уникальных фраз сохранено;
+- сколько уникальных фраз вошло в согласованный обработанный набор;
 - сколько вошло в рабочее ядро;
 - сколько оставлено на проверку;
 - сколько исключено и почему;
@@ -44,7 +65,7 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 - что результат не является проектом SEO-архитектуры или назначением запросов конкретным URL;
 - что Google, анализ конкурентов, Алиса/Яндекс Нейро и ТЗ разработчику не входят в MK01.
 
-## 3. Клиентский путь по файлу
+## 4. Клиентский путь по файлу
 
 Рекомендуемый порядок:
 
@@ -60,7 +81,7 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 
 Главный рабочий лист — `Рабочее ядро`. Клиент не должен начинать работу с полного технического universe или внутренних QA-материалов.
 
-## 4. Как объясняем результат
+## 5. Как объясняем результат
 
 Клиентская формулировка должна быть простой:
 
@@ -68,7 +89,7 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 
 Не использовать как основную клиентскую лексику внутренние слова и коды вроде Stage/Step, authority, provenance, route state, failure class, exact-universe join и аналогичные репозиторные термины.
 
-## 5. Как объясняем Wordstat
+## 6. Как объясняем Wordstat
 
 Если сбор выполнен широким Wordstat-запросом без операторов, нельзя писать клиенту, что отображённое число является «точной частотностью фразы».
 
@@ -76,7 +97,7 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 
 > Показатель Wordstat помогает сравнивать формулировки внутри исследования. Конкретный смысл числа зависит от режима запроса и операторов; широкое значение без операторов не является точным числом запросов конкретной фразы, числом уникальных пользователей или прогнозом трафика.
 
-## 6. Обязательная граница Яндекса
+## 7. Обязательная граница Яндекса
 
 В клиентской поставке явно пишется:
 
@@ -84,7 +105,7 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 
 При этом слово «Яндекс» не обязано искусственно вставляться в название карточки продукта.
 
-## 7. Что не обещаем в передаче
+## 8. Что не обещаем в передаче
 
 Запрещено превращать результат MK01 в скрытое обещание следующих продуктов.
 
@@ -102,7 +123,7 @@ Status: **PHASE 6 CLIENT PACKAGING DEFINED FROM VALIDATED OKNO_MSK REHEARSAL**
 
 Эти задачи относятся к другим продуктам серии или отдельному согласованному объёму.
 
-## 8. Имена файлов
+## 9. Имена файлов
 
 Для реального заказа рекомендуемый шаблон:
 
@@ -112,29 +133,24 @@ SEMANTIC_CORE_<CLIENT_OR_DOMAIN>_<YYYY-MM-DD>.xlsx
 
 Внутренний ID MK01 не обязан попадать в клиентское имя файла.
 
-Технические sidecars, если сохраняются в рабочем контуре, могут иметь более точные audit-названия и внутренние идентификаторы.
+## 10. Обязательное сообщение при передаче
 
-## 9. Обязательное сообщение при передаче
-
-При каждой поставке используется `CLIENT_HANDOFF_TEMPLATE.md`, заполненный фактическими числами текущего заказа.
+При каждой поставке используется `CLIENT_HANDOFF_TEMPLATE.md`, заполненный фактическими числами текущего заказа и фактическим статусом targeted Search.
 
 Нельзя использовать числа OKNO_MSK как универсальный шаблон. В каждом новом заказе значения берутся из текущей принятой authority после QA.
 
-## 10. Packaging Definition of Done
-
-Phase 6 выполнен, когда:
+## 11. Packaging Definition of Done
 
 ```text
 VALIDATED XLSX FORM IDENTIFIED
 + CLIENT FILE SET DEFINED
++ COMMERCIAL V1 CAPACITY RECONCILED
 + INTERNAL-ONLY SIDECARS SEPARATED FROM CLIENT DELIVERY
 + CLIENT READING ORDER DEFINED
 + CLIENT HANDOFF TEMPLATE EXISTS
 + YANDEX-ONLY BOUNDARY EXPLICIT
 + WORDSTAT CLAIM BOUNDARY EXPLICIT
 + DOWNSTREAM PRODUCT LEAKAGE = 0
-+ OKNO_MSK FILLED HANDOFF EXAMPLE EXISTS
-+ PRODUCT_ROADMAP UPDATED IN GIT
++ NO SILENT COMMERCIAL TRUNCATION
++ PRODUCT_ROADMAP / PHASE8 AUTHORITY CONSISTENT
 ```
-
-Цена, количество фраз в пакете, максимальное число Wordstat/Search запросов и срок выполнения здесь намеренно не назначаются.
