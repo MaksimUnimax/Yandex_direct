@@ -1,0 +1,25 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-3515351f-1a9b-426b-91c2-860e7b3d8185",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "талисман для машины", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 495,
+  "result": {
+    "results": [{"phrase":"талисманы для машины","count":"27"}],
+    "associations": [
+      {"phrase":"берегись автомобиля","count":"41299"},{"phrase":"амулет","count":"478463"},{"phrase":"май авто","count":"4283"},{"phrase":"авто ам","count":"3074"},{"phrase":"автомобильные войска","count":"4986"},{"phrase":"танк авто","count":"10920"},{"phrase":"оберег","count":"311817"},{"phrase":"марки автомобилей со значками","count":"3627"},{"phrase":"привоз авто","count":"16349"},{"phrase":"регистрационный знак автомобиля это","count":"656"},{"phrase":"сбктс на автомобиль что это","count":"977"},{"phrase":"экологический класс автомобиля что это","count":"856"},{"phrase":"li7 автомобиль","count":"786"},{"phrase":"подвеска автомобиля это","count":"807"},{"phrase":"амулет это","count":"2849"},{"phrase":"li6 автомобиль","count":"514"},{"phrase":"v27 автомобиль","count":"1825"}
+    ],
+    "totalCount": "27"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}

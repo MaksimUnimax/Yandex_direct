@@ -1,0 +1,29 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-69e29643-a286-4928-aa24-90d51d56e0e7",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "амулет для машины", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 405,
+  "result": {
+    "results": [
+      {"phrase":"амулеты для машины","count":"137"},
+      {"phrase":"амулет краска для машины","count":"26"},
+      {"phrase":"амулет защита машины для льва","count":"7"}
+    ],
+    "associations": [
+      {"phrase":"подвеска автомобиля","count":"25639"},{"phrase":"автомобили в погонах","count":"1527"},{"phrase":"доверенность на управление автомобилем","count":"9528"},{"phrase":"знаки автомобилей","count":"90202"},{"phrase":"авто запятые","count":"422"},{"phrase":"как оформить прицеп для легкового автомобиля","count":"373"},{"phrase":"лампы для автомобилей","count":"15558"},{"phrase":"лого авто","count":"1026"},{"phrase":"трейлер авто","count":"583"},{"phrase":"антена для авто","count":"273"},{"phrase":"рамка для госномера автомобиля","count":"279"},{"phrase":"прицеп для легкового авто","count":"6253"},{"phrase":"значки автомобилей","count":"31121"},{"phrase":"значки авто","count":"13015"},{"phrase":"заброшенные автомобили","count":"1983"}
+    ],
+    "totalCount": "137"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
