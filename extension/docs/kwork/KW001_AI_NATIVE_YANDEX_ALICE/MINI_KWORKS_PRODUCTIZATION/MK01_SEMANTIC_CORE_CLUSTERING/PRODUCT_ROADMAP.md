@@ -1,6 +1,6 @@
 # MK01 — Семантическое ядро для сайта: сбор, чистка и кластеризация
 
-Status: **NEXT / PRODUCTIZATION NOT YET COMPLETE**
+Status: **PRODUCT SCOPE + CLIENT INPUT FROZEN / KW-001 EXTRACTION IN PROGRESS**
 
 ## Рабочее название карточки
 
@@ -16,33 +16,97 @@ Status: **NEXT / PRODUCTIZATION NOT YET COMPLETE**
 
 Клиент покупает самостоятельный результат: очищенное и сгруппированное семантическое ядро под реальный бизнес и спрос Яндекса.
 
+Точный контракт продукта уже заморожен в `PRODUCT_SCOPE.md`.
+
+Точный контракт входных данных уже заморожен в `CLIENT_INPUT_CONTRACT.md`.
+
+## Зафиксированные продуктовые границы
+
+- базовый MK01 сейчас предназначен для **существующего публичного сайта**;
+- одна основная региональная область исследования является проверенным стартовым режимом; окончательные коммерческие multi-region limits замораживаются после rehearsal/economics;
+- доступ к Яндекс Вебмастеру / Метрике / Директу не обязателен;
+- Step5A competitor semantic expansion исключён из base MK01 и относится к MK03 / будущему явно оценённому add-on;
+- ordinary Yandex Search используется точечно только для материальных спорных semantic/intent boundaries;
+- MK01 заканчивается на semantic core + clustering и не включает page ownership / architecture / developer TZ;
+- greenfield/no-site mode не заявляется как уже валидированный MK01 режим;
+- Google research/tooling не входит.
+
 ## Не продаём скрытно
 
 - полный SEO-аудит;
 - полную архитектуру сайта;
+- page ownership;
 - implementation-ready ТЗ разработчику;
 - полный конкурентный SEO-аудит;
+- Step5A competitor expansion в base package;
 - полный Alice/AEO layer;
 - Google SEO / Google Ads / Google Keyword Planner / Google Search validation.
 
-## Планируемый KW-001 extraction
+## KW-001 extraction boundary
 
-Base: Step 0–8, targeted Step9 только для спорных границ, Step10 clustering, затем mini-deliverable materialization и QA по релевантным правилам Steps19–20.
+Autonomous MK01 method extracts only:
 
-Step5A competitor expansion должен быть отдельно решён как base или add-on при детальной productization MK01; нельзя включить его молча.
+```text
+Step 0  scope freeze
+Step 1  existing-site / business discovery
+Step 2  seed / acquisition plan
+Step 3  Yandex Wordstat acquisition
+Step 4  first triage
+Step 5  targeted second acquisition only when justified
+Step 5A excluded from base MK01
+Step 6/6A excluded unless later explicitly validated/added
+Step 7  row-level semantic cleanup
+Step 8  semantic freeze/routing
+Step 9  targeted ordinary Yandex Search narrow controls only
+Step 10 task/intent clustering
+Step 19 recipient materialization rules relevant to MK01
+Step 20 final data/workbook/recipient QA relevant to MK01
+```
 
-## Обязательные будущие файлы
+Steps 11–18 are not silently inherited.
 
-`PRODUCT_SCOPE.md`, `CLIENT_INPUT_CONTRACT.md`, `GENERAL_RULES.md`, `STEP_RULES_INDEX.md`, `steps/*`, `DELIVERABLE_SPEC.md`, `ERRORS_AND_LESSONS.md`, `QA_AND_RELEASE.md`, `KWORK_CARD.md`, `PORTFOLIO_ASSET_SPEC.md`, `tests/OKNO_MSK/*`.
+## Обязательные файлы MK01
+
+| File | State |
+|---|---|
+| `PRODUCT_SCOPE.md` | **DONE** |
+| `CLIENT_INPUT_CONTRACT.md` | **DONE** |
+| `GENERAL_RULES.md` | IN PROGRESS |
+| `STEP_RULES_INDEX.md` | PENDING EXTRACTION |
+| `steps/*` | PENDING EXTRACTION |
+| `DELIVERABLE_SPEC.md` | PENDING |
+| `ERRORS_AND_LESSONS.md` | PENDING |
+| `QA_AND_RELEASE.md` | PENDING |
+| `KWORK_CARD.md` | PENDING REHEARSAL |
+| `PORTFOLIO_ASSET_SPEC.md` | PENDING REHEARSAL |
+| `tests/OKNO_MSK/*` | PENDING AUTONOMOUS MK01 REHEARSAL |
 
 Каждый клиентский и QA-файл обязан явно повторять Yandex-only boundary согласно `../YANDEX_ONLY_SCOPE.md`; одной внутренней ссылки недостаточно.
 
-## Текущий следующий шаг
+## Productization roadmap
 
 ```text
-1. Freeze exact promise and limits.
-2. Record exact client inputs.
-3. Audit full KW-001 authorities for Steps 0–10 and all failure classes affecting this product.
-4. Build autonomous MK01 roadmap.
-5. Re-materialize OKNO_MSK as if only MK01 had been purchased.
+PHASE 0  PRODUCT PROMISE FREEZE                 = PASS
+PHASE 1  MARKET REALITY BASELINE               = PASS / REFRESH AGAIN BEFORE CARD
+PHASE 2  CLIENT INPUT CONTRACT                 = PASS
+PHASE 3  KW-001 METHOD/FAILURE EXTRACTION      = IN PROGRESS
+PHASE 4  AUTONOMOUS MK01 ROADMAP               = PENDING
+PHASE 5  OKNO_MSK MK01-ONLY REHEARSAL          = PENDING
+PHASE 6  MK01 CLIENT DELIVERABLE               = PENDING
+PHASE 7  QA                                    = PENDING
+PHASE 8  PRICE/LIMITS/ECONOMICS FREEZE         = PENDING
+PHASE 9  KWORK CARD                            = PENDING
+PHASE 10 PORTFOLIO ILLUSTRATION                = PENDING
+PHASE 11 OWNER PUBLICATION                     = PENDING OWNER ACTION
+PHASE 12 PUBLISHED VERSION FREEZE/READBACK      = PENDING
+```
+
+## Current next action
+
+```text
+READ ALL RELEVANT KW-001 AUTHORITIES
+→ EXTRACT COMMON RULES
+→ EXTRACT PER-STEP METHODS
+→ EXTRACT ALL RELEVANT FAILURE CLASSES / ROOT CAUSES / NON-REPEAT CONTROLS
+→ MATERIALIZE GENERAL_RULES.md + STEP_RULES_INDEX.md + steps/* + ERRORS_AND_LESSONS.md
 ```
