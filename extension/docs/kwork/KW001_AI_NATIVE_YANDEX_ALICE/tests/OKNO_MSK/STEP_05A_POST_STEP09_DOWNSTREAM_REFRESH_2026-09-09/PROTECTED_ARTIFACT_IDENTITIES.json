@@ -1,0 +1,18 @@
+{
+  "historical_stage5_master": {
+    "path": "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv",
+    "bytes": 1727139,
+    "sha256": "94c8baf092831b5db45eddca1e712cdd579e2eda3cf6662af1b3aeaed5341fa2"
+  },
+  "historical_stage5_units": {
+    "path": "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv",
+    "bytes": 61575,
+    "sha256": "060ac8b43c9002e1700d7ec5efc01444f25a90ace91c6b0b206db4b1c4262abd"
+  },
+  "historical_corrected_release_manifest": {
+    "path": "OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json",
+    "bytes": 6239,
+    "sha256": "0694b02c2591e54b996c06c854ea61c276d17ea314735c5c2a83e5c714f4b7f2"
+  },
+  "kw002_tree_hash": "2bcdd321a97f9de660c4e4690b429bff6c140d3a"
+}

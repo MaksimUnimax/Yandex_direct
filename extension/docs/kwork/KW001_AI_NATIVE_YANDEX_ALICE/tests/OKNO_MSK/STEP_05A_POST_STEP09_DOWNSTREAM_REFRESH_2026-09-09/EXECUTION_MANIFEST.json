@@ -1,0 +1,17 @@
+{
+  "schema": "OKNO_MSK_STEP5A_POST_STEP09_DOWNSTREAM_REFRESH_V1",
+  "date": "2026-09-09",
+  "baseline_rows": 2840,
+  "delta_rows": 16,
+  "union_rows": 2856,
+  "directions": 7,
+  "step9_queries": 6,
+  "step9_top10_rows": 60,
+  "provider_requests_reused": 6,
+  "provider_cost_reused_rub": 2.928,
+  "new_provider_calls": 0,
+  "new_page_count": 0,
+  "exact_owner_resolved_phrases": 9,
+  "exact_owner_hold_phrases": 7,
+  "release_path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09"
+}

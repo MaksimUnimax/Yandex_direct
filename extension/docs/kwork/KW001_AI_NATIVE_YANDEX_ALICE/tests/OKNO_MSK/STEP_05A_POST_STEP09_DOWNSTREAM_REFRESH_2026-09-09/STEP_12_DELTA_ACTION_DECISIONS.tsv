@@ -1,0 +1,8 @@
+direction_id	phrase_count	step12_action	physical_change	new_page_decision	evidence_boundary
+OPEN_BALCONY_WATERPROOFING	6	HOLD_EVIDENCE	NO	REJECTED_NOT_JUSTIFIED	Выдача подтверждает отдельные информационные, товарные и строительные задачи; предложение компании и точный владелец не подтверждены.
+SUN_PROTECTION_GLASS_UNIT	3	SEMANTIC_MAPPING_ONLY	NO	REJECTED_NOT_JUSTIFIED	Коммерческий выбор конфигурации относится к существующей странице стеклопакетов; новый URL не нужен.
+MULTIFUNCTIONAL_GLASS_UNIT	1	SEMANTIC_MAPPING_ONLY	NO	REJECTED_NOT_JUSTIFIED	Информационная задача соответствует существующему руководству по выбору стеклопакета.
+IMPACT_RESISTANT_GLASS_UNIT	1	SEMANTIC_MAPPING_ONLY	NO	REJECTED_NOT_JUSTIFIED	Запрос относится к выбору продукта и не доказывает необходимость отдельной страницы.
+BALCONY_AS_OFFICE	1	SEMANTIC_MAPPING_ONLY	NO	REJECTED_NOT_JUSTIFIED	Сценарий относится к комплексному ремонту и остеклению существующего балконного раздела.
+BALCONY_ROOF_SOUNDPROOFING	3	SEMANTIC_MAPPING_ONLY	NO	REJECTED_NOT_JUSTIFIED	Общая задача относится к существующей услуге крыши; вариант «изнутри» остаётся без точного назначения.
+WINDOW_PROFILE_REINFORCEMENT	1	SEMANTIC_MAPPING_ONLY	NO	REJECTED_NOT_JUSTIFIED	Техническое пояснение относится к существующему руководству по выбору профиля.

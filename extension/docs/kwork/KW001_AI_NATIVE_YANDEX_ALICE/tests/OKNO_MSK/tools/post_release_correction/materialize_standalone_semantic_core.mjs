@@ -184,6 +184,7 @@ function uniqueSorted(values) {
 }
 
 function sourceSnapshotDate(sourceIds) {
+  if (/(^|\|)WSR\d+($|\|)/.test(sourceIds)) return "2026-09-08";
   const hasPass1 = /(^|\|)S\d+($|\|)/.test(sourceIds);
   const hasPass2 = /(^|\|)P2-\d+($|\|)/.test(sourceIds);
   if (hasPass1 && hasPass2) return "2026-08-28; 2026-08-29";
@@ -476,9 +477,9 @@ const previewDir = args["preview-dir"] ? path.resolve(args["preview-dir"]) : nul
 const runtimeReportPath = args["runtime-report"] ? path.resolve(args["runtime-report"]) : null;
 const jobRoot = path.join(repoRoot, "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK");
 const files = {
-  master: path.join(jobRoot, "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv"),
-  units: path.join(jobRoot, "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv"),
-  step8: path.join(jobRoot, "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv"),
+  master: args.master ? path.resolve(args.master) : path.join(jobRoot, "RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv"),
+  units: args.units ? path.resolve(args.units) : path.join(jobRoot, "RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv"),
+  step8: args.step8 ? path.resolve(args.step8) : path.join(jobRoot, "STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv"),
 };
 
 const [master, units, step8] = await Promise.all([
@@ -490,8 +491,12 @@ const [master, units, step8] = await Promise.all([
 const masterByPhrase = new Map(master.map((row) => [normalize(row.phrase), row]));
 const step8ByPhrase = new Map(step8.map((row) => [normalize(row.phrase), row]));
 const unitsById = new Map(units.map((row) => [row.structural_unit_id, row]));
-if (master.length !== 2840 || masterByPhrase.size !== 2840) throw new Error(`Stage-5 phrase invariant failed: rows=${master.length}, unique=${masterByPhrase.size}`);
-if (step8.length !== 2840 || step8ByPhrase.size !== 2840) throw new Error(`Step-08 phrase invariant failed: rows=${step8.length}, unique=${step8ByPhrase.size}`);
+const expectedRows = Number(args["expected-rows"] ?? 2840);
+const expectedActive = Number(args["expected-active"] ?? 2332);
+const expectedAssigned = Number(args["expected-assigned"] ?? 2313);
+const expectedSearchRequired = Number(args["expected-search-required"] ?? 19);
+if (master.length !== expectedRows || masterByPhrase.size !== expectedRows) throw new Error(`Semantic-master phrase invariant failed: rows=${master.length}, unique=${masterByPhrase.size}`);
+if (step8.length !== expectedRows || step8ByPhrase.size !== expectedRows) throw new Error(`Step-08 phrase invariant failed: rows=${step8.length}, unique=${step8ByPhrase.size}`);
 if (units.length !== 168 || unitsById.size !== 168) throw new Error(`Unit invariant failed: rows=${units.length}, unique=${unitsById.size}`);
 for (const key of masterByPhrase.keys()) if (!step8ByPhrase.has(key)) throw new Error(`Missing Step-08 row: ${key}`);
 
@@ -527,7 +532,7 @@ const joined = master.map((row) => {
 const activeRows = joined.filter((row) => row.active);
 const assignedRows = joined.filter((row) => row.assigned);
 const searchRequiredRows = joined.filter((row) => row.final_semantic_state === "SEARCH_REQUIRED");
-if (activeRows.length !== 2332 || assignedRows.length !== 2313 || searchRequiredRows.length !== 19) {
+if (activeRows.length !== expectedActive || assignedRows.length !== expectedAssigned || searchRequiredRows.length !== expectedSearchRequired) {
   throw new Error(`Active-state invariant failed: active=${activeRows.length}, assigned=${assignedRows.length}, search_required=${searchRequiredRows.length}`);
 }
 
@@ -673,7 +678,10 @@ for (const row of assignedRows) {
   if (!pageGroups.has(row.targetDisplay)) pageGroups.set(row.targetDisplay, []);
   pageGroups.get(row.targetDisplay).push(row);
 }
-if (pageGroups.size !== 63) throw new Error(`Page summary invariant failed: ${pageGroups.size}`);
+const expectedPageGroups = Number(args["expected-page-groups"] ?? 63);
+if (pageGroups.size !== expectedPageGroups) throw new Error(`Page summary invariant failed: ${pageGroups.size}`);
+const finalUrlCount = [...pageGroups.keys()].filter((target) => !target.startsWith("НЕТ ОТДЕЛЬНОЙ")).length;
+const noUrlGroupCount = pageGroups.size - finalUrlCount;
 const pageHeaders = [
   "Финальная страница / группа", "Тип строки", "Количество фраз", "Количество кластеров", "Максимальное число запросов",
   "Медианное число запросов", "Сумма числа запросов (не считать объёмом рынка)", "Ведущие фразы", "Кластеры", "Роли страницы",
@@ -750,12 +758,12 @@ function dictionaryEnumRows(section, field, displayMap, usage, source) {
 }
 
 const dictionaryRows = [
-  ["Сводка", "—", "Всего уникальных фраз", 2840, "Полный инвентарь находится на листе 01_Все_фразы", "Финальная семантическая таблица Stage 5"],
-  ["Сводка", "—", "Активное ядро", 2332, "Основной рабочий список находится на листе 02_Активное_ядро", "Назначенные фразы и очередь проверки в Яндексе"],
-  ["Сводка", "—", "Назначено", 2313, "Каждая строка имеет каноническую структурную единицу", "Финальная семантическая таблица Stage 5"],
-  ["Сводка", "SEARCH_REQUIRED", "Требуется проверка в обычном поиске Яндекса", 19, "Отдельная очередь находится на пятом листе; кластер и URL не выдумываются", "Финальная семантическая таблица Stage 5"],
-  ["Сводка", "—", "Канонические кластеры", 168, "Одна строка на листе 03_Кластеры", "Таблица структурных единиц Stage 5"],
-  ["Сводка", "—", "Финальные URL", 60, "Дополнительно показаны три управляемые группы без URL", "Поле финальной целевой страницы Stage 5"],
+  ["Сводка", "—", "Всего уникальных фраз", expectedRows, "Полный инвентарь находится на листе 01_Все_фразы", "Финальная семантическая таблица с принятым дополнением Step 5A"],
+  ["Сводка", "—", "Активное ядро", expectedActive, "Основной рабочий список находится на листе 02_Активное_ядро", "Назначенные фразы и очередь проверки в Яндексе"],
+  ["Сводка", "—", "Назначено", expectedAssigned, "Каждая строка имеет каноническую структурную единицу", "Финальная семантическая таблица с принятым дополнением Step 5A"],
+  ["Сводка", "SEARCH_REQUIRED", "Требуется проверка в обычном поиске Яндекса", expectedSearchRequired, "Отдельная очередь находится на пятом листе; кластер и URL не выдумываются", "Финальная семантическая таблица с принятым дополнением Step 5A"],
+  ["Сводка", "—", "Канонические кластеры", units.length, "Одна строка на листе 03_Кластеры", "Таблица структурных единиц с принятым дополнением Step 5A"],
+  ["Сводка", "—", "Финальные URL", finalUrlCount, `Дополнительно показаны управляемые группы без URL: ${noUrlGroupCount}`, "Поле финальной целевой страницы с принятым дополнением Step 5A"],
   ["Частотность", METRIC_TYPE, METRIC_DISPLAY, "Популярные запросы, содержащие заданную фразу, и похожие запросы из раздела «Топы запросов»", "Использовать для грубой сортировки и сравнения внутри принятого распределения", "Вордстат; Москва, код 213; все устройства; без операторов"],
   ["Частотность", "result count", "Число запросов — популярные", "Сохранённое число для популярного запроса с точным текстом строки", "Основной числовой показатель спроса в книге; не точная частотность", "Данные спроса Step 08"],
   ["Частотность", "association count", "Число запросов — похожие", "Сохранённое число для похожего запроса с точным текстом строки", "Вспомогательный показатель происхождения фразы", "Данные спроса Step 08"],
