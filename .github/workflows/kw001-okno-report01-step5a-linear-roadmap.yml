@@ -37,9 +37,9 @@ jobs:
           git rev-parse HEAD:extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH > /tmp/kw002_before
           git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05 > /tmp/old_release_before
 
-      - name: Rebuild Report 01 as one linear roadmap narrative
+      - name: Rebuild Report 01 in canonical Step5A order everywhere
         run: |
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_step5a_linear_roadmap_rebuild_v2.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_step5a_linear_roadmap_rebuild_v3.py
 
       - name: Render and inspect every PDF page
         run: |
@@ -73,7 +73,7 @@ jobs:
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
           find "$ROOT" -type d -name '__pycache__' -prune -exec rm -rf {} +
-          BAD=$(git status --short | awk '{print $2}' | grep -vE "^${ROOT}/(OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/(sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md|editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx|01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf|RELEASE_MANIFEST_2026-09-09.json)|DOCUMENT_01_STEP05A_COMPETITOR_AMENDMENT_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ROADMAP_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ROADMAP_REBUILD_2026-09-09.md)$" || true)
+          BAD=$(git status --short | awk '{print $2}' | grep -vE "^${ROOT}/(OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/(sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md|editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx|01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf|RELEASE_MANIFEST_2026-09-09.json)|DOCUMENT_01_STEP05A_COMPETITOR_AMENDMENT_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ROADMAP_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ROADMAP_REBUILD_2026-09-09.md|DOCUMENT_01_STEP05A_LINEAR_ORDER_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ORDER_REBUILD_2026-09-09.md)$" || true)
           if [ -n "$BAD" ]; then echo "Unexpected changed paths:"; echo "$BAD"; exit 1; fi
 
       - name: Upload final visual QA bundle
@@ -84,7 +84,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Commit and push linearized Report 01
+      - name: Commit and push fully linearized Report 01
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -97,7 +97,9 @@ jobs:
           git add "$ROOT/DOCUMENT_01_STEP05A_COMPETITOR_AMENDMENT_QA_2026-09-09.json"
           git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ROADMAP_QA_2026-09-09.json"
           git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ROADMAP_REBUILD_2026-09-09.md"
-          git commit -m "docs(okno-msk): integrate Step5A linearly into report01 [skip ci]"
+          git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ORDER_QA_2026-09-09.json"
+          git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ORDER_REBUILD_2026-09-09.md"
+          git commit -m "docs(okno-msk): place Step5A linearly across report01 [skip ci]"
           git push origin HEAD:roadmap/kwork-productization-2026-08-28
           git rev-parse HEAD > /tmp/material_head
 
@@ -107,10 +109,20 @@ jobs:
           test "$(git rev-parse origin/roadmap/kwork-productization-2026-08-28)" = "$(cat /tmp/material_head)"
           test "$(git rev-parse HEAD:extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH)" = "$(cat /tmp/kw002_before)"
           test "$(git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05)" = "$(cat /tmp/old_release_before)"
-          git show "$(cat /tmp/material_head):extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md" | grep -F '### Анализ конкурентов и расширение семантики'
-          if git show "$(cat /tmp/material_head):extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md" | grep -Ei 'после основного исследования|дополнительный анализ конкурентов|после анализа конкурентов|по первоначальному ядру|проверок исходного ядра'; then
+          SRC=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md
+          git show "$(cat /tmp/material_head):$SRC" | grep -F '### Анализ конкурентов и расширение семантики'
+          if git show "$(cat /tmp/material_head):$SRC" | grep -Ei 'после основного исследования|дополнительный анализ конкурентов|после анализа конкурентов|по первоначальному ядру|проверок исходного ядра'; then
             echo 'late-addition wording survived remote readback'; exit 1
           fi
+          python - <<'PY'
+          import subprocess
+          head=open('/tmp/material_head').read().strip()
+          path='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md'
+          text=subprocess.check_output(['git','show',f'{head}:{path}'],text=True)
+          r=text[text.index('## Результат исследования'):text.index('\n## Как проводилась работа')]
+          assert r.index('### Анализ конкурентов и расширение семантики') < r.index('Обычная выдача Яндекса использовалась для тех формулировок') < r.index('Проверка ядра по выдаче Алисы была одной из основных частей работы.')
+          print('REMOTE_LINEAR_ORDER_PASS')
+          PY
           echo "START_HEAD=$(cat /tmp/start_head)"
           echo "MATERIAL_HEAD=$(cat /tmp/material_head)"
           echo "REMOTE_READBACK_PASS"
