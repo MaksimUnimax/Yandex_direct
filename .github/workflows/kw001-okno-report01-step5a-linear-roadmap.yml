@@ -72,6 +72,7 @@ jobs:
       - name: Guard intended changes only
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          find "$ROOT" -type d -name '__pycache__' -prune -exec rm -rf {} +
           BAD=$(git status --short | awk '{print $2}' | grep -vE "^${ROOT}/(OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/(sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md|editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx|01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf|RELEASE_MANIFEST_2026-09-09.json)|DOCUMENT_01_STEP05A_COMPETITOR_AMENDMENT_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ROADMAP_QA_2026-09-09.json|DOCUMENT_01_STEP05A_LINEAR_ROADMAP_REBUILD_2026-09-09.md)$" || true)
           if [ -n "$BAD" ]; then echo "Unexpected changed paths:"; echo "$BAD"; exit 1; fi
 
