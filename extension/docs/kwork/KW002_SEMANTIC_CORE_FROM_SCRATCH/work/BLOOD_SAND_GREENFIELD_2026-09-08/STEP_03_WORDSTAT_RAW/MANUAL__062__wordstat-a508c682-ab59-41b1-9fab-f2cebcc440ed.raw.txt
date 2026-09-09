@@ -1,0 +1,45 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-a508c682-ab59-41b1-9fab-f2cebcc440ed",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "(амулет|оберег|талисман) Хорс", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 1791,
+  "result": {
+    "results": [
+      {"phrase":"оберег хорс","count":"10"},
+      {"phrase":"амулет хорс","count":"7"}
+    ],
+    "associations": [
+      {"phrase":"счастливый амулет дзен","count":"79433"},
+      {"phrase":"elden ring талисманы","count":"3504"},
+      {"phrase":"счастливый амулет рассказы","count":"15538"},
+      {"phrase":"амулет от сглаза","count":"1921"},
+      {"phrase":"счастливый амулет рассказы на дзен","count":"5673"},
+      {"phrase":"магические животные","count":"6536"},
+      {"phrase":"амулеты силксонг","count":"637"},
+      {"phrase":"молитва от колдовства и порчи с глаза","count":"58"},
+      {"phrase":"верховный бог восточных славян","count":"529"},
+      {"phrase":"амулет с огненным скорпионом","count":"217"},
+      {"phrase":"двигатель чери амулет","count":"3776"},
+      {"phrase":"амулет куро","count":"512"},
+      {"phrase":"магический желудь ведьмак 3","count":"314"},
+      {"phrase":"natilash amulets","count":"179"},
+      {"phrase":"магическая битва 3 12 серия","count":"2852"},
+      {"phrase":"школа магических животных","count":"645"},
+      {"phrase":"бою талисман духи","count":"101"},
+      {"phrase":"талисман для князя щит рода","count":"228"}
+    ],
+    "totalCount": "34"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}

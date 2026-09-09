@@ -1,0 +1,28 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-0f2a87e8-011b-4bee-b678-a295e5ec0ba0",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "(амулет|оберег|талисман) Спаси и Сохрани", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 413,
+  "result": {
+    "results": [
+      {"phrase":"оберег спаси и сохрани","count":"94"},
+      {"phrase":"кольца обереги спаси и сохрани","count":"15"}
+    ],
+    "associations": [
+      {"phrase":"медаль за спасение погибавших","count":"5495"},{"phrase":"молитва от колдовства и чародейства","count":"7488"},{"phrase":"семистрельная икона ее значение от чего оберегает","count":"1027"},{"phrase":"молитва пантелеймону целителю об исцелении себя","count":"3230"},{"phrase":"икона спиридона тримифунтского в чем помогает","count":"4627"},{"phrase":"молитвы против колдовства","count":"2295"},{"phrase":"икона семистрельная в чем помогает","count":"7077"},{"phrase":"книга проклятие или спасение","count":"1417"},{"phrase":"молитва от сглаза и порчи сильная","count":"5897"},{"phrase":"молитва о защите","count":"35551"},{"phrase":"молитва ангелу хранителю о защите","count":"1326"},{"phrase":"оберегая от себя книга","count":"771"},{"phrase":"молитва от колдовства и чародейства сильная","count":"2018"},{"phrase":"молитва против колдовства и чародейства","count":"938"},{"phrase":"молитва для защиты от нечистой силы","count":"561"},{"phrase":"сбросить оковы спасение читать","count":"757"},{"phrase":"молитва о спасении","count":"4467"},{"phrase":"молебен о сохранении творения божия","count":"2218"},{"phrase":"защитные молитвы себе","count":"214"}
+    ],
+    "totalCount": "111"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
