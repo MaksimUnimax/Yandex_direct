@@ -12,8 +12,8 @@
   "artifacts": [
     {
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf",
-      "bytes": 143354,
-      "sha256": "1f32642f4b367c10a371583eb39fd075a674b597569abc62d9ac45d6536dfad8"
+      "bytes": 143349,
+      "sha256": "4ee2dbcc19995d5e12b00baaf866562ebecc0a4f26496cb5d5c2aecc47680c58"
     },
     {
       "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
@@ -37,8 +37,8 @@
     },
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx",
-      "bytes": 52369,
-      "sha256": "e1036a9f9fa06611cd991191b2fdb5e50f0a6f77e14667a56c362faaf9ad260f"
+      "bytes": 52339,
+      "sha256": "297aa9d1618a5efc06e8406dd38326a7fb276bef3fb50a602f98f2dd6fbbec8c"
     },
     {
       "path": "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
@@ -47,8 +47,8 @@
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md",
-      "bytes": 53642,
-      "sha256": "f07f875b09f755917f228ba030f679fc70f3e5dfe57b0e204dcfcac53c0407f2"
+      "bytes": 53609,
+      "sha256": "38832cbfa9f2a1bf7fa5828055e4312df2d9c43e6f02c376780386dc901e6fd0"
     },
     {
       "path": "sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.md",

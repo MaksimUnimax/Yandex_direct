@@ -8,8 +8,8 @@
   "base_checks": "104/104",
   "linear_roadmap_checks": "28/28",
   "pdf_pages": 9,
-  "source_sha256": "f07f875b09f755917f228ba030f679fc70f3e5dfe57b0e204dcfcac53c0407f2",
-  "docx_sha256": "e1036a9f9fa06611cd991191b2fdb5e50f0a6f77e14667a56c362faaf9ad260f",
-  "pdf_sha256": "1f32642f4b367c10a371583eb39fd075a674b597569abc62d9ac45d6536dfad8",
-  "manifest_sha256": "8a3b754308fc5325ccb13af841e090c73d83a1cd91f10851bf29c49a5adb8acb"
+  "source_sha256": "38832cbfa9f2a1bf7fa5828055e4312df2d9c43e6f02c376780386dc901e6fd0",
+  "docx_sha256": "297aa9d1618a5efc06e8406dd38326a7fb276bef3fb50a602f98f2dd6fbbec8c",
+  "pdf_sha256": "4ee2dbcc19995d5e12b00baaf866562ebecc0a4f26496cb5d5c2aecc47680c58",
+  "manifest_sha256": "5bc330d304211618a5315424a282cc154ca21ec9a0dae8f45ddd5e38cf6601ad"
 }
