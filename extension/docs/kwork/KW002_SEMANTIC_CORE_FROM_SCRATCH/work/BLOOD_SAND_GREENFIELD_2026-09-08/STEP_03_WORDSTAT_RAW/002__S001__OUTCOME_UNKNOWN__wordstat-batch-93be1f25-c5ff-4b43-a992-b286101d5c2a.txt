@@ -1,0 +1,90 @@
+WORDSTAT_BATCH_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "batch.next",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1",
+  "run_id": null,
+  "status": "ERROR",
+  "reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+  "command": {
+    "action": "next",
+    "jobId": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1"
+  },
+  "progress": {
+    "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1",
+    "status": "RUNNING",
+    "total": 79,
+    "input_count": 79,
+    "duplicate_count": 0,
+    "pending": 77,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 1,
+    "failed_terminal": 0,
+    "outcome_unknown": 1,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 2,
+    "requests_started": 2,
+    "estimated_cost_rub": 0.04,
+    "active_item_id": null,
+    "stop_reason": "OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION",
+    "next_safe_action": "RECONCILE_UNKNOWN"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-09T02:02:05.059Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "command": {
+      "devices": ["DEVICE_ALL"],
+      "method": "getTop",
+      "numPhrases": 2000,
+      "phrase": "амулет",
+      "regions": ["225"]
+    },
+    "completed_at": "2026-09-09T02:02:35.728Z",
+    "error": null,
+    "estimated_cost_rub": 0.02,
+    "fingerprint": "631081dc991b3dfc",
+    "item_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1:631081dc991b3dfc",
+    "outcome_unknown_reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+    "request_executed": true,
+    "request_id": "wordstat-batch-93be1f25-c5ff-4b43-a992-b286101d5c2a",
+    "request_started_at": "2026-09-09T02:02:05.072Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "result_ref": null,
+    "status": "OUTCOME_UNKNOWN",
+    "updated_at": "2026-09-09T02:02:35.728Z",
+    "result_payload": {
+      "status": "ERROR",
+      "reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+      "request_executed": "UNKNOWN",
+      "automatic_retry": false,
+      "error": {
+        "code": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+        "message": "Исход Wordstat request неизвестен; автоматический повтор запрещён."
+      }
+    }
+  },
+  "provider_result": {
+    "status": "ERROR",
+    "reason": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+    "request_executed": "UNKNOWN",
+    "automatic_retry": false,
+    "error": {
+      "code": "REQUEST_OUTCOME_UNKNOWN_NO_RETRY",
+      "message": "Исход Wordstat request неизвестен; автоматический повтор запрещён."
+    }
+  },
+  "cost_estimate": {
+    "estimated_rub": 0.04,
+    "max_rub": 2
+  },
+  "policy": {
+    "max_requests": 79,
+    "max_cost_rub": 2
+  },
+  "request_executed": "UNKNOWN",
+  "automatic_retry": false
+}
