@@ -1,7 +1,7 @@
 {
   "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROFESSIONAL_REPACKAGE_V1",
   "date": "2026-09-09",
-  "status": "REPORTS_01_02_PROFESSIONAL_REPACKAGE__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
+  "status": "REPORTS_01_02_PROFESSIONAL_REPACKAGE__LAYOUT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
   "semantic_rows": 2856,
   "active_rows": 2348,
   "exact_assignment_decision_rows": 2322,
@@ -129,5 +129,13 @@
   "reports_01_02_professional_repackage_qa": "PASS__54_OF_54",
   "report01_pdf_pages": 12,
   "report02_pdf_pages": 11,
-  "remote_visual_readback": "PENDING"
+  "remote_visual_readback": "PENDING",
+  "professional_layout_polish": {
+    "status": "PASS",
+    "wide_pdf_tables_removed": true,
+    "report01_pages": 10,
+    "report02_pages": 9,
+    "tracker_sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719",
+    "remote_visual_readback": "PENDING"
+  }
 }

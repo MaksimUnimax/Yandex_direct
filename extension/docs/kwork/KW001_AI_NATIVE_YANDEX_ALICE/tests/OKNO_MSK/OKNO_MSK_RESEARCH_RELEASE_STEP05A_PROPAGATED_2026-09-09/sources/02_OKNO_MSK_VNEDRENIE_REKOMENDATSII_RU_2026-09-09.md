@@ -1,6 +1,6 @@
 # План внедрения рекомендаций
 
-https://okno-msk.ru/
+`https://okno-msk.ru/`
 
 Этот документ — рабочий план по результатам исследования. Он отделяет готовые изменения сайта от пунктов, где сначала нужен факт, решение по размещению или отдельная аналитическая проверка.
 
@@ -16,26 +16,81 @@ https://okno-msk.ru/
 
 ## 1. Сводный план внедрения
 
-| Очередь | Готовность | Задача | Страница | Кто нужен | Объём | Зависимость |
-|---:|---|---|---|---|---|---|
-| 1 | Можно внедрять | Разделить французское и панорамное остекление | https://okno-msk.ru/okna-rehau/francuzskie-okna | Контент | Средний текстовый блок | Нет отдельного предварительного условия |
-| 1 | Можно внедрять | Добавить правила выбора размеров ПВХ-двери | https://okno-msk.ru/dveri-rehau | Контент | Небольшой текстовый блок | Нет отдельного предварительного условия |
-| 1 | Можно внедрять | Указать год рейтинга производителей | https://okno-msk.ru/stati/kakie-okna-samye-luchshie | Контент | Небольшая правка | Нет отдельного предварительного условия |
-| 2 | После уточнения | Размеры окон для частного дома | https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom | Контент | Текстовый блок после уточнения | Выбрать одно место размещения блока в текущем макете страницы: в зоне выбора и замера перед калькулятором или формой обращения. |
-| 2 | После уточнения | Состав монтажа ПВХ-дверей | https://okno-msk.ru/dveri-rehau | Компания + контент | Средний текстовый блок | У компании зафиксировать состав услуги: операции и материалы, подготовку со стороны клиента, демонтаж и вывоз, откосы и отделку, гарантийные и сервисные условия. Также выбрать одно место размещения блока. |
-| 2 | После уточнения | Вентиляция при алюминиевом остеклении | https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami | Контент | Текстовый блок после уточнения | Выбрать одно место размещения блока в структуре статьи и подтвердить применимость функций для конкретных систем и фурнитуры. |
-| 2 | После уточнения | Навигация по портфолио | https://okno-msk.ru/nashi-raboty | Контент + разработка | Разметка карточек и настройка навигации | Разметить существующие карточки по категориям и по результату разметки утвердить точный набор фильтров. |
-| 2 | После уточнения | Панорамное алюминиевое остекление | https://okno-msk.ru/alyuminievye-okna/ | Контент | Текстовый блок после уточнения | Выбрать одно место размещения блока и связать формулировки с применимостью конкретной системы после замера и технической оценки. |
-| 3 | Сначала проверить | Панорамные окна REHAU и общая панорамная страница | https://okno-msk.ru/okna-rehau/panoramnye-okna-rehau | Аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
-| 3 | Сначала проверить | Окна для частного дома и для коттеджей | https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-dlya-kottedzhej-i-zagorodnyh-domov | Аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
-| 3 | Сначала проверить | Сравнение профилей REHAU | https://okno-msk.ru/stati/sravnenie-profilej-rehau | Аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
-| 3 | Сначала проверить | Accado, Vorne и Futurus | https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna | Компания + аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
+### Очередь 1 — можно внедрять сейчас
+
+- **Разделить французское и панорамное остекление**
+  - Страница: `https://okno-msk.ru/okna-rehau/francuzskie-okna`
+  - Кто нужен: Контент
+  - Объём: Средний текстовый блок
+  - Зависимость: Нет отдельного предварительного условия
+- **Добавить правила выбора размеров ПВХ-двери**
+  - Страница: `https://okno-msk.ru/dveri-rehau`
+  - Кто нужен: Контент
+  - Объём: Небольшой текстовый блок
+  - Зависимость: Нет отдельного предварительного условия
+- **Указать год рейтинга производителей**
+  - Страница: `https://okno-msk.ru/stati/kakie-okna-samye-luchshie`
+  - Кто нужен: Контент
+  - Объём: Небольшая правка
+  - Зависимость: Нет отдельного предварительного условия
+
+### Очередь 2 — сначала закрыть уточнение
+
+- **Размеры окон для частного дома**
+  - Страница: `https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom`
+  - Кто нужен: Контент
+  - Объём: Текстовый блок после уточнения
+  - Зависимость: Выбрать одно место размещения блока в текущем макете страницы: в зоне выбора и замера перед калькулятором или формой обращения.
+- **Состав монтажа ПВХ-дверей**
+  - Страница: `https://okno-msk.ru/dveri-rehau`
+  - Кто нужен: Компания + контент
+  - Объём: Средний текстовый блок
+  - Зависимость: У компании зафиксировать состав услуги: операции и материалы, подготовку со стороны клиента, демонтаж и вывоз, откосы и отделку, гарантийные и сервисные условия. Также выбрать одно место размещения блока.
+- **Вентиляция при алюминиевом остеклении**
+  - Страница: `https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami`
+  - Кто нужен: Контент
+  - Объём: Текстовый блок после уточнения
+  - Зависимость: Выбрать одно место размещения блока в структуре статьи и подтвердить применимость функций для конкретных систем и фурнитуры.
+- **Навигация по портфолио**
+  - Страница: `https://okno-msk.ru/nashi-raboty`
+  - Кто нужен: Контент + разработка
+  - Объём: Разметка карточек и настройка навигации
+  - Зависимость: Разметить существующие карточки по категориям и по результату разметки утвердить точный набор фильтров.
+- **Панорамное алюминиевое остекление**
+  - Страница: `https://okno-msk.ru/alyuminievye-okna/`
+  - Кто нужен: Контент
+  - Объём: Текстовый блок после уточнения
+  - Зависимость: Выбрать одно место размещения блока и связать формулировки с применимостью конкретной системы после замера и технической оценки.
+
+### Очередь 3 — сначала выполнить проверку
+
+- **Панорамные окна REHAU и общая панорамная страница**
+  - Страница: `https://okno-msk.ru/okna-rehau/panoramnye-okna-rehau`
+  - Кто нужен: Аналитическая проверка
+  - Объём: Отдельная проверка
+  - Зависимость: Сначала выполнить указанную проверку
+- **Окна для частного дома и для коттеджей**
+  - Страница: `https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-dlya-kottedzhej-i-zagorodnyh-domov`
+  - Кто нужен: Аналитическая проверка
+  - Объём: Отдельная проверка
+  - Зависимость: Сначала выполнить указанную проверку
+- **Сравнение профилей REHAU**
+  - Страница: `https://okno-msk.ru/stati/sravnenie-profilej-rehau`
+  - Кто нужен: Аналитическая проверка
+  - Объём: Отдельная проверка
+  - Зависимость: Сначала выполнить указанную проверку
+- **Accado, Vorne и Futurus**
+  - Страница: `https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna`
+  - Кто нужен: Компания + аналитическая проверка
+  - Объём: Отдельная проверка
+  - Зависимость: Сначала выполнить указанную проверку
+
 
 ## 2. Можно внедрять сейчас
 
 ### 1. Разделить французское и панорамное остекление
 
-**Страница:** https://okno-msk.ru/okna-rehau/francuzskie-okna
+**Страница:** `https://okno-msk.ru/okna-rehau/francuzskie-okna`
 
 **Зачем менять**
 
@@ -67,7 +122,7 @@ https://okno-msk.ru/
 
 ### 2. Добавить правила выбора размеров ПВХ-двери
 
-**Страница:** https://okno-msk.ru/dveri-rehau
+**Страница:** `https://okno-msk.ru/dveri-rehau`
 
 **Зачем менять**
 
@@ -98,7 +153,7 @@ https://okno-msk.ru/
 
 ### 3. Указать год рейтинга производителей
 
-**Страница:** https://okno-msk.ru/stati/kakie-okna-samye-luchshie
+**Страница:** `https://okno-msk.ru/stati/kakie-okna-samye-luchshie`
 
 **Зачем менять**
 
@@ -132,7 +187,7 @@ https://okno-msk.ru/
 
 ### 1. Размеры окон для частного дома
 
-**Страница:** https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom
+**Страница:** `https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom`
 
 **Что хотим добавить**
 
@@ -150,7 +205,7 @@ https://okno-msk.ru/
 
 ### 2. Состав монтажа ПВХ-дверей
 
-**Страница:** https://okno-msk.ru/dveri-rehau
+**Страница:** `https://okno-msk.ru/dveri-rehau`
 
 **Что хотим добавить**
 
@@ -168,7 +223,7 @@ https://okno-msk.ru/
 
 ### 3. Вентиляция при алюминиевом остеклении
 
-**Страница:** https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami
+**Страница:** `https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami`
 
 **Что хотим добавить**
 
@@ -186,7 +241,7 @@ https://okno-msk.ru/
 
 ### 4. Навигация по портфолио
 
-**Страница:** https://okno-msk.ru/nashi-raboty
+**Страница:** `https://okno-msk.ru/nashi-raboty`
 
 **Что хотим изменить**
 
@@ -202,7 +257,7 @@ https://okno-msk.ru/
 
 ### 5. Панорамное алюминиевое остекление
 
-**Страница:** https://okno-msk.ru/alyuminievye-okna/
+**Страница:** `https://okno-msk.ru/alyuminievye-okna/`
 
 **Что хотим добавить**
 
@@ -224,7 +279,7 @@ https://okno-msk.ru/
 
 ### 1. Панорамные окна REHAU и общая панорамная страница
 
-**Страница:** https://okno-msk.ru/okna-rehau/panoramnye-okna-rehau
+**Страница:** `https://okno-msk.ru/okna-rehau/panoramnye-okna-rehau`
 
 **Что нужно понять**
 
@@ -244,7 +299,7 @@ https://okno-msk.ru/
 
 ### 2. Окна для частного дома и для коттеджей
 
-**Страница:** https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-dlya-kottedzhej-i-zagorodnyh-domov
+**Страница:** `https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-dlya-kottedzhej-i-zagorodnyh-domov`
 
 **Что нужно понять**
 
@@ -264,7 +319,7 @@ https://okno-msk.ru/
 
 ### 3. Сравнение профилей REHAU
 
-**Страница:** https://okno-msk.ru/stati/sravnenie-profilej-rehau
+**Страница:** `https://okno-msk.ru/stati/sravnenie-profilej-rehau`
 
 **Что нужно понять**
 
@@ -284,7 +339,7 @@ https://okno-msk.ru/
 
 ### 4. Accado, Vorne и Futurus
 
-**Страница:** https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna
+**Страница:** `https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna`
 
 **Что нужно понять**
 
@@ -312,31 +367,59 @@ https://okno-msk.ru/
 
 Эти формулировки расширяют семантическое назначение существующих страниц. Сами по себе они не требуют нового раздела сайта и не являются готовым заданием на изменение текста.
 
-| Поисковая фраза | Основная страница | Роль |
-|---|---|---|
-| солнцезащитный стеклопакет | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| солнцезащитное стекло в стеклопакете | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| солнцезащитный стеклопакет rehau | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| многофункциональный стеклопакет что это | https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/ | Семантическое назначение без физического изменения |
-| ударопрочный стеклопакет | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| балконы под офис | https://okno-msk.ru/balkony-i-lodzhii/ | Семантическое назначение без физического изменения |
-| шумоизоляция на крышу балкона | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | Семантическое назначение без физического изменения |
-| шумоизоляция крыши балкона от дождя | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | Семантическое назначение без физического изменения |
-| армирование оконного профиля | https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/ | Семантическое назначение без физического изменения |
+1. **солнцезащитный стеклопакет**
+   - Основная страница: `https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon`
+   - Роль: Семантическое назначение без физического изменения
+2. **солнцезащитное стекло в стеклопакете**
+   - Основная страница: `https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon`
+   - Роль: Семантическое назначение без физического изменения
+3. **солнцезащитный стеклопакет rehau**
+   - Основная страница: `https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon`
+   - Роль: Семантическое назначение без физического изменения
+4. **многофункциональный стеклопакет что это**
+   - Основная страница: `https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/`
+   - Роль: Семантическое назначение без физического изменения
+5. **ударопрочный стеклопакет**
+   - Основная страница: `https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon`
+   - Роль: Семантическое назначение без физического изменения
+6. **балконы под офис**
+   - Основная страница: `https://okno-msk.ru/balkony-i-lodzhii/`
+   - Роль: Семантическое назначение без физического изменения
+7. **шумоизоляция на крышу балкона**
+   - Основная страница: `https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/`
+   - Роль: Семантическое назначение без физического изменения
+8. **шумоизоляция крыши балкона от дождя**
+   - Основная страница: `https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/`
+   - Роль: Семантическое назначение без физического изменения
+9. **армирование оконного профиля**
+   - Основная страница: `https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/`
+   - Роль: Семантическое назначение без физического изменения
 
 ## 6. Семь новых фраз без подтверждённого точного владельца
 
 Эти формулировки сохранены в ядре, но не должны передаваться во внедрение до подтверждения точной страницы и границ предложения компании.
 
-| Поисковая фраза | Тематический маршрут | Что нужно подтвердить |
-|---|---|---|
-| гидроизоляция для открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | Выдача подтверждает отдельные информационные, товарные и строительные задачи; предложение компании и точный владелец не подтверждены. |
-| гидроизоляция открытого балкона в частном доме | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | точное соответствие предложению компании не подтверждено |
-| лучшая гидроизоляция для открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | продажа материалов и точный владелец на сайте не подтверждены |
-| как сделать гидроизоляцию на открытом балконе | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | не подтверждено, что существующая страница должна обучать самостоятельным работам |
-| гидроизоляция открытого деревянного балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | работа с деревянными конструкциями не подтверждена предложением компании |
-| гидроизоляция балконной плиты открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | ремонт/гидроизоляция плиты не подтверждены как услуга компании |
-| шумоизоляция крыши балкона изнутри от дождя | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | внутренний способ и состав услуги не подтверждены |
+1. **гидроизоляция для открытого балкона**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov`
+   - Нужно подтвердить: Выдача подтверждает отдельные информационные, товарные и строительные задачи; предложение компании и точный владелец не подтверждены.
+2. **гидроизоляция открытого балкона в частном доме**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov`
+   - Нужно подтвердить: точное соответствие предложению компании не подтверждено
+3. **лучшая гидроизоляция для открытого балкона**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov`
+   - Нужно подтвердить: продажа материалов и точный владелец на сайте не подтверждены
+4. **как сделать гидроизоляцию на открытом балконе**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov`
+   - Нужно подтвердить: не подтверждено, что существующая страница должна обучать самостоятельным работам
+5. **гидроизоляция открытого деревянного балкона**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov`
+   - Нужно подтвердить: работа с деревянными конструкциями не подтверждена предложением компании
+6. **гидроизоляция балконной плиты открытого балкона**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov`
+   - Нужно подтвердить: ремонт/гидроизоляция плиты не подтверждены как услуга компании
+7. **шумоизоляция крыши балкона изнутри от дождя**
+   - Тематический маршрут: `https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/`
+   - Нужно подтвердить: внутренний способ и состав услуги не подтверждены
 
 ## 7. Внутренние связи
 
@@ -355,13 +438,13 @@ https://okno-msk.ru/
 
 ## 9. Материалы, использованные в исследовании
 
-1. «Вордстат» — Яндекс Вордстат. https://yandex.ru/support2/wordstat/ru/interface/new
-2. «Операторы» — Яндекс Вордстат. https://yandex.ru/support2/wordstat/ru/content/operators
-3. «На какие вопросы отвечает ваш сайт» — Яндекс Вебмастер. https://yandex.ru/support/webmaster/ru/recommendations/targeting
-4. «How to Do Keyword Clustering & Why It Helps SEO» — Semrush. https://www.semrush.com/blog/keyword-clustering/
-5. «Keyword mapping for SEO: Guide + free template» — Semrush. https://www.semrush.com/blog/keyword-mapping/
-6. «Keyword Intent: What It Is and How to Use It in Your SEO Strategy» — Ahrefs. https://ahrefs.com/blog/keyword-intent/
-7. «Keyword Cannibalization: What It (Really) Is & How to Fix It» — Ahrefs. https://ahrefs.com/blog/keyword-cannibalization/
-8. «Internal Links for SEO: An Actionable Guide» — Ahrefs. https://ahrefs.com/blog/internal-links-for-seo/
-9. «Видимость сайта в Алисе AI» — Яндекс Вебмастер. https://yandex.ru/support/webmaster/ru/service/alice-answers
-10. «Какие аспекты влияют на ранжирование в Поиске и попадание в ответы Алисы AI» — Яндекс Вебмастер. https://yandex.ru/support/webmaster/ru/epos
+1. «Вордстат» — Яндекс Вордстат. `https://yandex.ru/support2/wordstat/ru/interface/new`
+2. «Операторы» — Яндекс Вордстат. `https://yandex.ru/support2/wordstat/ru/content/operators`
+3. «На какие вопросы отвечает ваш сайт» — Яндекс Вебмастер. `https://yandex.ru/support/webmaster/ru/recommendations/targeting`
+4. «How to Do Keyword Clustering & Why It Helps SEO» — Semrush. `https://www.semrush.com/blog/keyword-clustering/`
+5. «Keyword mapping for SEO: Guide + free template» — Semrush. `https://www.semrush.com/blog/keyword-mapping/`
+6. «Keyword Intent: What It Is and How to Use It in Your SEO Strategy» — Ahrefs. `https://ahrefs.com/blog/keyword-intent/`
+7. «Keyword Cannibalization: What It (Really) Is & How to Fix It» — Ahrefs. `https://ahrefs.com/blog/keyword-cannibalization/`
+8. «Internal Links for SEO: An Actionable Guide» — Ahrefs. `https://ahrefs.com/blog/internal-links-for-seo/`
+9. «Видимость сайта в Алисе AI» — Яндекс Вебмастер. `https://yandex.ru/support/webmaster/ru/service/alice-answers`
+10. «Какие аспекты влияют на ранжирование в Поиске и попадание в ответы Алисы AI» — Яндекс Вебмастер. `https://yandex.ru/support/webmaster/ru/epos`
