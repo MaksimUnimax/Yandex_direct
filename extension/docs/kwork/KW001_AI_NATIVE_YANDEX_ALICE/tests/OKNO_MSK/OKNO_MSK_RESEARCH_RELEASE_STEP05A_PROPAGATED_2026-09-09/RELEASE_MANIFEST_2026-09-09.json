@@ -1,0 +1,59 @@
+{
+  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROPAGATED_V1",
+  "date": "2026-09-09",
+  "semantic_rows": 2856,
+  "active_rows": 2348,
+  "exact_page_assigned_rows": 2322,
+  "active_hold_rows": 7,
+  "structural_units": 168,
+  "new_pages": 0,
+  "new_provider_calls": 0,
+  "document_03_content_state": "BYTE_IDENTICAL_TO_CORRECTED_2026-09-05",
+  "artifacts": [
+    {
+      "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf",
+      "bytes": 153616,
+      "sha256": "f015d05a98a476a811d1169739a3091f59ae39543319f0dd99f89ac8126021db"
+    },
+    {
+      "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
+      "bytes": 217658,
+      "sha256": "fba7b1bac9d8eac72e7eb03383517e4c6d42ec2bfc2423c0229f94a994fb4764"
+    },
+    {
+      "path": "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md",
+      "bytes": 1119673,
+      "sha256": "d5c90cf187041e975f17d03a2be138eff0b6a06bfe1b7d395a3b24547edc62b0"
+    },
+    {
+      "path": "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-09.xlsx",
+      "bytes": 1444674,
+      "sha256": "86e80ca99966f497fc34bb38051cf70ff54322ee180508030e9d4bd60d179e0b"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 1084,
+      "sha256": "3e97fe166bccee08c8408f8b8d8eaec1eb4bbe926357d386389d4a7a83f2484f"
+    },
+    {
+      "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx",
+      "bytes": 24973,
+      "sha256": "b150de288eefa1e92f6a2ecf0d744f56319fe49df151b88405e0d3bbef12b228"
+    },
+    {
+      "path": "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
+      "bytes": 29844,
+      "sha256": "b52eac47cd69933a31f89346eee6665b6013df3eb4c575cacc246b507d97d7ef"
+    },
+    {
+      "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md",
+      "bytes": 42836,
+      "sha256": "82ce79d2b743d3ca230da5a6fc23e4da11d659f6e1eba821d4bbfee7191132f7"
+    },
+    {
+      "path": "sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.md",
+      "bytes": 43387,
+      "sha256": "e7866468f5982373dd0b48920e02ef545d45fa08eecbab7bab5fa3834bcaa871"
+    }
+  ]
+}

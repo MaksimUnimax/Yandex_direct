@@ -1,0 +1,78 @@
+{
+  "status": "MATERIALIZED",
+  "output": "/workspace/scratch/250cbce19ee8/Yandex_direct/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-09.xlsx",
+  "size_bytes": 1444674,
+  "sha256": "86e80ca99966f497fc34bb38051cf70ff54322ee180508030e9d4bd60d179e0b",
+  "source_counts": {
+    "all_phrases": 2856,
+    "active_phrases": 2348,
+    "assigned_phrases": 2329,
+    "search_required": 19,
+    "canonical_units": 168,
+    "unique_final_urls": 60,
+    "page_summary_rows": 64
+  },
+  "no_page_breakdown": {
+    "DEFER_PENDING_EVIDENCE": 32,
+    "KEEP_EXISTING_STRUCTURE": 7,
+    "NO_STANDALONE_PAGE": 246,
+    "OUTSIDE_SCOPE_NO_ACTION": 115
+  },
+  "representative_overrides": {
+    "BALCONY_GLAZING_WARM": "теплое остекление балконов",
+    "FRENCH_WINDOW_DEFINITION_INFO": "французское окно как называется",
+    "MOSQUITO_NET_INSTALLATION_SERVICE": "установка москитной сетки на пластиковое окно",
+    "PRIVATE_HOUSE_WINDOWS_COMMERCIAL": "купить пластиковые окна для частного дома",
+    "PVC_DOOR_REPAIR_SERVICE": "ремонт пластиковых дверей",
+    "TIMBER_ALUMINIUM_WINDOWS_COMMERCIAL": "деревянно алюминиевые окна"
+  },
+  "sheets": {
+    "01_Все_фразы": 2856,
+    "02_Активное_ядро": 2348,
+    "03_Кластеры": 168,
+    "04_Страницы": 64,
+    "05_Проверка_в_Яндексе": 19,
+    "06_Справочник": 122
+  },
+  "metric": {
+    "method": "getTop",
+    "region": 213,
+    "devices": "DEVICE_ALL",
+    "operators": "NONE",
+    "type": "BROAD_GETTOP_NO_OPERATORS"
+  },
+  "inspect": "{\"kind\":\"sheet\",\"id\":\"ws/7zaztb\",\"name\":\"01_Все_фразы\",\"index\":0,\"range\":\"A1:AI2857\",\"address\":\"A1:AI2857\"}\n{\"kind\":\"sheet\",\"id\":\"ws/fl6nnu\",\"name\":\"02_Активное_ядро\",\"index\":1,\"range\":\"A1:AI2349\",\"address\":\"A1:AI2349\"}\n{\"kind\":\"sheet\",\"id\":\"ws/5j5fpf\",\"name\":\"03_Кластеры\",\"index\":2,\"range\":\"A1:Y169\",\"address\":\"A1:Y169\"}\n{\"kind\":\"sheet\",\"id\":\"ws/hoti5v\",\"name\":\"04_Страницы\",\"index\":3,\"range\":\"A1:P65\",\"address\":\"A1:P65\"}\n{\"kind\":\"sheet\",\"id\":\"ws/xdn94i\",\"name\":\"05_Проверка_в_Яндексе\",\"index\":4,\"range\":\"A1:R20\",\"address\":\"A1:R20\"}\n{\"kind\":\"sheet\",\"id\":\"ws/9hkm1a\",\"name\":\"06_Справочник\",\"index\":5,\"range\":\"A1:F123\",\"address\":\"A1:F123\"}",
+  "formula_error_scan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+  "previews": [
+    {
+      "sheet": "01_Все_фразы",
+      "range": "A1:L22",
+      "file": "01_Все_фразы.png"
+    },
+    {
+      "sheet": "02_Активное_ядро",
+      "range": "A1:L22",
+      "file": "02_Активное_ядро.png"
+    },
+    {
+      "sheet": "03_Кластеры",
+      "range": "A1:Y22",
+      "file": "03_Кластеры.png"
+    },
+    {
+      "sheet": "04_Страницы",
+      "range": "A1:P22",
+      "file": "04_Страницы.png"
+    },
+    {
+      "sheet": "05_Проверка_в_Яндексе",
+      "range": "A1:R20",
+      "file": "05_Проверка_в_Яндексе.png"
+    },
+    {
+      "sheet": "06_Справочник",
+      "range": "A1:E40",
+      "file": "06_Справочник.png"
+    }
+  ]
+}
