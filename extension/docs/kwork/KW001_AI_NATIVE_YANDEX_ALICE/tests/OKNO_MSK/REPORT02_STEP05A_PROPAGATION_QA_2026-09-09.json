@@ -1,0 +1,256 @@
+{
+  "schema": "OKNO_MSK_REPORT02_STEP05A_PROPAGATION_QA_V6",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "checks_passed": 44,
+  "checks_total": 44,
+  "checks": [
+    {
+      "name": "title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_role_branding",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_S18-A\\d+",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_STEP_[A-Z0-9_]+",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_Stage\\d+",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_CV\\d+",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_OR-\\d+",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_CONTENT_BLOCK",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_SEMANTIC_MAPPING_ONLY",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_internal_RECHECK_ONLY",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "has_2856",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "has_2348",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "has_2322",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "has_26",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "has_168",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "md_all_9_step5a_assigned",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "md_all_7_step5a_unresolved",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_unsupported_zero_new_pages",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no_unsupported_zero_physical",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "semantic_not_auto_change",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ready_3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "clarification_5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "base_topic_rows_46",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "new_assigned_rows_9",
+      "pass": true,
+      "detail": 9
+    },
+    {
+      "name": "new_unresolved_rows_7",
+      "pass": true,
+      "detail": 7
+    },
+    {
+      "name": "checks_4",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "links_14",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bibliography_10",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_2856",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_2348",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_2322",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_all_9_step5a_assigned",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_all_7_step5a_unresolved",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "docx_no_role",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_2856",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_2348",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_2322",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_step5a_assigned_section_heading",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_step5a_unresolved_section_heading",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_no_role",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pdf_page_count_sane",
+      "pass": true,
+      "detail": 19
+    },
+    {
+      "name": "provider_calls_zero",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "pdf_table_text_extraction_diagnostics": {
+    "gate_role": "INFORMATIONAL_ONLY__TABLE_ROWS_CLOSED_BY_REMOTE_VISUAL_READBACK",
+    "step5a_assigned_phrases_not_contiguous_in_pypdf_text": [
+      "солнцезащитный стеклопакет rehau"
+    ],
+    "step5a_unresolved_phrases_not_contiguous_in_pypdf_text": [
+      "как сделать гидроизоляцию на открытом балконе"
+    ]
+  },
+  "artifacts": {
+    "markdown": {
+      "bytes": 47130,
+      "sha256": "5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1"
+    },
+    "docx": {
+      "bytes": 26648,
+      "sha256": "69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e"
+    },
+    "pdf": {
+      "bytes": 464566,
+      "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
+      "pages": 19
+    }
+  },
+  "provider_calls": 0,
+  "pdf_render": "PASS_19_OF_19",
+  "remote_visual_readback": "PENDING"
+}

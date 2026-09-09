@@ -1,12 +1,11 @@
 {
-  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROPAGATED_V1",
+  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROPAGATED_V2",
   "date": "2026-09-09",
   "semantic_rows": 2856,
   "active_rows": 2348,
   "exact_page_assigned_rows": 2322,
   "active_hold_rows": 7,
   "structural_units": 168,
-  "new_pages": 0,
   "new_provider_calls": 0,
   "document_03_content_state": "BYTE_IDENTICAL_TO_CORRECTED_2026-09-05",
   "artifacts": [
@@ -17,8 +16,9 @@
     },
     {
       "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
-      "bytes": 217658,
-      "sha256": "fba7b1bac9d8eac72e7eb03383517e4c6d42ec2bfc2423c0229f94a994fb4764"
+      "bytes": 464566,
+      "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
+      "pages": 19
     },
     {
       "path": "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md",
@@ -32,8 +32,8 @@
     },
     {
       "path": "README_RU.md",
-      "bytes": 1622,
-      "sha256": "2f7ca5250a554fb8a2e2b41b38c56bd65cbb70a112b8555621d7f4ce4ecfa86b"
+      "bytes": 3082,
+      "sha256": "1e086044ac4e04bc96fb536505705fe386c8b5ba45f79094394ea367a1d98aa4"
     },
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx",
@@ -42,8 +42,8 @@
     },
     {
       "path": "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
-      "bytes": 29844,
-      "sha256": "b52eac47cd69933a31f89346eee6665b6013df3eb4c575cacc246b507d97d7ef"
+      "bytes": 26648,
+      "sha256": "69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md",
@@ -52,8 +52,8 @@
     },
     {
       "path": "sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.md",
-      "bytes": 43387,
-      "sha256": "e7866468f5982373dd0b48920e02ef545d45fa08eecbab7bab5fa3834bcaa871"
+      "bytes": 47130,
+      "sha256": "5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1"
     }
   ],
   "report01_competitor_analysis_amended": true,
@@ -82,5 +82,25 @@
   "report01_step5a_search_succeeded": 7,
   "report01_step5a_search_outcome_unknown": 2,
   "report01_step5a_search_serp_rows": 70,
-  "report01_step5a_nonperformed_client_pseudo_results": 0
+  "report01_step5a_nonperformed_client_pseudo_results": 0,
+  "status": "DOCUMENT_02_STEP05A_RECONCILED__REMOTE_VISUAL_READBACK_PENDING",
+  "new_pages_from_step5a_claim_state": "NOT_ASSERTED_FROM_SEMANTIC_CORE_WITHOUT_SEPARATE_DOWNSTREAM_EVIDENCE",
+  "new_physical_site_changes_from_step5a_claim_state": "NOT_ASSERTED_FROM_SEMANTIC_CORE_WITHOUT_SEPARATE_DOWNSTREAM_EVIDENCE",
+  "report02_step5a_reconciled": true,
+  "report02_contract": {
+    "ready_actions": 3,
+    "clarification_items": 5,
+    "semantic_assignment_rows": 55,
+    "base_topic_page_rows": 46,
+    "step5a_exact_assignment_rows": 9,
+    "step5a_unresolved_rows": 7,
+    "additional_checks": 4,
+    "unique_internal_link_directions": 14,
+    "bibliography_items": 10
+  },
+  "report02_deterministic_content_qa": "PASS__44_OF_44",
+  "report02_pdf_rerender": "PASS__19_OF_19",
+  "report02_pdf_table_text_gate": "VISUAL_READBACK_REQUIRED__PYPDF_TABLE_TEXT_EXTRACTION_INFORMATIONAL_ONLY",
+  "report02_remote_visual_readback": "PENDING",
+  "report02_provider_calls": 0
 }

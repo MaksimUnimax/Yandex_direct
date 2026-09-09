@@ -1,15 +1,69 @@
 {
-  "project":"OKNO_MSK",
-  "state":"POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_RECOMMENDATIONS_ANALYST_RECHECK_PASS__INDEPENDENT_FINAL_PDF_READBACK_PASS__OWNER_REVIEW_PENDING",
-  "research_stage_0_to_15":"COMPLETE",
-  "current_document":"02",
-  "current_release":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05",
-  "current_report_02_visible_title":"Внедрение рекомендации",
-  "current_report_02_contract":"ACTION_FIRST_IMPLEMENTATION_RECOMMENDATIONS__PLAIN_LANGUAGE__NO_RECIPIENT_ROLE_BRANDING",
-  "counts":{"ready_actions":3,"clarification_items":5,"topic_page_rows":46,"additional_checks":4,"page_link_rows":14,"bibliography_items":10},
-  "quality":{"client_role_branding_hits":0,"old_heading_hits":0,"standalone_preservation_section_hits":0,"topic_page_what_why_how":"PASS","page_link_what_why_how":"PASS","additional_checks_purpose_method_decision":"PASS","negative_pseudo_action_hits":0,"obvious_open_find_navigate_hits":0,"client_process_meta_hits":0,"project_internal_traceability_hits":0,"current_job_negative_particle_ne_hits":0,"post_hoc_evidence_used":0,"new_project_specific_data_collection":0,"md_docx_pdf_equivalence":"PASS","empty_toc_heading_hits":0,"orphan_field_labels":0,"pdf_visual_qa":"PASS__INDEPENDENT_FINAL_COMMITTED_PDF_READBACK__14_OF_14"},
-  "artifacts":{"markdown":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.md","markdown_sha256":"1db049b413ea02f407b8efa23cb4bc7e7b0d61b1e421f0eccd8d22fe23c442f4","docx":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.docx","docx_sha256":"89cadf22dd58be22087d7c98bbe7b896df710d968f1ef29350b25c71546c427d","pdf":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-05.pdf","pdf_sha256":"b1a2848f781fe12dfe8293cfe2f88e796c967ce9eee7f9b251b171ac73060056","pdf_pages":14,"materialization_commit":"64509ac399f284c92b0c00acff7af4f1eee77e71"},
-  "authorities":{"report_02_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_GATE.md","report_02_layout_gate":"../../STEP_20_REPORT_02_SPECIALIST_IMPLEMENTATION_GUIDE_LAYOUT_GATE.md","report_02_format_gate":"../../STEP_20_REPORT_02_IMPLEMENTATION_REPORT_FORMAT_GATE.md","format_review":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_REPORT_FORMAT_REVIEW_2026-09-08.md","implementation_qa":"RESEARCH_REBUILD_POST_RELEASE_DOCUMENT_02_IMPLEMENTATION_REPORT_QA_2026-09-08.json","release_manifest":"OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05/RELEASE_MANIFEST_2026-09-05.json"},
-  "protected_artifacts":{"document_01_modified":false,"document_03_modified":false,"semantic_core_04_modified":false},
-  "next_action":"OWNER_REVIEW_IMPLEMENTATION_RECOMMENDATIONS_DOCUMENT_02__DO_NOT_START_DOCUMENT_03"
+  "project": "OKNO_MSK",
+  "updated_date": "2026-09-09",
+  "state": "POST_RELEASE_DOCUMENT_02_STEP05A_RECONCILED__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
+  "research_stage_0_to_15": "COMPLETE",
+  "current_document": "02",
+  "current_release": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09",
+  "current_report_02_visible_title": "Внедрение рекомендации",
+  "integrated_semantic_core": {
+    "canonical_rows": 2856,
+    "active_rows": 2348,
+    "exact_assignment_decision_rows": 2322,
+    "active_unresolved_exact_owner_rows": 26,
+    "demand_groups": 168,
+    "step5a_rows": 16,
+    "step5a_exact_assigned_rows": 9,
+    "step5a_unresolved_rows": 7
+  },
+  "counts": {
+    "ready_actions": 3,
+    "clarification_items": 5,
+    "semantic_assignment_rows": 55,
+    "base_topic_page_rows": 46,
+    "step5a_exact_assignment_rows": 9,
+    "step5a_unresolved_rows": 7,
+    "additional_checks": 4,
+    "page_link_rows": 14,
+    "bibliography_items": 10
+  },
+  "quality": {
+    "deterministic_content_qa": "PASS__44_OF_44",
+    "md_docx_equivalence_for_all_16_step5a_phrases": "PASS",
+    "pdf_structural_text_gate": "PASS",
+    "pdf_table_rows": "REMOTE_VISUAL_READBACK_PENDING",
+    "pdf_rerender": "PASS__19_OF_19",
+    "remote_visual_readback": "PENDING",
+    "unsupported_zero_new_page_claims": 0,
+    "unsupported_zero_physical_change_claims": 0,
+    "semantic_assignment_auto_physical_authorization_claims": 0,
+    "project_internal_traceability_hits": 0,
+    "provider_calls": 0
+  },
+  "artifacts": {
+    "markdown": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.md",
+      "sha256": "5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1",
+      "bytes": 47130
+    },
+    "docx": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
+      "sha256": "69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e",
+      "bytes": 26648
+    },
+    "pdf": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
+      "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
+      "bytes": 464566,
+      "pages": 19
+    },
+    "qa": "REPORT02_STEP05A_PROPAGATION_QA_2026-09-09.json",
+    "receipt": "REPORT02_STEP05A_PROPAGATION_RECEIPT_2026-09-09.md"
+  },
+  "protected_artifacts": {
+    "document_01_modified_by_report02_rebuild": false,
+    "document_03_modified_by_report02_rebuild": false,
+    "semantic_core_04_modified_by_report02_rebuild": false
+  },
+  "next_action": "REMOTE_VISUAL_READBACK_REPORT_02__THEN_OWNER_REVIEW__DO_NOT_START_DOCUMENT_03"
 }
