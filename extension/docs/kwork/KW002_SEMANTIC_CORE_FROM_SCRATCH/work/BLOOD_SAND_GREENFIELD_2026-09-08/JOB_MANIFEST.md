@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 CURRENT / BATCH START PASS / Q001 PROVIDER CHECK NEXT**
+Status: **STEP 03 BLOCKED / BRIDGE MV3 LONG WORDSTAT FETCH REPAIR REQUIRED**
 
 ## 1. Job identity
 
@@ -26,32 +26,19 @@ Sales channels = Ozon + Wildberries
 Assortment authority = Ozon only
 Primary market/search geography = Russia
 New owned website planned = YES
-```
-
-## 3. Current authoritative assortment input
-
-```text
-CLIENT_SUPPLIED_BRIEF.md
-CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md
-CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv
-ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 OZON PRODUCT/LISTING ROWS = 76
 WB PRODUCT/LISTING ROWS ACTIVE = 0
 ```
 
-## 4. Clean-baseline rule
+## 3. Clean-baseline rule
 
 Until Step 20 final freeze:
 
 ```text
 PRIOR BLOOD_SAND SEO RESEARCH = SEALED / FORBIDDEN EXECUTION INPUT
-DEFAULT BLOOD_SAND PROJECT MATERIAL = DENY
-EXCEPTIONS = exact sources whitelisted in ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-## 5. Universal quality and pre-step research rules
-
-Current Level-1 authorities:
+## 4. Universal rules active
 
 ```text
 LEVEL1/RESULT_QUALITY_SCORING_RULE.md
@@ -60,43 +47,24 @@ LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
 
 ```text
 EACH QUALITY CRITERION = 0–10
-DEFAULT CRITERIA = 10
 QUALITY_TOTAL = 0–100
-QUALITY_SCORE = QUALITY_TOTAL / 10
+QUALITY_SCORE = 0–10
 PASS = >=90/100 AND >=9.0/10 AND ALL HARD GATES AND NO OPEN CRITICAL DEFECT
 ```
 
-Before every major step fresh internet research + clickable owner-facing source disclosure is mandatory.
+Fresh internet research + clickable owner-facing source disclosure is mandatory before each major step.
 
-## 6. Accepted upstream truth
-
-### Step 01
+## 5. Accepted upstream truth
 
 ```text
-STEP_01_INPUT_ROWS_ACCOUNTED = 76
-STEP_01_SILENT_DROPS = 0
-STEP_01_WB_ROWS_USED = 0
-STEP_01_MAIN_RETURN_QA = PASS
+STEP_00_COMPLETE = true
 STEP_01_COMPLETE = true
-```
-
-### Step 02 V1 historical
-
-```text
-STEP_02_V1_SEEDS = 97
-STEP_02_V1_PRIMARY = 67
-STEP_02_V1_DEFERRED = 30
+STEP_01_MAIN_RETURN_QA = PASS
 STEP_02_V1_QUALITY_TOTAL = 65/100
 STEP_02_V1_QUALITY_SCORE = 6.5/10
-STEP_02_V1_STATUS = SUPERSEDED / REWORK_REQUIRED
-```
-
-### Step 02 V2 current authority
-
-```text
+STEP_02_V1_STATUS = SUPERSEDED
 STEP_02_V2_PRIMARY = 79
 STEP_02_V2_DEFERRED_CONTROL = 49
-STEP_02_V2_SEARCH_QUALITY_GROUPS_PASS = 26/26
 STEP_02_V2_QUALITY_TOTAL = 93/100
 STEP_02_V2_QUALITY_SCORE = 9.3/10
 STEP_02_V2_QA = PASS
@@ -107,21 +75,7 @@ Current upstream seed authority:
 
 `STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv`
 
-## 7. Step 03 provider contract
-
-Canonical current files:
-
-```text
-STEP_03_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_2026-09-09.md
-STEP_03_PRE_STEP_PROVIDER_GATE_2026-09-09.md
-STEP_03_WORDSTAT_EXECUTION_MANIFEST_V1.csv
-STEP_03_WORDSTAT_BATCH_START_COMMAND_2026-09-09.txt
-STEP_03_WORDSTAT_BATCH_START_RESULT_2026-09-09.txt
-STEP_03_WORDSTAT_BATCH_START_ACCEPTANCE_2026-09-09.md
-STEP_03_WORDSTAT_ACQUISITION_RECEIPTS.csv
-```
-
-Step-03 acquisition parameters:
+## 6. Step 03 provider plan
 
 ```text
 ACTIVE_SERVICE = wordstat
@@ -137,111 +91,136 @@ EXPECTED_DIRECT_YANDEX_COST_RUB = 1.58
 MAX_COST_RUB = 2.00
 ```
 
-Bridge production contract:
+Pre-step authorities:
 
 ```text
-batch.start/status/pause/resume/cancel = zero provider requests
-one batch.next = at most one provider request
-no automatic retry after uncertain outcome
-complete returned provider payload must be preserved
+STEP_03_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_2026-09-09.md
+STEP_03_PRE_STEP_PROVIDER_GATE_2026-09-09.md
+STEP_03_WORDSTAT_EXECUTION_MANIFEST_V1.csv
 ```
 
-## 8. Observed batch-start truth
-
-Actual owner-relayed runtime result:
+## 7. Batch start accepted truth
 
 ```text
 BRIDGE_RUNTIME_VERSION = 0.1.4
-service = wordstat
-operation = batch.start
-status = OK
-job_id = BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1
-```
-
-Observed queue/accounting:
-
-```text
+batch.start = OK
 total = 79
 input_count = 79
 duplicate_count = 0
 pending = 79
-claimed = 0
-requesting = 0
-succeeded = 0
-failed_terminal = 0
-outcome_unknown = 0
-skipped = 0
-cancelled = 0
-terminal = 0
 requests_started = 0
 estimated_cost_rub = 0
-next_safe_action = CLAIM_NEXT
 request_executed = false
-automatic_retry = false
 ```
 
-The runtime version 0.1.4 differs from older repository documentation that described 0.1.2. Runtime 0.1.4 is preserved as actual execution provenance. The difference does not block this batch-start acceptance because the observed protocol/result and all required queue/policy controls matched the Step-03 contract exactly.
-
-## 9. OR capability gate
-
-Nineteen current V2 primary probes use grouped Wordstat OR syntax.
-
-Exactly one provider item is authorised next:
+## 8. Executed item 1 — Q001
 
 ```text
-ITEM 1 = Q001 = (амулет|оберег|талисман) RSOTM
+seed_id = Q001
+phrase = (амулет|оберег|талисман) RSOTM
+request_id = wordstat-batch-9292c032-e48e-443e-8576-a51ad4b2c8cc
+HTTP = 200
+item status = SUCCEEDED
+elapsed_ms = 1884
+provider result = {}
+request_executed = true
+cost = 0.02 RUB
+raw readback = PASS
 ```
 
-After Q001 result returns:
+Raw authority:
+
+`STEP_03_WORDSTAT_RAW/001__Q001__wordstat-batch-9292c032-e48e-443e-8576-a51ad4b2c8cc.txt`
+
+Q001 interpretation:
 
 ```text
-persist complete raw result
-→ remote readback
-→ reconcile request_id/http/results/associations/totalCount/cost
-→ accept or reject grouped-OR path
-→ only then allow another provider request
+OR operator accepted end-to-end = true
+raw provider JSON = {}
+empty response compatible with zero/default ProtoJSON fields = true
+zero-result serialization explicitly documented by Yandex = false
+raw evidence rewritten with synthetic fields = false
 ```
 
-If grouped OR fails for syntax/provider reasons:
+## 9. Executed item 2 — S001
 
 ```text
-cancel current batch without further provider calls
-→ replace each grouped Q parent with three child probes
-→ preserve Q-parent lineage
-→ revised request count = 117 total primary items
-→ recompute cost/budget before restart
+seed_id = S001
+phrase = амулет
+request_id = wordstat-batch-93be1f25-c5ff-4b43-a992-b286101d5c2a
+item status = OUTCOME_UNKNOWN
+reason = REQUEST_OUTCOME_UNKNOWN_NO_RETRY
+result_ref = null
+request_started_at = 2026-09-09T02:02:05.072Z
+completed_at = 2026-09-09T02:02:35.728Z
+observed duration = 30.656 s
+cost ledger = +0.02 RUB
+raw readback = PASS
 ```
 
-## 10. Persistence contract
+Raw authority:
 
-Every executed provider item must be durably saved before the next provider call:
+`STEP_03_WORDSTAT_RAW/002__S001__OUTCOME_UNKNOWN__wordstat-batch-93be1f25-c5ff-4b43-a992-b286101d5c2a.txt`
+
+## 10. Confirmed blocker
+
+Official Chrome documentation states that an MV3 extension service worker is terminated if a `fetch()` response takes more than 30 seconds to arrive:
+
+https://developer.chrome.com/docs/extensions/develop/concepts/service-workers/lifecycle
+
+The current v0.1.4 source family performs Wordstat provider execution through direct `await fetch(...)` in the extension service worker and maps a thrown fetch to `REQUEST_OUTCOME_UNKNOWN_NO_RETRY`.
+
+A repository v0.1.4 authority was identified:
 
 ```text
-STEP_03_WORDSTAT_RAW/<batch_order>__<seed_id>.*
+branch = bridge/webmaster-readiness-gzip-v0.1.4
+commit = 8bb1365a9905df8a6d7e09917e81444a9b7f1024
 ```
 
-and reconciled into:
+Exact installed artifact identity is not asserted because the runtime result did not expose its artifact SHA.
+
+Root cause:
+
+```text
+ROOT_CAUSE_CONFIDENCE = HIGH
+SLOW SYNCHRONOUS WORDSTAT GETTOP (>30s)
++
+DIRECT MV3 SERVICE-WORKER FETCH
+→ CHROME 30S FETCH-RESPONSE LIMIT
+→ OUTCOME_UNKNOWN
+```
+
+Current Yandex GetTop documentation reviewed does not specify a matching 30-second provider timeout.
+
+Incident authority:
+
+`STEP_03_BRIDGE_MV3_30S_FETCH_BLOCKER_2026-09-09.md`
+
+Engineering repair handoff:
+
+`extension/docs/WORDSTAT_MV3_LONG_FETCH_REPAIR_HANDOFF_2026-09-09.md`
+
+## 11. Current batch/accounting truth
+
+```text
+STEP_03_BATCH_TOTAL = 79
+STEP_03_BATCH_PENDING = 77
+STEP_03_BATCH_SUCCEEDED = 1
+STEP_03_BATCH_OUTCOME_UNKNOWN = 1
+STEP_03_BATCH_TERMINAL = 2
+STEP_03_PROVIDER_REQUESTS_STARTED = 2
+STEP_03_ESTIMATED_COST_RUB = 0.04
+STEP_03_STOP_REASON = OUTCOME_UNKNOWN_REQUIRES_RECONCILIATION
+STEP_03_NEXT_SAFE_ACTION = RECONCILE_UNKNOWN
+STEP_03_THIRD_PROVIDER_REQUEST_ALLOWED = false
+STEP_03_AUTO_RETRY_S001_ALLOWED = false
+```
+
+Receipt authority:
 
 `STEP_03_WORDSTAT_ACQUISITION_RECEIPTS.csv`
 
-Preserve:
-
-```text
-command / seed / region / devices / numPhrases
-batch item identity / state
-request_id
-http/provider outcome
-complete results[]
-complete associations[]
-totalCount
-cost/request truth
-raw file locator
-remote readback truth
-```
-
-After all terminal items, create complete occurrence authority. If the occurrence universe is large, use ChatGPT Work for full union/transformation/QA; sampling is forbidden.
-
-## 11. Current execution state
+## 12. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
@@ -250,21 +229,21 @@ ORDER_SCOPE_FROZEN = true
 STEP_00_COMPLETE = true
 STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
-STEP_02_V2_QUALITY_TOTAL = 93/100
-STEP_02_V2_QUALITY_SCORE = 9.3/10
 STEP_03_STARTED = true
 STEP_03_PRE_STEP_EXTERNAL_RESEARCH = PASS
 STEP_03_PRE_STEP_PROVIDER_GATE = COMPLETE
-STEP_03_EXECUTION_MANIFEST_ROWS = 79
-STEP_03_BATCH_START_COMMAND = EXECUTED
 STEP_03_BATCH_STARTED = true
-STEP_03_BATCH_START_VERDICT = PASS
 STEP_03_RUNTIME_BRIDGE_VERSION_OBSERVED = 0.1.4
-STEP_03_PROVIDER_REQUESTS_STARTED = 0
-STEP_03_FIRST_ITEM = Q001_OR_CAPABILITY
+STEP_03_PROVIDER_REQUESTS_STARTED = 2
+STEP_03_Q001_RAW_READBACK = PASS
+STEP_03_S001_RAW_READBACK = PASS
+STEP_03_BLOCKER = BRIDGE_MV3_WORDSTAT_FETCH_GT_30S
+STEP_03_PROVIDER_PROGRESSION = BLOCKED
 STEP_03_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = EXECUTE_ONE_BATCH_NEXT_FOR_Q001
-PROVIDER_CALLS_FOR_KW002_JOB = 0
+NEXT_ACTION = REPAIR_AND_ACCEPT_LONG_WORDSTAT_TRANSPORT_BEFORE_NEW_ACQUISITION_REVISION
+PROVIDER_CALLS_FOR_KW002_JOB = 2
 WORK_HANDOFFS_EXECUTED = 1
 ```
+
+Do not replay the historical S001 request automatically. After Bridge repair, preserve this blocked batch as history and begin a new Step-03 acquisition revision with explicit new request lineage.
