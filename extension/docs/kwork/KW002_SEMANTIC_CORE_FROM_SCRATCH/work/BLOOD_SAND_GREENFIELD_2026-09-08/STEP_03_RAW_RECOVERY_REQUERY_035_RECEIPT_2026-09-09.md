@@ -54,12 +54,14 @@ The new current observation matches those structural/count facts exactly. This i
 ```text
 FULL_RAW_RECEIVED = true
 FULL_RAW_SAVED = true
-REMOTE_RAW_READBACK = PENDING UNTIL COMMIT READBACK
-RUN_35_DURABLE_FEED_FORWARD = PENDING UNTIL REMOTE READBACK
-DURABLE_FEED_FORWARD_USABLE_AFTER_READBACK = 66/79
-REMAINING_AFTER_READBACK = 36..48
-RECOVERY_PROVIDER_REQUESTS_AFTER_READBACK = 4
-RECOVERY_PROVIDER_ESTIMATED_COST_RUB_AFTER_READBACK = 0.08
-NEXT_PROVIDER_REQUEST_ALLOWED = false until remote readback passes
+REMOTE_RAW_READBACK = PASS
+RUN_35_DURABLE_FEED_FORWARD = PASS
+DURABLE_FEED_FORWARD_USABLE = 66/79
+REMAINING = 36..48
+RECOVERY_PROVIDER_REQUESTS = 4
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.08
+NEXT_PROVIDER_REQUEST_ALLOWED = true
 STEP04_ALLOWED = false
 ```
+
+Remote GitHub readback confirmed the new request ID, command phrase, HTTP/status fields, complete `results[]` and `associations[]` arrays, response tail, `request_executed=true`, `automatic_retry=false` and `totalCount=104`. Structural row counts are reconciled to the provider envelope and historical manifest control (`6 / 16 / 104`).
