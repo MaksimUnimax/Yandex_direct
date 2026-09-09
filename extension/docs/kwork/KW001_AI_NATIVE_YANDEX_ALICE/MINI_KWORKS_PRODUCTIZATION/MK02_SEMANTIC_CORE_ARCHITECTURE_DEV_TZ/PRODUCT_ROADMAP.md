@@ -2,6 +2,10 @@
 
 Status: **PLANNED / START ONLY AFTER MK01 OWNER GATE**
 
+## Yandex-only boundary
+
+Работа выполняется **только для экосистемы Яндекса**. Семантика, Search evidence, архитектурные решения и ТЗ строятся на Яндекс-данных и текущем сайте. Google Ads / Google Keyword Planner, Google Search, Google Search Console и другие Google-инструменты в base scope не входят. Обязательная общая политика: `../YANDEX_ONLY_SCOPE.md`.
+
 ## Продажа
 
 Клиент получает цепочку `спрос → кластеры → владельцы → SEO-архитектура → конкретное ТЗ на доказанные изменения`.
@@ -18,8 +22,8 @@ Status: **PLANNED / START ONLY AFTER MK01 OWNER GATE**
 
 MK01 method + Step11 page ownership + Step12 structural/content actions + Step13 cannibalization + Step14 Search-only architecture + Step18 implementation readiness + Steps19–20 deliverable/QA.
 
-AI layer не входит в base scope.
+AI layer не входит в base scope. Google layer также не входит.
 
 ## Обязательные будущие файлы
 
-Полный набор mini-kwork Level1 method + `tests/OKNO_MSK/*` после завершения MK01.
+Полный набор mini-kwork Level1 method + `tests/OKNO_MSK/*` после завершения MK01. Каждый будущий client-facing и QA-файл обязан явно повторять Yandex-only boundary согласно `../YANDEX_ONLY_SCOPE.md`.
