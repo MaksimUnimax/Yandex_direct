@@ -1,6 +1,6 @@
 # MK01 — CLIENT PDF REPORT CORRECTION QA
 
-Status: **PASS AFTER CORRECTION**
+Status: **CONTENT / DATA / VISUAL / RECIPIENT QA PASS; BINARY REPO UPLOAD NOT EXPOSED BY CURRENT GITHUB CONNECTOR**
 
 Scope: add a real recipient PDF report to the already validated MK01 XLSX without changing accepted semantic data.
 
@@ -8,21 +8,37 @@ Provider calls: 0. Semantic data changes: 0.
 
 ## Result
 
-Validated PDF:
+Validated client PDF:
 
-`tests/OKNO_MSK/MK01_OKNO_MSK_CLIENT_REPORT_2026-09-09.pdf`
+`MK01_OKNO_MSK_CLIENT_REPORT_2026-09-09.pdf`
 
 - pages: 6;
+- byte size: 58,723;
 - openable: PASS;
 - encrypted: NO;
 - scanned PDF: NO;
-- Git persistence normalization: ASCII-safe PDF rewrite, visually identical to validated render (`changed_pages = 0`);
+- ASCII-safe normalization is visually identical to the validated render (`changed_pages = 0`);
 - SHA-256: `cfa8ab83e4c9885c3f488c8ea3041b3b231d60036437d842ba5cb8ded0b6e924`;
 - source partition: `2840 / 2185 / 187 / 468`;
 - groups: 59;
 - group examples: taken from current cluster authority;
 - Yandex-only boundary: explicit;
 - Google/page architecture/competitor/AI scope leakage: 0.
+
+## Git persistence state
+
+Remote Git contains and has readback for:
+
+- `CLIENT_REPORT_SPEC.md`;
+- `CLIENT_REPORT_SOURCE_2026-09-09.md`;
+- `build_mk01_client_report.py`;
+- `CLIENT_REPORT_ARTIFACT_MANIFEST_2026-09-09.json` with exact byte size and SHA-256;
+- this QA record;
+- all product/deliverable/Step-10 rules requiring XLSX + PDF.
+
+The currently exposed GitHub connector actions accept UTF-8 text contents but do **not** expose a local binary-file parameter for writing the finished PDF. Therefore this QA does not claim a direct remote binary-PDF readback that did not occur. The finished binary PDF is supplied to the owner/client as the actual artifact; the repository preserves its exact source, generator, validated hash and QA evidence.
+
+When work is executed in an environment with normal local Git/file push capability, the binary PDF should also be committed/read back under the test/client release path.
 
 ## QA ledger
 
@@ -51,10 +67,10 @@ Validated PDF:
 | R21 | XLSX remains primary working artifact | PASS |
 | R22 | Separate TXT removed from client package definition | PASS |
 | R23 | Handoff template now attaches XLSX + PDF | PASS |
-| R24 | Roadmap Step 10 updated to generate XLSX + PDF | PASS |
+| R24 | Roadmap + per-step Step 10 updated to generate XLSX + PDF | PASS |
 | R25 | Report sources point to official Yandex methodology pages | PASS |
-
-Final: **25 PASS / 0 FAIL**.
+| R26 | Report source/generator/hash/QA persisted and read back remotely | PASS |
+| R27 | Direct binary-PDF Git write/readback | NOT AVAILABLE THROUGH CURRENT CONNECTOR; NOT CLAIMED |
 
 ## Defects closed
 
