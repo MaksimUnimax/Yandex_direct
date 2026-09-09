@@ -2,6 +2,10 @@
 
 Status: **NEXT / PRODUCTIZATION NOT YET COMPLETE**
 
+## Yandex-only boundary
+
+Работа выполняется **только для экосистемы Яндекса**: Яндекс Wordstat и обычная выдача Яндекса в пределах метода MK01. Google Ads / Google Keyword Planner, Google Search, Google Search Console и другие Google-инструменты в base scope не входят. Обязательная общая политика: `../YANDEX_ONLY_SCOPE.md`.
+
 ## Продажа
 
 Клиент покупает самостоятельный результат: очищенное и сгруппированное семантическое ядро под реальный бизнес и спрос Яндекса.
@@ -12,7 +16,8 @@ Status: **NEXT / PRODUCTIZATION NOT YET COMPLETE**
 - полную архитектуру сайта;
 - implementation-ready ТЗ разработчику;
 - полный конкурентный SEO-аудит;
-- полный Alice/AEO layer.
+- полный Alice/AEO layer;
+- Google SEO / Google Ads / Google Keyword Planner / Google Search validation.
 
 ## Планируемый KW-001 extraction
 
@@ -23,6 +28,8 @@ Step5A competitor expansion должен быть отдельно решён к
 ## Обязательные будущие файлы
 
 `PRODUCT_SCOPE.md`, `CLIENT_INPUT_CONTRACT.md`, `GENERAL_RULES.md`, `STEP_RULES_INDEX.md`, `steps/*`, `DELIVERABLE_SPEC.md`, `ERRORS_AND_LESSONS.md`, `QA_AND_RELEASE.md`, `KWORK_CARD.md`, `PORTFOLIO_ASSET_SPEC.md`, `tests/OKNO_MSK/*`.
+
+Каждый клиентский и QA-файл обязан явно повторять Yandex-only boundary согласно `../YANDEX_ONLY_SCOPE.md`; одной внутренней ссылки недостаточно.
 
 ## Текущий следующий шаг
 
