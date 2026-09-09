@@ -5,7 +5,7 @@ on:
     branches:
       - roadmap/kwork-productization-2026-08-28
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/REPORTS_01_02_PROFESSIONAL_REPACKAGE_SEED.b64'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/REPORTS_01_02_PROFESSIONAL_REPACKAGE_TRIGGER.txt'
 
 permissions:
   contents: write
@@ -31,13 +31,15 @@ jobs:
           sudo apt-get install -y -qq pandoc libreoffice poppler-utils unzip >/dev/null
           python -m pip install --disable-pip-version-check --quiet python-docx pypdf
 
-      - name: Decode and run professional repackage
+      - name: Reassemble verified payload and run professional repackage
         run: |
           ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
           REL="$ROOT/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09"
           rm -rf /tmp/okno-prof-repackage
-          mkdir -p /tmp/okno-prof-repackage
-          base64 -d "$ROOT/REPORTS_01_02_PROFESSIONAL_REPACKAGE_SEED.b64" > /tmp/okno-prof-repackage/seed.zip
+          mkdir -p /tmp/okno-prof-repackage/payload
+          cat "$ROOT"/REPORTS_01_02_PROFESSIONAL_REPACKAGE_SEED.part* > /tmp/okno-prof-repackage/seed.b64
+          base64 -d /tmp/okno-prof-repackage/seed.b64 > /tmp/okno-prof-repackage/seed.zip
+          echo "924ba4f0e941e0837f0f0b00f7495b74435af1223cb021bc3f73d7ee94da0539  /tmp/okno-prof-repackage/seed.zip" | sha256sum -c -
           unzip -q /tmp/okno-prof-repackage/seed.zip -d /tmp/okno-prof-repackage/payload
           cp /tmp/okno-prof-repackage/payload/repackage_reports_professional.py "$ROOT/tools/post_release_correction/repackage_reports_professional.py"
           cp /tmp/okno-prof-repackage/payload/05_OKNO_MSK_IMPLEMENTATION_TRACKER_2026-09-09.xlsx "$REL/05_OKNO_MSK_IMPLEMENTATION_TRACKER_2026-09-09.xlsx"
@@ -62,8 +64,10 @@ jobs:
           git add "$ROOT/RESEARCH_REPORT_REBUILD_CURRENT_STATE_CLIENT_CLEANUP_2026-09-08.json"
           git add "$ROOT/REPORTS_01_02_PROFESSIONAL_REPACKAGE_QA_2026-09-09.json"
           git add "$ROOT/REPORTS_01_02_PROFESSIONAL_REPACKAGE_RECEIPT_2026-09-09.md"
-          git rm "$ROOT/REPORTS_01_02_PROFESSIONAL_REPACKAGE_SEED.b64"
-          git rm .github/workflows/kw001-okno-reports-01-02-professional-repackage-b64.yml
+          git rm -f "$ROOT/REPORTS_01_02_PROFESSIONAL_REPACKAGE_SEED.b64" || true
+          git rm -f "$ROOT"/REPORTS_01_02_PROFESSIONAL_REPACKAGE_SEED.part* || true
+          git rm -f "$ROOT/REPORTS_01_02_PROFESSIONAL_REPACKAGE_TRIGGER.txt" || true
+          git rm -f .github/workflows/kw001-okno-reports-01-02-professional-repackage-b64.yml
           git commit -m "docs(okno-msk): professionalize reports 01 and 02 [skip ci]"
           if ! git push origin HEAD:roadmap/kwork-productization-2026-08-28; then
             git fetch origin roadmap/kwork-productization-2026-08-28
