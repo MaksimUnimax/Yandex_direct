@@ -1,0 +1,47 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-e48790f1-068e-4211-9b16-d67b1fea01f9",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {
+    "estimated_rub": 0.02,
+    "tariff_checked_at": "2026-08-12",
+    "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+  },
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "чётки для автомобиля", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 426,
+  "result": {
+    "results": [
+      {"phrase":"четки для автомобиля","count":"188"},
+      {"phrase":"гидравлическая четка для грузовых автомобилей","count":"6"}
+    ],
+    "associations": [
+      {"phrase":"автоо","count":"2956"},
+      {"phrase":"car","count":"1475202"},
+      {"phrase":"мой авто","count":"39989"},
+      {"phrase":"роды в машине","count":"3268"},
+      {"phrase":"виды машин","count":"107369"},
+      {"phrase":"красивые машины","count":"85090"},
+      {"phrase":"авто все","count":"74285"},
+      {"phrase":"авто мое","count":"28201"},
+      {"phrase":"ли авто","count":"403771"},
+      {"phrase":"крутые машины","count":"80355"},
+      {"phrase":"автомобилия","count":"4054"},
+      {"phrase":"машина","count":"40686092"},
+      {"phrase":"ф авто","count":"2792"},
+      {"phrase":"дала в машине","count":"58255"},
+      {"phrase":"все машины","count":"426588"},
+      {"phrase":"что за машина","count":"301379"}
+    ],
+    "totalCount": "188"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}

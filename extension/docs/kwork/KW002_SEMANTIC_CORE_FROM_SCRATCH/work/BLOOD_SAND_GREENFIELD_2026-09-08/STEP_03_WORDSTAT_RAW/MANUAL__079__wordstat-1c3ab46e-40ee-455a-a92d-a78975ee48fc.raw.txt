@@ -1,0 +1,48 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-1c3ab46e-40ee-455a-a92d-a78975ee48fc",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {
+    "estimated_rub": 0.02,
+    "tariff_checked_at": "2026-08-12",
+    "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+  },
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "чётки для авто", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 411,
+  "result": {
+    "results": [
+      {"phrase":"четки для авто","count":"106"},
+      {"phrase":"купить иконку для четок в авто","count":"7"}
+    ],
+    "associations": [
+      {"phrase":"все марки машин","count":"12358"},
+      {"phrase":"автоо","count":"2956"},
+      {"phrase":"avto","count":"96805"},
+      {"phrase":"car","count":"1475202"},
+      {"phrase":"автокомпас","count":"6736"},
+      {"phrase":"виды машин","count":"107369"},
+      {"phrase":"красивые машины","count":"85090"},
+      {"phrase":"автомобилия","count":"4054"},
+      {"phrase":"крутые машины","count":"80355"},
+      {"phrase":"машина","count":"40686092"},
+      {"phrase":"дала в машине","count":"58255"},
+      {"phrase":"все машины","count":"426588"},
+      {"phrase":"я купил себе машину","count":"6312"},
+      {"phrase":"cars com","count":"7055"},
+      {"phrase":"что за машина","count":"301379"},
+      {"phrase":"машинально","count":"6595"},
+      {"phrase":"машина едет","count":"724197"}
+    ],
+    "totalCount": "106"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
