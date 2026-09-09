@@ -2,10 +2,10 @@
 
 Status: **PASS**
 
-Competitor analysis is now presented as the canonical Step5A acquisition/coverage stage inside the single research line: base Wordstat → competitor gap analysis → merged semantic corpus → final cleanup/grouping → Search page decisions → Alice → recommendations.
+Competitor analysis is a canonical Step5A acquisition/coverage stage inside one research line: base Wordstat → competitor gap analysis → merged semantic corpus → final cleanup/grouping → Search page decisions → Alice → recommendations.
 
 PDF pages: 9
 
-Source SHA-256: `fe62ef5f8a47c6b4752d70432a363e8dfcbe060cb56f975361f82cc6df7f1108`
-DOCX SHA-256: `301d79deb26924d1903bf01bae2efc042ba6d2343936050e6a3c10257dac25af`
-PDF SHA-256: `632fed84d370b7a3b825b31a5f3f08be23c17029e9f40e9666b04794f34e42d2`
+Source SHA-256: `f07f875b09f755917f228ba030f679fc70f3e5dfe57b0e204dcfcac53c0407f2`
+DOCX SHA-256: `e1036a9f9fa06611cd991191b2fdb5e50f0a6f77e14667a56c362faaf9ad260f`
+PDF SHA-256: `1f32642f4b367c10a371583eb39fd075a674b597569abc62d9ac45d6536dfad8`
