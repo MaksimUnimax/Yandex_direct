@@ -20,7 +20,7 @@ The result must answer without repository knowledge:
 
 ## 2. Canonical recipient views
 
-Physical workbook sheet names may be refined after the OKNO_MSK rehearsal, but equivalent views are mandatory.
+The seven-sheet physical layout has been validated on the OKNO_MSK standalone rehearsal. Equivalent client meaning is mandatory for future implementation revisions; changing sheet names/order or removing a view requires an explicit product-method revision and QA rather than an informal workbook edit.
 
 ### A. «Как пользоваться» / scope
 Include site, primary region, frozen directions, exclusions, Yandex-only boundary, collection/analysis snapshot, short workflow and limitations.
@@ -80,4 +80,4 @@ Validated base artifact is XLSX plus short delivery summary. The workbook has ex
 
 ## 8. Acceptance
 
-Deliverable is accepted only after data, semantic, workbook, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. The seven-sheet layout is frozen by the OKNO_MSK standalone rehearsal. Exact commercial phrase/provider/review limits remain pending the economics gate; the rehearsal counts are measurements, not invented package limits.
+Deliverable is accepted only after data, semantic, workbook, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. The seven-sheet layout is fixed in Git by the OKNO_MSK standalone rehearsal. Exact commercial phrase/provider/review limits remain pending the economics gate; the rehearsal counts are measurements, not invented package limits.

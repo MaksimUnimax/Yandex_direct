@@ -1,6 +1,6 @@
 # MK01 — PRODUCT SCOPE
 
-Status: **SCOPE FROZEN FOR PRODUCTIZATION / COMMERCIAL LIMITS PENDING REHEARSAL ECONOMICS**
+Status: **SCOPE VALIDATED ON OKNO_MSK / COMMERCIAL LIMITS PENDING PHASE 8**
 
 Working Kwork title:
 
@@ -79,7 +79,7 @@ CLIENT COMPETITOR LIST = OPTIONAL
 
 MK01 does **not** currently claim a validated greenfield/no-site mode. A site that has not yet been created belongs to a separate from-scratch product/method rather than being silently forced into this tested workflow.
 
-The exact commercial limits for phrase volume, acquisition probes, delivery time and price are not frozen here. They will be calibrated after the standalone MK01 projection of the existing OKNO_MSK rehearsal and its economics measurement.
+The OKNO_MSK standalone rehearsal is complete. Exact commercial limits for phrase volume, acquisition probes, delivery time and price are intentionally deferred to Phase 8 and must be calculated from `tests/OKNO_MSK/REHEARSAL_METRICS.md`, not copied mechanically from the pilot counts.
 
 ---
 
@@ -146,7 +146,7 @@ A second acquisition is allowed only when a named unresolved information gap jus
 
 Reason: the mini-kwork series has a dedicated competitor/gap product (MK03). Including Step5A silently in MK01 would blur product boundaries and give away a separately sellable research layer.
 
-Future options may include a bounded competitor-expansion add-on, but only after its own package limit/price is explicitly frozen. Until then:
+Future options may include a bounded competitor-expansion add-on, but only after its own package limit/price is explicitly fixed in Git. Until then:
 
 ```text
 MK01 BASE = NATIVE YANDEX DEMAND ACQUISITION + CLEANING + CLUSTERING
@@ -255,7 +255,7 @@ A short recipient-facing explanation of:
 - what remains uncertain;
 - how the client can use the result next.
 
-Exact XLSX/CSV/MD/PDF composition will be frozen after the MK01 OKNO_MSK rehearsal proves the most useful recipient form.
+The validated physical base package is now fixed in Git as: **one standalone XLSX with seven Russian recipient sheets plus a short delivery/handoff summary**. Full audit sidecars remain internal unless separately required. PDF is optional and is not required for usability. See `DELIVERABLE_SPEC.md` and `PRODUCT_PACKAGING.md`.
 
 ---
 
@@ -350,4 +350,4 @@ ORDER/SCOPE FROZEN
 + RECIPIENT QA = PASS
 ```
 
-Commercial phrase-count limits, price, delivery time and add-ons remain pending until the standalone OKNO_MSK MK01 rehearsal/economics gate is complete.
+Commercial phrase-count limits, price, delivery time and add-ons remain pending Phase 8 economics and must be committed/read back when decided.
