@@ -5,8 +5,8 @@
   "checks_total": 104,
   "checks_passed": 104,
   "checks_failed": [],
-  "pdf_pages": 8,
-  "source_sha256": "389d178df973ca086b878b076e78bb11b372bec65e59a4e90f0a8292272f035c",
-  "docx_sha256": "929be337e5b15ab9e631892df404c887ff26bcfd67732e481907a2cd91f4066b",
-  "pdf_sha256": "0fcce1e671f1936d22977894df1b815bc28ae2769fd236f64005a7e6c4f1fca2"
+  "pdf_pages": 9,
+  "source_sha256": "fe62ef5f8a47c6b4752d70432a363e8dfcbe060cb56f975361f82cc6df7f1108",
+  "docx_sha256": "301d79deb26924d1903bf01bae2efc042ba6d2343936050e6a3c10257dac25af",
+  "pdf_sha256": "632fed84d370b7a3b825b31a5f3f08be23c17029e9f40e9666b04794f34e42d2"
 }

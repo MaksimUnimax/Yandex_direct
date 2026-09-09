@@ -1,0 +1,15 @@
+{
+  "schema": "OKNO_MSK_DOCUMENT01_STEP05A_LINEAR_ROADMAP_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "checks_total": 28,
+  "checks_passed": 28,
+  "checks_failed": [],
+  "base_competitor_amendment_checks_total": 104,
+  "base_competitor_amendment_checks_passed": 104,
+  "pdf_pages": 9,
+  "source_sha256": "fe62ef5f8a47c6b4752d70432a363e8dfcbe060cb56f975361f82cc6df7f1108",
+  "docx_sha256": "301d79deb26924d1903bf01bae2efc042ba6d2343936050e6a3c10257dac25af",
+  "pdf_sha256": "632fed84d370b7a3b825b31a5f3f08be23c17029e9f40e9666b04794f34e42d2",
+  "manifest_sha256": "6017f80f24d3a855e041d6583cff27ed2096d5f8e020a8c190b1e3dc3411ba1a"
+}
