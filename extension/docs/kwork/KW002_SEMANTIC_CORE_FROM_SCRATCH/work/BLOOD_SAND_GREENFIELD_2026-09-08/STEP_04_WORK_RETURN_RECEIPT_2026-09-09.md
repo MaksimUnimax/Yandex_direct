@@ -40,7 +40,7 @@ The frozen Work handoff explicitly requires execution to stop on that status. No
 - `STEP_04_PRE_STEP_SOURCE_TRACE_2026-09-09.md`;
 - `STEP_04_WORK_PRE_HANDOFF_MANIFEST_2026-09-09.md`.
 
-Only the current KW-002 job/method whitelist was used. Sealed prior Blood & Sand analytical research was not opened. No Wordstat, Search, GenSearch/Alice or other provider/API/web request was made.
+Only the current KW-002 job/method whitelist was used. Sealed prior Blood & Sand analytical research was not opened. No Wordstat, Search, GenSearch/Alice or other external research/provider request was made. GitHub was used only for the required repository persistence and readback.
 
 ## Primary-manifest accounting
 
