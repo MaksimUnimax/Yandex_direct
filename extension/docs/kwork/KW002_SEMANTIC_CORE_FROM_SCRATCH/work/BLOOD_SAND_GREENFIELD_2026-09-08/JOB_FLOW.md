@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 02 V2 COMPLETE / PASS 93/100 = 9.3/10 / STEP 03 NEXT ALLOWED**
+Status: **STEP 03 CURRENT / PRE-STEP PROVIDER GATE COMPLETE / BATCH START READY**
 
 ## Whole-job goal
 
@@ -28,7 +28,6 @@ CLIENT-SUPPLIED COMPETITORS = NONE
 EXISTING SEMANTIC CORE = NONE
 EXISTING SITE ARCHITECTURE = NONE
 OLD BLOOD_SAND ANALYTICAL SOURCES = SEALED
-PROVIDER CALLS = 0
 WORK HANDOFFS EXECUTED = 1
 ```
 
@@ -39,7 +38,7 @@ WORK HANDOFFS EXECUTED = 1
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / corrected to Ozon-only |
 | 01 | Build factual business + complete assortment model | ✅ COMPLETE / PASS / MAIN RETURN QA PASS |
 | 02 | Build seed/acquisition map | ✅ COMPLETE / V2 REWORK PASS / **93/100 = 9.3/10** |
-| 03 | Primary Wordstat acquisition | ⏭️ NEXT ALLOWED / NOT STARTED |
+| 03 | Primary Wordstat acquisition | 🟡 CURRENT / PRE-STEP PROVIDER GATE COMPLETE / BATCH START READY |
 | 04 | First family triage | ⬜ NOT STARTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex competitor discovery | ⬜ NOT STARTED |
@@ -66,103 +65,76 @@ WORK HANDOFFS EXECUTED = 1
 Step 00 scope/source freeze = PASS after Ozon-only correction
 Step 01 Ozon 76-row factual assortment model = PASS
 Step 01 main ChatGPT return QA = PASS
-Step 02 V1 materialized = 97 probes / 67 primary / 30 deferred
-Step 02 V1 remote readback = PASS
-Step 02 external internet/method audit = FAIL / V1 score 65/100 = 6.5/10
-Step 02 permanent Level-2 quality gate added
-Level-1 mandatory per-criterion 0–10 scoring rule added
-Step 02 V2 decision overlay = 24 rows
-Step 02 V2 new probes = 31
-Step 02 V2 primary acquisition manifest = 79 rows
-Step 02 V2 deferred/control manifest = 49 rows
-Step 02 V2 search-quality coverage = 26/26 PASS groups
-Step 02 V2 information-gain policy = 8 discriminating classes
+Step 02 V1 = 97 probes / 65/100 = 6.5/10 / SUPERSEDED
+Step 02 external method audit = COMPLETE
+Step 02 permanent Level-2 quality gate = ACTIVE
+Level-1 per-criterion 0–10 scoring rule = ACTIVE
+Step 02 V2 primary manifest = 79
+Step 02 V2 deferred/control = 49
 Step 02 V2 QA = PASS / 93/100 = 9.3/10
-Step 02 V2 remote readback = PASS
+Step 03 live Bridge/Wordstat capability review = COMPLETE
+Step 03 external provider/pricing review = COMPLETE
+Step 03 pre-step/provider gate = COMPLETE
+Step 03 execution manifest = 79 rows / Q001 reordered to item 1 for OR check
+Step 03 acquisition receipt ledger = INITIALIZED
+Step 03 batch start command = FROZEN
 ```
-
-## Historical invalidated version
-
-V1 is preserved only as history:
-
-```text
-STEP_02_V1_QUALITY_TOTAL = 65/100
-STEP_02_V1_SCORE = 6.5/10
-STEP_02_V1_STATUS = REWORK_REQUIRED / SUPERSEDED
-```
-
-Current Step-02 authority is V2.
 
 ## Remaining work
 
 ```text
-Step 03 primary Wordstat acquisition
-Step 04 first family triage
-Step 05 targeted expansion / coverage control
-Step 06 current Yandex competitor discovery
-Step 07 competitor semantic expansion
-Step 08 competitor-derived Wordstat expansion
-Step 09 candidate semantic master freeze
-Step 10 row-level cleanup / intent / user job
-Step 11 Search-stage semantic freeze
-Step 12 ordinary Yandex Search evidence
-Step 13 SERP + task-first clustering
-Step 14 query→page + Search-only IA
-Step 15 AI-search case selection
-Step 16 AI-search evidence acquisition
-Step 17 Search-vs-AI reconciliation
-Step 18 final core + IA + Page Jobs + internal links
-Step 19 client deliverables
-Step 20 final QA / recipient acceptance
-Step 21 revision rehearsal / Kwork measurement
-Step 22 final handoff / close
+Step 03:
+  batch.start (0 provider requests)
+  first batch.next = Q001 grouped-OR capability/provider check
+  persist/readback Q001 raw result
+  if PASS -> continue remaining 78 one provider item at a time
+  if OR failure -> cancel + deterministic 3-class fallback manifest
+  after all terminal -> complete raw/occurrence authority + QA + 0–10 scoring
+
+Then Steps 04–22.
 ```
 
-## Provider/accounting truth
+## Provider/accounting truth before first Step-03 command
 
 ```text
-Wordstat requests started = 0
-ordinary Search requests started = 0
-AI-search/GenSearch requests started = 0
-provider estimated cost = 0 RUB
-Work handoffs executed = 1
+WORDSTAT_REQUESTS_STARTED = 0
+SEARCH_REQUESTS_STARTED = 0
+AI_SEARCH_REQUESTS_STARTED = 0
+WORDSTAT_EXPECTED_REQUESTS_CURRENT_MANIFEST = 79
+WORDSTAT_EXPECTED_DIRECT_YANDEX_COST_RUB = 1.58
+WORDSTAT_BATCH_HARD_MAX_COST_RUB = 2.00
+WORK_HANDOFFS_EXECUTED = 1
 ```
 
-## Step 02 V2 accepted truth
+## Current Step-03 authorities
 
 ```text
-STEP_02_V2_PRIMARY = 79
-STEP_02_V2_DEFERRED_CONTROL = 49
-STEP_02_V2_NEW_PROBES = 31
-STEP_02_V2_DEMOTED_BARE_PROBES = 19
-STEP_02_V2_QUALIFIED_REFINEMENTS = 19
-STEP_02_V2_USE_SYNONYM_PROBES = 12
-STEP_02_V2_SEARCH_QUALITY_GROUPS = 26
-STEP_02_V2_SEARCH_QUALITY_GROUPS_PASS = 26
-STEP_02_V2_QUALITY_TOTAL = 93/100
-STEP_02_V2_QUALITY_SCORE = 9.3/10
-STEP_02_V2_QA = PASS
-STEP_02_V2_REMOTE_READBACK = PASS
+STEP_03_PRE_STEP_PROVIDER_GATE_2026-09-09.md
+STEP_03_WORDSTAT_EXECUTION_MANIFEST_V1.csv
+STEP_03_WORDSTAT_BATCH_START_COMMAND_2026-09-09.txt
+STEP_03_WORDSTAT_ACQUISITION_RECEIPTS.csv
 ```
 
-Current executable authority for Step 03:
+Upstream seed authority remains:
 
 ```text
 STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv
 ```
 
-Do not use the old 67-primary V1 set as current authority.
+The Step-03 execution manifest contains the same 79 seeds but moves Q001 to item 1 so grouped OR is tested before mass acquisition.
 
 ## Current exact action
 
 ```text
 STEP_02_COMPLETE = true
-STEP_02_CURRENT_VERSION = V2
 STEP_02_QUALITY_TOTAL = 93/100
 STEP_02_QUALITY_SCORE = 9.3/10
-STEP_03_STARTED = false
-NEXT_STEP_ALLOWED = true
-NEXT_STEP = STEP_03_PRIMARY_WORDSTAT_ACQUISITION
+STEP_03_STARTED = true
+STEP_03_PRE_STEP_PROVIDER_GATE = COMPLETE
+STEP_03_BATCH_STARTED = false
+STEP_03_PROVIDER_REQUESTS_STARTED = 0
+NEXT_STEP_ALLOWED = false
+NEXT_ACTION = EXECUTE_WORDSTAT_BATCH_START_COMMAND
 ```
 
-Before any Wordstat command, Step 03 must run its own pre-step/provider gate and verify grouped OR-probe execution through the actual Bridge path. If grouped OR is unsupported, use the deterministic three-class split defined in `STEP_02_QA_REPORT_V2_2026-09-08.md`.
+`batch.start` itself must execute zero provider requests. After its result is received, the next authorised action is a single `batch.next` for Q001 only.
