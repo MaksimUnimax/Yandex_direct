@@ -38,13 +38,14 @@ Before every major KW-002 step read:
 
 ```text
 1. INHERITED_KW001_UNIVERSAL_RULES.md
-2. RESULT_QUALITY_SCORING_RULE.md
-3. METHOD_SOURCE_AND_EVIDENCE_RULES.md
-4. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
-5. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
-6. WORK_HANDOFF_RULE.md when large-data risk exists
-7. current Level-2 step method
-8. current work/<JOB_ID>/ manifest/flow/evidence
+2. PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
+3. RESULT_QUALITY_SCORING_RULE.md
+4. METHOD_SOURCE_AND_EVIDENCE_RULES.md
+5. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
+6. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
+7. WORK_HANDOFF_RULE.md when large-data risk exists
+8. current Level-2 step method
+9. current work/<JOB_ID>/ manifest/flow/evidence
 ```
 
 The inherited and owner-added Level-1 authority includes, at minimum:
@@ -55,6 +56,9 @@ FULL ROADMAP BEFORE/AFTER EVERY MAJOR STEP
 COMPLETED + REMAINING STATUS TRUTH
 PLAIN-LANGUAGE WHY/WHAT/RESULT SUMMARY
 FRESH REREAD OF PRIOR ERRORS + NON-REPEAT CONTROLS
+FRESH INTERNET RESEARCH BEFORE EVERY MAJOR STEP
+CLICKABLE OWNER-FACING SOURCE DISCLOSURE BEFORE EXECUTION
+SOURCE TITLE + PUBLISHER + URL + SUPPORTED CLAIM + PROJECT APPLICATION
 METHOD ORIGIN CLASSIFICATION
 SOURCE→METHOD TRACEABILITY
 RESEARCH→EXECUTION SCHEMA
@@ -207,7 +211,32 @@ Output completeness must not erase truthful uncertainty.
 
 ---
 
-# 8. Mandatory result quality scoring
+# 8. Mandatory fresh external research and source disclosure
+
+Canonical authority:
+
+`PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md`
+
+Before every major step:
+
+```text
+FRESH INTERNET RESEARCH
+→ READ RELEVANT CURRENT MATERIALS
+→ SOURCE→METHOD TRACE
+→ CLICKABLE SOURCE LIST IN CHAT
+→ WHAT EACH SOURCE SUPPORTS
+→ ONLY THEN EXECUTION
+```
+
+A source name without a clickable URL is insufficient. A raw URL without explaining what it supports is also insufficient.
+
+For changing provider/search topics, current official documentation must be rechecked before the step. For analytical SEO methodology, add high-quality industry corroboration where official documentation does not fully define the method.
+
+If no adequate external source exists, the search still happens and the gap is recorded explicitly rather than replaced with an invented citation.
+
+---
+
+# 9. Mandatory result quality scoring
 
 Canonical authority:
 
@@ -253,6 +282,9 @@ The per-criterion table, total /100 and final average /10 must be shown both in 
 
 ```text
 KW002_LEVEL1_CANONICAL_INHERITED_RULE_AUTHORITY = INHERITED_KW001_UNIVERSAL_RULES.md
+KW002_PRE_STEP_EXTERNAL_RESEARCH_AUTHORITY = PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
+KW002_PRE_STEP_INTERNET_RESEARCH_REQUIRED = true
+KW002_PRE_STEP_CLICKABLE_SOURCE_DISCLOSURE_REQUIRED = true
 KW002_RESULT_QUALITY_SCORE_AUTHORITY = RESULT_QUALITY_SCORING_RULE.md
 KW002_EACH_QUALITY_CRITERION_OUT_OF_TEN = true
 KW002_ONE_POINT_PER_CRITERION_SCORING_FORBIDDEN = true
