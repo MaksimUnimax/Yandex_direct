@@ -1,11 +1,12 @@
 {
   "project": "OKNO_MSK",
   "updated_date": "2026-09-09",
-  "state": "REPORTS_01_02_PROFESSIONAL_REPACKAGE__LAYOUT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
+  "state": "REPORTS_01_02_PROFESSIONAL_REPACKAGE__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PASS__OWNER_REVIEW_PENDING",
   "research_stage_0_to_15": "COMPLETE",
   "current_document": "01_02_OWNER_REVIEW",
   "current_release": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09",
-  "current_report_02_visible_title": "Внедрение рекомендации",
+  "report01_visible_title": "ОКНО МОСКВА — исследование поискового спроса и SEO-стратегия",
+  "report02_visible_title": "План внедрения рекомендаций",
   "integrated_semantic_core": {
     "canonical_rows": 2856,
     "active_rows": 2348,
@@ -16,104 +17,97 @@
     "step5a_exact_assigned_rows": 9,
     "step5a_unresolved_rows": 7
   },
-  "counts": {
+  "implementation": {
     "ready_actions": 3,
     "clarification_items": 5,
+    "additional_checks": 4,
     "semantic_assignment_rows": 55,
     "base_topic_page_rows": 46,
     "step5a_exact_assignment_rows": 9,
     "step5a_unresolved_rows": 7,
-    "additional_checks": 4,
-    "page_link_rows": 14,
+    "internal_link_rows": 14,
     "bibliography_items": 10
   },
-  "quality": {
-    "deterministic_content_qa": "PASS__44_OF_44",
-    "md_docx_equivalence_for_all_16_step5a_phrases": "PASS",
-    "pdf_structural_text_gate": "PASS",
-    "pdf_table_rows": "PASS__REMOTE_VISUAL_READBACK_19_OF_19",
-    "pdf_rerender": "PASS__19_OF_19",
-    "remote_visual_readback": "PENDING",
-    "unsupported_zero_new_page_claims": 0,
-    "unsupported_zero_physical_change_claims": 0,
-    "semantic_assignment_auto_physical_authorization_claims": 0,
-    "project_internal_traceability_hits": 0,
-    "provider_calls": 0,
-    "professional_repackage_content_qa": "PASS__54_OF_54"
-  },
-  "remote_materialization": {
-    "commit": "c7cb31f6c61a99b0d14dd3822ec7a3adf75af75c",
-    "workflow_run_id": 34326844053,
-    "workflow_job_id": 102385949896,
-    "artifact_id": 10094127167,
-    "artifact_zip_sha256": "3bad7b1ec661fd80c76004a2d3f92ef068a81423a0b001b46aeb9b9c780f4a5b",
-    "artifact_hash_identity": true
-  },
-  "artifacts": {
-    "markdown": {
-      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.md",
-      "sha256": "5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1",
-      "bytes": 47130
-    },
-    "docx": {
-      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
-      "sha256": "69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e",
-      "bytes": 26648
-    },
-    "pdf": {
-      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
-      "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
-      "git_blob_sha": "5563fdba03a6b4cb7355a6ae5c2078d5bcff4f26",
-      "bytes": 464566,
-      "pages": 19
-    },
-    "qa": "REPORT02_STEP05A_PROPAGATION_QA_2026-09-09.json",
-    "receipt": "REPORT02_STEP05A_PROPAGATION_RECEIPT_2026-09-09.md",
-    "remote_readback": "REPORT02_STEP05A_REMOTE_READBACK_2026-09-09.json"
-  },
-  "protected_artifacts": {
-    "document_01_modified_by_report02_rebuild": false,
-    "document_03_modified_by_report02_rebuild": false,
-    "semantic_core_04_modified_by_report02_rebuild": false
-  },
-  "document_02_owner_review": "PENDING",
-  "document_03_step5a_reconciliation": "NOT_STARTED",
-  "next_action": "REMOTE_VISUAL_READBACK_REPORTS_01_02_PROFESSIONAL_PACKAGE__DO_NOT_START_DOCUMENT_03",
   "professional_packaging": {
     "report01_role": "CLIENT_RESEARCH_AND_STRATEGY",
     "report02_role": "IMPLEMENTATION_PLAN",
     "implementation_tracker": "05_OKNO_MSK_IMPLEMENTATION_TRACKER_2026-09-09.xlsx",
-    "ready_actions": 3,
-    "clarification_items": 5,
-    "additional_checks": 4,
-    "semantic_assignment_rows": 55,
-    "step5a_unresolved_rows": 7,
-    "internal_link_rows": 14,
+    "implementation_tracker_sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719",
+    "queue_meaning": "READINESS_TO_ACT__NOT_TRAFFIC_OR_REVENUE_FORECAST",
     "economic_impact_estimated": false,
-    "hours_estimated": false,
-    "layout_polish": {
-      "schema": "OKNO_MSK_REPORTS_01_02_PROFESSIONAL_LAYOUT_QA_V1",
-      "date": "2026-09-09",
-      "status": "PASS",
-      "wide_markdown_tables_remaining": 0,
-      "tracker_sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719",
-      "report01": {
-        "pages": 10,
-        "markdown_sha256": "ae20de8426c63aba6cdc95bf70894893e5942ff804ec3de660bb657bb2b98f68",
-        "docx_sha256": "f9edd24b00a3605eb5a3dfa09543da1476b41ef3523f86092ef015c8e6d09739",
-        "pdf_sha256": "3eec168beda6a23c4e157c1d7883339b52253c309d3247ec43490eca2bd600f0",
-        "rendered_pages": 10
+    "hours_estimated": false
+  },
+  "quality": {
+    "professional_repackage_content_qa": "PASS__54_OF_54",
+    "professional_layout_qa": "PASS",
+    "report01_remote_visual_readback": "PASS__10_OF_10",
+    "report02_remote_visual_readback": "PASS__9_OF_9",
+    "wide_markdown_tables_remaining": 0,
+    "collapsed_wide_tables_in_final_pdf": 0,
+    "clipping": 0,
+    "overlap": 0,
+    "broken_glyphs": 0,
+    "broken_url_marker_hits": 0,
+    "unsupported_zero_new_page_claims": 0,
+    "unsupported_zero_physical_change_claims": 0,
+    "semantic_assignment_auto_physical_authorization_claims": 0,
+    "provider_calls": 0
+  },
+  "artifacts": {
+    "report01": {
+      "markdown": {
+        "sha256": "ae20de8426c63aba6cdc95bf70894893e5942ff804ec3de660bb657bb2b98f68",
+        "bytes": 58540
       },
-      "report02": {
-        "pages": 9,
-        "markdown_sha256": "0cfd7b56611dcbcf12abeaa8378b52b8ca0dae16978bf446bf2cf52d489e7f49",
-        "docx_sha256": "9c2c51e43878d30d628b90f191c05e12220099c5c0d112b9e7fabd0c49323cd6",
-        "pdf_sha256": "09e4c38d5b5ac020a83c8946914e658efa347ee8e89e9af92cc7630caa0146fc",
-        "rendered_pages": 9
+      "docx": {
+        "sha256": "f9edd24b00a3605eb5a3dfa09543da1476b41ef3523f86092ef015c8e6d09739",
+        "bytes": 40286
       },
-      "broken_url_marker_hits": 0,
-      "provider_calls": 0,
-      "remote_visual_readback": "PENDING"
-    }
-  }
+      "pdf": {
+        "sha256": "3eec168beda6a23c4e157c1d7883339b52253c309d3247ec43490eca2bd600f0",
+        "git_blob_sha": "e7a6657f3382a3c25b538c75a6a6d42b68773a24",
+        "bytes": 150983,
+        "pages": 10
+      }
+    },
+    "report02": {
+      "markdown": {
+        "sha256": "0cfd7b56611dcbcf12abeaa8378b52b8ca0dae16978bf446bf2cf52d489e7f49",
+        "bytes": 35505
+      },
+      "docx": {
+        "sha256": "9c2c51e43878d30d628b90f191c05e12220099c5c0d112b9e7fabd0c49323cd6",
+        "bytes": 34317
+      },
+      "pdf": {
+        "sha256": "09e4c38d5b5ac020a83c8946914e658efa347ee8e89e9af92cc7630caa0146fc",
+        "git_blob_sha": "d846a7d2b1c34c8dbdf662a5c3bdbecfe362533a",
+        "bytes": 130462,
+        "pages": 9
+      }
+    },
+    "implementation_tracker": {
+      "sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719",
+      "git_blob_sha": "bf2d6d5446145c7f07e5004c59834827baabc1bb",
+      "bytes": 23928
+    },
+    "remote_readback": "REPORTS_01_02_PROFESSIONAL_REMOTE_READBACK_2026-09-09.json"
+  },
+  "remote_materialization": {
+    "commit": "7cd5647c09d00b3725115e179b3b9507a2da2447",
+    "workflow_run_id": 34333654554,
+    "workflow_job_id": 102407850618,
+    "artifact_id": 10096825715,
+    "artifact_zip_sha256": "6fd3fe586c4de97455511a5a591695e57ab409eb7d7b6ed71ce0f78c9288aace",
+    "artifact_hash_identity": true
+  },
+  "protected_artifacts": {
+    "document_03_modified": false,
+    "semantic_core_04_modified": false
+  },
+  "owner_review": {
+    "reports_01_02": "PENDING",
+    "document_03_step5a_reconciliation": "NOT_STARTED"
+  },
+  "next_action": "OWNER_REVIEW_PROFESSIONAL_REPORTS_01_02__DO_NOT_START_DOCUMENT_03"
 }
