@@ -1,0 +1,12 @@
+{
+  "schema": "OKNO_MSK_DOCUMENT01_STEP05A_COMPETITOR_VISUAL_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "pdf_pages": 9,
+  "competitor_table_starts_page": 2,
+  "competitor_table_all_9_same_page": true,
+  "source_sha256": "389d178df973ca086b878b076e78bb11b372bec65e59a4e90f0a8292272f035c",
+  "docx_sha256": "af5a52f6eb97642eec094f3a138752e270bd0a0f37bb20cab4ef4f60848c8907",
+  "pdf_sha256": "4233170594f8b48686e927cf9ab0494962d4d6b4fa47881c18c900bd850e2fa6",
+  "manifest_sha256": "47e29567613178310d2785d2edca5786f89e355a84d006073118070f6a6b5f99"
+}

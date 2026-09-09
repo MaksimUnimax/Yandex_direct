@@ -12,8 +12,8 @@
   "artifacts": [
     {
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf",
-      "bytes": 140005,
-      "sha256": "0fcce1e671f1936d22977894df1b815bc28ae2769fd236f64005a7e6c4f1fca2"
+      "bytes": 140774,
+      "sha256": "4233170594f8b48686e927cf9ab0494962d4d6b4fa47881c18c900bd850e2fa6"
     },
     {
       "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
@@ -37,8 +37,8 @@
     },
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx",
-      "bytes": 51770,
-      "sha256": "929be337e5b15ab9e631892df404c887ff26bcfd67732e481907a2cd91f4066b"
+      "bytes": 51796,
+      "sha256": "af5a52f6eb97642eec094f3a138752e270bd0a0f37bb20cab4ef4f60848c8907"
     },
     {
       "path": "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
@@ -60,5 +60,6 @@
   "report01_competitors": 9,
   "report01_competitor_pages": 44,
   "report01_new_phrases_explicit": 16,
-  "report01_search_checks_total": 81
+  "report01_search_checks_total": 81,
+  "report01_visual_competitor_table_together": true
 }
