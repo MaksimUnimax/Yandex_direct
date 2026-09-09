@@ -1,6 +1,6 @@
 # MK01 — DELIVERABLE SPEC
 
-Status: **METHOD CONTRACT + PHYSICAL LAYOUT VALIDATED ON OKNO_MSK**
+Status: **METHOD CONTRACT + PHYSICAL LAYOUT + COMMERCIAL CAPACITY V1 VALIDATED**
 
 ## 1. Sold result
 
@@ -26,7 +26,7 @@ The seven-sheet physical layout has been validated on the OKNO_MSK standalone re
 Include site, primary region, frozen directions, exclusions, Yandex-only boundary, collection/analysis snapshot, short workflow and limitations.
 
 ### B. «Все запросы»
-Full preserved client-visible semantic universe. Minimum semantic fields: phrase; displayed Wordstat demand metric(s) available under the method; semantic state; reason/meaning; cluster where applicable; uncertainty/review route where applicable; recipient-appropriate provenance indicator. Technical trace IDs may be secondary.
+Full preserved client-visible governed semantic universe. Minimum semantic fields: phrase; displayed Wordstat demand metric(s) available under the method; semantic state; reason/meaning; cluster where applicable; uncertainty/review route where applicable; recipient-appropriate provenance indicator. Technical trace IDs may be secondary.
 
 ### C. «Рабочее ядро»
 Only final active/accepted phrases with demand metric, cluster, task/intent meaning and useful sorting/filter fields. A technically assigned cluster with confirmed outside-task business fit is excluded from this view and retained in full/audit views. This is the primary working sheet.
@@ -68,6 +68,8 @@ SOURCE FILE/STRUCTURE IDENTITIES
 + CURRENT VERSION/TIMESTAMP
 + EXPECTED JOIN COUNTS
 + DISPLAY MAPPING VERSION
++ PURCHASED GOVERNED-PHRASE / SEARCH CAPACITY
++ COMMERCIAL VOLUME-GATE RESULT
 ```
 
 ## 6. Explicit exclusions
@@ -78,6 +80,22 @@ No final query→URL ownership, architecture, create/split/merge recommendations
 
 Validated base artifact is XLSX plus short delivery summary. The workbook has exactly these seven recipient sheets in this order: `Как пользоваться`; `Все запросы`; `Рабочее ядро`; `Группы запросов`; `На проверку`; `Исключено`; `Методика`. A full audit TSV may be stored losslessly compressed; it is not a substitute for the workbook. PDF is optional and is not required to make the semantic core usable.
 
-## 8. Acceptance
+## 8. Commercial V1 capacity
 
-Deliverable is accepted only after data, semantic, workbook, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. The seven-sheet layout is fixed in Git by the OKNO_MSK standalone rehearsal. Exact commercial phrase/provider/review limits remain pending the economics gate; the rehearsal counts are measurements, not invented package limits.
+Current base package authority is `PHASE_8_PRICE_LIMITS_ECONOMICS.md`:
+
+```text
+1 existing public website
+1 primary region
+up to 10 agreed business directions
+up to 1,500 governed unique phrase rows
+up to 40 justified exact-query Yandex Search checks
+5 calendar days
+12,000 ₽
+```
+
+The governed-phrase limit does not permit silent truncation of provider evidence. Overflow must pass the commercial volume gate before full row-level cleanup.
+
+## 9. Acceptance
+
+Deliverable is accepted only after data, semantic, workbook, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. The seven-sheet layout is fixed in Git by the OKNO_MSK standalone rehearsal. Current commercial limits are fixed by Phase 8 and may change only through an explicit versioned product revision.
