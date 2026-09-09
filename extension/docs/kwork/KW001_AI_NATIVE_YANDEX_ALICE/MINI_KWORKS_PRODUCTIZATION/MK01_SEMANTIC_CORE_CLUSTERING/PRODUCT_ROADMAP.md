@@ -1,6 +1,6 @@
 # MK01 — Семантическое ядро для сайта: сбор, чистка и кластеризация
 
-Status: **PHASE 5 OKNO_MSK MK01-ONLY REHEARSAL PASS / PHASE 6 NEXT**
+Status: **PHASE 6 CLIENT DELIVERABLE / PACKAGING PASS / PHASE 7 NEXT**
 
 ## Рабочее название карточки
 
@@ -16,9 +16,7 @@ Status: **PHASE 5 OKNO_MSK MK01-ONLY REHEARSAL PASS / PHASE 6 NEXT**
 
 Клиент покупает самостоятельный результат: очищенное и сгруппированное семантическое ядро под реальный бизнес и спрос Яндекса.
 
-`PRODUCT_SCOPE.md` и `CLIENT_INPUT_CONTRACT.md` заморожены.
-
-## Зафиксированные границы
+## Зафиксированные границы метода
 
 - base MK01 — существующий публичный сайт;
 - первоначально один основной регион;
@@ -29,7 +27,7 @@ Status: **PHASE 5 OKNO_MSK MK01-ONLY REHEARSAL PASS / PHASE 6 NEXT**
 - greenfield/no-site режим не заявляется как уже валидированный;
 - Google research/tooling не входит.
 
-## Автономный method set
+## Автономный method/product set
 
 | File | State |
 |---|---|
@@ -49,11 +47,14 @@ Status: **PHASE 5 OKNO_MSK MK01-ONLY REHEARSAL PASS / PHASE 6 NEXT**
 | `steps/STEP_09_TASK_FIRST_CLUSTERING.md` | **DONE** |
 | `steps/STEP_10_CLIENT_MATERIALIZATION_QA.md` | **DONE** |
 | `ERRORS_AND_LESSONS.md` | **DONE — 30 inherited + 3 rehearsal failure classes** |
-| `EXECUTION_ROADMAP.md` | **DONE** |
+| `EXECUTION_ROADMAP.md` | **DONE / validated on OKNO_MSK** |
 | `DELIVERABLE_SPEC.md` | **DONE / seven-sheet physical layout validated** |
 | `QA_AND_RELEASE.md` | **DONE** |
-| `KWORK_CARD.md` | PENDING PHASE 8 ECONOMICS + PACKAGING |
-| `PORTFOLIO_ASSET_SPEC.md` | PENDING PACKAGING |
+| `PRODUCT_PACKAGING.md` | **DONE** |
+| `CLIENT_HANDOFF_TEMPLATE.md` | **DONE** |
+| `tests/OKNO_MSK/CLIENT_HANDOFF_PACKAGE.md` | **DONE** |
+| `KWORK_CARD.md` | PENDING PHASE 8 ECONOMICS + PHASE 9 |
+| `PORTFOLIO_ASSET_SPEC.md` | PENDING PHASE 10 |
 | `tests/OKNO_MSK/*` | **PHASE 5 PASS / REMOTE READBACK COMPLETE** |
 
 ## Source KW-001 extraction boundary
@@ -86,8 +87,8 @@ PHASE 2  CLIENT INPUT CONTRACT                 = PASS
 PHASE 3  KW-001 METHOD/FAILURE EXTRACTION      = PASS
 PHASE 4  AUTONOMOUS MK01 ROADMAP               = PASS
 PHASE 5  OKNO_MSK MK01-ONLY REHEARSAL          = PASS
-PHASE 6  MK01 CLIENT DELIVERABLE / PACKAGING   = NEXT
-PHASE 7  QA                                    = PENDING
+PHASE 6  MK01 CLIENT DELIVERABLE / PACKAGING   = PASS
+PHASE 7  PRODUCT/PACKAGING QA                  = NEXT
 PHASE 8  PRICE/LIMITS/ECONOMICS FREEZE         = PENDING
 PHASE 9  KWORK CARD                            = PENDING
 PHASE 10 PORTFOLIO ILLUSTRATION                = PENDING
@@ -95,11 +96,26 @@ PHASE 11 OWNER PUBLICATION                     = PENDING OWNER ACTION
 PHASE 12 PUBLISHED VERSION FREEZE/READBACK      = PENDING
 ```
 
+## Phase 6 materialized result
+
+```text
+VALIDATED CLIENT FORMAT = XLSX / 7 Russian sheets
+CLIENT DELIVERY SET = XLSX + short handoff explanation
+INTERNAL AUDIT SIDECARS = retained internally; not automatic client attachments
+REUSABLE HANDOFF TEMPLATE = CLIENT_HANDOFF_TEMPLATE.md
+FILLED REHEARSAL EXAMPLE = tests/OKNO_MSK/CLIENT_HANDOFF_PACKAGE.md
+PRICE / LIMITS = NOT SET IN PHASE 6
+```
+
 ## Current next action
 
 ```text
-PHASE 6 — PACKAGE THE VALIDATED SEVEN-SHEET CLIENT DELIVERABLE
-→ KEEP THE 2840-ROW PRE-STEP5A AUTHORITY AND 2185/187/468 PARTITION FROZEN
-→ PREPARE CLIENT-HANDOFF WORDING/PRODUCT PACKAGING WITHOUT ADDING DOWNSTREAM SCOPE
-→ USE REHEARSAL_METRICS.md AS INPUT TO PHASE 8; DO NOT INVENT PRICE/LIMITS
+PHASE 7 — INDEPENDENT PRODUCT/PACKAGING QA
+→ VERIFY PRODUCT_SCOPE / INPUT / METHOD / DELIVERABLE / PACKAGING / HANDOFF ARE MUTUALLY CONSISTENT
+→ VERIFY YANDEX-ONLY BOUNDARY IS EXPLICIT
+→ VERIFY DOWNSTREAM MK02-MK07 SCOPE LEAKAGE = 0
+→ VERIFY CLIENT HANDOFF CAN BE USED WITHOUT REPOSITORY KNOWLEDGE
+→ FIX ANY DEFECTS
+→ COMMIT + REMOTE READBACK
+→ THEN PHASE 8 ECONOMICS / PRICE / COMMERCIAL LIMITS
 ```
