@@ -1,9 +1,9 @@
 {
   "project": "OKNO_MSK",
   "updated_date": "2026-09-09",
-  "state": "POST_RELEASE_DOCUMENT_02_STEP05A_RECONCILED__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PASS__OWNER_REVIEW_PENDING",
+  "state": "POST_RELEASE_REPORTS_01_02_PROFESSIONAL_REPACKAGE__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
   "research_stage_0_to_15": "COMPLETE",
-  "current_document": "02",
+  "current_document": "01_02_OWNER_REVIEW",
   "current_release": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09",
   "current_report_02_visible_title": "Внедрение рекомендации",
   "integrated_semantic_core": {
@@ -33,12 +33,13 @@
     "pdf_structural_text_gate": "PASS",
     "pdf_table_rows": "PASS__REMOTE_VISUAL_READBACK_19_OF_19",
     "pdf_rerender": "PASS__19_OF_19",
-    "remote_visual_readback": "PASS__19_OF_19",
+    "remote_visual_readback": "PENDING",
     "unsupported_zero_new_page_claims": 0,
     "unsupported_zero_physical_change_claims": 0,
     "semantic_assignment_auto_physical_authorization_claims": 0,
     "project_internal_traceability_hits": 0,
-    "provider_calls": 0
+    "provider_calls": 0,
+    "professional_repackage_content_qa": "PASS__54_OF_54"
   },
   "remote_materialization": {
     "commit": "c7cb31f6c61a99b0d14dd3822ec7a3adf75af75c",
@@ -77,5 +78,18 @@
   },
   "document_02_owner_review": "PENDING",
   "document_03_step5a_reconciliation": "NOT_STARTED",
-  "next_action": "OWNER_REVIEW_REPORT_02_STEP05A_RECONCILED__DO_NOT_START_DOCUMENT_03"
+  "next_action": "REMOTE_VISUAL_READBACK_REPORTS_01_02_PROFESSIONAL_REPACKAGE__THEN_OWNER_REVIEW__DO_NOT_START_DOCUMENT_03",
+  "professional_packaging": {
+    "report01_role": "CLIENT_RESEARCH_AND_STRATEGY",
+    "report02_role": "IMPLEMENTATION_PLAN",
+    "implementation_tracker": "05_OKNO_MSK_IMPLEMENTATION_TRACKER_2026-09-09.xlsx",
+    "ready_actions": 3,
+    "clarification_items": 5,
+    "additional_checks": 4,
+    "semantic_assignment_rows": 55,
+    "step5a_unresolved_rows": 7,
+    "internal_link_rows": 14,
+    "economic_impact_estimated": false,
+    "hours_estimated": false
+  }
 }

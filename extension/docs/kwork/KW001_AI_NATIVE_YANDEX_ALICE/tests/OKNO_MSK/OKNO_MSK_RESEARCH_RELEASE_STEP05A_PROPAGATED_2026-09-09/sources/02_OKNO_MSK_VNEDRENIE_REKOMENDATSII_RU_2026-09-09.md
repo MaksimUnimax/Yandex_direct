@@ -1,48 +1,37 @@
-# Внедрение рекомендации
+# План внедрения рекомендаций
 
-## 1. Как пользоваться руководством
+https://okno-msk.ru/
 
-Этот документ переводит результаты исследования и обновлённого семантического ядра в конкретные действия и ограничения для сайта.
+Этот документ — рабочий план по результатам исследования. Он отделяет готовые изменения сайта от пунктов, где сначала нужен факт, решение по размещению или отдельная аналитическая проверка.
 
-Три готовых изменения в разделе 4 — самостоятельные задачи. Нумерация нужна для навигации и приёмки и не задаёт обязательную календарную последовательность. Пять пунктов раздела 5 требуют уточнения конкретного факта или места размещения до окончательного внедрения.
+Полное семантическое ядро находится в книге №04. Рабочая таблица №05 содержит общий план задач, 55 семантических назначений, 7 неподтверждённых новых фраз и 14 кандидатов внутренних связей. PDF ниже оставляет только то, что удобно читать и согласовывать как план действий.
 
-Полный состав поисковых фраз, групп, страниц и статистики спроса находится в книге №04. После дополнительного анализа конкурентов ядро было пересобрано как единый массив, поэтому в этой версии руководства используются уже новые итоговые числа и новые назначения фраз.
+**Как читать очередь:**
 
-Важно различать три типа результата:
+- **Очередь 1** — можно передавать в работу сейчас;
+- **Очередь 2** — сначала закрыть указанное уточнение;
+- **Очередь 3** — сначала выполнить отдельную проверку и только затем принимать структурное решение.
 
-- **готовое изменение сайта** — есть подтверждённая страница, понятное изменение и критерии приёмки;
-- **семантическое назначение** — известно, какая существующая страница отвечает за тему; само это назначение не является разрешением автоматически менять текст, создавать страницу или перестраивать сайт;
-- **неподтверждённый точный владелец** — тема сохранена в ядре, но до внедрения нужно подтвердить точную страницу и границы предложения компании.
+Очередь — это готовность к действию, а не прогноз трафика или выручки. Объём работ — ориентир по типу задачи, а не смета и не оценка часов. Ответственный назначается заказчиком в рабочей таблице №05.
 
-## 2. Что изменилось после обновления семантического ядра
+## 1. Сводный план внедрения
 
-Первичная исследовательская база содержала 2 840 уникальных формулировок. Дополнительный анализ конкурентов выявил 16 новых подтверждённых формулировок в семи направлениях. После включения их в общий процесс очистки и назначения итоговое ядро содержит:
+| Очередь | Готовность | Задача | Страница | Кто нужен | Объём | Зависимость |
+|---:|---|---|---|---|---|---|
+| 1 | Можно внедрять | Разделить французское и панорамное остекление | https://okno-msk.ru/okna-rehau/francuzskie-okna | Контент | Средний текстовый блок | Нет отдельного предварительного условия |
+| 1 | Можно внедрять | Добавить правила выбора размеров ПВХ-двери | https://okno-msk.ru/dveri-rehau | Контент | Небольшой текстовый блок | Нет отдельного предварительного условия |
+| 1 | Можно внедрять | Указать год рейтинга производителей | https://okno-msk.ru/stati/kakie-okna-samye-luchshie | Контент | Небольшая правка | Нет отдельного предварительного условия |
+| 2 | После уточнения | Размеры окон для частного дома | https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom | Контент | Текстовый блок после уточнения | Выбрать одно место размещения блока в текущем макете страницы: в зоне выбора и замера перед калькулятором или формой обращения. |
+| 2 | После уточнения | Состав монтажа ПВХ-дверей | https://okno-msk.ru/dveri-rehau | Компания + контент | Средний текстовый блок | У компании зафиксировать состав услуги: операции и материалы, подготовку со стороны клиента, демонтаж и вывоз, откосы и отделку, гарантийные и сервисные условия. Также выбрать одно место размещения блока. |
+| 2 | После уточнения | Вентиляция при алюминиевом остеклении | https://okno-msk.ru/stati/plyusy-i-minusy-ostekleniya-alyuminievymi-oknami | Контент | Текстовый блок после уточнения | Выбрать одно место размещения блока в структуре статьи и подтвердить применимость функций для конкретных систем и фурнитуры. |
+| 2 | После уточнения | Навигация по портфолио | https://okno-msk.ru/nashi-raboty | Контент + разработка | Разметка карточек и настройка навигации | Разметить существующие карточки по категориям и по результату разметки утвердить точный набор фильтров. |
+| 2 | После уточнения | Панорамное алюминиевое остекление | https://okno-msk.ru/alyuminievye-okna/ | Контент | Текстовый блок после уточнения | Выбрать одно место размещения блока и связать формулировки с применимостью конкретной системы после замера и технической оценки. |
+| 3 | Сначала проверить | Панорамные окна REHAU и общая панорамная страница | https://okno-msk.ru/okna-rehau/panoramnye-okna-rehau | Аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
+| 3 | Сначала проверить | Окна для частного дома и для коттеджей | https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-dlya-kottedzhej-i-zagorodnyh-domov | Аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
+| 3 | Сначала проверить | Сравнение профилей REHAU | https://okno-msk.ru/stati/sravnenie-profilej-rehau | Аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
+| 3 | Сначала проверить | Accado, Vorne и Futurus | https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna | Компания + аналитическая проверка | Отдельная проверка | Сначала выполнить указанную проверку |
 
-| Показатель | Итог |
-|---|---:|
-| Уникальные поисковые формулировки | 2 856 |
-| Активные фразы | 2 348 |
-| Активные фразы с завершённым решением по точному назначению | 2 322 |
-| Активные фразы без подтверждённого точного владельца | 26 |
-| Пользовательские группы спроса | 168 |
-| Новые формулировки из дополнительного анализа конкурентов | 16 |
-
-Из 16 новых формулировок девять получили точное семантическое назначение на существующие страницы. Ещё семь сохранены в активном ядре, но требуют подтверждения точной страницы или границ услуги.
-
-Это изменение **не превращает автоматически новые фразы в задания на физическую правку сайта**. Физическое изменение включается в руководство только тогда, когда для него есть отдельное доказательное основание.
-
-## 3. Краткая карта работ
-
-| Категория | Количество | Следующее действие |
-|---|---:|---|
-| Изменения сайта, готовые к внедрению | 3 | Выполнить и принять по отдельности |
-| Требуют уточнения перед внедрением | 5 | Получить указанный ответ и только затем финализировать изменение |
-| Семантические назначения на страницы | 55 | Использовать в ядре и контент-планировании; 46 ранее подтверждённых тем + 9 новых фраз |
-| Новые фразы без подтверждённого точного владельца | 7 | Не передавать во внедрение до подтверждения страницы и границ предложения |
-| Дополнительные проверки | 4 | Провести указанную проверку и зафиксировать решение |
-| Уникальные направления внутренних связей | 14 | Детализировать точное место и текст ссылки перед размещением |
-
-## 4. Изменения сайта, готовые к внедрению
+## 2. Можно внедрять сейчас
 
 ### 1. Разделить французское и панорамное остекление
 
@@ -137,7 +126,7 @@
 
 2024 год относится к рейтингу; формулировка «в этом году» заменена; порядок производителей сохранился; рейтинг брендов отделён от выбора конкретной системы и комплектации.
 
-## 5. Уточнить перед внедрением
+## 3. Сначала уточнить
 
 Пять рекомендаций требуют одного конкретного ответа перед финальным заданием. Для каждой ниже указано, что хотим изменить, какой ответ нужен и что станет результатом уточнения.
 
@@ -229,98 +218,7 @@
 
 > **Для панорамного алюминиевого остекления отдельно определяют назначение помещения, тепловой режим, размер проёма, способ открывания и проектные ограничения. Применимость системы подтверждается после замера и технической оценки.**
 
-## 6. Семантические назначения на страницы
-
-### 6.1. Ранее подтверждённые тематические назначения
-
-**Что это.** Для 46 тем исследования определена существующая страница, где тему следует раскрывать в первую очередь. В части строк указана связанная страница для смежного вопроса.
-
-**Для чего.** Таблица нужна при подготовке новых текстов и обновлении существующих страниц: она показывает, куда относится тема и какая страница дополняет её.
-
-**Как использовать.** Колонка «Где раскрывать тему» — страница для основной информации по теме. Колонка «Связанная страница» — дополнительный материал по смежному вопросу. При работе с темой основное содержание добавляется или обновляется на указанной странице; связанная страница используется для продолжения смежного вопроса.
-
-Полный набор поисковых фраз по каждой теме находится в книге №04.
-
-| № | Тема / вопрос пользователя | Где раскрывать тему | Связанная страница |
-|---:|---|---|---|
-| 1 | алюминиевый профиль для раздвижных окон | [/alyuminievye-okna/](https://okno-msk.ru/alyuminievye-okna/) | [/alyuminievye-okna/provedal](https://okno-msk.ru/alyuminievye-okna/provedal)<br>[/balkony-i-lodzhii/osteklenie-profilem-provedal](https://okno-msk.ru/balkony-i-lodzhii/osteklenie-profilem-provedal) |
-| 2 | узлы алюминиевых окон | [/alyuminievye-okna/](https://okno-msk.ru/alyuminievye-okna/) | — |
-| 3 | ручка для алюминиевого окна | [/alyuminievye-okna/](https://okno-msk.ru/alyuminievye-okna/) | [/okna-rehau/aksessuary-dlya-okon/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/) |
-| 4 | как снять алюминиевое окно | [/alyuminievye-okna/](https://okno-msk.ru/alyuminievye-okna/) | — |
-| 5 | алюминиевые окна отзывы | [/alyuminievye-okna/](https://okno-msk.ru/alyuminievye-okna/) | — |
-| 6 | алюминиевые окна видео | [/alyuminievye-okna/](https://okno-msk.ru/alyuminievye-okna/) | [/nashi-raboty/](https://okno-msk.ru/nashi-raboty/) |
-| 7 | раздвижные окна на балкон алюминиевые холодное | [/balkony-i-lodzhii/holodnoe-osteklenie/](https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie/) | [/alyuminievye-okna/razdvizhnye/](https://okno-msk.ru/alyuminievye-okna/razdvizhnye/)<br>[/alyuminievye-okna/provedal](https://okno-msk.ru/alyuminievye-okna/provedal)<br>[/balkony-i-lodzhii/holodnoe-panoramnoe-osteklenie-balkona](https://okno-msk.ru/balkony-i-lodzhii/holodnoe-panoramnoe-osteklenie-balkona)<br>[/balkony-i-lodzhii/osteklenie-profilem-provedal](https://okno-msk.ru/balkony-i-lodzhii/osteklenie-profilem-provedal) |
-| 8 | алюминиевые раздвижные окна на балкон | [/balkony-i-lodzhii/razdvizhnye-okna-na-balkon](https://okno-msk.ru/balkony-i-lodzhii/razdvizhnye-okna-na-balkon) | [/balkony-i-lodzhii/holodnoe-osteklenie](https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie)<br>[/alyuminievye-okna/razdvizhnye](https://okno-msk.ru/alyuminievye-okna/razdvizhnye) |
-| 9 | остекление балконов можно ли | [/balkony-i-lodzhii/](https://okno-msk.ru/balkony-i-lodzhii/) | — |
-| 10 | остекление балкона подоконника | [/balkony-i-lodzhii/](https://okno-msk.ru/balkony-i-lodzhii/) | [/okna-rehau/aksessuary-dlya-okon/podokonniki/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/podokonniki/) |
-| 11 | размер окна для котельной в частном доме | [/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/](https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/) | — |
-| 12 | французское окно своими руками | [/okna-rehau/francuzskie-okna/](https://okno-msk.ru/okna-rehau/francuzskie-okna/) | — |
-| 13 | как сделать французское окно | [/okna-rehau/francuzskie-okna/](https://okno-msk.ru/okna-rehau/francuzskie-okna/) | — |
-| 14 | перепланировка французское окно | [/okna-rehau/francuzskie-okna/](https://okno-msk.ru/okna-rehau/francuzskie-okna/) | — |
-| 15 | французские окна отзывы | [/okna-rehau/francuzskie-okna/](https://okno-msk.ru/okna-rehau/francuzskie-okna/) | — |
-| 16 | стеклопакеты для пластиковых окон | [/okna-rehau/steklopakety-dlya-plastikovykh-okon](https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon) | [/okna-rehau/izgotovlenie-steklopaketov-na-zakaz](https://okno-msk.ru/okna-rehau/izgotovlenie-steklopaketov-na-zakaz)<br>[/stati/steklopakety-osobennosti-i-vidy](https://okno-msk.ru/stati/steklopakety-osobennosti-i-vidy) |
-| 17 | ремонт стеклопакета в пластиковом окне своими руками | [/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/](https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/) | [/uslugi/remont-okon/](https://okno-msk.ru/uslugi/remont-okon/) |
-| 18 | замена сетки на пластиковых окнах цена | [/okna-rehau/aksessuary-dlya-okon/moskitnye-setki/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/moskitnye-setki/) | — |
-| 19 | окна раздвижные алюминиевые для веранды | [/verandy/razdvizhnye-okna-na-verandu](https://okno-msk.ru/verandy/razdvizhnye-okna-na-verandu) | [/verandy](https://okno-msk.ru/verandy)<br>[/alyuminievye-okna/razdvizhnye](https://okno-msk.ru/alyuminievye-okna/razdvizhnye) |
-| 20 | безрамное остекление веранды плюсы и минусы | [/verandy/](https://okno-msk.ru/verandy/) | [/stati/vidy-i-tipy-ostekleniya-verandy-plyusy-i-minusy](https://okno-msk.ru/stati/vidy-i-tipy-ostekleniya-verandy-plyusy-i-minusy)<br>[/verandy/bezramnoe-osteklenie-verandy](https://okno-msk.ru/verandy/bezramnoe-osteklenie-verandy) |
-| 21 | остекление веранды в рассрочку | [/verandy/](https://okno-msk.ru/verandy/) | [/uslugi/kredit-i-rassrochka/](https://okno-msk.ru/uslugi/kredit-i-rassrochka/) |
-| 22 | лучшие панорамные окна | [/stati/panoramnoe-osteklenie-eto-dan-mode-ili-praktichnoe-reshenie/](https://okno-msk.ru/stati/panoramnoe-osteklenie-eto-dan-mode-ili-praktichnoe-reshenie/) | [/okna-rehau/panoramnoe-osteklenie/](https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie/)<br>[/okna-rehau/panoramnye-okna-rehau](https://okno-msk.ru/okna-rehau/panoramnye-okna-rehau) |
-| 23 | окно для котельной в частном доме | [/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/](https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-v-chastnyj-dom/) | [/okna-rehau/po-tipu-doma/okna-na-kuhnyu](https://okno-msk.ru/okna-rehau/po-tipu-doma/okna-na-kuhnyu) |
-| 24 | ручка для пластиковой двери | [/dveri-rehau/](https://okno-msk.ru/dveri-rehau/) | [/okna-rehau/aksessuary-dlya-okon/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/) |
-| 25 | как снять пластиковую дверь | [/dveri-rehau/](https://okno-msk.ru/dveri-rehau/) | — |
-| 26 | отзывы пластиковых дверей | [/dveri-rehau/](https://okno-msk.ru/dveri-rehau/) | — |
-| 27 | профиль для пластиковых окон | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | — |
-| 28 | пластиковые окна в рассрочку | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | [/uslugi/kredit-i-rassrochka/](https://okno-msk.ru/uslugi/kredit-i-rassrochka/) |
-| 29 | как открыть пластиковое окно | [/stati/okno-otkrylos-v-dvuh-polozheniyah-chto-delat/](https://okno-msk.ru/stati/okno-otkrylos-v-dvuh-polozheniyah-chto-delat/) | [/uslugi/remont-okon/](https://okno-msk.ru/uslugi/remont-okon/) |
-| 30 | пластиковые окна отзывы | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | — |
-| 31 | пластиковые окна видео | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | [/nashi-raboty/](https://okno-msk.ru/nashi-raboty/) |
-| 32 | окна rehau delight 70 отзывы | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | — |
-| 33 | окна rehau grazio отзывы | [/okna-rehau/rehau-grazio/](https://okno-msk.ru/okna-rehau/rehau-grazio/) | — |
-| 34 | окна rehau в рассрочку | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | [/uslugi/kredit-i-rassrochka/](https://okno-msk.ru/uslugi/kredit-i-rassrochka/) |
-| 35 | окна rehau отзывы | [/okna-rehau/](https://okno-msk.ru/okna-rehau/) | — |
-| 36 | окна в рассрочку | [/](https://okno-msk.ru/) | [/uslugi/kredit-i-rassrochka/](https://okno-msk.ru/uslugi/kredit-i-rassrochka/) |
-| 37 | окна двери в рассрочку | [/](https://okno-msk.ru/) | [/uslugi/kredit-i-rassrochka/](https://okno-msk.ru/uslugi/kredit-i-rassrochka/) |
-| 38 | установка жалюзи на пластиковые окна | [/okna-rehau/aksessuary-dlya-okon/zhalyuzi/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/zhalyuzi/) | — |
-| 39 | нащельник для пластиковых окон | [/okna-rehau/aksessuary-dlya-okon/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/) | [/uslugi/otdelka-otkosov/](https://okno-msk.ru/uslugi/otdelka-otkosov/) |
-| 40 | створка пластикового окна | [/uslugi/remont-okon/](https://okno-msk.ru/uslugi/remont-okon/) | [/okna-rehau/aksessuary-dlya-okon/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/) |
-| 41 | смазка для оконной фурнитуры | [/stati/kak-perevesti-plastikovoe-okno-v-zimnij-rezhim/](https://okno-msk.ru/stati/kak-perevesti-plastikovoe-okno-v-zimnij-rezhim/) | [/uslugi/remont-okon/](https://okno-msk.ru/uslugi/remont-okon/) |
-| 42 | пена установки пластиковых окон | [/uslugi/ustanovka-okon/](https://okno-msk.ru/uslugi/ustanovka-okon/) | — |
-| 43 | установка окон в рассрочку | [/uslugi/ustanovka-okon/](https://okno-msk.ru/uslugi/ustanovka-okon/) | [/uslugi/kredit-i-rassrochka/](https://okno-msk.ru/uslugi/kredit-i-rassrochka/) |
-| 44 | стекло для пластиковой двери | [/uslugi/remont-okon/](https://okno-msk.ru/uslugi/remont-okon/) | [/dveri-rehau/](https://okno-msk.ru/dveri-rehau/) |
-| 45 | рейтинг пластиковых окон | [/stati/kakie-okna-samye-luchshie/](https://okno-msk.ru/stati/kakie-okna-samye-luchshie/) | — |
-| 46 | блокиратор окон rehau | [/okna-rehau/aksessuary-dlya-okon/protivovzlomnaya-furnitura/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/protivovzlomnaya-furnitura/) | [/okna-rehau/aksessuary-dlya-okon/](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/) |
-
-### 6.2. Девять новых фраз с подтверждённым точным назначением
-
-Эти формулировки расширяют семантическое назначение существующих страниц. Сами по себе они не требуют нового раздела сайта и не являются готовым заданием на изменение текста.
-
-| Поисковая фраза | Основная страница | Роль |
-|---|---|---|
-| солнцезащитный стеклопакет | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| солнцезащитное стекло в стеклопакете | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| солнцезащитный стеклопакет rehau | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| многофункциональный стеклопакет что это | https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/ | Семантическое назначение без физического изменения |
-| ударопрочный стеклопакет | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
-| балконы под офис | https://okno-msk.ru/balkony-i-lodzhii/ | Семантическое назначение без физического изменения |
-| шумоизоляция на крышу балкона | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | Семантическое назначение без физического изменения |
-| шумоизоляция крыши балкона от дождя | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | Семантическое назначение без физического изменения |
-| армирование оконного профиля | https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/ | Семантическое назначение без физического изменения |
-
-## 7. Семь новых фраз, которые пока нельзя передавать во внедрение
-
-Эти формулировки сохранены в ядре, но не должны передаваться во внедрение до подтверждения точной страницы и границ предложения компании.
-
-| Поисковая фраза | Тематический маршрут | Что нужно подтвердить |
-|---|---|---|
-| гидроизоляция для открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | Выдача подтверждает отдельные информационные, товарные и строительные задачи; предложение компании и точный владелец не подтверждены. |
-| гидроизоляция открытого балкона в частном доме | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | точное соответствие предложению компании не подтверждено |
-| лучшая гидроизоляция для открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | продажа материалов и точный владелец на сайте не подтверждены |
-| как сделать гидроизоляцию на открытом балконе | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | не подтверждено, что существующая страница должна обучать самостоятельным работам |
-| гидроизоляция открытого деревянного балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | работа с деревянными конструкциями не подтверждена предложением компании |
-| гидроизоляция балконной плиты открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | ремонт/гидроизоляция плиты не подтверждены как услуга компании |
-| шумоизоляция крыши балкона изнутри от дождя | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | внутренний способ и состав услуги не подтверждены |
-
-## 8. Дополнительные проверки перед следующими изменениями
+## 4. Сначала проверить
 
 В четырёх местах исследование выявило выбор между несколькими вариантами. Результатом каждого пункта должен стать один понятный ответ, после которого можно принять решение по странице или содержанию.
 
@@ -404,34 +302,50 @@
 
 Сформировать финальный состав раздела о фурнитуре и список марок для упоминания.
 
-## 9. Потенциальные внутренние связи между страницами
+## 5. Семантические назначения
 
-**Что это.** В таблице 14 направлений перехода между существующими страницами. Первая страница показывает, откуда начинается переход; вторая — куда человек попадает за продолжением темы.
+В рабочей таблице №05 сохранены **55 назначений**: 46 ранее подтверждённых тематических решений и 9 новых точных назначений из конкурентного этапа. Эти строки нужны для ядра и контент-планирования; они не являются автоматическим заданием на физическую правку сайта.
 
-**Для чего.** Такие переходы помогают продолжить тему: от общего описания перейти к более подробной услуге, инструкции или связанному материалу. Одновременно близкие по смыслу страницы образуют понятный путь внутри сайта.
+Ниже в PDF оставлены только девять новых назначений Step 5A, потому что именно они изменились после пересборки ядра.
 
-**Как внедрять.** На исходной странице выбирается абзац, где по смыслу возникает тема целевой страницы. В этот абзац добавляется ссылка с понятным текстом, который описывает содержание целевой страницы. После добавления проверяется, что фраза читается естественно и ссылка ведёт на нужную страницу.
+### Девять новых фраз с подтверждённым точным назначением
 
-Таблица задаёт направление перехода. Конкретный абзац и формулировка ссылки выбираются при внедрении по тексту исходной страницы.
+Эти формулировки расширяют семантическое назначение существующих страниц. Сами по себе они не требуют нового раздела сайта и не являются готовым заданием на изменение текста.
 
-| № | Откуда ведём | Куда ведём |
-|---:|---|---|
-| 1 | [/alyuminievye-okna/razdvizhnye](https://okno-msk.ru/alyuminievye-okna/razdvizhnye) | [/balkony-i-lodzhii/holodnoe-osteklenie](https://okno-msk.ru/balkony-i-lodzhii/holodnoe-osteklenie) |
-| 2 | [/alyuminievye-okna/razdvizhnye](https://okno-msk.ru/alyuminievye-okna/razdvizhnye) | [/balkony-i-lodzhii](https://okno-msk.ru/balkony-i-lodzhii) |
-| 3 | [/okna-rehau](https://okno-msk.ru/okna-rehau) | [/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna](https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna) |
-| 4 | [/alyuminievye-okna/razdvizhnye](https://okno-msk.ru/alyuminievye-okna/razdvizhnye) | [/verandy](https://okno-msk.ru/verandy) |
-| 5 | [/okna-rehau/panoramnoe-osteklenie](https://okno-msk.ru/okna-rehau/panoramnoe-osteklenie) | [/stati/panoramnoe-osteklenie-eto-dan-mode-ili-praktichnoe-reshenie](https://okno-msk.ru/stati/panoramnoe-osteklenie-eto-dan-mode-ili-praktichnoe-reshenie) |
-| 6 | [/uslugi/kredit-i-rassrochka](https://okno-msk.ru/uslugi/kredit-i-rassrochka) | [/okna-rehau](https://okno-msk.ru/okna-rehau) |
-| 7 | [/uslugi/remont-okon](https://okno-msk.ru/uslugi/remont-okon) | [/stati/okno-otkrylos-v-dvuh-polozheniyah-chto-delat](https://okno-msk.ru/stati/okno-otkrylos-v-dvuh-polozheniyah-chto-delat) |
-| 8 | [/uslugi/remont-okon](https://okno-msk.ru/uslugi/remont-okon) | [/stati/kak-otregulirovat-plastikovye-okna](https://okno-msk.ru/stati/kak-otregulirovat-plastikovye-okna) |
-| 9 | [/uslugi/kredit-i-rassrochka](https://okno-msk.ru/uslugi/kredit-i-rassrochka) | [/](https://okno-msk.ru/) |
-| 10 | [/stati/kak-vybrat-plastikovye-okna](https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna) | [/okna-rehau/aksessuary-dlya-okon/ruchki-na-okna](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/ruchki-na-okna) |
-| 11 | [/stati/kak-vybrat-plastikovye-okna](https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna) | [/okna-rehau/aksessuary-dlya-okon](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon) |
-| 12 | [/uslugi/kredit-i-rassrochka](https://okno-msk.ru/uslugi/kredit-i-rassrochka) | [/uslugi/ustanovka-okon](https://okno-msk.ru/uslugi/ustanovka-okon) |
-| 13 | [/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire](https://okno-msk.ru/okna-rehau/po-tipu-doma/zamena-okon-v-kvartire) | [/uslugi/ustanovka-okon](https://okno-msk.ru/uslugi/ustanovka-okon) |
-| 14 | [/okna-rehau/aksessuary-dlya-okon](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon) | [/okna-rehau/aksessuary-dlya-okon/protivovzlomnaya-furnitura](https://okno-msk.ru/okna-rehau/aksessuary-dlya-okon/protivovzlomnaya-furnitura) |
+| Поисковая фраза | Основная страница | Роль |
+|---|---|---|
+| солнцезащитный стеклопакет | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
+| солнцезащитное стекло в стеклопакете | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
+| солнцезащитный стеклопакет rehau | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
+| многофункциональный стеклопакет что это | https://okno-msk.ru/stati/kak-vybrat-steklopaket-dlya-plastikovogo-okna/ | Семантическое назначение без физического изменения |
+| ударопрочный стеклопакет | https://okno-msk.ru/okna-rehau/steklopakety-dlya-plastikovykh-okon | Семантическое назначение без физического изменения |
+| балконы под офис | https://okno-msk.ru/balkony-i-lodzhii/ | Семантическое назначение без физического изменения |
+| шумоизоляция на крышу балкона | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | Семантическое назначение без физического изменения |
+| шумоизоляция крыши балкона от дождя | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | Семантическое назначение без физического изменения |
+| армирование оконного профиля | https://okno-msk.ru/stati/kak-vybrat-plastikovye-okna/ | Семантическое назначение без физического изменения |
 
-## 10. Как принимать результат
+## 6. Семь новых фраз без подтверждённого точного владельца
+
+Эти формулировки сохранены в ядре, но не должны передаваться во внедрение до подтверждения точной страницы и границ предложения компании.
+
+| Поисковая фраза | Тематический маршрут | Что нужно подтвердить |
+|---|---|---|
+| гидроизоляция для открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | Выдача подтверждает отдельные информационные, товарные и строительные задачи; предложение компании и точный владелец не подтверждены. |
+| гидроизоляция открытого балкона в частном доме | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | точное соответствие предложению компании не подтверждено |
+| лучшая гидроизоляция для открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | продажа материалов и точный владелец на сайте не подтверждены |
+| как сделать гидроизоляцию на открытом балконе | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | не подтверждено, что существующая страница должна обучать самостоятельным работам |
+| гидроизоляция открытого деревянного балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | работа с деревянными конструкциями не подтверждена предложением компании |
+| гидроизоляция балконной плиты открытого балкона | https://okno-msk.ru/balkony-i-lodzhii/otdelka-balkonov | ремонт/гидроизоляция плиты не подтверждены как услуга компании |
+| шумоизоляция крыши балкона изнутри от дождя | https://okno-msk.ru/balkony-i-lodzhii/balkon-s-kryshej/ | внутренний способ и состав услуги не подтверждены |
+
+## 7. Внутренние связи
+
+В рабочей таблице №05 сохранены **14 уникальных направлений внутренних связей**. Они не являются готовыми ссылками для механического размещения. Перед внедрением для каждой пары нужно определить естественный абзац, контекст и текст ссылки, а после размещения проверить переход на указанную страницу.
+
+Полная таблица пар вынесена из PDF в книгу №05, чтобы с ней можно было работать как с backlog, а не перепечатывать данные из документа.
+
+
+## 8. Как принимать результат
 
 - По трём готовым рекомендациям результат проверяется по полю «Проверка результата» внутри каждого пункта.
 - По пяти уточнениям результатом является конкретный ответ и финальный вариант соответствующего изменения.
@@ -439,7 +353,7 @@
 - По связям между страницами результатом подготовки являются выбранный абзац и формулировка ссылки для каждой пары; после размещения проверяется переход на указанную страницу.
 - Таблица распределения тем используется как справочник при подготовке и обновлении материалов; полный набор поисковых фраз остаётся в книге №04.
 
-## 11. Материалы, использованные в исследовании
+## 9. Материалы, использованные в исследовании
 
 1. «Вордстат» — Яндекс Вордстат. https://yandex.ru/support2/wordstat/ru/interface/new
 2. «Операторы» — Яндекс Вордстат. https://yandex.ru/support2/wordstat/ru/content/operators

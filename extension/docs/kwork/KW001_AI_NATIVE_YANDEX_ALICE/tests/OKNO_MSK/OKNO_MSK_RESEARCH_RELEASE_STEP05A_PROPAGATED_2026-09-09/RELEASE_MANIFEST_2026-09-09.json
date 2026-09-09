@@ -1,7 +1,7 @@
 {
-  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROPAGATED_V3",
+  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROFESSIONAL_REPACKAGE_V1",
   "date": "2026-09-09",
-  "status": "DOCUMENT_02_STEP05A_RECONCILED__REMOTE_VISUAL_READBACK_PASS__OWNER_REVIEW_PENDING",
+  "status": "REPORTS_01_02_PROFESSIONAL_REPACKAGE__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
   "semantic_rows": 2856,
   "active_rows": 2348,
   "exact_assignment_decision_rows": 2322,
@@ -12,15 +12,16 @@
   "artifacts": [
     {
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf",
-      "bytes": 143564,
-      "sha256": "78d015793ef397a8facdb4ef1d5f16bd3a05ecf31d9ec75b918d0c84a0df470b"
+      "bytes": 186825,
+      "sha256": "c5c9ecb6094e30ff67d78438467c1262acffe80a72f2f23ad88508a71839129b",
+      "pages": 12
     },
     {
       "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
-      "bytes": 464566,
-      "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
+      "bytes": 197904,
+      "sha256": "9dd6f0869befd04283094871bd8e96737a4e8d6966db58081dc632817eb1f300",
       "git_blob_sha": "5563fdba03a6b4cb7355a6ae5c2078d5bcff4f26",
-      "pages": 19
+      "pages": 11
     },
     {
       "path": "03_OKNO_MSK_AI_KNOWLEDGE_DOCUMENT_2026-09-05.md",
@@ -39,23 +40,28 @@
     },
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx",
-      "bytes": 52222,
-      "sha256": "9a7b9eb7d99b0cfd55c374d07138ef4a34c196c004013d7eb2f5576aa77bd324"
+      "bytes": 40634,
+      "sha256": "6f3c409c463101b50ef86e56ba15a115302fd7630e5c0bf9f384976f2d645361"
     },
     {
       "path": "editable/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.docx",
-      "bytes": 26648,
-      "sha256": "69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e"
+      "bytes": 35283,
+      "sha256": "b5d200332ef8c5bac90081f9673f727468f975ff1f97de123c2f0b65c50ca90a"
     },
     {
       "path": "sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md",
-      "bytes": 53990,
-      "sha256": "ddc6d59883501e920a5c19a711fc8287b85d4120a29f0be8d0e2d05a74b96fbc"
+      "bytes": 56641,
+      "sha256": "994a0293768e277d97544fe52357187da927dd7c3427ce34712cf04b15c9bd9d"
     },
     {
       "path": "sources/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.md",
-      "bytes": 47130,
-      "sha256": "5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1"
+      "bytes": 33939,
+      "sha256": "c2ef05974b708dc1a36e820d8aab6d3a1354e447c5358bdf6ae3ee08894a551d"
+    },
+    {
+      "path": "05_OKNO_MSK_IMPLEMENTATION_TRACKER_2026-09-09.xlsx",
+      "bytes": 23928,
+      "sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719"
     }
   ],
   "report01_competitor_analysis_amended": true,
@@ -89,13 +95,12 @@
   "report02_contract": {
     "ready_actions": 3,
     "clarification_items": 5,
+    "additional_checks": 4,
     "semantic_assignment_rows": 55,
-    "base_topic_page_rows": 46,
     "step5a_exact_assignment_rows": 9,
     "step5a_unresolved_rows": 7,
-    "additional_checks": 4,
     "unique_internal_link_directions": 14,
-    "bibliography_items": 10
+    "implementation_tracker": "05_OKNO_MSK_IMPLEMENTATION_TRACKER_2026-09-09.xlsx"
   },
   "report02_deterministic_content_qa": "PASS__44_OF_44",
   "report02_md_docx_all_16_step5a_phrases": "PASS",
@@ -113,5 +118,16 @@
   },
   "report02_provider_calls": 0,
   "report02_owner_review": "PENDING",
-  "next_action": "OWNER_REVIEW_REPORT_02_STEP05A_RECONCILED__DO_NOT_START_DOCUMENT_03"
+  "next_action": "OWNER_REVIEW_REPORT_02_STEP05A_RECONCILED__DO_NOT_START_DOCUMENT_03",
+  "report01_professional_repackage": true,
+  "report02_professional_repackage": true,
+  "report01_ready_actions": 3,
+  "report01_clarification_items": 5,
+  "report01_2322_semantics": "COMPLETED_EXACT_ASSIGNMENT_DECISIONS__NOT_SYNONYM_FOR_2322_URL_ROWS",
+  "implementation_tracker_sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719",
+  "implementation_tracker_bytes": 23928,
+  "reports_01_02_professional_repackage_qa": "PASS__54_OF_54",
+  "report01_pdf_pages": 12,
+  "report02_pdf_pages": 11,
+  "remote_visual_readback": "PENDING"
 }

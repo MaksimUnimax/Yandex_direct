@@ -1,0 +1,317 @@
+{
+  "schema": "OKNO_MSK_REPORTS_01_02_PROFESSIONAL_REPACKAGE_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "checks_passed": 54,
+  "checks_total": 54,
+  "checks": [
+    {
+      "name": "r1_md_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_md_ready3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_md_clar5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_md_2856",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_md_2348",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_md_2322",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_md_no_7ready",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_ready3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_clar5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_2856",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_2348",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_2322",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_docx_no_7ready",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_ready3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_clar5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_2856",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_2348",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_2322",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_pdf_no_7ready",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_no_2322_existing_page_claim",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r1_competitor_detail_preserved",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_queue1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_tracker",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_ready3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_clar5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_checks4",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_new9",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_unresolved7",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_md_no_internal_tokens",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_queue1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_tracker",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_ready3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_clar5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_checks4",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_new9",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_unresolved7",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_docx_no_internal_tokens",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_title",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_queue1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_tracker",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_ready3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_clar5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_checks4",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_new9",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_unresolved7",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "r2_pdf_no_internal_tokens",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "tracker_exists",
+      "pass": true,
+      "detail": 23928
+    },
+    {
+      "name": "report01_pages_sane",
+      "pass": true,
+      "detail": 12
+    },
+    {
+      "name": "report02_pages_sane",
+      "pass": true,
+      "detail": 11
+    },
+    {
+      "name": "provider_calls_zero",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "artifacts": {
+    "report01_markdown": {
+      "bytes": 56641,
+      "sha256": "994a0293768e277d97544fe52357187da927dd7c3427ce34712cf04b15c9bd9d"
+    },
+    "report01_docx": {
+      "bytes": 40634,
+      "sha256": "6f3c409c463101b50ef86e56ba15a115302fd7630e5c0bf9f384976f2d645361"
+    },
+    "report01_pdf": {
+      "bytes": 186825,
+      "sha256": "c5c9ecb6094e30ff67d78438467c1262acffe80a72f2f23ad88508a71839129b",
+      "pages": 12
+    },
+    "report02_markdown": {
+      "bytes": 33939,
+      "sha256": "c2ef05974b708dc1a36e820d8aab6d3a1354e447c5358bdf6ae3ee08894a551d"
+    },
+    "report02_docx": {
+      "bytes": 35283,
+      "sha256": "b5d200332ef8c5bac90081f9673f727468f975ff1f97de123c2f0b65c50ca90a"
+    },
+    "report02_pdf": {
+      "bytes": 197904,
+      "sha256": "9dd6f0869befd04283094871bd8e96737a4e8d6966db58081dc632817eb1f300",
+      "pages": 11
+    },
+    "implementation_tracker": {
+      "bytes": 23928,
+      "sha256": "f71696785b1a04037e3d56a80eed9e697733a9fc03a67dc9a03c7aa566e13719"
+    }
+  },
+  "provider_calls": 0,
+  "remote_visual_readback": "PENDING",
+  "protected_artifacts": {
+    "document03_modified": false,
+    "semantic_core04_modified": false
+  }
+}
