@@ -153,3 +153,7 @@ Count separately: all preserved exact Search decisions, decisions whose exact ph
 ## 34. Workbook geometry is sheet-level state
 
 Column width is a property of the whole worksheet column. Set each column width once against all sections that use it, then render every sheet. Styling a later block must not silently overwrite widths required by an earlier block.
+
+## 35. Commercial limits never destroy evidence
+
+A purchased phrase/Search capacity limits deep governed review, not raw evidence persistence. All useful authorized Wordstat returns are preserved first. After exact normalization/dedupe, compare the candidate universe with purchased capacity. If it is larger, either expand the paid capacity or record a client-approved scope revision before full deep cleanup. Never silently truncate overflow, keep only high-frequency phrases, or represent unresolved work as completed. Search checks beyond the purchased justified capacity remain explicit review/deferred items unless an add-on is agreed.

@@ -41,10 +41,11 @@ This file records only failure classes that can materially affect MK01. Concrete
 | E33 | Later workbook block destroyed earlier column widths | range styling was treated as block-local although width belongs to the whole column | define geometry once per sheet, render all sheets and correct at class level | 10 |
 | E34 | Generic client handoff claimed optional Search had been performed | conditional method step was converted into unconditional past-tense delivery wording | use a required Search-status block with separate USED vs NOT_REQUIRED wording tied to current QA | packaging |
 | E35 | Post-rehearsal product files still described validated decisions as future/pending | lifecycle state changed in roadmap but dependent contracts were not reconciled | after each product phase, audit status/future-tense statements across scope/input/deliverable/packaging authorities and commit the synchronized state | productization |
+| E36 | Commercial phrase cap caused silent evidence truncation | package limit was mistaken for permission to discard provider-returned demand or keep only convenient rows | persist all useful authorized evidence; measure exact-deduped candidate universe; if over capacity expand paid review or freeze a documented scope revision before deep cleanup | commercial gate |
 
 ## Root-cause groups
 
-A scope/observation overclaim; B transient/incomplete evidence; C signal != semantic decision; D accounting != semantic QA; E uncertainty erasure; F local patch != class fix; G generated view != authority; H internal traceability != client usability; I formal QA != recipient acceptance; J lifecycle/state drift across product artifacts.
+A scope/observation overclaim; B transient/incomplete evidence; C signal != semantic decision; D accounting != semantic QA; E uncertainty erasure; F local patch != class fix; G generated view != authority; H internal traceability != client usability; I formal QA != recipient acceptance; J lifecycle/state drift across product artifacts; K commercial constraint != evidence destruction.
 
 ## Closure rule
 
