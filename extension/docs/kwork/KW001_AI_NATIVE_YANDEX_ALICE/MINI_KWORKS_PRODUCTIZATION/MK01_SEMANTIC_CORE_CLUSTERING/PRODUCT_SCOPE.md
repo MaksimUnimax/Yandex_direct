@@ -1,6 +1,6 @@
 # MK01 — PRODUCT SCOPE
 
-Status: **SCOPE + COMMERCIAL PACKAGE V1 VALIDATED / CARD PENDING PHASE 9**
+Status: **SCOPE + COMMERCIAL PACKAGE V1 + XLSX/PDF DELIVERY VALIDATED**
 
 Working Kwork title:
 
@@ -30,7 +30,7 @@ Plain-language promise:
 
 > Соберу поисковые запросы по согласованным направлениям существующего сайта, проверю спрос через Яндекс Wordstat, удалю подтверждённый мусор, отдельно сохраню спорные запросы и сгруппирую рабочую семантику по смыслу и задаче пользователя. Где одной формулировки недостаточно для надёжного решения, использую точечную проверку обычной выдачи Яндекса.
 
-The deliverable is **not merely a parser export** and **not merely a final flat keyword list**. It must preserve enough demand/provenance and decision explanation to make the result auditable and reusable.
+The deliverable is **not merely a parser export** and **not merely a final flat keyword list**. It preserves both a working spreadsheet and a concise recipient explanation of what was done and what the result means.
 
 ---
 
@@ -77,7 +77,7 @@ CLIENT COMPETITOR LIST = OPTIONAL
 
 MK01 does **not** currently claim a validated greenfield/no-site mode. A site that has not yet been created belongs to a separate from-scratch product/method rather than being silently forced into this tested workflow.
 
-The OKNO_MSK standalone rehearsal and economics calibration are complete for V1.
+The OKNO_MSK standalone rehearsal, client-document package and economics calibration are complete for V1.
 
 ---
 
@@ -93,7 +93,7 @@ PRIMARY REGION = 1
 AGREED BUSINESS DIRECTIONS = up to 10
 GOVERNED UNIQUE PHRASES = up to 1,500
 TARGETED ORDINARY YANDEX SEARCH CHECKS = up to 40, only when justified
-CLIENT RESULT = seven-sheet XLSX + short handoff summary
+CLIENT RESULT = seven-sheet XLSX + 4–8 page client PDF report + short handoff message
 ```
 
 Add-ons:
@@ -236,34 +236,19 @@ No fixed cluster count is invented merely for a tidy report. Local domain rules 
 
 The standalone MK01 client result contains:
 
-### A. Final semantic-core workbook/table
+### A. Seven-sheet semantic-core XLSX
 
-For every client-visible working phrase, fields sufficient to understand at least:
-
-- phrase;
-- Yandex demand/frequency evidence available for that phrase;
-- semantic state;
-- cluster/group;
-- user-task / intent meaning where required by the clustering contract;
-- uncertainty/review state where unresolved;
-- source/provenance reference in recipient-appropriate form.
+The workbook contains the full governed set, working core, semantic groups, review set, excluded set, methodology and usage instructions. See `DELIVERABLE_SPEC.md`.
 
 ### B. Cluster map
 
-For every final material cluster:
-
-- human-readable cluster name;
-- task/meaning;
-- member count;
-- representative phrases;
-- material split logic where useful;
-- unresolved boundary notes where relevant.
+For every final material cluster the client can understand its human-readable name, task/meaning, member count, representative phrases and important boundary notes.
 
 ### C. Exclusion/review ledger
 
-Do not silently disappear rejected or uncertain demand. The client must be able to understand what was excluded/deferred and why, at a useful level without exposing internal QA noise.
+Rejected or uncertain demand does not disappear silently. The client can see what was excluded/deferred and why.
 
-### D. Short methodology and limitations section
+### D. Methodology and limitations
 
 Explain in normal client language:
 
@@ -274,11 +259,15 @@ Explain in normal client language:
 - that Google is outside the product;
 - that private Yandex access is not required for the base result.
 
-### E. Delivery summary
+### E. Mandatory client PDF report
 
-A short recipient-facing explanation of what was collected, cleaned, grouped, what remains uncertain and how to use the result next.
+A concise 4–8 page report governed by `CLIENT_REPORT_SPEC.md` explains what was researched, what work was done, headline results, real examples of groups, uncertainty/exclusions, how to use the XLSX, Wordstat limitations, Yandex-only scope and reasonable next steps.
 
-The validated physical base package is: **one standalone XLSX with seven Russian recipient sheets plus a short delivery/handoff summary**. Full audit sidecars remain internal unless separately required. PDF is optional and not required for usability. See `DELIVERABLE_SPEC.md` and `PRODUCT_PACKAGING.md`.
+### F. Short handoff message
+
+A short Kwork/chat message attaches both XLSX and PDF and explains which file to open first. It is not a separate TXT report.
+
+The validated physical base package is therefore: **one standalone seven-sheet XLSX + one 4–8 page client PDF report + a short handoff message in the marketplace/chat**. Full audit sidecars remain internal unless separately required. See `DELIVERABLE_SPEC.md`, `CLIENT_REPORT_SPEC.md` and `PRODUCT_PACKAGING.md`.
 
 ---
 
@@ -345,7 +334,7 @@ STEP 8  semantic freeze / routing
 STEP 9  targeted ordinary Yandex Search only for material unresolved boundaries
 STEP 10 task/intent clustering
 STEP 19 recipient materialization rules relevant to this deliverable
-STEP 20 final semantic/workbook/recipient QA relevant to this deliverable
+STEP 20 final semantic/workbook/report/recipient QA relevant to this deliverable
 ```
 
 Steps 11-18 are not silently inherited merely because they exist in full KW-001.
@@ -368,9 +357,11 @@ ORDER/SCOPE/CAPACITY FROZEN
 + DEMAND/PROVENANCE TRACEABILITY RECONCILES
 + TARGETED SEARCH CLAIMS STAY WITHIN EXACT OBSERVED SCOPE
 + CLUSTERING PASSES CURRENT-DOMAIN SEMANTIC QA
++ XLSX CLIENT ARTIFACT PASS
++ PDF CLIENT REPORT PASS
 + NO PAGE-ARCHITECTURE CLAIM LEAKAGE
 + NO GOOGLE CAPABILITY LEAKAGE
-+ CLIENT DELIVERABLE IS UNDERSTANDABLE WITHOUT INTERNAL REPOSITORY KNOWLEDGE
++ CLIENT PACKAGE IS UNDERSTANDABLE WITHOUT INTERNAL REPOSITORY KNOWLEDGE
 + RECIPIENT QA = PASS
 ```
 
