@@ -1,7 +1,7 @@
 {
   "project": "OKNO_MSK",
   "updated_date": "2026-09-09",
-  "state": "POST_RELEASE_DOCUMENT_02_STEP05A_RECONCILED__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING",
+  "state": "POST_RELEASE_DOCUMENT_02_STEP05A_RECONCILED__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PASS__OWNER_REVIEW_PENDING",
   "research_stage_0_to_15": "COMPLETE",
   "current_document": "02",
   "current_release": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09",
@@ -31,14 +31,22 @@
     "deterministic_content_qa": "PASS__44_OF_44",
     "md_docx_equivalence_for_all_16_step5a_phrases": "PASS",
     "pdf_structural_text_gate": "PASS",
-    "pdf_table_rows": "REMOTE_VISUAL_READBACK_PENDING",
+    "pdf_table_rows": "PASS__REMOTE_VISUAL_READBACK_19_OF_19",
     "pdf_rerender": "PASS__19_OF_19",
-    "remote_visual_readback": "PENDING",
+    "remote_visual_readback": "PASS__19_OF_19",
     "unsupported_zero_new_page_claims": 0,
     "unsupported_zero_physical_change_claims": 0,
     "semantic_assignment_auto_physical_authorization_claims": 0,
     "project_internal_traceability_hits": 0,
     "provider_calls": 0
+  },
+  "remote_materialization": {
+    "commit": "c7cb31f6c61a99b0d14dd3822ec7a3adf75af75c",
+    "workflow_run_id": 34326844053,
+    "workflow_job_id": 102385949896,
+    "artifact_id": 10094127167,
+    "artifact_zip_sha256": "3bad7b1ec661fd80c76004a2d3f92ef068a81423a0b001b46aeb9b9c780f4a5b",
+    "artifact_hash_identity": true
   },
   "artifacts": {
     "markdown": {
@@ -54,16 +62,20 @@
     "pdf": {
       "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
       "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
+      "git_blob_sha": "5563fdba03a6b4cb7355a6ae5c2078d5bcff4f26",
       "bytes": 464566,
       "pages": 19
     },
     "qa": "REPORT02_STEP05A_PROPAGATION_QA_2026-09-09.json",
-    "receipt": "REPORT02_STEP05A_PROPAGATION_RECEIPT_2026-09-09.md"
+    "receipt": "REPORT02_STEP05A_PROPAGATION_RECEIPT_2026-09-09.md",
+    "remote_readback": "REPORT02_STEP05A_REMOTE_READBACK_2026-09-09.json"
   },
   "protected_artifacts": {
     "document_01_modified_by_report02_rebuild": false,
     "document_03_modified_by_report02_rebuild": false,
     "semantic_core_04_modified_by_report02_rebuild": false
   },
-  "next_action": "REMOTE_VISUAL_READBACK_REPORT_02__THEN_OWNER_REVIEW__DO_NOT_START_DOCUMENT_03"
+  "document_02_owner_review": "PENDING",
+  "document_03_step5a_reconciliation": "NOT_STARTED",
+  "next_action": "OWNER_REVIEW_REPORT_02_STEP05A_RECONCILED__DO_NOT_START_DOCUMENT_03"
 }
