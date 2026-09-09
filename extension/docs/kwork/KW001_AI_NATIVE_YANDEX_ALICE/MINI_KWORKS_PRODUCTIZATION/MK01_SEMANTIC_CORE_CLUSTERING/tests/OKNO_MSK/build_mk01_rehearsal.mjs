@@ -296,6 +296,11 @@ for (const key of semanticByPhrase.keys()) {
   if (!assignmentByPhrase.has(key) || !stage5ByPhrase.has(key)) throw new Error(`Pre-Step5A phrase-set mismatch: ${key}`);
 }
 const step5aKeys = new Set(step5aDelta.map((row) => normalize(row.phrase)));
+const searchDecisionsInUniverse = searchDecisions.filter((row) => semanticByPhrase.has(normalize(row.query)));
+const searchControlDecisionsOutsideUniverse = searchDecisions.filter((row) => !semanticByPhrase.has(normalize(row.query)));
+if (searchDecisionsInUniverse.length !== 66 || searchControlDecisionsOutsideUniverse.length !== 9) {
+  throw new Error("Search decision projection must reconcile as 66 universe phrases + 9 external control anchors");
+}
 const integratedAdditions = [...integratedByPhrase.keys()].filter((key) => !semanticByPhrase.has(key));
 if (integratedAdditions.length !== 16 || integratedAdditions.some((key) => !step5aKeys.has(key))) throw new Error("Integrated core difference is not exactly the 16-row Step5A delta");
 
@@ -445,7 +450,10 @@ const groupRows = [...taxonomy].map((tax) => {
     examples: [...members].sort((a, b) => b.popular - a.popular || a.phrase.localeCompare(b.phrase, "ru")).slice(0, 5).map((row) => `${row.phrase} [${row.popular}]`).join("; "),
     boundary: `Объединены запросы с задачей «${GROUPS[tax.cluster_id][1].toLocaleLowerCase("ru-RU")}». Варианты «${modifiers.join(", ")}» сами по себе не создают новую группу.`,
   };
-}).sort((a, b) => a.role.localeCompare(b.role, "ru") || a.groupName.localeCompare(b.groupName, "ru"));
+}).sort((a, b) => {
+  const roleOrder = { "Рабочая смысловая группа": 0, "Исключённая смысловая группа": 1 };
+  return roleOrder[a.role] - roleOrder[b.role] || a.groupName.localeCompare(b.groupName, "ru");
+});
 
 const universeHeaders = [
   "Поисковая фраза", "Итоговый статус", "В рабочем ядре", "Группа запросов", "Задача пользователя", "Интент",
@@ -587,7 +595,7 @@ const excludedSheet = addDataSheet(workbook, {
 });
 
 const methodRows = [
-  ["Объём", "Полный набор", "2840 уникальных фраз из 2965 сохранённых наблюдений.", "Повторные наблюдения не удалены из provenance."],
+  ["Объём", "Полный набор", "2840 уникальных фраз из 2965 сохранённых наблюдений.", "Повторные наблюдения сохранены в истории происхождения данных."],
   ["Объём", "Рабочее ядро", "2185 фраз: 1151 основных и 1034 смежных полезных.", "134 фразы из подтверждённо посторонних смысловых групп не включены."],
   ["Статус", "В рабочем ядре", "Смысл фразы соответствует подтверждённой основной или смежной задаче сайта.", "Это не назначение конкретной странице."],
   ["Статус", "Нужна проверка", "13 фраз требуют дополнительной точечной проверки обычной выдачи Яндекса.", "До проверки не включать в рабочее ядро."],
@@ -600,7 +608,7 @@ const methodRows = [
   ["Группировка", "Принцип", "Фразы объединены по ожидаемому результату и задаче пользователя, а не только по совпадающим словам.", "Цена, география, бренд и другие модификаторы не создают новую группу автоматически."],
   ["Группировка", "Количество групп", "59 смысловых групп возникли из данных: 54 рабочие и 5 подтверждённо посторонних.", "Количество не задавалось заранее ради красивого отчёта."],
   ["Группировка", "Основная формулировка", "Реальная фраза из группы, выбранная по смысловой типичности, читаемости и показателю Вордстата.", "Это пример смысла группы, а не обязательный заголовок страницы."],
-  ["Обычный поиск", "Точечная проверка", "Сохранены 75 проверок точных фраз в обычной выдаче Яндекса.", "Наблюдение относится только к проверенной фразе и не доказывает свойства всего семейства."],
+  ["Обычный поиск", "Точечная проверка", "Сохранены 75 проверок: 66 относятся к точным фразам полного набора, ещё 9 — к контрольным формулировкам вне него.", "Наблюдение относится только к проверенной фразе и не доказывает свойства всего семейства."],
   ["Ограничение", "Не входит в результат", "Назначение URL, новая архитектура, создание или объединение страниц, перелинковка, контентные задания, анализ конкурентов и ИИ-ответов.", "Эти работы требуют отдельного продукта и отдельных доказательств."],
   ["Ограничение", "Коммерческий приоритет", "В данных нет маржинальности, загрузки производства, конверсий и выручки.", "Порядок строк по спросу не является коммерческим приоритетом."],
   ["Происхождение", "Коды источников", "Технические коды показывают, в каких запросах Вордстата встретилась фраза.", "Нужны только для аудита; основная клиентская трактовка дана русским текстом."],
@@ -692,7 +700,9 @@ const manifest = {
     semantic_groups_total: allGroupIds.size,
     working_groups: workingGroupIds.size,
     outside_groups: allGroupIds.size - workingGroupIds.size,
-    exact_search_observations_reused: searchDecisions.length,
+    exact_search_decisions_available: searchDecisions.length,
+    exact_search_decisions_joined_to_universe: searchDecisionsInUniverse.length,
+    search_control_anchors_outside_universe: searchControlDecisionsOutsideUniverse.length,
     step5a_contamination: contamination.length,
   },
   provider_calls_during_rehearsal: 0,

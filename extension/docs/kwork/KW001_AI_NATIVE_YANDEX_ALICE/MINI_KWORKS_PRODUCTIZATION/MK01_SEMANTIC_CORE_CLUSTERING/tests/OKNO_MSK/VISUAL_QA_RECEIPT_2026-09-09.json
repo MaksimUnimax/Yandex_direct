@@ -1,0 +1,32 @@
+{
+  "schema": "MK01_OKNO_MSK_VISUAL_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS_AFTER_CORRECTIONS",
+  "workbook": "MK01_OKNO_MSK_SEMANTIC_CORE_2026-09-09.xlsx",
+  "workbook_sha256": "1ea2cf3c1d7e2b3c272b3af836a03839df1a5c848b6c92cdff2d91766e1e4250",
+  "rendered_and_reviewed_sheets": [
+    {"sheet": "Как пользоваться", "render_pixels": "1174x945", "status": "PASS"},
+    {"sheet": "Все запросы", "render_pixels": "3289x953", "status": "PASS"},
+    {"sheet": "Рабочее ядро", "render_pixels": "3136x953", "status": "PASS"},
+    {"sheet": "Группы запросов", "render_pixels": "2875x993", "status": "PASS"},
+    {"sheet": "На проверку", "render_pixels": "3487x953", "status": "PASS"},
+    {"sheet": "Исключено", "render_pixels": "3046x953", "status": "PASS"},
+    {"sheet": "Методика", "render_pixels": "1948x873", "status": "PASS"}
+  ],
+  "checks": {
+    "titles_and_notes_visible": true,
+    "table_headers_readable": true,
+    "long_text_wrapped": true,
+    "numeric_cells_readable": true,
+    "status_colors_visible": true,
+    "first_screen_usable": true,
+    "working_groups_before_outside_groups": true,
+    "critical_hidden_content": false
+  },
+  "corrected_defects": [
+    "summary column widths were overwritten by a later section on the same worksheet",
+    "excluded groups were displayed before working groups",
+    "unexplained English provenance term remained in the methodology sheet"
+  ],
+  "remaining_visual_failures": 0
+}

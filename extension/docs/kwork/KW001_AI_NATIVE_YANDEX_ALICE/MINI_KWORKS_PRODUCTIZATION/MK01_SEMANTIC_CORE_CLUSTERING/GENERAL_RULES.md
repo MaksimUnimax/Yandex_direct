@@ -141,3 +141,15 @@ A material block is complete only after `SAVE -> COMMIT -> REMOTE READBACK -> CO
 ## 31. Authority precedence
 
 Detailed source KW-001 methods override this summary when stricter. Executable MK01 = universal rules + current client profile + current constraints + current evidence.
+
+## 32. Technical assignment is not client-core membership
+
+`CLUSTER ASSIGNED != ACTIVE CLIENT CORE`. After task-first clustering, reconcile cluster business fit against the frozen order. A coherent cluster whose task is outside the confirmed offer remains preserved and visible, but its members belong to the excluded/audit view rather than the active core. This is a semantic scope decision, not page architecture.
+
+## 33. Search decisions reconcile to the universe
+
+Count separately: all preserved exact Search decisions, decisions whose exact phrase exists in the semantic universe, and control/anchor queries outside that universe. A control query may inform a bounded contrast, but it does not create a new semantic-universe row and must not be reported as a joined phrase observation.
+
+## 34. Workbook geometry is sheet-level state
+
+Column width is a property of the whole worksheet column. Set each column width once against all sections that use it, then render every sheet. Styling a later block must not silently overwrite widths required by an earlier block.

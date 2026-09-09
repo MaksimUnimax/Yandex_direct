@@ -140,12 +140,14 @@ target cluster count used = false
 ```text
 selected exact queries = 75
 normalized TOP-10 rows = 750
+exact phrases present in 2840-row universe = 66
+control/anchor formulations outside the universe = 9
 region = 213 / Москва
 direct evidence decisions = 75/75
 new Search calls in this rehearsal = 0
 ```
 
-`STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv` используется только для уже проверенных точных запросов. Наблюдение по одной фразе не переносится автоматически на непроверенное семейство.
+`STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv` используется только для уже проверенных точных запросов. Из 75 решений 66 присоединяются к совпадающим exact phrase-строкам universe; 9 сохранены как контрольные/anchor-наблюдения вне 2840-row membership и не создают новых строк. Наблюдение по одной фразе не переносится автоматически на непроверенное семейство.
 
 Известное ограничение сохранено: для запросов 2–75 доступна нормализованная TOP-10 проекция, но не полный raw XML и не все исходные provider request IDs. Повторный платный сбор ради восстановления утраченного bookkeeping не выполняется.
 

@@ -130,8 +130,8 @@
 | Input | Ограниченная выборка точных вопросов из REVIEW_SEARCH, non-exact дублей и контрольных anchors |
 | Authority | `STEP_09_SEARCH_PROBE_MANIFEST.tsv`, `STEP_09_SERP_RESULTS.tsv`, `STEP_09_SERP_R2_PROJECTION_RAW_PART_01..04.tsv`, `STEP_09_EVIDENCE_QUESTION_DECISIONS.tsv`, acceptance |
 | Операция | Повторно проверена полнота сохранённой проекции: 75 точных запросов, 750 TOP-10 строк и 75 решений; evidence не переносился на непроверенные семейства |
-| Output | 75 direct evidence decisions для cluster stage |
-| Сверка | 75/75 запросов; 750/750 ранжированных строк; 8/8 активных non-exact сравнений; provider calls rehearsal = 0 |
+| Output | 75 direct evidence decisions для cluster stage: 66 точных фраз входят в 2840-row universe, 9 являются контрольными формулировками вне него |
+| Сверка | 75/75 запросов = 66 universe phrases + 9 control anchors; 750/750 ранжированных строк; 8/8 активных non-exact сравнений; provider calls rehearsal = 0 |
 | Неопределённость | Для запросов 2–75 нет полного raw XML и всех исходных request IDs; ограничение сохранено, replay ради bookkeeping не выполнялся |
 | QA | PASS WITH RECORDED RAW-FIDELITY LIMITATION: нормализованный TOP-10 ledger полный, per-item raw ledger неполный |
 

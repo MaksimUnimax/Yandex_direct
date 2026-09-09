@@ -36,6 +36,9 @@ This file records only failure classes that can materially affect MK01. Concrete
 | E28 | Cell-language QA missed sheet titles | cell scan treated as whole workbook | scan sheet names, headers, cells, explanations | 10 |
 | E29 | Automated QA treated as recipient acceptance | formal checks replaced actual task review | independent recipient-use review | 10 |
 | E30 | Representative phrase chosen for convenience | internal ID/largest number replaced semantic meaning | representative must be real accepted suitable member | 10 |
+| E31 | Technically assigned outside-task cluster leaked into active core | successful clustering was mistaken for business-fit acceptance | reconcile every assigned cluster with frozen offer; preserve OUTSIDE members in excluded/audit views | 09/10 |
+| E32 | Search-control decision reported as an exact-universe join | total executed probes was conflated with phrase-level join coverage | report all decisions, exact-universe joins and outside-universe control anchors separately | 08/10 |
+| E33 | Later workbook block destroyed earlier column widths | range styling was treated as block-local although width belongs to the whole column | define geometry once per sheet, render all sheets and correct at class level | 10 |
 
 ## Root-cause groups
 

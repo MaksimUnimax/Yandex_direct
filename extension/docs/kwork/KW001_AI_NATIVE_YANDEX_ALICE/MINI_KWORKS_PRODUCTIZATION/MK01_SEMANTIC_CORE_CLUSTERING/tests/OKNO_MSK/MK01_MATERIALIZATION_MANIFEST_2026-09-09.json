@@ -21,7 +21,9 @@
     "semantic_groups_total": 59,
     "working_groups": 54,
     "outside_groups": 5,
-    "exact_search_observations_reused": 75,
+    "exact_search_decisions_available": 75,
+    "exact_search_decisions_joined_to_universe": 66,
+    "search_control_anchors_outside_universe": 9,
     "step5a_contamination": 0
   },
   "provider_calls_during_rehearsal": 0,
@@ -48,18 +50,18 @@
       "file": "MK01_CLUSTER_SUMMARY_2026-09-09.tsv",
       "rows": 59,
       "bytes": 62171,
-      "sha256": "f6b90f7b5195b766ddad220f408385fe9b031ff79e5dd0304f25fb367d6e2167"
+      "sha256": "6be7e9df41d519be8b2939617c96c8c0ffc342baae5c6a57df5c7bc9c4d3028d"
     },
     "client_xlsx": {
       "file": "MK01_OKNO_MSK_SEMANTIC_CORE_2026-09-09.xlsx",
       "sheets": 7,
-      "bytes": 648020,
-      "sha256": "0c7a6fbd91f328eba4cd6e8a3356a99770f743517af08bf9b85e032e103f1403"
+      "bytes": 648049,
+      "sha256": "1ea2cf3c1d7e2b3c272b3af836a03839df1a5c848b6c92cdff2d91766e1e4250"
     },
     "workbook_build_report": {
       "file": "MK01_WORKBOOK_BUILD_REPORT_2026-09-09.json",
-      "bytes": 65926,
-      "sha256": "d20cbddde5d8488f7e2f021a32983228abcb4fdbb487c6ad33a8c34c1ef912ce"
+      "bytes": 65658,
+      "sha256": "38fd4a7b178b7e6d1a40049942f84cce3a9ae8503b3db216746e177de03a9670"
     }
   },
   "invariants": {

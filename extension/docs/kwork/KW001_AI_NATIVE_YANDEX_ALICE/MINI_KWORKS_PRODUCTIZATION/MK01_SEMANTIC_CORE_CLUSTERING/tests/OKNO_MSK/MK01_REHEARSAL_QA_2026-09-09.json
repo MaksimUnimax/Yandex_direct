@@ -1,0 +1,381 @@
+{
+  "schema": "MK01_OKNO_MSK_INDEPENDENT_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "remote_materialization_commit": "c2d728b8f0411a933909bb51bf3c5fc78fd4d6a8",
+  "counts": {
+    "source_occurrences": 2965,
+    "source_universe": 2840,
+    "working_core": 2185,
+    "review_or_uncertain": 187,
+    "excluded": 468,
+    "clusters": 59,
+    "step5a_contamination": 0,
+    "provider_calls_during_rehearsal": 0
+  },
+  "checks_total": 50,
+  "checks_passed": 50,
+  "checks_failed": 0,
+  "checks": {
+    "source_universe_rows": {
+      "status": "PASS",
+      "evidence": 2840
+    },
+    "source_universe_unique": {
+      "status": "PASS",
+      "evidence": 2840
+    },
+    "occurrence_rows": {
+      "status": "PASS",
+      "evidence": 2965
+    },
+    "output_universe_rows": {
+      "status": "PASS",
+      "evidence": 2840
+    },
+    "output_universe_unique": {
+      "status": "PASS",
+      "evidence": 2840
+    },
+    "source_output_phrase_set": {
+      "status": "PASS",
+      "evidence": {
+        "missing": 0,
+        "added": 0
+      }
+    },
+    "source_assignment_phrase_set": {
+      "status": "PASS",
+      "evidence": {
+        "missing": 0,
+        "added": 0
+      }
+    },
+    "step5a_delta_rows": {
+      "status": "PASS",
+      "evidence": 16
+    },
+    "step5a_contamination": {
+      "status": "PASS",
+      "evidence": 0
+    },
+    "final_status_partition": {
+      "status": "PASS",
+      "evidence": {
+        "Исключено после построчной очистки": 334,
+        "В рабочем ядре": 2185,
+        "Нужна проверка в обычной выдаче Яндекса": 13,
+        "Исключено после смысловой группировки": 134,
+        "Проверка отложена": 174
+      }
+    },
+    "row_reconciliation": {
+      "status": "PASS",
+      "evidence": {
+        "working": 2185,
+        "review": 187,
+        "excluded": 468,
+        "total": 2840
+      }
+    },
+    "no_silent_default_keep": {
+      "status": "PASS",
+      "evidence": "2840/2840 rows have an explicit reason"
+    },
+    "uncertainty_preserved": {
+      "status": "PASS",
+      "evidence": {
+        "review": 187,
+        "with_next_step": 187
+      }
+    },
+    "excluded_provenance_preserved": {
+      "status": "PASS",
+      "evidence": {
+        "excluded": 468,
+        "with_provenance": 468
+      }
+    },
+    "occurrence_reconciliation": {
+      "status": "PASS",
+      "evidence": 2965
+    },
+    "full_provenance_preserved": {
+      "status": "PASS",
+      "evidence": "2840/2840 non-empty"
+    },
+    "saved_search_decisions_reconciled": {
+      "status": "PASS",
+      "evidence": {
+        "decision_rows": 75,
+        "output_rows_with_direct_search": 66,
+        "control_anchors_outside_universe": 9
+      }
+    },
+    "outside_not_in_working_core": {
+      "status": "PASS",
+      "evidence": 0
+    },
+    "working_rows_have_group_task_intent": {
+      "status": "PASS",
+      "evidence": {
+        "working": 2185,
+        "without_group": 0
+      }
+    },
+    "cluster_count_and_uniqueness": {
+      "status": "PASS",
+      "evidence": {
+        "rows": 59,
+        "unique": 59
+      }
+    },
+    "cluster_members_reconcile": {
+      "status": "PASS",
+      "evidence": {
+        "all_assigned": 2319,
+        "working": 2185
+      }
+    },
+    "cluster_assignment_counts_match": {
+      "status": "PASS",
+      "evidence": "59/59 group counts match assignments"
+    },
+    "cluster_representatives_are_members": {
+      "status": "PASS",
+      "evidence": "59/59"
+    },
+    "cluster_task_first_fields": {
+      "status": "PASS",
+      "evidence": "59/59 groups have task, intent and boundary"
+    },
+    "outside_cluster_partition": {
+      "status": "PASS",
+      "evidence": {
+        "groups": 5,
+        "rows": 134
+      }
+    },
+    "cluster_working_first_order": {
+      "status": "PASS",
+      "evidence": {
+        "first": "Рабочая смысловая группа",
+        "last": "Исключённая смысловая группа"
+      }
+    },
+    "taxonomy_coverage": {
+      "status": "PASS",
+      "evidence": {
+        "groups": 59,
+        "taxonomy": 59
+      }
+    },
+    "manifest_status": {
+      "status": "PASS",
+      "evidence": "PASS"
+    },
+    "manifest_counts": {
+      "status": "PASS",
+      "evidence": {
+        "universe": 2840,
+        "working_core": 2185,
+        "review_or_uncertain": 187,
+        "excluded_total": 468,
+        "excluded_during_cleanup": 334,
+        "excluded_after_task_clustering": 134,
+        "semantic_groups_total": 59,
+        "working_groups": 54,
+        "outside_groups": 5,
+        "exact_search_decisions_available": 75,
+        "exact_search_decisions_joined_to_universe": 66,
+        "search_control_anchors_outside_universe": 9,
+        "step5a_contamination": 0
+      }
+    },
+    "manifest_no_data_loss": {
+      "status": "PASS",
+      "evidence": {
+        "silent_row_loss": 0,
+        "duplicate_phrase_keys": 0,
+        "step08_step10_phrase_set_difference": 0,
+        "step08_stage5_phrase_set_difference": 0,
+        "integrated_core_used_as_source": false,
+        "downstream_url_fields_exported": false,
+        "architecture_recommendations_exported": false
+      }
+    },
+    "provider_calls_rehearsal": {
+      "status": "PASS",
+      "evidence": 0
+    },
+    "artifact_hashes_match_manifest": {
+      "status": "PASS",
+      "evidence": {
+        "semantic_universe_tsv_gzip": "6a7275c145c3b06db3c5b85d6a350f490c4a5159205c78e2f6ac640ba62cdef0",
+        "cluster_summary_tsv": "6be7e9df41d519be8b2939617c96c8c0ffc342baae5c6a57df5c7bc9c4d3028d",
+        "client_xlsx": "1ea2cf3c1d7e2b3c272b3af836a03839df1a5c848b6c92cdff2d91766e1e4250",
+        "workbook_build_report": "38fd4a7b178b7e6d1a40049942f84cce3a9ae8503b3db216746e177de03a9670"
+      }
+    },
+    "xlsx_zip_integrity": {
+      "status": "PASS",
+      "evidence": "all members readable"
+    },
+    "xlsx_sheet_order": {
+      "status": "PASS",
+      "evidence": [
+        "Как пользоваться",
+        "Все запросы",
+        "Рабочее ядро",
+        "Группы запросов",
+        "На проверку",
+        "Исключено",
+        "Методика"
+      ]
+    },
+    "xlsx_sheet_visibility": {
+      "status": "PASS",
+      "evidence": {
+        "Как пользоваться": "visible",
+        "Все запросы": "visible",
+        "Рабочее ядро": "visible",
+        "Группы запросов": "visible",
+        "На проверку": "visible",
+        "Исключено": "visible",
+        "Методика": "visible"
+      }
+    },
+    "xlsx_row_counts": {
+      "status": "PASS",
+      "evidence": {
+        "Все запросы": 2845,
+        "Рабочее ядро": 2190,
+        "Группы запросов": 64,
+        "На проверку": 192,
+        "Исключено": 473,
+        "Методика": 22
+      }
+    },
+    "xlsx_freeze_panes": {
+      "status": "PASS",
+      "evidence": {
+        "Все запросы": "C6",
+        "Рабочее ядро": "C6",
+        "Группы запросов": "B6",
+        "На проверку": "B6",
+        "Исключено": "B6",
+        "Методика": "A6"
+      }
+    },
+    "xlsx_tables_and_filters": {
+      "status": "PASS",
+      "evidence": {
+        "Все запросы": {
+          "AllQueries": {
+            "ref": "A5:T2845",
+            "filter": "A5:T2845"
+          }
+        },
+        "Рабочее ядро": {
+          "WorkingCore": {
+            "ref": "A5:O2190",
+            "filter": "A5:O2190"
+          }
+        },
+        "Группы запросов": {
+          "QueryGroups": {
+            "ref": "A5:O64",
+            "filter": "A5:O64"
+          }
+        },
+        "На проверку": {
+          "ReviewQueue": {
+            "ref": "A5:L192",
+            "filter": "A5:L192"
+          }
+        },
+        "Исключено": {
+          "ExcludedQueries": {
+            "ref": "A5:I473",
+            "filter": "A5:I473"
+          }
+        },
+        "Методика": {
+          "MethodDictionary": {
+            "ref": "A5:D22",
+            "filter": "A5:D22"
+          }
+        }
+      }
+    },
+    "xlsx_readable_widths": {
+      "status": "PASS",
+      "evidence": "all explicitly sized columns >= 8 characters"
+    },
+    "xlsx_no_formula_errors": {
+      "status": "PASS",
+      "evidence": []
+    },
+    "xlsx_no_unexpected_formulas": {
+      "status": "PASS",
+      "evidence": []
+    },
+    "xlsx_no_downstream_headers": {
+      "status": "PASS",
+      "evidence": []
+    },
+    "xlsx_no_unexplained_internal_terms": {
+      "status": "PASS",
+      "evidence": []
+    },
+    "xlsx_no_external_urls": {
+      "status": "PASS",
+      "evidence": [
+        "https://okno-msk.ru/"
+      ]
+    },
+    "xlsx_client_language": {
+      "status": "PASS",
+      "evidence": {
+        "primary_sheet_header": "Группа запросов",
+        "status_header": "Итоговый статус"
+      }
+    },
+    "xlsx_primary_sheet_counts": {
+      "status": "PASS",
+      "evidence": {
+        "Рабочее ядро": 2185,
+        "На проверку": 187,
+        "Исключено": 468
+      }
+    },
+    "workbook_build_report": {
+      "status": "PASS",
+      "evidence": {
+        "status": "PASS",
+        "rendered_sheet_count": 7,
+        "sheet_order": [
+          "Как пользоваться",
+          "Все запросы",
+          "Рабочее ядро",
+          "Группы запросов",
+          "На проверку",
+          "Исключено",
+          "Методика"
+        ]
+      }
+    },
+    "workbook_formula_scans": {
+      "status": "PASS",
+      "evidence": "before/after import scans contain no matches"
+    },
+    "required_files_exist": {
+      "status": "PASS",
+      "evidence": "all materialization deliverables exist and are non-empty"
+    },
+    "remote_materialization_commit_recorded": {
+      "status": "PASS",
+      "evidence": "c2d728b8f0411a933909bb51bf3c5fc78fd4d6a8"
+    }
+  }
+}

@@ -36,10 +36,10 @@ Preserve active, Search-required, deferred and excluded states plus complete dem
 Probe only material Search-resolvable semantic boundaries. Preserve exact query, region/time/surface, observed result pattern and exact claim scope. No bulk rank tracking.
 
 ## STEP 09 — Task-first clustering
-Declare domain profile, taxonomy/count/evidence/uncertainty/QA modes. For a fresh large corpus: task discovery -> cluster contracts -> full assignment -> independent semantic QA -> root-cause correction -> regression. Output phrase→cluster assignments, user-task/intent meaning, unresolved boundaries and cluster summary. No page-architecture leakage.
+Declare domain profile, taxonomy/count/evidence/uncertainty/QA modes. For a fresh large corpus: task discovery -> cluster contracts -> full assignment -> independent semantic QA -> root-cause correction -> regression. Output phrase→cluster assignments, user-task/intent meaning, explicit business-fit role, active-core vs outside-task projection, unresolved boundaries and cluster summary. Technical assignment alone does not make an outside-task member active. No page-architecture leakage.
 
 ## STEP 10 — Client materialization and release QA
-Freeze current-authority manifest, generate rather than manually patch. Minimum recipient views: scope/how-to-use; full preserved phrase universe; active core; cluster summary; unresolved/Search-required; dictionary/metrics/method/provenance; delivery summary.
+Freeze current-authority manifest, reconcile Search decisions as exact-universe joins vs outside-universe controls, and generate rather than manually patch. Minimum recipient views: scope/how-to-use; full preserved phrase universe; active core excluding confirmed outside-task members; working-first cluster summary; unresolved/Search-required; excluded/audit; dictionary/metrics/method/provenance; delivery summary.
 
 Run separately: DATA QA; SEMANTIC QA; WORKBOOK QA; RECIPIENT-LANGUAGE QA; VISUAL QA; OWNER/RECIPIENT TASK QA; PERSISTENCE/REMOTE READBACK QA.
 

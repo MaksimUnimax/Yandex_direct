@@ -23,13 +23,13 @@ Adversarially sample/challenge KEEP, EXCLUDE and REVIEW states. KEEP needs posit
 Accounting PASS does not satisfy G3.
 
 ## G4 — Targeted Search QA
-If Step08 executed, every Search observation has exact query, region/surface/time, preserved result evidence/projection status, routed question and bounded conclusion. No family-wide claim without explicit supported generalization. If no Search was justified, Step08 is explicitly NOT_REQUIRED.
+If Step08 executed, every Search observation has exact query, region/surface/time, preserved result evidence/projection status, routed question and bounded conclusion. Reconcile total saved decisions = exact phrases present in the semantic universe + control/anchor queries outside it; controls do not create universe rows. No family-wide claim without explicit supported generalization. If no Search was justified, Step08 is explicitly NOT_REQUIRED.
 
 ## G5 — Clustering semantic QA
 Check whole-phrase task coherence, current-domain profile use, cluster contracts, member consistency, material split/merge boundaries, representative phrase quality and unresolved edge cases. Cluster count must not be presentation-driven unless an explicit constraint is recorded. Corrections rebuild all derived fields/summaries.
 
 ## G6 — Deliverable data QA
-Workbook/equivalent is generated from current authority. Required views from `DELIVERABLE_SPEC.md` exist. Source counts/joins reconcile. Active core is a subset of full universe; unresolved/excluded sets reconcile; no stale-authority leakage.
+Workbook/equivalent is generated from current authority. Required views from `DELIVERABLE_SPEC.md` exist. Source counts/joins reconcile. Active core is a subset of full universe and contains no confirmed outside-task cluster members; technically assigned outside-task members remain in excluded/audit views. Unresolved/excluded sets reconcile; no stale-authority leakage.
 
 ## G7 — Wordstat metric QA
 Every visible demand metric has correct human meaning. Region, report/operator/device/snapshot semantics are described where material. Broad/no-operator counts are not labelled exact phrase frequency. Overlapping phrase sums are not called unique market volume or traffic forecast.
@@ -38,7 +38,7 @@ Every visible demand metric has correct human meaning. Region, report/operator/d
 Scan sheet names, headers, status labels, explanations and ordinary cells. No unexplained internal English/API/status codes in the primary display layer. Technical IDs may remain as secondary traceability.
 
 ## G9 — Workbook physical/visual QA
-Open/render the actual workbook; verify filters, frozen headers, widths, wrapping, numeric/text types, absence of broken references, readable long phrases, visible methodology, usable ordering and no hidden critical columns. File-opening alone is not PASS.
+Open/render the actual workbook; verify filters, frozen headers, widths, wrapping, numeric/text types, absence of broken references, readable long phrases, visible methodology, working-first group ordering and no hidden critical columns. Because column width is sheet-level state, verify that later sections did not overwrite widths needed by earlier sections. File-opening alone is not PASS.
 
 ## G10 — Recipient-task QA
 A reviewer unfamiliar with the repo must be able to answer from the delivered files alone: scope/region; what was collected; what is active; how groups differ; what remains uncertain; what was excluded; what Wordstat numbers mean; what the client should do next; what MK01 does not include.

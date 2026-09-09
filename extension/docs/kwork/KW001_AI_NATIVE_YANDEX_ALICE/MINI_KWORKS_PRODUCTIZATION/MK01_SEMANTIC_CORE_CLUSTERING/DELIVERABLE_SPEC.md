@@ -1,6 +1,6 @@
 # MK01 — DELIVERABLE SPEC
 
-Status: **METHOD CONTRACT FROZEN / EXACT PHYSICAL LAYOUT TO BE VALIDATED ON OKNO_MSK**
+Status: **METHOD CONTRACT + PHYSICAL LAYOUT VALIDATED ON OKNO_MSK**
 
 ## 1. Sold result
 
@@ -29,10 +29,10 @@ Include site, primary region, frozen directions, exclusions, Yandex-only boundar
 Full preserved client-visible semantic universe. Minimum semantic fields: phrase; displayed Wordstat demand metric(s) available under the method; semantic state; reason/meaning; cluster where applicable; uncertainty/review route where applicable; recipient-appropriate provenance indicator. Technical trace IDs may be secondary.
 
 ### C. «Рабочее ядро»
-Only final active/accepted phrases with demand metric, cluster, task/intent meaning and useful sorting/filter fields. This is the primary working sheet.
+Only final active/accepted phrases with demand metric, cluster, task/intent meaning and useful sorting/filter fields. A technically assigned cluster with confirmed outside-task business fit is excluded from this view and retained in full/audit views. This is the primary working sheet.
 
 ### D. «Группы запросов»
-Human-readable cluster summary: cluster/group name; task/meaning; member count; representative accepted phrases; useful demand indicators with non-additivity warning; material split/boundary note where needed.
+Human-readable cluster summary: cluster/group name; task/meaning; member count; representative accepted phrases; useful demand indicators with non-additivity warning; material split/boundary note where needed. Working groups appear before excluded/outside-task groups.
 
 ### E. «На проверку»
 Unresolved/Search-required/deferred/HOLD rows with reason and current state. No silent uncertainty deletion.
@@ -76,8 +76,8 @@ No final query→URL ownership, architecture, create/split/merge recommendations
 
 ## 7. Physical format
 
-Base expected artifact is XLSX (or equivalent editable tabular workbook) plus short delivery summary. CSV may be an optional export, not a substitute for the structured recipient workbook. PDF may be added only if it improves explanation; it is not required to make the semantic core usable.
+Validated base artifact is XLSX plus short delivery summary. The workbook has exactly these seven recipient sheets in this order: `Как пользоваться`; `Все запросы`; `Рабочее ядро`; `Группы запросов`; `На проверку`; `Исключено`; `Методика`. A full audit TSV may be stored losslessly compressed; it is not a substitute for the workbook. PDF is optional and is not required to make the semantic core usable.
 
 ## 8. Acceptance
 
-Deliverable is accepted only after data, semantic, workbook, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. Exact commercial phrase limits and final sheet layout remain pending the OKNO_MSK standalone rehearsal/economics gate.
+Deliverable is accepted only after data, semantic, workbook, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. The seven-sheet layout is frozen by the OKNO_MSK standalone rehearsal. Exact commercial phrase/provider/review limits remain pending the economics gate; the rehearsal counts are measurements, not invented package limits.

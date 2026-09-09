@@ -16,19 +16,19 @@ Complete phrase text; current business/domain profile; accepted semantic state; 
 Before assignment declare domain profile and taxonomy/count/evidence/uncertainty/QA modes. For a fresh corpus: discover user tasks → write explicit cluster contracts → assign all active rows → independently challenge semantic coherence → fix root causes → rebuild impact set and regress. Baseline: same material expected user result/task = same cluster candidate; material task difference = split candidate; unclear boundary = preserve uncertainty/use approved route. Representative phrase must be a real accepted member that actually represents cluster meaning.
 
 ## OUTPUTS
-Cluster contracts; phrase→cluster assignments; human-readable task/intent meaning; unresolved boundary states; cluster summary; accounting + semantic QA.
+Cluster contracts; phrase→cluster assignments; human-readable task/intent meaning; explicit business-fit role against the frozen order; active-core vs outside-task projection; unresolved boundary states; cluster summary; accounting + semantic QA.
 
 ## SOURCE KW-001 AUTHORITY
 `STEP_10_CLUSTERING_GRANULARITY_METHOD.md`; `STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md`; `STEP_10_SORTING_AND_QA_METHOD.md`.
 
 ## KNOWN FAILURE CLASSES
-E18 token-driven clustering; E19 domain rules stripped; E20 invented cluster count; E21 ID-only patch with stale derived fields; E30 convenience representative phrase.
+E18 token-driven clustering; E19 domain rules stripped; E20 invented cluster count; E21 ID-only patch with stale derived fields; E30 convenience representative phrase; E31 assigned outside-task cluster leaked into active core.
 
 ## ROOT CAUSES
 Lexical similarity replaced user-task reasoning; reusable method was mistaken for domain-free execution; presentation preferences became semantic constraints; correction stopped at identifiers.
 
 ## NON-REPEAT CONTROLS
-Whole phrase first; current-domain profile mandatory; cluster count emerges unless an external constraint is explicit; correction rebuilds every contract-derived field; independent semantic QA; representative phrase must be accepted and semantically suitable.
+Whole phrase first; current-domain profile mandatory; cluster count emerges unless an external constraint is explicit; correction rebuilds every contract-derived field; independent semantic QA; representative phrase must be accepted and semantically suitable; after assignment, reconcile cluster business fit and keep outside-task members out of the active client core while preserving them in audit views.
 
 ## CLAIM BOUNDARIES
 A cluster is a semantic/task grouping in MK01, not final page ownership, URL architecture or instruction to create a page.
@@ -37,7 +37,7 @@ A cluster is a semantic/task grouping in MK01, not final page ownership, URL arc
 If a material task boundary remains unresolved, keep it explicit rather than forcing a clean-looking taxonomy. If current site/business evidence changes materially, rebuild affected cluster contracts/assignments.
 
 ## PASS GATE
-100% active-row assignment/accounting; cluster contracts explicit; independent semantic QA PASS; no architecture leakage; no stale derived fields; uncertainty preserved; summaries reconcile.
+100% active-row assignment/accounting; cluster contracts explicit; cluster business-fit role reconciled; active core contains no confirmed outside-task cluster members; independent semantic QA PASS; no architecture leakage; no stale derived fields; uncertainty preserved; summaries reconcile.
 
 ## CLIENT-FACING MEANING
 «Группирую запросы не только по одинаковым словам, а по тому, какой результат ожидает пользователь. Поэтому внешне похожие запросы могут попасть в разные группы, а разные по формулировке — в одну, если решают одну задачу.»
