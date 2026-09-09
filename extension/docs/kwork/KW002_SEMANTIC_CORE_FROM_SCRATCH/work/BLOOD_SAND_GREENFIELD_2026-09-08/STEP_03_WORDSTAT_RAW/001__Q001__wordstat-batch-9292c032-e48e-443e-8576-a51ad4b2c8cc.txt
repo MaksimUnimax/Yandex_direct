@@ -1,0 +1,122 @@
+WORDSTAT_BATCH_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "batch.next",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1"
+  },
+  "progress": {
+    "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1",
+    "status": "RUNNING",
+    "total": 79,
+    "input_count": 79,
+    "duplicate_count": 0,
+    "pending": 78,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 1,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 1,
+    "requests_started": 1,
+    "estimated_cost_rub": 0.02,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-09-09T01:56:21.086Z",
+    "claimed_by": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "command": {
+      "devices": ["DEVICE_ALL"],
+      "method": "getTop",
+      "numPhrases": 2000,
+      "phrase": "(амулет|оберег|талисман) RSOTM",
+      "regions": ["225"]
+    },
+    "completed_at": "2026-09-09T01:56:23.005Z",
+    "error": null,
+    "estimated_cost_rub": 0.02,
+    "fingerprint": "414986376d1e110f",
+    "item_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1:414986376d1e110f",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "wordstat-batch-9292c032-e48e-443e-8576-a51ad4b2c8cc",
+    "request_started_at": "2026-09-09T01:56:21.100Z",
+    "request_worker_session_id": "worker-f19f413d-57c3-4284-9618-0e1ae176ceb8:wordstat-batch",
+    "result_ref": "wordstat-batch-9292c032-e48e-443e-8576-a51ad4b2c8cc",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-09T01:56:23.005Z",
+    "result_payload": {
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.4",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-batch-9292c032-e48e-443e-8576-a51ad4b2c8cc",
+      "run_id": null,
+      "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1",
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+      },
+      "policy": {"channel": "manual", "active_service": "wordstat"},
+      "command": {
+        "method": "getTop",
+        "phrase": "(амулет|оберег|талисман) RSOTM",
+        "numPhrases": 2000,
+        "regions": ["225"],
+        "devices": ["DEVICE_ALL"]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1884,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.4",
+    "service": "wordstat",
+    "operation": "getTop",
+    "request_id": "wordstat-batch-9292c032-e48e-443e-8576-a51ad4b2c8cc",
+    "run_id": null,
+    "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1",
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.02,
+      "tariff_checked_at": "2026-08-12",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {"channel": "manual", "active_service": "wordstat"},
+    "command": {
+      "method": "getTop",
+      "phrase": "(амулет|оберег|талисман) RSOTM",
+      "numPhrases": 2000,
+      "regions": ["225"],
+      "devices": ["DEVICE_ALL"]
+    },
+    "http_status": 200,
+    "elapsed_ms": 1884,
+    "result": {},
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "cost_estimate": {"estimated_rub": 0.02, "max_rub": 2},
+  "policy": {"max_requests": 79, "max_cost_rub": 2},
+  "request_executed": true,
+  "automatic_retry": false
+}
