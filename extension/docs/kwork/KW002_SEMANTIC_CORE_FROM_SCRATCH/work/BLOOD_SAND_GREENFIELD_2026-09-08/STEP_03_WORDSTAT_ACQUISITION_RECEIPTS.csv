@@ -1,0 +1,1 @@
+batch_order,seed_id,seed_phrase,batch_job_id,item_state,request_id,http_status,request_executed,results_rows,association_rows,total_count,raw_file,cost_estimate_rub,remote_readback,notes
