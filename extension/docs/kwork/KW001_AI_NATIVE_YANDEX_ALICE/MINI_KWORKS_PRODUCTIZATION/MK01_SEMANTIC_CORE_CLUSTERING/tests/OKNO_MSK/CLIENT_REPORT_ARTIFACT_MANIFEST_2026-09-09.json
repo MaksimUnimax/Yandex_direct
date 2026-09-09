@@ -1,0 +1,34 @@
+{
+  "artifact": "MK01_OKNO_MSK_CLIENT_REPORT_2026-09-09.pdf",
+  "artifact_role": "mandatory_client_pdf_report",
+  "pages": 6,
+  "byte_size": 58723,
+  "sha256": "cfa8ab83e4c9885c3f488c8ea3041b3b231d60036437d842ba5cb8ded0b6e924",
+  "validated_render": {
+    "all_pages_reviewed": true,
+    "page_count": 6,
+    "clipping_or_overlap": 0,
+    "broken_glyphs": 0,
+    "internal_jargon_failures": 0,
+    "pixel_delta_after_ascii_safe_normalization": 0
+  },
+  "semantic_counts": {
+    "wordstat_observations": 2965,
+    "preserved_unique_phrases": 2840,
+    "working_core": 2185,
+    "review_uncertain": 187,
+    "excluded": 468,
+    "semantic_groups_total": 59,
+    "working_groups": 54
+  },
+  "sources": [
+    "CLIENT_REPORT_SOURCE_2026-09-09.md",
+    "../../CLIENT_REPORT_SPEC.md",
+    "MK01_CLUSTER_SUMMARY_2026-09-09.tsv",
+    "MK01_MATERIALIZATION_MANIFEST_2026-09-09.json"
+  ],
+  "generator": "build_mk01_client_report.py",
+  "provider_calls_for_report_correction": 0,
+  "semantic_data_changes_for_report_correction": 0,
+  "binary_connector_note": "The validated binary PDF is handed to the owner as the finished artifact. GitHub connector text actions preserve its source, generator, QA and exact hash; direct binary-file upload is not exposed by the available connector schema."
+}
