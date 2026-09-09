@@ -1,6 +1,6 @@
 # MK01 — STEP RULES INDEX
 
-Status: **ACTIVE / AUTONOMOUS ROADMAP DEFINED / STEP FILES REQUIRED**
+Status: **ACTIVE / AUTONOMOUS ROADMAP DEFINED / XLSX + PDF CLIENT PACKAGE REQUIRED**
 
 This index maps standalone MK01 execution to the exact KW-001 authority it inherits. MK01 step numbers are product-local; source KW-001 step numbers remain traceability only.
 
@@ -16,7 +16,7 @@ This index maps standalone MK01 execution to the exact KW-001 authority it inher
 | 07 | Semantic freeze/routing | Step8 freeze method | REQUIRED | preserved universe + executable uncertainty routes |
 | 08 | Targeted ordinary Yandex Search | Step9 narrow controls | CONDITIONAL | exact observations resolving material boundaries |
 | 09 | Task-first clustering | Step10 methods | REQUIRED | cluster contracts + row assignments + semantic QA |
-| 10 | Client materialization + final QA | Step19 controls + Step20 standalone-core gate | REQUIRED | recipient-ready semantic core + QA/readback |
+| 10 | Client materialization + final QA | Step19 controls + Step20 standalone-core gate + MK01 client-report correction | REQUIRED | seven-sheet XLSX + 4–8 page client PDF + handoff message + QA/readback |
 
 ## Explicit exclusions
 
@@ -26,7 +26,7 @@ Step19/20 are inherited only to the depth required for MK01's own semantic-core 
 
 ## Mandatory cross-step authorities
 
-Apply `../YANDEX_ONLY_SCOPE.md`, `GENERAL_RULES.md`, source KW-001 `STEP_RULES_INDEX.md`, persistence/cost gates, current-site freshness gate and private-Yandex-access policy as relevant.
+Apply `../YANDEX_ONLY_SCOPE.md`, `GENERAL_RULES.md`, `CLIENT_REPORT_SPEC.md`, source KW-001 `STEP_RULES_INDEX.md`, persistence/cost gates, current-site freshness gate and private-Yandex-access policy as relevant.
 
 ## Per-step file contract
 
@@ -42,4 +42,4 @@ No provider request merely because a provider is available. Every request needs 
 
 ## Final boundary
 
-MK01 PASS = current Yandex demand evidence + conservative cleanup + preserved uncertainty + sufficient targeted Search for material boundaries + task-first clustering + recipient-ready semantic core. It does not mean page architecture, implementation plan, Google SEO or AI/Alice research was completed.
+MK01 PASS = current Yandex demand evidence + conservative cleanup + preserved uncertainty + sufficient targeted Search for material boundaries + task-first clustering + recipient-ready seven-sheet XLSX + concise client PDF report + short handoff message. It does not mean page architecture, implementation plan, Google SEO or AI/Alice research was completed.
