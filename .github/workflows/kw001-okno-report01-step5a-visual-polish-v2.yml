@@ -1,0 +1,87 @@
+name: KW001 OKNO Report01 Step5A Visual Polish V2
+
+on:
+  push:
+    branches: [roadmap/kwork-productization-2026-08-28]
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/REPORT01_STEP5A_VISUAL_POLISH_V2_TRIGGER.txt'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: kw001-okno-report01-step5a-visual-polish-v2
+  cancel-in-progress: false
+
+jobs:
+  polish-qa-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libreoffice-writer fonts-liberation poppler-utils
+          python -m pip install --disable-pip-version-check --quiet python-docx pypdf pillow
+      - name: Record protected identities
+        run: |
+          git rev-parse HEAD > /tmp/start_head
+          git rev-parse HEAD:extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH > /tmp/kw002_before
+          git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05 > /tmp/old_release_before
+          git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md > /tmp/source_before
+      - name: Apply final table layout and rebuild
+        run: python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_step5a_visual_polish_v2.py
+      - name: Render final PDF
+        run: |
+          REL=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09
+          OUT=/tmp/report01_step5a_visual_final
+          rm -rf "$OUT" && mkdir -p "$OUT"
+          pdftoppm -png -r 150 "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf" "$OUT/page"
+          cp "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf" "$OUT/"
+          cp "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx" "$OUT/"
+          cp "$REL/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md" "$OUT/"
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageStat
+          pages=sorted(Path('/tmp/report01_step5a_visual_final').glob('page-*.png'))
+          assert len(pages)==8, len(pages)
+          for p in pages:
+              im=Image.open(p).convert('L'); assert ImageStat.Stat(im).extrema[0][0] < 245
+          print('RENDER_NONBLANK_PASS',len(pages))
+          PY
+      - name: Guard intended changes only
+        run: |
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          test "$(git rev-parse HEAD:$ROOT/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md)" = "$(cat /tmp/source_before)"
+          BAD=$(git status --short | awk '{print $2}' | grep -vE "^${ROOT}/(OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/(editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx|01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf|RELEASE_MANIFEST_2026-09-09.json)|DOCUMENT_01_STEP05A_COMPETITOR_VISUAL_QA_2026-09-09.json)$" || true)
+          if [ -n "$BAD" ]; then echo "$BAD"; exit 1; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: okno-msk-report01-step5a-visual-final
+          path: /tmp/report01_step5a_visual_final
+          if-no-files-found: error
+          retention-days: 7
+      - name: Commit and push final report01 layout
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK
+          REL="$ROOT/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09"
+          git add "$REL/editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx" "$REL/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf" "$REL/RELEASE_MANIFEST_2026-09-09.json" "$ROOT/DOCUMENT_01_STEP05A_COMPETITOR_VISUAL_QA_2026-09-09.json"
+          git commit -m "docs(okno-msk): finalize report01 competitor table layout [skip ci]"
+          git push origin HEAD:roadmap/kwork-productization-2026-08-28
+          git rev-parse HEAD > /tmp/material_head
+      - name: Remote readback and guards
+        run: |
+          git fetch origin roadmap/kwork-productization-2026-08-28
+          test "$(git rev-parse origin/roadmap/kwork-productization-2026-08-28)" = "$(cat /tmp/material_head)"
+          test "$(git rev-parse HEAD:extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH)" = "$(cat /tmp/kw002_before)"
+          test "$(git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05)" = "$(cat /tmp/old_release_before)"
+          test "$(git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md)" = "$(cat /tmp/source_before)"
+          echo "START_HEAD=$(cat /tmp/start_head)"
+          echo "MATERIAL_HEAD=$(cat /tmp/material_head)"
+          echo REMOTE_READBACK_PASS
