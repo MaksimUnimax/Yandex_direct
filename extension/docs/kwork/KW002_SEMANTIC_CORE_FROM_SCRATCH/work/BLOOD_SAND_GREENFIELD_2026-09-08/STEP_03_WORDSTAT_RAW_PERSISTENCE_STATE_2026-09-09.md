@@ -2,83 +2,98 @@
 
 Date: 2026-09-09
 Job: `BLOOD_SAND_GREENFIELD_2026-09-08`
+Status: **LATE CORRECTION / ACQUISITION COMPLETE / DURABLE RAW REWORK REQUIRED**
 
-## Owner rule activation
+## Current authority
 
-The owner explicitly required that Wordstat factual results no longer be kept only in chat. From the activation point onward every provider result must be persisted in full factual form before the next provider block is issued.
+A later Step-04 Work readback invalidated the earlier statement `STEP03_ACQUISITION_PERSISTENCE = COMPLETE / PASS` as a combined claim.
 
-```text
-PERSISTENCE_ENFORCEMENT_START = M012
-CURRENT_POLICY = FULL_RAW_BEFORE_NEXT_BLOCK
-```
-
-## Historical provenance boundary
-
-The original historical M001–M011 request-specific bodies were not durably persisted under their original request IDs. They remain historical missing-original evidence and are not relabelled or overwritten.
-
-The owner later explicitly allowed provider re-query when needed. Current-provider re-query data for the affected probes was persisted under new request IDs. M012–M021 retained their request-specific raw evidence. Later canonical-primary probes were collected and persisted prospectively under the same full-raw-before-next-block rule.
-
-```text
-ORIGINAL_M001_M011_REQUEST_BODIES_RECOVERED = false
-ORIGINAL_M001_M011_HISTORY_OVERWRITTEN = false
-CURRENT_REQUERY_DATA_FOR_PRE_GATE_PROBES = PRESERVED
-M012_M021_REQUEST_SPECIFIC_RAW = PRESERVED
-```
-
-## Final canonical acquisition closure
-
-Canonical primary authority:
-
-`STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv`
+The corrected distinction is mandatory:
 
 ```text
 CANONICAL_PRIMARY_MANIFEST_ROWS = 79
 CANONICAL_PRIMARY_RUN_ORDER = 1..79
-CANONICAL_PRIMARY_PROBES_WITH_CURRENT_ACQUISITION_EVIDENCE = 79
-CANONICAL_PRIMARY_COVERAGE = 79/79
-STEP03_ACQUISITION_PERSISTENCE = COMPLETE / PASS
+CANONICAL_PRIMARY_PROBES_WITH_CURRENT_ACQUISITION_OUTCOME = 79
+STEP03_PROVIDER_ACQUISITION = COMPLETE / 79 OF 79
+LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60 OF 79
+STEP03_DURABLE_RAW = CORRECTION / REWORK REQUIRED
+OLD_COMBINED_PERSISTENCE_PASS = OVERRIDDEN
 ```
 
-The final missing canonical primary probe was run_order 1, `амулет`. It was re-queried as a new current-provider request and persisted separately without rewriting the historical OUTCOME_UNKNOWN record.
+Affected canonical run orders:
 
 ```text
-FINAL_S001_PHRASE = амулет
-FINAL_S001_REQUEST_ID = wordstat-86e7b86f-b118-4a08-b4bf-564b053de070
-FINAL_S001_HTTP_STATUS = 200
-FINAL_S001_PROVIDER_STATUS = OK
-FINAL_S001_TOTALCOUNT = 478857
-FINAL_S001_RESULTS_ROWS = 2000
-FINAL_S001_ASSOCIATIONS_ROWS = 20
-FINAL_S001_REQUEST_EXECUTED = true
-FINAL_S001_AUTOMATIC_RETRY = false
-FINAL_S001_RAW_PATH = STEP_03_WORDSTAT_RAW/MANUAL__001_CURRENT_REQUERY__wordstat-86e7b86f-b118-4a08-b4bf-564b053de070.raw.txt
-FINAL_S001_RAW_GIT_BLOB = 1a8b027853f6a1c89fc7cb3cdcdd4949e3ab195a
-FINAL_S001_REMOTE_READBACK = PASS
+32,33,34,35,36,37,38,39,40,41,
+42,43,44,45,46,47,48,50,51
 ```
 
-The remote readback verified the request ID, complete response tail, exactly 2000 `results[]` rows, exactly 20 `associations[]` rows, and `totalCount=478857`.
+The complete late-correction record is:
 
-## What COMPLETE means here
+`STEP_03_RAW_RECOVERY_2026-09-09.md`
 
-This closure is deliberately narrow:
+## Preserved historical boundary
+
+The original historical M001–M011 request-specific bodies were not durably persisted under their original request IDs. They remain historical missing-original evidence and are not relabelled or overwritten. Later current-provider re-query evidence for canonical probes remains preserved under its own request IDs.
+
+The canonical run_order 1 current re-query remains valid:
 
 ```text
-STEP03 = ACQUISITION / PERSISTENCE
-STEP03 != CLEANUP
-STEP03 != KEEP/REJECT
-STEP03 != CLUSTERING
-STEP03 != PAGE DESIGN
-SEMANTIC_ANALYSIS_PERFORMED_IN_MAIN_CHAT = false
+phrase = амулет
+request_id = wordstat-86e7b86f-b118-4a08-b4bf-564b053de070
+HTTP = 200
+results[] = 2000
+associations[] = 20
+totalCount = 478857
+request_executed = true
+automatic_retry = false
+raw path = STEP_03_WORDSTAT_RAW/MANUAL__001_CURRENT_REQUERY__wordstat-86e7b86f-b118-4a08-b4bf-564b053de070.raw.txt
 ```
 
-Noise, duplicates, low-frequency rows, provider morphology, and associations remain preserved as acquisition evidence. Their later treatment belongs to downstream methodology, not to Step03 persistence.
+This late correction does not alter that observation.
 
-## Next transition
+## Broken carrier correction
 
-The large Wordstat corpus must not be semantically processed in normal chat. Per the owner instruction and `LEVEL1/WORK_HANDOFF_RULE.md`, the next action is a frozen pre-handoff manifest and canonical Work prompt for downstream expansion-family triage. Actual Step04 execution remains subject to the current Level-2 step gate and pre-step external-research/source-disclosure requirements.
+Two large manual delivery bundles were not safely persisted as lossless binary carriers:
 
 ```text
-PERSISTENCE_GATE_NEXT_PROVIDER_BLOCK_ALLOWED = true
-WORDSTAT_PRIMARY_COLLECTION_COMPLETE = true
-NEXT_ACTION = PREPARE_WORK_HANDOFF_FOR_STEP04_SUBJECT_TO_METHOD_GATE
+MANUAL_BLOCK__032-041__2026-09-09
+MANUAL_BLOCK__042-051__2026-09-09
+```
+
+Their manifests preserve expected uncompressed/gzip checksums and row inventories, but the live Git binary parts do not reconstruct to those expected values. Therefore `FILE EXISTS`, recorded manifest blob SHA, or the earlier persistence PASS cannot be treated as proof of usable downstream evidence.
+
+## Recovery source
+
+The original full delivery text for both affected blocks has been located in preserved ChatGPT File Library uploads from the prior dialogue. This is sufficient to justify source rehydration before any paid replay, but File Library is not the final durable project store.
+
+```text
+RECOVERY_SOURCE_FOUND = true
+RECOVERY_SOURCE_REHYDRATION_FIRST = true
+PROVIDER_REQUERY = FALLBACK_ONLY_IF_NEEDED
+PROVIDER_REQUESTS_DURING_RECOVERY_SO_FAR = 0
+```
+
+## PASS condition
+
+Step03 durable feed-forward may return to PASS only after:
+
+```text
+all 19 affected probes have complete durable row-level payload
+request IDs reconcile
+results[] row counts reconcile
+associations[] row counts reconcile
+totalCount / exact empty-object outcomes reconcile
+79/79 primary feed-forward is readable
+GitHub remote readback passes
+no source row is silently dropped
+```
+
+Until then:
+
+```text
+WORDSTAT_PRIMARY_ACQUISITION_COMPLETE = true
+STEP03_DURABLE_RAW_COMPLETE = false
+NEXT_STEP_ALLOWED = false
+STEP04_ALLOWED = false
+NEXT_ACTION = MATERIALIZE_AND_VERIFY_RECOVERED_RAW_19
 ```
