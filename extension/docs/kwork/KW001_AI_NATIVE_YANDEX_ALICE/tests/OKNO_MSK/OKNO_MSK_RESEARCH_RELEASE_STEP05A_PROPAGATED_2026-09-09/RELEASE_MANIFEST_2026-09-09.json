@@ -1,13 +1,14 @@
 {
-  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROPAGATED_V2",
+  "schema": "OKNO_MSK_CLIENT_RELEASE_STEP5A_PROPAGATED_V3",
   "date": "2026-09-09",
+  "status": "DOCUMENT_02_STEP05A_RECONCILED__REMOTE_VISUAL_READBACK_PASS__OWNER_REVIEW_PENDING",
   "semantic_rows": 2856,
   "active_rows": 2348,
-  "exact_page_assigned_rows": 2322,
-  "active_hold_rows": 7,
+  "exact_assignment_decision_rows": 2322,
+  "active_unresolved_exact_owner_rows": 26,
   "structural_units": 168,
   "new_provider_calls": 0,
-  "document_03_content_state": "BYTE_IDENTICAL_TO_CORRECTED_2026-09-05",
+  "document_03_content_state": "BYTE_IDENTICAL_TO_CORRECTED_2026-09-05__NOT_YET_RECONCILED_TO_STEP5A_CORE",
   "artifacts": [
     {
       "path": "01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.pdf",
@@ -18,6 +19,7 @@
       "path": "02_OKNO_MSK_VNEDRENIE_REKOMENDATSII_RU_2026-09-09.pdf",
       "bytes": 464566,
       "sha256": "736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43",
+      "git_blob_sha": "5563fdba03a6b4cb7355a6ae5c2078d5bcff4f26",
       "pages": 19
     },
     {
@@ -75,15 +77,12 @@
   "semantic_core_materialization": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09",
   "semantic_core_mode": "ONE_LINEAR_CANONICAL_CORPUS",
   "semantic_core_competitor_appendix": false,
-  "exact_assignment_decision_rows": 2322,
-  "active_unresolved_exact_owner_rows": 26,
   "report01_step5a_evidence_claim_gate": "PASS",
   "report01_step5a_search_requirements": 9,
   "report01_step5a_search_succeeded": 7,
   "report01_step5a_search_outcome_unknown": 2,
   "report01_step5a_search_serp_rows": 70,
   "report01_step5a_nonperformed_client_pseudo_results": 0,
-  "status": "DOCUMENT_02_STEP05A_RECONCILED__REMOTE_VISUAL_READBACK_PENDING",
   "new_pages_from_step5a_claim_state": "NOT_ASSERTED_FROM_SEMANTIC_CORE_WITHOUT_SEPARATE_DOWNSTREAM_EVIDENCE",
   "new_physical_site_changes_from_step5a_claim_state": "NOT_ASSERTED_FROM_SEMANTIC_CORE_WITHOUT_SEPARATE_DOWNSTREAM_EVIDENCE",
   "report02_step5a_reconciled": true,
@@ -99,8 +98,20 @@
     "bibliography_items": 10
   },
   "report02_deterministic_content_qa": "PASS__44_OF_44",
+  "report02_md_docx_all_16_step5a_phrases": "PASS",
+  "report02_pdf_structural_text_gate": "PASS",
   "report02_pdf_rerender": "PASS__19_OF_19",
-  "report02_pdf_table_text_gate": "VISUAL_READBACK_REQUIRED__PYPDF_TABLE_TEXT_EXTRACTION_INFORMATIONAL_ONLY",
-  "report02_remote_visual_readback": "PENDING",
-  "report02_provider_calls": 0
+  "report02_pdf_table_text_gate": "PASS__REMOTE_VISUAL_READBACK_19_OF_19",
+  "report02_remote_visual_readback": "PASS__19_OF_19",
+  "report02_materialization": {
+    "commit": "c7cb31f6c61a99b0d14dd3822ec7a3adf75af75c",
+    "workflow_run_id": 34326844053,
+    "workflow_job_id": 102385949896,
+    "artifact_id": 10094127167,
+    "artifact_zip_sha256": "3bad7b1ec661fd80c76004a2d3f92ef068a81423a0b001b46aeb9b9c780f4a5b",
+    "artifact_hash_identity": true
+  },
+  "report02_provider_calls": 0,
+  "report02_owner_review": "PENDING",
+  "next_action": "OWNER_REVIEW_REPORT_02_STEP05A_RECONCILED__DO_NOT_START_DOCUMENT_03"
 }
