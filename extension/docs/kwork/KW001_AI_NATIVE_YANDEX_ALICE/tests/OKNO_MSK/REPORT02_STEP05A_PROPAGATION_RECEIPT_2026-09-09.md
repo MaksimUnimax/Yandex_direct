@@ -2,7 +2,7 @@
 
 ## Статус
 
-PASS — документ №02 пересобран по интегрированному семантическому ядру; удалённый визуальный readback ожидается после коммита.
+**PASS — документ №02 пересобран по интегрированному семантическому ядру, опубликован в общей ветке и прочитан обратно из точного GitHub Actions artifact. Remote visual readback: PASS 19/19.**
 
 ## Основание
 
@@ -26,19 +26,31 @@ PASS — документ №02 пересобран по интегрирова
 
 - Deterministic/content QA: PASS 44/44.
 - Markdown и DOCX: все 16 новых фраз подтверждены машинно.
-- PDF structural text gate: PASS; табличные строки закрываются удалённым визуальным readback, потому что pypdf разрывает текст ячеек.
+- PDF structural text gate: PASS.
 - PDF pages: 19.
 - PDF re-render: PASS 19/19.
-- Remote visual readback: PENDING.
+- Remote visual readback точного Actions artifact: **PASS 19/19**.
+- На удалённом PDF визуально подтверждены 9/9 новых назначенных фраз и 7/7 фраз без подтверждённого точного владельца.
+- Обрезки: 0; наложения: 0; потерянные строки: 0; битые символы: 0; смешение неподтверждённых фраз с готовыми действиями: 0.
 - New provider calls: 0.
+
+## Удалённая материализация и readback
+
+- Materialization commit: `c7cb31f6c61a99b0d14dd3822ec7a3adf75af75c`.
+- Workflow run: `34326844053`.
+- Workflow job: `102385949896`.
+- Artifact ID: `10094127167`.
+- Artifact ZIP SHA256: `3bad7b1ec661fd80c76004a2d3f92ef068a81423a0b001b46aeb9b9c780f4a5b`.
+- Runner-log hashes совпали со скачанным artifact и release manifest.
 
 ## Артефакты
 
-- Markdown: 47130 bytes, SHA256 `5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1`.
-- DOCX: 26648 bytes, SHA256 `69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e`.
-- PDF: 464566 bytes, SHA256 `736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43`.
+- Markdown: 47 130 bytes, SHA256 `5954d4e6166c78c10da04e34f158d31b87d4f9a6b377f5627e378e81e9d6afa1`.
+- DOCX: 26 648 bytes, SHA256 `69fa2552d4308b80298b7bd7d60ec7b53225fa6a6b21230489ad035a86b1f47e`.
+- PDF: 464 566 bytes, SHA256 `736172da9c492f51637169c90a5b276499b658368ef7eeb7fcf3eedbef78ae43`, Git blob `5563fdba03a6b4cb7355a6ae5c2078d5bcff4f26`.
 - QA JSON: `REPORT02_STEP05A_PROPAGATION_QA_2026-09-09.json`.
+- Remote readback: `REPORT02_STEP05A_REMOTE_READBACK_2026-09-09.json`.
 
 ## Граница результата
 
-Документ №03 этим изменением не считается согласованным с новым ядром.
+Документ №02 находится в состоянии **OWNER_REVIEW_PENDING**. Документ №03 этим изменением не считается согласованным с новым ядром и до owner review №02 не начинается.
