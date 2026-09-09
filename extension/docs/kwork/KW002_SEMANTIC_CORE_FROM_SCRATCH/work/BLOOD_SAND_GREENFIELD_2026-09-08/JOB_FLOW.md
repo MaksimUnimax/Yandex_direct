@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 LATE RAW CORRECTION / ACQUISITION 79/79 COMPLETE / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 62/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW CORRECTION 60/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 62/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -63,39 +63,53 @@ The early MV3 long-fetch incident remains historical evidence, but it is no long
 
 A later Step-04 Work readback found a separate persistence defect: two large raw carrier bundles do not reconstruct losslessly from GitHub.
 
+Initial late-QA deficit:
+
 ```text
-STEP03_PROVIDER_ACQUISITION = COMPLETE
-CANONICAL_PRIMARY_PROBES = 79
-CURRENT_ACQUISITION_OUTCOMES = 79
-LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60
-AFFECTED = 19
+LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60/79
 AFFECTED_RUN_ORDERS = 32-48,50,51
 ```
 
-Correction authority:
+Recovery progress now:
+
+```text
+RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved
+RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved
+CURRENT_USABLE_FEED_FORWARD = 62/79
+REMAINING_RUN_ORDERS = 32-48
+REMAINING_COUNT = 17
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 0
+RECOVERY_PROVIDER_COST_SO_FAR = 0
+```
+
+Current recovery progress authority:
+
+`STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
+
+Correction authorities:
 
 - `STEP_03_WORDSTAT_RAW_PERSISTENCE_STATE_2026-09-09.md`
 - `STEP_03_RAW_RECOVERY_2026-09-09.md`
+- `STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
 - `STEP_04_WORK_RETURN_RECEIPT_2026-09-09.md`
 
-## Recovery state
+## Recovery strategy
 
-The original complete Wordstat delivery text for both affected blocks was located in preserved prior-dialogue File Library uploads. Therefore the recovery order is:
+The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining 17 large results cannot be safely materialized from truncated search snippets in the current file interface.
 
-```text
-preserved full source
-→ lossless text-safe re-materialization
-→ row/count/request-id reconciliation
-→ GitHub readback
-→ restore 79/79 durable feed-forward
-```
-
-Paid Wordstat replay is allowed by the owner only as a fallback if source rehydration is insufficient. No provider replay has been executed during the current recovery.
+Owner has authorized re-collection if needed. For the remaining 17 probes:
 
 ```text
-RECOVERY_PROVIDER_CALLS_SO_FAR = 0
-RECOVERY_PROVIDER_COST_SO_FAR = 0
+TRY FULL SOURCE REHYDRATION WHEN LOSSLESS FILE ACCESS EXISTS
+OTHERWISE NEW WORDSTAT OBSERVATION IS AUTHORIZED
+ONE PROVIDER RESULT AT A TIME
+→ SAVE COMPLETE RESULT
+→ GITHUB READBACK
+→ VERIFY REQUEST/ROWS/ASSOCIATIONS/TOTALCOUNT/PROVENANCE
+→ ONLY THEN NEXT PROVIDER REQUEST
 ```
+
+Historical request IDs are never overwritten by replay.
 
 ## Independent Step 04 method gate
 
@@ -118,11 +132,11 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_RAW_RECOVERY_SOURCE_FOUND = true
+STEP_03_DURABLE_FEED_FORWARD = 62/79
+STEP_03_REMAINING_RECOVERY = 17
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-PROVIDER_REPLAY_REQUIRED = NOT_YET_DETERMINED
-NEXT_ACTION = MATERIALIZE_AND_VERIFY_FULL_RAW_FOR_19_AFFECTED_PROBES
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDERS_32_THROUGH_48_ONE_AT_A_TIME_WITH_DURABLE_READBACK
 ```
 
-Do not run Wordstat/Search/GenSearch for downstream analysis, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.
+Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.

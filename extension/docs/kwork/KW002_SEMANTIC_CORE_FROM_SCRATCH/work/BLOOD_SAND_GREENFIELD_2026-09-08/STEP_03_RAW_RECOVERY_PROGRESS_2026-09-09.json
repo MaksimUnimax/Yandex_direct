@@ -1,0 +1,42 @@
+{
+  "schema": "KW002_STEP03_RAW_RECOVERY_PROGRESS_V1",
+  "date": "2026-09-09",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "provider_acquisition": {
+    "canonical_primary": 79,
+    "current_outcomes": 79,
+    "status": "COMPLETE"
+  },
+  "durable_feed_forward": {
+    "usable": 62,
+    "required": 79,
+    "status": "RECOVERY_IN_PROGRESS",
+    "remaining_run_orders": [32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48]
+  },
+  "recovered_without_provider_replay": [
+    {
+      "run_order": 50,
+      "request_id": "wordstat-619ef51a-c0a8-4a6b-9f7e-4f1709aae204",
+      "result_kind": "EMPTY_OBJECT",
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERED__050__wordstat-619ef51a-c0a8-4a6b-9f7e-4f1709aae204.json",
+      "source": "preserved prior-dialogue File Library",
+      "provider_replay": false
+    },
+    {
+      "run_order": 51,
+      "request_id": "wordstat-2e63726e-3660-4838-b5d4-b56bbfcb00f5",
+      "result_kind": "EMPTY_OBJECT",
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERED__051__wordstat-2e63726e-3660-4838-b5d4-b56bbfcb00f5.json",
+      "source": "preserved prior-dialogue File Library",
+      "provider_replay": false
+    }
+  ],
+  "provider_recovery": {
+    "replay_authorized_by_owner_if_needed": true,
+    "replay_executed_so_far": 0,
+    "replay_cost_so_far_rub": 0,
+    "next_rule": "For any remaining probe that cannot be losslessly rehydrated from preserved source: execute one new Wordstat observation, persist full result to GitHub, remote-readback and reconcile counts/provenance before the next provider request."
+  },
+  "step04_allowed": false,
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDERS_32_THROUGH_48_ONE_AT_A_TIME_WITH_DURABLE_READBACK"
+}
