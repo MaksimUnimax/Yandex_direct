@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 CURRENT / PRE-STEP PROVIDER GATE COMPLETE / BATCH START READY**
+Status: **STEP 03 CURRENT / BATCH START PASS / Q001 PROVIDER CHECK NEXT**
 
 ## 1. Job identity
 
@@ -49,19 +49,24 @@ DEFAULT BLOOD_SAND PROJECT MATERIAL = DENY
 EXCEPTIONS = exact sources whitelisted in ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 ```
 
-## 5. Universal quality rule
+## 5. Universal quality and pre-step research rules
 
-Current Level-1 authority:
-
-`LEVEL1/RESULT_QUALITY_SCORING_RULE.md`
+Current Level-1 authorities:
 
 ```text
-EACH CRITERION = 0–10
+LEVEL1/RESULT_QUALITY_SCORING_RULE.md
+LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
+```
+
+```text
+EACH QUALITY CRITERION = 0–10
 DEFAULT CRITERIA = 10
 QUALITY_TOTAL = 0–100
 QUALITY_SCORE = QUALITY_TOTAL / 10
 PASS = >=90/100 AND >=9.0/10 AND ALL HARD GATES AND NO OPEN CRITICAL DEFECT
 ```
+
+Before every major step fresh internet research + clickable owner-facing source disclosure is mandatory.
 
 ## 6. Accepted upstream truth
 
@@ -107,9 +112,12 @@ Current upstream seed authority:
 Canonical current files:
 
 ```text
+STEP_03_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_2026-09-09.md
 STEP_03_PRE_STEP_PROVIDER_GATE_2026-09-09.md
 STEP_03_WORDSTAT_EXECUTION_MANIFEST_V1.csv
 STEP_03_WORDSTAT_BATCH_START_COMMAND_2026-09-09.txt
+STEP_03_WORDSTAT_BATCH_START_RESULT_2026-09-09.txt
+STEP_03_WORDSTAT_BATCH_START_ACCEPTANCE_2026-09-09.md
 STEP_03_WORDSTAT_ACQUISITION_RECEIPTS.csv
 ```
 
@@ -138,19 +146,61 @@ no automatic retry after uncertain outcome
 complete returned provider payload must be preserved
 ```
 
-## 8. OR capability gate
+## 8. Observed batch-start truth
+
+Actual owner-relayed runtime result:
+
+```text
+BRIDGE_RUNTIME_VERSION = 0.1.4
+service = wordstat
+operation = batch.start
+status = OK
+job_id = BLOOD_SAND_GREENFIELD_2026-09-08__STEP03_PRIMARY_V1
+```
+
+Observed queue/accounting:
+
+```text
+total = 79
+input_count = 79
+duplicate_count = 0
+pending = 79
+claimed = 0
+requesting = 0
+succeeded = 0
+failed_terminal = 0
+outcome_unknown = 0
+skipped = 0
+cancelled = 0
+terminal = 0
+requests_started = 0
+estimated_cost_rub = 0
+next_safe_action = CLAIM_NEXT
+request_executed = false
+automatic_retry = false
+```
+
+The runtime version 0.1.4 differs from older repository documentation that described 0.1.2. Runtime 0.1.4 is preserved as actual execution provenance. The difference does not block this batch-start acceptance because the observed protocol/result and all required queue/policy controls matched the Step-03 contract exactly.
+
+## 9. OR capability gate
 
 Nineteen current V2 primary probes use grouped Wordstat OR syntax.
 
-Official Yandex documentation supports operators in `phrase`, and Bridge accepts phrase strings up to 400 chars, but this exact grouped form has not yet been observed end-to-end in this job.
-
-Therefore Step-03 execution order is intentionally changed while preserving the same 79 seeds:
+Exactly one provider item is authorised next:
 
 ```text
 ITEM 1 = Q001 = (амулет|оберег|талисман) RSOTM
 ```
 
-After `batch.start`, only one `batch.next` is authorised until Q001 result is persisted/read back and OR behavior is accepted.
+After Q001 result returns:
+
+```text
+persist complete raw result
+→ remote readback
+→ reconcile request_id/http/results/associations/totalCount/cost
+→ accept or reject grouped-OR path
+→ only then allow another provider request
+```
 
 If grouped OR fails for syntax/provider reasons:
 
@@ -162,7 +212,7 @@ cancel current batch without further provider calls
 → recompute cost/budget before restart
 ```
 
-## 9. Persistence contract
+## 10. Persistence contract
 
 Every executed provider item must be durably saved before the next provider call:
 
@@ -191,7 +241,7 @@ remote readback truth
 
 After all terminal items, create complete occurrence authority. If the occurrence universe is large, use ChatGPT Work for full union/transformation/QA; sampling is forbidden.
 
-## 10. Current execution state
+## 11. Current execution state
 
 ```text
 DOCUMENTATION_PREPARED = true
@@ -203,15 +253,18 @@ STEP_02_COMPLETE = true
 STEP_02_V2_QUALITY_TOTAL = 93/100
 STEP_02_V2_QUALITY_SCORE = 9.3/10
 STEP_03_STARTED = true
+STEP_03_PRE_STEP_EXTERNAL_RESEARCH = PASS
 STEP_03_PRE_STEP_PROVIDER_GATE = COMPLETE
 STEP_03_EXECUTION_MANIFEST_ROWS = 79
-STEP_03_BATCH_START_COMMAND = READY
-STEP_03_BATCH_STARTED = false
+STEP_03_BATCH_START_COMMAND = EXECUTED
+STEP_03_BATCH_STARTED = true
+STEP_03_BATCH_START_VERDICT = PASS
+STEP_03_RUNTIME_BRIDGE_VERSION_OBSERVED = 0.1.4
 STEP_03_PROVIDER_REQUESTS_STARTED = 0
 STEP_03_FIRST_ITEM = Q001_OR_CAPABILITY
 STEP_03_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = EXECUTE_WORDSTAT_BATCH_START_COMMAND
+NEXT_ACTION = EXECUTE_ONE_BATCH_NEXT_FOR_Q001
 PROVIDER_CALLS_FOR_KW002_JOB = 0
 WORK_HANDOFFS_EXECUTED = 1
 ```
