@@ -4,14 +4,14 @@
   "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "provider_acquisition": {
     "canonical_primary": 79,
-    "current_outcomes": 79,
+    "historical_current_outcomes": 79,
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 62,
+    "usable": 63,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48]
+    "remaining_run_orders": [33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -31,12 +31,29 @@
       "provider_replay": false
     }
   ],
+  "new_provider_recovery_observations": [
+    {
+      "run_order": 32,
+      "phrase": "Аум",
+      "request_id": "wordstat-efdd12e7-8d7b-4142-96c7-8ece1d883426",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 460,
+      "associations_rows": 16,
+      "totalCount": 15635,
+      "request_executed": true,
+      "automatic_retry": false,
+      "estimated_cost_rub": 0.02,
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__032__wordstat-efdd12e7-8d7b-4142-96c7-8ece1d883426.raw.txt",
+      "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
+    }
+  ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 0,
-    "replay_cost_so_far_rub": 0,
-    "next_rule": "For any remaining probe that cannot be losslessly rehydrated from preserved source: execute one new Wordstat observation, persist full result to GitHub, remote-readback and reconcile counts/provenance before the next provider request."
+    "replay_executed_so_far": 1,
+    "replay_estimated_cost_so_far_rub": 0.02,
+    "next_rule": "For any remaining probe that cannot be losslessly rehydrated from preserved source: execute exactly one new Wordstat observation, persist the complete result to GitHub, remote-readback and reconcile counts/provenance before the next provider request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDERS_32_THROUGH_48_ONE_AT_A_TIME_WITH_DURABLE_READBACK"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_33_KREST_SVAROGA_AFTER_RUN_32_REMOTE_READBACK_PASS"
 }
