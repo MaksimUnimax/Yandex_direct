@@ -1,0 +1,44 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-47f600b7-9d40-4c36-a4e9-1654b57b40fd",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "оберег для авто", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 440,
+  "result": {
+    "results": [
+      {"phrase":"оберег для авто","count":"51"},
+      {"phrase":"оберегать для авто","count":"35"}
+    ],
+    "associations": [
+      {"phrase":"как получить знак инвалид на автомобиль","count":"1186"},
+      {"phrase":"знаки автомобилей","count":"90202"},
+      {"phrase":"машина сбоку","count":"5353"},
+      {"phrase":"значки машин","count":"130509"},
+      {"phrase":"амулет машина","count":"2596"},
+      {"phrase":"защита арок автомобиля","count":"1209"},
+      {"phrase":"эмблемы автомобилей","count":"15311"},
+      {"phrase":"вездеходлаб тюнинг автомобилей","count":"106"},
+      {"phrase":"эмблемы машин","count":"20014"},
+      {"phrase":"знак ученик на автомобиль","count":"175"},
+      {"phrase":"икона в машину","count":"2109"},
+      {"phrase":"защита кузова автомобиля","count":"2335"},
+      {"phrase":"знак берегись автомобиля","count":"357"},
+      {"phrase":"кладбище автомобилей","count":"1086"},
+      {"phrase":"значки автомобилей","count":"31121"},
+      {"phrase":"джили значок на машине","count":"155"},
+      {"phrase":"знак перечеркнутая машина","count":"1479"}
+    ],
+    "totalCount": "51"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
