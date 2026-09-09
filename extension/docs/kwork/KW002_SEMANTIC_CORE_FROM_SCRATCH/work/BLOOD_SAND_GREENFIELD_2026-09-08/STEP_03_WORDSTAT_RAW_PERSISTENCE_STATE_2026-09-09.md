@@ -12,7 +12,7 @@ PERSISTENCE_ENFORCEMENT_START = M012
 CURRENT_POLICY = FULL_RAW_BEFORE_NEXT_BLOCK
 ```
 
-## Current post-gate state
+## M012–M021 current post-gate data
 
 M012–M021 have separate request-specific raw files under `STEP_03_WORDSTAT_RAW/`.
 
@@ -33,66 +33,95 @@ The register authority is:
 
 `STEP_03_MANUAL_LIVE_PROVIDER_RESULT_REGISTER_2026-09-09.csv`
 
-## Pre-gate manual results M001–M011
+## Historical pre-gate M001–M011 vs current-provider re-query R001–R011
 
-M001–M011 were received before the owner introduced the full-raw-immediate-persistence rule. Their full manual envelopes were visible in chat, but separate durable manual raw files were not created at receipt time.
+The original M001–M011 manual envelopes were received before full-raw immediate persistence was introduced. Their exact original request-specific bodies are still not present in the repository under their historical request IDs.
 
-On 2026-09-09 an explicit repository-wide search was performed for every manual request id M001–M011:
-
-```text
-M001 wordstat-f3a8dbb5-fe66-42cd-b390-e0fa7224ebfa = NOT_FOUND
-M002 wordstat-4e09043d-8d78-4f31-9052-c6dabf03b8b8 = NOT_FOUND
-M003 wordstat-e1516768-06d8-4c2c-b98d-0f8e33ac06a1 = NOT_FOUND
-M004 wordstat-acb25ed1-af95-4b4d-a3b9-6f0457f039e3 = NOT_FOUND
-M005 wordstat-c5cd06dc-80f1-4c75-bcf1-38c5f80f394f = NOT_FOUND
-M006 wordstat-c43215e7-c98c-4dd9-9c53-1d7567bc439b = NOT_FOUND
-M007 wordstat-79853139-3b9c-41b2-81f1-93451f46f4fa = NOT_FOUND
-M008 wordstat-da37bf5f-90fe-484c-9420-4f92f4428446 = NOT_FOUND
-M009 wordstat-a80febbd-5fab-4af0-8206-c7ffb205ef2d = NOT_FOUND
-M010 wordstat-01dc88a5-3877-4cf4-8312-1e2559016641 = NOT_FOUND
-M011 wordstat-ae1bba7f-fb4e-473b-a57a-7e7087ce7794 = NOT_FOUND
-```
-
-Therefore the durable-storage truth is:
+Historical original-ID durable truth remains:
 
 ```text
-MANUAL_RESULTS_RECEIVED_TOTAL = 21
-FULL_RAW_DURABLY_SAVED_AND_READ_BACK = 10
-FULL_RAW_NOT_DURABLY_SAVED = 11
-M001_M011_DURABLE_STATUS = MISSING_EXACT_RAW / PRE_GATE_BACKFILL_REQUIRED
-LEGACY_PRE_GATE_BACKFILL = PENDING
-DO_NOT_REISSUE_PROVIDER_REQUESTS_FOR_STORAGE_RECOVERY = true
+M001 wordstat-f3a8dbb5-fe66-42cd-b390-e0fa7224ebfa = ORIGINAL EXACT RAW NOT FOUND
+M002 wordstat-4e09043d-8d78-4f31-9052-c6dabf03b8b8 = ORIGINAL EXACT RAW NOT FOUND
+M003 wordstat-e1516768-06d8-4c2c-b98d-0f8e33ac06a1 = ORIGINAL EXACT RAW NOT FOUND
+M004 wordstat-acb25ed1-af95-4b4d-a3b9-6f0457f039e3 = ORIGINAL EXACT RAW NOT FOUND
+M005 wordstat-c5cd06dc-80f1-4c75-bcf1-38c5f80f394f = ORIGINAL EXACT RAW NOT FOUND
+M006 wordstat-c43215e7-c98c-4dd9-9c53-1d7567bc439b = ORIGINAL EXACT RAW NOT FOUND
+M007 wordstat-79853139-3b9c-41b2-81f1-93451f46f4fa = ORIGINAL EXACT RAW NOT FOUND
+M008 wordstat-da37bf5f-90fe-484c-9420-4f92f4428446 = ORIGINAL EXACT RAW NOT FOUND
+M009 wordstat-a80febbd-5fab-4af0-8206-c7ffb205ef2d = ORIGINAL EXACT RAW NOT FOUND
+M010 wordstat-01dc88a5-3877-4cf4-8312-1e2559016641 = ORIGINAL EXACT RAW NOT FOUND
+M011 wordstat-ae1bba7f-fb4e-473b-a57a-7e7087ce7794 = ORIGINAL EXACT RAW NOT FOUND
 ```
 
-Existing historical batch raw files are not to be falsely relabelled as these later manual request IDs.
+The owner subsequently explicitly allowed provider re-query when needed to recover the factual data. Eleven new Wordstat requests were therefore executed and returned as **new current-provider results with new request IDs**. They are recorded as `M001R`–`M011R` in the register and as `R001`–`R011` in the reconstruction package.
 
-The pre-gate storage debt may only be recovered from an exact preserved transcript/provider artifact. It must not be reconstructed from summaries and must not cause duplicate Wordstat requests.
+Their complete canonical response data is now durably persisted under:
 
-No report, QA output, cursor, or owner update may state that all 21 manual provider responses are durably saved until M001–M011 exact raw bodies have been recovered and independently read back.
+`STEP_03_WORDSTAT_RAW/REQUERY_COMPRESSED/README_RECONSTRUCTION_2026-09-09.md`
+
+Re-query package factual totals:
+
+```text
+REQUERY_CURRENT_PROVIDER_ENVELOPES = 11
+REQUERY_PROVIDER_OK = 10
+REQUERY_PROVIDER_ERROR_PRESERVED = 1
+REQUERY_RESULTS_ROWS = 6599
+REQUERY_ASSOCIATION_ROWS = 187
+REQUERY_CANONICAL_RESPONSE_TEXT_BYTES = 691717
+REQUERY_FULL_DATA_DURABLY_PERSISTED = 11/11
+REQUERY_REMOTE_STORAGE_IDENTITY = PASS
+REQUERY_LOCAL_RECONSTRUCTION_QA = PASS
+```
+
+Provenance boundary:
+
+```text
+R001..R011 != ORIGINAL M001..M011 BYTES
+R001..R011 != ORIGINAL M001..M011 REQUEST IDS
+ORIGINAL M001..M011 ROWS OVERWRITTEN = 0
+```
+
+The new data closes the **current factual data availability** problem for those eleven semantic probes while preserving the fact that the exact historical M001–M011 request bodies themselves were not recovered.
+
+There is no repository-level rule forbidding a new Wordstat request merely because a prior request exists. Re-query/replay decisions must follow the owner instruction and the applicable execution/methodology gates for the specific task; this persistence file does not invent an independent provider-call prohibition.
+
+## Durable counts after re-query persistence
+
+```text
+HISTORICAL_MANUAL_ROWS_M001_M021 = 21
+HISTORICAL_ORIGINAL_RAW_DURABLY_SAVED = 10   # M012–M021
+HISTORICAL_ORIGINAL_PRE_GATE_RAW_MISSING = 11 # M001–M011 originals
+CURRENT_REQUERY_ROWS_M001R_M011R = 11
+CURRENT_REQUERY_FULL_DATA_DURABLY_SAVED = 11
+REGISTER_ROWS_TOTAL = 32
+```
+
+These categories must not be collapsed into a false statement such as “all original M001–M021 raw bodies were recovered.”
 
 ## Progression rule from M012 onward
 
-The historical pre-gate storage debt does not weaken the new prospective rule and does not authorize replay.
-
-For every new provider delivery after M012:
+For every newly received provider delivery under the owner persistence rule:
 
 ```text
 RECEIVE RESULT BLOCK
-→ SAVE EACH COMPLETE FACTUAL RESULT SEPARATELY
-→ REMOTE READBACK
+→ SAVE THE COMPLETE FACTUAL RESULT
+→ REMOTE READBACK / IDENTITY CHECK
 → UPDATE REGISTER
-→ ONLY THEN ISSUE NEXT PROVIDER BLOCK
+→ ONLY THEN TREAT THE PERSISTENCE CONDITION AS PASSED
 ```
 
-If any newly received post-gate result is not persisted/read back:
+If a newly received post-gate result is not persisted/read back:
 
 ```text
-NEXT_WORDSTAT_PROVIDER_BLOCK_ALLOWED = false
+PERSISTENCE_GATE_NEXT_PROVIDER_BLOCK_ALLOWED = false
 ```
 
-Current post-gate block M012–M021 has passed persistence/readback, therefore:
+M012–M021 pass this prospective persistence condition. The later M001R–M011R data-persistence recovery also passes storage/readback and does not alter the M021 acquisition-cursor flag.
 
 ```text
 CURRENT_POST_GATE_PERSISTENCE = PASS
-NEXT_WORDSTAT_PROVIDER_BLOCK_ALLOWED = true
+REQUERY_DATA_PERSISTENCE = PASS
+PERSISTENCE_GATE_NEXT_PROVIDER_BLOCK_ALLOWED = true
 ```
+
+This last field is only the persistence gate. Any separate Wordstat depth/methodology, transport, owner, cost, or execution gate remains independently authoritative.
