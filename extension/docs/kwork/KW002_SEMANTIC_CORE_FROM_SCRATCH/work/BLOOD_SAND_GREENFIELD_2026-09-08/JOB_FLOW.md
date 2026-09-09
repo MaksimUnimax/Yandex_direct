@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 CURRENT / PRE-STEP PROVIDER GATE COMPLETE / BATCH START READY**
+Status: **STEP 03 CURRENT / BATCH START PASS / Q001 PROVIDER CHECK NEXT**
 
 ## Whole-job goal
 
@@ -38,7 +38,7 @@ WORK HANDOFFS EXECUTED = 1
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / corrected to Ozon-only |
 | 01 | Build factual business + complete assortment model | ✅ COMPLETE / PASS / MAIN RETURN QA PASS |
 | 02 | Build seed/acquisition map | ✅ COMPLETE / V2 REWORK PASS / **93/100 = 9.3/10** |
-| 03 | Primary Wordstat acquisition | 🟡 CURRENT / PRE-STEP PROVIDER GATE COMPLETE / BATCH START READY |
+| 03 | Primary Wordstat acquisition | 🟡 CURRENT / batch started / first provider item Q001 next |
 | 04 | First family triage | ⬜ NOT STARTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex competitor discovery | ⬜ NOT STARTED |
@@ -69,35 +69,43 @@ Step 02 V1 = 97 probes / 65/100 = 6.5/10 / SUPERSEDED
 Step 02 external method audit = COMPLETE
 Step 02 permanent Level-2 quality gate = ACTIVE
 Level-1 per-criterion 0–10 scoring rule = ACTIVE
+Level-1 fresh internet research + clickable source disclosure rule = ACTIVE
 Step 02 V2 primary manifest = 79
 Step 02 V2 deferred/control = 49
 Step 02 V2 QA = PASS / 93/100 = 9.3/10
+Step 03 external-source disclosure = PASS
 Step 03 live Bridge/Wordstat capability review = COMPLETE
-Step 03 external provider/pricing review = COMPLETE
 Step 03 pre-step/provider gate = COMPLETE
 Step 03 execution manifest = 79 rows / Q001 reordered to item 1 for OR check
 Step 03 acquisition receipt ledger = INITIALIZED
-Step 03 batch start command = FROZEN
+Step 03 batch.start = PASS
+Step 03 batch.start runtime version = 0.1.4
+Step 03 batch queue = 79 total / 79 pending / 0 duplicates / 0 requests started / 0 RUB
 ```
 
 ## Remaining work
 
 ```text
 Step 03:
-  batch.start (0 provider requests)
   first batch.next = Q001 grouped-OR capability/provider check
   persist/readback Q001 raw result
   if PASS -> continue remaining 78 one provider item at a time
   if OR failure -> cancel + deterministic 3-class fallback manifest
-  after all terminal -> complete raw/occurrence authority + QA + 0–10 scoring
+  after all terminal -> complete raw/occurrence authority + QA + 0–10-per-criterion scoring
 
 Then Steps 04–22.
 ```
 
-## Provider/accounting truth before first Step-03 command
+## Provider/accounting truth
 
 ```text
+WORDSTAT_BATCH_STARTED = true
+WORDSTAT_BATCH_STATUS = RUNNING
+WORDSTAT_BATCH_TOTAL = 79
+WORDSTAT_BATCH_PENDING = 79
+WORDSTAT_BATCH_DUPLICATE_INPUTS = 0
 WORDSTAT_REQUESTS_STARTED = 0
+WORDSTAT_ESTIMATED_COST_RUB = 0
 SEARCH_REQUESTS_STARTED = 0
 AI_SEARCH_REQUESTS_STARTED = 0
 WORDSTAT_EXPECTED_REQUESTS_CURRENT_MANIFEST = 79
@@ -109,9 +117,12 @@ WORK_HANDOFFS_EXECUTED = 1
 ## Current Step-03 authorities
 
 ```text
+STEP_03_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_2026-09-09.md
 STEP_03_PRE_STEP_PROVIDER_GATE_2026-09-09.md
 STEP_03_WORDSTAT_EXECUTION_MANIFEST_V1.csv
 STEP_03_WORDSTAT_BATCH_START_COMMAND_2026-09-09.txt
+STEP_03_WORDSTAT_BATCH_START_RESULT_2026-09-09.txt
+STEP_03_WORDSTAT_BATCH_START_ACCEPTANCE_2026-09-09.md
 STEP_03_WORDSTAT_ACQUISITION_RECEIPTS.csv
 ```
 
@@ -121,8 +132,6 @@ Upstream seed authority remains:
 STEP_02_PRIMARY_ACQUISITION_MANIFEST_V2.csv
 ```
 
-The Step-03 execution manifest contains the same 79 seeds but moves Q001 to item 1 so grouped OR is tested before mass acquisition.
-
 ## Current exact action
 
 ```text
@@ -131,10 +140,14 @@ STEP_02_QUALITY_TOTAL = 93/100
 STEP_02_QUALITY_SCORE = 9.3/10
 STEP_03_STARTED = true
 STEP_03_PRE_STEP_PROVIDER_GATE = COMPLETE
-STEP_03_BATCH_STARTED = false
+STEP_03_BATCH_STARTED = true
+STEP_03_BATCH_START_VERDICT = PASS
+STEP_03_RUNTIME_BRIDGE_VERSION_OBSERVED = 0.1.4
 STEP_03_PROVIDER_REQUESTS_STARTED = 0
+STEP_03_NEXT_ITEM = Q001_OR_CAPABILITY
+STEP_03_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = EXECUTE_WORDSTAT_BATCH_START_COMMAND
+NEXT_ACTION = EXECUTE_ONE_BATCH_NEXT_FOR_Q001
 ```
 
-`batch.start` itself must execute zero provider requests. After its result is received, the next authorised action is a single `batch.next` for Q001 only.
+Exactly one `batch.next` is authorised. After Q001 returns, no further provider request is allowed until its complete result is persisted, read back and reconciled.
