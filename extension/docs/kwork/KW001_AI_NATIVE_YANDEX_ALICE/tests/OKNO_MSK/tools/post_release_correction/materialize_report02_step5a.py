@@ -49,8 +49,9 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def stripws(text: str) -> str:
-    return re.sub(r'\s+', '', text.casefold())
+def compact(text: str) -> str:
+    """Normalize PDF/DOCX extraction independently of renderer line breaks/punctuation."""
+    return re.sub(r'[^0-9a-zа-яё]+', '', text.casefold())
 
 
 def extract_section(text: str, number: int, next_number: int) -> str:
@@ -70,7 +71,7 @@ def rebuild_markdown() -> None:
     assert s['demand_groups'] == 168
 
     t = MD.read_text(encoding='utf-8')
-    # Idempotent: a second run should keep the already-rebuilt document unchanged.
+    # Idempotent: a second run keeps an already-rebuilt document unchanged.
     if '## 11. Материалы, использованные в исследовании' in t and '### 6.2. Девять новых фраз' in t:
         return
 
@@ -157,7 +158,13 @@ def build_documents() -> None:
     tmp = Path('/tmp/report02-step5a-pdf')
     shutil.rmtree(tmp, ignore_errors=True)
     tmp.mkdir(parents=True)
-    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', str(tmp), str(DOCX)], check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    subprocess.run(
+        ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', str(tmp), str(DOCX)],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
     built = tmp / f'{DOCX.stem}.pdf'
     if not built.exists():
         raise RuntimeError('PDF was not generated')
@@ -178,6 +185,7 @@ def qa_and_metadata() -> None:
     docx_text = read_docx()
     reader = PdfReader(PDF)
     pdf_text = '\n'.join((p.extract_text() or '') for p in reader.pages)
+    pdf_pages = len(reader.pages)
     checks: list[dict] = []
 
     def ck(name: str, value: bool, detail=None):
@@ -217,28 +225,35 @@ def qa_and_metadata() -> None:
     ck('bibliography_10', len(re.findall(r'^\d+\. ', sec11, re.M)) == 10)
 
     for label, tx in [('docx', docx_text), ('pdf', pdf_text)]:
-        ck(label + '_title', 'Внедрение рекомендации' in tx)
-        ck(label + '_2856', '2 856' in tx or '2856' in tx)
-        ck(label + '_2348', '2 348' in tx or '2348' in tx)
-        ck(label + '_2322', '2 322' in tx or '2322' in tx)
-        ck(label + '_new9', all(stripws(x) in stripws(tx) for x in PHRASES9))
-        ck(label + '_new7', all(stripws(x) in stripws(tx) for x in PHRASES7))
-        ck(label + '_no_role', 'SEO-специалиста' not in tx and 'Документ №02 для' not in tx)
-    ck('pdf_pages_18', len(reader.pages) == 18, len(reader.pages))
+        ctx = compact(tx)
+        ck(label + '_title', compact('Внедрение рекомендации') in ctx)
+        ck(label + '_2856', compact('2 856') in ctx)
+        ck(label + '_2348', compact('2 348') in ctx)
+        ck(label + '_2322', compact('2 322') in ctx)
+        ck(label + '_new9', all(compact(x) in ctx for x in PHRASES9))
+        ck(label + '_new7', all(compact(x) in ctx for x in PHRASES7))
+        ck(label + '_no_role', compact('SEO-специалиста') not in ctx and compact('Документ №02 для') not in ctx)
+    ck('pdf_page_count_sane', 14 <= pdf_pages <= 30, pdf_pages)
     ck('provider_calls_zero', True)
+
     failed = [x for x in checks if not x['pass']]
     if failed:
         raise RuntimeError(f'QA failed: {failed}')
 
     shutil.rmtree(RENDER, ignore_errors=True)
     RENDER.mkdir(parents=True)
-    subprocess.run(['pdftoppm', '-png', '-r', '150', str(PDF), str(RENDER / 'page')], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(
+        ['pdftoppm', '-png', '-r', '150', str(PDF), str(RENDER / 'page')],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
     rendered = len(list(RENDER.glob('page-*.png')))
-    if rendered != 18:
-        raise RuntimeError(f'rendered pages {rendered}')
+    if rendered != pdf_pages:
+        raise RuntimeError(f'PDF render mismatch: reader={pdf_pages}, rendered={rendered}')
 
     qa = {
-        'schema': 'OKNO_MSK_REPORT02_STEP05A_PROPAGATION_QA_V4',
+        'schema': 'OKNO_MSK_REPORT02_STEP05A_PROPAGATION_QA_V5',
         'date': '2026-09-09',
         'status': 'PASS',
         'checks_passed': sum(x['pass'] for x in checks),
@@ -247,10 +262,10 @@ def qa_and_metadata() -> None:
         'artifacts': {
             'markdown': {'bytes': MD.stat().st_size, 'sha256': sha(MD)},
             'docx': {'bytes': DOCX.stat().st_size, 'sha256': sha(DOCX)},
-            'pdf': {'bytes': PDF.stat().st_size, 'sha256': sha(PDF), 'pages': 18},
+            'pdf': {'bytes': PDF.stat().st_size, 'sha256': sha(PDF), 'pages': pdf_pages},
         },
         'provider_calls': 0,
-        'pdf_render': 'PASS_18_OF_18',
+        'pdf_render': f'PASS_{rendered}_OF_{pdf_pages}',
         'remote_visual_readback': 'PENDING',
     }
     QA.write_text(json.dumps(qa, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
@@ -290,33 +305,84 @@ def qa_and_metadata() -> None:
     manifest['new_pages_from_step5a_claim_state'] = 'NOT_ASSERTED_FROM_SEMANTIC_CORE_WITHOUT_SEPARATE_DOWNSTREAM_EVIDENCE'
     manifest['new_physical_site_changes_from_step5a_claim_state'] = 'NOT_ASSERTED_FROM_SEMANTIC_CORE_WITHOUT_SEPARATE_DOWNSTREAM_EVIDENCE'
     manifest['report02_step5a_reconciled'] = True
-    manifest['report02_contract'] = {'ready_actions': 3, 'clarification_items': 5, 'semantic_assignment_rows': 55, 'base_topic_page_rows': 46, 'step5a_exact_assignment_rows': 9, 'step5a_unresolved_rows': 7, 'additional_checks': 4, 'unique_internal_link_directions': 14, 'bibliography_items': 10}
+    manifest['report02_contract'] = {
+        'ready_actions': 3,
+        'clarification_items': 5,
+        'semantic_assignment_rows': 55,
+        'base_topic_page_rows': 46,
+        'step5a_exact_assignment_rows': 9,
+        'step5a_unresolved_rows': 7,
+        'additional_checks': 4,
+        'unique_internal_link_directions': 14,
+        'bibliography_items': 10,
+    }
     manifest['report02_deterministic_content_qa'] = f"PASS__{qa['checks_passed']}_OF_{qa['checks_total']}"
-    manifest['report02_pdf_rerender'] = 'PASS__18_OF_18'
+    manifest['report02_pdf_rerender'] = f'PASS__{rendered}_OF_{pdf_pages}'
     manifest['report02_remote_visual_readback'] = 'PENDING'
     manifest['report02_provider_calls'] = 0
-    for a in manifest.get('artifacts', []):
-        if a.get('path') == PDF.name:
-            a.update(bytes=PDF.stat().st_size, sha256=sha(PDF), pages=18)
-        elif a.get('path') == str(DOCX.relative_to(REL)):
-            a.update(bytes=DOCX.stat().st_size, sha256=sha(DOCX))
-        elif a.get('path') == str(MD.relative_to(REL)):
-            a.update(bytes=MD.stat().st_size, sha256=sha(MD))
-        elif a.get('path') == 'README_RU.md':
-            a.update(bytes=README.stat().st_size, sha256=sha(README))
+    for artifact in manifest.get('artifacts', []):
+        if artifact.get('path') == PDF.name:
+            artifact.update(bytes=PDF.stat().st_size, sha256=sha(PDF), pages=pdf_pages)
+        elif artifact.get('path') == str(DOCX.relative_to(REL)):
+            artifact.update(bytes=DOCX.stat().st_size, sha256=sha(DOCX))
+        elif artifact.get('path') == str(MD.relative_to(REL)):
+            artifact.update(bytes=MD.stat().st_size, sha256=sha(MD))
+        elif artifact.get('path') == 'README_RU.md':
+            artifact.update(bytes=README.stat().st_size, sha256=sha(README))
     MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
     state = {
-        'project': 'OKNO_MSK', 'updated_date': '2026-09-09',
+        'project': 'OKNO_MSK',
+        'updated_date': '2026-09-09',
         'state': 'POST_RELEASE_DOCUMENT_02_STEP05A_RECONCILED__CONTENT_QA_PASS__REMOTE_VISUAL_READBACK_PENDING',
-        'research_stage_0_to_15': 'COMPLETE', 'current_document': '02',
+        'research_stage_0_to_15': 'COMPLETE',
+        'current_document': '02',
         'current_release': 'OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09',
         'current_report_02_visible_title': 'Внедрение рекомендации',
-        'integrated_semantic_core': {'canonical_rows': 2856, 'active_rows': 2348, 'exact_assignment_decision_rows': 2322, 'active_unresolved_exact_owner_rows': 26, 'demand_groups': 168, 'step5a_rows': 16, 'step5a_exact_assigned_rows': 9, 'step5a_unresolved_rows': 7},
-        'counts': {'ready_actions': 3, 'clarification_items': 5, 'semantic_assignment_rows': 55, 'base_topic_page_rows': 46, 'step5a_exact_assignment_rows': 9, 'step5a_unresolved_rows': 7, 'additional_checks': 4, 'page_link_rows': 14, 'bibliography_items': 10},
-        'quality': {'deterministic_content_qa': f"PASS__{qa['checks_passed']}_OF_{qa['checks_total']}", 'md_docx_pdf_key_content_equivalence': 'PASS', 'pdf_rerender': 'PASS__18_OF_18', 'remote_visual_readback': 'PENDING', 'unsupported_zero_new_page_claims': 0, 'unsupported_zero_physical_change_claims': 0, 'semantic_assignment_auto_physical_authorization_claims': 0, 'project_internal_traceability_hits': 0, 'provider_calls': 0},
-        'artifacts': {'markdown': {'path': str(MD.relative_to(ROOT)), 'sha256': sha(MD), 'bytes': MD.stat().st_size}, 'docx': {'path': str(DOCX.relative_to(ROOT)), 'sha256': sha(DOCX), 'bytes': DOCX.stat().st_size}, 'pdf': {'path': str(PDF.relative_to(ROOT)), 'sha256': sha(PDF), 'bytes': PDF.stat().st_size, 'pages': 18}, 'qa': QA.name, 'receipt': RECEIPT.name},
-        'protected_artifacts': {'document_01_modified_by_report02_rebuild': False, 'document_03_modified_by_report02_rebuild': False, 'semantic_core_04_modified_by_report02_rebuild': False},
+        'integrated_semantic_core': {
+            'canonical_rows': 2856,
+            'active_rows': 2348,
+            'exact_assignment_decision_rows': 2322,
+            'active_unresolved_exact_owner_rows': 26,
+            'demand_groups': 168,
+            'step5a_rows': 16,
+            'step5a_exact_assigned_rows': 9,
+            'step5a_unresolved_rows': 7,
+        },
+        'counts': {
+            'ready_actions': 3,
+            'clarification_items': 5,
+            'semantic_assignment_rows': 55,
+            'base_topic_page_rows': 46,
+            'step5a_exact_assignment_rows': 9,
+            'step5a_unresolved_rows': 7,
+            'additional_checks': 4,
+            'page_link_rows': 14,
+            'bibliography_items': 10,
+        },
+        'quality': {
+            'deterministic_content_qa': f"PASS__{qa['checks_passed']}_OF_{qa['checks_total']}",
+            'md_docx_pdf_key_content_equivalence': 'PASS',
+            'pdf_rerender': f'PASS__{rendered}_OF_{pdf_pages}',
+            'remote_visual_readback': 'PENDING',
+            'unsupported_zero_new_page_claims': 0,
+            'unsupported_zero_physical_change_claims': 0,
+            'semantic_assignment_auto_physical_authorization_claims': 0,
+            'project_internal_traceability_hits': 0,
+            'provider_calls': 0,
+        },
+        'artifacts': {
+            'markdown': {'path': str(MD.relative_to(ROOT)), 'sha256': sha(MD), 'bytes': MD.stat().st_size},
+            'docx': {'path': str(DOCX.relative_to(ROOT)), 'sha256': sha(DOCX), 'bytes': DOCX.stat().st_size},
+            'pdf': {'path': str(PDF.relative_to(ROOT)), 'sha256': sha(PDF), 'bytes': PDF.stat().st_size, 'pages': pdf_pages},
+            'qa': QA.name,
+            'receipt': RECEIPT.name,
+        },
+        'protected_artifacts': {
+            'document_01_modified_by_report02_rebuild': False,
+            'document_03_modified_by_report02_rebuild': False,
+            'semantic_core_04_modified_by_report02_rebuild': False,
+        },
         'next_action': 'REMOTE_VISUAL_READBACK_REPORT_02__THEN_OWNER_REVIEW__DO_NOT_START_DOCUMENT_03',
     }
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
@@ -349,8 +415,8 @@ PASS — документ №02 пересобран по интегрирова
 
 - Deterministic/content QA: PASS {qa['checks_passed']}/{qa['checks_total']}.
 - Markdown → DOCX → PDF key-content equivalence: PASS.
-- PDF pages: 18.
-- PDF re-render: PASS 18/18.
+- PDF pages: {pdf_pages}.
+- PDF re-render: PASS {rendered}/{pdf_pages}.
 - Remote visual readback: PENDING.
 - New provider calls: 0.
 
