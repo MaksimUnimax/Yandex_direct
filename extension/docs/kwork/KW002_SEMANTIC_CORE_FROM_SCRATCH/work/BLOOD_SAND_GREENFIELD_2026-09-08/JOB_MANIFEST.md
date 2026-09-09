@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY REQUIRED / STEP 04 BLOCKED**
+Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 64/79 / STEP 04 BLOCKED**
 
 ## 1. Job identity
 
@@ -72,56 +72,58 @@ Historical batch/requery receipts and original request identities remain preserv
 
 ## 6. Step 03 current truth
 
-The early `2 requests / MV3 >30s` state is historical and has been superseded by later acquisition work.
-
-Current canonical acquisition coverage:
-
 ```text
 CANONICAL_PRIMARY_PROBES = 79
 CURRENT_PROVIDER_ACQUISITION_OUTCOMES = 79/79
 STEP03_PROVIDER_ACQUISITION_COMPLETE = true
+INITIAL_LATE_QA_LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60/79
+STEP03_DURABLE_RAW_COMPLETE = false
+STEP03_DURABLE_RAW_STATUS = CORRECTION / RECOVERY IN PROGRESS
 ```
 
-Late downstream QA then proved that acquisition completeness and durable feed-forward completeness are not the same thing.
+Current recovery progress:
 
 ```text
-LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60/79
-AFFECTED_RUN_ORDERS = 32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,51
-STEP03_DURABLE_RAW_COMPLETE = false
-STEP03_DURABLE_RAW_STATUS = CORRECTION / REWORK REQUIRED
+RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY
+RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY
+RUN_32 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
+RUN_33 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PENDING UNTIL COMMIT READBACK
+CURRENT_DURABLE_FEED_FORWARD = 64/79
+REMAINING_RUN_ORDERS = 34..48
+REMAINING_COUNT = 15
+RECOVERY_PROVIDER_REQUESTS = 2
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.04
 ```
 
-Correction authorities:
+Current recovery authority:
 
-- `STEP_03_RAW_RECOVERY_2026-09-09.md`
-- `STEP_03_WORDSTAT_RAW_PERSISTENCE_STATE_2026-09-09.md`
-- `STEP_04_WORK_RETURN_RECEIPT_2026-09-09.md`
+`STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
 
 ## 7. Recovery source and replay boundary
 
-Original full Wordstat delivery text for both affected large blocks was located in preserved prior-dialogue File Library uploads. It is a recovery source only until materialized into durable GitHub evidence.
+Original full Wordstat delivery text for both affected large blocks was located in preserved prior-dialogue File Library uploads. It remains a recovery source, but large results cannot be safely materialized from truncated snippets in the current file interface.
 
 ```text
 RECOVERY_SOURCE_FOUND = true
-SOURCE_REHYDRATION_PRIORITY = FIRST
-PROVIDER_REQUERY = FALLBACK_ONLY_IF_SOURCE_RECOVERY_IS_INSUFFICIENT
-PROVIDER_REQUESTS_DURING_CURRENT_RECOVERY = 0
-PROVIDER_COST_DURING_CURRENT_RECOVERY = 0
+SOURCE_REHYDRATION_PRIORITY = FIRST WHEN LOSSLESS ACCESS EXISTS
+PROVIDER_REQUERY = AUTHORIZED FALLBACK
+ONE RECOVERY PROVIDER RESULT AT A TIME = REQUIRED
+FULL GITHUB WRITE + REMOTE READBACK BEFORE NEXT REQUEST = REQUIRED
 ```
 
-Owner has authorized re-collection if genuinely needed. If any probe must be re-queried, use new request identity and persist/read back the complete result before the next paid request.
+New recovery request identities never replace historical request IDs.
 
 ## 8. Current Bridge/runtime boundary
 
-The repository source version and historical browser runtime version are separate facts. The active installed Bridge version/service/mode in the current browser session is not asserted without runtime readback.
+The recovery observations actually received in this dialogue identify:
 
 ```text
-CURRENT_INSTALLED_BRIDGE_VERSION = UNKNOWN
-CURRENT_ACTIVE_SERVICE = UNKNOWN
-CURRENT_MANUAL_AUTORUN_STATE = UNKNOWN
+OBSERVED_RECOVERY_BRIDGE_VERSION = 0.1.4
+OBSERVED_RECOVERY_ACTIVE_SERVICE = wordstat
+OBSERVED_RECOVERY_CHANNEL = manual
 ```
 
-No provider action may be claimed from this session unless those runtime facts are actually available.
+This observation is scoped to the returned recovery provider envelopes and is not a claim about every future browser state.
 
 ## 9. Step 04 independent gate
 
@@ -150,11 +152,12 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_RAW_RECOVERY_SOURCE_FOUND = true
+STEP_03_DURABLE_FEED_FORWARD = 64/79
+STEP_03_REMAINING_RECOVERY = 15
 STEP_04_STARTED = false
 STEP_04_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = MATERIALIZE_AND_VERIFY_FULL_RAW_FOR_19_AFFECTED_PROBES
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_34_SHLEM_UZHASA_AFTER_RUN_33_REMOTE_READBACK_PASS
 ```
 
-Do not infer a provider-call total from the obsolete early two-request state. Historical provider economics must be reconciled from the complete acquisition receipts when economics are measured at the later roadmap stage.
+Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the two new recovery observations.

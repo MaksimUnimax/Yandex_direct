@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 62/79 / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 64/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 62/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 64/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -75,11 +75,13 @@ Recovery progress now:
 ```text
 RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved
 RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved
-CURRENT_USABLE_FEED_FORWARD = 62/79
-REMAINING_RUN_ORDERS = 32-48
-REMAINING_COUNT = 17
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 0
-RECOVERY_PROVIDER_COST_SO_FAR = 0
+RUN_32 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
+RUN_33 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PENDING UNTIL COMMIT READBACK
+CURRENT_USABLE_FEED_FORWARD = 64/79
+REMAINING_RUN_ORDERS = 34-48
+REMAINING_COUNT = 15
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 2
+RECOVERY_PROVIDER_COST_SO_FAR = 0.04 RUB
 ```
 
 Current recovery progress authority:
@@ -95,9 +97,9 @@ Correction authorities:
 
 ## Recovery strategy
 
-The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining 17 large results cannot be safely materialized from truncated search snippets in the current file interface.
+The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining large results cannot be safely materialized from truncated search snippets in the current file interface.
 
-Owner has authorized re-collection if needed. For the remaining 17 probes:
+Owner has authorized re-collection if needed. For the remaining probes:
 
 ```text
 TRY FULL SOURCE REHYDRATION WHEN LOSSLESS FILE ACCESS EXISTS
@@ -132,11 +134,11 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 62/79
-STEP_03_REMAINING_RECOVERY = 17
+STEP_03_DURABLE_FEED_FORWARD = 64/79
+STEP_03_REMAINING_RECOVERY = 15
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDERS_32_THROUGH_48_ONE_AT_A_TIME_WITH_DURABLE_READBACK
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_34_SHLEM_UZHASA_AFTER_RUN_33_REMOTE_READBACK_PASS
 ```
 
 Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.
