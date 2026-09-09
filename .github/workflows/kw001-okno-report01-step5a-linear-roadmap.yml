@@ -39,7 +39,7 @@ jobs:
 
       - name: Rebuild Report 01 in canonical Step5A order everywhere
         run: |
-          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_step5a_linear_roadmap_rebuild_v3.py
+          python extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/document01_step5a_final_linear_polish.py
 
       - name: Render and inspect every PDF page
         run: |
@@ -99,7 +99,7 @@ jobs:
           git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ROADMAP_REBUILD_2026-09-09.md"
           git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ORDER_QA_2026-09-09.json"
           git add "$ROOT/DOCUMENT_01_STEP05A_LINEAR_ORDER_REBUILD_2026-09-09.md"
-          git commit -m "docs(okno-msk): place Step5A linearly across report01 [skip ci]"
+          git commit -m "docs(okno-msk): finalize linear Step5A report01 wording [skip ci]"
           git push origin HEAD:roadmap/kwork-productization-2026-08-28
           git rev-parse HEAD > /tmp/material_head
 
@@ -111,7 +111,7 @@ jobs:
           test "$(git rev-parse HEAD:extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_CORRECTED_2026-09-05)" = "$(cat /tmp/old_release_before)"
           SRC=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/sources/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.md
           git show "$(cat /tmp/material_head):$SRC" | grep -F '### Анализ конкурентов и расширение семантики'
-          if git show "$(cat /tmp/material_head):$SRC" | grep -Ei 'после основного исследования|дополнительный анализ конкурентов|после анализа конкурентов|по первоначальному ядру|проверок исходного ядра'; then
+          if git show "$(cat /tmp/material_head):$SRC" | grep -Ei 'после основного исследования|дополнительный анализ конкурентов|после анализа конкурентов|по первоначальному ядру|проверок исходного ядра|отдельное «дополнение» к уже завершённому ядру|поздняя поправка к готовому отчёту'; then
             echo 'late-addition wording survived remote readback'; exit 1
           fi
           python - <<'PY'
@@ -121,6 +121,8 @@ jobs:
           text=subprocess.check_output(['git','show',f'{head}:{path}'],text=True)
           r=text[text.index('## Результат исследования'):text.index('\n## Как проводилась работа')]
           assert r.index('### Анализ конкурентов и расширение семантики') < r.index('Обычная выдача Яндекса использовалась для тех формулировок') < r.index('Проверка ядра по выдаче Алисы была одной из основных частей работы.')
+          m=text[text.index('## Как проводилась работа'):text.index('\n## Что показала обычная выдача Яндекса')]
+          assert m.index('Затем собрали базовый спрос в Wordstat') < m.index('Следующим этапом дорожной карты был анализ конкурентных пробелов.') < m.index('После объединения базового и конкурентного сбора итоговый сохранённый корпус составил 2 856 уникальных фраз.')
           print('REMOTE_LINEAR_ORDER_PASS')
           PY
           echo "START_HEAD=$(cat /tmp/start_head)"
