@@ -1,6 +1,6 @@
 # MK01 — AUTONOMOUS EXECUTION ROADMAP
 
-Status: **DEFINED / PENDING OKNO_MSK STANDALONE REHEARSAL**
+Status: **VALIDATED ON OKNO_MSK / CLIENT PACKAGING DEFINED**
 
 This is the operational sequence for a real MK01 order. It is intentionally smaller than full KW-001 and has no hidden dependency on omitted stages.
 
@@ -43,12 +43,16 @@ Freeze current-authority manifest, reconcile Search decisions as exact-universe 
 
 Run separately: DATA QA; SEMANTIC QA; WORKBOOK QA; RECIPIENT-LANGUAGE QA; VISUAL QA; OWNER/RECIPIENT TASK QA; PERSISTENCE/REMOTE READBACK QA.
 
+## CLIENT HANDOFF
+
+After Step 10 PASS, package the result according to `PRODUCT_PACKAGING.md` and fill `CLIENT_HANDOFF_TEMPLATE.md` from the accepted current-job counts. The client receives the standalone seven-sheet XLSX plus a short delivery explanation. Internal audit sidecars do not replace the workbook and are not automatically sent.
+
 ## PRODUCT COMPLETION
 
-Done only when scope frozen + Yandex evidence durable + full governed phrase accounting + uncertainty preserved + targeted Search done where justified + clustering semantic QA PASS + standalone artifact PASS + remote/persisted identity PASS.
+Done only when scope recorded + Yandex evidence durable + full governed phrase accounting + uncertainty preserved + targeted Search done where justified + clustering semantic QA PASS + standalone artifact PASS + client handoff packaged + remote/persisted identity PASS.
 
 Outside completion: page ownership, SEO architecture, competitor gap audit, implementation TZ, Alice/AEO, Google SEO.
 
 ## REVISION RULE
 
-After order freeze, material changes to region/site/business families are logged as revisions. Re-run only affected evidence/analysis where justified; do not erase or blindly recollect valid historical evidence.
+After order scope is recorded, material changes to region/site/business families are logged as revisions. Re-run only affected evidence/analysis where justified; do not erase or blindly recollect valid historical evidence.
