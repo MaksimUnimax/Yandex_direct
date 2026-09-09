@@ -1,0 +1,317 @@
+{
+  "schema": "OKNO_MSK_FINAL_SEMANTIC_CORE_STEP05A_INTEGRATED_QA_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "checks_passed": 37,
+  "checks_total": 37,
+  "totals": {
+    "canonical": 2856,
+    "active": 2348,
+    "exact_assignment_decisions": 2322,
+    "unresolved_exact_owner": 26,
+    "demand_groups": 168,
+    "step5a": 16,
+    "duplicates": 0,
+    "provider_calls": 0
+  },
+  "checks": [
+    {
+      "id": "A_BASE_ROWS_REPRODUCE_HISTORICAL_SET",
+      "status": "PASS",
+      "evidence": 2840
+    },
+    {
+      "id": "B_STEP5A_ACCEPTED_EXACTLY_16",
+      "status": "PASS",
+      "evidence": 16
+    },
+    {
+      "id": "C_BASE_STEP5A_INTERSECTION_ZERO",
+      "status": "PASS",
+      "evidence": 0
+    },
+    {
+      "id": "D_UNION_2840_PLUS_16_EQUALS_2856",
+      "status": "PASS",
+      "evidence": [
+        2840,
+        16,
+        2856
+      ]
+    },
+    {
+      "id": "E_NO_DUPLICATE_NORMALIZED_PHRASES",
+      "status": "PASS",
+      "evidence": 0
+    },
+    {
+      "id": "F_ALL_ROWS_HAVE_PROVENANCE",
+      "status": "PASS",
+      "evidence": 2856
+    },
+    {
+      "id": "G_ACTIVE_ROWS_HAVE_SEMANTIC_STATE",
+      "status": "PASS",
+      "evidence": {
+        "ASSIGNED": 2280,
+        "SEARCH_REQUIRED": 19,
+        "ASSIGNED_HOLD": 49
+      }
+    },
+    {
+      "id": "H_EXACT_ASSIGNMENTS_HAVE_AUTHORITY_TRAIL",
+      "status": "PASS",
+      "evidence": true
+    },
+    {
+      "id": "I_OWNER_LAYERS_NOT_CONFLATED",
+      "status": "PASS",
+      "evidence": {
+        "exact_field": "exact_primary_page",
+        "family_field": "family_primary_page"
+      }
+    },
+    {
+      "id": "J_UNRESOLVED_URLS_NOT_INVENTED",
+      "status": "PASS",
+      "evidence": 26
+    },
+    {
+      "id": "K_ACTIVE_ROWS_2348",
+      "status": "PASS",
+      "evidence": 2348
+    },
+    {
+      "id": "L_EXACT_ASSIGNMENT_DECISIONS_2322",
+      "status": "PASS",
+      "evidence": 2322
+    },
+    {
+      "id": "M_ACTIVE_UNRESOLVED_EXACT_OWNER_26",
+      "status": "PASS",
+      "evidence": 26
+    },
+    {
+      "id": "N_DEMAND_GROUPS_168",
+      "status": "PASS",
+      "evidence": [
+        168,
+        168
+      ]
+    },
+    {
+      "id": "O_ALL_16_STEP5A_PHRASES_PRESENT",
+      "status": "PASS",
+      "evidence": 16
+    },
+    {
+      "id": "P_STEP5A_PASSED_COMMON_DOWNSTREAM_MODEL",
+      "status": "PASS",
+      "evidence": {
+        "ASSIGNED": 9,
+        "ASSIGNED_HOLD": 7
+      }
+    },
+    {
+      "id": "Q_NO_LATE_DELTA_APPENDIX",
+      "status": "PASS",
+      "evidence": [
+        148,
+        181,
+        281,
+        282,
+        283,
+        284,
+        586,
+        770,
+        807,
+        2352,
+        2353,
+        2354,
+        2447,
+        2850,
+        2851,
+        2852
+      ]
+    },
+    {
+      "id": "ACTIVE_CORE_FIELD_EXACT_SUBSET",
+      "status": "PASS",
+      "evidence": 2348
+    },
+    {
+      "id": "STEP5A_LINEAGE_COMPLETE",
+      "status": "PASS",
+      "evidence": 16
+    },
+    {
+      "id": "STEP5A_OWNER_SPLIT_9_7",
+      "status": "PASS",
+      "evidence": {
+        "OWNER_EXISTING": 9,
+        "OWNER_UNRESOLVED_EVIDENCE_REQUIRED": 7
+      }
+    },
+    {
+      "id": "STEP5A_NO_NEW_PAGE_OR_PHYSICAL_CHANGE",
+      "status": "PASS",
+      "evidence": true
+    },
+    {
+      "id": "SEARCH_EVIDENCE_BOUNDARY_PRESERVED",
+      "status": "PASS",
+      "evidence": {
+        "STEP5A_DISCOVERY_SEARCH_EVIDENCE_PRESERVED": 10,
+        "EXACT_QUERY_SEARCH_EVIDENCE_PRESERVED": 6
+      }
+    },
+    {
+      "id": "AI_CHECKS_ONLY_WHERE_USED",
+      "status": "PASS",
+      "evidence": {
+        "NOT_USED_FOR_THIS_EXACT_PHRASE": 2848,
+        "EXACT_QUERY_AI_CHECK_PRESERVED": 8
+      }
+    },
+    {
+      "id": "XLSX_REOPENS_WITH_EXPECTED_SHEETS",
+      "status": "PASS",
+      "evidence": [
+        "Как пользоваться",
+        "Итоговое ядро",
+        "Группы спроса",
+        "Страницы и назначение",
+        "Не назначено точно",
+        "Исключено и отложено",
+        "Источники и происхождение"
+      ]
+    },
+    {
+      "id": "XLSX_ROWS_REPRODUCED_FROM_WORKBOOK",
+      "status": "PASS",
+      "evidence": {
+        "Как пользоваться": 15,
+        "Итоговое ядро": 2857,
+        "Группы спроса": 169,
+        "Страницы и назначение": 61,
+        "Не назначено точно": 27,
+        "Исключено и отложено": 509,
+        "Источники и происхождение": 21
+      }
+    },
+    {
+      "id": "XLSX_TABLES_AND_FILTERS_PRESENT",
+      "status": "PASS",
+      "evidence": 6
+    },
+    {
+      "id": "XLSX_FROZEN_HEADERS_PRESENT",
+      "status": "PASS",
+      "evidence": {
+        "Как пользоваться": false,
+        "Итоговое ядро": true,
+        "Группы спроса": true,
+        "Страницы и назначение": true,
+        "Не назначено точно": true,
+        "Исключено и отложено": true,
+        "Источники и происхождение": true
+      }
+    },
+    {
+      "id": "XLSX_NO_HIDDEN_SHEETS",
+      "status": "PASS",
+      "evidence": {
+        "Как пользоваться": "visible",
+        "Итоговое ядро": "visible",
+        "Группы спроса": "visible",
+        "Страницы и назначение": "visible",
+        "Не назначено точно": "visible",
+        "Исключено и отложено": "visible",
+        "Источники и происхождение": "visible"
+      }
+    },
+    {
+      "id": "XLSX_NO_FORMULAS_OR_FORMULA_ERRORS",
+      "status": "PASS",
+      "evidence": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "XLSX_NO_TABULAR_MERGES",
+      "status": "PASS",
+      "evidence": {
+        "Как пользоваться": 4,
+        "Итоговое ядро": 0,
+        "Группы спроса": 0,
+        "Страницы и назначение": 0,
+        "Не назначено точно": 0,
+        "Исключено и отложено": 0,
+        "Источники и происхождение": 1
+      }
+    },
+    {
+      "id": "XLSX_NO_CLIENT_DELTA_APPENDIX_LANGUAGE",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "id": "XLSX_VISUAL_QA_7_OF_7",
+      "status": "PASS",
+      "evidence": {
+        "schema": "OKNO_MSK_INTEGRATED_CORE_VISUAL_QA_V1",
+        "date": "2026-09-09",
+        "status": "PASS",
+        "workbook_sha256": "30ac9828af198826ca4ae771aa08fce7408e9909806b321b97304dbeb52425ea",
+        "sheets_inspected": 7,
+        "sheets_total": 7,
+        "inspected": [
+          "Как пользоваться",
+          "Итоговое ядро",
+          "Группы спроса",
+          "Страницы и назначение",
+          "Не назначено точно",
+          "Исключено и отложено",
+          "Источники и происхождение"
+        ],
+        "checks": {
+          "headers_visible": true,
+          "body_text_legible": true,
+          "wrapped_text_not_clipped": true,
+          "urls_visible": true,
+          "empty_primary_sheets": 0,
+          "broken_tables": 0,
+          "formula_error_tokens_visible": 0,
+          "internal_delta_appendix_visible": false,
+          "exact_owner_family_owner_distinction_visible": true
+        }
+      }
+    },
+    {
+      "id": "URLS_WELL_FORMED",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "id": "R_HISTORICAL_CORRECTED_RELEASE_TREE_UNCHANGED",
+      "status": "PASS",
+      "evidence": "a011ea5b5afa00a21031a254eb86ca6bd7b7a89f"
+    },
+    {
+      "id": "R_HISTORICAL_STAGE5_MASTER_UNCHANGED",
+      "status": "PASS",
+      "evidence": "5104cf41f9877eb5e36d53009a1d3c27b6584e9b"
+    },
+    {
+      "id": "S_KW002_WORKTREE_UNTOUCHED",
+      "status": "PASS",
+      "evidence": "c9b49390f3977dbd89d79b70b02d266aff32e921"
+    },
+    {
+      "id": "T_PROVIDER_CALLS_ZERO",
+      "status": "PASS",
+      "evidence": 0
+    }
+  ]
+}

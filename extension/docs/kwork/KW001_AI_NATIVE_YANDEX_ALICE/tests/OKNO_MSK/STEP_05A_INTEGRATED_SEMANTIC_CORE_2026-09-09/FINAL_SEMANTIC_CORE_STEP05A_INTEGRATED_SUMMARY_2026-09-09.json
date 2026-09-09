@@ -1,0 +1,85 @@
+{
+  "schema": "OKNO_MSK_FINAL_SEMANTIC_CORE_STEP05A_INTEGRATED_V1",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "live_starting_head": "e5e813f4d5fc23321278680f0f30ec71eb501ab9",
+  "canonical_rows": 2856,
+  "base_rows": 2840,
+  "step5a_rows": 16,
+  "active_rows": 2348,
+  "exact_assignment_decision_rows": 2322,
+  "active_unresolved_exact_owner_rows": 26,
+  "demand_groups": 168,
+  "duplicate_normalized_phrases": 0,
+  "state_counts": {
+    "EXCLUDED_PRESERVED": 334,
+    "ASSIGNED": 2280,
+    "SEARCH_REQUIRED": 19,
+    "ASSIGNED_HOLD": 49,
+    "REVIEW_DEFERRED": 174
+  },
+  "step5a_global_sorted_positions": [
+    148,
+    181,
+    281,
+    282,
+    283,
+    284,
+    586,
+    770,
+    807,
+    2352,
+    2353,
+    2354,
+    2447,
+    2850,
+    2851,
+    2852
+  ],
+  "step5a_is_late_append": false,
+  "new_pages_from_step5a": 0,
+  "new_physical_site_changes_from_step5a": 0,
+  "provider_calls": 0,
+  "artifacts": {
+    "FINAL_SEMANTIC_MASTER_STEP05A_INTEGRATED_2026-09-09.tsv": {
+      "path": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09/FINAL_SEMANTIC_MASTER_STEP05A_INTEGRATED_2026-09-09.tsv",
+      "bytes": 4727538,
+      "sha256": "f5fb9f8a2f597b72863341b5e0d867122dbccbc03007110ed1ecc7839ccbb410"
+    },
+    "FINAL_ACTIVE_SEMANTIC_CORE_STEP05A_INTEGRATED_2026-09-09.tsv": {
+      "path": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09/FINAL_ACTIVE_SEMANTIC_CORE_STEP05A_INTEGRATED_2026-09-09.tsv",
+      "bytes": 4201728,
+      "sha256": "555690097709bc4c7c8f7758454441efba5c5e1c7b87ef05059317a13ce034e8"
+    },
+    "FINAL_PAGE_STRUCTURAL_AUTHORITY_STEP05A_INTEGRATED_2026-09-09.tsv": {
+      "path": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09/FINAL_PAGE_STRUCTURAL_AUTHORITY_STEP05A_INTEGRATED_2026-09-09.tsv",
+      "bytes": 87400,
+      "sha256": "7f06bfb5684848185872dd43d0e0b0a0ca6e3cf8d2f55142ea1780972fd2b4ac"
+    },
+    "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-09.xlsx": {
+      "path": "OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-09.xlsx",
+      "bytes": 351887,
+      "sha256": "30ac9828af198826ca4ae771aa08fce7408e9909806b321b97304dbeb52425ea"
+    },
+    "FINAL_SEMANTIC_CORE_STEP05A_INTEGRATED_QA_2026-09-09.json": {
+      "path": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09/FINAL_SEMANTIC_CORE_STEP05A_INTEGRATED_QA_2026-09-09.json",
+      "bytes": 8116,
+      "sha256": "29e4bf49b5ef0c060e4343c0037be17d76a64b2466d127314ecf3b304ec69d64"
+    },
+    "VISUAL_QA_RECEIPT.json": {
+      "path": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09/VISUAL_QA_RECEIPT.json",
+      "bytes": 893,
+      "sha256": "e939c303ac332690da91b93301c83ad4e90df1bd96fe1783e8e72ff25bed4a6f"
+    },
+    "XLSX_BUILD_RUNTIME.json": {
+      "path": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09/XLSX_BUILD_RUNTIME.json",
+      "bytes": 2242,
+      "sha256": "9fea04c201e01b20f73f0c67a2288c66304a20091ab35b3da0bea38ca8ac3b53"
+    }
+  },
+  "qa": {
+    "status": "PASS",
+    "checks_passed": 37,
+    "checks_total": 37
+  }
+}

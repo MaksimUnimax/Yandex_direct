@@ -1,0 +1,70 @@
+{
+  "schema": "OKNO_MSK_INTEGRATED_CORE_XLSX_RUNTIME_V1",
+  "status": "PASS",
+  "output": "/workspace/scratch/250cbce19ee8/Yandex_direct/extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/OKNO_MSK_RESEARCH_RELEASE_STEP05A_PROPAGATED_2026-09-09/04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-09.xlsx",
+  "sheets": [
+    "Как пользоваться",
+    "Итоговое ядро",
+    "Группы спроса",
+    "Страницы и назначение",
+    "Не назначено точно",
+    "Исключено и отложено",
+    "Источники и происхождение"
+  ],
+  "saved_used_rows": {
+    "Как пользоваться": 15,
+    "Итоговое ядро": 2857,
+    "Группы спроса": 169,
+    "Страницы и назначение": 61,
+    "Не назначено точно": 27,
+    "Исключено и отложено": 509,
+    "Источники и происхождение": 23
+  },
+  "source_counts": {
+    "canonical": 2856,
+    "active": 2348,
+    "unresolved_exact_owner": 26,
+    "excluded_deferred": 508,
+    "groups": 168,
+    "step5a": 16,
+    "exact_pages": 60
+  },
+  "formula_errors": 0,
+  "previews": [
+    {
+      "sheet": "Как пользоваться",
+      "range": "A1:H20",
+      "file": "Как_пользоваться.png"
+    },
+    {
+      "sheet": "Итоговое ядро",
+      "range": "A1:Q24",
+      "file": "Итоговое_ядро.png"
+    },
+    {
+      "sheet": "Группы спроса",
+      "range": "A1:P24",
+      "file": "Группы_спроса.png"
+    },
+    {
+      "sheet": "Страницы и назначение",
+      "range": "A1:G24",
+      "file": "Страницы_и_назначение.png"
+    },
+    {
+      "sheet": "Не назначено точно",
+      "range": "A1:I27",
+      "file": "Не_назначено_точно.png"
+    },
+    {
+      "sheet": "Исключено и отложено",
+      "range": "A1:E24",
+      "file": "Исключено_и_отложено.png"
+    },
+    {
+      "sheet": "Источники и происхождение",
+      "range": "A1:H24",
+      "file": "Источники_и_происхождение.png"
+    }
+  ]
+}

@@ -27,13 +27,13 @@
     },
     {
       "path": "04_OKNO_MSK_FULL_SEMANTIC_CORE_2026-09-09.xlsx",
-      "bytes": 1444674,
-      "sha256": "86e80ca99966f497fc34bb38051cf70ff54322ee180508030e9d4bd60d179e0b"
+      "bytes": 351887,
+      "sha256": "30ac9828af198826ca4ae771aa08fce7408e9909806b321b97304dbeb52425ea"
     },
     {
       "path": "README_RU.md",
-      "bytes": 1084,
-      "sha256": "3e97fe166bccee08c8408f8b8d8eaec1eb4bbe926357d386389d4a7a83f2484f"
+      "bytes": 1622,
+      "sha256": "2f7ca5250a554fb8a2e2b41b38c56bd65cbb70a112b8555621d7f4ce4ecfa86b"
     },
     {
       "path": "editable/01_OKNO_MSK_CLIENT_RESEARCH_REPORT_RU_2026-09-09.docx",
@@ -72,6 +72,11 @@
   "report01_competitor_accepted_phrases": 16,
   "report01_competitor_demand_directions": 7,
   "report01_competitor_result_section_order": "BEFORE_FINAL_SEARCH_AND_ALICE_SUMMARY",
+  "semantic_core_materialization": "STEP_05A_INTEGRATED_SEMANTIC_CORE_2026-09-09",
+  "semantic_core_mode": "ONE_LINEAR_CANONICAL_CORPUS",
+  "semantic_core_competitor_appendix": false,
+  "exact_assignment_decision_rows": 2322,
+  "active_unresolved_exact_owner_rows": 26,
   "report01_step5a_evidence_claim_gate": "PASS",
   "report01_step5a_search_requirements": 9,
   "report01_step5a_search_succeeded": 7,
