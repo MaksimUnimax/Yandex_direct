@@ -1,6 +1,6 @@
 # MK01 — CLIENT INPUT CONTRACT
 
-Status: **VALIDATED ON OKNO_MSK / CLIENT CARD WORDING PENDING PHASE 8–9**
+Status: **VALIDATED ON OKNO_MSK / COMMERCIAL V1 + XLSX/PDF DELIVERY RECONCILED**
 
 Working Kwork title:
 
@@ -66,7 +66,7 @@ Why required:
 
 Yandex Wordstat demand must be collected/reported under an explicit regional scope. The analyst must not silently choose a region because it seems obvious from a domain name or address.
 
-Initial MK01 base productization assumes **one primary region**. Multi-region pricing/limits are not silently included and will be fixed later if offered.
+Initial MK01 base productization assumes **one primary region**. Multi-region pricing/limits are not silently included and require a separately approved product revision if offered.
 
 ### R3. What products/services/directions must be included
 
@@ -260,7 +260,7 @@ primary_conversion_goal
 included_directions
 excluded_directions
 base_package = MK01
-requested_output = MK01 canonical deliverable
+requested_output = MK01 canonical XLSX + PDF deliverable
 existing_semantic_core = PROVIDED | NONE
 competitors_supplied = PROVIDED | NONE
 private_yandex_access_state = AVAILABLE | UNAVAILABLE | UNKNOWN | NOT_REQUESTED
@@ -354,7 +354,7 @@ A material revision must be logged and only affected acquisition/analysis rerun 
 
 ## 9. Client-facing “what I need from you” wording
 
-The required meaning has been validated on the standalone rehearsal. The exact marketplace/card wording is finalized in Phase 9 after Phase 8 fixes commercial limits and price.
+The required wording is reconciled with Commercial V1 and the Phase 9 card:
 
 > Для начала работы пришлите ссылку на действующий сайт, основной регион продвижения и коротко укажите, какие товары/услуги нужно включить в семантику и что точно не нужно собирать. Также напишите, какое основное действие должен совершать клиент на сайте — заказать, оставить заявку, позвонить и т. п. Если у вас уже есть список запросов или старое семантическое ядро, можете приложить — это необязательно. Доступ к Яндекс Вебмастеру, Метрике или Директу для базовой работы не требуется. Google Ads, Keyword Planner и другие данные Google в этот кворк не входят.
 
