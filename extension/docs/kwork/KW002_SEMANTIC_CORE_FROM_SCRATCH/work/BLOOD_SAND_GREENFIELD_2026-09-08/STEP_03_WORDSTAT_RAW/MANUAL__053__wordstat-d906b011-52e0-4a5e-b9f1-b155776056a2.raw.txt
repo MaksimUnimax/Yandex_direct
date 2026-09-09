@@ -1,0 +1,48 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-d906b011-52e0-4a5e-b9f1-b155776056a2",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "(амулет|оберег|талисман) Ом", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 397,
+  "result": {
+    "results": [
+      {"phrase": "амулеты ом", "count": "92"},
+      {"phrase": "оберег ом", "count": "45"},
+      {"phrase": "ом талисман", "count": "12"},
+      {"phrase": "амулет ом мани падме хум", "count": "8"},
+      {"phrase": "амулет ом значение", "count": "8"},
+      {"phrase": "знак ом значение оберега", "count": "2"}
+    ],
+    "associations": [
+      {"phrase": "лунница оберег", "count": "2520"},
+      {"phrase": "алатырь оберег", "count": "1972"},
+      {"phrase": "оберег для дома", "count": "6568"},
+      {"phrase": "камни обереги", "count": "13006"},
+      {"phrase": "талисман удачи", "count": "4882"},
+      {"phrase": "чвк талисман", "count": "552"},
+      {"phrase": "оберег чур", "count": "752"},
+      {"phrase": "заговоры обереги", "count": "2720"},
+      {"phrase": "омамори талисман", "count": "276"},
+      {"phrase": "оберег макошь", "count": "638"},
+      {"phrase": "бою талисман духи", "count": "101"},
+      {"phrase": "камни талисманы по знаку зодиака", "count": "658"},
+      {"phrase": "natilash amulets украшения", "count": "76"},
+      {"phrase": "обереги и талисманы купить", "count": "86"},
+      {"phrase": "камни обереги по знакам зодиака", "count": "329"},
+      {"phrase": "талисман для князя щит рода", "count": "228"},
+      {"phrase": "камень оберег для льва", "count": "391"}
+    ],
+    "totalCount": "151"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}

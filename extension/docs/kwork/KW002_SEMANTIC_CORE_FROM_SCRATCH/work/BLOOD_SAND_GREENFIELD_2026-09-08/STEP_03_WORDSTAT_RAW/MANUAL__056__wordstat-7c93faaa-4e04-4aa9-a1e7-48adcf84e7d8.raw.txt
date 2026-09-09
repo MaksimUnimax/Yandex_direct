@@ -1,0 +1,49 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-7c93faaa-4e04-4aa9-a1e7-48adcf84e7d8",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "оберег Родимич", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 421,
+  "result": {
+    "results": [
+      {"phrase": "оберег родимичей", "count": "39"},
+      {"phrase": "родимич славянский оберег", "count": "17"},
+      {"phrase": "оберег родимич значение", "count": "14"},
+      {"phrase": "родимич славянский оберег значение", "count": "9"}
+    ],
+    "associations": [
+      {"phrase": "славянская мифология", "count": "68933"},
+      {"phrase": "амулет", "count": "478463"},
+      {"phrase": "аметист магические свойства", "count": "4532"},
+      {"phrase": "семистрельная икона ее значение от чего оберегает", "count": "1027"},
+      {"phrase": "тигровый глаз магические свойства", "count": "1939"},
+      {"phrase": "магическая боевая дева лиристия смотреть", "count": "497"},
+      {"phrase": "родонит магические свойства", "count": "1273"},
+      {"phrase": "восхождение магического мечника", "count": "691"},
+      {"phrase": "лабрадорит магические свойства", "count": "1120"},
+      {"phrase": "амазонит магические свойства", "count": "905"},
+      {"phrase": "ратибор имя значение происхождение", "count": "502"},
+      {"phrase": "селенит магические свойства", "count": "699"},
+      {"phrase": "магическая боевая дева лиристия", "count": "1101"},
+      {"phrase": "бес славянская мифология", "count": "361"},
+      {"phrase": "сварог кто это у славян", "count": "460"},
+      {"phrase": "пирит магические свойства", "count": "1420"},
+      {"phrase": "амулет это", "count": "2849"},
+      {"phrase": "талисман крушителя", "count": "2399"},
+      {"phrase": "амулет или омулет", "count": "419"},
+      {"phrase": "бог род у славян", "count": "385"}
+    ],
+    "totalCount": "39"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}

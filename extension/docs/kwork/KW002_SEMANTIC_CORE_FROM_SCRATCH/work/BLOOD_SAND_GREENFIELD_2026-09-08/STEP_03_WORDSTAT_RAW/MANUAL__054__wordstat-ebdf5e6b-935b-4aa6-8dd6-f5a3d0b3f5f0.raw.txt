@@ -1,0 +1,44 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-ebdf5e6b-935b-4aa6-8dd6-f5a3d0b3f5f0",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {"estimated_rub": 0.02, "tariff_checked_at": "2026-08-12", "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"},
+  "policy": {"channel": "manual", "active_service": "wordstat"},
+  "command": {"method": "getTop", "phrase": "(амулет|оберег|талисман) Инь и Ян", "numPhrases": 2000, "regions": ["225"], "devices": ["DEVICE_ALL"]},
+  "http_status": 200,
+  "elapsed_ms": 426,
+  "result": {
+    "results": [
+      {"phrase": "четки с амулетом инь и ян", "count": "10"}
+    ],
+    "associations": [
+      {"phrase": "темный приносящий мм2 валюта", "count": "8629"},
+      {"phrase": "у бога на тебя особый вкус песня", "count": "8890"},
+      {"phrase": "олений мой талисман", "count": "4416"},
+      {"phrase": "матрица горяева всеисцеляющая мощное исцеление всего организма", "count": "1546"},
+      {"phrase": "мантра на привлечение денег и благополучия мощная", "count": "1098"},
+      {"phrase": "яшма магические свойства", "count": "5356"},
+      {"phrase": "мой сосед ботан хозяин магической башни", "count": "1134"},
+      {"phrase": "правила или интуиция геншин", "count": "1075"},
+      {"phrase": "тигровый глаз магические свойства", "count": "1939"},
+      {"phrase": "я талисманом буду верным непременно", "count": "1794"},
+      {"phrase": "все вкусы монстра энергетик", "count": "2816"},
+      {"phrase": "ам ням перережь веревку магия", "count": "653"},
+      {"phrase": "черный агат магические свойства", "count": "1685"},
+      {"phrase": "магическая боевая дева лиристия смотреть", "count": "497"},
+      {"phrase": "чароит магические свойства", "count": "1147"},
+      {"phrase": "храни меня мой талисман фильм", "count": "2459"},
+      {"phrase": "амазонит магические свойства", "count": "905"},
+      {"phrase": "магическая боевая дева лиристия", "count": "1101"}
+    ],
+    "totalCount": "18"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
