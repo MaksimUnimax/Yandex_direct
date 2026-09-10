@@ -1,6 +1,6 @@
 # KW-001 — серия из 7 коммерческих мини-кворков
 
-Status: **ACTIVE PRODUCTIZATION / MK01 V1 FROZEN / MK02 METHOD READY / PHASE 5 WORK NEXT**
+Status: **ACTIVE PRODUCTIZATION / MK01 V1 FROZEN / MK02 PHASE 6 PACKAGE PASS / PHASE 7 QA NEXT**
 
 ## 0. ОБЯЗАТЕЛЬНЫЙ START HERE — как разрабатываются mini-kwork
 
@@ -53,7 +53,7 @@ DEVELOPMENT PROTOCOL NOT READ
 
 Мини-кворк не является сокращённым рекламным текстом полного KW-001. Это самостоятельный продукт с собственным входом, обещанием, дорожной картой, границами, выдачей и Definition of Done.
 
-## 2. Две независимые двухуровневые архитектуры
+## 2. Две независимые двухурровневые архитектуры
 
 ### 2.1. Уровни данных
 
@@ -198,7 +198,7 @@ CLIENT-FACING MEANING
 | ID | Рабочее название | Основной продаваемый результат | Ключевые KW-001 этапы | Статус |
 |---|---|---|---|---|
 | MK01 | Семантическое ядро + кластеризация | очищенное, подтверждённое спросом ядро и кластеры | 0–8 + targeted 9 + 10 + 19–20 | **OWNER ACCEPTED / V1 FROZEN** |
-| MK02 | Семантическое ядро + SEO-структура + ТЗ на доработку | ядро → владельцы/структура → конкретное ТЗ | MK01 foundation + 11–14 + 18–20 | **METHOD READY / PHASE 5 WORK NEXT** |
+| MK02 | Семантическое ядро + SEO-структура + ТЗ на доработку | ядро → владельцы/структура → конкретное ТЗ | MK01 foundation + 11–14 + 18–20 | **PHASE 6 PACKAGE PASS / PHASE 7 QA NEXT** |
 | MK03 | SEO-анализ конкурентов + семантические/структурные пробелы | реальные Search-конкуренты → missed demand → подтверждённые gaps | 0–5A + demand/Search validation + 7–8 + 19–20 | PLANNED |
 | MK04 | Запрос → страница + интенты + каннибализация | mapping запросов/семейств к страницам и конфликтам | 0–1 + 8–14 + 19–20 | PLANNED |
 | MK05 | SEO-ТЗ на внедрение | implementation-ready действия для специалиста | current-site recheck + canonical inputs + 12 + 18–20 | PLANNED |
@@ -294,7 +294,7 @@ MK01 FROZEN
 
 Owner accepted/froze MK01 V1 on 2026-09-10. MK01 visual/publication work is deferred and does not block MK02 productization.
 
-MK02 Phases 0–4 are complete. Its Level-1 method has been built and cross-reconciled before any MK02-specific OKNO_MSK data rehearsal.
+MK02 Phases 0–6 are complete. Phase 5 completed the isolated OKNO_MSK rehearsal; Phase 6 owner review froze the base physical client package as one XLSX plus separate analytical and implementation-TZ PDFs. Pricing, card and visuals have not started.
 
 ## 12. Текущая точка
 
@@ -302,6 +302,7 @@ MK02 Phases 0–4 are complete. Its Level-1 method has been built and cross-reco
 CURRENT_MINI_KWORK = MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ
 SERIES_DEVELOPMENT_AUTHORITY = MINI_KWORK_DEVELOPMENT_PROTOCOL.md
 MK01_STATE = OWNER_ACCEPTED__V1_FROZEN
-MK02_METHOD_STATE = READY_FOR_REHEARSAL
-NEXT_ACTION = PHASE_5_OKNO_MSK_MK02_ONLY_DATA_REHEARSAL_IN_WORK_MODE
+MK02_METHOD_STATE = PHASE_6_CLIENT_PACKAGING_PASS
+MK02_PHYSICAL_PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
+NEXT_ACTION = PHASE_7_MK02_PRODUCT_RECIPIENT_QA
 ```
