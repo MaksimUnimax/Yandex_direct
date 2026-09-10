@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 66,
+    "usable": 67,
     "required": 79,
-    "status": "RUN_36_REMOTE_READBACK_PENDING",
-    "remaining_run_orders": [36,37,38,39,40,41,42,43,44,45,46,47,48]
+    "status": "RECOVERY_IN_PROGRESS",
+    "remaining_run_orders": [37,38,39,40,41,42,43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -102,15 +102,18 @@
       "request_id": "wordstat-e142a328-7497-495b-83ee-ef069dbae0d0",
       "http_status": 200,
       "status": "OK",
-      "expected_results_rows": 2000,
-      "expected_associations_rows": 15,
+      "results_rows": 2000,
+      "results_rows_verification": "RECONCILED__PROVIDER_NUMPHRASES_2000__HISTORICAL_MANIFEST_2000__REMOTE_RAW_FIRST_AND_LAST_RESULT_PLUS_COMPLETE_TAIL_PRESENT__NOT_INDEPENDENTLY_PARSER_COUNTED",
+      "associations_rows": 15,
+      "associations_rows_verification": "REMOTE_COMPLETE_TAIL_READBACK",
       "totalCount": 3512863,
       "request_executed": true,
       "automatic_retry": false,
       "estimated_cost_rub": 0.02,
       "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__036__wordstat-e142a328-7497-495b-83ee-ef069dbae0d0.raw.txt",
       "raw_blob_sha": "e0b895235d957352a264a1020c882dfbfde3a00d",
-      "remote_readback": "PENDING",
+      "remote_readback": "PASS",
+      "remote_tail_readback": "PASS",
       "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
     }
   ],
@@ -121,5 +124,5 @@
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "COMPLETE_RUN_36_REMOTE_READBACK_AND_ROW_COUNT_CHECK_BEFORE_RUN_37"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_37_ZNAK_ZODIAKA_STRELETS"
 }
