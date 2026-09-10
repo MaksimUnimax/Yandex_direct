@@ -1,8 +1,11 @@
 # MK02 — DELIVERABLE SPEC
 
-Status: **TARGET-FIRST CLIENT-RESULT CONTRACT / PHASE 7 CORRECTIVE REWORK REQUIRED**
+Status: **TARGET-FIRST CLIENT-RESULT CONTRACT / PHASE 7 SECOND QUALITY CORRECTION REQUIRED**
 
-Owner correction authority: `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`.
+Owner correction authorities:
+
+- `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`;
+- `PHASE_7_OWNER_MARKET_GRADE_QUALITY_CORRECTION_2026-09-10.md`.
 
 ## 1. Sold result
 
@@ -41,10 +44,13 @@ For every applicable active phrase:
 
 ```text
 PHRASE
+→ INDIVIDUAL WORDSTAT DEMAND INDICATOR
 → CLUSTER / TASK
 → INTENDED TARGET LANDING PAGE KEY
 → TARGET URL / ROUTE OR EXPLICIT UNRESOLVED / NO-STANDALONE STATE
 ```
+
+The demand indicator must be present in this direct mapping view; the client must not need another sheet merely to sort phrases of one target page by demand.
 
 Full row accounting must reconcile to current semantic authority.
 
@@ -54,7 +60,9 @@ For every material cluster/task:
 - intended primary landing page;
 - page purpose;
 - page type;
-- primary/representative query;
+- one primary page job / intent;
+- primary/representative query with its individual Wordstat indicator;
+- top compatible secondary queries with individual Wordstat indicators where available;
 - member phrase count;
 - target URL/route;
 - parent/section;
@@ -81,9 +89,13 @@ One row per material intended landing page with at least:
 - page key;
 - page purpose;
 - page type;
-- primary task/intent;
-- primary/representative query;
+- one primary task/intent;
+- primary query + individual Wordstat indicator;
+- secondary query set + individual Wordstat indicators where available;
 - member phrase count;
+- recommended H1;
+- Title direction/draft for CREATE/OPTIMIZE where supported or explicit blocker;
+- analytical SEO priority + basis;
 - target URL/route;
 - parent/section;
 - child/supporting relationships where material;
@@ -92,7 +104,7 @@ One row per material intended landing page with at least:
 - action state;
 - uncertainty/evidence boundary.
 
-The target architecture must also be understandable as a hierarchy/tree or hierarchical table independent of the current site's navigation.
+The target architecture must also be understandable as a hierarchy/tree or hierarchical table independent of the current site's navigation. The analytical PDF additionally requires a scannable visual/indented tree representation, not only a wide table.
 
 ### H. Current-site reconciliation
 For every target page classify an equivalent current-match state such as:
@@ -118,12 +130,17 @@ TARGET PAGE / URL OR ROUTE
 PAGE TYPE
 PARENT / SECTION
 PAGE PURPOSE
-PRIMARY USER TASK / INTENT
-PRIMARY / REPRESENTATIVE QUERY
+ONE PRIMARY USER TASK / INTENT
+PRIMARY QUERY + INDIVIDUAL WORDSTAT INDICATOR
+TOP SECONDARY QUERIES + INDIVIDUAL WORDSTAT INDICATORS
 MEMBER PHRASE COUNT
+RECOMMENDED H1
+TITLE DIRECTION / DRAFT FOR CREATE/OPTIMIZE OR EXPLICIT BLOCKER
+ANALYTICAL SEO PRIORITY + BASIS
 SEMANTIC SCOPE / CLUSTER
-WHAT THE PAGE SHOULD COVER
-WHAT BELONGS ELSEWHERE / NO-STANDALONE BOUNDARY WHEN MATERIAL
+OWN COVERAGE
+SUPPORT / MENTION / LINK TOPICS WHEN MATERIAL
+ELSEWHERE / NAMED OWNER / NO-STANDALONE BOUNDARY WHEN MATERIAL
 SUPPORTING / CHILD / RELATED PAGES WHEN MATERIAL
 CURRENT URL MATCH / CURRENT STATE
 TARGET ACTION = CREATE | OPTIMIZE | ROUTE | KEEP | NO_STANDALONE | RECHECK
@@ -133,7 +150,13 @@ ACCEPTANCE / TARGET END STATE
 UNCERTAINTY / CLARIFICATION WHEN REQUIRED
 ```
 
-`KEEP` is a full target-page specification outcome, not an omission.
+The following is a hard quality rule:
+
+```text
+NORMALIZED OWN COVERAGE ∩ UNEXPLAINED ELSEWHERE = ∅
+```
+
+`KEEP` is a full target-page specification outcome, not an omission. However, full authority does not require one full PDF page per KEEP role.
 
 ### J. Current → target change delta
 The physical change register is a **subset** of the full page-spec register.
@@ -152,6 +175,14 @@ Where internal relationships are recommended, explain source/target meaning, vis
 ### N. Analytical explanation
 The analytical layer must visibly show the **target site/page model**, not mainly counts. It must explain demand/task directions, how clusters became landing pages, target page registry/hierarchy, current-vs-target match and meaningful examples.
 
+Required architecture presentation:
+
+```text
+SCANNABLE TREE / INDENTED HIERARCHY / BRANCH VIEW
++
+DETAILED TABLE AS COMPANION
+```
+
 ### O. Acceptance / measurement interface
 Each READY physical change has an observable implementation acceptance check. No invented ranking/traffic uplift or schedule.
 
@@ -162,7 +193,7 @@ Base MK02 package remains:
 ```text
 1. XLSX — semantic core + phrase map + landing map + target structure + page specs + delta
 2. PDF — analytical target-structure / landing-map report
-3. PDF — page-by-page target specification / site-improvement TZ
+3. PDF — complete target-page register + detailed page-spec / site-improvement TZ
 4. short Kwork/chat handoff message — not a separate file
 ```
 
@@ -173,11 +204,14 @@ A mandatory duplicate DOCX is not part of base V1.
 | Logical need | Primary carrier |
 |---|---|
 | Full phrase-level semantic core | XLSX |
-| Phrase→target page mapping | XLSX |
+| Phrase→target page mapping with individual demand | XLSX |
 | Cluster→target landing map | XLSX + analytical PDF summary/examples |
 | Target page registry / hierarchy | XLSX + analytical PDF |
+| Scannable architecture tree | analytical PDF + XLSX hierarchy view |
 | Current-site reconciliation | XLSX + analytical PDF summary |
-| Full page-by-page target specs | XLSX + TZ PDF |
+| Full page-by-page target specs | XLSX + compact complete TZ register |
+| Detailed CREATE/OPTIMIZE/ROUTE/RECHECK specs | TZ PDF + XLSX |
+| Material KEEP exception detail | TZ PDF when needed + XLSX always |
 | Physical change delta / READY tasks | XLSX + TZ PDF |
 | Clarifications / recheck / unresolved | XLSX + TZ PDF |
 | Page relationships | XLSX; TZ PDF when action-relevant |
@@ -192,8 +226,11 @@ TARGET LANDING != CURRENT PAGE MATCH
 TARGET ARCHITECTURE != CURRENT SITE TOPOLOGY
 FULL PAGE SPEC != PHYSICAL CHANGE TICKET
 NO SITE CHANGE != NO DELIVERABLE ENTRY
+KEEP VISIBLE != ONE FULL PDF PAGE PER KEEP
 SMALL CHANGE DELTA != SMALL PRODUCT RESULT
 THOUSANDS OF PHRASES IN PDF != USEFUL PAGE-BY-PAGE TZ
+ANALYTICAL SEO PRIORITY != IMPLEMENTATION ORDER
+WORDSTAT INDIVIDUAL COUNTS != SUMMABLE PAGE TRAFFIC FORECAST
 ```
 
 ## 6. Rehearsal honesty
@@ -221,6 +258,8 @@ All client views derive from the current accepted authority chain. No polished w
 
 No client artifact may imply completion of Google research/SEO, competitor-derived semantic gap research, Alice/Yandex Neuro/GenSearch/AEO analysis, website coding, full technical SEO audit, guaranteed rankings/traffic/leads/revenue, standalone historical harmful-cannibalization audit, or a production schedule without real owner/effort/capacity/timing inputs.
 
+Description production for every page is not silently added merely because H1/Title direction is part of page-spec quality.
+
 ## 10. Release boundary
 
 The package cannot pass until:
@@ -228,12 +267,18 @@ The package cannot pass until:
 ```text
 SEMANTIC ROW ACCOUNTING PASS
 + PHRASE→TARGET MAP ACCOUNTING PASS
++ WORDSTAT-IN-MAPPING PASS
 + CLUSTER→LANDING MAP PASS
 + TARGET PAGE REGISTRY / HIERARCHY PASS
++ PRIMARY/SECONDARY KEYWORD + INDIVIDUAL DEMAND PASS
++ PAGE-BOUNDARY COHERENCE PASS
++ H1 / APPLICABLE TITLE PASS
++ ANALYTICAL SEO PRIORITY / BASIS PASS
 + CURRENT-SITE RECONCILIATION PASS
 + FULL PAGE-SPEC COVERAGE PASS
 + PHYSICAL CHANGE DELTA / READINESS PASS
-+ ANALYTICAL TARGET-MODEL EXPLANATION PASS
++ ANALYTICAL TARGET-MODEL + SCANNABLE TREE PASS
++ TZ COMPACT-REGISTER + DETAILED-ACTION-CARDS PASS
 + CLIENT LANGUAGE PASS
 + XLSX USABILITY / PACKAGE QA PASS
 + BOTH PDF RENDER / RECIPIENT QA PASS
@@ -248,4 +293,8 @@ DELTA-ONLY CLIENT PACKAGE
 TARGET MODEL DERIVED ONLY BY COPYING CURRENT URLS
 KEEP/NO_CHANGE TARGET PAGES MISSING FROM PAGE SPECS
 TARGET STRUCTURE NOT UNDERSTANDABLE WITHOUT CURRENT SITE
+PRIMARY MAPPING REQUIRES ANOTHER SHEET TO SEE DEMAND
+PAGE SPEC MIXES HETEROGENEOUS PRIMARY TASKS
+OWN COVERAGE AND ELSEWHERE CONTRADICT WITHOUT EXPLANATION
+MECHANICAL FULL-PAGE EXPANSION OF EVERY KEEP ROLE
 ```
