@@ -1,10 +1,10 @@
 # MK02 — Семантическое ядро + SEO-структура сайта + ТЗ на доработку
 
-Status: **PHASES 0–5 PASS / PHASE 6 CLIENT DELIVERABLE PACKAGING NEXT**
+Status: **PHASES 0–6 PASS / PHASE 7 PRODUCT-RECIPIENT QA NEXT**
 
 ## MANDATORY SERIES DEVELOPMENT AUTHORITY — READ BEFORE CONTINUATION
 
-Before any MK02 productization continuation, method correction after rehearsal, Phase-6 packaging decision, pricing/card work or future versioned reopening, first read:
+Before any MK02 productization continuation, method correction after rehearsal, client-package QA, pricing/card work or future versioned reopening, first read:
 
 `../MINI_KWORK_DEVELOPMENT_PROTOCOL.md`
 
@@ -88,9 +88,9 @@ Current evidence:
 
 Final MK02 price/limits are **not assigned yet**. Phase 8 must use actual rehearsal workload plus refreshed market evidence.
 
-## Method package completed before data work
+## Level-1 package state
 
-Level-1 method now contains:
+Level-1 now contains the complete method plus the accepted Phase-6 client-package design:
 
 ```text
 PRODUCT_SCOPE.md
@@ -104,9 +104,12 @@ DELIVERABLE_SPEC.md
 QA_AND_RELEASE.md
 METHOD_CONSISTENCY_AUDIT_2026-09-10.md
 MARKET_REALITY_2026-09-10.md
+PRODUCT_PACKAGING.md
+CLIENT_HANDOFF_TEMPLATE.md
+PHASE_6_CLIENT_PACKAGING_OWNER_REVIEW_2026-09-10.md
 ```
 
-Phase 3–4 consistency audit result:
+Phase 3–4 consistency audit result before rehearsal:
 
 ```text
 METHOD FILES MISSING = 0
@@ -115,6 +118,8 @@ KNOWN CROSS-FILE CONTRADICTIONS = 0
 OKNO_MSK DATA TRANSFORMATION DURING METHOD BUILD = 0
 PROVIDER CALLS DURING METHOD BUILD = 0
 ```
+
+Phase-6 package decision does not modify Phase-5 semantic/ownership/architecture/action authorities.
 
 ## Local MK02 execution sequence
 
@@ -146,8 +151,8 @@ PHASE 2  CLIENT INPUT CONTRACT                 = PASS / REHEARSAL VALIDATED 2026
 PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS
 PHASE 4  AUTONOMOUS MK02 ROADMAP               = PASS
 PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = PASS / 2026-09-10
-PHASE 6  MK02 CLIENT DELIVERABLE / PACKAGING   = NEXT / OWNER-CONTROLLED
-PHASE 7  PRODUCT / RECIPIENT QA                = PENDING
+PHASE 6  MK02 CLIENT DELIVERABLE / PACKAGING   = PASS / OWNER REVIEW 2026-09-10
+PHASE 7  PRODUCT / RECIPIENT QA                = NEXT
 PHASE 8  PRICE / LIMITS / ECONOMICS            = PENDING
 PHASE 9  KWORK CARD                            = PENDING
 PHASE 10 PORTFOLIO / COVER                     = PENDING
@@ -155,32 +160,13 @@ PHASE 11 OWNER PUBLICATION                     = PENDING
 PHASE 12 PUBLISHED VERSION FREEZE / READBACK   = PENDING
 ```
 
-## Phase-5 handoff boundary
+## Phase-5 rehearsal boundary
 
-Phase 5 is the **first point where OKNO_MSK data are processed for MK02**.
+Phase 5 was the first point where OKNO_MSK data were processed for MK02.
 
-It must be executed in Work mode because it requires large semantic/page/action datasets and full reconciliation.
+The large data/reconciliation work was executed from the already-designed Level-1 method. It used preserved OKNO_MSK evidence, made no new provider calls, excluded Step5A competitor expansion, corrected one proven activation-authority failure class and rebuilt the affected downstream results before PASS.
 
-Work must:
-
-- read `../MINI_KWORK_DEVELOPMENT_PROTOCOL.md` for its role boundary and this entire MK02 Level-1 method before data;
-- use preserved OKNO_MSK evidence rather than redesign the method;
-- make no new provider calls unless a real method-required gap cannot be resolved from preserved evidence and the prompt explicitly authorizes it (default for rehearsal: no new calls);
-- exclude Step5A competitor additions from base MK02 unless the preserved source needed for the intended MK02 test is explicitly selected under the product boundary;
-- materialize MK02-only results, not simply copy the full KW-001 client package;
-- record any real method defect and correct the Level-1 rule through the development protocol before final PASS;
-- commit/push/readback material blocks during execution.
-
-## Current next action
-
-```text
-CURRENT_MINI_KWORK = MK02
-SERIES_DEVELOPMENT_AUTHORITY = ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md
-METHOD_STATE = PHASE_5_REHEARSAL_PASS
-NEXT_ACTION = PHASE_6_MK02_CLIENT_DELIVERABLE_PRODUCT_PACKAGING_OWNER_REVIEW
-```
-
-## Phase-5 evidence state
+Canonical Phase-5 evidence state:
 
 ```text
 NATIVE SEMANTIC UNIVERSE = 2840
@@ -197,3 +183,36 @@ RECIPIENT REVIEW = PASS
 ```
 
 The rehearsal exposed and corrected one Level-1 activation-authority defect: current accepted semantic product state now explicitly outranks legacy downstream assignment flags. All affected Level-2 ownership, architecture, implementation and client views were rebuilt and independently revalidated.
+
+## Phase-6 accepted physical package
+
+Owner review of the Phase-5 candidate workbook, analytical report, action-first implementation plan and candidate package README resolved the remaining packaging fork.
+
+Accepted base MK02 V1 delivery:
+
+```text
+1. XLSX — working semantic / ownership / architecture / implementation workbook
+2. PDF — analytical research-and-architecture report
+3. PDF — action-first site-improvement TZ
+4. short Kwork/chat handoff message — not a separate file
+```
+
+`PRODUCT_PACKAGING.md` = physical package authority.  
+`CLIENT_HANDOFF_TEMPLATE.md` = delivery-message authority.  
+`PHASE_6_CLIENT_PACKAGING_OWNER_REVIEW_2026-09-10.md` = owner-review rationale/receipt.
+
+The analytical report and implementation-TZ remain separate because they answer different recipient tasks. A mandatory duplicate DOCX is not part of base V1. Page count remains a non-gate.
+
+No price, limits, delivery time, card copy or visual asset was frozen in Phase 6.
+
+## Current next action
+
+```text
+CURRENT_MINI_KWORK = MK02
+SERIES_DEVELOPMENT_AUTHORITY = ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md
+METHOD_STATE = PHASE_6_CLIENT_PACKAGING_PASS
+PHYSICAL_PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
+NEXT_ACTION = PHASE_7_MK02_PRODUCT_RECIPIENT_QA
+```
+
+Phase 7 must materialize/reconcile the accepted physical package on OKNO_MSK, inspect both PDF renders and the XLSX as client artifacts, verify client language/Yandex-only boundaries/readiness states and perform remote persistence/readback. It must not silently rerun Phase 5 or start Phase 8 economics, Phase 9 card or Phase 10 visuals.
