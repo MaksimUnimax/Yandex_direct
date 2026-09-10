@@ -199,6 +199,8 @@ Gate: Step09 PASS.
 
 Purpose: determine which **current** page truthfully owns each accepted task and preserve this for every applicable active phrase.
 
+Activation authority: derive active keys from the current accepted semantic product state. Historical ownership/action ledgers are join evidence only; their legacy `ASSIGNED`/working flags cannot reactivate review/excluded/outside phrases.
+
 Required distinctions:
 
 ```text
@@ -212,7 +214,7 @@ EXACT PHRASE OWNER
 
 Output: candidate ledger + ownership ledger + complete phrase→page map + unresolved handoff.
 
-Gate: ownership accounting/coherence/current-page QA PASS.
+Gate: current semantic active keys = ownership keys; legacy-only activations = 0; ownership accounting/coherence/current-page QA PASS.
 
 ---
 

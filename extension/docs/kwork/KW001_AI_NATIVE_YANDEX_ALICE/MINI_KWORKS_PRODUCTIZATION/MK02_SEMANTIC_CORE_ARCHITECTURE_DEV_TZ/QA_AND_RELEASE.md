@@ -42,6 +42,8 @@ Verify:
 
 ```text
 CURRENT ACTIVE APPLICABLE PHRASES == FINAL OWNERSHIP ROWS
+CURRENT ACCEPTED SEMANTIC ACTIVE KEYS == OWNERSHIP MAP KEYS
+LEGACY DOWNSTREAM-ONLY ACTIVATIONS = 0
 SILENT ACTIVE DROPS = 0
 OWNER_EXISTING_WITH_BLANK_TARGET = 0
 OWNER_EXISTING_WITHOUT_CURRENT_PAGE_EVIDENCE = 0
@@ -49,6 +51,8 @@ UNRESOLVED_WITH_FABRICATED_TARGET = 0
 ```
 
 Client-visible mapping must distinguish exact phrase owner, family/structural-unit owner, supporting page and observed Search-relevant URL when materially different.
+
+The current accepted semantic product authority, not an older downstream `ASSIGNED`/working flag, defines `CURRENT ACTIVE APPLICABLE PHRASES`.
 
 ## G7 — Page-ownership coherence gate
 

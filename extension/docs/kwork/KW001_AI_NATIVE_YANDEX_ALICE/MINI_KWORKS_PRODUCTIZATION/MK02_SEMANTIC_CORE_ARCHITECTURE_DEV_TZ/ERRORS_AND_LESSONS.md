@@ -53,6 +53,7 @@ These controls remain mandatory because MK02 contains the full semantic foundati
 | S29 | Lifecycle wording stayed stale after completion | phase status not reconciled across authorities | lifecycle consistency review after each phase |
 | S30 | Client PDF became execution protocol | correct numbers/layout treated as recipient value | report must explain what research showed, not only what analyst did |
 | S31 | Page count became quality proxy | formatting target mistaken for analytical completeness | no fixed page-count PASS criterion |
+| S32 | Legacy downstream assignment reactivated a non-active phrase | a historical technical `ASSIGNED`/working flag was mistaken for the current semantic product decision | derive active keys only from the current accepted semantic authority; older ownership/action rows may enrich those keys but cannot activate them |
 
 ---
 
@@ -66,6 +67,7 @@ These controls remain mandatory because MK02 contains the full semantic foundati
 | M11-04 | lexical URL/title similarity dominated | lexical match = user-task fit | current page purpose/outcome required |
 | M11-05 | Search absence treated as site absence | Search visibility = inventory fact | separate Search evidence from current-site discovery |
 | M11-06 | unresolved boundaries forced to a convenient owner | table completeness > truthful uncertainty | explicit unresolved/search-required ownership state with no fabricated target |
+| M11-07 | historical ownership ledger defined the active semantic set | downstream assignment state mistaken for current semantic acceptance | filter by current accepted semantic keys before joining historical ownership/action evidence; assert legacy-only activations = 0 |
 
 Additional permanent distinction from corrected client review:
 

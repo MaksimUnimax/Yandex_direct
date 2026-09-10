@@ -83,6 +83,16 @@ CLUSTERING = USER TASK / EXPECTED RESULT FIRST
 UNCERTAINTY MUST REMAIN EXPLICIT
 ```
 
+The current accepted semantic product state is the activation authority for every downstream MK02 layer. Historical ownership/action files may enrich accepted active phrases, but their legacy technical flags (`ASSIGNED`, old working markers or equivalent) may not reactivate a phrase that the current semantic authority classifies as review, excluded or outside the active core.
+
+```text
+CURRENT ACCEPTED SEMANTIC PRODUCT STATE
+>
+LEGACY DOWNSTREAM ASSIGNMENT / ACTIVATION FLAG
+```
+
+Before ownership, reconcile the exact active phrase set from the current semantic authority; use older downstream rows only as joined evidence for that set.
+
 ## 7. Page ownership is a separate decision layer
 
 Ownership answers where the user task should primarily be served on the **current** site.

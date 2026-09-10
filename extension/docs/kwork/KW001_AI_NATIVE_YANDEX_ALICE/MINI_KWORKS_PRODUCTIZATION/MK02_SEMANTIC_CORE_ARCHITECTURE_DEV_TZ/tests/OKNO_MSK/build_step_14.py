@@ -65,6 +65,13 @@ IMPORTANCE_MAP = {
     "HOLD": "Не оценивается до снятия ограничения",
 }
 
+AMBIGUOUS_READY_PLACEMENT = {
+    "S18-A010": "Повторно открыть страницу окон для частного дома и назвать один существующий блок выбора/замера, после которого должен находиться новый материал.",
+    "S18-A026": "Повторно открыть статью об алюминиевом остеклении и назвать один существующий раздел, после которого должен находиться практический блок о вентиляции.",
+    "S18-A029": "Повторно открыть портфолио и назвать один фактический контейнер списка работ, непосредственно над которым должна находиться навигация.",
+    "S18-A030": "Повторно открыть страницу алюминиевых окон и назвать один существующий раздел сравнения/выбора, после которого должен находиться панорамный сценарий.",
+}
+
 MEASUREMENT_RU = {
     "M01_OWNER_ROLE_CORRECTION": {
         "applies_to": "уточнение владельца, специалиста и маршрута",
@@ -137,6 +144,9 @@ def main() -> None:
             # A032 is an accounting batch, not an implementable work package.
             continue
         state = STATE_MAP[row["recipient_state"]]
+        placement_question = AMBIGUOUS_READY_PLACEMENT.get(row["action_id"], "")
+        if placement_question:
+            state = "PENDING_PLACEMENT_OR_CONTEXT"
         packages.append(
             {
                 "work_package_id": "WP-" + row["action_id"].removeprefix("S18-A"),
@@ -145,19 +155,25 @@ def main() -> None:
                 "analytical_importance": IMPORTANCE_MAP[row["priority"]],
                 "production_schedule_state": "NOT_PROVIDED__NOT_INFERRED_FROM_NUMBERING",
                 "page_or_object": row["target_object"],
-                "why_change_is_needed": row["description_ru"],
+                "why_change_is_needed": row["evidence_meaning_ru"],
                 "as_is_current_state": row["current_state_ru"],
                 "evidence_meaning": row["evidence_meaning_ru"],
                 "evidence_locator": row["evidence_locator"],
                 "implementation_mode": row["implementation_mode"],
                 "exact_change": row["exact_instruction_ru"],
-                "exact_location_or_context": row["exact_location_ru"],
+                "exact_location_or_context": (
+                    "PENDING: " + placement_question
+                    if placement_question
+                    else row["exact_location_ru"]
+                ),
                 "to_be_state": row["target_state_ru"],
                 "dependencies": row["dependencies"],
                 "preservation_do_not_break": row["do_not_break_ru"],
                 "acceptance_check": row["acceptance_ru"],
                 "ready_scope": row["ready_scope_ru"],
-                "one_concrete_clarification": row["pending_business_detail_ru"],
+                "one_concrete_clarification": (
+                    placement_question or row["pending_business_detail_ru"]
+                ),
                 "claim_boundary": row["authority_lineage"],
             }
         )
@@ -226,10 +242,10 @@ def main() -> None:
     assert len(packages) == 47
     expected = Counter(
         {
-            "READY_IMPLEMENTATION_SPEC": 7,
+            "READY_IMPLEMENTATION_SPEC": 3,
             "PENDING_BUSINESS_DETAIL": 1,
             "PENDING_TECHNICAL_DETAIL": 0,
-            "PENDING_PLACEMENT_OR_CONTEXT": 6,
+            "PENDING_PLACEMENT_OR_CONTEXT": 10,
             "RECHECK_ONLY": 4,
             "SEMANTIC_MAPPING_ONLY": 19,
             "NO_SITE_CHANGE": 9,
@@ -259,6 +275,8 @@ def main() -> None:
         assert not missing, (row["work_package_id"], missing)
         text = " ".join(str(value) for value in row.values()).lower()
         assert "todo" not in text and "placeholder" not in text
+        assert " или " not in row["exact_location_or_context"].lower()
+        assert row["why_change_is_needed"] != row["exact_change"]
     assert len({row["work_package_id"] for row in packages}) == 47
 
     package_path = HERE / f"MK02_IMPLEMENTATION_WORK_PACKAGES_{DATE}.tsv"
@@ -351,6 +369,8 @@ def main() -> None:
             "step5a_action_ids": 0,
             "google_or_ai_claims": 0,
             "duplicate_visible_link_pairs": 0,
+            "ambiguous_ready_placement_downgraded": len(AMBIGUOUS_READY_PLACEMENT),
+            "ready_duplicate_why_and_change": 0,
         },
     }
     manifest_path = HERE / f"MK02_IMPLEMENTATION_MANIFEST_{DATE}.json"
@@ -360,4 +380,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

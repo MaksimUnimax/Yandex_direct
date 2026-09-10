@@ -1,0 +1,144 @@
+{
+  "schema": "MK02_OKNO_MSK_OWNER_FAILURE_CLASSES_A_U_V1",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "failure_count": 0,
+  "failed_classes": [],
+  "checks": {
+    "A": {
+      "status": "PASS",
+      "evidence": {
+        "client_internal_tokens": []
+      }
+    },
+    "B": {
+      "status": "PASS",
+      "evidence": {
+        "ready": 3,
+        "unique_exact_changes": 3
+      }
+    },
+    "C": {
+      "status": "PASS",
+      "evidence": {
+        "ambiguous_ready": [],
+        "downgraded_to_pending": 4
+      }
+    },
+    "D": {
+      "status": "PASS",
+      "evidence": {
+        "ready_with_clarification": 0
+      }
+    },
+    "E": {
+      "status": "PASS",
+      "evidence": {
+        "ready_placeholders": []
+      }
+    },
+    "F": {
+      "status": "PASS",
+      "evidence": {
+        "schedule_fields_invented": 0
+      }
+    },
+    "G": {
+      "status": "PASS",
+      "evidence": {
+        "visible_pairs": 14,
+        "unique_pairs": 14
+      }
+    },
+    "H": {
+      "status": "PASS",
+      "evidence": {
+        "material_surfaces_named": [
+          "Яндекс",
+          "публичный сайт",
+          "Вебмастер (unavailable/optional)"
+        ]
+      }
+    },
+    "I": {
+      "status": "PASS",
+      "evidence": {
+        "site_snapshot": "2026-09-02",
+        "rating_fact": "2024"
+      }
+    },
+    "J": {
+      "status": "PASS",
+      "evidence": {
+        "provider_calls": 0
+      }
+    },
+    "K": {
+      "status": "PASS",
+      "evidence": {
+        "process_narration_hits": []
+      }
+    },
+    "L": {
+      "status": "PASS",
+      "evidence": {
+        "actionable_ready": 3
+      }
+    },
+    "M": {
+      "status": "PASS",
+      "evidence": {
+        "ui_browser_filler": []
+      }
+    },
+    "N": {
+      "status": "PASS",
+      "evidence": {
+        "ready_duplicate_why_change": []
+      }
+    },
+    "O": {
+      "status": "PASS",
+      "evidence": {
+        "empty_toc": 0
+      }
+    },
+    "P": {
+      "status": "PASS",
+      "evidence": {
+        "orphan_headings": 0
+      }
+    },
+    "Q": {
+      "status": "PASS",
+      "evidence": {
+        "profession_branded_identity": []
+      }
+    },
+    "R": {
+      "status": "PASS",
+      "evidence": {
+        "topic_page_explanation": "present"
+      }
+    },
+    "S": {
+      "status": "PASS",
+      "evidence": {
+        "page_pair_explanation": "present"
+      }
+    },
+    "T": {
+      "status": "PASS",
+      "evidence": {
+        "standalone_defensive_sections": []
+      }
+    },
+    "U": {
+      "status": "PASS",
+      "evidence": {
+        "action_first_ready_section": true,
+        "process_narration": []
+      }
+    }
+  }
+}
