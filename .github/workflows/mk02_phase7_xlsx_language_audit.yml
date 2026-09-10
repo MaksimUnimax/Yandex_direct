@@ -3,7 +3,7 @@ name: MK02 Phase 7 corrected analytical PDF materializer
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf_r5'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf_r6'
 
 permissions:
   contents: write
@@ -20,10 +20,10 @@ jobs:
         run: |
           set -euo pipefail
           BASE='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK'
-          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part01")" = '35b5edb46aaa1c25404631a0a7db85deaf2faebe'
+          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part01")" = '35b5ed6059afc8bdd5cd6e0062d25fbd6a6e5e41'
           test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part02a")" = '041c373312c08179a4f9f4101968b1103d4312b8'
           test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part02b")" = '23c0e144cf9036790174ccaad4257e28b9b06996'
-          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part03")" = '2a88df7ac064e57e800eb3f70e9fbd6f4c04c839'
+          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part03")" = '2a88df9bb3f2eb75279a1d9d6acd193f7a18b285'
           OUT="$BASE/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf"
           { cat "$BASE/_phase7_pdf_fix/analytic.part01"; cat "$BASE/_phase7_pdf_fix/analytic.part02a"; cat "$BASE/_phase7_pdf_fix/analytic.part02b"; cat "$BASE/_phase7_pdf_fix/analytic.part03"; } | base64 -d > "$OUT"
           test "$(stat -c %s "$OUT")" = '20970'
