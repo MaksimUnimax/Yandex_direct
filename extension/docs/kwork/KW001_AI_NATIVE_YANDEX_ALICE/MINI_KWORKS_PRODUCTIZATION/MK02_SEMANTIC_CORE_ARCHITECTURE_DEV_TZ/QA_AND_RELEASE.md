@@ -1,6 +1,6 @@
 # MK02 — QA AND RELEASE
 
-Status: **ACTIVE / PHASE 6 PACKAGE FROZEN / PHASE 7 PRODUCT-RECIPIENT QA NEXT**
+Status: **ACTIVE / PHASE 7 PRODUCT-RECIPIENT QA PASS / PHASE 8 ECONOMICS NEXT**
 
 MK02 must not pass on one generic green status. Semantic correctness, page ownership, architecture, implementation readiness, recipient usability and persistence are independent gates.
 
@@ -263,4 +263,4 @@ PHASE 5 DATA AUTHORITIES MODIFIED IN PHASE 7 = 0
 NEXT_ACTION = PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
 ```
 
-G13–G15 are now the immediate execution focus. Phase 7 must validate the frozen package before Phase 8 price/limits, Phase 9 card or Phase 10 visuals.
+G13–G15 are PASS for the validated Phase-7 package. Phase 8 price/limits is the next gate; Phase 9 card and Phase 10 visuals remain pending.
