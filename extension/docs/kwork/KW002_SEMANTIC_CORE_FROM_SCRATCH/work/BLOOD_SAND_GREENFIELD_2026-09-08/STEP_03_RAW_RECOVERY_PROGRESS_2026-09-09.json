@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 71,
+    "usable": 72,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [41,42,43,44,45,46,47,48]
+    "remaining_run_orders": [42,43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -198,14 +198,35 @@
       "remote_tail_readback": "PASS",
       "historical_control_match": "PASS__569_RESULTS__19_ASSOCIATIONS__TOTALCOUNT_37900",
       "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
+    },
+    {
+      "run_order": 41,
+      "phrase": "знак зодиака Дева",
+      "request_id": "wordstat-459de9aa-c5e2-42e6-9ce1-a160bbafd8e0",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 952,
+      "results_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_31_982_INCLUSIVE",
+      "associations_rows": 18,
+      "associations_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_985_1002_INCLUSIVE",
+      "totalCount": 101545,
+      "request_executed": true,
+      "automatic_retry": false,
+      "estimated_cost_rub": 0.02,
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__041__wordstat-459de9aa-c5e2-42e6-9ce1-a160bbafd8e0.raw.txt",
+      "raw_blob_sha": "c6d56339e7fe919f506a9703e5f4d30e5d5bf2d4",
+      "remote_readback": "PASS",
+      "remote_tail_readback": "PASS",
+      "historical_control_match": "PASS__952_RESULTS__18_ASSOCIATIONS__TOTALCOUNT_101545",
+      "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
     }
   ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 9,
-    "replay_estimated_cost_so_far_rub": 0.18,
+    "replay_executed_so_far": 10,
+    "replay_estimated_cost_so_far_rub": 0.20,
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_41_ZNAK_ZODIAKA_DEVA"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_42_ZNAK_ZODIAKA_KOZEROG"
 }
