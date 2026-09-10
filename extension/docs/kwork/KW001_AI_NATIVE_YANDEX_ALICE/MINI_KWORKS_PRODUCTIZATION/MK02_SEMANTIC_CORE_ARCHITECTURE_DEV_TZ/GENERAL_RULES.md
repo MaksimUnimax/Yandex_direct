@@ -530,3 +530,50 @@ ACCEPTED SEMANTICS / USER TASK / INTENT
 The current URL may confirm, reject or qualify an already defined target role. It may not silently create that role by being present. `KEEP` / no-change is a positive page-specification result and stays visible. `NO_STANDALONE` requires a named owner or parent route. An unresolved role keeps an explicit unresolved state and may not receive a fabricated URL.
 
 Any upstream target-role correction invalidates all affected phrase routes, cluster routes, hierarchy, reconciliation, page specs, change delta and client artifacts until they are rebuilt and independently revalidated.
+
+## 47. Market-grade mapping must keep demand, page role and boundary visible together
+
+A technically complete mapping is not client-ready if the recipient must join separate sheets to answer basic page-planning questions.
+
+The primary phrase→target-page view keeps the preserved demand indicator on the same row as the phrase, cluster and target page. The page-level view keeps the primary query and a compact set of strongest compatible secondary queries with their **individual** demand indicators.
+
+```text
+PHRASE + DEMAND + CLUSTER + TARGET PAGE = ONE DIRECT WORKING VIEW
+PRIMARY QUERY + SECONDARY QUERIES + INDIVIDUAL DEMAND = PAGE-SPEC INPUT
+WORDSTAT COUNTS ARE NOT SUMMED INTO INVENTED PAGE VOLUME
+```
+
+Every target page has one explicit primary page job. Secondary tasks are separated from topics that belong elsewhere. After normalization, the same material topic may not appear in both own coverage and elsewhere without a written sub-intent distinction.
+
+```text
+PRIMARY PAGE JOB = ONE CLEAR ROLE
+OWN COVERAGE ∩ UNEXPLAINED ELSEWHERE = ∅
+```
+
+Recommended H1 is part of the target-page specification. CREATE/OPTIMIZE pages also receive a supported Title direction/draft or an explicit evidence blocker. Description is not silently added to base scope.
+
+Analytical SEO priority may be shown with its evidence basis, but it is never presented as production order, business priority, effort, deadline or forecast.
+
+## 48. Complete authority does not justify repetitive PDF expansion
+
+All target pages remain present in the canonical page-spec register and in a complete client-visible register. This does **not** require one nearly identical full PDF page for every `KEEP / NO SITE CHANGE` role.
+
+Preferred client PDF pattern:
+
+```text
+COMPLETE COMPACT REGISTER OF ALL TARGET PAGES
++
+DETAILED CARDS FOR CREATE / OPTIMIZE / ROUTE / RECHECK
++
+DETAILED KEEP ONLY WHEN MATERIAL BOUNDARY / DEPENDENCY / SPECIAL EXPLANATION EXISTS
+```
+
+The analytical PDF must show a scannable visual/indented target hierarchy, not only a wide hierarchy table, because the architecture itself is a sold result.
+
+```text
+KEEP MUST REMAIN VISIBLE != EVERY KEEP GETS A FULL PAGE
+LONGER PDF != MORE CLIENT VALUE
+HIERARCHY TABLE ALONE != FAST ARCHITECTURE COMPREHENSION
+```
+
+No fixed PDF page count is a quality target. Recipient usefulness and information density are the gate.
