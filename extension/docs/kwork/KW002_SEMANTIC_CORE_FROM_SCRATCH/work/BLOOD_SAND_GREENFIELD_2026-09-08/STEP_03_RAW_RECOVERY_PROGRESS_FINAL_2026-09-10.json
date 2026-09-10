@@ -1,0 +1,31 @@
+{
+  "schema": "KW002_STEP03_RAW_RECOVERY_PROGRESS_FINAL_V1",
+  "date": "2026-09-10",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "provider_acquisition": {"canonical_primary":79,"usable":79,"status":"COMPLETE"},
+  "durable_feed_forward": {"usable":79,"required":79,"status":"COMPLETE","remaining_run_orders":[]},
+  "initial_late_qa_durable_feed_forward": {"usable":60,"required":79},
+  "recovery": {
+    "without_provider_replay":[50,51],
+    "fresh_provider_observations":[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+    "provider_requests":17,
+    "estimated_cost_rub":0.34,
+    "status":"COMPLETE_PASS"
+  },
+  "run_48": {
+    "phrase":"знак зодиака Телец",
+    "request_id":"wordstat-9d96a936-b280-4cfb-abb0-5f4a280acd13",
+    "historical_request_id":"wordstat-24ddaafc-4e79-4bec-9130-f97e7c0e1175",
+    "http_status":200,
+    "status":"OK",
+    "results_rows":594,
+    "results_lines":"22..615",
+    "associations_rows":15,
+    "association_lines":"618..632",
+    "totalCount":37962,
+    "raw_blob_sha":"e7e9e63d666ab5af0603ed582a3720abfcda33c0",
+    "remote_readback":"PASS"
+  },
+  "step04_allowed":false,
+  "next_action":"AWAIT_OR_RECONCILE_EXPLICIT_OWNER_DECISION_FOR_LEVEL2_STEP04_METHOD_GATE"
+}
