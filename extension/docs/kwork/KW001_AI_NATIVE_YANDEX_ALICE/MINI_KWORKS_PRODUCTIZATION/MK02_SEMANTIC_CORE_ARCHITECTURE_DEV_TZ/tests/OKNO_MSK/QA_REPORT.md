@@ -2,7 +2,7 @@
 
 Дата проверки: **2026-09-10**  
 Режим: **replay/projection по сохранённым доказательствам; новые provider calls = 0**  
-Локальный итог перед публикацией QA-блока: **G0–G14 PASS; G15 PENDING REMOTE READBACK**
+Финальный итог: **G0–G15 PASS**
 
 Независимый валидатор `validate_mk02_rehearsal.py` завершился статусом **PASS: 21/21**, способен завершаться ненулевым кодом и не является частью генераторов данных или XLSX. Машинный протокол: `MK02_INDEPENDENT_QA_2026-09-10.json`.
 
@@ -94,9 +94,9 @@ Current nodes = 2 683, включая независимый current-minus-upstr
 | T | standalone defensive preservation section | 0 / PASS |
 | U | implementation plan is action-first | PASS |
 
-## G15 — Physical / recipient / persistence — PENDING REMOTE READBACK
+## G15 — Physical / recipient / persistence — PASS
 
-Локальные physical/recipient части прошли: XLSX открывается и повторно импортируется; 13/13 листов отрисованы и визуально просмотрены; formula errors before/after import = 0; bytes = 565 964; SHA-256 = `acfa7f8337de43fe1499dc002aa2b1c42aee1057e1c2399b609faaf6844a6b69`. Recipient review = PASS. Gate станет PASS только после commit/push и чтения исправленных QA/data/XLSX с remote branch.
+Physical/recipient части прошли: XLSX открывается и повторно импортируется; 13/13 листов отрисованы и визуально просмотрены; formula errors before/after import = 0; bytes = 565 964; SHA-256 = `acfa7f8337de43fe1499dc002aa2b1c42aee1057e1c2399b609faaf6844a6b69`. Recipient review = PASS. Исправленный QA/data/XLSX опубликован commit `c76314eb23cff27c64c0a58d89d6fd911979c873` и прочитан с remote: QA 21/21, XLSX blob `d74432730f33ed56bb0809e90028d1db5fbe36b7`, Level-1 activation rule присутствует. Local-only completion = false.
 
 ## Независимый итог
 
@@ -105,4 +105,4 @@ Current nodes = 2 683, включая независимый current-minus-upstr
 - Step5A contamination: **0**;
 - provider calls during rehearsal: **0**;
 - substantive unresolved FAIL: **0**;
-- release state before remote publication: **QA COMPLETE / G15 REMOTE LEG PENDING**.
+- release state: **PHASE 5 REHEARSAL PASS / G0–G15 PASS**.

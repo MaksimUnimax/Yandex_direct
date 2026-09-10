@@ -184,4 +184,4 @@ provider calls during rehearsal = 0
 - **Output:** `CLIENT_CANDIDATE_PACKAGE_README.md`, `CLIENT_CANDIDATE_ANALYTICAL_REPORT.md`, `CLIENT_CANDIDATE_IMPLEMENTATION_PLAN.md`, `OKNO_MSK_MK02_CLIENT_CANDIDATE_2026-09-10.xlsx`, workbook build report.
 - **Accounting:** 13 sheets; universe 2 840; core 2 185; groups 54; mapping 2 185; current relevant pages 80; target units 160; deltas 35; packages 47; clarifications/no-change/HOLD 44; relations 14; READY acceptance 3.
 - **Uncertainty:** это физический package candidate для Phase 6, а не замороженный commercial split; current-site freshness ограничена 2026-09-02.
-- **QA:** materialization **PASS** — 13/13 renders visually inspected, formula errors before/after import 0, internal-code scan 0. Финальный независимый G0–G15 и recipient verdict фиксируются следующим QA-блоком.
+- **QA:** **PASS** — 13/13 renders visually inspected, formula errors before/after import 0, internal-code scan 0; independent validator 21/21; A–U failures 0; recipient review PASS; G0–G15 PASS. Corrected QA/data/XLSX remote-read back at `c76314eb23cff27c64c0a58d89d6fd911979c873`.

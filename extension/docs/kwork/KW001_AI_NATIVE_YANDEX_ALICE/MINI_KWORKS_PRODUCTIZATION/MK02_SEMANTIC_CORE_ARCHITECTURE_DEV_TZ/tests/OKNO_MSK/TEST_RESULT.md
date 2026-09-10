@@ -1,7 +1,7 @@
 # OKNO_MSK — MK02-only Phase 5 test result
 
 Дата: **2026-09-10**  
-Состояние перед публикацией QA-блока: **DATA REHEARSAL PASS / G0–G14 PASS / G15 REMOTE READBACK PENDING**
+Состояние: **PHASE 5 OKNO_MSK MK02-ONLY REHEARSAL = PASS**
 
 ## Результат
 
@@ -20,4 +20,4 @@
 
 Независимый validator = **21/21 PASS**; owner failure classes A–U = **0 failures**; recipient review = **PASS**. Один Level-1 semantic activation defect выявлен, формализован и исправлен; четыре ambiguous READY корректно понижены, все зависимые данные и клиентские виды перестроены.
 
-Финальный статус `PHASE 5 OKNO_MSK MK02-ONLY REHEARSAL = PASS` разрешён только после публикации и remote readback исправленного QA-блока.
+Исправленный QA/data/XLSX опубликован в `c76314eb23cff27c64c0a58d89d6fd911979c873` и прочитан с remote branch. **G0–G15 = PASS; substantive FAIL = 0.**
