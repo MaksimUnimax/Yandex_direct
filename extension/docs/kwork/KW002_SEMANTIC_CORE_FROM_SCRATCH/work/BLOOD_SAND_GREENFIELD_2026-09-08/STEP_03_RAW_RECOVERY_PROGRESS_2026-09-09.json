@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 67,
+    "usable": 68,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [37,38,39,40,41,42,43,44,45,46,47,48]
+    "remaining_run_orders": [38,39,40,41,42,43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -115,14 +115,34 @@
       "remote_readback": "PASS",
       "remote_tail_readback": "PASS",
       "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
+    },
+    {
+      "run_order": 37,
+      "phrase": "знак зодиака Стрелец",
+      "request_id": "wordstat-93645021-729a-492b-9ba7-4e607f0c440f",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 595,
+      "results_rows_verification": "RECONCILED__HISTORICAL_CONTROL_595__REMOTE_RAW_FIRST_AND_LAST_RESULT_PLUS_COMPLETE_TAIL_PRESENT__NOT_INDEPENDENTLY_PARSER_COUNTED",
+      "associations_rows": 13,
+      "associations_rows_verification": "REMOTE_COMPLETE_TAIL_READBACK",
+      "totalCount": 39531,
+      "request_executed": true,
+      "automatic_retry": false,
+      "estimated_cost_rub": 0.02,
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__037__wordstat-93645021-729a-492b-9ba7-4e607f0c440f.raw.txt",
+      "raw_blob_sha": "611f9fbcbb5442779bb5780a4244c427e027701c",
+      "remote_readback": "PASS",
+      "remote_tail_readback": "PASS",
+      "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
     }
   ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 5,
-    "replay_estimated_cost_so_far_rub": 0.10,
+    "replay_executed_so_far": 6,
+    "replay_estimated_cost_so_far_rub": 0.12,
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_37_ZNAK_ZODIAKA_STRELETS"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_38_ZNAK_ZODIAKA_BLIZNETSY"
 }

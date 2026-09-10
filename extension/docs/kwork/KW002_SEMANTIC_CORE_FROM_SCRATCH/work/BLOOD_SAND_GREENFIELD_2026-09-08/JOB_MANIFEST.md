@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 67/79 / STEP 04 BLOCKED**
+Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 68/79 / STEP 04 BLOCKED**
 
 ## 1. Job identity
 
@@ -91,11 +91,12 @@ RUN_33 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_34 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_35 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_36 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE TAIL READBACK PASS / RESULTS 2000 RECONCILED
-CURRENT_DURABLE_FEED_FORWARD = 67/79
-REMAINING_RUN_ORDERS = 37..48
-REMAINING_COUNT = 12
-RECOVERY_PROVIDER_REQUESTS = 5
-RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.10
+RUN_37 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE TAIL READBACK PASS / RESULTS 595 RECONCILED
+CURRENT_DURABLE_FEED_FORWARD = 68/79
+REMAINING_RUN_ORDERS = 38..48
+REMAINING_COUNT = 11
+RECOVERY_PROVIDER_REQUESTS = 6
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.12
 ```
 
 Run 36 persistence authority:
@@ -114,7 +115,23 @@ AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
-The 2000-result count is reconciled from `numPhrases=2000`, complete remote first-to-last result/tail presence, the historical manifest control, and exact matching totalCount. The execution environment did not provide an independent local GitHub raw download/parser, so no stronger claim is made.
+Run 37 persistence authority:
+
+```text
+REQUEST_ID = wordstat-93645021-729a-492b-9ba7-4e607f0c440f
+RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__037__wordstat-93645021-729a-492b-9ba7-4e607f0c440f.raw.txt
+RAW_BLOB_SHA = 611f9fbcbb5442779bb5780a4244c427e027701c
+HTTP_STATUS = 200
+STATUS = OK
+RESULTS_ROWS = 595 / RECONCILED, NOT INDEPENDENTLY PARSER-COUNTED
+ASSOCIATIONS_ROWS = 13 / COMPLETE REMOTE TAIL READBACK
+TOTALCOUNT = 39531
+REQUEST_EXECUTED = true
+AUTOMATIC_RETRY = false
+REMOTE_READBACK = PASS
+```
+
+Reconciled result counts are explicitly distinguished from independent parser counts. No stronger verification is claimed than the available remote raw/tail, historical control and exact totalCount evidence support.
 
 Current recovery authority:
 
@@ -173,13 +190,13 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 67/79
-STEP_03_REMAINING_RECOVERY = 12
-RUN_36_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 68/79
+STEP_03_REMAINING_RECOVERY = 11
+RUN_37_REMOTE_READBACK = PASS
 STEP_04_STARTED = false
 STEP_04_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_37_ZNAK_ZODIAKA_STRELETS
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_38_ZNAK_ZODIAKA_BLIZNETSY
 ```
 
-Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the five new recovery observations.
+Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the six new recovery observations.

@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 67/79 / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 68/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 67/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 68/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -80,11 +80,12 @@ RUN_33 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_34 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_35 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_36 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 2000 RESULTS RECONCILED
-CURRENT_USABLE_FEED_FORWARD = 67/79
-REMAINING_RUN_ORDERS = 37-48
-REMAINING_COUNT = 12
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 5
-RECOVERY_PROVIDER_COST_SO_FAR = 0.10 RUB
+RUN_37 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 595 RESULTS RECONCILED
+CURRENT_USABLE_FEED_FORWARD = 68/79
+REMAINING_RUN_ORDERS = 38-48
+REMAINING_COUNT = 11
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 6
+RECOVERY_PROVIDER_COST_SO_FAR = 0.12 RUB
 ```
 
 Run 36 verification boundary:
@@ -100,7 +101,20 @@ RUN_36_RESULTS_ROWS = 2000 / RECONCILED
 RUN_36_RESULTS_ROWS_INDEPENDENT_LOCAL_PARSER = NOT AVAILABLE IN THIS EXECUTION ENVIRONMENT
 ```
 
-The 2000-result count is not presented as an independently parser-counted fact. It is reconciled from the current `numPhrases=2000` request, the complete remote tail, the historical manifest control (2000 rows), and exact matching `totalCount=3512863`.
+Run 37 verification boundary:
+
+```text
+RUN_37_REQUEST_ID = wordstat-93645021-729a-492b-9ba7-4e607f0c440f
+RUN_37_RAW_BLOB_SHA = 611f9fbcbb5442779bb5780a4244c427e027701c
+RUN_37_REMOTE_FIRST_RESULT = стрелец знак зодиака / 39531
+RUN_37_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = знак зодиака стрелец мужчина сегодня гороскоп / 4
+RUN_37_ASSOCIATIONS_ROWS = 13 / REMOTE COMPLETE TAIL READBACK
+RUN_37_TOTALCOUNT = 39531 / PASS
+RUN_37_RESULTS_ROWS = 595 / RECONCILED
+RUN_37_RESULTS_ROWS_INDEPENDENT_LOCAL_PARSER = NOT AVAILABLE IN THIS EXECUTION ENVIRONMENT
+```
+
+The reconciled result counts are not presented as independently parser-counted facts where that parser check was unavailable. Remote raw tail integrity, historical structural controls and exact totalCount agreement are preserved explicitly.
 
 Current recovery progress authority:
 
@@ -120,6 +134,7 @@ Current recovery receipts:
 - `STEP_03_RAW_RECOVERY_REQUERY_034_RECEIPT_2026-09-09.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_035_RECEIPT_2026-09-09.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_036_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_REQUERY_037_RECEIPT_2026-09-10.md`
 
 ## Recovery strategy
 
@@ -160,12 +175,12 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 67/79
-STEP_03_REMAINING_RECOVERY = 12
-RUN_36_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 68/79
+STEP_03_REMAINING_RECOVERY = 11
+RUN_37_REMOTE_READBACK = PASS
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_37_ZNAK_ZODIAKA_STRELETS
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_38_ZNAK_ZODIAKA_BLIZNETSY
 ```
 
 Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.
