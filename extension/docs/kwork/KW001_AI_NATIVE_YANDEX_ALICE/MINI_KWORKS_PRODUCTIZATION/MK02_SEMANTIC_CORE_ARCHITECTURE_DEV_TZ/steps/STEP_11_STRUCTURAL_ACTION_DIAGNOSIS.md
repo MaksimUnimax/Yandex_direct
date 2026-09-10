@@ -75,3 +75,58 @@ Every action traces to independent evidence; all surviving CREATE candidates pas
 
 ## CLIENT-FACING MEANING
 «После распределения тем по страницам отдельно проверяем, действительно ли сайт нужно менять. Где текущая страница уже подходит — это фиксируется как нормальный результат; новую страницу, разделение или объединение рекомендуем только когда это подтверждено, а не потому что так удобнее разложить ключи.»
+
+---
+
+## OWNER CORRECTION 2026-09-10 — ACTION DELTA MAY NOT REPLACE THE TARGET PAGE SPEC
+
+Step11 now consumes the target-first landing map from corrected Step10.
+
+For every target landing page/task, Step11 must preserve two independent outputs:
+
+```text
+A. TARGET PAGE SPECIFICATION STATE
+what page should own the demand and what role it has in the intended structure
+
+B. CURRENT→TARGET ACTION STATE
+what, if anything, must physically change on the current site
+```
+
+A small action delta is allowed. A small **deliverable** is not.
+
+Mandatory action-state equivalents:
+
+```text
+CREATE
+OPTIMIZE / STRENGTHEN
+ROUTE / INTERNAL-LINK CHANGE
+KEEP / LOCK AS TARGET OWNER
+NO_STANDALONE_PAGE — INCLUDE WITHIN PARENT
+RECHECK / NEEDS EVIDENCE
+```
+
+`KEEP / LOCK AS TARGET OWNER` means the current page matches the independently designed target role. It must retain the target-page specification and remain visible to the client even though `REAL SITE CHANGE REQUIRED = NO`.
+
+`NO_STANDALONE_PAGE` is also a positive routing decision: the cluster/task remains mapped to the parent/owner page and must not disappear from the target architecture.
+
+Permanent rules:
+
+```text
+NO SITE CHANGE != OMIT PAGE FROM TARGET SPEC
+KEEP != NOTHING TO DELIVER
+ACTION DELTA != FULL PRODUCT RESULT
+TARGET PAGE ROLE != IMPLEMENTATION CHANGE TICKET
+```
+
+Additional PASS requirements:
+
+```text
+EVERY TARGET LANDING SPEC FROM STEP10 HAS STEP11 ACTION STATE = true
+KEEP/NO_CHANGE TARGET PAGES DROPPED FROM DOWNSTREAM = 0
+NO_STANDALONE CLUSTERS WITHOUT EXPLICIT PARENT ROUTE = 0
+ACTION REGISTER CAN BE SMALL; TARGET PAGE REGISTER MUST REMAIN COMPLETE
+```
+
+Correct client-facing meaning:
+
+«Сначала фиксируем полную целевую рассадку. Затем для каждой целевой страницы определяем, что делать с текущим сайтом: создать страницу, доработать существующую, изменить связи, оставить её как правильную посадочную или включить тему в более широкую страницу. Даже когда менять ничего не нужно, клиент всё равно получает зафиксированное назначение страницы и её семантику.»
