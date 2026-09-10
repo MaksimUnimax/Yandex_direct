@@ -2,6 +2,23 @@
 
 Status: **PHASES 0–4 PASS / PHASE 5 DATA REHEARSAL NEXT IN WORK MODE**
 
+## MANDATORY SERIES DEVELOPMENT AUTHORITY — READ BEFORE CONTINUATION
+
+Before any MK02 productization continuation, method correction after rehearsal, Phase-6 packaging decision, pricing/card work or future versioned reopening, first read:
+
+`../MINI_KWORK_DEVELOPMENT_PROTOCOL.md`
+
+This file governs **how MK02 is productized** and must not be confused with MK02 execution rules.
+
+```text
+../MINI_KWORK_DEVELOPMENT_PROTOCOL.md = HOW TO DEVELOP / REHEARSE / FREEZE THE PRODUCT
+GENERAL_RULES.md + STEP_RULES_INDEX.md + steps/*.md + EXECUTION_ROADMAP.md = HOW TO EXECUTE MK02
+./tests/OKNO_MSK/* = LEVEL-2 REHEARSAL DATA / EVIDENCE
+WORK = LARGE-DATA EXECUTOR, NOT PRODUCT ARCHITECT
+```
+
+Phase 5 Work may report a proven Level-1 defect, but it may not silently redesign MK02. Any real defect must propagate through the development protocol before final PASS.
+
 ## Working product identity
 
 **«Семантическое ядро + SEO-структура сайта + ТЗ на доработку»**
@@ -146,18 +163,19 @@ It must be executed in Work mode because it requires large semantic/page/action 
 
 Work must:
 
-- read this entire MK02 Level-1 method first;
+- read `../MINI_KWORK_DEVELOPMENT_PROTOCOL.md` for its role boundary and this entire MK02 Level-1 method before data;
 - use preserved OKNO_MSK evidence rather than redesign the method;
 - make no new provider calls unless a real method-required gap cannot be resolved from preserved evidence and the prompt explicitly authorizes it (default for rehearsal: no new calls);
 - exclude Step5A competitor additions from base MK02 unless the preserved source needed for the intended MK02 test is explicitly selected under the product boundary;
 - materialize MK02-only results, not simply copy the full KW-001 client package;
-- record any real method defect and correct the Level-1 rule before final PASS;
+- record any real method defect and correct the Level-1 rule through the development protocol before final PASS;
 - commit/push/readback material blocks during execution.
 
 ## Current next action
 
 ```text
 CURRENT_MINI_KWORK = MK02
+SERIES_DEVELOPMENT_AUTHORITY = ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md
 METHOD_STATE = READY_FOR_REHEARSAL
 NEXT_ACTION = HAND_PHASE_5_OKNO_MSK_MK02_ONLY_DATA_REHEARSAL_TO_WORK
 ```
