@@ -1,0 +1,43 @@
+name: Persist exact MK01 client report PDF
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - .github/workflows/mk01-persist-exact-pdf.yml
+      - .tmp/mk01_pdf/chunk*.b64
+
+permissions:
+  contents: write
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+      - name: Reconstruct exact PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          DIR='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK01_SEMANTIC_CORE_CLUSTERING/tests/OKNO_MSK'
+          OUT="$DIR/MK01_OKNO_MSK_CLIENT_REPORT_2026-09-10.pdf"
+          cat .tmp/mk01_pdf/chunk*.b64 | base64 -d > /tmp/mk01.pdf.xz
+          xz -dc /tmp/mk01.pdf.xz > "$OUT"
+          echo '9faae858b40a5e6617019f0688759d11034f27d4d800b3b46dc180461788764b  '"$OUT" | sha256sum -c -
+          file "$OUT"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$OUT"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'docs(mk01): persist exact client report PDF'
+          for i in 1 2 3 4 5; do
+            git fetch origin roadmap/kwork-productization-2026-08-28
+            git rebase origin/roadmap/kwork-productization-2026-08-28
+            if git push origin HEAD:roadmap/kwork-productization-2026-08-28; then exit 0; fi
+            sleep 2
+          done
+          exit 1
