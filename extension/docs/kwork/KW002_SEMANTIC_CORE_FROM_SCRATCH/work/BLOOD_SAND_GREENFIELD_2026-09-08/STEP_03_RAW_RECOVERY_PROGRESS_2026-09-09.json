@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 72,
+    "usable": 73,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [42,43,44,45,46,47,48]
+    "remaining_run_orders": [43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -219,14 +219,35 @@
       "remote_tail_readback": "PASS",
       "historical_control_match": "PASS__952_RESULTS__18_ASSOCIATIONS__TOTALCOUNT_101545",
       "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
+    },
+    {
+      "run_order": 42,
+      "phrase": "знак зодиака Козерог",
+      "request_id": "wordstat-9bf7288d-de00-4dba-a5e6-b254ada7cf84",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 548,
+      "results_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_569_INCLUSIVE",
+      "associations_rows": 16,
+      "associations_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_572_587_INCLUSIVE",
+      "totalCount": 34189,
+      "request_executed": true,
+      "automatic_retry": false,
+      "estimated_cost_rub": 0.02,
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__042__wordstat-9bf7288d-de00-4dba-a5e6-b254ada7cf84.raw.txt",
+      "raw_blob_sha": "2073d9873f7c30c2badc51a4baae9e4d9b0c5f0b",
+      "remote_readback": "PASS",
+      "remote_tail_readback": "PASS",
+      "historical_control_match": "PASS__548_RESULTS__16_ASSOCIATIONS__TOTALCOUNT_34189",
+      "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
     }
   ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 10,
-    "replay_estimated_cost_so_far_rub": 0.20,
+    "replay_executed_so_far": 11,
+    "replay_estimated_cost_so_far_rub": 0.22,
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_42_ZNAK_ZODIAKA_KOZEROG"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_43_ZNAK_ZODIAKA_OVEN"
 }
