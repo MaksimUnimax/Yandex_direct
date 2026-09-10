@@ -1,6 +1,6 @@
 # MK02 — QA AND RELEASE
 
-Status: **ACTIVE / REQUIRED FOR EVERY MK02 REHEARSAL AND DELIVERY**
+Status: **ACTIVE / PHASE 6 PACKAGE FROZEN / PHASE 7 PRODUCT-RECIPIENT QA NEXT**
 
 MK02 must not pass on one generic green status. Semantic correctness, page ownership, architecture, implementation readiness, recipient usability and persistence are independent gates.
 
@@ -144,7 +144,7 @@ Implementation specification may be ready while production sequence remains pend
 
 ## G13 — Client deliverable data / cross-view consistency gate
 
-All promised logical client views from `DELIVERABLE_SPEC.md` must be materialized after Phase5–6 freezes the physical contract. Verify one current authority feeds all views and no stale historical owner/action appears in a polished file.
+All promised logical client views from `DELIVERABLE_SPEC.md` must be materialized through the Phase-6 frozen physical package. Verify one current authority feeds all views and no stale historical owner/action appears in a polished file.
 
 Cross-reconcile:
 
@@ -180,15 +180,31 @@ This gate explicitly covers owner-identified Report №02 failures A–U.
 
 ## G15 — Physical / recipient / persistence gate
 
-Once physical files are defined by Phase5–6:
+Phase 6 has frozen the base MK02 V1 client package as:
 
-- open final XLSX/DOCX/PDF or equivalent;
-- render/inspect required sheets/pages;
+```text
+1 XLSX
++ 1 ANALYTICAL PDF
++ 1 IMPLEMENTATION-TZ PDF
++ SHORT HANDOFF MESSAGE (NOT A FILE)
+```
+
+Phase 7 must therefore:
+
+- open the final XLSX and verify its workbook structure/usability;
+- render and inspect **both** final PDFs independently;
 - verify no clipping/overlap/broken glyphs/unreadable tables/orphan headings;
-- test that an uninvolved recipient can identify current vs target architecture, READY vs clarification/no-change, and use the implementation tasks;
+- verify the analytical PDF independently answers “what did the research show?”;
+- verify the implementation-TZ PDF independently answers what/why/where/how/clarify/check;
+- verify an uninvolved recipient can identify current vs target architecture, READY vs clarification/no-change and use the implementation tasks;
+- verify the short handoff message names exactly the real three files and points to the correct starting order;
+- verify the Yandex-only boundary in each client-facing file;
+- verify no stale 7-READY state survives in any polished view;
 - persist text/binary artifacts as tooling allows;
 - verify exact remote identities/hashes/readback honestly;
-- local-only completion = FAIL.
+- treat local-only completion as FAIL.
+
+DOCX is not a mandatory base client file. If an internal DOCX is used as a PDF-generation intermediate, it must not create a second contradictory client authority.
 
 ## Report-stage no-new-research gate
 
@@ -232,13 +248,15 @@ PUBLISHED
 = owner published product + published scope/price captured/read back
 ```
 
-## Current Phase-3/4 boundary
-
-During current method-building work:
+## Current Phase-6/7 boundary
 
 ```text
-OKNO_MSK DATA EXECUTION = FORBIDDEN / NOT STARTED
-PROVIDER CALLS = 0
+PHASE 5 OKNO_MSK REHEARSAL = PASS
+PHASE 6 CLIENT PACKAGE OWNER REVIEW = PASS
+PHYSICAL PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
+PHASE 6 PROVIDER CALLS = 0
+PHASE 5 DATA AUTHORITIES = DO NOT RERUN WITHOUT PROVEN DEFECT
+NEXT_ACTION = PHASE_7_MK02_PRODUCT_RECIPIENT_QA
 ```
 
-Gates are specifications only until Work executes Phase 5.
+G13–G15 are now the immediate execution focus. Phase 7 must validate the frozen package before Phase 8 price/limits, Phase 9 card or Phase 10 visuals.
