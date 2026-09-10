@@ -513,3 +513,20 @@ PARSE / TEXT EXTRACTION
 ```
 
 A clean parser/hash result cannot substitute for rendered page-flow review. A clean visible worksheet view cannot substitute for checking package metadata when internal terminology is forbidden. After any correction, inspect/revalidate the **post-correction final bytes**, not an earlier render. Source/generator correction remains the preferred closure path before a final binary replacement.
+
+## 46. Target model precedes current-site reconciliation
+
+MK02 is a target landing architecture product, not a current-site audit with a change appendix.
+
+```text
+ACCEPTED SEMANTICS / USER TASK / INTENT
+→ COMPLETE PHRASE AND CLUSTER TARGET ROUTES
+→ TARGET PAGE REGISTRY / HIERARCHY
+→ FULL PAGE SPECIFICATIONS, INCLUDING KEEP
+→ CURRENT-SITE RECONCILIATION
+→ PHYSICAL CHANGE DELTA AS SUBSET
+```
+
+The current URL may confirm, reject or qualify an already defined target role. It may not silently create that role by being present. `KEEP` / no-change is a positive page-specification result and stays visible. `NO_STANDALONE` requires a named owner or parent route. An unresolved role keeps an explicit unresolved state and may not receive a fabricated URL.
+
+Any upstream target-role correction invalidates all affected phrase routes, cluster routes, hierarchy, reconciliation, page specs, change delta and client artifacts until they are rebuilt and independently revalidated.

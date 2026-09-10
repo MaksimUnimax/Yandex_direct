@@ -279,6 +279,39 @@ Final-artifact QA is layered:
 3. If a leak/layout defect is found, correct the source/generator first where applicable, rebuild the affected artifact and rerun the relevant client-language/physical/hash gates.
 4. A pre-correction render or an earlier green receipt cannot certify later bytes.
 
+---
+
+## L. Current-site-first / change-only product collapse — PRODUCT-CONTRACT-01
+
+### What failed
+
+A formally complete audit can still underdeliver the sold MK02 product when the current site becomes the design authority and the implementation document shows only rows that require a physical edit. This makes the independent target landing model, no-change owners and full page specifications invisible to the recipient.
+
+### Root cause / false assumptions
+
+```text
+CURRENT SITE INVENTORY = TARGET ARCHITECTURE
+PHYSICAL CHANGE DELTA = FULL PAGE SPECIFICATION
+KEEP / NO CHANGE = OMIT FROM CLIENT RESULT
+NO STANDALONE = NO NAMED OWNER NEEDED
+```
+
+All four equivalences are false. They collapse a target-first architecture product into a current-site audit plus a short change list.
+
+### Corrected rule
+
+1. Freeze accepted semantics, user tasks and intents before current-site reconciliation.
+2. Materialize the complete phrase→target-page map, cluster/task→target-page map, target-page registry and target hierarchy without using a current URL as the design input.
+3. Give every target-page role a full specification, including `KEEP` / no-change roles.
+4. Give every no-standalone task an explicit named owner or parent route.
+5. Reconcile the frozen target model with the current site only after the target model exists.
+6. Materialize the current→target physical change delta as a strict subset of the full specifications.
+7. Machine QA must fail on silent phrase loss, target pages without specs, `KEEP` pages without specs, no-standalone rows without owners, current-site fields in pre-reconciliation target authorities, or fabricated URLs for unresolved roles.
+
+### Impact and regression boundary
+
+The correction invalidates every affected downstream client view, not the preserved semantic authority. XLSX, analytical PDF and page-specification PDF must be regenerated from the corrected target-first authorities and rechecked on final bytes. A historical current-site-first package remains preserved as superseded evidence; it is not rewritten as if the defect never existed.
+
 ### Regression / closure condition
 
 ```text

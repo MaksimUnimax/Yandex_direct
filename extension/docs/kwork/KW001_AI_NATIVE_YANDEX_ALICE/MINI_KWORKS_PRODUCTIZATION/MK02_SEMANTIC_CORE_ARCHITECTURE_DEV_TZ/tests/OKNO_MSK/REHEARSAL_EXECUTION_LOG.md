@@ -185,3 +185,20 @@ provider calls during rehearsal = 0
 - **Accounting:** 13 sheets; universe 2 840; core 2 185; groups 54; mapping 2 185; current relevant pages 80; target units 160; deltas 35; packages 47; clarifications/no-change/HOLD 44; relations 14; READY acceptance 3.
 - **Uncertainty:** это физический package candidate для Phase 6, а не замороженный commercial split; current-site freshness ограничена 2026-09-02.
 - **QA:** **PASS** — 13/13 renders visually inspected, formula errors before/after import 0, internal-code scan 0; independent validator 21/21; A–U failures 0; recipient review PASS; G0–G15 PASS. Corrected QA/data/XLSX remote-read back at `c76314eb23cff27c64c0a58d89d6fd911979c873`.
+
+## Corrective target-first rematerialization — 2026-09-10
+
+The earlier Step-15/client package remains historical and is superseded for delivery. Its machine/physical PASS did not prove the sold target-first product was visible: the package was current-site-first and its implementation view was change-only.
+
+- **Preserved input:** 2 840-row semantic authority; 2 185 working, 187 review, 468 excluded. No semantic row was silently reclassified or dropped.
+- **Corrective authorities:** 2 185 phrase routes; 161 cluster/task routes; 60 target-page roles; 60 page specifications; 14 physical-change rows.
+- **Reconciliation after freeze:** 48 keep/lock, 7 optimize, 4 route/internal-link change, 1 recheck; unresolved URL fabrication = 0.
+- **Client package:** one 13-sheet XLSX, one 22-page analytical PDF and one 71-page full page-specification PDF in `CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_CORRECTED_2026-09-10`.
+- **Package hashes:** XLSX `b889a682c424d101599863faabfa58fa308eddc3e8d6c7b6082bb23394c68f29`; analytical PDF `c5104a3367545e3b7d9faa72b4c6961cd32d971f5f6bde8c8a33d411b1884717`; page-specification PDF `b40cde729464205dc417c3cbdbfab7a340d8e7cae3f2d2431f0a2e09ba7ac2a7`.
+- **Machine QA:** new target-contract validator is fail-capable. Its first run rejected one real client-visible raw state and three over-narrow validator assumptions; the generator and checks were corrected. Final result: 17/17 PASS.
+- **Physical QA:** exact final bytes rendered; XLSX 13/13 sheets inspected, PDFs 22/22 + 71/71 pages inspected; blank/clipped/overlap/orphan/broken-glyph failures = 0.
+- **Recipient QA:** six independent client-only routes PASS; all 60 page names are present in the post-page specification.
+- **Provider boundary:** new Wordstat/Search/Alice/Google/competitor calls = 0.
+- **Artifact commit:** `9c81c756` (`feat(mk02): rebuild target-first client delivery`).
+
+Remote readback and final Phase-7 state are recorded separately after publication of the QA/state commits.
