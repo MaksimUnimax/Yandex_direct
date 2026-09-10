@@ -1,10 +1,11 @@
 {
-  "schema": "KW002_STEP05_EXECUTION_CURSOR_V2",
+  "schema": "KW002_STEP05_EXECUTION_CURSOR_V3",
   "date": "2026-09-10",
   "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "step_id": "05",
   "step_name": "targeted expansion / coverage control",
   "upstream": {
+    "step03": "COMPLETE_PASS_79_OF_79",
     "step04": "COMPLETE_PASS_ACCEPTED",
     "step04_analyst_return_qa": "PASS",
     "family_rows": 32,
@@ -43,10 +44,12 @@
   },
   "execution": {
     "step05_started": true,
-    "provider_acquisition_authority": "OWNER_EXECUTED_FIRST_STEP05_COMMAND_AND_RETURNED_E013_RESULT; continue only under per-request disclosure and persistence gate",
+    "provider_acquisition_authority": "OWNER_EXECUTED_FIRST_STEP05_COMMAND_AND_RETURNED_E013_RESULT",
     "provider_calls_executed": 1,
     "estimated_provider_cost_rub": 0.02,
-    "status": "IN_PROGRESS"
+    "status": "PAUSED_BY_OWNER_AFTER_E013_FOR_STEP03_STEP04_REVIEW",
+    "pause_receipt": "CURRENT_STATE_PAUSE_2026-09-10.md",
+    "next_provider_call_allowed": false
   },
   "completed_probes": [
     {
@@ -72,18 +75,19 @@
       "final_clustering_performed": false
     }
   ],
-  "next_candidate_probe": {
+  "next_candidate_before_pause": {
     "queue_ids": ["E007", "E014"],
     "purpose": "test stable talisman in-car/use qualifiers while suppressing model-name collision risk",
     "phrase": "!талисман (+в !машину|+для !машины|+для !автомобиля|+для !авто)",
-    "expected_request_count_now": 1,
-    "estimated_cost_rub_now": 0.02,
-    "reason_for_priority": "client-confirmed automobile use is in-scope; E013 independently exposed strong чётки in-car vocabulary; the remaining material boundary is talisman/use wording versus automotive model/entity collisions"
+    "executed": false
   },
-  "persistence_gate": {
-    "e013_raw_remote_readback": "PASS",
-    "e013_receipt_persisted": true,
-    "next_provider_call_allowed_only_after_cursor_remote_readback": true
+  "pause": {
+    "active": true,
+    "owner_instruction_local_time": "2026-09-10T12:29:00+05:00",
+    "reason": "OWNER_REQUESTED_EXPLICIT_REPORT_AND_REVIEW_OF_STEPS_03_AND_04_BEFORE_CONTINUING_STEP05",
+    "do_not_run_wordstat": true,
+    "do_not_advance_step05": true,
+    "do_not_start_step06": true
   },
-  "next_action": "REMOTE_READBACK_E013_RECEIPT_AND_THIS_CURSOR__THEN_RUN_ONE_E007_E014_TALISMAN_USE_CONTEXT_GETTOP__PERSIST_BEFORE_ANY_FURTHER_PROVIDER_CALL"
+  "next_action": "AWAIT_OWNER_EXPLICIT_RESUME_FROM_CURRENT_STATE_PAUSE__THEN_REASSESS_STEP05_QUEUE_BEFORE_ANY_PROVIDER_CALL"
 }
