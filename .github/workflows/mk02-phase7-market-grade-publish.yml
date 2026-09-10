@@ -1,0 +1,66 @@
+name: MK02 Phase7 Market Grade Publisher
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_market_grade_publish_trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout shared branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Reconstruct validated payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/_market_grade_publish_chunks
+          cat "$TMP"/part_* > /tmp/mk02_payload.b64
+          base64 -d /tmp/mk02_payload.b64 > /tmp/mk02_market_grade_publish_payload.tar.gz
+          echo 'cb39d0dec9c7e54b7e61031032a33bef9d4fa9296b6e1fac8dd9399224ecb560  /tmp/mk02_market_grade_publish_payload.tar.gz' | sha256sum -c -
+          tar -xzf /tmp/mk02_market_grade_publish_payload.tar.gz -C .
+
+      - name: Validate exact extracted package
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK
+          python -m pip install --quiet pypdf
+          python "$ROOT/validate_target_first_market_grade.py"
+          sha256sum \
+            "$ROOT/CLIENT_DELIVERY_PHASE_7_MARKET_GRADE_CORRECTED_2026-09-10/SEMANTIC_CORE_AND_TARGET_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx" \
+            "$ROOT/CLIENT_DELIVERY_PHASE_7_MARKET_GRADE_CORRECTED_2026-09-10/TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf" \
+            "$ROOT/CLIENT_DELIVERY_PHASE_7_MARKET_GRADE_CORRECTED_2026-09-10/TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_2026-09-10.pdf"
+
+      - name: Remove transport-only files
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK
+          rm -rf "$ROOT/_market_grade_publish_chunks"
+          rm -f "$ROOT/.phase7_market_grade_publish_trigger"
+          rm -f .github/workflows/mk02-phase7-market-grade-publish.yml
+          rm -f .github/workflows/mk02-phase7-quality-input-export.yml
+
+      - name: Commit and publish without force
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=roadmap/kwork-productization-2026-08-28
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'feat(mk02): publish market-grade Phase 7 package'
+          git fetch origin "$BRANCH"
+          git rebase "origin/$BRANCH"
+          git push origin "HEAD:$BRANCH"
