@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 77/79 / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 78/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 77/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 78/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -90,11 +90,12 @@ RUN_43 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS 
 RUN_44 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 1074 RESULTS DIRECT LINE-COUNT PASS
 RUN_45 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 987 RESULTS DIRECT LINE-COUNT PASS
 RUN_46 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 915 RESULTS DIRECT LINE-COUNT PASS
-CURRENT_USABLE_FEED_FORWARD = 77/79
-REMAINING_RUN_ORDERS = 47-48
-REMAINING_COUNT = 2
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 15
-RECOVERY_PROVIDER_COST_SO_FAR = 0.30 RUB
+RUN_47 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 809 RESULTS DIRECT LINE-COUNT PASS
+CURRENT_USABLE_FEED_FORWARD = 78/79
+REMAINING_RUN_ORDERS = 48
+REMAINING_COUNT = 1
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 16
+RECOVERY_PROVIDER_COST_SO_FAR = 0.32 RUB
 ```
 
 Run 36 verification boundary:
@@ -258,7 +259,22 @@ RUN_46_TOTALCOUNT = 68815 / PASS
 RUN_46_REMOTE_READBACK = PASS
 ```
 
-For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38, 39, 40, 41, 42, 43, 44, 45 and 46 were materialized one object per line, allowing direct deterministic remote line-position counts.
+Run 47 verification boundary:
+
+```text
+RUN_47_REQUEST_ID = wordstat-0088ece9-d252-428d-927f-0acdf0a03a84
+RUN_47_RAW_BLOB_SHA = 1da07c996b06157b6eaae20613c25bd11136fb03
+RUN_47_REMOTE_FIRST_RESULT = скорпион знак зодиака / 57861
+RUN_47_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = скорпион знак зодиака мужчина рисунок / 1
+RUN_47_RESULTS_ARRAY_FIRST_ROW_LINE = 22
+RUN_47_RESULTS_ARRAY_LAST_ROW_LINE = 830
+RUN_47_RESULTS_ROWS = 809 / DIRECT REMOTE LINE-POSITION COUNT
+RUN_47_ASSOCIATIONS_ROWS = 17 / DIRECT REMOTE LINE-POSITION COUNT / LINES 833-849
+RUN_47_TOTALCOUNT = 57861 / PASS
+RUN_47_REMOTE_READBACK = PASS
+```
+
+For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38, 39, 40, 41, 42, 43, 44, 45, 46 and 47 were materialized one object per line, allowing direct deterministic remote line-position counts.
 
 Current recovery progress authority:
 
@@ -288,6 +304,7 @@ Current recovery receipts:
 - `STEP_03_RAW_RECOVERY_REQUERY_044_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_045_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_046_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_REQUERY_047_RECEIPT_2026-09-10.md`
 
 ## Recovery strategy
 
@@ -328,12 +345,12 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 77/79
-STEP_03_REMAINING_RECOVERY = 2
-RUN_46_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 78/79
+STEP_03_REMAINING_RECOVERY = 1
+RUN_47_REMOTE_READBACK = PASS
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_47_ZNAK_ZODIAKA_SKORPION
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_48_ZNAK_ZODIAKA_TELETS
 ```
 
 Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.

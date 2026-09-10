@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 77,
+    "usable": 78,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [47,48]
+    "remaining_run_orders": [48]
   },
   "recovered_without_provider_replay": [
     {
@@ -46,14 +46,15 @@
     {"run_order":43,"phrase":"знак зодиака Овен","request_id":"wordstat-b9438bf7-323d-4230-b91a-55dfa5474b1b","http_status":200,"status":"OK","results_rows":593,"results_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_614_INCLUSIVE","associations_rows":15,"associations_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_617_631_INCLUSIVE","totalCount":37752,"request_executed":true,"automatic_retry":false,"estimated_cost_rub":0.02,"path":"STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__043__wordstat-b9438bf7-323d-4230-b91a-55dfa5474b1b.raw.txt","raw_blob_sha":"4cd21920223058f0636ae670b9a6ebf148e7dbe1","remote_readback":"PASS","remote_tail_readback":"PASS","historical_control_match":"PASS__593_RESULTS__15_ASSOCIATIONS__TOTALCOUNT_37752","provenance_boundary":"NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"},
     {"run_order":44,"phrase":"знак зодиака Лев","request_id":"wordstat-dde33455-ff1a-4b90-9c01-f1ed89c5ff15","http_status":200,"status":"OK","results_rows":1074,"results_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_1095_INCLUSIVE","associations_rows":14,"associations_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_1098_1111_INCLUSIVE","totalCount":108619,"request_executed":true,"automatic_retry":false,"estimated_cost_rub":0.02,"path":"STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__044__wordstat-dde33455-ff1a-4b90-9c01-f1ed89c5ff15.raw.txt","raw_blob_sha":"5a068c684df64cf37bfcbfb44f9bcb2ae251c360","remote_readback":"PASS","remote_tail_readback":"PASS","historical_control_match":"PASS__1074_RESULTS__14_ASSOCIATIONS__TOTALCOUNT_108619","historical_row_by_row_identity_claimed":false,"provenance_boundary":"NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"},
     {"run_order":45,"phrase":"знак зодиака Рак","request_id":"wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a","http_status":200,"status":"OK","results_rows":987,"results_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_1008_INCLUSIVE","associations_rows":14,"associations_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_1011_1024_INCLUSIVE","totalCount":67198,"request_executed":true,"automatic_retry":false,"estimated_cost_rub":0.02,"path":"STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__045__wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a.raw.txt","raw_blob_sha":"9b0200e1e0ea434474974dc9f9bd0cf16f50526b","remote_readback":"PASS","remote_tail_readback":"PASS","historical_control_match":"PASS__987_RESULTS__14_ASSOCIATIONS__TOTALCOUNT_67198","historical_row_by_row_identity_claimed":false,"provenance_boundary":"NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"},
-    {"run_order":46,"phrase":"знак зодиака Рыбы","request_id":"wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894","http_status":200,"status":"OK","results_rows":915,"results_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_936_INCLUSIVE","associations_rows":18,"associations_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_939_956_INCLUSIVE","totalCount":68815,"request_executed":true,"automatic_retry":false,"estimated_cost_rub":0.02,"path":"STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__046__wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894.raw.txt","raw_blob_sha":"eec4fa4fd8026129b619c95f67860e496ba8eaa6","remote_readback":"PASS","remote_tail_readback":"PASS","historical_control_match":"PASS__915_RESULTS__18_ASSOCIATIONS__TOTALCOUNT_68815","historical_row_by_row_identity_claimed":false,"provenance_boundary":"NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"}
+    {"run_order":46,"phrase":"знак зодиака Рыбы","request_id":"wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894","http_status":200,"status":"OK","results_rows":915,"results_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_936_INCLUSIVE","associations_rows":18,"associations_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_939_956_INCLUSIVE","totalCount":68815,"request_executed":true,"automatic_retry":false,"estimated_cost_rub":0.02,"path":"STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__046__wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894.raw.txt","raw_blob_sha":"eec4fa4fd8026129b619c95f67860e496ba8eaa6","remote_readback":"PASS","remote_tail_readback":"PASS","historical_control_match":"PASS__915_RESULTS__18_ASSOCIATIONS__TOTALCOUNT_68815","historical_row_by_row_identity_claimed":false,"provenance_boundary":"NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"},
+    {"run_order":47,"phrase":"знак зодиака Скорпион","request_id":"wordstat-0088ece9-d252-428d-927f-0acdf0a03a84","http_status":200,"status":"OK","results_rows":809,"results_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_22_830_INCLUSIVE","associations_rows":17,"associations_rows_verification":"DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_833_849_INCLUSIVE","totalCount":57861,"request_executed":true,"automatic_retry":false,"estimated_cost_rub":0.02,"path":"STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__047__wordstat-0088ece9-d252-428d-927f-0acdf0a03a84.raw.txt","raw_blob_sha":"1da07c996b06157b6eaae20613c25bd11136fb03","remote_readback":"PASS","remote_tail_readback":"PASS","historical_control_match":"PASS__809_RESULTS__17_ASSOCIATIONS__TOTALCOUNT_57861","historical_row_by_row_identity_claimed":false,"provenance_boundary":"NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"}
   ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 15,
-    "replay_estimated_cost_so_far_rub": 0.30,
+    "replay_executed_so_far": 16,
+    "replay_estimated_cost_so_far_rub": 0.32,
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_47_ZNAK_ZODIAKA_SKORPION"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_48_ZNAK_ZODIAKA_TELETS"
 }
