@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 69/79 / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 70/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 69/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 70/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -82,11 +82,12 @@ RUN_35 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_36 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 2000 RESULTS RECONCILED
 RUN_37 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 595 RESULTS RECONCILED
 RUN_38 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 783 RESULTS DIRECT LINE-COUNT PASS
-CURRENT_USABLE_FEED_FORWARD = 69/79
-REMAINING_RUN_ORDERS = 39-48
-REMAINING_COUNT = 10
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 7
-RECOVERY_PROVIDER_COST_SO_FAR = 0.14 RUB
+RUN_39 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 818 RESULTS DIRECT LINE-COUNT PASS
+CURRENT_USABLE_FEED_FORWARD = 70/79
+REMAINING_RUN_ORDERS = 40-48
+REMAINING_COUNT = 9
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 8
+RECOVERY_PROVIDER_COST_SO_FAR = 0.16 RUB
 ```
 
 Run 36 verification boundary:
@@ -130,7 +131,22 @@ RUN_38_TOTALCOUNT = 47689 / PASS
 RUN_38_REMOTE_READBACK = PASS
 ```
 
-For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Run 38 was materialized one object per line, allowing a direct deterministic remote line-position count.
+Run 39 verification boundary:
+
+```text
+RUN_39_REQUEST_ID = wordstat-77401772-61c8-4bbd-abb9-447700dd1e37
+RUN_39_RAW_BLOB_SHA = 089687e879ed8dc5c9a566f6c6d2c414c5f60c63
+RUN_39_REMOTE_FIRST_RESULT = весы знак зодиака / 64242
+RUN_39_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = весы знак зодиака темперамент / 3
+RUN_39_RESULTS_ARRAY_FIRST_ROW_LINE = 31
+RUN_39_RESULTS_ARRAY_LAST_ROW_LINE = 848
+RUN_39_RESULTS_ROWS = 818 / DIRECT REMOTE LINE-POSITION COUNT
+RUN_39_ASSOCIATIONS_ROWS = 19 / DIRECT REMOTE LINE-POSITION COUNT / LINES 851-869
+RUN_39_TOTALCOUNT = 64242 / PASS
+RUN_39_REMOTE_READBACK = PASS
+```
+
+For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38 and 39 were materialized one object per line, allowing direct deterministic remote line-position counts.
 
 Current recovery progress authority:
 
@@ -152,6 +168,7 @@ Current recovery receipts:
 - `STEP_03_RAW_RECOVERY_REQUERY_036_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_037_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_038_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_REQUERY_039_RECEIPT_2026-09-10.md`
 
 ## Recovery strategy
 
@@ -192,12 +209,12 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 69/79
-STEP_03_REMAINING_RECOVERY = 10
-RUN_38_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 70/79
+STEP_03_REMAINING_RECOVERY = 9
+RUN_39_REMOTE_READBACK = PASS
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_39_ZNAK_ZODIAKA_VESY
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_40_ZNAK_ZODIAKA_VODOLEY
 ```
 
 Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.
