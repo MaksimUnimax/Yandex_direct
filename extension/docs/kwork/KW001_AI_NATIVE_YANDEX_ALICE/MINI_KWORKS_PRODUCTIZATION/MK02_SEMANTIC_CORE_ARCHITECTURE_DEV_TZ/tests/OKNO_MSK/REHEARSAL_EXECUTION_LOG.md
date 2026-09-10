@@ -168,9 +168,20 @@ provider calls during rehearsal = 0
 
 ## Step 14 — implementation specifications
 
-Статус в этом checkpoint: **PENDING MATERIALIZATION IN NEXT BLOCK**. Источники и structural authority готовы; status не повышен вручную.
+- **Input:** 34 corrected implementation-action rows, 15 raw internal-link evidence rows, 160 active structural units, accepted current/target architecture and competing-page safety state.
+- **Authority:** `STEP_18_IMPLEMENTATION_ACTION_AUTHORITY_CORRECTED_2026-09-03.tsv`, `STEP_18_INTERNAL_LINK_IMPLEMENTATION_AUTHORITY_2026-09-03.tsv`, current page reads/owners and accepted Step14A overlays.
+- **Операция:** аналитические действия преобразованы в самостоятельные work packages; accounting batch `S18-A032` исключён как ложная «работа» и заменён 14 уникальными page-pair пакетами. READY разрешён только при полноте 12 обязательных полей; график и приоритеты не изобретались.
+- **Output:** `MK02_IMPLEMENTATION_WORK_PACKAGES_2026-09-10.tsv`, `MK02_CLARIFICATIONS_NO_CHANGE_HOLD_2026-09-10.tsv`, `MK02_IMPLEMENTATION_ACCEPTANCE_2026-09-10.tsv`, `MK02_ACCEPTANCE_MEASUREMENT_INTERFACE_2026-09-10.tsv`, manifest.
+- **Accounting:** 47 packages = 7 READY + 1 business detail + 6 placement/context + 4 recheck + 19 mapping-only + 9 no-site-change + 1 HOLD; acceptance rows 7; Yandex-only measurement classes 6.
+- **Uncertainty:** private history и шесть мест ссылок не доказаны; один business fact не предоставлен. Эти строки не повышены до READY.
+- **QA:** **PASS** — READY complete 7/7; placeholder 0; duplicate visible pairs 0; Step5A action IDs 0; invented owner/effort/capacity/timing 0.
 
 ## Step 15 — client materialization / final QA / readback
 
-Статус в этом checkpoint: **PENDING MATERIALIZATION IN NEXT BLOCK**. Финальный G0–G15 и recipient review ещё не объявлены.
-
+- **Input:** semantic, ownership, current/target, delta, package, clarification, relationship and acceptance authorities.
+- **Authority:** current `DELIVERABLE_SPEC.md`; client-visible A–U requirements; accepted outputs Steps 00–14.
+- **Операция:** материализованы три logical narrative views и 13-sheet XLSX candidate; клиентская терминология отделена от internal IDs; книга пересчитана, экспортирована, повторно импортирована и отрисована по каждому листу.
+- **Output:** `CLIENT_CANDIDATE_PACKAGE_README.md`, `CLIENT_CANDIDATE_ANALYTICAL_REPORT.md`, `CLIENT_CANDIDATE_IMPLEMENTATION_PLAN.md`, `OKNO_MSK_MK02_CLIENT_CANDIDATE_2026-09-10.xlsx`, workbook build report.
+- **Accounting:** 13 sheets; universe 2 840; core 2 185; groups 54; mapping 2 185; current relevant pages 80; target units 160; deltas 35; packages 47; clarifications/no-change/HOLD 40; relations 14; READY acceptance 7.
+- **Uncertainty:** это физический package candidate для Phase 6, а не замороженный commercial split; current-site freshness ограничена 2026-09-02.
+- **QA:** materialization **PASS** — 13/13 renders visually inspected, formula errors before/after import 0, internal-code scan 0. Финальный независимый G0–G15 и recipient verdict фиксируются следующим QA-блоком.

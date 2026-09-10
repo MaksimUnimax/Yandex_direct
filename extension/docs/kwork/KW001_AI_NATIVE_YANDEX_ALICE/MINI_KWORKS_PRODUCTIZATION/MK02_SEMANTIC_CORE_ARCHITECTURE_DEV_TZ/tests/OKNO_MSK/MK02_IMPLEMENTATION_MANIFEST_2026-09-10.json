@@ -1,0 +1,67 @@
+{
+  "schema": "MK02_OKNO_MSK_IMPLEMENTATION_WORK_PACKAGES_V1",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "provider_calls_during_rehearsal": 0,
+  "source_action_rows": 34,
+  "source_link_rows": 15,
+  "source_link_distinct_visible_pairs": 14,
+  "accounting_batch_removed_as_work_package": "S18-A032",
+  "work_packages": 47,
+  "state_counts": {
+    "HOLD": 1,
+    "NO_SITE_CHANGE": 9,
+    "PENDING_BUSINESS_DETAIL": 1,
+    "PENDING_PLACEMENT_OR_CONTEXT": 6,
+    "READY_IMPLEMENTATION_SPEC": 7,
+    "RECHECK_ONLY": 4,
+    "SEMANTIC_MAPPING_ONLY": 19
+  },
+  "ready_required_fields": [
+    "page_or_object",
+    "why_change_is_needed",
+    "as_is_current_state",
+    "evidence_meaning",
+    "evidence_locator",
+    "implementation_mode",
+    "exact_change",
+    "exact_location_or_context",
+    "to_be_state",
+    "dependencies",
+    "preservation_do_not_break",
+    "acceptance_check"
+  ],
+  "ready_rows_complete": 7,
+  "clarification_no_change_hold_rows": 40,
+  "acceptance_rows": 7,
+  "measurement_classes": 6,
+  "ai_measurement_class_excluded": "M04_AI_BOUNDED_CONTENT_RECHECK",
+  "production_schedule": "NOT_MATERIALIZED__OWNER_EFFORT_CAPACITY_TIMING_NOT_PROVIDED",
+  "outputs": {
+    "MK02_IMPLEMENTATION_WORK_PACKAGES_2026-09-10.tsv": {
+      "bytes": 95625,
+      "sha256": "a0c61c93f26ce5801e26cb56b1ad2ba34a66c043ec00fddbf60ae3f46b4a80ad"
+    },
+    "MK02_CLARIFICATIONS_NO_CHANGE_HOLD_2026-09-10.tsv": {
+      "bytes": 30110,
+      "sha256": "5a3bc72ac08d14b6a57741fea72339b9efca4bbae1c2d6bb3106013036547cf0"
+    },
+    "MK02_IMPLEMENTATION_ACCEPTANCE_2026-09-10.tsv": {
+      "bytes": 6028,
+      "sha256": "5b097e46222570bed075966e46cdc9884af1ef4fdef31569650a820affa18ae3"
+    },
+    "MK02_ACCEPTANCE_MEASUREMENT_INTERFACE_2026-09-10.tsv": {
+      "bytes": 6070,
+      "sha256": "8be61a350d1c1f8953e003848d4e8dd840ea54f55dc140f6068b8a3caf85126f"
+    }
+  },
+  "checks": {
+    "accounting_batch_not_work_package": true,
+    "ready_fields_complete": true,
+    "ready_placeholders": 0,
+    "invented_owner_effort_capacity_timing": 0,
+    "step5a_action_ids": 0,
+    "google_or_ai_claims": 0,
+    "duplicate_visible_link_pairs": 0
+  }
+}
