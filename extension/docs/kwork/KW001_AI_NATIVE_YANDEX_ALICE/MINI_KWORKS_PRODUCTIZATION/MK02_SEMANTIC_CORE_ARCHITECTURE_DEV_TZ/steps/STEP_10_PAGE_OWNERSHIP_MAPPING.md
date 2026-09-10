@@ -68,3 +68,73 @@ Current accepted semantic active keys reconcile exactly to ownership map keys; l
 
 ## CLIENT-FACING MEANING
 «Для каждой темы и запроса показываем, какая существующая страница должна быть основной, какие страницы могут только дополнять тему и где подходящей страницы пока действительно нет или решение ещё требует проверки.»
+
+---
+
+## OWNER CORRECTION 2026-09-10 — TARGET-FIRST LANDING MAP IS MANDATORY
+
+The current-site-first wording above is insufficient for the sold MK02 result and is superseded where it conflicts with this correction.
+
+MK02 must not begin page responsibility by accepting the current site as the answer. Step10 must first design the **intended landing responsibility** from the accepted semantic/task clusters, and only then reconcile that intended responsibility with current public pages.
+
+Mandatory two-level output:
+
+```text
+LEVEL 1 — EVERY ACTIVE PHRASE
+phrase → cluster/task → intended landing-page key → intended target URL/page state
+
+LEVEL 2 — EVERY MATERIAL CLUSTER/TASK
+cluster/task → one intended primary landing page → page type → parent/section → supporting-page role
+```
+
+For every active phrase, the target-routing field must resolve to one of:
+
+```text
+TARGET_EXISTING_PAGE_CANDIDATE
+TARGET_NEW_PAGE_CANDIDATE
+TARGET_WITHIN_PARENT_NO_STANDALONE_PAGE
+TARGET_UNRESOLVED_EVIDENCE_REQUIRED
+OUTSIDE_SCOPE_NO_TARGET
+```
+
+`TARGET_NEW_PAGE_CANDIDATE` is only a target-design candidate at Step10; it is not permission to CREATE. Step11–13 must still test reuse, current-site reality and structural evidence.
+
+For every material cluster/task, materialize a target landing-page specification with at least:
+
+```text
+TARGET PAGE KEY
+HUMAN PAGE PURPOSE
+PRIMARY USER TASK / INTENT
+PAGE TYPE
+PRIMARY / REPRESENTATIVE QUERY
+MEMBER PHRASE COUNT
+INTENDED PARENT / SECTION
+INTENDED TARGET URL OR PROVISIONAL ROUTE
+SUPPORTING PAGE RELATIONSHIPS WHEN MATERIAL
+CURRENT PAGE CANDIDATE / MATCH STATE kept separately
+```
+
+Permanent distinctions:
+
+```text
+INTENDED TARGET LANDING != CURRENT PAGE THAT HAPPENS TO EXIST
+PHRASE→TARGET MAP != CLUSTER→LANDING MAP
+CURRENT SITE INVENTORY != TARGET INFORMATION ARCHITECTURE
+GOOD CURRENT SITE != PERMISSION TO OMIT TARGET MAPPING
+NO PHYSICAL CHANGE != NO DELIVERABLE VALUE
+```
+
+The current site is evidence for reconciliation, reuse and safety; it is not allowed to predefine the target map before target routing has been independently materialized.
+
+Additional PASS requirements:
+
+```text
+ACTIVE PHRASES WITHOUT TARGET ROUTE/EXPLICIT UNRESOLVED STATE = 0
+MATERIAL CLUSTERS WITHOUT TARGET LANDING SPEC = 0
+TARGET LANDING SPECS DERIVED ONLY BY COPYING CURRENT URLS = FAIL
+CURRENT OWNER MATCH MUST BE A LATER RECONCILIATION FIELD, NOT THE TARGET DESIGN ITSELF
+```
+
+Correct client-facing meaning after this correction:
+
+«Для каждого рабочего запроса показываем, к какой теме он относится и на какую целевую посадочную страницу должен вести. Для каждой темы отдельно проектируем основную посадочную страницу и её место в структуре, а затем проверяем, есть ли на текущем сайте подходящая страница, нужно ли её доработать или требуется другое решение.»
