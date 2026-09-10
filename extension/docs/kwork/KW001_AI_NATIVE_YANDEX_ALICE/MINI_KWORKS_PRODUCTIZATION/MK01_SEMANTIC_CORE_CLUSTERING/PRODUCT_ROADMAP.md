@@ -1,6 +1,6 @@
 # MK01 — Семантическое ядро для сайта: сбор, чистка и кластеризация
 
-Status: **CLIENT DOCUMENT PACKAGE ANALYTICALLY REBUILT / OWNER REVIEW NEXT / VISUAL DEFERRED**
+Status: **OWNER ACCEPTED / PRODUCT V1 FROZEN / VISUAL + PUBLICATION DEFERRED**
 
 ## Рабочее название карточки
 
@@ -64,7 +64,7 @@ E38 = CLIENT PDF BECAME EXECUTION PROTOCOL INSTEAD OF ANALYTICAL REPORT
 E39 = PAGE COUNT USED AS QUALITY PROXY
 ```
 
-Step 10 and `CLIENT_REPORT_SPEC.md` now require the report to answer **what the research showed** through executive findings, task/intent structure, material groups, review/exclusion analysis and practical interpretation. Correct counts and clean layout alone cannot pass.
+Step 10 and `CLIENT_REPORT_SPEC.md` require the report to answer **what the research showed** through executive findings, task/intent structure, material groups, review/exclusion analysis and practical interpretation. Correct counts and clean layout alone cannot pass.
 
 ## Product boundary
 
@@ -83,18 +83,22 @@ PHASE 6  MK01 CLIENT DELIVERABLE / PACKAGING   = PASS / ANALYTICAL PDF REBUILD A
 PHASE 7  PRODUCT/PACKAGING QA                  = PASS / E38-E39 CONTROLS ADDED
 PHASE 8  PRICE/LIMITS/ECONOMICS                = PASS
 PHASE 9  KWORK CARD                            = PASS / DELIVERY COPY = XLSX + PDF
-PHASE 10 PORTFOLIO ILLUSTRATION                = DEFERRED BY OWNER UNTIL DOCUMENT REVIEW
+OWNER PRODUCT GATE                              = PASS / V1 FROZEN 2026-09-10
+PHASE 10 PORTFOLIO ILLUSTRATION                = DEFERRED BY OWNER
 PHASE 11 OWNER PUBLICATION                     = PENDING OWNER ACTION
-PHASE 12 PUBLISHED VERSION FREEZE/READBACK      = PENDING
+PHASE 12 PUBLISHED VERSION READBACK             = PENDING UNTIL PUBLICATION
 ```
+
+## Freeze authority
+
+`PRODUCT_FREEZE_2026-09-10.md` is the current owner freeze receipt.
+
+Ordinary work must not reopen MK01 V1. Reopening requires an explicit versioned owner change, a proven material defect, or a documented marketplace-publication constraint.
 
 ## Current next action
 
 ```text
-OWNER REVIEW OF FINAL CLIENT DOCUMENTS:
-1. seven-sheet XLSX
-2. rebuilt analytical OKNO_MSK client PDF dated 2026-09-10
-3. handoff wording
-
-DO NOT RESUME VISUALS UNTIL OWNER DOCUMENT PASS.
+MK01 PRODUCT V1 = FROZEN
+MK01 VISUAL/PUBLICATION = DEFERRED
+CURRENT PRODUCTIZATION TARGET = MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ
 ```
