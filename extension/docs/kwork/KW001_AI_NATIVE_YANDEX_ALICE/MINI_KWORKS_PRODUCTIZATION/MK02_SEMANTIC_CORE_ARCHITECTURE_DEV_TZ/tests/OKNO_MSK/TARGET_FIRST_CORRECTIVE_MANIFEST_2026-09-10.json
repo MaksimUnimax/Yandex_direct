@@ -1,0 +1,97 @@
+{
+  "schema": "MK02_OKNO_MSK_TARGET_FIRST_CORRECTIVE_AUTHORITIES_V1",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "provider_calls": 0,
+  "source_counts": {
+    "semantic_universe": 2840,
+    "working": 2185,
+    "review": 187,
+    "excluded": 468
+  },
+  "target_first_counts": {
+    "phrase_target_rows": 2185,
+    "cluster_task_rows": 161,
+    "target_page_registry_rows": 60,
+    "resolved_target_pages": 59,
+    "unresolved_target_roles": 1,
+    "page_spec_rows": 60,
+    "change_delta_rows": 14,
+    "phrase_route_states": {
+      "NO_STANDALONE_ROUTE_TO_PARENT": 470,
+      "NO_TARGET_OUTSIDE_SCOPE": 20,
+      "RECHECK_NEEDS_EVIDENCE": 41,
+      "TARGET_PAGE_RESOLVED": 1648,
+      "UNRESOLVED_TASK_ROUTING": 6
+    },
+    "cluster_route_states": {
+      "NO_STANDALONE_ROUTE_TO_PARENT": 59,
+      "NO_TARGET_OUTSIDE_SCOPE": 4,
+      "RECHECK_NEEDS_EVIDENCE": 19,
+      "TARGET_PAGE_RESOLVED": 78,
+      "UNRESOLVED_TASK_ROUTING": 1
+    },
+    "page_reconciliation_states": {
+      "EXISTING_MATCH": 48,
+      "EXISTING_NEEDS_OPTIMIZATION": 7,
+      "EXISTING_RELATIONSHIP_CHANGE": 4,
+      "UNRESOLVED": 1
+    },
+    "page_action_states": {
+      "KEEP_LOCK_AS_TARGET_OWNER": 48,
+      "OPTIMIZE_STRENGTHEN": 7,
+      "RECHECK_NEEDS_EVIDENCE": 1,
+      "ROUTE_INTERNAL_LINK_CHANGE": 4
+    }
+  },
+  "qa_invariants": {
+    "silent_working_phrase_drops": 0,
+    "material_clusters_without_target_route_or_explicit_state": 0,
+    "target_pages_without_page_spec": 0,
+    "keep_pages_without_page_spec": 0,
+    "no_standalone_without_named_owner": 0,
+    "target_registry_contains_current_url_columns": 0,
+    "target_hierarchy_contains_current_url_columns": 0,
+    "current_site_used_as_target_design_authority": 0,
+    "physical_change_tickets_without_page_spec": 0,
+    "step5a_phrase_rows": 0
+  },
+  "outputs": {
+    "TARGET_FIRST_PHRASE_LANDING_MAP_2026-09-10.tsv.gz": {
+      "bytes": 98982,
+      "sha256": "ec02e1a4c391c088fbf8282d676f5e0df228d70e246cf0a8c73e1fdcc3a4efab"
+    },
+    "TARGET_FIRST_CLUSTER_LANDING_MAP_2026-09-10.tsv": {
+      "bytes": 195110,
+      "sha256": "ea48b5fa844e7e16fbac3cca4e200ec556bac7944e9e961c7adeed6514614d41"
+    },
+    "TARGET_PAGE_REGISTRY_2026-09-10.tsv": {
+      "bytes": 64171,
+      "sha256": "665f9b24be68fbcd6b2cd9b5601a6d52a2a34745e58dd4428de3346cae9d67e0"
+    },
+    "TARGET_ARCHITECTURE_HIERARCHY_2026-09-10.tsv": {
+      "bytes": 21805,
+      "sha256": "dc9c5c1c011b2864592a101cddba5fbc3e348ae14f3e4ab6e78948695d6f5319"
+    },
+    "CURRENT_TARGET_RECONCILIATION_2026-09-10.tsv": {
+      "bytes": 48213,
+      "sha256": "220e42f54b7bb8138c057e5e8f394d0c3c1f69f5cfaf0bf97344c5d5a9c08ca5"
+    },
+    "TARGET_PAGE_SPEC_REGISTER_2026-09-10.tsv": {
+      "bytes": 134036,
+      "sha256": "2ace261356ae9334aff1e96730936d13a2d7d323afb175cc0983dde1c99e2042"
+    },
+    "CURRENT_TARGET_CHANGE_DELTA_2026-09-10.tsv": {
+      "bytes": 24720,
+      "sha256": "daf98105b370d68d481a6b49de155e48359df1bc7e79d6fb3e0ae60d4f0a047a"
+    }
+  },
+  "claim_boundaries": [
+    "TARGET_MODEL_FROZEN_BEFORE_CURRENT_RECONCILIATION",
+    "CURRENT_SITE_IS_AS_IS_EVIDENCE_NOT_TARGET_DESIGN_AUTHORITY",
+    "FULL_PAGE_SPEC_IS_NOT_CHANGE_DELTA",
+    "KEEP_IS_NOT_OMIT",
+    "NO_STANDALONE_HAS_NAMED_OWNER",
+    "NO_NEW_PROVIDER_CALLS"
+  ]
+}
