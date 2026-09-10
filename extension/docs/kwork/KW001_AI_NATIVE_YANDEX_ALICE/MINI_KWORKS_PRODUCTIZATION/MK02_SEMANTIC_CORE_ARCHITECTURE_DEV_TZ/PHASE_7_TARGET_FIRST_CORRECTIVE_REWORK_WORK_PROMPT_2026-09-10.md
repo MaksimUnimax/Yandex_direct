@@ -460,9 +460,80 @@ For both PDFs:
 
 Do not certify final bytes using an earlier render.
 
-## 15. PERSISTENCE / COMMITS / READBACK
+## 15. PERSISTENCE / SEMANTIC CHECKPOINTS / COMMITS / READBACK
 
-Commit material blocks with descriptive messages.
+This is a long Work execution. Do **not** keep completed work only in Work memory, local scratch files or the conversation until the end.
+
+Checkpointing is based on **completed meaningful blocks**, not on time:
+
+```text
+DO NOT COMMIT EVERY MINUTE
+DO NOT COMMIT EVERY ROW
+DO NOT ACCUMULATE HOURS OF FINISHED WORK ONLY IN THE DIALOGUE
+
+WHEN A MEANINGFUL BLOCK IS COMPLETE AND INTERNALLY CONSISTENT,
+SAVE IT DURABLY BEFORE STARTING THE NEXT LARGE BLOCK
+```
+
+For this corrective task, suitable checkpoint boundaries include, as they become complete:
+
+```text
+1. SOURCE / INPUT RECONCILIATION COMPLETE
+2. PHRASE→TARGET + CLUSTER→LANDING AUTHORITIES COMPLETE
+3. TARGET PAGE REGISTRY + TARGET HIERARCHY COMPLETE
+4. CURRENT↔TARGET RECONCILIATION + PAGE-SPEC REGISTER COMPLETE
+5. GENERATORS / VALIDATORS CORRECTED
+6. CLIENT XLSX COMPLETE + ITS QA COMPLETE
+7. ANALYTICAL PDF COMPLETE + FINAL-BYTE QA COMPLETE
+8. TZ PDF COMPLETE + FINAL-BYTE QA COMPLETE
+9. METHODOLOGY / STATE RECONCILIATION COMPLETE
+10. FINAL REMOTE READBACK / RECEIPT COMPLETE
+```
+
+These are examples of semantic boundaries, not a requirement to manufacture exactly ten commits. Combine adjacent blocks when they are naturally one coherent unit; split a block only when it is genuinely too large to hold safely until completion.
+
+For every completed material block:
+
+```text
+SAVE ACTUAL REUSABLE OUTPUTS
+→ RECORD WHAT IS COMPLETE / WHAT REMAINS
+→ COMMIT WITH A DESCRIPTIVE CHECKPOINT MESSAGE
+→ PUSH / SAFE REF UPDATE
+→ REMOTE READBACK
+→ ONLY THEN CONTINUE THE NEXT LARGE BLOCK
+```
+
+Do not treat a prose status message as persistence. The actual TSV/JSON/MD/generator/client-source/QA material that represents the completed work must be durably saved.
+
+If a single block is too large and interruption/hanging would destroy substantial progress, persist a deterministic resumable partial checkpoint. Mark it explicitly:
+
+```text
+IN_PROGRESS
+PARTIAL
+NOT_FINAL_AUTHORITY
+```
+
+Such a checkpoint must include enough state to resume without reconstructing work from dialogue memory, where material:
+
+```text
+SOURCE COMMIT / AUTHORITY IDS
+LAST COMPLETED KEY / BATCH / CURSOR
+COMPLETED OUTPUT PATHS
+ROW / ENTITY ACCOUNTING SO FAR
+OPEN ITEMS / KNOWN FAILURES
+EXACT NEXT RESUME ACTION
+```
+
+A partial checkpoint may be committed and pushed for recovery, but it must not be called PASS/final authority.
+
+Hard failures:
+
+```text
+HOURS OF COMPLETED WORK ONLY IN DIALOGUE = FAIL
+MEANINGFUL COMPLETED BLOCK NOT PUSHED = FAIL
+FINAL-ONLY COMMIT STRATEGY FOR THIS LONG TASK = FAIL
+CHECKPOINT COMMIT != FINAL PASS
+```
 
 Before every material write, account for live branch concurrency.
 No force push.
