@@ -156,7 +156,7 @@ RUN_39_REMOTE_READBACK = PASS
 Run 40 verification boundary:
 
 ```text
-RUN_40_REQUEST_ID = wordstat-d465de72-775d-4255-83ee-ef069dbae0d0
+RUN_40_REQUEST_ID = wordstat-d465de72-775d-4255-83cb-9ad9b4373925
 RUN_40_RAW_BLOB_SHA = 94c1d1f76c2da4c7f52e5dfc48d1e909f699f84d
 RUN_40_REMOTE_FIRST_RESULT = водолей знак зодиака / 37900
 RUN_40_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = тату знак зодиака водолей телец / 1
