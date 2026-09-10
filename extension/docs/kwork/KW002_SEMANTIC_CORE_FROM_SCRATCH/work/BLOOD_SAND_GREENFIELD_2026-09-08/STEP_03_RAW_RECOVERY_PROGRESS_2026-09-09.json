@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 68,
+    "usable": 69,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [38,39,40,41,42,43,44,45,46,47,48]
+    "remaining_run_orders": [39,40,41,42,43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -135,14 +135,35 @@
       "remote_readback": "PASS",
       "remote_tail_readback": "PASS",
       "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
+    },
+    {
+      "run_order": 38,
+      "phrase": "знак зодиака Близнецы",
+      "request_id": "wordstat-547013bc-6ce5-48de-981e-411f71b7d247",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 783,
+      "results_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_31_813_INCLUSIVE",
+      "associations_rows": 15,
+      "associations_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_816_830_INCLUSIVE",
+      "totalCount": 47689,
+      "request_executed": true,
+      "automatic_retry": false,
+      "estimated_cost_rub": 0.02,
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__038__wordstat-547013bc-6ce5-48de-981e-411f71b7d247.raw.txt",
+      "raw_blob_sha": "eac14976a280a50ade7ac47d454a1404f33daa83",
+      "remote_readback": "PASS",
+      "remote_tail_readback": "PASS",
+      "historical_control_match": "PASS__783_RESULTS__15_ASSOCIATIONS__TOTALCOUNT_47689",
+      "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
     }
   ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 6,
-    "replay_estimated_cost_so_far_rub": 0.12,
+    "replay_executed_so_far": 7,
+    "replay_estimated_cost_so_far_rub": 0.14,
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_38_ZNAK_ZODIAKA_BLIZNETSY"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_39_ZNAK_ZODIAKA_VESY"
 }

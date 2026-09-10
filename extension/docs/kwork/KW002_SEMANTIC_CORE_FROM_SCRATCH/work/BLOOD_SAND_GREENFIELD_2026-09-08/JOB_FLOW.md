@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 68/79 / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 69/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 68/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 69/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -81,11 +81,12 @@ RUN_34 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_35 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_36 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 2000 RESULTS RECONCILED
 RUN_37 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 595 RESULTS RECONCILED
-CURRENT_USABLE_FEED_FORWARD = 68/79
-REMAINING_RUN_ORDERS = 38-48
-REMAINING_COUNT = 11
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 6
-RECOVERY_PROVIDER_COST_SO_FAR = 0.12 RUB
+RUN_38 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 783 RESULTS DIRECT LINE-COUNT PASS
+CURRENT_USABLE_FEED_FORWARD = 69/79
+REMAINING_RUN_ORDERS = 39-48
+REMAINING_COUNT = 10
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 7
+RECOVERY_PROVIDER_COST_SO_FAR = 0.14 RUB
 ```
 
 Run 36 verification boundary:
@@ -114,7 +115,22 @@ RUN_37_RESULTS_ROWS = 595 / RECONCILED
 RUN_37_RESULTS_ROWS_INDEPENDENT_LOCAL_PARSER = NOT AVAILABLE IN THIS EXECUTION ENVIRONMENT
 ```
 
-The reconciled result counts are not presented as independently parser-counted facts where that parser check was unavailable. Remote raw tail integrity, historical structural controls and exact totalCount agreement are preserved explicitly.
+Run 38 verification boundary:
+
+```text
+RUN_38_REQUEST_ID = wordstat-547013bc-6ce5-48de-981e-411f71b7d247
+RUN_38_RAW_BLOB_SHA = eac14976a280a50ade7ac47d454a1404f33daa83
+RUN_38_REMOTE_FIRST_RESULT = близнецы знак зодиака / 47689
+RUN_38_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = тайны близнецов все знаки зодиака / 1
+RUN_38_RESULTS_ARRAY_FIRST_ROW_LINE = 31
+RUN_38_RESULTS_ARRAY_LAST_ROW_LINE = 813
+RUN_38_RESULTS_ROWS = 783 / DIRECT REMOTE LINE-POSITION COUNT
+RUN_38_ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 816-830
+RUN_38_TOTALCOUNT = 47689 / PASS
+RUN_38_REMOTE_READBACK = PASS
+```
+
+For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Run 38 was materialized one object per line, allowing a direct deterministic remote line-position count.
 
 Current recovery progress authority:
 
@@ -135,6 +151,7 @@ Current recovery receipts:
 - `STEP_03_RAW_RECOVERY_REQUERY_035_RECEIPT_2026-09-09.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_036_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_037_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_REQUERY_038_RECEIPT_2026-09-10.md`
 
 ## Recovery strategy
 
@@ -175,12 +192,12 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 68/79
-STEP_03_REMAINING_RECOVERY = 11
-RUN_37_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 69/79
+STEP_03_REMAINING_RECOVERY = 10
+RUN_38_REMOTE_READBACK = PASS
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_38_ZNAK_ZODIAKA_BLIZNETSY
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_39_ZNAK_ZODIAKA_VESY
 ```
 
 Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.

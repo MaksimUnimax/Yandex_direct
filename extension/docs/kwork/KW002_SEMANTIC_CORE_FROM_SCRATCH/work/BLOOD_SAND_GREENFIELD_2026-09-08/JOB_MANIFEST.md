@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 68/79 / STEP 04 BLOCKED**
+Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 69/79 / STEP 04 BLOCKED**
 
 ## 1. Job identity
 
@@ -92,11 +92,12 @@ RUN_34 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_35 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_36 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE TAIL READBACK PASS / RESULTS 2000 RECONCILED
 RUN_37 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE TAIL READBACK PASS / RESULTS 595 RECONCILED
-CURRENT_DURABLE_FEED_FORWARD = 68/79
-REMAINING_RUN_ORDERS = 38..48
-REMAINING_COUNT = 11
-RECOVERY_PROVIDER_REQUESTS = 6
-RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.12
+RUN_38 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 783 DIRECT LINE-COUNT PASS
+CURRENT_DURABLE_FEED_FORWARD = 69/79
+REMAINING_RUN_ORDERS = 39..48
+REMAINING_COUNT = 10
+RECOVERY_PROVIDER_REQUESTS = 7
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.14
 ```
 
 Run 36 persistence authority:
@@ -131,7 +132,23 @@ AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
-Reconciled result counts are explicitly distinguished from independent parser counts. No stronger verification is claimed than the available remote raw/tail, historical control and exact totalCount evidence support.
+Run 38 persistence authority:
+
+```text
+REQUEST_ID = wordstat-547013bc-6ce5-48de-981e-411f71b7d247
+RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__038__wordstat-547013bc-6ce5-48de-981e-411f71b7d247.raw.txt
+RAW_BLOB_SHA = eac14976a280a50ade7ac47d454a1404f33daa83
+HTTP_STATUS = 200
+STATUS = OK
+RESULTS_ROWS = 783 / DIRECT REMOTE LINE-POSITION COUNT / LINES 31..813
+ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 816..830
+TOTALCOUNT = 47689
+REQUEST_EXECUTED = true
+AUTOMATIC_RETRY = false
+REMOTE_READBACK = PASS
+```
+
+The historical manifest independently records run 38 as 783 results / 15 associations / totalCount 47689, matching the current direct remote carrier checks. The historical request identity remains preserved separately.
 
 Current recovery authority:
 
@@ -190,13 +207,13 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 68/79
-STEP_03_REMAINING_RECOVERY = 11
-RUN_37_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 69/79
+STEP_03_REMAINING_RECOVERY = 10
+RUN_38_REMOTE_READBACK = PASS
 STEP_04_STARTED = false
 STEP_04_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_38_ZNAK_ZODIAKA_BLIZNETSY
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_39_ZNAK_ZODIAKA_VESY
 ```
 
-Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the six new recovery observations.
+Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the seven new recovery observations.
