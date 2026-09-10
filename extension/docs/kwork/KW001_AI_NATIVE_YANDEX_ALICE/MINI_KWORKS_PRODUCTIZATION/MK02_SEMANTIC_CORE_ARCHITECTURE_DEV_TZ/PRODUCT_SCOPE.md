@@ -1,212 +1,182 @@
 # MK02 — PRODUCT SCOPE
 
-Status: **PHASE 0 PRODUCT PROMISE DEFINED / PRICE-LIMITS NOT YET FROZEN**
+Status: **PRODUCT PROMISE CORRECTED / TARGET-FIRST MAPPING MANDATORY / PHASE 7 CORRECTIVE REWORK REQUIRED**
 
 Working product identity:
 
 **«Семантическое ядро + SEO-структура сайта + ТЗ на доработку»**
 
-The public marketplace title is not frozen yet. This file freezes what MK02 actually sells and what it does not sell.
+Owner correction authority: `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`.
 
 ## 1. What the client buys
 
 MK02 is a standalone Yandex SEO-research and implementation-specification product for an **existing public website**.
 
-The sold causal chain is:
+Correct sold causal chain:
 
 ```text
-AGREED BUSINESS / REGION SCOPE
+SITE + REGION
 → YANDEX DEMAND ACQUISITION
-→ CLEAN SEMANTIC CORE + TASK CLUSTERS
-→ CURRENT PAGE OWNERSHIP / PHRASE→PAGE MAP
-→ STRUCTURAL ALTERNATIVE ANALYSIS
-→ COMPETING-PAGE SAFETY CHECK WHERE MATERIAL
-→ TARGET SEARCH ARCHITECTURE RECONCILED WITH CURRENT SITE
-→ CONCRETE IMPLEMENTATION SPECIFICATIONS FOR EVIDENCE-SUPPORTED CHANGES
-→ CLIENT-READABLE WORKBOOK/REPORT PACKAGE
+→ CLEAN SEMANTIC CORE + TASK/INTENT CLUSTERS
+→ COMPLETE PHRASE→TARGET LANDING MAP
+→ CLUSTER→TARGET LANDING PAGE MAP
+→ TARGET PAGE REGISTRY + TARGET SEO HIERARCHY
+→ RECONCILIATION WITH THE REAL CURRENT SITE
+→ PAGE ACTION STATE: CREATE / OPTIMIZE / ROUTE / KEEP / NO-STANDALONE / RECHECK
+→ FULL PAGE-BY-PAGE TARGET SPECIFICATIONS
+→ PHYSICAL CURRENT→TARGET CHANGE DELTA
+→ CLIENT XLSX + ANALYTICAL PDF + TZ PDF
 ```
 
 Plain-language promise:
 
-> Соберу и очищу семантическое ядро по спросу Яндекса, сгруппирую запросы по задачам пользователей, проверю какие существующие страницы должны отвечать за эти задачи, покажу где текущая структура подходит, где её нужно уточнить или изменить, и подготовлю конкретные задания на те доработки сайта, которые действительно подтверждены исследованием.
+> Соберу и очищу семантическое ядро по спросу Яндекса, сгруппирую запросы по задачам пользователей, распределю все рабочие запросы и кластеры по целевым посадочным страницам, построю целевую SEO-структуру сайта, сопоставлю её с текущими страницами и подготовлю постраничное ТЗ: что должна закрывать каждая страница и где действительно нужны изменения.
 
 ## 2. Core distinction from MK01
 
-MK01 ends at:
-
 ```text
-DEMAND → CLEANING → CLUSTERS
+MK01 = DEMAND → CLEANING → CLUSTERS
+
+MK02 = MK01 FOUNDATION
+→ PHRASE→TARGET PAGE MAPPING
+→ CLUSTER→LANDING PAGE MAPPING
+→ TARGET SEO STRUCTURE
+→ CURRENT-SITE RECONCILIATION
+→ PAGE-BY-PAGE TARGET SPEC
+→ CHANGE DELTA
 ```
 
-MK02 continues:
+Therefore the central added value of MK02 is not merely auditing current owners. It is the independently designed landing-page map and target site structure.
 
-```text
-CLUSTERS
-→ PAGE RESPONSIBILITY
-→ TARGET ARCHITECTURE
-→ IMPLEMENTATION SPECIFICATION
-```
+## 3. Existing-site V1 mode
 
-Therefore MK02 includes the applicable MK01 method as its semantic foundation but cannot simply reuse an old client keyword file without re-validating current scope/evidence.
-
-## 3. Yandex-only boundary
-
-MK02 is executed only for the Yandex ecosystem.
-
-In scope as evidence when the method requires it:
-
-- Yandex Wordstat;
-- ordinary Yandex Search;
-- current public pages and current literal internal links of the client site;
-- client-supplied business facts/constraints;
-- optional delegated Yandex Webmaster/private evidence under the declared Step13 mode when available and useful.
-
-Not in base scope:
-
-- Google Ads / AdWords;
-- Google Keyword Planner;
-- Google Search / Google SERP;
-- Google Search Console;
-- Google Analytics;
-- combined Google+Yandex semantic conclusions.
-
-A market analogue may include Google, but that functionality is not inherited by MK02.
-
-## 4. Validated operating mode being productized
-
-Current V1 target mode is:
+Current V1 productization mode:
 
 ```text
 SITE STATE = EXISTING PUBLIC WEBSITE
 PUBLIC SITE READABLE = REQUIRED
 PRIMARY REGION = ONE AGREED REGION
 FULL NEW SEMANTIC CORE = INCLUDED
-CURRENT SITE DISCOVERY / TOPOLOGY = INCLUDED TO THE DEPTH REQUIRED BY ARCHITECTURE
-YANDEX WEBMASTER = OPTIONAL IN BASE-PUBLIC MODE
-METRIKA = OPTIONAL / NOT REQUIRED FOR BASE ARCHITECTURE
-DIRECT = OPTIONAL / NOT REQUIRED
+TARGET LANDING DESIGN = INCLUDED
+TARGET SEO STRUCTURE = INCLUDED
+CURRENT SITE DISCOVERY / TOPOLOGY = INCLUDED TO THE DEPTH REQUIRED BY RECONCILIATION
 GOOGLE = EXCLUDED
 AI / ALICE / NEURO = EXCLUDED
+COMPETITOR-DERIVED STEP5A EXPANSION = EXCLUDED
 ```
 
-A greenfield/no-site variant is not silently included in V1. It requires a separate validated mode because current-page ownership and current-topology evidence operate differently when no public site exists.
+The existing site is used as real current-state evidence. Its current mapping is **not pre-accepted as the target answer**.
 
-## 5. Semantic layer included
+A greenfield/no-site variant remains a separate future mode.
 
-MK02 inherits the semantic acquisition/cleaning/clustering core from accepted MK01, including:
+## 4. Semantic layer
 
-- frozen site/region/business scope;
-- current public-site business model;
+MK02 inherits the semantic acquisition/cleaning/clustering foundation from MK01:
+
+- site/region scope;
+- current public-site business vocabulary/profile;
 - bounded Yandex Wordstat acquisition;
 - persistence/provenance;
 - conservative cleanup;
 - explicit uncertainty;
-- targeted ordinary Yandex Search where a material semantic boundary requires it;
+- targeted ordinary Yandex Search only where a material semantic boundary requires it;
 - task/intent-first clustering.
 
-### Competitor boundary
+Competitor-derived semantic expansion belongs to MK03, not base MK02.
 
-Competitor-derived Step5A expansion is **not included in MK02 base**.
+## 5. Target landing-map layer
 
-Reason: MK03 is the dedicated competitor semantic-gap product.
+For every active phrase, MK02 must produce:
 
 ```text
-MK02 BASE = NATIVE YANDEX DEMAND + CURRENT-SITE ARCHITECTURE
-MK03 = COMPETITOR-DERIVED MISSED-DEMAND / GAP RESEARCH
+PHRASE
+→ CLUSTER / USER TASK
+→ INTENDED TARGET LANDING PAGE KEY
+→ TARGET URL / ROUTE OR EXPLICIT NO-STANDALONE / UNRESOLVED STATE
 ```
 
-A client may later combine products, but MK02 must not silently give away MK03.
-
-## 6. Page ownership layer
-
-For every active/effective phrase and cluster, MK02 determines the current page-responsibility state.
-
-Required conceptual states include equivalents of:
+For every material cluster/task, MK02 must produce one intended primary landing-page specification with:
 
 ```text
-OWNER_EXISTING
-NO_SUITABLE_EXISTING_PAGE
-OWNER_UNRESOLVED_EVIDENCE_REQUIRED
-OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP
+PAGE PURPOSE
+PAGE TYPE
+PRIMARY TASK / INTENT
+PRIMARY / REPRESENTATIVE QUERY
+MEMBER PHRASE COUNT
+TARGET URL / ROUTE
+PARENT / SECTION
+SUPPORTING RELATIONSHIPS WHEN MATERIAL
 ```
 
 Permanent rules:
 
 ```text
-CLUSTER OWNER != COMPLETE PHRASE→PAGE MAP
-TARGET URL != SEARCH-ENGINE OBSERVED RELEVANT URL
-SEARCH ABSENCE != SITE ABSENCE
-NO SUITABLE EXISTING PAGE != CREATE DECISION
-REPRESENTATIVE QUERY != WHOLE CLUSTER EVIDENCE
+PHRASE→TARGET MAP != CLUSTER→LANDING MAP
+TARGET LANDING != CURRENT PAGE THAT HAPPENS TO EXIST
+CURRENT SITE INVENTORY != TARGET INFORMATION ARCHITECTURE
+REPRESENTATIVE QUERY != WHOLE-CLUSTER EVIDENCE
 ```
 
-The final map must preserve phrase-level accounting; ambiguous phrases do not receive fabricated target URLs.
+Target routing may remain unresolved when evidence is insufficient. No target URL is fabricated to complete a table.
 
-## 7. Structural / architecture layer
+## 6. Current-site reconciliation layer
 
-After ownership is established, MK02 decides what should happen structurally.
+After the target landing model exists, reconcile it against the real public site.
 
-Possible outcome classes may include job-appropriate equivalents of:
+Equivalent target/current match states may include:
 
 ```text
-KEEP CURRENT STRUCTURAL OWNER
-STRENGTHEN / EXPAND CURRENT PAGE
-ROUTE SUPPORTING TASK TO CURRENT OWNER
-SPLIT MATERIAL TASKS
-MERGE / CONSOLIDATE CANDIDATE
-CREATE NEW PAGE
-NAVIGATION / INTERNAL-LINK CHANGE
-NO PHYSICAL SITE CHANGE
-DEFER / NEEDS EVIDENCE
+EXISTING_MATCH
+EXISTING_NEEDS_OPTIMIZATION
+EXISTING_RELATIONSHIP_CHANGE
+NEW_PAGE_CANDIDATE
+NO_STANDALONE_PAGE_ROUTE_TO_PARENT
+UNRESOLVED
 ```
 
-But the action label never proves itself.
+`NEW_PAGE_CANDIDATE` does not become CREATE automatically. Current-content reuse, business fit, Search evidence where material, and structural safety must support it.
 
-Required causal chain:
+Permanent rules:
 
 ```text
-USER TASK + DEMAND
-+ CURRENT PAGE RESPONSIBILITY
-+ CURRENT CONTENT/SITE TRUTH
-+ SEARCH EVIDENCE WHEN MATERIAL
-+ CURRENT SITE TOPOLOGY
-+ ALTERNATIVE COMPARISON
-→ STRUCTURAL DECISION
+NO SUITABLE CURRENT PAGE != AUTOMATIC CREATE
+GOOD CURRENT PAGE != OMIT TARGET PAGE SPEC
+KEEP != NOTHING TO DELIVER
 ```
 
-Hard boundaries:
+## 7. Target SEO architecture layer
+
+MK02 builds an independent target page registry and hierarchy before final current-site reconciliation.
+
+Every material target page must preserve:
 
 ```text
-PHRASE COUNT != NEW PAGE JUSTIFICATION
-NO EXACT OWNER != CONTENT GAP
-NO PAGE FOUND IN OLD INVENTORY != CURRENT PAGE ABSENCE
-CORRECT STRUCTURAL OWNER != PAGE FULLY OPTIMIZED
-ACTION LABEL != DIAGNOSIS
+TARGET PAGE KEY
+PAGE PURPOSE / TYPE
+PRIMARY TASK / INTENT
+PRIMARY QUERY
+SEMANTIC SCOPE / MEMBER COUNT
+TARGET URL / ROUTE
+PARENT / SECTION
+CHILD / SUPPORTING RELATIONS WHEN MATERIAL
+CURRENT MATCH STATE
+ACTION STATE
+UNCERTAINTY / EVIDENCE BOUNDARY
 ```
 
-Every surviving CREATE/SPLIT/MERGE/destructive candidate requires current evidence and stronger review than a simple KEEP/mapping decision.
+The target structure must be understandable as a hierarchy/tree or hierarchical table without opening the current site.
+
+Permanent rules:
+
+```text
+TARGET SEO STRUCTURE != CURRENT NAVIGATION TREE
+TARGET PAGE REGISTRY != CURRENT URL INVENTORY
+SMALL CURRENT→TARGET DELTA != SMALL TARGET ARCHITECTURE
+```
 
 ## 8. Competing-page / cannibalization boundary
 
-Step13 is included in MK02 only to the depth needed to prevent wrong architecture decisions.
-
-Base mode:
-
-```text
-BASE_PUBLIC_EVIDENCE_MODE
-```
-
-The base product may distinguish:
-
-- normal different tasks;
-- normal parent/child or primary/supporting pages;
-- current ownership mismatch/multi-URL warning signals;
-- duplicate/near-duplicate candidates when evidence supports it;
-- evidence-insufficient cases.
-
-It does **not** promise a full standalone historical cannibalization audit.
-
-Permanent rules:
+Competing-page diagnosis is included only to protect MK02 architecture decisions.
 
 ```text
 RELATED PAGES != CANNIBALIZATION
@@ -214,163 +184,99 @@ CURRENT SEARCH OVERLAP != HISTORICAL COMPETITION
 HISTORICAL COMPETITION != PROVEN HARM
 ```
 
-If a strong harmful-cannibalization claim requires first-party history that is unavailable, MK02 preserves the limitation/defer state rather than fabricating certainty or destructive remediation.
+MK02 does not promise a standalone historical cannibalization audit; deeper query→page/cannibalization analysis remains MK04.
 
-A dedicated deeper query→page/cannibalization product remains MK04.
+## 9. Full page-by-page target specification
 
-## 9. Search-only architecture freeze
+MK02 sells a full specification for every material target landing page, not only change tickets.
 
-Before implementation specification is accepted, MK02 must separate:
-
-```text
-TARGET SEARCH ARCHITECTURE
-!=
-CURRENT AS-IS PUBLIC SITE TOPOLOGY
-```
-
-Because architecture completeness is material to MK02, current-site discovery must not be limited to only the upstream known URL list.
-
-When needed, preserve:
-
-- current discovered URL universe;
-- current page/fetch profiles;
-- current literal internal-link graph;
-- upstream-vs-current reconciliation;
-- newly discovered material pages;
-- planned/recommended edge state separately from as-is edge state.
-
-Permanent rules:
+Equivalent client meaning:
 
 ```text
-KNOWN URL RECHECK != CURRENT SITE DISCOVERY
-SOURCE LIVE + TARGET LIVE + SEMANTIC FIT != LINK IMPLEMENTED
-SITEMAP PRESENCE != HTML REACHABILITY
-NEW DISCOVERY != PERMISSION FOR DESTRUCTIVE ACTION
+TARGET PAGE / URL OR ROUTE
+PAGE TYPE
+PARENT / SECTION
+PAGE PURPOSE
+PRIMARY TASK / INTENT
+PRIMARY / REPRESENTATIVE QUERY
+MEMBER PHRASE COUNT
+SEMANTIC SCOPE
+WHAT THE PAGE SHOULD COVER
+WHAT BELONGS ELSEWHERE / NO-STANDALONE BOUNDARY WHEN MATERIAL
+SUPPORTING / CHILD / RELATED PAGES WHEN MATERIAL
+CURRENT URL MATCH / CURRENT STATE
+ACTION = CREATE | OPTIMIZE | ROUTE | KEEP | NO_STANDALONE | RECHECK
+REAL SITE CHANGE = YES | NO | UNRESOLVED
+IMPLEMENTATION DETAIL IF A REAL CHANGE IS RESOLVED
+ACCEPTANCE / TARGET END STATE
+UNCERTAINTY / CLARIFICATION WHEN REQUIRED
 ```
 
-## 10. Developer / implementation TZ layer
+The full phrase list remains in XLSX. The PDF/TZ uses page-level specifications, not thousands of raw phrase rows.
 
-MK02 sells **implementation-ready specifications for the site changes that the research has actually resolved**.
+## 10. Physical change delta
 
-It does not sell a generic list of recommendations.
+The physical implementation delta is a **subset** of the full page-spec register.
 
-Every action claimed READY must resolve, where applicable:
+For each change claimed READY, require exact change detail, context/location where material, dependencies, preservation boundary and acceptance check.
+
+`KEEP`, mapping-only and no-site-change remain valid outcomes, but they never disappear from the full target-page specification.
+
+## 11. Implementation specification vs schedule
 
 ```text
-PAGE / OBJECT
-WHY CHANGE IS NEEDED
-AS-IS CURRENT STATE
-EVIDENCE MEANING
-EVIDENCE LOCATOR FOR AUDIT
-IMPLEMENTATION MODE
-EXACT CHANGE
-EXACT LOCATION / CONTEXT WHEN MATERIAL
-TO-BE STATE
-DEPENDENCIES
-PRESERVATION / DO-NOT-BREAK REQUIREMENTS
-ACCEPTANCE CHECK
+IMPLEMENTATION-SPEC READY != IMPLEMENTATION-SCHEDULE READY
 ```
 
-Permitted implementation-mode concepts include:
-
-```text
-SEMANTIC_MAPPING_ONLY
-CONTEXTUAL_LINK
-NAVIGATION_CHANGE
-CONTENT_BLOCK
-METADATA_OR_LABEL_CHANGE
-NO_SITE_CHANGE
-RECHECK_ONLY
-HOLD
-```
-
-Critical rule:
-
-```text
-CORRECT OWNER / ROUTE != READY WEBSITE IMPLEMENTATION TICKET
-SEMANTIC MAPPING != PHYSICAL SITE CHANGE
-FIELDS PRESENT != EXECUTION DECISION RESOLVED
-```
-
-When exact placement/business fact/mechanism is missing, the item is moved to a concrete clarification/check section instead of being called READY.
-
-## 11. Implementation specification vs implementation schedule
-
-MK02 promises **actionable specifications**, not a fabricated project schedule.
-
-```text
-IMPLEMENTATION-SPEC READY
-!=
-IMPLEMENTATION-SCHEDULE READY
-```
-
-An analytical priority may be supplied from research evidence. But a real production order/timeline requires owner, effort, capacity, dependencies and measurement inputs. If those are unavailable, they remain unguessed.
-
-No client-specific effort band, deadline per task, responsible employee or expected uplift may be invented.
+No owner, effort, timing, business value or expected uplift is invented. An analytical priority may exist separately from production scheduling.
 
 ## 12. What the client result must let them do
 
-Without reading the repository, the client should be able to answer:
+Without repository knowledge, the client must be able to answer:
 
 1. what Yandex demand was researched;
 2. what the working semantic core/clusters are;
-3. which existing page owns which user task;
-4. which topics/tasks have no suitable existing owner or remain unresolved;
-5. what the target Search architecture is;
-6. how the target differs from the current public site;
-7. which recommendations require actual site changes and which are mapping/no-change results;
-8. which changes are ready to implement now;
-9. which need one concrete clarification/check first;
-10. how to verify each implemented change;
-11. what MK02 did not research or promise.
+3. for any working phrase, which target landing page owns it;
+4. for any material cluster, which target landing page owns it and what that page is for;
+5. what the complete target SEO structure is;
+6. which target pages already match the current site;
+7. which target pages require optimization/create/route decisions;
+8. which topics should not get standalone pages and where they belong;
+9. what the full page-by-page target specification is;
+10. which subset requires actual site changes;
+11. which changes are ready and which require clarification/recheck;
+12. how to verify implemented changes;
+13. what MK02 did not research or promise.
 
-## 13. Deliverable classes — physical packaging deferred to rehearsal
-
-The exact file split/layout is not frozen before MK02 rehearsal, but the client package must contain equivalent recipient views for:
-
-### A. Semantic core
-Working phrases, clusters, demand evidence, uncertainty and exclusions.
-
-### B. Phrase/task → page map
-Exact current ownership state for every applicable active phrase/task.
-
-### C. Current vs target architecture map
-Current pages/topology separately from intended owner/structure/link relationships.
-
-### D. Implementation report / TZ
-Action-first plain-language implementation tasks, concrete clarifications, topic-to-page mapping, relevant page-to-page connections and acceptance checks.
-
-### E. Analytical explanation
-Material findings must be explained to the client. Correct counts/tables alone are not sufficient recipient value.
-
-Physical XLSX/PDF/DOCX split is finalized only after OKNO_MSK MK02-only rehearsal proves the best recipient form. Do not repeat MK01's mistake of turning a guessed report format/page count into a quality proxy before rehearsal.
-
-## 14. Explicitly NOT included in MK02 base
-
-- Google research/tooling;
-- competitor-derived semantic expansion / full competitor audit;
-- Alice / Yandex Neuro / GenSearch / AEO analysis;
-- full technical SEO audit of speed/indexing/robots/sitemap/schema/etc.;
-- copywriting / writing final page texts;
-- full metadata production for every page unless a specific evidence-backed implementation action requires a label/metadata change;
-- coding/implementation itself;
-- guaranteed rankings, traffic, leads or revenue;
-- standalone historical cannibalization audit as a separate product;
-- real implementation schedule when owner/effort/capacity inputs are unavailable.
-
-## 15. Phase-0 Definition of Done
+## 13. Physical package
 
 ```text
-SOLD CAUSAL CHAIN DEFINED
-+ YANDEX-ONLY BOUNDARY EXPLICIT
-+ EXISTING-SITE V1 MODE DEFINED
-+ MK01 FOUNDATION INCLUDED
-+ STEP5A / MK03 BOUNDARY EXPLICIT
-+ OWNERSHIP != STRUCTURAL ACTION EXPLICIT
-+ CURRENT vs TARGET ARCHITECTURE SEPARATE
-+ STEP13 BASE-PUBLIC CLAIM BOUNDARY EXPLICIT
-+ IMPLEMENTATION SPEC != ANALYTICAL MAP EXPLICIT
-+ IMPLEMENTATION SPEC != PROJECT SCHEDULE EXPLICIT
-+ READY / CLARIFICATION / NO-SITE-CHANGE STATES ALLOWED
-+ PHYSICAL CLIENT PACKAGE NOT PREMATURELY OVER-SPECIFIED
+1 XLSX — full semantic/mapping/structure/page-spec authority
+1 PDF — analytical target-structure / landing-map report
+1 PDF — page-by-page target specification / site-improvement TZ
+short Kwork/chat handoff message
+```
+
+No mandatory duplicate DOCX.
+
+## 14. Explicit exclusions
+
+- Google research/tooling;
+- competitor-derived semantic expansion/full competitor audit;
+- Alice / Yandex Neuro / GenSearch / AEO;
+- full technical SEO audit;
+- copywriting/final page texts;
+- coding/implementation itself;
+- guaranteed rankings/traffic/leads/revenue;
+- standalone historical cannibalization audit;
+- fabricated production schedule.
+
+## 15. Product hard failures
+
+```text
+CURRENT-SITE-FIRST MAPPING WITHOUT INDEPENDENT TARGET MODEL = FAIL
+DELTA-ONLY CLIENT PACKAGE = FAIL
+GOOD CURRENT SITE CAUSING TARGET PAGE SPECS TO DISAPPEAR = FAIL
+PHRASE DETAIL ONLY WITHOUT CLUSTER→PAGE AND PAGE→STRUCTURE VIEWS = FAIL
+SMALL PHYSICAL CHANGE COUNT USED AS PRODUCT-VALUE PROXY = FAIL
 ```
