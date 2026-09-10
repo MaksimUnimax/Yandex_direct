@@ -1,31 +1,92 @@
-name: MK02 Phase 7 XLSX language audit
+name: MK02 Phase 7 XLSX client-language correction
 
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_xlsx_audit'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_xlsx_fix'
+
+permissions:
+  contents: write
 
 jobs:
-  audit:
+  correct:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Scan client workbook strings
+        with:
+          fetch-depth: 0
+      - name: Apply bounded presentation-only replacements and validate XLSX package
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import re, zipfile, pathlib
+          import re, zipfile, pathlib, tempfile, os, xml.etree.ElementTree as ET
           p = pathlib.Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx')
+          tmp = p.with_suffix('.xlsx.tmp')
+          replacements = [
+              ('Проверить и HOLD', 'Проверить и отложено'),
+              ('HOLD', 'Отложено до доказательства'),
+              ('CTA', 'призыв к действию'),
+              ('MK02', 'Client'),
+          ]
+          counts = {a:0 for a,b in replacements}
+          changed=[]
+          with zipfile.ZipFile(p, 'r') as zin, zipfile.ZipFile(tmp, 'w', zipfile.ZIP_DEFLATED) as zout:
+              for info in zin.infolist():
+                  data = zin.read(info.filename)
+                  new = data
+                  if info.filename.endswith('.xml'):
+                      text = data.decode('utf-8')
+                      old_text = text
+                      for a,b in replacements:
+                          n = text.count(a)
+                          if n:
+                              counts[a] += n
+                              text = text.replace(a,b)
+                      new = text.encode('utf-8')
+                      if new != data:
+                          changed.append(info.filename)
+                  zout.writestr(info, new)
+          os.replace(tmp, p)
+          print('REPLACEMENT_COUNTS', counts)
+          print('CHANGED_XML_ENTRIES', len(changed), *changed, sep='\n')
+          assert counts['Проверить и HOLD'] == 2, counts
+          assert counts['HOLD'] == 8, counts
+          assert counts['CTA'] == 1, counts
+          assert counts['MK02'] == 24, counts
           rx = re.compile(r'(?i)(MK02|Stage|Step|\bQA\b|\bREADY\b|PENDING_|\bCTA\b|\bHOLD\b)')
-          hits=[]
-          with zipfile.ZipFile(p) as z:
+          hits=[]; xml_count=0
+          with zipfile.ZipFile(p, 'r') as z:
+              assert z.testzip() is None
               for n in z.namelist():
                   if n.endswith('.xml'):
-                      s=z.read(n).decode('utf-8','ignore')
-                      for m in rx.finditer(s):
-                          hits.append((n,m.group(0),s[max(0,m.start()-90):m.end()+120].replace('\n',' ')))
-          print('FORBIDDEN_TOKEN_HITS', len(hits))
-          for h in hits[:100]: print('HIT', *h, sep=' | ')
-          if hits: raise SystemExit(2)
+                      xml_count += 1
+                      raw=z.read(n)
+                      ET.fromstring(raw)
+                      s=raw.decode('utf-8')
+                      hits.extend((n,m.group(0)) for m in rx.finditer(s))
+              wb = ET.fromstring(z.read('xl/workbook.xml'))
+              ns={'x':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+              names=[x.attrib['name'] for x in wb.findall('.//x:sheet',ns)]
+              print('SHEETS', len(names), names)
+              assert len(names)==13
+              assert 'Проверить и отложено' in names
+              assert 'Проверить и HOLD' not in names
+              allxml='\n'.join(z.read(n).decode('utf-8','ignore') for n in z.namelist() if n.endswith('.xml'))
+              for err in ('#REF!','#VALUE!','#NAME?','#DIV/0!','#N/A'):
+                  assert err not in allxml, err
+          print('XML_ENTRIES_PARSED', xml_count)
+          print('FORBIDDEN_TOKEN_HITS_AFTER', len(hits))
+          if hits: print(hits[:50]); raise SystemExit(2)
           PY
+          git hash-object extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx
+      - name: Commit corrected client workbook
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx
+          git diff --cached --quiet && exit 1
+          git commit -m 'fix(mk02): clean client-facing workbook terminology'
+          git push
