@@ -1,6 +1,6 @@
 # MK02 — STEP RULES INDEX
 
-Status: **ACTIVE / RULE LEVEL B INDEX / PER-STEP FILES REQUIRED**
+Status: **ACTIVE / RULE LEVEL B INDEX / TARGET-FIRST MAPPING CORRECTION APPLIED**
 
 MK02 uses product-local step numbers. Source KW-001 step numbers and MK01 method files are traceability/origin only; the executable MK02 method must be fully materialized in this directory.
 
@@ -18,12 +18,12 @@ MK02 uses product-local step numbers. Source KW-001 step numbers and MK01 method
 | 07 | Semantic freeze / uncertainty routing | KW-001 Step8 + MK01 Step07 | REQUIRED | preserved semantic universe + executable unresolved routes |
 | 08 | Targeted ordinary Yandex Search for semantic boundaries | KW-001 Step9 narrow controls + MK01 Step08 | CONDITIONAL | exact observations resolving material semantic ambiguity |
 | 09 | Task/intent-first clustering | KW-001 Step10 + MK01 Step09 | REQUIRED | coherent cluster contracts + assignments + semantic QA |
-| 10 | Current page ownership / phrase→page mapping | `STEP_11_PAGE_OWNERSHIP_METHOD.md` | REQUIRED | complete phrase/task→page ownership map + unresolved handoff |
-| 11 | Structural / content-routing action diagnosis | `STEP_12_STRUCTURAL_ACTION_METHOD.md` + companion gates | REQUIRED | evidence-backed structural actions, no-change states and unresolved actions |
+| 10 | **Target-first landing ownership + phrase→target mapping, then current-page reconciliation** | corrected `STEP_10_PAGE_OWNERSHIP_MAPPING.md` + source `STEP_11_PAGE_OWNERSHIP_METHOD.md` | REQUIRED | complete phrase→target map + cluster→landing map + current match/unresolved handoff |
+| 11 | Structural/content-routing action diagnosis against the target map | corrected `STEP_11_STRUCTURAL_ACTION_DIAGNOSIS.md` + source `STEP_12_STRUCTURAL_ACTION_METHOD.md` | REQUIRED | action state for every target landing spec; KEEP/no-change retained |
 | 12 | Competing-page safety diagnosis | `STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` | REQUIRED TO MATERIAL CASES | distinct-task/overlap/conflict evidence states sufficient to protect architecture |
-| 13 | Search-only target architecture + current-topology reconciliation | `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` + discovery/reliability gates | REQUIRED | current-vs-target architecture freeze + literal-link/topology state |
-| 14 | Implementation specification / analytical priority | `STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md` + `STEP_18_EXECUTION_TICKET_COMPLETENESS_GATE.md` | REQUIRED | READY / clarification / mapping-only / no-change / hold work packages |
-| 15 | Client materialization + final QA / readback | Step19 packaging + Step20 report/workbook/recipient gates | REQUIRED | recipient-ready package + QA/readback |
+| 13 | **Independent target architecture freeze, then current-topology reconciliation** | corrected `STEP_13_SEARCH_ONLY_ARCHITECTURE_FREEZE.md` + source `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` | REQUIRED | complete target page registry/tree + current match states + current→target delta |
+| 14 | **Full page-by-page target specification + physical implementation delta** | corrected `STEP_14_IMPLEMENTATION_SPECIFICATION.md` + source Step18 gates | REQUIRED | one page spec per material target page + READY/clarification/keep/no-standalone/recheck change states |
+| 15 | **Client materialization of phrase map, landing map, target structure, page specs and change delta + final QA/readback** | corrected `STEP_15_CLIENT_MATERIALIZATION_QA.md` + Step19/20 gates | REQUIRED | recipient-ready XLSX + analytical PDF + TZ PDF where the full sold mapping/architecture remains visible |
 
 ## 2. Explicit exclusions from base MK02
 
@@ -40,13 +40,18 @@ production schedule with invented owner/effort/capacity = forbidden
 ## 3. Step-boundary invariants
 
 ```text
-STEP 09 COMPLETE != PAGE OWNER COMPLETE
-STEP 10 OWNER DECISION != STRUCTURAL ACTION
+STEP 09 COMPLETE != TARGET LANDING MAP COMPLETE
+STEP 10 TARGET LANDING DECISION != STRUCTURAL CHANGE DECISION
+STEP 10 TARGET MAP != CURRENT SITE INVENTORY
+STEP 11 NO_CHANGE != OMIT TARGET PAGE SPEC
 STEP 11 ACTION != CANNIBALIZATION PROOF
 STEP 12 CURRENT WARNING != HISTORICAL HARM
 STEP 13 TARGET ARCHITECTURE != CURRENT TOPOLOGY
+STEP 13 SMALL CURRENT→TARGET DELTA != SMALL TARGET ARCHITECTURE
+STEP 14 FULL PAGE SPEC != CHANGE-ONLY TICKET LIST
 STEP 14 IMPLEMENTATION SPEC != PRODUCTION SCHEDULE
 STEP 15 MATERIALIZATION != NEW RESEARCH
+STEP 15 DELTA-ONLY PACKAGE = FAIL
 ```
 
 No later step may silently repair a missing upstream evidence decision by invention.
@@ -105,13 +110,15 @@ MK02 PASS will mean:
 ```text
 CURRENT YANDEX DEMAND
 + CLEAN TASK CLUSTERS
-+ COMPLETE PAGE OWNERSHIP
-+ EVIDENCE-BACKED STRUCTURAL DECISIONS
++ COMPLETE PHRASE→TARGET LANDING MAP
++ COMPLETE CLUSTER→LANDING PAGE MAP
++ COMPLETE TARGET PAGE REGISTRY / HIERARCHY
++ CURRENT-SITE RECONCILIATION AGAINST THAT INDEPENDENT TARGET MODEL
++ PAGE-BY-PAGE TARGET SPECIFICATIONS INCLUDING KEEP / NO-STANDALONE
++ EVIDENCE-BACKED PHYSICAL CHANGE DELTA
 + COMPETING-PAGE SAFETY BOUNDARIES
-+ CURRENT-vs-TARGET ARCHITECTURE RECONCILIATION
-+ IMPLEMENTATION-READY SPECIFICATIONS WHERE EVIDENCE IS SUFFICIENT
-+ EXPLICIT CLARIFICATION / NO-CHANGE / HOLD WHERE IT IS NOT
-+ RECIPIENT-READY CLIENT PACKAGE
++ EXPLICIT CLARIFICATION / RECHECK / HOLD WHERE REQUIRED
++ RECIPIENT-READY CLIENT PACKAGE THAT VISIBLY DELIVERS THE FULL MAPPING/ARCHITECTURE PRODUCT
 ```
 
 It will **not** mean that the website changes were implemented, Google was researched, AI/Alice was researched, competitors were exhaustively mined, or a production schedule was calibrated without real implementation inputs.
