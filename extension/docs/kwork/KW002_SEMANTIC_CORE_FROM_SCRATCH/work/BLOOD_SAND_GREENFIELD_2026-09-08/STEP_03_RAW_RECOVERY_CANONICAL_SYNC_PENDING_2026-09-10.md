@@ -1,0 +1,1 @@
+Canonical authority synchronization target: `STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`, `JOB_FLOW.md`, `JOB_MANIFEST.md` → 79/79 durable feed-forward, recovery remaining 0, Step04 blocked pending explicit Level2 owner gate.
