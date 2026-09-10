@@ -1,8 +1,10 @@
 # MK02 — QA AND RELEASE
 
-Status: **ACTIVE / PHASE 7 PRODUCT-RECIPIENT QA PASS / PHASE 8 ECONOMICS NEXT**
+Status: **ACTIVE / PHASE 7 CORRECTIVE REWORK REQUIRED / PHASE 8 BLOCKED**
 
-MK02 must not pass on one generic green status. Semantic correctness, page ownership, architecture, implementation readiness, recipient usability and persistence are independent gates.
+MK02 must not pass on one generic green status. Semantic correctness, target landing mapping, current-page reconciliation, target architecture, page-spec completeness, implementation readiness, recipient usability and persistence are independent gates.
+
+Owner correction authority: `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`.
 
 ## G0 — Scope / Yandex-only gate
 
@@ -36,31 +38,49 @@ If Search not required, state `NOT_REQUIRED` rather than inventing work.
 
 Check whole-phrase task coherence, current-domain profile, intent/result compatibility, member consistency, representative phrase validity and unresolved cases. No target cluster count. Corrected cluster/unit changes must rebuild all derived fields.
 
-## G6 — Page-ownership accounting and role gate
+## G6 — Target landing-map accounting and role gate
 
-Verify:
+Corrected Step10 is **target-first**. Verify:
 
 ```text
-CURRENT ACTIVE APPLICABLE PHRASES == FINAL OWNERSHIP ROWS
-CURRENT ACCEPTED SEMANTIC ACTIVE KEYS == OWNERSHIP MAP KEYS
+CURRENT ACCEPTED SEMANTIC ACTIVE KEYS == PHRASE→TARGET MAP KEYS
+ACTIVE APPLICABLE PHRASES WITHOUT TARGET ROUTE / EXPLICIT UNRESOLVED STATE = 0
+MATERIAL CLUSTERS WITHOUT TARGET LANDING SPEC = 0
 LEGACY DOWNSTREAM-ONLY ACTIVATIONS = 0
 SILENT ACTIVE DROPS = 0
-OWNER_EXISTING_WITH_BLANK_TARGET = 0
-OWNER_EXISTING_WITHOUT_CURRENT_PAGE_EVIDENCE = 0
-UNRESOLVED_WITH_FABRICATED_TARGET = 0
 ```
 
-Client-visible mapping must distinguish exact phrase owner, family/structural-unit owner, supporting page and observed Search-relevant URL when materially different.
+For every active phrase preserve phrase → cluster/task → intended target landing-page key → target URL/route or explicit no-standalone/unresolved state.
 
-The current accepted semantic product authority, not an older downstream `ASSIGNED`/working flag, defines `CURRENT ACTIVE APPLICABLE PHRASES`.
+For every material cluster preserve one intended primary landing-page specification with page purpose, intent, page type, representative demand, member count, parent/section and current-match state kept separately.
 
-## G7 — Page-ownership coherence gate
+Client-visible mapping must distinguish:
+
+```text
+INTENDED TARGET LANDING
+CURRENT PAGE MATCH / CURRENT OWNER
+EXACT PHRASE OWNER
+FAMILY / STRUCTURAL-UNIT OWNER
+SUPPORTING PAGE
+OBSERVED SEARCH-RELEVANT URL
+```
+
+Hard failure:
+
+```text
+TARGET LANDING SPECS DERIVED ONLY BY COPYING CURRENT URLS = FAIL
+CURRENT SITE INVENTORY USED AS THE TARGET MODEL ITSELF = FAIL
+```
+
+## G7 — Target landing/page-ownership coherence gate
 
 Adversarially reopen broad/weak/mixed units, object-vs-component, commercial-vs-information/service/DIY, plausible lexical-only URLs and medium/low-confidence assignments. Representative query cannot substitute for full-member review.
 
+Also verify cluster granularity is suitable for one landing-page role. Multiple materially different intents/tasks cannot be forced into one landing page merely because the current site already combines them.
+
 ## G8 — Structural-action evidence gate
 
-Every material action must have independent diagnosis/evidence. Verify:
+Every material target landing spec receives an action state. Verify:
 
 - phrase count not used as CREATE proof;
 - current-content reuse checked before CREATE;
@@ -69,9 +89,18 @@ Every material action must have independent diagnosis/evidence. Verify:
 - no action proves itself;
 - rejected/outside units do not strand salvageable in-scope phrases;
 - real-site-change state = YES/NO/UNRESOLVED;
+- `KEEP / NO_CHANGE` target pages remain in the target page register;
+- `NO_STANDALONE` tasks have an explicit parent/owner route;
 - material upstream corrections propagated atomically.
 
 Known regression checks do not replace independent global-coherence review.
+
+Permanent rule:
+
+```text
+SMALL ACTION DELTA IS ALLOWED
+SMALL TARGET-PAGE DELIVERABLE CAUSED BY DROPPING KEEP/NO_CHANGE IS NOT
+```
 
 ## G9 — Competing-page / cannibalization claim gate
 
@@ -87,23 +116,74 @@ KNOWN FIRST-PARTY HISTORY SOURCE SILENTLY SKIPPED = 0
 
 Base-public mode may pass without private history only with bounded historical/harm claims.
 
-## G10 — Current-site topology / target-architecture gate
+## G10 — Target architecture / current-site reconciliation gate
 
-When architecture completeness is material:
+Correct order is mandatory:
 
-- independent current site discovery performed;
+```text
+TARGET LANDING SPECS
+→ TARGET PAGE REGISTRY
+→ TARGET HIERARCHY / TREE
+→ TARGET PAGE ROLES
+→ CURRENT SITE DISCOVERY / RECONCILIATION
+→ CURRENT→TARGET DELTA
+```
+
+Verify:
+
+- target page registry complete for all material target landing specs;
+- target hierarchy/parent route present for all material target pages;
+- target structure understandable without opening the current website;
+- independent current site discovery performed where completeness is material;
 - upstream known list does not prove its own completeness;
 - current URL universe materialized;
 - newly discovered relevant pages reconciled;
 - current literal internal-link state separated from recommended links;
 - target architecture separated from current topology;
+- current match state present for every target page;
 - sitemap presence not used as HTML reachability proof;
 - unsupported destructive action from new discovery=0;
 - AI evidence used in Search-only freeze=0.
 
-## G11 — Implementation-spec completeness gate
+Hard failures:
 
-For every item claimed READY:
+```text
+TARGET ARCHITECTURE = CURRENT URL INVENTORY + SMALL DELTA = FAIL
+TARGET TREE OMITTED BECAUSE CURRENT SITE IS ALREADY GOOD = FAIL
+```
+
+## G11 — Full page-spec + implementation-delta completeness gate
+
+Step14 produces two linked outputs:
+
+```text
+A. FULL TARGET PAGE SPECIFICATION REGISTER
+B. PHYSICAL CURRENT→TARGET IMPLEMENTATION DELTA
+```
+
+For every material target page require equivalent client meaning for:
+
+```text
+TARGET PAGE / URL OR ROUTE
+PAGE TYPE
+PARENT / SECTION
+PAGE PURPOSE
+PRIMARY TASK / INTENT
+PRIMARY / REPRESENTATIVE QUERY
+MEMBER PHRASE COUNT
+SEMANTIC SCOPE / CLUSTER
+WHAT THE PAGE SHOULD COVER
+BOUNDARY / WHAT BELONGS ELSEWHERE WHEN MATERIAL
+SUPPORTING / CHILD / RELATED PAGES WHEN MATERIAL
+CURRENT MATCH / STATE
+ACTION = CREATE | OPTIMIZE | ROUTE | KEEP | NO_STANDALONE | RECHECK
+REAL SITE CHANGE = YES | NO | UNRESOLVED
+IMPLEMENTATION DETAIL IF CHANGE IS REAL AND RESOLVED
+ACCEPTANCE / TARGET END STATE
+UNCERTAINTY / CLARIFICATION IF REQUIRED
+```
+
+For every item claimed READY physical change, also require:
 
 ```text
 IMPLEMENTATION MODE DECLARED = true
@@ -118,15 +198,13 @@ PRESERVATION REQUIREMENTS PRESENT/NA = true
 ACCEPTANCE CHECK MATCHES CHANGE = true
 ```
 
-Hard failures:
+Hard failures include analytical route labelled READY, ambiguous placement, analysis left to implementer, placeholders, generic cloned steps, and additionally:
 
-- analytical route labelled READY;
-- link READY without required placement/context;
-- ambiguous “before X or Y” placement;
-- analysis left to implementer;
-- READY placeholder/TODO;
-- filename/ID-only client evidence;
-- generic cloned step blocks.
+```text
+MATERIAL TARGET PAGE WITHOUT PAGE SPEC = FAIL
+KEEP TARGET PAGE WITHOUT PAGE SPEC = FAIL
+CHANGE-ONLY REGISTER PRESENTED AS THE FULL TZ = FAIL
+```
 
 ## G12 — Priority / scheduling honesty gate
 
@@ -144,22 +222,29 @@ Implementation specification may be ready while production sequence remains pend
 
 ## G13 — Client deliverable data / cross-view consistency gate
 
-All promised logical client views from `DELIVERABLE_SPEC.md` must be materialized through the Phase-6 frozen physical package. Verify one current authority feeds all views and no stale historical owner/action appears in a polished file.
-
-Cross-reconcile:
+All promised logical client views must be materialized through the frozen physical package. Cross-reconcile:
 
 ```text
-SEMANTIC VIEW
-OWNERSHIP VIEW
-CURRENT ARCHITECTURE VIEW
-TARGET ARCHITECTURE VIEW
-ACTION VIEW
-READY / CLARIFICATION / NO-CHANGE / HOLD VIEWS
+SEMANTIC PHRASE VIEW
+CLUSTER / TASK VIEW
+PHRASE→TARGET LANDING VIEW
+CLUSTER→TARGET LANDING VIEW
+TARGET PAGE REGISTRY / STRUCTURE VIEW
+CURRENT SITE / CURRENT MATCH VIEW
+FULL PAGE-SPEC VIEW
+CURRENT→TARGET ACTION DELTA
+READY / CLARIFICATION / KEEP / NO-STANDALONE / RECHECK VIEWS
 NARRATIVE FINDINGS
-IMPLEMENTATION REPORT
+IMPLEMENTATION/TZ REPORT
 ```
 
-Contradiction between views = FAIL.
+Contradiction or missing promised view = FAIL.
+
+Hard failure:
+
+```text
+DELTA-ONLY CLIENT PACKAGE = FAIL
+```
 
 ## G14 — Recipient language / report quality gate
 
@@ -170,19 +255,19 @@ For Russian client artifacts:
 - final XLSX is scanned both through visible cells and raw package XML/table metadata;
 - client-text normalization is not bypassed by a secondary generator path;
 - document identity is result/purpose, not recipient profession;
-- topic→page and page→page tables explain WHAT/WHY/HOW;
-- analytical report answers “what did research show?”;
-- implementation report is action-first and answers what/why/where/how/clarify/check;
+- phrase→page, cluster→page and page→structure views explain WHAT/WHY/HOW;
+- analytical PDF visibly shows the target site/page model, not mainly counts;
+- analytical PDF includes a target hierarchy/tree or equivalent hierarchical table;
+- implementation/TZ PDF visibly includes the full target-page plan/page specifications, not only READY changes;
+- thousands of phrase rows remain in XLSX rather than being dumped into PDF;
 - no generic defensive prohibition section;
 - no provider/owner-failure/quarantine narration;
 - no fixed page-count quality proxy;
 - no empty TOC/filler/template symmetry.
 
-This gate explicitly covers owner-identified Report №02 failures A–U.
-
 ## G15 — Physical / recipient / persistence gate
 
-Phase 6 has frozen the base MK02 V1 client package as:
+The physical package remains:
 
 ```text
 1 XLSX
@@ -191,33 +276,31 @@ Phase 6 has frozen the base MK02 V1 client package as:
 + SHORT HANDOFF MESSAGE (NOT A FILE)
 ```
 
-Phase 7 must therefore:
+Phase-7 corrective QA must:
 
-- open the final XLSX and verify its workbook structure/usability;
+- open the final XLSX and verify the mandatory mapping/target-structure/page-spec views are usable;
 - render and inspect **both** final PDFs independently from the exact post-correction delivery bytes;
-- parse/extract and client-language-scan both PDFs, but do not treat parse/hash success as a substitute for rendering;
+- parse/extract and client-language-scan both PDFs, without treating parse/hash as render QA;
 - verify no clipping/overlap/broken glyphs/unreadable tables/orphan headings or broken page flow;
-- verify the analytical PDF independently answers “what did the research show?”;
-- verify the implementation-TZ PDF independently answers what/why/where/how/clarify/check;
-- verify an uninvolved recipient can identify current vs target architecture, READY vs clarification/no-change and use the implementation tasks;
+- verify the analytical PDF independently answers: what demand exists, how it clusters, where it should land, and what the target structure is;
+- verify the TZ PDF independently answers for each material target page: what it is, what lands there, where it sits, current match, action and target end state;
+- verify an uninvolved recipient can locate the target page for an arbitrary working phrase and an arbitrary material cluster;
+- verify KEEP/no-change pages remain useful visible specifications;
 - verify the short handoff message names exactly the real three files and points to the correct starting order;
 - verify the Yandex-only boundary in each client-facing file;
-- verify no stale 7-READY state survives in any polished view;
 - persist text/binary artifacts as tooling allows;
 - verify exact remote identities/hashes/readback honestly;
 - treat local-only completion as FAIL.
 
-DOCX is not a mandatory base client file. If an internal DOCX is used as a PDF-generation intermediate, it must not create a second contradictory client authority.
+DOCX is not a mandatory base client file.
 
 ## Report-stage no-new-research gate
-
-This applies across G13–G15:
 
 ```text
 REPORT MATERIALIZATION != NEW PROJECT RESEARCH
 ```
 
-If report generation exposes missing implementation evidence, classify the item pending/clarification. Do not silently launch site recrawls, new Wordstat/Search or new object classification solely to make a report look more READY unless a separately authorized research/revalidation block is opened.
+The corrective rework must reuse preserved OKNO_MSK evidence unless a concrete newly identified information gap actually requires a separately authorized research/revalidation block. Do not make provider calls merely to make the new reports look richer.
 
 ## Failure handling
 
@@ -251,16 +334,15 @@ PUBLISHED
 = owner published product + published scope/price captured/read back
 ```
 
-## Current Phase-7/8 boundary
+## Current boundary after owner product-gap finding
 
 ```text
-PHASE 5 OKNO_MSK REHEARSAL = PASS
-PHASE 6 CLIENT PACKAGE OWNER REVIEW = PASS
-PHASE 7 PRODUCT / RECIPIENT QA = PASS / 2026-09-10
-PHYSICAL PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
-PHASE 7 PROVIDER CALLS = 0
-PHASE 5 DATA AUTHORITIES MODIFIED IN PHASE 7 = 0
-NEXT_ACTION = PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
+PHASE 5 ORIGINAL OKNO_MSK REHEARSAL = HISTORICAL PASS UNDER SUPERSEDED CURRENT-SITE-FIRST CLIENT MODEL
+PHASE 6 ORIGINAL PACKAGE DECISION = PHYSICAL SPLIT RETAINED
+PHASE 7 ORIGINAL PHYSICAL QA = HISTORICAL PASS FOR SUPERSEDED CONTENT MODEL
+OWNER PRODUCT-GAP FINDING 2026-09-10 = SUBSTANTIVE METHOD / DELIVERABLE FAIL
+CURRENT STATE = PHASE 7 CORRECTIVE REWORK REQUIRED
+TARGET-FIRST METHOD RULES = UPDATED
+PHASE 8 PRICE/LIMITS/ECONOMICS = BLOCKED
+NEXT_ACTION = REBUILD OKNO_MSK TARGET-FIRST LANDING MAP / TARGET PAGE REGISTRY / PAGE SPECS / XLSX / TWO PDF + QA + REMOTE READBACK
 ```
-
-G13–G15 are PASS for the validated Phase-7 package. Phase 8 price/limits is the next gate; Phase 9 card and Phase 10 visuals remain pending.
