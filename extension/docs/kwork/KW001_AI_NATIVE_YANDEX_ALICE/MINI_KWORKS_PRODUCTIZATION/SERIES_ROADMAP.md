@@ -1,6 +1,6 @@
 # KW-001 — серия из 7 коммерческих мини-кворков
 
-Status: **ACTIVE PRODUCTIZATION / MK01 V1 FROZEN / MK02 ACTIVE**
+Status: **ACTIVE PRODUCTIZATION / MK01 V1 FROZEN / MK02 METHOD READY / PHASE 5 WORK NEXT**
 
 ## 1. Зачем создаётся эта серия
 
@@ -167,14 +167,14 @@ CLIENT-FACING MEANING
 | ID | Рабочее название | Основной продаваемый результат | Ключевые KW-001 этапы | Статус |
 |---|---|---|---|---|
 | MK01 | Семантическое ядро + кластеризация | очищенное, подтверждённое спросом ядро и кластеры | 0–8 + targeted 9 + 10 + 19–20 | **OWNER ACCEPTED / V1 FROZEN** |
-| MK02 | Семантическое ядро + SEO-архитектура + ТЗ разработчику | ядро → владельцы/структура → конкретное ТЗ | MK01 + 11–14 + 18–20 | **ACTIVE / NEXT** |
+| MK02 | Семантическое ядро + SEO-структура + ТЗ на доработку | ядро → владельцы/структура → конкретное ТЗ | MK01 foundation + 11–14 + 18–20 | **METHOD READY / PHASE 5 WORK NEXT** |
 | MK03 | SEO-анализ конкурентов + семантические/структурные пробелы | реальные Search-конкуренты → missed demand → подтверждённые gaps | 0–5A + demand/Search validation + 7–8 + 19–20 | PLANNED |
 | MK04 | Запрос → страница + интенты + каннибализация | mapping запросов/семейств к страницам и конфликтам | 0–1 + 8–14 + 19–20 | PLANNED |
 | MK05 | SEO-ТЗ на внедрение | implementation-ready действия для специалиста | current-site recheck + canonical inputs + 12 + 18–20 | PLANNED |
 | MK06 | Яндекс Нейро / Алиса / AEO-аудит | Search baseline → AI cases → delta → действия | 0–1 + 8–10/11/14 + 15–20 | PLANNED |
 | MK07 | Полный комплекс KW-001 | полный современный Яндекс/Alice semantic rebuild | полный применимый KW-001 roadmap включая 5A и AI | PLANNED |
 
-Точные подшаги каждого mini-kwork замораживаются только в его собственном STEP_RULES_INDEX после extraction-аудита полного KW-001.
+Точные подшаги каждого mini-kwork фиксируются в его собственном `STEP_RULES_INDEX.md` после extraction-аудита полного KW-001.
 
 ## 8. Границы между семью продуктами
 
@@ -188,7 +188,7 @@ MK02 исследует семантику и из неё выводит арх�
 MK03 — конкурентный acquisition/gap продукт. Он не обещает полный аудит всех ключей всех конкурентов и не включает полный AI-layer.
 
 ### MK04 vs MK02
-MK04 может работать от уже имеющегося у клиента semantic set и решает ownership/cannibalization. Полный новый сбор спроса в его base scope не входит.
+MK04 может работать от уже имеющегося у клиента semantic set и решает ownership/cannibalization. Полный новый сбор спроса в его base scope не входит. MK02 использует competing-page diagnosis только как защиту собственных архитектурных решений, а не продаёт отдельный полный historical cannibalization audit.
 
 ### MK06 vs MK07
 MK06 проверяет Search↔AI различия для достаточного набора meaningful cases. Полная пересборка семантического ядра входит только в MK07 или отдельный add-on.
@@ -196,7 +196,7 @@ MK06 проверяет Search↔AI различия для достаточно
 ## 9. Реальные рыночные anchors, которые надо хранить честно
 
 - MK01: существуют Kwork-продукты `семантика + кластеризация/структура` около 8–12 тыс. руб.; существует FL.ru задача около 15 тыс. руб. на ~2000 запросов с ручной проверкой ТОПа.
-- MK02: точный Kwork-аналог `семантическое ядро + SEO-архитектура + ТЗ разработчику` в текущем поиске не подтверждён. Есть близкий реальный проект FL.ru с бюджетом 40 тыс. руб. на семантическое ядро + кластеризацию + ТЗ на доработку сайта. Нельзя маркировать его как Kwork-аналог.
+- MK02: точный Kwork-аналог `семантическое ядро + SEO-архитектура + ТЗ разработчику` в текущем поиске не подтверждён. Есть близкий реальный проект FL.ru с бюджетом 40 тыс. руб. на семантическое ядро + кластеризацию + ТЗ на доработку сайта. Актуальный MK02 market baseline хранится отдельно в `MK02.../MARKET_REALITY_2026-09-10.md`.
 - MK03: существуют отдельные конкурентные анализы на Kwork и SEO-аудиты конкурента на FL.ru.
 - MK04: существуют реальные задания на clustering/page mapping/cannibalization и ручной анализ SERP; точное совпадение состава надо проверять при финализации карточки.
 - MK05: на Kwork встречается ТЗ как часть/дополнение SEO-аудита; standalone implementation-ready продукт нужно позиционировать отдельно.
@@ -231,8 +231,8 @@ PROMISE FROZEN
 Работаем строго по одному продукту:
 
 ```text
-MK01 COMPLETE + PUBLISHED/FROZEN
-→ MK02
+MK01 FROZEN
+→ MK02 CURRENT
 → MK03
 → MK04
 → MK05
@@ -240,14 +240,15 @@ MK01 COMPLETE + PUBLISHED/FROZEN
 → MK07
 ```
 
-Не начинаем детальную productization следующего mini-kwork до owner gate текущего.
-
 Owner accepted/froze MK01 V1 on 2026-09-10. MK01 visual/publication work is deferred and does not block MK02 productization.
+
+MK02 Phases 0–4 are complete. Its Level-1 method has been built and cross-reconciled before any MK02-specific OKNO_MSK data rehearsal.
 
 ## 12. Текущая точка
 
 ```text
 CURRENT_MINI_KWORK = MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ
 MK01_STATE = OWNER_ACCEPTED__V1_FROZEN
-NEXT_ACTION = BUILD_MK02_PRODUCT_SCOPE__MARKET_REFRESH__CLIENT_INPUT_CONTRACT__KW001_STEP_EXTRACTION
+MK02_METHOD_STATE = READY_FOR_REHEARSAL
+NEXT_ACTION = PHASE_5_OKNO_MSK_MK02_ONLY_DATA_REHEARSAL_IN_WORK_MODE
 ```
