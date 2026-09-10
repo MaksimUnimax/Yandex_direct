@@ -1,6 +1,6 @@
 # KW-001 — серия из 7 коммерческих мини-кворков
 
-Status: **ACTIVE PRODUCTIZATION / MK01 NEXT**
+Status: **ACTIVE PRODUCTIZATION / MK01 V1 FROZEN / MK02 ACTIVE**
 
 ## 1. Зачем создаётся эта серия
 
@@ -166,8 +166,8 @@ CLIENT-FACING MEANING
 
 | ID | Рабочее название | Основной продаваемый результат | Ключевые KW-001 этапы | Статус |
 |---|---|---|---|---|
-| MK01 | Семантическое ядро + кластеризация | очищенное, подтверждённое спросом ядро и кластеры | 0–8 + targeted 9 + 10 + 19–20 | **NEXT** |
-| MK02 | Семантическое ядро + SEO-архитектура + ТЗ разработчику | ядро → владельцы/структура → конкретное ТЗ | MK01 + 11–14 + 18–20 | PLANNED |
+| MK01 | Семантическое ядро + кластеризация | очищенное, подтверждённое спросом ядро и кластеры | 0–8 + targeted 9 + 10 + 19–20 | **OWNER ACCEPTED / V1 FROZEN** |
+| MK02 | Семантическое ядро + SEO-архитектура + ТЗ разработчику | ядро → владельцы/структура → конкретное ТЗ | MK01 + 11–14 + 18–20 | **ACTIVE / NEXT** |
 | MK03 | SEO-анализ конкурентов + семантические/структурные пробелы | реальные Search-конкуренты → missed demand → подтверждённые gaps | 0–5A + demand/Search validation + 7–8 + 19–20 | PLANNED |
 | MK04 | Запрос → страница + интенты + каннибализация | mapping запросов/семейств к страницам и конфликтам | 0–1 + 8–14 + 19–20 | PLANNED |
 | MK05 | SEO-ТЗ на внедрение | implementation-ready действия для специалиста | current-site recheck + canonical inputs + 12 + 18–20 | PLANNED |
@@ -242,9 +242,12 @@ MK01 COMPLETE + PUBLISHED/FROZEN
 
 Не начинаем детальную productization следующего mini-kwork до owner gate текущего.
 
+Owner accepted/froze MK01 V1 on 2026-09-10. MK01 visual/publication work is deferred and does not block MK02 productization.
+
 ## 12. Текущая точка
 
 ```text
-CURRENT_MINI_KWORK = MK01_SEMANTIC_CORE_CLUSTERING
-NEXT_ACTION = BUILD_MK01_PRODUCT_SCOPE__CLIENT_INPUT_CONTRACT__KW001_STEP_EXTRACTION
+CURRENT_MINI_KWORK = MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ
+MK01_STATE = OWNER_ACCEPTED__V1_FROZEN
+NEXT_ACTION = BUILD_MK02_PRODUCT_SCOPE__MARKET_REFRESH__CLIENT_INPUT_CONTRACT__KW001_STEP_EXTRACTION
 ```
