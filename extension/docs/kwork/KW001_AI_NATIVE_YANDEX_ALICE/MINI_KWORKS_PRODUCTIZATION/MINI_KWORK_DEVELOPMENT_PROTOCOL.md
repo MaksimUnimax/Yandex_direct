@@ -433,27 +433,78 @@ Before any new provider call:
 
 If evidence is genuinely unavailable and new collection is not authorized, preserve the correct `UNKNOWN / REVIEW / SEARCH_REQUIRED / HOLD / PENDING_*` state instead of inventing certainty.
 
-## 21. Work persistence discipline
+## 21. Work checkpoint persistence discipline — mandatory in every Work handoff
 
-Large Phase-5 work must not exist only in Work memory until the end.
+Long Work execution must not exist only in Work memory, local scratch state or the conversation until the final answer.
 
-Use material commit boundaries appropriate to the product, such as:
+Every prompt/handoff that delegates substantial data processing, reconciliation, corrective rework, report generation or other long multi-file execution to Work **MUST explicitly contain a checkpoint-persistence section**. This is part of the execution contract, not an optional operational suggestion.
+
+Checkpointing is **semantic-block based, not clock based**:
 
 ```text
-SOURCE / AUTHORITY / CONTAMINATION AUDIT
-→ CORE DATA AUTHORITIES
-→ DOWNSTREAM DECISIONS / ACTIONS
-→ CLIENT CANDIDATE VIEWS + QA
-→ FINAL READBACK / STATE
+DO NOT COMMIT EVERY MINUTE
+DO NOT COMMIT EVERY ROW
+DO NOT WAIT UNTIL THE ENTIRE TASK IS FINISHED
+
+COMMIT WHEN A MEANINGFUL, INTERNALLY CONSISTENT BLOCK IS COMPLETE
+AND CAN BE SAFELY RESUMED FROM THAT STATE
 ```
+
+Examples of suitable material boundaries depend on the product and may include:
+
+```text
+INPUT / SOURCE AUTHORITY AUDIT COMPLETE
+→ CORE DATA AUTHORITY OR ONE SELF-CONTAINED DATA LAYER COMPLETE
+→ MAPPING / CLUSTER / OWNERSHIP LAYER COMPLETE
+→ DOWNSTREAM ACTION / RECONCILIATION LAYER COMPLETE
+→ CLIENT WORKBOOK OR REPORT SOURCE COMPLETE
+→ PHYSICAL ARTIFACT + QA COMPLETE
+→ FINAL STATE / READBACK COMPLETE
+```
+
+A completed block must not remain only as prose in Work's dialogue. Persist the actual reusable result: machine-readable authority, source/generator change, structured checkpoint state, report source, QA receipt or other material artifact appropriate to the block.
 
 For every completed material block:
 
 ```text
-SAVE → COMMIT → PUSH/REF UPDATE → REMOTE READBACK
+SAVE MATERIAL OUTPUTS
+→ RECORD CURRENT CURSOR / WHAT IS COMPLETE / WHAT REMAINS
+→ COMMIT
+→ PUSH / SAFE REF UPDATE
+→ REMOTE READBACK OF THE MATERIAL STATE
+→ CONTINUE FROM THAT REMOTE-RECOVERABLE CHECKPOINT
 ```
 
-No force push.
+If one semantic block itself is too large to complete safely in a single Work session, create a **resumable partial checkpoint at a deterministic boundary** (for example, a completed batch/tranche or generated intermediate authority) and mark it explicitly:
+
+```text
+IN_PROGRESS / PARTIAL / NOT_FINAL_AUTHORITY
+```
+
+Such a partial checkpoint must record enough state to resume without reconstructing progress from conversation memory, including where material:
+
+```text
+SOURCE COMMIT / AUTHORITY IDS
+LAST COMPLETED KEY / BATCH / CURSOR
+COMPLETED OUTPUT PATHS
+ROW / ENTITY ACCOUNTING SO FAR
+KNOWN FAILURES / OPEN ITEMS
+NEXT RESUME ACTION
+```
+
+A partial checkpoint must never be mislabeled PASS or final authority merely because it was committed.
+
+Hard non-repeat rules:
+
+```text
+HOURS OF COMPLETED WORK ONLY IN DIALOGUE = FAIL
+MEANINGFUL COMPLETED BLOCK NOT DURABLY SAVED = FAIL
+FINAL-ONLY COMMIT STRATEGY FOR LONG WORK = FAIL
+CHECKPOINT COMMIT != FINAL PASS
+REMOTE-RECOVERABLE STATE > CONVERSATION-ONLY STATE
+```
+
+No force push. Preserve concurrent unrelated work. Commit boundaries must reflect meaningful recoverable progress rather than artificial commit spam.
 
 ## 22. Phase 5 must measure workload, not set price
 
@@ -597,7 +648,9 @@ SERIES PRODUCT DEFINITION
 
 → HAND LARGE-DATA EXECUTION TO WORK
 → WORK READS COMPLETE LEVEL-1 METHOD
+→ WORK PROMPT INCLUDES SEMANTIC-BLOCK CHECKPOINT PERSISTENCE
 → OKNO_MSK MINI-KWORK-ONLY REHEARSAL
+→ DURABLE CHECKPOINT AFTER EACH COMPLETED MATERIAL BLOCK
 → CONTAMINATION AUDIT WHERE NEEDED
 → DATA / DECISION AUTHORITIES
 → INDEPENDENT QA + RECIPIENT REVIEW
