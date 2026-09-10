@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 71/79 / STEP 04 BLOCKED**
+Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 72/79 / STEP 04 BLOCKED**
 
 ## Whole-job goal
 
@@ -24,7 +24,7 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 71/79 |
+| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 72/79 |
 | 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
@@ -84,11 +84,12 @@ RUN_37 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK 
 RUN_38 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 783 RESULTS DIRECT LINE-COUNT PASS
 RUN_39 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 818 RESULTS DIRECT LINE-COUNT PASS
 RUN_40 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 569 RESULTS DIRECT LINE-COUNT PASS
-CURRENT_USABLE_FEED_FORWARD = 71/79
-REMAINING_RUN_ORDERS = 41-48
-REMAINING_COUNT = 8
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 9
-RECOVERY_PROVIDER_COST_SO_FAR = 0.18 RUB
+RUN_41 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 952 RESULTS DIRECT LINE-COUNT PASS
+CURRENT_USABLE_FEED_FORWARD = 72/79
+REMAINING_RUN_ORDERS = 42-48
+REMAINING_COUNT = 7
+RECOVERY_PROVIDER_REQUESTS_SO_FAR = 10
+RECOVERY_PROVIDER_COST_SO_FAR = 0.20 RUB
 ```
 
 Run 36 verification boundary:
@@ -162,7 +163,22 @@ RUN_40_TOTALCOUNT = 37900 / PASS
 RUN_40_REMOTE_READBACK = PASS
 ```
 
-For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38, 39 and 40 were materialized one object per line, allowing direct deterministic remote line-position counts.
+Run 41 verification boundary:
+
+```text
+RUN_41_REQUEST_ID = wordstat-459de9aa-c5e2-42e6-9ce1-a160bbafd8e0
+RUN_41_RAW_BLOB_SHA = c6d56339e7fe919f506a9703e5f4d30e5d5bf2d4
+RUN_41_REMOTE_FIRST_RESULT = дева знак зодиака / 101545
+RUN_41_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = дева знак зодиака на турецком / 3
+RUN_41_RESULTS_ARRAY_FIRST_ROW_LINE = 31
+RUN_41_RESULTS_ARRAY_LAST_ROW_LINE = 982
+RUN_41_RESULTS_ROWS = 952 / DIRECT REMOTE LINE-POSITION COUNT
+RUN_41_ASSOCIATIONS_ROWS = 18 / DIRECT REMOTE LINE-POSITION COUNT / LINES 985-1002
+RUN_41_TOTALCOUNT = 101545 / PASS
+RUN_41_REMOTE_READBACK = PASS
+```
+
+For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38, 39, 40 and 41 were materialized one object per line, allowing direct deterministic remote line-position counts.
 
 Current recovery progress authority:
 
@@ -186,10 +202,11 @@ Current recovery receipts:
 - `STEP_03_RAW_RECOVERY_REQUERY_038_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_039_RECEIPT_2026-09-10.md`
 - `STEP_03_RAW_RECOVERY_REQUERY_040_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_REQUERY_041_RECEIPT_2026-09-10.md`
 
 ## Recovery strategy
 
-The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining large results cannot be safely materialized from truncated snippets in the current file interface.
+The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining large results cannot be safely materialized from truncated search snippets in the current file interface.
 
 Owner has authorized re-collection if needed. For the remaining probes:
 
@@ -226,12 +243,12 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 71/79
-STEP_03_REMAINING_RECOVERY = 8
-RUN_40_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 72/79
+STEP_03_REMAINING_RECOVERY = 7
+RUN_41_REMOTE_READBACK = PASS
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_41_ZNAK_ZODIAKA_DEVA
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_42_ZNAK_ZODIAKA_KOZEROG
 ```
 
 Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.
