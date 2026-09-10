@@ -1,6 +1,6 @@
 # STEP 04 — Work return receipt — 2026-09-10
 
-Status: **COMPLETE / PASS (LOCAL QA); REMOTE READBACK REQUIRED AFTER COMMIT**
+Status: **COMPLETE / PASS**
 
 ## Authority and scope
 
@@ -52,8 +52,17 @@ coverage gap / requires expansion = 7
 
 This is family-level preliminary triage. It does not perform final row cleanup, final intent classification, clustering, query-to-page ownership, URL/page creation, IA, Page Jobs, titles/H1, content recommendations, or Step05 acquisition. Low frequency was never used as a rejection reason. Ambiguities remain visible.
 
+## Remote persistence and readback
+
+```text
+REMOTE_GITHUB_READBACK = PASS
+REMOTE_OUTPUT_FILES_READ_BACK = 4/4
+REMOTE_BLOB_SHA_MATCH_LOCAL = true
+BRANCH_UPDATE_FORCE = false
+```
+
 ## HOLD / next authorized action
 
 `STEP05 = NOT STARTED`. The queue is planning material only. Any future provider call requires separate Step05 authorization. 6 queue rows require a client/owner fact before or alongside further evidence work.
 
-The remote persistence/readback gate is completed outside this pre-commit receipt and must be reported with the final commit SHA and GitHub blob identities before the overall execution is declared remotely complete.
+All four artifacts were read back from GitHub after publication. The final owner-facing execution return records the final remote commit SHA and exact GitHub blob identities.
