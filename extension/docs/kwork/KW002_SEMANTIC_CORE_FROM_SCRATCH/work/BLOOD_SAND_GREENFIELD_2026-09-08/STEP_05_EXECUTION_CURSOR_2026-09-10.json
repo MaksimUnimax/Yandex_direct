@@ -1,0 +1,55 @@
+{
+  "schema": "KW002_STEP05_EXECUTION_CURSOR_V1",
+  "date": "2026-09-10",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "step_id": "05",
+  "step_name": "targeted expansion / coverage control",
+  "upstream": {
+    "step04": "COMPLETE_PASS_ACCEPTED",
+    "step04_analyst_return_qa": "PASS",
+    "family_rows": 32,
+    "targeted_expansion_queue_rows": 17,
+    "source_occurrences_processed": 25979
+  },
+  "queue": {
+    "total_rows": 17,
+    "provider_evidence_eventually_relevant_rows": 15,
+    "owner_or_client_fact_rows": 6,
+    "fact_only_no_provider_rows": ["E015", "E016"],
+    "ready_after_step05_provider_authorization": ["E001", "E002", "E003", "E006", "E007", "E008", "E009", "E010", "E011", "E013", "E014"],
+    "blocked_on_owner_or_client_fact": ["E004", "E005", "E012", "E015", "E016", "E017"]
+  },
+  "pre_step_research": {
+    "status": "PASS",
+    "artifact": "STEP_05_PRE_STEP_SOURCE_TRACE_2026-09-10.md",
+    "fresh_checked_at": "2026-09-10"
+  },
+  "provider": {
+    "service": "wordstat",
+    "operation": "getTop",
+    "bridge": "yandex-marketing-bridge",
+    "observed_bridge_version": "0.1.4",
+    "numPhrases": 2000,
+    "regions": ["225"],
+    "devices": ["DEVICE_ALL"],
+    "official_current_gettop_tariff_rub_per_1000": 20,
+    "estimated_rub_per_request": 0.02,
+    "official_statistics_quota_per_hour": 100,
+    "project_execution_mode": "SEQUENTIAL_ONE_RESULT_PERSIST_AND_READBACK_BEFORE_NEXT"
+  },
+  "first_candidate_probe": {
+    "queue_id": "E013",
+    "purpose": "isolate noun чётки from morphology noise чётко/чёткий",
+    "phrase": "!чётки",
+    "expected_request_count_now": 1,
+    "estimated_cost_rub_now": 0.02
+  },
+  "execution": {
+    "step05_started": false,
+    "provider_calls_executed": 0,
+    "provider_calls_authorized": false,
+    "status": "READY_BUT_HOLD_PENDING_EXPLICIT_STEP05_PROVIDER_AUTHORIZATION"
+  },
+  "stop_condition": "DO_NOT_EXECUTE_ANY_WORDSTAT_REQUEST_UNTIL_OWNER_EXPLICITLY_AUTHORIZES_STEP05_PROVIDER_ACQUISITION",
+  "next_action": "OWNER_AUTHORIZES_STEP05_PROVIDER_ACQUISITION_OR_SUPPLIES_REQUIRED_CLIENT_FACTS__THEN_RUN_SINGLE_E013_GETTOP_AND_PERSIST_BEFORE_ANY_NEXT_REQUEST"
+}
