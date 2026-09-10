@@ -1,6 +1,6 @@
 # MK02 — Семантическое ядро + SEO-структура сайта + ТЗ на доработку
 
-Status: **PHASE 7 QA PASS / PHASE 8 ECONOMICS NEXT**
+Status: **PHASE 7 REOPENED / MARKET-GRADE CLIENT QUALITY CORRECTION / PHASE 8 BLOCKED**
 
 ## MANDATORY SERIES DEVELOPMENT AUTHORITY — READ BEFORE CONTINUATION
 
@@ -10,9 +10,10 @@ Before any MK02 continuation, first read:
 
 Then read:
 
-`PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`
+- `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`
+- `PHASE_7_OWNER_MARKET_GRADE_QUALITY_CORRECTION_2026-09-10.md`
 
-This correction supersedes the earlier Phase-7 PASS where the sold mapping/architecture product was reduced in the visible client package to a small current-site change delta.
+The first correction fixed the delta-only/current-site-first product collapse. The second owner review found a different issue: the target-first package is complete but still needs a market-grade client-usability correction before pricing.
 
 ```text
 ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md = HOW TO DEVELOP / REHEARSE / FREEZE THE PRODUCT
@@ -30,11 +31,13 @@ WORK = LARGE-DATA EXECUTOR, NOT PRODUCT ARCHITECT
 ```text
 YANDEX DEMAND
 → CLEAN SEMANTIC CORE / TASK CLUSTERS
-→ COMPLETE PHRASE→TARGET LANDING MAP
+→ COMPLETE PHRASE→TARGET LANDING MAP WITH DEMAND VISIBLE
 → CLUSTER→TARGET LANDING PAGE MAP
 → TARGET PAGE REGISTRY / TARGET SEO HIERARCHY
 → RECONCILIATION AGAINST REAL CURRENT SITE
-→ PAGE ACTION STATE: CREATE / OPTIMIZE / ROUTE / KEEP / NO-STANDALONE / RECHECK
+→ CLEAN PAGE ROLE / OWN-COVERAGE / SUPPORT / ELSEWHERE BOUNDARIES
+→ PRIMARY + SECONDARY QUERIES WITH INDIVIDUAL DEMAND
+→ H1 + TITLE DIRECTION WHERE APPLICABLE + ANALYTICAL SEO PRIORITY
 → FULL PAGE-BY-PAGE TARGET SPECIFICATIONS
 → PHYSICAL CURRENT→TARGET CHANGE DELTA
 → CLIENT XLSX + ANALYTICAL PDF + TZ PDF
@@ -63,6 +66,8 @@ TARGET SEO STRUCTURE != CURRENT SITE TOPOLOGY
 FULL PAGE SPEC != PHYSICAL CHANGE TICKET
 NO SITE CHANGE != NO CLIENT VALUE
 SMALL CHANGE DELTA != SMALL PRODUCT RESULT
+KEEP VISIBLE != ONE FULL PDF PAGE PER KEEP
+ANALYTICAL SEO PRIORITY != IMPLEMENTATION ORDER
 ```
 
 ## Correct execution sequence
@@ -82,29 +87,26 @@ SMALL CHANGE DELTA != SMALL PRODUCT RESULT
 11 structural/action diagnosis for every target landing spec, including KEEP/no-change
 12 competing-page safety
 13 independent target page registry/hierarchy freeze, then current-site reconciliation
-14 full page-by-page target specification + physical change delta
-15 client XLSX + analytical target-structure PDF + page-spec/TZ PDF + QA/readback
+14 full page-by-page target specification + demand/keyword/H1/Title/priority quality fields + physical change delta
+15 client XLSX + analytical target-structure PDF + compressed page-spec/TZ PDF + QA/readback
 ```
 
-## Historical Phase-5/7 data state
+## Preserved Phase-5/7 data state
 
-The previous rehearsal produced preserved evidence and useful semantic authorities:
+The accepted target-first rehearsal currently preserves:
 
 ```text
 NATIVE SEMANTIC UNIVERSE = 2840
 WORKING / REVIEW / EXCLUDED = 2185 / 187 / 468
-ACTIVE PHRASE→PAGE MAP = 2185
-TARGET UNITS = 160
-IMPLEMENTATION PACKAGES = 47
-READY / PENDING BUSINESS / PENDING PLACEMENT / RECHECK / MAPPING / NO CHANGE / HOLD
-= 3 / 1 / 10 / 4 / 19 / 9 / 1
+TARGET-FIRST CLUSTER/TASK ROUTES = 161
+TARGET PAGE ROLES = 60
+CURRENT RECONCILIATION = 48 KEEP / 7 OPTIMIZE / 4 ROUTE / 1 RECHECK
+PHYSICAL CHANGE DELTA = 14
 STEP5A CONTAMINATION = 0
-PROVIDER CALLS DURING REHEARSAL = 0
+NEW PROVIDER CALLS FOR TARGET-FIRST CORRECTION = 0
 ```
 
-These historical counts are **not permission to keep the old current-site-first client model**. The preserved semantic universe may be reused. The corrective rework must rematerialize the target landing model/page registry/page specs from the accepted semantic/task evidence, then rebuild affected downstream/client views.
-
-No new provider calls are required merely to correct the product model. A provider call is permitted only if the corrective rebuild exposes a concrete evidence gap that cannot be resolved from preserved evidence and is separately authorized.
+These counts are not to be cosmetically changed. The second correction targets client-page-spec quality and materialization unless a real upstream contradiction is proven.
 
 ## Physical package — carrier split retained
 
@@ -113,78 +115,66 @@ The three-file package remains valid:
 ```text
 1. XLSX — full semantic / mapping / target structure / page-spec / change-delta workbook
 2. PDF — analytical target-structure / landing-map report
-3. PDF — page-by-page target specification / site-improvement TZ
+3. PDF — complete target-page register + detailed page-spec / site-improvement TZ
 4. short Kwork/chat handoff message — not a separate file
 ```
 
-What is reopened is the **content contract**, not the existence of the two-PDF split.
+The second correction changes information density and required fields, not the three-file carrier split.
 
-## Owner product-gap finding — 2026-09-10
+## Owner product-quality finding — 2026-09-10
 
-The earlier client package passed machine/physical QA but failed a higher product-value test:
+The target-first package fixed the first major gap but external/recipient comparison found eight remaining quality issues:
 
-```text
-SOLD = full landing-page mapping + target structure + TZ
-VISIBLE RESULT = mainly current-site audit + a few physical changes
-```
+1. Wordstat demand not directly visible in the primary phrase→target mapping view.
+2. Page specs show only one representative query instead of primary + several secondary queries with individual demand.
+3. Some page-role fields mix heterogeneous terminal tasks and can overlap with “belongs elsewhere”.
+4. Recommended H1 and applicable Title direction are missing from page specs.
+5. Analytical SEO priority is not sufficiently exposed.
+6. Analytical PDF is too table-heavy for a sold architecture result and needs a scannable tree/branch view.
+7. TZ PDF mechanically expands many KEEP roles into repetitive full pages instead of using a compact complete register plus detailed change/recheck cards.
+8. OKNO_MSK honestly has no CREATE case; Phase 10 must not falsify it and should use a separate truthful/demo case if CREATE needs to be showcased.
 
-Root cause:
-
-```text
-CURRENT-SITE-FIRST OWNERSHIP
-+ CHANGE-ONLY IMPLEMENTATION/TZ
-→ TARGET LANDING MODEL AND KEEP PAGE SPECS BECAME INVISIBLE
-```
-
-The corrected per-step authorities are now:
-
-- `steps/STEP_10_PAGE_OWNERSHIP_MAPPING.md`
-- `steps/STEP_11_STRUCTURAL_ACTION_DIAGNOSIS.md`
-- `steps/STEP_13_SEARCH_ONLY_ARCHITECTURE_FREEZE.md`
-- `steps/STEP_14_IMPLEMENTATION_SPECIFICATION.md`
-- `steps/STEP_15_CLIENT_MATERIALIZATION_QA.md`
-- `STEP_RULES_INDEX.md`
-- `DELIVERABLE_SPEC.md`
-- `QA_AND_RELEASE.md`
-- `PRODUCT_SCOPE.md`
+Detailed authority: `PHASE_7_OWNER_MARKET_GRADE_QUALITY_CORRECTION_2026-09-10.md`.
 
 ## Productization roadmap
 
 ```text
-PHASE 0  PRODUCT PROMISE / BOUNDARY             = REOPENED/CORRECTED FOR TARGET-FIRST RESULT
+PHASE 0  PRODUCT PROMISE / BOUNDARY             = PASS / TARGET-FIRST + PAGE-SPEC QUALITY CONTRACT
 PHASE 1  MARKET REALITY BASELINE               = PASS / 2026-09-10
 PHASE 2  CLIENT INPUT CONTRACT                 = PASS / REHEARSAL VALIDATED 2026-09-10
-PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS + CORRECTION PROPAGATED TO AFFECTED STEPS
+PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS + LATEST OWNER CORRECTIONS PROPAGATED
 PHASE 4  AUTONOMOUS MK02 ROADMAP               = PASS + TARGET-FIRST CORRECTION APPLIED
-PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = PASS / TARGET-FIRST CORRECTIVE REMATERIALIZATION
-PHASE 6  PHYSICAL PACKAGE SPLIT                = PASS / 1 XLSX + 2 PDF CORRECTED
-PHASE 7  PRODUCT / RECIPIENT QA                = PASS / 2026-09-10
-PHASE 8  PRICE / LIMITS / ECONOMICS            = READY / NEXT
+PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = PASS / TARGET-FIRST DATA AUTHORITIES PRESERVED
+PHASE 6  PHYSICAL PACKAGE SPLIT                = PASS / 1 XLSX + 2 PDF RETAINED
+PHASE 7  PRODUCT / RECIPIENT QA                = REOPENED / MARKET-GRADE QUALITY CORRECTION CURRENT
+PHASE 8  PRICE / LIMITS / ECONOMICS            = BLOCKED UNTIL SECOND CORRECTIVE PASS
 PHASE 9  KWORK CARD                            = PENDING
-PHASE 10 PORTFOLIO / COVER                     = PENDING
+PHASE 10 PORTFOLIO / COVER                     = PENDING / MUST NOT FAKE CREATE ON OKNO_MSK
 PHASE 11 OWNER PUBLICATION                     = PENDING
 PHASE 12 PUBLISHED VERSION FREEZE / READBACK   = PENDING
 ```
 
-## Corrective Phase-7 Definition of Done
+## Second corrective Phase-7 Definition of Done
 
 ```text
-PRESERVED SEMANTIC AUTHORITY REUSED WITHOUT SILENT MUTATION
-+ COMPLETE PHRASE→TARGET LANDING MAP MATERIALIZED
-+ COMPLETE CLUSTER→TARGET LANDING MAP MATERIALIZED
-+ COMPLETE TARGET PAGE REGISTRY/HIERARCHY MATERIALIZED
-+ EVERY MATERIAL TARGET PAGE HAS PAGE SPEC
-+ KEEP/NO_CHANGE PAGES RETAINED AS VISIBLE PAGE SPECS
-+ NO-STANDALONE TASKS HAVE EXPLICIT OWNER/PARENT ROUTE
-+ CURRENT SITE RECONCILED ONLY AFTER TARGET MODEL EXISTS
-+ CURRENT→TARGET CHANGE DELTA MATERIALIZED AS SUBSET
+PRESERVED SEMANTIC / TARGET-FIRST AUTHORITIES REUSED WITHOUT SILENT MUTATION
++ WORDSTAT VISIBLE IN PRIMARY PHRASE→TARGET VIEW
++ PRIMARY + SECONDARY KEYWORDS WITH INDIVIDUAL DEMAND IN PAGE SPECS
++ ONE CLEAR PRIMARY PAGE JOB PER TARGET PAGE
++ OWN-COVERAGE / SUPPORT / ELSEWHERE BOUNDARIES NON-CONTRADICTORY
++ H1 PRESENT FOR EVERY MATERIAL TARGET PAGE
++ TITLE DIRECTION PRESENT FOR CREATE/OPTIMIZE OR EXPLICIT BLOCKER
++ ANALYTICAL SEO PRIORITY + BASIS PRESENT AND NOT A SCHEDULE
++ ANALYTICAL PDF CONTAINS SCANNABLE TARGET TREE / HIERARCHY VIEW
++ TZ PDF CONTAINS COMPLETE COMPACT REGISTER OF ALL TARGET PAGES
++ DETAILED TZ CARDS FOCUS ON CREATE / OPTIMIZE / ROUTE / RECHECK AND MATERIAL KEEP EXCEPTIONS
 + XLSX REBUILT
-+ ANALYTICAL PDF SHOWS TARGET MODEL
-+ TZ PDF SHOWS PAGE-BY-PAGE TARGET SPEC, NOT ONLY CHANGE TICKETS
++ BOTH PDF REBUILT
++ GENERATORS / VALIDATORS UPDATED
 + MACHINE QA PASS
 + RECIPIENT QA PASS
 + BOTH FINAL PDF RENDER QA PASS
-+ CLIENT LANGUAGE / PACKAGE-LAYER QA PASS
++ XLSX FINAL-BYTE / PACKAGE QA PASS
 + SAVE / COMMIT / REMOTE READBACK PASS
 ```
 
@@ -192,12 +182,10 @@ PRESERVED SEMANTIC AUTHORITY REUSED WITHOUT SILENT MUTATION
 
 ```text
 CURRENT_MINI_KWORK = MK02
-METHOD_STATE = PHASE_7_TARGET_FIRST_PRODUCT_RECIPIENT_QA_PASS
-CURRENT_PHASE = PHASE_8_PRICE_LIMITS_ECONOMICS
-NEXT_ACTION = EXECUTE_PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
-PHASE_8 = READY
+METHOD_STATE = PHASE_7_MARKET_GRADE_QUALITY_CORRECTION_RULES_ACTIVE
+CURRENT_PHASE = PHASE_7_SECOND_CORRECTIVE_REWORK
+NEXT_ACTION = REBUILD_PAGE_SPEC_AUTHORITY_AND_CLIENT_PACKAGE_WITH_MARKET_GRADE_FIELDS_AND_COMPRESSION
+PHASE_8 = BLOCKED
 ```
 
-Corrective client package: `tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_CORRECTED_2026-09-10`.
-
-Release evidence: machine QA 17/17 PASS; XLSX 13/13 rendered sheets; PDFs 22/22 + 71/71 rendered pages; recipient QA PASS; 14/14 remote blobs read back at `2f30cfbe663482db1972ad17f839efdd4bdb83d9`.
+Historical target-first package remains preserved as evidence in `tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_CORRECTED_2026-09-10` until a newer corrected package passes and is read back remotely.
