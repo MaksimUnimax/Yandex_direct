@@ -87,3 +87,84 @@ Every READY item has resolved implementation mode and real-site-change state; ex
 
 ## CLIENT-FACING MEANING
 «В итоговом ТЗ готовыми считаются только те задачи, где понятно, что именно менять, зачем, где и как проверить результат. Если не хватает конкретного факта или места размещения, это не прячется под видом готовой рекомендации — клиент получает точный вопрос, который нужно закрыть перед внедрением.»
+
+---
+
+## OWNER CORRECTION 2026-09-10 — TWO OUTPUTS: FULL PAGE SPEC + CHANGE DELTA
+
+The prior implementation-only framing is insufficient for MK02. Step14 must produce **two distinct but linked deliverables**:
+
+```text
+1. FULL TARGET PAGE SPECIFICATION REGISTER
+   = one specification for every material target landing page / target page role
+
+2. CURRENT→TARGET IMPLEMENTATION DELTA
+   = only the physical changes, clarifications and checks required to move the current site toward that target
+```
+
+The full target page specification is mandatory even when the current site already matches the target and physical change count is small.
+
+For every material target page, materialize a page specification containing equivalent client meaning for:
+
+```text
+TARGET PAGE / PAGE KEY
+TARGET URL OR ROUTE
+PAGE TYPE
+PARENT / SECTION
+PAGE PURPOSE
+PRIMARY USER TASK / INTENT
+PRIMARY / REPRESENTATIVE QUERY
+MEMBER PHRASE COUNT
+KEY CLUSTER / SEMANTIC SCOPE
+WHAT THIS PAGE SHOULD COVER
+WHAT SHOULD NOT BE SPLIT INTO A SEPARATE PAGE / WHAT BELONGS ELSEWHERE when material
+SUPPORTING / CHILD / RELATED PAGES when material
+CURRENT URL MATCH / CURRENT STATE
+TARGET ACTION = CREATE | OPTIMIZE | ROUTE | KEEP | NO_STANDALONE | RECHECK
+REAL SITE CHANGE REQUIRED = YES | NO | UNRESOLVED
+IMPLEMENTATION DETAIL where change is real and resolved
+ACCEPTANCE / FINAL EXPECTED STATE
+UNCERTAINTY / REQUIRED CLARIFICATION where applicable
+```
+
+Phrase-level member detail remains in XLSX and must not be dumped as thousands of lines into PDF. The page specification should show representative/primary demand plus cluster size and scope, while the XLSX provides the complete phrase→target mapping.
+
+`KEEP` is a full specification outcome:
+
+```text
+KEEP = this current URL is the accepted target landing page for the defined cluster/task
+```
+
+It must remain visible in the page-spec register even when no physical change is required.
+
+`NO_STANDALONE` is also a full specification outcome:
+
+```text
+NO_STANDALONE = do not create a separate URL; route this demand into the named parent/owner page
+```
+
+The implementation/TZ PDF must therefore not consist only of READY physical changes. It must let the recipient understand the **complete target page plan**, then distinguish which page specs require implementation changes.
+
+Permanent rules:
+
+```text
+FULL PAGE SPEC != CHANGE-ONLY TICKET LIST
+NO SITE CHANGE != NO TZ ENTRY
+THOUSANDS OF PHRASES IN PDF != USEFUL PAGE-BY-PAGE SPEC
+PHRASE DETAIL LIVES IN XLSX; PAGE DESIGN / TARGET ROLE MUST BE HUMAN-READABLE IN TZ
+SMALL DELTA != PERMISSION FOR A TWO-PAGE EMPTY-LOOKING TZ
+```
+
+Additional PASS requirements:
+
+```text
+MATERIAL TARGET PAGES WITHOUT PAGE SPEC = 0
+KEEP TARGET PAGES WITHOUT PAGE SPEC = 0
+NO_STANDALONE TASKS WITHOUT NAMED OWNER/PARENT = 0
+IMPLEMENTATION PDF CONTAINS OR SUMMARIZES COMPLETE TARGET PAGE REGISTER = true
+PHYSICAL CHANGE TICKETS ARE A SUBSET OF FULL PAGE SPEC REGISTER = true
+```
+
+Correct client-facing meaning:
+
+«ТЗ показывает не только страницы, которые надо изменить. Для каждой целевой посадочной страницы фиксируется её назначение, семантика, место в структуре и итоговое решение. Отдельно отмечается, где страницу нужно создать или доработать, а где существующая страница уже правильно выполняет целевую роль.»
