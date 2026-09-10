@@ -2,6 +2,37 @@
 
 Status: **ACTIVE PRODUCTIZATION / MK01 V1 FROZEN / MK02 METHOD READY / PHASE 5 WORK NEXT**
 
+## 0. ОБЯЗАТЕЛЬНЫЙ START HERE — как разрабатываются mini-kwork
+
+Перед началом или продолжением разработки любого MK02–MK07, а также перед versioned reopening MK01, **сначала полностью читать**:
+
+`MINI_KWORK_DEVELOPMENT_PROTOCOL.md`
+
+Это owner-approved series-level authority, которое определяет **как создавать и продуктировать mini-kwork**: откуда брать шаги и правила, как переносить ошибки KW-001, как отделять Level-1 метод от Level-2 данных, когда отдавать большой массив в Work, как выполнять rehearsal, QA, pricing/card/visual/freeze.
+
+Не путать уровни:
+
+```text
+SERIES_ROADMAP + MINI_KWORK_DEVELOPMENT_PROTOCOL
+= PRODUCTIZATION CONTROL PLANE / КАК СОЗДАЁМ ПРОДУКТ
+
+MKxx/GENERAL_RULES + MKxx/steps/*.md + MKxx/EXECUTION_ROADMAP
+= PRODUCT EXECUTION PLANE / КАК ВЫПОЛНЯЕМ УЖЕ СОЗДАННЫЙ ПРОДУКТ
+
+KW-001 tests + MKxx/tests/OKNO_MSK
+= LEVEL-2 DATA / EVIDENCE / РЕФЕРЕНСЫ, НЕ УНИВЕРСАЛЬНЫЕ ПРАВИЛА
+
+WORK
+= LARGE-DATA EXECUTOR, НЕ АРХИТЕКТОР ПРОДУКТА
+```
+
+Hard gate:
+
+```text
+DEVELOPMENT PROTOCOL NOT READ
+=> DO NOT START / CONTINUE MINI-KWORK PRODUCTIZATION
+```
+
 ## 1. Зачем создаётся эта серия
 
 Исходный KW-001 доказал полный end-to-end процесс на пилоте OKNO_MSK. Теперь из него выделяются семь самостоятельных коммерческих продуктов, которые можно продавать отдельно, не заставляя клиента покупать весь большой KW-001.
@@ -139,7 +170,7 @@ CLIENT-FACING MEANING
 Строим автономный последовательный roadmap. Удалённые шаги полного KW-001 не должны оставлять скрытые зависимости.
 
 ### Phase 5 — OKNO_MSK rehearsal projection
-Берём уже собранный OKNO_MSK evidence, не делаем лишние provider calls и выполняем mini-kwork так, будто клиент купил только его. Нельзя отдавать результат полного KW-001 под видом результата mini-kwork.
+Берём уже собранный OKNO_MSK evidence, не делаем лишние provider calls и выполняем mini-kwork так, будто клиент купил только его. Нельзя отдавать результат полного KW-001 под видом результата mini-kwork. Большой data/reconciliation прогон после готовности Level-1 метода передаётся в Work по отдельному закрытому execution handoff; Work выполняет метод, а не проектирует продукт заново.
 
 ### Phase 6 — Mini-kwork client deliverable
 Перестраиваем материал под обещание конкретного mini-kwork: другой scope → другой отчёт → другой набор таблиц → другой вывод.
@@ -160,7 +191,7 @@ CLIENT-FACING MEANING
 Владелец проверяет карточку и публикует её на площадке.
 
 ### Phase 12 — Freeze / readback
-Фиксируем опубликованную версию, цену и package boundaries в репозитории.
+Фиксируем опубликованную/owner-accepted версию, цену и package boundaries в репозитории; только после owner freeze двигаем series cursor на следующий mini-kwork.
 
 ## 7. Семь продуктов
 
@@ -174,7 +205,7 @@ CLIENT-FACING MEANING
 | MK06 | Яндекс Нейро / Алиса / AEO-аудит | Search baseline → AI cases → delta → действия | 0–1 + 8–10/11/14 + 15–20 | PLANNED |
 | MK07 | Полный комплекс KW-001 | полный современный Яндекс/Alice semantic rebuild | полный применимый KW-001 roadmap включая 5A и AI | PLANNED |
 
-Точные подшаги каждого mini-kwork фиксируются в его собственном `STEP_RULES_INDEX.md` после extraction-аудита полного KW-001.
+Точные подшаги каждого mini-kwork фиксируются в его собственном `STEP_RULES_INDEX.md` после extraction-аудита полного KW-001 по обязательному `MINI_KWORK_DEVELOPMENT_PROTOCOL.md`.
 
 ## 8. Границы между семью продуктами
 
@@ -203,32 +234,53 @@ MK06 проверяет Search↔AI различия для достаточно
 - MK06: на Kwork реально продаются AEO/GEO/нейропоиск-аудиты от нескольких тысяч до крупных комплексных пакетов; состав сильно различается.
 - MK07: реальные комплексные SEO/audit/semantic/structure/TZ проекты существуют примерно в диапазоне 40–60 тыс. руб. и выше в зависимости от состава.
 
-Перед публикацией каждого mini-kwork его market evidence обновляется заново.
+Перед публикацией каждого mini-kwork его market evidence обновляется заново. Рыночные источники используются как коммерческие референсы, а не как автоматическая authority методики; методические источники не являются автоматическим основанием цены.
 
 ## 10. Definition of Done mini-kwork перед публикацией
 
 ```text
-PROMISE FROZEN
+DEVELOPMENT PROTOCOL READ / APPLIED
++ PROMISE FROZEN
 + MARKET ANALOGS VERIFIED
 + CLIENT INPUT CONTRACT COMPLETE
 + KW001 STEPS EXTRACTED
 + FAILURE CLASSES EXTRACTED
 + GENERAL RULES COMPLETE
 + PER-STEP RULES COMPLETE
-+ OKNO_MSK REHEARSAL COMPLETE
++ AUTONOMOUS ROADMAP COMPLETE
++ METHOD CONSISTENCY AUDIT PASS
++ LEVEL-1 METHOD COMMITTED / READ BACK
++ PHASE-5 WORK HANDOFF COMPLETE
++ OKNO_MSK MINI-KWORK-ONLY REHEARSAL COMPLETE
++ CONTAMINATION AUDIT COMPLETE WHERE NEEDED
 + MINI-KWORK-SPECIFIC DELIVERABLE COMPLETE
 + QA PASS
 + OWNER RECIPIENT REVIEW PASS
 + PRICE/LIMITS FROZEN
 + CARD COPY COMPLETE
-+ PORTFOLIO ASSET COMPLETE
++ PORTFOLIO ASSET COMPLETE OR EXPLICITLY OWNER-DEFERRED
 + REPO READBACK PASS
-= READY_FOR_OWNER_PUBLICATION
+= READY_FOR_OWNER_PUBLICATION / FREEZE AS APPLICABLE
 ```
 
 ## 11. Последовательность работы
 
 Работаем строго по одному продукту:
+
+```text
+READ MINI_KWORK_DEVELOPMENT_PROTOCOL
+→ SELECT CURRENT MINI-KWORK FROM THIS SERIES ROADMAP
+→ BUILD / VERIFY LEVEL-1 METHOD
+→ METHOD CONSISTENCY AUDIT
+→ COMMIT + REMOTE READBACK
+→ HAND LARGE-DATA PHASE 5 TO WORK
+→ OWNER REVIEW
+→ PACKAGE / ECONOMICS / CARD / VISUALS
+→ OWNER FREEZE
+→ NEXT MINI-KWORK
+```
+
+Текущая серия:
 
 ```text
 MK01 FROZEN
@@ -248,6 +300,7 @@ MK02 Phases 0–4 are complete. Its Level-1 method has been built and cross-reco
 
 ```text
 CURRENT_MINI_KWORK = MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ
+SERIES_DEVELOPMENT_AUTHORITY = MINI_KWORK_DEVELOPMENT_PROTOCOL.md
 MK01_STATE = OWNER_ACCEPTED__V1_FROZEN
 MK02_METHOD_STATE = READY_FOR_REHEARSAL
 NEXT_ACTION = PHASE_5_OKNO_MSK_MK02_ONLY_DATA_REHEARSAL_IN_WORK_MODE
