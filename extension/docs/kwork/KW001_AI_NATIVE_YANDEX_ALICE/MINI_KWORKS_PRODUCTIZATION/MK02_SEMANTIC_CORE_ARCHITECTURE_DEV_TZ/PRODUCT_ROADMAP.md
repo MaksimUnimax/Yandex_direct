@@ -1,14 +1,18 @@
 # MK02 — Семантическое ядро + SEO-структура сайта + ТЗ на доработку
 
-Status: **PHASES 0–7 PASS / PHASE 8 PRICE-LIMITS-ECONOMICS NEXT**
+Status: **PHASE 7 REOPENED / TARGET-FIRST CORRECTIVE REWORK REQUIRED / PHASE 8 BLOCKED**
 
 ## MANDATORY SERIES DEVELOPMENT AUTHORITY — READ BEFORE CONTINUATION
 
-Before any MK02 productization continuation, method correction after rehearsal, client-package QA, pricing/card work or future versioned reopening, first read:
+Before any MK02 continuation, first read:
 
 `../MINI_KWORK_DEVELOPMENT_PROTOCOL.md`
 
-This file governs **how MK02 is productized** and must not be confused with MK02 execution rules.
+Then read:
+
+`PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`
+
+This correction supersedes the earlier Phase-7 PASS where the sold mapping/architecture product was reduced in the visible client package to a small current-site change delta.
 
 ```text
 ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md = HOW TO DEVELOP / REHEARSE / FREEZE THE PRODUCT
@@ -17,115 +21,55 @@ GENERAL_RULES.md + STEP_RULES_INDEX.md + steps/*.md + EXECUTION_ROADMAP.md = HOW
 WORK = LARGE-DATA EXECUTOR, NOT PRODUCT ARCHITECT
 ```
 
-Phase 5 Work may report a proven Level-1 defect, but it may not silently redesign MK02. Any real defect must propagate through the development protocol before final PASS.
-
 ## Working product identity
 
 **«Семантическое ядро + SEO-структура сайта + ТЗ на доработку»**
 
-Public Kwork title is not yet frozen. Product promise is governed by `PRODUCT_SCOPE.md`.
-
-## Sold result
-
-Client buys the causal chain:
+## Correct sold result
 
 ```text
 YANDEX DEMAND
 → CLEAN SEMANTIC CORE / TASK CLUSTERS
-→ CURRENT PAGE OWNERSHIP / PHRASE→PAGE MAP
-→ TARGET SEARCH ARCHITECTURE
-→ EVIDENCE-SUPPORTED SITE-CHANGE SPECIFICATIONS
+→ COMPLETE PHRASE→TARGET LANDING MAP
+→ CLUSTER→TARGET LANDING PAGE MAP
+→ TARGET PAGE REGISTRY / TARGET SEO HIERARCHY
+→ RECONCILIATION AGAINST REAL CURRENT SITE
+→ PAGE ACTION STATE: CREATE / OPTIMIZE / ROUTE / KEEP / NO-STANDALONE / RECHECK
+→ FULL PAGE-BY-PAGE TARGET SPECIFICATIONS
+→ PHYSICAL CURRENT→TARGET CHANGE DELTA
+→ CLIENT XLSX + ANALYTICAL PDF + TZ PDF
 ```
 
-The product is for an existing public site in current V1 productization mode.
+The product is for an existing public site in V1 mode, but the existing current mapping is **not accepted as the target answer before the target model is independently designed**.
 
-## Yandex-only boundary
-
-MK02 uses Yandex demand/Search evidence and current client-site evidence. Google Ads / Keyword Planner / Google Search / Search Console and Google SEO are outside base scope.
-
-AI/Alice/Neuro are also outside MK02 base.
-
-## Core boundaries
+## Product boundaries
 
 ```text
 MK01 = DEMAND + CLEANING + CLUSTERS
-MK02 = MK01 FOUNDATION + OWNERSHIP + ARCHITECTURE + IMPLEMENTATION SPEC
+MK02 = MK01 FOUNDATION + TARGET LANDING MAP + TARGET ARCHITECTURE + CURRENT-SITE RECONCILIATION + PAGE SPECS + CHANGE DELTA
 MK03 = COMPETITOR-DERIVED SEMANTIC GAP
 MK04 = DEDICATED QUERY→PAGE / CANNIBALIZATION PRODUCT
 MK05 = IMPLEMENTATION-TZ PRODUCT FROM PRE-EXISTING ACCEPTED DECISION AUTHORITY
 ```
 
-MK02 does not silently include Step5A competitor expansion.
+Yandex-only. Google excluded. AI/Alice/Neuro excluded. Step5A competitor expansion excluded. Implementation itself excluded. No guarantees of rankings/traffic/leads/revenue. No fabricated implementation schedule.
 
-KW-001 Step13 competing-page diagnosis is used inside MK02 only to the depth required to protect architecture decisions; base mode does not promise a standalone historical harmful-cannibalization audit.
-
-## Implementation promise boundary
-
-MK02 promises actionable **implementation specifications** for evidence-resolved changes.
-
-It does not fabricate a project schedule.
+## Permanent corrected distinctions
 
 ```text
-CORRECT OWNER / ROUTE != READY WEBSITE IMPLEMENTATION TICKET
-SEMANTIC MAPPING != PHYSICAL SITE CHANGE
-IMPLEMENTATION-SPEC READY != IMPLEMENTATION-SCHEDULE READY
-NO SUITABLE EXISTING PAGE != CREATE DECISION
-TARGET SEARCH ARCHITECTURE != CURRENT AS-IS TOPOLOGY
+TARGET LANDING PAGE != CURRENT PAGE MATCH
+PHRASE→TARGET MAP != CLUSTER→LANDING MAP
+TARGET SEO STRUCTURE != CURRENT SITE TOPOLOGY
+FULL PAGE SPEC != PHYSICAL CHANGE TICKET
+NO SITE CHANGE != NO CLIENT VALUE
+SMALL CHANGE DELTA != SMALL PRODUCT RESULT
 ```
 
-Ready actions require exact change detail and acceptance. Missing material business/technical/placement detail moves the item to a concrete clarification/check instead of fake READY.
-
-## Market state
-
-`MARKET_REALITY_2026-09-10.md` = current baseline.
-
-Current evidence:
-
-- exact all-in-one Kwork analogue not confirmed;
-- current Kwork offers confirm semantics + structure bundles exist;
-- closest confirmed FL.ru demand anchor: semantic core + clusters + developer site-change TZ, budget 40,000 ₽;
-- current 2026 FL.ru requests also combine semantics, page clustering, URL structure and developer recommendations.
-
-Final MK02 price/limits are **not assigned yet**. Phase 8 must use actual rehearsal workload plus refreshed market evidence.
-
-## Level-1 package state
-
-Level-1 now contains the complete method plus the accepted Phase-6 client-package design:
-
-```text
-PRODUCT_SCOPE.md
-CLIENT_INPUT_CONTRACT.md
-GENERAL_RULES.md
-ERRORS_AND_LESSONS.md
-STEP_RULES_INDEX.md
-steps/STEP_00...STEP_15 = 16/16
-EXECUTION_ROADMAP.md
-DELIVERABLE_SPEC.md
-QA_AND_RELEASE.md
-METHOD_CONSISTENCY_AUDIT_2026-09-10.md
-MARKET_REALITY_2026-09-10.md
-PRODUCT_PACKAGING.md
-CLIENT_HANDOFF_TEMPLATE.md
-PHASE_6_CLIENT_PACKAGING_OWNER_REVIEW_2026-09-10.md
-```
-
-Phase 3–4 consistency audit result before rehearsal:
-
-```text
-METHOD FILES MISSING = 0
-PER-STEP FILES = 16/16
-KNOWN CROSS-FILE CONTRADICTIONS = 0
-OKNO_MSK DATA TRANSFORMATION DURING METHOD BUILD = 0
-PROVIDER CALLS DURING METHOD BUILD = 0
-```
-
-Phase-6 package decision does not modify Phase-5 semantic/ownership/architecture/action authorities.
-
-## Local MK02 execution sequence
+## Correct execution sequence
 
 ```text
 00 scope / structural constraints
-01 current site/business
+01 current site/business discovery
 02 Wordstat plan
 03 Wordstat acquisition/persistence
 04 conservative triage
@@ -134,85 +78,122 @@ Phase-6 package decision does not modify Phase-5 semantic/ownership/architecture
 07 semantic freeze/routing
 08 conditional semantic Search
 09 task/intent clustering
-10 page ownership / phrase→page map
-11 structural action diagnosis
+10 TARGET-FIRST phrase→landing + cluster→landing mapping; current match kept separate
+11 structural/action diagnosis for every target landing spec, including KEEP/no-change
 12 competing-page safety
-13 current-vs-target Search architecture freeze
-14 implementation specification / analytical priority
-15 client materialization + QA
+13 independent target page registry/hierarchy freeze, then current-site reconciliation
+14 full page-by-page target specification + physical change delta
+15 client XLSX + analytical target-structure PDF + page-spec/TZ PDF + QA/readback
 ```
+
+## Historical Phase-5/7 data state
+
+The previous rehearsal produced preserved evidence and useful semantic authorities:
+
+```text
+NATIVE SEMANTIC UNIVERSE = 2840
+WORKING / REVIEW / EXCLUDED = 2185 / 187 / 468
+ACTIVE PHRASE→PAGE MAP = 2185
+TARGET UNITS = 160
+IMPLEMENTATION PACKAGES = 47
+READY / PENDING BUSINESS / PENDING PLACEMENT / RECHECK / MAPPING / NO CHANGE / HOLD
+= 3 / 1 / 10 / 4 / 19 / 9 / 1
+STEP5A CONTAMINATION = 0
+PROVIDER CALLS DURING REHEARSAL = 0
+```
+
+These historical counts are **not permission to keep the old current-site-first client model**. The preserved semantic universe may be reused. The corrective rework must rematerialize the target landing model/page registry/page specs from the accepted semantic/task evidence, then rebuild affected downstream/client views.
+
+No new provider calls are required merely to correct the product model. A provider call is permitted only if the corrective rebuild exposes a concrete evidence gap that cannot be resolved from preserved evidence and is separately authorized.
+
+## Physical package — carrier split retained
+
+The three-file package remains valid:
+
+```text
+1. XLSX — full semantic / mapping / target structure / page-spec / change-delta workbook
+2. PDF — analytical target-structure / landing-map report
+3. PDF — page-by-page target specification / site-improvement TZ
+4. short Kwork/chat handoff message — not a separate file
+```
+
+What is reopened is the **content contract**, not the existence of the two-PDF split.
+
+## Owner product-gap finding — 2026-09-10
+
+The earlier client package passed machine/physical QA but failed a higher product-value test:
+
+```text
+SOLD = full landing-page mapping + target structure + TZ
+VISIBLE RESULT = mainly current-site audit + a few physical changes
+```
+
+Root cause:
+
+```text
+CURRENT-SITE-FIRST OWNERSHIP
++ CHANGE-ONLY IMPLEMENTATION/TZ
+→ TARGET LANDING MODEL AND KEEP PAGE SPECS BECAME INVISIBLE
+```
+
+The corrected per-step authorities are now:
+
+- `steps/STEP_10_PAGE_OWNERSHIP_MAPPING.md`
+- `steps/STEP_11_STRUCTURAL_ACTION_DIAGNOSIS.md`
+- `steps/STEP_13_SEARCH_ONLY_ARCHITECTURE_FREEZE.md`
+- `steps/STEP_14_IMPLEMENTATION_SPECIFICATION.md`
+- `steps/STEP_15_CLIENT_MATERIALIZATION_QA.md`
+- `STEP_RULES_INDEX.md`
+- `DELIVERABLE_SPEC.md`
+- `QA_AND_RELEASE.md`
+- `PRODUCT_SCOPE.md`
 
 ## Productization roadmap
 
 ```text
-PHASE 0  PRODUCT PROMISE / BOUNDARY             = PASS
+PHASE 0  PRODUCT PROMISE / BOUNDARY             = REOPENED/CORRECTED FOR TARGET-FIRST RESULT
 PHASE 1  MARKET REALITY BASELINE               = PASS / 2026-09-10
 PHASE 2  CLIENT INPUT CONTRACT                 = PASS / REHEARSAL VALIDATED 2026-09-10
-PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS
-PHASE 4  AUTONOMOUS MK02 ROADMAP               = PASS
-PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = PASS / 2026-09-10
-PHASE 6  MK02 CLIENT DELIVERABLE / PACKAGING   = PASS / OWNER REVIEW 2026-09-10
-PHASE 7  PRODUCT / RECIPIENT QA                = PASS / 2026-09-10
-PHASE 8  PRICE / LIMITS / ECONOMICS            = NEXT
+PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS + CORRECTION PROPAGATED TO AFFECTED STEPS
+PHASE 4  AUTONOMOUS MK02 ROADMAP               = PASS + TARGET-FIRST CORRECTION APPLIED
+PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = CORRECTIVE REMATERIALIZATION REQUIRED
+PHASE 6  PHYSICAL PACKAGE SPLIT                = RETAINED; CONTENT CONTRACT CORRECTED
+PHASE 7  PRODUCT / RECIPIENT QA                = REOPENED / CURRENT
+PHASE 8  PRICE / LIMITS / ECONOMICS            = BLOCKED UNTIL CORRECTIVE PASS
 PHASE 9  KWORK CARD                            = PENDING
 PHASE 10 PORTFOLIO / COVER                     = PENDING
 PHASE 11 OWNER PUBLICATION                     = PENDING
 PHASE 12 PUBLISHED VERSION FREEZE / READBACK   = PENDING
 ```
 
-## Phase-5 rehearsal boundary
-
-Phase 5 was the first point where OKNO_MSK data were processed for MK02.
-
-The large data/reconciliation work was executed from the already-designed Level-1 method. It used preserved OKNO_MSK evidence, made no new provider calls, excluded Step5A competitor expansion, corrected one proven activation-authority failure class and rebuilt the affected downstream results before PASS.
-
-Canonical Phase-5 evidence state:
+## Corrective Phase-7 Definition of Done
 
 ```text
-NATIVE SEMANTIC UNIVERSE = 2840
-WORKING / REVIEW / EXCLUDED = 2185 / 187 / 468
-ACTIVE PHRASE→PAGE MAP = 2185
-CURRENT / TARGET = 2683 NODES / 160 UNITS
-IMPLEMENTATION PACKAGES = 47
-READY / PENDING BUSINESS / PENDING PLACEMENT / RECHECK / MAPPING / NO CHANGE / HOLD
-= 3 / 1 / 10 / 4 / 19 / 9 / 1
-STEP5A CONTAMINATION = 0
-PROVIDER CALLS DURING REHEARSAL = 0
-G0–G15 = PASS
-RECIPIENT REVIEW = PASS
+PRESERVED SEMANTIC AUTHORITY REUSED WITHOUT SILENT MUTATION
++ COMPLETE PHRASE→TARGET LANDING MAP MATERIALIZED
++ COMPLETE CLUSTER→TARGET LANDING MAP MATERIALIZED
++ COMPLETE TARGET PAGE REGISTRY/HIERARCHY MATERIALIZED
++ EVERY MATERIAL TARGET PAGE HAS PAGE SPEC
++ KEEP/NO_CHANGE PAGES RETAINED AS VISIBLE PAGE SPECS
++ NO-STANDALONE TASKS HAVE EXPLICIT OWNER/PARENT ROUTE
++ CURRENT SITE RECONCILED ONLY AFTER TARGET MODEL EXISTS
++ CURRENT→TARGET CHANGE DELTA MATERIALIZED AS SUBSET
++ XLSX REBUILT
++ ANALYTICAL PDF SHOWS TARGET MODEL
++ TZ PDF SHOWS PAGE-BY-PAGE TARGET SPEC, NOT ONLY CHANGE TICKETS
++ MACHINE QA PASS
++ RECIPIENT QA PASS
++ BOTH FINAL PDF RENDER QA PASS
++ CLIENT LANGUAGE / PACKAGE-LAYER QA PASS
++ SAVE / COMMIT / REMOTE READBACK PASS
 ```
-
-The rehearsal exposed and corrected one Level-1 activation-authority defect: current accepted semantic product state now explicitly outranks legacy downstream assignment flags. All affected Level-2 ownership, architecture, implementation and client views were rebuilt and independently revalidated.
-
-## Phase-6 accepted physical package
-
-Owner review of the Phase-5 candidate workbook, analytical report, action-first implementation plan and candidate package README resolved the remaining packaging fork.
-
-Accepted base MK02 V1 delivery:
-
-```text
-1. XLSX — working semantic / ownership / architecture / implementation workbook
-2. PDF — analytical research-and-architecture report
-3. PDF — action-first site-improvement TZ
-4. short Kwork/chat handoff message — not a separate file
-```
-
-`PRODUCT_PACKAGING.md` = physical package authority.  
-`CLIENT_HANDOFF_TEMPLATE.md` = delivery-message authority.  
-`PHASE_6_CLIENT_PACKAGING_OWNER_REVIEW_2026-09-10.md` = owner-review rationale/receipt.
-
-The analytical report and implementation-TZ remain separate because they answer different recipient tasks. A mandatory duplicate DOCX is not part of base V1. Page count remains a non-gate.
-
-No price, limits, delivery time, card copy or visual asset was frozen in Phase 6.
 
 ## Current next action
 
 ```text
 CURRENT_MINI_KWORK = MK02
-SERIES_DEVELOPMENT_AUTHORITY = ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md
-METHOD_STATE = PHASE_7_PRODUCT_RECIPIENT_QA_PASS
-PHYSICAL_PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
-NEXT_ACTION = PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
+METHOD_STATE = TARGET_FIRST_CORRECTION_MATERIALIZED_AT_LEVEL_1
+CURRENT_PHASE = PHASE_7_CORRECTIVE_REWORK
+NEXT_ACTION = EXECUTE_OKNO_MSK_TARGET_FIRST_REBUILD_AND_CLIENT_PACKAGE_REMATERIALIZATION_IN_WORK
+PHASE_8 = BLOCKED
 ```
-
-Phase 7 materialized and validated the accepted OKNO_MSK physical package, including final XLSX package-layer language checks, both final PDF renders, corrected generator behavior, machine QA and recipient review. Phase 8 economics is now the next productization gate; Phase 9 card and Phase 10 visuals have not started.
