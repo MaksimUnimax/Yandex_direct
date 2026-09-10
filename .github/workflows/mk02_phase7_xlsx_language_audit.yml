@@ -1,60 +1,115 @@
-name: MK02 Phase 7 workbook generator regression fix
+name: MK02 Phase 7 final client-package gate
 
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_generator_fix'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_final_qa'
 
 permissions:
   contents: write
 
 jobs:
-  correct-generator:
+  validate-final-package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Patch only client-language generation paths
+      - name: Install document validators
+        run: python -m pip install --quiet openpyxl pypdf
+      - name: Validate final XLSX and both final PDFs
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          from pathlib import Path
-          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/build_client_candidate_workbook.mjs')
-          s=p.read_text('utf-8')
-          def one(old,new):
-              global s
-              n=s.count(old)
-              print('REPLACE',repr(old),'COUNT',n)
-              assert n==1,(old,n)
-              s=s.replace(old,new)
-          one('text: "HOLD", format: { fill: "#FEE2E2", font: { color: "#991B1B", bold: true } },','text: "Отложено до доказательства", format: { fill: "#FEE2E2", font: { color: "#991B1B", bold: true } },')
-          one('  HOLD: "HOLD",','  HOLD: "Отложено до доказательства",')
-          n=s.count('"Проверить и HOLD"')
-          print('SHEET_LABEL_REPLACEMENTS',n)
-          assert n==3,n
-          s=s.replace('"Проверить и HOLD"','"Проверить и отложено"')
-          table_names=['AllQueries','WorkingCore','TaskGroups','PageOwnership','CurrentSite','TargetArchitecture','CurrentTargetDelta','ImplementationPackages','Clarifications','PageRelations','ReadyAcceptance','MeasurementInterface']
-          for name in table_names:
-              old=name+'MK02'; new=name+'Client'; n=s.count(old); print('TABLE_NAME',old,n); assert n==1,(old,n); s=s.replace(old,new)
-          old='const acceptanceRows = acceptance.map((row) => [row.page_or_object, row.what_must_be_present, row.where_to_check, row.acceptance_check, row.preserve]);'
-          new='const acceptanceRows = acceptance.map((row) => [row.page_or_object, clientText(row.what_must_be_present), clientText(row.where_to_check), clientText(row.acceptance_check), clientText(row.preserve)]);'
-          one(old,new)
-          p.write_text(s,'utf-8')
-          assert 'HOLD: "HOLD"' not in s
-          assert 'text: "HOLD"' not in s
-          assert '"Проверить и HOLD"' not in s
-          for name in table_names: assert name+'MK02' not in s
-          print('GENERATOR_REGRESSION_FIX_PASS')
+          import json, re, hashlib, pathlib, zipfile
+          from collections import Counter
+          from openpyxl import load_workbook
+          from pypdf import PdfReader
+
+          root=pathlib.Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK')
+          out=root/'CLIENT_DELIVERY_PHASE_7'
+          xlsx=out/'SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx'
+          analytical=out/'RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf'
+          tz=out/'SITE_IMPROVEMENT_TZ_OKNO_MSK_2026-09-10.pdf'
+          forbidden=re.compile(r'(?i)(MK02|Stage|Step|\bQA\b|\bREADY\b|PENDING_|\bCTA\b|\bHOLD\b)')
+          expected_sheets=['Начните здесь','Главные выводы','Все запросы','Рабочее ядро','Группы и задачи','Карта страниц','Текущий сайт','Целевая структура','Изменения','ТЗ на доработку','Проверить и отложено','Связи страниц','Как проверить']
+          expected_rows={'Все запросы':2840,'Рабочее ядро':2185,'Карта страниц':2185,'Текущий сайт':80,'Целевая структура':160,'Изменения':35,'ТЗ на доработку':47,'Проверить и отложено':44,'Связи страниц':14}
+          expected_statuses={'Готово к внедрению':3,'Нужна бизнес-деталь':1,'Нужно точное место':10,'Только перепроверка':4,'Только карта':19,'Без изменения':9,'Отложено до доказательства':1}
+          report={'schema':'MK02_PHASE_7_FINAL_PACKAGE_QA_V1','date':'2026-09-10','checks':{},'artifacts':{}}
+
+          wb=load_workbook(xlsx, data_only=False, read_only=False)
+          assert wb.sheetnames==expected_sheets, wb.sheetnames
+          assert all(wb[n].sheet_state=='visible' for n in wb.sheetnames)
+          row_counts={n:wb[n].max_row-5 for n in expected_rows}
+          assert row_counts==expected_rows,(row_counts,expected_rows)
+          statuses=Counter()
+          ws=wb['ТЗ на доработку']
+          for r in range(6, ws.max_row+1):
+              v=ws.cell(r,1).value
+              if v: statuses[str(v).strip()]+=1
+          assert dict(statuses)==expected_statuses,(statuses,expected_statuses)
+          client_hits=[]; error_hits=[]
+          for ws in wb.worksheets:
+              for row in ws.iter_rows():
+                  for cell in row:
+                      v=cell.value
+                      if isinstance(v,str):
+                          if forbidden.search(v): client_hits.append((ws.title,cell.coordinate,v[:240]))
+                          if v in {'#REF!','#VALUE!','#NAME?','#DIV/0!','#N/A'}: error_hits.append((ws.title,cell.coordinate,v))
+          assert not client_hits,client_hits[:20]
+          assert not error_hits,error_hits[:20]
+          assert wb['Начните здесь']['B20'].value=='Проверить и отложено'
+          assert 'призыв к действию' in str(wb['Как проверить']['E6'].value).lower()
+          # The modified visible body cells must remain readable/wrapped where long text was substituted.
+          assert wb['Как проверить']['E6'].alignment.wrap_text is True
+          assert wb['ТЗ на доработку']['A52'].alignment.wrap_text is True
+          assert wb['Проверить и отложено']['A6'].alignment.wrap_text is True
+          table_names=[]
+          for ws in wb.worksheets:
+              table_names.extend(list(ws.tables.keys()))
+          assert len(table_names)==12,len(table_names)
+          assert not any('MK02' in n.upper() for n in table_names),table_names
+          with zipfile.ZipFile(xlsx) as z:
+              assert z.testzip() is None
+              raw='\n'.join(z.read(n).decode('utf-8','ignore') for n in z.namelist() if n.endswith('.xml'))
+              assert not forbidden.search(raw), forbidden.search(raw).group(0) if forbidden.search(raw) else None
+
+          def sha256(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+          xlsx_sha=sha256(xlsx)
+          report['artifacts']['xlsx']={'size':xlsx.stat().st_size,'sha256':xlsx_sha,'git_blob':None,'sheets':len(wb.sheetnames),'row_counts':row_counts,'status_counts':dict(statuses),'table_count':len(table_names),'forbidden_token_hits':0,'formula_error_hits':0}
+
+          pdf_expected={
+            analytical:('66122183a768ecef5b3f9cd91b2f1b313f4d8a6c69f9012a24c92a2cd22b05bd','Что показало исследование'),
+            tz:('d12b0b3bd8d70c9aff5aea793d3a94b147be1555e547c03729e4e2caa5b7dfc1','ТЗ на доработку сайта'),
+          }
+          for p,(expected_sha,required_text) in pdf_expected.items():
+              actual=sha256(p); assert actual==expected_sha,(p,actual,expected_sha)
+              reader=PdfReader(str(p)); assert len(reader.pages)==2,(p,len(reader.pages))
+              text='\n'.join(page.extract_text() or '' for page in reader.pages)
+              assert required_text.lower() in text.lower(),(p,required_text)
+              hits=forbidden.findall(text); assert not hits,(p,hits)
+              report['artifacts'][p.name]={'size':p.stat().st_size,'sha256':actual,'pages':len(reader.pages),'forbidden_token_hits':0}
+
+          report['checks']={
+            'sheet_order_and_visibility':'PASS','row_accounting':'PASS','implementation_status_accounting':'PASS',
+            'xlsx_formula_error_scan':'PASS','xlsx_client_language_scan':'PASS','xlsx_package_xml_scan':'PASS',
+            'xlsx_modified_cell_wrap_check':'PASS','xlsx_table_metadata_scan':'PASS',
+            'analytical_pdf_parse_text_hash':'PASS','implementation_pdf_parse_text_hash':'PASS'
+          }
+          report['status']='PASS'
+          p=root/'PHASE_7_MACHINE_QA_2026-09-10.json'
+          p.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n','utf-8')
+          print(json.dumps(report,ensure_ascii=False,indent=2))
           PY
-      - name: Commit generator correction
+          git hash-object extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/*
+      - name: Commit machine QA receipt
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/build_client_candidate_workbook.mjs
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/PHASE_7_MACHINE_QA_2026-09-10.json
           git diff --cached --quiet && exit 1
-          git commit -m 'fix(mk02): prevent client workbook terminology regression'
+          git commit -m 'qa(mk02): validate final phase 7 client package'
           git push
