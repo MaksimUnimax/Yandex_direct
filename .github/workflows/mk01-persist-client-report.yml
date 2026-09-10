@@ -1,0 +1,71 @@
+name: Persist MK01 client report PDF
+
+on:
+  push:
+    branches:
+      - roadmap/kwork-productization-2026-08-28
+    paths:
+      - .github/workflows/mk01-persist-client-report.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-persist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      BRANCH: roadmap/kwork-productization-2026-08-28
+      JOB_DIR: extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK01_SEMANTIC_CORE_CLUSTERING/tests/OKNO_MSK
+      PDF_NAME: MK01_OKNO_MSK_CLIENT_REPORT_2026-09-10.pdf
+      DOCX_NAME: MK01_OKNO_MSK_CLIENT_REPORT_2026-09-10.docx
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: roadmap/kwork-productization-2026-08-28
+          fetch-depth: 0
+
+      - name: Install report dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pandoc libreoffice-writer poppler-utils fonts-dejavu-core fonts-liberation
+          python -m pip install --disable-pip-version-check matplotlib
+
+      - name: Materialize analytical PDF from accepted MK01 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f "$JOB_DIR/$PDF_NAME" "/tmp/$DOCX_NAME"
+          python "$JOB_DIR/build_mk01_client_report_v2.py" \
+            --source "$JOB_DIR/CLIENT_REPORT_SOURCE_2026-09-10.md" \
+            --manifest "$JOB_DIR/CLIENT_REPORT_ARTIFACT_MANIFEST_2026-09-10.json" \
+            --out-docx "/tmp/$DOCX_NAME" \
+            --out-pdf "$JOB_DIR/$PDF_NAME"
+          test -s "$JOB_DIR/$PDF_NAME"
+          file "$JOB_DIR/$PDF_NAME"
+          pdfinfo "$JOB_DIR/$PDF_NAME" | grep -E '^Pages:[[:space:]]+8$'
+          sha256sum "$JOB_DIR/$PDF_NAME"
+
+      - name: Commit generated PDF to the live branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$JOB_DIR/$PDF_NAME"
+          if git diff --cached --quiet; then
+            echo "PDF already persisted; nothing to commit."
+            exit 0
+          fi
+          git commit -m "docs(mk01): persist client report PDF"
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin "HEAD:$BRANCH"; then
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Unable to push generated PDF after retries" >&2
+          exit 1
