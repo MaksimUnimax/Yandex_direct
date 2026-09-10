@@ -118,7 +118,7 @@ function addDataSheet(workbook, config) {
       text: "Нужно", format: { fill: "#FEF3C7", font: { color: "#92400E", bold: true } },
     });
     range.conditionalFormats.add("containsText", {
-      text: "HOLD", format: { fill: "#FEE2E2", font: { color: "#991B1B", bold: true } },
+      text: "Отложено до доказательства", format: { fill: "#FEE2E2", font: { color: "#991B1B", bold: true } },
     });
     range.conditionalFormats.add("containsText", {
       text: "Исключено", format: { fill: "#FEE2E2", font: { color: "#991B1B" } },
@@ -159,7 +159,7 @@ const PACKAGE_STATE_RU = {
   RECHECK_ONLY: "Только перепроверка",
   SEMANTIC_MAPPING_ONLY: "Только карта",
   NO_SITE_CHANGE: "Без изменения",
-  HOLD: "HOLD",
+  HOLD: "Отложено до доказательства",
 };
 
 const SEARCH_ROUTE_RU = {
@@ -407,7 +407,7 @@ const guideSteps = [
   ["1", "Главные выводы", "Сначала понять спрос, покрытие страницами и безопасные границы."],
   ["2", "ТЗ на доработку", "Выполнять только строки со статусом «Готово к внедрению»."],
   ["3", "Карта страниц", "Различать точного владельца, владельца семейства и поддержку."],
-  ["4", "Проверить и HOLD", "Получить один названный факт или выполнить указанную перепроверку."],
+  ["4", "Проверить и отложено", "Получить один названный факт или выполнить указанную перепроверку."],
   ["5", "Все запросы", "Полный набор, включая спорные и исключённые строки."],
   ["6", "Граница", "Номера не задают график; Google, ИИ и конкурентное расширение не использованы."],
 ];
@@ -446,21 +446,21 @@ addDataSheet(workbook, {
 const allSheet = addDataSheet(workbook, {
   name: "Все запросы", title: "Полный сохранённый набор запросов", note: "2 840 уникальных фраз. Рабочие, спорные и исключённые строки остаются в одном наборе; ни одна не потеряна молча.",
   headers: ["Поисковая фраза", "Итоговый статус", "В рабочем ядре", "Группа", "Задача пользователя", "Интент", "Роль темы", "Причина решения", "Уверенность", "Вордстат: популярные", "Вордстат: похожие", "Тип данных Вордстата", "Маршрут проверки", "Регион"],
-  rows: allRows, widths: [42, 32, 15, 32, 48, 30, 26, 62, 18, 18, 18, 40, 36, 14], tableName: "AllQueriesMK02", freezeColumns: 2, statusColumn: "B",
+  rows: allRows, widths: [42, 32, 15, 32, 48, 30, 26, 62, 18, 18, 18, 40, 36, 14], tableName: "AllQueriesClient", freezeColumns: 2, statusColumn: "B",
 });
 allSheet.getRange(`J6:K${allRows.length + 5}`).format.numberFormat = "#,##0";
 
 const workSheet = addDataSheet(workbook, {
   name: "Рабочее ядро", title: "Рабочее семантическое ядро", note: "2 185 фраз для практической карты задач и страниц. Частотность — относительный сигнал внутри сохранённого Wordstat-снимка, не прогноз трафика.",
   headers: ["Группа", "Поисковая фраза", "Задача пользователя", "Интент", "Роль темы", "Вордстат: популярные", "Вордстат: похожие", "Уверенность", "Основание включения"],
-  rows: workingRows, widths: [32, 44, 50, 30, 26, 18, 18, 18, 62], tableName: "WorkingCoreMK02", freezeColumns: 2,
+  rows: workingRows, widths: [32, 44, 50, 30, 26, 18, 18, 18, 62], tableName: "WorkingCoreClient", freezeColumns: 2,
 });
 workSheet.getRange(`F6:G${workingRows.length + 5}`).format.numberFormat = "#,##0";
 
 const groupsSheet = addDataSheet(workbook, {
   name: "Группы и задачи", title: "Рабочие смысловые группы", note: "54 группы, сформированные по пользовательской задаче и интенту. Группа не является автоматической новой страницей.",
   headers: ["Группа", "Рабочих фраз", "Задача пользователя", "Интент", "Роль темы", "С точным владельцем", "С владельцем семейства", "Примеры формулировок"],
-  rows: groupMatrix, widths: [34, 16, 54, 30, 26, 19, 21, 82], tableName: "TaskGroupsMK02", freezeColumns: 1,
+  rows: groupMatrix, widths: [34, 16, 54, 30, 26, 19, 21, 82], tableName: "TaskGroupsClient", freezeColumns: 1,
 });
 groupsSheet.getRange(`B6:B${groupMatrix.length + 5}`).format.numberFormat = "#,##0";
 groupsSheet.getRange(`F6:G${groupMatrix.length + 5}`).format.numberFormat = "#,##0";
@@ -468,54 +468,54 @@ groupsSheet.getRange(`F6:G${groupMatrix.length + 5}`).format.numberFormat = "#,#
 addDataSheet(workbook, {
   name: "Карта страниц", title: "Запрос → точный владелец → владелец семейства → поддержка", note: "2 185 рабочих строк. Пустой точный URL означает отсутствие доказательства, а не разрешение создать страницу.",
   headers: ["Поисковая фраза", "Группа", "Задача пользователя", "Интент", "Состояние точного владельца", "Точный владелец", "Владелец семейства", "Поддерживающие страницы", "URL из точной выдачи", "Состояние точной проверки", "Структурное решение", "Неопределённость"],
-  rows: mapRows, widths: [42, 32, 48, 28, 34, 46, 46, 58, 44, 38, 46, 28], tableName: "PageOwnershipMK02", freezeColumns: 2, statusColumn: "E",
+  rows: mapRows, widths: [42, 32, 48, 28, 34, 46, 46, 58, 44, 38, 46, 28], tableName: "PageOwnershipClient", freezeColumns: 2, statusColumn: "E",
 });
 
 addDataSheet(workbook, {
   name: "Текущий сайт", title: "Текущие страницы, значимые для результата", note: "80 релевантных страниц из полного технического реестра 2 683 URL. Полный список намеренно не выведен в рабочий клиентский лист.",
   headers: ["Текущий URL", "Роль в сверке", "Состояние чтения", "Что подтверждено", "Дата снимка", "Ограничение свежести"],
-  rows: currentRows, widths: [62, 42, 28, 78, 16, 68], tableName: "CurrentSiteMK02", freezeColumns: 1,
+  rows: currentRows, widths: [62, 42, 28, 78, 16, 68], tableName: "CurrentSiteClient", freezeColumns: 1,
 });
 
 addDataSheet(workbook, {
   name: "Целевая структура", title: "Целевая поисковая структура", note: "160 активных смысловых единиц. Это поисковая архитектура, а не буквальная текущая навигация и не проект нового меню.",
   headers: ["Задача пользователя", "Рабочих фраз", "Целевое состояние", "Владелец семейства", "Поддерживающие страницы", "Роль страницы", "Решение", "Неопределённость"],
-  rows: targetRows, widths: [56, 16, 42, 54, 68, 34, 52, 28], tableName: "TargetArchitectureMK02", freezeColumns: 1,
+  rows: targetRows, widths: [56, 16, 42, 54, 68, 34, 52, 28], tableName: "TargetArchitectureClient", freezeColumns: 1,
 });
 
 addDataSheet(workbook, {
   name: "Изменения", title: "Текущее состояние → целевое решение", note: "21 сверка страниц + 14 уникальных отношений между страницами. Рекомендация отделена от фактического состояния ссылки.",
   headers: ["Объект", "Источник / текущая страница", "Цель", "Что обнаружено", "Целевое решение", "Нужно менять сайт", "Статус", "Граница безопасности"],
-  rows: deltaRows, widths: [20, 58, 58, 42, 62, 24, 30, 58], tableName: "CurrentTargetDeltaMK02", freezeColumns: 1, statusColumn: "G",
+  rows: deltaRows, widths: [20, 58, 58, 42, 62, 24, 30, 58], tableName: "CurrentTargetDeltaClient", freezeColumns: 1, statusColumn: "G",
 });
 
 addDataSheet(workbook, {
   name: "ТЗ на доработку", title: "Задания и состояния готовности", note: "Внедрять можно только строки «Готово к внедрению». Нумерация не является производственной очередью.",
   headers: ["Статус", "Страница / объект", "Что сделать", "Почему", "Сейчас", "Где / контекст", "Как должно быть", "Зависимости", "Что сохранить", "Как принять", "Аналитическая значимость", "Готовая часть", "Что уточнить", "Граница"],
-  rows: packageRows, widths: [28, 62, 70, 72, 70, 58, 70, 60, 68, 68, 34, 42, 72, 44], tableName: "ImplementationPackagesMK02", freezeColumns: 2, statusColumn: "A", bodyRowHeight: 64,
+  rows: packageRows, widths: [28, 62, 70, 72, 70, 58, 70, 60, 68, 68, 34, 42, 72, 44], tableName: "ImplementationPackagesClient", freezeColumns: 2, statusColumn: "A", bodyRowHeight: 64,
 });
 
 addDataSheet(workbook, {
-  name: "Проверить и HOLD", title: "Уточнения, решения без изменения и отложенные задачи", note: "40 строк не готовы к внедрению. Здесь видно одно конкретное уточнение/проверка и условие возврата к готовности.",
+  name: "Проверить и отложено", title: "Уточнения, решения без изменения и отложенные задачи", note: "40 строк не готовы к внедрению. Здесь видно одно конкретное уточнение/проверка и условие возврата к готовности.",
   headers: ["Статус", "Страница / объект", "Что это означает", "Что уточнить или проверить", "Чего не делать сейчас", "Когда можно вернуть к готовности"],
-  rows: clarificationRows, widths: [28, 62, 74, 78, 72, 72], tableName: "ClarificationsMK02", freezeColumns: 2, statusColumn: "A", bodyRowHeight: 58,
+  rows: clarificationRows, widths: [28, 62, 74, 78, 72, 72], tableName: "ClarificationsClient", freezeColumns: 2, statusColumn: "A", bodyRowHeight: 58,
 });
 
 addDataSheet(workbook, {
   name: "Связи страниц", title: "Проверенные отношения между страницами", note: "14 уникальных пар из 15 исходных строк: одна повторная пара объединена без потери происхождения. 8 пар уже присутствуют, 6 ждут точного места.",
   headers: ["Страница-источник", "Целевая страница", "Фактическое состояние", "Статус действия", "Наблюдённый контекст", "Что делать", "Как принять"],
-  rows: relationRows, widths: [60, 60, 22, 28, 50, 72, 72], tableName: "PageRelationsMK02", freezeColumns: 2, statusColumn: "D", bodyRowHeight: 50,
+  rows: relationRows, widths: [60, 60, 22, 28, 50, 72, 72], tableName: "PageRelationsClient", freezeColumns: 2, statusColumn: "D", bodyRowHeight: 50,
 });
 
 const verifySheet = workbook.worksheets.add("Как проверить");
 styleTitle(verifySheet, "Приёмка готовых изменений", "Сначала принять 3 готовых задания по точным критериям; затем использовать 6 общих классов измерения без обещания гарантированного прироста.", "G");
 const acceptanceHeaders = ["Страница / объект", "Что должно появиться", "Где проверить", "Критерий приёмки", "Что сохранить"];
-const acceptanceRows = acceptance.map((row) => [row.page_or_object, row.what_must_be_present, row.where_to_check, row.acceptance_check, row.preserve]);
+const acceptanceRows = acceptance.map((row) => [row.page_or_object, clientText(row.what_must_be_present), clientText(row.where_to_check), clientText(row.acceptance_check), clientText(row.preserve)]);
 verifySheet.getRangeByIndexes(4, 0, acceptanceRows.length + 1, acceptanceHeaders.length).values = [acceptanceHeaders, ...acceptanceRows];
 verifySheet.getRange("A5:E5").format = { fill: "#17365D", font: { name: "Arial", bold: true, color: "#FFFFFF" }, wrapText: true };
 verifySheet.getRange(`A6:E${acceptanceRows.length + 5}`).format = { font: { name: "Arial", size: 9 }, wrapText: true, verticalAlignment: "top" };
 verifySheet.getRange(`A6:E${acceptanceRows.length + 5}`).format.rowHeight = 52;
-verifySheet.tables.add(`A5:E${acceptanceRows.length + 5}`, true, "ReadyAcceptanceMK02").style = "TableStyleMedium2";
+verifySheet.tables.add(`A5:E${acceptanceRows.length + 5}`, true, "ReadyAcceptanceClient").style = "TableStyleMedium2";
 const measurementStart = acceptanceRows.length + 8;
 verifySheet.mergeCells(`A${measurementStart}:G${measurementStart}`);
 verifySheet.getRange(`A${measurementStart}`).values = [["Общий интерфейс измерения"]];
@@ -529,7 +529,7 @@ verifySheet.getRangeByIndexes(measurementStart, 0, measurementRows.length + 1, m
 verifySheet.getRange(`A${measurementStart + 1}:G${measurementStart + 1}`).format = { fill: "#17365D", font: { name: "Arial", bold: true, color: "#FFFFFF" }, wrapText: true };
 verifySheet.getRange(`A${measurementStart + 2}:G${measurementStart + measurementRows.length + 1}`).format = { font: { name: "Arial", size: 9 }, wrapText: true, verticalAlignment: "top" };
 verifySheet.getRange(`A${measurementStart + 2}:G${measurementStart + measurementRows.length + 1}`).format.rowHeight = 62;
-verifySheet.tables.add(`A${measurementStart + 1}:G${measurementStart + measurementRows.length + 1}`, true, "MeasurementInterfaceMK02").style = "TableStyleMedium2";
+verifySheet.tables.add(`A${measurementStart + 1}:G${measurementStart + measurementRows.length + 1}`, true, "MeasurementInterfaceClient").style = "TableStyleMedium2";
 [58, 70, 70, 68, 58, 66, 58].forEach((width, index) => verifySheet.getRangeByIndexes(0, index, measurementStart + measurementRows.length + 2, 1).format.columnWidth = width);
 verifySheet.freezePanes.freezeRows(5);
 verifySheet.freezePanes.freezeColumns(1);
@@ -559,7 +559,7 @@ const inspectRanges = {
   "Целевая структура": "A1:H18",
   "Изменения": "A1:H20",
   "ТЗ на доработку": "A1:N15",
-  "Проверить и HOLD": "A1:F16",
+  "Проверить и отложено": "A1:F16",
   "Связи страниц": "A1:G19",
   "Как проверить": `A1:G${measurementStart + measurementRows.length + 1}`,
 };
