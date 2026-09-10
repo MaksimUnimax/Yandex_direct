@@ -1,0 +1,152 @@
+{
+  "schema": "MK02_OKNO_MSK_STEPS_00_13_PROJECTION_V1",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "provider_calls_during_rehearsal": 0,
+  "inputs": {
+    "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_08_SEARCH_STAGE_SEMANTIC_SET.tsv": {
+      "rows": 2840,
+      "sha256": "73f52fd48ae925573b9739292b8c8893a8db40014775859c9630367703873d1f"
+    },
+    "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK01_SEMANTIC_CORE_CLUSTERING/tests/OKNO_MSK/MK01_SEMANTIC_UNIVERSE_2026-09-09.tsv.gz": {
+      "rows": 2840,
+      "sha256": "6a7275c145c3b06db3c5b85d6a350f490c4a5159205c78e2f6ac640ba62cdef0"
+    },
+    "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/RESEARCH_REBUILD_STAGE_05_FINAL_SEMANTIC_MASTER_2026-09-05.tsv": {
+      "rows": 2840,
+      "sha256": "94c8baf092831b5db45eddca1e712cdd579e2eda3cf6662af1b3aeaed5341fa2"
+    },
+    "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/RESEARCH_REBUILD_STAGE_05_CANONICAL_UNIT_AUTHORITY_2026-09-05.tsv": {
+      "rows": 168,
+      "sha256": "060ac8b43c9002e1700d7ec5efc01444f25a90ace91c6b0b206db4b1c4262abd"
+    },
+    "extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/tests/OKNO_MSK/STEP_12_STRUCTURAL_ACTIONS_CORRECTED_V6.tsv": {
+      "rows": 168,
+      "sha256": "decd38f59faa32a5835758e1b4daa04365f43c3c306fe61d86b965b1c6205525"
+    }
+  },
+  "semantic_accounting": {
+    "source_unique_phrases": 2840,
+    "working_core": 2185,
+    "review_uncertain": 187,
+    "excluded": 468,
+    "total_groups": 59,
+    "working_groups": 54,
+    "outside_groups": 5,
+    "step5a_additions": 0
+  },
+  "ownership_accounting": {
+    "active_phrase_mapping_rows": 2185,
+    "OWNER_EXISTING": 1647,
+    "NO_SUITABLE_EXISTING_PAGE": 518,
+    "OUTSIDE_SCOPE_NO_TARGET_OWNERSHIP": 14,
+    "OWNER_UNRESOLVED_EVIDENCE_REQUIRED": 6,
+    "family_owner_nonblank_rows": 1882,
+    "supporting_page_nonblank_rows": 1015,
+    "active_structural_units": 160,
+    "preserved_unit_ledger_rows": 168,
+    "ownership_candidate_ledger_rows": 59,
+    "ownership_candidate_comparisons": 105
+  },
+  "structural_action_accounting_active_units": {
+    "ADD_SECTION_OR_FAQ_TO_EXISTING": 6,
+    "DEFER_PENDING_EVIDENCE": 19,
+    "EXPAND_EXISTING_PAGE": 2,
+    "KEEP_EXISTING_STRUCTURE": 70,
+    "NO_STANDALONE_PAGE": 14,
+    "OUTSIDE_SCOPE_NO_ACTION": 4,
+    "ROUTE_TO_EXISTING_PAGE_AS_SUBTASK": 45
+  },
+  "competing_page_accounting": {
+    "historical_base_pairs": 195,
+    "effective_pairs": 199,
+    "query_family_cases": 21,
+    "private_history_reused": 0,
+    "harmful_impact_proven": 0,
+    "destructive_actions_authorized": 0
+  },
+  "current_site_accounting": {
+    "current_public_nodes": 2683,
+    "known_critical_rechecked_urls": 59,
+    "current_minus_upstream_classified": 2624,
+    "architecture_material": 21,
+    "non_material": 1932,
+    "out_of_scope": 671,
+    "discovery_unclassified": 0,
+    "current_internal_edges_processed": 15,
+    "literal_edges_present": 9,
+    "literal_edges_absent_planned": 6
+  },
+  "target_architecture_accounting": {
+    "active_units": 160,
+    "unique_existing_family_owner_pages": 59,
+    "unit_supporting_relations": 103,
+    "source_page_to_page_relation_rows_checked": 15,
+    "distinct_visible_page_to_page_relations": 14,
+    "page_deltas": 21,
+    "combined_current_target_delta_rows": 35,
+    "create": 0,
+    "split": 0,
+    "merge": 0,
+    "redirect_delete": 0
+  },
+  "preserved_ordinary_search_evidence_reused": {
+    "step11_queries": 69,
+    "step13_queries": 16,
+    "total_queries": 85,
+    "active_phrases_with_direct_exact_query_row_in_structured_preserved_results": 25,
+    "target_host_urls_observed_for_those_exact_rows": 0
+  },
+  "outputs": {
+    "MK02_SEMANTIC_FOUNDATION_2026-09-10.tsv.gz": {
+      "bytes": 125031,
+      "sha256": "7ad26a8e45f04ba159e2fab52188b80dea4cc529a46284131bfbd3a8943b1fd4"
+    },
+    "MK02_PHRASE_PAGE_MAP_2026-09-10.tsv.gz": {
+      "bytes": 102067,
+      "sha256": "86e0c9b866347d748be1862897d1e473dc7ad584cdd2e3d1e5b5bea5d5712e25"
+    },
+    "MK02_UNIT_OWNERSHIP_LEDGER_2026-09-10.tsv": {
+      "bytes": 85124,
+      "sha256": "91f1b7525e337a6c11a5a14fcebdf14ce6d822a8f7e07b67586ebba873cae30c"
+    },
+    "MK02_OWNERSHIP_CANDIDATE_LEDGER_2026-09-10.tsv": {
+      "bytes": 28891,
+      "sha256": "3ba465f8e0c66452e713a569e5eaf86b900bbd9093f28f0106db07eee2e50acc"
+    },
+    "MK02_STRUCTURAL_ACTIONS_2026-09-10.tsv": {
+      "bytes": 73382,
+      "sha256": "e78a64450c54b9dbb5cc770457eaf7abf0f8c51eabe5a5228c4e446c685dbc96"
+    },
+    "MK02_COMPETING_PAGE_CASES_2026-09-10.tsv": {
+      "bytes": 16639,
+      "sha256": "424a1fb11ec25a41f59d77e370e5474611e708e0d1abfad32a983a19639ca83b"
+    },
+    "MK02_CURRENT_SITE_TOPOLOGY_2026-09-10.tsv.gz": {
+      "bytes": 40219,
+      "sha256": "7dc7ed1eea4a9a71b374c4cb2268b63d9123d3272e9ad84fc075d9406d1acbec"
+    },
+    "MK02_TARGET_SEARCH_ARCHITECTURE_2026-09-10.tsv": {
+      "bytes": 50237,
+      "sha256": "ca7156fc96b5f4cd1ea2fd5b1fb437a34dba0dfc8e54a0455d8fea68ffb4eed1"
+    },
+    "MK02_CURRENT_TARGET_DELTA_2026-09-10.tsv": {
+      "bytes": 17159,
+      "sha256": "9bd6c01d403eae5e0a16ec38ed56ac64f9562c853863f2ee9f8fad057ad166e7"
+    },
+    "MK02_PAGE_RELATIONSHIPS_2026-09-10.tsv": {
+      "bytes": 6245,
+      "sha256": "dcfe7f116126d460ba8d424fa5b77e8c0b417a8e8dd94d3efd214d85ac0d1727"
+    }
+  },
+  "claim_boundaries": [
+    "PRESERVED_EVIDENCE_ONLY",
+    "ACTIVE_INPUT_EQUALS_ACCEPTED_MK01_WORKING_CORE_2185",
+    "LATE_EVIDENCE_DATE_DOES_NOT_IMPLY_STEP5A_CAUSATION",
+    "OBSERVED_SEARCH_URL_NOT_INFERRED_FROM_OWNER",
+    "CURRENT_TOPOLOGY_SNAPSHOT_2026_09_02_NOT_LIVE_2026_09_10",
+    "PRIVATE_QUERY_URL_HISTORY_UNAVAILABLE",
+    "TARGET_ARCHITECTURE_NOT_CURRENT_AS_IS_TOPOLOGY",
+    "NO_NEW_PROVIDER_CALLS"
+  ]
+}
