@@ -168,3 +168,115 @@ PHYSICAL CHANGE TICKETS ARE A SUBSET OF FULL PAGE SPEC REGISTER = true
 Correct client-facing meaning:
 
 «ТЗ показывает не только страницы, которые надо изменить. Для каждой целевой посадочной страницы фиксируется её назначение, семантика, место в структуре и итоговое решение. Отдельно отмечается, где страницу нужно создать или доработать, а где существующая страница уже правильно выполняет целевую роль.»
+
+---
+
+## OWNER CORRECTION 2026-09-10 — PAGE-SPEC QUALITY / KEYWORD PRIORITY CONTRACT
+
+External product review of the target-first package found that completeness alone is not enough. A full page specification may still be weak if it hides demand strength, mixes incompatible tasks, duplicates the same theme on both sides of the page boundary, or forces the recipient to infer primary/secondary keyword priorities from another sheet.
+
+### A. One primary role, separated secondary support
+
+Every material target page must have **one explicit primary page role / primary user task**. Related secondary tasks may be listed separately only when they are compatible with that page role.
+
+```text
+PRIMARY TASK / INTENT = ONE CLEAR PAGE JOB
+SECONDARY SUPPORTING TASKS = COMPATIBLE SUBTASKS ONLY
+RELATED / ELSEWHERE TASKS = NOT PART OF THE PAGE'S OWN TARGET COVERAGE
+```
+
+Do not concatenate commercial purchase, accessories, DIY, reviews, service, informational research and other materially different terminal tasks into one field and call it the page's primary intent.
+
+### B. Page boundary sets must be mutually consistent
+
+The client-facing specification must separate three sets:
+
+```text
+OWN COVERAGE
+= topics/subtasks the page itself should answer
+
+SUPPORT / MENTION / LINK
+= topics that may be briefly referenced to route the visitor onward
+
+ELSEWHERE / NOT STANDALONE HERE
+= topics that belong to another named page/owner or should not be independently expanded here
+```
+
+After normalization, a material topic may not simultaneously appear in `OWN COVERAGE` and `ELSEWHERE` for the same page without an explicit, human-readable distinction explaining different sub-intents.
+
+Hard regression:
+
+```text
+NORMALIZED OWN-COVERAGE ∩ NORMALIZED ELSEWHERE = ∅
+UNEXPLAINED CROSS-SET DUPLICATES = 0
+```
+
+### C. Primary + secondary keyword layer with individual demand
+
+For each material target page preserve:
+
+```text
+PRIMARY QUERY
+PRIMARY QUERY WORDSTAT INDICATOR
+TOP SECONDARY QUERIES (normally 5–10 where available)
+INDIVIDUAL WORDSTAT INDICATOR FOR EACH SECONDARY QUERY
+TOTAL MEMBER PHRASE COUNT
+```
+
+Secondary queries are selected from **accepted phrases routed to that page**. Prefer the strongest individually useful phrases by preserved Wordstat demand while maintaining task compatibility and avoiding near-duplicate repetition.
+
+Do not sum individual Wordstat counts into a fake page-level market volume. The preserved provider metric keeps its original scope/limitations.
+
+If fewer than five distinct useful secondary phrases exist, show the available set rather than inventing filler.
+
+### D. Recommended H1 / Title scope
+
+Every material target page receives a **recommended H1** derived from the accepted page role and primary query, with no keyword stuffing.
+
+For `CREATE` and `OPTIMIZE / STRENGTHEN` pages, additionally provide a **recommended Title direction or draft Title** when the accepted evidence is sufficient.
+
+```text
+H1 = REQUIRED PAGE-SPEC FIELD
+TITLE = REQUIRED FOR CREATE / OPTIMIZE WHEN EVIDENCE SUFFICIENT
+DESCRIPTION = NOT AUTOMATIC BASE-SCOPE OUTPUT
+```
+
+For `KEEP` pages, a new Title is not fabricated merely to fill a field; the specification may state that metadata change is not required unless the research actually supports one.
+
+### E. Analytical SEO priority, not production schedule
+
+Each material target page may receive an analytical priority such as `HIGH / MEDIUM / LOW` based only on observable research factors, for example:
+
+- centrality in the target architecture;
+- strength/breadth of accepted demand;
+- whether a real current→target gap exists;
+- dependency role for other pages;
+- evidence confidence.
+
+The priority must expose its basis. It is **not** a delivery sequence, effort estimate, business value, traffic forecast or promise of uplift.
+
+```text
+ANALYTICAL SEO PRIORITY != IMPLEMENTATION ORDER
+ANALYTICAL SEO PRIORITY != BUSINESS PRIORITY
+```
+
+### F. No new provider work required for presentation enrichment
+
+Primary/secondary keywords, individual Wordstat indicators, H1 direction and analytical priority must be derived from the already accepted semantic/page authorities whenever those data exist. Do not launch new Wordstat/Search/provider calls merely to make a page card look richer.
+
+### G. Additional Step-14 PASS gate
+
+```text
+MATERIAL PAGE SPECS WITH >1 UNSEPARATED PRIMARY TERMINAL TASK = 0
+UNEXPLAINED OWN-COVERAGE / ELSEWHERE OVERLAP = 0
+MATERIAL PAGE SPECS WITHOUT PRIMARY QUERY + INDIVIDUAL DEMAND = 0
+MATERIAL PAGE SPECS WITHOUT SECONDARY QUERY SET OR EXPLICIT NONE-AVAILABLE = 0
+MATERIAL PAGE SPECS WITHOUT RECOMMENDED H1 = 0
+CREATE/OPTIMIZE SPECS WITHOUT TITLE DIRECTION OR EXPLICIT EVIDENCE BLOCKER = 0
+ANALYTICAL PRIORITY WITHOUT BASIS = 0
+PRIORITY PRESENTED AS EXECUTION SCHEDULE = 0
+```
+
+Client-facing meaning:
+
+«Для каждой целевой страницы видно не только её название. Указаны главная задача страницы, основной и дополнительные запросы с их индивидуальным спросом, рекомендуемый H1, место в структуре, границы темы и аналитический приоритет. Темы, которые надо раскрывать на странице, не смешиваются с темами, которые должны жить на другой странице.»
