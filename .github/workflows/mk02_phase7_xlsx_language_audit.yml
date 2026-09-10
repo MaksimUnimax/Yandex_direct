@@ -1,41 +1,25 @@
-name: MK02 Phase 7 corrected analytical PDF materializer
+name: MK02 Phase 7 corrected analytical PDF transport diagnostic
 
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf'
-
-permissions:
-  contents: write
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf_r2'
 
 jobs:
-  materialize:
+  diagnose:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Decode and verify corrected analytical PDF
+      - name: Reconstruct and print identities
         shell: bash
         run: |
           set -euo pipefail
           BASE='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK'
-          cat "$BASE"/_phase7_pdf_fix/analytic.part* | base64 -d > "$BASE/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf"
-          test "$(git hash-object "$BASE/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf")" = '149dfe55010e099d03d048f6686775ea74dd3edd'
-          python - <<'PY'
-          from pathlib import Path
-          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf')
-          import hashlib
-          assert hashlib.sha256(p.read_bytes()).hexdigest()=='851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7'
-          print('CORRECTED_ANALYTICAL_SHA256_PASS')
-          PY
-      - name: Commit corrected PDF
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf
-          git diff --cached --quiet && exit 1
-          git commit -m 'fix(mk02): remove orphan heading from analytical PDF'
-          git push
+          cat "$BASE"/_phase7_pdf_fix/analytic.part* | base64 -d > /tmp/a.pdf
+          echo "SIZE=$(stat -c %s /tmp/a.pdf)"
+          echo "GIT_BLOB=$(git hash-object /tmp/a.pdf)"
+          echo "SHA256=$(sha256sum /tmp/a.pdf | cut -d' ' -f1)"
+          echo "PART_LENGTHS"
+          wc -c "$BASE"/_phase7_pdf_fix/analytic.part*
+          test "$(git hash-object /tmp/a.pdf)" = '149dfe55010e099d03d048f6686775ea74dd3edd'
+          test "$(sha256sum /tmp/a.pdf | cut -d' ' -f1)" = '851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7'
