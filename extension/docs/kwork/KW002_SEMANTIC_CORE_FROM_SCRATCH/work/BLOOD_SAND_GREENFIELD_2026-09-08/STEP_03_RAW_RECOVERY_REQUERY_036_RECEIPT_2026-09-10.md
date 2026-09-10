@@ -1,0 +1,8 @@
+# STEP 03 — RAW RECOVERY REQUERY RECEIPT — RUN 36
+
+Date: 2026-09-10
+Job: `BLOOD_SAND_GREENFIELD_2026-09-08`
+Canonical run order: `36`
+Canonical phrase: `знак зодиака`
+
+TEMPORARY PLACEHOLDER SHOULD NOT BE USED.
