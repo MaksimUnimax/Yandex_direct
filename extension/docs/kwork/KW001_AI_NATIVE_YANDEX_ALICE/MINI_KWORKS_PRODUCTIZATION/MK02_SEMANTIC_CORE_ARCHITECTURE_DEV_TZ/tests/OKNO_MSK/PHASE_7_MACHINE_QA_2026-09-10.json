@@ -1,22 +1,24 @@
 {
-  "schema": "MK02_PHASE_7_FINAL_PACKAGE_QA_V1",
+  "schema": "MK02_PHASE_7_FINAL_PACKAGE_QA_V2",
   "date": "2026-09-10",
+  "status": "PASS",
   "checks": {
     "sheet_order_and_visibility": "PASS",
     "row_accounting": "PASS",
     "implementation_status_accounting": "PASS",
     "xlsx_formula_error_scan": "PASS",
     "xlsx_client_language_scan": "PASS",
-    "xlsx_package_xml_scan": "PASS",
-    "xlsx_modified_cell_wrap_check": "PASS",
+    "xlsx_raw_xml_scan": "PASS",
     "xlsx_table_metadata_scan": "PASS",
-    "analytical_pdf_parse_text_hash": "PASS",
-    "implementation_pdf_parse_text_hash": "PASS"
+    "pdf_parse_and_required_text": "PASS",
+    "pdf_client_language_scan": "PASS",
+    "final_artifact_hashes": "PASS"
   },
   "artifacts": {
     "xlsx": {
       "size": 585474,
       "sha256": "be1996ad6b356187de55afeabc57ba33fd3aa77b0be0850ebe9938638944040a",
+      "git_blob": "b2ec26f1c932461e6a1a807e833d254225e62d65",
       "sheets": 13,
       "row_counts": {
         "Все запросы": 2840,
@@ -39,80 +41,23 @@
         "Отложено до доказательства": 1
       },
       "table_count": 13,
-      "table_names": [
-        "KeyFindings",
-        "AllQueriesClient",
-        "WorkingCoreClient",
-        "TaskGroupsClient",
-        "PageOwnershipClient",
-        "CurrentSiteClient",
-        "TargetArchitectureClient",
-        "CurrentTargetDeltaClient",
-        "ImplementationPackagesClient",
-        "ClarificationsClient",
-        "PageRelationsClient",
-        "ReadyAcceptanceClient",
-        "MeasurementInterfaceClient"
-      ],
       "forbidden_token_hits": 0,
-      "formula_error_hits": 0,
-      "normalized_acceptance_cells": [
-        [
-          "ТЗ на доработку",
-          "J7",
-          true,
-          "Базовое определение не дублируется; различия сформулированы без обещаний разрешимости перепланировки; сохранены призыв к действию и существующая ценовая информация."
-        ],
-        [
-          "ТЗ на доработку",
-          "G9",
-          true,
-          "Сохранить цену, калькулятор и призыв к действию к замеру/консультации. Можно нейтрально объяснить, что профессиональный монтаж является отдельным этапом проекта и что точный состав работ подтверждается после замера; конкретные включения, ис"
-        ],
-        [
-          "ТЗ на доработку",
-          "J9",
-          true,
-          "Цена, калькулятор и призыв к действию сохранены; новый текст не обещает конкретных операций, исключений, подготовки клиента, вывоза, отделки или гарантийных условий; подтверждённый компанией перечень явно остаётся ожидает бизнес-уточнения д"
-        ],
-        [
-          "Проверить и отложено",
-          "F16",
-          true,
-          "Цена, калькулятор и призыв к действию сохранены; новый текст не обещает конкретных операций, исключений, подготовки клиента, вывоза, отделки или гарантийных условий; подтверждённый компанией перечень явно остаётся ожидает бизнес-уточнения д"
-        ],
-        [
-          "Как проверить",
-          "D6",
-          true,
-          "Базовое определение не дублируется; различия сформулированы без обещаний разрешимости перепланировки; сохранены призыв к действию и существующая ценовая информация."
-        ]
-      ],
-      "deferred_status_cells": [
-        [
-          "ТЗ на доработку",
-          "A52",
-          true
-        ],
-        [
-          "Проверить и отложено",
-          "A6",
-          true
-        ]
-      ]
+      "formula_error_hits": 0
     },
     "RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf": {
-      "size": 20971,
-      "sha256": "66122183a768ecef5b3f9cd91b2f1b313f4d8a6c69f9012a24c92a2cd22b05bd",
+      "size": 20970,
+      "sha256": "851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7",
+      "git_blob": "149dfe55010e099d03d048f6686775ea74dd3edd",
       "pages": 2,
       "forbidden_token_hits": 0
     },
     "SITE_IMPROVEMENT_TZ_OKNO_MSK_2026-09-10.pdf": {
       "size": 20316,
       "sha256": "d12b0b3bd8d70c9aff5aea793d3a94b147be1555e547c03729e4e2caa5b7dfc1",
+      "git_blob": "7aedd3d74cae8bed3ac2fe43aab5e716536d3d9d",
       "pages": 2,
       "forbidden_token_hits": 0
     }
   },
-  "status": "PASS"
+  "physical_visual_review": "SEPARATE_OWNER_GATE__NOT_INFERRED_FROM_MACHINE_PARSE"
 }
