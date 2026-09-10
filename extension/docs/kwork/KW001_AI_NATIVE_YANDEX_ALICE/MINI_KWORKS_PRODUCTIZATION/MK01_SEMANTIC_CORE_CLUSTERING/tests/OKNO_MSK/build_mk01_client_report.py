@@ -1,145 +1,16 @@
 #!/usr/bin/env python3
-"""Build the validated MK01 OKNO_MSK client PDF report.
+"""Compatibility entrypoint for MK01 client report generation.
 
-The script is a materialization helper, not analytical authority. Headline counts and
-examples must first be reconciled against current accepted MK01 authorities.
+The 2026-09-09 generator that produced a numerically correct but analytically weak
+execution-protocol-style PDF is retired under failure classes E38/E39.
+
+All new generation goes through build_mk01_client_report_v2.py, whose preflight
+requires an evidence-backed executive summary, demand/task structure, material
+semantic groups and review/exclusion analysis. Page count is not a quality gate.
 """
-from pathlib import Path
-import argparse
-from reportlab import rl_config
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import mm
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 
-rl_config.useA85 = 1
-
-FONT_CANDIDATES = [
-    Path('/usr/share/fonts/truetype/croscore/Arimo-Regular.ttf'),
-    Path('/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf'),
-    Path('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'),
-]
+from build_mk01_client_report_v2 import main
 
 
-def find_font():
-    for p in FONT_CANDIDATES:
-        if p.exists():
-            return p
-    raise FileNotFoundError('No supported Cyrillic TTF font found')
-
-
-def build(out: Path):
-    pdfmetrics.registerFont(TTFont('RU', str(find_font())))
-    navy = colors.HexColor('#17365D')
-    blue = colors.HexColor('#2F5597')
-    grid = colors.HexColor('#D0D7E2')
-    styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='BodyRu', fontName='RU', fontSize=9.2, leading=12.1, textColor=colors.HexColor('#111111'), spaceAfter=5))
-    styles.add(ParagraphStyle(name='H1Ru', fontName='RU', fontSize=17, leading=20, textColor=navy, spaceBefore=2, spaceAfter=8))
-    styles.add(ParagraphStyle(name='H2Ru', fontName='RU', fontSize=11.5, leading=14, textColor=blue, spaceBefore=5, spaceAfter=5))
-    styles.add(ParagraphStyle(name='TitleRu', fontName='RU', fontSize=24, leading=28, textColor=navy, spaceAfter=10))
-    styles.add(ParagraphStyle(name='TableRu', fontName='RU', fontSize=7.8, leading=9.6, textColor=colors.HexColor('#111111')))
-
-    def p(text, style='BodyRu'):
-        return Paragraph(text, styles[style])
-
-    def bullet(text):
-        return p('• ' + text)
-
-    def tbl(data, widths, header=True):
-        rows = [[Paragraph(str(c), styles['TableRu']) for c in row] for row in data]
-        t = Table(rows, colWidths=widths, repeatRows=1 if header else 0, hAlign='LEFT')
-        ts = [
-            ('GRID', (0, 0), (-1, -1), 0.35, grid), ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('LEFTPADDING', (0, 0), (-1, -1), 5), ('RIGHTPADDING', (0, 0), (-1, -1), 5),
-            ('TOPPADDING', (0, 0), (-1, -1), 5), ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-        ]
-        if header:
-            ts.append(('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#E7EEF8')))
-        t.setStyle(TableStyle(ts))
-        return t
-
-    def footer(canvas, doc):
-        canvas.saveState(); canvas.setFont('RU', 7.5); canvas.setFillColor(colors.HexColor('#444444'))
-        canvas.drawRightString(A4[0]-16*mm, A4[1]-9*mm, 'Семантическое ядро сайта okno-msk.ru  |  Москва')
-        canvas.drawRightString(A4[0]-16*mm, 8*mm, f'Страница {doc.page}')
-        canvas.restoreState()
-
-    doc = SimpleDocTemplate(str(out), pagesize=A4, rightMargin=16*mm, leftMargin=16*mm, topMargin=17*mm, bottomMargin=14*mm, title='Отчёт по семантическому ядру', author='')
-    s = []
-    s += [Spacer(1, 18*mm), p('ОТЧЁТ ПО СЕМАНТИЧЕСКОМУ ЯДРУ', 'TitleRu'), p('Сбор, очистка и кластеризация поисковых запросов'), Spacer(1, 5*mm)]
-    s += [tbl([['Сайт','okno-msk.ru'],['Регион','Москва'],['Поисковая система','Яндекс'],['Источник спроса','Яндекс Вордстат']], [65*mm,105*mm], header=False), Spacer(1,7*mm), p('Ключевой результат','H2Ru')]
-    s += [tbl([['Сохранено фраз','Рабочее ядро','На проверку','Исключено'],['2 840','2 185','187','468']], [42.5*mm]*4), Spacer(1,3*mm), p('Рабочие запросы распределены по 59 смысловым группам. Из них 54 группы относятся к текущему предложению сайта; 5 групп с посторонней задачей сохранены в аудите, но не подмешаны в рабочее ядро.'), PageBreak()]
-
-    s += [p('1. Что исследовали','H1Ru'), p('Исследование выполнено для действующего коммерческого сайта okno-msk.ru в регионе Москва. Цель — собрать поисковые формулировки по подтверждённым направлениям бизнеса, очистить нерелевантный спрос и сгруппировать рабочие запросы по смыслу и задаче пользователя.')]
-    for x in ['пластиковые окна и системы REHAU;', 'окна по применению, форме, дизайну и типу дома;', 'пластиковые двери;', 'остекление балконов и лоджий;', 'веранды, террасы и беседки;', 'алюминиевые окна и холодное остекление;', 'аксессуары, установка, ремонт и обслуживание;', 'цены, расчёт стоимости, рассрочка и информационный спрос о выборе окон.']:
-        s.append(bullet(x))
-    s += [p('2. Как выполнена работа','H1Ru'), tbl([
-        ['Этап','Что сделано','Зачем'],
-        ['1','Зафиксированы сайт, регион и направления','Чтобы найденный спрос не расширял задачу за пределы фактического предложения бизнеса.'],
-        ['2','Собран спрос через Яндекс Вордстат','Сохранены исходные наблюдения и связь запросов с источником сбора.'],
-        ['3','Проведена очистка','Посторонние формулировки исключены, спорные не удалены молча.'],
-        ['4','Неоднозначные случаи проверены отдельно','Для части формулировок использованы точечные наблюдения обычной выдачи Яндекса.'],
-        ['5','Запросы сгруппированы по задаче пользователя','Группы строились не только по одинаковым словам, а по ожидаемому результату пользователя.'],
-        ['6','Подготовлены рабочий Excel и итоговый отчёт','Рабочее ядро, спорные и исключённые запросы разделены на понятные представления.'],
-    ], [12*mm,68*mm,90*mm]), PageBreak()]
-
-    s += [p('3. Итог в цифрах','H1Ru'), tbl([
-        ['Показатель','Результат','Что означает'],
-        ['Исходные наблюдения Вордстат','2 965','Сырые наблюдения до схлопывания точных повторов.'],
-        ['Уникальные сохранённые фразы','2 840','Полный набор, прошедший управление и аудит без молчаливых потерь.'],
-        ['Рабочее ядро','2 185','Запросы, соответствующие подтверждённой задаче и бизнес-контексту.'],
-        ['На проверку','187','Формулировки, по которым недостаточно оснований для окончательного решения.'],
-        ['Исключено','468','Запросы с зафиксированной причиной исключения.'],
-        ['Смысловые группы','59','54 рабочие группы + 5 групп с подтверждённо посторонней задачей.'],
-    ], [53*mm,28*mm,89*mm]), p('Контроль целостности','H2Ru')]
-    for x in ['потерянных строк: 0;', 'дубликатов точных поисковых фраз: 0;', '16 запросов из более позднего конкурентного анализа в этот результат не добавлялись;', 'спорные запросы не удалялись только ради уменьшения ядра.']:
-        s.append(bullet(x))
-    s += [p('Почему рабочее ядро меньше полного набора','H2Ru'), p('Цель очистки — не получить максимально большое число ключей, а отделить подтверждённый рабочий спрос от шума и неопределённости.'), PageBreak()]
-
-    s += [p('4. Примеры смысловых групп','H1Ru'), p('Ниже — примеры реальных групп из итогового файла. Они показывают принцип кластеризации: объединяется одна пользовательская задача, а не просто одинаковое слово в запросе.'), tbl([
-        ['Группа','Рабочих фраз','Задача пользователя','Примеры'],
-        ['Алюминиевые окна','100','Выбрать и заказать алюминиевые окна','алюминиевые окна; алюминиевые раздвижные окна; купить алюминиевые окна; алюминиевые окна Москва'],
-        ['Аксессуары для окон','47','Выбрать и купить дополнительные элементы','откосы для пластиковых окон; створка пластикового окна; подоконник для пластиковых окон'],
-        ['Замена окон','23','Заказать полную замену окон','замена пластиковых окон; замена окна на пластиковые цена; замена остекления балкона'],
-        ['Как выбрать окна','20','Получить помощь в выборе окна или системы','лучшие пластиковые окна; как выбрать пластиковые окна; как правильно выбрать пластиковые окна'],
-    ], [37*mm,22*mm,51*mm,60*mm]), p('Что не является отдельной группой само по себе','H2Ru'), p('География, цена, бренд, тип здания или отдельное слово не создают новую группу автоматически. Разделение выполняется только тогда, когда меняется сама задача пользователя или ожидаемый результат поиска.'), p('Группы с посторонней задачей','H2Ru'), p('Пять смысловых групп оказались согласованными внутри себя, но их пользовательская задача не соответствует подтверждённому предложению текущего заказа. 134 их фразы сохранены в полном наборе и показаны среди исключённых, но не входят в рабочее ядро.'), PageBreak()]
-
-    s += [p('5. Как пользоваться Excel-файлом','H1Ru'), tbl([
-        ['Лист','Для чего нужен','Когда открывать'],
-        ['Как пользоваться','Кратко объясняет объём исследования, показатели и ограничения.','Сначала.'],
-        ['Рабочее ядро','Главный набор запросов для дальнейшей SEO-работы.','Основная работа.'],
-        ['Группы запросов','Показывает структуру смысловых задач и состав групп.','Когда нужно понять структуру ядра.'],
-        ['На проверку','Хранит спорные формулировки и причины неопределённости.','Перед пересмотром/расширением.'],
-        ['Исключено','Показывает, что было удалено из рабочего ядра и почему.','Для аудита очистки.'],
-        ['Все запросы','Полный сохранённый набор исследования.','Когда нужен полный контекст.'],
-        ['Методика','Объясняет показатели Вордстат и правила чтения статусов.','Когда нужно понять происхождение данных.'],
-    ], [40*mm,82*mm,48*mm]), p('Как трактовать показатель Вордстат','H2Ru'), p('В этом исследовании широкий сбор выполнен без операторов. Поэтому показанное «число запросов» помогает сравнивать формулировки внутри исследования, но не является точной частотностью конкретной фразы, числом уникальных пользователей или прогнозом трафика.'), PageBreak()]
-
-    s += [p('6. Ограничения результата','H1Ru')]
-    for x in ['Исследование выполнено для Яндекса. Google Ads, Google Keyword Planner, Google Search Console и выдача Google в работу не входили.', 'Результат не назначает запросы конкретным URL и не является проектом SEO-архитектуры сайта.', 'В отчёте нет рекомендаций создавать, объединять или удалять страницы.', 'Конкурентный анализ и конкурентное расширение семантики не входят в этот результат.', 'Алиса, Яндекс Нейро и другие ИИ-ответы не анализировались в рамках этого продукта.', 'Работа не является гарантией позиций, трафика, заявок или выручки.']:
-        s.append(bullet(x))
-    s += [p('7. Что можно делать дальше','H1Ru')]
-    for x in ['распределить группы запросов по существующим страницам;', 'проверить пересечения и каннибализацию;', 'определить, нужны ли новые посадочные страницы или изменения структуры;', 'подготовить технические задания на внедрение;', 'отдельно исследовать семантические пробелы по конкурентам;', 'отдельно проверить Алису / Яндекс Нейро.']:
-        s.append(bullet(x))
-    s += [p('8. Методические источники','H1Ru')]
-    for x in ['Яндекс Вордстат: https://yandex.ru/support2/wordstat/ru/', 'Интерфейс и показатели Вордстат: https://yandex.ru/support2/wordstat/ru/interface/new', 'Операторы Вордстат: https://yandex.ru/support2/wordstat/ru/content/operators', 'Яндекс о семантическом ядре: https://b2b.yandex.ru/adv/edu/materials/semanticheskoe-yadro']:
-        s.append(bullet(x))
-
-    out.parent.mkdir(parents=True, exist_ok=True)
-    doc.build(s, onFirstPage=footer, onLaterPages=footer)
-
-
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('--output', type=Path, default=Path('MK01_OKNO_MSK_CLIENT_REPORT_2026-09-09.pdf'))
-    args = ap.parse_args()
-    build(args.output)
-    print(args.output)
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
