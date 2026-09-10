@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 75/79 / STEP 04 BLOCKED**
+Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 76/79 / STEP 04 BLOCKED**
 
 ## 1. Job identity
 
@@ -99,11 +99,12 @@ RUN_41 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESUL
 RUN_42 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 548 DIRECT LINE-COUNT PASS
 RUN_43 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 593 DIRECT LINE-COUNT PASS
 RUN_44 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 1074 DIRECT LINE-COUNT PASS
-CURRENT_DURABLE_FEED_FORWARD = 75/79
-REMAINING_RUN_ORDERS = 45..48
-REMAINING_COUNT = 4
-RECOVERY_PROVIDER_REQUESTS = 13
-RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.26
+RUN_45 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 987 DIRECT LINE-COUNT PASS
+CURRENT_DURABLE_FEED_FORWARD = 76/79
+REMAINING_RUN_ORDERS = 46..48
+REMAINING_COUNT = 3
+RECOVERY_PROVIDER_REQUESTS = 14
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.28
 ```
 
 Run 36 persistence authority:
@@ -252,6 +253,24 @@ REMOTE_READBACK = PASS
 
 The historical manifest independently records run 44 as 1074 results / 14 associations / totalCount 108619, matching the current direct remote carrier checks. The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
 
+Run 45 persistence authority:
+
+```text
+REQUEST_ID = wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a
+RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__045__wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a.raw.txt
+RAW_BLOB_SHA = 9b0200e1e0ea434474974dc9f9bd0cf16f50526b
+HTTP_STATUS = 200
+STATUS = OK
+RESULTS_ROWS = 987 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..1008
+ASSOCIATIONS_ROWS = 14 / DIRECT REMOTE LINE-POSITION COUNT / LINES 1011..1024
+TOTALCOUNT = 67198
+REQUEST_EXECUTED = true
+AUTOMATIC_RETRY = false
+REMOTE_READBACK = PASS
+```
+
+The historical manifest independently records run 45 as 987 results / 14 associations / totalCount 67198, matching the current direct remote carrier checks. The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
+
 Current recovery authority:
 
 `STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
@@ -309,13 +328,13 @@ STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
 STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 75/79
-STEP_03_REMAINING_RECOVERY = 4
-RUN_44_REMOTE_READBACK = PASS
+STEP_03_DURABLE_FEED_FORWARD = 76/79
+STEP_03_REMAINING_RECOVERY = 3
+RUN_45_REMOTE_READBACK = PASS
 STEP_04_STARTED = false
 STEP_04_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_45_ZNAK_ZODIAKA_RAK
+NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_46_ZNAK_ZODIAKA_RYBY
 ```
 
-Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the thirteen new recovery observations.
+Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the fourteen new recovery observations.
