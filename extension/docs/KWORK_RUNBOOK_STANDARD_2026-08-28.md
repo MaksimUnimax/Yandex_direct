@@ -1,6 +1,7 @@
 # KWORK RUNBOOK STANDARD
 
 Date: 2026-08-28
+Updated: 2026-09-10
 Status: **PERMANENT PRODUCTIZATION CONTRACT**
 
 ## Purpose
@@ -8,6 +9,15 @@ Status: **PERMANENT PRODUCTIZATION CONTRACT**
 Every sellable Kwork must end with a self-contained `RUNBOOK_FOR_CHATGPT.md` that can be opened in a clean conversation and used immediately to execute a real client order without relying on remembered chat context.
 
 The runbook is an operating manual for ChatGPT, not marketing copy.
+
+## Mandatory portfolio dependencies
+
+Before a Kwork/version is frozen, its productization must obey:
+
+- `KWORK_SERP_MODE_PRODUCTIZATION_GATE_2026-09-10.md` when ordinary Yandex Search may be relevant;
+- `KWORK_SERP_COVERAGE_MODE_RESEARCH_2026-09-10.md` as the portfolio research authority for FULL vs SELECTIVE vs HYBRID vs NO-ORGANIC-SERP mode selection.
+
+The SERP mode is proved once during productization and frozen in the product Level-1 authority. A normal future client order executes that frozen mode and does not repeat the portfolio methodology proof.
 
 ## Required sections
 
@@ -37,7 +47,38 @@ Every final runbook must contain, in this order:
 21. Worked example from accepted test run
 22. Known limitations
 23. Version / accepted source authority
+24. Frozen SERP coverage mode + local decision authority when ordinary Search is relevant
 ```
+
+## SERP-mode runbook rule
+
+For products that may use ordinary Yandex Search, the final runbook must state the frozen product-level value:
+
+```text
+SERP_COVERAGE_MODE = FULL_SERP_COVERAGE | SELECTIVE_DECISION_SERP | HYBRID_SCOPED_FULL | NO_ORGANIC_SERP_BASE
+```
+
+and link the product-local Level-1 decision authority.
+
+The runbook must define:
+
+```text
+SEARCH_INPUT_SET
+REUSE RULE
+FRESH SEARCH TRIGGER
+WHAT COUNTS AS COVERED
+UNPROBED / FAILED BEHAVIOR
+PROVIDER / COST ROUTE
+CLAIM BOUNDARY
+```
+
+Forbidden normal-job instruction:
+
+```text
+"Decide again whether this client should use full or selective SERP."
+```
+
+That is a productization/versioning decision unless the product-local method itself explicitly contains a scoped hybrid branch.
 
 ## Clean-context requirement
 
@@ -83,6 +124,8 @@ The final runbook must reflect what was actually exercised during productization
 
 Untested theoretical steps may be included only as explicit optional/untested extensions and cannot be required for the base package.
 
+A FULL_SERP_COVERAGE product cannot become READY_TO_SELL merely because full coverage exists in theory; its provider/processing/recovery path must be rehearsed at the declared product scale or under an accepted scalable-equivalence test.
+
 ## Acceptance rehearsal
 
 Before the runbook is frozen:
@@ -93,6 +136,7 @@ open only the runbook + its declared canonical dependencies
 present a representative client brief
 execute/reconstruct the job plan from those files alone
 verify no missing hidden assumption
+verify the frozen SERP mode is executable without redesigning it
 ```
 
 Acceptance marker:
