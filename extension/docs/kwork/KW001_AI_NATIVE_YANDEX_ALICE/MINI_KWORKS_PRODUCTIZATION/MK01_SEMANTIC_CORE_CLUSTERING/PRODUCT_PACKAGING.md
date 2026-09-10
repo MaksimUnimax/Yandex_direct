@@ -1,6 +1,6 @@
 # MK01 — PRODUCT PACKAGING
 
-Status: **CLIENT PACKAGE VALIDATED: XLSX + PDF + HANDOFF MESSAGE**
+Status: **CLIENT PACKAGE VALIDATED: XLSX + ANALYTICAL PDF + HANDOFF MESSAGE**
 
 Рабочее название продукта:
 
@@ -11,12 +11,12 @@ Status: **CLIENT PACKAGE VALIDATED: XLSX + PDF + HANDOFF MESSAGE**
 Базовая поставка состоит из трёх компонентов:
 
 1. **XLSX с семантическим ядром** — основной рабочий файл.
-2. **PDF-отчёт** — короткое понятное объяснение выполненной работы, итоговых цифр, структуры ядра, примеров групп, ограничений и дальнейшего использования.
+2. **PDF-отчёт** — аналитическое объяснение того, что исследование показало: структура рабочего ядра, крупные смысловые направления, неопределённость, исключения, ограничения и дальнейшее использование.
 3. **Короткое сообщение в Kwork/чате** — что приложено и с чего начать. Это сообщение не сохраняется как отдельный TXT-документ.
 
 Валидированный XLSX содержит семь листов: `Как пользоваться`; `Все запросы`; `Рабочее ядро`; `Группы запросов`; `На проверку`; `Исключено`; `Методика`.
 
-Валидированный PDF форматируется как 4–8 страниц; тест OKNO_MSK — 6 страниц.
+Для PDF **нет фиксированного количества страниц как критерия качества**. Он должен быть достаточно компактным для заказчика и достаточно полным, чтобы объяснить существенные выводы текущего исследования. Текущая редакция OKNO_MSK от 10.09.2026 содержит 8 страниц — это факт конкретного теста, а не универсальный лимит.
 
 Внутренние audit TSV/TSV.GZ, cluster TSV, manifest, machine-QA JSON, build receipts и другие sidecar-файлы клиенту автоматически не отправляются.
 
@@ -30,7 +30,7 @@ Status: **CLIENT PACKAGE VALIDATED: XLSX + PDF + HANDOFF MESSAGE**
 up to 10 agreed business directions
 up to 1,500 governed unique phrases
 up to 40 justified exact-query Yandex Search checks
-RESULT = XLSX + PDF report + handoff message
+RESULT = XLSX + analytical PDF report + handoff message
 ```
 
 Add-ons:
@@ -44,26 +44,38 @@ Add-ons:
 
 После получения XLSX и PDF клиент должен понимать:
 
-- какой сайт и регион исследованы;
+- какой сайт, регион и срез данных исследованы;
 - что спрос исследован по Яндексу;
 - сколько фраз обработано, сколько вошло в рабочее ядро, сколько оставлено на проверку и исключено;
-- как устроены смысловые группы;
+- **что исследование показало о структуре рабочего ядра**;
+- какие пользовательские задачи/интенты представлены и в каком объёме, если такие категории подтверждены текущей кластеризацией;
+- какие смысловые группы являются крупнейшими или иным образом материальными и по какому правилу они выбраны;
+- что осталось спорным и почему;
+- что исключено и почему;
 - с какого листа Excel начинать;
 - что означает показатель Wordstat;
+- что размеры групп/доли корпуса не являются автоматически долей рынка, трафиком или коммерческим приоритетом;
 - что результат не является картой URL/SEO-архитектурой/ТЗ;
-- что Google, конкурентный gap-анализ и Алиса/Яндекс Нейро не входят в MK01.
+- что Google, конкурентный анализ и Алиса/Яндекс Нейро не входят в MK01.
 
 ## 4. Роль XLSX и PDF
 
 `XLSX = рабочий инструмент`.
 
-`PDF = управленческое и клиентское объяснение результата`.
+`PDF = аналитическое и управленческое объяснение результата`.
 
-PDF не дублирует тысячи строк Excel и не заменяет его. Excel не должен заставлять владельца бизнеса самостоятельно восстанавливать смысл выполненной работы.
+Canonical non-repeat boundary:
+
+```text
+CLIENT REPORT != EXECUTION PROTOCOL
+CORRECT COUNTS + CLEAN LAYOUT != ANALYTICAL REPORT PASS
+```
+
+PDF не дублирует тысячи строк Excel и не заменяет его. Но он также не должен сводиться к хронологии «собрали → очистили → сгруппировали» и контрольным цифрам. Он обязан объяснять существенные доказанные выводы текущего исследования.
 
 ## 5. Клиентский путь
 
-1. Прочитать PDF-отчёт.
+1. Прочитать PDF-отчёт и понять ключевые выводы.
 2. Открыть в XLSX лист «Как пользоваться».
 3. Работать с «Рабочим ядром».
 4. Использовать «Группы запросов» для понимания структуры.
@@ -99,14 +111,19 @@ CLIENT_REPORT_<CLIENT_OR_DOMAIN>_<YYYY-MM-DD>.pdf
 
 ```text
 VALIDATED XLSX
-+ VALIDATED CLIENT PDF
++ ANALYTICAL CLIENT PDF THAT ANSWERS WHAT THE RESEARCH SHOWED
++ EVIDENCE-BACKED EXECUTIVE SUMMARY
++ MATERIAL DEMAND/TASK STRUCTURE EXPLAINED
++ MATERIAL GROUPS EXPLAINED
++ REVIEW/EXCLUSION LOGIC EXPLAINED
 + CLIENT REPORT SPEC EXISTS
 + SHORT HANDOFF MESSAGE EXISTS
 + INTERNAL SIDECARS SEPARATED
 + YANDEX-ONLY BOUNDARY EXPLICIT
 + WORDSTAT CLAIM BOUNDARY EXPLICIT
++ NO PAGE-COUNT QUALITY PROXY
 + DOWNSTREAM PRODUCT LEAKAGE = 0
 + NO TXT AS CLIENT REPORT SUBSTITUTE
 + NO SILENT COMMERCIAL TRUNCATION
-+ REMOTE READBACK PASS
++ PERSISTENCE/READBACK STATE RECORDED HONESTLY
 ```
