@@ -1,0 +1,31 @@
+name: MK02 Phase 7 XLSX language audit
+
+on:
+  push:
+    paths:
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_xlsx_audit'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan client workbook strings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import re, zipfile, pathlib
+          p = pathlib.Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx')
+          rx = re.compile(r'(?i)(MK02|Stage|Step|\bQA\b|\bREADY\b|PENDING_|\bCTA\b|\bHOLD\b)')
+          hits=[]
+          with zipfile.ZipFile(p) as z:
+              for n in z.namelist():
+                  if n.endswith('.xml'):
+                      s=z.read(n).decode('utf-8','ignore')
+                      for m in rx.finditer(s):
+                          hits.append((n,m.group(0),s[max(0,m.start()-90):m.end()+120].replace('\n',' ')))
+          print('FORBIDDEN_TOKEN_HITS', len(hits))
+          for h in hits[:100]: print('HIT', *h, sep=' | ')
+          if hits: raise SystemExit(2)
+          PY
