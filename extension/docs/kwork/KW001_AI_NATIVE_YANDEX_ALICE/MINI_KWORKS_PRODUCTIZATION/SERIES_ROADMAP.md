@@ -294,7 +294,7 @@ MK01 FROZEN
 
 Owner accepted/froze MK01 V1 on 2026-09-10. MK01 visual/publication work is deferred and does not block MK02 productization.
 
-MK02 Phases 0–7 are complete. Phase 5 completed the isolated OKNO_MSK rehearsal; Phase 6 froze the base physical package; Phase 7 materialized the one-XLSX/two-PDF delivery and passed client-language, machine, physical-render and recipient QA after correcting the discovered final-artifact defects. Pricing, card and visuals have not started.
+MK02 Phases 0–7 are complete. Phase 5 completed the isolated OKNO_MSK rehearsal and target-first corrective rematerialization; Phase 6 froze the corrected physical package; Phase 7 materialized the one-XLSX/two-PDF delivery and passed client-language, machine, physical-render, recipient and remote-readback QA. The target-first package and QA were read back from remote commit `2f30cfbe663482db1972ad17f839efdd4bdb83d9`; all 14 changed blobs matched. Pricing, card and visuals have not started.
 
 ## 12. Текущая точка
 
@@ -303,6 +303,6 @@ CURRENT_MINI_KWORK = MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ
 SERIES_DEVELOPMENT_AUTHORITY = MINI_KWORK_DEVELOPMENT_PROTOCOL.md
 MK01_STATE = OWNER_ACCEPTED__V1_FROZEN
 MK02_METHOD_STATE = PHASE_7_PRODUCT_RECIPIENT_QA_PASS
-MK02_PHYSICAL_PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
+MK02_PHYSICAL_PACKAGE = TARGET_FIRST_XLSX + ANALYTICAL_PDF + FULL_PAGE_SPECIFICATION_TZ_PDF
 NEXT_ACTION = PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
 ```

@@ -199,6 +199,6 @@ The earlier Step-15/client package remains historical and is superseded for deli
 - **Physical QA:** exact final bytes rendered; XLSX 13/13 sheets inspected, PDFs 22/22 + 71/71 pages inspected; blank/clipped/overlap/orphan/broken-glyph failures = 0.
 - **Recipient QA:** six independent client-only routes PASS; all 60 page names are present in the post-page specification.
 - **Provider boundary:** new Wordstat/Search/Alice/Google/competitor calls = 0.
-- **Artifact commit:** `9c81c756` (`feat(mk02): rebuild target-first client delivery`).
+- **Remote client-package commit:** `78b5adaa8e2001e78032bf09968cf7a51de95a04` (`feat(mk02): rebuild target-first client delivery`).
 
-Remote readback and final Phase-7 state are recorded separately after publication of the QA/state commits.
+Publication used the authorized GitHub connection after ordinary HTTPS credentials were unavailable. The branch was advanced without force through `78b5adaa8e2001e78032bf09968cf7a51de95a04` and `2f30cfbe663482db1972ad17f839efdd4bdb83d9`. Remote readback matched 14/14 changed blobs; the remote tree `1b95f382b7b2b11306fea1b41eb493786a093a13` matched the local release tree. Phase 7 is PASS; Phase 8 price/limits/economics is the next action.
