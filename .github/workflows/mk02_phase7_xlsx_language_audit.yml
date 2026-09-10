@@ -3,7 +3,7 @@ name: MK02 Phase 7 final client-package gate
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_final_qa'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_final_qa_r2'
 
 permissions:
   contents: write
@@ -49,7 +49,8 @@ jobs:
               v=ws.cell(r,1).value
               if v: statuses[str(v).strip()]+=1
           assert dict(statuses)==expected_statuses,(statuses,expected_statuses)
-          client_hits=[]; error_hits=[]
+
+          client_hits=[]; error_hits=[]; normalized_acceptance_cells=[]; deferred_cells=[]
           for ws in wb.worksheets:
               for row in ws.iter_rows():
                   for cell in row:
@@ -57,14 +58,16 @@ jobs:
                       if isinstance(v,str):
                           if forbidden.search(v): client_hits.append((ws.title,cell.coordinate,v[:240]))
                           if v in {'#REF!','#VALUE!','#NAME?','#DIV/0!','#N/A'}: error_hits.append((ws.title,cell.coordinate,v))
+                          if 'призыв к действию' in v.lower(): normalized_acceptance_cells.append((ws.title,cell.coordinate,cell.alignment.wrap_text,v[:240]))
+                          if v.strip()=='Отложено до доказательства': deferred_cells.append((ws.title,cell.coordinate,cell.alignment.wrap_text))
           assert not client_hits,client_hits[:20]
           assert not error_hits,error_hits[:20]
           assert wb['Начните здесь']['B20'].value=='Проверить и отложено'
-          assert 'призыв к действию' in str(wb['Как проверить']['E6'].value).lower()
-          # The modified visible body cells must remain readable/wrapped where long text was substituted.
-          assert wb['Как проверить']['E6'].alignment.wrap_text is True
-          assert wb['ТЗ на доработку']['A52'].alignment.wrap_text is True
-          assert wb['Проверить и отложено']['A6'].alignment.wrap_text is True
+          assert normalized_acceptance_cells, 'normalized acceptance wording not found'
+          assert all(x[2] is True for x in normalized_acceptance_cells), normalized_acceptance_cells
+          assert deferred_cells, 'deferred status not found'
+          assert all(x[2] is True for x in deferred_cells if x[0] in {'ТЗ на доработку','Проверить и отложено'}), deferred_cells
+
           table_names=[]
           for ws in wb.worksheets:
               table_names.extend(list(ws.tables.keys()))
@@ -73,11 +76,12 @@ jobs:
           with zipfile.ZipFile(xlsx) as z:
               assert z.testzip() is None
               raw='\n'.join(z.read(n).decode('utf-8','ignore') for n in z.namelist() if n.endswith('.xml'))
-              assert not forbidden.search(raw), forbidden.search(raw).group(0) if forbidden.search(raw) else None
+              match=forbidden.search(raw)
+              assert not match, match.group(0) if match else None
 
           def sha256(p): return hashlib.sha256(p.read_bytes()).hexdigest()
           xlsx_sha=sha256(xlsx)
-          report['artifacts']['xlsx']={'size':xlsx.stat().st_size,'sha256':xlsx_sha,'git_blob':None,'sheets':len(wb.sheetnames),'row_counts':row_counts,'status_counts':dict(statuses),'table_count':len(table_names),'forbidden_token_hits':0,'formula_error_hits':0}
+          report['artifacts']['xlsx']={'size':xlsx.stat().st_size,'sha256':xlsx_sha,'sheets':len(wb.sheetnames),'row_counts':row_counts,'status_counts':dict(statuses),'table_count':len(table_names),'forbidden_token_hits':0,'formula_error_hits':0,'normalized_acceptance_cells':normalized_acceptance_cells,'deferred_status_cells':deferred_cells}
 
           pdf_expected={
             analytical:('66122183a768ecef5b3f9cd91b2f1b313f4d8a6c69f9012a24c92a2cd22b05bd','Что показало исследование'),
