@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_STEP05_EXECUTION_CURSOR_V1",
+  "schema": "KW002_STEP05_EXECUTION_CURSOR_V2",
   "date": "2026-09-10",
   "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "step_id": "05",
@@ -16,8 +16,12 @@
     "provider_evidence_eventually_relevant_rows": 15,
     "owner_or_client_fact_rows": 6,
     "fact_only_no_provider_rows": ["E015", "E016"],
-    "ready_after_step05_provider_authorization": ["E001", "E002", "E003", "E006", "E007", "E008", "E009", "E010", "E011", "E013", "E014"],
-    "blocked_on_owner_or_client_fact": ["E004", "E005", "E012", "E015", "E016", "E017"]
+    "provider_evidence_completed": ["E013"],
+    "ready_provider_rows_remaining": ["E001", "E002", "E003", "E006", "E007", "E008", "E009", "E010", "E011", "E014"],
+    "blocked_on_owner_or_client_fact": ["E004", "E005", "E012", "E015", "E016", "E017"],
+    "provider_relevant_rows_remaining_total": 14,
+    "provider_relevant_rows_remaining_ready_now": 10,
+    "provider_relevant_rows_remaining_blocked_on_fact": 4
   },
   "pre_step_research": {
     "status": "PASS",
@@ -37,19 +41,49 @@
     "official_statistics_quota_per_hour": 100,
     "project_execution_mode": "SEQUENTIAL_ONE_RESULT_PERSIST_AND_READBACK_BEFORE_NEXT"
   },
-  "first_candidate_probe": {
-    "queue_id": "E013",
-    "purpose": "isolate noun чётки from morphology noise чётко/чёткий",
-    "phrase": "!чётки",
-    "expected_request_count_now": 1,
-    "estimated_cost_rub_now": 0.02
-  },
   "execution": {
-    "step05_started": false,
-    "provider_calls_executed": 0,
-    "provider_calls_authorized": false,
-    "status": "READY_BUT_HOLD_PENDING_EXPLICIT_STEP05_PROVIDER_AUTHORIZATION"
+    "step05_started": true,
+    "provider_acquisition_authority": "OWNER_EXECUTED_FIRST_STEP05_COMMAND_AND_RETURNED_E013_RESULT; continue only under per-request disclosure and persistence gate",
+    "provider_calls_executed": 1,
+    "estimated_provider_cost_rub": 0.02,
+    "status": "IN_PROGRESS"
   },
-  "stop_condition": "DO_NOT_EXECUTE_ANY_WORDSTAT_REQUEST_UNTIL_OWNER_EXPLICITLY_AUTHORIZES_STEP05_PROVIDER_ACQUISITION",
-  "next_action": "OWNER_AUTHORIZES_STEP05_PROVIDER_ACQUISITION_OR_SUPPLIES_REQUIRED_CLIENT_FACTS__THEN_RUN_SINGLE_E013_GETTOP_AND_PERSIST_BEFORE_ANY_NEXT_REQUEST"
+  "completed_probes": [
+    {
+      "sequence": 1,
+      "queue_id": "E013",
+      "purpose": "isolate exact-token чётки from morphology noise and test physical-product vocabulary",
+      "phrase": "!чётки",
+      "request_id": "wordstat-132a43ff-7cf9-4544-a6e2-68da666c4813",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 2000,
+      "results_count_method": "DIRECT_REMOTE_LINE_POSITION_32_2031",
+      "associations_rows": 19,
+      "associations_count_method": "DIRECT_REMOTE_LINE_POSITION_2034_2052",
+      "totalCount": 119294,
+      "raw_path": "STEP_05_WORDSTAT_RAW/STEP05__E013__wordstat-132a43ff-7cf9-4544-a6e2-68da666c4813.raw.txt",
+      "raw_blob_sha": "550add6010ddbd10e0d807fd1a11046d2b782a4a",
+      "raw_commit": "9161fe6f286d1e7bc02f9f46698c71df444792e4",
+      "receipt": "STEP_05_E013_WORDSTAT_EVIDENCE_RECEIPT_2026-09-10.md",
+      "receipt_blob_sha": "6256acdeb17e6a29defa11e0d0eab34be94b3013",
+      "decision": "CLOSED_FOR_STEP05_COVERAGE__PHYSICAL_COMMERCIAL_AND_AUTOMOTIVE_VOCABULARY_DIRECTLY_OBSERVED__NO_SECOND_CHOTKI_PROBE_NOW",
+      "final_cleanup_performed": false,
+      "final_clustering_performed": false
+    }
+  ],
+  "next_candidate_probe": {
+    "queue_ids": ["E007", "E014"],
+    "purpose": "test stable talisman in-car/use qualifiers while suppressing model-name collision risk",
+    "phrase": "!талисман (+в !машину|+для !машины|+для !автомобиля|+для !авто)",
+    "expected_request_count_now": 1,
+    "estimated_cost_rub_now": 0.02,
+    "reason_for_priority": "client-confirmed automobile use is in-scope; E013 independently exposed strong чётки in-car vocabulary; the remaining material boundary is talisman/use wording versus automotive model/entity collisions"
+  },
+  "persistence_gate": {
+    "e013_raw_remote_readback": "PASS",
+    "e013_receipt_persisted": true,
+    "next_provider_call_allowed_only_after_cursor_remote_readback": true
+  },
+  "next_action": "REMOTE_READBACK_E013_RECEIPT_AND_THIS_CURSOR__THEN_RUN_ONE_E007_E014_TALISMAN_USE_CONTEXT_GETTOP__PERSIST_BEFORE_ANY_FURTHER_PROVIDER_CALL"
 }
