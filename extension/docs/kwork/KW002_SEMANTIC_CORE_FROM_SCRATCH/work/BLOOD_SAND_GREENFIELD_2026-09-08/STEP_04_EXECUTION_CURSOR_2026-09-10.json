@@ -1,0 +1,46 @@
+{
+  "schema": "KW002_STEP04_EXECUTION_CURSOR_V1",
+  "date": "2026-09-10",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "step_id": "04",
+  "step_name": "first family triage",
+  "upstream": {
+    "step03_provider_acquisition": "79/79_COMPLETE",
+    "step03_durable_feed_forward": "79/79_COMPLETE",
+    "step03_raw_recovery": "COMPLETE_PASS",
+    "remaining_raw_recovery": 0
+  },
+  "prior_work_attempt": {
+    "receipt": "STEP_04_WORK_RETURN_RECEIPT_2026-09-09.md",
+    "status": "HISTORICAL_BLOCKED_ATTEMPT",
+    "semantic_triage_performed": false,
+    "old_raw_blocker": "RESOLVED",
+    "old_owner_gate_blocker": "RESOLVED_BY_LEVEL2_STEP04_OWNER_EXECUTION_GATE_2026-09-10"
+  },
+  "pre_step_research": {
+    "status": "PASS",
+    "artifact": "STEP_04_PRE_STEP_SOURCE_TRACE_2026-09-10.md",
+    "owner_chat_disclosure": "PASS"
+  },
+  "owner_gate": {
+    "status": "PASS",
+    "authority": "LEVEL2/STEP04_OWNER_EXECUTION_GATE_2026-09-10.md",
+    "scope": "STEP04_ONLY"
+  },
+  "execution": {
+    "work_required": true,
+    "ordinary_chat_semantic_processing_allowed": false,
+    "provider_calls_allowed": false,
+    "sealed_prior_blood_sand_research_allowed": false,
+    "status": "READY_FOR_CHATGPT_WORK_RELAY",
+    "canonical_prompt": "STEP_04_CANONICAL_WORK_PROMPT_2026-09-10.md",
+    "pre_handoff_manifest": "STEP_04_WORK_PRE_HANDOFF_MANIFEST_2026-09-10.md"
+  },
+  "expected_outputs": [
+    "STEP_04_FAMILY_TRIAGE_2026-09-10.tsv",
+    "STEP_04_TARGETED_EXPANSION_QUEUE_2026-09-10.tsv",
+    "STEP_04_TRIAGE_QA_2026-09-10.md",
+    "STEP_04_WORK_RETURN_RECEIPT_2026-09-10.md"
+  ],
+  "next_action": "OWNER_RELAYS_CANONICAL_STEP04_PROMPT_TO_CHATGPT_WORK__WORK_EXECUTES_COMPLETE_CORPUS__MAIN_CHATGPT_RUNS_RETURN_QA"
+}
