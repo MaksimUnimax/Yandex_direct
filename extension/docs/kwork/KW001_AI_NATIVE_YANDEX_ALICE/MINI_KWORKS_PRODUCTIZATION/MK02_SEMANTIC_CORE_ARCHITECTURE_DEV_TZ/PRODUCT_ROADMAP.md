@@ -1,6 +1,6 @@
 # MK02 — Семантическое ядро + SEO-структура сайта + ТЗ на доработку
 
-Status: **ACTIVE PRODUCTIZATION / PHASES 0–2 PASS / PHASE 3 NEXT**
+Status: **PHASES 0–4 PASS / PHASE 5 DATA REHEARSAL NEXT IN WORK MODE**
 
 ## Working product identity
 
@@ -40,7 +40,7 @@ MK05 = IMPLEMENTATION-TZ PRODUCT FROM PRE-EXISTING ACCEPTED DECISION AUTHORITY
 
 MK02 does not silently include Step5A competitor expansion.
 
-Step13 is used inside MK02 only to the depth required to prevent wrong architecture decisions; base mode does not promise a standalone historical harmful-cannibalization audit.
+KW-001 Step13 competing-page diagnosis is used inside MK02 only to the depth required to protect architecture decisions; base mode does not promise a standalone historical harmful-cannibalization audit.
 
 ## Implementation promise boundary
 
@@ -56,7 +56,7 @@ NO SUITABLE EXISTING PAGE != CREATE DECISION
 TARGET SEARCH ARCHITECTURE != CURRENT AS-IS TOPOLOGY
 ```
 
-Ready actions require exact change detail and acceptance. Missing material business/technical detail moves the item to concrete clarification/check instead of fake READY.
+Ready actions require exact change detail and acceptance. Missing material business/technical/placement detail moves the item to a concrete clarification/check instead of fake READY.
 
 ## Market state
 
@@ -69,7 +69,56 @@ Current evidence:
 - closest confirmed FL.ru demand anchor: semantic core + clusters + developer site-change TZ, budget 40,000 ₽;
 - current 2026 FL.ru requests also combine semantics, page clustering, URL structure and developer recommendations.
 
-Final MK02 price/limits are **not assigned yet**.
+Final MK02 price/limits are **not assigned yet**. Phase 8 must use actual rehearsal workload plus refreshed market evidence.
+
+## Method package completed before data work
+
+Level-1 method now contains:
+
+```text
+PRODUCT_SCOPE.md
+CLIENT_INPUT_CONTRACT.md
+GENERAL_RULES.md
+ERRORS_AND_LESSONS.md
+STEP_RULES_INDEX.md
+steps/STEP_00...STEP_15 = 16/16
+EXECUTION_ROADMAP.md
+DELIVERABLE_SPEC.md
+QA_AND_RELEASE.md
+METHOD_CONSISTENCY_AUDIT_2026-09-10.md
+MARKET_REALITY_2026-09-10.md
+```
+
+Phase 3–4 consistency audit result:
+
+```text
+METHOD FILES MISSING = 0
+PER-STEP FILES = 16/16
+KNOWN CROSS-FILE CONTRADICTIONS = 0
+OKNO_MSK DATA TRANSFORMATION DURING METHOD BUILD = 0
+PROVIDER CALLS DURING METHOD BUILD = 0
+```
+
+## Local MK02 execution sequence
+
+```text
+00 scope / structural constraints
+01 current site/business
+02 Wordstat plan
+03 Wordstat acquisition/persistence
+04 conservative triage
+05 conditional targeted second acquisition
+06 row-level cleanup
+07 semantic freeze/routing
+08 conditional semantic Search
+09 task/intent clustering
+10 page ownership / phrase→page map
+11 structural action diagnosis
+12 competing-page safety
+13 current-vs-target Search architecture freeze
+14 implementation specification / analytical priority
+15 client materialization + QA
+```
 
 ## Productization roadmap
 
@@ -77,9 +126,9 @@ Final MK02 price/limits are **not assigned yet**.
 PHASE 0  PRODUCT PROMISE / BOUNDARY             = PASS
 PHASE 1  MARKET REALITY BASELINE               = PASS / 2026-09-10
 PHASE 2  CLIENT INPUT CONTRACT                 = PASS / REHEARSAL VALIDATION PENDING
-PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = NEXT
-PHASE 4  AUTONOMOUS MK02 ROADMAP               = PENDING
-PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = PENDING
+PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS
+PHASE 4  AUTONOMOUS MK02 ROADMAP               = PASS
+PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = NEXT / WORK MODE
 PHASE 6  MK02 CLIENT DELIVERABLE / PACKAGING   = PENDING
 PHASE 7  PRODUCT / RECIPIENT QA                = PENDING
 PHASE 8  PRICE / LIMITS / ECONOMICS            = PENDING
@@ -89,28 +138,26 @@ PHASE 11 OWNER PUBLICATION                     = PENDING
 PHASE 12 PUBLISHED VERSION FREEZE / READBACK   = PENDING
 ```
 
-## Phase-3 extraction scope
+## Phase-5 handoff boundary
 
-Read/extract only current applicable authorities:
+Phase 5 is the **first point where OKNO_MSK data are processed for MK02**.
 
-```text
-MK01 accepted semantic method
-+ STEP_11_PAGE_OWNERSHIP_METHOD.md
-+ STEP_12_STRUCTURAL_ACTION_METHOD.md and companion gates
-+ STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md
-+ STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md and discovery/reliability gates
-+ STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md
-+ STEP_18_EXECUTION_TICKET_COMPLETENESS_GATE.md
-+ STEP_19 client-deliverable rules
-+ STEP_20 report/recipient gates
-+ Report №02 owner failure classes
-```
+It must be executed in Work mode because it requires large semantic/page/action datasets and full reconciliation.
 
-Phase 3 must materialize general/cross-step rules, per-step rule index and failure ledger. It must also inherit the MK01 recipient lesson that **a numerically correct clean report can still fail if it behaves like an execution protocol instead of explaining material findings**.
+Work must:
+
+- read this entire MK02 Level-1 method first;
+- use preserved OKNO_MSK evidence rather than redesign the method;
+- make no new provider calls unless a real method-required gap cannot be resolved from preserved evidence and the prompt explicitly authorizes it (default for rehearsal: no new calls);
+- exclude Step5A competitor additions from base MK02 unless the preserved source needed for the intended MK02 test is explicitly selected under the product boundary;
+- materialize MK02-only results, not simply copy the full KW-001 client package;
+- record any real method defect and correct the Level-1 rule before final PASS;
+- commit/push/readback material blocks during execution.
 
 ## Current next action
 
 ```text
 CURRENT_MINI_KWORK = MK02
-NEXT_ACTION = BUILD_GENERAL_RULES__STEP_RULES_INDEX__ERRORS_AND_LESSONS_FROM_KW001_STEPS_11_14_18_20
+METHOD_STATE = READY_FOR_REHEARSAL
+NEXT_ACTION = HAND_PHASE_5_OKNO_MSK_MK02_ONLY_DATA_REHEARSAL_TO_WORK
 ```
