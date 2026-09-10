@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_STEP04_EXECUTION_CURSOR_V1",
+  "schema": "KW002_STEP04_EXECUTION_CURSOR_V2",
   "date": "2026-09-10",
   "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "step_id": "04",
@@ -27,20 +27,57 @@
     "authority": "LEVEL2/STEP04_OWNER_EXECUTION_GATE_2026-09-10.md",
     "scope": "STEP04_ONLY"
   },
-  "execution": {
-    "work_required": true,
-    "ordinary_chat_semantic_processing_allowed": false,
-    "provider_calls_allowed": false,
-    "sealed_prior_blood_sand_research_allowed": false,
-    "status": "READY_FOR_CHATGPT_WORK_RELAY",
-    "canonical_prompt": "STEP_04_CANONICAL_WORK_PROMPT_2026-09-10.md",
-    "pre_handoff_manifest": "STEP_04_WORK_PRE_HANDOFF_MANIFEST_2026-09-10.md"
+  "work_execution": {
+    "status": "COMPLETE_PASS",
+    "work_final_remote_head": "91fc6e1ce155c0f854c9d3c7ebf5a7b5dea40d70",
+    "family_triage_rows": 32,
+    "targeted_expansion_queue_rows": 17,
+    "results_occurrences_processed": 24722,
+    "association_occurrences_processed": 1257,
+    "total_occurrences_processed": 25979,
+    "source_probes_accounted": "79/79",
+    "silent_source_drops": 0,
+    "provider_calls": 0,
+    "sealed_source_violations": 0
   },
-  "expected_outputs": [
-    "STEP_04_FAMILY_TRIAGE_2026-09-10.tsv",
-    "STEP_04_TARGETED_EXPANSION_QUEUE_2026-09-10.tsv",
-    "STEP_04_TRIAGE_QA_2026-09-10.md",
-    "STEP_04_WORK_RETURN_RECEIPT_2026-09-10.md"
-  ],
-  "next_action": "OWNER_RELAYS_CANONICAL_STEP04_PROMPT_TO_CHATGPT_WORK__WORK_EXECUTES_COMPLETE_CORPUS__MAIN_CHATGPT_RUNS_RETURN_QA"
+  "analyst_return_gate": {
+    "status": "PASS",
+    "artifact": "STEP_04_MAIN_CHATGPT_RETURN_QA_2026-09-10.md",
+    "work_return_accepted": true
+  },
+  "outputs": {
+    "family_triage": {
+      "path": "STEP_04_FAMILY_TRIAGE_2026-09-10.tsv",
+      "blob_sha": "e3922acb63ada6705a5d98b453e37705a455afb8"
+    },
+    "targeted_expansion_queue": {
+      "path": "STEP_04_TARGETED_EXPANSION_QUEUE_2026-09-10.tsv",
+      "blob_sha": "77f48776bdae85fa93983fcf24cda2bba84f10da"
+    },
+    "triage_qa": {
+      "path": "STEP_04_TRIAGE_QA_2026-09-10.md",
+      "blob_sha": "5348bc7ec06196cf9fd7d93e5000a9faead6a4df"
+    },
+    "work_return_receipt": {
+      "path": "STEP_04_WORK_RETURN_RECEIPT_2026-09-10.md",
+      "blob_sha": "55a30b431e031d03c5f55ddf2b4bdfb9c50aabee"
+    }
+  },
+  "triage_state_counts": {
+    "strong_in_scope": 3,
+    "plausible_in_scope": 4,
+    "mixed_ambiguous": 9,
+    "obvious_out_of_scope": 9,
+    "coverage_gap_requires_expansion": 7,
+    "total": 32
+  },
+  "step05": {
+    "status": "NOT_STARTED_HOLD",
+    "roadmap_next": true,
+    "owner_or_client_clarification_rows": 6,
+    "future_provider_evidence_rows": 15,
+    "provider_calls_authorized": false,
+    "pre_step_fresh_research_required": true
+  },
+  "next_action": "PREPARE_STEP05_PRE_STEP_RESEARCH_AND_SOURCE_TRACE__THEN_REQUIRE_EXPLICIT_STEP05_PROVIDER_AUTHORIZATION_BEFORE_WORDSTAT"
 }
