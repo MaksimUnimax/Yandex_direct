@@ -1,6 +1,6 @@
 # MK02 — DELIVERABLE SPEC
 
-Status: **LOGICAL CLIENT-RESULT CONTRACT DEFINED / PHYSICAL PACKAGE TO BE VALIDATED IN PHASE 5–6**
+Status: **LOGICAL CLIENT-RESULT CONTRACT + PHASE-6 PHYSICAL PACKAGE FROZEN / PHASE 7 QA NEXT**
 
 ## 1. Sold result
 
@@ -25,7 +25,7 @@ The result must answer:
 
 ## 2. Logical client views — mandatory
 
-The physical file split may vary after rehearsal, but these logical views may not disappear.
+The Phase-6 physical file split is frozen, but these logical views remain authoritative and may not disappear during materialization.
 
 ### A. Scope / how to use
 
@@ -211,7 +211,7 @@ Forbidden as primary document identity:
 «Документ для редактора»
 ```
 
-The implementation document is named by the result/purpose, for example an equivalent of «Внедрение рекомендаций» / «ТЗ на доработку сайта» once the final packaging is validated.
+The implementation document is named by the result/purpose: **«ТЗ на доработку сайта»** or an equivalent result-based title.
 
 ## 4. Data-truth contract
 
@@ -236,17 +236,51 @@ CLIENT CONSUMER VIEWS
 
 No polished workbook/report can override stale/wrong canonical data.
 
-## 5. Physical package boundary
+## 5. Physical package boundary — frozen in Phase 6
 
-**Not frozen before rehearsal.**
-
-The final client may receive an XLSX plus one or more DOCX/PDF reports, or another equivalent package, only after the OKNO_MSK MK02-only rehearsal demonstrates the most usable split.
-
-Permanent rule:
+After the OKNO_MSK MK02-only rehearsal and owner review, base MK02 V1 uses this physical client package:
 
 ```text
-LOGICAL DELIVERABLE REQUIREMENTS = FROZEN NOW
-PHYSICAL FILE SPLIT / PAGE COUNT = VALIDATED AFTER REHEARSAL
+1. XLSX — WORKING SEMANTIC / OWNERSHIP / ARCHITECTURE / IMPLEMENTATION WORKBOOK
+2. PDF — ANALYTICAL RESEARCH-AND-ARCHITECTURE REPORT
+3. PDF — ACTION-FIRST SITE-IMPROVEMENT TZ
+4. SHORT KWORK/CHAT HANDOFF MESSAGE — NOT A SEPARATE FILE
+```
+
+Detailed authority: `PRODUCT_PACKAGING.md`.
+
+Carrier-role mapping:
+
+| Logical need | Primary carrier |
+|---|---|
+| Scope / how to use | analytical PDF + XLSX start view + handoff message |
+| Semantic core / clusters | XLSX |
+| Phrase/task ownership | XLSX |
+| Current / target architecture detail | XLSX |
+| Material architecture conclusions | analytical PDF |
+| Current→target delta | XLSX + analytical PDF summary |
+| READY implementation specifications | implementation-TZ PDF + XLSX detail |
+| Clarifications / recheck / HOLD | implementation-TZ PDF + XLSX detail |
+| Page relationships | XLSX; implementation PDF when action-relevant |
+| Analytical explanation | analytical PDF |
+| Acceptance / verification | implementation-TZ PDF + XLSX detail |
+
+The analytical PDF and implementation-TZ PDF remain separate because they answer different recipient tasks:
+
+```text
+ANALYTICAL PDF = WHAT THE RESEARCH SHOWED
+IMPLEMENTATION-TZ PDF = WHAT TO DO / WHY / WHERE / HOW TO CHECK
+```
+
+A mandatory duplicate DOCX is **not** part of base MK02 V1. If DOCX is used internally during materialization, it is an intermediate/source artifact. An editable text copy may be produced only as a separately requested variant from the same accepted source, not as an independently diverging authority.
+
+Permanent boundaries:
+
+```text
+LOGICAL DELIVERABLE REQUIREMENTS = FROZEN
+PHYSICAL SPLIT = XLSX + TWO PDF
+PAGE COUNT != QUALITY GATE
+WORKBOOK SHEET COUNT != PRODUCT VALUE PROXY
 ```
 
 Do not repeat the earlier MK01 mistake of using an invented page-count range as a quality gate.
@@ -276,7 +310,12 @@ SEMANTIC ROW ACCOUNTING PASS
 + READY IMPLEMENTATION COMPLETENESS PASS
 + ANALYTICAL EXPLANATION PASS
 + CLIENT LANGUAGE PASS
-+ PHYSICAL/RENDER QA PASS
-+ RECIPIENT TASK REVIEW PASS
++ XLSX USABILITY / PHYSICAL QA PASS
++ ANALYTICAL PDF PHYSICAL/RENDER QA PASS
++ IMPLEMENTATION-TZ PDF PHYSICAL/RENDER QA PASS
++ RECIPIENT TASK REVIEW OF EACH DOCUMENT PASS
++ YANDEX-ONLY BOUNDARY IN EACH CLIENT FILE PASS
 + PERSISTENCE/READBACK PASS
 ```
+
+These are Phase-7 release tests for the Phase-6 package design. Phase-6 packaging PASS does not predeclare Phase-7 physical QA PASS.
