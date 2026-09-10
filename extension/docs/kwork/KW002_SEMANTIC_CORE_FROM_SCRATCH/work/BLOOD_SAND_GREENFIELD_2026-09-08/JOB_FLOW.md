@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 RAW RECOVERY / ACQUISITION 79/79 COMPLETE / DURABLE FEED-FORWARD 78/79 / STEP 04 BLOCKED**
+Status: **STEP 03 COMPLETE / ACQUISITION 79/79 / DURABLE FEED-FORWARD 79/79 / STEP 04 BLOCKED BY OWNER GATE**
 
 ## Whole-job goal
 
@@ -24,8 +24,8 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition | 🟠 ACQUISITION COMPLETE 79/79 / DURABLE RAW RECOVERY 78/79 |
-| 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED |
+| 03 | Primary Wordstat acquisition + durable RAW feed-forward | ✅ COMPLETE / PASS / 79/79 |
+| 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED / LEVEL2 OWNER GATE |
 | 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
 | 07 | Competitor semantic expansion | ⬜ NOT STARTED |
@@ -55,13 +55,15 @@ STEP02_V2_PRIMARY = 79
 STEP02_V2_DEFERRED_CONTROL = 49
 STEP02_V2 = PASS / 93 of 100 / 9.3 of 10
 STEP03_CURRENT_PRIMARY_ACQUISITION_OUTCOMES = 79 of 79
+STEP03_DURABLE_FEED_FORWARD = 79 of 79
+STEP03_RAW_RECOVERY = COMPLETE / PASS
 ```
 
 ## Step 03 corrected state
 
-The early MV3 long-fetch incident remains historical evidence, but it is no longer the current execution cursor. After the Bridge repair/revised collection, all 79 canonical primary probes received current acquisition outcomes.
+The early MV3 long-fetch incident remains historical evidence, but it is no longer the execution cursor. After the Bridge repair/revised collection, all 79 canonical primary probes received current acquisition outcomes.
 
-A later Step-04 Work readback found a separate persistence defect: two large raw carrier bundles do not reconstruct losslessly from GitHub.
+A later Step-04 Work readback found a separate persistence defect: two large raw carrier bundles did not reconstruct losslessly from GitHub.
 
 Initial late-QA deficit:
 
@@ -70,11 +72,11 @@ LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60/79
 AFFECTED_RUN_ORDERS = 32-48,50,51
 ```
 
-Recovery progress now:
+Recovery completed:
 
 ```text
-RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved
-RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved
+RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved / PASS
+RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved / PASS
 RUN_32 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_33 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
 RUN_34 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
@@ -91,11 +93,12 @@ RUN_44 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS 
 RUN_45 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 987 RESULTS DIRECT LINE-COUNT PASS
 RUN_46 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 915 RESULTS DIRECT LINE-COUNT PASS
 RUN_47 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 809 RESULTS DIRECT LINE-COUNT PASS
-CURRENT_USABLE_FEED_FORWARD = 78/79
-REMAINING_RUN_ORDERS = 48
-REMAINING_COUNT = 1
-RECOVERY_PROVIDER_REQUESTS_SO_FAR = 16
-RECOVERY_PROVIDER_COST_SO_FAR = 0.32 RUB
+RUN_48 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 594 RESULTS DIRECT LINE-COUNT PASS
+CURRENT_USABLE_FEED_FORWARD = 79/79
+REMAINING_RUN_ORDERS = NONE
+REMAINING_COUNT = 0
+RECOVERY_PROVIDER_REQUESTS_TOTAL = 17
+RECOVERY_PROVIDER_COST_TOTAL = 0.34 RUB
 ```
 
 Run 36 verification boundary:
@@ -274,68 +277,57 @@ RUN_47_TOTALCOUNT = 57861 / PASS
 RUN_47_REMOTE_READBACK = PASS
 ```
 
-For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38, 39, 40, 41, 42, 43, 44, 45, 46 and 47 were materialized one object per line, allowing direct deterministic remote line-position counts.
+Run 48 verification boundary:
+
+```text
+RUN_48_REQUEST_ID = wordstat-9d96a936-b280-4cfb-abb0-5f4a280acd13
+RUN_48_HISTORICAL_REQUEST_ID = wordstat-24ddaafc-4e79-4bec-9130-f97e7c0e1175
+RUN_48_RAW_BLOB_SHA = e7e9e63d666ab5af0603ed582a3720abfcda33c0
+RUN_48_REMOTE_FIRST_RESULT = телец знак зодиака / 37962
+RUN_48_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = тату знак зодиака водолей телец / 1
+RUN_48_RESULTS_ARRAY_FIRST_ROW_LINE = 22
+RUN_48_RESULTS_ARRAY_LAST_ROW_LINE = 615
+RUN_48_RESULTS_ROWS = 594 / DIRECT REMOTE LINE-POSITION COUNT
+RUN_48_ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 618-632
+RUN_48_TOTALCOUNT = 37962 / PASS
+RUN_48_REMOTE_READBACK = PASS
+RUN_48_HISTORICAL_STRUCTURAL_CONTROL = PASS / 594 / 15 / 37962
+```
+
+For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38-48 were materialized one object per line, allowing direct deterministic remote line-position counts.
 
 Current recovery progress authority:
 
 `STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
 
-Correction authorities:
+Final recovery authorities:
+
+- `STEP_03_RAW_RECOVERY_REQUERY_048_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_FINAL_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_COMPLETION_STATE_2026-09-10.json`
+
+Correction authorities retained:
 
 - `STEP_03_WORDSTAT_RAW_PERSISTENCE_STATE_2026-09-09.md`
 - `STEP_03_RAW_RECOVERY_2026-09-09.md`
-- `STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
 - `STEP_04_WORK_RETURN_RECEIPT_2026-09-09.md`
 
-Current recovery receipts:
+## Recovery strategy — completed
 
-- `STEP_03_RAW_RECOVERY_REQUERY_032_RECEIPT_2026-09-09.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_033_RECEIPT_2026-09-09.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_034_RECEIPT_2026-09-09.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_035_RECEIPT_2026-09-09.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_036_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_037_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_038_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_039_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_040_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_041_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_042_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_043_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_044_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_045_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_046_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_REQUERY_047_RECEIPT_2026-09-10.md`
+The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining large results could not be safely materialized from truncated search snippets in the current file interface, so owner-authorized fresh observations were collected one at a time and durably verified.
 
-## Recovery strategy
-
-The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining large results cannot be safely materialized from truncated search snippets in the current file interface.
-
-Owner has authorized re-collection if needed. For the remaining probes:
-
-```text
-TRY FULL SOURCE REHYDRATION WHEN LOSSLESS FILE ACCESS EXISTS
-OTHERWISE NEW WORDSTAT OBSERVATION IS AUTHORIZED
-ONE PROVIDER RESULT AT A TIME
-→ SAVE COMPLETE RESULT
-→ GITHUB READBACK
-→ VERIFY REQUEST/ROWS/ASSOCIATIONS/TOTALCOUNT/PROVENANCE
-→ ONLY THEN NEXT PROVIDER REQUEST
-```
-
-Historical request IDs are never overwritten by replay.
+Historical request IDs were never overwritten by replay. No additional provider recovery request is required after run48.
 
 ## Independent Step 04 method gate
 
-Even after RAW recovery, Step04 is not automatically authorized. Current `LEVEL2/STEP_RULES_INDEX.md` remains marked `DRAFT FOR OWNER REVIEW / DO NOT EXECUTE YET` unless a later explicit owner decision is reconciled into the authority.
-
-Therefore two gates exist:
+Completing Step03 satisfies only Gate A. Current `LEVEL2/STEP_RULES_INDEX.md` remains marked `DRAFT FOR OWNER REVIEW / DO NOT EXECUTE YET` unless a later explicit owner decision is reconciled into authority.
 
 ```text
-GATE_A = STEP03_LOSSLESS_FEED_FORWARD_79_OF_79
-GATE_B = LEVEL2_STEP04_OWNER_AUTHORITY_ACCEPTED
+GATE_A = STEP03_LOSSLESS_FEED_FORWARD_79_OF_79 = PASS
+GATE_B = LEVEL2_STEP04_OWNER_AUTHORITY_ACCEPTED = NOT YET PASS
 ```
 
-Both must pass before semantic Step04 execution.
+Both gates are required before semantic Step04 execution.
 
 ## Current exact cursor
 
@@ -344,13 +336,16 @@ STEP_00_COMPLETE = true
 STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
-STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 78/79
-STEP_03_REMAINING_RECOVERY = 1
-RUN_47_REMOTE_READBACK = PASS
+STEP_03_DURABLE_RAW_COMPLETE = true
+STEP_03_DURABLE_FEED_FORWARD = 79/79
+STEP_03_REMAINING_RECOVERY = 0
+STEP_03_RAW_RECOVERY = COMPLETE / PASS
+RUN_48_REMOTE_READBACK = PASS
+RECOVERY_PROVIDER_REQUESTS = 17
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.34
 STEP_04_EXECUTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_48_ZNAK_ZODIAKA_TELETS
+NEXT_ACTION = AWAIT_OR_RECONCILE_EXPLICIT_OWNER_DECISION_FOR_LEVEL2_STEP04_METHOD_GATE
 ```
 
-Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research while this cursor is active.
+Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research until the independent Level2 Step04 owner gate is explicitly resolved.

@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP 03 ACQUISITION COMPLETE / RAW RECOVERY 78/79 / STEP 04 BLOCKED**
+Status: **STEP 03 COMPLETE / ACQUISITION 79/79 / DURABLE RAW 79/79 / STEP 04 BLOCKED BY OWNER GATE**
 
 ## 1. Job identity
 
@@ -68,24 +68,29 @@ DEVICES = DEVICE_ALL
 NUM_PHRASES = 2000
 ```
 
-Historical batch/requery receipts and original request identities remain preserved in Step03 evidence. Do not rewrite an old request ID as a new observation.
+Historical batch/requery receipts and original request identities remain preserved in Step03 evidence. Never rewrite an old request ID as a new observation.
 
-## 6. Step 03 current truth
+## 6. Step 03 final truth
 
 ```text
 CANONICAL_PRIMARY_PROBES = 79
 CURRENT_PROVIDER_ACQUISITION_OUTCOMES = 79/79
 STEP03_PROVIDER_ACQUISITION_COMPLETE = true
 INITIAL_LATE_QA_LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60/79
-STEP03_DURABLE_RAW_COMPLETE = false
-STEP03_DURABLE_RAW_STATUS = CORRECTION / RECOVERY IN PROGRESS
+STEP03_DURABLE_RAW_COMPLETE = true
+STEP03_DURABLE_RAW_STATUS = COMPLETE / PASS
+CURRENT_DURABLE_FEED_FORWARD = 79/79
+REMAINING_RUN_ORDERS = NONE
+REMAINING_COUNT = 0
+RECOVERY_PROVIDER_REQUESTS = 17
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.34
 ```
 
-Current recovery progress:
+Recovery inventory:
 
 ```text
-RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY
-RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY
+RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY / PASS
+RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY / PASS
 RUN_32 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_33 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
 RUN_34 = NEW CURRENT RECOVERY OBSERVATION / SAVED / READBACK PASS
@@ -102,11 +107,7 @@ RUN_44 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESUL
 RUN_45 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 987 DIRECT LINE-COUNT PASS
 RUN_46 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 915 DIRECT LINE-COUNT PASS
 RUN_47 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 809 DIRECT LINE-COUNT PASS
-CURRENT_DURABLE_FEED_FORWARD = 78/79
-REMAINING_RUN_ORDERS = 48
-REMAINING_COUNT = 1
-RECOVERY_PROVIDER_REQUESTS = 16
-RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.32
+RUN_48 = NEW CURRENT RECOVERY OBSERVATION / SAVED / REMOTE READBACK PASS / RESULTS 594 DIRECT LINE-COUNT PASS
 ```
 
 Run 36 persistence authority:
@@ -147,13 +148,9 @@ Run 38 persistence authority:
 REQUEST_ID = wordstat-547013bc-6ce5-48de-981e-411f71b7d247
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__038__wordstat-547013bc-6ce5-48de-981e-411f71b7d247.raw.txt
 RAW_BLOB_SHA = eac14976a280a50ade7ac47d454a1404f33daa83
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 783 / DIRECT REMOTE LINE-POSITION COUNT / LINES 31..813
-ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 816..830
+ASSOCIATIONS_ROWS = 15 / LINES 816..830
 TOTALCOUNT = 47689
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
@@ -163,13 +160,9 @@ Run 39 persistence authority:
 REQUEST_ID = wordstat-77401772-61c8-4bbd-abb9-447700dd1e37
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__039__wordstat-77401772-61c8-4bbd-abb9-447700dd1e37.raw.txt
 RAW_BLOB_SHA = 089687e879ed8dc5c9a566f6c6d2c414c5f60c63
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 818 / DIRECT REMOTE LINE-POSITION COUNT / LINES 31..848
-ASSOCIATIONS_ROWS = 19 / DIRECT REMOTE LINE-POSITION COUNT / LINES 851..869
+ASSOCIATIONS_ROWS = 19 / LINES 851..869
 TOTALCOUNT = 64242
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
@@ -179,13 +172,9 @@ Run 40 persistence authority:
 REQUEST_ID = wordstat-d465de72-775d-4255-83cb-9ad9b4373925
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__040__wordstat-d465de72-775d-4255-83cb-9ad9b4373925.raw.txt
 RAW_BLOB_SHA = 94c1d1f76c2da4c7f52e5dfc48d1e909f699f84d
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 569 / DIRECT REMOTE LINE-POSITION COUNT / LINES 31..599
-ASSOCIATIONS_ROWS = 19 / DIRECT REMOTE LINE-POSITION COUNT / LINES 602..620
+ASSOCIATIONS_ROWS = 19 / LINES 602..620
 TOTALCOUNT = 37900
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
@@ -195,13 +184,9 @@ Run 41 persistence authority:
 REQUEST_ID = wordstat-459de9aa-c5e2-42e6-9ce1-a160bbafd8e0
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__041__wordstat-459de9aa-c5e2-42e6-9ce1-a160bbafd8e0.raw.txt
 RAW_BLOB_SHA = c6d56339e7fe919f506a9703e5f4d30e5d5bf2d4
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 952 / DIRECT REMOTE LINE-POSITION COUNT / LINES 31..982
-ASSOCIATIONS_ROWS = 18 / DIRECT REMOTE LINE-POSITION COUNT / LINES 985..1002
+ASSOCIATIONS_ROWS = 18 / LINES 985..1002
 TOTALCOUNT = 101545
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
@@ -211,13 +196,9 @@ Run 42 persistence authority:
 REQUEST_ID = wordstat-9bf7288d-de00-4dba-a5e6-b254ada7cf84
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__042__wordstat-9bf7288d-de00-4dba-a5e6-b254ada7cf84.raw.txt
 RAW_BLOB_SHA = 2073d9873f7c30c2badc51a4baae9e4d9b0c5f0b
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 548 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..569
-ASSOCIATIONS_ROWS = 16 / DIRECT REMOTE LINE-POSITION COUNT / LINES 572..587
+ASSOCIATIONS_ROWS = 16 / LINES 572..587
 TOTALCOUNT = 34189
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
@@ -227,13 +208,9 @@ Run 43 persistence authority:
 REQUEST_ID = wordstat-b9438bf7-323d-4230-b91a-55dfa5474b1b
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__043__wordstat-b9438bf7-323d-4230-b91a-55dfa5474b1b.raw.txt
 RAW_BLOB_SHA = 4cd21920223058f0636ae670b9a6ebf148e7dbe1
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 593 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..614
-ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 617..631
+ASSOCIATIONS_ROWS = 15 / LINES 617..631
 TOTALCOUNT = 37752
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
@@ -243,17 +220,13 @@ Run 44 persistence authority:
 REQUEST_ID = wordstat-dde33455-ff1a-4b90-9c01-f1ed89c5ff15
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__044__wordstat-dde33455-ff1a-4b90-9c01-f1ed89c5ff15.raw.txt
 RAW_BLOB_SHA = 5a068c684df64cf37bfcbfb44f9bcb2ae251c360
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 1074 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..1095
-ASSOCIATIONS_ROWS = 14 / DIRECT REMOTE LINE-POSITION COUNT / LINES 1098..1111
+ASSOCIATIONS_ROWS = 14 / LINES 1098..1111
 TOTALCOUNT = 108619
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
-The historical manifest independently records run 44 as 1074 results / 14 associations / totalCount 108619, matching the current direct remote carrier checks. The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
+The historical manifest independently records run 44 as 1074 / 14 / 108619. Historical request identity remains separate; no full historical-vs-current row-by-row identity claim is made.
 
 Run 45 persistence authority:
 
@@ -261,17 +234,13 @@ Run 45 persistence authority:
 REQUEST_ID = wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__045__wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a.raw.txt
 RAW_BLOB_SHA = 9b0200e1e0ea434474974dc9f9bd0cf16f50526b
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 987 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..1008
-ASSOCIATIONS_ROWS = 14 / DIRECT REMOTE LINE-POSITION COUNT / LINES 1011..1024
+ASSOCIATIONS_ROWS = 14 / LINES 1011..1024
 TOTALCOUNT = 67198
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
-The historical manifest independently records run 45 as 987 results / 14 associations / totalCount 67198, matching the current direct remote carrier checks. The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
+The historical manifest independently records run 45 as 987 / 14 / 67198. Historical request identity remains separate; no full historical-vs-current row-by-row identity claim is made.
 
 Run 46 persistence authority:
 
@@ -279,17 +248,13 @@ Run 46 persistence authority:
 REQUEST_ID = wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__046__wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894.raw.txt
 RAW_BLOB_SHA = eec4fa4fd8026129b619c95f67860e496ba8eaa6
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 915 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..936
-ASSOCIATIONS_ROWS = 18 / DIRECT REMOTE LINE-POSITION COUNT / LINES 939..956
+ASSOCIATIONS_ROWS = 18 / LINES 939..956
 TOTALCOUNT = 68815
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
-The historical manifest independently records run 46 as 915 results / 18 associations / totalCount 68815, matching the current direct remote carrier checks. The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
+The historical manifest independently records run 46 as 915 / 18 / 68815. Historical request identity remains separate; no full historical-vs-current row-by-row identity claim is made.
 
 Run 47 persistence authority:
 
@@ -297,39 +262,63 @@ Run 47 persistence authority:
 REQUEST_ID = wordstat-0088ece9-d252-428d-927f-0acdf0a03a84
 RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__047__wordstat-0088ece9-d252-428d-927f-0acdf0a03a84.raw.txt
 RAW_BLOB_SHA = 1da07c996b06157b6eaae20613c25bd11136fb03
-HTTP_STATUS = 200
-STATUS = OK
 RESULTS_ROWS = 809 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..830
-ASSOCIATIONS_ROWS = 17 / DIRECT REMOTE LINE-POSITION COUNT / LINES 833..849
+ASSOCIATIONS_ROWS = 17 / LINES 833..849
 TOTALCOUNT = 57861
-REQUEST_EXECUTED = true
-AUTOMATIC_RETRY = false
 REMOTE_READBACK = PASS
 ```
 
-The historical manifest independently records run 47 as 809 results / 17 associations / totalCount 57861, matching the current direct remote carrier checks. The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
+The historical manifest independently records run 47 as 809 / 17 / 57861. Historical request identity remains separate; no full historical-vs-current row-by-row identity claim is made.
+
+Run 48 persistence authority:
+
+```text
+REQUEST_ID = wordstat-9d96a936-b280-4cfb-abb0-5f4a280acd13
+HISTORICAL_REQUEST_ID = wordstat-24ddaafc-4e79-4bec-9130-f97e7c0e1175
+RAW_PATH = STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__048__wordstat-9d96a936-b280-4cfb-abb0-5f4a280acd13.raw.txt
+RAW_BLOB_SHA = e7e9e63d666ab5af0603ed582a3720abfcda33c0
+HTTP_STATUS = 200
+STATUS = OK
+RESULTS_ROWS = 594 / DIRECT REMOTE LINE-POSITION COUNT / LINES 22..615
+ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 618..632
+TOTALCOUNT = 37962
+REQUEST_EXECUTED = true
+AUTOMATIC_RETRY = false
+REMOTE_READBACK = PASS
+HISTORICAL_STRUCTURAL_CONTROL = PASS / 594 / 15 / 37962
+```
+
+The historical request identity remains preserved separately. No complete historical-vs-current row-by-row identity claim is made.
 
 Current recovery authority:
 
 `STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
 
+Final closure evidence:
+
+- `STEP_03_RAW_RECOVERY_REQUERY_048_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_FINAL_RECEIPT_2026-09-10.md`
+- `STEP_03_RAW_RECOVERY_COMPLETION_STATE_2026-09-10.json`
+
 ## 7. Recovery source and replay boundary
 
-Original full Wordstat delivery text for both affected large blocks was located in preserved prior-dialogue File Library uploads. It remains a recovery source, but large results cannot be safely materialized from truncated snippets in the current file interface.
+Original full Wordstat delivery text for both affected large blocks was located in preserved prior-dialogue File Library uploads. It remained the preferred recovery source, but large results could not be safely materialized from truncated snippets in the available file interface.
 
 ```text
 RECOVERY_SOURCE_FOUND = true
 SOURCE_REHYDRATION_PRIORITY = FIRST WHEN LOSSLESS ACCESS EXISTS
-PROVIDER_REQUERY = AUTHORIZED FALLBACK
-ONE RECOVERY PROVIDER RESULT AT A TIME = REQUIRED
-FULL GITHUB WRITE + REMOTE READBACK BEFORE NEXT REQUEST = REQUIRED
+PROVIDER_REQUERY = OWNER-AUTHORIZED FALLBACK
+ONE RECOVERY PROVIDER RESULT AT A TIME = SATISFIED
+FULL GITHUB WRITE + REMOTE READBACK BEFORE NEXT REQUEST = SATISFIED
+RECOVERY_COMPLETE = true
+NEW_PROVIDER_RECOVERY_REQUEST_REQUIRED = false
 ```
 
 New recovery request identities never replace historical request IDs.
 
 ## 8. Current Bridge/runtime boundary
 
-The recovery observations actually received in this dialogue identify:
+The recovery observations received identify:
 
 ```text
 OBSERVED_RECOVERY_BRIDGE_VERSION = 0.1.4
@@ -337,13 +326,11 @@ OBSERVED_RECOVERY_ACTIVE_SERVICE = wordstat
 OBSERVED_RECOVERY_CHANNEL = manual
 ```
 
-This observation is scoped to the returned recovery provider envelopes and is not a claim about every future browser state.
+This observation is scoped to the returned recovery provider envelopes.
 
 ## 9. Step 04 independent gate
 
-Step04 is not executed.
-
-Current Level2 index remains an owner-review draft unless a later explicit owner decision is reconciled:
+Step04 is not executed. Current Level2 index remains an owner-review draft unless a later explicit owner decision is reconciled:
 
 ```text
 LEVEL2_STEP_RULES_INDEX = DRAFT FOR OWNER REVIEW / DO NOT EXECUTE YET
@@ -352,8 +339,8 @@ LEVEL2_STEP_RULES_INDEX = DRAFT FOR OWNER REVIEW / DO NOT EXECUTE YET
 Step04 requires both:
 
 ```text
-STEP03_LOSSLESS_FEED_FORWARD = 79/79
-LEVEL2_STEP04_METHOD_AUTHORITY = ACCEPTED
+GATE_A_STEP03_LOSSLESS_FEED_FORWARD = 79/79 = PASS
+GATE_B_LEVEL2_STEP04_METHOD_AUTHORITY = ACCEPTED = NOT YET PASS
 ```
 
 ## 10. Current execution cursor
@@ -365,14 +352,17 @@ STEP_00_COMPLETE = true
 STEP_01_COMPLETE = true
 STEP_02_COMPLETE = true
 STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
-STEP_03_DURABLE_RAW_COMPLETE = false
-STEP_03_DURABLE_FEED_FORWARD = 78/79
-STEP_03_REMAINING_RECOVERY = 1
-RUN_47_REMOTE_READBACK = PASS
+STEP_03_DURABLE_RAW_COMPLETE = true
+STEP_03_DURABLE_FEED_FORWARD = 79/79
+STEP_03_REMAINING_RECOVERY = 0
+STEP_03_RAW_RECOVERY = COMPLETE / PASS
+RUN_48_REMOTE_READBACK = PASS
+RECOVERY_PROVIDER_REQUESTS = 17
+RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.34
 STEP_04_STARTED = false
 STEP_04_COMPLETE = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = RECOVER_OR_REQUERY_RUN_ORDER_48_ZNAK_ZODIAKA_TELETS
+NEXT_ACTION = AWAIT_OR_RECONCILE_EXPLICIT_OWNER_DECISION_FOR_LEVEL2_STEP04_METHOD_GATE
 ```
 
-Historical provider economics are preserved separately from the current recovery cost; do not overwrite historical request accounting with the sixteen new recovery observations.
+Historical provider economics remain separate from the recovery accounting; do not overwrite historical acquisition economics with the seventeen fresh recovery observations.
