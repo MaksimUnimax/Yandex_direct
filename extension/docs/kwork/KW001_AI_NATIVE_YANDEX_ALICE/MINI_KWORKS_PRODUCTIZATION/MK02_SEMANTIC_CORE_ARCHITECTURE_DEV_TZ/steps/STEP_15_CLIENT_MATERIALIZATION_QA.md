@@ -101,3 +101,117 @@ All promised logical views materialized; counts/joins/relationships reconcile; R
 
 ## CLIENT-FACING MEANING
 «На выходе клиент получает не набор внутренних таблиц, а согласованный пакет: что показало исследование, какая структура сайта нужна, какие изменения уже можно внедрять, какие вопросы ещё нужно уточнить и как проверить результат после доработки.»
+
+---
+
+## OWNER CORRECTION 2026-09-10 — SOLD MAPPING/ARCHITECTURE MUST BE THE VISIBLE PRODUCT
+
+Phase-7 recipient review exposed a product-gap: a site with already-good current routing can produce only a few physical changes, causing the delivered PDFs to look like a tiny site audit even though MK02 sold full semantic mapping and target architecture.
+
+This is a release-blocking failure class.
+
+The package must make these three levels directly usable:
+
+```text
+PHRASE LEVEL
+all active phrases → cluster/task → target landing page
+
+CLUSTER / LANDING LEVEL
+one row per material cluster/task → target landing page → page type → hierarchy → current match/action
+
+PAGE-SPEC LEVEL
+one row/section per material target page → purpose → semantic scope → hierarchy → current state → target decision
+```
+
+### Mandatory XLSX client views
+
+The workbook must provide equivalent easily discoverable sheets/views for:
+
+```text
+1. ALL PHRASES / COMPLETE SEMANTIC CORE
+2. CLUSTERS / TASKS
+3. PHRASE→TARGET PAGE MAPPING
+4. CLUSTER→TARGET LANDING PAGE MAP
+5. TARGET SITE STRUCTURE / PAGE REGISTRY
+6. PAGE-BY-PAGE TARGET SPECIFICATIONS
+7. CURRENT→TARGET CHANGE DELTA / IMPLEMENTATION TASKS
+8. RECHECK / CLARIFICATION / UNRESOLVED
+9. PAGE RELATIONSHIPS where material
+```
+
+Exact sheet names may vary in Russian, but the logical views may not disappear or be hidden behind repository knowledge.
+
+### Mandatory analytical PDF role
+
+The analytical PDF must visibly show the **projected site model**, not mainly counts.
+
+It must include, at useful human scale:
+
+- main demand/task directions;
+- how clusters become landing pages;
+- target page registry or meaningful summarized map;
+- target hierarchy/tree or hierarchical table;
+- current-vs-target match summary;
+- examples of target landing assignments;
+- existing/new/optimize/keep/no-standalone/recheck classes;
+- explanation of where the full phrase-level map lives in XLSX.
+
+A report that says “most current owners are already correct” but does not show the target landing model is FAIL.
+
+### Mandatory implementation/TZ PDF role
+
+The implementation/TZ PDF is not limited to physical change tickets.
+
+It must provide a usable page-by-page target specification or a complete target-page register plus detailed implementation sections, so the recipient can answer for each material target page:
+
+```text
+WHAT PAGE IS THIS
+WHAT DEMAND/CLUSTER LANDS HERE
+WHAT USER TASK IT SERVES
+WHERE IT SITS IN THE STRUCTURE
+WHAT TARGET URL/ROUTE IS
+WHETHER CURRENT PAGE EXISTS/MATCHES
+CREATE / OPTIMIZE / KEEP / ROUTE / NO_STANDALONE / RECHECK
+WHAT CHANGES IF ANY
+HOW TO RECOGNIZE THE FINISHED TARGET STATE
+```
+
+The thousands of phrase rows stay in XLSX. PDF summarizes page-level specifications rather than duplicating the raw semantic ledger.
+
+### Rehearsal honesty rule
+
+Do not falsify OKNO_MSK or pretend the current site has no mapping.
+
+Correct rehearsal mode:
+
+```text
+CURRENT SITE = REAL AS-IS INVENTORY / EVIDENCE
+CURRENT MAPPING = NOT PRE-ACCEPTED AS THE TARGET ANSWER
+TARGET LANDING MODEL = INDEPENDENTLY DERIVED FROM SEMANTICS/TASKS
+THEN TARGET MODEL IS RECONCILED AGAINST CURRENT SITE
+```
+
+This allows a valid result where many target pages match existing pages, while still demonstrating the full sold mapping/architecture work.
+
+### Hard non-repeat rules
+
+```text
+DELTA-ONLY CLIENT PACKAGE = FAIL
+CURRENT-SITE-FIRST MAP THAT NEVER MATERIALIZES AN INDEPENDENT TARGET MODEL = FAIL
+GOOD EXISTING SITE CAUSING TARGET PAGE SPECS TO DISAPPEAR = FAIL
+THOUSANDS OF PHRASES DUMPED INTO PDF INSTEAD OF PAGE-LEVEL SPEC = FAIL
+PHRASE DETAIL ONLY, WITHOUT CLUSTER→PAGE AND PAGE→STRUCTURE VIEWS = FAIL
+```
+
+### Additional recipient PASS tests
+
+An uninvolved recipient must be able to answer, using only the client package:
+
+1. For an arbitrary working phrase, which target landing page owns it?
+2. For an arbitrary material cluster, which landing page owns it and why?
+3. What is the full target site/page structure implied by the research?
+4. Which target pages already exist, which need optimization, which are new candidates, which should not be standalone and which remain unresolved?
+5. For a KEEP page, what exact semantic/page role is being preserved?
+6. For each real change, what must be implemented and how is completion checked?
+
+Failure to answer 1–5 means the package has collapsed the sold mapping/architecture product into an audit delta and cannot pass release.
