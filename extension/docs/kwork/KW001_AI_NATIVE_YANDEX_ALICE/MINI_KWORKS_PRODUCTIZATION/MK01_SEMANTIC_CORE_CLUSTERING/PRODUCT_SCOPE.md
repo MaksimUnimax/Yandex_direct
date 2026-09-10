@@ -1,6 +1,6 @@
 # MK01 — PRODUCT SCOPE
 
-Status: **SCOPE + COMMERCIAL PACKAGE V1 + XLSX/PDF DELIVERY VALIDATED**
+Status: **SCOPE + COMMERCIAL PACKAGE V1 + XLSX/ANALYTICAL-PDF DELIVERY VALIDATED**
 
 Working Kwork title:
 
@@ -30,7 +30,7 @@ Plain-language promise:
 
 > Соберу поисковые запросы по согласованным направлениям существующего сайта, проверю спрос через Яндекс Wordstat, удалю подтверждённый мусор, отдельно сохраню спорные запросы и сгруппирую рабочую семантику по смыслу и задаче пользователя. Где одной формулировки недостаточно для надёжного решения, использую точечную проверку обычной выдачи Яндекса.
 
-The deliverable is **not merely a parser export** and **not merely a final flat keyword list**. It preserves both a working spreadsheet and a concise recipient explanation of what was done and what the result means.
+The deliverable is **not merely a parser export** and **not merely a final flat keyword list**. It contains both a working spreadsheet and an evidence-backed analytical explanation of what the research showed.
 
 ---
 
@@ -93,7 +93,7 @@ PRIMARY REGION = 1
 AGREED BUSINESS DIRECTIONS = up to 10
 GOVERNED UNIQUE PHRASES = up to 1,500
 TARGETED ORDINARY YANDEX SEARCH CHECKS = up to 40, only when justified
-CLIENT RESULT = seven-sheet XLSX + 4–8 page client PDF report + short handoff message
+CLIENT RESULT = seven-sheet XLSX + analytical client PDF report + short handoff message
 ```
 
 Add-ons:
@@ -259,15 +259,17 @@ Explain in normal client language:
 - that Google is outside the product;
 - that private Yandex access is not required for the base result.
 
-### E. Mandatory client PDF report
+### E. Mandatory analytical client PDF report
 
-A concise 4–8 page report governed by `CLIENT_REPORT_SPEC.md` explains what was researched, what work was done, headline results, real examples of groups, uncertainty/exclusions, how to use the XLSX, Wordstat limitations, Yandex-only scope and reasonable next steps.
+A concise report governed by `CLIENT_REPORT_SPEC.md` explains **what the research showed**, not only what work was performed. It includes evidence-backed executive findings, current demand/task structure, material semantic groups, uncertainty/exclusion analysis, XLSX usage, Wordstat limitations, Yandex-only scope and reasonable next steps.
+
+There is no fixed page-count PASS requirement. Report length follows current evidence and recipient task.
 
 ### F. Short handoff message
 
 A short Kwork/chat message attaches both XLSX and PDF and explains which file to open first. It is not a separate TXT report.
 
-The validated physical base package is therefore: **one standalone seven-sheet XLSX + one 4–8 page client PDF report + a short handoff message in the marketplace/chat**. Full audit sidecars remain internal unless separately required. See `DELIVERABLE_SPEC.md`, `CLIENT_REPORT_SPEC.md` and `PRODUCT_PACKAGING.md`.
+The validated physical base package is therefore: **one standalone seven-sheet XLSX + one analytical client PDF report + a short handoff message in the marketplace/chat**. Full audit sidecars remain internal unless separately required. See `DELIVERABLE_SPEC.md`, `CLIENT_REPORT_SPEC.md` and `PRODUCT_PACKAGING.md`.
 
 ---
 
@@ -358,7 +360,9 @@ ORDER/SCOPE/CAPACITY FROZEN
 + TARGETED SEARCH CLAIMS STAY WITHIN EXACT OBSERVED SCOPE
 + CLUSTERING PASSES CURRENT-DOMAIN SEMANTIC QA
 + XLSX CLIENT ARTIFACT PASS
-+ PDF CLIENT REPORT PASS
++ PDF CLIENT REPORT ANALYTICAL-VALUE PASS
++ CLIENT REPORT != EXECUTION PROTOCOL
++ PAGE COUNT != REPORT QUALITY
 + NO PAGE-ARCHITECTURE CLAIM LEAKAGE
 + NO GOOGLE CAPABILITY LEAKAGE
 + CLIENT PACKAGE IS UNDERSTANDABLE WITHOUT INTERNAL REPOSITORY KNOWLEDGE
