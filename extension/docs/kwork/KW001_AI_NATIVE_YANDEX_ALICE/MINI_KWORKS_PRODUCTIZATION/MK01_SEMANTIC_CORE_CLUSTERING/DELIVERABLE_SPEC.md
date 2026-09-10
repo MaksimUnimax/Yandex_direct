@@ -1,22 +1,24 @@
 # MK01 — DELIVERABLE SPEC
 
-Status: **METHOD CONTRACT + XLSX + CLIENT PDF REPORT VALIDATED ON OKNO_MSK**
+Status: **METHOD CONTRACT + XLSX + ANALYTICAL CLIENT PDF VALIDATED ON OKNO_MSK**
 
 ## 1. Sold result
 
 The client receives a standalone, recipient-readable semantic core for the frozen existing-site scope based on Yandex demand evidence, conservative cleanup and task-first clustering.
 
-The result must answer without repository knowledge:
+The complete delivery must let the client understand without repository knowledge:
 
 1. what scope/region was researched;
 2. what phrases were preserved;
 3. which phrases form the active core;
 4. how active phrases are grouped and what each group means;
-5. which phrases remain uncertain/deferred and why;
-6. what was excluded at a useful client-facing level;
-7. what the displayed Wordstat metrics mean;
-8. what the client can do next with the result;
-9. that Google/page architecture/AI are outside MK01.
+5. what the research showed about the structure of the working corpus;
+6. which phrases remain uncertain/deferred and why;
+7. what was excluded and why;
+8. what the displayed Wordstat metrics mean;
+9. how to use the working XLSX;
+10. what can reasonably be done next;
+11. that Google/page architecture/AI are outside MK01.
 
 ## 2. Canonical recipient workbook views
 
@@ -43,24 +45,35 @@ Excluded demand/reasons sufficient to prove deliberate cleaning.
 ### G. «Методика»
 Russian explanation of Wordstat metric semantics, region/device/operator/snapshot where applicable, state/group meaning and limitations.
 
-## 3. Mandatory client PDF report
+## 3. Mandatory analytical client PDF
 
-Every completed MK01 order also includes a concise client PDF report governed by `CLIENT_REPORT_SPEC.md`.
+Every completed MK01 order also includes a client PDF governed by `CLIENT_REPORT_SPEC.md`.
 
-The PDF is normally 4–8 pages and must explain in ordinary Russian:
+Canonical rule:
 
-- site, region and research scope;
-- what work was performed;
+```text
+CLIENT REPORT != EXECUTION PROTOCOL
+CORRECT COUNTS + CLEAN LAYOUT != ANALYTICAL REPORT PASS
+```
+
+The PDF must explain in ordinary Russian:
+
+- evidence-backed executive findings — **what the research showed**, not just what was done;
+- site, region and data/snapshot scope;
 - headline counts from current authority;
-- selected real semantic-group examples;
-- what remains uncertain/excluded;
+- working-core structure by current evidence-backed task/intent taxonomy where available;
+- major/material semantic groups chosen by an explicit rule rather than arbitrary examples;
+- what remains uncertain/reviewed and why;
+- what was excluded and why;
 - how to use the XLSX;
 - Wordstat metric limitations;
 - Yandex-only boundary;
 - what is outside MK01;
-- reasonable next-step options.
+- reasonable next-step options without claiming those later products were already completed.
 
-The PDF must not invent examples, counts, frequency values, traffic/ranking forecasts or downstream conclusions.
+The PDF must not invent examples, counts, shares, frequency values, traffic/ranking forecasts, commercial priorities or downstream conclusions.
+
+There is **no fixed page-count PASS target**. Page count is descriptive only; information value and recipient usefulness are the acceptance criteria.
 
 ## 4. Handoff message
 
@@ -74,6 +87,7 @@ For a Russian client:
 - internal API/stage/status codes do not become the main display vocabulary;
 - technical IDs remain only where useful for traceability;
 - internal words such as Stage, Step, authority, provenance, route state, failure class, exact-universe join, phrase key and request IDs must not appear unexplained in the client PDF;
+- internal pilot history is excluded unless needed to understand the purchased result;
 - «частотность» wording must correspond to the actual Wordstat metric.
 
 ## 6. Data-truth contract
@@ -90,7 +104,10 @@ SOURCE IDENTITIES
 + DISPLAY MAPPING VERSION
 + PURCHASED GOVERNED-PHRASE / SEARCH CAPACITY
 + COMMERCIAL VOLUME-GATE RESULT
++ REPORT DERIVED-METRIC RECONCILIATION
 ```
+
+Every report chart/share/top-group list must reconcile to current accepted authority.
 
 ## 7. Explicit exclusions
 
@@ -128,4 +145,6 @@ The governed-phrase limit does not permit silent truncation of provider evidence
 
 ## 10. Acceptance
 
-Delivery is accepted only after data, semantic, workbook, client-PDF, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass. The OKNO_MSK validated client package is one seven-sheet XLSX + one six-page PDF + a short handoff message.
+Delivery is accepted only after data, semantic, workbook, analytical-report, language, visual and recipient-task QA from `QA_AND_RELEASE.md` all pass.
+
+The OKNO_MSK current analytical report revision is dated **2026-09-10**. Its descriptive length is 8 pages, but that number is not a method requirement. Its acceptance is based on evidence-backed findings, reconciliation, readability and recipient usefulness.
