@@ -215,3 +215,135 @@ An uninvolved recipient must be able to answer, using only the client package:
 6. For each real change, what must be implemented and how is completion checked?
 
 Failure to answer 1–5 means the package has collapsed the sold mapping/architecture product into an audit delta and cannot pass release.
+
+---
+
+## OWNER CORRECTION 2026-09-10 — MARKET-GRADE CLIENT USABILITY / COMPRESSION
+
+A second external recipient/market comparison found a different failure risk: after correcting the delta-only package, MK02 can overcorrect into a technically complete but unnecessarily repetitive deliverable. The product must expose the same authority with **high information density and direct keyword-to-page usefulness**.
+
+### A. Phrase mapping view must expose demand directly
+
+The primary phrase→target-page XLSX view must include the preserved Wordstat demand indicator **on the same row as the phrase, cluster and target page**.
+
+A client must not have to switch to another sheet merely to sort the routed phrases of one target page by demand.
+
+Required ordinary client columns include equivalent of:
+
+```text
+PHRASE
+WORDSTAT INDICATOR
+CLUSTER / TASK
+INTENT / USER TASK
+TARGET LANDING PAGE
+TARGET URL / ROUTE
+CURRENT MATCH
+ACTION
+UNCERTAINTY
+```
+
+Wordstat metric meaning/region/mode limitations remain explicit. No page-level sum is invented.
+
+### B. Page-level keyword block
+
+Every material target-page specification must surface:
+
+```text
+PRIMARY QUERY + INDIVIDUAL WORDSTAT INDICATOR
+TOP SECONDARY QUERIES + INDIVIDUAL WORDSTAT INDICATOR FOR EACH
+TOTAL ROUTED PHRASE COUNT
+```
+
+Normally show 5–10 distinct useful secondary phrases where available. The complete membership remains in XLSX.
+
+### C. Target-page boundary quality
+
+Client material must not repeat one topic as both “what this page should cover” and “what belongs elsewhere” without an explicit sub-intent distinction.
+
+The materialization layer must preserve the Step-14 separation:
+
+```text
+OWN COVERAGE
+SUPPORT / MENTION / LINK
+ELSEWHERE / NAMED OWNER
+```
+
+Do not render an internal union of many heterogeneous source intents as the page's single “Главная задача / интент”.
+
+### D. H1 / Title / analytical priority visibility
+
+Every material page specification must show its recommended H1.
+
+For `CREATE` / `OPTIMIZE` pages, show a recommended Title direction/draft when supported; otherwise name the exact blocker. Do not fabricate a new Title for a `KEEP` page merely for symmetry.
+
+Show analytical SEO priority with a short basis when available. Keep it explicitly separate from production order, effort, deadline or business priority.
+
+### E. Analytical PDF must show an actual visual hierarchy
+
+A long hierarchical table alone is not enough when the architecture is a core sold result.
+
+The analytical PDF must include a directly scannable target-structure representation — for example a multi-page indented tree / branch diagram / structured hierarchy view — that lets the recipient understand major sections and parent→child page relationships quickly.
+
+The detailed table may remain as the authoritative companion view.
+
+### F. Full TZ authority != one full PDF page per KEEP role
+
+All target pages remain in the full specification authority and in a complete compact client register.
+
+However, the PDF must not mechanically dedicate a nearly identical full page to every `KEEP / NO PHYSICAL CHANGE` role when the page adds no special implementation detail.
+
+Preferred PDF pattern:
+
+```text
+COMPLETE COMPACT REGISTER OF ALL TARGET PAGES
++
+DETAILED PAGE CARDS FOR CREATE / OPTIMIZE / ROUTE / RECHECK
++
+DETAILED KEEP CARD ONLY WHEN A KEEP ROLE HAS MATERIAL BOUNDARY / DEPENDENCY / SPECIAL EXPLANATION
+```
+
+This preserves completeness without converting 48 “keep” confirmations into dozens of repetitive pages.
+
+Permanent rule:
+
+```text
+KEEP MUST REMAIN VISIBLE
+!=
+EVERY KEEP MUST CONSUME A FULL PDF PAGE
+```
+
+No fixed target page count or PDF page count is allowed.
+
+### G. Recipient quality tests
+
+Using only the final client package, an uninvolved recipient must be able to:
+
+1. filter one target page and sort its working phrases by Wordstat demand without joining sheets;
+2. identify the page's primary query and several secondary queries with individual demand values;
+3. identify exactly one primary page job and distinguish own coverage from support/elsewhere topics;
+4. see the page's recommended H1 and, for CREATE/OPTIMIZE, Title direction or an explicit blocker;
+5. understand target hierarchy from a scannable tree/diagram rather than only a wide table;
+6. see every KEEP page in the complete register without being forced through dozens of repetitive full-page KEEP cards;
+7. distinguish analytical SEO priority from implementation schedule/business priority.
+
+Failure of any applicable item = client-package quality FAIL even if row counts/hashes/schema are green.
+
+### H. Source/generator correction first
+
+These presentation/usability defects must be fixed in canonical page-spec generation and client generators, not hand-patched in the final PDF/XLSX.
+
+After any change:
+
+```text
+SOURCE / GENERATOR FIX
+→ REBUILD AFFECTED AUTHORITIES
+→ REBUILD XLSX + BOTH PDF
+→ MACHINE QA
+→ RECIPIENT QA
+→ FINAL-BYTE PHYSICAL QA
+→ REMOTE READBACK
+```
+
+Client-facing meaning:
+
+«Основная карта сразу показывает запрос, его спрос и целевую страницу. Для каждой страницы видны главный и дополнительные запросы с частотностью, H1, границы темы и приоритет. Полный реестр остаётся полным, но PDF не раздувается десятками одинаковых страниц “оставить как есть”.»
