@@ -8,10 +8,10 @@
     "status": "COMPLETE"
   },
   "durable_feed_forward": {
-    "usable": 70,
+    "usable": 71,
     "required": 79,
     "status": "RECOVERY_IN_PROGRESS",
-    "remaining_run_orders": [40,41,42,43,44,45,46,47,48]
+    "remaining_run_orders": [41,42,43,44,45,46,47,48]
   },
   "recovered_without_provider_replay": [
     {
@@ -177,14 +177,35 @@
       "remote_tail_readback": "PASS",
       "historical_control_match": "PASS__818_RESULTS__19_ASSOCIATIONS__TOTALCOUNT_64242",
       "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
+    },
+    {
+      "run_order": 40,
+      "phrase": "знак зодиака Водолей",
+      "request_id": "wordstat-d465de72-775d-4255-83cb-9ad9b4373925",
+      "http_status": 200,
+      "status": "OK",
+      "results_rows": 569,
+      "results_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__RESULTS_LINES_31_599_INCLUSIVE",
+      "associations_rows": 19,
+      "associations_rows_verification": "DIRECT_REMOTE_LINE_POSITION_COUNT__ASSOCIATION_LINES_602_620_INCLUSIVE",
+      "totalCount": 37900,
+      "request_executed": true,
+      "automatic_retry": false,
+      "estimated_cost_rub": 0.02,
+      "path": "STEP_03_WORDSTAT_RAW/RECOVERY_REQUERY__040__wordstat-d465de72-775d-4255-83cb-9ad9b4373925.raw.txt",
+      "raw_blob_sha": "94c1d1f76c2da4c7f52e5dfc48d1e909f699f84d",
+      "remote_readback": "PASS",
+      "remote_tail_readback": "PASS",
+      "historical_control_match": "PASS__569_RESULTS__19_ASSOCIATIONS__TOTALCOUNT_37900",
+      "provenance_boundary": "NEW_CURRENT_OBSERVATION_DOES_NOT_REPLACE_HISTORICAL_REQUEST_ID"
     }
   ],
   "provider_recovery": {
     "replay_authorized_by_owner_if_needed": true,
-    "replay_executed_so_far": 8,
-    "replay_estimated_cost_so_far_rub": 0.16,
+    "replay_executed_so_far": 9,
+    "replay_estimated_cost_so_far_rub": 0.18,
     "next_rule": "Persist and verify full current provider envelope before the next recovery request."
   },
   "step04_allowed": false,
-  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_40_ZNAK_ZODIAKA_VODOLEY"
+  "next_action": "RECOVER_OR_REQUERY_RUN_ORDER_41_ZNAK_ZODIAKA_DEVA"
 }
