@@ -3,7 +3,7 @@ name: MK02 Phase 7 corrected analytical PDF materializer
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf_r4'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf_r5'
 
 permissions:
   contents: write
@@ -15,38 +15,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Recover exact chunk2, decode and verify corrected PDF
+      - name: Decode verified chunks and verify corrected PDF
         shell: bash
         run: |
           set -euo pipefail
           BASE='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK'
-          python - <<'PY'
-          from pathlib import Path
-          import hashlib, base64
-          base=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK')
-          bad=(base/'_phase7_pdf_fix/analytic.part02').read_bytes()
-          assert len(bad)==15708, len(bad)
-          remove=5708
-          expected_chunk='654a8e44a4b1382bdef4341c54457dbe270b85db'
-          def gitblob(b):
-              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          found=[]
-          for i in range(len(bad)-remove+1):
-              candidate=bad[:i]+bad[i+remove:]
-              if len(candidate)==10000 and gitblob(candidate)==expected_chunk:
-                  found.append((i,candidate))
-          assert len(found)==1, [(x[0],gitblob(x[1])) for x in found]
-          i,chunk2=found[0]
-          print('EXTRA_SEGMENT_OFFSET',i,'LENGTH',remove,'RECOVERED_CHUNK2_GIT_BLOB',gitblob(chunk2))
-          b64=(base/'_phase7_pdf_fix/analytic.part01').read_bytes()+chunk2+(base/'_phase7_pdf_fix/analytic.part03').read_bytes()
-          raw=base64.b64decode(b64, validate=True)
-          out=base/'CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf'
-          out.write_bytes(raw)
-          assert len(raw)==20970, len(raw)
-          assert gitblob(raw)=='149dfe55010e099d03d048f6686775ea74dd3edd',gitblob(raw)
-          assert hashlib.sha256(raw).hexdigest()=='851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7'
-          print('FINAL_SIZE',len(raw),'FINAL_GIT_BLOB',gitblob(raw),'FINAL_SHA256',hashlib.sha256(raw).hexdigest())
-          PY
+          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part01")" = '35b5edb46aaa1c25404631a0a7db85deaf2faebe'
+          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part02a")" = '041c373312c08179a4f9f4101968b1103d4312b8'
+          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part02b")" = '23c0e144cf9036790174ccaad4257e28b9b06996'
+          test "$(git hash-object "$BASE/_phase7_pdf_fix/analytic.part03")" = '2a88df7ac064e57e800eb3f70e9fbd6f4c04c839'
+          OUT="$BASE/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf"
+          { cat "$BASE/_phase7_pdf_fix/analytic.part01"; cat "$BASE/_phase7_pdf_fix/analytic.part02a"; cat "$BASE/_phase7_pdf_fix/analytic.part02b"; cat "$BASE/_phase7_pdf_fix/analytic.part03"; } | base64 -d > "$OUT"
+          test "$(stat -c %s "$OUT")" = '20970'
+          test "$(git hash-object "$OUT")" = '149dfe55010e099d03d048f6686775ea74dd3edd'
+          test "$(sha256sum "$OUT" | cut -d' ' -f1)" = '851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7'
+          echo 'CORRECTED_ANALYTICAL_IDENTITY_PASS'
       - name: Commit corrected analytical PDF
         shell: bash
         run: |
