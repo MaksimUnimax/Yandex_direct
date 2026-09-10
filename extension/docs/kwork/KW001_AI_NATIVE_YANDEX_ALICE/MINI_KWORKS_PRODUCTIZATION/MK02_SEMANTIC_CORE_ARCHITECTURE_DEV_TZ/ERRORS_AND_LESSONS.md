@@ -244,3 +244,50 @@ Any newly discovered MK02 defect must be added here with:
 5. regression that can fail on recurrence;
 6. recipient effect where applicable;
 7. save/commit/remote readback.
+
+
+---
+
+## K. Phase-7 final-artifact leakage / page-flow failure — PACKAGING-QA-01
+
+### What failed
+
+The final physical delivery can still fail after semantic/recipient review even when the underlying decisions are correct. The Phase-7 rehearsal exposed two concrete manifestations:
+
+- client XLSX presentation/package metadata retained internal vocabulary equivalent to `HOLD`, `CTA` and product-internal identifiers;
+- the analytical PDF passed parse/text/hash checks but a final-byte render showed a section heading orphaned at the bottom of a page.
+
+Concrete client values remain Level 2; the reusable failure is final-artifact leakage/page-flow incompleteness.
+
+### Root cause / false assumptions
+
+```text
+RECIPIENT NARRATIVE LOOKS HUMAN != FINAL FILE TOKEN-CLEAN
+VISIBLE XLSX CELLS CLEAN != XLSX PACKAGE METADATA CLEAN
+PDF PARSES + HASH MATCHES != PAGE-FLOW PASS
+EARLIER RENDER PASS != POST-CORRECTION FINAL-BYTE RENDER PASS
+```
+
+One generator path bypassed the client-text normalization layer; workbook QA did not inspect raw XML/table metadata; parser/hash PDF QA could not observe page composition.
+
+### Corrected rule
+
+Final-artifact QA is layered:
+
+1. XLSX: inspect visible client cells **and** raw package XML/table metadata for internal vocabulary; client-facing generation paths use the same normalization authority.
+2. PDF: parse/extract text **and** render the exact final bytes; inspect clipping, overlap, broken glyphs, orphan headings and page flow.
+3. If a leak/layout defect is found, correct the source/generator first where applicable, rebuild the affected artifact and rerun the relevant client-language/physical/hash gates.
+4. A pre-correction render or an earlier green receipt cannot certify later bytes.
+
+### Regression / closure condition
+
+```text
+XLSX FORBIDDEN CLIENT-TOKEN HITS = 0
+XLSX INTERNAL TABLE-NAME LEAKAGE = 0
+XLSX FORMULA ERRORS = 0
+PDF FORBIDDEN CLIENT-TOKEN HITS = 0
+FINAL ANALYTICAL PDF RENDER = PASS / NO ORPHAN HEADING
+FINAL IMPLEMENTATION PDF RENDER = PASS
+FINAL REMOTE HASH/IDENTITY READBACK = PASS
+SOURCE/GENERATOR NON-REPEAT CONTROL = PRESENT
+```

@@ -1,6 +1,6 @@
 # MK02 — Семантическое ядро + SEO-структура сайта + ТЗ на доработку
 
-Status: **PHASES 0–6 PASS / PHASE 7 PRODUCT-RECIPIENT QA NEXT**
+Status: **PHASES 0–7 PASS / PHASE 8 PRICE-LIMITS-ECONOMICS NEXT**
 
 ## MANDATORY SERIES DEVELOPMENT AUTHORITY — READ BEFORE CONTINUATION
 
@@ -152,8 +152,8 @@ PHASE 3  KW-001 METHOD / FAILURE EXTRACTION    = PASS
 PHASE 4  AUTONOMOUS MK02 ROADMAP               = PASS
 PHASE 5  OKNO_MSK MK02-ONLY REHEARSAL          = PASS / 2026-09-10
 PHASE 6  MK02 CLIENT DELIVERABLE / PACKAGING   = PASS / OWNER REVIEW 2026-09-10
-PHASE 7  PRODUCT / RECIPIENT QA                = NEXT
-PHASE 8  PRICE / LIMITS / ECONOMICS            = PENDING
+PHASE 7  PRODUCT / RECIPIENT QA                = PASS / 2026-09-10
+PHASE 8  PRICE / LIMITS / ECONOMICS            = NEXT
 PHASE 9  KWORK CARD                            = PENDING
 PHASE 10 PORTFOLIO / COVER                     = PENDING
 PHASE 11 OWNER PUBLICATION                     = PENDING
@@ -210,9 +210,9 @@ No price, limits, delivery time, card copy or visual asset was frozen in Phase 6
 ```text
 CURRENT_MINI_KWORK = MK02
 SERIES_DEVELOPMENT_AUTHORITY = ../MINI_KWORK_DEVELOPMENT_PROTOCOL.md
-METHOD_STATE = PHASE_6_CLIENT_PACKAGING_PASS
+METHOD_STATE = PHASE_7_PRODUCT_RECIPIENT_QA_PASS
 PHYSICAL_PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
-NEXT_ACTION = PHASE_7_MK02_PRODUCT_RECIPIENT_QA
+NEXT_ACTION = PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
 ```
 
-Phase 7 must materialize/reconcile the accepted physical package on OKNO_MSK, inspect both PDF renders and the XLSX as client artifacts, verify client language/Yandex-only boundaries/readiness states and perform remote persistence/readback. It must not silently rerun Phase 5 or start Phase 8 economics, Phase 9 card or Phase 10 visuals.
+Phase 7 materialized and validated the accepted OKNO_MSK physical package, including final XLSX package-layer language checks, both final PDF renders, corrected generator behavior, machine QA and recipient review. Phase 8 economics is now the next productization gate; Phase 9 card and Phase 10 visuals have not started.

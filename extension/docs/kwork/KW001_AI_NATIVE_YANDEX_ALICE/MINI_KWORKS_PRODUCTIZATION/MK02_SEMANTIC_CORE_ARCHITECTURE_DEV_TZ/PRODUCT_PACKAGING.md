@@ -1,6 +1,6 @@
 # MK02 — PRODUCT PACKAGING
 
-Status: **PHASE 6 OWNER-ACCEPTED PHYSICAL PACKAGE / PHASE 7 QA NEXT**
+Status: **PHASE 7 PACKAGE VALIDATED / PHASE 8 ECONOMICS NEXT**
 
 Рабочее название продукта:
 
@@ -225,51 +225,57 @@ READY / PENDING BUSINESS / PENDING PLACEMENT / RECHECK / MAPPING / NO CHANGE / H
 
 Эти числа являются evidence конкретного rehearsal и **не становятся коммерческими лимитами**. Limits и price определяются только на Phase 8.
 
-## 12. Phase 7 — что ещё должно быть доказано
+## 12. Phase 7 — validation result
 
-Phase 6 фиксирует **package design**, но ещё не заменяет последующий product/recipient QA.
+Phase 7 materialized the frozen three-file package on OKNO_MSK and validated it as the real recipient delivery.
 
-До Phase-7 PASS нужно на OKNO_MSK materialize и проверить финальную форму пакета:
-
-1. XLSX как клиентский рабочий файл.
-2. Аналитический PDF из accepted analytical source.
-3. Implementation-TZ PDF из accepted action-first source.
-4. Короткое handoff message из `CLIENT_HANDOFF_TEMPLATE.md`.
-
-Phase 7 обязан проверить:
-
-- source→file consistency;
-- полный row/count reconciliation;
-- отсутствие stale 7-READY состояния;
-- client-language cleanliness;
-- отсутствие internal-ID leakage;
-- physical rendering обоих PDF;
-- usability XLSX;
-- точность hyperlinks/URLs;
-- самостоятельную recipient usefulness каждого документа;
-- Yandex-only scope во всех client files;
-- remote persistence/readback.
-
-## 13. Phase-6 Definition of Done
+Final client artifacts:
 
 ```text
-PHASE-5 REHEARSAL READ / ACCEPTED AS INPUT
-+ CANDIDATE XLSX REVIEWED
-+ ANALYTICAL VIEW REVIEWED
-+ ACTION-FIRST VIEW REVIEWED
-+ COMBINED-DOCUMENT OPTION REJECTED WITH REASON
-+ XLSX + TWO-PDF SPLIT FROZEN
-+ DOCX BASE PROMISE = NO
-+ INTERNAL SIDECARS EXCLUDED FROM CLIENT PACKAGE
-+ YANDEX-ONLY BOUNDARY PRESERVED
-+ NO PAGE-COUNT QUALITY PROXY
-+ NO PRICE/LIMITS INVENTED
-+ NO CARD/VISUAL WORK STARTED
-= PHASE 6 PASS
+SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx
+blob = b2ec26f1c932461e6a1a807e833d254225e62d65
+sha256 = be1996ad6b356187de55afeabc57ba33fd3aa77b0be0850ebe9938638944040a
+
+RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf
+blob = 149dfe55010e099d03d048f6686775ea74dd3edd
+sha256 = 851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7
+
+SITE_IMPROVEMENT_TZ_OKNO_MSK_2026-09-10.pdf
+blob = 7aedd3d74cae8bed3ac2fe43aab5e716536d3d9d
+sha256 = d12b0b3bd8d70c9aff5aea793d3a94b147be1555e547c03729e4e2caa5b7dfc1
+```
+
+Validated gates:
+
+- semantic/ownership/action row accounting preserved;
+- 47 work packages reconcile to `3 / 1 / 10 / 4 / 19 / 9 / 1`;
+- final XLSX has 13 visible sheets, zero formula errors and zero forbidden client-token hits in visible/package XML layers;
+- analytical PDF: 2/2 final pages visually inspected after the orphan-heading correction;
+- implementation-TZ PDF: 2/2 final pages visually inspected;
+- both PDFs parse and pass client-language scans;
+- Yandex-only and uncertainty/readiness boundaries are preserved;
+- provider calls in Phase 7 = 0;
+- Phase-5 semantic/ownership/architecture/action authorities modified in Phase 7 = 0.
+
+The client package design remains exactly the Phase-6 decision: one XLSX + two separate PDFs + a short handoff message.
+
+## 13. Phase-7 Definition of Done
+
+```text
+FROZEN PHYSICAL PACKAGE MATERIALIZED
++ G13 CROSS-VIEW CONSISTENCY PASS
++ G14 CLIENT LANGUAGE / REPORT QUALITY PASS
++ G15 PHYSICAL / RECIPIENT / PERSISTENCE PASS
++ FINAL XLSX PACKAGE-LAYER SCAN PASS
++ BOTH FINAL PDF RENDERS REVIEWED
++ FINAL HASH IDENTITIES RECORDED
++ GENERATOR REGRESSION FIXED
++ PROVIDER CALLS = 0
+= PHASE 7 PASS
 ```
 
 Next gate:
 
 ```text
-PHASE 7 = PRODUCT / RECIPIENT QA OF THE FROZEN PHYSICAL PACKAGE
+PHASE 8 = PRICE / LIMITS / ECONOMICS
 ```

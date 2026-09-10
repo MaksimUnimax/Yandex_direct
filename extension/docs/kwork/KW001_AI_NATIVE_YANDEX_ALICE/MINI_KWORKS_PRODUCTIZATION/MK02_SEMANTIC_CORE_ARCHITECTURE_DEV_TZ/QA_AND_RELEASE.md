@@ -167,6 +167,8 @@ For Russian client artifacts:
 
 - ordinary headings/statuses/reasons/instructions are Russian;
 - internal action IDs/filenames/QA IDs/Stage/Step/enums do not leak;
+- final XLSX is scanned both through visible cells and raw package XML/table metadata;
+- client-text normalization is not bypassed by a secondary generator path;
 - document identity is result/purpose, not recipient profession;
 - topic→page and page→page tables explain WHAT/WHY/HOW;
 - analytical report answers “what did research show?”;
@@ -192,8 +194,9 @@ Phase 6 has frozen the base MK02 V1 client package as:
 Phase 7 must therefore:
 
 - open the final XLSX and verify its workbook structure/usability;
-- render and inspect **both** final PDFs independently;
-- verify no clipping/overlap/broken glyphs/unreadable tables/orphan headings;
+- render and inspect **both** final PDFs independently from the exact post-correction delivery bytes;
+- parse/extract and client-language-scan both PDFs, but do not treat parse/hash success as a substitute for rendering;
+- verify no clipping/overlap/broken glyphs/unreadable tables/orphan headings or broken page flow;
 - verify the analytical PDF independently answers “what did the research show?”;
 - verify the implementation-TZ PDF independently answers what/why/where/how/clarify/check;
 - verify an uninvolved recipient can identify current vs target architecture, READY vs clarification/no-change and use the implementation tasks;
@@ -248,15 +251,16 @@ PUBLISHED
 = owner published product + published scope/price captured/read back
 ```
 
-## Current Phase-6/7 boundary
+## Current Phase-7/8 boundary
 
 ```text
 PHASE 5 OKNO_MSK REHEARSAL = PASS
 PHASE 6 CLIENT PACKAGE OWNER REVIEW = PASS
+PHASE 7 PRODUCT / RECIPIENT QA = PASS / 2026-09-10
 PHYSICAL PACKAGE = XLSX + ANALYTICAL_PDF + IMPLEMENTATION_TZ_PDF + HANDOFF_MESSAGE
-PHASE 6 PROVIDER CALLS = 0
-PHASE 5 DATA AUTHORITIES = DO NOT RERUN WITHOUT PROVEN DEFECT
-NEXT_ACTION = PHASE_7_MK02_PRODUCT_RECIPIENT_QA
+PHASE 7 PROVIDER CALLS = 0
+PHASE 5 DATA AUTHORITIES MODIFIED IN PHASE 7 = 0
+NEXT_ACTION = PHASE_8_MK02_PRICE_LIMITS_ECONOMICS
 ```
 
 G13–G15 are now the immediate execution focus. Phase 7 must validate the frozen package before Phase 8 price/limits, Phase 9 card or Phase 10 visuals.

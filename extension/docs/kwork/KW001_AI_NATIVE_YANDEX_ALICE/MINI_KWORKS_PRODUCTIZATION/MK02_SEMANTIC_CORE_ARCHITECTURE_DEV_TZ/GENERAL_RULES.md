@@ -488,3 +488,28 @@ SAVE
 ```
 
 Do not accumulate major productization progress only in conversation/local state.
+
+
+## 45. Final-artifact QA is layered
+
+Final client files require checks at the layer where a defect can exist.
+
+For XLSX:
+
+```text
+VISIBLE CLIENT CELLS
++ WORKBOOK/SHEET STATE
++ RAW PACKAGE XML / TABLE METADATA
++ FORMULA-ERROR SCAN
+```
+
+For PDF:
+
+```text
+PARSE / TEXT EXTRACTION
++ CLIENT-LANGUAGE SCAN
++ FINAL-BYTE RENDER
++ PAGE-FLOW / ORPHAN-HEADING REVIEW
+```
+
+A clean parser/hash result cannot substitute for rendered page-flow review. A clean visible worksheet view cannot substitute for checking package metadata when internal terminology is forbidden. After any correction, inspect/revalidate the **post-correction final bytes**, not an earlier render. Source/generator correction remains the preferred closure path before a final binary replacement.
