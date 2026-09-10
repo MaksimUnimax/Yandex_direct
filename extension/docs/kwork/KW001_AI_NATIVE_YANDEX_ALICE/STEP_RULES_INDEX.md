@@ -1,243 +1,232 @@
 # KW-001 — STEP RULES INDEX
 
-Updated: 2026-09-08  
-Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
+Updated: 2026-09-10  
+Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / VOLUME-SCALING REVISION ACTIVE**
 
-This index records **permanent methodology coverage**, not the progress/result of any current client job.
+This is the current executable roadmap index for KW-001.
 
-Concrete client/test domains, URLs, action/query IDs, row counts, provider costs, completion state and `tests/<CASE_ID>/...` artifacts are forbidden here under `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
+The complete pre-volume-revision index is preserved as:
 
-It answers:
+`STEP_RULES_INDEX_PRE_VOLUME_SCALING_2026-09-10.md`
 
-```text
-1. Has this roadmap stage earned a reusable permanent method?
-2. Where is that canonical method/lesson authority?
-3. What major permanent boundary must be remembered before execution?
-```
+All unaffected permanent rules/statuses from that historical base remain in force. This current index supersedes conflicting pre-2026-09-10 language only for acquisition volume, normalization, sanitation, Work/LLM input scale and downstream propagation.
 
-Canonical rules:
+## Mandatory universal authorities
 
-```text
-ROADMAP_STAGE_EXISTS != METHODOLOGY_VALIDATED
-RESEARCH_COLLECTED != METHOD_VALIDATED
-RESEARCH_COLLECTED != EXECUTION_SCHEMA_READY
-SOURCE_DISCOVERED != REQUIREMENT_OPERATIONALIZED
-PERMANENT METHOD STATUS != CURRENT JOB STEP STATUS
-```
+Before execution, use the existing cross-step gates plus:
 
-Universal cross-step authorities include:
+- `DATA_VOLUME_NORMALIZATION_AND_SANITATION_GATE.md`
+- `STEP_05A_VOLUME_SANITATION_ADDENDUM_2026-09-10.md`
+- `IMPLEMENTATION_PLAN_VOLUME_SCALING_AMENDMENT_2026-09-10.md`
+- current detailed step authorities listed below.
 
-- `RULES_ARCHITECTURE.md`
-- `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`
-- `SOURCE_TO_METHOD_TRACEABILITY_GATE.md`
-- `RESEARCH_TO_EXECUTION_SCHEMA_GATE.md`
-- `PRE_STEP_EVIDENCE_AND_METHOD_REVIEW_GATE.md`
-- `STEP_GOAL_OUTPUT_AND_ACCOUNTABILITY_GATE.md`
-- `BRIDGE_EVIDENCE_PERSISTENCE_GATE.md`
-- `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md` when current URL/content truth matters
-- current Codex/site-discovery/reliability/sync addenda when completeness/topology or deterministic execution is material
+Canonical data-flow distinction:
 
 ```text
-EXECUTABLE METHOD
-= UNIVERSAL CORE
-+ CURRENT JOB PROFILE
-+ CURRENT CONSTRAINTS
-+ CURRENT EVIDENCE
+RAW_OCCURRENCE_POOL
+!= NORMALIZED_UNIQUE_POOL
+!= SANITIZED_CANDIDATE_POOL
+!= STEP7_CLEANED_ACTIVE_SET
+!= SEARCH_STAGE_SET
 ```
 
-A scoped local/job rule is valid when required, but its concrete values belong in Level2.
+## Current execution order
 
----
+```text
+Step 0   order / scope freeze
+Step 1   existing-site / business-page discovery
+Step 2   bounded seed / acquisition probe plan
+Step 3   Wordstat/provider acquisition -> LOSSLESS RAW
+Step 3R  conditional repair of incomplete Step3 acquisition
+Step 3A  RAW normalization + exact/safe implicit deduplication
+Step 3B  high-confidence sanitation / pre-filter
+Step 4   first family triage on SANITIZED candidates, not RAW occurrences
+Step 5   targeted second acquisition -> immediate Step3A/3B on new rows
+Step 5A  competitor semantic expansion -> immediate Step3A/3B on new Wordstat rows
+Step 6   demand dynamics / seasonality when method is validated/authorized
+Step 6A  acquisition coverage revalidation when method is validated/authorized
+Step 7   nuanced row-level semantic cleanup on compact analytical pool
+Step 8   Search-stage semantic freeze
+Step 9   ordinary Yandex Search validation for decision-relevant retained set
+Step 10  user-task / Search clustering
+Step 11  page ownership / phrase->page mapping
+Step 12  structural/content-routing actions
+Step 13  competing-page / cannibalization diagnosis
+Step 14  Search-only architecture freeze
+Step 15  bounded AI-case selection
+Step 16  bounded AI-search evidence acquisition
+Step 17  Search-vs-AI comparison
+Step 18  prioritization / implementation readiness
+Step 19  client deliverables
+Step 20  final QA / release assurance
+Step 21  handoff / revisions
+Step 22  job close
+```
+
+`Step3R` is a conditional recovery pattern. It is not a replacement for Step3A/3B.
 
 ## Permanent methodology coverage
 
-| Stage | Purpose | Permanent methodology status | Canonical authority / key reusable boundary |
+| Stage | Purpose | Permanent status | Current authority / non-repeat boundary |
 |---|---|---|---|
-| Step 0 | Order / scope freeze | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — freeze the brief/scope before evidence acquisition. |
-| Step 1 | Existing-site / business-page discovery | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` + `CURRENT_SITE_FRESHNESS_AND_EXISTENCE_GATE.md` — a discovery snapshot is not timeless proof of absence/completeness. |
-| Step 2 | Seed / acquisition probe plan | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — seed is an acquisition probe, not a final keyword/page target. |
-| Step 3 | Wordstat/provider acquisition | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` + `BRIDGE_EVIDENCE_PERSISTENCE_GATE.md` — preserve every returned occurrence with complete demand/provenance and explicit provider limits/truncation; provider success is not collection completion. |
-| Step 3R | Repair incomplete Step3 acquisition | **JOB-SPECIFIC RECOVERY PATTERN / GOVERNED BY STEP3** | Step3 permanent rules + current Level2 repair evidence. |
-| Step 4 | First post-acquisition triage | **APPROVED / ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — family triage is not row-level cleanup; low frequency alone is not irrelevance. |
-| Step 5 | Targeted second acquisition / expansion | **PARTIALLY DEFINED / OWNER-APPROVED DATA-PRESERVATION BOUNDARY ACTIVE** | Bounded information-gain method still needs fresh validation; when authorized, output must use the same union-compatible complete occurrence/demand/provenance schema as Step3. |
-| **Step 5A** | **Competitor semantic expansion / missed-demand coverage** | **APPROVED / ACTIVE / PROJECT-TEST-VALIDATED / OWNER-CANONIZED** | **`STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`** — permanent bounded competitor-derived acquisition loop: discover real recurring Yandex-search competitors; use evidence-bearing competitor pages only as sources of candidate topics/seeds; expand genuinely new seeds through Wordstat under Step3/5 durability; use current Yandex Search to support tested query→competitor visibility claims; merge confirmed additions into the common semantic pipeline before cleanup/freeze. `COMPETITOR PAGE TOPIC != EXACT QUERY RANKING`; tested query visibility != full competitor keyword universe; no mandatory reverse-domain provider; no automatic page creation; client result must expose material findings rather than counts alone. |
-| Step 6 | Demand dynamics / seasonality | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required. |
-| Step 6A | Acquisition coverage revalidation | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required. |
-| Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` — no default KEEP; positive evidence required; accounting QA != semantic QA; uncertainty stays explicit. |
-| Step 8 | Freeze Search-stage semantic set | **APPROVED / ACTIVE** | `STEP_08_SEARCH_STAGE_FREEZE_METHOD.md` — only executable evidence routes; every preserved phrase has a 100% deterministic join to complete demand/provenance; silent field loss = 0. |
-| Step 9 | Ordinary Yandex Search validation | **UNVALIDATED AS PERMANENT METHOD / NARROW NON-REPEAT CONTROLS ACTIVE** | `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` preserves exact-query scope, declared family generalization, raw-vs-normalized fidelity and client-visible ordinary-Search evidence; fresh full method research remains required. |
-| Step 10 | User-task / Search clustering | **APPROVED / ACTIVE** | `STEP_10_CLUSTERING_GRANULARITY_METHOD.md` + `STEP_10_TASK_FIRST_SORTING_DECISION_METHOD.md` + `STEP_10_SORTING_AND_QA_METHOD.md` — task-first core + scoped current profile; a corrected canonical assignment requires atomic rebuild and target-contract comparison of all derived row fields. |
-| Step 11 | Page ownership / phrase→page mapping | **APPROVED / ACTIVE** | `STEP_11_PAGE_OWNERSHIP_METHOD.md` — full member coherence; target != observed relevant URL; cluster ownership != phrase map; transient acquisition != durable evidence. |
-| Step 12 | Structural/content-routing actions | **APPROVED / ACTIVE** | `STEP_12_STRUCTURAL_ACTION_METHOD.md` + companion gates — action cannot prove itself; current evidence before CREATE; local fix != global coherence; `NEW CANONICAL UNIT ID + OLD UNIT METADATA = FAIL`; final phrase master and all declared consumers must be rebuilt and independently reconciled after material mutation. |
-| Step 13 | Competing-page / cannibalization diagnosis | **APPROVED / ACTIVE** | `STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` — public current signal != historical competition != harm; private-history route depends on declared mode; research finding must become execution schema. |
-| Step 14 | Search-only architecture freeze | **APPROVED / ACTIVE** | `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` + discovery/reliability/sync addenda — target architecture != current topology; closed list cannot prove own completeness; endpoint existence != literal edge. |
-| Step 15 | AI-case selection | **APPROVED / ACTIVE** | `STEP_15_AI_CASE_SELECTION_METHOD.md` — exact upstream lineage; diagnostic probes and stability controls separate; selected diagnostic set not representative by default. |
-| Step 16 | AI-search evidence acquisition | **UNVALIDATED AS PERMANENT METHOD / NARROW NON-REPEAT CONTROLS ACTIVE** | Fresh full provider/surface/probing research remains required. `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md` governs only raw preservation, proxy/consumer claim separation and the rule that a request is not analytical value. |
-| Step 17 | Search-vs-AI comparison | **APPROVED / ACTIVE** | `STEP_17_SEARCH_VS_AI_COMPARISON_METHOD.md` — exact-query/family and temporal scope explicit; architecture/content separate; every case preserves selection rationale, frozen baseline, comparison, verdict and exact downstream action or explicit no-action; supported `NO_CHANGE/DE_RISK` remains a client-visible result. |
-| **Step 18** | **Prioritization / implementation readiness** | **APPROVED / ACTIVE AFTER EXTERNAL METHOD AUDIT + CORRECTION** | **`STEP_18_PRIORITIZATION_AND_IMPLEMENTATION_READINESS_METHOD.md` + `STEP_18_EXECUTION_TICKET_COMPLETENESS_GATE.md`** — ideal priority != production schedule; accounting batch != work package; analytical action/route != executable website ticket; every READY package needs explicit implementation mode, mode-specific location/detail, evidence meaning + locator and recipient-language compliance. |
-| **Step 19** | **Client deliverables** | **UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL** | **`STEP_19_CLIENT_DELIVERABLE_PACKAGING_METHOD.md` + `STEP_19_RECIPIENT_ARTIFACT_COMPLETENESS_GATE.md`** — one current truth feeds all views; machine/canonical fields differ from client display fields; generated artifacts use the recipient language and cannot normalize late provider recollection caused by persistence loss. |
-| **Step 20** | **Final QA / release assurance** | **APPROVED / ACTIVE AFTER OWNER-DIRECTED EXTERNAL METHOD AUDIT + CORRECTION** | **Common Step20 gates + `STEP_20_REPORT_SPECIFIC_ACCEPTANCE_ROUTING.md` + `STEP_20_STANDALONE_SEMANTIC_CORE_GATE.md`** — package, report and standalone-XLSX acceptance are distinct. The semantic core requires data QA + workbook QA + Russian recipient-language QA, preserved secondary technical traceability and zero unexplained internal English. |
-| Step 21 | Handoff / revisions | **UNVALIDATED AS PERMANENT METHOD** | Must define revision scope, version truth, evidence update and acceptance boundaries. |
-| Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Close only after deliverables, revisions and pending provider/operator actions are finished. |
+| Step 0 | Order / scope freeze | **APPROVED / ACTIVE** | Existing `STEP_METHOD_REVIEW_AND_LESSONS_LEDGER.md`; freeze brief/scope before evidence acquisition. |
+| Step 1 | Existing-site / business discovery | **APPROVED / ACTIVE** | Existing discovery/freshness authorities; discovery snapshot != timeless completeness. |
+| Step 2 | Seed / acquisition probe plan | **APPROVED / ACTIVE + SCALE CONTROL** | `DATA_VOLUME_NORMALIZATION_AND_SANITATION_GATE.md`: `SKU != AUTOMATIC SEED`; use category/subcategory/product-type/use/attribute/brand-model search entities; each seed requires information-gain purpose. |
+| Step 3 | Wordstat/provider acquisition | **APPROVED / ACTIVE + SCALE CONTROL** | Preserve every RAW occurrence under existing persistence rules, then obligatorily run Step3A/3B before Step4. Provider success != collection completeness; RAW occurrence != analytical keyword. |
+| Step 3R | Repair incomplete Step3 acquisition | **JOB-SPECIFIC RECOVERY PATTERN** | Existing Step3 durability rules; after repair, continue through Step3A/3B. |
+| **Step 3A** | **Normalization / deduplication** | **APPROVED / ACTIVE / OWNER-ADDED 2026-09-10** | Exact duplicates collapse analytically with all lineage retained; safe implicit duplicates only where equivalence is high-confidence; RAW is never destroyed. |
+| **Step 3B** | **High-confidence sanitation** | **APPROVED / ACTIVE / OWNER-ADDED 2026-09-10** | Clear off-topic -> excluded with reason; duplicate -> canonical; ambiguity -> HOLD; low frequency alone never excludes. |
+| Step 4 | First post-acquisition triage | **APPROVED / ACTIVE / INPUT CORRECTED** | Operates on sanitized candidates + relevant HOLD rows and aggregate provenance, not on a semantic partition of every RAW occurrence. Family triage != final Step7 cleanup. |
+| Step 5 | Targeted second acquisition | **PARTIALLY DEFINED / SCALE CONTROL ACTIVE** | Existing information-gain rule remains. Every newly acquired row immediately passes Step3A/3B before union with the working semantic pool. |
+| **Step 5A** | **Competitor semantic expansion** | **APPROVED / ACTIVE / PROJECT-TEST-VALIDATED / OWNER-CANONIZED + SCALE ADDENDUM** | Existing `STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md` plus `STEP_05A_VOLUME_SANITATION_ADDENDUM_2026-09-10.md`; competitor-derived Wordstat output re-enters Step3A/3B before merge. |
+| Step 6 | Demand dynamics / seasonality | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required; any new query acquisition must obey Step3A/3B before union. |
+| Step 6A | Acquisition coverage revalidation | **UNVALIDATED AS PERMANENT METHOD** | Fresh research/method review required; any new query acquisition must obey Step3A/3B before union. |
+| Step 7 | Row-level semantic cleanup | **APPROVED / ACTIVE AFTER CORRECTION + INPUT CORRECTED** | Existing no-default-KEEP/positive-evidence/adversarial-QA rules remain. Step7 now receives normalized/sanitized analytical phrases, not the complete RAW occurrence ledger. |
+| Step 8 | Search-stage semantic freeze | **APPROVED / ACTIVE** | `STEP_08_SEARCH_STAGE_FREEZE_METHOD.md`; retained phrase lineage to full RAW evidence remains 100%, but RAW duplicates are not Search input. |
+| Step 9 | Ordinary Yandex Search validation | **UNVALIDATED FULL METHOD / NARROW CONTROLS ACTIVE** | Existing exact-query/generalization controls remain. Search is for retained decision-relevant queries/boundaries, not for the complete RAW acquisition universe. |
+| Step 10 | User-task / Search clustering | **APPROVED / ACTIVE** | Existing Step10 authorities; cluster the cleaned Search-stage set, not RAW. |
+| Step 11 | Page ownership / phrase->page mapping | **APPROVED / ACTIVE** | Existing Step11 authority. |
+| Step 12 | Structural/content-routing actions | **APPROVED / ACTIVE** | Existing Step12 authorities. |
+| Step 13 | Competing-page diagnosis | **APPROVED / ACTIVE** | Existing Step13 authority. |
+| Step 14 | Search-only architecture freeze | **APPROVED / ACTIVE** | Existing Step14 authorities. |
+| Step 15 | AI-case selection | **APPROVED / ACTIVE** | Existing diagnostic/control selection authority; bounded cases, not bulk semantic-core replay. |
+| Step 16 | AI-search evidence acquisition | **UNVALIDATED FULL METHOD / NARROW CONTROLS ACTIVE** | Existing provider/claim controls; only selected cases are acquired. |
+| Step 17 | Search-vs-AI comparison | **APPROVED / ACTIVE** | Existing Step17 authority. |
+| Step 18 | Prioritization / implementation readiness | **APPROVED / ACTIVE AFTER EXTERNAL AUDIT + CORRECTION** | Existing Step18 authorities preserved unchanged. |
+| Step 19 | Client deliverables | **UNVALIDATED / OWNER-DIRECTED CORRECTED METHOD CANDIDATE ACTIVE AS NON-REPEAT CONTROL** | Existing Step19 authorities preserved unchanged. |
+| Step 20 | Final QA / release assurance | **APPROVED / ACTIVE AFTER OWNER-DIRECTED AUDIT + CORRECTION** | Existing Step20 authorities preserved unchanged. |
+| Step 21 | Handoff / revisions | **UNVALIDATED AS PERMANENT METHOD** | Existing boundaries preserved. |
+| Step 22 | Job close | **PARTIALLY DEFINED BY JOB_WORKSPACE_LIFECYCLE** | Existing lifecycle authority preserved. |
 
----
+## Step 2 scale boundary
 
-## Step5A permanent insertion boundary
-
-Step5A is a permanent KW-001 roadmap stage and has completed its declared project-test validation plus explicit owner acceptance. Concrete proof remains in Level2 rehearsal evidence; no case-specific values are promoted into this universal index.
-
-```text
-ROADMAP_STAGE_EXISTS = true
-OWNER_AUTHORIZED_ROADMAP_INSERTION = true
-EXTERNAL_METHOD_RESEARCH_COMPLETED_FOR_INSERTION = true
-PROJECT_TEST_VALIDATED = true
-OWNER_CLIENT_USEFULNESS_GATE = accepted
-FULL_PERMANENT_METHOD_PROMOTION = APPROVED_ACTIVE
-PERMANENT_DIMINISHING_GAIN_THRESHOLD_VALIDATED = false
-```
-
-Required order boundary:
+For large e-commerce/catalog sites:
 
 ```text
-INITIAL WORDSTAT ACQUISITION / TARGETED EXPANSION
-→ STEP 5A COMPETITOR SEMANTIC EXPANSION
-→ REMAINING PRE-FREEZE DEMAND/COVERAGE CONTROLS
-→ STEP 7 ROW-LEVEL CLEANUP
-→ STEP 8 SEARCH-STAGE FREEZE
+CATALOG ROW COUNT != ACQUISITION PROBE COUNT
+SKU != AUTOMATIC WORDSTAT SEED
 ```
 
-Step5A may use bounded Search observations for competitor discovery and exact tested competitor/query confirmation. Those acquisition-purpose Search observations do not automatically satisfy Step9's later Search-validation duties for clustering/page decisions.
+Initial probes should primarily cover search-relevant category/subcategory/product-type/use/attribute/brand-model families. Individual SKU/model probes are selective and require search identity or decision value.
 
-Confirmed `ADD_TO_PIPELINE` occurrences must enter the same downstream semantic pipeline before the next real freeze/release. A completed Step5A worksheet/report is not a substitute for propagation into cleanup, freeze, clustering, page ownership and later architecture/AI stages.
+## Step 3 -> Step 4 mandatory gate
 
----
-
-## Required per-step detail
-
-Every `APPROVED / ACTIVE` method authority must preserve equivalent detail:
+Step4 may not start from a large raw corpus until:
 
 ```text
-STEP PURPOSE
-APPROVED METHOD
-WHY / METHOD ORIGIN
-DIRECT SOURCES / SOURCE-TO-METHOD TRACE
-RESEARCH-TO-EXECUTION REQUIREMENT TRACE
-EXECUTION MODES / CURRENT JOB CONFIGURATION HOOKS
-KNOWN FAILURE CLASSES
-ROOT CAUSES
-CORRECTED METHOD
-NON-REPEAT CONTROLS
-CLAIM BOUNDARIES
-PASS GATE
-PLAIN-LANGUAGE OWNER SUMMARY REQUIREMENT
+Step3 acquisition complete
+-> Step3A normalized unique pool complete
+-> Step3B sanitation accounting complete
+-> RAW-to-normalized-to-sanitized reconciliation PASS
 ```
 
-A step marked `UNVALIDATED` means only:
+Required funnel fields:
 
 ```text
-WE HAVE NOT YET EARNED A PERMANENT REUSABLE METHOD
+raw_occurrence_rows
+normalized_unique_rows
+exact_duplicate_occurrences_collapsed
+implicit_duplicate_groups
+collapsed_implicit_rows
+auto_excluded_rows by reason
+hold_ambiguous_rows
+sanitized_candidate_rows
 ```
 
-An owner-authorized roadmap method candidate means:
+## Expansion loop rule
+
+For Step5, Step5A and any later acquisition extension:
 
 ```text
-THE STAGE IS NOW PART OF THE PRODUCT ROADMAP
-BUT
-ITS PROJECT OPERATIONS STILL REQUIRE THE DECLARED FIRST-EXECUTION VALIDATION BEFORE PROJECT-TEST-VALIDATED PROMOTION
+NEW RAW
+-> SAME Step3A
+-> SAME Step3B
+-> only sanitized/HOLD analytical rows union into semantic working set
 ```
 
-The next material execution requires fresh current research and owner-facing method review under the governing pre-step gate when the listed method status says partial/unvalidated/candidate.
+Do not allow the working set to grow merely because the same phrase appears across more provider requests.
 
-Permanent promotion of a previously unvalidated/candidate method requires explicit owner instruction.
+## Step 5A insertion boundary
 
----
-
-## How to use this index before every major step
+The permanent Step5A sequence is now:
 
 ```text
-1. READ UNIVERSAL CROSS-STEP GATES.
-2. LOCATE CURRENT STAGE HERE.
-3. IF APPROVED -> READ THE LISTED METHOD + RELEVANT COMPANION GATES.
-4. IF PARTIAL/UNVALIDATED/CANDIDATE -> READ THE LISTED METHOD candidate first, then perform the fresh/current review required by its status before execution so known claim boundaries and failure causes are not reintroduced.
-5. READ CURRENT JOB LEVEL2 STATE/EVIDENCE SEPARATELY.
-6. BUILD SOURCE-TO-METHOD TRACE.
-7. BUILD RESEARCH-TO-EXECUTION SCHEMA / MANIFEST.
-8. STATE PREVIOUS FAILURE CLASSES + ROOT CAUSES + NON-REPEAT CONTROLS.
-9. GIVE MANDATORY PLAIN-LANGUAGE PRE-STEP SUMMARY.
-10. OBTAIN OWNER AUTHORIZATION WHEN REQUIRED.
-11. EXECUTE ONLY THE AUTHORIZED STEP/MODE.
-12. PERSIST + READ BACK.
-13. REVERSE-TRACE FINAL CLAIMS TO REQUIREMENT + EVIDENCE + QA.
-14. GIVE FULL ROADMAP + MANDATORY PLAIN-LANGUAGE END SUMMARY.
+sanitized initial demand families
+-> representative Yandex competitor discovery
+-> evidence-bearing competitor pages
+-> genuinely new candidate topics/seeds
+-> Wordstat RAW acquisition
+-> Step3A normalization
+-> Step3B sanitation
+-> material new sanitized candidates
+-> bounded Yandex Search confirmation where required
+-> ADD / ALREADY_COVERED / REJECT / HOLD
+-> common semantic pipeline
+-> Step7 cleanup
+-> Step8 freeze
 ```
 
-Before designing a new evidence mechanism, inspect prior project tooling/artifacts for a stronger already-proven acquisition pattern.
-
-Provider availability alone does not justify a call; information gain, cost/authorization and persistence gates still apply.
-
----
-
-## Permanent Step18 lesson summary
-
-The corrected Step18 method establishes:
+The existing Step5A claim boundaries remain unchanged:
 
 ```text
-IDEAL_ANALYTICAL_PRIORITY
-!= EXPECTED_IMPLEMENTATION_PRIORITY
-!= IMPLEMENTATION_READY SCHEDULE
+COMPETITOR PAGE TOPIC != EXACT QUERY RANKING
+COMPETITOR RANKING != AUTOMATIC KEYWORD ACCEPTANCE
+COMPETITOR-DERIVED SEED != FINAL KEYWORD
+TESTED QUERY VISIBILITY != FULL COMPETITOR KEYWORD UNIVERSE
 ```
 
-A priority register may legitimately rank what matters most using user demand, user-task importance, public business relevance, Search opportunity, structural urgency, evidence strength, dependencies and uncertainty.
+## Step 7 role after revision
 
-But if real client/implementer information about owner, effort, capacity, elapsed time, business importance or measurement readiness is unavailable, the method must **not fabricate it** and must **not describe the analytical order as a production-ready execution schedule**.
+Step7 remains mandatory.
 
 ```text
-UNKNOWN EFFORT != LOW EFFORT
-NO GUESS != CALIBRATION COMPLETE
-RECHECK TRIGGER != SUCCESS METRIC
-ACCOUNTING BATCH != IMPLEMENTATION WORK PACKAGE
-PUBLIC BUSINESS RELEVANCE != CLIENT-CONFIRMED BUSINESS IMPORTANCE
-ANALYTICAL ROUTE != EXECUTABLE WEBSITE TICKET
-FIELDS PRESENT != EXECUTION DECISION RESOLVED
-EVIDENCE LOCATOR != EVIDENCE EXPLANATION
+STEP3B = early conservative mass sanitation
+STEP7 = nuanced final semantic/business cleanup
 ```
 
-In analytical-priority mode, missing implementation calibration is an explicit claim boundary. In implementation-ready mode, material missing calibration blocks the stronger PASS.
+Step3B must not try to solve ambiguous intent/business/page questions that belong to Step7 or later Search evidence.
 
----
-
-## Post-release recipient-acceptance lesson summary
-
-A later owner/recipient walkthrough can reveal defects even when canonical truth, counts, files and package-wide QA are correct. Future Steps 18–20 must therefore test the promised recipient task itself.
+## Work / LLM scaling boundary
 
 ```text
-PACKAGE-WIDE COMPLETENESS != RECIPIENT-ARTIFACT COMPLETENESS
-EXECUTIVE SUMMARY != FULL RESEARCH REPORT
-CORRECT DATABASE != CLIENT-USABLE WORKBOOK
-RENDER PASS != WORKBOOK-USABILITY PASS
-ANALYST ASSURANCE PASS != OWNER / COMMISSIONER ACCEPTANCE
-SOLD PRODUCT IDENTITY IN METHOD != SOLD PRODUCT IDENTITY VISIBLE TO CLIENT
-TARGETED SEARCH / AI CHECK COUNT != EXPLANATION OF FULL WORK SCOPE
-SELECTED AI CASES != SELF-EXPLANATORY AI VALUE
-RESULT MAP != CLIENT KNOWS WHETHER IT IS ALREADY DONE OR A FUTURE TASK
-SEARCH PROCESS != SEARCH RESULT SURFACE
-COMPLETE SELECTED VERIFICATION SET != INCOMPLETE RESEARCH
-EXACT CANONICAL TOTAL != VAGUE 'WHOLE ARRAY' WORDING
-FULL RESEARCH COMPLETENESS != EXHAUSTIVE NO-ACTION DUMP IN MAIN REPORT
-COMMISSIONER != ASSUMED BUSINESS OWNER / SITE OWNER
-SEMANTIC SECTIONS REQUIRED != ONE UNBROKEN TEXT WALL
-SEMANTIC SECTIONS REQUIRED != DISCONNECTED MICRO-BLOCK FRAGMENTATION
-COMPLETE CLIENT REPORT != QA CHECKLIST USED AS DOCUMENT OUTLINE
-EXACT COUNTS SUPPORT NARRATIVE != COUNTS ARE THE NARRATIVE
-INTERNAL STAGE LANGUAGE != COMMISSIONER-FACING WORK DESCRIPTION
-GENERATED TEMPLATE SYMMETRY != CLEAR CLIENT STRUCTURE
-GENERIC DISCLAIMER SECTION != ANSWER TO THE KWORK
+FULL RAW LEDGER = machine/audit evidence by default
+WORK INPUT = compact normalized/sanitized candidates + summaries + provenance locators
+TARGETED RAW SLICE = allowed for disputed cases
 ```
 
-A recipient-facing report must expose the material research at the depth promised; explain the full completed work before presenting selected validation subsets; make the relevant assistant/result-surface differentiator visible when it is part of the sold product; explain why selected verification cases are sufficient for their declared purpose; use exact numerical scope when authority provides it; clearly distinguish completed findings from actions the client still needs to perform; and keep the main report concentrated on decisions, changes and reasons rather than exhaustive no-change routing. It must address the commissioner rather than inventing an owner role, keep meaningful semantic sections while avoiding disconnected micro-block fragmentation, explain the completed work as one causal narrative, answer the sold Kwork directly, and reject generated-template presentation patterns such as fake reading-time headings, cloned recommendation forms and generic defensive disclaimer sections. A specialist guide must resolve the actual implementation mode, and final QA must evaluate each promised artifact against its own recipient contract rather than allowing another package artifact to silently supply missing depth.
+Do not serialize/paste a multi-megabyte RAW ledger into Work merely because it exists. If compact candidates are still large, process deterministic chunks keyed by stable IDs and reconcile 100% of rows; sampling is not full processing.
 
----
+## KW-001 commercial boundary
 
-## Universality requirement
+No fixed final phrase ceiling is introduced by this revision.
 
-Every permanent method change must pass `PERMANENT_STEP_RULE_UNIVERSALITY_AND_JOB_SEPARATION_GATE.md`.
+```text
+KW002 1500 standard ceiling != KW001 rule
+```
+
+KW-001 may retain more than 1500 active phrases where the site/scope/evidence justifies them. Exact package limits remain a separate KW-001 productization/economics decision.
+
+## Existing accepted outputs
+
+Existing accepted KW-001 outputs are not invalidated solely by this 2026-09-10 scalability revision.
+
+A completed job requires backfill only if upstream acquisition/cleanup is materially reopened or an independent quality/scalability defect requires it.
+
+## Execution checklist
+
+Before Step2–7 material work:
+
+```text
+1. Read DATA_VOLUME_NORMALIZATION_AND_SANITATION_GATE.md.
+2. Read this current STEP_RULES_INDEX.md.
+3. Read the detailed authority for the current step.
+4. Read current Level2 job evidence/state separately.
+5. State RAW / normalized / sanitized input counts available at the gate.
+6. Do not treat provider rows as equal semantic units.
+7. Execute only authorized provider work.
+8. Persist RAW before derivation.
+9. Run normalization/sanitation before semantic family analysis.
+10. Reconcile counts and lineage before advancing.
+```
+
+All unaffected permanent lessons from `STEP_RULES_INDEX_PRE_VOLUME_SCALING_2026-09-10.md` and their detailed method files remain active.
