@@ -3,7 +3,7 @@ name: MK02 Phase 7 final client-package gate
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_final_qa_r2'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_final_qa_r3'
 
 permissions:
   contents: write
@@ -71,7 +71,8 @@ jobs:
           table_names=[]
           for ws in wb.worksheets:
               table_names.extend(list(ws.tables.keys()))
-          assert len(table_names)==12,len(table_names)
+          assert len(table_names)==13,len(table_names)
+          assert len(table_names)==len(set(table_names)),table_names
           assert not any('MK02' in n.upper() for n in table_names),table_names
           with zipfile.ZipFile(xlsx) as z:
               assert z.testzip() is None
@@ -81,7 +82,7 @@ jobs:
 
           def sha256(p): return hashlib.sha256(p.read_bytes()).hexdigest()
           xlsx_sha=sha256(xlsx)
-          report['artifacts']['xlsx']={'size':xlsx.stat().st_size,'sha256':xlsx_sha,'sheets':len(wb.sheetnames),'row_counts':row_counts,'status_counts':dict(statuses),'table_count':len(table_names),'forbidden_token_hits':0,'formula_error_hits':0,'normalized_acceptance_cells':normalized_acceptance_cells,'deferred_status_cells':deferred_cells}
+          report['artifacts']['xlsx']={'size':xlsx.stat().st_size,'sha256':xlsx_sha,'sheets':len(wb.sheetnames),'row_counts':row_counts,'status_counts':dict(statuses),'table_count':len(table_names),'table_names':table_names,'forbidden_token_hits':0,'formula_error_hits':0,'normalized_acceptance_cells':normalized_acceptance_cells,'deferred_status_cells':deferred_cells}
 
           pdf_expected={
             analytical:('66122183a768ecef5b3f9cd91b2f1b313f4d8a6c69f9012a24c92a2cd22b05bd','Что показало исследование'),
