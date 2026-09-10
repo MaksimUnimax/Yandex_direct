@@ -68,3 +68,76 @@ Upstream accounting reconciled; independent current discovery PASS where materia
 
 ## CLIENT-FACING MEANING
 «Перед ТЗ сверяем целевую структуру с реальным сайтом: какие страницы существуют сейчас, какие связи между ними уже стоят, какие только рекомендуются и не пропустили ли мы важные страницы. Это защищает от ТЗ на создание того, что уже есть, или на ссылку, которая уже реализована иначе.»
+
+---
+
+## OWNER CORRECTION 2026-09-10 — TARGET ARCHITECTURE MUST EXIST BEFORE RECONCILIATION
+
+Target architecture is no longer allowed to emerge mainly by relabelling the existing site.
+
+Mandatory order inside Step13:
+
+```text
+1. TAKE ACCEPTED TARGET LANDING SPECS FROM STEP10/11
+2. BUILD TARGET PAGE REGISTRY
+3. BUILD TARGET HIERARCHY / TREE / PARENT-CHILD RELATIONS
+4. FREEZE TARGET PAGE ROLES AND CLUSTER ROUTES
+5. ONLY THEN RECONCILE TARGET PAGES WITH CURRENT PUBLIC URLs / TOPOLOGY
+6. MATERIALIZE CURRENT→TARGET DELTA
+```
+
+The target page registry must contain one row per intended landing page and preserve at least:
+
+```text
+TARGET PAGE KEY
+PAGE PURPOSE
+PAGE TYPE
+PRIMARY TASK / INTENT
+PRIMARY / REPRESENTATIVE QUERY
+MEMBER PHRASE COUNT
+TARGET URL OR PROVISIONAL ROUTE
+PARENT / SECTION
+CHILD / SUPPORTING RELATIONS WHEN MATERIAL
+CURRENT URL MATCH
+CURRENT MATCH STATE
+ACTION STATE
+UNCERTAINTY / EVIDENCE BOUNDARY
+```
+
+Current-match states may use job-appropriate equivalents:
+
+```text
+EXISTING_MATCH
+EXISTING_NEEDS_OPTIMIZATION
+EXISTING_RELATIONSHIP_CHANGE
+NEW_PAGE_CANDIDATE
+NO_STANDALONE_PAGE_ROUTE_TO_PARENT
+UNRESOLVED
+```
+
+A `NEW_PAGE_CANDIDATE` survives only if Step11/12 evidence permits it. This correction does not authorize fabrication of new pages.
+
+The target architecture must also be renderable as a human-readable tree or hierarchical table. A flat list of current URLs with owner labels is not sufficient.
+
+Permanent rules:
+
+```text
+CURRENT SITE AS-IS != TARGET ARCHITECTURE SOURCE OF TRUTH
+TARGET TREE != CURRENT NAVIGATION TREE
+TARGET PAGE REGISTRY != CHANGE-ONLY REGISTER
+SMALL CURRENT→TARGET DELTA != SMALL TARGET ARCHITECTURE
+```
+
+Additional PASS requirements:
+
+```text
+TARGET PAGE REGISTRY COMPLETE FOR ALL MATERIAL STEP10 LANDING SPECS = true
+TARGET HIERARCHY/PARENT ROUTE PRESENT FOR ALL MATERIAL TARGET PAGES = true
+CURRENT MATCH STATE PRESENT FOR ALL TARGET PAGES = true
+TARGET STRUCTURE CAN BE UNDERSTOOD WITHOUT OPENING CURRENT SITE = true
+TARGET ARCHITECTURE DERIVED ONLY AS CURRENT-URL INVENTORY + DELTA = FAIL
+```
+
+Correct client-facing meaning:
+
+«Сначала фиксируем, какие посадочные страницы и разделы должны существовать исходя из собранного спроса и кластеров. Затем накладываем эту целевую модель на текущий сайт: где нужная страница уже есть, где её нужно доработать, где достаточно оставить всё как есть, а где требуется отдельное решение.»
