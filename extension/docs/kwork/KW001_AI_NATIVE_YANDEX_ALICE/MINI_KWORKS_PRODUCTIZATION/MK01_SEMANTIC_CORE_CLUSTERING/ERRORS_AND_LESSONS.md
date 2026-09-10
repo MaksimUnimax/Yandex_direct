@@ -41,13 +41,17 @@ This file records failure classes that can materially affect MK01. Concrete OKNO
 | E33 | Later workbook block destroyed earlier column widths | width treated as block-local | define geometry once per sheet, render every sheet | 10 |
 | E34 | Generic handoff claimed optional Search had been performed | conditional step converted to unconditional wording | required USED vs NOT_REQUIRED handoff wording | packaging |
 | E35 | Product files described validated decisions as future/pending | lifecycle state not reconciled across authorities | audit lifecycle wording after each phase | productization |
-| E36 | Working XLSX + short handoff message treated as complete client explanation | usability of spreadsheet was confused with recipient/owner comprehension | every completed MK01 order delivers a concise client PDF report in addition to XLSX; TXT is not a report substitute | 10/packaging |
+| E36 | Working XLSX + short handoff message treated as complete client explanation | usability of spreadsheet was confused with recipient/owner comprehension | every completed MK01 order delivers a client analytical PDF in addition to XLSX; TXT is not a report substitute | 10/packaging |
 | E37 | Client PDF draft leaked internal English QA jargon | internal audit vocabulary crossed into recipient layer | render every PDF page + scan for internal jargon/placeholders before release | 10/packaging |
+| **E38** | **Client PDF became an execution protocol instead of an analytical report** | **correct counts, chronology and clean layout were mistaken for recipient analytical value; report answered “what was done?” more clearly than “what did research show?”** | **mandatory evidence-backed executive summary + working-core task/intent structure + material-group analysis + uncertainty/exclusion breakdown + practical interpretation; `CLIENT REPORT != EXECUTION PROTOCOL` is a Step-10 PASS gate** | **10/packaging** |
+| **E39** | **Page count was used as a proxy for report quality** | **a fixed page range was treated as evidence of completeness even though it can cause filler or artificial compression** | **no fixed page-count PASS criterion; length follows current evidence and recipient task; QA checks information value, reconciliation, readability, repetition and empty filler** | **10/packaging** |
 
 ## Root-cause groups
 
-A scope/observation overclaim; B transient/incomplete evidence; C signal != semantic decision; D accounting != semantic QA; E uncertainty erasure; F local patch != class fix; G generated view != authority; H internal traceability != client usability; I formal QA != recipient acceptance; J lifecycle/state drift; K working data artifact != complete recipient communication.
+A scope/observation overclaim; B transient/incomplete evidence; C signal != semantic decision; D accounting != semantic QA; E uncertainty erasure; F local patch != class fix; G generated view != authority; H internal traceability != client usability; I formal QA != recipient acceptance; J lifecycle/state drift; K working data artifact != complete recipient communication; L technical correctness/layout correctness != analytical usefulness; M presentation metric != quality metric.
 
 ## Closure rule
 
 `ONE BAD EXAMPLE FIXED != DEFECT CLASS CLOSED`. Closure requires root cause understood + control materialized + impact set rebuilt + regression passed + recipient effect checked where applicable.
+
+For E38/E39 specifically, fixing one PDF is not closure unless `CLIENT_REPORT_SPEC.md`, `steps/STEP_10_CLIENT_MATERIALIZATION_QA.md` and `QA_AND_RELEASE.md` all enforce the analytical-value gate for future MK01 orders.
