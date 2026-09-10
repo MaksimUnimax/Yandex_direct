@@ -1,120 +1,41 @@
-name: MK02 Phase 7 final client-package gate
+name: MK02 Phase 7 corrected analytical PDF materializer
 
 on:
   push:
     paths:
-      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_final_qa_r3'
+      - 'extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/.phase7_correct_analytical_pdf'
 
 permissions:
   contents: write
 
 jobs:
-  validate-final-package:
+  materialize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Install document validators
-        run: python -m pip install --quiet openpyxl pypdf
-      - name: Validate final XLSX and both final PDFs
+      - name: Decode and verify corrected analytical PDF
         shell: bash
         run: |
           set -euo pipefail
+          BASE='extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK'
+          cat "$BASE"/_phase7_pdf_fix/analytic.part* | base64 -d > "$BASE/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf"
+          test "$(git hash-object "$BASE/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf")" = '149dfe55010e099d03d048f6686775ea74dd3edd'
           python - <<'PY'
-          import json, re, hashlib, pathlib, zipfile
-          from collections import Counter
-          from openpyxl import load_workbook
-          from pypdf import PdfReader
-
-          root=pathlib.Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK')
-          out=root/'CLIENT_DELIVERY_PHASE_7'
-          xlsx=out/'SEMANTIC_CORE_AND_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx'
-          analytical=out/'RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf'
-          tz=out/'SITE_IMPROVEMENT_TZ_OKNO_MSK_2026-09-10.pdf'
-          forbidden=re.compile(r'(?i)(MK02|Stage|Step|\bQA\b|\bREADY\b|PENDING_|\bCTA\b|\bHOLD\b)')
-          expected_sheets=['Начните здесь','Главные выводы','Все запросы','Рабочее ядро','Группы и задачи','Карта страниц','Текущий сайт','Целевая структура','Изменения','ТЗ на доработку','Проверить и отложено','Связи страниц','Как проверить']
-          expected_rows={'Все запросы':2840,'Рабочее ядро':2185,'Карта страниц':2185,'Текущий сайт':80,'Целевая структура':160,'Изменения':35,'ТЗ на доработку':47,'Проверить и отложено':44,'Связи страниц':14}
-          expected_statuses={'Готово к внедрению':3,'Нужна бизнес-деталь':1,'Нужно точное место':10,'Только перепроверка':4,'Только карта':19,'Без изменения':9,'Отложено до доказательства':1}
-          report={'schema':'MK02_PHASE_7_FINAL_PACKAGE_QA_V1','date':'2026-09-10','checks':{},'artifacts':{}}
-
-          wb=load_workbook(xlsx, data_only=False, read_only=False)
-          assert wb.sheetnames==expected_sheets, wb.sheetnames
-          assert all(wb[n].sheet_state=='visible' for n in wb.sheetnames)
-          row_counts={n:wb[n].max_row-5 for n in expected_rows}
-          assert row_counts==expected_rows,(row_counts,expected_rows)
-          statuses=Counter()
-          ws=wb['ТЗ на доработку']
-          for r in range(6, ws.max_row+1):
-              v=ws.cell(r,1).value
-              if v: statuses[str(v).strip()]+=1
-          assert dict(statuses)==expected_statuses,(statuses,expected_statuses)
-
-          client_hits=[]; error_hits=[]; normalized_acceptance_cells=[]; deferred_cells=[]
-          for ws in wb.worksheets:
-              for row in ws.iter_rows():
-                  for cell in row:
-                      v=cell.value
-                      if isinstance(v,str):
-                          if forbidden.search(v): client_hits.append((ws.title,cell.coordinate,v[:240]))
-                          if v in {'#REF!','#VALUE!','#NAME?','#DIV/0!','#N/A'}: error_hits.append((ws.title,cell.coordinate,v))
-                          if 'призыв к действию' in v.lower(): normalized_acceptance_cells.append((ws.title,cell.coordinate,cell.alignment.wrap_text,v[:240]))
-                          if v.strip()=='Отложено до доказательства': deferred_cells.append((ws.title,cell.coordinate,cell.alignment.wrap_text))
-          assert not client_hits,client_hits[:20]
-          assert not error_hits,error_hits[:20]
-          assert wb['Начните здесь']['B20'].value=='Проверить и отложено'
-          assert normalized_acceptance_cells, 'normalized acceptance wording not found'
-          assert all(x[2] is True for x in normalized_acceptance_cells), normalized_acceptance_cells
-          assert deferred_cells, 'deferred status not found'
-          assert all(x[2] is True for x in deferred_cells if x[0] in {'ТЗ на доработку','Проверить и отложено'}), deferred_cells
-
-          table_names=[]
-          for ws in wb.worksheets:
-              table_names.extend(list(ws.tables.keys()))
-          assert len(table_names)==13,len(table_names)
-          assert len(table_names)==len(set(table_names)),table_names
-          assert not any('MK02' in n.upper() for n in table_names),table_names
-          with zipfile.ZipFile(xlsx) as z:
-              assert z.testzip() is None
-              raw='\n'.join(z.read(n).decode('utf-8','ignore') for n in z.namelist() if n.endswith('.xml'))
-              match=forbidden.search(raw)
-              assert not match, match.group(0) if match else None
-
-          def sha256(p): return hashlib.sha256(p.read_bytes()).hexdigest()
-          xlsx_sha=sha256(xlsx)
-          report['artifacts']['xlsx']={'size':xlsx.stat().st_size,'sha256':xlsx_sha,'sheets':len(wb.sheetnames),'row_counts':row_counts,'status_counts':dict(statuses),'table_count':len(table_names),'table_names':table_names,'forbidden_token_hits':0,'formula_error_hits':0,'normalized_acceptance_cells':normalized_acceptance_cells,'deferred_status_cells':deferred_cells}
-
-          pdf_expected={
-            analytical:('66122183a768ecef5b3f9cd91b2f1b313f4d8a6c69f9012a24c92a2cd22b05bd','Что показало исследование'),
-            tz:('d12b0b3bd8d70c9aff5aea793d3a94b147be1555e547c03729e4e2caa5b7dfc1','ТЗ на доработку сайта'),
-          }
-          for p,(expected_sha,required_text) in pdf_expected.items():
-              actual=sha256(p); assert actual==expected_sha,(p,actual,expected_sha)
-              reader=PdfReader(str(p)); assert len(reader.pages)==2,(p,len(reader.pages))
-              text='\n'.join(page.extract_text() or '' for page in reader.pages)
-              assert required_text.lower() in text.lower(),(p,required_text)
-              hits=forbidden.findall(text); assert not hits,(p,hits)
-              report['artifacts'][p.name]={'size':p.stat().st_size,'sha256':actual,'pages':len(reader.pages),'forbidden_token_hits':0}
-
-          report['checks']={
-            'sheet_order_and_visibility':'PASS','row_accounting':'PASS','implementation_status_accounting':'PASS',
-            'xlsx_formula_error_scan':'PASS','xlsx_client_language_scan':'PASS','xlsx_package_xml_scan':'PASS',
-            'xlsx_modified_cell_wrap_check':'PASS','xlsx_table_metadata_scan':'PASS',
-            'analytical_pdf_parse_text_hash':'PASS','implementation_pdf_parse_text_hash':'PASS'
-          }
-          report['status']='PASS'
-          p=root/'PHASE_7_MACHINE_QA_2026-09-10.json'
-          p.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n','utf-8')
-          print(json.dumps(report,ensure_ascii=False,indent=2))
+          from pathlib import Path
+          p=Path('extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf')
+          import hashlib
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=='851463f469480a3a977eaa327fecc475644945df7cd1a8e6ba883ee33140b2b7'
+          print('CORRECTED_ANALYTICAL_SHA256_PASS')
           PY
-          git hash-object extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/*
-      - name: Commit machine QA receipt
+      - name: Commit corrected PDF
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/PHASE_7_MACHINE_QA_2026-09-10.json
+          git add extension/docs/kwork/KW001_AI_NATIVE_YANDEX_ALICE/MINI_KWORKS_PRODUCTIZATION/MK02_SEMANTIC_CORE_ARCHITECTURE_DEV_TZ/tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7/RESEARCH_AND_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf
           git diff --cached --quiet && exit 1
-          git commit -m 'qa(mk02): validate final phase 7 client package'
+          git commit -m 'fix(mk02): remove orphan heading from analytical PDF'
           git push
