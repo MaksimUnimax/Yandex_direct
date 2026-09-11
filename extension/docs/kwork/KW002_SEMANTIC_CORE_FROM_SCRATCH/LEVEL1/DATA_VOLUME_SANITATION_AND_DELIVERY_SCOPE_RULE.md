@@ -4,6 +4,12 @@ Status: **OWNER-APPROVED / ACTIVE**
 Decision date: 2026-09-10
 Applies to: all KW-002 jobs, not only Blood & Sand.
 
+Mandatory companion authority added 2026-09-11:
+
+`LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md`
+
+Every Step03A/03B/04+ prompt and QA must read that file and include the applicable `KNOWN_FAILURE_REGRESSION_MATRIX`. Mechanical count reconciliation alone is never sufficient semantic acceptance.
+
 ## 1. Core distinction
 
 KW-002 must never confuse provider evidence volume with the number of client-delivered keywords.
@@ -168,7 +174,33 @@ Every delivered row has lineage to candidate + RAW.
 Every valid phrase outside cap is explicitly RESERVE, not silently deleted.
 ```
 
-## 9. External method support
+## 9. Mandatory anti-regression gate after observed execution defects
+
+The following is a hard methodology requirement, not optional QA advice:
+
+```text
+READ LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md
+-> select every failure class applicable to the current step
+-> materialize KNOWN_FAILURE_REGRESSION_MATRIX
+-> run full applicable regressions
+-> FAIL the step if any blocking regression fails
+```
+
+In particular for sanitation/family stages:
+
+```text
+SUBSTRING MATCH != REFERENT PROOF
+TOKEN MATCH != INTENT PROOF
+ACCOUNTING_QA != SEMANTIC_QA
+REPRESENTATIVE DEFECT EXAMPLE != PATCH TARGET
+MATERIAL UPSTREAM CHANGE INVALIDATES AFFECTED DOWNSTREAM PASS
+```
+
+The known Blood & Sand defects (business-token collisions, broad stems/regexes, semantic false KEEP/EXCLUDE, missing occurrence-level family mapping, example-only patches, and upstream sanitation changes affecting downstream family decisions) are permanent regression classes for later KW-002 jobs.
+
+A high quality score cannot override a failed known-failure regression gate.
+
+## 10. External method support
 
 Official Yandex Webmaster:
 - https://yandex.ru/support/webmaster/ru/service/queries-selection
