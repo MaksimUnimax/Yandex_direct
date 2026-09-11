@@ -1,9 +1,13 @@
 # KW-001 — RULES ARCHITECTURE
 
-Updated: 2026-09-03  
+Updated: 2026-09-11  
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**
 
 This document defines where KW-001 rules and evidence live and how they are combined before a major step.
+
+Cross-Kwork large-artifact publication authority:
+
+`../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
 
 ## 1. Strict two-level operational architecture
 
@@ -48,6 +52,12 @@ Level1 includes:
 ```text
 A. universal cross-step process rules/gates;
 B. reusable step-specific methods/lessons registered in STEP_RULES_INDEX.md.
+```
+
+Cross-Kwork authorities located one level above KW-001 also apply when explicitly owner-locked for the whole Kwork ecosystem. In particular:
+
+```text
+../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md
 ```
 
 Typical Level1 files:
@@ -182,11 +192,12 @@ When sources appear to conflict:
 ```text
 1. latest explicit owner instruction;
 2. explicit current client/deliverable constraint authorized by owner;
-3. owner-approved Level1 universal process rule;
-4. owner-approved Level1 step-specific method;
-5. current Level2 frozen job scope/profile;
-6. current Level2 accepted evidence/artifact;
-7. analyst convenience or older superseded history.
+3. owner-approved cross-Kwork universal authority;
+4. owner-approved Level1 universal process rule;
+5. owner-approved Level1 step-specific method;
+6. current Level2 frozen job scope/profile;
+7. current Level2 accepted evidence/artifact;
+8. analyst convenience or older superseded history.
 ```
 
 A historical PASS never overrides newer defect evidence.
@@ -211,23 +222,24 @@ CURRENT CANONICAL BRIDGE CAPABILITY
 Before every major step:
 
 ```text
-1. READ LEVEL1 CROSS-STEP RULES.
-2. READ STEP_RULES_INDEX.md.
-3. READ CURRENT STEP'S LEVEL1 METHOD / COMPANION GATES.
-4. READ CURRENT LEVEL2 MANIFEST / FLOW / RELEVANT EVIDENCE.
-5. LOAD CURRENT DOMAIN/BUSINESS/URL/ID/CONSTRAINT PROFILE FROM LEVEL2.
-6. RE-READ RELEVANT PERMANENT FAILURE LESSONS + ROOT CAUSES.
-7. STATE WHOLE JOB GOAL / COMPLETED / REMAINING / CURRENT STEP GOAL.
-8. SEARCH CURRENT EXTERNAL METHOD SOURCES WHEN REQUIRED.
-9. BUILD SOURCE-TO-METHOD TRACE.
-10. BUILD RESEARCH-TO-EXECUTION SCHEMA / MANIFEST.
-11. CONFIGURE LEVEL1 METHOD WITH LEVEL2 INPUTS WITHOUT COPYING THEM INTO LEVEL1.
-12. ADVERSARIALLY SELF-AUDIT.
-13. GIVE MANDATORY PLAIN-LANGUAGE OWNER SUMMARY.
-14. OBTAIN OWNER AUTHORIZATION WHEN REQUIRED.
-15. EXECUTE ONLY AUTHORIZED STEP/MODE.
-16. PERSIST / READ BACK / ACCOUNT / QA.
-17. REPORT FULL ROADMAP + PLAIN-LANGUAGE END SUMMARY.
+1. READ APPLICABLE CROSS-KWORK AUTHORITIES, INCLUDING LARGE-ARTIFACT PUBLICATION RULE WHEN FILE GENERATION/PERSISTENCE IS MATERIAL.
+2. READ LEVEL1 CROSS-STEP RULES.
+3. READ STEP_RULES_INDEX.md.
+4. READ CURRENT STEP'S LEVEL1 METHOD / COMPANION GATES.
+5. READ CURRENT LEVEL2 MANIFEST / FLOW / RELEVANT EVIDENCE.
+6. LOAD CURRENT DOMAIN/BUSINESS/URL/ID/CONSTRAINT PROFILE FROM LEVEL2.
+7. RE-READ RELEVANT PERMANENT FAILURE LESSONS + ROOT CAUSES.
+8. STATE WHOLE JOB GOAL / COMPLETED / REMAINING / CURRENT STEP GOAL.
+9. SEARCH CURRENT EXTERNAL METHOD SOURCES WHEN REQUIRED.
+10. BUILD SOURCE-TO-METHOD TRACE.
+11. BUILD RESEARCH-TO-EXECUTION SCHEMA / MANIFEST.
+12. CONFIGURE LEVEL1 METHOD WITH LEVEL2 INPUTS WITHOUT COPYING THEM INTO LEVEL1.
+13. ADVERSARIALLY SELF-AUDIT.
+14. GIVE MANDATORY PLAIN-LANGUAGE OWNER SUMMARY.
+15. OBTAIN OWNER AUTHORIZATION WHEN REQUIRED.
+16. EXECUTE ONLY AUTHORIZED STEP/MODE.
+17. PERSIST USING THE CHEAPEST RELIABLE APPROVED TRANSPORT; THEN READ BACK / ACCOUNT / QA.
+18. REPORT FULL ROADMAP + PLAIN-LANGUAGE END SUMMARY.
 ```
 
 If the step method is missing/unvalidated:
@@ -292,6 +304,44 @@ OWNER = AUTHORIZATION / COMMERCIAL SCOPE AUTHORITY
 ```
 
 Bridge capability does not itself authorize a provider call. Useful Bridge evidence follows `BRIDGE_EVIDENCE_PERSISTENCE_GATE.md`.
+
+---
+
+# 7A. Large-artifact persistence and publication transport
+
+Canonical authority:
+
+`../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
+
+When Work or another executor creates large/tabular/binary artifacts, publication transport is a separate execution concern from the analytical work.
+
+Required policy:
+
+```text
+IF NATIVE AUTHENTICATED GIT IS ALREADY AVAILABLE AND RELIABLE
+→ USE NORMAL GIT + REMOTE READBACK
+
+ELSE IF OWNER RELAY IS CHEAPER / FASTER / SAFER
+→ LOCAL GENERATION + LOCAL QA
+→ PROVIDE DOWNLOADABLE FILES / OPTIONAL TRANSPORT ZIP
+→ PROVIDE DIRECT GITHUB UPLOAD LINK TO CORRECT REPO / BRANCH / DIRECTORY
+→ OWNER UPLOADS THROUGH NORMAL AUTHENTICATED WEB UI
+→ REMOTE READBACK + IDENTITY QA
+
+DO NOT MOVE LARGE FILE BY DEFAULT THROUGH
+LLM TEXT / BASE64 / MANY CONNECTOR CHUNKS / GIANT TOOL ARGUMENTS
+```
+
+Owner relay is an approved normal transport path, not a quality reduction and not evidence degradation.
+
+A Git credential/network failure after local QA does not justify regenerating already valid artifacts.
+
+```text
+LOCAL_ARTIFACT_COMPLETE != REMOTE_PUBLICATION_COMPLETE
+OWNER_UPLOAD_COMPLETE != REMOTE_READBACK_PASS
+```
+
+Remote readback remains mandatory whichever transport route is used.
 
 ---
 
@@ -363,6 +413,8 @@ PLAIN-LANGUAGE SUMMARY
 
 Missing required summary blocks transition.
 
+For an owner-relay publication handoff, keep the instruction operational and short: what files to download, where to upload them, whether to unzip, the target branch/folder, and what confirmation to return. Do not bury the owner upload action under a long Git-auth incident report.
+
 ---
 
 # 11. Job close
@@ -395,4 +447,7 @@ KW001_JOB_EXECUTION_SUCCESS_NOT_EQUAL_PERMANENT_METHOD_VALIDATION = true
 KW001_RESEARCH_COLLECTED_NOT_EQUAL_METHOD_VALIDATED = true
 KW001_PROVIDER_SUCCESS_NOT_EQUAL_ANALYTICAL_PASS = true
 KW001_PLAIN_LANGUAGE_OWNER_SUMMARY_REQUIRED = true
+KW001_LARGE_ARTIFACT_OWNER_RELAY_RULE_INHERITED = true
+KW001_LARGE_ARTIFACT_MODEL_BYTE_TRANSPORT_FORBIDDEN_BY_DEFAULT = true
+KW001_REMOTE_READBACK_AFTER_OWNER_RELAY_REQUIRED = true
 ```
