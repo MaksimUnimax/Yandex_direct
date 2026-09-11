@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "test_mode": "FINAL_CLIENT_FILES_ONLY",
+  "pass_count": 9,
+  "fail_count": 0,
+  "checks": [
+    {
+      "id": "R01_PACKAGE_NAVIGATION",
+      "status": "PASS",
+      "evidence": "MK03_COMPETITOR_SEMANTIC_GAP_OKNO_MSK_2026-09-11.pdf | MK03_COMPETITOR_SEMANTIC_GAP_OKNO_MSK_2026-09-11.xlsx | README_FIRST.md"
+    },
+    {
+      "id": "R02_FIND_REQUIRED_VIEWS",
+      "status": "PASS",
+      "evidence": "Visible sheets 10/10"
+    },
+    {
+      "id": "R03_CLASSIFY_ANY_DIRECTION",
+      "status": "PASS",
+      "evidence": "43 rows; 7/23/3/10; one visible terminal state per row"
+    },
+    {
+      "id": "R04_VERIFY_CONFIRMED_GAP",
+      "status": "PASS",
+      "evidence": "7/7 have individual Wordstat, phrase evidence, owner validation and no page decision"
+    },
+    {
+      "id": "R05_TRACE_COMPETITOR_TO_PAGE",
+      "status": "PASS",
+      "evidence": "9/9 competitors trace to 44 page observations"
+    },
+    {
+      "id": "R06_READ_SELECTIVE_SERP_BOUNDARY",
+      "status": "PASS",
+      "evidence": "81 pairs = 63 tested + 18 unknown; boundary visible per row"
+    },
+    {
+      "id": "R07_DISTINGUISH_GAP_FROM_PAGE_DECISION",
+      "status": "PASS",
+      "evidence": "Client can distinguish gap, URL/page decision and analytical attention"
+    },
+    {
+      "id": "R08_READ_ANALYTICAL_PDF",
+      "status": "PASS",
+      "evidence": "13 pages; executive result, competitors, opportunities, holds and limitations all present"
+    },
+    {
+      "id": "R09_USE_HANDOFF_WITHOUT_INTERNAL_HELP",
+      "status": "PASS",
+      "evidence": "Counts, file route and limitations visible in README_FIRST.md"
+    }
+  ]
+}

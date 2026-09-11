@@ -1,7 +1,7 @@
 {
   "status": "IN_PROGRESS_NOT_FINAL_AUTHORITY",
   "source_commit": "06ad6156460b524de1656920468d3ca3647c9cb3",
-  "completed_block": "LEVEL2_AUTHORITIES_XLSX_AND_PDF_EXACT_FILE_QA",
+  "completed_block": "LOCAL_FINAL_PACKAGE_MACHINE_QA_AND_RECIPIENT_QA",
   "counts": {
     "discovery_queries": 75,
     "discovery_top10_rows": 750,
@@ -35,7 +35,6 @@
     "REJECT_OFF_SCOPE": 3
   },
   "open_failures": [
-    "RECIPIENT_TEST_NOT_RUN",
     "REMOTE_READBACK_NOT_RUN"
   ],
   "xlsx": {
@@ -52,5 +51,11 @@
     "exact_final_rendered_pages": 13,
     "physical_qa": "PASS"
   },
-  "next_resume_action": "RUN_RECIPIENT_TESTS_AND_FINALIZE_CLIENT_PACKAGE"
+  "client_package": {
+    "path": "CLIENT_DELIVERY_PHASE_5_MK03_OKNO_MSK_2026-09-11",
+    "files": 3,
+    "machine_qa": "PASS_51_OF_51",
+    "recipient_qa": "PASS_9_OF_9"
+  },
+  "next_resume_action": "PUBLISH_FINAL_PACKAGE_AND_RUN_REMOTE_READBACK"
 }

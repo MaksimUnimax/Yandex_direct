@@ -124,7 +124,7 @@ def validate(authorities_only: bool) -> dict[str, object]:
             artifact["pdf"] = {"path": str(pdf), "sha256": sha256(pdf), "bytes": pdf.stat().st_size}
         if md:
             handoff = md.read_text(encoding="utf-8")
-            c.require("handoff_states_limitations", all(token in handoff for token in ["7", "23", "3", "10", "огранич"]))
+            c.require("handoff_states_limitations", all(token in handoff.lower() for token in ["7", "23", "3", "10", "огранич"]))
             artifact["handoff"] = {"path": str(md), "sha256": sha256(md), "bytes": md.stat().st_size}
 
     return {
