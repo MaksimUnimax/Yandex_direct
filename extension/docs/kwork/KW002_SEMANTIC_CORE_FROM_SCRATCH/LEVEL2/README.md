@@ -10,6 +10,23 @@ Mandatory architecture authority:
 
 `../LEVEL1/ROADMAP_AND_METHOD_GENERALIZATION_RULE.md`
 
+## Canonical roadmap
+
+`STEP_RULES_INDEX.md`
+
+This is the universal Step00–22 input→method→output roadmap.
+
+## Dedicated universal step gates currently active
+
+```text
+STEP_02_SEED_ACQUISITION_QUALITY_GATE.md
+STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md
+STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md
+STEP_04_PRELIMINARY_FAMILY_TRIAGE_QUALITY_GATE.md
+```
+
+These deepen the corresponding roadmap step without introducing client-specific data.
+
 ## What Level 2 contains
 
 For each step:
@@ -41,25 +58,25 @@ one project's defect examples as the rule itself
 
 Those belong in `work/<JOB_ID>/`.
 
-## Authorities
+## Reusable inherited authorities
 
 ```text
-STEP_RULES_INDEX.md
-= canonical universal roadmap/navigation and input→output contract
-
 INHERITED_KW001_STEP_RULES.md
 = reusable rules transferred from KW-001, including WHY / root cause / control / PASS
 
-dedicated STEP_<N>_*_METHOD/GATE files
-= deeper universal method where a step requires more detail
+INHERITED_KW001_RULES_MAP.md
+= mapping/index only; it does not override current KW-002 dedicated gates
 ```
 
-Hard rule:
+Where a current dedicated KW-002 gate is stricter or newer, the dedicated gate controls that step.
+
+Hard rules:
 
 ```text
 "INHERITED FROM KW001" LABEL ALONE != RULE TRANSFER
 JOB-SPECIFIC OWNER GATE != LEVEL2 METHOD
 JOB-SPECIFIC EXAMPLE != UNIVERSAL ROOT CAUSE
+CURRENT JOB STATUS != ROADMAP DEFINITION
 ```
 
 Before executing a step:
@@ -68,7 +85,7 @@ Before executing a step:
 READ KW002 LEVEL1
 → READ ROADMAP_AND_METHOD_GENERALIZATION_RULE
 → READ STEP_RULES_INDEX
-→ READ applicable inherited/dedicated Level2 method
+→ READ applicable dedicated/inherited Level2 method
 → READ current work/<JOB_ID>/ state/evidence
 → run required external-method review
 → perform job-specific owner disclosure/authorization where required
