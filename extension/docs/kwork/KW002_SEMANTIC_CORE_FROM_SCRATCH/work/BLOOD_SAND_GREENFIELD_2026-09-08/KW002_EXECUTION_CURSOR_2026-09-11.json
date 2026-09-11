@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V2",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V3",
   "date": "2026-09-11",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
@@ -13,8 +13,9 @@
     "step03b_original": "SUPERSEDED",
     "step03b_corrected": "ACCEPTED",
     "step04_historical": "SUPERSEDED_FOR_CURRENT_FAMILY_TRIAGE",
-    "step04_post_sanitation_operational_acceptance": "PASS",
-    "step04_external_method_review": "PASS_WITH_MATERIAL_RESULT_AUDIT_REQUIRED"
+    "step04_post_sanitation_operational_acceptance": "HISTORICAL_MECHANICAL_TRACEABILITY_PASS_SUPERSEDED_BY_RESULT_AUDIT",
+    "step04_external_method_review": "PASS_FOR_PRELIMINARY_TRIAGE_METHOD",
+    "step04_independent_result_audit": "ACCEPTED_REWORK_REQUIRED"
   },
   "step03b_current_counts": {
     "normalized_identities": 24576,
@@ -24,23 +25,38 @@
     "exclude": 6441
   },
   "step04_current": {
+    "status": "REWORK_REQUIRED_CORRECTIVE_PASS_RELEASED",
     "active_plus_hold_identities": 18135,
     "occurrence_ledger_rows": 25979,
-    "families": 26,
-    "observed_families": 24,
-    "coverage_gap_families": 2,
-    "expansion_queue_rows": 13,
-    "sanitation_feedback_rows": 10,
+    "superseded_family_count": 26,
+    "superseded_observed_families": 24,
+    "superseded_coverage_gap_families": 2,
+    "superseded_expansion_queue_rows": 13,
+    "superseded_sanitation_feedback_rows": 10,
     "raw_lineage_loss": 0,
-    "work_self_quality_score_100": 97.2,
-    "main_chatgpt_operational_acceptance": "PASS",
+    "work_self_quality_score_100_historical": 97.2,
     "external_method_score_100": 92,
     "external_method_verdict": "METHOD_SOUND_FOR_PRELIMINARY_TRIAGE_ONLY",
-    "independent_full_volume_result_audit": "WORK_RETURN_REWORK_REQUIRED_PENDING_MAIN_CHATGPT_QA",
-    "audit_prompt": "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_WORK_PROMPT_2026-09-11.md",
-    "method_review": "STEP_04_EXTERNAL_METHODOLOGY_REVIEW_MAIN_CHATGPT_2026-09-11.md",
-    "owner_relay_commit": "ee3964c1532d9db73a0001742a0699f2f01508e4",
-    "remote_readback": "PASS"
+    "independent_audit_score_100_diagnostic": 67.69,
+    "independent_audit_verdict": "REWORK_REQUIRED",
+    "material_defect_identities": 255,
+    "rule_order_defect_identities": 207,
+    "family_too_broad_identities": 48,
+    "defect_classes": {
+      "psf019_toy_game_prefix_collision": 8,
+      "psf014_explicit_task_hidden_total": 199,
+      "psf014_meaning": 156,
+      "psf014_media": 38,
+      "psf014_toy": 5,
+      "psf001_explicit_diy": 48
+    },
+    "audit_publication_commit": "212a6fa7be66360317b3026541896669b8b019c6",
+    "audit_remote_readback": "PASS",
+    "main_chatgpt_audit_review": "ACCEPTED_REWORK_REQUIRED",
+    "main_chatgpt_review_file": "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_MAIN_CHATGPT_REVIEW_2026-09-11.md",
+    "corrective_work_prompt": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_2026-09-11.md",
+    "corrective_execution_release": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_2026-09-11.md",
+    "corrective_work_execution": "RELEASED_NOT_YET_RETURNED"
   },
   "step05_history": {
     "historical_started_on_2026_09_10": true,
@@ -53,36 +69,45 @@
     "historical_pause_reason": "owner requested Step03/Step04 review and upstream rework"
   },
   "step05_current": {
-    "status": "PAUSED_PENDING_INDEPENDENT_FULL_VOLUME_STEP04_RESULT_AUDIT",
-    "current_queue_rows": 13,
-    "historical_17_row_queue": "SUPERSEDED_AS_QUEUE",
-    "historical_e013_evidence": "PRESERVED_AND_MUST_BE_RECONCILED_TO_CURRENT_PSQ010",
+    "status": "BLOCKED_PENDING_STEP04_POST_AUDIT_CORRECTIVE_ACCEPTANCE",
+    "old_current_queue_rows": 13,
+    "old_queue_provider_ready_status": "SUPERSEDED_PENDING_CORRECTION",
+    "historical_e013_evidence": "PRESERVED_AND_MUST_NOT_BE_REPLAYED_WITHOUT_NEW_GAP",
     "new_provider_calls_after_current_step04_acceptance": 0,
-    "prepared_pre_acquisition_handoff": "KW002-BS-W06",
-    "prepared_pre_acquisition_prompt": "STEP_05_POST_STEP04_PRE_ACQUISITION_WORK_PROMPT_2026-09-11.md",
+    "prepared_pre_acquisition_handoff": "KW002-BS-W06_PAUSED",
     "provider_execution_released": false,
     "step06_started": false
   },
   "audit_current": {
     "type": "STEP04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT",
-    "status": "WORK_COMPLETE_REWORK_REQUIRED_PENDING_MAIN_CHATGPT_REVIEW",
+    "status": "MAIN_CHATGPT_ACCEPTED_REWORK_REQUIRED",
     "live_base_head": "8a09e1610d68f61769b6a4d44d1382cab4dd37b7",
-    "fresh_audit_score_100": 67.69,
+    "publication_commit": "212a6fa7be66360317b3026541896669b8b019c6",
+    "fresh_audit_score_100_diagnostic": 67.69,
     "normalized_identities_audited": 24576,
     "raw_occurrences_audited": 25979,
     "material_defect_identities": 255,
-    "rule_order_defect_identities": 207,
-    "family_too_broad_identities": 48,
     "result_verdict": "REWORK_REQUIRED",
     "local_artifact_complete": true,
     "local_qa": "PASS",
-    "publication_state": "OWNER_RELAY_READY_AFTER_GIT_AUTH_BLOCK",
-    "owner_relay_zip": "KW002_STEP04_INDEPENDENT_FULL_VOLUME_AUDIT_OWNER_RELAY_2026-09-11.zip",
-    "remote_readback": "PENDING_OWNER_UPLOAD_AND_MAIN_CHATGPT",
+    "remote_readback": "PASS",
+    "provider_calls": 0,
+    "step04_corrections_in_audit_pass": 0,
+    "step05_advancement": false,
+    "step06_advancement": false
+  },
+  "correction_current": {
+    "handoff_id": "KW002-BS-W08",
+    "step_id": "STEP04_POST_AUDIT_FULL_VOLUME_RULE_LEVEL_CORRECTION",
+    "status": "RELEASED_TO_WORK_NOT_YET_RETURNED",
+    "work_prompt": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_2026-09-11.md",
+    "execution_release": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_2026-09-11.md",
+    "failure_addendum": "KW002_EXECUTION_FAILURE_LEDGER_ADDENDUM_STEP04_RESULT_AUDIT_2026-09-11.md",
     "provider_calls_allowed": 0,
+    "step03b_mutation_allowed": false,
     "step05_advancement_allowed": false,
     "step06_advancement_allowed": false,
-    "correction_allowed_in_audit_pass": false
+    "full_volume_rerun_required": true
   },
-  "next_action": "MAIN_CHATGPT_RETURN_QA_ON_W07_AUDIT; STEP04_CORRECTION_AND W06_STEP05_PRE_ACQUISITION_REMAIN_BLOCKED UNTIL A NEW EXPLICIT RELEASE"
+  "next_action": "RUN_W08_STEP04_POST_AUDIT_CORRECTIVE_REWORK_THEN_MAIN_CHATGPT_REMOTE_READBACK_AND_RETURN_QA; DO_NOT RESUME STEP05 BEFORE CORRECTED STEP04 ACCEPTANCE"
 }
