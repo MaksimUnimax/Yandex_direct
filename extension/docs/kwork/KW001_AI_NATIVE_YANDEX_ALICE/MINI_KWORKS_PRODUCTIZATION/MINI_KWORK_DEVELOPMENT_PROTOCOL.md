@@ -2,7 +2,12 @@
 
 Status: **OWNER-APPROVED / SERIES-LEVEL / MANDATORY / PRODUCTIZATION-ONLY**  
 Applies to: **MK01–MK07 and any future versioned mini-kwork in this series**  
-Owner approval: **2026-09-10**
+Owner approval: **2026-09-10**  
+Owner large-artifact transport amendment: **2026-09-11**
+
+Cross-Kwork large-artifact publication authority:
+
+`../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
 
 ## 0. What this document governs
 
@@ -35,6 +40,9 @@ DATA / EVIDENCE PLANE
 MARKET / EXTERNAL REFERENCE PLANE
 = current marketplace evidence
 + current official Yandex / industry methodology sources
+
+CROSS-KWORK TRANSPORT PLANE
+= ../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md
 ```
 
 Hard rule:
@@ -43,6 +51,7 @@ Hard rule:
 PRODUCTIZATION RULE != CLIENT EXECUTION RULE
 LEVEL-2 EXAMPLE != LEVEL-1 METHOD
 WORK EXECUTOR != PRODUCT ARCHITECT
+ARTIFACT GENERATION != ARTIFACT TRANSPORT
 ```
 
 ## 1. Mandatory entry gate before work on any mini-kwork
@@ -50,10 +59,11 @@ WORK EXECUTOR != PRODUCT ARCHITECT
 Before designing or continuing MK02–MK07, or reopening a frozen MK01 version, read in this order:
 
 1. `MINI_KWORK_DEVELOPMENT_PROTOCOL.md` — this document;
-2. `SERIES_ROADMAP.md` — current product identity, boundaries and cursor;
-3. `YANDEX_ONLY_SCOPE.md` — cross-product ecosystem boundary;
-4. the selected `MKxx/PRODUCT_ROADMAP.md`;
-5. only then the source KW-001 authorities required by that product.
+2. `../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md` — mandatory cross-Kwork transport rule whenever Work/file persistence is material;
+3. `SERIES_ROADMAP.md` — current product identity, boundaries and cursor;
+4. `YANDEX_ONLY_SCOPE.md` — cross-product ecosystem boundary;
+5. the selected `MKxx/PRODUCT_ROADMAP.md`;
+6. only then the source KW-001 authorities required by that product.
 
 Do not start from a remembered Step number, an old client file or a Work result.
 
@@ -361,6 +371,15 @@ Work must first read the entire current mini-kwork Level-1 method and only then 
 
 Work is used for the large dataset/reconciliation workload because it can carry the substantial multi-file execution through to completion.
 
+Every Phase-5 Work prompt that can produce material files must also freeze the publication transport policy from `../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`:
+
+```text
+ARTIFACT_PUBLICATION_POLICY = NATIVE_GIT_IF_ALREADY_AUTHENTICATED | OWNER_RELAY_IF_MORE_EFFICIENT
+LARGE_ARTIFACT_MODEL_TRANSPORT = FORBIDDEN_BY_DEFAULT
+OWNER_RELAY_ALLOWED = true
+REMOTE_READBACK_REQUIRED = true
+```
+
 ## 17. Work role boundary
 
 Canonical role split:
@@ -382,6 +401,7 @@ WORK
 + produce candidate recipient views
 + measure workload
 + report proven method defects
++ prepare efficient artifact handoff/publication when large files are produced
 ```
 
 Work must not silently redesign product identity, remove required steps, add neighbouring-product scope or weaken evidence gates for convenience.
@@ -400,7 +420,8 @@ NAME FAILURE CLASS
 → IDENTIFY FULL LEVEL-2 IMPACT SET
 → REBUILD AFFECTED OUTPUTS
 → RERUN REGRESSION
-→ COMMIT + REMOTE READBACK
+→ PUBLISH USING APPROVED TRANSPORT
+→ REMOTE READBACK
 ```
 
 Only then may the affected gate return to PASS.
@@ -446,7 +467,7 @@ DO NOT COMMIT EVERY MINUTE
 DO NOT COMMIT EVERY ROW
 DO NOT WAIT UNTIL THE ENTIRE TASK IS FINISHED
 
-COMMIT WHEN A MEANINGFUL, INTERNALLY CONSISTENT BLOCK IS COMPLETE
+PERSIST WHEN A MEANINGFUL, INTERNALLY CONSISTENT BLOCK IS COMPLETE
 AND CAN BE SAFELY RESUMED FROM THAT STATE
 ```
 
@@ -469,10 +490,44 @@ For every completed material block:
 ```text
 SAVE MATERIAL OUTPUTS
 → RECORD CURRENT CURSOR / WHAT IS COMPLETE / WHAT REMAINS
-→ COMMIT
-→ PUSH / SAFE REF UPDATE
+→ LOCAL QA
+→ CHOOSE APPROVED PUBLICATION TRANSPORT
+→ PUBLISH VIA NATIVE AUTHENTICATED GIT IF ALREADY RELIABLE
+   OR OWNER-RELAY WEB UPLOAD WHEN MORE EFFICIENT
 → REMOTE READBACK OF THE MATERIAL STATE
 → CONTINUE FROM THAT REMOTE-RECOVERABLE CHECKPOINT
+```
+
+The old assumption that Work itself must always obtain Git credentials and push every large checkpoint is explicitly superseded.
+
+```text
+WORK SELF-PUSH REQUIRED FOR EVERY ARTIFACT = false
+REMOTE-RECOVERABLE CHECKPOINT REQUIRED = true
+```
+
+If owner relay is selected:
+
+```text
+WORK FREEZES + QA'S EXACT ARTIFACT SET
+→ PROVIDES DOWNLOADABLE FILES / OPTIONAL ZIP
+→ PROVIDES DIRECT GITHUB UPLOAD PAGE FOR TARGET BRANCH/DIRECTORY
+→ OWNER UPLOADS THROUGH NORMAL AUTHENTICATED WEB UI
+→ OWNER CONFIRMS
+→ WORK / MAIN CHATGPT VERIFIES REMOTE IDENTITY + QA
+```
+
+For repository publication, ZIP may be used as a transport/download container, but if the repository expects individual files Work must clearly tell the owner to extract the ZIP and upload the contained files rather than committing the ZIP itself.
+
+Large file bytes must not be routed through model text merely because direct Git authentication failed.
+
+Forbidden by default:
+
+```text
+BASE64 LARGE ARTIFACT
+GIANT CHAT PASTE
+MANY CONNECTOR CHUNKS
+FULL-FILE RECONSTRUCTION THROUGH TOOL ARGUMENTS
+REGENERATE VALID ARTIFACT ONLY TO SOLVE PUBLICATION AUTH
 ```
 
 If one semantic block itself is too large to complete safely in a single Work session, create a **resumable partial checkpoint at a deterministic boundary** (for example, a completed batch/tranche or generated intermediate authority) and mark it explicitly:
@@ -492,19 +547,48 @@ KNOWN FAILURES / OPEN ITEMS
 NEXT RESUME ACTION
 ```
 
-A partial checkpoint must never be mislabeled PASS or final authority merely because it was committed.
+A partial checkpoint must never be mislabeled PASS or final authority merely because it was published.
 
 Hard non-repeat rules:
 
 ```text
 HOURS OF COMPLETED WORK ONLY IN DIALOGUE = FAIL
 MEANINGFUL COMPLETED BLOCK NOT DURABLY SAVED = FAIL
-FINAL-ONLY COMMIT STRATEGY FOR LONG WORK = FAIL
-CHECKPOINT COMMIT != FINAL PASS
+FINAL-ONLY PERSISTENCE STRATEGY FOR LONG WORK = FAIL
+CHECKPOINT PUBLISHED != FINAL PASS
+GIT AUTH FAILURE != RECOMPUTE COMPLETED ARTIFACT
+LARGE ARTIFACT MODEL-BYTE TRANSPORT BY DEFAULT = FAIL
 REMOTE-RECOVERABLE STATE > CONVERSATION-ONLY STATE
 ```
 
-No force push. Preserve concurrent unrelated work. Commit boundaries must reflect meaningful recoverable progress rather than artificial commit spam.
+No force push. Preserve concurrent unrelated work. Publication boundaries must reflect meaningful recoverable progress rather than artificial commit spam.
+
+## 21A. Owner-relay is a normal mini-kwork transport method
+
+Canonical authority:
+
+`../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
+
+Owner relay may be used for:
+
+```text
+large TSV/CSV/JSON authorities
+XLSX workbooks
+DOCX/PDF reports
+ZIP/evidence bundles
+client deliverables
+intermediate large-data checkpoints
+other material files where direct Git transport is inefficient
+```
+
+Work must not spend substantial time/tokens repeatedly debugging Git authentication when the same exact artifacts can be handed to the owner for normal browser upload and then verified remotely.
+
+Owner relay changes only the **transport actor**. It does not move analytical responsibility to the owner.
+
+```text
+OWNER RELAYS BYTES
+WORK / MAIN CHATGPT OWNS METHOD + QA + REMOTE VERIFICATION
+```
 
 ## 22. Phase 5 must measure workload, not set price
 
@@ -633,6 +717,7 @@ Then move `SERIES_ROADMAP.md` cursor to the next mini-kwork.
 ```text
 SERIES PRODUCT DEFINITION
 → READ THIS DEVELOPMENT PROTOCOL
+→ READ CROSS-KWORK LARGE-ARTIFACT PUBLICATION RULE
 → SELECT ONE MINI-KWORK
 → FREEZE PRODUCT PROMISE / BOUNDARIES
 → FRESH MARKET CHECK
@@ -649,14 +734,17 @@ SERIES PRODUCT DEFINITION
 → HAND LARGE-DATA EXECUTION TO WORK
 → WORK READS COMPLETE LEVEL-1 METHOD
 → WORK PROMPT INCLUDES SEMANTIC-BLOCK CHECKPOINT PERSISTENCE
+→ WORK PROMPT FREEZES ARTIFACT PUBLICATION POLICY
 → OKNO_MSK MINI-KWORK-ONLY REHEARSAL
 → DURABLE CHECKPOINT AFTER EACH COMPLETED MATERIAL BLOCK
+→ USE NATIVE GIT OR OWNER-RELAY PUBLICATION, WHICHEVER IS RELIABLE/EFFICIENT
+→ REMOTE READBACK AFTER EACH MATERIAL PUBLICATION
 → CONTAMINATION AUDIT WHERE NEEDED
 → DATA / DECISION AUTHORITIES
 → INDEPENDENT QA + RECIPIENT REVIEW
 → WORKLOAD METRICS
 → METHOD-DEFECT PROPAGATION IF FOUND
-→ COMMIT + REMOTE READBACK
+→ REMOTE-VERIFIED PUBLICATION
 
 → OWNER REVIEW
 → FINAL CLIENT PACKAGE
@@ -678,6 +766,9 @@ MKxx/steps/*.md = HOW TO RUN A PARTICULAR STEP
 OKNO_MSK = TEST DATA / EVIDENCE, NOT UNIVERSAL METHOD
 KW-001 = SOURCE METHOD, NOT AUTOMATIC MINI-KWORK SCOPE
 WORK = LARGE-DATA EXECUTOR, NOT PRODUCT ARCHITECT
+OWNER RELAY = APPROVED FILE TRANSPORT, NOT ANALYTICAL DELEGATION
+LARGE ARTIFACT MODEL BYTE TRANSPORT = FORBIDDEN BY DEFAULT
+REMOTE READBACK = REQUIRED AFTER OWNER UPLOAD
 MARKET SOURCES = COMMERCIAL EVIDENCE, NOT AUTOMATIC METHOD AUTHORITY
 METHOD SOURCES = METHOD SUPPORT, NOT AUTOMATIC PRICE AUTHORITY
 ```
