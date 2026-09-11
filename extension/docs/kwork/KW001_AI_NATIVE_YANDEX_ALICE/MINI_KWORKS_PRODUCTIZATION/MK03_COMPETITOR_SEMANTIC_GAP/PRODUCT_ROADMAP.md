@@ -1,17 +1,18 @@
 # MK03 — SEO-анализ конкурентов в Яндексе + семантические/структурные пробелы
 
-Status: **PHASES 0–2 PASS / PHASES 3–4 METHOD EXTRACTION CURRENT / PHASE 5 BLOCKED**
+Status: **PHASE 4 METHOD PASS / PHASE 5 WORK HANDOFF PENDING**
 
 ## Mandatory development authority
 
 Before continuing MK03, read in order:
 
 1. `../MINI_KWORK_DEVELOPMENT_PROTOCOL.md`
-2. `../SERIES_ROADMAP.md`
-3. `../YANDEX_ONLY_SCOPE.md`
-4. `../MINI_KWORK_SERP_MODE_PRODUCTIZATION_GATE_2026-09-10.md`
-5. this roadmap
-6. current KW-001 authorities referenced below.
+2. `../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md` when Work/file transport is material
+3. `../SERIES_ROADMAP.md`
+4. `../YANDEX_ONLY_SCOPE.md`
+5. `../MINI_KWORK_SERP_MODE_PRODUCTIZATION_GATE_2026-09-10.md`
+6. this roadmap
+7. current local MK03 Level-1 authorities listed below.
 
 ```text
 PRODUCTIZATION CONTROL != CLIENT EXECUTION
@@ -95,7 +96,7 @@ Local authority: `SERP_COVERAGE_MODE_DECISION_2026-09-11.md`.
 
 ## Current KW-001 extraction baseline
 
-Primary authorities:
+Primary source authorities used during Phase 3 included:
 
 - `../../STEP_05A_COMPETITOR_SEMANTIC_EXPANSION_METHOD.md`
 - `../../STEP_05A_VOLUME_SANITATION_ADDENDUM_2026-09-10.md`
@@ -107,16 +108,36 @@ Primary authorities:
 
 Step5A is already `OWNER-CANONIZED / PROJECT-TEST-VALIDATED`; MK03 extracts the relevant method into a standalone commercial product rather than inventing a new competitor process.
 
+## Autonomous MK03 Level-1 method
+
+Canonical local execution authorities are now:
+
+```text
+PRODUCT_SCOPE.md
+CLIENT_INPUT_CONTRACT.md
+GENERAL_RULES.md
+ERRORS_AND_LESSONS.md
+SERP_COVERAGE_MODE_DECISION_2026-09-11.md
+STEP_RULES_INDEX.md
+steps/STEP_00_*.md … steps/STEP_09_*.md
+EXECUTION_ROADMAP.md
+DELIVERABLE_SPEC.md
+QA_AND_RELEASE.md
+PHASE_4_METHOD_CONSISTENCY_AUDIT_2026-09-11.md
+```
+
+The executor should use these local authorities for MK03 execution rather than re-deriving the product from parent KW-001 files.
+
 ## Productization roadmap
 
 ```text
 PHASE 0  PRODUCT PROMISE / BOUNDARIES          = PASS
 PHASE 1  FRESH MARKET REALITY                  = PASS / 2026-09-11
 PHASE 2  CLIENT INPUT CONTRACT                 = PASS
-PHASE 3  KW-001 METHOD + FAILURE EXTRACTION    = CURRENT
-PHASE 4  AUTONOMOUS ROADMAP + CONSISTENCY      = PENDING
-PHASE 5  MK03-ONLY OKNO_MSK REHEARSAL          = BLOCKED UNTIL LEVEL-1 PASS
-PHASE 6  CLIENT PACKAGE DECISION               = PENDING
+PHASE 3  KW-001 METHOD + FAILURE EXTRACTION    = PASS
+PHASE 4  AUTONOMOUS ROADMAP + CONSISTENCY      = PASS
+PHASE 5  MK03-ONLY OKNO_MSK REHEARSAL          = BLOCKED UNTIL WORK HANDOFF READBACK
+PHASE 6  CLIENT PACKAGE DECISION               = CONTRACT FROZEN; REHEARSAL MATERIALIZATION PENDING
 PHASE 7  PRODUCT / RECIPIENT QA                = PENDING
 PHASE 8  PRICE / LIMITS / ECONOMICS            = PENDING
 PHASE 9  KWORK CARD                            = PENDING
@@ -125,23 +146,51 @@ PHASE 11 OWNER PUBLICATION                     = PENDING
 PHASE 12 FREEZE / READBACK                     = PENDING
 ```
 
-## Phase-4 gate before Work
+## Phase-4 result
 
-Phase 5 remains blocked until all exist and reconcile:
+Phase 4 closes the pre-data Level-1 method gate.
+
+Consistency authority:
+
+`PHASE_4_METHOD_CONSISTENCY_AUDIT_2026-09-11.md`
+
+Result:
 
 ```text
-PRODUCT_SCOPE
-CLIENT_INPUT_CONTRACT
-GENERAL_RULES
-ERRORS_AND_LESSONS
-STEP_RULES_INDEX
-ALL LOCAL STEP RULES
-EXECUTION_ROADMAP
-DELIVERABLE_SPEC
-QA_AND_RELEASE
-SERP_COVERAGE_MODE_DECISION
-PHASE_4_METHOD_CONSISTENCY_AUDIT = PASS
-LEVEL-1 COMMIT + REMOTE READBACK = PASS
+METHOD CONSISTENCY = PASS
+KNOWN CROSS-FILE METHOD CONTRADICTIONS = 0
+LEVEL-2 OKNO_MSK EXECUTION = NOT STARTED
+NEW PROVIDER CALLS DURING PHASE 4 = 0
 ```
 
-Only then create a closed Phase-5 Work handoff with semantic-block checkpoint persistence.
+The physical package contract is already frozen at method level as:
+
+```text
+1 XLSX
++ 1 ANALYTICAL PDF
++ SHORT CLIENT HANDOFF
+```
+
+The detailed workbook carries evidence/decisions. The PDF synthesizes the competitive-gap picture. A separate implementation-TZ PDF is outside base MK03.
+
+## Phase-5 activation gate
+
+Phase 5 may begin only after:
+
+```text
+PHASE-4 LEVEL-1 AUTHORITIES COMMITTED
+→ REMOTE READBACK PASS
+→ PHASE_5_WORK_PROMPT_2026-09-11.md CREATED
+→ WORK HANDOFF COMMITTED
+→ WORK HANDOFF REMOTE READBACK PASS
+```
+
+The Phase-5 Work prompt must include semantic-block checkpoint persistence and the cross-Kwork large-artifact transport policy.
+
+## Next action
+
+```text
+NEXT_ACTION = PUBLISH_PHASE_4_AUTHORITIES__REMOTE_READBACK__CREATE_AND_PUBLISH_PHASE_5_WORK_HANDOFF
+```
+
+Do not start Phase 8 economics, Kwork card or visuals before the isolated rehearsal and recipient QA are complete.
