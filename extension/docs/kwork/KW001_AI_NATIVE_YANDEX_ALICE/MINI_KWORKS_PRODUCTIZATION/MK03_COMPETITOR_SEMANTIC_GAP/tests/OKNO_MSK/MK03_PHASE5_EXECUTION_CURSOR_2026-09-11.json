@@ -1,7 +1,7 @@
 {
   "status": "IN_PROGRESS_NOT_FINAL_AUTHORITY",
   "source_commit": "06ad6156460b524de1656920468d3ca3647c9cb3",
-  "completed_block": "LEVEL2_AUTHORITIES_AND_XLSX_EXACT_FILE_QA",
+  "completed_block": "LEVEL2_AUTHORITIES_XLSX_AND_PDF_EXACT_FILE_QA",
   "counts": {
     "discovery_queries": 75,
     "discovery_top10_rows": 750,
@@ -35,8 +35,6 @@
     "REJECT_OFF_SCOPE": 3
   },
   "open_failures": [
-    "PDF_NOT_BUILT",
-    "PDF_EXACT_FILE_QA_NOT_RUN",
     "RECIPIENT_TEST_NOT_RUN",
     "REMOTE_READBACK_NOT_RUN"
   ],
@@ -47,5 +45,12 @@
     "exact_final_rendered_sheets": 10,
     "physical_qa": "PASS"
   },
-  "next_resume_action": "BUILD_MK03_PHASE5_ANALYTICAL_PDF"
+  "pdf": {
+    "path": "artifacts/MK03_COMPETITOR_SEMANTIC_GAP_OKNO_MSK_2026-09-11.pdf",
+    "sha256": "2fe05ba553528aeb682b7df38ac6318fc6956e9ed6350d87ec8e4d79a635914c",
+    "pages": 13,
+    "exact_final_rendered_pages": 13,
+    "physical_qa": "PASS"
+  },
+  "next_resume_action": "RUN_RECIPIENT_TESTS_AND_FINALIZE_CLIENT_PACKAGE"
 }
