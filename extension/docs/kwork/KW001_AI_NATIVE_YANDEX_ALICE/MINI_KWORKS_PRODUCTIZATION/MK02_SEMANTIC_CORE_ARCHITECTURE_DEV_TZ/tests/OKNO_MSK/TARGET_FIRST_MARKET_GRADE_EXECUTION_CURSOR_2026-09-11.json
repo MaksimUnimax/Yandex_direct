@@ -2,8 +2,8 @@
   "schema": "MK02_TARGET_FIRST_MARKET_GRADE_EXECUTION_CURSOR_V1",
   "status": "IN_PROGRESS",
   "phase": "PHASE_7_MARKET_GRADE_CLIENT_QUALITY_CORRECTION",
-  "source_remote_head": "1c4e48ae2018f3a1c9afdaf98e35fd9cc81b2bf0",
-  "last_completed_block": "E_BOTH_PDFS_REBUILT_AND_EXACT_FINAL_BYTE_QA",
+  "source_remote_head": "b0947ccbce2a15a278357e8fc23eec332aec632d",
+  "last_completed_block": "F_LEVEL_1_STATE_VALIDATOR_AND_RECIPIENT_QA_COMPLETE",
   "completed_paths": [
     "build_target_first_market_grade_page_specs.py",
     "TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_2026-09-10.tsv.gz",
@@ -16,6 +16,9 @@
     "build_target_first_client_pdfs.py",
     "TARGET_FIRST_MARKET_GRADE_CLIENT_PDF_BUILD_REPORT_2026-09-10.json",
     "TARGET_FIRST_MARKET_GRADE_PDF_PHYSICAL_QA_2026-09-10.json",
+    "validate_target_first_market_grade.py",
+    "TARGET_FIRST_MARKET_GRADE_MACHINE_QA_2026-09-10.json",
+    "TARGET_FIRST_MARKET_GRADE_PRODUCT_RECIPIENT_QA_2026-09-10.md",
     "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf",
     "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_2026-09-10.pdf"
   ],
@@ -49,13 +52,14 @@
     "tz_pdf_rendered_and_inspected_pages": "28/28",
     "tz_complete_register_roles": "60/60",
     "tz_selective_detailed_cards": "12 = 7 OPTIMIZE + 4 ROUTE + 1 RECHECK",
-    "tz_detailed_keep_cards": 0
+    "tz_detailed_keep_cards": 0,
+    "market_grade_validator": "58/58 PASS",
+    "final_client_files_recipient_qa": "10/10 PASS",
+    "level_1_quality_contract": "PASS"
   },
   "open_failures": [
-    "FINAL_MARKET_GRADE_VALIDATOR_NOT_YET_COMPLETE",
-    "RECIPIENT_QA_NOT_YET_COMPLETE",
-    "LEVEL_1_FINAL_STATE_AND_REMOTE_READBACK_NOT_YET_COMPLETE"
+    "FINAL_REMOTE_READBACK_AND_RECEIPT_NOT_YET_COMPLETE"
   ],
-  "next_resume_action": "BUILD_AND_RUN_FINAL_MARKET_GRADE_VALIDATOR_THEN_COMPLETE_RECIPIENT_AND_LEVEL_1_STATE_QA",
+  "next_resume_action": "PUBLISH_RELEASE_CANDIDATE_THEN_COMPLETE_FINAL_REMOTE_READBACK_AND_RECEIPT",
   "final_authority": false
 }

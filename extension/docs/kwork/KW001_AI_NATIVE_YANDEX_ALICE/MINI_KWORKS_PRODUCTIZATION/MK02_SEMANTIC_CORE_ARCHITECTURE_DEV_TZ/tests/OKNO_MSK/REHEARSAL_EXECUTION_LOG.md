@@ -202,3 +202,14 @@ The earlier Step-15/client package remains historical and is superseded for deli
 - **Remote client-package commit:** `78b5adaa8e2001e78032bf09968cf7a51de95a04` (`feat(mk02): rebuild target-first client delivery`).
 
 Publication used the authorized GitHub connection after ordinary HTTPS credentials were unavailable. The branch was advanced without force through `78b5adaa8e2001e78032bf09968cf7a51de95a04` and `2f30cfbe663482db1972ad17f839efdd4bdb83d9`. Remote readback matched 14/14 changed blobs; the remote tree `1b95f382b7b2b11306fea1b41eb493786a093a13` matched the local release tree. Phase 7 is PASS; Phase 8 price/limits/economics is the next action.
+
+## Market-grade client-quality corrective closure — 2026-09-11
+
+The second Phase-7 correction preserved the accepted target-first semantic/architecture foundation and corrected the client package rather than rerunning research.
+
+- **Authorities:** market-grade phrase map 2 185 rows; market-grade page-spec register 60 rows; clusters/tasks 161; target roles 60.
+- **Reconciliation:** 48 KEEP / 7 OPTIMIZE / 4 ROUTE / 1 RECHECK; physical change delta 14; CREATE 0.
+- **Client package:** exactly one 13-sheet XLSX, one 24-page analytical PDF with a complete scannable 60-role tree, and one 28-page TZ PDF with a complete compact 60-role register plus 12 selective detail cards.
+- **QA:** authority 18/18 PASS; market-grade validator 58/58 PASS; final-client-files-only recipient QA 10/10 PASS; XLSX 13/13 previews and PDFs 24/24 + 28/28 exact-final-byte renders visually inspected.
+- **Boundaries:** no fake aggregate page demand, no fake CREATE, no new Wordstat/Search/Alice/Google/competitor calls, no fixed page-count or sheet-count gate.
+- **Next action:** `EXECUTE_PHASE_8_MK02_PRICE_LIMITS_ECONOMICS`; Phase 8 has not been executed in this correction.

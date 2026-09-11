@@ -1,6 +1,6 @@
 # MK02 — PRODUCT PACKAGING
 
-Status: **PHASE 7 PACKAGE VALIDATED / PHASE 8 ECONOMICS NEXT**
+Status: **PHASE 7 MARKET-GRADE PACKAGE VALIDATED / PHASE 8 ECONOMICS NEXT**
 
 Рабочее название продукта:
 
@@ -225,7 +225,7 @@ READY / PENDING BUSINESS / PENDING PLACEMENT / RECHECK / MAPPING / NO CHANGE / H
 
 Эти числа являются evidence конкретного rehearsal и **не становятся коммерческими лимитами**. Limits и price определяются только на Phase 8.
 
-## 12. Phase 7 — validation result
+## 12. Historical Phase 7 — initial validation result
 
 Phase 7 materialized the frozen three-file package on OKNO_MSK and validated it as the real recipient delivery.
 
@@ -279,3 +279,36 @@ Next gate:
 ```text
 PHASE 8 = PRICE / LIMITS / ECONOMICS
 ```
+
+## 14. Phase 7 market-grade corrective package — current delivery
+
+The initial package and the first target-first package remain historical evidence. The current recipient delivery is the separately versioned directory:
+
+`tests/OKNO_MSK/CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10`
+
+It contains exactly three files:
+
+```text
+SEMANTIC_CORE_AND_TARGET_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx
+sha256 = d420309ac7de2df418ddfc5c7d51a0c8680a1d35ff7458359ad56da99e213551
+
+TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf
+sha256 = a21b24b40fca465510bf6735dce38292dfff3b95f4b1ec7deca1f819d4acb663
+
+TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_2026-09-10.pdf
+sha256 = a8b185d568f9d83ef354842dbd070c06000e59944af67b5cef2fb6489b2f2b8a
+```
+
+Validated market-grade result:
+
+- 2 840 source rows reconcile to 2 185 working, 187 review and 468 excluded;
+- 2 185 phrase routes retain individual Wordstat evidence;
+- 161 cluster/task routes resolve into 60 target roles and 60 full page specs;
+- reconciliation remains 48 KEEP / 7 OPTIMIZE / 4 ROUTE / 1 RECHECK; physical delta remains 14; CREATE remains 0;
+- XLSX has 13 usable sheets, final-byte package QA PASS and 13/13 visually inspected previews;
+- analytical PDF has a scannable complete 60-role tree and 24/24 inspected final-byte renders;
+- TZ PDF keeps the complete 60-role compact register and uses 12 selective detail cards, with 28/28 inspected final-byte renders;
+- machine QA = 58/58 PASS; final-files-only recipient QA = 10/10 PASS;
+- new provider calls = 0; no fake CREATE was introduced.
+
+The permanent quality rule is semantic, not mechanical: no fixed workbook sheet count or PDF page count is a release authority.

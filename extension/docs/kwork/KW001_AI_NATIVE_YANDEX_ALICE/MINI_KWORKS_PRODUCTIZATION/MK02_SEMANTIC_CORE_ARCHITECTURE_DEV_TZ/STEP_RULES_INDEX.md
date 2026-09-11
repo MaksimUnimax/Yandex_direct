@@ -22,8 +22,8 @@ MK02 uses product-local step numbers. Source KW-001 step numbers and MK01 method
 | 11 | Structural/content-routing action diagnosis against the target map | corrected `STEP_11_STRUCTURAL_ACTION_DIAGNOSIS.md` + source `STEP_12_STRUCTURAL_ACTION_METHOD.md` | REQUIRED | action state for every target landing spec; KEEP/no-change retained |
 | 12 | Competing-page safety diagnosis | `STEP_13_COMPETING_PAGE_DIAGNOSIS_METHOD.md` | REQUIRED TO MATERIAL CASES | distinct-task/overlap/conflict evidence states sufficient to protect architecture |
 | 13 | **Independent target architecture freeze, then current-topology reconciliation** | corrected `STEP_13_SEARCH_ONLY_ARCHITECTURE_FREEZE.md` + source `STEP_14_SEARCH_ONLY_ARCHITECTURE_FREEZE_METHOD.md` | REQUIRED | complete target page registry/tree + current match states + current→target delta |
-| 14 | **Full page-by-page target specification + physical implementation delta** | corrected `STEP_14_IMPLEMENTATION_SPECIFICATION.md` + source Step18 gates | REQUIRED | one page spec per material target page + READY/clarification/keep/no-standalone/recheck change states |
-| 15 | **Client materialization of phrase map, landing map, target structure, page specs and change delta + final QA/readback** | corrected `STEP_15_CLIENT_MATERIALIZATION_QA.md` + Step19/20 gates | REQUIRED | recipient-ready XLSX + analytical PDF + TZ PDF where the full sold mapping/architecture remains visible |
+| 14 | **Full market-grade page-by-page target specification + physical implementation delta** | corrected `STEP_14_IMPLEMENTATION_SPECIFICATION.md` + source Step18 gates | REQUIRED | one clear page job; primary/secondary queries with individual demand; clean own/embedded/support/elsewhere boundaries; H1/Title rules; analytical priority; READY/clarification/keep/no-standalone/recheck states |
+| 15 | **Client materialization of phrase map, landing map, scannable target structure, page specs and change delta + final QA/readback** | corrected `STEP_15_CLIENT_MATERIALIZATION_QA.md` + Step19/20 gates | REQUIRED | recipient-ready XLSX + analytical PDF with scannable tree + compressed TZ PDF with complete all-page register and selective detail cards |
 
 ## 2. Explicit exclusions from base MK02
 
@@ -50,8 +50,14 @@ STEP 13 TARGET ARCHITECTURE != CURRENT TOPOLOGY
 STEP 13 SMALL CURRENT→TARGET DELTA != SMALL TARGET ARCHITECTURE
 STEP 14 FULL PAGE SPEC != CHANGE-ONLY TICKET LIST
 STEP 14 IMPLEMENTATION SPEC != PRODUCTION SCHEDULE
+STEP 14 PRIMARY PAGE JOB != UNION OF HETEROGENEOUS TERMINAL TASKS
+STEP 14 OWN COVERAGE != UNEXPLAINED ELSEWHERE OWNERSHIP
 STEP 15 MATERIALIZATION != NEW RESEARCH
 STEP 15 DELTA-ONLY PACKAGE = FAIL
+STEP 15 PRIMARY PHRASE MAP WITHOUT INDIVIDUAL DEMAND = FAIL
+STEP 15 WIDE HIERARCHY TABLE WITHOUT SCANNABLE PDF TREE = FAIL
+STEP 15 KEEP VISIBLE != ONE FULL DETAILED PDF CARD PER KEEP
+STEP 15 FIXED SHEET COUNT / FIXED PDF PAGE COUNT != SEMANTIC QA
 ```
 
 No later step may silently repair a missing upstream evidence decision by invention.

@@ -3,8 +3,8 @@
   "status": "PASS",
   "final_bytes": {
     "file": "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/SEMANTIC_CORE_AND_TARGET_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx",
-    "bytes": 550107,
-    "sha256": "8df450bafb954670405cc339078a6c29c2a99901d3a7930301394b2a427d14fb"
+    "bytes": 550068,
+    "sha256": "d420309ac7de2df418ddfc5c7d51a0c8680a1d35ff7458359ad56da99e213551"
   },
   "toolchain": {
     "authoring": "@oai/artifact-tool",

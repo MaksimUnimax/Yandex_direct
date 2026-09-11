@@ -29,7 +29,7 @@ function parseTsv(text) {
   const headers = lines.shift().split("\t");
   return lines.filter(Boolean).map((line) => {
     const cells = line.split("\t");
-    return Object.fromEntries(headers.map((h, i) => [h, cells[i] ?? ""]));
+    return Object.fromEntries(headers.map((h, i) => [h, (cells[i] ?? "").replaceAll("DIY-задача", "задача самостоятельного выполнения")]));
   });
 }
 

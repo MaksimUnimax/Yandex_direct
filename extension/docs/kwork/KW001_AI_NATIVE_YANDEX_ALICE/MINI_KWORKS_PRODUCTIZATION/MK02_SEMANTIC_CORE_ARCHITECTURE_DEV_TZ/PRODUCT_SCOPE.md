@@ -1,12 +1,15 @@
 # MK02 — PRODUCT SCOPE
 
-Status: **PRODUCT PROMISE CORRECTED / TARGET-FIRST MAPPING MANDATORY / PHASE 7 CORRECTIVE REWORK REQUIRED**
+Status: **PRODUCT PROMISE CORRECTED / TARGET-FIRST MARKET-GRADE CONTRACT ACTIVE / PHASE 7 PASS**
 
 Working product identity:
 
 **«Семантическое ядро + SEO-структура сайта + ТЗ на доработку»**
 
-Owner correction authority: `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`.
+Owner correction authorities:
+
+- `PHASE_7_OWNER_PRODUCT_GAP_CORRECTION_2026-09-10.md`;
+- `PHASE_7_OWNER_MARKET_GRADE_QUALITY_CORRECTION_2026-09-10.md`.
 
 ## 1. What the client buys
 
@@ -90,6 +93,7 @@ For every active phrase, MK02 must produce:
 
 ```text
 PHRASE
+→ INDIVIDUAL WORDSTAT INDICATOR
 → CLUSTER / USER TASK
 → INTENDED TARGET LANDING PAGE KEY
 → TARGET URL / ROUTE OR EXPLICIT NO-STANDALONE / UNRESOLVED STATE
@@ -155,16 +159,23 @@ TARGET PAGE KEY
 PAGE PURPOSE / TYPE
 PRIMARY TASK / INTENT
 PRIMARY QUERY
+PRIMARY QUERY INDIVIDUAL WORDSTAT
+USEFUL SECONDARY QUERIES + INDIVIDUAL WORDSTAT
 SEMANTIC SCOPE / MEMBER COUNT
 TARGET URL / ROUTE
 PARENT / SECTION
 CHILD / SUPPORTING RELATIONS WHEN MATERIAL
 CURRENT MATCH STATE
 ACTION STATE
+PRIMARY PAGE JOB
+OWN / EMBEDDED / SUPPORT / ELSEWHERE BOUNDARIES
+RECOMMENDED H1 OR EXPLICIT ROLE BLOCKER
+TITLE DIRECTION FOR CREATE/OPTIMIZE OR EXPLICIT EVIDENCE BLOCKER
+ANALYTICAL SEO PRIORITY + EVIDENCE BASIS
 UNCERTAINTY / EVIDENCE BOUNDARY
 ```
 
-The target structure must be understandable as a hierarchy/tree or hierarchical table without opening the current site.
+The target structure must be understandable without opening the current site. The analytical PDF must contain a directly scannable hierarchy/tree or branch view; a wide detailed table alone is not sufficient.
 
 Permanent rules:
 
@@ -196,14 +207,19 @@ Equivalent client meaning:
 TARGET PAGE / URL OR ROUTE
 PAGE TYPE
 PARENT / SECTION
-PAGE PURPOSE
-PRIMARY TASK / INTENT
-PRIMARY / REPRESENTATIVE QUERY
+PRIMARY PAGE JOB — ONE CLEAR ROLE
+PRIMARY QUERY + INDIVIDUAL WORDSTAT
+USEFUL SECONDARY QUERIES + INDIVIDUAL WORDSTAT
 MEMBER PHRASE COUNT
 SEMANTIC SCOPE
-WHAT THE PAGE SHOULD COVER
-WHAT BELONGS ELSEWHERE / NO-STANDALONE BOUNDARY WHEN MATERIAL
-SUPPORTING / CHILD / RELATED PAGES WHEN MATERIAL
+OWN COVERAGE
+EMBEDDED COMPATIBLE NO-STANDALONE TOPICS
+SUPPORT / LINK-ONLY TOPICS
+ELSEWHERE / NAMED OWNER TOPICS
+HUMAN-READABLE BOUNDARY EXPLANATION WHERE TOPICS ARE RELATED
+RECOMMENDED H1 OR EXPLICIT ROLE BLOCKER
+TITLE DIRECTION FOR CREATE/OPTIMIZE OR EXPLICIT EVIDENCE BLOCKER
+ANALYTICAL SEO PRIORITY + EVIDENCE BASIS
 CURRENT URL MATCH / CURRENT STATE
 ACTION = CREATE | OPTIMIZE | ROUTE | KEEP | NO_STANDALONE | RECHECK
 REAL SITE CHANGE = YES | NO | UNRESOLVED
@@ -212,7 +228,7 @@ ACCEPTANCE / TARGET END STATE
 UNCERTAINTY / CLARIFICATION WHEN REQUIRED
 ```
 
-The full phrase list remains in XLSX. The PDF/TZ uses page-level specifications, not thousands of raw phrase rows.
+The full phrase list and its individual Wordstat values remain in XLSX. Individual phrase demand is evidence; it must not be summed into a fabricated page-demand metric. The PDF/TZ uses page-level specifications and selected examples, not thousands of raw phrase rows.
 
 ## 10. Physical change delta
 
@@ -237,16 +253,21 @@ Without repository knowledge, the client must be able to answer:
 1. what Yandex demand was researched;
 2. what the working semantic core/clusters are;
 3. for any working phrase, which target landing page owns it;
-4. for any material cluster, which target landing page owns it and what that page is for;
-5. what the complete target SEO structure is;
-6. which target pages already match the current site;
-7. which target pages require optimization/create/route decisions;
-8. which topics should not get standalone pages and where they belong;
-9. what the full page-by-page target specification is;
-10. which subset requires actual site changes;
-11. which changes are ready and which require clarification/recheck;
-12. how to verify implemented changes;
-13. what MK02 did not research or promise.
+4. for any working phrase, its individual Wordstat indicator without joining a second sheet;
+5. for any material cluster, which target landing page owns it and what that page is for;
+6. for any target page, its primary query and useful secondary queries with individual demand;
+7. what the page owns, embeds, mentions/links to and leaves to a named neighbour;
+8. its H1 recommendation/blocker and supported Title direction where applicable;
+9. its analytical SEO priority without treating that priority as a production schedule;
+10. what the complete target SEO structure is from a scannable architecture view;
+11. which target pages already match the current site;
+12. which target pages require optimization/create/route decisions;
+13. which topics should not get standalone pages and where they belong;
+14. what the full page-by-page target specification is;
+15. which subset requires actual site changes;
+16. which changes are ready and which require clarification/recheck;
+17. how to verify implemented changes;
+18. what MK02 did not research or promise.
 
 ## 13. Physical package
 
@@ -258,6 +279,8 @@ short Kwork/chat handoff message
 ```
 
 No mandatory duplicate DOCX.
+
+The TZ PDF keeps a complete compact register of every target page, including KEEP, and adds detailed cards for CREATE/OPTIMIZE/ROUTE/RECHECK plus only genuinely exceptional KEEP roles. Completeness does not mean one full page per KEEP. A separate portfolio example may show CREATE only from another truthful validated case or an explicitly labelled demo; a fake CREATE row is forbidden.
 
 ## 14. Explicit exclusions
 

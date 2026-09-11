@@ -324,3 +324,56 @@ FINAL IMPLEMENTATION PDF RENDER = PASS
 FINAL REMOTE HASH/IDENTITY READBACK = PASS
 SOURCE/GENERATOR NON-REPEAT CONTROL = PRESENT
 ```
+
+---
+
+## M. Market-grade mapping/page-spec client-quality collapse — PRODUCT-CONTRACT-02
+
+### What failed
+
+The target-first package preserved all phrases and page roles but still required the client to reconstruct basic keyword demand, page priorities and topical ownership across several views. The analytical PDF exposed architecture mainly as a wide table, while the TZ expanded every KEEP role into repetitive full pages.
+
+### Root cause / false assumptions
+
+```text
+PHRASE MAP WITHOUT WORDSTAT = CLIENT-READY KEYWORD MAP
+ONE REPRESENTATIVE QUERY + PHRASE COUNT = COMPLETE PAGE KEYWORD SPEC
+SEMICOLON UNION OF TASKS = ONE PRIMARY PAGE JOB
+TOPIC IN OWN COVERAGE AND ELSEWHERE = SELF-EXPLANATORY BOUNDARY
+PAGE LABEL = NATURAL H1
+ANALYTICAL PRIORITY = IMPLEMENTATION ORDER
+WIDE HIERARCHY TABLE = SCANNABLE SEO TREE
+KEEP VISIBLE = ONE FULL PDF PAGE PER KEEP
+ATTRACTIVE PORTFOLIO = PERMISSION TO INVENT CREATE
+```
+
+All equivalences are false.
+
+### Corrected rule
+
+1. The primary phrase→target view keeps the individual preserved Wordstat indicator on the phrase row; individual values are not summed into a fake page-demand metric.
+2. Every material page spec shows primary query + individual demand, useful distinct secondary queries + individual demand when available, and total routed phrase count.
+3. Every page has one clear primary job. Own coverage, embedded compatible no-standalone topics, support/link-only topics and elsewhere/named-owner topics are separate fields.
+4. Exact own/elsewhere overlap is forbidden. Related parent/child subjects require a human-readable distinction between overview/support and full ownership.
+5. Every material role has a natural recommended H1 or a role blocker. CREATE/OPTIMIZE also has a supported Title direction or explicit evidence blocker; KEEP is not forced into metadata rewrite.
+6. Analytical SEO priority has an evidence basis and explicitly is not implementation order, effort, business value or forecast.
+7. The analytical PDF contains a directly scannable 60-role tree/indented hierarchy in addition to any detailed table.
+8. The TZ contains a complete compact all-page register and selective detailed cards for CREATE/OPTIMIZE/ROUTE/RECHECK plus only proven KEEP exceptions.
+9. A CREATE portfolio case comes only from another truthful validated case or a clearly labelled demo. The current package is never beautified with a fake CREATE.
+
+### Regression / closure condition
+
+```text
+PRIMARY PHRASE MAP WITHOUT INDIVIDUAL DEMAND = FAIL
+PAGE SPEC WITH ONLY ONE QUERY WHEN USEFUL SECONDARIES EXIST = FAIL
+HETEROGENEOUS PRIMARY PAGE JOB = FAIL
+UNEXPLAINED OWN COVERAGE INTERSECT ELSEWHERE != EMPTY = FAIL
+MATERIAL PAGE WITHOUT H1 OR BLOCKER = FAIL
+CREATE/OPTIMIZE WITHOUT TITLE DIRECTION OR EXPLICIT BLOCKER = FAIL
+ANALYTICAL PRIORITY PRESENTED AS SCHEDULE = FAIL
+ANALYTICAL PDF WITHOUT SCANNABLE TREE = FAIL
+KEEP DROPPED FROM COMPLETE REGISTER = FAIL
+EVERY KEEP FORCED INTO FULL DETAILED CARD = QUALITY FAIL
+FAKE CREATE USED FOR PORTFOLIO = FAIL
+FIXED XLSX SHEET COUNT OR FIXED PDF PAGE COUNT USED AS SEMANTIC AUTHORITY = FAIL
+```
