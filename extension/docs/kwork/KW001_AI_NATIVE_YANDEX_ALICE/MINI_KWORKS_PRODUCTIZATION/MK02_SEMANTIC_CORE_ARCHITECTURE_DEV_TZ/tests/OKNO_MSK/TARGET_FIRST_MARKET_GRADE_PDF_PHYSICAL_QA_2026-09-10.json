@@ -1,0 +1,62 @@
+{
+  "schema": "MK02_TARGET_FIRST_MARKET_GRADE_PDF_PHYSICAL_QA_V1",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "scope": "EXACT_FINAL_CLIENT_BYTES",
+  "parser_checks": {
+    "pypdf_parse": "PASS",
+    "poppler_pdfinfo": "PASS",
+    "poppler_pdftotext": "PASS",
+    "replacement_glyph_hits": 0,
+    "client_visible_internal_token_hits": 0,
+    "all_pages_have_extractable_content": true
+  },
+  "render": {
+    "engine": "Poppler pdftoppm",
+    "dpi": 150,
+    "analytical_pages_rendered": 24,
+    "analytical_pages_visually_inspected": 24,
+    "tz_pages_rendered": 28,
+    "tz_pages_visually_inspected": 28,
+    "old_render_receipts_invalidated_after_each_rebuild": true
+  },
+  "visual_checks": {
+    "clipping": 0,
+    "overlap": 0,
+    "broken_glyphs": 0,
+    "unreadable_tables": 0,
+    "orphan_headings": 0,
+    "bad_page_flow": 0,
+    "tree_clipping": 0,
+    "repeated_useless_keep_cards": 0
+  },
+  "content_contract": {
+    "analytical_scannable_tree_roles": 60,
+    "analytical_scannable_tree_sections": 9,
+    "tz_complete_register_roles": 60,
+    "tz_detailed_cards": 12,
+    "tz_detailed_optimize_cards": 7,
+    "tz_detailed_route_cards": 4,
+    "tz_detailed_recheck_cards": 1,
+    "tz_detailed_keep_cards": 0,
+    "no_fixed_page_count_requirement": true
+  },
+  "files": [
+    {
+      "file": "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf",
+      "bytes": 123608,
+      "sha256": "a21b24b40fca465510bf6735dce38292dfff3b95f4b1ec7deca1f819d4acb663",
+      "pages": 24,
+      "rendered_pages": 24,
+      "visually_inspected_pages": 24
+    },
+    {
+      "file": "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_2026-09-10.pdf",
+      "bytes": 149325,
+      "sha256": "a8b185d568f9d83ef354842dbd070c06000e59944af67b5cef2fb6489b2f2b8a",
+      "pages": 28,
+      "rendered_pages": 28,
+      "visually_inspected_pages": 28
+    }
+  ]
+}

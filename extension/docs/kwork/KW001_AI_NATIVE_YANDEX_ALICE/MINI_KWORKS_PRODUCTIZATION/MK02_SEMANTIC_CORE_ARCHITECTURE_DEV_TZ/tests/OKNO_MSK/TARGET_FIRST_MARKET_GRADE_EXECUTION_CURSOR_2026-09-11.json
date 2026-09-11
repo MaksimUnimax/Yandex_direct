@@ -2,8 +2,8 @@
   "schema": "MK02_TARGET_FIRST_MARKET_GRADE_EXECUTION_CURSOR_V1",
   "status": "IN_PROGRESS",
   "phase": "PHASE_7_MARKET_GRADE_CLIENT_QUALITY_CORRECTION",
-  "source_remote_head": "c397679f4bca3bfd0fda693abb73775a8763527a",
-  "last_completed_block": "C_XLSX_REBUILT_AND_EXACT_BYTE_QA",
+  "source_remote_head": "1c4e48ae2018f3a1c9afdaf98e35fd9cc81b2bf0",
+  "last_completed_block": "E_BOTH_PDFS_REBUILT_AND_EXACT_FINAL_BYTE_QA",
   "completed_paths": [
     "build_target_first_market_grade_page_specs.py",
     "TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_2026-09-10.tsv.gz",
@@ -12,7 +12,12 @@
     "build_target_first_client_workbook.mjs",
     "TARGET_FIRST_MARKET_GRADE_CLIENT_WORKBOOK_BUILD_REPORT_2026-09-10.json",
     "TARGET_FIRST_MARKET_GRADE_XLSX_PHYSICAL_QA_2026-09-10.json",
-    "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/SEMANTIC_CORE_AND_TARGET_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx"
+    "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/SEMANTIC_CORE_AND_TARGET_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx",
+    "build_target_first_client_pdfs.py",
+    "TARGET_FIRST_MARKET_GRADE_CLIENT_PDF_BUILD_REPORT_2026-09-10.json",
+    "TARGET_FIRST_MARKET_GRADE_PDF_PHYSICAL_QA_2026-09-10.json",
+    "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf",
+    "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_2026-09-10.pdf"
   ],
   "counts": {
     "semantic_universe": 2840,
@@ -36,15 +41,21 @@
     "unexplained_exact_own_elsewhere_overlap": 0,
     "xlsx_final_byte_package_qa": "PASS",
     "xlsx_rendered_and_inspected_sheets": "13/13",
-    "xlsx_client_visible_internal_token_hits": 0
+    "xlsx_client_visible_internal_token_hits": 0,
+    "analytical_pdf_exact_final_byte_qa": "PASS",
+    "analytical_pdf_rendered_and_inspected_pages": "24/24",
+    "analytical_pdf_scannable_tree_roles": "60/60",
+    "tz_pdf_exact_final_byte_qa": "PASS",
+    "tz_pdf_rendered_and_inspected_pages": "28/28",
+    "tz_complete_register_roles": "60/60",
+    "tz_selective_detailed_cards": "12 = 7 OPTIMIZE + 4 ROUTE + 1 RECHECK",
+    "tz_detailed_keep_cards": 0
   },
   "open_failures": [
     "FINAL_MARKET_GRADE_VALIDATOR_NOT_YET_COMPLETE",
-    "ANALYTICAL_PDF_NOT_YET_REBUILT",
-    "TZ_PDF_NOT_YET_REBUILT",
-    "RECIPIENT_AND_PHYSICAL_QA_NOT_YET_COMPLETE",
+    "RECIPIENT_QA_NOT_YET_COMPLETE",
     "LEVEL_1_FINAL_STATE_AND_REMOTE_READBACK_NOT_YET_COMPLETE"
   ],
-  "next_resume_action": "REBUILD_ANALYTICAL_PDF_WITH_SCANNABLE_60_ROLE_TREE_AND_RENDER_EXACT_FINAL_BYTES",
+  "next_resume_action": "BUILD_AND_RUN_FINAL_MARKET_GRADE_VALIDATOR_THEN_COMPLETE_RECIPIENT_AND_LEVEL_1_STATE_QA",
   "final_authority": false
 }

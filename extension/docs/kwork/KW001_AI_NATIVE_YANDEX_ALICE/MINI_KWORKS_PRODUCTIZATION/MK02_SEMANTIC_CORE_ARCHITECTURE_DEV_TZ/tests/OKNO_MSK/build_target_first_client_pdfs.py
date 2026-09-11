@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the corrected target-first analytical and page-specification PDFs."""
+"""Build the market-grade analytical and implementation PDFs for OKNO_MSK."""
 
 from __future__ import annotations
 
@@ -7,14 +7,14 @@ import csv
 import gzip
 import hashlib
 import json
-import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from xml.sax.saxutils import escape
 
 from pypdf import PdfReader
+from reportlab import rl_config
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
@@ -36,43 +36,50 @@ from reportlab.platypus import (
 
 
 DATE = "2026-09-10"
+rl_config.invariant = 1
 ROOT = Path(__file__).resolve().parent
-DELIVERY = ROOT / "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_CORRECTED_2026-09-10"
+DELIVERY = ROOT / f"CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_{DATE}"
 ANALYTICAL = DELIVERY / f"TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_{DATE}.pdf"
 TZ = DELIVERY / f"TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_{DATE}.pdf"
-REPORT = ROOT / f"TARGET_FIRST_CLIENT_PDF_BUILD_REPORT_{DATE}.json"
+REPORT = ROOT / f"TARGET_FIRST_MARKET_GRADE_CLIENT_PDF_BUILD_REPORT_{DATE}.json"
 
 NAVY = colors.HexColor("#17365D")
 TEAL = colors.HexColor("#0F6B78")
+INK = colors.HexColor("#1F2937")
+GREY = colors.HexColor("#5B6573")
+LIGHT_GREY = colors.HexColor("#D7DEE7")
+VERY_LIGHT = colors.HexColor("#F7F9FC")
 PALE_BLUE = colors.HexColor("#EAF3F8")
 PALE_TEAL = colors.HexColor("#E6F3F3")
 PALE_GREEN = colors.HexColor("#E8F5EC")
 PALE_AMBER = colors.HexColor("#FFF3D6")
 PALE_RED = colors.HexColor("#FCE8E6")
-GREY = colors.HexColor("#5B6573")
-LIGHT_GREY = colors.HexColor("#D7DEE7")
 
 pdfmetrics.registerFont(TTFont("DejaVu", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"))
 pdfmetrics.registerFont(TTFont("DejaVu-Bold", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"))
 
 
-def rows(name: str, gz: bool = False) -> list[dict[str, str]]:
+def read_rows(name: str, gz: bool = False) -> list[dict[str, str]]:
     opener = gzip.open if gz else open
     with opener(ROOT / name, "rt", encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle, delimiter="\t"))
 
 
-FOUNDATION = rows(f"MK02_SEMANTIC_FOUNDATION_{DATE}.tsv.gz", True)
-PHRASES = rows(f"TARGET_FIRST_PHRASE_LANDING_MAP_{DATE}.tsv.gz", True)
-CLUSTERS = rows(f"TARGET_FIRST_CLUSTER_LANDING_MAP_{DATE}.tsv")
-REGISTRY = rows(f"TARGET_PAGE_REGISTRY_{DATE}.tsv")
-HIERARCHY = rows(f"TARGET_ARCHITECTURE_HIERARCHY_{DATE}.tsv")
-RECON = rows(f"CURRENT_TARGET_RECONCILIATION_{DATE}.tsv")
-SPECS = rows(f"TARGET_PAGE_SPEC_REGISTER_{DATE}.tsv")
-DELTA = rows(f"CURRENT_TARGET_CHANGE_DELTA_{DATE}.tsv")
-PAGE_NAME_BY_KEY = {row["target_page_key"]: row["target_page_name_ru"] for row in REGISTRY}
-CLUSTER_NAME_BY_KEY = {row["cluster_task_key"]: row["cluster_task_name_ru"] for row in CLUSTERS}
+FOUNDATION = read_rows(f"MK02_SEMANTIC_FOUNDATION_{DATE}.tsv.gz", True)
+PHRASES = read_rows(f"TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_{DATE}.tsv.gz", True)
+CLUSTERS = read_rows(f"TARGET_FIRST_CLUSTER_LANDING_MAP_{DATE}.tsv")
+REGISTRY = read_rows(f"TARGET_PAGE_REGISTRY_{DATE}.tsv")
+HIERARCHY = read_rows(f"TARGET_ARCHITECTURE_HIERARCHY_{DATE}.tsv")
+RECON = read_rows(f"CURRENT_TARGET_RECONCILIATION_{DATE}.tsv")
+SPECS = read_rows(f"TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_{DATE}.tsv")
+DELTA = read_rows(f"CURRENT_TARGET_CHANGE_DELTA_{DATE}.tsv")
 
+PAGE_NAME_BY_KEY = {row["target_page_key"]: row["target_page_name_ru"] for row in REGISTRY}
+SPEC_BY_KEY = {row["target_page_key"]: row for row in SPECS}
+RECON_BY_KEY = {row["target_page_key"]: row for row in RECON}
+DELTA_BY_PAGE: dict[str, list[dict[str, str]]] = defaultdict(list)
+for delta_row in DELTA:
+    DELTA_BY_PAGE[delta_row["target_page_key"]].append(delta_row)
 
 ACTION_RU = {
     "KEEP_LOCK_AS_TARGET_OWNER": "Сохранить и закрепить как целевую посадочную",
@@ -87,10 +94,10 @@ MATCH_RU = {
     "UNRESOLVED": "Требуется проверка",
 }
 ROUTE_RU = {
-    "TARGET_PAGE_RESOLVED": "Целевая посадочная определена",
-    "NO_STANDALONE_ROUTE_TO_PARENT": "Отдельная страница не нужна — направить в названного владельца",
+    "TARGET_PAGE_RESOLVED": "Самостоятельная целевая посадочная определена",
+    "NO_STANDALONE_ROUTE_TO_PARENT": "Отдельный URL не нужен — включить в названного владельца",
     "RECHECK_NEEDS_EVIDENCE": "Нужна дополнительная проверка",
-    "NO_TARGET_OUTSIDE_SCOPE": "Вне целевой области проекта",
+    "NO_TARGET_OUTSIDE_SCOPE": "Вне области исследования",
     "UNRESOLVED_TASK_ROUTING": "Маршрут не определён — доказательств недостаточно",
 }
 CHANGE_RU = {"YES": "Да", "NO": "Нет", "UNRESOLVED": "Не определено"}
@@ -101,8 +108,13 @@ READY_RU = {
 }
 
 
+def display_page_name(value: str | None) -> str:
+    return str(value or "").replace("DIY-задача", "задача самостоятельного выполнения")
+
+
 def clean(value: str | None) -> str:
     text = str(value or "").strip()
+    mapped = ACTION_RU.get(text) or MATCH_RU.get(text) or ROUTE_RU.get(text) or CHANGE_RU.get(text) or READY_RU.get(text) or text
     replacements = {
         "NONE": "Нет",
         "EXACT_SEARCH_TASK_BOUNDARY_REQUIRED": "Нужна точная проверка границы поисковой задачи",
@@ -128,26 +140,9 @@ def clean(value: str | None) -> str:
         "target task matches note": "переход соответствует задаче целевой страницы",
         "no conflicting canonical owner": "конфликт владельцев не возникает",
     }
-    mapped = ACTION_RU.get(text) or MATCH_RU.get(text) or ROUTE_RU.get(text) or CHANGE_RU.get(text) or READY_RU.get(text) or text
     for source, target in replacements.items():
         mapped = mapped.replace(source, target)
-    return mapped
-
-
-def names_from_keys(value: str | None, mapping: dict[str, str], empty_value: str = "Нет") -> str:
-    keys = [key.strip() for key in str(value or "").split(";") if key.strip()]
-    if not keys:
-        return empty_value
-    return "; ".join(
-        mapping.get(key, "Вне целевой области проекта" if key == "NO_TARGET_OUTSIDE_SCOPE" else "Неназванная роль — требуется проверка")
-        for key in keys
-    )
-
-
-def page_name(key: str | None, empty_value: str = "Корень раздела") -> str:
-    if not key:
-        return empty_value
-    return PAGE_NAME_BY_KEY.get(key, "Вне целевой области проекта" if key == "NO_TARGET_OUTSIDE_SCOPE" else "Неназванная роль — требуется проверка")
+    return display_page_name(mapped)
 
 
 def route_text(value: str | None) -> str:
@@ -155,14 +150,19 @@ def route_text(value: str | None) -> str:
     if raw.startswith("TARGET_ROLE::"):
         key = raw.removeprefix("TARGET_ROLE::")
         if key in PAGE_NAME_BY_KEY and key != "TP-UNRESOLVED-DIY-WINDOW-TASK":
-            return f"Целевая роль «{PAGE_NAME_BY_KEY[key]}»"
+            return f"Целевая роль «{display_page_name(PAGE_NAME_BY_KEY[key])}»"
         return "Маршрут не назначен до получения недостающего доказательства"
     return raw or "Не назначен до проверки"
 
 
-def p(text: str | None, style: ParagraphStyle) -> Paragraph:
-    normalized = clean(text).replace("; ", ";<br/>")
-    return Paragraph(escape(normalized).replace("&lt;br/&gt;", "<br/>"), style)
+def page_name(key: str | None, empty: str = "Корень раздела") -> str:
+    if not key:
+        return empty
+    return display_page_name(PAGE_NAME_BY_KEY.get(key, "Неназванная роль — требуется проверка"))
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 styles = getSampleStyleSheet()
@@ -170,14 +170,20 @@ TITLE = ParagraphStyle("TitleRu", parent=styles["Title"], fontName="DejaVu-Bold"
 SUBTITLE = ParagraphStyle("SubtitleRu", parent=styles["Normal"], fontName="DejaVu", fontSize=11, leading=15, textColor=GREY, spaceAfter=5 * mm)
 H1 = ParagraphStyle("H1Ru", parent=styles["Heading1"], fontName="DejaVu-Bold", fontSize=16, leading=20, textColor=NAVY, spaceBefore=2 * mm, spaceAfter=4 * mm)
 H2 = ParagraphStyle("H2Ru", parent=styles["Heading2"], fontName="DejaVu-Bold", fontSize=12, leading=15, textColor=TEAL, spaceBefore=3 * mm, spaceAfter=2 * mm)
-BODY = ParagraphStyle("BodyRu", parent=styles["BodyText"], fontName="DejaVu", fontSize=9.2, leading=13, textColor=colors.HexColor("#1F2937"), spaceAfter=2.5 * mm)
-SMALL = ParagraphStyle("SmallRu", parent=BODY, fontSize=7.4, leading=9.5, spaceAfter=0)
+BODY = ParagraphStyle("BodyRu", parent=styles["BodyText"], fontName="DejaVu", fontSize=9.2, leading=13, textColor=INK, spaceAfter=2.5 * mm)
+SMALL = ParagraphStyle("SmallRu", parent=BODY, fontSize=7.3, leading=9.3, spaceAfter=0)
 SMALL_BOLD = ParagraphStyle("SmallBoldRu", parent=SMALL, fontName="DejaVu-Bold")
-CELL = ParagraphStyle("CellRu", parent=BODY, fontSize=7.6, leading=9.7, spaceAfter=0)
+CELL = ParagraphStyle("CellRu", parent=BODY, fontSize=7.4, leading=9.4, spaceAfter=0)
 CELL_BOLD = ParagraphStyle("CellBoldRu", parent=CELL, fontName="DejaVu-Bold")
+TREE_ROOT = ParagraphStyle("TreeRoot", parent=CELL_BOLD, fontSize=8.2, leading=10.5, textColor=NAVY)
+TREE_CHILD = ParagraphStyle("TreeChild", parent=CELL, fontSize=7.8, leading=10, leftIndent=8)
 CALLOUT = ParagraphStyle("CalloutRu", parent=BODY, fontName="DejaVu-Bold", fontSize=10, leading=14, textColor=NAVY, alignment=TA_CENTER)
-PAGE_TITLE = ParagraphStyle("PageTitleRu", parent=H1, fontSize=15, leading=18, spaceAfter=3 * mm)
 BADGE = ParagraphStyle("BadgeRu", parent=SMALL_BOLD, alignment=TA_CENTER, textColor=NAVY)
+
+
+def paragraph(value: str | None, style: ParagraphStyle = BODY) -> Paragraph:
+    normalized = clean(value).replace(" | ", "<br/>").replace("; ", ";<br/>")
+    return Paragraph(escape(normalized).replace("&lt;br/&gt;", "<br/>"), style)
 
 
 def footer(canvas, doc, short_title: str) -> None:
@@ -196,35 +202,30 @@ def make_doc(path: Path, short_title: str) -> BaseDocTemplate:
     page = landscape(A4)
     doc = BaseDocTemplate(
         str(path), pagesize=page, leftMargin=14 * mm, rightMargin=14 * mm,
-        topMargin=13 * mm, bottomMargin=16 * mm,
-        title=short_title, author="OKNO_MSK",
+        topMargin=13 * mm, bottomMargin=16 * mm, title=short_title, author="okno-msk.ru",
     )
     frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id="main")
     doc.addPageTemplates(PageTemplate(id="landscape", frames=[frame], onPage=lambda c, d: footer(c, d, short_title)))
     return doc
 
 
-def table(data, widths, *, header=True, font_size=7.4, row_backgrounds: dict[int, colors.Color] | None = None) -> LongTable:
+def data_table(data, widths, *, font_size=7.4, header=True, row_backgrounds=None) -> LongTable:
     prepared = []
     for row_index, row in enumerate(data):
-        style = CELL_BOLD if header and row_index == 0 else CELL
-        if font_size != CELL.fontSize:
-            style = ParagraphStyle(f"cell{font_size}{row_index == 0}", parent=style, fontSize=font_size, leading=font_size * 1.28)
-        prepared.append([p(str(cell), style) for cell in row])
+        base = CELL_BOLD if header and row_index == 0 else CELL
+        style = ParagraphStyle(f"cell-{font_size}-{row_index == 0}", parent=base, fontSize=font_size, leading=font_size * 1.28)
+        prepared.append([paragraph(str(cell), style) for cell in row])
     result = LongTable(prepared, colWidths=widths, repeatRows=1 if header else 0, hAlign="LEFT", splitByRow=1)
     commands = [
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("GRID", (0, 0), (-1, -1), 0.35, LIGHT_GREY),
-        ("LEFTPADDING", (0, 0), (-1, -1), 3),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 3),
-        ("TOPPADDING", (0, 0), (-1, -1), 3),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"), ("GRID", (0, 0), (-1, -1), 0.35, LIGHT_GREY),
+        ("LEFTPADDING", (0, 0), (-1, -1), 3), ("RIGHTPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 3), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
     ]
     if header:
-        commands += [("BACKGROUND", (0, 0), (-1, 0), NAVY), ("TEXTCOLOR", (0, 0), (-1, 0), colors.white)]
+        commands.extend([("BACKGROUND", (0, 0), (-1, 0), NAVY), ("TEXTCOLOR", (0, 0), (-1, 0), colors.white)])
         for row_index in range(1, len(data)):
             if row_index % 2 == 0:
-                commands.append(("BACKGROUND", (0, row_index), (-1, row_index), colors.HexColor("#F7F9FC")))
+                commands.append(("BACKGROUND", (0, row_index), (-1, row_index), VERY_LIGHT))
     if row_backgrounds:
         for row_index, color in row_backgrounds.items():
             commands.append(("BACKGROUND", (0, row_index), (-1, row_index), color))
@@ -232,137 +233,218 @@ def table(data, widths, *, header=True, font_size=7.4, row_backgrounds: dict[int
     return result
 
 
-def section_title(story: list, title: str, intro: str) -> None:
-    story.append(Paragraph(title, H1))
-    story.append(Paragraph(intro, BODY))
+def section(story: list, title: str, intro: str) -> None:
+    story.extend([Paragraph(title, H1), Paragraph(intro, BODY)])
 
 
-def build_analytical() -> None:
-    doc = make_doc(ANALYTICAL, "OKNO_MSK — целевая SEO-архитектура")
-    story: list = [
-        Spacer(1, 18 * mm),
-        Paragraph("Целевая SEO-архитектура OKNO_MSK", TITLE),
-        Paragraph("Аналитический отчёт · Москва · Яндекс · 10 сентября 2026", SUBTITLE),
+def cover(title: str, subtitle: str, callout: str) -> list:
+    return [
+        Spacer(1, 16 * mm), Paragraph(title, TITLE), Paragraph(subtitle, SUBTITLE),
         HRFlowable(width="100%", thickness=1.4, color=TEAL, spaceAfter=8 * mm),
-        Paragraph("Главный результат — не количество физических правок, а полная модель: запрос → задача → целевая посадочная → структура → спецификация страницы → изменение при необходимости.", ParagraphStyle("CoverCallout", parent=CALLOUT, fontSize=14, leading=20, spaceAfter=9 * mm)),
-        table([
-            ["Объект", "Сайт", "Регион и поиск", "Граница данных"],
-            ["Семантическое ядро и целевая структура", "okno-msk.ru", "Москва · Яндекс", "Принятые сохранённые данные; без новых обращений к внешним сервисам"],
-        ], [55 * mm, 65 * mm, 55 * mm, 88 * mm], font_size=8.5),
-        Spacer(1, 8 * mm),
-        Paragraph("Фразовая детализация находится в XLSX. Этот PDF работает на уровне задач, страниц, ролей, структуры и действий.", BODY),
+        Paragraph(callout, ParagraphStyle("CoverCallout", parent=CALLOUT, fontSize=13, leading=19, spaceAfter=8 * mm)),
+        data_table([
+            ["Сайт", "Регион", "Поисковая система", "Граница"],
+            ["okno-msk.ru", "Москва", "Яндекс", "Сохранённые данные; новых внешних обращений нет"],
+        ], [68 * mm, 48 * mm, 55 * mm, 94 * mm], font_size=8.5),
+        Spacer(1, 7 * mm),
+    ]
+
+
+def build_tree_section(story: list) -> tuple[int, int]:
+    by_section: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in HIERARCHY:
+        by_section[row["section_name_ru"]].append(row)
+    sections = sorted(by_section)
+    role_count = 0
+    for index, section_name in enumerate(sections):
+        branch = sorted(by_section[section_name], key=lambda row: (bool(row["subsection_or_parent_page_key"]), row["target_page_name_ru"]))
+        branch_data = []
+        for row in branch:
+            root = not row["subsection_or_parent_page_key"]
+            role = ("● " if root else "↳ ") + display_page_name(row["target_page_name_ru"])
+            spec = SPEC_BY_KEY[row["target_page_key"]]
+            rec = RECON_BY_KEY[row["target_page_key"]]
+            branch_data.append([
+                paragraph(role, TREE_ROOT if root else TREE_CHILD), paragraph(row["page_type"], SMALL),
+                paragraph(f"{spec['total_routed_phrase_count']} фраз", SMALL), paragraph(spec["analytical_seo_priority"], SMALL),
+                paragraph(ACTION_RU[rec["target_action"]], SMALL),
+            ])
+            role_count += 1
+        block = Table(branch_data, colWidths=[91 * mm, 48 * mm, 24 * mm, 22 * mm, 80 * mm], hAlign="LEFT")
+        block.setStyle(TableStyle([
+            ("VALIGN", (0, 0), (-1, -1), "TOP"), ("GRID", (0, 0), (-1, -1), 0.25, LIGHT_GREY),
+            ("BACKGROUND", (0, 0), (-1, 0), PALE_TEAL),
+            ("LEFTPADDING", (0, 0), (-1, -1), 4), ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+            ("TOPPADDING", (0, 0), (-1, -1), 3), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ]))
+        story.append(KeepTogether([Paragraph(section_name, H2), block, Spacer(1, 3 * mm)]))
+        if (index + 1) % 3 == 0 and index + 1 < len(sections):
+            story.extend([PageBreak(), Paragraph("6. Целевое SEO-дерево — продолжение", H1)])
+    return role_count, len(sections)
+
+
+def build_analytical() -> dict[str, int]:
+    doc = make_doc(ANALYTICAL, "OKNO_MSK — целевая SEO-архитектура")
+    story: list = cover(
+        "Целевая SEO-архитектура okno-msk.ru",
+        "Аналитический отчёт · Москва · Яндекс · 10 сентября 2026",
+        "Полный результат: запрос и индивидуальный спрос → задача → целевая посадочная → структура → сверка с текущим сайтом → изменение при необходимости.",
+    )
+    story.extend([
+        Paragraph("Детальная рассадка 2 185 рабочих фраз находится в XLSX. Этот отчёт объясняет направления спроса, 60 целевых ролей, их иерархию, ключевые запросы, приоритеты и расхождения с текущим сайтом.", BODY),
         PageBreak(),
-    ]
+    ])
 
-    section_title(story, "1. Как построена целевая модель", "Целевая роль выводилась из принятой семантики, пользовательской задачи, интента и ожидаемой роли страницы. Текущие URL сопоставлены только после фиксации этой модели.")
-    flow = Table([
-        [p("1. Принятая семантика", CALLOUT), p("2. Задачи и интенты", CALLOUT), p("3. Целевые роли страниц", CALLOUT), p("4. Сверка с текущим сайтом", CALLOUT)],
-        [p("2 185 рабочих фраз", SMALL), p("161 задача посадочных страниц", SMALL), p("60 существенных ролей страниц", SMALL), p("Закрепить / усилить / изменить связь / перепроверить", SMALL)],
-    ], colWidths=[doc.width / 4] * 4, rowHeights=[20 * mm, 13 * mm])
-    flow.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), PALE_TEAL), ("GRID", (0, 0), (-1, -1), 0.6, TEAL),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-    ]))
-    story += [flow, Spacer(1, 6 * mm), Paragraph("Критическая граница: существующая страница может идеально совпасть с независимо спроектированной ролью. Тогда она получает действие «Сохранить и закрепить как целевую посадочную» и остаётся полноценной строкой результата.", BODY), PageBreak()]
+    section(story, "1. Что исследовано", "Семантика собрана в границе существующего публичного сайта, одного региона и спроса Яндекса. Целевая модель построена от пользовательских задач; текущие URL использованы только при последующей сверке.")
+    story.extend([
+        data_table([
+            ["Слой", "Что сделано", "Что получено"],
+            ["Спрос", "Сохранены и классифицированы запросы", "2 840 фраз с рабочим, проверочным или исключённым статусом"],
+            ["Задачи", "Рабочие запросы сгруппированы по смыслу и посадочной задаче", "161 кластер / задача посадочной"],
+            ["Посадочные", "Каждая рабочая фраза получила страницу-владельца или явную границу", "2 185 маршрутов фраз"],
+            ["Архитектура", "Роли страниц и отношения зафиксированы до сверки с сайтом", "60 целевых ролей"],
+            ["Сверка", "Целевые роли сопоставлены с существующими страницами", "48 сохранить · 7 усилить · 4 изменить связь · 1 перепроверить"],
+        ], [42 * mm, 112 * mm, 111 * mm], font_size=8.2),
+        Spacer(1, 5 * mm),
+        Paragraph("Вордстат указан как индивидуальный сохранённый показатель каждой фразы. Значения разных фраз не суммируются в прогноз трафика или спрос страницы.", BODY),
+        PageBreak(),
+    ])
 
-    section_title(story, "2. Объём семантики и ограничения", "Принятые ранее количества сохранены без косметического пересчёта. Спорные и исключённые строки не включались в рабочую архитектуру и не были потеряны.")
-    count_table = [
-        ["Слой", "Количество", "Роль в результате"],
-        ["Семантическая вселенная", "2 840", "Полный сохранённый набор"],
-        ["Рабочее ядро", "2 185", "Фразы с целевым маршрутом либо явным состоянием «отдельная страница не нужна» / «нужна проверка»"],
-        ["Требуют проверки", "187", "Не усиливают целевые решения без дополнительных доказательств"],
-        ["Исключены", "468", "Сохранены с причиной исключения"],
-    ]
-    story += [table(count_table, [70 * mm, 30 * mm, 160 * mm], font_size=8.5), Spacer(1, 5 * mm)]
-    story.append(Paragraph("Граница: расширение семантики из источников конкурентов, Google, Алисы и нейропоиска не использовано; новые обращения к Вордстату, поиску Яндекса и поставщикам конкурентных данных не выполнялись. Если доказательств недостаточно, сохранено состояние «нужна проверка».", BODY))
-    story.append(PageBreak())
+    section(story, "2. Область и ограничения", "Результат относится к Москве и Яндексу. Он не расширяет базовую услугу метаданными или исследованиями, которых не было в принятом контуре.")
+    story.extend([
+        data_table([
+            ["Включено", "Не включено", "Как трактовать неопределённость"],
+            ["Сохранённая семантика, Вордстат, задачи, целевая структура, текущая сверка, постраничные решения", "Google, Алиса, нейропоиск, новое расширение по конкурентам, прогноз трафика, окупаемость, производственный график", "Недостаток доказательств остаётся явным состоянием проверки; URL, H1 или действие не придумываются"],
+        ], [92 * mm, 89 * mm, 84 * mm], font_size=8.3),
+        Spacer(1, 5 * mm),
+        Paragraph("Аналитический SEO-приоритет показывает важность роли по охвату спроса, центральности, подтверждённому разрыву и неопределённости. Это не срок, не трудоёмкость, не бизнес-ценность и не обещание роста.", BODY),
+        PageBreak(),
+    ])
 
-    groups = defaultdict(list)
+    section(story, "3. Семантические итоги", "Счётчики сохранены без косметической мутации данных.")
+    story.extend([
+        data_table([
+            ["Слой", "Количество", "Назначение"],
+            ["Семантическая вселенная", "2 840", "Полный сохранённый набор"],
+            ["Рабочее ядро", "2 185", "Фразы, участвующие в целевой рассадке"],
+            ["Проверить", "187", "Не усиливают решение без дополнительных доказательств"],
+            ["Исключено", "468", "Сохранено с причиной исключения"],
+            ["Кластеры / задачи", "161", "Задачи посадочных, а не автоматические новые URL"],
+            ["Целевые роли", "60", "Полная модель страниц"],
+        ], [78 * mm, 30 * mm, 157 * mm], font_size=8.5),
+        PageBreak(),
+    ])
+
+    groups: dict[str, list[dict[str, str]]] = defaultdict(list)
     for row in FOUNDATION:
         if row["in_working_core"] == "Да":
             groups[row["group_id"]].append(row)
-    top_groups = sorted(groups.values(), key=lambda rs: (-len(rs), rs[0]["group_name"]))[:18]
-    section_title(story, "3. Основные направления спроса", "Рабочие фразы объединены по пользовательской задаче. Смысловая группа помогает увидеть спрос, но сама по себе не является новой страницей.")
-    demand_data = [["Направление", "Фраз", "Задача пользователя", "Интент", "Пример запроса"]]
-    for rs in top_groups:
-        representative = sorted(rs, key=lambda x: (-int(x["wordstat_popular_count"] or 0), x["phrase"]))[0]
-        demand_data.append([rs[0]["group_name"], str(len(rs)), rs[0]["user_task"], rs[0]["intent"], representative["phrase"]])
-    story += [table(demand_data, [48 * mm, 15 * mm, 83 * mm, 48 * mm, 70 * mm], font_size=7.2), PageBreak()]
+    top_groups = sorted(groups.values(), key=lambda items: (-len(items), items[0]["group_name"]))[:16]
+    section(story, "4. Основные направления спроса", "Крупные смысловые направления помогают оценить ширину спроса. Группа не равна отдельной странице: конечная рассадка сделана по задаче и роли посадочной.")
+    demand_data = [["Направление", "Фраз", "Задача пользователя", "Интент", "Сильный пример + Вордстат"]]
+    for group in top_groups:
+        example = max(group, key=lambda item: int(item["wordstat_popular_count"] or 0))
+        demand_data.append([group[0]["group_name"], len(group), group[0]["user_task"], group[0]["intent"], f"{example['phrase']} — {example['wordstat_popular_count']}"])
+    story.extend([data_table(demand_data, [48 * mm, 15 * mm, 81 * mm, 47 * mm, 74 * mm], font_size=7.0), PageBreak()])
 
-    route_counts = Counter(r["target_route_state"] for r in CLUSTERS)
-    section_title(story, "4. Как задачи сгруппированы в посадочные", "161 задача получила целевую роль, названную родительскую страницу или явное состояние неопределённости. Искусственного правила «один кластер = одна страница» нет.")
-    route_data = [["Решение для задачи", "Задач", "Смысл"]]
-    explanations = {
-        "TARGET_PAGE_RESOLVED": "Самостоятельная целевая роль определена.",
-        "NO_STANDALONE_ROUTE_TO_PARENT": "Отдельный URL не нужен; спрос включён в названную страницу-владельца.",
-        "RECHECK_NEEDS_EVIDENCE": "Роль возможна, но недостаёт конкретного доказательства.",
-        "NO_TARGET_OUTSIDE_SCOPE": "Задача сохранена, но находится вне целевой области этого исследования.",
-        "UNRESOLVED_TASK_ROUTING": "Даже task boundary недостаточно доказана; URL не придуман.",
+    route_counts = Counter(row["target_route_state"] for row in CLUSTERS)
+    section(story, "5. Кластер / задача → целевая посадочная", "Все 161 задачи имеют самостоятельную страницу, названного владельца или явную границу. Ни одна задача не превращалась в новую страницу автоматически.")
+    route_data = [["Решение", "Задач", "Смысл"]]
+    route_explanation = {
+        "TARGET_PAGE_RESOLVED": "Самостоятельная целевая роль подтверждена.",
+        "NO_STANDALONE_ROUTE_TO_PARENT": "Отдельный URL не нужен; тема включается в названную страницу.",
+        "RECHECK_NEEDS_EVIDENCE": "Возможная роль требует названного доказательства.",
+        "NO_TARGET_OUTSIDE_SCOPE": "Тема сохранена, но находится вне области исследования.",
+        "UNRESOLVED_TASK_ROUTING": "Граница задачи не доказана; URL не придуман.",
     }
     for key, count in route_counts.most_common():
-        route_data.append([ROUTE_RU[key], str(count), explanations[key]])
-    story += [table(route_data, [100 * mm, 20 * mm, 145 * mm], font_size=8.2), Spacer(1, 5 * mm)]
-    examples = sorted(CLUSTERS, key=lambda r: (-int(r["member_phrase_count"]), r["cluster_task_name_ru"]))[:12]
-    example_data = [["Кластер / задача", "Фраз", "Целевая посадочная", "Решение"]]
+        route_data.append([ROUTE_RU[key], count, route_explanation[key]])
+    story.extend([data_table(route_data, [103 * mm, 20 * mm, 142 * mm], font_size=8.2), Spacer(1, 5 * mm)])
+    examples = sorted(CLUSTERS, key=lambda row: (-int(row["member_phrase_count"]), row["cluster_task_name_ru"]))[:14]
+    example_data = [["Кластер / задача", "Фраз", "Посадочная", "Решение"]]
     for row in examples:
-        example_data.append([row["cluster_task_name_ru"], row["member_phrase_count"], row["intended_target_page_name_ru"] or "Не назначена", ROUTE_RU[row["target_route_state"]]])
-    story += [Paragraph("Примеры «кластер → посадочная»", H2), table(example_data, [88 * mm, 14 * mm, 76 * mm, 87 * mm], font_size=7.2), PageBreak()]
+        example_data.append([row["cluster_task_name_ru"], row["member_phrase_count"], display_page_name(row["intended_target_page_name_ru"] or "Не назначена"), ROUTE_RU[row["target_route_state"]]])
+    story.extend([Paragraph("Крупные маршруты", H2), data_table(example_data, [88 * mm, 14 * mm, 72 * mm, 91 * mm], font_size=7.0), PageBreak()])
 
-    section_title(story, "5. Карта целевых посадочных страниц", "Полный реестр включает все 60 существенных ролей — в том числе страницы без физического изменения. Текущий URL не участвовал в выводе самой роли.")
-    pages_by_section = defaultdict(list)
-    for row in REGISTRY:
-        pages_by_section[row["parent_section_name_ru"]].append(row)
-    for section_index, (section, page_rows) in enumerate(sorted(pages_by_section.items())):
-        story.append(Paragraph(section, H2))
-        data = [["Целевая страница", "Тип", "Фраз", "Представительный запрос", "Назначение"]]
-        for row in sorted(page_rows, key=lambda r: r["target_page_name_ru"]):
-            data.append([row["target_page_name_ru"], row["page_type"], row["member_phrase_count"], row["primary_representative_query"], row["page_purpose"]])
-        story.append(table(data, [48 * mm, 38 * mm, 13 * mm, 63 * mm, 103 * mm], font_size=6.8))
-        story.append(Spacer(1, 4 * mm))
-        if section_index % 2 == 1:
-            story.append(PageBreak())
+    section(story, "6. Целевое SEO-дерево: быстрый обзор", "Ниже — реальная модель из 60 ролей в виде ветвей. Точка означает корневую посадочную раздела; стрелка — дочернюю или поддерживающую роль. Каждая строка показывает охват фраз, аналитический приоритет и итоговое действие.")
+    tree_role_count, tree_section_count = build_tree_section(story)
     story.append(PageBreak())
 
-    section_title(story, "6. Целевая SEO-структура", "Иерархия ниже читается без текущего сайта: раздел → родитель / подраздел → целевая страница → дочерние или поддерживающие роли.")
-    hierarchy_data = [["Раздел", "Родитель / подраздел", "Целевая страница", "Уровень", "Фраз", "Поддерживающие роли"]]
-    for row in sorted(HIERARCHY, key=lambda r: (r["section_name_ru"], r["subsection_or_parent_name_ru"], r["target_page_name_ru"])):
-        hierarchy_data.append([row["section_name_ru"], row["subsection_or_parent_name_ru"], row["target_page_name_ru"], "Посадочная" if row["hierarchy_level"] == "SECTION_LANDING_OR_STANDALONE" else "Дочерняя / поддержка", row["member_phrase_count"], names_from_keys(row["child_supporting_target_page_keys"], PAGE_NAME_BY_KEY)])
-    story += [table(hierarchy_data, [39 * mm, 47 * mm, 51 * mm, 32 * mm, 12 * mm, 84 * mm], font_size=6.6), PageBreak()]
+    section(story, "7. Полная модель целевых страниц", "Полный реестр остаётся видимым: для каждой роли показаны родитель, основной запрос с индивидуальным спросом, полезные дополнительные запросы, охват, приоритет и действие.")
+    register_data = [["Страница / родитель", "Основной запрос + Вордстат", "Дополнительные запросы + Вордстат", "Фраз", "Приоритет", "Действие"]]
+    for row in sorted(SPECS, key=lambda item: (item["parent_section"], item["target_page_name_ru"])):
+        register_data.append([
+            f"{display_page_name(row['target_page_name_ru'])}\nРодитель: {page_name(row['parent_target_page_key'])}",
+            f"{row['primary_representative_query']} — {row['primary_query_wordstat']}", row["secondary_queries_with_wordstat"],
+            row["total_routed_phrase_count"], row["analytical_seo_priority"], ACTION_RU[row["target_action"]],
+        ])
+    story.extend([data_table(register_data, [53 * mm, 50 * mm, 75 * mm, 14 * mm, 20 * mm, 53 * mm], font_size=6.6), PageBreak()])
 
-    section_title(story, "7. Сверка целевой модели с текущим сайтом", "После фиксации ролей страниц выполнена отдельная сверка. Отсутствие новых страниц не означает отсутствие продукта: 48 существующих страниц получили подтверждённое целевое владение.")
-    action_counts = Counter(r["target_action"] for r in RECON)
-    action_data = [["Действие", "Страниц", "Интерпретация"]]
-    interpretation = {
-        "KEEP_LOCK_AS_TARGET_OWNER": "Существующая страница подтверждена как правильная целевая посадочная для закреплённого спроса.",
-        "OPTIMIZE_STRENGTHEN": "Текущий URL подходит роли, но требует указанного усиления.",
-        "ROUTE_INTERNAL_LINK_CHANGE": "Роль страницы сохраняется; меняется связь или маршрут.",
-        "RECHECK_NEEDS_EVIDENCE": "Решение не выдумано; нужно названное доказательство.",
-    }
-    for key in ["KEEP_LOCK_AS_TARGET_OWNER", "OPTIMIZE_STRENGTHEN", "ROUTE_INTERNAL_LINK_CHANGE", "RECHECK_NEEDS_EVIDENCE"]:
-        action_data.append([ACTION_RU[key], str(action_counts[key]), interpretation[key]])
-    story += [table(action_data, [100 * mm, 20 * mm, 145 * mm], font_size=8.2), Spacer(1, 5 * mm)]
-    recon_data = [["Целевая страница", "Сверка", "Принятый URL", "Действие", "Изменение"]]
-    for row in sorted(RECON, key=lambda r: (r["target_action"], r["target_page_name_ru"])):
-        recon_data.append([row["target_page_name_ru"], MATCH_RU[row["current_match_state"]], row["accepted_target_url_after_reconciliation"] or "Не назначен", ACTION_RU[row["target_action"]], CHANGE_RU[row["real_site_change_required"]]])
-    story += [table(recon_data, [52 * mm, 58 * mm, 75 * mm, 65 * mm, 16 * mm], font_size=6.8), PageBreak()]
+    section(story, "8. Подробная иерархия", "Таблица служит справочником к дереву и показывает точную связь раздел → родитель → роль без привязки к текущему меню.")
+    hierarchy_data = [["Раздел", "Родитель", "Целевая роль", "Уровень", "Тип", "Фраз"]]
+    for row in sorted(HIERARCHY, key=lambda item: (item["section_name_ru"], item["subsection_or_parent_name_ru"], item["target_page_name_ru"])):
+        hierarchy_data.append([
+            row["section_name_ru"], row["subsection_or_parent_name_ru"], display_page_name(row["target_page_name_ru"]),
+            "Корневая посадочная" if row["hierarchy_level"] == "SECTION_LANDING_OR_STANDALONE" else "Дочерняя / поддержка",
+            row["page_type"], row["member_phrase_count"],
+        ])
+    story.extend([data_table(hierarchy_data, [45 * mm, 49 * mm, 57 * mm, 38 * mm, 56 * mm, 20 * mm], font_size=6.8), Spacer(1, 4 * mm)])
 
-    section_title(story, "8. Что реально меняется", "14 заданий — это подмножество 60 постраничных спецификаций. Они не заменяют реестр целевых страниц.")
-    delta_data = [["Страница", "Готовность", "Действие", "Что сделать", "Как принять"]]
+    section(story, "9. Аналитические SEO-приоритеты", "Приоритеты описывают исследовательскую важность роли и всегда сопровождаются основанием. Они не задают производственный график.")
+    priority_counts = Counter(row["analytical_seo_priority"] for row in SPECS)
+    story.extend([data_table([
+        ["Приоритет", "Страниц", "Как читать"],
+        ["Высокий", priority_counts["Высокий"], "Крупная/центральная роль, подтверждённый разрыв или блокирующая неопределённость"],
+        ["Средний", priority_counts["Средний"], "Заметная семантическая/структурная роль или подтверждённое изменение меньшего охвата"],
+        ["Низкий", priority_counts["Низкий"], "Узкая подтверждённая роль; это не оценка бизнес-ценности"],
+    ], [54 * mm, 24 * mm, 187 * mm], font_size=8.3), Spacer(1, 5 * mm)])
+    ranked_priority_examples = sorted(SPECS, key=lambda row: ({"Высокий": 0, "Средний": 1, "Низкий": 2}[row["analytical_seo_priority"]], -int(row["total_routed_phrase_count"])))
+    priority_examples = ranked_priority_examples[:12]
+    recheck_example = next(row for row in SPECS if row["target_action"] == "RECHECK_NEEDS_EVIDENCE")
+    if recheck_example not in priority_examples:
+        priority_examples.append(recheck_example)
+    priority_data = [["Страница", "Приоритет", "Основание"]]
+    for row in priority_examples:
+        priority_data.append([display_page_name(row["target_page_name_ru"]), row["analytical_seo_priority"], row["analytical_seo_priority_basis"]])
+    story.extend([data_table(priority_data, [62 * mm, 24 * mm, 179 * mm], font_size=7.2), PageBreak()])
+
+    section(story, "10. Сверка с текущим сайтом", "После фиксации 60 ролей выполнена отдельная сверка. Нулевая потребность в новых страницах — реальный результат этой сверки, а не заранее заданная цель.")
+    action_counts = Counter(row["target_action"] for row in RECON)
+    story.extend([data_table([
+        ["Решение", "Страниц", "Смысл"],
+        [ACTION_RU["KEEP_LOCK_AS_TARGET_OWNER"], action_counts["KEEP_LOCK_AS_TARGET_OWNER"], "Текущая страница подтверждена как владелец роли"],
+        [ACTION_RU["OPTIMIZE_STRENGTHEN"], action_counts["OPTIMIZE_STRENGTHEN"], "Роль совпала; требуется содержательное усиление"],
+        [ACTION_RU["ROUTE_INTERNAL_LINK_CHANGE"], action_counts["ROUTE_INTERNAL_LINK_CHANGE"], "Роль сохраняется; требуется корректировка связи"],
+        [ACTION_RU["RECHECK_NEEDS_EVIDENCE"], action_counts["RECHECK_NEEDS_EVIDENCE"], "Решение открыто до названного доказательства"],
+    ], [102 * mm, 20 * mm, 143 * mm], font_size=8.2), Spacer(1, 5 * mm)])
+    recon_data = [["Целевая роль", "Текущий URL", "Сверка", "Действие", "Изменение"]]
+    keep_examples: list[dict[str, str]] = []
+    changed_or_open = sorted([row for row in RECON if row["target_action"] != "KEEP_LOCK_AS_TARGET_OWNER"], key=lambda item: (item["target_action"], item["target_page_name_ru"]))
+    for row in keep_examples + changed_or_open:
+        recon_data.append([
+            display_page_name(row["target_page_name_ru"]), row["accepted_target_url_after_reconciliation"] or "Не назначен",
+            MATCH_RU[row["current_match_state"]], ACTION_RU[row["target_action"]], CHANGE_RU[row["real_site_change_required"]],
+        ])
+    story.extend([data_table(recon_data, [53 * mm, 76 * mm, 52 * mm, 65 * mm, 19 * mm], font_size=6.7), PageBreak()])
+
+    section(story, "11. Физические изменения — подмножество", "14 заданий относятся к 11 изменяемым страницам; ещё одна роль требует аналитической перепроверки. Полный реестр из 60 ролей не сводится к этим заданиям.")
+    delta_data = [["Страница", "Готовность", "Что сделать", "Где", "Как принять"]]
     for row in DELTA:
-        delta_data.append([row["target_page_name_ru"], READY_RU[row["readiness_state"]], ACTION_RU[row["target_action"]], row["exact_change"], row["acceptance_check"]])
-    story += [table(delta_data, [43 * mm, 38 * mm, 50 * mm, 72 * mm, 63 * mm], font_size=6.8), PageBreak()]
+        delta_data.append([display_page_name(row["target_page_name_ru"]), READY_RU[row["readiness_state"]], row["exact_change"], row["exact_location_or_context"], row["acceptance_check"]])
+    story.extend([data_table(delta_data, [43 * mm, 37 * mm, 68 * mm, 57 * mm, 60 * mm], font_size=6.6), Spacer(1, 4 * mm)])
 
-    section_title(story, "9. Как использовать результат", "XLSX — операционная карта; этот PDF — человекочитаемая модель; второй PDF — полное постраничное ТЗ.")
-    story += [table([
-        ["Задача", "Где смотреть"],
-        ["Найти целевую посадочную для случайной рабочей фразы", "XLSX → «Рассадка запросов»"],
-        ["Понять, почему кластер направлен на страницу", "XLSX → «Посадочные страницы»"],
-        ["Увидеть полную иерархию", "Этот PDF, раздел 6; XLSX → «Целевая структура»"],
-        ["Понять роль существующей страницы без изменений", "XLSX → «Реестр страниц» и «ТЗ по страницам»"],
-        ["Передать готовую физическую правку", "XLSX → «Изменения сайта»; второй PDF → соответствующая страница"],
-    ], [105 * mm, 160 * mm], font_size=8.5), Spacer(1, 6 * mm)]
-    story.append(Paragraph("Ограничение интерпретации: нулевая потребность в новой странице не является заранее заданным результатом. Она получена после самостоятельного проектирования ролей и сверки с сохранённым текущим сайтом. Для неразрешённых случаев сохранены точная причина и следующий шаг проверки.", BODY))
+    section(story, "12. Где находится полная детализация", "PDF даёт самостоятельное понимание архитектуры; XLSX остаётся точной операционной картой на уровне каждой фразы.")
+    story.extend([
+        data_table([
+            ["Задача", "Где смотреть"],
+            ["Найти фразу, Вордстат, кластер, страницу, URL и действие; отсортировать запросы страницы по спросу", "XLSX → «Рассадка запросов»"],
+            ["Понять главную задачу и границы страницы", "XLSX → «ТЗ по страницам»; карточки второго PDF — для изменений"],
+            ["Увидеть все 60 ролей", "Этот PDF, разделы 6–8; XLSX → «Реестр страниц»"],
+            ["Передать физическое изменение", "XLSX → «Изменения сайта»; карточки второго PDF"],
+        ], [112 * mm, 153 * mm], font_size=8.0),
+    ])
     doc.build(story)
+    return {"tree_roles": tree_role_count, "tree_sections": tree_section_count}
 
 
 def action_color(action: str) -> colors.Color:
@@ -374,105 +456,172 @@ def action_color(action: str) -> colors.Color:
     }[action]
 
 
-def spec_block(row: dict[str, str], index: int) -> list:
+def detail_pair(label: str, value: str) -> list[Paragraph]:
+    return [paragraph(label, CELL_BOLD), paragraph(value, CELL)]
+
+
+def concise_boundary_explanation(row: dict[str, str]) -> str:
+    if row["elsewhere_named_pages"].startswith("Отдельные соседние владельцы"):
+        return "Собственное покрытие, встроенные темы и поддержка уже разделены; дополнительное разграничение с соседней страницей не требуется."
+    return (
+        "Для перечисленных соседних страниц действует единое правило: здесь допустим только обзор и переход, "
+        "а полное раскрытие принадлежит названному владельцу. Темы на проверке не входят в собственное покрытие до решения."
+    )
+
+
+def detailed_card(row: dict[str, str], index: int, total: int) -> list:
     action = row["target_action"]
-    title = f"{index}. {row['target_page_name_ru']}"
-    summary = Table([
-        [p(ACTION_RU[action], BADGE), p(f"Нужно менять сайт: {CHANGE_RU[row['real_site_change_required']]}", BADGE), p(f"Страница {index} из {len(SPECS)}", BADGE)],
-    ], colWidths=[105 * mm, 75 * mm, 85 * mm])
-    summary.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (0, 0), action_color(action)),
-        ("BACKGROUND", (1, 0), (2, 0), colors.HexColor("#F3F5F8")),
-        ("BOX", (0, 0), (-1, -1), 0.6, LIGHT_GREY),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+    badge = Table([[paragraph(ACTION_RU[action], BADGE), paragraph(f"Карточка {index} из {total}", BADGE)]], colWidths=[180 * mm, 85 * mm])
+    badge.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (0, 0), action_color(action)), ("BACKGROUND", (1, 0), (1, 0), VERY_LIGHT),
+        ("BOX", (0, 0), (-1, -1), 0.6, LIGHT_GREY), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
     ]))
     entries = [
-        ("URL или маршрут", route_text(row["target_url_or_route"])),
-        ("Тип / раздел / родитель", f"{row['page_type']} · {row['parent_section']} · {page_name(row['parent_target_page_key']).lower() if not row['parent_target_page_key'] else page_name(row['parent_target_page_key'])}"),
-        ("Назначение страницы", row["page_purpose"]),
-        ("Главная задача / интент", row["primary_user_task_intent"]),
-        ("Представительный запрос / объём", f"{row['primary_representative_query']} · {row['member_phrase_count']} фраз"),
-        ("Семантическая область", names_from_keys(row["semantic_scope_cluster_keys"], CLUSTER_NAME_BY_KEY)),
-        ("Что страница должна раскрывать", row["what_page_should_cover"]),
-        ("Что относится в другое место / не требует отдельной страницы", row["what_belongs_elsewhere_or_not_standalone"]),
-        ("Дочерние, поддерживающие и связанные страницы", row["supporting_child_related_pages"] or "Существенные связи не требуются"),
-        ("Текущее соответствие", row["current_url_match_current_state"]),
-        ("Целевое действие", ACTION_RU[action]),
-        ("Деталь внедрения", row["implementation_detail_if_change_is_real"]),
-        ("Целевое состояние и приёмка", row["acceptance_target_end_state"]),
-        ("Неопределённость / точное уточнение", row["uncertainty_exact_clarification"]),
+        detail_pair("URL / маршрут", route_text(row["target_url_or_route"])),
+        detail_pair("Тип · раздел · родитель", f"{row['page_type']} · {row['parent_section']} · {page_name(row['parent_target_page_key'])}"),
+        detail_pair("Главная задача страницы", row["primary_page_job_ru"]),
+        detail_pair("Основной запрос", f"{row['primary_representative_query']} — Вордстат {row['primary_query_wordstat']}"),
+        detail_pair("Полезные дополнительные запросы", row["secondary_queries_with_wordstat"]),
+        detail_pair("Всего распределённых фраз", row["total_routed_phrase_count"]),
+        detail_pair("Собственное покрытие", row["own_coverage_clean"]),
+        detail_pair("Встроить без отдельного URL", row["embedded_no_standalone_topics"]),
+        detail_pair("Только упомянуть / связать", row["support_mention_link_topics"]),
+        detail_pair("Отдать названной соседней странице", row["elsewhere_named_pages"]),
+        detail_pair("Пояснение границы", concise_boundary_explanation(row)),
+        detail_pair("Рекомендуемый H1 / блокер", row["recommended_h1_or_blocker"]),
+        detail_pair("Title: направление / статус", row["recommended_title_direction_or_blocker"]),
+        detail_pair("Аналитический SEO-приоритет", f"{row['analytical_seo_priority']}. {row['analytical_seo_priority_basis']}"),
+        detail_pair("Текущее состояние", row["current_url_match_current_state"]),
+        detail_pair("Точное действие", ACTION_RU[action]),
+        detail_pair("Базовая деталь внедрения", row["implementation_detail_if_change_is_real"]),
+        detail_pair("Целевое состояние / приёмка", row["acceptance_target_end_state"]),
+        detail_pair("Уточнение / блокер", row["uncertainty_exact_clarification"]),
     ]
-    detail_data = [[p(label, CELL_BOLD), p(value, CELL)] for label, value in entries]
-    detail = LongTable(detail_data, colWidths=[62 * mm, 203 * mm], repeatRows=0, splitByRow=1)
+    detail = LongTable(entries, colWidths=[62 * mm, 203 * mm], splitByRow=1)
     detail.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("GRID", (0, 0), (-1, -1), 0.35, LIGHT_GREY),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"), ("GRID", (0, 0), (-1, -1), 0.35, LIGHT_GREY),
         ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#F1F5F9")),
         ("LEFTPADDING", (0, 0), (-1, -1), 4), ("RIGHTPADDING", (0, 0), (-1, -1), 4),
         ("TOPPADDING", (0, 0), (-1, -1), 3), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
     ]))
-    return [Paragraph(title, PAGE_TITLE), summary, Spacer(1, 3 * mm), detail]
+    blocks: list = [KeepTogether([Paragraph(f"{index}. {display_page_name(row['target_page_name_ru'])}", H1), badge, Spacer(1, 3 * mm)]), detail]
+    tickets = DELTA_BY_PAGE.get(row["target_page_key"], [])
+    if tickets:
+        blocks.extend([Spacer(1, 3 * mm), Paragraph("Физические задания для этой страницы", H2)])
+        for ticket_index, ticket in enumerate(tickets, 1):
+            task_rows = [
+                ["Готовность", READY_RU[ticket["readiness_state"]]], ["Почему", ticket["why_change_is_needed"]],
+                ["Что сделать", ticket["exact_change"]], ["Где / в каком контексте", ticket["exact_location_or_context"]],
+                ["Что сохранить", ticket["preservation_do_not_break"]], ["Как принять", ticket["acceptance_check"]],
+                ["Что уточнить", ticket["one_concrete_clarification"] or "Дополнительное уточнение не требуется"],
+            ]
+            blocks.extend([Paragraph(f"Задание {ticket_index}", H2), data_table(task_rows, [62 * mm, 203 * mm], header=False, font_size=7.2)])
+    else:
+        blocks.extend([Spacer(1, 3 * mm), Paragraph("Физическое изменение не назначено до разрешения указанного аналитического блокера.", BODY)])
+    return blocks
 
 
-def build_tz() -> None:
+def build_tz() -> dict[str, int]:
     doc = make_doc(TZ, "OKNO_MSK — постраничное ТЗ")
-    action_counts = Counter(r["target_action"] for r in SPECS)
-    story: list = [
-        Spacer(1, 16 * mm),
-        Paragraph("ТЗ на целевую SEO-структуру и посадочные страницы", TITLE),
-        Paragraph("Полная постраничная спецификация OKNO_MSK · Москва · Яндекс · 10 сентября 2026", SUBTITLE),
-        HRFlowable(width="100%", thickness=1.4, color=TEAL, spaceAfter=7 * mm),
-        Paragraph("В документе присутствуют все существенные целевые роли. Страницы без физической правки не скрыты: для них закреплена конкретная семантическая и структурная функция.", ParagraphStyle("TzCoverCallout", parent=CALLOUT, fontSize=13, leading=18, spaceAfter=7 * mm)),
-        table([
-            ["Всего спецификаций", "Сохранить владельцем", "Усилить", "Изменить связь", "Перепроверить"],
-            [str(len(SPECS)), str(action_counts["KEEP_LOCK_AS_TARGET_OWNER"]), str(action_counts["OPTIMIZE_STRENGTHEN"]), str(action_counts["ROUTE_INTERNAL_LINK_CHANGE"]), str(action_counts["RECHECK_NEEDS_EVIDENCE"])],
-        ], [53 * mm] * 5, font_size=9),
-        Spacer(1, 7 * mm),
-        Paragraph("Физические задания на изменения — подмножество этого документа. Полная фразовая рассадка находится в XLSX и связывается с ТЗ по названию целевой страницы.", BODY),
-        PageBreak(),
-        Paragraph("Как читать спецификацию", H1),
-        table([
-            ["Поле", "Как интерпретировать"],
-            ["Целевая роль", "Выведена из семантики и задачи пользователя до сверки с текущим сайтом."],
-            ["Текущее соответствие", "Показывает, нашлась ли после этого подходящая существующая страница."],
-            ["Сохранить владельцем", "Страница уже соответствует роли; это подтверждённая часть результата, а не пропуск работы."],
-            ["Усилить / изменить связь", "Реальное изменение выполняется только в указанной границе и принимается по целевому состоянию."],
-            ["Перепроверить", "URL или действие не придуманы; указано одно конкретное недостающее доказательство."],
-        ], [70 * mm, 195 * mm], font_size=8.8),
-        PageBreak(),
-    ]
-    sorted_specs = sorted(SPECS, key=lambda r: (r["parent_section"], r["target_page_name_ru"]))
-    for index, row in enumerate(sorted_specs, start=1):
-        story.extend(spec_block(row, index))
-        if index != len(sorted_specs):
-            story.append(PageBreak())
+    action_counts = Counter(row["target_action"] for row in SPECS)
+    detailed = sorted([row for row in SPECS if row["target_action"] != "KEEP_LOCK_AS_TARGET_OWNER"], key=lambda row: (row["target_action"], row["target_page_name_ru"]))
+    story: list = cover(
+        "ТЗ на целевую SEO-структуру и посадочные страницы",
+        "Полный реестр + детальные карточки изменений · Москва · Яндекс · 10 сентября 2026",
+        "Все 60 целевых ролей остаются видимыми. Детальные карточки сосредоточены на 7 усилениях, 4 изменениях связей и 1 нерешённой роли — без 48 повторяющихся полноформатных страниц «оставить как есть».",
+    )
+    story.extend([
+        data_table([
+            ["Всего ролей", "Сохранить", "Усилить", "Изменить связь", "Перепроверить", "Детальных карточек"],
+            [len(SPECS), action_counts["KEEP_LOCK_AS_TARGET_OWNER"], action_counts["OPTIMIZE_STRENGTHEN"], action_counts["ROUTE_INTERNAL_LINK_CHANGE"], action_counts["RECHECK_NEEDS_EVIDENCE"], len(detailed)],
+        ], [42 * mm, 42 * mm, 42 * mm, 48 * mm, 48 * mm, 43 * mm], font_size=8.7),
+        Spacer(1, 6 * mm), Paragraph("Полный список фраз находится в XLSX. Вордстат показывается по каждой фразе отдельно и не складывается в искусственный объём страницы.", BODY), PageBreak(),
+    ])
+
+    section(story, "Часть A. Как использовать ТЗ", "Сначала найдите роль в полном реестре. Если действие требует изменения или проверки, перейдите к детальной карточке. Сохранённые страницы остаются доказанными владельцами, но не раздувают документ повторяющимися карточками.")
+    story.extend([
+        data_table([
+            ["Поле", "Как читать"],
+            ["Главная задача", "Одна основная ответственность страницы; не объединение разнородных конечных задач"],
+            ["Основной / дополнительные запросы", "Индивидуальные показатели Вордстата; полный состав фраз — в XLSX"],
+            ["Собственное покрытие", "Темы, которые эта страница раскрывает полностью"],
+            ["Встроить", "Совместимые темы без отдельного URL"],
+            ["Поддержать / связать", "Краткое упоминание или переход, но не основная ответственность"],
+            ["Отдать соседней странице", "Названный владелец полного раскрытия"],
+            ["H1 / Title", "H1 обязателен для разрешённой роли; Title-направление требуется для усиления, а для сохранения не навязывается"],
+            ["SEO-приоритет", "Аналитическая важность, не порядок разработки, срок, усилие, бизнес-ценность или прогноз"],
+        ], [68 * mm, 197 * mm], font_size=8.2),
+        Spacer(1, 5 * mm), Paragraph("Готовыми к внедрению считаются только задания с точным изменением, местом/контекстом, ограничениями сохранения и проверкой приёмки. Остальные сначала требуют указанного уточнения.", BODY), PageBreak(),
+    ])
+
+    section(story, "Часть B. Полный компактный реестр 60 целевых страниц", "Реестр сохраняет полноту архитектуры: страница, URL/маршрут, тип, основной запрос и спрос, охват, приоритет, действие, текущая сверка и состояние изменения.")
+    register = [["Страница", "URL / маршрут", "Тип", "Основной запрос + Вордстат", "Фраз", "Приоритет", "Действие", "Текущая сверка", "Изм."]]
+    row_backgrounds = {}
+    for index, row in enumerate(sorted(SPECS, key=lambda item: (item["parent_section"], item["target_page_name_ru"])), 1):
+        register.append([
+            display_page_name(row["target_page_name_ru"]), route_text(row["target_url_or_route"]), row["page_type"],
+            f"{row['primary_representative_query']} — {row['primary_query_wordstat']}", row["total_routed_phrase_count"],
+            row["analytical_seo_priority"], ACTION_RU[row["target_action"]], clean(row["current_url_match_current_state"]), CHANGE_RU[row["real_site_change_required"]],
+        ])
+        if row["target_action"] != "KEEP_LOCK_AS_TARGET_OWNER":
+            row_backgrounds[index] = action_color(row["target_action"])
+    story.extend([data_table(register, [35 * mm, 48 * mm, 31 * mm, 48 * mm, 12 * mm, 18 * mm, 37 * mm, 30 * mm, 10 * mm], font_size=5.9, row_backgrounds=row_backgrounds), PageBreak()])
+
+    section(story, "Часть C. Детальные карточки изменений и решений", "Ниже — только страницы, где требуется усиление, изменение маршрута/связи или дополнительное доказательство. Детальная карточка подтверждённой страницы без изменений не добавляется без реальной исключительной причины.")
+    for index, row in enumerate(detailed, 1):
+        story.extend(detailed_card(row, index, len(detailed)))
     doc.build(story)
+    return {
+        "register_rows": len(SPECS), "detailed_cards": len(detailed), "detailed_keep_cards": 0,
+        "detailed_optimize_cards": sum(row["target_action"] == "OPTIMIZE_STRENGTHEN" for row in detailed),
+        "detailed_route_cards": sum(row["target_action"] == "ROUTE_INTERNAL_LINK_CHANGE" for row in detailed),
+        "detailed_recheck_cards": sum(row["target_action"] == "RECHECK_NEEDS_EVIDENCE" for row in detailed),
+    }
 
 
 def file_record(path: Path) -> dict[str, object]:
-    payload = path.read_bytes()
-    reader = PdfReader(path)
-    return {"file": path.name, "bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest(), "pages": len(reader.pages)}
+    return {"file": path.name, "bytes": path.stat().st_size, "sha256": sha256(path), "pages": len(PdfReader(path).pages)}
 
 
 def main() -> None:
-    if len(FOUNDATION) != 2840 or len(PHRASES) != 2185:
+    if len(FOUNDATION) != 2840 or len(PHRASES) != 2185 or len(CLUSTERS) != 161:
         raise SystemExit("semantic count invariant failed")
-    if not (len(REGISTRY) == len(HIERARCHY) == len(RECON) == len(SPECS)):
+    if not (len(REGISTRY) == len(HIERARCHY) == len(RECON) == len(SPECS) == 60):
         raise SystemExit("target page authority alignment failed")
+    actions = Counter(row["target_action"] for row in SPECS)
+    if actions != Counter({"KEEP_LOCK_AS_TARGET_OWNER": 48, "OPTIMIZE_STRENGTHEN": 7, "ROUTE_INTERNAL_LINK_CHANGE": 4, "RECHECK_NEEDS_EVIDENCE": 1}):
+        raise SystemExit(f"action invariant failed: {actions}")
+    if any("CREATE" in row["target_action"] for row in SPECS):
+        raise SystemExit("fake CREATE action detected")
     DELIVERY.mkdir(parents=True, exist_ok=True)
-    build_analytical()
-    build_tz()
+    analytical_qa = build_analytical()
+    tz_qa = build_tz()
     report = {
-        "schema": "MK02_TARGET_FIRST_CLIENT_PDFS_V1",
+        "schema": "MK02_TARGET_FIRST_MARKET_GRADE_CLIENT_PDFS_V2",
         "date": DATE,
         "status": "PASS",
+        "provider_calls": 0,
+        "source_authorities": [
+            f"TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_{DATE}.tsv.gz",
+            f"TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_{DATE}.tsv",
+            f"TARGET_ARCHITECTURE_HIERARCHY_{DATE}.tsv",
+            f"CURRENT_TARGET_RECONCILIATION_{DATE}.tsv",
+            f"CURRENT_TARGET_CHANGE_DELTA_{DATE}.tsv",
+        ],
         "source_counts": {
-            "semantic_universe": len(FOUNDATION), "working_phrases": len(PHRASES),
-            "cluster_tasks": len(CLUSTERS), "target_pages": len(REGISTRY),
-            "page_specs": len(SPECS), "change_tickets": len(DELTA),
+            "semantic_universe": len(FOUNDATION), "working_phrases": len(PHRASES), "cluster_tasks": len(CLUSTERS),
+            "target_pages": len(REGISTRY), "page_specs": len(SPECS), "keep": actions["KEEP_LOCK_AS_TARGET_OWNER"],
+            "optimize": actions["OPTIMIZE_STRENGTHEN"], "route": actions["ROUTE_INTERNAL_LINK_CHANGE"],
+            "recheck": actions["RECHECK_NEEDS_EVIDENCE"], "change_tickets": len(DELTA), "create": 0,
         },
+        "analytical_contract": {
+            "scannable_tree_marker": "Целевое SEO-дерево: быстрый обзор",
+            "tree_role_count": analytical_qa["tree_roles"], "tree_section_count": analytical_qa["tree_sections"],
+            "complete_page_model_rows": len(SPECS), "primary_secondary_wordstat_visible": True,
+        },
+        "tz_contract": tz_qa,
+        "no_fixed_pdf_page_count_requirement": True,
         "outputs": [file_record(ANALYTICAL), file_record(TZ)],
     }
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
