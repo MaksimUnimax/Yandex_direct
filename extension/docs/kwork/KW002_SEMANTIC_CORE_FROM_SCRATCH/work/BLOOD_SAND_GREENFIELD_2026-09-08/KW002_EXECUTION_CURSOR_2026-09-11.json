@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V3",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V4",
   "date": "2026-09-11",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
@@ -17,6 +17,18 @@
     "step04_external_method_review": "PASS_FOR_PRELIMINARY_TRIAGE_METHOD",
     "step04_independent_result_audit": "ACCEPTED_REWORK_REQUIRED"
   },
+  "universal_method_refactor": {
+    "status": "COMPLETE_FOR_EARLY_STEPS_AND_STEP04_CORRECTION_GATE",
+    "architecture_rule": "LEVEL1/ROADMAP_AND_METHOD_GENERALIZATION_RULE.md",
+    "universal_failure_ledger": "LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md",
+    "universal_roadmap": "LEVEL2/STEP_RULES_INDEX.md",
+    "step02_gate": "LEVEL2/STEP_02_SEED_ACQUISITION_QUALITY_GATE.md",
+    "step03_depth_gate": "LEVEL2/STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md",
+    "step03_persistence_gate": "LEVEL2/STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md",
+    "step04_gate": "LEVEL2/STEP_04_PRELIMINARY_FAMILY_TRIAGE_QUALITY_GATE.md",
+    "job_specific_owner_gate_moved_out_of_level2": true,
+    "rule": "LEVEL1_AND_LEVEL2_CONTAIN_ONLY_UNIVERSAL_CAUSES_AND_ANY_SITE_METHOD; JOB_SPECIFIC_EXAMPLES_COUNTS_IDS_AND_APPROVALS_STAY_IN_WORK_JOB_ROOT"
+  },
   "step03b_current_counts": {
     "normalized_identities": 24576,
     "raw_occurrences": 25979,
@@ -25,7 +37,7 @@
     "exclude": 6441
   },
   "step04_current": {
-    "status": "REWORK_REQUIRED_CORRECTIVE_PASS_RELEASED",
+    "status": "REWORK_REQUIRED_CORRECTIVE_PASS_V2_RELEASED",
     "active_plus_hold_identities": 18135,
     "occurrence_ledger_rows": 25979,
     "superseded_family_count": 26,
@@ -42,7 +54,7 @@
     "material_defect_identities": 255,
     "rule_order_defect_identities": 207,
     "family_too_broad_identities": 48,
-    "defect_classes": {
+    "job_specific_defect_evidence": {
       "psf019_toy_game_prefix_collision": 8,
       "psf014_explicit_task_hidden_total": 199,
       "psf014_meaning": 156,
@@ -50,12 +62,19 @@
       "psf014_toy": 5,
       "psf001_explicit_diy": 48
     },
+    "universal_root_causes_for_correction": [
+      "F03B-1_UNSAFE_LEXICAL_SHORTCUT_PREFIX_STEM_OVERREACH",
+      "F04-4_FIRST_MATCH_PRECEDENCE_ERASES_STRONGER_EXPLICIT_TASK",
+      "F04-5_GENERIC_FALLBACK_HIDES_UNMODELLED_COHERENT_TASK",
+      "F04-6_HAND_BUILT_TAXONOMY_LACKS_INDEPENDENT_CHALLENGE",
+      "F05-1_LOCAL_COVERAGE_GAP_IGNORES_GLOBAL_DURABLE_EVIDENCE"
+    ],
     "audit_publication_commit": "212a6fa7be66360317b3026541896669b8b019c6",
     "audit_remote_readback": "PASS",
     "main_chatgpt_audit_review": "ACCEPTED_REWORK_REQUIRED",
     "main_chatgpt_review_file": "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_MAIN_CHATGPT_REVIEW_2026-09-11.md",
-    "corrective_work_prompt": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_2026-09-11.md",
-    "corrective_execution_release": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_2026-09-11.md",
+    "corrective_work_prompt": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_V2_UNIVERSAL_CAUSE_2026-09-11.md",
+    "corrective_execution_release": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_V2_UNIVERSAL_CAUSE_2026-09-11.md",
     "corrective_work_execution": "RELEASED_NOT_YET_RETURNED"
   },
   "step05_history": {
@@ -98,16 +117,17 @@
   },
   "correction_current": {
     "handoff_id": "KW002-BS-W08",
-    "step_id": "STEP04_POST_AUDIT_FULL_VOLUME_RULE_LEVEL_CORRECTION",
-    "status": "RELEASED_TO_WORK_NOT_YET_RETURNED",
-    "work_prompt": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_2026-09-11.md",
-    "execution_release": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_2026-09-11.md",
+    "step_id": "STEP04_POST_AUDIT_FULL_VOLUME_RULE_SYSTEM_CORRECTION",
+    "status": "V2_RELEASED_TO_WORK_NOT_YET_RETURNED",
+    "work_prompt": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_V2_UNIVERSAL_CAUSE_2026-09-11.md",
+    "execution_release": "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_V2_UNIVERSAL_CAUSE_2026-09-11.md",
     "failure_addendum": "KW002_EXECUTION_FAILURE_LEDGER_ADDENDUM_STEP04_RESULT_AUDIT_2026-09-11.md",
     "provider_calls_allowed": 0,
     "step03b_mutation_allowed": false,
     "step05_advancement_allowed": false,
     "step06_advancement_allowed": false,
+    "job_specific_special_case_rules_allowed": false,
     "full_volume_rerun_required": true
   },
-  "next_action": "RUN_W08_STEP04_POST_AUDIT_CORRECTIVE_REWORK_THEN_MAIN_CHATGPT_REMOTE_READBACK_AND_RETURN_QA; DO_NOT RESUME STEP05 BEFORE CORRECTED STEP04 ACCEPTANCE"
+  "next_action": "RUN_W08_V2_UNIVERSAL_CAUSE_STEP04_CORRECTION_THEN_MAIN_CHATGPT_REMOTE_READBACK_AND_RETURN_QA; DO_NOT RESUME STEP05 BEFORE CORRECTED STEP04 ACCEPTANCE"
 }
