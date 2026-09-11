@@ -1,0 +1,25 @@
+test_id	anti_regression_control	observed_evidence	result	blocking_if_fail
+W08-001	Frozen Step03B input SHA-256	all accepted hashes match	PASS	YES
+W08-002	Normalized identity accounting	24576 unique	PASS	YES
+W08-003	Active+HOLD assignment	18135 exactly one family	PASS	YES
+W08-004	RAW occurrence accounting	25979 unique; loss 0	PASS	YES
+W08-005	Step03B state/reason mutation	0	PASS	YES
+W08-006	W07 defect oracle corrected	255/255 changed by rules	PASS	YES
+W08-007	игр*/игруш* collision	0 toy-without-game in PSF019	PASS	YES
+W08-008	PSF014 meaning leakage	0	PASS	YES
+W08-009	PSF014 media leakage	0	PASS	YES
+W08-010	PSF014 toy leakage	0	PASS	YES
+W08-011	PSF014 DIY leakage	0	PASS	YES
+W08-012	PSF001 DIY flattening	0	PASS	YES
+W08-013	Unexpected collateral movement	0	PASS	YES
+W08-014	Provider-ready queue duplicates	0; PSQ006/007/008/010 absent	PASS	YES
+W08-015	E013 replay	false	PASS	YES
+W08-016	PSQ005 narrowing	Aum-only; Om excluded	PASS	YES
+W08-017	PSFB003 sanitation feedback	bounded game only	PASS	YES
+W08-018	Missing feedback classes	DIY/zodiac/toy-game present	PASS	YES
+W08-019	Independent full-volume family QA	28 families; critical defects 0	PASS	YES
+W08-020	Frequency independence	0 assignment use	PASS	YES
+W08-021	Prior substring regressions	королева/тракт/тигра/богородица/раскраска/звезды Лады PASS	PASS	YES
+W08-022	Provider/search calls	Wordstat/Search/GenSearch/AI-search=0	PASS	YES
+W08-023	Step05/Step06 advancement	false/false	PASS	YES
+W08-024	Final intent/SERP/page work	none	PASS	YES

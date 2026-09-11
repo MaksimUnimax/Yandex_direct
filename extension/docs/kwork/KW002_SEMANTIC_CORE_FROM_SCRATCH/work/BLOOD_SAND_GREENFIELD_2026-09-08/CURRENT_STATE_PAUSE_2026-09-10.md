@@ -1,5 +1,26 @@
 # KW-002 Blood & Sand — CURRENT STATE PAUSE
 
+## Current authority update — 2026-09-11
+
+The owner pause remains active. W08 completed the released Step04 post-audit rule-level correction over all 24,576 normalized identities and rematerialized all 25,979 RAW links. Local full-volume and independent QA pass; Main ChatGPT remote readback and acceptance are still required.
+
+```text
+STEP04_POST_AUDIT_CORRECTION = COMPLETE / LOCAL PASS_CANDIDATE / 96.94 OF 100
+W07_DEFECT_IDENTITIES_CORRECTED = 255/255
+FULL_RULE_COLLATERAL_CHANGES = 102
+RAW_LINEAGE_LOSS = 0
+STEP03B_MUTATIONS = 0
+CORRECTED_FAMILIES = 28 / 26 OBSERVED / 2 GAPS
+CORRECTED_QUEUE = 9 / PROVIDER_READY_NOW 0
+CORRECTED_FEEDBACK = 13
+PROVIDER_CALLS_IN_W08 = 0
+STEP05 = PAUSED / BLOCKED
+STEP06 = NOT STARTED
+NEXT_ACTION = OWNER RELAY UPLOAD, THEN MAIN CHATGPT REMOTE READBACK
+```
+
+The remaining content below is the historical 2026-09-10 pause record and is retained without rewriting its then-current facts.
+
 Date: 2026-09-10
 Owner pause instruction time: 2026-09-10 12:29 +05:00
 Job: `BLOOD_SAND_GREENFIELD_2026-09-08`

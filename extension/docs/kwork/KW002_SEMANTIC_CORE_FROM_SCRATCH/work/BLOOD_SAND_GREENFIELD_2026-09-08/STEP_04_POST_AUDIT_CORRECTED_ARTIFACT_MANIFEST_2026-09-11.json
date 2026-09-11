@@ -1,0 +1,176 @@
+{
+  "artifacts": {
+    "STEP_04_POST_AUDIT_CORRECTED_FAMILY_TRIAGE_2026-09-11.tsv": {
+      "bytes": 40081,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 28,
+      "sha256": "dc37e6bce0e358b01b22f54084259cac9ba5201f2be33e934d59524dcd3eba8b"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_INDEPENDENT_FAMILY_QA_2026-09-11.tsv": {
+      "bytes": 10123,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 28,
+      "sha256": "ee45b874693f0dbda39e941a58e420e9deb390c08b70a7d46c0cde772592f971"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-11.tsv": {
+      "bytes": 1555,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 24,
+      "sha256": "130419587c95a4400960894a438c2394657ac1a78b2f5a28926adaf6f5f607ef"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_MATERIALIZER_2026-09-11.py": {
+      "bytes": 80490,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 1237,
+      "sha256": "b7435f52700b6b37c8aeef677ecb6b6d254c0bf77d0848e6dfdaf7e1d4d78462"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": {
+      "bytes": 16235868,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 25979,
+      "sha256": "534cf6291680613036a271db90890f310036ebe52d602621e70965eeb5a7ec8a"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_QA_2026-09-11.md": {
+      "bytes": 8573,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 151,
+      "sha256": "0ed33d196988a8fc5510874da3df10146351d437583933e9171b118c1e2915d4"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_SANITATION_FEEDBACK_REGISTER_2026-09-11.tsv": {
+      "bytes": 8987,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 13,
+      "sha256": "3d9bb482a1b2ed5ab6d349a64c12693d7947cdf0c42619e61bec52205133ffa6"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv": {
+      "bytes": 7596,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 9,
+      "sha256": "fe62a69f83d08fded15e6c5f8b3b640aa497f93a330977f807464b3e526eb079"
+    },
+    "STEP_04_POST_AUDIT_CORRECTED_WORK_RETURN_2026-09-11.md": {
+      "bytes": 3554,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 55,
+      "sha256": "455f1d0239c5c52f87e2dc0fc388e21b7bead233dc68e99b21615bce52754100"
+    },
+    "STEP_04_POST_AUDIT_CORRECTION_TRANSITION_LEDGER_2026-09-11.tsv": {
+      "bytes": 5944235,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 24576,
+      "sha256": "4d44125514571423aa0a94de416bb50a4a09fb82fc58e724676bbaecaf2177ba"
+    },
+    "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_PRE_STEP_EXTERNAL_RESEARCH_2026-09-11.md": {
+      "bytes": 2513,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 17,
+      "sha256": "d2b1a2284a614686542efff251c721ab66f502565c425202589e3a1149daba6d"
+    }
+  },
+  "blocking_gate_remaining_rows": {
+    "GENERIC_UNQUALIFIED_WITH_EXPLICIT_DIY": 0,
+    "TOY_WITHOUT_GAME_ASSIGNED_TO_GAME_BY_PREFIX": 0,
+    "UNQUALIFIED_ZODIAC_WITH_EXPLICIT_DIY": 0,
+    "UNQUALIFIED_ZODIAC_WITH_EXPLICIT_MEANING": 0,
+    "UNQUALIFIED_ZODIAC_WITH_EXPLICIT_MEDIA": 0,
+    "UNQUALIFIED_ZODIAC_WITH_EXPLICIT_TOY": 0
+  },
+  "counts": {
+    "active_plus_hold": 18135,
+    "active_plus_hold_raw": 19086,
+    "changed_identities": 357,
+    "changed_raw_occurrences": 358,
+    "coverage_gap_families": 2,
+    "exclude": 6441,
+    "families": 28,
+    "feedback_rows": 13,
+    "hold": 13035,
+    "keep": 5100,
+    "normalized_identities": 24576,
+    "observed_families": 26,
+    "queue_rows": 9,
+    "raw_occurrences": 25979,
+    "w07_defect_identities_corrected": 255
+  },
+  "date": "2026-09-11",
+  "hard_boundaries": {
+    "final_intent": false,
+    "ia": false,
+    "provider_calls": {
+      "ai_search": 0,
+      "gensearch": 0,
+      "search": 0,
+      "wordstat": 0
+    },
+    "query_to_page": false,
+    "raw_lineage_loss": 0,
+    "serp_clustering": false,
+    "step03b_mutations": 0,
+    "step05_advancement": false,
+    "step06_advancement": false
+  },
+  "input_authority_sha256": {
+    "KW002_EXECUTION_FAILURE_LEDGER_ADDENDUM_STEP04_RESULT_AUDIT_2026-09-11.md": "ca9a602bc7491ad3a40d56856fe041c42534cb117ef4729c58f9fe8b9288e40a",
+    "KW002_STEP03A_03B_INDEPENDENT_FULL_VOLUME_AUDIT_OVERLAY_2026-09-11.tsv": "db9b79dda64b205f0b0bef273f70f221f183d9389eca3e67e651e93ea269d669",
+    "STEP_03A_NORMALIZATION_LEDGER_2026-09-11.tsv": "28205ca64f26d219d489b36f102a8923b4a4b635c8b213179bca4a188b24c3df",
+    "STEP_03A_NORMALIZED_UNIQUE_POOL_2026-09-11.tsv": "b30c29ff66a56d80bc1aa9ff6b2eade522b27d1e167cbd636ac72fbff211f2a8",
+    "STEP_03B_EXCLUDED_HOLD_REGISTER_CORRECTED_2026-09-11.tsv": "145c5107f40415b4050923f142dab3e83646489da5d74501f659fd87e3ae2916",
+    "STEP_03B_SANITIZED_CANDIDATE_POOL_CORRECTED_2026-09-11.tsv": "63b3fc556b388dbac0185f174f79f825dc26d9c51de39698850cdaecb9ca4f58",
+    "STEP_04_INDEPENDENT_AUDIT_METRICS_2026-09-11.json": "ca6b0c645a405b8e3036e1e24d5dc20b9d6ed05cb7f5d91ca896cf0b6ef29c18",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_MAIN_CHATGPT_REVIEW_2026-09-11.md": "87d806d2175f831f2a9122de625346fca872aed09c75bd036ccabe457a2f0940",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_MATERIALIZER_2026-09-11.py": "0c488df06feec4b04ff552966f483f16e42375e91648e17bb03f62b5e4499591",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_OVERLAY_2026-09-11.tsv": "62f7027b567fafe461bda3367b943f05dd83298c86d04c6a38039271f3361dd9",
+    "STEP_04_INDEPENDENT_QUEUE_FEEDBACK_AUDIT_2026-09-11.tsv": "cc9126e0a19d7d8ae4c10326ab1524a05c3b7badf958ec250e4817cc1076255f",
+    "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_EXECUTION_RELEASE_2026-09-11.md": "8f9f8bd682413d0dd34b04e3168345ea2cf328690648be9bd2b69350ab869a05",
+    "STEP_04_POST_AUDIT_CORRECTIVE_REWORK_WORK_PROMPT_2026-09-11.md": "ae69807131b78a865e3e260782dd8baba448d44a4a9918ceb743468da9e9698d",
+    "STEP_04_POST_SANITATION_FAMILY_TRIAGE_2026-09-11.tsv": "cb2a1259f596f1b97ea4eb662e8c8b315936aad2243c57389c290ea6d90a0b2c",
+    "STEP_04_POST_SANITATION_MATERIALIZER_2026-09-11.py": "3b80e56d81b02efa4e26c43d9caa92e22f4115738028f0e83a85218ce92f4ad2",
+    "STEP_04_POST_SANITATION_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": "c053bcd1dccae5b2894cc7a316c84af72c2b0abfeb460624f138f1198a39a5ba",
+    "STEP_04_POST_SANITATION_SANITATION_FEEDBACK_REGISTER_2026-09-11.tsv": "7a52efa3eb2e8eeebddecd61de4550acf33e98b8d357b463e815754f6af00903",
+    "STEP_04_POST_SANITATION_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv": "be46fd75e9b51354e14dfc3e862be69e8549fd67b708ecc7471bbfc3dcd63c73"
+  },
+  "live_base_head": "5446a9347cac33da6a656e9db7c252e1b529295a",
+  "manifest_self_hash": "OMITTED_BY_DEFINITION_TO_AVOID_RECURSIVE_HASH",
+  "publication": {
+    "remote_readback": "PENDING_OWNER_UPLOAD_AND_MAIN_CHATGPT",
+    "route": "OWNER_RELAY_REQUIRED"
+  },
+  "quality": {
+    "dimensions_10": {
+      "accepted_defect_correction": 10.0,
+      "ambiguity_preservation": 9.6,
+      "business_lineage_discipline": 9.6,
+      "downstream_safety": 10.0,
+      "family_boundary_precision": 9.2,
+      "family_coherence": 9.0,
+      "full_volume_accounting": 10.0,
+      "independent_validation": 9.4,
+      "lexical_rule_order_bias_control": 9.6,
+      "queue_incremental_gain_control": 9.7,
+      "raw_lineage_reproducibility": 10.0,
+      "sanitation_feedback_quality": 9.6,
+      "source_boundary_integrity": 10.0,
+      "step03b_immutability": 10.0,
+      "traceability": 10.0,
+      "user_task_coherence": 9.4
+    },
+    "score_100": 96.94,
+    "verdict": "PASS_CANDIDATE"
+  },
+  "removed_duplicate_or_satisfied_queue_items": {
+    "PSQ006": "REMOVED_DUPLICATE: 12 qualified гунгнир identities plus Odin-spear evidence already durable",
+    "PSQ007": "REMOVED_DUPLICATE: 79 qualified identities across listed entity-collision names already durable",
+    "PSQ008": "REMOVED_DUPLICATE: 13 qualified identities across Белобог/Чернобог/Мара already durable",
+    "PSQ010": "REMOVED_SATISFIED: durable E013 !чётки evidence; replay forbidden"
+  },
+  "schema": "KW002_STEP04_POST_AUDIT_CORRECTED_ARTIFACT_MANIFEST_V1",
+  "transition_counts": {
+    "COLLATERAL_D2_COMPLETE_TASK_BLAST_RADIUS": 43,
+    "COLLATERAL_D3_SIBLING_RULE": 57,
+    "COLLATERAL_D3_VISUAL_TASK_SIBLING_RULE": 2,
+    "EXPECTED_D1_AUDIT_ORACLE_CORRECTION": 8,
+    "EXPECTED_D2_AUDIT_ORACLE_CORRECTION": 199,
+    "EXPECTED_D3_AUDIT_ORACLE_CORRECTION": 48,
+    "UNCHANGED": 24219
+  }
+}
