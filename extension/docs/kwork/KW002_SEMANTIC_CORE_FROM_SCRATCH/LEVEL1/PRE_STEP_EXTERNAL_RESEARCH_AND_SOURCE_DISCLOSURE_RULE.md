@@ -1,7 +1,8 @@
 # KW-002 — LEVEL 1 PRE-STEP EXTERNAL RESEARCH AND SOURCE DISCLOSURE RULE
 
 Status: **ACTIVE / OWNER-LOCKED / REQUIRED**  
-Owner instruction: 2026-09-09
+Owner instruction: 2026-09-09  
+Owner clarification: 2026-09-11 — **PLAIN-LANGUAGE SUMMARY MUST BE REAL PLAIN RUSSIAN, NOT A STATUS/HASH/ID DUMP.**
 
 ## 1. Purpose
 
@@ -205,14 +206,60 @@ SOURCE→METHOD TRACE
 METHOD / EXECUTION PLAN
 BRIDGE/WORK GATE if applicable
 PASS CONDITIONS
-PLAIN-LANGUAGE WHY / WHAT / RESULT
+ПРОСТЫМИ СЛОВАМИ: WHY / WHAT / RESULT / BLOCKER / NEXT ACTION
 ```
 
-Only after this is visible in chat:
+### Mandatory meaning of `ПРОСТЫМИ СЛОВАМИ`
+
+This final block must be normal conversational Russian that can be understood without project-internal vocabulary.
+
+It must answer in short prose:
+
+```text
+1. Зачем нужен этот шаг или что за проблему мы сейчас решаем.
+2. Что конкретно уже сделали или собираемся делать.
+3. Что получим в результате и зачем этот результат нужен дальше.
+4. Можно ли уже запускать/продолжать работу.
+5. Если нельзя — что конкретно мешает и что надо сделать первым.
+6. Какое следующее фактическое действие.
+```
+
+For a prepared-but-not-executed step, explicitly say in ordinary words that preparation is complete but the data processing/execution itself has not started.
+
+For a blocked step, explain the blocker in ordinary words. Do not make the owner decode a protocol marker such as `EXECUTION_ALLOWED=false`.
+
+The plain-language block must NOT be replaced by or mainly consist of:
+
+```text
+commit/blob/HEAD hashes
+internal file names
+internal IDs
+STEP03A_PRE_STEP = PASS style markers
+machine-style key=value status dumps
+ALL_CAPS protocol labels
+provider request IDs
+branch plumbing
+raw QA counters without explanation
+```
+
+Technical traceability may appear in a separate technical section above. It does not satisfy this plain-language requirement.
+
+Acceptance test before sending:
+
+```text
+If all hashes, file names, internal IDs and status tokens were removed,
+could the owner still understand what happened, why it matters,
+whether the actual work ran, what blocks progress, and what happens next?
+```
+
+If the answer is `no`, the owner-facing pre-step report is incomplete and must be rewritten before sending.
+
+Only after the required structure and plain-language conclusion are visible in chat:
 
 ```text
 PRE_STEP_EXTERNAL_RESEARCH = PASS
 SOURCE_DISCLOSURE_IN_CHAT = PASS
+PLAIN_LANGUAGE_SUMMARY = PASS
 EXECUTION_ALLOWED = true
 ```
 
@@ -228,6 +275,11 @@ LINKS PROVIDED WITHOUT EXPLAINING WHAT THEY SUPPORT
 STALE PROVIDER/PRICING/CAPABILITY CLAIM USED WITHOUT CURRENT CHECK
 EXTERNAL SOURCE CLAIM EXCEEDS WHAT THE SOURCE ACTUALLY SUPPORTS
 OWNER CANNOT INSPECT THE CITED BASIS FROM THE CHAT
+PLAIN_LANGUAGE_BLOCK_MISSING
+PLAIN_LANGUAGE_BLOCK_IS_STATUS_OR_HASH_DUMP
+WHY_WHAT_RESULT_NOT_EXPLAINED_IN_NORMAL_WORDS
+BLOCKER_NOT_EXPLAINED_IN_NORMAL_WORDS
+NEXT_PHYSICAL_ACTION_NOT_STATED
 ```
 
 Then:
@@ -242,6 +294,8 @@ The universal quality score must penalize or fail `METHOD_AND_SOURCE_SUPPORT` wh
 
 A step cannot receive PASS merely because its downstream result happened to look plausible after skipping mandatory source research/disclosure.
 
+Owner/client usability must also be penalized when the technical state is correct but the owner-facing conclusion is not understandable without decoding internal statuses.
+
 ## 13. Marker
 
 ```text
@@ -251,4 +305,8 @@ KW002_SOURCE_TO_METHOD_EXPLANATION_REQUIRED = true
 KW002_STALE_WEB_RESEARCH_NOT_AUTOMATICALLY_REUSABLE = true
 KW002_PROVIDER_STEP_CURRENT_OFFICIAL_DOCS_REQUIRED_WHEN_AVAILABLE = true
 KW002_EXECUTION_BLOCKED_UNTIL_SOURCE_DISCLOSURE = true
+KW002_OWNER_FACING_PLAIN_LANGUAGE_SUMMARY_REQUIRED = true
+KW002_PLAIN_LANGUAGE_STATUS_DUMP_FORBIDDEN = true
+KW002_PLAIN_LANGUAGE_HASH_DUMP_FORBIDDEN = true
+KW002_PLAIN_LANGUAGE_WHY_WHAT_RESULT_BLOCKER_NEXT_REQUIRED = true
 ```
