@@ -194,18 +194,18 @@ if (!args["input-dir"] || !args["output-dir"]) {
 const inputDir = path.resolve(args["input-dir"]);
 const outputDir = path.resolve(args["output-dir"]);
 const previewDir = args["preview-dir"] ? path.resolve(args["preview-dir"]) : null;
-const reportPath = args.report ? path.resolve(args.report) : path.join(inputDir, `TARGET_FIRST_CLIENT_WORKBOOK_BUILD_REPORT_${DATE}.json`);
+const reportPath = args.report ? path.resolve(args.report) : path.join(inputDir, `TARGET_FIRST_MARKET_GRADE_CLIENT_WORKBOOK_BUILD_REPORT_${DATE}.json`);
 const readText = async (name) => fs.readFile(path.join(inputDir, name), "utf8");
 const readTsv = async (name) => parseTsv(await readText(name));
 const readGzipTsv = async (name) => parseTsv(gunzipSync(await fs.readFile(path.join(inputDir, name))).toString("utf8"));
 
 const foundation = await readGzipTsv(`MK02_SEMANTIC_FOUNDATION_${DATE}.tsv.gz`);
-const phraseMap = await readGzipTsv(`TARGET_FIRST_PHRASE_LANDING_MAP_${DATE}.tsv.gz`);
+const phraseMap = await readGzipTsv(`TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_${DATE}.tsv.gz`);
 const clusters = await readTsv(`TARGET_FIRST_CLUSTER_LANDING_MAP_${DATE}.tsv`);
 const registry = await readTsv(`TARGET_PAGE_REGISTRY_${DATE}.tsv`);
 const hierarchy = await readTsv(`TARGET_ARCHITECTURE_HIERARCHY_${DATE}.tsv`);
 const reconciliation = await readTsv(`CURRENT_TARGET_RECONCILIATION_${DATE}.tsv`);
-const specs = await readTsv(`TARGET_PAGE_SPEC_REGISTER_${DATE}.tsv`);
+const specs = await readTsv(`TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_${DATE}.tsv`);
 const delta = await readTsv(`CURRENT_TARGET_CHANGE_DELTA_${DATE}.tsv`);
 const relations = await readTsv(`MK02_PAGE_RELATIONSHIPS_${DATE}.tsv`);
 
@@ -242,6 +242,8 @@ const excluded = foundation.filter((r) => r.product_status.startsWith("Искл�
 if (foundation.length !== 2840 || working.length !== 2185 || review.length !== 187 || excluded.length !== 468) throw new Error("semantic accounting invariant failed");
 if (phraseMap.length !== working.length) throw new Error("phrase target map row count failed");
 if (registry.length !== specs.length || registry.length !== reconciliation.length || registry.length !== hierarchy.length) throw new Error("target page register alignment failed");
+if (phraseMap.some((r) => String(r.wordstat_popular_count ?? "").trim() === "")) throw new Error("market-grade phrase map is missing individual Wordstat");
+if (specs.some((r) => !r.primary_page_job_ru || !r.primary_query_wordstat || !r.secondary_queries_with_wordstat || !r.recommended_h1_or_blocker || !r.analytical_seo_priority || !r.analytical_seo_priority_basis)) throw new Error("market-grade page-spec fields are incomplete");
 
 const phraseTargetByKey = new Map(phraseMap.map((r) => [r.phrase_key, r]));
 const allRows = [...foundation].sort((a, b) => a.phrase.localeCompare(b.phrase, "ru")).map((r) => {
@@ -268,7 +270,7 @@ const groupRows = [...groupMap.entries()].map(([key, rows]) => {
 }).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ru"));
 
 const phraseRows = [...phraseMap].sort((a, b) => a.cluster_task_name_ru.localeCompare(b.cluster_task_name_ru, "ru") || a.phrase.localeCompare(b.phrase, "ru")).map((r) => [
-  r.phrase, r.cluster_task_name_ru, r.intent_user_task_ru,
+  r.phrase, intValue(r.wordstat_popular_count), r.cluster_task_name_ru, r.intent_user_task_ru,
   r.target_landing_page_name_ru || "Не назначена", textRu(r.target_route_state),
   r.target_url_after_reconciliation, r.current_exact_page_match_separate, r.current_family_page_match_separate,
   textRu(r.current_match_state_separate), textRu(r.target_action), textRu(r.real_site_change_required), clientText(r.uncertainty_reason),
@@ -287,20 +289,37 @@ const hierarchyRows = [...hierarchy].sort((a, b) => a.section_name_ru.localeComp
 ]);
 
 const reconByKey = new Map(reconciliation.map((r) => [r.target_page_key, r]));
-const registryRows = [...registry].sort((a, b) => a.parent_section_name_ru.localeCompare(b.parent_section_name_ru, "ru") || a.target_page_name_ru.localeCompare(b.target_page_name_ru, "ru")).map((r) => {
+const registryByKey = new Map(registry.map((r) => [r.target_page_key, r]));
+const registryRows = [...specs].sort((a, b) => a.parent_section.localeCompare(b.parent_section, "ru") || a.target_page_name_ru.localeCompare(b.target_page_name_ru, "ru")).map((r) => {
   const rec = reconByKey.get(r.target_page_key);
-  return [r.target_page_name_ru, r.page_type, clientText(r.page_purpose), r.primary_user_task_intent,
-    r.primary_representative_query, intValue(r.member_phrase_count), namesFromKeys(r.semantic_scope_cluster_keys, clusterNameByKey), r.parent_section_name_ru,
-    pageNameFromKey(r.parent_target_page_key), namesFromKeys(r.child_supporting_target_page_keys, pageNameByKey), textRu(r.target_route_url_state),
-    rec?.accepted_target_url_after_reconciliation || "", rec ? textRu(rec.current_match_state) : "", rec?.current_url_match || "",
-    rec ? textRu(rec.target_action) : "", rec ? textRu(rec.real_site_change_required) : ""];
+  const reg = registryByKey.get(r.target_page_key);
+  return [
+    r.target_page_name_ru,
+    r.target_url_or_route.startsWith("TARGET_ROLE::") ? "Маршрут не назначен до проверки" : r.target_url_or_route,
+    r.page_type,
+    r.parent_section,
+    pageNameFromKey(r.parent_target_page_key),
+    r.primary_representative_query,
+    intValue(r.primary_query_wordstat),
+    r.secondary_queries_with_wordstat,
+    intValue(r.total_routed_phrase_count),
+    r.recommended_h1_or_blocker,
+    r.recommended_title_direction_or_blocker,
+    r.analytical_seo_priority,
+    r.analytical_seo_priority_basis,
+    rec ? textRu(rec.current_match_state) : "",
+    rec ? textRu(rec.target_action) : "",
+    rec ? textRu(rec.real_site_change_required) : "",
+    reg ? namesFromKeys(reg.child_supporting_target_page_keys, pageNameByKey) : "Нет",
+  ];
 });
 
 const specRows = [...specs].sort((a, b) => a.parent_section.localeCompare(b.parent_section, "ru") || a.target_page_name_ru.localeCompare(b.target_page_name_ru, "ru")).map((r) => [
   r.target_page_name_ru, r.target_url_or_route.startsWith("TARGET_ROLE::") ? "Маршрут не назначен до проверки" : r.target_url_or_route, r.page_type, r.parent_section, pageNameFromKey(r.parent_target_page_key),
-  clientText(r.page_purpose), r.primary_user_task_intent, r.primary_representative_query, intValue(r.member_phrase_count), namesFromKeys(r.semantic_scope_cluster_keys, clusterNameByKey),
-  clientText(r.what_page_should_cover), clientText(r.what_belongs_elsewhere_or_not_standalone), clientText(r.supporting_child_related_pages) || "Существенные связи не требуются",
-  textRu(r.current_url_match_current_state), textRu(r.target_action), textRu(r.real_site_change_required), clientText(r.implementation_detail_if_change_is_real),
+  r.primary_page_job_ru, r.primary_representative_query, intValue(r.primary_query_wordstat), r.secondary_queries_with_wordstat, intValue(r.total_routed_phrase_count),
+  r.own_coverage_clean, r.embedded_no_standalone_topics, r.support_mention_link_topics, r.elsewhere_named_pages, r.boundary_overlap_explanations,
+  r.recommended_h1_or_blocker, r.recommended_title_direction_or_blocker, r.analytical_seo_priority, r.analytical_seo_priority_basis,
+  clientText(r.current_url_match_current_state), textRu(r.target_action), textRu(r.real_site_change_required), clientText(r.implementation_detail_if_change_is_real),
   clientText(r.acceptance_target_end_state), clientText(r.uncertainty_exact_clarification),
 ]);
 
@@ -335,7 +354,7 @@ const currentRows = [...reconciliation].sort((a, b) => a.target_page_name_ru.loc
 
 const workbook = Workbook.create();
 const guide = workbook.worksheets.add("Начните здесь");
-styleTitle(guide, "OKNO_MSK — семантическое ядро и целевая SEO-архитектура", "Что показывает: полный результат, построенный от целевой модели для Москвы и Яндекса. Зачем: увидеть не только физические изменения, но и всю подтверждённую рассадку. Как пользоваться: начните со сводки, затем переходите от фразы к кластеру, посадочной, структуре и ТЗ.", "H");
+styleTitle(guide, "OKNO_MSK — семантическое ядро и целевая SEO-архитектура", "Что показывает: полный результат для Москвы и Яндекса — от фразы и её индивидуального Вордстата до целевой страницы, структуры и ТЗ. Значения Вордстата по фразам не суммируются в прогноз спроса страницы. SEO-приоритет — аналитическая важность, а не календарный порядок работ.", "H");
 guide.getRange("A5:H5").values = [["Показатель", "Значение", "", "Что означает", "", "", "", ""]];
 guide.getRange("A5:H5").format = { fill: "#17365D", font: { name: "Arial", bold: true, color: "#FFFFFF" } };
 const actionCounts = Object.fromEntries([...new Set(reconciliation.map((r) => r.target_action))].map((key) => [key, reconciliation.filter((r) => r.target_action === key).length]));
@@ -363,10 +382,10 @@ guide.mergeCells(`A${start}:H${start}`);
 guide.getRange(`A${start}`).values = [["Порядок проверки результата"]];
 guide.getRange(`A${start}`).format = { fill: "#0F6B78", font: { name: "Arial", bold: true, color: "#FFFFFF" } };
 const guideSteps = [
-  ["1", "Найдите фразу", "Лист «Рассадка запросов» показывает её кластер, целевую страницу, сверку с текущим сайтом и действие."],
+  ["1", "Найдите фразу", "Лист «Рассадка запросов» показывает индивидуальный Вордстат, кластер, целевую страницу, сверку с текущим сайтом и действие."],
   ["2", "Проверьте кластер", "Лист «Посадочные страницы» объясняет, почему задача направлена на эту роль и нужен ли отдельный URL."],
   ["3", "Посмотрите структуру", "Лист «Целевая структура» читается без открытия текущего сайта."],
-  ["4", "Откройте ТЗ страницы", "Сохранение, усиление, изменение связи и перепроверка остаются видимыми в полном реестре страниц."],
+  ["4", "Откройте ТЗ страницы", "Видны главная задача, основной и дополнительные запросы с Вордстатом, границы покрытия, H1, Title-решение и аналитический приоритет."],
   ["5", "Передавайте изменения", "Лист «Изменения сайта» — только подмножество реальных заданий на физические изменения."],
 ];
 guide.getRangeByIndexes(start, 0, guideSteps.length, 8).values = guideSteps.map((r) => [r[0], r[1], r[2], "", "", "", "", ""]);
@@ -376,34 +395,38 @@ guide.getRange(`A${start + 1}:H${start + guideSteps.length}`).format.rowHeight =
 [23, 20, 16, 24, 18, 18, 18, 18].forEach((w, i) => guide.getRangeByIndexes(0, i, start + guideSteps.length, 1).format.columnWidth = w);
 guide.freezePanes.freezeRows(5);
 
-addDataSheet(workbook, { name: "Все запросы", title: "Все сохранённые запросы", note: "Что показывает: 2 840 фраз с итоговым статусом и целевым маршрутом для рабочих строк. Зачем: доказать полное сохранение данных. Как пользоваться: фильтруйте по статусу, кластеру, посадочной и действию.", headers: ["Поисковая фраза", "Статус", "В рабочем ядре", "Смысловая группа", "Задача пользователя", "Интент", "Кластер / задача посадочной", "Целевая посадочная", "Состояние маршрута", "Целевой URL после сверки", "Целевое действие", "Нужно менять сайт", "Вордстат", "Основание", "Неопределённость"], rows: allRows, widths: [42, 32, 15, 32, 48, 28, 44, 40, 42, 54, 46, 20, 14, 64, 24], tableName: "AllQueriesTargetFirst", freezeColumns: 1 });
-addDataSheet(workbook, { name: "Кластеры и задачи", title: "Смысловые группы спроса", note: "Что показывает: 54 принятые смысловые группы рабочего ядра. Зачем: увидеть основные направления спроса до дробления на задачи посадочных страниц. Как пользоваться: сравнивайте объём, задачу, интент и число целевых ролей.", headers: ["Группа", "Рабочих фраз", "Задача пользователя", "Интент", "Роль темы", "Задач посадочных страниц", "Целевых ролей", "Примеры запросов"], rows: groupRows, widths: [34, 16, 54, 28, 26, 20, 18, 82], tableName: "SemanticTaskGroups", freezeColumns: 1 });
-addDataSheet(workbook, { name: "Рассадка запросов", title: "Рабочая фраза → кластер → целевая посадочная", note: "Что показывает: целевой маршрут каждой из 2 185 рабочих фраз. Зачем: ни одна фраза не исчезает молча. Как пользоваться: найдите фразу фильтром и проследите отдельно целевую роль, сверку с текущим сайтом и действие.", headers: ["Фраза", "Кластер / задача", "Интент / задача пользователя", "Целевая посадочная", "Состояние маршрута", "Целевой URL после сверки", "Текущая точная страница", "Текущая семейная страница", "Состояние сверки", "Действие", "Нужно менять сайт", "Неопределённость"], rows: phraseRows, widths: [42, 46, 58, 40, 46, 54, 54, 54, 38, 48, 20, 54], tableName: "PhraseToTargetLanding", freezeColumns: 1 });
-addDataSheet(workbook, { name: "Посадочные страницы", title: "Кластер / задача → целевая посадочная", note: "Что показывает: 161 задача посадочных страниц и решение о странице. Зачем: отделить проектирование целевой роли от удобства текущих URL. Как пользоваться: начинайте с задачи пользователя, затем проверяйте назначение, родителя, состояние целевого маршрута и только потом сверку с текущим сайтом.", headers: ["Кластер / задача", "Представительный запрос", "Фраз", "Интент / задача пользователя", "Посадочная", "Назначение страницы", "Тип", "Родитель / раздел", "Поддержка / дочерняя связь", "Состояние целевого маршрута", "URL после сверки", "Сверка с текущим сайтом", "Текущая страница", "Действие", "Нужно менять сайт", "Граница доказательств"], rows: clusterRows, widths: [46, 42, 12, 58, 40, 64, 30, 42, 58, 46, 54, 38, 54, 48, 20, 64], tableName: "ClusterToLandingPage", freezeColumns: 1 });
-addDataSheet(workbook, { name: "Целевая структура", title: "Целевая SEO-иерархия", note: "Что показывает: раздел → родитель / подраздел → посадочная или поддерживающая страница. Зачем: понять будущую поисковую структуру без открытия текущего сайта. Как пользоваться: фильтруйте по разделу и уровню; это семантическая архитектура, а не копия текущего меню.", headers: ["Раздел", "Родитель / подраздел", "Целевая страница", "Уровень", "Тип страницы", "Фраз", "Дочерние / поддерживающие страницы", "Основание иерархии"], rows: hierarchyRows, widths: [32, 42, 42, 38, 30, 12, 82, 72], tableName: "TargetSeoHierarchy", freezeColumns: 2 });
-addDataSheet(workbook, { name: "Реестр страниц", title: "Полный реестр целевых ролей", note: "Что показывает: все существенные целевые страницы, включая подтверждённые без физического изменения. Зачем: маленький список изменений не должен уменьшать продуктовый результат. Как пользоваться: сопоставляйте семантическую область, сверку с текущим сайтом, действие и конечный URL.", headers: ["Целевая страница", "Тип", "Назначение", "Главная задача / интент", "Представительный запрос", "Фраз", "Кластеры / задачи", "Раздел", "Родитель", "Дочерние страницы", "Состояние URL", "Целевой URL", "Сверка с текущим сайтом", "Текущий URL", "Действие", "Нужно менять сайт"], rows: registryRows, widths: [42, 30, 62, 58, 42, 12, 84, 34, 42, 82, 54, 54, 42, 54, 48, 20], tableName: "TargetPageRegistry", freezeColumns: 1 });
-addDataSheet(workbook, { name: "ТЗ по страницам", title: "Полное постраничное ТЗ", note: "Что показывает: спецификацию каждой целевой страницы, а не только готовые изменения. Зачем: подтверждённые страницы без физического изменения несут конкретную семантическую роль. Как пользоваться: найдите страницу и читайте область спроса, границы, действие, целевое состояние и критерий приёмки.", headers: ["Целевая страница", "URL / маршрут", "Тип", "Раздел", "Родитель", "Назначение", "Задача / интент", "Представительный запрос", "Фраз", "Семантическая область", "Что раскрыть", "Что оставить вне страницы", "Связанные страницы", "Текущее состояние", "Действие", "Нужно менять сайт", "Деталь внедрения", "Целевой результат / приёмка", "Что уточнить"], rows: specRows, widths: [42, 54, 30, 34, 42, 62, 58, 42, 12, 84, 78, 78, 78, 68, 48, 20, 78, 82, 70], tableName: "FullPageSpecification", freezeColumns: 1, bodyRowHeight: 68 });
-addDataSheet(workbook, { name: "Изменения сайта", title: "Текущий сайт → целевая модель: изменения", note: "Что показывает: только реальные или потенциальные физические изменения сайта. Зачем: не смешивать полное постраничное ТЗ с заданиями на изменения. Как пользоваться: внедряйте только «Готово к внедрению»; остальные строки сначала уточните.", headers: ["Страница", "Текущий объект", "Действие", "Готовность", "Нужно менять сайт", "Почему", "Что сделать", "Где", "Целевой результат", "Как принять", "Что сохранить", "Что уточнить"], rows: deltaRows, widths: [42, 58, 42, 34, 20, 66, 78, 68, 74, 76, 72, 72], tableName: "CurrentTargetChangeDelta", freezeColumns: 1, bodyRowHeight: 64 });
-addDataSheet(workbook, { name: "Проверить и отложено", title: "Что требует проверки или уточнения", note: "Что показывает: неразрешённые, требующие перепроверки, внешние для проекта задачи и неготовые задания на изменения. Зачем: не придумывать URL, страницу или место внедрения. Как пользоваться: выполните ровно указанное уточнение и только затем меняйте состояние решения.", headers: ["Тип объекта", "Объект", "Запрос / текущий объект", "Состояние", "Предполагаемый владелец", "Что уточнить", "Что делать сейчас"], rows: checkRows, widths: [24, 48, 56, 42, 48, 78, 72], tableName: "ChecksAndDeferred", freezeColumns: 2, bodyRowHeight: 56 });
-addDataSheet(workbook, { name: "Связи страниц", title: "Целевые и проверенные связи страниц", note: "Что показывает: родительские, дочерние и поддерживающие отношения, а также отдельно проверенные текущие ссылки. Зачем: видеть архитектурные зависимости. Как пользоваться: целевые отношения не трактуйте как буквальную копию меню; текущие ссылки меняйте только при готовом контексте.", headers: ["Страница / источник", "Родитель или цель", "Дочерние / поддерживающие страницы", "Тип связи", "Текущее состояние", "Интерпретация"], rows: relationRows, widths: [72, 72, 82, 42, 34, 74], tableName: "PageRelationsTargetFirst", freezeColumns: 1, bodyRowHeight: 50 });
-addDataSheet(workbook, { name: "Текущий сайт", title: "Сверка целевых ролей с текущим сайтом", note: "Что показывает: сверку с текущим сайтом только после независимого проектирования целевой модели. Зачем: существующий URL не должен определять роль заранее. Как пользоваться: читайте слева направо — независимая роль, совпадение, принятый URL, действие и граница безопасности.", headers: ["Целевая страница", "Независимая целевая роль", "Сверка с текущим сайтом", "Текущий URL", "Принятый целевой URL", "Действие", "Нужно менять сайт", "Повторное использование контента", "Соответствие бизнесу", "Структурная безопасность", "Граница доказательств"], rows: currentRows, widths: [42, 70, 42, 54, 54, 48, 20, 66, 34, 60, 68], tableName: "CurrentTargetReconciliation", freezeColumns: 1 });
+addDataSheet(workbook, { name: "Все запросы", title: "Все сохранённые запросы", note: "Что показывает: 2 840 фраз с итоговым статусом и целевым маршрутом для рабочих строк. Зачем: доказать полное сохранение данных. Как пользоваться: фильтруйте по статусу, кластеру, посадочной и действию.", headers: ["Поисковая фраза", "Статус", "В рабочем ядре", "Смысловая группа", "Задача пользователя", "Интент", "Кластер / задача посадочной", "Целевая посадочная", "Состояние маршрута", "Целевой URL после сверки", "Целевое действие", "Нужно менять сайт", "Вордстат", "Основание", "Неопределённость"], rows: allRows, widths: [42, 32, 15, 32, 48, 28, 44, 40, 42, 54, 46, 20, 14, 64, 24], tableName: "DataQueries", freezeColumns: 1 });
+addDataSheet(workbook, { name: "Кластеры и задачи", title: "Смысловые группы спроса", note: "Что показывает: 54 принятые смысловые группы рабочего ядра. Зачем: увидеть основные направления спроса до дробления на задачи посадочных страниц. Как пользоваться: сравнивайте объём, задачу, интент и число целевых ролей.", headers: ["Группа", "Рабочих фраз", "Задача пользователя", "Интент", "Роль темы", "Задач посадочных страниц", "Целевых ролей", "Примеры запросов"], rows: groupRows, widths: [34, 16, 54, 28, 26, 20, 18, 82], tableName: "DataGroups", freezeColumns: 1 });
+addDataSheet(workbook, { name: "Рассадка запросов", title: "Рабочая фраза → спрос → кластер → целевая посадочная", note: "Что показывает: целевой маршрут каждой из 2 185 рабочих фраз и её индивидуальный сохранённый показатель Вордстата. Значения разных фраз не суммируются в спрос страницы. Как пользоваться: найдите фразу или отсортируйте Вордстат, затем проследите кластер, посадочную, URL, сверку и действие.", headers: ["Фраза", "Вордстат", "Кластер / задача", "Интент / задача пользователя", "Целевая посадочная", "Состояние маршрута", "Целевой URL после сверки", "Текущая точная страница", "Текущая семейная страница", "Состояние сверки", "Действие", "Нужно менять сайт", "Неопределённость"], rows: phraseRows, widths: [42, 14, 46, 58, 40, 46, 54, 54, 54, 38, 48, 20, 54], tableName: "DataPhraseMap", freezeColumns: 2 });
+addDataSheet(workbook, { name: "Посадочные страницы", title: "Кластер / задача → целевая посадочная", note: "Что показывает: 161 задача посадочных страниц и решение о странице. Зачем: отделить проектирование целевой роли от удобства текущих URL. Как пользоваться: начинайте с задачи пользователя, затем проверяйте назначение, родителя, состояние целевого маршрута и только потом сверку с текущим сайтом.", headers: ["Кластер / задача", "Представительный запрос", "Фраз", "Интент / задача пользователя", "Посадочная", "Назначение страницы", "Тип", "Родитель / раздел", "Поддержка / дочерняя связь", "Состояние целевого маршрута", "URL после сверки", "Сверка с текущим сайтом", "Текущая страница", "Действие", "Нужно менять сайт", "Граница доказательств"], rows: clusterRows, widths: [46, 42, 12, 58, 40, 64, 30, 42, 58, 46, 54, 38, 54, 48, 20, 64], tableName: "DataLandingMap", freezeColumns: 1 });
+addDataSheet(workbook, { name: "Целевая структура", title: "Целевая SEO-иерархия", note: "Что показывает: раздел → родитель / подраздел → посадочная или поддерживающая страница. Зачем: понять будущую поисковую структуру без открытия текущего сайта. Как пользоваться: фильтруйте по разделу и уровню; это семантическая архитектура, а не копия текущего меню.", headers: ["Раздел", "Родитель / подраздел", "Целевая страница", "Уровень", "Тип страницы", "Фраз", "Дочерние / поддерживающие страницы", "Основание иерархии"], rows: hierarchyRows, widths: [32, 42, 42, 38, 30, 12, 82, 72], tableName: "DataHierarchy", freezeColumns: 2 });
+addDataSheet(workbook, { name: "Реестр страниц", title: "Полный реестр 60 целевых ролей", note: "Что показывает: все целевые страницы, включая 48 подтверждённых без изменения, с главным запросом, индивидуальным спросом, полезными дополнительными запросами, H1, Title-решением и аналитическим SEO-приоритетом. «Всего фраз» — размер маршрута, не сумма Вордстата.", headers: ["Целевая страница", "URL / маршрут", "Тип", "Раздел", "Родитель", "Основной запрос", "Вордстат основного", "Дополнительные запросы + Вордстат", "Всего распределённых фраз", "Рекомендуемый H1 / блокер", "Title: направление / статус", "SEO-приоритет", "Основание приоритета", "Сверка с текущим сайтом", "Действие", "Нужно менять сайт", "Дочерние страницы"], rows: registryRows, widths: [42, 54, 30, 34, 42, 42, 17, 92, 20, 50, 78, 18, 68, 42, 48, 20, 78], tableName: "DataPageRegistry", freezeColumns: 2, bodyRowHeight: 62 });
+addDataSheet(workbook, { name: "ТЗ по страницам", title: "Полное постраничное ТЗ", note: "Что показывает: 60 спецификаций с одной главной задачей страницы и раздельными зонами ответственности. Как пользоваться: фильтруйте страницу/действие; затем читайте запросы с индивидуальным спросом, собственное покрытие, встроенные темы, поддержку, соседних владельцев, H1, Title и критерий приёмки.", headers: ["Целевая страница", "URL / маршрут", "Тип", "Раздел", "Родитель", "Главная задача страницы", "Основной запрос", "Вордстат основного", "Дополнительные запросы + Вордстат", "Всего распределённых фраз", "Собственное покрытие", "Встроить без отдельного URL", "Только упомянуть / связать", "Отдать другой названной странице", "Пояснение границы", "Рекомендуемый H1 / блокер", "Title: направление / статус", "SEO-приоритет", "Основание приоритета", "Текущее состояние", "Действие", "Нужно менять сайт", "Деталь внедрения", "Целевой результат / приёмка", "Что уточнить / блокер"], rows: specRows, widths: [42, 54, 30, 34, 42, 68, 42, 17, 92, 20, 84, 78, 78, 92, 92, 50, 78, 18, 68, 68, 48, 20, 82, 86, 76], tableName: "DataPageSpecs", freezeColumns: 2, bodyRowHeight: 92 });
+addDataSheet(workbook, { name: "Изменения сайта", title: "Текущий сайт → целевая модель: изменения", note: "Что показывает: только реальные или потенциальные физические изменения сайта. Зачем: не смешивать полное постраничное ТЗ с заданиями на изменения. Как пользоваться: внедряйте только «Готово к внедрению»; остальные строки сначала уточните.", headers: ["Страница", "Текущий объект", "Действие", "Готовность", "Нужно менять сайт", "Почему", "Что сделать", "Где", "Целевой результат", "Как принять", "Что сохранить", "Что уточнить"], rows: deltaRows, widths: [42, 58, 42, 34, 20, 66, 78, 68, 74, 76, 72, 72], tableName: "DataSiteChanges", freezeColumns: 1, bodyRowHeight: 64 });
+addDataSheet(workbook, { name: "Проверить и отложено", title: "Что требует проверки или уточнения", note: "Что показывает: неразрешённые, требующие перепроверки, внешние для проекта задачи и неготовые задания на изменения. Зачем: не придумывать URL, страницу или место внедрения. Как пользоваться: выполните ровно указанное уточнение и только затем меняйте состояние решения.", headers: ["Тип объекта", "Объект", "Запрос / текущий объект", "Состояние", "Предполагаемый владелец", "Что уточнить", "Что делать сейчас"], rows: checkRows, widths: [24, 48, 56, 42, 48, 78, 72], tableName: "DataChecks", freezeColumns: 2, bodyRowHeight: 56 });
+addDataSheet(workbook, { name: "Связи страниц", title: "Целевые и проверенные связи страниц", note: "Что показывает: родительские, дочерние и поддерживающие отношения, а также отдельно проверенные текущие ссылки. Зачем: видеть архитектурные зависимости. Как пользоваться: целевые отношения не трактуйте как буквальную копию меню; текущие ссылки меняйте только при готовом контексте.", headers: ["Страница / источник", "Родитель или цель", "Дочерние / поддерживающие страницы", "Тип связи", "Текущее состояние", "Интерпретация"], rows: relationRows, widths: [72, 72, 82, 42, 34, 74], tableName: "DataRelations", freezeColumns: 1, bodyRowHeight: 50 });
+addDataSheet(workbook, { name: "Текущий сайт", title: "Сверка целевых ролей с текущим сайтом", note: "Что показывает: сверку с текущим сайтом только после независимого проектирования целевой модели. Зачем: существующий URL не должен определять роль заранее. Как пользоваться: читайте слева направо — независимая роль, совпадение, принятый URL, действие и граница безопасности.", headers: ["Целевая страница", "Независимая целевая роль", "Сверка с текущим сайтом", "Текущий URL", "Принятый целевой URL", "Действие", "Нужно менять сайт", "Повторное использование контента", "Соответствие бизнесу", "Структурная безопасность", "Граница доказательств"], rows: currentRows, widths: [42, 70, 42, 54, 54, 48, 20, 66, 34, 60, 68], tableName: "DataCurrentSite", freezeColumns: 1 });
 
 const qaRows = [
-  ["Случайная рабочая фраза", "Найти строку на листе «Рассадка запросов»", "Видны кластер, целевая посадочная, состояние маршрута, сверка с текущим сайтом и действие"],
+  ["Случайная рабочая фраза", "Найти строку на листе «Рассадка запросов»", "На одной строке видны фраза, индивидуальный Вордстат, кластер, посадочная, URL, сверка и действие"],
   ["Случайный существенный кластер", "Найти на листе «Посадочные страницы»", "Понятны задача пользователя, назначение страницы, родитель, целевой маршрут и причина"],
   ["Целевая структура", "Прочитать лист «Целевая структура» без сайта", "Понятна иерархия раздел → родитель → страница → поддержка"],
-  ["Подтверждённая страница без изменения", "Отфильтровать действие «Сохранить и закрепить…»", "Видны закреплённая семантика и целевое состояние"],
+  ["Запросы страницы", "Открыть «Реестр страниц» или «ТЗ по страницам»", "Видны основной и полезные дополнительные запросы с индивидуальным Вордстатом"],
+  ["Границы страницы", "Открыть «ТЗ по страницам»", "Раздельно видны собственное покрытие, встроенные темы, поддержка и названные соседние владельцы"],
+  ["H1 / Title", "Открыть «ТЗ по страницам»", "Есть H1 или блокер; для усиления есть направление Title, а для сохранения не навязана перепись метаданных"],
+  ["SEO-приоритет", "Сверить приоритет и его основание", "Понятно, что это аналитическая важность, а не срок, усилие, бизнес-ценность или прогноз"],
+  ["Подтверждённая страница без изменения", "Отфильтровать действие «Сохранить и закрепить…»", "Все 48 ролей видны с закреплённой семантикой и целевым состоянием"],
   ["Готовое изменение", "Отфильтровать «Готово к внедрению»", "Есть что/где/зачем/что сохранить/как принять"],
   ["Граница данных", "Сверить 2 840 = 2 185 + 187 + 468", "Новых обращений к внешним сервисам нет; данные Google, Алисы, нейропоиска и расширение по конкурентам не включены"],
 ];
-addDataSheet(workbook, { name: "Как проверить", title: "Приёмка клиентского результата", note: "Что показывает: шесть независимых проверок получателя. Зачем: доказать пригодность пакета без внутренних журналов. Как пользоваться: выполните проверки на случайных строках и сопоставьте с PDF.", headers: ["Проверка", "Действие", "Ожидаемый результат"], rows: qaRows, widths: [38, 64, 90], tableName: "RecipientAcceptance", freezeColumns: 1, bodyRowHeight: 52 });
+addDataSheet(workbook, { name: "Как проверить", title: "Приёмка клиентского результата", note: "Что показывает: независимые проверки получателя по основным сценариям. Зачем: доказать пригодность пакета без внутренних журналов. Как пользоваться: выполните проверки на случайных строках и сопоставьте с двумя PDF.", headers: ["Проверка", "Действие", "Ожидаемый результат"], rows: qaRows, widths: [38, 64, 96], tableName: "DataAcceptance", freezeColumns: 1, bodyRowHeight: 56 });
 
 workbook.recalculate();
 const sheetNames = ["Начните здесь", "Все запросы", "Кластеры и задачи", "Рассадка запросов", "Посадочные страницы", "Целевая структура", "Реестр страниц", "ТЗ по страницам", "Изменения сайта", "Проверить и отложено", "Связи страниц", "Текущий сайт", "Как проверить"];
 const inspectRanges = {
   "Начните здесь": "A1:H23", "Все запросы": "A1:O18", "Кластеры и задачи": "A1:H20",
-  "Рассадка запросов": "A1:L18", "Посадочные страницы": "A1:P18", "Целевая структура": "A1:H18",
-  "Реестр страниц": "A1:P18", "ТЗ по страницам": "A1:S14", "Изменения сайта": "A1:L18",
+  "Рассадка запросов": "A1:M18", "Посадочные страницы": "A1:P18", "Целевая структура": "A1:H18",
+  "Реестр страниц": "A1:Q15", "ТЗ по страницам": "A1:Y11", "Изменения сайта": "A1:L18",
   "Проверить и отложено": "A1:G18", "Связи страниц": "A1:F18", "Текущий сайт": "A1:K18", "Как проверить": "A1:C12",
 };
 const inspections = {};
@@ -431,10 +454,11 @@ const importedSheets = await imported.inspect({ kind: "sheet", include: "id,name
 const formulaErrorsAfter = await imported.inspect({ kind: "match", searchTerm: "#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!", options: { useRegex: true, maxResults: 300 }, summary: "saved target-first workbook formula error scan" });
 const outputBuffer = await fs.readFile(xlsxPath);
 const report = {
-  schema: "MK02_TARGET_FIRST_CLIENT_WORKBOOK_V1",
+  schema: "MK02_TARGET_FIRST_MARKET_GRADE_CLIENT_WORKBOOK_V2",
   date: DATE,
   status: "PASS",
   artifact_tool_used: true,
+  source_authorities: [`TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_${DATE}.tsv.gz`, `TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_${DATE}.tsv`],
   source_counts: { semantic_universe: foundation.length, working: working.length, review: review.length, excluded: excluded.length, semantic_groups: groupRows.length, phrase_routes: phraseMap.length, cluster_routes: clusters.length, target_pages: registry.length, page_specs: specs.length, change_tickets: delta.length },
   workbook_sheet_order: sheetNames,
   sheet_count: sheetNames.length,

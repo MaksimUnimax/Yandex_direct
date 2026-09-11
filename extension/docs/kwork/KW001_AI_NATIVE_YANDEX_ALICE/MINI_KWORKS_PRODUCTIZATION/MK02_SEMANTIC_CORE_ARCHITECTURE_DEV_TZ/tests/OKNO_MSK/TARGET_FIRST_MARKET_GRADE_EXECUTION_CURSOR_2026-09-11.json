@@ -2,13 +2,17 @@
   "schema": "MK02_TARGET_FIRST_MARKET_GRADE_EXECUTION_CURSOR_V1",
   "status": "IN_PROGRESS",
   "phase": "PHASE_7_MARKET_GRADE_CLIENT_QUALITY_CORRECTION",
-  "source_remote_head": "863e6eedf2f74e9b284d87246618cc629b02db0b",
-  "last_completed_block": "A_MARKET_GRADE_AUTHORITIES_AND_AUTHORITY_QA",
+  "source_remote_head": "c397679f4bca3bfd0fda693abb73775a8763527a",
+  "last_completed_block": "C_XLSX_REBUILT_AND_EXACT_BYTE_QA",
   "completed_paths": [
     "build_target_first_market_grade_page_specs.py",
     "TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_2026-09-10.tsv.gz",
     "TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_2026-09-10.tsv",
-    "TARGET_FIRST_MARKET_GRADE_AUTHORITY_QA_2026-09-10.json"
+    "TARGET_FIRST_MARKET_GRADE_AUTHORITY_QA_2026-09-10.json",
+    "build_target_first_client_workbook.mjs",
+    "TARGET_FIRST_MARKET_GRADE_CLIENT_WORKBOOK_BUILD_REPORT_2026-09-10.json",
+    "TARGET_FIRST_MARKET_GRADE_XLSX_PHYSICAL_QA_2026-09-10.json",
+    "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/SEMANTIC_CORE_AND_TARGET_SEO_STRUCTURE_OKNO_MSK_2026-09-10.xlsx"
   ],
   "counts": {
     "semantic_universe": 2840,
@@ -29,16 +33,18 @@
     "authority_assertions": "18/18 PASS",
     "primary_query_adversarial_review": "PASS_WITH_TWO_GENERATOR_CORRECTIONS",
     "secondary_query_noise_and_deduplication_review": "PASS",
-    "unexplained_exact_own_elsewhere_overlap": 0
+    "unexplained_exact_own_elsewhere_overlap": 0,
+    "xlsx_final_byte_package_qa": "PASS",
+    "xlsx_rendered_and_inspected_sheets": "13/13",
+    "xlsx_client_visible_internal_token_hits": 0
   },
   "open_failures": [
     "FINAL_MARKET_GRADE_VALIDATOR_NOT_YET_COMPLETE",
-    "CLIENT_XLSX_NOT_YET_REBUILT",
     "ANALYTICAL_PDF_NOT_YET_REBUILT",
     "TZ_PDF_NOT_YET_REBUILT",
     "RECIPIENT_AND_PHYSICAL_QA_NOT_YET_COMPLETE",
     "LEVEL_1_FINAL_STATE_AND_REMOTE_READBACK_NOT_YET_COMPLETE"
   ],
-  "next_resume_action": "BUILD_FINAL_MARKET_GRADE_VALIDATOR_AND_RECONCILE_LEVEL_1_QUALITY_GATES",
+  "next_resume_action": "REBUILD_ANALYTICAL_PDF_WITH_SCANNABLE_60_ROLE_TREE_AND_RENDER_EXACT_FINAL_BYTES",
   "final_authority": false
 }
