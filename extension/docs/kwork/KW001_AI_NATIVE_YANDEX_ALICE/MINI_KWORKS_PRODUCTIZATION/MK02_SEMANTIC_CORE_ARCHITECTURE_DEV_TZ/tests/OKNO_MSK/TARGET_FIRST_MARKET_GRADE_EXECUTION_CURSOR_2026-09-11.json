@@ -1,0 +1,44 @@
+{
+  "schema": "MK02_TARGET_FIRST_MARKET_GRADE_EXECUTION_CURSOR_V1",
+  "status": "IN_PROGRESS",
+  "phase": "PHASE_7_MARKET_GRADE_CLIENT_QUALITY_CORRECTION",
+  "source_remote_head": "863e6eedf2f74e9b284d87246618cc629b02db0b",
+  "last_completed_block": "A_MARKET_GRADE_AUTHORITIES_AND_AUTHORITY_QA",
+  "completed_paths": [
+    "build_target_first_market_grade_page_specs.py",
+    "TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_2026-09-10.tsv.gz",
+    "TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_2026-09-10.tsv",
+    "TARGET_FIRST_MARKET_GRADE_AUTHORITY_QA_2026-09-10.json"
+  ],
+  "counts": {
+    "semantic_universe": 2840,
+    "working_phrase_routes": 2185,
+    "cluster_tasks": 161,
+    "target_pages": 60,
+    "page_specs": 60,
+    "keep": 48,
+    "optimize": 7,
+    "route": 4,
+    "recheck": 1,
+    "change_delta": 14,
+    "create": 0,
+    "provider_calls": 0
+  },
+  "completed_checks": {
+    "authority_generator": "PASS",
+    "authority_assertions": "18/18 PASS",
+    "primary_query_adversarial_review": "PASS_WITH_TWO_GENERATOR_CORRECTIONS",
+    "secondary_query_noise_and_deduplication_review": "PASS",
+    "unexplained_exact_own_elsewhere_overlap": 0
+  },
+  "open_failures": [
+    "FINAL_MARKET_GRADE_VALIDATOR_NOT_YET_COMPLETE",
+    "CLIENT_XLSX_NOT_YET_REBUILT",
+    "ANALYTICAL_PDF_NOT_YET_REBUILT",
+    "TZ_PDF_NOT_YET_REBUILT",
+    "RECIPIENT_AND_PHYSICAL_QA_NOT_YET_COMPLETE",
+    "LEVEL_1_FINAL_STATE_AND_REMOTE_READBACK_NOT_YET_COMPLETE"
+  ],
+  "next_resume_action": "BUILD_FINAL_MARKET_GRADE_VALIDATOR_AND_RECONCILE_LEVEL_1_QUALITY_GATES",
+  "final_authority": false
+}

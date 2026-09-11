@@ -1,0 +1,74 @@
+{
+  "schema": "MK02_TARGET_FIRST_MARKET_GRADE_AUTHORITY_QA_V1",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "checks_total": 18,
+  "checks": {
+    "source_accounting_2840": "PASS",
+    "working_phrase_routes_2185": "PASS",
+    "cluster_routes_161": "PASS",
+    "target_pages_60": "PASS",
+    "market_grade_page_specs_60": "PASS",
+    "phrase_wordstat_present": "PASS",
+    "primary_query_wordstat_60": "PASS",
+    "secondary_contract_60": "PASS",
+    "secondary_values_individual": "PASS",
+    "one_primary_page_job_60": "PASS",
+    "unexplained_own_elsewhere_overlap_zero": "PASS",
+    "h1_or_blocker_60": "PASS",
+    "title_contract": "PASS",
+    "priority_and_basis_60": "PASS",
+    "reconciliation_48_7_4_1": "PASS",
+    "change_delta_14_is_subset": "PASS",
+    "fake_create_zero": "PASS",
+    "routed_counts_match_registry": "PASS"
+  },
+  "counts": {
+    "semantic_universe": 2840,
+    "working_phrase_routes": 2185,
+    "cluster_tasks": 161,
+    "target_pages": 60,
+    "page_specs": 60,
+    "keep": 48,
+    "optimize": 7,
+    "route": 4,
+    "recheck": 1,
+    "change_delta": 14,
+    "create": 0,
+    "provider_calls": 0
+  },
+  "primary_query_corrections": [
+    {
+      "target_page_key": "TP-BALCONY-GLAZING-WARM",
+      "source": "тепло балкон остекление балконов",
+      "market_grade": "теплое остекление балконов",
+      "basis": "Выбран естественный точный запрос роли страницы; прежняя формулировка была частотнее лишь на 2 показа и содержала неестественный порядок слов."
+    },
+    {
+      "target_page_key": "TP-WINDOW-SELECTION-GUIDE",
+      "source": "открывание пластиковых окон",
+      "market_grade": "как выбрать пластиковые окна",
+      "basis": "Выбран точный запрос роли страницы: прежний представительный запрос описывал более узкую соседнюю задачу."
+    }
+  ],
+  "source_sha256": {
+    "foundation": "7ad26a8e45f04ba159e2fab52188b80dea4cc529a46284131bfbd3a8943b1fd4",
+    "phrase_map": "ec02e1a4c391c088fbf8282d676f5e0df228d70e246cf0a8c73e1fdcc3a4efab",
+    "clusters": "ea48b5fa844e7e16fbac3cca4e200ec556bac7944e9e961c7adeed6514614d41",
+    "registry": "665f9b24be68fbcd6b2cd9b5601a6d52a2a34745e58dd4428de3346cae9d67e0",
+    "hierarchy": "dc9c5c1c011b2864592a101cddba5fbc3e348ae14f3e4ab6e78948695d6f5319",
+    "reconciliation": "220e42f54b7bb8138c057e5e8f394d0c3c1f69f5cfaf0bf97344c5d5a9c08ca5",
+    "old_specs": "2ace261356ae9334aff1e96730936d13a2d7d323afb175cc0983dde1c99e2042",
+    "delta": "daf98105b370d68d481a6b49de155e48359df1bc7e79d6fb3e0ae60d4f0a047a"
+  },
+  "outputs": {
+    "TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_2026-09-10.tsv.gz": {
+      "bytes": 119404,
+      "sha256": "5039943714d817d576aa94d7ff1205465171cd1e90c98358d4e9e2f71919c1ba"
+    },
+    "TARGET_PAGE_SPEC_REGISTER_MARKET_GRADE_2026-09-10.tsv": {
+      "bytes": 340909,
+      "sha256": "4f3e33cb70de372c7b0411af7ce301d6b95722a1371c212fd173941acf91f1f2"
+    }
+  }
+}
