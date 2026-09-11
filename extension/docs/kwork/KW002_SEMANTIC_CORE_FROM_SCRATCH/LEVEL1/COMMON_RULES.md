@@ -2,6 +2,8 @@
 
 Status: **ACTIVE / OWNER-AUTHORIZED / OWNER-LOCKED**
 
+Owner clarification: 2026-09-11 — owner-facing `ПРОСТЫМИ СЛОВАМИ` is mandatory real plain Russian and must never be replaced by hashes, IDs, status markers or machine-style dumps.
+
 This file is the Level-1 entry point for KW-002.
 
 ## 0. Canonical inheritance rule
@@ -46,6 +48,7 @@ Before every major KW-002 step read:
 7. WORK_HANDOFF_RULE.md when large-data risk exists
 8. current Level-2 step method
 9. current work/<JOB_ID>/ manifest/flow/evidence
+10. owner-facing plain-language acceptance boundary in this file and the pre-step rule
 ```
 
 The inherited and owner-added Level-1 authority includes, at minimum:
@@ -55,6 +58,7 @@ GOAL-FIRST BEFORE METHOD/EXECUTION
 FULL ROADMAP BEFORE/AFTER EVERY MAJOR STEP
 COMPLETED + REMAINING STATUS TRUTH
 PLAIN-LANGUAGE WHY/WHAT/RESULT SUMMARY
+PLAIN-LANGUAGE BLOCK = NORMAL RUSSIAN, NOT STATUS/HASH/ID DUMP
 FRESH REREAD OF PRIOR ERRORS + NON-REPEAT CONTROLS
 FRESH INTERNET RESEARCH BEFORE EVERY MAJOR STEP
 CLICKABLE OWNER-FACING SOURCE DISCLOSURE BEFORE EXECUTION
@@ -177,7 +181,7 @@ A supported `NO_CHANGE` is a valid result; do not force a split/new page/content
 
 ---
 
-# 6. Client-facing output rule
+# 6. Owner/client-facing output and plain-language rule
 
 Final artifacts must tell the client, in ordinary language:
 
@@ -195,6 +199,40 @@ what remains uncertain
 ```
 
 Internal IDs/protocol/status vocabulary is secondary traceability, not the client narrative.
+
+The same separation applies to every owner-facing pre-step, status, execution, recovery and QA summary.
+
+Every major owner-facing report must finish with a short `ПРОСТЫМИ СЛОВАМИ` block that explains in normal Russian prose:
+
+```text
+Зачем / какая проблема решается.
+Что конкретно сделали или будем делать.
+Что получаем и зачем это нужно дальше.
+Можно ли продолжать прямо сейчас.
+Если нельзя — что конкретно мешает.
+Какое следующее фактическое действие.
+```
+
+Forbidden substitution:
+
+```text
+STATUS/HASH/ID DUMP != ПОДЫТОЖИВАНИЕ
+COMMIT SHA != ОБЪЯСНЕНИЕ
+EXECUTION_ALLOWED=false != ОБЪЯСНЕНИЕ БЛОКЕРА
+```
+
+Hashes, blob IDs, file names, request IDs, `STEP_X = PASS`, ALL_CAPS markers and other technical traceability may be shown in a separate technical section. They must not be the main content of the `ПРОСТЫМИ СЛОВАМИ` block.
+
+For a prepared-but-not-executed step, the conclusion must explicitly say that the preparation is done but the actual data processing/execution has not started.
+
+Acceptance test before sending any major owner-facing report:
+
+```text
+Remove all hashes, file names, IDs and status tokens mentally.
+If the owner can no longer understand what happened, why it matters,
+whether the work actually ran, what blocks progress and what happens next,
+the plain-language summary FAILS and must be rewritten before sending.
+```
 
 ---
 
@@ -289,5 +327,8 @@ KW002_RESULT_QUALITY_SCORE_AUTHORITY = RESULT_QUALITY_SCORING_RULE.md
 KW002_EACH_QUALITY_CRITERION_OUT_OF_TEN = true
 KW002_ONE_POINT_PER_CRITERION_SCORING_FORBIDDEN = true
 KW002_SHORT_RULE_SUMMARY_DOES_NOT_REPLACE_INHERITED_RULES = true
+KW002_OWNER_FACING_PLAIN_LANGUAGE_SUMMARY_REQUIRED = true
+KW002_PLAIN_LANGUAGE_STATUS_HASH_ID_DUMP_FORBIDDEN = true
+KW002_PLAIN_LANGUAGE_BLOCKER_AND_NEXT_ACTION_REQUIRED = true
 KW002_LEVEL1_OWNER_LOCKED = true
 ```
