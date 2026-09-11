@@ -1,0 +1,677 @@
+family_id_a	family_id_b	member_count_a	member_count_b	symmetric_pair_key	centroid_cosine_similarity	shared_independent_topic_count	risk_level	evidence	required_action
+PSF001	PSF001	2953	2953	PSF001|PSF001	1.000000	25	SELF	Diagonal self-cell.	NONE
+PSF001	PSF002	2953	70	PSF001|PSF002	0.055387	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF003	2953	151	PSF001|PSF003	0.050913	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF004	2953	670	PSF001|PSF004	0.240750	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF005	2953	498	PSF001|PSF005	0.067892	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF006	2953	2109	PSF001|PSF006	0.031359	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF007	2953	360	PSF001|PSF007	0.033441	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF008	2953	336	PSF001|PSF008	0.040299	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF009	2953	336	PSF001|PSF009	0.015375	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF010	2953	94	PSF001|PSF010	0.083151	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF011	2953	159	PSF001|PSF011	0.254867	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF012	2953	608	PSF001|PSF012	0.057242	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF013	2953	339	PSF001|PSF013	0.044515	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF014	2953	6540	PSF001|PSF014	0.116224	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF015	2953	543	PSF001|PSF015	0.054107	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF016	2953	275	PSF001|PSF016	0.023707	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF017	2953	234	PSF001|PSF017	0.106532	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF018	2953	558	PSF001|PSF018	0.051280	25	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF019	2953	96	PSF001|PSF019	0.053181	17	CRITICAL	8 TOY-without-GAME identities are pulled into PSF019 by `игр*`; no toy boundary exists.	Separate toy morphology from game morphology and decide the preliminary destination.
+PSF001	PSF020	2953	57	PSF001|PSF020	0.045942	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF021	2953	168	PSF001|PSF021	0.025000	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF022	2953	33	PSF001|PSF022	0.005879	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF023	2953	240	PSF001|PSF023	0.092189	20	HIGH	Generic product versus unresolved-referent boundary is lexically close and reason-code dependent.	Preserve the state/referent distinction and test equivalence in rework.
+PSF001	PSF024	2953	708	PSF001|PSF024	0.112177	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF001	PSF025	2953	0	PSF001|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF001	PSF026	2953	0	PSF001|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF002	PSF001	70	2953	PSF001|PSF002	0.055387	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF002	70	70	PSF002|PSF002	1.000000	13	SELF	Diagonal self-cell.	NONE
+PSF002	PSF003	70	151	PSF002|PSF003	0.087182	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF004	70	670	PSF002|PSF004	0.240448	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF005	70	498	PSF002|PSF005	0.505726	13	MEDIUM_DIAGNOSTIC	Moderate rule-agnostic term-centroid similarity; diagnostic only.	Preserve preliminary boundary and ambiguity.
+PSF002	PSF006	70	2109	PSF002|PSF006	0.002652	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF007	70	360	PSF002|PSF007	0.006497	8	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF008	70	336	PSF002|PSF008	0.034530	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF009	70	336	PSF002|PSF009	0.015066	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF010	70	94	PSF002|PSF010	0.091242	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF011	70	159	PSF002|PSF011	0.028889	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF012	70	608	PSF002|PSF012	0.210954	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF013	70	339	PSF002|PSF013	0.007390	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF014	70	6540	PSF002|PSF014	0.004541	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF015	70	543	PSF002|PSF015	0.001925	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF016	70	275	PSF002|PSF016	0.005222	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF017	70	234	PSF002|PSF017	0.055543	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF018	70	558	PSF002|PSF018	0.015026	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF019	70	96	PSF002|PSF019	0.026728	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF020	70	57	PSF002|PSF020	0.025501	8	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF021	70	168	PSF002|PSF021	0.006254	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF022	70	33	PSF002|PSF022	0.000000	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF023	70	240	PSF002|PSF023	0.023355	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF024	70	708	PSF002|PSF024	0.015422	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF002	PSF025	70	0	PSF002|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF002	PSF026	70	0	PSF002|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF003	PSF001	151	2953	PSF001|PSF003	0.050913	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF002	151	70	PSF002|PSF003	0.087182	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF003	151	151	PSF003|PSF003	1.000000	13	SELF	Diagonal self-cell.	NONE
+PSF003	PSF004	151	670	PSF003|PSF004	0.051150	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF005	151	498	PSF003|PSF005	0.054723	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF006	151	2109	PSF003|PSF006	0.002251	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF007	151	360	PSF003|PSF007	0.003952	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF008	151	336	PSF003|PSF008	0.015596	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF009	151	336	PSF003|PSF009	0.001923	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF010	151	94	PSF003|PSF010	0.043217	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF011	151	159	PSF003|PSF011	0.074921	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF012	151	608	PSF003|PSF012	0.050215	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF013	151	339	PSF003|PSF013	0.005829	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF014	151	6540	PSF003|PSF014	0.006105	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF015	151	543	PSF003|PSF015	0.002307	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF016	151	275	PSF003|PSF016	0.011862	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF017	151	234	PSF003|PSF017	0.111108	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF018	151	558	PSF003|PSF018	0.003474	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF019	151	96	PSF003|PSF019	0.009279	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF020	151	57	PSF003|PSF020	0.139458	11	MEDIUM	Automobile use-case and vehicle/model/part collision share vocabulary.	Keep use versus vehicle-object guards explicit.
+PSF003	PSF021	151	168	PSF003|PSF021	0.023372	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF022	151	33	PSF003|PSF022	0.000000	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF023	151	240	PSF003|PSF023	0.009805	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF024	151	708	PSF003|PSF024	0.091493	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF003	PSF025	151	0	PSF003|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF003	PSF026	151	0	PSF003|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF004	PSF001	670	2953	PSF001|PSF004	0.240750	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF002	670	70	PSF002|PSF004	0.240448	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF003	670	151	PSF003|PSF004	0.051150	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF004	670	670	PSF004|PSF004	1.000000	23	SELF	Diagonal self-cell.	NONE
+PSF004	PSF005	670	498	PSF004|PSF005	0.148633	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF006	670	2109	PSF004|PSF006	0.015881	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF007	670	360	PSF004|PSF007	0.072219	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF008	670	336	PSF004|PSF008	0.111646	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF009	670	336	PSF004|PSF009	0.018972	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF010	670	94	PSF004|PSF010	0.119361	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF011	670	159	PSF004|PSF011	0.030311	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF012	670	608	PSF004|PSF012	0.095049	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF013	670	339	PSF004|PSF013	0.031254	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF014	670	6540	PSF004|PSF014	0.098473	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF015	670	543	PSF004|PSF015	0.046709	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF016	670	275	PSF004|PSF016	0.117872	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF017	670	234	PSF004|PSF017	0.048170	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF018	670	558	PSF004|PSF018	0.031370	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF019	670	96	PSF004|PSF019	0.021310	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF020	670	57	PSF004|PSF020	0.040184	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF021	670	168	PSF004|PSF021	0.018233	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF022	670	33	PSF004|PSF022	0.003913	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF023	670	240	PSF004|PSF023	0.034507	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF024	670	708	PSF004|PSF024	0.071615	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF004	PSF025	670	0	PSF004|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF004	PSF026	670	0	PSF004|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF005	PSF001	498	2953	PSF001|PSF005	0.067892	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF002	498	70	PSF002|PSF005	0.505726	13	MEDIUM_DIAGNOSTIC	Moderate rule-agnostic term-centroid similarity; diagnostic only.	Preserve preliminary boundary and ambiguity.
+PSF005	PSF003	498	151	PSF003|PSF005	0.054723	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF004	498	670	PSF004|PSF005	0.148633	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF005	498	498	PSF005|PSF005	1.000000	24	SELF	Diagonal self-cell.	NONE
+PSF005	PSF006	498	2109	PSF005|PSF006	0.310932	23	MEDIUM	Qualified and unqualified catalog-name families are adjacent by construction.	Retain qualification evidence in every assignment.
+PSF005	PSF007	498	360	PSF005|PSF007	0.255945	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF008	498	336	PSF005|PSF008	0.301403	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF009	498	336	PSF005|PSF009	0.022648	15	HIGH	Qualified catalog-product phrases and unresolved catalog homonyms overlap for short names.	Do not treat catalog membership as product-intent proof.
+PSF005	PSF010	498	94	PSF005|PSF010	0.234943	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF011	498	159	PSF005|PSF011	0.025399	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF012	498	608	PSF005|PSF012	0.221157	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF013	498	339	PSF005|PSF013	0.014227	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF014	498	6540	PSF005|PSF014	0.006254	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF015	498	543	PSF005|PSF015	0.001310	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF016	498	275	PSF005|PSF016	0.010418	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF017	498	234	PSF005|PSF017	0.053856	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF018	498	558	PSF005|PSF018	0.041879	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF019	498	96	PSF005|PSF019	0.031963	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF020	498	57	PSF005|PSF020	0.111653	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF021	498	168	PSF005|PSF021	0.025610	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF022	498	33	PSF005|PSF022	0.000419	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF023	498	240	PSF005|PSF023	0.031755	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF024	498	708	PSF005|PSF024	0.049295	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF005	PSF025	498	0	PSF005|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF005	PSF026	498	0	PSF005|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF006	PSF001	2109	2953	PSF001|PSF006	0.031359	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF002	2109	70	PSF002|PSF006	0.002652	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF003	2109	151	PSF003|PSF006	0.002251	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF004	2109	670	PSF004|PSF006	0.015881	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF005	2109	498	PSF005|PSF006	0.310932	23	MEDIUM	Qualified and unqualified catalog-name families are adjacent by construction.	Retain qualification evidence in every assignment.
+PSF006	PSF006	2109	2109	PSF006|PSF006	1.000000	26	SELF	Diagonal self-cell.	NONE
+PSF006	PSF007	2109	360	PSF006|PSF007	0.129966	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF008	2109	336	PSF006|PSF008	0.146066	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF009	2109	336	PSF006|PSF009	0.004142	15	HIGH	Both preserve short catalog-name ambiguity; split depends strongly on reason code and residual path.	Reconcile equivalent short-name cases during approved rework.
+PSF006	PSF010	2109	94	PSF006|PSF010	0.004748	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF011	2109	159	PSF006|PSF011	0.006790	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF012	2109	608	PSF006|PSF012	0.002666	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF013	2109	339	PSF006|PSF013	0.040922	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF014	2109	6540	PSF006|PSF014	0.009359	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF015	2109	543	PSF006|PSF015	0.010640	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF016	2109	275	PSF006|PSF016	0.001530	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF017	2109	234	PSF006|PSF017	0.029142	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF018	2109	558	PSF006|PSF018	0.062705	26	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF019	2109	96	PSF006|PSF019	0.047674	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF020	2109	57	PSF006|PSF020	0.014990	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF021	2109	168	PSF006|PSF021	0.076057	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF022	2109	33	PSF006|PSF022	0.001485	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF023	2109	240	PSF006|PSF023	0.003462	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF024	2109	708	PSF006|PSF024	0.020409	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF006	PSF025	2109	0	PSF006|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF006	PSF026	2109	0	PSF006|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF007	PSF001	360	2953	PSF001|PSF007	0.033441	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF002	360	70	PSF002|PSF007	0.006497	8	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF003	360	151	PSF003|PSF007	0.003952	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF004	360	670	PSF004|PSF007	0.072219	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF005	360	498	PSF005|PSF007	0.255945	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF006	360	2109	PSF006|PSF007	0.129966	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF007	360	360	PSF007|PSF007	1.000000	16	SELF	Diagonal self-cell.	NONE
+PSF007	PSF008	360	336	PSF007|PSF008	0.327345	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF009	360	336	PSF007|PSF009	0.030913	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF010	360	94	PSF007|PSF010	0.015209	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF011	360	159	PSF007|PSF011	0.028699	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF012	360	608	PSF007|PSF012	0.011554	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF013	360	339	PSF007|PSF013	0.009721	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF014	360	6540	PSF007|PSF014	0.029621	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF015	360	543	PSF007|PSF015	0.001521	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF016	360	275	PSF007|PSF016	0.030069	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF017	360	234	PSF007|PSF017	0.029729	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF018	360	558	PSF007|PSF018	0.023632	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF019	360	96	PSF007|PSF019	0.018562	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF020	360	57	PSF007|PSF020	0.068190	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF021	360	168	PSF007|PSF021	0.013961	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF022	360	33	PSF007|PSF022	0.000000	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF023	360	240	PSF007|PSF023	0.025038	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF024	360	708	PSF007|PSF024	0.039825	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF007	PSF025	360	0	PSF007|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF007	PSF026	360	0	PSF007|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF008	PSF001	336	2953	PSF001|PSF008	0.040299	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF002	336	70	PSF002|PSF008	0.034530	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF003	336	151	PSF003|PSF008	0.015596	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF004	336	670	PSF004|PSF008	0.111646	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF005	336	498	PSF005|PSF008	0.301403	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF006	336	2109	PSF006|PSF008	0.146066	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF007	336	360	PSF007|PSF008	0.327345	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF008	336	336	PSF008|PSF008	1.000000	22	SELF	Diagonal self-cell.	NONE
+PSF008	PSF009	336	336	PSF008|PSF009	0.054512	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF010	336	94	PSF008|PSF010	0.024433	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF011	336	159	PSF008|PSF011	0.017405	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF012	336	608	PSF008|PSF012	0.013957	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF013	336	339	PSF008|PSF013	0.006093	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF014	336	6540	PSF008|PSF014	0.006974	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF015	336	543	PSF008|PSF015	0.001524	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF016	336	275	PSF008|PSF016	0.581238	12	MEDIUM	General catalog visuals and zodiac visuals differ mainly by zodiac recognition.	Keep the topical qualifier explicit; no final page inference.
+PSF008	PSF017	336	234	PSF008|PSF017	0.023356	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF018	336	558	PSF008|PSF018	0.040646	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF019	336	96	PSF008|PSF019	0.018362	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF020	336	57	PSF008|PSF020	0.095070	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF021	336	168	PSF008|PSF021	0.012302	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF022	336	33	PSF008|PSF022	0.000000	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF023	336	240	PSF008|PSF023	0.033223	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF024	336	708	PSF008|PSF024	0.078353	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF008	PSF025	336	0	PSF008|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF008	PSF026	336	0	PSF008|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF009	PSF001	336	2953	PSF001|PSF009	0.015375	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF002	336	70	PSF002|PSF009	0.015066	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF003	336	151	PSF003|PSF009	0.001923	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF004	336	670	PSF004|PSF009	0.018972	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF005	336	498	PSF005|PSF009	0.022648	15	HIGH	Qualified catalog-product phrases and unresolved catalog homonyms overlap for short names.	Do not treat catalog membership as product-intent proof.
+PSF009	PSF006	336	2109	PSF006|PSF009	0.004142	15	HIGH	Both preserve short catalog-name ambiguity; split depends strongly on reason code and residual path.	Reconcile equivalent short-name cases during approved rework.
+PSF009	PSF007	336	360	PSF007|PSF009	0.030913	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF008	336	336	PSF008|PSF009	0.054512	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF009	336	336	PSF009|PSF009	1.000000	16	SELF	Diagonal self-cell.	NONE
+PSF009	PSF010	336	94	PSF009|PSF010	0.005564	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF011	336	159	PSF009|PSF011	0.004571	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF012	336	608	PSF009|PSF012	0.005304	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF013	336	339	PSF009|PSF013	0.000481	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF014	336	6540	PSF009|PSF014	0.003443	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF015	336	543	PSF009|PSF015	0.003228	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF016	336	275	PSF009|PSF016	0.000038	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF017	336	234	PSF009|PSF017	0.148819	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF018	336	558	PSF009|PSF018	0.141621	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF019	336	96	PSF009|PSF019	0.010116	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF020	336	57	PSF009|PSF020	0.001452	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF021	336	168	PSF009|PSF021	0.002595	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF022	336	33	PSF009|PSF022	0.000340	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF023	336	240	PSF009|PSF023	0.001747	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF024	336	708	PSF009|PSF024	0.005739	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF009	PSF025	336	0	PSF009|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF009	PSF026	336	0	PSF009|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF010	PSF001	94	2953	PSF001|PSF010	0.083151	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF002	94	70	PSF002|PSF010	0.091242	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF003	94	151	PSF003|PSF010	0.043217	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF004	94	670	PSF004|PSF010	0.119361	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF005	94	498	PSF005|PSF010	0.234943	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF006	94	2109	PSF006|PSF010	0.004748	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF007	94	360	PSF007|PSF010	0.015209	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF008	94	336	PSF008|PSF010	0.024433	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF009	94	336	PSF009|PSF010	0.005564	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF010	94	94	PSF010|PSF010	1.000000	19	SELF	Diagonal self-cell.	NONE
+PSF010	PSF011	94	159	PSF010|PSF011	0.048182	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF012	94	608	PSF010|PSF012	0.327181	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF013	94	339	PSF010|PSF013	0.006920	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF014	94	6540	PSF010|PSF014	0.013156	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF015	94	543	PSF010|PSF015	0.002907	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF016	94	275	PSF010|PSF016	0.002189	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF017	94	234	PSF010|PSF017	0.021671	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF018	94	558	PSF010|PSF018	0.044287	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF019	94	96	PSF010|PSF019	0.011746	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF020	94	57	PSF010|PSF020	0.036027	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF021	94	168	PSF010|PSF021	0.004580	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF022	94	33	PSF010|PSF022	0.000872	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF023	94	240	PSF010|PSF023	0.031538	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF024	94	708	PSF010|PSF024	0.016362	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF010	PSF025	94	0	PSF010|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF010	PSF026	94	0	PSF010|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF011	PSF001	159	2953	PSF001|PSF011	0.254867	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF002	159	70	PSF002|PSF011	0.028889	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF003	159	151	PSF003|PSF011	0.074921	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF004	159	670	PSF004|PSF011	0.030311	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF005	159	498	PSF005|PSF011	0.025399	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF006	159	2109	PSF006|PSF011	0.006790	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF007	159	360	PSF007|PSF011	0.028699	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF008	159	336	PSF008|PSF011	0.017405	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF009	159	336	PSF009|PSF011	0.004571	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF010	159	94	PSF010|PSF011	0.048182	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF011	159	159	PSF011|PSF011	1.000000	20	SELF	Diagonal self-cell.	NONE
+PSF011	PSF012	159	608	PSF011|PSF012	0.103117	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF013	159	339	PSF011|PSF013	0.028364	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF014	159	6540	PSF011|PSF014	0.058047	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF015	159	543	PSF011|PSF015	0.031295	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF016	159	275	PSF011|PSF016	0.018825	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF017	159	234	PSF011|PSF017	0.105767	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF018	159	558	PSF011|PSF018	0.014199	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF019	159	96	PSF011|PSF019	0.002447	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF020	159	57	PSF011|PSF020	0.010331	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF021	159	168	PSF011|PSF021	0.000867	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF022	159	33	PSF011|PSF022	0.000000	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF023	159	240	PSF011|PSF023	0.063835	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF024	159	708	PSF011|PSF024	0.028730	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF011	PSF025	159	0	PSF011|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF011	PSF026	159	0	PSF011|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF012	PSF001	608	2953	PSF001|PSF012	0.057242	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF002	608	70	PSF002|PSF012	0.210954	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF003	608	151	PSF003|PSF012	0.050215	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF004	608	670	PSF004|PSF012	0.095049	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF005	608	498	PSF005|PSF012	0.221157	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF006	608	2109	PSF006|PSF012	0.002666	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF007	608	360	PSF007|PSF012	0.011554	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF008	608	336	PSF008|PSF012	0.013957	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF009	608	336	PSF009|PSF012	0.005304	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF010	608	94	PSF010|PSF012	0.327181	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF011	608	159	PSF011|PSF012	0.103117	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF012	608	608	PSF012|PSF012	1.000000	26	SELF	Diagonal self-cell.	NONE
+PSF012	PSF013	608	339	PSF012|PSF013	0.570823	20	HIGH	Zodiac product/form and zodiac stone/material collision share commercial and physical markers.	Require material/owner facts before narrowing.
+PSF012	PSF014	608	6540	PSF012|PSF014	0.521228	25	HIGH	5 explicit TOY/product-form zodiac identities remain in unqualified PSF014.	Define the physical-toy/product-form boundary before rerouting.
+PSF012	PSF015	608	543	PSF012|PSF015	0.263716	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF016	608	275	PSF012|PSF016	0.265167	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF017	608	234	PSF012|PSF017	0.021555	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF018	608	558	PSF012|PSF018	0.061167	25	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF019	608	96	PSF012|PSF019	0.040337	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF020	608	57	PSF012|PSF020	0.032353	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF021	608	168	PSF012|PSF021	0.000916	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF022	608	33	PSF012|PSF022	0.000000	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF023	608	240	PSF012|PSF023	0.044132	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF024	608	708	PSF012|PSF024	0.078725	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF012	PSF025	608	0	PSF012|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF012	PSF026	608	0	PSF012|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF013	PSF001	339	2953	PSF001|PSF013	0.044515	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF002	339	70	PSF002|PSF013	0.007390	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF003	339	151	PSF003|PSF013	0.005829	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF004	339	670	PSF004|PSF013	0.031254	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF005	339	498	PSF005|PSF013	0.014227	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF006	339	2109	PSF006|PSF013	0.040922	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF007	339	360	PSF007|PSF013	0.009721	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF008	339	336	PSF008|PSF013	0.006093	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF009	339	336	PSF009|PSF013	0.000481	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF010	339	94	PSF010|PSF013	0.006920	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF011	339	159	PSF011|PSF013	0.028364	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF012	339	608	PSF012|PSF013	0.570823	20	HIGH	Zodiac product/form and zodiac stone/material collision share commercial and physical markers.	Require material/owner facts before narrowing.
+PSF013	PSF013	339	339	PSF013|PSF013	1.000000	21	SELF	Diagonal self-cell.	NONE
+PSF013	PSF014	339	6540	PSF013|PSF014	0.277564	20	HIGH	Stone-qualified and unqualified zodiac boundaries depend on a small material lexicon.	Audit stone synonyms before any correction.
+PSF013	PSF015	339	543	PSF013|PSF015	0.121529	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF016	339	275	PSF013|PSF016	0.089070	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF017	339	234	PSF013|PSF017	0.001678	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF018	339	558	PSF013|PSF018	0.025171	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF019	339	96	PSF013|PSF019	0.015668	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF020	339	57	PSF013|PSF020	0.007553	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF021	339	168	PSF013|PSF021	0.003209	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF022	339	33	PSF013|PSF022	0.000000	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF023	339	240	PSF013|PSF023	0.007277	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF024	339	708	PSF013|PSF024	0.030379	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF013	PSF025	339	0	PSF013|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF013	PSF026	339	0	PSF013|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF014	PSF001	6540	2953	PSF001|PSF014	0.116224	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF002	6540	70	PSF002|PSF014	0.004541	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF003	6540	151	PSF003|PSF014	0.006105	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF004	6540	670	PSF004|PSF014	0.098473	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF005	6540	498	PSF005|PSF014	0.006254	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF006	6540	2109	PSF006|PSF014	0.009359	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF007	6540	360	PSF007|PSF014	0.029621	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF008	6540	336	PSF008|PSF014	0.006974	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF009	6540	336	PSF009|PSF014	0.003443	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF010	6540	94	PSF010|PSF014	0.013156	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF011	6540	159	PSF011|PSF014	0.058047	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF012	6540	608	PSF012|PSF014	0.521228	25	HIGH	5 explicit TOY/product-form zodiac identities remain in unqualified PSF014.	Define the physical-toy/product-form boundary before rerouting.
+PSF014	PSF013	6540	339	PSF013|PSF014	0.277564	20	HIGH	Stone-qualified and unqualified zodiac boundaries depend on a small material lexicon.	Audit stone synonyms before any correction.
+PSF014	PSF014	6540	6540	PSF014|PSF014	1.000000	27	SELF	Diagonal self-cell.	NONE
+PSF014	PSF015	6540	543	PSF014|PSF015	0.425823	22	CRITICAL	156 MEANING identities sit in unqualified PSF014 although PSF015 owns zodiac information.	Correct zodiac information routing after audit approval.
+PSF014	PSF016	6540	275	PSF014|PSF016	0.405018	17	MEDIUM	Unqualified zodiac and visual zodiac are adjacent; visual vocabulary controls the split.	Retain visual task marker and ambiguity.
+PSF014	PSF017	6540	234	PSF014|PSF017	0.008268	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF018	6540	558	PSF014|PSF018	0.075784	27	CRITICAL	38 MEDIA identities sit in PSF014 although the media/digital collision boundary is explicit.	Correct zodiac/media precedence after audit approval.
+PSF014	PSF019	6540	96	PSF014|PSF019	0.057889	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF020	6540	57	PSF014|PSF020	0.009760	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF021	6540	168	PSF014|PSF021	0.011462	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF022	6540	33	PSF014|PSF022	0.000241	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF023	6540	240	PSF014|PSF023	0.020949	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF024	6540	708	PSF014|PSF024	0.145640	25	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF014	PSF025	6540	0	PSF014|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF014	PSF026	6540	0	PSF014|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF015	PSF001	543	2953	PSF001|PSF015	0.054107	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF002	543	70	PSF002|PSF015	0.001925	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF003	543	151	PSF003|PSF015	0.002307	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF004	543	670	PSF004|PSF015	0.046709	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF005	543	498	PSF005|PSF015	0.001310	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF006	543	2109	PSF006|PSF015	0.010640	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF007	543	360	PSF007|PSF015	0.001521	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF008	543	336	PSF008|PSF015	0.001524	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF009	543	336	PSF009|PSF015	0.003228	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF010	543	94	PSF010|PSF015	0.002907	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF011	543	159	PSF011|PSF015	0.031295	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF012	543	608	PSF012|PSF015	0.263716	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF013	543	339	PSF013|PSF015	0.121529	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF014	543	6540	PSF014|PSF015	0.425823	22	CRITICAL	156 MEANING identities sit in unqualified PSF014 although PSF015 owns zodiac information.	Correct zodiac information routing after audit approval.
+PSF015	PSF015	543	543	PSF015|PSF015	1.000000	22	SELF	Diagonal self-cell.	NONE
+PSF015	PSF016	543	275	PSF015|PSF016	0.185701	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF017	543	234	PSF015|PSF017	0.003266	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF018	543	558	PSF015|PSF018	0.030930	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF019	543	96	PSF015|PSF019	0.023586	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF020	543	57	PSF015|PSF020	0.003345	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF021	543	168	PSF015|PSF021	0.000550	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF022	543	33	PSF015|PSF022	0.004776	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF023	543	240	PSF015|PSF023	0.006695	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF024	543	708	PSF015|PSF024	0.063118	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF015	PSF025	543	0	PSF015|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF015	PSF026	543	0	PSF015|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF016	PSF001	275	2953	PSF001|PSF016	0.023707	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF002	275	70	PSF002|PSF016	0.005222	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF003	275	151	PSF003|PSF016	0.011862	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF004	275	670	PSF004|PSF016	0.117872	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF005	275	498	PSF005|PSF016	0.010418	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF006	275	2109	PSF006|PSF016	0.001530	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF007	275	360	PSF007|PSF016	0.030069	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF008	275	336	PSF008|PSF016	0.581238	12	MEDIUM	General catalog visuals and zodiac visuals differ mainly by zodiac recognition.	Keep the topical qualifier explicit; no final page inference.
+PSF016	PSF009	275	336	PSF009|PSF016	0.000038	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF010	275	94	PSF010|PSF016	0.002189	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF011	275	159	PSF011|PSF016	0.018825	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF012	275	608	PSF012|PSF016	0.265167	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF013	275	339	PSF013|PSF016	0.089070	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF014	275	6540	PSF014|PSF016	0.405018	17	MEDIUM	Unqualified zodiac and visual zodiac are adjacent; visual vocabulary controls the split.	Retain visual task marker and ambiguity.
+PSF016	PSF015	275	543	PSF015|PSF016	0.185701	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF016	275	275	PSF016|PSF016	1.000000	18	SELF	Diagonal self-cell.	NONE
+PSF016	PSF017	275	234	PSF016|PSF017	0.001310	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF018	275	558	PSF016|PSF018	0.038668	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF019	275	96	PSF016|PSF019	0.028651	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF020	275	57	PSF016|PSF020	0.044483	7	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF021	275	168	PSF016|PSF021	0.000000	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF022	275	33	PSF016|PSF022	0.000000	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF023	275	240	PSF016|PSF023	0.030398	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF024	275	708	PSF016|PSF024	0.107682	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF016	PSF025	275	0	PSF016|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF016	PSF026	275	0	PSF016|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF017	PSF001	234	2953	PSF001|PSF017	0.106532	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF002	234	70	PSF002|PSF017	0.055543	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF003	234	151	PSF003|PSF017	0.111108	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF004	234	670	PSF004|PSF017	0.048170	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF005	234	498	PSF005|PSF017	0.053856	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF006	234	2109	PSF006|PSF017	0.029142	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF007	234	360	PSF007|PSF017	0.029729	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF008	234	336	PSF008|PSF017	0.023356	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF009	234	336	PSF009|PSF017	0.148819	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF010	234	94	PSF010|PSF017	0.021671	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF011	234	159	PSF011|PSF017	0.105767	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF012	234	608	PSF012|PSF017	0.021555	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF013	234	339	PSF013|PSF017	0.001678	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF014	234	6540	PSF014|PSF017	0.008268	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF015	234	543	PSF015|PSF017	0.003266	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF016	234	275	PSF016|PSF017	0.001310	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF017	234	234	PSF017|PSF017	1.000000	16	SELF	Diagonal self-cell.	NONE
+PSF017	PSF018	234	558	PSF017|PSF018	0.025964	16	MEDIUM	Religious text/practice and media/text actions can overlap.	Preserve both referent hypotheses until later evidence.
+PSF017	PSF019	234	96	PSF017|PSF019	0.001805	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF020	234	57	PSF017|PSF020	0.039983	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF021	234	168	PSF017|PSF021	0.005470	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF022	234	33	PSF017|PSF022	0.000672	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF023	234	240	PSF017|PSF023	0.038892	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF024	234	708	PSF017|PSF024	0.027185	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF017	PSF025	234	0	PSF017|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF017	PSF026	234	0	PSF017|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF018	PSF001	558	2953	PSF001|PSF018	0.051280	25	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF002	558	70	PSF002|PSF018	0.015026	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF003	558	151	PSF003|PSF018	0.003474	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF004	558	670	PSF004|PSF018	0.031370	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF005	558	498	PSF005|PSF018	0.041879	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF006	558	2109	PSF006|PSF018	0.062705	26	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF007	558	360	PSF007|PSF018	0.023632	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF008	558	336	PSF008|PSF018	0.040646	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF009	558	336	PSF009|PSF018	0.141621	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF010	558	94	PSF010|PSF018	0.044287	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF011	558	159	PSF011|PSF018	0.014199	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF012	558	608	PSF012|PSF018	0.061167	25	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF013	558	339	PSF013|PSF018	0.025171	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF014	558	6540	PSF014|PSF018	0.075784	27	CRITICAL	38 MEDIA identities sit in PSF014 although the media/digital collision boundary is explicit.	Correct zodiac/media precedence after audit approval.
+PSF018	PSF015	558	543	PSF015|PSF018	0.030930	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF016	558	275	PSF016|PSF018	0.038668	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF017	558	234	PSF017|PSF018	0.025964	16	MEDIUM	Religious text/practice and media/text actions can overlap.	Preserve both referent hypotheses until later evidence.
+PSF018	PSF018	558	558	PSF018|PSF018	1.000000	31	SELF	Diagonal self-cell.	NONE
+PSF018	PSF019	558	96	PSF018|PSF019	0.074167	17	MEDIUM	Media titles and games share named-work/action language.	Require specific game evidence; generic digital language is insufficient.
+PSF018	PSF020	558	57	PSF018|PSF020	0.003260	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF021	558	168	PSF018|PSF021	0.236162	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF022	558	33	PSF018|PSF022	0.017005	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF023	558	240	PSF018|PSF023	0.007156	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF024	558	708	PSF018|PSF024	0.030664	26	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF018	PSF025	558	0	PSF018|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF018	PSF026	558	0	PSF018|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF019	PSF001	96	2953	PSF001|PSF019	0.053181	17	CRITICAL	8 TOY-without-GAME identities are pulled into PSF019 by `игр*`; no toy boundary exists.	Separate toy morphology from game morphology and decide the preliminary destination.
+PSF019	PSF002	96	70	PSF002|PSF019	0.026728	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF003	96	151	PSF003|PSF019	0.009279	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF004	96	670	PSF004|PSF019	0.021310	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF005	96	498	PSF005|PSF019	0.031963	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF006	96	2109	PSF006|PSF019	0.047674	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF007	96	360	PSF007|PSF019	0.018562	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF008	96	336	PSF008|PSF019	0.018362	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF009	96	336	PSF009|PSF019	0.010116	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF010	96	94	PSF010|PSF019	0.011746	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF011	96	159	PSF011|PSF019	0.002447	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF012	96	608	PSF012|PSF019	0.040337	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF013	96	339	PSF013|PSF019	0.015668	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF014	96	6540	PSF014|PSF019	0.057889	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF015	96	543	PSF015|PSF019	0.023586	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF016	96	275	PSF016|PSF019	0.028651	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF017	96	234	PSF017|PSF019	0.001805	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF018	96	558	PSF018|PSF019	0.074167	17	MEDIUM	Media titles and games share named-work/action language.	Require specific game evidence; generic digital language is insufficient.
+PSF019	PSF019	96	96	PSF019|PSF019	1.000000	17	SELF	Diagonal self-cell.	NONE
+PSF019	PSF020	96	57	PSF019|PSF020	0.010599	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF021	96	168	PSF019|PSF021	0.013872	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF022	96	33	PSF019|PSF022	0.003138	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF023	96	240	PSF019|PSF023	0.001325	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF024	96	708	PSF019|PSF024	0.035729	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF019	PSF025	96	0	PSF019|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF019	PSF026	96	0	PSF019|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF020	PSF001	57	2953	PSF001|PSF020	0.045942	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF002	57	70	PSF002|PSF020	0.025501	8	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF003	57	151	PSF003|PSF020	0.139458	11	MEDIUM	Automobile use-case and vehicle/model/part collision share vocabulary.	Keep use versus vehicle-object guards explicit.
+PSF020	PSF004	57	670	PSF004|PSF020	0.040184	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF005	57	498	PSF005|PSF020	0.111653	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF006	57	2109	PSF006|PSF020	0.014990	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF007	57	360	PSF007|PSF020	0.068190	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF008	57	336	PSF008|PSF020	0.095070	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF009	57	336	PSF009|PSF020	0.001452	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF010	57	94	PSF010|PSF020	0.036027	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF011	57	159	PSF011|PSF020	0.010331	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF012	57	608	PSF012|PSF020	0.032353	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF013	57	339	PSF013|PSF020	0.007553	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF014	57	6540	PSF014|PSF020	0.009760	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF015	57	543	PSF015|PSF020	0.003345	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF016	57	275	PSF016|PSF020	0.044483	7	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF017	57	234	PSF017|PSF020	0.039983	9	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF018	57	558	PSF018|PSF020	0.003260	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF019	57	96	PSF019|PSF020	0.010599	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF020	57	57	PSF020|PSF020	1.000000	11	SELF	Diagonal self-cell.	NONE
+PSF020	PSF021	57	168	PSF020|PSF021	0.002802	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF022	57	33	PSF020|PSF022	0.002061	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF023	57	240	PSF020|PSF023	0.049685	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF024	57	708	PSF020|PSF024	0.244390	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF020	PSF025	57	0	PSF020|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF020	PSF026	57	0	PSF020|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF021	PSF001	168	2953	PSF001|PSF021	0.025000	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF002	168	70	PSF002|PSF021	0.006254	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF003	168	151	PSF003|PSF021	0.023372	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF004	168	670	PSF004|PSF021	0.018233	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF005	168	498	PSF005|PSF021	0.025610	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF006	168	2109	PSF006|PSF021	0.076057	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF007	168	360	PSF007|PSF021	0.013961	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF008	168	336	PSF008|PSF021	0.012302	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF009	168	336	PSF009|PSF021	0.002595	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF010	168	94	PSF010|PSF021	0.004580	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF011	168	159	PSF011|PSF021	0.000867	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF012	168	608	PSF012|PSF021	0.000916	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF013	168	339	PSF013|PSF021	0.003209	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF014	168	6540	PSF014|PSF021	0.011462	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF015	168	543	PSF015|PSF021	0.000550	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF016	168	275	PSF016|PSF021	0.000000	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF017	168	234	PSF017|PSF021	0.005470	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF018	168	558	PSF018|PSF021	0.236162	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF019	168	96	PSF019|PSF021	0.013872	14	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF020	168	57	PSF020|PSF021	0.002802	10	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF021	168	168	PSF021|PSF021	1.000000	21	SELF	Diagonal self-cell.	NONE
+PSF021	PSF022	168	33	PSF021|PSF022	0.002245	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF023	168	240	PSF021|PSF023	0.002899	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF024	168	708	PSF021|PSF024	0.004827	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF021	PSF025	168	0	PSF021|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF021	PSF026	168	0	PSF021|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF022	PSF001	33	2953	PSF001|PSF022	0.005879	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF002	33	70	PSF002|PSF022	0.000000	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF003	33	151	PSF003|PSF022	0.000000	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF004	33	670	PSF004|PSF022	0.003913	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF005	33	498	PSF005|PSF022	0.000419	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF006	33	2109	PSF006|PSF022	0.001485	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF007	33	360	PSF007|PSF022	0.000000	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF008	33	336	PSF008|PSF022	0.000000	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF009	33	336	PSF009|PSF022	0.000340	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF010	33	94	PSF010|PSF022	0.000872	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF011	33	159	PSF011|PSF022	0.000000	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF012	33	608	PSF012|PSF022	0.000000	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF013	33	339	PSF013|PSF022	0.000000	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF014	33	6540	PSF014|PSF022	0.000241	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF015	33	543	PSF015|PSF022	0.004776	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF016	33	275	PSF016|PSF022	0.000000	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF017	33	234	PSF017|PSF022	0.000672	5	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF018	33	558	PSF018|PSF022	0.017005	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF019	33	96	PSF019|PSF022	0.003138	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF020	33	57	PSF020|PSF022	0.002061	4	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF021	33	168	PSF021|PSF022	0.002245	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF022	33	33	PSF022|PSF022	1.000000	6	SELF	Diagonal self-cell.	NONE
+PSF022	PSF023	33	240	PSF022|PSF023	0.001922	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF024	33	708	PSF022|PSF024	0.004325	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF022	PSF025	33	0	PSF022|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF022	PSF026	33	0	PSF022|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF023	PSF001	240	2953	PSF001|PSF023	0.092189	20	HIGH	Generic product versus unresolved-referent boundary is lexically close and reason-code dependent.	Preserve the state/referent distinction and test equivalence in rework.
+PSF023	PSF002	240	70	PSF002|PSF023	0.023355	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF003	240	151	PSF003|PSF023	0.009805	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF004	240	670	PSF004|PSF023	0.034507	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF005	240	498	PSF005|PSF023	0.031755	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF006	240	2109	PSF006|PSF023	0.003462	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF007	240	360	PSF007|PSF023	0.025038	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF008	240	336	PSF008|PSF023	0.033223	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF009	240	336	PSF009|PSF023	0.001747	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF010	240	94	PSF010|PSF023	0.031538	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF011	240	159	PSF011|PSF023	0.063835	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF012	240	608	PSF012|PSF023	0.044132	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF013	240	339	PSF013|PSF023	0.007277	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF014	240	6540	PSF014|PSF023	0.020949	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF015	240	543	PSF015|PSF023	0.006695	17	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF016	240	275	PSF016|PSF023	0.030398	12	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF017	240	234	PSF017|PSF023	0.038892	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF018	240	558	PSF018|PSF023	0.007156	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF019	240	96	PSF019|PSF023	0.001325	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF020	240	57	PSF020|PSF023	0.049685	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF021	240	168	PSF021|PSF023	0.002899	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF022	240	33	PSF022|PSF023	0.001922	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF023	PSF023	240	240	PSF023|PSF023	1.000000	20	SELF	Diagonal self-cell.	NONE
+PSF023	PSF024	240	708	PSF023|PSF024	0.016504	20	HIGH	Residual product morphology and fully residual context are separated largely by product-token recognition.	Retain quarantine and review morphology without forced assignment.
+PSF023	PSF025	240	0	PSF023|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF023	PSF026	240	0	PSF023|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF024	PSF001	708	2953	PSF001|PSF024	0.112177	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF002	708	70	PSF002|PSF024	0.015422	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF003	708	151	PSF003|PSF024	0.091493	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF004	708	670	PSF004|PSF024	0.071615	22	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF005	708	498	PSF005|PSF024	0.049295	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF006	708	2109	PSF006|PSF024	0.020409	23	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF007	708	360	PSF007|PSF024	0.039825	13	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF008	708	336	PSF008|PSF024	0.078353	19	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF009	708	336	PSF009|PSF024	0.005739	15	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF010	708	94	PSF010|PSF024	0.016362	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF011	708	159	PSF011|PSF024	0.028730	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF012	708	608	PSF012|PSF024	0.078725	24	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF013	708	339	PSF013|PSF024	0.030379	20	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF014	708	6540	PSF014|PSF024	0.145640	25	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF015	708	543	PSF015|PSF024	0.063118	21	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF016	708	275	PSF016|PSF024	0.107682	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF017	708	234	PSF017|PSF024	0.027185	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF018	708	558	PSF018|PSF024	0.030664	26	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF019	708	96	PSF019|PSF024	0.035729	16	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF020	708	57	PSF020|PSF024	0.244390	11	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF021	708	168	PSF021|PSF024	0.004827	18	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF022	708	33	PSF022|PSF024	0.004325	6	LOW	No material cross-family defect established by full-volume term diagnostic.	NONE
+PSF024	PSF023	708	240	PSF023|PSF024	0.016504	20	HIGH	Residual product morphology and fully residual context are separated largely by product-token recognition.	Retain quarantine and review morphology without forced assignment.
+PSF024	PSF024	708	708	PSF024|PSF024	1.000000	26	SELF	Diagonal self-cell.	NONE
+PSF024	PSF025	708	0	PSF024|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF024	PSF026	708	0	PSF024|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF001	0	2953	PSF001|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF002	0	70	PSF002|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF003	0	151	PSF003|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF004	0	670	PSF004|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF005	0	498	PSF005|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF006	0	2109	PSF006|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF007	0	360	PSF007|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF008	0	336	PSF008|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF009	0	336	PSF009|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF010	0	94	PSF010|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF011	0	159	PSF011|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF012	0	608	PSF012|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF013	0	339	PSF013|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF014	0	6540	PSF014|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF015	0	543	PSF015|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF016	0	275	PSF016|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF017	0	234	PSF017|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF018	0	558	PSF018|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF019	0	96	PSF019|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF020	0	57	PSF020|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF021	0	168	PSF021|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF022	0	33	PSF022|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF023	0	240	PSF023|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF024	0	708	PSF024|PSF025	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF025	PSF025	0	0	PSF025|PSF025	NOT_APPLICABLE	0	SELF	Diagonal self-cell.	NONE
+PSF025	PSF026	0	0	PSF025|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF001	0	2953	PSF001|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF002	0	70	PSF002|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF003	0	151	PSF003|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF004	0	670	PSF004|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF005	0	498	PSF005|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF006	0	2109	PSF006|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF007	0	360	PSF007|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF008	0	336	PSF008|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF009	0	336	PSF009|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF010	0	94	PSF010|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF011	0	159	PSF011|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF012	0	608	PSF012|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF013	0	339	PSF013|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF014	0	6540	PSF014|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF015	0	543	PSF015|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF016	0	275	PSF016|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF017	0	234	PSF017|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF018	0	558	PSF018|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF019	0	96	PSF019|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF020	0	57	PSF020|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF021	0	168	PSF021|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF022	0	33	PSF022|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF023	0	240	PSF023|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF024	0	708	PSF024|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF025	0	0	PSF025|PSF026	NOT_APPLICABLE	0	GAP_NOT_COMPARABLE	At least one family has zero observed members.	Retain as coverage hypothesis only.
+PSF026	PSF026	0	0	PSF026|PSF026	NOT_APPLICABLE	0	SELF	Diagonal self-cell.	NONE

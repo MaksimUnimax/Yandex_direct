@@ -1,0 +1,21 @@
+test_id	anti_regression_control	observed_evidence	audit_test_status
+AUD001	RAW occurrence IDs exhaustive and unique	25979 rows / 25979 unique / loss 0	PASS
+AUD002	Normalized identities exhaustive	24576 identities exactly	PASS
+AUD003	Active plus HOLD assignment total	18135 / one PSF001-PSF024 family each	PASS
+AUD004	EXCLUDE history preserved	6441 / NOT_IN_STEP04_SEMANTIC_SCOPE	PASS
+AUD005	Step03B state and reason immutability	0 mismatches against corrected authorities	PASS
+AUD006	Independent diagnostic not same ordered classifier	TF-IDF 1-2 grams + 32-topic MiniBatchKMeans + centroids over all 18135	PASS
+AUD007	Large-family audit	PSF001/006/014/018/024 all receive full-volume topic metrics and findings	PASS
+AUD008	Broad `игр*` prefix collision	8 TOY-without-GAME rows detected and flagged	PASS
+AUD009	Early zodiac-rule task hiding	199 explicit-task PSF014 rows detected and flagged	PASS
+AUD010	Generic-family hidden DIY task	48 PSF001 rows detected and flagged	PASS
+AUD011	Symmetric boundary matrix	26 x 26 = 676 ordered cells / symmetry asserted	PASS
+AUD012	Expansion queue exhaustive	13/13 classified / provider calls 0	PASS
+AUD013	Sanitation feedback exhaustive	10/10 audited plus 3 missing audit classes recorded	PASS
+AUD014	Coverage-gap families	PSF025 and PSF026 retained as zero-member hypotheses, not demand proof	PASS
+AUD015	Frequency independence	No frequency field enters signal, topic, defect or family-verdict routing	PASS
+AUD016	Old self-score not inherited	Fresh 13-dimension audit score computed independently	PASS
+AUD017	No final intent/SERP/page inference	No SERP, final intent, page or IA artifact exists	PASS
+AUD018	No Step04 correction	All accepted Step04 inputs hash-match; audit writes overlay only	PASS
+AUD019	No provider or ordinary search calls	Wordstat/Search/GenSearch/AI-search = 0	PASS
+AUD020	Stop boundary	Step05 advancement=false; Step06 advancement=false	PASS

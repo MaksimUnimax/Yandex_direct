@@ -384,3 +384,31 @@ NEXT_ACTION = OWNER_UPLOAD_EXTRACTED_INDIVIDUAL_FILES_THEN_MAIN_CHATGPT_REMOTE_R
 ```
 
 Do not run Step05, Search, GenSearch or AI-search. Step05 remains blocked until Main ChatGPT remotely verifies the owner-relayed files and independently accepts this Step04 return. Sealed prior Blood & Sand SEO research remains forbidden.
+
+## 2026-09-11 independent Step04 result-audit return — superseding cursor
+
+The later external-method review required an adversarial audit of the accepted Step04 result itself. Work completed that audit over all 24,576 normalized identities and all 25,979 RAW occurrences using an independent TF-IDF/topic/centroid diagnostic plus simultaneous non-ordered signal checks.
+
+```text
+HANDOFF_ID = KW002-BS-W07
+LIVE_BASE_HEAD = 8a09e1610d68f61769b6a4d44d1382cab4dd37b7
+STEP04_RESULT_AUDIT = REWORK_REQUIRED
+FRESH_AUDIT_SCORE = 67.69/100
+MATERIAL_DEFECT_IDENTITIES = 255
+RULE_ORDER_DEFECT_IDENTITIES = 207
+FAMILY_TOO_BROAD_IDENTITIES = 48
+RAW_LINEAGE_LOSS = 0
+STEP03B_MUTATIONS = 0
+STEP04_CORRECTIONS = 0
+PROVIDER_CALLS = 0
+STEP05_ADVANCEMENT = false
+STEP06_ADVANCEMENT = false
+LOCAL_ARTIFACT_COMPLETE = true
+LOCAL_QA_PASS = true
+PUBLICATION_STATE = OWNER_RELAY_READY_AFTER_GIT_AUTH_BLOCK
+OWNER_RELAY_ZIP = KW002_STEP04_INDEPENDENT_FULL_VOLUME_AUDIT_OWNER_RELAY_2026-09-11.zip
+REMOTE_READBACK = PENDING_OWNER_UPLOAD_AND_MAIN_CHATGPT
+NEXT_ACTION = MAIN_CHATGPT_RETURN_QA_THEN_EXPLICIT_REWORK_DECISION
+```
+
+The three material classes are PSF019 `игр*`/`игруш*` prefix collision (8), PSF014 early-zodiac task hiding (199), and PSF001 explicit DIY task flattening (48). The audit does not perform their correction. Step05 remains paused.

@@ -36,7 +36,7 @@
     "main_chatgpt_operational_acceptance": "PASS",
     "external_method_score_100": 92,
     "external_method_verdict": "METHOD_SOUND_FOR_PRELIMINARY_TRIAGE_ONLY",
-    "independent_full_volume_result_audit": "REQUIRED_PENDING_WORK_RETURN",
+    "independent_full_volume_result_audit": "WORK_RETURN_REWORK_REQUIRED_PENDING_MAIN_CHATGPT_QA",
     "audit_prompt": "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_WORK_PROMPT_2026-09-11.md",
     "method_review": "STEP_04_EXTERNAL_METHODOLOGY_REVIEW_MAIN_CHATGPT_2026-09-11.md",
     "owner_relay_commit": "ee3964c1532d9db73a0001742a0699f2f01508e4",
@@ -65,11 +65,24 @@
   },
   "audit_current": {
     "type": "STEP04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT",
-    "status": "RELEASED_TO_WORK_NOT_YET_RETURNED",
+    "status": "WORK_COMPLETE_REWORK_REQUIRED_PENDING_MAIN_CHATGPT_REVIEW",
+    "live_base_head": "8a09e1610d68f61769b6a4d44d1382cab4dd37b7",
+    "fresh_audit_score_100": 67.69,
+    "normalized_identities_audited": 24576,
+    "raw_occurrences_audited": 25979,
+    "material_defect_identities": 255,
+    "rule_order_defect_identities": 207,
+    "family_too_broad_identities": 48,
+    "result_verdict": "REWORK_REQUIRED",
+    "local_artifact_complete": true,
+    "local_qa": "PASS",
+    "publication_state": "OWNER_RELAY_READY_AFTER_GIT_AUTH_BLOCK",
+    "owner_relay_zip": "KW002_STEP04_INDEPENDENT_FULL_VOLUME_AUDIT_OWNER_RELAY_2026-09-11.zip",
+    "remote_readback": "PENDING_OWNER_UPLOAD_AND_MAIN_CHATGPT",
     "provider_calls_allowed": 0,
     "step05_advancement_allowed": false,
     "step06_advancement_allowed": false,
     "correction_allowed_in_audit_pass": false
   },
-  "next_action": "RUN_STEP04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_WORK_PROMPT_THEN_MAIN_CHATGPT_QA; ONLY AFTER ACCEPTANCE RESUME W06_STEP05_PRE_ACQUISITION"
+  "next_action": "MAIN_CHATGPT_RETURN_QA_ON_W07_AUDIT; STEP04_CORRECTION_AND W06_STEP05_PRE_ACQUISITION_REMAIN_BLOCKED UNTIL A NEW EXPLICIT RELEASE"
 }

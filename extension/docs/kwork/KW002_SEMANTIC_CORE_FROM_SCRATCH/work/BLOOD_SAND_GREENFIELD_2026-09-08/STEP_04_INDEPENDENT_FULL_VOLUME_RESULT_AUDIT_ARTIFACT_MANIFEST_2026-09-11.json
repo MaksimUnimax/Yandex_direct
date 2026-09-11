@@ -1,0 +1,118 @@
+{
+  "artifacts": {
+    "STEP_04_INDEPENDENT_AUDIT_METRICS_2026-09-11.json": {
+      "bytes": 71545,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 2566,
+      "sha256": "ca6b0c645a405b8e3036e1e24d5dc20b9d6ed05cb7f5d91ca896cf0b6ef29c18"
+    },
+    "STEP_04_INDEPENDENT_EXTERNAL_METHOD_SOURCE_TRACE_2026-09-11.md": {
+      "bytes": 3100,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 18,
+      "sha256": "4ade30e4b8983eb5d7199f9b3e72d0f5996246575a76444bac9070419440c01d"
+    },
+    "STEP_04_INDEPENDENT_FAMILY_BOUNDARY_RISK_MATRIX_2026-09-11.tsv": {
+      "bytes": 92608,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 676,
+      "sha256": "d5ab2cceda6c5f31f4a4c43fd0ff2434c48c5daba635d05a5a9c7291678fae5e"
+    },
+    "STEP_04_INDEPENDENT_FAMILY_COHERENCE_AUDIT_2026-09-11.tsv": {
+      "bytes": 15620,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 26,
+      "sha256": "027fc09d723c9179ff2b44df966c10b10dc7a6edec3d9b1507f3b14ac131a414"
+    },
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_MATERIALIZER_2026-09-11.py": {
+      "bytes": 72426,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 1165,
+      "sha256": "0c488df06feec4b04ff552966f483f16e42375e91648e17bb03f62b5e4499591"
+    },
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_OVERLAY_2026-09-11.tsv": {
+      "bytes": 13386654,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 24576,
+      "sha256": "62f7027b567fafe461bda3367b943f05dd83298c86d04c6a38039271f3361dd9"
+    },
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_QA_2026-09-11.md": {
+      "bytes": 1594,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 38,
+      "sha256": "deae480c731ae3257bcba1952a3e4b6e10cd05aaf8c89c76edb96cb1b9b51329"
+    },
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_REPORT_2026-09-11.md": {
+      "bytes": 7328,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 115,
+      "sha256": "df004aa32ce30817fafba0f98d43cc0d4bcfdcd929df48e98b7540d218666048"
+    },
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_WORK_RETURN_2026-09-11.md": {
+      "bytes": 1513,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 33,
+      "sha256": "719ca7b4be84358808846ddcb1e70a15954f18bdaba16b46ccfd690cd3f842e4"
+    },
+    "STEP_04_INDEPENDENT_QUEUE_FEEDBACK_AUDIT_2026-09-11.tsv": {
+      "bytes": 9388,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 26,
+      "sha256": "cc9126e0a19d7d8ae4c10326ab1524a05c3b7badf958ec250e4817cc1076255f"
+    },
+    "STEP_04_INDEPENDENT_RESULT_AUDIT_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-11.tsv": {
+      "bytes": 1905,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 20,
+      "sha256": "1ed818d77bb93d38433320fd872d6d0e1114033315ecd335ee9b9f758c770773"
+    }
+  },
+  "counts": {
+    "active_plus_hold_identities": 18135,
+    "coverage_gap_families": 2,
+    "excluded_identities_history": 6441,
+    "expansion_queue_rows": 13,
+    "families": 26,
+    "normalized_identities": 24576,
+    "observed_families": 24,
+    "raw_lineage_loss": 0,
+    "raw_occurrences": 25979,
+    "sanitation_feedback_rows": 10,
+    "unique_raw_occurrence_ids": 25979
+  },
+  "date": "2026-09-11",
+  "hard_boundaries": {
+    "ai_search_calls": 0,
+    "gensearch_calls": 0,
+    "ordinary_yandex_search_calls": 0,
+    "provider_calls": 0,
+    "sealed_prior_blood_sand_research_used": false,
+    "step04_corrections": 0,
+    "step05_advancement": false,
+    "step06_advancement": false
+  },
+  "input_authority_sha256": {
+    "STEP_03A_NORMALIZED_UNIQUE_POOL_2026-09-11.tsv": "b30c29ff66a56d80bc1aa9ff6b2eade522b27d1e167cbd636ac72fbff211f2a8",
+    "STEP_03B_EXCLUDED_HOLD_REGISTER_CORRECTED_2026-09-11.tsv": "145c5107f40415b4050923f142dab3e83646489da5d74501f659fd87e3ae2916",
+    "STEP_03B_SANITIZED_CANDIDATE_POOL_CORRECTED_2026-09-11.tsv": "63b3fc556b388dbac0185f174f79f825dc26d9c51de39698850cdaecb9ca4f58",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_EXECUTION_RELEASE_2026-09-11.md": "60f2ed0756fbd3bf19d81643e2a1db0c9229c038f4eb8e4a46048218a4b4d76b",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_WORK_PROMPT_2026-09-11.md": "8d186ddcf82ca0177c2e2c8b2b5225ca3a24b7038f124506e004b1662b976248",
+    "STEP_04_POST_SANITATION_FAMILY_TRIAGE_2026-09-11.tsv": "cb2a1259f596f1b97ea4eb662e8c8b315936aad2243c57389c290ea6d90a0b2c",
+    "STEP_04_POST_SANITATION_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": "c053bcd1dccae5b2894cc7a316c84af72c2b0abfeb460624f138f1198a39a5ba",
+    "STEP_04_POST_SANITATION_SANITATION_FEEDBACK_REGISTER_2026-09-11.tsv": "7a52efa3eb2e8eeebddecd61de4550acf33e98b8d357b463e815754f6af00903",
+    "STEP_04_POST_SANITATION_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv": "be46fd75e9b51354e14dfc3e862be69e8549fd67b708ecc7471bbfc3dcd63c73"
+  },
+  "live_base_head": "8a09e1610d68f61769b6a4d44d1382cab4dd37b7",
+  "manifest_self_hash": "OMITTED_BY_DEFINITION_TO_AVOID_RECURSIVE_HASH",
+  "material_defects": {
+    "PSF001_explicit_diy": 48,
+    "PSF014_explicit_task_hidden_total": 199,
+    "PSF014_meaning": 156,
+    "PSF014_media": 38,
+    "PSF014_toy": 5,
+    "PSF019_toy_without_game_prefix_collision": 8,
+    "unique_affected_identities": 255
+  },
+  "schema": "KW002_STEP04_INDEPENDENT_AUDIT_ARTIFACT_MANIFEST_V1",
+  "verdict": "STEP04_RESULT_AUDIT = REWORK_REQUIRED"
+}
