@@ -1,0 +1,120 @@
+{
+  "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "live_base_head": "a0d662851c2f26d7a219ec7efb7d7e37e640dce3",
+  "authority_state": {
+    "step03a": "PASS_BYTE_UNCHANGED",
+    "step03b_original": "SUPERSEDED_BY_ACCEPTED_CRITICAL_AUDIT",
+    "step03b_corrected": "PASS_CANDIDATE_MAIN_CHATGPT_RETURN_QA_PENDING",
+    "historical_corrected_step04": "PRESENT_UNCHANGED",
+    "post_sanitation_step04": "DEDICATED_PASS_REQUIRED_NOT_EXECUTED",
+    "step05": "NOT_STARTED_BLOCKED"
+  },
+  "scope": {
+    "raw_occurrences": 25979,
+    "normalized_identities": 24576,
+    "unique_raw_occurrence_ids": 25979
+  },
+  "original_step03b": {
+    "KEEP": 5074,
+    "HOLD": 12750,
+    "EXCLUDE": 6752
+  },
+  "corrected_step03b": {
+    "KEEP": 5100,
+    "HOLD": 13035,
+    "EXCLUDE": 6441
+  },
+  "corrected_raw_occurrences": {
+    "KEEP": 5263,
+    "HOLD": 13823,
+    "EXCLUDE": 6893
+  },
+  "transition_normalized": {
+    "KEEP->KEEP": 4788,
+    "HOLD->HOLD": 12084,
+    "EXCLUDE->EXCLUDE": 5994,
+    "EXCLUDE->HOLD": 744,
+    "KEEP->EXCLUDE": 79,
+    "KEEP->HOLD": 207,
+    "HOLD->EXCLUDE": 368,
+    "EXCLUDE->KEEP": 14,
+    "HOLD->KEEP": 298
+  },
+  "transition_raw": {
+    "KEEP->KEEP": 4945,
+    "HOLD->HOLD": 12828,
+    "EXCLUDE->EXCLUDE": 6445,
+    "EXCLUDE->HOLD": 784,
+    "KEEP->EXCLUDE": 80,
+    "KEEP->HOLD": 211,
+    "HOLD->EXCLUDE": 368,
+    "EXCLUDE->KEEP": 14,
+    "HOLD->KEEP": 304
+  },
+  "changed_identities": 1710,
+  "changed_raw_occurrences": 1761,
+  "overlay_state_mismatches": 0,
+  "step04_reconciliation": {
+    "status": "PASS",
+    "occurrence_rows": 25979,
+    "unmapped": 0,
+    "unexpected_duplicates": 0,
+    "observed_families": 25,
+    "families_with_corrected_transitions": 23,
+    "dedicated_post_sanitation_step04_work_pass_required": true,
+    "dedicated_pass_executed": false
+  },
+  "hard_gates": {
+    "state_partition_exhaustive": true,
+    "state_partition_mutually_exclusive": true,
+    "step03a_byte_identity": true,
+    "raw_lineage_loss": 0,
+    "unmapped_raw_occurrences": 0,
+    "duplicate_raw_occurrence_ids": 0,
+    "frequency_only_exclusions": 0,
+    "high_frequency_only_keeps": 0,
+    "single_ambiguous_token_auto_exclusions": 0,
+    "sealed_source_violations": 0,
+    "new_provider_calls": 0,
+    "step05_started": false,
+    "all_hard_gates": true
+  },
+  "audit_authority": {
+    "overlay_sha256": "db9b79dda64b205f0b0bef273f70f221f183d9389eca3e67e651e93ea269d669",
+    "reason_register_sha256": "050af71b8e431408c2f406e984416dc4c605038a5ad9f0ac103772f2f9310b31"
+  },
+  "step03a_sha256": {
+    "STEP_03A_NORMALIZED_UNIQUE_POOL_2026-09-11.tsv": "b30c29ff66a56d80bc1aa9ff6b2eade522b27d1e167cbd636ac72fbff211f2a8",
+    "STEP_03A_NORMALIZATION_LEDGER_2026-09-11.tsv": "28205ca64f26d219d489b36f102a8923b4a4b635c8b213179bca4a188b24c3df"
+  },
+  "quality_scores": {
+    "NORMALIZATION_SAFETY": 10.0,
+    "RAW_LINEAGE_INTEGRITY": 10.0,
+    "SANITATION_RULE_PRECISION": 9.8,
+    "FALSE_EXCLUSION_CONTROL": 9.8,
+    "FALSE_KEEP_CONTROL": 9.8,
+    "AMBIGUITY_HANDLING": 9.8,
+    "BUSINESS_ASSORTMENT_ALIGNMENT": 9.8,
+    "LOW_FREQUENCY_BIAS_CONTROL": 10.0,
+    "REASON_CODE_QUALITY": 9.6,
+    "FULL_VOLUME_COVERAGE": 10.0,
+    "REPRODUCIBILITY": 9.8,
+    "DOWNSTREAM_SAFETY": 9.5,
+    "METHOD_SOURCE_SUPPORT": 9.8
+  },
+  "quality_score_100": 98.23,
+  "quality_score_10": 9.82,
+  "output_sha256_before_funnel_and_receipt": {
+    "STEP_03B_SANITIZED_CANDIDATE_POOL_CORRECTED_2026-09-11.tsv": "63b3fc556b388dbac0185f174f79f825dc26d9c51de39698850cdaecb9ca4f58",
+    "STEP_03B_EXCLUDED_HOLD_REGISTER_CORRECTED_2026-09-11.tsv": "145c5107f40415b4050923f142dab3e83646489da5d74501f659fd87e3ae2916",
+    "STEP_03B_REASON_CODE_ACCOUNTING_CORRECTED_2026-09-11.tsv": "685a38a9cf3f712974f01ad87db4e482d82ead70978afb0aecb1fa0a223d81c4",
+    "STEP_04_POST_SANITATION_RECONCILIATION_CORRECTED_2026-09-11.md": "b13715845767c73e33ebf455705020fd22e0e6b7e3a06725edd72cb5fd71b3d5",
+    "STEP_03B_SANITATION_QA_CORRECTED_2026-09-11.md": "9d7b0963b281ad25c25531f169d7fb8cad71022b95981a58a9496bdc41b2ddd7"
+  },
+  "provider_calls": {
+    "wordstat": 0,
+    "search": 0,
+    "gensearch": 0,
+    "ai_search": 0
+  }
+}

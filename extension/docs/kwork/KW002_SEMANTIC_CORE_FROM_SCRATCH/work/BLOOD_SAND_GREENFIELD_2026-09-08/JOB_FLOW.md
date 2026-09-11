@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP 03 COMPLETE / ACQUISITION 79/79 / DURABLE FEED-FORWARD 79/79 / STEP 04 BLOCKED BY OWNER GATE**
+Status: **STEP03A PASS / ORIGINAL STEP03B SUPERSEDED / CORRECTED STEP03B PASS CANDIDATE / POST-SANITATION STEP04 REQUIRED / STEP05 BLOCKED**
 
 ## Whole-job goal
 
@@ -25,8 +25,10 @@ Clean boundary remains active: prior Blood & Sand analytical research is sealed 
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
 | 03 | Primary Wordstat acquisition + durable RAW feed-forward | ✅ COMPLETE / PASS / 79/79 |
-| 04 | First family triage | 🔴 BLOCKED / NOT EXECUTED / LEVEL2 OWNER GATE |
-| 05 | Targeted expansion / coverage | ⬜ NOT STARTED |
+| 03A | RAW normalization + exact deduplication | ✅ COMPLETE / PASS / BYTE UNCHANGED / 24,576 identities |
+| 03B | High-confidence sanitation | 🟠 CORRECTED PASS CANDIDATE / ORIGINAL SUPERSEDED / MAIN CHATGPT RETURN QA PENDING |
+| 04 | First family triage | 🟠 HISTORICAL CORRECTED AUTHORITY PRESENT / POST-SANITATION SEMANTIC REWRITE REQUIRED AND NOT EXECUTED |
+| 05 | Targeted expansion / coverage | 🔴 NOT STARTED / BLOCKED |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
 | 07 | Competitor semantic expansion | ⬜ NOT STARTED |
 | 08 | Competitor-derived Wordstat expansion | ⬜ NOT STARTED |
@@ -57,6 +59,13 @@ STEP02_V2 = PASS / 93 of 100 / 9.3 of 10
 STEP03_CURRENT_PRIMARY_ACQUISITION_OUTCOMES = 79 of 79
 STEP03_DURABLE_FEED_FORWARD = 79 of 79
 STEP03_RAW_RECOVERY = COMPLETE / PASS
+STEP03A = PASS / 24576 normalized identities / 25979 RAW occurrences / byte unchanged
+STEP03B_ORIGINAL = SUPERSEDED by accepted critical full-volume audit
+STEP03B_CORRECTED = PASS CANDIDATE / 5100 KEEP / 13035 HOLD / 6441 EXCLUDE
+STEP03B_OVERLAY_STATE_MISMATCHES = 0
+HISTORICAL_CORRECTED_STEP04_AUTHORITY = PRESENT
+POST_SANITATION_STEP04 = REQUIRED / NOT YET EXECUTED
+STEP05 = NOT STARTED / BLOCKED
 ```
 
 ## Step 03 corrected state
@@ -318,16 +327,20 @@ The original complete Wordstat delivery text for both affected blocks exists in 
 
 Historical request IDs were never overwritten by replay. No additional provider recovery request is required after run48.
 
-## Independent Step 04 method gate
+## Step03B correction and Step04 gate
 
-Completing Step03 satisfies only Gate A. Current `LEVEL2/STEP_RULES_INDEX.md` remains marked `DRAFT FOR OWNER REVIEW / DO NOT EXECUTE YET` unless a later explicit owner decision is reconciled into authority.
+The Step04 owner gate was accepted and the historical corrected Step04 files are present. The later Step03A/03B migration was independently audited; the original Step03B semantic result failed and is superseded.
+
+The corrected Step03B now matches the accepted row-level audit oracle exactly. Only mechanical reconciliation with historical Step04 has been performed. A separate dedicated post-sanitation Step04 Work pass is still required before Step05.
 
 ```text
-GATE_A = STEP03_LOSSLESS_FEED_FORWARD_79_OF_79 = PASS
-GATE_B = LEVEL2_STEP04_OWNER_AUTHORITY_ACCEPTED = NOT YET PASS
+STEP03A = PASS / BYTE UNCHANGED
+STEP03B_CORRECTED = PASS CANDIDATE / MAIN CHATGPT RETURN QA PENDING
+STEP04_RECONCILIATION = PASS
+DEDICATED_POST_SANITATION_STEP04_WORK_PASS_REQUIRED = true
+DEDICATED_POST_SANITATION_STEP04_WORK_EXECUTED = false
+STEP05_ALLOWED = false
 ```
-
-Both gates are required before semantic Step04 execution.
 
 ## Current exact cursor
 
@@ -343,9 +356,18 @@ STEP_03_RAW_RECOVERY = COMPLETE / PASS
 RUN_48_REMOTE_READBACK = PASS
 RECOVERY_PROVIDER_REQUESTS = 17
 RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.34
-STEP_04_EXECUTED = false
+STEP_03A_COMPLETE = true
+STEP_03A_BYTE_UNCHANGED = true
+STEP_03B_ORIGINAL = SUPERSEDED
+STEP_03B_CORRECTED = PASS CANDIDATE / MAIN CHATGPT RETURN QA PENDING
+STEP_03B_OVERLAY_STATE_MISMATCHES = 0
+HISTORICAL_CORRECTED_STEP04_AUTHORITY = PRESENT
+STEP_04_RECONCILIATION = PASS
+DEDICATED_POST_SANITATION_STEP04_WORK_PASS_REQUIRED = true
+DEDICATED_POST_SANITATION_STEP04_WORK_EXECUTED = false
+STEP_05_STARTED = false
 NEXT_STEP_ALLOWED = false
-NEXT_ACTION = AWAIT_OR_RECONCILE_EXPLICIT_OWNER_DECISION_FOR_LEVEL2_STEP04_METHOD_GATE
+NEXT_ACTION = MAIN_CHATGPT_RETURN_QA_THEN_SEPARATE_DEDICATED_POST_SANITATION_STEP04_WORK_AUTHORIZATION
 ```
 
-Do not run Search/GenSearch, do not perform Step04 semantic classification, and do not use sealed prior Blood & Sand SEO research until the independent Level2 Step04 owner gate is explicitly resolved.
+Do not run Step05, Search, GenSearch or AI-search. Do not perform the dedicated post-sanitation Step04 semantic rewrite without a separate Main ChatGPT authorization. Sealed prior Blood & Sand SEO research remains forbidden.
