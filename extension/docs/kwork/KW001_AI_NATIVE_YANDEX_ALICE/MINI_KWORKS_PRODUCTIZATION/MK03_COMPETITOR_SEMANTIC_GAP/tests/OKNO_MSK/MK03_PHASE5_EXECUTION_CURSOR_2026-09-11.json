@@ -1,7 +1,7 @@
 {
-  "status": "IN_PROGRESS_NOT_FINAL_AUTHORITY",
+  "status": "PASS_REMOTE_READBACK_VERIFIED",
   "source_commit": "06ad6156460b524de1656920468d3ca3647c9cb3",
-  "completed_block": "LOCAL_FINAL_PACKAGE_MACHINE_QA_AND_RECIPIENT_QA",
+  "completed_block": "PHASE5_FINAL_REMOTE_READBACK",
   "counts": {
     "discovery_queries": 75,
     "discovery_top10_rows": 750,
@@ -34,9 +34,7 @@
     "HOLD_EVIDENCE": 10,
     "REJECT_OFF_SCOPE": 3
   },
-  "open_failures": [
-    "REMOTE_READBACK_NOT_RUN"
-  ],
+  "open_failures": [],
   "xlsx": {
     "path": "artifacts/MK03_COMPETITOR_SEMANTIC_GAP_OKNO_MSK_2026-09-11.xlsx",
     "sha256": "284a3f9135b76965094c1593b063d0d1861753efd6a45c607482c3d2997d00ca",
@@ -57,5 +55,13 @@
     "machine_qa": "PASS_51_OF_51",
     "recipient_qa": "PASS_9_OF_9"
   },
-  "next_resume_action": "PUBLISH_FINAL_PACKAGE_AND_RUN_REMOTE_READBACK"
+  "remote_readback": {
+    "package_state_head": "5d4c28695688b6cee814e44db4d4a9d034282864",
+    "git_blob_identity": "PASS_38_OF_38",
+    "client_folder_file_count": 3,
+    "remote_sha256_match": "PASS_3_OF_3",
+    "concurrent_work_preserved": true,
+    "force_push": false
+  },
+  "next_resume_action": "EXECUTE_PHASE_6_MK03_CLIENT_PACKAGE_DECISION_FROM_PHASE_5_REHEARSAL"
 }

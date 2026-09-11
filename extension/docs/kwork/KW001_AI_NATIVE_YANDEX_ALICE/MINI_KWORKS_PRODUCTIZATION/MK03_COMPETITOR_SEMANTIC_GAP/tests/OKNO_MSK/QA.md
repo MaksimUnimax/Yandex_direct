@@ -1,6 +1,6 @@
 # MK03 Phase 5 — QA authority
 
-Status: **LOCAL PASS / REMOTE READBACK PENDING**
+Status: **PASS / REMOTE READBACK VERIFIED**
 
 ## Core accounting
 
@@ -42,4 +42,15 @@ Detailed receipts:
 - `qa/MK03_PHASE5_RECIPIENT_QA_2026-09-11.json`
 - `MK03_PHASE5_FINAL_MACHINE_QA_2026-09-11.json`
 
-The only remaining gate is publication and remote readback of exact identities.
+## Remote readback
+
+- package/state readback head: `5d4c28695688b6cee814e44db4d4a9d034282864`;
+- repository files checked by Git-blob identity: `38/38`;
+- final client folder files: `3/3`, no extras;
+- remote XLSX SHA-256: `284a3f9135b76965094c1593b063d0d1861753efd6a45c607482c3d2997d00ca`;
+- remote PDF SHA-256: `2fe05ba553528aeb682b7df38ac6318fc6956e9ed6350d87ec8e4d79a635914c`;
+- remote handoff SHA-256: `12d686cb91b778c4b603d10a4c8e1d5b7d18a13f7e08c7c35a7551e328a88000`;
+- concurrent KW002 commit `9f5f2a8b7c1f547bafe02a11b7aad6c7f5e62331` remains an ancestor;
+- force push: `NO`.
+
+All Phase-5 gates are closed.

@@ -1,6 +1,6 @@
 # MK03 Phase 5 — client deliverable authority
 
-Status: **LOCAL PASS CANDIDATE / REMOTE READBACK PENDING**
+Status: **PASS / PUBLISHED / REMOTE READBACK VERIFIED**
 
 Final candidate folder:
 
@@ -22,4 +22,4 @@ Local identities:
 - PDF SHA-256: `2fe05ba553528aeb682b7df38ac6318fc6956e9ed6350d87ec8e4d79a635914c`
 - handoff SHA-256: `12d686cb91b778c4b603d10a4c8e1d5b7d18a13f7e08c7c35a7551e328a88000`
 
-QA state: machine `51/51 PASS`; recipient `9/9 PASS`; remote readback pending.
+QA state: machine `51/51 PASS`; recipient `9/9 PASS`; remote package/state readback at `5d4c28695688b6cee814e44db4d4a9d034282864` PASS.
