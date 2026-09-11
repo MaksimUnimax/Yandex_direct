@@ -1,30 +1,34 @@
 # KW-002 — LEVEL 1 JOB DATA SEPARATION AND LIFECYCLE
 
-Status: **ACTIVE / OWNER-AUTHORIZED SCAFFOLD**
+Status: **ACTIVE / OWNER-AUTHORIZED / UNIVERSAL**
+
+Canonical generalization authority:
+
+`ROADMAP_AND_METHOD_GENERALIZATION_RULE.md`
 
 ## 1. Three stores, three purposes
 
 ```text
 LEVEL1/
-= universal cross-step rules
+= universal cross-step rules + universal root causes
 
 LEVEL2/
-= universal step methods
+= universal roadmap step methods executable for any eligible site/business
 
 work/<JOB_ID>/
 = one concrete order only
 ```
 
-No concrete client/order data is allowed to become a permanent Level 1 or Level 2 input merely because it was useful in one test.
+No concrete client/order data is allowed to become permanent Level1/Level2 methodology merely because it was useful in one execution.
 
-## 2. work/<JOB_ID>/ required files
+## 2. Required job workspace
 
 At job creation, materialize at minimum:
 
 ```text
 JOB_MANIFEST.md
 JOB_FLOW.md
-CLIENT_BRIEF_FROZEN.md or equivalent section in manifest
+frozen client brief/scope
 ALLOWED_INPUTS_AND_SEALED_SOURCES.md
 SOURCE_MANIFEST.md
 WORK_HANDOFF_LOG.md when Work is used
@@ -43,49 +47,63 @@ current queries/seeds
 provider results
 SERP results
 competitor URLs
-cluster/page IDs
+family/cluster/page IDs
 job-specific thresholds/heuristics
-counts/costs/request ids
+counts/costs/request IDs
 current status
 open questions
 HOLD/REJECT/KEEP rows
-Work handoff manifests/results
+owner approvals
+Work handoffs
 client deliverables
 revision records
 productization measurements
 ```
 
-## 4. Level 1 and Level 2 must not absorb job facts
+## 4. Level1/Level2 contamination is forbidden
 
 Forbidden permanent contamination includes:
 
 ```text
-client brand/domain used as universal input
-exact current-job query/page counts as permanent thresholds
+client brand/domain as universal input
+one site's product/family/query IDs in a universal rule
+current-job row counts as permanent thresholds
 current-job competitor names as required future competitors
 current-job URL structure as a template for all sites
 current-job provider cost/request count as a universal constant
 current-job cluster split as a universal rule
+current owner execution approval/status in Level2
 ```
 
-A reusable lesson may be proposed only as:
+## 5. How a concrete failure becomes universal
+
+A reusable lesson may be promoted only through:
 
 ```text
-failure class
-→ root cause
-→ general control
-→ parameterized rule
-→ generic pass gate
+concrete incident
+→ underlying root cause/mechanism
+→ proof the mechanism can recur outside this client
+→ parameterized universal control
+→ generic PASS/FAIL gate
+→ mapping to applicable roadmap steps
 ```
 
-Owner authorization is required before permanent promotion.
+The concrete example/counts remain in `work/<JOB_ID>/` as provenance.
 
-## 5. Job flow
+Forbidden:
+
+```text
+ONE BAD PHRASE -> UNIVERSAL SPECIAL CASE
+ONE FAMILY ID -> PERMANENT TAXONOMY
+ONE CLIENT VOCABULARY -> GLOBAL LEXICAL RULE
+```
+
+## 6. Job lifecycle
 
 ```text
 CREATE work/<JOB_ID>/
 → freeze brief / sources / scope
-→ execute Level 2 steps in order
+→ execute universal Level2 steps in order
 → persist complete evidence after each step
 → update JOB_FLOW
 → build final deliverables
@@ -95,34 +113,35 @@ CREATE work/<JOB_ID>/
 → close job
 ```
 
-For test/demo jobs, the workspace may be retained until portfolio/sample acceptance is complete. Do not delete evidence needed to prove the productization test.
+## 7. Clean-context rule
 
-## 6. Clean-context rule for seeded internal projects
-
-When the business has prior internal research and the test goal is FROM_SCRATCH:
+When a business has prior internal research and the current job is FROM_SCRATCH:
 
 ```text
 NEW EXECUTION CONTEXT
 MUST RECEIVE ONLY
-LEVEL1 + LEVEL2 + ALLOWED work/<JOB_ID>/ INPUTS
+LEVEL1 + LEVEL2 + EXPLICITLY ALLOWED work/<JOB_ID>/ INPUTS
 ```
 
 Do not rely on assistant memory of prior research.
 
-If the current conversation already contains old conclusions, those conclusions are not execution evidence and must not be passed into the clean execution unit.
+If a conversation contains old conclusions, they are not execution evidence unless explicitly whitelisted.
 
-Where necessary, use a clean ChatGPT Work run with an explicit source whitelist.
+## 8. Regression comparison is downstream only
 
-## 7. Regression comparison is downstream only
+After a new result is frozen, prior research may be opened under a separated comparison gate to measure what was reproduced, missed or improved.
 
-After the new final result is frozen, prior research may be opened under a separate comparison gate to answer:
+Comparison may improve universal methodology only after the generalization test in `ROADMAP_AND_METHOD_GENERALIZATION_RULE.md` passes. It may not retroactively contaminate the from-scratch result.
+
+## 9. Universal-layer acceptance gate
+
+Before accepting a Level1/Level2 edit:
 
 ```text
-what the new method independently reproduced
-what it found that old work missed
-what old work found that new method missed
-where conclusions differ and why
-whether the product needs correction before sale
+JOB_SPECIFIC_CLIENT_NAMES_IN_METHOD = 0
+JOB_SPECIFIC_IDS_IN_METHOD = 0
+JOB_SPECIFIC_COUNTS_AS_UNIVERSAL_THRESHOLDS = 0
+CURRENT_JOB_STATUS_IN_LEVEL2 = 0
+ROOT_CAUSE_GENERALIZED_WHERE_LESSON_DERIVED = true
+ANY_SITE_EXECUTABILITY_TEST = PASS
 ```
-
-The comparison may improve product methodology only after owner review; it may not retroactively contaminate the frozen from-scratch result.
