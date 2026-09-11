@@ -1,0 +1,105 @@
+{
+  "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "step": "STEP04_POST_SANITATION_FULL_VOLUME_FAMILY_TRIAGE_REWRITE",
+  "date": "2026-09-11",
+  "live_base_head": "640f1f3416319019fa362e7bb1b442532f6e1058",
+  "input_authority": {
+    "STEP_03A_NORMALIZED_UNIQUE_POOL_2026-09-11.tsv": {
+      "bytes": 16754840,
+      "sha256": "b30c29ff66a56d80bc1aa9ff6b2eade522b27d1e167cbd636ac72fbff211f2a8"
+    },
+    "STEP_03A_NORMALIZATION_LEDGER_2026-09-11.tsv": {
+      "bytes": 10878627,
+      "sha256": "28205ca64f26d219d489b36f102a8923b4a4b635c8b213179bca4a188b24c3df"
+    },
+    "STEP_03B_SANITIZED_CANDIDATE_POOL_CORRECTED_2026-09-11.tsv": {
+      "bytes": 2607522,
+      "sha256": "63b3fc556b388dbac0185f174f79f825dc26d9c51de39698850cdaecb9ca4f58"
+    },
+    "STEP_03B_EXCLUDED_HOLD_REGISTER_CORRECTED_2026-09-11.tsv": {
+      "bytes": 9482356,
+      "sha256": "145c5107f40415b4050923f142dab3e83646489da5d74501f659fd87e3ae2916"
+    },
+    "KW002_STEP03A_03B_INDEPENDENT_FULL_VOLUME_AUDIT_OVERLAY_2026-09-11.tsv": {
+      "bytes": 6815806,
+      "sha256": "db9b79dda64b205f0b0bef273f70f221f183d9389eca3e67e651e93ea269d669"
+    },
+    "STEP_04_OCCURRENCE_FAMILY_LEDGER_CORRECTED_2026-09-10.tsv": {
+      "bytes": 13828761,
+      "sha256": "4cacc5a71db280e987418f7efea6066420f828b9c17121fff45da5beb85176f6"
+    },
+    "STEP_04_FAMILY_TRIAGE_CORRECTED_2026-09-10.tsv": {
+      "bytes": 154654,
+      "sha256": "5025f485b4a6234686272eccdbdc3305e3c1ed31ca98bda09e7b4a9499eba6ab"
+    },
+    "STEP_04_TARGETED_EXPANSION_QUEUE_CORRECTED_2026-09-10.tsv": {
+      "bytes": 23585,
+      "sha256": "ba4d99e1a08071df6a779c29ee8c0ba0525493cc7449c1b9c243bf1b9e7296a6"
+    }
+  },
+  "outputs": {
+    "STEP_04_POST_SANITATION_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": {
+      "bytes": 16281168,
+      "sha256": "c053bcd1dccae5b2894cc7a316c84af72c2b0abfeb460624f138f1198a39a5ba"
+    },
+    "STEP_04_POST_SANITATION_FAMILY_TRIAGE_2026-09-11.tsv": {
+      "bytes": 33145,
+      "sha256": "cb2a1259f596f1b97ea4eb662e8c8b315936aad2243c57389c290ea6d90a0b2c"
+    },
+    "STEP_04_POST_SANITATION_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv": {
+      "bytes": 12274,
+      "sha256": "be46fd75e9b51354e14dfc3e862be69e8549fd67b708ecc7471bbfc3dcd63c73"
+    },
+    "STEP_04_POST_SANITATION_SANITATION_FEEDBACK_REGISTER_2026-09-11.tsv": {
+      "bytes": 8148,
+      "sha256": "7a52efa3eb2e8eeebddecd61de4550acf33e98b8d357b463e815754f6af00903"
+    },
+    "STEP_04_POST_SANITATION_HISTORICAL_COMPARISON_2026-09-11.tsv": {
+      "bytes": 18855,
+      "sha256": "e8c107ca8f277feb39e382fe8a21f013f17a477c215320edcdbc2f6b6c092909"
+    },
+    "STEP_04_POST_SANITATION_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-11.tsv": {
+      "bytes": 3186,
+      "sha256": "824405b45304bc5120166f9c6aa3e886b954f40daea660307477271ca0d40109"
+    },
+    "STEP_04_POST_SANITATION_QA_2026-09-11.md": {
+      "bytes": 15048,
+      "sha256": "23daeed34f724bfa8b86de4c5189d72793e0ba7e4955e37130b4d1b624b73429"
+    },
+    "STEP_04_POST_SANITATION_WORK_RETURN_2026-09-11.md": {
+      "bytes": 5521,
+      "sha256": "4c663d90aca76ff70e3c713dd6463fda2e1de769e73749a9a4fd5a5e1bbfb5d1"
+    },
+    "STEP_04_POST_SANITATION_MATERIALIZER_2026-09-11.py": {
+      "bytes": 107955,
+      "sha256": "3b80e56d81b02efa4e26c43d9caa92e22f4115738028f0e83a85218ce92f4ad2"
+    }
+  },
+  "counts": {
+    "normalized_identities": 24576,
+    "raw_occurrences": 25979,
+    "active_plus_hold_identities_triaged": 18135,
+    "excluded_identities_history": 6441,
+    "families": 26,
+    "observed_families": 24,
+    "queue_rows": 13,
+    "feedback_rows": 10
+  },
+  "qa": {
+    "known_failure_regression": "PASS",
+    "raw_lineage_loss": 0,
+    "provider_calls": {
+      "wordstat": 0,
+      "search": 0,
+      "gensearch": 0,
+      "ai_search": 0
+    },
+    "sealed_source_violations": 0,
+    "step05_started": false,
+    "quality_score_100": 97.2,
+    "quality_score_10": 9.72,
+    "verdict": "PASS_CANDIDATE",
+    "publication": "OWNER_RELAY_REQUIRED",
+    "remote_readback": "PENDING_OWNER_UPLOAD"
+  }
+}
