@@ -1,594 +1,466 @@
-# KW-002 — LEVEL 2 STEP RULES INDEX
+# KW-002 — LEVEL 2 UNIVERSAL STEP RULES INDEX
 
-Status: **OWNER-APPROVED METHODOLOGY REVISION / ACTIVE FOR KW-002**  
-Product: from-scratch semantic core + clustering + planned site architecture for modern Yandex.
-Revision authority: owner instruction 2026-09-10 after Blood & Sand Step04 volume/audit findings.
+Status: **ACTIVE / UNIVERSAL ROADMAP / EXECUTABLE FOR ANY ELIGIBLE SITE OR BUSINESS**
 
-Level 2 contains universal rules for each execution step. Concrete Blood & Sand data belongs only in `work/BLOOD_SAND_GREENFIELD_2026-09-08/`.
+Product: from-scratch semantic core + Yandex-grounded planned site architecture + later AI-search reconciliation.
 
-Mandatory Level-1 volume rule:
+Canonical architecture authorities:
 
-`LEVEL1/DATA_VOLUME_SANITATION_AND_DELIVERY_SCOPE_RULE.md`
+- `../LEVEL1/ROADMAP_AND_METHOD_GENERALIZATION_RULE.md`
+- `../LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md`
+- `../LEVEL1/DATA_VOLUME_SANITATION_AND_DELIVERY_SCOPE_RULE.md`
+- `../LEVEL1/JOB_DATA_SEPARATION_AND_LIFECYCLE.md`
 
-## Global execution order
+This file defines the roadmap. It contains no current client/site facts, current job counts, family IDs, query IDs, owner execution status or project-specific examples.
 
-```text
-00 scope + purchased delivery cap freeze
-01 business/assortment model
-02 seed map
-03 primary Wordstat acquisition -> LOSSLESS RAW
-03A RAW normalization + exact/safe implicit deduplication
-03B high-confidence sanitation + candidate/reserve preparation
-04 first family triage on SANITIZED CANDIDATES, not RAW occurrences
-05 targeted expansion / coverage control -> immediate 03A/03B sanitation for new rows
-06 current Yandex competitor discovery
-07 competitor semantic expansion
-08 competitor-derived Wordstat expansion -> immediate 03A/03B sanitation for new rows
-09 candidate semantic master + valid reserve freeze
-10 nuanced row-level relevance + intent + user job + priority
-11 delivery-scope selection + Search-stage semantic freeze
-12 ordinary Yandex Search batch acquisition for DELIVERY-SELECTED set
-13 SERP + task-first clustering
-14 query→page ownership + Search-only IA freeze
-15 AI-search diagnostic selection
-16 AI-search evidence acquisition
-17 Search-vs-AI reconciliation
-18 final semantic core + site IA + Page Jobs + internal-link model
-19 client deliverables
-20 final QA / recipient acceptance
-21 revision rehearsal + Kwork productization measurement
-22 job close
-```
-
-No step may be silently skipped because a later step appears to contain similar data.
-
-Hard data-flow rule:
+## Global data flow
 
 ```text
-RAW_OCCURRENCE_POOL
--> NORMALIZED_UNIQUE_POOL
--> SANITIZED_CANDIDATE_POOL
--> CANDIDATE_SEMANTIC_MASTER + VALID_RESERVE_SET
--> DELIVERY_SELECTED_SET
--> SEARCH/SERP/CLUSTERING
--> FINAL_DELIVERED_CORE
+FROZEN BUSINESS/SCOPE
+→ BUSINESS/OFFER MODEL
+→ SEED/PROBE MAP
+→ PRIMARY RAW ACQUISITION
+→ NORMALIZED UNIQUE POOL
+→ CONSERVATIVELY SANITIZED CANDIDATES + HOLD
+→ PRELIMINARY FAMILY/TASK MAP
+→ TARGETED COVERAGE EXPANSION
+→ CURRENT SEARCH COMPETITOR DISCOVERY
+→ COMPETITOR-DERIVED EXPANSION
+→ CANDIDATE SEMANTIC MASTER
+→ ROW-LEVEL RELEVANCE / USER TASK / INTENT / PRIORITY
+→ SEARCH-STAGE SEMANTIC FREEZE
+→ CURRENT YANDEX SERP EVIDENCE
+→ SERP + TASK-FIRST CLUSTERING
+→ QUERY→PAGE OWNERSHIP + SEARCH-ONLY IA
+→ AI-SEARCH DIAGNOSTIC CASE SELECTION
+→ AI-SEARCH EVIDENCE
+→ SEARCH-vs-AI RECONCILIATION
+→ FINAL CORE + IA + PAGE JOBS + INTERNAL LINKS
+→ CLIENT DELIVERABLES
+→ FINAL QA / RECIPIENT ACCEPTANCE
+→ REVISION REHEARSAL / PRODUCTIZATION MEASUREMENT
+→ JOB CLOSE
 ```
 
-The expensive analyst/LLM/Search/SERP stages must never default to the complete RAW occurrence universe.
+Hard rule:
+
+```text
+ROADMAP STEP != CURRENT JOB SPECIAL CASE
+```
+
+A job may have HOLD/rework branches, but the permanent step exists because the need is reusable across sites.
 
 ---
 
-# STEP 00 — order / scope / source / delivery-cap freeze
+# STEP 00 — freeze order, scope, sources and delivery promise
 
-### Purpose
+## Why
 
-Make the order reproducible before research can influence the brief and freeze the commercial size of the promised client result.
+Analysis cannot be judged if the business question, source authority or promised output is allowed to drift during research.
 
-### Inherited KW-001 rule
+## Input
 
-`scope freeze before evidence acquisition`.
+Client/owner facts and permitted raw source material only.
 
-### Required actions
+## Method
 
 Freeze:
 
 ```text
 business description
-region
-actual assortment/services
+products/services/offer boundary
+region/geography
 commercial goal
-business exclusions
+important exclusions
 site state
 allowed input sources
 sealed/prohibited sources
-order-specific deliverable scope
-DELIVERY_KEYWORD_CAP
-purchased add-on increments, if any
+purchased delivery scope/cap
 ```
 
-### Delivery-cap rule
+## Root causes prevented
 
-`DELIVERY_KEYWORD_CAP` applies to the final client-delivered phrase rows, not to RAW acquisition.
+- source/scope authority drift;
+- prior research contaminating a from-scratch baseline;
+- later evidence silently rewriting the original order.
 
-Current standard productization ceiling:
+## Output
 
-```text
-STANDARD_KWORK_DELIVERY_CEILING = 1500
->1500 = custom / separately owner-approved scope
-```
+Frozen brief, source whitelist, delivery scope/cap, job manifest.
 
-Do not promise that a package of `up to N` will be padded to exactly N if fewer relevant phrases survive evidence-based cleaning.
+## PASS
 
-### Output
-
-`JOB_MANIFEST.md` + frozen brief/source whitelist + frozen delivery cap.
-
-### PASS
-
-No unresolved ambiguity that would change what business/geography is researched or how many final phrase rows were purchased.
+No unresolved ambiguity that would materially change what market/business is being researched or what must be delivered.
 
 ---
 
-# STEP 01 — business and assortment model
+# STEP 01 — factual business / offer / assortment model
 
-### Purpose
+## Why
 
-Understand what can genuinely be sold/represented before inventing search vocabulary.
+Search research must start from what the business can actually sell/provide, not from an analyst-invented SEO taxonomy.
 
-### Method
+## Input
 
-Build a neutral model:
+Frozen client/business facts and approved assortment/service sources.
+
+## Method
+
+Build a neutral model of:
 
 ```text
-products/services
-families/categories
-attributes
-uses/problems solved
-selection dimensions
+offers/products/services
+families/categories where factually supported
+attributes/forms where factually supported
+use cases/problems where factually supported
 commercial actions
 known exclusions
+unknown/ambiguous business facts
 ```
 
-Do not use prior SEO research as a shortcut in a greenfield rehearsal.
+## Root causes prevented
 
-### Output
+- analyst invention presented as client truth;
+- business accounting mistaken for search taxonomy;
+- incomplete offer lineage into acquisition planning.
 
-`BUSINESS_AND_ASSORTMENT_MODEL`.
+## Output
 
-### PASS
+Business/offer model + ambiguity/unknown ledger where needed.
 
-Every seed family in Step 02 can trace to an actual offer/use/business boundary.
+## PASS
+
+Every material business direction can trace to an approved fact source; unsupported attributes/claims are explicit UNKNOWN rather than invented.
 
 ---
 
-# STEP 02 — seed / acquisition probe map
+# STEP 02 — seed / acquisition probe design
 
-### Purpose
+Dedicated universal gate:
 
-Create probes for discovering demand, not a fake final keyword list.
+`STEP_02_SEED_ACQUISITION_QUALITY_GATE.md`
 
-### Inherited KW-001 rule
+## Why
 
-```text
-SEED != FINAL KEYWORD
-SEED != FINAL PAGE TARGET
-```
+The project needs measurement probes that can discover market vocabulary, not a fake final keyword list copied from client labels.
 
-A seed may be broad or diagnostic if it is useful for discovering a real demand family.
+## Input
 
-### Required seed dimensions
+Business/offer model.
 
-Where relevant:
+## Method
 
-```text
-head product/service terms
-synonyms / common naming variants
-category/family terms
-use-case terms
-selection/comparison terms
-commercial modifiers
-problem/question terms
-attribute/material/form-factor terms
-brand terms only as a separate class
-```
+Build a bounded, purpose-labelled set of discovery probes across relevant dimensions such as head terms, synonyms, use cases, problems, attributes/forms, commercial modifiers, exact names and qualified refinements.
 
-### Output
+## Root causes prevented
 
-`SEED_MAP` with purpose and business lineage for each seed.
+- business lineage coverage mistaken for search-discovery quality;
+- ambiguous bare names accepted without refinement;
+- client taxonomy copied into acquisition taxonomy;
+- request cost/convenience overriding information gain.
 
-### PASS
+## Output
 
-Coverage is broad enough to probe the business without claiming completeness.
+Seed/probe map + deterministic primary acquisition manifest.
+
+## PASS
+
+Business lineage coverage and search-probe quality coverage both pass; every probe has a named information purpose and ambiguity/refinement logic.
 
 ---
 
 # STEP 03 — primary Wordstat acquisition
 
-### Purpose
+Dedicated universal gates:
 
-Acquire current Yandex human-demand evidence from the seed map as a lossless RAW evidence layer.
+- `STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md`
+- `STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md`
 
-### Inherited KW-001 rules
+## Why
+
+Acquire current Yandex demand evidence losslessly before semantic selection begins.
+
+## Input
+
+Primary acquisition manifest + current provider contract/depth decision.
+
+## Method
+
+For every authorized request:
 
 ```text
-provider success != collection completion
-preserve complete result required by the step
-preserve seed/region/provenance for every occurrence
-one returned phrase may occur under multiple seeds; do not destroy provenance early
-RAW OCCURRENCE != FINAL KEYWORD CANDIDATE
+justify depth
+→ execute
+→ receive complete result
+→ persist complete RAW result
+→ persist request/provenance
+→ remote readback
+→ reconcile rows/fields/status
+→ only then next request
 ```
 
-### Official source
+## Root causes prevented
 
-`https://yandex.ru/support2/wordstat/ru/`
+- technical/provider success mistaken for semantic completeness;
+- arbitrary depth selection;
+- visible chat output mistaken for durable evidence;
+- raw duplicates/noise deleted before analysis.
 
-Operators, when deliberately needed:
+## Output
 
-`https://yandex.ru/support2/wordstat/ru/content/operators`
+Lossless RAW occurrence evidence + acquisition/receipt manifest.
 
-### Bridge
+## PASS
 
-Use durable Wordstat batch/provider jobs. Technical batch size is not a product limit.
-
-### Output
-
-Complete raw primary Wordstat occurrence table(s): `RAW_OCCURRENCE_POOL`.
-
-### PASS
-
-Every authorized seed has known terminal/acquisition status and complete preserved required payload.
-
-### Mandatory next gate
-
-Step03 completion NEVER sends the complete RAW occurrence universe directly to Step04 semantic triage.
-
-It must pass through Step03A and Step03B first.
+Every authorized item has a known terminal outcome and complete durable feed-forward required by the method.
 
 ---
 
-# STEP 03A — RAW normalization + deduplication
+# STEP 03A — normalization and safe deduplication
 
-### Purpose
+## Why
 
-Convert lossless provider occurrences into a compact analytical phrase layer without destroying provenance.
+The raw occurrence universe is too repetitive/noisy for efficient semantic analysis but must remain fully traceable.
 
-### Method
+## Input
 
-For the complete RAW occurrence set:
+Complete RAW occurrence pool.
 
-```text
-preserve every raw occurrence and provider identity
-canonicalize whitespace/case/technical punctuation conservatively
-create one stable normalized phrase identity
-collapse exact duplicates analytically while retaining all occurrence lineage
-detect safe implicit duplicate groups (word-order / inflection variants)
-select canonical representative only where equivalence is high-confidence
-never delete the underlying RAW evidence
-```
+## Method
 
-### Required distinction
+Conservative normalization:
 
 ```text
-25 occurrences of the same phrase under different runs
-= 25 RAW evidence occurrences
-= potentially 1 normalized analytical phrase with 25 provenance links
+preserve RAW text
+normalize case/whitespace conservatively
+create stable normalized identity
+collapse exact duplicates analytically
+preserve every occurrence lineage
+only merge implicit variants when equivalence is high-confidence
+otherwise keep separate/HOLD
 ```
 
-### Frequency handling
+## Root causes prevented
 
-Where duplicate variants are genuinely equivalent, frequency may help choose the canonical representative. It must not be used to decide business relevance.
+- destructive normalization;
+- provenance loss;
+- deduplication optimized for row reduction instead of semantic identity.
 
-### External corroboration
+## Output
 
-- Topvisor implicit duplicates: `https://topvisor.com/ru/support/implicit-duplicates/`
-- Key Collector implicit duplicates: `https://www.key-collector.ru/docs/tools/implicit-duplicates/`
+Normalized unique pool + normalization ledger.
 
-### Output
+## PASS
 
-`NORMALIZED_UNIQUE_POOL` + `NORMALIZATION_LEDGER` preserving RAW lineage.
-
-Minimum fields:
-
-```text
-normalized_phrase_id
-canonical_phrase
-all_raw_occurrence_ids
-all_seed/run/provider provenance
-exact_duplicate_count
-implicit_duplicate_group_id if applicable
-canonicalization_reason
-```
-
-### PASS
-
-```text
-RAW occurrence count fully reconciled
-no provenance loss
-all normalized rows trace to RAW
-all collapsed duplicates explain why they were collapsed
-```
+RAW lineage loss = 0; every normalized row traces to RAW; uncertain implicit equivalence is not silently collapsed.
 
 ---
 
-# STEP 03B — high-confidence sanitation / pre-filter
+# STEP 03B — conservative high-confidence sanitation
 
-### Purpose
+## Why
 
-Remove obvious machine-detectable noise and foreign meanings before expensive semantic family triage while preserving uncertainty.
+Remove obvious foreign/noise cases before expensive semantic work while preserving unresolved ambiguity.
 
-### Method
+## Input
 
-Apply the frozen business scope and conservative filters to `NORMALIZED_UNIQUE_POOL`.
+Normalized unique pool + frozen business scope.
 
-Allowed high-confidence sanitation classes include:
-
-```text
-explicit frozen business exclusions
-explicit foreign brands/entities where context proves foreign referent
-explicit media/game/book/person/place/organization/vehicle-model contexts
-obvious morphology/lexical garbage
-technical noise / empty strings / malformed rows
-safe implicit duplicates already identified at 03A
-high-confidence stop-topic patterns derived from observed evidence
-```
-
-### Asymmetric rule
+## Method
 
 ```text
-CLEAR OFF-TOPIC -> AUTO_EXCLUDED with reason + lineage
-CLEAR DUPLICATE -> COLLAPSED_TO canonical row
-UNCERTAIN / MULTI-MEANING -> HOLD / AMBIGUOUS
-DIRECT BUSINESS-SUPPORTED -> KEEP_CANDIDATE
-LOW FREQUENCY ALONE -> NEVER AUTO_EXCLUDE
-HIGH FREQUENCY ALONE -> NEVER KEEP
+CLEAR OFF-TOPIC -> EXCLUDE with reason
+DIRECT BUSINESS-SUPPORTED -> KEEP CANDIDATE
+MATERIAL AMBIGUITY -> HOLD
 ```
 
-A stop-word/token blacklist alone is insufficient for ambiguous entity boundaries. Context/referent rules are required.
+Use bounded context/referent rules; do not let frequency, delivery cap, broad stems or a single business token decide semantics.
 
-### Official/industry support
+## Root causes prevented
 
-- Yandex Webmaster query selection: `https://yandex.ru/support/webmaster/ru/service/queries-selection`
-- Topvisor progressive cleaning: `https://journal.topvisor.com/ru/seo-kitchen/how-to-understand-from-which-requests-clean-the-core/`
+- prefix/substring overreach;
+- positive business token overriding explicit foreign context;
+- ambiguity destroyed too early;
+- mechanical QA mistaken for semantic QA.
 
-### Output
+## Output
 
-```text
-SANITIZED_CANDIDATE_POOL
-AUTO_EXCLUDED_REGISTER
-HOLD_AMBIGUOUS_REGISTER
-SANITATION_QA
-```
+Sanitized candidate pool + excluded register + HOLD register + semantic QA.
 
-### Mandatory accounting
+## PASS
 
-Report:
-
-```text
-raw_occurrence_rows
-normalized_unique_rows
-implicit_duplicate_groups
-collapsed_duplicate_rows
-auto_excluded_rows by reason
-hold_ambiguous_rows
-sanitized_candidate_rows
-```
-
-### PASS
-
-No silent row loss; every normalized phrase is candidate, excluded, collapsed or HOLD with a deterministic reason and RAW lineage.
+Every normalized identity has a deterministic state/reason and RAW lineage; independent semantic QA finds no blocking systematic defect.
 
 ---
 
-# STEP 04 — first family triage
+# STEP 04 — preliminary family / topic / task triage
 
-### Purpose
+Dedicated universal gate:
 
-Understand what demand families exist and where the **sanitized candidate pool** is still ambiguous or incomplete before nuanced row-level review.
+`STEP_04_PRELIMINARY_FAMILY_TRIAGE_QUALITY_GATE.md`
 
-### Input rule
+## Why
 
-Step04 reads:
+Reveal the structure, ambiguity and missing areas of the sanitized demand universe before detailed row-level intent and SERP work.
 
-```text
-SANITIZED_CANDIDATE_POOL
-+ HOLD_AMBIGUOUS_REGISTER where family context is needed
-+ aggregate RAW provenance locators
-```
+## Input
 
-It does NOT require the LLM/analyst to semantically classify every RAW occurrence independently.
+KEEP candidates + relevant HOLD identities + lineage + frozen business facts.
 
-The RAW occurrence ledger remains machine/audit evidence only.
+## Method
 
-### Inherited KW-001 rules
+Create preliminary family/task hypotheses while keeping topic, explicit task, ambiguity and business support distinct.
 
-```text
-FAMILY TRIAGE != FINAL ROW CLEANUP
-LOW FREQUENCY ALONE != IRRELEVANCE
-FAMILY TRIAGE != RAW OCCURRENCE PARTITION
-```
+Mandatory independent family-coherence challenge for materially large/rule-heavy data.
 
-### Actions
+## Root causes prevented
 
-Classify preliminary candidate families approximately as:
+- first-match rule order erasing stronger task signals;
+- closed taxonomy/generic fallback hiding new coherent tasks;
+- lexical shortcut bias;
+- family label mistaken for final SEO cluster/page;
+- producer validating only its own taxonomy.
 
-```text
-strong in-scope
-plausible in-scope
-mixed/ambiguous
-obvious out-of-scope missed by sanitation
-coverage gap / requires expansion
-```
+## Output
 
-Any obvious out-of-scope family found here is a feedback signal to improve Step03B rules, not justification to keep feeding the same noise downstream forever.
+Preliminary family authority + occurrence mapping + expansion-gap queue + sanitation feedback + independent coherence/boundary QA.
 
-### Output
+## PASS
 
-`FAMILY_TRIAGE` + targeted-expansion queue + sanitation feedback register.
-
-### PASS
-
-No family is permanently rejected solely on a superficial token/frequency rule; the working semantic dataset is materially smaller than RAW and remains fully traceable.
+Full active/HOLD universe accounted; no blocking family-rule defects; preliminary families explicitly remain non-final for intent/SERP/page ownership.
 
 ---
 
 # STEP 05 — targeted expansion / coverage control
 
-### Purpose
+## Why
 
-Close material vocabulary holes created by initial seed choice or revealed by Step04.
+Close material search-vocabulary gaps revealed by earlier evidence without turning acquisition into endless recursion.
 
-### Inherited KW-001 boundary
+## Input
 
-A second acquisition must use the same union-compatible evidence/provenance model as primary acquisition.
+Step04 gap hypotheses + all prior durable acquisition evidence + unresolved owner/business facts.
 
-### Possible evidence routes
+## Method
 
-```text
-new synonyms/naming variants discovered in Wordstat
-promising related-query branches
-missing business families
-regional/dynamics checks when they affect scope/priority
-owner/client clarification when a business boundary is unclear
-```
-
-### Mandatory volume rule
-
-Every NEW Step05 provider result must immediately pass through the same Step03A normalization and Step03B sanitation before union with the working candidate set.
-
-Do not append raw Step05 occurrences directly to Step04/09 semantic working tables.
-
-### Stopping rule
-
-Stop when another acquisition branch has low expected information gain, not because an arbitrary fixed number of seeds was reached and not because the final delivery cap is not yet numerically full.
-
-### Output
+For each proposed expansion:
 
 ```text
-new RAW evidence preserved
-normalized/sanitized Step05 additions
-updated candidate pool
-updated valid reserve
+name exact unresolved question
+→ reconcile against all existing evidence
+→ separate OWNER FACT from SEARCH DEMAND question
+→ prove incremental information gain
+→ define negative-result value and stop condition
+→ authorize only genuinely new probe
 ```
+
+All new provider results immediately pass through Step03A/03B before union.
+
+## Root causes prevented
+
+- duplicate acquisition of already durable evidence;
+- owner/business facts sent to a search provider;
+- recursive expansion without information gain.
+
+## Output
+
+New RAW evidence where justified + normalized/sanitized additions + updated coverage state.
+
+## PASS
+
+No provider-ready probe duplicates current evidence; owner-fact gaps are not searched as if demand could prove inventory/business truth.
 
 ---
 
-# STEP 06 — current Yandex competitor discovery
+# STEP 06 — current Yandex organic competitor discovery
 
-### Purpose
+## Why
 
-Find actual search competitors for retained candidate families, not merely businesses the client calls competitors.
+Find pages/domains that actually compete in current search results for retained demand directions.
 
-### Input volume rule
+## Input
 
-Use representative high-value sanitized families/queries. Do not run competitor discovery over the complete RAW universe.
+Representative retained semantic families/queries.
 
-### Method
+## Method
 
-Use representative in-scope query families in current ordinary Yandex Search and record:
-
-```text
-query
-region/time
-ranked domains/URLs
-page/result type
-recurrence of domains across families
-```
-
-### Rule
+Collect current ordinary Yandex SERP evidence and record recurring domains/URLs/result types across materially different query families.
 
 ```text
 BUSINESS RIVAL != SEARCH COMPETITOR
 ```
 
-### Output
+## Output
 
-`SEARCH_COMPETITOR_REGISTRY` with reasons each domain was selected for semantic inspection.
+Search competitor registry with current Yandex discovery lineage.
+
+## PASS
+
+Every selected semantic competitor has current SERP evidence; no competitor is included solely because the client named it.
 
 ---
 
 # STEP 07 — competitor semantic expansion
 
-### Purpose
+## Why
 
-Discover vocabulary/topics missed by our own starting language.
+Discover vocabulary/topics missed by client/analyst starting language.
 
-### Transferred KW-001 Step 5A rules
+## Input
 
-```text
-COMPETITOR PAGE TOPIC != EXACT QUERY RANKING
-COMPETITOR RANKING != AUTOMATIC KEYWORD ACCEPTANCE
-COMPETITOR-DERIVED SEED != FINAL KEYWORD
-TESTED QUERY VISIBILITY != FULL COMPETITOR KEYWORD UNIVERSE
-```
+Current search competitor registry + relevant public competitor pages.
 
-### Method
+## Method
 
-```text
-real recurring Yandex competitor
-→ inspect evidence-bearing relevant public pages
-→ extract candidate missed topics/seeds
-→ compare against already sanitized semantic universe
-→ only genuinely new candidates continue
-```
+Extract only evidence-bearing missed topics/use cases/naming directions, each with source URL and discovery lineage.
 
-This is semantic coverage research, not a full competitor SEO audit and not a substitute for a reverse-domain database.
+## Output
 
-### Output
+Competitor-derived candidate seed/topic register.
 
-`COMPETITOR_DERIVED_SEED_CANDIDATES` with source URL and topic evidence.
+## PASS
+
+No competitor page topic is treated as proven demand or automatically accepted keyword.
 
 ---
 
 # STEP 08 — competitor-derived Wordstat expansion
 
-### Purpose
+## Why
 
-Test whether competitor-derived topics correspond to real Yandex demand.
+Test whether genuinely new competitor-derived topics correspond to current Yandex demand.
 
-### Rule
+## Input
 
-```text
-PUBLIC PAGE TOPIC
-MUST RETURN TO DEMAND EVIDENCE
-BEFORE IT CAN ENTER THE FINAL CORE AS SEARCH DEMAND
-```
+Genuinely new competitor-derived seed candidates.
 
-### Method
+## Method
 
-Run new candidate seeds through Wordstat under the same persistence/provenance rules as Step03.
+Use Step03 acquisition/persistence/depth rules, then immediate Step03A/03B normalization/sanitation.
 
-Immediately after acquisition:
+## Output
 
-```text
-Step08 RAW
--> Step03A normalization
--> Step03B sanitation
--> union only sanitized new candidates
-```
+New demand evidence with decisions such as new demand / already covered / no useful demand / out-of-scope / HOLD.
 
-### Output
+## PASS
 
-Competitor-derived RAW evidence + normalized/sanitized candidate decisions:
-
-```text
-NEW_DEMAND
-ALREADY_COVERED
-NO_USEFUL_DEMAND
-OUT_OF_SCOPE
-HOLD
-```
-
-Do not let competitor expansion inflate the working semantic set with raw duplicates/noise.
+Only sanitized new evidence joins the candidate universe; no raw competitor-derived data bypasses normalization/sanitation.
 
 ---
 
 # STEP 09 — candidate semantic master + reserve freeze
 
-### Purpose
+## Why
 
-Create one auditable **post-sanitation** candidate universe before expensive nuanced row-level decisions.
+Create one auditable post-acquisition candidate universe before expensive row-level judgments.
 
-### Inherited KW-001 rule
+## Input
 
-Do not silently lose demand/provenance fields at semantic freeze boundaries.
+All normalized/sanitized primary + targeted + competitor-derived evidence.
 
-### Master must preserve
+## Method
 
-```text
-normalized phrase
-all acquisition sources/seeds
-region
-provider demand fields
-RAW occurrence lineage
-competitor-derived lineage if applicable
-sanitation state/reason
-family state
-status/errors
-```
-
-### Separate sets
-
-Step09 must distinguish:
+Freeze distinct sets:
 
 ```text
 ACTIVE_CANDIDATES
@@ -597,581 +469,383 @@ VALID_RESERVE_CANDIDATES
 AUTO_EXCLUDED_HISTORY
 ```
 
-`VALID_RESERVE_CANDIDATES` are not rejects. They are cleaned potential phrases that may later fall outside the purchased delivery cap.
+Preserve all demand/provenance/source fields.
 
-### Output
+## Output
 
-`CANDIDATE_SEMANTIC_MASTER` + preliminary `VALID_RESERVE_SET`.
+Candidate semantic master + reserve set.
 
-### PASS
+## PASS
 
-The candidate master is substantially smaller than cumulative RAW and no candidate exists only because the same phrase was repeated across provider runs.
+No candidate exists merely due to duplicate provider occurrence; no provenance/demand field is silently lost at freeze boundary.
 
 ---
 
-# STEP 10 — nuanced row relevance + intent + user job + priority
+# STEP 10 — nuanced row-level relevance, user task, intent and priority
 
-### Purpose
+## Why
 
-Perform the expensive semantic review only on the sanitized candidate universe: decide which phrases genuinely belong to the client business, what users are trying to do, and how strongly each phrase deserves scarce delivery/Search budget.
+Perform expensive semantic judgment only on the cleaned candidate universe.
 
-### Transferred KW-001 rules
+## Input
 
-```text
-NO DEFAULT KEEP
-POSITIVE IN-SCOPE EVIDENCE REQUIRED
-ACCOUNTING QA != SEMANTIC QA
-UNCERTAINTY STAYS EXPLICIT
-FREQUENCY ALONE != PRIORITY
-```
+Candidate semantic master.
 
-### Every candidate row receives
+## Method
+
+Each row receives governed decisions for:
 
 ```text
 KEEP / REJECT / HOLD
 relevance reason
 user task/job
-intent class or mixed intent
+intent or mixed intent
 commercial/informational role
 business-fit state
-frequency/demand evidence
-clicks where available
-competition/rankability where available
-redundancy/canonicality state
-family/cluster coverage role
-delivery_priority_tier
-```
-
-### Priority method
-
-Do not sort only by frequency.
-
-Use, in order:
-
-```text
-business/assortment fit
-coverage of commercially important families
-intent/user-job fit and ambiguity
-Yandex demand/frequency + clicks where available
-competition/rankability where available
+ambiguity/evidence need
+priority tier
 redundancy/canonicality
-incremental topic/cluster coverage value
+family coverage role
 ```
 
-### Important
+Frequency is one factor, never the sole priority/relevance rule.
 
-Intent is not determined mechanically only by words such as `купить`, `цена`, `что такое`. Current SERP evidence in later steps can refine the judgment.
+## Output
 
-### Output
+Cleaned prioritized semantic master.
 
-`CLEANED_PRIORITIZED_SEMANTIC_MASTER`.
+## PASS
+
+No default KEEP; positive in-scope evidence exists; uncertainty remains explicit; row-level QA is independently checked where needed.
 
 ---
 
 # STEP 11 — delivery-scope selection + Search-stage semantic freeze
 
-### Purpose
+## Why
 
-Freeze the exact retained semantic set that will receive expensive structural/Search evidence while respecting the purchased result size.
+Select the exact governed set that will receive expensive current SERP evidence and may enter final delivery.
 
-### Required commercial rule
+## Input
 
-```text
-DELIVERY_SELECTED_SET <= DELIVERY_KEYWORD_CAP
-FINAL standard KW-002 delivery <= 1500 unless custom owner-approved scope
-```
+Cleaned prioritized semantic master + purchased scope/cap.
 
-### Selection rule
+## Method
 
-When valid cleaned phrases exceed the purchased cap:
+Coverage-aware selection using business fit, task/intent, demand, redundancy, cluster coverage and rankability evidence where available.
 
-```text
-1. guarantee reasonable coverage of all commercially material business families;
-2. avoid spending the cap on redundant variants of one family;
-3. select highest coverage-aware priority phrases;
-4. move remaining valid phrases to VALID_RESERVE_SET;
-5. reserve != reject;
-6. preserve reasons/rank for future +N expansion.
-```
+Reserve valid rows outside scope rather than deleting them.
 
-When fewer valid phrases exist than the cap, do not pad the set with junk.
+## Output
 
-### Paid +N rule
+Search-stage selected set + valid reserve.
 
-A paid additional tranche (for example +500) normally promotes the next highest-priority valid reserve phrases while preserving family/cluster coverage.
+## PASS
 
-It is NOT defined as the next N phrases by raw Wordstat frequency.
-
-Only if the valid reserve is insufficient and the purchased expansion requires broader legitimate coverage may new acquisition be considered.
-
-### Inherited KW-001 rule
-
-Every retained phrase must have deterministic lineage back to demand/provenance evidence. Silent field loss = FAIL.
-
-### Output
-
-```text
-DELIVERY_SELECTED_SET
-VALID_RESERVE_SET
-DELIVERY_SELECTION_LEDGER
-SEARCH_STAGE_SEMANTIC_SET
-```
-
-This is not yet final clustering or IA.
-
-### PASS
-
-```text
-selected rows <= purchased cap
-all selected rows are cleaned and prioritized
-all overflow valid rows are explicit reserve
-no frequency-only selection
-no artificial padding to cap
-```
+Selection respects purchased cap without padding/truncating relevance and preserves important business/task breadth.
 
 ---
 
-# STEP 12 — ordinary Yandex Search batch acquisition
+# STEP 12 — current ordinary Yandex Search evidence acquisition
 
-### Purpose
+## Why
 
-Acquire current SERP evidence needed for clustering and page-boundary decisions **only for the delivery-selected/Search-stage semantic set**.
+Final SEO clustering/page ownership must be grounded in current actual SERP behavior, not lexical similarity alone.
 
-### Bridge capability
+## Input
 
-Use the accepted ordinary Search batch hand and split the selected set across multiple jobs when a technical job limit is reached.
+Search-stage selected set.
 
-### Product/batch rule
+## Method
 
-```text
-SEARCH_BATCH_JOB_LIMIT != DELIVERY_KEYWORD_CAP
-RAW_OCCURRENCE_POOL != SEARCH_INPUT
-VALID_RESERVE_SET != SEARCH_INPUT by default
-```
+Use the product's active SERP coverage mode and persist required ranked result evidence with region/time/provenance.
 
-The purchased delivery cap was enforced at Step11. Step12 must not silently expand back to the raw universe.
+## Output
 
-### Preserve for each query
+Current SERP evidence authority for every required selected query.
 
-```text
-query
-region/time
-ranked URLs/domains/titles
-result/page types where analytically derived
-provider/job provenance
-```
+## PASS
 
-### Output
-
-Complete persisted Search evidence for the selected set.
+Coverage accounting satisfies the frozen product mode; missing/failed observations remain explicit.
 
 ---
 
-# STEP 13 — SERP + task-first clustering
+# STEP 13 — SERP + user-task-first clustering
 
-### Purpose
+## Why
 
-Determine which retained delivery-selected phrases should be served by the same page and which require separate page jobs.
+Determine which queries can realistically be satisfied by the same page versus requiring separate page intents.
 
-### Transferred KW-001 clustering rules
+## Input
 
-```text
-TASK-FIRST CORE
-SERP OVERLAP = EVIDENCE, NOT AUTOMATIC VERDICT
-NO UNIVERSAL MAGIC OVERLAP THRESHOLD
-MIXED INTENT MUST REMAIN VISIBLE
-```
+Search-stage semantic rows + current SERP evidence + Step10 user-task/intent judgments.
 
-### External corroboration
+## Method
 
-- Ahrefs: `https://ahrefs.com/blog/keyword-clustering/`
-- Semrush: `https://www.semrush.com/blog/keyword-clustering/`
-
-### Inputs
+Combine:
 
 ```text
+user task / intent
+SERP overlap / result-type behavior
 semantic meaning
-user job
-intent
-current ranked URLs/domains/page types
-SERP overlap/jaccard/containment projections
-business/assortment boundaries
+business/page usefulness
 ```
 
-### Work rule
+No universal fixed overlap threshold is assumed unless separately validated.
 
-Large pairwise/cluster analysis may use Work, but only over the already delivery-selected set. Do not load full RAW occurrence ledgers into Work merely because they exist.
+## Output
 
-Machine-generated similarity matrices may remain machine artifacts; Work/analyst receives compact cluster candidates and targeted evidence.
+Final Search-backed semantic clusters with merge/split rationale and HOLDs.
 
-### Output
+## PASS
 
-`CLUSTER_MASTER` with member coherence and split/merge reasoning.
+Cluster boundaries are evidence-backed and not derived from preliminary Step04 families alone.
 
 ---
 
-# STEP 14 — query→page ownership + Search-only IA freeze
+# STEP 14 — query→page ownership + Search-only information architecture
 
-### Purpose
+## Why
 
-Turn clusters into a planned site architecture before AI-search evidence can influence it.
+Turn Search-backed clusters into a non-cannibalizing planned site structure.
 
-### Transferred KW-001 rules
+## Input
 
-```text
-one cluster must have an explicit primary page owner
-cluster ownership != merely mentioning the phrase on many pages
-target page != observed competitor/current relevant URL
-SEARCH-ONLY ARCHITECTURE MUST BE FROZEN BEFORE AI COMPARISON
-```
+Step13 final Search clusters + business offer model.
 
-### For a greenfield site assign
+## Method
 
-```text
-planned page/unit ID
-page type
-working URL/slug candidate
-parent section
-primary cluster
-secondary clusters/queries
-user job
-commercial/informational/hybrid role
-supporting-page relationships
-```
+Assign each cluster to an existing/planned page job, define page type and parent/child IA relationship, resolve overlap/cannibalization.
 
-### Output
+## Output
 
-`SEARCH_ONLY_QUERY_PAGE_MAP` + `SEARCH_ONLY_IA`.
+Search-only query→page map + planned IA freeze.
+
+## PASS
+
+Every retained cluster has one governed primary ownership decision or explicit HOLD; no duplicate page purpose is created without evidence.
 
 ---
 
-# STEP 15 — AI-search diagnostic selection
+# STEP 15 — AI-search diagnostic case selection
 
-### Purpose
+## Why
 
-Select the smallest sufficient set of cases that can reveal whether generative Yandex changes or de-risks Search-only page decisions.
+AI-search evidence is expensive and should test decisions where generative answers may materially change/enrich/de-risk the Search-only architecture.
 
-### Transferred KW-001 rules
+## Input
 
-```text
-DIAGNOSTIC SET != REPRESENTATIVE OF EVERY QUERY BY DEFAULT
-SELECT FOR DECISION VALUE, NOT DECORATION
-STABILITY/CONTROL CASES SEPARATE FROM CHANGE-CANDIDATE CASES
-```
+Frozen Search-only semantic/page architecture.
 
-Select cases across material boundaries such as:
+## Method
 
-```text
-commercial vs informational
-broad root vs explanatory query
-mixed-intent family
-cluster split/merge boundary
-source-quality-sensitive topic
-selection/comparison task
-```
+Select representative high-value cases based on uncertainty, page-type risk, informational/commercial boundary or architecture sensitivity.
 
-### Output
+## Output
 
-`AI_SEARCH_CASE_REGISTER` with explicit reason for each case.
+AI-search diagnostic manifest with exact question each case must resolve.
+
+## PASS
+
+Every case has expected information gain; AI-search is not used as generic SEO advice.
 
 ---
 
 # STEP 16 — AI-search evidence acquisition
 
-### Purpose
+## Why
 
-Observe the generative Yandex search surface relevant to the selected cases.
+Observe how current Yandex generative answers frame selected user tasks and what source/page types are used.
 
-### Claim boundary
+## Input
 
-```text
-GENSEARCH/STRUCTURED AI-SEARCH EVIDENCE != GUARANTEED CONSUMER ALICE STATE FOREVER
-ONE AI ANSWER != STABLE UNIVERSAL TRUTH
-SOURCE ORDER != RANKING
-```
+AI diagnostic manifest.
 
-Preserve:
+## Method
 
-```text
-query/case
-observation surface/provider mode
-answer/user-job orientation
-source domains/types
-used-source truth where exposed
-search-query expansion themes where exposed
-commercial vs explanatory orientation
-raw/durable evidence reference
-```
+Acquire/persist governed AI-search evidence with full provenance and claim boundaries.
 
-### Output
+## Output
 
-`AI_SEARCH_EVIDENCE_REGISTER`.
+AI-search evidence authority for selected cases.
+
+## PASS
+
+Evidence is complete enough for its declared comparison question; no unsupported conclusions are inferred from absent/partial outputs.
 
 ---
 
 # STEP 17 — Search-vs-AI reconciliation
 
-### Purpose
+## Why
 
-Measure whether AI-search evidence changes the Search-only semantic/page architecture.
+Determine whether AI evidence changes, enriches, de-risks or leaves unchanged the Search-only decision.
 
-### Transferred KW-001 rule
+## Input
 
-Every case preserves:
+Frozen Search-only architecture + AI evidence.
 
-```text
-selection reason
-frozen Search-only baseline
-evidence comparison
-verdict
-downstream effect
-```
+## Method
 
-Allowed verdicts:
+For each diagnostic case classify:
 
 ```text
-NO_CHANGE
+CHANGE
+ENRICH
 DE_RISK
-ENRICH_PAGE_JOB
-SPLIT_SUPPORTED
-MERGE_SUPPORTED
-PRIORITY_CHANGE
-HOLD / INSUFFICIENT
+NO_CHANGE
+HOLD
 ```
 
-### Rule
+AI evidence must not retroactively contaminate the Search-only baseline.
 
-Do not force an AI delta. Supported `NO_CHANGE` is a valid client-visible result.
+## Output
 
-### Output
+Reconciliation ledger with causal chain from baseline to any change.
 
-`SEARCH_AI_RECONCILIATION` and explicit mutation list against Search-only IA.
+## PASS
+
+Every architecture/content change has explicit AI causal evidence; supported NO_CHANGE is accepted as valid outcome.
 
 ---
 
-# STEP 18 — final semantic core + IA + Page Jobs + internal-link model
+# STEP 18 — final semantic core + final IA + Page Jobs + internal-link model
 
-### Purpose
+## Why
 
-Materialize the final site-ready semantic architecture after reconciliation.
+Materialize the final governed implementation authority after Search and AI reconciliation.
 
-### Final phrase count rule
+## Input
 
-```text
-FINAL_DELIVERED_CORE <= DELIVERY_KEYWORD_CAP
-STANDARD ordinary KW-002 <= 1500 final phrase rows
-VALID_RESERVE_SET is not silently appended to client deliverables
-```
+Final clusters, query→page ownership, Search-only IA, accepted AI deltas.
 
-If a later evidence step invalidates a selected phrase, replace it from the highest-priority compatible reserve only when doing so preserves evidence quality and purchased scope. Do not pad mechanically.
+## Method
 
-### Final page/unit record should include
+Freeze final delivered core, page jobs, IA, ownership and internal-link relationships within purchased scope.
 
-```text
-page/unit ID
-working URL/slug candidate
-parent/section
-page type
-Page Job in plain language
-primary cluster/query
-secondary queries
-intent mix
-supporting pages
-internal-link relationships
-required product/category content scope
-important evidence/uncertainty notes
-semantic priority (analytical, not implementation schedule)
-```
+## Output
 
-### Final phrase record should include
+Final semantic master + architecture/page-job/internal-link authorities.
 
-```text
-phrase
-frequency/demand evidence
-cluster
-primary page owner
-intent/user job
-source/provenance
-Search evidence status
-AI-search relevance/delta state where applicable
-KEEP/HOLD state
-delivery priority/order-scope state
-notes
-```
+## PASS
 
-### Rule
-
-Do not create thin pages merely because a micro-query exists. Do not merge materially different user jobs merely to reduce page count.
-
-### Output
-
-Canonical final truth feeding all client artifacts.
+All final rows/pages are traceable to business facts + demand + required Search evidence; AI changes are separately causal and bounded.
 
 ---
 
 # STEP 19 — client deliverables
 
-### Purpose
+## Why
 
-Turn canonical truth into artifacts the commissioner can use without reading internal evidence logs.
+Translate internal evidence into usable client artifacts without leaking unnecessary internal jargon.
 
-### Transferred KW-001 packaging rules
+## Input
 
-```text
-ONE CURRENT TRUTH FEEDS ALL VIEWS
-CORRECT DATABASE != CLIENT-USABLE WORKBOOK
-INTERNAL TRACEABILITY != CLIENT NARRATIVE
-RAW INTERNAL EVIDENCE != CLIENT KEYWORD COUNT
-```
+Accepted final authorities.
 
-Expected artifact classes for the first rehearsal:
+## Method
 
-```text
-1. standalone semantic core workbook limited to purchased final scope
-2. clusters + query→page map
-3. planned site structure / IA
-4. Page Jobs + internal-link map
-5. competitor semantic-gap evidence summary
-6. Search-vs-AI decision summary
-7. plain-Russian client report / handoff
-```
+Produce client-facing semantic core, planned structure and implementation/report artifacts required by the sold scope.
 
-Do not dump `RAW_OCCURRENCE_POOL` or `VALID_RESERVE_SET` into the ordinary client workbook unless that is an explicit purchased/custom artifact.
+## Output
+
+Client deliverables.
+
+## PASS
+
+Recipient can understand what to implement, why, and what remains uncertain; internal IDs are supporting traceability, not the narrative.
 
 ---
 
 # STEP 20 — final QA / recipient acceptance
 
-### Purpose
+## Why
 
-Verify both data correctness and usefulness of each promised artifact.
+A technically generated deliverable is not complete until recipient usability and exact-file QA pass.
 
-### Transferred KW-001 rules
+## Input
 
-```text
-PACKAGE PASS != EVERY ARTIFACT PASS
-DATA QA != WORKBOOK QA != RECIPIENT-USABILITY QA
-RENDER/OPEN PASS != CONTENT COMPLETENESS
-```
+Client deliverables + internal final authorities.
 
-Check at minimum:
+## Method
 
-```text
-final delivered phrase count <= DELIVERY_KEYWORD_CAP
-no artificial padding to cap
-no silent missing retained rows
-no unexplained duplicate rows
-region/provenance correct
-all important clusters have page owners
-no unexplained competing page owners
-all planned pages have Page Jobs
-Search/AI claim scopes correct
-competitor-derived phrases have demand lineage
-HOLD/uncertainty visible
-reserve vs reject distinction preserved internally
-workbooks open and are understandable
-client-facing language explains completed work and result
-```
+Run exact-file QA, accounting, traceability, contradiction checks, readability/usability tests and recipient review.
 
-### Output
+## Output
 
-`FINAL_QA` with per-artifact verdicts.
+Final QA verdict + correction ledger if needed.
+
+## PASS
+
+All blocking defects closed; deliverables match internal truth and sold scope.
 
 ---
 
-# STEP 21 — revision rehearsal + Kwork productization measurement
+# STEP 21 — revision rehearsal / productization measurement
 
-### Purpose
+## Why
 
-Prove the service can handle a realistic client correction without restarting unrelated paid work and measure whether the product is sellable.
+The product must be repeatable as a Kwork service, not just successful once.
 
-### Revision test examples
+## Input
 
-```text
-client removes one product family
-client corrects geography
-client says an assumed service/product is not offered
-client changes a real commercial priority
-client buys +N additional phrase capacity
-```
+Completed job + recipient/owner feedback + execution metrics.
 
-For a paid +N expansion:
+## Method
 
-```text
-first promote from VALID_RESERVE_SET by coverage-aware priority
-re-run only affected Search/SERP/downstream evidence
-new acquisition only if reserve is insufficient for legitimate scope
-```
+Measure time, provider usage, Work handoffs, revision causes, failure classes, artifact quality and reusable process improvements.
 
-Recompute only affected downstream truth while preserving history.
+Promote only class-general lessons through `ROADMAP_AND_METHOD_GENERALIZATION_RULE.md`.
 
-Measure separately from client SEO result:
+## Output
 
-```text
-RAW acquisition size
-normalized unique size
-sanitized candidate size
-selected delivery size
-reserve size
-analyst/Work execution burden
-provider request counts/cost
-owner/operator actions
-large-data handoffs
-elapsed constraints
-revision-sensitive stages
-artifact-generation burden
-```
+Revision/productization measurement + proposed universal improvements or job-specific notes.
 
-This is Kwork productization economics, not the economics of the client website.
+## PASS
+
+Universal changes are justified by root cause/generalization, not copied from one client example.
 
 ---
 
 # STEP 22 — job close
 
-Close only when:
+## Why
+
+Prevent “almost finished” jobs with unresolved publication, review, revision or evidence states.
+
+## Input
+
+Accepted deliverables, QA, publication/readback and revision state.
+
+## Method
+
+Close all pending actions, persist final cursor/manifest, verify remote recoverability and handoff.
+
+## Output
+
+Closed job state.
+
+## PASS
 
 ```text
-final deliverables complete
-final delivered size reconciles to purchased scope
-final QA passed or accepted exceptions recorded
-revision test/real revision closed
-no pending provider/Work/operator action
-productization measurements recorded for a rehearsal
-owner handoff complete
+OPEN_BLOCKING_ACTIONS = 0
+FINAL_ARTIFACTS_PUBLISHED_AND_READ_BACK = true
+FINAL_STATUS_TRUTH = COMPLETE
 ```
-
-A job close does not automatically modify Level 1 or Level 2 methodology.
 
 ---
 
-# Blood & Sand test-only migration gate — NOT A UNIVERSAL CLIENT STEP
+# Global PASS rule for roadmap execution
 
-The current Blood & Sand rehearsal began before the 2026-09-10 volume-pipeline revision.
-
-Before its Step05 may resume, the job must backfill the new universal gates using already acquired evidence:
+Every major step must also satisfy applicable Level1 failure regressions.
 
 ```text
-existing Step03 RAW 79/79
--> Step03A normalization/dedup
--> Step03B sanitation
--> reconcile corrected Step04 family/queue authority against sanitized candidate layer
--> freeze explicit candidate/reserve counts
--> only then decide whether Step05 resumes
+METHOD = PASS
+FULL_VOLUME_ACCOUNTING = PASS where applicable
+SEMANTIC_QA = PASS where applicable
+KNOWN_FAILURE_REGRESSION_MATRIX = PASS
+PERSISTENCE/REMOTE_READBACK = PASS where applicable
+OPEN_CRITICAL_DEFECTS = 0
 ```
 
-Do not replay Step03 provider calls solely because the pipeline changed.
-Do not use the already executed Step05 E013 result to contaminate the historical Step04 correction; apply it only after the migration baseline is frozen.
-
-After Step20 final result is frozen, the Blood & Sand rehearsal may open its sealed previous research for a separate regression comparison.
-
-This comparison belongs in that `work/<JOB_ID>/` only and must not alter the already frozen from-scratch result before the comparison is recorded.
-
-It asks:
-
-```text
-what KW-002 independently reproduced
-what it newly discovered
-what it missed
-where it disagreed and why
-whether the product methodology requires owner-approved correction before sale
-```
+A quality score cannot override a failed hard gate.
