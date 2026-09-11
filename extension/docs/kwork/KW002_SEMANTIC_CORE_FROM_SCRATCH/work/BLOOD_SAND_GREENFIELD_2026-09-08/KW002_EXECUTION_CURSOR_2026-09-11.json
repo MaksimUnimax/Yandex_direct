@@ -1,0 +1,61 @@
+{
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V1",
+  "date": "2026-09-11",
+  "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "repository": "MaksimUnimax/Yandex_direct",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "accepted_state": {
+    "step00": "PASS_OZON_ONLY",
+    "step01": "PASS_76_OF_76",
+    "step02": "V2_PASS",
+    "step03": "PASS_79_OF_79_DURABLE",
+    "step03a": "PASS_BYTE_UNCHANGED",
+    "step03b_original": "SUPERSEDED",
+    "step03b_corrected": "ACCEPTED",
+    "step04_historical": "SUPERSEDED_FOR_CURRENT_FAMILY_TRIAGE",
+    "step04_post_sanitation": "ACCEPTED_PASS"
+  },
+  "step03b_current_counts": {
+    "normalized_identities": 24576,
+    "raw_occurrences": 25979,
+    "keep": 5100,
+    "hold": 13035,
+    "exclude": 6441
+  },
+  "step04_current": {
+    "active_plus_hold_identities": 18135,
+    "occurrence_ledger_rows": 25979,
+    "families": 26,
+    "observed_families": 24,
+    "coverage_gap_families": 2,
+    "expansion_queue_rows": 13,
+    "sanitation_feedback_rows": 10,
+    "raw_lineage_loss": 0,
+    "quality_score_100": 97.2,
+    "main_chatgpt_acceptance": "PASS",
+    "owner_relay_commit": "ee3964c1532d9db73a0001742a0699f2f01508e4",
+    "remote_readback": "PASS"
+  },
+  "step05_history": {
+    "historical_started_on_2026_09_10": true,
+    "historical_provider_calls": 1,
+    "historical_completed_probe": "E013",
+    "historical_phrase": "!чётки",
+    "historical_request_id": "wordstat-132a43ff-7cf9-4544-a6e2-68da666c4813",
+    "historical_raw_blob_sha": "550add6010ddbd10e0d807fd1a11046d2b782a4a",
+    "historical_remote_readback": "PASS",
+    "historical_pause_reason": "owner requested Step03/Step04 review and upstream rework"
+  },
+  "step05_current": {
+    "status": "POST_UPSTREAM_REWORK_PRE_ACQUISITION_GATE_PREPARED_NOT_YET_EXECUTED",
+    "current_queue_rows": 13,
+    "historical_17_row_queue": "SUPERSEDED_AS_QUEUE",
+    "historical_e013_evidence": "PRESERVED_AND_MUST_BE_RECONCILED_TO_CURRENT_PSQ010",
+    "new_provider_calls_after_current_step04_acceptance": 0,
+    "work_handoff": "KW002-BS-W06",
+    "work_prompt": "STEP_05_POST_STEP04_PRE_ACQUISITION_WORK_PROMPT_2026-09-11.md",
+    "provider_execution_released": false,
+    "step06_started": false
+  },
+  "next_action": "RUN_W06_PRE_ACQUISITION_WORK_PASS_THEN_MAIN_CHATGPT_QA_THEN_AT_MOST_ONE_FIRST_NEW_PROVIDER_PROBE_IF_ACCEPTED"
+}
