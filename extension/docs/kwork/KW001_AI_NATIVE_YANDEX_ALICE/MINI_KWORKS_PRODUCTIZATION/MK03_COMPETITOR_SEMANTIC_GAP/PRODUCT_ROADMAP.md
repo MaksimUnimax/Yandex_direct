@@ -1,6 +1,6 @@
 # MK03 — SEO-анализ конкурентов в Яндексе + семантические/структурные пробелы
 
-Status: **PHASE 4 METHOD PASS / PHASE 5 WORK HANDOFF PENDING**
+Status: **PHASE 4 PASS / PHASE 5 READY FOR WORK**
 
 ## Mandatory development authority
 
@@ -90,7 +90,7 @@ Google Search / Keyword Planner / Search Console / Google competitor conclusions
 SERP_COVERAGE_MODE = SELECTIVE_DECISION_SERP
 ```
 
-Reason: competitor/niche diagnostic research is explicitly a strong SELECTIVE case in the portfolio SERP research. MK03 requires current Search for competitor discovery and material exact query→competitor claims, but does not sell full per-keyword rank tracking or a reverse-domain keyword universe.
+MK03 requires current Search for competitor discovery and material exact query→competitor claims, but does not sell full per-keyword rank tracking or a reverse-domain keyword universe.
 
 Local authority: `SERP_COVERAGE_MODE_DECISION_2026-09-11.md`.
 
@@ -110,7 +110,7 @@ Step5A is already `OWNER-CANONIZED / PROJECT-TEST-VALIDATED`; MK03 extracts the 
 
 ## Autonomous MK03 Level-1 method
 
-Canonical local execution authorities are now:
+Canonical local execution authorities are:
 
 ```text
 PRODUCT_SCOPE.md
@@ -126,7 +126,7 @@ QA_AND_RELEASE.md
 PHASE_4_METHOD_CONSISTENCY_AUDIT_2026-09-11.md
 ```
 
-The executor should use these local authorities for MK03 execution rather than re-deriving the product from parent KW-001 files.
+The executor uses these local authorities for MK03 execution rather than re-deriving the product from parent KW-001 files.
 
 ## Productization roadmap
 
@@ -136,10 +136,10 @@ PHASE 1  FRESH MARKET REALITY                  = PASS / 2026-09-11
 PHASE 2  CLIENT INPUT CONTRACT                 = PASS
 PHASE 3  KW-001 METHOD + FAILURE EXTRACTION    = PASS
 PHASE 4  AUTONOMOUS ROADMAP + CONSISTENCY      = PASS
-PHASE 5  MK03-ONLY OKNO_MSK REHEARSAL          = BLOCKED UNTIL WORK HANDOFF READBACK
+PHASE 5  MK03-ONLY OKNO_MSK REHEARSAL          = READY FOR WORK
 PHASE 6  CLIENT PACKAGE DECISION               = CONTRACT FROZEN; REHEARSAL MATERIALIZATION PENDING
 PHASE 7  PRODUCT / RECIPIENT QA                = PENDING
-PHASE 8  PRICE / LIMITS / ECONOMICS            = PENDING
+PHASE 8  PRICE / LIMITS / ECONOMICS            = BLOCKED UNTIL REHEARSAL/QA PASS
 PHASE 9  KWORK CARD                            = PENDING
 PHASE 10 PORTFOLIO / COVER                     = PENDING
 PHASE 11 OWNER PUBLICATION                     = PENDING
@@ -148,22 +148,24 @@ PHASE 12 FREEZE / READBACK                     = PENDING
 
 ## Phase-4 result
 
-Phase 4 closes the pre-data Level-1 method gate.
-
 Consistency authority:
 
 `PHASE_4_METHOD_CONSISTENCY_AUDIT_2026-09-11.md`
+
+Published Phase-4 commit/readback anchor:
+
+`151802ad17b9f3f651701afadf27fa53829d2f55`
 
 Result:
 
 ```text
 METHOD CONSISTENCY = PASS
 KNOWN CROSS-FILE METHOD CONTRADICTIONS = 0
-LEVEL-2 OKNO_MSK EXECUTION = NOT STARTED
 NEW PROVIDER CALLS DURING PHASE 4 = 0
+REMOTE READBACK = PASS
 ```
 
-The physical package contract is already frozen at method level as:
+The physical package contract is frozen at method level as:
 
 ```text
 1 XLSX
@@ -173,24 +175,35 @@ The physical package contract is already frozen at method level as:
 
 The detailed workbook carries evidence/decisions. The PDF synthesizes the competitive-gap picture. A separate implementation-TZ PDF is outside base MK03.
 
-## Phase-5 activation gate
+## Phase-5 Work handoff
 
-Phase 5 may begin only after:
+Canonical execution handoff:
+
+`PHASE_5_WORK_PROMPT_2026-09-11.md`
+
+Published handoff commit/readback anchor:
+
+`ab85f5dbf90d7ab62e1a01ca45a1ba671c338d5e`
+
+The handoff freezes:
+- live-branch recovery/read order;
+- OKNO_MSK-only rehearsal premise;
+- preserved-evidence-first / no-new-provider-calls-by-default policy;
+- all mandatory MK03 evidence layers and terminal gap states;
+- selective SERP tested-vs-unprobed distinction;
+- current-site freshness;
+- XLSX + analytical PDF + handoff materialization;
+- recipient task tests;
+- semantic-block checkpoint persistence;
+- source/generator-first correction;
+- native-Git vs owner-relay large-artifact transport;
+- shared-branch no-force safety;
+- stop boundary before pricing/card/visuals.
+
+## Current next action
 
 ```text
-PHASE-4 LEVEL-1 AUTHORITIES COMMITTED
-→ REMOTE READBACK PASS
-→ PHASE_5_WORK_PROMPT_2026-09-11.md CREATED
-→ WORK HANDOFF COMMITTED
-→ WORK HANDOFF REMOTE READBACK PASS
-```
-
-The Phase-5 Work prompt must include semantic-block checkpoint persistence and the cross-Kwork large-artifact transport policy.
-
-## Next action
-
-```text
-NEXT_ACTION = PUBLISH_PHASE_4_AUTHORITIES__REMOTE_READBACK__CREATE_AND_PUBLISH_PHASE_5_WORK_HANDOFF
+NEXT_ACTION = EXECUTE_PHASE_5_MK03_ONLY_OKNO_MSK_REHEARSAL_IN_WORK_FROM_PHASE_5_WORK_PROMPT_2026-09-11
 ```
 
 Do not start Phase 8 economics, Kwork card or visuals before the isolated rehearsal and recipient QA are complete.
