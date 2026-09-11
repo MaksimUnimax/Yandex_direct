@@ -1,0 +1,45 @@
+{
+  "status": "IN_PROGRESS_NOT_FINAL_AUTHORITY",
+  "source_commit": "06ad6156460b524de1656920468d3ca3647c9cb3",
+  "completed_block": "LEVEL2_AUTHORITIES",
+  "counts": {
+    "discovery_queries": 75,
+    "discovery_top10_rows": 750,
+    "observed_domains": 237,
+    "accepted_actual_competitors": 9,
+    "competitor_pages": 44,
+    "competitor_page_type_counts": {
+      "ARTICLE_GUIDE": 3,
+      "COMMERCIAL_CATEGORY": 5,
+      "COMMERCIAL_LANDING": 2,
+      "COMMERCIAL_PRODUCT": 6,
+      "COMMERCIAL_SERVICE": 13,
+      "COMPARISON_SELECTION": 4,
+      "HOME_OR_HUB": 4,
+      "MIXED_COMMERCIAL_INFORMATIONAL": 2,
+      "PORTFOLIO_GALLERY": 1,
+      "PRICE_FINANCE": 4
+    },
+    "candidate_occurrences": 92,
+    "deduplicated_directions": 43,
+    "wordstat_seed_acquisitions_reused": 14,
+    "wordstat_returned_rows_reconciled": 160,
+    "selective_search_requirements_reused": 9,
+    "selective_search_succeeded": 7,
+    "selective_search_outcome_unknown": 2,
+    "exact_query_domain_matrix_rows": 81,
+    "accepted_phrase_merges": 16,
+    "ALREADY_COVERED": 23,
+    "CONFIRMED_GAP": 7,
+    "HOLD_EVIDENCE": 10,
+    "REJECT_OFF_SCOPE": 3
+  },
+  "open_failures": [
+    "XLSX_NOT_BUILT",
+    "PDF_NOT_BUILT",
+    "EXACT_FILE_QA_NOT_RUN",
+    "RECIPIENT_TEST_NOT_RUN",
+    "REMOTE_READBACK_NOT_RUN"
+  ],
+  "next_resume_action": "BUILD_MK03_PHASE5_CLIENT_XLSX_AND_PDF"
+}

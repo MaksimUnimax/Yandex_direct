@@ -1,0 +1,25 @@
+{
+  "release": "MK03_PHASE_5_OKNO_MSK",
+  "source_commit": "06ad6156460b524de1656920468d3ca3647c9cb3",
+  "execution_date": "2026-09-11",
+  "mode": "PRESERVED_EVIDENCE_RECONCILIATION_ONLY",
+  "new_provider_calls_total": 0,
+  "providers": {
+    "yandex_search": {
+      "new_calls": 0,
+      "reused_requirements": 9,
+      "succeeded": 7,
+      "outcome_unknown": 2
+    },
+    "wordstat": {
+      "new_calls": 0,
+      "reused_seed_acquisitions": 14,
+      "reconciled_returned_rows": 160
+    },
+    "other": {
+      "new_calls": 0
+    }
+  },
+  "public_site_recheck_in_this_phase": 0,
+  "authorization_note": "The Phase-5 prompt required reuse first and did not authorize new paid/provider acquisition for this execution."
+}
