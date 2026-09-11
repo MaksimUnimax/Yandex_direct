@@ -1,143 +1,170 @@
-# KW-002 — EXECUTION FAILURE LEDGER AND ANTI-REGRESSION RULE
+# KW-002 — UNIVERSAL EXECUTION FAILURE LEDGER AND ANTI-REGRESSION RULE
 
-Status: **OWNER-MANDATED / ACTIVE / MUST BE READ BEFORE EVERY LATER STEP**
+Status: **OWNER-MANDATED / ACTIVE / UNIVERSAL / MUST BE READ BEFORE EVERY LATER STEP**
 Decision date: 2026-09-11
 Applies to: all KW-002 jobs and every Main ChatGPT / Work execution pass.
 
+Companion architecture authority:
+
+`ROADMAP_AND_METHOD_GENERALIZATION_RULE.md`
+
 ## 1. Purpose
 
-KW-002 must learn from defects that were actually observed in execution. A later step is not allowed to repeat a known failure merely because its mechanical QA passes.
+This file stores **universal failure mechanisms**, their root causes and reusable anti-regression gates.
 
-This file is a Level-1 methodology authority. Job-specific failure ledgers may add concrete examples and counts, but may not weaken these rules.
+Concrete client names, product names, family IDs, query IDs, request IDs, row counts and job-specific examples belong in `work/<JOB_ID>/` failure ledgers and audit evidence.
 
-Mandatory pre-step action:
+Hard distinction:
 
 ```text
-READ THIS FILE
--> identify which historical failure classes can recur in the current step
--> add explicit regression gates to the step prompt/QA
--> only then execute the step
+UNIVERSAL FAILURE CLASS = mechanism that can recur on another site
+JOB FAILURE RECORD = proof that the mechanism occurred in one execution
 ```
 
-A known failure class without an explicit regression gate means the step is not ready for PASS.
+A known failure class without an explicit regression gate means the current step is not ready for PASS.
 
 ---
 
-## 2. Failure class F00 — source/scope freeze admitted superseded inputs
+## F00 — source/scope authority drift
 
-Observed in Blood & Sand Step00:
+### Root cause
 
-- an earlier freeze admitted WB + Ozon assortment rows;
-- the owner later clarified Ozon-only as the authoritative assortment input;
-- dependent planning based on the larger mixed-source set had to be invalidated and rebuilt.
+Execution starts before the authoritative source set, business boundary or purchased scope is frozen, or a later scope change is treated as an additive note instead of an invalidating authority mutation.
 
-Anti-regression rule:
+### Why it fails
+
+Downstream work can be internally consistent while answering the wrong business/scope question.
+
+### Universal rule
 
 ```text
-MATERIAL INPUT MUTATION
--> invalidate all dependent plans/artifacts that used the old input
--> update whitelist / brief / manifests
--> rebuild downstream handoff
--> only then restore PASS
+MATERIAL INPUT AUTHORITY CHANGE
+-> identify every dependent artifact
+-> invalidate affected PASS states
+-> rebuild/reconcile from the new authority
+-> only then continue
 ```
 
-Never silently keep an old source because it is convenient or already processed.
-
-Required gate:
+### Gates
 
 ```text
 ACTIVE_INPUT_SOURCE_SET == CURRENT_OWNER_APPROVED_SOURCE_SET
-SUPERSEDED_INPUT_ROWS_USED_DOWNSTREAM = 0
+SUPERSEDED_INPUT_USED_AS_CURRENT = 0
+DEPENDENT_PASS_AFTER_MATERIAL_INPUT_CHANGE_WITHOUT_RECHECK = 0
 ```
 
 ---
 
-## 3. Failure class F02 — catalog accounting was mistaken for search-quality coverage
+## F01 — business/accounting completeness mistaken for search completeness
 
-Observed in Blood & Sand Step02 V1:
+### Root cause
 
-- 76/76 catalog lineage coverage looked complete;
-- noisy bare names and ambiguous exact seller names were too easily promoted to PRIMARY probes;
-- HIGH-noise names lacked mandatory refinement strategy;
-- automobile/use-context synonyms were not covered systematically;
-- information-gain rationales became repetitive;
-- adversarial QA checked counts/lineage better than search usefulness;
-- Step03 was opened before dedicated search-probe-quality QA.
+A model covers every catalog/service row, so execution assumes search-discovery coverage is also complete.
 
-Anti-regression rule:
+### Why it fails
+
+Client taxonomy describes inventory/services; users may search with synonyms, use cases, problems, attributes, colloquial language and ambiguous names that the client never uses.
+
+### Universal rule
 
 ```text
-CATALOG_LINEAGE_COVERAGE != SEARCH_PROBE_QUALITY
+BUSINESS_LINEAGE_COVERAGE != SEARCH_DISCOVERY_COVERAGE
 ```
 
-Every ambiguous/high-noise seed family must have at least one explicit refinement/qualification route or an explicit defer/control reason.
-
-Do not use provider-call economy as a reason to suppress a probe that materially improves coverage.
-
-Required gates:
+### Gates
 
 ```text
-BARE_AMBIGUOUS_PRIMARY_WITHOUT_REFINEMENT = 0
-HIGH_NOISE_PRIMARY_WITHOUT_QUALIFICATION = 0
+MATERIAL_BUSINESS_DIRECTION_WITHOUT_DISCOVERY_ROUTE = 0
+HIGH_AMBIGUITY_ROUTE_WITHOUT_REFINEMENT_OR_CONTROL = 0
 SEARCH_QUALITY_QA = PASS
-NEXT_STEP_OPENED_BEFORE_SEARCH_QUALITY_QA = false
 ```
 
 ---
 
-## 4. Failure class F03 — provider success was mistaken for durable feed-forward completion
+## F02 — seed/probe treated as final keyword or truth
 
-Observed in Blood & Sand Step03:
+### Root cause
 
-- provider acquisition could appear complete;
-- later readback showed only 60/79 current outcomes reconstructed losslessly from durable GitHub evidence;
-- recovery was required to reach 79/79 durable feed-forward;
-- `OUTCOME_UNKNOWN` history had to remain preserved rather than being overwritten by blind replay.
+The acquisition instrument is promoted into the final semantic object merely because it was selected for provider execution.
 
-Anti-regression rule:
+### Why it fails
+
+A broad or ambiguous seed may be excellent for discovery while being unsuitable as a final keyword, intent label or page target.
+
+### Universal rule
 
 ```text
-PROVIDER_SUCCESS != STEP_COMPLETION
+SEED != FINAL KEYWORD
+SEED != FINAL INTENT
+SEED != FINAL PAGE
 ```
 
-A provider step completes only after:
+### Gates
 
 ```text
-result received
--> complete required payload persisted
--> durable object/file identity recorded
--> remote readback performed
--> required row/count/provenance fields reconciled
--> then and only then advance
+SEED_WITHOUT_NAMED_INFORMATION_PURPOSE = 0
+SEED_SELECTION_USED_AS_FINAL_RELEVANCE_PROOF = 0
 ```
 
-`OUTCOME_UNKNOWN` forbids blind replay. A new current observation must receive a new request identity and must not masquerade as the historical original.
+---
 
-Required gates:
+## F03 — provider success mistaken for durable project completion
+
+### Root cause
+
+Transport/API success, visible chat output, HTTP success or terminal provider state is treated as sufficient evidence persistence.
+
+### Why it fails
+
+The next context cannot reproduce facts that were not durably persisted with provenance; summaries/counts cannot reconstruct lost rows.
+
+### Universal rule
 
 ```text
-AUTHORIZED_ITEMS_WITH_TERMINAL_PROVIDER_OUTCOME = TOTAL_AUTHORIZED_ITEMS
-AUTHORIZED_ITEMS_WITH_DURABLE_LOSSLESS_FEED_FORWARD = TOTAL_AUTHORIZED_ITEMS
+PROVIDER_SUCCESS != DURABLE FEED_FORWARD COMPLETION
+```
+
+Required order:
+
+```text
+receive complete result
+-> persist complete required body
+-> persist request/provenance identity
+-> remote readback
+-> row/count/field reconciliation
+-> only then next provider action
+```
+
+### Gates
+
+```text
+TERMINAL_PROVIDER_ITEMS = AUTHORIZED_PROVIDER_ITEMS
+DURABLE_LOSSLESS_ITEMS = AUTHORIZED_PROVIDER_ITEMS
 REMOTE_READBACK = PASS
-BLIND_REPLAY_OF_OUTCOME_UNKNOWN = 0
+CHAT_ONLY_RAW_EVIDENCE = 0
 ```
 
 ---
 
-## 5. Failure class F03A — unsafe normalization can destroy meaning or provenance
+## F03A — destructive normalization / deduplication
 
-The Blood & Sand Step03A independent audit passed, but the audit established the safety boundary that future jobs must preserve.
+### Root cause
 
-Anti-regression rules:
+Normalization optimizes row reduction instead of semantic identity and provenance preservation.
 
-- use conservative Unicode normalization (NFC unless a stronger transformation is separately justified);
-- trim/collapse whitespace safely;
-- case-fold for comparison, not destructive rewriting where the original matters;
-- do not erase digits, punctuation, hyphens or word order merely to increase deduplication;
-- exact duplicate collapse is analytical only: every RAW occurrence remains traceable;
-- implicit duplicates require high-confidence equivalence; otherwise HOLD the group.
+### Why it fails
 
-Required gates:
+Digits, punctuation, word order or morphology may change referent/intent. Merging uncertain variants destroys evidence and makes later correction impossible.
+
+### Universal rule
+
+- normalize conservatively;
+- exact duplicate collapse is analytical, not evidence deletion;
+- implicit duplicates require high-confidence equivalence;
+- uncertain equivalence remains separate/HOLD;
+- RAW text and lineage stay recoverable.
+
+### Gates
 
 ```text
 RAW_LINEAGE_LOSS = 0
@@ -147,125 +174,115 @@ ORIGINAL_TEXT_RECOVERABLE = true
 
 ---
 
-## 6. Failure class F03B-1 — broad substring/regex rules fired before business-context collision guards
+## F03B-1 — unsafe lexical shortcut / substring-prefix overreach
 
-Observed in the original Blood & Sand Step03B:
+### Root cause
 
-Examples of unsafe pattern behavior included:
+Short prefixes, stems, substrings or regex fragments are used as semantic proof because they are convenient implementation shortcuts.
 
-- `футбол*` colliding with `футболка`;
-- `банк*` colliding with unrelated/ambiguous contexts;
-- `четк*` colliding with possible `чётки` morphology/typo;
-- `купить.*дом|дом.*купить` colliding with product demand such as `оберег дома купить`;
-- generic media verbs (`читать`, `слушать`, `смотреть`, `скачать`, `серия`) firing without enough media referent evidence;
-- broad vehicle/model rules firing before supported automobile-use/catalog collision checks;
-- generic `игра`, `мод*`, `id`-like patterns acting as conclusive evidence without a named game/in-game referent.
+### Why it fails
 
-Anti-regression rule:
+Different lexemes can share characters; a token can have multiple referents; lexical resemblance does not prove user intent.
+
+### Universal rule
 
 ```text
-SUBSTRING MATCH != REFERENT PROOF
-TOKEN MATCH != INTENT PROOF
+STRING PREFIX SIMILARITY != SAME LEXEME
+SAME LEXEME != SAME REFERENT
+TOKEN MATCH != USER INTENT
 ```
 
-Before any AUTO_EXCLUDE decision, require a bounded referent/context rule that proves the foreign meaning.
+Use bounded tokens, verified morphology or explicit contextual evidence. Broad stems may be discovery signals but cannot be destructive proof unless collision safety is demonstrated.
 
-Business-supported collision guards must be evaluated before destructive negative rules.
-
-Required gates:
+### Gates
 
 ```text
-SINGLE_AMBIGUOUS_TOKEN_AUTO_EXCLUSIONS = 0
-UNBOUNDED_STEM_AUTO_EXCLUSIONS = 0
-BUSINESS_COLLISION_GUARD_PRECEDENCE = PASS
+UNBOUNDED_STEM_USED_AS_DESTRUCTIVE_PROOF = 0
+KNOWN_PREFIX_COLLISION_REGRESSIONS = PASS
+AMBIGUOUS_COLLISION_FORCED_TO_FINAL_STATE = 0
 ```
 
 ---
 
-## 7. Failure class F03B-2 — positive business token fallback could override explicit foreign context
+## F03B-2 — positive business vocabulary overrides explicit foreign context
 
-Observed in the original Step03B:
+### Root cause
 
-A recognized product/business token could still lead to KEEP after an incomplete negative blacklist, allowing games, vehicle parts and media/digital contexts to survive.
+The classifier assumes that presence of a product/business token is stronger than evidence of a foreign referent.
 
-Anti-regression rule:
+### Why it fails
+
+The same word can occur in games, media, vehicle models/parts, people, places, organizations or unsupported products.
+
+### Universal rule
 
 ```text
-POSITIVE_BUSINESS_TOKEN
+POSITIVE BUSINESS TOKEN
 DOES NOT OVERRIDE
-EXPLICIT_FOREIGN_CONTEXT
+EXPLICIT FOREIGN CONTEXT
 ```
 
-Before KEEP, independently test explicit foreign contexts such as:
+If business and foreign interpretations both remain plausible, use HOLD rather than forced KEEP/EXCLUDE.
+
+### Gates
 
 ```text
-named game / in-game item
-vehicle model or part
-film/book/chapter/episode/digital media task
-foreign person/place/organization/entity
-unsupported physical product
-```
-
-If both business fit and foreign context remain plausible, use HOLD, not KEEP or EXCLUDE.
-
-Required gate:
-
-```text
-FALSE_KEEP_REGRESSION = PASS
+FOREIGN_CONTEXT_GUARDS = PASS
+BUSINESS_TOKEN_ONLY_KEEP_WITH_CONTRADICTING_CONTEXT = 0
 ```
 
 ---
 
-## 8. Failure class F03B-3 — mechanical accounting PASS was mistaken for semantic PASS
+## F03B-3 — mechanical/accounting QA mistaken for semantic QA
 
-Observed in the original Step03B:
+### Root cause
 
-- mechanical QA reported complete accounting and a high self-score;
-- independent full-volume semantic audit later found 1,710 normalized identities requiring state change;
-- 758 exclusions were unsafe (14 -> KEEP, 744 -> HOLD);
-- 286 KEEP rows were unsafe (79 -> EXCLUDE, 207 -> HOLD);
-- 666 HOLD rows were deterministically resolvable (298 -> KEEP, 368 -> EXCLUDE);
-- the original semantic PASS candidate was revoked.
+The same producer verifies its own counts/schema and a high self-score is treated as proof that semantic rules are correct.
 
-Anti-regression rule:
+### Why it fails
+
+A deterministic system can be perfectly reproducible and consistently wrong.
+
+### Universal rule
 
 ```text
 ACCOUNTING_QA != SEMANTIC_QA
-SELF_SCORE != INDEPENDENT_ACCEPTANCE
+SELF_SCORE != INDEPENDENT ACCEPTANCE
 ```
 
-Any high-volume semantic filter must receive adversarial class-level QA against frozen business scope before acceptance.
+High-volume semantic steps require adversarial checks using a method that is not equivalent to the production classifier.
 
-When a later independent audit finds a systematic defect, the previous PASS is revoked automatically until corrected.
-
-Required gates:
+### Gates
 
 ```text
 MECHANICAL_ACCOUNTING = PASS
-SEMANTIC_ADVERSARIAL_QA = PASS
-KNOWN_BUSINESS_COLLISION_REGRESSIONS = 0
+INDEPENDENT_SEMANTIC_DIAGNOSTIC = PASS where applicable
 OPEN_CRITICAL_SEMANTIC_DEFECTS = 0
 ```
 
 ---
 
-## 9. Failure class F03B-4 — ambiguous demand was destroyed instead of preserved for later evidence
+## F03B-4 — uncertainty destroyed prematurely
 
-Anti-regression rule:
+### Root cause
 
-Step03B is a high-precision pre-filter, not final intent/SERP classification.
+The pipeline is optimized for a clean binary output too early, so ambiguous rows are forced into KEEP or EXCLUDE before enough evidence exists.
+
+### Why it fails
+
+Early lexical evidence cannot reliably resolve mixed referents, user tasks or SERP intent.
+
+### Universal rule
 
 ```text
 CLEAR OFF-TOPIC -> EXCLUDE
-DIRECT BUSINESS-SUPPORTED -> KEEP
-MATERIAL AMBIGUITY -> HOLD / SERP_REQUIRED_LATER
+DIRECT BUSINESS-SUPPORTED -> KEEP CANDIDATE
+MATERIAL AMBIGUITY -> HOLD / LATER EVIDENCE
 ```
 
-Low frequency never proves irrelevance. High frequency never proves business fit.
+Frequency or commercial delivery caps never resolve semantic ambiguity.
 
-Do not use a commercial delivery cap as a relevance rule.
-
-Required gates:
+### Gates
 
 ```text
 LOW_FREQUENCY_ONLY_EXCLUSIONS = 0
@@ -276,23 +293,29 @@ DELIVERY_CAP_USED_AS_RELEVANCE_RULE = false
 
 ---
 
-## 10. Failure class F04-1 — aggregate family counts existed without deterministic occurrence -> family reproducibility
+## F04-1 — aggregate family counts without row/occurrence reproducibility
 
-Observed in the first Blood & Sand Step04:
+### Root cause
 
-- aggregate family totals reconciled;
-- but there was no durable occurrence-level assignment ledger proving exactly which occurrence belonged to which family;
-- external audit classified this as a material QA/reproducibility defect.
+Only summaries are materialized because aggregate reconciliation appears sufficient.
 
-Anti-regression rule:
+### Why it fails
 
-Every family-triage execution must publish a deterministic full-volume mapping:
+A later audit cannot prove which exact identity/occurrence produced a family total or reproduce rule changes.
+
+### Universal rule
+
+Every family-triage pass must publish deterministic mapping:
 
 ```text
-occurrence_identity -> normalized_identity -> sanitation_state -> family_id -> assignment_reason
+occurrence_identity
+-> normalized_identity
+-> upstream state
+-> preliminary family/task state
+-> assignment reason
 ```
 
-Required gates:
+### Gates
 
 ```text
 OCCURRENCE_LEDGER_ROWS = TOTAL_OCCURRENCES
@@ -304,93 +327,264 @@ FAMILY_COUNT_RECONCILIATION = PASS
 
 ---
 
-## 11. Failure class F04-2 — representative examples were patched instead of the underlying deterministic rule
+## F04-2 — representative examples patched instead of the underlying rule
 
-Observed in the first Step04 rework cycle:
+### Root cause
 
-The external audit identified representative family defects, but the correction contract explicitly required fixing the underlying occurrence->family assignment rules and rerunning the full frozen corpus.
+Known bad rows are treated as the correction target rather than evidence of a systematic producer defect.
 
-Anti-regression rule:
+### Why it fails
+
+Sibling rows affected by the same rule remain wrong, and the apparent fix does not generalize.
+
+### Universal rule
 
 ```text
 REPRESENTATIVE DEFECT EXAMPLE != PATCH TARGET
-REPRESENTATIVE DEFECT EXAMPLE = PROOF OF A RULE FAILURE
+REPRESENTATIVE DEFECT EXAMPLE = REGRESSION TEST FOR A RULE FAILURE
 ```
 
-When a defect demonstrates a rule failure:
+Correction order:
 
 ```text
-identify defective rule
--> identify blast radius
--> correct rule
+identify mechanism
+-> define blast radius
+-> fix producer/rule
 -> rerun complete affected universe
--> regression-test representative examples
+-> regression-test known examples
 -> report sibling changes
 ```
 
-Never manually patch only known examples if the same rule can affect siblings.
-
-Required gate:
+### Gates
 
 ```text
-KNOWN_DEFECT_EXAMPLES_PASS = true
-FULL_AFFECTED_UNIVERSE_REPROCESSED = true
 RULE_LEVEL_FIX_DOCUMENTED = true
+FULL_AFFECTED_UNIVERSE_REPROCESSED = true
+KNOWN_DEFECT_EXAMPLES_PASS = true
+MANUAL_KNOWN_ROW_PATCH_ONLY = false
 ```
 
 ---
 
-## 12. Failure class F04-3 — post-sanitation upstream changes invalidate historical family conclusions
+## F04-3 — upstream authority changes not propagated downstream
 
-Observed after corrected Step03B:
+### Root cause
 
-- 1,710 normalized identities changed sanitation state;
-- 1,761 RAW occurrences carry those changed identities;
-- 23 of 25 historical Step04 families contain corrected-state transitions.
+A downstream PASS is treated as immutable even when its semantic input authority materially changes.
 
-Anti-regression rule:
+### Why it fails
 
-A downstream PASS is not immutable when an upstream authority materially changes.
+Family, queue, clustering or page decisions can remain logically based on superseded states.
+
+### Universal rule
 
 ```text
-MATERIAL_UPSTREAM_STATE_CHANGE
--> deterministic downstream reconciliation
--> identify affected downstream families/artifacts
--> dedicated semantic re-run if conclusions may change
--> downstream step remains blocked until re-accepted
+MATERIAL_UPSTREAM_CHANGE
+-> downstream dependency reconciliation
+-> invalidate affected conclusions
+-> semantic rerun where needed
+-> re-accept before continuing
 ```
 
-Do not continue to Step05 on historical Step04 family/queue conclusions after material Step03B correction.
-
-Required gate before Step05:
+### Gates
 
 ```text
-POST_SANITATION_STEP04_RECONCILIATION = PASS
-POST_SANITATION_STEP04_SEMANTIC_REWRITE = PASS
-MAIN_CHATGPT_RETURN_QA = PASS
+AFFECTED_DOWNSTREAM_ARTIFACTS_IDENTIFIED = true
+STALE_DOWNSTREAM_AUTHORITY_USED = 0
+MAIN_RETURN_QA_AFTER_REQUIRED_RERUN = PASS
 ```
 
 ---
 
-## 13. Universal anti-regression procedure
+## F04-4 — first-match rule ordering erases a more informative explicit task
 
-Every later step must include a `KNOWN_FAILURE_REGRESSION_MATRIX` with at least:
+### Root cause
+
+A classifier uses ordered early returns. A broad topic/context rule fires before a more specific action, object or user-task signal.
+
+### Why it fails
+
+Natural-language queries are multidimensional. Topic, referent, action, commercial modifier and content/task type can coexist. First rule wins is an implementation artifact, not a semantic principle.
+
+### Universal rule
+
+```text
+BROAD TOPIC CONTEXT MUST NOT ERASE A MORE INFORMATIVE EXPLICIT USER TASK
+```
+
+Before terminal assignment, collect materially relevant signals or use an explicit specificity/precedence contract. Preserve secondary context as metadata.
+
+### Gates
+
+```text
+EXPLICIT_TASK_HIDDEN_BY_BROADER_TOPIC = 0
+RULE_PRECEDENCE_CONTRACT = PRESENT
+SIMULTANEOUS_SIGNAL_REGRESSION = PASS
+FINAL_INTENT_INFERRED_PREMATURELY = false
+```
+
+---
+
+## F04-5 — generic fallback hides an unmodelled coherent user task
+
+### Root cause
+
+The taxonomy is treated as closed. Anything that does not match known branches falls into a generic family, even when the phrase contains a repeated coherent action/task not represented in the taxonomy.
+
+### Why it fails
+
+The classifier confirms its own ontology instead of discovering missing dimensions in the data.
+
+### Universal rule
+
+```text
+GENERIC FALLBACK != PROOF OF UNQUALIFIED USER TASK
+```
+
+Large generic families require independent heterogeneity/task discovery. Repeated explicit actions must become at least a preliminary task marker/family when materially coherent.
+
+### Gates
+
+```text
+LARGE_GENERIC_FAMILY_HETEROGENEITY_AUDIT = PASS
+REPEATED_EXPLICIT_TASK_PATTERN_HIDDEN_IN_GENERIC = 0
+UNKNOWN_TASK_DISCOVERY_ROUTE = PRESENT
+```
+
+---
+
+## F04-6 — hand-built taxonomy accepted without independent discovery-oriented challenge
+
+### Root cause
+
+The same lexical taxonomy both produces families and defines the tests used to validate them.
+
+### Why it fails
+
+Missing families or misplaced rows outside the predefined vocabulary can remain invisible.
+
+### Universal rule
+
+For high-volume preliminary semantic grouping, add an independent diagnostic that does not simply replay ordered production rules. Examples include term/co-occurrence analysis, semantic embeddings, topic decomposition, cross-family centroid/similarity diagnostics or stratified human review. Diagnostic output is not final SERP clustering.
+
+### Gates
+
+```text
+INDEPENDENT_FAMILY_COHERENCE_DIAGNOSTIC = PASS
+LARGE_FAMILIES_CHALLENGED_FOR_HIDDEN_SUBTASKS = true
+DIAGNOSTIC_NOT_MISUSED_AS_FINAL_SERP_CLUSTERING = true
+```
+
+---
+
+## F05-1 — coverage-gap queue duplicates already durable evidence
+
+### Root cause
+
+A local family-level gap is declared without reconciling it against the full prior acquisition/evidence history.
+
+### Why it fails
+
+The pipeline can spend provider calls re-measuring a question already answered under another seed, earlier step or historical durable request.
+
+### Universal rule
+
+```text
+LOCAL COVERAGE GAP HYPOTHESIS
+MUST BE RECONCILED AGAINST
+ALL CURRENT DURABLE EVIDENCE
+BEFORE PROVIDER AUTHORIZATION
+```
+
+A new probe must have explicit incremental information gain and a negative-result value.
+
+### Gates
+
+```text
+PROVIDER_READY_QUEUE_WITH_EQUIVALENT_EXISTING_EVIDENCE = 0
+PROBE_LITERAL_DUPLICATES = 0
+PROBE_SEMANTIC_DUPLICATES_WITHOUT_OPERATOR_OR_SCOPE_GAIN = 0
+INCREMENTAL_INFORMATION_GAIN_EXPLICIT = true
+```
+
+---
+
+## F05-2 — owner/business fact gap sent to a search provider
+
+### Root cause
+
+The pipeline asks demand/search evidence to establish inventory, product form, service availability, legal/claim boundaries or another fact only the client/business can authoritatively provide.
+
+### Why it fails
+
+Search behavior cannot turn an unknown business fact into truth.
+
+### Universal rule
+
+```text
+SEARCH DEMAND EVIDENCE != CLIENT BUSINESS FACT
+```
+
+### Gates
+
+```text
+OWNER_FACT_GATED_SENT_TO_PROVIDER = 0
+UNSUPPORTED_INVENTORY_OR_CLAIM_INFERENCE = 0
+```
+
+---
+
+## F06+ — final clustering/page decisions made from preliminary lexical families
+
+### Root cause
+
+Early topical grouping is mistaken for page-level SEO clustering because the labels look coherent.
+
+### Why it fails
+
+One topical family can contain multiple user intents/pages, while lexically different queries can share the same SERP/user task.
+
+### Universal rule
+
+```text
+PRELIMINARY FAMILY != FINAL SEO CLUSTER
+TERM SIMILARITY != QUERY->PAGE OWNERSHIP
+```
+
+Final page-level decisions require governed later evidence, including user task/intent and current SERP overlap where the roadmap specifies it.
+
+### Gates
+
+```text
+PRELIMINARY_FAMILY_USED_AS_FINAL_PAGE_CLUSTER = 0
+FINAL_PAGE_OWNERSHIP_BEFORE_SERP_STAGE = 0
+```
+
+---
+
+## Universal anti-regression procedure
+
+Every later step must materialize a known-failure regression matrix containing at least:
 
 ```text
 failure_class
-applicable_to_current_step
+root_cause_relevant_to_current_step
 regression_test
 result
 blocking_if_fail
 ```
 
-A later Work prompt must explicitly name this Level-1 file as mandatory input.
+Before execution:
 
-A QA report that omits applicable known-failure tests cannot score PASS even if all row counts reconcile.
+```text
+READ THIS FILE
+-> identify applicable failure mechanisms
+-> map them to current step gates
+-> add novel job-specific examples only in work/<JOB_ID>/
+-> execute
+```
 
----
-
-## 14. PASS policy
+## PASS policy
 
 A step may be accepted only if:
 
@@ -399,8 +593,8 @@ METHOD_RULES = PASS
 FULL_VOLUME_ACCOUNTING = PASS where applicable
 SEMANTIC_QA = PASS where applicable
 KNOWN_FAILURE_REGRESSION_MATRIX = PASS
-PERSISTENCE_AND_REMOTE_READBACK = PASS for durable outputs
+PERSISTENCE_AND_REMOTE_READBACK = PASS where applicable
 OPEN_CRITICAL_DEFECTS = 0
 ```
 
-Quality scores do not override a failed hard regression gate.
+Quality scores never override a failed hard gate.
