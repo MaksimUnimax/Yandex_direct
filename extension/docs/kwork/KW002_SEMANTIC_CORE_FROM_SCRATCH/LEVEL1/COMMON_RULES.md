@@ -4,6 +4,10 @@ Status: **ACTIVE / OWNER-AUTHORIZED / OWNER-LOCKED**
 
 Owner clarification: 2026-09-11 — owner-facing `ПРОСТЫМИ СЛОВАМИ` is mandatory real plain Russian and must never be replaced by hashes, IDs, status markers or machine-style dumps.
 
+Cross-Kwork large-artifact publication authority:
+
+`../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
+
 This file is the Level-1 entry point for KW-002.
 
 ## 0. Canonical inheritance rule
@@ -15,6 +19,10 @@ Canonical inherited universal authority:
 `INHERITED_KW001_UNIVERSAL_RULES.md`
 
 It contains the actual reusable rules transferred from KW-001, including their purpose, failure class/root cause and pass boundary.
+
+Cross-Kwork owner-locked rules located above the product roots also apply directly. The current universal artifact-publication authority is:
+
+`../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
 
 ```text
 DO NOT REDUCE AN INHERITED RULE TO A FILE REFERENCE OR ONE-LINE LABEL.
@@ -39,16 +47,17 @@ The older KW-001 terminology that called current-job workspace `Level 2` is not 
 Before every major KW-002 step read:
 
 ```text
-1. INHERITED_KW001_UNIVERSAL_RULES.md
-2. PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
-3. RESULT_QUALITY_SCORING_RULE.md
-4. METHOD_SOURCE_AND_EVIDENCE_RULES.md
-5. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
-6. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
-7. WORK_HANDOFF_RULE.md when large-data risk exists
-8. current Level-2 step method
-9. current work/<JOB_ID>/ manifest/flow/evidence
-10. owner-facing plain-language acceptance boundary in this file and the pre-step rule
+1. applicable cross-Kwork owner-locked authorities, including KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md when file generation/persistence is material
+2. INHERITED_KW001_UNIVERSAL_RULES.md
+3. PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
+4. RESULT_QUALITY_SCORING_RULE.md
+5. METHOD_SOURCE_AND_EVIDENCE_RULES.md
+6. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
+7. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
+8. WORK_HANDOFF_RULE.md when large-data risk exists
+9. current Level-2 step method
+10. current work/<JOB_ID>/ manifest/flow/evidence
+11. owner-facing plain-language acceptance boundary in this file and the pre-step rule
 ```
 
 The inherited and owner-added Level-1 authority includes, at minimum:
@@ -71,6 +80,11 @@ QUALITY > PROVIDER-COST MINIMIZATION
 EXPLICIT BRIDGE SERVICE/MODE BEFORE COMMANDS
 PROVIDER SUCCESS != PROJECT COMPLETION
 COMPLETE RETURNED EVIDENCE PERSISTENCE + READBACK BEFORE NEXT PROVIDER ACTION
+LARGE ARTIFACT MODEL-BYTE TRANSPORT FORBIDDEN BY DEFAULT
+OWNER-RELAY WEB PUBLICATION ALLOWED/REQUIRED WHEN MORE EFFICIENT THAN GIT AUTH RECOVERY
+DIRECT GITHUB UPLOAD LINK + DOWNLOADABLE FILES/ZIP FOR OWNER RELAY
+OWNER UPLOAD != REMOTE ACCEPTANCE; REMOTE READBACK REQUIRED
+GIT AUTH FAILURE != PERMISSION TO RECOMPUTE VALID ARTIFACTS
 OWNER ANALYTICAL OBJECTION != AUTOMATIC METHOD REVERSAL
 PERMANENT METHOD OWNER-LOCK
 JOB DATA MUST NOT CONTAMINATE UNIVERSAL RULES
@@ -132,6 +146,8 @@ sample a large dataset and call it complete
 ```
 
 When complete large-data processing is unsafe in ordinary chat, apply `WORK_HANDOFF_RULE.md`.
+
+When the resulting files are large or Git authentication is inefficient/unavailable, apply `../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md` rather than moving the file through model text.
 
 ---
 
@@ -234,6 +250,47 @@ whether the work actually ran, what blocks progress and what happens next,
 the plain-language summary FAILS and must be rewritten before sending.
 ```
 
+For owner-relay publication, the operational handoff must be short and direct: provide the files/ZIP, direct upload link, exact branch/folder, unzip instruction if needed, and the minimal confirmation the owner must return.
+
+---
+
+# 6A. Large-artifact publication / owner relay
+
+Canonical cross-Kwork authority:
+
+`../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
+
+Approved transport policy:
+
+```text
+NATIVE AUTHENTICATED GIT ALREADY WORKS
+→ USE IT
+
+OTHERWISE, WHEN OWNER RELAY IS MORE EFFICIENT
+→ WORK GENERATES + QA LOCALLY
+→ WORK PROVIDES DOWNLOADABLE ARTIFACTS / OPTIONAL ZIP
+→ WORK PROVIDES DIRECT GITHUB UPLOAD PAGE FOR TARGET BRANCH/FOLDER
+→ OWNER UPLOADS THROUGH NORMAL AUTHENTICATED GITHUB UI
+→ WORK OR MAIN CHATGPT PERFORMS REMOTE READBACK + IDENTITY QA
+```
+
+Do not by default transport large TSV/CSV/JSON/XLSX/PDF/DOCX/ZIP or other material artifacts as giant model text, base64, many connector chunks or reconstructed tool arguments.
+
+This method applies both to final deliverables and to recoverable checkpoints during long Work execution.
+
+Publication states must remain distinct:
+
+```text
+LOCAL_ARTIFACT_COMPLETE
+LOCAL_QA_PASS
+PUBLICATION_HANDOFF_READY
+OWNER_UPLOAD_COMPLETE
+REMOTE_READBACK_PASS
+REMOTE_PUBLICATION_COMPLETE
+```
+
+A local analytical PASS remains valid if only Git authentication failed; do not recompute the artifact merely to solve transport.
+
 ---
 
 # 7. Fail-closed truthfulness
@@ -320,6 +377,7 @@ The per-criterion table, total /100 and final average /10 must be shown both in 
 
 ```text
 KW002_LEVEL1_CANONICAL_INHERITED_RULE_AUTHORITY = INHERITED_KW001_UNIVERSAL_RULES.md
+KW002_CROSS_KWORK_LARGE_ARTIFACT_AUTHORITY = ../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md
 KW002_PRE_STEP_EXTERNAL_RESEARCH_AUTHORITY = PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
 KW002_PRE_STEP_INTERNET_RESEARCH_REQUIRED = true
 KW002_PRE_STEP_CLICKABLE_SOURCE_DISCLOSURE_REQUIRED = true
@@ -330,5 +388,8 @@ KW002_SHORT_RULE_SUMMARY_DOES_NOT_REPLACE_INHERITED_RULES = true
 KW002_OWNER_FACING_PLAIN_LANGUAGE_SUMMARY_REQUIRED = true
 KW002_PLAIN_LANGUAGE_STATUS_HASH_ID_DUMP_FORBIDDEN = true
 KW002_PLAIN_LANGUAGE_BLOCKER_AND_NEXT_ACTION_REQUIRED = true
+KW002_OWNER_RELAY_LARGE_ARTIFACT_PUBLICATION_ALLOWED = true
+KW002_LARGE_ARTIFACT_MODEL_BYTE_TRANSPORT_FORBIDDEN_BY_DEFAULT = true
+KW002_REMOTE_READBACK_AFTER_OWNER_RELAY_REQUIRED = true
 KW002_LEVEL1_OWNER_LOCKED = true
 ```
