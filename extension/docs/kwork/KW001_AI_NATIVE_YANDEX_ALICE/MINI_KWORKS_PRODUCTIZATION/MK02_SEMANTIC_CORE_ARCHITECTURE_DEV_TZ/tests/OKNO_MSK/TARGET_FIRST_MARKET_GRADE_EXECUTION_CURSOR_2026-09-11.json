@@ -1,9 +1,9 @@
 {
   "schema": "MK02_TARGET_FIRST_MARKET_GRADE_EXECUTION_CURSOR_V1",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETE",
   "phase": "PHASE_7_MARKET_GRADE_CLIENT_QUALITY_CORRECTION",
-  "source_remote_head": "b0947ccbce2a15a278357e8fc23eec332aec632d",
-  "last_completed_block": "F_LEVEL_1_STATE_VALIDATOR_AND_RECIPIENT_QA_COMPLETE",
+  "source_remote_head": "da797ada0873be617e3c1711d4412264d7f1892a",
+  "last_completed_block": "G_FINAL_RELEASE_REMOTE_READBACK_AND_RECEIPT_COMPLETE",
   "completed_paths": [
     "build_target_first_market_grade_page_specs.py",
     "TARGET_FIRST_PHRASE_LANDING_MAP_MARKET_GRADE_2026-09-10.tsv.gz",
@@ -19,6 +19,7 @@
     "validate_target_first_market_grade.py",
     "TARGET_FIRST_MARKET_GRADE_MACHINE_QA_2026-09-10.json",
     "TARGET_FIRST_MARKET_GRADE_PRODUCT_RECIPIENT_QA_2026-09-10.md",
+    "TARGET_FIRST_MARKET_GRADE_REMOTE_READBACK_2026-09-10.md",
     "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_SEO_ARCHITECTURE_REPORT_OKNO_MSK_2026-09-10.pdf",
     "CLIENT_DELIVERY_PHASE_7_TARGET_FIRST_MARKET_GRADE_2026-09-10/TARGET_PAGE_SPECIFICATION_TZ_OKNO_MSK_2026-09-10.pdf"
   ],
@@ -57,9 +58,7 @@
     "final_client_files_recipient_qa": "10/10 PASS",
     "level_1_quality_contract": "PASS"
   },
-  "open_failures": [
-    "FINAL_REMOTE_READBACK_AND_RECEIPT_NOT_YET_COMPLETE"
-  ],
-  "next_resume_action": "PUBLISH_RELEASE_CANDIDATE_THEN_COMPLETE_FINAL_REMOTE_READBACK_AND_RECEIPT",
-  "final_authority": false
+  "open_failures": [],
+  "next_resume_action": "EXECUTE_PHASE_8_MK02_PRICE_LIMITS_ECONOMICS",
+  "final_authority": true
 }
