@@ -1,0 +1,232 @@
+{
+  "artifacts": {
+    "STEP_04_CURRENT_AUTHORITY_FAMILY_TRIAGE_2026-09-11.tsv": {
+      "bytes": 48946,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 32,
+      "sha256": "62e21ed2ae10124496d4043d933a3b8a0bad60306ec6920e0524e255f9e216c9"
+    },
+    "STEP_04_CURRENT_AUTHORITY_IDENTITY_SIGNAL_LEDGER_2026-09-11.tsv": {
+      "bytes": 14671033,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 24576,
+      "sha256": "419fd6eaf7984c0f53c8772e22a251447193285276995b3fc343b524ab1dd8aa"
+    },
+    "STEP_04_CURRENT_AUTHORITY_INDEPENDENT_TAXONOMY_AUDIT_2026-09-11.tsv": {
+      "bytes": 4241966,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 24576,
+      "sha256": "868f3a744bb4724a361e68e112892ded8fc31d7643fcfdf67887d1fecc5f59da"
+    },
+    "STEP_04_CURRENT_AUTHORITY_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-11.tsv": {
+      "bytes": 1401,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 23,
+      "sha256": "531c145f9adbff76e52e023dc80b356a919070eb5cd1395b09d59715e724b24e"
+    },
+    "STEP_04_CURRENT_AUTHORITY_MATERIALIZER_2026-09-11.py": {
+      "bytes": 102450,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 1498,
+      "sha256": "c6bb3d4a7686f5261a00f4c4fa16fbcc3b8726c044d42aa68902a798b9470a8d"
+    },
+    "STEP_04_CURRENT_AUTHORITY_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": {
+      "bytes": 17156072,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 25979,
+      "sha256": "cf9c8fbe23c2f4b6504ccd19a698ce99f92a2c2b68caa461981544df91d42fb3"
+    },
+    "STEP_04_CURRENT_AUTHORITY_QA_2026-09-11.md": {
+      "bytes": 9654,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 181,
+      "sha256": "d8de7f2ceaa4776f2f758a3ad32c52993e2b05961d4548cc518abb0bb4d5e768"
+    },
+    "STEP_04_CURRENT_AUTHORITY_SANITATION_FEEDBACK_REGISTER_2026-09-11.tsv": {
+      "bytes": 6683,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 18,
+      "sha256": "51334c7ffafd922b54034cf3ca920b441a0f68e982e7e507719a5445abb547d7"
+    },
+    "STEP_04_CURRENT_AUTHORITY_SOURCE_REVALIDATION_2026-09-11.md": {
+      "bytes": 2045,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 16,
+      "sha256": "8267bac8afbe58dccd1fe070b3b182f815754a1e645916fa61d9ea733bca01ed"
+    },
+    "STEP_04_CURRENT_AUTHORITY_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv": {
+      "bytes": 9409,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 13,
+      "sha256": "2a4527360f54f53915eed6c4234074680eb61d22b9a0fbf3dbfc03466e14f262"
+    },
+    "STEP_04_CURRENT_AUTHORITY_TRANSITION_LEDGER_2026-09-11.tsv": {
+      "bytes": 7954897,
+      "count_semantics": "data_rows_excluding_header",
+      "rows_or_lines": 24576,
+      "sha256": "1a2b816383278945c43e702855795e9b525da187b20cec8ffe5ff38154846421"
+    },
+    "STEP_04_CURRENT_AUTHORITY_WORK_RETURN_2026-09-11.md": {
+      "bytes": 3602,
+      "count_semantics": "text_lines",
+      "rows_or_lines": 52,
+      "sha256": "a630f1193b0689aee979625fd6d310281f146329a9c9ac9aac03ff3549316b73"
+    }
+  },
+  "counts": {
+    "active_plus_hold": 18135,
+    "active_plus_hold_raw": 19086,
+    "changed_from_w08_identities": 7831,
+    "changed_from_w08_raw": 8221,
+    "coverage_gap_families": 2,
+    "exclude": 6441,
+    "families": 32,
+    "feedback_rows": 18,
+    "hold": 13035,
+    "independent_audit_rows": 24576,
+    "keep": 5100,
+    "normalized_identities": 24576,
+    "observed_families": 29,
+    "queue_rows": 13,
+    "raw_occurrences": 25979,
+    "retained_queue_rows": 9,
+    "retired_empty_after_bounded_noun_verb_repair": 1,
+    "suppressed_queue_rows": 4,
+    "w07_fixture_reverts": 0,
+    "w07_fixtures": 255,
+    "zero_member_families": 3
+  },
+  "date": "2026-09-11",
+  "governing_authority_sha256": {
+    "LEVEL1/DATA_VOLUME_SANITATION_AND_DELIVERY_SCOPE_RULE.md": "efd7184ea9e6cad279dce7a41f46aff5ab93ca2b90eb1675762500b8835cbd72",
+    "LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md": "446d273d80f82e136e1ff1a0a0c23669e657c92fc3b2b32f230a9fc6d2148396",
+    "LEVEL1/JOB_DATA_SEPARATION_AND_LIFECYCLE.md": "306a2f6f108d09983327ad61efec3e26fa5c81453d322f529ef2ac56e63c20f8",
+    "LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md": "a32653e25fdad4dee43d8fc174e6ea9532de76dcbb7c9a30cdaa6219c091e31b",
+    "LEVEL1/RESULT_QUALITY_SCORING_RULE.md": "bac6caf2e667193b56c10c52290ad6109ac5ad6d6d9eb573431d4069f6a2cf83",
+    "LEVEL1/ROADMAP_AND_METHOD_GENERALIZATION_RULE.md": "148c2c7c41f7ac92973dc878fa321215cc1504ed3754d20c4e12a4b6b4aef9bf",
+    "LEVEL1/WORK_BASE_FRESHNESS_AND_AUTHORITY_DRIFT_RULE.md": "fdbc9d1e1d59ff2989437b21ad5b5c9d7da9beaf41ff9f5b32a62087798fcfca",
+    "LEVEL1/WORK_HANDOFF_RULE.md": "cd06fe5d107cb2734db24cb85df27bccb05d2b9f130e3c534183f4c7d6315f7c",
+    "LEVEL2/README.md": "2768cdfeff2786b4058310264a8a2d10203ef1d17c7e5463c76adbfdee5c4ea0",
+    "LEVEL2/STEP_04_PRELIMINARY_FAMILY_TRIAGE_QUALITY_GATE.md": "6538dc128f6ff4f2a94e40d50097f441d6c7005a75269358218d31c506f7993b",
+    "LEVEL2/STEP_RULES_INDEX.md": "50cf6b2546aaf36e7f06edbc4e2efecebf6f29efc1d3f00434189abed95201ed"
+  },
+  "handoff_id": "KW002-BS-W09",
+  "hard_boundaries": {
+    "final_intent": false,
+    "ia": false,
+    "mutable_cursor_job_flow_manifest_in_payload": false,
+    "provider_calls": {
+      "ai_search": 0,
+      "gensearch": 0,
+      "search": 0,
+      "wordstat": 0
+    },
+    "query_to_page": false,
+    "raw_lineage_loss": 0,
+    "serp_clustering": false,
+    "step03a_mutations": 0,
+    "step03b_mutations": 0,
+    "step05_advancement": false,
+    "step06_advancement": false
+  },
+  "hard_gates": {
+    "ACTIVE_HOLD_ACCOUNTING": "PASS",
+    "EXPLICIT_TASK_HIDDEN_BY_BROADER_TOPIC": "PASS",
+    "FROZEN_UPSTREAM_HASHES": "PASS",
+    "INCREMENTAL_GAIN_NEGATIVE_VALUE_STOP_EXPLICIT": "PASS",
+    "INDEPENDENT_DIAGNOSTIC_FULL_VOLUME": "PASS",
+    "INDEPENDENT_DIAGNOSTIC_NOT_LIMITED_TO_KNOWN_PSF_IDS": "PASS",
+    "INDEPENDENT_FAMILY_COHERENCE": "PASS",
+    "NORMALIZED_IDENTITY_ACCOUNTING": "PASS",
+    "OLDER_LEXICAL_FIXTURES": "PASS",
+    "OWNER_FACT_GAP_SENT_TO_PROVIDER": "PASS",
+    "PROVIDER_CALLS": "PASS",
+    "PROVIDER_READY_WITH_EQUIVALENT_DURABLE_EVIDENCE": "PASS",
+    "RAW_OCCURRENCE_ACCOUNTING": "PASS",
+    "REPEATED_EXPLICIT_TASK_PATTERN_HIDDEN_IN_GENERIC": "PASS",
+    "RULE_PRECEDENCE_CONTRACT": "PASS",
+    "STALE_BASE_MUTABLE_STATE_FILE_OVERWRITE": "PASS",
+    "STEP03A_STEP03B_MUTATIONS": "PASS",
+    "STEP05_BLOCKED": "PASS",
+    "STEP06_NOT_STARTED": "PASS",
+    "TOY_WITHOUT_GAME_IN_GAME_FAMILY": "PASS",
+    "UNBOUNDED_PREFIX_OR_SUBSTRING_AS_SEMANTIC_PROOF": "PASS",
+    "UNKNOWN_TASK_DISCOVERY_ROUTE": "PASS",
+    "W07_FIXTURES_NOT_REVERTED": "PASS"
+  },
+  "input_authority_sha256": {
+    "ALLOWED_INPUTS_AND_SEALED_SOURCES.md": "09ec0aaa0c0f7e78b17f6f526085a6064b7b659f76cd20331469fbde0088bb9e",
+    "CLIENT_SUPPLIED_ASSORTMENT_MANIFEST.md": "d683a17fc90bab22be1406032eee54686ab74ed7be6340c82e3d4b097b27c675",
+    "CLIENT_SUPPLIED_BRIEF.md": "3623af887a7d5a8180c225ffd805adb769e0ad07fa8b77f9162731f9b93af122",
+    "KW002_EXECUTION_CURSOR_2026-09-11.json": "afd7bc2055c190ac84666fbffb45eea64d838e414a6a854cea1013b1a38e4647",
+    "KW002_EXECUTION_FAILURE_LEDGER_2026-09-11.md": "1eb0cc513468183dd03957755fecb2b5501575a4fd0405c40e769a03b28646f0",
+    "KW002_EXECUTION_FAILURE_LEDGER_ADDENDUM_STEP04_RESULT_AUDIT_2026-09-11.md": "ca9a602bc7491ad3a40d56856fe041c42534cb117ef4729c58f9fe8b9288e40a",
+    "KW002_STEP03A_03B_INDEPENDENT_FULL_VOLUME_AUDIT_OVERLAY_2026-09-11.tsv": "db9b79dda64b205f0b0bef273f70f221f183d9389eca3e67e651e93ea269d669",
+    "STEP_03A_NORMALIZATION_LEDGER_2026-09-11.tsv": "28205ca64f26d219d489b36f102a8923b4a4b635c8b213179bca4a188b24c3df",
+    "STEP_03A_NORMALIZED_UNIQUE_POOL_2026-09-11.tsv": "b30c29ff66a56d80bc1aa9ff6b2eade522b27d1e167cbd636ac72fbff211f2a8",
+    "STEP_03B_EXCLUDED_HOLD_REGISTER_CORRECTED_2026-09-11.tsv": "145c5107f40415b4050923f142dab3e83646489da5d74501f659fd87e3ae2916",
+    "STEP_03B_SANITIZED_CANDIDATE_POOL_CORRECTED_2026-09-11.tsv": "63b3fc556b388dbac0185f174f79f825dc26d9c51de39698850cdaecb9ca4f58",
+    "STEP_04_CURRENT_UNIVERSAL_CAUSE_CORRECTION_RERUN_EXECUTION_RELEASE_2026-09-11.md": "c817246a36a88afa7af1545d3627f82b012dfe2d7a0e4eb6cc246e0e4d79afa5",
+    "STEP_04_CURRENT_UNIVERSAL_CAUSE_CORRECTION_RERUN_WORK_PROMPT_2026-09-11.md": "a0fe295b8b794e79a3288a0960f935eed163598099aead3147e37bd7cb518b49",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_MAIN_CHATGPT_REVIEW_2026-09-11.md": "87d806d2175f831f2a9122de625346fca872aed09c75bd036ccabe457a2f0940",
+    "STEP_04_INDEPENDENT_FULL_VOLUME_RESULT_AUDIT_OVERLAY_2026-09-11.tsv": "62f7027b567fafe461bda3367b943f05dd83298c86d04c6a38039271f3361dd9",
+    "STEP_04_POST_AUDIT_CORRECTED_FAMILY_TRIAGE_2026-09-11.tsv": "dc37e6bce0e358b01b22f54084259cac9ba5201f2be33e934d59524dcd3eba8b",
+    "STEP_04_POST_AUDIT_CORRECTED_INDEPENDENT_FAMILY_QA_2026-09-11.tsv": "ee45b874693f0dbda39e941a58e420e9deb390c08b70a7d46c0cde772592f971",
+    "STEP_04_POST_AUDIT_CORRECTED_MAIN_CHATGPT_REMOTE_REVIEW_2026-09-11.md": "30d0b372bcf6ef84acdc66daa21b24e02e507d12b82e90962d69f4d93257f268",
+    "STEP_04_POST_AUDIT_CORRECTED_MATERIALIZER_2026-09-11.py": "b7435f52700b6b37c8aeef677ecb6b6d254c0bf77d0848e6dfdaf7e1d4d78462",
+    "STEP_04_POST_AUDIT_CORRECTED_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": "534cf6291680613036a271db90890f310036ebe52d602621e70965eeb5a7ec8a",
+    "STEP_04_POST_AUDIT_CORRECTED_QA_2026-09-11.md": "0ed33d196988a8fc5510874da3df10146351d437583933e9171b118c1e2915d4",
+    "STEP_04_POST_AUDIT_CORRECTED_SANITATION_FEEDBACK_REGISTER_2026-09-11.tsv": "3d9bb482a1b2ed5ab6d349a64c12693d7947cdf0c42619e61bec52205133ffa6",
+    "STEP_04_POST_AUDIT_CORRECTED_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv": "fe62a69f83d08fded15e6c5f8b3b640aa497f93a330977f807464b3e526eb079",
+    "STEP_04_POST_AUDIT_CORRECTED_WORK_RETURN_2026-09-11.md": "455f1d0239c5c52f87e2dc0fc388e21b7bead233dc68e99b21615bce52754100",
+    "STEP_04_POST_AUDIT_CORRECTION_TRANSITION_LEDGER_2026-09-11.tsv": "4d44125514571423aa0a94de416bb50a4a09fb82fc58e724676bbaecaf2177ba",
+    "STEP_04_POST_SANITATION_OCCURRENCE_FAMILY_LEDGER_2026-09-11.tsv": "c053bcd1dccae5b2894cc7a316c84af72c2b0abfeb460624f138f1198a39a5ba"
+  },
+  "manifest_self_hash": "OMITTED_BY_DEFINITION_TO_AVOID_RECURSIVE_HASH",
+  "open_taxonomy_discovery_hidden_in_w08": {
+    "ACQUIRE_ACCESS": 44,
+    "SELECT_GIFT": 10,
+    "USE_CARE": 26
+  },
+  "pre_publication_remote_change_classification": "UNRELATED_PATHS_ONLY_NO_RERUN_INVALIDATION",
+  "pre_publication_remote_changed_paths": [
+    "extension/README.md",
+    "extension/docs/YMB_PATCH_DEPENDENCY_AND_RESOURCE_SAFETY_RULE.md"
+  ],
+  "publication": {
+    "remote_readback": "PENDING",
+    "route": "OWNER_RELAY_REQUIRED_UNLESS_NATIVE_GIT_AUTH_AVAILABLE"
+  },
+  "quality": {
+    "dimensions_10": {
+      "ambiguity_preservation": 9.5,
+      "bounded_lexical_safety": 9.6,
+      "business_lineage_discipline": 9.6,
+      "current_base_freshness_at_execution": 10.0,
+      "downstream_safety": 10.0,
+      "full_volume_accounting": 10.0,
+      "independent_taxonomy_challenge": 9.3,
+      "large_family_heterogeneity_control": 9.2,
+      "open_taxonomy_discovery": 9.5,
+      "queue_global_reconciliation": 9.7,
+      "raw_lineage_reproducibility": 10.0,
+      "sanitation_feedback_quality": 9.6,
+      "simultaneous_signal_coverage": 9.5,
+      "source_boundary_integrity": 10.0,
+      "specificity_precedence_contract": 9.6,
+      "traceability": 10.0,
+      "upstream_immutability": 10.0
+    },
+    "score_100": 97.12,
+    "verdict": "PASS_CANDIDATE"
+  },
+  "schema": "KW002_STEP04_CURRENT_AUTHORITY_ARTIFACT_MANIFEST_V1",
+  "w08_to_w09_transition_counts": {
+    "EXCLUDE_HISTORY_UNCHANGED": 6441,
+    "UNCHANGED_FROM_W08_CANDIDATE": 10304,
+    "W09_OPEN_TAXONOMY_TASK_DISCOVERY": 361,
+    "W09_UNIVERSAL_SPECIFICITY_PRECEDENCE_REROUTE": 7470
+  },
+  "work_pre_publication_remote_head": "9e4e1342ba40f4b752058cda81d45e28a862d9d8",
+  "work_start_remote_head": "faf4102117109558ed802f1aac4c5965a9c244ca"
+}
