@@ -1,2 +1,0 @@
-trigger=2026-08-31T14:28:00Z
-goal=final pre-Search rebuild of 21 query-family cases against all 2332 current assignments after order-insensitive QF002 boundary correction
