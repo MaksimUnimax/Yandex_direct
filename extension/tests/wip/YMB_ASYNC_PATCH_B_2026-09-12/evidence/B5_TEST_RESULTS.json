@@ -1,0 +1,559 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "venue": "Node v22.16.0. Actual B5 policy/guard and baseline provider functions; preserved deterministic IDB double, synthetic credentials/fetch/run and resolver. Not installed Chrome. Caller tests execute exact counter fragments, not the complete worker.",
+  "counts_by_suite": {
+    "policy": 42,
+    "legacy_provider": 31,
+    "caller_fragments": 12
+  },
+  "source_run": {
+    "file": "B5_ALL_SOURCE.tap",
+    "sha256": "a1a03cd3b3baac81d7aca11a493122da771b7a407b9b308b8753470c789297ca",
+    "bytes": 17603,
+    "git_blob": "126f62d37386139ab8f1f6afbd52bcac8c74a116",
+    "footer": {
+      "tests": "85",
+      "pass": "85",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "todo": "0",
+      "duration_ms": "1993.938068"
+    },
+    "assertions": [
+      {
+        "name": "service_worker.js/manual: search accounting shared preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "service_worker.js/manual: search accounting legacy preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "service_worker.js/manual: Wordstat counters unchanged with Search guard",
+        "status": "PASS"
+      },
+      {
+        "name": "wordstat_batch_worker_integration.js/manual: search accounting shared preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "wordstat_batch_worker_integration.js/manual: search accounting legacy preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "wordstat_batch_worker_integration.js/manual: Wordstat counters unchanged with Search guard",
+        "status": "PASS"
+      },
+      {
+        "name": "service_worker.js/auto: search accounting shared preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "service_worker.js/auto: search accounting legacy preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "service_worker.js/auto: Wordstat counters unchanged with Search guard",
+        "status": "PASS"
+      },
+      {
+        "name": "search_batch_worker_transport.js/batch: search accounting shared preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "search_batch_worker_transport.js/batch: search accounting legacy preserves lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "batch run mismatch does not change another run",
+        "status": "PASS"
+      },
+      {
+        "name": "actual search provider produces same result with optional guard absent",
+        "status": "PASS"
+      },
+      {
+        "name": "actual genSearch provider produces same result with optional guard absent",
+        "status": "PASS"
+      },
+      {
+        "name": "actual search provider enters common gate before fetch; output preserved",
+        "status": "PASS"
+      },
+      {
+        "name": "actual genSearch provider enters common gate before fetch; output preserved",
+        "status": "PASS"
+      },
+      {
+        "name": "real legacy sender and deferred reservation compete in same run",
+        "status": "PASS"
+      },
+      {
+        "name": "second legacy request cannot spend the same last budget slot",
+        "status": "PASS"
+      },
+      {
+        "name": "same admitted request ID never replays legacy network callback",
+        "status": "PASS"
+      },
+      {
+        "name": "unknown legacy fetch blocks following deferred sends",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy HTTP 401 preserves provider report and credits estimate",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy HTTP 403 preserves provider report and credits estimate",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy HTTP 500 preserves provider report and credits estimate",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy body parse failure still records that request happened, no automatic retry",
+        "status": "PASS"
+      },
+      {
+        "name": "credential or command preflight failure performs neither fetch nor admission",
+        "status": "PASS"
+      },
+      {
+        "name": "missing active guard method fails closed, not silent legacy fallback",
+        "status": "PASS"
+      },
+      {
+        "name": "context resolver denies owner before any provider callback",
+        "status": "PASS"
+      },
+      {
+        "name": "context resolver errors do not leak supplied exception details",
+        "status": "PASS"
+      },
+      {
+        "name": "credential Check still requires its existing explicit billable confirmation",
+        "status": "PASS"
+      },
+      {
+        "name": "explicit Check works even when Manual disabled or old key marked invalid",
+        "status": "PASS"
+      },
+      {
+        "name": "plain metadata cannot forge private credential Check capability",
+        "status": "PASS"
+      },
+      {
+        "name": "context resolver cannot promote arbitrary operation to credential Check",
+        "status": "PASS"
+      },
+      {
+        "name": "actual wordstat route ignores Search gate and preserves result",
+        "status": "PASS"
+      },
+      {
+        "name": "actual webmaster route ignores Search gate and preserves result",
+        "status": "PASS"
+      },
+      {
+        "name": "actual metrika route ignores Search gate and preserves result",
+        "status": "PASS"
+      },
+      {
+        "name": "actual direct route ignores Search gate and preserves result",
+        "status": "PASS"
+      },
+      {
+        "name": "settlement storage failure preserves received report and marks stop",
+        "status": "PASS"
+      },
+      {
+        "name": "run mirror serializes writes and rejects same revision conflict",
+        "status": "PASS"
+      },
+      {
+        "name": "run mirror refuses changed/missing run and never creates a replacement",
+        "status": "PASS"
+      },
+      {
+        "name": "admission-rate waiting is bounded and never retries a provider callback",
+        "status": "PASS"
+      },
+      {
+        "name": "permanent rate denial and stalled clock cannot spin indefinitely",
+        "status": "PASS"
+      },
+      {
+        "name": "authorization changes during rate wait stop before provider",
+        "status": "PASS"
+      },
+      {
+        "name": "provider rechecks credentials after admission, changed key is not sent",
+        "status": "PASS"
+      },
+      {
+        "name": "B4 baseline and protected policy model are unchanged",
+        "status": "PASS"
+      },
+      {
+        "name": "same transaction handles legacy search and deferred race: one admission",
+        "status": "PASS"
+      },
+      {
+        "name": "canonical run scope cannot be bypassed by different aliases",
+        "status": "PASS"
+      },
+      {
+        "name": "seeded previous charges counted once, then mirrored without double counting",
+        "status": "PASS"
+      },
+      {
+        "name": "binding another job after mirror update does not re-seed the same scope",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed modes use their own estimates and common cost ceiling",
+        "status": "PASS"
+      },
+      {
+        "name": "GET after exhausted paid budget is allowed and has no Search charge",
+        "status": "PASS"
+      },
+      {
+        "name": "UNKNOWN submit blocks all new paid modes but not GET",
+        "status": "PASS"
+      },
+      {
+        "name": "UNKNOWN search blocks all new paid modes but not GET",
+        "status": "PASS"
+      },
+      {
+        "name": "UNKNOWN genSearch blocks all new paid modes but not GET",
+        "status": "PASS"
+      },
+      {
+        "name": "not-sent search refunds only the reservation once",
+        "status": "PASS"
+      },
+      {
+        "name": "not-sent genSearch refunds only the reservation once",
+        "status": "PASS"
+      },
+      {
+        "name": "not-sent submit refunds only the reservation once",
+        "status": "PASS"
+      },
+      {
+        "name": "not-sent collect refunds only the reservation once",
+        "status": "PASS"
+      },
+      {
+        "name": "HTTP 401 definite known-free credit is idempotent",
+        "status": "PASS"
+      },
+      {
+        "name": "HTTP 403 definite known-free credit is idempotent",
+        "status": "PASS"
+      },
+      {
+        "name": "HTTP 500 definite known-free credit is idempotent",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy autorun channel cannot bypass disabled autorun",
+        "status": "PASS"
+      },
+      {
+        "name": "deferred remains manual-only; unknown modes and channels rejected",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy cannot masquerade as cheap deferred and vice versa",
+        "status": "PASS"
+      },
+      {
+        "name": "method switch must obey original allowlist",
+        "status": "PASS"
+      },
+      {
+        "name": "wrong owner and changed folder deny before any reservation",
+        "status": "PASS"
+      },
+      {
+        "name": "credential errors unchanged and secrets are not persisted",
+        "status": "PASS"
+      },
+      {
+        "name": "changing legacy run identity aborts before reserve",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy run requires an explicit mirror implementation",
+        "status": "PASS"
+      },
+      {
+        "name": "mirror failure cannot become permission to fetch",
+        "status": "PASS"
+      },
+      {
+        "name": "record transaction abort rolls back budget and rate alongside attempt",
+        "status": "PASS"
+      },
+      {
+        "name": "recovery of legacy network uncertainty retains charge and blocks submit",
+        "status": "PASS"
+      },
+      {
+        "name": "recovery of GET does not create a paid unknown hold",
+        "status": "PASS"
+      },
+      {
+        "name": "different budget scopes still share folder rate per API lane",
+        "status": "PASS"
+      },
+      {
+        "name": "legacy and deferred settled attempt collision cannot change kind/index",
+        "status": "PASS"
+      },
+      {
+        "name": "settlement error does not return false successful receipt",
+        "status": "PASS"
+      },
+      {
+        "name": "per-attempt record sizes bounded on 10/100/500/1500, no getAll",
+        "status": "PASS"
+      },
+      {
+        "name": "settlement forbids malformed or credential-shaped public fields",
+        "status": "PASS"
+      },
+      {
+        "name": "same binding may repeat but cannot switch owner folder run channel or mode",
+        "status": "PASS"
+      },
+      {
+        "name": "original policy, settings and all unrelated service records remain unchanged",
+        "status": "PASS"
+      },
+      {
+        "name": "failed local receipt creates common hold even after successful HTTP",
+        "status": "PASS"
+      },
+      {
+        "name": "independent unbound owners do not share budget or output",
+        "status": "PASS"
+      },
+      {
+        "name": "same-worker recovery cannot refund a possibly active request",
+        "status": "PASS"
+      },
+      {
+        "name": "settlement from an unreserved attempt cannot refund another attempt",
+        "status": "PASS"
+      },
+      {
+        "name": "credential-check binding requires independent confirmation and no run",
+        "status": "PASS"
+      },
+      {
+        "name": "old B4 record without migration proof is neither erased nor admitted",
+        "status": "PASS"
+      }
+    ]
+  },
+  "fresh_run": {
+    "file": "B5_ALL_FRESH.tap",
+    "sha256": "e72ce7c010eb4df2e740814eecefe6fcbc5b907505ee2742e3372e6b5679e40a",
+    "bytes": 17607,
+    "git_blob": "1a66839b34f5b824ff5601b60cc59cf14e68fe53",
+    "footer": {
+      "tests": "85",
+      "pass": "85",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "todo": "0",
+      "duration_ms": "1885.278642"
+    }
+  },
+  "fresh_assertions_identical_to_source": true,
+  "caller_red": {
+    "log": "B5_CALLERS_RED_product.tap",
+    "sha256": "d1e76087acb07e12c12c883492a6a54ad729f8798246b07c27255212d432e9f6",
+    "footer": {
+      "tests": "12",
+      "pass": "10",
+      "fail": "2",
+      "cancelled": "0",
+      "skipped": "0",
+      "todo": "0",
+      "duration_ms": "308.606172"
+    },
+    "failed_assertions": [
+      {
+        "name": "service_worker.js/manual: search accounting shared preserves lifecycle",
+        "status": "FAIL"
+      },
+      {
+        "name": "wordstat_batch_worker_integration.js/manual: search accounting shared preserves lifecycle",
+        "status": "FAIL"
+      }
+    ],
+    "note": "First harness used cross-VM deep equality; those harness failures corrected before this two-product-failure RED run."
+  },
+  "new_cross_mode_requirements_against_B4": {
+    "log": "B5_POLICY_RED.tap",
+    "sha256": "86fce6376635764f03e2f7c4f405a32928911a03c9433491a42de8daebad4844",
+    "bytes": 23894,
+    "git_blob": "79a6586ee8a5a9dd5fa2d4ea7bc04b9ed351b481",
+    "pass": 3,
+    "fail": 30,
+    "note": "New B5 requirements on unchanged B4, not thirty reproduced installed-extension defects."
+  },
+  "source_test_hashes": {
+    "candidate/b5/search_async_policy.js": {
+      "sha256": "ba5bc8de08eb62e422906a06d916e30ee00e088e008bbf408615a77e0c6b3e10",
+      "bytes": 17143,
+      "git_blob": "0fe7c0cd0e3419b5be3773b207014210f4646259"
+    },
+    "candidate/b5/search_legacy_admission.js": {
+      "sha256": "6ac3274bb35d6b10676ff49d96e13a3921cfeb1f71a9aff2d7f6a7ff7c7ab0c3",
+      "bytes": 7343,
+      "git_blob": "38ad4b797fa6dd3666f417d02a2bc0102400e483"
+    },
+    "evidence/B5_LEGACY_DELTA.diff": {
+      "sha256": "4d526e83814ce792c00bf752a9a0ef61470fc81160c106c6f084007331826041",
+      "bytes": 10966,
+      "git_blob": "11c8a5723485a74375cf6ebe93c3e132cf9b1e2e"
+    },
+    "qa/b5_policy.test.mjs": {
+      "sha256": "740cb2fc3cafb2b90cf8b32ca857dedab11ca77ff351b56baa88f5fc0228a0c4",
+      "bytes": 18928,
+      "git_blob": "3b8bd21af6cdcab4e106dbc7e8744f87302fcbe3"
+    },
+    "qa/b5_legacy.test.mjs": {
+      "sha256": "dabe61e03a6fa158c3561a69d09125da4ecbcb9aff84c27c048c1819fe5d300f",
+      "bytes": 16541,
+      "git_blob": "234517f07fccb89b2714a67e81f015bb5f7c19f0"
+    },
+    "qa/b5_callers.test.mjs": {
+      "sha256": "e769f93910a4ba8a29726e27abe898cfcc9d75f63e3cdb28420cdbcddf10b1b8",
+      "bytes": 3251,
+      "git_blob": "1df91df6c33eea4060c03239670a92d5cd4eb169"
+    },
+    "qa/prepare_b5.py": {
+      "sha256": "fa8d907abcb43a11ddceb6577526c340f2e8670270e732d910cc1a447652acae",
+      "bytes": 5906,
+      "git_blob": "e223bef916e40629ccd8ce54c91f0524e9a91e23"
+    }
+  },
+  "patched_baseline_hashes": {
+    "search_batch_worker_transport.js": {
+      "sha256": "b2adca7ec2e75ca18eb660e7335373cd47f027c48239f496914a5380a972bafe",
+      "bytes": 22050,
+      "git_blob": "1b3c5580f29a35db2b0bb2eb59e9628df71f6ca1"
+    },
+    "service_worker.js": {
+      "sha256": "0a00d57a222259e2c5501394b5856ffee90b7660f276ea1b25ddbade883070f6",
+      "bytes": 85832,
+      "git_blob": "1eb71588260542d9717c5e957474a684557963c7"
+    },
+    "shared/phase3_provider_runtime.js": {
+      "sha256": "ba63d2bce1778d41962c3ea3cbc2586c8ac742e1415bb5d5686b2b338fa4aecc",
+      "bytes": 30735,
+      "git_blob": "ce4aa743d8de5e450e6c737d1f32becf4db39e23"
+    },
+    "wordstat_batch_worker_integration.js": {
+      "sha256": "4607e35e08064af90cfdad98bbeaa2d5431289ab2a104e3cf8fc6e5b33621b74",
+      "bytes": 24800,
+      "git_blob": "d028d940b985ee9886adbbaf833c9311a8deeb1a"
+    }
+  },
+  "syntax_checks": [
+    {
+      "file": "candidate/legacy/search_batch_worker_transport.js",
+      "exit": 0
+    },
+    {
+      "file": "candidate/legacy/service_worker.js",
+      "exit": 0
+    },
+    {
+      "file": "candidate/legacy/shared/phase3_provider_runtime.js",
+      "exit": 0
+    },
+    {
+      "file": "candidate/legacy/wordstat_batch_worker_integration.js",
+      "exit": 0
+    },
+    {
+      "file": "candidate/shared/search_async_policy.js",
+      "exit": 0
+    },
+    {
+      "file": "candidate/shared/search_legacy_admission.js",
+      "exit": 0
+    },
+    {
+      "file": "qa/b5_callers.test.mjs",
+      "exit": 0
+    },
+    {
+      "file": "qa/b5_legacy.test.mjs",
+      "exit": 0
+    },
+    {
+      "file": "qa/b5_policy.test.mjs",
+      "exit": 0
+    }
+  ],
+  "materializer_negative_checks": [
+    {
+      "name": "nonempty_output_refused",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong_baseline_rejected_before_output",
+      "status": "PASS"
+    }
+  ],
+  "storage_amplification": [
+    {
+      "n": 10,
+      "writes": 50,
+      "max_record_bytes": 341,
+      "venue": "deterministic double; not browser memory"
+    },
+    {
+      "n": 100,
+      "writes": 500,
+      "max_record_bytes": 344,
+      "venue": "deterministic double; not browser memory"
+    },
+    {
+      "n": 500,
+      "writes": 2500,
+      "max_record_bytes": 345,
+      "venue": "deterministic double; not browser memory"
+    },
+    {
+      "n": 1500,
+      "writes": 7500,
+      "max_record_bytes": 348,
+      "venue": "deterministic double; not browser memory"
+    }
+  ],
+  "remote_readback": {
+    "ref": "916470a38c400a25a70b021a498cc0cdd76c2743",
+    "matched": 7,
+    "expected": 7
+  },
+  "raw_tap_persistence": "Full TAP files are local; this JSON preserves each actual source assertion and hashes. Do not claim full raw TAP stored remotely unless separately published.",
+  "browser_tests_this_block": "NOT_RUN; earlier managed-browser block not resolved",
+  "new_provider_calls": 0,
+  "owner_zip_built": false,
+  "release_allowed": false
+}
