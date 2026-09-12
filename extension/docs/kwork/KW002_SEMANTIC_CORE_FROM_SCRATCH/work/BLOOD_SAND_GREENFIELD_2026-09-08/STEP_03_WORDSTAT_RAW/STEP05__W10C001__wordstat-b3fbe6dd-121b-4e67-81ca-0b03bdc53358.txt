@@ -1,0 +1,40 @@
+WORDSTAT_RESULT_V1 {
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.4",
+  "service": "wordstat",
+  "operation": "getTop",
+  "request_id": "wordstat-b3fbe6dd-121b-4e67-81ca-0b03bdc53358",
+  "run_id": null,
+  "job_id": null,
+  "status": "OK",
+  "reason": null,
+  "cost_estimate": {
+    "estimated_rub": 0.02,
+    "tariff_checked_at": "2026-08-12",
+    "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+  },
+  "policy": {
+    "channel": "manual",
+    "active_service": "wordstat"
+  },
+  "command": {
+    "method": "getTop",
+    "phrase": "(амулет|оберег|талисман) Аум",
+    "numPhrases": 2000,
+    "regions": [
+      "225"
+    ],
+    "devices": [
+      "DEVICE_ALL"
+    ]
+  },
+  "http_status": 200,
+  "elapsed_ms": 1715,
+  "result": {
+    "totalCount": "3"
+  },
+  "request_executed": true,
+  "automatic_retry": false
+}
+
+PERSISTENCE_NOTE: This is a direct transcription of the owner-returned Bridge envelope. Chat/Markdown escaping was normalized only for JSON field names and the URL string; no substantive provider field or value was added. The returned envelope contained no result.results[] array and no result.associations[] array.
