@@ -1,0 +1,70 @@
+--- a/search_async_normalizer.js
++++ b/search_async_normalizer.js
+@@ -50,6 +50,7 @@
+       if (end === -1) fail("ASYNC_XML_ATTRIBUTE_INVALID");
+       const value = body.slice(offset, end);
+       if (value.includes("<")) fail("ASYNC_XML_ATTRIBUTE_INVALID");
++      if (value.includes(">")) fail("ASYNC_XML_ATTRIBUTE_UNSUPPORTED");
+       entities(value);
+       attributes[key] = value;
+       if (Object.keys(attributes).length > 64) fail("ASYNC_XML_ATTRIBUTE_LIMIT");
+@@ -151,6 +152,7 @@
+     }
+     if (stack.length || !rootClosed || rootCount !== 1 || responses !== 1) fail("ASYNC_XML_RESPONSE_INVALID");
+     if (errors && docs) fail("ASYNC_XML_AMBIGUOUS_RESULT");
++    if (errorCode === 15 && responseFound !== null && responseFound !== "0") fail("ASYNC_XML_AMBIGUOUS_RESULT");
+     if (docs && responseFound === "0") fail("ASYNC_XML_AMBIGUOUS_RESULT");
+     if (errors && errorCode !== 15) fail("ASYNC_XML_PROVIDER_ERROR");
+     const emptyProven = !docs && (errorCode === 15 || responseFound === "0");
+--- a/search_async_policy.js
++++ b/search_async_policy.js
+@@ -45,8 +45,8 @@
+     } finally { db.close(); }
+   }
+   function scopeKey(owner, scopeId, folderId) { return JSON.stringify([owner, scopeId, folderId]); }
+-  function freshScope(scope_id) {
+-    return { scope_id, submissions: 0, polls: 0, charge_microrub: 0, pending: 0, holds: 0, revision: 0 };
++  function freshScope(scope_id, legacy_run_id) {
++    return { scope_id, legacy_run_id, submissions: 0, polls: 0, charge_microrub: 0, pending: 0, holds: 0, revision: 0 };
+   }
+   function checkBinding(b, args) {
+     if (!b) fail("ASYNC_POLICY_BINDING_MISSING");
+@@ -75,7 +75,8 @@
+         const old = await request(t.objectStore("bindings").get(jobId));
+         if (old) { if (JSON.stringify(old) !== JSON.stringify(b)) fail("ASYNC_POLICY_REBIND_FORBIDDEN"); return { bound: true, duplicate: true }; }
+         const s = await request(t.objectStore("scopes").get(b.scope_id));
+-        if (!s) t.objectStore("scopes").add(freshScope(b.scope_id));
++        if (s && s.legacy_run_id !== runId) fail("ASYNC_POLICY_SCOPE_RUN_MISMATCH");
++        if (!s) t.objectStore("scopes").add(freshScope(b.scope_id,runId));
+         t.objectStore("bindings").add(b); return { bound: true, duplicate: false };
+       });
+     }
+@@ -122,7 +123,9 @@
+     async function settle(a) {
+       checkContext(a);
+       if(![true,false,"UNKNOWN"].includes(a.request_executed)||typeof a.local_saved!=="boolean")fail("ASYNC_POLICY_SETTLEMENT_INVALID");
+-      if(a.http_status!==null&&a.http_status!==undefined)uint(a.http_status);
++      if(a.http_status!==null&&a.http_status!==undefined && (!Number.isInteger(a.http_status)||a.http_status<100||a.http_status>599))fail("ASYNC_POLICY_SETTLEMENT_INVALID");
++      if(![null,undefined,"accepted","waiting","received","provider_error","not_sent","rejected","unknown","read_error"].includes(a.outcome))fail("ASYNC_POLICY_SETTLEMENT_INVALID");
++      if(a.operation_id!==null&&a.operation_id!==undefined && (typeof a.operation_id!=="string"||!/^[A-Za-z0-9_-]{1,240}$/.test(a.operation_id)))fail("ASYNC_POLICY_SETTLEMENT_INVALID");
+       const stamp=JSON.stringify([a.request_executed,a.http_status??null,a.outcome??null,a.local_saved,a.operation_id??null]);
+       const at=clock();
+       return tx(["bindings","scopes","attempts"],"readwrite",async t=>{
+@@ -140,7 +143,7 @@
+         const free=definitelyNotSent||(a.request_executed===true&&[401,403,500].includes(a.http_status));
+         if(free)s.charge_microrub-=r.reserved_microrub;
+         if(definitelyNotSent){if(r.kind==="submit")s.submissions--;else s.polls--;}
+-        const uncertain=(a.request_executed==="UNKNOWN"||a.outcome==="unknown"||!a.local_saved);
++        const uncertain=((r.kind==="submit"&&(a.request_executed==="UNKNOWN"||a.outcome==="unknown"))||!a.local_saved);
+         if(uncertain)s.holds++;
+         for(const k of ["pending","submissions","polls","charge_microrub","holds"])uint(s[k]);
+         s.revision++;
+@@ -160,7 +163,7 @@
+           if(r.worker_id===workerId)return{allowed:false,reason:"POLICY_ATTEMPT_STILL_ACTIVE"};
+           if(s.pending<1)fail("ASYNC_POLICY_ACCOUNTING_INVALID");
+           // Recovery cannot prove that a network request was never sent. Never refund blindly.
+-          s.pending--;s.holds++;s.revision++;t.objectStore("scopes").put(s);
++          s.pending--;if(r.kind==="submit")s.holds++;s.revision++;t.objectStore("scopes").put(s);
+           t.objectStore("attempts").put({...r,status:"unresolved",recovered_at:at,recovery_worker:workerId});
+         }
+         return{allowed:true,submit_blocked:s.holds>0,progress:publicScope(s)};
