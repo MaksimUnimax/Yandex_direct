@@ -1,0 +1,17 @@
+{"venue":"Node v22.16.0; deterministic IDB TEST DOUBLE only, not browser or real IndexedDB","source_sha256":"4145cbc91865c3151a34f8958640c6351bf6cb23a3a74441920d3517d483cba4"}
+{"name":"create_duplicate_and_owner","status":"PASS"}
+{"name":"concurrent_claim_exactly_one","status":"PASS"}
+{"name":"repeated_attempt_never_admits_second_item","status":"PASS"}
+{"name":"budget_exhaustion_and_get_independence","status":"PASS"}
+{"name":"unknown_submit_recovery_is_fail_closed","status":"PASS"}
+{"name":"collect_survives_another_unknown_submit","status":"PASS"}
+{"name":"poll_cooldown_and_network_read_error","status":"PASS"}
+{"name":"interrupted_collect_restores_only_get","status":"PASS"}
+{"name":"raw_first_parse_failure_local_repair_and_duplicate_commit","status":"PASS"}
+{"name":"failure_not_empty_success","status":"PASS"}
+{"name":"raw_and_state_transaction_abort","status":"PASS"}
+{"name":"operation_identity_collision_rolls_back","status":"PASS"}
+{"name":"pause_cancel_and_known_operations_preserved","status":"PASS"}
+{"name":"cancel_cannot_be_cleared_through_pause","status":"PASS"}
+{"name":"validation_and_paging_bounds","status":"PASS"}
+{"status":"PASS","tests":15,"failed":0,"browser_resource_proof":"BLOCKED_NOT_SUBSTITUTED","provider_calls":0}
