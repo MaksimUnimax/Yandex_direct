@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "venue": "Node v22.16.0; complete actual worker modules; Chrome/IndexedDB/fetch/time fixtures; exact content-function contracts, not live DOM",
+  "candidate_tree_sha256": "191b3ed1222733cb9d3aed805b53084829740d10ad906c5246d2cf185fc9ae94",
+  "baseline_b9_tree_sha256": "d1fc4f49718f023f1bc1a6a3ec921fa7253d63b805cedadff6fbcf2e70180612",
+  "candidate_files": 67,
+  "changed_production_files": {
+    "content_script.js": "239cef1d6f018b9e9daa4e4b9b3a8b5bdf1768c309304b0ea7b943211ee4736d",
+    "search_admission_worker_binding.js": "a1430dc0f2f82618c13dd5732943ce19081de4e0efaa82b856369b72cf405f30",
+    "search_async_worker_transport.js": "9905f1ff27c80b153c5b2920bff825e5560a1d326c49c175ba70275e838dd8db",
+    "service_worker.js": "09337feb5e257ef755e5fb4e285fdd020f8c119b4b0a4403314b2e128c0d5ef7"
+  },
+  "counts_by_suite": {
+    "new_deferred_full_worker": 17,
+    "new_legacy_full_invocation": 8,
+    "public_state_and_exact_content_functions": 3,
+    "preserved_b9_full_worker": 20
+  },
+  "source_run": {
+    "name": "B10_FINAL_SOURCE.tap",
+    "sha256": "abbd84569942e89f0c2dc83d132f59d5177301acc536b3cdccd2d4b470fc3a5e",
+    "bytes": 11586,
+    "footer": {"tests": 48, "pass": 48, "fail": 0, "cancelled": 0, "skipped": 0, "duration_ms": 1314.988309}
+  },
+  "fresh_run": {
+    "name": "B10_FINAL_FRESH.tap",
+    "sha256": "c1ddb754dbb857c124af13158a9b889325c0a331d173c7a15d44df32cd87ae1e",
+    "bytes": 11586,
+    "footer": {"tests": 48, "pass": 48, "fail": 0, "cancelled": 0, "skipped": 0, "duration_ms": 1322.101608}
+  },
+  "module_regression": {
+    "name": "MODULE_REGRESSION.tap",
+    "sha256": "751b1ddf9b14195ac3430115ae1198097e1e55a18ce4545b28d71811e3aea397",
+    "bytes": 50440,
+    "footer": {"tests": 254, "pass": 254, "fail": 0, "cancelled": 0, "skipped": 0, "duration_ms": 845.88473}
+  },
+  "export_regression": {
+    "name": "B10_FINAL_EXPORT_REGRESSION.tap",
+    "sha256": "be47c51413234055b90a7983b415c0757ef33648e4bb941bc5718f35796ae1c2",
+    "bytes": 15432,
+    "footer": {"tests": 84, "pass": 84, "fail": 0, "cancelled": 0, "skipped": 0, "duration_ms": 197.022187}
+  },
+  "red_logs": [
+    {"name": "B10_INITIAL_RED.tap", "sha256": "b9e5bde40871e9667b2cdbcf7a29d2fed8ca95359ad0b04d3648b94b1d30dea2", "bytes": 9831, "tests": 11, "pass": 0, "fail": 11, "note": "Most failures blocked by common session mismatch, not 11 independent bugs"},
+    {"name": "B10_DOWNSTREAM_RED.tap", "sha256": "3c316fd2ec84e2b0610e8d40ab169bd3e7b06450932da7e8ee30c6bf449c6bcc", "bytes": 7816, "tests": 11, "pass": 4, "fail": 7, "note": "After session correction and monotonic test-clock repair"},
+    {"name": "B10_AUTORUN_STOP_RED.tap", "sha256": "1d6d27216605115e3862ffb11a03b25e0705115f6d3314397449f73d7e14ddbc", "bytes": 2497, "tests": 8, "pass": 7, "fail": 1},
+    {"name": "B10_CONTENT_RED.tap", "sha256": "92438af9fbd83e590500324125e9900672389dd0a42c190fbe7fc980f763a2e7", "bytes": 2683, "tests": 3, "pass": 0, "fail": 3}
+  ],
+  "harness_correction": "Each full-worker test initially reset the clock backwards while shared fake IDB retained rate timestamps. Corrected fixture to monotonic epochs; not a product failure. Permission added only to getManifest fixture, actual manifest unchanged.",
+  "source_static": {"js_syntax_pass": 61, "json_parse_pass": 2, "fresh_hash_matches": 67, "negative_materializer_tests_pass": 2},
+  "small_receipt_assertion": {"explicit_steps": 25, "receipt_json_chars_less_than": 150, "receipt_writes_at_most": 52, "includes_payload_or_item_arrays": false, "boundary": "bounded metadata assertion, not total Chrome memory proof"},
+  "materializer_sha256": "1116f7b5a9393a278849d184722c614a057db4aec56e9ebd2ef6cc85e672393e",
+  "regression_runner_sha256": "ae1e6a7ca57fe5cda8659f450f9c8b17fdc939161b1bf4f3a04721568e4a44c6",
+  "remote_blob_readback": {"ref": "7d64fadcfc4f619573ae100ed45878693ab2e21d", "files": 11, "matches": 11},
+  "provider_calls": 0,
+  "actual_operation_host_enabled": false,
+  "browser_validation": "NOT_RUN_PREVIOUS_ENVIRONMENT_BLOCK_UNRESOLVED",
+  "real_indexeddb_validation": "NOT_RUN",
+  "combined_chrome_memory_validation": "NOT_RUN",
+  "release_allowed": false,
+  "remaining": [
+    "Qualified browser/DOM/IndexedDB and combined resource acceptance",
+    "Provider permission/auth canary and limits before capability enablement",
+    "Independent final pre-delivery and package identity",
+    "Local-only retry entry for saved PARSE_FAILED and additional batch fault cases require explicit follow-up review"
+  ],
+  "raw_evidence": {
+    "published_full_tap": "evidence/B10_FINAL_FRESH.tap",
+    "published_tap_sha256": "c1ddb754dbb857c124af13158a9b889325c0a331d173c7a15d44df32cd87ae1e",
+    "other_full_logs": "Local only in this session; hashes and footer counts do not claim their full bodies are in GitHub",
+    "local_combined_archive_sha256": "3a0e8b5fd6b6be5c46823d2fc2f701cbc49a0b47729ba1a6405032c619e8ebb7",
+    "local_combined_archive_bytes": 19817
+  }
+}
