@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION PREPARED / WORK NOT STARTED / PROVIDER EXECUTION NOT RELEASED**
+Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION ACCEPTED / ONE FUTURE PROVIDER CANDIDATE / PROVIDER EXECUTION NOT RELEASED / STEP06 NOT STARTED**
 
 ## 1. Job identity
 
@@ -68,7 +68,6 @@ STEP04_CURRENT = ACCEPTED_W09_CURRENT_AUTHORITY
 STEP04_W09_FAMILIES = 32
 STEP04_W09_OBSERVED_FAMILIES = 29
 STEP04_W09_QUEUE_ROWS = 13
-STEP04_W09_PROVIDER_READY_NOW = 0
 STEP04_W09_RAW_LINEAGE_LOSS = 0
 STEP04_W09_STEP03A_MUTATIONS = 0
 STEP04_W09_STEP03B_MUTATIONS = 0
@@ -78,11 +77,7 @@ Current Step04 acceptance:
 
 `STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
 
-Current analytical authority:
-
-`STEP_04_CURRENT_AUTHORITY_*`
-
-Detailed historical Step02/03 acquisition/recovery evidence remains in the step-specific manifests, receipts, RAW carriers and QA files. This current manifest does not replace those evidence artifacts.
+Detailed historical Step02/03 acquisition/recovery evidence remains in the step-specific manifests, receipts, RAW carriers and QA files.
 
 ## 5. Historical Step05 evidence preserved
 
@@ -103,32 +98,11 @@ Authority:
 
 `STEP_05_E013_WORDSTAT_EVIDENCE_RECEIPT_2026-09-10.md`
 
-## 6. Current Step05 entry contract
+## 6. Step05 preparation correction
 
-Universal Step05 purpose:
+The first W10 preparation was created before mandatory owner-facing pre-step disclosure and without an explicit frozen pre-handoff manifest. It is historical only and not execution authority.
 
-```text
-close material search-vocabulary gaps
-without duplicate acquisition
-without asking search demand to prove owner/business facts
-without recursive expansion lacking information gain
-```
-
-Current W09 queue classification entering the corrected W10 V2 reconciliation:
-
-```text
-SEARCH_GAP_CANDIDATES_TO_CHALLENGE = PSQ001, PSQ004, PSQ005
-OWNER_FACT_FIRST_OR_ONLY = PSQ002, PSQ003, PSQ009, PSQ012, PSQ013
-EXISTING_EVIDENCE_REUSE_NO_REPROBE = PSQ006, PSQ007, PSQ008, PSQ010
-DEFERRED_TO_LATER_INTENT/SERP = PSQ011
-PROVIDER_READY_NOW = 0
-```
-
-## 7. Corrected W10 V2 preparation authority
-
-The first W10 preparation was created before the mandatory owner-facing pre-step disclosure and without an explicit frozen pre-handoff manifest. It is historical only.
-
-Current corrected package:
+Current corrected V2 package:
 
 - `STEP_05_W10_PREPARATION_RULE_VIOLATION_AND_CORRECTION_2026-09-12.md`
 - `STEP_05_W10_PRE_ACQUISITION_EXTERNAL_RESEARCH_V2_2026-09-12.md`
@@ -136,12 +110,87 @@ Current corrected package:
 - `STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_V2_2026-09-12.md`
 - `STEP_05_W10_PRE_ACQUISITION_EXECUTION_RELEASE_V2_2026-09-12.md`
 
-The V1 W10 prompt/release/research files are superseded for execution.
+The V1 W10 prompt/release/research files remain superseded.
 
-## 8. Step05 current boundaries
+## 7. Step05 W10 V2 accepted pre-acquisition authority
+
+Main ChatGPT acceptance:
+
+`STEP_05_W10_V2_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
+
+Accepted W10 V2 outputs:
+
+1. `STEP_05_W10_V2_QUEUE_RECONCILIATION_WORK_2026-09-12.tsv`
+2. `STEP_05_W10_V2_EXISTING_EVIDENCE_REUSE_REGISTER_2026-09-12.tsv`
+3. `STEP_05_W10_V2_PROVIDER_CANDIDATE_MANIFEST_V1_2026-09-12.tsv`
+4. `STEP_05_W10_V2_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-12.tsv`
+5. `STEP_05_W10_V2_PRE_ACQUISITION_QA_2026-09-12.md`
+6. `STEP_05_W10_V2_PRE_ACQUISITION_WORK_RETURN_2026-09-12.md`
+7. `STEP_05_W10_V2_PRE_ACQUISITION_MATERIALIZER_2026-09-12.py`
+8. `STEP_05_W10_V2_ARTIFACT_MANIFEST_2026-09-12.json`
+
+Accepted counts/boundaries:
 
 ```text
-STEP05_WORK_EXECUTION = NOT_STARTED
+QUEUE_RECONCILED = 13/13
+REUSE_REGISTER_ROWS = 8
+REGRESSION_MATRIX = 17/17 PASS
+SURVIVING_NEW_PROVIDER_CANDIDATES = 1
+DUPLICATE_REPROBES = 0
+OWNER_FACT_BYPASSES = 0
+PROVIDER_CALLS_IN_W10 = 0
+STEP03A_MUTATIONS = 0
+STEP03B_MUTATIONS = 0
+W09_STEP04_MUTATIONS = 0
+STEP06_STARTED = false
+```
+
+Accepted dispositions:
+
+```text
+PSQ001 = CLOSED BY Q001-Q003 / NO REPROBE
+PSQ002 = OWNER FACT HOLD
+PSQ003 = OWNER FACT HOLD
+PSQ004 = CLOSED BY Q019 / NO REPROBE
+PSQ005 = ONE FUTURE CANDIDATE W10C001 / NOT EXECUTED
+PSQ006 = EXISTING EVIDENCE REUSE / NO REPROBE
+PSQ007 = EXISTING EVIDENCE REUSE / NO REPROBE
+PSQ008 = EXISTING EVIDENCE REUSE / NO REPROBE
+PSQ009 = OWNER FACT HOLD
+PSQ010 = E013 REUSE / NO REPLAY
+PSQ011 = DEFER TO STEP10 OR LATER SERP/INTENT
+PSQ012 = OWNER FACT ONLY
+PSQ013 = OWNER FACT ONLY
+```
+
+## 8. Sole future provider candidate
+
+```text
+candidate_id = W10C001
+source_queue_id = PSQ005
+phrase = (амулет|оберег|талисман) Аум
+regions = [225]
+devices = [DEVICE_ALL]
+requested_depth_if_bridge_supported = 2000
+max_requests = 1
+execution_status = NOT_EXECUTED
+```
+
+Evidence distinction preserved:
+
+```text
+S053 = broad Аум evidence
+Q005 = qualified Ом evidence
+W10C001 = qualified Аум question not yet acquired
+Ом != Аум for evidence reuse
+```
+
+This candidate is not yet provider evidence and is not permission to make a request.
+
+## 9. Current Step05 hard boundary
+
+```text
+STEP05_W10_V2_PRE_ACQUISITION = ACCEPTED
 STEP05_PROVIDER_EXECUTION = NOT_RELEASED
 WORDSTAT_CALLS_ALLOWED_NOW = 0
 ORDINARY_SEARCH_CALLS_ALLOWED_NOW = 0
@@ -153,34 +202,23 @@ STEP04_CURRENT_AUTHORITY_MUTATION_ALLOWED = false
 STEP06_STARTED = false
 ```
 
-Actual Work execution becomes eligible only after Main ChatGPT has shown the required owner-facing pre-step disclosure in chat and the owner relays the exact W10 V2 handoff.
+## 10. Required gate before W10C001 execution
 
-## 9. Step05 Work output contract
-
-W10 V2 Work must reconcile all 13 queue rows and create:
-
-1. `STEP_05_W10_V2_QUEUE_RECONCILIATION_WORK_2026-09-12.tsv`
-2. `STEP_05_W10_V2_EXISTING_EVIDENCE_REUSE_REGISTER_2026-09-12.tsv`
-3. `STEP_05_W10_V2_PROVIDER_CANDIDATE_MANIFEST_V1_2026-09-12.tsv`
-4. `STEP_05_W10_V2_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-12.tsv`
-5. `STEP_05_W10_V2_PRE_ACQUISITION_QA_2026-09-12.md`
-6. `STEP_05_W10_V2_PRE_ACQUISITION_WORK_RETURN_2026-09-12.md`
-7. deterministic materializer/source if needed;
-8. `STEP_05_W10_V2_ARTIFACT_MANIFEST_2026-09-12.json`.
-
-Provider execution remains `NOT_EXECUTED` in this pass.
-
-## 10. Current next action
+Before any provider command:
 
 ```text
-MAIN CHATGPT OWNER-FACING PRE-STEP DISCLOSURE
-→ OWNER RELAYS W10 V2 PROMPT
-→ WORK FULL RECONCILIATION / ZERO PROVIDER CALLS
-→ PUBLICATION OR OWNER RELAY
-→ MAIN CHATGPT REMOTE READBACK / RETURN QA
-→ SEPARATE DECISION ON WHETHER ONE NEW PROVIDER CALL IS JUSTIFIED
+FETCH CURRENT REMOTE HEAD
+→ classify authority drift
+→ recheck current Bridge Wordstat command schema
+→ recheck current official provider price / applicable limits
+→ issue separate W10C001 first-provider execution release
+→ execute at most one request
+→ persist complete RAW
+→ remote readback
+→ normalize/sanitize new rows through Step03A/Step03B
+→ return to Main ChatGPT before any second provider action
 ```
 
-## 11. Current mutable-state authority
+## 11. Current next action
 
-Current execution cursor remains the machine-readable current-state authority. `JOB_FLOW.md` is the human-readable roadmap/status view and must remain consistent with it.
+Prepare the separate Step05 first-provider execution gate for W10C001. Do not execute any provider call and do not start Step06 until that separate release exists.
