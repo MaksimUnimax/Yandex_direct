@@ -1,0 +1,114 @@
+--- a/shared/search_batch_runtime.js
++++ b/shared/search_batch_runtime.js
+@@ -68,7 +68,7 @@
+     }
+ 
+     function envelope(command, job, options = {}) {
+-      return Protocol.buildResultEnvelope({
++      const result = Protocol.buildResultEnvelope({
+         command,
+         jobId: job?.job_id || command?.jobId || null,
+         status: options.status || "OK",
+@@ -83,6 +83,7 @@
+         costEstimate: job ? { estimated_rub: Number(job.totals?.estimated_cost_rub || 0), max_rub: job.limits?.max_cost_rub ?? null } : null,
+         policy: job ? { max_requests: job.limits?.max_requests ?? null, max_cost_rub: job.limits?.max_cost_rub ?? null } : null
+       });
++      return options.stopRequired ? Object.freeze({ ...result, stop_required: true }) : result;
+     }
+ 
+     async function start(command) {
+@@ -139,9 +140,12 @@
+ 
+       let providerResult = null;
+       let requestExecuted = true;
++      let stopRequired = false, stopCode = null;
+       try {
+         const result = await executeSearch(item.command, { ...clone(context), request_id: requestId, job_id: job.job_id, batch_item_id: item.item_id, batch_worker_session_id: workerSessionId });
+         providerResult = result?.report_envelope || result || null;
++        stopRequired = result?.stop_required === true;
++        stopCode = stopRequired ? String(result.admission_warning || "SEARCH_BATCH_STOP_REQUIRED").slice(0,160) : null;
+         if (result?.ok === false) {
+           const error = providerError(result);
+           job = Model.markFailedTerminal(job, item.item_id, { code: error.code, message: error.message, requestExecuted: result?.request_executed !== false, now: now() });
+@@ -152,6 +156,8 @@
+         }
+       } catch (error) {
+         requestExecuted = error?.request_executed ?? "UNKNOWN";
++        stopRequired = error?.stop_required === true || Boolean(error?.admission_warning);
++        stopCode = stopRequired ? String(error.admission_warning || error.code || "SEARCH_BATCH_STOP_REQUIRED").slice(0,160) : null;
+         providerResult = {
+           status: "ERROR",
+           reason: error?.code || "PROVIDER_ERROR",
+@@ -163,14 +169,25 @@
+         else job = Model.markFailedTerminal(job, item.item_id, { code: error?.code || "PROVIDER_ERROR", message: error?.message || String(error), requestExecuted: requestExecuted === true, now: now() });
+       }
+ 
++      if (stopRequired) job = Model.pause(job, { reason: stopCode, now: now() });
+       job = withResultPayload(job, item.item_id, providerResult);
+-      await persistJob(map, job);
++      try { await persistJob(map, job); }
++      catch (error) {
++        // A failed result commit cannot erase the known network outcome. The
++        // durable REQUEST_STARTED fence stays in place; do not advance/retry.
++        throw Object.assign(new Error("Search batch result could not be saved."), {
++          code: "SEARCH_BATCH_RESULT_PERSISTENCE_FAILED", request_executed: requestExecuted,
++          confirmed_provider_executions: requestExecuted === true ? 1 : 0,
++          automatic_retry: false, stop_required: true
++        });
++      }
+       const currentItem = job.items.find((candidate) => candidate.item_id === item.item_id) || item;
+       return {
+         job,
+         envelope: envelope(command, job, {
+           status: currentItem.status === Model.ITEM_STATUSES.SUCCEEDED ? "OK" : "ERROR",
+-          reason: currentItem.error?.code || currentItem.outcome_unknown_reason || null,
++          reason: stopCode || currentItem.error?.code || currentItem.outcome_unknown_reason || null,
++          stopRequired,
+           item: currentItem,
+           providerResult,
+           requestExecuted
+@@ -183,10 +200,22 @@
+       let job = null;
+       let confirmedProviderExecutions = 0;
+       let aggregateRequestExecuted = false;
+-      let stopReason = null;
++      let stopReason = null, stopRequired = false;
+ 
+       for (let index = 0; index < command.count; index += 1) {
+-        const handled = await next({ action: "next", jobId: command.jobId }, context);
++        let handled;
++        try { handled = await next({ action: "next", jobId: command.jobId }, context); }
++        catch (error) {
++          const current = error?.request_executed ?? false;
++          if (current === true) confirmedProviderExecutions += Number(error.confirmed_provider_executions ?? 1);
++          const executed = current === "UNKNOWN" || aggregateRequestExecuted === "UNKNOWN" ? "UNKNOWN"
++            : current === true || aggregateRequestExecuted === true;
++          // No further next() after a local failure. Earlier committed items
++          // remain in storage and their execution receipt survives the error.
++          throw Object.assign(error, { request_executed: executed,
++            confirmed_provider_executions: confirmedProviderExecutions,
++            automatic_retry: false, stop_required: true });
++        }
+         job = handled.job;
+         const current = handled.envelope;
+ 
+@@ -206,6 +235,11 @@
+           provider_result: current.provider_result ? clone(current.provider_result) : null
+         });
+ 
++        if (current.stop_required === true) {
++          stopRequired = true;
++          stopReason = current.reason || "SEARCH_BATCH_STOP_REQUIRED";
++          break;
++        }
+         if (current.request_executed === "UNKNOWN") {
+           stopReason = current.reason || "REQUEST_OUTCOME_UNKNOWN_NO_RETRY";
+           break;
+@@ -234,6 +268,7 @@
+         envelope: envelope(command, job, {
+           status: last?.status || "OK",
+           reason: stopReason,
++          stopRequired,
+           requestExecuted: aggregateRequestExecuted,
+           chunk
+         })
