@@ -1,0 +1,94 @@
+name: YMB B14 isolated Chrome venue (not independent acceptance)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b14-browser-venue.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b14-browser-venue
+  cancel-in-progress: false
+jobs:
+  browser-venue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 4628fa3a4828b014f750ba3d1a4de744333f0788
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b14-qualified-internal-only
+          run-id: 34692833348
+          github-token: ${{ github.token }}
+          path: frozen-bundle
+      - name: Verify exact downloaded package before extraction
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import importlib.util,json,hashlib,zipfile,os
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b14_qualify.py')
+          spec=importlib.util.spec_from_file_location('q',q);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          folder=Path('frozen-bundle');p=folder/'candidate-internal-qa.zip'
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==m.ZIP_SHA
+          assert p.stat().st_size==m.ZIP_BYTES
+          metadata=json.loads((folder/'PACKAGE_IDENTITY.json').read_text())
+          with zipfile.ZipFile(p) as z: files={e.filename[len(m.ROOT_NAME)+1:]:z.read(e) for e in z.infolist() if not e.is_dir()}
+          m.verify_package(p,files)
+          assert [(r['path'],r['sha256']) for r in metadata['entries']]==[(n,m.sha(b)) for n,b in sorted(files.items())]
+          root=Path(os.environ['RUNNER_TEMP'])/'frozen-extension';root.mkdir()
+          for n,b in files.items(): f=root/n;f.parent.mkdir(parents=True,exist_ok=True);f.write_bytes(b)
+          assert m.identity(m.inventory(root))==m.TARGET
+          with open(os.environ['GITHUB_ENV'],'a') as env:
+              env.write('YMB_BROWSER_CANDIDATE='+str(root)+'\n')
+              env.write('YMB_BROWSER_EVIDENCE='+os.environ['RUNNER_TEMP']+'/b14-browser-evidence\n')
+              env.write('YMB_PPTR_HOME='+os.environ['RUNNER_TEMP']+'/b14-puppeteer\n')
+          PY
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Install pinned QA-only Puppeteer and Chrome for Testing
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_PPTR_HOME" "$YMB_BROWSER_EVIDENCE"
+          printf '%s\n' '{"name":"ymb-b14-venue-qa","private":true,"version":"1.0.0"}' > "$YMB_PPTR_HOME/package.json"
+          npm install --prefix "$YMB_PPTR_HOME" --save-exact --no-audit --no-fund puppeteer@25.10.0 > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+          cp "$YMB_PPTR_HOME/package-lock.json" "$YMB_BROWSER_EVIDENCE/package-lock.json"
+          command -v xvfb-run
+      - name: One owned browser, actual IDB and bounded artifact cycles
+        shell: bash
+        run: |
+          set -euo pipefail
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          node --check "$Q/b14_browser_venue.mjs"
+          xvfb-run -a node "$Q/b14_browser_venue.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Save partial evidence even when qualification fails
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,json
+          p=Path(os.environ['RUNNER_TEMP'])/'b14-browser-evidence';p.mkdir(exist_ok=True)
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b14_browser_venue.mjs')
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'4628fa3a4828b014f750ba3d1a4de744333f0788','test_sha256':hashlib.sha256(q.read_bytes()).hexdigest(),'candidate_sha256':'e260f35b1d7decf02c18c46103b4072de68270c2bce09e2f51f7462941c48f97','venue':'ephemeral GitHub runner, fresh profile','local_browser_launched':False,'user_profile_touched':False,'policy_modified':False,'real_provider_credentials':False,'independent_gate':False,'full_resource_gate':False,'release_allowed':False},indent=2)+'\n')
+          (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(p.iterdir()) if f.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b14-browser-venue-evidence
+          path: ${{ runner.temp }}/b14-browser-evidence/
+          retention-days: 90
+          if-no-files-found: error
