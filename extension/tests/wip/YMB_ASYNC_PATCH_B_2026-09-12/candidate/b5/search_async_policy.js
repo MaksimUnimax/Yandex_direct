@@ -79,10 +79,11 @@
       [getPolicy,getSettings,getAutoRun,now].some(f => typeof f !== "function")) fail("ASYNC_POLICY_DEPENDENCY_REQUIRED");
     if (!Number.isSafeInteger(minIntervalMs) || minIntervalMs < 100) fail("ASYNC_POLICY_RATE_INVALID");
     const clock = () => uint(now());
-    async function bindJob({ jobId, owner, folderId, scopeId, runId = null, mode = "deferred", channel = "manual" }) {
+    async function bindJob({ jobId, owner, folderId, scopeId, runId = null, mode = "deferred", channel = "manual", credentialCheckConfirmed = false }) {
       str(jobId,128); str(owner,1000); str(folderId,50); str(scopeId,128);
       if (runId !== null) str(runId,128);
-      if (!["deferred", "legacy"].includes(mode) || !["manual", "autorun"].includes(channel)) fail("SHARED_ADMISSION_BINDING_INVALID");
+      if (!["deferred", "legacy", "credential_check"].includes(mode) || !["manual", "autorun", "credential_check"].includes(channel)) fail("SHARED_ADMISSION_BINDING_INVALID");
+      if (mode === "credential_check" ? channel !== "credential_check" || runId !== null || credentialCheckConfirmed !== true : channel === "credential_check") fail("SHARED_CHECK_CONSENT_REQUIRED");
       if (mode === "deferred" && channel !== "manual") fail("SHARED_DEFERRED_AUTORUN_NOT_SUPPORTED");
       if (runId && typeof publishRunTotals !== "function") fail("SHARED_RUN_MIRROR_REQUIRED");
       const legacy = runId ? await getAutoRun(owner) : null;
@@ -116,7 +117,7 @@
       if (settings?.credentials?.search?.folder_id !== binding.folder_id) fail("ASYNC_POLICY_CREDENTIAL_CONTEXT_CHANGED");
       // Counters are seeded only once at bind. Adding the live mirror here would
       // count the same legacy or deferred request twice.
-      if ((binding.mode === "legacy") !== ["search", "genSearch"].includes(a.kind)) fail("SHARED_ADMISSION_MODE_MISMATCH");
+      if ((binding.mode !== "deferred") !== ["search", "genSearch"].includes(a.kind) || (binding.mode === "credential_check" && a.kind !== "search")) fail("SHARED_ADMISSION_MODE_MISMATCH");
       const at = clock();
       return tx(["bindings","scopes","attempts","rates"],"readwrite",async t => {
         const b=await request(t.objectStore("bindings").get(a.jobId));checkBinding(b,a);
@@ -131,7 +132,12 @@
         const method = a.kind === "genSearch" ? "genSearch" : "search";
         const cost = a.kind === "submit" ? PRICE_MICRORUB : a.kind === "collect" ? 0 : uint(Math.round(policy.method_cost_rub[method] * 1e6));
         const run = paid(a.kind) ? { requests_executed: uint(s.seed_requests+s.submissions), estimated_cost_rub: uint(s.seed_cost_microrub+s.charge_microrub)/1e6 } : {};
-        const decision=policyModel.searchDecision({policy:{...policy,method_cost_rub:{...policy.method_cost_rub,[method]:cost/1e6}},channel:b.channel,method,credentialState:capability.state,run});
+        const check = b.mode === "credential_check";
+        // Existing credential Check is a separately confirmed single request, not
+        // Manual/Autorun work. It must still be possible to re-check an invalid key.
+        const effectivePolicy = check ? {...policy, manual_enabled:true, allowed_methods:["search"], max_requests_per_run:1, max_cost_rub_per_run:cost/1e6} : policy;
+        const credentialState = check && capability.has_api_key && capability.has_folder_id ? "PRESENT" : capability.state;
+        const decision=policyModel.searchDecision({policy:{...effectivePolicy,method_cost_rub:{...policy.method_cost_rub,[method]:cost/1e6}},channel:check?"manual":b.channel,method,credentialState,run});
         if(!decision.allow)return{allowed:false,reason:decision.reason};
         const lane=a.kind;
         const rate=await request(t.objectStore("rates").get([b.folder_id,lane]));
