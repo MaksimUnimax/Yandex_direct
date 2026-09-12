@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "input_head": "f52da796ca399c53c012902f04f49632d2ab6600",
+  "baseline_b11_tree_sha256": "5fd8a55e980fa54fe5371a51070e9e899307319c8f1ee3255fdc0857b31ebd26",
+  "candidate_tree_sha256": "73e6ed85bfd843bf2590a2d1a44a9d04224ce5f63563d127bcd35c2ad092eeec",
+  "candidate_files": 67,
+  "unchanged_js_files": 61,
+  "changed_candidate_files": [
+    "README.md",
+    "README.txt"
+  ],
+  "other_files_unchanged": 65,
+  "venue": "Node 22; actual JS, controlled Chrome/IDB/network. Not Chrome or independent final gate.",
+  "available_campaign_status": "PASS_AVAILABLE_SCOPE",
+  "new_contract_red": {
+    "tests": 24,
+    "pass": 23,
+    "fail": 1,
+    "classification": "FAIL_DOCUMENTATION",
+    "defect": "Bundled readmes advertised Phase1/0.1.0, inconsistent with owner014 and current candidate"
+  },
+  "new_contract_green": {
+    "tests": 24,
+    "pass": 24,
+    "fail": 0,
+    "duration_ms": 249.761093
+  },
+  "full_contract": {
+    "status": "PASS",
+    "returncode": 0,
+    "footer": {
+      "tests": "99",
+      "pass": "99",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "2311.128512"
+    },
+    "tap_sha256": "de5671a62af6d711d48f16d17e0c840d3ca9138e301fc89e27a77acda946cb6a"
+  },
+  "modules": {
+    "status": "PASS",
+    "returncode": 0,
+    "footer": {
+      "tests": "254",
+      "pass": "254",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "969.347403"
+    },
+    "tap_sha256": "fc5e3a7bab0e9f3827949d20b96ec3a6198bac14fee645879c9a8547587633c8",
+    "tap_bytes": 50449
+  },
+  "export": {
+    "status": "PASS",
+    "returncode": 0,
+    "footer": {
+      "tests": "84",
+      "pass": "84",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "190.123781"
+    },
+    "tap_sha256": "516610e49ab109fdda3d780e7bf540c70456e71db86965b195c95903a9106c9f"
+  },
+  "syntax": {
+    "js_pass": 61,
+    "js_fail": 0,
+    "json_parse": 2
+  },
+  "reconstruction_negatives_and_identity": [
+    {
+      "case": "refuse_nonempty_output",
+      "pass": true,
+      "message": "ValueError: Refusing nonempty output"
+    },
+    {
+      "case": "refuse_wrong_input_before_writes",
+      "pass": true,
+      "message": "ValueError: Wrong B11"
+    },
+    {
+      "case": "fresh_byte_identity",
+      "matches": 67,
+      "pass": true
+    }
+  ],
+  "source_file_identities": [
+    {
+      "path": "candidate/b12/README.md",
+      "bytes": 8537,
+      "sha256": "33f10ae085aa1c06af1a1249e3d625508f7b0267612c75dc920f92f76215ec09",
+      "git_blob": "2713cc4088a652b4907d4edf999c6f7bdc792d41"
+    },
+    {
+      "path": "candidate/b12/README.txt",
+      "bytes": 2913,
+      "sha256": "b702e73fe9b7ad551c8d3c0c41eabaa16a4b4ca59d2f1c54debdc2e461c64430",
+      "git_blob": "0fd1e2f57086efbec9fe9e03d2568b0935b852e6"
+    },
+    {
+      "path": "qa/b12_contract.test.mjs",
+      "bytes": 12213,
+      "sha256": "d9f32437e88958bdbef285deaded32e8b6c7d3d8f62e37765eb26d6b9ce8b122",
+      "git_blob": "a816a68f911218bff348ae208ea90e62c715671f"
+    },
+    {
+      "path": "qa/prepare_b12.py",
+      "bytes": 2364,
+      "sha256": "4d336a81356ee6186d90e330cab9a4f87eb614e493978e07ef02c08b03b761c5",
+      "git_blob": "01122f172d279d127eb89ae1a4ebc9ec7fe77f9b"
+    },
+    {
+      "path": "qa/b12_available_campaign.py",
+      "bytes": 5688,
+      "sha256": "69e82a0f20231391f483615727837fd41b79140c87c4d89539d11dcc54a37404",
+      "git_blob": "bf052ce3c3b8d94605f2e2994f7ac366aa7ea50d"
+    },
+    {
+      "path": "evidence/B12_INPUTS.json",
+      "bytes": 1778,
+      "sha256": "c1b6478ef9fd6807576f29bd08fbbc3c41577b3f244b0b6f4c885bafec55debe",
+      "git_blob": "e95997ad9399d941d8ec206700228dd7d16c18de"
+    }
+  ],
+  "remote_readback": {
+    "code_docs_qa_manifest_matches": "6/6",
+    "ref": "db88cad9b3872c20e0263edf418f42fe029a827d",
+    "note": "README.md initially checked at da72d5f25cf47187048b56635ec67bcabcd57dd4; unchanged at subsequent saves."
+  },
+  "raw_logs": {
+    "path": "evidence/B12_RAW_LOGS.tar.xz",
+    "bytes": 23936,
+    "sha256": "9180183ea79110532b34a274534a4f5624337116e48ff79dbe1d7b2bf4170c58",
+    "git_blob": "2cf27d1ce40507f8c49adcbf9cc6d6a7fd4b553e",
+    "members": 20,
+    "checksums_verified": 19
+  },
+  "coverage_addendum": "extension/docs/YMB_ASYNC_FILE_PRE_DELIVERY_COVERAGE_2026-09-12.md",
+  "full_suite_boundary": "99/254/84 overlap and do not represent entire original extension/tests suite or independent final gate.",
+  "actual_chrome": "NOT_RUN",
+  "real_indexeddb": "NOT_RUN",
+  "new_memory_tests": "NOT_RUN_DOCS_ONLY_DIFF",
+  "operation_host_enabled": false,
+  "provider_calls": 0,
+  "candidate_unchanged_after_tests": true,
+  "independent_gate": "NOT_RUN",
+  "installable_zip_created": false,
+  "release_allowed": false
+}
