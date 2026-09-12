@@ -1,0 +1,8 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import crypto from 'node:crypto';
+const base=fs.readFileSync(new URL('../owner014/phase3_service_worker_bootstrap.js',import.meta.url),'utf8');
+const next=fs.readFileSync(new URL('../candidate/phase3_service_worker_bootstrap.js',import.meta.url),'utf8');
+const sha=s=>crypto.createHash('sha256').update(s).digest('hex');
+test('baseline and B6 bootstrap exact hashes are frozen',()=>{assert.equal(sha(base),'d1fe374068c91d6d5ff2d677e31c4f018931a98d8311cead7f8c1f475ade5647');assert.equal(sha(next),'6bbd3d52d41d52e1f5d6c4f724dbbb9450dec2012ec99712b127a0d063a2c7b5');});
+test('B6 changes bootstrap only by one governed import block',()=>{const removed=next.replace(/  importScripts\(\n    "shared\/search_async_policy\.js",\n    "shared\/search_legacy_admission\.js",\n    "search_admission_worker_binding\.js"\n  \);\n/,'');assert.equal(removed,base);});
+test('shared guard loads after current V5 credential runtime and before Search batch transport',()=>{const webmaster=next.indexOf('importScripts("webmaster_worker_runtime.js")');const policy=next.indexOf('"shared/search_async_policy.js"');const guard=next.indexOf('"shared/search_legacy_admission.js"');const binding=next.indexOf('"search_admission_worker_binding.js"');const batch=next.indexOf('"shared/search_batch_protocol.js"');assert.ok(webmaster>=0&&webmaster<policy&&policy<guard&&guard<binding&&binding<batch);});
+test('deferred provider runtime is not activated in B6',()=>{for(const forbidden of ['search_async_store.js','search_async_transport.js','search_async_runtime.js','search_async_protocol.js'])assert.equal(next.includes(forbidden),false);});
