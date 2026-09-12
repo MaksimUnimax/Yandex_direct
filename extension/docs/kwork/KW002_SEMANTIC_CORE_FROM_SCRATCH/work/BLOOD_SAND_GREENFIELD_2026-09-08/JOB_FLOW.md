@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP03A PASS / CORRECTED STEP03B ACCEPTED / STEP04 POST-AUDIT CORRECTED LOCAL PASS CANDIDATE / MAIN READBACK PENDING / STEP05 BLOCKED**
+Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION PREPARED / WORK NOT STARTED / PROVIDER EXECUTION NOT RELEASED / STEP06 NOT STARTED**
 
 ## Whole-job goal
 
@@ -15,436 +15,156 @@ semantic core
 → client-ready deliverables
 ```
 
-Clean boundary remains active: prior Blood & Sand analytical research is sealed and is not an execution input unless a later explicit job authority permits it.
+Clean-boundary rule remains active: prior Blood & Sand analytical research is sealed and is not an execution input unless explicitly whitelisted.
+
+## Current authority order
+
+Current state must be read from the live branch, with authority in this order:
+
+1. current `KW002_EXECUTION_CURSOR_2026-09-11.json`;
+2. accepted step-specific Main ChatGPT acceptance/readback files;
+3. current accepted analytical artifacts;
+4. current corrected prompt/release package for the active step;
+5. this `JOB_FLOW.md` as the human-readable roadmap/status view.
+
+A stale historical prompt, queue, cursor or owner relay never overrides a newer accepted authority.
 
 ## Full roadmap / current status
 
-| Step | Purpose | Status |
+| Step | Purpose | Current status |
 |---|---|---|
 | 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
-| 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS / 93/100 = 9.3/10 |
-| 03 | Primary Wordstat acquisition + durable RAW feed-forward | ✅ COMPLETE / PASS / 79/79 |
-| 03A | RAW normalization + exact deduplication | ✅ COMPLETE / PASS / BYTE UNCHANGED / 24,576 identities |
-| 03B | High-confidence sanitation | ✅ CORRECTED AUTHORITY ACCEPTED / ORIGINAL SUPERSEDED |
-| 04 | First family triage | 🟠 W08 POST-AUDIT RULE-LEVEL CORRECTION COMPLETE / 96.94/100 LOCAL PASS CANDIDATE / OWNER RELAY + MAIN CHATGPT READBACK PENDING |
-| 05 | Targeted expansion / coverage | 🔴 NOT STARTED / BLOCKED |
+| 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS |
+| 03 | Primary Wordstat acquisition + durable RAW feed-forward | ✅ COMPLETE / PASS / 79 of 79 durable |
+| 03A | RAW normalization + safe deduplication | ✅ COMPLETE / PASS / 24,576 identities / RAW lineage preserved |
+| 03B | Conservative high-confidence sanitation | ✅ CORRECTED AUTHORITY ACCEPTED / 5,100 KEEP / 13,035 HOLD / 6,441 EXCLUDE |
+| 04 | Preliminary family/topic/task triage | ✅ W09 CURRENT AUTHORITY ACCEPTED / 24,576 identities / 25,979 RAW / independent QA accepted |
+| 05 | Targeted expansion / coverage control | 🟠 PREPARATION CORRECTED TO W10 V2 / owner-facing pre-step disclosure required before relay / Work reconciliation not started / provider execution not released |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
 | 07 | Competitor semantic expansion | ⬜ NOT STARTED |
 | 08 | Competitor-derived Wordstat expansion | ⬜ NOT STARTED |
-| 09 | Candidate semantic master freeze | ⬜ NOT STARTED |
-| 10 | Row-level cleanup / intent / user task | ⬜ NOT STARTED |
-| 11 | Search-stage semantic freeze | ⬜ NOT STARTED |
-| 12 | Ordinary Yandex Search / TOP evidence | ⬜ NOT STARTED |
-| 13 | SERP + task-first clustering | ⬜ NOT STARTED |
+| 09 | Candidate semantic master + reserve freeze | ⬜ NOT STARTED |
+| 10 | Row-level relevance / user task / intent / priority | ⬜ NOT STARTED |
+| 11 | Delivery-scope selection + Search-stage semantic freeze | ⬜ NOT STARTED |
+| 12 | Current ordinary Yandex Search evidence | ⬜ NOT STARTED |
+| 13 | SERP + user-task-first clustering | ⬜ NOT STARTED |
 | 14 | Query→page ownership + Search-only IA | ⬜ NOT STARTED |
-| 15 | AI-search diagnostic selection | ⬜ NOT STARTED |
+| 15 | AI-search diagnostic case selection | ⬜ NOT STARTED |
 | 16 | AI-search evidence acquisition | ⬜ NOT STARTED |
 | 17 | Search-vs-AI reconciliation | ⬜ NOT STARTED |
-| 18 | Final semantic core + IA + Page Jobs + internal links | ⬜ NOT STARTED |
+| 18 | Final semantic core + final IA + Page Jobs + internal links | ⬜ NOT STARTED |
 | 19 | Client deliverables | ⬜ NOT STARTED |
 | 20 | Final QA / recipient acceptance | ⬜ NOT STARTED |
-| 21 | Revision rehearsal + Kwork measurement/economics | ⬜ NOT STARTED |
+| 21 | Revision rehearsal + productization measurement/economics | ⬜ NOT STARTED |
 | 22 | Final handoff / job close | ⬜ NOT STARTED |
 
 ## Accepted completed work
 
 ```text
-STEP00 = PASS after Ozon-only source correction
-STEP01 = PASS / 76 of 76 client assortment rows / 0 silent loss
-STEP02_V1 = SUPERSEDED / 65 of 100
-STEP02_V2_PRIMARY = 79
-STEP02_V2_DEFERRED_CONTROL = 49
-STEP02_V2 = PASS / 93 of 100 / 9.3 of 10
-STEP03_CURRENT_PRIMARY_ACQUISITION_OUTCOMES = 79 of 79
-STEP03_DURABLE_FEED_FORWARD = 79 of 79
+STEP00 = PASS / Ozon-only frozen source boundary
+STEP01 = PASS / 76 of 76 assortment rows
+STEP02 = V2 PASS
+STEP03 = PASS / 79 of 79 durable provider outcomes
 STEP03_RAW_RECOVERY = COMPLETE / PASS
-STEP03A = PASS / 24576 normalized identities / 25979 RAW occurrences / byte unchanged
-STEP03B_ORIGINAL = SUPERSEDED by accepted critical full-volume audit
-STEP03B_CORRECTED = ACCEPTED / 5100 KEEP / 13035 HOLD / 6441 EXCLUDE
-STEP03B_OVERLAY_STATE_MISMATCHES = 0
-HISTORICAL_CORRECTED_STEP04_AUTHORITY = PRESENT
-POST_SANITATION_STEP04 = HISTORICAL RESULT / SUPERSEDED BY ACCEPTED W07 REWORK VERDICT
-STEP04_INDEPENDENT_W07 = ACCEPTED REWORK REQUIRED / 255 DEFECT IDENTITIES
-STEP04_POST_AUDIT_W08 = FULL-VOLUME CORRECTION COMPLETE / LOCAL PASS CANDIDATE / 28 FAMILIES / 9 QUEUE / 13 FEEDBACK
-STEP04_POST_AUDIT_W08_PUBLICATION = OWNER_RELAY REQUIRED / MAIN CHATGPT REMOTE READBACK PENDING
-STEP05 = NOT STARTED / BLOCKED
+STEP03A = PASS / 24576 normalized identities / 25979 RAW occurrences / lineage preserved
+STEP03B_ORIGINAL = SUPERSEDED
+STEP03B_CORRECTED = ACCEPTED / KEEP 5100 / HOLD 13035 / EXCLUDE 6441
+STEP04_W07_INDEPENDENT_AUDIT = ACCEPTED / REWORK_REQUIRED / 255 material defect identities
+STEP04_W08 = HISTORICAL CORRECTIVE RESULT / NOT CURRENT AUTHORITY
+STEP04_W09 = MAIN CHATGPT REMOTE READBACK ACCEPTED
+STEP04_CURRENT = ACCEPTED W09 CURRENT AUTHORITY
+STEP04_W09_FAMILIES = 32 / 29 observed / 3 zero-member
+STEP04_W09_QUEUE = 13 rows / provider-ready-now 0
+STEP04_W09_RAW_LINEAGE_LOSS = 0
+STEP04_W09_STEP03A_MUTATIONS = 0
+STEP04_W09_STEP03B_MUTATIONS = 0
 ```
 
-## Step 03 corrected state
+Current Step04 acceptance:
 
-The early MV3 long-fetch incident remains historical evidence, but it is no longer the execution cursor. After the Bridge repair/revised collection, all 79 canonical primary probes received current acquisition outcomes.
+`STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
 
-A later Step-04 Work readback found a separate persistence defect: two large raw carrier bundles did not reconstruct losslessly from GitHub.
+Current Step04 analytical authority:
 
-Initial late-QA deficit:
+`STEP_04_CURRENT_AUTHORITY_*`
+
+## Step05 historical evidence already present
+
+Step05 was historically touched before the Step04 correction cycle. Exactly one durable provider request is preserved:
 
 ```text
-LOSSLESS_GITHUB_FEED_FORWARD_RAW = 60/79
-AFFECTED_RUN_ORDERS = 32-48,50,51
+historical queue item = E013
+phrase = !чётки
+provider request = wordstat-132a43ff-7cf9-4544-a6e2-68da666c4813
+results = 2000
+associations = 19
+raw blob = 550add6010ddbd10e0d807fd1a11046d2b782a4a
+remote readback = PASS
 ```
 
-Recovery completed:
+This evidence is reusable and MUST NOT be blindly replayed.
+
+## Current Step05 entry state
+
+Current accepted W09 queue = 13 rows.
+
+Starting W10 V2 gate:
 
 ```text
-RUN_50 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved / PASS
-RUN_51 = RECOVERED WITHOUT PROVIDER REPLAY / durable equivalent saved / PASS
-RUN_32 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
-RUN_33 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
-RUN_34 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
-RUN_35 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / READBACK PASS
-RUN_36 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 2000 RESULTS RECONCILED
-RUN_37 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE TAIL READBACK PASS / 595 RESULTS RECONCILED
-RUN_38 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 783 RESULTS DIRECT LINE-COUNT PASS
-RUN_39 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 818 RESULTS DIRECT LINE-COUNT PASS
-RUN_40 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 569 RESULTS DIRECT LINE-COUNT PASS
-RUN_41 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 952 RESULTS DIRECT LINE-COUNT PASS
-RUN_42 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 548 RESULTS DIRECT LINE-COUNT PASS
-RUN_43 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 593 RESULTS DIRECT LINE-COUNT PASS
-RUN_44 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 1074 RESULTS DIRECT LINE-COUNT PASS
-RUN_45 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 987 RESULTS DIRECT LINE-COUNT PASS
-RUN_46 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 915 RESULTS DIRECT LINE-COUNT PASS
-RUN_47 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 809 RESULTS DIRECT LINE-COUNT PASS
-RUN_48 = NEW CURRENT WORDSTAT RECOVERY OBSERVATION SAVED / REMOTE READBACK PASS / 594 RESULTS DIRECT LINE-COUNT PASS
-CURRENT_USABLE_FEED_FORWARD = 79/79
-REMAINING_RUN_ORDERS = NONE
-REMAINING_COUNT = 0
-RECOVERY_PROVIDER_REQUESTS_TOTAL = 17
-RECOVERY_PROVIDER_COST_TOTAL = 0.34 RUB
+SEARCH_GAP_CANDIDATES_TO_CHALLENGE = PSQ001, PSQ004, PSQ005
+OWNER_FACT_FIRST_OR_ONLY = PSQ002, PSQ003, PSQ009, PSQ012, PSQ013
+EXISTING_EVIDENCE_REUSE_NO_REPROBE = PSQ006, PSQ007, PSQ008, PSQ010
+DEFERRED_TO_LATER_INTENT/SERP = PSQ011
+PROVIDER_READY_NOW = 0
 ```
 
-Run 36 verification boundary:
+Current corrected Step05 preparation package:
+
+- `STEP_05_W10_PREPARATION_RULE_VIOLATION_AND_CORRECTION_2026-09-12.md`
+- `STEP_05_W10_PRE_ACQUISITION_EXTERNAL_RESEARCH_V2_2026-09-12.md`
+- `STEP_05_W10_PRE_HANDOFF_MANIFEST_V2_2026-09-12.md`
+- `STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_V2_2026-09-12.md`
+- `STEP_05_W10_PRE_ACQUISITION_EXECUTION_RELEASE_V2_2026-09-12.md`
+
+The earlier W10 V1 preparation files are historical and must not be relayed as current execution authority.
+
+## Step05 exact next action
+
+Mandatory order:
 
 ```text
-RUN_36_REQUEST_ID = wordstat-e142a328-7497-495b-83ee-ef069dbae0d0
-RUN_36_RAW_BLOB_SHA = e0b895235d957352a264a1020c882dfbfde3a00d
-RUN_36_REMOTE_FIRST_RESULT = PRESENT
-RUN_36_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = знак зодиака козерог скорпион / 789
-RUN_36_ASSOCIATIONS_ROWS = 15 / REMOTE COMPLETE TAIL READBACK
-RUN_36_TOTALCOUNT = 3512863 / PASS
-RUN_36_RESULTS_ROWS = 2000 / RECONCILED
-RUN_36_RESULTS_ROWS_INDEPENDENT_LOCAL_PARSER = NOT AVAILABLE IN THIS EXECUTION ENVIRONMENT
+owner-facing pre-step report in Main ChatGPT
+→ clickable fresh source disclosure + plain-Russian explanation
+→ owner relays exact W10 V2 handoff
+→ Work fetches current live branch
+→ Work reconciles all 13 queue rows against full durable evidence
+→ Work materializes inert candidate manifest, selecting at most one future first provider candidate
+→ ZERO provider calls in Work
+→ Work publishes or owner-relays artifacts
+→ Main ChatGPT remote readback / return QA
+→ only then separate decision whether one provider call is justified
 ```
 
-Run 37 verification boundary:
+## Step05 hard boundaries
 
 ```text
-RUN_37_REQUEST_ID = wordstat-93645021-729a-492b-9ba7-4e607f0c440f
-RUN_37_RAW_BLOB_SHA = 611f9fbcbb5442779bb5780a4244c427e027701c
-RUN_37_REMOTE_FIRST_RESULT = стрелец знак зодиака / 39531
-RUN_37_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = знак зодиака стрелец мужчина сегодня гороскоп / 4
-RUN_37_ASSOCIATIONS_ROWS = 13 / REMOTE COMPLETE TAIL READBACK
-RUN_37_TOTALCOUNT = 39531 / PASS
-RUN_37_RESULTS_ROWS = 595 / RECONCILED
-RUN_37_RESULTS_ROWS_INDEPENDENT_LOCAL_PARSER = NOT AVAILABLE IN THIS EXECUTION ENVIRONMENT
+WORDSTAT_EXECUTION_NOW = NOT RELEASED
+SEARCH_EXECUTION_NOW = NOT RELEASED
+GENSEARCH_EXECUTION_NOW = NOT RELEASED
+AI_SEARCH_EXECUTION_NOW = NOT RELEASED
+STEP03A_MUTATION_NOW = NO
+STEP03B_MUTATION_NOW = NO
+STEP04_CURRENT_AUTHORITY_MUTATION = NO
+STEP06_STARTED = NO
 ```
 
-Run 38 verification boundary:
+Step05 exists to close real vocabulary gaps, not to force new provider calls. It may legitimately conclude that no new acquisition is needed.
 
-```text
-RUN_38_REQUEST_ID = wordstat-547013bc-6ce5-48de-981e-411f71b7d247
-RUN_38_RAW_BLOB_SHA = eac14976a280a50ade7ac47d454a1404f33daa83
-RUN_38_REMOTE_FIRST_RESULT = близнецы знак зодиака / 47689
-RUN_38_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = тайны близнецов все знаки зодиака / 1
-RUN_38_RESULTS_ARRAY_FIRST_ROW_LINE = 31
-RUN_38_RESULTS_ARRAY_LAST_ROW_LINE = 813
-RUN_38_RESULTS_ROWS = 783 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_38_ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 816-830
-RUN_38_TOTALCOUNT = 47689 / PASS
-RUN_38_REMOTE_READBACK = PASS
-```
+## Remaining roadmap after Step05
 
-Run 39 verification boundary:
+After Step05 is fully accepted, the job continues through Step06–22 in the universal Level2 order. Step06 may not start merely because a Step05 prompt exists; Step05 must finish its evidence/reconciliation contract first.
 
-```text
-RUN_39_REQUEST_ID = wordstat-77401772-61c8-4bbd-abb9-447700dd1e37
-RUN_39_RAW_BLOB_SHA = 089687e879ed8dc5c9a566f6c6d2c414c5f60c63
-RUN_39_REMOTE_FIRST_RESULT = весы знак зодиака / 64242
-RUN_39_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = весы знак зодиака темперамент / 3
-RUN_39_RESULTS_ARRAY_FIRST_ROW_LINE = 31
-RUN_39_RESULTS_ARRAY_LAST_ROW_LINE = 848
-RUN_39_RESULTS_ROWS = 818 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_39_ASSOCIATIONS_ROWS = 19 / DIRECT REMOTE LINE-POSITION COUNT / LINES 851-869
-RUN_39_TOTALCOUNT = 64242 / PASS
-RUN_39_REMOTE_READBACK = PASS
-```
+## Current stop condition
 
-Run 40 verification boundary:
-
-```text
-RUN_40_REQUEST_ID = wordstat-d465de72-775d-4255-83cb-9ad9b4373925
-RUN_40_RAW_BLOB_SHA = 94c1d1f76c2da4c7f52e5dfc48d1e909f699f84d
-RUN_40_REMOTE_FIRST_RESULT = водолей знак зодиака / 37900
-RUN_40_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = тату знак зодиака водолей телец / 1
-RUN_40_RESULTS_ARRAY_FIRST_ROW_LINE = 31
-RUN_40_RESULTS_ARRAY_LAST_ROW_LINE = 599
-RUN_40_RESULTS_ROWS = 569 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_40_ASSOCIATIONS_ROWS = 19 / DIRECT REMOTE LINE-POSITION COUNT / LINES 602-620
-RUN_40_TOTALCOUNT = 37900 / PASS
-RUN_40_REMOTE_READBACK = PASS
-```
-
-Run 41 verification boundary:
-
-```text
-RUN_41_REQUEST_ID = wordstat-459de9aa-c5e2-42e6-9ce1-a160bbafd8e0
-RUN_41_RAW_BLOB_SHA = c6d56339e7fe919f506a9703e5f4d30e5d5bf2d4
-RUN_41_REMOTE_FIRST_RESULT = дева знак зодиака / 101545
-RUN_41_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = дева знак зодиака на турецком / 3
-RUN_41_RESULTS_ARRAY_FIRST_ROW_LINE = 31
-RUN_41_RESULTS_ARRAY_LAST_ROW_LINE = 982
-RUN_41_RESULTS_ROWS = 952 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_41_ASSOCIATIONS_ROWS = 18 / DIRECT REMOTE LINE-POSITION COUNT / LINES 985-1002
-RUN_41_TOTALCOUNT = 101545 / PASS
-RUN_41_REMOTE_READBACK = PASS
-```
-
-Run 42 verification boundary:
-
-```text
-RUN_42_REQUEST_ID = wordstat-9bf7288d-de00-4dba-a5e6-b254ada7cf84
-RUN_42_RAW_BLOB_SHA = 2073d9873f7c30c2badc51a4baae9e4d9b0c5f0b
-RUN_42_REMOTE_FIRST_RESULT = козерог знак зодиака / 34189
-RUN_42_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = алиса гороскоп на завтра знак зодиака козерог / 2
-RUN_42_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_42_RESULTS_ARRAY_LAST_ROW_LINE = 569
-RUN_42_RESULTS_ROWS = 548 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_42_ASSOCIATIONS_ROWS = 16 / DIRECT REMOTE LINE-POSITION COUNT / LINES 572-587
-RUN_42_TOTALCOUNT = 34189 / PASS
-RUN_42_REMOTE_READBACK = PASS
-```
-
-Run 43 verification boundary:
-
-```text
-RUN_43_REQUEST_ID = wordstat-b9438bf7-323d-4230-b91a-55dfa5474b1b
-RUN_43_RAW_BLOB_SHA = 4cd21920223058f0636ae670b9a6ebf148e7dbe1
-RUN_43_REMOTE_FIRST_RESULT = овен знак зодиака / 37752
-RUN_43_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = что не нравится знаку зодиака овну / 1
-RUN_43_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_43_RESULTS_ARRAY_LAST_ROW_LINE = 614
-RUN_43_RESULTS_ROWS = 593 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_43_ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 617-631
-RUN_43_TOTALCOUNT = 37752 / PASS
-RUN_43_REMOTE_READBACK = PASS
-```
-
-Run 44 verification boundary:
-
-```text
-RUN_44_REQUEST_ID = wordstat-dde33455-ff1a-4b90-9c01-f1ed89c5ff15
-RUN_44_RAW_BLOB_SHA = 5a068c684df64cf37bfcbfb44f9bcb2ae251c360
-RUN_44_REMOTE_FIRST_RESULT = знак зодиака лев / 108619
-RUN_44_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = гиф знак зодиака лев / 1
-RUN_44_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_44_RESULTS_ARRAY_LAST_ROW_LINE = 1095
-RUN_44_RESULTS_ROWS = 1074 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_44_ASSOCIATIONS_ROWS = 14 / DIRECT REMOTE LINE-POSITION COUNT / LINES 1098-1111
-RUN_44_TOTALCOUNT = 108619 / PASS
-RUN_44_REMOTE_READBACK = PASS
-```
-
-Run 45 verification boundary:
-
-```text
-RUN_45_REQUEST_ID = wordstat-22d64620-4342-4d7b-8ad0-9d4c3e54c34a
-RUN_45_RAW_BLOB_SHA = 9b0200e1e0ea434474974dc9f9bd0cf16f50526b
-RUN_45_REMOTE_FIRST_RESULT = рак знак зодиака / 67198
-RUN_45_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = сходятся ли знаки зодиака лев и рак / 2
-RUN_45_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_45_RESULTS_ARRAY_LAST_ROW_LINE = 1008
-RUN_45_RESULTS_ROWS = 987 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_45_ASSOCIATIONS_ROWS = 14 / DIRECT REMOTE LINE-POSITION COUNT / LINES 1011-1024
-RUN_45_TOTALCOUNT = 67198 / PASS
-RUN_45_REMOTE_READBACK = PASS
-```
-
-Run 46 verification boundary:
-
-```text
-RUN_46_REQUEST_ID = wordstat-bfc1f74c-8137-4795-a00d-47ed8b85d894
-RUN_46_RAW_BLOB_SHA = eec4fa4fd8026129b619c95f67860e496ba8eaa6
-RUN_46_REMOTE_FIRST_RESULT = рыбы знак зодиака / 68815
-RUN_46_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = девушка рыба знак зодиака измены / 1
-RUN_46_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_46_RESULTS_ARRAY_LAST_ROW_LINE = 936
-RUN_46_RESULTS_ROWS = 915 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_46_ASSOCIATIONS_ROWS = 18 / DIRECT REMOTE LINE-POSITION COUNT / LINES 939-956
-RUN_46_TOTALCOUNT = 68815 / PASS
-RUN_46_REMOTE_READBACK = PASS
-```
-
-Run 47 verification boundary:
-
-```text
-RUN_47_REQUEST_ID = wordstat-0088ece9-d252-428d-927f-0acdf0a03a84
-RUN_47_RAW_BLOB_SHA = 1da07c996b06157b6eaae20613c25bd11136fb03
-RUN_47_REMOTE_FIRST_RESULT = скорпион знак зодиака / 57861
-RUN_47_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = скорпион знак зодиака мужчина рисунок / 1
-RUN_47_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_47_RESULTS_ARRAY_LAST_ROW_LINE = 830
-RUN_47_RESULTS_ROWS = 809 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_47_ASSOCIATIONS_ROWS = 17 / DIRECT REMOTE LINE-POSITION COUNT / LINES 833-849
-RUN_47_TOTALCOUNT = 57861 / PASS
-RUN_47_REMOTE_READBACK = PASS
-```
-
-Run 48 verification boundary:
-
-```text
-RUN_48_REQUEST_ID = wordstat-9d96a936-b280-4cfb-abb0-5f4a280acd13
-RUN_48_HISTORICAL_REQUEST_ID = wordstat-24ddaafc-4e79-4bec-9130-f97e7c0e1175
-RUN_48_RAW_BLOB_SHA = e7e9e63d666ab5af0603ed582a3720abfcda33c0
-RUN_48_REMOTE_FIRST_RESULT = телец знак зодиака / 37962
-RUN_48_REMOTE_LAST_RESULT_BEFORE_ASSOCIATIONS = тату знак зодиака водолей телец / 1
-RUN_48_RESULTS_ARRAY_FIRST_ROW_LINE = 22
-RUN_48_RESULTS_ARRAY_LAST_ROW_LINE = 615
-RUN_48_RESULTS_ROWS = 594 / DIRECT REMOTE LINE-POSITION COUNT
-RUN_48_ASSOCIATIONS_ROWS = 15 / DIRECT REMOTE LINE-POSITION COUNT / LINES 618-632
-RUN_48_TOTALCOUNT = 37962 / PASS
-RUN_48_REMOTE_READBACK = PASS
-RUN_48_HISTORICAL_STRUCTURAL_CONTROL = PASS / 594 / 15 / 37962
-```
-
-For runs where independent parser access was unavailable, reconciled counts are explicitly distinguished from direct counts. Runs 38-48 were materialized one object per line, allowing direct deterministic remote line-position counts.
-
-Current recovery progress authority:
-
-`STEP_03_RAW_RECOVERY_PROGRESS_2026-09-09.json`
-
-Final recovery authorities:
-
-- `STEP_03_RAW_RECOVERY_REQUERY_048_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_FINAL_RECEIPT_2026-09-10.md`
-- `STEP_03_RAW_RECOVERY_COMPLETION_STATE_2026-09-10.json`
-
-Correction authorities retained:
-
-- `STEP_03_WORDSTAT_RAW_PERSISTENCE_STATE_2026-09-09.md`
-- `STEP_03_RAW_RECOVERY_2026-09-09.md`
-- `STEP_04_WORK_RETURN_RECEIPT_2026-09-09.md`
-
-## Recovery strategy — completed
-
-The original complete Wordstat delivery text for both affected blocks exists in preserved prior-dialogue File Library uploads. Small complete empty outcomes 50/51 were rehydrated from that source. The remaining large results could not be safely materialized from truncated search snippets in the current file interface, so owner-authorized fresh observations were collected one at a time and durably verified.
-
-Historical request IDs were never overwritten by replay. No additional provider recovery request is required after run48.
-
-## Step03B correction and Step04 gate
-
-The Step04 owner gate was accepted and the historical corrected Step04 files are present. The later Step03A/03B migration was independently audited; the original Step03B semantic result failed and is superseded.
-
-The corrected Step03B matches the accepted row-level audit oracle exactly. The dedicated post-sanitation Step04 Work pass has now rebuilt the preliminary family authority from that corrected state across all 18,135 active/HOLD identities and preserved all 25,979 RAW occurrences. Historical Step04 was used only after assignment for comparison.
-
-```text
-STEP03A = PASS / BYTE UNCHANGED
-STEP03B_CORRECTED = ACCEPTED INPUT / UNCHANGED
-STEP04_RECONCILIATION = PASS
-DEDICATED_POST_SANITATION_STEP04_WORK_PASS_REQUIRED = false
-DEDICATED_POST_SANITATION_STEP04_WORK_EXECUTED = true
-POST_SANITATION_STEP04_VERDICT = PASS_CANDIDATE / QUALITY 97.20 OF 100
-POST_SANITATION_STEP04_FAMILIES = 26 / 24 OBSERVED / 2 COVERAGE GAPS
-POST_SANITATION_STEP04_EXPANSION_QUEUE = 13 / NOT EXECUTED
-POST_SANITATION_STEP04_SANITATION_FEEDBACK = 10 / NON-DESTRUCTIVE
-POST_SANITATION_STEP04_PUBLICATION = OWNER_RELAY_REQUIRED
-POST_SANITATION_STEP04_REMOTE_READBACK = PENDING_OWNER_UPLOAD
-STEP05_ALLOWED = false
-```
-
-## Current exact cursor
-
-```text
-STEP_00_COMPLETE = true
-STEP_01_COMPLETE = true
-STEP_02_COMPLETE = true
-STEP_03_PROVIDER_ACQUISITION_COMPLETE = true
-STEP_03_DURABLE_RAW_COMPLETE = true
-STEP_03_DURABLE_FEED_FORWARD = 79/79
-STEP_03_REMAINING_RECOVERY = 0
-STEP_03_RAW_RECOVERY = COMPLETE / PASS
-RUN_48_REMOTE_READBACK = PASS
-RECOVERY_PROVIDER_REQUESTS = 17
-RECOVERY_PROVIDER_ESTIMATED_COST_RUB = 0.34
-STEP_03A_COMPLETE = true
-STEP_03A_BYTE_UNCHANGED = true
-STEP_03B_ORIGINAL = SUPERSEDED
-STEP_03B_CORRECTED = ACCEPTED INPUT / UNCHANGED
-STEP_03B_OVERLAY_STATE_MISMATCHES = 0
-HISTORICAL_CORRECTED_STEP04_AUTHORITY = PRESENT
-STEP_04_RECONCILIATION = PASS
-DEDICATED_POST_SANITATION_STEP04_WORK_PASS_REQUIRED = false
-DEDICATED_POST_SANITATION_STEP04_WORK_EXECUTED = true
-POST_SANITATION_STEP04_VERDICT = PASS_CANDIDATE
-POST_SANITATION_STEP04_QUALITY = 97.20/100 = 9.72/10
-POST_SANITATION_STEP04_FULL_VOLUME_ACCOUNTING = PASS / 18135 ACTIVE+HOLD IDENTITIES / 25979 RAW OCCURRENCES
-POST_SANITATION_STEP04_KNOWN_FAILURE_REGRESSION = PASS
-POST_SANITATION_STEP04_PUBLICATION = OWNER_RELAY_REQUIRED
-POST_SANITATION_STEP04_REMOTE_READBACK = PENDING_OWNER_UPLOAD
-STEP_05_STARTED = false
-NEXT_STEP_ALLOWED = false
-NEXT_ACTION = OWNER_UPLOAD_EXTRACTED_INDIVIDUAL_FILES_THEN_MAIN_CHATGPT_REMOTE_READBACK_AND_RETURN_QA
-```
-
-Do not run Step05, Search, GenSearch or AI-search. Step05 remains blocked until Main ChatGPT remotely verifies the owner-relayed files and independently accepts this Step04 return. Sealed prior Blood & Sand SEO research remains forbidden.
-
-## 2026-09-11 independent Step04 result-audit return — superseding cursor
-
-The later external-method review required an adversarial audit of the accepted Step04 result itself. Work completed that audit over all 24,576 normalized identities and all 25,979 RAW occurrences using an independent TF-IDF/topic/centroid diagnostic plus simultaneous non-ordered signal checks.
-
-```text
-HANDOFF_ID = KW002-BS-W07
-LIVE_BASE_HEAD = 8a09e1610d68f61769b6a4d44d1382cab4dd37b7
-STEP04_RESULT_AUDIT = REWORK_REQUIRED
-FRESH_AUDIT_SCORE = 67.69/100
-MATERIAL_DEFECT_IDENTITIES = 255
-RULE_ORDER_DEFECT_IDENTITIES = 207
-FAMILY_TOO_BROAD_IDENTITIES = 48
-RAW_LINEAGE_LOSS = 0
-STEP03B_MUTATIONS = 0
-STEP04_CORRECTIONS = 0
-PROVIDER_CALLS = 0
-STEP05_ADVANCEMENT = false
-STEP06_ADVANCEMENT = false
-LOCAL_ARTIFACT_COMPLETE = true
-LOCAL_QA_PASS = true
-PUBLICATION_STATE = OWNER_RELAY_READY_AFTER_GIT_AUTH_BLOCK
-OWNER_RELAY_ZIP = KW002_STEP04_INDEPENDENT_FULL_VOLUME_AUDIT_OWNER_RELAY_2026-09-11.zip
-REMOTE_READBACK = PENDING_OWNER_UPLOAD_AND_MAIN_CHATGPT
-NEXT_ACTION = MAIN_CHATGPT_RETURN_QA_THEN_EXPLICIT_REWORK_DECISION
-```
-
-The three material classes are PSF019 `игр*`/`игруш*` prefix collision (8), PSF014 early-zodiac task hiding (199), and PSF001 explicit DIY task flattening (48). The audit does not perform their correction. Step05 remains paused.
-
-## 2026-09-11 Step04 post-audit corrective return — current cursor
-
-W08 reran the complete deterministic family assignment universe, rematerialized all RAW lineage, corrected the queue and sanitation feedback, and then ran an independent simultaneous-signal plus TF-IDF/topic diagnostic. It did not call any provider or advance Step05/06.
-
-```text
-HANDOFF_ID = KW002-BS-W08
-LIVE_BASE_HEAD = 5446a9347cac33da6a656e9db7c252e1b529295a
-STEP04_POST_AUDIT_CORRECTION = COMPLETE / LOCAL PASS_CANDIDATE
-FRESH_CORRECTIVE_SCORE = 96.94/100
-NORMALIZED_IDENTITIES_RERUN = 24576
-RAW_OCCURRENCES_REMATERIALIZED = 25979
-CORRECTED_FAMILIES = 28 / 26 OBSERVED / 2 GAPS
-CHANGED_IDENTITIES = 357
-CHANGED_RAW_OCCURRENCES = 358
-W07_DEFECTS_CORRECTED = 255/255
-FULL_RULE_COLLATERAL_CHANGES = 102
-UNEXPECTED_COLLATERAL_MOVEMENT = 0
-RAW_LINEAGE_LOSS = 0
-STEP03B_MUTATIONS = 0
-CORRECTED_QUEUE = 9 / PROVIDER_READY_NOW 0
-CORRECTED_FEEDBACK = 13
-KNOWN_FAILURE_REGRESSIONS = 24/24 PASS
-INDEPENDENT_FAMILY_QA = 28 / CRITICAL DEFECTS 0
-DETERMINISM_CHECK = PASS
-PROVIDER_CALLS = 0
-STEP05_ADVANCEMENT = false
-STEP06_ADVANCEMENT = false
-PUBLICATION_STATE = OWNER_RELAY_REQUIRED
-REMOTE_READBACK = PENDING_OWNER_UPLOAD_AND_MAIN_CHATGPT
-NEXT_ACTION = OWNER_UPLOAD_EXTRACTED_W08_FILES_THEN_MAIN_CHATGPT_REMOTE_READBACK
-```
-
-Step05 remains blocked until Main ChatGPT explicitly accepts the published W08 artifacts.
+Current work stops at **corrected Step05 preparation** until the mandatory owner-facing pre-step disclosure is visible in chat and the owner relays the W10 V2 prompt. The actual Step05 Work reconciliation has not started yet.
