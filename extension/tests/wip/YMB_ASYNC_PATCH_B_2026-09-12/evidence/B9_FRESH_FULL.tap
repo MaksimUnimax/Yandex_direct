@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: complete worker loads real baseline/admission/async/file modules with zero startup provider calls
+ok 1 - complete worker loads real baseline/admission/async/file modules with zero startup provider calls
+  ---
+  duration_ms: 144.288354
+  type: 'test'
+  ...
+# Subtest: file-aware outbox and exporter initialize before async worker captures dependencies
+ok 2 - file-aware outbox and exporter initialize before async worker captures dependencies
+  ---
+  duration_ms: 27.352945
+  type: 'test'
+  ...
+# Subtest: manifest references all content files; operation host and alarms remain disabled
+ok 3 - manifest references all content files; operation host and alarms remain disabled
+  ---
+  duration_ms: 19.575146
+  type: 'test'
+  ...
+# Subtest: real Manual start -> binary export -> existing outbox succeeds in composed worker
+ok 4 - real Manual start -> binary export -> existing outbox succeeds in composed worker
+  ---
+  duration_ms: 78.606358
+  type: 'test'
+  ...
+# Subtest: actual per-item store raw+normalized evidence is exported without provider work or record loss
+ok 5 - actual per-item store raw+normalized evidence is exported without provider work or record loss
+  ---
+  duration_ms: 54.124431
+  type: 'test'
+  ...
+# Subtest: full worker rejects Manual disabled before any provider or new job
+ok 6 - full worker rejects Manual disabled before any provider or new job
+  ---
+  duration_ms: 19.297811
+  type: 'test'
+  ...
+# Subtest: full worker rejects different service before any provider or new job
+ok 7 - full worker rejects different service before any provider or new job
+  ---
+  duration_ms: 17.606199
+  type: 'test'
+  ...
+# Subtest: full worker rejects unbound conversation before any provider or new job
+ok 8 - full worker rejects unbound conversation before any provider or new job
+  ---
+  duration_ms: 12.685543
+  type: 'test'
+  ...
+# Subtest: actual sender-tab mismatch is rejected before async job operation
+ok 9 - actual sender-tab mismatch is rejected before async job operation
+  ---
+  duration_ms: 21.368216
+  type: 'test'
+  ...
+# Subtest: async submit remains disabled in the composed permission set
+ok 10 - async submit remains disabled in the composed permission set
+  ---
+  duration_ms: 19.342455
+  type: 'test'
+  ...
+# Subtest: foreign-owner artifact chunk message fails before reading a stored part
+ok 11 - foreign-owner artifact chunk message fails before reading a stored part
+  ---
+  duration_ms: 52.005248
+  type: 'test'
+  ...
+# Subtest: actual WS attachment messages keep one outbox, return only one chunk and clean up after acknowledgement
+ok 12 - actual WS attachment messages keep one outbox, return only one chunk and clean up after acknowledgement
+  ---
+  duration_ms: 22.898426
+  type: 'test'
+  ...
+# Subtest: old search.search runs through full Manual dispatcher exactly once on controlled network
+ok 13 - old search.search runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 36.696208
+  type: 'test'
+  ...
+# Subtest: old search.genSearch runs through full Manual dispatcher exactly once on controlled network
+ok 14 - old search.genSearch runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 35.512729
+  type: 'test'
+  ...
+# Subtest: old wordstat.getRegionsTree runs through full Manual dispatcher exactly once on controlled network
+ok 15 - old wordstat.getRegionsTree runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 15.394031
+  type: 'test'
+  ...
+# Subtest: old webmaster.listHosts runs through full Manual dispatcher exactly once on controlled network
+ok 16 - old webmaster.listHosts runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 24.60634
+  type: 'test'
+  ...
+# Subtest: old metrika.listCounters runs through full Manual dispatcher exactly once on controlled network
+ok 17 - old metrika.listCounters runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 37.090019
+  type: 'test'
+  ...
+# Subtest: old direct.listCampaigns runs through full Manual dispatcher exactly once on controlled network
+ok 18 - old direct.listCampaigns runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 41.944269
+  type: 'test'
+  ...
+# Subtest: both message families have one responder after wrapper composition
+ok 19 - both message families have one responder after wrapper composition
+  ---
+  duration_ms: 14.484306
+  type: 'test'
+  ...
+# Subtest: small legacy report stays text, large report uses existing A binary store after B wrapper installation
+ok 20 - small legacy report stays text, large report uses existing A binary store after B wrapper installation
+  ---
+  duration_ms: 74.06408
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1051.602187
