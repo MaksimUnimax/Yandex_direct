@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V13",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V14",
   "date": "2026-09-12",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
@@ -23,7 +23,8 @@
     "step05_w10_v3_first_provider_release": "CONSUMED",
     "step05_w10c001_raw": "REMOTE_READBACK_PASS",
     "step05_w10c001_outcome": "SUCCESS_WITH_ZERO_ROWS",
-    "step05": "COMPLETE_PASS_CURRENT_RESEARCH_SNAPSHOT"
+    "step05": "COMPLETE_PASS_CURRENT_RESEARCH_SNAPSHOT",
+    "step06_preparation": "PASS_EXECUTION_HOLD_NOT_STARTED"
   },
   "step04_current": {
     "main_acceptance": "STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md",
@@ -110,9 +111,49 @@
     "step03b_mutations_from_w10c001": 0,
     "step04_w09_mutations_from_w10c001": 0
   },
-  "step06_current": {
-    "status": "NOT_STARTED",
-    "provider_execution_released": false
+  "step06_preparation": {
+    "base_head_checked": "89ba3907196ea4f4f5b19388c0146f0b06d7db48",
+    "base_drift": "NONE",
+    "source_trace": "STEP_06_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_TRACE_2026-09-12.md",
+    "query_manifest": "STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V1_2026-09-12.tsv",
+    "preparation_gate": "STEP_06_PREPARATION_GATE_2026-09-12.md",
+    "fresh_external_research": "PASS",
+    "level2_boundary": "PASS",
+    "query_count": 20,
+    "coverage_directions": 10,
+    "query_source": "ACCEPTED_STEP04_W09_OBSERVED_REPRESENTATIVE_PHRASES",
+    "planned_method": "ordinary_search",
+    "planned_search_type": "SEARCH_TYPE_RU",
+    "planned_region": "225",
+    "planned_page": 0,
+    "planned_groups_on_page": 20,
+    "planned_group_mode": "GROUP_MODE_FLAT",
+    "planned_max_provider_requests": 20,
+    "planned_max_normalized_rows": 400,
+    "fresh_day_price_per_request_rub": 0.488,
+    "fresh_night_price_per_request_rub": 0.366,
+    "planned_day_max_cost_rub": 9.76,
+    "planned_night_max_cost_rub": 7.32,
+    "batch_nextn_allowed": false,
+    "per_request_durable_readback_required_before_next": true,
+    "runtime_version_from_owner_provider_result": "0.1.4",
+    "repository_product_version": "0.1.2",
+    "runtime_source_reconciled": false,
+    "lossless_search_raw_persistence_proven": false,
+    "blocking_holds": [
+      "INSTALLED_RUNTIME_0.1.4_NOT_RECONCILED_WITH_REPOSITORY_SOURCE_0.1.2",
+      "CURRENT_REPOSITORY_SEARCH_PATH_NORMALIZES_AND_DROPS_ORIGINAL_PROVIDER_RAWDATA_FROM_DURABLE_RESULT_PAYLOAD"
+    ]
   },
-  "next_action": "PREPARE_STEP06_CURRENT_YANDEX_ORGANIC_COMPETITOR_DISCOVERY_PRE_STEP_GATE_ONLY: FETCH_CURRENT_HEAD_AND_CLASSIFY_DRIFT; PERFORM_FRESH_EXTERNAL_RESEARCH_AND_OWNER_FACING_SOURCE_DISCLOSURE; READ_RELEVANT_LEVEL2_RULES; DEFINE_EVIDENCE_ACQUISITION_CONTRACT; DO_NOT EXECUTE SEARCH_OR_OTHER_PROVIDER_CALLS_UNTIL_A_SEPARATE_STEP06_RELEASE"
+  "step06_current": {
+    "status": "PREPARATION_PASS_EXECUTION_HOLD_NOT_STARTED",
+    "provider_execution_released": false,
+    "ordinary_search_calls_allowed_now": 0,
+    "gensearch_calls_allowed_now": 0,
+    "wordstat_calls_allowed_now": 0,
+    "ai_search_calls_allowed_now": 0,
+    "provider_calls_executed_in_preparation": 0,
+    "step06_started": false
+  },
+  "next_action": "RESOLVE_STEP06_BRIDGE_GATES_WITHOUT_PROVIDER_CALLS: RECONCILE_INSTALLED_RUNTIME_0.1.4_WITH_REVIEWABLE_SOURCE_OR_SCHEMA; PROVE_OR_PATCH_LOSSLESS_SEARCH_RAW_PRESERVATION_AND_EXPORT_TO_DURABLE_GITHUB_EVIDENCE; TEST_LOCALLY_WITHOUT_PAID_PROVIDER_WHERE_POSSIBLE; RECHECK_REMOTE_HEAD_AND_CURRENT_OFFICIAL_PROVIDER_SCHEMA_PRICE; THEN ISSUE_SEPARATE_STEP06_SEARCH_EXECUTION_RELEASE_FOR_THE_PREPARED_20_QUERY_MANIFEST; DO_NOT START_STEP07_OR_STEP08"
 }
