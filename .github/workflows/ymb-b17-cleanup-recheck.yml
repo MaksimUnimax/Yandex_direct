@@ -1,0 +1,89 @@
+name: YMB B17 bounded cleanup recheck (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b17-cleanup-recheck.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b17-cleanup-recheck
+  cancel-in-progress: false
+jobs:
+  remaining:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: f526ae087cdf23fdd77da82568b297e721ec6701
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: exact-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify unchanged package and QA-only cleanup adaptation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,zipfile,json,shutil,os,subprocess
+          h=lambda b:hashlib.sha256(b).hexdigest();base=Path('exact-b17');root=Path(os.environ['RUNNER_TEMP'])/'b17-recheck';root.mkdir();ev=root/'evidence';ev.mkdir()
+          for line in (base/'SHA256SUMS').read_text().splitlines():
+            digest,n=line.split('  ',1);assert '..' not in PurePosixPath(n).parts and not PurePosixPath(n).is_absolute();assert h((base/n).read_bytes())==digest
+          package=base/'candidate-b17-internal.zip';assert h(package.read_bytes())=='1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1' and package.stat().st_size==225660
+          with zipfile.ZipFile(package) as z:
+            assert z.testzip() is None
+            files={i.filename.split('/',1)[1]:z.read(i) for i in z.infolist() if not i.is_dir()};assert len(files)==67
+            assert h(''.join(h(b)+'  '+n+'\n' for n,b in sorted(files.items())).encode())=='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508'
+            for n,b in files.items():
+              assert '..' not in PurePosixPath(n).parts and not PurePosixPath(n).is_absolute();p=root/'candidate'/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b)
+          tests=root/'tests';tests.mkdir();shutil.copyfile(base/'tests/b15_fixture.html',tests/'b15_fixture.html')
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b17_cleanup_recheck.py')
+          result=subprocess.run(['python3',str(q),str(base),str(tests/'remaining.mjs')],capture_output=True);(ev/'adaptation.stdout').write_bytes(result.stdout);(ev/'adaptation.stderr').write_bytes(result.stderr);assert result.returncode==0
+          shutil.copyfile(tests/'remaining.mjs',ev/'remaining.mjs');shutil.copyfile(q,ev/'b17_cleanup_recheck.py')
+          deps=root/'deps';deps.mkdir();lock=json.loads((base/'package-lock.json').read_text());shutil.copyfile(base/'package-lock.json',deps/'package-lock.json');(deps/'package.json').write_text(json.dumps({'name':lock['name'],'private':True,'dependencies':lock['packages']['']['dependencies']}))
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_PPTR_HOME={deps}\nYMB_BROWSER_CANDIDATE={root}/candidate\nYMB_BROWSER_EVIDENCE={ev}\nB17_RECHECK_ROOT={root}\n')
+          PY
+      - name: Same locked browser dependencies
+        shell: bash
+        run: |
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: Same remaining product assertions with bounded no-kill cleanup diagnostic
+        shell: bash
+        run: |
+          node --check "$B17_RECHECK_ROOT/tests/remaining.mjs"
+          xvfb-run -a node "$B17_RECHECK_ROOT/tests/remaining.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Preserve raw diagnostics without browser profile
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,json,shutil
+          root=Path(os.environ['RUNNER_TEMP'])/'b17-recheck';out=Path(os.environ['RUNNER_TEMP'])/'b17-recheck-public';out.mkdir(exist_ok=True)
+          for p in (root/'evidence').glob('*'):
+            if p.is_file():shutil.copyfile(p,out/p.name)
+          (out/'BOUNDARY.json').write_text(json.dumps({'source_ref':'f526ae087cdf23fdd77da82568b297e721ec6701','candidate_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changed':False,'product_assertions_changed':False,'cleanup_settlement_limit_ms':2000,'forced_kill':False,'first_run_cleanup_FAIL_preserved':True,'live_provider_calls':0,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(out.iterdir()) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b17-cleanup-recheck-evidence
+          path: ${{ runner.temp }}/b17-recheck-public/
+          retention-days: 90
+          if-no-files-found: error
