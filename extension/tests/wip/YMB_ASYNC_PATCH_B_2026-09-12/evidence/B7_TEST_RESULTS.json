@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "venue": "Node tests over saved B7/B6 source; no installed Chrome; no real provider calls",
+  "source_hashes": {
+    "search_async_worker_transport.js": "71a3e7e6d424f197cb3d3c39fff74df024e941858ea791e163245f1535e3080f",
+    "search_admission_worker_binding.js": "5f9468110c4ed7d51d3d8c1cd7c306549dd2428a49efc9892c9d4a7b70b49bba",
+    "phase3_service_worker_bootstrap.js": "40565b792b9210b5b97795bb7b9c71577a5008bb312077e06a4a54b349dd9c88",
+    "B7_BINDING_DELTA.diff": "73659d4fffa407ec3deedde7c61179198ccbfbd416ab65203243616cfaf998ea",
+    "B7_BOOTSTRAP_DELTA.diff": "3e2fb262843be9de218c05be3c02e4ed1611506f0d9a0665c5d9a37da0cc8618"
+  },
+  "test_hashes": {
+    "b7_worker.test.mjs": "3d0249cd36b45e038c8127bab4e192aae227449d757e38416dbef3efa8430b3c",
+    "b7_bootstrap.test.mjs": "d9f7fb301d0fcbf29fedab1fca870844c2ccd4a2596352f5ed46c968d995c773",
+    "b6_binding_regression.test.mjs": "de7ddd10cf4420e2a5a7755803a5082fc46be3809d8c2a52476fa232254e9808",
+    "block_command_discovery.js": "179700660b5960adf5bdd352104673166ce7fdc2e0a11ecf78222495642a82d1"
+  },
+  "red": {
+    "tap_sha256": "08d3707be4aed9a81ad5c86f7dc97a164f47989f4311db2e4e5da4f9519301e5",
+    "tests": 44,
+    "pass": 37,
+    "fail": 7,
+    "root_product_defect": "public submitN/collectN actions were rejected by the B7 internal action allowlist, preventing the deferred provider path",
+    "failed_assertions": [
+      "factory fails closed when shared admission is not ready",
+      "submitN fails closed before runtime when operation-host capability is disabled",
+      "collectN fails closed before runtime when operation-host capability is disabled",
+      "submitN provider-enabled executes bounded requested count and compact result",
+      "collectN normalizes each received result locally",
+      "UNKNOWN network outcome stops same command without replay",
+      "provider command performs local recover before first network step"
+    ],
+    "note": "Six downstream failures shared the same blocked action path; one assertion also required strengthening of the dependency-error check."
+  },
+  "green": {
+    "tap_sha256": "4bcf33c0133762bd4772d4a40e9d236494d86ed3de07bdbd16c9e2a469f4879a",
+    "tests": 44,
+    "pass": 44,
+    "fail": 0
+  },
+  "final_regression": {
+    "tap_path": "evidence/B7_ALL_GREEN.tap",
+    "tap_sha256": "0ece9b180ccd3e15cdb1df107a2ce7797c5f2a19291a4e59a6eb68428b912f46",
+    "tests": 48,
+    "pass": 48,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 414.038839,
+    "composition": {
+      "b6_trusted_binding_regression": 18,
+      "b7_bootstrap_and_permissions": 4,
+      "b7_manual_worker_ingress": 26
+    }
+  },
+  "asserted_boundaries": {
+    "manual_only_deferred": true,
+    "autorun_deferred_disabled": true,
+    "background_polling_or_alarms": false,
+    "operation_host_permission_present": false,
+    "existing_search_api_host_present": true,
+    "provider_calls_real": 0,
+    "browser_resource_pass": false,
+    "real_indexeddb_pass": false,
+    "release_allowed": false
+  }
+}
