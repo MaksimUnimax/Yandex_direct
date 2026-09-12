@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "owner_instruction": "Continue execution; persist code, tests and results after every material block; do not restart Patch A or hand off an unverified build",
+  "live_base_head": "af421242389206acc4ffa64a37d17577070efbf9",
+  "baseline_archive": "yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip(2).zip",
+  "baseline_archive_sha256_verified_this_session": "b812c4c54d1054d63a24ea852e1721e813d133172487c9872bac347998e3e53f",
+  "patch_a_authority": "PATCH_A_ACCEPTANCE_FOR_INTEGRATION_2026-09-12.md",
+  "patch_a_recorded_state": "ACCEPTED_FOR_INTEGRATION_ONLY",
+  "patch_a_historical_evidence_policy": "Preserve exact-target results from blocks 1-5; do not relabel them as newly executed tests",
+  "current_unit": "PATCH_B_PER_ITEM_STORAGE_AND_STATE_CONTRACT",
+  "current_unit_state": "IN_PROGRESS",
+  "next_material_outputs": [
+    "Separate async per-job/per-item IndexedDB module",
+    "Executable deterministic and real-IndexedDB regression tests",
+    "Measured storage-operation counts and bounded scale results",
+    "Source hashes and block-result checkpoint"
+  ],
+  "production_modifications_this_checkpoint": 0,
+  "new_provider_calls_this_session": 0,
+  "release_allowed": false,
+  "owner_installable_zip_handoff": "FORBIDDEN",
+  "continuation_rule": "Read this cursor and latest block report first. Restore persisted bytes by hashes, never rewrite an accepted component from memory. Do not change the Kwork job or shared roadmap branch."
+}
