@@ -1,0 +1,86 @@
+--- a/file_delivery_worker_transport.js
++++ b/file_delivery_worker_transport.js
+@@ -123,7 +123,20 @@
+     return compactLargeCommandResult(await baseHandleAutoCommand(...args));
+   };
+ 
+-  async function ownedAttachment(message, sender) {
++  // Only metadata writes are serialized. Never hold this queue across network,
++  // large artifact reads, content replies or UI work. Bounded admission prevents
++  // unbounded queued closures. Re-read owned state inside each mutation.
++  let mutationTail = Promise.resolve();
++  let mutationCount = 0;
++  function serializeMutation(work) {
++    if (mutationCount >= 16) return Promise.resolve({ ok: false, code: "ATTACHMENT_CONTROL_BUSY" });
++    mutationCount++;
++    const task = mutationTail.then(work);
++    mutationTail = task.catch(() => null);
++    return task.finally(() => { mutationCount--; });
++  }
++
++  async function ownedAttachment(message, sender, allowPaused = false) {
+     const key = normalizeConversationKey(message.conversation_key);
+     const outbox = await getOutbox();
+     const entry = outbox[key] || null;
+@@ -131,6 +144,7 @@
+     const ownerFence = await outboxOwnerFence(entry, key, sender);
+     if (ownerFence) return { key, entry, error: ownerFence };
+     if (entry.delivery_mode !== DELIVERY_MODE) return { key, entry, error: { ok: false, code: "ATTACHMENT_MODE_REQUIRED" } };
++    if (!allowPaused && entry.delivery_paused === true) return { key, entry, error: { ok: false, code: "ATTACHMENT_DELIVERY_PAUSED", request_executed: false } };
+     return { key, entry, error: null };
+   }
+ 
+@@ -146,6 +160,10 @@
+     if (chunk.byte_length !== Number(expected.byte_length) || chunk.sha256 !== String(expected.sha256 || "")) {
+       return { ok: false, code: "OUTBOX_ARTIFACT_CHUNK_INTEGRITY_MISMATCH" };
+     }
++    // A pause can be accepted while this single chunk is being read. Do not
++    // return its payload to a now-paused delivery or a changed owner.
++    const stillOwned = await ownedAttachment(message, sender);
++    if (stillOwned.error) return stillOwned.error;
+     return {
+       ok: true,
+       artifact_key: descriptor.artifact_key,
+@@ -194,12 +212,39 @@
+     return { ok: true };
+   }
+ 
++  async function setAttachmentPause(message, sender) {
++    if (typeof message.paused !== "boolean") return { ok: false, code: "ATTACHMENT_PAUSE_VALUE_REQUIRED" };
++    const owned = await ownedAttachment(message, sender, true);
++    if (owned.error) return owned.error;
++    if (owned.entry.phase === "committed") return { ok: false, code: "ATTACHMENT_SEND_ALREADY_COMMITTED", request_executed: false };
++    if (!["claimed", "attachment_committed", "attachment_ready"].includes(owned.entry.phase)) return { ok: false, code: "ATTACHMENT_PHASE_INVALID" };
++    if ((owned.entry.delivery_paused === true) !== message.paused) {
++      await putOutbox(owned.key, { ...owned.entry, delivery_paused: message.paused,
++        delivery_pause_updated_at: nowIso() });
++    }
++    // No raw/artifact payload or invented provider cancellation receipt.
++    return { ok: true, paused: message.paused, delivery_id: owned.entry.delivery_id,
++      phase: owned.entry.phase, request_executed: false, evidence_retained: true };
++  }
++
+   handleMessage = async function fileAwareHandleMessage(message, sender) {
+     switch (message?.type) {
+       case "WS_GET_OUTBOX_ARTIFACT_CHUNK": return attachmentChunk(message, sender);
+-      case "WS_MARK_ATTACHMENT_COMMITTED": return markAttachmentCommitted(message, sender);
+-      case "WS_MARK_ATTACHMENT_READY": return markAttachmentReady(message, sender);
+-      case "WS_COMMIT_ATTACHMENT_SEND": return commitAttachmentSend(message, sender);
++      case "WS_MARK_ATTACHMENT_COMMITTED": return serializeMutation(() => markAttachmentCommitted(message, sender));
++      case "WS_MARK_ATTACHMENT_READY": return serializeMutation(() => markAttachmentReady(message, sender));
++      case "WS_COMMIT_ATTACHMENT_SEND": return serializeMutation(() => commitAttachmentSend(message, sender));
++      case "WS_SET_ATTACHMENT_PAUSED": return serializeMutation(() => setAttachmentPause(message, sender));
++      case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": {
++        const entry = await getConversationOutbox(message.conversation_key);
++        if (entry?.delivery_mode === DELIVERY_MODE && entry.delivery_paused === true) return { ok: false, code: "ATTACHMENT_DELIVERY_PAUSED", request_executed: false };
++        return baseHandleMessage(message, sender);
++      }
++      case "WS_MARK_DELIVERY_COMMITTED": {
++        // The legacy text commit cannot bypass the file-ready/pause contract.
++        const entry = await getConversationOutbox(message.conversation_key);
++        if (entry?.delivery_mode === DELIVERY_MODE) return { ok: false, code: "ATTACHMENT_SEND_PATH_REQUIRED", request_executed: false };
++        return baseHandleMessage(message, sender);
++      }
+       default: return baseHandleMessage(message, sender);
+     }
+   };
