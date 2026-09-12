@@ -534,6 +534,72 @@ UNSUPPORTED_INVENTORY_OR_CLAIM_INFERENCE = 0
 
 ---
 
+## F05-3 — targeted-expansion provider contract is under-specified
+
+Detailed Step05 authority:
+
+`../LEVEL2/STEP_05_TARGETED_EXPANSION_AND_PROVIDER_EXECUTION_GATE.md`
+
+### Root cause
+
+A Step05 candidate is prepared as a query string plus a generic stop condition, while evidence-state semantics, depth reasoning, operator intent, snapshot limits, persistence pipeline and reopen rules are left implicit.
+
+### Why it fails
+
+The same provider event can then be interpreted inconsistently by later executors. Common repeatable errors include:
+
+- pre-acquisition acceptance reported as full Step05 completion;
+- valid zero response collapsed with validation/provider/unknown failure;
+- `no automatic retry` treated as negative semantic evidence;
+- provider maximum used as automatic depth justification;
+- depth-boundary hit treated as semantic completeness;
+- morphology/operator choice left unjustified;
+- broad evidence used to close a narrower qualified question;
+- temporal provider evidence described as permanent truth;
+- material audit corrections left only in chat;
+- stale provider schema/limits/pricing copied forward as current;
+- RAW provider rows promoted directly into accepted semantic authorities;
+- next provider call issued before current RAW persistence/readback;
+- valid zero result overclaimed as universal zero demand;
+- Work used for bounded documentation/gate work without a large-data or other explicit Level1 trigger.
+
+### Universal rules
+
+```text
+PRE_ACQUISITION_ACCEPTED != STEP05_COMPLETE
+NO_RETRY != NEGATIVE_EVIDENCE
+TECHNICAL_FAILURE != VALID_ZERO_RESULT
+PROVIDER_MAXIMUM != SEMANTIC_COMPLETENESS
+BROAD EVIDENCE != QUALIFIED QUESTION ANSWER
+TEMPORAL SNAPSHOT != PERMANENT TRUTH
+RAW PROVIDER ROW != ACCEPTED SEMANTIC ROW
+WORK != DEFAULT FOR BOUNDED STEP05 DOCUMENTATION / ONE-CANDIDATE GATE WORK
+```
+
+Every new Step05 provider candidate must have a complete information-gain and outcome contract before release.
+
+### Gates
+
+```text
+STEP05_DEDICATED_GATE_READ = true
+OUTCOME_CONTRACT_DEFINED_BEFORE_EXECUTION = true
+TECHNICAL_FAILURE_MAPPED_TO_NEGATIVE_SEMANTIC_EVIDENCE = 0
+NO_RETRY_USED_AS_SEMANTIC_CLOSURE = 0
+DEPTH_JUSTIFICATION = PASS where acquisition exists
+BOUNDARY_HIT_HAS_EXPLICIT_TRUNCATION_INTERPRETATION = true where applicable
+MATERIAL_OPERATOR_CHOICE_WITHOUT_RATIONALE = 0
+BROAD_EVIDENCE_USED_AS_NEGATIVE_PROOF_FOR_NARROWER_QUESTION = 0
+UNJUSTIFIED_PERMANENT_TEMPORAL_CLOSURE = 0
+MATERIAL_ACCEPTED_STEP05_CORRECTION_CHAT_ONLY = 0
+STALE_PROVIDER_FACT_USED_AS_CURRENT_WITHOUT_RECHECK = 0
+RAW_PROVIDER_ROW_DIRECT_TO_ACCEPTED_SEMANTIC_AUTHORITY = 0
+NEXT_PROVIDER_CALL_BEFORE_CURRENT_RAW_READBACK = 0
+ZERO_RESULT_OVERCLAIM = 0
+WORK_HANDOFF_WITHOUT_LARGE_DATA_OR_EXPLICIT_APPLICABLE_TRIGGER = 0
+```
+
+---
+
 ## F06+ — final clustering/page decisions made from preliminary lexical families
 
 ### Root cause
