@@ -1,0 +1,13 @@
+--- content_script.js.baseline-0.1.4
++++ content_script.js.candidate2
+@@ -687,7 +687,9 @@
+       if (entry?.delivery_id) {
+         const local = deliveryState.get(entry.delivery_id) || { injected: false, committed: entry.phase === "committed", clicked: false, saw_busy: false, completed: false };
+         deliveryState.set(entry.delivery_id, local);
+-        if (entry.phase === "claimed") await handleClaimedOutbox(entry, local);
++        if (entry.delivery_mode === "attachment_v2" && entry.phase !== "committed") {
++          // Dedicated file_delivery_content.js owns attachment materialization and the Send boundary.
++        } else if (entry.phase === "claimed") await handleClaimedOutbox(entry, local);
+         else if (entry.phase === "committed") await handleCommittedOutbox(entry, local);
+       }
+     } catch (error) {
