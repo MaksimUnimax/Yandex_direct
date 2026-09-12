@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V9",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V10",
   "date": "2026-09-12",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
@@ -15,18 +15,16 @@
     "step04_w07_audit": "ACCEPTED_REWORK_REQUIRED_255_DEFECT_IDENTITIES",
     "step04_w08": "HISTORICAL_NOT_CURRENT_AUTHORITY",
     "step04_w09": "MAIN_CHATGPT_REMOTE_READBACK_ACCEPTED",
-    "step04_current": "ACCEPTED_W09_CURRENT_AUTHORITY"
+    "step04_current": "ACCEPTED_W09_CURRENT_AUTHORITY",
+    "step05_w10_v2_pre_acquisition": "MAIN_CHATGPT_REMOTE_READBACK_ACCEPTED"
   },
   "step04_current": {
     "main_acceptance": "STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md",
-    "authority_manifest": "STEP_04_CURRENT_AUTHORITY_ARTIFACT_MANIFEST_2026-09-11.json",
-    "queue": "STEP_04_CURRENT_AUTHORITY_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv",
     "normalized_identities": 24576,
     "raw_occurrences": 25979,
     "families": 32,
     "observed_families": 29,
     "queue_rows": 13,
-    "provider_ready_now": 0,
     "raw_lineage_loss": 0,
     "step03a_mutations": 0,
     "step03b_mutations": 0
@@ -44,41 +42,57 @@
   },
   "step05_preparation_incident": {
     "v1_preparation_status": "SUPERSEDED_NOT_EXECUTION_AUTHORITY",
-    "reason": "PREPARED_BEFORE_MANDATORY_OWNER_FACING_PRE_STEP_DISCLOSURE_AND_WITHOUT_EXPLICIT_PRE_HANDOFF_MANIFEST",
     "incident_record": "STEP_05_W10_PREPARATION_RULE_VIOLATION_AND_CORRECTION_2026-09-12.md",
     "provider_calls_caused_by_incident": 0,
     "work_execution_caused_by_incident": false
   },
-  "step05_current": {
+  "step05_w10_v2": {
     "handoff_id": "KW002-BS-W10-V2",
-    "status": "CORRECTED_PRE_ACQUISITION_PREPARATION_COMPLETE_AWAIT_OWNER_FACING_DISCLOSURE_THEN_OWNER_RELAY",
-    "source_trace": "STEP_05_W10_PRE_ACQUISITION_EXTERNAL_RESEARCH_V2_2026-09-12.md",
-    "pre_handoff_manifest": "STEP_05_W10_PRE_HANDOFF_MANIFEST_V2_2026-09-12.md",
-    "canonical_work_prompt": "STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_V2_2026-09-12.md",
-    "execution_release": "STEP_05_W10_PRE_ACQUISITION_EXECUTION_RELEASE_V2_2026-09-12.md",
-    "queue_rows": 13,
-    "search_gap_candidates_to_challenge": ["PSQ001", "PSQ004", "PSQ005"],
+    "work_start_remote_head": "7ceec096dad6703b5dffede3271019f55946d75d",
+    "work_pre_publication_remote_head": "7ceec096dad6703b5dffede3271019f55946d75d",
+    "owner_upload_head": "f4f46d6eb8f40541ec742f36173d72237027dacb",
+    "main_acceptance_commit": "f1df0b87c26c1789f1ddf70de6df33bdc2ff9652",
+    "main_acceptance_file": "STEP_05_W10_V2_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md",
+    "remote_readback": "PASS",
+    "main_verdict": "PASS",
+    "queue_reconciled": "13/13",
+    "reuse_register_rows": 8,
+    "regression_matrix": "17_OF_17_PASS",
+    "surviving_new_provider_candidates": 1,
+    "first_future_candidate": "W10C001",
+    "first_future_candidate_source_queue": "PSQ005",
+    "first_future_candidate_phrase": "(амулет|оберег|талисман) Аум",
+    "first_future_candidate_execution_status": "NOT_EXECUTED",
+    "closed_by_prior_exact_evidence": ["PSQ001", "PSQ004"],
     "owner_fact_rows": ["PSQ002", "PSQ003", "PSQ009", "PSQ012", "PSQ013"],
     "existing_evidence_reuse_rows": ["PSQ006", "PSQ007", "PSQ008", "PSQ010"],
     "deferred_rows": ["PSQ011"],
-    "provider_ready_now": 0,
-    "owner_facing_pre_step_disclosure_required_before_relay": true,
-    "work_execution_started": false,
+    "duplicate_reprobes": 0,
+    "owner_fact_bypasses": 0,
+    "provider_calls": 0,
+    "step03a_mutations": 0,
+    "step03b_mutations": 0,
+    "w09_step04_mutations": 0,
+    "step06_started": false
+  },
+  "step05_current": {
+    "status": "W10_V2_PRE_ACQUISITION_ACCEPTED_FIRST_PROVIDER_GATE_PENDING",
     "provider_execution_released": false,
+    "provider_ready_candidate_after_reconciliation": "W10C001",
     "wordstat_calls_allowed_now": 0,
     "ordinary_search_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
     "ai_search_calls_allowed_now": 0,
-    "step03a_mutation_allowed": false,
-    "step03b_mutation_allowed": false,
-    "step04_current_authority_mutation_allowed": false,
+    "required_before_any_provider_execution": [
+      "FETCH_CURRENT_REMOTE_HEAD_AND_CLASSIFY_DRIFT",
+      "RECHECK_CURRENT_BRIDGE_WORDSTAT_SCHEMA",
+      "RECHECK_CURRENT_OFFICIAL_PROVIDER_PRICE_AND_APPLICABLE_LIMITS",
+      "ISSUE_SEPARATE_FIRST_PROVIDER_EXECUTION_RELEASE_FOR_W10C001",
+      "EXECUTE_AT_MOST_ONE_GETTOP_REQUEST",
+      "PERSIST_COMPLETE_RAW_AND_REMOTE_READBACK_BEFORE_ANY_NEXT_CALL",
+      "PASS_NEW_ROWS_THROUGH_STEP03A_AND_STEP03B_BEFORE_UNION"
+    ],
     "step06_started": false
   },
-  "mutable_state_reconciliation": {
-    "job_flow": "UPDATED_TO_W09_ACCEPTED_AND_W10_V2_PREP",
-    "job_manifest": "UPDATED_TO_W09_ACCEPTED_AND_W10_V2_PREP",
-    "work_handoff_log": "UPDATED_THROUGH_W10_V2_PREP",
-    "stale_w08_current_status_remaining_in_these_three_files": false
-  },
-  "next_action": "MAIN_CHATGPT_MUST_SHOW_COMPLETE_OWNER_FACING_STEP05_PRE_STEP_REPORT_WITH_FRESH_CLICKABLE_SOURCE_DISCLOSURE_AND_PLAIN_RUSSIAN_SUMMARY; THEN OWNER_MAY_RELAY_EXACT_KW002_BS_W10_V2_PROMPT_TO_WORK; WORK_MUST_EXECUTE_ZERO_PROVIDER_CALLS_AND_RETURN_FOR_MAIN_QA"
+  "next_action": "PREPARE_SEPARATE_STEP05_FIRST_PROVIDER_EXECUTION_GATE_FOR_W10C001_AFTER_IMMEDIATE_FRESHNESS_BRIDGE_SCHEMA_AND_PROVIDER_PRICE_RECHECK; DO_NOT_EXECUTE ANY PROVIDER CALL UNTIL THAT RELEASE; DO_NOT_START_STEP06"
 }
