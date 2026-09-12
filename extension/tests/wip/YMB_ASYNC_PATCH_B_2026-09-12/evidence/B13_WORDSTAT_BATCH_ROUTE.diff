@@ -1,0 +1,11 @@
+--- a/wordstat_batch_worker_transport.js
++++ b/wordstat_batch_worker_transport.js
+@@ -67,7 +67,7 @@
+       const estimatedCostRub = Number(item?.estimated_cost_rub || 0);
+       await noteBatchProviderBoundary(metadata, estimatedCostRub);
+       const policy = await getWordstatPolicy();
+-      return executeWordstatCommand(command, {
++      return executeServiceCommand(WORDSTAT, command, {
+         ...metadata,
+         cost_estimate: {
+           estimated_rub: estimatedCostRub,
