@@ -1,0 +1,22 @@
+--- a/shared/search_async_protocol.js
++++ b/shared/search_async_protocol.js
+@@ -8,7 +8,7 @@
+   const MAX_SLICE = 25;
+   const MIN_FIRST_POLL_MS = 5 * 60 * 1000;
+   const KEYS = ["searchType", "region", "page", "groupsOnPage", "docsInGroup", "groupMode", "familyMode", "fixTypoMode", "sortMode", "sortOrder", "l10n", "maxPassages"];
+-  const ACTIONS = new Set(["start", "submit", "submitN", "collect", "collectN", "collectReady", "status", "itemsPage", "pause", "resume", "cancelPending", "exportPage"]);
++  const ACTIONS = new Set(["start", "submit", "submitN", "collect", "collectN", "collectReady", "status", "itemsPage", "pause", "resume", "cancelPending", "exportPage", "normalizeSaved"]);
+   const fail = code => { throw Object.assign(new Error(code), { code }); };
+   function record(v) { if (!v || typeof v !== "object" || Array.isArray(v)) fail("ASYNC_OBJECT_REQUIRED"); return v; }
+   function fields(raw, permitted) { for (const k of Object.keys(raw)) if (!permitted.includes(k)) fail("ASYNC_FIELD_FORBIDDEN"); }
+@@ -37,6 +37,10 @@
+       const single = ["submit", "collect"].includes(action);
+       const count = integer(raw.count ?? (single ? 1 : MAX_SLICE), 1, single ? 1 : MAX_SLICE);
+       return Object.freeze({ action: action.startsWith("submit") ? "submitN" : "collectN", jobId, count });
++    }
++    if (action === "normalizeSaved") {
++      fields(raw, ["action", "jobId", "index"]);
++      return Object.freeze({ action, jobId, index: integer(raw.index, 0, MAX_ITEMS - 1) });
+     }
+     if (action === "exportPage") {
+       fields(raw, ["action", "jobId", "after", "limit", "revision"]);
