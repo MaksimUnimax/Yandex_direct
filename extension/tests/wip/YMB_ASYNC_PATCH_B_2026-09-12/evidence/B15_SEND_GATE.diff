@@ -1,0 +1,37 @@
+--- a/file_delivery_content.js
++++ b/file_delivery_content.js
+@@ -13,6 +13,7 @@
+     disposed: false,
+     timer: null,
+     in_flight: new Set(),
++    send_in_flight: new Set(),
+     manual_button: null,
+     manual_handler: null,
+     dispose: null
+@@ -177,11 +178,21 @@
+   }
+ 
+   async function commitAndClick(entry, button) {
+-    const response = await sendWorker({ type: "WS_COMMIT_ATTACHMENT_SEND", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id });
+-    if (!response?.ok) throw Object.assign(new Error(response?.error || response?.code || "Send commit failed."), { code: response?.code || "ATTACHMENT_SEND_COMMIT_FAILED" });
+-    disarmManualSend();
+-    button.click();
+-    status("Яндекс: сообщение с файлом отправлено.", "success", 3500);
++    const deliveryId = String(entry?.delivery_id || "");
++    if (!current() || !deliveryId || runtime.send_in_flight.has(deliveryId)) return;
++    runtime.send_in_flight.add(deliveryId);
++    try {
++      const response = await sendWorker({ type: "WS_COMMIT_ATTACHMENT_SEND", conversation_key: entry.conversation_key, delivery_id: deliveryId });
++      if (!response?.ok) throw Object.assign(new Error(response?.error || response?.code || "Send commit failed."), { code: response?.code || "ATTACHMENT_SEND_COMMIT_FAILED" });
++      disarmManualSend();
++      // An acknowledgement of an earlier commit is not a new permission to click.
++      // A replaced/disposed page must leave the committed outbox to its watcher.
++      if (response.already_committed || !current() || !button?.isConnected) return;
++      button.click();
++      status("Яндекс: сообщение с файлом отправлено.", "success", 3500);
++    } finally {
++      runtime.send_in_flight.delete(deliveryId);
++    }
+   }
+ 
+   async function processReady(entry) {
