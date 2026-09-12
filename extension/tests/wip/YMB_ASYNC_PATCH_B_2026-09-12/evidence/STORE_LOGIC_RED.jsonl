@@ -1,0 +1,17 @@
+{"venue":"Node v22.16.0; deterministic IDB TEST DOUBLE only, not browser or real IndexedDB","source_sha256":"9226950473771c40f131f6fa080d96402f8da7e2a62826c5a124aa9bcdf2012a"}
+{"name":"create_duplicate_and_owner","status":"PASS"}
+{"name":"concurrent_claim_exactly_one","status":"PASS"}
+{"name":"repeated_attempt_never_admits_second_item","status":"FAIL","message":"settled attempt must not authorize a second paid request","stack":"Error: settled attempt must not authorize a second paid request\n    at assert (store_browser_cases.js:5:50)\n    at Object.repeated_attempt_never_admits_second_item (store_browser_cases.js:41:41)\n    at async window.runStoreCase (store_browser_cases.js:124:40)\n    at async file:///mnt/data/ymb_resume/qa/run_store_logic.mjs:11:61"}
+{"name":"budget_exhaustion_and_get_independence","status":"PASS"}
+{"name":"unknown_submit_recovery_is_fail_closed","status":"PASS"}
+{"name":"collect_survives_another_unknown_submit","status":"PASS"}
+{"name":"poll_cooldown_and_network_read_error","status":"PASS"}
+{"name":"interrupted_collect_restores_only_get","status":"PASS"}
+{"name":"raw_first_parse_failure_local_repair_and_duplicate_commit","status":"PASS"}
+{"name":"failure_not_empty_success","status":"PASS"}
+{"name":"raw_and_state_transaction_abort","status":"PASS"}
+{"name":"operation_identity_collision_rolls_back","status":"PASS"}
+{"name":"pause_cancel_and_known_operations_preserved","status":"PASS"}
+{"name":"cancel_cannot_be_cleared_through_pause","status":"FAIL","message":"Expected rejection ASYNC_CANCELLED_NO_RESUME","stack":"Error: Expected rejection ASYNC_CANCELLED_NO_RESUME\n    at rejects (store_browser_cases.js:7:154)\n    at async Object.cancel_cannot_be_cleared_through_pause (store_browser_cases.js:114:7)\n    at async window.runStoreCase (store_browser_cases.js:124:40)\n    at async file:///mnt/data/ymb_resume/qa/run_store_logic.mjs:11:61"}
+{"name":"validation_and_paging_bounds","status":"PASS"}
+{"status":"FAIL","tests":15,"failed":2,"browser_resource_proof":"BLOCKED_NOT_SUBSTITUTED","provider_calls":0}
