@@ -1,0 +1,21 @@
+{
+  "schema_version":1,
+  "date":"2026-09-12",
+  "baseline_head":"f31baa4f578f66330aeb0fad23942487eff0f639",
+  "source_ref":"223aa0ec762f5789062daefe865dec54d2a8e348",
+  "candidate_tree_sha256":"7b4db94a527778722ee9bbd7b0d131789128dcaee78451f5886a7bddf1ae183a",
+  "package_sha256":"d4bdf57268ac904421797d7aad428c47981cee4c870bc549909696479f91ace9",
+  "package_bytes":223544,
+  "files":67,
+  "changed_production":["file_delivery_content.js"],
+  "unchanged_files":66,
+  "exact_target_tests":{"local_send_function_cases":9,"CI_send_function_cases":9,"syntax_js":61,"browser_primary_pass_markers":16,"browser_supplement_pass_markers":10,"browser_supplement_observation_rows":1,"failures_final":0,"owned_processes_remaining":0,"counts_include_identity_and_cleanup_markers":true},
+  "corrected_browser_run":34695092346,
+  "artifact":{"id":10297798297,"name":"ymb-b15-corrected-internal-evidence","sha256":"7e413dc26f1416f1dba2b9f9864502687f0a8a9b0b6aa8e11e5380cfa8530080","bytes":248604,"expires_at":"2026-12-11T12:57:40Z","download_readback":"PASS","inner_checksums":23,"package_equals_local":true},
+  "failures_preserved":[{"run":34694466079,"artifact":10297923782,"class":"FAIL_HARNESS","failure":"Chrome dispatcher No SW before new DOM assertions","correction":"one installation mechanism; original source and logs retained"},{"run":34694861037,"artifact":10297639857,"class":"FAIL_PRODUCT","failure":"two fast manual Send events cause2commit messages and2DOM sends","correction":"send in-flight lock, already_committed readback is watch-only; late disposed/disconnected reply no click"}],
+  "memory":{"measurement":"sum Chrome process-tree RSS every250ms plus checkpoints, shared pages may be counted twice","forced_GC":false,"primary_peak_kib":1905960,"supplement_peak_kib":1827840,"primary_three64_after_kib":[1639196,1645288,1900844],"supplement_three64_after5s_idle_kib":[1516936,1711108,1644052],"emergency_limit_mib":2048,"emergency_stop":false,"universal_no_leak_claim":false},
+  "real_IDB_scale":[{"n":10,"time_ms":88,"reads":134,"writes":151,"max_job_characters":597},{"n":100,"time_ms":881,"reads":1304,"writes":1501,"max_job_characters":609},{"n":500,"time_ms":4384,"reads":6508,"writes":7501,"max_job_characters":615},{"n":1500,"time_ms":13109,"reads":19518,"writes":22501,"max_job_characters":626}],
+  "large_restart":{"items":1500,"fully_verified_raw":750,"unknown":1,"cancelled_pending":749,"reserved_attempts":751,"actual_worker_target_closed":true},
+  "raw_archive":{"path":"evidence/B15_ALL_RAW_LOGS.tar.xz","bytes":13736,"members":43,"member_checksums":42,"sha256":"d5bbb3828c31d649d917e7357e8dfd9c2fbdf418259ff4f7d40899841f3d3a9f","git_blob":"83816b4ccf836392dba69be25da568ed355bf07e"},
+  "scope_boundaries":{"browser":"Actual CfT152.0.7977.75 / Puppeteer25.10.0 on disposable GitHub runner","page":"Synthetic DOM served at a controlled URL, no actual ChatGPT upload","IDB":"Real IndexedDB and worker termination, synthetic provider outcomes","live_yandex_requests":0,"network_operation_host_enabled":false,"real_owner_profile_used":false,"independent_codex_gate":"NOT_RUN","full_PD_acceptance":"NOT_COMPLETED","release_allowed":false}
+}
