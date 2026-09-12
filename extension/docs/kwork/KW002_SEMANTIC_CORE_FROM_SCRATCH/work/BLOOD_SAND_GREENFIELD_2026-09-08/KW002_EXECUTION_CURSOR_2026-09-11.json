@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V11",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V12",
   "date": "2026-09-12",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
@@ -17,7 +17,10 @@
     "step04_w09": "MAIN_CHATGPT_REMOTE_READBACK_ACCEPTED",
     "step04_current": "ACCEPTED_W09_CURRENT_AUTHORITY",
     "step05_w10_v2_pre_acquisition": "MAIN_CHATGPT_REMOTE_READBACK_ACCEPTED",
-    "step05_w10_method_correction": "MATERIALIZED_PROVIDER_EXECUTION_STILL_NOT_RELEASED"
+    "step05_w10_method_correction": "MATERIALIZED",
+    "step05_w10_v3_external_research": "PASS_NO_PROVIDER_CALL",
+    "step05_w10_v3_first_provider_gate": "PASS_REMOTE_READBACK",
+    "step05_w10_v3_first_provider_release": "RELEASED_REMOTE_READBACK_NOT_EXECUTED"
   },
   "step04_current": {
     "main_acceptance": "STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md",
@@ -41,21 +44,8 @@
     "remote_readback": "PASS",
     "blind_replay_allowed": false
   },
-  "step05_preparation_incident": {
-    "v1_preparation_status": "SUPERSEDED_NOT_EXECUTION_AUTHORITY",
-    "incident_record": "STEP_05_W10_PREPARATION_RULE_VIOLATION_AND_CORRECTION_2026-09-12.md",
-    "provider_calls_caused_by_incident": 0,
-    "work_execution_caused_by_incident": false
-  },
   "step05_w10_v2": {
     "handoff_id": "KW002-BS-W10-V2",
-    "work_start_remote_head": "7ceec096dad6703b5dffede3271019f55946d75d",
-    "work_pre_publication_remote_head": "7ceec096dad6703b5dffede3271019f55946d75d",
-    "owner_upload_head": "f4f46d6eb8f40541ec742f36173d72237027dacb",
-    "main_acceptance_commit": "f1df0b87c26c1789f1ddf70de6df33bdc2ff9652",
-    "main_acceptance_file": "STEP_05_W10_V2_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md",
-    "remote_readback": "PASS",
-    "main_verdict": "PASS",
     "queue_reconciled": "13/13",
     "reuse_register_rows": 8,
     "regression_matrix": "17_OF_17_PASS",
@@ -63,11 +53,6 @@
     "first_future_candidate": "W10C001",
     "first_future_candidate_source_queue": "PSQ005",
     "first_future_candidate_phrase": "(амулет|оберег|талисман) Аум",
-    "first_future_candidate_execution_status": "NOT_EXECUTED",
-    "closed_by_prior_exact_evidence": ["PSQ001", "PSQ004"],
-    "owner_fact_rows": ["PSQ002", "PSQ003", "PSQ009", "PSQ012", "PSQ013"],
-    "existing_evidence_reuse_rows": ["PSQ006", "PSQ007", "PSQ008", "PSQ010"],
-    "deferred_rows": ["PSQ011"],
     "duplicate_reprobes": 0,
     "owner_fact_bypasses": 0,
     "provider_calls": 0,
@@ -82,46 +67,57 @@
     "historical_candidate_manifest": "STEP_05_W10_V2_PROVIDER_CANDIDATE_MANIFEST_V1_2026-09-12.tsv",
     "historical_candidate_manifest_status": "HISTORICAL_SUPERSEDED_FOR_EXECUTION_CONTRACT_ONLY",
     "current_candidate_manifest": "STEP_05_W10_V3_PROVIDER_CANDIDATE_MANIFEST_2026-09-12.tsv",
-    "provider_calls_during_correction": 0,
     "work_used_for_correction": false,
     "work_rule": "WORK_ONLY_WHEN_LEVEL1_LARGE_DATA_OR_OTHER_EXPLICIT_TRIGGER_IS_MET_NOT_FOR_BOUNDED_STEP05_DOCUMENTATION_OR_ONE_CANDIDATE_GATE",
-    "outcome_contract": [
-      "SUCCESS_WITH_ROWS",
-      "SUCCESS_WITH_ZERO_ROWS",
-      "SUCCESS_BUT_EVIDENCE_INCOMPLETE",
-      "VALIDATION_FAILURE",
-      "PROVIDER_FAILURE",
-      "OUTCOME_UNKNOWN"
-    ],
     "no_retry_semantic_rule": "NO_RETRY_NE_NEGATIVE_EVIDENCE",
-    "operator_decision": "KEEP_BARE_AUM_FOR_DISCOVERY_RECALL_FIRST_UNLESS_LATER_SEPARATELY_RELEASED_PRECISION_DIAGNOSTIC_IS_JUSTIFIED",
-    "depth_decision": "2000_PENDING_IMMEDIATE_BRIDGE_PROVIDER_RECHECK_AND_DEPTH_GATE_FINAL_RELEASE",
+    "operator_decision": "KEEP_BARE_AUM_FOR_DISCOVERY_RECALL_FIRST",
+    "depth_decision": "2000_JUSTIFIED_FOR_ONE_BOUNDED_REQUEST",
     "depth_boundary_rule": "BOUNDARY_HIT_NE_SEMANTIC_COMPLETENESS",
     "snapshot_closure_rule": "CLOSED_FOR_CURRENT_RESEARCH_SNAPSHOT_NOT_PERMANENT_TRUTH",
     "raw_pipeline_rule": "COMPLETE_RAW_REMOTE_READBACK_THEN_STEP03A_STEP03B_BEFORE_UNION"
   },
+  "step05_w10_v3_first_provider": {
+    "candidate": "W10C001",
+    "phrase": "(амулет|оберег|талисман) Аум",
+    "source_trace": "STEP_05_W10_V3_FIRST_PROVIDER_EXTERNAL_RESEARCH_2026-09-12.md",
+    "source_trace_commit": "5e9601bff833d5540b83b5c5604f119f95be4022",
+    "execution_gate": "STEP_05_W10_V3_FIRST_PROVIDER_EXECUTION_GATE_2026-09-12.md",
+    "execution_gate_commit": "ba1709a0fde68ae8671355924e210deda1985054",
+    "execution_release": "STEP_05_W10_V3_FIRST_PROVIDER_EXECUTION_RELEASE_2026-09-12.md",
+    "execution_release_commit": "9e5f3fd16c0b566b696c328b70f10b48019e0f5a",
+    "method": "getTop",
+    "numPhrases": 2000,
+    "regions": ["225"],
+    "devices": ["DEVICE_ALL"],
+    "max_requests_released": 1,
+    "estimated_cost_rub": 0.02,
+    "provider_execution_released": true,
+    "execution_status": "NOT_EXECUTED",
+    "raw_target_template": "STEP_03_WORDSTAT_RAW/STEP05__W10C001__<request_id>.txt",
+    "receipt_target": "STEP_05_W10_V3_PROVIDER_RECEIPT_2026-09-12.json",
+    "second_call_before_raw_readback_allowed": false
+  },
   "step05_current": {
-    "status": "W10_METHOD_CORRECTION_MATERIALIZED_FIRST_PROVIDER_GATE_PENDING",
-    "provider_execution_released": false,
+    "status": "W10C001_FIRST_PROVIDER_EXECUTION_RELEASED_NOT_EXECUTED",
+    "provider_execution_released": true,
     "provider_ready_candidate_after_reconciliation": "W10C001",
     "provider_candidate_current_contract": "STEP_05_W10_V3_PROVIDER_CANDIDATE_MANIFEST_2026-09-12.tsv",
-    "wordstat_calls_allowed_now": 0,
+    "wordstat_calls_allowed_now": 1,
+    "wordstat_call_scope": "W10C001_ONLY_ONE_GETTOP",
     "ordinary_search_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
     "ai_search_calls_allowed_now": 0,
-    "required_before_any_provider_execution": [
-      "FETCH_CURRENT_REMOTE_HEAD_AND_CLASSIFY_DRIFT",
-      "READ_STEP_05_TARGETED_EXPANSION_AND_PROVIDER_EXECUTION_GATE",
-      "RECHECK_CURRENT_BRIDGE_WORDSTAT_SCHEMA",
-      "RECHECK_CURRENT_OFFICIAL_PROVIDER_PRICE_AND_APPLICABLE_LIMITS",
-      "FINALIZE_DEPTH_GATE_FOR_W10C001",
-      "CONFIRM_OPERATOR_DECISION_AND_OUTCOME_MATRIX_IN_EXECUTION_RELEASE",
-      "ISSUE_SEPARATE_FIRST_PROVIDER_EXECUTION_RELEASE_FOR_W10C001",
-      "EXECUTE_AT_MOST_ONE_GETTOP_REQUEST",
-      "PERSIST_COMPLETE_RAW_AND_REMOTE_READBACK_BEFORE_ANY_NEXT_CALL",
-      "PASS_NEW_ROWS_THROUGH_STEP03A_AND_STEP03B_BEFORE_UNION"
+    "required_after_first_provider_attempt": [
+      "STOP_PROVIDER_EXECUTION_AFTER_FIRST_ATTEMPT",
+      "CLASSIFY_PROVIDER_OUTCOME",
+      "PERSIST_COMPLETE_RAW_AND_REQUEST_PROVENANCE",
+      "PERSIST_STEP05_PROVIDER_RECEIPT",
+      "REMOTE_GITHUB_READBACK_BEFORE_ANY_NEXT_PROVIDER_CALL",
+      "IF_ROWS_EXIST_PASS_ALL_ROWS_THROUGH_STEP03A_COMPATIBLE_NORMALIZATION_AND_STEP03B_COMPATIBLE_SANITATION_BEFORE_UNION",
+      "IF_FULL_VOLUME_TRANSFORMATION_EXCEEDS_SAFE_ORDINARY_CHAT_USE_WORK_WITHOUT_SAMPLING",
+      "DO_NOT_START_STEP06_UNTIL_STEP05_FINAL_CLOSURE"
     ],
     "step06_started": false
   },
-  "next_action": "PREPARE_SEPARATE_STEP05_FIRST_PROVIDER_EXECUTION_GATE_FOR_W10C001_USING_CURRENT_V3_CONTRACT_AFTER_IMMEDIATE_HEAD_BRIDGE_SCHEMA_OFFICIAL_PROVIDER_LIMIT_PRICE_RECHECK; DO_NOT EXECUTE ANY PROVIDER CALL UNTIL THAT RELEASE; DO NOT START STEP06"
+  "next_action": "EXECUTE_EXACTLY_ONE_RELEASED_W10C001_GETTOP_REQUEST_IF_EXECUTION_TRANSPORT_IS_AVAILABLE; IMMEDIATELY_STOP_PROVIDER_EXECUTION; PERSIST_COMPLETE_RAW_AND_RECEIPT; REMOTE_READBACK; NO_SECOND_PROVIDER_CALL; DO_NOT_START_STEP06"
 }
