@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP04 W09 ACCEPTED / STEP05 COMPLETE PASS FOR CURRENT SNAPSHOT / W10C001 SUCCESS_WITH_ZERO_ROWS / STEP06 NOT STARTED**
+Status: **STEP04 W09 ACCEPTED / STEP05 COMPLETE PASS / STEP06 PREPARATION PASS — EXECUTION HOLD — NOT STARTED**
 
 ## Whole-job goal
 
@@ -39,7 +39,7 @@ Historical prompts, relays and superseded queue splits never override current au
 | 03B | Conservative high-confidence sanitation | ✅ CORRECTED AUTHORITY ACCEPTED / 5,100 KEEP / 13,035 HOLD / 6,441 EXCLUDE |
 | 04 | Preliminary family/topic/task triage | ✅ W09 CURRENT AUTHORITY ACCEPTED |
 | 05 | Targeted expansion / coverage control | ✅ COMPLETE / PASS CURRENT SNAPSHOT / W10C001 success with zero returned rows |
-| 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
+| 06 | Current Yandex organic competitor discovery | 🟠 PREPARATION PASS / EXECUTION HOLD / NOT STARTED |
 | 07 | Competitor semantic expansion | ⬜ NOT STARTED |
 | 08 | Competitor-derived Wordstat expansion | ⬜ NOT STARTED |
 | 09 | Candidate semantic master + reserve freeze | ⬜ NOT STARTED |
@@ -142,20 +142,75 @@ Current closure authority:
 
 `STEP_05_W10_V3_FINAL_CLOSURE_2026-09-12.md`
 
+## Step06 preparation state
+
+Preparation completed from live HEAD `89ba3907196ea4f4f5b19388c0146f0b06d7db48` with no governing/upstream drift before preparation.
+
+Prepared authorities:
+
+- `STEP_06_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_TRACE_2026-09-12.md`
+- `STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V1_2026-09-12.tsv`
+- `STEP_06_PREPARATION_GATE_2026-09-12.md`
+
+Prepared acquisition design:
+
+```text
+REPRESENTATIVE_QUERIES = 20
+COVERAGE_DIRECTIONS = 10
+QUERY_SOURCE = accepted Step04 W09 observed representative phrases
+SEARCH_MODE = ordinary synchronous Yandex Web Search
+SEARCH_TYPE = RU
+REGION = 225 / Russia
+PAGE = 0
+GROUPS_ON_PAGE = 20
+GROUP_MODE = FLAT
+MAX_PLANNED_NORMALIZED_ROWS = 400
+DAY_MAX_ESTIMATED_COST = 9.76 RUB
+NIGHT_MAX_ESTIMATED_COST = 7.32 RUB
+GENSEARCH = 0
+WORDSTAT = 0
+```
+
+Execution sequencing is deliberately one provider request at a time. Search batch `nextN` provider burst is not authorized because Level1 F03 requires complete durable evidence + remote readback before the next provider request.
+
+Two blocking execution gates were found:
+
+```text
+HOLD_A:
+installed runtime observed from owner provider result = 0.1.4
+current GitHub product source = 0.1.2
+runtime/source Search contract not yet reconciled
+
+HOLD_B:
+current GitHub Search path normalizes provider rawData/XML into analytical result rows
+original provider rawData is not proven losslessly recoverable/exportable for durable GitHub readback
+```
+
+Therefore Step06 is prepared but not started.
+
 ## Current hard boundary
 
 ```text
 STEP05 = COMPLETE / PASS CURRENT SNAPSHOT
-STEP05_PROVIDER_EXECUTION_RELEASED = false
+STEP06_PREPARATION = PASS
+STEP06_PROVIDER_EXECUTION = HOLD_NOT_RELEASED
 WORDSTAT_CALLS_ALLOWED_NOW = 0
 SEARCH_CALLS_ALLOWED_NOW = 0
 GENSEARCH_CALLS_ALLOWED_NOW = 0
 AI_SEARCH_CALLS_ALLOWED_NOW = 0
 STEP06_STARTED = false
+STEP07_STARTED = false
+STEP08_STARTED = false
 ```
 
 ## Next action
 
-The next roadmap unit is Step06 — current Yandex organic competitor discovery.
+Resolve the Step06 Bridge gates without provider calls:
 
-Do not treat this JOB FLOW update as a Step06 execution release. Before Step06 execution, perform the current Level1 pre-step protocol: current HEAD/drift check, fresh external research/source disclosure, read the relevant Level2 rules, establish the Step06 evidence/acquisition contract and only then issue any separate provider release that the method requires.
+1. reconcile the actually installed runtime `0.1.4` with reviewable Search source/schema;
+2. prove or patch lossless Search provider RAW preservation/export so the complete provider body can be persisted to GitHub and remotely read back before the next provider request;
+3. test that path locally/with fixtures where possible, without paid provider execution;
+4. recheck live HEAD and current official Search schema/pricing;
+5. only then issue a separate Step06 execution release for the already prepared 20-query manifest.
+
+Do not start Step07 or Step08.
