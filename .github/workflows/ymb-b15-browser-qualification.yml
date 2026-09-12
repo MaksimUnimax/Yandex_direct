@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 0a7b229fa9c61985524be61101e84e0915ca74b7
+          ref: b277b8cb2287e33438d8d686a53cdbcaca67a383
           persist-credentials: false
           fetch-depth: 1
           sparse-checkout: |
@@ -71,6 +71,7 @@ jobs:
         run: |
           set -euo pipefail
           Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          python3 "$Q/b15_single_install.py" > "$YMB_BROWSER_EVIDENCE/qa_launcher_correction.txt"
           node --check "$Q/b15_browser_qualification.mjs"
           xvfb-run -a node "$Q/b15_browser_qualification.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
       - name: Preserve every partial result and exact QA input
@@ -82,8 +83,8 @@ jobs:
           import os,hashlib,json,shutil
           p=Path(os.environ['RUNNER_TEMP'])/'b15-browser-evidence';p.mkdir(exist_ok=True)
           q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa')
-          for name in ['b15_browser_qualification.mjs','b15_fixture.html']: shutil.copyfile(q/name,p/name)
-          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'0a7b229fa9c61985524be61101e84e0915ca74b7','candidate_sha256':'e260f35b1d7decf02c18c46103b4072de68270c2bce09e2f51f7462941c48f97','venue':'one ephemeral GitHub Chrome; synthetic DOM and provider outcomes; real content/IDB','local_browser_launched':False,'user_profile_touched':False,'policy_modified':False,'live_chatgpt_upload':False,'real_provider_credentials':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          for name in ['b15_browser_qualification.mjs','b15_fixture.html','b15_single_install.py']: shutil.copyfile(q/name,p/name)
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'b277b8cb2287e33438d8d686a53cdbcaca67a383','candidate_sha256':'e260f35b1d7decf02c18c46103b4072de68270c2bce09e2f51f7462941c48f97','venue':'one ephemeral GitHub Chrome; synthetic DOM and provider outcomes; real content/IDB','qa_change':'single installation only','local_browser_launched':False,'user_profile_touched':False,'policy_modified':False,'live_chatgpt_upload':False,'real_provider_credentials':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
           (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(p.iterdir()) if f.is_file()))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
