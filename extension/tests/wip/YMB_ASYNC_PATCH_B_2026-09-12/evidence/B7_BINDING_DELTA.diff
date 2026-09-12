@@ -1,0 +1,11 @@
+--- a/search_admission_worker_binding.js
++++ b/search_admission_worker_binding.js
+@@ -58,7 +58,7 @@
+       const operation = await getManualOperation(key);
+ 
+       if (manualMode === true && operation && !TERMINAL_MANUAL.has(String(operation.status || ""))) {
+-        if (!["requesting", "search_batch_requesting"].includes(String(operation.status || ""))) fail("SHARED_ADMISSION_MANUAL_STATE_INVALID");
++        if (!["requesting", "search_batch_requesting", "search_async_requesting"].includes(String(operation.status || ""))) fail("SHARED_ADMISSION_MANUAL_STATE_INVALID");
+         if (operation.conversation_key !== key || operation.active_service !== SEARCH || !clean(operation.operation_id, 128)) fail("SHARED_ADMISSION_MANUAL_STATE_INVALID");
+         if (claimedChannel && claimedChannel !== "manual") fail("SHARED_ADMISSION_CHANNEL_MISMATCH");
+         const opRunId = operation.run_id == null ? null : String(operation.run_id);
