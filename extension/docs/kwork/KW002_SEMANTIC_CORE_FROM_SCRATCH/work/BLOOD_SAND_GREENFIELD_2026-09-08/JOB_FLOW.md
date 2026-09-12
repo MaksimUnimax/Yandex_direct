@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION ACCEPTED / ONE FUTURE WORDSTAT CANDIDATE / PROVIDER EXECUTION NOT RELEASED / STEP06 NOT STARTED**
+Status: **STEP04 W09 ACCEPTED / STEP05 COMPLETE PASS FOR CURRENT SNAPSHOT / W10C001 SUCCESS_WITH_ZERO_ROWS / STEP06 NOT STARTED**
 
 ## Whole-job goal
 
@@ -20,7 +20,7 @@ Clean-boundary rule remains active: prior Blood & Sand analytical research is se
 ## Current authority order
 
 1. current `KW002_EXECUTION_CURSOR_2026-09-11.json`;
-2. accepted Main ChatGPT readback/acceptance files;
+2. accepted Main ChatGPT readback/acceptance/closure files;
 3. current accepted analytical artifacts;
 4. current prompt/release package for the active execution sub-stage;
 5. this `JOB_FLOW.md` as the human-readable current roadmap/status view.
@@ -38,7 +38,7 @@ Historical prompts, relays and superseded queue splits never override current au
 | 03A | RAW normalization + safe deduplication | ✅ COMPLETE / PASS / 24,576 identities / 25,979 RAW |
 | 03B | Conservative high-confidence sanitation | ✅ CORRECTED AUTHORITY ACCEPTED / 5,100 KEEP / 13,035 HOLD / 6,441 EXCLUDE |
 | 04 | Preliminary family/topic/task triage | ✅ W09 CURRENT AUTHORITY ACCEPTED |
-| 05 | Targeted expansion / coverage control | 🟠 W10 V2 PRE-ACQUISITION ACCEPTED / one future candidate W10C001 / provider execution not yet released |
+| 05 | Targeted expansion / coverage control | ✅ COMPLETE / PASS CURRENT SNAPSHOT / W10C001 success with zero returned rows |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
 | 07 | Competitor semantic expansion | ⬜ NOT STARTED |
 | 08 | Competitor-derived Wordstat expansion | ⬜ NOT STARTED |
@@ -79,9 +79,9 @@ STEP04_W09_STEP03A_MUTATIONS = 0
 STEP04_W09_STEP03B_MUTATIONS = 0
 ```
 
-## Step05 historical durable evidence
+## Step05 durable evidence and final closure
 
-Before the Step04 correction cycle, one Step05 provider request was executed and durably preserved:
+Historical durable provider evidence retained:
 
 ```text
 E013
@@ -92,50 +92,61 @@ remote readback = PASS
 blind replay = forbidden
 ```
 
-## Step05 W10 V2 accepted pre-acquisition result
+W10 V2 pre-acquisition reconciliation was accepted with `QUEUE_RECONCILED = 13/13` and exactly one surviving provider candidate, W10C001.
 
-Main ChatGPT remote readback accepted:
-
-`STEP_05_W10_V2_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
-
-Current result:
-
-```text
-QUEUE_RECONCILED = 13/13
-PSQ001 = CLOSED BY EXISTING Q001-Q003
-PSQ004 = CLOSED BY EXISTING Q019
-PSQ005 = ONE SURVIVING FUTURE CANDIDATE
-PSQ006 = REUSE / NO REPROBE
-PSQ007 = REUSE / NO REPROBE
-PSQ008 = REUSE / NO REPROBE
-PSQ010 = REUSE E013 / NO REPLAY
-OWNER_FACT_ROWS = PSQ002, PSQ003, PSQ009, PSQ012, PSQ013
-DEFERRED = PSQ011
-DUPLICATE_REPROBES = 0
-OWNER_FACT_BYPASSES = 0
-W10_PROVIDER_CALLS = 0
-W10_STEP03A_MUTATIONS = 0
-W10_STEP03B_MUTATIONS = 0
-W10_W09_STEP04_MUTATIONS = 0
-```
-
-Sole future candidate:
+W10C001 was subsequently released and executed exactly once:
 
 ```text
 candidate_id = W10C001
 source_queue_id = PSQ005
 phrase = (амулет|оберег|талисман) Аум
-max_requests = 1
-execution_status = NOT_EXECUTED
+request_id = wordstat-b3fbe6dd-121b-4e67-81ca-0b03bdc53358
+http_status = 200
+provider_status = OK
+totalCount = 3
+results_rows = 0
+association_rows = 0
+outcome = SUCCESS_WITH_ZERO_ROWS
+raw_remote_readback = PASS
 ```
 
-The candidate exists because the durable acquisition universe contains broad `Аум` and qualified `Ом`, but not qualified `Аум`. It remains only a future acquisition candidate; it is not evidence until separately released, executed, persisted and sanitized.
+The missing `results`/`associations` JSON keys are valid serialization of empty protobuf repeated fields, not Bridge data loss. Current Bridge code was traced end-to-end and preserves the parsed Wordstat result without row projection/truncation.
+
+Claim boundary:
+
+- `totalCount=3` is an aggregate provider count, not three keyword rows;
+- zero returned rows is not universal zero demand;
+- no extractable distinct Cyrillic-Аум physical-product-qualified phrase vocabulary was returned for this exact current snapshot;
+- W10C001 is `CLOSED_FOR_CURRENT_RESEARCH_SNAPSHOT`;
+- replay is neither required nor authorized.
+
+Final Step05 accounting:
+
+```text
+QUEUE_RECONCILED = 13/13
+UNRECONCILED_STEP05_QUEUE_ROWS = 0
+NEW_W10C001_PROVIDER_ROWS = 0
+STEP03A_ROWS_TO_PROCESS = 0
+STEP03B_ROWS_TO_PROCESS = 0
+STEP03A_MUTATIONS = 0
+STEP03B_MUTATIONS = 0
+STEP04_W09_MUTATIONS = 0
+SECOND_WORDSTAT_CALLS = 0
+ORDINARY_SEARCH_CALLS = 0
+GENSEARCH_CALLS = 0
+AI_SEARCH_CALLS = 0
+STEP05 = COMPLETE / PASS CURRENT SNAPSHOT
+```
+
+Current closure authority:
+
+`STEP_05_W10_V3_FINAL_CLOSURE_2026-09-12.md`
 
 ## Current hard boundary
 
 ```text
-STEP05_PRE_ACQUISITION = ACCEPTED
-STEP05_PROVIDER_EXECUTION = NOT_RELEASED
+STEP05 = COMPLETE / PASS CURRENT SNAPSHOT
+STEP05_PROVIDER_EXECUTION_RELEASED = false
 WORDSTAT_CALLS_ALLOWED_NOW = 0
 SEARCH_CALLS_ALLOWED_NOW = 0
 GENSEARCH_CALLS_ALLOWED_NOW = 0
@@ -143,17 +154,8 @@ AI_SEARCH_CALLS_ALLOWED_NOW = 0
 STEP06_STARTED = false
 ```
 
-Before any W10C001 execution:
-
-1. fetch current remote head and classify authority drift;
-2. recheck current Bridge Wordstat schema;
-3. recheck current official provider pricing/limits;
-4. issue a separate first-provider execution release;
-5. execute at most one GetTop request;
-6. persist complete RAW and remote-readback it;
-7. run any new rows through Step03A + Step03B before union;
-8. return to Main ChatGPT before any second provider action.
-
 ## Next action
 
-Prepare the separate Step05 first-provider execution gate for W10C001. Do not start Step06 and do not execute Wordstat before that release.
+The next roadmap unit is Step06 — current Yandex organic competitor discovery.
+
+Do not treat this JOB FLOW update as a Step06 execution release. Before Step06 execution, perform the current Level1 pre-step protocol: current HEAD/drift check, fresh external research/source disclosure, read the relevant Level2 rules, establish the Step06 evidence/acquisition contract and only then issue any separate provider release that the method requires.
