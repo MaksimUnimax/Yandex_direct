@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "venue": "Node v22.16.0; complete worker source, mocked Chrome API/IndexedDB/network; no real browser or provider traffic",
+  "candidate_tree_sha256": "d1fc4f49718f023f1bc1a6a3ec921fa7253d63b805cedadff6fbcf2e70180612",
+  "candidate_file_count": 67,
+  "b9_source_and_harness": [
+    {
+      "path": "candidate/b9/phase3_service_worker_bootstrap.js",
+      "sha256": "5a47f5f5e0c3305b72a6b776593df1065dba8ae319543f545014407d7ae012c5",
+      "git_blob": "02432e2b961a29a2e1580e3f1d6a75ecf575edc3",
+      "bytes": 3739
+    },
+    {
+      "path": "qa/b9_full_worker_harness.mjs",
+      "sha256": "7b10df64b29c271a901512c9e00609ce59078f7743a7532e04dcbf99a7ba5051",
+      "git_blob": "f3e9beef6d21baef3a1e43f19c2d3f41dabe2e2a",
+      "bytes": 4744
+    },
+    {
+      "path": "qa/b9_full_worker.test.mjs",
+      "sha256": "45491d1de8b55f804e458e9b1c0f86f6ccbaa63e66a1f755d9724517bf76061d",
+      "git_blob": "9b427d90add65c4bfaf0a644c8029aa0b7d84339",
+      "bytes": 11059
+    },
+    {
+      "path": "evidence/B9_INPUTS_SHA256.json",
+      "sha256": "7ddd7e15e4845271f35e50d1c64682f25df7becdecbfc487989799fcaf72169e",
+      "git_blob": "ec93b61db18ff370965fb973fc693f75c245aeea",
+      "bytes": 3726
+    },
+    {
+      "path": "qa/prepare_b9.py",
+      "sha256": "a1b2328e967ac79a06597be45961ca7432e9aa9d702685045fea0ec2d271dd8a",
+      "git_blob": "828e7cd8f992817ef59f23beb8d03b193b6b714d",
+      "bytes": 7383
+    },
+    {
+      "path": "evidence/B9_BOOTSTRAP_RED_TO_GREEN.diff",
+      "sha256": "9e1b8c6d1a301454e7dd27dadc9755e99f4687599f4862896d925b6f6e879e32",
+      "git_blob": "e00768815cf568f2349baadcfb8179f0cdb3542a",
+      "bytes": 1001
+    },
+    {
+      "path": "qa/b9_regression_campaign.py",
+      "sha256": "d3749aa59ab394ba2595337fb760dfc3e0cdcb926f7c7a2206f53e6252ca3d09",
+      "git_blob": "96715d7391691273397138045ac8d41db0d8cc9a",
+      "bytes": 4554
+    }
+  ],
+  "red": {
+    "sha256": "21ee40d1ef784ba3669bcceefddd353a3037d9faeb277aad19ddeae0426b5393",
+    "bytes": 9880,
+    "footer": {
+      "tests": "20",
+      "pass": "15",
+      "fail": "5",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "1091.675683"
+    },
+    "assertions": [
+      {
+        "pass": false,
+        "name": "file-aware outbox and exporter initialize before async worker captures dependencies"
+      },
+      {
+        "pass": false,
+        "name": "real Manual start -> binary export -> existing outbox succeeds in composed worker"
+      },
+      {
+        "pass": false,
+        "name": "actual per-item store raw+normalized evidence is exported without provider work or record loss"
+      },
+      {
+        "pass": false,
+        "name": "foreign-owner artifact chunk message fails before reading a stored part"
+      },
+      {
+        "pass": false,
+        "name": "actual WS attachment messages keep one outbox, return only one chunk and clean up after acknowledgement"
+      }
+    ]
+  },
+  "green_source": {
+    "sha256": "2644f59caf936b96cf940f6cc7b717c98a920d6f2ad1ad6b90264688c9e41c94",
+    "bytes": 4909,
+    "footer": {
+      "tests": "20",
+      "pass": "20",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "1117.133791"
+    }
+  },
+  "green_fresh": {
+    "sha256": "2adfc8ecd785f74e5df6a4633454447cd11df699c6af96f698177491e69c651f",
+    "bytes": 4909,
+    "footer": {
+      "tests": "20",
+      "pass": "20",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "1051.602187"
+    },
+    "assertions": [
+      {
+        "pass": true,
+        "name": "complete worker loads real baseline/admission/async/file modules with zero startup provider calls"
+      },
+      {
+        "pass": true,
+        "name": "file-aware outbox and exporter initialize before async worker captures dependencies"
+      },
+      {
+        "pass": true,
+        "name": "manifest references all content files; operation host and alarms remain disabled"
+      },
+      {
+        "pass": true,
+        "name": "real Manual start -> binary export -> existing outbox succeeds in composed worker"
+      },
+      {
+        "pass": true,
+        "name": "actual per-item store raw+normalized evidence is exported without provider work or record loss"
+      },
+      {
+        "pass": true,
+        "name": "full worker rejects Manual disabled before any provider or new job"
+      },
+      {
+        "pass": true,
+        "name": "full worker rejects different service before any provider or new job"
+      },
+      {
+        "pass": true,
+        "name": "full worker rejects unbound conversation before any provider or new job"
+      },
+      {
+        "pass": true,
+        "name": "actual sender-tab mismatch is rejected before async job operation"
+      },
+      {
+        "pass": true,
+        "name": "async submit remains disabled in the composed permission set"
+      },
+      {
+        "pass": true,
+        "name": "foreign-owner artifact chunk message fails before reading a stored part"
+      },
+      {
+        "pass": true,
+        "name": "actual WS attachment messages keep one outbox, return only one chunk and clean up after acknowledgement"
+      },
+      {
+        "pass": true,
+        "name": "old search.search runs through full Manual dispatcher exactly once on controlled network"
+      },
+      {
+        "pass": true,
+        "name": "old search.genSearch runs through full Manual dispatcher exactly once on controlled network"
+      },
+      {
+        "pass": true,
+        "name": "old wordstat.getRegionsTree runs through full Manual dispatcher exactly once on controlled network"
+      },
+      {
+        "pass": true,
+        "name": "old webmaster.listHosts runs through full Manual dispatcher exactly once on controlled network"
+      },
+      {
+        "pass": true,
+        "name": "old metrika.listCounters runs through full Manual dispatcher exactly once on controlled network"
+      },
+      {
+        "pass": true,
+        "name": "old direct.listCampaigns runs through full Manual dispatcher exactly once on controlled network"
+      },
+      {
+        "pass": true,
+        "name": "both message families have one responder after wrapper composition"
+      },
+      {
+        "pass": true,
+        "name": "small legacy report stays text, large report uses existing A binary store after B wrapper installation"
+      }
+    ]
+  },
+  "module_regression": {
+    "venue": "Node; preserved IDB and network fixtures; not Chrome",
+    "candidate_tree_sha256": "d1fc4f49718f023f1bc1a6a3ec921fa7253d63b805cedadff6fbcf2e70180612",
+    "tests_sha256": {
+      "b3_runtime.test.mjs": "b3c0f1917de31bcb98a38b522ebc02fbd467566d548eaadc8a23b3a8b68d76e3",
+      "b3_store_edge.test.mjs": "8e5901ae35aca7a29ac649e33679bcf7b875467dd9736c0817c0780d1b3b33ed",
+      "b3_store_regression.test.mjs": "82f69cc166373791c3ea19bec1d04263ad7012d0fd4f9bbc4670af60b26b29de",
+      "b4_normalizer.test.mjs": "8e9365938f88cc2a58abc9a07045fb017192a036a51a0af5c89acf22550a05f9",
+      "b5_callers.test.mjs": "e769f93910a4ba8a29726e27abe898cfcc9d75f63e3cdb28420cdbcddf10b1b8",
+      "b5_legacy.test.mjs": "dabe61e03a6fa158c3561a69d09125da4ecbcb9aff84c27c048c1819fe5d300f",
+      "b5_policy.test.mjs": "740cb2fc3cafb2b90cf8b32ca857dedab11ca77ff351b56baa88f5fc0228a0c4",
+      "b6_binding.test.mjs": "de7ddd10cf4420e2a5a7755803a5082fc46be3809d8c2a52476fa232254e9808",
+      "protocol.test.mjs": "8ec6ea1acc9bf0721d499caea1514f036a8f4e57ace8caf4b0ccd245bb710718",
+      "transport.test.mjs": "429e280f9ecd3dfa2e8359c55310f24200d1e44a8e960a8ace68fef83808117d"
+    },
+    "provider_calls": 0,
+    "release_allowed": false,
+    "returncode": 0,
+    "footer": {
+      "tests": "254",
+      "pass": "254",
+      "fail": "0",
+      "cancelled": "0",
+      "skipped": "0",
+      "duration_ms": "3328.090601"
+    },
+    "tap_sha256": "5849ddb20f7ce9ff7a476d926167cb442586a6f22ad35c9420a119c97ee085a0",
+    "tap_bytes": 50484,
+    "status": "PASS"
+  },
+  "static": {
+    "json_parse_pass": [
+      "manifest.json",
+      "package.json"
+    ],
+    "popup_references": [
+      "popup.css",
+      "popup_transfer_guard.js",
+      "popup_context_bootstrap.js"
+    ],
+    "materializer_refusals_pass": [
+      "nonempty_output",
+      "wrong_baseline_before_writes"
+    ],
+    "fresh_candidate_files_match": 67,
+    "release_allowed": false,
+    "syntax_pass_count": 61
+  },
+  "release_allowed": false
+}
