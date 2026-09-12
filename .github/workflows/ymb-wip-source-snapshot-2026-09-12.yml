@@ -1,0 +1,51 @@
+name: YMB WIP source snapshot (not a release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-wip-source-snapshot-2026-09-12.yml]
+permissions:
+  contents: read
+concurrency:
+  group: ymb-wip-source-snapshot-2026-09-12
+  cancel-in-progress: false
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: fc89ba5766373bd6abbdfac58b7c3670f58b0702
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12
+            extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12
+            extension/docs/YMB_PATCH_DEPENDENCY_AND_RESOURCE_SAFETY_RULE.md
+            extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md
+      - name: Archive saved bytes only (no product execution or provider calls)
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = fc89ba5766373bd6abbdfac58b7c3670f58b0702
+          mkdir -p snapshot
+          git archive --format=tar HEAD \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12 \
+            extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12 \
+            extension/docs/YMB_PATCH_DEPENDENCY_AND_RESOURCE_SAFETY_RULE.md \
+            extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md \
+            > snapshot/wip-source.tar
+          git ls-tree -r HEAD -- \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12 \
+            extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12 \
+            extension/docs/YMB_PATCH_DEPENDENCY_AND_RESOURCE_SAFETY_RULE.md \
+            extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md \
+            > snapshot/GIT_TREE.txt
+          printf '%s\n' 'SOURCE_REF=fc89ba5766373bd6abbdfac58b7c3670f58b0702' 'INTERNAL_QA_SOURCE_ONLY' 'NOT_AN_INSTALLABLE_BUILD' 'NO_PROVIDER_CALLS' > snapshot/README.txt
+          (cd snapshot && sha256sum wip-source.tar GIT_TREE.txt README.txt > SHA256SUMS)
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ymb-wip-source-fc89ba5-not-installable
+          path: snapshot/
+          retention-days: 7
+          if-no-files-found: error
