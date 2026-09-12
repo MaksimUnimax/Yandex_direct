@@ -1,0 +1,23 @@
+[
+  {
+    "case": "fresh_published_part_consumer",
+    "status": "PASS",
+    "result": {
+      "status": "PASS",
+      "bytes": 36696,
+      "sha256": "62b7511def54cd6f1261b2becd9810c1e32cafb397ae24ccf72fa4aedb222a7d",
+      "members": 55,
+      "member_checksums": 54,
+      "product_executed": false,
+      "release_allowed": false
+    }
+  },
+  {
+    "case": "overwrite_refused",
+    "status": "PASS"
+  },
+  {
+    "case": "corrupt_part_refused_before_output",
+    "status": "PASS"
+  }
+]

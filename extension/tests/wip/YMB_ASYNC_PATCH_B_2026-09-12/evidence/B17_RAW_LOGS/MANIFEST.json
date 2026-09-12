@@ -1,0 +1,33 @@
+{
+  "archive": "B17_ALL_RAW_LOGS.tar.xz",
+  "bytes": 36696,
+  "sha256": "62b7511def54cd6f1261b2becd9810c1e32cafb397ae24ccf72fa4aedb222a7d",
+  "parts": [
+    {
+      "name": "part-001.bin",
+      "bytes": 10000,
+      "sha256": "ec6c63817b4cc7d8c0720537a1e14bbb84aa26746378228284ba94050202c131",
+      "git_blob": "20b924a2289e1315246083c49fc15e47f34e2915"
+    },
+    {
+      "name": "part-002.bin",
+      "bytes": 10000,
+      "sha256": "be8e870e559e7b412832facd9e34e77d2b33b5d687e5b9aa2b2bee9d9cb0795f",
+      "git_blob": "f5b84ae64c20ce36a86277cc6c1f5d67aabddfa0"
+    },
+    {
+      "name": "part-003.bin",
+      "bytes": 10000,
+      "sha256": "3ebc3d4beb41cd2158cdeb5ad69cbfa7267081c8cc3f73c971588114ef976399",
+      "git_blob": "5b00083e8dcbe782a76897ef328c3103c294db32"
+    },
+    {
+      "name": "part-004.bin",
+      "bytes": 6696,
+      "sha256": "c6e912279f59b19cbf7135b70117e31993d81c345173cf989769370289451c6f",
+      "git_blob": "ca6ee4a575ee6379d55831deac0dc31b895002f3"
+    }
+  ],
+  "members": 55,
+  "member_checksums": 54
+}

@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "baseline_head": "890fcf91aaf308e5dc86c91b5487aa81f2e849cd",
+  "source_ref": "ff9016bba2768e3825e69e8448b45b4937ef62fa",
+  "candidate": {
+    "package_sha256": "1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1",
+    "bytes": 225660,
+    "tree_sha256": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
+    "pre_tree": "83ae1351ab057f7cd768243c91060d2dc77e8fe0f5b378055437e47a110012b7",
+    "files": 67,
+    "changed": [
+      "file_delivery_content.js",
+      "file_delivery_worker_transport.js"
+    ],
+    "release_allowed": false
+  },
+  "changed_files": [
+    "file_delivery_content.js",
+    "file_delivery_worker_transport.js"
+  ],
+  "unchanged_files": 65,
+  "local_and_CI_node": {
+    "new_worker": 18,
+    "new_content": 12,
+    "previous_Send_and_context": 19,
+    "previous_full_worker": 20,
+    "CI_combined": 69,
+    "local_full_worker_contract_backup": 177,
+    "QA_cleanup_guard": 5,
+    "syntax": 61,
+    "fail_skip_cancel_final": 0,
+    "overlapping_sets": true
+  },
+  "browser": {
+    "pause": {
+      "pass_markers": 12,
+      "failed_markers": 0,
+      "observations": 0,
+      "cleanup": {
+        "case": "owned_browser_cleanup",
+        "status": "PASS",
+        "remaining": [],
+        "peak_owned_rss_kib": 1503468,
+        "resource_stop": false,
+        "failed": 0,
+        "independent_gate": false,
+        "release_allowed": false,
+        "time": "2026-09-12T14:24:36.256Z"
+      },
+      "raw_sha256": "c9f86f2a917ba5d855a9ca0fa5529ba7c593d794c1ed395b56a1f58791c7ade7"
+    },
+    "primary": {
+      "pass_markers": 16,
+      "failed_markers": 0,
+      "observations": 0,
+      "cleanup": {
+        "case": "owned_browser_cleanup",
+        "status": "PASS",
+        "remaining": [],
+        "peak_owned_rss_kib": 1837240,
+        "resource_stop": false,
+        "failed": 0,
+        "independent_gate": false,
+        "release_allowed": false,
+        "time": "2026-09-12T14:26:22.591Z"
+      },
+      "raw_sha256": "bfbedf799f22fd2ce9484948f8399da2d855c404e89b7b0700ce81057172154b"
+    },
+    "supplement": {
+      "pass_markers": 10,
+      "failed_markers": 0,
+      "observations": 1,
+      "cleanup": {
+        "case": "owned_browser_cleanup",
+        "status": "PASS",
+        "remaining": [],
+        "peak_owned_rss_kib": 1854284,
+        "resource_stop": false,
+        "failed": 0,
+        "independent_gate": false,
+        "release_allowed": false,
+        "time": "2026-09-12T14:27:16.458Z"
+      },
+      "raw_sha256": "2ae7467496bd5617ef84df4b1393aeb35676d3f4576fbd5c56f1a785ba08d9d2"
+    },
+    "remaining_initial": {
+      "pass_markers": 11,
+      "failed_markers": 1,
+      "observations": 8,
+      "cleanup": {
+        "case": "owned_browser_cleanup",
+        "status": "FAIL",
+        "remaining": [
+          5038
+        ],
+        "peak_owned_rss_kib": 1989380,
+        "resource_stop": false,
+        "failed": 0,
+        "release_allowed": false,
+        "time": "2026-09-12T14:29:05.802Z"
+      },
+      "raw_sha256": "0cc3b4df5878890e55faeec9d8bb8ef5ba14ceafe03de110a4b5ef58fe8258d3"
+    },
+    "remaining_recheck": {
+      "pass_markers": 12,
+      "failed_markers": 0,
+      "observations": 9,
+      "cleanup": {
+        "case": "owned_browser_cleanup",
+        "status": "PASS",
+        "remaining": [],
+        "initial_alive": 0,
+        "settlement_ms": 1,
+        "settlement_limit_ms": 2000,
+        "forced_kill": false,
+        "peak_owned_rss_kib": 2006660,
+        "resource_stop": false,
+        "failed": 0,
+        "release_allowed": false,
+        "time": "2026-09-12T14:35:28.668Z"
+      },
+      "raw_sha256": "185928f94e26d5a906bfc62011a124020d77a3a0e440d0aa807de21fd70fff04"
+    }
+  },
+  "artifacts": {
+    "primary": {
+      "run": 34699125356,
+      "id": 10299402884,
+      "bytes": 290523,
+      "sha256": "0a6b938c6d39392ed1f61f072bfc1ed5e590e99c207bc0bb2d9defebce1e5c3c",
+      "inner_hashes": 37,
+      "run_conclusion": "failure: immediate final cleanup only"
+    },
+    "recheck": {
+      "run": 34699614409,
+      "id": 10299841864,
+      "bytes": 19812,
+      "sha256": "32f58630f63c22d84a0b821005877acad35e98884db88031624a750a5bdd7e9e",
+      "inner_hashes": 11,
+      "run_conclusion": "success"
+    }
+  },
+  "memory": {
+    "measure": "whole Chrome process-tree RSS; not exclusive extension private bytes",
+    "peak_recheck_kib": 2006660,
+    "post_8x64MiB_kib": [
+      1843224,
+      1687448,
+      1838020,
+      1662372,
+      1660472,
+      1654948,
+      1661576,
+      1661616
+    ],
+    "nodes": [
+      61,
+      60,
+      59,
+      60,
+      60,
+      60,
+      60,
+      60
+    ],
+    "listeners": [
+      59,
+      47,
+      15,
+      47,
+      47,
+      47,
+      47,
+      47
+    ],
+    "forced_gc": false,
+    "watchdog_mib": 2048,
+    "universal_no_leak_claim": false
+  },
+  "first_failure_preserved": {
+    "PID": 5038,
+    "immediate_cleanup_live": 1,
+    "cause": "NOT_ESTABLISHED; asynchronous settlement hypothesis unproven",
+    "test_adaptation": "bounded2s diagnostic, no kill; product prefix unchanged; independent rerun immediate0"
+  },
+  "pause_boundary": "Local stop only; source/artifacts/outbox/unknown/accounting retained; no recall or destructive reset; committed attachment resume watch-only",
+  "real_provider_calls": 0,
+  "independent_gate": "NOT_RUN",
+  "release_allowed": false
+}
