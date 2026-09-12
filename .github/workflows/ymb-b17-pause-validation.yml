@@ -1,0 +1,147 @@
+name: YMB B17 local delivery pause qualification (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b17-pause-validation.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b17-pause-validation
+  cancel-in-progress: false
+jobs:
+  pause:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ff9016bba2768e3825e69e8448b45b4937ef62fa
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b16-corrected-internal-evidence
+          run-id: 34697155008
+          github-token: ${{ github.token }}
+          path: frozen-b16
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b14-qualified-internal-only
+          run-id: 34692833348
+          github-token: ${{ github.token }}
+          path: old-qa-only
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b15-corrected-internal-evidence
+          run-id: 34695092346
+          github-token: ${{ github.token }}
+          path: old-lock-only
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify exact inputs and apply only two delivery deltas
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import tarfile,hashlib,json,os,shutil
+          h=lambda b:hashlib.sha256(b).hexdigest()
+          root=Path(os.environ['RUNNER_TEMP'])/'b17';root.mkdir()
+          for folder in ('frozen-b16','old-qa-only','old-lock-only'):
+            p=Path(folder)
+            for line in (p/'SHA256SUMS').read_text().splitlines():
+              digest,n=line.split('  ',1);assert not PurePosixPath(n).is_absolute() and '..' not in PurePosixPath(n).parts;assert h((p/n).read_bytes())==digest
+          job=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12');a=job/'qa/B17_QA_INPUTS.tar.xz'
+          assert a.stat().st_size==8144 and h(a.read_bytes())=='ab8f51d16fb02be10b9a45b8814a9ecafc53fb262bd019bd65b1adab2e87fa93'
+          work=root/'work';work.mkdir()
+          with tarfile.open(a) as t:
+            ms=t.getmembers();assert len(ms)==5
+            assert all(m.isfile() and len(PurePosixPath(m.name).parts)==1 and m.name not in ('.','..') for m in ms)
+            files={m.name:t.extractfile(m).read() for m in ms};assert len(files)==5
+          for line in files['SHA256SUMS'].decode().splitlines():
+            digest,n=line.split('  ',1);assert h(files[n])==digest
+          for n,b in files.items():(work/n).write_bytes(b)
+          tmpjob=root/'job';(tmpjob/'evidence').mkdir(parents=True);(tmpjob/'qa').mkdir()
+          for n in ('file_delivery_content.js','file_delivery_worker_transport.js'):shutil.copyfile(job/'evidence'/('B17_'+n+'.diff'),tmpjob/'evidence'/('B17_'+n+'.diff'))
+          shutil.copyfile(work/'b17_browser_cases.js',tmpjob/'qa/b17_browser_cases.js')
+          qa=root/'qa_workspace';qa.mkdir()
+          with tarfile.open('old-qa-only/exact-qa-workspace.tar.xz') as t:
+            for m in t.getmembers():
+              p=PurePosixPath(m.name);assert not p.is_absolute() and '..' not in p.parts and (m.isfile() or m.isdir())
+            t.extractall(qa,filter='data')
+          deps=root/'deps';deps.mkdir();lock=json.loads(Path('old-lock-only/package-lock.json').read_text());shutil.copyfile('old-lock-only/package-lock.json',deps/'package-lock.json');(deps/'package.json').write_text(json.dumps({'name':lock['name'],'private':True,'dependencies':lock['packages']['']['dependencies']}))
+          evidence=root/'evidence';evidence.mkdir()
+          for n in ('pause','primary','supplement','remaining'):(evidence/n).mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'B17_ROOT={root}\nYMB_PPTR_HOME={deps}\nYMB_BROWSER_CANDIDATE={root}/generated/candidate\nYMB_FULL={root}/generated/candidate\nYMB_FILE_CONTENT={root}/generated/candidate/file_delivery_content.js\nYMB_IDB_FIXTURE={qa}/qa/qa/idb_artifact_fixture.mjs\n')
+          PY
+          R="$RUNNER_TEMP/b17"
+          python3 "$R/work/b17_prepare.py" frozen-b16 "$R/job" "$R/generated" > "$R/evidence/package.stdout"
+      - name: Exact Node dependencies and all JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          R="$B17_ROOT"
+          node --test "$R/work/b17_worker.test.mjs" "$R/work/b17_content.test.mjs" "$R/generated/tests/b15_send_race.test.mjs" "$R/generated/tests/b16_context.test.mjs" "$R/qa_workspace/qa/qa/b9_full_worker.test.mjs" > "$R/evidence/node69.tap" 2> "$R/evidence/node69.stderr"
+          find "$YMB_FULL" -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Reuse exact browser dependency lock
+        shell: bash
+        run: |
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$B17_ROOT/evidence/npm.stdout" 2> "$B17_ROOT/evidence/npm.stderr"
+      - name: New durable-pause controls and interrupted large-file preparation
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$B17_ROOT/evidence/pause"
+          node --check "$B17_ROOT/generated/tests/b17_browser.mjs"
+          xvfb-run -a node "$B17_ROOT/generated/tests/b17_browser.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Repeat affected primary file and real-IDB scale matrix
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$B17_ROOT/evidence/primary"
+          xvfb-run -a node "$B17_ROOT/generated/tests/b15_browser_qualification.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Repeat supplemental Send and corruption recovery
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$B17_ROOT/evidence/supplement"
+          xvfb-run -a node "$B17_ROOT/generated/tests/b15_browser_faults.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Repeat affected popup navigation resource and full-profile restart
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$B17_ROOT/evidence/remaining"
+          xvfb-run -a node "$B17_ROOT/generated/tests/b16.generated.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Persist immutable package and all partial evidence without profiles
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,shutil,hashlib,json
+          r=Path(os.environ['RUNNER_TEMP'])/'b17';out=Path(os.environ['RUNNER_TEMP'])/'b17-public-evidence';out.mkdir(exist_ok=True)
+          for n in ('candidate-b17-internal.zip','IDENTITY.json'):
+            if (r/'generated'/n).is_file():shutil.copyfile(r/'generated'/n,out/n)
+          for src,dest in ((r/'generated/tests',out/'tests'),(r/'work',out/'qa_inputs'),(r/'evidence',out/'logs')):
+            if src.is_dir():
+              for p in src.rglob('*'):
+                if p.is_file() and 'owned-profile' not in p.parts:
+                  q=dest/p.relative_to(src);q.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,q)
+          if (r/'deps/package-lock.json').is_file():shutil.copyfile(r/'deps/package-lock.json',out/'package-lock.json')
+          (out/'BOUNDARY.json').write_text(json.dumps({'source_ref':'ff9016bba2768e3825e69e8448b45b4937ef62fa','purpose':'development qualification; local pause NOT provider cancellation','candidate_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','live_provider_calls':0,'owner_profile_touched':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(out).as_posix()+'\n' for p in sorted(out.rglob('*')) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b17-pause-internal-evidence
+          path: ${{ runner.temp }}/b17-public-evidence/
+          retention-days: 90
+          if-no-files-found: error
