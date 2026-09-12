@@ -1,0 +1,18 @@
+{
+  "status": "BLOCKED",
+  "stage": "browser_fixture_navigation",
+  "error": "Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at isolated 127.0.0.1 origin",
+  "product_assertions_reached": 0,
+  "policy_observed": {
+    "URLBlocklist": [
+      "*"
+    ],
+    "ExtensionInstallBlocklist": [
+      "*"
+    ]
+  },
+  "policy_modified": false,
+  "browser_processes_left_running": false,
+  "source_sha256": "4145cbc91865c3151a34f8958640c6351bf6cb23a3a74441920d3517d483cba4",
+  "release_allowed": false
+}
