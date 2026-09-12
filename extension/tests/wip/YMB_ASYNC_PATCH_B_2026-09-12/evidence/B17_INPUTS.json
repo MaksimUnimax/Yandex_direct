@@ -1,0 +1,12 @@
+{
+  "baseline_head":"890fcf91aaf308e5dc86c91b5487aa81f2e849cd",
+  "pre_tree":"83ae1351ab057f7cd768243c91060d2dc77e8fe0f5b378055437e47a110012b7",
+  "post_tree":"b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
+  "changes":{
+    "file_delivery_content.js":{"pre":"655702fa5025e2a4dc87b2d2bb6647cf3b9c69bee88f4017150b35e8f511a9f2","post":"8177c2ce023875aab75a03f348426f09e6f70d8b6a65c9b99d1c38a6f4ee5dcc","diff_sha256":"3f257d7e3b966eed22178eb294f3821ea32659a3aa1016230bc45072e3af0785"},
+    "file_delivery_worker_transport.js":{"pre":"3babc596ad6ea8baa6400cdadeb719d8d60fbbed6172d692af25283656eec81c","post":"b9d87e44b43a352d6454a7ce1bb8ee3d36334302e8cafeb01924a046f5c4e43a","diff_sha256":"c2e36065366c7de34d649dc73e3f6483153fec4d4c5b08d606c093cb7dc4886d"}
+  },
+  "qa_archive_sha256":"ab8f51d16fb02be10b9a45b8814a9ecafc53fb262bd019bd65b1adab2e87fa93",
+  "qa_archive_bytes":8144,
+  "release_allowed":false
+}
