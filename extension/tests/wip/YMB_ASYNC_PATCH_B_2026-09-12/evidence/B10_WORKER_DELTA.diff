@@ -1,0 +1,185 @@
+--- a/search_async_worker_transport.js
++++ b/search_async_worker_transport.js
+@@ -136,6 +136,12 @@
+         runContextModel.assertServiceMatch(run.active_service, searchService);
+       }
+       const existing = await getManualOperation(key);
++      if (existing?.status === MANUAL_STATUS && existing.request_worker_session_id !== workerId &&
++        existing.conversation_key === key && existing.active_service === searchService &&
++        Number(existing.tab_id) === tabId && validId(existing.batch_job_id)) {
++        await recoverManualOperations({ key, tabId });
++        fail("ASYNC_RECOVERY_DELIVERY_PENDING", "Прерванная операция восстановлена без повторного запроса. Сначала завершите доставку её отчёта.");
++      }
+       if (existing && !TERMINAL.has(String(existing.status || ""))) fail("MANUAL_OPERATION_ACTIVE");
+       if (await getConversationOutbox(key)) fail("DELIVERY_IN_PROGRESS");
+       return { key, tabId, run };
+@@ -208,26 +214,63 @@
+       if (!["submitN","collectN"].includes(command.action)) fail("ASYNC_ACTION_INVALID");
+       await runtime.recover({ jobId, owner: key });
+       const kind = command.action === "submitN" ? "submit" : "collect";
+-      let confirmed = 0, unknown = false, processed = 0, normalized = 0, last = null;
++      if (!Number.isInteger(command.count) || command.count < 1 || command.count > 25) fail("ASYNC_SLICE_COUNT_INVALID");
++      const execution = context.execution = { confirmed: 0, unknown: false, in_flight: false, processed: 0, normalized: 0 };
++      let last = null;
++      const started = now();
+       for (let i = 0; i < command.count; i += 1) {
+-        last = await runtime.step({ jobId, owner: key, kind, attemptId: `${operation.operation_id}-${kind}-${i}` });
+-        processed += 1;
+-        if (last.request_executed === true) confirmed += 1;
+-        if (last.request_executed === "UNKNOWN") unknown = true;
+-        if (kind === "collect" && last.outcome === "received" && Number.isInteger(last.index)) {
++        const elapsed = now() - started;
++        if (elapsed < 0 || elapsed >= 10000) break;
++        // Revalidate BEFORE entering the uncertain network window. A later local
++        // exception cannot erase an already confirmed request from this command.
++        const live = await getManualOperation(key);
++        if (live?.operation_id !== operation.operation_id) fail("ASYNC_MANUAL_OPERATION_CHANGED");
++        await manualAuthority({ key, operation: live, folderId, action: kind });
++        execution.in_flight = true;
++        try { await saveExecution(context); }
++        catch (error) { execution.in_flight = false; throw error; } // No runtime/fetch entered.
++        try {
++          last = await runtime.step({ jobId, owner: key, kind, attemptId: `${operation.operation_id}-${kind}-${i}` });
++        } catch (error) {
++          execution.in_flight = false;
++          if (error?.request_executed === true) execution.confirmed++;
++          else if (error?.request_executed !== false) execution.unknown = true;
++          throw error;
++        }
++        execution.in_flight = false;
++        execution.processed++;
++        if (last.request_executed === true) execution.confirmed++;
++        if (last.request_executed === "UNKNOWN") execution.unknown = true;
++        await saveExecution(context);
++        // searchAsync may already return a complete result; no GET is needed.
++        if (last.outcome === "received" && Number.isInteger(last.index)) {
+           const n = await runtime.normalizeSaved({ jobId, owner: key, index: last.index });
+-          if (n?.ok) normalized += 1;
++          if (n?.ok) execution.normalized++;
++          else last = { ...last, ok: false, stop: true, code: n?.code || "ASYNC_NORMALIZATION_FAILED" };
+         }
++        if (last.outcome === "provider_error") last = { ...last, ok: false, stop: true, code: last.code || "ASYNC_PROVIDER_OPERATION_FAILED" };
+         if (last.stop) break;
+       }
+       return {
+         ok: last?.ok !== false,
+-        request_executed: unknown ? "UNKNOWN" : (confirmed > 0 ? true : false),
+-        provider_calls: confirmed,
+-        processed, normalized,
++        request_executed: executionOutcome(execution),
++        provider_calls: execution.confirmed,
++        processed: execution.processed, normalized: execution.normalized,
++        bounded_stop: execution.processed < command.count,
+         last: last ? { outcome: last.outcome || null, code: last.code || null, index: Number.isInteger(last.index) ? last.index : null, operation_id: last.operation_id || null } : null,
+         progress: compactSummary(await store.getSummary(jobId, key))
+       };
++    }
++
++    function executionOutcome(execution) {
++      return execution?.unknown || execution?.in_flight ? "UNKNOWN" : Number(execution?.confirmed || 0) > 0;
++    }
++
++    async function saveExecution(context) {
++      const current = await getManualOperation(context.key);
++      if (current?.operation_id !== context.operation.operation_id) fail("ASYNC_MANUAL_OPERATION_CHANGED");
++      await setManualOperation(context.key, { ...current, request_executed: executionOutcome(context.execution),
++        execution_receipt: { ...context.execution }, execution_updated_at: nowIso() });
+     }
+ 
+     function report(command, result) {
+@@ -251,7 +294,7 @@
+       const operation = {
+         operation_id: uid("manual"), request_token: token, conversation_key: key, tab_id: tabId,
+         active_service: searchService, run_id: run?.status === autorunModel.RUN_STATUSES.PAUSED ? run.run_id : null,
+-        status: MANUAL_STATUS, batch_action: command?.action || null, batch_job_id: command?.jobId || null,
++        status: MANUAL_STATUS, request_worker_session_id: workerId, batch_action: command?.action || null, batch_job_id: command?.jobId || null,
+         folder_id: credential.folder_id, created_at: nowIso(), request_executed: false
+       };
+       await setManualOperation(key, operation);
+@@ -263,8 +306,11 @@
+         result = await executeCommand(command, exportContext);
+         reportText = report(command, result);
+       } catch (error) {
+-        const requestExecuted = error?.request_executed ?? false;
+-        result = { ok: false, code: error.code || "ASYNC_COMMAND_FAILED", error: error.message || String(error), request_executed: requestExecuted, provider_calls: 0 };
++        const prior = executionOutcome(exportContext.execution);
++        const requestExecuted = prior === "UNKNOWN" || error?.request_executed === "UNKNOWN" ? "UNKNOWN"
++          : prior === true || error?.request_executed === true;
++        result = { ok: false, code: error.code || "ASYNC_COMMAND_FAILED", error: error.message || String(error), request_executed: requestExecuted,
++          provider_calls: Number(exportContext.execution?.confirmed || 0) };
+         reportText = formatBridgeError({ code: result.code, message: result.error, stage: "SEARCH_ASYNC_MANUAL", requestExecuted, service: searchService, channel: "manual", recoverable: requestExecuted !== "UNKNOWN", operation: command ? `async.${command.action}` : null, operationId: operation.operation_id, autorunContinues: false });
+       }
+       const requestExecuted = result.request_executed ?? false;
+@@ -286,7 +332,9 @@
+         }
+         throw error;
+       }
+-      await setManualOperation(key, { ...operation, status: "delivering", delivery_id: deliveryId, request_executed: requestExecuted, report_ready_at: nowIso() });
++      const finalOperation = await getManualOperation(key);
++      if (finalOperation?.operation_id !== operation.operation_id) fail("ASYNC_MANUAL_OPERATION_CHANGED");
++      await setManualOperation(key, { ...finalOperation, status: "delivering", delivery_id: deliveryId, request_executed: requestExecuted, report_ready_at: nowIso() });
+       return { ok: true, accepted: true, operation_id: operation.operation_id, delivery_id: deliveryId, report_text: prefix.text, request_executed: requestExecuted };
+     }
+ 
+@@ -300,8 +348,39 @@
+       try { return await executeManualUnlocked(...args); } finally { manualExecuting = false; }
+     }
+ 
+-    async function recoverManualOperations() {
+-      return { ok: true, request_executed: false };
++    async function recoverManualOperations({ key, tabId } = {}) {
++      // Explicit trusted Manual preflight only. No startup scan and no provider work.
++      const operation = await getManualOperation(key);
++      if (!operation || operation.status !== MANUAL_STATUS || operation.request_worker_session_id === workerId ||
++        operation.conversation_key !== key || Number(operation.tab_id) !== tabId || !validId(operation.batch_job_id)) fail("ASYNC_RECOVERY_NOT_OWNED");
++      const existing = await getConversationOutbox(key);
++      if (existing) {
++        if (existing.type !== "manual" || existing.operation_id !== operation.operation_id) fail("DELIVERY_IN_PROGRESS");
++        await setManualOperation(key, { ...operation, status: "delivering", delivery_id: existing.delivery_id,
++          request_executed: existing.provider_executions === null || operation.request_executed === "UNKNOWN" ? "UNKNOWN"
++            : Number(existing.provider_executions || 0) > 0 || operation.request_executed === true,
++          recovered_at: nowIso() });
++        return { ok: true, request_executed: false, existing_delivery: true };
++      }
++      await manualAuthority({ key, operation, folderId: operation.folder_id, action: "recover" });
++      let recoveryError = null;
++      try { await runtime.recover({ jobId: operation.batch_job_id, owner: key }); }
++      catch (error) { recoveryError = error?.code || "ASYNC_RECOVERY_STORAGE_FAILED"; }
++      const receipt = operation.execution_receipt;
++      const mayHaveSent = ["submitN", "collectN"].includes(operation.batch_action);
++      // An old snapshot without a receipt is not proof of zero paid requests.
++      const executed = receipt ? executionOutcome(receipt) : mayHaveSent ? "UNKNOWN" : (operation.request_executed ?? false);
++      const deliveryId = uid("delivery");
++      const text = formatBridgeError({ code: recoveryError || "ASYNC_OPERATION_INTERRUPTED_NO_REPLAY",
++        message: "Восстановлено сохранённое состояние прерванной операции. Повторных запросов и повторной отправки сообщения не выполнялось.",
++        stage: "SEARCH_ASYNC_RECOVERY", requestExecuted: executed, service: searchService, channel: "manual",
++        recoverable: executed !== "UNKNOWN", operation: `async.${operation.batch_action}`, operationId: operation.operation_id, autorunContinues: false });
++      await putOutbox(key, { delivery_id: deliveryId, operation_id: operation.operation_id, type: "manual", tab_id: tabId,
++        report_text: text, phase: "claimed", provider_executions: executed === "UNKNOWN" ? null : Number(receipt?.confirmed || 0),
++        report_prefix_applied: false, created_at: nowIso() });
++      await setManualOperation(key, { ...operation, status: "delivering", delivery_id: deliveryId,
++        request_executed: executed, recovered_at: nowIso() });
++      return { ok: true, request_executed: false, existing_delivery: false };
+     }
+ 
+     return Object.freeze({ executeManual, executeCommand, discover, recoverManualOperations, report, providerEnabled });
+@@ -340,7 +419,7 @@
+       ordinaryDiscovery: text => globalThis.YMBSearchBatchTransport?.discover?.(text, globalThis.YMBBlockCommandDiscovery, globalThis.YMBServiceRegistry) || [],
+       putOutbox, formatBridgeError, applyPrefixToReport, uid, nowIso,
+       runContextModel: globalThis.YMBRunContextModel, autorunModel: globalThis.WordstatAutorunModel,
+-      workerId: `${WORKER_SESSION_ID}-search-async`, fetchImpl: fetch.bind(globalThis), providerEnabled
++      workerId: WORKER_SESSION_ID, fetchImpl: fetch.bind(globalThis), providerEnabled
+     });
+     executeManualBlock = worker.executeManual;
+     return Object.freeze({ ready: true, worker, providerEnabled });
+--- a/search_admission_worker_binding.js
++++ b/search_admission_worker_binding.js
+@@ -141,7 +141,7 @@
+       getPolicy: policyGetter,
+       getSettings: settingsGetter,
+       getAutoRun: runGetter,
+-      workerId: `${sessionId}:search-admission`,
++      workerId: sessionId,
+       publishRunTotals
+     });
+     const guard = LegacyFactory.create({ policy, resolveContext: resolver.resolveContext });
