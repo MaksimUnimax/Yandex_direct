@@ -1,0 +1,18 @@
+check_id	failure_class	evidence_scope	expected	observed	result	blocking_if_fail
+W10R001	F03_PROVIDER_SUCCESS_NOT_DURABLE_COMPLETION	all Step03 carriers + E013	Durable RAW/provenance required	96 Step03 RAW-tree files byte-read; E013 RAW hash and row arrays verified	PASS	YES
+W10R002	F03B1_OPERATOR_OR_LEXICAL_MATCH_NOT_SEMANTIC_TRUTH	candidate and reuse rows	Operators isolate scope only	Candidate collision guard requires later Step03A/03B; no semantic truth inferred	PASS	YES
+W10R003	F03B4_AMBIGUITY_PRESERVED	24576 W09 identities	No ambiguity flattening	All full-volume signal/audit rows read; accepted W09 states and collisions preserved	PASS	YES
+W10R004	F04_3_CURRENT_UPSTREAM_AUTHORITY_PROPAGATED	accepted W09 manifest	All W09 artifacts hash-verified	12/12 W09 artifact hashes verified; 24576/25979 joins exact	PASS	YES
+W10R005	F05_1_DUPLICATE_DURABLE_EVIDENCE_PREVENTED	13 queue rows	No duplicate reprobes	PSQ001/004 closed by exact probes; PSQ006/007/008/010 reuse only; duplicate reprobes=0	PASS	YES
+W10R006	F05_2_OWNER_FACT_NOT_SENT_TO_SEARCH_PROVIDER	PSQ002/003/009/012/013	Owner-fact candidates=0	Five owner-fact rows have candidate NONE	PASS	YES
+W10R007	F06_PRELIMINARY_FAMILY_NOT_FINAL_CLUSTER_OR_PAGE	all outputs	No final intent/SERP/page claims	All later routing remains explicit; Step06 not started	PASS	YES
+W10R008	WORK_BASE_FRESHNESS_AND_AUTHORITY_DRIFT	remote branch	Start and pre-publication heads recorded; drift classified	start=7ceec096dad6703b5dffede3271019f55946d75d; prepub=7ceec096dad6703b5dffede3271019f55946d75d; changed_paths=0	PASS	YES
+W10R009	PSQ006_REPROBE_FALSE	PSQ006	No candidate/reprobe	candidate=NONE; reuse register present	PASS	YES
+W10R010	PSQ007_REPROBE_FALSE	PSQ007	No candidate/reprobe	candidate=NONE; reuse register present	PASS	YES
+W10R011	PSQ008_REPROBE_FALSE	PSQ008	No candidate/reprobe	candidate=NONE; reuse register present	PASS	YES
+W10R012	PSQ010_REPROBE_FALSE	PSQ010	No candidate/reprobe	candidate=NONE; reuse register present	PASS	YES
+W10R013	E013_BLIND_REPLAY_FALSE	PSQ010/W10E008	No replay	Existing hash-verified E013 reused	PASS	YES
+W10R014	OWNER_FACT_ROWS_PROVIDER_CANDIDATES_ZERO	five owner rows	0	0	PASS	YES
+W10R015	PSQ011_PROVIDER_CANDIDATE_FALSE	PSQ011	false	false	PASS	YES
+W10R016	PROVIDER_CALLS_ZERO	W10 execution	0	0	PASS	YES
+W10R017	STEP06_STARTED_FALSE	roadmap boundary	false	false	PASS	YES
