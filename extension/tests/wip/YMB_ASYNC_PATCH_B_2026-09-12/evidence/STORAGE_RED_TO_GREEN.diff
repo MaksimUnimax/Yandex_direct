@@ -1,0 +1,39 @@
+--- a/search_async_store.js
++++ b/search_async_store.js
+@@ -30,6 +30,7 @@
+           s.createIndex("operation", "operation_id", { unique: true });
+         }
+         if (!db.objectStoreNames.contains("results")) db.createObjectStore("results", { keyPath: ["job_id", "index"] });
++        if (!db.objectStoreNames.contains("attempts")) db.createObjectStore("attempts", { keyPath: ["job_id", "attempt_id"] });
+       };
+       r.onsuccess = () => { const db = r.result; db.onversionchange = () => db.close(); resolve(db); };
+       r.onerror = () => reject(r.error || new Error("ASYNC_IDB_OPEN_FAILED"));
+@@ -112,8 +113,9 @@
+   async function claim({ jobId, owner, workerId, attemptId, kind, now }) {
+     if (!["submit", "collect"].includes(kind)) fail("ASYNC_CLAIM_KIND_INVALID");
+     text(workerId); text(attemptId); uint(now);
+-    return transaction(["jobs", "items"], "readwrite", async (tx) => {
+-      const job = await jobFor(tx, jobId, owner);
++    return transaction(["jobs", "items", "attempts"], "readwrite", async (tx) => {
++      const job = await jobFor(tx, jobId, owner);
++      if (await req(tx.objectStore("attempts").get([jobId, attemptId]))) return { allowed: false, reason: "DUPLICATE_ATTEMPT" };
+       if (job.lease) return { allowed: false, reason: "ITEM_ACTIVE" };
+       if (job.control === "PAUSED") return { allowed: false, reason: "PAUSED" };
+       if (kind === "submit") {
+@@ -132,6 +134,7 @@
+       if (kind === "submit") { job.requests_started++; job.reserved_microrub += job.unit_cost_microrub; }
+       else { job.polls_started++; item.poll_count++; }
+       job.lease = { token: attemptId, worker: workerId, kind, index: item.index, started_at: now };
++      tx.objectStore("attempts").add({ job_id: jobId, attempt_id: attemptId, kind, index: item.index, created_at: now });
+       save(tx, job, item, now);
+       return { allowed: true, item, folder_id: job.folder_id, parameters: job.parameters, progress: summary(job) };
+     });
+@@ -227,7 +230,7 @@
+     if (!["pause", "resume", "cancelPending"].includes(action)) fail("ASYNC_CONTROL_INVALID");
+     return transaction(["jobs", "items"], "readwrite", async (tx) => {
+       const job = await jobFor(tx, jobId, owner);
+-      if (action === "resume" && job.control === "CANCELLED") fail("ASYNC_CANCELLED_NO_RESUME");
++      if (action !== "cancelPending" && job.control === "CANCELLED") fail("ASYNC_CANCELLED_NO_RESUME");
+       job.control = action === "pause" ? "PAUSED" : action === "resume" ? "RUNNING" : "CANCELLED";
+       if (action === "cancelPending") {
+         const r = tx.objectStore("items").index("state").openCursor(IDBKeyRange.bound([jobId, "PENDING", 0], [jobId, "PENDING", MAX_INDEX]));
