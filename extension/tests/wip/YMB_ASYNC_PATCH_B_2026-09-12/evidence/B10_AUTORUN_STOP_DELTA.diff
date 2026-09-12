@@ -1,0 +1,17 @@
+--- a/service_worker.js
++++ b/service_worker.js
+@@ -966,6 +966,14 @@
+       autorunContinues: true
+     });
+   }
++  if (run.active_service === "search" && result.stop_required === true) {
++    // Preserve a received answer, but do not ask Autorun for another command
++    // when the shared accounting transaction could not be completed.
++    await patchAutoRun(key, (r) => ({ ...r, pause_requested: true,
++      last_error: { code: result.admission_warning || "SHARED_ADMISSION_SETTLEMENT_FAILED",
++        message: "Учёт Search требует проверки; дальнейшие автоматические запросы остановлены.",
++        request_executed: result.request_executed ?? "UNKNOWN", automatic_retry: false } }));
++  }
+   const prefixResult = await applyPrefixToReport(key, result.report_text);
+   const outgoingText = prefixResult.text;
+   const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: outgoingText, phase: "claimed", report_prefix_applied: prefixResult.applied === true, created_at: nowIso() }); await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: deliveryId, phase: "claimed", request_id: result.request_id, outgoing_text: outgoingText, report_prefix_applied: prefixResult.applied === true } })); return { ok: true, accepted: true, report_text: outgoingText, result };
