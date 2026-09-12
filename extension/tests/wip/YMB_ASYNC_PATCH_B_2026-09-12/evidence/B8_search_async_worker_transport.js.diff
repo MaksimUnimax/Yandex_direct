@@ -1,0 +1,124 @@
+--- a/search_async_worker_transport.js
++++ b/search_async_worker_transport.js
+@@ -15,6 +15,8 @@
+       baseExecuteManualBlock,
+       protocol,
+       store,
++      exportFactory,
++      artifactStore,
+       runtime: suppliedRuntime,
+       runtimeFactory,
+       transportFactory,
+@@ -69,7 +71,7 @@
+         requestId: operation.operation_id
+       });
+       if (!resolved?.authorized || resolved.owner !== key || resolved.channel !== "manual") fail("ASYNC_MANUAL_AUTHORITY_REJECTED");
+-      if (action && !["start","submit","collect","submitN","collectN","normalize","recover","status","itemsPage","pause","resume","cancelPending"].includes(action)) fail("ASYNC_ACTION_INVALID");
++      if (action && !["start","submit","collect","submitN","collectN","normalize","recover","status","itemsPage","pause","resume","cancelPending","exportPage"].includes(action)) fail("ASYNC_ACTION_INVALID");
+       return true;
+     }
+ 
+@@ -180,6 +182,22 @@
+         });
+         return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(progress) };
+       }
++      if (command.action === "exportPage") {
++        if (!exportFactory?.create || !artifactStore || !context.deliveryId || !context.staged) fail("ASYNC_EXPORT_NOT_READY");
++        const exporter = exportFactory.create({ store, artifacts: artifactStore, now,
++          authorize: async ({ jobId: checkedJob, owner, action }) => {
++            if (owner !== key || checkedJob !== jobId || action !== "exportPage") return false;
++            const live = await getManualOperation(key);
++            if (live?.operation_id !== operation.operation_id || live?.batch_job_id !== jobId) return false;
++            return manualAuthority({ key, operation: live, folderId, action });
++          }
++        });
++        context.exporter = exporter;
++        const exported = await exporter.stagePage({ jobId, owner: key, folderId,
++          deliveryId: context.deliveryId, after: command.after, limit: command.limit, revision: command.revision });
++        context.staged.push(exported.descriptor);
++        return { ok: true, request_executed: false, provider_calls: 0, export_page: exported.report };
++      }
+       if (command.action === "status") return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(await store.getSummary(jobId, key)) };
+       if (command.action === "itemsPage") return { ok: true, request_executed: false, provider_calls: 0, page: compactRows(await store.pageItems(jobId, key, { after: command.after, limit: command.limit })) };
+       if (["pause","resume","cancelPending"].includes(command.action)) {
+@@ -216,7 +234,7 @@
+       return `${RESULT_PREFIX}\n${JSON.stringify({ action: command?.action || null, job_id: command?.jobId || null, ...result })}`;
+     }
+ 
+-    async function executeManual(blockText, conversationKey, sender, manualRequestToken = "") {
++    async function executeManualUnlocked(blockText, conversationKey, sender, manualRequestToken = "") {
+       const found = discover(blockText);
+       if (!found.async) return baseExecuteManualBlock(blockText, conversationKey, sender, manualRequestToken);
+       let preflight;
+@@ -237,10 +255,12 @@
+         folder_id: credential.folder_id, created_at: nowIso(), request_executed: false
+       };
+       await setManualOperation(key, operation);
++      const deliveryId = uid("delivery");
++      const exportContext = { key, operation, folderId: credential.folder_id, deliveryId, staged: [] };
+       let result, reportText;
+       try {
+         if (found.error) throw found.error;
+-        result = await executeCommand(command, { key, operation, folderId: credential.folder_id });
++        result = await executeCommand(command, exportContext);
+         reportText = report(command, result);
+       } catch (error) {
+         const requestExecuted = error?.request_executed ?? false;
+@@ -249,14 +269,35 @@
+       }
+       const requestExecuted = result.request_executed ?? false;
+       const prefix = result.provider_calls > 0 ? await applyPrefixToReport(key, reportText) : { text: reportText, applied: false };
+-      const deliveryId = uid("delivery");
+-      await putOutbox(key, {
++      try { await putOutbox(key, {
+         delivery_id: deliveryId, operation_id: operation.operation_id, type: "manual", tab_id: tabId,
+         report_text: prefix.text, phase: "claimed", provider_executions: requestExecuted === "UNKNOWN" ? null : Number(result.provider_calls || 0),
+-        report_prefix_applied: prefix.applied === true, created_at: nowIso()
+-      });
++        report_prefix_applied: prefix.applied === true, created_at: nowIso(),
++        ...(exportContext.staged.length ? { delivery_mode: "attachment_v2", artifact_descriptors: exportContext.staged } : {})
++      }); } catch (error) {
++        // A storage error may occur AFTER the outbox was written. Keep that artifact
++        // for the existing delivery recovery; delete only if readback proves no commit.
++        if (exportContext.staged.length) {
++          let pending, readable = false;
++          try { pending = await getConversationOutbox(key); readable = true; } catch {}
++          if (readable && pending?.delivery_id !== deliveryId) {
++            for (const descriptor of exportContext.staged) await exportContext.exporter.discard(descriptor);
++          }
++        }
++        throw error;
++      }
+       await setManualOperation(key, { ...operation, status: "delivering", delivery_id: deliveryId, request_executed: requestExecuted, report_ready_at: nowIso() });
+       return { ok: true, accepted: true, operation_id: operation.operation_id, delivery_id: deliveryId, report_text: prefix.text, request_executed: requestExecuted };
++    }
++
++    // Same-worker concurrent Manual invocations must not replace each other's
++    // durable operation while export is staging. Other legacy blocks still delegate.
++    let manualExecuting = false;
++    async function executeManual(...args) {
++      if (!String(args[0] || "").includes(PREFIX)) return baseExecuteManualBlock(...args);
++      if (manualExecuting) return { ok: false, accepted: false, code: "MANUAL_OPERATION_ACTIVE", request_executed: false };
++      manualExecuting = true;
++      try { return await executeManualUnlocked(...args); } finally { manualExecuting = false; }
+     }
+ 
+     async function recoverManualOperations() {
+@@ -285,6 +326,8 @@
+       baseExecuteManualBlock: executeManualBlock,
+       protocol: globalThis.SearchAsyncProtocol,
+       store: globalThis.YMBSearchAsyncStore,
++      exportFactory: globalThis.YMBSearchAsyncExport,
++      artifactStore: globalThis.YMBFileArtifactStore,
+       runtimeFactory: globalThis.YMBSearchAsyncRuntime,
+       transportFactory: globalThis.YMBSearchAsyncTransport,
+       normalizerFactory: globalThis.YMBSearchAsyncNormalizer,
+@@ -297,7 +340,7 @@
+       ordinaryDiscovery: text => globalThis.YMBSearchBatchTransport?.discover?.(text, globalThis.YMBBlockCommandDiscovery, globalThis.YMBServiceRegistry) || [],
+       putOutbox, formatBridgeError, applyPrefixToReport, uid, nowIso,
+       runContextModel: globalThis.YMBRunContextModel, autorunModel: globalThis.WordstatAutorunModel,
+-      workerId: `${WORKER_SESSION_ID}:search-async`, fetchImpl: fetch.bind(globalThis), providerEnabled
++      workerId: `${WORKER_SESSION_ID}-search-async`, fetchImpl: fetch.bind(globalThis), providerEnabled
+     });
+     executeManualBlock = worker.executeManual;
+     return Object.freeze({ ready: true, worker, providerEnabled });
