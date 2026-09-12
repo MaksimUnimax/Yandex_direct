@@ -1,0 +1,15 @@
+--- a/shared/phase3_provider_runtime.js
++++ b/shared/phase3_provider_runtime.js
+@@ -63,6 +63,12 @@
+       const payload = Protocol.safeErrorPayload(response.status, text, parsed);
+       const envelope = Protocol.buildResultEnvelope({ requestId, command: normalized, httpStatus: response.status, elapsedMs: elapsed(started), result: { error: payload }, metadata: { ...metadata, status: "ERROR", reason: payload.code, request_executed: true, automatic_retry: false } });
+       return { ok: false, http_status: response.status, request_id: requestId, request_executed: true, automatic_retry: false, report_envelope: envelope, report_text: Protocol.formatResultEnvelope(envelope) };
++    }
++    // HTTP success alone is not a usable Wordstat response. Keep the existing
++    // Search/GenSearch parser and all non-2xx handling unchanged. This checks
++    // only the documented JSON object envelope, not optional result fields.
++    if (!isSearch && (!parsed || typeof parsed !== "object" || Array.isArray(parsed))) {
++      throw executionError(Object.assign(new Error("Wordstat вернул некорректный JSON-ответ."), { code: "INVALID_WORDSTAT_RESPONSE" }), true);
+     }
+     let result = parsed;
+     if (isSearch) {
