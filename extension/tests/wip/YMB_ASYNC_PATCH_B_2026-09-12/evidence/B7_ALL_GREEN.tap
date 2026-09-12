@@ -1,0 +1,298 @@
+TAP version 13
+# Subtest: manual trusted state resolves from durable operation, not arbitrary metadata job ids
+ok 1 - manual trusted state resolves from durable operation, not arbitrary metadata job ids
+  ---
+  duration_ms: 6.110963
+  type: 'test'
+  ...
+# Subtest: manual claimed channel mismatch fails closed
+ok 2 - manual claimed channel mismatch fails closed
+  ---
+  duration_ms: 1.202017
+  type: 'test'
+  ...
+# Subtest: manual enabled without live operation fails closed
+ok 3 - manual enabled without live operation fails closed
+  ---
+  duration_ms: 0.795649
+  type: 'test'
+  ...
+# Subtest: manual delivering state cannot authorize a new provider call
+ok 4 - manual delivering state cannot authorize a new provider call
+  ---
+  duration_ms: 0.575891
+  type: 'test'
+  ...
+# Subtest: manual active service must remain search
+ok 5 - manual active service must remain search
+  ---
+  duration_ms: 0.545585
+  type: 'test'
+  ...
+# Subtest: binding is mandatory
+ok 6 - binding is mandatory
+  ---
+  duration_ms: 0.405913
+  type: 'test'
+  ...
+# Subtest: live owner tab identity is mandatory
+ok 7 - live owner tab identity is mandatory
+  ---
+  duration_ms: 0.67575
+  type: 'test'
+  ...
+# Subtest: paused autorun used by manual must match run, service and owner tab
+ok 8 - paused autorun used by manual must match run, service and owner tab
+  ---
+  duration_ms: 0.668859
+  type: 'test'
+  ...
+# Subtest: manual run id from metadata must equal durable operation
+ok 9 - manual run id from metadata must equal durable operation
+  ---
+  duration_ms: 3.785206
+  type: 'test'
+  ...
+# Subtest: manual paused run mismatch fails closed
+ok 10 - manual paused run mismatch fails closed
+  ---
+  duration_ms: 1.063564
+  type: 'test'
+  ...
+# Subtest: autorun resolves only current requesting run owned by this worker session
+ok 11 - autorun resolves only current requesting run owned by this worker session
+  ---
+  duration_ms: 0.642776
+  type: 'test'
+  ...
+# Subtest: autorun missing run id fails closed
+ok 12 - autorun missing run id fails closed
+  ---
+  duration_ms: 0.494997
+  type: 'test'
+  ...
+# Subtest: autorun worker session mismatch fails closed
+ok 13 - autorun worker session mismatch fails closed
+  ---
+  duration_ms: 0.601411
+  type: 'test'
+  ...
+# Subtest: autorun non-requesting or terminal run fails closed
+ok 14 - autorun non-requesting or terminal run fails closed
+  ---
+  duration_ms: 0.50456
+  type: 'test'
+  ...
+# Subtest: metadata cannot create credential-check authority through resolver
+ok 15 - metadata cannot create credential-check authority through resolver
+  ---
+  duration_ms: 0.244042
+  type: 'test'
+  ...
+# Subtest: unavailable guard always fails closed without network callback contract
+ok 16 - unavailable guard always fails closed without network callback contract
+  ---
+  duration_ms: 0.366679
+  type: 'test'
+  ...
+# Subtest: install composes resolver, policy and legacy guard without exposing chat metadata as authority
+ok 17 - install composes resolver, policy and legacy guard without exposing chat metadata as authority
+  ---
+  duration_ms: 0.779007
+  type: 'test'
+  ...
+# Subtest: search batch manual state resolves to durable manual operation and ignores batch metadata authority
+ok 18 - search batch manual state resolves to durable manual operation and ignores batch metadata authority
+  ---
+  duration_ms: 0.293694
+  type: 'test'
+  ...
+# Subtest: B7 bootstrap is exact B6 plus one deferred import block
+ok 19 - B7 bootstrap is exact B6 plus one deferred import block
+  ---
+  duration_ms: 2.480658
+  type: 'test'
+  ...
+# Subtest: deferred modules load only after shared Search guard binding
+ok 20 - deferred modules load only after shared Search guard binding
+  ---
+  duration_ms: 0.391085
+  type: 'test'
+  ...
+# Subtest: operation host permission is deliberately absent at B7
+ok 21 - operation host permission is deliberately absent at B7
+  ---
+  duration_ms: 0.286512
+  type: 'test'
+  ...
+# Subtest: existing Search API host remains present
+ok 22 - existing Search API host remains present
+  ---
+  duration_ms: 0.355652
+  type: 'test'
+  ...
+# Subtest: non-async block delegates unchanged base Manual handler
+ok 23 - non-async block delegates unchanged base Manual handler
+  ---
+  duration_ms: 4.635756
+  type: 'test'
+  ...
+# Subtest: factory fails closed when shared admission is not ready
+ok 24 - factory fails closed when shared admission is not ready
+  ---
+  duration_ms: 1.907498
+  type: 'test'
+  ...
+# Subtest: multiple async commands rejected without runtime/provider
+ok 25 - multiple async commands rejected without runtime/provider
+  ---
+  duration_ms: 2.36161
+  type: 'test'
+  ...
+# Subtest: mixed ordinary+async command rejected without runtime/provider
+ok 26 - mixed ordinary+async command rejected without runtime/provider
+  ---
+  duration_ms: 0.65638
+  type: 'test'
+  ...
+# Subtest: Manual disabled rejects before job or runtime
+ok 27 - Manual disabled rejects before job or runtime
+  ---
+  duration_ms: 1.083302
+  type: 'test'
+  ...
+# Subtest: wrong active service rejects before job or runtime
+ok 28 - wrong active service rejects before job or runtime
+  ---
+  duration_ms: 0.443053
+  type: 'test'
+  ...
+# Subtest: unbound or wrong live tab rejects before job
+ok 29 - unbound or wrong live tab rejects before job
+  ---
+  duration_ms: 0.456682
+  type: 'test'
+  ...
+# Subtest: non-paused active Autorun blocks Manual deferred command
+ok 30 - non-paused active Autorun blocks Manual deferred command
+  ---
+  duration_ms: 0.467957
+  type: 'test'
+  ...
+# Subtest: active Manual operation blocks another deferred command
+ok 31 - active Manual operation blocks another deferred command
+  ---
+  duration_ms: 1.017791
+  type: 'test'
+  ...
+# Subtest: existing outbox blocks command
+ok 32 - existing outbox blocks command
+  ---
+  duration_ms: 1.411417
+  type: 'test'
+  ...
+# Subtest: start binds policy then creates per-item job without provider call
+ok 33 - start binds policy then creates per-item job without provider call
+  ---
+  duration_ms: 7.924575
+  type: 'test'
+  ...
+# Subtest: start records durable search_async_requesting operation before authority check
+ok 34 - start records durable search_async_requesting operation before authority check
+  ---
+  duration_ms: 0.587058
+  type: 'test'
+  ...
+# Subtest: status uses owner-bound job and no provider call
+ok 35 - status uses owner-bound job and no provider call
+  ---
+  duration_ms: 0.685829
+  type: 'test'
+  ...
+# Subtest: itemsPage strips query/raw fields and stays compact at 100 rows
+ok 36 - itemsPage strips query/raw fields and stays compact at 100 rows
+  ---
+  duration_ms: 1.240154
+  type: 'test'
+  ...
+# Subtest: pause is local control with zero provider calls
+ok 37 - pause is local control with zero provider calls
+  ---
+  duration_ms: 6.514514
+  type: 'test'
+  ...
+# Subtest: resume is local control with zero provider calls
+ok 38 - resume is local control with zero provider calls
+  ---
+  duration_ms: 0.836269
+  type: 'test'
+  ...
+# Subtest: cancelPending is local control with zero provider calls
+ok 39 - cancelPending is local control with zero provider calls
+  ---
+  duration_ms: 0.655259
+  type: 'test'
+  ...
+# Subtest: submitN fails closed before runtime when operation-host capability is disabled
+ok 40 - submitN fails closed before runtime when operation-host capability is disabled
+  ---
+  duration_ms: 0.470996
+  type: 'test'
+  ...
+# Subtest: collectN fails closed before runtime when operation-host capability is disabled
+ok 41 - collectN fails closed before runtime when operation-host capability is disabled
+  ---
+  duration_ms: 0.763719
+  type: 'test'
+  ...
+# Subtest: submitN provider-enabled executes bounded requested count and compact result
+ok 42 - submitN provider-enabled executes bounded requested count and compact result
+  ---
+  duration_ms: 0.918284
+  type: 'test'
+  ...
+# Subtest: collectN normalizes each received result locally
+ok 43 - collectN normalizes each received result locally
+  ---
+  duration_ms: 0.809566
+  type: 'test'
+  ...
+# Subtest: UNKNOWN network outcome stops same command without replay
+ok 44 - UNKNOWN network outcome stops same command without replay
+  ---
+  duration_ms: 0.840995
+  type: 'test'
+  ...
+# Subtest: provider command performs local recover before first network step
+ok 45 - provider command performs local recover before first network step
+  ---
+  duration_ms: 0.544382
+  type: 'test'
+  ...
+# Subtest: compact report does not expose raw response arrays or query list
+ok 46 - compact report does not expose raw response arrays or query list
+  ---
+  duration_ms: 0.904813
+  type: 'test'
+  ...
+# Subtest: source has no background alarm/interval/polling scheduler
+ok 47 - source has no background alarm/interval/polling scheduler
+  ---
+  duration_ms: 0.25842
+  type: 'test'
+  ...
+# Subtest: B7 wrapper does not replace Autorun handler
+ok 48 - B7 wrapper does not replace Autorun handler
+  ---
+  duration_ms: 0.192236
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 414.038839
