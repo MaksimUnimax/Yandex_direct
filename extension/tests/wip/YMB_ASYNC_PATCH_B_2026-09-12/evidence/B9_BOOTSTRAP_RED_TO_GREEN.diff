@@ -1,0 +1,32 @@
+--- a/phase3_service_worker_bootstrap.js
++++ b/phase3_service_worker_bootstrap.js
+@@ -76,15 +76,6 @@
+     "search_admission_worker_binding.js"
+   );
+   importScripts(
+-    "shared/search_async_store.js",
+-    "shared/search_async_protocol.js",
+-    "shared/search_async_transport.js",
+-    "shared/search_async_normalizer.js",
+-    "shared/search_async_runtime.js",
+-    "shared/search_async_export.js",
+-    "search_async_worker_transport.js"
+-  );
+-  importScripts(
+     "shared/search_batch_protocol.js",
+     "shared/search_batch_projection.js",
+     "shared/search_batch_runtime.js",
+@@ -95,4 +86,13 @@
+     "shared/file_artifact_store.js",
+     "file_delivery_worker_transport.js"
+   );
++  importScripts(
++    "shared/search_async_store.js",
++    "shared/search_async_protocol.js",
++    "shared/search_async_transport.js",
++    "shared/search_async_normalizer.js",
++    "shared/search_async_runtime.js",
++    "shared/search_async_export.js",
++    "search_async_worker_transport.js"
++  );
+ })();
