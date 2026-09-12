@@ -1,0 +1,21 @@
+{
+  "schema_version":1,
+  "date":"2026-09-12",
+  "input_head":"625fdb7fc70d7c931269eee7e029c1d8f69dcae3",
+  "source_ref":"97d808b71cd9f9242b3ee19f37210d2abb500f61",
+  "workflow_commit":"65b202a2dedcca90a06354f20f2fbf5bfcc7b019",
+  "run_id":34697155008,
+  "candidate_tree_sha256":"83ae1351ab057f7cd768243c91060d2dc77e8fe0f5b378055437e47a110012b7",
+  "package_sha256":"dd6d1ef016d4df3d9b4789cd2806f4d0a36202f93c4655e196e2eeda439f7c73",
+  "package_bytes":223870,
+  "changed_production":["file_delivery_content.js"],
+  "unchanged_files":66,
+  "actual_tests":{"new_context_red":"2PASS8FAIL;cancelled0","new_context_green":10,"preserved_send":9,"fresh_node":19,"ci_node":19,"ci_node_ms":66.411732,"syntax_js":61,"primary_browser_markers":16,"supplement_browser_markers":10,"remaining_browser_markers":12,"retained_metric_rows":8,"failed_final":0,"owned_processes_remaining":0,"package_negatives":3,"evidence_restore_negatives":2,"counts_include_identity_and_cleanup":true},
+  "artifact":{"id":10299370922,"name":"ymb-b16-corrected-internal-evidence","sha256":"987605e376ba0fafb6ef26adcaa42c350d41ccd826fd2d6a662ecaa3ddf9f638","bytes":261464,"expires_at":"2026-12-11T13:42:11Z","roundtrip":"PASS26inner hashes;exact ZIP equals local output"},
+  "first_run":{"id":34696587164,"artifact_id":10298732359,"sha256":"c59c55a3f34281a8191e810f033125685c75c4adb4aa175d5e2f607efe880d21","product_fail":"Late final chunk after SPA changed conversation attaches old file before later mark denied;no Send","QA_failures_separate":["empty prefix expectation","AutoSend state contamination","non-one-shot fault injector blocked later cycles"]},
+  "memory":{"measurement":"sum owned Chrome process RSS;shared pages may be counted more than once","sample_ms":250,"forced_GC":false,"primary_peak_kib":1826084,"supplement_peak_kib":1854732,"remaining_peak_kib":2028924,"watchdog_mib":2048,"triggered":false,"post_64MiB_idle5s_rss_kib":[1843932,1687948,1889892,1670392,1670340,1868052,1677480,1670768],"page_heap_bytes":[14705696,14037608,14030140,14174108,14028172,14028552,14031448,14036500],"DOM_nodes":[58,57,57,57,57,57,57,57],"DOM_event_listeners":[7,7,7,7,7,7,7,7],"worker_heap_used_bytes":[6935028,18488748,74984152,27562700,18652076,75000572,27222400,30396768],"worker_backing_storage_bytes":[2003840,4101015,70423482,1479621,4101084,70423551,1479690,4363297],"runtime_inflight_zero_each":true,"manual_handler_absent_each":true,"universal_no_leak_claim":false},
+  "whole_browser_restart":"PASS;newPID/newworker session;raw retained;no duplicate attachment/send;only QA profile",
+  "cancellation_boundary":"Active Manual OFF blocked and outbox retained. No user file-cancel UI exists; QA clear is not user cancellation proof.",
+  "raw_logs":{"directory":"evidence/B16_RAW_LOGS","parts":2,"bytes":17076,"sha256":"1fecb1a8a7966cdd8a3262ab056a5028bcd22977d4568f70feefaeb44afcf574","members":39,"member_checksums":38,"consumer_roundtrip":"PASS"},
+  "boundaries":{"Chrome":"CfT152.0.7977.75/Puppeteer25.10.0 on GitHub","DOM":"synthetic PRE/readonly-CM shape,no ChatGPT server upload","real_provider_calls":0,"owner_profile_touched":false,"operation_host_enabled":false,"independent_codex_gate":"NOT_RUN","release_allowed":false}
+}

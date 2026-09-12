@@ -1,0 +1,11 @@
+{
+  "archive":"B16_ALL_RAW_LOGS.tar.xz",
+  "bytes":17076,
+  "sha256":"1fecb1a8a7966cdd8a3262ab056a5028bcd22977d4568f70feefaeb44afcf574",
+  "members":39,
+  "member_checksums":38,
+  "parts":[
+    {"name":"part-001.bin","bytes":8000,"sha256":"9855087673ca9236022845bcac549a15774b29d1be33add928adaaaad93e4f12","git_blob":"493f81b89596c758d111b971de0dd784173822e0"},
+    {"name":"part-002.bin","bytes":9076,"sha256":"f12f5f20a436fa2066ec1a4a838b569b53968ac41910117ec98adf816050c1e2","git_blob":"c3c5bc075a4d2080d3cbdbd79d40790726f4672c"}
+  ]
+}
