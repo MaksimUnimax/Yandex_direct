@@ -1,5 +1,5 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V7",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V8",
   "date": "2026-09-12",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
@@ -24,6 +24,7 @@
     "generalization_rule": "LEVEL1/ROADMAP_AND_METHOD_GENERALIZATION_RULE.md",
     "failure_ledger": "LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md",
     "work_base_freshness_rule": "LEVEL1/WORK_BASE_FRESHNESS_AND_AUTHORITY_DRIFT_RULE.md",
+    "pre_step_external_research_rule": "LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md",
     "universal_roadmap": "LEVEL2/STEP_RULES_INDEX.md",
     "step04_quality_gate": "LEVEL2/STEP_04_PRELIMINARY_FAMILY_TRIAGE_QUALITY_GATE.md",
     "rule": "LEVEL1_LEVEL2_ARE_UNIVERSAL; JOB_EXAMPLES_COUNTS_IDS_AND_CURRENT_STATUS_STAY_IN_WORK_JOB_ROOT"
@@ -148,21 +149,54 @@
     "historical_phrase": "!чётки",
     "historical_request_id": "wordstat-132a43ff-7cf9-4544-a6e2-68da666c4813",
     "historical_raw_blob_sha": "550add6010ddbd10e0d807fd1a11046d2b782a4a",
-    "historical_remote_readback": "PASS"
+    "historical_remote_readback": "PASS",
+    "historical_blind_replay_allowed": false
+  },
+  "step05_w10_preparation": {
+    "handoff_id": "KW002-BS-W10",
+    "preparation_base_head": "ea2707f757475f24550f5b89b1e453e44631abe3",
+    "external_research_file": "STEP_05_W10_PRE_ACQUISITION_EXTERNAL_RESEARCH_2026-09-12.md",
+    "external_research_commit": "b957476918ed98004508450d3e8fe1c6bef59f30",
+    "current_queue_gate": "STEP_05_W10_CURRENT_AUTHORITY_QUEUE_GATE_2026-09-12.tsv",
+    "current_queue_gate_commit": "5f1038f52b18837d50cf550596c69b7a1e0c5caa",
+    "work_prompt": "STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_2026-09-12.md",
+    "work_prompt_commit": "7a94030f18ee7dce02d0f531f5d80a15eec97841",
+    "execution_release": "STEP_05_W10_PRE_ACQUISITION_EXECUTION_RELEASE_2026-09-12.md",
+    "execution_release_commit": "60cc80a2e44a3a0216c6ad85201ea5b2892850bc",
+    "queue_rows": 13,
+    "search_gap_candidates_to_challenge": 3,
+    "search_gap_candidate_ids": ["PSQ001", "PSQ004", "PSQ005"],
+    "owner_fact_rows": 5,
+    "existing_evidence_reuse_rows": 4,
+    "deferred_rows": 1,
+    "provider_ready_now": 0,
+    "provider_calls_released": 0,
+    "provider_calls_executed_in_preparation": 0,
+    "step06_started": false,
+    "status": "W10_PRE_ACQUISITION_RECONCILIATION_RELEASED"
   },
   "step05_current": {
-    "status": "READY_FOR_CONTROLLED_RECONCILIATION_AND_SEPARATE_RELEASE",
+    "status": "W10_PRE_ACQUISITION_RECONCILIATION_RELEASED",
+    "current_handoff_id": "KW002-BS-W10",
     "provider_execution_released": false,
     "accepted_step04_queue_rows": 13,
     "provider_ready_now_from_step04": 0,
+    "candidate_search_gap_rows_to_challenge": 3,
+    "candidate_search_gap_ids": ["PSQ001", "PSQ004", "PSQ005"],
+    "owner_fact_rows": 5,
+    "existing_evidence_reuse_rows": 4,
+    "deferred_rows": 1,
     "historical_e013_must_not_be_blindly_replayed": true,
     "required_before_any_new_provider_call": [
-      "RECONCILE_ACCEPTED_W09_QUEUE_WITH_ALL_DURABLE_STEP05_HISTORY",
-      "CLASSIFY_OWNER_FACT_AND_DEFERRED_ROWS",
-      "ISSUE_SEPARATE_STEP05_EXECUTION_RELEASE",
-      "CONFIRM_INCREMENTAL_INFORMATION_GAIN_AND_STOP_CONDITION"
+      "EXECUTE_W10_NO_PROVIDER_RECONCILIATION",
+      "REMOTE_READBACK_AND_MAIN_CHATGPT_ACCEPT_W10",
+      "PROVE_NO_EQUIVALENT_DURABLE_EVIDENCE",
+      "CONFIRM_INCREMENTAL_INFORMATION_GAIN_NEGATIVE_RESULT_VALUE_AND_STOP_CONDITION",
+      "SELECT_AT_MOST_ONE_FIRST_EXECUTION_CANDIDATE",
+      "RECHECK_CURRENT_PROVIDER_PRICE_AND_CURRENT_BRIDGE_SCHEMA",
+      "ISSUE_SEPARATE_STEP05_PROVIDER_EXECUTION_RELEASE"
     ],
     "step06_started": false
   },
-  "next_action": "RECONCILE_ACCEPTED_W09_STEP04_QUEUE_WITH_DURABLE_STEP05_HISTORY_E013_AND_PREPARE_A_SEPARATE_STEP05_RELEASE; DO_NOT MAKE NEW PROVIDER CALLS UNTIL THAT RELEASE; DO_NOT START_STEP06"
+  "next_action": "EXECUTE KW002-BS-W10 PRE-ACQUISITION RECONCILIATION FROM THE CURRENT LIVE REMOTE BRANCH USING STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_2026-09-12.md; MAKE ZERO PROVIDER CALLS; RETURN FOR MAIN CHATGPT REMOTE READBACK; DO NOT START STEP06"
 }
