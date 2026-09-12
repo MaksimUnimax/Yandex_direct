@@ -19,7 +19,13 @@ The current local candidate at this checkpoint is `ymb_patch_candidate2`.
 
 The complete candidate tree SHA manifest is stored in `CANDIDATE2_TREE_SHA256.txt`.
 
-Only seven production paths differ from the exact 0.1.4 baseline. Their exact postimage bytes are represented by `PATCH_A_CANDIDATE2.diff`, and `CHANGED_FILES.md` records baseline/postimage hashes.
+Only seven production paths differ from the exact 0.1.4 baseline. `CHANGED_FILES.md` records baseline/postimage hashes.
+
+Durable reconstruction material is stored under `candidate_changed_files/`:
+
+- exact postimages for the three new runtime modules plus the IndexedDB store;
+- exact postimages for `manifest.json` and `phase3_service_worker_bootstrap.js`;
+- exact minimal baseline→candidate2 patch for `content_script.js` in `content_script.patch`.
 
 Changed production paths:
 
@@ -50,9 +56,11 @@ The withdrawn 0.1.5 anti-pattern is explicitly not used:
 
 ## Resource evidence already completed on candidate2
 
+Raw/condensed evidence is persisted in `RESOURCE_EVIDENCE.md`.
+
 ### Node/store stress
 
-`STORE_STRESS_CANDIDATE2.log` + `.time` cover:
+The matrix covers:
 
 `1 MB -> 10 MB -> 32 MB -> 64 MB -> 64 MB -> 64 MB`
 
@@ -69,21 +77,21 @@ This demonstrates the earlier repeated-64-MB timeout was not the final state of 
 
 ### Browser File/DataTransfer memory matrix
 
-`BROWSER_FILE_MEMORY_MATRIX_CANDIDATE2.log` records Chrome 144.0.7559.96 and:
+Chrome 144.0.7559.96 recorded:
 
-- baseline ~399.6 MB;
-- 1 MB: before 399.7 / attached 401.7 / cleanup 402.0 MB;
-- 10 MB: before 402.0 / attached 413.0 / cleanup 402.2 MB;
-- 32 MB: before 402.2 / attached 435.2 / cleanup 402.3 MB;
-- 64 MB run 1: before 402.3 / attached 468.2 / cleanup 402.7 MB;
-- 64 MB run 2: before 402.8 / attached 467.4 / cleanup 402.4 MB;
-- 64 MB run 3: before 402.1 / attached 468.3 / cleanup 402.2 MB.
+- baseline ~399–400 MB;
+- 1 MB: cleanup ~400 MB;
+- 10 MB: cleanup ~400 MB;
+- 32 MB: cleanup ~402 MB;
+- 64 MB run 1: cleanup ~402 MB;
+- 64 MB run 2: cleanup ~402 MB;
+- 64 MB run 3: cleanup ~402 MB.
 
 All six cases completed; the three repeated 64-MB browser cycles returned close to the pre-case memory level rather than showing monotonic growth.
 
 ## Important supersession of the 2026-09-11 checkpoint
 
-The older checkpoint said a repeated 64-MB cycle had timed out and remained unresolved. Work continued after that checkpoint and before the later ChatGPT message-delivery timeout. The local evidence now preserved here shows that the rebuilt `candidate2` completed three 64-MB browser cycles and three 64-MB store cycles.
+The older checkpoint said a repeated 64-MB cycle had timed out and remained unresolved. Work continued after that checkpoint and before the later ChatGPT message-delivery timeout. The local evidence now persisted in this branch shows that the rebuilt `candidate2` completed three 64-MB browser cycles and three 64-MB store cycles.
 
 This WIP checkpoint therefore supersedes the older resource-progress statement, but **does not authorize release**.
 
@@ -115,9 +123,9 @@ OWNER_HANDOFF = FORBIDDEN
 
 ## Exact continuation point
 
-Do not rebuild Patch A from scratch.
+**Do not rebuild Patch A from scratch.**
 
-Resume from the exact owner 0.1.4 baseline plus `PATCH_A_CANDIDATE2.diff`, then verify every target hash against `CANDIDATE2_TREE_SHA256.txt`.
+Reconstruct from the exact owner 0.1.4 baseline using `candidate_changed_files/`, then verify every target hash against `CANDIDATE2_TREE_SHA256.txt`.
 
 Next work should be:
 
