@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "venue": "Node v22.16.0; exact saved B6 modules/B5 modules/baseline fragments; deterministic IDB double where used; NOT Chromium/real IndexedDB",
+  "provider_calls": 0,
+  "source_run": {
+    "sha256": "a6d521e7a19cc6a3b06fb6ebc8b8bd2505d39a8768a6c20286c31d4a12ac7abe",
+    "bytes": 4972,
+    "footer": {"tests": 26, "pass": 26, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "duration_ms": 315.949441}
+  },
+  "fresh_run": {
+    "sha256": "76141553877cf64ebf93bef432541be01b17751d1a94597fb9cd6ee354691551",
+    "bytes": 4973,
+    "footer": {"tests": 26, "pass": 26, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "duration_ms": 387.950558}
+  },
+  "b5_preserved_regression": {
+    "sha256": "87e4cb00cbb5cae3eeff378b6acd2a917719ba99eda4e4e1d1d49ae51bcdbeba",
+    "bytes": 17611,
+    "footer": {"tests": 85, "pass": 85, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0, "duration_ms": 1815.440794}
+  },
+  "hashes": {
+    "binding": "a8e383d73a8d8b9e7b59e914bf519e4b0bccfff2e5ee365a57d8132e27d1ed6f",
+    "bootstrap_delta": "ad03eaa500a546c481092f55c9e4752c2a3a75fc80b34490002f5a71478e1eb2",
+    "binding_test": "de7ddd10cf4420e2a5a7755803a5082fc46be3809d8c2a52476fa232254e9808",
+    "composition_test": "cf84b1b3c9f02b82de311838b263cb6d671c8b3a22656eb51a11d65866a1a84c",
+    "bootstrap_test": "581bbb3702a80a0ef0123bc852c500864e121b1b885bb3a38accf7b58e10e285",
+    "materializer": "9e9aed2df167f60f6b6172f157c106cd1b973813f16ea696939a75d10c2405f3"
+  },
+  "fresh_candidate": {
+    "files": 56,
+    "production_js_syntax_pass": 50,
+    "json_parse_pass": ["manifest.json", "package.json"],
+    "tree_manifest_sha256": "3eaef3a5811928e63bd81907d90fdc270df8421c133efae7766ef34c1b16d715"
+  },
+  "harness_incidents": [
+    {"class": "FAIL_HARNESS", "product_assertions_reached": 0, "production_bytes_changed": false, "note": "initial materializer expected repository-style B5 paths missing from local QA layout"},
+    {"class": "FAIL_HARNESS", "product_assertions_reached": 0, "production_bytes_changed": false, "note": "materializer passed byte content to shutil.copyfile instead of writing bytes"},
+    {"class": "FAIL_HARNESS", "product_assertions_reached": 0, "production_bytes_changed": false, "note": "fresh composition test contained absolute local source paths; corrected to relative QA paths, then full 26-case source and fresh runs passed"}
+  ],
+  "browser_resource_proof": "BLOCKED_NOT_SUBSTITUTED",
+  "release_allowed": false
+}
