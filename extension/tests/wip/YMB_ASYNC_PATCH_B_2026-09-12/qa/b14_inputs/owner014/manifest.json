@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
+  "version": "0.1.4",
+  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search + read-only Webmaster analytics/export with readiness inspection and binary-safe gzip collection + read-only Metrika + read-only Direct with unified CORE, RUN policy, error delivery and cost guards.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://searchapi.api.cloud.yandex.net/*",
+    "https://api.webmaster.yandex.net/*",
+    "https://storage.mds.yandex.net/*",
+    "https://api-metrika.yandex.net/*",
+    "https://api.direct.yandex.com/*"
+  ],
+  "background": {
+    "service_worker": "phase3_service_worker_bootstrap.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": [
+        "shared/product.js",
+        "shared/conversation_identity.js",
+        "shared/service_registry.js",
+        "shared/wordstat_protocol.js",
+        "shared/wordstat_batch_protocol.js",
+        "shared/wordstat_batch_transport.js",
+        "shared/wordstat_batch_content_bridge.js",
+        "shared/search_xml.js",
+        "shared/search_protocol.js",
+        "shared/search_batch_protocol.js",
+        "shared/search_batch_transport.js",
+        "shared/search_batch_content_bridge.js",
+        "shared/metrika_protocol.js",
+        "shared/direct_protocol.js",
+        "shared/autorun_model.js",
+        "shared/manual_controls.js",
+        "shared/composer_send.js",
+        "shared/proven_writing_block_capture.js",
+        "content_script.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Yandex Marketing Bridge",
+    "default_popup": "popup.html"
+  }
+}
