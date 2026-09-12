@@ -1,0 +1,514 @@
+TAP version 13
+# Subtest: non-async block delegates unchanged base Manual handler
+ok 1 - non-async block delegates unchanged base Manual handler
+  ---
+  duration_ms: 2.4347
+  type: 'test'
+  ...
+# Subtest: factory fails closed when shared admission is not ready
+ok 2 - factory fails closed when shared admission is not ready
+  ---
+  duration_ms: 1.189454
+  type: 'test'
+  ...
+# Subtest: multiple async commands rejected without runtime/provider
+ok 3 - multiple async commands rejected without runtime/provider
+  ---
+  duration_ms: 1.985193
+  type: 'test'
+  ...
+# Subtest: mixed ordinary+async command rejected without runtime/provider
+ok 4 - mixed ordinary+async command rejected without runtime/provider
+  ---
+  duration_ms: 2.381253
+  type: 'test'
+  ...
+# Subtest: Manual disabled rejects before job or runtime
+ok 5 - Manual disabled rejects before job or runtime
+  ---
+  duration_ms: 1.637541
+  type: 'test'
+  ...
+# Subtest: wrong active service rejects before job or runtime
+ok 6 - wrong active service rejects before job or runtime
+  ---
+  duration_ms: 0.603534
+  type: 'test'
+  ...
+# Subtest: unbound or wrong live tab rejects before job
+ok 7 - unbound or wrong live tab rejects before job
+  ---
+  duration_ms: 0.657118
+  type: 'test'
+  ...
+# Subtest: non-paused active Autorun blocks Manual deferred command
+ok 8 - non-paused active Autorun blocks Manual deferred command
+  ---
+  duration_ms: 0.651629
+  type: 'test'
+  ...
+# Subtest: active Manual operation blocks another deferred command
+ok 9 - active Manual operation blocks another deferred command
+  ---
+  duration_ms: 0.803393
+  type: 'test'
+  ...
+# Subtest: existing outbox blocks command
+ok 10 - existing outbox blocks command
+  ---
+  duration_ms: 0.917427
+  type: 'test'
+  ...
+# Subtest: start binds policy then creates per-item job without provider call
+ok 11 - start binds policy then creates per-item job without provider call
+  ---
+  duration_ms: 1.985421
+  type: 'test'
+  ...
+# Subtest: start records durable search_async_requesting operation before authority check
+ok 12 - start records durable search_async_requesting operation before authority check
+  ---
+  duration_ms: 0.685317
+  type: 'test'
+  ...
+# Subtest: status uses owner-bound job and no provider call
+ok 13 - status uses owner-bound job and no provider call
+  ---
+  duration_ms: 0.723851
+  type: 'test'
+  ...
+# Subtest: itemsPage strips query/raw fields and stays compact at 100 rows
+ok 14 - itemsPage strips query/raw fields and stays compact at 100 rows
+  ---
+  duration_ms: 1.246816
+  type: 'test'
+  ...
+# Subtest: pause is local control with zero provider calls
+ok 15 - pause is local control with zero provider calls
+  ---
+  duration_ms: 1.784414
+  type: 'test'
+  ...
+# Subtest: resume is local control with zero provider calls
+ok 16 - resume is local control with zero provider calls
+  ---
+  duration_ms: 0.727381
+  type: 'test'
+  ...
+# Subtest: cancelPending is local control with zero provider calls
+ok 17 - cancelPending is local control with zero provider calls
+  ---
+  duration_ms: 0.531756
+  type: 'test'
+  ...
+# Subtest: submitN fails closed before runtime when operation-host capability is disabled
+ok 18 - submitN fails closed before runtime when operation-host capability is disabled
+  ---
+  duration_ms: 0.543155
+  type: 'test'
+  ...
+# Subtest: collectN fails closed before runtime when operation-host capability is disabled
+ok 19 - collectN fails closed before runtime when operation-host capability is disabled
+  ---
+  duration_ms: 0.656143
+  type: 'test'
+  ...
+# Subtest: submitN provider-enabled executes bounded requested count and compact result
+ok 20 - submitN provider-enabled executes bounded requested count and compact result
+  ---
+  duration_ms: 0.864981
+  type: 'test'
+  ...
+# Subtest: collectN normalizes each received result locally
+ok 21 - collectN normalizes each received result locally
+  ---
+  duration_ms: 0.764844
+  type: 'test'
+  ...
+# Subtest: UNKNOWN network outcome stops same command without replay
+ok 22 - UNKNOWN network outcome stops same command without replay
+  ---
+  duration_ms: 0.83862
+  type: 'test'
+  ...
+# Subtest: provider command performs local recover before first network step
+ok 23 - provider command performs local recover before first network step
+  ---
+  duration_ms: 0.517283
+  type: 'test'
+  ...
+# Subtest: compact report does not expose raw response arrays or query list
+ok 24 - compact report does not expose raw response arrays or query list
+  ---
+  duration_ms: 0.68719
+  type: 'test'
+  ...
+# Subtest: source has no background alarm/interval/polling scheduler
+ok 25 - source has no background alarm/interval/polling scheduler
+  ---
+  duration_ms: 0.197204
+  type: 'test'
+  ...
+# Subtest: B7 wrapper does not replace Autorun handler
+ok 26 - B7 wrapper does not replace Autorun handler
+  ---
+  duration_ms: 0.117941
+  type: 'test'
+  ...
+# Subtest: actual Patch A binary stage / read / per-chunk SHA / cleanup preserves export JSON and Unicode
+ok 27 - actual Patch A binary stage / read / per-chunk SHA / cleanup preserves export JSON and Unicode
+  ---
+  duration_ms: 38.192497
+  type: 'test'
+  ...
+# Subtest: unchanged Patch A handles plain legacy text and several deliveries independently
+ok 28 - unchanged Patch A handles plain legacy text and several deliveries independently
+  ---
+  duration_ms: 15.434328
+  type: 'test'
+  ...
+# Subtest: each requested chunk reads a single record, not the whole chunk store
+ok 29 - each requested chunk reads a single record, not the whole chunk store
+  ---
+  duration_ms: 28.413033
+  type: 'test'
+  ...
+# Subtest: actual binary staging transaction failure does not leave a partial export
+ok 30 - actual binary staging transaction failure does not leave a partial export
+  ---
+  duration_ms: 3.045748
+  type: 'test'
+  ...
+# Subtest: export source revision changes after real stage: chunks and meta removed but source remains readable
+ok 31 - export source revision changes after real stage: chunks and meta removed but source remains readable
+  ---
+  duration_ms: 19.392783
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 0
+ok 32 - exact UTF8 JSON budget 0
+  ---
+  duration_ms: 4.072611
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 1
+ok 33 - exact UTF8 JSON budget 1
+  ---
+  duration_ms: 0.214788
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 2
+ok 34 - exact UTF8 JSON budget 2
+  ---
+  duration_ms: 0.250223
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 3
+ok 35 - exact UTF8 JSON budget 3
+  ---
+  duration_ms: 0.223653
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 4
+ok 36 - exact UTF8 JSON budget 4
+  ---
+  duration_ms: 0.165625
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 5
+ok 37 - exact UTF8 JSON budget 5
+  ---
+  duration_ms: 0.173678
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 6
+ok 38 - exact UTF8 JSON budget 6
+  ---
+  duration_ms: 0.140266
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 7
+ok 39 - exact UTF8 JSON budget 7
+  ---
+  duration_ms: 1.698808
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 8
+ok 40 - exact UTF8 JSON budget 8
+  ---
+  duration_ms: 0.703236
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 9
+ok 41 - exact UTF8 JSON budget 9
+  ---
+  duration_ms: 0.608983
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 10
+ok 42 - exact UTF8 JSON budget 10
+  ---
+  duration_ms: 0.234332
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 11
+ok 43 - exact UTF8 JSON budget 11
+  ---
+  duration_ms: 0.127983
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 12
+ok 44 - exact UTF8 JSON budget 12
+  ---
+  duration_ms: 0.089194
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 13
+ok 45 - exact UTF8 JSON budget 13
+  ---
+  duration_ms: 0.135241
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 14
+ok 46 - exact UTF8 JSON budget 14
+  ---
+  duration_ms: 0.105894
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 15
+ok 47 - exact UTF8 JSON budget 15
+  ---
+  duration_ms: 0.07813
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 16
+ok 48 - exact UTF8 JSON budget 16
+  ---
+  duration_ms: 0.101946
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 17
+ok 49 - exact UTF8 JSON budget 17
+  ---
+  duration_ms: 0.076477
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 18
+ok 50 - exact UTF8 JSON budget 18
+  ---
+  duration_ms: 0.115992
+  type: 'test'
+  ...
+# Subtest: exact UTF8 JSON budget 19
+ok 51 - exact UTF8 JSON budget 19
+  ---
+  duration_ms: 0.267216
+  type: 'test'
+  ...
+# Subtest: budget rejects cyclic, custom, accessor, sparse, non-JSON and deeply nested data without executing it
+ok 52 - budget rejects cyclic, custom, accessor, sparse, non-JSON and deeply nested data without executing it
+  ---
+  duration_ms: 0.912675
+  type: 'test'
+  ...
+# Subtest: plain JSON exact counters, provenance, original raw and normalized rows, no payload in report
+ok 53 - plain JSON exact counters, provenance, original raw and normalized rows, no payload in report
+  ---
+  duration_ms: 3.631976
+  type: 'test'
+  ...
+# Subtest: every record including failed, cancelled and UNKNOWN preserved; never fabricate empty raw
+ok 54 - every record including failed, cancelled and UNKNOWN preserved; never fabricate empty raw
+  ---
+  duration_ms: 1.755493
+  type: 'test'
+  ...
+# Subtest: multiple explicit pages preserve exact 1500 ids without full-dataset fetch
+ok 55 - multiple explicit pages preserve exact 1500 ids without full-dataset fetch
+  ---
+  duration_ms: 124.106073
+  type: 'test'
+  ...
+# Subtest: byte cap yields exact next record, no truncation or skipped oversized record
+ok 56 - byte cap yields exact next record, no truncation or skipped oversized record
+  ---
+  duration_ms: 2.759574
+  type: 'test'
+  ...
+# Subtest: single oversized record fails BEFORE staging and without mutating source
+ok 57 - single oversized record fails BEFORE staging and without mutating source
+  ---
+  duration_ms: 1.276259
+  type: 'test'
+  ...
+# Subtest: missing item or result provenance fails closed
+ok 58 - missing item or result provenance fails closed
+  ---
+  duration_ms: 1.190448
+  type: 'test'
+  ...
+# Subtest: missing stored raw/normalized cannot be called a complete result
+ok 59 - missing stored raw/normalized cannot be called a complete result
+  ---
+  duration_ms: 0.700176
+  type: 'test'
+  ...
+# Subtest: revision required for continuation and mismatches refused
+ok 60 - revision required for continuation and mismatches refused
+  ---
+  duration_ms: 0.381935
+  type: 'test'
+  ...
+# Subtest: source mutation during reading rejects whole page BEFORE staging
+ok 61 - source mutation during reading rejects whole page BEFORE staging
+  ---
+  duration_ms: 0.732525
+  type: 'test'
+  ...
+# Subtest: mutation during staging deletes only staged export, never source
+ok 62 - mutation during staging deletes only staged export, never source
+  ---
+  duration_ms: 0.707793
+  type: 'test'
+  ...
+# Subtest: authorization revocation before or during stage stops and cleans up
+ok 63 - authorization revocation before or during stage stops and cleans up
+  ---
+  duration_ms: 0.82866
+  type: 'test'
+  ...
+# Subtest: wrong owner/folder and active jobs are refused
+ok 64 - wrong owner/folder and active jobs are refused
+  ---
+  duration_ms: 0.535363
+  type: 'test'
+  ...
+# Subtest: abort before staging and after stage produces no orphan ready file
+ok 65 - abort before staging and after stage produces no orphan ready file
+  ---
+  duration_ms: 1.052838
+  type: 'test'
+  ...
+# Subtest: staging response checksum/length contract mismatch cleans up
+ok 66 - staging response checksum/length contract mismatch cleans up
+  ---
+  duration_ms: 0.666344
+  type: 'test'
+  ...
+# Subtest: ambiguous write failure cleans export, cleanup failure never masked
+ok 67 - ambiguous write failure cleans export, cleanup failure never masked
+  ---
+  duration_ms: 1.446236
+  type: 'test'
+  ...
+# Subtest: busy exporter cannot stage two same-delivery operations and existing artifact is not overwritten
+ok 68 - busy exporter cannot stage two same-delivery operations and existing artifact is not overwritten
+  ---
+  duration_ms: 18.719635
+  type: 'test'
+  ...
+# Subtest: invalid inputs and unsupported budgets have no store or staging side effects
+ok 69 - invalid inputs and unsupported budgets have no store or staging side effects
+  ---
+  duration_ms: 0.959005
+  type: 'test'
+  ...
+# Subtest: no startup/provider/network/normalization/SourceStorage mutation dependency
+ok 70 - no startup/provider/network/normalization/SourceStorage mutation dependency
+  ---
+  duration_ms: 0.329147
+  type: 'test'
+  ...
+# Subtest: exportPage is local with operation host disabled, stages one file via A, returns no raw content
+ok 71 - exportPage is local with operation host disabled, stages one file via A, returns no raw content
+  ---
+  duration_ms: 20.455857
+  type: 'test'
+  ...
+# Subtest: missing artifact dependency is local explicit error, old commands remain available
+ok 72 - missing artifact dependency is local explicit error, old commands remain available
+  ---
+  duration_ms: 1.950689
+  type: 'test'
+  ...
+# Subtest: export guard manual off
+ok 73 - export guard manual off
+  ---
+  duration_ms: 0.598395
+  type: 'test'
+  ...
+# Subtest: export guard other service
+ok 74 - export guard other service
+  ---
+  duration_ms: 0.39174
+  type: 'test'
+  ...
+# Subtest: export guard outbox occupied
+ok 75 - export guard outbox occupied
+  ---
+  duration_ms: 0.912296
+  type: 'test'
+  ...
+# Subtest: export guard unbound
+ok 76 - export guard unbound
+  ---
+  duration_ms: 0.450922
+  type: 'test'
+  ...
+# Subtest: bad revision, page limit and credential injection rejected before export
+ok 77 - bad revision, page limit and credential injection rejected before export
+  ---
+  duration_ms: 3.333683
+  type: 'test'
+  ...
+# Subtest: stale revision rejected, no descriptor in error outbox
+ok 78 - stale revision rejected, no descriptor in error outbox
+  ---
+  duration_ms: 0.918502
+  type: 'test'
+  ...
+# Subtest: duplicate simultaneous Manual actions cannot overwrite operation or produce second file
+ok 79 - duplicate simultaneous Manual actions cannot overwrite operation or produce second file
+  ---
+  duration_ms: 7.825724
+  type: 'test'
+  ...
+# Subtest: definite outbox write failure removes only export artifact
+ok 80 - definite outbox write failure removes only export artifact
+  ---
+  duration_ms: 7.046656
+  type: 'test'
+  ...
+# Subtest: outbox committed but write response fails: retain artifact for existing recovery, never regenerate
+ok 81 - outbox committed but write response fails: retain artifact for existing recovery, never regenerate
+  ---
+  duration_ms: 3.2195
+  type: 'test'
+  ...
+# Subtest: manual-state write failure after durable outbox does not delete ready export
+ok 82 - manual-state write failure after durable outbox does not delete ready export
+  ---
+  duration_ms: 4.016043
+  type: 'test'
+  ...
+# Subtest: B2 existing command and provider URL behavior unchanged by export schema
+ok 83 - B2 existing command and provider URL behavior unchanged by export schema
+  ---
+  duration_ms: 3.192138
+  type: 'test'
+  ...
+# Subtest: saved B7 autoInstall workerId delimiter failure reproduced; B8 exact initializer no longer rejects its own ID
+ok 84 - saved B7 autoInstall workerId delimiter failure reproduced; B8 exact initializer no longer rejects its own ID
+  ---
+  duration_ms: 2.902341
+  type: 'test'
+  ...
+1..84
+# tests 84
+# suites 0
+# pass 84
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 285.999042
