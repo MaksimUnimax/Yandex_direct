@@ -1,0 +1,97 @@
+name: YMB B16 remaining browser qualification (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b16-browser-remaining.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b16-browser
+  cancel-in-progress: false
+jobs:
+  remaining:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ab44ec78d14e20c389c19698d3ef77f834855045
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b15-corrected-internal-evidence
+          run-id: 34695092346
+          github-token: ${{ github.token }}
+          path: frozen-b15
+      - name: Verify unchanged B15 ZIP and reuse exact executable QA prelude
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,zipfile,json,os
+          h=lambda b:hashlib.sha256(b).hexdigest()
+          src=Path('frozen-b15');zpath=src/'candidate-b15-internal.zip'
+          assert h(zpath.read_bytes())=='d4bdf57268ac904421797d7aad428c47981cee4c870bc549909696479f91ace9' and zpath.stat().st_size==223544
+          root=Path(os.environ['RUNNER_TEMP'])/'b16-candidate';root.mkdir()
+          with zipfile.ZipFile(zpath) as z:
+            assert z.testzip() is None
+            rows=[]
+            for e in z.infolist():
+              if e.is_dir():continue
+              parts=PurePosixPath(e.filename).parts
+              assert parts[0]=='ymb-b13-internal-qa-not-for-installation' and '..' not in parts
+              n='/'.join(parts[1:]);b=z.read(e);p=root/n;assert not p.exists();p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b);rows.append((n,h(b)))
+          assert len(rows)==67
+          assert h(''.join(v+'  '+n+'\n' for n,v in sorted(rows)).encode())=='7b4db94a527778722ee9bbd7b0d131789128dcaee78451f5886a7bddf1ae183a'
+          deps=Path(os.environ['RUNNER_TEMP'])/'b16-deps';deps.mkdir()
+          lock=json.loads((src/'package-lock.json').read_text());(deps/'package-lock.json').write_bytes((src/'package-lock.json').read_bytes());(deps/'package.json').write_text(json.dumps({'name':lock['name'],'private':True,'dependencies':lock['packages']['']['dependencies']}))
+          evidence=Path(os.environ['RUNNER_TEMP'])/'b16-evidence';evidence.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+            f.write(f'YMB_BROWSER_CANDIDATE={root}\nYMB_BROWSER_EVIDENCE={evidence}\nYMB_PPTR_HOME={deps}\n')
+          PY
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b16_prepare_qa.py frozen-b15 "$RUNNER_TEMP/b16-test"
+          cp "$RUNNER_TEMP/b16-test/QA_IDENTITY.json" "$RUNNER_TEMP/b16-evidence/QA_IDENTITY.json"
+          cp "$RUNNER_TEMP/b16-test/b16.generated.mjs" "$RUNNER_TEMP/b16-evidence/b16.generated.mjs"
+          cp "$RUNNER_TEMP/b16-test/b15_fixture.html" "$RUNNER_TEMP/b16-evidence/b15_fixture.html"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Reuse locked Puppeteer and Chrome for Testing
+        shell: bash
+        run: |
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: Actual popup, navigation, retained memory and browser-profile restart
+        shell: bash
+        run: |
+          node --check "$RUNNER_TEMP/b16-test/b16.generated.mjs"
+          xvfb-run -a node "$RUNNER_TEMP/b16-test/b16.generated.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Preserve raw partial results without profile or secrets
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,json
+          p=Path(os.environ['RUNNER_TEMP'])/'b16-evidence';p.mkdir(exist_ok=True)
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'ab44ec78d14e20c389c19698d3ef77f834855045','candidate_sha256':'d4bdf57268ac904421797d7aad428c47981cee4c870bc549909696479f91ace9','venue':'isolated GitHub CfT, synthetic DOM','local_policy_modified':False,'user_profile_touched':False,'live_provider_calls':0,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(p.iterdir()) if f.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b16-browser-evidence
+          path: |
+            ${{ runner.temp }}/b16-evidence/*.*
+            !${{ runner.temp }}/b16-evidence/owned-profile
+            ${{ runner.temp }}/b16-evidence/SHA256SUMS
+          retention-days: 90
+          if-no-files-found: error
