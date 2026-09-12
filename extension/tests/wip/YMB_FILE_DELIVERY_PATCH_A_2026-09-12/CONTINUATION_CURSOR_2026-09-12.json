@@ -1,62 +1,40 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "date": "2026-09-12",
-  "owner_instruction": "Continue execution; persist code, tests, raw/structured evidence and cursor during work after every material block. Never restart preserved work or hand off an unverified installable build.",
+  "owner_instruction": "Continue execution; save actual code, tests, evidence and cursor during work. Test only what can actually be executed, do not invent PASS, do not release unverified builds.",
+  "recovery_read_head": "fc89ba5766373bd6abbdfac58b7c3670f58b0702",
   "baseline_archive": "yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip(2).zip",
   "baseline_archive_sha256": "b812c4c54d1054d63a24ea852e1721e813d133172487c9872bac347998e3e53f",
-  "baseline_tree_manifest_sha256": "6092555d37a1fa0145d71ae0bf0f76eb0b9c9596a4be7a1e0e7c2a0b9325aa36",
   "baseline_file_count": 53,
   "patch_a_recorded_state": "ACCEPTED_FOR_INTEGRATION_ONLY_UNCHANGED",
-  "prior_evidence_policy": "Preserve exact-target A/B1-B6 evidence. Do not relabel historical Node or Patch-A Chrome results as B7 browser/resource evidence.",
-  "current_unit": "PATCH_B_B7_MANUAL_DEFERRED_COMMAND_INGRESS_AND_RUNTIME_BINDING",
-  "current_unit_state": "CODE_TESTS_EVIDENCE_PERSISTED_48_OF_48_NODE_PASS_BROWSER_AND_REAL_IDB_NOT_RUN",
-  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B7_RESULT.md",
-  "test_results": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B7_TEST_RESULTS.json",
-  "final_tap": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B7_ALL_GREEN.tap",
-  "exact_b7": {
-    "search_async_worker_transport_sha256": "71a3e7e6d424f197cb3d3c39fff74df024e941858ea791e163245f1535e3080f",
-    "search_admission_worker_binding_sha256": "5f9468110c4ed7d51d3d8c1cd7c306549dd2428a49efc9892c9d4a7b70b49bba",
-    "phase3_service_worker_bootstrap_sha256": "40565b792b9210b5b97795bb7b9c71577a5008bb312077e06a4a54b349dd9c88",
-    "binding_delta_sha256": "73659d4fffa407ec3deedde7c61179198ccbfbd416ab65203243616cfaf998ea",
-    "bootstrap_delta_sha256": "3e2fb262843be9de218c05be3c02e4ed1611506f0d9a0665c5d9a37da0cc8618"
-  },
-  "tests": {
-    "red": {"tests": 44, "pass": 37, "fail": 7, "tap_sha256": "08d3707be4aed9a81ad5c86f7dc97a164f47989f4311db2e4e5da4f9519301e5"},
-    "b7_green": {"tests": 44, "pass": 44, "fail": 0, "tap_sha256": "4bcf33c0133762bd4772d4a40e9d236494d86ed3de07bdbd16c9e2a469f4879a"},
-    "combined_final": {"tests": 48, "pass": 48, "fail": 0, "skipped": 0, "tap_sha256": "0ece9b180ccd3e15cdb1df107a2ce7797c5f2a19291a4e59a6eb68428b912f46"},
-    "composition": {"b6_trusted_binding": 18, "b7_bootstrap_permission": 4, "b7_manual_worker": 26}
-  },
-  "b7_red_green": {
-    "product_defect": "public submitN/collectN were rejected by the new B7 internal action allowlist; corrected before release",
-    "downstream_failures_same_root": 6,
-    "qa_assertion_strengthened": 1
-  },
-  "b7_boundaries": {
-    "manual_only_deferred": true,
-    "autorun_deferred_enabled": false,
-    "background_polling_or_alarms": false,
-    "operation_host_permission_present": false,
-    "provider_calls_during_validation": 0,
-    "browser_validation": "NOT_RUN",
-    "real_indexeddb_validation": "NOT_RUN"
-  },
-  "next_unit": "PATCH_B_B8_BOUNDED_EXPORT_THROUGH_PRESERVED_PATCH_A",
-  "next_scope": [
-    "Use preserved Patch A artifact/file-delivery mechanism; do not reimplement it",
-    "Export bounded/paged Search async result data without raw arrays in command response",
-    "Keep Manual owner/outbox lifecycle and compact-response boundaries",
-    "Persist B8 source/tests/evidence before further composition"
+  "current_unit": "PATCH_B_B8_EXPORT_CHECKPOINT_COMPLETION_AND_EXACT_RECONSTRUCTION",
+  "current_unit_state": "SOURCE_TESTS_TAP_RESOURCE_LOG_SAVED_BEFORE_INTERRUPTION; RECONSTRUCTION_AND_FINAL_REPORT_PENDING",
+  "b8_root": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/",
+  "latest_scope": "BLOCK_B8_START.md",
+  "identity_reconciliation": "B8_IDENTITY_RECONCILIATION.md",
+  "saved_b8_inputs": [
+    "candidate/b8/search_async_export.js",
+    "evidence/B8_search_async_worker_transport.js.diff",
+    "evidence/B8_search_async_protocol.js.diff",
+    "qa/prepare_b8.py",
+    "qa/b8_export.test.mjs",
+    "qa/b8_artifact.test.mjs",
+    "qa/b8_worker.test.mjs",
+    "qa/idb_artifact_fixture.mjs",
+    "qa/b8_resource.mjs",
+    "evidence/B8_ALL_SOURCE.tap",
+    "evidence/B8_RESOURCE.jsonl"
   ],
-  "remaining_release_blockers": [
-    "B8 bounded export through preserved Patch A",
-    "Exact combined A+B candidate and all affected non-browser dependency regressions",
-    "Real IndexedDB and 10/100/500/1500 scale/recovery/resource validation",
-    "Combined Chrome memory/resource validation including repeated 1/10/32/64 MB file cycles",
-    "Operation GET host permission and real provider/auth capability validation if/when explicitly enabled",
-    "Independent full pre-delivery gate",
-    "Fresh final package identity proof"
+  "historical_b8_results": "Saved TAP reports 84 PASS. Saved Node resource diagnostic reports 1/10/32/64/64/64 MiB. These have not been rerun in this continuation yet and are not Chrome evidence.",
+  "b7_identity_warning": "The saved B7 worker blob is 15c0f45a23d9852c3d8e86c1af8344f6d1f6514a / SHA256 5096aef1c747050a99aebb4e8d16cb9ce14694a111e50a0e33437a601abd107e, different from the old B7 report. Use the actual persisted bytes and saved B8 delta, not a guessed version.",
+  "next_actions": [
+    "Restore B8 with exact inputs and verify materializer/hash checks",
+    "Finish B8 result report and record newly executed tests separately",
+    "Compose preserved A and B layers and run available integration/static tests",
+    "Keep inaccessible browser/resource checks unproven rather than repeatedly retrying the blocked environment"
   ],
   "release_allowed": false,
   "owner_installable_zip_handoff": "FORBIDDEN",
-  "continuation_rule": "Read BLOCK_B7_RESULT and this cursor. Resume from exact saved A/B1-B7 bytes. Do not rebuild prior blocks. Persist B8 code/tests/evidence and update this cursor before starting any later block."
+  "new_provider_calls_this_continuation": 0,
+  "continuation_rule": "Resume from saved B8 sources/tests/deltas. Never rebuild A/B1-B7 from memory. Update this cursor after each completed material block, not only at final reply."
 }
