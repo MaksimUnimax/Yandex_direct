@@ -1,0 +1,33 @@
+{
+  "schema_version":1,
+  "date":"2026-09-12",
+  "source_ref":"1aafee85d8534ab08848c217efa517a8a2cbec23",
+  "candidate_tree_sha256":"f591b39a381993c44284561236b9c5a278761db3d6b04059c59974e037c33f47",
+  "candidate_files":67,
+  "production_changed":["shared/phase3_provider_runtime.js","wordstat_batch_worker_transport.js"],
+  "unchanged_from_b12":65,
+  "venue":"Node v22.16.0; actual full worker and module source; Chrome, IndexedDB, time, network fixtures. Not browser/resource or independent Codex proof.",
+  "original_inventory":{"tracked_files":158,"root_node_suites":18,"supplemental_node_suites":1,"browser_scripts":8,"historical_campaign_runners":2,"runtime_helpers":1,"evidence_and_documents":128,"aggregate_sha256":"68f6e345c2e417fb9100cf9ef166b8047e5cffa13a286bc5a6e2e4a0cbb840af"},
+  "original_results":{"main_pass":118,"supplemental_pass":14,"final_failed":0,"skipped":0,"cancelled":0,"explicit_qa_adaptations":3,"unadapted_b13_main_pass":111,"unadapted_b13_main_fail":7,"note":"Two isolated executor fixtures and one changed source-call marker adapted by saved diffs; behavior assertions retained. Raw failed run preserved."},
+  "fresh_results":{
+    "new_missing_coverage":{"tests":78,"pass":78,"fail":0,"duration_ms":751.532905,"tap_sha256":"00540c1dd1a186dd0404d66bca21fc0ee4bd9cb01b79cae898cc0e60d9eb0b40"},
+    "full_contract":{"tests":99,"pass":99,"fail":0,"duration_ms":2322.791831,"tap_sha256":"b9cb2084371f0ea8a9f3e7940214c2244f8382fe6fb6f9b738e30d13a4f9effd"},
+    "modules":{"tests":254,"pass":254,"fail":0,"duration_ms":1009.928663,"tap_sha256":"49fd20aa95ddb0e65e5f4e46f29995e3ce1cf9c0889ab49bf161d5a011490f8f"},
+    "export":{"tests":84,"pass":84,"fail":0,"duration_ms":266.909047,"tap_sha256":"75bd580d759ae3233edd5329d1dd1fc054492272d0582ec6b178f355be853190"},
+    "candidate_unchanged":true,"syntax_js_pass":61,"json_parse":2,"fresh_file_identity_pass":67,"negative_materializer_pass":2,
+    "status":"PASS_AVAILABLE_SCOPE","counts_overlap":true
+  },
+  "red_green":{"final_78_on_b12":{"pass":57,"fail":21},"final_78_on_b13":{"pass":78,"fail":0},"root_defects":2,"reproduced_on_owner014":true,"oom_reproduced":false,"qa_draft_issue":"Two assertions wrongly searched null/true in whole metadata; corrected to fixed safe error message; draft log retained."},
+  "source_readback":{"ref":"ec402575a31274ac418efbabb49f083166a34387","files":6,"matched":6},
+  "raw_evidence":{"directory":"evidence/B13_RAW_LOGS","binary_parts":8,"archive_bytes":45312,"archive_sha256":"abd3a1c68e1e356afda0b8cf7d3863de83849d4515ca8d63219affc810a9b019","members":168,"inner_checksums_pass":167,"restore_py_sha256":"68cb76e4a186e95f7ebd0c26119569a92e3ed3aa785b208a61c3223f53ef36e0","consumer_roundtrip":"PASS","refuse_existing_output":"PASS","corrupt_part_before_output":"PASS"},
+  "qa_input_archive":{"path":"qa/B13_QA_INPUTS.tar.xz","bytes":9620,"sha256":"63fab734f99c7bedae6c34b19b42957299eeac34572f2714d93e7d4550ba146b"},
+  "browser_harness":"8 scripts plus 2 runners recovered with exact hashes and historical success evidence; not executed against B13",
+  "browser_tests":"NOT_RUN",
+  "real_idb_tests":"NOT_RUN",
+  "combined_chrome_memory":"NOT_RUN",
+  "independent_gate":"NOT_RUN",
+  "new_provider_calls":0,
+  "operation_host_enabled":false,
+  "installable_zip_created":false,
+  "release_allowed":false
+}

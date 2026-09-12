@@ -1,0 +1,20 @@
+{
+  "logical_archive_name": "B13_RAW_LOGS.tar.xz",
+  "storage": "Eight exact binary parts; concatenate in listed order. No logs rewritten or truncated. Evidence only, not an installable build.",
+  "sha256": "abd3a1c68e1e356afda0b8cf7d3863de83849d4515ca8d63219affc810a9b019",
+  "bytes": 45312,
+  "members": 168,
+  "verified_member_checksums": 167,
+  "parts": [
+    {"name":"part-001.bin","bytes":6000,"sha256":"eb4defa3192a002c9015190c687bed715f0dfa7673b56917a3d8e249cd9476c3","git_blob":"69f0154da4a4faa5a9f30cbf3bf9946473b39db1"},
+    {"name":"part-002.bin","bytes":6000,"sha256":"1d2ca2243981df343a8825627c90cc67e3753222bc4ac230cfca86b321c3f2b5","git_blob":"6cf407e3b5a871a5d0687bb04d9fb0cc78de68b6"},
+    {"name":"part-003.bin","bytes":6000,"sha256":"2d26ba490435fc894b1e699944636542e2c86f260baf0c9daa386c93df021bd4","git_blob":"e9b72245c2e4174ac011b8157178de9b5b889b79"},
+    {"name":"part-004.bin","bytes":6000,"sha256":"8c8c5a4e747768477fea86512e3db616f138b218e0ca817a3ea359dbe062543e","git_blob":"cba6cc6c448d1da281ad0bf140947bdbf87136f0"},
+    {"name":"part-005.bin","bytes":6000,"sha256":"c8162feffa19cad4d01972d267182d564a1c9003f44b0c9357aff47c9464ca96","git_blob":"4aa5ac4d81375707dcda37b517d775ed379c5c0b"},
+    {"name":"part-006.bin","bytes":6000,"sha256":"a39b776e35e3a4449d78f8d91cd3fa36bf7fc31d4f0d5fd57b23a9e081f6af7f","git_blob":"8c34232d62adc40ee0f1e6eaa6fe2d879ef2c4ba"},
+    {"name":"part-007.bin","bytes":6000,"sha256":"7fe133fd67ec66a0ddc407743b6be1b64778009ae44593867b40597f82b1a0ed","git_blob":"d2e77a1a6d6371cf088f3ec76309b32c2323de29"},
+    {"name":"part-008.bin","bytes":3312,"sha256":"cb96c9c38fdf7d4b6b3f135d562713aefd42d5f326604b8bc7f961f032e7abff","git_blob":"695d216456703d70353cd55cc18f8a1fb9e081f4"}
+  ],
+  "consumer_tests": {"exact_concatenation_and_167_inner_checksums":"PASS","refuse_existing_output":"PASS","corrupted_part_refused_before_output":"PASS"},
+  "release_allowed": false
+}
