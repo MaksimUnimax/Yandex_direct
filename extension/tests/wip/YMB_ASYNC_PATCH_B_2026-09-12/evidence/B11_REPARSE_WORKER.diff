@@ -1,0 +1,28 @@
+--- a/search_async_worker_transport.js
++++ b/search_async_worker_transport.js
+@@ -71,7 +71,7 @@
+         requestId: operation.operation_id
+       });
+       if (!resolved?.authorized || resolved.owner !== key || resolved.channel !== "manual") fail("ASYNC_MANUAL_AUTHORITY_REJECTED");
+-      if (action && !["start","submit","collect","submitN","collectN","normalize","recover","status","itemsPage","pause","resume","cancelPending","exportPage"].includes(action)) fail("ASYNC_ACTION_INVALID");
++      if (action && !["start","submit","collect","submitN","collectN","normalize","recover","status","itemsPage","pause","resume","cancelPending","exportPage","normalizeSaved"].includes(action)) fail("ASYNC_ACTION_INVALID");
+       return true;
+     }
+ 
+@@ -187,6 +187,16 @@
+           unitCostMicrorub: priceMicrorub, now: now()
+         });
+         return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(progress) };
++      }
++      if (command.action === "normalizeSaved") {
++        // One preserved item only; no collect, submit, budget reservation or raw replacement.
++        const local = await runtime.normalizeSaved({ jobId, owner: key, index: command.index });
++        return { ok: local.ok === true, request_executed: false, provider_calls: 0,
++          index: command.index, normalized: local.normalized === true,
++          already_normalized: local.already_normalized === true,
++          ...(local.code ? { code: local.code } : {}),
++          ...(local.raw_preserved ? { raw_preserved: true } : {}),
++          progress: compactSummary(local.progress) };
+       }
+       if (command.action === "exportPage") {
+         if (!exportFactory?.create || !artifactStore || !context.deliveryId || !context.staged) fail("ASYNC_EXPORT_NOT_READY");
