@@ -1,0 +1,115 @@
+name: YMB B16 exact navigation correction (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b16-correction-validation.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b16-correction
+  cancel-in-progress: false
+jobs:
+  correction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 97d808b71cd9f9242b3ee19f37210d2abb500f61
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b15-corrected-internal-evidence
+          run-id: 34695092346
+          github-token: ${{ github.token }}
+          path: frozen-b15
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify exact correction archive and produce only the one-file delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import tarfile,hashlib,json,os
+          h=lambda b:hashlib.sha256(b).hexdigest()
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa');a=q/'B16_CORRECTION_INPUTS.tar.xz'
+          assert a.stat().st_size==8184 and h(a.read_bytes())=='219b105f09de867a9ccd804c6001183dbbba0805726bba39ce4908585359df11'
+          inputs=Path(os.environ['RUNNER_TEMP'])/'b16-inputs';inputs.mkdir()
+          with tarfile.open(a) as t:
+            members=t.getmembers();assert len(members)==7
+            for m in members:assert m.isfile() and len(PurePosixPath(m.name).parts)==1 and m.name not in ('.','..')
+            files={m.name:t.extractfile(m).read() for m in members};assert len(files)==7
+          for line in files['SHA256SUMS'].decode().splitlines():
+            digest,n=line.split('  ',1);assert h(files[n])==digest
+          for n,b in files.items():(inputs/n).write_bytes(b)
+          deps=Path(os.environ['RUNNER_TEMP'])/'b16-deps';deps.mkdir()
+          lock=json.loads(Path('frozen-b15/package-lock.json').read_text());(deps/'package-lock.json').write_bytes(Path('frozen-b15/package-lock.json').read_bytes());(deps/'package.json').write_text(json.dumps({'name':lock['name'],'private':True,'dependencies':lock['packages']['']['dependencies']}))
+          evidence=Path(os.environ['RUNNER_TEMP'])/'b16-evidence';evidence.mkdir()
+          for n in ('primary','supplement','remaining'):(evidence/n).mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_PPTR_HOME={deps}\nYMB_BROWSER_CANDIDATE='+os.environ['RUNNER_TEMP']+'/b16-fixed/candidate\nYMB_FILE_CONTENT='+os.environ['RUNNER_TEMP']+'/b16-fixed/candidate/file_delivery_content.js\n')
+          PY
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          python3 "$RUNNER_TEMP/b16-inputs/b16_apply_correction.py" frozen-b15 "$RUNNER_TEMP/b16-fixed" "$Q"
+      - name: Same nineteen exact-function cases and all JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test "$RUNNER_TEMP/b16-fixed/tests/b15_send_race.test.mjs" "$RUNNER_TEMP/b16-fixed/tests/b16_context.test.mjs" > "$RUNNER_TEMP/b16-evidence/exact19.tap" 2> "$RUNNER_TEMP/b16-evidence/exact19.stderr"
+          find "$YMB_BROWSER_CANDIDATE" -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Reuse pinned browser dependencies
+        shell: bash
+        run: |
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$RUNNER_TEMP/b16-evidence/npm.stdout" 2> "$RUNNER_TEMP/b16-evidence/npm.stderr"
+      - name: Repeat affected primary File and IDB matrix on new exact bytes
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$RUNNER_TEMP/b16-evidence/primary"
+          xvfb-run -a node "$RUNNER_TEMP/b16-fixed/tests/b15_browser_qualification.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Repeat supplemental Send, corruption and restart assertions
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$RUNNER_TEMP/b16-evidence/supplement"
+          xvfb-run -a node "$RUNNER_TEMP/b16-fixed/tests/b15_browser_faults.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: B16 popup, CodeMirror, navigation, retained memory and profile restart
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          export YMB_BROWSER_EVIDENCE="$RUNNER_TEMP/b16-evidence/remaining"
+          node --check "$RUNNER_TEMP/b16-fixed/tests/b16.generated.mjs"
+          xvfb-run -a node "$RUNNER_TEMP/b16-fixed/tests/b16.generated.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Save immutable package and complete evidence without test profiles
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,shutil,os
+          temp=Path(os.environ['RUNNER_TEMP']);out=temp/'b16-public-evidence';out.mkdir(exist_ok=True)
+          src=temp/'b16-fixed'
+          for n in ('candidate-b16-internal.zip','IDENTITY.json','QA_TARGETS.json'):
+            if (src/n).is_file():shutil.copyfile(src/n,out/n)
+          if (src/'tests').is_dir():shutil.copytree(src/'tests',out/'tests')
+          for p in (temp/'b16-evidence').rglob('*'):
+            if p.is_file() and 'owned-profile' not in p.parts:
+              rel=p.relative_to(temp/'b16-evidence');dest=out/'logs'/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,dest)
+          (out/'BOUNDARY.json').write_text(json.dumps({'source_ref':'97d808b71cd9f9242b3ee19f37210d2abb500f61','candidate_sha256':'dd6d1ef016d4df3d9b4789cd2806f4d0a36202f93c4655e196e2eeda439f7c73','one_product_file_changed':True,'venue':'GitHub CfT; controlled DOM, real IDB','live_provider_calls':0,'owner_profile_touched':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(out).as_posix()+'\n' for p in sorted(out.rglob('*')) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b16-corrected-internal-evidence
+          path: ${{ runner.temp }}/b16-public-evidence/
+          retention-days: 90
+          if-no-files-found: error
