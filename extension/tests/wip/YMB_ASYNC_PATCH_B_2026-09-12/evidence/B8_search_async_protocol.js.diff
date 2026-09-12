@@ -1,0 +1,25 @@
+--- a/search_async_protocol.js
++++ b/search_async_protocol.js
+@@ -8,7 +8,7 @@
+   const MAX_SLICE = 25;
+   const MIN_FIRST_POLL_MS = 5 * 60 * 1000;
+   const KEYS = ["searchType", "region", "page", "groupsOnPage", "docsInGroup", "groupMode", "familyMode", "fixTypoMode", "sortMode", "sortOrder", "l10n", "maxPassages"];
+-  const ACTIONS = new Set(["start", "submit", "submitN", "collect", "collectN", "collectReady", "status", "itemsPage", "pause", "resume", "cancelPending"]);
++  const ACTIONS = new Set(["start", "submit", "submitN", "collect", "collectN", "collectReady", "status", "itemsPage", "pause", "resume", "cancelPending", "exportPage"]);
+   const fail = code => { throw Object.assign(new Error(code), { code }); };
+   function record(v) { if (!v || typeof v !== "object" || Array.isArray(v)) fail("ASYNC_OBJECT_REQUIRED"); return v; }
+   function fields(raw, permitted) { for (const k of Object.keys(raw)) if (!permitted.includes(k)) fail("ASYNC_FIELD_FORBIDDEN"); }
+@@ -37,6 +37,13 @@
+       const single = ["submit", "collect"].includes(action);
+       const count = integer(raw.count ?? (single ? 1 : MAX_SLICE), 1, single ? 1 : MAX_SLICE);
+       return Object.freeze({ action: action.startsWith("submit") ? "submitN" : "collectN", jobId, count });
++    }
++    if (action === "exportPage") {
++      fields(raw, ["action", "jobId", "after", "limit", "revision"]);
++      const after = integer(raw.after ?? -1, -1, MAX_ITEMS - 1);
++      const revision = raw.revision == null ? null : integer(raw.revision, 0, Number.MAX_SAFE_INTEGER);
++      if (after >= 0 && revision === null) fail("EXPORT_REVISION_REQUIRED");
++      return Object.freeze({ action, jobId, after, revision, limit: integer(raw.limit ?? 25, 1, 25) });
+     }
+     if (action === "itemsPage") {
+       fields(raw, ["action", "jobId", "after", "limit"]);
