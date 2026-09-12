@@ -1,0 +1,23 @@
+# Candidate2 changed files versus exact owner 0.1.4 baseline
+
+- `content_script.js`
+  - baseline bytes/SHA: 37454 / 56725f70aa90f38818f6031db8e2ff6aee99f0df8967b0a5e777324eedf7ee62
+  - candidate bytes/SHA: 37650 / bc976629fdd1883e6e9a57e9265c7dad8dcdea0c5954bad710aedeff934569d5
+- `file_delivery_content.js`
+  - baseline bytes/SHA: NEW / NEW
+  - candidate bytes/SHA: 14429 / c8fcf6d36a0573b9134b90edc35efdf988b8d178e3649bc3d116c7c02cf262bf
+- `file_delivery_worker_transport.js`
+  - baseline bytes/SHA: NEW / NEW
+  - candidate bytes/SHA: 10069 / 3babc596ad6ea8baa6400cdadeb719d8d60fbbed6172d692af25283656eec81c
+- `manifest.json`
+  - baseline bytes/SHA: 1954 / ec71ba3c0eef2d387c6e9c5fde27809cb527a0b9fb451cf082a50002ba64d508
+  - candidate bytes/SHA: 2035 / 3ec7302d312161b9a6350aa852586c084529d9e69037b6cb952a629165b7c680
+- `phase3_service_worker_bootstrap.js`
+  - baseline bytes/SHA: 3206 / d1fe374068c91d6d5ff2d677e31c4f018931a98d8311cead7f8c1f475ade5647
+  - candidate bytes/SHA: 3305 / ad926d9c046616508f8e71be2f1725a6a3a0afa6afa9643b461acf87545cc918
+- `shared/chatgpt_file_attachment.js`
+  - baseline bytes/SHA: NEW / NEW
+  - candidate bytes/SHA: 4683 / 420fa9f4b77d23862d372151778a1c1e8b6aef07913b4902797028f72fc4649c
+- `shared/file_artifact_store.js`
+  - baseline bytes/SHA: NEW / NEW
+  - candidate bytes/SHA: 9991 / 6d618f6d7d47490af924a580145d7177ef3128804e202e0dc9c5c2149c609252
