@@ -1,0 +1,298 @@
+TAP version 13
+# Subtest: content can offer explicit recovery only for stale async state flagged by worker
+ok 1 - content can offer explicit recovery only for stale async state flagged by worker
+  ---
+  duration_ms: 0.925306
+  type: 'test'
+  ...
+# Subtest: worker exposes only local recovery availability, not worker identity or authority from the message
+ok 2 - worker exposes only local recovery availability, not worker identity or authority from the message
+  ---
+  duration_ms: 45.70982
+  type: 'test'
+  ...
+# Subtest: recovery-delivery response enters normal outbox wait, not a second content-error report
+ok 3 - recovery-delivery response enters normal outbox wait, not a second content-error report
+  ---
+  duration_ms: 1.102324
+  type: 'test'
+  ...
+# Subtest: full deferred submit shares trusted policy session and persists operation before returning
+ok 4 - full deferred submit shares trusted policy session and persists operation before returning
+  ---
+  duration_ms: 59.159
+  type: 'test'
+  ...
+# Subtest: not-due then waiting collect never replays submit or invents a result
+ok 5 - not-due then waiting collect never replays submit or invents a result
+  ---
+  duration_ms: 20.737354
+  type: 'test'
+  ...
+# Subtest: collect successful raw result normalizes and exports through A without another provider call
+ok 6 - collect successful raw result normalizes and exports through A without another provider call
+  ---
+  duration_ms: 24.0144
+  type: 'test'
+  ...
+# Subtest: submit with an already-completed response is normalized locally, not stranded awaiting an impossible GET
+ok 7 - submit with an already-completed response is normalized locally, not stranded awaiting an impossible GET
+  ---
+  duration_ms: 10.611349
+  type: 'test'
+  ...
+# Subtest: provider operation error is not reported as a successful command
+ok 8 - provider operation error is not reported as a successful command
+  ---
+  duration_ms: 10.702885
+  type: 'test'
+  ...
+# Subtest: unknown POST is retained, stops the slice and cannot be retried by the next command
+ok 9 - unknown POST is retained, stops the slice and cannot be retried by the next command
+  ---
+  duration_ms: 11.669004
+  type: 'test'
+  ...
+# Subtest: loss of Manual authorization after a confirmed first step does not rewrite its outcome to false
+ok 10 - loss of Manual authorization after a confirmed first step does not rewrite its outcome to false
+  ---
+  duration_ms: 15.770665
+  type: 'test'
+  ...
+# Subtest: normalization failure stops the collect slice and does not mask PARSE_FAILED with ok
+ok 11 - normalization failure stops the collect slice and does not mask PARSE_FAILED with ok
+  ---
+  duration_ms: 15.588511
+  type: 'test'
+  ...
+# Subtest: one slow result exhausts the local slice time budget before starting a second provider request
+ok 12 - one slow result exhausts the local slice time budget before starting a second provider request
+  ---
+  duration_ms: 12.312667
+  type: 'test'
+  ...
+# Subtest: restart after outbox commit reattaches delivery locally without replaying provider
+ok 13 - restart after outbox commit reattaches delivery locally without replaying provider
+  ---
+  duration_ms: 15.715472
+  type: 'test'
+  ...
+# Subtest: restart with no outbox recovers interrupted submit locally; next explicit command cannot replay it
+ok 14 - restart with no outbox recovers interrupted submit locally; next explicit command cannot replay it
+  ---
+  duration_ms: 16.298302
+  type: 'test'
+  ...
+# Subtest: execution receipt write failure before first runtime call is proven not sent
+ok 15 - execution receipt write failure before first runtime call is proven not sent
+  ---
+  duration_ms: 7.292368
+  type: 'test'
+  ...
+# Subtest: post-fetch receipt write failure retains confirmed provenance and stops next request
+ok 16 - post-fetch receipt write failure retains confirmed provenance and stops next request
+  ---
+  duration_ms: 11.594542
+  type: 'test'
+  ...
+# Subtest: small durable receipts at 25 full network steps never carry payload or item arrays
+ok 17 - small durable receipts at 25 full network steps never carry payload or item arrays
+  ---
+  duration_ms: 54.715503
+  type: 'test'
+  ...
+# Subtest: concurrent explicit deferred commands cannot cross the Manual invocation fence
+ok 18 - concurrent explicit deferred commands cannot cross the Manual invocation fence
+  ---
+  duration_ms: 9.643036
+  type: 'test'
+  ...
+# Subtest: current-worker in-flight operation remains blocked rather than recovered
+ok 19 - current-worker in-flight operation remains blocked rather than recovered
+  ---
+  duration_ms: 6.271757
+  type: 'test'
+  ...
+# Subtest: foreign-tab recovery attempt does not mutate interrupted state or stage an outbox
+ok 20 - foreign-tab recovery attempt does not mutate interrupted state or stage an outbox
+  ---
+  duration_ms: 9.875007
+  type: 'test'
+  ...
+# Subtest: full legacy Autorun search, then acknowledgement counts once
+ok 21 - full legacy Autorun search, then acknowledgement counts once
+  ---
+  duration_ms: 57.646959
+  type: 'test'
+  ...
+# Subtest: full legacy Autorun genSearch, then acknowledgement counts once
+ok 22 - full legacy Autorun genSearch, then acknowledgement counts once
+  ---
+  duration_ms: 9.675395
+  type: 'test'
+  ...
+# Subtest: full Search credential Check requires consent and still works with Manual off and invalid recorded key state
+ok 23 - full Search credential Check requires consent and still works with Manual off and invalid recorded key state
+  ---
+  duration_ms: 183.904574
+  type: 'test'
+  ...
+# Subtest: full old Search batch start/nextN preserves request count and result payload
+ok 24 - full old Search batch start/nextN preserves request count and result payload
+  ---
+  duration_ms: 404.379843
+  type: 'test'
+  ...
+# Subtest: full old Search batch next in Autorun shares the run ledger
+ok 25 - full old Search batch next in Autorun shares the run ledger
+  ---
+  duration_ms: 201.685211
+  type: 'test'
+  ...
+# Subtest: paused Search run plus Manual ordinary command uses shared ledger without double budget increase
+ok 26 - paused Search run plus Manual ordinary command uses shared ledger without double budget increase
+  ---
+  duration_ms: 200.969803
+  type: 'test'
+  ...
+# Subtest: deferred marker presented in Autorun never initiates deferred provider work
+ok 27 - deferred marker presented in Autorun never initiates deferred provider work
+  ---
+  duration_ms: 5.260091
+  type: 'test'
+  ...
+# Subtest: full ordinary Search Autorun pauses after settlement failure while preserving the received report
+ok 28 - full ordinary Search Autorun pauses after settlement failure while preserving the received report
+  ---
+  duration_ms: 195.980099
+  type: 'test'
+  ...
+# Subtest: complete worker loads real baseline/admission/async/file modules with zero startup provider calls
+ok 29 - complete worker loads real baseline/admission/async/file modules with zero startup provider calls
+  ---
+  duration_ms: 40.116727
+  type: 'test'
+  ...
+# Subtest: file-aware outbox and exporter initialize before async worker captures dependencies
+ok 30 - file-aware outbox and exporter initialize before async worker captures dependencies
+  ---
+  duration_ms: 4.793335
+  type: 'test'
+  ...
+# Subtest: manifest references all content files; operation host and alarms remain disabled
+ok 31 - manifest references all content files; operation host and alarms remain disabled
+  ---
+  duration_ms: 4.875009
+  type: 'test'
+  ...
+# Subtest: real Manual start -> binary export -> existing outbox succeeds in composed worker
+ok 32 - real Manual start -> binary export -> existing outbox succeeds in composed worker
+  ---
+  duration_ms: 21.530109
+  type: 'test'
+  ...
+# Subtest: actual per-item store raw+normalized evidence is exported without provider work or record loss
+ok 33 - actual per-item store raw+normalized evidence is exported without provider work or record loss
+  ---
+  duration_ms: 14.245093
+  type: 'test'
+  ...
+# Subtest: full worker rejects Manual disabled before any provider or new job
+ok 34 - full worker rejects Manual disabled before any provider or new job
+  ---
+  duration_ms: 5.156153
+  type: 'test'
+  ...
+# Subtest: full worker rejects different service before any provider or new job
+ok 35 - full worker rejects different service before any provider or new job
+  ---
+  duration_ms: 5.938875
+  type: 'test'
+  ...
+# Subtest: full worker rejects unbound conversation before any provider or new job
+ok 36 - full worker rejects unbound conversation before any provider or new job
+  ---
+  duration_ms: 4.445901
+  type: 'test'
+  ...
+# Subtest: actual sender-tab mismatch is rejected before async job operation
+ok 37 - actual sender-tab mismatch is rejected before async job operation
+  ---
+  duration_ms: 5.586693
+  type: 'test'
+  ...
+# Subtest: async submit remains disabled in the composed permission set
+ok 38 - async submit remains disabled in the composed permission set
+  ---
+  duration_ms: 7.305268
+  type: 'test'
+  ...
+# Subtest: foreign-owner artifact chunk message fails before reading a stored part
+ok 39 - foreign-owner artifact chunk message fails before reading a stored part
+  ---
+  duration_ms: 10.921136
+  type: 'test'
+  ...
+# Subtest: actual WS attachment messages keep one outbox, return only one chunk and clean up after acknowledgement
+ok 40 - actual WS attachment messages keep one outbox, return only one chunk and clean up after acknowledgement
+  ---
+  duration_ms: 12.931741
+  type: 'test'
+  ...
+# Subtest: old search.search runs through full Manual dispatcher exactly once on controlled network
+ok 41 - old search.search runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 13.21017
+  type: 'test'
+  ...
+# Subtest: old search.genSearch runs through full Manual dispatcher exactly once on controlled network
+ok 42 - old search.genSearch runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 13.159194
+  type: 'test'
+  ...
+# Subtest: old wordstat.getRegionsTree runs through full Manual dispatcher exactly once on controlled network
+ok 43 - old wordstat.getRegionsTree runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 9.262421
+  type: 'test'
+  ...
+# Subtest: old webmaster.listHosts runs through full Manual dispatcher exactly once on controlled network
+ok 44 - old webmaster.listHosts runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 6.824571
+  type: 'test'
+  ...
+# Subtest: old metrika.listCounters runs through full Manual dispatcher exactly once on controlled network
+ok 45 - old metrika.listCounters runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 6.611931
+  type: 'test'
+  ...
+# Subtest: old direct.listCampaigns runs through full Manual dispatcher exactly once on controlled network
+ok 46 - old direct.listCampaigns runs through full Manual dispatcher exactly once on controlled network
+  ---
+  duration_ms: 7.308743
+  type: 'test'
+  ...
+# Subtest: both message families have one responder after wrapper composition
+ok 47 - both message families have one responder after wrapper composition
+  ---
+  duration_ms: 7.516335
+  type: 'test'
+  ...
+# Subtest: small legacy report stays text, large report uses existing A binary store after B wrapper installation
+ok 48 - small legacy report stays text, large report uses existing A binary store after B wrapper installation
+  ---
+  duration_ms: 18.426255
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1322.101608
