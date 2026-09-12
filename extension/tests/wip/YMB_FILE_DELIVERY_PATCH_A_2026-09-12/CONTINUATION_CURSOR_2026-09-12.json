@@ -1,49 +1,62 @@
 {
-  "schema_version": 8,
+  "schema_version": 9,
   "date": "2026-09-12",
-  "owner_instruction": "Continue execution; persist every code/test/evidence block during work. Test only available venues, never fabricate browser or memory PASS. Do not hand off an unverified installable build.",
+  "owner_instruction": "Continue execution, preserve code/tests/results/cursor during work. Test only what can actually be executed. Do not restart preserved work or release an unverified installable build.",
+  "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
   "baseline_archive": "yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip(2).zip",
   "baseline_archive_sha256": "b812c4c54d1054d63a24ea852e1721e813d133172487c9872bac347998e3e53f",
   "baseline_file_count": 53,
   "current_unit": "PATCH_B_B9_EXACT_A_PLUS_B_COMPOSITION_AND_AVAILABLE_REGRESSION",
-  "current_unit_state": "IN_PROGRESS; B8_EXACT_RECONSTRUCTION_AND_84_TEST_RERUN_COMPLETE",
-  "latest_completed_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B8_RESULT.md",
-  "latest_completed_report_commit": "28c2115033a1b9fa7d80e36e7fd46874b051c43e",
-  "exact_b8_reconstruction": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/prepare_b8.py",
-  "b8_source_hashes": {
-    "exporter": "8adabdea50d497706560f2bd080c9c99ba52bdfbcd23fced0ff24717041eddfc",
-    "worker_postimage": "11a9e0cfe0e1efdb7b58b883138849ee8ebd2f2102b1a8aad3c3d80889802d13",
-    "protocol_postimage": "8bcaa1796a6e75ce9c868cce1783e1e416b6f43d8d5208b324f0fdbafbaf6964"
+  "current_unit_state": "COMBINED_SOURCE_SAVED_20_FULL_WORKER_TESTS_AND_254_MODULE_REGRESSIONS_PASS_IN_NODE; NOT_BROWSER_ACCEPTED",
+  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B9_RESULT.md",
+  "latest_report_commit": "fe7af9e04ed6d24b9578009defc90a1107bc2293",
+  "test_results": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B9_TEST_RESULTS.json",
+  "raw_full_worker_tap": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B9_FRESH_FULL.tap",
+  "reconstruction": {
+    "script": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/prepare_b9.py",
+    "script_sha256": "a1b2328e967ac79a06597be45961ca7432e9aa9d702685045fea0ec2d271dd8a",
+    "inputs_manifest": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B9_INPUTS_SHA256.json",
+    "inputs_manifest_sha256": "7ddd7e15e4845271f35e50d1c64682f25df7becdecbfc487989799fcaf72169e",
+    "candidate_files": 67,
+    "candidate_js_files": 61,
+    "candidate_tree_sha256": "d1fc4f49718f023f1bc1a6a3ec921fa7253d63b805cedadff6fbcf2e70180612",
+    "instruction": "Use exact owner014 + saved source snapshots and deltas. prepare_b9 validates 29 inputs, 53 baseline files, restored 57-file Patch A and final 67-file tree before writing fresh output. No installable ZIP."
   },
-  "newly_executed_b8": {
-    "tests": 84, "pass": 84, "fail": 0, "skipped": 0,
-    "syntax_files": 18,
-    "resource_cycles_mib": [1,10,32,64,64,64],
-    "resource_log": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B8_RESUMED_RESOURCE.jsonl",
-    "venue": "Node v22.16.0 and preserved deterministic IDB test double, NOT Chrome"
+  "actual_new_results": {
+    "combined_worker_red": {"tests":20,"pass":15,"fail":5},
+    "combined_worker_green_source": {"tests":20,"pass":20,"fail":0},
+    "combined_worker_green_fresh": {"tests":20,"pass":20,"fail":0,"skipped":0},
+    "module_regression": {"tests":254,"pass":254,"fail":0,"skipped":0},
+    "syntax_pass":61,
+    "fresh_candidate_hash_match":67,
+    "materializer_invalid_input_refusals":2,
+    "venue":"Node v22.16.0; actual complete worker/module source; Chrome, IndexedDB and network fixtures. Not installed browser evidence."
   },
-  "exact_source_transport": {
-    "source_ref": "fc89ba5766373bd6abbdfac58b7c3670f58b0702",
-    "workflow_run": 34682382456,
-    "artifact_id": 10294860561,
-    "artifact_sha256": "69acb8fba8c3f56ef4d0d8ce188947b660f4a12111e531edd46b922958a3d3bc",
-    "files_blob_verified": 96,
-    "purpose": "Read-only source snapshot, not an installable build. No provider calls. Enables direct binary recovery without retyping code."
-  },
-  "next_actions": [
-    "Compose baseline + exact Patch A + B3 store delta + B4 normalizer + B5 shared guard + B6 binding + B8 protocol/worker/export",
-    "Verify complete worker bootstrap, content load order and dependency inventory",
-    "Run available full-module regressions, preserve exact RED/GREEN if an integration defect is found",
-    "Persist B9 source/deltas/materializer/tests/results before further work"
+  "root_fix": "Async worker initialized before file-aware outbox/artifact dependencies. Correct B9 bootstrap loads Search batch and Patch A first, then async modules and ingress last.",
+  "new_code_test_materializer_remote_blob_matches":"7/7 at 5a82e73cae984d435625f1c7d6e46b05aacef4a4",
+  "identity_caveats": [
+    "B7 reported hash differs from actual saved blob; B8 materializer uses exact actual blob and new regression, never guessed bytes.",
+    "Stored A bootstrap had one extra terminal LF; removing exactly that byte yields expected A hash. Explicitly verified in B9 materializer; old snapshot not rewritten."
+  ],
+  "regression_reproduction": "qa/b9_regression_campaign.py OWNER014 B9_QA_DIR EMPTY_LOG_DIR; verifies exact candidate and test hashes and runs 254 bounded Node checks",
+  "next_unit": "PATCH_B_B10_REMAINING_FULL_INVOCATION_DELIVERY_AND_CONTENT_CONTRACTS",
+  "next_scope": [
+    "Resume from exact combined B9, not separate reconstruction of A/B1-B8",
+    "Extend feasible full Manual/Autorun/batch/Check invocation regression",
+    "Exercise deferred submit/collect with controlled network and permission fixtures, not real provider calls",
+    "Check failure-stop/recovery/delivery and content discovery contracts",
+    "Save the next source/test/evidence block and this cursor before further work"
   ],
   "remaining_release_blockers": [
-    "Combined worker/content and legacy-function regression",
-    "Actual IndexedDB/Chrome resource and recovery matrix",
-    "Explicit final provider capability enablement/permissions validation",
-    "Independent full pre-delivery and exact final package gate"
+    "Remaining combined invocation/content/recovery checks",
+    "Actual Chrome, IndexedDB durability and combined resource/memory tests",
+    "Explicit final operation-host/provider capability verification",
+    "Independent full pre-delivery gate and exact final package identity"
   ],
-  "release_allowed": false,
-  "owner_installable_zip_handoff": "FORBIDDEN",
+  "browser_policy_boundary": "Previously recorded administrative restriction unresolved. No repeat blocked launch or policy bypass. No Chrome PASS claimed for B9.",
+  "operation_host_enabled": false,
+  "background_async_polling_enabled": false,
   "new_provider_calls": 0,
-  "continuation_rule": "Resume B9 from exact saved A/B1-B8 bytes. Never rebuild earlier blocks or transfer old Chrome PASS to new bytes."
+  "release_allowed": false,
+  "owner_installable_zip_handoff": "FORBIDDEN"
 }
