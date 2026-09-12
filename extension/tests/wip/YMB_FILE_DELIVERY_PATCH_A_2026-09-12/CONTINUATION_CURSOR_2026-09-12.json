@@ -1,24 +1,40 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "date": "2026-09-12",
-  "owner_instruction": "Continue execution; persist code, tests and results after every material block; do not restart Patch A or hand off an unverified build",
-  "live_base_head": "af421242389206acc4ffa64a37d17577070efbf9",
+  "owner_instruction": "Continue execution; save code, tests and results during work after each material block; do not restart preserved work; do not release unsafe or unverified builds",
+  "continuation_started_from_head": "5e464f44f7e2990850130cbe62e8b791d54b30dc",
+  "latest_block_report_commit": "d7a252bb54603bf63a3bd0d56625922a2262c731",
   "baseline_archive": "yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip(2).zip",
   "baseline_archive_sha256_verified_this_session": "b812c4c54d1054d63a24ea852e1721e813d133172487c9872bac347998e3e53f",
   "patch_a_authority": "PATCH_A_ACCEPTANCE_FOR_INTEGRATION_2026-09-12.md",
-  "patch_a_recorded_state": "ACCEPTED_FOR_INTEGRATION_ONLY",
-  "patch_a_historical_evidence_policy": "Preserve exact-target results from blocks 1-5; do not relabel them as newly executed tests",
-  "current_unit": "PATCH_B_PER_ITEM_STORAGE_AND_STATE_CONTRACT",
-  "current_unit_state": "IN_PROGRESS",
-  "next_material_outputs": [
-    "Separate async per-job/per-item IndexedDB module",
-    "Executable deterministic and real-IndexedDB regression tests",
-    "Measured storage-operation counts and bounded scale results",
-    "Source hashes and block-result checkpoint"
+  "patch_a_recorded_state": "ACCEPTED_FOR_INTEGRATION_ONLY_UNCHANGED",
+  "patch_a_historical_evidence_policy": "Keep recorded exact-target evidence; do not relabel it as newly executed or apply it to B3 bytes",
+  "current_unit": "PATCH_B_B3_STORE_WIRE_ORCHESTRATION",
+  "current_unit_state": "CODE_PERSISTED_NODE_CONTRACTS_43_PASS_NOT_BROWSER_ACCEPTED",
+  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B3_ORCHESTRATION_RESULT.md",
+  "test_results": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B3_TEST_RESULTS.json",
+  "exact_reconstruction": {
+    "script": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/prepare_b3.py",
+    "instruction": "From the saved Patch B subtree, run prepare_b3.py with exact extracted owner 0.1.4 and a fresh empty QA directory. The saved B1 store stays unchanged; the script applies B3_STORE_DELTA.diff in the new QA tree and verifies all postimage hashes. Never reimplement from memory.",
+    "store_before_sha256": "4145cbc91865c3151a34f8958640c6351bf6cb23a3a74441920d3517d483cba4",
+    "store_after_sha256": "465645a993568e57afc88553c242703e77aab5eca19b37133dbc20c439d2c6f5",
+    "runtime_sha256": "e8be98e7bd692321e44ff3af147415f235c9e4367de508982dc60f88b596de6f"
+  },
+  "new_tests_passed": 43,
+  "fresh_reconstructed_qa_tests_passed": 43,
+  "node_test_boundary": "Real saved modules; IndexedDB, authorization/policy and normalization are test fixtures; no Chrome resource or installed-extension proof",
+  "next_unit": "PATCH_B_B4_VALIDATED_NORMALIZER_AND_REAL_GLOBAL_POLICY_ADAPTER",
+  "remaining_after_next_unit": [
+    "Bind runtime to existing worker/content/Manual ownership and credential lifecycle",
+    "Implement bounded export through preserved Patch A artifact transport",
+    "Real IndexedDB and 10/100/500/1500 scale/recovery resource validation",
+    "Combined A+B dependency and browser resource regression",
+    "Full pre-delivery gate and exact final package verification"
   ],
-  "production_modifications_this_checkpoint": 0,
+  "browser_boundary": "Earlier administrative block remains; current read-only policy inspection still shows URLBlocklist=* and ExtensionInstallBlocklist=*. No bypass and no new browser PASS claimed.",
+  "extension_src_or_manifest_modified_this_block": false,
   "new_provider_calls_this_session": 0,
   "release_allowed": false,
   "owner_installable_zip_handoff": "FORBIDDEN",
-  "continuation_rule": "Read this cursor and latest block report first. Restore persisted bytes by hashes, never rewrite an accepted component from memory. Do not change the Kwork job or shared roadmap branch."
+  "continuation_rule": "Read latest report and cursor; resume from saved B3 bytes, not A/B1/B2 again. Persist the next source/test/evidence block before further work. Do not modify Kwork job data or shared roadmap branch."
 }
