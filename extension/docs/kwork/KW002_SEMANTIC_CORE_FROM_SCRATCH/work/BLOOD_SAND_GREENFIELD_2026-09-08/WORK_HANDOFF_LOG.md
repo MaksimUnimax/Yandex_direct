@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — WORK HANDOFF LOG
 
-Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PREPARED / OWNER-FACING DISCLOSURE REQUIRED BEFORE RELAY / WORK NOT STARTED / PROVIDER EXECUTION NOT RELEASED**
+Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION COMPLETE AND MAIN-ACCEPTED / PROVIDER EXECUTION NOT RELEASED / STEP06 NOT STARTED**
 
 This file records the large-data ChatGPT Work handoff chain under `LEVEL1/WORK_HANDOFF_RULE.md`.
 
@@ -45,7 +45,7 @@ No Work output is automatically accepted truth.
 | KW002-BS-W08 | First Step04 post-audit correction under old/stale contract | payload materially improved but NOT accepted as current authority |
 | KW002-BS-W09 | Current-authority Step04 universal-cause rerun | COMPLETE / MAIN CHATGPT REMOTE READBACK ACCEPTED |
 | KW002-BS-W10 V1 | Premature Step05 preparation before mandatory owner-facing disclosure and without explicit pre-handoff manifest | NOT EXECUTION AUTHORITY / superseded by W10 V2 / zero Work execution / zero provider calls |
-| KW002-BS-W10-V2 | Corrected Step05 pre-acquisition reconciliation handoff | PREPARED / AWAIT OWNER-FACING DISCLOSURE THEN OWNER RELAY / Work not started |
+| KW002-BS-W10-V2 | Corrected Step05 pre-acquisition reconciliation handoff | COMPLETE / MAIN CHATGPT REMOTE READBACK ACCEPTED / one future provider candidate / zero provider calls |
 
 ## Current accepted upstream state
 
@@ -55,7 +55,6 @@ STEP03B_CORRECTED = ACCEPTED / KEEP 5100 / HOLD 13035 / EXCLUDE 6441
 STEP04_W09 = ACCEPTED CURRENT AUTHORITY
 STEP04_W09_RAW = 25979
 STEP04_W09_QUEUE_ROWS = 13
-STEP04_W09_PROVIDER_READY_NOW = 0
 STEP06 = NOT STARTED
 ```
 
@@ -63,39 +62,62 @@ Step04 current acceptance:
 
 `STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
 
-## Current handoff — KW002-BS-W10-V2
+## Completed handoff — KW002-BS-W10-V2
 
 ```text
 HANDOFF_ID = KW002-BS-W10-V2
 STEP_ID = STEP05_PRE_ACQUISITION_RECONCILIATION
-WHY_WORK_REQUIRED = 13 current queue rows must be reconciled globally against complete Step02/03/05 durable evidence; ordinary-chat sampling is forbidden
+WHY_WORK_REQUIRED = 13 current queue rows required global reconciliation against complete Step02/03/05 durable evidence; ordinary-chat sampling forbidden
 PRE_STEP_SOURCE_TRACE = STEP_05_W10_PRE_ACQUISITION_EXTERNAL_RESEARCH_V2_2026-09-12.md
 PRE_HANDOFF_MANIFEST = STEP_05_W10_PRE_HANDOFF_MANIFEST_V2_2026-09-12.md
 CANONICAL_PROMPT = STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_V2_2026-09-12.md
 EXECUTION_RELEASE = STEP_05_W10_PRE_ACQUISITION_EXECUTION_RELEASE_V2_2026-09-12.md
-OWNER_FACING_PRE_STEP_DISCLOSURE = REQUIRED BEFORE RELAY
-WORK_EXECUTION_STATE = NOT STARTED
-PROVIDER_EXECUTION_STATE = NOT RELEASED
-WORDSTAT_CALLS_ALLOWED = 0
-SEARCH_CALLS_ALLOWED = 0
-GENSEARCH_CALLS_ALLOWED = 0
-AI_SEARCH_CALLS_ALLOWED = 0
-STEP06_ALLOWED = false
+WORK_START_REMOTE_HEAD = 7ceec096dad6703b5dffede3271019f55946d75d
+WORK_PRE_PUBLICATION_REMOTE_HEAD = 7ceec096dad6703b5dffede3271019f55946d75d
+REMOTE_DRIFT_CLASSIFICATION = NO_REMOTE_DRIFT
+WORK_EXECUTION_STATE = COMPLETE
+LOCAL_VERDICT = PASS_CANDIDATE
+OWNER_UPLOAD_HEAD = f4f46d6eb8f40541ec742f36173d72237027dacb
+MAIN_CHATGPT_ACCEPTANCE = PASS
+MAIN_ACCEPTANCE_FILE = STEP_05_W10_V2_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md
+QUEUE_RECONCILED = 13/13
+REUSE_REGISTER_ROWS = 8
+REGRESSION_MATRIX = 17/17 PASS
+SURVIVING_NEW_PROVIDER_CANDIDATES = 1
+FIRST_FUTURE_CANDIDATE = W10C001
+FIRST_FUTURE_CANDIDATE_PHRASE = (амулет|оберег|талисман) Аум
+FIRST_FUTURE_CANDIDATE_EXECUTION_STATUS = NOT_EXECUTED
+DUPLICATE_REPROBES = 0
+OWNER_FACT_BYPASSES = 0
+WORDSTAT_CALLS = 0
+SEARCH_CALLS = 0
+GENSEARCH_CALLS = 0
+AI_SEARCH_CALLS = 0
+STEP03A_MUTATIONS = 0
+STEP03B_MUTATIONS = 0
+W09_STEP04_MUTATIONS = 0
+STEP06_STARTED = false
 ```
 
-Current 13-row queue gate entering Work:
+Accepted queue outcome:
 
 ```text
-SEARCH_GAP_CANDIDATES_TO_CHALLENGE = PSQ001, PSQ004, PSQ005
-OWNER_FACT_FIRST_OR_ONLY = PSQ002, PSQ003, PSQ009, PSQ012, PSQ013
-EXISTING_EVIDENCE_REUSE_NO_REPROBE = PSQ006, PSQ007, PSQ008, PSQ010
-DEFERRED = PSQ011
-PROVIDER_READY_NOW = 0
+PSQ001 = CLOSED BY Q001-Q003 / NO REPROBE
+PSQ002 = OWNER FACT HOLD
+PSQ003 = OWNER FACT HOLD
+PSQ004 = CLOSED BY Q019 / NO REPROBE
+PSQ005 = W10C001 FUTURE CANDIDATE / NOT EXECUTED
+PSQ006 = REUSE / NO REPROBE
+PSQ007 = REUSE / NO REPROBE
+PSQ008 = REUSE / NO REPROBE
+PSQ009 = OWNER FACT HOLD
+PSQ010 = E013 REUSE / NO REPLAY
+PSQ011 = DEFER TO STEP10 OR LATER SERP/INTENT
+PSQ012 = OWNER FACT ONLY
+PSQ013 = OWNER FACT ONLY
 ```
 
-Historical E013 `!чётки` is durable evidence and blind replay is forbidden.
-
-## W10 V2 expected outputs
+## W10 V2 published outputs
 
 ```text
 STEP_05_W10_V2_QUEUE_RECONCILIATION_WORK_2026-09-12.tsv
@@ -104,11 +126,24 @@ STEP_05_W10_V2_PROVIDER_CANDIDATE_MANIFEST_V1_2026-09-12.tsv
 STEP_05_W10_V2_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX_2026-09-12.tsv
 STEP_05_W10_V2_PRE_ACQUISITION_QA_2026-09-12.md
 STEP_05_W10_V2_PRE_ACQUISITION_WORK_RETURN_2026-09-12.md
-deterministic materializer/source if used
+STEP_05_W10_V2_PRE_ACQUISITION_MATERIALIZER_2026-09-12.py
 STEP_05_W10_V2_ARTIFACT_MANIFEST_2026-09-12.json
 ```
 
-Work must select at most one future first provider candidate and mark it `NOT_EXECUTED`.
+## Current hard boundary
+
+W10 V2 accepted the **planning/reconciliation evidence**, not a provider request.
+
+```text
+STEP05_PROVIDER_EXECUTION = NOT_RELEASED
+WORDSTAT_CALLS_ALLOWED_NOW = 0
+SEARCH_CALLS_ALLOWED_NOW = 0
+GENSEARCH_CALLS_ALLOWED_NOW = 0
+AI_SEARCH_CALLS_ALLOWED_NOW = 0
+STEP06_ALLOWED = false
+```
+
+Before W10C001 can run, Main ChatGPT must perform a fresh remote/schema/provider-price check and issue a separate one-request execution release.
 
 ## Artifact publication policy
 
@@ -122,4 +157,4 @@ STALE_MUTABLE_STATE_FILES_IN_OWNER_RELAY = forbidden unless freshly reconciled
 
 ## Current stop
 
-Do not relay the V1 W10 prompt. The next valid owner action is to receive the mandatory owner-facing pre-step disclosure from Main ChatGPT and then relay the exact W10 V2 handoff to Work.
+W10 V2 Work is complete and accepted. Next allowed action is preparation of the separate Step05 first-provider execution gate for W10C001. Do not execute Wordstat before that release and do not start Step06.
