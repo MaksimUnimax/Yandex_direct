@@ -15,27 +15,27 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 1aafee85d8534ab08848c217efa517a8a2cbec23
+          ref: c828c2ea2a7e412207f7cf7078f48b30919435c5
           persist-credentials: false
           fetch-depth: 1
           sparse-checkout: |
-            extension/tests
-            extension/src
-            extension/reference
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12
+            extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12
             extension/docs
       - name: Archive saved bytes only (no product execution or provider calls)
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = 1aafee85d8534ab08848c217efa517a8a2cbec23
+          test "$(git rev-parse HEAD)" = c828c2ea2a7e412207f7cf7078f48b30919435c5
           mkdir -p snapshot
-          git archive --format=tar HEAD extension/tests extension/src extension/reference extension/docs extension/README.md > snapshot/wip-source.tar
-          git ls-tree -r HEAD -- extension/tests extension/src extension/reference extension/docs extension/README.md > snapshot/GIT_TREE.txt
-          printf '%s\n' 'SOURCE_REF=1aafee85d8534ab08848c217efa517a8a2cbec23' 'INTERNAL_QA_SOURCE_ONLY' 'NOT_AN_INSTALLABLE_BUILD' 'NO_PROVIDER_CALLS' 'COMPLETE_ORIGINAL_TEST_INVENTORY_INCLUDED' > snapshot/README.txt
+          paths=(extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12 extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12 extension/docs/YMB_PATCH_DEPENDENCY_AND_RESOURCE_SAFETY_RULE.md extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md extension/docs/YMB_ASYNC_FILE_PRE_DELIVERY_COVERAGE_B13_2026-09-12.md extension/README.md)
+          git archive --format=tar HEAD "${paths[@]}" > snapshot/wip-source.tar
+          git ls-tree -r HEAD -- "${paths[@]}" > snapshot/GIT_TREE.txt
+          printf '%s\n' 'SOURCE_REF=c828c2ea2a7e412207f7cf7078f48b30919435c5' 'INTERNAL_QA_SOURCE_ONLY' 'NOT_AN_INSTALLABLE_BUILD' 'NO_PROVIDER_CALLS' > snapshot/README.txt
           (cd snapshot && sha256sum wip-source.tar GIT_TREE.txt README.txt > SHA256SUMS)
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ymb-b12-full-test-inventory-internal-only
+          name: ymb-b13-qualification-source-internal-only
           path: snapshot/
           retention-days: 7
           if-no-files-found: error
