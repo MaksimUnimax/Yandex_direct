@@ -56,7 +56,7 @@ A job may have HOLD/rework branches, but the permanent step exists because the n
 
 ## Why
 
-Analysis cannot be judged if the business question, source authority or promised output is allowed to drift during research.
+Analysis cannot be judged if the business question, source authority or purchased scope is allowed to drift during research.
 
 ## Input
 
@@ -333,9 +333,18 @@ Full active/HOLD universe accounted; no blocking family-rule defects; preliminar
 
 # STEP 05 — targeted expansion / coverage control
 
+Dedicated universal gate:
+
+`STEP_05_TARGETED_EXPANSION_AND_PROVIDER_EXECUTION_GATE.md`
+
+Inherited provider gates where Wordstat is used:
+
+- `STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md`
+- `STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md`
+
 ## Why
 
-Close material search-vocabulary gaps revealed by earlier evidence without turning acquisition into endless recursion.
+Close material search-vocabulary gaps revealed by earlier evidence without turning acquisition into endless recursion, duplicate remeasurement or unsafe provider execution.
 
 ## Input
 
@@ -347,28 +356,86 @@ For each proposed expansion:
 
 ```text
 name exact unresolved question
-→ reconcile against all existing evidence
+→ reconcile against all existing durable evidence
 → separate OWNER FACT from SEARCH DEMAND question
 → prove incremental information gain
-→ define negative-result value and stop condition
+→ define positive / valid-zero / incomplete / failure / unknown outcome meaning
+→ justify query/operator shape
+→ justify depth from the information question, not provider maximum
+→ define snapshot-bounded stop/reopen logic
 → authorize only genuinely new probe
+→ persist complete RAW before any next provider call
+→ pass new rows through Step03A/03B before union
 ```
 
-All new provider results immediately pass through Step03A/03B before union.
+Mandatory invariants:
+
+```text
+PRE_ACQUISITION_ACCEPTED != STEP05_COMPLETE
+NO_RETRY != NEGATIVE_EVIDENCE
+TECHNICAL_FAILURE != ZERO_DEMAND
+PROVIDER_MAXIMUM != SEMANTIC_COMPLETENESS
+BROAD EVIDENCE != QUALIFIED QUESTION ANSWER
+TEMPORAL SNAPSHOT != PERMANENT TRUTH
+RAW PROVIDER ROW != ACCEPTED SEMANTIC ROW
+WORK != DEFAULT FOR BOUNDED DOCUMENTATION / ONE-CANDIDATE GATE WORK
+```
+
+Work is used only when the applicable Level1 large-data/full-volume trigger is actually met; large data must never be sampled merely to avoid Work.
 
 ## Root causes prevented
 
 - duplicate acquisition of already durable evidence;
 - owner/business facts sent to a search provider;
-- recursive expansion without information gain.
+- recursive expansion without information gain;
+- pre-acquisition PASS misreported as final Step05 completion;
+- valid zero responses collapsed with technical/provider/unknown outcomes;
+- no-retry safety semantics mistaken for negative evidence;
+- provider maximum used as automatic depth decision;
+- depth-boundary hit misread as complete market coverage;
+- operator/morphology decisions left implicit;
+- broad evidence used to close narrower qualified questions;
+- temporal demand observations labelled permanent truth;
+- accepted review corrections left only in chat;
+- stale provider schema/limits/pricing reused as current;
+- raw provider results injected directly into accepted semantic authorities;
+- next provider request issued before current RAW persistence/readback;
+- Work handoff used without an applicable scale trigger.
 
 ## Output
 
-New RAW evidence where justified + normalized/sanitized additions + updated coverage state.
+Where justified: new durable RAW evidence + complete request/outcome provenance + normalized/sanitized additions + updated snapshot-bounded coverage state.
 
 ## PASS
 
-No provider-ready probe duplicates current evidence; owner-fact gaps are not searched as if demand could prove inventory/business truth.
+All applicable conditions must pass:
+
+```text
+ALL_GAP_ROWS_RECONCILED = true
+PROVIDER_READY_QUEUE_WITH_EQUIVALENT_EXISTING_EVIDENCE = 0
+OWNER_FACT_GATED_SENT_TO_PROVIDER = 0
+ALL_NEW_PROVIDER_CANDIDATES_HAVE_INFORMATION_GAIN_CONTRACT = true
+OUTCOME_CONTRACT_DEFINED_BEFORE_EXECUTION = true
+NO_RETRY_SEPARATED_FROM_EVIDENCE_MEANING = true
+DEPTH_JUSTIFICATION = PASS where acquisition exists
+DEPTH_BOUNDARY_HANDLED = true where applicable
+MATERIAL_OPERATOR_DECISION_EXPLICIT = true where applicable
+ZERO_RESULT_SCOPE_BOUNDED = true
+TEMPORAL_CLOSURES_HAVE_REOPEN_TRIGGERS = true
+COMPLETE_RAW_PERSISTENCE_AND_REMOTE_READBACK = PASS for executed requests
+NEW_ROWS_PASS_STEP03A_STEP03B_BEFORE_UNION = true
+MATERIAL_REVIEW_CORRECTIONS_DURABLE = true
+WORK_USED_ONLY_WHEN_APPLICABLE_TRIGGER_EXISTS = true
+OPEN_CRITICAL_STEP05_DEFECTS = 0
+```
+
+If any execution-ready provider candidate remains unresolved/unexecuted:
+
+```text
+STEP05_PRE_ACQUISITION_MAY_BE_ACCEPTED
+STEP05_FINAL_COMPLETE = false
+STEP06_START_ALLOWED = false
+```
 
 ---
 
