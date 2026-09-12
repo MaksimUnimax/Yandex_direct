@@ -1,0 +1,85 @@
+name: YMB B15 supplemental browser faults (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b15-browser-faults.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b15-browser-faults
+  cancel-in-progress: false
+jobs:
+  supplemental:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 1f841b9c96fce3a66909ffd662fc728d5825e9ab
+          persist-credentials: false
+          sparse-checkout: extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b14-qualified-internal-only
+          run-id: 34692833348
+          github-token: ${{ github.token }}
+          path: frozen-bundle
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Exact artifact and supplemental QA preparation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import importlib.util,zipfile,hashlib,os
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b14_qualify.py')
+          spec=importlib.util.spec_from_file_location('q',q);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          p=Path('frozen-bundle/candidate-internal-qa.zip')
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==m.ZIP_SHA and p.stat().st_size==m.ZIP_BYTES
+          with zipfile.ZipFile(p) as z: files={e.filename[len(m.ROOT_NAME)+1:]:z.read(e) for e in z.infolist() if not e.is_dir()}
+          m.verify_package(p,files)
+          root=Path(os.environ['RUNNER_TEMP'])/'exact';root.mkdir()
+          for n,b in files.items():f=root/n;f.parent.mkdir(parents=True,exist_ok=True);f.write_bytes(b)
+          assert m.identity(m.inventory(root))==m.TARGET
+          with open(os.environ['GITHUB_ENV'],'a') as e:
+            e.write('YMB_BROWSER_CANDIDATE='+str(root)+'\nYMB_BROWSER_EVIDENCE='+os.environ['RUNNER_TEMP']+'/evidence\nYMB_PPTR_HOME='+os.environ['RUNNER_TEMP']+'/puppeteer\n')
+          PY
+      - name: Real browser supplemental assertions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_PPTR_HOME" "$YMB_BROWSER_EVIDENCE"
+          printf '%s\n' '{"name":"ymb-b15-faults","private":true}' > "$YMB_PPTR_HOME/package.json"
+          npm install --prefix "$YMB_PPTR_HOME" --save-exact --no-audit --no-fund puppeteer@25.10.0 > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+          cp "$YMB_PPTR_HOME/package-lock.json" "$YMB_BROWSER_EVIDENCE/"
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          python3 "$Q/b15_prepare_faults.py" > "$YMB_BROWSER_EVIDENCE/materialize.stdout"
+          node --check "$Q/b15_browser_faults.mjs"
+          xvfb-run -a node "$Q/b15_browser_faults.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Save partial evidence without weakening verdict
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,shutil,json
+          p=Path(os.environ['RUNNER_TEMP'])/'evidence';p.mkdir(exist_ok=True)
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa')
+          for n in ['b15_browser_faults.mjs','b15_fixture.html','b15_prepare_faults.py','b15_fault_cases.inc.mjs']:
+            if (q/n).exists():shutil.copyfile(q/n,p/n)
+          (p/'BOUNDARY.json').write_text(json.dumps({'qa_ref':'1f841b9c96fce3a66909ffd662fc728d5825e9ab','package_sha256':'e260f35b1d7decf02c18c46103b4072de68270c2bce09e2f51f7462941c48f97','product_unchanged':True,'real_provider_calls':0,'live_chatgpt_upload':False,'independent_gate':False,'release_allowed':False})+'\n')
+          (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(p.iterdir()) if f.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b15-supplemental-evidence
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 90
+          if-no-files-found: error
