@@ -1,57 +1,62 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "date": "2026-09-12",
-  "owner_instruction": "Continue execution; persist code, tests, evidence and cursor during work after every material block. Never restart preserved work or hand off an unverified installable build.",
+  "owner_instruction": "Continue execution; persist code, tests, raw/structured evidence and cursor during work after every material block. Never restart preserved work or hand off an unverified installable build.",
   "baseline_archive": "yandex-marketing-bridge-0.1.4-webmaster-readiness-gzip(2).zip",
   "baseline_archive_sha256": "b812c4c54d1054d63a24ea852e1721e813d133172487c9872bac347998e3e53f",
   "baseline_tree_manifest_sha256": "6092555d37a1fa0145d71ae0bf0f76eb0b9c9596a4be7a1e0e7c2a0b9325aa36",
   "baseline_file_count": 53,
   "patch_a_recorded_state": "ACCEPTED_FOR_INTEGRATION_ONLY_UNCHANGED",
-  "prior_evidence_policy": "Preserve exact-target A/B1-B5 evidence. Do not relabel historical Node or Patch-A Chrome results as B6/B7 browser evidence.",
-  "current_unit": "PATCH_B_B6_TRUSTED_WORKER_OWNER_MANUAL_BINDING_AND_GUARD_ACTIVATION",
-  "current_unit_state": "SOURCE_AND_FRESH_QA_26_PASS_B5_REGRESSION_85_PASS_NOT_BROWSER_ACCEPTED",
-  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B6_RESULT.md",
-  "test_results": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B6_TEST_RESULTS.json",
-  "exact_reconstruction": {
-    "script": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/prepare_b6.py",
-    "script_sha256": "9e9aed2df167f60f6b6172f157c106cd1b973813f16ea696939a75d10c2405f3",
-    "binding_sha256": "a8e383d73a8d8b9e7b59e914bf519e4b0bccfff2e5ee365a57d8132e27d1ed6f",
-    "bootstrap_delta_sha256": "ad03eaa500a546c481092f55c9e4752c2a3a75fc80b34490002f5a71478e1eb2",
-    "portable_composition_test_sha256": "cf84b1b3c9f02b82de311838b263cb6d671c8b3a22656eb51a11d65866a1a84c",
-    "fresh_candidate_files": 56,
-    "fresh_candidate_tree_manifest_sha256": "3eaef3a5811928e63bd81907d90fdc270df8421c133efae7766ef34c1b16d715"
+  "prior_evidence_policy": "Preserve exact-target A/B1-B6 evidence. Do not relabel historical Node or Patch-A Chrome results as B7 browser/resource evidence.",
+  "current_unit": "PATCH_B_B7_MANUAL_DEFERRED_COMMAND_INGRESS_AND_RUNTIME_BINDING",
+  "current_unit_state": "CODE_TESTS_EVIDENCE_PERSISTED_48_OF_48_NODE_PASS_BROWSER_AND_REAL_IDB_NOT_RUN",
+  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B7_RESULT.md",
+  "test_results": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B7_TEST_RESULTS.json",
+  "final_tap": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B7_ALL_GREEN.tap",
+  "exact_b7": {
+    "search_async_worker_transport_sha256": "71a3e7e6d424f197cb3d3c39fff74df024e941858ea791e163245f1535e3080f",
+    "search_admission_worker_binding_sha256": "5f9468110c4ed7d51d3d8c1cd7c306549dd2428a49efc9892c9d4a7b70b49bba",
+    "phase3_service_worker_bootstrap_sha256": "40565b792b9210b5b97795bb7b9c71577a5008bb312077e06a4a54b349dd9c88",
+    "binding_delta_sha256": "73659d4fffa407ec3deedde7c61179198ccbfbd416ab65203243616cfaf998ea",
+    "bootstrap_delta_sha256": "3e2fb262843be9de218c05be3c02e4ed1611506f0d9a0665c5d9a37da0cc8618"
   },
   "tests": {
-    "b6_source": {"pass": 26, "fail": 0, "tap_sha256": "a6d521e7a19cc6a3b06fb6ebc8b8bd2505d39a8768a6c20286c31d4a12ac7abe"},
-    "b6_fresh": {"pass": 26, "fail": 0, "tap_sha256": "76141553877cf64ebf93bef432541be01b17751d1a94597fb9cd6ee354691551"},
-    "b5_preserved_regression": {"pass": 85, "fail": 0, "tap_sha256": "87e4cb00cbb5cae3eeff378b6acd2a917719ba99eda4e4e1d1d49ae51bcdbeba"},
-    "fresh_production_js_syntax": 50,
-    "fresh_json_parse": 2
+    "red": {"tests": 44, "pass": 37, "fail": 7, "tap_sha256": "08d3707be4aed9a81ad5c86f7dc97a164f47989f4311db2e4e5da4f9519301e5"},
+    "b7_green": {"tests": 44, "pass": 44, "fail": 0, "tap_sha256": "4bcf33c0133762bd4772d4a40e9d236494d86ed3de07bdbd16c9e2a469f4879a"},
+    "combined_final": {"tests": 48, "pass": 48, "fail": 0, "skipped": 0, "tap_sha256": "0ece9b180ccd3e15cdb1df107a2ce7797c5f2a19291a4e59a6eb68428b912f46"},
+    "composition": {"b6_trusted_binding": 18, "b7_bootstrap_permission": 4, "b7_manual_worker": 26}
   },
-  "harness_incidents_recorded": 3,
-  "browser_boundary": "Managed Chromium restriction remains unresolved. No policies changed or bypassed. B6 Node/fresh-QA results are not Chrome, real IndexedDB, MV3 lifecycle or memory proof.",
-  "next_unit": "PATCH_B_B7_MANUAL_DEFERRED_COMMAND_INGRESS_AND_RUNTIME_BINDING",
-  "b7_scope": [
-    "Separate SEARCH_ASYNC_BATCH_API_V1 command ingress",
-    "Manual-only deferred integration in first release; Autorun deferred remains disabled",
-    "Require YMBSearchAdmissionBinding.ready === true",
-    "Derive job ownership from verified bound Manual conversation and durable worker state",
-    "Manual start, submitN, collectN/collectReady, status, itemsPage, pause, resume, cancelPending",
-    "No background polling or alarms",
-    "Compact responses only; no raw result arrays in chat",
-    "Do not add operation.api.cloud.yandex.net host permission until deferred transport is actually wired and dependency tests are ready"
+  "b7_red_green": {
+    "product_defect": "public submitN/collectN were rejected by the new B7 internal action allowlist; corrected before release",
+    "downstream_failures_same_root": 6,
+    "qa_assertion_strengthened": 1
+  },
+  "b7_boundaries": {
+    "manual_only_deferred": true,
+    "autorun_deferred_enabled": false,
+    "background_polling_or_alarms": false,
+    "operation_host_permission_present": false,
+    "provider_calls_during_validation": 0,
+    "browser_validation": "NOT_RUN",
+    "real_indexeddb_validation": "NOT_RUN"
+  },
+  "next_unit": "PATCH_B_B8_BOUNDED_EXPORT_THROUGH_PRESERVED_PATCH_A",
+  "next_scope": [
+    "Use preserved Patch A artifact/file-delivery mechanism; do not reimplement it",
+    "Export bounded/paged Search async result data without raw arrays in command response",
+    "Keep Manual owner/outbox lifecycle and compact-response boundaries",
+    "Persist B8 source/tests/evidence before further composition"
   ],
   "remaining_release_blockers": [
-    "B7 trusted Manual command/runtime integration",
-    "Bounded export through preserved Patch A",
-    "Exact combined A+B candidate and all affected dependency regressions",
+    "B8 bounded export through preserved Patch A",
+    "Exact combined A+B candidate and all affected non-browser dependency regressions",
     "Real IndexedDB and 10/100/500/1500 scale/recovery/resource validation",
     "Combined Chrome memory/resource validation including repeated 1/10/32/64 MB file cycles",
+    "Operation GET host permission and real provider/auth capability validation if/when explicitly enabled",
     "Independent full pre-delivery gate",
     "Fresh final package identity proof"
   ],
-  "new_provider_calls": 0,
   "release_allowed": false,
   "owner_installable_zip_handoff": "FORBIDDEN",
-  "continuation_rule": "Read BLOCK_B6_RESULT and this cursor. Start B7 from the exact saved A/B1-B6 artifacts; do not rebuild prior blocks. Persist B7 code/tests/evidence before moving on."
+  "continuation_rule": "Read BLOCK_B7_RESULT and this cursor. Resume from exact saved A/B1-B7 bytes. Do not rebuild prior blocks. Persist B8 code/tests/evidence and update this cursor before starting any later block."
 }
