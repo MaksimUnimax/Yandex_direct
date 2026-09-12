@@ -1,0 +1,34 @@
+--- a/service_worker.js
++++ b/service_worker.js
+@@ -406,7 +406,15 @@
+   const serviceContext = await getServiceContext(key);
+   const [common, binding, manualMode, run, startPrompt, reportPrefix] = await Promise.all([commonPublicSettingsFields(), getBinding(key), getManualMode(key), getAutoRun(key), getAutoStartPrompt(key, { service: serviceContext.active_service }), getReportPrefix(key)]);
+   const opsData = await storageGet(KEYS.MANUAL_OPERATIONS); const op = opsData[KEYS.MANUAL_OPERATIONS]?.[key] || null;
+-  return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, report_prefix: reportPrefix, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null } : null };
++  // UI availability only, never execution authority. The next Manual request still
++  // verifies the live tab, binding, active service and old operation in the worker.
++  const recoveryAvailable = Boolean(globalThis.YMBSearchAsyncWorkerIntegration?.ready === true &&
++    manualMode === true && serviceContext.active_service === "search" && binding &&
++    op?.status === "search_async_requesting" && op.active_service === "search" &&
++    op.conversation_key === key && Number.isInteger(op.tab_id) && op.tab_id > 0 &&
++    /^[A-Za-z0-9_-]{1,128}$/.test(String(op.batch_job_id || "")) &&
++    op.request_worker_session_id !== WORKER_SESSION_ID);
++  return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, report_prefix: reportPrefix, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null, recovery_available: recoveryAvailable } : null };
+ }
+ async function publicGlobalSettingsState(pageContextError = null) { return { ...(await commonPublicSettingsFields()), page_context_error: pageContextError, binding: null, manual_mode: false, service_context: { active_service: "wordstat" }, auto_run: null, auto_start_prompt: { text: DEFAULT_AUTO_START_TEXT, is_default: true, service: "wordstat" }, report_prefix: null }; }
+ async function patchToggleSettings(message = {}, sender = null) {
+@@ -966,6 +974,14 @@
+       autorunContinues: true
+     });
+   }
++  if (run.active_service === "search" && result.stop_required === true) {
++    // Preserve a received answer, but do not ask Autorun for another command
++    // when the shared accounting transaction could not be completed.
++    await patchAutoRun(key, (r) => ({ ...r, pause_requested: true,
++      last_error: { code: result.admission_warning || "SHARED_ADMISSION_SETTLEMENT_FAILED",
++        message: "Учёт Search требует проверки; дальнейшие автоматические запросы остановлены.",
++        request_executed: result.request_executed ?? "UNKNOWN", automatic_retry: false } }));
++  }
+   const prefixResult = await applyPrefixToReport(key, result.report_text);
+   const outgoingText = prefixResult.text;
+   const deliveryId = uid("delivery"); await putOutbox(key, { delivery_id: deliveryId, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: outgoingText, phase: "claimed", report_prefix_applied: prefixResult.applied === true, created_at: nowIso() }); await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: deliveryId, phase: "claimed", request_id: result.request_id, outgoing_text: outgoingText, report_prefix_applied: prefixResult.applied === true } })); return { ok: true, accepted: true, report_text: outgoingText, result };
