@@ -1,0 +1,67 @@
+name: YMB B14 internal package qualification (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b14-internal-qualification.yml]
+permissions:
+  contents: read
+concurrency:
+  group: ymb-b14-internal-qualification
+  cancel-in-progress: false
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 652cf5ab4e203fbc2ca87492037ae9d12cf3b221
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests
+            extension/src
+            extension/docs
+            extension/reference
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Qualify immutable package and available packaged suites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 652cf5ab4e203fbc2ca87492037ae9d12cf3b221
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          mkdir -p "$RUNNER_TEMP/b14-evidence"
+          python3 "$Q/b14_qualify.py" "$GITHUB_WORKSPACE" "$RUNNER_TEMP/b14-run" --run-tests > "$RUNNER_TEMP/b14-evidence/qualification.stdout" 2> "$RUNNER_TEMP/b14-evidence/qualification.stderr"
+          python3 "$Q/b14_package_test.py" "$RUNNER_TEMP/b14-run" "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/b14-evidence/package-tests.stdout" 2> "$RUNNER_TEMP/b14-evidence/package-tests.stderr"
+      - name: Preserve full logs and exact reusable QA workspace
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,tarfile,hashlib,json,platform,subprocess,shutil
+          temp=Path(os.environ['RUNNER_TEMP']);run=temp/'b14-run';bundle=Path('b14-internal-bundle');bundle.mkdir()
+          for p in (run/'payload').glob('*'): shutil.copyfile(p,bundle/p.name)
+          excluded={'original_view','patch_qa','export','src','candidate','inputs','qa','baseline'}
+          logs=list((temp/'b14-evidence').glob('*'))
+          logs += [p for p in (run/'packaged_test_logs').rglob('*') if p.is_file() and not (set(p.relative_to(run/'packaged_test_logs').parts)&excluded)]
+          logs += list(run.glob('campaign.*'))
+          with tarfile.open(bundle/'complete-logs.tar.xz','w:xz') as t:
+              for p in sorted(set(logs)): t.add(p,arcname=p.relative_to(temp).as_posix(),recursive=False)
+          if (run/'fresh_qa').exists():
+              with tarfile.open(bundle/'exact-qa-workspace.tar.xz','w:xz') as t: t.add(run/'fresh_qa',arcname='qa')
+          record={'source_ref':'652cf5ab4e203fbc2ca87492037ae9d12cf3b221','python':platform.python_version(),'node':subprocess.check_output(['node','-v']).decode().strip(),'browser_executed':False,'real_yandex_requests':0,'independent_gate':False,'release_allowed':False}
+          (bundle/'BOUNDARY.json').write_text(json.dumps(record,indent=2)+'\n')
+          (bundle/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(bundle.iterdir()) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b14-qualified-internal-only
+          path: b14-internal-bundle/
+          retention-days: 90
+          if-no-files-found: error
