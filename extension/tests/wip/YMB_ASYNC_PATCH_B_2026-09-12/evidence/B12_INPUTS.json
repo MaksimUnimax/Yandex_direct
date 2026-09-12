@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "source_ref": "f52da796ca399c53c012902f04f49632d2ab6600",
+  "baseline_b11_tree_sha256": "5fd8a55e980fa54fe5371a51070e9e899307319c8f1ee3255fdc0857b31ebd26",
+  "candidate_b12_tree_sha256": "73e6ed85bfd843bf2590a2d1a44a9d04224ce5f63563d127bcd35c2ad092eeec",
+  "candidate_count": 67,
+  "js_count": 61,
+  "changed_files": [
+    "README.md",
+    "README.txt"
+  ],
+  "inputs": {
+    "candidate/b12/README.md": "33f10ae085aa1c06af1a1249e3d625508f7b0267612c75dc920f92f76215ec09",
+    "candidate/b12/README.txt": "b702e73fe9b7ad551c8d3c0c41eabaa16a4b4ca59d2f1c54debdc2e461c64430",
+    "qa/b12_contract.test.mjs": "d9f32437e88958bdbef285deaded32e8b6c7d3d8f62e37765eb26d6b9ce8b122"
+  },
+  "inherited_qa": {
+    "b10_content_contract.test.mjs": "34a775065411ee6737772da1aa3754b88203ab8f6f66cd5e0cbc260bae40bb3d",
+    "b10_deferred.test.mjs": "5d310639e816b29ef75fff51f0bf5ec797a37b0f836267fea4c6b1f0e5c0ae60",
+    "b10_full_worker_harness.mjs": "238d06ee4968c70516bc161c51e04b9a478d08f0459df532de705fb03e372f2b",
+    "b10_legacy.test.mjs": "a599565bba403ad6d8027a16799d1f4a4d71f2590580a0c4b25e409dd8d62b3c",
+    "b11_batch_faults.test.mjs": "c9036d12c10d0a15d9dbaeb374a0c61d01818f76cf04f1f524fe7400a2162f9c",
+    "b11_reparse.test.mjs": "c9c21aac78242687c2acf554aff9456530962d15783519767688aa8dd284ec74",
+    "b9_full_worker.test.mjs": "45491d1de8b55f804e458e9b1c0f86f6ccbaa63e66a1f755d9724517bf76061d",
+    "b9_full_worker_harness.mjs": "7b10df64b29c271a901512c9e00609ce59078f7743a7532e04dcbf99a7ba5051",
+    "idb_artifact_fixture.mjs": "adf32baf310276ffcf4205f01310129e9ff4b7ee01acabd87c13b6530eafe246"
+  },
+  "inherited_inputs": {
+    "idb_test_double.mjs": "1327c21fca17b0a34ebec3a8234c9721d1f09192f00bd862cffdbf1548d025af"
+  },
+  "no_installable_zip": true
+}
