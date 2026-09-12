@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: fc89ba5766373bd6abbdfac58b7c3670f58b0702
+          ref: aae11100d0ac53b79302e77b50851f1517ad9bba
           persist-credentials: false
           fetch-depth: 1
           sparse-checkout: |
@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = fc89ba5766373bd6abbdfac58b7c3670f58b0702
+          test "$(git rev-parse HEAD)" = aae11100d0ac53b79302e77b50851f1517ad9bba
           mkdir -p snapshot
           git archive --format=tar HEAD \
             extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12 \
@@ -41,11 +41,11 @@ jobs:
             extension/docs/YMB_PATCH_DEPENDENCY_AND_RESOURCE_SAFETY_RULE.md \
             extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md \
             > snapshot/GIT_TREE.txt
-          printf '%s\n' 'SOURCE_REF=fc89ba5766373bd6abbdfac58b7c3670f58b0702' 'INTERNAL_QA_SOURCE_ONLY' 'NOT_AN_INSTALLABLE_BUILD' 'NO_PROVIDER_CALLS' > snapshot/README.txt
+          printf '%s\n' 'SOURCE_REF=aae11100d0ac53b79302e77b50851f1517ad9bba' 'INTERNAL_QA_SOURCE_ONLY' 'NOT_AN_INSTALLABLE_BUILD' 'NO_PROVIDER_CALLS' > snapshot/README.txt
           (cd snapshot && sha256sum wip-source.tar GIT_TREE.txt README.txt > SHA256SUMS)
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: ymb-wip-source-fc89ba5-not-installable
+          name: ymb-wip-source-aae1110-not-installable
           path: snapshot/
           retention-days: 7
           if-no-files-found: error
