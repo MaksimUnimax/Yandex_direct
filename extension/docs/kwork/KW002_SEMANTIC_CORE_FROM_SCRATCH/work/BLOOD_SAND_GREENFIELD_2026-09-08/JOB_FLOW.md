@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — JOB FLOW
 
-Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION PREPARED / WORK NOT STARTED / PROVIDER EXECUTION NOT RELEASED / STEP06 NOT STARTED**
+Status: **STEP04 W09 ACCEPTED / STEP05 W10 V2 PRE-ACQUISITION ACCEPTED / ONE FUTURE WORDSTAT CANDIDATE / PROVIDER EXECUTION NOT RELEASED / STEP06 NOT STARTED**
 
 ## Whole-job goal
 
@@ -19,15 +19,13 @@ Clean-boundary rule remains active: prior Blood & Sand analytical research is se
 
 ## Current authority order
 
-Current state must be read from the live branch, with authority in this order:
-
 1. current `KW002_EXECUTION_CURSOR_2026-09-11.json`;
-2. accepted step-specific Main ChatGPT acceptance/readback files;
+2. accepted Main ChatGPT readback/acceptance files;
 3. current accepted analytical artifacts;
-4. current corrected prompt/release package for the active step;
-5. this `JOB_FLOW.md` as the human-readable roadmap/status view.
+4. current prompt/release package for the active execution sub-stage;
+5. this `JOB_FLOW.md` as the human-readable current roadmap/status view.
 
-A stale historical prompt, queue, cursor or owner relay never overrides a newer accepted authority.
+Historical prompts, relays and superseded queue splits never override current authority.
 
 ## Full roadmap / current status
 
@@ -37,10 +35,10 @@ A stale historical prompt, queue, cursor or owner relay never overrides a newer 
 | 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
 | 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS |
 | 03 | Primary Wordstat acquisition + durable RAW feed-forward | ✅ COMPLETE / PASS / 79 of 79 durable |
-| 03A | RAW normalization + safe deduplication | ✅ COMPLETE / PASS / 24,576 identities / RAW lineage preserved |
+| 03A | RAW normalization + safe deduplication | ✅ COMPLETE / PASS / 24,576 identities / 25,979 RAW |
 | 03B | Conservative high-confidence sanitation | ✅ CORRECTED AUTHORITY ACCEPTED / 5,100 KEEP / 13,035 HOLD / 6,441 EXCLUDE |
-| 04 | Preliminary family/topic/task triage | ✅ W09 CURRENT AUTHORITY ACCEPTED / 24,576 identities / 25,979 RAW / independent QA accepted |
-| 05 | Targeted expansion / coverage control | 🟠 PREPARATION CORRECTED TO W10 V2 / owner-facing pre-step disclosure required before relay / Work reconciliation not started / provider execution not released |
+| 04 | Preliminary family/topic/task triage | ✅ W09 CURRENT AUTHORITY ACCEPTED |
+| 05 | Targeted expansion / coverage control | 🟠 W10 V2 PRE-ACQUISITION ACCEPTED / one future candidate W10C001 / provider execution not yet released |
 | 06 | Current Yandex organic competitor discovery | ⬜ NOT STARTED |
 | 07 | Competitor semantic expansion | ⬜ NOT STARTED |
 | 08 | Competitor-derived Wordstat expansion | ⬜ NOT STARTED |
@@ -59,7 +57,7 @@ A stale historical prompt, queue, cursor or owner relay never overrides a newer 
 | 21 | Revision rehearsal + productization measurement/economics | ⬜ NOT STARTED |
 | 22 | Final handoff / job close | ⬜ NOT STARTED |
 
-## Accepted completed work
+## Accepted completed work through Step04
 
 ```text
 STEP00 = PASS / Ozon-only frozen source boundary
@@ -71,100 +69,91 @@ STEP03A = PASS / 24576 normalized identities / 25979 RAW occurrences / lineage p
 STEP03B_ORIGINAL = SUPERSEDED
 STEP03B_CORRECTED = ACCEPTED / KEEP 5100 / HOLD 13035 / EXCLUDE 6441
 STEP04_W07_INDEPENDENT_AUDIT = ACCEPTED / REWORK_REQUIRED / 255 material defect identities
-STEP04_W08 = HISTORICAL CORRECTIVE RESULT / NOT CURRENT AUTHORITY
+STEP04_W08 = HISTORICAL / NOT CURRENT AUTHORITY
 STEP04_W09 = MAIN CHATGPT REMOTE READBACK ACCEPTED
 STEP04_CURRENT = ACCEPTED W09 CURRENT AUTHORITY
 STEP04_W09_FAMILIES = 32 / 29 observed / 3 zero-member
-STEP04_W09_QUEUE = 13 rows / provider-ready-now 0
+STEP04_W09_QUEUE = 13 rows
 STEP04_W09_RAW_LINEAGE_LOSS = 0
 STEP04_W09_STEP03A_MUTATIONS = 0
 STEP04_W09_STEP03B_MUTATIONS = 0
 ```
 
-Current Step04 acceptance:
+## Step05 historical durable evidence
 
-`STEP_04_W09_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
-
-Current Step04 analytical authority:
-
-`STEP_04_CURRENT_AUTHORITY_*`
-
-## Step05 historical evidence already present
-
-Step05 was historically touched before the Step04 correction cycle. Exactly one durable provider request is preserved:
+Before the Step04 correction cycle, one Step05 provider request was executed and durably preserved:
 
 ```text
-historical queue item = E013
+E013
 phrase = !чётки
-provider request = wordstat-132a43ff-7cf9-4544-a6e2-68da666c4813
 results = 2000
 associations = 19
-raw blob = 550add6010ddbd10e0d807fd1a11046d2b782a4a
 remote readback = PASS
+blind replay = forbidden
 ```
 
-This evidence is reusable and MUST NOT be blindly replayed.
+## Step05 W10 V2 accepted pre-acquisition result
 
-## Current Step05 entry state
+Main ChatGPT remote readback accepted:
 
-Current accepted W09 queue = 13 rows.
+`STEP_05_W10_V2_MAIN_CHATGPT_REMOTE_READBACK_ACCEPTANCE_2026-09-12.md`
 
-Starting W10 V2 gate:
+Current result:
 
 ```text
-SEARCH_GAP_CANDIDATES_TO_CHALLENGE = PSQ001, PSQ004, PSQ005
-OWNER_FACT_FIRST_OR_ONLY = PSQ002, PSQ003, PSQ009, PSQ012, PSQ013
-EXISTING_EVIDENCE_REUSE_NO_REPROBE = PSQ006, PSQ007, PSQ008, PSQ010
-DEFERRED_TO_LATER_INTENT/SERP = PSQ011
-PROVIDER_READY_NOW = 0
+QUEUE_RECONCILED = 13/13
+PSQ001 = CLOSED BY EXISTING Q001-Q003
+PSQ004 = CLOSED BY EXISTING Q019
+PSQ005 = ONE SURVIVING FUTURE CANDIDATE
+PSQ006 = REUSE / NO REPROBE
+PSQ007 = REUSE / NO REPROBE
+PSQ008 = REUSE / NO REPROBE
+PSQ010 = REUSE E013 / NO REPLAY
+OWNER_FACT_ROWS = PSQ002, PSQ003, PSQ009, PSQ012, PSQ013
+DEFERRED = PSQ011
+DUPLICATE_REPROBES = 0
+OWNER_FACT_BYPASSES = 0
+W10_PROVIDER_CALLS = 0
+W10_STEP03A_MUTATIONS = 0
+W10_STEP03B_MUTATIONS = 0
+W10_W09_STEP04_MUTATIONS = 0
 ```
 
-Current corrected Step05 preparation package:
-
-- `STEP_05_W10_PREPARATION_RULE_VIOLATION_AND_CORRECTION_2026-09-12.md`
-- `STEP_05_W10_PRE_ACQUISITION_EXTERNAL_RESEARCH_V2_2026-09-12.md`
-- `STEP_05_W10_PRE_HANDOFF_MANIFEST_V2_2026-09-12.md`
-- `STEP_05_W10_PRE_ACQUISITION_WORK_PROMPT_V2_2026-09-12.md`
-- `STEP_05_W10_PRE_ACQUISITION_EXECUTION_RELEASE_V2_2026-09-12.md`
-
-The earlier W10 V1 preparation files are historical and must not be relayed as current execution authority.
-
-## Step05 exact next action
-
-Mandatory order:
+Sole future candidate:
 
 ```text
-owner-facing pre-step report in Main ChatGPT
-→ clickable fresh source disclosure + plain-Russian explanation
-→ owner relays exact W10 V2 handoff
-→ Work fetches current live branch
-→ Work reconciles all 13 queue rows against full durable evidence
-→ Work materializes inert candidate manifest, selecting at most one future first provider candidate
-→ ZERO provider calls in Work
-→ Work publishes or owner-relays artifacts
-→ Main ChatGPT remote readback / return QA
-→ only then separate decision whether one provider call is justified
+candidate_id = W10C001
+source_queue_id = PSQ005
+phrase = (амулет|оберег|талисман) Аум
+max_requests = 1
+execution_status = NOT_EXECUTED
 ```
 
-## Step05 hard boundaries
+The candidate exists because the durable acquisition universe contains broad `Аум` and qualified `Ом`, but not qualified `Аум`. It remains only a future acquisition candidate; it is not evidence until separately released, executed, persisted and sanitized.
+
+## Current hard boundary
 
 ```text
-WORDSTAT_EXECUTION_NOW = NOT RELEASED
-SEARCH_EXECUTION_NOW = NOT RELEASED
-GENSEARCH_EXECUTION_NOW = NOT RELEASED
-AI_SEARCH_EXECUTION_NOW = NOT RELEASED
-STEP03A_MUTATION_NOW = NO
-STEP03B_MUTATION_NOW = NO
-STEP04_CURRENT_AUTHORITY_MUTATION = NO
-STEP06_STARTED = NO
+STEP05_PRE_ACQUISITION = ACCEPTED
+STEP05_PROVIDER_EXECUTION = NOT_RELEASED
+WORDSTAT_CALLS_ALLOWED_NOW = 0
+SEARCH_CALLS_ALLOWED_NOW = 0
+GENSEARCH_CALLS_ALLOWED_NOW = 0
+AI_SEARCH_CALLS_ALLOWED_NOW = 0
+STEP06_STARTED = false
 ```
 
-Step05 exists to close real vocabulary gaps, not to force new provider calls. It may legitimately conclude that no new acquisition is needed.
+Before any W10C001 execution:
 
-## Remaining roadmap after Step05
+1. fetch current remote head and classify authority drift;
+2. recheck current Bridge Wordstat schema;
+3. recheck current official provider pricing/limits;
+4. issue a separate first-provider execution release;
+5. execute at most one GetTop request;
+6. persist complete RAW and remote-readback it;
+7. run any new rows through Step03A + Step03B before union;
+8. return to Main ChatGPT before any second provider action.
 
-After Step05 is fully accepted, the job continues through Step06–22 in the universal Level2 order. Step06 may not start merely because a Step05 prompt exists; Step05 must finish its evidence/reconciliation contract first.
+## Next action
 
-## Current stop condition
-
-Current work stops at **corrected Step05 preparation** until the mandatory owner-facing pre-step disclosure is visible in chat and the owner relays the W10 V2 prompt. The actual Step05 Work reconciliation has not started yet.
+Prepare the separate Step05 first-provider execution gate for W10C001. Do not start Step06 and do not execute Wordstat before that release.
