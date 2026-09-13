@@ -1,0 +1,39 @@
+name: YMB B19 canonical final Node campaign
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b19-node-final-v3.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: a5a0ec9616871cbd5c1bfbd3da5e9d9b49342abd
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Run exact B19 campaign
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_node_campaign.py "$PWD" "$PWD/classification" "$RUNNER_TEMP/b19-final"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b19-canonical-final-node
+          path: ${{ runner.temp }}/b19-final/
+          retention-days: 90
+          if-no-files-found: error
