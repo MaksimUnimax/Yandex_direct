@@ -17,22 +17,34 @@ const delay=ms=>new Promise(r=>setTimeout(r,ms));
 const emit=v=>{const row={...v,time:new Date().toISOString()};fs.appendFileSync(path.join(out,'targeted.jsonl'),JSON.stringify(row)+'\n');console.log(JSON.stringify(row));};
 async function until(fn,label,ms=20000){const end=Date.now()+ms;let last;while(Date.now()<end){try{last=await fn();if(last)return last;}catch(e){last=String(e)}await delay(100);}throw new Error(label+' last='+JSON.stringify(last));}
 let browser,page,wakePage,extensionId,tabId;
+async function rpc(message){
+  if(!wakePage) throw new Error('WAKE_PAGE_NOT_READY');
+  const reply=await wakePage.evaluate(msg=>new Promise(resolve=>{
+    let done=false;const timer=setTimeout(()=>{if(!done){done=true;resolve({qa_timeout:true,response:null,error:null});}},3000);
+    try{chrome.runtime.sendMessage(msg,response=>{const error=chrome.runtime.lastError?.message||null;if(done)return;done=true;clearTimeout(timer);resolve({qa_timeout:false,response:response??null,error});});}
+    catch(e){if(done)return;done=true;clearTimeout(timer);resolve({qa_timeout:false,response:null,error:String(e)});}
+  }),message);
+  if(reply.qa_timeout) throw new Error('RUNTIME_MESSAGE_TIMEOUT '+String(message?.type||''));
+  if(reply.error) throw new Error('RUNTIME_MESSAGE_ERROR '+reply.error);
+  return reply.response;
+}
 async function worker(){
   for(let attempt=0;attempt<3;attempt++){
     let t=browser.targets().find(x=>x.type()==='service_worker'&&extensionId&&x.url()===`chrome-extension://${extensionId}/phase3_service_worker_bootstrap.js`);
-    if(!t){
-      if(wakePage) await wakePage.evaluate(key=>{try{chrome.runtime.sendMessage({type:'WS_GET_STATE',conversation_key:key},()=>void chrome.runtime.lastError);}catch{}},KEY).catch(()=>{});
-      try{t=await browser.waitForTarget(x=>x.type()==='service_worker'&&(!extensionId||x.url()===`chrome-extension://${extensionId}/phase3_service_worker_bootstrap.js`),{timeout:5000});}catch{}
-    }
     if(t){const w=await t.worker();if(w){try{await w.evaluate(()=>true);return w;}catch{}}}
+    if(wakePage) await rpc({type:'WS_GET_STATE',conversation_key:KEY}).catch(()=>{});
     await delay(100);
+    t=browser.targets().find(x=>x.type()==='service_worker'&&extensionId&&x.url()===`chrome-extension://${extensionId}/phase3_service_worker_bootstrap.js`);
+    if(t){const w=await t.worker();if(w){try{await w.evaluate(()=>true);return w;}catch{}}}
   }
   throw new Error('LIVE_MV3_WORKER_UNAVAILABLE');
 }
-async function sw(fn,arg){for(let n=0;n<3;n++){const w=await worker();try{return await w.evaluate(fn,arg);}catch(e){if(n===2)throw e;await delay(100);}}}
+async function sw(fn,arg){for(let n=0;n<3;n++){const w=await worker();try{return await w.evaluate(fn,arg);}catch(e){if(n===2)throw e;await rpc({type:'WS_GET_STATE',conversation_key:KEY}).catch(()=>{});await delay(100);}}}
+async function outboxViaRpc(){const r=await rpc({type:'WS_GET_OUTBOX',conversation_key:KEY});return r?.outbox||null;}
 async function snapshot(){
   const dom=await page.evaluate(()=>({sends:__fixture.sends,files:__fixture.files,text:document.getElementById('prompt-textarea').value,status:document.getElementById('ymb-file-delivery-status')?.textContent||'',previews:[...document.querySelectorAll('#previews [role="group"]')].map(x=>({text:x.textContent,busy:x.getAttribute('aria-busy')})),userTurns:[...document.querySelectorAll('[data-message-author-role="user"]')].map(x=>({id:x.getAttribute('data-message-id'),text:x.textContent}))}));
-  const state=await sw(async key=>{const e=await getConversationOutbox(key);return e?{delivery_id:e.delivery_id,phase:e.phase,report_text:e.report_text,send_click_dispatched:e.send_click_dispatched,send_marker:e.send_marker,expected_attachment_names:e.expected_attachment_names,confirmation_message_id:e.confirmation_message_id}:null;},KEY).catch(e=>({worker_error:String(e)}));
+  const e=await outboxViaRpc().catch(err=>({__qa_error:String(err)}));
+  const state=e?.__qa_error?{worker_error:e.__qa_error}:e?{delivery_id:e.delivery_id,phase:e.phase,report_text:e.report_text,send_click_dispatched:e.send_click_dispatched,send_marker:e.send_marker,expected_attachment_names:e.expected_attachment_names,confirmation_message_id:e.confirmation_message_id}:null;
   return{dom,state};
 }
 async function reset(text=''){
@@ -58,7 +70,7 @@ try{
   await until(()=>sw(async({tabId})=>new Promise(ok=>chrome.tabs.sendMessage(tabId,{type:'WS_GET_IDENTITY'},r=>{void chrome.runtime.lastError;ok(r?.ok===true);})),{tabId}),'CONTENT_NOT_READY',10000);
   await sw(async({key,cid,tabId})=>{await chrome.storage.local.set({wsmb_conversation_bindings:{[key]:{binding_id:'targeted',revision:1,origin:'https://chatgpt.com',conversation_id:cid,conversation_key:key}},wsmb_manual_modes:{[key]:true},ymb_service_contexts:{[key]:{active_service:'search'}},wsmb_auto_send:true,ymb_settings_schema_version:5});await new Promise(ok=>chrome.tabs.sendMessage(tabId,{type:'WS_APPLY_MANUAL_MODE',conversation_key:key,enabled:true,active_service:'search'},()=>{void chrome.runtime.lastError;ok();}));},{key:KEY,cid:CID,tabId});
   emit({case:'venue_ready',status:'PASS',extension_id:extensionId,provider_calls:0});
-  await run('test15_blank_composer_auto_send_exactly_once',async()=>{await reset('');const meta=await stage('auto','TEST15 patched auto file');await until(async()=>{const x=await page.evaluate(()=>__fixture.sends.length);return x===1?x:false;},'AUTO_SEND_NOT_OBSERVED',20000);await until(async()=>{const s=await sw(async key=>(await getConversationOutbox(key))?.phase||null,KEY);return s==='committed'?s:false;},'OUTBOX_NOT_COMMITTED',10000);await delay(1500);const snap=await snapshot();assert.equal(snap.dom.sends.length,1);assert.equal(snap.dom.sends[0].text,'TEST15 patched auto file');assert.equal(snap.dom.sends[0].files.length,1);assert.equal(snap.dom.sends[0].files[0].name,meta.filename);assert.equal(snap.state.phase,'committed');assert.equal(snap.state.send_click_dispatched,true);return{meta,snapshot:snap};});
+  await run('test15_blank_composer_auto_send_exactly_once',async()=>{await reset('');const meta=await stage('auto','TEST15 patched auto file');await until(async()=>{const x=await page.evaluate(()=>__fixture.sends.length);return x===1?x:false;},'AUTO_SEND_NOT_OBSERVED',20000);await until(async()=>{const e=await outboxViaRpc();return e?.phase==='committed'?e.phase:false;},'OUTBOX_NOT_COMMITTED',10000);await delay(1500);const snap=await snapshot();assert.equal(snap.dom.sends.length,1);assert.equal(snap.dom.sends[0].text,'TEST15 patched auto file');assert.equal(snap.dom.sends[0].files.length,1);assert.equal(snap.dom.sends[0].files[0].name,meta.filename);assert.equal(snap.state.phase,'committed');assert.equal(snap.state.send_click_dispatched,true);return{meta,snapshot:snap};});
   await run('occupied_user_draft_is_preserved',async()=>{await reset('USER DRAFT EXACT');await stage('userdraft','TEST15 user draft file');await delay(2500);const snap=await snapshot();assert.equal(snap.dom.sends.length,0);assert.equal(snap.dom.text,'USER DRAFT EXACT');assert.equal(snap.state.phase,'claimed');return{snapshot:snap};});
   await run('bridge_owned_inline_collision_characterization',async()=>{await reset('SEARCH_ASYNC_BATCH_RESULT_V1 {"action":"exportPage","jobId":"owner-smoke-016-01","ok":true}');await stage('bridgeinline','TEST15 bridge inline file');await delay(3000);const snap=await snapshot();return{observed_send_count:snap.dom.sends.length,observed_composer:snap.dom.text,observed_phase:snap.state?.phase,snapshot:snap};});
 }catch(e){failures++;emit({case:'launch_or_venue',status:'FAIL',error:String(e.stack||e),snapshot:page?await snapshot().catch(x=>({snapshot_error:String(x)})):null});}
