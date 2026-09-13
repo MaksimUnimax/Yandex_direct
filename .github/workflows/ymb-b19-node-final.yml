@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 53d6a3ffcf55328e51c90b377e79e71d8c6115da
+          ref: 8bc5048a88827bd2908092ef53cd0fe26998d036
           persist-credentials: false
           fetch-depth: 1
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -44,7 +44,7 @@ jobs:
           assert tree(artifact)==tree(current)
           assert len([p for p in current.rglob('*') if p.is_file()])==67
           PY
-          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt.py classification/qa_workspace/qa/qa > classification/B19_QA_ADAPT.stdout
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt_v2.py classification/qa_workspace/qa/qa > classification/B19_QA_ADAPT.stdout
       - name: Original source suites 132/132 on exact B19 bytes
         shell: bash
         run: |
