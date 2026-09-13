@@ -1,0 +1,72 @@
+name: YMB B18 unified Node qualification (not independent acceptance)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b18-node-unified.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b18-node-unified
+  cancel-in-progress: false
+jobs:
+  unified:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: cb6d24a97b1b7c31d47beb263de6a629389432da
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: ready-b17
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b14-qualified-internal-only
+          run-id: 34692833348
+          github-token: ${{ github.token }}
+          path: ready-b14
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: One runner, immutable B17, controlled network only
+        shell: bash
+        run: |
+          set -euo pipefail
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          python3 "$Q/b18_node_campaign.py" "$PWD" "$PWD" "$Q/b14_inputs/owner014" ready-b17 ready-b14 "$RUNNER_TEMP/b18-node" > "$RUNNER_TEMP/b18-node.stdout" 2> "$RUNNER_TEMP/b18-node.stderr"
+      - name: Retain complete raw logs and exact test manifest on any result
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,shutil,json
+          t=Path(os.environ['RUNNER_TEMP']);r=t/'b18-node';out=t/'b18-node-evidence';out.mkdir()
+          for f in t.glob('b18-node.std*'):shutil.copyfile(f,out/f.name)
+          exclude={'qa_workspace','original_view','patch_qa','candidate','baseline','inputs','qa','tests'}
+          for f in r.rglob('*'):
+            if not f.is_file():continue
+            rel=f.relative_to(r)
+            if any(x in exclude for x in rel.parts[:-1]):continue
+            if f.suffix not in ('.tap','.stderr','.stdout','.json','.jsonl','.txt','.tsv'):continue
+            dest=out/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(f,dest)
+          (out/'BOUNDARY.json').write_text(json.dumps({'source_ref':'cb6d24a97b1b7c31d47beb263de6a629389432da','product_tree':'b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508','product_changes':0,'test_venue':'Node 22, browser API and network fixtures','real_provider_calls':0,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(out).as_posix()+'\n' for f in sorted(out.rglob('*')) if f.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b18-unified-node-evidence
+          path: ${{ runner.temp }}/b18-node-evidence/
+          retention-days: 90
+          if-no-files-found: error
