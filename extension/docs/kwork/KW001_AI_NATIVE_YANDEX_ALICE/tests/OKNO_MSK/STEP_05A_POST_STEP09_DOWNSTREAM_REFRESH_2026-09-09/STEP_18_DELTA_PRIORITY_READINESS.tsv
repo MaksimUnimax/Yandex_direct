@@ -1,8 +1,0 @@
-direction_id	step12_action	physical_change	step18_readiness	evidence_boundary
-OPEN_BALCONY_WATERPROOFING	HOLD_EVIDENCE	NO	PENDING_EVIDENCE	Выдача подтверждает отдельные информационные, товарные и строительные задачи; предложение компании и точный владелец не подтверждены.
-SUN_PROTECTION_GLASS_UNIT	SEMANTIC_MAPPING_ONLY	NO	ANALYTICAL_MAPPING	Коммерческий выбор конфигурации относится к существующей странице стеклопакетов; новый URL не нужен.
-MULTIFUNCTIONAL_GLASS_UNIT	SEMANTIC_MAPPING_ONLY	NO	ANALYTICAL_MAPPING	Информационная задача соответствует существующему руководству по выбору стеклопакета.
-IMPACT_RESISTANT_GLASS_UNIT	SEMANTIC_MAPPING_ONLY	NO	ANALYTICAL_MAPPING	Запрос относится к выбору продукта и не доказывает необходимость отдельной страницы.
-BALCONY_AS_OFFICE	SEMANTIC_MAPPING_ONLY	NO	ANALYTICAL_MAPPING	Сценарий относится к комплексному ремонту и остеклению существующего балконного раздела.
-BALCONY_ROOF_SOUNDPROOFING	SEMANTIC_MAPPING_ONLY	NO	ANALYTICAL_MAPPING	Общая задача относится к существующей услуге крыши; вариант «изнутри» остаётся без точного назначения.
-WINDOW_PROFILE_REINFORCEMENT	SEMANTIC_MAPPING_ONLY	NO	ANALYTICAL_MAPPING	Техническое пояснение относится к существующему руководству по выбору профиля.

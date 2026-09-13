@@ -1,31 +1,15 @@
-# Yandex Direct / Marketing Automation Workspace
+# Yandex Marketing Bridge 0.1.6
 
-Единый приватный репозиторий для двух независимых зон работы:
+Production source for the 0.1.6 Chrome MV3 build. This release contains the qualified file-delivery/recovery path and Manual deferred Yandex Search transport.
 
-- `extension/` — постоянная разработка Chrome/Chromium-расширения **Yandex Marketing Bridge** и его каноническая документация.
-- `work/` — временное рабочее пространство активных заказов. Каждый заказ создаётся в отдельной директории `work/<job_id>/`; после сдачи заказа директория удаляется из актуального дерева репозитория.
+## Deferred Search
 
-## Главный принцип
+Protocol: `SEARCH_ASYNC_BATCH_API_V1`. Deferred Search is **Manual-only**. `start` creates a durable local job; `submit/submitN` sends bounded provider operations; `collect/collectN/collectReady` later reads saved operation IDs. Results are persisted before normalization/export.
 
-GitHub используется как постоянное хранилище прогресса разработки и как рабочий журнал активного заказа, чтобы собранные данные, включая результаты платных API-запросов, не зависели от истории одного ChatGPT-диалога.
+The manifest permits both provider origins:
+- `https://searchapi.api.cloud.yandex.net/*` for ordinary Search/GenSearch and deferred submit;
+- `https://operation.api.cloud.yandex.net/*` for deferred Operation status/result collection.
 
-## Обязательный pre-delivery regression gate расширения
+There is no deferred Autorun, no `chrome.alarms` polling, no hidden retry and no automatic replay after an uncertain request. Collection is explicit.
 
-Для Yandex Marketing Bridge действует постоянное правило:
-
-- пока функция/баг ещё разрабатывается, проверяется только изменяемый код и затронутые зависимости;
-- непосредственно перед передачей владельцу готовой рабочей сборки точный кандидат должен пройти **один полный Codex regression run по всему функционалу, который Codex способен проверить**;
-- канонический живой Gate: `extension/docs/CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`;
-- любой обязательный FAIL блокирует передачу сборки;
-- после исправления FAIL полный Gate запускается заново целиком на новом кандидате;
-- Gate обновляется одновременно с функционалом: новые возможности добавляют новые regression checks, удалённые возможности позволяют удалить только соответствующие устаревшие checks.
-
-Controlled Codex gate не заменяет отдельно требуемую real-profile/live приёмку.
-
-## Безопасность
-
-В репозиторий запрещено коммитить API keys, OAuth tokens, пароли и иные секреты. Секреты хранятся только локально в доверенном credential storage расширения.
-
-## Важная оговорка об удалении заказов
-
-Удаление `work/<job_id>/` после сдачи убирает данные из актуального дерева, но обычный Git сохраняет их в истории предыдущих коммитов. Эта модель предназначена для сохранности рабочего прогресса. Если когда-либо потребуется криптографически/исторически удалить клиентские данные, нужен отдельный purge-процесс с переписыванием Git history.
+Large results use the bounded IndexedDB/file-delivery path with conversation ownership, duplicate-Send protection, pause/recovery, checksum and cleanup guards.
