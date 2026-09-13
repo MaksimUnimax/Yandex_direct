@@ -49,12 +49,13 @@
     else if (waiting > 0) state = "Ожидание Яндекса";
     else if (working > 0) state = "В работе";
     else if (pending > 0) state = "В очереди";
+    const rowCount = snapshot?.result_row_count;
     return {
       total, succeeded, failed, parse_failed: parseFailed, cancelled, unknown, pending, waiting, working,
       terminal, remaining, issues, state,
       processed_percent: percent(terminal, total),
       success_percent: percent(succeeded, total),
-      result_row_count: Number.isFinite(Number(snapshot?.result_row_count)) ? Math.max(0, Math.trunc(Number(snapshot.result_row_count))) : null,
+      result_row_count: rowCount === null || rowCount === undefined ? null : Math.max(0, Math.trunc(number(rowCount))),
       normalized_items: Math.max(0, Math.trunc(number(snapshot?.normalized_items))),
       raw_items: Math.max(0, Math.trunc(number(snapshot?.raw_items)))
     };
@@ -97,9 +98,7 @@
     const conversationKey = String(owner || "").trim();
     const jobId = String(snapshot?.job_id || "").trim();
     if (!conversationKey || !jobId) throw new Error("ASYNC_POPUP_ACTION_CONTEXT_MISSING");
-    if (action === "collect_one") {
-      return { type: ACTION_MESSAGE, action, conversation_key: conversationKey, job_id: jobId };
-    }
+    if (action === "collect_one") return { type: ACTION_MESSAGE, action, conversation_key: conversationKey, job_id: jobId };
     if (action === "export_page") {
       const revision = Math.trunc(number(snapshot?.revision));
       if (!Number.isSafeInteger(revision) || revision < 0) throw new Error("ASYNC_POPUP_ACTION_REVISION_INVALID");
@@ -113,9 +112,7 @@
     try {
       const databases = await indexedDB.databases();
       return Array.isArray(databases) ? databases.some((entry) => entry?.name === DB_NAME) : null;
-    } catch {
-      return null;
-    }
+    } catch { return null; }
   }
 
   async function openExistingDb() {
@@ -124,10 +121,7 @@
     return new Promise((resolve, reject) => {
       let missing = false;
       const r = indexedDB.open(DB_NAME);
-      r.onupgradeneeded = () => {
-        missing = true;
-        try { r.transaction?.abort(); } catch {}
-      };
+      r.onupgradeneeded = () => { missing = true; try { r.transaction?.abort(); } catch {} };
       r.onsuccess = () => {
         if (missing) {
           try { r.result?.close(); } catch {}
@@ -137,9 +131,7 @@
         r.result.onversionchange = () => r.result.close();
         resolve(r.result);
       };
-      r.onerror = () => reject(Object.assign(r.error || new Error(missing ? "ASYNC_MONITOR_DB_MISSING" : "ASYNC_MONITOR_DB_OPEN_FAILED"), {
-        code: missing ? "ASYNC_MONITOR_DB_MISSING" : "ASYNC_MONITOR_DB_OPEN_FAILED"
-      }));
+      r.onerror = () => reject(Object.assign(r.error || new Error(missing ? "ASYNC_MONITOR_DB_MISSING" : "ASYNC_MONITOR_DB_OPEN_FAILED"), { code: missing ? "ASYNC_MONITOR_DB_MISSING" : "ASYNC_MONITOR_DB_OPEN_FAILED" }));
       r.onblocked = () => reject(Object.assign(new Error("ASYNC_MONITOR_DB_BLOCKED"), { code: "ASYNC_MONITOR_DB_BLOCKED" }));
     });
   }
@@ -172,8 +164,7 @@
     const dueRange = IDBKeyRange.bound([jobId, "WAITING", 1, 0], [jobId, "WAITING", Math.max(1, Math.trunc(now)), MAX_INDEX]);
     const waitingRange = IDBKeyRange.bound([jobId, "WAITING", 1, 0], [jobId, "WAITING", MAX_INDEX, MAX_INDEX]);
 
-    // Critical memory rule: count/index lookup only. Never open a results cursor and
-    // never materialize raw_text / normalized.results inside the popup renderer.
+    // Memory safety invariant: never materialize raw_text or normalized.results in popup.
     const itemCountReq = items.count(itemRange);
     const dueCountReq = due.count(dueRange);
     const nextReq = due.get(waitingRange);
@@ -200,103 +191,43 @@
       if (!job) return null;
       const light = await boundedCounts(db, job, now);
       return {
-        job_id: String(job.job_id || ""),
-        control: String(job.control || ""),
-        total: Math.max(0, Math.trunc(number(job.total))),
-        counts: { ...(job.counts || {}) },
-        requests_started: Math.max(0, Math.trunc(number(job.requests_started))),
-        operations_accepted: Math.max(0, Math.trunc(number(job.operations_accepted))),
-        polls_started: Math.max(0, Math.trunc(number(job.polls_started))),
-        revision: Math.max(0, Math.trunc(number(job.revision))),
-        created_at: Math.max(0, number(job.created_at)),
-        updated_at: Math.max(0, number(job.updated_at)),
+        job_id: String(job.job_id || ""), control: String(job.control || ""), total: Math.max(0, Math.trunc(number(job.total))),
+        counts: { ...(job.counts || {}) }, requests_started: Math.max(0, Math.trunc(number(job.requests_started))),
+        operations_accepted: Math.max(0, Math.trunc(number(job.operations_accepted))), polls_started: Math.max(0, Math.trunc(number(job.polls_started))),
+        revision: Math.max(0, Math.trunc(number(job.revision))), created_at: Math.max(0, number(job.created_at)), updated_at: Math.max(0, number(job.updated_at)),
         ...light
       };
-    } finally {
-      try { db.close(); } catch {}
-    }
+    } finally { try { db.close(); } catch {} }
   }
 
-  function el(tag, text = "", className = "") {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text) node.textContent = text;
-    return node;
-  }
-
-  function addRow(section, label, id) {
-    const row = el("div", "", "row");
-    row.append(el("span", label));
-    const value = el("strong", "—");
-    value.id = id;
-    row.append(value);
-    section.append(row);
-  }
+  function el(tag, text = "", className = "") { const node = document.createElement(tag); if (className) node.className = className; if (text) node.textContent = text; return node; }
+  function addRow(section, label, id) { const row = el("div", "", "row"); row.append(el("span", label)); const value = el("strong", "—"); value.id = id; row.append(value); section.append(row); }
 
   function installSection() {
     if (document.getElementById("searchAsyncMonitorSection")) return document.getElementById("searchAsyncMonitorSection");
     const section = el("section");
     section.id = "searchAsyncMonitorSection";
     section.append(el("h2", "Deferred Search — прогресс"));
-    addRow(section, "Job", "searchAsyncJob");
-    addRow(section, "Состояние", "searchAsyncState");
-    addRow(section, "Обработано", "searchAsyncProcessed");
-    addRow(section, "Успешно", "searchAsyncSucceeded");
-    addRow(section, "Осталось запросов", "searchAsyncRemaining");
-    addRow(section, "Ожидают Яндекс", "searchAsyncWaiting");
-    addRow(section, "В очереди / работе", "searchAsyncPendingWorking");
-    addRow(section, "Ошибки / неопределено", "searchAsyncIssues");
-    addRow(section, "Получено SERP-строк", "searchAsyncRows");
-    addRow(section, "Ответов нормализовано", "searchAsyncNormalized");
-    addRow(section, "Следующая проверка", "searchAsyncNextPoll");
-    addRow(section, "Прошло", "searchAsyncElapsed");
-    addRow(section, "Локальная ревизия", "searchAsyncRevision");
-
+    addRow(section, "Job", "searchAsyncJob"); addRow(section, "Состояние", "searchAsyncState"); addRow(section, "Обработано", "searchAsyncProcessed");
+    addRow(section, "Успешно", "searchAsyncSucceeded"); addRow(section, "Осталось запросов", "searchAsyncRemaining"); addRow(section, "Ожидают Яндекс", "searchAsyncWaiting");
+    addRow(section, "В очереди / работе", "searchAsyncPendingWorking"); addRow(section, "Ошибки / неопределено", "searchAsyncIssues"); addRow(section, "Получено SERP-строк", "searchAsyncRows");
+    addRow(section, "Ответов нормализовано", "searchAsyncNormalized"); addRow(section, "Следующая проверка", "searchAsyncNextPoll"); addRow(section, "Прошло", "searchAsyncElapsed"); addRow(section, "Локальная ревизия", "searchAsyncRevision");
     const actions = el("div", "", "actions");
-    const refresh = el("button", "Обновить статус");
-    refresh.id = "searchAsyncRefresh";
-    refresh.type = "button";
-    const collect = el("button", "Проверить результат");
-    collect.id = "searchAsyncCollectOne";
-    collect.type = "button";
-    collect.disabled = true;
-    const exportButton = el("button", "Отправить файл в чат");
-    exportButton.id = "searchAsyncExport";
-    exportButton.type = "button";
-    exportButton.disabled = true;
-    actions.append(refresh, collect, exportButton);
-    section.append(actions);
-
-    const actionStatus = el("p", "", "warning");
-    actionStatus.id = "searchAsyncActionStatus";
-    actionStatus.hidden = true;
-    section.append(actionStatus);
+    const refresh = el("button", "Обновить статус"); refresh.id = "searchAsyncRefresh"; refresh.type = "button";
+    const collect = el("button", "Проверить результат"); collect.id = "searchAsyncCollectOne"; collect.type = "button"; collect.disabled = true;
+    const exportButton = el("button", "Отправить файл в чат"); exportButton.id = "searchAsyncExport"; exportButton.type = "button"; exportButton.disabled = true;
+    actions.append(refresh, collect, exportButton); section.append(actions);
+    const actionStatus = el("p", "", "warning"); actionStatus.id = "searchAsyncActionStatus"; actionStatus.hidden = true; section.append(actionStatus);
     section.append(el("p", "Статус читается безопасно: без автоматического сканирования result payload. Обновление — при открытии, смене диалога, после действия или по кнопке.", "warning"));
-
     const sections = Array.from(document.querySelectorAll("main > section"));
     const runSection = sections.find((node) => node.querySelector("h2")?.textContent?.trim() === "Текущий запуск");
-    if (runSection?.parentNode) runSection.parentNode.insertBefore(section, runSection.nextSibling);
-    else document.querySelector("main")?.append(section);
+    if (runSection?.parentNode) runSection.parentNode.insertBefore(section, runSection.nextSibling); else document.querySelector("main")?.append(section);
     return section;
   }
 
-  function setText(id, value) {
-    const node = document.getElementById(id);
-    if (node) node.textContent = String(value ?? "—");
-  }
-
-  function setActionStatus(text = "", isError = false) {
-    const node = document.getElementById("searchAsyncActionStatus");
-    if (!node) return;
-    node.hidden = !text;
-    node.textContent = String(text || "");
-    node.dataset.level = isError ? "error" : "info";
-  }
-
-  function currentConversationKey() {
-    const text = String(document.getElementById("conversationMeta")?.textContent || "").trim();
-    return UNKNOWN_CONVERSATION.has(text) ? "" : text;
-  }
+  function setText(id, value) { const node = document.getElementById(id); if (node) node.textContent = String(value ?? "—"); }
+  function setActionStatus(text = "", isError = false) { const node = document.getElementById("searchAsyncActionStatus"); if (!node) return; node.hidden = !text; node.textContent = String(text || ""); node.dataset.level = isError ? "error" : "info"; }
+  function currentConversationKey() { const text = String(document.getElementById("conversationMeta")?.textContent || "").trim(); return UNKNOWN_CONVERSATION.has(text) ? "" : text; }
 
   function sendActiveTabMessage(message) {
     return new Promise((resolve, reject) => {
@@ -308,13 +239,10 @@
           if (!Number.isInteger(tabId)) { reject(new Error("ASYNC_POPUP_ACTIVE_TAB_MISSING")); return; }
           chrome.tabs.sendMessage(tabId, message, (response) => {
             const sendError = chrome.runtime.lastError;
-            if (sendError) reject(new Error(sendError.message || String(sendError)));
-            else resolve(response);
+            if (sendError) reject(new Error(sendError.message || String(sendError))); else resolve(response);
           });
         });
-      } catch (error) {
-        reject(error);
-      }
+      } catch (error) { reject(error); }
     });
   }
 
@@ -324,111 +252,62 @@
 
   function renderActions(now = Date.now()) {
     const availability = actionAvailability(latestSnapshot, now, actionInFlight);
-    const collect = document.getElementById("searchAsyncCollectOne");
-    const exportButton = document.getElementById("searchAsyncExport");
-    if (collect) {
-      collect.disabled = !availability.collect_enabled;
-      collect.textContent = availability.collect_label;
-    }
-    if (exportButton) {
-      exportButton.disabled = !availability.export_enabled;
-      exportButton.textContent = availability.export_label;
-    }
+    const collect = document.getElementById("searchAsyncCollectOne"); const exportButton = document.getElementById("searchAsyncExport");
+    if (collect) { collect.disabled = !availability.collect_enabled; collect.textContent = availability.collect_label; }
+    if (exportButton) { exportButton.disabled = !availability.export_enabled; exportButton.textContent = availability.export_label; }
   }
 
   function render(snapshot, now = Date.now()) {
     latestSnapshot = snapshot || null;
     if (!snapshot) {
-      setText("searchAsyncJob", "—");
-      setText("searchAsyncState", "Нет локального deferred Search job");
+      setText("searchAsyncJob", "—"); setText("searchAsyncState", "Нет локального deferred Search job");
       for (const id of ["searchAsyncProcessed", "searchAsyncSucceeded", "searchAsyncRemaining", "searchAsyncWaiting", "searchAsyncPendingWorking", "searchAsyncIssues", "searchAsyncRows", "searchAsyncNormalized", "searchAsyncNextPoll", "searchAsyncElapsed", "searchAsyncRevision"]) setText(id, "—");
-      renderActions(now);
-      return;
+      renderActions(now); return;
     }
     const metrics = computeMetrics(snapshot);
-    setText("searchAsyncJob", snapshot.job_id || "—");
-    setText("searchAsyncState", metrics.state);
+    setText("searchAsyncJob", snapshot.job_id || "—"); setText("searchAsyncState", metrics.state);
     setText("searchAsyncProcessed", `${metrics.terminal} / ${metrics.total} — ${formatPercent(metrics.processed_percent)}`);
     setText("searchAsyncSucceeded", `${metrics.succeeded} / ${metrics.total} — ${formatPercent(metrics.success_percent)}`);
-    setText("searchAsyncRemaining", metrics.remaining);
-    setText("searchAsyncWaiting", metrics.waiting);
-    setText("searchAsyncPendingWorking", `${metrics.pending} / ${metrics.working}`);
+    setText("searchAsyncRemaining", metrics.remaining); setText("searchAsyncWaiting", metrics.waiting); setText("searchAsyncPendingWorking", `${metrics.pending} / ${metrics.working}`);
     setText("searchAsyncIssues", `${metrics.failed + metrics.parse_failed} / ${metrics.unknown}`);
     setText("searchAsyncRows", metrics.result_row_count === null ? "— (без чтения payload)" : metrics.result_row_count);
-    setText("searchAsyncNormalized", `${metrics.normalized_items} / ${metrics.total}`);
-    setText("searchAsyncNextPoll", formatNextCheck(snapshot, now));
-    setText("searchAsyncElapsed", snapshot.created_at ? formatDuration(now - snapshot.created_at) : "—");
-    setText("searchAsyncRevision", snapshot.revision);
-    renderActions(now);
+    setText("searchAsyncNormalized", `${metrics.normalized_items} / ${metrics.total}`); setText("searchAsyncNextPoll", formatNextCheck(snapshot, now));
+    setText("searchAsyncElapsed", snapshot.created_at ? formatDuration(now - snapshot.created_at) : "—"); setText("searchAsyncRevision", snapshot.revision); renderActions(now);
   }
 
   async function refreshSnapshot() {
     if (loading) return latestSnapshot;
-    const owner = currentConversationKey();
-    if (!owner) { render(null); return null; }
-    loading = true;
-    const button = document.getElementById("searchAsyncRefresh");
-    if (button) button.disabled = true;
-    try {
-      const snapshot = await snapshotForOwner(owner, Date.now());
-      render(snapshot);
-      return snapshot;
-    } catch (error) {
-      if (error?.code === "ASYNC_MONITOR_DB_MISSING") { render(null); return null; }
-      setText("searchAsyncState", `Ошибка локального чтения: ${error?.code || error?.message || error}`);
-      return null;
-    } finally {
-      loading = false;
-      if (button) button.disabled = false;
-    }
+    const owner = currentConversationKey(); if (!owner) { render(null); return null; }
+    loading = true; const button = document.getElementById("searchAsyncRefresh"); if (button) button.disabled = true;
+    try { const snapshot = await snapshotForOwner(owner, Date.now()); render(snapshot); return snapshot; }
+    catch (error) { if (error?.code === "ASYNC_MONITOR_DB_MISSING") { render(null); return null; } setText("searchAsyncState", `Ошибка локального чтения: ${error?.code || error?.message || error}`); return null; }
+    finally { loading = false; if (button) button.disabled = false; }
   }
 
   async function runPopupAction(action) {
     if (actionInFlight) return;
-    const now = Date.now();
-    const availability = actionAvailability(latestSnapshot, now, false);
-    if ((action === "collect_one" && !availability.collect_enabled) || (action === "export_page" && !availability.export_enabled)) {
-      renderActions(now);
-      return;
-    }
-    actionInFlight = true;
-    renderActions(now);
-    setActionStatus(action === "collect_one" ? "Запрашиваю одну разрешённую проверку…" : "Готовлю экспорт через существующий канал доставки…");
+    const now = Date.now(); const availability = actionAvailability(latestSnapshot, now, false);
+    if ((action === "collect_one" && !availability.collect_enabled) || (action === "export_page" && !availability.export_enabled)) { renderActions(now); return; }
+    actionInFlight = true; renderActions(now); setActionStatus(action === "collect_one" ? "Запрашиваю одну разрешённую проверку…" : "Готовлю экспорт через существующий канал доставки…");
     try {
-      const message = buildActionMessage(action, latestSnapshot, currentConversationKey());
-      const response = await sendActiveTabMessage(message);
-      if (!response?.ok || response?.accepted === false) {
-        throw Object.assign(new Error(response?.error || response?.code || "ASYNC_POPUP_ACTION_REJECTED"), { code: response?.code || "ASYNC_POPUP_ACTION_REJECTED" });
-      }
-      setActionStatus(action === "collect_one" ? "Проверка принята существующим Manual-контуром." : "Экспорт принят существующим Manual-контуром.");
-      await refreshSnapshot();
-    } catch (error) {
-      setActionStatus(`Действие не выполнено: ${error?.code || error?.message || error}`, true);
-    } finally {
-      actionInFlight = false;
-      renderActions(Date.now());
-    }
+      const message = buildActionMessage(action, latestSnapshot, currentConversationKey()); const response = await sendActiveTabMessage(message);
+      if (!response?.ok || response?.accepted === false) throw Object.assign(new Error(response?.error || response?.code || "ASYNC_POPUP_ACTION_REJECTED"), { code: response?.code || "ASYNC_POPUP_ACTION_REJECTED" });
+      setActionStatus(action === "collect_one" ? "Проверка принята существующим Manual-контуром." : "Экспорт принят существующим Manual-контуром."); await refreshSnapshot();
+    } catch (error) { setActionStatus(`Действие не выполнено: ${error?.code || error?.message || error}`, true); }
+    finally { actionInFlight = false; renderActions(Date.now()); }
   }
 
   function bootstrap() {
     if (globalThis.__YMB_ASYNC_MONITOR_BOOTSTRAPPED__ === true) return;
-    globalThis.__YMB_ASYNC_MONITOR_BOOTSTRAPPED__ = true;
-    installSection();
+    globalThis.__YMB_ASYNC_MONITOR_BOOTSTRAPPED__ = true; installSection();
     document.getElementById("searchAsyncRefresh")?.addEventListener("click", () => { void refreshSnapshot(); });
     document.getElementById("searchAsyncCollectOne")?.addEventListener("click", () => { void runPopupAction("collect_one"); });
     document.getElementById("searchAsyncExport")?.addEventListener("click", () => { void runPopupAction("export_page"); });
-
     let previousOwner = currentConversationKey();
     const uiTimer = setInterval(() => {
       const owner = currentConversationKey();
-      if (owner !== previousOwner) {
-        previousOwner = owner;
-        setActionStatus("");
-        if (owner) void refreshSnapshot();
-        else render(null);
-      }
-      if (latestSnapshot) render(latestSnapshot, Date.now());
-      else renderActions(Date.now());
+      if (owner !== previousOwner) { previousOwner = owner; setActionStatus(""); if (owner) void refreshSnapshot(); else render(null); }
+      if (latestSnapshot) render(latestSnapshot, Date.now()); else renderActions(Date.now());
     }, 1000);
     window.addEventListener("pagehide", () => clearInterval(uiTimer), { once: true });
     void refreshSnapshot();
@@ -438,6 +317,5 @@
     globalThis.__YMB_ASYNC_MONITOR_TEST_API__ = Object.freeze({ computeMetrics, formatPercent, formatDuration, formatNextCheck, actionAvailability, buildActionMessage });
     return;
   }
-
   if (typeof document !== "undefined") bootstrap();
 })();
