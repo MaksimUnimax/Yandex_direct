@@ -5,6 +5,7 @@
   const MAX_INDEX = Number.MAX_SAFE_INTEGER;
   const REFRESH_MS = 5000;
   const UNKNOWN_CONVERSATION = new Set(["", "не определён"]);
+  const ACTION_MESSAGE = "YMB_ASYNC_POPUP_ACTION";
 
   const number = (value) => Number.isFinite(Number(value)) ? Number(value) : 0;
   const count = (counts, key) => Math.max(0, Math.trunc(number(counts?.[key])));
@@ -62,6 +63,44 @@
     if (!next) return "ожидается расписание";
     const delta = next - now;
     return delta <= 0 ? "можно сейчас" : `через ${formatDuration(delta)}`;
+  }
+
+  function actionAvailability(snapshot, now = Date.now(), inFlight = false) {
+    const metrics = computeMetrics(snapshot);
+    const hasJob = Boolean(snapshot?.job_id);
+    const due = Math.max(0, Math.trunc(number(snapshot?.due_count)));
+    const next = number(snapshot?.next_poll_at);
+    const waiting = metrics.waiting;
+    const complete = metrics.total > 0 && metrics.terminal === metrics.total;
+    const collectEnabled = hasJob && !inFlight && waiting > 0 && due > 0;
+    let collectLabel = "Проверить результат";
+    if (!hasJob) collectLabel = "Проверить результат";
+    else if (inFlight) collectLabel = "Выполняется…";
+    else if (!waiting) collectLabel = "Нет ожидающих запросов";
+    else if (due <= 0 && next > now) collectLabel = `Проверить можно через ${formatDuration(next - now)}`;
+    else if (due <= 0) collectLabel = "Проверка пока недоступна";
+    return {
+      collect_enabled: collectEnabled,
+      collect_label: collectLabel,
+      export_enabled: hasJob && !inFlight && complete,
+      export_label: inFlight ? "Выполняется…" : "Отправить файл в чат",
+      complete
+    };
+  }
+
+  function buildActionMessage(action, snapshot, owner) {
+    const conversationKey = String(owner || "").trim();
+    const jobId = String(snapshot?.job_id || "").trim();
+    if (!conversationKey || !jobId) throw new Error("ASYNC_POPUP_ACTION_CONTEXT_MISSING");
+    if (action === "collect_one") {
+      return { type: ACTION_MESSAGE, action, conversation_key: conversationKey, job_id: jobId };
+    }
+    if (action === "export_page") {
+      const revision = Math.trunc(number(snapshot?.revision));
+      if (!Number.isSafeInteger(revision) || revision < 0) throw new Error("ASYNC_POPUP_ACTION_REVISION_INVALID");
+      return { type: ACTION_MESSAGE, action, conversation_key: conversationKey, job_id: jobId, revision };
+    }
+    throw new Error("ASYNC_POPUP_ACTION_UNSUPPORTED");
   }
 
   async function databaseExists() {
@@ -245,9 +284,21 @@
     const refresh = el("button", "Обновить статус");
     refresh.id = "searchAsyncRefresh";
     refresh.type = "button";
-    actions.append(refresh);
+    const collect = el("button", "Проверить результат");
+    collect.id = "searchAsyncCollectOne";
+    collect.type = "button";
+    collect.disabled = true;
+    const exportButton = el("button", "Отправить файл в чат");
+    exportButton.id = "searchAsyncExport";
+    exportButton.type = "button";
+    exportButton.disabled = true;
+    actions.append(refresh, collect, exportButton);
     section.append(actions);
-    section.append(el("p", "Только локальное чтение сохранённого job. Этот блок не делает запросов к Яндексу и не запускает polling.", "warning"));
+    const actionStatus = el("p", "", "warning");
+    actionStatus.id = "searchAsyncActionStatus";
+    actionStatus.hidden = true;
+    section.append(actionStatus);
+    section.append(el("p", "Статус читается только из локального job. Запрос к Яндексу или экспорт запускается только явным нажатием соответствующей кнопки.", "warning"));
 
     const sections = Array.from(document.querySelectorAll("main > section"));
     const runSection = sections.find((node) => node.querySelector("h2")?.textContent?.trim() === "Текущий запуск");
@@ -261,13 +312,56 @@
     if (node) node.textContent = String(value ?? "—");
   }
 
+  function setActionStatus(text = "", isError = false) {
+    const node = document.getElementById("searchAsyncActionStatus");
+    if (!node) return;
+    node.hidden = !text;
+    node.textContent = String(text || "");
+    node.dataset.level = isError ? "error" : "info";
+  }
+
   function currentConversationKey() {
     const text = String(document.getElementById("conversationMeta")?.textContent || "").trim();
     return UNKNOWN_CONVERSATION.has(text) ? "" : text;
   }
 
+  function sendActiveTabMessage(message) {
+    return new Promise((resolve, reject) => {
+      try {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const queryError = chrome.runtime.lastError;
+          if (queryError) { reject(new Error(queryError.message || String(queryError))); return; }
+          const tabId = tabs?.[0]?.id;
+          if (!Number.isInteger(tabId)) { reject(new Error("ASYNC_POPUP_ACTIVE_TAB_MISSING")); return; }
+          chrome.tabs.sendMessage(tabId, message, (response) => {
+            const sendError = chrome.runtime.lastError;
+            if (sendError) reject(new Error(sendError.message || String(sendError)));
+            else resolve(response);
+          });
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   let latestSnapshot = null;
   let loading = false;
+  let actionInFlight = false;
+
+  function renderActions(now = Date.now()) {
+    const availability = actionAvailability(latestSnapshot, now, actionInFlight);
+    const collect = document.getElementById("searchAsyncCollectOne");
+    const exportButton = document.getElementById("searchAsyncExport");
+    if (collect) {
+      collect.disabled = !availability.collect_enabled;
+      collect.textContent = availability.collect_label;
+    }
+    if (exportButton) {
+      exportButton.disabled = !availability.export_enabled;
+      exportButton.textContent = availability.export_label;
+    }
+  }
 
   function render(snapshot, now = Date.now()) {
     latestSnapshot = snapshot || null;
@@ -275,6 +369,7 @@
       setText("searchAsyncJob", "—");
       setText("searchAsyncState", "Нет локального deferred Search job");
       for (const id of ["searchAsyncProcessed", "searchAsyncSucceeded", "searchAsyncRemaining", "searchAsyncWaiting", "searchAsyncPendingWorking", "searchAsyncIssues", "searchAsyncRows", "searchAsyncNormalized", "searchAsyncNextPoll", "searchAsyncElapsed", "searchAsyncRevision"]) setText(id, "—");
+      renderActions(now);
       return;
     }
     const metrics = computeMetrics(snapshot);
@@ -291,6 +386,7 @@
     setText("searchAsyncNextPoll", formatNextCheck(snapshot, now));
     setText("searchAsyncElapsed", snapshot.created_at ? formatDuration(now - snapshot.created_at) : "—");
     setText("searchAsyncRevision", snapshot.revision);
+    renderActions(now);
   }
 
   async function refreshSnapshot() {
@@ -314,24 +410,55 @@
     }
   }
 
+  async function runPopupAction(action) {
+    if (actionInFlight) return;
+    const now = Date.now();
+    const availability = actionAvailability(latestSnapshot, now, false);
+    if ((action === "collect_one" && !availability.collect_enabled) || (action === "export_page" && !availability.export_enabled)) {
+      renderActions(now);
+      return;
+    }
+    actionInFlight = true;
+    renderActions(now);
+    setActionStatus(action === "collect_one" ? "Запрашиваю одну разрешённую проверку…" : "Готовлю экспорт через существующий канал доставки…");
+    try {
+      const message = buildActionMessage(action, latestSnapshot, currentConversationKey());
+      const response = await sendActiveTabMessage(message);
+      if (!response?.ok || response?.accepted === false) {
+        throw Object.assign(new Error(response?.error || response?.code || "ASYNC_POPUP_ACTION_REJECTED"), { code: response?.code || "ASYNC_POPUP_ACTION_REJECTED" });
+      }
+      setActionStatus(action === "collect_one" ? "Проверка принята существующим Manual-контуром." : "Экспорт принят существующим Manual-контуром.");
+      await refreshSnapshot();
+    } catch (error) {
+      setActionStatus(`Действие не выполнено: ${error?.code || error?.message || error}`, true);
+    } finally {
+      actionInFlight = false;
+      renderActions(Date.now());
+    }
+  }
+
   function bootstrap() {
     installSection();
     document.getElementById("searchAsyncRefresh")?.addEventListener("click", () => { void refreshSnapshot(); });
+    document.getElementById("searchAsyncCollectOne")?.addEventListener("click", () => { void runPopupAction("collect_one"); });
+    document.getElementById("searchAsyncExport")?.addEventListener("click", () => { void runPopupAction("export_page"); });
     let previousOwner = "";
     setInterval(() => {
       const owner = currentConversationKey();
       if (owner && owner !== previousOwner) {
         previousOwner = owner;
+        setActionStatus("");
         void refreshSnapshot();
       }
       if (latestSnapshot) render(latestSnapshot, Date.now());
+      else renderActions(Date.now());
     }, 1000);
     setInterval(() => { if (currentConversationKey()) void refreshSnapshot(); }, REFRESH_MS);
     void refreshSnapshot();
   }
 
   if (globalThis.__YMB_ASYNC_MONITOR_TEST__ === true) {
-    globalThis.__YMB_ASYNC_MONITOR_TEST_API__ = Object.freeze({ computeMetrics, formatPercent, formatDuration, formatNextCheck });
+    globalThis.__YMB_ASYNC_MONITOR_TEST_API__ = Object.freeze({ computeMetrics, formatPercent, formatDuration, formatNextCheck, actionAvailability, buildActionMessage });
     return;
   }
 
