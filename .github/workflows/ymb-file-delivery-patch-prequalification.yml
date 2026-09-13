@@ -57,7 +57,7 @@ jobs:
           ex=Path(os.environ['RUNNER_TEMP'])/'fresh-extracted';ex.mkdir()
           for n,d in extracted.items():q=ex/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
           extracted_target=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(extracted.items())).encode());assert extracted_target==target
-          result={'schema_version':1,'source_commit':'64c1016c179de52b6e950830877f0d42a446e5e8','version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'provider_calls':0}
+          result={'schema_version':2,'source_commit':'64c1016c179de52b6e950830877f0d42a446e5e8','version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'provider_calls':0}
           (out/'PREQUAL_PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n')
           with open(os.environ['GITHUB_ENV'],'a') as f:
             f.write(f'YMB_PRODUCT_TREE={target}\nYMB_PREQUAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PPTR_HOME={Path(os.environ["RUNNER_TEMP"])/"deps"}\nYMB_BROWSER_EVIDENCE={Path(os.environ["RUNNER_TEMP"])/"browser-evidence"}\n')
@@ -80,7 +80,7 @@ jobs:
           if(!c.includes('requiredStableSamples: 3'))throw new Error('missing stable target samples');
           console.log('PATCH_SOURCE_BARRIER_PASS');
           NODE
-      - name: Prepare locked Puppeteer and adapted B15 exact-package browser test
+      - name: Prepare locked Puppeteer and MV3-resilient B15 browser test
         shell: bash
         run: |
           set -euo pipefail
@@ -91,10 +91,20 @@ jobs:
           import json,os
           deps=Path(os.environ['YMB_PPTR_HOME']);j=json.loads((deps/'package-lock.json').read_text());(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
           src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_browser_qualification.mjs').read_text()
-          old='f591b39a381993c44284561236b9c5a278761db3d6b04059c59974e037c33f47';assert src.count(old)==1
-          Path(os.environ['RUNNER_TEMP']+'/tests/b15_browser_qualification.mjs').write_text(src.replace(old,os.environ['YMB_PRODUCT_TREE']))
-          Path(os.environ['RUNNER_TEMP']+'/tests/b15_fixture.html').write_bytes(Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_bytes())
+          old='f591b39a381993c44284561236b9c5a278761db3d6b04059c59974e037c33f47';assert src.count(old)==1;src=src.replace(old,os.environ['YMB_PRODUCT_TREE'])
+          src=src.replace('w.evaluate(', 'workerEval(')
+          marker='async function instrument(){'
+          assert src.count(marker)==1
+          resilient='''async function workerEval(fn,arg){\n try{return await w.evaluate(fn,arg);}\n catch(e){\n  if(!/No SW|Execution context.*destroyed|Target closed|Session closed/i.test(String(e)))throw e;\n  const old=wTarget;const wake=await browser.newPage();\n  try{await wake.goto(`chrome-extension://${extensionId}/popup.html`,{waitUntil:'domcontentloaded',timeout:10000}).catch(()=>{});await getWorker(old);}\n  finally{await wake.close().catch(()=>{});}\n  return w.evaluate(fn,arg);\n }\n}\n'''
+          src=src.replace(marker,resilient+marker)
+          fixture=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_text()
+          oldsend="send.addEventListener('click',()=>{Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';"
+          newsend="send.addEventListener('click',()=>{const sentText=composer.value;const sentFiles=Q.files.map(f=>({...f}));Q.sends.push({text:sentText,files:sentFiles});const turn=document.createElement('div');turn.dataset.messageAuthorRole='user';turn.dataset.messageId='fixture-user-'+Q.sends.length;turn.textContent=[sentText,...sentFiles.map(f=>f.name)].join(' ');document.getElementById('conversation-root').append(turn);composer.value='';"
+          assert fixture.count(oldsend)==1;fixture=fixture.replace(oldsend,newsend)
+          Path(os.environ['RUNNER_TEMP']+'/tests/b15_browser_qualification.mjs').write_text(src)
+          Path(os.environ['RUNNER_TEMP']+'/tests/b15_fixture.html').write_text(fixture)
           PY
+          node --check "$RUNNER_TEMP/tests/b15_browser_qualification.mjs"
           npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund
       - name: Real Chrome B15 file-delivery regression on patched fresh extraction
         shell: bash
