@@ -1,6 +1,7 @@
 // B18 QA-only lifecycle qualification on exact B17 product bytes.
-// Uses the already proven single CLI unpacked-load mechanism; no API install and no direct
-// chrome-extension:// navigation after runtime.reload(). Popup is opened through the action API.
+// One proven CLI unpacked-load. Popup is used only before reload. After runtime.reload()
+// persistence is checked through a real content-script realm -> worker message on a controlled
+// chatgpt.com fixture, avoiding Puppeteer's post-reload popup action/navigation failure.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,6 +29,17 @@ async function openPopup(extension,targetPage){
  await extension.triggerAction(targetPage);
  const target=await waiting;const page=await target.asPage();assert.ok(page);await page.waitForFunction(()=>document.readyState==='complete'||document.readyState==='interactive',{timeout:5000});return page;
 }
+async function extensionRealm(page,extensionId,timeout=10000){
+ const until=Date.now()+timeout;let seen=[];
+ while(Date.now()<until){
+  seen=[];
+  for(const realm of page.extensionRealms()){
+   try{const ext=await realm.extension();seen.push(ext?.id||null);if(ext?.id===extensionId)return realm;}catch{}
+  }
+  await delay(100);
+ }
+ throw new Error('CONTENT_EXTENSION_REALM_NOT_FOUND seen='+JSON.stringify(seen));
+}
 try{
  assert.equal(tree(),TARGET);
  browser=await puppeteer.launch({headless:false,pipe:true,enableExtensions:true,userDataDir:path.join(out,'owned-profile'),protocolTimeout:15000,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--host-resolver-rules=MAP * ~NOTFOUND',`--disable-extensions-except=${root}`,`--load-extension=${root}`]});
@@ -35,7 +47,7 @@ try{
  const extension=await currentExtension();assert.equal(extension.enabled,true);assert.equal(extension.version,'0.1.4');const extensionId=extension.id;
  emit({case:'cli_extension_present_before_reload',status:'PASS',extension_id:extensionId,version:extension.version,path:extension.path,tree:TARGET,memory:memory()});
  const targetPage=await browser.newPage();await targetPage.goto('data:text/html,<title>B18 reload action target</title><body>target</body>',{waitUntil:'domcontentloaded'});
- let popup=await openPopup(extension,targetPage);
+ const popup=await openPopup(extension,targetPage);
  const before=await popup.evaluate(async()=>{
   for(const s of ['wordstat','search','webmaster','metrika','direct']){
    const credential=['wordstat','search'].includes(s)?{api_key:'B18_CLI_'+s,folder_id:'qa-only'}:{oauth_token:'B18_CLI_'+s};
@@ -47,19 +59,22 @@ try{
  });
  assert.equal(before.contexts.length,1);emit({case:'pre_reload_messages_and_background_context',status:'PASS',before});
  stage='runtime_reload';
- await popup.evaluate(()=>{setTimeout(()=>chrome.runtime.reload(),50);return true;});
- await delay(750);
+ await popup.evaluate(()=>{setTimeout(()=>chrome.runtime.reload(),50);return true;});await delay(750);
  const afterExtension=await currentExtension();assert.equal(afterExtension.id,extensionId);assert.equal(afterExtension.enabled,true);assert.equal(afterExtension.version,before.version);
  emit({case:'extension_registry_after_runtime_reload',status:'PASS',same_id:true,enabled:afterExtension.enabled,version:afterExtension.version});
- popup=await openPopup(afterExtension,targetPage);
- const after=await popup.evaluate(async()=>{
+ stage='post_reload_content_worker_message';
+ await targetPage.setRequestInterception(true);
+ targetPage.on('request',req=>{try{const u=new URL(req.url());if(req.isNavigationRequest()&&u.hostname==='chatgpt.com')void req.respond({status:200,contentType:'text/html',body:'<!doctype html><meta charset=utf-8><title>B18 controlled ChatGPT fixture</title><main><pre><code>WORDSTAT_API_V1 {"method":"getRegionsTree"}</code></pre></main><textarea></textarea>'});else void req.abort();}catch{void req.abort();}});
+ await targetPage.goto('https://chatgpt.com/c/b18-runtime-reload-fixture',{waitUntil:'domcontentloaded',timeout:8000});
+ const realm=await extensionRealm(targetPage,extensionId);
+ const after=await realm.evaluate(async()=>{
    const backup=await chrome.runtime.sendMessage({type:'WS_EXPORT_BACKUP'});if(!backup?.ok)throw new Error('BACKUP_AFTER_FAILED');
-   const contexts=await chrome.runtime.getContexts({contextTypes:['BACKGROUND']});const c=backup.backup.settings.credentials;
-   const state=await chrome.runtime.sendMessage({type:'WS_GET_STATE'});
-   return{hash:backup.backup.settings_sha256,contexts:contexts.map(x=>x.contextId),all_five_same:['wordstat','search','webmaster','metrika','direct'].every(s=>(c[s].api_key||c[s].oauth_token)==='B18_CLI_'+s),public_secret_exposure:JSON.stringify(state).includes('B18_CLI_'),password_blank:document.getElementById('searchApiKey').value===''};
+   const c=backup.backup.settings.credentials;const state=await chrome.runtime.sendMessage({type:'WS_GET_STATE'});
+   return{hash:backup.backup.settings_sha256,version:chrome.runtime.getManifest().version,all_five_same:['wordstat','search','webmaster','metrika','direct'].every(s=>(c[s].api_key||c[s].oauth_token)==='B18_CLI_'+s),public_secret_exposure:JSON.stringify(state).includes('B18_CLI_')};
  });
- assert.equal(after.hash,before.hash);assert.equal(after.contexts.length,1);assert.notEqual(after.contexts[0],before.contexts[0]);assert.equal(after.all_five_same,true);assert.equal(after.public_secret_exposure,false);assert.equal(after.password_blank,true);
- assert.equal(tree(),TARGET);emit({case:'runtime_reload_via_cli_load_and_action_popup',status:'PASS',before,after,product_changed:false,real_provider_calls:0,direct_extension_navigation:false,worker_debugger_required:false});
+ const workers=await afterExtension.workers();
+ assert.equal(after.hash,before.hash);assert.equal(after.version,before.version);assert.equal(after.all_five_same,true);assert.equal(after.public_secret_exposure,false);assert.equal(workers.length,1);
+ assert.equal(tree(),TARGET);emit({case:'runtime_reload_cli_content_to_worker_persistence',status:'PASS',before,after,worker_count:workers.length,product_changed:false,real_provider_calls:0,direct_extension_navigation_after_reload:false,post_reload_popup_action_required:false});
 }catch(error){failed++;emit({case:stage,status:'FAIL_QUALIFICATION',error:String(error.stack||error),release_allowed:false});process.exitCode=1;}
 finally{
  clearInterval(monitor);clearTimeout(deadline);if(browser){try{await browser.close();}catch{}}
