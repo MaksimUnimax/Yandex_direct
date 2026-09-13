@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-13",
+  "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
+  "prior_recovery_cursor": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_PRE_CODEX_RECOVERY_CURSOR_2026-09-13.json",
+  "owner_waiver": {
+    "status": "RECORDED",
+    "path": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_OWNER_WAIVER_SKIP_INDEPENDENT_CODEX_GATE_2026-09-13.md",
+    "commit": "bfcf4dd2ad38d4d300aaca2882da70194749d5ef",
+    "instruction": "пропускаем кодекс гейт"
+  },
+  "product": {
+    "version": "0.1.6",
+    "install_zip": "Yandex-Marketing-Bridge-0.1.6.zip",
+    "install_zip_sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "install_zip_bytes": 220045,
+    "tree_sha256": "b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86",
+    "files": 67,
+    "production_bytes_changed_by_waiver": false
+  },
+  "completed_qualification": {
+    "development_node_gate": "PASS",
+    "development_resource_chrome_gate": "PASS",
+    "development_deferred_network_chrome_gate": "PASS",
+    "deterministic_package_gate": "PASS",
+    "fresh_extraction_gate": "PASS",
+    "fresh_extracted_chrome_gate": "PASS",
+    "pre_codex_transport_readback": "PASS",
+    "latest_exact_zip_recheck": "PASS"
+  },
+  "independent_codex_gate": {
+    "status": "WAIVED_BY_OWNER",
+    "executed": false,
+    "pass": false,
+    "pd00_pd17_executed_independently": false
+  },
+  "release": {
+    "allowed": true,
+    "basis": "OWNER_WAIVER_OF_ONLY_REMAINING_INDEPENDENT_CODEX_BLOCKER",
+    "owner_installable_handoff": "ALLOWED_WITH_WAIVER_DISCLOSURE"
+  },
+  "safety": {
+    "real_provider_calls": 0,
+    "real_owner_credentials_used": false,
+    "owner_profile_touched": false
+  },
+  "next_unit": "OWNER_INSTALLABLE_HANDOFF_OF_EXACT_0_1_6_ZIP",
+  "truthfulness_rule": "Never relabel WAIVED_BY_OWNER as PASS. Preserve that independent Codex PD-00..PD-17 was not executed."
+}
