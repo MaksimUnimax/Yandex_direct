@@ -1,0 +1,228 @@
+name: YMB async popup Stage B qualification
+on:
+  push:
+    branches: [qa/ymb-async-popup-stage-b-qualification-2026-09-13]
+    paths: [.github/workflows/ymb-async-popup-stage-b-qualification.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PRODUCT_SHA: 404dd03874e5df80a95bc6cec1e6967bb71de405
+  STAGE_A_SHA: 341c847089e1207dd23bf876f5ba3ac537b65a10
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  static-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Exact product, allowlist, syntax and Stage B source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "$PRODUCT_SHA"
+          mapfile -t changed < <(git diff --name-only "$STAGE_A_SHA" "$PRODUCT_SHA" -- extension/src | sort)
+          printf '%s\n' "${changed[@]}"
+          test "${#changed[@]}" -eq 2
+          test "${changed[0]}" = extension/src/content_script.js
+          test "${changed[1]}" = extension/src/popup_search_async_monitor.js
+          find extension/src -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('extension/src'); p=(root/'popup_search_async_monitor.js').read_text(); c=(root/'content_script.js').read_text()
+          files=[x for x in root.rglob('*') if x.is_file()]
+          H=lambda b:hashlib.sha256(b).hexdigest()
+          tree=H(''.join(H(x.read_bytes())+'  '+x.relative_to(root).as_posix()+'\n' for x in sorted(files)).encode())
+          assert len(files)==68,(len(files),tree)
+          # Popup is structured-only: no provider URL/protocol, transport or file-delivery implementation.
+          for forbidden in ['searchapi.api.cloud.yandex.net','operation.api.cloud.yandex.net','SEARCH_ASYNC_BATCH_API_V1','fetch(','XMLHttpRequest','file_delivery','composer_send']:
+              assert forbidden not in p,forbidden
+          for required in ['YMB_ASYNC_POPUP_ACTION','collect_one','export_page','chrome.tabs.query','chrome.tabs.sendMessage','Проверить результат','Отправить файл в чат']:
+              assert required in p,required
+          assert 'collect_enabled: hasJob && !inFlight && waiting > 0 && due > 0' in p
+          assert 'export_enabled: hasJob && !inFlight && complete' in p
+          assert 'if (actionInFlight) return;' in p
+          # Content script alone creates the old protocol command and reuses Manual ingress.
+          required=[
+            'message.type !== "YMB_ASYNC_POPUP_ACTION"',
+            'action === "collect_one"',
+            'action: "collectN", jobId, count: 1',
+            'action === "export_page"',
+            'action: "exportPage", jobId, after: -1, limit: 25, revision',
+            'type: "WS_EXECUTE_MANUAL_BLOCK"',
+            'block_text: blockText',
+            'manual_request_token:'
+          ]
+          for x in required: assert x in c,x
+          assert 'if (actualKey !== expectedKey)' in c
+          result={'product_sha':'404dd03874e5df80a95bc6cec1e6967bb71de405','files':len(files),'tree_sha256':tree,'changed_from_stage_a':['extension/src/content_script.js','extension/src/popup_search_async_monitor.js'],'source_contract_pass':True}
+          Path('/tmp/static-result.json').write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps(result,indent=2))
+          PY
+      - name: Deterministic dual ZIP and fresh extraction identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,json,zipfile,shutil
+          H=lambda b:hashlib.sha256(b).hexdigest(); root=Path('extension/src'); out=Path('/tmp/package');out.mkdir()
+          files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()}
+          tree=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode()); assert len(files)==68
+          prefix='Yandex-Marketing-Bridge-0.1.6/'
+          def build(p):
+            with zipfile.ZipFile(p,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9,strict_timestamps=True) as z:
+              for name,b in sorted(files.items()):
+                zi=zipfile.ZipInfo(prefix+name,date_time=(1980,1,1,0,0,0));zi.compress_type=zipfile.ZIP_DEFLATED;zi.create_system=3;zi.external_attr=(0o100644<<16);zi.flag_bits=0x800;z.writestr(zi,b,compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
+          a=out/'A.zip';b=out/'B.zip';build(a);build(b);assert a.read_bytes()==b.read_bytes()
+          final=out/'Yandex-Marketing-Bridge-0.1.6-stage-b.zip';final.write_bytes(a.read_bytes())
+          with zipfile.ZipFile(final) as z:
+            assert z.testzip() is None; extracted={}
+            for e in z.infolist():
+              if e.is_dir(): continue
+              p=PurePosixPath(e.filename); assert not p.is_absolute() and '..' not in p.parts and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6'
+              rel='/'.join(p.parts[1:]); assert rel not in extracted; extracted[rel]=z.read(e)
+          extree=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(extracted.items())).encode()); assert extree==tree and set(extracted)==set(files)
+          result={'product_sha':'404dd03874e5df80a95bc6cec1e6967bb71de405','tree_sha256':tree,'files':68,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'pass':True}
+          (out/'PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(out/'SOURCE_SHA256SUMS').write_text(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())))
+          print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ymb-stage-b-static-package
+          path: |
+            /tmp/static-result.json
+            /tmp/package/
+          retention-days: 90
+          if-no-files-found: error
+
+  node-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 1}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Retarget exact B19 Node campaign on QA copies only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,shutil,re
+          H=lambda b:hashlib.sha256(b).hexdigest(); product=Path('extension/src')
+          files=[p for p in product.rglob('*') if p.is_file()]; target=H(''.join(H(p.read_bytes())+'  '+p.relative_to(product).as_posix()+'\n' for p in sorted(files)).encode()); js=sum(1 for p in files if p.suffix=='.js')
+          assert len(files)==68
+          artifact=Path('classification/qa_workspace/candidate/full');shutil.rmtree(artifact);shutil.copytree(product,artifact)
+          q=Path('/tmp/node-runner');q.mkdir(); base=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_node_campaign.py').read_text(); wrap=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_node_campaign_v2.py').read_text()
+          old='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'; assert base.count(old)>=1;base=base.replace(old,target)
+          base=base.replace("!=67",f"!={len(files)}").replace("len(syntax)==61",f"len(syntax)=={js}").replace("'files':67",f"'files':{len(files)}")
+          (q/'b19_final_node_campaign.py').write_text(base);(q/'b19_final_node_campaign_v2.py').write_text(wrap)
+          Path('/tmp/current-tree').write_text(target+'\n'); print('TARGET',target,'FILES',len(files),'JS',js)
+          PY
+          python3 /tmp/node-runner/b19_final_node_campaign_v2.py "$PWD" "$PWD/classification" "$RUNNER_TEMP/stage-b-node"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-stage-b-node-regression
+          path: ${{ runner.temp }}/stage-b-node/
+          retention-days: 90
+          if-no-files-found: error
+
+  chrome-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 1}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Prepare locked browser dependency and QA-only current-tree harnesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,re,shutil
+          H=lambda b:hashlib.sha256(b).hexdigest(); r=Path('extension/src');files=[p for p in r.rglob('*') if p.is_file()];target=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in sorted(files)).encode());assert len(files)==68
+          q=Path(os.environ['RUNNER_TEMP'])/'stage-b-browser-tests';q.mkdir();old_pre='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';old_b19='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          def adapt(src,dst,hashes):
+            s=Path(src).read_text(); hits=0
+            for old in hashes:
+              if old in s:s=s.replace(old,target);hits+=1
+            s=s.replace('assert.equal(rows.length,67)','assert.equal(rows.length,68)').replace('rows.length!==67','rows.length!==68')
+            Path(dst).write_text(s); return hits
+          assert adapt('frozen-b17/tests/b15_browser_qualification.mjs',q/'resource.mjs',[old_pre,old_b19])>=1
+          assert adapt('frozen-b17/tests/b15_browser_faults.mjs',q/'faults.mjs',[old_pre,old_b19])>=1
+          shutil.copyfile('frozen-b17/tests/b15_fixture.html',q/'b15_fixture.html')
+          # First use governed B19 adapter for the pause/recovery harness, then retarget only identity guards.
+          tmp=q/'pause-pre.mjs'
+          os.system(f"python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_resource_browser_adapt.py frozen-b17/tests/b17_browser.mjs {tmp} > {q/'PAUSE_ADAPT.json'}")
+          assert tmp.exists();adapt(tmp,q/'pause.mjs',[old_pre,old_b19]);tmp.unlink()
+          assert adapt('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs',q/'network.mjs',[old_pre,old_b19])>=1
+          # Reuse the already-qualified Stage-A popup Chrome harness against the Stage-B bytes.
+          wf=Path('.github/workflows/ymb-async-popup-monitor-stage-a.yml').read_text();a='          cat > "$RUNNER_TEMP/popup-monitor-stage-a.mjs" <<\'NODE\'\n';start=wf.index(a)+len(a);end=wf.index('\n          NODE',start);popup='\n'.join(line[10:] if line.startswith('          ') else line for line in wf[start:end].splitlines())+'\n';(q/'popup.mjs').write_text(popup)
+          d=Path(os.environ['RUNNER_TEMP'])/'deps';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'stage-b-browser-evidence';e.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as x:x.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_STAGE_B_TESTS={q}\nYMB_STAGE_B_EVIDENCE={e}\nYMB_CHATGPT_FIXTURE={(q/"b15_fixture.html").resolve()}\nYMB_CURRENT_TREE={target}\n')
+          print('TARGET',target)
+          PY
+          for f in "$YMB_STAGE_B_TESTS"/*.mjs; do node --check "$f"; done
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_STAGE_B_EVIDENCE/npm.stdout" 2> "$YMB_STAGE_B_EVIDENCE/npm.stderr"
+      - name: Re-run Stage A popup read-only Chrome contour on Stage B bytes
+        shell: bash
+        env:
+          YMB_EVIDENCE: ${{ runner.temp }}/stage-b-browser-evidence/popup
+        run: |
+          set -euo pipefail;mkdir -p "$YMB_EVIDENCE";xvfb-run -a node "$YMB_STAGE_B_TESTS/popup.mjs" > "$YMB_EVIDENCE/run.stdout" 2> "$YMB_EVIDENCE/run.stderr"
+      - name: B19 full resource matrix on Stage B bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pair in 'resource qualification' 'faults faults' 'pause pause'; do set -- $pair; export YMB_BROWSER_EVIDENCE="$YMB_STAGE_B_EVIDENCE/$2";mkdir -p "$YMB_BROWSER_EVIDENCE";xvfb-run -a node "$YMB_STAGE_B_TESTS/$1.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr";done
+      - name: B19 deferred network matrix on Stage B bytes
+        shell: bash
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/stage-b-browser-evidence/network
+        run: |
+          set -euo pipefail;mkdir -p "$YMB_BROWSER_EVIDENCE";xvfb-run -a node "$YMB_STAGE_B_TESTS/network.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Consolidate browser evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$YMB_STAGE_B_TESTS"/*.mjs "$YMB_STAGE_B_EVIDENCE/" 2>/dev/null || true
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os,hashlib
+          root=Path(os.environ['YMB_STAGE_B_EVIDENCE']);groups={};fails=[];remaining=[];peak=0
+          for name in ['popup','qualification','faults','pause','network']:
+            p=root/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];bad=[{'case':r.get('case'),'status':r.get('status')} for r in rows if str(r.get('status','')).startswith('FAIL')];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});groups[name]={'cases':len(rows),'failures':bad,'remaining':clean.get('remaining') or [],'peak_owned_rss_kib':clean.get('peak_owned_rss_kib')};fails += [{'group':name,**x} for x in bad];remaining += clean.get('remaining') or [];peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0))
+          result={'product_sha':'404dd03874e5df80a95bc6cec1e6967bb71de405','tree_sha256':os.environ.get('YMB_CURRENT_TREE'),'groups':groups,'failures':fails,'remaining_processes':remaining,'peak_owned_rss_kib':peak,'real_provider_calls':0,'pass':all(groups[n]['cases']>0 for n in groups) and not fails and not remaining and peak<2097152}
+          (root/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(root/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(root).as_posix()+'\n' for f in sorted(root.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-stage-b-chrome-regression
+          path: ${{ runner.temp }}/stage-b-browser-evidence/
+          retention-days: 90
+          if-no-files-found: error
