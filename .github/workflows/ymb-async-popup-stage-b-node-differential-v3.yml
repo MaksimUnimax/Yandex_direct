@@ -1,0 +1,101 @@
+name: YMB async popup Stage B Node differential v3
+on:
+  push:
+    branches: [qa/ymb-async-popup-stage-b-qualification-2026-09-13]
+    paths:
+      - .github/workflows/ymb-async-popup-stage-b-node-differential-v3.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  PRODUCT_SHA: 404dd03874e5df80a95bc6cec1e6967bb71de405
+  PRODUCT_TREE_SHA256: bec51a30456cce132d2bc028b42b495097989fb6eecd8cd3d1ea6003b3d2b5ed
+  STAGE_A_SHA: 341c847089e1207dd23bf876f5ba3ac537b65a10
+jobs:
+  node-differential-v3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: frozen-classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Run accepted Stage A and Stage B through identical B19 campaign
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$PRODUCT_SHA" -- extension/src
+          mkdir -p "$RUNNER_TEMP/node-differential-v3"
+          node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/stage_b_popup_contract.test.mjs > "$RUNNER_TEMP/node-differential-v3/stage_b_contract.stdout"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,io,json,os,shutil,subprocess,tarfile
+          H=lambda b:hashlib.sha256(b).hexdigest()
+          repo=Path.cwd();tmp=Path(os.environ['RUNNER_TEMP']);publish=tmp/'node-differential-v3';frozen=Path('frozen-classification')
+          qa_src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa')
+          base_src=(qa_src/'b19_final_node_campaign.py').read_text();wrapper_src=(qa_src/'b19_final_node_campaign_v2.py').read_text()
+          old_target='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          product_line="product=repo/'extension/src';qa_root=classification/'qa_workspace/qa';qa=qa_root/'qa';artifact_product=qa_root/'candidate/full'"
+          override_line="product=Path(os.environ['YMB_PRODUCT_OVERRIDE']).resolve();qa_root=classification/'qa_workspace/qa';qa=qa_root/'qa';artifact_product=qa_root/'candidate/full'"
+          assert base_src.count(product_line)==1
+          stage_a_root=tmp/'stage-a-root';stage_a_root.mkdir()
+          archive=subprocess.check_output(['git','archive',os.environ['STAGE_A_SHA'],'extension/src'])
+          with tarfile.open(fileobj=io.BytesIO(archive),mode='r:') as tar:tar.extractall(stage_a_root)
+          sources={'stage_a':stage_a_root/'extension/src','stage_b':Path('extension/src')}
+          results={};diagnostics={}
+          for label,product in sources.items():
+              files=[p for p in product.rglob('*') if p.is_file()];js=sum(1 for p in files if p.suffix=='.js')
+              tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(product).as_posix()+'\n' for p in sorted(files)).encode())
+              if label=='stage_b':
+                  assert tree==os.environ['PRODUCT_TREE_SHA256'],(tree,os.environ['PRODUCT_TREE_SHA256'])
+              work=tmp/f'classification-{label}';shutil.copytree(frozen,work)
+              candidate=work/'qa_workspace/qa/candidate/full';assert candidate.exists();shutil.rmtree(candidate);shutil.copytree(product,candidate)
+              runner=tmp/f'runner-{label}';runner.mkdir()
+              base=base_src.replace(product_line,override_line)
+              assert base.count(old_target)>=1;base=base.replace(old_target,tree)
+              base=base.replace('!=67',f'!={len(files)}').replace('len(syntax)==61',f'len(syntax)=={js}').replace("'files':67",f"'files':{len(files)}")
+              assert old_target not in base
+              (runner/'b19_final_node_campaign.py').write_text(base);(runner/'b19_final_node_campaign_v2.py').write_text(wrapper_src)
+              out=tmp/f'node-{label}'
+              env={**os.environ,'YMB_PRODUCT_OVERRIDE':str(product.resolve())}
+              cp=subprocess.run(['python3',str(runner/'b19_final_node_campaign_v2.py'),str(repo),str(work),str(out)],env=env,text=True,capture_output=True)
+              diag={'label':label,'product_tree':tree,'product_files':len(files),'product_js':js,'runner_returncode':cp.returncode,'stdout':cp.stdout,'stderr':cp.stderr,'result_exists':(out/'RESULT.json').exists()}
+              diagnostics[label]=diag
+              ddir=publish/label;ddir.mkdir(parents=True,exist_ok=True);(ddir/'runner.stdout').write_text(cp.stdout);(ddir/'runner.stderr').write_text(cp.stderr);(ddir/'DIAGNOSTIC.json').write_text(json.dumps(diag,indent=2)+'\n')
+              if out.exists():
+                  for p in out.iterdir():
+                      dst=ddir/'campaign'/p.name
+                      if p.is_dir():shutil.copytree(p,dst)
+                      else:dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,dst)
+              if not (out/'RESULT.json').exists():
+                  (publish/'PREMATURE_FAILURE.json').write_text(json.dumps({'failed_label':label,'diagnostics':diagnostics},indent=2)+'\n')
+                  print(json.dumps(diag,indent=2));raise SystemExit(3)
+              results[label]=json.loads((out/'RESULT.json').read_text())
+          def signature(r):
+              return {k:{'tests':v.get('footer',{}).get('tests'),'pass':v.get('footer',{}).get('pass'),'fail':v.get('footer',{}).get('fail'),'skipped':v.get('footer',{}).get('skipped'),'cancelled':v.get('footer',{}).get('cancelled'),'failed_names':v.get('failed_names',[])} for k,v in r['suites'].items()}
+          sa,sb=results['stage_a'],results['stage_b'];sig_a,sig_b=signature(sa),signature(sb)
+          delta={k:{'stage_a':sig_a.get(k),'stage_b':sig_b.get(k)} for k in sorted(set(sig_a)|set(sig_b)) if sig_a.get(k)!=sig_b.get(k)}
+          contract=json.loads((publish/'stage_b_contract.stdout').read_text())
+          known_stale={k:v for k,v in sig_a.items() if str(v.get('fail'))!='0'}
+          static_equal=(sa.get('static_pass') is True and sb.get('static_pass') is True and sa.get('syntax')==sb.get('syntax') and sa.get('candidate_unchanged') is True and sb.get('candidate_unchanged') is True)
+          summary={'schema_version':3,'stage_a_sha':os.environ['STAGE_A_SHA'],'stage_b_sha':os.environ['PRODUCT_SHA'],'stage_a':{'tree':diagnostics['stage_a']['product_tree'],'files':diagnostics['stage_a']['product_files'],'runner_returncode':diagnostics['stage_a']['runner_returncode'],'suite_signature':sig_a,'status':sa.get('status')},'stage_b':{'tree':diagnostics['stage_b']['product_tree'],'files':diagnostics['stage_b']['product_files'],'runner_returncode':diagnostics['stage_b']['runner_returncode'],'suite_signature':sig_b,'status':sb.get('status')},'known_stale_baseline_failures':known_stale,'suite_delta':delta,'static_equal_and_pass':static_equal,'stage_b_contract_pass':contract.get('pass') is True,'real_provider_calls':0,'pass':not delta and static_equal and contract.get('pass') is True and sa.get('real_provider_calls')==0 and sb.get('real_provider_calls')==0}
+          (publish/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n')
+          (publish/'SHA256SUMS').write_text(''.join(H(p.read_bytes())+'  '+p.relative_to(publish).as_posix()+'\n' for p in sorted(publish.rglob('*')) if p.is_file() and p.name!='SHA256SUMS'))
+          print(json.dumps(summary,indent=2));raise SystemExit(0 if summary['pass'] else 2)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-stage-b-node-differential-v3
+          path: ${{ runner.temp }}/node-differential-v3/
+          retention-days: 90
+          if-no-files-found: error
