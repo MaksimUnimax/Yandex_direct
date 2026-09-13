@@ -1,0 +1,166 @@
+name: YMB B19 final Node regression
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b19-node-final.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b19-node-final
+  cancel-in-progress: false
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 53d6a3ffcf55328e51c90b377e79e71d8c6115da
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify exact B19 product and apply QA-only expectation adaptation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          H=lambda b:hashlib.sha256(b).hexdigest()
+          def tree(root):return H(''.join(H(p.read_bytes())+'  '+p.relative_to(root).as_posix()+'\n' for p in sorted(root.rglob('*')) if p.is_file()).encode())
+          current=Path('extension/src');artifact=Path('classification/qa_workspace/qa/candidate/full')
+          assert tree(current)=='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          assert tree(artifact)==tree(current)
+          assert len([p for p in current.rglob('*') if p.is_file()])==67
+          PY
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt.py classification/qa_workspace/qa/qa > classification/B19_QA_ADAPT.stdout
+      - name: Original source suites 132/132 on exact B19 bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd classification/base_campaign/original_view
+          mapfile -t P < <(find extension/tests -maxdepth 1 -name '*.test.mjs' -print | sort)
+          P+=(extension/tests/qa_phase5_codex/direct_addendum_coverage.test.mjs)
+          NODE_OPTIONS="--max-old-space-size=256 --require=$GITHUB_WORKSPACE/classification/qa_workspace/qa/qa/b13_network_guard.cjs" node --test --test-timeout=10000 "${P[@]}" > "$RUNNER_TEMP/ORIGINAL_132.tap" 2> "$RUNNER_TEMP/ORIGINAL_132.stderr"
+          grep -q '^# tests 132$' "$RUNNER_TEMP/ORIGINAL_132.tap"
+          grep -q '^# pass 132$' "$RUNNER_TEMP/ORIGINAL_132.tap"
+          grep -q '^# fail 0$' "$RUNNER_TEMP/ORIGINAL_132.tap"
+      - name: Wordstat Debug backup missing coverage 78/78
+        shell: bash
+        run: |
+          set -euo pipefail
+          QA="$GITHUB_WORKSPACE/classification/qa_workspace/qa"
+          export YMB_FULL="$QA/candidate/full"
+          export YMB_HARNESS="$QA/qa/b10_full_worker_harness.mjs"
+          export YMB_IDB_FIXTURE="$QA/qa/idb_artifact_fixture.mjs"
+          export NODE_OPTIONS="--max-old-space-size=256 --require=$QA/qa/b13_network_guard.cjs"
+          node --test --test-timeout=10000 "$QA/qa/b13_missing_coverage.test.mjs" > "$RUNNER_TEMP/MISSING_78.tap" 2> "$RUNNER_TEMP/MISSING_78.stderr"
+          grep -q '^# tests 78$' "$RUNNER_TEMP/MISSING_78.tap";grep -q '^# pass 78$' "$RUNNER_TEMP/MISSING_78.tap";grep -q '^# fail 0$' "$RUNNER_TEMP/MISSING_78.tap"
+      - name: Full network-enabled contract 99/99
+        shell: bash
+        run: |
+          set -euo pipefail
+          QA="$GITHUB_WORKSPACE/classification/qa_workspace/qa"
+          export YMB_FULL="$QA/candidate/full"
+          export YMB_IDB_FIXTURE="$QA/qa/idb_artifact_fixture.mjs"
+          export NODE_OPTIONS="--max-old-space-size=256 --require=$QA/qa/b13_network_guard.cjs"
+          mapfile -t P < <(find "$QA/qa" -maxdepth 1 -name '*.test.mjs' -print | sort)
+          node --test --test-timeout=10000 "${P[@]}" > "$RUNNER_TEMP/FULL_99.tap" 2> "$RUNNER_TEMP/FULL_99.stderr"
+          grep -q '^# tests 99$' "$RUNNER_TEMP/FULL_99.tap";grep -q '^# pass 99$' "$RUNNER_TEMP/FULL_99.tap";grep -q '^# fail 0$' "$RUNNER_TEMP/FULL_99.tap"
+      - name: Preserved module regressions 254/254 on B19 bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess,sys
+          root=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12')
+          script=(root/'qa/b9_regression_campaign.py').read_text()
+          old='d1fc4f49718f023f1bc1a6a3ec921fa7253d63b805cedadff6fbcf2e70180612'
+          assert script.count(old)==1
+          body=script.replace(old,'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86').replace('Wrong B9 candidate','Wrong B19 candidate')
+          args=['runner',str(root/'qa/b14_inputs/owner014'),str(Path('classification/qa_workspace/qa').resolve()),str(Path('/tmp/B19_MODULES').resolve())]
+          wrapper='import sys\nsys.argv='+repr(args)+'\nexec(compile('+repr(body)+','+repr(str(root/'qa/b9_regression_campaign.py'))+',"exec"),{"__name__":"__main__","__file__":'+repr(str(root/'qa/b9_regression_campaign.py'))+'})'
+          r=subprocess.run([sys.executable,'-c',wrapper],timeout=90)
+          raise SystemExit(r.returncode)
+          PY
+          cp /tmp/B19_MODULES/MODULE_REGRESSION.tap "$RUNNER_TEMP/MODULE_254.tap"
+          cp /tmp/B19_MODULES/MODULE_REGRESSION.stderr "$RUNNER_TEMP/MODULE_254.stderr"
+          grep -q '^# tests 254$' "$RUNNER_TEMP/MODULE_254.tap";grep -q '^# pass 254$' "$RUNNER_TEMP/MODULE_254.tap";grep -q '^# fail 0$' "$RUNNER_TEMP/MODULE_254.tap"
+      - name: Export/file regression 84/84
+        shell: bash
+        run: |
+          set -euo pipefail
+          E="$GITHUB_WORKSPACE/classification/base_campaign/patch/export"
+          FULL="$GITHUB_WORKSPACE/extension/src"
+          cp "$FULL/search_async_worker_transport.js" "$E/candidate/b8/search_async_worker_transport.js"
+          cp "$FULL/search_async_worker_transport.js" "$E/candidate/b7/search_async_worker_transport.js"
+          cp "$FULL/shared/search_async_protocol.js" "$E/candidate/b8/search_async_protocol.js"
+          cp "$FULL/shared/search_async_export.js" "$E/candidate/b8/search_async_export.js"
+          node --test --test-timeout=10000 "$E/qa/b7_worker.test.mjs" "$E"/qa/b8*.test.mjs > "$RUNNER_TEMP/EXPORT_84.tap" 2> "$RUNNER_TEMP/EXPORT_84.stderr"
+          grep -q '^# tests 84$' "$RUNNER_TEMP/EXPORT_84.tap";grep -q '^# pass 84$' "$RUNNER_TEMP/EXPORT_84.tap";grep -q '^# fail 0$' "$RUNNER_TEMP/EXPORT_84.tap"
+      - name: Delivery/recovery combined 69/69 with enabled deferred transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          QA="$GITHUB_WORKSPACE/classification/qa_workspace/qa"
+          export YMB_FULL="$QA/candidate/full"
+          export YMB_HARNESS="$QA/qa/b10_full_worker_harness.mjs"
+          export YMB_IDB_FIXTURE="$QA/qa/idb_artifact_fixture.mjs"
+          export NODE_OPTIONS="--max-old-space-size=256 --require=$QA/qa/b13_network_guard.cjs"
+          node --test --test-timeout=10000 "$GITHUB_WORKSPACE/classification/tests/b17_worker.test.mjs" "$GITHUB_WORKSPACE/classification/tests/b17_content.test.mjs" "$GITHUB_WORKSPACE/classification/tests/b15_send_race.test.mjs" "$GITHUB_WORKSPACE/classification/tests/b16_context.test.mjs" "$QA/qa/b9_full_worker.test.mjs" > "$RUNNER_TEMP/DELIVERY_69.tap" 2> "$RUNNER_TEMP/DELIVERY_69.stderr"
+          grep -q '^# tests 69$' "$RUNNER_TEMP/DELIVERY_69.tap";grep -q '^# pass 69$' "$RUNNER_TEMP/DELIVERY_69.tap";grep -q '^# fail 0$' "$RUNNER_TEMP/DELIVERY_69.tap"
+      - name: Static syntax JSON and exact source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find extension/src -type f | wc -l)" -eq 67
+          find extension/src -name '*.js' -type f -print0 | sort -z | xargs -0 -n1 node --check
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,hashlib
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          for p in r.rglob('*.json'):json.loads(p.read_text())
+          ident=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in sorted(r.rglob('*')) if p.is_file()).encode())
+          assert ident=='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          m=json.loads((r/'manifest.json').read_text());assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1;assert 'alarms' not in m['permissions']
+          PY
+      - name: Preserve complete B19 Node evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/b19-final-node";mkdir -p "$O"
+          cp "$RUNNER_TEMP"/*.tap "$O/" 2>/dev/null || true
+          cp "$RUNNER_TEMP"/*.stderr "$O/" 2>/dev/null || true
+          cp classification/B19_QA_ADAPT.stdout "$O/" 2>/dev/null || true
+          cp classification/qa_workspace/qa/qa/B19_QA_ADAPTATION.json "$O/" 2>/dev/null || true
+          cp extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B19_MATERIALIZATION.json "$O/"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,re
+          o=Path(os.environ['RUNNER_TEMP'])/'b19-final-node';summary={'schema_version':1,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','operation_host_enabled':True,'live_provider_calls':0,'suites':{}}
+          for p in sorted(o.glob('*.tap')):
+            t=p.read_text(errors='replace');f=dict(re.findall(r'^# (tests|pass|fail|skipped|cancelled) (\d+)$',t,re.M));summary['suites'][p.name]=f
+          summary['status']='PASS' if all(x.get('fail')=='0' and x.get('skipped')=='0' and x.get('cancelled')=='0' for x in summary['suites'].values()) and len(summary['suites'])>=6 else 'REQUIRES_CLASSIFICATION'
+          (o/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(o.iterdir()) if p.is_file() and p.name!='SHA256SUMS'))
+          print(json.dumps(summary,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b19-final-node-evidence
+          path: ${{ runner.temp }}/b19-final-node/
+          retention-days: 90
+          if-no-files-found: error
