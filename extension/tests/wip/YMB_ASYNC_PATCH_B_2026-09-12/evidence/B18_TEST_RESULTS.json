@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-13",
+  "product": {
+    "tree_sha256": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
+    "package_sha256": "1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1",
+    "package_bytes": 225660,
+    "files": 67,
+    "production_changes_in_b18": 0,
+    "operation_host_enabled": false,
+    "live_provider_calls": 0
+  },
+  "unified_node": {
+    "status": "PASS_AVAILABLE_NODE_SCOPE",
+    "run_id": 34731428403,
+    "artifact_id": 10309960620,
+    "artifact_sha256": "9115aab772d2b1de314b28363b4ef61b9cf849c33e8d49f4fa56a0e4ef962e8f",
+    "artifact_bytes": 78717,
+    "roundtrip_inner_hashes": 88,
+    "runner": "qa/b18_node_campaign.py",
+    "runner_sha256": "cc6389e6c08c9e944d21575c0e451788a9d7c0fad73b2dc1a71f7eca772c3c18",
+    "counts": {
+      "original": 132,
+      "wordstat_backup": 78,
+      "full_contract": 99,
+      "modules": 254,
+      "export": 84,
+      "delivery": 69
+    },
+    "counts_overlap": true,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "remaining_browser_development": {
+    "exact_product": true,
+    "qualified_venue": "GitHub-hosted Chrome for Testing / Puppeteer, controlled DOM and provider fixtures",
+    "successful_mandatory_cases": [
+      "five dedicated credentials with explicit Save/Check and password-field non-repopulation",
+      "popup service policies and unsaved-field isolation",
+      "manual full-block capture in source order without parallel provider fanout",
+      "plain/malformed/validation/unsupported local errors delivered without provider call",
+      "injected URL/headers/credentials ignored at fixed provider boundary",
+      "Debug OFF/ON visible errors and redacted diagnostics",
+      "legacy block adapters and selected-block isolation",
+      "generic Copy and user-turn isolation plus conflicting conversation fail-closed",
+      "stable operation/composer/picker plaques and native picker no-Send behavior",
+      "installed Autorun popup pickup/pause/resume/stop/reload/owner behavior",
+      "fresh-install backup restore/checksum guard/no public secret content"
+    ],
+    "principal_recheck_run_id": 34731585712,
+    "principal_recheck_artifact_id": 10309342324,
+    "principal_recheck_only_nonmandatory_failure": "Puppeteer/direct extension popup access after chrome.runtime.reload()",
+    "pd04_mandatory_contour_source": "exact B17 real worker close/restart and whole-browser profile close/reopen with durable state recovery",
+    "pd04_authority_requirement": "safe worker restart/lifecycle contour",
+    "mandatory_pd_browser_failures_remaining": 0
+  },
+  "preserved_qa_failures": [
+    {"run_id":34731010004,"artifact_id":10308669055,"class":"FAIL_HARNESS","note":"service selection fixture expected persistence without explicit Save; downstream wrong-service failures"},
+    {"run_id":34731343657,"artifact_id":10309307785,"class":"FAIL_HARNESS","note":"remaining QA readiness/reload synchronization failures on unchanged product"},
+    {"run_id":34732438321,"artifact_id":10309348280,"class":"FAIL_HARNESS","note":"direct chrome-extension popup navigation after runtime.reload returned ERR_BLOCKED_BY_CLIENT"},
+    {"run_id":34733052385,"artifact_id":10310226593,"class":"FAIL_HARNESS","note":"QA syntax error before browser product assertions"},
+    {"run_id":34733143424,"artifact_id":10310231741,"class":"FAIL_HARNESS","note":"same ID/version/enabled survived reload; Puppeteer Extensions.triggerAction target closed"},
+    {"run_id":34733280541,"artifact_id":10310023323,"class":"FAIL_HARNESS","note":"registry survived reload; Puppeteer did not expose content-script realm"},
+    {"run_id":34733434071,"artifact_id":10309823907,"class":"FAIL_HARNESS","note":"QA waited for targetdestroyed while debugger-attached to old worker"},
+    {"run_id":34733531060,"artifact_id":10309774432,"class":"FAIL_HARNESS","note":"targetFilter prevented the same QA from observing the post-reload service worker"}
+  ],
+  "supplemental_runtime_reload": {
+    "gate_bearing": false,
+    "reason": "PD-04 requires a safe worker restart/lifecycle contour, already executed on exact B17. chrome.runtime.reload-specific popup observability is additional diagnostics.",
+    "latest_run_id": 34733840170,
+    "status_at_b18_close": "IN_PROGRESS_NON_GATE",
+    "product_changes": 0
+  },
+  "pd_map": {
+    "path": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B18_FINAL_PD_EXECUTION_MAP.md",
+    "development_mapping_complete": true,
+    "all_pd_sections_have_qualified_executable_mapping": true
+  },
+  "release_boundary": {
+    "independent_codex_gate": "NOT_RUN",
+    "final_gate_ready_for_disabled_deferred_network_candidate": true,
+    "network_activation_separate_authorization_required": true,
+    "release_allowed": false,
+    "owner_installable_handoff": "FORBIDDEN"
+  }
+}
