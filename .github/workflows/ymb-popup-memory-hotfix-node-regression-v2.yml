@@ -1,0 +1,60 @@
+name: YMB popup memory hotfix Node regression v2
+on:
+  push:
+    branches: [qa/ymb-popup-memory-hotfix-full-qualification-2026-09-13]
+    paths: [.github/workflows/ymb-popup-memory-hotfix-node-regression-v2.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PRODUCT_SHA: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+  BASELINE_SHA: 404dd03874e5df80a95bc6cec1e6967bb71de405
+jobs:
+  node-contract-regression-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: frozen-classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Contract and identical B19 campaign baseline vs hotfix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$PRODUCT_SHA" -- extension/src
+          mapfile -t changed < <(git diff --name-only "$BASELINE_SHA" "$PRODUCT_SHA" -- extension/src)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = extension/src/popup_search_async_monitor.js
+          git show 0acf5700f4a8861f2d53efc2fcf348d69870cc7f:extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/stage_b_popup_contract.test.mjs > "$RUNNER_TEMP/stage_b_contract.test.mjs"
+          PRODUCT_SHA="$PRODUCT_SHA" node "$RUNNER_TEMP/stage_b_contract.test.mjs" > "$RUNNER_TEMP/contract.stdout"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,io,json,os,shutil,subprocess,tarfile
+          H=lambda b:hashlib.sha256(b).hexdigest();repo=Path.cwd();tmp=Path(os.environ['RUNNER_TEMP']);frozen=Path('frozen-classification');publish=tmp/'node-hotfix-diff';publish.mkdir()
+          qa=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa');base_src=(qa/'b19_final_node_campaign.py').read_text();wrapper=(qa/'b19_final_node_campaign_v2.py').read_text();old_target='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          product_line="product=repo/'extension/src';qa_root=classification/'qa_workspace/qa';qa=qa_root/'qa';artifact_product=qa_root/'candidate/full'";override_line="product=Path(os.environ['YMB_PRODUCT_OVERRIDE']).resolve();qa_root=classification/'qa_workspace/qa';qa=qa_root/'qa';artifact_product=qa_root/'candidate/full'";assert base_src.count(product_line)==1
+          broot=tmp/'baseline-root';broot.mkdir();data=subprocess.check_output(['git','archive',os.environ['BASELINE_SHA'],'extension/src']);tarfile.open(fileobj=io.BytesIO(data),mode='r:').extractall(broot);sources={'baseline':broot/'extension/src','hotfix':Path('extension/src')};results={};diag={}
+          for label,product in sources.items():
+            files=[p for p in product.rglob('*') if p.is_file()];js=sum(1 for p in files if p.suffix=='.js');tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(product).as_posix()+'\n' for p in sorted(files)).encode());assert len(files)==68
+            work=tmp/f'class-{label}';shutil.copytree(frozen,work);candidate=work/'qa_workspace/qa/candidate/full';shutil.rmtree(candidate);shutil.copytree(product,candidate)
+            rdir=tmp/f'runner-{label}';rdir.mkdir();base=base_src.replace(product_line,override_line).replace(old_target,tree).replace('!=67',f'!={len(files)}').replace('len(syntax)==61',f'len(syntax)=={js}').replace("'files':67",f"'files':{len(files)}");(rdir/'b19_final_node_campaign.py').write_text(base);(rdir/'b19_final_node_campaign_v2.py').write_text(wrapper)
+            out=tmp/f'campaign-{label}';cp=subprocess.run(['python3',str(rdir/'b19_final_node_campaign_v2.py'),str(repo),str(work),str(out)],env={**os.environ,'YMB_PRODUCT_OVERRIDE':str(product.resolve())},text=True,capture_output=True)
+            d=publish/label;d.mkdir();(d/'runner.stdout').write_text(cp.stdout);(d/'runner.stderr').write_text(cp.stderr);assert (out/'RESULT.json').exists(),(label,cp.returncode,cp.stderr[-2000:]);res=json.loads((out/'RESULT.json').read_text());results[label]=res;diag[label]={'tree':tree,'files':len(files),'js':js,'returncode':cp.returncode};shutil.copy2(out/'RESULT.json',d/'RESULT.json')
+          def sig(r):return {k:{'tests':v.get('footer',{}).get('tests'),'pass':v.get('footer',{}).get('pass'),'fail':v.get('footer',{}).get('fail'),'skipped':v.get('footer',{}).get('skipped'),'cancelled':v.get('footer',{}).get('cancelled'),'failed_names':v.get('failed_names',[])} for k,v in r['suites'].items()}
+          a,b=sig(results['baseline']),sig(results['hotfix']);delta={k:{'baseline':a.get(k),'hotfix':b.get(k)} for k in sorted(set(a)|set(b)) if a.get(k)!=b.get(k)};contract=json.loads((tmp/'contract.stdout').read_text());static_ok=results['baseline'].get('static_pass') is True and results['hotfix'].get('static_pass') is True
+          result={'schema_version':2,'baseline_sha':os.environ['BASELINE_SHA'],'product_sha':os.environ['PRODUCT_SHA'],'baseline':diag['baseline'],'hotfix':diag['hotfix'],'suite_delta':delta,'known_stale_baseline_failures':{k:v for k,v in a.items() if str(v.get('fail'))!='0'},'contract_pass':contract.get('pass') is True,'static_pass':static_ok,'real_provider_calls':0,'pass':not delta and static_ok and contract.get('pass') is True and results['baseline'].get('real_provider_calls')==0 and results['hotfix'].get('real_provider_calls')==0}
+          (publish/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(publish/'contract.stdout').write_text((tmp/'contract.stdout').read_text());print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-popup-memory-hotfix-node-contract-v2
+          path: ${{ runner.temp }}/node-hotfix-diff/
+          retention-days: 90
+          if-no-files-found: error
