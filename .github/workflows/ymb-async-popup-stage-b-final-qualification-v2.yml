@@ -1,0 +1,161 @@
+name: YMB async popup Stage B final qualification v2
+on:
+  push:
+    branches: [qa/ymb-async-popup-stage-b-qualification-2026-09-13]
+    paths:
+      - .github/workflows/ymb-async-popup-stage-b-final-qualification-v2.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  PRODUCT_SHA: 404dd03874e5df80a95bc6cec1e6967bb71de405
+  PRODUCT_TREE_SHA256: bec51a30456cce132d2bc028b42b495097989fb6eecd8cd3d1ea6003b3d2b5ed
+  PRODUCT_ZIP_SHA256: 51491db92e1ea7c8e3c9555e95ba236cada5a4890b66e6c6134779550856c036
+  PRODUCT_ZIP_BYTES: '232591'
+  STAGE_A_SHA: 341c847089e1207dd23bf876f5ba3ac537b65a10
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+
+jobs:
+  node-differential:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: frozen-classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Run identical canonical B19 Node campaign on accepted Stage A and Stage B
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$PRODUCT_SHA" -- extension/src
+          node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/stage_b_popup_contract.test.mjs > "$RUNNER_TEMP/stage-b-contract.stdout"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,shutil,subprocess,tarfile,io
+          H=lambda b:hashlib.sha256(b).hexdigest(); repo=Path.cwd();tmp=Path(os.environ['RUNNER_TEMP']);base_art=Path('frozen-classification')
+          old='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa');base0=(src/'b19_final_node_campaign.py').read_text();wrap=(src/'b19_final_node_campaign_v2.py').read_text()
+          sources={}
+          sources['stage_b']=Path('extension/src')
+          aroot=tmp/'stage-a-root';aroot.mkdir();data=subprocess.check_output(['git','archive',os.environ['STAGE_A_SHA'],'extension/src']);tarfile.open(fileobj=io.BytesIO(data),mode='r:').extractall(aroot);sources['stage_a']=aroot/'extension/src'
+          results={}
+          for label,product in sources.items():
+            files=[p for p in product.rglob('*') if p.is_file()];js=sum(p.suffix=='.js' for p in files);tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(product).as_posix()+'\n' for p in sorted(files)).encode())
+            if label=='stage_b':assert len(files)==68 and tree==os.environ['PRODUCT_TREE_SHA256'],(len(files),tree)
+            work=tmp/f'classification-{label}';shutil.copytree(base_art,work);candidate=work/'qa_workspace/qa/candidate/full';assert candidate.exists();shutil.rmtree(candidate);shutil.copytree(product,candidate)
+            rdir=tmp/f'runner-{label}';rdir.mkdir();base=base0;assert old in base;base=base.replace(old,tree).replace('!=67',f'!={len(files)}').replace('len(syntax)==61',f'len(syntax)=={js}').replace("'files':67",f"'files':{len(files)}");(rdir/'b19_final_node_campaign.py').write_text(base);(rdir/'b19_final_node_campaign_v2.py').write_text(wrap)
+            out=tmp/f'node-{label}';cp=subprocess.run(['python3',str(rdir/'b19_final_node_campaign_v2.py'),str(repo),str(work),str(out)],text=True,capture_output=True);(out/'runner.stdout').write_text(cp.stdout);(out/'runner.stderr').write_text(cp.stderr);res=json.loads((out/'RESULT.json').read_text());results[label]={'tree':tree,'files':len(files),'js':js,'runner_returncode':cp.returncode,'result':res}
+          def signature(r):
+            return {k:{'tests':v.get('footer',{}).get('tests'),'pass':v.get('footer',{}).get('pass'),'fail':v.get('footer',{}).get('fail'),'failed_names':v.get('failed_names',[])} for k,v in r['suites'].items()}
+          sa,sb=results['stage_a']['result'],results['stage_b']['result'];sig_a,sig_b=signature(sa),signature(sb);delta={k:{'stage_a':sig_a.get(k),'stage_b':sig_b.get(k)} for k in sorted(set(sig_a)|set(sig_b)) if sig_a.get(k)!=sig_b.get(k)}
+          contract=json.loads((Path(os.environ['RUNNER_TEMP'])/'stage-b-contract.stdout').read_text())
+          summary={'schema_version':1,'stage_a_sha':os.environ['STAGE_A_SHA'],'stage_b_sha':os.environ['PRODUCT_SHA'],'stage_a':{'tree':results['stage_a']['tree'],'files':results['stage_a']['files'],'suite_signature':sig_a},'stage_b':{'tree':results['stage_b']['tree'],'files':results['stage_b']['files'],'suite_signature':sig_b},'known_stale_baseline_failures':{k:v for k,v in sig_a.items() if str(v.get('fail'))!='0'},'suite_delta':delta,'stage_b_contract_pass':contract.get('pass') is True,'real_provider_calls':0,'pass':not delta and contract.get('pass') is True and sa.get('real_provider_calls')==0 and sb.get('real_provider_calls')==0}
+          out=tmp/'node-differential';out.mkdir();(out/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n');shutil.copytree(tmp/'node-stage_a',out/'stage_a');shutil.copytree(tmp/'node-stage_b',out/'stage_b');(out/'stage_b_contract.stdout').write_text((Path(os.environ['RUNNER_TEMP'])/'stage-b-contract.stdout').read_text());print(json.dumps(summary,indent=2));raise SystemExit(0 if summary['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-stage-b-node-differential-v2
+          path: ${{ runner.temp }}/node-differential/
+          retention-days: 90
+          if-no-files-found: warn
+
+  exact-package-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Build exact ZIP and retarget only frozen identity guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$PRODUCT_SHA" -- extension/src
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,json,os,subprocess,zipfile
+          H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src');target=os.environ['PRODUCT_TREE_SHA256'];zsha=os.environ['PRODUCT_ZIP_SHA256'];zbytes=int(os.environ['PRODUCT_ZIP_BYTES']);files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()};assert len(files)==68 and H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode())==target
+          out=Path(os.environ['RUNNER_TEMP'])/'package';out.mkdir();prefix='Yandex-Marketing-Bridge-0.1.6/'
+          def build(p):
+            with zipfile.ZipFile(p,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9,strict_timestamps=True) as z:
+              for n,b in sorted(files.items()):zi=zipfile.ZipInfo(prefix+n,date_time=(1980,1,1,0,0,0));zi.compress_type=zipfile.ZIP_DEFLATED;zi.create_system=3;zi.external_attr=(0o100644<<16);zi.flag_bits=0x800;z.writestr(zi,b,compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
+          a=out/'A.zip';b=out/'B.zip';build(a);build(b);assert a.read_bytes()==b.read_bytes();final=out/'Yandex-Marketing-Bridge-0.1.6-stage-b.zip';final.write_bytes(a.read_bytes());a.unlink();b.unlink();assert H(final.read_bytes())==zsha and final.stat().st_size==zbytes
+          ex=Path(os.environ['RUNNER_TEMP'])/'fresh';ex.mkdir();ext={}
+          with zipfile.ZipFile(final) as z:
+            assert z.testzip() is None
+            for e in z.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6';rel='/'.join(p.parts[1:]);d=z.read(e);assert rel not in ext;ext[rel]=d;q=ex/rel;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
+          assert set(ext)==set(files) and all(ext[k]==files[k] for k in files)
+          deps=Path(os.environ['RUNNER_TEMP'])/'deps';deps.mkdir();lock=Path('frozen-b17/package-lock.json');(deps/'package-lock.json').write_bytes(lock.read_bytes());j=json.loads(lock.read_text());(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          tests=Path(os.environ['RUNNER_TEMP'])/'tests';tests.mkdir();oldr='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';r=Path('frozen-b17/tests/b15_browser_qualification.mjs').read_text();assert r.count(oldr)==1 and r.count('assert.equal(rows.length,67)')==1;r=r.replace(oldr,target).replace('assert.equal(rows.length,67)','assert.equal(rows.length,68)');(tests/'resource.mjs').write_text(r)
+          oldn='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';n=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_text();assert n.count(oldn)==1 and n.count('assert.equal(rows.length,67)')==1;n=n.replace(oldn,target).replace('assert.equal(rows.length,67)','assert.equal(rows.length,68)');(tests/'network.mjs').write_text(n)
+          fixture=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_text();old="send.addEventListener('click',()=>{Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';";new="send.addEventListener('click',()=>{const sentText=composer.value;const sentFiles=Q.files.map(f=>({...f}));Q.sends.push({text:sentText,files:sentFiles});const turn=document.createElement('div');turn.dataset.messageAuthorRole='user';turn.dataset.messageId='fixture-user-'+Q.sends.length;turn.textContent=[sentText,...sentFiles.map(f=>f.name)].join(' ');document.getElementById('conversation-root').append(turn);composer.value='';";assert fixture.count(old)==1;fixture=fixture.replace(old,new);(tests/'fixture.html').write_text(fixture);(tests/'b15_fixture.html').write_text(fixture)
+          t=subprocess.check_output(['git','show','e77f327d8c4e0da695dc6bc20ba9056c663d133c:extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/test15_targeted_real_chrome_v7.mjs'],text=True);t=t.replace("source_commit:'64c1016c179de52b6e950830877f0d42a446e5e8'",f"source_commit:'{os.environ['PRODUCT_SHA']}'").replace("zip_sha256:'3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e'",f"zip_sha256:'{zsha}'");(tests/'test15.mjs').write_text(t)
+          wf=Path('.github/workflows/ymb-async-popup-monitor-stage-a.yml').read_text();needle='          cat > "$RUNNER_TEMP/popup-monitor-stage-a.mjs" <<\'NODE\'\n';s=wf.index(needle)+len(needle);e=wf.index('\n          NODE',s);popup='\n'.join(line[10:] if line.startswith('          ') else line for line in wf[s:e].splitlines())+'\n';popup=popup.replace("fs.realpathSync('extension/src')","fs.realpathSync(process.env.YMB_BROWSER_CANDIDATE)");(tests/'popup.mjs').write_text(popup)
+          ev=Path(os.environ['RUNNER_TEMP'])/'evidence';ev.mkdir();meta={'schema_version':2,'product_sha':os.environ['PRODUCT_SHA'],'tree_sha256':target,'files':68,'zip_sha256':zsha,'zip_bytes':zbytes,'dual_build_identity':True,'fresh_extraction_identity':True,'pass':True};(out/'PACKAGE_RESULT.json').write_text(json.dumps(meta,indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_FINAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PRODUCT_TREE={target}\nYMB_PPTR_HOME={deps}\nYMB_TESTS={tests}\nYMB_EVIDENCE_ROOT={ev}\nYMB_CHATGPT_FIXTURE={(tests/"fixture.html").resolve()}\n')
+          print(json.dumps(meta,indent=2))
+          PY
+      - name: Static syntax and locked Puppeteer
+        shell: bash
+        run: |
+          set -euo pipefail
+          find "$YMB_BROWSER_CANDIDATE" -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          for f in "$YMB_TESTS"/*.mjs; do node --check "$f"; done
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_EVIDENCE_ROOT/npm.stdout" 2> "$YMB_EVIDENCE_ROOT/npm.stderr"
+      - name: TEST-15 exactly-once
+        shell: bash
+        env: {YMB_BROWSER_EVIDENCE: '${{ runner.temp }}/evidence/test15'}
+        run: set -euo pipefail; mkdir -p "$YMB_BROWSER_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/test15.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Popup real Chrome
+        shell: bash
+        env: {YMB_EVIDENCE: '${{ runner.temp }}/evidence/popup'}
+        run: set -euo pipefail; mkdir -p "$YMB_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/popup.mjs" > "$YMB_EVIDENCE/run.stdout" 2> "$YMB_EVIDENCE/run.stderr"
+      - name: B19 resource 16/16
+        shell: bash
+        env: {YMB_BROWSER_EVIDENCE: '${{ runner.temp }}/evidence/resource'}
+        run: set -euo pipefail; mkdir -p "$YMB_BROWSER_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/resource.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: B19 network 9/9
+        shell: bash
+        env: {YMB_BROWSER_EVIDENCE: '${{ runner.temp }}/evidence/network'}
+        run: set -euo pipefail; mkdir -p "$YMB_BROWSER_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/network.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Final exact-package gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/final";mkdir -p "$O";cp "$YMB_FINAL_PACKAGE" "$O/" 2>/dev/null||true;cp "$RUNNER_TEMP/package/PACKAGE_RESULT.json" "$O/" 2>/dev/null||true;cp -a "$YMB_EVIDENCE_ROOT" "$O/evidence" 2>/dev/null||true
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'final';pkg=json.loads((o/'PACKAGE_RESULT.json').read_text());ev=o/'evidence';groups={};fails=[];remain=[];peak=0
+          for name,expected in [('resource',16),('network',9)]:
+            p=ev/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];bad=[r.get('case') for r in rows if str(r.get('status','')).startswith('FAIL')];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});groups[name]={'cases':len(rows),'expected':expected,'failures':bad,'remaining':clean.get('remaining') or [],'peak_owned_rss_kib':clean.get('peak_owned_rss_kib')};fails+=bad;remain+=clean.get('remaining') or [];peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0))
+          tr=ev/'test15'/'TARGETED_RESULT.json';t=json.loads(tr.read_text()) if tr.exists() else {'pass':False};required={'test15_blank_composer_auto_send_exactly_once','occupied_user_draft_is_preserved','same_delivery_inline_report_auto_sends_exactly_once','different_bridge_inline_text_is_preserved'};rows={r.get('case'):r for r in t.get('rows',[])};tok=t.get('pass') is True and t.get('provider_calls')==0 and all(rows.get(c,{}).get('status')=='PASS' for c in required)
+          pr=ev/'popup'/'STAGE_A_RESULT.json';p=json.loads(pr.read_text()) if pr.exists() else {'pass':False};pok=p.get('pass') is True and p.get('provider_fetch_calls')==0 and p.get('source_files')==68
+          counts=groups.get('resource',{}).get('cases')==16 and groups.get('network',{}).get('cases')==9
+          result={**pkg,'test15_pass':tok,'popup_pass':pok,'groups':groups,'browser_failures':fails,'remaining_processes':remain,'peak_owned_rss_kib':peak,'emergency_limit_kib':2097152,'real_provider_calls':0,'exact_case_counts':counts,'pass':pkg.get('pass') is True and tok and pok and counts and not fails and not remain and peak<2097152};(o/'FINAL_GATE.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-stage-b-final-qualified-v2
+          path: ${{ runner.temp }}/final/
+          retention-days: 90
+          if-no-files-found: error
