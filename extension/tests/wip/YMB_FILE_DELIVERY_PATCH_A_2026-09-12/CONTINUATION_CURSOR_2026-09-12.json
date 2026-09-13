@@ -1,10 +1,10 @@
 {
-  "schema_version": 28,
+  "schema_version": 29,
   "date": "2026-09-13",
   "owner_instruction": "Build and qualify the complete installable extension including network-enabled deferred Search. Persist every material code/QA/raw/cursor block. Never hand off an unverified ZIP and never restart completed A/B1-B19 development work.",
   "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
   "current_unit": "PATCH_B_B19_FULL_0_1_6_NETWORK_ENABLED_RELEASE_QUALIFICATION",
-  "current_unit_state": "DEVELOPMENT_COMPLETE;NODE_PASS;RESOURCE_CHROME_PASS;DEFERRED_NETWORK_CHROME_PASS;DETERMINISTIC_PACKAGE_PASS;FRESH_EXTRACTION_PASS;FRESH_EXTRACTED_CHROME_PASS;INDEPENDENT_CODEX_NOT_RUN",
+  "current_unit_state": "DEVELOPMENT_COMPLETE;NODE_PASS;RESOURCE_CHROME_PASS;DEFERRED_NETWORK_CHROME_PASS;DETERMINISTIC_PACKAGE_PASS;FRESH_EXTRACTION_PASS;FRESH_EXTRACTED_CHROME_PASS;PRE_CODEX_TRANSPORT_READBACK_PASS;INDEPENDENT_CODEX_NOT_RUN",
   "prior_complete_unit": "B18",
   "production": {
     "version": "0.1.6",
@@ -73,6 +73,30 @@
     "emergency_limit_kib": 2097152,
     "real_provider_calls": 0,
     "local_session_readback": "PASS_SHA_CRC_67_FILES_SINGLE_ROOT"
+  },
+  "pre_codex_transport_readback": {
+    "status": "PASS",
+    "checkpoint": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_PRE_CODEX_TRANSPORT_READBACK_2026-09-13.md",
+    "checkpoint_commit": "d41c14236605ddd2009bd1ce75736f5fcd72dabd",
+    "prompt_head_before_readback": "affdd2a6bfc84b966d1429ae8bbc336901c92d65",
+    "actions_runs_created_at_or_after_prompt_time": 0,
+    "transport": "GITHUB_ACTIONS_ARTIFACT_DIRECT_DOWNLOAD",
+    "artifact_id": 10311695957,
+    "outer_artifact_sha256": "07d9b9e70181983172b7af448e07e087ec9551144905562e506053670c40b059",
+    "outer_artifact_bytes": 225323,
+    "outer_crc": "PASS",
+    "published_sha256s": "14_OF_14_PASS",
+    "install_zip_sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "install_zip_bytes": 220045,
+    "install_zip_crc": "PASS",
+    "fresh_extract_files": 67,
+    "single_root": "Yandex-Marketing-Bridge-0.1.6/",
+    "fresh_extract_tree_sha256": "b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86",
+    "path_safety": "PASS",
+    "product_edits": 0,
+    "real_provider_calls": 0,
+    "owner_credentials_used": false,
+    "owner_profile_touched": false
   },
   "preserved_package_harness_failures": [
     "attempt1: GITHUB_ENV variable consumed in same shell step before becoming available; browser tests NOT_RUN; product/ZIP deterministic checks PASS",
