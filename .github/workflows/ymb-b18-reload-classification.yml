@@ -1,0 +1,80 @@
+name: YMB B18 reload classification only (not acceptance)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b18-reload-classification.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 01641413fbbbbc23ae46af13739407b905cd83c0
+          persist-credentials: false
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: ready
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify unchanged ZIP and dependency lock
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,json,zipfile,os
+          h=lambda b:hashlib.sha256(b).hexdigest();r=Path('ready');t=Path(os.environ['RUNNER_TEMP'])
+          for line in (r/'SHA256SUMS').read_text().splitlines():
+              digest,n=line.split('  ',1);assert '..' not in PurePosixPath(n).parts and not PurePosixPath(n).is_absolute();assert h((r/n).read_bytes())==digest
+          z=r/'candidate-b17-internal.zip';assert z.stat().st_size==225660 and h(z.read_bytes())=='1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1'
+          root=t/'candidate';root.mkdir();seen=set()
+          with zipfile.ZipFile(z) as a:
+              assert a.testzip() is None
+              for e in a.infolist():
+                  if e.is_dir():continue
+                  p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and len(p.parts)>1
+                  n='/'.join(p.parts[1:]);assert n not in seen;seen.add(n);f=root/n;f.parent.mkdir(parents=True,exist_ok=True);f.write_bytes(a.read(e))
+          assert len(seen)==67
+          deps=t/'deps';deps.mkdir();raw=(r/'package-lock.json').read_bytes();(deps/'package-lock.json').write_bytes(raw);j=json.loads(raw);(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          evidence=t/'probe';evidence.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_PPTR_HOME={deps}\nYMB_BROWSER_CANDIDATE={root}\nYMB_BROWSER_EVIDENCE={evidence}\n')
+          PY
+      - name: Same locked browser
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: One bounded diagnostic with explicit unresolved outcomes
+        run: |
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b18_reload_diagnostic.mjs
+          node --check "$Q"
+          xvfb-run -a node "$Q" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Preserve diagnostic without browser profile
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,shutil,hashlib,json
+          t=Path(os.environ['RUNNER_TEMP']);out=t/'probe-publish';out.mkdir()
+          for p in (t/'probe').glob('*'):
+              if p.is_file():shutil.copyfile(p,out/p.name)
+          script=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b18_reload_diagnostic.mjs');shutil.copyfile(script,out/script.name)
+          (out/'BOUNDARY.json').write_text(json.dumps({'source_ref':'01641413fbbbbc23ae46af13739407b905cd83c0','product_tree':'b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508','diagnostic_only':True,'workflow_success_is_not_product_PASS':True,'live_provider_calls':0,'release_allowed':False},indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(out.iterdir()) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b18-reload-classification-evidence
+          path: ${{ runner.temp }}/probe-publish/
+          retention-days: 90
+          if-no-files-found: error
