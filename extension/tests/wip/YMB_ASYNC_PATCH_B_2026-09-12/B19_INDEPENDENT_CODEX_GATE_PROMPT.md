@@ -31,7 +31,37 @@ Read IN FULL before execution:
 4. `extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_NODE_GATE_CHECKPOINT.md`
 5. `extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_NETWORK_GATE_CHECKPOINT.md`
 6. `extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_FINAL_PACKAGE_GATE_CHECKPOINT.md`
-7. current `extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12/CONTINUATION_CURSOR_2026-09-12.json`
+7. `extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_PRE_CODEX_TRANSPORT_READBACK_2026-09-13.md`
+8. `extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_FINAL_PD_EXECUTION_MAP.md`
+9. current `extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12/CONTINUATION_CURSOR_2026-09-12.json`
+
+## B19 authority override — mandatory
+
+For this exact `0.1.6` candidate, `B19_FINAL_PD_EXECUTION_MAP.md` is the mandatory execution authority for mapping `PD-00..PD-17` to concrete runners/harnesses.
+
+Historical B18 material remains provenance only where it conflicts with the final B19 enabled phase. In particular, the old B18 requirement that `operation.api.cloud.yandex.net` remain disabled is **SUPERSEDED FOR B19** and MUST NOT be applied to 0.1.6.
+
+B19 intentionally enables deferred Search provider networking in **Manual-only** mode. The expected product boundary is therefore:
+
+- Search host permission enabled;
+- Operation host permission enabled;
+- `chrome.alarms` absent;
+- no hidden/background deferred poller;
+- explicit Manual `start -> submit/submitN -> searchAsync POST -> persist operation_id -> WAITING -> explicit collect/collectN/collectReady -> Operation GET -> persist raw -> normalize -> export/delivery`;
+- injected provider URL, API key or folder values fail closed and cannot override governed settings;
+- uncertain submit becomes `UNKNOWN` and is never automatically resubmitted.
+
+Do **not** edit production or QA assertions to restore the obsolete disabled-operation-host state.
+
+The exact artifact transport/readback has already been independently re-consumed through the GitHub Actions artifact route and recorded in `B19_PRE_CODEX_TRANSPORT_READBACK_2026-09-13.md`. Use that same direct artifact route; do not ask the owner to download, upload, copy, rename, extract or otherwise transport QA artifacts.
+
+QA/document commits made on the working branch after the frozen candidate was produced do not change the exact product ZIP or its extracted product tree. Do not compare later QA-only branch commits with the candidate and misclassify expected documentation drift as product drift.
+
+If a governed runner requires product bytes at `extension/src`, use a disposable QA workspace only: fresh-extract the exact install ZIP, verify the exact 67-file tree SHA first, stage those exact bytes into the disposable runner path, and verify the product tree again after the campaign. That staging is not authorization to edit production.
+
+Historical B17/B18/B19 artifacts may be used only as qualified fixture/harness inputs exactly as specified by `B19_FINAL_PD_EXECUTION_MAP.md`. They are not the 0.1.6 candidate and none of their historical PASS results transfers into the independent verdict.
+
+Execute the complete B19 map. No enabled `PD-00..PD-17` section may remain `NOT_RUN` if overall verdict is `PASS`.
 
 ## Exact artifact under test — immutable
 
@@ -95,7 +125,7 @@ Do not use a real Yandex key merely to make the gate more realistic. A live-prov
 
 ## Mandatory independent campaign
 
-Execute every enabled `PD-00` through `PD-17` from the authoritative gate in one governed campaign against the exact ZIP above.
+Execute every enabled `PD-00` through `PD-17` from `B19_FINAL_PD_EXECUTION_MAP.md` and the authoritative permanent gate in one governed campaign against the exact ZIP above.
 
 Historical B13–B19 results are provenance and known test venues only. They do not count as your independent result.
 
@@ -148,7 +178,7 @@ You must measure independently. Do not copy these numbers as your own result.
 
 ## Required final classification
 
-For every enabled PD section return the exact allowed PASS/FAIL state required by `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md`.
+For every enabled PD section return the exact allowed PASS/FAIL state required by `CODEX_PRE_DELIVERY_FULL_REGRESSION_GATE.md` and `B19_FINAL_PD_EXECUTION_MAP.md`.
 
 Overall verdict must be exactly one of:
 
@@ -204,11 +234,17 @@ PRODUCT_TREE_SHA256 = b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1
 INSTALL_ZIP_SHA256 = 81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2
 INSTALL_ZIP_BYTES = 220045
 DEFERRED_NETWORK = ENABLED_MANUAL_ONLY
+OPERATION_HOST_EXPECTED = ENABLED
+B18_DISABLED_OPERATION_HOST_EXPECTATION = SUPERSEDED_FOR_B19
+PRE_CODEX_TRANSPORT_READBACK = PASS
+B19_FINAL_PD_EXECUTION_MAP = READY
 DEVELOPMENT_NODE_GATE = PASS
 DEVELOPMENT_RESOURCE_CHROME_GATE = PASS
 DEVELOPMENT_DEFERRED_NETWORK_CHROME_GATE = PASS
 DETERMINISTIC_PACKAGE_GATE = PASS
 FRESH_EXTRACTION_GATE = PASS
+REAL_PROVIDER_CALLS_AUTHORIZED = 0
+OWNER_CREDENTIALS_ALLOWED = NO
 INDEPENDENT_CODEX_GATE = NOT_RUN
 RELEASE_ALLOWED = NO
 ```
