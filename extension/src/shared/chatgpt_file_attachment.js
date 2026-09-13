@@ -72,17 +72,49 @@
     return null;
   }
 
-  function attachmentReady(descriptors, doc = document) {
+  function surfaceText(node) {
+    if (!(node instanceof Element)) return "";
+    const parts = [node.textContent || "", node.getAttribute("aria-label") || "", node.getAttribute("title") || ""];
+    for (const child of node.querySelectorAll('[aria-label], [title]')) parts.push(child.getAttribute("aria-label") || "", child.getAttribute("title") || "");
+    return parts.join(" ").replace(/\s+/g, " ").trim();
+  }
+
+  function previewPending(preview) {
+    if (!(preview instanceof Element)) return true;
+    if (preview.matches('[aria-busy="true"], [data-state="loading"], [data-state="uploading"]')) return true;
+    if (preview.querySelector('[aria-busy="true"], [role="progressbar"], [data-state="loading"], [data-state="uploading"], [data-testid*="uploading" i], [data-testid*="progress" i]')) return true;
+    const text = surfaceText(preview);
+    return /(?:uploading|processing|preparing|загруз(?:ка|ается|ить)|обработ(?:ка|ывается)|подготов)/i.test(text) && /(?:cancel|progress|upload|processing|загруз|обработ|подготов)/i.test(text);
+  }
+
+  function previewFailed(preview) {
+    const text = surfaceText(preview);
+    return /(?:upload failed|failed to upload|could not upload|unsupported file|file error|ошибк.*(?:файл|загруз)|не удалось.*загруз|не поддерж)/i.test(text);
+  }
+
+  function attachmentState(descriptors, doc = document) {
     const list = Array.isArray(descriptors) ? descriptors : [];
-    if (!list.length) return false;
-    return list.every((descriptor) => {
-      const preview = attachmentPreview(descriptor.filename, doc);
-      return Boolean(preview?.isConnected && !preview.matches?.('[aria-busy="true"]') && !preview.querySelector?.('[aria-busy="true"]'));
-    });
+    if (!list.length) return { ready: false, code: "ATTACHMENT_DESCRIPTORS_EMPTY", previews: [] };
+    const previews = [];
+    for (const descriptor of list) {
+      const filename = String(descriptor?.filename || "");
+      const preview = attachmentPreview(filename, doc);
+      if (!preview?.isConnected) return { ready: false, code: "ATTACHMENT_PREVIEW_MISSING", filename, previews };
+      previews.push(preview);
+      if (previewFailed(preview)) return { ready: false, code: "ATTACHMENT_PREVIEW_FAILED", filename, previews };
+      if (previewPending(preview)) return { ready: false, code: "ATTACHMENT_PREVIEW_PENDING", filename, previews };
+      if (!surfaceText(preview).includes(filename)) return { ready: false, code: "ATTACHMENT_FILENAME_MISMATCH", filename, previews };
+    }
+    return { ready: true, code: null, previews };
+  }
+
+  function attachmentReady(descriptors, doc = document) {
+    return attachmentState(descriptors, doc).ready;
   }
 
   globalThis.YMBChatGPTFileAttachment = Object.freeze({
     CHATGPT_MAX_SAFE_PLAIN_TEXT_UNICODE_CHARACTERS,
-    base64ToBytes, sha256Hex, createFile, fileInput, setInputFiles, attachmentPreview, attachmentReady
+    base64ToBytes, sha256Hex, createFile, fileInput, setInputFiles, attachmentPreview,
+    surfaceText, previewPending, previewFailed, attachmentState, attachmentReady
   });
 })();
