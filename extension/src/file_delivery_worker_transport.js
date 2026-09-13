@@ -9,13 +9,11 @@
   const baseHandleAutoCommand = handleAutoCommand;
   const CHATGPT_FILE_TEXT_THRESHOLD = 1_048_000;
   const DELIVERY_MODE = "attachment_v2";
+  const SEND_COMMITTED_PHASE = "attachment_send_committed";
 
   function unicodeLengthExceeds(value, limit) {
     let count = 0;
-    for (const _character of String(value ?? "")) {
-      count += 1;
-      if (count > limit) return true;
-    }
+    for (const _character of String(value ?? "")) { count += 1; if (count > limit) return true; }
     return false;
   }
 
@@ -27,11 +25,8 @@
 
   function bytesToBase64(bytes) {
     const source = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes || []);
-    let binary = "";
-    const step = 0x8000;
-    for (let offset = 0; offset < source.length; offset += step) {
-      binary += String.fromCharCode(...source.subarray(offset, Math.min(source.length, offset + step)));
-    }
+    let binary = ""; const step = 0x8000;
+    for (let offset = 0; offset < source.length; offset += step) binary += String.fromCharCode(...source.subarray(offset, Math.min(source.length, offset + step)));
     return btoa(binary);
   }
 
@@ -41,22 +36,10 @@
     next.delivery_id = deliveryId;
     if (Array.isArray(next.artifact_descriptors) && next.artifact_descriptors.length) return next;
     if (!unicodeLengthExceeds(next.report_text || "", CHATGPT_FILE_TEXT_THRESHOLD)) return next;
-
     const text = String(next.report_text || "");
     const filename = safeFilename(`yandex-bridge-${String(next.type || "result")}-${deliveryId}.txt`);
-    const descriptor = await YMBFileArtifactStore.stageTextArtifact({
-      artifactKey: `delivery:${deliveryId}:0`,
-      deliveryId,
-      filename,
-      mimeType: "text/plain;charset=utf-8",
-      text
-    });
-    return {
-      ...next,
-      delivery_mode: DELIVERY_MODE,
-      artifact_descriptors: [descriptor],
-      report_text: `Yandex Marketing Bridge: полный результат прикреплён файлом ${filename}.`
-    };
+    const descriptor = await YMBFileArtifactStore.stageTextArtifact({ artifactKey: `delivery:${deliveryId}:0`, deliveryId, filename, mimeType: "text/plain;charset=utf-8", text });
+    return { ...next, delivery_mode: DELIVERY_MODE, artifact_descriptors: [descriptor], report_text: `Yandex Marketing Bridge: полный результат прикреплён файлом ${filename}.` };
   }
 
   putOutbox = async function fileAwarePutOutbox(conversationKey, entry) {
@@ -66,15 +49,9 @@
     const prepared = await prepareEntry(entry);
     const stagedHere = !entryHadArtifacts && prepared.delivery_mode === DELIVERY_MODE ? (prepared.artifact_descriptors || []) : [];
     let stored;
-    try {
-      stored = await basePutOutbox(key, prepared);
-    } catch (error) {
-      if (stagedHere.length) await YMBFileArtifactStore.cleanupDescriptors(stagedHere).catch(() => null);
-      throw error;
-    }
-    if (previous?.delivery_mode === DELIVERY_MODE && previous.delivery_id !== stored?.delivery_id) {
-      await YMBFileArtifactStore.cleanupDescriptors(previous.artifact_descriptors || []).catch(() => null);
-    }
+    try { stored = await basePutOutbox(key, prepared); }
+    catch (error) { if (stagedHere.length) await YMBFileArtifactStore.cleanupDescriptors(stagedHere).catch(() => null); throw error; }
+    if (previous?.delivery_mode === DELIVERY_MODE && previous.delivery_id !== stored?.delivery_id) await YMBFileArtifactStore.cleanupDescriptors(previous.artifact_descriptors || []).catch(() => null);
     return stored;
   };
 
@@ -82,9 +59,7 @@
     const key = normalizeConversationKey(conversationKey);
     const previous = await getConversationOutbox(key);
     await baseClearOutbox(key, deliveryId);
-    if (previous?.delivery_mode === DELIVERY_MODE && (!deliveryId || previous.delivery_id === deliveryId)) {
-      await YMBFileArtifactStore.cleanupDescriptors(previous.artifact_descriptors || []).catch(() => null);
-    }
+    if (previous?.delivery_mode === DELIVERY_MODE && (!deliveryId || previous.delivery_id === deliveryId)) await YMBFileArtifactStore.cleanupDescriptors(previous.artifact_descriptors || []).catch(() => null);
   };
 
   function compactLargeCommandResult(value) {
@@ -92,40 +67,19 @@
     const text = typeof value.report_text === "string" ? value.report_text : "";
     if (!unicodeLengthExceeds(text, CHATGPT_FILE_TEXT_THRESHOLD)) return value;
     const out = {};
-    for (const field of [
-      "ok", "accepted", "duplicate", "busy", "ignored", "paused", "skipped", "error_delivery",
-      "code", "error", "reason", "request_id", "operation_id", "delivery_id", "request_executed",
-      "confirmed_provider_executions", "provider_executions"
-    ]) if (Object.hasOwn(value, field)) out[field] = value[field];
+    for (const field of ["ok", "accepted", "duplicate", "busy", "ignored", "paused", "skipped", "error_delivery", "code", "error", "reason", "request_id", "operation_id", "delivery_id", "request_executed", "confirmed_provider_executions", "provider_executions"]) if (Object.hasOwn(value, field)) out[field] = value[field];
     out.report_text = "Yandex Marketing Bridge: большой результат сохранён для файловой доставки; полный payload не возвращается через runtime message.";
     if (value.result && typeof value.result === "object") {
       out.result = {};
-      for (const field of ["ok", "request_id", "http_status", "request_executed", "automatic_retry"]) {
-        if (Object.hasOwn(value.result, field)) out.result[field] = value.result[field];
-      }
+      for (const field of ["ok", "request_id", "http_status", "request_executed", "automatic_retry"]) if (Object.hasOwn(value.result, field)) out.result[field] = value.result[field];
     }
-    if (value.run && typeof value.run === "object") {
-      out.run = {
-        run_id: value.run.run_id || null,
-        status: value.run.status || null,
-        active_service: value.run.active_service || null,
-        sequence: value.run.sequence ?? null
-      };
-    }
+    if (value.run && typeof value.run === "object") out.run = { run_id: value.run.run_id || null, status: value.run.status || null, active_service: value.run.active_service || null, sequence: value.run.sequence ?? null };
     return out;
   }
 
-  executeManualBlock = async function fileAwareExecuteManualBlock(...args) {
-    return compactLargeCommandResult(await baseExecuteManualBlock(...args));
-  };
+  executeManualBlock = async function fileAwareExecuteManualBlock(...args) { return compactLargeCommandResult(await baseExecuteManualBlock(...args)); };
+  handleAutoCommand = async function fileAwareHandleAutoCommand(...args) { return compactLargeCommandResult(await baseHandleAutoCommand(...args)); };
 
-  handleAutoCommand = async function fileAwareHandleAutoCommand(...args) {
-    return compactLargeCommandResult(await baseHandleAutoCommand(...args));
-  };
-
-  // Only metadata writes are serialized. Never hold this queue across network,
-  // large artifact reads, content replies or UI work. Bounded admission prevents
-  // unbounded queued closures. Re-read owned state inside each mutation.
   let mutationTail = Promise.resolve();
   let mutationCount = 0;
   function serializeMutation(work) {
@@ -157,30 +111,16 @@
     const expected = (descriptor.chunk_manifest || []).find((item) => Number(item.chunk_index) === index);
     if (!expected) return { ok: false, code: "OUTBOX_ARTIFACT_CHUNK_NOT_DECLARED" };
     const chunk = await YMBFileArtifactStore.getChunk(descriptor.artifact_key, index);
-    if (chunk.byte_length !== Number(expected.byte_length) || chunk.sha256 !== String(expected.sha256 || "")) {
-      return { ok: false, code: "OUTBOX_ARTIFACT_CHUNK_INTEGRITY_MISMATCH" };
-    }
-    // A pause can be accepted while this single chunk is being read. Do not
-    // return its payload to a now-paused delivery or a changed owner.
+    if (chunk.byte_length !== Number(expected.byte_length) || chunk.sha256 !== String(expected.sha256 || "")) return { ok: false, code: "OUTBOX_ARTIFACT_CHUNK_INTEGRITY_MISMATCH" };
     const stillOwned = await ownedAttachment(message, sender);
     if (stillOwned.error) return stillOwned.error;
-    return {
-      ok: true,
-      artifact_key: descriptor.artifact_key,
-      chunk_index: index,
-      byte_length: chunk.byte_length,
-      sha256: chunk.sha256,
-      total_byte_length: Number(descriptor.byte_length || 0),
-      chunk_base64: bytesToBase64(chunk.bytes)
-    };
+    return { ok: true, artifact_key: descriptor.artifact_key, chunk_index: index, byte_length: chunk.byte_length, sha256: chunk.sha256, total_byte_length: Number(descriptor.byte_length || 0), chunk_base64: bytesToBase64(chunk.bytes) };
   }
 
   async function markAttachmentCommitted(message, sender) {
     const owned = await ownedAttachment(message, sender);
     if (owned.error) return owned.error;
-    if (["attachment_committed", "attachment_ready", "committed"].includes(owned.entry.phase)) {
-      return { ok: true, already_committed: true, outbox: owned.entry };
-    }
+    if (["attachment_committed", "attachment_ready", SEND_COMMITTED_PHASE, "committed"].includes(owned.entry.phase)) return { ok: true, already_committed: true, outbox: owned.entry };
     if (owned.entry.phase !== "claimed") return { ok: false, code: "ATTACHMENT_PHASE_INVALID" };
     const next = await putOutbox(owned.key, { ...owned.entry, phase: "attachment_committed", attachment_committed_at: nowIso() });
     return { ok: true, outbox: next };
@@ -189,42 +129,75 @@
   async function markAttachmentReady(message, sender) {
     const owned = await ownedAttachment(message, sender);
     if (owned.error) return owned.error;
-    if (owned.entry.phase === "attachment_ready") return { ok: true, already_ready: true, outbox: owned.entry };
+    if (["attachment_ready", SEND_COMMITTED_PHASE, "committed"].includes(owned.entry.phase)) return { ok: true, already_ready: true, outbox: owned.entry };
     if (owned.entry.phase !== "attachment_committed") return { ok: false, code: "ATTACHMENT_PHASE_INVALID" };
     const expected = (owned.entry.artifact_descriptors || []).map((item) => String(item.filename));
     const actual = Array.isArray(message.attached_filenames) ? message.attached_filenames.map(String) : [];
     if (JSON.stringify(expected) !== JSON.stringify(actual)) return { ok: false, code: "ATTACHMENT_FILESET_MISMATCH" };
-    const next = await putOutbox(owned.key, {
-      ...owned.entry,
-      phase: "attachment_ready",
-      attached_filenames: actual,
-      attachment_ready_at: nowIso()
-    });
+    const next = await putOutbox(owned.key, { ...owned.entry, phase: "attachment_ready", attached_filenames: actual, attachment_ready_at: nowIso() });
     return { ok: true, outbox: next };
   }
 
   async function commitAttachmentSend(message, sender) {
     const owned = await ownedAttachment(message, sender);
     if (owned.error) return owned.error;
-    if (owned.entry.phase === "committed") return { ok: true, already_committed: true };
+    if (owned.entry.phase === "committed") return { ok: true, already_confirmed: true, outbox: owned.entry };
+    if (owned.entry.phase === SEND_COMMITTED_PHASE) return { ok: true, already_committed: true, outbox: owned.entry };
     if (owned.entry.phase !== "attachment_ready") return { ok: false, code: "ATTACHMENT_NOT_READY" };
-    await putOutbox(owned.key, { ...owned.entry, phase: "committed", committed_at: nowIso() });
-    return { ok: true };
+    const expected = (owned.entry.artifact_descriptors || []).map((item) => String(item.filename));
+    const provided = Array.isArray(message.expected_attachment_names) ? message.expected_attachment_names.map(String) : expected;
+    if (JSON.stringify(expected) !== JSON.stringify(provided)) return { ok: false, code: "ATTACHMENT_FILESET_MISMATCH" };
+    const next = await putOutbox(owned.key, {
+      ...owned.entry,
+      phase: SEND_COMMITTED_PHASE,
+      attachment_send_committed_at: nowIso(),
+      send_marker: String(message.send_marker || owned.entry.report_text || ""),
+      baseline_message_ids: Array.isArray(message.baseline_message_ids) ? message.baseline_message_ids.map(String).slice(0, 1000) : [],
+      expected_attachment_names: provided,
+      send_target_fingerprint: message.send_target_fingerprint || null,
+      send_click_dispatched: false
+    });
+    return { ok: true, outbox: next };
+  }
+
+  async function markAttachmentClickDispatched(message, sender) {
+    const owned = await ownedAttachment(message, sender);
+    if (owned.error) return owned.error;
+    if (owned.entry.phase === "committed") return { ok: true, already_confirmed: true, outbox: owned.entry };
+    if (owned.entry.phase !== SEND_COMMITTED_PHASE) return { ok: false, code: "ATTACHMENT_SEND_NOT_COMMITTED" };
+    if (owned.entry.send_click_dispatched === true) return { ok: true, already_dispatched: true, outbox: owned.entry };
+    const next = await putOutbox(owned.key, { ...owned.entry, send_click_dispatched: true, send_click_dispatched_at: nowIso(), send_click_trace: message.send_click_trace || null });
+    return { ok: true, outbox: next };
+  }
+
+  async function rollbackAttachmentSend(message, sender) {
+    const owned = await ownedAttachment(message, sender);
+    if (owned.error) return owned.error;
+    if (owned.entry.phase !== SEND_COMMITTED_PHASE) return { ok: false, code: "ATTACHMENT_SEND_NOT_COMMITTED" };
+    if (owned.entry.send_click_dispatched === true) return { ok: false, code: "ATTACHMENT_SEND_DISPATCHED_NO_ROLLBACK" };
+    const next = { ...owned.entry, phase: "attachment_ready", attachment_send_rollback_at: nowIso() };
+    for (const field of ["attachment_send_committed_at", "send_marker", "baseline_message_ids", "expected_attachment_names", "send_target_fingerprint", "send_click_dispatched", "send_click_dispatched_at", "send_click_trace"]) delete next[field];
+    const stored = await putOutbox(owned.key, next);
+    return { ok: true, outbox: stored };
+  }
+
+  async function confirmAttachmentSend(message, sender) {
+    const owned = await ownedAttachment(message, sender, true);
+    if (owned.error) return owned.error;
+    if (owned.entry.phase === "committed") return { ok: true, already_confirmed: true, outbox: owned.entry };
+    if (owned.entry.phase !== SEND_COMMITTED_PHASE) return { ok: false, code: "ATTACHMENT_SEND_NOT_COMMITTED" };
+    const next = await putOutbox(owned.key, { ...owned.entry, phase: "committed", committed_at: nowIso(), attachment_confirmed_at: nowIso(), confirmation_message_id: message.confirmation_message_id || null });
+    return { ok: true, outbox: next };
   }
 
   async function setAttachmentPause(message, sender) {
     if (typeof message.paused !== "boolean") return { ok: false, code: "ATTACHMENT_PAUSE_VALUE_REQUIRED" };
     const owned = await ownedAttachment(message, sender, true);
     if (owned.error) return owned.error;
-    if (owned.entry.phase === "committed") return { ok: false, code: "ATTACHMENT_SEND_ALREADY_COMMITTED", request_executed: false };
+    if ([SEND_COMMITTED_PHASE, "committed"].includes(owned.entry.phase)) return { ok: false, code: "ATTACHMENT_SEND_ALREADY_COMMITTED", request_executed: false };
     if (!["claimed", "attachment_committed", "attachment_ready"].includes(owned.entry.phase)) return { ok: false, code: "ATTACHMENT_PHASE_INVALID" };
-    if ((owned.entry.delivery_paused === true) !== message.paused) {
-      await putOutbox(owned.key, { ...owned.entry, delivery_paused: message.paused,
-        delivery_pause_updated_at: nowIso() });
-    }
-    // No raw/artifact payload or invented provider cancellation receipt.
-    return { ok: true, paused: message.paused, delivery_id: owned.entry.delivery_id,
-      phase: owned.entry.phase, request_executed: false, evidence_retained: true };
+    if ((owned.entry.delivery_paused === true) !== message.paused) await putOutbox(owned.key, { ...owned.entry, delivery_paused: message.paused, delivery_pause_updated_at: nowIso() });
+    return { ok: true, paused: message.paused, delivery_id: owned.entry.delivery_id, phase: owned.entry.phase, request_executed: false, evidence_retained: true };
   }
 
   handleMessage = async function fileAwareHandleMessage(message, sender) {
@@ -233,6 +206,9 @@
       case "WS_MARK_ATTACHMENT_COMMITTED": return serializeMutation(() => markAttachmentCommitted(message, sender));
       case "WS_MARK_ATTACHMENT_READY": return serializeMutation(() => markAttachmentReady(message, sender));
       case "WS_COMMIT_ATTACHMENT_SEND": return serializeMutation(() => commitAttachmentSend(message, sender));
+      case "WS_MARK_ATTACHMENT_CLICK_DISPATCHED": return serializeMutation(() => markAttachmentClickDispatched(message, sender));
+      case "WS_ROLLBACK_ATTACHMENT_SEND": return serializeMutation(() => rollbackAttachmentSend(message, sender));
+      case "WS_CONFIRM_ATTACHMENT_SEND": return serializeMutation(() => confirmAttachmentSend(message, sender));
       case "WS_SET_ATTACHMENT_PAUSED": return serializeMutation(() => setAttachmentPause(message, sender));
       case "WS_MANUAL_DELIVERY_COMPLETE": case "WS_AUTO_DELIVERY_COMPLETE": {
         const entry = await getConversationOutbox(message.conversation_key);
@@ -240,7 +216,6 @@
         return baseHandleMessage(message, sender);
       }
       case "WS_MARK_DELIVERY_COMMITTED": {
-        // The legacy text commit cannot bypass the file-ready/pause contract.
         const entry = await getConversationOutbox(message.conversation_key);
         if (entry?.delivery_mode === DELIVERY_MODE) return { ok: false, code: "ATTACHMENT_SEND_PATH_REQUIRED", request_executed: false };
         return baseHandleMessage(message, sender);
@@ -250,10 +225,5 @@
   };
 
   void YMBFileArtifactStore.cleanupExpired().catch(() => null);
-
-  globalThis.YMBFileDeliveryWorkerTransport = Object.freeze({
-    DELIVERY_MODE,
-    CHATGPT_FILE_TEXT_THRESHOLD,
-    compactLargeCommandResult
-  });
+  globalThis.YMBFileDeliveryWorkerTransport = Object.freeze({ DELIVERY_MODE, CHATGPT_FILE_TEXT_THRESHOLD, SEND_COMMITTED_PHASE, compactLargeCommandResult });
 })();
