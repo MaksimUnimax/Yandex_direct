@@ -1,0 +1,102 @@
+name: YMB B19 full real Chrome resource matrix v3
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b19-browser-resource-v3.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  resource:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: d9afe8d8656874282e3d1e138ddd22600dc203be
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Prepare exact B19 and deterministic QA-only browser adaptations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          ident=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in sorted(r.rglob('*')) if p.is_file()).encode());assert ident=='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          assert len([p for p in r.rglob('*') if p.is_file()])==67
+          q=Path(os.environ['RUNNER_TEMP'])/'resource-tests';q.mkdir();old='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';new=ident
+          for n in ['b15_browser_qualification.mjs','b15_browser_faults.mjs']:
+            s=Path('frozen-b17/tests',n).read_text();assert s.count(old)==1;s=s.replace(old,new);(q/n).write_text(s)
+          (q/'b15_fixture.html').write_bytes(Path('frozen-b17/tests/b15_fixture.html').read_bytes())
+          d=Path(os.environ['RUNNER_TEMP'])/'deps';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'resource-evidence';e.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as x:x.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_RESOURCE_TESTS={q}\nYMB_RESOURCE_EVIDENCE={e}\n')
+          PY
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_resource_browser_adapt.py frozen-b17/tests/b17_browser.mjs "$RUNNER_TEMP/resource-tests/b17_browser_b19.mjs" > "$RUNNER_TEMP/resource-evidence/B17_ADAPTATION.json"
+      - name: Install locked Puppeteer and syntax-check all browser harnesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in "$YMB_RESOURCE_TESTS"/*.mjs; do node --check "$f"; done
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_RESOURCE_EVIDENCE/npm.stdout" 2> "$YMB_RESOURCE_EVIDENCE/npm.stderr"
+      - name: Full file/1500/profile/restart resource contour
+        shell: bash
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/resource-evidence/qualification
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          cp "$YMB_RESOURCE_TESTS/b15_fixture.html" "$YMB_RESOURCE_TESTS/b15_fixture.html.copy"; mv "$YMB_RESOURCE_TESTS/b15_fixture.html.copy" "$YMB_RESOURCE_TESTS/b15_fixture.html"
+          xvfb-run -a node "$YMB_RESOURCE_TESTS/b15_browser_qualification.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: File fault/corruption/isolation contour
+        shell: bash
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/resource-evidence/faults
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          xvfb-run -a node "$YMB_RESOURCE_TESTS/b15_browser_faults.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Pause/recovery/worker-restart contour with deterministic QA races removed
+        shell: bash
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/resource-evidence/pause
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          xvfb-run -a node "$YMB_RESOURCE_TESTS/b17_browser_b19.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Consolidate exact resource evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/resource-publish";mkdir -p "$O";cp -a "$YMB_RESOURCE_EVIDENCE"/. "$O/" || true;cp "$YMB_RESOURCE_TESTS"/*.mjs "$O/"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'resource-publish';groups={};fails=[];peak=0;remaining=[]
+          for name in ['qualification','faults','pause']:
+            p=o/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];bad=[{'case':r.get('case'),'status':r.get('status')} for r in rows if r.get('status')!='PASS'];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0));remaining.extend(clean.get('remaining') or []);groups[name]={'cases':len(rows),'failures':bad,'peak_rss_kib':clean.get('peak_owned_rss_kib'),'remaining':clean.get('remaining')};fails.extend([{'group':name,**x} for x in bad])
+          result={'schema_version':3,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'groups':groups,'failures':fails,'peak_owned_rss_kib':peak,'remaining_processes':remaining,'emergency_limit_kib':2097152,'pass':all(g['cases']>0 and not g['failures'] and not(g['remaining'] or []) for g in groups.values()) and peak<2097152}
+          (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b19-browser-resource-v3-evidence
+          path: ${{ runner.temp }}/resource-publish/
+          retention-days: 90
+          if-no-files-found: error
