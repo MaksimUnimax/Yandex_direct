@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 4d28e131574c6f2ceb2d0003bbc05179124697fa
+          ref: 0951eef4b71e3c3138a534f9a93618229300ef02
           persist-credentials: false
           fetch-depth: 1
           sparse-checkout: |
@@ -52,19 +52,19 @@ jobs:
           h=lambda b:hashlib.sha256(b).hexdigest()
           r=Path(os.environ['RUNNER_TEMP']);b=r/'b18-qa';q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa')
           p=b/'tests/b18.generated.mjs';source=p.read_bytes();assert h(source)=='f17ab8878768d1255cf0ecb85f430dd6d3c44ee9b659f4729d14c5e136be4fdd'
-          body=(q/'b18_reload_cases.js').read_bytes();assert h(body)=='057cb76371d97d2d1cd31b5d860e579ccbe312e2d61056278bd898fc4f44ce1d'
+          body=(q/'b18_unattached_reload_cases.js').read_bytes();assert h(body)=='d6cd91c8bc7e5f58d47a9f25f02c7804062e0b739e205749d1e643174b86056c'
           text=source.decode();prefix=text.split('// B18 additional development qualification.',1)[0];marker='finally {\n clearInterval(monitor); clearTimeout(deadline);'
-          tail=marker+text.split(marker,1)[1];new=(prefix+body.decode()+'\n'+tail).encode();assert h(new)=='69db979e945a898db1a7df8e35b3473ff270891959cf292cb26e824130ab7b74';p.write_bytes(new)
+          tail=marker+text.split(marker,1)[1];new=(prefix+body.decode()+'\n'+tail).encode();assert h(new)=='d10a767903bef2afae75eb2c401645fcf1b05dee20fcb6dfa16a99bc4171f291';p.write_bytes(new)
           d=r/'b18-deps';d.mkdir();lock=(b/'package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
           (r/'b18-evidence').mkdir()
-          (b/'QA_RELOAD_IDENTITY.json').write_text(json.dumps({'generated_sha256':h(new),'body_sha256':h(body),'product_changes':0,'single_API_install':True,'prior_CLI_reload_failure_not_erased':True},indent=2)+'\n')
+          (b/'QA_RELOAD_IDENTITY.json').write_text(json.dumps({'generated_sha256':h(new),'body_sha256':h(body),'product_changes':0,'single_API_install':True,'worker_debugger_attached':False,'prior_reload_failures_preserved':True},indent=2)+'\n')
           with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_PPTR_HOME={d}\nYMB_BROWSER_CANDIDATE={b}/candidate\nYMB_BROWSER_EVIDENCE={r}/b18-evidence\n')
           PY
           node --check "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
       - name: Same locked CfT and Puppeteer
         shell: bash
         run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
-      - name: One API-installed Chrome, actual reload, retained settings
+      - name: Real popup messages and context identity across reload
         shell: bash
         run: xvfb-run -a node "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
       - name: Preserve exact evidence without profiles
@@ -80,7 +80,7 @@ jobs:
           for n in ('IDENTITY.json','QA_RELOAD_IDENTITY.json'):
             if (t/'b18-qa'/n).is_file():shutil.copyfile(t/'b18-qa'/n,p/n)
           if (t/'b18-qa/tests').is_dir():shutil.copytree(t/'b18-qa/tests',p/'tests')
-          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'4d28e131574c6f2ceb2d0003bbc05179124697fa','product_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'single_API_install':True,'local_policy_modified':False,'live_provider_calls':0,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'0951eef4b71e3c3138a534f9a93618229300ef02','product_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'single_API_install':True,'worker_debugger_attached':False,'local_policy_modified':False,'live_provider_calls':0,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
           (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(p).as_posix()+'\n' for f in sorted(p.rglob('*')) if f.is_file()))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
