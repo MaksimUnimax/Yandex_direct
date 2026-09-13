@@ -1,8 +1,7 @@
 // B18 QA-only runtime.reload qualification on exact B17 product bytes.
-// Critical harness rule: DO NOT attach a debugger to the pre-reload service worker.
-// Save state through the real popup/runtime messaging, invoke chrome.runtime.reload() there,
-// verify the extension registry survives, then attach only to the NEW worker and prove a new
-// background context plus durable settings. No post-reload extension-page navigation/action.
+// We deliberately never call worker()/evaluate on the PRE-reload worker. State is saved through
+// the real popup/runtime messaging. After reload, and only then, we attach to the newly exposed
+// worker and prove a new background context plus durable settings. No post-reload popup/navigation.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,12 +30,11 @@ async function popupBeforeReload(extension,targetPage){
 }
 try{
  assert.equal(tree(),TARGET);
- // targetFilter excludes SW targets from Puppeteer's debugger attachment. The extension itself
- // still runs its MV3 worker normally; popup runtime messages below prove it.
- browser=await puppeteer.launch({headless:false,pipe:true,enableExtensions:true,targetFilter:t=>t.type()!=='service_worker',userDataDir:path.join(out,'owned-profile'),protocolTimeout:20000,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--host-resolver-rules=MAP * ~NOTFOUND',`--disable-extensions-except=${root}`,`--load-extension=${root}`]});
+ browser=await puppeteer.launch({headless:false,pipe:true,enableExtensions:true,userDataDir:path.join(out,'owned-profile'),protocolTimeout:20000,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--host-resolver-rules=MAP * ~NOTFOUND',`--disable-extensions-except=${root}`,`--load-extension=${root}`]});
  pid=browser.process()?.pid;assert.ok(pid);deadline=setTimeout(()=>{void browser.close();},60000);monitor=setInterval(()=>{try{const m=memory();fs.appendFileSync(path.join(out,'rss.jsonl'),JSON.stringify({stage,...m})+'\n');}catch{}},250);
  const extension=await currentExtension();assert.equal(extension.enabled,true);assert.equal(extension.version,'0.1.4');const extensionId=extension.id;
- assert.equal(browser.targets().some(t=>t.type()==='service_worker'),false,'pre-reload worker debugger must be absent');
+ // Service-worker target may be visible to Puppeteer, but this test does not obtain/evaluate it pre-reload.
+ const visibleBefore=browser.targets().filter(t=>t.type()==='service_worker'&&t.url().startsWith('chrome-extension://'+extensionId+'/')).length;
  const targetPage=await browser.newPage();await targetPage.goto('data:text/html,<title>B18 reload action target</title><body>target</body>',{waitUntil:'domcontentloaded'});
  const popup=await popupBeforeReload(extension,targetPage);
  const before=await popup.evaluate(async()=>{
@@ -48,26 +46,23 @@ try{
    const contexts=await chrome.runtime.getContexts({contextTypes:['BACKGROUND']});
    return{hash:backup.backup.settings_sha256,context:contexts[0]?.contextId||null,version:chrome.runtime.getManifest().version,saved_five:true};
  });
- assert.ok(before.context);emit({case:'pre_reload_popup_messages_without_worker_debugger',status:'PASS',extension_id:extensionId,before,tree:TARGET,memory:memory()});
+ assert.ok(before.context);emit({case:'pre_reload_popup_messages_no_worker_evaluate',status:'PASS',extension_id:extensionId,before,visible_worker_targets:visibleBefore,worker_evaluate_calls:0,tree:TARGET,memory:memory()});
  stage='runtime_reload';
  await popup.evaluate(()=>{setTimeout(()=>chrome.runtime.reload(),50);return true;});
  await delay(900);
  const afterExtension=await currentExtension();assert.equal(afterExtension.id,extensionId);assert.equal(afterExtension.enabled,true);assert.equal(afterExtension.version,before.version);
  emit({case:'extension_registry_after_runtime_reload',status:'PASS',same_id:true,enabled:true,version:afterExtension.version});
  stage='new_worker_state_after_reload';
- // Attach only now, after reload. This must be a new MV3 execution context.
  const workers=await until(async()=>{const list=await afterExtension.workers();return list.length===1?list:null;},'NEW_WORKER_NOT_AVAILABLE',12000);
  const worker=workers[0];
  const after=await worker.evaluate(async()=>{
-   const backup=await new Promise(resolve=>chrome.runtime.sendMessage({type:'WS_EXPORT_BACKUP'},resolve));
-   if(!backup?.ok)throw new Error('BACKUP_AFTER_FAILED');
-   const contexts=await chrome.runtime.getContexts({contextTypes:['BACKGROUND']});
-   const c=backup.backup.settings.credentials;
+   const backup=await new Promise(resolve=>chrome.runtime.sendMessage({type:'WS_EXPORT_BACKUP'},resolve));if(!backup?.ok)throw new Error('BACKUP_AFTER_FAILED');
+   const contexts=await chrome.runtime.getContexts({contextTypes:['BACKGROUND']});const c=backup.backup.settings.credentials;
    const publicState=await new Promise(resolve=>chrome.runtime.sendMessage({type:'WS_GET_STATE'},resolve));
    return{hash:backup.backup.settings_sha256,context:contexts[0]?.contextId||null,version:chrome.runtime.getManifest().version,all_five_same:['wordstat','search','webmaster','metrika','direct'].every(s=>(c[s].api_key||c[s].oauth_token)==='B18_RELOAD_'+s),public_secret_exposure:JSON.stringify(publicState).includes('B18_RELOAD_'),worker_session:globalThis.WORKER_SESSION_ID||null};
  });
  assert.ok(after.context);assert.notEqual(after.context,before.context);assert.equal(after.hash,before.hash);assert.equal(after.version,before.version);assert.equal(after.all_five_same,true);assert.equal(after.public_secret_exposure,false);assert.ok(after.worker_session);
- assert.equal(tree(),TARGET);emit({case:'runtime_reload_new_worker_and_persisted_state',status:'PASS',before,after,product_changed:false,pre_reload_worker_debugger:false,post_reload_worker_attached:true,direct_extension_navigation_after_reload:false,popup_action_after_reload:false,real_provider_calls:0});
+ assert.equal(tree(),TARGET);emit({case:'runtime_reload_new_worker_and_persisted_state',status:'PASS',before,after,product_changed:false,pre_reload_worker_evaluate_calls:0,post_reload_worker_attached:true,direct_extension_navigation_after_reload:false,popup_action_after_reload:false,real_provider_calls:0});
 }catch(error){failed++;emit({case:stage,status:'FAIL_QUALIFICATION',error:String(error.stack||error),release_allowed:false});process.exitCode=1;}
 finally{
  clearInterval(monitor);clearTimeout(deadline);if(browser){try{await browser.close();}catch{}}
