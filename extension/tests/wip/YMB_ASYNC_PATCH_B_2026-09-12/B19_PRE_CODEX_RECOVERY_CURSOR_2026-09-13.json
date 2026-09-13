@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-13",
+  "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
+  "base_cursor": "extension/tests/wip/YMB_FILE_DELIVERY_PATCH_A_2026-09-12/CONTINUATION_CURSOR_2026-09-12.json",
+  "base_cursor_schema": 30,
+  "base_cursor_commit": "b8a7b89f2215957d3cf5a8e58e0dc4e41b0fb163",
+  "state": "CHATGPT_PRE_GATE_PREPARATION_COMPLETE;INDEPENDENT_CODEX_NOT_RUN",
+  "product": {
+    "version": "0.1.6",
+    "install_zip": "Yandex-Marketing-Bridge-0.1.6.zip",
+    "install_zip_sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "install_zip_bytes": 220045,
+    "tree_sha256": "b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86",
+    "files": 67,
+    "product_bytes_after_freeze_changed": false
+  },
+  "authorities": {
+    "transport_readback": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_PRE_CODEX_TRANSPORT_READBACK_2026-09-13.md",
+    "final_pd_map": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_FINAL_PD_EXECUTION_MAP.md",
+    "final_pd_map_commit": "a348c28d938d5ceefaac1c10edb413122ca34e30",
+    "independent_prompt": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_INDEPENDENT_CODEX_GATE_PROMPT.md",
+    "independent_prompt_commit": "7abd4a9d47390403b734ae5a7539d7031d4b71be",
+    "handoff_ready": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_INDEPENDENT_CODEX_HANDOFF_READY_2026-09-13.md",
+    "handoff_ready_commit": "979c51f20113821530cb50a326ac3b562a29d6ba"
+  },
+  "b19_boundary": {
+    "deferred_mode": "MANUAL_ONLY",
+    "search_host_expected": true,
+    "operation_host_expected": true,
+    "alarms_expected": false,
+    "background_deferred_polling_expected": false,
+    "b18_disabled_operation_host_expectation": "SUPERSEDED_FOR_B19"
+  },
+  "independent_gate": {
+    "status": "NOT_RUN_ON_EXACT_0_1_6_ZIP",
+    "required_pd_range": "PD-00..PD-17",
+    "historical_pass_transfer": false,
+    "enabled_not_run_allows_pass": false,
+    "real_provider_calls_authorized": 0,
+    "owner_credentials_allowed": false,
+    "owner_profile_allowed": false,
+    "production_edits_authorized": false
+  },
+  "latest_exact_zip_recheck": {
+    "status": "PASS",
+    "sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "bytes": 220045,
+    "zip_integrity": "PASS_NO_ERRORS"
+  },
+  "release_allowed": false,
+  "owner_installable_handoff": "FORBIDDEN",
+  "next_unit": "INDEPENDENT_CODEX_PRE_DELIVERY_GATE_ON_EXACT_0_1_6_PACKAGE"
+}
