@@ -1,0 +1,124 @@
+name: YMB file-delivery patch prequalification
+on:
+  push:
+    branches: [qa/ymb-file-delivery-patch-prequal-2026-09-13]
+    paths: [.github/workflows/ymb-file-delivery-patch-prequalification.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  prequal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 64c1016c179de52b6e950830877f0d42a446e5e8
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Build dual deterministic ZIP and fresh extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,json,zipfile,os
+          H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src')
+          files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()}
+          assert len(files)==67 and not any(p.is_symlink() for p in root.rglob('*'))
+          target=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode())
+          m=json.loads(files['manifest.json']);assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1;assert 'alarms' not in (m.get('permissions') or [])
+          out=Path(os.environ['RUNNER_TEMP'])/'package';out.mkdir();prefix='Yandex-Marketing-Bridge-0.1.6/'
+          def build(path):
+            with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9,strict_timestamps=True) as z:
+              for name,b in sorted(files.items()):
+                zi=zipfile.ZipInfo(prefix+name,date_time=(1980,1,1,0,0,0));zi.compress_type=zipfile.ZIP_DEFLATED;zi.create_system=3;zi.external_attr=(0o100644<<16);zi.flag_bits=0x800;z.writestr(zi,b,compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
+          a=out/'A.zip';b=out/'B.zip';build(a);build(b);assert a.read_bytes()==b.read_bytes()
+          final=out/'Yandex-Marketing-Bridge-0.1.6-patched-prequal.zip';final.write_bytes(a.read_bytes());a.unlink();b.unlink()
+          with zipfile.ZipFile(final) as z:
+            assert z.testzip() is None;extracted={}
+            for e in z.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and len(p.parts)>=2 and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6'
+              rel='/'.join(p.parts[1:]);assert rel not in extracted;extracted[rel]=z.read(e)
+          assert set(extracted)==set(files) and all(extracted[k]==files[k] for k in files)
+          ex=Path(os.environ['RUNNER_TEMP'])/'fresh-extracted';ex.mkdir()
+          for n,d in extracted.items():q=ex/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
+          extracted_target=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(extracted.items())).encode());assert extracted_target==target
+          result={'schema_version':1,'source_commit':'64c1016c179de52b6e950830877f0d42a446e5e8','version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'provider_calls':0}
+          (out/'PREQUAL_PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+            f.write(f'YMB_PRODUCT_TREE={target}\nYMB_PREQUAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PPTR_HOME={Path(os.environ["RUNNER_TEMP"])/"deps"}\nYMB_BROWSER_EVIDENCE={Path(os.environ["RUNNER_TEMP"])/"browser-evidence"}\n')
+          print(json.dumps(result,indent=2))
+          PY
+      - name: Fresh-extracted syntax and exactly-once source checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find "$YMB_BROWSER_CANDIDATE" -type f | wc -l)" -eq 67
+          find "$YMB_BROWSER_CANDIDATE" -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          node - <<'NODE'
+          const fs=require('fs'),p=process.env.YMB_BROWSER_CANDIDATE;
+          const c=fs.readFileSync(p+'/file_delivery_content.js','utf8');
+          const w=fs.readFileSync(p+'/file_delivery_worker_transport.js','utf8');
+          const s=fs.readFileSync(p+'/shared/composer_send.js','utf8');
+          if((c.match(/\.click\s*\(/g)||[]).length!==0)throw new Error('content has direct click');
+          if((s.match(/target\.button\.click\s*\(/g)||[]).length!==1)throw new Error('shared click boundary count');
+          for(const x of ['attachment_send_committed','WS_MARK_ATTACHMENT_CLICK_DISPATCHED','WS_ROLLBACK_ATTACHMENT_SEND','WS_CONFIRM_ATTACHMENT_SEND'])if(!w.includes(x)&&!c.includes(x))throw new Error('missing '+x);
+          if(!c.includes('requiredStableSamples: 3'))throw new Error('missing stable target samples');
+          console.log('PATCH_SOURCE_BARRIER_PASS');
+          NODE
+      - name: Prepare locked Puppeteer and adapted B15 exact-package browser test
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_PPTR_HOME" "$RUNNER_TEMP/tests" "$YMB_BROWSER_EVIDENCE"
+          cp frozen-b17/package-lock.json "$YMB_PPTR_HOME/package-lock.json"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          deps=Path(os.environ['YMB_PPTR_HOME']);j=json.loads((deps/'package-lock.json').read_text());(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_browser_qualification.mjs').read_text()
+          old='f591b39a381993c44284561236b9c5a278761db3d6b04059c59974e037c33f47';assert src.count(old)==1
+          Path(os.environ['RUNNER_TEMP']+'/tests/b15_browser_qualification.mjs').write_text(src.replace(old,os.environ['YMB_PRODUCT_TREE']))
+          Path(os.environ['RUNNER_TEMP']+'/tests/b15_fixture.html').write_bytes(Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_bytes())
+          PY
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund
+      - name: Real Chrome B15 file-delivery regression on patched fresh extraction
+        shell: bash
+        env:
+          YMB_CHATGPT_FIXTURE: ${{ runner.temp }}/tests/b15_fixture.html
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/tests"
+          xvfb-run -a node b15_browser_qualification.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Summarize prequalification
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/prequal-publish";mkdir -p "$O";cp "$YMB_PREQUAL_PACKAGE" "$O/" 2>/dev/null || true;cp "$RUNNER_TEMP/package/PREQUAL_PACKAGE_RESULT.json" "$O/" 2>/dev/null || true;cp -a "$YMB_BROWSER_EVIDENCE" "$O/browser-evidence" 2>/dev/null || true
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'prequal-publish';pkg=json.loads((o/'PREQUAL_PACKAGE_RESULT.json').read_text());p=o/'browser-evidence'/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];fail=[r.get('case') for r in rows if str(r.get('status','')).startswith('FAIL')];result={**pkg,'browser_cases':len(rows),'browser_failures':fail,'pass':bool(rows) and not fail};(o/'PREQUAL_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-file-delivery-patch-prequalification
+          path: ${{ runner.temp }}/prequal-publish/
+          retention-days: 30
+          if-no-files-found: error
