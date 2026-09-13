@@ -1,0 +1,92 @@
+name: YMB B18 isolated runtime reload qualification (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b18-reload-qualification.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b18-reload
+  cancel-in-progress: false
+jobs:
+  reload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 4d28e131574c6f2ceb2d0003bbc05179124697fa
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-cleanup-recheck-evidence
+          run-id: 34699614409
+          github-token: ${{ github.token }}
+          path: frozen-cleanup
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Exact ready product and separate reload scenario
+        shell: bash
+        run: |
+          set -euo pipefail
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          python3 "$Q/b18_prepare.py" frozen-b17 frozen-cleanup "$RUNNER_TEMP/b18-qa"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,json
+          h=lambda b:hashlib.sha256(b).hexdigest()
+          r=Path(os.environ['RUNNER_TEMP']);b=r/'b18-qa';q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa')
+          p=b/'tests/b18.generated.mjs';source=p.read_bytes();assert h(source)=='f17ab8878768d1255cf0ecb85f430dd6d3c44ee9b659f4729d14c5e136be4fdd'
+          body=(q/'b18_reload_cases.js').read_bytes();assert h(body)=='057cb76371d97d2d1cd31b5d860e579ccbe312e2d61056278bd898fc4f44ce1d'
+          text=source.decode();prefix=text.split('// B18 additional development qualification.',1)[0];marker='finally {\n clearInterval(monitor); clearTimeout(deadline);'
+          tail=marker+text.split(marker,1)[1];new=(prefix+body.decode()+'\n'+tail).encode();assert h(new)=='69db979e945a898db1a7df8e35b3473ff270891959cf292cb26e824130ab7b74';p.write_bytes(new)
+          d=r/'b18-deps';d.mkdir();lock=(b/'package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          (r/'b18-evidence').mkdir()
+          (b/'QA_RELOAD_IDENTITY.json').write_text(json.dumps({'generated_sha256':h(new),'body_sha256':h(body),'product_changes':0,'single_API_install':True,'prior_CLI_reload_failure_not_erased':True},indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_PPTR_HOME={d}\nYMB_BROWSER_CANDIDATE={b}/candidate\nYMB_BROWSER_EVIDENCE={r}/b18-evidence\n')
+          PY
+          node --check "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
+      - name: Same locked CfT and Puppeteer
+        shell: bash
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: One API-installed Chrome, actual reload, retained settings
+        shell: bash
+        run: xvfb-run -a node "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Preserve exact evidence without profiles
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,shutil,json
+          t=Path(os.environ['RUNNER_TEMP']);p=t/'b18-publish';p.mkdir()
+          for f in (t/'b18-evidence').glob('*'):
+            if f.is_file() and f.suffix in ('.jsonl','.stdout','.stderr'):shutil.copyfile(f,p/f.name)
+          for n in ('IDENTITY.json','QA_RELOAD_IDENTITY.json'):
+            if (t/'b18-qa'/n).is_file():shutil.copyfile(t/'b18-qa'/n,p/n)
+          if (t/'b18-qa/tests').is_dir():shutil.copytree(t/'b18-qa/tests',p/'tests')
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'4d28e131574c6f2ceb2d0003bbc05179124697fa','product_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'single_API_install':True,'local_policy_modified':False,'live_provider_calls':0,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(p).as_posix()+'\n' for f in sorted(p.rglob('*')) if f.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b18-runtime-reload-evidence
+          path: ${{ runner.temp }}/b18-publish/
+          retention-days: 90
+          if-no-files-found: error
