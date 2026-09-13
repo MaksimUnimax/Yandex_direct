@@ -1,4 +1,4 @@
-name: YMB B19 full real Chrome resource matrix v3
+name: YMB B19 full real Chrome resource matrix v4
 on:
   push:
     branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: d9afe8d8656874282e3d1e138ddd22600dc203be
+          ref: 98a22848b823dfb65de3cae8bb7c2bb49c8381fe
           persist-credentials: false
           fetch-depth: 1
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -60,7 +60,6 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$YMB_BROWSER_EVIDENCE"
-          cp "$YMB_RESOURCE_TESTS/b15_fixture.html" "$YMB_RESOURCE_TESTS/b15_fixture.html.copy"; mv "$YMB_RESOURCE_TESTS/b15_fixture.html.copy" "$YMB_RESOURCE_TESTS/b15_fixture.html"
           xvfb-run -a node "$YMB_RESOURCE_TESTS/b15_browser_qualification.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
       - name: File fault/corruption/isolation contour
         shell: bash
@@ -89,14 +88,18 @@ jobs:
           import hashlib,json,os
           o=Path(os.environ['RUNNER_TEMP'])/'resource-publish';groups={};fails=[];peak=0;remaining=[]
           for name in ['qualification','faults','pause']:
-            p=o/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];bad=[{'case':r.get('case'),'status':r.get('status')} for r in rows if r.get('status')!='PASS'];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0));remaining.extend(clean.get('remaining') or []);groups[name]={'cases':len(rows),'failures':bad,'peak_rss_kib':clean.get('peak_owned_rss_kib'),'remaining':clean.get('remaining')};fails.extend([{'group':name,**x} for x in bad])
-          result={'schema_version':3,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'groups':groups,'failures':fails,'peak_owned_rss_kib':peak,'remaining_processes':remaining,'emergency_limit_kib':2097152,'pass':all(g['cases']>0 and not g['failures'] and not(g['remaining'] or []) for g in groups.values()) and peak<2097152}
+            p=o/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
+            bad=[{'case':r.get('case'),'status':r.get('status')} for r in rows if str(r.get('status','')).startswith('FAIL')]
+            recorded=[{'case':r.get('case'),'status':r.get('status')} for r in rows if r.get('status')=='RECORDED']
+            clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0));remaining.extend(clean.get('remaining') or [])
+            groups[name]={'cases':len(rows),'failures':bad,'recorded':recorded,'peak_rss_kib':clean.get('peak_owned_rss_kib'),'remaining':clean.get('remaining')};fails.extend([{'group':name,**x} for x in bad])
+          result={'schema_version':4,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'groups':groups,'failures':fails,'peak_owned_rss_kib':peak,'remaining_processes':remaining,'emergency_limit_kib':2097152,'pass':all(g['cases']>0 and not g['failures'] and not(g['remaining'] or []) for g in groups.values()) and peak<2097152}
           (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: ymb-b19-browser-resource-v3-evidence
+          name: ymb-b19-browser-resource-v4-evidence
           path: ${{ runner.temp }}/resource-publish/
           retention-days: 90
           if-no-files-found: error
