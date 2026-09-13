@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: eb16e1440d24c604cbe9e5268789d683a7158d85
+          ref: 271d31a280c8e0ed60432bfe32848c21a8503808
           persist-credentials: false
           fetch-depth: 1
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -62,13 +62,13 @@ jobs:
           o=Path(os.environ['RUNNER_TEMP'])/'network-publish';p=o/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
           failures=[{'case':r.get('case'),'status':r.get('status')} for r in rows if r.get('status')!='PASS']
           cleanup=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{})
-          result={'schema_version':2,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'controlled_provider_only':True,'cases':len(rows),'failures':failures,'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining':cleanup.get('remaining'),'pass':bool(rows) and not failures}
+          result={'schema_version':3,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'controlled_provider_only':True,'cases':len(rows),'failures':failures,'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining':cleanup.get('remaining'),'pass':bool(rows) and not failures}
           (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(o.iterdir()) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: ymb-b19-browser-network-v2-evidence
+          name: ymb-b19-browser-network-v3-evidence
           path: ${{ runner.temp }}/network-publish/
           retention-days: 90
           if-no-files-found: error
