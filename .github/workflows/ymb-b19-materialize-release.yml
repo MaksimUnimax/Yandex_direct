@@ -1,0 +1,119 @@
+name: YMB B19 materialize full 0.1.6 release source
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b19-materialize-release.yml]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: ymb-b19-materialize-release
+  cancel-in-progress: false
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: wip/ymb-file-delivery-patch-a-2026-09-12
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Materialize exact preimage and apply only B19 release deltas
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import zipfile,hashlib,json,shutil,re
+          H=lambda b:hashlib.sha256(b).hexdigest()
+          frozen=Path('frozen-b17'); outer=frozen/'candidate-b17-internal.zip'
+          assert outer.stat().st_size==225660
+          assert H(outer.read_bytes())=='1560599adfcfdb2c3180ec9103005b1584bcd39709b8c32c778a306f73f6703bfe508'
+          with zipfile.ZipFile(outer) as z:
+            assert z.testzip() is None
+            files={}
+            for e in z.infolist():
+              if e.is_dir(): continue
+              p=PurePosixPath(e.filename); assert not p.is_absolute() and '..' not in p.parts and len(p.parts)>=2
+              rel='/'.join(p.parts[1:]); assert rel not in files; files[rel]=z.read(e)
+          assert len(files)==67
+          def tree_hash(mapping):
+            return H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(mapping.items())).encode())
+          assert tree_hash(files)=='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508'
+          before={k:H(v) for k,v in files.items()}
+          # manifest: version + exact operation host only, preserve all existing permissions/hosts.
+          m=json.loads(files['manifest.json'])
+          assert m['version']=='0.1.4'
+          assert 'https://operation.api.cloud.yandex.net/*' not in m['host_permissions']
+          m['version']='0.1.6'
+          m['description']='Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search/GenSearch + ручной deferred Search + read-only Webmaster/Metrika/Direct, с единым admission, восстановлением, файловой доставкой и cost guards.'
+          search_host='https://searchapi.api.cloud.yandex.net/*'; op_host='https://operation.api.cloud.yandex.net/*'
+          assert search_host in m['host_permissions']
+          m['host_permissions'].append(op_host)
+          assert m['host_permissions'].count(op_host)==1
+          assert 'alarms' not in m['permissions']
+          files['manifest.json']=(json.dumps(m,ensure_ascii=False,indent=2)+'\n').encode()
+          # release identity consistency.
+          p=json.loads(files['package.json']); assert p['version']=='0.1.4'; p['version']='0.1.6'; files['package.json']=(json.dumps(p,ensure_ascii=False,indent=2)+'\n').encode()
+          s=files['shared/product.js'].decode(); assert s.count('VERSION: "0.1.4"')==1; files['shared/product.js']=s.replace('VERSION: "0.1.4"','VERSION: "0.1.6"').encode()
+          s=files['shared/webmaster_protocol.js'].decode(); assert s.count('|| "0.1.4"')==1; files['shared/webmaster_protocol.js']=s.replace('|| "0.1.4"','|| "0.1.6"').encode()
+          s=files['popup.html'].decode(); assert s.count('v0.1.4')>=2; files['popup.html']=s.replace('v0.1.4','v0.1.6').encode()
+          files['README.md']=('''# Yandex Marketing Bridge 0.1.6\n\nProduction source for the 0.1.6 Chrome MV3 build. This release contains the previously qualified file-delivery/recovery path and Manual deferred Yandex Search transport.\n\n## Deferred Search\n\nProtocol: `SEARCH_ASYNC_BATCH_API_V1`. Deferred Search is **Manual-only** in this release. `start` creates a durable local job, `submit/submitN` submits bounded provider operations, and `collect/collectN/collectReady` reads previously submitted operation IDs. Results are persisted before normalization/export.\n\nThe manifest explicitly permits both provider origins:\n\n- `https://searchapi.api.cloud.yandex.net/*` — ordinary Search/GenSearch and deferred submit;\n- `https://operation.api.cloud.yandex.net/*` — deferred Operation status/result collection.\n\nThere is no background deferred Autorun, no `chrome.alarms` polling, no hidden retry and no automatic replay after an uncertain request. First polling remains bounded by the provider's deferred-processing delay; repeated collection is an explicit user action.\n\n## File delivery and safety\n\nLarge text is staged as bounded IndexedDB chunks and attached through the existing ChatGPT file-delivery path. Delivery keeps conversation ownership, duplicate-Send protection, pause/recovery, checksum and cleanup guards.\n\n## Services\n\nWordstat, ordinary Search/GenSearch, Webmaster, Metrika and Direct remain on the same qualified logic from the exact B17 preimage; only release metadata/permission documentation and the Operation API host permission differ in 0.1.6.\n''').encode()
+          files['README.txt']=('''Yandex Marketing Bridge 0.1.6\n\nЭто production-сборка с ручным deferred Search.\n\nDeferred Search работает так: start сохраняет задание; submit/submitN отправляет отдельные поисковые запросы и сохраняет operation_id; collect/collectN/collectReady позже получает готовые результаты по сохранённым operation_id.\n\nВ manifest разрешены оба адреса Яндекса:\n- https://searchapi.api.cloud.yandex.net/*\n- https://operation.api.cloud.yandex.net/*\n\nФоновый deferred Autorun, chrome.alarms, скрытые retry и автоматический повтор неизвестного платного запроса не включены. Получение результатов запускается явной командой.\n\nБольшие результаты выгружаются файлами через bounded IndexedDB/file-delivery механизм с проверкой владельца диалога, checksum, паузой, восстановлением и защитой от двойной отправки.\n''').encode()
+          changed=[k for k in sorted(files) if H(files[k])!=before[k]]
+          expected=sorted(['README.md','README.txt','manifest.json','package.json','popup.html','shared/product.js','shared/webmaster_protocol.js'])
+          assert changed==expected,(changed,expected)
+          out=Path('extension/src'); shutil.rmtree(out); out.mkdir(parents=True)
+          for rel,b in files.items():
+            q=out/rel; q.parent.mkdir(parents=True,exist_ok=True); q.write_bytes(b)
+          final_tree=tree_hash(files)
+          report={
+            'schema_version':1,'date':'2026-09-13','release_version':'0.1.6','preimage_tree_sha256':'b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508',
+            'preimage_package_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','final_tree_sha256':final_tree,'files':len(files),'changed_files':changed,
+            'unchanged_files':len(files)-len(changed),'operation_host_enabled':True,'alarms_permission':False,'live_provider_calls':0
+          }
+          rp=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B19_MATERIALIZATION.json'); rp.parent.mkdir(parents=True,exist_ok=True); rp.write_text(json.dumps(report,indent=2)+'\n')
+          Path('/tmp/b19_final_tree').write_text(final_tree)
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Exact source static and load-order checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find extension/src -type f | wc -l)" -eq 67
+          find extension/src -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re
+          root=Path('extension/src')
+          for p in root.rglob('*.json'): json.loads(p.read_text())
+          m=json.loads((root/'manifest.json').read_text())
+          assert m['manifest_version']==3 and m['version']=='0.1.6'
+          assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1
+          assert m['host_permissions'].count('https://searchapi.api.cloud.yandex.net/*')==1
+          assert 'alarms' not in m['permissions']
+          assert json.loads((root/'package.json').read_text())['version']=='0.1.6'
+          assert 'VERSION: "0.1.6"' in (root/'shared/product.js').read_text()
+          assert 'v0.1.6' in (root/'popup.html').read_text()
+          boot=(root/'phase3_service_worker_bootstrap.js').read_text()
+          for required in ['shared/search_async_protocol.js','shared/search_async_store.js','shared/search_async_transport.js','shared/search_async_runtime.js','search_async_worker_transport.js']:
+            assert required in boot,required
+          PY
+      - name: Commit canonical 0.1.6 source and materialization evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'MaksimUnimax'
+          git config user.email '36834459+MaksimUnimax@users.noreply.github.com'
+          git add -A extension/src extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B19_MATERIALIZATION.json
+          git commit -m 'feat(extension): materialize full 0.1.6 deferred-search release source from exact B17'
+          git push origin HEAD:wip/ymb-file-delivery-patch-a-2026-09-12
