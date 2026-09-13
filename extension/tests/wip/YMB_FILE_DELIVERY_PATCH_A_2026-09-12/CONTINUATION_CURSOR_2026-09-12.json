@@ -1,10 +1,10 @@
 {
-  "schema_version": 29,
+  "schema_version": 30,
   "date": "2026-09-13",
   "owner_instruction": "Build and qualify the complete installable extension including network-enabled deferred Search. Persist every material code/QA/raw/cursor block. Never hand off an unverified ZIP and never restart completed A/B1-B19 development work.",
   "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
   "current_unit": "PATCH_B_B19_FULL_0_1_6_NETWORK_ENABLED_RELEASE_QUALIFICATION",
-  "current_unit_state": "DEVELOPMENT_COMPLETE;NODE_PASS;RESOURCE_CHROME_PASS;DEFERRED_NETWORK_CHROME_PASS;DETERMINISTIC_PACKAGE_PASS;FRESH_EXTRACTION_PASS;FRESH_EXTRACTED_CHROME_PASS;PRE_CODEX_TRANSPORT_READBACK_PASS;INDEPENDENT_CODEX_NOT_RUN",
+  "current_unit_state": "DEVELOPMENT_COMPLETE;NODE_PASS;RESOURCE_CHROME_PASS;DEFERRED_NETWORK_CHROME_PASS;DETERMINISTIC_PACKAGE_PASS;FRESH_EXTRACTION_PASS;FRESH_EXTRACTED_CHROME_PASS;PRE_CODEX_TRANSPORT_READBACK_PASS;B19_FINAL_PD_MAP_READY;INDEPENDENT_CODEX_NOT_RUN",
   "prior_complete_unit": "B18",
   "production": {
     "version": "0.1.6",
@@ -98,6 +98,44 @@
     "owner_credentials_used": false,
     "owner_profile_touched": false
   },
+  "b19_final_pd_map": {
+    "status": "READY",
+    "path": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_FINAL_PD_EXECUTION_MAP.md",
+    "commit": "a348c28d938d5ceefaac1c10edb413122ca34e30",
+    "exact_zip_sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "exact_zip_bytes": 220045,
+    "b18_disabled_operation_host_expectation": "SUPERSEDED_FOR_B19",
+    "operation_host_expected": true,
+    "search_host_expected": true,
+    "alarms_expected": false,
+    "deferred_mode": "MANUAL_ONLY",
+    "background_deferred_polling_expected": false,
+    "requires_pd00_pd17": true,
+    "independent_historical_pass_transfer": false,
+    "provider_calls_authorized": 0
+  },
+  "independent_codex_prompt": {
+    "status": "READY",
+    "path": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_INDEPENDENT_CODEX_GATE_PROMPT.md",
+    "commit": "7abd4a9d47390403b734ae5a7539d7031d4b71be",
+    "exact_zip_sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "exact_zip_bytes": 220045,
+    "requires_pd00_pd17": true,
+    "enabled_not_run_allows_pass": false,
+    "b19_final_map_mandatory": true,
+    "pre_codex_transport_readback_mandatory": true,
+    "operation_host_expected": true,
+    "b18_disabled_operation_host_expectation": "SUPERSEDED_FOR_B19",
+    "owner_file_transport_required": false,
+    "production_edits_authorized": false,
+    "real_provider_calls_authorized": 0
+  },
+  "latest_local_exact_zip_recheck": {
+    "status": "PASS",
+    "install_zip_sha256": "81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2",
+    "install_zip_bytes": 220045,
+    "zip_integrity": "PASS_NO_ERRORS"
+  },
   "preserved_package_harness_failures": [
     "attempt1: GITHUB_ENV variable consumed in same shell step before becoming available; browser tests NOT_RUN; product/ZIP deterministic checks PASS",
     "attempt2: preserved resource harness expected b15_fixture.html while workflow supplied identical fixture bytes only as fixture.html; browser product assertions NOT_RUN; zero-case false PASS was already corrected to FAIL",
@@ -106,7 +144,9 @@
   "next_unit": "INDEPENDENT_CODEX_PRE_DELIVERY_GATE_ON_EXACT_0_1_6_PACKAGE",
   "next_scope": [
     "Use only the exact ZIP SHA 81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2 from artifact 10311695957/run 34737506830",
+    "Read B19_FINAL_PD_EXECUTION_MAP.md and B19_PRE_CODEX_TRANSPORT_READBACK_2026-09-13.md before execution",
     "Run every enabled PD-00..PD-17 independently; no product edits or weakened assertions",
+    "Treat B18 disabled-operation-host expectation as superseded for B19; Operation host is expected enabled",
     "Persist complete PASS/FAIL/NOT_RUN matrix and exact evidence; overall PASS forbidden with enabled NOT_RUN",
     "Keep provider traffic synthetic/controlled and owner credentials forbidden unless owner separately authorizes a live canary",
     "If independent product failure occurs, return full failure set for one bounded correction and requalification",
