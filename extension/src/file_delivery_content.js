@@ -2,12 +2,20 @@
 (() => {
   "use strict";
 
-  const RUNTIME_KEY = "__YMB_FILE_DELIVERY_CONTENT_V2__";
+  const RUNTIME_KEY = "__YMB_FILE_DELIVERY_CONTENT_V3__";
+  const LEGACY_RUNTIME_KEYS = ["__YMB_FILE_DELIVERY_CONTENT_V2__"];
   const POLL_MS = 900;
   const ATTACH_READY_TIMEOUT_MS = 60_000;
   const COMMITTED_RECONCILE_MS = 30_000;
+  const SEND_TARGET_TIMEOUT_MS = 30_000;
+  const SEND_RECONCILE_TIMEOUT_MS = 120_000;
   const previous = globalThis[RUNTIME_KEY];
   if (previous?.dispose) { try { previous.dispose(); } catch {} }
+  for (const key of LEGACY_RUNTIME_KEYS) {
+    const legacy = globalThis[key];
+    if (legacy?.dispose) { try { legacy.dispose(); } catch {} }
+    try { delete globalThis[key]; } catch {}
+  }
 
   const runtime = {
     disposed: false,
@@ -31,9 +39,6 @@
   function identity() { return BB2ConversationIdentity.identityFromCandidates([location.href, canonicalConversationUrl()]); }
   function conversationKey() { const value = identity(); return value?.status === "confirmed" ? value.conversation_key : ""; }
 
-  // A SPA can keep the same file input and Send button while changing chat.
-  // Worker admission happened earlier; recheck the page owner after every await
-  // and immediately before any DOM/file/send side effect. Never replay on failure.
   function entryCurrent(entry) {
     return current() && !entry?.delivery_signal?.aborted &&
       runtime.local_pause_id !== entry?.delivery_id && entry?.delivery_paused !== true &&
@@ -42,7 +47,6 @@
   function assertEntryContext(entry) {
     if (!entryCurrent(entry)) throw Object.assign(new Error("Диалог изменился; доставка остановлена без повторной отправки."), { code: "ATTACHMENT_CONVERSATION_CHANGED" });
   }
-
 
   function sendWorker(message, signal = null) {
     return new Promise((resolve, reject) => {
@@ -71,7 +75,7 @@
   }
 
   function showDeliveryControl(entry) {
-    if (!current() || entry?.conversation_key !== conversationKey() || entry.phase === "committed") { removeDeliveryControl(); return; }
+    if (!current() || entry?.conversation_key !== conversationKey() || ["attachment_send_committed", "committed"].includes(entry.phase)) { removeDeliveryControl(); return; }
     let button = runtime.control_button;
     if (!button?.isConnected) {
       button = document.createElement("button");
@@ -93,8 +97,7 @@
         disarmManualSend();
       }
       try {
-        const response = await sendWorker({ type: "WS_SET_ATTACHMENT_PAUSED", conversation_key: entry.conversation_key,
-          delivery_id: entry.delivery_id, paused: !paused });
+        const response = await sendWorker({ type: "WS_SET_ATTACHMENT_PAUSED", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id, paused: !paused });
         if (!response?.ok) throw new Error(response?.code || "Не удалось сохранить остановку");
         if (!current() || entry.conversation_key !== conversationKey()) return;
         runtime.local_pause_id = response.paused ? entry.delivery_id : null;
@@ -149,29 +152,16 @@
       if (!current()) throw Object.assign(new Error("File delivery runtime остановлен."), { code: "ATTACHMENT_RUNTIME_STOPPED" });
       assertEntryContext(entry);
       const index = Number(expected.chunk_index);
-      const response = await sendWorker({
-        type: "WS_GET_OUTBOX_ARTIFACT_CHUNK",
-        conversation_key: entry.conversation_key,
-        delivery_id: entry.delivery_id,
-        artifact_key: descriptor.artifact_key,
-        chunk_index: index
-      }, entry.delivery_signal);
+      const response = await sendWorker({ type: "WS_GET_OUTBOX_ARTIFACT_CHUNK", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id, artifact_key: descriptor.artifact_key, chunk_index: index }, entry.delivery_signal);
       assertEntryContext(entry);
       if (!response?.ok) throw Object.assign(new Error(response?.error || response?.code || "Не удалось получить часть файла."), { code: response?.code || "ATTACHMENT_CHUNK_FAILED" });
       const bytes = YMBChatGPTFileAttachment.base64ToBytes(response.chunk_base64 || "");
-      if (String(response.artifact_key || "") !== String(descriptor.artifact_key || "") || Number(response.chunk_index) !== index || Number(response.total_byte_length) !== total) {
-        throw Object.assign(new Error("Метаданные части файла не совпали."), { code: "ATTACHMENT_CHUNK_METADATA_MISMATCH" });
-      }
-      if (bytes.byteLength !== Number(expected.byte_length) || bytes.byteLength !== Number(response.byte_length) || offset + bytes.byteLength > full.byteLength) {
-        throw Object.assign(new Error("Размер части файла не совпал."), { code: "ATTACHMENT_CHUNK_LENGTH_MISMATCH" });
-      }
+      if (String(response.artifact_key || "") !== String(descriptor.artifact_key || "") || Number(response.chunk_index) !== index || Number(response.total_byte_length) !== total) throw Object.assign(new Error("Метаданные части файла не совпали."), { code: "ATTACHMENT_CHUNK_METADATA_MISMATCH" });
+      if (bytes.byteLength !== Number(expected.byte_length) || bytes.byteLength !== Number(response.byte_length) || offset + bytes.byteLength > full.byteLength) throw Object.assign(new Error("Размер части файла не совпал."), { code: "ATTACHMENT_CHUNK_LENGTH_MISMATCH" });
       const sha = await sha256Hex(bytes);
       assertEntryContext(entry);
-      if (sha !== String(expected.sha256 || "").toLowerCase() || sha !== String(response.sha256 || "").toLowerCase()) {
-        throw Object.assign(new Error("SHA-256 части файла не совпал."), { code: "ATTACHMENT_CHUNK_SHA256_MISMATCH" });
-      }
-      full.set(bytes, offset);
-      offset += bytes.byteLength;
+      if (sha !== String(expected.sha256 || "").toLowerCase() || sha !== String(response.sha256 || "").toLowerCase()) throw Object.assign(new Error("SHA-256 части файла не совпал."), { code: "ATTACHMENT_CHUNK_SHA256_MISMATCH" });
+      full.set(bytes, offset); offset += bytes.byteLength;
     }
     if (offset !== total) throw Object.assign(new Error("Размер восстановленного файла не совпал."), { code: "ATTACHMENT_LENGTH_MISMATCH" });
     return full;
@@ -210,6 +200,75 @@
     return false;
   }
 
+  function userTurns() {
+    const seen = new Set(); const result = [];
+    for (const selector of ['[data-message-author-role="user"]', '[data-testid^="conversation-turn-"] [data-message-author-role="user"]']) {
+      for (const node of document.querySelectorAll(selector)) if (!seen.has(node)) { seen.add(node); result.push(node); }
+    }
+    return result;
+  }
+
+  function turnSurfaceText(node) {
+    if (!(node instanceof Element)) return "";
+    const root = node.closest('[data-testid^="conversation-turn-"], [data-message-id]') || node;
+    const parts = [root.textContent || "", root.getAttribute("aria-label") || "", root.getAttribute("title") || ""];
+    for (const item of root.querySelectorAll('[aria-label], [title]')) parts.push(item.getAttribute("aria-label") || "", item.getAttribute("title") || "");
+    return BB2ComposerSend.normalize(parts.join(" "));
+  }
+
+  function turnIdentity(node, index) {
+    if (!(node instanceof Element)) return `missing:${index}`;
+    const root = node.closest('[data-testid^="conversation-turn-"], [data-message-id]') || node;
+    const explicit = root.getAttribute("data-message-id") || root.getAttribute("data-testid") || root.id || node.getAttribute("data-message-id") || node.getAttribute("data-testid") || node.id;
+    return explicit ? `id:${explicit}` : `fallback:${index}:${turnSurfaceText(root).slice(0, 1600)}`;
+  }
+
+  function captureUserTurnIds() { return userTurns().map((node, index) => turnIdentity(node, index)); }
+
+  function matchingNewUserTurn(entry) {
+    const baseline = new Set((entry.baseline_message_ids || []).map(String));
+    const marker = BB2ComposerSend.normalize(entry.send_marker || entry.report_text || "");
+    const filenames = (entry.expected_attachment_names || entry.artifact_descriptors?.map((item) => item.filename) || []).map(String).filter(Boolean);
+    const turns = userTurns();
+    for (let index = 0; index < turns.length; index += 1) {
+      const node = turns[index]; const id = turnIdentity(node, index);
+      if (baseline.has(id)) continue;
+      const surface = turnSurfaceText(node);
+      if (marker && !surface.includes(marker)) continue;
+      if (filenames.some((filename) => !surface.includes(filename))) continue;
+      return { node, id };
+    }
+    return null;
+  }
+
+  async function waitForMatchingNewUserTurn(entry, timeoutMs) {
+    const deadline = Date.now() + timeoutMs;
+    while (entryCurrent(entry) && Date.now() < deadline) {
+      const match = matchingNewUserTurn(entry);
+      if (match) return match;
+      await sleep(250);
+    }
+    return null;
+  }
+
+  function sendDeps(entry, descriptors, profile) {
+    return {
+      resolveContext: () => BB2ComposerSend.resolveContext(document),
+      resolveButton: () => BB2ComposerSend.findSendButton(document, profile),
+      candidateButtons: (context) => BB2ComposerSend.sendCandidates(context?.form || document, profile),
+      visible: BB2ComposerSend.visible,
+      disabled: BB2ComposerSend.disabled,
+      readComposerText: BB2ComposerSend.readComposer,
+      fingerprint: BB2ComposerSend.targetFingerprint,
+      requireAttachmentReady: () => YMBChatGPTFileAttachment.attachmentReady(descriptors, document),
+      sendBlockedReason: (button) => {
+        const text = `${button?.getAttribute?.("aria-label") || ""} ${button?.getAttribute?.("title") || ""}`;
+        return /(?:uploading|processing|preparing|загруз|обработ|подготов)/i.test(text) ? "SEND_BLOCKED_BY_UPLOAD" : "";
+      },
+      sleep
+    };
+  }
+
   async function processClaimed(entry) {
     assertEntryContext(entry);
     const free = composerFreeFor(entry);
@@ -217,7 +276,6 @@
     if (!free) { status("Яндекс: поле ввода ChatGPT не найдено.", "error", 5000); return; }
     const input = YMBChatGPTFileAttachment.fileInput(document);
     if (!input) { status("Яндекс: поле прикрепления файлов ChatGPT пока недоступно.", "error", 5000); return; }
-
     const commit = await sendWorker({ type: "WS_MARK_ATTACHMENT_COMMITTED", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id }, entry.delivery_signal);
     assertEntryContext(entry);
     if (!commit?.ok) throw Object.assign(new Error(commit?.error || commit?.code || "Attachment commit failed."), { code: commit?.code || "ATTACHMENT_COMMIT_FAILED" });
@@ -230,12 +288,7 @@
     YMBChatGPTFileAttachment.setInputFiles(input, built.files);
     if (!(await waitAttachmentReady(built.descriptors, ATTACH_READY_TIMEOUT_MS, currentEntry))) throw Object.assign(new Error("ChatGPT не подтвердил готовность вложения; автоматический повтор запрещён."), { code: "ATTACH_OUTCOME_UNKNOWN_NO_RETRY" });
     stageMarker(currentEntry);
-    const ready = await sendWorker({
-      type: "WS_MARK_ATTACHMENT_READY",
-      conversation_key: currentEntry.conversation_key,
-      delivery_id: currentEntry.delivery_id,
-      attached_filenames: built.descriptors.map((item) => String(item.filename))
-    }, entry.delivery_signal);
+    const ready = await sendWorker({ type: "WS_MARK_ATTACHMENT_READY", conversation_key: currentEntry.conversation_key, delivery_id: currentEntry.delivery_id, attached_filenames: built.descriptors.map((item) => String(item.filename)) }, entry.delivery_signal);
     if (!ready?.ok) throw Object.assign(new Error(ready?.error || ready?.code || "Attachment ready ack failed."), { code: ready?.code || "ATTACHMENT_READY_ACK_FAILED" });
     status("Яндекс: файл прикреплён и готов к отправке.", "success", 3500);
   }
@@ -249,28 +302,108 @@
       return;
     }
     stageMarker(entry);
-    const ready = await sendWorker({
-      type: "WS_MARK_ATTACHMENT_READY",
-      conversation_key: entry.conversation_key,
-      delivery_id: entry.delivery_id,
-      attached_filenames: descriptors.map((item) => String(item.filename))
-    }, entry.delivery_signal);
+    const ready = await sendWorker({ type: "WS_MARK_ATTACHMENT_READY", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id, attached_filenames: descriptors.map((item) => String(item.filename)) }, entry.delivery_signal);
     if (!ready?.ok) throw Object.assign(new Error(ready?.error || ready?.code || "Attachment ready ack failed."), { code: ready?.code || "ATTACHMENT_READY_ACK_FAILED" });
   }
 
-  async function commitAndClick(entry, button) {
+  async function confirmSend(entry, match) {
+    const response = await sendWorker({ type: "WS_CONFIRM_ATTACHMENT_SEND", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id, confirmation_message_id: match?.id || null }, entry.delivery_signal);
+    if (!response?.ok) throw Object.assign(new Error(response?.error || response?.code || "Send confirmation failed."), { code: response?.code || "ATTACHMENT_CONFIRM_FAILED" });
+    disarmManualSend(); removeDeliveryControl();
+    status("Яндекс: сообщение с файлом подтверждено в чате.", "success", 3500);
+    return response;
+  }
+
+  async function reconcileSendCommitted(entry, waitMs = 0) {
+    disarmManualSend(); removeDeliveryControl();
+    const match = waitMs > 0 ? await waitForMatchingNewUserTurn(entry, waitMs) : matchingNewUserTurn(entry);
+    if (match) { await confirmSend(entry, match); return true; }
+    status("Яндекс: попытка Send уже зафиксирована. Подтверждения нового сообщения пока нет; автоматический повтор Send запрещён.", "error", 0);
+    return false;
+  }
+
+  async function rollbackSendBeforeClick(entry, reason) {
+    const response = await sendWorker({ type: "WS_ROLLBACK_ATTACHMENT_SEND", conversation_key: entry.conversation_key, delivery_id: entry.delivery_id, reason: String(reason || "pre_click_validation_failed") }, entry.delivery_signal);
+    if (!response?.ok) throw Object.assign(new Error(response?.code || "Send rollback failed."), { code: response?.code || "ATTACHMENT_SEND_ROLLBACK_FAILED" });
+    return response;
+  }
+
+  async function commitAndClick(entry, profile, stableTarget = null) {
     const deliveryId = String(entry?.delivery_id || "");
     if (!entryCurrent(entry) || !deliveryId || runtime.send_in_flight.has(deliveryId)) return;
     runtime.send_in_flight.add(deliveryId);
+    let durableEntry = null;
+    let methodCalled = false;
     try {
-      const response = await sendWorker({ type: "WS_COMMIT_ATTACHMENT_SEND", conversation_key: entry.conversation_key, delivery_id: deliveryId }, entry.delivery_signal);
-      if (!response?.ok) throw Object.assign(new Error(response?.error || response?.code || "Send commit failed."), { code: response?.code || "ATTACHMENT_SEND_COMMIT_FAILED" });
+      const descriptors = Array.isArray(entry.artifact_descriptors) ? entry.artifact_descriptors : [];
+      stageMarker(entry);
+      const expectedText = String(entry.report_text || "Yandex Marketing Bridge: результат прикреплён файлом.");
+      const deps = sendDeps(entry, descriptors, profile);
+      const target = stableTarget || await BB2ComposerSend.waitForValidatedTarget({ expectedText, timeoutMs: SEND_TARGET_TIMEOUT_MS, sampleIntervalMs: 120, requiredStableSamples: 3, deps });
+      if (!target) { status("Яндекс: стабильная готовая кнопка Send не подтверждена. Ничего не отправлено.", "error", 5000); return; }
+      assertEntryContext(entry);
+      const baseline = captureUserTurnIds();
+      const commit = await sendWorker({
+        type: "WS_COMMIT_ATTACHMENT_SEND",
+        conversation_key: entry.conversation_key,
+        delivery_id: deliveryId,
+        send_marker: expectedText,
+        baseline_message_ids: baseline,
+        expected_attachment_names: descriptors.map((item) => String(item.filename)),
+        send_target_fingerprint: target.snapshot?.button_fingerprint || BB2ComposerSend.targetFingerprint(target.button)
+      }, entry.delivery_signal);
+      if (!commit?.ok) throw Object.assign(new Error(commit?.error || commit?.code || "Send commit failed."), { code: commit?.code || "ATTACHMENT_SEND_COMMIT_FAILED" });
+      durableEntry = { ...(commit.outbox || entry), delivery_signal: entry.delivery_signal };
       disarmManualSend();
-      // An acknowledgement of an earlier commit is not a new permission to click.
-      // A replaced/disposed page must leave the committed outbox to its watcher.
-      if (response.already_committed || !entryCurrent(entry) || !button?.isConnected) return;
-      button.click();
-      status("Яндекс: сообщение с файлом отправлено.", "success", 3500);
+      if (commit.already_confirmed) return;
+      if (commit.already_committed) { await reconcileSendCommitted(durableEntry, 0); return; }
+      assertEntryContext(durableEntry);
+
+      const alreadySent = matchingNewUserTurn(durableEntry);
+      if (alreadySent) { await confirmSend(durableEntry, alreadySent); return; }
+
+      const freshContext = deps.resolveContext();
+      const freshButton = freshContext ? deps.resolveButton(freshContext) : null;
+      const freshTarget = freshContext && freshButton ? { context: freshContext, button: freshButton } : null;
+      const finalValidation = BB2ComposerSend.validateTarget(freshTarget, expectedText, deps);
+      if (!finalValidation.ok) {
+        await rollbackSendBeforeClick(durableEntry, finalValidation.code);
+        status(`Яндекс: Send изменился до клика (${finalValidation.code}). Клика не было; разрешена новая безопасная проверка.`, "error", 5000);
+        return;
+      }
+      if (!YMBChatGPTFileAttachment.attachmentReady(descriptors, document)) {
+        await rollbackSendBeforeClick(durableEntry, "ATTACHMENT_NOT_READY_PRE_CLICK");
+        status("Яндекс: вложение перестало быть готовым до клика. Клика не было.", "error", 0);
+        return;
+      }
+      assertEntryContext(durableEntry);
+
+      let clickResult;
+      try {
+        clickResult = BB2ComposerSend.clickSynchronously({ target: freshTarget, expectedText, deps });
+        methodCalled = clickResult?.method_called === true;
+      } catch (error) {
+        methodCalled = error?.method_called === true;
+        if (!methodCalled) {
+          await rollbackSendBeforeClick(durableEntry, error?.code || "PRE_CLICK_FAILURE");
+          throw error;
+        }
+        status("Яндекс: вызов Send уже произошёл, но его исход не подтверждён. Повторный Send запрещён; выполняется только сверка чата.", "error", 0);
+      }
+
+      if (methodCalled) {
+        const clickAck = await sendWorker({
+          type: "WS_MARK_ATTACHMENT_CLICK_DISPATCHED",
+          conversation_key: durableEntry.conversation_key,
+          delivery_id: durableEntry.delivery_id,
+          send_click_trace: clickResult?.trace || null
+        }, durableEntry.delivery_signal).catch(() => null);
+        if (clickAck?.outbox) durableEntry = { ...clickAck.outbox, delivery_signal: entry.delivery_signal };
+      }
+
+      const match = await waitForMatchingNewUserTurn(durableEntry, SEND_RECONCILE_TIMEOUT_MS);
+      if (match) await confirmSend(durableEntry, match);
+      else status("Яндекс: Send был вызван, но новый user-turn не подтверждён за 120 секунд. Автоматический повтор Send запрещён; состояние сохранено для дальнейшей сверки.", "error", 0);
     } finally {
       runtime.send_in_flight.delete(deliveryId);
     }
@@ -285,33 +418,33 @@
     }
     stageMarker(entry);
     const state = await sendWorker({ type: "WS_GET_STATE", conversation_key: entry.conversation_key }, entry.delivery_signal);
+    assertEntryContext(entry);
     const profile = state?.state?.send_button_profile || null;
-    let button = BB2ComposerSend.findSendButton(document, profile);
-    for (let i = 0; !button && i < 4; i += 1) { await sleep(80); button = BB2ComposerSend.findSendButton(document, profile); }
-    if (!button) { status("Яндекс: кнопка Send пока недоступна.", "error", 5000); return; }
+    const expectedText = String(entry.report_text || "Yandex Marketing Bridge: результат прикреплён файлом.");
+    const deps = sendDeps(entry, descriptors, profile);
+    const target = await BB2ComposerSend.waitForValidatedTarget({ expectedText, timeoutMs: SEND_TARGET_TIMEOUT_MS, sampleIntervalMs: 120, requiredStableSamples: 3, deps });
+    if (!target) { status("Яндекс: стабильная готовая кнопка Send пока не подтверждена.", "error", 5000); return; }
     assertEntryContext(entry);
     if (state?.state?.auto_send === false) {
-      if (runtime.manual_button === button && runtime.manual_handler) return;
+      if (runtime.manual_button === target.button && runtime.manual_handler) return;
       disarmManualSend();
       const handler = (event) => {
         event.preventDefault(); event.stopPropagation(); event.stopImmediatePropagation();
-        void commitAndClick(entry, button).catch((error) => status(`Яндекс: ${error.message || error}`, "error", 0));
+        void commitAndClick(entry, profile).catch((error) => status(`Яндекс: ${error.message || error}`, "error", 0));
       };
-      button.addEventListener("click", handler, true);
-      runtime.manual_button = button;
-      runtime.manual_handler = handler;
-      status("Яндекс: файл прикреплён. Отправьте сообщение, когда будете готовы.", "success", 0);
+      target.button.addEventListener("click", handler, true);
+      runtime.manual_button = target.button; runtime.manual_handler = handler;
+      status("Яндекс: файл готов. Ваш клик Send будет проведён через exactly-once барьер.", "success", 0);
       return;
     }
-    await commitAndClick(entry, button);
+    await commitAndClick(entry, profile, target);
   }
 
   async function processEntry(entry) {
     const key = String(entry?.delivery_id || "");
     if (!key || runtime.in_flight.has(key) || entry.delivery_paused === true || runtime.local_pause_id === key) return;
     if (runtime.controller_id !== key || !runtime.controller || runtime.controller.signal.aborted) {
-      runtime.controller?.abort();
-      runtime.controller = new AbortController(); runtime.controller_id = key;
+      runtime.controller?.abort(); runtime.controller = new AbortController(); runtime.controller_id = key;
     }
     entry = { ...entry, delivery_signal: runtime.controller.signal };
     runtime.in_flight.add(key);
@@ -319,11 +452,10 @@
       if (entry.phase === "claimed") await processClaimed(entry);
       else if (entry.phase === "attachment_committed") await processAttachmentCommitted(entry);
       else if (entry.phase === "attachment_ready") await processReady(entry);
+      else if (entry.phase === "attachment_send_committed") await reconcileSendCommitted(entry, 0);
     } catch (error) {
       status(`Яндекс: файловая доставка остановлена безопасно — ${error.message || error}`, "error", 0);
-    } finally {
-      runtime.in_flight.delete(key);
-    }
+    } finally { runtime.in_flight.delete(key); }
   }
 
   async function poll() {
@@ -338,12 +470,13 @@
           showDeliveryControl(entry);
           if (entry.delivery_paused === true) { runtime.local_pause_id = entry.delivery_id; runtime.controller?.abort(); disarmManualSend(); }
           else await processEntry(entry);
-        } else { disarmManualSend(); removeDeliveryControl(); runtime.local_pause_id = null;
+        } else {
+          disarmManualSend(); removeDeliveryControl(); runtime.local_pause_id = null;
           runtime.controller?.abort(); runtime.controller = null; runtime.controller_id = null;
         }
       } else removeDeliveryControl();
-    } catch (error) {
-      // Worker/page can be restarting; bounded polling will retry without provider work.
+    } catch {
+      // Worker/page can be restarting; bounded polling retries state reads only.
     }
     if (current()) runtime.timer = setTimeout(poll, POLL_MS);
   }
@@ -354,8 +487,7 @@
     runtime.controller?.abort(); runtime.controller = null;
     removeDeliveryControl();
     if (runtime.timer) clearTimeout(runtime.timer);
-    runtime.timer = null;
-    disarmManualSend();
+    runtime.timer = null; disarmManualSend();
     const node = document.getElementById("ymb-file-delivery-status");
     if (node) node.remove();
     try { if (globalThis[RUNTIME_KEY] === runtime) delete globalThis[RUNTIME_KEY]; } catch {}
