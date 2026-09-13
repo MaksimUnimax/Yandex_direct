@@ -1,0 +1,79 @@
+name: YMB TEST-15 targeted real-Chrome regression v8
+on:
+  push:
+    branches: [qa/ymb-file-delivery-patch-prequal-2026-09-13]
+    paths:
+      - .github/workflows/ymb-file-delivery-test15-targeted-v8.yml
+      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/test15_targeted_real_chrome_v7.mjs
+permissions:
+  contents: read
+  actions: read
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  test15-targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-file-delivery-patch-prequalification
+          run-id: 34750853791
+          github-token: ${{ github.token }}
+          path: prequal
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify exact patched package and prepare venue
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,zipfile,os,json
+          H=lambda b:hashlib.sha256(b).hexdigest();meta=json.loads(Path('prequal/PREQUAL_PACKAGE_RESULT.json').read_text())
+          assert meta['source_commit']=='64c1016c179de52b6e950830877f0d42a446e5e8';assert meta['product_tree_sha256']=='55bc2082a697598187ded73a5eaf3b18fa6a4e007eec25319690e4c9bb480f24';assert meta['zip_sha256']=='3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e'
+          z=Path('prequal/Yandex-Marketing-Bridge-0.1.6-patched-prequal.zip');assert H(z.read_bytes())==meta['zip_sha256'];out=Path(os.environ['RUNNER_TEMP'])/'candidate';out.mkdir();rows=[]
+          with zipfile.ZipFile(z) as f:
+            assert f.testzip() is None
+            for e in f.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert len(p.parts)>=2 and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6' and '..' not in p.parts
+              rel='/'.join(p.parts[1:]);d=f.read(e);q=out/rel;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d);rows.append((rel,H(d)))
+          rows.sort();assert len(rows)==67;tree=H(''.join(h+'  '+p+'\n' for p,h in rows).encode());assert tree==meta['product_tree_sha256']
+          deps=Path(os.environ['RUNNER_TEMP'])/'deps';deps.mkdir();lock=Path('frozen-b17/package-lock.json');(deps/'package-lock.json').write_bytes(lock.read_bytes());j=json.loads(lock.read_text());(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          fixture=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_text();old="send.addEventListener('click',()=>{Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';";new="send.addEventListener('click',()=>{const sentText=composer.value;const sentFiles=Q.files.map(f=>({...f}));Q.sends.push({text:sentText,files:sentFiles});const turn=document.createElement('div');turn.dataset.messageAuthorRole='user';turn.dataset.messageId='fixture-user-'+Q.sends.length;turn.textContent=[sentText,...sentFiles.map(f=>f.name)].join(' ');document.getElementById('conversation-root').append(turn);composer.value='';";assert fixture.count(old)==1;fx=Path(os.environ['RUNNER_TEMP'])/'fixture.html';fx.write_text(fixture.replace(old,new));ev=Path(os.environ['RUNNER_TEMP'])/'evidence';ev.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_BROWSER_CANDIDATE={out}\nYMB_PRODUCT_TREE={tree}\nYMB_PPTR_HOME={deps}\nYMB_BROWSER_EVIDENCE={ev}\nYMB_CHATGPT_FIXTURE={fx}\n')
+          print(json.dumps(meta,indent=2))
+          PY
+          npm ci --prefix "$RUNNER_TEMP/deps" --no-audit --no-fund
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/test15_targeted_real_chrome_v7.mjs
+      - name: Run focused TEST-15 real-Chrome regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/test15_targeted_real_chrome_v7.mjs
+      - name: Show evidence
+        if: always()
+        shell: bash
+        run: |
+          cat "$YMB_BROWSER_EVIDENCE/TARGETED_RESULT.json" 2>/dev/null || true
+          cat "$YMB_BROWSER_EVIDENCE/targeted.jsonl" 2>/dev/null || true
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-test15-targeted-v8
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 30
+          if-no-files-found: error
