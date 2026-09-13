@@ -1,0 +1,142 @@
+name: YMB B19 real Chrome network and resource qualification
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b19-browser-resource.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b19-browser-resource
+  cancel-in-progress: false
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  network:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: eb16e1440d24c604cbe9e5268789d683a7158d85
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Prepare exact candidate and locked browser dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          ident=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in sorted(r.rglob('*')) if p.is_file()).encode())
+          assert ident=='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          assert len([p for p in r.rglob('*') if p.is_file()])==67
+          m=json.loads((r/'manifest.json').read_text());assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1
+          d=Path(os.environ['RUNNER_TEMP'])/'deps';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'network-evidence';e.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as x:x.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_BROWSER_EVIDENCE={e}\nYMB_CHATGPT_FIXTURE={Path("frozen-b17/tests/b15_fixture.html").resolve()}\n')
+          PY
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: Real Chrome deferred network Manual path
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Finalize network evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/network-publish";mkdir -p "$O";cp "$YMB_BROWSER_EVIDENCE"/*.jsonl "$O/" 2>/dev/null || true;cp "$YMB_BROWSER_EVIDENCE"/*.stdout "$O/" 2>/dev/null || true;cp "$YMB_BROWSER_EVIDENCE"/*.stderr "$O/" 2>/dev/null || true
+          cp extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs "$O/"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'network-publish';log=o/'browser.jsonl';rows=[json.loads(x) for x in log.read_text().splitlines()] if log.exists() else []
+          summary={'schema_version':1,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'cases':[{k:r.get(k) for k in ['case','status']} for r in rows],'pass':bool(rows) and all(r.get('status')=='PASS' for r in rows),'peak_rss_kib':max([r.get('peak_owned_rss_kib',0) or 0 for r in rows]+[0])}
+          (o/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(o.iterdir()) if p.is_file() and p.name!='SHA256SUMS'))
+          print(json.dumps(summary,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b19-browser-network-evidence
+          path: ${{ runner.temp }}/network-publish/
+          retention-days: 90
+          if-no-files-found: error
+  resource:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: eb16e1440d24c604cbe9e5268789d683a7158d85
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Retarget proven B17 resource harness to exact B19 identity only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          ident=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in sorted(r.rglob('*')) if p.is_file()).encode());assert ident=='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          src=Path('frozen-b17/tests/b17_browser.mjs').read_text();old='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';new='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';assert src.count(old)==1;src=src.replace(old,new)
+          q=Path(os.environ['RUNNER_TEMP'])/'resource-tests';q.mkdir();(q/'b17_browser_b19.mjs').write_text(src);(q/'b15_fixture.html').write_bytes(Path('frozen-b17/tests/b15_fixture.html').read_bytes())
+          d=Path(os.environ['RUNNER_TEMP'])/'deps';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'resource-evidence';e.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as x:x.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_BROWSER_EVIDENCE={e}\nYMB_RESOURCE_SCRIPT={q/"b17_browser_b19.mjs"}\n')
+          (e/'ADAPTATION.json').write_text(json.dumps({'qa_only':True,'source':'B17 exact resource harness','changed':'target tree guard only','old_tree':old,'new_tree':new,'adapted_sha256':H(src.encode())},indent=2)+'\n')
+          PY
+          node --check "$YMB_RESOURCE_SCRIPT"
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: Real Chrome repeated file/resource/1500/restart contour
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node "$YMB_RESOURCE_SCRIPT" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Finalize resource evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/resource-publish";mkdir -p "$O";cp "$YMB_BROWSER_EVIDENCE"/* "$O/" 2>/dev/null || true;cp "$YMB_RESOURCE_SCRIPT" "$O/"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'resource-publish';log=o/'browser.jsonl';rows=[json.loads(x) for x in log.read_text().splitlines()] if log.exists() else []
+          failures=[r for r in rows if r.get('status') not in ('PASS',)]
+          cleanup=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{})
+          summary={'schema_version':1,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'cases':len(rows),'failures':[{'case':r.get('case'),'status':r.get('status')} for r in failures],'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining_processes':cleanup.get('remaining'),'pass':bool(rows) and not failures}
+          (o/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(o.iterdir()) if p.is_file() and p.name!='SHA256SUMS'))
+          print(json.dumps(summary,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b19-browser-resource-evidence
+          path: ${{ runner.temp }}/resource-publish/
+          retention-days: 90
+          if-no-files-found: error
