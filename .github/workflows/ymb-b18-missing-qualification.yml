@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 75e2d0a844754374462de8de9ab405776bd77f33
+          ref: 4f973a981a2d11b40c1f94e4154f2d5bfe0bc54d
           persist-credentials: false
           fetch-depth: 1
           sparse-checkout: |
@@ -46,14 +46,16 @@ jobs:
           set -euo pipefail
           Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
           python3 "$Q/b18_prepare.py" frozen-b17 frozen-cleanup "$RUNNER_TEMP/b18-qa"
+          python3 "$Q/b18_fixture_recheck.py" "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
           node --check "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
           python3 - <<'PY'
           from pathlib import Path
-          import json,os
+          import json,os,hashlib
           r=Path(os.environ['RUNNER_TEMP']);d=r/'b18-deps';d.mkdir();b=r/'b18-qa'
           lock=(b/'package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock)
           obj=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':obj['name'],'private':True,'dependencies':obj['packages']['']['dependencies']}))
           (r/'b18-evidence').mkdir()
+          identity=json.loads((b/'IDENTITY.json').read_text());identity['generated_after_QA_only_fix']=hashlib.sha256((b/'tests/b18.generated.mjs').read_bytes()).hexdigest();(b/'IDENTITY.json').write_text(json.dumps(identity,indent=2)+'\n')
           with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_PPTR_HOME={d}\nYMB_BROWSER_CANDIDATE={b}/candidate\nYMB_BROWSER_EVIDENCE={r}/b18-evidence\n')
           PY
       - name: Same pinned qualified browser dependencies
@@ -74,7 +76,7 @@ jobs:
             if f.is_file() and f.suffix in ('.jsonl','.stdout','.stderr'):shutil.copyfile(f,p/f.name)
           if (t/'b18-qa/IDENTITY.json').is_file():shutil.copyfile(t/'b18-qa/IDENTITY.json',p/'IDENTITY.json')
           if (t/'b18-qa/tests').is_dir():shutil.copytree(t/'b18-qa/tests',p/'tests')
-          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'75e2d0a844754374462de8de9ab405776bd77f33','product_zip':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'live_provider_calls':0,'controlled_page':True,'owner_profile_used':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'4f973a981a2d11b40c1f94e4154f2d5bfe0bc54d','product_zip':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'live_provider_calls':0,'controlled_page':True,'owner_profile_used':False,'first_run_preserved':34731010004,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
           (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(p).as_posix()+'\n' for f in sorted(p.rglob('*')) if f.is_file()))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
