@@ -75,7 +75,9 @@
   function surfaceText(node) {
     if (!(node instanceof Element)) return "";
     const parts = [node.textContent || "", node.getAttribute("aria-label") || "", node.getAttribute("title") || ""];
-    for (const child of node.querySelectorAll('[aria-label], [title]')) parts.push(child.getAttribute("aria-label") || "", child.getAttribute("title") || "");
+    for (const child of node.querySelectorAll('[aria-label], [title]')) {
+      parts.push(child.getAttribute("aria-label") || "", child.getAttribute("title") || "");
+    }
     return parts.join(" ").replace(/\s+/g, " ").trim();
   }
 
@@ -84,7 +86,8 @@
     if (preview.matches('[aria-busy="true"], [data-state="loading"], [data-state="uploading"]')) return true;
     if (preview.querySelector('[aria-busy="true"], [role="progressbar"], [data-state="loading"], [data-state="uploading"], [data-testid*="uploading" i], [data-testid*="progress" i]')) return true;
     const text = surfaceText(preview);
-    return /(?:uploading|processing|preparing|загруз(?:ка|ается|ить)|обработ(?:ка|ывается)|подготов)/i.test(text) && /(?:cancel|progress|upload|processing|загруз|обработ|подготов)/i.test(text);
+    return /(?:uploading|processing|preparing|загруз(?:ка|ается|ить)|обработ(?:ка|ывается)|подготов)/i.test(text) &&
+      /(?:cancel|progress|upload|processing|загруз|обработ|подготов)/i.test(text);
   }
 
   function previewFailed(preview) {
