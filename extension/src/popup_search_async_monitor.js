@@ -3,18 +3,23 @@
 
   const DB_NAME = "ymb_search_async_items_v2";
   const MAX_INDEX = Number.MAX_SAFE_INTEGER;
-  const REFRESH_MS = 5000;
   const UNKNOWN_CONVERSATION = new Set(["", "не определён"]);
   const ACTION_MESSAGE = "YMB_ASYNC_POPUP_ACTION";
 
   const number = (value) => Number.isFinite(Number(value)) ? Number(value) : 0;
   const count = (counts, key) => Math.max(0, Math.trunc(number(counts?.[key])));
   const percent = (value, total) => total > 0 ? Math.max(0, Math.min(100, (value / total) * 100)) : 0;
-  const formatPercent = (value) => {
+  const request = (r) => new Promise((resolve, reject) => {
+    r.onsuccess = () => resolve(r.result);
+    r.onerror = () => reject(r.error || new Error("ASYNC_MONITOR_IDB_REQUEST_FAILED"));
+  });
+
+  function formatPercent(value) {
     const rounded = Math.round(value * 10) / 10;
     return Number.isInteger(rounded) ? `${rounded}%` : `${rounded.toFixed(1)}%`;
-  };
-  const formatDuration = (ms) => {
+  }
+
+  function formatDuration(ms) {
     const totalSeconds = Math.max(0, Math.floor(number(ms) / 1000));
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -22,7 +27,7 @@
     if (hours > 0) return `${hours}ч ${String(minutes).padStart(2, "0")}м`;
     if (minutes > 0) return `${minutes}м ${String(seconds).padStart(2, "0")}с`;
     return `${seconds}с`;
-  };
+  }
 
   function computeMetrics(snapshot) {
     const total = Math.max(0, Math.trunc(number(snapshot?.total)));
@@ -49,7 +54,7 @@
       terminal, remaining, issues, state,
       processed_percent: percent(terminal, total),
       success_percent: percent(succeeded, total),
-      result_row_count: Math.max(0, Math.trunc(number(snapshot?.result_row_count))),
+      result_row_count: Number.isFinite(Number(snapshot?.result_row_count)) ? Math.max(0, Math.trunc(Number(snapshot.result_row_count))) : null,
       normalized_items: Math.max(0, Math.trunc(number(snapshot?.normalized_items))),
       raw_items: Math.max(0, Math.trunc(number(snapshot?.raw_items)))
     };
@@ -68,17 +73,17 @@
   function actionAvailability(snapshot, now = Date.now(), inFlight = false) {
     const metrics = computeMetrics(snapshot);
     const hasJob = Boolean(snapshot?.job_id);
-    const due = Math.max(0, Math.trunc(number(snapshot?.due_count)));
+    const dueCount = Math.max(0, Math.trunc(number(snapshot?.due_count)));
     const next = number(snapshot?.next_poll_at);
     const waiting = metrics.waiting;
+    const dueNow = dueCount > 0 || (waiting > 0 && next > 0 && next <= now);
     const complete = metrics.total > 0 && metrics.terminal === metrics.total;
-    const collectEnabled = hasJob && !inFlight && waiting > 0 && due > 0;
+    const collectEnabled = hasJob && !inFlight && waiting > 0 && dueNow;
     let collectLabel = "Проверить результат";
-    if (!hasJob) collectLabel = "Проверить результат";
-    else if (inFlight) collectLabel = "Выполняется…";
-    else if (!waiting) collectLabel = "Нет ожидающих запросов";
-    else if (due <= 0 && next > now) collectLabel = `Проверить можно через ${formatDuration(next - now)}`;
-    else if (due <= 0) collectLabel = "Проверка пока недоступна";
+    if (inFlight) collectLabel = "Выполняется…";
+    else if (hasJob && !waiting) collectLabel = "Нет ожидающих запросов";
+    else if (hasJob && !dueNow && next > now) collectLabel = `Проверить можно через ${formatDuration(next - now)}`;
+    else if (hasJob && !dueNow) collectLabel = "Проверка пока недоступна";
     return {
       collect_enabled: collectEnabled,
       collect_label: collectLabel,
@@ -115,9 +120,7 @@
 
   async function openExistingDb() {
     const exists = await databaseExists();
-    if (exists === false) {
-      throw Object.assign(new Error("ASYNC_MONITOR_DB_MISSING"), { code: "ASYNC_MONITOR_DB_MISSING" });
-    }
+    if (exists === false) throw Object.assign(new Error("ASYNC_MONITOR_DB_MISSING"), { code: "ASYNC_MONITOR_DB_MISSING" });
     return new Promise((resolve, reject) => {
       let missing = false;
       const r = indexedDB.open(DB_NAME);
@@ -131,6 +134,7 @@
           reject(Object.assign(new Error("ASYNC_MONITOR_DB_MISSING"), { code: "ASYNC_MONITOR_DB_MISSING" }));
           return;
         }
+        r.result.onversionchange = () => r.result.close();
         resolve(r.result);
       };
       r.onerror = () => reject(Object.assign(r.error || new Error(missing ? "ASYNC_MONITOR_DB_MISSING" : "ASYNC_MONITOR_DB_OPEN_FAILED"), {
@@ -140,36 +144,51 @@
     });
   }
 
-  async function readonlyTransaction(db, names, work) {
+  async function latestJobForOwner(db, owner) {
     return new Promise((resolve, reject) => {
-      let result;
-      let failure;
-      const tx = db.transaction(names, "readonly");
-      tx.oncomplete = () => resolve(result);
-      tx.onabort = () => reject(failure || tx.error || new Error("ASYNC_MONITOR_IDB_ABORTED"));
-      tx.onerror = () => { failure ||= tx.error; };
-      Promise.resolve().then(() => work(tx)).then((value) => { result = value; }).catch((error) => {
-        failure = error;
-        try { tx.abort(); } catch { reject(error); }
-      });
-    });
-  }
-
-  async function latestJobForOwner(tx, owner) {
-    const store = tx.objectStore("jobs");
-    let selected = null;
-    await new Promise((resolve, reject) => {
+      const tx = db.transaction(["jobs"], "readonly");
+      const store = tx.objectStore("jobs");
+      let selected = null;
       const cursor = store.openCursor();
       cursor.onerror = () => reject(cursor.error || new Error("ASYNC_MONITOR_JOB_CURSOR_FAILED"));
       cursor.onsuccess = () => {
         const c = cursor.result;
-        if (!c) { resolve(); return; }
+        if (!c) { resolve(selected); return; }
         const job = c.value;
         if (job?.owner === owner && (!selected || number(job.updated_at) > number(selected.updated_at))) selected = job;
         c.continue();
       };
+      tx.onabort = () => reject(tx.error || new Error("ASYNC_MONITOR_JOB_TX_ABORTED"));
     });
-    return selected;
+  }
+
+  async function boundedCounts(db, job, now) {
+    const jobId = String(job.job_id || "");
+    const tx = db.transaction(["items", "results"], "readonly");
+    const items = tx.objectStore("items");
+    const results = tx.objectStore("results");
+    const due = items.index("due");
+    const itemRange = IDBKeyRange.bound([jobId, 0], [jobId, MAX_INDEX]);
+    const dueRange = IDBKeyRange.bound([jobId, "WAITING", 1, 0], [jobId, "WAITING", Math.max(1, Math.trunc(now)), MAX_INDEX]);
+    const waitingRange = IDBKeyRange.bound([jobId, "WAITING", 1, 0], [jobId, "WAITING", MAX_INDEX, MAX_INDEX]);
+
+    // Critical memory rule: count/index lookup only. Never open a results cursor and
+    // never materialize raw_text / normalized.results inside the popup renderer.
+    const itemCountReq = items.count(itemRange);
+    const dueCountReq = due.count(dueRange);
+    const nextReq = due.get(waitingRange);
+    const resultCountReq = results.count(itemRange);
+    const [itemCount, dueCount, nextWaiting, rawItems] = await Promise.all([
+      request(itemCountReq), request(dueCountReq), request(nextReq), request(resultCountReq)
+    ]);
+    return {
+      item_count: Math.max(0, Math.trunc(number(itemCount))),
+      due_count: Math.max(0, Math.trunc(number(dueCount))),
+      next_poll_at: Math.max(0, number(nextWaiting?.next_poll_at)),
+      raw_items: Math.max(0, Math.trunc(number(rawItems))),
+      normalized_items: count(job.counts || {}, "SUCCEEDED"),
+      result_row_count: null
+    };
   }
 
   async function snapshotForOwner(owner, now = Date.now()) {
@@ -177,70 +196,22 @@
     const db = await openExistingDb();
     try {
       if (!["jobs", "items", "results"].every((name) => db.objectStoreNames.contains(name))) return null;
-      return await readonlyTransaction(db, ["jobs", "items", "results"], async (tx) => {
-        const job = await latestJobForOwner(tx, owner);
-        if (!job) return null;
-        const jobId = String(job.job_id || "");
-        let nextPollAt = 0;
-        let dueCount = 0;
-        let itemCount = 0;
-        const items = tx.objectStore("items");
-        const itemCursor = items.openCursor(IDBKeyRange.bound([jobId, 0], [jobId, MAX_INDEX]));
-        await new Promise((resolve, reject) => {
-          itemCursor.onerror = () => reject(itemCursor.error || new Error("ASYNC_MONITOR_ITEM_CURSOR_FAILED"));
-          itemCursor.onsuccess = () => {
-            const c = itemCursor.result;
-            if (!c) { resolve(); return; }
-            const item = c.value;
-            itemCount += 1;
-            if (item?.state === "WAITING") {
-              const at = number(item.next_poll_at);
-              if (at > 0 && (!nextPollAt || at < nextPollAt)) nextPollAt = at;
-              if (at > 0 && at <= now) dueCount += 1;
-            }
-            c.continue();
-          };
-        });
-
-        let resultRowCount = 0;
-        let normalizedItems = 0;
-        let rawItems = 0;
-        const results = tx.objectStore("results");
-        const resultCursor = results.openCursor(IDBKeyRange.bound([jobId, 0], [jobId, MAX_INDEX]));
-        await new Promise((resolve, reject) => {
-          resultCursor.onerror = () => reject(resultCursor.error || new Error("ASYNC_MONITOR_RESULT_CURSOR_FAILED"));
-          resultCursor.onsuccess = () => {
-            const c = resultCursor.result;
-            if (!c) { resolve(); return; }
-            const record = c.value;
-            if (typeof record?.raw_text === "string") rawItems += 1;
-            if (Array.isArray(record?.normalized?.results)) {
-              normalizedItems += 1;
-              resultRowCount += record.normalized.results.length;
-            }
-            c.continue();
-          };
-        });
-
-        return {
-          job_id: jobId,
-          control: String(job.control || ""),
-          total: Math.max(0, Math.trunc(number(job.total))),
-          counts: { ...(job.counts || {}) },
-          requests_started: Math.max(0, Math.trunc(number(job.requests_started))),
-          operations_accepted: Math.max(0, Math.trunc(number(job.operations_accepted))),
-          polls_started: Math.max(0, Math.trunc(number(job.polls_started))),
-          revision: Math.max(0, Math.trunc(number(job.revision))),
-          created_at: Math.max(0, number(job.created_at)),
-          updated_at: Math.max(0, number(job.updated_at)),
-          next_poll_at: nextPollAt,
-          due_count: dueCount,
-          item_count: itemCount,
-          raw_items: rawItems,
-          normalized_items: normalizedItems,
-          result_row_count: resultRowCount
-        };
-      });
+      const job = await latestJobForOwner(db, owner);
+      if (!job) return null;
+      const light = await boundedCounts(db, job, now);
+      return {
+        job_id: String(job.job_id || ""),
+        control: String(job.control || ""),
+        total: Math.max(0, Math.trunc(number(job.total))),
+        counts: { ...(job.counts || {}) },
+        requests_started: Math.max(0, Math.trunc(number(job.requests_started))),
+        operations_accepted: Math.max(0, Math.trunc(number(job.operations_accepted))),
+        polls_started: Math.max(0, Math.trunc(number(job.polls_started))),
+        revision: Math.max(0, Math.trunc(number(job.revision))),
+        created_at: Math.max(0, number(job.created_at)),
+        updated_at: Math.max(0, number(job.updated_at)),
+        ...light
+      };
     } finally {
       try { db.close(); } catch {}
     }
@@ -280,6 +251,7 @@
     addRow(section, "Следующая проверка", "searchAsyncNextPoll");
     addRow(section, "Прошло", "searchAsyncElapsed");
     addRow(section, "Локальная ревизия", "searchAsyncRevision");
+
     const actions = el("div", "", "actions");
     const refresh = el("button", "Обновить статус");
     refresh.id = "searchAsyncRefresh";
@@ -294,11 +266,12 @@
     exportButton.disabled = true;
     actions.append(refresh, collect, exportButton);
     section.append(actions);
+
     const actionStatus = el("p", "", "warning");
     actionStatus.id = "searchAsyncActionStatus";
     actionStatus.hidden = true;
     section.append(actionStatus);
-    section.append(el("p", "Статус читается только из локального job. Запрос к Яндексу или экспорт запускается только явным нажатием соответствующей кнопки.", "warning"));
+    section.append(el("p", "Статус читается безопасно: без автоматического сканирования result payload. Обновление — при открытии, смене диалога, после действия или по кнопке.", "warning"));
 
     const sections = Array.from(document.querySelectorAll("main > section"));
     const runSection = sections.find((node) => node.querySelector("h2")?.textContent?.trim() === "Текущий запуск");
@@ -381,7 +354,7 @@
     setText("searchAsyncWaiting", metrics.waiting);
     setText("searchAsyncPendingWorking", `${metrics.pending} / ${metrics.working}`);
     setText("searchAsyncIssues", `${metrics.failed + metrics.parse_failed} / ${metrics.unknown}`);
-    setText("searchAsyncRows", metrics.result_row_count);
+    setText("searchAsyncRows", metrics.result_row_count === null ? "— (без чтения payload)" : metrics.result_row_count);
     setText("searchAsyncNormalized", `${metrics.normalized_items} / ${metrics.total}`);
     setText("searchAsyncNextPoll", formatNextCheck(snapshot, now));
     setText("searchAsyncElapsed", snapshot.created_at ? formatDuration(now - snapshot.created_at) : "—");
@@ -438,22 +411,26 @@
   }
 
   function bootstrap() {
+    if (globalThis.__YMB_ASYNC_MONITOR_BOOTSTRAPPED__ === true) return;
+    globalThis.__YMB_ASYNC_MONITOR_BOOTSTRAPPED__ = true;
     installSection();
     document.getElementById("searchAsyncRefresh")?.addEventListener("click", () => { void refreshSnapshot(); });
     document.getElementById("searchAsyncCollectOne")?.addEventListener("click", () => { void runPopupAction("collect_one"); });
     document.getElementById("searchAsyncExport")?.addEventListener("click", () => { void runPopupAction("export_page"); });
-    let previousOwner = "";
-    setInterval(() => {
+
+    let previousOwner = currentConversationKey();
+    const uiTimer = setInterval(() => {
       const owner = currentConversationKey();
-      if (owner && owner !== previousOwner) {
+      if (owner !== previousOwner) {
         previousOwner = owner;
         setActionStatus("");
-        void refreshSnapshot();
+        if (owner) void refreshSnapshot();
+        else render(null);
       }
       if (latestSnapshot) render(latestSnapshot, Date.now());
       else renderActions(Date.now());
     }, 1000);
-    setInterval(() => { if (currentConversationKey()) void refreshSnapshot(); }, REFRESH_MS);
+    window.addEventListener("pagehide", () => clearInterval(uiTimer), { once: true });
     void refreshSnapshot();
   }
 
