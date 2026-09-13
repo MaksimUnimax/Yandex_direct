@@ -1,0 +1,80 @@
+name: YMB popup memory bounded qualification v4
+on:
+  push:
+    branches: [qa/ymb-popup-memory-bounded-v2-2026-09-13]
+    paths: [.github/workflows/ymb-popup-memory-bounded-qualification-v4.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  YMB_OLD_SHA: 404dd03874e5df80a95bc6cec1e6967bb71de405
+  YMB_PRODUCT_SHA: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  memory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Prepare exact candidate and memory lifecycle harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t changed < <(git diff --name-only "$YMB_OLD_SHA" "$YMB_PRODUCT_SHA" -- extension/src)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = extension/src/popup_search_async_monitor.js
+          mkdir -p "$RUNNER_TEMP/old" "$RUNNER_TEMP/new" "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/deps"
+          git archive "$YMB_OLD_SHA" extension/src | tar -x -C "$RUNNER_TEMP/old"
+          git archive "$YMB_PRODUCT_SHA" extension/src | tar -x -C "$RUNNER_TEMP/new"
+          find "$RUNNER_TEMP/new/extension/src" -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          old=(Path(os.environ['RUNNER_TEMP'])/'old/extension/src/popup_search_async_monitor.js').read_text();new=(Path(os.environ['RUNNER_TEMP'])/'new/extension/src/popup_search_async_monitor.js').read_text()
+          assert 'results.openCursor' in old and 'REFRESH_MS = 5000' in old
+          assert 'results.openCursor' not in new and 'REFRESH_MS' not in new and new.count('setInterval(')==1
+          src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/popup_memory_bounded_real_chrome.mjs').read_text()
+          refresh_old="for(let i=0;i<100;i++){await page.evaluate(()=>document.getElementById('searchAsyncRefresh').click());await waitButton(page);}"
+          refresh_new="for(let i=0;i<100;i++){const expected=(await page.evaluate(()=>__ymbMemQA.result_count))+1;await page.evaluate(owner=>{document.getElementById('conversationMeta').textContent=owner;document.getElementById('searchAsyncRefresh').click();},OWNER);await page.waitForFunction(expected=>__ymbMemQA.result_count>=expected,{timeout:20000},expected);await waitButton(page);}"
+          assert src.count(refresh_old)==1;src=src.replace(refresh_old,refresh_new)
+          start=src.index("    await page.close();const reopenBase=rssTree(pid);let peak=reopenBase.rss_kib;")
+          end_marker="    emit({case:'fixed_100_popup_open_close_cycles_bounded',status:'PASS',baseline_rss_kib:reopenBase.rss_kib,after_rss_kib:reopenAfter.rss_kib,peak_rss_kib:peak,emergency_limit_kib:2097152});"
+          end=src.index(end_marker,start)+len(end_marker)
+          replacement="""    await page.close();await delay(1000);const reopenBase=rssTree(pid);let peak=reopenBase.rss_kib;\n    const lifecycle=await browser.newPage();await installCounters(lifecycle);\n    for(let i=0;i<100;i++){\n      await lifecycle.goto(`chrome-extension://${id}/popup.html`,{waitUntil:'load',timeout:20000});await waitButton(lifecycle);\n      await lifecycle.evaluate(owner=>{document.getElementById('conversationMeta').textContent=owner;document.getElementById('searchAsyncRefresh').click();},OWNER);await waitButton(lifecycle);\n      const c=await lifecycle.evaluate(()=>({...__ymbMemQA}));assert.equal(c.result_open_cursor,0,JSON.stringify(c));\n      await lifecycle.goto('about:blank',{waitUntil:'load',timeout:20000});\n      if(i%10===0){const r=rssTree(pid);peak=Math.max(peak,r.rss_kib);}\n    }\n    await lifecycle.close();await delay(1500);const reopenAfter=rssTree(pid);const lifecycleDelta=reopenAfter.rss_kib-reopenBase.rss_kib;\n    emit({case:'popup_lifecycle_memory_diagnostic',status:'DIAGNOSTIC',baseline_rss_kib:reopenBase.rss_kib,after_rss_kib:reopenAfter.rss_kib,delta_rss_kib:lifecycleDelta,peak_rss_kib:peak});\n    assert.ok(reopenAfter.rss_kib<2097152,JSON.stringify(reopenAfter));assert.ok(peak<2097152,JSON.stringify({peak}));assert.ok(lifecycleDelta<262144,JSON.stringify({reopenBase,reopenAfter,lifecycleDelta}));\n    emit({case:'fixed_100_popup_open_close_cycles_bounded',status:'PASS',baseline_rss_kib:reopenBase.rss_kib,after_rss_kib:reopenAfter.rss_kib,delta_rss_kib:lifecycleDelta,peak_rss_kib:peak,emergency_limit_kib:2097152});"""
+          src=src[:start]+replacement+src[end:]
+          q=Path(os.environ['RUNNER_TEMP'])/'popup-memory-v6.mjs';q.write_text(src)
+          PY
+          node --check "$RUNNER_TEMP/popup-memory-v6.mjs"
+          cp frozen-b17/package-lock.json "$RUNNER_TEMP/deps/package-lock.json"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          d=Path(os.environ['RUNNER_TEMP'])/'deps';j=json.loads((d/'package-lock.json').read_text());(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f"YMB_OLD_ROOT={Path(os.environ['RUNNER_TEMP'])/'old/extension/src'}\nYMB_NEW_ROOT={Path(os.environ['RUNNER_TEMP'])/'new/extension/src'}\nYMB_PPTR_HOME={d}\nYMB_MEMORY_EVIDENCE={Path(os.environ['RUNNER_TEMP'])/'evidence'}\nYMB_MEMORY_HARNESS={Path(os.environ['RUNNER_TEMP'])/'popup-memory-v6.mjs'}\n")
+          PY
+      - name: Install locked Puppeteer
+        shell: bash
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_MEMORY_EVIDENCE/npm.stdout" 2> "$YMB_MEMORY_EVIDENCE/npm.stderr"
+      - name: Real Chrome memory proof including 100 popup document lifecycles
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$YMB_MEMORY_HARNESS" "$YMB_MEMORY_EVIDENCE/harness.mjs"
+          xvfb-run -a node "$YMB_MEMORY_HARNESS" > "$YMB_MEMORY_EVIDENCE/run.stdout" 2> "$YMB_MEMORY_EVIDENCE/run.stderr"
+          cat "$YMB_MEMORY_EVIDENCE/RESULT.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-popup-memory-bounded-evidence-v4
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 90
+          if-no-files-found: error
