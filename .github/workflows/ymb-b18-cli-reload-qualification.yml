@@ -1,0 +1,93 @@
+name: YMB B18 CLI runtime reload qualification (not release)
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b18-cli-reload-qualification.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b18-cli-reload
+  cancel-in-progress: false
+jobs:
+  reload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 24607b3562d48fbbbb281a2b67ba19e796cd7858
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify exact B17 package and prepare locked QA dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,zipfile,json,os
+          h=lambda b:hashlib.sha256(b).hexdigest()
+          f=Path('frozen-b17')
+          for line in (f/'SHA256SUMS').read_text().splitlines():
+            digest,n=line.split('  ',1);p=PurePosixPath(n);assert not p.is_absolute() and '..' not in p.parts;assert h((f/n).read_bytes())==digest
+          z=f/'candidate-b17-internal.zip';assert z.stat().st_size==225660;assert h(z.read_bytes())=='1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1'
+          root=Path(os.environ['RUNNER_TEMP'])/'b18-cli-candidate';root.mkdir()
+          with zipfile.ZipFile(z) as a:
+            assert a.testzip() is None
+            files={}
+            for e in a.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and len(p.parts)>=2
+              n='/'.join(p.parts[1:]);assert n not in files;files[n]=a.read(e)
+          assert len(files)==67
+          ident=h(''.join(h(v)+'  '+n+'\n' for n,v in sorted(files.items())).encode());assert ident=='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508'
+          for n,b in files.items():p=root/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b)
+          deps=Path(os.environ['RUNNER_TEMP'])/'b18-cli-deps';deps.mkdir();lock=(f/'package-lock.json').read_bytes();(deps/'package-lock.json').write_bytes(lock);j=json.loads(lock);(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          ev=Path(os.environ['RUNNER_TEMP'])/'b18-cli-evidence';ev.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as x:
+            x.write(f'YMB_BROWSER_CANDIDATE={root}\nYMB_PPTR_HOME={deps}\nYMB_BROWSER_EVIDENCE={ev}\n')
+          PY
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b18_cli_reload_case.mjs
+      - name: Reuse locked Puppeteer and Chrome for Testing
+        shell: bash
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+      - name: Runtime reload via one CLI load and extension action API
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b18_cli_reload_case.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Preserve exact evidence without browser profile
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib,json,shutil
+          ev=Path(os.environ['YMB_BROWSER_EVIDENCE']);out=Path(os.environ['RUNNER_TEMP'])/'b18-cli-publish';out.mkdir(exist_ok=True)
+          for p in ev.iterdir():
+            if p.is_file():shutil.copyfile(p,out/p.name)
+          q=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b18_cli_reload_case.mjs');shutil.copyfile(q,out/q.name)
+          (out/'BOUNDARY.json').write_text(json.dumps({'qa_source_ref':'24607b3562d48fbbbb281a2b67ba19e796cd7858','product_tree':'b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508','package_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','production_changes':0,'single_install':'CLI only','popup_open':'Puppeteer Extension.triggerAction','direct_extension_navigation_after_reload':False,'live_provider_calls':0,'owner_profile_touched':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(out.iterdir()) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b5b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b18-cli-reload-evidence
+          path: ${{ runner.temp }}/b18-cli-publish/
+          retention-days: 90
+          if-no-files-found: error
