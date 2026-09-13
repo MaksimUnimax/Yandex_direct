@@ -1,0 +1,77 @@
+name: YMB B19 exact Node classification
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b19-node-classification.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ymb-b19-node-classification
+  cancel-in-progress: false
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: fd799a9f208869e547468b33696b50449686a83a
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: ready-b17
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b14-qualified-internal-only
+          run-id: 34692833348
+          github-token: ${{ github.token }}
+          path: ready-b14
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Run preserved full Node campaign on exact B19 bytes
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
+          rm -rf "$RUNNER_TEMP/b19-node"
+          python3 "$Q/b19_node_campaign.py" "$PWD" "$Q/b14_inputs/owner014" ready-b17 ready-b14 "$RUNNER_TEMP/b19-node" > "$RUNNER_TEMP/b19.stdout" 2> "$RUNNER_TEMP/b19.stderr" || true
+      - name: Classify result and fail only after evidence preservation
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/b19-evidence"
+          cp "$RUNNER_TEMP/b19.stdout" "$RUNNER_TEMP/b19-evidence/" || true
+          cp "$RUNNER_TEMP/b19.stderr" "$RUNNER_TEMP/b19-evidence/" || true
+          cp -a "$RUNNER_TEMP/b19-node"/. "$RUNNER_TEMP/b19-evidence/" || true
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os,hashlib
+          out=Path(os.environ['RUNNER_TEMP'])/'b19-evidence'; r=out/'RESULT.json'
+          result=json.loads(r.read_text()) if r.exists() else {'status':'FAIL_HARNESS','reason':'RESULT_MISSING'}
+          (out/'SUMMARY.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+          (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(out).as_posix()+'\n' for p in sorted(out.rglob('*')) if p.is_file() and p.name!='SHA256SUMS'))
+          print(json.dumps(result,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-b19-node-classification
+          path: ${{ runner.temp }}/b19-evidence/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Enforce classification status
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os,sys
+          p=Path(os.environ['RUNNER_TEMP'])/'b19-evidence/SUMMARY.json';r=json.loads(p.read_text());
+          raise SystemExit(0 if r.get('status')=='PASS_AVAILABLE_NODE_SCOPE' else 2)
+          PY
