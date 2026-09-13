@@ -1,4 +1,4 @@
-name: YMB B19 real Chrome deferred network v5
+name: YMB B19 real Chrome deferred network v6
 on:
   push:
     branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 8db9f8845d381f69360b002cfd893bb46a814999
+          ref: 276058bd489f5cf9c70eeaec5ac8e4bd129105d8
           persist-credentials: false
           fetch-depth: 1
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -62,13 +62,15 @@ jobs:
           o=Path(os.environ['RUNNER_TEMP'])/'network-publish';p=o/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
           failures=[{'case':r.get('case'),'status':r.get('status')} for r in rows if str(r.get('status','')).startswith('FAIL')]
           cleanup=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{})
-          result={'schema_version':5,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'controlled_provider_only':True,'cases':len(rows),'failures':failures,'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining':cleanup.get('remaining'),'pass':bool(rows) and not failures and not(cleanup.get('remaining') or [])}
+          required={'exact_0_1_6_installed','manual_start_zero_network','manual_submit_exact_searchAsync_POST','manual_collect_exact_operation_GET_and_normalize','command_injection_cannot_override_provider_origin_or_credential','manual_disabled_blocks_before_network','unknown_submit_never_auto_retries','b19_network_campaign_identity','owned_browser_cleanup'}
+          present={r.get('case') for r in rows}
+          result={'schema_version':6,'product_tree':'b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86','version':'0.1.6','real_provider_calls':0,'controlled_provider_only':True,'cases':len(rows),'required_cases_present':sorted(required & present),'missing_required_cases':sorted(required-present),'failures':failures,'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining':cleanup.get('remaining'),'pass':required<=present and not failures and not(cleanup.get('remaining') or [])}
           (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(o.iterdir()) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: ymb-b19-browser-network-v5-evidence
+          name: ymb-b19-browser-network-v6-evidence
           path: ${{ runner.temp }}/network-publish/
           retention-days: 90
           if-no-files-found: error
