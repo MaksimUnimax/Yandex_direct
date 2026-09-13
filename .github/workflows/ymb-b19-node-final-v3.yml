@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: a5a0ec9616871cbd5c1bfbd3da5e9d9b49342abd
+          ref: 2a8732df46d909ffdd93da319628ed1a7408ede8
           persist-credentials: false
           fetch-depth: 1
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_node_campaign.py "$PWD" "$PWD/classification" "$RUNNER_TEMP/b19-final"
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_node_campaign_v2.py "$PWD" "$PWD/classification" "$RUNNER_TEMP/b19-final"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
