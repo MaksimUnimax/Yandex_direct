@@ -64,7 +64,21 @@
     return delta <= 0 ? "можно сейчас" : `через ${formatDuration(delta)}`;
   }
 
-  function openExistingDb() {
+  async function databaseExists() {
+    if (typeof indexedDB.databases !== "function") return null;
+    try {
+      const databases = await indexedDB.databases();
+      return Array.isArray(databases) ? databases.some((entry) => entry?.name === DB_NAME) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function openExistingDb() {
+    const exists = await databaseExists();
+    if (exists === false) {
+      throw Object.assign(new Error("ASYNC_MONITOR_DB_MISSING"), { code: "ASYNC_MONITOR_DB_MISSING" });
+    }
     return new Promise((resolve, reject) => {
       let missing = false;
       const r = indexedDB.open(DB_NAME);
