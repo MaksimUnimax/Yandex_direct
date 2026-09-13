@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "archive_sha256": "8d12495ab38d5f59517c05d831c814e690e37dab69ade0ff68214b13428444d3",
+  "archive_bytes": 70152,
+  "archive_members": 172,
+  "parts": [
+    {
+      "name": "part-001.bin",
+      "bytes": 50000,
+      "sha256": "66c9da537365df2b1574bc0488110dabd5abf265823543eeb2e2d936d486cc67"
+    },
+    {
+      "name": "part-002.bin",
+      "bytes": 20152,
+      "sha256": "aa79c48db56ccca9e19ff4265ceff5867ef910dd2d5923e4e18bf1d3123007d7"
+    }
+  ],
+  "product_tree": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
+  "product_zip_sha256": "1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1"
+}
