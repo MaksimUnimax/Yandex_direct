@@ -84,7 +84,7 @@ jobs:
           (out/'BOUNDARY.json').write_text(json.dumps({'qa_source_ref':'24607b3562d48fbbbb281a2b67ba19e796cd7858','product_tree':'b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508','package_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','production_changes':0,'single_install':'CLI only','popup_open':'Puppeteer Extension.triggerAction','direct_extension_navigation_after_reload':False,'live_provider_calls':0,'owner_profile_touched':False,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
           (out/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(out.iterdir()) if p.is_file()))
           PY
-      - uses: actions/upload-artifact@ea165f8d65b5b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: ymb-b18-cli-reload-evidence
