@@ -1,17 +1,16 @@
 {
-  "schema_version": 26,
+  "schema_version": 27,
   "date": "2026-09-13",
   "owner_instruction": "Build and qualify the complete installable extension including network-enabled deferred Search. Persist every material code/QA/raw/cursor block. Never hand off an unverified ZIP and never restart completed A/B1-B18 work.",
   "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
   "current_unit": "PATCH_B_B19_FULL_0_1_6_NETWORK_ENABLED_RELEASE_QUALIFICATION",
-  "current_unit_state": "PRODUCTION_MATERIALIZED;NODE_GATE_PASS;REAL_CHROME_RESOURCE_AND_DEFERRED_NETWORK_GATES_IN_PROGRESS",
+  "current_unit_state": "PRODUCTION_MATERIALIZED;NODE_GATE_PASS;DEFERRED_NETWORK_CHROME_PASS;RESOURCE_CHROME_V5_IN_PROGRESS",
   "prior_complete_unit": "B18",
   "production": {
     "version": "0.1.6",
     "tree_sha256": "b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86",
     "files": 67,
     "preimage_tree_sha256": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
-    "preimage_package_sha256": "1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1",
     "changed_files_from_b17": ["README.md","README.txt","manifest.json","package.json","popup.html","shared/product.js","shared/webmaster_protocol.js"],
     "unchanged_files_from_b17": 60,
     "operation_host_enabled": true,
@@ -20,71 +19,50 @@
     "deferred_mode": "MANUAL_ONLY",
     "background_deferred_polling": false
   },
-  "materialization": {
-    "source_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B19_MATERIALIZATION.json",
-    "materialization_commit": "fd99ff78d42da4e22e17b383034aa2d913a86e70",
-    "first_run": "FAIL_HARNESS_BAD_EXPECTED_PREIMAGE_HASH_BEFORE_PRODUCT_WRITE",
-    "second_run": "PASS",
-    "intended_diff_only": true
-  },
   "node_gate": {
     "status": "PASS",
     "checkpoint": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_NODE_GATE_CHECKPOINT.md",
     "canonical_run_id": 34735461440,
     "artifact_id": 10311260104,
-    "artifact_name": "ymb-b19-canonical-final-node",
     "artifact_sha256": "751d58bab286e4b81bd5171b0e365e26da4323dac4c642551375b83dbceeb13a",
     "results": {"original":132,"wordstat_debug_backup":78,"full_network_contract":99,"modules":254,"export":84,"delivery_recovery":69,"js_syntax":61},
-    "failed_skipped_cancelled": 0,
-    "controlled_provider_only": true,
-    "live_provider_calls": 0
-  },
-  "browser_resource_gate": {
-    "status": "RERUN_IN_PROGRESS_AFTER_QA_FIX",
-    "first_full_run_id": 34735984608,
-    "first_full_artifact_id": 10311266408,
-    "qualified_observed": {
-      "file_1500_profile_restart_cases": 16,
-      "file_fault_isolation_cases": 11,
-      "qualification_failures": 0,
-      "fault_product_failures": 0,
-      "qualification_peak_owned_rss_kib": 1873800,
-      "fault_peak_owned_rss_kib": 1853904,
-      "remaining_processes": 0,
-      "emergency_limit_kib": 2097152
-    },
-    "first_run_pause_failure": "FAIL_HARNESS_BEFORE_BROWSER_ASSERTION: QA adapter one-line if prevented B19 tree guard replacement",
-    "qa_fix_commit": "e83197e30d5e47338a12974d687defe60fb7452c",
-    "current_rerun_id": 34736808939,
-    "rule": "RECORDED informational memory rows are not FAIL; pause/recovery must execute on exact B19 bytes before PASS"
+    "failed_skipped_cancelled": 0
   },
   "browser_deferred_network_gate": {
-    "status": "DIAGNOSTIC_RERUN_IN_PROGRESS",
-    "prior_run_id": 34735957431,
-    "prior_artifact_id": 10311087339,
-    "installed_provider_enabled": true,
-    "manual_start_zero_network": "PASS",
-    "first_submit_result": "REPORT_NOT_SENT; later cases cascaded and are not independently classified",
+    "status": "PASS",
+    "checkpoint": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B19_NETWORK_GATE_CHECKPOINT.md",
+    "canonical_run_id": 34737190955,
+    "artifact_id": 10311158854,
+    "artifact_name": "ymb-b19-browser-network-v6-evidence",
+    "artifact_sha256": "ea8638d701b28ec22acaca0cefe9fd22ec7c555cca570811134015ccd294d4f2",
+    "verified": ["start_zero_network","searchAsync_POST_fixed_origin","operation_GET_fixed_origin","operation_id_persisted","raw_saved_and_normalized","command_injection_fail_closed","manual_disabled_zero_network","UNKNOWN_one_attempt_no_auto_retry","normal_report_delivery"],
     "controlled_provider_only": true,
-    "live_provider_calls": 0,
-    "diagnostic_change": "Capture worker manual-operation/outbox/job/item/fetch hits and DOM delivery state at first submit failure; stop dependent cases after submit failure",
-    "diagnostic_commit": "2847c24d387ff619a798b84f2a65582e30b27126",
-    "current_rerun_id": 34736797155
+    "real_provider_calls": 0,
+    "real_owner_credentials_used": false,
+    "product_changes_for_gate_fixes": 0
+  },
+  "browser_resource_gate": {
+    "status": "V5_IN_PROGRESS",
+    "current_run_id": 34737124544,
+    "prior_qualified_observed": {"qualification_cases":16,"fault_cases":11,"qualification_peak_owned_rss_kib":1880532,"remaining_processes":0,"emergency_limit_kib":2097152},
+    "v4_pause_result": "seven pause/restart cases PASS; one QA-only pause-write synthetic fixture waited for a chunk while composer was deliberately occupied",
+    "qa_fix": "restored original pause-write-failure test semantics; no product source change",
+    "required_for_pass": "qualification/fault/pause groups all execute, zero FAIL markers, no remaining processes, peak below emergency safety limit"
   },
   "current_qa_only_changes": {
     "product_files_changed_after_materialization": 0,
-    "resource_adapter_fix": "Python control-flow fix so intended deterministic B19 QA adaptation actually executes",
-    "network_diagnostics": "Failure-state capture only; no product behavior change",
-    "resource_workflow_commit": "9b2fbf787c9492def7b80b1dd0419ecae7132685",
-    "network_workflow_commit": "98a22848b823dfb65de3cae8bb7c2bb49c8381fe"
+    "network_fixture_send_rearm": "controlled fixture re-creates Send before a new report like real ChatGPT; product unchanged",
+    "network_cross_realm_key_fix": "owner key passed explicitly into worker.evaluate; product unchanged",
+    "resource_adapter_control_flow_fix": "intended B19 tree adaptation executes; product unchanged",
+    "resource_pause_write_fixture_fix": "removed impossible wait for chunk while occupied composer intentionally blocks materialization; product unchanged"
   },
   "next_scope": [
-    "Read network diagnostic rerun 34736797155 and classify first submit failure by actual worker/outbox/job/fetch state",
-    "Read resource rerun 34736808939; require pause/recovery group to execute and all product FAIL markers to be zero",
-    "If a real product defect is reproduced, patch the smallest affected production dependency and re-run every affected Node/browser/resource gate",
-    "If failures are harness-only, preserve RED evidence and fix QA only",
-    "After browser gates PASS, build deterministic exact 0.1.6 owner ZIP from the accepted tree and run fresh-extraction/package identity regression",
-    "Then prepare independent Codex pre-delivery gate prompt for the exact final 0.1.6 bytes; no earlier B17/B18 verdict transfers automatically"
+    "Read resource v5 run 34737124544 and require full PASS",
+    "Build deterministic owner-installable 0.1.6 ZIP only after resource PASS",
+    "Fresh-extract the exact ZIP, verify 67 paths and tree SHA b87246..., run package-sensitive Node and Chrome smoke/resource checks on extracted bytes",
+    "Persist final package SHA/bytes and complete B19 raw evidence",
+    "Prepare and run independent Codex pre-delivery gate against the exact final 0.1.6 package; no B17/B18 independent verdict transfers",
+    "Do not use owner credentials or make paid/live Yandex calls without separate explicit authorization"
   ],
   "real_provider_calls": 0,
   "real_owner_credentials_used": false,
