@@ -186,7 +186,13 @@
     if (owned.error) return owned.error;
     if (owned.entry.phase === "committed") return { ok: true, already_confirmed: true, outbox: owned.entry };
     if (owned.entry.phase !== SEND_COMMITTED_PHASE) return { ok: false, code: "ATTACHMENT_SEND_NOT_COMMITTED" };
-    const next = await putOutbox(owned.key, { ...owned.entry, phase: "committed", committed_at: nowIso(), attachment_confirmed_at: nowIso(), confirmation_message_id: message.confirmation_message_id || null });
+    const next = await putOutbox(owned.key, {
+      ...owned.entry,
+      phase: "committed",
+      committed_at: nowIso(),
+      attachment_confirmed_at: nowIso(),
+      confirmation_message_id: message.confirmation_message_id || null
+    });
     return { ok: true, outbox: next };
   }
 
@@ -225,5 +231,6 @@
   };
 
   void YMBFileArtifactStore.cleanupExpired().catch(() => null);
+
   globalThis.YMBFileDeliveryWorkerTransport = Object.freeze({ DELIVERY_MODE, CHATGPT_FILE_TEXT_THRESHOLD, SEND_COMMITTED_PHASE, compactLargeCommandResult });
 })();
