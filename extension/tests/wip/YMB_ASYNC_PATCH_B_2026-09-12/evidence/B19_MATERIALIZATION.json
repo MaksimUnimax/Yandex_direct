@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "date": "2026-09-13",
+  "release_version": "0.1.6",
+  "preimage_tree_sha256": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
+  "preimage_package_sha256": "1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1",
+  "final_tree_sha256": "b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86",
+  "files": 67,
+  "changed_files": [
+    "README.md",
+    "README.txt",
+    "manifest.json",
+    "package.json",
+    "popup.html",
+    "shared/product.js",
+    "shared/webmaster_protocol.js"
+  ],
+  "unchanged_files": 60,
+  "operation_host_enabled": true,
+  "alarms_permission": false,
+  "live_provider_calls": 0,
+  "first_materializer_run": "FAIL_HARNESS_BAD_EXPECTED_HASH"
+}

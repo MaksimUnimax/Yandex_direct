@@ -302,7 +302,8 @@
   function manualActionBlockReason(state = stateSnapshot, deliveryInProgress = deliveryLifecycleHold, admissionHold = manualAdmissionHold) {
     if (admissionHold === true) return "MANUAL_OPERATION_ACTIVE";
     const status = String(state?.manual_operation?.status || "").toLowerCase();
-    if (status && !["completed", "error", "cancelled"].includes(status)) return "MANUAL_OPERATION_ACTIVE";
+    const explicitRecovery = status === "search_async_requesting" && state?.manual_operation?.recovery_available === true;
+    if (status && !["completed", "error", "cancelled"].includes(status) && !explicitRecovery) return "MANUAL_OPERATION_ACTIVE";
     if (deliveryInProgress === true) return "DELIVERY_IN_PROGRESS";
     return "";
   }
@@ -344,9 +345,13 @@
       });
       if (!response?.ok || response?.accepted === false) {
         const errorText = response?.error || response?.code || "команда не принята";
-        if (response?.code === "DELIVERY_IN_PROGRESS") {
+        if (["DELIVERY_IN_PROGRESS", "ASYNC_RECOVERY_DELIVERY_PENDING"].includes(response?.code)) {
           deliveryLifecycleHold = true;
           scheduleOutboxPoll(0);
+          if (response.code === "ASYNC_RECOVERY_DELIVERY_PENDING") {
+            setStatus(STATUS_KEYS.OPERATION, "Яндекс: прерванная операция восстановлена. Ожидается доставка сохранённого отчёта.", "ok", 4500);
+            return; // Do not create a competing content-error delivery.
+          }
         }
         setStatus(STATUS_KEYS.OPERATION, `Яндекс: ${errorText}`, "error", 9000);
         queueContentError({ code: response?.code || "MANUAL_COMMAND_REJECTED", message: errorText, stage: "MANUAL_ADMISSION", channel: "manual", service: activeService, requestExecuted: response?.request_executed ?? false, recoverable: response?.request_executed !== "UNKNOWN", autorunContinues: false });
@@ -687,7 +692,9 @@
       if (entry?.delivery_id) {
         const local = deliveryState.get(entry.delivery_id) || { injected: false, committed: entry.phase === "committed", clicked: false, saw_busy: false, completed: false };
         deliveryState.set(entry.delivery_id, local);
-        if (entry.phase === "claimed") await handleClaimedOutbox(entry, local);
+        if (entry.delivery_mode === "attachment_v2" && entry.phase !== "committed") {
+          // Dedicated file_delivery_content.js owns attachment materialization and the Send boundary.
+        } else if (entry.phase === "claimed") await handleClaimedOutbox(entry, local);
         else if (entry.phase === "committed") await handleCommittedOutbox(entry, local);
       }
     } catch (error) {

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
-  "version": "0.1.2",
-  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Phase 5: Wordstat + Search + read-only Webmaster + read-only Metrika + read-only Direct first slice with unified CORE, RUN policy, error delivery and cost guards.",
+  "version": "0.1.6",
+  "description": "Единый контролируемый мост ChatGPT ↔ Yandex Marketing APIs. Wordstat + Search/GenSearch + ручной deferred Search + read-only Webmaster/Metrika/Direct, с единым admission, восстановлением, файловой доставкой и cost guards.",
   "permissions": [
     "storage",
     "tabs",
@@ -14,8 +14,10 @@
     "https://chat.openai.com/*",
     "https://searchapi.api.cloud.yandex.net/*",
     "https://api.webmaster.yandex.net/*",
+    "https://storage.mds.yandex.net/*",
     "https://api-metrika.yandex.net/*",
-    "https://api.direct.yandex.com/*"
+    "https://api.direct.yandex.com/*",
+    "https://operation.api.cloud.yandex.net/*"
   ],
   "background": {
     "service_worker": "phase3_service_worker_bootstrap.js"
@@ -44,8 +46,10 @@
         "shared/autorun_model.js",
         "shared/manual_controls.js",
         "shared/composer_send.js",
+        "shared/chatgpt_file_attachment.js",
         "shared/proven_writing_block_capture.js",
-        "content_script.js"
+        "content_script.js",
+        "file_delivery_content.js"
       ],
       "run_at": "document_idle"
     }

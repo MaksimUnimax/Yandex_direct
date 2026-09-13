@@ -345,8 +345,10 @@
         await globalThis.patchAutoRun(key, (run) => ({
           ...run,
           requests_attempted: Number(run.requests_attempted || 0) + 1,
-          requests_executed: Number(run.requests_executed || 0) + 1,
-          estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6))
+          ...(item.service === "search" && globalThis.YMBSearchAdmissionGuard ? {} : {
+            requests_executed: Number(run.requests_executed || 0) + 1,
+            estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6))
+          })
         }));
       }
       try {

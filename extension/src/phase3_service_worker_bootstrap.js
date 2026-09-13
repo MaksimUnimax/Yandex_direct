@@ -71,10 +71,28 @@
   importScripts("wordstat_batch_worker_transport.js");
   importScripts("webmaster_worker_runtime.js");
   importScripts(
+    "shared/search_async_policy.js",
+    "shared/search_legacy_admission.js",
+    "search_admission_worker_binding.js"
+  );
+  importScripts(
     "shared/search_batch_protocol.js",
     "shared/search_batch_projection.js",
     "shared/search_batch_runtime.js",
     "shared/search_batch_transport.js",
     "search_batch_worker_transport.js"
+  );
+  importScripts(
+    "shared/file_artifact_store.js",
+    "file_delivery_worker_transport.js"
+  );
+  importScripts(
+    "shared/search_async_store.js",
+    "shared/search_async_protocol.js",
+    "shared/search_async_transport.js",
+    "shared/search_async_normalizer.js",
+    "shared/search_async_runtime.js",
+    "shared/search_async_export.js",
+    "search_async_worker_transport.js"
   );
 })();

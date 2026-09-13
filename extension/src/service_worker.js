@@ -406,7 +406,15 @@ async function publicSettingsState(conversationKey) {
   const serviceContext = await getServiceContext(key);
   const [common, binding, manualMode, run, startPrompt, reportPrefix] = await Promise.all([commonPublicSettingsFields(), getBinding(key), getManualMode(key), getAutoRun(key), getAutoStartPrompt(key, { service: serviceContext.active_service }), getReportPrefix(key)]);
   const opsData = await storageGet(KEYS.MANUAL_OPERATIONS); const op = opsData[KEYS.MANUAL_OPERATIONS]?.[key] || null;
-  return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, report_prefix: reportPrefix, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null } : null };
+  // UI availability only, never execution authority. The next Manual request still
+  // verifies the live tab, binding, active service and old operation in the worker.
+  const recoveryAvailable = Boolean(globalThis.YMBSearchAsyncWorkerIntegration?.ready === true &&
+    manualMode === true && serviceContext.active_service === "search" && binding &&
+    op?.status === "search_async_requesting" && op.active_service === "search" &&
+    op.conversation_key === key && Number.isInteger(op.tab_id) && op.tab_id > 0 &&
+    /^[A-Za-z0-9_-]{1,128}$/.test(String(op.batch_job_id || "")) &&
+    op.request_worker_session_id !== WORKER_SESSION_ID);
+  return { ...common, conversation_key: key, binding, manual_mode: manualMode, service_context: serviceContext, auto_run: publicRun(run), auto_start_prompt: startPrompt, report_prefix: reportPrefix, manual_operation: op ? { operation_id: op.operation_id, status: op.status, active_service: op.active_service, delivery_id: op.delivery_id || null, recovery_available: recoveryAvailable } : null };
 }
 async function publicGlobalSettingsState(pageContextError = null) { return { ...(await commonPublicSettingsFields()), page_context_error: pageContextError, binding: null, manual_mode: false, service_context: { active_service: "wordstat" }, auto_run: null, auto_start_prompt: { text: DEFAULT_AUTO_START_TEXT, is_default: true, service: "wordstat" }, report_prefix: null }; }
 async function patchToggleSettings(message = {}, sender = null) {
@@ -667,7 +675,7 @@ async function executeManualBlock(blockText, conversationKey, sender, manualRequ
       const settings = await getSettings(); const policy = await getPolicyForService(item.service); const budgetRun = operation.run_id ? await getAutoRun(key) : {};
       const decision = policyDecisionForService(item.service, { policy, channel: "manual", method: item.command.method, credentialState: publicCapability(settings, item.service).state, run: budgetRun || {} });
       if (!decision.allow) { const protocol = assertProtocolForService(item.service); reports.push(protocol.formatSkippedReport({ requestId: uid("skip"), command: item.command, reason: decision.reason, metadata: { run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service }, request_executed: false, automatic_retry: false } })); continue; }
-      if (operation.run_id) await patchAutoRun(key, (run) => ({ ...run, requests_attempted: Number(run.requests_attempted || 0) + 1, requests_executed: Number(run.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)) }));
+      if (operation.run_id) await patchAutoRun(key, (run) => ({ ...run, requests_attempted: Number(run.requests_attempted || 0) + 1, ...(item.service === "search" && globalThis.YMBSearchAdmissionGuard ? {} : { requests_executed: Number(run.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)) }) }));
       try { const result = await executeServiceCommand(item.service, item.command, { conversation_key: key, run_id: operation.run_id || null, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "manual", active_service: item.service } }); providerExecutions += 1; requestExecutedSummary = true; reports.push(result.report_text); }
       catch (error) {
         const requestExecuted = error.request_executed ?? "UNKNOWN";
@@ -948,7 +956,7 @@ async function handleAutoCommand(message, sender) {
   let run = await patchAutoRun(key, (r) => ({ ...r, last_assistant_turn_id: assistantTurnId, last_command_fingerprint: fingerprint, last_method: parsed.method, last_phrase: parsed.phrase || parsed.queryText || null, requests_attempted: Number(r.requests_attempted || 0) + 1, last_error: null }));
   const [settings, policy] = await Promise.all([getSettings(), getPolicyForService(run.active_service)]); const decision = policyDecisionForService(run.active_service, { policy, channel: "autorun", method: parsed.method, credentialState: publicCapability(settings, run.active_service).state, run });
   if (!decision.allow) { const reportText = protocol.formatSkippedReport({ requestId: uid("skip"), command: parsed, reason: decision.reason, metadata: { run_id: run.run_id, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "autorun", active_service: run.active_service }, request_executed: false, automatic_retry: false } }); run = await patchAutoRun(key, (r) => ({ ...r, requests_skipped: Number(r.requests_skipped || 0) + 1, status: WordstatAutorunModel.RUN_STATUSES.DELIVERING, delivery: { delivery_id: uid("delivery"), phase: "claimed", report_text: reportText } })); await putOutbox(key, { delivery_id: run.delivery.delivery_id, type: "autorun", run_id: run.run_id, tab_id: senderTabId, report_text: reportText, phase: "claimed", report_prefix_applied: false, created_at: nowIso() }); return { ok: true, accepted: true, skipped: true, report_text: reportText, reason: decision.reason }; }
-  run = await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.REQUESTING, requests_executed: Number(r.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(r.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6)), request_worker_session_id: WORKER_SESSION_ID }));
+  run = await patchAutoRun(key, (r) => ({ ...r, status: WordstatAutorunModel.RUN_STATUSES.REQUESTING, ...(run.active_service === "search" && globalThis.YMBSearchAdmissionGuard ? {} : {requests_executed: Number(r.requests_executed || 0) + 1, estimated_cost_rub: Number((Number(r.estimated_cost_rub || 0) + Number(decision.estimated_cost_rub || 0)).toFixed(6))}), request_worker_session_id: WORKER_SESSION_ID }));
   let result;
   try {
     result = await executeServiceCore(run.active_service, commandText, { conversation_key: key, run_id: run.run_id, cost_estimate: { estimated_rub: decision.estimated_cost_rub, tariff_checked_at: decision.policy.tariff_checked_at, tariff_source: decision.policy.tariff_source }, policy: { channel: "autorun", active_service: run.active_service } });
@@ -965,6 +973,14 @@ async function handleAutoCommand(message, sender) {
       recoverable: (error.request_executed ?? "UNKNOWN") !== "UNKNOWN",
       autorunContinues: true
     });
+  }
+  if (run.active_service === "search" && result.stop_required === true) {
+    // Preserve a received answer, but do not ask Autorun for another command
+    // when the shared accounting transaction could not be completed.
+    await patchAutoRun(key, (r) => ({ ...r, pause_requested: true,
+      last_error: { code: result.admission_warning || "SHARED_ADMISSION_SETTLEMENT_FAILED",
+        message: "Учёт Search требует проверки; дальнейшие автоматические запросы остановлены.",
+        request_executed: result.request_executed ?? "UNKNOWN", automatic_retry: false } }));
   }
   const prefixResult = await applyPrefixToReport(key, result.report_text);
   const outgoingText = prefixResult.text;

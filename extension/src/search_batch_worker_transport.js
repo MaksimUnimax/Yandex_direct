@@ -48,8 +48,10 @@
         request_worker_session_id: WORKER_SESSION_ID
       } : {}),
       requests_attempted: Number(run.requests_attempted || 0) + 1,
-      requests_executed: Number(run.requests_executed || 0) + 1,
-      estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(estimatedCostRub || 0)).toFixed(6))
+      ...(globalThis.YMBSearchAdmissionGuard ? {} : {
+        requests_executed: Number(run.requests_executed || 0) + 1,
+        estimated_cost_rub: Number((Number(run.estimated_cost_rub || 0) + Number(estimatedCostRub || 0)).toFixed(6))
+      })
     }));
   }
 
@@ -103,6 +105,7 @@
       confirmed_provider_executions: confirmedProviderExecutions,
       provider_executions: providerExecutions,
       automatic_retry: false,
+      ...(envelope.stop_required ? { stop_required: true } : {}),
       report_envelope: envelope,
       report_text: SearchBatchProtocol.formatResultEnvelope(envelope),
       job: handled.job,
@@ -210,6 +213,8 @@
         providerExecutions = requestExecuted === "UNKNOWN" ? 0 : Number(result.provider_executions || 0);
       } catch (error) {
         requestExecuted = error?.request_executed ?? false;
+        confirmedProviderExecutions = Number(error?.confirmed_provider_executions || 0);
+        providerExecutions = requestExecuted === "UNKNOWN" ? 0 : confirmedProviderExecutions;
         reportText = formatBridgeError({
           code: error?.code || "BATCH_RUNTIME_ERROR",
           message: error?.message || String(error),
@@ -334,7 +339,7 @@
         fingerprint,
         operation: `batch.${parsed.action}`,
         recoverable: (error?.request_executed ?? false) !== "UNKNOWN",
-        autorunContinues: (error?.request_executed ?? false) !== "UNKNOWN"
+        autorunContinues: error?.stop_required !== true && (error?.request_executed ?? false) !== "UNKNOWN"
       });
     }
 
@@ -359,8 +364,8 @@
       requests_skipped: parsed.action === "next" && envelope.status === "SKIPPED"
         ? Number(value.requests_skipped || 0) + 1
         : Number(value.requests_skipped || 0),
-      pause_requested: requestExecuted === "UNKNOWN" ? true : value.pause_requested === true,
-      last_error: envelope.status === "ERROR" || requestExecuted === "UNKNOWN"
+      pause_requested: requestExecuted === "UNKNOWN" || result.stop_required === true ? true : value.pause_requested === true,
+      last_error: envelope.status === "ERROR" || requestExecuted === "UNKNOWN" || result.stop_required === true
         ? { code: envelope.reason || "BATCH_ERROR", message: envelope.reason || "Search batch command failed.", request_executed: requestExecuted, automatic_retry: false }
         : null,
       delivery: {

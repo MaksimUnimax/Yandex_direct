@@ -83,7 +83,7 @@ importScripts(
     };
   }
   function defaultAutoStartTextForServiceV5(service) {
-    if (service === Registry.SERVICES.WEBMASTER) return "Продолжай текущий сбор Yandex Webmaster по активному плану этого диалога. Команды выводи только как WEBMASTER_API_V1. Используй только read-only методы первого среза. Когда сбор закончен, ответь только: сбор закончен.";
+    if (service === Registry.SERVICES.WEBMASTER) return "Продолжай текущий сбор Yandex Webmaster по активному плану этого диалога. Команды выводи только как WEBMASTER_API_V1. Используй только разрешённые аналитические и export-методы текущего протокола. startQueryUrlExport выполняй только после явного подтверждения quota projection; PRO-тариф — только после отдельного явного подтверждения. Никогда не повторяй внешний запрос автоматически при неизвестном исходе. Когда сбор закончен, ответь только: сбор закончен.";
     if (service === Registry.SERVICES.METRIKA) return "Продолжай текущий сбор Yandex Metrika по активному плану этого диалога. Команды выводи только как METRIKA_API_V1. Используй только read-only методы первого среза. Когда сбор закончен, ответь только: сбор закончен.";
     if (service === Registry.SERVICES.DIRECT) return "Продолжай текущий сбор Yandex Direct по активному плану этого диалога. Команды выводи только как DIRECT_API_V1. Используй только read-only методы первого среза. Не повторяй Direct POST автоматически при неизвестном исходе. Когда сбор закончен, ответь только: сбор закончен.";
     return originals.defaultAutoStartTextForService(service);
