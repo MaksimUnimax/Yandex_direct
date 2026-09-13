@@ -1,0 +1,129 @@
+name: YMB B18 persist raw evidence to Git
+on:
+  push:
+    branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
+    paths: [.github/workflows/ymb-b18-persist-raw-evidence.yml]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: ymb-b18-persist-raw
+  cancel-in-progress: false
+jobs:
+  persist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: wip/ymb-file-delivery-patch-a-2026-09-12
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-unified-node-evidence
+          run-id: 34731428403
+          github-token: ${{ github.token }}
+          path: raw/run34731428403
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-missing-browser-evidence
+          run-id: 34731010004
+          github-token: ${{ github.token }}
+          path: raw/run34731010004
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-missing-browser-evidence
+          run-id: 34731343657
+          github-token: ${{ github.token }}
+          path: raw/run34731343657
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-missing-browser-evidence
+          run-id: 34731585712
+          github-token: ${{ github.token }}
+          path: raw/run34731585712
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-runtime-reload-evidence
+          run-id: 34732438321
+          github-token: ${{ github.token }}
+          path: raw/run34732438321
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-cli-reload-evidence
+          run-id: 34733143424
+          github-token: ${{ github.token }}
+          path: raw/run34733143424
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-cli-reload-evidence
+          run-id: 34733280541
+          github-token: ${{ github.token }}
+          path: raw/run34733280541
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-cli-reload-evidence
+          run-id: 34733434071
+          github-token: ${{ github.token }}
+          path: raw/run34733434071
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b18-cli-reload-evidence
+          run-id: 34733531060
+          github-token: ${{ github.token }}
+          path: raw/run34733531060
+      - name: Build deterministic archive and verified split parts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,tarfile,io,shutil
+          raw=Path('raw'); evidence=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B18_RAW_LOGS');
+          if evidence.exists(): shutil.rmtree(evidence)
+          evidence.mkdir(parents=True)
+          runs={
+            '34731428403':{'artifact_id':10309960620,'status':'PASS_AVAILABLE_NODE_SCOPE'},
+            '34731010004':{'artifact_id':10308669055,'status':'FAIL_HARNESS'},
+            '34731343657':{'artifact_id':10309307785,'status':'FAIL_HARNESS'},
+            '34731585712':{'artifact_id':10309342324,'status':'MANDATORY_BROWSER_CASES_PASS_SUPPLEMENTAL_RELOAD_FAIL_HARNESS'},
+            '34732438321':{'artifact_id':10309348280,'status':'SUPPLEMENTAL_RELOAD_FAIL_HARNESS'},
+            '34733143424':{'artifact_id':10310231741,'status':'SUPPLEMENTAL_RELOAD_FAIL_HARNESS'},
+            '34733280541':{'artifact_id':10310023323,'status':'SUPPLEMENTAL_RELOAD_FAIL_HARNESS'},
+            '34733434071':{'artifact_id':10309823907,'status':'SUPPLEMENTAL_RELOAD_FAIL_HARNESS'},
+            '34733531060':{'artifact_id':10309774432,'status':'SUPPLEMENTAL_RELOAD_FAIL_HARNESS'},
+          }
+          manifest={'schema_version':1,'date':'2026-09-13','product_tree':'b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508','product_zip_sha256':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','production_changes_b18':0,'runs':runs,'note':'Full extracted Actions artifact members for mandatory B18 development evidence and preserved supplemental reload harness failures.'}
+          staging=Path('/tmp/b18-stage'); staging.mkdir()
+          for run in sorted(runs):
+            src=raw/('run'+run); dest=staging/('run'+run); shutil.copytree(src,dest)
+          (staging/'RUN_MAP.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          sums=[]
+          for p in sorted(staging.rglob('*')):
+            if p.is_file(): sums.append(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.relative_to(staging).as_posix()+'\n')
+          (staging/'SHA256SUMS').write_text(''.join(sums))
+          archive=Path('/tmp/B18_RAW_LOGS.tar.xz')
+          with tarfile.open(archive,'w:xz',preset=9) as tf:
+            for p in sorted(staging.rglob('*')):
+              if not p.is_file(): continue
+              b=p.read_bytes(); ti=tarfile.TarInfo(p.relative_to(staging).as_posix());ti.size=len(b);ti.mtime=0;ti.uid=ti.gid=0;ti.uname=ti.gname='';ti.mode=0o644;tf.addfile(ti,io.BytesIO(b))
+          b=archive.read_bytes(); ah=hashlib.sha256(b).hexdigest(); parts=[]
+          for i in range(0,len(b),50000):
+            chunk=b[i:i+50000]; name=f'part-{i//50000+1:03d}.bin'; (evidence/name).write_bytes(chunk); parts.append({'name':name,'bytes':len(chunk),'sha256':hashlib.sha256(chunk).hexdigest()})
+          m={'schema_version':1,'archive_sha256':ah,'archive_bytes':len(b),'archive_members':sum(1 for p in staging.rglob('*') if p.is_file()),'parts':parts,'product_tree':manifest['product_tree'],'product_zip_sha256':manifest['product_zip_sha256']}
+          (evidence/'MANIFEST.json').write_text(json.dumps(m,indent=2)+'\n')
+          restore='''#!/usr/bin/env python3\nfrom pathlib import Path\nimport hashlib,json,sys,lzma,tarfile,io\nroot=Path(__file__).resolve().parent;m=json.loads((root/"MANIFEST.json").read_text());out=Path(sys.argv[1]);\nif out.exists(): raise SystemExit("output exists")\nb=bytearray()\nfor p in m["parts"]:\n d=(root/p["name"]).read_bytes();assert len(d)==p["bytes"] and hashlib.sha256(d).hexdigest()==p["sha256"];b.extend(d)\nassert len(b)==m["archive_bytes"] and hashlib.sha256(b).hexdigest()==m["archive_sha256"]\nwith tarfile.open(fileobj=io.BytesIO(bytes(b)),mode="r:xz") as tf:\n for x in tf.getmembers():\n  if not x.isfile() or x.name.startswith("/") or ".." in Path(x.name).parts: raise SystemExit("unsafe archive")\nout.write_bytes(b);print("PASS",m["archive_sha256"],len(b),m["archive_members"])\n'''
+          (evidence/'restore.py').write_text(restore)
+          print(json.dumps(m,indent=2))
+          PY
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B18_RAW_LOGS/restore.py /tmp/b18-consumer.tar.xz
+          cmp /tmp/B18_RAW_LOGS.tar.xz /tmp/b18-consumer.tar.xz
+      - name: Commit permanent raw evidence parts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'MaksimUnimax'
+          git config user.email '36834459+MaksimUnimax@users.noreply.github.com'
+          git add extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B18_RAW_LOGS
+          git commit -m 'test(extension): persist complete B18 raw CI evidence in Git; product unchanged'
+          git push origin HEAD:wip/ymb-file-delivery-patch-a-2026-09-12
