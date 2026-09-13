@@ -1,0 +1,102 @@
+name: YMB file-delivery patch browser v5
+on:
+  push:
+    branches: [qa/ymb-file-delivery-patch-prequal-2026-09-13]
+    paths: [.github/workflows/ymb-file-delivery-patch-browser-v5.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 64c1016c179de52b6e950830877f0d42a446e5e8
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-file-delivery-patch-prequalification
+          run-id: 34750853791
+          github-token: ${{ github.token }}
+          path: prequal
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify and fresh-extract exact patched package
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,zipfile,os
+          H=lambda b:hashlib.sha256(b).hexdigest();zpath=Path('prequal/Yandex-Marketing-Bridge-0.1.6-patched-prequal.zip');assert H(zpath.read_bytes())=='3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e';out=Path(os.environ['RUNNER_TEMP'])/'candidate';out.mkdir();rows=[]
+          with zipfile.ZipFile(zpath) as z:
+            assert z.testzip() is None
+            for e in z.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert len(p.parts)>=2 and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6' and '..' not in p.parts
+              rel='/'.join(p.parts[1:]);data=z.read(e);q=out/rel;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(data);rows.append((rel,H(data)))
+          rows.sort();assert len(rows)==67;tree=H(''.join(h+'  '+p+'\n' for p,h in rows).encode());assert tree=='55bc2082a697598187ded73a5eaf3b18fa6a4e007eec25319690e4c9bb480f24'
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_BROWSER_CANDIDATE={out}\nYMB_PRODUCT_TREE={tree}\nYMB_PPTR_HOME={Path(os.environ["RUNNER_TEMP"])/"deps"}\nYMB_BROWSER_EVIDENCE={Path(os.environ["RUNNER_TEMP"])/"browser-evidence"}\n')
+          print('EXACT_PACKAGE_OK',tree)
+          PY
+      - name: Prepare locked browser harness with per-call MV3 worker binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$YMB_PPTR_HOME" "$RUNNER_TEMP/tests" "$YMB_BROWSER_EVIDENCE";cp frozen-b17/package-lock.json "$YMB_PPTR_HOME/package-lock.json"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          deps=Path(os.environ['YMB_PPTR_HOME']);j=json.loads((deps/'package-lock.json').read_text());(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_browser_qualification.mjs').read_text();old='f591b39a381993c44284561236b9c5a278761db3d6b04059c59974e037c33f47';assert src.count(old)==1;src=src.replace(old,os.environ['YMB_PRODUCT_TREE'])
+          src=src.replace('w.evaluate(', 'workerEval(')
+          assert src.count('async function instrument(){await workerEval(')==1
+          src=src.replace('async function instrument(){await workerEval(', 'async function instrument(){await w.evaluate(',1)
+          marker='async function instrument(){';assert src.count(marker)==1
+          worker='''async function workerEval(fn,arg){\n const locate=()=>browser.targets().find(t=>t.type()==='service_worker'&&extensionId&&t.url()===`chrome-extension://${extensionId}/phase3_service_worker_bootstrap.js`);\n let live=locate();\n if(!live){await getWorker(wTarget);live=wTarget;}\n if(live!==wTarget){wTarget=live;w=await live.worker();assert.ok(w,'LIVE_WORKER_REQUIRED');await instrument();}\n try{return await w.evaluate(fn,arg);}\n catch(e){if(!/No SW|Execution context.*destroyed|Target closed|Session closed/i.test(String(e)))throw e;live=locate();if(!live){await getWorker(wTarget);live=wTarget;}wTarget=live;w=await live.worker();assert.ok(w,'REBIND_WORKER_REQUIRED');await instrument();return w.evaluate(fn,arg);}\n}\n'''
+          src=src.replace(marker,worker+marker)
+          anchor='await getWorker();await instrument();';assert src.count(anchor)==1
+          keep=anchor+'''\n const keepAlivePage=await browser.newPage();\n await keepAlivePage.goto(`chrome-extension://${extensionId}/popup.html`,{waitUntil:'domcontentloaded',timeout:10000});\n await keepAlivePage.evaluate(async key=>{const ping=()=>new Promise(resolve=>chrome.runtime.sendMessage({type:'WS_GET_STATE',conversation_key:key},()=>{void chrome.runtime.lastError;resolve();}));await ping();globalThis.__ymbQaKeepAlive=setInterval(()=>void ping(),250);},KEY);\n await workerEval(()=>true);''';src=src.replace(anchor,keep)
+          fixture=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_text();oldsend="send.addEventListener('click',()=>{Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';";newsend="send.addEventListener('click',()=>{const sentText=composer.value;const sentFiles=Q.files.map(f=>({...f}));Q.sends.push({text:sentText,files:sentFiles});const turn=document.createElement('div');turn.dataset.messageAuthorRole='user';turn.dataset.messageId='fixture-user-'+Q.sends.length;turn.textContent=[sentText,...sentFiles.map(f=>f.name)].join(' ');document.getElementById('conversation-root').append(turn);composer.value='';";assert fixture.count(oldsend)==1;fixture=fixture.replace(oldsend,newsend)
+          Path(os.environ['RUNNER_TEMP']+'/tests/b15_browser_qualification.mjs').write_text(src);Path(os.environ['RUNNER_TEMP']+'/tests/b15_fixture.html').write_text(fixture)
+          PY
+          node --check "$RUNNER_TEMP/tests/b15_browser_qualification.mjs";npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund
+      - name: Run exact-package real Chrome file-delivery matrix
+        shell: bash
+        run: |
+          set -euo pipefail;cd "$RUNNER_TEMP/tests";xvfb-run -a node b15_browser_qualification.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Require substantive browser coverage
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          p=Path(os.environ['YMB_BROWSER_EVIDENCE'])/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];by={r.get('case'):r for r in rows};required=['real_content_native_copy_and_one_local_command','full_file_delivery_1MiB_1','full_file_delivery_10MiB_2','full_file_delivery_32MiB_3','full_file_delivery_64MiB_4','full_file_delivery_64MiB_5','full_file_delivery_64MiB_6','occupied_composer_preserved_then_manual_send','actual_worker_termination_saved_state_and_watch_only_delivery','candidate_identity_after_campaign','owned_browser_cleanup'];missing=[x for x in required if x not in by];bad=[x for x in required if by.get(x,{}).get('status')!='PASS'];fail=[r.get('case') for r in rows if str(r.get('status','')).startswith('FAIL')];result={'schema_version':3,'source_commit':'64c1016c179de52b6e950830877f0d42a446e5e8','product_tree_sha256':os.environ['YMB_PRODUCT_TREE'],'zip_sha256':'3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e','browser_rows':len(rows),'required_cases':required,'missing':missing,'bad':bad,'all_failures':fail,'provider_calls':0,'pass':not missing and not bad and not fail};o=Path(os.environ['RUNNER_TEMP'])/'browser-publish';o.mkdir();(o/'BROWSER_V5_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');
+          if p.exists():(o/'browser.jsonl').write_bytes(p.read_bytes())
+          for n in ['run.stdout','run.stderr','rss.jsonl']:
+            q=Path(os.environ['YMB_BROWSER_EVIDENCE'])/n
+            if q.exists():(o/n).write_bytes(q.read_bytes())
+          print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-file-delivery-patch-browser-v5
+          path: ${{ runner.temp }}/browser-publish/
+          retention-days: 30
+          if-no-files-found: error
