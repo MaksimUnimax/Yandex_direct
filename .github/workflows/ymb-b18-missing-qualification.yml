@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 4f973a981a2d11b40c1f94e4154f2d5bfe0bc54d
+          ref: 84b9e52fef9284c363f56da064c5ef2977109dcb
           persist-credentials: false
           fetch-depth: 1
           sparse-checkout: |
@@ -47,6 +47,7 @@ jobs:
           Q=extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa
           python3 "$Q/b18_prepare.py" frozen-b17 frozen-cleanup "$RUNNER_TEMP/b18-qa"
           python3 "$Q/b18_fixture_recheck.py" "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
+          python3 "$Q/b18_ready_recheck.py" "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
           node --check "$RUNNER_TEMP/b18-qa/tests/b18.generated.mjs"
           python3 - <<'PY'
           from pathlib import Path
@@ -76,7 +77,7 @@ jobs:
             if f.is_file() and f.suffix in ('.jsonl','.stdout','.stderr'):shutil.copyfile(f,p/f.name)
           if (t/'b18-qa/IDENTITY.json').is_file():shutil.copyfile(t/'b18-qa/IDENTITY.json',p/'IDENTITY.json')
           if (t/'b18-qa/tests').is_dir():shutil.copytree(t/'b18-qa/tests',p/'tests')
-          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'4f973a981a2d11b40c1f94e4154f2d5bfe0bc54d','product_zip':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'live_provider_calls':0,'controlled_page':True,'owner_profile_used':False,'first_run_preserved':34731010004,'independent_gate':False,'release_allowed':False},indent=2)+'\n')
+          (p/'BOUNDARY.json').write_text(json.dumps({'source_ref':'84b9e52fef9284c363f56da064c5ef2977109dcb','product_zip':'1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1','product_changes':0,'live_provider_calls':0,'controlled_page':True,'owner_profile_used':False,'prior_runs_preserved':[34731010004,34731343657],'independent_gate':False,'release_allowed':False},indent=2)+'\n')
           (p/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(p).as_posix()+'\n' for f in sorted(p.rglob('*')) if f.is_file()))
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
