@@ -18,104 +18,36 @@ const emit=v=>{const row={...v,time:new Date().toISOString()};fs.appendFileSync(
 async function until(fn,label,ms=20000){const end=Date.now()+ms;let last;while(Date.now()<end){try{last=await fn();if(last)return last;}catch(e){last=String(e)}await delay(100);}throw new Error(label+' last='+JSON.stringify(last));}
 let browser,page,wakePage,extensionId,tabId;
 
-async function storageSnapshot(){
-  return wakePage.evaluate(key=>chrome.storage.local.get(['wsmb_outbox','wsmb_manual_operations']).then(d=>({outbox:(d.wsmb_outbox||{})[key]||null,operation:(d.wsmb_manual_operations||{})[key]||null})),KEY);
-}
-async function domSnapshot(){
-  return page.evaluate(()=>({sends:__fixture.sends,files:__fixture.files,text:document.getElementById('prompt-textarea').value,status:document.getElementById('ymb-file-delivery-status')?.textContent||'',previews:[...document.querySelectorAll('#previews [role="group"]')].map(x=>({text:x.textContent,busy:x.getAttribute('aria-busy')})),userTurns:[...document.querySelectorAll('[data-message-author-role="user"]')].map(x=>({id:x.getAttribute('data-message-id'),text:x.textContent}))}));
-}
+async function storageSnapshot(){return wakePage.evaluate(key=>chrome.storage.local.get(['wsmb_outbox','wsmb_manual_operations']).then(d=>({outbox:(d.wsmb_outbox||{})[key]||null,operation:(d.wsmb_manual_operations||{})[key]||null})),KEY);}
+async function domSnapshot(){return page.evaluate(()=>({sends:__fixture.sends,files:__fixture.files,text:document.getElementById('prompt-textarea').value,status:document.getElementById('ymb-file-delivery-status')?.textContent||'',previews:[...document.querySelectorAll('#previews [role="group"]')].map(x=>({text:x.textContent,busy:x.getAttribute('aria-busy')})),userTurns:[...document.querySelectorAll('[data-message-author-role="user"]')].map(x=>({id:x.getAttribute('data-message-id'),text:x.textContent}))}));}
 async function snapshot(){return{dom:await domSnapshot(),storage:await storageSnapshot()};}
 async function reset(text=''){
-  await wakePage.evaluate(async key=>{
-    const d=await chrome.storage.local.get(['wsmb_outbox','wsmb_manual_operations']);
-    const outbox={...(d.wsmb_outbox||{})};delete outbox[key];
-    const operations={...(d.wsmb_manual_operations||{})};delete operations[key];
-    await chrome.storage.local.set({wsmb_outbox:outbox,wsmb_manual_operations:operations});
-  },KEY);
+  await wakePage.evaluate(async key=>{const d=await chrome.storage.local.get(['wsmb_outbox','wsmb_manual_operations']);const outbox={...(d.wsmb_outbox||{})};delete outbox[key];const operations={...(d.wsmb_manual_operations||{})};delete operations[key];await chrome.storage.local.set({wsmb_outbox:outbox,wsmb_manual_operations:operations});},KEY);
   await page.evaluate(text=>{__fixture.sends=[];__fixture.files=[];__fixture.inputs=0;__fixture.changes=0;__fixture.errors=[];document.querySelectorAll('[data-message-author-role="user"]').forEach(x=>x.remove());const c=document.getElementById('prompt-textarea');c.value=text;c.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('previews').replaceChildren();document.getElementById('upload-files').value='';__fixture.arm();},text);
 }
-async function stage(label,report){
-  return wakePage.evaluate(async({label,report,key,tabId})=>{
-    if(!globalThis.YMBFileArtifactStore) throw new Error('ARTIFACT_STORE_NOT_LOADED');
-    const d='test15-'+label,ak='artifact-'+d;
-    const descriptor=await YMBFileArtifactStore.stageTextArtifact({artifactKey:ak,deliveryId:d,filename:d+'.txt',text:'x'.repeat(1024*1024)});
-    const data=await chrome.storage.local.get(['wsmb_outbox','wsmb_manual_operations']);
-    const outbox={...(data.wsmb_outbox||{})};
-    outbox[key]={delivery_id:d,operation_id:d,type:'manual',tab_id:tabId,phase:'claimed',report_text:report,delivery_mode:'attachment_v2',artifact_descriptors:[descriptor],provider_executions:0,conversation_key:key,updated_at:new Date().toISOString()};
-    const operations={...(data.wsmb_manual_operations||{})};
-    operations[key]={operation_id:d,delivery_id:d,status:'delivering',conversation_key:key,tab_id:tabId,active_service:'search',request_executed:false};
-    await chrome.storage.local.set({wsmb_outbox:outbox,wsmb_manual_operations:operations});
-    return{delivery_id:d,filename:descriptor.filename,bytes:descriptor.byte_length};
-  },{label,report,key:KEY,tabId});
-}
+async function stage(label,report){return wakePage.evaluate(async({label,report,key,tabId})=>{if(!globalThis.YMBFileArtifactStore) throw new Error('ARTIFACT_STORE_NOT_LOADED');const d='test15-'+label,ak='artifact-'+d;const descriptor=await YMBFileArtifactStore.stageTextArtifact({artifactKey:ak,deliveryId:d,filename:d+'.txt',text:'x'.repeat(1024*1024)});const data=await chrome.storage.local.get(['wsmb_outbox','wsmb_manual_operations']);const outbox={...(data.wsmb_outbox||{})};outbox[key]={delivery_id:d,operation_id:d,type:'manual',tab_id:tabId,phase:'claimed',report_text:report,delivery_mode:'attachment_v2',artifact_descriptors:[descriptor],provider_executions:0,conversation_key:key,updated_at:new Date().toISOString()};const operations={...(data.wsmb_manual_operations||{})};operations[key]={operation_id:d,delivery_id:d,status:'delivering',conversation_key:key,tab_id:tabId,active_service:'search',request_executed:false};await chrome.storage.local.set({wsmb_outbox:outbox,wsmb_manual_operations:operations});return{delivery_id:d,filename:descriptor.filename,bytes:descriptor.byte_length};},{label,report,key:KEY,tabId});}
 let failures=0;
 async function run(name,fn){try{const details=await fn();emit({case:name,status:'PASS',...details});}catch(e){failures++;emit({case:name,status:'FAIL',error:String(e.stack||e),snapshot:await snapshot().catch(x=>({snapshot_error:String(x)}))});}}
 try{
   browser=await puppeteer.launch({headless:false,pipe:true,enableExtensions:[root],protocolTimeout:120000,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-background-networking','--host-resolver-rules=MAP * ~NOTFOUND',`--disable-extensions-except=${root}`,`--load-extension=${root}`]});
-  const first=await browser.waitForTarget(t=>t.type()==='service_worker'&&t.url().startsWith('chrome-extension://')&&t.url().endsWith('/phase3_service_worker_bootstrap.js'),{timeout:20000});
-  extensionId=first.url().split('/')[2];
-  wakePage=await browser.newPage();
-  await wakePage.goto(`chrome-extension://${extensionId}/popup.html`,{waitUntil:'domcontentloaded',timeout:10000});
-  await wakePage.addScriptTag({url:`chrome-extension://${extensionId}/shared/file_artifact_store.js`});
-  assert.equal(await wakePage.evaluate(()=>typeof YMBFileArtifactStore?.stageTextArtifact),'function');
-  page=await browser.newPage();
-  await page.setRequestInterception(true);
-  page.on('request',r=>{if(r.isNavigationRequest()&&r.url()===PAGE_URL)void r.respond({status:200,contentType:'text/html; charset=utf-8',body:fixture});else void r.abort();});
-  await page.goto(PAGE_URL,{waitUntil:'domcontentloaded',timeout:20000});
+  const first=await browser.waitForTarget(t=>t.type()==='service_worker'&&t.url().startsWith('chrome-extension://')&&t.url().endsWith('/phase3_service_worker_bootstrap.js'),{timeout:20000});extensionId=first.url().split('/')[2];
+  wakePage=await browser.newPage();await wakePage.goto(`chrome-extension://${extensionId}/popup.html`,{waitUntil:'domcontentloaded',timeout:10000});await wakePage.addScriptTag({url:`chrome-extension://${extensionId}/shared/file_artifact_store.js`});assert.equal(await wakePage.evaluate(()=>typeof YMBFileArtifactStore?.stageTextArtifact),'function');
+  page=await browser.newPage();await page.setRequestInterception(true);page.on('request',r=>{if(r.isNavigationRequest()&&r.url()===PAGE_URL)void r.respond({status:200,contentType:'text/html; charset=utf-8',body:fixture});else void r.abort();});await page.goto(PAGE_URL,{waitUntil:'domcontentloaded',timeout:20000});
   tabId=await until(()=>wakePage.evaluate(url=>chrome.tabs.query({}).then(tabs=>tabs.find(t=>t.url===url)?.id||0),PAGE_URL),'TAB_NOT_FOUND',10000);
   await until(()=>wakePage.evaluate(({tabId})=>new Promise(ok=>chrome.tabs.sendMessage(tabId,{type:'WS_GET_IDENTITY'},r=>{void chrome.runtime.lastError;ok(r?.ok===true);})),{tabId}),'CONTENT_NOT_READY',10000);
-  await wakePage.evaluate(async({key,cid,tabId})=>{
-    const d=await chrome.storage.local.get(['wsmb_conversation_bindings','wsmb_manual_modes','ymb_service_contexts']);
-    const bindings={...(d.wsmb_conversation_bindings||{}),[key]:{binding_id:'targeted',revision:1,origin:'https://chatgpt.com',conversation_id:cid,conversation_key:key}};
-    const modes={...(d.wsmb_manual_modes||{}),[key]:true};
-    const contexts={...(d.ymb_service_contexts||{}),[key]:{active_service:'search'}};
-    await chrome.storage.local.set({wsmb_conversation_bindings:bindings,wsmb_manual_modes:modes,ymb_service_contexts:contexts,wsmb_auto_send:true,ymb_settings_schema_version:5});
-    await new Promise(ok=>chrome.tabs.sendMessage(tabId,{type:'WS_APPLY_MANUAL_MODE',conversation_key:key,enabled:true,active_service:'search'},()=>{void chrome.runtime.lastError;ok();}));
-  },{key:KEY,cid:CID,tabId});
+  await wakePage.evaluate(async({key,cid,tabId})=>{const d=await chrome.storage.local.get(['wsmb_conversation_bindings','wsmb_manual_modes','ymb_service_contexts']);const bindings={...(d.wsmb_conversation_bindings||{}),[key]:{binding_id:'targeted',revision:1,origin:'https://chatgpt.com',conversation_id:cid,conversation_key:key}};const modes={...(d.wsmb_manual_modes||{}),[key]:true};const contexts={...(d.ymb_service_contexts||{}),[key]:{active_service:'search'}};await chrome.storage.local.set({wsmb_conversation_bindings:bindings,wsmb_manual_modes:modes,ymb_service_contexts:contexts,wsmb_auto_send:true,ymb_settings_schema_version:5});await new Promise(ok=>chrome.tabs.sendMessage(tabId,{type:'WS_APPLY_MANUAL_MODE',conversation_key:key,enabled:true,active_service:'search'},()=>{void chrome.runtime.lastError;ok();}));},{key:KEY,cid:CID,tabId});
   emit({case:'venue_ready',status:'PASS',extension_id:extensionId,provider_calls:0});
 
-  await run('test15_blank_composer_auto_send_exactly_once',async()=>{
-    await reset('');
-    const meta=await stage('auto','TEST15 patched auto file');
-    await until(async()=>{const x=await page.evaluate(()=>__fixture.sends.length);return x===1?x:false;},'AUTO_SEND_NOT_OBSERVED',20000);
-    await until(async()=>{const s=await storageSnapshot();return s.outbox===null&&s.operation?.status==='completed'&&s.operation?.delivery_confirmed===true?s:false;},'FINAL_DELIVERY_STATE_NOT_OBSERVED',10000);
-    await delay(1500);
-    const snap=await snapshot();
-    assert.equal(snap.dom.sends.length,1);
-    assert.equal(snap.dom.sends[0].text,'TEST15 patched auto file');
-    assert.equal(snap.dom.sends[0].files.length,1);
-    assert.equal(snap.dom.sends[0].files[0].name,meta.filename);
-    assert.equal(snap.dom.userTurns.length,1);
-    assert.ok(snap.dom.userTurns[0].text.includes(meta.filename));
-    assert.equal(snap.storage.outbox,null);
-    assert.equal(snap.storage.operation.status,'completed');
-    assert.equal(snap.storage.operation.delivery_confirmed,true);
-    return{meta,snapshot:snap};
-  });
+  await run('test15_blank_composer_auto_send_exactly_once',async()=>{await reset('');const meta=await stage('auto','TEST15 patched auto file');await until(async()=>{const x=await page.evaluate(()=>__fixture.sends.length);return x===1?x:false;},'AUTO_SEND_NOT_OBSERVED',20000);await until(async()=>{const s=await storageSnapshot();return s.outbox===null&&s.operation?.status==='completed'&&s.operation?.delivery_confirmed===true?s:false;},'FINAL_DELIVERY_STATE_NOT_OBSERVED',10000);await delay(1500);const snap=await snapshot();assert.equal(snap.dom.sends.length,1);assert.equal(snap.dom.sends[0].text,'TEST15 patched auto file');assert.equal(snap.dom.sends[0].files.length,1);assert.equal(snap.dom.sends[0].files[0].name,meta.filename);assert.equal(snap.dom.userTurns.length,1);assert.ok(snap.dom.userTurns[0].text.includes(meta.filename));assert.equal(snap.storage.outbox,null);assert.equal(snap.storage.operation.status,'completed');assert.equal(snap.storage.operation.delivery_confirmed,true);return{meta,snapshot:snap};});
 
-  await run('occupied_user_draft_is_preserved',async()=>{
-    await reset('USER DRAFT EXACT');
-    await stage('userdraft','TEST15 user draft file');
-    await delay(3000);
-    const snap=await snapshot();
-    assert.equal(snap.dom.sends.length,0);
-    assert.equal(snap.dom.text,'USER DRAFT EXACT');
-    assert.equal(snap.storage.outbox?.phase,'claimed');
-    assert.equal(snap.storage.operation?.status,'delivering');
-    return{snapshot:snap};
-  });
+  await run('occupied_user_draft_is_preserved',async()=>{await reset('USER DRAFT EXACT');await stage('userdraft','TEST15 user draft file');await delay(3000);const snap=await snapshot();assert.equal(snap.dom.sends.length,0);assert.equal(snap.dom.text,'USER DRAFT EXACT');assert.equal(snap.storage.outbox?.phase,'claimed');assert.equal(snap.storage.operation?.status,'delivering');return{snapshot:snap};});
 
-  await run('bridge_owned_inline_collision_characterization',async()=>{
-    const inline='SEARCH_ASYNC_BATCH_RESULT_V1 {"action":"exportPage","jobId":"owner-smoke-016-01","ok":true}';
-    await reset(inline);
-    await stage('bridgeinline','TEST15 bridge inline file');
-    await delay(3000);
-    const snap=await snapshot();
-    return{observed_send_count:snap.dom.sends.length,observed_composer:snap.dom.text,observed_phase:snap.storage.outbox?.phase||null,snapshot:snap};
-  });
+  await run('same_delivery_inline_report_auto_sends_exactly_once',async()=>{const report='SEARCH_ASYNC_BATCH_RESULT_V1\n{"action":"exportPage","job_id":"owner-smoke-016-01","ok":true,"request_executed":false,"provider_calls":0}';await reset(report);const meta=await stage('sameinline',report);await until(async()=>{const x=await page.evaluate(()=>__fixture.sends.length);return x===1?x:false;},'SAME_REPORT_AUTO_SEND_NOT_OBSERVED',20000);await until(async()=>{const s=await storageSnapshot();return s.outbox===null&&s.operation?.status==='completed'&&s.operation?.delivery_confirmed===true?s:false;},'SAME_REPORT_FINAL_STATE_NOT_OBSERVED',10000);await delay(1000);const snap=await snapshot();assert.equal(snap.dom.sends.length,1);assert.equal(snap.dom.sends[0].text,report);assert.equal(snap.dom.sends[0].files.length,1);assert.equal(snap.dom.sends[0].files[0].name,meta.filename);assert.equal(snap.dom.userTurns.length,1);assert.equal(snap.storage.outbox,null);assert.equal(snap.storage.operation.status,'completed');return{meta,snapshot:snap};});
+
+  await run('different_bridge_inline_text_is_preserved',async()=>{const inline='SEARCH_ASYNC_BATCH_RESULT_V1 {"action":"exportPage","jobId":"other-operation","ok":true}';await reset(inline);await stage('bridgeinline','TEST15 different bridge delivery file');await delay(3000);const snap=await snapshot();assert.equal(snap.dom.sends.length,0);assert.equal(snap.dom.text,inline);assert.equal(snap.storage.outbox?.phase,'claimed');return{snapshot:snap};});
 }catch(e){failures++;emit({case:'launch_or_venue',status:'FAIL',error:String(e.stack||e),snapshot:page&&wakePage?await snapshot().catch(x=>({snapshot_error:String(x)})):null});}
 finally{try{await browser?.close();}catch{}}
 const rows=fs.existsSync(path.join(out,'targeted.jsonl'))?fs.readFileSync(path.join(out,'targeted.jsonl'),'utf8').trim().split(/\n/).filter(Boolean).map(JSON.parse):[];
-const result={source_commit:'64c1016c179de52b6e950830877f0d42a446e5e8',product_tree_sha256:process.env.YMB_PRODUCT_TREE,zip_sha256:'3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e',provider_calls:0,rows,failures,pass:failures===0&&rows.some(r=>r.case==='test15_blank_composer_auto_send_exactly_once'&&r.status==='PASS')&&rows.some(r=>r.case==='occupied_user_draft_is_preserved'&&r.status==='PASS')};
-fs.writeFileSync(path.join(out,'TARGETED_RESULT.json'),JSON.stringify(result,null,2)+'\n');
-process.exitCode=result.pass?0:1;
+const required=['test15_blank_composer_auto_send_exactly_once','occupied_user_draft_is_preserved','same_delivery_inline_report_auto_sends_exactly_once','different_bridge_inline_text_is_preserved'];
+const result={source_commit:'64c1016c179de52b6e950830877f0d42a446e5e8',product_tree_sha256:process.env.YMB_PRODUCT_TREE,zip_sha256:'3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e',provider_calls:0,rows,failures,required,pass:failures===0&&required.every(c=>rows.some(r=>r.case===c&&r.status==='PASS'))};
+fs.writeFileSync(path.join(out,'TARGETED_RESULT.json'),JSON.stringify(result,null,2)+'\n');process.exitCode=result.pass?0:1;
