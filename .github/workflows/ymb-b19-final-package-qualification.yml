@@ -1,4 +1,4 @@
-name: YMB B19 deterministic final package qualification
+name: YMB B19 deterministic final package qualification v2
 on:
   push:
     branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: a96713c63ed9dcdfcb3afdae1e0b93701bd52163
+          ref: 276058bd489f5cf9c70eeaec5ac8e4bd129105d8
           persist-credentials: false
           fetch-depth: 1
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -34,12 +34,12 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path,PurePosixPath
-          import hashlib,json,zipfile,os,shutil
+          import hashlib,json,zipfile,os
           H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src');target='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
           files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()}
           assert len(files)==67 and not any(p.is_symlink() for p in root.rglob('*'))
           ident=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode());assert ident==target
-          m=json.loads(files['manifest.json']);assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1
+          m=json.loads(files['manifest.json']);assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1;assert 'alarms' not in (m.get('permissions') or [])
           out=Path(os.environ['RUNNER_TEMP'])/'package';out.mkdir();prefix='Yandex-Marketing-Bridge-0.1.6/'
           def build(path):
             with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9,strict_timestamps=True) as z:
@@ -48,7 +48,7 @@ jobs:
           a=out/'Yandex-Marketing-Bridge-0.1.6-A.zip';b=out/'Yandex-Marketing-Bridge-0.1.6-B.zip';build(a);build(b);assert a.read_bytes()==b.read_bytes()
           final=out/'Yandex-Marketing-Bridge-0.1.6.zip';final.write_bytes(a.read_bytes());a.unlink();b.unlink()
           with zipfile.ZipFile(final) as z:
-            assert z.testzip() is None; extracted={}
+            assert z.testzip() is None;extracted={}
             for e in z.infolist():
               if e.is_dir():continue
               p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and len(p.parts)>=2 and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6'
@@ -57,17 +57,32 @@ jobs:
           ex=Path(os.environ['RUNNER_TEMP'])/'fresh-extracted';ex.mkdir()
           for n,d in extracted.items():q=ex/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
           extracted_ident=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(extracted.items())).encode());assert extracted_ident==target
-          result={'schema_version':1,'version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'operation_host_enabled':True,'alarms_permission':False,'release_allowed':False}
-          (out/'PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(out/'SOURCE_SHA256SUMS').write_text(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())));(out/'SHA256SUMS').write_text(H(final.read_bytes())+'  '+final.name+'\n'+H((out/'PACKAGE_RESULT.json').read_bytes())+'  PACKAGE_RESULT.json\n'+H((out/'SOURCE_SHA256SUMS').read_bytes())+'  SOURCE_SHA256SUMS\n')
+          result={'schema_version':2,'version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'operation_host_enabled':True,'alarms_permission':False,'release_allowed':False}
+          assert result['zip_sha256']=='81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2' and result['zip_bytes']==220045
+          (out/'PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(out/'SOURCE_SHA256SUMS').write_text(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())))
           deps=Path(os.environ['RUNNER_TEMP'])/'deps';deps.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(deps/'package-lock.json').write_bytes(lock);j=json.loads(lock);(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
           tests=Path(os.environ['RUNNER_TEMP'])/'tests';tests.mkdir();s=Path('frozen-b17/tests/b15_browser_qualification.mjs').read_text();old='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';assert s.count(old)==1;(tests/'resource.mjs').write_text(s.replace(old,target));(tests/'fixture.html').write_bytes(Path('frozen-b17/tests/b15_fixture.html').read_bytes());(tests/'network.mjs').write_bytes(Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_bytes())
           evidence=Path(os.environ['RUNNER_TEMP'])/'package-evidence';evidence.mkdir()
           with open(os.environ['GITHUB_ENV'],'a') as x:x.write(f'YMB_FINAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PPTR_HOME={deps}\nYMB_PACKAGE_TESTS={tests}\nYMB_PACKAGE_EVIDENCE={evidence}\nYMB_CHATGPT_FIXTURE={(tests/"fixture.html").resolve()}\n')
           print(json.dumps(result,indent=2))
           PY
+      - name: Fresh-extracted static identity and syntax checks
+        shell: bash
+        run: |
+          set -euo pipefail
           test "$(find "$YMB_BROWSER_CANDIDATE" -type f | wc -l)" -eq 67
           find "$YMB_BROWSER_CANDIDATE" -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
-          node --check "$YMB_PACKAGE_TESTS/resource.mjs";node --check "$YMB_PACKAGE_TESTS/network.mjs"
+          node --check "$YMB_PACKAGE_TESTS/resource.mjs"
+          node --check "$YMB_PACKAGE_TESTS/network.mjs"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path(os.environ['YMB_BROWSER_CANDIDATE'])
+          files={p.relative_to(r).as_posix():p.read_bytes() for p in sorted(r.rglob('*')) if p.is_file()}
+          assert len(files)==67
+          assert H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode())=='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          assert json.loads(files['manifest.json'])['version']=='0.1.6'
+          PY
       - name: Install locked Puppeteer
         shell: bash
         run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_PACKAGE_EVIDENCE/npm.stdout" 2> "$YMB_PACKAGE_EVIDENCE/npm.stderr"
@@ -96,7 +111,8 @@ jobs:
           groups={};fail=[];peak=0;remaining=[]
           for name in ['resource','network']:
             p=o/'evidence'/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];bad=[r.get('case') for r in rows if str(r.get('status','')).startswith('FAIL')];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});groups[name]={'cases':len(rows),'failures':bad,'remaining':clean.get('remaining') or [],'peak_owned_rss_kib':clean.get('peak_owned_rss_kib')};fail+=bad;remaining+=clean.get('remaining') or [];peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0))
-          result={**pkg,'fresh_extracted_browser':groups,'browser_failures':fail,'remaining_processes':remaining,'peak_owned_rss_kib':peak,'emergency_limit_kib':2097152,'real_provider_calls':0,'pass':pkg['dual_build_byte_identity'] and pkg['fresh_extraction_identity'] and not fail and not remaining and peak<2097152,'release_allowed':False}
+          required_cases=all(groups[name]['cases']>0 for name in ['resource','network'])
+          result={**pkg,'fresh_extracted_browser':groups,'browser_failures':fail,'remaining_processes':remaining,'peak_owned_rss_kib':peak,'emergency_limit_kib':2097152,'real_provider_calls':0,'browser_cases_present':required_cases,'pass':pkg['dual_build_byte_identity'] and pkg['fresh_extraction_identity'] and required_cases and not fail and not remaining and peak<2097152,'release_allowed':False}
           (o/'FINAL_PACKAGE_GATE.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
           PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
