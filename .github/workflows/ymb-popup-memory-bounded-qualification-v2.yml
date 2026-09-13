@@ -55,13 +55,15 @@ jobs:
           assert 'rowCount === null || rowCount === undefined ? null' in new
           src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/popup_memory_bounded_real_chrome.mjs').read_text()
           old_loop="for(let i=0;i<100;i++){await page.evaluate(()=>document.getElementById('searchAsyncRefresh').click());await waitButton(page);}"
-          new_loop="for(let i=0;i<100;i++){const expected=(await page.evaluate(()=>__ymbMemQA.result_count))+1;await page.evaluate(()=>document.getElementById('searchAsyncRefresh').click());await page.waitForFunction(expected=>__ymbMemQA.result_count>=expected,{timeout:20000},expected);await waitButton(page);}"
-          assert src.count(old_loop)==1
-          adapted=src.replace(old_loop,new_loop)
-          q=Path(os.environ['RUNNER_TEMP'])/'popup-memory-v3.mjs';q.write_text(adapted)
+          new_loop="await page.evaluate(()=>{__ymbMemQA.refresh_clicks=0;document.getElementById('searchAsyncRefresh').addEventListener('click',()=>__ymbMemQA.refresh_clicks++);});for(let i=0;i<100;i++){await page.click('#searchAsyncRefresh');await delay(50);await waitButton(page);}"
+          old_assert="assert.equal(counters.result_open_cursor,0,counters);assert.ok(counters.result_count>=101,counters);"
+          new_assert="assert.equal(counters.result_open_cursor,0,JSON.stringify(counters));assert.equal(counters.refresh_clicks,100,JSON.stringify(counters));assert.ok(counters.result_count>=80,JSON.stringify(counters));"
+          assert src.count(old_loop)==1 and src.count(old_assert)==1
+          adapted=src.replace(old_loop,new_loop).replace(old_assert,new_assert)
+          q=Path(os.environ['RUNNER_TEMP'])/'popup-memory-v4.mjs';q.write_text(adapted)
           print('STATIC_MEMORY_ROOT_CAUSE_AND_FIX_PASS')
           PY
-          node --check "$RUNNER_TEMP/popup-memory-v3.mjs"
+          node --check "$RUNNER_TEMP/popup-memory-v4.mjs"
           cp frozen-b17/package-lock.json "$RUNNER_TEMP/deps/package-lock.json"
           python3 - <<'PY'
           from pathlib import Path
@@ -72,7 +74,7 @@ jobs:
             f.write(f"YMB_NEW_ROOT={Path(os.environ['RUNNER_TEMP'])/'new/extension/src'}\n")
             f.write(f"YMB_PPTR_HOME={d}\n")
             f.write(f"YMB_MEMORY_EVIDENCE={Path(os.environ['RUNNER_TEMP'])/'evidence'}\n")
-            f.write(f"YMB_MEMORY_HARNESS={Path(os.environ['RUNNER_TEMP'])/'popup-memory-v3.mjs'}\n")
+            f.write(f"YMB_MEMORY_HARNESS={Path(os.environ['RUNNER_TEMP'])/'popup-memory-v4.mjs'}\n")
           PY
       - name: Install locked browser dependency
         shell: bash
