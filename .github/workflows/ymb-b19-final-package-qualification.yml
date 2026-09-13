@@ -1,4 +1,4 @@
-name: YMB B19 deterministic final package qualification v2
+name: YMB B19 deterministic final package qualification v3
 on:
   push:
     branches: [wip/ymb-file-delivery-patch-a-2026-09-12]
@@ -57,11 +57,11 @@ jobs:
           ex=Path(os.environ['RUNNER_TEMP'])/'fresh-extracted';ex.mkdir()
           for n,d in extracted.items():q=ex/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
           extracted_ident=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(extracted.items())).encode());assert extracted_ident==target
-          result={'schema_version':2,'version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'operation_host_enabled':True,'alarms_permission':False,'release_allowed':False}
+          result={'schema_version':3,'version':'0.1.6','product_tree_sha256':target,'files':67,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'operation_host_enabled':True,'alarms_permission':False,'release_allowed':False}
           assert result['zip_sha256']=='81d47a540abb2c2847ab34f47060b812061ce2dc43237643ab8f7707d5e634e2' and result['zip_bytes']==220045
           (out/'PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(out/'SOURCE_SHA256SUMS').write_text(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())))
           deps=Path(os.environ['RUNNER_TEMP'])/'deps';deps.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(deps/'package-lock.json').write_bytes(lock);j=json.loads(lock);(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
-          tests=Path(os.environ['RUNNER_TEMP'])/'tests';tests.mkdir();s=Path('frozen-b17/tests/b15_browser_qualification.mjs').read_text();old='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';assert s.count(old)==1;(tests/'resource.mjs').write_text(s.replace(old,target));(tests/'fixture.html').write_bytes(Path('frozen-b17/tests/b15_fixture.html').read_bytes());(tests/'network.mjs').write_bytes(Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_bytes())
+          tests=Path(os.environ['RUNNER_TEMP'])/'tests';tests.mkdir();s=Path('frozen-b17/tests/b15_browser_qualification.mjs').read_text();old='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';assert s.count(old)==1;(tests/'resource.mjs').write_text(s.replace(old,target));fixture_bytes=Path('frozen-b17/tests/b15_fixture.html').read_bytes();(tests/'fixture.html').write_bytes(fixture_bytes);(tests/'b15_fixture.html').write_bytes(fixture_bytes);(tests/'network.mjs').write_bytes(Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_bytes())
           evidence=Path(os.environ['RUNNER_TEMP'])/'package-evidence';evidence.mkdir()
           with open(os.environ['GITHUB_ENV'],'a') as x:x.write(f'YMB_FINAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PPTR_HOME={deps}\nYMB_PACKAGE_TESTS={tests}\nYMB_PACKAGE_EVIDENCE={evidence}\nYMB_CHATGPT_FIXTURE={(tests/"fixture.html").resolve()}\n')
           print(json.dumps(result,indent=2))
