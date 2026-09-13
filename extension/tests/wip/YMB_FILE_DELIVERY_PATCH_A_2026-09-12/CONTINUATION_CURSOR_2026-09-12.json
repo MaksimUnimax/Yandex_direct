@@ -1,30 +1,100 @@
 {
-  "schema_version": 24,
+  "schema_version": 25,
   "date": "2026-09-13",
-  "owner_instruction": "Continue exact work and persist each material QA/code/raw/cursor block. Never reconstruct saved product work or claim unexecuted safety.",
+  "owner_instruction": "Continue exact work and persist every material QA/code/raw/cursor block. Never rebuild saved product work or claim unexecuted safety.",
   "working_branch": "wip/ymb-file-delivery-patch-a-2026-09-12",
   "continuation_started_from_head": "f6b4dadc4841a98ed931c6c211af4fa6011b3dc1",
-  "current_unit": "PATCH_B_B18_UNIFIED_NODE_EXECUTOR_AND_REMAINING_BROWSER_QUALIFICATION",
-  "current_unit_state": "UNIFIED_NODE_LOCAL_AND_CI_PASS;BROWSER_THIRD_QA_RECHECK_IN_PROGRESS;NO_PRODUCTION_CHANGE",
-  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B18_MIDPOINT.md",
-  "prior_complete_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B17_RESULT.md",
-  "production_tree_sha256": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
-  "production_files": 67,
-  "production_changes_this_unit": 0,
-  "package": {"sha256":"1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1","bytes":225660,"purpose":"INTERNAL_QA_NOT_OWNER_RELEASE"},
-  "ready_to_reuse_artifact": {"run_id":34699125356,"artifact_id":10299402884,"name":"ymb-b17-pause-internal-evidence","sha256":"0a6b938c6d39392ed1f61f072bfc1ed5e590e99c207bc0bb2d9defebce1e5c3c","bytes":290523,"rule":"Ready B17 product; never rebuild A/B1-B17"},
-  "unified_node": {"runner":"extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b18_node_campaign.py","runner_sha256":"cc6389e6c08c9e944d21575c0e451788a9d7c0fad73b2dc1a71f7eca772c3c18","source_ref":"cb6d24a97b1b7c31d47beb263de6a629389432da","run_id":34731428403,"artifact_id":10309960620,"artifact_sha256":"9115aab772d2b1de314b28363b4ef61b9cf849c33e8d49f4fa56a0e4ef962e8f","bytes":78717,"roundtrip":"PASS88inner hashes","status":"PASS_AVAILABLE_NODE_SCOPE","counts":{"original":132,"wordstat_backup":78,"full":99,"modules":254,"export":84,"delivery":69},"counts_overlap":true,"failed_skipped_cancelled":0,"product_unchanged":true},
-  "browser_failures_preserved": [
-    {"run_id":34731010004,"artifact_id":10308669055,"sha256":"632468e61ce8a75b8147ae7d324b641b78cd1d1af3f07e2e9aaaa4384e2760b2","bytes":25908,"failed_markers":8,"note":"QA expected service change without explicit Save; downstream wrong-service errors. Reload synchronization unqualified."},
-    {"run_id":34731343657,"artifact_id":10309307785,"sha256":"d188b9f0bca909671eae4e1a8f6f0c48f592a50193cb2406e7aad8d1a8dd1179","bytes":27111,"failed_markers":4,"note":"Remaining admission/button/realm readiness and reload target synchronization. Same product; do not relabel run PASS."}
+  "current_unit": "PATCH_B_B18_UNIFIED_FINAL_DEVELOPMENT_QUALIFICATION_AND_PD_MAPPING",
+  "current_unit_state": "COMPLETE;UNIFIED_NODE_PASS;MANDATORY_BROWSER_DEVELOPMENT_COVERAGE_PASS;PD_MAP_COMPLETE;PERMANENT_RAW_EVIDENCE_PASS;NO_PRODUCTION_CHANGE;INDEPENDENT_GATE_NOT_RUN",
+  "latest_report": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/BLOCK_B18_RESULT.md",
+  "pd_map": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B18_FINAL_PD_EXECUTION_MAP.md",
+  "test_results": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B18_TEST_RESULTS.json",
+  "independent_gate_prompt": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/B18_INDEPENDENT_CODEX_GATE_PROMPT.md",
+  "production": {
+    "source_unit": "B17",
+    "tree_sha256": "b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508",
+    "files": 67,
+    "changes_in_b18": 0,
+    "package_sha256": "1560599adfcfdb2c3180ec9103005b1584bcd39709b8fc45e233f6c1bdd11ee1",
+    "package_bytes": 225660,
+    "purpose": "EXACT_INTERNAL_QA_CANDIDATE_NOT_OWNER_RELEASE"
+  },
+  "ready_to_reuse_artifact": {
+    "run_id": 34699125356,
+    "artifact_id": 10299402884,
+    "name": "ymb-b17-pause-internal-evidence",
+    "artifact_sha256": "0a6b938c6d39392ed1f61f072bfc1ed5e590e99c207bc0bb2d9defebce1e5c3c",
+    "bytes": 290523,
+    "rule": "Use this exact package/QA source. Do not rebuild A/B1-B17."
+  },
+  "unified_node": {
+    "run_id": 34731428403,
+    "artifact_id": 10309960620,
+    "artifact_sha256": "9115aab772d2b1de314b28363b4ef61b9cf849c33e8d49f4fa56a0e4ef962e8f",
+    "roundtrip": "PASS_88_INNER_HASHES",
+    "counts": {"original":132,"wordstat_backup":78,"full_contract":99,"modules":254,"export":84,"delivery":69},
+    "counts_overlap": true,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "mandatory_browser_development": {
+    "principal_run_id": 34731585712,
+    "artifact_id": 10309342324,
+    "mandatory_remaining_cases": "PASS",
+    "only_run_failure": "SUPPLEMENTAL chrome.runtime.reload direct popup navigation ERR_BLOCKED_BY_CLIENT",
+    "pd04_mandatory_contour": "Exact B17 real worker close/restart plus whole-browser profile close/reopen with durable recovery",
+    "pd04_requirement": "safe worker restart/lifecycle contour",
+    "mandatory_pd_browser_failures_remaining": 0
+  },
+  "supplemental_runtime_reload": {
+    "gate_bearing": false,
+    "classification": "PRESERVED_QA_DIAGNOSTICS",
+    "facts_repeatedly_observed": ["same extension id after reload", "enabled true after reload", "same version after reload"],
+    "qa_failures": "direct extension-page navigation, Puppeteer triggerAction/realm visibility, debugger/target synchronization and test-authoring paths",
+    "latest_non_gate_run": 34733840170,
+    "rule": "Do not convert supplemental QA failure into product failure unless a product assertion is actually reached. Do not use it to override B17 mandatory restart/lifecycle PASS."
+  },
+  "permanent_raw_evidence": {
+    "directory": "extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/evidence/B18_RAW_LOGS",
+    "commit": "ba4a59ca07c2be06370e707fd42bef053bb508ba",
+    "archive_sha256": "8d12495ab38d5f59517c05d831c814e690e37dab69ade0ff68214b13428444d3",
+    "archive_bytes": 70152,
+    "archive_members": 172,
+    "parts": 2,
+    "consumer_roundtrip": "PASS"
+  },
+  "pd_execution_mapping": {
+    "status": "COMPLETE_FOR_EXACT_DISABLED_DEFERRED_NETWORK_CANDIDATE",
+    "all_pd_sections_have_qualified_executable_mapping": true,
+    "development_evidence_is_independent_verdict": false
+  },
+  "network_boundary": {
+    "operation_host_enabled": false,
+    "new_provider_calls": 0,
+    "real_credentials_used": false,
+    "deferred_submit_collect_expected_state": "FAIL_CLOSED",
+    "activation_requires_separate_production_change_and_exact_target_requalification": true
+  },
+  "next_unit": "INDEPENDENT_CODEX_PRE_DELIVERY_GATE_ON_EXACT_B17_DISABLED_DEFERRED_NETWORK_CANDIDATE",
+  "next_scope": [
+    "Give Codex the saved B18_INDEPENDENT_CODEX_GATE_PROMPT.md; Codex is QA executor only",
+    "Run every enabled PD-00..PD-17 in one independent campaign on exact B17 bytes with no product edits",
+    "Persist exact PASS/FAIL matrix and evidence; no enabled NOT_RUN may become overall PASS",
+    "If independent product failure occurs, return complete failure set to ChatGPT for a new bounded correction",
+    "Do not enable Operation API host or make real provider calls inside the disabled-candidate independent gate",
+    "After independent verdict, separately decide whether deferred network activation is required; activation changes product bytes and requires provider/auth capability canary plus new exact-target gate"
   ],
-  "current_browser_recheck": {"run_id":34731585712,"workflow_commit":"236008b4715d48e700bc150d0d699c51fc02adb7","source_ref":"84b9e52fef9284c363f56da064c5ef2977109dcb","generated_QA_sha256":"a6e4cf87d1c5724bc251d887607c42313741378861a8315ff42704e3d3905f6e","status":"RESULT_NOT_YET_READ","instruction":"Read jobs/artifact and complete raw JSONL; do not launch a duplicate run or assume PASS."},
-  "next_scope": ["Read current browser recheck and classify exact remaining failures","Keep all first-run raw evidence; QA fixes never change product assertions or imply product safety","Finish consolidated PD execution map/report with exact qualified versus open sections","Preserve complete local and CI logs, then final B18 cursor/readback","No new functions, no permission/version change or paid provider call without its separate authorization"],
+  "remaining_release_blockers": [
+    "Independent complete Codex PD verdict on exact B17 disabled-deferred candidate",
+    "If deferred provider network is part of the release promise: explicit Operation API permission activation plus authorized provider/auth canaries and requalification",
+    "Final owner-release decision on the exact independently accepted bytes"
+  ],
+  "user_profile_touched": false,
   "operation_host_enabled": false,
   "new_provider_calls": 0,
-  "user_profile_touched": false,
   "independent_gate": "NOT_RUN",
-  "final_gate_ready": false,
+  "final_gate_ready_for_disabled_candidate": true,
   "release_allowed": false,
   "owner_installable_handoff": "FORBIDDEN"
 }
