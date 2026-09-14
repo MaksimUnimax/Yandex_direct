@@ -3,7 +3,9 @@ name: YMB File Delivery P0 Deterministic Owner Candidate
 on:
   push:
     branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
-    paths: [.github/workflows/ymb-file-delivery-p0-package.yml]
+    paths:
+      - .github/workflows/ymb-file-delivery-p0-package.yml
+      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs
   workflow_dispatch:
 
 permissions:
