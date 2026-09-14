@@ -109,6 +109,11 @@ try {
     await waitContentReady('CONTENT_NOT_READY_AFTER_OWNER_CASE_RESET');
     const staged = await stage('draft-conflict');
     await until(async () => (await outbox())?.phase === 'attachment_ready', 'CONFLICT_ATTACHMENT_NOT_READY');
+    await until(async () => page.evaluate((filename) => {
+      const control = document.getElementById('ymb-file-delivery-control');
+      const text = String(document.getElementById('prompt-textarea')?.value || '');
+      return Boolean(control && text.includes(filename));
+    }, staged.filename), 'CONTENT_READY_CONTROL_NOT_ARMED_FOR_CONFLICT');
     await page.$eval('#prompt-textarea', (element) => { element.value = 'МОЙ ЧЕРНОВИК'; element.dispatchEvent(new Event('input', { bubbles: true })); });
     await until(async () => (await outbox())?.paused === true, 'DURABLE_PAUSE_NOT_PERSISTED');
     const beforeClear = await page.$eval('#prompt-textarea', (element) => element.value);
