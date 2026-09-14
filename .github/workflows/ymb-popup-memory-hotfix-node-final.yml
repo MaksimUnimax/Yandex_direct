@@ -1,0 +1,67 @@
+name: YMB popup memory hotfix Node final
+on:
+  push:
+    branches: [qa/ymb-popup-memory-bounded-v2-2026-09-14]
+    paths: [.github/workflows/ymb-popup-memory-hotfix-node-final.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PRODUCT_SHA: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+  STAGE_A_SHA: 341c847089e1207dd23bf876f5ba3ac537b65a10
+jobs:
+  node-final:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b19-node-classification
+          run-id: 34734894636
+          github-token: ${{ github.token }}
+          path: frozen-classification
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Exact source and Stage-B contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$PRODUCT_SHA" -- extension/src
+          test "$(git diff --name-only "$STAGE_A_SHA" "$PRODUCT_SHA" -- extension/src | wc -l)" -eq 2
+          git diff --name-only "$STAGE_A_SHA" "$PRODUCT_SHA" -- extension/src | sort > "$RUNNER_TEMP/changed.txt"
+          printf '%s\n' extension/src/content_script.js extension/src/popup_search_async_monitor.js | sort > "$RUNNER_TEMP/expected.txt"
+          cmp "$RUNNER_TEMP/changed.txt" "$RUNNER_TEMP/expected.txt"
+          git show 04bb735b52d88fee09522f49ff03a063c117daee:extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/stage_b_popup_contract.test.mjs > "$RUNNER_TEMP/stage_b_popup_contract.test.mjs"
+          PRODUCT_SHA="$PRODUCT_SHA" STAGE_B_CONTRACT_EVIDENCE="$RUNNER_TEMP/contract" node "$RUNNER_TEMP/stage_b_popup_contract.test.mjs" > "$RUNNER_TEMP/contract.stdout"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('extension/src/popup_search_async_monitor.js').read_text()
+          assert 'REFRESH_MS' not in p and 'results.openCursor' not in p and 'results.count(itemRange)' in p
+          assert 'record?.raw_text' not in p and 'record.raw_text' not in p and 'record?.normalized?.results' not in p and 'record.normalized.results' not in p
+          assert p.count('setInterval(')==1 and 'pagehide' in p
+          print('MEMORY_STATIC_CONTRACT_PASS')
+          PY
+      - name: Accepted Stage A vs hotfix B19 differential
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/publish"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,io,json,os,shutil,subprocess,tarfile
+          H=lambda b:hashlib.sha256(b).hexdigest();repo=Path.cwd();tmp=Path(os.environ['RUNNER_TEMP']);publish=tmp/'publish';frozen=Path('frozen-classification');qa_src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa')
+          base_src=(qa_src/'b19_final_node_campaign.py').read_text();wrapper_src=(qa_src/'b19_final_node_campaign_v2.py').read_text();old_target='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';product_line="product=repo/'extension/src';qa_root=classification/'qa_workspace/qa';qa=qa_root/'qa';artifact_product=qa_root/'candidate/full'";override_line="product=Path(os.environ['YMB_PRODUCT_OVERRIDE']).resolve();qa_root=classification/'qa_workspace/qa';qa=qa_root/'qa';artifact_product=qa_root/'candidate/full'";assert base_src.count(product_line)==1
+          aroot=tmp/'stage-a-root';aroot.mkdir();archive=subprocess.check_output(['git','archive',os.environ['STAGE_A_SHA'],'extension/src']);tarfile.open(fileobj=io.BytesIO(archive),mode='r:').extractall(aroot);sources={'stage_a':aroot/'extension/src','hotfix':Path('extension/src')};results={};diag={}
+          for label,product in sources.items():
+            files=[p for p in product.rglob('*') if p.is_file()];js=sum(p.suffix=='.js' for p in files);tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(product).as_posix()+'\n' for p in sorted(files)).encode());work=tmp/f'class-{label}';shutil.copytree(frozen,work);candidate=work/'qa_workspace/qa/candidate/full';shutil.rmtree(candidate);shutil.copytree(product,candidate);runner=tmp/f'runner-{label}';runner.mkdir();base=base_src.replace(product_line,override_line);assert old_target in base;base=base.replace(old_target,tree).replace('!=67',f'!={len(files)}').replace('len(syntax)==61',f'len(syntax)=={js}').replace("'files':67",f"'files':{len(files)}");(runner/'b19_final_node_campaign.py').write_text(base);(runner/'b19_final_node_campaign_v2.py').write_text(wrapper_src);out=tmp/f'node-{label}';env={**os.environ,'YMB_PRODUCT_OVERRIDE':str(product.resolve())};cp=subprocess.run(['python3',str(runner/'b19_final_node_campaign_v2.py'),str(repo),str(work),str(out)],env=env,text=True,capture_output=True);assert (out/'RESULT.json').exists(),cp.stderr;res=json.loads((out/'RESULT.json').read_text());results[label]=res;diag[label]={'tree':tree,'files':len(files),'js':js,'returncode':cp.returncode};d=publish/label;d.mkdir();(d/'stdout').write_text(cp.stdout);(d/'stderr').write_text(cp.stderr);shutil.copy2(out/'RESULT.json',d/'RESULT.json')
+          sig=lambda r:{k:{'tests':v.get('footer',{}).get('tests'),'pass':v.get('footer',{}).get('pass'),'fail':v.get('footer',{}).get('fail'),'skipped':v.get('footer',{}).get('skipped'),'cancelled':v.get('footer',{}).get('cancelled'),'failed_names':v.get('failed_names',[])} for k,v in r['suites'].items()};sa,sb=results['stage_a'],results['hotfix'];a,b=sig(sa),sig(sb);delta={k:{'stage_a':a.get(k),'hotfix':b.get(k)} for k in sorted(set(a)|set(b)) if a.get(k)!=b.get(k)};contract=json.loads((tmp/'contract.stdout').read_text());summary={'schema_version':1,'product_sha':os.environ['PRODUCT_SHA'],'stage_a_sha':os.environ['STAGE_A_SHA'],'stage_a':{**diag['stage_a'],'signature':a},'hotfix':{**diag['hotfix'],'signature':b},'suite_delta':delta,'known_stale_baseline_failures':{k:v for k,v in a.items() if str(v.get('fail'))!='0'},'stage_b_contract_pass':contract.get('pass') is True,'provider_calls':0,'pass':not delta and contract.get('pass') is True and sa.get('static_pass') is True and sb.get('static_pass') is True and sa.get('real_provider_calls')==0 and sb.get('real_provider_calls')==0};(publish/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary,indent=2));raise SystemExit(0 if summary['pass'] else 2)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-popup-memory-hotfix-node-final
+          path: ${{ runner.temp }}/publish/
+          retention-days: 90
+          if-no-files-found: error
