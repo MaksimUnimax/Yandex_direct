@@ -1,0 +1,84 @@
+name: YMB File Delivery P0 Owner Race Stress
+
+on:
+  push:
+    branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
+    paths: [.github/workflows/ymb-file-delivery-p0-owner-race-stress.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+
+jobs:
+  owner-race-stress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Prepare exact candidate and corrected fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          files={p.relative_to(r).as_posix():p.read_bytes() for p in sorted(r.rglob('*')) if p.is_file()}
+          tree=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode())
+          assert len(files)==68
+          assert tree=='9270ebf23cfab0db44620381b93515967a1129967911af614959d11e8a1082bd'
+          q=Path(os.environ['RUNNER_TEMP'])/'owner-race';q.mkdir()
+          fx=Path('frozen-b17/tests/b15_fixture.html').read_text();old="Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';";new="const sent={text:composer.value,files:Q.files.map(f=>({...f}))};Q.sends.push(sent);const turn=document.createElement('article');turn.setAttribute('data-testid','conversation-turn-'+Q.sends.length);turn.setAttribute('data-message-id','fixture-user-'+Q.sends.length);const user=document.createElement('div');user.setAttribute('data-message-author-role','user');user.textContent=sent.text+' '+sent.files.map(f=>f.name).join(' ');turn.append(user);document.getElementById('conversation-root').append(turn);composer.value='';";assert fx.count(old)==1;(q/'fixture.html').write_text(fx.replace(old,new))
+          deps=Path(os.environ['RUNNER_TEMP'])/'deps';deps.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(deps/'package-lock.json').write_bytes(lock);j=json.loads(lock);(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          ev=Path(os.environ['RUNNER_TEMP'])/'evidence';ev.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as e:e.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={deps}\nYMB_CHATGPT_FIXTURE={(q/"fixture.html").resolve()}\nYMB_EXPECTED_TREE={tree}\nYMB_EXPECTED_FILES=68\nYMB_STRESS_EVIDENCE={ev}\n')
+          print(json.dumps({'tree':tree,'files':68,'head':os.environ['GITHUB_SHA']},indent=2))
+          PY
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs
+      - name: Install locked Puppeteer
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund
+      - name: Five fresh-Chrome owner-race repetitions
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in 1 2 3 4 5; do
+            d="$YMB_STRESS_EVIDENCE/run-$i";mkdir -p "$d"
+            echo "OWNER_RACE_STRESS_RUN=$i"
+            YMB_BROWSER_EVIDENCE="$d" xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs > "$d/run.stdout" 2> "$d/run.stderr"
+          done
+      - name: Enforce all repetitions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os,hashlib
+          root=Path(os.environ['YMB_STRESS_EVIDENCE']);required={'internal_protocol_never_enters_real_chrome_composer','user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert','p0_real_chrome_candidate_identity','owned_browser_cleanup'};runs=[]
+          for i in range(1,6):
+            p=root/f'run-{i}'/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()];present={r.get('case') for r in rows};fails=[r for r in rows if str(r.get('status','')).startswith('FAIL')];clean=next(r for r in rows if r.get('case')=='owned_browser_cleanup');runs.append({'run':i,'cases':len(rows),'failures':[{'case':r.get('case'),'status':r.get('status')} for r in fails],'missing':sorted(required-present),'remaining':clean.get('remaining') or [],'peak_owned_rss_kib':clean.get('peak_owned_rss_kib')})
+          result={'schema_version':1,'head':os.environ['GITHUB_SHA'],'product_tree':os.environ['YMB_EXPECTED_TREE'],'files':68,'repetitions':5,'runs':runs,'real_provider_calls':0};result['pass']=all(not r['failures'] and not r['missing'] and not r['remaining'] for r in runs);(root/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(root/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(root).as_posix()+'\n' for f in sorted(root.rglob('*')) if f.is_file() and f.name not in {'SHA256SUMS'}));print(json.dumps(result,indent=2));assert result['pass']
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ymb-file-delivery-p0-owner-race-stress
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 90
+          if-no-files-found: error
