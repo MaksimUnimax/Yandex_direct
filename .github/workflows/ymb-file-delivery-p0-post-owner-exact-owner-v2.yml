@@ -1,0 +1,80 @@
+name: YMB P0 Post-Owner Exact Resurrection Chrome Gate V2
+
+on:
+  push:
+    branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
+    paths:
+      - .github/workflows/ymb-file-delivery-p0-post-owner-exact-owner-v2.yml
+      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs
+      - extension/src/file_delivery_content.js
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+  EXPECTED_PRODUCT_TREE: e89530bfd1b6f91deada50e216d6ce0b127cffb38865402a0af4848b51c9eafa
+
+jobs:
+  owner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Prepare exact source identity and paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src');files=sorted(p for p in r.rglob('*') if p.is_file());tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in files).encode());assert tree==os.environ['EXPECTED_PRODUCT_TREE'];assert len(files)==68;assert json.loads((r/'manifest.json').read_text())['version']=='0.1.6'
+          d=Path(os.environ['RUNNER_TEMP'])/'p0-owner-v2-puppeteer';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'p0-owner-v2-evidence';e.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as env:env.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_BROWSER_EVIDENCE={e}\nYMB_CHATGPT_FIXTURE={Path("frozen-b17/tests/b15_fixture.html").resolve()}\nYMB_EXPECTED_TREE={tree}\nYMB_EXPECTED_FILES=68\n')
+          PY
+
+      - name: Install locked Puppeteer and syntax-check
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+
+      - name: Run exact real-Chrome owner reproduction
+        run: xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Enforce exact owner cases
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          e=Path(os.environ['YMB_BROWSER_EVIDENCE']);p=e/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];present={r.get('case') for r in rows};bad=[r for r in rows if str(r.get('status','')).startswith('FAIL')];required={'internal_protocol_never_enters_real_chrome_composer','preexisting_user_draft_before_claim_durably_pauses_without_resurrection','user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert','p0_real_chrome_candidate_identity','owned_browser_cleanup'};clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});result={'head':os.environ['GITHUB_SHA'],'product_tree':os.environ['YMB_EXPECTED_TREE'],'product_files':68,'cases':len(rows),'missing':sorted(required-present),'failures':[{'case':r.get('case'),'status':r.get('status'),'error':r.get('error')} for r in bad],'remaining':clean.get('remaining') or [],'peak_owned_rss_kib':clean.get('peak_owned_rss_kib'),'provider_calls':0};result['pass']=not result['missing'] and not result['failures'] and not result['remaining'];(e/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2));assert result['pass']
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ymb-p0-post-owner-exact-owner-v2
+          path: ${{ runner.temp }}/p0-owner-v2-evidence/
+          retention-days: 90
+          if-no-files-found: error
