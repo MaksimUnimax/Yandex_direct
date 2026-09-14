@@ -1,0 +1,54 @@
+name: YMB P0 Racefix Workflow Retarget
+
+on:
+  push:
+    branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
+    paths: [.github/workflows/ymb-p0-racefix-workflow-retarget.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  retarget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hotfix/ymb-file-delivery-p0-2026-09-14
+          fetch-depth: 1
+      - name: Retarget package and resource gates to racefix tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          old='ef8285641e258d6abec29e65c9afc21cda8ab62a95c04e5148d34e8ca8a829b7'
+          new='9270ebf23cfab0db44620381b93515967a1129967911af614959d11e8a1082bd'
+          marker='      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_RACEFIX_REQUALIFICATION_TRIGGER_*.md\n'
+          pkg=Path('.github/workflows/ymb-file-delivery-p0-package.yml')
+          s=pkg.read_text()
+          assert s.count(old)==1, s.count(old)
+          s=s.replace(old,new)
+          anchor='      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs\n'
+          assert s.count(anchor)==1
+          if marker not in s: s=s.replace(anchor,anchor+marker)
+          pkg.write_text(s)
+          res=Path('.github/workflows/ymb-file-delivery-p0-resource-recheck.yml')
+          s=res.read_text()
+          assert s.count(anchor)==1
+          if marker not in s: s=s.replace(anchor,anchor+marker)
+          res.write_text(s)
+          PY
+          git diff --check
+          grep -q '9270ebf23cfab0db44620381b93515967a1129967911af614959d11e8a1082bd' .github/workflows/ymb-file-delivery-p0-package.yml
+          grep -q 'P0_RACEFIX_REQUALIFICATION_TRIGGER_\*.md' .github/workflows/ymb-file-delivery-p0-package.yml
+          grep -q 'P0_RACEFIX_REQUALIFICATION_TRIGGER_\*.md' .github/workflows/ymb-file-delivery-p0-resource-recheck.yml
+      - name: Commit QA-only retarget
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'MaksimUnimax'
+          git config user.email '36834459+MaksimUnimax@users.noreply.github.com'
+          git add .github/workflows/ymb-file-delivery-p0-package.yml .github/workflows/ymb-file-delivery-p0-resource-recheck.yml
+          git commit -m 'qa(extension): retarget P0 gates to composer-race fix'
+          git push origin HEAD:hotfix/ymb-file-delivery-p0-2026-09-14
