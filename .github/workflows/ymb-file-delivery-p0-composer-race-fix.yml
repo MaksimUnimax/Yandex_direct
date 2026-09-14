@@ -1,0 +1,52 @@
+name: YMB File Delivery P0 Composer Race Fix
+
+on:
+  push:
+    branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
+    paths: [.github/workflows/ymb-file-delivery-p0-composer-race-fix.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hotfix/ymb-file-delivery-p0-2026-09-14
+          fetch-depth: 1
+      - name: Apply guarded production race fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('extension/src/file_delivery_content.js')
+          s=p.read_text()
+          replacements=[
+          ('''    poll_in_flight: false,\n    in_flight: new Set(),''','''    poll_in_flight: false,\n    active_entry: null,\n    composer_conflict_id: null,\n    in_flight: new Set(),'''),
+          ('''    entry = { ...entry, delivery_signal: runtime.controller.signal };\n    runtime.in_flight.add(key);''','''    entry = { ...entry, delivery_signal: runtime.controller.signal };\n    runtime.active_entry = entry;\n    runtime.in_flight.add(key);'''),
+          ('''    } finally { runtime.in_flight.delete(key); }\n  }\n\n  function schedulePoll(delayMs) {''','''    } finally {\n      if (runtime.active_entry?.delivery_id === key) runtime.active_entry = null;\n      runtime.in_flight.delete(key);\n    }\n  }\n\n  function schedulePoll(delayMs) {'''),
+          ('''  function onComposerInput(event) {\n    if (!runtime.control_button) return;\n    const composer = BB2ComposerSend.findComposer(document);\n    if (!composer) return;\n    const target = event?.target;\n    if (target === composer || composer.contains?.(target)) schedulePoll(50);\n  }''','''  function pauseActiveEntryForComposerConflict(entry) {\n    const key = String(entry?.delivery_id || "");\n    if (!key || !PRE_SEND_PHASES.has(entry?.phase) || runtime.composer_conflict_id === key || runtime.local_pause_id === key) return;\n    runtime.composer_conflict_id = key;\n    runtime.local_pause_id = key;\n    runtime.controller?.abort();\n    disarmManualSend();\n    void sendWorker({\n      type: "WS_SET_ATTACHMENT_PAUSED",\n      conversation_key: entry.conversation_key,\n      delivery_id: key,\n      paused: true\n    }).then((response) => {\n      if (!current() || runtime.composer_conflict_id !== key) return;\n      if (response?.ok) {\n        status("Яндекс: доставка остановлена и сохранена в паузе — поле ввода изменено вашим текстом. Автоматического повтора не будет.", "error", 0);\n      } else if (response?.code === "ATTACHMENT_SEND_ALREADY_COMMITTED") {\n        runtime.local_pause_id = null;\n        status("Яндекс: Send-barrier уже зафиксирован. Pause/повтор запрещены; выполняется только сверка результата отправки.", "error", 0);\n      } else {\n        status(`Яндекс: доставка остановлена локально из-за изменения поля ввода. Durable pause не подтверждена (${response?.code || "UNKNOWN"}); автоматический повтор в этой вкладке заблокирован.`, "error", 0);\n      }\n    }).catch((error) => {\n      if (current() && runtime.composer_conflict_id === key) {\n        status(`Яндекс: доставка остановлена локально из-за изменения поля ввода. Durable pause не подтверждена (${error?.message || error}); автоматический повтор в этой вкладке заблокирован.`, "error", 0);\n      }\n    }).finally(() => {\n      if (!current() || runtime.composer_conflict_id !== key) return;\n      runtime.composer_conflict_id = null;\n      schedulePoll(25);\n    });\n  }\n\n  function onComposerInput(event) {\n    if (!runtime.control_button) return;\n    const composer = BB2ComposerSend.findComposer(document);\n    if (!composer) return;\n    const target = event?.target;\n    if (target !== composer && !composer.contains?.(target)) return;\n    const entry = runtime.active_entry;\n    const actual = BB2ComposerSend.normalize(BB2ComposerSend.readComposer(composer));\n    if (entry && PRE_SEND_PHASES.has(entry.phase) && actual && actual !== normalizedDeliveryText(entry)) {\n      pauseActiveEntryForComposerConflict(entry);\n      return;\n    }\n    schedulePoll(50);\n  }'''),
+          ('''    runtime.timer = null; runtime.timer_due = 0; disarmManualSend();''','''    runtime.timer = null; runtime.timer_due = 0;\n    runtime.active_entry = null; runtime.composer_conflict_id = null;\n    disarmManualSend();''')]
+          for old,new in replacements:
+            count=s.count(old)
+            assert count==1,(old[:80],count)
+            s=s.replace(old,new)
+          p.write_text(s)
+          PY
+          node --check extension/src/file_delivery_content.js
+          git diff --check
+          test "$(git diff --name-only | wc -l)" -eq 1
+          test "$(git diff --name-only)" = "extension/src/file_delivery_content.js"
+          grep -q 'pauseActiveEntryForComposerConflict' extension/src/file_delivery_content.js
+      - name: Commit guarded production fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'MaksimUnimax'
+          git config user.email '36834459+MaksimUnimax@users.noreply.github.com'
+          git add extension/src/file_delivery_content.js
+          git commit -m 'fix(extension): pause file delivery on composer race'
+          git push origin HEAD:hotfix/ymb-file-delivery-p0-2026-09-14
