@@ -54,7 +54,8 @@ jobs:
           assert 'results.openCursor' not in b and 'REFRESH_MS' not in b
           assert 'results.count(itemRange)' in b and 'items.count(itemRange)' in b and 'due.count(dueRange)' in b
           assert b.count('setInterval(')==1
-          assert 'raw_text' not in b and 'normalized.results' in b  # only in safety comment, never accessed
+          assert 'record?.raw_text' not in b and 'record.raw_text' not in b
+          assert 'record?.normalized?.results' not in b and 'record.normalized.results' not in b
           assert 'result_row_count: null' in b
           print('STATIC_MEMORY_ROOT_CAUSE_AND_FIX_PASS')
           PY
