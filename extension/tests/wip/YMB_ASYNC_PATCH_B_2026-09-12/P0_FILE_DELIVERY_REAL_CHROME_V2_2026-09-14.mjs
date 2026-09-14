@@ -53,12 +53,19 @@ async function getWorker() {
   workerTarget = await browser.waitForTarget((target) => target.type() === 'service_worker' && target.url().startsWith('chrome-extension://') && target.url().endsWith('/phase3_service_worker_bootstrap.js'), { timeout: 20000 });
   worker = await workerTarget.worker(); assert.ok(worker);
 }
+async function waitContentReady(label = 'CONTENT_NOT_READY') {
+  await until(async () => worker.evaluate(async (url) => {
+    const tab = (await chrome.tabs.query({})).find((x) => x.url === url);
+    if (!tab) return false;
+    return new Promise((resolve) => chrome.tabs.sendMessage(tab.id, { type: 'WS_GET_IDENTITY' }, (response) => { void chrome.runtime.lastError; resolve(response?.ok === true); }));
+  }, PAGE_URL), label);
+}
 async function outbox() {
   return worker.evaluate(async (key) => { const e = await getConversationOutbox(key); return e ? { id: e.delivery_id, phase: e.phase, paused: e.delivery_paused === true, report_text: e.report_text, filenames: (e.artifact_descriptors || []).map((x) => x.filename) } : null; }, KEY);
 }
 async function resetPageAndOutbox() {
   await worker.evaluate(async (key) => { await clearOutbox(key); const data = await chrome.storage.local.get('wsmb_manual_operations'); const map = data.wsmb_manual_operations || {}; delete map[key]; await chrome.storage.local.set({ wsmb_manual_operations: map }); }, KEY);
-  await page.evaluate(() => { const composer = document.getElementById('prompt-textarea'); if (composer) composer.value = ''; document.getElementById('previews')?.replaceChildren(); const input = document.getElementById('upload-files'); if (input) input.value = ''; if (globalThis.__fixture) { __fixture.files = []; __fixture.arm?.(); } });
+  await page.evaluate(() => { const composer = document.getElementById('prompt-textarea'); if (composer) { composer.value = ''; composer.dispatchEvent(new Event('input', { bubbles: true })); } document.getElementById('previews')?.replaceChildren(); const input = document.getElementById('upload-files'); if (input) input.value = ''; if (globalThis.__fixture) { __fixture.files = []; __fixture.arm?.(); } });
   await delay(250);
 }
 async function stage(label) {
@@ -82,7 +89,7 @@ try {
   page = await browser.newPage(); await page.setRequestInterception(true);
   page.on('request', (request) => { if (request.isNavigationRequest() && request.url() === PAGE_URL) void request.respond({ status: 200, contentType: 'text/html; charset=utf-8', body: fixture }); else void request.abort(); });
   await page.goto(PAGE_URL, { waitUntil: 'domcontentloaded', timeout: 20000 });
-  await until(async () => worker.evaluate(async (url) => { const tab = (await chrome.tabs.query({})).find((x) => x.url === url); if (!tab) return false; return new Promise((resolve) => chrome.tabs.sendMessage(tab.id, { type: 'WS_GET_IDENTITY' }, (response) => { void chrome.runtime.lastError; resolve(response?.ok === true); })); }, PAGE_URL), 'CONTENT_NOT_READY');
+  await waitContentReady();
   tabId = await worker.evaluate(async (url) => (await chrome.tabs.query({})).find((x) => x.url === url)?.id, PAGE_URL); assert.ok(Number.isInteger(tabId));
   await worker.evaluate(async ({ key, cid, tabId }) => { await chrome.storage.local.set({ wsmb_conversation_bindings: { [key]: { binding_id: 'p0-real-chrome', revision: 1, origin: 'https://chatgpt.com', conversation_id: cid, conversation_key: key } }, wsmb_manual_modes: { [key]: true }, ymb_service_contexts: { [key]: { active_service: 'search' } }, wsmb_auto_send: false, ymb_settings_schema_version: 5 }); await new Promise((resolve) => chrome.tabs.sendMessage(tabId, { type: 'WS_APPLY_MANUAL_MODE', conversation_key: key, enabled: true, active_service: 'search' }, resolve)); }, { key: KEY, cid: CID, tabId });
 
@@ -97,7 +104,10 @@ try {
   });
 
   await runCase('user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert', async () => {
-    await resetPageAndOutbox(); const staged = await stage('draft-conflict');
+    await resetPageAndOutbox();
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 20000 });
+    await waitContentReady('CONTENT_NOT_READY_AFTER_OWNER_CASE_RESET');
+    const staged = await stage('draft-conflict');
     await until(async () => (await outbox())?.phase === 'attachment_ready', 'CONFLICT_ATTACHMENT_NOT_READY');
     await page.$eval('#prompt-textarea', (element) => { element.value = 'МОЙ ЧЕРНОВИК'; element.dispatchEvent(new Event('input', { bubbles: true })); });
     await until(async () => (await outbox())?.paused === true, 'DURABLE_PAUSE_NOT_PERSISTED');
