@@ -103,6 +103,28 @@ try {
     return { protocol_leak: 0, safe_filename_marker: true, provider_calls: 0 };
   });
 
+
+await runCase('preexisting_user_draft_before_claim_durably_pauses_without_resurrection', async () => {
+  await resetPageAndOutbox();
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 20000 });
+  await waitContentReady('CONTENT_NOT_READY_PREEXISTING_DRAFT');
+  await page.$eval('#prompt-textarea', (element) => { element.value = 'МОЙ ПРЕДСУЩЕСТВУЮЩИЙ ЧЕРНОВИК'; element.dispatchEvent(new Event('input', { bubbles: true })); });
+  const staged = await stage('preexisting-draft');
+  await until(async () => (await outbox())?.paused === true, 'PREEXISTING_DRAFT_DURABLE_PAUSE_NOT_PERSISTED');
+  const paused = await outbox();
+  const beforeClear = await page.$eval('#prompt-textarea', (element) => element.value);
+  assert.equal(beforeClear, 'МОЙ ПРЕДСУЩЕСТВУЮЩИЙ ЧЕРНОВИК');
+  assert.equal(paused?.id, staged.deliveryId); assert.equal(paused?.phase, 'claimed'); assert.equal(paused?.paused, true);
+  assert.ok(!beforeClear.includes('SEARCH_ASYNC_BATCH_RESULT_V1'));
+  await page.$eval('#prompt-textarea', (element) => { element.value = ''; element.dispatchEvent(new Event('input', { bubbles: true })); });
+  await delay(1800);
+  const afterClear = await page.$eval('#prompt-textarea', (element) => element.value); const durable = await outbox();
+  assert.equal(afterClear, ''); assert.equal(durable?.id, staged.deliveryId); assert.equal(durable?.phase, 'claimed'); assert.equal(durable?.paused, true);
+  assert.ok(!afterClear.includes('SEARCH_ASYNC_BATCH_RESULT_V1'));
+  assert.equal(await worker.evaluate(() => __p0_provider_fetches), 0);
+  return { preexisting_user_draft_preserved: true, durable_pause: true, resurrection_after_clear: 0, provider_calls: 0 };
+});
+
   await runCase('user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert', async () => {
     await resetPageAndOutbox();
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 20000 });

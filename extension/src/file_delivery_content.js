@@ -298,7 +298,7 @@
   async function processClaimed(entry) {
     assertEntryContext(entry);
     const free = composerFreeFor(entry);
-    if (free === false) { status("Яндекс ждёт: поле ввода занято вашим текстом.", "info", 0); return; }
+    if (free === false) throw Object.assign(new Error("Поле ввода занято вашим текстом."), { code: "COMPOSER_CONTAINS_OTHER_TEXT" });
     if (!free) { status("Яндекс: поле ввода ChatGPT не найдено.", "error", 5000); return; }
     const input = YMBChatGPTFileAttachment.fileInput(document);
     if (!input) { status("Яндекс: поле прикрепления файлов ChatGPT пока недоступно.", "error", 5000); return; }
