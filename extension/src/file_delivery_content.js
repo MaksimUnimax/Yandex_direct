@@ -501,6 +501,10 @@
         catch (pauseError) { pause = { ok: false, code: pauseError?.code || "ATTACHMENT_FAILURE_PAUSE_FAILED", error: pauseError?.message || String(pauseError) }; }
         if (pause?.ok) {
           status(`Яндекс: файловая доставка остановлена и сохранена в паузе — ${error.message || error}. Автоматического повтора не будет.`, "error", 0);
+        } else if (pause?.code === "ATTACHMENT_SEND_ALREADY_COMMITTED") {
+          disarmManualSend();
+          status("Яндекс: Send-barrier уже зафиксирован. Pause/повтор запрещены; выполняется только сверка результата отправки.", "error", 0);
+          schedulePoll(25);
         } else {
           runtime.local_pause_id = key;
           runtime.controller?.abort();
@@ -558,6 +562,7 @@
   }
 
   function onComposerInput(event) {
+    if (!runtime.control_button) return;
     const composer = BB2ComposerSend.findComposer(document);
     if (!composer) return;
     const target = event?.target;
