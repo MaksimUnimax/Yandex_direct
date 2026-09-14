@@ -73,8 +73,6 @@ jobs:
           assert s.count('__YMB_FILE_DELIVERY_CONTENT_V2__')>=1
           s=s.replace(old_b19,tree).replace(count_guard,f'assert.equal(rows.length,{count});').replace('__YMB_FILE_DELIVERY_CONTENT_V2__','__YMB_FILE_DELIVERY_CONTENT_V4__')
           base.write_text(s)
-          # Frozen B15 recorded Send clicks but did not render the resulting user turn.
-          # Render that turn so the current production exactly-once reconciliation contract can be observed.
           fx=Path('frozen-b17/tests/b15_fixture.html').read_text()
           old="Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';"
           new="const sent={text:composer.value,files:Q.files.map(f=>({...f}))};Q.sends.push(sent);const turn=document.createElement('article');turn.setAttribute('data-testid','conversation-turn-'+Q.sends.length);turn.setAttribute('data-message-id','fixture-user-'+Q.sends.length);const user=document.createElement('div');user.setAttribute('data-message-author-role','user');user.textContent=sent.text+' '+sent.files.map(f=>f.name).join(' ');turn.append(user);document.getElementById('conversation-root').append(turn);composer.value='';"
@@ -85,7 +83,7 @@ jobs:
           lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock)
           j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
           e=Path(os.environ['RUNNER_TEMP'])/'p0-resource-evidence';e.mkdir()
-          identity={'head':os.environ['GITHUB_SHA'],'tree':tree,'files':count,'version':manifest['version'],'frozen_fixture_digest':'sha256:0a6b938c6d39392ed1f61f072bfc1ed5e590e99c207bc0bb2d9defebce1e5c3c','qa_only_changes':['tree identity','file-count identity','content runtime V2->V4 lookup','saved B19 stale-control race adaptation','fixture renders user-turn after Send']}
+          identity={'head':os.environ['GITHUB_SHA'],'tree':tree,'files':count,'version':manifest['version'],'frozen_fixture_digest':'sha256:0a6b938c6d39392ed1f61f072bfc1ed5e590e99c207bc0bb2d9defebce1e5c3c','qa_only_changes':['tree identity','file-count identity','content runtime V2->V4 lookup','saved B19 stale-control race adaptation','fixture renders user-turn after Send'],'fresh_trigger':'post-owner-live-fail'}
           (e/'IDENTITY.json').write_text(json.dumps(identity,indent=2)+'\n')
           with open(os.environ['GITHUB_ENV'],'a') as env:
             env.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_RESOURCE_TESTS={q}\nYMB_RESOURCE_EVIDENCE={e}\nYMB_EXPECTED_TREE={tree}\nYMB_EXPECTED_FILES={count}\nYMB_CHATGPT_FIXTURE={(q/"b15_fixture.html").resolve()}\n')
@@ -141,7 +139,7 @@ jobs:
           from pathlib import Path
           import hashlib,json,os
           o=Path(os.environ['RUNNER_TEMP'])/'p0-resource-publish';groups={};fails=[];peak=0;remaining=[]
-          required_owner={'internal_protocol_never_enters_real_chrome_composer','user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert','p0_real_chrome_candidate_identity','owned_browser_cleanup'}
+          required_owner={'internal_protocol_never_enters_real_chrome_composer','preexisting_user_draft_before_claim_durably_pauses_without_resurrection','user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert','p0_real_chrome_candidate_identity','owned_browser_cleanup'}
           for name in ['qualification','faults','pause','p0_owner']:
             p=o/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
             bad=[{'case':r.get('case'),'status':r.get('status'),'error':r.get('error')} for r in rows if str(r.get('status','')).startswith('FAIL')]
@@ -149,7 +147,7 @@ jobs:
             peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0));remaining.extend(clean.get('remaining') or [])
             groups[name]={'cases':len(rows),'failures':bad,'peak_rss_kib':clean.get('peak_owned_rss_kib'),'remaining':clean.get('remaining'),'cases_present':sorted({r.get('case') for r in rows if r.get('case')})};fails.extend([{'group':name,**x} for x in bad])
           owner_present=set(groups['p0_owner']['cases_present'])
-          result={'schema_version':2,'head':os.environ['GITHUB_SHA'],'product_tree':os.environ['YMB_EXPECTED_TREE'],'product_files':int(os.environ['YMB_EXPECTED_FILES']),'version':'0.1.6','real_provider_calls':0,'groups':groups,'failures':fails,'missing_owner_cases':sorted(required_owner-owner_present),'peak_owned_rss_kib':peak,'remaining_processes':remaining,'emergency_limit_kib':2097152}
+          result={'schema_version':3,'head':os.environ['GITHUB_SHA'],'product_tree':os.environ['YMB_EXPECTED_TREE'],'product_files':int(os.environ['YMB_EXPECTED_FILES']),'version':'0.1.6','real_provider_calls':0,'groups':groups,'failures':fails,'missing_owner_cases':sorted(required_owner-owner_present),'peak_owned_rss_kib':peak,'remaining_processes':remaining,'emergency_limit_kib':2097152}
           result['pass']=all(g['cases']>0 and not g['failures'] and not(g['remaining'] or []) for g in groups.values()) and not result['missing_owner_cases'] and peak<2097152
           (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
           if not result['pass']: raise SystemExit('REAL_CHROME_RESOURCE_GATE_FAILED')
