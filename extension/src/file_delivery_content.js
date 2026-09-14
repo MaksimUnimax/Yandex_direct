@@ -27,6 +27,8 @@
     timer: null,
     timer_due: 0,
     poll_in_flight: false,
+    active_entry: null,
+    composer_conflict_id: null,
     in_flight: new Set(),
     send_in_flight: new Set(),
     manual_button: null,
@@ -487,6 +489,7 @@
       runtime.controller?.abort(); runtime.controller = new AbortController(); runtime.controller_id = key;
     }
     entry = { ...entry, delivery_signal: runtime.controller.signal };
+    runtime.active_entry = entry;
     runtime.in_flight.add(key);
     try {
       if (entry.phase === "claimed") await processClaimed(entry);
@@ -514,7 +517,10 @@
       } else {
         status(`Яндекс: файловая доставка остановлена безопасно — ${error.message || error}`, "error", 0);
       }
-    } finally { runtime.in_flight.delete(key); }
+    } finally {
+      if (runtime.active_entry?.delivery_id === key) runtime.active_entry = null;
+      runtime.in_flight.delete(key);
+    }
   }
 
   function schedulePoll(delayMs) {
@@ -561,12 +567,52 @@
     if (areaName === "local" && changes && Object.hasOwn(changes, OUTBOX_STORAGE_KEY)) schedulePoll(25);
   }
 
+  function pauseActiveEntryForComposerConflict(entry) {
+    const key = String(entry?.delivery_id || "");
+    if (!key || !PRE_SEND_PHASES.has(entry?.phase) || runtime.composer_conflict_id === key || runtime.local_pause_id === key) return;
+    runtime.composer_conflict_id = key;
+    runtime.local_pause_id = key;
+    runtime.controller?.abort();
+    disarmManualSend();
+    void sendWorker({
+      type: "WS_SET_ATTACHMENT_PAUSED",
+      conversation_key: entry.conversation_key,
+      delivery_id: key,
+      paused: true
+    }).then((response) => {
+      if (!current() || runtime.composer_conflict_id !== key) return;
+      if (response?.ok) {
+        status("Яндекс: доставка остановлена и сохранена в паузе — поле ввода изменено вашим текстом. Автоматического повтора не будет.", "error", 0);
+      } else if (response?.code === "ATTACHMENT_SEND_ALREADY_COMMITTED") {
+        runtime.local_pause_id = null;
+        status("Яндекс: Send-barrier уже зафиксирован. Pause/повтор запрещены; выполняется только сверка результата отправки.", "error", 0);
+      } else {
+        status(`Яндекс: доставка остановлена локально из-за изменения поля ввода. Durable pause не подтверждена (${response?.code || "UNKNOWN"}); автоматический повтор в этой вкладке заблокирован.`, "error", 0);
+      }
+    }).catch((error) => {
+      if (current() && runtime.composer_conflict_id === key) {
+        status(`Яндекс: доставка остановлена локально из-за изменения поля ввода. Durable pause не подтверждена (${error?.message || error}); автоматический повтор в этой вкладке заблокирован.`, "error", 0);
+      }
+    }).finally(() => {
+      if (!current() || runtime.composer_conflict_id !== key) return;
+      runtime.composer_conflict_id = null;
+      schedulePoll(25);
+    });
+  }
+
   function onComposerInput(event) {
     if (!runtime.control_button) return;
     const composer = BB2ComposerSend.findComposer(document);
     if (!composer) return;
     const target = event?.target;
-    if (target === composer || composer.contains?.(target)) schedulePoll(50);
+    if (target !== composer && !composer.contains?.(target)) return;
+    const entry = runtime.active_entry;
+    const actual = BB2ComposerSend.normalize(BB2ComposerSend.readComposer(composer));
+    if (entry && PRE_SEND_PHASES.has(entry.phase) && actual && actual !== normalizedDeliveryText(entry)) {
+      pauseActiveEntryForComposerConflict(entry);
+      return;
+    }
+    schedulePoll(50);
   }
 
   try { chrome.storage.onChanged.addListener(onStorageChanged); } catch {}
@@ -578,7 +624,9 @@
     runtime.controller?.abort(); runtime.controller = null;
     removeDeliveryControl();
     if (runtime.timer) clearTimeout(runtime.timer);
-    runtime.timer = null; runtime.timer_due = 0; disarmManualSend();
+    runtime.timer = null; runtime.timer_due = 0;
+    runtime.active_entry = null; runtime.composer_conflict_id = null;
+    disarmManualSend();
     try { chrome.storage.onChanged.removeListener(onStorageChanged); } catch {}
     document.removeEventListener("input", onComposerInput, true);
     const node = document.getElementById("ymb-file-delivery-status");
