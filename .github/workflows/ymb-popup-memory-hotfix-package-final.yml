@@ -1,0 +1,126 @@
+name: YMB popup memory hotfix package final
+on:
+  push:
+    branches: [qa/ymb-popup-memory-bounded-v2-2026-09-14]
+    paths: [.github/workflows/ymb-popup-memory-hotfix-package-final.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  PRODUCT_SHA: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  package-final:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-popup-memory-bounded-evidence-v6
+          run-id: 34795447327
+          github-token: ${{ github.token }}
+          path: memory-v6
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-popup-memory-lifecycle-v8
+          run-id: 34795757733
+          github-token: ${{ github.token }}
+          path: memory-v8
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Build exact deterministic package and QA copies
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$PRODUCT_SHA" -- extension/src
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,json,os,subprocess,zipfile
+          H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src');files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()};assert len(files)==68
+          tree=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode());out=Path(os.environ['RUNNER_TEMP'])/'package';out.mkdir();prefix='Yandex-Marketing-Bridge-0.1.6/'
+          def build(p):
+            with zipfile.ZipFile(p,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9,strict_timestamps=True) as z:
+              for n,b in sorted(files.items()):
+                zi=zipfile.ZipInfo(prefix+n,date_time=(1980,1,1,0,0,0));zi.compress_type=zipfile.ZIP_DEFLATED;zi.create_system=3;zi.external_attr=(0o100644<<16);zi.flag_bits=0x800;z.writestr(zi,b,compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
+          a=out/'A.zip';b=out/'B.zip';build(a);build(b);assert a.read_bytes()==b.read_bytes();final=out/'Yandex-Marketing-Bridge-0.1.6-stage-b-memory-hotfix.zip';final.write_bytes(a.read_bytes());a.unlink();b.unlink();zsha=H(final.read_bytes());zbytes=final.stat().st_size
+          ex=Path(os.environ['RUNNER_TEMP'])/'fresh';ex.mkdir();ext={}
+          with zipfile.ZipFile(final) as z:
+            assert z.testzip() is None
+            for e in z.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6';rel='/'.join(p.parts[1:]);assert rel not in ext;d=z.read(e);ext[rel]=d;q=ex/rel;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
+          assert set(ext)==set(files) and all(ext[k]==files[k] for k in files);extree=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(ext.items())).encode());assert extree==tree
+          deps=Path(os.environ['RUNNER_TEMP'])/'deps';deps.mkdir();lock=Path('frozen-b17/package-lock.json');(deps/'package-lock.json').write_bytes(lock.read_bytes());j=json.loads(lock.read_text());(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          tests=Path(os.environ['RUNNER_TEMP'])/'tests';tests.mkdir();oldr='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508';r=Path('frozen-b17/tests/b15_browser_qualification.mjs').read_text();assert r.count(oldr)==1;r=r.replace(oldr,tree).replace('assert.equal(rows.length,67)','assert.equal(rows.length,68)');(tests/'resource.mjs').write_text(r)
+          oldn='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';n=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_text();assert oldn in n;n=n.replace(oldn,tree).replace('assert.equal(rows.length,67)','assert.equal(rows.length,68)');(tests/'network.mjs').write_text(n)
+          fixture=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b15_fixture.html').read_text();old="send.addEventListener('click',()=>{Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';";new="send.addEventListener('click',()=>{const sentText=composer.value;const sentFiles=Q.files.map(f=>({...f}));Q.sends.push({text:sentText,files:sentFiles});const turn=document.createElement('div');turn.dataset.messageAuthorRole='user';turn.dataset.messageId='fixture-user-'+Q.sends.length;turn.textContent=[sentText,...sentFiles.map(f=>f.name)].join(' ');document.getElementById('conversation-root').append(turn);composer.value='';";assert fixture.count(old)==1;fixture=fixture.replace(old,new);(tests/'fixture.html').write_text(fixture);(tests/'b15_fixture.html').write_text(fixture)
+          t=subprocess.check_output(['git','show','e77f327d8c4e0da695dc6bc20ba9056c663d133c:extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/test15_targeted_real_chrome_v7.mjs'],text=True);t=t.replace("source_commit:'64c1016c179de52b6e950830877f0d42a446e5e8'",f"source_commit:'{os.environ['PRODUCT_SHA']}'").replace("zip_sha256:'3e23a70d09fab91f84cf3c9998499ce078f1467b46540dbac7fa07ac60a6765e'",f"zip_sha256:'{zsha}'");(tests/'test15.mjs').write_text(t)
+          wf=Path('.github/workflows/ymb-async-popup-monitor-stage-a.yml').read_text();needle='          cat > "$RUNNER_TEMP/popup-monitor-stage-a.mjs" <<\'NODE\'\n';s=wf.index(needle)+len(needle);e=wf.index('\n          NODE',s);popup='\n'.join(line[10:] if line.startswith('          ') else line for line in wf[s:e].splitlines())+'\n';popup=popup.replace("fs.realpathSync('extension/src')","fs.realpathSync(process.env.YMB_BROWSER_CANDIDATE)");popup=popup.replace("assert.equal(ui.searchAsyncRows,'347')","assert.equal(ui.searchAsyncRows,'— (без чтения payload)')");(tests/'popup.mjs').write_text(popup)
+          ev=Path(os.environ['RUNNER_TEMP'])/'evidence';ev.mkdir();meta={'schema_version':1,'product_sha':os.environ['PRODUCT_SHA'],'tree_sha256':tree,'files':68,'zip_sha256':zsha,'zip_bytes':zbytes,'dual_build_identity':True,'fresh_extraction_identity':True,'pass':True};(out/'PACKAGE_RESULT.json').write_text(json.dumps(meta,indent=2)+'\n');(out/'SOURCE_SHA256SUMS').write_text(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())))
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_FINAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PRODUCT_TREE={tree}\nYMB_PRODUCT_ZIP_SHA={zsha}\nYMB_PPTR_HOME={deps}\nYMB_TESTS={tests}\nYMB_EVIDENCE_ROOT={ev}\nYMB_CHATGPT_FIXTURE={(tests/"fixture.html").resolve()}\n')
+          print(json.dumps(meta,indent=2))
+          PY
+      - name: Require memory regression evidence for exact product
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          v6=json.loads(next(Path('memory-v6').rglob('RESULT.json')).read_text());assert v6['product_sha']==os.environ['PRODUCT_SHA'];r={x.get('case'):x for x in v6['rows']};assert r['fixed_large_job_100_refreshes_no_result_payload_materialization']['status']=='PASS';assert r['fixed_large_job_100_refreshes_no_result_payload_materialization']['counters']['result_open_cursor']==0
+          v8=json.loads(next(Path('memory-v8').rglob('RESULT.json')).read_text());assert v8['product_sha']==os.environ['PRODUCT_SHA'] and v8['pass'] is True and v8['provider_calls']==0;rows={x.get('case'):x for x in v8['rows']};assert rows['fixed_heavy_job_60s_idle_bounded']['status']=='PASS';assert rows['fixed_100_open_close_not_worse_than_neutral_control']['status']=='PASS';print('MEMORY_EVIDENCE_PASS')
+          PY
+      - name: Fresh-extracted syntax and locked Puppeteer
+        shell: bash
+        run: |
+          set -euo pipefail
+          find "$YMB_BROWSER_CANDIDATE" -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          for f in "$YMB_TESTS"/*.mjs; do node --check "$f"; done
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_EVIDENCE_ROOT/npm.stdout" 2> "$YMB_EVIDENCE_ROOT/npm.stderr"
+      - name: TEST-15 exactly-once
+        shell: bash
+        env: {YMB_BROWSER_EVIDENCE: '${{ runner.temp }}/evidence/test15'}
+        run: set -euo pipefail; mkdir -p "$YMB_BROWSER_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/test15.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Popup real Chrome
+        shell: bash
+        env: {YMB_EVIDENCE: '${{ runner.temp }}/evidence/popup'}
+        run: set -euo pipefail; mkdir -p "$YMB_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/popup.mjs" > "$YMB_EVIDENCE/run.stdout" 2> "$YMB_EVIDENCE/run.stderr"
+      - name: B19 resource 16/16
+        shell: bash
+        env: {YMB_BROWSER_EVIDENCE: '${{ runner.temp }}/evidence/resource'}
+        run: set -euo pipefail; mkdir -p "$YMB_BROWSER_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/resource.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: B19 network 9/9
+        shell: bash
+        env: {YMB_BROWSER_EVIDENCE: '${{ runner.temp }}/evidence/network'}
+        run: set -euo pipefail; mkdir -p "$YMB_BROWSER_EVIDENCE"; xvfb-run -a node "$YMB_TESTS/network.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+      - name: Finalize exact package evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/final";mkdir -p "$O";cp "$YMB_FINAL_PACKAGE" "$O/" 2>/dev/null || true;cp "$RUNNER_TEMP/package/PACKAGE_RESULT.json" "$RUNNER_TEMP/package/SOURCE_SHA256SUMS" "$O/" 2>/dev/null || true;cp -a "$YMB_EVIDENCE_ROOT" "$O/evidence" 2>/dev/null || true;cp -a memory-v6 "$O/memory-v6" 2>/dev/null || true;cp -a memory-v8 "$O/memory-v8" 2>/dev/null || true
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'final';pkg=json.loads((o/'PACKAGE_RESULT.json').read_text());ev=o/'evidence';fails=[];remaining=[];peak=0;groups={}
+          for name,expected in [('resource',16),('network',9)]:
+            rows=[json.loads(x) for x in (ev/name/'browser.jsonl').read_text().splitlines() if x.strip()];bad=[r.get('case') for r in rows if str(r.get('status','')).startswith('FAIL')];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});groups[name]={'cases':len(rows),'expected':expected,'failures':bad,'remaining':clean.get('remaining') or [],'peak_owned_rss_kib':clean.get('peak_owned_rss_kib')};fails+=bad;remaining+=clean.get('remaining') or [];peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0))
+          t=json.loads((ev/'test15/TARGETED_RESULT.json').read_text());p=json.loads((ev/'popup/STAGE_A_RESULT.json').read_text());v8=json.loads(next((o/'memory-v8').rglob('RESULT.json')).read_text());v6=json.loads(next((o/'memory-v6').rglob('RESULT.json')).read_text());v6row=next(r for r in v6['rows'] if r.get('case')=='fixed_large_job_100_refreshes_no_result_payload_materialization')
+          result={**pkg,'test15_pass':t.get('pass') is True and t.get('provider_calls')==0,'popup_pass':p.get('pass') is True and p.get('provider_fetch_calls')==0,'resource_network':groups,'browser_failures':fails,'remaining_processes':remaining,'peak_owned_rss_kib':peak,'memory_100_refresh_pass':v6row.get('status')=='PASS','memory_lifecycle_pass':v8.get('pass') is True,'real_provider_calls':0};result['pass']=pkg['pass'] and result['test15_pass'] and result['popup_pass'] and groups['resource']['cases']>=16 and groups['network']['cases']>=9 and not fails and not remaining and result['memory_100_refresh_pass'] and result['memory_lifecycle_pass'];(o/'FINAL_GATE.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-0.1.6-stage-b-memory-hotfix-final
+          path: ${{ runner.temp }}/final/
+          retention-days: 90
+          if-no-files-found: error
