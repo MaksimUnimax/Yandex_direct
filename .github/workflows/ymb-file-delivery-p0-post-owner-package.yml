@@ -1,0 +1,120 @@
+name: YMB P0 Post-Owner Deterministic Candidate
+
+on:
+  push:
+    branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
+    paths:
+      - .github/workflows/ymb-file-delivery-p0-post-owner-package.yml
+      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs
+      - extension/src/file_delivery_content.js
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+  EXPECTED_PRODUCT_TREE: e89530bfd1b6f91deada50e216d6ce0b127cffb38865402a0af4848b51c9eafa
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Build deterministic dual ZIP and fresh extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import hashlib,json,zipfile,os
+          H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src');expected=os.environ['EXPECTED_PRODUCT_TREE']
+          files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()};assert len(files)==68 and not any(p.is_symlink() for p in root.rglob('*'))
+          ident=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode());assert ident==expected,(ident,expected)
+          m=json.loads(files['manifest.json']);assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1;assert m['host_permissions'].count('https://searchapi.api.cloud.yandex.net/*')==1;assert 'alarms' not in (m.get('permissions') or [])
+          out=Path(os.environ['RUNNER_TEMP'])/'p0-post-owner-package';out.mkdir();prefix='Yandex-Marketing-Bridge-0.1.6-P0-OwnerFix/'
+          def build(path):
+            with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9,strict_timestamps=True) as z:
+              for name,b in sorted(files.items()):
+                zi=zipfile.ZipInfo(prefix+name,date_time=(1980,1,1,0,0,0));zi.compress_type=zipfile.ZIP_DEFLATED;zi.create_system=3;zi.external_attr=(0o100644<<16);zi.flag_bits=0x800;z.writestr(zi,b,compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
+          a=out/'A.zip';b=out/'B.zip';build(a);build(b);assert a.read_bytes()==b.read_bytes();final=out/'Yandex-Marketing-Bridge-0.1.6-P0-OwnerFix.zip';final.write_bytes(a.read_bytes());a.unlink();b.unlink()
+          extracted={}
+          with zipfile.ZipFile(final) as z:
+            assert z.testzip() is None
+            for e in z.infolist():
+              if e.is_dir():continue
+              p=PurePosixPath(e.filename);assert not p.is_absolute() and '..' not in p.parts and p.parts[0]=='Yandex-Marketing-Bridge-0.1.6-P0-OwnerFix';rel='/'.join(p.parts[1:]);assert rel not in extracted;extracted[rel]=z.read(e)
+          assert extracted==files;ex=Path(os.environ['RUNNER_TEMP'])/'p0-post-owner-extracted';ex.mkdir()
+          for name,data in extracted.items():q=ex/name;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(data)
+          ex_ident=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(extracted.items())).encode());assert ex_ident==expected
+          result={'schema_version':2,'source_head':os.environ['GITHUB_SHA'],'version':'0.1.6','product_tree_sha256':expected,'files':68,'zip_sha256':H(final.read_bytes()),'zip_bytes':final.stat().st_size,'dual_build_byte_identity':True,'fresh_extraction_identity':True,'operation_host_enabled':True,'alarms_permission':False,'real_provider_calls':0,'owner_live_acceptance_required':True,'release_allowed':False};(out/'PACKAGE_RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(out/'SOURCE_SHA256SUMS').write_text(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())))
+          deps=Path(os.environ['RUNNER_TEMP'])/'p0-post-owner-puppeteer';deps.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(deps/'package-lock.json').write_bytes(lock);j=json.loads(lock);(deps/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          tests=Path(os.environ['RUNNER_TEMP'])/'p0-post-owner-tests';tests.mkdir();fx=Path('frozen-b17/tests/b15_fixture.html').read_text();old="Q.sends.push({text:composer.value,files:Q.files.map(f=>({...f}))});composer.value='';";new="const sent={text:composer.value,files:Q.files.map(f=>({...f}))};Q.sends.push(sent);const turn=document.createElement('article');turn.setAttribute('data-testid','conversation-turn-'+Q.sends.length);turn.setAttribute('data-message-id','fixture-user-'+Q.sends.length);const user=document.createElement('div');user.setAttribute('data-message-author-role','user');user.textContent=sent.text+' '+sent.files.map(f=>f.name).join(' ');turn.append(user);document.getElementById('conversation-root').append(turn);composer.value='';";assert fx.count(old)==1;(tests/'fixture.html').write_text(fx.replace(old,new))
+          net=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_text();oldtree='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';guard='assert.equal(rows.length,67);';assert net.count(oldtree)==1 and net.count(guard)==1;(tests/'network.mjs').write_text(net.replace(oldtree,expected).replace(guard,'assert.equal(rows.length,68);'))
+          evidence=Path(os.environ['RUNNER_TEMP'])/'p0-post-owner-evidence';evidence.mkdir()
+          with open(os.environ['GITHUB_ENV'],'a') as env:env.write(f'YMB_FINAL_PACKAGE={final}\nYMB_BROWSER_CANDIDATE={ex}\nYMB_PPTR_HOME={deps}\nYMB_PACKAGE_TESTS={tests}\nYMB_PACKAGE_EVIDENCE={evidence}\nYMB_CHATGPT_FIXTURE={(tests/"fixture.html").resolve()}\nYMB_EXPECTED_TREE={expected}\nYMB_EXPECTED_FILES=68\n')
+          print(json.dumps(result,indent=2))
+          PY
+
+      - name: Fresh extraction syntax and identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find "$YMB_BROWSER_CANDIDATE" -type f | wc -l)" -eq 68
+          find "$YMB_BROWSER_CANDIDATE" -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          node --check "$YMB_PACKAGE_TESTS/network.mjs"
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_PACKAGE_EVIDENCE/npm.stdout" 2> "$YMB_PACKAGE_EVIDENCE/npm.stderr"
+
+      - name: Fresh-extracted exact owner Chrome contour
+        continue-on-error: true
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/p0-post-owner-evidence/owner
+        run: mkdir -p "$YMB_BROWSER_EVIDENCE" && xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_V2_2026-09-14.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Fresh-extracted controlled network Chrome contour
+        continue-on-error: true
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/p0-post-owner-evidence/network
+        run: mkdir -p "$YMB_BROWSER_EVIDENCE" && xvfb-run -a node "$YMB_PACKAGE_TESTS/network.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Enforce post-owner package gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/p0-post-owner-publish";mkdir -p "$O";cp "$YMB_FINAL_PACKAGE" "$O/" 2>/dev/null || true;cp "$RUNNER_TEMP/p0-post-owner-package"/PACKAGE_RESULT.json "$RUNNER_TEMP/p0-post-owner-package"/SOURCE_SHA256SUMS "$O/" 2>/dev/null || true;cp -a "$YMB_PACKAGE_EVIDENCE" "$O/evidence" 2>/dev/null || true
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'p0-post-owner-publish';pkg=json.loads((o/'PACKAGE_RESULT.json').read_text());groups={};bad=[];remaining=[];peak=0
+          required_owner={'internal_protocol_never_enters_real_chrome_composer','preexisting_user_draft_before_claim_durably_pauses_without_resurrection','user_draft_conflict_after_attachment_ready_durably_pauses_without_reinsert','p0_real_chrome_candidate_identity','owned_browser_cleanup'}
+          required_network={'exact_0_1_6_installed','manual_start_zero_network','manual_submit_exact_searchAsync_POST','manual_collect_exact_operation_GET_and_normalize','command_injection_cannot_override_provider_origin_or_credential','manual_disabled_blocks_before_network','unknown_submit_never_auto_retries','b19_network_campaign_identity','owned_browser_cleanup'}
+          for name in ['owner','network']:
+            p=o/'evidence'/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else [];f=[{'case':r.get('case'),'status':r.get('status'),'error':r.get('error')} for r in rows if str(r.get('status','')).startswith('FAIL')];clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{});present={r.get('case') for r in rows};groups[name]={'cases':len(rows),'failures':f,'remaining':clean.get('remaining') or [],'present':sorted(x for x in present if x),'peak_owned_rss_kib':clean.get('peak_owned_rss_kib')};bad+=f;remaining+=clean.get('remaining') or [];peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0))
+          result={**pkg,'fresh_extracted_browser':groups,'missing_owner_cases':sorted(required_owner-set(groups['owner']['present'])),'missing_network_cases':sorted(required_network-set(groups['network']['present'])),'browser_failures':bad,'remaining_processes':remaining,'peak_owned_rss_kib':peak,'emergency_limit_kib':2097152,'real_provider_calls':0};result['pass']=pkg['dual_build_byte_identity'] and pkg['fresh_extraction_identity'] and not result['missing_owner_cases'] and not result['missing_network_cases'] and not bad and not remaining and peak<2097152;result['release_allowed']=False;(o/'FINAL_PACKAGE_GATE.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2));assert result['pass']
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ymb-0.1.6-p0-post-owner-candidate
+          path: ${{ runner.temp }}/p0-post-owner-publish/
+          retention-days: 90
+          if-no-files-found: error
