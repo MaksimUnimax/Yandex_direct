@@ -1,0 +1,79 @@
+name: YMB popup memory bounded qualification v4
+on:
+  push:
+    branches: [qa/ymb-popup-memory-bounded-v2-2026-09-14]
+    paths: [.github/workflows/ymb-popup-memory-bounded-qualification-v4.yml]
+permissions:
+  contents: read
+  actions: read
+env:
+  YMB_OLD_SHA: 404dd03874e5df80a95bc6cec1e6967bb71de405
+  YMB_PRODUCT_SHA: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  memory-v4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Prepare exact old/hotfix trees and QA runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git diff --name-only "$YMB_OLD_SHA" "$YMB_PRODUCT_SHA" -- extension/src | wc -l)" -eq 1
+          test "$(git diff --name-only "$YMB_OLD_SHA" "$YMB_PRODUCT_SHA" -- extension/src)" = "extension/src/popup_search_async_monitor.js"
+          mkdir -p "$RUNNER_TEMP/old" "$RUNNER_TEMP/new" "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/deps"
+          git archive "$YMB_OLD_SHA" extension/src | tar -x -C "$RUNNER_TEMP/old"
+          git archive "$YMB_PRODUCT_SHA" extension/src | tar -x -C "$RUNNER_TEMP/new"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os
+          rt=Path(os.environ['RUNNER_TEMP']);old=(rt/'old/extension/src/popup_search_async_monitor.js').read_text();new=(rt/'new/extension/src/popup_search_async_monitor.js').read_text()
+          assert 'results.openCursor' in old and 'REFRESH_MS = 5000' in old
+          assert 'results.openCursor' not in new and 'REFRESH_MS' not in new
+          assert 'results.count(itemRange)' in new and 'items.count(itemRange)' in new and 'due.count(dueRange)' in new
+          assert new.count('setInterval(')==1
+          assert 'record?.raw_text' not in new and 'record.raw_text' not in new and 'record?.normalized?.results' not in new and 'record.normalized.results' not in new
+          src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/popup_memory_bounded_real_chrome_v2.mjs').read_text()
+          old_assert="assert.ok(first.result_open_cursor>=1,first);assert.ok(later.result_open_cursor>=first.result_open_cursor+2,{first,later});"
+          new_assert="emit({case:'revoked_stage_b_cursor_counters',status:'DIAGNOSTIC',first,later});assert.ok(first.result_open_cursor>=1,JSON.stringify({first,later}));assert.ok(later.result_open_cursor>first.result_open_cursor,JSON.stringify({first,later}));"
+          assert src.count(old_assert)==1;src=src.replace(old_assert,new_assert)
+          assert src.count("assert.equal(text.rows,'—');")==1;src=src.replace("assert.equal(text.rows,'—');","assert.equal(text.rows,'— (без чтения payload)');")
+          runner=rt/'popup-memory-v4.mjs';runner.write_text(src)
+          d=rt/'deps';lock=Path('frozen-b17/package-lock.json');(d/'package-lock.json').write_bytes(lock.read_bytes());j=json.loads(lock.read_text());(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_OLD_ROOT={rt/"old/extension/src"}\nYMB_NEW_ROOT={rt/"new/extension/src"}\nYMB_PPTR_HOME={d}\nYMB_MEMORY_EVIDENCE={rt/"evidence"}\nYMB_MEMORY_RUNNER={runner}\n')
+          PY
+          node --check "$RUNNER_TEMP/old/extension/src/popup_search_async_monitor.js"
+          node --check "$RUNNER_TEMP/new/extension/src/popup_search_async_monitor.js"
+          node --check "$RUNNER_TEMP/popup-memory-v4.mjs"
+      - name: Install locked browser dependency
+        shell: bash
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_MEMORY_EVIDENCE/npm.stdout" 2> "$YMB_MEMORY_EVIDENCE/npm.stderr"
+      - name: Run full real-Chrome memory stress
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node "$YMB_MEMORY_RUNNER" > "$YMB_MEMORY_EVIDENCE/run.stdout" 2> "$YMB_MEMORY_EVIDENCE/run.stderr"
+          test -f "$YMB_MEMORY_EVIDENCE/RESULT.json"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['YMB_MEMORY_EVIDENCE'])/'RESULT.json').read_text());print(json.dumps(r,indent=2));assert r['pass'] is True and r['provider_calls']==0
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-popup-memory-bounded-evidence-v4
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 90
+          if-no-files-found: error
