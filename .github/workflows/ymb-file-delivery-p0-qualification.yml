@@ -1,0 +1,78 @@
+name: YMB File Delivery P0 Qualification
+
+on:
+  push:
+    branches:
+      - hotfix/ymb-file-delivery-p0-2026-09-14
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Production JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=0
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+            count=$((count + 1))
+          done < <(find extension/src -maxdepth 1 -type f -name '*.js' -print0 | sort -z)
+          test "$count" -gt 0
+          echo "syntax_checked=$count"
+
+      - name: Owner P0 file-delivery regression
+        run: node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_OWNER_REGRESSION_2026-09-14.cjs
+
+      - name: Existing Stage-B Node regression suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          qa='extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa'
+          count=0
+          while IFS= read -r -d '' test_file; do
+            echo "RUN $test_file"
+            node "$test_file"
+            count=$((count + 1))
+          done < <(find "$qa" -maxdepth 1 -type f -name '*.test.mjs' -print0 | sort -z)
+          test "$count" -gt 0
+          echo "node_regressions=$count"
+
+  python-qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Existing Stage-B Python regression campaigns
+        shell: bash
+        run: |
+          set -euo pipefail
+          qa='extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa'
+          count=0
+          while IFS= read -r -d '' test_file; do
+            echo "RUN $test_file"
+            python "$test_file"
+            count=$((count + 1))
+          done < <(find "$qa" -maxdepth 1 -type f -name '*_regression_campaign.py' -print0 | sort -z)
+          test "$count" -gt 0
+          echo "python_regressions=$count"
