@@ -1,17 +1,18 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V18",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V19",
   "date": "2026-09-14",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V17",
-    "commit": "979881799f8e7f85fb85d572e55bba98b7ed1dff",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V18",
+    "commit": "93bc025506683bb15ec1680862252fde1923150e",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
     "release_authority": "STEP_06_S06Q001_EXECUTION_RELEASE_2026-09-14.md",
     "submit_evidence_authority": "STEP_06_S06Q001_SUBMIT_ACCEPTED_EVIDENCE_2026-09-14.md",
+    "collection_release_authority": "STEP_06_S06Q001_COLLECTION_RELEASE_2026-09-14.md",
     "query_id": "S06Q001",
     "query_text": "амулет",
     "job_id": "kw002-s06q001-20260914",
@@ -29,13 +30,21 @@
     "next_query_released": false,
     "automatic_retry_allowed": false
   },
+  "collection_guard": {
+    "provider_minimum_deferred_processing_window_minutes": 5,
+    "provider_creation_time_exposed_in_submit_result": false,
+    "minimum_window_elapsed": "UNKNOWN_FROM_SUBMIT_RESULT",
+    "runtime_due_check_verified": true,
+    "early_collect_network_behavior": "NO_DUE_OPERATIONS__REQUEST_EXECUTED_FALSE__NO_PROVIDER_GET",
+    "collection_attempts_released_now": 1
+  },
   "step06_current": {
-    "status": "S06Q001_SUBMIT_ACCEPTED__WAITING__SUBMIT_EVIDENCE_PUBLISHED__COLLECTION_PENDING_REMOTE_READBACK",
+    "status": "S06Q001_WAITING__SUBMIT_EVIDENCE_REMOTE_READBACK_PASS__ONE_SAFE_COLLECT_ATTEMPT_RELEASED",
     "provider_calls_executed_in_step06": 1,
     "released_query_ids": ["S06Q001"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
-    "deferred_search_collection_calls_allowed_after_remote_readback": 1,
+    "deferred_search_collection_attempts_allowed_now": 1,
     "synchronous_search_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
@@ -44,10 +53,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "collection_timing": {
-    "provider_minimum_deferred_processing_window_minutes": 5,
-    "local_time_checked": "2026-09-14T19:16:56+05:00",
-    "minimum_window_elapsed": true
-  },
-  "next_action": "REMOTE_READBACK_SUBMIT_EVIDENCE_AND_CURSOR_V18; THEN EXACTLY_ONE_COLLECTN_COUNT_1_FOR_EXISTING_S06Q001_JOB; NO_RESUBMIT; NO_S06Q002_RELEASE"
+  "next_action": "REMOTE_READBACK_COLLECTION_RELEASE_AND_CURSOR_V19; THEN EXECUTE EXACTLY ONE collectN count=1 FOR EXISTING S06Q001 JOB; DO_NOT RESUBMIT; DO_NOT RELEASE S06Q002; PERSIST EXACT COLLECT OUTCOME BEFORE ANY NEXT PROVIDER ACTION"
 }
