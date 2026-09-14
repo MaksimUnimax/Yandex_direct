@@ -42,7 +42,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path,PurePosixPath
           import hashlib,json,zipfile,os
-          H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src');expected='ef8285641e258d6abec29e65c9afc21cda8ab62a95c04e5148d34e8ca8a829b7'
+          H=lambda b:hashlib.sha256(b).hexdigest();root=Path('extension/src');expected='9270ebf23cfab0db44620381b93515967a1129967911af614959d11e8a1082bd'
           files={p.relative_to(root).as_posix():p.read_bytes() for p in sorted(root.rglob('*')) if p.is_file()}
           assert len(files)==68 and not any(p.is_symlink() for p in root.rglob('*'))
           ident=H(''.join(H(v)+'  '+k+'\n' for k,v in sorted(files.items())).encode());assert ident==expected,(ident,expected)
