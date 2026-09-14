@@ -2,13 +2,18 @@
 (() => {
   "use strict";
 
-  const RUNTIME_KEY = "__YMB_FILE_DELIVERY_CONTENT_V3__";
-  const LEGACY_RUNTIME_KEYS = ["__YMB_FILE_DELIVERY_CONTENT_V2__"];
-  const POLL_MS = 900;
+  const RUNTIME_KEY = "__YMB_FILE_DELIVERY_CONTENT_V4__";
+  const LEGACY_RUNTIME_KEYS = ["__YMB_FILE_DELIVERY_CONTENT_V3__", "__YMB_FILE_DELIVERY_CONTENT_V2__"];
+  const OUTBOX_STORAGE_KEY = "wsmb_outbox";
+  const RECOVERY_POLL_MS = 60_000;
   const ATTACH_READY_TIMEOUT_MS = 60_000;
   const COMMITTED_RECONCILE_MS = 30_000;
   const SEND_TARGET_TIMEOUT_MS = 30_000;
   const SEND_RECONCILE_TIMEOUT_MS = 120_000;
+  const PRE_SEND_PHASES = new Set(["claimed", "attachment_committed", "attachment_ready"]);
+  const TERMINAL_PHASES = new Set(["committed", "attachment_failed"]);
+  const LOCAL_STOP_CODES = new Set(["ATTACHMENT_LOCAL_PAUSE", "ATTACHMENT_RUNTIME_STOPPED", "ATTACHMENT_CONVERSATION_CHANGED"]);
+
   const previous = globalThis[RUNTIME_KEY];
   if (previous?.dispose) { try { previous.dispose(); } catch {} }
   for (const key of LEGACY_RUNTIME_KEYS) {
@@ -20,6 +25,8 @@
   const runtime = {
     disposed: false,
     timer: null,
+    timer_due: 0,
+    poll_in_flight: false,
     in_flight: new Set(),
     send_in_flight: new Set(),
     manual_button: null,
@@ -38,6 +45,21 @@
   function canonicalConversationUrl() { return String(document.querySelector('link[rel="canonical"]')?.href || "").trim(); }
   function identity() { return BB2ConversationIdentity.identityFromCandidates([location.href, canonicalConversationUrl()]); }
   function conversationKey() { const value = identity(); return value?.status === "confirmed" ? value.conversation_key : ""; }
+
+  function safeAttachmentName(value) {
+    return String(value || "").replace(/[\u0000-\u001f\u007f]/g, "").replace(/\s+/g, " ").trim().slice(0, 180);
+  }
+
+  function deliveryText(entry) {
+    const explicit = String(entry?.delivery_text || "").trim();
+    if (explicit) return explicit;
+    const names = (entry?.artifact_descriptors || []).map((item) => safeAttachmentName(item?.filename)).filter(Boolean);
+    if (names.length === 1) return `Yandex Marketing Bridge: результат прикреплён файлом ${names[0]}.`;
+    if (names.length > 1) return `Yandex Marketing Bridge: результаты прикреплены файлами: ${names.join(", ")}.`;
+    return "Yandex Marketing Bridge: результат прикреплён файлом.";
+  }
+
+  function normalizedDeliveryText(entry) { return BB2ComposerSend.normalize(deliveryText(entry)); }
 
   function entryCurrent(entry) {
     return current() && !entry?.delivery_signal?.aborted &&
@@ -75,7 +97,7 @@
   }
 
   function showDeliveryControl(entry) {
-    if (!current() || entry?.conversation_key !== conversationKey() || ["attachment_send_committed", "committed"].includes(entry.phase)) { removeDeliveryControl(); return; }
+    if (!current() || entry?.conversation_key !== conversationKey() || TERMINAL_PHASES.has(entry.phase) || entry.phase === "attachment_send_committed") { removeDeliveryControl(); return; }
     let button = runtime.control_button;
     if (!button?.isConnected) {
       button = document.createElement("button");
@@ -104,6 +126,7 @@
         status(response.paused ? "Доставка остановлена. Файл, результат и учёт запроса сохранены. Уже отправленное сообщение не отзывается." :
           "Наблюдение продолжено. Повторное прикрепление после зафиксированной попытки запрещено.", "info", 0);
         showDeliveryControl({ ...entry, delivery_paused: response.paused });
+        schedulePoll(25);
       } catch (error) {
         if (current()) status(`Локальная подготовка остановлена, но изменение состояния не подтверждено: ${error.message}. Не считайте это отменой запроса.`, "error", 0);
       } finally {
@@ -178,8 +201,9 @@
   function composerFreeFor(entry) {
     const composer = BB2ComposerSend.findComposer(document);
     if (!composer) return null;
-    const text = BB2ComposerSend.readComposer(composer);
-    if (text.trim() && text !== entry.report_text) return false;
+    const actual = BB2ComposerSend.normalize(BB2ComposerSend.readComposer(composer));
+    const expected = normalizedDeliveryText(entry);
+    if (actual && actual !== expected) return false;
     return composer;
   }
 
@@ -187,7 +211,7 @@
     assertEntryContext(entry);
     const composer = composerFreeFor(entry);
     if (!composer) throw Object.assign(new Error(composer === false ? "Поле ввода занято вашим текстом." : "Поле ввода ChatGPT не найдено."), { code: composer === false ? "COMPOSER_CONTAINS_OTHER_TEXT" : "COMPOSER_NOT_FOUND" });
-    if (!BB2ComposerSend.readComposer(composer).trim()) BB2ComposerSend.setComposerText(composer, entry.report_text || "Yandex Marketing Bridge: результат прикреплён файлом.");
+    if (!BB2ComposerSend.normalize(BB2ComposerSend.readComposer(composer))) BB2ComposerSend.setComposerText(composer, deliveryText(entry));
     return composer;
   }
 
@@ -227,7 +251,7 @@
 
   function matchingNewUserTurn(entry) {
     const baseline = new Set((entry.baseline_message_ids || []).map(String));
-    const marker = BB2ComposerSend.normalize(entry.send_marker || entry.report_text || "");
+    const marker = BB2ComposerSend.normalize(entry.send_marker || deliveryText(entry));
     const filenames = (entry.expected_attachment_names || entry.artifact_descriptors?.map((item) => item.filename) || []).map(String).filter(Boolean);
     const turns = userTurns();
     for (let index = 0; index < turns.length; index += 1) {
@@ -298,7 +322,9 @@
     if (!descriptors.length) throw Object.assign(new Error("Metadata вложения потеряна."), { code: "ATTACHMENT_DESCRIPTORS_EMPTY" });
     if (!YMBChatGPTFileAttachment.attachmentReady(descriptors, document)) {
       const committedAt = Date.parse(entry.attachment_committed_at || "") || 0;
-      if (committedAt && Date.now() - committedAt > COMMITTED_RECONCILE_MS) status("Яндекс: attachment уже committed, но существующее вложение не подтверждено. Автоповтор запрещён.", "error", 0);
+      if (committedAt && Date.now() - committedAt > COMMITTED_RECONCILE_MS) {
+        throw Object.assign(new Error("Attachment уже committed, но существующее вложение не подтверждено. Автоповтор запрещён."), { code: "ATTACH_OUTCOME_UNKNOWN_NO_RETRY" });
+      }
       return;
     }
     stageMarker(entry);
@@ -337,7 +363,7 @@
     try {
       const descriptors = Array.isArray(entry.artifact_descriptors) ? entry.artifact_descriptors : [];
       stageMarker(entry);
-      const expectedText = String(entry.report_text || "Yandex Marketing Bridge: результат прикреплён файлом.");
+      const expectedText = deliveryText(entry);
       const deps = sendDeps(entry, descriptors, profile);
       const target = stableTarget || await BB2ComposerSend.waitForValidatedTarget({ expectedText, timeoutMs: SEND_TARGET_TIMEOUT_MS, sampleIntervalMs: 120, requiredStableSamples: 3, deps });
       if (!target) { status("Яндекс: стабильная готовая кнопка Send не подтверждена. Ничего не отправлено.", "error", 5000); return; }
@@ -413,14 +439,13 @@
     assertEntryContext(entry);
     const descriptors = Array.isArray(entry.artifact_descriptors) ? entry.artifact_descriptors : [];
     if (!YMBChatGPTFileAttachment.attachmentReady(descriptors, document)) {
-      status("Яндекс: вложение больше не подтверждается в ChatGPT. Send заблокирован; автоповтор прикрепления запрещён.", "error", 0);
-      return;
+      throw Object.assign(new Error("Вложение больше не подтверждается в ChatGPT. Автоповтор прикрепления запрещён."), { code: "ATTACHMENT_NOT_READY_NO_RETRY" });
     }
     stageMarker(entry);
     const state = await sendWorker({ type: "WS_GET_STATE", conversation_key: entry.conversation_key }, entry.delivery_signal);
     assertEntryContext(entry);
     const profile = state?.state?.send_button_profile || null;
-    const expectedText = String(entry.report_text || "Yandex Marketing Bridge: результат прикреплён файлом.");
+    const expectedText = deliveryText(entry);
     const deps = sendDeps(entry, descriptors, profile);
     const target = await BB2ComposerSend.waitForValidatedTarget({ expectedText, timeoutMs: SEND_TARGET_TIMEOUT_MS, sampleIntervalMs: 120, requiredStableSamples: 3, deps });
     if (!target) { status("Яндекс: стабильная готовая кнопка Send пока не подтверждена.", "error", 5000); return; }
@@ -440,6 +465,21 @@
     await commitAndClick(entry, profile, target);
   }
 
+  async function persistFailurePause(entry, error) {
+    if (!PRE_SEND_PHASES.has(entry?.phase)) return { ok: false, skipped: true, code: "ATTACHMENT_FAILURE_AFTER_SEND_BARRIER" };
+    const response = await sendWorker({
+      type: "WS_SET_ATTACHMENT_PAUSED",
+      conversation_key: entry.conversation_key,
+      delivery_id: entry.delivery_id,
+      paused: true
+    });
+    if (!response?.ok) return response || { ok: false, code: "ATTACHMENT_FAILURE_PAUSE_EMPTY_RESPONSE" };
+    runtime.local_pause_id = entry.delivery_id;
+    runtime.controller?.abort();
+    disarmManualSend();
+    return { ...response, failure_code: String(error?.code || "ATTACHMENT_DELIVERY_FAILED") };
+  }
+
   async function processEntry(entry) {
     const key = String(entry?.delivery_id || "");
     if (!key || runtime.in_flight.has(key) || entry.delivery_paused === true || runtime.local_pause_id === key) return;
@@ -454,19 +494,49 @@
       else if (entry.phase === "attachment_ready") await processReady(entry);
       else if (entry.phase === "attachment_send_committed") await reconcileSendCommitted(entry, 0);
     } catch (error) {
-      status(`Яндекс: файловая доставка остановлена безопасно — ${error.message || error}`, "error", 0);
+      const code = String(error?.code || "ATTACHMENT_DELIVERY_FAILED");
+      if (!LOCAL_STOP_CODES.has(code) && PRE_SEND_PHASES.has(entry.phase)) {
+        let pause;
+        try { pause = await persistFailurePause(entry, error); }
+        catch (pauseError) { pause = { ok: false, code: pauseError?.code || "ATTACHMENT_FAILURE_PAUSE_FAILED", error: pauseError?.message || String(pauseError) }; }
+        if (pause?.ok) {
+          status(`Яндекс: файловая доставка остановлена и сохранена в паузе — ${error.message || error}. Автоматического повтора не будет.`, "error", 0);
+        } else {
+          runtime.local_pause_id = key;
+          runtime.controller?.abort();
+          disarmManualSend();
+          status(`Яндекс: файловая доставка остановлена локально — ${error.message || error}. Durable pause не подтверждена (${pause?.code || "UNKNOWN"}); автоматический повтор в этой вкладке заблокирован.`, "error", 0);
+        }
+      } else {
+        status(`Яндекс: файловая доставка остановлена безопасно — ${error.message || error}`, "error", 0);
+      }
     } finally { runtime.in_flight.delete(key); }
   }
 
-  async function poll() {
-    runtime.timer = null;
+  function schedulePoll(delayMs) {
     if (!current()) return;
+    const delay = Math.max(0, Number(delayMs || 0));
+    const due = Date.now() + delay;
+    if (runtime.timer && runtime.timer_due && runtime.timer_due <= due) return;
+    if (runtime.timer) clearTimeout(runtime.timer);
+    runtime.timer_due = due;
+    runtime.timer = setTimeout(() => {
+      runtime.timer = null;
+      runtime.timer_due = 0;
+      void poll();
+    }, delay);
+  }
+
+  async function poll() {
+    if (!current()) return;
+    if (runtime.poll_in_flight) { schedulePoll(100); return; }
+    runtime.poll_in_flight = true;
     try {
       const key = conversationKey();
       if (key) {
         const response = await sendWorker({ type: "WS_GET_OUTBOX", conversation_key: key });
         const entry = response?.outbox || null;
-        if (entry?.delivery_mode === "attachment_v2" && entry.phase !== "committed") {
+        if (entry?.delivery_mode === "attachment_v2" && !TERMINAL_PHASES.has(entry.phase)) {
           showDeliveryControl(entry);
           if (entry.delivery_paused === true) { runtime.local_pause_id = entry.delivery_id; runtime.controller?.abort(); disarmManualSend(); }
           else await processEntry(entry);
@@ -476,10 +546,26 @@
         }
       } else removeDeliveryControl();
     } catch {
-      // Worker/page can be restarting; bounded polling retries state reads only.
+      // Worker/page can be restarting. Recovery reads are event-driven with a bounded fallback.
+    } finally {
+      runtime.poll_in_flight = false;
+      schedulePoll(RECOVERY_POLL_MS);
     }
-    if (current()) runtime.timer = setTimeout(poll, POLL_MS);
   }
+
+  function onStorageChanged(changes, areaName) {
+    if (areaName === "local" && changes && Object.hasOwn(changes, OUTBOX_STORAGE_KEY)) schedulePoll(25);
+  }
+
+  function onComposerInput(event) {
+    const composer = BB2ComposerSend.findComposer(document);
+    if (!composer) return;
+    const target = event?.target;
+    if (target === composer || composer.contains?.(target)) schedulePoll(50);
+  }
+
+  try { chrome.storage.onChanged.addListener(onStorageChanged); } catch {}
+  document.addEventListener("input", onComposerInput, true);
 
   runtime.dispose = () => {
     if (runtime.disposed) return;
@@ -487,11 +573,13 @@
     runtime.controller?.abort(); runtime.controller = null;
     removeDeliveryControl();
     if (runtime.timer) clearTimeout(runtime.timer);
-    runtime.timer = null; disarmManualSend();
+    runtime.timer = null; runtime.timer_due = 0; disarmManualSend();
+    try { chrome.storage.onChanged.removeListener(onStorageChanged); } catch {}
+    document.removeEventListener("input", onComposerInput, true);
     const node = document.getElementById("ymb-file-delivery-status");
     if (node) node.remove();
     try { if (globalThis[RUNTIME_KEY] === runtime) delete globalThis[RUNTIME_KEY]; } catch {}
   };
 
-  runtime.timer = setTimeout(poll, 250);
+  schedulePoll(250);
 })();
