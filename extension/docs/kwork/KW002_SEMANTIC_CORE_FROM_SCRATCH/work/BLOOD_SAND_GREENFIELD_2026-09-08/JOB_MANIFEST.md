@@ -1,6 +1,6 @@
 # KW-002 JOB MANIFEST — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP05 COMPLETE / STEP06 PRE-STEP V2 PREPARED / STEP06 ACTUAL EXECUTION NOT STARTED / SEARCH RELEASE NOT ISSUED**
+Status: **STEP05 COMPLETE / STEP06 PREPARATION + RUNTIME RECONCILIATION PASS / FIRST SEARCH RELEASE NOT ISSUED / ACTUAL STEP06 NOT STARTED**
 
 ## 1. Job identity
 
@@ -57,7 +57,7 @@ STEP03A = PASS / 24576 identities / 25979 RAW occurrences
 STEP03B = CORRECTED AUTHORITY ACCEPTED / KEEP 5100 / HOLD 13035 / EXCLUDE 6441
 STEP04 = W09 CURRENT AUTHORITY ACCEPTED / 32 families / 29 observed / 13 queue rows
 STEP05 = COMPLETE / PASS CURRENT RESEARCH SNAPSHOT
-STEP06 = NOT STARTED
+STEP06 = PREPARATION + RUNTIME RECONCILIATION PASS / EXECUTION NOT STARTED
 ```
 
 ## 5. Step05 final closure
@@ -103,8 +103,11 @@ Corrected V2 preparation package:
 - `STEP_06_PRE_STEP_EXTERNAL_RESEARCH_V2_2026-09-12.md`
 - `STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V2_2026-09-12.tsv`
 - `STEP_06_PRE_EXECUTION_GATE_V2_2026-09-12.md`
+- `STEP_06_PRE_STEP_QA_V2_2026-09-12.md`
 
-## 7. Step06 V2 prepared acquisition design
+## 7. Historical Step06 V2 acquisition design at 2026-09-12
+
+The Sep-12 preparation used synchronous Search as its then-current transport plan:
 
 ```text
 QUERY_ROWS = 22
@@ -124,33 +127,23 @@ GENSEARCH = 0
 WORDSTAT = 0
 ```
 
-Step06 queries are discovery probes, not final keywords, final intents, final clusters or pages.
+This section is retained as historical preparation truth. Its sync transport/pricing/runtime-blocker state is superseded for current execution by Section 13 below.
+
+Step06 queries remain discovery probes, not final keywords, final intents, final clusters or pages.
 
 ## 8. Step06 evidence persistence contract
 
 Existing Level1 permits raw **or durable normalized** Search result references.
 
-For Step06, every returned normalized document row and required provenance must be durably preserved and remotely read back before the next provider request. A summary, domain-only list or representative sample is insufficient.
+For Step06, every returned normalized document row and required provenance must be durably preserved and remotely read back before the next provider action. A summary, domain-only list or representative sample is insufficient.
 
-Current branch Search normalization emits all XML `<doc>` rows as `results[]` with rank/url/domain/title/snippet/modtime and serializes the full normalized envelope.
+Original provider Base64/XML is not separately required by the current Step06 method if complete required normalized evidence is preserved with provenance.
 
-Original provider Base64/XML is not separately required by the current Step06 method if complete required normalized evidence is preserved.
+## 9. Historical Bridge blocker at 2026-09-12
 
-## 9. Current Bridge blocker
+The corrected V2 package recorded an unreconciled `0.1.4` installed runtime against `0.1.2` repository product source and therefore correctly allowed zero Search calls at that time.
 
-Owner's immediately preceding provider output reported installed Bridge runtime `0.1.4`.
-
-Current repository product source reports `0.1.2`, and no `0.1.4` repository source/commit was found in the current preparation recheck.
-
-Therefore:
-
-```text
-INSTALLED_SEARCH_RUNTIME_CONTRACT = UNRECONCILED
-SEARCH_PROVIDER_EXECUTION_RELEASE = NOT_ISSUED
-SEARCH_CALLS_ALLOWED_NOW = 0
-```
-
-Before paid Search execution, reconcile installed runtime/schema through a non-provider handshake or authoritative source sync, then issue a separate Step06 Search execution release.
+That blocker is historical. It is formally superseded by the 2026-09-14 reconciliation in Section 13.
 
 ## 10. Work gate
 
@@ -163,16 +156,80 @@ WORK_HANDOFF = NOT_REQUIRED
 
 If scale later changes materially, re-evaluate under `LEVEL1/WORK_HANDOFF_RULE.md`.
 
-## 11. Current hard boundary
+## 11. Historical hard boundary at Sep-12 cursor write
+
+The prior cursor correctly recorded zero Search authorization before owner disclosure/runtime reconciliation. It remains historical and must not be read as the current post-reconciliation state.
+
+## 12. Historical next action at Sep-12 cursor write
+
+The prior required action was owner-facing disclosure → runtime reconciliation → live-head/provider recheck → separate first Search release. The first three preparation/reconciliation prerequisites are now completed in Section 13; the separate first-query release still remains pending.
+
+## 13. Current Step06 authority refresh — 2026-09-14
+
+Current reconciliation authority:
+
+`STEP_06_RUNTIME_RECONCILIATION_AND_METHOD_REFRESH_2026-09-14.md`
+
+Before any Step06 provider execution, the current workflow:
+
+- reread applicable Level1/Level2/job authorities;
+- completed the mandatory owner-facing Step06 disclosure in the current chat;
+- performed fresh Internet research against current official Yandex Search API documentation;
+- rechecked current limits, regions, async semantics and pricing;
+- reconciled Bridge Search capability against the independently live-accepted YMB `0.1.6` async Search path;
+- preserved the accepted 22 V2 query texts and 12 coverage directions unchanged;
+- changed only the current provider transport from the stale Sep-12 synchronous plan to current deferred/asynchronous Search.
+
+Current Search contract:
 
 ```text
-STEP05 = COMPLETE / PASS CURRENT SNAPSHOT
+QUERY_ROWS = 22
+COVERAGE_DIRECTIONS = 12
+ANALYST_INVENTED_QUERY_TEXTS = 0
+SEARCH_TRANSPORT = DEFERRED_ASYNC
+SEARCH_TYPE = SEARCH_TYPE_RU
+REGION = 225 / Russia
+PAGE = 0
+GROUPS_ON_PAGE = 20
+GROUP_MODE = GROUP_MODE_FLAT
+DOCS_IN_GROUP = 1
+SORT_MODE = SORT_MODE_BY_RELEVANCE
+SORT_ORDER = DESC
+FAMILY_MODE = FAMILY_MODE_MODERATE
+FIX_TYPO_MODE = FIX_TYPO_MODE_OFF
+RESPONSE_FORMAT = XML
+MAX_NORMALIZED_RESULT_ROWS = 440
+DAY_DEFERRED_PRICE_PER_REQUEST = 0.0305 RUB
+NIGHT_DEFERRED_PRICE_PER_REQUEST = 0.02541 RUB
+DAY_MAX_IF_ALL_22_EVENTUALLY_RELEASED = 0.671 RUB
+NIGHT_MAX_IF_ALL_22_EVENTUALLY_RELEASED = 0.55902 RUB
+```
+
+Current Bridge capability authority:
+
+```text
+YMB_VERSION = 0.1.6 live-accepted Search path
+BRANCH = hotfix/ymb-file-delivery-p0-2026-09-14
+RELEVANT_COMMIT = 6fe2d2f992b4c35fbbc37783182e9236e9f5b1a1
+LIVE_ACCEPTANCE = extension/docs/SEARCH_LIVE_ACCEPTANCE_2026-09-14.md
+RUNTIME_SEARCH_CONTRACT_RECONCILED = true
+```
+
+The first execution must still be exactly one released query followed by durable persistence, remote readback and reconciliation before any next provider action.
+
+Current hard boundary:
+
+```text
+STEP05 = COMPLETE
 STEP06_PRE_STEP_V1 = SUPERSEDED_FOR_EXECUTION
-STEP06_PRE_STEP_V2 = PREPARED
-OWNER_FACING_STEP06_DISCLOSURE = REQUIRED_BEFORE_EXECUTION
-STEP06_SEARCH_EXECUTION_RELEASED = false
+STEP06_PRE_STEP_V2 = PREPARED / QUERY MANIFEST STILL CURRENT
+STEP06_RUNTIME_RECONCILIATION = PASS
+OWNER_FACING_STEP06_DISCLOSURE = PASS / 2026-09-14
+STEP06_FIRST_QUERY_EXECUTION_RELEASED = false
+DEFERRED_SEARCH_SUBMISSIONS_ALLOWED_NOW = 0
+DEFERRED_SEARCH_COLLECTION_CALLS_ALLOWED_NOW = 0
+SYNCHRONOUS_SEARCH_CALLS_ALLOWED_NOW = 0
 WORDSTAT_CALLS_ALLOWED_NOW = 0
-SEARCH_CALLS_ALLOWED_NOW = 0
 GENSEARCH_CALLS_ALLOWED_NOW = 0
 AI_SEARCH_CALLS_ALLOWED_NOW = 0
 STEP06_ACTUAL_EXECUTION = NOT_STARTED
@@ -180,6 +237,13 @@ STEP07_STARTED = false
 STEP08_STARTED = false
 ```
 
-## 12. Next action
+## 14. Current next action
 
-Complete the mandatory owner-facing Step06 pre-step disclosure in chat. Then, still without a paid provider request, reconcile the installed Search runtime/schema. Only after that and a live-head/current-provider recheck may a separate first Search execution release be materialized.
+After remote readback of the reconciliation commit:
+
+1. re-fetch current live KW-002 HEAD;
+2. read the exact first row from `STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V2_2026-09-12.tsv`;
+3. materialize a separate first-query deferred Search execution release;
+4. remote-readback that release;
+5. only then authorize exactly one provider submission;
+6. persist and remote-readback the complete returned evidence before any second query is released.
