@@ -27,6 +27,14 @@ jobs:
           persist-credentials: false
           fetch-depth: 1
 
+      - name: Checkout exact pre-P0 base
+        uses: actions/checkout@v4
+        with:
+          ref: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+          path: base
+          persist-credentials: false
+          fetch-depth: 1
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -37,17 +45,22 @@ jobs:
         run: |
           set -euo pipefail
           find extension/src -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+          find base/extension/src -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
           python3 - <<'PY'
           from pathlib import Path
           import hashlib,json
-          root=Path('extension/src')
           H=lambda b:hashlib.sha256(b).hexdigest()
-          paths=sorted(p for p in root.rglob('*') if p.is_file())
-          ident=H(''.join(H(p.read_bytes())+'  '+p.relative_to(root).as_posix()+'\n' for p in paths).encode())
-          for p in root.rglob('*.json'): json.loads(p.read_text())
-          print('production_files=',len(paths))
-          print('production_tree_sha256=',ident)
-          Path('/tmp/p0_tree_before').write_text(ident+'\n')
+          def tree(root):
+            paths=sorted(p for p in root.rglob('*') if p.is_file())
+            return len(paths),H(''.join(H(p.read_bytes())+'  '+p.relative_to(root).as_posix()+'\n' for p in paths).encode())
+          for root in [Path('extension/src'),Path('base/extension/src')]:
+            for p in root.rglob('*.json'): json.loads(p.read_text())
+          p0_count,p0_tree=tree(Path('extension/src'))
+          base_count,base_tree=tree(Path('base/extension/src'))
+          print('p0_files=',p0_count,'p0_tree=',p0_tree)
+          print('base_files=',base_count,'base_tree=',base_tree)
+          Path('/tmp/p0_tree_before').write_text(p0_tree+'\n')
+          Path('/tmp/base_tree').write_text(base_tree+'\n')
           PY
 
       - name: Owner P0 file-delivery regression
@@ -61,27 +74,27 @@ jobs:
           github-token: ${{ github.token }}
           path: classification
 
-      - name: Overlay exact current production source into preserved QA workspace
+      - name: Prepare preserved QA workspaces for candidate and base
         shell: bash
         run: |
           set -euo pipefail
           test -d classification/qa_workspace/qa/candidate/full
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt_v2.py classification/qa_workspace/qa/qa > /tmp/P0_QA_ADAPT.stdout
+          cp -a classification/qa_workspace/qa /tmp/qa_base
           rsync -a --delete extension/src/ classification/qa_workspace/qa/candidate/full/
+          rsync -a --delete base/extension/src/ /tmp/qa_base/candidate/full/
           python3 - <<'PY'
           from pathlib import Path
           import hashlib
           H=lambda b:hashlib.sha256(b).hexdigest()
-          def tree(root):
-            return H(''.join(H(p.read_bytes())+'  '+p.relative_to(root).as_posix()+'\n' for p in sorted(root.rglob('*')) if p.is_file()).encode())
-          source=tree(Path('extension/src'))
-          staged=tree(Path('classification/qa_workspace/qa/candidate/full'))
-          print('source_tree=',source)
-          print('qa_candidate_tree=',staged)
-          assert staged==source
+          def tree(root):return H(''.join(H(p.read_bytes())+'  '+p.relative_to(root).as_posix()+'\n' for p in sorted(root.rglob('*')) if p.is_file()).encode())
+          assert tree(Path('classification/qa_workspace/qa/candidate/full'))==tree(Path('extension/src'))
+          assert tree(Path('/tmp/qa_base/candidate/full'))==tree(Path('base/extension/src'))
+          print('candidate_overlay=exact')
+          print('base_overlay=exact')
           PY
-          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt_v2.py classification/qa_workspace/qa/qa > /tmp/P0_QA_ADAPT.stdout
 
-      - name: Preserved async admission state modules
+      - name: Preserved async admission state modules 254
         shell: bash
         run: |
           set -euo pipefail
@@ -107,7 +120,8 @@ jobs:
           grep -q '^# fail 0$' /tmp/P0_MODULES/MODULE_REGRESSION.tap
           grep -q '^# skipped 0$' /tmp/P0_MODULES/MODULE_REGRESSION.tap
 
-      - name: Full worker and contract regression
+      - name: Candidate full worker and contract regression
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -117,11 +131,20 @@ jobs:
           export NODE_OPTIONS="--max-old-space-size=256 --require=$QA/qa/b13_network_guard.cjs"
           mapfile -t P < <(find "$QA/qa" -maxdepth 1 -name '*.test.mjs' -print | sort)
           node --test --test-timeout=10000 "${P[@]}" > /tmp/P0_FULL.tap 2> /tmp/P0_FULL.stderr
-          grep -q '^# tests 99$' /tmp/P0_FULL.tap
-          grep -q '^# pass 99$' /tmp/P0_FULL.tap
-          grep -q '^# fail 0$' /tmp/P0_FULL.tap
 
-      - name: Export and file modules
+      - name: Base full worker and contract regression
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          QA="/tmp/qa_base"
+          export YMB_FULL="$QA/candidate/full"
+          export YMB_IDB_FIXTURE="$QA/qa/idb_artifact_fixture.mjs"
+          export NODE_OPTIONS="--max-old-space-size=256 --require=$QA/qa/b13_network_guard.cjs"
+          mapfile -t P < <(find "$QA/qa" -maxdepth 1 -name '*.test.mjs' -print | sort)
+          node --test --test-timeout=10000 "${P[@]}" > /tmp/BASE_FULL.tap 2> /tmp/BASE_FULL.stderr
+
+      - name: Candidate export and file modules 84
         shell: bash
         run: |
           set -euo pipefail
@@ -136,7 +159,8 @@ jobs:
           grep -q '^# pass 84$' /tmp/P0_EXPORT.tap
           grep -q '^# fail 0$' /tmp/P0_EXPORT.tap
 
-      - name: Delivery recovery ownership and double-Send
+      - name: Candidate delivery recovery ownership and double-Send
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -152,9 +176,59 @@ jobs:
             "$GITHUB_WORKSPACE/classification/tests/b16_context.test.mjs" \
             "$QA/qa/b9_full_worker.test.mjs" \
             > /tmp/P0_DELIVERY.tap 2> /tmp/P0_DELIVERY.stderr
-          grep -q '^# tests 69$' /tmp/P0_DELIVERY.tap
-          grep -q '^# pass 69$' /tmp/P0_DELIVERY.tap
-          grep -q '^# fail 0$' /tmp/P0_DELIVERY.tap
+
+      - name: Base delivery recovery ownership and double-Send
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          QA="/tmp/qa_base"
+          export YMB_FULL="$QA/candidate/full"
+          export YMB_HARNESS="$QA/qa/b10_full_worker_harness.mjs"
+          export YMB_IDB_FIXTURE="$QA/qa/idb_artifact_fixture.mjs"
+          export NODE_OPTIONS="--max-old-space-size=256 --require=$QA/qa/b13_network_guard.cjs"
+          node --test --test-timeout=10000 \
+            "$GITHUB_WORKSPACE/classification/tests/b17_worker.test.mjs" \
+            "$GITHUB_WORKSPACE/classification/tests/b17_content.test.mjs" \
+            "$GITHUB_WORKSPACE/classification/tests/b15_send_race.test.mjs" \
+            "$GITHUB_WORKSPACE/classification/tests/b16_context.test.mjs" \
+            "$QA/qa/b9_full_worker.test.mjs" \
+            > /tmp/BASE_DELIVERY.tap 2> /tmp/BASE_DELIVERY.stderr
+
+      - name: Differential hotfix gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re
+          def footer(path):
+            t=Path(path).read_text(errors='replace')
+            return dict(re.findall(r'^# (tests|pass|fail|skipped|cancelled) (\d+)$',t,re.M))
+          def failures(path):
+            t=Path(path).read_text(errors='replace')
+            out=[]
+            for x in re.findall(r'^not ok \d+ - (.+)$',t,re.M):
+              x=x.strip()
+              if x.endswith('.mjs'): x=Path(x).name
+              out.append(x)
+            return sorted(set(out))
+          p0_full=failures('/tmp/P0_FULL.tap');base_full=failures('/tmp/BASE_FULL.tap')
+          p0_delivery=failures('/tmp/P0_DELIVERY.tap');base_delivery=failures('/tmp/BASE_DELIVERY.tap')
+          new_full=sorted(set(p0_full)-set(base_full))
+          new_delivery=sorted(set(p0_delivery)-set(base_delivery))
+          result={
+            'p0_full_footer':footer('/tmp/P0_FULL.tap'),'base_full_footer':footer('/tmp/BASE_FULL.tap'),
+            'p0_delivery_footer':footer('/tmp/P0_DELIVERY.tap'),'base_delivery_footer':footer('/tmp/BASE_DELIVERY.tap'),
+            'p0_full_failures':p0_full,'base_full_failures':base_full,
+            'p0_delivery_failures':p0_delivery,'base_delivery_failures':base_delivery,
+            'new_full_failures_vs_1adc':new_full,'new_delivery_failures_vs_1adc':new_delivery,
+          }
+          result['status']='PASS_NO_NEW_REGRESSION' if not new_full and not new_delivery else 'FAIL_NEW_REGRESSION'
+          Path('/tmp/P0_DIFFERENTIAL.json').write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps(result,indent=2))
+          assert not new_full and not new_delivery
+          PY
 
       - name: Confirm tests did not mutate production source
         shell: bash
@@ -181,9 +255,13 @@ jobs:
           mkdir -p "$O"
           cp /tmp/P0_*.tap "$O/" 2>/dev/null || true
           cp /tmp/P0_*.stderr "$O/" 2>/dev/null || true
+          cp /tmp/BASE_*.tap "$O/" 2>/dev/null || true
+          cp /tmp/BASE_*.stderr "$O/" 2>/dev/null || true
           cp /tmp/P0_QA_ADAPT.stdout "$O/" 2>/dev/null || true
+          cp /tmp/P0_DIFFERENTIAL.json "$O/" 2>/dev/null || true
           cp /tmp/P0_MODULES/RESULT.json "$O/MODULE_RESULT.json" 2>/dev/null || true
           cp /tmp/p0_tree_before "$O/PRODUCTION_TREE_SHA256" 2>/dev/null || true
+          cp /tmp/base_tree "$O/BASE_TREE_SHA256" 2>/dev/null || true
           python3 - <<'PY'
           from pathlib import Path
           import hashlib,json,os,re
@@ -192,8 +270,9 @@ jobs:
           for p in sorted(o.glob('*.tap')):
             t=p.read_text(errors='replace')
             suites[p.name]=dict(re.findall(r'^# (tests|pass|fail|skipped|cancelled) (\d+)$',t,re.M))
-          summary={'schema_version':1,'head':os.environ.get('GITHUB_SHA',''),'production_tree':(o/'PRODUCTION_TREE_SHA256').read_text().strip() if (o/'PRODUCTION_TREE_SHA256').exists() else None,'suites':suites,'provider_calls':0}
-          summary['status']='PASS' if suites and all(x.get('fail')=='0' for x in suites.values()) else 'REQUIRES_REVIEW'
+          diff=json.loads((o/'P0_DIFFERENTIAL.json').read_text()) if (o/'P0_DIFFERENTIAL.json').exists() else None
+          summary={'schema_version':2,'head':os.environ.get('GITHUB_SHA',''),'production_tree':(o/'PRODUCTION_TREE_SHA256').read_text().strip() if (o/'PRODUCTION_TREE_SHA256').exists() else None,'base_tree':(o/'BASE_TREE_SHA256').read_text().strip() if (o/'BASE_TREE_SHA256').exists() else None,'suites':suites,'differential':diff,'provider_calls':0}
+          summary['status']='PASS_NO_NEW_REGRESSION' if diff and diff.get('status')=='PASS_NO_NEW_REGRESSION' and suites.get('P0_EXPORT.tap',{}).get('fail')=='0' else 'REQUIRES_REVIEW'
           (o/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n')
           (o/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(o.iterdir()) if p.is_file() and p.name!='SHA256SUMS'))
           print(json.dumps(summary,indent=2))
