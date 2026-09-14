@@ -1,0 +1,85 @@
+name: YMB File Delivery P0 Real Chrome Network Recheck
+
+on:
+  push:
+    branches: [hotfix/ymb-file-delivery-p0-2026-09-14]
+    paths: [.github/workflows/ymb-file-delivery-p0-network-recheck.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+
+jobs:
+  network:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Prepare exact current candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          files=sorted(p for p in r.rglob('*') if p.is_file());tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in files).encode());count=len(files)
+          m=json.loads((r/'manifest.json').read_text());assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1
+          q=Path(os.environ['RUNNER_TEMP'])/'p0-network-tests';q.mkdir();s=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs').read_text()
+          old='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';guard='assert.equal(rows.length,67);';assert s.count(old)==1;assert s.count(guard)==1
+          s=s.replace(old,tree).replace(guard,f'assert.equal(rows.length,{count});');test=q/'p0_network_browser.mjs';test.write_text(s)
+          d=Path(os.environ['RUNNER_TEMP'])/'p0-network-puppeteer';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'p0-network-evidence';e.mkdir();identity={'head':os.environ['GITHUB_SHA'],'tree':tree,'files':count,'version':m['version'],'qa_only_changes':['tree identity','file-count identity'],'controlled_provider_only':True};(e/'IDENTITY.json').write_text(json.dumps(identity,indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as env:env.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_BROWSER_EVIDENCE={e}\nYMB_CHATGPT_FIXTURE={Path("frozen-b17/tests/b15_fixture.html").resolve()}\nYMB_NETWORK_TEST={test.resolve()}\nYMB_EXPECTED_TREE={tree}\nYMB_EXPECTED_FILES={count}\n')
+          print(json.dumps(identity,indent=2))
+          PY
+          node --check "$RUNNER_TEMP/p0-network-tests/p0_network_browser.mjs"
+
+      - name: Install locked Puppeteer
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+
+      - name: Run real Chrome controlled deferred network contour
+        run: xvfb-run -a node "$YMB_NETWORK_TEST" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Enforce network result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/p0-network-publish";mkdir -p "$O";cp "$YMB_BROWSER_EVIDENCE"/* "$O/" 2>/dev/null || true;cp "$YMB_NETWORK_TEST" "$O/" 2>/dev/null || true
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'p0-network-publish';p=o/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
+          failures=[{'case':r.get('case'),'status':r.get('status')} for r in rows if str(r.get('status','')).startswith('FAIL')];cleanup=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{})
+          required={'exact_0_1_6_installed','manual_start_zero_network','manual_submit_exact_searchAsync_POST','manual_collect_exact_operation_GET_and_normalize','command_injection_cannot_override_provider_origin_or_credential','manual_disabled_blocks_before_network','unknown_submit_never_auto_retries','b19_network_campaign_identity','owned_browser_cleanup'};present={r.get('case') for r in rows}
+          result={'schema_version':2,'head':os.environ['GITHUB_SHA'],'product_tree':os.environ.get('YMB_EXPECTED_TREE'),'product_files':int(os.environ.get('YMB_EXPECTED_FILES','0')),'real_provider_calls':0,'controlled_provider_only':True,'cases':len(rows),'missing_required_cases':sorted(required-present),'failures':failures,'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining':cleanup.get('remaining')};result['pass']=required<=present and not failures and not(cleanup.get('remaining') or [])
+          (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(o.iterdir()) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
+          if not result['pass']: raise SystemExit('P0_NETWORK_RECHECK_FAILED')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ymb-file-delivery-p0-browser-network-recheck
+          path: ${{ runner.temp }}/p0-network-publish/
+          retention-days: 90
+          if-no-files-found: error
