@@ -1,0 +1,233 @@
+name: YMB File Delivery P0 Real Chrome Qualification
+
+on:
+  push:
+    branches:
+      - hotfix/ymb-file-delivery-p0-2026-09-14
+    paths:
+      - .github/workflows/ymb-file-delivery-p0-browser-qualification.yml
+      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_2026-09-14.mjs
+      - extension/src/file_delivery_content.js
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+
+jobs:
+  resource:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact P0 branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Restore frozen B17 browser fixtures
+        uses: actions/download-artifact@v4
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Prepare exact P0 browser harnesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,subprocess,sys
+          H=lambda b:hashlib.sha256(b).hexdigest()
+          r=Path('extension/src')
+          files=sorted(p for p in r.rglob('*') if p.is_file())
+          tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in files).encode())
+          count=len(files)
+          manifest=json.loads((r/'manifest.json').read_text())
+          assert manifest['version']=='0.1.6'
+          q=Path(os.environ['RUNNER_TEMP'])/'p0-resource-tests';q.mkdir()
+          old_b17='b20b74351d95becd67f32994e3e00899e9208b8c32c778a306f73f6703bfe508'
+          old_b19='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86'
+          count_guard='assert.equal(rows.length,67);'
+          for name in ['b15_browser_qualification.mjs','b15_browser_faults.mjs']:
+            s=Path('frozen-b17/tests',name).read_text()
+            assert s.count(old_b17)==1
+            assert s.count(count_guard)==1
+            s=s.replace(old_b17,tree).replace(count_guard,f'assert.equal(rows.length,{count});')
+            (q/name).write_text(s)
+          (q/'b15_fixture.html').write_bytes(Path('frozen-b17/tests/b15_fixture.html').read_bytes())
+          base=q/'b17_browser_b19.mjs'
+          subprocess.run([sys.executable,'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_resource_browser_adapt.py','frozen-b17/tests/b17_browser.mjs',str(base)],check=True,stdout=open(Path(os.environ['RUNNER_TEMP'])/'B17_ADAPTATION_BASE.json','w'))
+          s=base.read_text()
+          assert s.count(old_b19)==1
+          assert s.count(count_guard)==1
+          assert s.count('__YMB_FILE_DELIVERY_CONTENT_V2__')>=1
+          s=s.replace(old_b19,tree).replace(count_guard,f'assert.equal(rows.length,{count});').replace('__YMB_FILE_DELIVERY_CONTENT_V2__','__YMB_FILE_DELIVERY_CONTENT_V4__')
+          base.write_text(s)
+          d=Path(os.environ['RUNNER_TEMP'])/'p0-puppeteer';d.mkdir()
+          lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock)
+          j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'p0-resource-evidence';e.mkdir()
+          identity={'head':os.environ['GITHUB_SHA'],'tree':tree,'files':count,'version':manifest['version'],'frozen_fixture_digest':'sha256:0a6b938c6d39392ed1f61f072bfc1ed5e590e99c207bc0bb2d9defebce1e5c3c','qa_only_changes':['tree identity','file-count identity','content runtime V2->V4 lookup','saved B19 stale-control race adaptation']}
+          (e/'IDENTITY.json').write_text(json.dumps(identity,indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as env:
+            env.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_RESOURCE_TESTS={q}\nYMB_RESOURCE_EVIDENCE={e}\nYMB_EXPECTED_TREE={tree}\nYMB_EXPECTED_FILES={count}\nYMB_CHATGPT_FIXTURE={(q/"b15_fixture.html").resolve()}\n')
+          print(json.dumps(identity,indent=2))
+          PY
+
+      - name: Install locked Puppeteer and syntax-check browser harnesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in "$YMB_RESOURCE_TESTS"/*.mjs extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_2026-09-14.mjs; do node --check "$f"; done
+          npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_RESOURCE_EVIDENCE/npm.stdout" 2> "$YMB_RESOURCE_EVIDENCE/npm.stderr"
+
+      - name: Full file 1500 profile restart contour
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/p0-resource-evidence/qualification
+        run: |
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          xvfb-run -a node "$YMB_RESOURCE_TESTS/b15_browser_qualification.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: File fault corruption isolation contour
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/p0-resource-evidence/faults
+        run: |
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          xvfb-run -a node "$YMB_RESOURCE_TESTS/b15_browser_faults.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Pause recovery worker restart contour
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/p0-resource-evidence/pause
+        run: |
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          xvfb-run -a node "$YMB_RESOURCE_TESTS/b17_browser_b19.mjs" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Exact owner P0 real Chrome reproduction
+        env:
+          YMB_BROWSER_EVIDENCE: ${{ runner.temp }}/p0-resource-evidence/p0_owner
+        run: |
+          mkdir -p "$YMB_BROWSER_EVIDENCE"
+          xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_2026-09-14.mjs > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Consolidate and enforce real Chrome resource gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/p0-resource-publish";mkdir -p "$O";cp -a "$YMB_RESOURCE_EVIDENCE"/. "$O/" || true;cp "$YMB_RESOURCE_TESTS"/*.mjs "$O/";cp extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/P0_FILE_DELIVERY_REAL_CHROME_2026-09-14.mjs "$O/"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'p0-resource-publish';groups={};fails=[];peak=0;remaining=[]
+          required_owner={'internal_protocol_never_enters_real_chrome_composer','user_draft_conflict_durably_pauses_and_does_not_reinsert','p0_real_chrome_candidate_identity','owned_browser_cleanup'}
+          for name in ['qualification','faults','pause','p0_owner']:
+            p=o/name/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
+            bad=[{'case':r.get('case'),'status':r.get('status')} for r in rows if str(r.get('status','')).startswith('FAIL')]
+            clean=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{})
+            peak=max(peak,int(clean.get('peak_owned_rss_kib') or 0));remaining.extend(clean.get('remaining') or [])
+            groups[name]={'cases':len(rows),'failures':bad,'peak_rss_kib':clean.get('peak_owned_rss_kib'),'remaining':clean.get('remaining'),'cases_present':sorted({r.get('case') for r in rows if r.get('case')})};fails.extend([{'group':name,**x} for x in bad])
+          owner_present=set(groups['p0_owner']['cases_present'])
+          result={'schema_version':1,'head':os.environ['GITHUB_SHA'],'product_tree':os.environ['YMB_EXPECTED_TREE'],'product_files':int(os.environ['YMB_EXPECTED_FILES']),'version':'0.1.6','real_provider_calls':0,'groups':groups,'failures':fails,'missing_owner_cases':sorted(required_owner-owner_present),'peak_owned_rss_kib':peak,'remaining_processes':remaining,'emergency_limit_kib':2097152}
+          result['pass']=all(g['cases']>0 and not g['failures'] and not(g['remaining'] or []) for g in groups.values()) and not result['missing_owner_cases'] and peak<2097152
+          (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(o).as_posix()+'\n' for f in sorted(o.rglob('*')) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
+          if not result['pass']: raise SystemExit('REAL_CHROME_RESOURCE_GATE_FAILED')
+          PY
+
+      - name: Upload real Chrome resource evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ymb-file-delivery-p0-browser-resource
+          path: ${{ runner.temp }}/p0-resource-publish/
+          retention-days: 90
+          if-no-files-found: error
+
+  network:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact P0 branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Restore frozen B17 browser dependency lock and fixture
+        uses: actions/download-artifact@v4
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Prepare exact P0 controlled-network harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          H=lambda b:hashlib.sha256(b).hexdigest();r=Path('extension/src')
+          files=sorted(p for p in r.rglob('*') if p.is_file());tree=H(''.join(H(p.read_bytes())+'  '+p.relative_to(r).as_posix()+'\n' for p in files).encode());count=len(files)
+          m=json.loads((r/'manifest.json').read_text());assert m['version']=='0.1.6';assert m['host_permissions'].count('https://operation.api.cloud.yandex.net/*')==1
+          q=Path(os.environ['RUNNER_TEMP'])/'p0-network-tests';q.mkdir();src=Path('extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_network_browser.mjs');s=src.read_text()
+          old='b87246c1377cda57cb9135f92814ec6885a1b607a9539be3a27bbc2fb1918b86';guard='assert.equal(rows.length,67);'
+          assert s.count(old)==1;assert s.count(guard)==1
+          s=s.replace(old,tree).replace(guard,f'assert.equal(rows.length,{count});')
+          test=q/'p0_network_browser.mjs';test.write_text(s)
+          d=Path(os.environ['RUNNER_TEMP'])/'p0-network-puppeteer';d.mkdir();lock=Path('frozen-b17/package-lock.json').read_bytes();(d/'package-lock.json').write_bytes(lock);j=json.loads(lock);(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          e=Path(os.environ['RUNNER_TEMP'])/'p0-network-evidence';e.mkdir();identity={'head':os.environ['GITHUB_SHA'],'tree':tree,'files':count,'version':m['version'],'qa_only_changes':['tree identity','file-count identity'],'controlled_provider_only':True};(e/'IDENTITY.json').write_text(json.dumps(identity,indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as env:env.write(f'YMB_BROWSER_CANDIDATE={r.resolve()}\nYMB_PPTR_HOME={d}\nYMB_BROWSER_EVIDENCE={e}\nYMB_CHATGPT_FIXTURE={Path("frozen-b17/tests/b15_fixture.html").resolve()}\nYMB_NETWORK_TEST={test.resolve()}\nYMB_EXPECTED_TREE={tree}\nYMB_EXPECTED_FILES={count}\n')
+          print(json.dumps(identity,indent=2))
+          PY
+          node --check "$YMB_NETWORK_TEST"
+
+      - name: Install locked Puppeteer
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_BROWSER_EVIDENCE/npm.stdout" 2> "$YMB_BROWSER_EVIDENCE/npm.stderr"
+
+      - name: Run real Chrome controlled deferred network contour
+        run: xvfb-run -a node "$YMB_NETWORK_TEST" > "$YMB_BROWSER_EVIDENCE/run.stdout" 2> "$YMB_BROWSER_EVIDENCE/run.stderr"
+
+      - name: Consolidate and enforce controlled network gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          O="$RUNNER_TEMP/p0-network-publish";mkdir -p "$O";cp "$YMB_BROWSER_EVIDENCE"/* "$O/" 2>/dev/null || true;cp "$YMB_NETWORK_TEST" "$O/"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          o=Path(os.environ['RUNNER_TEMP'])/'p0-network-publish';p=o/'browser.jsonl';rows=[json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
+          failures=[{'case':r.get('case'),'status':r.get('status')} for r in rows if str(r.get('status','')).startswith('FAIL')];cleanup=next((r for r in rows if r.get('case')=='owned_browser_cleanup'),{})
+          required={'exact_0_1_6_installed','manual_start_zero_network','manual_submit_exact_searchAsync_POST','manual_collect_exact_operation_GET_and_normalize','command_injection_cannot_override_provider_origin_or_credential','manual_disabled_blocks_before_network','unknown_submit_never_auto_retries','b19_network_campaign_identity','owned_browser_cleanup'};present={r.get('case') for r in rows}
+          result={'schema_version':1,'head':os.environ['GITHUB_SHA'],'product_tree':os.environ['YMB_EXPECTED_TREE'],'product_files':int(os.environ['YMB_EXPECTED_FILES']),'version':'0.1.6','real_provider_calls':0,'controlled_provider_only':True,'cases':len(rows),'required_cases_present':sorted(required&present),'missing_required_cases':sorted(required-present),'failures':failures,'peak_owned_rss_kib':cleanup.get('peak_owned_rss_kib'),'remaining':cleanup.get('remaining')}
+          result['pass']=required<=present and not failures and not(cleanup.get('remaining') or [])
+          (o/'RESULT.json').write_text(json.dumps(result,indent=2)+'\n');(o/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in sorted(o.iterdir()) if f.is_file() and f.name!='SHA256SUMS'));print(json.dumps(result,indent=2))
+          if not result['pass']: raise SystemExit('REAL_CHROME_NETWORK_GATE_FAILED')
+          PY
+
+      - name: Upload controlled network evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ymb-file-delivery-p0-browser-network
+          path: ${{ runner.temp }}/p0-network-publish/
+          retention-days: 90
+          if-no-files-found: error
