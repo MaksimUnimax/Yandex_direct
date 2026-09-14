@@ -34,7 +34,7 @@ function tree() {
       else { assert.ok(item.isFile()); rows.push([path.relative(root, file).split(path.sep).join('/'), hash(fs.readFileSync(file))]); }
     }
   }
-  walk(root); rows.sort((a, b) => a[0].localeCompare(b[0])); assert.equal(rows.length, expectedFiles);
+  walk(root); rows.sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0); assert.equal(rows.length, expectedFiles);
   return hash(Buffer.from(rows.map(([p, h]) => `${h}  ${p}\n`).join('')));
 }
 function emit(row) { const line = JSON.stringify({ ...row, time: new Date().toISOString() }) + '\n'; fs.appendFileSync(path.join(out, 'browser.jsonl'), line); process.stdout.write(line); }
