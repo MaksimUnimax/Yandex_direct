@@ -1,0 +1,70 @@
+name: YMB popup memory lifecycle differential v8
+on:
+  push:
+    branches: [qa/ymb-popup-memory-bounded-v2-2026-09-14]
+    paths:
+      - .github/workflows/ymb-popup-memory-lifecycle-differential-v8.yml
+      - extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/popup_memory_lifecycle_differential_v8.mjs
+permissions:
+  contents: read
+  actions: read
+env:
+  YMB_PRODUCT_SHA: 1adc113945a6c4ca63f78788980b2c68b0acfd08
+  PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+  PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+jobs:
+  lifecycle-v8:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ymb-b17-pause-internal-evidence
+          run-id: 34699125356
+          github-token: ${{ github.token }}
+          path: frozen-b17
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22.16.0'}
+      - name: Prepare exact hotfix and neutral-control roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet "$YMB_PRODUCT_SHA" -- extension/src
+          mkdir -p "$RUNNER_TEMP/fixed" "$RUNNER_TEMP/neutral" "$RUNNER_TEMP/evidence" "$RUNNER_TEMP/deps"
+          git archive "$YMB_PRODUCT_SHA" extension/src | tar -x -C "$RUNNER_TEMP/fixed"
+          cp -a "$RUNNER_TEMP/fixed/extension" "$RUNNER_TEMP/neutral/"
+          printf '%s\n' '(()=>{"use strict";})();' > "$RUNNER_TEMP/neutral/extension/src/popup_search_async_monitor.js"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,os,shutil
+          rt=Path(os.environ['RUNNER_TEMP']);fixed=rt/'fixed/extension/src';neutral=rt/'neutral/extension/src'
+          p=(fixed/'popup_search_async_monitor.js').read_text();assert 'results.openCursor' not in p and 'REFRESH_MS' not in p and 'results.count(itemRange)' in p
+          assert (neutral/'popup_search_async_monitor.js').read_text().strip()=='(()=>{"use strict";})();'
+          d=rt/'deps';lock=Path('frozen-b17/package-lock.json');(d/'package-lock.json').write_bytes(lock.read_bytes());j=json.loads(lock.read_text());(d/'package.json').write_text(json.dumps({'name':j['name'],'private':True,'dependencies':j['packages']['']['dependencies']}))
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'YMB_FIXED_ROOT={fixed}\nYMB_NEUTRAL_ROOT={neutral}\nYMB_PPTR_HOME={d}\nYMB_MEMORY_EVIDENCE={rt/"evidence"}\n')
+          PY
+          node --check "$RUNNER_TEMP/fixed/extension/src/popup_search_async_monitor.js"
+          node --check "$RUNNER_TEMP/neutral/extension/src/popup_search_async_monitor.js"
+          node --check extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/popup_memory_lifecycle_differential_v8.mjs
+      - name: Install locked browser dependency
+        shell: bash
+        run: npm ci --prefix "$YMB_PPTR_HOME" --no-audit --no-fund > "$YMB_MEMORY_EVIDENCE/npm.stdout" 2> "$YMB_MEMORY_EVIDENCE/npm.stderr"
+      - name: Run long-lived and differential real-Chrome memory gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a node extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/popup_memory_lifecycle_differential_v8.mjs > "$YMB_MEMORY_EVIDENCE/run.stdout" 2> "$YMB_MEMORY_EVIDENCE/run.stderr"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['YMB_MEMORY_EVIDENCE'])/'RESULT.json').read_text());print(json.dumps(r,indent=2));assert r['pass'] is True and r['provider_calls']==0
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-popup-memory-lifecycle-v8
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 90
+          if-no-files-found: error
