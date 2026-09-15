@@ -1,12 +1,12 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V23",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V24",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V22",
-    "commit": "d8a0d978f949cf3daac45573f0327b1174153a4f",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V23",
+    "commit": "c71dd30122f916f9c338dc2ed36600a6718db4a3",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001_original_lifecycle": {
@@ -24,6 +24,7 @@
   "step06_s06q001_reacquisition_r1": {
     "release_authority": "STEP_06_S06Q001_CONTROLLED_REACQUISITION_RELEASE_2026-09-15.md",
     "start_pass_and_submit_release_authority": "STEP_06_S06Q001_REACQUISITION_R1_START_PASS_AND_SUBMIT_RELEASE_2026-09-15.md",
+    "submit_accepted_evidence_authority": "STEP_06_S06Q001_REACQUISITION_R1_SUBMIT_ACCEPTED_EVIDENCE_2026-09-15.md",
     "query_id": "S06Q001",
     "attempt": "CONTROLLED_REACQUISITION_R1",
     "query_text": "амулет",
@@ -34,22 +35,29 @@
     "max_cost_rub": 0.0305,
     "local_start_result_received": true,
     "local_start_ok": true,
-    "local_start_request_executed": false,
-    "local_start_provider_calls": 0,
-    "local_start_progress": {
-      "total": 1,
-      "pending": 1,
-      "requests_started": 0,
-      "operations_accepted": 0,
-      "polls_started": 0,
-      "unresolved": 1,
-      "revision": 0
-    },
-    "provider_submit_released": true,
-    "provider_submit_attempts_released_now": 1,
-    "provider_calls_executed": 0,
+    "provider_submit_result_received": true,
+    "provider_submit_ok": true,
+    "provider_submit_request_executed": true,
+    "provider_submit_calls": 1,
+    "provider_operation_id": "spr9hlddpfp9al2grrfl",
+    "item_state": "WAITING",
+    "requests_started": 1,
+    "operations_accepted": 1,
+    "polls_started": 0,
+    "unresolved": 1,
+    "result_received": false,
+    "normalized_result_rows": 0,
+    "submit_revision": 2,
+    "second_submit_allowed": false,
     "collection_released": false,
     "second_reacquisition_allowed": false
+  },
+  "reacquisition_collection_guard": {
+    "submit_result_observed_at": "2026-09-15T07:20:59+05:00",
+    "provider_side_created_at_exposed": false,
+    "conservative_collection_not_before": "2026-09-15T07:25:59+05:00",
+    "bridge_runtime_next_poll_at_is_authoritative_when_collect_attempt_occurs": true,
+    "collection_attempts_released_now": 0
   },
   "reacquisition_basis": {
     "automatic_retry": false,
@@ -60,10 +68,12 @@
     "bridge_v0_1_6_live_operation_get_precedent_verified": true
   },
   "step06_current": {
-    "status": "S06Q001_CONTROLLED_REACQUISITION_R1_START_PASS__EXACTLY_ONE_SUBMIT_RELEASED",
+    "status": "S06Q001_CONTROLLED_REACQUISITION_R1_SUBMIT_ACCEPTED__WAITING__COLLECTION_NOT_YET_RELEASED",
+    "provider_submit_calls_confirmed_original_lifecycle": 1,
+    "provider_submit_calls_confirmed_reacquisition_r1": 1,
     "released_query_ids": ["S06Q001"],
     "deferred_search_local_starts_allowed_now": 0,
-    "deferred_search_submissions_allowed_now": 1,
+    "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
@@ -74,5 +84,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE_READBACK_START_PASS_AND_SUBMIT_RELEASE_AUTHORITY_AND_CURSOR_V23; THEN EXECUTE EXACTLY ONE submitN count=1 FOR kw002-s06q001-r1-20260915; DO NOT COLLECT OR RELEASE S06Q002 UNTIL SUBMIT RESULT IS PERSISTED_AND_RECONCILED"
+  "next_action": "REMOTE_READBACK_REACQUISITION_R1_SUBMIT_EVIDENCE_AND_CURSOR_V24; DO NOT RESUBMIT; DO NOT COLLECT BEFORE 2026-09-15T07:25:59+05:00; AFTER THAT TIME RECHECK LIVE STATE AND PUBLISH AT MOST ONE collectN count=1 RELEASE FOR THE SAME NEW JOB; DO NOT RELEASE S06Q002"
 }
