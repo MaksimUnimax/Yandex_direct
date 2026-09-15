@@ -1,12 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V26",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V27",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V25",
-    "commit": "053b962c9891037a11f62985a85706a95848c1e0",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V26",
+    "commit": "2adec640ad9247c6f7cd5312c34ed127976cafe8",
+    "blob_sha": "6e3a7e93d538a98552d7c9aaaec7ff62362f135c",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001_original_lifecycle": {
@@ -24,7 +25,9 @@
     "submit_accepted_evidence_authority": "STEP_06_S06Q001_REACQUISITION_R1_SUBMIT_ACCEPTED_EVIDENCE_2026-09-15.md",
     "collect_pass_evidence_authority": "STEP_06_S06Q001_REACQUISITION_R1_COLLECT_PASS_EVIDENCE_2026-09-15.md",
     "result_closure_authority": "STEP_06_S06Q001_REACQUISITION_R1_RESULT_CLOSURE_2026-09-15.md",
+    "result_remote_readback_authority": "STEP_06_S06Q001_REACQUISITION_R1_RESULT_REMOTE_READBACK_2026-09-15.md",
     "exact_export_authority": "search-kw002-s06q001-r1-20260915-r5-0-0.json",
+    "exact_export_git_blob_sha": "c174398ca5ea73e5935ab964f30084ec542e9fd3",
     "exact_export_utf8_bytes": 62141,
     "exact_export_sha256": "a585a21ec19a952227ca7eb0b531bd566c0bba5cb54c5bc28158b687910fc375",
     "query_id": "S06Q001",
@@ -53,15 +56,18 @@
     "raw_result_preserved": true,
     "full_normalized_serp_rows_exported": true,
     "full_export_persisted_to_repository": true,
-    "full_export_remote_readback_pass": false,
-    "closure_remote_readback_pass": false,
+    "full_export_remote_readback_pass": true,
+    "closure_remote_readback_pass": true,
+    "cursor_v26_remote_readback_pass": true,
     "collect_revision": 5,
     "provider_submit_calls": 1,
     "provider_collect_calls": 1,
+    "provider_calls_during_remote_readback": 0,
     "automatic_retry": false,
     "second_submit_allowed": false,
     "further_collect_allowed_now": false,
-    "second_reacquisition_allowed": false
+    "second_reacquisition_allowed": false,
+    "current_evidence_durably_closed": true
   },
   "s06q001_result_type_accounting": {
     "SPECIALTY_SELLER_OR_BRAND": 3,
@@ -75,12 +81,13 @@
     "classification_is_bounded_serp_role_not_final_competitor_membership": true
   },
   "step06_current": {
-    "status": "S06Q001_FULL_RESULT_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_S06Q002_RELEASE",
+    "status": "S06Q001_REMOTE_READBACK_PASS__S06Q002_SEPARATE_RELEASE_REQUIRED",
     "provider_submit_calls_confirmed_original_lifecycle": 1,
     "provider_submit_calls_confirmed_reacquisition_r1": 1,
     "provider_collect_calls_confirmed_reacquisition_r1": 1,
     "released_query_ids": ["S06Q001"],
-    "closed_query_ids_pending_remote_readback": ["S06Q001"],
+    "durably_closed_query_ids": ["S06Q001"],
+    "closed_query_ids_pending_remote_readback": [],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
@@ -94,5 +101,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE_READBACK EXACT S06Q001 EXPORT + RESULT CLOSURE + CURSOR V26; RECONCILE REMOTE BYTE/ROW/IDENTITY TRUTH; ONLY THEN PUBLISH A SEPARATE S06Q002 RELEASE; DO NOT MAKE ANY PROVIDER CALL BEFORE THAT READBACK"
+  "next_action": "PUBLISH A SEPARATE S06Q002 EXECUTION RELEASE FOR EXACT V2 MANIFEST ROW 'оберег'; REMOTE-READBACK THAT RELEASE AND THE NEW CURSOR; ONLY THEN ALLOW EXACTLY ONE LOCAL START; DO NOT MAKE ANY PROVIDER CALL BEFORE THAT RELEASE READBACK; DO NOT START S06Q003, STEP07, OR STEP08"
 }
