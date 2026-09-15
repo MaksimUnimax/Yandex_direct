@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V33",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V34",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V32",
-    "commit": "9b28baa935463585cd5bec97ca62da7f69e2f90c",
-    "blob_sha": "b814a57aaf8d63cf910bf35fdf402bcf00e53f19",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V33",
+    "commit": "a854fb6709cd7c82cb35f614135fa4265c65d13d",
+    "blob_sha": "dfa3afd76bbe088b21cb7cb08216b66eac147a61",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -31,6 +31,8 @@
     "submit_release_authority": "STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_2026-09-15.md",
     "submit_release_remote_readback_authority": "STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_REMOTE_READBACK_2026-09-15.md",
     "submit_accepted_evidence_authority": "STEP_06_S06Q002_SUBMIT_ACCEPTED_EVIDENCE_2026-09-15.md",
+    "submit_accepted_remote_readback_authority": "STEP_06_S06Q002_SUBMIT_ACCEPTED_REMOTE_READBACK_2026-09-15.md",
+    "collection_release_authority": "STEP_06_S06Q002_COLLECTION_RELEASE_2026-09-15.md",
     "query_id": "S06Q002",
     "query_text": "оберег",
     "job_id": "kw002-s06q002-20260915",
@@ -38,12 +40,8 @@
     "max_requests": 1,
     "max_cost_rub": 0.0305,
     "release_remote_readback_pass": true,
-    "local_start_executed": true,
     "local_start_pass": true,
     "submit_release_remote_readback_pass": true,
-    "provider_submit_result_received": true,
-    "provider_submit_ok": true,
-    "provider_submit_request_executed": true,
     "provider_submit_calls": 1,
     "provider_operation_id": "sprridu5n6oqitgg774b",
     "item_state": "WAITING",
@@ -52,13 +50,14 @@
     "polls_started": 0,
     "unresolved": 1,
     "result_received": false,
-    "normalized_result_rows": 0,
     "submit_revision": 2,
     "provider_collect_calls": 0,
+    "submit_accepted_evidence_remote_readback_pass": true,
+    "collection_release_persisted_to_repository": true,
+    "collection_release_remote_readback_pass": false,
     "automatic_retry": false,
     "second_local_start_allowed": false,
     "second_provider_submit_allowed": false,
-    "collection_released": false,
     "s06q003_released": false
   },
   "s06q002_collection_guard": {
@@ -66,15 +65,18 @@
     "provider_side_created_at_exposed": false,
     "next_poll_at_exposed_in_submit_envelope": false,
     "conservative_collection_not_before": "2026-09-15T09:46:00+05:00",
+    "current_time_check": "2026-09-15T09:50:36+05:00",
+    "conservative_guard_elapsed": true,
+    "runtime_due_check_verified": true,
     "bridge_runtime_next_poll_at_is_authoritative_when_collect_attempt_occurs": true,
     "collection_attempts_released_now": 0
   },
   "step06_current": {
-    "status": "S06Q002_PROVIDER_SUBMIT_ACCEPTED__WAITING__SUBMIT_EVIDENCE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_COLLECTION_RELEASE",
+    "status": "S06Q002_COLLECTION_RELEASE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_COLLECT",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001"],
     "waiting_query_ids": ["S06Q002"],
-    "submit_evidence_remote_readback_pending_query_ids": ["S06Q002"],
+    "collection_release_readback_pending_query_ids": ["S06Q002"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
@@ -90,5 +92,6 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK STEP_06_S06Q002_SUBMIT_ACCEPTED_EVIDENCE_2026-09-15.md + CURSOR V33; DO NOT RESUBMIT; DO NOT COLLECT BEFORE 2026-09-15T09:46:00+05:00; AFTER GUARD RECHECK LIVE HEAD/TIME AND PUBLISH AT MOST ONE collectN count=1 RELEASE FOR kw002-s06q002-20260915; REMOTE-READBACK THAT RELEASE BEFORE COLLECTION; DO NOT RELEASE S06Q003"
+  "exact_collect_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"collectN\",\"jobId\":\"kw002-s06q002-20260915\",\"count\":1}",
+  "next_action": "REMOTE-READBACK STEP_06_S06Q002_COLLECTION_RELEASE_2026-09-15.md + CURSOR V34; IF BOTH MATCH, RECORD COLLECTION-RELEASE READBACK PASS IN SUCCESSOR CURSOR AND AUTHORIZE EXACTLY ONE collectN count=1; DO NOT submit AGAIN; DO NOT start AGAIN; DO NOT RELEASE S06Q003"
 }
