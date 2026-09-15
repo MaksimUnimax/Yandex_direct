@@ -1,12 +1,12 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V22",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V23",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V21",
-    "commit": "3a2a72eb6ac63fca86aa1f12d4dc2929afdac580",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V22",
+    "commit": "d8a0d978f949cf3daac45573f0327b1174153a4f",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001_original_lifecycle": {
@@ -23,6 +23,7 @@
   },
   "step06_s06q001_reacquisition_r1": {
     "release_authority": "STEP_06_S06Q001_CONTROLLED_REACQUISITION_RELEASE_2026-09-15.md",
+    "start_pass_and_submit_release_authority": "STEP_06_S06Q001_REACQUISITION_R1_START_PASS_AND_SUBMIT_RELEASE_2026-09-15.md",
     "query_id": "S06Q001",
     "attempt": "CONTROLLED_REACQUISITION_R1",
     "query_text": "амулет",
@@ -31,8 +32,21 @@
     "query_and_parameters_identical_to_original": true,
     "max_requests": 1,
     "max_cost_rub": 0.0305,
-    "local_start_result_received": false,
-    "provider_submit_released": false,
+    "local_start_result_received": true,
+    "local_start_ok": true,
+    "local_start_request_executed": false,
+    "local_start_provider_calls": 0,
+    "local_start_progress": {
+      "total": 1,
+      "pending": 1,
+      "requests_started": 0,
+      "operations_accepted": 0,
+      "polls_started": 0,
+      "unresolved": 1,
+      "revision": 0
+    },
+    "provider_submit_released": true,
+    "provider_submit_attempts_released_now": 1,
     "provider_calls_executed": 0,
     "collection_released": false,
     "second_reacquisition_allowed": false
@@ -46,10 +60,10 @@
     "bridge_v0_1_6_live_operation_get_precedent_verified": true
   },
   "step06_current": {
-    "status": "S06Q001_CONTROLLED_REACQUISITION_R1_RELEASED__LOCAL_START_ONLY__NO_PROVIDER_SUBMIT_YET",
+    "status": "S06Q001_CONTROLLED_REACQUISITION_R1_START_PASS__EXACTLY_ONE_SUBMIT_RELEASED",
     "released_query_ids": ["S06Q001"],
-    "deferred_search_local_starts_allowed_now": 1,
-    "deferred_search_submissions_allowed_now": 0,
+    "deferred_search_local_starts_allowed_now": 0,
+    "deferred_search_submissions_allowed_now": 1,
     "deferred_search_collection_attempts_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
@@ -60,5 +74,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE_READBACK_REACQUISITION_RELEASE_AND_CURSOR_V22; THEN EXECUTE EXACTLY ONE LOCAL start FOR kw002-s06q001-r1-20260915; EXPECT provider_calls=0; DO NOT SUBMIT UNTIL START RESULT IS OBSERVED_AND_RECONCILED"
+  "next_action": "REMOTE_READBACK_START_PASS_AND_SUBMIT_RELEASE_AUTHORITY_AND_CURSOR_V23; THEN EXECUTE EXACTLY ONE submitN count=1 FOR kw002-s06q001-r1-20260915; DO NOT COLLECT OR RELEASE S06Q002 UNTIL SUBMIT RESULT IS PERSISTED_AND_RECONCILED"
 }
