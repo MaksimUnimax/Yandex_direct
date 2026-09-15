@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V31",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V32",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V30",
-    "commit": "328cc483c3a642089fd684035b0f0ca0feb5182e",
-    "blob_sha": "eb95cc5276a1c701f9775d298b2264e09eceb14d",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V31",
+    "commit": "7171bb0904264aac129625d06e2ee3f0fa6806fa",
+    "blob_sha": "272c038b4d5f04b29b47768450cadb4cb9186614",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -29,6 +29,7 @@
     "local_start_evidence_authority": "STEP_06_S06Q002_LOCAL_START_PASS_EVIDENCE_2026-09-15.md",
     "local_start_remote_readback_authority": "STEP_06_S06Q002_LOCAL_START_REMOTE_READBACK_2026-09-15.md",
     "submit_release_authority": "STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_2026-09-15.md",
+    "submit_release_remote_readback_authority": "STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_REMOTE_READBACK_2026-09-15.md",
     "query_id": "S06Q002",
     "query_text": "оберег",
     "job_id": "kw002-s06q002-20260915",
@@ -65,7 +66,7 @@
     },
     "local_start_evidence_remote_readback_pass": true,
     "submit_release_persisted_to_repository": true,
-    "submit_release_remote_readback_pass": false,
+    "submit_release_remote_readback_pass": true,
     "provider_submit_calls": 0,
     "provider_collect_calls": 0,
     "automatic_retry": false,
@@ -74,12 +75,12 @@
     "s06q003_released": false
   },
   "step06_current": {
-    "status": "S06Q002_EXACT_ONE_SUBMIT_RELEASE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_PROVIDER_CALL",
+    "status": "S06Q002_SUBMIT_RELEASE_REMOTE_READBACK_PASS__EXACTLY_ONE_PROVIDER_SUBMISSION_ALLOWED",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001"],
-    "submit_release_readback_pending_query_ids": ["S06Q002"],
+    "provider_submit_pending_query_ids": ["S06Q002"],
     "deferred_search_local_starts_allowed_now": 0,
-    "deferred_search_submissions_allowed_now": 0,
+    "deferred_search_submissions_allowed_now": 1,
     "deferred_search_collection_attempts_allowed_now": 0,
     "deferred_search_local_exports_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
@@ -93,5 +94,5 @@
     "step08_started": false
   },
   "exact_submit_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"submitN\",\"jobId\":\"kw002-s06q002-20260915\",\"count\":1}",
-  "next_action": "REMOTE-READBACK STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_2026-09-15.md + CURSOR V31; IF BOTH MATCH, RECORD SUBMIT-RELEASE READBACK PASS IN A SUCCESSOR CURSOR AND AUTHORIZE EXACTLY ONE submitN count=1; DO NOT RUN start AGAIN; DO NOT COLLECT; DO NOT RELEASE S06Q003"
+  "next_action": "REMOTE-READBACK THIS V32 COMMIT; THEN EXECUTE EXACTLY ONE submitN count=1 FOR kw002-s06q002-20260915; PERSIST THE EXACT RETURNED RESULT AND OPERATION ID BEFORE ANY collect; DO NOT submit AGAIN; DO NOT RUN start AGAIN; DO NOT RELEASE S06Q003"
 }
