@@ -1,62 +1,62 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V20",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V21",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V19",
-    "commit": "376b39d0e0e1c1dd6d390c9e7e83c2fee03931a3",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V20",
+    "commit": "d4d3c8b242b18795972312fd612fb90d9f863f38",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
     "release_authority": "STEP_06_S06Q001_EXECUTION_RELEASE_2026-09-14.md",
     "submit_evidence_authority": "STEP_06_S06Q001_SUBMIT_ACCEPTED_EVIDENCE_2026-09-14.md",
-    "collection_release_authority": "STEP_06_S06Q001_COLLECTION_RELEASE_2026-09-14.md",
-    "collect_read_error_evidence_authority": "STEP_06_S06Q001_COLLECT_READ_ERROR_EVIDENCE_2026-09-15.md",
+    "first_collect_read_error_evidence_authority": "STEP_06_S06Q001_COLLECT_READ_ERROR_EVIDENCE_2026-09-15.md",
+    "second_collect_http_404_evidence_authority": "STEP_06_S06Q001_COLLECT_HTTP_404_EVIDENCE_2026-09-15.md",
     "query_id": "S06Q001",
     "query_text": "амулет",
     "job_id": "kw002-s06q001-20260914",
     "transport": "DEFERRED_ASYNC",
     "local_start_pass": true,
     "provider_submit_pass": true,
-    "provider_operation_identity": "PERSISTED_IN_SUBMIT_EVIDENCE_AUTHORITY",
-    "item_state": "WAITING",
+    "provider_operation_identity": "PERSISTED_IN_SUBMIT_AND_COLLECT_EVIDENCE",
+    "old_operation_lifecycle": "FROZEN_AFTER_HTTP_404",
     "requests_started": 1,
     "operations_accepted": 1,
-    "polls_started": 1,
-    "unresolved": 1,
+    "polls_started": 2,
     "result_received": false,
     "normalized_result_rows": 0,
     "last_collect": {
       "ok": false,
-      "request_executed": "UNKNOWN",
-      "bridge_reported_provider_calls": 0,
+      "request_executed": true,
+      "bridge_reported_provider_calls": 1,
       "outcome": "read_error",
-      "code": "ASYNC_NETWORK_OUTCOME_UNKNOWN",
-      "revision": 4
+      "code": "ASYNC_HTTP_404",
+      "revision": 6
     },
+    "root_cause_state": "PROVIDER_OPERATION_GET_HTTP_404__EXACT_CAUSE_UNRESOLVED",
+    "route_recheck": "OFFICIAL_ENDPOINT_MATCH_PASS",
+    "bridge_live_collect_precedent": "V0_1_6_OWNER_SMOKE_REAL_COLLECT_PASS_CONFIRMED",
+    "result_expired_proven": false,
+    "access_context_mismatch_proven": false,
+    "provider_operation_disappearance_proven": false,
+    "old_operation_further_collect_allowed": false,
+    "old_job_resubmit_allowed": false,
+    "controlled_reacquisition_release_required": true,
     "next_query_released": false,
     "automatic_retry_allowed": false
   },
-  "unknown_collect_interpretation": {
-    "provider_get_definitely_executed": "UNKNOWN",
-    "provider_get_definitely_not_executed": "UNKNOWN",
-    "provider_zero_result_observed": false,
-    "provider_rejection_observed": false,
-    "runtime_recover_required": false,
-    "same_operation_must_be_preserved": true,
-    "normal_later_collect_path_after_due_gate": true
-  },
-  "collection_guard": {
-    "exact_internal_next_poll_at_exposed": false,
-    "conservative_chat_side_recheck_not_before": "2026-09-15T06:42:25+05:00",
-    "new_collect_attempts_released_now": 0,
-    "submit_attempts_released_now": 0
+  "provider_limits_rechecked": {
+    "deferred_minimum_processing_minutes": 5,
+    "deferred_result_maximum_retention_hours": 12,
+    "retention_expiry_plausible_but_not_proven": true
   },
   "step06_current": {
-    "status": "S06Q001_WAITING__COLLECT_READ_ERROR_NETWORK_OUTCOME_UNKNOWN__EVIDENCE_PUBLISHED__NO_RETRY_RELEASED",
+    "status": "S06Q001_OPERATION_GET_HTTP_404__OLD_OPERATION_FROZEN__CONTROLLED_REACQUISITION_DECISION_REQUIRED",
     "provider_submit_calls_confirmed_in_step06": 1,
+    "provider_collect_calls_confirmed_in_step06": 1,
+    "provider_collect_unknown_outcome_attempts_in_step06": 1,
     "released_query_ids": ["S06Q001"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
@@ -69,5 +69,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE_READBACK_COLLECT_READ_ERROR_EVIDENCE_AND_CURSOR_V20; DO_NOT RESUBMIT; DO_NOT RELEASE S06Q002; AFTER 2026-09-15T06:42:25+05:00 RECHECK CURRENT STATE AND ONLY THEN RELEASE AT MOST ONE NEW collectN count=1 FOR THE SAME JOB/OPERATION"
+  "next_action": "REMOTE_READBACK_HTTP_404_EVIDENCE_AND_CURSOR_V21; THEN MAKE A SEPARATE BOUNDED CONTROLLED_REACQUISITION_DECISION FOR S06Q001 BEFORE ANY PROVIDER CALL; DO_NOT COLLECT OLD OPERATION AGAIN; DO_NOT RESUBMIT OLD JOB; DO_NOT RELEASE S06Q002"
 }
