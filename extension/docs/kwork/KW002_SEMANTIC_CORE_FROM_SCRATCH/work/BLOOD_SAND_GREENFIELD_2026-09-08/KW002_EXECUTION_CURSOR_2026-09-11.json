@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V30",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V31",
   "date": "2026-09-15",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V29",
-    "commit": "0bb06da55944e7b4fd07fd1c425253d40375eb50",
-    "blob_sha": "1ad8111f08727c665a7bdb0cbb7e3b45a3615c57",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V30",
+    "commit": "328cc483c3a642089fd684035b0f0ca0feb5182e",
+    "blob_sha": "eb95cc5276a1c701f9775d298b2264e09eceb14d",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -20,8 +20,6 @@
     "normalized_result_rows": 20,
     "unique_urls": 20,
     "unique_domains": 15,
-    "exact_export_authority": "search-kw002-s06q001-r1-20260915-r5-0-0.json",
-    "exact_export_git_blob_sha": "c174398ca5ea73e5935ab964f30084ec542e9fd3",
     "current_evidence_durably_closed": true,
     "further_provider_action_allowed": false
   },
@@ -29,13 +27,14 @@
     "release_authority": "STEP_06_S06Q002_EXECUTION_RELEASE_2026-09-15.md",
     "release_remote_readback_authority": "STEP_06_S06Q002_RELEASE_REMOTE_READBACK_2026-09-15.md",
     "local_start_evidence_authority": "STEP_06_S06Q002_LOCAL_START_PASS_EVIDENCE_2026-09-15.md",
+    "local_start_remote_readback_authority": "STEP_06_S06Q002_LOCAL_START_REMOTE_READBACK_2026-09-15.md",
+    "submit_release_authority": "STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_2026-09-15.md",
     "query_id": "S06Q002",
     "query_text": "оберег",
     "job_id": "kw002-s06q002-20260915",
     "transport": "DEFERRED_ASYNC",
     "max_requests": 1,
     "max_cost_rub": 0.0305,
-    "release_persisted_to_repository": true,
     "release_remote_readback_pass": true,
     "local_start_executed": true,
     "local_start_pass": true,
@@ -64,19 +63,21 @@
       "busy": false,
       "revision": 0
     },
-    "local_start_evidence_persisted": true,
-    "local_start_evidence_remote_readback_pass": false,
+    "local_start_evidence_remote_readback_pass": true,
+    "submit_release_persisted_to_repository": true,
+    "submit_release_remote_readback_pass": false,
     "provider_submit_calls": 0,
     "provider_collect_calls": 0,
     "automatic_retry": false,
     "second_local_start_allowed": false,
+    "second_provider_submit_allowed": false,
     "s06q003_released": false
   },
   "step06_current": {
-    "status": "S06Q002_LOCAL_START_PASS_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_SUBMIT_RELEASE",
+    "status": "S06Q002_EXACT_ONE_SUBMIT_RELEASE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_PROVIDER_CALL",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001"],
-    "local_start_pass_query_ids_pending_remote_readback": ["S06Q002"],
+    "submit_release_readback_pending_query_ids": ["S06Q002"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
@@ -85,13 +86,12 @@
     "gensearch_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
     "ai_search_calls_allowed_now": 0,
-    "s06q002_released": true,
-    "s06q002_local_start_pass": true,
     "s06q002_provider_submit_calls": 0,
     "s06q003_released": false,
     "step06_started": true,
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK STEP_06_S06Q002_LOCAL_START_PASS_EVIDENCE_2026-09-15.md + CURSOR V30; IF BOTH MATCH, PUBLISH A SEPARATE EXACT-ONE-SUBMIT RELEASE FOR kw002-s06q002-20260915; REMOTE-READBACK THAT RELEASE BEFORE ANY submitN; DO NOT RUN A SECOND start; DO NOT RELEASE S06Q003"
+  "exact_submit_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"submitN\",\"jobId\":\"kw002-s06q002-20260915\",\"count\":1}",
+  "next_action": "REMOTE-READBACK STEP_06_S06Q002_EXACT_ONE_SUBMIT_RELEASE_2026-09-15.md + CURSOR V31; IF BOTH MATCH, RECORD SUBMIT-RELEASE READBACK PASS IN A SUCCESSOR CURSOR AND AUTHORIZE EXACTLY ONE submitN count=1; DO NOT RUN start AGAIN; DO NOT COLLECT; DO NOT RELEASE S06Q003"
 }
