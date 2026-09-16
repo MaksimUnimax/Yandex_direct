@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V61",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V62",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V60",
-    "commit": "500af9ff000d9797991fd9e833fb5fc521a31e55",
-    "blob_sha": "ec59d19900f5e30982484b8bd453d7ababa4fba4",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V61",
+    "commit": "6627aa6218ccd52452d1a6f975e0735f441d236d",
+    "blob_sha": "2e261f395ff31d4c7d35b51cbee75a0879bbdae8",
     "inherit_all_unchanged_upstream_state": true
   },
   "mandatory_yandex_marketing_bridge_authorities": {
@@ -58,10 +58,13 @@
     "first_collectN_processed": 18,
     "first_collectN_normalized": 18,
     "first_collectN_bounded_stop": true,
-    "first_collectN_remote_readback_pass": false,
+    "first_collectN_remote_readback_pass": true,
+    "first_collectN_remote_blob_sha": "2e261f395ff31d4c7d35b51cbee75a0879bbdae8",
     "remaining_waiting": 2,
     "remaining_succeeded": 18,
-    "second_collectN_released": false,
+    "second_collectN_released": true,
+    "second_collectN_count_limit": 2,
+    "second_collectN_commands_released_now": 1,
     "export_released": false
   },
   "observed_first_collectN_result": {
@@ -108,11 +111,11 @@
     "bounded_stop_interpretation": "RUNTIME_SLICE_BUDGET_EXHAUSTED_AFTER_18_SUCCESSFUL_RECEIVES__NOT_PROVIDER_FAILURE",
     "automatic_resubmit": false,
     "result_observed_in_chat": true,
-    "result_durably_recorded_in_this_cursor": true
+    "result_durably_recorded": true,
+    "remote_readback_pass": true
   },
-  "provider_accounting_after_first_collectN": {
+  "provider_accounting_before_second_collectN": {
     "provider_submit_calls_total_for_remaining_queue": 20,
-    "provider_collect_calls_this_action": 18,
     "provider_collect_calls_total_for_remaining_queue": 18,
     "provider_calls_total_for_remaining_queue": 38,
     "requests_started": 20,
@@ -124,13 +127,14 @@
     "parse_failed": 0,
     "unknown": 0
   },
+  "released_second_collectN_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"collectN\",\"jobId\":\"kw002-s06q003-q022-20260916\",\"count\":2}",
   "step06_current": {
-    "status": "ASYNC_FIRST_COLLECTN_18_SUCCEEDED_2_WAITING_DURABLY_RECORDED__REMOTE_READBACK_REQUIRED_BEFORE_SECOND_COLLECTN_RELEASE",
+    "status": "ASYNC_FIRST_COLLECTN_DURABLY_VERIFIED__EXACTLY_ONE_FINAL_COLLECTN_COUNT2_RELEASED",
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submit_commands_allowed_now": 0,
     "deferred_search_provider_submit_attempts_allowed_now": 0,
-    "deferred_search_collection_commands_allowed_now": 0,
-    "deferred_search_provider_collect_attempts_allowed_now": 0,
+    "deferred_search_collection_commands_allowed_now": 1,
+    "deferred_search_provider_collect_attempts_max_now": 2,
     "deferred_search_local_exports_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
@@ -140,5 +144,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK THIS V61 CURSOR. IF THE REMOTE BLOB EXACTLY RECORDS THE REAL collectN RESULT WITH provider_calls=18, processed=18, normalized=18, SUCCEEDED=18, WAITING=2, FAILED=0, PARSE_FAILED=0, UNKNOWN=0 AND revision=94, PUBLISH A SUCCESSOR CURSOR THAT RELEASES EXACTLY ONE SEARCH_ASYNC_BATCH_API_V1 collectN COMMAND WITH count=2 FOR THE TWO REMAINING WAITING ITEMS. DO NOT RESUBMIT. KEEP EXPORT AND STEP07 CLOSED UNTIL THE SECOND collectN RESULT IS OBSERVED AND RECONCILED."
+  "next_action": "EXECUTE EXACTLY ONE released_second_collectN_command THROUGH THE YMB `Яндекс` ACTION. DO NOT CLAIM THE TWO REMAINING OPERATIONS COLLECTED UNTIL THE ACTUAL SEARCH_ASYNC_BATCH_RESULT_V1 ARRIVES. DO NOT RESUBMIT. IF BOTH ITEMS BECOME SUCCEEDED WITH FAILED=PARSE_FAILED=UNKNOWN=0 AND all_successful=true, RECONCILE AND THEN RELEASE THE EXACT FINAL exportPage. OTHERWISE PRESERVE THE PARTIAL STATE AND HANDLE ONLY THE OBSERVED CONDITION. STEP07 REMAINS CLOSED."
 }
