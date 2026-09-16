@@ -10,6 +10,8 @@ Canonical architecture authorities:
 - `../LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md`
 - `../LEVEL1/DATA_VOLUME_SANITATION_AND_DELIVERY_SCOPE_RULE.md`
 - `../LEVEL1/JOB_DATA_SEPARATION_AND_LIFECYCLE.md`
+- `../LEVEL1/YANDEX_MARKETING_BRIDGE_EXECUTION_RULE.md` whenever YMB/provider work is possible
+- `YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md` for every YMB/provider-backed roadmap step
 
 This file defines the roadmap. It contains no current client/site facts, current job counts, family IDs, query IDs, owner execution status or project-specific examples.
 
@@ -49,6 +51,23 @@ ROADMAP STEP != CURRENT JOB SPECIAL CASE
 ```
 
 A job may have HOLD/rework branches, but the permanent step exists because the need is reusable across sites.
+
+## Global Yandex Marketing Bridge execution invariant
+
+Any step below that uses Yandex Marketing Bridge must pass `YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md` in addition to its own semantic/provider gates.
+
+For Manual YMB execution the command itself must be rendered as **one standalone fenced Markdown code block containing exactly one Bridge command**. The extension must discover that block and the owner/user must trigger it through the YMB `Яндекс` action.
+
+```text
+ASSISTANT PRINTED COMMAND != EXECUTED COMMAND
+CODE BLOCK VISIBLE != EXECUTED COMMAND
+CLICK/ATTEMPT != SUCCESSFUL PROVIDER EXECUTION
+NO ACTUAL *_RESULT_V1 = NO EXECUTION CLAIM
+```
+
+Never advance provider accounting, job creation, operation state or roadmap state from an expected result. Advance only from an actual Bridge result plus the persistence/readback gates required by the concrete step.
+
+This invariant is mandatory at least in Step03, provider-backed Step05, Step06, Step08, Step12 and Step16, including corrective/re-acquisition branches.
 
 ---
 
@@ -175,6 +194,7 @@ Dedicated universal gates:
 
 - `STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md`
 - `STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md`
+- `YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
 
 ## Why
 
@@ -190,8 +210,11 @@ For every authorized request:
 
 ```text
 justify depth
-→ execute
-→ receive complete result
+→ verify current YMB protocol/result prefix and active service/mode
+→ render exactly one Bridge command in one standalone fenced Markdown code block
+→ owner/user triggers the block through `Яндекс`
+→ receive ACTUAL Bridge result
+→ reconcile request_executed / provider_calls / result payload
 → persist complete RAW result
 → persist request/provenance
 → remote readback
@@ -204,6 +227,7 @@ justify depth
 - technical/provider success mistaken for semantic completeness;
 - arbitrary depth selection;
 - visible chat output mistaken for durable evidence;
+- assistant-rendered command mistaken for executed Bridge action;
 - raw duplicates/noise deleted before analysis.
 
 ## Output
@@ -212,7 +236,7 @@ Lossless RAW occurrence evidence + acquisition/receipt manifest.
 
 ## PASS
 
-Every authorized item has a known terminal outcome and complete durable feed-forward required by the method.
+Every authorized item has a known terminal outcome and complete durable feed-forward required by the method. No item counts as executed without an actual Bridge result.
 
 ---
 
@@ -341,6 +365,7 @@ Inherited provider gates where Wordstat is used:
 
 - `STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md`
 - `STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md`
+- `YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
 
 ## Why
 
@@ -364,6 +389,9 @@ name exact unresolved question
 → justify depth from the information question, not provider maximum
 → define snapshot-bounded stop/reopen logic
 → authorize only genuinely new probe
+→ before provider execution pass YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE
+→ render one command in one standalone fenced code block
+→ require actual Bridge result before claiming execution/provider calls
 → persist complete RAW before any next provider call
 → pass new rows through Step03A/03B before union
 ```
@@ -379,6 +407,7 @@ BROAD EVIDENCE != QUALIFIED QUESTION ANSWER
 TEMPORAL SNAPSHOT != PERMANENT TRUTH
 RAW PROVIDER ROW != ACCEPTED SEMANTIC ROW
 WORK != DEFAULT FOR BOUNDED DOCUMENTATION / ONE-CANDIDATE GATE WORK
+PRINTED_BRIDGE_COMMAND != EXECUTED_PROVIDER_REQUEST
 ```
 
 Work is used only when the applicable Level1 large-data/full-volume trigger is actually met; large data must never be sampled merely to avoid Work.
@@ -400,7 +429,8 @@ Work is used only when the applicable Level1 large-data/full-volume trigger is a
 - stale provider schema/limits/pricing reused as current;
 - raw provider results injected directly into accepted semantic authorities;
 - next provider request issued before current RAW persistence/readback;
-- Work handoff used without an applicable scale trigger.
+- Work handoff used without an applicable scale trigger;
+- assistant text mistaken for an executed Bridge command.
 
 ## Output
 
@@ -422,6 +452,7 @@ DEPTH_BOUNDARY_HANDLED = true where applicable
 MATERIAL_OPERATOR_DECISION_EXPLICIT = true where applicable
 ZERO_RESULT_SCOPE_BOUNDED = true
 TEMPORAL_CLOSURES_HAVE_REOPEN_TRIGGERS = true
+YMB_EXECUTION_GATE = PASS for executed provider actions
 COMPLETE_RAW_PERSISTENCE_AND_REMOTE_READBACK = PASS for executed requests
 NEW_ROWS_PASS_STEP03A_STEP03B_BEFORE_UNION = true
 MATERIAL_REVIEW_CORRECTIONS_DURABLE = true
@@ -441,6 +472,10 @@ STEP06_START_ALLOWED = false
 
 # STEP 06 — current Yandex organic competitor discovery
 
+Dedicated cross-step execution gate:
+
+`YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
+
 ## Why
 
 Find pages/domains that actually compete in current search results for retained demand directions.
@@ -453,8 +488,11 @@ Representative retained semantic families/queries.
 
 Collect current ordinary Yandex SERP evidence and record recurring domains/URLs/result types across materially different query families.
 
+Every YMB Search/deferred Search command must be one standalone fenced code block containing exactly one command. Execution is not proven until the actual Bridge result is received and reconciled. Deferred `start`, `submitN`, `collectN`, status and export are separate actions and may not be collapsed into one claimed state.
+
 ```text
 BUSINESS RIVAL != SEARCH COMPETITOR
+PRINTED SEARCH COMMAND != CURRENT SERP EVIDENCE
 ```
 
 ## Output
@@ -463,7 +501,7 @@ Search competitor registry with current Yandex discovery lineage.
 
 ## PASS
 
-Every selected semantic competitor has current SERP evidence; no competitor is included solely because the client named it.
+Every selected semantic competitor has current SERP evidence; no competitor is included solely because the client named it; every counted Search observation has actual Bridge/provider execution evidence required by the execution gate.
 
 ---
 
@@ -493,6 +531,10 @@ No competitor page topic is treated as proven demand or automatically accepted k
 
 # STEP 08 — competitor-derived Wordstat expansion
 
+Dedicated cross-step execution gate:
+
+`YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
+
 ## Why
 
 Test whether genuinely new competitor-derived topics correspond to current Yandex demand.
@@ -503,7 +545,7 @@ Genuinely new competitor-derived seed candidates.
 
 ## Method
 
-Use Step03 acquisition/persistence/depth rules, then immediate Step03A/03B normalization/sanitation.
+Use Step03 acquisition/persistence/depth rules plus the YMB execution gate, then immediate Step03A/03B normalization/sanitation. A rendered Wordstat command does not count as acquisition until the actual Bridge result is received and reconciled.
 
 ## Output
 
@@ -511,7 +553,7 @@ New demand evidence with decisions such as new demand / already covered / no use
 
 ## PASS
 
-Only sanitized new evidence joins the candidate universe; no raw competitor-derived data bypasses normalization/sanitation.
+Only sanitized new evidence joins the candidate universe; no raw competitor-derived data bypasses normalization/sanitation; all executed Wordstat observations satisfy the YMB execution gate.
 
 ---
 
@@ -615,6 +657,10 @@ Selection respects purchased cap without padding/truncating relevance and preser
 
 # STEP 12 — current ordinary Yandex Search evidence acquisition
 
+Dedicated cross-step execution gate:
+
+`YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
+
 ## Why
 
 Final SEO clustering/page ownership must be grounded in current actual SERP behavior, not lexical similarity alone.
@@ -625,7 +671,7 @@ Search-stage selected set.
 
 ## Method
 
-Use the product's active SERP coverage mode and persist required ranked result evidence with region/time/provenance.
+Use the product's active SERP coverage mode and persist required ranked result evidence with region/time/provenance. Every YMB Search command must use the required standalone command block + `Яндекс` trigger + actual Bridge result sequence before its SERP rows count toward coverage.
 
 ## Output
 
@@ -633,7 +679,7 @@ Current SERP evidence authority for every required selected query.
 
 ## PASS
 
-Coverage accounting satisfies the frozen product mode; missing/failed observations remain explicit.
+Coverage accounting satisfies the frozen product mode; missing/failed observations remain explicit; no Search observation is counted from an assistant-rendered command without an actual Bridge result.
 
 ---
 
@@ -720,6 +766,10 @@ Every case has expected information gain; AI-search is not used as generic SEO a
 
 # STEP 16 — AI-search evidence acquisition
 
+Dedicated cross-step execution gate:
+
+`YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
+
 ## Why
 
 Observe how current Yandex generative answers frame selected user tasks and what source/page types are used.
@@ -730,7 +780,11 @@ AI diagnostic manifest.
 
 ## Method
 
-Acquire/persist governed AI-search evidence with full provenance and claim boundaries.
+Acquire/persist governed AI-search evidence with full provenance and claim boundaries. When YMB GenSearch is used, render exactly one command in one standalone fenced code block, trigger it through `Яндекс`, and require the actual Bridge result before treating any generated answer/source list as provider evidence.
+
+```text
+ASSISTANT-GENERATED ANSWER != YANDEX AI-SEARCH EVIDENCE
+```
 
 ## Output
 
@@ -738,7 +792,7 @@ AI-search evidence authority for selected cases.
 
 ## PASS
 
-Evidence is complete enough for its declared comparison question; no unsupported conclusions are inferred from absent/partial outputs.
+Evidence is complete enough for its declared comparison question; no unsupported conclusions are inferred from absent/partial outputs; all counted YMB AI-search observations satisfy the execution gate.
 
 ---
 
@@ -911,6 +965,7 @@ METHOD = PASS
 FULL_VOLUME_ACCOUNTING = PASS where applicable
 SEMANTIC_QA = PASS where applicable
 KNOWN_FAILURE_REGRESSION_MATRIX = PASS
+YMB_EXECUTION_GATE = PASS where YMB/provider execution occurred
 PERSISTENCE/REMOTE_READBACK = PASS where applicable
 OPEN_CRITICAL_DEFECTS = 0
 ```
