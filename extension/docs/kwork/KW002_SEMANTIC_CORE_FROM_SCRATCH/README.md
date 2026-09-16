@@ -120,6 +120,7 @@ work/<JOB_ID>/ — данные, evidence, статус и артефакты к
 - продукт и границы обещания;
 - минимальный клиентский intake;
 - правила evidence/source/Bridge;
+- **обязательную механику реального выполнения команд Yandex Marketing Bridge: `YANDEX_MARKETING_BRIDGE_EXECUTION_RULE.md`;**
 - аналитическая дисциплина;
 - разделение RAW / normalized / sanitized / delivery / reserve;
 - ранняя sanitation и коммерческий delivery cap;
@@ -238,3 +239,33 @@ delivery-selected set -> expensive Search/SERP/clustering
 ```
 
 Any step that increases acquisition volume must immediately pass new evidence through the same normalization/sanitation gate before union with the working candidate set.
+
+## 7. Mandatory Yandex Marketing Bridge execution authority
+
+Canonical Level-1 rule:
+
+`LEVEL1/YANDEX_MARKETING_BRIDGE_EXECUTION_RULE.md`
+
+This rule is mandatory before every step/substep that emits or executes a Yandex Marketing Bridge command, including the provider-backed roadmap steps 03, 05, 06, 08, 12 and 16.
+
+The minimum execution truth is:
+
+```text
+assistant prepares command
+→ command is ONE standalone fenced Markdown code block
+→ code block contains EXACTLY ONE Bridge command
+→ YMB discovers the block and renders `Яндекс`
+→ owner/user clicks `Яндекс`
+→ YMB executes its worker preflight/action
+→ actual *_RESULT_V1 response returns
+→ only that observed result may advance execution/provider accounting
+```
+
+Hard anti-regression rule:
+
+```text
+PRINTED COMMAND != EXECUTED COMMAND
+NO ACTUAL BRIDGE RESULT = NO EXECUTION CLAIM
+```
+
+Never write `запущено`, `выполнено`, `job создан`, or increase `provider_calls` merely because the assistant rendered a command block. The concrete job cursor must preserve the last proven state until a real Bridge result is observed.
