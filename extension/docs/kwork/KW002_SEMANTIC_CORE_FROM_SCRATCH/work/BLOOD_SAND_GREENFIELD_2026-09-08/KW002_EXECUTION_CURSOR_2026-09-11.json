@@ -1,13 +1,14 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V56",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V57",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
+  "branch_head_before_update": "f1f83342f467b32b4ebfa7c7fd32c7e84654e2f9",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V55",
-    "commit": "1d9f88fde8cad62db30d28d3e721aa27fc78f51b",
-    "blob_sha": "5b7239588dea3716c438d3fd474080c5bce69baf",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V56",
+    "commit": "c296b8aa7c3e86355079cc498c511c00d7cfea87",
+    "blob_sha": "2a49f7b7de62aa560d793302f61ef3c5ea6188bd",
     "inherit_all_unchanged_upstream_state": true
   },
   "mandatory_yandex_marketing_bridge_authorities": {
@@ -25,53 +26,93 @@
     "no_result_no_execution_claim": true,
     "devtools_bypass_forbidden": true
   },
-  "execution_truth_correction": {
-    "reason": "PREVIOUS_CHAT_RESPONSE_INCORRECTLY_CLAIMED_LOCAL_START_WAS_STARTED_OR_EXECUTED_AFTER_ONLY_RENDERING_COMMAND_TEXT_WITHOUT_AN_ACTUAL_BRIDGE_RESULT",
-    "supersedes_false_chat_claim_only": true,
-    "does_not_rewrite_valid_prior_evidence": true,
-    "v55_local_start_authorized": true,
-    "local_start_command_prepared": true,
-    "local_start_command_rendered_in_chat": true,
-    "actual_search_async_batch_result_v1_observed": false,
-    "local_start_execution_verified": false,
-    "durable_20_item_job_creation_verified": false,
-    "provider_calls_proven_after_v55": 0,
-    "provider_submit_calls_proven_after_v55": 0,
-    "provider_collect_calls_proven_after_v55": 0,
-    "automatic_retry": false
-  },
   "step06_closed_evidence": {
     "durably_closed_query_ids": ["S06Q001", "S06Q002"],
     "further_provider_action_for_closed_queries_allowed": false
+  },
+  "step06_async_queue_control_pass": {
+    "authority": "STEP_06_S06Q003_Q022_ASYNC_QUEUE_CONTROL_PASS_2026-09-16.md",
+    "authority_blob_sha": "7ec5dc62d3af1d2b014d30044cec10a1c33b6cd6",
+    "remote_readback_pass": true,
+    "ymb_version": "0.1.9",
+    "ymb_commit": "b218afb0187bd26af1d7ada3590b02edc2d4a2de",
+    "protocol_blob_sha": "91df9051f4cf52d51ee73af9c66a196411a966d7",
+    "selected_transport": "SEARCH_ASYNC_BATCH_API_V1",
+    "max_slice": 25,
+    "remaining_query_count": 20,
+    "max_provider_submits": 20,
+    "max_cost_microrub": 610000,
+    "max_cost_rub": 0.61,
+    "final_external_durability_barrier": "EXACT_REMAINING_JOB_EXPORT_PLUS_GIT_PERSISTENCE_PLUS_REMOTE_READBACK_BEFORE_STEP07"
   },
   "step06_remaining_queue": {
     "job_id": "kw002-s06q003-q022-20260916",
     "query_ids": ["S06Q003", "S06Q004", "S06Q005", "S06Q006", "S06Q007", "S06Q008", "S06Q009", "S06Q010", "S06Q011", "S06Q012", "S06Q013", "S06Q014", "S06Q015", "S06Q016", "S06Q017", "S06Q018", "S06Q019", "S06Q020", "S06Q021", "S06Q022"],
     "query_count": 20,
     "transport": "SEARCH_ASYNC_BATCH_API_V1",
-    "expected_result_prefix_for_local_start": "SEARCH_ASYNC_BATCH_RESULT_V1",
-    "local_start_authority_from_v55_remains_valid": true,
-    "local_start_execution_verified": false,
-    "durable_job_exists_verified": false,
+    "local_start_execution_verified": true,
+    "durable_job_exists_verified": true,
     "submitN_released": false,
     "collectN_released": false,
-    "export_released": false,
-    "expected_successful_local_start_properties_are_not_observed_facts": true
+    "export_released": false
+  },
+  "observed_local_start_result": {
+    "result_prefix": "SEARCH_ASYNC_BATCH_RESULT_V1",
+    "action": "start",
+    "job_id": "kw002-s06q003-q022-20260916",
+    "ok": true,
+    "request_executed": false,
+    "provider_calls": 0,
+    "progress": {
+      "job_id": "kw002-s06q003-q022-20260916",
+      "control": "RUNNING",
+      "total": 20,
+      "counts": {
+        "PENDING": 20,
+        "SUBMITTING": 0,
+        "WAITING": 0,
+        "COLLECTING": 0,
+        "RESULT_SAVED": 0,
+        "SUCCEEDED": 0,
+        "PARSE_FAILED": 0,
+        "FAILED": 0,
+        "UNKNOWN": 0,
+        "CANCELLED": 0
+      },
+      "requests_started": 0,
+      "operations_accepted": 0,
+      "polls_started": 0,
+      "unresolved": 20,
+      "all_successful": false,
+      "busy": false,
+      "revision": 0
+    },
+    "result_observed_in_chat": true,
+    "result_durably_recorded_in_this_cursor": true
+  },
+  "provider_accounting_after_observed_start": {
+    "provider_calls": 0,
+    "provider_submit_calls": 0,
+    "provider_collect_calls": 0,
+    "requests_started": 0,
+    "operations_accepted": 0,
+    "polls_started": 0,
+    "automatic_retry": false
   },
   "step06_current": {
-    "status": "BRIDGE_EXECUTION_TRUTH_CORRECTED__V55_LOCAL_START_AUTHORITY_UNEXECUTED_UNTIL_ACTUAL_RESULT",
-    "deferred_search_local_starts_allowed_now": 1,
-    "deferred_search_submissions_allowed_now": 0,
+    "status": "ASYNC_LOCAL_START_OBSERVED_AND_DURABLY_RECORDED__REMOTE_READBACK_REQUIRED_BEFORE_SUBMITN_RELEASE",
+    "deferred_search_local_starts_allowed_now": 0,
+    "deferred_search_submit_commands_allowed_now": 0,
+    "deferred_search_provider_submit_attempts_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
     "deferred_search_local_exports_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
     "ai_search_calls_allowed_now": 0,
-    "provider_calls_during_documentation_correction": 0,
     "step06_started": true,
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "RENDER EXACTLY ONE SEARCH_ASYNC_BATCH_API_V1 start COMMAND AS ONE STANDALONE FENCED MARKDOWN CODE BLOCK, WITH NO PROSE OR SECOND COMMAND INSIDE THE BLOCK. DO NOT CLAIM EXECUTION. OWNER/USER MUST CLICK THE YMB `Яндекс` ACTION FOR THAT BLOCK. WAIT FOR THE ACTUAL SEARCH_ASYNC_BATCH_RESULT_V1. ONLY AFTER THE REAL RESULT IS OBSERVED MAY THE CURSOR RECORD LOCAL JOB CREATION AND CONSIDER A SEPARATE submitN RELEASE. PROVIDER_CALLS REMAIN 0 UNTIL PROVEN OTHERWISE BY AN ACTUAL BRIDGE RESULT. STEP07 REMAINS CLOSED."
+  "next_action": "REMOTE-READBACK THIS V57 CURSOR. IF THE REMOTE BLOB EXACTLY RECORDS THE OBSERVED SEARCH_ASYNC_BATCH_RESULT_V1 START WITH 20 PENDING ITEMS, request_executed=false, provider_calls=0 AND revision=0, PUBLISH A SUCCESSOR CURSOR THAT RELEASES EXACTLY ONE SEARCH_ASYNC_BATCH_API_V1 submitN COMMAND WITH count=20 FOR kw002-s06q003-q022-20260916. KEEP collectN/export/Step07 CLOSED UNTIL THE ACTUAL submitN RESULT IS OBSERVED AND RECONCILED."
 }
