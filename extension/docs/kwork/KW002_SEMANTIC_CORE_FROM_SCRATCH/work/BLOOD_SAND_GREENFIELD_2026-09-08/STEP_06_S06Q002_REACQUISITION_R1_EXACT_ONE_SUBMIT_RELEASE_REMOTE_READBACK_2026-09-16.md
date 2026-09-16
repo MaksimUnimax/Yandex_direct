@@ -1,0 +1,60 @@
+# KW-002 Step06 — S06Q002 CONTROLLED REACQUISITION R1 EXACT-ONE SUBMIT RELEASE REMOTE READBACK
+
+Date: 2026-09-16
+Status: **PASS / EXACTLY ONE DEFERRED PROVIDER SUBMISSION MAY BE ACTIVATED BY SUCCESSOR CURSOR**
+
+## 1. Scope
+
+```text
+QUERY_ID = S06Q002
+QUERY_TEXT = оберег
+ATTEMPT = CONTROLLED_REACQUISITION_R1
+JOB_ID = kw002-s06q002-r1-20260916
+```
+
+## 2. Live remote truth
+
+```text
+BRANCH = roadmap/kwork-productization-2026-08-28
+HEAD = 9cb525cae504e6f712acfa8d1b41a67a39703e40
+HEAD_MESSAGE = docs(kw002): activate S06Q002 R1 submit release readback gate
+SUBMIT_RELEASE_FILE = STEP_06_S06Q002_REACQUISITION_R1_EXACT_ONE_SUBMIT_RELEASE_2026-09-16.md
+SUBMIT_RELEASE_BLOB_SHA = 027d0778f29c911f9533d371cd0a2e88170cf9ac
+CURSOR_SCHEMA = KW002_CURRENT_EXECUTION_CURSOR_V41
+CURSOR_BLOB_SHA = baa3f14b26a8957be9d4669b6464133a7848830c
+```
+
+The live remote release and V41 agree on the fresh job identity, successful zero-provider local start, single-request cost cap, zero R1 provider submissions so far, and the exact single submit command.
+
+## 3. Exact command eligible for successor activation
+
+```text
+SEARCH_ASYNC_BATCH_API_V1 {"action":"submitN","jobId":"kw002-s06q002-r1-20260916","count":1}
+```
+
+## 4. Boundary
+
+```text
+EXACT_PROVIDER_SUBMISSIONS_TO_AUTHORIZE_IN_SUCCESSOR_CURSOR = 1
+SECOND_PROVIDER_SUBMIT_ALLOWED = false
+PROVIDER_COLLECTIONS_ALLOWED_NOW = 0
+SYNCHRONOUS_SEARCH_CALLS_ALLOWED = 0
+WORDSTAT_CALLS_ALLOWED = 0
+GENSEARCH_CALLS_ALLOWED = 0
+AI_SEARCH_CALLS_ALLOWED = 0
+S06Q003_RELEASED = false
+STEP07_STARTED = false
+STEP08_STARTED = false
+PROVIDER_CALLS_DURING_THIS_READBACK = 0
+```
+
+After the one submit, preserve and persist the exact returned envelope and operation ID before any collection release.
+
+## 5. Verdict
+
+```text
+S06Q002_R1_SUBMIT_RELEASE_REMOTE_READBACK = PASS
+EXACT_ONE_PROVIDER_SUBMIT_MAY_BE_ACTIVATED_BY_SUCCESSOR_CURSOR = true
+PROVIDER_COLLECTION_RELEASED = false
+S06Q003_RELEASED = false
+```
