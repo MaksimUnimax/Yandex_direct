@@ -1,10 +1,14 @@
-# Yandex Marketing Bridge 0.1.7
+# Yandex Marketing Bridge 0.1.8
 
-Production source for the 0.1.7 Chrome MV3 build. This release contains the qualified file-delivery/recovery path, Manual deferred Yandex Search transport, and bounded read-only cross-chat export for fully successful terminal deferred Search jobs after a ChatGPT project-chat handoff.
+Production source for the 0.1.8 Chrome MV3 build. This release keeps the qualified file-delivery/recovery path and Manual deferred Yandex Search transport, and fixes deferred-job continuity across ChatGPT dialogue handoffs at the ownership model instead of via an export exception.
 
 ## Deferred Search
 
 Protocol: `SEARCH_ASYNC_BATCH_API_V1`. Deferred Search is **Manual-only**. `start` creates a durable local job; `submit/submitN` sends bounded provider operations; `collect/collectN/collectReady` later reads saved operation IDs. Results are persisted before normalization/export.
+
+A deferred Search job is owned by the active Search credential scope (`folder_id`), not by a ChatGPT conversation UUID. The current ChatGPT dialogue is still required as live execution authority: it must be bound, Manual mode must be enabled, Search must be the active service, and the current Search credential must match the job folder. Therefore a new bound dialogue using the same Search folder can continue `status`, `itemsPage`, `exportPage`, local controls, submit and collect against the same durable job without changing job ownership. A different Search folder is rejected by the existing owner/folder guards.
+
+Paused Autorun accounting remains conversation-owned separately from durable job data: the admission binding records a dedicated run mirror owner while the job itself stays credential-scoped.
 
 The manifest permits both provider origins:
 - `https://searchapi.api.cloud.yandex.net/*` for ordinary Search/GenSearch and deferred submit;
@@ -12,4 +16,6 @@ The manifest permits both provider origins:
 
 There is no deferred Autorun, no `chrome.alarms` polling, no hidden retry and no automatic replay after an uncertain request. Collection is explicit.
 
-Large results use the bounded IndexedDB/file-delivery path with conversation ownership, duplicate-Send protection, pause/recovery, checksum and cleanup guards. Cross-chat recovery does not transfer job ownership: it is limited to `exportPage` of an exact-revision, exact-folder terminal job with all items `SUCCEEDED`, no unresolved work and no active lease; provider calls remain zero.
+Large results use the bounded IndexedDB/file-delivery path with duplicate-Send protection, pause/recovery, checksum and cleanup guards. `exportPage` uses the ordinary owner-guarded exporter; there is no cross-owner terminal-export bypass in 0.1.8.
+
+Jobs created by the older conversation-owned deferred schema are intentionally not migrated by this release. Recreate those jobs under 0.1.8.
