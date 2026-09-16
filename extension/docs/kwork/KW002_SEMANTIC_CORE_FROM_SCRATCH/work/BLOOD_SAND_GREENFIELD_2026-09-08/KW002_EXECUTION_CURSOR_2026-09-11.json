@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V49",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V50",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V48",
-    "commit": "f64fcb5fe25b6ae3de4103ee659142e2b258f62b",
-    "blob_sha": "0787296eef99e9b9b67cd1c59735a730ff53d9d8",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V49",
+    "commit": "5ec49fdee5980d2d39ddd030adac1c0824829cad",
+    "blob_sha": "5f8de4235a90488d841f036ead3b83b6f0b8d23b",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -52,8 +52,6 @@
     "durable_job_owner_model": "SEARCH_FOLDER_SCOPE",
     "provider_submit_calls": 1,
     "provider_operation_id": "sprriom53ppme5q13epe",
-    "requests_started": 1,
-    "operations_accepted": 1,
     "provider_collect_calls": 1,
     "polls_started": 1,
     "local_no_due_collect_commands": 1,
@@ -65,18 +63,21 @@
     "busy": false,
     "collect_revision": 5,
     "collect_pass_evidence_authority": "STEP_06_S06Q002_REACQUISITION_R1_COLLECT_PASS_EVIDENCE_2026-09-16.md",
-    "collect_pass_evidence_persisted_to_repository": true,
-    "collect_pass_evidence_remote_readback_pass": false,
+    "collect_pass_remote_readback_authority": "STEP_06_S06Q002_REACQUISITION_R1_COLLECT_PASS_REMOTE_READBACK_2026-09-16.md",
+    "collect_pass_evidence_remote_readback_pass": true,
+    "exact_export_release_authority": "STEP_06_S06Q002_REACQUISITION_R1_EXACT_EXPORT_RELEASE_2026-09-16.md",
+    "exact_export_release_persisted_to_repository": true,
+    "exact_export_release_remote_readback_pass": false,
     "exact_export_persisted": false,
     "exact_export_remote_readback_pass": false,
     "automatic_retry": false,
-    "second_local_start_allowed": false,
     "second_provider_submit_allowed": false,
     "second_provider_collect_pre_authorized": false,
+    "second_export_pre_authorized": false,
     "s06q003_released": false
   },
   "step06_current": {
-    "status": "S06Q002_R1_COLLECT_PASS_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_EXPORT_RELEASE",
+    "status": "S06Q002_R1_EXACT_EXPORT_RELEASE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_LOCAL_EXPORT",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001"],
     "result_received_export_pending_query_ids": ["S06Q002"],
@@ -95,5 +96,6 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK STEP_06_S06Q002_REACQUISITION_R1_COLLECT_PASS_EVIDENCE_2026-09-16.md + CURSOR V49; IF BOTH MATCH, PUBLISH A SEPARATE EXACT-ONE LOCAL exportPage RELEASE FOR REVISION 5; REMOTE-READBACK THAT RELEASE BEFORE EXPORT; DO NOT CALL PROVIDER; DO NOT RELEASE S06Q003"
+  "exact_export_command_after_remote_readback": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"exportPage\",\"jobId\":\"kw002-s06q002-r1-20260916\",\"after\":-1,\"limit\":1,\"revision\":5}",
+  "next_action": "REMOTE-READBACK STEP_06_S06Q002_REACQUISITION_R1_EXACT_EXPORT_RELEASE_2026-09-16.md + CURSOR V50; IF BOTH MATCH, RECORD EXPORT-RELEASE READBACK PASS IN A SUCCESSOR CURSOR AND AUTHORIZE EXACTLY ONE LOCAL exportPage REVISION 5; EXPECT request_executed=false AND provider_calls=0; DO NOT CALL PROVIDER; DO NOT RELEASE S06Q003"
 }
