@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V52",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V53",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V51",
-    "commit": "d7d09b912243d66b94201f21a0a2e80c4838a5c6",
-    "blob_sha": "2eebffa528e611630102b701b8995c1f9f17a1c4",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V52",
+    "commit": "258dbdffbddb7c2162d6b95672c6acad16666030",
+    "blob_sha": "dfca4a1f1ada2ad71cd1d4e2efe778b43140e3e1",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -73,13 +73,15 @@
     "exact_export_release_remote_readback_pass": true,
     "exact_export_authority": "search-kw002-s06q002-r1-20260916-r5-0-0.json",
     "exact_export_closure_authority": "STEP_06_S06Q002_REACQUISITION_R1_EXACT_EXPORT_CLOSURE_2026-09-16.md",
+    "exact_export_remote_readback_authority": "STEP_06_S06Q002_REACQUISITION_R1_EXACT_EXPORT_REMOTE_READBACK_2026-09-16.md",
     "exact_export_size_bytes": 58270,
     "exact_export_sha256": "58a4788534511e7319185ead2b097522aefcf485f5130b1dea1b028eaafa8596",
     "exact_export_git_blob_sha": "7a77cd154b582fac1a5893f4ce5b1c06bcd42f07",
     "exact_export_persist_commit": "3d9d9bbb0e547c0f120a7c4d06dd63986ffbadc2",
     "exact_export_persisted": true,
-    "exact_export_remote_readback_pass": false,
-    "current_evidence_durably_closed": false,
+    "exact_export_remote_readback_pass": true,
+    "current_evidence_durably_closed": true,
+    "further_provider_action_allowed": false,
     "automatic_retry": false,
     "second_local_start_allowed": false,
     "second_provider_submit_allowed": false,
@@ -88,10 +90,9 @@
     "s06q003_released": false
   },
   "step06_current": {
-    "status": "S06Q002_R1_EXACT_EXPORT_PERSISTED__REMOTE_READBACK_REQUIRED_FOR_CLOSURE",
+    "status": "S06Q002_R1_DURABLY_CLOSED__S06Q003_NOT_RELEASED",
     "released_query_ids": ["S06Q001", "S06Q002"],
-    "durably_closed_query_ids": ["S06Q001"],
-    "exact_export_remote_readback_pending_query_ids": ["S06Q002"],
+    "durably_closed_query_ids": ["S06Q001", "S06Q002"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
@@ -107,5 +108,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK THE EXACT JSON, STEP_06_S06Q002_REACQUISITION_R1_EXACT_EXPORT_CLOSURE_2026-09-16.md, AND CURSOR V52; IF ALL MATCH, RECORD REMOTE READBACK PASS AND MARK S06Q002 DURABLY CLOSED; DO NOT CALL PROVIDER; DO NOT RELEASE S06Q003"
+  "next_action": "KEEP S06Q003 CLOSED. BEFORE ANY NEXT PROVIDER QUERY, INVESTIGATE AND RECONCILE THE ACCEPTED YMB 0.1.8 submitN/collectN BATCH SEMANTICS, POLLING BEHAVIOR, REQUEST/COST ACCOUNTING, AND THE MOST EFFICIENT SAFE STEP06 EXECUTION SHAPE. DO NOT CALL SEARCH, WORDSTAT, GENSEARCH, OR AI SEARCH DURING THAT CONTROL PASS."
 }
