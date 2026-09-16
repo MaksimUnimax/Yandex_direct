@@ -7,6 +7,7 @@ on:
     paths:
       - 'extension/src/**'
       - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P0_SEARCH_ASYNC_CROSS_CHAT_EXPORT_REGRESSION_2026-09-16.mjs'
+      - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/ymb_017_qa_adapt.py'
       - '.github/workflows/ymb-verify-package.yml'
   workflow_dispatch:
 
@@ -21,21 +22,24 @@ jobs:
       - name: Checkout exact commit
         uses: actions/checkout@v4
 
-      - name: Use Node 20
+      - name: Use Node 22.16.0
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22.16.0'
 
       - name: Verify production shape and version
         shell: bash
         run: |
           set -euo pipefail
-          test "$(find extension/src -type f | wc -l)" -eq 67
+          test "$(find extension/src -type f | wc -l)" -eq 68
           node <<'NODE'
           const fs=require('fs');
           const m=JSON.parse(fs.readFileSync('extension/src/manifest.json','utf8'));
           const p=JSON.parse(fs.readFileSync('extension/src/package.json','utf8'));
-          if(m.version!=='0.1.7'||p.version!=='0.1.7') throw new Error('YMB_VERSION_MISMATCH');
+          const product=fs.readFileSync('extension/src/shared/product.js','utf8');
+          const readme=fs.readFileSync('extension/src/README.md','utf8');
+          const readmeTxt=fs.readFileSync('extension/src/README.txt','utf8');
+          if(m.version!=='0.1.7'||p.version!=='0.1.7'||!product.includes('VERSION: "0.1.7"')||!readme.includes('0.1.7')||!readmeTxt.includes('0.1.7')) throw new Error('YMB_VERSION_MISMATCH');
           const perms=['storage','tabs','scripting','unlimitedStorage'];
           const hosts=['https://chatgpt.com/*','https://chat.openai.com/*','https://searchapi.api.cloud.yandex.net/*','https://api.webmaster.yandex.net/*','https://storage.mds.yandex.net/*','https://api-metrika.yandex.net/*','https://api.direct.yandex.com/*','https://operation.api.cloud.yandex.net/*'];
           if(JSON.stringify(m.permissions)!==JSON.stringify(perms)) throw new Error('YMB_PERMISSION_DRIFT');
