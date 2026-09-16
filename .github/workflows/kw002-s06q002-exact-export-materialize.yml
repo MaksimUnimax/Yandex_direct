@@ -1,0 +1,87 @@
+name: KW002 S06Q002 exact export materialize
+
+on:
+  push:
+    branches:
+      - tmp/kw002-s06q002-export-materialize-20260916
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: contains(github.event.head_commit.message, '[KW002-MATERIALIZE]')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TARGET: extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/search-kw002-s06q002-r1-20260916-r5-0-0.json
+      EXPECTED_SIZE: '58270'
+      EXPECTED_SHA256: 58a4788534511e7319185ead2b097522aefcf485f5130b1dea1b028eaafa8596
+      EXPECTED_GIT_BLOB: 7a77cd154b582fac1a5893f4ce5b1c06bcd42f07
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Reconstruct exact Bridge export from verified blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          : > "$tmp/export.b64"
+          for sha in \
+            d8f7e9ab904968eb929347936bd44e42fccb2349 \
+            46183f779bc086504b2e4ecec8608508b75f8045 \
+            82a300d462f541002fc39630a1c9f053191342e8 \
+            30473b68da333250a163044759dcb2e74801f522 \
+            c36119240ad7f5d684727360869a0ebb768e995e
+          do
+            gh api "repos/${GITHUB_REPOSITORY}/git/blobs/${sha}" --jq '.content' \
+              | tr -d '\n' \
+              | base64 -d >> "$tmp/export.b64"
+          done
+          base64 -d "$tmp/export.b64" > "$tmp/export.xz"
+          mkdir -p "$(dirname "$TARGET")"
+          xz -dc "$tmp/export.xz" > "$TARGET"
+
+      - name: Prove exact bytes and export invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(wc -c < "$TARGET")" -eq "$EXPECTED_SIZE"
+          echo "$EXPECTED_SHA256  $TARGET" | sha256sum -c -
+          test "$(git hash-object "$TARGET")" = "$EXPECTED_GIT_BLOB"
+          python - <<'PY'
+          import json, os
+          p=os.environ['TARGET']
+          x=json.load(open(p, encoding='utf-8'))
+          assert x['schema']=='YMB_SEARCH_ASYNC_EXPORT_PAGE_V1'
+          assert x['job_id']=='kw002-s06q002-r1-20260916'
+          assert x['revision']==5 and x['total_items']==1
+          s=x['job_summary']
+          assert s['counts']['SUCCEEDED']==1 and s['unresolved']==0 and s['all_successful'] is True and s['revision']==5
+          page=x['page']
+          assert page['item_count']==1 and page['result_row_count']==20 and page['items_with_raw']==1 and page['items_with_normalized']==1
+          assert page['has_more'] is False and page['all_job_items_in_this_file'] is True
+          e=x['items'][0]
+          assert e['item']['operation_id']=='sprriom53ppme5q13epe' and e['item']['state']=='SUCCEEDED'
+          n=e['result']['normalized']
+          assert n['result_count']==20 and len(n['results'])==20
+          assert [r['rank'] for r in n['results']]==list(range(1,21))
+          assert len({r['url'] for r in n['results']})==20
+          v=n['validation']
+          assert v['usable_for_url_comparison'] is True and v['missing_url_ranks']==[] and v['unsafe_url_ranks']==[]
+          PY
+
+      - name: Commit only exact export
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/kw002-s06q002-exact-export-materialize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --name-status
+          test "$(git diff --cached --name-only | wc -l)" -eq 2
+          git commit -m 'docs(kw002): materialize exact S06Q002 R1 export'
+          git push origin HEAD:${GITHUB_REF_NAME}
