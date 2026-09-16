@@ -81,6 +81,7 @@ jobs:
           test -d classification/qa_workspace/qa/candidate/full
           python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt_v2.py classification/qa_workspace/qa/qa > /tmp/P0_QA_ADAPT.stdout
           cp -a classification/qa_workspace/qa /tmp/qa_base
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/ymb_017_qa_adapt.py classification/qa_workspace/qa/qa > /tmp/YMB017_QA_ADAPT.stdout
           rsync -a --delete extension/src/ classification/qa_workspace/qa/candidate/full/
           rsync -a --delete base/extension/src/ /tmp/qa_base/candidate/full/
           python3 - <<'PY'
@@ -258,6 +259,7 @@ jobs:
           cp /tmp/BASE_*.tap "$O/" 2>/dev/null || true
           cp /tmp/BASE_*.stderr "$O/" 2>/dev/null || true
           cp /tmp/P0_QA_ADAPT.stdout "$O/" 2>/dev/null || true
+          cp /tmp/YMB017_QA_ADAPT.stdout "$O/" 2>/dev/null || true
           cp /tmp/P0_DIFFERENTIAL.json "$O/" 2>/dev/null || true
           cp /tmp/P0_MODULES/RESULT.json "$O/MODULE_RESULT.json" 2>/dev/null || true
           cp /tmp/p0_tree_before "$O/PRODUCTION_TREE_SHA256" 2>/dev/null || true
