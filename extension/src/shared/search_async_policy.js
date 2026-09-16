@@ -79,20 +79,21 @@
       [getPolicy,getSettings,getAutoRun,now].some(f => typeof f !== "function")) fail("ASYNC_POLICY_DEPENDENCY_REQUIRED");
     if (!Number.isSafeInteger(minIntervalMs) || minIntervalMs < 100) fail("ASYNC_POLICY_RATE_INVALID");
     const clock = () => uint(now());
-    async function bindJob({ jobId, owner, folderId, scopeId, runId = null, mode = "deferred", channel = "manual", credentialCheckConfirmed = false }) {
+    async function bindJob({ jobId, owner, folderId, scopeId, runId = null, runOwner = null, mode = "deferred", channel = "manual", credentialCheckConfirmed = false }) {
       str(jobId,128); str(owner,1000); str(folderId,50); str(scopeId,128);
       if (runId !== null) str(runId,128);
+      const mirrorOwner = runId ? str(runOwner || owner,1000) : null;
       if (!["deferred", "legacy", "credential_check"].includes(mode) || !["manual", "autorun", "credential_check"].includes(channel)) fail("SHARED_ADMISSION_BINDING_INVALID");
       if (mode === "credential_check" ? channel !== "credential_check" || runId !== null || credentialCheckConfirmed !== true : channel === "credential_check") fail("SHARED_CHECK_CONSENT_REQUIRED");
       if (mode === "deferred" && channel !== "manual") fail("SHARED_DEFERRED_AUTORUN_NOT_SUPPORTED");
       if (runId && typeof publishRunTotals !== "function") fail("SHARED_RUN_MIRROR_REQUIRED");
-      const legacy = runId ? await getAutoRun(owner) : null;
+      const legacy = runId ? await getAutoRun(mirrorOwner) : null;
       if (runId && (!legacy || legacy.run_id !== runId || legacy.active_service !== "search")) fail("ASYNC_POLICY_RUN_CHANGED");
       const seedRequests = legacy ? uint(legacy.requests_executed) : 0;
       const seedCost = legacy ? uint(Math.round(legacy.estimated_cost_rub * 1e6)) : 0;
       // One canonical budget per existing run, regardless of caller-supplied scope alias.
       const canonicalScope = runId ? `run:${runId}` : scopeId;
-      const b = { job_id: jobId, owner, folder_id: folderId, scope_id: scopeKey(owner,canonicalScope,folderId), run_id: runId, mode, channel };
+      const b = { job_id: jobId, owner, folder_id: folderId, scope_id: scopeKey(owner,canonicalScope,folderId), run_id: runId, run_owner: mirrorOwner, mode, channel };
       return tx(["bindings","scopes"],"readwrite",async t => {
         const old = await request(t.objectStore("bindings").get(jobId));
         if (old) { if (JSON.stringify(old) !== JSON.stringify(b)) fail("ASYNC_POLICY_REBIND_FORBIDDEN"); return { bound: true, duplicate: true }; }
@@ -110,7 +111,7 @@
       checkContext(a);
       const binding = await readBinding(a.jobId,a.owner,a.folderId);
       // All external/Chrome reads finish BEFORE the IndexedDB transaction.
-      const [rawPolicy, settings, legacy] = await Promise.all([getPolicy(), getSettings(), binding.run_id ? getAutoRun(a.owner) : null]);
+      const [rawPolicy, settings, legacy] = await Promise.all([getPolicy(), getSettings(), binding.run_id ? getAutoRun(binding.run_owner || binding.owner) : null]);
       if (binding.run_id && (!legacy || legacy.run_id !== binding.run_id || legacy.active_service !== "search")) fail("ASYNC_POLICY_RUN_CHANGED");
       const policy = policyModel.normalizeSearchPolicy(rawPolicy || {});
       const capability = credentialRegistry.capabilityForService("search", settings);
@@ -208,7 +209,7 @@
       const binding = await readBinding(jobId, owner);
       if (binding.run_id) {
         const progress = await getSummary(jobId, owner);
-        await publishRunTotals({ owner, runId: binding.run_id, scopeId: binding.scope_id,
+        await publishRunTotals({ owner: binding.run_owner || binding.owner, runId: binding.run_id, scopeId: binding.scope_id,
           requests_executed: progress.total_requests, estimated_cost_rub: progress.total_cost_microrub / 1e6,
           revision: progress.revision });
       }
