@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V43",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V44",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V42",
-    "commit": "22d8ef5082c284d7f20372708868c1d4e15b0a4f",
-    "blob_sha": "48ab355db528febd4957610695aa86601e436e02",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V43",
+    "commit": "c7ad1a3af13e498f46bcff090deeedc35bcfa05d",
+    "blob_sha": "364a1f386e60ca3d30c2d9acb46ae41a126934bf",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -50,6 +50,8 @@
     "submit_release_authority": "STEP_06_S06Q002_REACQUISITION_R1_EXACT_ONE_SUBMIT_RELEASE_2026-09-16.md",
     "submit_release_remote_readback_authority": "STEP_06_S06Q002_REACQUISITION_R1_EXACT_ONE_SUBMIT_RELEASE_REMOTE_READBACK_2026-09-16.md",
     "submit_accepted_evidence_authority": "STEP_06_S06Q002_REACQUISITION_R1_SUBMIT_ACCEPTED_EVIDENCE_2026-09-16.md",
+    "submit_accepted_remote_readback_authority": "STEP_06_S06Q002_REACQUISITION_R1_SUBMIT_ACCEPTED_REMOTE_READBACK_2026-09-16.md",
+    "collection_release_authority": "STEP_06_S06Q002_REACQUISITION_R1_COLLECTION_RELEASE_2026-09-16.md",
     "query_manifest": "STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V2_2026-09-12.tsv",
     "query_id": "S06Q002",
     "coverage_direction": "GENERIC_PRODUCT",
@@ -83,21 +85,25 @@
     "normalized_items": 0,
     "submit_revision": 2,
     "provider_collect_calls": 0,
-    "submit_accepted_evidence_persisted_to_repository": true,
-    "submit_accepted_evidence_remote_readback_pass": false,
+    "submit_accepted_evidence_remote_readback_pass": true,
     "submit_result_observed_at": "2026-09-16T12:16:00+05:00",
     "conservative_collection_not_before": "2026-09-16T12:21:00+05:00",
+    "collection_guard_live_time_check": "2026-09-16T12:32:34+05:00",
+    "collection_guard_elapsed": true,
+    "collection_release_persisted_to_repository": true,
+    "collection_release_remote_readback_pass": false,
     "automatic_retry": false,
     "second_local_start_allowed": false,
     "second_provider_submit_allowed": false,
+    "second_collection_attempt_pre_authorized": false,
     "s06q003_released": false
   },
   "step06_current": {
-    "status": "S06Q002_R1_PROVIDER_SUBMIT_ACCEPTED__WAITING__SUBMIT_EVIDENCE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_COLLECTION_RELEASE",
+    "status": "S06Q002_R1_COLLECTION_RELEASE_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_COLLECT",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001"],
     "waiting_query_ids": ["S06Q002"],
-    "submit_evidence_remote_readback_pending_query_ids": ["S06Q002"],
+    "collection_release_readback_pending_query_ids": ["S06Q002"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
@@ -113,5 +119,6 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK STEP_06_S06Q002_REACQUISITION_R1_SUBMIT_ACCEPTED_EVIDENCE_2026-09-16.md + CURSOR V43; DO NOT RESUBMIT; DO NOT COLLECT BEFORE 2026-09-16T12:21:00+05:00; AFTER GUARD RECHECK LIVE TIME AND RUNTIME DUE STATE, PUBLISH AT MOST ONE collectN count=1 RELEASE; REMOTE-READBACK THAT RELEASE BEFORE COLLECTION; DO NOT RELEASE S06Q003"
+  "exact_collect_command_after_remote_readback": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"collectN\",\"jobId\":\"kw002-s06q002-r1-20260916\",\"count\":1}",
+  "next_action": "REMOTE-READBACK STEP_06_S06Q002_REACQUISITION_R1_COLLECTION_RELEASE_2026-09-16.md + CURSOR V44; IF BOTH MATCH, RECORD COLLECTION-RELEASE READBACK PASS IN A SUCCESSOR CURSOR AND AUTHORIZE EXACTLY ONE collectN count=1; DO NOT submit AGAIN; DO NOT start AGAIN; DO NOT RELEASE S06Q003"
 }
