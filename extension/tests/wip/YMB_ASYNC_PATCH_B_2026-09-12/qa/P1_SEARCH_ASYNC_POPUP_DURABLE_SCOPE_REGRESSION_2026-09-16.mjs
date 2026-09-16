@@ -18,6 +18,13 @@ if (typeof IDBIndex.prototype.count !== 'function') {
     return this.store.transaction.enqueue(() => this.store.transaction.rows(this.store.name).filter((value) => !range || range.includes(at(value, this.definition.path))).length);
   };
 }
+// The deterministic test double predates the browser-valid no-range form of
+// objectStore.openCursor() used by the popup monitor. Adapt only the fake: all
+// production job ids are validated ASCII identifiers, so this range is complete.
+const fakeOpenCursor = IDBObjectStore.prototype.openCursor;
+IDBObjectStore.prototype.openCursor = function openCursor(range) {
+  return fakeOpenCursor.call(this, range || IDBKeyRange.bound('', '\uffff'));
+};
 
 function baseContext(extra = {}) {
   const context = vm.createContext({ console, structuredClone, indexedDB, IDBKeyRange, setImmediate, clearImmediate, ...extra });
@@ -173,7 +180,7 @@ test('H popup refresh is local/read-only and never enters provider or tab action
   const snapshot = await popup.api.refreshSnapshot();
   const after = await store.getSummary(ids.jobId, ids.owner);
   assert.equal(snapshot.job_id, ids.jobId); assert.equal(popup.calls.provider, 0); assert.equal(popup.calls.tabs, 0);
-  assert.deepEqual(after, before);
+  assert.equal(JSON.stringify(after), JSON.stringify(before));
   assert.deepEqual(popup.calls.runtime.map((message) => message.type), ['WS_GET_GLOBAL_STATE']);
 });
 
