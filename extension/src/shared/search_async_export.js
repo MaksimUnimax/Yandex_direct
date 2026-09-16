@@ -115,7 +115,7 @@
           const item = await store.readItem(jobId, owner, index);
           if (!item || item.job_id !== jobId || item.index !== index) fail("EXPORT_ITEM_MISSING_OR_MISMATCHED");
           const result = await store.readResult(jobId, owner, index);
-          if (result && (result.job_id !== jobId || result.index !== index || result.operation_id !== item.operation_id)) fail("EXPORT_RESULT_IDENTITY_MISMATCHED");
+          if (result && (result.job_id !== jobId || result.index !== index || result.operation_id !== item.operation_id)) fail("EXPORT_RESULT_IDENTITY_MISMATCH");
           if (["RESULT_SAVED", "PARSE_FAILED", "SUCCEEDED"].includes(item.state) && (!result || typeof result.raw_text !== "string")) fail("EXPORT_RAW_RESULT_MISSING");
           if (item.state === "SUCCEEDED" && (!result?.normalized || !Array.isArray(result.normalized.results))) fail("EXPORT_NORMALIZED_RESULT_MISSING");
           if (result?.normalized && (!Array.isArray(result.normalized.results) || result.normalized.results.length > 300)) fail("EXPORT_NORMALIZED_INVALID");
