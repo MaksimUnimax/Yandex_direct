@@ -1,0 +1,82 @@
+name: YMB verify and package
+
+on:
+  push:
+    branches:
+      - hotfix/ymb-file-delivery-p0-2026-09-14
+    paths:
+      - 'extension/src/**'
+      - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P0_SEARCH_ASYNC_CROSS_CHAT_EXPORT_REGRESSION_2026-09-16.mjs'
+      - '.github/workflows/ymb-verify-package.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify production shape and version
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find extension/src -type f | wc -l)" -eq 67
+          node <<'NODE'
+          const fs=require('fs');
+          const m=JSON.parse(fs.readFileSync('extension/src/manifest.json','utf8'));
+          const p=JSON.parse(fs.readFileSync('extension/src/package.json','utf8'));
+          if(m.version!=='0.1.7'||p.version!=='0.1.7') throw new Error('YMB_VERSION_MISMATCH');
+          const perms=['storage','tabs','scripting','unlimitedStorage'];
+          const hosts=['https://chatgpt.com/*','https://chat.openai.com/*','https://searchapi.api.cloud.yandex.net/*','https://api.webmaster.yandex.net/*','https://storage.mds.yandex.net/*','https://api-metrika.yandex.net/*','https://api.direct.yandex.com/*','https://operation.api.cloud.yandex.net/*'];
+          if(JSON.stringify(m.permissions)!==JSON.stringify(perms)) throw new Error('YMB_PERMISSION_DRIFT');
+          if(JSON.stringify(m.host_permissions)!==JSON.stringify(hosts)) throw new Error('YMB_HOST_PERMISSION_DRIFT');
+          NODE
+
+      - name: Syntax check all production JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          find extension/src -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
+
+      - name: Run legacy exporter and cross-chat regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp extension/src/shared/search_async_export.js extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/candidate/b8/search_async_export.js
+          node --test --test-timeout=10000 \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b8_export.test.mjs \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P0_SEARCH_ASYNC_CROSS_CHAT_EXPORT_REGRESSION_2026-09-16.mjs
+
+      - name: Build deterministic installable ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/stage
+          cp -a extension/src/. dist/stage/
+          find dist/stage -exec touch -h -t 202609160000.00 {} +
+          (cd dist/stage && find . -type f -print | LC_ALL=C sort | zip -X -q ../Yandex-Marketing-Bridge-0.1.7.zip -@)
+          rm -rf dist/stage
+          (cd dist && sha256sum Yandex-Marketing-Bridge-0.1.7.zip > SHA256SUMS)
+          git rev-parse HEAD > dist/GIT_COMMIT
+          cat dist/SHA256SUMS
+
+      - name: Upload installable YMB 0.1.7
+        uses: actions/upload-artifact@v4
+        with:
+          name: Yandex-Marketing-Bridge-0.1.7
+          path: |
+            dist/Yandex-Marketing-Bridge-0.1.7.zip
+            dist/SHA256SUMS
+            dist/GIT_COMMIT
+          if-no-files-found: error
+          retention-days: 14
