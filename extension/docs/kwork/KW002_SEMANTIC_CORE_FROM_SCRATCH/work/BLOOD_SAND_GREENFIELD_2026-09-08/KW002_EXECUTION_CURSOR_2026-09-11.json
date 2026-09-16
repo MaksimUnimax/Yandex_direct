@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V62",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V63",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V61",
-    "commit": "6627aa6218ccd52452d1a6f975e0735f441d236d",
-    "blob_sha": "2e261f395ff31d4c7d35b51cbee75a0879bbdae8",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V62",
+    "commit": "ae657d3bc3310b59859b321ce90596954754dbd8",
+    "blob_sha": "6c20b99eabcb9c864f66d06562a17d9a9cca9154",
     "inherit_all_unchanged_upstream_state": true
   },
   "mandatory_yandex_marketing_bridge_authorities": {
@@ -60,11 +60,17 @@
     "first_collectN_bounded_stop": true,
     "first_collectN_remote_readback_pass": true,
     "first_collectN_remote_blob_sha": "2e261f395ff31d4c7d35b51cbee75a0879bbdae8",
-    "remaining_waiting": 2,
-    "remaining_succeeded": 18,
     "second_collectN_released": true,
     "second_collectN_count_limit": 2,
-    "second_collectN_commands_released_now": 1,
+    "second_collectN_commands_released_now": 0,
+    "second_collectN_execution_verified": true,
+    "second_collectN_provider_calls": 2,
+    "second_collectN_processed": 2,
+    "second_collectN_normalized": 2,
+    "second_collectN_bounded_stop": false,
+    "second_collectN_remote_readback_pass": false,
+    "remaining_waiting": 0,
+    "remaining_succeeded": 20,
     "export_released": false
   },
   "observed_first_collectN_result": {
@@ -114,27 +120,73 @@
     "result_durably_recorded": true,
     "remote_readback_pass": true
   },
-  "provider_accounting_before_second_collectN": {
+  "observed_second_collectN_result": {
+    "result_prefix": "SEARCH_ASYNC_BATCH_RESULT_V1",
+    "action": "collectN",
+    "job_id": "kw002-s06q003-q022-20260916",
+    "ok": true,
+    "request_executed": true,
+    "provider_calls": 2,
+    "processed": 2,
+    "normalized": 2,
+    "bounded_stop": false,
+    "last": {
+      "outcome": "received",
+      "code": null,
+      "index": 19,
+      "operation_id": "sprgc1sne7jhhlj6u4ph"
+    },
+    "progress": {
+      "job_id": "kw002-s06q003-q022-20260916",
+      "control": "RUNNING",
+      "total": 20,
+      "counts": {
+        "PENDING": 0,
+        "SUBMITTING": 0,
+        "WAITING": 0,
+        "COLLECTING": 0,
+        "RESULT_SAVED": 0,
+        "SUCCEEDED": 20,
+        "PARSE_FAILED": 0,
+        "FAILED": 0,
+        "UNKNOWN": 0,
+        "CANCELLED": 0
+      },
+      "requests_started": 20,
+      "operations_accepted": 20,
+      "polls_started": 20,
+      "unresolved": 0,
+      "all_successful": true,
+      "busy": false,
+      "revision": 100
+    },
+    "result_observed_in_chat": true,
+    "result_durably_recorded": true,
+    "remote_readback_pass": false
+  },
+  "provider_accounting_after_second_collectN": {
     "provider_submit_calls_total_for_remaining_queue": 20,
-    "provider_collect_calls_total_for_remaining_queue": 18,
-    "provider_calls_total_for_remaining_queue": 38,
+    "provider_collect_calls_total_for_remaining_queue": 20,
+    "provider_calls_total_for_remaining_queue": 40,
     "requests_started": 20,
     "operations_accepted": 20,
-    "polls_started": 18,
-    "succeeded": 18,
-    "waiting": 2,
+    "polls_started": 20,
+    "succeeded": 20,
+    "waiting": 0,
     "failed": 0,
     "parse_failed": 0,
-    "unknown": 0
+    "unknown": 0,
+    "unresolved": 0,
+    "all_successful": true,
+    "terminal_revision": 100
   },
-  "released_second_collectN_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"collectN\",\"jobId\":\"kw002-s06q003-q022-20260916\",\"count\":2}",
   "step06_current": {
-    "status": "ASYNC_FIRST_COLLECTN_DURABLY_VERIFIED__EXACTLY_ONE_FINAL_COLLECTN_COUNT2_RELEASED",
+    "status": "ASYNC_SECOND_COLLECTN_20_SUCCEEDED_DURABLY_RECORDED__REMOTE_READBACK_REQUIRED_BEFORE_FINAL_EXPORT_RELEASE",
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submit_commands_allowed_now": 0,
     "deferred_search_provider_submit_attempts_allowed_now": 0,
-    "deferred_search_collection_commands_allowed_now": 1,
-    "deferred_search_provider_collect_attempts_max_now": 2,
+    "deferred_search_collection_commands_allowed_now": 0,
+    "deferred_search_provider_collect_attempts_max_now": 0,
     "deferred_search_local_exports_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
@@ -144,5 +196,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "EXECUTE EXACTLY ONE released_second_collectN_command THROUGH THE YMB `Яндекс` ACTION. DO NOT CLAIM THE TWO REMAINING OPERATIONS COLLECTED UNTIL THE ACTUAL SEARCH_ASYNC_BATCH_RESULT_V1 ARRIVES. DO NOT RESUBMIT. IF BOTH ITEMS BECOME SUCCEEDED WITH FAILED=PARSE_FAILED=UNKNOWN=0 AND all_successful=true, RECONCILE AND THEN RELEASE THE EXACT FINAL exportPage. OTHERWISE PRESERVE THE PARTIAL STATE AND HANDLE ONLY THE OBSERVED CONDITION. STEP07 REMAINS CLOSED."
+  "next_action": "REMOTE-READBACK THIS V63 CURSOR. IF THE REMOTE BLOB EXACTLY RECORDS THE REAL SECOND collectN RESULT WITH provider_calls=2, processed=2, normalized=2, SUCCEEDED=20, WAITING=0, FAILED=0, PARSE_FAILED=0, UNKNOWN=0, unresolved=0, all_successful=true AND revision=100, PUBLISH A SUCCESSOR CURSOR THAT RELEASES EXACTLY ONE LOCAL SEARCH_ASYNC_BATCH_API_V1 exportPage COMMAND FOR THE COMPLETE 20-ITEM JOB AT revision=100. DO NOT RESUBMIT OR RECOLLECT. STEP07 REMAINS CLOSED UNTIL THE EXACT EXPORT IS PERSISTED AND REMOTE-READBACK VERIFIED."
 }
