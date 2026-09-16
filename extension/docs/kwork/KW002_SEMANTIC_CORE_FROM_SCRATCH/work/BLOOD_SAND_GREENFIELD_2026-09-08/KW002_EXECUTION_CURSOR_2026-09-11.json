@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V53",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V54",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V52",
-    "commit": "258dbdffbddb7c2162d6b95672c6acad16666030",
-    "blob_sha": "dfca4a1f1ada2ad71cd1d4e2efe778b43140e3e1",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V53",
+    "commit": "1f56a5ad3d7086c0930882c49b105e6cafe5b8d4",
+    "blob_sha": "4827055a87f0c550e28f00d93bca0406d3c53de9",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -89,10 +89,41 @@
     "second_export_pre_authorized": false,
     "s06q003_released": false
   },
+  "step06_async_queue_control_pass": {
+    "status": "CONTROL_PASS_PERSISTED__REMOTE_READBACK_REQUIRED",
+    "authority": "STEP_06_S06Q003_Q022_ASYNC_QUEUE_CONTROL_PASS_2026-09-16.md",
+    "provider_calls": 0,
+    "ymb_version": "0.1.9",
+    "ymb_commit": "b218afb0187bd26af1d7ada3590b02edc2d4a2de",
+    "protocol_blob_sha": "91df9051f4cf52d51ee73af9c66a196411a966d7",
+    "store_blob_sha": "1de12e529141649eb4a0f94cac155ab32f38b0dd",
+    "runtime_blob_sha": "571debe536e634aad1ed280f215c4e35b19925ae",
+    "policy_blob_sha": "e18de13b36a617fc8fa78203459d8947869687f9",
+    "worker_transport_blob_sha": "75c5349531d7fb77641991d648cfb8b40a490bdc",
+    "selected_transport": "SEARCH_ASYNC_BATCH_API_V1",
+    "remaining_job_id": "kw002-s06q003-q022-20260916",
+    "remaining_query_ids": ["S06Q003", "S06Q004", "S06Q005", "S06Q006", "S06Q007", "S06Q008", "S06Q009", "S06Q010", "S06Q011", "S06Q012", "S06Q013", "S06Q014", "S06Q015", "S06Q016", "S06Q017", "S06Q018", "S06Q019", "S06Q020", "S06Q021", "S06Q022"],
+    "remaining_query_count": 20,
+    "one_durable_item_per_query": true,
+    "transactional_between_item_barrier": true,
+    "blind_retry_on_interrupted_submit": false,
+    "interrupted_submit_state": "UNKNOWN",
+    "submitN_max_slice_items": 25,
+    "collectN_max_slice_items": 25,
+    "unit_submit_cost_microrub": 30500,
+    "collect_reserved_cost_microrub": 0,
+    "max_requests": 20,
+    "max_cost_microrub": 610000,
+    "max_cost_rub": 0.61,
+    "final_external_durability_barrier": "EXACT_REMAINING_JOB_EXPORT_PLUS_GIT_PERSISTENCE_PLUS_REMOTE_READBACK_BEFORE_STEP07",
+    "remote_readback_pass": false,
+    "queue_released": false
+  },
   "step06_current": {
-    "status": "S06Q002_R1_DURABLY_CLOSED__S06Q003_NOT_RELEASED",
+    "status": "S06Q001_AND_S06Q002_DURABLY_CLOSED__ASYNC_QUEUE_CONTROL_PASS_PERSISTED__REMOTE_READBACK_REQUIRED",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001", "S06Q002"],
+    "remaining_queue_query_ids": ["S06Q003", "S06Q004", "S06Q005", "S06Q006", "S06Q007", "S06Q008", "S06Q009", "S06Q010", "S06Q011", "S06Q012", "S06Q013", "S06Q014", "S06Q015", "S06Q016", "S06Q017", "S06Q018", "S06Q019", "S06Q020", "S06Q021", "S06Q022"],
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
@@ -101,12 +132,11 @@
     "gensearch_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
     "ai_search_calls_allowed_now": 0,
-    "s06q002_r1_provider_submit_calls": 1,
-    "s06q002_r1_provider_collect_calls": 1,
     "s06q003_released": false,
+    "remaining_queue_released": false,
     "step06_started": true,
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "KEEP S06Q003 CLOSED. BEFORE ANY NEXT PROVIDER QUERY, INVESTIGATE AND RECONCILE THE ACCEPTED YMB 0.1.8 submitN/collectN BATCH SEMANTICS, POLLING BEHAVIOR, REQUEST/COST ACCOUNTING, AND THE MOST EFFICIENT SAFE STEP06 EXECUTION SHAPE. DO NOT CALL SEARCH, WORDSTAT, GENSEARCH, OR AI SEARCH DURING THAT CONTROL PASS."
+  "next_action": "REMOTE-READBACK STEP_06_S06Q003_Q022_ASYNC_QUEUE_CONTROL_PASS_2026-09-16.md AND THIS V54 CURSOR. IF BOTH MATCH, PUBLISH A SUCCESSOR CURSOR THAT RELEASES EXACTLY ONE PROVIDER-FREE LOCAL START FOR kw002-s06q003-q022-20260916; KEEP ALL PROVIDER SUBMIT/COLLECT ACTIONS CLOSED UNTIL THAT LOCAL START IS DURABLY OBSERVED. PROVIDER_CALLS MUST REMAIN 0."
 }
