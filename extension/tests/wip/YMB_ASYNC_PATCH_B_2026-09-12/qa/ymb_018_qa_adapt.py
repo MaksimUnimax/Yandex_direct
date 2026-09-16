@@ -24,7 +24,7 @@ if len(sys.argv) not in (2, 3):
     raise SystemExit(__doc__)
 root = Path(sys.argv[1]).resolve()
 report = {
-    "schema_version": 2,
+    "schema_version": 3,
     "kind": "YMB_0_1_8_CANDIDATE_QA_ADAPTATION",
     "product_change": False,
     "expected_version": "0.1.8",
@@ -70,16 +70,17 @@ def contract_version(text):
 write_patch(root / "b12_contract.test.mjs", contract_version, "release-version")
 
 # These files directly inspect or seed deferred Search store state. Rewrite only
-# store-owner positions; conversation KEY authority remains untouched.
+# durable-store owner positions; conversation KEY authority remains untouched.
 def durable_store_owner(text):
     counts = {}
     text, n = re.subn(r"owner:KEY", f"owner:{JOB_OWNER}", text)
     counts["owner:KEY"] = n
     text, n2 = re.subn(r"owner=KEY", f"owner={JOB_OWNER}", text)
     counts["owner=KEY"] = n2
-    # Store read APIs use the owner as their second positional argument.
+    # Store read APIs use owner as the second positional argument. Preserve the
+    # whole call prefix and replace only the literal `,KEY` suffix.
     pattern = r"(\.(?:getSummary|readResult|readItem|pageItems)\([^,\n]+),KEY(?=[,)])"
-    text, n3 = re.subn(pattern, lambda m: m.group(1)[:-3] + JOB_OWNER, text)
+    text, n3 = re.subn(pattern, lambda m: m.group(1) + "," + JOB_OWNER, text)
     counts["store-second-arg-KEY"] = n3
     if sum(counts.values()) == 0:
         raise ValueError("No deferred store owner positions found")
@@ -91,8 +92,6 @@ for name in [
     "b12_contract.test.mjs",
     "b9_full_worker.test.mjs",
 ]:
-    # b12 was already version-adapted above. Apply the owner transform to its
-    # current bytes and merge the report entry rather than weakening exact version checks.
     path = root / name
     before = path.read_bytes()
     text = before.decode()
@@ -141,10 +140,10 @@ if len(sys.argv) == 3:
         return text, changes
     write_patch(p, b8_owner, "B8 durable owner fixture")
 
-# Prove we never replaced the actual conversation authority declarations.
-for name in ["b10_deferred.test.mjs", "b11_reparse.test.mjs", "b12_contract.test.mjs", "b9_full_worker.test.mjs"]:
+# Prove actual conversation-authority fields were not rewritten.
+for name in ["b10_deferred.test.mjs", "b11_reparse.test.mjs", "b12_contract.test.mjs"]:
     text = (root / name).read_text()
-    if "conversation_key:KEY" not in text and name != "b9_full_worker.test.mjs":
+    if "conversation_key:KEY" not in text:
         raise ValueError(f"Conversation authority marker unexpectedly absent in {name}")
 
 out = root / "YMB_0_1_8_QA_ADAPTATION.json"
