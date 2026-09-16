@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V63",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V64",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V62",
-    "commit": "ae657d3bc3310b59859b321ce90596954754dbd8",
-    "blob_sha": "6c20b99eabcb9c864f66d06562a17d9a9cca9154",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V63",
+    "commit": "559bb6406214ecf5007c65dcf9040f6d07e3af94",
+    "blob_sha": "24c8ee3e36b60c9eba745a638e4adc1617db31a6",
     "inherit_all_unchanged_upstream_state": true
   },
   "mandatory_yandex_marketing_bridge_authorities": {
@@ -68,10 +68,15 @@
     "second_collectN_processed": 2,
     "second_collectN_normalized": 2,
     "second_collectN_bounded_stop": false,
-    "second_collectN_remote_readback_pass": false,
+    "second_collectN_remote_readback_pass": true,
     "remaining_waiting": 0,
     "remaining_succeeded": 20,
-    "export_released": false
+    "export_released": true,
+    "second_collectN_remote_blob_sha": "24c8ee3e36b60c9eba745a638e4adc1617db31a6",
+    "export_revision": 100,
+    "export_after": -1,
+    "export_limit": 20,
+    "export_commands_released_now": 1
   },
   "observed_first_collectN_result": {
     "result_prefix": "SEARCH_ASYNC_BATCH_RESULT_V1",
@@ -162,7 +167,7 @@
     },
     "result_observed_in_chat": true,
     "result_durably_recorded": true,
-    "remote_readback_pass": false
+    "remote_readback_pass": true
   },
   "provider_accounting_after_second_collectN": {
     "provider_submit_calls_total_for_remaining_queue": 20,
@@ -181,13 +186,13 @@
     "terminal_revision": 100
   },
   "step06_current": {
-    "status": "ASYNC_SECOND_COLLECTN_20_SUCCEEDED_DURABLY_RECORDED__REMOTE_READBACK_REQUIRED_BEFORE_FINAL_EXPORT_RELEASE",
+    "status": "ASYNC_ALL_20_SUCCEEDED_DURABLY_VERIFIED__EXACTLY_ONE_FINAL_EXPORTPAGE_RELEASED",
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submit_commands_allowed_now": 0,
     "deferred_search_provider_submit_attempts_allowed_now": 0,
     "deferred_search_collection_commands_allowed_now": 0,
     "deferred_search_provider_collect_attempts_max_now": 0,
-    "deferred_search_local_exports_allowed_now": 0,
+    "deferred_search_local_exports_allowed_now": 1,
     "synchronous_search_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
@@ -196,5 +201,6 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK THIS V63 CURSOR. IF THE REMOTE BLOB EXACTLY RECORDS THE REAL SECOND collectN RESULT WITH provider_calls=2, processed=2, normalized=2, SUCCEEDED=20, WAITING=0, FAILED=0, PARSE_FAILED=0, UNKNOWN=0, unresolved=0, all_successful=true AND revision=100, PUBLISH A SUCCESSOR CURSOR THAT RELEASES EXACTLY ONE LOCAL SEARCH_ASYNC_BATCH_API_V1 exportPage COMMAND FOR THE COMPLETE 20-ITEM JOB AT revision=100. DO NOT RESUBMIT OR RECOLLECT. STEP07 REMAINS CLOSED UNTIL THE EXACT EXPORT IS PERSISTED AND REMOTE-READBACK VERIFIED."
+  "released_exportPage_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"exportPage\",\"jobId\":\"kw002-s06q003-q022-20260916\",\"after\":-1,\"limit\":20,\"revision\":100}",
+  "next_action": "EXECUTE EXACTLY ONE released_exportPage_command THROUGH THE YMB `Яндекс` ACTION. exportPage IS LOCAL/STAGED FILE DELIVERY AND MUST NOT CREATE PROVIDER CALLS. DO NOT CLAIM THE EXPORT EXISTS UNTIL THE ACTUAL SEARCH_ASYNC_BATCH_RESULT_V1 ARRIVES. EXPECT THE COMPLETE 20-ITEM PAGE PINNED TO revision=100. DO NOT RESUBMIT OR RECOLLECT. STEP07 REMAINS CLOSED UNTIL THE EXACT EXPORT FILE/RESULT IS PERSISTED IN GIT AND REMOTE-READBACK VERIFIED."
 }
