@@ -5,6 +5,7 @@
   const MAX_INDEX = Number.MAX_SAFE_INTEGER;
   const UNKNOWN_CONVERSATION = new Set(["", "не определён"]);
   const ACTION_MESSAGE = "YMB_ASYNC_POPUP_ACTION";
+  const JOB_OWNER_PREFIX = "search-folder:";
 
   const number = (value) => Number.isFinite(Number(value)) ? Number(value) : 0;
   const count = (counts, key) => Math.max(0, Math.trunc(number(counts?.[key])));
@@ -13,6 +14,12 @@
     r.onsuccess = () => resolve(r.result);
     r.onerror = () => reject(r.error || new Error("ASYNC_MONITOR_IDB_REQUEST_FAILED"));
   });
+
+  function durableJobOwner(folderId) {
+    const value = String(folderId || "");
+    if (!value || value.length > 50 || /[\u0000-\u001f\u007f]/u.test(value)) return "";
+    return `${JOB_OWNER_PREFIX}${value}`;
+  }
 
   function formatPercent(value) {
     const rounded = Math.round(value * 10) / 10;
@@ -107,6 +114,25 @@
     throw new Error("ASYNC_POPUP_ACTION_UNSUPPORTED");
   }
 
+  function runtimeSend(message) {
+    return new Promise((resolve, reject) => {
+      try {
+        chrome.runtime.sendMessage(message, (response) => {
+          const error = chrome.runtime.lastError;
+          if (error) reject(new Error(error.message || String(error)));
+          else resolve(response);
+        });
+      } catch (error) { reject(error); }
+    });
+  }
+
+  async function readSearchFolderId() {
+    const response = await runtimeSend({ type: "WS_GET_GLOBAL_STATE", page_context_error: "ASYNC_MONITOR_LOCAL_READ" });
+    if (!response?.ok || !response.state) throw Object.assign(new Error(response?.error || response?.code || "ASYNC_MONITOR_STATE_UNAVAILABLE"), { code: response?.code || "ASYNC_MONITOR_STATE_UNAVAILABLE" });
+    const folderId = String(response.state?.credential_status?.search?.folder_id || "");
+    return durableJobOwner(folderId) ? folderId : "";
+  }
+
   async function databaseExists() {
     if (typeof indexedDB.databases !== "function") return null;
     try {
@@ -136,7 +162,9 @@
     });
   }
 
-  async function latestJobForOwner(db, owner) {
+  async function latestJobForFolder(db, folderId) {
+    const owner = durableJobOwner(folderId);
+    if (!owner) return null;
     return new Promise((resolve, reject) => {
       const tx = db.transaction(["jobs"], "readonly");
       const store = tx.objectStore("jobs");
@@ -147,7 +175,7 @@
         const c = cursor.result;
         if (!c) { resolve(selected); return; }
         const job = c.value;
-        if (job?.owner === owner && (!selected || number(job.updated_at) > number(selected.updated_at))) selected = job;
+        if (job?.folder_id === folderId && job?.owner === owner && (!selected || number(job.updated_at) > number(selected.updated_at))) selected = job;
         c.continue();
       };
       tx.onabort = () => reject(tx.error || new Error("ASYNC_MONITOR_JOB_TX_ABORTED"));
@@ -182,12 +210,12 @@
     };
   }
 
-  async function snapshotForOwner(owner, now = Date.now()) {
-    if (typeof owner !== "string" || !owner.trim()) return null;
+  async function snapshotForFolder(folderId, now = Date.now()) {
+    if (!durableJobOwner(folderId)) return null;
     const db = await openExistingDb();
     try {
       if (!["jobs", "items", "results"].every((name) => db.objectStoreNames.contains(name))) return null;
-      const job = await latestJobForOwner(db, owner);
+      const job = await latestJobForFolder(db, folderId);
       if (!job) return null;
       const light = await boundedCounts(db, job, now);
       return {
@@ -218,7 +246,7 @@
     const exportButton = el("button", "Отправить файл в чат"); exportButton.id = "searchAsyncExport"; exportButton.type = "button"; exportButton.disabled = true;
     actions.append(refresh, collect, exportButton); section.append(actions);
     const actionStatus = el("p", "", "warning"); actionStatus.id = "searchAsyncActionStatus"; actionStatus.hidden = true; section.append(actionStatus);
-    section.append(el("p", "Статус читается безопасно: без автоматического сканирования result payload. Обновление — при открытии, смене диалога, после действия или по кнопке.", "warning"));
+    section.append(el("p", "Статус обновляется только из локального state/IndexedDB. Popup refresh не делает submit, collect или provider polling.", "warning"));
     const sections = Array.from(document.querySelectorAll("main > section"));
     const runSection = sections.find((node) => node.querySelector("h2")?.textContent?.trim() === "Текущий запуск");
     if (runSection?.parentNode) runSection.parentNode.insertBefore(section, runSection.nextSibling); else document.querySelector("main")?.append(section);
@@ -252,9 +280,10 @@
 
   function renderActions(now = Date.now()) {
     const availability = actionAvailability(latestSnapshot, now, actionInFlight);
+    const hasConversationAuthority = Boolean(currentConversationKey());
     const collect = document.getElementById("searchAsyncCollectOne"); const exportButton = document.getElementById("searchAsyncExport");
-    if (collect) { collect.disabled = !availability.collect_enabled; collect.textContent = availability.collect_label; }
-    if (exportButton) { exportButton.disabled = !availability.export_enabled; exportButton.textContent = availability.export_label; }
+    if (collect) { collect.disabled = !availability.collect_enabled || !hasConversationAuthority; collect.textContent = availability.collect_label; }
+    if (exportButton) { exportButton.disabled = !availability.export_enabled || !hasConversationAuthority; exportButton.textContent = availability.export_label; }
   }
 
   function render(snapshot, now = Date.now()) {
@@ -265,7 +294,7 @@
       renderActions(now); return;
     }
     const metrics = computeMetrics(snapshot);
-    setText("searchAsyncJob", snapshot.job_id || "—"); setText("searchAsyncState", metrics.state);
+    setText("searchAsyncJob", snapshot.job_id || "—"); setText("searchAsyncState", snapshot.control ? `${snapshot.control} / ${metrics.state}` : metrics.state);
     setText("searchAsyncProcessed", `${metrics.terminal} / ${metrics.total} — ${formatPercent(metrics.processed_percent)}`);
     setText("searchAsyncSucceeded", `${metrics.succeeded} / ${metrics.total} — ${formatPercent(metrics.success_percent)}`);
     setText("searchAsyncRemaining", metrics.remaining); setText("searchAsyncWaiting", metrics.waiting); setText("searchAsyncPendingWorking", `${metrics.pending} / ${metrics.working}`);
@@ -277,20 +306,25 @@
 
   async function refreshSnapshot() {
     if (loading) return latestSnapshot;
-    const owner = currentConversationKey(); if (!owner) { render(null); return null; }
     loading = true; const button = document.getElementById("searchAsyncRefresh"); if (button) button.disabled = true;
-    try { const snapshot = await snapshotForOwner(owner, Date.now()); render(snapshot); return snapshot; }
-    catch (error) { if (error?.code === "ASYNC_MONITOR_DB_MISSING") { render(null); return null; } setText("searchAsyncState", `Ошибка локального чтения: ${error?.code || error?.message || error}`); return null; }
-    finally { loading = false; if (button) button.disabled = false; }
+    try {
+      const folderId = await readSearchFolderId();
+      if (!folderId) { render(null); return null; }
+      const snapshot = await snapshotForFolder(folderId, Date.now()); render(snapshot); return snapshot;
+    } catch (error) {
+      if (error?.code === "ASYNC_MONITOR_DB_MISSING") { render(null); return null; }
+      setText("searchAsyncState", `Ошибка локального чтения: ${error?.code || error?.message || error}`); return null;
+    } finally { loading = false; if (button) button.disabled = false; }
   }
 
   async function runPopupAction(action) {
     if (actionInFlight) return;
     const now = Date.now(); const availability = actionAvailability(latestSnapshot, now, false);
-    if ((action === "collect_one" && !availability.collect_enabled) || (action === "export_page" && !availability.export_enabled)) { renderActions(now); return; }
+    const conversationKey = currentConversationKey();
+    if (!conversationKey || (action === "collect_one" && !availability.collect_enabled) || (action === "export_page" && !availability.export_enabled)) { renderActions(now); return; }
     actionInFlight = true; renderActions(now); setActionStatus(action === "collect_one" ? "Запрашиваю одну разрешённую проверку…" : "Готовлю экспорт через существующий канал доставки…");
     try {
-      const message = buildActionMessage(action, latestSnapshot, currentConversationKey()); const response = await sendActiveTabMessage(message);
+      const message = buildActionMessage(action, latestSnapshot, conversationKey); const response = await sendActiveTabMessage(message);
       if (!response?.ok || response?.accepted === false) throw Object.assign(new Error(response?.error || response?.code || "ASYNC_POPUP_ACTION_REJECTED"), { code: response?.code || "ASYNC_POPUP_ACTION_REJECTED" });
       setActionStatus(action === "collect_one" ? "Проверка принята существующим Manual-контуром." : "Экспорт принят существующим Manual-контуром."); await refreshSnapshot();
     } catch (error) { setActionStatus(`Действие не выполнено: ${error?.code || error?.message || error}`, true); }
@@ -306,15 +340,20 @@
     let previousOwner = currentConversationKey();
     const uiTimer = setInterval(() => {
       const owner = currentConversationKey();
-      if (owner !== previousOwner) { previousOwner = owner; setActionStatus(""); if (owner) void refreshSnapshot(); else render(null); }
-      if (latestSnapshot) render(latestSnapshot, Date.now()); else renderActions(Date.now());
+      if (owner !== previousOwner) { previousOwner = owner; setActionStatus(""); }
+      if (!loading && !actionInFlight) void refreshSnapshot();
+      else if (latestSnapshot) render(latestSnapshot, Date.now());
+      else renderActions(Date.now());
     }, 1000);
     window.addEventListener("pagehide", () => clearInterval(uiTimer), { once: true });
     void refreshSnapshot();
   }
 
   if (globalThis.__YMB_ASYNC_MONITOR_TEST__ === true) {
-    globalThis.__YMB_ASYNC_MONITOR_TEST_API__ = Object.freeze({ computeMetrics, formatPercent, formatDuration, formatNextCheck, actionAvailability, buildActionMessage });
+    globalThis.__YMB_ASYNC_MONITOR_TEST_API__ = Object.freeze({
+      durableJobOwner, computeMetrics, formatPercent, formatDuration, formatNextCheck, actionAvailability, buildActionMessage,
+      readSearchFolderId, latestJobForFolder, snapshotForFolder, refreshSnapshot, render
+    });
     return;
   }
   if (typeof document !== "undefined") bootstrap();

@@ -9,6 +9,7 @@ on:
       - 'extension/src/**'
       - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_DURABLE_SCOPE_REGRESSION_2026-09-16.mjs'
       - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_POLICY_SCOPE_REGRESSION_2026-09-16.mjs'
+      - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_POPUP_DURABLE_SCOPE_REGRESSION_2026-09-16.mjs'
       - 'extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/ymb_018_qa_adapt.py'
       - '.github/workflows/ymb-verify-package.yml'
   workflow_dispatch:
@@ -41,7 +42,7 @@ jobs:
           const product=fs.readFileSync('extension/src/shared/product.js','utf8');
           const readme=fs.readFileSync('extension/src/README.md','utf8');
           const readmeTxt=fs.readFileSync('extension/src/README.txt','utf8');
-          if(m.version!=='0.1.8'||p.version!=='0.1.8'||!product.includes('VERSION: "0.1.8"')||!readme.includes('0.1.8')||!readmeTxt.includes('0.1.8')) throw new Error('YMB_VERSION_MISMATCH');
+          if(m.version!=='0.1.9'||p.version!=='0.1.9'||!product.includes('VERSION: "0.1.9"')||!readme.includes('0.1.9')||!readmeTxt.includes('0.1.9')) throw new Error('YMB_VERSION_MISMATCH');
           const perms=['storage','tabs','scripting','unlimitedStorage'];
           const hosts=['https://chatgpt.com/*','https://chat.openai.com/*','https://searchapi.api.cloud.yandex.net/*','https://api.webmaster.yandex.net/*','https://storage.mds.yandex.net/*','https://api-metrika.yandex.net/*','https://api.direct.yandex.com/*','https://operation.api.cloud.yandex.net/*'];
           if(JSON.stringify(m.permissions)!==JSON.stringify(perms)) throw new Error('YMB_PERMISSION_DRIFT');
@@ -54,7 +55,7 @@ jobs:
           set -euo pipefail
           find extension/src -type f -name '*.js' -print0 | sort -z | xargs -0 -n1 node --check
 
-      - name: Run legacy exporter and durable-scope regression
+      - name: Run legacy exporter, durable-scope and popup-state regressions
         shell: bash
         run: |
           set -euo pipefail
@@ -62,7 +63,8 @@ jobs:
           node --test --test-timeout=10000 \
             extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b8_export.test.mjs \
             extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_DURABLE_SCOPE_REGRESSION_2026-09-16.mjs \
-            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_POLICY_SCOPE_REGRESSION_2026-09-16.mjs
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_POLICY_SCOPE_REGRESSION_2026-09-16.mjs \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_POPUP_DURABLE_SCOPE_REGRESSION_2026-09-16.mjs
 
       - name: Build deterministic installable ZIP
         shell: bash
@@ -71,18 +73,18 @@ jobs:
           mkdir -p dist/stage
           cp -a extension/src/. dist/stage/
           find dist/stage -exec touch -h -t 202609160000.00 {} +
-          (cd dist/stage && find . -type f -print | LC_ALL=C sort | zip -X -q ../Yandex-Marketing-Bridge-0.1.8.zip -@)
+          (cd dist/stage && find . -type f -print | LC_ALL=C sort | zip -X -q ../Yandex-Marketing-Bridge-0.1.9.zip -@)
           rm -rf dist/stage
-          (cd dist && sha256sum Yandex-Marketing-Bridge-0.1.8.zip > SHA256SUMS)
+          (cd dist && sha256sum Yandex-Marketing-Bridge-0.1.9.zip > SHA256SUMS)
           git rev-parse HEAD > dist/GIT_COMMIT
           cat dist/SHA256SUMS
 
-      - name: Upload installable YMB 0.1.8
+      - name: Upload installable YMB 0.1.9
         uses: actions/upload-artifact@v4
         with:
-          name: Yandex-Marketing-Bridge-0.1.8
+          name: Yandex-Marketing-Bridge-0.1.9
           path: |
-            dist/Yandex-Marketing-Bridge-0.1.8.zip
+            dist/Yandex-Marketing-Bridge-0.1.9.zip
             dist/SHA256SUMS
             dist/GIT_COMMIT
           if-no-files-found: error

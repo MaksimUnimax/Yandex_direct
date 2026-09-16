@@ -1,13 +1,16 @@
-"""Candidate-only QA adaptation for YMB 0.1.8 durable deferred Search ownership.
+"""Candidate-only QA adaptation for YMB 0.1.9 durable deferred Search ownership.
 
 The differential base remains on the preserved B19/0.1.6 expectations. This
 script updates only intentional candidate expectations:
-- release version text 0.1.6 -> 0.1.8;
+- release version text 0.1.6 -> 0.1.9;
 - direct deferred Search store fixtures use the durable Search-folder owner;
 - preserved export fixtures expect the same durable owner.
 
 ChatGPT conversation KEY usages for binding, tab authority, Manual state, outbox
 and delivery remain unchanged. The adapter never rewrites those authority paths.
+
+The historical filename is retained because the qualification workflow already
+uses it; the target release identity is authoritative in this file and report.
 
 Usage:
   ymb_018_qa_adapt.py CONTRACT_QA_DIR [EXPORT_QA_DIR_OR_B7_TEST]
@@ -24,10 +27,10 @@ if len(sys.argv) not in (2, 3):
     raise SystemExit(__doc__)
 root = Path(sys.argv[1]).resolve()
 report = {
-    "schema_version": 3,
-    "kind": "YMB_0_1_8_CANDIDATE_QA_ADAPTATION",
+    "schema_version": 4,
+    "kind": "YMB_0_1_9_CANDIDATE_QA_ADAPTATION",
     "product_change": False,
-    "expected_version": "0.1.8",
+    "expected_version": "0.1.9",
     "durable_job_owner": "search-folder:folder",
     "conversation_authority_rewritten": False,
     "files": {},
@@ -51,12 +54,12 @@ def write_patch(path, transform, label):
 
 def contract_version(text):
     replacements = [
-        ("assert.equal(m.version,'0.1.6');", "assert.equal(m.version,'0.1.8');"),
+        ("assert.equal(m.version,'0.1.6');", "assert.equal(m.version,'0.1.9');"),
         (
             "test('saved READMEs describe the real 0.1.6 network-enabled Manual deferred release without background polling claims',()=>{",
-            "test('saved READMEs describe the real 0.1.8 network-enabled Manual deferred release without background polling claims',()=>{",
+            "test('saved READMEs describe the real 0.1.9 network-enabled Manual deferred release without background polling claims',()=>{",
         ),
-        ("assert.ok(s.includes('0.1.6'),name);", "assert.ok(s.includes('0.1.8'),name);"),
+        ("assert.ok(s.includes('0.1.6'),name);", "assert.ok(s.includes('0.1.9'),name);"),
     ]
     counts = {}
     for old, new in replacements:
@@ -146,6 +149,6 @@ for name in ["b10_deferred.test.mjs", "b11_reparse.test.mjs", "b12_contract.test
     if "conversation_key:KEY" not in text:
         raise ValueError(f"Conversation authority marker unexpectedly absent in {name}")
 
-out = root / "YMB_0_1_8_QA_ADAPTATION.json"
+out = root / "YMB_0_1_9_QA_ADAPTATION.json"
 out.write_text(json.dumps(report, indent=2) + "\n")
 print(json.dumps(report, indent=2))
