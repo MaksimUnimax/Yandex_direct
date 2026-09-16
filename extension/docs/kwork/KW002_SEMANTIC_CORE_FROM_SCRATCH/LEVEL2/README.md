@@ -10,11 +10,21 @@ Mandatory architecture authority:
 
 `../LEVEL1/ROADMAP_AND_METHOD_GENERALIZATION_RULE.md`
 
+Mandatory Yandex Marketing Bridge execution authority:
+
+`../LEVEL1/YANDEX_MARKETING_BRIDGE_EXECUTION_RULE.md`
+
 ## Canonical roadmap
 
 `STEP_RULES_INDEX.md`
 
 This is the universal Step00–22 input→method→output roadmap.
+
+Any roadmap step that uses Yandex Marketing Bridge/provider execution must additionally pass:
+
+`YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
+
+This currently applies at minimum to Step03, Step05 where provider acquisition is used, Step06, Step08, Step12 and Step16, including corrective/re-acquisition branches.
 
 ## Dedicated universal step gates currently active
 
@@ -23,9 +33,20 @@ STEP_02_SEED_ACQUISITION_QUALITY_GATE.md
 STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md
 STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md
 STEP_04_PRELIMINARY_FAMILY_TRIAGE_QUALITY_GATE.md
+STEP_05_TARGETED_EXPANSION_AND_PROVIDER_EXECUTION_GATE.md
+YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md
 ```
 
 These deepen the corresponding roadmap step without introducing client-specific data.
+
+The YMB gate is cross-step and controls **how a provider command is actually rendered, triggered and proven**. In particular:
+
+```text
+ONE COMMAND = ONE STANDALONE FENCED MARKDOWN CODE BLOCK
+ASSISTANT RENDERED COMMAND != EXECUTED COMMAND
+EXECUTION REQUIRES YMB `Яндекс` ACTION
+NO ACTUAL *_RESULT_V1 = NO EXECUTION CLAIM
+```
 
 ## What Level 2 contains
 
@@ -77,6 +98,7 @@ Hard rules:
 JOB-SPECIFIC OWNER GATE != LEVEL2 METHOD
 JOB-SPECIFIC EXAMPLE != UNIVERSAL ROOT CAUSE
 CURRENT JOB STATUS != ROADMAP DEFINITION
+PRINTED BRIDGE COMMAND != EXECUTED BRIDGE COMMAND
 ```
 
 Before executing a step:
@@ -84,7 +106,9 @@ Before executing a step:
 ```text
 READ KW002 LEVEL1
 → READ ROADMAP_AND_METHOD_GENERALIZATION_RULE
+→ READ YANDEX_MARKETING_BRIDGE_EXECUTION_RULE when Bridge/provider work is possible
 → READ STEP_RULES_INDEX
+→ READ YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE for Bridge/provider steps
 → READ applicable dedicated/inherited Level2 method
 → READ current work/<JOB_ID>/ state/evidence
 → run required external-method review
