@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V59",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V60",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V58",
-    "commit": "9d2f1145964f18e508010ebafff6306e317f3ac8",
-    "blob_sha": "0c7f466b9a20f5d1513447712ab3a02b644d16b1",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V59",
+    "commit": "2306f32f7fe5d58939142b33c961e37ed2abfa88",
+    "blob_sha": "dc0691a6458647f7ec405db89127314a18fc78e4",
     "inherit_all_unchanged_upstream_state": true
   },
   "mandatory_yandex_marketing_bridge_authorities": {
@@ -52,8 +52,12 @@
     "submitN_execution_verified": true,
     "submitN_provider_calls": 20,
     "submitN_processed": 20,
-    "submitN_remote_readback_pass": false,
-    "collectN_released": false,
+    "submitN_remote_readback_pass": true,
+    "submitN_remote_blob_sha": "dc0691a6458647f7ec405db89127314a18fc78e4",
+    "collectN_released": true,
+    "collectN_count_limit": 20,
+    "collectN_commands_released_now": 1,
+    "collect_not_before_utc": "2026-09-16T12:03:18Z",
     "export_released": false
   },
   "observed_submitN_result": {
@@ -99,26 +103,27 @@
     "stop_conditions_triggered": false,
     "automatic_retry": false,
     "result_observed_in_chat": true,
-    "result_durably_recorded_in_this_cursor": true
+    "result_durably_recorded": true,
+    "remote_readback_pass": true
   },
-  "provider_accounting_after_submitN": {
-    "provider_calls_this_action": 20,
+  "provider_accounting_before_collectN": {
     "provider_submit_calls_total_for_remaining_queue": 20,
     "provider_collect_calls_total_for_remaining_queue": 0,
     "requests_started": 20,
     "operations_accepted": 20,
     "polls_started": 0,
-    "pending": 0,
     "waiting": 20,
     "failed": 0,
     "unknown": 0
   },
+  "released_collectN_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"collectN\",\"jobId\":\"kw002-s06q003-q022-20260916\",\"count\":20}",
   "step06_current": {
-    "status": "ASYNC_SUBMITN_20_OF_20_ACCEPTED_AND_DURABLY_RECORDED__REMOTE_READBACK_REQUIRED_BEFORE_COLLECTN_RELEASE",
+    "status": "ASYNC_SUBMITN_20_OF_20_DURABLY_VERIFIED__EXACTLY_ONE_BOUNDED_COLLECTN_COUNT20_RELEASED_AFTER_POLL_BARRIER",
     "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submit_commands_allowed_now": 0,
     "deferred_search_provider_submit_attempts_allowed_now": 0,
-    "deferred_search_collection_attempts_allowed_now": 0,
+    "deferred_search_collection_commands_allowed_now": 1,
+    "deferred_search_provider_collect_attempts_max_now": 20,
     "deferred_search_local_exports_allowed_now": 0,
     "synchronous_search_calls_allowed_now": 0,
     "wordstat_calls_allowed_now": 0,
@@ -128,5 +133,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "next_action": "REMOTE-READBACK THIS V59 CURSOR. IF THE REMOTE BLOB EXACTLY RECORDS THE REAL submitN RESULT WITH provider_calls=20, processed=20, WAITING=20, requests_started=20, operations_accepted=20, FAILED=0, UNKNOWN=0 AND revision=40, PUBLISH A SUCCESSOR CURSOR THAT RELEASES EXACTLY ONE SEARCH_ASYNC_BATCH_API_V1 collectN COMMAND WITH count=20. THE FIRST PROVIDER COLLECTION MUST NOT OCCUR BEFORE EACH ITEM'S 300000ms nextPollAt BARRIER; AN EARLY collectN MAY ONLY RETURN A LOCAL NO_DUE RESULT. KEEP EXPORT AND STEP07 CLOSED."
+  "next_action": "AT OR AFTER 2026-09-16T12:03:18Z, EXECUTE EXACTLY ONE released_collectN_command THROUGH THE YMB `Яндекс` ACTION. DO NOT CLAIM COLLECTION UNTIL THE ACTUAL SEARCH_ASYNC_BATCH_RESULT_V1 ARRIVES. IF ANY ITEMS REMAIN WAITING, RECONCILE THE RESULT AND ONLY THEN RELEASE A FURTHER BOUNDED collectN; DO NOT RESUBMIT. IF FAILED, PARSE_FAILED OR UNKNOWN APPEARS, STOP AND PRESERVE EVIDENCE. EXPORT AND STEP07 REMAIN CLOSED."
 }
