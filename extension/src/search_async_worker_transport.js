@@ -1,14 +1,21 @@
 /* B7 Manual-only deferred Search command ingress and worker runtime binding.
  * No Autorun deferred path. No background polling/alarms. Compact reports only.
+ * Durable job ownership is credential-scoped, never conversation-scoped.
  */
 (() => {
   "use strict";
   const PREFIX = "SEARCH_ASYNC_BATCH_API_V1";
   const RESULT_PREFIX = "SEARCH_ASYNC_BATCH_RESULT_V1";
   const MANUAL_STATUS = "search_async_requesting";
+  const JOB_OWNER_PREFIX = "search-folder:";
   const TERMINAL = new Set(["completed", "error", "cancelled"]);
   const fail = (code, message = code) => { throw Object.assign(new Error(message), { code, request_executed: false, automatic_retry: false }); };
   const validId = value => typeof value === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(value);
+  function durableJobOwner(folderId) {
+    const value = String(folderId || "");
+    if (!value || value.length > 50 || /[\u0000-\u001f\u007f]/u.test(value)) fail("ASYNC_FOLDER_SCOPE_INVALID");
+    return `${JOB_OWNER_PREFIX}${value}`;
+  }
 
   function create(deps = {}) {
     const {
@@ -60,6 +67,7 @@
     const searchService = "search";
     const priceMicrorub = Number(asyncPolicyFactory?.PRICE_MICRORUB || 30500);
     if (!Number.isSafeInteger(priceMicrorub) || priceMicrorub <= 0) fail("ASYNC_PRICE_INVALID");
+    const authorityByJob = new Map();
 
     async function manualAuthority({ key, operation, folderId, action }) {
       if (!operation || operation.status !== MANUAL_STATUS || operation.conversation_key !== key || operation.active_service !== searchService) fail("ASYNC_MANUAL_OPERATION_MISMATCH");
@@ -82,6 +90,15 @@
       return { api_key: record.api_key, folder_id: record.folder_id };
     }
 
+    async function withJobAuthority({ jobId, owner, key, operation, folderId }, work) {
+      if (!validId(jobId) || owner !== durableJobOwner(folderId) || !operation || operation.batch_job_id !== jobId || operation.conversation_key !== key) fail("ASYNC_JOB_AUTHORITY_INVALID");
+      if (authorityByJob.has(jobId)) fail("ASYNC_JOB_AUTHORITY_BUSY");
+      const authority = Object.freeze({ jobId, owner, key, operation_id: operation.operation_id, folderId });
+      authorityByJob.set(jobId, authority);
+      try { return await work(authority); }
+      finally { if (authorityByJob.get(jobId) === authority) authorityByJob.delete(jobId); }
+    }
+
     let runtime = suppliedRuntime || null;
     if (!runtime) {
       if (!runtimeFactory?.create || !transportFactory?.create || !normalizerFactory?.create || !searchXml || typeof fetchImpl !== "function") fail("ASYNC_RUNTIME_DEPENDENCY_REQUIRED");
@@ -92,10 +109,13 @@
         workerId, pollDelayMs, now,
         getCredential: async ({ folderId }) => currentCredential(folderId),
         authorize: async ({ jobId, owner, action }) => {
-          const operation = await getManualOperation(owner);
-          if (!operation || operation.batch_job_id !== jobId) return false;
-          const credential = await currentCredential(operation.folder_id);
-          return manualAuthority({ key: owner, operation, folderId: credential.folder_id, action });
+          const authority = authorityByJob.get(jobId);
+          if (!authority || authority.owner !== owner || durableJobOwner(authority.folderId) !== owner) return false;
+          const operation = await getManualOperation(authority.key);
+          if (!operation || operation.operation_id !== authority.operation_id || operation.batch_job_id !== jobId || operation.folder_id !== authority.folderId) return false;
+          const credential = await currentCredential(authority.folderId);
+          if (durableJobOwner(credential.folder_id) !== owner) return false;
+          return manualAuthority({ key: authority.key, operation, folderId: credential.folder_id, action });
         }
       });
     }
@@ -179,97 +199,101 @@
       const { key, operation, folderId } = context;
       const jobId = command.jobId;
       await manualAuthority({ key, operation, folderId, action: command.action });
-      if (command.action === "start") {
-        await admissionBinding.policy.bindJob({ jobId, owner: key, folderId, scopeId: jobId, runId: operation.run_id || null });
-        const progress = await store.createJob({
-          jobId, owner: key, queries: command.queries, parameters: command.parameters, folderId,
-          maxRequests: command.maxRequests, maxCostMicrorub: command.maxCostMicrorub,
-          unitCostMicrorub: priceMicrorub, now: now()
-        });
-        return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(progress) };
-      }
-      if (command.action === "normalizeSaved") {
-        // One preserved item only; no collect, submit, budget reservation or raw replacement.
-        const local = await runtime.normalizeSaved({ jobId, owner: key, index: command.index });
-        return { ok: local.ok === true, request_executed: false, provider_calls: 0,
-          index: command.index, normalized: local.normalized === true,
-          already_normalized: local.already_normalized === true,
-          ...(local.code ? { code: local.code } : {}),
-          ...(local.raw_preserved ? { raw_preserved: true } : {}),
-          progress: compactSummary(local.progress) };
-      }
-      if (command.action === "exportPage") {
-        if (!exportFactory?.create || !artifactStore || !context.deliveryId || !context.staged) fail("ASYNC_EXPORT_NOT_READY");
-        const exporter = exportFactory.create({ store, artifacts: artifactStore, now,
-          authorize: async ({ jobId: checkedJob, owner, action }) => {
-            if (owner !== key || checkedJob !== jobId || action !== "exportPage") return false;
-            const live = await getManualOperation(key);
-            if (live?.operation_id !== operation.operation_id || live?.batch_job_id !== jobId) return false;
-            return manualAuthority({ key, operation: live, folderId, action });
+      const owner = durableJobOwner(folderId);
+      return withJobAuthority({ jobId, owner, key, operation, folderId }, async () => {
+        if (command.action === "start") {
+          await admissionBinding.policy.bindJob({ jobId, owner, folderId, scopeId: jobId, runId: operation.run_id || null,
+            ...(operation.run_id ? { runOwner: key } : {}) });
+          const progress = await store.createJob({
+            jobId, owner, queries: command.queries, parameters: command.parameters, folderId,
+            maxRequests: command.maxRequests, maxCostMicrorub: command.maxCostMicrorub,
+            unitCostMicrorub: priceMicrorub, now: now()
+          });
+          return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(progress) };
+        }
+        if (command.action === "normalizeSaved") {
+          // One preserved item only; no collect, submit, budget reservation or raw replacement.
+          const local = await runtime.normalizeSaved({ jobId, owner, index: command.index });
+          return { ok: local.ok === true, request_executed: false, provider_calls: 0,
+            index: command.index, normalized: local.normalized === true,
+            already_normalized: local.already_normalized === true,
+            ...(local.code ? { code: local.code } : {}),
+            ...(local.raw_preserved ? { raw_preserved: true } : {}),
+            progress: compactSummary(local.progress) };
+        }
+        if (command.action === "exportPage") {
+          if (!exportFactory?.create || !artifactStore || !context.deliveryId || !context.staged) fail("ASYNC_EXPORT_NOT_READY");
+          const exporter = exportFactory.create({ store, artifacts: artifactStore, now,
+            authorize: async ({ jobId: checkedJob, owner: checkedOwner, action }) => {
+              if (checkedOwner !== owner || checkedJob !== jobId || action !== "exportPage") return false;
+              const live = await getManualOperation(key);
+              if (live?.operation_id !== operation.operation_id || live?.batch_job_id !== jobId || live?.folder_id !== folderId) return false;
+              return manualAuthority({ key, operation: live, folderId, action });
+            }
+          });
+          context.exporter = exporter;
+          const exported = await exporter.stagePage({ jobId, owner, folderId,
+            deliveryId: context.deliveryId, after: command.after, limit: command.limit, revision: command.revision });
+          context.staged.push(exported.descriptor);
+          return { ok: true, request_executed: false, provider_calls: 0, export_page: exported.report };
+        }
+        if (command.action === "status") return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(await store.getSummary(jobId, owner)) };
+        if (command.action === "itemsPage") return { ok: true, request_executed: false, provider_calls: 0, page: compactRows(await store.pageItems(jobId, owner, { after: command.after, limit: command.limit })) };
+        if (["pause","resume","cancelPending"].includes(command.action)) {
+          const progress = await runtime.control({ jobId, owner, action: command.action });
+          return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(progress) };
+        }
+        if (["submitN","collectN"].includes(command.action) && providerEnabled !== true) fail("ASYNC_PROVIDER_PERMISSION_REQUIRED", "Deferred provider transport ещё не включён в этой сборке.");
+        if (!["submitN","collectN"].includes(command.action)) fail("ASYNC_ACTION_INVALID");
+        await runtime.recover({ jobId, owner });
+        const kind = command.action === "submitN" ? "submit" : "collect";
+        if (!Number.isInteger(command.count) || command.count < 1 || command.count > 25) fail("ASYNC_SLICE_COUNT_INVALID");
+        const execution = context.execution = { confirmed: 0, unknown: false, in_flight: false, processed: 0, normalized: 0 };
+        let last = null;
+        const started = now();
+        for (let i = 0; i < command.count; i += 1) {
+          const elapsed = now() - started;
+          if (elapsed < 0 || elapsed >= 10000) break;
+          // Revalidate BEFORE entering the uncertain network window. A later local
+          // exception cannot erase an already confirmed request from this command.
+          const live = await getManualOperation(key);
+          if (live?.operation_id !== operation.operation_id) fail("ASYNC_MANUAL_OPERATION_CHANGED");
+          await manualAuthority({ key, operation: live, folderId, action: kind });
+          execution.in_flight = true;
+          try { await saveExecution(context); }
+          catch (error) { execution.in_flight = false; throw error; } // No runtime/fetch entered.
+          try {
+            last = await runtime.step({ jobId, owner, kind, attemptId: `${operation.operation_id}-${kind}-${i}` });
+          } catch (error) {
+            execution.in_flight = false;
+            if (error?.request_executed === true) execution.confirmed++;
+            else if (error?.request_executed !== false) execution.unknown = true;
+            throw error;
           }
-        });
-        context.exporter = exporter;
-        const exported = await exporter.stagePage({ jobId, owner: key, folderId,
-          deliveryId: context.deliveryId, after: command.after, limit: command.limit, revision: command.revision });
-        context.staged.push(exported.descriptor);
-        return { ok: true, request_executed: false, provider_calls: 0, export_page: exported.report };
-      }
-      if (command.action === "status") return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(await store.getSummary(jobId, key)) };
-      if (command.action === "itemsPage") return { ok: true, request_executed: false, provider_calls: 0, page: compactRows(await store.pageItems(jobId, key, { after: command.after, limit: command.limit })) };
-      if (["pause","resume","cancelPending"].includes(command.action)) {
-        const progress = await runtime.control({ jobId, owner: key, action: command.action });
-        return { ok: true, request_executed: false, provider_calls: 0, progress: compactSummary(progress) };
-      }
-      if (["submitN","collectN"].includes(command.action) && providerEnabled !== true) fail("ASYNC_PROVIDER_PERMISSION_REQUIRED", "Deferred provider transport ещё не включён в этой сборке.");
-      if (!["submitN","collectN"].includes(command.action)) fail("ASYNC_ACTION_INVALID");
-      await runtime.recover({ jobId, owner: key });
-      const kind = command.action === "submitN" ? "submit" : "collect";
-      if (!Number.isInteger(command.count) || command.count < 1 || command.count > 25) fail("ASYNC_SLICE_COUNT_INVALID");
-      const execution = context.execution = { confirmed: 0, unknown: false, in_flight: false, processed: 0, normalized: 0 };
-      let last = null;
-      const started = now();
-      for (let i = 0; i < command.count; i += 1) {
-        const elapsed = now() - started;
-        if (elapsed < 0 || elapsed >= 10000) break;
-        // Revalidate BEFORE entering the uncertain network window. A later local
-        // exception cannot erase an already confirmed request from this command.
-        const live = await getManualOperation(key);
-        if (live?.operation_id !== operation.operation_id) fail("ASYNC_MANUAL_OPERATION_CHANGED");
-        await manualAuthority({ key, operation: live, folderId, action: kind });
-        execution.in_flight = true;
-        try { await saveExecution(context); }
-        catch (error) { execution.in_flight = false; throw error; } // No runtime/fetch entered.
-        try {
-          last = await runtime.step({ jobId, owner: key, kind, attemptId: `${operation.operation_id}-${kind}-${i}` });
-        } catch (error) {
           execution.in_flight = false;
-          if (error?.request_executed === true) execution.confirmed++;
-          else if (error?.request_executed !== false) execution.unknown = true;
-          throw error;
+          execution.processed++;
+          if (last.request_executed === true) execution.confirmed++;
+          if (last.request_executed === "UNKNOWN") execution.unknown = true;
+          await saveExecution(context);
+          // searchAsync may already return a complete result; no GET is needed.
+          if (last.outcome === "received" && Number.isInteger(last.index)) {
+            const n = await runtime.normalizeSaved({ jobId, owner, index: last.index });
+            if (n?.ok) execution.normalized++;
+            else last = { ...last, ok: false, stop: true, code: n?.code || "ASYNC_NORMALIZATION_FAILED" };
+          }
+          if (last.outcome === "provider_error") last = { ...last, ok: false, stop: true, code: last.code || "ASYNC_PROVIDER_OPERATION_FAILED" };
+          if (last.stop) break;
         }
-        execution.in_flight = false;
-        execution.processed++;
-        if (last.request_executed === true) execution.confirmed++;
-        if (last.request_executed === "UNKNOWN") execution.unknown = true;
-        await saveExecution(context);
-        // searchAsync may already return a complete result; no GET is needed.
-        if (last.outcome === "received" && Number.isInteger(last.index)) {
-          const n = await runtime.normalizeSaved({ jobId, owner: key, index: last.index });
-          if (n?.ok) execution.normalized++;
-          else last = { ...last, ok: false, stop: true, code: n?.code || "ASYNC_NORMALIZATION_FAILED" };
-        }
-        if (last.outcome === "provider_error") last = { ...last, ok: false, stop: true, code: last.code || "ASYNC_PROVIDER_OPERATION_FAILED" };
-        if (last.stop) break;
-      }
-      return {
-        ok: last?.ok !== false,
-        request_executed: executionOutcome(execution),
-        provider_calls: execution.confirmed,
-        processed: execution.processed, normalized: execution.normalized,
-        bounded_stop: execution.processed < command.count,
-        last: last ? { outcome: last.outcome || null, code: last.code || null, index: Number.isInteger(last.index) ? last.index : null, operation_id: last.operation_id || null } : null,
-        progress: compactSummary(await store.getSummary(jobId, key))
-      };
+        return {
+          ok: last?.ok !== false,
+          request_executed: executionOutcome(execution),
+          provider_calls: execution.confirmed,
+          processed: execution.processed, normalized: execution.normalized,
+          bounded_stop: execution.processed < command.count,
+          last: last ? { outcome: last.outcome || null, code: last.code || null, index: Number.isInteger(last.index) ? last.index : null, operation_id: last.operation_id || null } : null,
+          progress: compactSummary(await store.getSummary(jobId, owner))
+        };
+      });
     }
 
     function executionOutcome(execution) {
@@ -374,8 +398,11 @@
       }
       await manualAuthority({ key, operation, folderId: operation.folder_id, action: "recover" });
       let recoveryError = null;
-      try { await runtime.recover({ jobId: operation.batch_job_id, owner: key }); }
-      catch (error) { recoveryError = error?.code || "ASYNC_RECOVERY_STORAGE_FAILED"; }
+      const owner = durableJobOwner(operation.folder_id);
+      try {
+        await withJobAuthority({ jobId: operation.batch_job_id, owner, key, operation, folderId: operation.folder_id },
+          () => runtime.recover({ jobId: operation.batch_job_id, owner }));
+      } catch (error) { recoveryError = error?.code || "ASYNC_RECOVERY_STORAGE_FAILED"; }
       const receipt = operation.execution_receipt;
       const mayHaveSent = ["submitN", "collectN"].includes(operation.batch_action);
       // An old snapshot without a receipt is not proof of zero paid requests.
@@ -435,7 +462,7 @@
     return Object.freeze({ ready: true, worker, providerEnabled });
   }
 
-  globalThis.YMBSearchAsyncWorkerTransport = Object.freeze({ create, autoInstall, PREFIX, RESULT_PREFIX, MANUAL_STATUS });
+  globalThis.YMBSearchAsyncWorkerTransport = Object.freeze({ create, autoInstall, durableJobOwner, PREFIX, RESULT_PREFIX, MANUAL_STATUS, JOB_OWNER_PREFIX });
   try { globalThis.YMBSearchAsyncWorkerIntegration = autoInstall(); }
   catch (error) { globalThis.YMBSearchAsyncWorkerIntegration = Object.freeze({ ready: false, code: error?.code || "ASYNC_WORKER_INSTALL_FAILED" }); }
 })();

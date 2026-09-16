@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - hotfix/ymb-file-delivery-p0-2026-09-14
+      - hotfix/ymb-durable-search-job-scope-2026-09-16
   workflow_dispatch:
 
 permissions:
@@ -11,7 +12,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ymb-file-delivery-p0-qualification
+  group: ymb-file-delivery-p0-qualification-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -81,7 +82,10 @@ jobs:
           test -d classification/qa_workspace/qa/candidate/full
           python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/b19_final_qa_adapt_v2.py classification/qa_workspace/qa/qa > /tmp/P0_QA_ADAPT.stdout
           cp -a classification/qa_workspace/qa /tmp/qa_base
-          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/ymb_017_qa_adapt.py classification/qa_workspace/qa/qa > /tmp/YMB017_QA_ADAPT.stdout
+          python3 extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/ymb_018_qa_adapt.py \
+            classification/qa_workspace/qa/qa \
+            classification/base_campaign/patch/export/qa/b7_worker.test.mjs \
+            > /tmp/YMB018_QA_ADAPT.stdout
           rsync -a --delete extension/src/ classification/qa_workspace/qa/candidate/full/
           rsync -a --delete base/extension/src/ /tmp/qa_base/candidate/full/
           python3 - <<'PY'
@@ -159,6 +163,18 @@ jobs:
           grep -q '^# tests 84$' /tmp/P0_EXPORT.tap
           grep -q '^# pass 84$' /tmp/P0_EXPORT.tap
           grep -q '^# fail 0$' /tmp/P0_EXPORT.tap
+
+      - name: Durable Search job scope handoff regression 9
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test --test-timeout=10000 \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_DURABLE_SCOPE_REGRESSION_2026-09-16.mjs \
+            extension/tests/wip/YMB_ASYNC_PATCH_B_2026-09-12/qa/P1_SEARCH_ASYNC_POLICY_SCOPE_REGRESSION_2026-09-16.mjs \
+            > /tmp/P0_SCOPE.tap 2> /tmp/P0_SCOPE.stderr
+          grep -q '^# tests 9$' /tmp/P0_SCOPE.tap
+          grep -q '^# pass 9$' /tmp/P0_SCOPE.tap
+          grep -q '^# fail 0$' /tmp/P0_SCOPE.tap
 
       - name: Candidate delivery recovery ownership and double-Send
         continue-on-error: true
@@ -259,7 +275,7 @@ jobs:
           cp /tmp/BASE_*.tap "$O/" 2>/dev/null || true
           cp /tmp/BASE_*.stderr "$O/" 2>/dev/null || true
           cp /tmp/P0_QA_ADAPT.stdout "$O/" 2>/dev/null || true
-          cp /tmp/YMB017_QA_ADAPT.stdout "$O/" 2>/dev/null || true
+          cp /tmp/YMB018_QA_ADAPT.stdout "$O/" 2>/dev/null || true
           cp /tmp/P0_DIFFERENTIAL.json "$O/" 2>/dev/null || true
           cp /tmp/P0_MODULES/RESULT.json "$O/MODULE_RESULT.json" 2>/dev/null || true
           cp /tmp/p0_tree_before "$O/PRODUCTION_TREE_SHA256" 2>/dev/null || true
@@ -273,8 +289,8 @@ jobs:
             t=p.read_text(errors='replace')
             suites[p.name]=dict(re.findall(r'^# (tests|pass|fail|skipped|cancelled) (\d+)$',t,re.M))
           diff=json.loads((o/'P0_DIFFERENTIAL.json').read_text()) if (o/'P0_DIFFERENTIAL.json').exists() else None
-          summary={'schema_version':2,'head':os.environ.get('GITHUB_SHA',''),'production_tree':(o/'PRODUCTION_TREE_SHA256').read_text().strip() if (o/'PRODUCTION_TREE_SHA256').exists() else None,'base_tree':(o/'BASE_TREE_SHA256').read_text().strip() if (o/'BASE_TREE_SHA256').exists() else None,'suites':suites,'differential':diff,'provider_calls':0}
-          summary['status']='PASS_NO_NEW_REGRESSION' if diff and diff.get('status')=='PASS_NO_NEW_REGRESSION' and suites.get('P0_EXPORT.tap',{}).get('fail')=='0' else 'REQUIRES_REVIEW'
+          summary={'schema_version':3,'head':os.environ.get('GITHUB_SHA',''),'production_tree':(o/'PRODUCTION_TREE_SHA256').read_text().strip() if (o/'PRODUCTION_TREE_SHA256').exists() else None,'base_tree':(o/'BASE_TREE_SHA256').read_text().strip() if (o/'BASE_TREE_SHA256').exists() else None,'suites':suites,'differential':diff,'provider_calls':0}
+          summary['status']='PASS_NO_NEW_REGRESSION' if diff and diff.get('status')=='PASS_NO_NEW_REGRESSION' and suites.get('P0_EXPORT.tap',{}).get('fail')=='0' and suites.get('P0_SCOPE.tap',{}).get('tests')=='9' and suites.get('P0_SCOPE.tap',{}).get('pass')=='9' and suites.get('P0_SCOPE.tap',{}).get('fail')=='0' else 'REQUIRES_REVIEW'
           (o/'RESULT.json').write_text(json.dumps(summary,indent=2)+'\n')
           (o/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(o.iterdir()) if p.is_file() and p.name!='SHA256SUMS'))
           print(json.dumps(summary,indent=2))

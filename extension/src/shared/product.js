@@ -4,7 +4,7 @@
   const PRODUCT = Object.freeze({
     NAME: "Yandex Marketing Bridge — ChatGPT ↔ Yandex",
     BRIDGE_ID: "yandex-marketing-bridge",
-    VERSION: "0.1.7"
+    VERSION: "0.1.8"
   });
 
   globalThis.YMBProduct = PRODUCT;

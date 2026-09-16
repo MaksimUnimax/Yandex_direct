@@ -6,71 +6,9 @@
   "use strict";
   const SCHEMA = "YMB_SEARCH_ASYNC_EXPORT_PAGE_V1";
   const MAX_ITEMS = 25, MAX_PAGE_BYTES = 16 * 1024 * 1024;
-  const JOB_STATES = Object.freeze(["PENDING", "SUBMITTING", "WAITING", "COLLECTING", "RESULT_SAVED", "SUCCEEDED", "PARSE_FAILED", "FAILED", "UNKNOWN", "CANCELLED"]);
-  const DB_NAME = "ymb_search_async_items_v2";
   const fail = code => { throw Object.assign(new Error(code), { code, request_executed: false }); };
   const id = v => { if (typeof v !== "string" || !/^[A-Za-z0-9_-]{1,128}$/.test(v)) fail("EXPORT_ID_INVALID"); return v; };
   const uint = v => { if (!Number.isSafeInteger(v) || v < 0) fail("EXPORT_INTEGER_INVALID"); return v; };
-
-  // Cross-chat recovery is deliberately metadata-only. Opening a missing DB is
-  // aborted during upgrade so this read path cannot create durable state.
-  async function readCrossOwnerJob({ jobId }) {
-    id(jobId);
-    if (typeof indexedDB === "undefined" || typeof indexedDB.open !== "function") fail("EXPORT_CROSS_OWNER_METADATA_UNAVAILABLE");
-    let abortedMissing = false;
-    const db = await new Promise((resolve, reject) => {
-      const r = indexedDB.open(DB_NAME);
-      r.onupgradeneeded = () => {
-        abortedMissing = true;
-        try { r.transaction.abort(); } catch {}
-      };
-      r.onsuccess = () => resolve(r.result);
-      r.onerror = () => reject(Object.assign(new Error(abortedMissing ? "EXPORT_CROSS_OWNER_METADATA_UNAVAILABLE" : "EXPORT_CROSS_OWNER_METADATA_READ_FAILED"), {
-        code: abortedMissing ? "EXPORT_CROSS_OWNER_METADATA_UNAVAILABLE" : "EXPORT_CROSS_OWNER_METADATA_READ_FAILED",
-        request_executed: false
-      }));
-      r.onblocked = () => reject(Object.assign(new Error("EXPORT_CROSS_OWNER_METADATA_READ_FAILED"), {
-        code: "EXPORT_CROSS_OWNER_METADATA_READ_FAILED", request_executed: false
-      }));
-    });
-    try {
-      if (!db.objectStoreNames.contains("jobs")) fail("EXPORT_CROSS_OWNER_METADATA_UNAVAILABLE");
-      return await new Promise((resolve, reject) => {
-        const tx = db.transaction(["jobs"], "readonly");
-        const r = tx.objectStore("jobs").get(jobId);
-        let value;
-        r.onsuccess = () => { value = r.result || null; };
-        r.onerror = () => reject(Object.assign(new Error("EXPORT_CROSS_OWNER_METADATA_READ_FAILED"), {
-          code: "EXPORT_CROSS_OWNER_METADATA_READ_FAILED", request_executed: false
-        }));
-        tx.oncomplete = () => resolve(value);
-        tx.onabort = () => reject(Object.assign(new Error("EXPORT_CROSS_OWNER_METADATA_READ_FAILED"), {
-          code: "EXPORT_CROSS_OWNER_METADATA_READ_FAILED", request_executed: false
-        }));
-        tx.onerror = () => {};
-      });
-    } finally { db.close(); }
-  }
-
-  function terminalReadOwner(job, { jobId, owner, folderId, revision }) {
-    if (!job) fail("ASYNC_JOB_NOT_FOUND");
-    if (job.job_id !== jobId) fail("EXPORT_CROSS_OWNER_IDENTITY_MISMATCH");
-    if (typeof job.owner !== "string" || !job.owner || job.owner === owner) fail("EXPORT_CROSS_OWNER_IDENTITY_MISMATCH");
-    if (job.folder_id !== folderId) fail("EXPORT_FOLDER_MISMATCH");
-    if (revision === null || job.revision !== revision) fail(revision === null ? "EXPORT_CROSS_OWNER_REVISION_REQUIRED" : "EXPORT_REVISION_CHANGED");
-    if (!Number.isSafeInteger(job.total) || job.total < 1 || job.total > 1500 || !job.counts || typeof job.counts !== "object") fail("EXPORT_SNAPSHOT_INVALID");
-    let total = 0;
-    for (const state of JOB_STATES) {
-      const count = job.counts[state];
-      if (!Number.isSafeInteger(count) || count < 0) fail("EXPORT_SNAPSHOT_INVALID");
-      total += count;
-    }
-    if (total !== job.total || job.counts.SUCCEEDED !== job.total || JOB_STATES.some(state => state !== "SUCCEEDED" && job.counts[state] !== 0)) {
-      fail("EXPORT_CROSS_OWNER_NOT_TERMINAL");
-    }
-    if (job.lease) fail("EXPORT_JOB_BUSY");
-    return job.owner;
-  }
 
   // Exact UTF-8 JSON size for the supported plain-data domain. Stops BEFORE
   // stringify/encoding a record that would exceed the remaining page budget.
@@ -125,11 +63,11 @@
     visit(value, 0); return bytes;
   }
 
-  function create({ store, artifacts, authorize, now = Date.now, maxPageBytes = MAX_PAGE_BYTES, crossOwnerJobReader = readCrossOwnerJob } = {}) {
+  function create({ store, artifacts, authorize, now = Date.now, maxPageBytes = MAX_PAGE_BYTES } = {}) {
     const methods = ["peekNext", "readItem", "readResult", "getSummary"];
     if (!store || methods.some(k => typeof store[k] !== "function") || !artifacts ||
       ["stageTextArtifact", "getMeta", "deleteArtifact"].some(k => typeof artifacts[k] !== "function") ||
-      typeof authorize !== "function" || typeof now !== "function" || typeof crossOwnerJobReader !== "function") fail("EXPORT_DEPENDENCY_REQUIRED");
+      typeof authorize !== "function" || typeof now !== "function") fail("EXPORT_DEPENDENCY_REQUIRED");
     if (!Number.isSafeInteger(maxPageBytes) || maxPageBytes < 4096 || maxPageBytes > MAX_PAGE_BYTES) fail("EXPORT_BUDGET_INVALID");
     let busy = false;
     async function allowed(args) {
@@ -142,9 +80,6 @@
       if (s.busy || ["SUBMITTING", "COLLECTING"].some(k => s.counts?.[k] > 0)) fail("EXPORT_JOB_BUSY");
       if (revision !== null && s.revision !== revision) fail("EXPORT_REVISION_CHANGED");
       if (total !== undefined && s.total !== total) fail("EXPORT_REVISION_CHANGED");
-    }
-    function checkCrossOwnerSummary(s, crossOwner) {
-      if (crossOwner && (s.all_successful !== true || s.unresolved !== 0 || s.busy === true)) fail("EXPORT_CROSS_OWNER_NOT_TERMINAL");
     }
     async function discard(descriptor) {
       if (descriptor?.artifact_key) await artifacts.deleteArtifact(descriptor.artifact_key);
@@ -161,24 +96,9 @@
         if (revision !== null) uint(revision);
         if (after >= 0 && revision === null) fail("EXPORT_REVISION_REQUIRED");
         await allowed(args);
-        // Same-owner remains the original path. Only ASYNC_WRONG_OWNER may enter
-        // the terminal read-only recovery path; every other store error is final.
-        let readOwner = owner, snapshot, crossOwner = false;
-        try {
-          snapshot = await store.peekNext({ jobId, owner, kind: "submit", now: uint(now()) });
-        } catch (error) {
-          if (error?.code !== "ASYNC_WRONG_OWNER") throw error;
-          if (revision === null) fail("EXPORT_CROSS_OWNER_REVISION_REQUIRED");
-          const job = await crossOwnerJobReader({ jobId });
-          readOwner = terminalReadOwner(job, { jobId, owner, folderId, revision });
-          crossOwner = true;
-          // Re-authorize the CURRENT conversation after reading only terminal
-          // job metadata and before reading any preserved result payload.
-          await allowed(args);
-          snapshot = await store.peekNext({ jobId, owner: readOwner, kind: "submit", now: uint(now()) });
-        }
+        // Existing read-only B3 API supplies bounded job metadata, no new schema/migration.
+        const snapshot = await store.peekNext({ jobId, owner, kind: "submit", now: uint(now()) });
         checkSummary(snapshot.progress, revision);
-        checkCrossOwnerSummary(snapshot.progress, crossOwner);
         if (snapshot.folder_id !== folderId) fail("EXPORT_FOLDER_MISMATCH");
         const s = snapshot.progress, frozenRevision = s.revision, total = s.total;
         if (after >= total) fail("EXPORT_PAGE_INVALID");
@@ -192,9 +112,9 @@
         const counts = {};
         for (let index = after + 1; index < total && rows < limit; index++) {
           await allowed(args);
-          const item = await store.readItem(jobId, readOwner, index);
+          const item = await store.readItem(jobId, owner, index);
           if (!item || item.job_id !== jobId || item.index !== index) fail("EXPORT_ITEM_MISSING_OR_MISMATCHED");
-          const result = await store.readResult(jobId, readOwner, index);
+          const result = await store.readResult(jobId, owner, index);
           if (result && (result.job_id !== jobId || result.index !== index || result.operation_id !== item.operation_id)) fail("EXPORT_RESULT_IDENTITY_MISMATCH");
           if (["RESULT_SAVED", "PARSE_FAILED", "SUCCEEDED"].includes(item.state) && (!result || typeof result.raw_text !== "string")) fail("EXPORT_RAW_RESULT_MISSING");
           if (item.state === "SUCCEEDED" && (!result?.normalized || !Array.isArray(result.normalized.results))) fail("EXPORT_NORMALIZED_RESULT_MISSING");
@@ -225,9 +145,7 @@
         const key = `async-export:${deliveryId}`;
         if (await artifacts.getMeta(key)) fail("EXPORT_DELIVERY_ALREADY_STAGED");
         await allowed(args);
-        const beforeStage = await store.getSummary(jobId, readOwner);
-        checkSummary(beforeStage, frozenRevision, total);
-        checkCrossOwnerSummary(beforeStage, crossOwner);
+        checkSummary(await store.getSummary(jobId, owner), frozenRevision, total);
         let text = parts.join(""); parts.length = 0;
         const expectedBytes = used + tailBytes;
         createdKey = key; // Covers ambiguous staging completion too.
@@ -237,9 +155,7 @@
         if (!descriptor || descriptor.artifact_key !== key || descriptor.delivery_id !== deliveryId ||
           descriptor.status !== "ready" || descriptor.byte_length !== expectedBytes) fail("EXPORT_ARTIFACT_MISMATCH");
         await allowed(args);
-        const afterStage = await store.getSummary(jobId, readOwner);
-        checkSummary(afterStage, frozenRevision, total);
-        checkCrossOwnerSummary(afterStage, crossOwner);
+        checkSummary(await store.getSummary(jobId, owner), frozenRevision, total);
         createdKey = null;
         return { descriptor, report: { schema: SCHEMA, filename, bytes: descriptor.byte_length,
           integrity: "sha256_per_chunk", revision: frozenRevision, after, ...selection } };
