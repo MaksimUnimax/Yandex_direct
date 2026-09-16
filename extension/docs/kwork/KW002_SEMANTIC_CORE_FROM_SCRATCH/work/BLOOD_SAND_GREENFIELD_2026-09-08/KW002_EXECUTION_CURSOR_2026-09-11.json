@@ -1,13 +1,13 @@
 {
-  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V39",
+  "schema": "KW002_CURRENT_EXECUTION_CURSOR_V40",
   "date": "2026-09-16",
   "job": "BLOOD_SAND_GREENFIELD_2026-09-08",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "predecessor_cursor": {
-    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V38",
-    "commit": "350c15531360c5b3cd2e0ef8bf2cbe130a20c70e",
-    "blob_sha": "3a3cdcd661b33eb380706ddf167ccf3749ed867b",
+    "schema": "KW002_CURRENT_EXECUTION_CURSOR_V39",
+    "commit": "21d23bdc9b66118f28a38792a2d689ecabcd1cf8",
+    "blob_sha": "2063f16369f1d1c079f9b0df9e6593a8555616ab",
     "inherit_all_unchanged_upstream_state": true
   },
   "step06_s06q001": {
@@ -45,6 +45,7 @@
     "attempt": "CONTROLLED_REACQUISITION_R1",
     "release_authority": "STEP_06_S06Q002_REACQUISITION_R1_EXECUTION_RELEASE_2026-09-16.md",
     "release_remote_readback_authority": "STEP_06_S06Q002_REACQUISITION_R1_RELEASE_REMOTE_READBACK_2026-09-16.md",
+    "local_start_evidence_authority": "STEP_06_S06Q002_REACQUISITION_R1_LOCAL_START_PASS_EVIDENCE_2026-09-16.md",
     "query_manifest": "STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V2_2026-09-12.tsv",
     "query_id": "S06Q002",
     "coverage_direction": "GENERIC_PRODUCT",
@@ -73,8 +74,35 @@
     "max_cost_rub": 0.0305,
     "release_persisted_to_repository": true,
     "release_remote_readback_pass": true,
-    "local_start_executed": false,
-    "local_start_pass": false,
+    "local_start_executed": true,
+    "local_start_pass": true,
+    "local_start_request_executed": false,
+    "local_start_provider_calls": 0,
+    "local_start_progress": {
+      "control": "RUNNING",
+      "total": 1,
+      "counts": {
+        "PENDING": 1,
+        "SUBMITTING": 0,
+        "WAITING": 0,
+        "COLLECTING": 0,
+        "RESULT_SAVED": 0,
+        "SUCCEEDED": 0,
+        "PARSE_FAILED": 0,
+        "FAILED": 0,
+        "UNKNOWN": 0,
+        "CANCELLED": 0
+      },
+      "requests_started": 0,
+      "operations_accepted": 0,
+      "polls_started": 0,
+      "unresolved": 1,
+      "all_successful": false,
+      "busy": false,
+      "revision": 0
+    },
+    "local_start_evidence_persisted": true,
+    "local_start_evidence_remote_readback_pass": false,
     "provider_submit_calls": 0,
     "provider_collect_calls": 0,
     "automatic_retry": false,
@@ -83,12 +111,11 @@
     "s06q003_released": false
   },
   "step06_current": {
-    "status": "S06Q002_R1_RELEASE_REMOTE_READBACK_PASS__EXACTLY_ONE_LOCAL_START_ALLOWED",
+    "status": "S06Q002_R1_LOCAL_START_PASS_PERSISTED__REMOTE_READBACK_REQUIRED_BEFORE_SUBMIT_RELEASE",
     "released_query_ids": ["S06Q001", "S06Q002"],
     "durably_closed_query_ids": ["S06Q001"],
-    "release_readback_pending_query_ids": [],
-    "local_start_pending_query_ids": ["S06Q002"],
-    "deferred_search_local_starts_allowed_now": 1,
+    "local_start_pass_query_ids_pending_remote_readback": ["S06Q002"],
+    "deferred_search_local_starts_allowed_now": 0,
     "deferred_search_submissions_allowed_now": 0,
     "deferred_search_collection_attempts_allowed_now": 0,
     "deferred_search_local_exports_allowed_now": 0,
@@ -103,6 +130,5 @@
     "step07_started": false,
     "step08_started": false
   },
-  "exact_local_start_command": "SEARCH_ASYNC_BATCH_API_V1 {\"action\":\"start\",\"jobId\":\"kw002-s06q002-r1-20260916\",\"queries\":[\"оберег\"],\"confirmBillable\":true,\"maxRequests\":1,\"maxCostRub\":0.0305,\"searchType\":\"SEARCH_TYPE_RU\",\"region\":\"225\",\"page\":0,\"groupsOnPage\":20,\"docsInGroup\":1,\"groupMode\":\"GROUP_MODE_FLAT\",\"familyMode\":\"FAMILY_MODE_MODERATE\",\"fixTypoMode\":\"FIX_TYPO_MODE_OFF\",\"sortMode\":\"SORT_MODE_BY_RELEVANCE\",\"sortOrder\":\"SORT_ORDER_DESC\"}",
-  "next_action": "REMOTE-READBACK THIS V39 COMMIT; THEN EXECUTE EXACTLY ONE LOCAL start FOR kw002-s06q002-r1-20260916; EXPECT request_executed=false AND provider_calls=0; PERSIST THE EXACT LOCAL START RESULT BEFORE ANY submitN RELEASE; DO NOT submit YET; DO NOT RELEASE S06Q003"
+  "next_action": "REMOTE-READBACK STEP_06_S06Q002_REACQUISITION_R1_LOCAL_START_PASS_EVIDENCE_2026-09-16.md + CURSOR V40; IF BOTH MATCH, PUBLISH A SEPARATE EXACT-ONE-SUBMIT RELEASE FOR kw002-s06q002-r1-20260916; REMOTE-READBACK THAT RELEASE BEFORE ANY submitN; DO NOT RUN start AGAIN; DO NOT COLLECT; DO NOT RELEASE S06Q003"
 }
