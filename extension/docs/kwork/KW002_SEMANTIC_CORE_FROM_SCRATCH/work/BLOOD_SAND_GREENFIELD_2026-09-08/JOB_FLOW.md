@@ -2,7 +2,7 @@
 
 Updated: 2026-09-17
 
-Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY ATTEMPT 1 RETURNED BUT REJECTED / LIMITED CODEX REWORK RELEASED / STEP07 SEMANTIC REWORK BLOCKED / STEP08 BLOCKED**
+Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY ATTEMPT 1 REJECTED / LIMITED CODEX REWORK RETURNED BUT REJECTED / FINAL NARROW CODEX RETRY RELEASED / STEP07 SEMANTIC REWORK BLOCKED / STEP08 BLOCKED**
 
 ---
 
@@ -46,10 +46,11 @@ STEP07_ATTEMPT_1_WORK_QA = FAIL / INCOMPLETE
 STEP07_ATTEMPT_1_MAIN_CHAT_RETURN_QA = REJECTED / REWORK_REQUIRED
 
 STEP07_BROWSER_RECOVERY_ATTEMPT_1 = RETURNED / MAIN_CHAT_REJECTED
-STEP07_BROWSER_RECOVERY_LIMITED_REWORK = RELEASED_TO_CODEX
+STEP07_BROWSER_RECOVERY_LIMITED_REWORK = RETURNED / MAIN_CHAT_REJECTED
+STEP07_BROWSER_RECOVERY_FINAL_NARROW_RETRY = RELEASED_TO_CODEX
 STEP07_BROWSER_RECOVERY_REMOTE_PUBLICATION = NOT_ALLOWED_YET
 
-STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_CORRECTED_BROWSER_RECOVERY
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY
 STEP07 = INCOMPLETE / REWORK_REQUIRED
 
 STEP08 = BLOCKED / NOT_STARTED
@@ -144,7 +145,7 @@ CODEX BROWSER RECOVERY
 THEN
 
 CHATGPT WORK STEP07 SEMANTIC REWORK
-→ consume Attempt 1 + corrected browser recovery evidence
+→ consume Attempt 1 + accepted corrected browser recovery evidence
 → re-evaluate ALL existing 686 candidates / 1417 provenance rows
 → merge recovered evidence
 → rerun complete Step07 QA
@@ -156,9 +157,9 @@ Main Chat Opera-control authority:
 
 ---
 
-## 5. Browser recovery Attempt 1 return
+## 5. Browser recovery Attempt 1 return — rejected
 
-Codex returned owner-side five-file recovery package with reported totals:
+Reported first recovery totals:
 
 ```text
 AUTHORIZED_COMPETITORS = 32
@@ -171,69 +172,116 @@ TARGET_CAPTCHA_OR_ANTI_BOT = 1
 EXECUTION_ENVIRONMENT_FAILURE = 98
 EXCLUDED_DUPLICATE = 24
 EXCLUDED_OUT_OF_SCOPE = 1201
-PROVIDER_CALLS = 0
-STEP08_EXECUTED = false
-CANDIDATE_CLASSIFICATION_EXECUTED = false
 ```
 
-The return materially improved access evidence, but independent Main Chat QA rejected it.
+Main Chat rejected the first recovery for schema drift, placeholder evidence, unretried `t.goto` producer failures and unauthorized sitemap contamination.
 
 Authority:
 
 `STEP07_BROWSER_RECOVERY_MAIN_CHAT_RETURN_QA_2026-09-17.md`
 
-Hard defects:
+---
 
-1. recovery URL ledger does not use the released recovery schema;
-2. recovery coverage CSV uses the old Attempt-1-style schema instead of required Attempt1→Recovery fields;
-3. 30 JSONL evidence rows use `NOT_COLLECTED`; 28 of them are linked to rows labelled `RECOVERED_INSPECTED`;
-4. JSONL field names drift from the released machine contract;
-5. 47 of 98 environment failures are deterministic executor bug `TypeError: t.goto is not a function` and must be retried after fixing navigation;
-6. QA contains unauthorized sitemap contamination referencing `okno-msk.ru`, not one of the authorized 32 competitors.
+## 6. Limited browser-recovery rework return — received but rejected
 
-Therefore:
+Owner returned the corrected five-file limited-rework package to Main Chat. It was QA'd locally before any canonical GitHub upload.
+
+Independent mechanical results that PASS:
 
 ```text
-STEP07_BROWSER_RECOVERY_ATTEMPT_1_RETURN = REJECTED
-CANONICAL_RECOVERY_UPLOAD = NOT_ALLOWED
+SOURCE_URL_ROWS = 1976
+AUTHORIZED_COMPETITORS = 32
+URL_LEDGER_EXACT_FIELD_ORDER = PASS
+COVERAGE_EXACT_FIELD_ORDER = PASS
+PAGE_EVIDENCE_EXACT_FIELD_ORDER = PASS
+URL_PK_UNIQUE = PASS
+EVIDENCE_PK_UNIQUE = PASS
+PAGE_EVIDENCE_ROWS = 622
+ALL_PAGE_EVIDENCE_JOINS = PASS
+RECOVERED_INSPECTED = 318
+REDIRECTED_IN_SCOPE = 304
+EXCLUDED_OUT_OF_SCOPE = 1201
+EXCLUDED_DUPLICATE = 24
+TARGET_CAPTCHA_OR_ANTI_BOT = 1
+EXECUTION_ENVIRONMENT_FAILURE = 128
+ALL_INSPECTED_TEXT_NONEMPTY = PASS
+ALL_EVIDENCE_SHA256_MATCH = PASS
+NOT_COLLECTED_TEXT_OR_HASH = 0
+UNAUTHORIZED_SOURCE_URL_HOST_ROWS = 0
+UNAUTHORIZED_SITEMAP_REFERENCES = 0
+LITERAL_T_GOTO_ERROR_ROWS = 0
+ZIP_BYTE_PARITY = PASS
 ```
 
-The owner-uploaded first recovery package remains outside canonical repository publication.
+But Main Chat acceptance failed on material execution/QA truthfulness.
+
+Authority:
+
+`STEP07_BROWSER_RECOVERY_LIMITED_REWORK_MAIN_CHAT_RETURN_QA_2026-09-17.md`
+
+Hard defects:
+
+1. all 47 old `t.goto` rows remain `EXECUTION_ENVIRONMENT_FAILURE` with the same generic replacement detail/timestamp instead of demonstrated per-URL retry results;
+2. Main Chat independently opened exact affected URLs on `slavyanskieoberegi.ru`, `happywitch.ru` and `oum.ru` through Opera after the return, proving at least some of those 47 final failures are false negatives;
+3. returned QA reports impossible environment-failure error-class totals (`105 + 40 + 30`) while the ledger contains `58 + 40 + 30 = 128`;
+4. 30 `EVIDENCE_CAPTURE_UNAVAILABLE` rows remain, including 23 Wildberries URLs despite existing Main Chat browser evidence of a target-level VPN/anti-bot block requiring truthful target-vs-environment classification;
+5. asserted target CAPTCHA row `R9-S07U000396` has blank error evidence and does not substantiate the target-block claim;
+6. Sokolov rows `R9-S07U001927` and `R9-S07U001928` are retained as `REDIRECTED_IN_SCOPE` although captured content is only a connection-check/challenge page;
+7. manifest self-entry reports `byte_size = 0` although the returned manifest is non-empty.
+
+Quality:
+
+```text
+QUALITY_TOTAL = 65.5 / 100
+QUALITY_SCORE = 6.55 / 10
+MAIN_CHAT_ACCEPTANCE = REJECTED_FINAL_NARROW_RETRY_REQUIRED
+```
+
+The rejected limited-rework package must NOT be uploaded to GitHub as canonical recovery evidence.
 
 ---
 
-## 6. Current limited Codex rework
+## 7. Current final narrow Codex retry
 
 Current execution prompt:
 
-`STEP07_BROWSER_RECOVERY_CODEX_LIMITED_REWORK_PROMPT_2026-09-17.md`
+`STEP07_BROWSER_RECOVERY_CODEX_FINAL_NARROW_RETRY_PROMPT_2026-09-17.md`
 
-The rework must preserve valid browser evidence while correcting the producer across the complete affected universe.
+This is NOT a new full collection.
 
-Mandatory corrections include:
+Preserve valid successful evidence and retry only defective/retry-scope rows.
+
+Mandatory final-narrow-retry scope:
 
 ```text
-URL_LEDGER_EXACT_RECOVERY_SCHEMA
-COVERAGE_EXACT_RECOVERY_SCHEMA
-PAGE_EVIDENCE_EXACT_FIELD_SCHEMA
-NOT_COLLECTED_ON_RECOVERED_INSPECTED = 0
-T_GOTO_TYPEERROR_FINAL_ROWS = 0
-UNAUTHORIZED_SITEMAP_REFERENCES = 0
-VALID_SHA256_FOR_EVERY_RECOVERED_INSPECTED
-FULL_JOIN_QA
+47 old t.goto-derived generic BROWSER_RUNTIME_FAILURE rows
+30 EVIDENCE_CAPTURE_UNAVAILABLE rows
+R9-S07U000396 unsupported target-block assertion
+R9-S07U001927 Sokolov challenge page
+R9-S07U001928 Sokolov challenge page
 ```
 
-Retry policy:
+The executor must produce actual per-URL retry outcomes, actual retry timestamps and exact final errors where failures remain.
 
-- retry all 47 `t.goto` bug rows after fixing navigation;
-- one normal retry for timeout/deadline/CDP environment failures;
-- never bypass site-safety policy, anti-bot, login, robots, certificate/security controls.
+Required QA invariants include:
+
+```text
+OLD_T_GOTO_ROWS_ACTUALLY_RETRIED = 47/47
+OLD_T_GOTO_GENERIC_PLACEHOLDER_ERROR_DETAIL_FINAL = 0
+EVIDENCE_CAPTURE_UNAVAILABLE_ROWS_RETRIED = 30/30
+UNSUPPORTED_TARGET_BLOCK_ROWS = 0
+SOKOLOV_CHALLENGE_MISCLASSIFIED_AS_REDIRECT = 0
+FINAL_ERROR_CLASS_COUNTS_SUM_MATCHES_ENV_FAILURE_TOTAL = PASS
+MANIFEST_SELF_BYTE_SIZE_MATCH = PASS
+```
+
+Truthful residual environment failures remain allowed.
 
 ---
 
-## 7. Browser recovery output contract
+## 8. Browser recovery output contract
 
-Corrected Codex package remains exactly five files:
+The accepted browser recovery package must remain exactly five canonical files:
 
 ```text
 STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
@@ -243,18 +291,18 @@ STEP07_BROWSER_RECOVERY_QA.md
 STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
 ```
 
-Only after Main Chat accepts the corrected package may owner relay it to canonical single staging and may the semantic Work rework be released.
+Only after Main Chat accepts the final corrected package may owner relay it to canonical single staging and may the semantic Work rework be released.
 
 ---
 
-## 8. Step07 semantic rework boundary
+## 9. Step07 semantic rework boundary
 
-After corrected browser recovery is accepted, Work rework must process at full volume:
+After browser recovery is accepted, Work semantic rework must process at full volume:
 
 ```text
 ALL 686 current candidate identities
 ALL 1417 current provenance rows
-ALL corrected recovered browser evidence
+ALL accepted recovered browser evidence
 ALL current/recovered URL coverage for all 32 competitors
 ```
 
@@ -262,7 +310,7 @@ The current `NEW_CANDIDATE = 400` set remains unsafe for Step08 and must be full
 
 ---
 
-## 9. Provider/downstream boundary
+## 10. Provider/downstream boundary
 
 ```text
 WORDSTAT_CALLS_ALLOWED_NOW = 0
@@ -277,14 +325,14 @@ FINAL_PAGE_DECISIONS = NONE
 
 ---
 
-## 10. Exact next action
+## 11. Exact next action
 
 ```text
-CURRENT_NEXT_ACTION = RELAY_STEP07_BROWSER_RECOVERY_CODEX_LIMITED_REWORK_PROMPT_TO_CODEX
-STEP07_BROWSER_RECOVERY_LIMITED_REWORK = RELEASED_TO_CODEX
-STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_CORRECTED_BROWSER_RECOVERY
+CURRENT_NEXT_ACTION = RELAY_STEP07_BROWSER_RECOVERY_CODEX_FINAL_NARROW_RETRY_PROMPT_TO_CODEX
+STEP07_BROWSER_RECOVERY_FINAL_NARROW_RETRY = RELEASED_TO_CODEX
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY
 STEP07 = INCOMPLETE_REWORK_REQUIRED
 STEP08 = BLOCKED_NOT_STARTED
 ```
 
-Do not upload the rejected first recovery package to GitHub as canonical recovery evidence. Codex must first return the corrected five-file package.
+Do not upload the rejected limited-rework package to GitHub as canonical recovery evidence.
