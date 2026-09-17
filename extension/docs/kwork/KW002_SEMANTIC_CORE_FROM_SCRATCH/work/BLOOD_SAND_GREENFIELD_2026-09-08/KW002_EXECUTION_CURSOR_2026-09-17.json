@@ -42,7 +42,14 @@
     "STEP17": "NOT_STARTED",
     "STEP18": "NOT_STARTED",
     "STEP19": "NOT_STARTED",
-    "STEP20": "NOT_STARTED"
+    "STEP20": "NOT_STARTED",
+    "STEP21": "NOT_STARTED",
+    "STEP22": "NOT_STARTED"
+  },
+  "roadmap_authority": {
+    "step_rules_index_file": "LEVEL2/STEP_RULES_INDEX.md",
+    "current_live_final_step": "STEP22",
+    "older_step20_terminal_assumption": "SUPERSEDED"
   },
   "rule_compliance_controls": {
     "full_rule_reread_gate": "LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md",
@@ -79,7 +86,8 @@
     "The task orientation Step05 figures 259600 total views, 200577 unique phrases and 2658 overlap are not supported by the current live accepted W10 V2/V3 repository authority and were excluded.",
     "The older Step03B partition 5074/12750/6752 is superseded by 5100/13035/6441.",
     "KW002_EXECUTION_CURSOR_2026-09-11.json is historical and no longer controls the current stage.",
-    "New owner-locked rule-compliance authorities were added after Step07 preparation acceptance. The frozen preparation remains accepted, but actual Step07 Work release requires current-authority revalidation before execution."
+    "New owner-locked rule-compliance authorities were added after Step07 preparation acceptance. The frozen preparation remains accepted, but actual Step07 Work release requires current-authority revalidation before execution.",
+    "Current STEP_RULES_INDEX.md ends at STEP22. Earlier cursor/prompt text that treated STEP20 as the terminal roadmap step is superseded and must be reconciled before execution."
   ],
   "step07_preparation_controls": {
     "authorized_competitor_universe_file": "STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv",
@@ -87,6 +95,7 @@
     "source_step06_registry_sha256": "b15e601db56d8f3c23d7a8c4a2193fc14000dc9773229d693c200756240efcdb",
     "output_schema_file": "STEP_07_OUTPUT_SCHEMA_CONTRACT.json",
     "future_work_prompt_file": "STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md",
+    "future_work_prompt_status": "PREPARED_BUT_REVALIDATION_REQUIRED_BEFORE_RELAY",
     "level2_rule_file": "LEVEL2/STEP_07_COMPETITOR_SEMANTIC_EXPANSION.md",
     "full_volume_policy": "BOUNDED_FRONTIER_EXHAUSTION_NO_SAMPLE",
     "step08_demand_validation_required": true
