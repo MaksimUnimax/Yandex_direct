@@ -4,237 +4,182 @@ Status: **ACTIVE INCIDENT RECORD / ANTI-REGRESSION EVIDENCE**
 Job: `BLOOD_SAND_GREENFIELD_2026-09-08`  
 Date: 2026-09-17
 
-This file records concrete job-specific failures. Universal mechanisms/controls belong in Level1.
+This file records concrete job-specific Main Chat failures. Universal mechanisms belong in Level1.
 
-## 1. Incident summary
-
-During Step07 preparation/handoff/acceptance, Main Chat repeatedly violated already-existing owner-locked rules by relying on memory, summaries and technical artifacts instead of reopening and obeying the current live rules in full.
-
-The repeated pattern was:
+## 1. Repeated root pattern
 
 ```text
 RULE ALREADY EXISTED
-→ MAIN CHAT DID NOT FRESHLY READ IT IN FULL
-→ MAIN CHAT PRODUCED AN INCOMPLETE / WRONG PROCESS RESPONSE
-→ OWNER POINTED TO THE RULE
-→ MAIN CHAT THEN REOPENED / APPLIED IT
+→ MAIN CHAT DID NOT APPLY THE CURRENT RULE CORRECTLY
+→ MAIN CHAT PRODUCED A PLAUSIBLE BUT NON-COMPLIANT PROCESS RESPONSE
+→ OWNER POINTED TO THE DEFECT
+→ MAIN CHAT CORRECTED AFTER THE FACT
 ```
 
-This was not caused by missing project documentation. The controlling rules already existed.
+The root problem was Main Chat governance, not Work execution.
 
-## 2. Concrete failures in this job
+## 2. Concrete incidents
 
 ### I-2026-09-17-01 — wrong Work boundary for Step07 preparation
 
-Observed:
+Main Chat initially treated actual Step07 as the Work unit while Step07 preparation itself already met the large-data trigger.
 
-Main Chat initially moved the Work boundary forward to actual Step07, instead of recognizing that `STEP07_PREPARATION` itself required full-volume reconciliation across large accepted Step03B/04/05/06 evidence and therefore already triggered `WORK_HANDOFF_RULE.md`.
+Correction: complete preparation was delegated to Work.
 
-Required rule:
+### I-2026-09-17-02 — owner was asked to route files manually
 
-```text
-LARGE DATA
-→ HAND OFF THE COMPLETE EXECUTION UNIT TO CHATGPT WORK
-```
-
-Corrected behavior:
-
-`STEP07_PREPARATION` was delegated as the complete Work execution unit.
-
-### I-2026-09-17-02 — owner was initially asked to route handoff files manually
-
-Observed:
-
-Main Chat initially gave separate Level2 and job-root GitHub upload targets and expected the owner to place files into multiple final directories.
-
-This violated the owner-relay model.
-
-Corrected permanent control:
-
-```text
-ONE HANDOFF UNIT
-→ ONE OWNER STAGING TARGET
-→ OWNER UPLOADS ALL FILES TOGETHER
-→ MAIN CHAT / WORK DOES FINAL REPOSITORY PLACEMENT
-→ STAGING CLEANUP
-→ REMOTE READBACK
-```
-
-The owner is not responsible for NEW/REPLACE routing or directory placement.
-
-### I-2026-09-17-03 — preparation report omitted mandatory clickable external materials
-
-Observed:
-
-The Step07 methodology-audit artifact contained the external materials used during preparation, but Main Chat's owner-facing report did not initially show those sources as clickable links with what each source supported and how it affected the method.
-
-This violated:
-
-`LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md`.
-
-Hard distinction now reinforced:
-
-```text
-SOURCE LINKS IN ARTIFACT
-!=
-OWNER-FACING SOURCE DISCLOSURE IN CHAT
-```
-
-### I-2026-09-17-04 — plain-language summary omitted / replaced by technical reporting
-
-Observed:
-
-Main Chat returned technical statuses, counts, hashes, filenames and execution-state markers without the mandatory final normal-Russian summary that explains:
-
-```text
-WHY
-WHAT
-RESULT
-CAN WE CONTINUE
-BLOCKER
-NEXT PHYSICAL ACTION
-```
-
-This violated the owner-facing plain-language requirement in `COMMON_RULES.md` and `PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md`.
-
-### I-2026-09-17-05 — technical preparation acceptance was treated as enough before chat-report compliance was checked
-
-Observed:
-
-The preparation artifacts, publication and return QA could be technically correct while the mandatory owner-facing source disclosure/plain-language report was still incomplete.
-
-Correct distinction:
-
-```text
-TECHNICAL_ARTIFACT_PASS
-!=
-OWNER_FACING_REPORT_PASS
-```
-
-Both are required where the step rules require owner-facing reporting.
-
-### I-2026-09-17-06 — assistant explained consequences before reopening the exact live rule
-
-Observed:
-
-When the owner pointed out the Work/source-disclosure/reporting failures, Main Chat initially explained from memory instead of immediately fetching the controlling live rule and applying it.
-
-Correct response order:
-
-```text
-OWNER POINTS TO RULE FAILURE
-→ FETCH CURRENT LIVE RULE
-→ READ IN FULL
-→ APPLY THE RULE
-→ THEN EXPLAIN
-```
-
-### I-2026-09-17-07 — first anti-regression patch briefly contaminated Level1 with a Step07-specific example
-
-Observed:
-
-While implementing the new recurring-assistant-failure checklist, Main Chat initially wrote a concrete Step07 incident directly into a Level1 checklist.
-
-Fresh reread of `ROADMAP_AND_METHOD_GENERALIZATION_RULE.md` caught this before final acceptance.
+Main Chat initially gave several GitHub target directories and expected the owner to sort files.
 
 Correction:
 
-- Level1 checklist now contains only universal mechanisms;
-- this file contains the concrete Step07 incident history.
-
-This incident demonstrates why the new full-rule reread gate must apply to rule edits themselves.
-
-## 3. Root cause
-
-The common root cause across the incidents above is:
-
 ```text
-MAIN CHAT TREATED REMEMBERED PROJECT CONTEXT AS SUFFICIENT RULE AUTHORITY
+ONE HANDOFF
+→ ONE OWNER STAGING TARGET
+→ MAIN CHAT DOES FINAL PATH ROUTING / CLEANUP / READBACK
 ```
 
-instead of:
+### I-2026-09-17-03 — mandatory clickable materials omitted from owner-facing chat
+
+The methodology artifact contained source URLs, but Main Chat did not initially disclose them in chat with supported claims and method impact.
+
+Correction:
 
 ```text
-FETCH LIVE AUTHORITY
-→ READ APPLICABLE RULES IN FULL
-→ APPLY THEM BEFORE ACTING
+SOURCE LINKS IN ARTIFACT != OWNER-FACING SOURCE DISCLOSURE
 ```
 
-The problem was not lack of documentation. It was failure to reread and enforce existing documentation before action.
+### I-2026-09-17-04 — plain-language summary omitted
 
-## 4. Permanent controls added after this incident
+Main Chat substituted statuses/hashes/files for the mandatory normal-Russian WHY / WHAT / RESULT / BLOCKER / NEXT ACTION explanation.
 
-New universal Level1 authorities/guards:
+### I-2026-09-17-05 — technical preparation PASS treated as enough
 
-- `LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md`;
-- `LEVEL1/01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md`.
+Technical artifacts/publication were treated as sufficient before owner-facing reporting compliance was checked.
 
-Visible read-first guards were also added at:
-
-- project root;
-- Level2 root;
-- work root;
-- this job root.
-
-These guards make the rule-read requirement visible before entering any major project layer.
-
-## 5. New hard prohibition
-
-For this job and all future KW-002 execution under the universal rule:
+Correction:
 
 ```text
-NO FRESH FULL RULE REREAD
-→ NO MATERIAL ACTION
+TECHNICAL_ARTIFACT_PASS != OWNER_FACING_REPORT_PASS
 ```
 
-This includes:
+### I-2026-09-17-06 — explanation before reopening the exact live rule
+
+Main Chat initially explained from memory instead of fetching/applying the controlling rule first.
+
+Correction:
 
 ```text
-no preparation
-no planning presented as executable authority
-no Work prompt
-no Work execution
-no Bridge/provider action
-no analysis
-no file mutation
-no QA acceptance
-no publication acceptance
-no cursor movement
-no roadmap advancement
+OWNER POINTS TO RULE FAILURE
+→ MAIN CHAT FETCHES LIVE RULE
+→ APPLIES IT
+→ THEN EXPLAINS
 ```
 
-## 6. Required rule-read ledger before next material action
+### I-2026-09-17-07 — concrete incident briefly contaminated Level1
 
-Before actual Step07 or any other material action, the executor must explicitly record:
+A Step07-specific incident was initially written into a universal Level1 checklist.
+
+Correction: universal mechanism stays Level1; concrete incident stays here in job-root.
+
+### I-2026-09-17-08 — Main Chat governance gates were wrongly pushed into Work runtime
+
+Observed:
+
+After Main Chat had already performed full rule reread, fresh external research, owner-facing source disclosure and Step07 release authorization, Main Chat copied those same governance gates into the actual Step07 Work prompt and required Work to repeat them before executing.
+
+Why this is wrong:
 
 ```text
-LIVE_REMOTE_HEAD
-CURRENT_ACTION
-RULES_READ_IN_FULL
-JOB_STATE_READ
-FAILURE_LEDGER_READ
-OWNER_REPORT_GATE_READ
-WORK_GATE_READ when applicable
-PROVIDER_GATE_READ when applicable
-UNRESOLVED_AUTHORITY_CONFLICTS
-EXECUTION_ALLOWED
+MAIN CHAT = ARCHITECT / GOVERNANCE / RELEASE / ACCEPTANCE
+WORK = EXECUTOR OF THE RELEASED CONTRACT
 ```
 
-## 7. Current job boundary
+Duplicating Main Chat governance inside Work:
 
-This incident record does not execute Step07 and does not change semantic evidence.
+- wastes Work context and execution budget;
+- blurs architect/executor roles;
+- creates duplicated and potentially conflicting release authority;
+- turns a concrete execution task back into another planning/research/release task.
 
-Current semantic cursor remains:
+Permanent correction:
+
+```text
+MAIN CHAT DOES RULE / RESEARCH / REPORT / RELEASE GATES
+→ MAIN CHAT ISSUES FROZEN EXECUTION PROMPT
+→ WORK EXECUTES THAT PROMPT
+```
+
+Work startup is limited to a narrow technical safety check:
+
+```text
+CURRENT REMOTE HEAD
++ RELEASE RECORD IDENTITY
++ PROMPT IDENTITY
++ INPUT / MANIFEST / SCHEMA / HASH IDENTITY
+→ MATERIAL DRIFT? STOP
+→ OTHERWISE EXECUTE
+```
+
+Work does NOT repeat by default:
+
+```text
+FULL LEVEL1 REREAD
+FRESH EXTERNAL METHODOLOGY RESEARCH
+OWNER-FACING SOURCE DISCLOSURE
+OWNER-FACING PLAIN-LANGUAGE REPORT
+RELEASE AUTHORIZATION
+MAIN CHAT FAILURE-HISTORY REVIEW
+```
+
+## 3. Correct permanent architecture
+
+```text
+MAIN CHAT
+= READ RULES / RESEARCH / METHOD / OWNER REPORT / WORK PROMPT / RELEASE / RETURN QA / ACCEPTANCE / CURSOR
+
+WORK
+= FULL-VOLUME EXECUTION / ARTIFACT MATERIALIZATION / TASK QA / HANDOFF PACKAGE
+
+OWNER
+= AUTHORIZATION / PROMPT RELAY / SINGLE-STAGING BYTE RELAY
+```
+
+## 4. Main Chat fail-closed rule
+
+The fresh full-rule reread/no-action controls created after these incidents apply to Main Chat governance, not Work runtime.
+
+```text
+MAIN CHAT NO FRESH APPLICABLE RULE REREAD
+→ NO MAIN CHAT MATERIAL GOVERNANCE ACTION
+```
+
+This includes Main Chat preparation, research release, Work prompt authoring/release, provider release, acceptance, publication control and cursor/roadmap movement.
+
+## 5. Work runtime rule
+
+```text
+RELEASED CANONICAL WORK PROMPT EXISTS
+→ WORK EXECUTES IT
+```
+
+Work does not inherit the Main Chat governance checklist merely because its task touches project files.
+
+The Work prompt itself must contain all execution-relevant constraints.
+
+## 6. Current Step07 boundary
+
+At the time of this scope correction:
 
 ```text
 STEP06 = DURABLE PASS
 STEP07_PREPARATION = ACCEPTED
-STEP07 = NOT STARTED
+STEP07_RELEASE = AUTHORIZED BY MAIN CHAT
+STEP07 = NOT YET EXECUTED
 STEP08 = NOT STARTED
 ```
 
-The next material Step07 execution remains blocked until the new full-rule reread/no-action gate and all applicable pre-step chat/source-disclosure requirements have been satisfied for the actual Step07 execution unit.
+The actual Step07 Work prompt must be the corrected execution-only version, without duplicated Main Chat gates.
 
-## 8. Plain-language incident conclusion
+## 7. Plain-language incident conclusion
 
-The rules were already there, but Main Chat repeatedly acted as if remembering them was enough. That caused the same kind of mistake several times: wrong Work boundary, wrong file-upload instructions, missing source links and missing plain-language reporting. The permanent correction is not another reminder in chat. The repository now forces a fresh full reread before action, and this concrete incident remains in the job history so future sessions can see exactly what went wrong here.
+The latest mistake was that Main Chat finally did its own checks, but then forced Work to do the same checks all over again. That is the wrong architecture. The permanent correction is now explicit in the repository: Main Chat does the project governance once; Work receives the finished task and executes it. Work only checks that the released inputs have not materially changed while the task was being handed over.
