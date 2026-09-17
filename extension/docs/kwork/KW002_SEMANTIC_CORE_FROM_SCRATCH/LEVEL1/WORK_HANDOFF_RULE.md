@@ -2,7 +2,8 @@
 
 Status: **ACTIVE / OWNER-LOCKED**  
 Owner instruction: 2026-09-08  
-Owner transport amendment: 2026-09-11
+Owner transport amendment: 2026-09-11  
+Owner large-artifact relay lock: 2026-09-17
 
 Cross-Kwork artifact-publication authority:
 
@@ -64,9 +65,10 @@ CURRENT STEP PRE-STEP REVIEW
 → OWNER RELAYS PROMPT TO WORK WITHOUT NEEDING TO DESIGN IT
 → WORK EXECUTES
 → WORK MATERIALIZES + QA'S ARTIFACTS
-→ APPROVED PUBLICATION ROUTE
-→ OWNER RETURNS WORK RESULT/ARTIFACTS OR UPLOAD CONFIRMATION
-→ MAIN CHATGPT RUNS RETURN QA
+→ WORK HANDS LARGE ARTIFACTS TO OWNER AS DOWNLOADABLE FILES + ZIP
+→ OWNER UPLOADS LARGE ARTIFACTS THROUGH NORMAL AUTHENTICATED GITHUB WEB UI
+→ OWNER RETURNS UPLOAD CONFIRMATION
+→ MAIN CHATGPT / WORK RUNS REMOTE READBACK + RETURN QA
 ```
 
 The owner is not responsible for inventing, completing or correcting the Work prompt.
@@ -101,11 +103,15 @@ For clean tests, the source whitelist is mandatory.
 For any Work execution expected to produce material files, include:
 
 ```text
-ARTIFACT_PUBLICATION_POLICY = NATIVE_GIT_IF_ALREADY_AUTHENTICATED | OWNER_RELAY_IF_MORE_EFFICIENT
+ARTIFACT_PUBLICATION_POLICY = OWNER_RELAY_REQUIRED_FOR_LARGE_ARTIFACTS
 LARGE_ARTIFACT_MODEL_TRANSPORT = FORBIDDEN_BY_DEFAULT
 OWNER_RELAY_ALLOWED = true
+OWNER_RELAY_REQUIRED_FOR_LARGE_ARTIFACTS = true
+WORK_DIRECT_LARGE_ARTIFACT_GITHUB_PUBLICATION = FORBIDDEN_BY_DEFAULT
 REMOTE_READBACK_REQUIRED = true
 ```
+
+Small text/control files may still use an explicitly authorized normal Git route when appropriate. This exception does not override the large-artifact owner-relay rule.
 
 ## 5. Work is execution environment, not authority
 
@@ -129,19 +135,19 @@ Work must obey the same Level 1 and Level 2 rules as ordinary execution and may 
 After Work finishes:
 
 ```text
-1. receive produced artifacts/results;
+1. receive produced artifacts/results from Work through the owner relay for large artifacts;
 2. verify source manifest;
 3. verify row/count/join truth;
 4. verify required fields and provenance;
 5. inspect HOLD/ERROR/UNRESOLVED rows;
 6. compare output to Level 2 acceptance contract;
-7. persist accepted artifacts in work/<JOB_ID>/ using an approved publication route;
+7. owner uploads accepted large artifacts using the supplied GitHub upload target;
 8. read back from GitHub/storage;
 9. verify remote identity/mechanical QA;
 10. only then mark the step complete and continue.
 ```
 
-## 6A. Large-artifact publication route — mandatory decision
+## 6A. Large-artifact publication route — OWNER RELAY REQUIRED
 
 Canonical cross-Kwork rule:
 
@@ -149,24 +155,25 @@ Canonical cross-Kwork rule:
 
 Work must separate **generation/analysis** from **artifact transport**.
 
-Preferred decision:
+For large artifacts, the required route is:
 
 ```text
-IF NORMAL AUTHENTICATED GIT PUSH ALREADY WORKS RELIABLY
-→ USE NORMAL GIT
-→ REMOTE READBACK
-
-ELSE IF OWNER RELAY IS CHEAPER / FASTER / SAFER
-→ STOP DEBUGGING GIT AUTH
-→ LOCAL ARTIFACT FREEZE + LOCAL QA
-→ GIVE OWNER DOWNLOADABLE FILES INDIVIDUALLY AND/OR TRANSPORT ZIP
-→ GIVE OWNER DIRECT GITHUB UPLOAD PAGE FOR EXACT REPO / BRANCH / DIRECTORY
+WORK COMPLETES ANALYSIS / GENERATION
+→ LOCAL ARTIFACT FREEZE
+→ LOCAL QA
+→ WORK PROVIDES OWNER DIRECT DOWNLOADABLE FILES
+→ WORK PROVIDES ONE TRANSPORT ZIP WHEN MULTIPLE FILES ARE INVOLVED
+→ WORK PROVIDES DIRECT GITHUB "UPLOAD FILES" TARGET FOR THE EXACT REPO / BRANCH / DIRECTORY WHEN POSSIBLE
+→ OWNER DOWNLOADS THE FILES / ZIP
 → OWNER UPLOADS THROUGH NORMAL AUTHENTICATED GITHUB WEB UI
-→ OWNER CONFIRMS
+→ OWNER RETURNS MINIMAL CONFIRMATION, E.G. "ГОТОВО"
 → WORK / MAIN CHATGPT PERFORMS REMOTE READBACK + IDENTITY QA
+→ ONLY THEN REMOTE PUBLICATION IS ACCEPTED
 ```
 
-Owner relay is an approved normal transport mechanism. It is not a fallback by quality reduction.
+For large artifacts, Work must **not** substitute its own direct GitHub publication merely because Git credentials happen to be available. Direct Work publication of large artifacts is forbidden by default unless the owner explicitly overrides this rule for that specific execution.
+
+Owner relay is the canonical transport mechanism for large artifacts. It is not a fallback and it is not a quality reduction.
 
 This applies to large TSV/CSV/JSON, XLSX, DOCX, PDF, ZIP, images, evidence packs, reports and other material artifacts.
 
@@ -186,19 +193,24 @@ Bounded reads, shell counts, hashes, row checks and small excerpts remain allowe
 
 The prohibition is on using the model/tool text channel as the byte-transfer mechanism.
 
-## 6C. Owner handoff requirements
+## 6C. Owner handoff requirements — mandatory for large artifacts
 
-When owner relay is selected, Work must make the transfer simple:
+When Work produces large material files, it must hand them to the owner directly and make the transfer simple:
 
 ```text
-- provide exact files for download;
-- provide a ZIP too when multiple files make download easier;
-- state clearly whether ZIP is transport-only and must be extracted;
+- provide a direct downloadable link for every required final file;
+- when multiple files exist, also provide ONE transport ZIP containing all final handoff files;
+- list every file inside the ZIP;
+- state clearly whether the ZIP is transport-only and must be extracted before GitHub upload;
+- provide exact recommended repository path for every file;
+- mark every file as NEW or REPLACE;
 - provide a direct GitHub Upload files link to the intended repo/branch/folder when possible;
-- state target branch and directory in text;
-- provide commit message when useful;
-- tell owner the minimal completion signal to return, e.g. "готово".
+- state target repository, branch and directory in text;
+- provide the intended commit message when useful;
+- tell the owner the minimal completion signal to return, e.g. "готово".
 ```
+
+The owner is the byte-relay actor for large artifacts, not the analyst and not the artifact constructor.
 
 Do not require the owner to reconstruct filenames or directory structure manually.
 
@@ -250,10 +262,10 @@ Owner-relay publication is **not** such a quality reduction because the artifact
 BRIDGE = PROVIDER EVIDENCE ACQUISITION / PERSISTENCE
 WORK = LARGE-DATA ANALYSIS / TRANSFORMATION / ARTIFACT EXECUTION
 MAIN CHATGPT = METHOD CONTROL / WORK PROMPT AUTHOR / DECISIONS / RETURN QA / OWNER COMMUNICATION
-OWNER = AUTHORIZATION / PROMPT RELAY / OPTIONAL LARGE-ARTIFACT FILE RELAY / COMMERCIAL SCOPE AUTHORITY
+OWNER = AUTHORIZATION / PROMPT RELAY / REQUIRED LARGE-ARTIFACT FILE RELAY / COMMERCIAL SCOPE AUTHORITY
 ```
 
-The owner may relay file bytes without becoming responsible for analysis, methodology, QA design or artifact construction.
+The owner relays large file bytes without becoming responsible for analysis, methodology, QA design or artifact construction.
 
 ## 9. Markers
 
@@ -266,8 +278,12 @@ KW002_LARGE_DATA_MUST_NOT_BE_SAMPLED_FOR_CONTEXT_CONVENIENCE = true
 KW002_WORK_OUTPUT_REQUIRES_RETURN_QA = true
 KW002_WORK_PROMPT_MUST_FREEZE_ARTIFACT_PUBLICATION_POLICY = true
 KW002_OWNER_RELAY_PUBLICATION_APPROVED = true
+KW002_OWNER_RELAY_REQUIRED_FOR_LARGE_ARTIFACTS = true
 KW002_OWNER_RELAY_MAY_BE_USED_FOR_CHECKPOINTS = true
+KW002_WORK_DIRECT_LARGE_ARTIFACT_GITHUB_PUBLICATION_FORBIDDEN_BY_DEFAULT = true
 KW002_LARGE_ARTIFACT_MODEL_TRANSPORT_FORBIDDEN_BY_DEFAULT = true
+KW002_DIRECT_DOWNLOAD_LINK_REQUIRED_FOR_LARGE_ARTIFACTS = true
+KW002_TRANSPORT_ZIP_REQUIRED_WHEN_MULTIPLE_FILES = true
 KW002_DIRECT_UPLOAD_LINK_PREFERRED_FOR_OWNER_RELAY = true
 KW002_REMOTE_READBACK_AFTER_OWNER_UPLOAD_REQUIRED = true
 KW002_GIT_AUTH_FAILURE_DOES_NOT_REQUIRE_RECOMPUTE = true
