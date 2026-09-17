@@ -47,6 +47,8 @@ Current cursor:
 
 The earlier `KW002_EXECUTION_CURSOR_2026-09-11.json` is historical and must not control current Step06/Step07 state.
 
+The canonical universal roadmap is `LEVEL2/STEP_RULES_INDEX.md` and currently runs through **STEP22 — job close**. Any older job/prompt language that ends the roadmap at Step20 is superseded and must be reconciled before execution.
+
 ---
 
 ## 2. Accepted project cursor
@@ -70,7 +72,21 @@ STEP07_RELEASE_RULE_REVALIDATION = REQUIRED
 STEP07_OWNER_FACING_PRE_STEP_REPORT = REQUIRED
 STEP07_WORK_PROMPT_LIVE_AUTHORITY_RECONCILIATION = REQUIRED
 STEP07 = NOT STARTED
-STEP08–STEP20 = NOT STARTED
+STEP08 = NOT STARTED
+STEP09 = NOT STARTED
+STEP10 = NOT STARTED
+STEP11 = NOT STARTED
+STEP12 = NOT STARTED
+STEP13 = NOT STARTED
+STEP14 = NOT STARTED
+STEP15 = NOT STARTED
+STEP16 = NOT STARTED
+STEP17 = NOT STARTED
+STEP18 = NOT STARTED
+STEP19 = NOT STARTED
+STEP20 = NOT STARTED
+STEP21 = NOT STARTED
+STEP22 = NOT STARTED
 ```
 
 `STEP07_PREPARATION` remains accepted as the frozen preparation package. However, the live Level1 authority changed after that preparation was accepted. Under `WORK_BASE_FRESHNESS_AND_AUTHORITY_DRIFT_RULE.md`, the older prepared Work contract may not be executed as current authority until release revalidation passes.
@@ -215,6 +231,8 @@ MAIN_CHAT_ACCEPTANCE = ACCEPTED
 ```
 
 No production Step07 candidate rows exist yet.
+
+The prepared actual-Step07 Work prompt remains a frozen preparation artifact, but **is not currently executable as-is** until `STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md` reconciles it against the newer live rule authority, including the Step22 roadmap and current owner-relay/reporting controls.
 
 ---
 
