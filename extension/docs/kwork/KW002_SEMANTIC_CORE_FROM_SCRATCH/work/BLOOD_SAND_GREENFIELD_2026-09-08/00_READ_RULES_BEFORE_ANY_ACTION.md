@@ -1,43 +1,59 @@
-# BLOOD_SAND_GREENFIELD_2026-09-08 — 00 READ RULES BEFORE ANY ACTION
+# BLOOD_SAND_GREENFIELD_2026-09-08 — 00 MAIN CHAT READ RULES BEFORE ANY JOB ACTION
 
-Status: **ACTIVE / OWNER-LOCKED / FAIL-CLOSED / READ FIRST**
+Status: **ACTIVE / OWNER-LOCKED / FAIL-CLOSED / MAIN-CHAT-ONLY**
 
-This job must not be prepared, executed, reviewed, accepted, published or advanced from memory.
+## Scope
 
-Known recurring assistant failure:
+This guard exists because **Main Chat** repeatedly violated explicit KW-002 rules by relying on memory, summaries or prior chat state instead of rereading current live authority.
 
-```text
-The assistant has repeatedly violated explicit KW-002 rules by relying on remembered rules, summaries, prior chat state or technical artifacts instead of freshly reading the current live rules in full.
-```
+This guard applies to Main Chat / architect / reviewer / acceptance / repository-control actions for this job.
 
-Before ANY material action in this job:
+**IT DOES NOT APPLY AS A RUNTIME CHECKLIST TO CHATGPT WORK.**
+
+Before Main Chat performs any material job action:
 
 ```text
 1. FETCH CURRENT LIVE REMOTE BRANCH
-2. READ IN FULL ../../LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md
-3. READ IN FULL all applicable current Level1 authorities
-4. READ IN FULL current Level2 step rule/gates
-5. READ IN FULL this job's JOB_FLOW.md + current cursor + accepted manifests/evidence
-6. READ IN FULL relevant failure ledger / anti-regression rules
-7. VERIFY owner-facing report requirements
-8. only then decide EXECUTION_ALLOWED
+2. READ THE CURRENT MAIN-CHAT 00 GATE
+3. READ applicable current Level1/Level2 authorities
+4. READ current JOB_FLOW + cursor + accepted manifests/evidence
+5. READ relevant job incident/failure records
+6. VERIFY owner-facing report requirements when applicable
+7. only then perform Main Chat governance/release/acceptance work
 ```
 
-Hard stop:
+Hard stop for Main Chat:
 
 ```text
-RULE SET NOT FRESHLY READ IN FULL
-→ EXECUTION_ALLOWED = false
+MAIN CHAT RULE/JOB AUTHORITY NOT FRESHLY READ
 → NO PREPARATION
-→ NO WORK PROMPT
-→ NO WORK EXECUTION
-→ NO BRIDGE / PROVIDER ACTION
-→ NO ANALYSIS
+→ NO WORK PROMPT AUTHORING / RELEASE
+→ NO BRIDGE / PROVIDER RELEASE
 → NO ACCEPTANCE
 → NO PUBLICATION ACCEPTANCE
 → NO CURSOR / ROADMAP ADVANCE
 ```
 
-For every major pre-step/preparation report, read `../../LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md` in full. The owner-facing chat itself must show clickable materials studied, what each supports, source→method trace, and a real plain-Russian summary explaining WHY / WHAT / RESULT / BLOCKER / NEXT ACTION.
+## Work runtime boundary
 
-Links hidden only inside a Work artifact or MD file do not satisfy the owner-facing disclosure gate.
+Once Main Chat has released a concrete Work prompt:
+
+```text
+CHATGPT WORK
+→ EXECUTES THAT PROMPT
+→ DOES NOT REPEAT MAIN CHAT'S GOVERNANCE CYCLE
+```
+
+Work does not need to read this guard, the full Level1 set, the Main Chat failure incident, fresh external research or owner-facing reporting rules unless the actual Work task explicitly concerns methodology/rule auditing.
+
+For ordinary Step execution, Work may do only the bounded technical preflight written in the canonical prompt:
+
+```text
+CURRENT HEAD
++ RELEASE MARKER
++ INPUT / MANIFEST / SCHEMA IDENTITY
+→ MATERIAL DRIFT? STOP
+→ OTHERWISE EXECUTE
+```
+
+Main Chat retains responsibility for post-Work readback, QA, acceptance, owner-facing explanation and cursor movement.
