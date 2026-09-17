@@ -2,7 +2,7 @@
 
 Updated: 2026-09-17
 
-Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY RESIDUAL CLOSURE RETURNED HONEST INCOMPLETE / SWITCH TO MAIN CHAT OPERA REQUIRED / OPERA NOT CONNECTED / STEP07 SEMANTIC REWORK BLOCKED / STEP08 BLOCKED**
+Current status: **STEP06 DURABLE PASS / STEP07 ATTEMPT 1 REJECTED / MAIN CHAT OPERA BROWSER ACQUISITION COMPLETE / FINAL 7-FILE RECOVERY PACKAGE LOCAL QA PASS / WAITING OWNER SINGLE-STAGING BYTE RELAY / STEP07 SEMANTIC REWORK BLOCKED UNTIL REMOTE HASH READBACK / STEP08 BLOCKED**
 
 ---
 
@@ -10,19 +10,19 @@ Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATT
 
 ```text
 MAIN CHAT
-= GOVERNANCE / METHOD / RELEASE / RETURN QA / ACCEPTANCE / CURSOR
+= GOVERNANCE / METHOD / BROWSER FALLBACK / RETURN QA / ACCEPTANCE / CURSOR / FINAL REPOSITORY PLACEMENT CONTROL
 
 CHATGPT WORK
 = FULL-VOLUME SEMANTIC EXECUTION / REWORK / LOCAL QA / HANDOFF
 
 CODEX BROWSER RECOVERY
-= PUBLIC BROWSER EVIDENCE ACQUISITION ONLY
+= HISTORICAL PUBLIC-BROWSER EXECUTOR; STOPPED AFTER PROVEN EXECUTION-ENVIRONMENT LIMITATIONS
 
 MAIN CHAT + OWNER-CONNECTED OPERA
-= FALLBACK PUBLIC BROWSER ACQUISITION WHEN CODEX BROWSER ENVIRONMENT IS PROVEN INADEQUATE
+= COMPLETED FALLBACK PUBLIC-BROWSER ACQUISITION FOR THE FROZEN 90 RESIDUAL URLS
 
 OWNER
-= AUTHORIZATION / PROMPT RELAY / SINGLE-STAGING BYTE RELAY / ENABLE OPERA CONNECTION WHEN REQUIRED
+= REQUIRED SINGLE-STAGING BYTE RELAY WHEN LARGE ARTIFACT CANNOT BE WRITTEN THROUGH TEXT-ONLY CONNECTOR
 ```
 
 Main Chat governance gates are not Work/Codex runtime gates.
@@ -47,28 +47,17 @@ STEP07_ATTEMPT_1 = REJECTED / INCOMPLETE
 STEP07_BROWSER_RECOVERY_ATTEMPT_1 = REJECTED
 STEP07_BROWSER_RECOVERY_LIMITED_REWORK = REJECTED
 STEP07_BROWSER_RECOVERY_FINAL_NARROW_RETRY = REJECTED
-STEP07_BROWSER_RECOVERY_VERIFIED_80_URL_RETRY = RETURNED / REJECTED / RESIDUAL_CLOSURE_REQUIRED
-STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE = RETURNED / REJECTED / HONEST_INCOMPLETE
-STEP07_BROWSER_RECOVERY_MAIN_CHAT_OPERA_RETRY = BLOCKED_WAITING_OPERA_CONNECTION
-STEP07_BROWSER_RECOVERY_REMOTE_PUBLICATION = NOT_ALLOWED_YET
-STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY
+STEP07_BROWSER_RECOVERY_VERIFIED_80_URL_RETRY = REJECTED / RESIDUAL_CLOSURE_REQUIRED
+STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE = REJECTED / HONEST INCOMPLETE
+STEP07_BROWSER_RECOVERY_MAIN_CHAT_OPERA_ACQUISITION = COMPLETE
+STEP07_BROWSER_RECOVERY_FINAL_PACKAGE_LOCAL_QA = PASS
+STEP07_BROWSER_RECOVERY_REMOTE_PUBLICATION = WAITING_OWNER_SINGLE_STAGING_BYTE_RELAY
+STEP07_BROWSER_RECOVERY_CANONICAL_REMOTE_ACCEPTANCE = PENDING_REMOTE_HASH_READBACK
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_REMOTE_BROWSER_RECOVERY_ACCEPTANCE
 STEP07 = INCOMPLETE / REWORK_REQUIRED
 
-STEP08 = BLOCKED / NOT_STARTED
-STEP09 = NOT_STARTED
-STEP10 = NOT_STARTED
-STEP11 = NOT_STARTED
-STEP12 = NOT_STARTED
-STEP13 = NOT_STARTED
-STEP14 = NOT_STARTED
-STEP15 = NOT_STARTED
-STEP16 = NOT_STARTED
-STEP17 = NOT_STARTED
-STEP18 = NOT_STARTED
-STEP19 = NOT_STARTED
-STEP20 = NOT_STARTED
-STEP21 = NOT_STARTED
-STEP22 = NOT_STARTED
+STEP08 = BLOCKED / NOT STARTED
+STEP09..STEP22 = NOT STARTED
 ```
 
 Canonical roadmap authority remains `LEVEL2/STEP_RULES_INDEX.md` through Step22.
@@ -103,9 +92,7 @@ Obsolete Step03B `5074/12750/6752` and Step05 orientation `259600/200577/2658` r
 
 ---
 
-## 3. Step07 Attempt 1
-
-Attempt 1 remains rejected/incomplete:
+## 3. Step07 Attempt 1 remains rejected
 
 ```text
 DISCOVERED_URLS = 1976
@@ -117,216 +104,192 @@ PROVENANCE_ROWS = 1417
 NEW_CANDIDATE = 400
 ```
 
-Reasons: incomplete bounded coverage plus systematic candidate-producer pollution.
+Blocking defects remain:
 
-Authority: `STEP07_MAIN_CHAT_RETURN_QA_2026-09-17.md`.
+1. incomplete browser coverage caused materially by executor/runtime failures;
+2. systematic candidate-producer pollution from arbitrary prose/example text.
+
+Semantic rework must reevaluate all 686 candidate identities and all 1417 provenance rows; the failed `NEW_CANDIDATE = 400` set is not Step08 authority.
 
 ---
 
 ## 4. Browser recovery history
 
-### Attempt 1 — rejected
+Previous Codex recovery passes progressively fixed schema/accounting defects but ultimately left the frozen residual set unresolved by its browser environment.
 
-Rejected for schema drift, placeholder evidence, executor navigation failures and unauthorized sitemap contamination.
-
-### Limited rework — rejected
-
-Mechanically improved schemas/hashes, but old navigation failures were batch relabelled without demonstrated retries; QA totals and target/environment classification remained false.
-
-### Final narrow retry — rejected
-
-Independent row comparison proved most requested browser retries were not actually executed.
-
-### Verified 80-URL retry — rejected for residual closure
-
-This return finally proved 80/80 browser actions, but left:
+Final Codex residual package had:
 
 ```text
-EXECUTION_ENVIRONMENT_FAILURE = 51
-UNRESOLVED_DYNAMIC_CONTENT = 34
-TOTAL_GAPS = 85
-```
-
-It also exposed false redirects, Azbyka challenge misclassification, Kartaslov false target-block classification and coverage-accounting defects.
-
-Authority:
-
-`STEP07_BROWSER_RECOVERY_VERIFIED_80_RETURN_MAIN_CHAT_QA_2026-09-17.md`
-
-Quality:
-
-```text
-QUALITY_TOTAL = 67.5 / 100
-QUALITY_SCORE = 6.75 / 10
-```
-
-### Residual closure return — honest incomplete
-
-Executor used the frozen residual correction set:
-
-```text
-TOTAL_CORRECTION_ROWS = 129
-DETERMINISTIC_RECLASSIFY_SAME_URL_REDIRECT = 39
-BROWSER_RETRY_ROWS = 90
-```
-
-Independent Main Chat QA confirms:
-
-```text
-ROWS_CHANGED_OUTSIDE_FROZEN_SET = 0
+FROZEN_CORRECTION_ROWS = 129
 DETERMINISTIC_CORRECTIONS = 39/39 PASS
-RESIDUAL_RETRY_AUDIT = 90/90 PASS
-ZIP / SEVEN-FILE BYTE IDENTITY = PASS
-URL/COVERAGE/PAGE_EVIDENCE SCHEMAS = PASS
-JOINS = PASS
-SHA VERIFICATION = PASS
-SAME_URL_EMPTY_CHAIN_REDIRECT_ROWS_FINAL = 0
-AZBYKA_CHALLENGE_MISCLASSIFIED_AS_CONTENT = 0
-KARTASLOV_NORMAL_PAGE_FALSE_TARGET_BLOCK = 0
-COVERAGE_REMAINING_FIELD_RECONCILES = PASS
+BROWSER_RETRY_ROWS = 90
+EXECUTION_ENVIRONMENT_FAILURE = 90
 ```
 
-Final returned terminal counts:
+Root cause:
+
+```text
+82 = Chromium ERR_TIMED_OUT / internal error-page route
+8 = Browser Use site-safety policy block on Avito
+```
+
+Repeating the same Codex browser executor was stopped.
+
+---
+
+## 5. Main Chat + Opera final browser recovery
+
+Authority remained the exact frozen correction set:
+
+`STEP07_BROWSER_RECOVERY_RESIDUAL_CORRECTION_SET_2026-09-17.csv`
+
+Exact browser rows:
+
+`90`
+
+Current final frozen-90 outcomes after exact recheck:
+
+```text
+RECOVERED_INSPECTED_WITH_DURABLE_EVIDENCE = 66
+TARGET_CAPTCHA_OR_ANTI_BOT = 24
+EXECUTION_ENVIRONMENT_FAILURE = 0
+UNRESOLVED_DYNAMIC_CONTENT = 0
+FINAL_RESIDUAL_ACQUISITION_GAPS = 0
+```
+
+Target blocks:
+
+```text
+Wildberries official VPN target screen = 22
+AliExpress official verification target screen = 2
+```
+
+Important final Wildberries correction:
+
+```text
+R9-S07U000008 = TARGET VPN SCREEN
+R9-S07U000010 = TARGET VPN SCREEN
+R9-S07U000014 = RECOVERED_INSPECTED
+R9-S07U000016 = TARGET VPN SCREEN
+R9-S07U000018 = TARGET VPN SCREEN
+```
+
+This supersedes the earlier interim `70 readable / 20 target-block` snapshot.
+
+No CAPTCHA, anti-bot, VPN, login or security bypass was attempted.
+
+---
+
+## 6. Final 7-file recovery package
+
+Independent local Main Chat QA:
+
+```text
+OUTSIDE_FROZEN_URL_ROWS_CHANGED = 0
+FROZEN_ROWS_CHANGED = 90/90
+MISSING_FROZEN_BROWSER_RETRY_IDS = 0
+EXTRA_BROWSER_RETRY_IDS = 0
+SOURCE_URL_ROWS = 1976
+AUTHORIZED_COMPETITORS = 32
+PAGE_EVIDENCE_ROWS = 725
+NEW_OPERA_PAGE_EVIDENCE_ROWS = 66
+URL_PK_UNIQUE = PASS
+EVIDENCE_PK_UNIQUE = PASS
+SCHEMAS = PASS
+JOINS = PASS
+COVERAGE_ROWS = 32
+ALL_REMAINING_UNRESOLVED_OR_ENV_FAILURE = 0
+MANIFEST_HASHES = PASS
+ZIP_SEVEN_FILE_BYTE_IDENTITY = PASS
+LOCAL_RECOVERY_PACKAGE_QA = PASS
+```
+
+Final global terminal counts:
 
 ```text
 EXCLUDED_OUT_OF_SCOPE = 1201
 EXCLUDED_DUPLICATE = 24
-RECOVERED_INSPECTED = 366
+RECOVERED_INSPECTED = 432
 REDIRECTED_IN_SCOPE = 293
-TARGET_CAPTCHA_OR_ANTI_BOT = 2
-EXECUTION_ENVIRONMENT_FAILURE = 90
+TARGET_CAPTCHA_OR_ANTI_BOT = 26
+EXECUTION_ENVIRONMENT_FAILURE = 0
 UNRESOLVED_DYNAMIC_CONTENT = 0
+TOTAL = 1976
 ```
 
-Thus:
+Required canonical files:
 
 ```text
-FINAL_RESIDUAL_ACQUISITION_GAPS = 90
-RECOVERY_STATUS = INCOMPLETE_EXECUTION_ENVIRONMENT_FAILURES
+STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
+STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl
+STEP07_BROWSER_RECOVERY_COVERAGE.csv
+STEP07_BROWSER_RECOVERY_QA.md
+STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv
+STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv
+STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
 ```
 
-Main Chat authority:
+Transport ZIP contains exactly these seven files and is not itself a repository artifact.
 
-`STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE_MAIN_CHAT_RETURN_QA_2026-09-17.md`
+---
 
-Quality:
+## 7. Why owner byte relay is required now
+
+The final `STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl` is about 22.3 MB.
+
+The connected GitHub write action is text-content based and is not a safe large-byte transport for this file. The project already defines the owner as the one required byte relay when a large artifact cannot be placed directly.
+
+This is not owner routing or owner analysis.
 
 ```text
-QUALITY_TOTAL = 74.5 / 100
-QUALITY_SCORE = 7.45 / 10
-BROWSER_RECOVERY_ACCEPTED = false
+ONE ZIP
+→ EXTRACT EXACTLY SEVEN FILES
+→ ONE STAGING DIRECTORY
+→ ONE COMMIT
+→ OWNER REPLIES "готово"
+→ MAIN CHAT REMOTE READBACK / SHA QA
+```
+
+Staging target:
+
+```text
+repository = MaksimUnimax/Yandex_direct
+branch = roadmap/kwork-productization-2026-08-28
+directory = extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08
 ```
 
 ---
 
-## 5. Why the Codex browser line is stopped
-
-The current residual audit records real per-row attempts rather than fabricated relabels.
-
-Independent parsing of all 90 final errors shows:
-
-```text
-82 = Chromium navigation error page containing ERR_TIMED_OUT;
-     Browser Use then blocks inspection of the internal data:text/html error page.
-
-8 = Browser Use site-safety policy blocks on Avito URLs.
-```
-
-Domain distribution of the 82 timeout/error-page failures:
-
-```text
-wildberries.ru = 23
-market.yandex.ru = 20
-livemaster.ru = 11
-ru.ruwiki.ru = 8
-kartaslov.ru = 4
-goroskop365.ru = 4
-azbyka.ru = 4
-sibpodkova.ru = 3
-aliexpress.ru = 2
-joom.ru = 2
-ru.wikipedia.org = 1
-```
-
-Avito site-safety blocks:
-
-```text
-avito.ru = 8
-```
-
-Main Chat has prior Opera evidence that several affected hosts are readable in a normal owner browser, including Wikipedia, Sibpodkova and Kartaslov-related surfaces. Therefore these environment failures are not target semantic closure.
-
-```text
-RETRY SAME CODEX BROWSER ENVIRONMENT AGAIN = FORBIDDEN / NOT JUSTIFIED
-```
-
----
-
-## 6. Current browser recovery continuation
-
-Reuse the exact existing frozen correction authority:
-
-`STEP07_BROWSER_RECOVERY_RESIDUAL_CORRECTION_SET_2026-09-17.csv`
-
-Main Chat must process exactly the rows where:
-
-```text
-browser_retry_required = true
-```
-
-Expected rows:
-
-`90`
-
-New acquisition route:
-
-```text
-MAIN CHAT + OWNER-CONNECTED OPERA BROWSER CONNECTOR
-```
-
-Boundaries remain unchanged:
-
-```text
-NO WORDSTAT
-NO YANDEX SEARCH PROVIDER
-NO AI SEARCH / GENSEARCH
-NO STEP08
-NO SEMANTIC CANDIDATE CLASSIFICATION
-NO CAPTCHA / ANTI-BOT / LOGIN / SECURITY BYPASS
-```
-
-Current blocker:
-
-```text
-OPERA_BROWSER_CONNECTOR = NOT_CONNECTED
-```
-
-Once connected, Main Chat executes the exact frozen 90 URL universe, captures legitimate public page evidence or target-level block evidence, merges the outcomes into the recovery data, and reruns acceptance.
-
----
-
-## 7. Step07 semantic rework boundary
-
-Only after browser recovery acceptance may ChatGPT Work execute semantic rework over:
-
-```text
-ALL 686 current candidate identities
-ALL 1417 current provenance rows
-ALL accepted recovered browser evidence
-ALL current/recovered URL coverage for all 32 competitors
-```
-
-The current `NEW_CANDIDATE = 400` set remains unsafe for Step08.
+## 8. Semantic rework boundary
 
 Semantic rework prompt remains:
 
 `STEP07_REWORK_WORK_PROMPT_2026-09-17.md`
 
-Status: `BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY`.
+It must process full volume:
+
+```text
+ALL 686 current candidate identities
+ALL 1417 current provenance rows
+ALL accepted browser recovery evidence
+ALL current/recovered URL coverage for all 32 competitors
+```
+
+But it is **not released yet**.
+
+Release condition:
+
+```text
+OWNER BYTE RELAY COMPLETE
++ MAIN CHAT REMOTE READBACK
++ ALL SEVEN FILE HASHES MATCH LOCAL MANIFEST
+= CANONICAL BROWSER RECOVERY ACCEPTED
+→ THEN RELEASE STEP07 SEMANTIC REWORK
+```
 
 ---
 
-## 8. Provider/downstream boundary
+## 9. Provider/downstream boundary
 
 ```text
 WORDSTAT_CALLS_ALLOWED_NOW = 0
@@ -341,14 +304,13 @@ FINAL_PAGE_DECISIONS = NONE
 
 ---
 
-## 9. Exact next action
+## 10. Exact next action
 
 ```text
-CURRENT_NEXT_ACTION = OWNER_ENABLE_OPERA_BROWSER_CONNECTOR_THEN_MAIN_CHAT_EXECUTE_FROZEN_90_RESIDUAL_BROWSER_ROWS
-STEP07_BROWSER_RECOVERY = INCOMPLETE_EXECUTION_ENVIRONMENT_FAILURES
-STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY
+CURRENT_NEXT_ACTION = OWNER_UPLOAD_FINAL_SEVEN_FILE_RECOVERY_PACKAGE_TO_SINGLE_STAGING_DIRECTORY_AND_REPLY_GOTOVO
+LOCAL_RECOVERY_PACKAGE_QA = PASS
+CANONICAL_REMOTE_BROWSER_RECOVERY_ACCEPTED = false
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_REMOTE_BROWSER_RECOVERY_ACCEPTANCE
 STEP07 = INCOMPLETE_REWORK_REQUIRED
 STEP08 = BLOCKED_NOT_STARTED
 ```
-
-Do not upload the incomplete residual-closure package as canonical recovery evidence.
