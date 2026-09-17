@@ -5,7 +5,7 @@
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
   "cursor_date": "2026-09-17",
-  "current_stage": "STEP07_RELEASED_TO_WORK__EXECUTION_ONLY_PROMPT__ACTUAL_STEP07_NOT_YET_EXECUTED",
+  "current_stage": "STEP07_ATTEMPT_1_REJECTED__BROWSER_RECOVERY_RELEASED_TO_CODEX__SEMANTIC_REWORK_REQUIRED",
   "stage_status": {
     "STEP00": "COMPLETE",
     "STEP01": "COMPLETE",
@@ -17,12 +17,14 @@
     "STEP05": "COMPLETE_PASS",
     "STEP06": "DURABLE_PASS",
     "STEP07_PREPARATION": "ACCEPTED",
-    "STEP07_MAIN_CHAT_RELEASE_REVALIDATION": "PASS",
-    "STEP07_WORK_PROMPT_ROLE_BOUNDARY_CORRECTION": "PASS",
-    "STEP07_EXECUTION_ALLOWED": true,
-    "STEP07_RELEASED_FOR_WORK_RELAY": true,
-    "STEP07": "NOT_STARTED_RELEASED_TO_WORK",
-    "STEP08": "NOT_STARTED",
+    "STEP07_ATTEMPT_1_OWNER_UPLOAD": "COMPLETE",
+    "STEP07_ATTEMPT_1_REMOTE_PUBLICATION": "COMPLETE",
+    "STEP07_ATTEMPT_1_WORK_QA": "FAIL_INCOMPLETE",
+    "STEP07_ATTEMPT_1_MAIN_CHAT_RETURN_QA": "REJECTED_REWORK_REQUIRED",
+    "STEP07_BROWSER_RECOVERY": "RELEASED_TO_CODEX_NOT_YET_RETURNED",
+    "STEP07_SEMANTIC_REWORK": "REQUIRED_AFTER_BROWSER_RECOVERY",
+    "STEP07": "INCOMPLETE_REWORK_REQUIRED",
+    "STEP08": "BLOCKED_NOT_STARTED",
     "STEP09": "NOT_STARTED",
     "STEP10": "NOT_STARTED",
     "STEP11": "NOT_STARTED",
@@ -40,111 +42,65 @@
   },
   "roadmap_authority": {
     "step_rules_index_file": "LEVEL2/STEP_RULES_INDEX.md",
-    "current_live_final_step": "STEP22",
-    "older_step20_terminal_assumption": "SUPERSEDED"
+    "current_live_final_step": "STEP22"
   },
-  "role_boundary": {
-    "main_chat": [
-      "full_applicable_rule_reread",
-      "fresh_external_method_research",
-      "owner_facing_source_disclosure",
-      "owner_facing_plain_language_report",
-      "work_prompt_authoring",
-      "step_release_authorization",
-      "post_work_return_qa",
-      "remote_acceptance",
-      "mutable_job_flow_cursor_updates"
-    ],
-    "work": [
-      "narrow_remote_head_and_release_identity_check",
-      "named_input_manifest_schema_hash_check",
-      "full_volume_step07_execution",
-      "task_output_materialization",
-      "task_qa",
-      "single_staging_handoff_package"
-    ],
-    "work_full_level1_reread_required": false,
-    "work_fresh_external_research_required": false,
-    "work_owner_facing_report_required": false,
-    "work_release_reauthorization_required": false,
-    "work_rule_read_ledger_required": false,
-    "work_narrow_material_drift_preflight_required": true
+  "step07_attempt_1": {
+    "owner_upload_commit": "4b596b048d87a7e657bf3b84b715e7ee95980a3f",
+    "upload_base": "00230d7f1a8f83bb2aebfcbad89b896b122879d5",
+    "remote_publication_complete": true,
+    "required_file_count": 6,
+    "discovered_urls": 1976,
+    "inspected_urls": 24,
+    "excluded_urls": 1201,
+    "inaccessible_urls": 751,
+    "candidate_identities": 686,
+    "provenance_rows": 1417,
+    "work_quality_score": 7.4,
+    "main_chat_return_quality_score": 5.2,
+    "main_chat_acceptance": "REJECTED_REWORK_REQUIRED"
   },
-  "verified_upstream_counts": {
-    "step03a_raw_occurrences": 25979,
-    "step03a_normalized_identities": 24576,
-    "step03b_keep": 5100,
-    "step03b_hold": 13035,
-    "step03b_exclude": 6441,
-    "step04_families": 32,
-    "step04_identity_rows": 24576,
-    "step04_occurrence_rows": 25979,
-    "step04_queue_rows": 13,
-    "step05_queue_rows_reconciled": 13,
-    "step05_provider_candidates": 1,
-    "step05_new_union_rows": 0,
-    "step06_representative_queries": 22,
-    "step06_classified_serp_rows": 440,
-    "step06_query_top10_profiles": 22,
-    "step06_pairwise_comparisons": 231,
-    "step06_domain_recurrence_universe": 165,
-    "step06_curated_competitors": 32,
-    "step06_collision_uncertainty_rows": 5
-  },
-  "authority_drift_notes": [
-    "Step05 orientation figures 259600 / 200577 / 2658 are not current accepted authority and remain excluded.",
-    "The older Step03B partition 5074/12750/6752 is superseded by 5100/13035/6441.",
-    "Current STEP_RULES_INDEX.md ends at STEP22; earlier Step20-terminal wording is superseded.",
-    "Main Chat governance gates were incorrectly duplicated inside Work runtime and were removed on 2026-09-17. Work now executes the released prompt with only a narrow material-drift preflight."
+  "step07_attempt_1_defects": [
+    "Coverage incomplete: only one authorized competitor produced inspected candidate evidence.",
+    "Many inaccessible rows were caused by Work runtime/proxy failures and are not source-level semantic closure.",
+    "Candidate producer systematically promoted arbitrary prose, literary/example sentences, broken fragments and metadata-like text to NEW_CANDIDATE.",
+    "Work QA retained stale seven-file wording after the live contract became six-file."
   ],
-  "step07_execution_contract": {
-    "authorized_competitor_universe_file": "STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv",
-    "authorized_competitor_rows": 32,
-    "source_step06_registry_sha256": "b15e601db56d8f3c23d7a8c4a2193fc14000dc9773229d693c200756240efcdb",
-    "output_schema_file": "STEP_07_OUTPUT_SCHEMA_CONTRACT.json",
-    "work_prompt_file": "STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md",
-    "work_prompt_commit": "be0aee668712d1ab04317457b0e8d2b38845b2a0",
-    "work_prompt_blob": "3070c6e9e5e75bcc510f04aa09f76d119f69770f",
-    "work_prompt_scope": "EXECUTION_ONLY",
-    "full_volume_policy": "BOUNDED_FRONTIER_EXHAUSTION_NO_SAMPLE",
-    "step08_demand_validation_required": true,
-    "required_work_handoff_file_count": 6,
-    "required_work_handoff_files": [
-      "COMPETITOR_GAP_CANDIDATES.csv",
-      "STEP07_COMPETITOR_COVERAGE_LEDGER.csv",
-      "STEP07_SOURCE_URL_LEDGER.csv",
-      "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
-      "STEP07_EXECUTION_QA.md",
-      "STEP07_EXECUTION_HANDOFF_MANIFEST.json"
-    ]
+  "step07_recovery_architecture": {
+    "codex_browser_recovery_prompt": "STEP07_BROWSER_RECOVERY_CODEX_PROMPT_2026-09-17.md",
+    "codex_role": "PUBLIC_BROWSER_EVIDENCE_ACQUISITION_ONLY",
+    "codex_candidate_classification_allowed": false,
+    "codex_required_output_file_count": 5,
+    "codex_required_outputs": [
+      "STEP07_BROWSER_RECOVERY_URL_LEDGER.csv",
+      "STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl",
+      "STEP07_BROWSER_RECOVERY_COVERAGE.csv",
+      "STEP07_BROWSER_RECOVERY_QA.md",
+      "STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json"
+    ],
+    "work_rework_prompt": "STEP07_REWORK_WORK_PROMPT_2026-09-17.md",
+    "work_rework_existing_candidate_rows": 686,
+    "work_rework_existing_provenance_rows": 1417,
+    "work_rework_full_volume_required": true,
+    "known_bad_examples_are_patch_targets": false
   },
   "provider_authorization": {
     "wordstat_calls_allowed_now": 0,
     "yandex_search_calls_allowed_now": 0,
     "ai_search_calls_allowed_now": 0,
     "gensearch_calls_allowed_now": 0,
-    "step07_provider_gate": "NOT_APPLICABLE_NO_PROVIDER_CALLS"
+    "step08_started": false
   },
   "owner_relay": {
     "policy": "OWNER_RELAY_SINGLE_STAGING_REQUIRED",
     "staging_repository": "MaksimUnimax/Yandex_direct",
     "staging_branch": "roadmap/kwork-productization-2026-08-28",
     "staging_directory": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
-    "owner_must_not_route_final_paths": true,
-    "transport_zip_commit_allowed": false
+    "owner_must_not_route_final_paths": true
   },
-  "publication_state": {
-    "step07_preparation_remote_publication_complete": true,
-    "actual_step07_work_output_created": false,
-    "actual_step07_owner_upload_complete": false,
-    "actual_step07_remote_readback_pass": false,
-    "actual_step07_main_chat_acceptance": "PENDING_WORK_EXECUTION"
-  },
-  "next_action": "OWNER_RELAY_CURRENT_EXECUTION_ONLY_STEP07_PROMPT_TO_CHATGPT_WORK",
+  "next_action": "OWNER_RELAY_STEP07_BROWSER_RECOVERY_CODEX_PROMPT_2026-09-17_TO_CODEX",
   "absolute_boundary": {
-    "step07_preparation_accepted": true,
-    "step07_released_to_work": true,
-    "step07_executed": false,
+    "step07_accepted": false,
+    "step07_rework_required": true,
     "step08_started": false,
     "final_intent_decisions": "NONE",
     "final_cluster_decisions": "NONE",
