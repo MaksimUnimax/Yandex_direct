@@ -7,9 +7,9 @@
   "prepared_against_remote_head": "0630d3f6dbd1962290dc8ab77a454e86c604a795",
   "owner_upload_head": "b868a85a5b0ffd2a95740a351ba8bb3d2586d326",
   "canonical_placement_commit": "3c141c0a4f2dbfdc51a563fd7c76e40958bfee33",
-  "remote_readback_head": "3c141c0a4f2dbfdc51a563fd7c76e40958bfee33",
+  "preparation_remote_readback_head": "3c141c0a4f2dbfdc51a563fd7c76e40958bfee33",
   "cursor_date": "2026-09-17",
-  "current_stage": "STEP07_PREPARATION_ACCEPTED__STEP07_NOT_STARTED",
+  "current_stage": "STEP07_PREPARATION_ACCEPTED__STEP07_RELEASE_REVALIDATION_REQUIRED__STEP07_NOT_STARTED",
   "stage_status": {
     "STEP00": "COMPLETE",
     "STEP01": "COMPLETE",
@@ -25,6 +25,10 @@
     "STEP07_PREPARATION_OWNER_UPLOAD": "COMPLETE",
     "STEP07_PREPARATION_REMOTE_READBACK": "PASS",
     "STEP07_PREPARATION_MAIN_CHAT_ACCEPTANCE": "ACCEPTED",
+    "STEP07_RELEASE_RULE_REVALIDATION": "REQUIRED",
+    "STEP07_OWNER_FACING_PRE_STEP_REPORT": "REQUIRED",
+    "STEP07_WORK_PROMPT_LIVE_AUTHORITY_RECONCILIATION": "REQUIRED",
+    "STEP07_EXECUTION_ALLOWED": false,
     "STEP07": "NOT_STARTED",
     "STEP08": "NOT_STARTED",
     "STEP09": "NOT_STARTED",
@@ -39,6 +43,16 @@
     "STEP18": "NOT_STARTED",
     "STEP19": "NOT_STARTED",
     "STEP20": "NOT_STARTED"
+  },
+  "rule_compliance_controls": {
+    "full_rule_reread_gate": "LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md",
+    "recurring_failure_checklist": "LEVEL1/01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md",
+    "job_incident_record": "KW002_RULE_COMPLIANCE_FAILURE_INCIDENT_2026-09-17.md",
+    "step07_release_revalidation_gate": "STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md",
+    "assistant_memory_counts_as_rule_readback": false,
+    "material_action_allowed_without_fresh_full_rule_reread": false,
+    "owner_facing_source_links_required_in_chat": true,
+    "owner_facing_plain_language_summary_required_in_chat": true
   },
   "verified_upstream_counts": {
     "step03a_raw_occurrences": 25979,
@@ -64,7 +78,8 @@
   "authority_drift_notes": [
     "The task orientation Step05 figures 259600 total views, 200577 unique phrases and 2658 overlap are not supported by the current live accepted W10 V2/V3 repository authority and were excluded.",
     "The older Step03B partition 5074/12750/6752 is superseded by 5100/13035/6441.",
-    "KW002_EXECUTION_CURSOR_2026-09-11.json is historical and no longer controls the current stage."
+    "KW002_EXECUTION_CURSOR_2026-09-11.json is historical and no longer controls the current stage.",
+    "New owner-locked rule-compliance authorities were added after Step07 preparation acceptance. The frozen preparation remains accepted, but actual Step07 Work release requires current-authority revalidation before execution."
   ],
   "step07_preparation_controls": {
     "authorized_competitor_universe_file": "STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv",
@@ -75,6 +90,17 @@
     "level2_rule_file": "LEVEL2/STEP_07_COMPETITOR_SEMANTIC_EXPANSION.md",
     "full_volume_policy": "BOUNDED_FRONTIER_EXHAUSTION_NO_SAMPLE",
     "step08_demand_validation_required": true
+  },
+  "step07_release_gate": {
+    "gate_file": "STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md",
+    "fresh_live_remote_fetch_required": true,
+    "full_applicable_rule_reread_required": true,
+    "failure_incident_reread_required": true,
+    "prepared_work_prompt_current_authority_reconciliation_required": true,
+    "fresh_external_research_check_required": true,
+    "clickable_source_disclosure_in_chat_required": true,
+    "plain_language_why_what_result_blocker_next_required": true,
+    "execution_allowed": false
   },
   "provider_authorization": {
     "wordstat_calls_allowed_now": 0,
@@ -103,7 +129,7 @@
     "actual_step07_production_outputs_present": 0,
     "step07_executed": false
   },
-  "next_action": "AWAIT_OWNER_COMMAND_TO_RELAY_STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT",
+  "next_action": "RUN_STEP07_RELEASE_REVALIDATION_GATE_BEFORE_RELAYING_STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT",
   "absolute_boundary": {
     "step07_executed": false,
     "step08_started": false,
