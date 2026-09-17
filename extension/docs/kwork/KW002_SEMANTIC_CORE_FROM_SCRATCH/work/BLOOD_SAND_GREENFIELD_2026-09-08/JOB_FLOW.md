@@ -1,204 +1,209 @@
-# KW-002 Blood & Sand — JOB FLOW
+# KW-002 JOB FLOW — BLOOD_SAND_GREENFIELD_2026-09-08
 
-Status: **STEP04 W09 ACCEPTED / STEP05 COMPLETE / STEP06 PREPARATION + RUNTIME RECONCILIATION PASS / FIRST QUERY RELEASE PENDING / ACTUAL STEP06 NOT STARTED**
+Updated: 2026-09-17  
+State basis: live remote HEAD `0630d3f6dbd1962290dc8ab77a454e86c604a795` plus local Step07-preparation artifacts pending owner publication/readback  
+Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION LOCAL PASS / OWNER PUBLICATION PENDING / STEP07 NOT STARTED**
 
-## Whole-job goal
+---
+
+## 1. Current authority order
+
+1. current live Level1 rules;
+2. current `LEVEL2/STEP_RULES_INDEX.md` and step-specific Level2 rules;
+3. accepted upstream stage manifests/acceptance/readback files;
+4. this `JOB_FLOW.md` and the current execution cursor;
+5. current job-specific pre-handoff manifests and schema contracts;
+6. historical/superseded files only for incident or lineage review.
+
+Current cursor prepared with this package:
+
+`KW002_EXECUTION_CURSOR_2026-09-17.json`
+
+The earlier `KW002_EXECUTION_CURSOR_2026-09-11.json` remains historical and
+must not control current Step06/Step07 state.
+
+---
+
+## 2. Accepted project cursor
 
 ```text
-semantic core
-→ user tasks / intent
-→ Yandex-SERP-backed clusters
-→ query→page ownership
-→ Search-only site architecture
-→ AI-search reconciliation
-→ final IA / Page Jobs / internal-link model
-→ client-ready deliverables
+STEP00 = COMPLETE
+STEP01 = COMPLETE
+STEP02 = COMPLETE
+STEP03 = COMPLETE
+STEP03A = COMPLETE
+STEP03B = COMPLETE
+STEP04 = ACCEPTED
+STEP05 = COMPLETE / PASS
+STEP06 = DURABLE PASS
+STEP07_PREPARATION_WORK = COMPLETE_LOCALLY
+STEP07_PREPARATION_QA = PASS_LOCALLY
+STEP07_PREPARATION_OWNER_UPLOAD = PENDING
+STEP07_PREPARATION_REMOTE_READBACK = PENDING
+STEP07_PREPARATION_MAIN_CHAT_ACCEPTANCE = PENDING
+STEP07 = NOT STARTED
+STEP08–STEP20 = NOT STARTED
 ```
 
-Clean-boundary rule remains active: prior Blood & Sand analytical research is sealed and is not an execution input unless explicitly whitelisted.
+Local Work output is not automatic project acceptance. Step07 preparation
+becomes durable/accepted only after owner upload, remote readback/identity QA
+and Main Chat acceptance.
 
-## Current authority order
+---
 
-1. current `KW002_EXECUTION_CURSOR_2026-09-11.json`;
-2. accepted Main ChatGPT readback/acceptance/closure files;
-3. current accepted analytical artifacts;
-4. current corrected prompt/gate package for the active sub-stage;
-5. current `JOB_MANIFEST.md`;
-6. this `JOB_FLOW.md` as human-readable roadmap/status.
+## 3. Accepted upstream state
 
-Historical prompts and superseded preparation files never override current authority.
-
-## Full roadmap / current status
-
-| Step | Purpose | Current status |
-|---|---|---|
-| 00 | Freeze order/scope/source boundary | ✅ COMPLETE / PASS / Ozon-only |
-| 01 | Factual business + complete assortment model | ✅ COMPLETE / PASS / 76 of 76 |
-| 02 | Seed/acquisition map | ✅ COMPLETE / V2 PASS |
-| 03 | Primary Wordstat acquisition + durable evidence | ✅ COMPLETE / PASS / 79 of 79 durable |
-| 03A | RAW normalization + safe deduplication | ✅ COMPLETE / PASS / 24,576 identities / 25,979 RAW |
-| 03B | Conservative high-confidence sanitation | ✅ CORRECTED AUTHORITY ACCEPTED / 5,100 KEEP / 13,035 HOLD / 6,441 EXCLUDE |
-| 04 | Preliminary family/topic/task triage | ✅ W09 CURRENT AUTHORITY ACCEPTED |
-| 05 | Targeted expansion / coverage control | ✅ COMPLETE / PASS CURRENT SNAPSHOT |
-| 06 | Current Yandex organic competitor discovery | 🟠 PREPARATION + RUNTIME RECONCILIATION PASS / FIRST QUERY RELEASE PENDING / EXECUTION NOT STARTED |
-| 07 | Competitor semantic expansion | ⬜ NOT STARTED |
-| 08 | Competitor-derived Wordstat expansion | ⬜ NOT STARTED |
-| 09 | Candidate semantic master + reserve freeze | ⬜ NOT STARTED |
-| 10 | Row-level relevance / user task / intent / priority | ⬜ NOT STARTED |
-| 11 | Delivery-scope selection + Search-stage semantic freeze | ⬜ NOT STARTED |
-| 12 | Current ordinary Yandex Search evidence | ⬜ NOT STARTED |
-| 13 | SERP + user-task-first clustering | ⬜ NOT STARTED |
-| 14 | Query→page ownership + Search-only IA | ⬜ NOT STARTED |
-| 15 | AI-search diagnostic case selection | ⬜ NOT STARTED |
-| 16 | AI-search evidence acquisition | ⬜ NOT STARTED |
-| 17 | Search-vs-AI reconciliation | ⬜ NOT STARTED |
-| 18 | Final semantic core + final IA + Page Jobs + internal links | ⬜ NOT STARTED |
-| 19 | Client deliverables | ⬜ NOT STARTED |
-| 20 | Final QA / recipient acceptance | ⬜ NOT STARTED |
-| 21 | Revision rehearsal + productization measurement/economics | ⬜ NOT STARTED |
-| 22 | Final handoff / job close | ⬜ NOT STARTED |
-
-## Completed through Step05
+### Step03A
 
 ```text
-STEP00 = PASS / Ozon-only
-STEP01 = PASS / 76 of 76
-STEP02 = V2 PASS
-STEP03 = PASS / 79 of 79 durable
-STEP03A = PASS / 24576 identities / 25979 RAW occurrences
-STEP03B = CORRECTED AUTHORITY ACCEPTED / KEEP 5100 / HOLD 13035 / EXCLUDE 6441
-STEP04 = W09 CURRENT AUTHORITY ACCEPTED / 32 families / 29 observed / 13 queue rows
-STEP05 = COMPLETE / PASS CURRENT SNAPSHOT
+RAW_OCCURRENCES = 25979
+NORMALIZED_IDENTITIES = 24576
 ```
 
-Step05 W10C001 was executed exactly once and returned `SUCCESS_WITH_ZERO_ROWS`: `totalCount=3`, 0 returned result rows, 0 association rows, complete durable readback, 0 new union rows. Its closure is current-snapshot-bounded.
-
-## Step06 V1 preparation invalidation
-
-The first Step06 preparation package was prematurely labelled PASS before the mandatory owner-facing pre-step report existed. Correction also found:
-
-- V1 claimed 10 coverage directions while its TSV actually contained 11;
-- unsupported “two ordinary result pages” wording;
-- original Base64/XML was made mandatory even though current Level1 allows raw **or durable normalized** Search evidence.
-
-V1 remains historical and is superseded for execution.
-
-Correction authority:
-
-`STEP_06_PREPARATION_RULE_VIOLATION_AND_CORRECTION_2026-09-12.md`
-
-## Step06 V2 prepared state
-
-Current query/preparation authorities retained from V2:
-
-- `STEP_06_PRE_STEP_EXTERNAL_RESEARCH_V2_2026-09-12.md` — historical external check, now refreshed by Sep-14 authority;
-- `STEP_06_REPRESENTATIVE_QUERY_MANIFEST_V2_2026-09-12.tsv` — current 22-query manifest;
-- `STEP_06_PRE_EXECUTION_GATE_V2_2026-09-12.md` — historical gate, superseded where current runtime/transport/pricing differ;
-- `STEP_06_PRE_STEP_QA_V2_2026-09-12.md` — historical preparation QA.
-
-V2 query authority remains:
+### Step03B corrected authority
 
 ```text
-REPRESENTATIVE_QUERY_ROWS = 22
-COVERAGE_DIRECTIONS = 12
-QUERY_SOURCE = accepted W09 observed representative phrases
-ANALYST_INVENTED_QUERY_TEXTS = 0
+KEEP = 5100
+HOLD = 13035
+EXCLUDE = 6441
+TOTAL = 24576
 ```
 
-## Step06 evidence boundary
+The older `5074 / 12750 / 6752` partition is obsolete.
 
-Existing Level1 allows `raw OR durable normalized result reference` for Search evidence.
-
-Every returned normalized result row and required provenance must be durably preserved and remotely read back before the next provider action. Summary-only, domain-only or representative sampling is forbidden.
-
-## Sep-14 runtime/method reconciliation
-
-Current authority:
-
-`STEP_06_RUNTIME_RECONCILIATION_AND_METHOD_REFRESH_2026-09-14.md`
-
-The required owner-facing disclosure was completed in the current owner chat on 2026-09-14 before provider execution. Applicable Level1/Level2/job authorities were reread and current provider documentation was freshly rechecked.
-
-The old `installed 0.1.4 vs repository 0.1.2` blocker is superseded by reviewable, independently live-accepted YMB `0.1.6` Search capability:
+### Step04 current W09 authority
 
 ```text
-YMB_BRANCH = hotfix/ymb-file-delivery-p0-2026-09-14
-RELEVANT_COMMIT = 6fe2d2f992b4c35fbbc37783182e9236e9f5b1a1
-LIVE_ACCEPTANCE = extension/docs/SEARCH_LIVE_ACCEPTANCE_2026-09-14.md
-RUNTIME_SEARCH_CONTRACT_RECONCILED = true
+FAMILY_ROWS = 32
+OBSERVED_FAMILIES = 29
+ZERO_OR_GAP_FAMILIES = 3
+IDENTITY_ROWS = 24576
+OCCURRENCE_ROWS = 25979
+TARGETED_EXPANSION_QUEUE_ROWS = 13
 ```
 
-Fresh official Yandex documentation confirms current async/deferred Search operation semantics, Search request fields, region `225 = Russia`, current limits and pricing.
+Step04 families remain preliminary and are not final intent, SERP clusters or
+pages.
 
-Material method refresh:
+### Step05 current snapshot closure
 
 ```text
-OLD TRANSPORT = synchronous Search / historical Sep-12 plan
-CURRENT TRANSPORT = deferred asynchronous Search
+QUEUE_ROWS_RECONCILED = 13/13
+NEW_PROVIDER_CANDIDATES = 1
+EXECUTED_PROVIDER_CANDIDATES = 1
+W10C001_OUTCOME = SUCCESS_WITH_ZERO_ROWS
+TOTALCOUNT_AGGREGATE = 3
+RETURNED_RESULT_ROWS = 0
+RETURNED_ASSOCIATION_ROWS = 0
+NEW_UNION_ROWS = 0
 ```
 
-Query texts and semantic Search settings remain unchanged:
+The unrelated orientation values `259600 / 200577 / 2658` are not supported by
+current live accepted Step05 authority and are not part of the current cursor.
+
+### Step06 durable pass
 
 ```text
-SEARCH_TYPE = SEARCH_TYPE_RU
-REGION = 225
-PAGE = 0
-GROUPS_ON_PAGE = 20
-GROUP_MODE = GROUP_MODE_FLAT
-DOCS_IN_GROUP = 1
-SORT_MODE = SORT_MODE_BY_RELEVANCE
-SORT_ORDER = DESC
-FAMILY_MODE = FAMILY_MODE_MODERATE
-FIX_TYPO_MODE = FIX_TYPO_MODE_OFF
-RESPONSE_FORMAT = XML
+REPRESENTATIVE_QUERIES = 22
+CLASSIFIED_SERP_ROWS = 440
+QUERY_TOP10_PROFILES = 22
+PAIRWISE_COMPARISONS = 231
+DOMAIN_RECURRENCE_UNIVERSE = 165
+CURATED_COMPETITOR_REGISTRY = 32
+COLLISION_UNCERTAINTY_LEDGER = 5
+FINAL_PAGE_DECISIONS = NONE
 ```
 
-Current deferred pricing checked 2026-09-14:
+Current Step06 closure/analysis authorities:
+
+- `KW002_STEP06_FINAL_CLOSURE_2026-09-17.md`;
+- `KW002_STEP06_ANALYSIS_HARDENED_2026-09-17.md`;
+- `KW002_STEP06_SEMANTIC_CLASSIFICATION_AUDIT.md`;
+- `KW002_STEP06_SEARCH_COMPETITOR_REGISTRY_HARDENED.csv`;
+- `KW002_STEP06_SERP_URL_EVIDENCE_440_CLASSIFIED.csv`;
+- associated accepted hardened ledgers.
+
+Step06 evidence is a bounded SERP snapshot, not proof of permanent rankings or
+competitor stability.
+
+---
+
+## 4. Step07 preparation package
+
+Local preparation artifacts:
+
+- `LEVEL2/STEP_07_COMPETITOR_SEMANTIC_EXPANSION.md`;
+- `LEVEL2/STEP_RULES_INDEX.md` (Step07 rule backlink added);
+- `STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md`;
+- `STEP_07_PREPARATION_EXTERNAL_METHODOLOGY_AUDIT.md`;
+- `STEP_07_PRE_HANDOFF_MANIFEST.md`;
+- `STEP_07_OUTPUT_SCHEMA_CONTRACT.json`;
+- `STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv`;
+- `STEP_07_PREPARATION_QA.md`;
+- `KW002_EXECUTION_CURSOR_2026-09-17.json`;
+- this updated `JOB_FLOW.md`.
+
+Preparation freezes:
 
 ```text
-DAY = 0.0305 RUB / request
-NIGHT = 0.02541 RUB / request
-22-query maximum if all are eventually separately authorized = 0.671 / 0.55902 RUB
+AUTHORIZED_STEP07_COMPETITORS = 32
+COMPETITOR_SOURCE = STEP06_CURATED_REGISTRY_ONLY
+OUTPUT_DATA_FILES_FOR_FUTURE_STEP07 = 4
+PROVENANCE_MODEL = CANDIDATE_SUMMARY + URL_LEDGER + OCCURRENCE_LEDGER
+FULL_VOLUME_POLICY = BOUNDED_FRONTIER_EXHAUSTION
+ARBITRARY_TOP_N_OR_SAMPLE = FORBIDDEN
+STEP08_DEMAND_GATE = REQUIRED
 ```
 
-The first provider execution is deliberately **not** released by the reconciliation itself.
+No production Step07 candidate rows exist yet.
 
-## Work gate
+---
 
-Current Step06 unit is bounded to at most 440 normalized result rows and can be processed without sampling in ordinary chat.
+## 5. Publication state
 
 ```text
-WORK_TRIGGER = NOT_MET
-WORK_HANDOFF = NOT_REQUIRED
+LOCAL_ARTIFACT_COMPLETE = true
+LOCAL_QA_PASS = true
+PUBLICATION_HANDOFF_READY = true
+OWNER_UPLOAD_COMPLETE = false
+REMOTE_READBACK_PASS = false
+MAIN_CHAT_ACCEPTANCE = PENDING
 ```
 
-## Current hard boundary
+Direct Work commit/push/PR/GitHub publication is forbidden. Owner relay is the
+transport layer for this multi-file package.
+
+---
+
+## 6. Current provider boundary
 
 ```text
-STEP05 = COMPLETE
-STEP06_PRE_STEP_V1 = SUPERSEDED_FOR_EXECUTION
-STEP06_V2_QUERY_MANIFEST = CURRENT
-STEP06_RUNTIME_RECONCILIATION = PASS / 2026-09-14
-OWNER_FACING_STEP06_DISCLOSURE = PASS / 2026-09-14
-STEP06_FIRST_QUERY_EXECUTION_RELEASED = false
-DEFERRED_SEARCH_SUBMISSIONS_ALLOWED_NOW = 0
-DEFERRED_SEARCH_COLLECTION_CALLS_ALLOWED_NOW = 0
-SYNCHRONOUS_SEARCH_CALLS_ALLOWED_NOW = 0
 WORDSTAT_CALLS_ALLOWED_NOW = 0
-GENSEARCH_CALLS_ALLOWED_NOW = 0
+YANDEX_SEARCH_CALLS_ALLOWED_NOW = 0
 AI_SEARCH_CALLS_ALLOWED_NOW = 0
-STEP06_ACTUAL_EXECUTION = NOT_STARTED
-STEP07_STARTED = false
-STEP08_STARTED = false
+GENSEARCH_CALLS_ALLOWED_NOW = 0
 ```
 
-## Next action
+Step07 itself is public competitor-page candidate discovery and performs no
+search-demand acquisition. Step08 requires a separate pre-step review and
+release.
 
-After the Sep-14 runtime/method reconciliation commit passes remote readback:
+---
 
-1. fetch live KW-002 HEAD again;
-2. take the exact first row from the accepted V2 query manifest;
-3. materialize a separate first-query deferred Search execution release;
-4. remote-readback the release;
-5. authorize exactly one provider submission;
-6. persist and remote-readback complete returned evidence before releasing any next query.
+## 7. Exact next action
+
+1. Owner downloads the Step07-preparation handoff ZIP.
+2. Owner uploads each contained file to its repository-relative path on branch
+   `roadmap/kwork-productization-2026-08-28`.
+3. Owner replies `готово`.
+4. Main Chat/Work fetches the new live remote HEAD and performs remote readback
+   plus file/hash/identity QA.
+5. Main Chat accepts or rejects `STEP07_PREPARATION`.
+6. Only after acceptance may the owner separately relay
+   `STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md` for actual Step07.
+
+```text
+CURRENT_NEXT_ACTION = OWNER_RELAY_OF_STEP07_PREPARATION_PACKAGE
+ACTUAL_STEP07_RELEASED = false
+STEP07 = NOT_STARTED
+```
