@@ -1,15 +1,12 @@
-# KW-002 / BLOOD & SAND — STEP07 RELEASE REVALIDATION GATE
+# KW-002 / BLOOD & SAND — STEP07 MAIN CHAT RELEASE REVALIDATION GATE
 
-Status: **ACTIVE / REQUIRED BEFORE ACTUAL STEP07 WORK RELAY**  
-Date: 2026-09-17
+Status: **ACTIVE / MAIN-CHAT-ONLY / REQUIRED BEFORE ACTUAL STEP07 WORK RELAY**  
+Date: 2026-09-17  
+Scope correction: **THIS GATE IS FOR MAIN CHAT. CHATGPT WORK MUST NOT REPEAT IT.**
 
-## 1. Why this gate exists
+## 1. Purpose
 
-`STEP07_PREPARATION` was technically accepted before the new owner-locked full-rule reread / no-action authority was added.
-
-The preparation artifacts remain valid frozen preparation evidence, but the actual Step07 Work prompt was prepared against an older remote authority state. Current Level1 rules now include stronger process gates for full rule reread, recurring assistant-rule failure control, owner-facing source disclosure and rule-mutation discipline.
-
-Per `WORK_BASE_FRESHNESS_AND_AUTHORITY_DRIFT_RULE.md`:
+This gate exists so **Main Chat** verifies that a prepared Step07 execution contract is still current before giving it to Work.
 
 ```text
 NEWER METHOD / EXECUTION AUTHORITY
@@ -17,99 +14,85 @@ NEWER METHOD / EXECUTION AUTHORITY
 OLDER PREPARED WORK CONTRACT
 ```
 
-Therefore the existing Step07 Work prompt MUST NOT be relayed/executed as-is without current-authority reconciliation.
+Main Chat owns the reconciliation.
 
-## 2. Hard entry gate before actual Step07
+## 2. Main Chat hard gate before relay
 
-Before Main Chat may relay `STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md`:
+Before Main Chat may relay the actual Step07 Work prompt, Main Chat must:
 
 ```text
 1. FETCH CURRENT LIVE REMOTE HEAD
-2. READ IN FULL LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md
-3. READ IN FULL LEVEL1/01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md
-4. READ IN FULL all applicable current cross-Kwork + Level1 rules
-5. READ IN FULL current STEP_RULES_INDEX + STEP_07_COMPETITOR_SEMANTIC_EXPANSION.md
-6. READ IN FULL current JOB_FLOW + execution cursor
-7. READ IN FULL KW002_RULE_COMPLIANCE_FAILURE_INCIDENT_2026-09-17.md
-8. READ IN FULL current Step07 preparation manifest/schema/prompt/QA
-9. classify remote authority drift since the preparation base
-10. reconcile or amend the Step07 Work prompt if current rules require changes
-11. perform fresh Step07 pre-step external research/freshness check required by PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
-12. show the complete owner-facing pre-step report in chat
-13. show clickable source links + what each supports + source→method trace directly in chat
-14. end with real plain-Russian WHY / WHAT / RESULT / BLOCKER / NEXT ACTION
-15. only after all gates pass may Main Chat mark STEP07_EXECUTION_ALLOWED=true and give the owner the current canonical Work prompt to relay
+2. READ current applicable Main Chat governance/rule authorities
+3. READ current STEP_RULES_INDEX + Step07 Level2 method
+4. READ current JOB_FLOW + cursor + job incident records
+5. READ current Step07 preparation manifest/schema/prompt/QA
+6. classify authority drift since preparation
+7. reconcile/amend the Work prompt if required
+8. perform the fresh external-method research/freshness check required for Step07
+9. show the required owner-facing pre-step report in chat
+10. show clickable sources + supported claims + source→method trace
+11. give the real plain-Russian WHY / WHAT / RESULT / BLOCKER / NEXT ACTION conclusion
+12. only then mark STEP07_EXECUTION_ALLOWED=true
+13. relay the canonical prompt to Work
 ```
 
-## 3. Mandatory rule-read ledger
+## 3. Explicit Work exclusion
 
-The Step07 release record must explicitly show:
+```text
+THIS RELEASE GATE
+= MAIN CHAT PRE-RELAY CONTROL
+!= WORK RUNTIME TASK
+```
+
+Once this gate has PASS and the canonical prompt is released, Work MUST NOT:
+
+- rerun this release gate;
+- reread the full project rule stack for governance purposes;
+- rerun fresh external research already completed here;
+- repeat owner-facing source disclosure;
+- repeat the owner-facing plain-language report;
+- decide again whether Main Chat was allowed to release Step07.
+
+Work performs only the bounded technical startup check contained in the released prompt:
+
+```text
+FETCH CURRENT HEAD
+→ VERIFY RELEASE RECORD / PROMPT IDENTITY
+→ VERIFY NAMED INPUT / MANIFEST / SCHEMA / HASHES
+→ MATERIAL DRIFT? STOP + REPORT AUTHORITY_DRIFT
+→ OTHERWISE EXECUTE STEP07
+```
+
+## 4. Main Chat release record
+
+The release record must show at minimum:
 
 ```text
 LIVE_REMOTE_HEAD
 CURRENT_ACTION = ACTUAL_STEP07_RELEASE_REVALIDATION
-RULES_READ_IN_FULL
+MAIN_CHAT_RULES_READ
 JOB_STATE_READ
-FAILURE_LEDGER_READ = true
-OWNER_REPORT_GATE_READ = true
-WORK_GATE_READ = true
-WORK_BASE_FRESHNESS_RULE_READ = true
-PROVIDER_GATE_READ = NOT_APPLICABLE_FOR_STEP07
+FAILURE_LEDGER_READ
+OWNER_REPORT_GATE_READ
+WORK_HANDOFF_RULE_READ
 UNRESOLVED_AUTHORITY_CONFLICTS
-WORK_PROMPT_RECONCILED_TO_CURRENT_AUTHORITY = true|false
-FRESH_EXTERNAL_RESEARCH = PASS|FAIL
-SOURCE_DISCLOSURE_IN_CHAT = PASS|FAIL
-PLAIN_LANGUAGE_SUMMARY = PASS|FAIL
-STEP07_EXECUTION_ALLOWED = true|false
+WORK_PROMPT_RECONCILED_TO_CURRENT_AUTHORITY
+FRESH_EXTERNAL_RESEARCH
+SOURCE_DISCLOSURE_IN_CHAT
+PLAIN_LANGUAGE_SUMMARY
+STEP07_EXECUTION_ALLOWED
 ```
 
-## 4. Owner-facing report is a hard gate
+This is a **Main Chat release record**, not a file Work must recreate.
 
-Before actual Step07 Work execution, the chat itself must contain:
+## 5. PASS
 
-```text
-WHOLE KWORK GOAL
-FULL ROADMAP
-COMPLETED
-REMAINING
-CURRENT STEP GOAL
-WHAT PROBLEM STEP07 SOLVES
-REQUIRED OUTPUT
-RELEVANT PRIOR ERRORS
-NON-REPEAT CONTROLS
-FRESH INTERNET RESEARCH
-CLICKABLE SOURCE LIST
-WHAT EACH SOURCE SUPPORTS
-HOW EACH SOURCE AFFECTS / CONFIRMS THE STEP07 METHOD
-SOURCE LIMITATIONS
-SOURCE→METHOD TRACE
-EXECUTION PLAN
-WORK GATE
-PASS CONDITIONS
-ПРОСТЫМИ СЛОВАМИ
-```
-
-Artifact-only source links do not satisfy this gate.
-
-## 5. Step07 remains unexecuted
-
-This release gate does not perform competitor extraction.
-
-```text
-STEP07_PREPARATION = ACCEPTED
-STEP07_RELEASE_REVALIDATION = REQUIRED
-STEP07 = NOT_STARTED
-STEP08 = NOT_STARTED
-```
-
-## 6. PASS
-
-Actual Step07 may be released only if:
+Actual Step07 may be relayed only if Main Chat establishes:
 
 ```text
 CURRENT_RULE_AUTHORITY = PASS
-FULL_RULE_REREAD = PASS
-RECURRENT_FAILURE_CONTROLS = PASS
+MAIN_CHAT_FULL_RULE_REREAD = PASS
+RECURRENT_MAIN_CHAT_FAILURE_CONTROLS = PASS
 WORK_PROMPT_CURRENT_AUTHORITY_RECONCILIATION = PASS
 FRESH_EXTERNAL_RESEARCH = PASS
 SOURCE_DISCLOSURE_IN_CHAT = PASS
@@ -118,9 +101,11 @@ UNRESOLVED_AUTHORITY_CONFLICTS = 0
 STEP07_EXECUTION_ALLOWED = true
 ```
 
-Until then:
+After PASS:
 
 ```text
-DO NOT RELAY ACTUAL STEP07 WORK PROMPT
-DO NOT START STEP07 CRAWL / EXTRACTION
+MAIN CHAT RELEASES PROMPT
+→ WORK EXECUTES PROMPT
 ```
+
+Do not insert this release gate back into the Work prompt.
