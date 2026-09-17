@@ -3,19 +3,43 @@
 Updated: 2026-09-17  
 Preparation base: `0630d3f6dbd1962290dc8ab77a454e86c604a795`  
 Owner upload HEAD: `b868a85a5b0ffd2a95740a351ba8bb3d2586d326`  
-Canonical placement / remote-readback HEAD: `3c141c0a4f2dbfdc51a563fd7c76e40958bfee33`  
-Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 NOT STARTED**
+Canonical placement / preparation remote-readback HEAD: `3c141c0a4f2dbfdc51a563fd7c76e40958bfee33`  
+Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 RELEASE REVALIDATION REQUIRED / STEP07 NOT STARTED**
+
+---
+
+## 0. Mandatory no-action rule-read gate
+
+Before any further material job action, the executor MUST first read in full the current live authorities, beginning with:
+
+- `../../LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md`;
+- `../../LEVEL1/01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md`;
+- `00_READ_RULES_BEFORE_ANY_ACTION.md`;
+- `KW002_RULE_COMPLIANCE_FAILURE_INCIDENT_2026-09-17.md`.
+
+Known recurring failure: Main Chat has repeatedly violated explicit project rules when working from memory/summary instead of freshly reading current live authorities in full.
+
+```text
+NO FRESH FULL RULE REREAD
+→ NO MATERIAL ACTION
+```
+
+This includes preparation, Work prompt relay/execution, analysis, provider work, publication acceptance and cursor/roadmap movement.
 
 ---
 
 ## 1. Current authority order
 
-1. current live Level1 rules;
-2. current `LEVEL2/STEP_RULES_INDEX.md` and step-specific Level2 rules;
-3. accepted upstream stage manifests/acceptance/readback files;
-4. this `JOB_FLOW.md` and current execution cursor;
-5. current job-specific pre-handoff manifests and schema contracts;
-6. historical/superseded files only for incident or lineage review.
+1. current live cross-Kwork owner-locked authorities where applicable;
+2. current `LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md`;
+3. current `LEVEL1/01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md`;
+4. all other applicable current Level1 rules, including owner-facing report/source disclosure and Work freshness/handoff authorities;
+5. current `LEVEL2/STEP_RULES_INDEX.md` and step-specific Level2 rules;
+6. accepted upstream stage manifests/acceptance/readback files;
+7. this `JOB_FLOW.md` and current execution cursor;
+8. current job-specific pre-handoff manifests/schema contracts/release gates;
+9. current job-specific failure/incident records;
+10. historical/superseded files only for incident or lineage review.
 
 Current cursor:
 
@@ -42,11 +66,18 @@ STEP07_PREPARATION_QA = PASS
 STEP07_PREPARATION_OWNER_UPLOAD = COMPLETE
 STEP07_PREPARATION_REMOTE_READBACK = PASS
 STEP07_PREPARATION_MAIN_CHAT_ACCEPTANCE = ACCEPTED
+STEP07_RELEASE_RULE_REVALIDATION = REQUIRED
+STEP07_OWNER_FACING_PRE_STEP_REPORT = REQUIRED
+STEP07_WORK_PROMPT_LIVE_AUTHORITY_RECONCILIATION = REQUIRED
 STEP07 = NOT STARTED
 STEP08–STEP20 = NOT STARTED
 ```
 
-`STEP07_PREPARATION` became durable only after owner single-staging upload, executor canonical placement, staging cleanup, remote readback and Main Chat return QA.
+`STEP07_PREPARATION` remains accepted as the frozen preparation package. However, the live Level1 authority changed after that preparation was accepted. Under `WORK_BASE_FRESHNESS_AND_AUTHORITY_DRIFT_RULE.md`, the older prepared Work contract may not be executed as current authority until release revalidation passes.
+
+The release gate is:
+
+`STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md`
 
 ---
 
@@ -126,7 +157,7 @@ Step06 evidence is a bounded SERP snapshot, not proof of permanent rankings or c
 
 ## 4. Accepted Step07 preparation package
 
-Canonical final files:
+Canonical final preparation files:
 
 ### Level2
 
@@ -143,6 +174,12 @@ Canonical final files:
 - `STEP_07_PREPARATION_QA.md`;
 - `KW002_EXECUTION_CURSOR_2026-09-17.json`;
 - this `JOB_FLOW.md`.
+
+Post-preparation rule-compliance controls now additionally include:
+
+- `00_READ_RULES_BEFORE_ANY_ACTION.md`;
+- `KW002_RULE_COMPLIANCE_FAILURE_INCIDENT_2026-09-17.md`;
+- `STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md`.
 
 Preparation freezes:
 
@@ -194,7 +231,7 @@ ONE HANDOFF UNIT
 → ACCEPTANCE
 ```
 
-For this preparation package:
+For the Step07 preparation package:
 
 ```text
 LOCAL_ARTIFACT_COMPLETE = true
@@ -227,15 +264,31 @@ Actual Step07 is public competitor-page candidate discovery and performs no sear
 
 ## 7. Exact next action
 
-Step07 preparation is accepted and no preparation publication work remains.
+The preparation package is accepted, but actual Step07 is **not released yet** because current rule authority changed after preparation.
 
-Actual Step07 has **not** started. It may begin only after an explicit owner command to proceed and relay of the already-prepared canonical Work prompt:
+Before the existing Step07 Work prompt can be relayed, Main Chat MUST execute:
 
-`STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md`
+`STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md`
+
+That requires, in order:
 
 ```text
-CURRENT_NEXT_ACTION = AWAIT_OWNER_COMMAND_FOR_ACTUAL_STEP07_WORK_HANDOFF
+FETCH CURRENT LIVE REMOTE HEAD
+→ READ ALL APPLICABLE RULES IN FULL
+→ READ CURRENT FAILURE/INCIDENT LEDGERS
+→ RECONCILE THE PREPARED STEP07 WORK PROMPT AGAINST CURRENT LIVE AUTHORITY
+→ PERFORM THE FRESH STEP07 EXTERNAL-RESEARCH / FRESHNESS CHECK REQUIRED BY THE PRE-STEP RULE
+→ SHOW THE COMPLETE OWNER-FACING PRE-STEP REPORT IN CHAT
+→ SHOW CLICKABLE SOURCES + WHAT EACH SUPPORTS + SOURCE→METHOD TRACE
+→ END WITH A REAL PLAIN-RUSSIAN WHY / WHAT / RESULT / BLOCKER / NEXT ACTION SUMMARY
+→ ONLY THEN STEP07_EXECUTION_ALLOWED MAY BECOME true
+→ ONLY THEN RELAY THE CURRENT CANONICAL WORK PROMPT
+```
+
+```text
+CURRENT_NEXT_ACTION = STEP07_RELEASE_REVALIDATION_BEFORE_WORK_HANDOFF
 STEP07_PREPARATION = ACCEPTED
+STEP07_RELEASE_REVALIDATION = REQUIRED
 ACTUAL_STEP07_RELEASED = false
 STEP07 = NOT_STARTED
 STEP08 = NOT_STARTED
