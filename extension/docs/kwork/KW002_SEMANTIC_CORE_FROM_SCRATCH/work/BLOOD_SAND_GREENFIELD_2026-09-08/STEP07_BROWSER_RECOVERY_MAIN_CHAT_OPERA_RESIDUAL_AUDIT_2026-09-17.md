@@ -1,13 +1,21 @@
 # KW-002 / BLOOD & SAND — STEP07 MAIN CHAT OPERA RESIDUAL AUDIT
 
 Date: 2026-09-17
-Status: **BROWSER OUTCOME CLOSURE PASS / DURABLE PAGE-EVIDENCE MATERIALIZATION STILL REQUIRED**
+Status: **FINAL OPERA ACQUISITION CLOSED / LOCAL 7-FILE PACKAGE QA PASS / CANONICAL REMOTE ACCEPTANCE WAITING OWNER SINGLE-STAGING BYTE RELAY**
 
-## 1. Scope
+## 1. Frozen scope
 
-Authority: `STEP07_BROWSER_RECOVERY_RESIDUAL_CORRECTION_SET_2026-09-17.csv`.
+Authority remains:
 
-Only rows with `browser_retry_required=true` were retried through the owner-connected Opera Browser Connector.
+`STEP07_BROWSER_RECOVERY_RESIDUAL_CORRECTION_SET_2026-09-17.csv`
+
+Only rows with:
+
+```text
+browser_retry_required = true
+```
+
+were resolved through the owner-connected Opera Browser Connector.
 
 ```text
 FROZEN_BROWSER_RETRY_ROWS = 90
@@ -19,296 +27,191 @@ STEP08_STARTED = false
 SEMANTIC_CANDIDATE_CLASSIFICATION = false
 ```
 
-This pass used normal public browser navigation only. No CAPTCHA, anti-bot, login, security or robots bypass was performed.
+No CAPTCHA, anti-bot, VPN, login, security or robots bypass was performed.
 
-## 2. Final Opera browser outcomes
+## 2. Final exact Opera outcomes
+
+A later exact Wildberries recheck supersedes the earlier interim `70 readable / 20 target-block` snapshot.
+
+Current frozen-90 result:
 
 ```text
-RECOVERED_READABLE = 70
-TARGET_CAPTCHA_OR_ANTI_BOT = 20
+RECOVERED_INSPECTED_WITH_DURABLE_EVIDENCE = 66
+TARGET_CAPTCHA_OR_ANTI_BOT = 24
 EXECUTION_ENVIRONMENT_FAILURE = 0
 UNRESOLVED_DYNAMIC_CONTENT = 0
 TOTAL = 90
-```
-
-Therefore, at the URL-outcome level:
-
-```text
 FINAL_RESIDUAL_ACQUISITION_GAPS = 0
-BROWSER_OUTCOME_CLOSURE = PASS
 ```
 
-Important boundary:
+Target-block breakdown:
 
 ```text
-BROWSER_OUTCOME_CLOSURE PASS
-!= FULL DURABLE PAGE-EVIDENCE MATERIALIZATION PASS
-!= STEP07 BROWSER RECOVERY ACCEPTED YET
+Wildberries official VPN target page = 22
+AliExpress official verification target page = 2
 ```
 
-The 70 readable pages still require their rendered candidate-bearing page evidence to be durably materialized before the accepted recovery package can be rebuilt and semantic Work released.
-
-## 3. Exact recovered IDs — 70
-
-### Wildberries — 5 readable
+The four Wildberries rows that changed from the interim readable observation to the final target-side block are:
 
 ```text
 R9-S07U000008
 R9-S07U000010
-R9-S07U000014
 R9-S07U000016
 R9-S07U000018
 ```
 
-Observed normal rendered category pages included:
-
-- `Амулет и оберег`;
-- `Домашний оберег на удачу`;
-- `Обереги и амулеты славянские`;
-- `Подкова настоящая`;
-- `Символ ом`.
-
-### Yandex Market — 20 readable
-
-```text
-R9-S07U000051
-R9-S07U000052
-R9-S07U000053
-R9-S07U000054
-R9-S07U000055
-R9-S07U000056
-R9-S07U000057
-R9-S07U000058
-R9-S07U000059
-R9-S07U000060
-R9-S07U000062
-R9-S07U000063
-R9-S07U000064
-R9-S07U000065
-R9-S07U000066
-R9-S07U000067
-R9-S07U000068
-R9-S07U000069
-R9-S07U000071
-R9-S07U000073
-```
-
-Normal rendered categories/search result pages were observed with matching query/category headings and product results.
-
-### Livemaster — 11 readable
-
-```text
-R9-S07U000074
-R9-S07U000075
-R9-S07U000076
-R9-S07U000077
-R9-S07U000078
-R9-S07U000079
-R9-S07U000080
-R9-S07U000081
-R9-S07U000082
-R9-S07U000083
-R9-S07U000084
-```
-
-Normal rendered marketplace/article pages were observed, including `Славянские обереги`, `Талисман удачи`, `Краткое описание и амулетные значения рун Старшего Футарка`, `Символ ОМ`, `Обережная вышивка`, `Славянские символы`, and `Амулеты, талисманы, обереги — в чем разница`.
-
-### Avito — 8 readable
-
-```text
-R9-S07U000085
-R9-S07U000088
-R9-S07U000089
-R9-S07U000090
-R9-S07U000091
-R9-S07U000092
-R9-S07U000093
-R9-S07U000094
-```
-
-Opera rendered normal Avito search pages rather than the Codex Browser Use safety block. Readable query result headings included:
-
-- `Будда статуэтка бронза`;
-- `Молот тора серебро`;
-- `Молот тора`;
-- `Мусульманский оберег`;
-- `Мьёльнир`;
-- `Подкова для лошади`;
-- `Статуэтка будды`;
-- `Статуэтка будды: объявления в Москве`.
-
-### Joom — 2 readable
-
-```text
-R9-S07U000097
-R9-S07U000098
-```
-
-Normal rendered category/product content was readable.
-
-### ru.wikipedia.org — 1 readable
-
-```text
-R9-S07U000118
-```
-
-`Христианская символика` rendered as normal article content.
-
-### ru.ruwiki.ru — 8 readable
-
-```text
-R9-S07U000119
-R9-S07U000120
-R9-S07U000122
-R9-S07U000123
-R9-S07U000124
-R9-S07U000125
-R9-S07U000127
-R9-S07U000128
-```
-
-All eight normal article pages rendered after ordinary wait; no bypass was used.
-
-### kartaslov.ru — 4 readable
-
-```text
-R9-S07U000155
-R9-S07U000159
-R9-S07U000396
-R9-S07U001526
-```
-
-Normal public pages for `писание`, `Фома`, `дом`, and `нашла коса на камень` were readable. The site's ordinary `НАУЧИ БОТА!` / `Лампобот` contribution widget is page UI, not an access challenge.
-
-### sibpodkova.ru — 3 readable
-
-```text
-R9-S07U001903
-R9-S07U001904
-R9-S07U001905
-```
-
-Homepage, `Кузница`, and `Подковы` rendered normally.
-
-### azbyka.ru — 4 readable
-
-```text
-R9-S07U001947
-R9-S07U001948
-R9-S07U001949
-R9-S07U001950
-```
-
-The pages rendered normal article content. `https://azbyka.ru/krest` initially showed a DDoS-Guard browser-verification title, then completed the ordinary browser verification automatically and rendered the article without any bypass. Final state is readable content, not target block.
-
-### goroskop365.ru — 4 readable
-
-```text
-R9-S07U001959
-R9-S07U001960
-R9-S07U001961
-R9-S07U001962
-```
-
-Normal public rune/guidance pages rendered, including the rune section and pages for `Альгиз`, `Феху`, and `Отал`.
-
-## 4. Exact legitimate target blocks — 20
-
-### Wildberries VPN target page — 18
-
-Every ID below was navigated individually. Opera reached a Wildberries-branded target page stating in substance:
+Each was re-opened through the exact authority URL. Current target page text states:
 
 ```text
 Возможно, нужно выключить VPN
 Не смогли загрузить страницу: попробуйте выключить VPN.
 ```
 
-No bypass was attempted.
+`R9-S07U000014` remains normally readable and has durable rendered product/category evidence.
+
+## 3. Final frozen-90 domain reconciliation
 
 ```text
-R9-S07U000001
-R9-S07U000002
-R9-S07U000003
-R9-S07U000004
-R9-S07U000005
-R9-S07U000006
-R9-S07U000007
-R9-S07U000009
-R9-S07U000011
-R9-S07U000012
-R9-S07U000013
-R9-S07U000015
-R9-S07U000017
-R9-S07U000019
-R9-S07U000020
-R9-S07U000021
-R9-S07U000022
-R9-S07U000023
-```
+wildberries.ru = 1 readable + 22 target block = 23
+market.yandex.ru = 20 readable
+livemaster.ru = 11 readable
+avito.ru = 8 readable
+aliexpress.ru = 2 target block
+joom.ru = 2 readable
+ru.wikipedia.org = 1 readable
+ru.ruwiki.ru = 8 readable
+kartaslov.ru = 4 readable
+sibpodkova.ru = 3 readable
+azbyka.ru = 4 readable
+goroskop365.ru = 4 readable
 
-Final class: `TARGET_CAPTCHA_OR_ANTI_BOT` / target VPN block evidence.
-
-### AliExpress verification target page — 2
-
-Fresh-tab retries for both exact URLs reached AliExpress target verification pages with title:
-
-```text
-Пройдите проверку
-```
-
-and AliExpress `/_____tmd_____/punish?x5secdata=...` challenge URLs.
-
-No verification/CAPTCHA/anti-bot bypass was attempted.
-
-```text
-R9-S07U000095
-R9-S07U000096
-```
-
-Final class: `TARGET_CAPTCHA_OR_ANTI_BOT`.
-
-Earlier Opera `ERR_TIMED_OUT` observations are superseded by these later successful target-level challenge observations.
-
-## 5. Reconciliation
-
-```text
-WILDBERRIES = 5 readable + 18 target block = 23
-MARKET = 20 readable
-LIVEMASTER = 11 readable
-AVITO = 8 readable
-ALIEXPRESS = 2 target block
-JOOM = 2 readable
-RU_WIKIPEDIA = 1 readable
-RUWIKI = 8 readable
-KARTASLOV = 4 readable
-SIBPODKOVA = 3 readable
-AZBYKA = 4 readable
-GOROSKOP365 = 4 readable
-
-READABLE = 70
-TARGET_BLOCK = 20
+READABLE = 66
+TARGET_BLOCK = 24
 ENVIRONMENT_FAILURE = 0
 UNRESOLVED = 0
 TOTAL = 90
 ```
 
-## 6. Next required action
+## 4. Durable evidence materialization
 
-Do not rerun these 90 URLs through Codex Browser Use.
+All 66 readable rows now have durable page-evidence records.
 
-Next complete unit:
+Evidence policy used in the final package:
+
+- marketplace/search/category pages: complete current candidate-bearing headings, category labels and visible product/service names; generic UI, ads, prices, ratings and reviews are filtered deterministically;
+- informational/encyclopedic pages: stable topic/section/glossary surfaces from complete public page inspection; arbitrary prose/example sentences are not promoted as candidate identities;
+- the long Azbyka Chapter V page was inspected across all 8 connector pagination pages and its stable symbol/topic register was retained.
+
+This matches the Step07 rework anti-contamination boundary:
 
 ```text
-MATERIALIZE DURABLE RENDERED PAGE EVIDENCE FOR THE 70 READABLE OPERA PAGES
-+ MERGE THE 20 TARGET-BLOCK OUTCOMES
-+ REBUILD FINAL 7-FILE BROWSER-RECOVERY PACKAGE
-+ RUN MAIN CHAT RETURN QA
+RAW PROSE != AUTOMATIC CANDIDATE
+STABLE TOPIC / CATEGORY / PRODUCT / TERMINOLOGY SURFACE = ELIGIBLE FOR REWORK EVALUATION
 ```
 
-Until the 70 readable page-evidence records are durably materialized and the final package reconciles:
+## 5. Independent final-package QA
+
+Independent re-read of the rebuilt package returned:
 
 ```text
-STEP07_BROWSER_RECOVERY_ACCEPTED = false
-STEP07_SEMANTIC_REWORK = BLOCKED
+OUTSIDE_FROZEN_URL_ROWS_CHANGED = 0
+FROZEN_ROWS_CHANGED = 90/90
+MISSING_FROZEN_BROWSER_RETRY_IDS = 0
+EXTRA_BROWSER_RETRY_IDS = 0
+URL_PK_UNIQUE = PASS
+EVIDENCE_PK_UNIQUE = PASS
+URL_LEDGER_SCHEMA = PASS
+COVERAGE_SCHEMA = PASS
+PAGE_EVIDENCE_SCHEMA = PASS
+JOINS = PASS
+COVERAGE_ROWS = 32
+ALL_REMAINING_UNRESOLVED_OR_ENVIRONMENT_FAILURE = 0
+MANIFEST_HASHES = PASS
+ZIP_SEVEN_FILE_BYTE_IDENTITY = PASS
+```
+
+Final global terminal counts across all 1,976 recovery URL rows:
+
+```text
+EXCLUDED_OUT_OF_SCOPE = 1201
+EXCLUDED_DUPLICATE = 24
+RECOVERED_INSPECTED = 432
+REDIRECTED_IN_SCOPE = 293
+TARGET_CAPTCHA_OR_ANTI_BOT = 26
+EXECUTION_ENVIRONMENT_FAILURE = 0
+UNRESOLVED_DYNAMIC_CONTENT = 0
+TOTAL = 1976
+```
+
+The global target-block count is 26 because two legitimate SOKOLOV target challenges already existed outside the frozen 90.
+
+Final page evidence rows:
+
+```text
+PRE_OPERA_VALID_EVIDENCE = 659
+NEW_OPERA_DURABLE_EVIDENCE = 66
+TOTAL_PAGE_EVIDENCE = 725
+```
+
+## 6. Local final package hashes
+
+```text
+STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
+SHA256 = 2fb8a69b6861a1e9934b0976dbf44029a79579d93457c284bd50ba5c392cf0e2
+
+STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl
+SHA256 = 7eefe0001428c926680faab9218bda9d7ddfd197347dd97b6140e993d7353592
+
+STEP07_BROWSER_RECOVERY_COVERAGE.csv
+SHA256 = 8cd07a7c1b21e9495d276ab8c7a53c4a8f34525dfb305684dcc811411b8433ce
+
+STEP07_BROWSER_RECOVERY_QA.md
+SHA256 = 46d8885743a2ae3358a3e6a11ec57c57438c156b0a6d00e1030ae0a5bcb1ee83
+
+STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv
+SHA256 = 1cbe984c47854eeb55eb1a1a07fc3134a030a1a841cd6a7f22e82326a01295a6
+
+STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv
+SHA256 = ad77bad53a960c6ea37c4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d
+
+STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
+SHA256 = e5bad200b5f460f266ecc6305db874edc5c92ebcb215baf6eac374c3b4f58b1e
+
+TRANSPORT ZIP
+SHA256 = f08cca3b26cce93767d22916c328ccf8e37fd809c60aef8e91aebfe9e0205f36
+FILES = exactly 7
+```
+
+## 7. Publication boundary
+
+Pre-publication remote check:
+
+```text
+REMOTE_HEAD = 71ff2a0a754d67c549fd7838b9835a8e25f2d216
+AUTHORITY_DRIFT = false
+```
+
+The final package is **locally accepted by Main Chat QA**, but the 22.3 MB page-evidence file cannot be safely written through the text-only GitHub `update_file` connector.
+
+Therefore the frozen handoff architecture applies:
+
+```text
+OWNER = ONE BYTE RELAY
+ONE ZIP
+→ EXTRACT EXACTLY 7 FILES
+→ ONE STAGING DIRECTORY
+→ ONE COMMIT
+→ REPLY "готово"
+→ MAIN CHAT REMOTE READBACK / HASH QA
+→ CANONICAL BROWSER RECOVERY ACCEPTANCE
+→ RELEASE STEP07 SEMANTIC REWORK
+```
+
+Until remote readback succeeds:
+
+```text
+LOCAL_RECOVERY_PACKAGE_QA = PASS
+CANONICAL_REMOTE_BROWSER_RECOVERY_ACCEPTED = false
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_REMOTE_RECOVERY_ACCEPTANCE
 STEP08 = BLOCKED_NOT_STARTED
 ```
