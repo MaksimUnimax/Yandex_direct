@@ -2,7 +2,7 @@
 
 Updated: 2026-09-17
 
-Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REMOTELY PUBLISHED BUT REJECTED / BROWSER RECOVERY RELEASED TO CODEX / STEP07 REWORK REQUIRED / STEP08 BLOCKED**
+Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY ATTEMPT 1 RETURNED BUT REJECTED / LIMITED CODEX REWORK RELEASED / STEP07 SEMANTIC REWORK BLOCKED / STEP08 BLOCKED**
 
 ---
 
@@ -44,8 +44,12 @@ STEP07_ATTEMPT_1_OWNER_UPLOAD = COMPLETE
 STEP07_ATTEMPT_1_REMOTE_PUBLICATION = COMPLETE
 STEP07_ATTEMPT_1_WORK_QA = FAIL / INCOMPLETE
 STEP07_ATTEMPT_1_MAIN_CHAT_RETURN_QA = REJECTED / REWORK_REQUIRED
-STEP07_BROWSER_RECOVERY = RELEASED_TO_CODEX / NOT YET RETURNED
-STEP07_SEMANTIC_REWORK = REQUIRED AFTER BROWSER RECOVERY
+
+STEP07_BROWSER_RECOVERY_ATTEMPT_1 = RETURNED / MAIN_CHAT_REJECTED
+STEP07_BROWSER_RECOVERY_LIMITED_REWORK = RELEASED_TO_CODEX
+STEP07_BROWSER_RECOVERY_REMOTE_PUBLICATION = NOT_ALLOWED_YET
+
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_CORRECTED_BROWSER_RECOVERY
 STEP07 = INCOMPLETE / REWORK_REQUIRED
 
 STEP08 = BLOCKED / NOT_STARTED
@@ -101,127 +105,135 @@ Obsolete Step03B `5074/12750/6752` and Step05 orientation `259600/200577/2658` r
 
 ---
 
-## 3. Step07 Attempt 1 publication
+## 3. Step07 Attempt 1
 
-Owner upload commit:
-
-`4b596b048d87a7e657bf3b84b715e7ee95980a3f`
-
-Upload base:
-
-`00230d7f1a8f83bb2aebfcbad89b896b122879d5`
-
-The upload added exactly six expected files and no unrelated changes:
-
-```text
-COMPETITOR_GAP_CANDIDATES.csv
-STEP07_COMPETITOR_COVERAGE_LEDGER.csv
-STEP07_SOURCE_URL_LEDGER.csv
-STEP07_CANDIDATE_PROVENANCE_LEDGER.csv
-STEP07_EXECUTION_QA.md
-STEP07_EXECUTION_HANDOFF_MANIFEST.json
-```
-
-```text
-OWNER_UPLOAD_COMPLETE = true
-STAGING_READBACK_PASS = true
-FINAL_PLACEMENT_COMPLETE = true
-STAGING_CLEANUP = NOT_APPLICABLE
-REMOTE_PUBLICATION_COMPLETE = true
-```
-
-The failed attempt remains preserved in Git history and current paths until accepted rework replaces it.
-
----
-
-## 4. Attempt 1 accounting / failure
+Attempt 1 remains rejected/incomplete.
 
 ```text
 DISCOVERED_URLS = 1,976
 INSPECTED_URLS = 24
 EXCLUDED_URLS = 1,201
 INACCESSIBLE_URLS = 751
-UNRESOLVED_URLS = 0
-ERROR_URLS = 0
 PROVENANCE_ROWS = 1,417
 CANDIDATE_IDENTITIES = 686
 ```
 
-Attempt 1 candidate statuses:
-
-```text
-ALREADY_PRESENT = 10
-NEW_CANDIDATE = 400
-NORMALIZED_DUPLICATE = 0
-POSSIBLE_VARIANT = 3
-OUT_OF_SCOPE = 207
-AMBIGUOUS = 66
-```
-
-Only `S07A010 / kartaslov.ru` yielded inspected candidate pages.
-
-Work itself correctly reported:
+Work hard failures:
 
 ```text
 COMPLETE_BOUNDED_COMPETITOR_UNIVERSE_PROCESSED = FAIL
 EXECUTION_COMPLETENESS_DEMONSTRABLE = FAIL
-STEP07 = INCOMPLETE
-QUALITY_SCORE = 7.4 / 10
 ```
 
-Main Chat return QA additionally found:
-
-1. many inaccessible rows reflected Work-runtime/proxy failures rather than proven source-level inaccessibility;
-2. several authorized competitor public pages were retrievable through a normal browser route;
-3. the semantic candidate producer systematically promoted arbitrary prose, quotations, broken dictionary fragments and metadata-like text to `NEW_CANDIDATE`;
-4. Work QA retained stale seven-file wording after the contract had become six-file.
+Main Chat additionally found systematic candidate-producer pollution and false inaccessibility caused by Work runtime/proxy behavior.
 
 Main Chat return authority:
 
 `STEP07_MAIN_CHAT_RETURN_QA_2026-09-17.md`
 
-```text
-MAIN_CHAT_ACCEPTANCE = REJECTED_REWORK_REQUIRED
-MAIN_CHAT_RETURN_QUALITY_SCORE = 5.2 / 10
-STEP08 = BLOCKED
-```
-
 ---
 
-## 5. Recovery architecture
-
-Do not repeat the failed architecture.
+## 4. Browser recovery architecture
 
 ```text
 CODEX BROWSER RECOVERY
 → acquire missing legitimate public competitor page evidence
 → no candidate classification
 → no provider calls
-→ persist browser recovery ledgers/page evidence
 
 THEN
 
-CHATGPT WORK STEP07 REWORK
-→ consume Attempt 1 + browser recovery evidence
+CHATGPT WORK STEP07 SEMANTIC REWORK
+→ consume Attempt 1 + corrected browser recovery evidence
 → re-evaluate ALL existing 686 candidates / 1417 provenance rows
-→ apply corrected candidate-eligibility producer
-→ merge newly collected evidence
+→ merge recovered evidence
 → rerun complete Step07 QA
 ```
 
-Current Codex recovery prompt:
+Main Chat Opera-control authority:
 
-`STEP07_BROWSER_RECOVERY_CODEX_PROMPT_2026-09-17.md`
-
-Current Work semantic rework prompt:
-
-`STEP07_REWORK_WORK_PROMPT_2026-09-17.md`
+`STEP07_OPERA_BROWSER_CONTROL_PROBE_2026-09-17.md`
 
 ---
 
-## 6. Codex browser recovery output contract
+## 5. Browser recovery Attempt 1 return
 
-Codex must create exactly five recovery artifacts:
+Codex returned owner-side five-file recovery package with reported totals:
+
+```text
+AUTHORIZED_COMPETITORS = 32
+SOURCE_URL_ROWS = 1976
+RECOVERY_ROWS_ACCOUNTED = 751
+SILENT_SKIP = 0
+RECOVERED_INSPECTED = 346
+REDIRECTED_IN_SCOPE = 306
+TARGET_CAPTCHA_OR_ANTI_BOT = 1
+EXECUTION_ENVIRONMENT_FAILURE = 98
+EXCLUDED_DUPLICATE = 24
+EXCLUDED_OUT_OF_SCOPE = 1201
+PROVIDER_CALLS = 0
+STEP08_EXECUTED = false
+CANDIDATE_CLASSIFICATION_EXECUTED = false
+```
+
+The return materially improved access evidence, but independent Main Chat QA rejected it.
+
+Authority:
+
+`STEP07_BROWSER_RECOVERY_MAIN_CHAT_RETURN_QA_2026-09-17.md`
+
+Hard defects:
+
+1. recovery URL ledger does not use the released recovery schema;
+2. recovery coverage CSV uses the old Attempt-1-style schema instead of required Attempt1→Recovery fields;
+3. 30 JSONL evidence rows use `NOT_COLLECTED`; 28 of them are linked to rows labelled `RECOVERED_INSPECTED`;
+4. JSONL field names drift from the released machine contract;
+5. 47 of 98 environment failures are deterministic executor bug `TypeError: t.goto is not a function` and must be retried after fixing navigation;
+6. QA contains unauthorized sitemap contamination referencing `okno-msk.ru`, not one of the authorized 32 competitors.
+
+Therefore:
+
+```text
+STEP07_BROWSER_RECOVERY_ATTEMPT_1_RETURN = REJECTED
+CANONICAL_RECOVERY_UPLOAD = NOT_ALLOWED
+```
+
+The owner-uploaded first recovery package remains outside canonical repository publication.
+
+---
+
+## 6. Current limited Codex rework
+
+Current execution prompt:
+
+`STEP07_BROWSER_RECOVERY_CODEX_LIMITED_REWORK_PROMPT_2026-09-17.md`
+
+The rework must preserve valid browser evidence while correcting the producer across the complete affected universe.
+
+Mandatory corrections include:
+
+```text
+URL_LEDGER_EXACT_RECOVERY_SCHEMA
+COVERAGE_EXACT_RECOVERY_SCHEMA
+PAGE_EVIDENCE_EXACT_FIELD_SCHEMA
+NOT_COLLECTED_ON_RECOVERED_INSPECTED = 0
+T_GOTO_TYPEERROR_FINAL_ROWS = 0
+UNAUTHORIZED_SITEMAP_REFERENCES = 0
+VALID_SHA256_FOR_EVERY_RECOVERED_INSPECTED
+FULL_JOIN_QA
+```
+
+Retry policy:
+
+- retry all 47 `t.goto` bug rows after fixing navigation;
+- one normal retry for timeout/deadline/CDP environment failures;
+- never bypass site-safety policy, anti-bot, login, robots, certificate/security controls.
+
+---
+
+## 7. Browser recovery output contract
+
+Corrected Codex package remains exactly five files:
 
 ```text
 STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
@@ -231,32 +243,26 @@ STEP07_BROWSER_RECOVERY_QA.md
 STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
 ```
 
-Codex does NOT replace current Step07 candidates/provenance.
-
-Codex must distinguish target access decisions from its own execution-environment/browser failures.
-
-No CAPTCHA/robots/login/paywall bypass.
+Only after Main Chat accepts the corrected package may owner relay it to canonical single staging and may the semantic Work rework be released.
 
 ---
 
-## 7. Step07 rework boundary
+## 8. Step07 semantic rework boundary
 
-After browser recovery is remotely uploaded/read back, Work rework must process at full volume:
+After corrected browser recovery is accepted, Work rework must process at full volume:
 
 ```text
 ALL 686 current candidate identities
 ALL 1417 current provenance rows
-ALL newly recovered browser page evidence
+ALL corrected recovered browser evidence
 ALL current/recovered URL coverage for all 32 competitors
 ```
 
-Known bad rows are regression examples only, not patch targets.
-
-The current `NEW_CANDIDATE = 400` set is not safe for Step08 and must be fully re-evaluated.
+The current `NEW_CANDIDATE = 400` set remains unsafe for Step08 and must be fully re-evaluated.
 
 ---
 
-## 8. Provider/downstream boundary
+## 9. Provider/downstream boundary
 
 ```text
 WORDSTAT_CALLS_ALLOWED_NOW = 0
@@ -271,13 +277,14 @@ FINAL_PAGE_DECISIONS = NONE
 
 ---
 
-## 9. Exact next action
+## 10. Exact next action
 
 ```text
-CURRENT_NEXT_ACTION = OWNER_RELAY_STEP07_BROWSER_RECOVERY_CODEX_PROMPT
-STEP07_BROWSER_RECOVERY = RELEASED_TO_CODEX
+CURRENT_NEXT_ACTION = RELAY_STEP07_BROWSER_RECOVERY_CODEX_LIMITED_REWORK_PROMPT_TO_CODEX
+STEP07_BROWSER_RECOVERY_LIMITED_REWORK = RELEASED_TO_CODEX
+STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_CORRECTED_BROWSER_RECOVERY
 STEP07 = INCOMPLETE_REWORK_REQUIRED
 STEP08 = BLOCKED_NOT_STARTED
 ```
 
-After Codex returns the five recovery files, owner uploads them together to the one job-root staging target and replies `готово`. Main Chat then performs remote readback and releases the already-prepared full-volume Work semantic rework.
+Do not upload the rejected first recovery package to GitHub as canonical recovery evidence. Codex must first return the corrected five-file package.
