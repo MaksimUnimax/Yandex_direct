@@ -4,15 +4,8 @@
   "project": "KW-002",
   "repository": "MaksimUnimax/Yandex_direct",
   "branch": "roadmap/kwork-productization-2026-08-28",
-  "prepared_against_remote_head": "0630d3f6dbd1962290dc8ab77a454e86c604a795",
-  "owner_upload_head": "b868a85a5b0ffd2a95740a351ba8bb3d2586d326",
-  "canonical_placement_commit": "3c141c0a4f2dbfdc51a563fd7c76e40958bfee33",
-  "preparation_remote_readback_head": "3c141c0a4f2dbfdc51a563fd7c76e40958bfee33",
-  "step07_release_revalidation_start_head": "cb7545462a4386dcad24b46ec7d99ec788f6e44d",
-  "step07_work_prompt_reconciliation_commit": "360d4c2c1ed54fa42075dcced156fe867b7b1b23",
-  "step07_release_revalidation_commit": "8eef4d17512f75235daf5745373daa10c46e056f",
   "cursor_date": "2026-09-17",
-  "current_stage": "STEP07_RELEASED_TO_WORK__ACTUAL_STEP07_NOT_YET_EXECUTED",
+  "current_stage": "STEP07_RELEASED_TO_WORK__EXECUTION_ONLY_PROMPT__ACTUAL_STEP07_NOT_YET_EXECUTED",
   "stage_status": {
     "STEP00": "COMPLETE",
     "STEP01": "COMPLETE",
@@ -23,14 +16,9 @@
     "STEP04": "ACCEPTED",
     "STEP05": "COMPLETE_PASS",
     "STEP06": "DURABLE_PASS",
-    "STEP07_PREPARATION_WORK": "COMPLETE",
-    "STEP07_PREPARATION_QA": "PASS",
-    "STEP07_PREPARATION_OWNER_UPLOAD": "COMPLETE",
-    "STEP07_PREPARATION_REMOTE_READBACK": "PASS",
-    "STEP07_PREPARATION_MAIN_CHAT_ACCEPTANCE": "ACCEPTED",
-    "STEP07_RELEASE_RULE_REVALIDATION": "PASS",
-    "STEP07_OWNER_FACING_PRE_STEP_REPORT": "PASS",
-    "STEP07_WORK_PROMPT_LIVE_AUTHORITY_RECONCILIATION": "PASS",
+    "STEP07_PREPARATION": "ACCEPTED",
+    "STEP07_MAIN_CHAT_RELEASE_REVALIDATION": "PASS",
+    "STEP07_WORK_PROMPT_ROLE_BOUNDARY_CORRECTION": "PASS",
     "STEP07_EXECUTION_ALLOWED": true,
     "STEP07_RELEASED_FOR_WORK_RELAY": true,
     "STEP07": "NOT_STARTED_RELEASED_TO_WORK",
@@ -55,16 +43,32 @@
     "current_live_final_step": "STEP22",
     "older_step20_terminal_assumption": "SUPERSEDED"
   },
-  "rule_compliance_controls": {
-    "full_rule_reread_gate": "LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md",
-    "recurring_failure_checklist": "LEVEL1/01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md",
-    "job_incident_record": "KW002_RULE_COMPLIANCE_FAILURE_INCIDENT_2026-09-17.md",
-    "step07_release_revalidation_gate": "STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md",
-    "step07_execution_release_record": "STEP_07_EXECUTION_RELEASE_REVALIDATION_2026-09-17.md",
-    "assistant_memory_counts_as_rule_readback": false,
-    "material_action_allowed_without_fresh_full_rule_reread": false,
-    "owner_facing_source_links_required_in_chat": true,
-    "owner_facing_plain_language_summary_required_in_chat": true
+  "role_boundary": {
+    "main_chat": [
+      "full_applicable_rule_reread",
+      "fresh_external_method_research",
+      "owner_facing_source_disclosure",
+      "owner_facing_plain_language_report",
+      "work_prompt_authoring",
+      "step_release_authorization",
+      "post_work_return_qa",
+      "remote_acceptance",
+      "mutable_job_flow_cursor_updates"
+    ],
+    "work": [
+      "narrow_remote_head_and_release_identity_check",
+      "named_input_manifest_schema_hash_check",
+      "full_volume_step07_execution",
+      "task_output_materialization",
+      "task_qa",
+      "single_staging_handoff_package"
+    ],
+    "work_full_level1_reread_required": false,
+    "work_fresh_external_research_required": false,
+    "work_owner_facing_report_required": false,
+    "work_release_reauthorization_required": false,
+    "work_rule_read_ledger_required": false,
+    "work_narrow_material_drift_preflight_required": true
   },
   "verified_upstream_counts": {
     "step03a_raw_occurrences": 25979,
@@ -88,35 +92,31 @@
     "step06_collision_uncertainty_rows": 5
   },
   "authority_drift_notes": [
-    "The task orientation Step05 figures 259600 total views, 200577 unique phrases and 2658 overlap are not supported by the current live accepted W10 V2/V3 repository authority and were excluded.",
+    "Step05 orientation figures 259600 / 200577 / 2658 are not current accepted authority and remain excluded.",
     "The older Step03B partition 5074/12750/6752 is superseded by 5100/13035/6441.",
-    "KW002_EXECUTION_CURSOR_2026-09-11.json is historical and no longer controls the current stage.",
     "Current STEP_RULES_INDEX.md ends at STEP22; earlier Step20-terminal wording is superseded.",
-    "The prepared actual-Step07 Work prompt was reconciled to current rule authority before release: current full-rule reread gates, Step22 roadmap, clean source boundary, single-staging owner relay, mutable-state exclusion and universal quality scoring are now explicit."
+    "Main Chat governance gates were incorrectly duplicated inside Work runtime and were removed on 2026-09-17. Work now executes the released prompt with only a narrow material-drift preflight."
   ],
-  "step07_preparation_controls": {
+  "step07_execution_contract": {
     "authorized_competitor_universe_file": "STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv",
     "authorized_competitor_rows": 32,
     "source_step06_registry_sha256": "b15e601db56d8f3c23d7a8c4a2193fc14000dc9773229d693c200756240efcdb",
     "output_schema_file": "STEP_07_OUTPUT_SCHEMA_CONTRACT.json",
-    "future_work_prompt_file": "STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md",
-    "future_work_prompt_status": "CURRENT_RELEASED_FOR_ACTUAL_STEP07_WORK",
-    "level2_rule_file": "LEVEL2/STEP_07_COMPETITOR_SEMANTIC_EXPANSION.md",
+    "work_prompt_file": "STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT.md",
+    "work_prompt_commit": "be0aee668712d1ab04317457b0e8d2b38845b2a0",
+    "work_prompt_blob": "3070c6e9e5e75bcc510f04aa09f76d119f69770f",
+    "work_prompt_scope": "EXECUTION_ONLY",
     "full_volume_policy": "BOUNDED_FRONTIER_EXHAUSTION_NO_SAMPLE",
-    "step08_demand_validation_required": true
-  },
-  "step07_release_gate": {
-    "gate_file": "STEP_07_RELEASE_REVALIDATION_GATE_2026-09-17.md",
-    "release_record": "STEP_07_EXECUTION_RELEASE_REVALIDATION_2026-09-17.md",
-    "fresh_live_remote_fetch_required": true,
-    "full_applicable_rule_reread": "PASS",
-    "failure_incident_reread": "PASS",
-    "prepared_work_prompt_current_authority_reconciliation": "PASS",
-    "fresh_external_research": "PASS",
-    "clickable_source_disclosure_in_chat": "PASS",
-    "plain_language_why_what_result_blocker_next": "PASS",
-    "unresolved_authority_conflicts": 0,
-    "execution_allowed": true
+    "step08_demand_validation_required": true,
+    "required_work_handoff_file_count": 6,
+    "required_work_handoff_files": [
+      "COMPETITOR_GAP_CANDIDATES.csv",
+      "STEP07_COMPETITOR_COVERAGE_LEDGER.csv",
+      "STEP07_SOURCE_URL_LEDGER.csv",
+      "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
+      "STEP07_EXECUTION_QA.md",
+      "STEP07_EXECUTION_HANDOFF_MANIFEST.json"
+    ]
   },
   "provider_authorization": {
     "wordstat_calls_allowed_now": 0,
@@ -125,7 +125,7 @@
     "gensearch_calls_allowed_now": 0,
     "step07_provider_gate": "NOT_APPLICABLE_NO_PROVIDER_CALLS"
   },
-  "step07_owner_relay": {
+  "owner_relay": {
     "policy": "OWNER_RELAY_SINGLE_STAGING_REQUIRED",
     "staging_repository": "MaksimUnimax/Yandex_direct",
     "staging_branch": "roadmap/kwork-productization-2026-08-28",
@@ -140,7 +140,7 @@
     "actual_step07_remote_readback_pass": false,
     "actual_step07_main_chat_acceptance": "PENDING_WORK_EXECUTION"
   },
-  "next_action": "OWNER_RELAY_CURRENT_STEP_07_COMPETITOR_SEMANTIC_EXPANSION_WORK_PROMPT_TO_CHATGPT_WORK_FOR_ACTUAL_STEP07_EXECUTION",
+  "next_action": "OWNER_RELAY_CURRENT_EXECUTION_ONLY_STEP07_PROMPT_TO_CHATGPT_WORK",
   "absolute_boundary": {
     "step07_preparation_accepted": true,
     "step07_released_to_work": true,
