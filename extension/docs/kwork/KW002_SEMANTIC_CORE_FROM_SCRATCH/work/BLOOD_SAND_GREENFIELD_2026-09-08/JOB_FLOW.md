@@ -2,7 +2,7 @@
 
 Updated: 2026-09-17
 
-Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY VERIFIED-80 RETURN REJECTED / RESIDUAL CLOSURE RELEASED TO CODEX / STEP07 SEMANTIC REWORK BLOCKED / STEP08 BLOCKED**
+Current status: **STEP06 DURABLE PASS / STEP07 PREPARATION ACCEPTED / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY RESIDUAL CLOSURE RETURNED HONEST INCOMPLETE / SWITCH TO MAIN CHAT OPERA REQUIRED / OPERA NOT CONNECTED / STEP07 SEMANTIC REWORK BLOCKED / STEP08 BLOCKED**
 
 ---
 
@@ -18,8 +18,11 @@ CHATGPT WORK
 CODEX BROWSER RECOVERY
 = PUBLIC BROWSER EVIDENCE ACQUISITION ONLY
 
+MAIN CHAT + OWNER-CONNECTED OPERA
+= FALLBACK PUBLIC BROWSER ACQUISITION WHEN CODEX BROWSER ENVIRONMENT IS PROVEN INADEQUATE
+
 OWNER
-= PROMPT RELAY + SINGLE-STAGING BYTE RELAY
+= AUTHORIZATION / PROMPT RELAY / SINGLE-STAGING BYTE RELAY / ENABLE OPERA CONNECTION WHEN REQUIRED
 ```
 
 Main Chat governance gates are not Work/Codex runtime gates.
@@ -44,8 +47,9 @@ STEP07_ATTEMPT_1 = REJECTED / INCOMPLETE
 STEP07_BROWSER_RECOVERY_ATTEMPT_1 = REJECTED
 STEP07_BROWSER_RECOVERY_LIMITED_REWORK = REJECTED
 STEP07_BROWSER_RECOVERY_FINAL_NARROW_RETRY = REJECTED
-STEP07_BROWSER_RECOVERY_VERIFIED_80_URL_RETRY = RETURNED / MAIN_CHAT_REJECTED_RESIDUAL_CLOSURE_REQUIRED
-STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE = RELEASED_TO_CODEX
+STEP07_BROWSER_RECOVERY_VERIFIED_80_URL_RETRY = RETURNED / REJECTED / RESIDUAL_CLOSURE_REQUIRED
+STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE = RETURNED / REJECTED / HONEST_INCOMPLETE
+STEP07_BROWSER_RECOVERY_MAIN_CHAT_OPERA_RETRY = BLOCKED_WAITING_OPERA_CONNECTION
 STEP07_BROWSER_RECOVERY_REMOTE_PUBLICATION = NOT_ALLOWED_YET
 STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY
 STEP07 = INCOMPLETE / REWORK_REQUIRED
@@ -125,67 +129,27 @@ Authority: `STEP07_MAIN_CHAT_RETURN_QA_2026-09-17.md`.
 
 Rejected for schema drift, placeholder evidence, executor navigation failures and unauthorized sitemap contamination.
 
-Authority: `STEP07_BROWSER_RECOVERY_MAIN_CHAT_RETURN_QA_2026-09-17.md`.
-
 ### Limited rework — rejected
 
 Mechanically improved schemas/hashes, but old navigation failures were batch relabelled without demonstrated retries; QA totals and target/environment classification remained false.
-
-Authority: `STEP07_BROWSER_RECOVERY_LIMITED_REWORK_MAIN_CHAT_RETURN_QA_2026-09-17.md`.
 
 ### Final narrow retry — rejected
 
 Independent row comparison proved most requested browser retries were not actually executed.
 
-Authority: `STEP07_BROWSER_RECOVERY_FINAL_NARROW_RETRY_MAIN_CHAT_RETURN_QA_2026-09-17.md`.
+### Verified 80-URL retry — rejected for residual closure
 
-### Verified 80-URL retry — returned and independently rejected for residual closure
-
-This return finally proves the frozen 80 browser actions:
+This return finally proved 80/80 browser actions, but left:
 
 ```text
-FROZEN_RETRY_SET_ROWS = 80
-RETRY_AUDIT_ROWS = 80
-ACTUAL_BROWSER_NAVIGATION_ATTEMPTED = 80/80
-SET_A = 47/47
-SET_B = 30/30
-SET_C = 1/1
-SET_D = 2/2
-```
-
-Mechanical data quality is materially improved:
-
-```text
-SOURCE_URL_ROWS = 1976
-PAGE_EVIDENCE_ROWS = 663
-URL/COVERAGE/PAGE_EVIDENCE/RETRY_AUDIT SCHEMAS = PASS
-JOINS = PASS
-SHA_VERIFICATION = PASS
-NOT_COLLECTED_ON_INSPECTED = 0
-```
-
-Final returned terminal counts:
-
-```text
-EXCLUDED_OUT_OF_SCOPE = 1201
-EXCLUDED_DUPLICATE = 24
-RECOVERED_INSPECTED = 329
-REDIRECTED_IN_SCOPE = 334
-TARGET_CAPTCHA_OR_ANTI_BOT = 3
-UNRESOLVED_DYNAMIC_CONTENT = 34
 EXECUTION_ENVIRONMENT_FAILURE = 51
+UNRESOLVED_DYNAMIC_CONTENT = 34
+TOTAL_GAPS = 85
 ```
 
-Main Chat acceptance still fails because:
+It also exposed false redirects, Azbyka challenge misclassification, Kartaslov false target-block classification and coverage-accounting defects.
 
-1. `51 EXECUTION_ENVIRONMENT_FAILURE + 34 UNRESOLVED_DYNAMIC_CONTENT = 85` residual acquisition gaps remain;
-2. four Azbyka DDoS-Guard challenge pages are misclassified as normal inspected/redirected content;
-3. Kartaslov row `R9-S07U000396` is falsely classified target anti-bot although normal public page content is readable;
-4. 41 rows are marked `REDIRECTED_IN_SCOPE` with same source/final URL and empty redirect chain; 39 are deterministic ordinary-content reclassifications, 2 are Azbyka challenge rows;
-5. coverage suppresses all 34 unresolved rows from `remaining_unresolved_or_environment_failure_urls`;
-6. manifest retains stale artifact-set/head/terminal-state metadata.
-
-Main Chat return authority:
+Authority:
 
 `STEP07_BROWSER_RECOVERY_VERIFIED_80_RETURN_MAIN_CHAT_QA_2026-09-17.md`
 
@@ -194,68 +158,154 @@ Quality:
 ```text
 QUALITY_TOTAL = 67.5 / 100
 QUALITY_SCORE = 6.75 / 10
+```
+
+### Residual closure return — honest incomplete
+
+Executor used the frozen residual correction set:
+
+```text
+TOTAL_CORRECTION_ROWS = 129
+DETERMINISTIC_RECLASSIFY_SAME_URL_REDIRECT = 39
+BROWSER_RETRY_ROWS = 90
+```
+
+Independent Main Chat QA confirms:
+
+```text
+ROWS_CHANGED_OUTSIDE_FROZEN_SET = 0
+DETERMINISTIC_CORRECTIONS = 39/39 PASS
+RESIDUAL_RETRY_AUDIT = 90/90 PASS
+ZIP / SEVEN-FILE BYTE IDENTITY = PASS
+URL/COVERAGE/PAGE_EVIDENCE SCHEMAS = PASS
+JOINS = PASS
+SHA VERIFICATION = PASS
+SAME_URL_EMPTY_CHAIN_REDIRECT_ROWS_FINAL = 0
+AZBYKA_CHALLENGE_MISCLASSIFIED_AS_CONTENT = 0
+KARTASLOV_NORMAL_PAGE_FALSE_TARGET_BLOCK = 0
+COVERAGE_REMAINING_FIELD_RECONCILES = PASS
+```
+
+Final returned terminal counts:
+
+```text
+EXCLUDED_OUT_OF_SCOPE = 1201
+EXCLUDED_DUPLICATE = 24
+RECOVERED_INSPECTED = 366
+REDIRECTED_IN_SCOPE = 293
+TARGET_CAPTCHA_OR_ANTI_BOT = 2
+EXECUTION_ENVIRONMENT_FAILURE = 90
+UNRESOLVED_DYNAMIC_CONTENT = 0
+```
+
+Thus:
+
+```text
+FINAL_RESIDUAL_ACQUISITION_GAPS = 90
+RECOVERY_STATUS = INCOMPLETE_EXECUTION_ENVIRONMENT_FAILURES
+```
+
+Main Chat authority:
+
+`STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE_MAIN_CHAT_RETURN_QA_2026-09-17.md`
+
+Quality:
+
+```text
+QUALITY_TOTAL = 74.5 / 100
+QUALITY_SCORE = 7.45 / 10
 BROWSER_RECOVERY_ACCEPTED = false
 ```
 
 ---
 
-## 5. Current residual-closure authority
+## 5. Why the Codex browser line is stopped
 
-Current execution entry point:
+The current residual audit records real per-row attempts rather than fabricated relabels.
 
-`STEP07_BROWSER_RECOVERY_CODEX_RESIDUAL_CLOSURE_PROMPT_V2_2026-09-17.md`
-
-Base method/output contract:
-
-`STEP07_BROWSER_RECOVERY_CODEX_RESIDUAL_CLOSURE_PROMPT_2026-09-17.md`
-
-Frozen exact correction set:
-
-`STEP07_BROWSER_RECOVERY_RESIDUAL_CORRECTION_SET_2026-09-17.csv`
-
-Exact frozen set:
+Independent parsing of all 90 final errors shows:
 
 ```text
-TOTAL_CORRECTION_ROWS = 129
-DETERMINISTIC_RECLASSIFY_SAME_URL_REDIRECT = 39
-AZBYKA_DDOS_CHALLENGE_RETRY = 4
-KARTASLOV_FALSE_TARGET_BLOCK_RETRY = 1
-RESIDUAL_EXECUTION_ENVIRONMENT_FAILURE_RETRY = 51
-RESIDUAL_UNRESOLVED_DYNAMIC_CONTENT_RETRY = 34
+82 = Chromium navigation error page containing ERR_TIMED_OUT;
+     Browser Use then blocks inspection of the internal data:text/html error page.
 
-browser_retry_required=false = 39
-browser_retry_required=true = 90
+8 = Browser Use site-safety policy blocks on Avito URLs.
 ```
 
-Hard execution model:
+Domain distribution of the 82 timeout/error-page failures:
 
 ```text
-39 deterministic corrections
-+ 90 actual residual browser retries
-→ regenerate final recovery ledgers/evidence/coverage/QA/manifest
-→ preserve existing verified-80 retry audit
-→ create STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv (90 rows)
+wildberries.ru = 23
+market.yandex.ru = 20
+livemaster.ru = 11
+ru.ruwiki.ru = 8
+kartaslov.ru = 4
+goroskop365.ru = 4
+azbyka.ru = 4
+sibpodkova.ru = 3
+aliexpress.ru = 2
+joom.ru = 2
+ru.wikipedia.org = 1
 ```
 
-The executor must not derive, expand or shrink this correction universe.
-
-Final residual handoff contains exactly seven files:
+Avito site-safety blocks:
 
 ```text
-STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
-STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl
-STEP07_BROWSER_RECOVERY_COVERAGE.csv
-STEP07_BROWSER_RECOVERY_QA.md
-STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
-STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv
-STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv
+avito.ru = 8
 ```
 
-Browser recovery cannot PASS while final residual `EXECUTION_ENVIRONMENT_FAILURE + UNRESOLVED_DYNAMIC_CONTENT > 0`.
+Main Chat has prior Opera evidence that several affected hosts are readable in a normal owner browser, including Wikipedia, Sibpodkova and Kartaslov-related surfaces. Therefore these environment failures are not target semantic closure.
+
+```text
+RETRY SAME CODEX BROWSER ENVIRONMENT AGAIN = FORBIDDEN / NOT JUSTIFIED
+```
 
 ---
 
-## 6. Step07 semantic rework boundary
+## 6. Current browser recovery continuation
+
+Reuse the exact existing frozen correction authority:
+
+`STEP07_BROWSER_RECOVERY_RESIDUAL_CORRECTION_SET_2026-09-17.csv`
+
+Main Chat must process exactly the rows where:
+
+```text
+browser_retry_required = true
+```
+
+Expected rows:
+
+`90`
+
+New acquisition route:
+
+```text
+MAIN CHAT + OWNER-CONNECTED OPERA BROWSER CONNECTOR
+```
+
+Boundaries remain unchanged:
+
+```text
+NO WORDSTAT
+NO YANDEX SEARCH PROVIDER
+NO AI SEARCH / GENSEARCH
+NO STEP08
+NO SEMANTIC CANDIDATE CLASSIFICATION
+NO CAPTCHA / ANTI-BOT / LOGIN / SECURITY BYPASS
+```
+
+Current blocker:
+
+```text
+OPERA_BROWSER_CONNECTOR = NOT_CONNECTED
+```
+
+Once connected, Main Chat executes the exact frozen 90 URL universe, captures legitimate public page evidence or target-level block evidence, merges the outcomes into the recovery data, and reruns acceptance.
+
+---
+
+## 7. Step07 semantic rework boundary
 
 Only after browser recovery acceptance may ChatGPT Work execute semantic rework over:
 
@@ -276,7 +326,7 @@ Status: `BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY`.
 
 ---
 
-## 7. Provider/downstream boundary
+## 8. Provider/downstream boundary
 
 ```text
 WORDSTAT_CALLS_ALLOWED_NOW = 0
@@ -291,15 +341,14 @@ FINAL_PAGE_DECISIONS = NONE
 
 ---
 
-## 8. Exact next action
+## 9. Exact next action
 
 ```text
-CURRENT_NEXT_ACTION = OWNER_RELAY_STEP07_BROWSER_RECOVERY_CODEX_RESIDUAL_CLOSURE_PROMPT_V2_TO_CODEX
-STEP07_BROWSER_RECOVERY_RESIDUAL_CLOSURE = RELEASED_TO_CODEX
-STEP07_BROWSER_RECOVERY_REMOTE_PUBLICATION = BLOCKED_PENDING_ACCEPTED_RETURN
+CURRENT_NEXT_ACTION = OWNER_ENABLE_OPERA_BROWSER_CONNECTOR_THEN_MAIN_CHAT_EXECUTE_FROZEN_90_RESIDUAL_BROWSER_ROWS
+STEP07_BROWSER_RECOVERY = INCOMPLETE_EXECUTION_ENVIRONMENT_FAILURES
 STEP07_SEMANTIC_REWORK = BLOCKED_PENDING_ACCEPTED_BROWSER_RECOVERY
 STEP07 = INCOMPLETE_REWORK_REQUIRED
 STEP08 = BLOCKED_NOT_STARTED
 ```
 
-Do not upload the rejected verified-80 return as canonical recovery evidence.
+Do not upload the incomplete residual-closure package as canonical recovery evidence.
