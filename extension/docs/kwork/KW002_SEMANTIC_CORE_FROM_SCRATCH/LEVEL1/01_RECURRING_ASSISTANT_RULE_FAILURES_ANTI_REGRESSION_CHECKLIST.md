@@ -1,67 +1,64 @@
-# KW-002 — RECURRING ASSISTANT RULE FAILURES / ANTI-REGRESSION CHECKLIST
+# KW-002 — MAIN CHAT RECURRING RULE FAILURES / ANTI-REGRESSION CHECKLIST
 
-Status: **ACTIVE / OWNER-LOCKED / MANDATORY BEFORE EVERY MATERIAL ACTION**  
-Owner lock: 2026-09-17
+Status: **ACTIVE / OWNER-LOCKED / MAIN-CHAT-ONLY**  
+Owner lock: 2026-09-17  
+Scope correction: 2026-09-17 — **THIS CHECKLIST CONTROLS MAIN CHAT / ARCHITECT / REVIEW / ACCEPTANCE. IT IS NOT A CHATGPT WORK RUNTIME CHECKLIST.**
 
-This checklist stores **universal assistant/executor failure mechanisms** that can recur in any KW-002 job. Concrete job incidents, client names, step-specific examples, exact commits and current counts belong in `work/<JOB_ID>/`.
-
-## Known recurring failure pattern
+## 1. Known recurring Main Chat failure pattern
 
 ```text
 RULE EXISTS
-→ ASSISTANT DOES NOT FRESHLY READ IT IN FULL
-→ ASSISTANT WORKS FROM MEMORY / SUMMARY
-→ ASSISTANT PRODUCES A PLAUSIBLE BUT NON-COMPLIANT RESULT
-→ OWNER HAS TO POINT TO THE EXISTING RULE
-→ ASSISTANT PATCHES AFTER THE FACT
+→ MAIN CHAT DOES NOT FRESHLY READ IT
+→ MAIN CHAT WORKS FROM MEMORY / SUMMARY
+→ MAIN CHAT PRODUCES A PLAUSIBLE BUT NON-COMPLIANT RESULT
+→ OWNER POINTS TO THE EXISTING RULE
+→ MAIN CHAT PATCHES AFTER THE FACT
 ```
 
-This pattern is itself a named blocking defect.
+This pattern is a blocking Main Chat governance defect.
 
-Before any material action, the executor must prove that it is not repeating this pattern.
+## 2. Work exclusion
 
-## Universal repeated failure classes
+```text
+THIS CHECKLIST
+= MAIN CHAT ANTI-REGRESSION CONTROL
+!= WORK EXECUTION CHECKLIST
+```
+
+After Main Chat has frozen and released a Work prompt, Work is not required to reread this checklist, reproduce its history, generate owner-facing reports, rerun external research or decide whether the step should be released.
+
+The Work prompt must contain only the anti-regression controls materially necessary to execute the concrete task.
+
+## 3. Universal Main Chat failure classes
 
 ### F-RULE-01 — acting from remembered project rules
 
-Failure mechanism: assistant/executor uses memory, summaries, earlier chat state or prior successful execution instead of rereading current live owner-locked rules.
+Main Chat uses memory/summary instead of current live authority.
 
-Permanent control:
+Control:
 
 ```text
-READ CURRENT LIVE APPLICABLE RULES IN FULL BEFORE ACTION
+MAIN CHAT READS CURRENT APPLICABLE RULES BEFORE GOVERNANCE / RELEASE / ACCEPTANCE
 MEMORY DOES NOT COUNT
 ```
 
-### F-RULE-02 — incomplete owner-facing pre-step report
+### F-RULE-02 — incomplete owner-facing report
 
-Failure mechanism: technical preparation/status is reported without the full mandatory owner-facing structure.
+Main Chat reports technical status without the required owner-facing structure.
 
-Permanent control:
+Control: Main Chat reads `PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md` before the report.
 
-Read `PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md` in full before drafting the report.
-
-The report must include goal, roadmap, completed/remaining, current-step purpose, prior failures/non-repeat controls, fresh research, source links, source→method trace, method, applicable execution gate, PASS conditions and plain-language conclusion.
-
-### F-RULE-03 — external materials exist in an artifact but are not disclosed in chat
-
-Failure mechanism: source URLs are preserved in a methodology/research artifact, but owner-facing chat omits them.
-
-Permanent control:
+### F-RULE-03 — sources exist in an artifact but are not disclosed in chat
 
 ```text
-ARTIFACT SOURCE LIST != CHAT SOURCE DISCLOSURE
+ARTIFACT SOURCE LIST != OWNER-FACING CHAT DISCLOSURE
 ```
 
-The chat itself must contain clickable source links plus what each source supports, how it affects/confirms the method and its limitation.
+Main Chat must show clickable sources + supported claim + method effect + limitation when required.
 
-### F-RULE-04 — status/hash dump substituted for plain-language summary
+### F-RULE-04 — status/hash dump substituted for plain language
 
-Failure mechanism: technical statuses, hashes, filenames, request IDs or QA markers are used where normal Russian explanation is mandatory.
-
-Permanent control:
-
-Every major report ends with normal Russian explaining:
+Main Chat must end major reports with normal Russian explaining:
 
 ```text
 WHY
@@ -72,133 +69,138 @@ BLOCKER IF ANY
 NEXT PHYSICAL ACTION
 ```
 
-### F-RULE-05 — Work trigger evaluated for the wrong boundary
+### F-RULE-05 — Work trigger evaluated for the wrong execution unit
 
-Failure mechanism: assistant evaluates whether a later execution step needs Work but fails to evaluate whether the **current execution unit itself** (including preparation, reconciliation, audit or packaging) already meets the large-data trigger.
-
-Permanent control:
-
-Evaluate Work trigger for the current complete execution unit before doing the work.
+Main Chat must decide whether the **current complete unit** requires Work.
 
 ```text
-LARGE DATA → COMPLETE EXECUTION UNIT TO WORK
-NO SAMPLING / NO TRUNCATION / NO SUMMARY SUBSTITUTION
+LARGE DATA → COMPLETE UNIT TO WORK
+NO SAMPLING / TRUNCATION FOR CHAT CONVENIENCE
 ```
 
 ### F-RULE-06 — owner made responsible for repository routing
 
-Failure mechanism: assistant gives multiple final folders/NEW/REPLACE decisions and asks the owner to sort a multi-file handoff manually.
-
-Permanent control:
-
 ```text
 ONE HANDOFF
 → ONE OWNER STAGING UPLOAD
-→ EXECUTOR DOES FINAL PATH ROUTING
-→ EXECUTOR CLEANS STAGING
-→ REMOTE READBACK
+→ MAIN CHAT DOES FINAL ROUTING / CLEANUP / READBACK
 ```
 
-The owner relays bytes; the executor owns final repository placement and acceptance.
-
-### F-RULE-07 — technical artifact PASS treated as sufficient owner-facing completion
-
-Failure mechanism: artifacts/QA/publication are technically correct, but required source disclosure or plain-language owner report is missing, and the assistant still treats the process as fully complete.
-
-Permanent control:
+### F-RULE-07 — technical artifact PASS treated as enough
 
 ```text
-TECHNICAL_ARTIFACT_PASS
-!= OWNER_FACING_REPORT_PASS
+TECHNICAL_ARTIFACT_PASS != OWNER_FACING_REPORT_PASS
 ```
 
-Both gates must pass where required.
-
-### F-RULE-08 — explaining a rule failure before reopening the controlling rule
-
-Failure mechanism: assistant narrates causes/consequences from memory instead of first fetching and applying the live rule the owner says was violated.
-
-Permanent control:
+### F-RULE-08 — explaining failure before reopening the live rule
 
 ```text
 OWNER POINTS TO RULE FAILURE
-→ FETCH LIVE RULE
-→ READ IN FULL
-→ APPLY RULE
-→ THEN EXPLAIN CONCISELY
+→ MAIN CHAT FETCHES LIVE RULE
+→ READS IT
+→ APPLIES IT
+→ THEN EXPLAINS
 ```
 
 ### F-RULE-09 — concrete incident contaminates permanent methodology
 
-Failure mechanism: a specific client, step ID, query/family ID, current row count or one concrete incident is copied into Level1/Level2 as if it defines the universal rule.
+```text
+JOB INCIDENT
+→ GENERAL MECHANISM
+→ UNIVERSAL CONTROL IN LEVEL1/LEVEL2
+→ CONCRETE INCIDENT REMAINS IN work/<JOB_ID>/
+```
+
+### F-RULE-10 — Main Chat governance duplicated inside Work prompt
+
+Failure mechanism: Main Chat correctly performs rule/research/release gates, then copies the same full governance cycle into Work, forcing the executor to redo Main Chat's job before executing the concrete task.
+
+Why it fails:
+
+- wastes Work context and execution budget;
+- blurs architect vs executor roles;
+- creates conflicting duplicated authority checks;
+- can turn a concrete execution prompt into another planning/release exercise.
 
 Permanent control:
 
 ```text
-JOB INCIDENT
-→ IDENTIFY GENERAL MECHANISM
-→ UNIVERSAL CONTROL IN LEVEL1/LEVEL2
-→ CONCRETE INCIDENT STAYS IN work/<JOB_ID>/
+MAIN CHAT DOES GOVERNANCE ONCE
+→ RELEASES FROZEN EXECUTION CONTRACT
+→ WORK EXECUTES IT
 ```
 
-Before accepting permanent-rule edits, apply `ROADMAP_AND_METHOD_GENERALIZATION_RULE.md` and `JOB_DATA_SEPARATION_AND_LIFECYCLE.md`.
+Allowed Work startup check:
 
-## Mandatory pre-action checklist
+```text
+CURRENT HEAD
++ RELEASE IDENTITY
++ INPUT / MANIFEST / SCHEMA IDENTITY
++ MATERIAL DRIFT STOP
+```
 
-Before every preparation / execution / Work handoff / Bridge action / QA / acceptance / publication / cursor movement:
+Forbidden by default in ordinary Work execution:
+
+```text
+FULL LEVEL1 REREAD
+OWNER-FACING REPORT GATE
+FRESH EXTERNAL RESEARCH REDO
+RELEASE AUTHORIZATION REDO
+MAIN CHAT FAILURE-HISTORY REVIEW
+```
+
+## 4. Mandatory Main Chat pre-action checklist
+
+Before preparation / research / Work handoff / Bridge release / QA / acceptance / publication / cursor movement:
 
 ```text
 [ ] current remote HEAD fetched
-[ ] 00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE read in full
-[ ] COMMON_RULES read in full
-[ ] INHERITED_KW001_UNIVERSAL_RULES read in full
-[ ] applicable owner-locked Level1 rules read in full
-[ ] current Level2 step/gates read in full when a roadmap step is involved
-[ ] current JOB_FLOW + cursor read in full when a concrete job is involved
-[ ] relevant failure ledger/checklist read in full
-[ ] owner-facing report gate read in full
-[ ] Work gate read in full if applicable
-[ ] provider/Bridge gate read in full if applicable
-[ ] generalization/layer-separation gate read in full before permanent-method mutation
+[ ] Main Chat 00 gate read
+[ ] COMMON_RULES / inherited applicable authority read
+[ ] applicable owner-locked Level1 rules read
+[ ] current Level2 step/gates read
+[ ] current JOB_FLOW + cursor read
+[ ] relevant job incident/failure records read
+[ ] owner-facing report gate read when required
+[ ] Work handoff rule read when Work is applicable
+[ ] provider gate read when provider execution is applicable
+[ ] generalization/layer-separation gate read before permanent-method mutation
 [ ] current external-method research requirement evaluated
-[ ] clickable source disclosure prepared in chat when required
-[ ] plain-language WHY/WHAT/RESULT/BLOCKER/NEXT block prepared
 [ ] no unresolved authority conflict
 ```
 
-If any applicable box is not proven:
+If incomplete:
 
 ```text
-EXECUTION_ALLOWED = false
+MAIN_CHAT_EXECUTION_ALLOWED = false
 ```
 
-## Mandatory post-action checklist
+## 5. Mandatory Main Chat post-action / acceptance checklist
 
-Before acceptance / cursor advance:
+Before acceptance/cursor advance:
 
 ```text
-[ ] acceptance rules reread in full
-[ ] actual output/result fetched
+[ ] applicable acceptance rules reread
+[ ] actual Work/provider/result artifacts fetched
 [ ] remote/provider readback completed where required
 [ ] counts/joins/provenance checked
 [ ] HOLD/ERROR/UNRESOLVED checked
-[ ] staging cleanup checked where applicable
-[ ] permanent-method contamination audit passed where applicable
+[ ] staging cleanup checked when applicable
 [ ] owner-facing result report complete
 [ ] plain-language conclusion complete
 [ ] next physical action stated
 ```
 
-## Marker
+## 6. Marker
 
 ```text
-KW002_RECURRING_ASSISTANT_RULE_FAILURE_PATTERN_RECOGNIZED = true
-KW002_RULE_MEMORY_RELIANCE_FORBIDDEN = true
-KW002_RULE_REREAD_CHECKLIST_REQUIRED = true
-KW002_CHAT_SOURCE_DISCLOSURE_IS_SEPARATE_GATE = true
-KW002_PLAIN_LANGUAGE_OWNER_REPORT_IS_SEPARATE_GATE = true
-KW002_REPEAT_FAILURE_REQUIRES_RULE_REOPEN_BEFORE_EXPLANATION = true
+KW002_RECURRING_MAIN_CHAT_RULE_FAILURE_PATTERN_RECOGNIZED = true
+KW002_MAIN_CHAT_RULE_MEMORY_RELIANCE_FORBIDDEN = true
+KW002_MAIN_CHAT_REREAD_CHECKLIST_REQUIRED = true
+KW002_CHAT_SOURCE_DISCLOSURE_IS_MAIN_CHAT_GATE = true
+KW002_PLAIN_LANGUAGE_OWNER_REPORT_IS_MAIN_CHAT_GATE = true
 KW002_WORK_TRIGGER_CURRENT_EXECUTION_UNIT_CHECK_REQUIRED = true
 KW002_OWNER_REPOSITORY_ROUTING_FORBIDDEN = true
-KW002_JOB_INCIDENT_TO_UNIVERSAL_GENERALIZATION_GATE_REQUIRED = true
+KW002_MAIN_GOVERNANCE_MUST_NOT_BE_DUPLICATED_IN_WORK = true
+KW002_WORK_RUNTIME_EXCLUDED_FROM_FULL_RULE_REREAD_CHECKLIST = true
 ```
