@@ -4,11 +4,28 @@ Status: **ACTIVE / OWNER-AUTHORIZED / OWNER-LOCKED**
 
 Owner clarification: 2026-09-11 — owner-facing `ПРОСТЫМИ СЛОВАМИ` is mandatory real plain Russian and must never be replaced by hashes, IDs, status markers or machine-style dumps.
 
+Owner fail-closed rule-read lock: 2026-09-17 — remembered rules are not authority; current applicable rules must be freshly read in full before any material action.
+
+## 00. Mandatory pre-entry gate — READ THIS BEFORE THIS INDEX
+
+Before using this file or taking any material KW-002 action, read in full:
+
+1. `00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md`;
+2. `01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md`.
+
+```text
+ASSISTANT MEMORY != RULE READBACK
+NO FRESH FULL APPLICABLE RULE REREAD
+→ NO MATERIAL ACTION
+```
+
+Known recurring failure: the assistant has repeatedly violated explicit project rules after relying on remembered rules, summaries or prior chat state instead of freshly reading the live authorities in full.
+
+This file is the Level-1 **rules index after the mandatory 00/01 pre-entry gates have passed**. It is not permission to skip those gates.
+
 Cross-Kwork large-artifact publication authority:
 
 `../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
-
-This file is the Level-1 entry point for KW-002.
 
 ## 0. Canonical inheritance rule
 
@@ -44,21 +61,28 @@ The older KW-001 terminology that called current-job workspace `Level 2` is not 
 
 # 1. Mandatory Level-1 authorities
 
-Before every major KW-002 step read:
+Before every major KW-002 step read **in full from the current live branch**:
 
 ```text
-1. applicable cross-Kwork owner-locked authorities, including KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md when file generation/persistence is material
-2. INHERITED_KW001_UNIVERSAL_RULES.md
-3. PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
-4. RESULT_QUALITY_SCORING_RULE.md
-5. METHOD_SOURCE_AND_EVIDENCE_RULES.md
-6. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
-7. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
-8. WORK_HANDOFF_RULE.md when large-data risk exists
-9. current Level-2 step method
-10. current work/<JOB_ID>/ manifest/flow/evidence
-11. owner-facing plain-language acceptance boundary in this file and the pre-step rule
+0. 00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md
+1. 01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md
+2. applicable cross-Kwork owner-locked authorities, including KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md when file generation/persistence is material
+3. INHERITED_KW001_UNIVERSAL_RULES.md
+4. PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
+5. RESULT_QUALITY_SCORING_RULE.md
+6. METHOD_SOURCE_AND_EVIDENCE_RULES.md
+7. CLIENT_INTAKE_AND_SCOPE_RULE.md when client/scope facts are material
+8. JOB_DATA_SEPARATION_AND_LIFECYCLE.md
+9. ROADMAP_AND_METHOD_GENERALIZATION_RULE.md before permanent Level1/Level2 mutation
+10. EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md
+11. WORK_HANDOFF_RULE.md when large-data risk exists
+12. YANDEX_MARKETING_BRIDGE_EXECUTION_RULE.md when Bridge/provider work is possible
+13. current Level-2 step method / gates
+14. current work/<JOB_ID>/ manifest/flow/cursor/evidence and current job-specific failure/incident records
+15. owner-facing plain-language acceptance boundary in this file and the pre-step rule
 ```
+
+A file name, snippet, summary, prior chat memory or previously read older version is not a full current read.
 
 The inherited and owner-added Level-1 authority includes, at minimum:
 
@@ -81,9 +105,10 @@ EXPLICIT BRIDGE SERVICE/MODE BEFORE COMMANDS
 PROVIDER SUCCESS != PROJECT COMPLETION
 COMPLETE RETURNED EVIDENCE PERSISTENCE + READBACK BEFORE NEXT PROVIDER ACTION
 LARGE ARTIFACT MODEL-BYTE TRANSPORT FORBIDDEN BY DEFAULT
-OWNER-RELAY WEB PUBLICATION ALLOWED/REQUIRED WHEN MORE EFFICIENT THAN GIT AUTH RECOVERY
-DIRECT GITHUB UPLOAD LINK + DOWNLOADABLE FILES/ZIP FOR OWNER RELAY
-OWNER UPLOAD != REMOTE ACCEPTANCE; REMOTE READBACK REQUIRED
+OWNER-RELAY SINGLE-STAGING PUBLICATION REQUIRED FOR MATERIAL WORK HANDOFFS
+OWNER MUST NOT ROUTE FILES AMONG FINAL REPOSITORY PATHS
+DIRECT DOWNLOADABLE FILES + ONE TRANSPORT ZIP + ONE PRIMARY UPLOAD LINK
+OWNER UPLOAD != FINAL PLACEMENT != REMOTE ACCEPTANCE
 GIT AUTH FAILURE != PERMISSION TO RECOMPUTE VALID ARTIFACTS
 OWNER ANALYTICAL OBJECTION != AUTOMATIC METHOD REVERSAL
 PERMANENT METHOD OWNER-LOCK
@@ -250,7 +275,7 @@ whether the work actually ran, what blocks progress and what happens next,
 the plain-language summary FAILS and must be rewritten before sending.
 ```
 
-For owner-relay publication, the operational handoff must be short and direct: provide the files/ZIP, direct upload link, exact branch/folder, unzip instruction if needed, and the minimal confirmation the owner must return.
+For owner-relay publication, the operational handoff must be short and direct: provide the files/ZIP, **one** direct staging upload link, exact branch/staging folder, unzip instruction if needed, and the minimal confirmation the owner must return. The owner must not sort handoff files among final repository directories.
 
 ---
 
@@ -260,18 +285,18 @@ Canonical cross-Kwork authority:
 
 `../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
 
-Approved transport policy:
+Approved transport policy for material Work handoffs:
 
 ```text
-NATIVE AUTHENTICATED GIT ALREADY WORKS
-→ USE IT
-
-OTHERWISE, WHEN OWNER RELAY IS MORE EFFICIENT
-→ WORK GENERATES + QA LOCALLY
-→ WORK PROVIDES DOWNLOADABLE ARTIFACTS / OPTIONAL ZIP
-→ WORK PROVIDES DIRECT GITHUB UPLOAD PAGE FOR TARGET BRANCH/FOLDER
-→ OWNER UPLOADS THROUGH NORMAL AUTHENTICATED GITHUB UI
-→ WORK OR MAIN CHATGPT PERFORMS REMOTE READBACK + IDENTITY QA
+WORK GENERATES + QA LOCALLY
+→ WORK PROVIDES DOWNLOADABLE ARTIFACTS + ONE TRANSPORT ZIP
+→ WORK PROVIDES ONE SINGLE STAGING GITHUB UPLOAD PAGE FOR TARGET BRANCH/FOLDER
+→ OWNER UPLOADS ALL HANDOFF FILES TOGETHER THROUGH NORMAL AUTHENTICATED GITHUB UI
+→ OWNER RETURNS MINIMAL CONFIRMATION
+→ WORK OR MAIN CHATGPT VERIFIES STAGING
+→ EXECUTOR DOES ALL FINAL-PATH NEW/REPLACE PLACEMENT
+→ EXECUTOR REMOVES STAGING-ONLY COPIES
+→ FINAL-PATH REMOTE READBACK + IDENTITY QA
 ```
 
 Do not by default transport large TSV/CSV/JSON/XLSX/PDF/DOCX/ZIP or other material artifacts as giant model text, base64, many connector chunks or reconstructed tool arguments.
@@ -285,6 +310,9 @@ LOCAL_ARTIFACT_COMPLETE
 LOCAL_QA_PASS
 PUBLICATION_HANDOFF_READY
 OWNER_UPLOAD_COMPLETE
+STAGING_READBACK_PASS
+FINAL_PLACEMENT_COMPLETE
+STAGING_CLEANUP_COMPLETE
 REMOTE_READBACK_PASS
 REMOTE_PUBLICATION_COMPLETE
 ```
@@ -376,6 +404,10 @@ The per-criterion table, total /100 and final average /10 must be shown both in 
 ## Marker
 
 ```text
+KW002_LEVEL1_FULL_RULE_REREAD_PREENTRY_GATE = 00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md
+KW002_RECURRING_RULE_FAILURE_CHECKLIST = 01_RECURRING_ASSISTANT_RULE_FAILURES_ANTI_REGRESSION_CHECKLIST.md
+KW002_ASSISTANT_MEMORY_IS_NOT_RULE_AUTHORITY = true
+KW002_NO_MATERIAL_ACTION_BEFORE_FRESH_FULL_RULE_REREAD = true
 KW002_LEVEL1_CANONICAL_INHERITED_RULE_AUTHORITY = INHERITED_KW001_UNIVERSAL_RULES.md
 KW002_CROSS_KWORK_LARGE_ARTIFACT_AUTHORITY = ../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md
 KW002_PRE_STEP_EXTERNAL_RESEARCH_AUTHORITY = PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md
@@ -388,8 +420,9 @@ KW002_SHORT_RULE_SUMMARY_DOES_NOT_REPLACE_INHERITED_RULES = true
 KW002_OWNER_FACING_PLAIN_LANGUAGE_SUMMARY_REQUIRED = true
 KW002_PLAIN_LANGUAGE_STATUS_HASH_ID_DUMP_FORBIDDEN = true
 KW002_PLAIN_LANGUAGE_BLOCKER_AND_NEXT_ACTION_REQUIRED = true
-KW002_OWNER_RELAY_LARGE_ARTIFACT_PUBLICATION_ALLOWED = true
+KW002_OWNER_RELAY_SINGLE_STAGING_REQUIRED = true
+KW002_OWNER_MUST_NOT_ROUTE_FINAL_PATHS = true
 KW002_LARGE_ARTIFACT_MODEL_BYTE_TRANSPORT_FORBIDDEN_BY_DEFAULT = true
-KW002_REMOTE_READBACK_AFTER_OWNER_RELAY_REQUIRED = true
+KW002_REMOTE_READBACK_AFTER_FINAL_PLACEMENT_REQUIRED = true
 KW002_LEVEL1_OWNER_LOCKED = true
 ```
