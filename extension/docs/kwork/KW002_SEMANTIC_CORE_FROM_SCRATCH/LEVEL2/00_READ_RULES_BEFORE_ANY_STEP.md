@@ -1,29 +1,54 @@
-# KW-002 — 00 READ THIS FIRST BEFORE ANY LEVEL2 STEP
+# KW-002 — 00 MAIN CHAT READ RULES BEFORE AUTHORIZING ANY LEVEL2 STEP
 
-Status: **ACTIVE / OWNER-LOCKED / FAIL-CLOSED**
+Status: **ACTIVE / OWNER-LOCKED / FAIL-CLOSED / MAIN-CHAT-ONLY**
 
-Before reading or executing ANY Level2 step, first read in full:
+## Scope
+
+This file is a **Main Chat / architect pre-entry guard** for Level2 work.
+
+```text
+THIS GUARD = MAIN CHAT GOVERNANCE
+THIS GUARD != CHATGPT WORK RUNTIME INSTRUCTION
+```
+
+Before Main Chat prepares, releases, changes, reviews or accepts a Level2 roadmap step, it must first read the current Main Chat gate:
 
 `../LEVEL1/00_MANDATORY_FULL_RULE_REREAD_NO_ACTION_GATE.md`
 
-Then read all applicable current live Level1 rules, the current Level2 step rule/gates, current job flow/cursor/evidence, and relevant failure ledger.
+and the applicable current Level1/Level2/job authorities.
 
-Known recurring assistant failure:
+Known recurring failure:
 
 ```text
-The assistant has repeatedly violated explicit KW-002 rules by acting from remembered rules instead of rereading the current live authorities in full.
+MAIN CHAT ACTS FROM MEMORY
+→ MISSES AN EXISTING RULE
+→ OWNER HAS TO CORRECT IT
 ```
 
-Hard stop:
+Hard stop for Main Chat:
 
 ```text
-RULES NOT FRESHLY READ IN FULL
-→ EXECUTION_ALLOWED = false
+APPLICABLE RULES NOT FRESHLY READ
 → NO STEP PREPARATION
-→ NO STEP EXECUTION
-→ NO WORK PROMPT / WORK EXECUTION
-→ NO PROVIDER ACTION
-→ NO ACCEPTANCE / CURSOR ADVANCE
+→ NO WORK PROMPT AUTHORING / RELEASE
+→ NO PROVIDER RELEASE
+→ NO STEP ACCEPTANCE
+→ NO CURSOR ADVANCE
 ```
 
-Before a major owner-facing pre-step report also read `../LEVEL1/PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_DISCLOSURE_RULE.md` in full and show clickable external source links + what each supports + source→method trace + a real plain-Russian `ПРОСТЫМИ СЛОВАМИ` block in chat.
+## Explicit Work exclusion
+
+After Main Chat has already authorized a step and produced its canonical Work prompt, **ChatGPT Work does not reread this guard or repeat the Main Chat Level1/Level2 governance cycle.**
+
+Work executes the released prompt.
+
+The Work prompt may require a bounded technical preflight only:
+
+```text
+FETCH CURRENT HEAD
+→ VERIFY RELEASE / INPUT / SCHEMA IDENTITY
+→ MATERIAL DRIFT? STOP
+→ OTHERWISE EXECUTE
+```
+
+Do not put fresh external research, owner-facing source disclosure, plain-language report or release authorization back onto Work unless the Work task itself is explicitly a methodology/review task.
