@@ -2,13 +2,12 @@
 
 Status: **ACTIVE / UNIVERSAL / OWNER-APPROVED / OWNER-LOCKED**  
 Applies to: **KW-001, KW-002, all current/future mini-kworks, and any Work execution under this Kwork ecosystem**  
-Owner decision: **2026-09-11**
+Owner decision: **2026-09-11**  
+Owner single-staging amendment: **2026-09-17**
 
 ## 1. Purpose
 
-Large or numerous artifacts produced by ChatGPT Work must not consume excessive time/tokens merely because Work cannot conveniently publish them through Git credentials or because the files are inefficient to transmit through model/tool text channels.
-
-This rule creates a universal publication transport method in which the owner/user may act as a trusted manual relay between Work's local filesystem and the repository's normal web-upload surface.
+Large or numerous artifacts produced by ChatGPT Work must not consume excessive time/tokens on byte transport or force the owner to sort files into repository directories.
 
 Core distinction:
 
@@ -17,156 +16,214 @@ ANALYTICAL / GENERATION WORK
 !=
 ARTIFACT TRANSPORT
 !=
+FINAL REPOSITORY PLACEMENT
+!=
 REMOTE ACCEPTANCE
 ```
 
 A completed local artifact must not be recomputed merely because publication transport failed.
 
-## 2. Universal non-repeat lesson
+The owner is a **single-hop byte relay only**. The owner is NOT responsible for repository path routing, artifact placement, methodology, file reconstruction, or post-upload QA.
 
-Failure class:
+## 2. Universal large-artifact transport rule
 
-```text
-LARGE ARTIFACT ALREADY COMPLETE
-→ DIRECT GIT PUSH AUTH BLOCKED OR EXPENSIVE TO RECOVER
-→ EXECUTOR TRIES TO MOVE FILE CONTENT THROUGH LLM / CONNECTOR / BASE64 / CHUNKS
-→ LARGE TOKEN/TIME WASTE
-→ RISK OF TRUNCATION / CORRUPTION / REPROCESSING
-```
-
-Root cause:
+For Work executions that produce large/material artifacts:
 
 ```text
-publication transport was treated as if Work itself had to carry the bytes through the model/tool channel
+WORK COMPLETES ANALYSIS / GENERATION
+→ LOCAL ARTIFACT FREEZE
+→ LOCAL QA
+→ WORK PROVIDES DOWNLOADABLE FILES + ONE TRANSPORT ZIP
+→ WORK PROVIDES ONE SINGLE OWNER-RELAY STAGING UPLOAD TARGET
+→ OWNER DOWNLOADS / EXTRACTS
+→ OWNER UPLOADS ALL HANDOFF FILES TO THAT ONE STAGING TARGET
+→ OWNER RETURNS MINIMAL CONFIRMATION, E.G. "ГОТОВО"
+→ MAIN CHATGPT / WORK READS STAGING PAYLOAD
+→ MAIN CHATGPT / WORK PLACES / REPLACES / MOVES EACH FILE AT ITS CANONICAL FINAL REPOSITORY PATH
+→ MAIN CHATGPT / WORK DELETES TEMPORARY STAGING COPIES THAT DO NOT BELONG THERE
+→ REMOTE READBACK + IDENTITY QA
+→ ONLY THEN REMOTE PUBLICATION IS ACCEPTED
 ```
 
-Corrected principle:
+For large artifacts, the owner MUST NOT be asked to split one handoff across several GitHub directories.
 
 ```text
-WORK MAY GENERATE + QA LOCALLY
-OWNER MAY RELAY FILE BY NORMAL DOWNLOAD/UPLOAD
-WORK/MAIN CHATGPT THEN VERIFIES REMOTE STATE
+ONE HANDOFF UNIT
+→ ONE OWNER UPLOAD TARGET
 ```
 
-## 3. When this method applies
+## 3. Trigger
 
-Use this method whenever one or more are true:
+Use this owner-relay route whenever one or more are true:
 
 ```text
 - one or more artifacts are large enough that moving their full contents through model/tool text is wasteful;
 - files are binary or token-expensive: XLSX, PDF, DOCX, ZIP, large CSV/TSV/JSON, images, archives, reports;
-- Work has finished the file but Git HTTPS/SSH credentials are unavailable or unreliable;
-- retrying Git authentication would consume more time than owner relay;
-- connector upload would require embedding, chunking, base64, or rereading the full artifact through the model;
-- a finished report/workbook/data authority needs durable repository publication and the owner can perform the final browser upload quickly;
-- remote branch publication is the only remaining blocker after local QA.
+- connector publication would require embedding, chunking, base64, or rereading full artifact bytes through the model;
+- several output files belong to different canonical repository directories;
+- owner can upload the complete handoff bundle quickly through normal authenticated GitHub Web UI;
+- remote publication/placement is the remaining step after local QA.
 ```
 
-This is a transport-efficiency trigger, not a fixed file-size threshold.
+This is a transport-efficiency / quality trigger, not a fixed file-size threshold.
 
-## 4. Preferred transport order
+## 4. Single staging target — mandatory
 
-Choose the cheapest reliable transport that preserves exact bytes and repository truth.
+Every material Work handoff must freeze exactly one staging upload target before owner relay.
+
+Required manifest fields:
 
 ```text
-A. NATIVE AUTHENTICATED GIT PUSH
-   only when already available, reliable and inexpensive
-
-ELSE
-
-B. OWNER-RELAY WEB PUBLICATION
-   Work prepares/downloadable files
-   + Work provides exact GitHub upload page
-   + owner uploads through normal authenticated GitHub UI
-   + Work/Main ChatGPT performs remote readback
-
-NEVER BY DEFAULT
-
-C. LLM / CONNECTOR CONTENT TRANSPORT OF LARGE FILE
-   base64
-   giant text paste
-   repeated chunking
-   full-file reconstruction through tool arguments
+OWNER_RELAY_STAGING_REPOSITORY
+OWNER_RELAY_STAGING_BRANCH
+OWNER_RELAY_STAGING_DIRECTORY
+OWNER_RELAY_UPLOAD_URL
 ```
 
-Method B is not a failure or emergency-only workaround. It is an approved normal publication route for large artifacts.
+Default selection:
 
-## 5. Owner-relay workflow
+```text
+OWNER_RELAY_STAGING_DIRECTORY = current job root
+```
 
-When owner relay is selected, the executor must:
+unless the execution contract explicitly defines a dedicated handoff/inbox directory.
+
+The owner uploads the whole handoff set to this one directory.
+
+The owner does NOT:
+
+```text
+- decide which file belongs in LEVEL1 / LEVEL2 / job root / reports / evidence;
+- perform NEW vs REPLACE routing;
+- move files between repository directories;
+- delete staging duplicates;
+- reconstruct nested directory structure manually;
+- split one handoff into several upload actions merely because final canonical paths differ.
+```
+
+Those are executor responsibilities.
+
+## 5. Final-path manifest — mandatory
+
+Before handoff, Work must freeze a machine-readable or clearly structured final-path manifest for every file:
+
+```text
+HANDOFF_FILENAME
+FINAL_REPOSITORY_PATH
+ACTION = NEW | REPLACE
+ARTIFACT_ROLE
+EXPECTED_HASH / IDENTITY MARKER where available
+STAGING_CLEANUP_REQUIRED = true | false
+```
+
+If two artifacts would collide by filename in the single staging directory, Work must assign unique transport filenames and record the canonical final filename/path in the manifest.
+
+The owner must never be asked to solve filename collisions manually.
+
+## 6. Owner-relay workflow
+
+The executor must:
 
 ```text
 1. finish the analytical/generation block locally;
-2. run local QA before handoff;
-3. freeze the intended artifact set;
-4. preserve exact filenames;
-5. provide the owner with downloadable files individually and/or a transport ZIP;
-6. provide a direct link to the exact repository / target branch / target directory upload page when possible;
-7. tell the owner whether a ZIP is transport-only and must be extracted before repository upload;
-8. provide the exact commit-message text when useful;
-9. owner uploads the exact files through the authenticated GitHub web UI;
-10. owner signals completion;
-11. executor fetches/reads remote state;
-12. compare remote paths/content identity against the locally frozen artifacts;
-13. rerun required mechanical QA from remote where possible;
-14. only then declare publication complete.
+2. run local QA;
+3. freeze the exact handoff artifact set;
+4. freeze final-path manifest;
+5. freeze ONE staging repository/branch/directory;
+6. provide downloadable files individually;
+7. provide ONE transport ZIP when multiple files exist;
+8. state that ZIP is transport-only unless the repository explicitly requires it;
+9. provide ONE direct GitHub Upload files link for the staging directory;
+10. tell owner to upload ALL extracted handoff files there together;
+11. owner returns only a minimal signal, e.g. "готово";
+12. Main ChatGPT / Work reads the actual staging payload from the current remote branch;
+13. verify filenames/counts/hashes against the frozen handoff manifest;
+14. create/update every canonical final repository path;
+15. delete staging-only copies after successful canonical placement;
+16. read back every final path;
+17. run identity/mechanical QA;
+18. verify unrelated concurrent changes were not damaged;
+19. only then declare remote publication complete.
 ```
 
-## 6. Work must not push large file contents through the model
+## 7. Large file bytes must not be transported through the model
 
-For a large already-generated artifact, forbidden by default:
+Forbidden by default:
 
 ```text
-PRINT ENTIRE FILE INTO CHAT
-READ ENTIRE FILE SOLELY TO REUPLOAD IT
+PRINT ENTIRE LARGE FILE INTO CHAT
+READ ENTIRE LARGE FILE SOLELY TO REUPLOAD IT
 BASE64 FILE INTO MODEL OUTPUT
 SPLIT FILE INTO MANY TEXT CHUNKS FOR CONNECTOR WRITES
 RECONSTRUCT LARGE FILE IN A CONNECTOR ARGUMENT
-REGENERATE A VALID FILE ONLY BECAUSE GIT AUTH FAILED
+REGENERATE A VALID FILE ONLY BECAUSE TRANSPORT FAILED
 ```
 
-Model/tool inspection may still read bounded sections or run local mechanical commands when needed for QA. The prohibition is on using the model channel as the byte-transport mechanism.
+Bounded reads, hashes, counts, headers and small excerpts remain allowed for QA.
 
-## 7. Download package rule
+## 8. Transport ZIP rule
 
-Work should make the handoff easy for the owner.
-
-When several artifacts belong to one publication unit:
+When multiple artifacts belong to one publication unit:
 
 ```text
 PROVIDE INDIVIDUAL FILES
-AND, WHEN USEFUL,
-PROVIDE ONE ZIP FOR CONVENIENT DOWNLOAD
+AND
+PROVIDE ONE TRANSPORT ZIP
 ```
 
-If the repository expects individual files, clearly state:
+Default:
 
 ```text
 ZIP = TRANSPORT CONTAINER ONLY
-DO NOT COMMIT ZIP
-EXTRACT AND UPLOAD THE INCLUDED FILES
+DO NOT COMMIT ZIP UNLESS THE EXECUTION CONTRACT EXPLICITLY REQUIRES IT
+EXTRACT ZIP LOCALLY
+UPLOAD ALL INCLUDED HANDOFF FILES TO THE ONE STAGING TARGET
 ```
 
-Do not force the owner to manually reconstruct filenames, directory structure or file contents.
+The ZIP should contain the frozen final handoff set and preserve enough manifest information for canonical redistribution.
 
-## 8. Direct upload-link rule
+## 9. Direct upload-link rule
 
-Whenever GitHub web upload is used, provide a direct link targeting as closely as possible:
+For owner relay, provide exactly one primary operational upload link per handoff unit:
 
 ```text
 repository
-+ intended branch
-+ intended directory
-+ upload-files screen
++ branch
++ single staging directory
++ GitHub upload-files screen
 ```
 
-The owner should not have to navigate the repository tree manually when a direct upload route can be prepared.
+Do not give the owner several directory-specific upload links as the required workflow.
 
-The handoff must explicitly state the intended target branch and directory in text as a cross-check.
+Additional final-path links may be reported for audit/reference only; they are not owner upload instructions.
 
-## 9. Security boundary
+## 10. Executor placement responsibility
 
-Owner relay must not require the user to paste credentials into ChatGPT/Work.
+After the owner says `готово`, Main ChatGPT / Work owns final placement.
+
+For every handoff file:
+
+```text
+STAGING FILE
+→ VERIFY IDENTITY
+→ LOOK UP FINAL PATH IN MANIFEST
+→ NEW: CREATE CANONICAL FILE
+   OR
+→ REPLACE: FETCH CURRENT TARGET + REPLACE SAFELY
+→ READ BACK FINAL TARGET
+→ VERIFY IDENTITY / CONTENT / QA
+→ REMOVE STAGING-ONLY COPY IF FINAL PATH != STAGING PATH
+```
+
+No force-push.
+
+Do not overwrite unrelated files.
+
+If target authority has drifted since the handoff manifest was frozen, stop that conflicting placement, preserve the staging artifact, and report the precise conflict rather than silently overwriting newer authority.
+
+## 11. Security boundary
+
+Owner relay must never require credentials in chat.
 
 Forbidden:
 
@@ -177,35 +234,31 @@ ASK OWNER FOR 2FA CODE IN CHAT
 EMBED PRIVATE SSH KEY IN REPOSITORY
 ```
 
-Authentication happens in the owner's normal GitHub browser/session or another owner-controlled secure channel.
+Authentication occurs in the owner's normal GitHub browser/session or another owner-controlled secure channel.
 
-## 10. Concurrency / shared-branch safety
+## 12. Concurrency / shared-branch safety
 
-Owner relay does not waive shared-branch safety.
+Before handoff, record current branch authority where material.
 
-Before preparing the upload target, record/read the current remote branch state where material.
+After owner upload, always fetch the CURRENT remote state.
 
-After owner upload:
-
-```text
-REMOTE READBACK IS MANDATORY
-```
-
-Verify that:
+Verify:
 
 ```text
-- intended files exist at intended paths;
-- unrelated concurrent changes were not removed;
-- uploaded artifacts match the frozen local artifacts;
-- the publication commit contains only the expected payload when that condition is required;
+- expected staging files exist;
+- upload did not remove unrelated work;
+- canonical targets are still safe to create/replace;
+- final files exist at intended paths after redistribution;
+- final content matches the frozen handoff artifacts;
+- staging-only duplicates are removed after successful placement;
 - row/file/count QA still passes.
 ```
 
-If the shared branch moved during the relay, do not assume success from an old HEAD. Read the actual resulting remote commit/state.
+If the branch moved during relay, do not assume success from the old HEAD.
 
-## 11. Identity verification
+## 13. Identity verification
 
-Prefer exact identity checks available for the file type and environment:
+Use the strongest practical checks:
 
 ```text
 Git blob SHA
@@ -216,10 +269,10 @@ required field/header checks
 known mechanical QA markers
 ```
 
-The owner manually uploading a file does not itself prove successful publication.
-
 ```text
 OWNER UPLOAD COMPLETE
+!=
+FINAL REPOSITORY PLACEMENT COMPLETE
 !=
 REMOTE ACCEPTANCE COMPLETE
 ```
@@ -227,13 +280,14 @@ REMOTE ACCEPTANCE COMPLETE
 Required:
 
 ```text
-OWNER UPLOAD
-→ REMOTE READBACK
+OWNER UPLOAD TO SINGLE STAGING TARGET
+→ EXECUTOR REDISTRIBUTION
+→ FINAL-PATH REMOTE READBACK
 → IDENTITY / QA VERIFICATION
 → ACCEPT
 ```
 
-## 12. State separation
+## 14. State separation
 
 Always distinguish:
 
@@ -242,57 +296,30 @@ LOCAL_ARTIFACT_COMPLETE
 LOCAL_QA_PASS
 PUBLICATION_HANDOFF_READY
 OWNER_UPLOAD_COMPLETE
+STAGING_READBACK_PASS
+FINAL_PLACEMENT_COMPLETE
+STAGING_CLEANUP_COMPLETE
 REMOTE_READBACK_PASS
 REMOTE_PUBLICATION_COMPLETE
 ```
 
-A Git auth/network failure after local QA must not invalidate the completed analytical work.
+Owner upload proves only that the staging transfer occurred.
 
-Likewise, local completion is not remote publication completion.
+## 15. Failure / blocked conditions
 
-## 13. Checkpoint use for long Work tasks
-
-For long Work jobs, this method may be used at any meaningful recoverable checkpoint, not only at final delivery.
-
-Example:
-
-```text
-large data authority complete
-→ local QA
-→ owner-relay publication
-→ remote readback
-→ continue next block
-```
-
-This reduces the risk that hours of Work remain only in scratch storage while avoiding excessive Git-auth/debug overhead.
-
-## 14. Reports and client deliverables
-
-This rule applies equally to:
-
-```text
-large TSV/CSV/JSON authorities
-XLSX workbooks
-DOCX/PDF reports
-ZIP bundles
-generated client deliverables
-QA evidence packs
-large source/evidence snapshots
-other material artifacts
-```
-
-If a file is meant for the client rather than repository storage, owner relay may also be used simply to move the artifact out of Work without forcing it through model text.
-
-## 15. Acceptance / failure conditions
-
-PASS for an owner-relay publication requires:
+PASS requires:
 
 ```text
 LOCAL_ARTIFACT_SET_FROZEN = true
 LOCAL_QA = PASS
+FINAL_PATH_MANIFEST_FROZEN = true
+ONE_OWNER_STAGING_TARGET = true
 OWNER_RECEIVED_FILES = true
-TARGET_REPO_BRANCH_PATH_EXPLICIT = true
-REMOTE_FILES_PRESENT = true
+OWNER_UPLOAD_COMPLETE = true
+STAGING_PAYLOAD_IDENTITY = PASS
+FINAL_PLACEMENT_COMPLETE = true
+STAGING_CLEANUP_COMPLETE = true where required
+REMOTE_FINAL_FILES_PRESENT = true
 REMOTE_IDENTITY_MATCH = PASS
 REMOTE_QA = PASS where applicable
 UNRELATED_REMOTE_CHANGES_DAMAGED = false
@@ -302,44 +329,71 @@ FAIL / BLOCKED if:
 
 ```text
 owner received only a prose summary instead of required files
-large artifact was silently truncated or reconstructed through model text
-remote identity cannot be verified
-wrong branch/path was used
-manual upload overwrote unrelated work
-executor claims publication merely because files were offered for download
+owner was required to split files among multiple final directories
+owner was required to decide repository placement
+large artifact was silently truncated/reconstructed through model text
+staging identity cannot be verified
+canonical final path conflicts with newer authority
+remote final identity cannot be verified
+executor claims publication merely because staging upload occurred
 ```
 
 ## 16. Work-prompt requirement
 
-Every Work prompt that may create material files must decide the artifact-publication route before execution or at the first material checkpoint.
-
-At minimum include:
+Every Work prompt that may produce material files must include:
 
 ```text
-ARTIFACT_PUBLICATION_POLICY = NATIVE_GIT_IF_ALREADY_AUTHENTICATED | OWNER_RELAY_IF_MORE_EFFICIENT
+ARTIFACT_PUBLICATION_POLICY = OWNER_RELAY_SINGLE_STAGING_REQUIRED
 LARGE_ARTIFACT_MODEL_TRANSPORT = FORBIDDEN_BY_DEFAULT
 OWNER_RELAY_ALLOWED = true
+OWNER_RELAY_SINGLE_STAGING_REQUIRED = true
+OWNER_MUST_NOT_ROUTE_FILES_TO_FINAL_PATHS = true
+EXECUTOR_FINAL_PLACEMENT_REQUIRED = true
 REMOTE_READBACK_REQUIRED = true
 ```
 
-Do not make Work spend substantial execution time debugging Git authentication when the owner-relay route is clearly cheaper and safe.
+It must also freeze:
+
+```text
+OWNER_RELAY_STAGING_REPOSITORY
+OWNER_RELAY_STAGING_BRANCH
+OWNER_RELAY_STAGING_DIRECTORY
+OWNER_RELAY_UPLOAD_URL
+FINAL_PATH_MANIFEST
+```
 
 ## 17. Plain-language owner handoff
 
-When relay is required, the executor should tell the owner only what is needed to perform the transfer:
+The owner-facing operational instruction must be short:
 
 ```text
-what files to download
-where to upload them
-what branch/folder to verify
-whether to unzip first
-what to click/commit
-what short confirmation to send back
+1. Download the files/ZIP.
+2. Extract the ZIP if needed.
+3. Upload ALL handoff files together to THIS ONE GitHub upload link.
+4. Commit the upload.
+5. Reply: "готово".
 ```
 
-Do not bury this operational handoff under a long technical incident report.
+Do NOT tell the owner to sort files into repository directories.
 
-## 18. Permanent markers
+Do NOT bury this instruction under a technical report.
+
+## 18. Relation of roles
+
+```text
+WORK
+= LARGE-DATA ANALYSIS / TRANSFORMATION / ARTIFACT MATERIALIZATION / LOCAL QA
+
+OWNER
+= DOWNLOAD + SINGLE-STAGING UPLOAD ONLY
+
+MAIN CHATGPT / WORK AFTER OWNER UPLOAD
+= STAGING VERIFICATION + CANONICAL FINAL PLACEMENT + CLEANUP + REMOTE QA
+```
+
+The owner is not responsible for analysis, methodology, artifact construction, path routing, or final acceptance.
+
+## 19. Permanent markers
 
 ```text
 KWORK_OWNER_RELAY_PUBLICATION_RULE_ACTIVE = true
@@ -348,8 +402,15 @@ KWORK_OWNER_RELAY_APPLIES_TO_KW002 = true
 KWORK_OWNER_RELAY_APPLIES_TO_MINI_KWORKS = true
 KWORK_LARGE_ARTIFACT_MODEL_BYTE_TRANSPORT_FORBIDDEN_BY_DEFAULT = true
 KWORK_OWNER_RELAY_IS_APPROVED_NORMAL_TRANSPORT = true
-KWORK_DIRECT_UPLOAD_LINK_PREFERRED = true
+KWORK_OWNER_RELAY_SINGLE_STAGING_REQUIRED = true
+KWORK_OWNER_MUST_NOT_ROUTE_FINAL_PATHS = true
+KWORK_EXECUTOR_FINAL_PLACEMENT_REQUIRED = true
+KWORK_FINAL_PATH_MANIFEST_REQUIRED = true
+KWORK_ONE_PRIMARY_UPLOAD_LINK_PER_HANDOFF = true
 KWORK_DOWNLOADABLE_ARTIFACT_HANDOFF_REQUIRED = true
-KWORK_REMOTE_READBACK_AFTER_OWNER_UPLOAD_REQUIRED = true
-KWORK_GIT_AUTH_FAILURE_DOES_NOT_REQUIRE_RECOMPUTE = true
+KWORK_TRANSPORT_ZIP_REQUIRED_FOR_MULTI_FILE_HANDOFF = true
+KWORK_STAGING_CLEANUP_REQUIRED = true
+KWORK_REMOTE_READBACK_AFTER_FINAL_PLACEMENT_REQUIRED = true
+KWORK_OWNER_UPLOAD_IS_NOT_REMOTE_ACCEPTANCE = true
+KWORK_TRANSPORT_FAILURE_DOES_NOT_REQUIRE_RECOMPUTE = true
 ```
