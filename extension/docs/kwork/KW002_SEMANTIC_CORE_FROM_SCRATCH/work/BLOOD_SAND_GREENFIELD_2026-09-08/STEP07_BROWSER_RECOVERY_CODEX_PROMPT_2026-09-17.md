@@ -36,6 +36,7 @@ Read only the concrete execution inputs needed for this recovery:
 
 ```text
 STEP07_MAIN_CHAT_RETURN_QA_2026-09-17.md
+STEP07_OPERA_BROWSER_CONTROL_PROBE_2026-09-17.md
 STEP07_BROWSER_RECOVERY_CODEX_PROMPT_2026-09-17.md
 STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv
 STEP_07_PRE_HANDOFF_MANIFEST.md
@@ -79,7 +80,23 @@ ClientHttpProxyError:403
 url='http://127.0.0.1:...'
 ```
 
-Main Chat independently confirmed that normal public browser access worked for multiple authorized competitors recorded by Attempt 1 as zero-inspected/network-inaccessible.
+Main Chat independently ran a normal-browser control probe through the owner's Opera Browser Connector and proved that multiple zero-inspected competitors are reachable and readable in a browser. Read the exact evidence in:
+
+`STEP07_OPERA_BROWSER_CONTROL_PROBE_2026-09-17.md`
+
+Browser-accessible/readable controls included at minimum:
+
+```text
+ru.wikipedia.org
+slavyanskieoberegi.ru
+sibpodkova.ru
+artvaza.ru
+happywitch.ru
+simvolroda.ru
+oum.ru
+```
+
+The probe also observed genuine browser-level problems for some targets/snapshots, including Wildberries VPN blocking and a privacy/certificate error on runarium.ru. Do not generalize either direction; retry and classify each target truthfully.
 
 Therefore this pass must distinguish:
 
@@ -121,6 +138,16 @@ For specialized thematic sites:
 - enumerate the complete public taxonomy relevant to amulets/charms/talismans/runes/symbols and the frozen business theme;
 - include category, subcategory, product, landing, guide/article, FAQ/help and glossary surfaces when relevant;
 - exclude unrelated branches explicitly.
+
+Important control from the Opera probe:
+
+```text
+BROWSER ACCESSIBLE
+!=
+WHOLE SITE RELEVANT
+```
+
+Broad/possibly off-theme domains such as `sibpodkova.ru`, `artvaza.ru` and `oum.ru` must remain bounded by their Step06 evidence and exact Step07 scope. Do not ingest unrelated site-wide taxonomy merely because the domain is reachable.
 
 ======================================================================
 4. BROWSER-FIRST ACCESS ROUTE
@@ -432,7 +459,7 @@ NEW_YANDEX_SEARCH_CALLS = 0
 NEW_AI_SEARCH_OR_GENSEARCH_CALLS = 0
 STEP08_STARTED = false
 STEP07_CANDIDATE_CLASSIFICATION_PERFORMED = false
-WORK_GITHUB_COMMIT_PUSH_PR = false
+CODEX_GITHUB_COMMIT_PUSH_PR = false
 OWNER_UPLOAD_COMPLETE = false
 REMOTE_READBACK_PASS = false
 MAIN_CHAT_ACCEPTANCE = PENDING
