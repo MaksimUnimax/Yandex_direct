@@ -3,7 +3,8 @@
 Status: **ACTIVE / OWNER-LOCKED**  
 Owner instruction: 2026-09-08  
 Owner transport amendment: 2026-09-11  
-Owner large-artifact relay lock: 2026-09-17
+Owner large-artifact relay lock: 2026-09-17  
+Owner single-staging placement lock: 2026-09-17
 
 Cross-Kwork artifact-publication authority:
 
@@ -23,14 +24,21 @@ LARGE DATA
 → HAND OFF THE COMPLETE EXECUTION UNIT TO CHATGPT WORK
 ```
 
-Work must also avoid wasting model context/tokens on byte transport after the analytical work is already complete.
+Large artifact transport is a separate problem:
 
 ```text
 LARGE ARTIFACT COMPLETE
 != SEND ITS FULL BYTES THROUGH THE MODEL
 ```
 
-## 2. Trigger
+The owner/user is not responsible for sorting handoff files across repository directories.
+
+```text
+OWNER = SINGLE-STAGING BYTE RELAY
+MAIN CHATGPT / WORK = FINAL REPOSITORY PLACEMENT + QA
+```
+
+## 2. Work trigger
 
 Use ChatGPT Work when one or more are true:
 
@@ -46,8 +54,6 @@ Use ChatGPT Work when one or more are true:
 This is a quality trigger, not an arbitrary row-count threshold.
 
 ## 3. Canonical Work prompt authority
-
-The MAIN CHATGPT WORKFLOW prepares the exact Work prompt for the current step. The owner/user only relays that prompt to ChatGPT Work.
 
 ```text
 MAIN CHATGPT = PROMPT AUTHOR
@@ -65,17 +71,19 @@ CURRENT STEP PRE-STEP REVIEW
 → OWNER RELAYS PROMPT TO WORK WITHOUT NEEDING TO DESIGN IT
 → WORK EXECUTES
 → WORK MATERIALIZES + QA'S ARTIFACTS
-→ WORK HANDS LARGE ARTIFACTS TO OWNER AS DOWNLOADABLE FILES + ZIP
-→ OWNER UPLOADS LARGE ARTIFACTS THROUGH NORMAL AUTHENTICATED GITHUB WEB UI
-→ OWNER RETURNS UPLOAD CONFIRMATION
-→ MAIN CHATGPT / WORK RUNS REMOTE READBACK + RETURN QA
+→ WORK HANDS OWNER DOWNLOADABLE FILES + ONE TRANSPORT ZIP
+→ OWNER UPLOADS ALL HANDOFF FILES TO ONE SINGLE STAGING TARGET
+→ OWNER RETURNS MINIMAL CONFIRMATION, E.G. "ГОТОВО"
+→ MAIN CHATGPT / WORK VERIFIES STAGING PAYLOAD
+→ MAIN CHATGPT / WORK PLACES / REPLACES FILES AT ALL CANONICAL FINAL PATHS
+→ MAIN CHATGPT / WORK REMOVES STAGING-ONLY COPIES
+→ FINAL-PATH REMOTE READBACK + RETURN QA
+→ ONLY THEN STEP MAY BE ACCEPTED
 ```
 
 The owner is not responsible for inventing, completing or correcting the Work prompt.
 
-Main ChatGPT must include all current step/job constraints in the prompt and must not ask the owner to supply a methodology prompt that the project already knows how to construct.
-
-If the owner edits the prompt intentionally, the latest explicit owner instruction has authority. Otherwise the generated prompt is the canonical handoff contract for that execution.
+The owner is also not responsible for repository path routing.
 
 ## 4. Required pre-handoff manifest
 
@@ -87,33 +95,66 @@ STEP_ID
 WHY_WORK_REQUIRED
 ALLOWED_INPUT_FILES / SOURCES
 PROHIBITED_INPUT_FILES / SOURCES
-CURRENT AUTHORITATIVE UPSTREAM ARTIFACTS
-EXACT EXECUTION GOAL
-REQUIRED OUTPUT FILES / TABLES
-MANDATORY FIELDS
+CURRENT_AUTHORITATIVE_UPSTREAM_ARTIFACTS
+EXACT_EXECUTION_GOAL
+REQUIRED_OUTPUT_FILES / TABLES
+MANDATORY_FIELDS
 ROW / COUNT / JOIN EXPECTATIONS where known
-CLAIM BOUNDARIES
+CLAIM_BOUNDARIES
 QA / ACCEPTANCE CHECKS
 STOP CONDITIONS
 ARTIFACT_PUBLICATION_POLICY
 ```
 
-For clean tests, the source whitelist is mandatory.
-
-For any Work execution expected to produce material files, include:
+For any Work execution expected to produce material files, also freeze:
 
 ```text
-ARTIFACT_PUBLICATION_POLICY = OWNER_RELAY_REQUIRED_FOR_LARGE_ARTIFACTS
+ARTIFACT_PUBLICATION_POLICY = OWNER_RELAY_SINGLE_STAGING_REQUIRED
 LARGE_ARTIFACT_MODEL_TRANSPORT = FORBIDDEN_BY_DEFAULT
 OWNER_RELAY_ALLOWED = true
-OWNER_RELAY_REQUIRED_FOR_LARGE_ARTIFACTS = true
+OWNER_RELAY_SINGLE_STAGING_REQUIRED = true
+OWNER_MUST_NOT_ROUTE_FILES_TO_FINAL_PATHS = true
 WORK_DIRECT_LARGE_ARTIFACT_GITHUB_PUBLICATION = FORBIDDEN_BY_DEFAULT
+EXECUTOR_FINAL_PLACEMENT_REQUIRED = true
 REMOTE_READBACK_REQUIRED = true
+
+OWNER_RELAY_STAGING_REPOSITORY
+OWNER_RELAY_STAGING_BRANCH
+OWNER_RELAY_STAGING_DIRECTORY
+OWNER_RELAY_UPLOAD_URL
+FINAL_PATH_MANIFEST
 ```
 
-Small text/control files may still use an explicitly authorized normal Git route when appropriate. This exception does not override the large-artifact owner-relay rule.
+For clean tests, the source whitelist is mandatory.
 
-## 5. Work is execution environment, not authority
+## 5. Final-path manifest — mandatory
+
+Every handoff file must have a frozen mapping:
+
+```text
+HANDOFF_FILENAME
+FINAL_REPOSITORY_PATH
+ACTION = NEW | REPLACE
+ARTIFACT_ROLE
+EXPECTED_HASH / IDENTITY MARKER where available
+STAGING_CLEANUP_REQUIRED = true | false
+```
+
+If final files belong to different repository directories, this does NOT create multiple owner upload actions.
+
+```text
+MANY FINAL PATHS
+!= MANY OWNER UPLOAD TARGETS
+
+ONE HANDOFF UNIT
+→ ONE OWNER UPLOAD TARGET
+```
+
+If transport filenames would collide in the single staging directory, Work must create unique transport filenames and map them back to canonical final names/paths in the manifest.
+
+The owner never resolves collisions manually.
+
+## 6. Work is execution environment, not authority
 
 ```text
 WORK OUTPUT != AUTOMATICALLY ACCEPTED TRUTH
@@ -121,7 +162,7 @@ WORK OUTPUT != AUTOMATICALLY ACCEPTED TRUTH
 
 Work must obey the same Level 1 and Level 2 rules as ordinary execution and may not:
 
-- create new permanent methodology;
+- create new permanent methodology without authority;
 - override client scope;
 - silently drop rows;
 - replace missing evidence with assumptions;
@@ -130,93 +171,97 @@ Work must obey the same Level 1 and Level 2 rules as ordinary execution and may 
 - use prohibited prior-research sources;
 - silently make provider calls outside the authorized step.
 
-## 6. Post-Work return gate
+## 7. Large-artifact owner handoff — ONE staging target only
 
-After Work finishes:
-
-```text
-1. receive produced artifacts/results from Work through the owner relay for large artifacts;
-2. verify source manifest;
-3. verify row/count/join truth;
-4. verify required fields and provenance;
-5. inspect HOLD/ERROR/UNRESOLVED rows;
-6. compare output to Level 2 acceptance contract;
-7. owner uploads accepted large artifacts using the supplied GitHub upload target;
-8. read back from GitHub/storage;
-9. verify remote identity/mechanical QA;
-10. only then mark the step complete and continue.
-```
-
-## 6A. Large-artifact publication route — OWNER RELAY REQUIRED
-
-Canonical cross-Kwork rule:
-
-`../../KWORK_LARGE_ARTIFACT_OWNER_RELAY_AND_PUBLICATION_RULE.md`
-
-Work must separate **generation/analysis** from **artifact transport**.
-
-For large artifacts, the required route is:
+For material handoffs, Work must give the owner:
 
 ```text
-WORK COMPLETES ANALYSIS / GENERATION
-→ LOCAL ARTIFACT FREEZE
-→ LOCAL QA
-→ WORK PROVIDES OWNER DIRECT DOWNLOADABLE FILES
-→ WORK PROVIDES ONE TRANSPORT ZIP WHEN MULTIPLE FILES ARE INVOLVED
-→ WORK PROVIDES DIRECT GITHUB "UPLOAD FILES" TARGET FOR THE EXACT REPO / BRANCH / DIRECTORY WHEN POSSIBLE
-→ OWNER DOWNLOADS THE FILES / ZIP
-→ OWNER UPLOADS THROUGH NORMAL AUTHENTICATED GITHUB WEB UI
-→ OWNER RETURNS MINIMAL CONFIRMATION, E.G. "ГОТОВО"
-→ WORK / MAIN CHATGPT PERFORMS REMOTE READBACK + IDENTITY QA
-→ ONLY THEN REMOTE PUBLICATION IS ACCEPTED
+- a direct downloadable link for every required final file;
+- ONE transport ZIP when multiple files exist;
+- the exact ZIP contents;
+- one frozen final-path manifest;
+- ONE primary GitHub Upload files link;
+- one staging repository;
+- one staging branch;
+- one staging directory;
+- one intended staging-upload commit message when useful;
+- one minimal completion signal, e.g. "готово".
 ```
 
-For large artifacts, Work must **not** substitute its own direct GitHub publication merely because Git credentials happen to be available. Direct Work publication of large artifacts is forbidden by default unless the owner explicitly overrides this rule for that specific execution.
+The owner-facing instruction must be operationally simple:
 
-Owner relay is the canonical transport mechanism for large artifacts. It is not a fallback and it is not a quality reduction.
+```text
+1. download files/ZIP;
+2. extract if needed;
+3. upload ALL handoff files together to THIS ONE staging upload link;
+4. commit;
+5. reply "готово".
+```
 
-This applies to large TSV/CSV/JSON, XLSX, DOCX, PDF, ZIP, images, evidence packs, reports and other material artifacts.
+Do NOT tell the owner to split files between LEVEL1 / LEVEL2 / job root / reports / evidence or any other final directories.
 
-## 6B. Do not transport large file bytes through the model
+Do NOT require the owner to perform NEW/REPLACE routing.
 
-Forbidden by default when the file already exists locally:
+Do NOT require the owner to delete temporary copies.
+
+## 8. Executor placement after owner upload
+
+After the owner replies `готово`, Main ChatGPT / Work owns the final placement.
+
+For every staging artifact:
+
+```text
+STAGING FILE
+→ VERIFY AGAINST HANDOFF MANIFEST
+→ RESOLVE FINAL PATH
+→ IF ACTION = NEW: CREATE CANONICAL FINAL FILE
+→ IF ACTION = REPLACE: FETCH CURRENT TARGET AND REPLACE SAFELY
+→ READ BACK FINAL PATH
+→ VERIFY IDENTITY / CONTENT / MECHANICAL QA
+→ DELETE STAGING-ONLY COPY WHEN FINAL PATH != STAGING PATH
+```
+
+No force-push.
+
+Do not overwrite unrelated concurrent work.
+
+If the final target changed after the manifest was frozen and a safe replacement cannot be proved, keep the staging copy, report the exact authority drift/conflict, and do not silently overwrite newer work.
+
+## 9. Post-Work return gate
+
+After Work finishes and owner upload occurs:
+
+```text
+1. fetch current remote branch state;
+2. verify expected staging payload exists;
+3. verify source manifest;
+4. verify row/count/join truth;
+5. verify required fields and provenance;
+6. inspect HOLD/ERROR/UNRESOLVED rows;
+7. compare output to Level 2 acceptance contract;
+8. redistribute staging files to all canonical final paths according to FINAL_PATH_MANIFEST;
+9. remove staging-only copies after successful placement;
+10. read back every final path;
+11. verify remote identity/mechanical QA;
+12. verify unrelated remote changes were not damaged;
+13. only then mark the step complete and continue.
+```
+
+## 10. Do not transport large file bytes through the model
+
+Forbidden by default:
 
 ```text
 PRINT ENTIRE LARGE FILE INTO CHAT
 BASE64 THE FILE INTO MODEL OUTPUT
 SPLIT IT INTO MANY TEXT CHUNKS FOR CONNECTOR WRITES
 RECONSTRUCT THE FILE THROUGH GIANT TOOL ARGUMENTS
-REGENERATE A VALID ARTIFACT ONLY BECAUSE GIT AUTH FAILED
+REGENERATE A VALID ARTIFACT ONLY BECAUSE TRANSPORT FAILED
 ```
 
 Bounded reads, shell counts, hashes, row checks and small excerpts remain allowed for QA.
 
-The prohibition is on using the model/tool text channel as the byte-transfer mechanism.
-
-## 6C. Owner handoff requirements — mandatory for large artifacts
-
-When Work produces large material files, it must hand them to the owner directly and make the transfer simple:
-
-```text
-- provide a direct downloadable link for every required final file;
-- when multiple files exist, also provide ONE transport ZIP containing all final handoff files;
-- list every file inside the ZIP;
-- state clearly whether the ZIP is transport-only and must be extracted before GitHub upload;
-- provide exact recommended repository path for every file;
-- mark every file as NEW or REPLACE;
-- provide a direct GitHub Upload files link to the intended repo/branch/folder when possible;
-- state target repository, branch and directory in text;
-- provide the intended commit message when useful;
-- tell the owner the minimal completion signal to return, e.g. "готово".
-```
-
-The owner is the byte-relay actor for large artifacts, not the analyst and not the artifact constructor.
-
-Do not require the owner to reconstruct filenames or directory structure manually.
-
-Do not ask the owner to paste GitHub password, PAT, 2FA code or private key into chat.
-
-## 6D. Publication state and checkpoint truth
+## 11. Publication-state truth
 
 Keep separate:
 
@@ -225,49 +270,58 @@ LOCAL_ARTIFACT_COMPLETE
 LOCAL_QA_PASS
 PUBLICATION_HANDOFF_READY
 OWNER_UPLOAD_COMPLETE
+STAGING_READBACK_PASS
+FINAL_PLACEMENT_COMPLETE
+STAGING_CLEANUP_COMPLETE
 REMOTE_READBACK_PASS
 REMOTE_PUBLICATION_COMPLETE
 ```
 
-A Git-auth/network failure after local QA does **not** invalidate the local analytical result.
-
 ```text
-GIT AUTH FAILURE
-!= RECOMPUTE DATA
-!= ANALYTICAL FAIL
+OWNER UPLOAD COMPLETE
+!= FINAL PLACEMENT COMPLETE
+!= REMOTE PUBLICATION ACCEPTED
 ```
 
-Likewise:
+Remote readback after final placement is mandatory.
 
-```text
-OWNER UPLOADED FILES
-!= PUBLICATION ACCEPTED
-```
-
-Remote readback/identity QA is always required.
-
-For long Work jobs, owner relay may be used at intermediate semantic checkpoints so large completed blocks become remote-recoverable without spending hours debugging Git authentication.
-
-## 7. No ordinary-chat fallback by quality reduction
+## 12. No ordinary-chat fallback by quality reduction
 
 If a Work-triggered step cannot be run in Work, do not silently switch to representative samples, first-N rows, manual examples or summary-only processing.
 
-Record `WORK_EXECUTION_REQUIRED / BLOCKED`, or split into complete independently valid units only when the Level 2 method explicitly permits it without loss of global coherence.
-
-Owner-relay publication is **not** such a quality reduction because the artifact itself remains exact; only the transport actor changes.
-
-## 8. Relation to Bridge
+Record:
 
 ```text
-BRIDGE = PROVIDER EVIDENCE ACQUISITION / PERSISTENCE
-WORK = LARGE-DATA ANALYSIS / TRANSFORMATION / ARTIFACT EXECUTION
-MAIN CHATGPT = METHOD CONTROL / WORK PROMPT AUTHOR / DECISIONS / RETURN QA / OWNER COMMUNICATION
-OWNER = AUTHORIZATION / PROMPT RELAY / REQUIRED LARGE-ARTIFACT FILE RELAY / COMMERCIAL SCOPE AUTHORITY
+WORK_EXECUTION_REQUIRED / BLOCKED
 ```
 
-The owner relays large file bytes without becoming responsible for analysis, methodology, QA design or artifact construction.
+or split into complete independently valid units only when the Level 2 method explicitly permits it without loss of global coherence.
 
-## 9. Markers
+## 13. Relation to Bridge / Work / Main Chat / Owner
+
+```text
+BRIDGE
+= PROVIDER EVIDENCE ACQUISITION / PERSISTENCE
+
+WORK
+= LARGE-DATA ANALYSIS / TRANSFORMATION / ARTIFACT EXECUTION / LOCAL QA
+
+MAIN CHATGPT
+= METHOD CONTROL / WORK PROMPT AUTHOR / DECISIONS / RETURN QA / FINAL REPOSITORY PLACEMENT CONTROL
+
+OWNER
+= AUTHORIZATION / PROMPT RELAY / DOWNLOAD + SINGLE-STAGING FILE UPLOAD / COMMERCIAL SCOPE AUTHORITY
+```
+
+The owner relays bytes without becoming responsible for analysis, methodology, QA design, artifact construction, repository routing or final acceptance.
+
+## 14. Security
+
+Do not ask the owner to paste GitHub password, PAT, 2FA code or private key into chat.
+
+Authentication happens in the owner's normal authenticated GitHub session.
+
+## 15. Markers
 
 ```text
 KW002_WORK_HANDOFF_RULE_ACTIVE = true
@@ -279,12 +333,16 @@ KW002_WORK_OUTPUT_REQUIRES_RETURN_QA = true
 KW002_WORK_PROMPT_MUST_FREEZE_ARTIFACT_PUBLICATION_POLICY = true
 KW002_OWNER_RELAY_PUBLICATION_APPROVED = true
 KW002_OWNER_RELAY_REQUIRED_FOR_LARGE_ARTIFACTS = true
-KW002_OWNER_RELAY_MAY_BE_USED_FOR_CHECKPOINTS = true
+KW002_OWNER_RELAY_SINGLE_STAGING_REQUIRED = true
+KW002_OWNER_MUST_NOT_ROUTE_FINAL_PATHS = true
+KW002_EXECUTOR_FINAL_PLACEMENT_REQUIRED = true
+KW002_FINAL_PATH_MANIFEST_REQUIRED = true
 KW002_WORK_DIRECT_LARGE_ARTIFACT_GITHUB_PUBLICATION_FORBIDDEN_BY_DEFAULT = true
 KW002_LARGE_ARTIFACT_MODEL_TRANSPORT_FORBIDDEN_BY_DEFAULT = true
 KW002_DIRECT_DOWNLOAD_LINK_REQUIRED_FOR_LARGE_ARTIFACTS = true
 KW002_TRANSPORT_ZIP_REQUIRED_WHEN_MULTIPLE_FILES = true
-KW002_DIRECT_UPLOAD_LINK_PREFERRED_FOR_OWNER_RELAY = true
-KW002_REMOTE_READBACK_AFTER_OWNER_UPLOAD_REQUIRED = true
-KW002_GIT_AUTH_FAILURE_DOES_NOT_REQUIRE_RECOMPUTE = true
+KW002_ONE_PRIMARY_UPLOAD_LINK_PER_HANDOFF = true
+KW002_STAGING_CLEANUP_REQUIRED = true
+KW002_REMOTE_READBACK_AFTER_FINAL_PLACEMENT_REQUIRED = true
+KW002_OWNER_UPLOAD_IS_NOT_REMOTE_ACCEPTANCE = true
 ```
