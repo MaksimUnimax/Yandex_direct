@@ -507,6 +507,10 @@ Every selected semantic competitor has current SERP evidence; no competitor is i
 
 # STEP 07 — competitor semantic expansion
 
+Dedicated Step07 execution contract:
+
+`STEP_07_COMPETITOR_SEMANTIC_EXPANSION.md`
+
 ## Why
 
 Discover vocabulary/topics missed by client/analyst starting language.
