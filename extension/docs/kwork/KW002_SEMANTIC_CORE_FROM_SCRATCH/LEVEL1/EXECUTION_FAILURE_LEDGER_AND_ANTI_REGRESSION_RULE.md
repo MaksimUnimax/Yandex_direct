@@ -666,16 +666,36 @@ STEP08 DOES NOT REPAIR STEP07 DISCOVERY OMISSIONS
 ```
 
 A pre-frozen product-mode exception may disable the ranking-query lane only
-when Main Chat explicitly justifies it before execution. Silence or source
-unavailability discovered after the fact is not a PASS.
+when Main Chat explicitly justifies it before execution. Separately, a real
+external-source availability failure may terminate the lane as
+`SOURCE_UNAVAILABLE_DECLARED_LIMITATION` when a bounded source-recovery pass
+is documented, no legitimate approved Yandex organic domain/URL→query source
+is accessible, access controls are not bypassed, and the recall limitation is
+kept explicit.
+
+This fallback does not mean zero ranking queries and does not make page mining
+equivalent to full competitor semantic recall. It prevents an optional external
+commercial enrichment dependency from permanently deadlocking the downstream
+roadmap after the project has honestly established that the source is
+unavailable.
+
+```text
+EXTERNAL RANKING SOURCE UNAVAILABLE != ZERO QUERIES
+EXTERNAL RANKING SOURCE UNAVAILABLE != COMPLETE COMPETITOR RECALL
+EXTERNAL RANKING SOURCE UNAVAILABLE != PERMISSION TO FABRICATE
+EXTERNAL DATA ENRICHMENT != UNCONDITIONAL BASELINE DEPENDENCY
+```
 
 ### Gates
 
 ```text
 SEMANTIC_RECALL_CHANNELS_DECLARED = true
 PAGE_SURFACE_DISCOVERY_LANE_COMPLETE = true
-RANKING_QUERY_DISCOVERY_LANE_COMPLETE = true OR PRE_FROZEN_EXCEPTION = true
+RANKING_QUERY_DISCOVERY_LANE_COMPLETE = true OR RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true OR PRE_FROZEN_EXCEPTION = true
+RANKING_QUERY_SOURCE_RECOVERY_DOCUMENTED = true where RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true
 RANKING_QUERY_SOURCE_LIMITATIONS_EXPLICIT = true
+KNOWN_RECALL_LIMITATION_EXPLICIT = true where RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true
+RANKING_QUERY_REOPEN_CONDITION_EXPLICIT = true where RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true
 STEP07_FULL_RECALL_CLAIM_WITH_MISSING_REQUIRED_LANE = 0
 ```
 
