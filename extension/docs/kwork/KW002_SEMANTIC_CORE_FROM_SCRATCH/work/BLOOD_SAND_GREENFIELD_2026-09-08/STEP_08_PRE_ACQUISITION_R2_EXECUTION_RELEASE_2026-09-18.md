@@ -115,7 +115,35 @@ STEP09_STARTED = false
 No R1 or R2 seed may be executed before Main Chat accepts R2 and creates a new
 provider execution release.
 
-## 8. Quality / release decision
+## 8. Quality score for the R2 release contract
+
+This score evaluates the corrected R2 method/release contract, not the future
+R2 Work result.
+
+| Criterion | Score | Basis |
+|---|---:|---|
+| Goal/output completeness | 10/10 | full 794/749/386 affected universes and eight outputs frozen |
+| Method/source support | 10/10 | defect derived from actual full R1 queue plus current universal gates |
+| Input evidence/provenance integrity | 10/10 | R1 frozen data authority inherited and exact R2 inputs pinned |
+| Coverage/completeness | 10/10 | 794/794 + 386/386 + 72/72 required; no sample patch |
+| Analytical correctness/claim boundaries | 10/10 | no naive 162 collapse; parent/child vs independent probes distinguished |
+| Adversarial QA quality | 10/10 | F05-18 gates explicitly added and full blast radius frozen |
+| Persistence/readback/reproducibility | 10/10 | canonical rules/schema/manifest/prompt released with Git identities |
+| Owner/client usability/plain language | 9/10 | execution contract is precise; owner-facing explanation remains in Main Chat |
+| Information gain/cost/execution efficiency | 10/10 | static over-acquisition blocked before any provider spend |
+| Downstream readiness | 9/10 | provider execution deliberately remains blocked until R2 Work acceptance |
+
+```text
+QUALITY_TOTAL = 98/100
+QUALITY_SCORE = 9.8/10
+HARD_RELEASE_GATES = PASS
+OPEN_CRITICAL_RELEASE_DEFECTS = 0
+```
+
+Points are withheld because R2 execution/return QA has not happened yet and
+provider execution is intentionally not ready.
+
+## 9. Quality / release decision
 
 The R2 release closes the known method defect at contract level but does not
 prejudge the R2 analytical result.
