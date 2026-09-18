@@ -1,0 +1,17 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R12",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R11.json",
+  "current_flow": "JOB_FLOW_CURRENT_2026-09-18_STEP08_PRE_ACQUISITION_R2_REWORK_RELEASED.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP08_PRE_ACQUISITION_R2_REWORK_RELEASED.json",
+  "current_step07_acceptance": "STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md",
+  "current_step08_defect": "STEP08_PRE_ACQUISITION_DUPLICATE_QUESTION_DEFECT_RECORD_2026-09-18.md",
+  "current_step08_r2_release": "STEP_08_PRE_ACQUISITION_R2_EXECUTION_RELEASE_2026-09-18.md",
+  "step07_status": "PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION",
+  "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+  "known_recall_limitation": "ACTIVE",
+  "step08_r1_status": "REWORK_REQUIRED_BY_LATE_SEMANTIC_QA",
+  "step08_r2_status": "WORK_RELEASED",
+  "step08_provider_execution": "BLOCKED_NOT_STARTED",
+  "status_rule": "R12 is current authority. The R1 Step08 pre-acquisition result is historical and invalid for provider release because late semantic QA found systematic duplicate information questions without parent/child dependency control. Only the R2 full-volume Work rework may run now. Provider execution remains forbidden.",
+  "next_action": "OWNER_RUNS_STEP08_R2_WORK_PROMPT"
+}
