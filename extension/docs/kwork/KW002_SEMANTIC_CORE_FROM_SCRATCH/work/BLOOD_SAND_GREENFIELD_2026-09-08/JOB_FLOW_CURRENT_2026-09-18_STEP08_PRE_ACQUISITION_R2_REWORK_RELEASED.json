@@ -1,0 +1,17 @@
+{
+  "record": "KW002_JOB_FLOW_CURRENT_2026-09-18_STEP08_PRE_ACQUISITION_R2_REWORK_RELEASED",
+  "current_step": "STEP08_PRE_ACQUISITION_REWORK_R2",
+  "step07_status": "PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION",
+  "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+  "known_recall_limitation": "ACTIVE",
+  "step08_r1_status": "REWORK_REQUIRED_BY_LATE_SEMANTIC_QA",
+  "step08_r2_status": "WORK_RELEASED",
+  "step08_provider_execution": "BLOCKED_NOT_STARTED",
+  "step08_eligible_candidates": 794,
+  "r1_provider_required_candidates": 749,
+  "r1_provider_seeds": 386,
+  "duplicate_open_question_groups": 72,
+  "current_release": "STEP_08_PRE_ACQUISITION_R2_EXECUTION_RELEASE_2026-09-18.md",
+  "current_work_prompt": "STEP_08_PRE_ACQUISITION_DEPENDENCY_REWORK_R2_WORK_PROMPT_2026-09-18.md",
+  "next_action": "OWNER_RUNS_STEP08_R2_WORK_PROMPT"
+}
