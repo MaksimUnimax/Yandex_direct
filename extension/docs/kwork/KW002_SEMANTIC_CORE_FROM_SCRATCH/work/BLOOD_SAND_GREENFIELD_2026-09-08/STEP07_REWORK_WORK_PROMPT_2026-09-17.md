@@ -1,6 +1,6 @@
 # KW-002 / BLOOD & SAND — STEP07 FULL-VOLUME REWORK WORK PROMPT
 
-Status: **CURRENT / EXECUTION-ONLY / REWORK OF FAILED STEP07 ATTEMPT**
+Status: **CURRENT / EXECUTION-ONLY / BROWSER RECOVERY CANONICALLY ACCEPTED / SEMANTIC REWORK RELEASE CANDIDATE**
 
 CONTINUE THE EXISTING KW-002 BLOOD & SAND GREENFIELD SEMANTIC-CORE REHEARSAL.
 
@@ -45,6 +45,36 @@ STEP07_SOURCE_URL_LEDGER.csv
 STEP07_CANDIDATE_PROVENANCE_LEDGER.csv
 STEP07_EXECUTION_QA.md
 STEP07_EXECUTION_HANDOFF_MANIFEST.json
+STEP07_BROWSER_RECOVERY_CANONICAL_REMOTE_ACCEPTANCE_2026-09-18.md
+STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
+STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl
+STEP07_BROWSER_RECOVERY_COVERAGE.csv
+STEP07_BROWSER_RECOVERY_QA.md
+STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv
+STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv
+STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
+```
+
+Verify exact accepted browser-recovery SHA-256 identities:
+
+```text
+STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
+= 2fb8a69b6861a1e9934b0976dbf44029a79579d93457c284bd50ba5c392cf0e2
+
+STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl
+= 7eefe0001428c926680faab9218bda9d7ddfd197347dd97b6140e993d7353592
+
+STEP07_BROWSER_RECOVERY_COVERAGE.csv
+= 8cd07a7c1b21e9495d276ab8c7a53c4a8f34525dfb305684dcc811411b8433ce
+
+STEP07_BROWSER_RECOVERY_QA.md
+= 46d8885743a2ae3358a3e6a11ec57c57438c156b0a6d00e1030ae0a5bcb1ee83
+
+STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv
+= 1cbe984c47854eeb55eb1a1a07fc3134a030a1a841cd6a7f22e82326a01295a6
+
+STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv
+= ad77bad53a960c6ea37f4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d
 ```
 
 Verify that the authorized competitor universe remains exactly 32 and still maps to the frozen Step06 curated registry.
@@ -153,36 +183,53 @@ Current statuses are NOT trusted merely because mechanical schema QA passed.
 
 Every existing candidate/provenance relation must be re-evaluated under the corrected producer logic.
 
-### 3B. Missing/retry competitor coverage
+### 3B. Canonically accepted browser-recovery evidence
 
-For all authorized competitors/URLs where Attempt 1 did not obtain legitimate inspected content, retry public access using a legitimate browser-capable route available in ChatGPT Work / cloud browser.
+Browser recovery is already COMPLETE and canonically accepted by Main Chat.
 
-Do not use the failed raw-HTTP/proxy route as the sole retry mechanism when it reproduces local proxy failures before reaching the target.
+Do NOT perform new browser navigation, retries, crawling, provider acquisition or target-access probing in this Work unit.
 
-Do NOT bypass:
-
-- robots restrictions;
-- authentication/login;
-- CAPTCHA;
-- paywalls;
-- anti-bot controls.
-
-If a normal browser route reaches a public page, inspect it and continue the allowed bounded frontier under the frozen scope policy.
-
-If the target itself blocks access or a browser-capable legitimate route still cannot retrieve the page, preserve the correct access evidence.
-
-Hard interpretation:
+Consume the exact accepted recovery authorities:
 
 ```text
-TARGET / ROBOTS / CAPTCHA / LOGIN EVIDENCE
-may support source-level inaccessible evidence
-
-WORK RUNTIME / LOCAL PROXY FAILURE BEFORE TARGET RESPONSE
-!= SOURCE-LEVEL CLOSURE
+STEP07_BROWSER_RECOVERY_URL_LEDGER.csv
+STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl
+STEP07_BROWSER_RECOVERY_COVERAGE.csv
+STEP07_BROWSER_RECOVERY_QA.md
+STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv
+STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv
+STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json
 ```
 
-A pure execution-environment failure must remain incomplete/unresolved for semantic coverage unless another legitimate route resolves it.
+Accepted recovery accounting:
 
+```text
+SOURCE_URL_ROWS = 1976
+AUTHORIZED_COMPETITORS = 32
+PAGE_EVIDENCE_ROWS = 725
+GLOBAL_RECOVERED_INSPECTED = 432
+GLOBAL_REDIRECTED_IN_SCOPE = 293
+GLOBAL_TARGET_CAPTCHA_OR_ANTI_BOT = 26
+GLOBAL_EXCLUDED_DUPLICATE = 24
+GLOBAL_EXCLUDED_OUT_OF_SCOPE = 1201
+EXECUTION_ENVIRONMENT_FAILURE = 0
+UNRESOLVED_DYNAMIC_CONTENT = 0
+```
+
+The accepted recovery set supersedes Attempt-1 access failures for semantic rework input purposes.
+Preserve target blocks as inaccessible evidence; do not attempt bypass or reacquisition.
+
+This rework therefore combines:
+
+```text
+ALL 686 current candidate identities
+ALL 1417 current provenance rows
+ALL 1976 current URL rows
+ALL 32 competitor coverage rows
+ALL 725 accepted browser page-evidence rows
+```
+
+under the corrected candidate-eligibility producer.
 ======================================================================
 4. AUTHORIZED COMPETITOR / SOURCE BOUNDARY
 ======================================================================
@@ -331,38 +378,37 @@ Report how many existing candidate IDs are retained, reclassified, superseded or
 No silent row/provenance loss.
 
 ======================================================================
-7. URL / COVERAGE REWORK
+7. URL / COVERAGE RECONCILIATION FROM ACCEPTED RECOVERY AUTHORITY
 ======================================================================
 
-Start from the existing `STEP07_SOURCE_URL_LEDGER.csv` and coverage ledger as failed-attempt evidence.
+Do NOT reacquire browser coverage in this task.
 
-Preserve discovery lineage and prior failure notes.
+Use the accepted recovery URL ledger, coverage ledger and page-evidence JSONL as the current access/coverage authority.
 
-For each authorized competitor:
+Required reconciliation:
 
-- retry eligible rows that were not inspected due runtime/network access failure;
-- expand newly reachable in-scope navigation/taxonomy/sitemap/pagination frontier;
-- apply the same canonicalization/dedup rules;
-- assign exactly one current terminal state to every current discovered canonical URL;
-- preserve prior attempt evidence in notes when a state changes.
+- every one of the 32 authorized competitors remains accounted for;
+- every accepted recovery URL row resolves to the authorized competitor universe;
+- every recovered-inspected page-evidence row resolves to its source URL;
+- target-block rows remain explicit inaccessible evidence;
+- no Attempt-1 runtime/proxy failure may survive as current source-level closure when the accepted recovery authority supersedes it;
+- no new URL frontier is created in this semantic rework;
+- no browser/provider calls are made.
 
-Coverage still must reconcile:
+Required accepted terminal totals:
 
 ```text
-DISCOVERED_URLS
-= INSPECTED_URLS
-+ EXCLUDED_URLS
-+ INACCESSIBLE_URLS
-+ REDIRECTED_TERMINAL_URLS
-+ UNRESOLVED_URLS
+EXCLUDED_OUT_OF_SCOPE = 1201
+EXCLUDED_DUPLICATE = 24
+RECOVERED_INSPECTED = 432
+REDIRECTED_IN_SCOPE = 293
+TARGET_CAPTCHA_OR_ANTI_BOT = 26
+EXECUTION_ENVIRONMENT_FAILURE = 0
+UNRESOLVED_DYNAMIC_CONTENT = 0
+TOTAL = 1976
 ```
 
-But semantic completion must not be claimed merely because a runtime proxy failure was assigned a terminal accounting bucket.
-
-For `COMPLETE_WITH_INACCESSIBLE_EVIDENCE`, the remaining inaccessible rows must represent legitimate target/access evidence, not merely an untried alternative after a Work-local proxy failure.
-
-If legitimate public coverage still cannot be completed, Step07 remains `INCOMPLETE` with exact evidence.
-
+Semantic rework may replace the six Step07 production outputs, but it MUST NOT mutate the seven accepted browser-recovery evidence files.
 ======================================================================
 8. RECONCILIATION AGAINST UPSTREAM SEMANTIC AUTHORITY
 ======================================================================
@@ -427,7 +473,7 @@ ONLY_AUTHORIZED_COMPETITORS = PASS
 ALL_32_COMPETITORS_ACCOUNTED = PASS
 ARBITRARY_TOP_N_OR_SAMPLE = 0
 RUNTIME_PROXY_FAILURE_MISTAKEN_FOR_SOURCE_CLOSURE = 0
-ALL_RETRYABLE_RUNTIME_NETWORK_FAILURES_RETRIED_VIA_LEGITIMATE_BROWSER_ROUTE = true
+CANONICAL_BROWSER_RECOVERY_REMOTE_ACCEPTANCE = PASS
 FULL_EXISTING_686_CANDIDATE_UNIVERSE_REEVALUATED = true
 FULL_EXISTING_1417_PROVENANCE_UNIVERSE_REEVALUATED = true
 KNOWN_BAD_EXAMPLES_NO_LONGER_ROUTE_AS_NEW_CANDIDATE = PASS
@@ -513,7 +559,7 @@ And exact old→new accounting for:
 - existing provenance rows processed;
 - new provenance rows added;
 - candidate/source/provenance reconciliation;
-- runtime network failures retried/resolved/still unresolved;
+- accepted browser-recovery terminal accounting consumed/reconciled;
 - all hard QA gates;
 - quality total /100 and average /10.
 
@@ -535,4 +581,28 @@ MAIN_CHAT_ACCEPTANCE = PENDING
 
 Do not stop at a sample or manual fix of known bad rows.
 
-This rework is complete only after the full affected existing semantic universe and all legitimately retryable missing competitor coverage have been processed under the corrected producer and QA contract.
+This rework is complete only after the full affected existing semantic universe and all canonically accepted browser-recovery evidence have been processed under the corrected producer and QA contract.
+======================================================================
+14. 2026-09-18 CANONICAL INPUT AMENDMENT — CONTROLS ON CONFLICT
+======================================================================
+
+Main Chat canonically accepted the final 7-file Opera browser-recovery package after exact remote byte readback at owner-upload head:
+
+`599af13c5007e1c2482e89a63f5d9ff4d9af3491`
+
+Therefore, on any conflict with older wording in this prompt:
+
+```text
+BROWSER RECOVERY = ALREADY COMPLETE
+NEW BROWSER NAVIGATION / RETRY = FORBIDDEN IN THIS REWORK
+ACCEPTED PAGE EVIDENCE = 725 ROWS
+SEMANTIC REWORK = FULL-VOLUME REEVALUATION + RECONCILIATION ONLY
+PROVIDER CALLS = 0
+STEP08 = NOT STARTED
+```
+
+The acceptance authority is:
+
+`STEP07_BROWSER_RECOVERY_CANONICAL_REMOTE_ACCEPTANCE_2026-09-18.md`
+
+The seven browser-recovery files are immutable inputs to this Work unit and MUST NOT be replaced by Work.
