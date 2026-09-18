@@ -600,6 +600,59 @@ WORK_HANDOFF_WITHOUT_LARGE_DATA_OR_EXPLICIT_APPLICABLE_TRIGGER = 0
 
 ---
 
+## F05-18 — parent and child provider probes pre-authorized before parent evidence
+
+### Root cause
+
+A provider queue is optimized as a static list. Broad/topic-level and narrower child probes are all marked execution-ready at the same time even when the broader probe may itself return evidence that answers or materially changes the narrower questions.
+
+### Why it fails
+
+The queue can be mechanically unique while still duplicating information gain. Literal query strings differ, but the unresolved evidence question is the same or hierarchically dependent. Executing every row unconditionally wastes provider calls and can create contradictory snapshot interpretations.
+
+```text
+LITERAL QUERY UNIQUE != INFORMATION QUESTION UNIQUE
+SAME TOPIC != AUTOMATIC SAME PROBE
+PARENT PROBE MAY ANSWER CHILD -> CHILD MUST NOT BE UNCONDITIONALLY PRE-AUTHORIZED
+```
+
+### Universal rule
+
+Before provider execution, build an acquisition-question/dependency model.
+
+For every provider-ready seed state one of:
+
+```text
+INITIAL_REQUIRED
+CONDITIONAL_AFTER_PARENT
+INDEPENDENT_REQUIRED
+REUSE_EXISTING_EVIDENCE
+HOLD
+```
+
+If two or more seeds share the same declared information question, either:
+
+1. merge them into one semantically sufficient probe; or
+2. prove a distinct operator/scope/referent information gain for each seed; or
+3. mark narrower probes conditional on the result of a broader/parent probe.
+
+A child probe becomes executable only after the parent result is durably persisted/read back and a new reconciliation proves the child question remains unanswered.
+
+### Gates
+
+```text
+PROVIDER_SEEDS_WITHOUT_ACQUISITION_QUESTION_ID = 0
+DUPLICATE_INFORMATION_QUESTIONS_WITHOUT_MERGE_OR_JUSTIFICATION = 0
+UNCONDITIONAL_CHILD_PROBES_WHERE_PARENT_MAY_ANSWER = 0
+CONDITIONAL_CHILD_WITHOUT_TRIGGER = 0
+PARENT_RESULT_NOT_RECONCILED_BEFORE_CHILD_RELEASE = 0
+PROVIDER_QUEUE_STATIC_DUPLICATION_AUDIT = PASS
+```
+
+Applies at least to targeted/competitor-derived provider expansion stages such as Step05 and Step08.
+
+---
+
 ## F07-1 — access/error evidence counted as inspected no-candidate content
 
 ### Root cause
