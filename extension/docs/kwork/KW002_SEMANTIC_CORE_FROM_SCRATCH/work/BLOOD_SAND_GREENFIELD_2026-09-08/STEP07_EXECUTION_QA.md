@@ -1,20 +1,20 @@
-# KW-002 / BLOOD & SAND — STEP07 FINAL WRAPPER-NOISE FULL-VOLUME CORRECTION QA
+# KW-002 / BLOOD & SAND — STEP07 FINAL MANUAL-WORK WRAPPER FULL-VOLUME CORRECTION R2 QA
 
 Date: 2026-09-18
-Action: `STEP07_FINAL_WRAPPER_NOISE_FULL_VOLUME_CORRECTION`
-Work start remote HEAD: `dedf5a4680c0c91f8ffb349c8260a9e150b4041a`
-Pre-publication remote HEAD: `dedf5a4680c0c91f8ffb349c8260a9e150b4041a`
+Action: `STEP07_FINAL_MANUAL_WORK_WRAPPER_FULL_VOLUME_CORRECTION_R2`
+Work start remote HEAD: `2a266dec29c01bf6d7d15e34ed55cdd6ff28be42`
+Pre-publication remote HEAD: `2a266dec29c01bf6d7d15e34ed55cdd6ff28be42`
 Authority drift: **NONE**
 Overall hard QA: **PASS**
-Step result: **PASS_FULL_VOLUME_WRAPPER_NOISE_CORRECTION**
+Step result: **PASS_FULL_VOLUME_MANUAL_WORK_WRAPPER_CORRECTION_R2**
 
 ## 1. Exact final report
 
 ```text
-WORK_START_REMOTE_HEAD = dedf5a4680c0c91f8ffb349c8260a9e150b4041a
-WORK_PRE_PUBLICATION_REMOTE_HEAD = dedf5a4680c0c91f8ffb349c8260a9e150b4041a
+WORK_START_REMOTE_HEAD = 2a266dec29c01bf6d7d15e34ed55cdd6ff28be42
+WORK_PRE_PUBLICATION_REMOTE_HEAD = 2a266dec29c01bf6d7d15e34ed55cdd6ff28be42
 AUTHORITY_DRIFT_STATUS = NONE
-STEP07_FINAL_WRAPPER_CORRECTION_STATUS = PASS_FULL_VOLUME_WRAPPER_NOISE_CORRECTION
+STEP07_FINAL_MANUAL_WORK_WRAPPER_STATUS = PASS_FULL_VOLUME_MANUAL_WORK_WRAPPER_CORRECTION_R2
 
 TARGET_CANDIDATES_REVIEWED = 794/794
 TARGET_PROVENANCE_REVIEWED = 1060/1060
@@ -22,25 +22,15 @@ TARGET_SILENT_SKIP = 0
 OLD_STEP08_ELIGIBLE = 794
 NEW_STEP08_ELIGIBLE = 794
 
-TRANSFORMED_DERIVED_COUNT = 1
+TRANSFORMED_DERIVED_COUNT = 5
 OUT_OF_SCOPE_DELTA = 0
 AMBIGUOUS_DELTA = 0
 ALREADY_PRESENT_DELTA = 0
 NORMALIZED_DUPLICATE_DELTA = 0
 
-LISTING_MANUAL_WORK_WRAPPER_HITS_AFTER = 0
-LISTING_AVAILABILITY_WRAPPER_HITS_AFTER = 0
-LISTING_PRICE_PHOTO_WRAPPER_HITS_AFTER = 0
-LISTING_DIMENSION_NOISE_HITS_AFTER = 0
-LISTING_CONDITION_NOISE_HITS_AFTER = 0
-COMPETITOR_BRAND_WRAPPER_HITS_AFTER = 0
-
-SCHEMA_COMPLIANCE = PASS
-PRIMARY_KEYS_UNIQUE = PASS
-FOREIGN_KEYS_RESOLVE = PASS
-CANDIDATE_SOURCE_COUNTS_RECONCILE = PASS
-STEP08_ROUTE_CONSISTENCY = PASS
-DEMAND_VALIDATION_STATE = NOT_VALIDATED_STEP07 FOR ALL
+KNOWN_MANUAL_WORK_REGRESSION_ROWS_CORRECTED = 4/4
+GENERIC_MANUAL_WORK_WRAPPER_HITS_AFTER = 0
+DELIBERATELY_RETAINED_MANUAL_WORK_SEMANTIC_ROWS = 0
 
 HARD_GATE_FAILURES = 0
 OPEN_CRITICAL_DEFECTS = 0
@@ -48,17 +38,13 @@ QUALITY_TOTAL = 99/100
 QUALITY_SCORE = 9.9/10
 
 NEW_BROWSER_CALLS = 0
-NEW_CRAWL = 0
-NEW_WORDSTAT_CALLS = 0
-NEW_YANDEX_SEARCH_CALLS = 0
-NEW_AI_SEARCH_OR_GENSEARCH_CALLS = 0
 NEW_PROVIDER_CALLS = 0
 STEP08_STARTED = false
 WORK_GITHUB_COMMIT_PUSH_PR = false
 MAIN_CHAT_ACCEPTANCE = PENDING
 ```
 
-## 2. Full-volume correction accounting
+## 2. Full-volume execution accounting
 
 ```text
 CURRENT_CANDIDATE_UNIVERSE_LOADED = 2172/2172
@@ -68,8 +54,8 @@ TARGET_PROVENANCE_REVIEWED = 1060/1060
 TARGET_CANDIDATES_SILENTLY_SKIPPED = 0
 ALL_TARGET_PROVENANCE_REVIEWED = true
 
-RETAINED_AS_IS = 793
-TRANSFORMED_DERIVED = 1
+RETAINED_AS_IS = 789
+TRANSFORMED_DERIVED = 5
 RECLASSIFIED_OUT_OF_SCOPE = 0
 RECLASSIFIED_AMBIGUOUS = 0
 ALREADY_PRESENT_AFTER_RECONCILIATION = 0
@@ -77,9 +63,13 @@ NORMALIZED_DUPLICATE_AFTER_RECONCILIATION = 0
 REMAINING_STEP08_ELIGIBLE = 794
 ```
 
-Every current eligible identity received a new review receipt. Every linked raw
-wording and source context row was read and hashed into that receipt. Source
-multiplicity remained a confidence signal only.
+All 794 eligible identities and all 1,060 linked evidence rows received an R2
+review receipt. The full manual-work lexical family was tested against candidate
+wording and immutable provenance evidence. Source multiplicity remained a
+confidence signal only.
+
+Review-register SHA-256: `3a497e5f5379bb98f78663f9ef695481dfe0e2f7909bc6aa59d3ca2ed2d0483a`
+Linked-provenance-register SHA-256: `88af1430f8b7e24fe3aa207321c43519523f9d5e8cc034faf93574d621d9adf5`
 
 ### Old 794 → new status transition matrix
 
@@ -113,80 +103,89 @@ SINGLE_SOURCE_FINAL = 756
 MULTI_SOURCE_FINAL = 38
 ```
 
-## 3. Corrected false negative
+## 3. Corrected wrapper rows
 
 | CANDIDATE_ID | BEFORE | AFTER | TRANSFORMATION | FINAL_STATUS | FINAL_ROUTE |
 |---|---|---|---|---|---|
-| `S07C000567` | Кулон кованый "Молот Тора" ручной работы | Кулон кованый "Молот Тора" | `UI_NOISE_REMOVAL` | `NEW_CANDIDATE` | `ELIGIBLE_NEW_CANDIDATE` |
+| `S07C001277` | Славянский оберег "Велес" ручная работа, бронза | Славянский оберег "Велес", бронза | `LISTING_MANUAL_WORK_WRAPPER_REMOVAL` | `NEW_CANDIDATE` | `ELIGIBLE_NEW_CANDIDATE` |
+| `S07C001280` | Славянский оберег "Звезда Инглии" ручная работа, бронза | Славянский оберег "Звезда Инглии", бронза | `LISTING_MANUAL_WORK_WRAPPER_REMOVAL` | `NEW_CANDIDATE` | `ELIGIBLE_NEW_CANDIDATE` |
+| `S07C001282` | Славянский оберег "Звезда Лады" ручная работа, бронза | Славянский оберег "Звезда Лады", бронза | `LISTING_MANUAL_WORK_WRAPPER_REMOVAL` | `NEW_CANDIDATE` | `ELIGIBLE_NEW_CANDIDATE` |
+| `S07C001291` | Славянский оберег "Лунница" малая, ручная работа, бронза | Славянский оберег "Лунница" малая, бронза | `LISTING_MANUAL_WORK_WRAPPER_REMOVAL` | `NEW_CANDIDATE` | `ELIGIBLE_NEW_CANDIDATE` |
+| `S07C001541` | Талисман «Ловец удачи» Автор – Natalie | Талисман «Ловец удачи» | `LISTING_SELLER_ATTRIBUTION_REMOVAL` | `NEW_CANDIDATE` | `ELIGIBLE_NEW_CANDIDATE` |
 
-The correction removes only the explicit trailing marketplace wrapper
-`ручной работы`. The literal product phrase and the meaningful forged-product
-attribute remain. The compact wording does not collide with any of the 2,172
-current candidate identities or the accepted upstream semantic universe.
+The four required manual-work regressions were reduced by deleting only the
+detachable `ручная работа` wrapper. Bronze remains as a supported material
+attribute; `малая` remains for the explicit qualitative size variant. The
+full-volume pass also found and removed one seller attribution from
+`S07C001541`. All five compact forms are literal source-supported reductions,
+remain within the frozen business scope, and collide with neither the complete
+2,172-candidate universe nor the accepted upstream semantic universe.
 
 ```text
-S07C000567_RETAINED_AS_IS = false
-S07C000567_RAW_WORDING_IMMUTABLE = true
+KNOWN_MANUAL_WORK_REGRESSION_ROWS = 4/4 CORRECTED
+ADDITIONAL_SELLER_WRAPPER_ROWS_CORRECTED = 1
 UNSUPPORTED_DERIVATIONS = 0
 EXISTING_IDENTITY_DUPLICATION = 0
 ```
 
-## 4. Wrapper-signal decision accounting
+## 4. Deliberately retained manual-work semantic rows
 
-The hard-gate hit counts below are semantic defect counts, not raw token counts.
-All token matches were reviewed against wording plus every linked provenance row.
+None.
 
-| DECISION_RULE | TARGETS | RESULT |
-|---|---:|---|
-| `LISTING_MANUAL_WORK_WRAPPER_REMOVAL` | 1 | S07C000567 compacted; PASS |
-| `MATERIAL_SEMANTIC_ATTRIBUTE_RETAINED` | 4 | Handmade bronze product variants are explicit searchable attributes; PASS |
-| `MATERIAL_SIZE_ATTRIBUTE_RETAINED` | 2 | Qualitative product-size variants, not numeric listing measurements; PASS |
-| `PRODUCT_VARIANT_ATTRIBUTE_RETAINED` | 4 | Authentic/antique/used-horseshoe variant meaning retained; PASS |
-| `TRANSACTIONAL_SEMANTIC_FORMULATION_RETAINED` | 8 | Independently meaningful transactional directions; no price/photo or brand wrapper; PASS |
-| `NO_UNJUSTIFIED_WRAPPER_OR_LISTING_NOISE` | 775 | No removable wrapper/noise component found; PASS |
+```text
+DELIBERATELY_RETAINED_MANUAL_WORK_SEMANTIC_ROWS = 0
+GENERIC_MANUAL_WORK_WRAPPER_HITS_AFTER = 0
+UNJUSTIFIED_MANUAL_WORK_RETAINED = 0
+```
 
-The four remaining literal `ручная работа` token rows are S07C001277,
-S07C001280, S07C001282, and S07C001291. In each row the wording is an integrated
-handmade bronze product variant, not a detachable seller suffix. This is the
-contract's material-semantic-attribute exception, recorded explicitly rather
-than a regex exemption.
+Manual-work wording still occurs only in immutable raw/source evidence or in
+already excluded audit rows; it does not survive in any Step08-eligible
+candidate wording.
 
 ## 5. Full-volume regression matrix
 
 | REGRESSION_CLASS | EVIDENCE | RESULT |
 |---|---|---|
-| `LISTING_MANUAL_WORK_WRAPPER` | S07C000567 transformed; unresolved semantic hits=0 | PASS |
-| `LISTING_AVAILABILITY_WRAPPER` | eligible hits=0 | PASS |
-| `LISTING_PRICE_PHOTO_WRAPPER` | eligible price/photo wrapper hits=0 | PASS |
-| `LISTING_DIMENSION_NOISE` | eligible numeric measurement-noise hits=0 | PASS |
-| `LISTING_CONDITION_NOISE` | eligible condition/defect hits=0 | PASS |
-| `LISTING_SELLER_FLUFF` | unresolved detachable seller-fluff hits=0 | PASS |
-| `COMPETITOR_BRAND_WRAPPER` | eligible hits=0 | PASS |
-| `OVERSPECIFIED_MARKETPLACE_TITLE` | unresolved wrapper-only titles=0 | PASS |
-| `UNSUPPORTED_COMPACT_DERIVATION` | one literal derivation; unsupported=0 | PASS |
-| `EXISTING_IDENTITY_DUPLICATION` | duplicate normalized keys=0 | PASS |
-| `BUSINESS_SCOPE_LEAKAGE` | unrelated product/service routes=0 | PASS |
-| `EFFICACY_CLAIM_COPY` | client-fact assertions=0 | PASS |
+| `LISTING_MANUAL_WORK_WRAPPER` | Full lexical family; eligible hits after=0 | PASS |
+| `LISTING_SELLER_FLUFF` | Author/seller attribution eligible hits after=0 | PASS |
+| `LISTING_AVAILABILITY_WRAPPER` | eligible hits after=0 | PASS |
+| `LISTING_PRICE_PHOTO_WRAPPER` | eligible hits after=0 | PASS |
+| `LISTING_DIMENSION_NOISE` | numeric listing-measurement hits after=0 | PASS |
+| `LISTING_CONDITION_NOISE` | condition/defect hits after=0 | PASS |
+| `COMPETITOR_BRAND_WRAPPER` | eligible hits after=0 | PASS |
+| `OVERSPECIFIED_MARKETPLACE_TITLE` | unresolved wrapper-only title hits after=0 | PASS |
+| `UNSUPPORTED_COMPACT_DERIVATION` | five literal reductions; unsupported=0 | PASS |
+| `EXISTING_IDENTITY_DUPLICATION` | normalized comparison keys unique=2,172/2,172 | PASS |
+| `BUSINESS_SCOPE_LEAKAGE` | newly introduced or retained unrelated routes=0 | PASS |
+| `EFFICACY_CLAIM_COPY` | client-fact assertions introduced=0 | PASS |
 
 ```text
-LISTING_DIMENSION_CONDITION_NOISE_ELIGIBLE_HITS = 0
-PAGE_WRAPPER_ELIGIBLE_HITS = 0
-UNSUPPORTED_DERIVATIONS = 0
+LISTING_MANUAL_WORK_WRAPPER_HITS_AFTER = 0
+LISTING_SELLER_FLUFF_HITS_AFTER = 0
+LISTING_AVAILABILITY_WRAPPER_HITS_AFTER = 0
+LISTING_PRICE_PHOTO_WRAPPER_HITS_AFTER = 0
+LISTING_DIMENSION_NOISE_HITS_AFTER = 0
+LISTING_CONDITION_NOISE_HITS_AFTER = 0
+COMPETITOR_BRAND_WRAPPER_HITS_AFTER = 0
 BUSINESS_SCOPE_LEAKAGE = 0
+UNSUPPORTED_DERIVATIONS = 0
+EXISTING_IDENTITY_DUPLICATION = 0
+CLAIM_LANGUAGE_TREATED_AS_CLIENT_FACT = 0
 ```
 
 ## 6. Independent mechanical and preservation QA
 
 | INVARIANT | EVIDENCE | RESULT |
 |---|---|---|
-| `SCHEMA_COMPLIANCE` | exact 4/4 headers; required fields and enums valid | PASS |
+| `SCHEMA_COMPLIANCE` | exact four canonical headers; required fields/enums valid | PASS |
 | `PRIMARY_KEYS_UNIQUE` | 2,172 candidates; 1,976 URLs; 3,948 provenance rows | PASS |
 | `NORMALIZED_COMPARISON_KEYS_UNIQUE` | 2,172/2,172 | PASS |
 | `FOREIGN_KEYS_RESOLVE` | candidate, URL, and authority references | PASS |
 | `CANDIDATE_SOURCE_COUNTS_RECONCILE` | 2,172/2,172 | PASS |
 | `STEP08_ROUTE_CONSISTENCY` | 2,172/2,172 | PASS |
 | `DEMAND_VALIDATION_STATE` | `NOT_VALIDATED_STEP07` for 2,172/2,172 | PASS |
-| `RAW_WORDING_AND_CONTEXT_IMMUTABLE` | 3,948/3,948 | PASS |
+| `RAW_WORDING_IMMUTABLE` | 3,948/3,948 | PASS |
+| `SOURCE_CONTEXT_IMMUTABLE` | 3,948/3,948 | PASS |
 | `NON_TARGET_CANDIDATES_UNCHANGED` | 1,378/1,378 | PASS |
 | `NON_TARGET_PROVENANCE_UNCHANGED` | 2,888/2,888 | PASS |
 | `SOURCE_URL_LEDGER_UNCHANGED` | SHA-256 exact | PASS |
@@ -201,6 +200,8 @@ FOREIGN_KEYS_RESOLVE = PASS
 CANDIDATE_SOURCE_COUNTS_RECONCILE = PASS
 STEP08_ROUTE_CONSISTENCY = PASS
 DEMAND_VALIDATION_STATE = NOT_VALIDATED_STEP07 FOR ALL
+RAW_WORDING_IMMUTABLE = true
+SOURCE_CONTEXT_IMMUTABLE = true
 HARD_GATE_FAILURES = 0
 OPEN_CRITICAL_DEFECTS = 0
 ```
@@ -231,14 +232,12 @@ Changed canonical files:
 - `STEP07_EXECUTION_QA.md`
 - `STEP07_EXECUTION_HANDOFF_MANIFEST.json`
 
-`STEP07_SOURCE_URL_LEDGER.csv`, `STEP07_COMPETITOR_COVERAGE_LEDGER.csv`, and all
-seven accepted browser-recovery evidence files remain byte-unchanged. Provenance
-replacement is required because the corrected derivation and 794/1,060 review
-receipts are materialized there; raw evidence fields did not change.
+`STEP07_SOURCE_URL_LEDGER.csv`, `STEP07_COMPETITOR_COVERAGE_LEDGER.csv`, all
+browser-recovery evidence, `JOB_FLOW.md`, and execution cursors remain unchanged.
 
 ```text
-COMPETITOR_GAP_CANDIDATES_SHA256 = 6e6f8593ff20c429e8377d29aba5445790e6cc8f0613e316c7a171e195443ee4
-STEP07_CANDIDATE_PROVENANCE_LEDGER_SHA256 = 2b200b4d90e034f7fbdff8ea779187b279f5a130f2d3d90da4ba339fdccff53c
+COMPETITOR_GAP_CANDIDATES_SHA256 = 706ef4b08b25807840427b53ac6a8222bd49fd8b3752a732e319fd39823f6eef
+STEP07_CANDIDATE_PROVENANCE_LEDGER_SHA256 = d50bab24c96f7cf715197ca5c8ace65dc4c976945826521808bba64734cb789c
 STEP07_SOURCE_URL_LEDGER_SHA256 = f923c412f00fdb318bd57c0610ca404d8093a3a7cad4d7c71e2c31e86de568f7
 STEP07_COMPETITOR_COVERAGE_LEDGER_SHA256 = 0ee233a792d9e97b1b3d45fe051ce2068f261fd0b53dc1408b6cd7345483c898
 ```
@@ -247,39 +246,20 @@ STEP07_COMPETITOR_COVERAGE_LEDGER_SHA256 = 0ee233a792d9e97b1b3d45fe051ce2068f261
 
 | DIMENSION | SCORE / 10 | BASIS |
 |---|---:|---|
-| Goal and output completeness | 10 | All 794 targets and 1,060 linked evidence rows reviewed. |
+| Goal and output completeness | 10 | All required canonical outputs materialized. |
 | Method and source support | 10 | Frozen business authority and accepted Step07 corpus only. |
-| Input evidence and provenance integrity | 10 | Raw wording/context immutable; explicit transformation ledgered. |
-| Coverage and completeness | 10 | Zero silent skips; complete candidate/provenance universes reconciled. |
-| Analytical correctness and claim boundaries | 10 | Wrapper removal is minimal; material attributes preserved; claims remain competitor evidence. |
-| Adversarial QA quality | 10 | 12/12 required full-volume regression classes pass. |
-| Persistence/readback/reproducibility | 10 | Decision rules, evidence hashes, stable IDs, and transition matrix recorded. |
-| Owner/client usability/plain language | 9 | Four-file atomic replacement package and one transport ZIP. |
-| Information gain/cost/execution efficiency | 10 | No acquisition/provider calls; accepted corpus reused. |
-| Downstream readiness | 10 | Corrected 794-candidate Step08 queue; Step08 not started. |
+| Input evidence and provenance integrity | 10 | Raw wording and context immutable; transformations explicit. |
+| Coverage and completeness | 10 | 794/794 and 1,060/1,060 reviewed; zero silent skips. |
+| Analytical correctness and claim boundaries | 10 | Minimal literal reductions; no efficacy claim promoted to client fact. |
+| Adversarial QA quality | 10 | Manual family and all active wrapper gates rerun. |
+| Persistence/readback/reproducibility | 10 | Stable IDs, evidence hashes, transition matrix, and exact hashes recorded. |
+| Owner/client usability/plain language | 9 | One atomic four-file package and one transport ZIP. |
+| Information gain/cost/execution efficiency | 10 | No acquisition or provider calls. |
+| Downstream readiness | 10 | Corrected 794-candidate queue; Step08 not started. |
 
 ```text
-QUALITY_TOTAL = 99 / 100
-QUALITY_SCORE = 9.9 / 10
-PASS_THRESHOLD_MET = true
-HARD_FAILURE_OVERRIDE = false
-```
-
-## 10. Stop boundaries
-
-```text
-NEW_BROWSER_CALLS = 0
-NEW_CRAWL = 0
-NEW_WORDSTAT_CALLS = 0
-NEW_YANDEX_SEARCH_CALLS = 0
-NEW_AI_SEARCH_OR_GENSEARCH_CALLS = 0
-NEW_PROVIDER_CALLS = 0
-STEP08_STARTED = false
-FINAL_INTENT_DECISIONS = NONE
-FINAL_CLUSTER_DECISIONS = NONE
-FINAL_PAGE_DECISIONS = NONE
-WORK_GITHUB_COMMIT_PUSH_PR = false
-OWNER_UPLOAD_COMPLETE = false
-REMOTE_READBACK_PASS = false
-MAIN_CHAT_ACCEPTANCE = PENDING
+QUALITY_TOTAL = 99/100
+QUALITY_SCORE = 9.9/10
+PASS_THRESHOLD = >=90/100 AND ALL HARD GATES PASS
+QUALITY_GATE = PASS
 ```
