@@ -1,0 +1,17 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R4",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R3.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_WRAPPER_CORRECTION.json",
+  "current_return_qa": "STEP07_POST_AUDIT_REWORK_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "current_work_prompt": "STEP07_FINAL_WRAPPER_NOISE_FULL_VOLUME_CORRECTION_WORK_PROMPT_2026-09-18.md",
+  "current_release": "STEP07_FINAL_WRAPPER_NOISE_CORRECTION_RELEASE_2026-09-18.json",
+  "step07_status": "REWORK_REQUIRED",
+  "step08_status": "BLOCKED_NOT_STARTED",
+  "work_execution_unit": {
+    "candidates": 794,
+    "linked_provenance": 1060,
+    "full_volume": true,
+    "sampling_forbidden": true
+  },
+  "status_rule": "Use this pointer and its current cursor/release as current authority. The uploaded post-audit Work return remains rejected until this final full-volume wrapper correction is accepted."
+}
