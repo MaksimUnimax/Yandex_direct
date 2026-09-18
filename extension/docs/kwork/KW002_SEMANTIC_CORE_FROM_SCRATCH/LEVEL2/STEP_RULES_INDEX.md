@@ -524,7 +524,7 @@ Current search competitor registry + relevant public competitor pages.
 Run two declared complementary discovery lanes:
 
 1. `PAGE_SURFACE_DISCOVERY` — mine the complete bounded public competitor surface for evidence-bearing missed topics/use cases/naming directions with source URL and raw provenance;
-2. `ORGANIC_RANKING_QUERY_DISCOVERY` — collect current Yandex-oriented organic queries/URL visibility for materially relevant authorized competitors, preserving source/snapshot/ranking-URL provenance.
+2. `ORGANIC_RANKING_QUERY_DISCOVERY` — attempt current Yandex-oriented organic domain/URL→query discovery for materially relevant authorized competitors, preserving source/snapshot/ranking-URL provenance when a legitimate approved source is accessible; if no such source exists after documented recovery, record `SOURCE_UNAVAILABLE_DECLARED_LIMITATION` rather than fabricate evidence or block the roadmap indefinitely.
 
 Every `INSPECTED_*` URL state must be validated against the stored evidence content. Browser/network/VPN/CAPTCHA/access-error shells are inaccessible/error evidence, not `INSPECTED_NO_CANDIDATE`.
 
@@ -532,11 +532,11 @@ Ranking-query evidence is discovery evidence only; Step08 still validates demand
 
 ## Output
 
-Competitor-derived candidate seed/topic/query register + page-surface coverage + ranking-query coverage + access-state evidence QA.
+Competitor-derived candidate seed/topic/query register + page-surface coverage + acquired ranking-query coverage or explicit source-unavailable recall limitation + access-state evidence QA.
 
 ## PASS
 
-No competitor page topic or ranking query is treated as proven demand or automatically accepted keyword; both discovery lanes are complete under the released product mode (or a pre-frozen allowed exception exists); every inspected URL has actual target-content evidence; block/error evidence misclassified as inspected = 0.
+No competitor page topic or ranking query is treated as proven demand or automatically accepted keyword; the page-surface lane is complete; the ranking-query lane is either complete, covered by a valid documented `SOURCE_UNAVAILABLE_DECLARED_LIMITATION`, or covered by a pre-frozen allowed exception; any source-unavailable case retains an explicit no-full-recall claim and reopen condition; every inspected URL has actual target-content evidence; block/error evidence misclassified as inspected = 0.
 
 ---
 
