@@ -600,6 +600,87 @@ WORK_HANDOFF_WITHOUT_LARGE_DATA_OR_EXPLICIT_APPLICABLE_TRIGGER = 0
 
 ---
 
+## F07-1 — access/error evidence counted as inspected no-candidate content
+
+### Root cause
+
+Step07 terminal-state QA trusted producer-assigned ledger labels and mechanical
+count reconciliation without validating the semantic meaning of `INSPECTED_*`
+against the stored browser/page evidence. A block/error shell could therefore
+pass schema/count QA as if the target page had actually been read.
+
+### Why it fails
+
+`INSPECTED_NO_CANDIDATE` is a semantic claim that target content was obtained
+and examined. A browser/network/VPN/CAPTCHA/access-error page proves the
+opposite. Count reconciliation can be perfect while coverage truth is false.
+
+### Universal rule
+
+```text
+COUNTS_RECONCILE != ACCESS_CLASSIFICATION_PROVEN
+INSPECTED_* REQUIRES TARGET-CONTENT EVIDENCE
+BLOCK / ERROR / CHALLENGE SHELL != INSPECTED_NO_CANDIDATE
+```
+
+Every `INSPECTED_*` state must be content-validated against stored evidence.
+Producer-assigned access states do not self-certify this gate.
+
+### Gates
+
+```text
+ACCESS_STATE_CONTENT_VALIDATION_SCOPE = FULL_DISCOVERED_URL_LEDGER
+EVERY_INSPECTED_STATE_HAS_TARGET_CONTENT_EVIDENCE = true
+BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0
+MECHANICAL_COVERAGE_RECONCILIATION = PASS
+INDEPENDENT_ACCESS_STATE_SEMANTIC_QA = PASS
+```
+
+---
+
+## F07-2 — page-text mining treated as complete competitor semantic recall
+
+### Root cause
+
+The Step07 method specified public page/content mining but did not require a
+separate organic ranking-query discovery lane. Because the missing channel was
+absent from the contract, an execution could be compliant with the old rule
+while still missing queries for which competitors rank but whose exact wording
+does not appear visibly on the mined pages.
+
+### Why it fails
+
+Step08 validates only candidates that Step07 discovered. Wordstat cannot
+validate a competitor-derived query that never entered the Step07 queue.
+Therefore page-only discovery can create a permanent recall blind spot.
+
+### Universal rule
+
+```text
+PAGE_SURFACE_DISCOVERY + ORGANIC_RANKING_QUERY_DISCOVERY
+= COMPLETE STEP07 DISCOVERY MODE
+
+PAGE_TEXT_MINING_ONLY != COMPLETE_COMPETITOR_SEMANTIC_EXPANSION
+COMPETITOR_RANKING_QUERY != PROVEN_DEMAND
+STEP08 DOES NOT REPAIR STEP07 DISCOVERY OMISSIONS
+```
+
+A pre-frozen product-mode exception may disable the ranking-query lane only
+when Main Chat explicitly justifies it before execution. Silence or source
+unavailability discovered after the fact is not a PASS.
+
+### Gates
+
+```text
+SEMANTIC_RECALL_CHANNELS_DECLARED = true
+PAGE_SURFACE_DISCOVERY_LANE_COMPLETE = true
+RANKING_QUERY_DISCOVERY_LANE_COMPLETE = true OR PRE_FROZEN_EXCEPTION = true
+RANKING_QUERY_SOURCE_LIMITATIONS_EXPLICIT = true
+STEP07_FULL_RECALL_CLAIM_WITH_MISSING_REQUIRED_LANE = 0
+```
+
+---
+
 ## F06+ — final clustering/page decisions made from preliminary lexical families
 
 ### Root cause
