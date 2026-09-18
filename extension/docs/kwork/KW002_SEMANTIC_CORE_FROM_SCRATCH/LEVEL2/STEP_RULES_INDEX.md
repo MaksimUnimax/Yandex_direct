@@ -521,15 +521,22 @@ Current search competitor registry + relevant public competitor pages.
 
 ## Method
 
-Extract only evidence-bearing missed topics/use cases/naming directions, each with source URL and discovery lineage.
+Run two declared complementary discovery lanes:
+
+1. `PAGE_SURFACE_DISCOVERY` — mine the complete bounded public competitor surface for evidence-bearing missed topics/use cases/naming directions with source URL and raw provenance;
+2. `ORGANIC_RANKING_QUERY_DISCOVERY` — collect current Yandex-oriented organic queries/URL visibility for materially relevant authorized competitors, preserving source/snapshot/ranking-URL provenance.
+
+Every `INSPECTED_*` URL state must be validated against the stored evidence content. Browser/network/VPN/CAPTCHA/access-error shells are inaccessible/error evidence, not `INSPECTED_NO_CANDIDATE`.
+
+Ranking-query evidence is discovery evidence only; Step08 still validates demand.
 
 ## Output
 
-Competitor-derived candidate seed/topic register.
+Competitor-derived candidate seed/topic/query register + page-surface coverage + ranking-query coverage + access-state evidence QA.
 
 ## PASS
 
-No competitor page topic is treated as proven demand or automatically accepted keyword.
+No competitor page topic or ranking query is treated as proven demand or automatically accepted keyword; both discovery lanes are complete under the released product mode (or a pre-frozen allowed exception exists); every inspected URL has actual target-content evidence; block/error evidence misclassified as inspected = 0.
 
 ---
 
