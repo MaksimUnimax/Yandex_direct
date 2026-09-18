@@ -1,0 +1,21 @@
+{
+  "cursor_id": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_WRAPPER_CORRECTION",
+  "supersedes_for_current_status": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_POST_EXTERNAL_AUDIT_REWORK.json",
+  "current_stage": "STEP07_FINAL_WRAPPER_NOISE_CORRECTION_RELEASED__STEP08_BLOCKED",
+  "step07_status": "REWORK_REQUIRED",
+  "return_qa": "STEP07_POST_AUDIT_REWORK_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "work_prompt": "STEP07_FINAL_WRAPPER_NOISE_FULL_VOLUME_CORRECTION_WORK_PROMPT_2026-09-18.md",
+  "release": "STEP07_FINAL_WRAPPER_NOISE_CORRECTION_RELEASE_2026-09-18.json",
+  "target_candidates": 794,
+  "linked_provenance": 1060,
+  "full_volume_required": true,
+  "sampling_forbidden": true,
+  "provider_authorization": {
+    "wordstat": 0,
+    "yandex_search": 0,
+    "ai_search": 0,
+    "gensearch": 0
+  },
+  "step08_started": false,
+  "next_action": "OWNER_RELAY_FINAL_WRAPPER_NOISE_CORRECTION_PROMPT_TO_CHATGPT_WORK"
+}
