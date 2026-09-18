@@ -1,0 +1,16 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R11",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R10.json",
+  "current_flow": "JOB_FLOW_CURRENT_2026-09-18_STEP08_PRE_ACQUISITION_WORK_RELEASED.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP08_PRE_ACQUISITION_WORK_RELEASED.json",
+  "current_step07_acceptance": "STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md",
+  "current_step08_preparation_release": "STEP_08_PREPARATION_RELEASE_2026-09-18.md",
+  "step07_status": "PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION",
+  "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+  "known_recall_limitation": "ACTIVE",
+  "step08_status": "PRE_ACQUISITION_WORK_RELEASED",
+  "step08_provider_execution": "NOT_STARTED",
+  "step08_eligible_candidates": 794,
+  "status_rule": "R11 is current authority. Step08 preparation/research/release is complete. Only the released 794-row Work reconciliation may run now. No Wordstat/YMB provider execution is authorized until Main Chat accepts the Work return and issues a separate execution release.",
+  "next_action": "OWNER_RUNS_STEP08_PRE_ACQUISITION_WORK"
+}
