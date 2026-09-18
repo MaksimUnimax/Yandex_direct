@@ -1,0 +1,71 @@
+{
+  "artifact_set": "KW002_STEP07_BROWSER_RECOVERY_MAIN_CHAT_OPERA_FINAL_CLOSURE",
+  "generated_at_utc": "2026-09-17T14:41:40Z",
+  "source_registry_sha256": "b15e601db56d8f3c23d7a8c4a2193fc14000dc9773229d693c200756240efcdb",
+  "authorized_competitors": 32,
+  "source_url_rows": 1976,
+  "frozen_browser_retry_rows": 90,
+  "frozen_retry_outcomes": {
+    "RECOVERED_INSPECTED": 66,
+    "TARGET_CAPTCHA_OR_ANTI_BOT": 24,
+    "EXECUTION_ENVIRONMENT_FAILURE": 0,
+    "UNRESOLVED_DYNAMIC_CONTENT": 0
+  },
+  "terminal_counts": {
+    "EXCLUDED_DUPLICATE": 24,
+    "EXCLUDED_OUT_OF_SCOPE": 1201,
+    "RECOVERED_INSPECTED": 432,
+    "REDIRECTED_IN_SCOPE": 293,
+    "TARGET_CAPTCHA_OR_ANTI_BOT": 26
+  },
+  "page_evidence_rows": 725,
+  "provider_calls": 0,
+  "step08_executed": false,
+  "candidate_classification_executed": false,
+  "authority_drift": false,
+  "capture_route": "OWNER_CONNECTED_OPERA",
+  "files": [
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_URL_LEDGER.csv",
+      "sha256": "2fb8a69b6861a1e9934b0976dbf44029a79579d93457c284bd50ba5c392cf0e2",
+      "byte_size": 1602463,
+      "row_count_or_jsonl_record_count": 1976
+    },
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl",
+      "sha256": "7eefe0001428c926680faab9218bda9d7ddfd197347dd97b6140e993d7353592",
+      "byte_size": 22331292,
+      "row_count_or_jsonl_record_count": 725
+    },
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_COVERAGE.csv",
+      "sha256": "8cd07a7c1b21e9495d276ab8c7a53c4a8f34525dfb305684dcc811411b8433ce",
+      "byte_size": 7286,
+      "row_count_or_jsonl_record_count": 32
+    },
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_QA.md",
+      "sha256": "46d8885743a2ae3358a3e6a11ec57c57438c156b0a6d00e1030ae0a5bcb1ee83",
+      "byte_size": 3456,
+      "row_count_or_jsonl_record_count": 87
+    },
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv",
+      "sha256": "1cbe984c47854eeb55eb1a1a07fc3134a030a1a841cd6a7f22e82326a01295a6",
+      "byte_size": 49250,
+      "row_count_or_jsonl_record_count": 80
+    },
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv",
+      "sha256": "ad77bad53a960c6ea37c4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d",
+      "byte_size": 70666,
+      "row_count_or_jsonl_record_count": 90
+    },
+    {
+      "filename": "STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json",
+      "sha256": "SELF_HASH_NOT_APPLICABLE",
+      "byte_size": 2473,
+      "row_count_or_jsonl_record_count": 1
+    }
+  ]
+}
