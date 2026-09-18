@@ -1,6 +1,6 @@
 # KW-002 Blood & Sand — WORK HANDOFF LOG
 
-Status: **STEP06 DURABLE PASS / STEP07 ATTEMPT 1 REJECTED / BROWSER RECOVERY CANONICALLY ACCEPTED / STEP07 SEMANTIC REWORK RELEASED FOR CHATGPT WORK**
+Status: **STEP07 ACCEPTED WITH EXTERNAL-SOURCE LIMITATION / STEP08 PRE-ACQUISITION FULL-VOLUME WORK RELEASED / PROVIDER NOT RELEASED**
 
 This file records the large-data ChatGPT Work handoff chain under `LEVEL1/WORK_HANDOFF_RULE.md`.
 
@@ -47,7 +47,7 @@ No Work output is automatically accepted truth.
 | KW002-BS-W10 V1 | Premature Step05 preparation before mandatory owner-facing disclosure and without explicit pre-handoff manifest | NOT EXECUTION AUTHORITY / superseded by W10 V2 / zero Work execution / zero provider calls |
 | KW002-BS-W10-V2 | Corrected Step05 pre-acquisition reconciliation handoff | COMPLETE / MAIN CHATGPT REMOTE READBACK ACCEPTED / one future provider candidate / zero provider calls |
 
-## Current accepted upstream state
+## Historical accepted upstream state at W10 V2
 
 ```text
 STEP03A = ACCEPTED / 24576 identities / RAW lineage preserved
@@ -130,7 +130,7 @@ STEP_05_W10_V2_PRE_ACQUISITION_MATERIALIZER_2026-09-12.py
 STEP_05_W10_V2_ARTIFACT_MANIFEST_2026-09-12.json
 ```
 
-## Current hard boundary
+## Historical W10 V2 hard boundary
 
 W10 V2 accepted the **planning/reconciliation evidence**, not a provider request.
 
@@ -155,12 +155,12 @@ REMOTE_READBACK_REQUIRED = true
 STALE_MUTABLE_STATE_FILES_IN_OWNER_RELAY = forbidden unless freshly reconciled
 ```
 
-## Current stop
+## Historical W10 V2 stop
 
-W10 V2 Work is complete and accepted. Next allowed action is preparation of the separate Step05 first-provider execution gate for W10C001. Do not execute Wordstat before that release and do not start Step06.
+W10 V2 Work was complete and accepted. Its then-next action was the separate Step05 first-provider execution gate for W10C001.
 
 
-## Current Step07 semantic-rework handoff — 2026-09-18
+## Historical Step07 semantic-rework handoff — 2026-09-18
 
 ```text
 STEP = STEP07_COMPETITOR_SEMANTIC_EXPANSION_REWORK
@@ -180,4 +180,40 @@ MAIN_CHAT_POST_WORK_ACCEPTANCE = REQUIRED
 STEP08_STARTED = false
 ```
 
-The owner relays the current canonical prompt to ChatGPT Work. Work executes the complete semantic rework; Main Chat performs return readback/acceptance.
+The owner relayed that Step07 prompt and the subsequent Step07 correction/recovery cycle is now historical.
+
+## Current Step08 pre-acquisition handoff — 2026-09-18
+
+```text
+HANDOFF_ID = KW002-BS-W11
+STEP = STEP08_PRE_ACQUISITION_RECONCILIATION
+STEP07 = PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION
+STEP08_ELIGIBLE = 794
+WHY_WORK_REQUIRED = 794-row candidate reconciliation against large Step03A/03B/04/05 durable evidence; sampling/truncation forbidden
+PRE_STEP_SOURCE_TRACE = STEP_08_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_TRACE_2026-09-18.md
+PRE_HANDOFF_MANIFEST = STEP_08_PRE_HANDOFF_MANIFEST_2026-09-18.json
+OUTPUT_SCHEMA = STEP_08_PREPARATION_OUTPUT_SCHEMA_CONTRACT_2026-09-18.json
+METHOD_GATE = STEP_08_PREPARATION_METHOD_AND_EXECUTION_GATE_2026-09-18.md
+CANONICAL_PROMPT = STEP_08_PRE_ACQUISITION_RECONCILIATION_WORK_PROMPT_2026-09-18.md
+EXECUTION_RELEASE = STEP_08_PREPARATION_RELEASE_2026-09-18.md
+WORK_TRIGGER = MET_FULL_VOLUME
+WORK_EXECUTION = RELEASED_NOT_RETURNED
+OWNER_RELAY_REQUIRED = true
+WORK_DIRECT_GITHUB_PUBLICATION = false
+MAIN_CHAT_POST_WORK_ACCEPTANCE = REQUIRED
+WORDSTAT_CALLS = 0
+YMB_SEARCH_CALLS = 0
+AI_SEARCH_CALLS = 0
+GENSEARCH_CALLS = 0
+STEP08_PROVIDER_EXECUTION = NOT_STARTED
+STEP09_STARTED = false
+```
+
+Current hard boundary:
+
+```text
+NEXT = OWNER_RUNS_STEP08_PRE_ACQUISITION_WORK
+PROVIDER_EXECUTION_ALLOWED_NOW = false
+STEP09_ALLOWED = false
+```
+
