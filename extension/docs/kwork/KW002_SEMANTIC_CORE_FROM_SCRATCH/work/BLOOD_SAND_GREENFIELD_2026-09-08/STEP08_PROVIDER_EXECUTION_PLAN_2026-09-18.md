@@ -1,7 +1,7 @@
 # KW-002 / BLOOD & SAND — STEP08 PROVIDER EXECUTION PLAN
 
 Date: 2026-09-18
-Status: **CURRENT / FIRST LOCAL BATCH START MAY BE RELEASED**
+Status: **HISTORICAL / SUPERSEDED BEFORE ANY PROVIDER EXECUTION**
 Depends on: `STEP08_PRE_ACQUISITION_MAIN_CHAT_RETURN_QA_2026-09-18.md`
 
 ## 1. Accepted provider queue
@@ -152,3 +152,16 @@ PROVIDER_CALLS_AUTHORIZED_BY_START = 0
 ```
 
 Printing the start command is not execution.
+
+## 8. Supersession
+
+This execution plan was invalidated before any Bridge command was released after late semantic QA found systematic duplicate acquisition questions in the 386-seed queue.
+
+```text
+WORDSTAT_CALLS = 0
+D500_START_ACTUALLY_RELEASED_TO_OWNER = false
+D500_START_EXECUTED = false
+CURRENT_PLAN = SUPERSEDED
+```
+
+A corrected provider queue must model parent/broad probes and conditional child probes before execution can be released.
