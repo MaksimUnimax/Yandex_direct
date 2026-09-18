@@ -542,29 +542,79 @@ No competitor page topic or ranking query is treated as proven demand or automat
 
 # STEP 08 — competitor-derived Wordstat expansion
 
-Dedicated cross-step execution gate:
+Dedicated Step08 contract:
 
-`YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
+`STEP_08_COMPETITOR_DERIVED_WORDSTAT_VALIDATION.md`
+
+Inherited provider gates:
+
+- `STEP_03_WORDSTAT_DEPTH_JUSTIFICATION_GATE.md`
+- `STEP_03_WORDSTAT_RAW_PERSISTENCE_GATE.md`
+- `STEP_05_TARGETED_EXPANSION_AND_PROVIDER_EXECUTION_GATE.md`
+- `YANDEX_MARKETING_BRIDGE_PROVIDER_EXECUTION_GATE.md`
 
 ## Why
 
-Test whether genuinely new competitor-derived topics correspond to current Yandex demand.
+Test genuinely new competitor-derived directions against current Yandex demand
+without duplicating already durable evidence or pre-authorizing narrower probes
+that a broader parent observation may make unnecessary.
 
 ## Input
 
-Genuinely new competitor-derived seed candidates.
+Step07-eligible competitor-derived candidates + all current durable demand
+evidence and provenance.
 
 ## Method
 
-Use Step03 acquisition/persistence/depth rules plus the YMB execution gate, then immediate Step03A/03B normalization/sanitation. A rendered Wordstat command does not count as acquisition until the actual Bridge result is received and reconciled.
+First perform full-volume pre-acquisition reconciliation:
+
+```text
+candidate
+→ exact unresolved information question
+→ existing-evidence scope check
+→ reuse when the same question is already answered
+→ acquisition-question identity
+→ parent/child dependency model
+→ only genuinely necessary initial/independent probes may be released
+```
+
+If a parent probe may answer a narrower child, the child is
+`CONDITIONAL_AFTER_PARENT`. It may be released only after the parent result is
+fully persisted/read back and a new reconciliation proves that the child
+question remains unanswered.
+
+Then execute released Wordstat probes under Step03 depth/persistence and YMB
+execution gates. New provider rows immediately return through
+Step03A-compatible normalization and Step03B-compatible sanitation before any
+semantic union.
+
+```text
+UNIQUE PHRASE != UNIQUE INFORMATION QUESTION
+ACQUISITION GROUP != SEO CLUSTER
+PARENT MAY ANSWER CHILD -> CHILD IS NOT UNCONDITIONALLY RELEASED
+```
 
 ## Output
 
-New demand evidence with decisions such as new demand / already covered / no useful demand / out-of-scope / HOLD.
+- candidate-level pre-acquisition reconciliation;
+- existing-evidence reuse register;
+- acquisition-question/dependency register;
+- dependency-aware provider seed manifest;
+- complete RAW provider evidence for actually released probes;
+- normalized/sanitized competitor-derived additions;
+- Step08 reconciliation/closure authority.
 
 ## PASS
 
-Only sanitized new evidence joins the candidate universe; no raw competitor-derived data bypasses normalization/sanitation; all executed Wordstat observations satisfy the YMB execution gate.
+Pre-acquisition PASS requires full candidate accounting, no duplicate
+information questions without merge/justification, no unconditional child probe
+where a parent may answer it, explicit operator/depth/outcome contracts and no
+premature provider release.
+
+Final Step08 PASS additionally requires all actually released provider results
+to be terminal, fully persisted/read back, normalized/sanitized and reconciled,
+with no unresolved `OUTCOME_UNKNOWN`, no stale conditional child queue and no
+open critical Step08 defect.
 
 ---
 
