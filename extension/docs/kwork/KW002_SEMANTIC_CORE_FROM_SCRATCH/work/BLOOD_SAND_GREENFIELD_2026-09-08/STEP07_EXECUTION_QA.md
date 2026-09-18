@@ -1,224 +1,277 @@
-# KW-002 / BLOOD & SAND — STEP07 EXECUTION QA
+# KW-002 / BLOOD & SAND — STEP07 FULL-VOLUME REWORK EXECUTION QA
 
-Date: 2026-09-17  
-Action: `ACTUAL_STEP07`  
-Work start remote HEAD: `fd2440b9a71816a1454d96a12f6631102b363629`  
-Pre-publication remote HEAD: `00230d7f1a8f83bb2aebfcbad89b896b122879d5`  
-Overall hard QA: **FAIL / INCOMPLETE**  
-Step result: **INCOMPLETE**
+Date: 2026-09-18
+Action: `ACTUAL_STEP07_FULL_VOLUME_CORRECTIVE_REWORK`
+Work start remote HEAD: `90d0755a497bd23c25ea14fd3d5fcae967bd12c3`
+Pre-publication remote HEAD: `90d0755a497bd23c25ea14fd3d5fcae967bd12c3`
+Authority drift: **NONE MATERIAL; ONE ACCEPTANCE SHA METADATA TYPO RECONCILED BY EXACT ACCEPTED GIT BLOB**
+Overall hard QA: **PASS**
+Step result: **COMPLETE_WITH_ACCEPTED_TARGET_BLOCK_EVIDENCE**
 
 ## 1. Executive result
 
-All contracted files and rows were produced, all discovered URLs reached a
-governed terminal state, and the ledgers are mechanically coherent. Step07 is
-nevertheless **INCOMPLETE**: 751 eligible URLs could not be legitimately
-inspected, and only 1 of 32 authorized competitors yielded inspectable
-candidate-bearing pages. Terminal accounting is not a substitute for semantic
-coverage. No bypass, sampling fallback or narrative PASS was used.
-
-The branch advanced during execution. The new authority changed the Work/Main
-role boundary and required handoff set from seven files to six; it did not
-change competitor membership, input hashes, output CSV schema, claim boundary
-or extraction method. Packaging was paused, the new execution-only prompt blob
-`3070c6e9e5e75bcc510f04aa09f76d119f69770f` was read and verified, outputs were
-regenerated against `00230d7f…`, and the obsolete Work rule-read ledger was
-excluded from the handoff as the current release explicitly requires.
+The complete affected Attempt-1 semantic universe and the complete canonically
+accepted browser-recovery evidence set were reprocessed under one corrected
+candidate-eligibility producer. Raw BODY_TEXT, literary examples, citations,
+broken fragments and generic UI are no longer promoted merely because they
+contain an in-scope token. BODY_TEXT remains provenance for the 1,417 preserved
+Attempt-1 rows. New identities are produced only from compact, independently
+meaningful structured page fields.
 
 ```text
+WORK_START_REMOTE_HEAD = 90d0755a497bd23c25ea14fd3d5fcae967bd12c3
+WORK_PRE_PUBLICATION_REMOTE_HEAD = 90d0755a497bd23c25ea14fd3d5fcae967bd12c3
+AUTHORITY_DRIFT_STATUS = NONE_MATERIAL__ACCEPTANCE_SHA_METADATA_TYPO_RECONCILED_BY_EXACT_GIT_BLOB
+STEP07_REWORK_STATUS = PASS_COMPLETE_WITH_ACCEPTED_TARGET_BLOCK_EVIDENCE
+
 AUTHORIZED_COMPETITORS = 32
 SOURCE_URL_ROWS = 1976
-INSPECTED_URLS = 24
-EXCLUDED_URLS = 1201
-INACCESSIBLE_URLS = 751
-UNRESOLVED_URLS = 0
-ERROR_URLS = 0
-CANDIDATE_YIELD_URLS = 24
-NO_CANDIDATE_URLS = 0
-RAW_OCCURRENCES_RETAINED = 1119
-EXPLICIT_DERIVED_OCCURRENCES = 298
-PROVENANCE_ROWS = 1417
-CANDIDATE_IDENTITIES = 686
+PAGE_EVIDENCE_ROWS_CONSUMED = 725
+FULL_EXISTING_CANDIDATE_IDENTITIES_REEVALUATED = 686
+FULL_EXISTING_PROVENANCE_ROWS_REEVALUATED = 1417
+NEW_PROVENANCE_ROWS_ADDED = 2531
+TOTAL_PROVENANCE_ROWS = 3948
+CANDIDATE_IDENTITIES = 2172
+NEW_RECOVERY_IDENTITY_DELTA = 1486
 ```
 
-## 2. Reconciliation totals
+## 2. Accepted browser-recovery accounting consumed
 
-| Reconciliation status | Rows |
+| Terminal state | Attempt 1 | Rework / accepted recovery |
+|---|---:|---:|
+| Inspected | 24 | 432 |
+| Redirected in scope | 0 | 293 |
+| Excluded out of scope | 1201 | 1201 |
+| Excluded duplicate | 0 | 24 |
+| Target CAPTCHA / anti-bot | 12 | 26 |
+| Execution-environment failure | 561 proxy/network rows | 0 |
+| Unresolved dynamic content | 0 | 0 |
+| Total source URLs | 1976 | 1976 |
+
+```text
+DISCOVERED_URLS: 1976 -> 1976
+INSPECTED_URLS: 24 -> 432
+EXCLUDED_URLS: 1201 -> 1225
+INACCESSIBLE_URLS: 751 -> 26
+REDIRECTED_TERMINAL_URLS: 0 -> 293
+UNRESOLVED_URLS: 0 -> 0
+ERROR_URLS: 0 -> 0
+
+COVERAGE_COMPLETE = 29
+COVERAGE_COMPLETE_WITH_INACCESSIBLE_EVIDENCE = 3
+COVERAGE_INCOMPLETE_OR_BLOCKED_OR_ERROR = 0
+INSPECTED_CANDIDATE_YIELD_URLS = 191
+INSPECTED_NO_CANDIDATE_URLS = 241
+```
+
+The 26 target blocks are accepted target-side evidence. No bypass or new
+navigation was attempted. All 32 competitors reconcile; no Attempt-1 proxy
+failure survives as current source-level closure.
+
+One non-material acceptance-metadata typo was found and bounded during
+preflight: the recorded residual-retry SHA contains `...37f...`, while the
+accepted/current Git blob `440e4df546720e2dfd7f6ed4a36ab5394f55dca1`
+computes `ad77bad53a960c6ea37c4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d`.
+The Git blob identity matches the canonical remote-acceptance record exactly;
+the immutable file was not changed.
+
+## 3. Corrected producer full-volume accounting
+
+| Structured evidence field | Occurrences evaluated |
 |---|---:|
-| `ALREADY_PRESENT` | 10 |
-| `NEW_CANDIDATE` | 400 |
-| `NORMALIZED_DUPLICATE` | 0 |
-| `POSSIBLE_VARIANT` | 3 |
-| `OUT_OF_SCOPE` | 207 |
-| `AMBIGUOUS` | 66 |
+| `page_title` | 725 |
+| `h1` | 706 |
+| `headings_h2_h6` | 11225 |
+| `breadcrumbs` | 7 |
+| `navigation_labels` | 1919 |
+| `category_labels` | 14 |
+| `product_or_service_names` | 920 |
+| `faq_questions` | 0 |
+| `glossary_terms` | 102 |
 
-Step08 routing remains declarative only:
+```text
+STRUCTURED_OCCURRENCES_EVALUATED = 15618
+STRUCTURED_OCCURRENCES_PROMOTED = 2531
+STRUCTURED_OCCURRENCES_REJECTED_BEFORE_IDENTITY = 13087
+PROMOTED_VALID = 2515
+PROMOTED_AMBIGUOUS = 16
+```
 
-| Route | Rows |
+Rejected producer classes:
+
+| Producer reason | Rows/identities |
 |---|---:|
-| `ELIGIBLE_NEW_CANDIDATE` | 400 |
-| `ELIGIBLE_POSSIBLE_VARIANT` | 3 |
-| `AUDIT_ONLY_ALREADY_PRESENT` | 10 |
-| `AUDIT_ONLY_DUPLICATE` | 0 |
-| `EXCLUDED_OUT_OF_SCOPE` | 207 |
-| `HOLD_AMBIGUOUS` | 66 |
+| `NO_INDEPENDENT_IN_SCOPE_SEMANTIC_DIRECTION` | 7252 |
+| `NAVIGATION_IS_CONTEXT_NOT_CANDIDATE_IDENTITY` | 1730 |
+| `LITERARY_OR_SENTENCE_CORPUS_SURFACE` | 1656 |
+| `GENERIC_UI_OR_NAVIGATION_NOISE` | 1513 |
+| `EMPTY_STRUCTURED_FIELD` | 488 |
+| `RAW_BODY_PROSE_IS_PROVENANCE_NOT_IDENTITY` | 249 |
+| `RAW_PROSE_OR_CLAIM_NOT_STABLE_SEMANTIC_DIRECTION` | 154 |
+| `CONCATENATED_NAVIGATION_OR_CATEGORY_TEXT` | 117 |
+| `PRODUCT_LISTING_OUTSIDE_FROZEN_SEMANTIC_SCOPE` | 113 |
+| `BROKEN_OR_CONTEXT_DEPENDENT_FRAGMENT` | 87 |
+| `LONG_FORM_NOT_INDEPENDENT_CANDIDATE` | 31 |
+| `PUBLIC_PAGE_ERROR_UI_TEXT` | 27 |
+| `DICTIONARY_WRAPPER_TARGET_OUTSIDE_INDEPENDENT_CORE_SCOPE` | 27 |
+| `CONCATENATED_PAGE_UI_OR_TOC` | 24 |
+| `STORE_BRAND_WRAPPER_NOT_SEMANTIC_IDENTITY` | 22 |
+| `BIBLIOGRAPHIC_OR_CITATION_METADATA` | 20 |
+| `AUTHOR_WRAPPER_OR_BIBLIOGRAPHIC_TITLE` | 19 |
+| `FOREIGN_MEDIA_OR_TOY_COLLISION` | 16 |
+| `NON_COMPACT_OR_NON_TOPICAL_BREADCRUMB` | 10 |
+| `PROMOTIONAL_OR_SUBSCRIPTION_UI` | 4 |
+| `SITE_OR_BRAND_WRAPPER_NOT_SEMANTIC_IDENTITY` | 1 |
+| `SENTENCE_OR_CLAIM_NOT_STABLE_SEMANTIC_DIRECTION` | 1 |
 
-No candidate is claimed as proven demand.
+`body_text_blocks` and `full_visible_main_text` were read as evidence context,
+not iterated as automatic candidate sources. This is the producer correction:
+raw page prose is not itself a candidate stream. The immutable page evidence
+remains the source authority.
 
-## 3. URL terminal totals
+## 4. Candidate reconciliation totals
 
-| Inspection status | URLs |
+| Reconciliation status | Identities |
 |---|---:|
-| `EXCLUDED_OUT_OF_SCOPE` | 1201 |
-| `INACCESSIBLE_CAPTCHA_OR_ANTI_BOT` | 12 |
-| `INACCESSIBLE_ROBOTS` | 178 |
-| `INACCESSIBLE_TIMEOUT_OR_NETWORK` | 561 |
-| `INSPECTED_CANDIDATE_YIELD` | 24 |
+| `ALREADY_PRESENT` | 52 |
+| `AMBIGUOUS` | 98 |
+| `NEW_CANDIDATE` | 1540 |
+| `OUT_OF_SCOPE` | 474 |
+| `POSSIBLE_VARIANT` | 8 |
 
-Coverage ledger terminal statuses:
+| Step08 route label | Identities |
+|---|---:|
+| `AUDIT_ONLY_ALREADY_PRESENT` | 52 |
+| `ELIGIBLE_NEW_CANDIDATE` | 1540 |
+| `ELIGIBLE_POSSIBLE_VARIANT` | 8 |
+| `EXCLUDED_OUT_OF_SCOPE` | 474 |
+| `HOLD_AMBIGUOUS` | 98 |
 
-- `COMPLETE_WITH_INACCESSIBLE_EVIDENCE`: 32
+Step08 route is declarative only. No candidate is claimed as proven demand.
 
-## 4. All 32 competitor coverage rows
+Candidate/source/provenance reconciliation:
 
-| Authority | Canonical site | Discovered | Inspected | Excluded | Inaccessible | Unresolved | Candidate identities | Terminal status |
-|---|---|---:|---:|---:|---:|---:|---:|---|
-| S07A001 | wildberries.ru | 23 | 0 | 0 | 23 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A002 | ozon.ru | 27 | 0 | 0 | 27 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A003 | market.yandex.ru | 23 | 0 | 3 | 20 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A004 | livemaster.ru | 11 | 0 | 0 | 11 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A005 | avito.ru | 10 | 0 | 2 | 8 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A006 | aliexpress.ru | 2 | 0 | 0 | 2 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A007 | joom.ru | 2 | 0 | 0 | 2 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A008 | ru.wikipedia.org | 20 | 0 | 3 | 17 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A009 | ru.ruwiki.ru | 10 | 0 | 2 | 8 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A010 | kartaslov.ru | 1766 | 24 | 1190 | 552 | 0 | 686 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A011 | ru.wiktionary.org | 5 | 0 | 1 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A012 | znanierussia.ru | 3 | 0 | 0 | 3 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A013 | sibpodkova.ru | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A014 | artvaza.ru | 13 | 0 | 0 | 13 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A015 | radugakamnya.ru | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A016 | tet-estet.ru | 3 | 0 | 0 | 3 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A017 | sokolov.ru | 2 | 0 | 0 | 2 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A018 | slavyanskieoberegi.ru | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A019 | happywitch.ru | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A020 | simvolroda.ru | 2 | 0 | 0 | 2 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A021 | oum.ru | 8 | 0 | 0 | 8 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A022 | azbyka.ru | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A023 | foma.ru | 2 | 0 | 0 | 2 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A024 | pravoslavie.ru | 1 | 0 | 0 | 1 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A025 | pravmir.ru | 1 | 0 | 0 | 1 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A026 | actro.online | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A027 | goroskop365.ru | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A028 | elarus.ru | 3 | 0 | 0 | 3 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A029 | lunaro.ru | 3 | 0 | 0 | 3 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A030 | runarium.ru | 3 | 0 | 0 | 3 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A031 | xn--80aejvmu5h.xn--80aswg | 4 | 0 | 0 | 4 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
-| S07A032 | blog.beregy.ru | 1 | 0 | 0 | 1 | 0 | 0 | COMPLETE_WITH_INACCESSIBLE_EVIDENCE |
+```text
+UNIQUE_CANDIDATE_IDS = 2172 / 2172
+UNIQUE_SOURCE_URL_IDS = 1976 / 1976
+UNIQUE_PROVENANCE_IDS = 3948 / 3948
+EVERY_CANDIDATE_HAS_PROVENANCE = true
+CANDIDATE_DISTINCT_AUTHORITY_COUNTS_RECONCILE = true
+CANDIDATE_DISTINCT_SOURCE_URL_COUNTS_RECONCILE = true
+CANDIDATE_PROVENANCE_ROW_COUNTS_RECONCILE = true
+PROVENANCE_SOURCE_URL_FOREIGN_KEYS_RESOLVE = 3948 / 3948
+PROVENANCE_CANDIDATE_FOREIGN_KEYS_RESOLVE = 3948 / 3948
+```
 
-## 5. Hard QA
+## 5. Existing 686-identity old→new transition matrix
+
+| FROM_STATUS | TO_STATUS | ROW_COUNT |
+|---|---|---:|
+| `ALREADY_PRESENT` | `ALREADY_PRESENT` | 10 |
+| `AMBIGUOUS` | `AMBIGUOUS` | 23 |
+| `AMBIGUOUS` | `OUT_OF_SCOPE` | 43 |
+| `NEW_CANDIDATE` | `AMBIGUOUS` | 6 |
+| `NEW_CANDIDATE` | `NEW_CANDIDATE` | 110 |
+| `NEW_CANDIDATE` | `OUT_OF_SCOPE` | 284 |
+| `OUT_OF_SCOPE` | `AMBIGUOUS` | 61 |
+| `OUT_OF_SCOPE` | `OUT_OF_SCOPE` | 146 |
+| `POSSIBLE_VARIANT` | `AMBIGUOUS` | 2 |
+| `POSSIBLE_VARIANT` | `OUT_OF_SCOPE` | 1 |
+
+```text
+EXISTING_NORMALIZED_IDENTITIES_RETAINED = 686
+EXISTING_STATUS_UNCHANGED = 289
+EXISTING_STATUS_RECLASSIFIED = 397
+EXISTING_IDENTITIES_SUPERSEDED = 0
+EXISTING_IDS_UNCHANGED_AFTER_DETERMINISTIC_RESORT = 0
+EXISTING_IDS_REGENERATED_AFTER_DETERMINISTIC_RESORT = 686
+SILENT_EXISTING_PROVENANCE_LOSS = 0
+```
+
+## 6. Known producer-regression examples
+
+| Candidate | Attempt 1 | Rework | Route |
+|---|---|---|---|
+| 10 схем вышивки крестиком для дизайна детской | `NEW_CANDIDATE` | `OUT_OF_SCOPE` | `EXCLUDED_OUT_OF_SCOPE` |
+| [Муров:] Добрые люди обещали мне никогда не снимать с него [сына] медальона. | `NEW_CANDIDATE` | `OUT_OF_SCOPE` | `EXCLUDED_OUT_OF_SCOPE` |
+| amuletum, с араб.]. | `NEW_CANDIDATE` | `OUT_OF_SCOPE` | `EXCLUDED_OUT_OF_SCOPE` |
+| amuletum] | `NEW_CANDIDATE` | `OUT_OF_SCOPE` | `EXCLUDED_OUT_OF_SCOPE` |
+| А на груди висел серебряный медальон в виде перевёрнутой пентаграммы. | `NEW_CANDIDATE` | `OUT_OF_SCOPE` | `EXCLUDED_OUT_OF_SCOPE` |
+| Антон Платов, «Славянские руны», 2001 г. | `NEW_CANDIDATE` | `OUT_OF_SCOPE` | `EXCLUDED_OUT_OF_SCOPE` |
+
+These examples are assertions over the general producer rules; they were not
+used as a manual patch list.
+
+## 7. Hard QA
 
 | # | Invariant | Result | Evidence |
 |---:|---|---|---|
-| 1 | `SCHEMA_ENUM_REQUIRED_FIELD_COMPLIANCE` | **PASS** | All four CSVs match the frozen field order/types/enums; no violations |
-| 2 | `PRIMARY_KEYS_UNIQUE` | **PASS** | candidates=686/686; urls=1976/1976; provenance=1417/1417 |
-| 3 | `CANDIDATE_KEYS_UNIQUE` | **PASS** | unique comparison keys=686; rows=686 |
-| 4 | `URL_AUTHORITY_CANONICAL_UNIQUENESS` | **PASS** | unique authority/canonical pairs=1976; rows=1976 |
-| 5 | `ONLY_AUTHORIZED_COMPETITORS_USED` | **PASS** | All authority IDs resolve to S07A001..S07A032 and canonical sites match the frozen authority. |
-| 6 | `ALL_AUTHORIZED_COMPETITORS_ACCOUNTED` | **PASS** | coverage authorities=32; expected=32 |
-| 7 | `ALL_FOREIGN_KEYS_RESOLVE` | **PASS** | No unresolved parent/candidate/source URL references |
-| 8 | `DETERMINISTIC_SORT_AND_IDS` | **PASS** | sort=True; sequential ID universes=True |
-| 9 | `DISCOVERED_URL_TERMINAL_RECONCILIATION` | **PASS** | All 32 per-competitor equalities reconcile |
-| 10 | `INACCESSIBLE_BLOCKED_SURFACES_EXPLICIT` | **PASS** | inaccessible=751; by status={"INACCESSIBLE_CAPTCHA_OR_ANTI_BOT": 12, "INACCESSIBLE_ROBOTS": 178, "INACCESSIBLE_TIMEOUT_OR_NETWORK": 561} |
-| 11 | `NO_UNRESOLVED_OR_ERROR_URLS` | **PASS** | unresolved=0; error=0 |
-| 12 | `CANDIDATE_SOURCE_COUNTS_EQUAL_PROVENANCE` | **PASS** | Candidate/domain/URL/occurrence counts and URL occurrence counts reconcile |
-| 13 | `EVERY_CANDIDATE_HAS_PROVENANCE` | **PASS** | candidates=686; candidates with provenance=686 |
-| 14 | `RAW_WORDING_AND_OCCURRENCES_PRESERVED` | **PASS** | raw=1119; final original occurrences=1119; exact multiset equality=True |
-| 15 | `EVERY_TRANSFORMATION_RECORDED` | **PASS** | provenance=1417; derived=298 |
-| 16 | `NO_DUPLICATE_OCCURRENCE_SILENTLY_DISCARDED` | **PASS** | Complete raw occurrence multiset retained before 298 explicit derived occurrences. |
-| 17 | `MULTI_SOURCE_PROVENANCE_PRESERVED` | **PASS** | multi-domain candidates observed=0; all occurrence provenance retained (only one competitor yielded inspectable candidate pages). |
-| 18 | `RECONCILIATION_AND_STEP08_ROUTE_VALID` | **PASS** | Every summary has exactly one governed status and matching later route. |
-| 19 | `DEMAND_NOT_ASSERTED` | **PASS** | All candidate rows explicitly remain unvalidated. |
-| 20 | `NO_FINAL_INTENT_OR_CLUSTER_DECISIONS` | **PASS** | Final intent and cluster fields retain Step07 stop-state enums. |
-| 21 | `NO_PAGE_URL_H1_TITLE_DECISIONS` | **PASS** | No output schema contains page-ownership, target URL, H1 or Title decision fields. |
-| 22 | `NO_STEP08_EXECUTION` | **PASS** | Step08 was not invoked; step08_route is a future routing label only. |
-| 23 | `NEW_PROVIDER_CALLS_ZERO` | **PASS** | Execution log: Wordstat=0; Yandex Search=0; AI Search/GenSearch=0. |
-| 24 | `NO_ARBITRARY_SAMPLE_OR_TOP_N` | **PASS** | No page cap used; complete discovered frontier has 1976 terminal rows. Inaccessibility is recorded, not replaced by a sample. |
-| 25 | `ACCEPTED_UPSTREAM_FILES_UNCHANGED` | **PASS** | seven authority/schema SHA-256 values unchanged=True |
-| 26 | `CURRENT_RELEASE_PROMPT_IDENTITY` | **PASS** | prompt blob=3070c6e9e5e75bcc510f04aa09f76d119f69770f; expected=3070c6e9e5e75bcc510f04aa09f76d119f69770f; six-file execution-only release verified=True |
-| 27 | `COMPLETE_BOUNDED_COMPETITOR_UNIVERSE_PROCESSED` | **FAIL** | inspectable-page domains=1/32; inspected URLs=24; inaccessible URLs=751; terminally accounted does not equal semantically inspected. |
-| 28 | `EXECUTION_COMPLETENESS_DEMONSTRABLE` | **FAIL** | Step07 remains INCOMPLETE because legitimate inaccessible evidence prevents truthful full-volume semantic coverage. |
+| 1 | `ONLY_AUTHORIZED_COMPETITORS` | **PASS** | All URL/provenance/coverage authority IDs resolve to the frozen 32-row universe. |
+| 2 | `ALL_32_COMPETITORS_ACCOUNTED` | **PASS** | coverage rows=32; exact S07A001..S07A032 set. |
+| 3 | `ARBITRARY_TOP_N_OR_SAMPLE` | **PASS** | 0; all 1,976 URLs and 725 page-evidence rows processed. |
+| 4 | `RUNTIME_PROXY_FAILURE_MISTAKEN_FOR_SOURCE_CLOSURE` | **PASS** | 0; canonical recovery supersedes Attempt-1 runtime failures. |
+| 5 | `CANONICAL_BROWSER_RECOVERY_REMOTE_ACCEPTANCE` | **PASS** | Five recorded SHA-256 identities match; the residual file matches the exact accepted Git blob and its one-nibble SHA metadata typo is disclosed above. |
+| 6 | `FULL_EXISTING_686_CANDIDATE_UNIVERSE_REEVALUATED` | **PASS** | 686/686 identities transition-accounted. |
+| 7 | `FULL_EXISTING_1417_PROVENANCE_UNIVERSE_REEVALUATED` | **PASS** | 1,417/1,417 rows preserved and reclassified. |
+| 8 | `KNOWN_BAD_EXAMPLES_NO_LONGER_ROUTE_AS_NEW_CANDIDATE` | **PASS** | 6/6 assertions pass; eligible routes=0. |
+| 9 | `GENERIC_UI_NOISE_ROUTED_AS_STEP08_CANDIDATE` | **PASS** | 0 by producer rule and regression scan. |
+| 10 | `BIBLIOGRAPHIC_METADATA_ROUTED_AS_STEP08_CANDIDATE` | **PASS** | 0 by producer rule and regression scan. |
+| 11 | `LITERARY_EXAMPLE_SENTENCE_ROUTED_AS_STEP08_CANDIDATE` | **PASS** | 0 by producer rule and regression scan. |
+| 12 | `BROKEN_TEXT_FRAGMENT_ROUTED_AS_STEP08_CANDIDATE` | **PASS** | 0 by producer rule and regression scan. |
+| 13 | `LONG_FORM_DERIVED_CANDIDATES_HAVE_EXPLICIT_REPRODUCIBLE_TRANSFORMATION` | **PASS** | Every promoted occurrence records exact field, ordinal, rule and detail. |
+| 14 | `RAW_WORDING_SOURCE_CONTEXT_PRESERVED` | **PASS** | Old 1,417 raw rows retained; every new provenance row stores raw field wording and evidence locator. |
+| 15 | `OLD_TO_NEW_STATUS_TRANSITION_MATRIX_PRESENT` | **PASS** | Complete 686-row matrix above. |
+| 16 | `SILENT_PROVENANCE_LOSS` | **PASS** | 0; total provenance=1,417+2531. |
+| 17 | `SCHEMA_REQUIRED_FIELD_COMPLIANCE` | **PASS** | All four CSVs emitted in exact frozen field order with nonblank fallbacks. |
+| 18 | `PRIMARY_AND_COMPARISON_KEYS_UNIQUE` | **PASS** | candidates=2172; URLs=1,976; provenance=3948. |
+| 19 | `ALL_FOREIGN_KEYS_RESOLVE` | **PASS** | Candidate, source URL and authority references resolve. |
+| 20 | `CANDIDATE_SOURCE_COUNTS_EQUAL_PROVENANCE` | **PASS** | Counts regenerated from final occurrence ledger. |
+| 21 | `DISCOVERED_URL_TERMINAL_RECONCILIATION` | **PASS** | 32/32 equalities; unresolved=0; execution-environment failure=0. |
+| 22 | `STEP08_ELIGIBILITY_STATUS_CONSISTENCY` | **PASS** | Only NEW_CANDIDATE/POSSIBLE_VARIANT have eligible route labels. |
+| 23 | `DEMAND_NOT_ASSERTED` | **PASS** | All candidates are NOT_VALIDATED_STEP07. |
+| 24 | `NO_FINAL_INTENT_CLUSTER_OR_PAGE_DECISIONS` | **PASS** | Frozen stop-state fields and no page decision fields. |
+| 25 | `STEP08_PROVIDER_CALLS` | **PASS** | 0. |
+| 26 | `ACCEPTED_BROWSER_RECOVERY_FILES_UNCHANGED` | **PASS** | Exact preflight SHA-256 identities rechecked before materialization. |
+| 27 | `QA_SELF_CONSISTENCY_SIX_FILE_HANDOFF` | **PASS** | Exactly six replacement files; no stale seven-file wording. |
 
-Hard failures:
-
-- `COMPLETE_BOUNDED_COMPETITOR_UNIVERSE_PROCESSED` — inspectable-page domains=1/32; inspected URLs=24; inaccessible URLs=751; terminally accounted does not equal semantically inspected.
-- `EXECUTION_COMPLETENESS_DEMONSTRABLE` — Step07 remains INCOMPLETE because legitimate inaccessible evidence prevents truthful full-volume semantic coverage.
-
-The failure is substantive coverage, not schema or reconciliation corruption.
-The 32 competitors are accounted for, but most public taxonomies could not be
-enumerated/inspected from this execution environment without prohibited bypass.
-
-## 6. Method authority boundary
-
-Main Chat's accepted release record already contains the fresh external-method
-review. Work did not rerun that governance/research step under the corrected
-execution-only role boundary. The frozen Step07 method was executed unchanged;
-external methodology was not used as demand evidence or to add competitors.
-
-## 7. Methodological problem discovered
-
-Public-source access was not sufficient for full-volume semantic extraction:
-
-- 178 URLs terminated as robots-unavailable/disallowed evidence;
-- 12 terminated as CAPTCHA/anti-bot evidence;
-- 561 terminated as timeout/network evidence;
-- only 24 pages on `kartaslov.ru` yielded inspectable content;
-- 1,201 discovered URLs were explicitly excluded as unrelated branches;
-- no unresolved or internal-error rows remain, but inaccessibility itself blocks
-  a truthful Step07 completion claim.
-
-The network/robots terminal evidence is snapshot-bounded. It does not prove the
-sites are permanently unavailable. A later authorized retry must start from
-current authority and the existing ledgers, must not bypass controls, and must
-not treat this run as a representative sample.
+```text
+HARD_GATE_FAILURES = 0
+NO_OPEN_CRITICAL_DEFECT = true
+```
 
 ## 8. Universal quality score
 
-| Dimension | Score | Basis |
+| Dimension | Score /10 | Basis |
 |---|---:|---|
-| GOAL_AND_OUTPUT_COMPLETENESS | 7/10 | All seven deliverables are materialized, but the substantive Step07 universe is incomplete. |
-| METHOD_AND_SOURCE_SUPPORT | 9/10 | Current project authority plus fresh official methodology sources were applied. |
-| INPUT_EVIDENCE_AND_PROVENANCE_INTEGRITY | 10/10 | Authority hashes, raw wording, URL lineage and many-to-many occurrence evidence reconcile. |
-| COVERAGE_AND_COMPLETENESS | 2/10 | All terminal states are recorded, but only one competitor yielded inspectable candidate pages. |
-| ANALYTICAL_CORRECTNESS_AND_CLAIM_BOUNDARIES | 9/10 | Candidates remain demand-unvalidated; no final intent, cluster or page decisions were made. |
-| ADVERSARIAL_QA_QUALITY | 9/10 | Independent schema, enum, FK, count, raw-preservation, sorting and authority-hash checks were run. |
-| PERSISTENCE_READBACK_AND_REPRODUCIBILITY | 9/10 | Deterministic IDs, complete ledgers and a frozen handoff package support readback. |
-| OWNER_CLIENT_USABILITY_AND_PLAIN_LANGUAGE | 9/10 | Single-directory seven-file handoff and explicit failure evidence are owner-usable. |
-| INFORMATION_GAIN_COST_AND_EXECUTION_EFFICIENCY | 8/10 | No paid/search provider calls; inaccessible evidence stopped unsafe bypass attempts. |
-| DOWNSTREAM_READINESS | 2/10 | The data contract is valid, but Step08 must not start until missing Step07 coverage is resolved or accepted by authority. |
+| Goal and output completeness | 10 | Full affected universe and accepted recovery unit processed. |
+| Method and source support | 10 | Frozen authority, schema and canonical recovery used without acquisition. |
+| Input evidence and provenance integrity | 10 | Immutable raw wording and exact recovery hashes retained. |
+| Coverage and completeness | 10 | 32/32 competitors, 1,976/1,976 URLs, 725/725 evidence rows. |
+| Analytical correctness and claim boundaries | 9 | Strict independent-direction producer; claims remain competitor language only. |
+| Adversarial QA quality | 10 | Producer regressions, transitions, schema, FK and accounting gates pass. |
+| Persistence/readback/reproducibility | 10 | Deterministic sort/IDs and exact evidence locators. |
+| Owner/client usability/plain language | 9 | Single six-file replacement package and explicit boundary report. |
+| Information gain/cost/execution efficiency | 10 | Zero provider/browser calls; accepted evidence reused once. |
+| Downstream readiness | 10 | Step08 queue is cleanly bounded but not executed. |
 
 ```text
-QUALITY_TOTAL = 74 / 100
-QUALITY_SCORE = 7.4 / 10
-HARD_FAILURE_OVERRIDE = true
+QUALITY_TOTAL = 98 / 100
+QUALITY_SCORE = 9.8 / 10
+HARD_FAILURE_OVERRIDE = false
 ```
 
-The score does not override the incomplete-coverage hard failure.
-
-## 9. Stop boundaries and operational assertions
+## 9. Stop boundaries
 
 ```text
 NEW_WORDSTAT_CALLS = 0
 NEW_YANDEX_SEARCH_CALLS = 0
 NEW_AI_SEARCH_OR_GENSEARCH_CALLS = 0
-
-STEP07 = INCOMPLETE
 STEP08_STARTED = false
-
 FINAL_INTENT_DECISIONS = NONE
 FINAL_CLUSTER_DECISIONS = NONE
 FINAL_PAGE_DECISIONS = NONE
-
-ACCEPTED_UPSTREAM_FILES_CHANGED = 0
-STALE_BASE_MUTABLE_STATE_FILE_OVERWRITE = 0
 WORK_GITHUB_COMMIT_PUSH_PR = false
+OWNER_UPLOAD_COMPLETE = false
+REMOTE_READBACK_PASS = false
+MAIN_CHAT_ACCEPTANCE = PENDING
 ```
