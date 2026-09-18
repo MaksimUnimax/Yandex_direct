@@ -1,0 +1,220 @@
+{
+  "manifest_id": "KW002_STEP08_PREPARATION_HANDOFF_2026-09-18",
+  "work_id": "KW002_STEP08_PRE_ACQUISITION_RECONCILIATION_2026-09-18",
+  "status": "STEP08_PRE_ACQUISITION_RECONCILIATION_COMPLETE",
+  "repository": "MaksimUnimax/Yandex_direct",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "job_root": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
+  "work_start_remote_head": "74dd421ec5c38bedcce9ed25b9d86aa71b00beee",
+  "work_pre_handoff_remote_head": "74dd421ec5c38bedcce9ed25b9d86aa71b00beee",
+  "authority_drift_status": "NONE",
+  "frozen_input_identities": [
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/CURRENT_STATE_POINTER_2026-09-18_R10.json",
+      "git_blob": "51613825d5b257bcffb4714487ce43c37e712de5",
+      "role": "accepted current pre-Step08 state"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/KW002_EXECUTION_CURSOR_2026-09-18_STEP08_PREPARATION_REQUIRED.json",
+      "git_blob": "97468c1f183d11c870cd6cfb3e1d4fc4fb73ffff",
+      "role": "accepted current cursor"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md",
+      "git_blob": "5113d1a37715ba03360cb32aaaede7d482821597",
+      "role": "Step07 acceptance and persistent recall limitation"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/COMPETITOR_GAP_CANDIDATES.csv",
+      "git_blob": "6079baf0e0ff7078499efd3b14ea1eb147559e60",
+      "role": "Step07 candidate authority"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
+      "git_blob": "726df3bca2ff47bd009b166bca86a089991cd045",
+      "role": "immutable Step07 page provenance"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_07_OUTPUT_SCHEMA_CONTRACT.json",
+      "git_blob": "2af36b99af129a7bf3e59ffea889306a4889c0d4",
+      "role": "Step07 candidate/provenance schema"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_03A_NORMALIZED_UNIQUE_POOL_2026-09-11.tsv",
+      "git_blob": "cb8a5f6f8c7d6ec8036582a40f7909c5eeee7f20",
+      "role": "accepted normalized Wordstat universe"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_03A_NORMALIZATION_LEDGER_2026-09-11.tsv",
+      "git_blob": "f2d4e7124c97bc4f9947b77c58da71f124f71cf3",
+      "role": "normalized-to-raw/provider lineage"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_03B_SANITIZED_CANDIDATE_POOL_CORRECTED_2026-09-11.tsv",
+      "git_blob": "380a3ad996487437af24b6ed50d54531600c5974",
+      "role": "accepted sanitized KEEP candidate authority"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_03B_EXCLUDED_HOLD_REGISTER_CORRECTED_2026-09-11.tsv",
+      "git_blob": "26403c72d08c95fb55bece683cada008d7f7b045",
+      "role": "accepted HOLD/EXCLUDE authority"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_04_CURRENT_AUTHORITY_IDENTITY_SIGNAL_LEDGER_2026-09-11.tsv",
+      "git_blob": "84a250765ef5fe7f63d34640f6174fdc946a9307",
+      "role": "current preliminary semantic/task signals for scope comparison only, not final intent"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_04_CURRENT_AUTHORITY_TARGETED_EXPANSION_QUEUE_2026-09-11.tsv",
+      "git_blob": "f956bdabfc92fa73accdb99e6ca98c2d68318528",
+      "role": "prior named gap questions and evidence boundaries"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_05_W10_V2_EXISTING_EVIDENCE_REUSE_REGISTER_2026-09-12.tsv",
+      "git_blob": "02e3adaea3a679a4db082a5bdab8f81ef608ed87",
+      "role": "prior durable-evidence reuse decisions"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_05_W10_V3_PROVIDER_CANDIDATE_MANIFEST_2026-09-12.tsv",
+      "git_blob": "997a106f022668f87937dee9a6e8bc7d751b913a",
+      "role": "prior provider question/operator/depth/outcome contract"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_05_W10_V3_PROVIDER_RECEIPT_2026-09-12.json",
+      "git_blob": "557697bb0f718ae2d81d74ddfbaac5908a008994",
+      "role": "prior executed Step05 provider receipt"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_03_WORDSTAT_ACQUISITION_RECEIPTS.csv",
+      "git_blob": "563b0d8a398bf29fe78edb58f5bf36a5a1a55e83",
+      "role": "primary Wordstat request/raw evidence register"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_03_WORDSTAT_RAW",
+      "git_tree": "6d446b74e4f9c486b27715c470c42377cc241f94",
+      "role": "durable primary Wordstat raw evidence; inspect only as required by lineage/scope verification"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_05_WORDSTAT_RAW",
+      "git_tree": "98d8a82ac5bc2db111d598cdc0575234830e0e9f",
+      "role": "durable targeted Wordstat raw evidence"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_08_PRE_STEP_EXTERNAL_RESEARCH_AND_SOURCE_TRACE_2026-09-18.md",
+      "git_blob": "ed3e6c7a6b4a49592ed9fdb6ae42a7e442de4856",
+      "role": "Main Chat frozen research result; Work must not redo external research"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_08_PREPARATION_OUTPUT_SCHEMA_CONTRACT_2026-09-18.json",
+      "git_blob": "453d58cbc5fbd80a564ab62fd8f6d0572259af95",
+      "role": "required Work output schema"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_08_PREPARATION_METHOD_AND_EXECUTION_GATE_2026-09-18.md",
+      "git_blob": "1b0a64fa0c3e00e1c06c0fff78b0a7bbd11461c6",
+      "role": "released preparation method and boundaries"
+    }
+  ],
+  "bounded_universe": {
+    "eligible_candidates": 794,
+    "accounted_candidates": 794,
+    "linked_step07_provenance_rows_reviewed": 1060,
+    "silent_skip": 0,
+    "duplicate_candidate_id": 0
+  },
+  "state_counts": {
+    "ALREADY_COVERED_NO_NEW_INFORMATION_GAIN": 7,
+    "PROVIDER_REQUIRED_PRECISION_VALIDATION": 312,
+    "PROVIDER_REQUIRED_RECALL_FIRST": 437,
+    "REUSE_EXISTING_EVIDENCE": 38
+  },
+  "reuse_register_rows": 246,
+  "provider_seed_count": 386,
+  "provider_seed_member_links": 749,
+  "total_estimated_future_provider_cost_rub": 7.72,
+  "planned_execution_chunks": 4,
+  "output_inventory": [
+    {
+      "filename": "STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION.csv",
+      "action": "NEW",
+      "row_count": 794,
+      "sha256": "38eb5141db8dafcb696d66e032ad892beb641a9a5f948aa20759cf38a9b9e73b"
+    },
+    {
+      "filename": "STEP08_EXISTING_EVIDENCE_REUSE_REGISTER.csv",
+      "action": "NEW",
+      "row_count": 246,
+      "sha256": "f603dee09a1829b0a9184236df12d9e20c74e01401630a46d708548256f6bad7"
+    },
+    {
+      "filename": "STEP08_PROVIDER_SEED_MANIFEST.csv",
+      "action": "NEW",
+      "row_count": 386,
+      "sha256": "f0f42a7a4c69cdfeb4ab7cd3b90d8d1cffe0cff7c5bf23ea60d506f5efc761a2"
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX.csv",
+      "action": "NEW",
+      "row_count": 16,
+      "sha256": "2786bd8b011ef37a7440c1c9c08afea7bba28ff169c11376786a16bb3f9c0f26"
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_QA.md",
+      "action": "NEW",
+      "row_count": null,
+      "sha256": "9e49eb163931e35ce6cdca3f6f31737a901e787227c77a1b44ff7d74369941e3"
+    },
+    {
+      "filename": "STEP08_PREPARATION_HANDOFF_MANIFEST.json",
+      "action": "NEW",
+      "row_count": null,
+      "sha256": "SELF_HASH_REPORTED_EXTERNALLY_AFTER_SERIALIZATION"
+    }
+  ],
+  "manifest_self_hash_policy": "A file cannot truthfully embed its own SHA-256. The serialized manifest SHA-256 is reported in the Work return and verified by Main Chat staging readback.",
+  "transport_zip": {
+    "filename": "KW002_STEP08_PRE_ACQUISITION_RECONCILIATION_2026-09-18.zip",
+    "sha256": "EXTERNAL_CONTAINER_HASH_REPORTED_AFTER_PACKAGING",
+    "self_reference_policy": "The transport ZIP contains this manifest, so its byte hash is reported externally after final packaging to avoid a false self-referential value.",
+    "canonical": false,
+    "expected_entries": [
+      "STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION.csv",
+      "STEP08_EXISTING_EVIDENCE_REUSE_REGISTER.csv",
+      "STEP08_PROVIDER_SEED_MANIFEST.csv",
+      "STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX.csv",
+      "STEP08_PRE_ACQUISITION_QA.md",
+      "STEP08_PREPARATION_HANDOFF_MANIFEST.json"
+    ]
+  },
+  "no_provider_call_declaration": {
+    "wordstat_calls": 0,
+    "ymb_search_calls": 0,
+    "ai_search_calls": 0,
+    "gensearch_calls": 0,
+    "step08_provider_execution_started": false,
+    "provider_execution_released": false
+  },
+  "persistent_limitations": {
+    "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+    "known_recall_limitation": "ACTIVE"
+  },
+  "owner_staging_target": {
+    "owner_relay_required": true,
+    "owner_single_staging_required": true,
+    "work_direct_canonical_publication": false,
+    "staging_repository": "MaksimUnimax/Yandex_direct",
+    "staging_branch": "roadmap/kwork-productization-2026-08-28",
+    "staging_directory": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/_work_staging/STEP08_PRE_ACQUISITION_RECONCILIATION_2026-09-18",
+    "owner_relay_upload_url": "https://github.com/MaksimUnimax/Yandex_direct/upload/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/_work_staging/STEP08_PRE_ACQUISITION_RECONCILIATION_2026-09-18",
+    "transport_zip_required": true,
+    "zip_is_canonical": false,
+    "main_chat_final_placement_and_readback_required": true
+  },
+  "publication_policy": {
+    "owner_single_staging_required": true,
+    "work_direct_canonical_publication": false,
+    "zip_is_canonical": false,
+    "main_chat_final_placement_and_readback_required": true
+  },
+  "main_chat_acceptance": "PENDING"
+}
