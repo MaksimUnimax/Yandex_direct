@@ -1,0 +1,284 @@
+{
+  "contract_id": "KW002_STEP08_PRE_ACQUISITION_R2_SCHEMA_2026-09-18",
+  "step_id": "STEP08_PRE_ACQUISITION_DEPENDENCY_REWORK_R2",
+  "status": "CURRENT_REWORK_SCHEMA",
+  "purpose": "Correct R1 static provider-queue duplication by making acquisition questions explicit and provider probes dependency-aware without losing the 794-candidate or 386-seed lineage.",
+  "invariants": [
+    "PROCESS_STEP08_ELIGIBLE_CANDIDATES = 794/794",
+    "ACCOUNT_R1_PROVIDER_SEEDS = 386/386",
+    "DO_NOT_NAIVELY_DEDUPE_IDENTICAL_QUESTION_TEXT",
+    "UNIQUE_PHRASE != UNIQUE_INFORMATION_QUESTION",
+    "ACQUISITION_GROUP != SEO_CLUSTER",
+    "PARENT_MAY_ANSWER_CHILD -> CHILD_NOT_UNCONDITIONALLY_RELEASED",
+    "NO_PROVIDER_CALLS_IN_R2_REWORK = true",
+    "STEP07_RAW_AND_R1_CANONICAL_INPUTS_IMMUTABLE = true"
+  ],
+  "outputs": [
+    {
+      "filename": "STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION_R2.csv",
+      "row_count_expectation": 794,
+      "primary_key": [
+        "candidate_id"
+      ],
+      "fields": [
+        "candidate_id",
+        "display_candidate",
+        "normalized_candidate",
+        "candidate_type",
+        "step07_reconciliation_status",
+        "step07_route",
+        "competitor_source_count",
+        "source_url_count",
+        "provenance_row_count",
+        "r1_preparation_state",
+        "r2_preparation_state",
+        "r2_state_reason",
+        "existing_evidence_scope_status",
+        "existing_evidence_ids",
+        "existing_evidence_locators",
+        "existing_evidence_answer",
+        "acquisition_question_id",
+        "acquisition_question_role",
+        "provider_need_state",
+        "provider_probe_ids",
+        "provider_execution_released",
+        "notes"
+      ],
+      "enums": {
+        "r2_preparation_state": [
+          "REUSE_EXISTING_EVIDENCE",
+          "ALREADY_COVERED_NO_NEW_INFORMATION_GAIN",
+          "PROVIDER_QUESTION_REQUIRED",
+          "HOLD_AMBIGUOUS_OR_SCOPE",
+          "STEP07_REWORK_REQUIRED"
+        ],
+        "acquisition_question_role": [
+          "NONE",
+          "PRIMARY_MEMBER",
+          "ADDITIONAL_MEMBER"
+        ],
+        "provider_need_state": [
+          "NO_PROVIDER_NEEDED",
+          "INITIAL_OR_INDEPENDENT_PROBE_REQUIRED",
+          "CONDITIONAL_PROBE_ONLY",
+          "MIXED_INITIAL_AND_CONDITIONAL",
+          "HOLD"
+        ]
+      }
+    },
+    {
+      "filename": "STEP08_EXISTING_EVIDENCE_REUSE_REGISTER_R2.csv",
+      "primary_key": [
+        "reuse_id"
+      ],
+      "fields": [
+        "reuse_id",
+        "candidate_id",
+        "evidence_class",
+        "source_step",
+        "seed_or_request_ids",
+        "tested_phrase_scope",
+        "durable_evidence_locator",
+        "provider_state",
+        "raw_or_derived_identity",
+        "scope_match",
+        "how_reused",
+        "claim_boundary",
+        "reprobe_allowed_current_round",
+        "r2_change_from_r1",
+        "notes"
+      ]
+    },
+    {
+      "filename": "STEP08_PROVIDER_ACQUISITION_QUESTION_REGISTER_R2.csv",
+      "primary_key": [
+        "acquisition_question_id"
+      ],
+      "fields": [
+        "acquisition_question_id",
+        "question_text",
+        "question_class",
+        "semantic_scope",
+        "referent_scope",
+        "qualification_scope",
+        "member_candidate_ids",
+        "member_candidate_count",
+        "existing_evidence_scope_status",
+        "existing_evidence_summary",
+        "provider_requirement_state",
+        "root_probe_ids",
+        "conditional_probe_ids",
+        "same_question_probe_policy",
+        "why_question_not_merged_with_neighbor_questions",
+        "claim_boundary",
+        "notes"
+      ],
+      "enums": {
+        "provider_requirement_state": [
+          "REUSE_EXISTING_EVIDENCE",
+          "PROVIDER_REQUIRED",
+          "HOLD",
+          "STEP07_REWORK_REQUIRED"
+        ],
+        "same_question_probe_policy": [
+          "ONE_PROBE_SUFFICIENT",
+          "PARENT_WITH_CONDITIONAL_CHILDREN",
+          "MULTIPLE_INDEPENDENT_PROBES_JUSTIFIED",
+          "NO_PROVIDER_PROBE"
+        ]
+      }
+    },
+    {
+      "filename": "STEP08_PROVIDER_SEED_MANIFEST_R2.csv",
+      "primary_key": [
+        "step08_r2_seed_id"
+      ],
+      "fields": [
+        "step08_r2_seed_id",
+        "supersedes_r1_seed_ids",
+        "acquisition_question_id",
+        "member_candidate_ids",
+        "member_candidate_count",
+        "phrase",
+        "regions",
+        "devices",
+        "research_mode",
+        "operator_shape",
+        "operator_rationale",
+        "prior_evidence_scope_boundary",
+        "incremental_information_gain",
+        "candidate_depth_options",
+        "proposed_num_phrases",
+        "depth_rationale",
+        "depth_boundary_interpretation",
+        "release_state",
+        "parent_seed_id",
+        "conditional_trigger",
+        "distinct_information_gain_within_same_question",
+        "positive_outcome_meaning",
+        "zero_outcome_meaning",
+        "incomplete_outcome_meaning",
+        "validation_failure_meaning",
+        "provider_failure_meaning",
+        "outcome_unknown_meaning",
+        "no_retry_semantic_rule",
+        "raw_persistence_rule",
+        "downstream_03a_03b_rule",
+        "reopen_triggers",
+        "estimated_cost_rub",
+        "provider_execution_released",
+        "notes"
+      ],
+      "enums": {
+        "release_state": [
+          "INITIAL_REQUIRED",
+          "INDEPENDENT_REQUIRED",
+          "CONDITIONAL_AFTER_PARENT",
+          "HOLD_NOT_RELEASED"
+        ],
+        "research_mode": [
+          "DISCOVERY_RECALL_FIRST",
+          "PRECISION_VALIDATION",
+          "EXACT_FORM_TEST",
+          "COLLISION_DIAGNOSTIC"
+        ]
+      },
+      "hard_rules": [
+        "provider_execution_released=false for every row",
+        "CONDITIONAL_AFTER_PARENT requires nonblank parent_seed_id and conditional_trigger",
+        "parent_seed_id must resolve to a surviving R2 seed",
+        "dependency graph must be acyclic",
+        "multiple nonconditional probes for one acquisition_question_id require nonblank distinct_information_gain_within_same_question",
+        "each PROVIDER_REQUIRED question has at least one INITIAL_REQUIRED or INDEPENDENT_REQUIRED root unless explicitly HOLD"
+      ]
+    },
+    {
+      "filename": "STEP08_R1_SEED_DISPOSITION_R2.csv",
+      "row_count_expectation": 386,
+      "primary_key": [
+        "r1_seed_id"
+      ],
+      "fields": [
+        "r1_seed_id",
+        "r1_phrase",
+        "r1_unresolved_question",
+        "r2_disposition",
+        "acquisition_question_id",
+        "r2_seed_id",
+        "parent_r2_seed_id",
+        "disposition_reason",
+        "information_gain_after_parent",
+        "notes"
+      ],
+      "enums": {
+        "r2_disposition": [
+          "RETAINED_AS_INITIAL",
+          "RETAINED_AS_INDEPENDENT",
+          "RETAINED_AS_CONDITIONAL",
+          "MERGED_INTO_R2_SEED",
+          "CANCELLED_AS_REDUNDANT",
+          "CANCELLED_BY_REUSE",
+          "HOLD"
+        ]
+      }
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX_R2.csv",
+      "primary_key": [
+        "failure_class"
+      ],
+      "fields": [
+        "failure_class",
+        "applicable",
+        "root_cause_relevant",
+        "regression_test",
+        "result",
+        "blocking_if_fail",
+        "evidence"
+      ],
+      "required_failure_classes": [
+        "F05-1",
+        "F05-3",
+        "F05-18",
+        "F03",
+        "F03A",
+        "F03B-3",
+        "F03B-4",
+        "F07-2"
+      ]
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_QA_R2.md",
+      "role": "Full-volume R2 accounting, dependency graph QA, semantic duplicate-question audit, cost/initial-wave diagnostics, hard gates and ten-dimension quality score."
+    },
+    {
+      "filename": "STEP08_PREPARATION_HANDOFF_MANIFEST_R2.json",
+      "role": "R2 output hashes/counts, frozen input identities, no-provider-call declaration, staging contract and Main Chat acceptance=PENDING."
+    }
+  ],
+  "r2_hard_gates": [
+    "STEP08_ELIGIBLE_ACCOUNTED = 794/794",
+    "R1_PROVIDER_SEEDS_ACCOUNTED = 386/386",
+    "R1_DUPLICATE_OPEN_QUESTION_GROUPS_REVIEWED = 72/72",
+    "SILENT_SKIP = 0",
+    "DUPLICATE_CANDIDATE_ID = 0",
+    "DUPLICATE_R1_SEED_DISPOSITION = 0",
+    "PROVIDER_SEEDS_WITHOUT_ACQUISITION_QUESTION_ID = 0",
+    "DUPLICATE_INFORMATION_QUESTIONS_WITHOUT_MERGE_OR_JUSTIFICATION = 0",
+    "UNCONDITIONAL_CHILD_PROBES_WHERE_PARENT_MAY_ANSWER = 0",
+    "CONDITIONAL_CHILD_WITHOUT_VALID_PARENT = 0",
+    "CONDITIONAL_CHILD_WITHOUT_TRIGGER = 0",
+    "DEPENDENCY_CYCLES = 0",
+    "MULTIPLE_ROOT_PROBES_SAME_QUESTION_WITHOUT_DISTINCT_INFO_GAIN = 0",
+    "PROVIDER_REQUIRED_QUESTION_WITHOUT_ROOT_PROBE = 0",
+    "REUSE_ROWS_WITHOUT_DURABLE_LOCATOR = 0",
+    "BROAD_EVIDENCE_USED_TO_CLOSE_NARROWER_QUESTION = 0",
+    "PROVIDER_EXECUTION_RELEASED_ROWS = 0",
+    "WORDSTAT_CALLS = 0",
+    "YMB_SEARCH_CALLS = 0",
+    "AI_SEARCH_CALLS = 0",
+    "GENSEARCH_CALLS = 0",
+    "STEP08_PROVIDER_EXECUTION_STARTED = false",
+    "STEP09_STARTED = false"
+  ]
+}
