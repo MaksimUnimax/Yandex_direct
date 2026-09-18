@@ -1,0 +1,15 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R10",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R9.json",
+  "current_flow": "JOB_FLOW_CURRENT_2026-09-18_STEP08_PREPARATION_REQUIRED.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP08_PREPARATION_REQUIRED.json",
+  "current_return_qa": "STEP07_POST_ACCEPTANCE_CORRECTION_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "current_step07_acceptance": "STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md",
+  "step07_status": "PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION",
+  "step07_access_state_correction": "PASS_ACCEPTED",
+  "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+  "known_recall_limitation": "ACTIVE",
+  "step08_status": "NOT_STARTED_PREPARATION_REQUIRED",
+  "status_rule": "R10 is current authority. R9 remains historical. Step07 is accepted for acquired evidence with an explicit external-source recall limitation; Step08 execution is not started and requires separate preparation/release.",
+  "next_action": "STEP08_PREPARATION"
+}
