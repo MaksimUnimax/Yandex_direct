@@ -1,0 +1,272 @@
+{
+  "contract_id": "KW002_STEP07_OUTPUT_SCHEMA_R2_2026-09-18",
+  "status": "CURRENT_CORRECTION_SCHEMA_AMENDMENT",
+  "supersedes_for_correction": "STEP_07_OUTPUT_SCHEMA_CONTRACT.json",
+  "amendment_mode": "V1_BASE_PLUS_THIS_DELTA",
+  "purpose": "Add dual-lane discovery accounting and ranking-query provenance without discarding historical page-surface evidence.",
+  "invariants": [
+    "PAGE_SURFACE_DISCOVERY + ORGANIC_RANKING_QUERY_DISCOVERY = COMPLETE_STEP07_DISCOVERY_MODE",
+    "COMPETITOR_RANKING_QUERY != PROVEN_SEARCH_DEMAND",
+    "STEP08_VALIDATES_DEMAND",
+    "EVERY_INSPECTED_STATE_HAS_TARGET_CONTENT_EVIDENCE = true",
+    "BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0",
+    "RAW_PAGE_EVIDENCE_IMMUTABLE = true",
+    "RAW_RANKING_QUERY_EVIDENCE_IMMUTABLE = true"
+  ],
+  "existing_file_semantics_amendments": {
+    "COMPETITOR_GAP_CANDIDATES.csv": {
+      "provenance_row_count": "Total evidence rows across STEP07_CANDIDATE_PROVENANCE_LEDGER.csv plus STEP07_RANKING_QUERY_LEDGER.csv rows linked to the candidate.",
+      "competitor_source_count": "Distinct authorized competitor authorities across page-surface and ranking-query evidence.",
+      "source_url_count": "Distinct page source URLs plus distinct ranking URLs where available; must be reproducibly derivable.",
+      "new_candidate_requirement": "A ranking-query-only candidate is valid only when STEP07_RANKING_QUERY_LEDGER.csv provides at least one immutable evidence row."
+    },
+    "STEP07_COMPETITOR_COVERAGE_LEDGER.csv": {
+      "scope": "Remains page/URL-surface coverage only. Overall dual-lane completeness is determined jointly with STEP07_DISCOVERY_CHANNEL_COVERAGE.csv."
+    },
+    "STEP07_SOURCE_URL_LEDGER.csv": {
+      "access_correction": "Every INSPECTED_* row must have substantive target-content evidence. Block/error/VPN/CAPTCHA/connection shells must use the applicable inaccessible/error/unresolved state."
+    },
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv": {
+      "scope": "Remains page-surface candidate provenance. Ranking-query provenance is stored separately in STEP07_RANKING_QUERY_LEDGER.csv."
+    }
+  },
+  "new_files": [
+    {
+      "filename": "STEP07_RANKING_QUERY_LEDGER.csv",
+      "role": "One immutable evidence row per authorized-competitor organic ranking-query observation used by Step07 discovery.",
+      "primary_key": [
+        "ranking_query_evidence_id"
+      ],
+      "unique_key": [
+        "competitor_authority_id",
+        "source_system",
+        "source_snapshot_or_timestamp",
+        "query_normalized_comparison_key",
+        "ranking_url"
+      ],
+      "sort_order": [
+        "competitor_authority_id",
+        "query_normalized_comparison_key",
+        "ranking_url",
+        "ranking_query_evidence_id"
+      ],
+      "fields": [
+        {
+          "name": "ranking_query_evidence_id",
+          "type": "string",
+          "required": true,
+          "rule": "Stable sequential ID S07RQ000001... after deterministic sort."
+        },
+        {
+          "name": "competitor_authority_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "canonical_site",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "source_system",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "source_snapshot_or_timestamp",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "query_raw",
+          "type": "string",
+          "required": true,
+          "rule": "Immutable source wording."
+        },
+        {
+          "name": "query_normalized_comparison_key",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "ranking_url",
+          "type": "string",
+          "required": true,
+          "fallback": "NOT_AVAILABLE"
+        },
+        {
+          "name": "ranking_position_or_visibility_metric",
+          "type": "string",
+          "required": true,
+          "fallback": "NOT_AVAILABLE"
+        },
+        {
+          "name": "source_export_or_evidence_identity",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "source_evidence_locator",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "candidate_id",
+          "type": "string",
+          "required": true,
+          "fallback": "NONE"
+        },
+        {
+          "name": "reconciliation_status",
+          "type": "enum",
+          "required": true,
+          "allowed": [
+            "ALREADY_PRESENT",
+            "NEW_CANDIDATE",
+            "NORMALIZED_DUPLICATE",
+            "POSSIBLE_VARIANT",
+            "OUT_OF_SCOPE",
+            "AMBIGUOUS"
+          ]
+        },
+        {
+          "name": "step08_route",
+          "type": "enum",
+          "required": true,
+          "allowed": [
+            "ELIGIBLE_NEW_CANDIDATE",
+            "ELIGIBLE_POSSIBLE_VARIANT",
+            "AUDIT_ONLY_ALREADY_PRESENT",
+            "AUDIT_ONLY_DUPLICATE",
+            "EXCLUDED_OUT_OF_SCOPE",
+            "HOLD_AMBIGUOUS"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string",
+          "required": true,
+          "fallback": "NONE"
+        }
+      ]
+    },
+    {
+      "filename": "STEP07_DISCOVERY_CHANNEL_COVERAGE.csv",
+      "role": "One row per authorized competitor accounting for page-surface lane and ranking-query lane independently.",
+      "primary_key": [
+        "competitor_authority_id"
+      ],
+      "row_count_expectation": 32,
+      "sort_order": [
+        "competitor_authority_id"
+      ],
+      "fields": [
+        {
+          "name": "competitor_authority_id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "canonical_site",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "page_surface_lane_status",
+          "type": "enum",
+          "required": true,
+          "allowed": [
+            "COMPLETE",
+            "COMPLETE_WITH_INACCESSIBLE_EVIDENCE",
+            "INCOMPLETE_UNRESOLVED_COVERAGE",
+            "BLOCKED",
+            "ERROR"
+          ]
+        },
+        {
+          "name": "ranking_query_lane_status",
+          "type": "enum",
+          "required": true,
+          "allowed": [
+            "COMPLETE",
+            "COMPLETE_WITH_SOURCE_LIMITATION",
+            "NOT_APPLICABLE_PRE_FROZEN_EXCEPTION",
+            "BLOCKED_SOURCE_UNAVAILABLE",
+            "ERROR"
+          ]
+        },
+        {
+          "name": "ranking_query_source_system",
+          "type": "string",
+          "required": true,
+          "fallback": "NONE"
+        },
+        {
+          "name": "ranking_query_source_snapshot",
+          "type": "string",
+          "required": true,
+          "fallback": "NONE"
+        },
+        {
+          "name": "ranking_query_observation_count",
+          "type": "integer",
+          "required": true,
+          "minimum": 0
+        },
+        {
+          "name": "ranking_query_unique_query_count",
+          "type": "integer",
+          "required": true,
+          "minimum": 0
+        },
+        {
+          "name": "ranking_query_candidate_count",
+          "type": "integer",
+          "required": true,
+          "minimum": 0
+        },
+        {
+          "name": "limitation_reason",
+          "type": "string",
+          "required": true,
+          "fallback": "NONE"
+        },
+        {
+          "name": "overall_step07_discovery_status",
+          "type": "enum",
+          "required": true,
+          "allowed": [
+            "COMPLETE",
+            "COMPLETE_WITH_INACCESSIBLE_EVIDENCE",
+            "INCOMPLETE_REQUIRED_RANKING_QUERY_LANE",
+            "INCOMPLETE_PAGE_SURFACE",
+            "BLOCKED",
+            "ERROR"
+          ]
+        },
+        {
+          "name": "notes",
+          "type": "string",
+          "required": true,
+          "fallback": "NONE"
+        }
+      ]
+    }
+  ],
+  "correction_qa_hard_gates": [
+    "FULL_SOURCE_URL_LEDGER_REVALIDATED = 1976/1976",
+    "ACCESS_STATE_CONTENT_VALIDATION = PASS",
+    "BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0",
+    "AUTHORIZED_COMPETITOR_COVERAGE_ROWS = 32/32",
+    "DISCOVERY_CHANNEL_COVERAGE_ROWS = 32/32",
+    "RANKING_QUERY_LANE_REQUIRED = true",
+    "RANKING_QUERY_LANE_COMPLETE_FOR_MATERIAL_AUTHORIZED_COMPETITORS = true",
+    "RANKING_QUERY_RAW_EVIDENCE_PRESERVED = true",
+    "CANDIDATE_RECONCILIATION_ACROSS_BOTH_LANES = PASS",
+    "STEP08_NOT_STARTED = true",
+    "WORDSTAT_CALLS = 0",
+    "YMB_SEARCH_CALLS = 0",
+    "AI_SEARCH_CALLS = 0",
+    "GENSEARCH_CALLS = 0"
+  ]
+}
