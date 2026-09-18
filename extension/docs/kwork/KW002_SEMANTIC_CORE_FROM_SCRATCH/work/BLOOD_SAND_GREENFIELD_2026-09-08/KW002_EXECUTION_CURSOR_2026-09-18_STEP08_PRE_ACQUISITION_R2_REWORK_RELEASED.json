@@ -18,7 +18,7 @@
   "canonical_r2_output_schema": "STEP_08_PRE_ACQUISITION_R2_OUTPUT_SCHEMA_CONTRACT_2026-09-18.json",
   "canonical_r2_output_schema_blob": "622599b7bf366affb11df5a189fa995e3eae3a2f",
   "canonical_r2_release": "STEP_08_PRE_ACQUISITION_R2_EXECUTION_RELEASE_2026-09-18.md",
-  "canonical_r2_release_blob": "a3946bc3eb97e6d649d9dd19085dc22508bf1e1c",
+  "canonical_r2_release_blob": "41eff32f6651f38ba93fb257170375788e96f051",
   "wordstat_calls_allowed_now": 0,
   "ymb_batch_start_allowed_now": false,
   "ymb_batch_next_allowed_now": false,
