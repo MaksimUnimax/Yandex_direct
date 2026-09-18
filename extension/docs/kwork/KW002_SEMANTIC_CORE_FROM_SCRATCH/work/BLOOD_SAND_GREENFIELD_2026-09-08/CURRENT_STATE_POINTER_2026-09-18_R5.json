@@ -1,0 +1,18 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R5",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R4.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_MANUAL_WORK_WRAPPER_CORRECTION.json",
+  "current_return_qa": "STEP07_FINAL_WRAPPER_CORRECTION_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "current_work_prompt": "STEP07_FINAL_MANUAL_WORK_WRAPPER_FULL_VOLUME_CORRECTION_WORK_PROMPT_2026-09-18.md",
+  "current_release": "STEP07_FINAL_MANUAL_WORK_WRAPPER_CORRECTION_RELEASE_2026-09-18.json",
+  "step07_status": "REWORK_REQUIRED",
+  "step08_status": "BLOCKED_NOT_STARTED",
+  "work_execution_unit": {
+    "candidates": 794,
+    "linked_provenance": 1060,
+    "known_residual_manual_work_rows": 4,
+    "full_volume": true,
+    "sampling_forbidden": true
+  },
+  "status_rule": "Use this pointer and its current cursor/release as current authority. The latest uploaded Work return is rejected until this final manual-work wrapper correction is accepted."
+}
