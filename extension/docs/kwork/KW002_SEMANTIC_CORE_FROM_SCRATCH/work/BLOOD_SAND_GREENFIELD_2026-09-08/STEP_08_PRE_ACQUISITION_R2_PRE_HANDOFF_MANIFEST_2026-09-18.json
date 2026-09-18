@@ -1,0 +1,176 @@
+{
+  "manifest_id": "KW002_STEP08_PRE_ACQUISITION_DEPENDENCY_REWORK_R2_PRE_HANDOFF_2026-09-18",
+  "status": "REWORK_RELEASE_PREPARATION",
+  "repository": "MaksimUnimax/Yandex_direct",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "job_root": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
+  "preparation_remote_head": "d9dc1e720f76ed3335f962f91dd5fc01e8effa13",
+  "work_id": "KW002_STEP08_PRE_ACQUISITION_DEPENDENCY_REWORK_R2_2026-09-18",
+  "exact_goal": "Reprocess the complete Step08 pre-acquisition universe so every provider probe is attached to an explicit acquisition-question identity and a dependency-aware release state; correct static duplicate-information-question over-acquisition before any Wordstat call.",
+  "work_trigger": {
+    "required": true,
+    "reason": "The defect affects the full 794-candidate/386-seed relationship graph and 72 duplicate-question groups; manual example patching is forbidden.",
+    "sampling_forbidden": true,
+    "full_affected_universe_required": true
+  },
+  "inherited_data_authority": {
+    "r1_pre_handoff_manifest": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_08_PRE_HANDOFF_MANIFEST_2026-09-18.json",
+    "r1_pre_handoff_manifest_git_blob": "14a2653a8f95c582ef4ce1556db865fae94bdadb",
+    "rule": "All 21 frozen data/input identities named by the R1 pre-handoff manifest remain R2 data authority unless an exact identity drift is reported."
+  },
+  "r2_frozen_inputs": [
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/LEVEL1/EXECUTION_FAILURE_LEDGER_AND_ANTI_REGRESSION_RULE.md",
+      "git_blob": "3c73e4ab45d5a8a26cc8b3d8cfc06033ca7f66a6",
+      "role": "F05-18 universal failure mechanism"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/LEVEL2/STEP_05_TARGETED_EXPANSION_AND_PROVIDER_EXECUTION_GATE.md",
+      "git_blob": "2f1e27e54d9f5ae1c8eeb86fd42b172b73c0f1e1",
+      "role": "provider parent-child dependency gate"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/LEVEL2/STEP_08_COMPETITOR_DERIVED_WORDSTAT_VALIDATION.md",
+      "git_blob": "0d3894dc2937a8c60add927a6f5d89491e2b2648",
+      "role": "dedicated current Step08 method"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/LEVEL2/STEP_RULES_INDEX.md",
+      "git_blob": "2b2896a5d92225a3c140b0605e4950140c6434d5",
+      "role": "current roadmap index"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PRE_ACQUISITION_DUPLICATE_QUESTION_DEFECT_RECORD_2026-09-18.md",
+      "git_blob": "fce5f8099d2fe1ad11bbf8f27bf10ea986c0737b",
+      "role": "job-specific defect and blast radius"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP_08_PRE_ACQUISITION_R2_OUTPUT_SCHEMA_CONTRACT_2026-09-18.json",
+      "git_blob": "622599b7bf366affb11df5a189fa995e3eae3a2f",
+      "role": "R2 output schema"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION.csv",
+      "git_blob": "72111f070b696c32e5fd5ed9a9f00b8c8ceb08b3",
+      "role": "R1 candidate reconciliation; historical input"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_EXISTING_EVIDENCE_REUSE_REGISTER.csv",
+      "git_blob": "bd010dcbd39a96738777507b86f975de50d29ce0",
+      "role": "R1 reuse evidence; input for R2"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PROVIDER_SEED_MANIFEST.csv",
+      "git_blob": "a772e3d35ff4dc6942851f4516fa660a8a2343bd",
+      "role": "386-row R1 provider seed universe to disposition 386/386"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX.csv",
+      "git_blob": "6e10a36b81f662650a13a5147a6b4016577d57ef",
+      "role": "R1 regression baseline"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PRE_ACQUISITION_QA.md",
+      "git_blob": "ad28544c728b444b1ba1a16dba407d954debbbac",
+      "role": "R1 Work QA historical input"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PREPARATION_HANDOFF_MANIFEST.json",
+      "git_blob": "c68e17cc414a71b6155a588fdd426bf2a4418cd9",
+      "role": "R1 Work handoff counts/hashes"
+    },
+    {
+      "path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/CURRENT_STATE_POINTER_2026-09-18_R11.json",
+      "git_blob": "4dde9821f24370acd097b61b8d332949a0f2ed2d",
+      "role": "historical pre-rework pointer; R2 release will supersede it"
+    }
+  ],
+  "bounded_universe": {
+    "step08_eligible_candidates": 794,
+    "r1_provider_required_candidates": 749,
+    "r1_provider_seeds": 386,
+    "r1_unique_literal_phrases": 386,
+    "r1_unique_declared_open_questions": 162,
+    "duplicate_open_question_groups": 72,
+    "seeds_inside_duplicate_question_groups": 296,
+    "note": "Counts of unique questions and duplicate groups are defect diagnostics, not target output counts."
+  },
+  "method_requirements": [
+    "Do not simply deduplicate identical question strings.",
+    "For every provider-required candidate assign an acquisition_question_id or prove no provider is now needed.",
+    "For every R1 seed create exactly one R2 disposition row.",
+    "For multiple probes under one acquisition question: merge, prove independent information gain, or make children conditional.",
+    "A conditional child must name a valid surviving parent and an explicit trigger.",
+    "No dependency cycles.",
+    "Provider execution remains unreleased for every R2 probe."
+  ],
+  "required_outputs": [
+    {
+      "filename": "STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION_R2.csv",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION_R2.csv",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_EXISTING_EVIDENCE_REUSE_REGISTER_R2.csv",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_EXISTING_EVIDENCE_REUSE_REGISTER_R2.csv",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_PROVIDER_ACQUISITION_QUESTION_REGISTER_R2.csv",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PROVIDER_ACQUISITION_QUESTION_REGISTER_R2.csv",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_PROVIDER_SEED_MANIFEST_R2.csv",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PROVIDER_SEED_MANIFEST_R2.csv",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_R1_SEED_DISPOSITION_R2.csv",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_R1_SEED_DISPOSITION_R2.csv",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX_R2.csv",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX_R2.csv",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_QA_R2.md",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PRE_ACQUISITION_QA_R2.md",
+      "action": "NEW"
+    },
+    {
+      "filename": "STEP08_PREPARATION_HANDOFF_MANIFEST_R2.json",
+      "final_path": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP08_PREPARATION_HANDOFF_MANIFEST_R2.json",
+      "action": "NEW"
+    }
+  ],
+  "provider_execution": {
+    "released": false,
+    "wordstat_calls": 0,
+    "ymb_search_calls": 0,
+    "ai_search_calls": 0,
+    "gensearch_calls": 0,
+    "step08_provider_execution_started": false
+  },
+  "publication_policy": {
+    "owner_relay_required": true,
+    "owner_single_staging_required": true,
+    "work_direct_canonical_publication": false,
+    "staging_repository": "MaksimUnimax/Yandex_direct",
+    "staging_branch": "roadmap/kwork-productization-2026-08-28",
+    "staging_directory": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/_work_staging/STEP08_PRE_ACQUISITION_R2_2026-09-18",
+    "owner_relay_upload_url": "https://github.com/MaksimUnimax/Yandex_direct/upload/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/_work_staging/STEP08_PRE_ACQUISITION_R2_2026-09-18",
+    "transport_zip_required": true,
+    "zip_is_canonical": false,
+    "main_chat_final_placement_and_readback_required": true
+  },
+  "hard_stop_conditions": [
+    "Any frozen data input identity in the R1 pre-handoff manifest has materially drifted.",
+    "Any R2 frozen input identity above has materially drifted.",
+    "The R1 provider seed universe is not exactly 386 unique seed IDs.",
+    "The Step08 eligible candidate universe is not exactly 794 unique IDs.",
+    "The task would require a provider call, Search, AI-search, Step09 or final intent/cluster/page work."
+  ]
+}
