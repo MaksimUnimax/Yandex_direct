@@ -1,0 +1,66 @@
+{
+  "manifest_id": "KW002_STEP07_POST_EXTERNAL_AUDIT_REWORK_PRE_HANDOFF_2026-09-18",
+  "job_id": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "step_id": "STEP07_POST_EXTERNAL_AUDIT_BUSINESS_SCOPE_REWORK",
+  "work_trigger": "MET_LARGE_DATA_FULL_VOLUME",
+  "why_work_required": "1548 Step08-eligible candidates plus all linked provenance require complete semantic business-scope review; sampling/truncation forbidden.",
+  "remote_base_at_preparation": "0a7a9b524cafc07e5a843d3cd570edff14ec5579",
+  "canonical_prompt": "STEP07_POST_EXTERNAL_AUDIT_FULL_VOLUME_REWORK_WORK_PROMPT_2026-09-18.md",
+  "external_audit": "STEP07_POST_EXTERNAL_METHOD_AUDIT_2026-09-18.md",
+  "inputs": {
+    "COMPETITOR_GAP_CANDIDATES_csv": "f9e8ae50bcdbd0750c04a7c156b8bfe49e064948",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER_csv": "f14faec93d696155e14b37f5e670d3bb01ccf59d",
+    "STEP07_SOURCE_URL_LEDGER_csv": "cb55916fa69b6a4f10fb71bd670bce32ad25b84e",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER_csv": "86c7f5dc8d6e7f8a9be2fe784f4bb17d2719e510",
+    "STEP_07_OUTPUT_SCHEMA_CONTRACT_json": "2af36b99af129a7bf3e59ffea889306a4889c0d4",
+    "CLIENT_SUPPLIED_BRIEF_md": "4e96c576dab3183de067c39bce0a0e3fd590753e",
+    "CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76_csv": "6fb70aa78800d4a31e3b703674cce79fe466686e",
+    "STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE_csv": "666ffdc7cc7313880f6f2689ac229ba92b0412d2"
+  },
+  "full_volume": {
+    "current_candidate_identities": 2172,
+    "current_provenance_rows": 3948,
+    "current_step08_eligible": 1548,
+    "target_rule": "ALL 1548 current Step08-eligible candidates plus every linked provenance row",
+    "sampling_allowed": false
+  },
+  "forbidden": {
+    "browser_navigation": true,
+    "crawl": true,
+    "wordstat": true,
+    "yandex_search": true,
+    "ai_search": true,
+    "gensearch": true,
+    "step08_execution": true
+  },
+  "expected_delta_outputs": [
+    {
+      "file": "COMPETITOR_GAP_CANDIDATES.csv",
+      "action": "REPLACE"
+    },
+    {
+      "file": "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
+      "action": "REPLACE_IF_CHANGED"
+    },
+    {
+      "file": "STEP07_EXECUTION_QA.md",
+      "action": "REPLACE"
+    },
+    {
+      "file": "STEP07_EXECUTION_HANDOFF_MANIFEST.json",
+      "action": "REPLACE"
+    }
+  ],
+  "immutable_outputs": [
+    "STEP07_SOURCE_URL_LEDGER.csv",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER.csv",
+    "seven accepted browser-recovery files"
+  ],
+  "owner_relay": {
+    "repository": "MaksimUnimax/Yandex_direct",
+    "branch": "roadmap/kwork-productization-2026-08-28",
+    "directory": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
+    "one_staging_target": true,
+    "owner_routes_final_paths": false
+  }
+}
