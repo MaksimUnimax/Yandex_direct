@@ -1,0 +1,18 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R3",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R2.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_POST_EXTERNAL_AUDIT_REWORK.json",
+  "current_external_audit": "STEP07_POST_EXTERNAL_METHOD_AUDIT_2026-09-18.md",
+  "current_work_prompt": "STEP07_POST_EXTERNAL_AUDIT_FULL_VOLUME_REWORK_WORK_PROMPT_2026-09-18.md",
+  "current_pre_handoff_manifest": "STEP07_POST_EXTERNAL_AUDIT_REWORK_PRE_HANDOFF_MANIFEST_2026-09-18.json",
+  "current_release": "STEP07_POST_EXTERNAL_AUDIT_REWORK_RELEASE_2026-09-18.json",
+  "prior_step07_acceptance": "HISTORICAL_INVALIDATED_FOR_DOWNSTREAM_BY_LATER_EXTERNAL_AUDIT",
+  "step07_status": "REWORK_REQUIRED",
+  "step08_status": "BLOCKED_NOT_STARTED",
+  "work_execution_unit": {
+    "candidates": 1548,
+    "full_volume": true,
+    "sampling_forbidden": true
+  },
+  "status_rule": "Use this pointer and its current_cursor/release as current authority. Earlier Step07 acceptance remains historical evidence only until the post-audit rework is accepted."
+}
