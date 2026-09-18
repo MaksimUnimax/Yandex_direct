@@ -1,0 +1,101 @@
+{
+  "record": "KW002_STEP07_FULL_VOLUME_REWORK_MAIN_CHAT_ACCEPTANCE_DETAIL_2026-09-18",
+  "owner_upload_base": "90d0755a497bd23c25ea14fd3d5fcae967bd12c3",
+  "owner_upload_head": "390194122cddb1645d55097c514940f786189e40",
+  "publication": {
+    "commit_count": 1,
+    "expected_files": 6,
+    "actual_files": 6,
+    "unrelated_changes": 0
+  },
+  "remote_sha256": {
+    "COMPETITOR_GAP_CANDIDATES_csv": "0f22da807c3a70aebae68f923023220184eac65fc1ba14dfcd4cea4feecc2ce5",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER_csv": "0ee233a792d9e97b1b3d45fe051ce2068f261fd0b53dc1408b6cd7345483c898",
+    "STEP07_SOURCE_URL_LEDGER_csv": "f923c412f00fdb318bd57c0610ca404d8093a3a7cad4d7c71e2c31e86de568f7",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER_csv": "96ca4dbe6025193d5c022e30bca394cfe59f5792c31f8cc123e9a6e15535fffc",
+    "STEP07_EXECUTION_QA_md": "bc429efafb8e27222d1511da3dbfd36500dc5ed98eac9b535fb84d7fc6d2c55a"
+  },
+  "git_blobs": {
+    "COMPETITOR_GAP_CANDIDATES_csv": "f9e8ae50bcdbd0750c04a7c156b8bfe49e064948",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER_csv": "86c7f5dc8d6e7f8a9be2fe784f4bb17d2719e510",
+    "STEP07_SOURCE_URL_LEDGER_csv": "cb55916fa69b6a4f10fb71bd670bce32ad25b84e",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER_csv": "f14faec93d696155e14b37f5e670d3bb01ccf59d",
+    "STEP07_EXECUTION_QA_md": "b366fda09546cc3aa1661dbe7ddc4a83986e42be",
+    "STEP07_EXECUTION_HANDOFF_MANIFEST_json": "922699e4cbafe69364a3e1245de94ebdb80a62da"
+  },
+  "full_volume": {
+    "authorized_competitors": 32,
+    "source_url_rows": 1976,
+    "page_evidence_rows_consumed": 725,
+    "old_candidate_identities_reevaluated": 686,
+    "old_provenance_rows_preserved": 1417,
+    "old_provenance_rows_missing": 0,
+    "final_candidate_identities": 2172,
+    "final_provenance_rows": 3948,
+    "new_provenance_rows": 2531
+  },
+  "candidate_status_counts": {
+    "ALREADY_PRESENT": 52,
+    "AMBIGUOUS": 98,
+    "NEW_CANDIDATE": 1540,
+    "OUT_OF_SCOPE": 474,
+    "POSSIBLE_VARIANT": 8
+  },
+  "coverage_status_counts": {
+    "COMPLETE": 29,
+    "COMPLETE_WITH_INACCESSIBLE_EVIDENCE": 3
+  },
+  "terminal_url_counts": {
+    "INSPECTED_CANDIDATE_YIELD": 191,
+    "INSPECTED_NO_CANDIDATE": 241,
+    "REDIRECTED_IN_SCOPE": 293,
+    "INACCESSIBLE_CAPTCHA_OR_ANTI_BOT": 26,
+    "EXCLUDED_OUT_OF_SCOPE": 1201,
+    "EXCLUDED_DUPLICATE_CANONICAL": 24
+  },
+  "independent_mechanical_qa": {
+    "exact_schema_headers_4_of_4": true,
+    "blank_required_fields": 0,
+    "invalid_enum_values": 0,
+    "coverage_equation_failures": 0,
+    "candidate_pk_unique": true,
+    "coverage_authority_unique": true,
+    "url_pk_unique": true,
+    "url_authority_canonical_unique": true,
+    "provenance_pk_unique": true,
+    "missing_foreign_keys": 0,
+    "candidate_summary_mismatches": 0,
+    "step08_route_mismatches": 0,
+    "demand_validation_state_errors": 0
+  },
+  "old_to_new_transition": {
+    "ALREADY_PRESENT -> ALREADY_PRESENT": 10,
+    "AMBIGUOUS -> AMBIGUOUS": 23,
+    "AMBIGUOUS -> OUT_OF_SCOPE": 43,
+    "NEW_CANDIDATE -> AMBIGUOUS": 6,
+    "NEW_CANDIDATE -> NEW_CANDIDATE": 110,
+    "NEW_CANDIDATE -> OUT_OF_SCOPE": 284,
+    "OUT_OF_SCOPE -> AMBIGUOUS": 61,
+    "OUT_OF_SCOPE -> OUT_OF_SCOPE": 146,
+    "POSSIBLE_VARIANT -> AMBIGUOUS": 2,
+    "POSSIBLE_VARIANT -> OUT_OF_SCOPE": 1
+  },
+  "semantic_regression": {
+    "known_bad_examples_checked": 6,
+    "known_bad_examples_still_step08_eligible": 0,
+    "expected_new_status": "OUT_OF_SCOPE"
+  },
+  "metadata_correction_record": "STEP07_WORK_RETURN_METADATA_CORRECTION_2026-09-18.json",
+  "quality": {
+    "total": 98,
+    "score": 9.8,
+    "hard_gate_failures": 0,
+    "open_critical_defects": 0
+  },
+  "final_state": {
+    "STEP07": "PASS_ACCEPTED",
+    "STEP08": "NOT_STARTED_PREPARATION_REQUIRED",
+    "step08_eligible_total": 1548,
+    "provider_calls_allowed_now": 0
+  }
+}
