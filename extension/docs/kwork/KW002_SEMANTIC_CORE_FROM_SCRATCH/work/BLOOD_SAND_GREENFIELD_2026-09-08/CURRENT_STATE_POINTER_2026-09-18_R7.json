@@ -1,0 +1,15 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R7",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R6.json",
+  "current_flow": "JOB_FLOW_CURRENT_2026-09-18_STEP07_FINAL_ACCEPTED_R2.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_ACCEPTED_R2.json",
+  "step07_acceptance": "STEP07_FINAL_R2_MAIN_CHAT_ACCEPTANCE_2026-09-18.json",
+  "historical_rejections": [
+    "STEP07_POST_AUDIT_REWORK_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+    "STEP07_FINAL_WRAPPER_CORRECTION_MAIN_CHAT_RETURN_QA_2026-09-18.json"
+  ],
+  "step07_status": "PASS_ACCEPTED",
+  "step08_status": "NOT_STARTED_PREPARATION_REQUIRED",
+  "status_rule": "Use this R7 pointer and its current_flow/current_cursor/acceptance as current authority. Earlier Step07 rejection/correction records remain historical provenance.",
+  "next_action": "STEP08_PREPARATION__FRESH_EXTERNAL_RESEARCH__CURRENT_PROVIDER_SCHEMA_PRICE_BRIDGE_CHECK__SEPARATE_EXECUTION_RELEASE"
+}
