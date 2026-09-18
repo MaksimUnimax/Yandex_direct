@@ -1,0 +1,87 @@
+{
+  "record": "KW002_STEP07_FINAL_R2_MAIN_CHAT_ACCEPTANCE_2026-09-18",
+  "owner_upload_head": "45581ffe06c0e49e4651967688a949c585328ac2",
+  "publication": {
+    "commit_count": 1,
+    "expected_files": 4,
+    "actual_files": 4,
+    "unrelated_changes": 0
+  },
+  "remote_git_blobs": {
+    "COMPETITOR_GAP_CANDIDATES_csv": "6079baf0e0ff7078499efd3b14ea1eb147559e60",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER_csv": "726df3bca2ff47bd009b166bca86a089991cd045",
+    "STEP07_EXECUTION_QA_md": "f1b80456608af7a73445712a981f82f8d2d24ef3",
+    "STEP07_EXECUTION_HANDOFF_MANIFEST_json": "8ccee8b0988e86ccb40c3292a5f77d715eebee48"
+  },
+  "remote_sha256": {
+    "COMPETITOR_GAP_CANDIDATES_csv": "706ef4b08b25807840427b53ac6a8222bd49fd8b3752a732e319fd39823f6eef",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER_csv": "d50bab24c96f7cf715197ca5c8ace65dc4c976945826521808bba64734cb789c",
+    "STEP07_EXECUTION_QA_md": "abf286f77b51fbfc5fbf4d84b6c29ca1ba9ef982233a13631d95a359cdf9cd8a"
+  },
+  "corpus": {
+    "candidates": 2172,
+    "provenance": 3948,
+    "source_urls": 1976,
+    "competitors": 32,
+    "step08_eligible": 794,
+    "candidate_status_counts": {
+      "ALREADY_PRESENT": 52,
+      "AMBIGUOUS": 114,
+      "NEW_CANDIDATE": 787,
+      "OUT_OF_SCOPE": 1212,
+      "POSSIBLE_VARIANT": 7
+    }
+  },
+  "r2_delta": {
+    "semantic_changed_target_rows": 5,
+    "semantic_changed_non_target_rows": 0,
+    "transformed_candidate_ids": [
+      "S07C001277",
+      "S07C001280",
+      "S07C001282",
+      "S07C001291",
+      "S07C001541"
+    ],
+    "raw_evidence_changed": 0,
+    "all_794_reviewed": true,
+    "linked_provenance_reviewed": 1060
+  },
+  "independent_qa": {
+    "schema_headers_exact": true,
+    "blank_required_fields": 0,
+    "invalid_enum_values": 0,
+    "candidate_pk_unique": true,
+    "provenance_pk_unique": true,
+    "source_url_pk_unique": true,
+    "coverage_authority_unique": true,
+    "missing_foreign_keys": 0,
+    "candidate_source_count_mismatches": 0,
+    "route_mismatches": 0,
+    "demand_state_errors": 0,
+    "manual_work_wrapper_hits_after": 0,
+    "author_seller_wrapper_hits_after": 0,
+    "availability_wrapper_hits_after": 0,
+    "price_photo_wrapper_hits_after": 0,
+    "dimension_noise_hits_after": 0,
+    "condition_noise_hits_after": 0,
+    "competitor_brand_wrapper_hits_after": 0,
+    "association_wrapper_hits_after": 0,
+    "definitional_sentence_hits_after": 0,
+    "efficacy_claim_copy_hits_after": 0,
+    "obvious_wrong_product_hits_after": 0,
+    "hard_gate_failures": 0,
+    "open_critical_defects": 0
+  },
+  "quality": {
+    "total": 99,
+    "score": 9.9
+  },
+  "final_state": {
+    "STEP07": "PASS_ACCEPTED",
+    "STEP08": "NOT_STARTED_PREPARATION_REQUIRED",
+    "WORDSTAT_CALLS_ALLOWED_NOW": 0,
+    "YANDEX_SEARCH_CALLS_ALLOWED_NOW": 0,
+    "AI_SEARCH_CALLS_ALLOWED_NOW": 0,
+    "GENSEARCH_CALLS_ALLOWED_NOW": 0
+  }
+}
