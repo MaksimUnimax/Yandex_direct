@@ -2,6 +2,7 @@
 
 Status: **ACTIVE / UNIVERSAL / MANDATORY FOR STEP07**  
 Created: 2026-09-17  
+Post-acceptance methodology amendment: **2026-09-18 — dual-lane competitor discovery + access-state evidence validation are mandatory.**  
 Applies to: every KW-002 job that reaches competitor semantic expansion.
 
 Companion authorities:
@@ -151,6 +152,75 @@ fabricated or inferred.
 
 ---
 
+## 3A. Mandatory dual-lane semantic discovery
+
+Competitor semantic expansion is not complete if it mines only visible page text.
+Every Step07 execution MUST treat competitor discovery as two complementary lanes:
+
+### Lane A — `PAGE_SURFACE_DISCOVERY`
+
+Mine the permitted public surfaces defined above for terminology, taxonomy,
+product/service names, use-cases, attributes, problem formulations and
+informational branches.
+
+### Lane B — `ORGANIC_RANKING_QUERY_DISCOVERY`
+
+For every materially relevant authorized search competitor, acquire current
+organic ranking-query evidence from a method-approved source that can show
+queries for which the competitor domain or relevant competitor URL is visible
+in Yandex organic search, or the closest explicitly approved Yandex-oriented
+ranking dataset available to the product.
+
+The ranking-query lane exists because a page may rank for a query whose wording
+does not literally occur in its title, headings, taxonomy labels or body text.
+Page mining alone therefore cannot claim complete competitor-semantic recall.
+
+Minimum ranking-query provenance, where supplied by the source:
+
+```text
+competitor_authority_id
+source_system
+source_snapshot_or_timestamp
+query_raw
+query_normalized_comparison_key
+ranking_url
+ranking_position_or_visibility_metric_if_available
+source_export_or_evidence_identity
+candidate_relation
+notes
+```
+
+Hard boundaries:
+
+- ranking-query evidence is a discovery signal, not proven demand volume;
+- a competitor ranking query does not become a production keyword in Step07;
+- Wordstat validation remains Step08;
+- ranking position/visibility does not override business scope or sanitation;
+- ranking-query candidates must pass the same reconciliation/provenance rules
+  as page-derived candidates;
+- source-specific estimates such as traffic/volume are not inherited as Yandex
+  demand authority unless a later rule explicitly authorizes them;
+- if a material authorized competitor cannot be covered by the ranking-query
+  source, record the limitation explicitly.
+
+A Step07 release MUST declare one of:
+
+```text
+RANKING_QUERY_LANE = REQUIRED
+RANKING_QUERY_LANE = NOT_APPLICABLE_BY_PRE_FROZEN_PRODUCT_MODE_EXCEPTION
+```
+
+The exception must be frozen before execution and justified by Main Chat.
+Silence is not an exception. If the lane is required but materially incomplete,
+Step07 cannot claim full competitor-semantic completeness.
+
+```text
+PAGE_TEXT_MINING_ONLY != COMPLETE_COMPETITOR_SEMANTIC_EXPANSION
+COMPETITOR_RANKING_QUERY != PROVEN_DEMAND
+STEP07_DISCOVERY_RECALL_REQUIRES_DECLARED_CHANNELS
+```
+
+---
 ## 4. Host-scope policy
 
 The job must assign every authorized competitor exactly one deterministic
@@ -247,6 +317,45 @@ coverage and do not claim completion for that competitor.
 
 ---
 
+## 6A. Evidence-content validation for access states
+
+A terminal label is valid only when it matches the captured evidence content.
+
+An URL may be classified as `INSPECTED_CANDIDATE_YIELD` or
+`INSPECTED_NO_CANDIDATE` only when the stored evidence demonstrates that the
+target page's substantive public content was actually obtained and inspected.
+
+The following are not substantive target-page content and MUST NOT be converted
+to `INSPECTED_NO_CANDIDATE`:
+
+- browser/connector error shells;
+- connection or network failure pages;
+- VPN/proxy restriction notices;
+- CAPTCHA or anti-bot interstitials;
+- access-denied/login barriers;
+- placeholder/loading shells with no resolved target content;
+- HTTP error pages or target-side service failure pages.
+
+They must map to the applicable inaccessible/error/unresolved state.
+
+Required full-volume QA:
+
+```text
+EVERY_INSPECTED_STATE_HAS_TARGET_CONTENT_EVIDENCE = true
+BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0
+ACCESS_STATE_CONTENT_VALIDATION_SCOPE = FULL_DISCOVERED_URL_LEDGER
+```
+
+Mechanical reconciliation of counts is insufficient. The QA must validate the
+semantic meaning of the terminal state against the actual stored evidence.
+Producer-assigned states cannot self-certify this gate.
+
+```text
+COUNTS_RECONCILE != ACCESS_CLASSIFICATION_PROVEN
+INSPECTED_STATUS != TARGET_CONTENT_OBTAINED_UNLESS_EVIDENCE_CONFIRMS_IT
+```
+
+---
 ## 7. Full-volume coverage contract
 
 Step07 is not a representative-page review. It processes the complete bounded
@@ -503,6 +612,11 @@ ALL_AUTHORIZED_COMPETITORS_ACCOUNTED_FOR = true
 ALL_DISCOVERED_ELIGIBLE_SURFACES_ACCOUNTED_FOR = true
 INACCESSIBLE_AND_BLOCKED_SURFACES_RECORDED = true
 ARBITRARY_SAMPLE_OR_TOP_N_SUBSTITUTION = 0
+PAGE_SURFACE_DISCOVERY_LANE_COMPLETE = true
+RANKING_QUERY_DISCOVERY_LANE_COMPLETE = true OR PRE_FROZEN_PRODUCT_MODE_EXCEPTION = true
+SEMANTIC_RECALL_CHANNELS_DECLARED = true
+EVERY_INSPECTED_STATE_HAS_TARGET_CONTENT_EVIDENCE = true
+BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0
 EVERY_CANDIDATE_HAS_PROVENANCE = true
 RAW_WORDING_PRESERVED = true
 EVERY_TRANSFORMATION_RULE_RECORDED = true
@@ -529,6 +643,10 @@ Additional mechanical checks:
 - every candidate has at least one provenance row;
 - summary source counts equal distinct provenance counts;
 - every discovered URL has one terminal state;
+- every `INSPECTED_*` URL is validated against stored target-content evidence;
+- block/error/connection/VPN/CAPTCHA evidence is never counted as `INSPECTED_NO_CANDIDATE`;
+- page-surface and ranking-query discovery lanes have explicit coverage/accounting or a pre-frozen allowed exception;
+- source concentration and single-source candidate concentration are reported as recall/confidence diagnostics, not hidden by aggregate counts;
 - all enums are valid and all required fields are nonblank;
 - sort order is deterministic;
 - input hashes/base HEAD are recorded;
@@ -559,8 +677,10 @@ STEP07 PASS
 
 ## 16. Plain-language rule
 
-Use only competitors that Step06 actually proved. Exhaust the bounded public
-surface allowed for each one, preserve every URL and raw wording, normalize
-without changing meaning, reconcile every candidate against the accepted
-universe, retain multi-source provenance, and stop before demand validation,
-intent, clustering or page design.
+Use only competitors that Step06 actually proved. Run both required discovery
+lanes: exhaust the bounded public page surface and collect current organic
+ranking-query evidence under the released product mode. Preserve every URL,
+query and raw wording, validate every `INSPECTED_*` state against actual target
+content, normalize without changing meaning, reconcile every candidate against
+the accepted universe, retain multi-source provenance, and stop before demand
+validation, intent, clustering or page design.
