@@ -1,0 +1,207 @@
+{
+  "contract_id": "KW002_STEP08_PREPARATION_OUTPUT_SCHEMA_2026-09-18",
+  "step_id": "STEP08_PRE_ACQUISITION_PREPARATION",
+  "status": "CURRENT_PREPARATION_SCHEMA",
+  "encoding": "UTF-8",
+  "delimiter": ",",
+  "invariants": [
+    "STEP08_ELIGIBLE_INPUT_ROWS = 794",
+    "PROCESS_794_OF_794 = true",
+    "794_CANDIDATES != 794_PROVIDER_CALLS",
+    "EXISTING_DURABLE_EVIDENCE_FIRST = true",
+    "BROAD_EVIDENCE != QUALIFIED_QUESTION_ANSWER",
+    "COMPETITOR_DERIVED_SEED != PRODUCTION_KEYWORD",
+    "WORDSTAT_DEMAND != FINAL_RELEVANCE_INTENT_CLUSTER_OR_PAGE",
+    "NO_PROVIDER_CALLS_IN_PREPARATION = true",
+    "RAW_STEP07_WORDING_AND_PROVENANCE_IMMUTABLE = true"
+  ],
+  "files": [
+    {
+      "filename": "STEP08_CANDIDATE_PRE_ACQUISITION_RECONCILIATION.csv",
+      "role": "Exactly one row for every Step07 Step08-eligible candidate.",
+      "primary_key": [
+        "candidate_id"
+      ],
+      "row_count_expectation": 794,
+      "fields": [
+        "candidate_id",
+        "display_candidate",
+        "normalized_candidate",
+        "candidate_type",
+        "step07_reconciliation_status",
+        "step07_route",
+        "competitor_source_count",
+        "source_url_count",
+        "provenance_row_count",
+        "open_demand_question",
+        "preparation_state",
+        "state_reason",
+        "existing_evidence_scope_status",
+        "existing_evidence_ids",
+        "existing_evidence_locators",
+        "existing_evidence_answer",
+        "acquisition_group_id",
+        "proposed_seed_phrase",
+        "research_mode",
+        "operator_shape",
+        "operator_rationale",
+        "regions",
+        "devices",
+        "proposed_num_phrases",
+        "depth_rationale",
+        "incremental_information_gain",
+        "positive_outcome_meaning",
+        "zero_outcome_meaning",
+        "incomplete_outcome_meaning",
+        "validation_failure_meaning",
+        "provider_failure_meaning",
+        "outcome_unknown_meaning",
+        "provider_execution_released",
+        "notes"
+      ],
+      "enums": {
+        "preparation_state": [
+          "REUSE_EXISTING_EVIDENCE",
+          "ALREADY_COVERED_NO_NEW_INFORMATION_GAIN",
+          "PROVIDER_REQUIRED_RECALL_FIRST",
+          "PROVIDER_REQUIRED_PRECISION_VALIDATION",
+          "HOLD_AMBIGUOUS_OR_SCOPE",
+          "STEP07_REWORK_REQUIRED"
+        ],
+        "existing_evidence_scope_status": [
+          "EXACT_QUESTION_ANSWERED",
+          "QUALIFIED_QUESTION_ANSWERED",
+          "RELATED_BUT_INSUFFICIENT",
+          "NO_DURABLE_EVIDENCE_FOUND",
+          "NOT_APPLICABLE"
+        ],
+        "research_mode": [
+          "NONE",
+          "DISCOVERY_RECALL_FIRST",
+          "PRECISION_VALIDATION",
+          "EXACT_FORM_TEST",
+          "COLLISION_DIAGNOSTIC"
+        ]
+      },
+      "hard_rules": [
+        "candidate_id set equals the 794 eligible Step07 IDs exactly",
+        "no silent row drop or duplicate candidate_id",
+        "REUSE_EXISTING_EVIDENCE requires durable evidence locator and a written scope-match explanation",
+        "RELATED_BUT_INSUFFICIENT cannot close an open demand question",
+        "provider_execution_released is false for every row"
+      ]
+    },
+    {
+      "filename": "STEP08_EXISTING_EVIDENCE_REUSE_REGISTER.csv",
+      "role": "One or more evidence links for candidates closed or informed by existing durable evidence.",
+      "primary_key": [
+        "reuse_id"
+      ],
+      "fields": [
+        "reuse_id",
+        "candidate_id",
+        "evidence_class",
+        "source_step",
+        "seed_or_request_ids",
+        "tested_phrase_scope",
+        "durable_evidence_locator",
+        "provider_state",
+        "raw_or_derived_identity",
+        "scope_match",
+        "how_reused",
+        "claim_boundary",
+        "reprobe_allowed_current_round",
+        "notes"
+      ]
+    },
+    {
+      "filename": "STEP08_PROVIDER_SEED_MANIFEST.csv",
+      "role": "One row per unique provider seed actually required after full 794-row reconciliation.",
+      "primary_key": [
+        "step08_seed_id"
+      ],
+      "fields": [
+        "step08_seed_id",
+        "member_candidate_ids",
+        "member_candidate_count",
+        "unresolved_question",
+        "phrase",
+        "regions",
+        "devices",
+        "research_mode",
+        "operator_shape",
+        "operator_rationale",
+        "prior_evidence_scope_boundary",
+        "incremental_information_gain",
+        "candidate_depth_options",
+        "proposed_num_phrases",
+        "depth_rationale",
+        "depth_boundary_interpretation",
+        "positive_outcome_meaning",
+        "zero_outcome_meaning",
+        "incomplete_outcome_meaning",
+        "validation_failure_meaning",
+        "provider_failure_meaning",
+        "outcome_unknown_meaning",
+        "no_retry_semantic_rule",
+        "raw_persistence_rule",
+        "downstream_03a_03b_rule",
+        "reopen_triggers",
+        "estimated_cost_rub",
+        "execution_chunk",
+        "provider_execution_released",
+        "notes"
+      ],
+      "hard_rules": [
+        "no seed exists merely because a Step07 candidate exists",
+        "every seed has positive information gain and a decision-use outcome contract",
+        "grouping never erases distinct referents or unresolved ambiguity",
+        "provider_execution_released=false for every seed",
+        "region is 225 unless current accepted scope proves otherwise",
+        "device is DEVICE_ALL unless separately justified"
+      ]
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_KNOWN_FAILURE_REGRESSION_MATRIX.csv",
+      "role": "Applicability and PASS/FAIL matrix for known provider, sanitation, evidence and Work failure classes.",
+      "primary_key": [
+        "failure_class"
+      ],
+      "fields": [
+        "failure_class",
+        "applicable",
+        "root_cause_relevant",
+        "regression_test",
+        "result",
+        "blocking_if_fail",
+        "evidence"
+      ]
+    },
+    {
+      "filename": "STEP08_PRE_ACQUISITION_QA.md",
+      "role": "Full-volume accounting, joins, state counts, source reuse, provider queue counts, depth/operator distribution, cost estimate, hard gates and 10-dimension quality score."
+    },
+    {
+      "filename": "STEP08_PREPARATION_HANDOFF_MANIFEST.json",
+      "role": "Hashes/counts/output inventory and owner single-staging transport manifest."
+    }
+  ],
+  "global_qa": [
+    "STEP08_ELIGIBLE_INPUT_ACCOUNTED = 794/794",
+    "SILENT_SKIP = 0",
+    "DUPLICATE_CANDIDATE_ID = 0",
+    "STEP07_RAW_MUTATIONS = 0",
+    "REUSE_ROWS_WITHOUT_DURABLE_LOCATOR = 0",
+    "BROAD_EVIDENCE_USED_TO_CLOSE_NARROWER_QUESTION = 0",
+    "PROVIDER_SEEDS_WITHOUT_INFORMATION_GAIN = 0",
+    "PROVIDER_SEEDS_WITHOUT_OUTCOME_CONTRACT = 0",
+    "PROVIDER_SEEDS_WITHOUT_DEPTH_RATIONALE = 0",
+    "PROVIDER_SEEDS_WITHOUT_OPERATOR_RATIONALE = 0",
+    "PROVIDER_EXECUTION_RELEASED_ROWS = 0",
+    "WORDSTAT_CALLS = 0",
+    "YMB_SEARCH_CALLS = 0",
+    "AI_SEARCH_CALLS = 0",
+    "GENSEARCH_CALLS = 0",
+    "STEP08_PROVIDER_EXECUTION_STARTED = false"
+  ]
+}
