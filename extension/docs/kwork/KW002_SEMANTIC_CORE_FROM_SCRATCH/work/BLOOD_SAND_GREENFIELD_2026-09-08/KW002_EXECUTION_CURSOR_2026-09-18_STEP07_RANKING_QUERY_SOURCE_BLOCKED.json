@@ -1,0 +1,21 @@
+{
+  "record": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_RANKING_QUERY_SOURCE_BLOCKED",
+  "supersedes": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_POST_ACCEPTANCE_CORRECTION_REQUIRED.json",
+  "step07_status": "BLOCKED_RANKING_QUERY_SOURCE_REQUIRED",
+  "step07_access_state_correction": "PASS_ACCEPTED",
+  "step07_ranking_query_lane": "NOT_EXECUTED_SOURCE_BLOCKED",
+  "step08_status": "BLOCKED_NOT_STARTED",
+  "canonical_return_qa": "STEP07_POST_ACCEPTANCE_CORRECTION_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "source_url_rows": 1976,
+  "authorized_competitors": 32,
+  "ranking_query_observations": 0,
+  "candidates": 2172,
+  "page_provenance": 3948,
+  "step08_eligible_pre_block": 794,
+  "wordstat_calls_allowed_now": 0,
+  "ymb_search_calls_allowed_now": 0,
+  "ai_search_calls_allowed_now": 0,
+  "gensearch_calls_allowed_now": 0,
+  "next_action": "STEP07_RANKING_QUERY_SOURCE_RECOVERY_PREPARATION",
+  "step08_started": false
+}

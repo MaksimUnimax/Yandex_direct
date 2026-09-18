@@ -1,0 +1,15 @@
+{
+  "record": "KW002_STEP07_POST_ACCEPTANCE_CORRECTION_MAIN_CHAT_RETURN_QA_2026-09-18",
+  "final_placement_commit": "0236157d87d22e90ce973f4e66f541a002d2516b",
+  "remote_readback_pass": true,
+  "source_url_records": 1976,
+  "authorized_competitors": 32,
+  "ranking_query_rows": 0,
+  "ozon_rows_corrected": 27,
+  "access_state_correction": "PASS_ACCEPTED",
+  "ranking_query_lane": "BLOCKED_RANKING_QUERY_SOURCE_REQUIRED",
+  "step07": "BLOCKED_RANKING_QUERY_SOURCE_REQUIRED",
+  "step08": "BLOCKED_NOT_STARTED",
+  "main_chat_acceptance": "PARTIAL_CORRECTION_ACCEPTED__STEP07_NOT_PASS",
+  "next_action": "STEP07_RANKING_QUERY_SOURCE_RECOVERY_THEN_FULL_VOLUME_WORK_LANE"
+}
