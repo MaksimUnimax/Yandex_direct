@@ -1,0 +1,28 @@
+{
+  "record": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_POST_ACCEPTANCE_CORRECTION_REQUIRED",
+  "supersedes": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_ACCEPTED_R2.json",
+  "reason": "Post-acceptance external-method audit found an Ozon access-state accounting defect and a missing mandatory organic ranking-query discovery lane.",
+  "step07_status": "CORRECTION_REQUIRED_WORK_RELEASED_NOT_EXECUTED",
+  "step08_status": "BLOCKED_BY_STEP07_CORRECTION",
+  "correction_record": "STEP07_POST_ACCEPTANCE_METHOD_AND_COVERAGE_DEFECT_RECORD_2026-09-18.md",
+  "work_manifest": "STEP07_POST_ACCEPTANCE_CORRECTION_PRE_HANDOFF_MANIFEST_2026-09-18.json",
+  "work_prompt": "STEP07_POST_ACCEPTANCE_CORRECTION_WORK_PROMPT_2026-09-18.md",
+  "schema_amendment": "STEP_07_OUTPUT_SCHEMA_CONTRACT_R2_2026-09-18.json",
+  "frozen_pre_correction_counts": {
+    "source_urls": 1976,
+    "authorized_competitors": 32,
+    "candidates": 2172,
+    "page_provenance": 3948,
+    "step08_eligible": 794
+  },
+  "execution_authority": {
+    "wordstat_calls_allowed_now": 0,
+    "ymb_search_calls_allowed_now": 0,
+    "ai_search_calls_allowed_now": 0,
+    "gensearch_calls_allowed_now": 0,
+    "new_ozon_browser_calls_for_bookkeeping_correction_allowed": false,
+    "approved_external_ranking_query_source_acquisition": "ALLOWED_ONLY_UNDER_WORK_RELEASE_SOURCE_POLICY"
+  },
+  "next_action": "RELAY_STEP07_POST_ACCEPTANCE_CORRECTION_WORK_PROMPT_TO_CHATGPT_WORK__EXECUTE_FULL_VOLUME__OWNER_SINGLE_STAGING_UPLOAD__MAIN_CHAT_RETURN_QA",
+  "step08_started": false
+}
