@@ -1,0 +1,33 @@
+{
+  "record": "KW002_JOB_FLOW_CURRENT_2026-09-18_STEP07_POST_ACCEPTANCE_CORRECTION_REQUIRED",
+  "supersedes": "JOB_FLOW_CURRENT_2026-09-18_STEP07_FINAL_ACCEPTED_R2.json",
+  "current_step": "STEP07",
+  "current_state": "POST_ACCEPTANCE_CORRECTION_REQUIRED_WORK_RELEASED",
+  "completed_steps": [
+    "STEP00",
+    "STEP01",
+    "STEP02",
+    "STEP03",
+    "STEP03A",
+    "STEP03B",
+    "STEP04",
+    "STEP05",
+    "STEP06"
+  ],
+  "step07_history": {
+    "prior_state": "PASS_ACCEPTED_R2",
+    "prior_acceptance": "STEP07_FINAL_R2_MAIN_CHAT_ACCEPTANCE_2026-09-18.json",
+    "current_override": "POST_ACCEPTANCE_AUDIT_CORRECTION_REQUIRED",
+    "current_correction_record": "STEP07_POST_ACCEPTANCE_METHOD_AND_COVERAGE_DEFECT_RECORD_2026-09-18.md"
+  },
+  "step08": "NOT_STARTED_BLOCKED",
+  "blocking_conditions": [
+    "Full-volume 1976-row access-state evidence validation not yet returned from Work.",
+    "Ozon coverage misclassification not yet corrected in canonical outputs.",
+    "Mandatory organic ranking-query discovery lane not yet executed/accepted.",
+    "Main Chat return QA and remote readback not yet passed."
+  ],
+  "released_execution": "STEP07_POST_ACCEPTANCE_CORRECTION_WORK_PROMPT_2026-09-18.md",
+  "next_boundary": "WORK_EXECUTION_AND_OWNER_STAGING_HANDOFF",
+  "downstream_steps": "STEP08-STEP22 remain not started"
+}
