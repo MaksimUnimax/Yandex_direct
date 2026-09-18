@@ -1,0 +1,9 @@
+{
+  "record": "KW002_JOB_FLOW_CURRENT_2026-09-18_STEP08_PREPARATION_REQUIRED",
+  "current_step": "STEP08_PREPARATION",
+  "step07_status": "PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION",
+  "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+  "known_recall_limitation": "ACTIVE",
+  "step08_status": "NOT_STARTED_PREPARATION_REQUIRED",
+  "next_action": "STEP08_PREPARATION"
+}
