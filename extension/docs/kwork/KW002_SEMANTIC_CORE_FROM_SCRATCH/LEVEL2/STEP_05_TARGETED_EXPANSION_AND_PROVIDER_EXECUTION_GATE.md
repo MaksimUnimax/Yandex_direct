@@ -687,6 +687,55 @@ LARGE_DATA_SAMPLED_TO_AVOID_WORK = 0
 
 ---
 
+# 19A. Failure F05-18 — static parent/child provider queue duplication
+
+## Failure mechanism
+
+Several provider seeds can have different literal phrases but resolve the same acquisition question, or one broad parent probe can make one or more narrower child probes unnecessary. If all of them are pre-authorized together, the queue is mechanically unique but informationally duplicated.
+
+## Correct rule
+
+Before provider release, assign every provider seed an acquisition-question identity and a dependency/release state.
+
+```text
+INITIAL_REQUIRED
+CONDITIONAL_AFTER_PARENT
+INDEPENDENT_REQUIRED
+REUSE_EXISTING_EVIDENCE
+HOLD
+```
+
+For seeds sharing one acquisition question:
+
+```text
+MERGE WHEN ONE PROBE CAN ANSWER THE QUESTION
+OR
+JUSTIFY DISTINCT OPERATOR / SCOPE / REFERENT INFORMATION GAIN
+OR
+MAKE THE CHILD CONDITIONAL ON A PARENT RESULT
+```
+
+A conditional child is not provider-ready until the parent result has been fully persisted/read back and the question has been reconciled again.
+
+Do not confuse:
+
+```text
+UNIQUE PHRASE != UNIQUE INFORMATION QUESTION
+DIFFERENT PRODUCT WORDING != AUTOMATICALLY NEW PROVIDER CALL
+```
+
+## PASS
+
+```text
+PROVIDER_SEEDS_WITHOUT_ACQUISITION_QUESTION_ID = 0
+DUPLICATE_INFORMATION_QUESTIONS_WITHOUT_MERGE_OR_JUSTIFICATION = 0
+UNCONDITIONAL_CHILD_PROBES_WHERE_PARENT_MAY_ANSWER = 0
+CONDITIONAL_CHILD_WITHOUT_TRIGGER = 0
+PARENT_RESULT_NOT_RECONCILED_BEFORE_CHILD_RELEASE = 0
+```
+
+---
+
 # 20. Provider outcome contract
 
 Every job-specific Step05 execution release MUST define the outcome mapping before the call.
