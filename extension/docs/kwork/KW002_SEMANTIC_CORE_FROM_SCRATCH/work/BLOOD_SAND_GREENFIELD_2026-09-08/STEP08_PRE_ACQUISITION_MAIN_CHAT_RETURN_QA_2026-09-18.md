@@ -1,7 +1,7 @@
 # KW-002 / BLOOD & SAND — STEP08 PRE-ACQUISITION MAIN CHAT RETURN QA
 
 Date: 2026-09-18
-Status: **PASS_ACCEPTED**
+Status: **HISTORICAL PASS — INVALIDATED BY LATE SEMANTIC QA BEFORE PROVIDER EXECUTION**
 Work ID: `KW002_STEP08_PRE_ACQUISITION_RECONCILIATION_2026-09-18`
 
 ## 1. Publication/readback
@@ -214,4 +214,31 @@ PROVIDER_QUEUE_ANALYTICAL_AUTHORITY = ACCEPTED
 PROVIDER_EXECUTION = NOT_STARTED
 NEXT = STEP08_PROVIDER_D500_LOCAL_BATCH_START
 STEP09_ALLOWED = false
+```
+
+## 10. Late-review invalidation
+
+A later independent Main Chat semantic audit of the actual provider-seed rows found a systematic acquisition-question duplication defect that was not exposed by the initial mechanical return QA.
+
+Observed full-queue diagnostic:
+
+```text
+PROVIDER_SEEDS = 386
+UNIQUE_OPEN_DEMAND_QUESTIONS = 162
+DUPLICATE_OPEN_QUESTION_GROUPS = 72
+SEEDS_INSIDE_DUPLICATE_QUESTION_GROUPS = 296
+RAW_POTENTIAL_EXCESS_IF_ONE_SEED_PER_QUESTION = 224
+```
+
+Literal one-seed-per-question collapse is NOT automatically correct, because one high-level topic may legitimately need distinct broad-recall and qualified/precision probes. The defect is that the producer emitted multiple unconditional seed rows under the same declared information question without a dependency/conditional-release model or a seed-specific proof that each extra probe adds information after the parent/broader probe.
+
+Representative regressions include repeated `Крес`, `символ Ом / Аум`, `обереги`, `амулеты`, `талисманы`, rune and other topic families.
+
+Therefore this earlier PASS is preserved only as history.
+
+```text
+LATE_REVIEW = REWORK_REQUIRED
+PROVIDER_EXECUTION_STARTED = false
+WORDSTAT_CALLS = 0
+CURRENT_ACCEPTANCE = SUPERSEDED
 ```
