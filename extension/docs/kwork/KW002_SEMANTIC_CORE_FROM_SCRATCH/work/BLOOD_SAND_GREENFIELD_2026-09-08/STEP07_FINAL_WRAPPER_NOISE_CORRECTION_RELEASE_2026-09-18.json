@@ -1,0 +1,31 @@
+{
+  "record": "KW002_STEP07_FINAL_WRAPPER_NOISE_CORRECTION_RELEASE_2026-09-18",
+  "status": "RELEASED_FOR_CHATGPT_WORK",
+  "repository": "MaksimUnimax/Yandex_direct",
+  "branch": "roadmap/kwork-productization-2026-08-28",
+  "job_root": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
+  "prompt": "STEP07_FINAL_WRAPPER_NOISE_FULL_VOLUME_CORRECTION_WORK_PROMPT_2026-09-18.md",
+  "return_qa": "STEP07_POST_AUDIT_REWORK_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "execution_unit": {
+    "current_step08_eligible": 794,
+    "linked_provenance": 1060,
+    "full_volume_required": true,
+    "sampling_forbidden": true
+  },
+  "defect": {
+    "candidate_id": "S07C000567",
+    "class": "LISTING_DIMENSION_CONDITION_NOISE",
+    "work_false_negative": true
+  },
+  "boundaries": {
+    "new_browser_calls": 0,
+    "new_provider_calls": 0,
+    "step08_started": false
+  },
+  "transition": {
+    "step07_current": "REWORK_REQUIRED",
+    "step08_current": "BLOCKED_NOT_STARTED",
+    "work_execution_allowed": true,
+    "main_chat_acceptance_required": true
+  }
+}
