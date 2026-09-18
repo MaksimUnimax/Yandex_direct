@@ -1,0 +1,22 @@
+{
+  "cursor_id": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_MANUAL_WORK_CORRECTION_R2",
+  "supersedes_for_current_status": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_MANUAL_WORK_WRAPPER_CORRECTION.json",
+  "current_stage": "STEP07_FINAL_MANUAL_WORK_WRAPPER_CORRECTION_R2_RELEASED__STEP08_BLOCKED",
+  "step07_status": "REWORK_REQUIRED",
+  "baseline_resolution": "STEP07_FINAL_MANUAL_WORK_BASELINE_DRIFT_RESOLUTION_2026-09-18.json",
+  "work_prompt": "STEP07_FINAL_MANUAL_WORK_WRAPPER_FULL_VOLUME_CORRECTION_WORK_PROMPT_R2_2026-09-18.md",
+  "release": "STEP07_FINAL_MANUAL_WORK_WRAPPER_CORRECTION_RELEASE_R2_2026-09-18.json",
+  "target_candidates": 794,
+  "linked_provenance": 1060,
+  "known_residual_manual_work_rows": 4,
+  "full_volume_required": true,
+  "sampling_forbidden": true,
+  "provider_authorization": {
+    "wordstat": 0,
+    "yandex_search": 0,
+    "ai_search": 0,
+    "gensearch": 0
+  },
+  "step08_started": false,
+  "next_action": "OWNER_RELAY_R2_FINAL_MANUAL_WORK_CORRECTION_PROMPT_TO_CHATGPT_WORK"
+}
