@@ -1,0 +1,19 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R6",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18_R5.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_FINAL_MANUAL_WORK_CORRECTION_R2.json",
+  "current_baseline_resolution": "STEP07_FINAL_MANUAL_WORK_BASELINE_DRIFT_RESOLUTION_2026-09-18.json",
+  "current_work_prompt": "STEP07_FINAL_MANUAL_WORK_WRAPPER_FULL_VOLUME_CORRECTION_WORK_PROMPT_R2_2026-09-18.md",
+  "current_release": "STEP07_FINAL_MANUAL_WORK_WRAPPER_CORRECTION_RELEASE_R2_2026-09-18.json",
+  "prior_blocked_work_attempt": "BLOCKED_STALE_PROMPT_BASELINE_NO_DATA_CHANGES",
+  "step07_status": "REWORK_REQUIRED",
+  "step08_status": "BLOCKED_NOT_STARTED",
+  "work_execution_unit": {
+    "candidates": 794,
+    "linked_provenance": 1060,
+    "known_residual_manual_work_rows": 4,
+    "full_volume": true,
+    "sampling_forbidden": true
+  },
+  "status_rule": "Use this R6 pointer and its R2 prompt/release as current authority. Do not restore older candidate/provenance blobs."
+}
