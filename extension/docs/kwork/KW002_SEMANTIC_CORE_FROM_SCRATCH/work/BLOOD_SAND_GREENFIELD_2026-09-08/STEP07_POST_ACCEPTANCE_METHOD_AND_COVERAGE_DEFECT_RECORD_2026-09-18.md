@@ -1,8 +1,10 @@
 # KW-002 / BLOOD & SAND — STEP07 POST-ACCEPTANCE METHOD + COVERAGE DEFECT RECORD
 
-Status: **CURRENT / BLOCKING / CORRECTION_REQUIRED**
+Status: **HISTORICAL / SUPERSEDED AS CURRENT GATE**
 Date: 2026-09-18
-Supersedes as current truth: the earlier `STEP07 = PASS_ACCEPTED` conclusion for purposes of forward execution.
+Historical role: records the defect that superseded the earlier `STEP07 = PASS_ACCEPTED` conclusion.
+Current resolution: access-state correction passed; ranking-query source recovery failed legitimately in both Work and Codex Windows; the universal methodology now permits a declared external-source recall limitation instead of permanent roadmap deadlock.
+Current acceptance authority: `STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md`.
 
 ## 1. Why this record exists
 
@@ -172,7 +174,7 @@ LARGE DATA -> COMPLETE BOUNDED EXECUTION IN CHATGPT WORK
 - Serpstat — Keyword Gap: https://help.serpstat.com/en/articles/14437160-keyword-gap
 - Keys.so — Yandex/Google competitor semantics: https://www.keys.so/ru
 
-## 9. Current gate
+## 9. Historical gate at the time this defect record was current
 
 ```text
 STEP07 = CORRECTION_REQUIRED
@@ -183,3 +185,5 @@ AI_SEARCH_CALLS_ALLOWED_NOW = 0
 GENSEARCH_CALLS_ALLOWED_NOW = 0
 NEXT = STEP07_POST_ACCEPTANCE_FULL_VOLUME_CORRECTION_IN_WORK
 ```
+
+This gate is historical. It was later superseded after the access-state correction passed and two independent source-recovery attempts established that no legitimate approved Yandex organic domain/URL→query source was accessible in the available execution environments. See `STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md` and the current state pointer.
