@@ -1,0 +1,51 @@
+{
+  "record": "KW002_STEP07_POST_AUDIT_REWORK_MAIN_CHAT_RETURN_QA_2026-09-18",
+  "owner_upload_head": "0df12d3c8b3e977826d6ac837b4796174b0b706f",
+  "publication": {
+    "commit_count": 1,
+    "expected_files": 4,
+    "actual_files": 4,
+    "unrelated_changes": 0
+  },
+  "mechanical_qa": {
+    "manifest_hashes_match": true,
+    "candidate_rows": 2172,
+    "provenance_rows": 3948,
+    "source_url_rows": 1976,
+    "coverage_rows": 32,
+    "schema_headers_exact": true,
+    "blank_required_fields": 0,
+    "invalid_enum_values": 0,
+    "missing_foreign_keys": 0,
+    "candidate_source_count_mismatches": 0,
+    "step08_route_mismatches": 0,
+    "demand_state_errors": 0,
+    "old_target_candidates_reviewed": 1548,
+    "linked_target_provenance_preserved": 2633,
+    "non_target_candidates_changed": 0,
+    "raw_provenance_missing": 0
+  },
+  "semantic_return_qa": {
+    "reported_new_step08_eligible": 794,
+    "independently_verified_new_step08_eligible": 794,
+    "residual_hard_gate_defects": 1,
+    "defect_class": "LISTING_DIMENSION_CONDITION_NOISE",
+    "defect_candidate_id": "S07C000567",
+    "defect_candidate": "Кулон кованый \"Молот Тора\" ручной работы",
+    "defect_reason": "Released contract explicitly lists X ручной работы as wrapper/listing-noise requiring compact semantic concept when reproducible, but row remained ELIGIBLE_NEW_CANDIDATE as-is.",
+    "work_report_claim": "LISTING_DIMENSION_CONDITION_NOISE eligible_hits=0",
+    "main_chat_verdict": "FALSE_NEGATIVE_IN_WORK_QA"
+  },
+  "quality_control": {
+    "work_claimed_quality_total": 98,
+    "hard_gate_override": true,
+    "step07_acceptance": "REJECTED_REWORK_REQUIRED",
+    "step08": "BLOCKED_NOT_STARTED"
+  },
+  "next_action": "FULL_VOLUME_794_REMAINING_ELIGIBLE_WRAPPER_NOISE_CORRECTION_IN_CHATGPT_WORK",
+  "boundaries": {
+    "new_browser_calls": 0,
+    "new_provider_calls": 0,
+    "step08_started": false
+  }
+}
