@@ -3,6 +3,7 @@
 Status: **ACTIVE / UNIVERSAL / MANDATORY FOR STEP07**  
 Created: 2026-09-17  
 Post-acceptance methodology amendment: **2026-09-18 — dual-lane competitor discovery + access-state evidence validation are mandatory.**  
+Source-availability fallback amendment: **2026-09-18 — unavailable external ranking-query enrichment is a declared recall limitation, not an unconditional roadmap deadlock.**  
 Applies to: every KW-002 job that reaches competitor semantic expansion.
 
 Companion authorities:
@@ -206,16 +207,44 @@ Hard boundaries:
 A Step07 release MUST declare one of:
 
 ```text
-RANKING_QUERY_LANE = REQUIRED
+RANKING_QUERY_LANE = COMPLETE
+RANKING_QUERY_LANE = SOURCE_UNAVAILABLE_DECLARED_LIMITATION
 RANKING_QUERY_LANE = NOT_APPLICABLE_BY_PRE_FROZEN_PRODUCT_MODE_EXCEPTION
 ```
 
-The exception must be frozen before execution and justified by Main Chat.
-Silence is not an exception. If the lane is required but materially incomplete,
-Step07 cannot claim full competitor-semantic completeness.
+`SOURCE_UNAVAILABLE_DECLARED_LIMITATION` is permitted only when all of the
+following are true:
 
 ```text
-PAGE_TEXT_MINING_ONLY != COMPLETE_COMPETITOR_SEMANTIC_EXPANSION
+PAGE_SURFACE_DISCOVERY_LANE_COMPLETE = true
+ACCESS_STATE_CONTENT_VALIDATION = PASS
+RANKING_QUERY_SOURCE_RECOVERY_DOCUMENTED = true
+LEGITIMATELY_ACCESSIBLE_APPROVED_SOURCE_FOUND = false
+ACCESS_CONTROL_BYPASS = false
+GOOGLE_OR_PAID_SEARCH_DATA_MISREPRESENTED_AS_YANDEX_ORGANIC = false
+KNOWN_RECALL_LIMITATION_EXPLICIT = true
+RANKING_QUERY_LANE_REOPEN_CONDITION_EXPLICIT = true
+```
+
+Source recovery must be a bounded, evidence-bearing attempt to locate a source
+that can expose real competitor domain/URL -> raw query -> Yandex organic
+ranking evidence. A failed source-recovery attempt is not a zero-query result.
+
+When this declared limitation is valid, Step07 may PASS for the evidence that
+is actually available and may hand off its acquired candidate universe to
+Step08. It MUST NOT claim full competitor ranking-query recall or full
+competitor-semantic completeness. If legitimate access becomes available
+later, the ranking-query lane may be reopened as enrichment without rewriting
+immutable page evidence or invalidating already preserved provenance.
+
+A pre-frozen product-mode exception still must be justified by Main Chat before
+execution. Silence is never an exception or a limitation state.
+
+```text
+PAGE_TEXT_MINING_ONLY != COMPLETE_COMPETITOR_SEMANTIC_RECALL
+SOURCE_UNAVAILABLE != ZERO RANKING QUERIES
+SOURCE_UNAVAILABLE != PERMISSION TO FABRICATE EVIDENCE
+EXTERNAL ENRICHMENT SOURCE UNAVAILABLE != PERMANENT ROADMAP DEADLOCK
 COMPETITOR_RANKING_QUERY != PROVEN_DEMAND
 STEP07_DISCOVERY_RECALL_REQUIRES_DECLARED_CHANNELS
 ```
@@ -613,7 +642,10 @@ ALL_DISCOVERED_ELIGIBLE_SURFACES_ACCOUNTED_FOR = true
 INACCESSIBLE_AND_BLOCKED_SURFACES_RECORDED = true
 ARBITRARY_SAMPLE_OR_TOP_N_SUBSTITUTION = 0
 PAGE_SURFACE_DISCOVERY_LANE_COMPLETE = true
-RANKING_QUERY_DISCOVERY_LANE_COMPLETE = true OR PRE_FROZEN_PRODUCT_MODE_EXCEPTION = true
+RANKING_QUERY_DISCOVERY_LANE_COMPLETE = true OR RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true OR PRE_FROZEN_PRODUCT_MODE_EXCEPTION = true
+RANKING_QUERY_SOURCE_RECOVERY_DOCUMENTED = true where RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true
+KNOWN_RECALL_LIMITATION_EXPLICIT = true where RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true
+FULL_COMPETITOR_RANKING_QUERY_RECALL_CLAIM = false where RANKING_QUERY_SOURCE_UNAVAILABLE_DECLARED_LIMITATION = true
 SEMANTIC_RECALL_CHANNELS_DECLARED = true
 EVERY_INSPECTED_STATE_HAS_TARGET_CONTENT_EVIDENCE = true
 BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0
@@ -645,7 +677,7 @@ Additional mechanical checks:
 - every discovered URL has one terminal state;
 - every `INSPECTED_*` URL is validated against stored target-content evidence;
 - block/error/connection/VPN/CAPTCHA evidence is never counted as `INSPECTED_NO_CANDIDATE`;
-- page-surface and ranking-query discovery lanes have explicit coverage/accounting or a pre-frozen allowed exception;
+- page-surface and ranking-query discovery lanes have explicit coverage/accounting, a valid `SOURCE_UNAVAILABLE_DECLARED_LIMITATION`, or a pre-frozen allowed exception;
 - source concentration and single-source candidate concentration are reported as recall/confidence diagnostics, not hidden by aggregate counts;
 - all enums are valid and all required fields are nonblank;
 - sort order is deterministic;
@@ -668,7 +700,8 @@ to perform it. Step07 does not pre-authorize a provider call.
 
 ```text
 STEP07 PASS
--> CANDIDATE DISCOVERY COMPLETE FOR BOUNDED SOURCE SNAPSHOT
+-> CANDIDATE DISCOVERY COMPLETE FOR DECLARED AVAILABLE SOURCES
+-> KNOWN RECALL LIMITATION REMAINS EXPLICIT IF RANKING SOURCE WAS UNAVAILABLE
 -> DEMAND STILL UNPROVEN
 -> STEP08 REQUIRES SEPARATE RELEASE
 ```
@@ -677,10 +710,14 @@ STEP07 PASS
 
 ## 16. Plain-language rule
 
-Use only competitors that Step06 actually proved. Run both required discovery
-lanes: exhaust the bounded public page surface and collect current organic
-ranking-query evidence under the released product mode. Preserve every URL,
-query and raw wording, validate every `INSPECTED_*` state against actual target
-content, normalize without changing meaning, reconcile every candidate against
+Use only competitors that Step06 actually proved. Exhaust the bounded public
+page surface and attempt the declared organic ranking-query lane under the
+released product mode. If a legitimate Yandex organic reverse-index source is
+available, acquire it full-volume; if it is not available after documented
+source recovery, record `SOURCE_UNAVAILABLE_DECLARED_LIMITATION` and keep the
+resulting recall limitation explicit instead of fabricating evidence or
+permanently deadlocking the roadmap. Preserve every acquired URL, query and raw
+wording, validate every `INSPECTED_*` state against actual target content,
+normalize without changing meaning, reconcile every acquired candidate against
 the accepted universe, retain multi-source provenance, and stop before demand
 validation, intent, clustering or page design.
