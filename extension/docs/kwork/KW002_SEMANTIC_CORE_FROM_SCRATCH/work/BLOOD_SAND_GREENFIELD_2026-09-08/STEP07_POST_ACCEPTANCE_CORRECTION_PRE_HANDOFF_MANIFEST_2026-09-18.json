@@ -1,0 +1,143 @@
+{
+  "MANIFEST_ID": "KW002_STEP07_POST_ACCEPTANCE_CORRECTION_PRE_HANDOFF_2026-09-18",
+  "JOB_ID": "BLOOD_SAND_GREENFIELD_2026-09-08",
+  "STEP_ID": "STEP07_POST_ACCEPTANCE_CORRECTION",
+  "STATUS": "RELEASE_PREPARED_WORK_EXECUTION_REQUIRED",
+  "TARGET_REPOSITORY": "MaksimUnimax/Yandex_direct",
+  "TARGET_BRANCH": "roadmap/kwork-productization-2026-08-28",
+  "RELEASE_DATA_BASE_HEAD": "dcc115db6f18f69f03831d60a1ce7e87154139cf",
+  "WHY_WORK_REQUIRED": [
+    "Full-volume revalidation of 1976 URL terminal states against stored browser/page evidence.",
+    "32-competitor dual-lane coverage accounting.",
+    "Potentially large ranking-query evidence acquisition/reconciliation universe.",
+    "Ordinary-chat sampling/truncation would risk skipped rows and false PASS."
+  ],
+  "CURRENT_AUTHORITATIVE_INPUTS": {
+    "COMPETITOR_GAP_CANDIDATES.csv": "6079baf0e0ff7078499efd3b14ea1eb147559e60",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv": "726df3bca2ff47bd009b166bca86a089991cd045",
+    "STEP07_SOURCE_URL_LEDGER.csv": "cb55916fa69b6a4f10fb71bd670bce32ad25b84e",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER.csv": "86c7f5dc8d6e7f8a9be2fe784f4bb17d2719e510",
+    "STEP07_BROWSER_RECOVERY_URL_LEDGER.csv": "463ed40cf70dfe055916e0b5d38fe95b7bb4623d",
+    "STEP07_BROWSER_RECOVERY_PAGE_EVIDENCE.jsonl": "950ea55d01d99248c502d13a45c57060d25c0a2d",
+    "STEP07_BROWSER_RECOVERY_COVERAGE.csv": "bced94f60fcb51bee6cc9c461b2054c21522d4d5",
+    "STEP07_BROWSER_RECOVERY_QA.md": "9d76d243c1dd31cfbec9c058a65a8ac57a8c6bca",
+    "STEP_07_OUTPUT_SCHEMA_CONTRACT.json": "2af36b99af129a7bf3e59ffea889306a4889c0d4",
+    "STEP_07_OUTPUT_SCHEMA_CONTRACT_R2_2026-09-18.json": "c8093df5ad0ecc806d4372aa13fc74e7926ce47b",
+    "STEP07_POST_ACCEPTANCE_METHOD_AND_COVERAGE_DEFECT_RECORD_2026-09-18.md": "9608618ddf7fd9369f10996dd5db71ab39086793"
+  },
+  "REQUIRED_EXISTING_COUNTS": {
+    "SOURCE_URL_ROWS": 1976,
+    "AUTHORIZED_COMPETITORS": 32,
+    "CANDIDATE_IDENTITIES_BEFORE_CORRECTION": 2172,
+    "PAGE_PROVENANCE_ROWS_BEFORE_CORRECTION": 3948,
+    "STEP08_ELIGIBLE_BEFORE_CORRECTION": 794
+  },
+  "EXACT_EXECUTION_GOALS": [
+    "Revalidate all 1976 source URL terminal states against the available canonical browser/page evidence.",
+    "Correct every access/inspection misclassification, including the known Ozon defect, without inventing page content.",
+    "Recompute the 32-row page-surface competitor coverage ledger.",
+    "Execute the required organic ranking-query discovery lane for materially relevant authorized competitors using an approved current Yandex-oriented source.",
+    "Reconcile ranking-query-derived candidates against upstream/current Step07 identities while preserving raw query evidence.",
+    "Recompute the Step08-eligible queue without performing Step08 demand validation.",
+    "Run full-volume mechanical, semantic, access-state and dual-lane coverage QA."
+  ],
+  "APPROVED_RANKING_QUERY_SOURCE_POLICY": {
+    "PREFERRED": "Keys.so Yandex organic competitor query/page data when legitimately accessible in the Work environment.",
+    "ALLOWED_ALTERNATIVE": "Another current source only if it explicitly provides Yandex organic competitor query-to-domain/URL evidence with identifiable snapshot/provenance; record source and limitation.",
+    "NOT_ALLOWED": [
+      "Google-only keyword portfolios represented as Yandex evidence",
+      "invented or inferred ranking queries from page text",
+      "Wordstat demand calls",
+      "Yandex Marketing Bridge Search/GenSearch calls",
+      "credential, CAPTCHA, anti-bot or paywall bypass"
+    ],
+    "BLOCK_IF_UNAVAILABLE": "Return BLOCKED_RANKING_QUERY_SOURCE_REQUIRED. Do not claim Step07 PASS and do not start Step08."
+  },
+  "PROHIBITED_ACTIONS": [
+    "Do not restart Step06.",
+    "Do not perform Wordstat.",
+    "Do not make Yandex Marketing Bridge Search, AI-search or GenSearch provider calls.",
+    "Do not perform new Ozon browser acquisition merely to prove the already recorded Ozon access-state defect.",
+    "Do not bypass login/CAPTCHA/anti-bot/paywall controls.",
+    "Do not perform final intent, clustering, page ownership, URL, H1 or Title decisions.",
+    "Do not mutate raw browser/page evidence or raw ranking-query wording.",
+    "Do not sample or truncate the bounded execution unit.",
+    "Do not push large final artifacts directly to canonical paths."
+  ],
+  "REQUIRED_OUTPUTS": [
+    {
+      "file": "STEP07_SOURCE_URL_LEDGER.csv",
+      "action": "REPLACE",
+      "role": "1976-row access/inspection-corrected page URL ledger"
+    },
+    {
+      "file": "STEP07_COMPETITOR_COVERAGE_LEDGER.csv",
+      "action": "REPLACE",
+      "role": "32-row corrected page-surface coverage ledger"
+    },
+    {
+      "file": "STEP07_RANKING_QUERY_LEDGER.csv",
+      "action": "NEW",
+      "role": "Immutable ranking-query evidence and reconciliation ledger"
+    },
+    {
+      "file": "STEP07_DISCOVERY_CHANNEL_COVERAGE.csv",
+      "action": "NEW",
+      "role": "32-row page + ranking-query lane coverage ledger"
+    },
+    {
+      "file": "COMPETITOR_GAP_CANDIDATES.csv",
+      "action": "REPLACE",
+      "role": "Reconciled dual-lane Step07 candidate authority"
+    },
+    {
+      "file": "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
+      "action": "REPLACE_IF_REQUIRED",
+      "role": "Page-surface provenance; preserve immutable raw evidence and only change if correction requires deterministic metadata/foreign-key updates"
+    },
+    {
+      "file": "STEP07_EXECUTION_QA.md",
+      "action": "REPLACE",
+      "role": "Current full-volume correction QA and PASS/BLOCK verdict"
+    },
+    {
+      "file": "STEP07_EXECUTION_HANDOFF_MANIFEST.json",
+      "action": "REPLACE",
+      "role": "Atomic handoff counts, hashes, final-path mapping and publication contract"
+    }
+  ],
+  "HARD_QA": [
+    "SOURCE_URL_ROWS_REVALIDATED = 1976/1976",
+    "SILENT_SKIP = 0",
+    "AUTHORIZED_COMPETITORS_ACCOUNTED = 32/32",
+    "EVERY_INSPECTED_STATE_HAS_TARGET_CONTENT_EVIDENCE = true",
+    "BLOCK_OR_ERROR_EVIDENCE_MISCLASSIFIED_AS_INSPECTED = 0",
+    "OZON_ACCESS_STATE_DEFECT_CLOSED = true",
+    "DISCOVERY_CHANNEL_COVERAGE_ROWS = 32/32",
+    "RANKING_QUERY_LANE_REQUIRED = true",
+    "RANKING_QUERY_RAW_EVIDENCE_IMMUTABLE = true",
+    "CANDIDATE_RECONCILIATION_ACROSS_BOTH_LANES = PASS",
+    "NO_PAGE_RAW_EVIDENCE_MUTATION = true",
+    "WORDSTAT_CALLS = 0",
+    "YMB_SEARCH_CALLS = 0",
+    "AI_SEARCH_CALLS = 0",
+    "GENSEARCH_CALLS = 0",
+    "STEP08_STARTED = false"
+  ],
+  "STOP_CONDITIONS": [
+    "Material authority/input blob drift affecting the task.",
+    "Approved ranking-query source cannot legitimately provide the required Yandex-oriented competitor query evidence.",
+    "Evidence cannot deterministically support a URL access-state correction.",
+    "Any required output cannot be fully materialized or reconciled."
+  ],
+  "ARTIFACT_PUBLICATION_POLICY": "OWNER_RELAY_SINGLE_STAGING_REQUIRED",
+  "OWNER_RELAY_STAGING_REPOSITORY": "MaksimUnimax/Yandex_direct",
+  "OWNER_RELAY_STAGING_BRANCH": "roadmap/kwork-productization-2026-08-28",
+  "OWNER_RELAY_STAGING_DIRECTORY": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/_work_staging/STEP07_POST_ACCEPTANCE_CORRECTION_2026-09-18",
+  "OWNER_RELAY_UPLOAD_URL": "https://github.com/MaksimUnimax/Yandex_direct/upload/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/_work_staging/STEP07_POST_ACCEPTANCE_CORRECTION_2026-09-18",
+  "OWNER_MUST_NOT_ROUTE_FILES_TO_FINAL_PATHS": true,
+  "WORK_DIRECT_LARGE_ARTIFACT_GITHUB_PUBLICATION": "FORBIDDEN_BY_DEFAULT",
+  "MAIN_CHAT_FINAL_PLACEMENT_AND_ACCEPTANCE_REQUIRED": true,
+  "REMOTE_READBACK_REQUIRED": true,
+  "TRANSPORT_ZIP_REQUIRED_WHEN_MULTIPLE_FILES": true
+}
