@@ -1,0 +1,23 @@
+{
+  "record": "KW002_EXECUTION_CURSOR_2026-09-18_STEP08_PREPARATION_REQUIRED",
+  "supersedes": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_RANKING_QUERY_SOURCE_BLOCKED.json",
+  "step07_status": "PASS_ACCEPTED_WITH_EXTERNAL_SOURCE_LIMITATION",
+  "step07_access_state_correction": "PASS_ACCEPTED",
+  "step07_ranking_query_lane": "SOURCE_UNAVAILABLE_DECLARED_LIMITATION",
+  "known_recall_limitation_active": true,
+  "step08_status": "NOT_STARTED_PREPARATION_REQUIRED",
+  "canonical_step07_limitation_acceptance": "STEP07_RANKING_QUERY_SOURCE_LIMITATION_ACCEPTANCE_2026-09-18.md",
+  "canonical_return_qa": "STEP07_POST_ACCEPTANCE_CORRECTION_MAIN_CHAT_RETURN_QA_2026-09-18.json",
+  "source_url_rows": 1976,
+  "authorized_competitors": 32,
+  "ranking_query_observations": 0,
+  "candidates": 2172,
+  "page_provenance": 3948,
+  "step08_eligible_candidate_count": 794,
+  "wordstat_calls_allowed_now": 0,
+  "ymb_search_calls_allowed_now": 0,
+  "ai_search_calls_allowed_now": 0,
+  "gensearch_calls_allowed_now": 0,
+  "next_action": "STEP08_PREPARATION",
+  "step08_started": false
+}
