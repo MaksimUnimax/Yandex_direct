@@ -1,0 +1,10 @@
+{
+  "record": "KW002_STEP07_WORK_RETURN_METADATA_CORRECTION_2026-09-18",
+  "canonical_residual_sha256": "ad77bad53a960c6ea37f4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d",
+  "accepted_git_blob_sha1": "440e4df546720e2dfd7f6ed4a36ab5394f55dca1",
+  "canonical_acceptance_typo_present": false,
+  "work_return_local_comparison_typo_present": true,
+  "analytical_csv_content_drift": false,
+  "browser_recovery_input_drift": false,
+  "hard_qa_impact": "NONE"
+}
