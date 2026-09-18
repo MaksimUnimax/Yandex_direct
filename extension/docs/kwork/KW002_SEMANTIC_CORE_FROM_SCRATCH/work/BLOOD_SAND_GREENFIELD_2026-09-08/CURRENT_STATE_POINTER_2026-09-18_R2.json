@@ -1,0 +1,13 @@
+{
+  "record": "KW002_CURRENT_STATE_POINTER_2026-09-18_R2",
+  "supersedes": "CURRENT_STATE_POINTER_2026-09-18.json",
+  "current_flow": "JOB_FLOW_CURRENT_2026-09-18_STEP07_ACCEPTED.json",
+  "current_cursor": "KW002_EXECUTION_CURSOR_2026-09-18_STEP07_ACCEPTED.json",
+  "step07_acceptance": "STEP07_FULL_VOLUME_REWORK_MAIN_CHAT_ACCEPTANCE_2026-09-18.json",
+  "step07_acceptance_detail": "STEP07_FULL_VOLUME_REWORK_MAIN_CHAT_ACCEPTANCE_DETAIL_2026-09-18.json",
+  "step07_metadata_correction": "STEP07_WORK_RETURN_METADATA_CORRECTION_2026-09-18.json",
+  "historical_flow": "JOB_FLOW.md",
+  "status_rule": "Use current_flow/current_cursor/current acceptance records for current status; historical files remain provenance.",
+  "step07_status": "PASS_ACCEPTED",
+  "step08_status": "NOT_STARTED_PREPARATION_REQUIRED"
+}
