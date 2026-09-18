@@ -1,115 +1,163 @@
 {
-  "MANIFEST_ID": "KW002_STEP07_FULL_VOLUME_REWORK_HANDOFF_2026-09-18",
+  "MANIFEST_ID": "KW002_STEP07_POST_EXTERNAL_AUDIT_FULL_VOLUME_BUSINESS_SCOPE_REWORK_HANDOFF_2026-09-18",
   "JOB_ID": "BLOOD_SAND_GREENFIELD_2026-09-08",
-  "STEP_ID": "STEP07_COMPETITOR_SEMANTIC_EXPANSION_FULL_VOLUME_REWORK",
-  "STEP07_REWORK_STATUS": "PASS_COMPLETE_WITH_ACCEPTED_TARGET_BLOCK_EVIDENCE",
+  "STEP_ID": "STEP07_POST_EXTERNAL_AUDIT_BUSINESS_SCOPE_REWORK",
+  "STEP07_POST_AUDIT_REWORK_STATUS": "PASS_FULL_VOLUME_BUSINESS_SCOPE_REWORK",
   "HARD_QA_STATUS": "PASS",
-  "WORK_START_REMOTE_HEAD": "90d0755a497bd23c25ea14fd3d5fcae967bd12c3",
-  "WORK_PRE_PUBLICATION_REMOTE_HEAD": "90d0755a497bd23c25ea14fd3d5fcae967bd12c3",
-  "AUTHORITY_DRIFT_STATUS": "NONE_MATERIAL__ACCEPTANCE_SHA_METADATA_TYPO_RECONCILED_BY_EXACT_GIT_BLOB",
-  "ACCEPTANCE_METADATA_RECONCILIATION": {
-    "FILE": "STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv",
-    "RECORDED_SHA256_WITH_TYPO": "ad77bad53a960c6ea37f4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d",
-    "ACTUAL_ACCEPTED_BLOB_SHA256": "ad77bad53a960c6ea37c4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d",
-    "ACCEPTED_GIT_BLOB_SHA1": "440e4df546720e2dfd7f6ed4a36ab5394f55dca1",
-    "CONTENT_DRIFT": false
-  },
-  "CURRENT_WORK_PROMPT_BLOB": "dfb5d67382438256532da873ac023c43d9100a38",
-  "SOURCE_REGISTRY_SHA256": "b15e601db56d8f3c23d7a8c4a2193fc14000dc9773229d693c200756240efcdb",
+  "WORK_START_REMOTE_HEAD": "7dd56fd6930b7140d0f3c905dcc1fc8094495fdf",
+  "WORK_PRE_PUBLICATION_REMOTE_HEAD": "7dd56fd6930b7140d0f3c905dcc1fc8094495fdf",
+  "AUTHORITY_DRIFT_STATUS": "NONE",
+  "CURRENT_WORK_PROMPT_BLOB": "e2c11d3cf863b8ed6796f97351d3ba05d7f631d5",
   "TARGET_REPOSITORY": "MaksimUnimax/Yandex_direct",
   "TARGET_BRANCH": "roadmap/kwork-productization-2026-08-28",
   "TARGET_DIRECTORY": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
   "OWNER_RELAY_UPLOAD_URL": "https://github.com/MaksimUnimax/Yandex_direct/upload/roadmap/kwork-productization-2026-08-28/extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08",
-  "INTENDED_COMMIT_MESSAGE": "KW002: replace Step07 full-volume semantic rework outputs",
+  "INTENDED_COMMIT_MESSAGE": "KW002: replace Step07 post-audit business-scope outputs",
   "ARTIFACT_PUBLICATION_POLICY": "OWNER_RELAY_SINGLE_STAGING_REQUIRED",
   "ZIP_IS_TRANSPORT_ONLY": true,
   "ZIP_MUST_NOT_BE_COMMITTED": true,
-  "STAGING_FILE_COUNT": 6,
+  "STAGING_FILE_COUNT": 4,
   "HANDOFF_FILES": [
     {
       "HANDOFF_FILENAME": "COMPETITOR_GAP_CANDIDATES.csv",
       "FINAL_REPOSITORY_PATH": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/COMPETITOR_GAP_CANDIDATES.csv",
       "ACTION": "REPLACE",
-      "ARTIFACT_ROLE": "Full-volume reworked candidate identity and upstream reconciliation ledger",
+      "ARTIFACT_ROLE": "Post-external-audit full-volume business-scope candidate ledger",
       "ROW_COUNT": 2172,
-      "EXPECTED_SHA256": "0f22da807c3a70aebae68f923023220184eac65fc1ba14dfcd4cea4feecc2ce5",
-      "STAGING_CLEANUP_REQUIRED": false
-    },
-    {
-      "HANDOFF_FILENAME": "STEP07_COMPETITOR_COVERAGE_LEDGER.csv",
-      "FINAL_REPOSITORY_PATH": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_COMPETITOR_COVERAGE_LEDGER.csv",
-      "ACTION": "REPLACE",
-      "ARTIFACT_ROLE": "Accepted-recovery terminal coverage for all authorized competitors",
-      "ROW_COUNT": 32,
-      "EXPECTED_SHA256": "0ee233a792d9e97b1b3d45fe051ce2068f261fd0b53dc1408b6cd7345483c898",
-      "STAGING_CLEANUP_REQUIRED": false
-    },
-    {
-      "HANDOFF_FILENAME": "STEP07_SOURCE_URL_LEDGER.csv",
-      "FINAL_REPOSITORY_PATH": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_SOURCE_URL_LEDGER.csv",
-      "ACTION": "REPLACE",
-      "ARTIFACT_ROLE": "Canonical 1,976-row URL ledger reconciled to accepted browser recovery",
-      "ROW_COUNT": 1976,
-      "EXPECTED_SHA256": "f923c412f00fdb318bd57c0610ca404d8093a3a7cad4d7c71e2c31e86de568f7",
-      "STAGING_CLEANUP_REQUIRED": false
+      "EXPECTED_SHA256": "58a5ba7cadbf2433fc1be659edcafab917cd355a794512159e9e7d2a7263feb8"
     },
     {
       "HANDOFF_FILENAME": "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
       "FINAL_REPOSITORY_PATH": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_CANDIDATE_PROVENANCE_LEDGER.csv",
       "ACTION": "REPLACE",
-      "ARTIFACT_ROLE": "Preserved Attempt-1 plus accepted-recovery occurrence provenance",
+      "ARTIFACT_ROLE": "All 3948 provenance rows with immutable raw evidence and target decision reconciliation",
       "ROW_COUNT": 3948,
-      "EXPECTED_SHA256": "96ca4dbe6025193d5c022e30bca394cfe59f5792c31f8cc123e9a6e15535fffc",
-      "STAGING_CLEANUP_REQUIRED": false
+      "EXPECTED_SHA256": "49b4c2dc0d7d0f7a99edc358692a81bac045769c242d5a72755455366bbda753"
     },
     {
       "HANDOFF_FILENAME": "STEP07_EXECUTION_QA.md",
       "FINAL_REPOSITORY_PATH": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_EXECUTION_QA.md",
       "ACTION": "REPLACE",
-      "ARTIFACT_ROLE": "Full-volume producer, transition, coverage and hard-gate QA",
+      "ARTIFACT_ROLE": "Full-volume business-scope, transition, regression, and hard-gate QA",
       "ROW_COUNT": "NOT_APPLICABLE_MARKDOWN",
-      "EXPECTED_SHA256": "bc429efafb8e27222d1511da3dbfd36500dc5ed98eac9b535fb84d7fc6d2c55a",
-      "STAGING_CLEANUP_REQUIRED": false
+      "EXPECTED_SHA256": "e9a18f5631d0577a7c61d484638b4da53648ecb22a9fdcc6bbe0a0cb0dc40e2c"
     },
     {
       "HANDOFF_FILENAME": "STEP07_EXECUTION_HANDOFF_MANIFEST.json",
       "FINAL_REPOSITORY_PATH": "extension/docs/kwork/KW002_SEMANTIC_CORE_FROM_SCRATCH/work/BLOOD_SAND_GREENFIELD_2026-09-08/STEP07_EXECUTION_HANDOFF_MANIFEST.json",
       "ACTION": "REPLACE",
-      "ARTIFACT_ROLE": "Six-file replacement placement, byte identity and publication-control manifest",
+      "ARTIFACT_ROLE": "Four-file atomic replacement placement and byte-identity manifest",
       "ROW_COUNT": "NOT_APPLICABLE_JSON",
-      "EXPECTED_HASH_OR_IDENTITY_MARKER": "SELF_IDENTIFIED_BY_MANIFEST_ID_AND_FILENAME__SHA256_REPORTED_OUT_OF_BAND",
-      "STAGING_CLEANUP_REQUIRED": false
+      "EXPECTED_HASH_OR_IDENTITY_MARKER": "SELF_IDENTIFIED_BY_MANIFEST_ID_AND_FILENAME__SHA256_REPORTED_OUT_OF_BAND"
     }
   ],
+  "INPUT_GIT_BLOBS": {
+    "COMPETITOR_GAP_CANDIDATES.csv": "f9e8ae50bcdbd0750c04a7c156b8bfe49e064948",
+    "STEP07_CANDIDATE_PROVENANCE_LEDGER.csv": "f14faec93d696155e14b37f5e670d3bb01ccf59d",
+    "STEP07_SOURCE_URL_LEDGER.csv": "cb55916fa69b6a4f10fb71bd670bce32ad25b84e",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER.csv": "86c7f5dc8d6e7f8a9be2fe784f4bb17d2719e510",
+    "STEP_07_OUTPUT_SCHEMA_CONTRACT.json": "2af36b99af129a7bf3e59ffea889306a4889c0d4",
+    "CLIENT_SUPPLIED_BRIEF.md": "4e96c576dab3183de067c39bce0a0e3fd590753e",
+    "CLIENT_SUPPLIED_PRODUCT_CATALOG_OZON_76.csv": "6fb70aa78800d4a31e3b703674cce79fe466686e",
+    "STEP_07_AUTHORIZED_COMPETITOR_UNIVERSE.csv": "666ffdc7cc7313880f6f2689ac229ba92b0412d2"
+  },
   "COUNTS": {
-    "AUTHORIZED_COMPETITORS": 32,
-    "SOURCE_URL_ROWS": 1976,
-    "RECOVERED_INSPECTED_URLS": 432,
-    "REDIRECTED_IN_SCOPE_URLS": 293,
-    "EXCLUDED_OUT_OF_SCOPE_URLS": 1201,
-    "EXCLUDED_DUPLICATE_URLS": 24,
-    "TARGET_CAPTCHA_OR_ANTI_BOT_URLS": 26,
-    "EXECUTION_ENVIRONMENT_FAILURE_URLS": 0,
-    "UNRESOLVED_URLS": 0,
-    "PAGE_EVIDENCE_ROWS_CONSUMED": 725,
-    "EXISTING_CANDIDATE_IDENTITIES_REEVALUATED": 686,
-    "EXISTING_PROVENANCE_ROWS_REEVALUATED": 1417,
-    "NEW_PROVENANCE_ROWS_ADDED": 2531,
-    "PROVENANCE_ROWS": 3948,
+    "TARGET_CANDIDATES_REVIEWED": 1548,
+    "TARGET_CANDIDATES_SILENTLY_SKIPPED": 0,
+    "LINKED_PROVENANCE_REVIEWED": 2633,
     "CANDIDATE_IDENTITIES": 2172,
-    "CANDIDATE_STATUS_COUNTS": {
+    "PROVENANCE_ROWS": 3948,
+    "OLD_STEP08_ELIGIBLE": 1548,
+    "NEW_STEP08_ELIGIBLE": 794,
+    "RETAINED_AS_IS": 751,
+    "RECLASSIFIED_OUT_OF_SCOPE": 738,
+    "RECLASSIFIED_AMBIGUOUS": 16,
+    "TRANSFORMED_DERIVED": 43,
+    "ALREADY_PRESENT_AFTER_RECONCILIATION": 0,
+    "BUSINESS_SCOPE_REJECTIONS": 452,
+    "WRAPPER_NOISE_REJECTIONS": 286,
+    "FINAL_CANDIDATE_STATUS_COUNTS": {
       "ALREADY_PRESENT": 52,
-      "AMBIGUOUS": 98,
-      "NEW_CANDIDATE": 1540,
-      "OUT_OF_SCOPE": 474,
-      "POSSIBLE_VARIANT": 8
+      "AMBIGUOUS": 114,
+      "NEW_CANDIDATE": 787,
+      "OUT_OF_SCOPE": 1212,
+      "POSSIBLE_VARIANT": 7
+    },
+    "STEP08_ELIGIBLE_BY_CANDIDATE_TYPE": {
+      "ATTRIBUTE": 8,
+      "INFORMATIONAL_FORMULATION": 55,
+      "PRODUCT_NAME": 411,
+      "SUBCATEGORY": 74,
+      "TERMINOLOGY": 236,
+      "USE_CASE": 10
+    },
+    "STEP08_ELIGIBLE_BY_SOURCE_COUNT_BAND": {
+      "1": 756,
+      "2": 22,
+      "3": 14,
+      "4+": 2
     }
   },
-  "QUALITY": {
-    "QUALITY_TOTAL": 98,
-    "QUALITY_SCORE": 9.8,
-    "HARD_GATE_FAILURES": 0,
-    "NO_OPEN_CRITICAL_DEFECT": true
+  "OLD_TO_NEW_TRANSITION_MATRIX": {
+    "NEW_CANDIDATE -> AMBIGUOUS": 16,
+    "NEW_CANDIDATE -> NEW_CANDIDATE": 787,
+    "NEW_CANDIDATE -> OUT_OF_SCOPE": 737,
+    "POSSIBLE_VARIANT -> OUT_OF_SCOPE": 1,
+    "POSSIBLE_VARIANT -> POSSIBLE_VARIANT": 7
+  },
+  "TOP_COMPETITOR_SOURCES_AFTER_CORRECTION": [
+    {
+      "competitor_domain": "livemaster.ru",
+      "eligible_candidate_count": 307
+    },
+    {
+      "competitor_domain": "slavyanskieoberegi.ru",
+      "eligible_candidate_count": 90
+    },
+    {
+      "competitor_domain": "avito.ru",
+      "eligible_candidate_count": 84
+    },
+    {
+      "competitor_domain": "xn--80aejvmu5h.xn--80aswg",
+      "eligible_candidate_count": 65
+    },
+    {
+      "competitor_domain": "kartaslov.ru",
+      "eligible_candidate_count": 39
+    },
+    {
+      "competitor_domain": "ru.wikipedia.org",
+      "eligible_candidate_count": 34
+    },
+    {
+      "competitor_domain": "wildberries.ru",
+      "eligible_candidate_count": 34
+    },
+    {
+      "competitor_domain": "happywitch.ru",
+      "eligible_candidate_count": 33
+    },
+    {
+      "competitor_domain": "simvolroda.ru",
+      "eligible_candidate_count": 27
+    },
+    {
+      "competitor_domain": "actro.online",
+      "eligible_candidate_count": 26
+    },
+    {
+      "competitor_domain": "lunaro.ru",
+      "eligible_candidate_count": 16
+    },
+    {
+      "competitor_domain": "blog.beregy.ru",
+      "eligible_candidate_count": 15
+    }
+  ],
+  "IMMUTABLE_STEP07_OUTPUTS": {
+    "STEP07_SOURCE_URL_LEDGER.csv": "f923c412f00fdb318bd57c0610ca404d8093a3a7cad4d7c71e2c31e86de568f7",
+    "STEP07_COMPETITOR_COVERAGE_LEDGER.csv": "0ee233a792d9e97b1b3d45fe051ce2068f261fd0b53dc1408b6cd7345483c898"
   },
   "IMMUTABLE_BROWSER_RECOVERY_INPUT_SHA256": {
     "STEP07_BROWSER_RECOVERY_URL_LEDGER.csv": "2fb8a69b6861a1e9934b0976dbf44029a79579d93457c284bd50ba5c392cf0e2",
@@ -117,16 +165,23 @@
     "STEP07_BROWSER_RECOVERY_COVERAGE.csv": "8cd07a7c1b21e9495d276ab8c7a53c4a8f34525dfb305684dcc811411b8433ce",
     "STEP07_BROWSER_RECOVERY_QA.md": "46d8885743a2ae3358a3e6a11ec57c57438c156b0a6d00e1030ae0a5bcb1ee83",
     "STEP07_BROWSER_RECOVERY_RETRY_AUDIT.csv": "1cbe984c47854eeb55eb1a1a07fc3134a030a1a841cd6a7f22e82326a01295a6",
-    "STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv": "ad77bad53a960c6ea37c4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d"
+    "STEP07_BROWSER_RECOVERY_RESIDUAL_RETRY_AUDIT.csv": "ad77bad53a960c6ea37c4689f556e2f92f17bc5a57fcdd0dfaa0d7b6a03faf3d",
+    "STEP07_BROWSER_RECOVERY_HANDOFF_MANIFEST.json": "e5bad200b5f460f266ecc6305db874edc5c92ebcb215baf6eac374c3b4f58b1e"
+  },
+  "QUALITY": {
+    "QUALITY_TOTAL": 98,
+    "QUALITY_SCORE": 9.8,
+    "HARD_GATE_FAILURES": 0,
+    "OPEN_CRITICAL_DEFECTS": 0
   },
   "BOUNDARIES": {
+    "NEW_BROWSER_CALLS": 0,
+    "NEW_CRAWL": 0,
     "NEW_WORDSTAT_CALLS": 0,
     "NEW_YANDEX_SEARCH_CALLS": 0,
     "NEW_AI_SEARCH_OR_GENSEARCH_CALLS": 0,
+    "NEW_PROVIDER_CALLS": 0,
     "STEP08_STARTED": false,
-    "FINAL_INTENT_DECISIONS": "NONE",
-    "FINAL_CLUSTER_DECISIONS": "NONE",
-    "FINAL_PAGE_DECISIONS": "NONE",
     "WORK_GITHUB_COMMIT_PUSH_PR": false,
     "OWNER_UPLOAD_COMPLETE": false,
     "REMOTE_READBACK_PASS": false,
