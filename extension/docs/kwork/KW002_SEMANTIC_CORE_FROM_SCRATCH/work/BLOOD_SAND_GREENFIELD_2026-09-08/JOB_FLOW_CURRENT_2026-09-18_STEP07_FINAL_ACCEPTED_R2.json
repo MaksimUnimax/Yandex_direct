@@ -1,0 +1,58 @@
+{
+  "record": "KW002_JOB_FLOW_CURRENT_2026-09-18_STEP07_FINAL_ACCEPTED_R2",
+  "supersedes_current_status_in": "JOB_FLOW_CURRENT_2026-09-18_STEP07_ACCEPTED.json",
+  "preserves_history_in": [
+    "JOB_FLOW.md",
+    "JOB_FLOW_CURRENT_2026-09-18_STEP07_ACCEPTED.json"
+  ],
+  "current_status": "STEP00_07_ACCEPTED__STEP08_NOT_STARTED_PREPARATION_REQUIRED",
+  "roadmap": {
+    "STEP00": "COMPLETE",
+    "STEP01": "COMPLETE",
+    "STEP02": "COMPLETE",
+    "STEP03": "COMPLETE",
+    "STEP03A": "COMPLETE",
+    "STEP03B": "COMPLETE",
+    "STEP04": "ACCEPTED",
+    "STEP05": "COMPLETE_PASS",
+    "STEP06": "DURABLE_PASS",
+    "STEP07": "PASS_ACCEPTED",
+    "STEP08": "NOT_STARTED_PREPARATION_REQUIRED",
+    "STEP09": "NOT_STARTED",
+    "STEP10": "NOT_STARTED",
+    "STEP11": "NOT_STARTED",
+    "STEP12": "NOT_STARTED",
+    "STEP13": "NOT_STARTED",
+    "STEP14": "NOT_STARTED",
+    "STEP15": "NOT_STARTED",
+    "STEP16": "NOT_STARTED",
+    "STEP17": "NOT_STARTED",
+    "STEP18": "NOT_STARTED",
+    "STEP19": "NOT_STARTED",
+    "STEP20": "NOT_STARTED",
+    "STEP21": "NOT_STARTED",
+    "STEP22": "NOT_STARTED"
+  },
+  "step07": {
+    "owner_upload_head": "45581ffe06c0e49e4651967688a949c585328ac2",
+    "acceptance_record": "STEP07_FINAL_R2_MAIN_CHAT_ACCEPTANCE_2026-09-18.json",
+    "final_candidates": 2172,
+    "final_provenance": 3948,
+    "step08_eligible": 794,
+    "final_r2_transformed_rows": 5,
+    "hard_gate_failures": 0,
+    "open_critical_defects": 0,
+    "quality_total": 99
+  },
+  "boundaries": {
+    "wordstat_calls_allowed_now": 0,
+    "yandex_search_calls_allowed_now": 0,
+    "ai_search_calls_allowed_now": 0,
+    "gensearch_calls_allowed_now": 0,
+    "step08_started": false,
+    "final_intent_decisions": "NONE",
+    "final_cluster_decisions": "NONE",
+    "final_page_decisions": "NONE"
+  },
+  "next_action": "STEP08_PREPARATION__FRESH_EXTERNAL_RESEARCH__CURRENT_PROVIDER_SCHEMA_PRICE_BRIDGE_CHECK__SEPARATE_EXECUTION_RELEASE"
+}
