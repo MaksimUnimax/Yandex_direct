@@ -1,0 +1,68 @@
+name: YMB exact ZIP memory regression 019 vs 0110
+on:
+  push:
+    branches: [qa/dot-ymb-memory-20261006]
+    paths: ['qa/ymb-memory/**', '.github/workflows/dot-ymb-memory-20261006.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dot-ymb-memory-20261006
+  cancel-in-progress: false
+jobs:
+  memory:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        version: ['019', '0110']
+    env:
+      QA_VERSION: ${{ matrix.version }}
+      PUPPETEER_SKIP_CHROME_HEADLESS_SHELL_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_FIREFOX_DOWNLOAD: 'true'
+      NODE_OPTIONS: --max-old-space-size=512
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.16.0'
+      - name: Verify exact ZIP and prepare isolated original B22 gates
+        run: python3 qa/ymb-memory/prepare.py
+      - name: Install pinned test dependency and syntax-check harness
+        run: |
+          npm install --prefix "$YMB_PPTR_HOME" --no-audit --no-fund
+          node --check "$YMB_TESTS/popup_memory_bounded_real_chrome_v2.mjs"
+          node --check "$YMB_TESTS/popup_memory_lifecycle_differential_v8.mjs"
+      - name: Original B22 100 refresh memory boundary
+        id: refresh
+        continue-on-error: true
+        run: |
+          mkdir -p "$YMB_EVIDENCE_ROOT/refresh"
+          YMB_MEMORY_EVIDENCE="$YMB_EVIDENCE_ROOT/refresh" timeout --kill-after=10s 300s xvfb-run -a node "$YMB_TESTS/popup_memory_bounded_real_chrome_v2.mjs"
+      - name: Original B22 idle and neutral-control lifecycle boundary
+        id: lifecycle
+        continue-on-error: true
+        run: |
+          mkdir -p "$YMB_EVIDENCE_ROOT/lifecycle"
+          YMB_MEMORY_EVIDENCE="$YMB_EVIDENCE_ROOT/lifecycle" timeout --kill-after=10s 600s xvfb-run -a node "$YMB_TESTS/popup_memory_lifecycle_differential_v8.mjs"
+      - name: Preserve lock and exact candidate readback
+        if: always()
+        run: |
+          python3 qa/ymb-memory/readback.py
+          cp "$YMB_PPTR_HOME/package-lock.json" "$YMB_EVIDENCE_ROOT/package-lock.json" 2>/dev/null || true
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ymb-memory-${{ matrix.version }}-${{ github.sha }}
+          path: ${{ runner.temp }}/ymb-memory/evidence/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Require both boundaries
+        if: always()
+        run: |
+          test '${{ steps.refresh.outcome }}' = success
+          test '${{ steps.lifecycle.outcome }}' = success
