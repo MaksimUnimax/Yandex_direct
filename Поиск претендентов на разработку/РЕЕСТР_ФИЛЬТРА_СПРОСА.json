@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "filter_version_at_creation": "F1.0",
+  "created_date": "2026-10-31",
+  "registry_status": "INITIALIZED_NO_WORDSTAT_RESULTS",
+  "instruction_file": "ПЕРВИЧНЫЙ_ФИЛЬТР_СПРОСА.md",
+  "parameters_file": "ПАРАМЕТРЫ_ФИЛЬТРА_СПРОСА.json",
+  "readable_results_file": "РЕЗУЛЬТАТЫ_ФИЛЬТРА_СПРОСА.md",
+  "seed_corpus": {
+    "file": "КАРТА_ОТРАСЛЕЙ_2026-10-31.md",
+    "git_blob_sha": "1d63d734730db727ed956392ecb2232e80444d87",
+    "read_at_commit": "edd492cc4d41ec17799c5ed328ce8f5edbdf6adf",
+    "reported_directions": 45,
+    "reported_scenarios": 135,
+    "reported_seed_phrases": 270,
+    "scenario_id_range": "O01.1–O45.3",
+    "default_unobserved_state": "NOT_MEASURED",
+    "preserve_prior_candidate_ids": "C001–C018",
+    "query_id_policy": "Initial pair: Oxx.y-Q1 and Oxx.y-Q2 in original source order. New related phrases get new stable IDs and parent IDs; do not overwrite seeds.",
+    "note": "The original corpus remains in its canonical document. Zero observations here does not mean zero demand."
+  },
+  "observations": [],
+  "evaluations": [],
+  "reuse_events": [],
+  "query_scope_decisions": [],
+  "schema_notes": {
+    "observation_required_fields": [
+      "observation_id", "source_scenario_ids", "query_id", "query_original", "query_sent",
+      "provider", "method", "effective_parameters", "period_requested", "period_returned",
+      "retrieved_at", "provider_request_id", "response_status", "response_complete",
+      "frequency_raw", "frequency_field_path", "frequency_semantics", "measurement_scope",
+      "source_path", "source_sha256", "deduplication_key", "prior_observation_id", "requery_reason"
+    ],
+    "observation_rules": {
+      "effective_parameters": "Record regions, devices, operators, filters, limits/pagination and all other effective settings actually used",
+      "frequency_raw": "Actual provider value only; null for absent/error/unknown; zero only for explicit successful zero",
+      "period_returned": "Record actual source period, or null with explanation; never invent an exact date range",
+      "source_path": "Sanitized raw evidence in this folder; public repository must never contain credentials or private client records",
+      "request_conflict": "An identical provider request ID with different response contents is a conflict to investigate",
+      "schema_vs_api": "These are internal normalized ledger fields, not a claimed Yandex Bridge command schema"
+    },
+    "evaluation_required_fields": [
+      "evaluation_id", "evaluated_at", "filter_version", "entity_id", "entity_scope",
+      "query_ids", "observation_ids", "intent_status", "intent_reason",
+      "cluster_scope_description", "cluster_review_complete", "Q_low", "Q_high",
+      "Q_bounds_basis", "seasonality_status", "price_low", "price_high", "price_rationale",
+      "payment_mode", "parameter_snapshot", "parameter_override_sources",
+      "Q_min_base_at_price_low", "Q_min_favorable_at_price_high",
+      "B_base_at_Q_low", "coverage_K", "stress_label",
+      "decision", "reason_code", "reason_text", "next_action", "supersedes"
+    ],
+    "evaluation_decisions": ["PASS", "REJECT", "CLARIFY"],
+    "query_scope_decision_fields": [
+      "query_decision_id", "query_id", "observation_ids", "intent_status",
+      "topic_evaluation_id", "query_disposition", "reason", "decided_at", "supersedes"
+    ],
+    "query_dispositions": ["INCLUDED_IN_TOPIC", "REJECT_IRRELEVANT", "CLARIFY", "ASSESSED_AS_STANDALONE"],
+    "scope_rule": "A phrase-level rejection is not a topic-level rejection. Low-frequency relevant phrases may be included in a passing topic.",
+    "threshold_rules": "Null means no finite threshold only when accompanied by reason NO_POSITIVE_CONTRIBUTION; otherwise null is unknown. Store unrounded computed thresholds; ceil only for presentation.",
+    "reuse_event_fields": ["event_id", "at", "observation_id", "used_for_entity", "reason"],
+    "append_only": "Never delete old observations/evaluations on reclassification. Use supersedes for an evaluation, prior_observation_id for an authorized remeasurement.",
+    "freshness": "Every reuse retains the original acquisition date and period; old data must not be relabelled current",
+    "new_filter_or_price": "Re-evaluate existing observations without making another paid Wordstat call",
+    "secrets": "Never store keys, tokens, settings backups or private client data"
+  },
+  "initial_counts": {
+    "observations": 0,
+    "evaluated_topics": 0,
+    "pass": 0,
+    "reject": 0,
+    "clarify": 0,
+    "seed_phrases_not_measured": 270
+  },
+  "next_action": "Use the next real Wordstat response to create an observation, classify intent, evaluate the task cluster under F1 and synchronize the readable results document. Do not repeat an already compatible successful measurement without a recorded reason."
+}
