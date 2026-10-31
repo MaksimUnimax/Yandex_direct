@@ -1,0 +1,115 @@
+{
+  "evidence_type": "USER_DELIVERED_WORDSTAT_BATCH_RESULT_V1_SANITIZED",
+  "recorded_date": "2026-10-31",
+  "source": "User pasted Bridge batch.next result in this conversation. JSON preserves reported provider_result and principal job fields. Internal worker-session identifiers omitted; no credentials present.",
+  "bridge": "yandex-marketing-bridge",
+  "version": "0.1.14",
+  "service": "wordstat",
+  "operation": "batch.next",
+  "job_id": "microproducts-f1-wave01-20261031",
+  "run_id": null,
+  "status": "OK",
+  "reason": null,
+  "command": {
+    "action": "next",
+    "jobId": "microproducts-f1-wave01-20261031"
+  },
+  "progress": {
+    "job_id": "microproducts-f1-wave01-20261031",
+    "status": "RUNNING",
+    "total": 15,
+    "input_count": 15,
+    "duplicate_count": 0,
+    "pending": 14,
+    "claimed": 0,
+    "requesting": 0,
+    "succeeded": 1,
+    "failed_terminal": 0,
+    "outcome_unknown": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "terminal": 1,
+    "requests_started": 1,
+    "estimated_cost_rub": 0.02,
+    "active_item_id": null,
+    "stop_reason": null,
+    "next_safe_action": "CLAIM_NEXT"
+  },
+  "item": {
+    "automatic_retry": false,
+    "claimed_at": "2026-10-31T10:52:17.135Z",
+    "command": {
+      "method": "getTop",
+      "phrase": "учет заказов зуботехнической лаборатории",
+      "numPhrases": 50,
+      "regions": [
+        "225"
+      ],
+      "devices": [
+        "DEVICE_ALL"
+      ]
+    },
+    "completed_at": "2026-10-31T10:52:20.209Z",
+    "error": null,
+    "estimated_cost_rub": 0.02,
+    "fingerprint": "44e46d1f051b735f",
+    "item_id": "microproducts-f1-wave01-20261031:44e46d1f051b735f",
+    "outcome_unknown_reason": null,
+    "request_executed": true,
+    "request_id": "wordstat-batch-59223eb9-79dc-45d9-9e3f-892489deed7b",
+    "request_started_at": "2026-10-31T10:52:17.139Z",
+    "result_ref": "wordstat-batch-59223eb9-79dc-45d9-9e3f-892489deed7b",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-10-31T10:52:20.209Z",
+    "result_payload_duplicate_of_provider_result": true
+  },
+  "provider_result": {
+    "bridge": "yandex-marketing-bridge",
+    "version": "0.1.14",
+    "service": "wordstat",
+    "operation": "getTop",
+    "request_id": "wordstat-batch-59223eb9-79dc-45d9-9e3f-892489deed7b",
+    "run_id": null,
+    "job_id": "microproducts-f1-wave01-20261031",
+    "status": "OK",
+    "reason": null,
+    "cost_estimate": {
+      "estimated_rub": 0.02,
+      "tariff_checked_at": "2026-08-12",
+      "tariff_source": "https://aistudio.yandex.ru/docs/ru/search-api/pricing.html"
+    },
+    "policy": {
+      "channel": "manual",
+      "active_service": "wordstat"
+    },
+    "command": {
+      "method": "getTop",
+      "phrase": "учет заказов зуботехнической лаборатории",
+      "numPhrases": 50,
+      "regions": [
+        "225"
+      ],
+      "devices": [
+        "DEVICE_ALL"
+      ]
+    },
+    "http_status": 200,
+    "elapsed_ms": 3063,
+    "result": {
+      "totalCount": "3"
+    },
+    "request_executed": true,
+    "automatic_retry": false
+  },
+  "cost_estimate": {
+    "estimated_rub": 0.02,
+    "max_rub": 1
+  },
+  "policy": {
+    "max_requests": 15,
+    "max_cost_rub": 1
+  },
+  "request_executed": true,
+  "automatic_retry": false,
+  "interpretive_note": "totalCount is raw Yandex GetTop total count of searches containing all words irrespective of order, for last 30 days. No results/associations arrays were included in the user-delivered provider_result; do not claim the lists were empty."
+}
