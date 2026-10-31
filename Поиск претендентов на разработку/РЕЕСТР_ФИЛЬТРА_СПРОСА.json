@@ -2,7 +2,7 @@
   "schema_version": 1,
   "filter_version_at_creation": "F1.0",
   "created_date": "2026-10-31",
-  "registry_status": "INITIALIZED_NO_WORDSTAT_RESULTS",
+  "registry_status": "ACTIVE_ONE_MEASUREMENT_ONE_CLARIFY",
   "instruction_file": "ПЕРВИЧНЫЙ_ФИЛЬТР_СПРОСА.md",
   "parameters_file": "ПАРАМЕТРЫ_ФИЛЬТРА_СПРОСА.json",
   "readable_results_file": "РЕЗУЛЬТАТЫ_ФИЛЬТРА_СПРОСА.md",
@@ -19,10 +19,124 @@
     "query_id_policy": "Initial pair: Oxx.y-Q1 and Oxx.y-Q2 in original source order. New related phrases get new stable IDs and parent IDs; do not overwrite seeds.",
     "note": "The original corpus remains in its canonical document. Zero observations here does not mean zero demand."
   },
-  "observations": [],
-  "evaluations": [],
+  "observations": [
+    {
+      "observation_id": "OBS-F1-001-O01.2-Q1",
+      "source_scenario_ids": [
+        "O01.2"
+      ],
+      "query_id": "O01.2-Q1",
+      "query_original": "учет заказов зуботехнической лаборатории",
+      "query_sent": "учет заказов зуботехнической лаборатории",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "phrase": "учет заказов зуботехнической лаборатории",
+        "operators": [],
+        "folderId": "NOT_DELIVERED_IN_USER_RESULT",
+        "batch_job_id": "microproducts-f1-wave01-20261031"
+      },
+      "period_requested": "Implicit last 30 days by GetTop API; no explicit date arguments",
+      "period_returned": null,
+      "period_returned_note": "Only rolling-last-30-days method semantics established; exact provider start/end date not returned.",
+      "retrieved_at": "2026-10-31T10:52:20.209Z",
+      "provider_request_id": "wordstat-batch-59223eb9-79dc-45d9-9e3f-892489deed7b",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Successful numeric totalCount present, enough for this exact phrase. results and associations keys were absent from delivered provider_result (not confirmed empty).",
+      "frequency_raw": "3",
+      "frequency_integer": 3,
+      "frequency_field_path": "provider_result.result.totalCount",
+      "frequency_semantics": "Total searches containing all keywords of input phrase, in any order, over trailing 30 days; Russian region ID225 and all devices; broad all-words matching, not 3 unique people or 3 commercial buyers.",
+      "measurement_scope": "Single raw phrase (O01.2-Q1), NOT the whole dental laboratory order-management topic and NOT an exact literal-query count.",
+      "source_path": "данные/2026-10-31/OBS-F1-001-O01.2-Q1.json",
+      "source_sha256": "ead6f15b89da0568c820c0db1d53aaf7047f6cd2274e6ce024d32d5cd1175e95",
+      "source_official_semantics_url": "https://aistudio.yandex.ru/en/docs/search-api/api-ref/Wordstat/getTop",
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=учет заказов зуботехнической лаборатории|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_PHRASE_NOT_CLUSTER"
+    }
+  ],
+  "evaluations": [
+    {
+      "evaluation_id": "F1-EVAL-20261031-O01.2-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O01.2",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O01.2-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-001-O01.2-Q1"
+      ],
+      "intent_status": "PROBABLY_PROFESSIONAL",
+      "intent_reason": "Wordstat phrase specifically names accounting for dental lab orders; not validated by SERP or interviews.",
+      "cluster_scope_description": "Small dental-technician lab order tracking and handoffs, including natural alternate vocabulary not yet measured.",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only the O01.2-Q1 subset measured at raw totalCount=3; no validated commercially relevant share and no upper bound on untested synonyms. Do not substitute 3 for full topic demand.",
+      "seasonality_status": "UNTESTED_ONE_LAST30_DAYS_WINDOW",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 hypothetical small-team/professional tool band. No market price or readiness-to-pay evidence; do not treat as a quotation.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR": 0.05
+        },
+        "stress": {
+          "CPC": 120,
+          "CR": 0.02
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "UNTESTED_AND_UNNECESSARY_FOR_CLARIFY",
+      "decision": "CLARIFY",
+      "reason_code": "SINGLE_LONG_PHRASE_DOES_NOT_BOUND_CLUSTER",
+      "reason_text": "3 last-30-day all-word queries for a single long phrase. It does not measure all demand for dental lab order-management tools; alternative natural language searches and competing intent are unreviewed.",
+      "next_action": "Do not repeat the same phrase in this wave; finish existing 15-item batch safely, then assess broader natural phrase 'программа для зуботехнической лаборатории' and O01.2-Q2 'заказ наряд зубного техника' in a separately bounded query wave.",
+      "supersedes": null
+    }
+  ],
   "reuse_events": [],
-  "query_scope_decisions": [],
+  "query_scope_decisions": [
+    {
+      "query_decision_id": "QS-20261031-O01.2-Q1-001",
+      "query_id": "O01.2-Q1",
+      "observation_ids": [
+        "OBS-F1-001-O01.2-Q1"
+      ],
+      "intent_status": "PROBABLY_PROFESSIONAL_NOT_VERIFIED",
+      "topic_evaluation_id": "F1-EVAL-20261031-O01.2-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Measured totalCount=3 for this phrase; too narrow to reject topic. Preserve as related measured phrase, no repeat for same parameters/period.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    }
+  ],
   "schema_notes": {
     "observation_required_fields": [
       "observation_id",
@@ -134,7 +248,7 @@
     "clarify": 0,
     "seed_phrases_not_measured": 270
   },
-  "next_action": "Existing batch microproducts-f1-wave01-20261031 has START_CONFIRMED, 0 provider requests; execute only one next via authorized browser extension; persist actual GetTop response and then update observations, evaluations and readable results.",
+  "next_action": "One next on the SAME durable job id microproducts-f1-wave01-20261031; item 2 O04.1-Q1 'сравнить спецификации'. Do not rerun O01.2-Q1; its totalCount=3 was saved. Topic O01.2 stays CLARIFY pending broader natural searches after this pilot.",
   "batch_jobs": [
     {
       "job_id": "microproducts-f1-wave01-20261031",
@@ -144,24 +258,41 @@
       "bridge": "yandex-marketing-bridge",
       "version": "0.1.14",
       "service": "wordstat",
-      "last_confirmed_operation": "batch.start",
+      "last_confirmed_operation": "batch.next",
       "response_type": "WORDSTAT_BATCH_RESULT_V1",
       "response_status": "OK",
       "job_status": "RUNNING",
       "total": 15,
-      "pending": 15,
-      "succeeded": 0,
+      "pending": 14,
+      "succeeded": 1,
       "failed_terminal": 0,
       "outcome_unknown": 0,
-      "requests_started": 0,
-      "estimated_cost_rub": 0,
+      "requests_started": 1,
+      "estimated_cost_rub": 0.02,
       "max_requests": 15,
       "max_cost_rub": 1,
-      "request_executed": false,
-      "provider_result_received": false,
+      "request_executed": true,
+      "provider_result_received": true,
       "next_safe_action": "CLAIM_NEXT",
       "next_command": "WORDSTAT_BATCH_API_V1 {\"action\":\"next\",\"jobId\":\"microproducts-f1-wave01-20261031\"}",
-      "note": "No provider requests have been made. Do not restart; next must continue existing durable job. User provided bridge start response."
+      "note": "First GetTop measured for O01.2-Q1, totalCount=3. 14 pending, continue with one next. Existing start event BSTART-001 retained.",
+      "last_event_id": "BATCH-NEXT-001",
+      "last_item_id": "microproducts-f1-wave01-20261031:44e46d1f051b735f",
+      "last_provider_request_id": "wordstat-batch-59223eb9-79dc-45d9-9e3f-892489deed7b",
+      "last_completed_at": "2026-10-31T10:52:20.209Z",
+      "last_observation_id": "OBS-F1-001-O01.2-Q1"
     }
-  ]
+  ],
+  "current_counts": {
+    "observations": 1,
+    "evaluated_topics": 1,
+    "pass": 0,
+    "reject": 0,
+    "clarify": 1,
+    "seed_phrases_not_measured": 269,
+    "batch_requests_started": 1,
+    "batch_succeeded": 1,
+    "batch_pending": 14,
+    "batch_estimated_cost_rub": 0.02
+  }
 }
