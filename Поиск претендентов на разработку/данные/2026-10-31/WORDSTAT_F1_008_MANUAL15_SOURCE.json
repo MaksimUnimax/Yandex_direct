@@ -1,0 +1,845 @@
+{
+  "evidence_type": "USER_PROVIDED_WORDSTAT_RESULT_V1_MULTICOMMAND",
+  "recorded_date": "2026-10-31",
+  "source": "User provided 15 Wordstat result envelopes in the conversation after F1-008 plan. This document is an auditable field-for-field normalized transcription with original provider request IDs, command parameters and all returned nested results/associations.",
+  "caveats": [
+    "No per-request absolute UTC timestamp or exact 30-day date endpoints returned in the envelopes; only date of user delivery is recorded.",
+    "All 15 calls status=OK, http_status=200, request_executed=true.",
+    "Three result={} objects lack numeric totalCount; absence is UNKNOWN and never interpreted as a numeric zero.",
+    "Nested results may overlap the parent totalCount and other results. Associations are not additive and often unrelated to the original professional task.",
+    "Numbers count search events including all query words in any order for Russia and all devices, not software customers or sales.",
+    "No credentials or private customer records included."
+  ],
+  "wave": "F1-008",
+  "command_source": "ПАРТИЯ_WORDSTAT_F1_008_2026-10-31.md",
+  "count": 15,
+  "estimated_cost_rub": 0.3,
+  "records": [
+    {
+      "query_id": "O02.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-733ae536-2105-48c4-a26e-cfee6c43595a",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "передача смены сиделки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1263,
+      "result": {
+        "totalCount": "1"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O03.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-c8010a60-0789-4b85-9426-852c75f4202b",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "карточка клиента грумера",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1081,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O04.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-848c54a0-9b92-439b-a942-57ad7b6ee793",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "ведомость материалов вентиляции",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 390,
+      "result": {
+        "totalCount": "9"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O06.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-141305e0-5198-40e6-820a-08e7fb55117e",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "ежедневный отчет прораба",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1030,
+      "result": {
+        "totalCount": "7"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O08.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-ad8e0221-e58b-4c49-b969-bb4a702895e4",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "реестр сварных швов",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 509,
+      "result": {
+        "totalCount": "2"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O09.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-81c1bec1-c6a6-4dbc-9231-5b8fb0570742",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "калькулятор москитных сеток",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1402,
+      "result": {
+        "totalCount": "42",
+        "results": [
+          {
+            "phrase": "калькулятор москитных сеток",
+            "count": "42"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "математический калькулятор",
+            "count": "6823"
+          },
+          {
+            "phrase": "калькулятор вкладов онлайн рассчитать",
+            "count": "11335"
+          },
+          {
+            "phrase": "калькулятор метизов",
+            "count": "4494"
+          },
+          {
+            "phrase": "ip калькулятор",
+            "count": "4736"
+          },
+          {
+            "phrase": "калькулятор ттк",
+            "count": "3645"
+          },
+          {
+            "phrase": "калькулятор систем счисления",
+            "count": "25054"
+          },
+          {
+            "phrase": "калькулятор затирки",
+            "count": "4387"
+          },
+          {
+            "phrase": "калькулятор пропорций",
+            "count": "5241"
+          },
+          {
+            "phrase": "калькулятор отпуска онлайн калькулятор для кадровика",
+            "count": "712"
+          },
+          {
+            "phrase": "калькулятор пропорций онлайн",
+            "count": "1870"
+          },
+          {
+            "phrase": "калькулятор каллорий расчета онлайн бесплатно",
+            "count": "379"
+          },
+          {
+            "phrase": "калькулятор перевода систем счисления",
+            "count": "3526"
+          },
+          {
+            "phrase": "калькулятор расстояния",
+            "count": "9825"
+          },
+          {
+            "phrase": "калькулятор сети ipv4",
+            "count": "174"
+          },
+          {
+            "phrase": "сколько стоит сетка на окно",
+            "count": "946"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O10.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-7322bcef-a15f-4973-8c5b-b7bedcd0cbb6",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "расчет стоимости машинной вышивки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1222,
+      "result": {
+        "totalCount": "10",
+        "results": [
+          {
+            "phrase": "расчет стоимости машинной вышивки",
+            "count": "8"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "калькулятор автокредита",
+            "count": "31586"
+          },
+          {
+            "phrase": "сколько стоит каршеринг",
+            "count": "11483"
+          },
+          {
+            "phrase": "калькулятор себестоимости",
+            "count": "3163"
+          },
+          {
+            "phrase": "автокредитный калькулятор",
+            "count": "1521"
+          },
+          {
+            "phrase": "сколько стоит переоформить машину",
+            "count": "4438"
+          },
+          {
+            "phrase": "рассчитать утильсбор на авто 2026 калькулятор",
+            "count": "402"
+          },
+          {
+            "phrase": "mg5 автомобиль цена",
+            "count": "100"
+          },
+          {
+            "phrase": "сколько стоит перекрасить машину",
+            "count": "1775"
+          },
+          {
+            "phrase": "сколько стоит покрасить машину полностью",
+            "count": "1566"
+          },
+          {
+            "phrase": "каршеринг цена",
+            "count": "21039"
+          },
+          {
+            "phrase": "сколько стоит платная дорога",
+            "count": "29073"
+          },
+          {
+            "phrase": "оплата автодор платные дороги по номеру машины",
+            "count": "430"
+          },
+          {
+            "phrase": "рассчитать платную дорогу",
+            "count": "2236"
+          },
+          {
+            "phrase": "химчистка салона автомобиля цена",
+            "count": "3682"
+          },
+          {
+            "phrase": "наборы для вышивания купить",
+            "count": "7974"
+          },
+          {
+            "phrase": "калькулятор автокредита рассчитать",
+            "count": "6256"
+          },
+          {
+            "phrase": "целковый это сколько денег в рублях",
+            "count": "254"
+          },
+          {
+            "phrase": "калькулятор платных дорог",
+            "count": "726"
+          },
+          {
+            "phrase": "вышивальная машина купить",
+            "count": "2614"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O12.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-8a15fa2e-9e84-4a36-84f7-09d6d1d879d7",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "программа отчета осмотра авто",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1461,
+      "result": {
+        "totalCount": "3"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O14.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-1a7871c8-a138-4c6e-8f15-3966dc73ad02",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "карточка велосипеда ремонт",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1022,
+      "result": {
+        "totalCount": "2"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O16.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-01b9a57c-47ec-4bcc-a833-ab021f13d8f9",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка адресов доставки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 442,
+      "result": {
+        "totalCount": "167",
+        "results": [
+          {
+            "phrase": "сервисы для проверки адреса доставки",
+            "count": "8"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "мой груз",
+            "count": "10919"
+          },
+          {
+            "phrase": "сдэк рядом со мной",
+            "count": "9663"
+          },
+          {
+            "phrase": "моя геолокация",
+            "count": "8254"
+          },
+          {
+            "phrase": "сфера заказ",
+            "count": "4509"
+          },
+          {
+            "phrase": "ати грузоперевозки поиск",
+            "count": "8700"
+          },
+          {
+            "phrase": "кого можно вызвать на улице",
+            "count": "2223"
+          },
+          {
+            "phrase": "отдел к",
+            "count": "125427"
+          },
+          {
+            "phrase": "транспортная логистика",
+            "count": "31823"
+          },
+          {
+            "phrase": "выполните поиск организации",
+            "count": "1760"
+          },
+          {
+            "phrase": "сдек рядом со мной",
+            "count": "3763"
+          },
+          {
+            "phrase": "организация при наличии",
+            "count": "22412"
+          },
+          {
+            "phrase": "кто написал жди меня и я вернусь",
+            "count": "496"
+          },
+          {
+            "phrase": "к вашим услугам",
+            "count": "51172"
+          },
+          {
+            "phrase": "возим ру",
+            "count": "1026"
+          },
+          {
+            "phrase": "ближайший сдэк рядом со мной",
+            "count": "2909"
+          },
+          {
+            "phrase": "только дай знать где ты находишься",
+            "count": "1550"
+          },
+          {
+            "phrase": "экспедиторские услуги это",
+            "count": "445"
+          },
+          {
+            "phrase": "транспортно экспедиционные услуги это",
+            "count": "656"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O18.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-48d1ffeb-6c9b-4438-b107-e45a63b86097",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка карточек товаров excel",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 397,
+      "result": {
+        "totalCount": "6"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O21.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-11c5e468-6dd5-4be1-98cb-4a6ba1714bf3",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "журнал рыбоводного хозяйства",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 387,
+      "result": {
+        "totalCount": "4"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O24.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-84e5edb7-666f-49ff-9fc7-a50e0cefa9b8",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет партий сыра",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 376,
+      "result": {
+        "totalCount": "6"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O26.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-2d143f90-5f15-4f30-ade4-039faf8761a5",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "программа проката лодок",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 980,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O32.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-5a766855-dc07-4fb8-8edd-373b5258ba38",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "свод показаний электросчетчиков",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1024,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  ]
+}
