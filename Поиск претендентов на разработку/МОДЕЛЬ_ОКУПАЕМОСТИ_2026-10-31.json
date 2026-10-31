@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-31",
+  "status": "SCENARIO_NOT_MEASURED_NOT_OWNER_APPROVED_BUDGET",
+  "currency": "RUB",
+  "market": "Russia",
+  "channel": "Yandex Direct search",
+  "report": "ЭКОНОМИКА_ДИРЕКТА_И_ГРАНИЦЫ_СПРОСА_2026-10-31.md",
+  "query_corpus": {
+    "file": "КАРТА_ОТРАСЛЕЙ_2026-10-31.md",
+    "branch_at_read": "main",
+    "commit_at_read": "13cc5ad8e767ce492a34c6446f6dfa5902fd40ce",
+    "directions": 45,
+    "scenarios": 135,
+    "seed_phrases": 270,
+    "status": "HYPOTHESES_NOT_WORDSTAT_RESULTS"
+  },
+  "not_observed": {
+    "wordstat_frequency": null,
+    "direct_keyword_forecast": null,
+    "actual_paid_conversion": null,
+    "actual_customer_acquisition_cost": null,
+    "actual_retention": null,
+    "owner_product_price": null,
+    "owner_development_budget": null,
+    "owner_ad_test_budget": null
+  },
+  "published_benchmark": {
+    "source": "https://blog.click.ru/analytics/issledovanie-internet-reklamy/",
+    "published": "2026-10-15",
+    "period": "2026-Q3",
+    "search_cpc_rub": 47.48,
+    "search_ctr": 0.0345,
+    "network_cpc_rub": 9.74,
+    "vat_basis": "NOT_EXPLICITLY_DISCLOSED",
+    "scope": "Published aggregated third-party sample, not a forecast for this corpus",
+    "quality_note": "Percentage changes and some prose conflict with absolute table entries; do not copy growth percentages. Raw campaign records not audited."
+  },
+  "base_assumptions": {
+    "product_payment": "one_time_license",
+    "development_and_launch_cost_D": 30000,
+    "monthly_fixed_cost_F": 3000,
+    "payback_months_T": 6,
+    "additional_monthly_profit_G": 0,
+    "contribution_margin_before_ads_m": 0.85,
+    "effective_cpc_C": 60,
+    "effective_cpc_definition": "Comparable click cost including actual nonrecoverable taxes and applicable variable charges; do not add VAT again",
+    "paid_new_customer_conversion_r": 0.03,
+    "attainable_search_impression_fraction_a": 0.5,
+    "ad_ctr_t": 0.05,
+    "target_drr_for_sensitivity_only": 0.3,
+    "owner_authorization": "None of these assumed amounts authorizes spending"
+  },
+  "formulas": {
+    "monthly_clicks": "Q*a*t",
+    "monthly_new_paying_customers": "Q*a*t*r",
+    "CAC_ad": "C/r",
+    "DRR": "C/(r*P)",
+    "customer_contribution_after_ads": "P*m-C/r",
+    "monthly_operating_contribution": "Q*a*t*(r*P*m-C)-F",
+    "Q_min": "(D/T+F+G)/(a*t*(r*P*m-C))",
+    "Q_min_condition": "Finite only when r*P*m>C",
+    "CPC_at_target_DRR": "P*target_DRR*r"
+  },
+  "base_results": [
+    {"price_P":990,"CAC_ad":2000,"DRR":2.0202020202020203,"contribution_after_ads":-1158.5,"Q_min":null,"Q_min_rounded_up":null,"reason":"NEGATIVE_CONTRIBUTION","CPC_at_30pct_DRR":8.91},
+    {"price_P":1490,"CAC_ad":2000,"DRR":1.342281879194631,"contribution_after_ads":-733.5,"Q_min":null,"Q_min_rounded_up":null,"reason":"NEGATIVE_CONTRIBUTION","CPC_at_30pct_DRR":13.41},
+    {"price_P":2990,"CAC_ad":2000,"DRR":0.6688963210702341,"contribution_after_ads":541.5,"Q_min":19698.368728839654,"Q_min_rounded_up":19699,"expected_new_buyers_per_month_at_threshold":14.77377654662974,"CPC_at_30pct_DRR":26.91},
+    {"price_P":4990,"CAC_ad":2000,"DRR":0.40080160320641284,"contribution_after_ads":2241.5,"Q_min":4758.718120306343,"Q_min_rounded_up":4759,"expected_new_buyers_per_month_at_threshold":3.5690385902297574,"CPC_at_30pct_DRR":44.91},
+    {"price_P":9990,"CAC_ad":2000,"DRR":0.2002002002002002,"contribution_after_ads":6491.5,"Q_min":1643.174407558602,"Q_min_rounded_up":1644,"expected_new_buyers_per_month_at_threshold":1.2323808056689516,"CPC_at_30pct_DRR":89.91},
+    {"price_P":19990,"CAC_ad":2000,"DRR":0.10005002501250625,"contribution_after_ads":14991.5,"Q_min":711.5143025492223,"Q_min_rounded_up":712,"expected_new_buyers_per_month_at_threshold":0.5336357269119167,"CPC_at_30pct_DRR":179.91}
+  ],
+  "price_4990_single_variable_sensitivity": [
+    {"change":"effective_cpc_C","value":20,"Q_min_rounded_up":2984},
+    {"change":"effective_cpc_C","value":120,"Q_min_rounded_up":44169},
+    {"change":"paid_new_customer_conversion_r","value":0.02,"Q_min_rounded_up":12888},
+    {"change":"paid_new_customer_conversion_r","value":0.01,"Q_min_rounded_up":null,"reason":"NEGATIVE_CONTRIBUTION"},
+    {"change":"paid_new_customer_conversion_r","value":0.05,"Q_min_rounded_up":2105},
+    {"change":"ad_ctr_t","value":0.0345,"Q_min_rounded_up":6897}
+  ],
+  "cash_example": {
+    "Q":5000,"price_P":4990,"expected_clicks":125,"expected_new_buyers":3.75,"expected_ad_spend":7500,"expected_revenue":18712.5,"expected_operating_contribution_after_F":5405.625
+  },
+  "subscription_example_not_used_in_Q_min_table": {
+    "monthly_price":990,"hypothesized_paid_months":6,"margin_before_ads":0.85,"CAC_ad":2000,"cohort_contribution_before_ads_over_six_payments":5049,"cohort_contribution_after_ads_before_fixed_costs":3049,
+    "warning":"Retention is not measured. Do not credit six future payments to every cohort within a six-calendar-month project payback horizon."
+  },
+  "limitations": [
+    "Frequency is monthly relevant search events for one problem cluster, not unique people or a sum of overlapping broad queries.",
+    "The formula describes expected values, not guaranteed sales or a probability of payback.",
+    "Price and paid conversion are correlated; higher price with unchanged conversion must be tested.",
+    "CPC and attainable traffic must come from the same forecast setting; do not combine cheap CPC with unrelated maximum reach.",
+    "Small niches can be profitable in expectation but very slow to test and have irregular cash flow.",
+    "Full CAC includes additional marketing/sales costs not already assigned to D, F or variable expenses.",
+    "No advertising, Wordstat or billable API requests were initiated in this research step."
+  ]
+}
