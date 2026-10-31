@@ -2,7 +2,7 @@
   "schema_version": 1,
   "filter_version_at_creation": "F1.0",
   "created_date": "2026-10-31",
-  "registry_status": "F1_FIRST_WAVE_15_REQUESTS_ALL_RECORDED_CLUSTERS_UNDER_REVIEW",
+  "registry_status": "F1_TWO_WAVES_30_REQUESTS_RECORDED_ALL_CLUSTERS_NEED_FOLLOWUP",
   "instruction_file": "ПЕРВИЧНЫЙ_ФИЛЬТР_СПРОСА.md",
   "parameters_file": "ПАРАМЕТРЫ_ФИЛЬТРА_СПРОСА.json",
   "readable_results_file": "РЕЗУЛЬТАТЫ_ФИЛЬТРА_СПРОСА.md",
@@ -707,6 +707,787 @@
       "prior_observation_id": null,
       "requery_reason": null,
       "interpretation_status": "MEASURED_PHRASE_NOT_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O02.1-Q1",
+      "source_scenario_ids": [
+        "O02.1"
+      ],
+      "query_id": "O02.1-Q1",
+      "query_original": "генератор логопедических карточек",
+      "query_sent": "генератор логопедических карточек",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "генератор логопедических карточек",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-eeab7a15-8401-4d21-b717-bf540ea4f509",
+      "response_status": "OK_HTTP_200",
+      "response_complete": false,
+      "response_completeness_note": "Provider returned HTTP 200 and status OK, but result={} without totalCount; count is UNKNOWN rather than 0.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "No count returned. Frequency unknown; cannot conclude zero demand.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Provider result is {}, so numeric frequency is not available, not zero."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=генератор логопедических карточек|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "PROVIDER_OK_NO_NUMERIC_TOTAL"
+    },
+    {
+      "observation_id": "OBS-F1-002-O03.1-Q1",
+      "source_scenario_ids": [
+        "O03.1"
+      ],
+      "query_id": "O03.1-Q1",
+      "query_original": "напоминание о прививке питомцу",
+      "query_sent": "напоминание о прививке питомцу",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "напоминание о прививке питомцу",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-0b577825-9bb3-4ff9-a067-2eb75e941f2c",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "4",
+      "frequency_integer": 4,
+      "frequency_field_path": "records[1].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=напоминание о прививке питомцу|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O05.1-Q1",
+      "source_scenario_ids": [
+        "O05.1"
+      ],
+      "query_id": "O05.1-Q1",
+      "query_original": "ведомость отделки помещений",
+      "query_sent": "ведомость отделки помещений",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "ведомость отделки помещений",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-51aab088-37c9-4d79-b870-a268a38c6b66",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "680",
+      "frequency_integer": 680,
+      "frequency_field_path": "records[2].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 10,
+        "association_rows": 16,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Subqueries mention ГОСТ, Revit, Archicad, tables; may not reflect purchase of an independent design tool."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=ведомость отделки помещений|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O07.1-Q1",
+      "source_scenario_ids": [
+        "O07.1"
+      ],
+      "query_id": "O07.1-Q1",
+      "query_original": "расчет плитки по стенам",
+      "query_sent": "расчет плитки по стенам",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "расчет плитки по стенам",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-4764c9cc-cd52-4aee-bb4e-fe5a07dd2ff3",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "31",
+      "frequency_integer": 31,
+      "frequency_field_path": "records[3].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "DIY consumer intent likely; do not attribute broad search to professional paid product."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=расчет плитки по стенам|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O08.1-Q1",
+      "source_scenario_ids": [
+        "O08.1"
+      ],
+      "query_id": "O08.1-Q1",
+      "query_original": "расчет стоимости лазерной резки",
+      "query_sent": "расчет стоимости лазерной резки",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "расчет стоимости лазерной резки",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-b13d0262-f23e-452b-9902-a2bb6b4743b6",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "92",
+      "frequency_integer": 92,
+      "frequency_field_path": "records[4].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 4,
+        "association_rows": 18,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Subqueries include service price calculation and 5 mentions of a free software tool; no evidence of paid demand."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=расчет стоимости лазерной резки|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O10.1-Q1",
+      "source_scenario_ids": [
+        "O10.1"
+      ],
+      "query_id": "O10.1-Q1",
+      "query_original": "задание на пошив",
+      "query_sent": "задание на пошив",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "задание на пошив",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-8bc0c637-2948-48d4-a54f-f4170d3403e5",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "802",
+      "frequency_integer": 802,
+      "frequency_field_path": "records[5].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 2,
+        "association_rows": 16,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Top subqueries are technical-assignment examples, not necessarily a production-management software need."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=задание на пошив|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O11.1-Q1",
+      "source_scenario_ids": [
+        "O11.1"
+      ],
+      "query_id": "O11.1-Q1",
+      "query_original": "проверка pdf перед печатью",
+      "query_sent": "проверка pdf перед печатью",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "проверка pdf перед печатью",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-6ffdb5d8-e507-46c6-ad9a-75ed0e4300d7",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "1",
+      "frequency_integer": 1,
+      "frequency_field_path": "records[6].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=проверка pdf перед печатью|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O15.1-Q1",
+      "source_scenario_ids": [
+        "O15.1"
+      ],
+      "query_id": "O15.1-Q1",
+      "query_original": "расчет прибыльности рейса",
+      "query_sent": "расчет прибыльности рейса",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "расчет прибыльности рейса",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-3da4714b-f639-4d07-b4be-f4d66ab2181e",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "1",
+      "frequency_integer": 1,
+      "frequency_field_path": "records[7].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=расчет прибыльности рейса|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O17.1-Q1",
+      "source_scenario_ids": [
+        "O17.1"
+      ],
+      "query_id": "O17.1-Q1",
+      "query_original": "проверка комплектации заказа",
+      "query_sent": "проверка комплектации заказа",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "проверка комплектации заказа",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-6cce454c-e690-400b-bc44-20e7b9b025b1",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "91",
+      "frequency_integer": 91,
+      "frequency_field_path": "records[8].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=проверка комплектации заказа|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O19.1-Q1",
+      "source_scenario_ids": [
+        "O19.1"
+      ],
+      "query_id": "O19.1-Q1",
+      "query_original": "калькулятор себестоимости букета",
+      "query_sent": "калькулятор себестоимости букета",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "калькулятор себестоимости букета",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-89383b60-dcf9-4579-8455-50813a4a3062",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "2",
+      "frequency_integer": 2,
+      "frequency_field_path": "records[9].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=калькулятор себестоимости букета|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O21.1-Q1",
+      "source_scenario_ids": [
+        "O21.1"
+      ],
+      "query_id": "O21.1-Q1",
+      "query_original": "учет пасеки приложение",
+      "query_sent": "учет пасеки приложение",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "учет пасеки приложение",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-f19aca82-1e30-4871-9e83-dbd7133785b1",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "2",
+      "frequency_integer": 2,
+      "frequency_field_path": "records[10].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=учет пасеки приложение|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O22.1-Q1",
+      "source_scenario_ids": [
+        "O22.1"
+      ],
+      "query_id": "O22.1-Q1",
+      "query_original": "кубатурник пиломатериалов",
+      "query_sent": "кубатурник пиломатериалов",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "кубатурник пиломатериалов",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-e55d1ff3-2f1f-4de8-b58c-f3cbde38c882",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "1572",
+      "frequency_integer": 1572,
+      "frequency_field_path": "records[11].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 29,
+        "association_rows": 19,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Related queries center on free tables and online calculators. Search volume is not a count of software purchasers."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=кубатурник пиломатериалов|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O23.1-Q1",
+      "source_scenario_ids": [
+        "O23.1"
+      ],
+      "query_id": "O23.1-Q1",
+      "query_original": "пересчет рецептуры на порции",
+      "query_sent": "пересчет рецептуры на порции",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "пересчет рецептуры на порции",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-8ce621f6-5248-4a7f-b977-073b690fc8af",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "Provider returned totalCount; related query arrays exist only when supplied; missing arrays are not confirmed empty.",
+      "frequency_raw": "35",
+      "frequency_integer": 35,
+      "frequency_field_path": "records[12].result.totalCount",
+      "frequency_semantics": "GetTop searches including all words in any order over latest 30 days, Russia 225, all devices; not unique users/buyers or proof of purchase intent.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": []
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=пересчет рецептуры на порции|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_WHOLE_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-002-O25.1-Q1",
+      "source_scenario_ids": [
+        "O25.1"
+      ],
+      "query_id": "O25.1-Q1",
+      "query_original": "график уборок квартир посуточно",
+      "query_sent": "график уборок квартир посуточно",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "график уборок квартир посуточно",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-e585ce0f-c98b-4e4d-a1ac-aba52ad6e32f",
+      "response_status": "OK_HTTP_200",
+      "response_complete": false,
+      "response_completeness_note": "Provider returned HTTP 200 and status OK, but result={} without totalCount; count is UNKNOWN rather than 0.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "No count returned. Frequency unknown; cannot conclude zero demand.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Provider result is {}, so numeric frequency is not available, not zero."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=график уборок квартир посуточно|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "PROVIDER_OK_NO_NUMERIC_TOTAL"
+    },
+    {
+      "observation_id": "OBS-F1-002-O26.1-Q1",
+      "source_scenario_ids": [
+        "O26.1"
+      ],
+      "query_id": "O26.1-Q1",
+      "query_original": "учет записей на экскурсию",
+      "query_sent": "учет записей на экскурсию",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "учет записей на экскурсию",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit rolling prior 30 days; exact dates not requested",
+      "period_returned": null,
+      "period_returned_note": "No timestamp or explicit period in response; exact boundaries unknown. Source received 2026-10-31.",
+      "retrieved_at": null,
+      "received_date": "2026-10-31",
+      "provider_request_id": "wordstat-377d6bf5-9b95-4c56-b446-0e9308c9a895",
+      "response_status": "OK_HTTP_200",
+      "response_complete": false,
+      "response_completeness_note": "Provider returned HTTP 200 and status OK, but result={} without totalCount; count is UNKNOWN rather than 0.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "No count returned. Frequency unknown; cannot conclude zero demand.",
+      "measurement_scope": "ONE_SEED_PHRASE_NOT_FULL_RELEVANT_TOPIC_CLUSTER",
+      "source_path": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "source_git_blob_sha": "b8fd844b92fc707ea7415e1e677341ca37eff780",
+      "source_details": {
+        "related_rows": 0,
+        "association_rows": 0,
+        "associations_are_not_additional_demand": true,
+        "intent_caveats": [
+          "Provider result is {}, so numeric frequency is not available, not zero."
+        ]
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=учет записей на экскурсию|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-10-31",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "PROVIDER_OK_NO_NUMERIC_TOTAL"
     }
   ],
   "evaluations": [
@@ -1477,6 +2258,771 @@
       "reason_text": "GetTop totalCount=1 for one seed phrase, but synonyms and commercial intent remain unknown. Full topic cannot be classified by the F1 volume thresholds.",
       "next_action": "Do not repeat this exact request in the current research wave; evaluate the original Q2 phrase and broader natural professional synonyms after first cross-sector sweep. For missing count use a DIFFERENT phrase before considering same-phrase requery.",
       "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O02.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O02.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O02.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O02.1-Q1"
+      ],
+      "intent_status": "HIGH_SPECIFICITY_PROFESSIONAL_QUERY",
+      "intent_reason": "Provider result is {}, so numeric frequency is not available, not zero.",
+      "cluster_scope_description": "Генератор профессиональных карточек для логопеда",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": null,
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 2990,
+      "price_high": 4990,
+      "price_rationale": "F1 individual_professional heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 19698.368728839636,
+      "Q_min_favorable_at_price_high": 1666.0158792138488,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "MISSING_NUMERIC_TOTAL_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Missing totalCount in successful response. Provider result is {}, so numeric frequency is not available, not zero. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O03.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O03.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O03.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O03.1-Q1"
+      ],
+      "intent_status": "MIXED_CONSUMER_OR_CLINIC",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Напоминания о повторных визитах питомцев",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "4",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=4.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O05.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O05.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O05.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O05.1-Q1"
+      ],
+      "intent_status": "MIXED_STANDARDS_TEMPLATES_BIM",
+      "intent_reason": "Subqueries mention ГОСТ, Revit, Archicad, tables; may not reflect purchase of an independent design tool.",
+      "cluster_scope_description": "Ведомость материалов отделки и комплектация объекта",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "680",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=680. Subqueries mention ГОСТ, Revit, Archicad, tables; may not reflect purchase of an independent design tool. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O07.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O07.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O07.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O07.1-Q1"
+      ],
+      "intent_status": "MIXED_CONSUMER_FREE_CALCULATOR",
+      "intent_reason": "DIY consumer intent likely; do not attribute broad search to professional paid product.",
+      "cluster_scope_description": "Калькулятор материалов для плиточника/домашнего ремонта",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "31",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 990,
+      "price_high": 1490,
+      "price_rationale": "F1 personal_one_off heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": 7386.035776110792,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=31. DIY consumer intent likely; do not attribute broad search to professional paid product. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O08.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O08.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O08.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O08.1-Q1"
+      ],
+      "intent_status": "MIXED_SERVICE_QUOTE_OR_SOFTWARE",
+      "intent_reason": "Subqueries include service price calculation and 5 mentions of a free software tool; no evidence of paid demand.",
+      "cluster_scope_description": "Калькулятор стоимости лазерной резки для небольшой мастерской",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "92",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=92. Subqueries include service price calculation and 5 mentions of a free software tool; no evidence of paid demand. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O10.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O10.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O10.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O10.1-Q1"
+      ],
+      "intent_status": "MIXED_DOCUMENT_TEMPLATE",
+      "intent_reason": "Top subqueries are technical-assignment examples, not necessarily a production-management software need.",
+      "cluster_scope_description": "Производственное задание на пошив небольшого цеха",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "802",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=802. Top subqueries are technical-assignment examples, not necessarily a production-management software need. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O11.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O11.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O11.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O11.1-Q1"
+      ],
+      "intent_status": "POSSIBLE_PROFESSIONAL_WITH_FREE_TOOLS",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Автоматическая проверка PDF перед печатью",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "1",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 2990,
+      "price_high": 4990,
+      "price_rationale": "F1 individual_professional heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 19698.368728839636,
+      "Q_min_favorable_at_price_high": 1666.0158792138488,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=1.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O15.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O15.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O15.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O15.1-Q1"
+      ],
+      "intent_status": "POSSIBLE_PROFESSIONAL_UNVALIDATED",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Расчёт рентабельности отдельного рейса перевозчика",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "1",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=1.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O17.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O17.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O17.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O17.1-Q1"
+      ],
+      "intent_status": "MIXED_PRODUCT_OR_WAREHOUSE",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Контроль комплектности заказов склада",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "91",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=91.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O19.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O19.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O19.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O19.1-Q1"
+      ],
+      "intent_status": "PROFESSIONAL_NARROW",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Калькулятор себестоимости букета",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "2",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 2990,
+      "price_high": 4990,
+      "price_rationale": "F1 individual_professional heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 19698.368728839636,
+      "Q_min_favorable_at_price_high": 1666.0158792138488,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=2.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O21.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O21.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O21.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O21.1-Q1"
+      ],
+      "intent_status": "MIXED_HOBBY_OR_PROFESSIONAL",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Учёт пасеки для пчеловода",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "2",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 2990,
+      "price_high": 4990,
+      "price_rationale": "F1 individual_professional heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 19698.368728839636,
+      "Q_min_favorable_at_price_high": 1666.0158792138488,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=2.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O22.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O22.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O22.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O22.1-Q1"
+      ],
+      "intent_status": "MIXED_FREE_TABLE_OR_PRO_TOOL",
+      "intent_reason": "Related queries center on free tables and online calculators. Search volume is not a count of software purchasers.",
+      "cluster_scope_description": "Расчёт кубатуры пиломатериалов",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "1572",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 990,
+      "price_high": 1490,
+      "price_rationale": "F1 personal_one_off heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": 7386.035776110792,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=1572. Related queries center on free tables and online calculators. Search volume is not a count of software purchasers. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O23.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O23.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O23.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O23.1-Q1"
+      ],
+      "intent_status": "MIXED_CONSUMER_OR_KITCHEN",
+      "intent_reason": "No SERP, willingness to pay, or full buyer intent verification yet.",
+      "cluster_scope_description": "Пересчёт рецептур на порции",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": "35",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 2990,
+      "price_high": 4990,
+      "price_rationale": "F1 individual_professional heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 19698.368728839636,
+      "Q_min_favorable_at_price_high": 1666.0158792138488,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "FIRST_SEED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Raw seed totalCount=35.  Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O25.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O25.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O25.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O25.1-Q1"
+      ],
+      "intent_status": "PROFESSIONAL_QUERY_UNMEASURED",
+      "intent_reason": "Provider result is {}, so numeric frequency is not available, not zero.",
+      "cluster_scope_description": "Организация уборок объектов посуточной аренды",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": null,
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 small_team heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "MISSING_NUMERIC_TOTAL_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Missing totalCount in successful response. Provider result is {}, so numeric frequency is not available, not zero. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261031-O26.1-001",
+      "evaluated_at": "2026-10-31",
+      "filter_version": "F1.0",
+      "entity_id": "O26.1",
+      "entity_scope": "TOPIC_CLUSTER_PRELIMINARY_INCOMPLETE",
+      "query_ids": [
+        "O26.1-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-002-O26.1-Q1"
+      ],
+      "intent_status": "PROFESSIONAL_QUERY_UNMEASURED",
+      "intent_reason": "Provider result is {}, so numeric frequency is not available, not zero.",
+      "cluster_scope_description": "Запись участников на экскурсии",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Only one seed observed; broad result may have noncommercial intent, unobserved natural synonyms cannot be bounded. Do not treat seed totalCount as full topic Q.",
+      "measured_seed_totalCount": null,
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 2990,
+      "price_high": 4990,
+      "price_rationale": "F1 individual_professional heuristic based on role and possible scope, not verified market price or willingness to pay; never increased post hoc to rescue a topic.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 19698.368728839636,
+      "Q_min_favorable_at_price_high": 1666.0158792138488,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NO_CLUSTER_SCOPE",
+      "decision": "CLARIFY",
+      "reason_code": "MISSING_NUMERIC_TOTAL_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Missing totalCount in successful response. Provider result is {}, so numeric frequency is not available, not zero. Further natural formulations, overlap and paid-use intent needed before F1 pass/reject.",
+      "next_action": "Do not repeat this executed query in the current research wave. Cover remaining 15 directions with original Q1 terms, then evaluate original Q2 and natural synonyms for this cluster. Examine SERP/free alternatives for high-volume mixed intent.",
+      "supersedes": null
     }
   ],
   "reuse_events": [],
@@ -1675,6 +3221,201 @@
       "reason": "Numeric frequency measured for one original phrase; topical paid-search relevance and full cluster need follow-up.",
       "decided_at": "2026-10-31",
       "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O02.1-Q1-001",
+      "query_id": "O02.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O02.1-Q1"
+      ],
+      "intent_status": "HIGH_SPECIFICITY_PROFESSIONAL_QUERY",
+      "topic_evaluation_id": "F1-EVAL-20261031-O02.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Provider call succeeded but numeric totalCount missing. Must not record 0.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O03.1-Q1-001",
+      "query_id": "O03.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O03.1-Q1"
+      ],
+      "intent_status": "MIXED_CONSUMER_OR_CLINIC",
+      "topic_evaluation_id": "F1-EVAL-20261031-O03.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O05.1-Q1-001",
+      "query_id": "O05.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O05.1-Q1"
+      ],
+      "intent_status": "MIXED_STANDARDS_TEMPLATES_BIM",
+      "topic_evaluation_id": "F1-EVAL-20261031-O05.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O07.1-Q1-001",
+      "query_id": "O07.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O07.1-Q1"
+      ],
+      "intent_status": "MIXED_CONSUMER_FREE_CALCULATOR",
+      "topic_evaluation_id": "F1-EVAL-20261031-O07.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O08.1-Q1-001",
+      "query_id": "O08.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O08.1-Q1"
+      ],
+      "intent_status": "MIXED_SERVICE_QUOTE_OR_SOFTWARE",
+      "topic_evaluation_id": "F1-EVAL-20261031-O08.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O10.1-Q1-001",
+      "query_id": "O10.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O10.1-Q1"
+      ],
+      "intent_status": "MIXED_DOCUMENT_TEMPLATE",
+      "topic_evaluation_id": "F1-EVAL-20261031-O10.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O11.1-Q1-001",
+      "query_id": "O11.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O11.1-Q1"
+      ],
+      "intent_status": "POSSIBLE_PROFESSIONAL_WITH_FREE_TOOLS",
+      "topic_evaluation_id": "F1-EVAL-20261031-O11.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O15.1-Q1-001",
+      "query_id": "O15.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O15.1-Q1"
+      ],
+      "intent_status": "POSSIBLE_PROFESSIONAL_UNVALIDATED",
+      "topic_evaluation_id": "F1-EVAL-20261031-O15.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O17.1-Q1-001",
+      "query_id": "O17.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O17.1-Q1"
+      ],
+      "intent_status": "MIXED_PRODUCT_OR_WAREHOUSE",
+      "topic_evaluation_id": "F1-EVAL-20261031-O17.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O19.1-Q1-001",
+      "query_id": "O19.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O19.1-Q1"
+      ],
+      "intent_status": "PROFESSIONAL_NARROW",
+      "topic_evaluation_id": "F1-EVAL-20261031-O19.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O21.1-Q1-001",
+      "query_id": "O21.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O21.1-Q1"
+      ],
+      "intent_status": "MIXED_HOBBY_OR_PROFESSIONAL",
+      "topic_evaluation_id": "F1-EVAL-20261031-O21.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O22.1-Q1-001",
+      "query_id": "O22.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O22.1-Q1"
+      ],
+      "intent_status": "MIXED_FREE_TABLE_OR_PRO_TOOL",
+      "topic_evaluation_id": "F1-EVAL-20261031-O22.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O23.1-Q1-001",
+      "query_id": "O23.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O23.1-Q1"
+      ],
+      "intent_status": "MIXED_CONSUMER_OR_KITCHEN",
+      "topic_evaluation_id": "F1-EVAL-20261031-O23.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw count measured for one seed; cannot establish paid-app audience or full cluster size.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O25.1-Q1-001",
+      "query_id": "O25.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O25.1-Q1"
+      ],
+      "intent_status": "PROFESSIONAL_QUERY_UNMEASURED",
+      "topic_evaluation_id": "F1-EVAL-20261031-O25.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Provider call succeeded but numeric totalCount missing. Must not record 0.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261031-O26.1-Q1-001",
+      "query_id": "O26.1-Q1",
+      "observation_ids": [
+        "OBS-F1-002-O26.1-Q1"
+      ],
+      "intent_status": "PROFESSIONAL_QUERY_UNMEASURED",
+      "topic_evaluation_id": "F1-EVAL-20261031-O26.1-001",
+      "query_disposition": "CLARIFY",
+      "reason": "Provider call succeeded but numeric totalCount missing. Must not record 0.",
+      "decided_at": "2026-10-31",
+      "supersedes": null
     }
   ],
   "schema_notes": {
@@ -1788,7 +3529,7 @@
     "clarify": 0,
     "seed_phrases_not_measured": 270
   },
-  "next_action": "All first pilot phrases have been attempted and recorded. Continue cross-sector coverage for other 30 directions using fresh Q1 phrases only; keep 15 topics at CLARIFY and do not requery these 15 without documented reason. Then expand natural professional wording to establish valid task-cluster demand.",
+  "next_action": "F1-002 confirmed: 15 new measurements, 30/270 total. Prepare F1-003 with first unmeasured Q1 from remaining 15 sectors. Preserve all counts, avoid repeats. Do not reject high-volume mixed-intent seeds as independent paid apps, and treat absent totalCount as unknown.",
   "batch_jobs": [
     {
       "job_id": "microproducts-f1-wave01-20261031",
@@ -1832,20 +3573,20 @@
     }
   ],
   "current_counts": {
-    "observations": 15,
-    "evaluated_topics": 15,
+    "observations": 30,
+    "evaluated_topics": 30,
     "pass": 0,
     "reject": 0,
-    "clarify": 15,
-    "seed_phrases_not_measured": 255,
-    "api_calls_successful": 15,
-    "api_calls_with_numeric_total": 11,
-    "api_calls_without_numeric_total": 4,
+    "clarify": 30,
+    "seed_phrases_not_measured": 240,
+    "api_calls_successful": 30,
+    "api_calls_with_numeric_total": 23,
+    "api_calls_without_numeric_total": 7,
     "cancelled_prior_batch_succeeded": 1,
     "cancelled_prior_batch_remaining": 14,
     "cancelled_prior_batch_pending": 0,
-    "manual_normal_calls": 14,
-    "estimated_total_cost_rub": 0.3
+    "manual_normal_calls": 29,
+    "estimated_total_cost_rub": 0.6
   },
   "manual_multi_command_runs": [
     {
@@ -1874,6 +3615,35 @@
       "measured_numeric_totalCount": 10,
       "successful_with_missing_numeric_totalCount": 4,
       "no_duplicate_of_previous": "O01.2-Q1 excluded; cancelled job not used after the earlier first item"
+    },
+    {
+      "run_id": "MANUAL-F1-002-15",
+      "source_file": "данные/2026-10-31/WORDSTAT_F1_002_MANUAL15_SOURCE.json",
+      "source_sha256": "726617a18b56ca503b6d4f1c5735915d36a6c32781a6f23d1933fcaed918cf43",
+      "status": "ALL_15_PROVIDER_CALLS_RETURNED_OK_HTTP_200",
+      "observed_date": "2026-10-31",
+      "count": 15,
+      "est_cost_rub": 0.3,
+      "verified_ids": [
+        "wordstat-eeab7a15-8401-4d21-b717-bf540ea4f509",
+        "wordstat-0b577825-9bb3-4ff9-a067-2eb75e941f2c",
+        "wordstat-51aab088-37c9-4d79-b870-a268a38c6b66",
+        "wordstat-4764c9cc-cd52-4aee-bb4e-fe5a07dd2ff3",
+        "wordstat-b13d0262-f23e-452b-9902-a2bb6b4743b6",
+        "wordstat-8bc0c637-2948-48d4-a54f-f4170d3403e5",
+        "wordstat-6ffdb5d8-e507-46c6-ad9a-75ed0e4300d7",
+        "wordstat-3da4714b-f639-4d07-b4be-f4d66ab2181e",
+        "wordstat-6cce454c-e690-400b-bc44-20e7b9b025b1",
+        "wordstat-89383b60-dcf9-4579-8455-50813a4a3062",
+        "wordstat-f19aca82-1e30-4871-9e83-dbd7133785b1",
+        "wordstat-e55d1ff3-2f1f-4de8-b58c-f3cbde38c882",
+        "wordstat-8ce621f6-5248-4a7f-b977-073b690fc8af",
+        "wordstat-e585ce0f-c98b-4e4d-a1ac-aba52ad6e32f",
+        "wordstat-377d6bf5-9b95-4c56-b446-0e9308c9a895"
+      ],
+      "numeric_totalCount": 12,
+      "missing_numeric_totalCount": 3,
+      "no_duplicate_of_previous": true
     }
   ]
 }
