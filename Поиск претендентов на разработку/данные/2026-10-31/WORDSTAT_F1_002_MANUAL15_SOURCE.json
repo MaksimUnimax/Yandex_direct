@@ -1,0 +1,1083 @@
+{
+  "evidence_type": "USER_PROVIDED_WORDSTAT_RESULT_V1_MULTICOMMAND",
+  "recorded_date": "2026-10-31",
+  "source": "User posted 15 WORDSTAT_RESULT_V1 envelopes in this ChatGPT conversation, following the pre-saved F1-002 command block.",
+  "caveats": [
+    "The original user delivery supplied no absolute per-request timestamp; record only 2026-10-31 without inventing a UTC time.",
+    "All statuses OK, HTTP 200, request_executed=true. Absent totalCount in {} is UNKNOWN, not a numeric zero.",
+    "The report preserves the provided top results/associations where reported. Results and associations for other queries were absent in user delivery, not proven empty.",
+    "Some reported association phrases are irrelevant to commercial product search and must not be counted as separate demand."
+  ],
+  "wave": "F1-002",
+  "command_source": "ПАРТИЯ_WORDSTAT_F1_002_2026-10-31.md",
+  "count": 15,
+  "estimated_cost_rub": 0.3,
+  "records": [
+    {
+      "query_id": "O02.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-eeab7a15-8401-4d21-b717-bf540ea4f509",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "генератор логопедических карточек",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 2798,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O03.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-0b577825-9bb3-4ff9-a067-2eb75e941f2c",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "напоминание о прививке питомцу",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1329,
+      "result": {
+        "totalCount": "4"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O05.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-51aab088-37c9-4d79-b870-a268a38c6b66",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "ведомость отделки помещений",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1067,
+      "result": {
+        "totalCount": "680",
+        "results": [
+          {
+            "phrase": "ведомость отделки помещений",
+            "count": "652"
+          },
+          {
+            "phrase": "ведомость отделки помещений гост",
+            "count": "166"
+          },
+          {
+            "phrase": "ведомость отделки помещений ревит",
+            "count": "67"
+          },
+          {
+            "phrase": "ведомость отделки помещений таблица",
+            "count": "45"
+          },
+          {
+            "phrase": "ведомость отделки помещений в ревите",
+            "count": "33"
+          },
+          {
+            "phrase": "ведомость отделки помещений архикад",
+            "count": "22"
+          },
+          {
+            "phrase": "ведомость внутренней отделки помещений",
+            "count": "18"
+          },
+          {
+            "phrase": "ведомость отделки помещений гост размеры",
+            "count": "17"
+          },
+          {
+            "phrase": "ведомость отделки помещений гост таблица",
+            "count": "15"
+          },
+          {
+            "phrase": "ведомость внутренней отделки помещений гост",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "стен ли",
+            "count": "302479"
+          },
+          {
+            "phrase": "пока все дома",
+            "count": "40067"
+          },
+          {
+            "phrase": "строй это",
+            "count": "128014"
+          },
+          {
+            "phrase": "сопоставьте вид промо с местом выкладки",
+            "count": "4157"
+          },
+          {
+            "phrase": "площадь поверхности сферы",
+            "count": "6969"
+          },
+          {
+            "phrase": "просто ремонт",
+            "count": "13940"
+          },
+          {
+            "phrase": "облицовка дома варианты",
+            "count": "2332"
+          },
+          {
+            "phrase": "не все дома",
+            "count": "171489"
+          },
+          {
+            "phrase": "общая площадь здания это",
+            "count": "824"
+          },
+          {
+            "phrase": "шпаклевка это",
+            "count": "4484"
+          },
+          {
+            "phrase": "пос это в строительстве",
+            "count": "1078"
+          },
+          {
+            "phrase": "рабочий по комплексному обслуживанию и ремонту зданий",
+            "count": "10210"
+          },
+          {
+            "phrase": "приступить к делу",
+            "count": "5267"
+          },
+          {
+            "phrase": "стационарные торговые объекты должны быть оборудованы",
+            "count": "832"
+          },
+          {
+            "phrase": "как должен выглядеть титульный лист проекта",
+            "count": "453"
+          },
+          {
+            "phrase": "как должен выглядеть титульный лист",
+            "count": "1963"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O07.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-4764c9cc-cd52-4aee-bb4e-fe5a07dd2ff3",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "расчет плитки по стенам",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 2233,
+      "result": {
+        "totalCount": "31"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O08.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-b13d0262-f23e-452b-9902-a2bb6b4743b6",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "расчет стоимости лазерной резки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 431,
+      "result": {
+        "totalCount": "92",
+        "results": [
+          {
+            "phrase": "расчет стоимости лазерной резки",
+            "count": "90"
+          },
+          {
+            "phrase": "расчет стоимости лазерной резки металла",
+            "count": "49"
+          },
+          {
+            "phrase": "расчет стоимости лазерной резки металла калькулятор",
+            "count": "26"
+          },
+          {
+            "phrase": "бесплатная программа для расчета стоимости лазерной резки",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "как определить цену деления",
+            "count": "26871"
+          },
+          {
+            "phrase": "калькулятор себестоимости",
+            "count": "3163"
+          },
+          {
+            "phrase": "калькулятор наценки",
+            "count": "1173"
+          },
+          {
+            "phrase": "калькулятор усреднения акций",
+            "count": "874"
+          },
+          {
+            "phrase": "рассчитать платную дорогу",
+            "count": "2236"
+          },
+          {
+            "phrase": "как посчитать рентабельность продаж",
+            "count": "385"
+          },
+          {
+            "phrase": "калькулятор скидок в процентах",
+            "count": "291"
+          },
+          {
+            "phrase": "как получить бесконечность в калькуляторе",
+            "count": "291"
+          },
+          {
+            "phrase": "калькулятор режимов резания",
+            "count": "766"
+          },
+          {
+            "phrase": "калькулятор индексации присужденных денежных сумм",
+            "count": "3672"
+          },
+          {
+            "phrase": "как определить цену деления в физике",
+            "count": "3265"
+          },
+          {
+            "phrase": "калькулятор усреднения позиции в акциях",
+            "count": "158"
+          },
+          {
+            "phrase": "как рассчитать рентабельность продаж",
+            "count": "303"
+          },
+          {
+            "phrase": "разработка грунта вручную расценка в смете",
+            "count": "581"
+          },
+          {
+            "phrase": "калькулятор платных дорог",
+            "count": "726"
+          },
+          {
+            "phrase": "сколько стоит создание и продвижение сайта цены",
+            "count": "16"
+          },
+          {
+            "phrase": "цена деления это в физике",
+            "count": "1872"
+          },
+          {
+            "phrase": "калькулятор раскроя",
+            "count": "3783"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O10.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-8bc0c637-2948-48d4-a54f-f4170d3403e5",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "задание на пошив",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 453,
+      "result": {
+        "totalCount": "802",
+        "results": [
+          {
+            "phrase": "техническое задание на пошив постельного белья",
+            "count": "12"
+          },
+          {
+            "phrase": "техническое задание на пошив одежды образец",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "непонятный мастер ателье",
+            "count": "2627"
+          },
+          {
+            "phrase": "мама сшила мне штаны",
+            "count": "7448"
+          },
+          {
+            "phrase": "ты пришла с занятий без трусиков",
+            "count": "560"
+          },
+          {
+            "phrase": "ателье настроение",
+            "count": "879"
+          },
+          {
+            "phrase": "трусы брифы что это такое простыми словами",
+            "count": "937"
+          },
+          {
+            "phrase": "трусы слипы что это такое простыми словами",
+            "count": "829"
+          },
+          {
+            "phrase": "как пользоваться швейной машинкой",
+            "count": "7607"
+          },
+          {
+            "phrase": "журнал я шью",
+            "count": "8490"
+          },
+          {
+            "phrase": "замена санитарной одежды должна производиться ответ гигтест",
+            "count": "189"
+          },
+          {
+            "phrase": "пододеяльник это",
+            "count": "2822"
+          },
+          {
+            "phrase": "я сошью себе рубаху",
+            "count": "3813"
+          },
+          {
+            "phrase": "запошивочный шов технология выполнения",
+            "count": "314"
+          },
+          {
+            "phrase": "там должны быть постели фильм 1975",
+            "count": "221"
+          },
+          {
+            "phrase": "сшитый полиэтилен что это такое простыми словами",
+            "count": "248"
+          },
+          {
+            "phrase": "шить не тужить часть 3",
+            "count": "437"
+          },
+          {
+            "phrase": "говорят одежду шьет занимается стряпней какой то",
+            "count": "437"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O11.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-6ffdb5d8-e507-46c6-ad9a-75ed0e4300d7",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка pdf перед печатью",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1062,
+      "result": {
+        "totalCount": "1"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O15.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-3da4714b-f639-4d07-b4be-f4d66ab2181e",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "расчет прибыльности рейса",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 415,
+      "result": {
+        "totalCount": "1"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O17.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-6cce454c-e690-400b-bc44-20e7b9b025b1",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка комплектации заказа",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 824,
+      "result": {
+        "totalCount": "91"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O19.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-89383b60-dcf9-4579-8455-50813a4a3062",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "калькулятор себестоимости букета",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1009,
+      "result": {
+        "totalCount": "2"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O21.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-f19aca82-1e30-4871-9e83-dbd7133785b1",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет пасеки приложение",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 361,
+      "result": {
+        "totalCount": "2"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O22.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e55d1ff3-2f1f-4de8-b58c-f3cbde38c882",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "кубатурник пиломатериалов",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1483,
+      "result": {
+        "totalCount": "1572",
+        "results": [
+          {
+            "phrase": "кубатурник пиломатериала",
+            "count": "1554"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6",
+            "count": "466"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6 метров",
+            "count": "458"
+          },
+          {
+            "phrase": "кубатурник пиломатериала таблица",
+            "count": "317"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6 метров таблица",
+            "count": "203"
+          },
+          {
+            "phrase": "кубатурник пиломатериала калькулятор",
+            "count": "199"
+          },
+          {
+            "phrase": "онлайн кубатурник пиломатериалов",
+            "count": "193"
+          },
+          {
+            "phrase": "кубатурник пиломатериала онлайн калькулятор",
+            "count": "154"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6 метров таблица обрезной",
+            "count": "136"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 4 метра",
+            "count": "109"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6 метров таблица обрезной доски",
+            "count": "88"
+          },
+          {
+            "phrase": "скачать кубатурник пиломатериала",
+            "count": "72"
+          },
+          {
+            "phrase": "кубатурник пиломатериала бруса",
+            "count": "67"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 3 метра",
+            "count": "45"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6 метров таблица и бруса",
+            "count": "43"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 4 метра таблица",
+            "count": "41"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 4 метра таблица доски",
+            "count": "35"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 6 метров калькулятор",
+            "count": "34"
+          },
+          {
+            "phrase": "кубатурник пиломатериала калькулятор досок",
+            "count": "29"
+          },
+          {
+            "phrase": "кубатурник пиломатериала скачать бесплатно",
+            "count": "28"
+          },
+          {
+            "phrase": "скачать кубатурник пиломатериала бесплатно на телефон",
+            "count": "16"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 3 метра доски",
+            "count": "15"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 4 метра таблица",
+            "count": "12"
+          },
+          {
+            "phrase": "кубатурник пиломатериала таблица по доскам",
+            "count": "12"
+          },
+          {
+            "phrase": "скачать кубатурник пиломатериала бесплатно на телефон андроид",
+            "count": "11"
+          },
+          {
+            "phrase": "кубатурник готового пиломатериала",
+            "count": "11"
+          },
+          {
+            "phrase": "кубатурник обрезного пиломатериала 6 метров коофицент",
+            "count": "7"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 4 метра бруса",
+            "count": "6"
+          },
+          {
+            "phrase": "кубатурник пиломатериала 4 метра доска обрезная",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "кубатура",
+            "count": "87564"
+          },
+          {
+            "phrase": "калькулятор кубатуры",
+            "count": "7499"
+          },
+          {
+            "phrase": "пилометр",
+            "count": "2750"
+          },
+          {
+            "phrase": "фанера это",
+            "count": "12906"
+          },
+          {
+            "phrase": "как посчитать кубатуру",
+            "count": "6418"
+          },
+          {
+            "phrase": "сколько бруса в кубе",
+            "count": "27162"
+          },
+          {
+            "phrase": "расчет кубатуры",
+            "count": "4188"
+          },
+          {
+            "phrase": "как посчитать кубатуру бетона",
+            "count": "1328"
+          },
+          {
+            "phrase": "калькулятор кубов доски",
+            "count": "5079"
+          },
+          {
+            "phrase": "кубатура это",
+            "count": "639"
+          },
+          {
+            "phrase": "листья деревьев",
+            "count": "418452"
+          },
+          {
+            "phrase": "калькулятор древесины",
+            "count": "1258"
+          },
+          {
+            "phrase": "плотность древесины",
+            "count": "6515"
+          },
+          {
+            "phrase": "куб доски это сколько штук таблица",
+            "count": "186"
+          },
+          {
+            "phrase": "количество досок в кубе таблица",
+            "count": "738"
+          },
+          {
+            "phrase": "кубатура доски",
+            "count": "6341"
+          },
+          {
+            "phrase": "калькулятор кубатуры доски",
+            "count": "1856"
+          },
+          {
+            "phrase": "таблица кубатуры досок",
+            "count": "1156"
+          },
+          {
+            "phrase": "куб доски это сколько",
+            "count": "3316"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O23.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-8ce621f6-5248-4a7f-b977-073b690fc8af",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "пересчет рецептуры на порции",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 418,
+      "result": {
+        "totalCount": "35"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O25.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e585ce0f-c98b-4e4d-a1ac-aba52ad6e32f",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "график уборок квартир посуточно",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 797,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O26.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-377d6bf5-9b95-4c56-b446-0e9308c9a895",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет записей на экскурсию",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 410,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  ]
+}
