@@ -1,0 +1,1137 @@
+{
+  "evidence_type": "USER_PROVIDED_WORDSTAT_RESULT_V1_MULTICOMMAND",
+  "recorded_date": "2026-10-31",
+  "source": "User posted 15 separate WORDSTAT_RESULT_V1 envelopes after executing pre-saved F1-003 Manual command block in ChatGPT. The fields including available nested results and associations are transcribed into this JSON.",
+  "caveats": [
+    "No individual absolute timestamps in delivered responses; use date only.",
+    "All 15 returned status OK, HTTP 200, request_executed true.",
+    "Absent totalCount in result={} is UNKNOWN, never automatically zero.",
+    "Only six supplied associated result arrays; absence of arrays in other envelopes is not proof the provider returned zero matches.",
+    "Nested results may be included in totalCount, associations are not disjoint search totals and contain irrelevant queries. Do not sum them.",
+    "No credentials or private customer records are included."
+  ],
+  "wave": "F1-003",
+  "command_source": "ПАРТИЯ_WORDSTAT_F1_003_2026-10-31.md",
+  "count": 15,
+  "estimated_cost_rub": 0.3,
+  "records": [
+    {
+      "query_id": "O28.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-70aef55d-f0a7-4f9b-8954-6d3357553f80",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет абонементов тренера",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 2218,
+      "result": {
+        "totalCount": "20"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O29.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-92f9ecfc-91a8-4f16-a378-cb2349411e99",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "карта окрашивания клиента",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 717,
+      "result": {
+        "totalCount": "27"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O30.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e4f0ff9d-a06d-42f0-8e36-29418e54e435",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет запчастей под ремонт",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 377,
+      "result": {
+        "totalCount": "9"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O31.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-b0c76a1b-375f-48d0-8d08-9874b8f267ef",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "отчет риэлтора собственнику",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1013,
+      "result": {
+        "totalCount": "4"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O32.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-d5c4b3f6-0fdb-48b1-896b-a25ddf935bcc",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "журнал обслуживания котельной",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 430,
+      "result": {
+        "totalCount": "104",
+        "results": [
+          {
+            "phrase": "журнал технического обслуживания котельной",
+            "count": "78"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "том хоппер",
+            "count": "3180"
+          },
+          {
+            "phrase": "кот том",
+            "count": "151663"
+          },
+          {
+            "phrase": "итп это в теплоснабжении",
+            "count": "629"
+          },
+          {
+            "phrase": "сервисный инженер",
+            "count": "6479"
+          },
+          {
+            "phrase": "зеленогорский техникум промышленных технологий и сервиса",
+            "count": "1282"
+          },
+          {
+            "phrase": "бывает и хуже том 7",
+            "count": "319"
+          },
+          {
+            "phrase": "неучтенный элемент том 7",
+            "count": "344"
+          },
+          {
+            "phrase": "то вдго расшифровка",
+            "count": "540"
+          },
+          {
+            "phrase": "техникум автосервис",
+            "count": "1956"
+          },
+          {
+            "phrase": "то газового оборудования",
+            "count": "10834"
+          },
+          {
+            "phrase": "сп тепловые пункты",
+            "count": "1992"
+          },
+          {
+            "phrase": "котельный сервис",
+            "count": "1754"
+          },
+          {
+            "phrase": "неучтенный элемент том 3",
+            "count": "399"
+          },
+          {
+            "phrase": "тт сервис",
+            "count": "1420"
+          },
+          {
+            "phrase": "цтп что это в отоплении",
+            "count": "146"
+          },
+          {
+            "phrase": "сто кормов",
+            "count": "1015"
+          },
+          {
+            "phrase": "мастер по ремонту газовых котлов",
+            "count": "2112"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O33.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-8ce63e95-eef2-4541-8e0a-97104902c3f2",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "журнал отбора проб",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 464,
+      "result": {
+        "totalCount": "786",
+        "results": [
+          {
+            "phrase": "журнал отбора проб",
+            "count": "751"
+          },
+          {
+            "phrase": "журнал отбора суточных проб",
+            "count": "217"
+          },
+          {
+            "phrase": "журнал отбора проб на пищеблоке",
+            "count": "163"
+          },
+          {
+            "phrase": "журнал отбора и хранения суточных проб",
+            "count": "79"
+          },
+          {
+            "phrase": "журнал отбора проб на пищеблоке образец заполнения",
+            "count": "62"
+          },
+          {
+            "phrase": "скачать журнал отбора суточных проб",
+            "count": "28"
+          },
+          {
+            "phrase": "журнал отбора проб нефтепродуктов",
+            "count": "26"
+          },
+          {
+            "phrase": "журнал отбора проб на пищеблоке скачать",
+            "count": "24"
+          },
+          {
+            "phrase": "журнал регистрации отбора проб строительных материалов",
+            "count": "18"
+          },
+          {
+            "phrase": "журнал отбора калибровочной пробы",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "завершить работу отправить на проверку",
+            "count": "1794"
+          },
+          {
+            "phrase": "результаты анализов",
+            "count": "438922"
+          },
+          {
+            "phrase": "проверьте себя проверочная работа no 1",
+            "count": "9003"
+          },
+          {
+            "phrase": "проверьте себя проверочная работа",
+            "count": "29352"
+          },
+          {
+            "phrase": "завершить тест",
+            "count": "13759"
+          },
+          {
+            "phrase": "много тестов",
+            "count": "17487"
+          },
+          {
+            "phrase": "выборка это",
+            "count": "17472"
+          },
+          {
+            "phrase": "виды тестирования",
+            "count": "10763"
+          },
+          {
+            "phrase": "завершить тестирование",
+            "count": "17620"
+          },
+          {
+            "phrase": "есть отличный проверенный способ для передачи мыслей",
+            "count": "687"
+          },
+          {
+            "phrase": "окончательный анализ",
+            "count": "9260"
+          },
+          {
+            "phrase": "коагулограмма что входит в этот анализ",
+            "count": "224"
+          },
+          {
+            "phrase": "углубленная диспансеризация что входит в обследование",
+            "count": "236"
+          },
+          {
+            "phrase": "эмпирическая база исследования это",
+            "count": "155"
+          },
+          {
+            "phrase": "квм анализы что это такое",
+            "count": "568"
+          },
+          {
+            "phrase": "ретроспективный анализ это",
+            "count": "709"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O35.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-ac102681-9300-415e-a501-bd66405b9930",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "составить опись документов дела",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 381,
+      "result": {
+        "totalCount": "194"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O36.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-350f84a0-38ab-4733-993b-9bfecf563cca",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "составить график смен",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1092,
+      "result": {
+        "totalCount": "2702",
+        "results": [
+          {
+            "phrase": "составить график смен",
+            "count": "2680"
+          },
+          {
+            "phrase": "составить график смен 2 2",
+            "count": "748"
+          },
+          {
+            "phrase": "составить график смен 3 3",
+            "count": "548"
+          },
+          {
+            "phrase": "составить график рабочих смен",
+            "count": "324"
+          },
+          {
+            "phrase": "составить график смен онлайн",
+            "count": "271"
+          },
+          {
+            "phrase": "составить график смен на 3 человека",
+            "count": "249"
+          },
+          {
+            "phrase": "составить график смен 1 3",
+            "count": "128"
+          },
+          {
+            "phrase": "составить график смен на 4 человека",
+            "count": "113"
+          },
+          {
+            "phrase": "составить график смен на 1 человека",
+            "count": "57"
+          },
+          {
+            "phrase": "составить график смен онлайн таблицу",
+            "count": "16"
+          },
+          {
+            "phrase": "как составить график смен в excel",
+            "count": "16"
+          },
+          {
+            "phrase": "составить график смен онлайн на 4 человека",
+            "count": "15"
+          },
+          {
+            "phrase": "должен ли старший воспитатель составлять график смен",
+            "count": "6"
+          },
+          {
+            "phrase": "как составить график смен на ноутбуке hp",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "во сколько меняют паспорт",
+            "count": "46877"
+          },
+          {
+            "phrase": "времена меняются приходят новые поколения",
+            "count": "4381"
+          },
+          {
+            "phrase": "изложение времена меняются приходят новые поколения",
+            "count": "2804"
+          },
+          {
+            "phrase": "во сколько меняется паспорт",
+            "count": "3582"
+          },
+          {
+            "phrase": "день прошел число сменилось ничего не изменилось",
+            "count": "1066"
+          },
+          {
+            "phrase": "со скольки лет можно поменять имя",
+            "count": "526"
+          },
+          {
+            "phrase": "расписание занятий составляется с учетом",
+            "count": "448"
+          },
+          {
+            "phrase": "как поменять время на компьютере",
+            "count": "1565"
+          },
+          {
+            "phrase": "как настроить время на часах",
+            "count": "18224"
+          },
+          {
+            "phrase": "во сколько лет можно поменять имя",
+            "count": "408"
+          },
+          {
+            "phrase": "права закончились в 2025 году когда менять",
+            "count": "1072"
+          },
+          {
+            "phrase": "как поменять время на пк",
+            "count": "792"
+          },
+          {
+            "phrase": "со скольки лет можно менять имя",
+            "count": "306"
+          },
+          {
+            "phrase": "времена меняются",
+            "count": "127655"
+          },
+          {
+            "phrase": "расписание занятий составляется с учетом гигтест",
+            "count": "269"
+          },
+          {
+            "phrase": "во сколько нужно менять паспорт",
+            "count": "1153"
+          },
+          {
+            "phrase": "как установить время",
+            "count": "79006"
+          },
+          {
+            "phrase": "как поменять время",
+            "count": "60990"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O37.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-abb68d60-fccb-460b-abde-077e931a7ca6",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет комиссий страхового агента",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1026,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O38.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-84d6c272-ea6c-4cd2-b3cf-da892e3c6ef3",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка utm меток",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1079,
+      "result": {
+        "totalCount": "11",
+        "results": [
+          {
+            "phrase": "проверка utm меток онлайн",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "nloto ru официальный сайт проверить билет",
+            "count": "4226"
+          },
+          {
+            "phrase": "контур диагностика для этп и госпорталов",
+            "count": "2592"
+          },
+          {
+            "phrase": "nloto ru проверить по qr коду",
+            "count": "831"
+          },
+          {
+            "phrase": "nloto ru проверить билет",
+            "count": "7017"
+          },
+          {
+            "phrase": "mygift ru проверить баланс",
+            "count": "1352"
+          },
+          {
+            "phrase": "проверить кбм водителя по базе рса",
+            "count": "928"
+          },
+          {
+            "phrase": "qms ru проверить скорость",
+            "count": "1132"
+          },
+          {
+            "phrase": "stoloto ru официальный сайт проверить билет",
+            "count": "699"
+          },
+          {
+            "phrase": "налог ру проверить контрагента",
+            "count": "3748"
+          },
+          {
+            "phrase": "nloto ru официальный сайт проверить",
+            "count": "5643"
+          },
+          {
+            "phrase": "центр независимой диагностики мцко официальный сайт",
+            "count": "128"
+          },
+          {
+            "phrase": "проверь себя и контрагента налоговая официальный сайт",
+            "count": "295"
+          },
+          {
+            "phrase": "контур диагностика для этп и гос порталов",
+            "count": "272"
+          },
+          {
+            "phrase": "нсис проверить кбм",
+            "count": "746"
+          },
+          {
+            "phrase": "проверь себя и контрагента nalog ru официальный",
+            "count": "1031"
+          },
+          {
+            "phrase": "аршин результаты поверки средств измерений официальный сайт",
+            "count": "781"
+          },
+          {
+            "phrase": "smlab ru проверить анализы",
+            "count": "1274"
+          },
+          {
+            "phrase": "реестр поверок средств измерений рф официальный сайт",
+            "count": "215"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O40.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-60b29805-599e-40c3-9f63-38311ca87d6d",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "отчет резервного копирования",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 827,
+      "result": {
+        "totalCount": "88"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O42.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e4cddbaa-fea4-4ca2-9749-169432c3c104",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "каталог частной коллекции",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1470,
+      "result": {
+        "totalCount": "49"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O43.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-a7d2094d-594c-4abf-97b0-4c05a5e6f579",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "расписание волонтеров",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1076,
+      "result": {
+        "totalCount": "154",
+        "results": [
+          {
+            "phrase": "смотреть расписание волонтера сериал",
+            "count": "6"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "судьба повсюду встретится сериал 2026",
+            "count": "467"
+          },
+          {
+            "phrase": "очарованные сериал дата выхода",
+            "count": "891"
+          },
+          {
+            "phrase": "программа передач фильмы и сериалы",
+            "count": "1924"
+          },
+          {
+            "phrase": "волонтерские часы",
+            "count": "13418"
+          },
+          {
+            "phrase": "тв программа фильмы и сериалы",
+            "count": "432"
+          },
+          {
+            "phrase": "что дают волонтерские часы",
+            "count": "526"
+          },
+          {
+            "phrase": "что посмотреть из сериалов 2026",
+            "count": "1199"
+          },
+          {
+            "phrase": "новое кино телепрограмма",
+            "count": "11116"
+          },
+          {
+            "phrase": "как посмотреть волонтерские часы на добро ру",
+            "count": "106"
+          },
+          {
+            "phrase": "плейлист волонтера 2 сезон дата выхода",
+            "count": "134"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O44.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-7624fc91-e101-4a21-bcba-3783c51900d0",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет металла ювелирная мастерская",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 895,
+      "result": {
+        "totalCount": "3"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O45.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-43cfad96-5227-4872-b4da-d73ed3b755b0",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "расписание кружков детей",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1075,
+      "result": {
+        "totalCount": "731",
+        "results": [
+          {
+            "phrase": "расписание кружков для ребенка",
+            "count": "295"
+          },
+          {
+            "phrase": "орел славица расписание и кружки для детей",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "развивашки для детей",
+            "count": "30394"
+          },
+          {
+            "phrase": "как научить ребенка кататься на велосипеде",
+            "count": "1034"
+          },
+          {
+            "phrase": "детское время",
+            "count": "110346"
+          },
+          {
+            "phrase": "детская школа искусств 1",
+            "count": "6395"
+          },
+          {
+            "phrase": "нурофен детский дозировка по возрасту",
+            "count": "1501"
+          },
+          {
+            "phrase": "центр детских инициатив в школе что это",
+            "count": "268"
+          },
+          {
+            "phrase": "детские секции",
+            "count": "22080"
+          },
+          {
+            "phrase": "детская афиша",
+            "count": "22257"
+          },
+          {
+            "phrase": "детская автошкола",
+            "count": "1200"
+          },
+          {
+            "phrase": "центр детских инициатив в школе",
+            "count": "1738"
+          },
+          {
+            "phrase": "песня не детское время детское слушать",
+            "count": "85"
+          },
+          {
+            "phrase": "детская школа",
+            "count": "346627"
+          },
+          {
+            "phrase": "детская хореография",
+            "count": "5177"
+          },
+          {
+            "phrase": "детские кружки",
+            "count": "48207"
+          },
+          {
+            "phrase": "детская школа искуств",
+            "count": "1248"
+          },
+          {
+            "phrase": "детская школа исскуств",
+            "count": "1100"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  ]
+}
