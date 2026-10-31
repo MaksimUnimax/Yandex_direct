@@ -1,0 +1,80 @@
+{
+  "filter_version": "F1.0",
+  "created_date": "2026-10-31",
+  "purpose": "First approximate demand screen; detailed feasibility, competencies and actual product costs follow later",
+  "status": "SCENARIO_ASSUMPTIONS_NOT_MEASURED_MARKET_DATA",
+  "currency": "RUB",
+  "target_geography": "Russia",
+  "channel": "Yandex Direct search",
+  "default_payment_mode": "one_time",
+  "instruction_file": "ПЕРВИЧНЫЙ_ФИЛЬТР_СПРОСА.md",
+  "prior_model_file": "МОДЕЛЬ_ОКУПАЕМОСТИ_2026-10-31.json",
+  "shared_assumptions": {
+    "H_monthly_reference_contribution": 8000,
+    "H_basis": "Prior hypothetical D=30000, T=6, F=3000; not actual cost estimates for any niche",
+    "a_search_impression_fraction": 0.5,
+    "CTR": 0.05,
+    "m_contribution_fraction_before_ads": 0.85,
+    "CPC_basis": "Effective comparable cost, including actually nonrecoverable taxes where applicable; do not add a tax twice"
+  },
+  "scenarios": {
+    "base": {"CPC": 60, "CR_new_paid_customer": 0.03},
+    "favorable": {"CPC": 20, "CR_new_paid_customer": 0.05},
+    "stress": {"CPC": 120, "CR_new_paid_customer": 0.02}
+  },
+  "price_hypothesis_bands": [
+    {"id":"personal_one_off", "P_low":990, "P_high":1490, "description":"Разовая бытовая или личная утилита"},
+    {"id":"individual_professional", "P_low":2990, "P_high":4990, "description":"Повторяющаяся операция индивидуального специалиста"},
+    {"id":"small_team", "P_low":4990, "P_high":9990, "description":"Инструмент небольшой команды или компании"},
+    {"id":"specialist_high_value", "P_low":9990, "P_high":19990, "description":"Специализированная функция с отдельно обоснованной высокой ценностью"}
+  ],
+  "price_band_policy": "Record a rationale before evaluation. Not market prices or willingness-to-pay facts. Do not increase the price solely to rescue a failing candidate. Unknown payment mode/price requires clarification.",
+  "formulas": {
+    "contribution_per_click": "CR*P*m-CPC",
+    "monthly_contribution_B": "Q*a*CTR*(CR*P*m-CPC)",
+    "Q_min": "H/(a*CTR*(CR*P*m-CPC))",
+    "Q_min_guard": "Undefined/infinite if contribution_per_click <= 0; do not divide or return a negative threshold",
+    "minimum_price_P_min": "(CPC+H/(Q*a*CTR))/(CR*m)",
+    "minimum_price_guard": "Q>0 and a, CTR, CR, m > 0",
+    "rounding": "Full precision for calculations; ceil final Q_min and displayed P_min in whole units",
+    "coverage_K": "Q_low/Q_min_base(P_low) when the base threshold is finite"
+  },
+  "thresholds_reference_only": [
+    {"P":990,"Q_min_favorable":14497,"Q_min_base":null,"Q_min_stress":null},
+    {"P":1490,"Q_min_favorable":7387,"Q_min_base":null,"Q_min_stress":null},
+    {"P":2990,"Q_min_favorable":2989,"Q_min_base":19699,"Q_min_stress":null},
+    {"P":4990,"Q_min_favorable":1667,"Q_min_base":4759,"Q_min_stress":null},
+    {"P":9990,"Q_min_favorable":791,"Q_min_base":1644,"Q_min_stress":6422},
+    {"P":19990,"Q_min_favorable":386,"Q_min_base":712,"Q_min_stress":1456}
+  ],
+  "threshold_null_meaning": "No positive contribution at this fixed price/scenario; not missing Wordstat data and not proof of absent demand",
+  "decision_rules": {
+    "NOT_MEASURED": "No actual response exists",
+    "CLARIFY_DATA": "A response exists but is incomplete, erroneous, not comparable, seasonal without a suitable time basis, or semantically ambiguous",
+    "REJECT_QUERY_IRRELEVANT": "Documented non-target intent for this phrase; does not reject the whole topic",
+    "CLARIFY_PRICE": "No justified price interval or unresolved subscription cash-flow model",
+    "PASS_TOPIC": "Relevant usable data and justified price interval; finite Q_min_base(P_low); Q_low >= exact Q_min_base(P_low)",
+    "REJECT_TOPIC_VOLUME": "Review of the declared cluster is complete, Q_high is justified, price interval justified; finite favorable threshold and Q_high < exact Q_min_favorable(P_high)",
+    "REJECT_REFERENCE_ECONOMICS": "Same data/scope safeguards as topic rejection; no positive contribution even under favorable scenario at P_high; reason is scenario economics, NOT absent demand",
+    "CLARIFY_OTHER": "All remaining cases, including passing only at the upper price or favorable acquisition assumptions",
+    "stress_role": "Sensitivity label only; no independent rejection gate"
+  },
+  "Q_bounds_policy": {
+    "unit": "Relevant monthly search events for one declared task cluster, not unique people",
+    "exact": "Q_low=Q_high=Q if a verified non-overlapping comparable total is available",
+    "unknown_overlap": "For a finite measured set of fully relevant compatible sets, max(Q_i) <= union <= sum(Q_i); sum is only an upper bound",
+    "scope": "Measured set bounds do not bound unseen synonyms or the whole market",
+    "topic_reject_requires": ["cluster_review_complete", "cluster_scope_description", "upper_bound_rationale"],
+    "null_vs_zero": "Missing/error is null; zero only if explicitly returned successfully"
+  },
+  "deduplication": {
+    "identity_fields": ["provider","method","query_exact","regions","devices","period_request","other_effective_parameters"],
+    "query_normalization": "Trim outer whitespace only by default; preserve word order and all operators",
+    "reuse_rule": "Reuse complete compatible saved observations within the research wave; record retrieved_at and effective period",
+    "allowed_requery_reasons": ["explicit_owner_request","new_period","changed_target_parameters","prior_error_or_incomplete","seasonal_check","documented_staleness"],
+    "not_a_requery_reason": ["new_price_hypothesis","new_filter_version","different_development_cost","same_response_delivered_again"],
+    "append_only": true
+  },
+  "owner_budget_authorization": false,
+  "measured_wordstat_requests_at_creation": 0
+}
