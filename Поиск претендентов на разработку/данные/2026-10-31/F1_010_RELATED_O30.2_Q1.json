@@ -1,1 +1,55 @@
-{"query_id":"O30.2-Q1","totalCount":"152","results":[],"associations":[],"status":"PENDING_ENRICHMENT"}
+{
+  "query_id": "O30.2-Q1",
+  "request_id": "wordstat-f2ef70ca-ac8d-4b48-a37e-a78bd3cce419",
+  "totalCount": "152",
+  "results": [
+    [
+      "калькулятор клининга",
+      141
+    ],
+    [
+      "калькулятор клининга онлайн",
+      45
+    ],
+    [
+      "расчет клининга на м2 калькулятор",
+      8
+    ],
+    [
+      "калькулятор клининга сп",
+      7
+    ],
+    [
+      "клининг квартиры онлайн калькулятор",
+      7
+    ]
+  ],
+  "results_status": "5_ROWS_RECOVERED",
+  "associations": [
+    [
+      "расчет утильсбора",
+      4638
+    ],
+    [
+      "калькуляция себестоимости",
+      4514
+    ],
+    [
+      "как рассчитать себестоимость",
+      3920
+    ],
+    [
+      "как посчитать наценку",
+      2010
+    ],
+    [
+      "сколько стоит помыть одно окно",
+      282
+    ]
+  ],
+  "associations_status": "PARTIAL_5_OF_19",
+  "associations_total_reported": 19,
+  "associations_missing": 14,
+  "provenance": "The previous user-delivered Wordstat response retrieved only as partial prior-chat excerpts; values matched to staged provider request ID",
+  "warning": "Missing rows unknown, not zero; related rows and associations never add to parent totalCount"
+}

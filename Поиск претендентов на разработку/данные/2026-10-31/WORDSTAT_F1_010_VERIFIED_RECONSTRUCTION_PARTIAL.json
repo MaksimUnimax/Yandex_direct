@@ -1,0 +1,722 @@
+{
+  "evidence_type": "RECONSTRUCTED_FROM_PARTIAL_HISTORICAL_USER_RESULT_NOT_ORIGINAL_RAW_DUMP",
+  "wave": "F1-010",
+  "recorded_date": "2026-10-31",
+  "status": "ALL_15_PROVIDER_CALLS_CONFIRMED_OK_HTTP_200_BUT_ARCHIVE_PARTIAL",
+  "summary": {
+    "requests": 15,
+    "with_numeric_totalCount": 10,
+    "without_numeric_totalCount": 5,
+    "estimated_cost_rub": 0.3,
+    "actual_charge_unknown": true
+  },
+  "input_provenance": {
+    "compact_first_12": "данные/2026-10-31/WORDSTAT_F1_010_MANUAL15_SOURCE.json",
+    "compact_last_3": "данные/2026-10-31/WORDSTAT_F1_010_TAIL3.json",
+    "related_sport": "данные/2026-10-31/F1_010_RELATED_O28.3_Q1.json",
+    "related_ppe": "данные/2026-10-31/F1_010_RELATED_O36.2_Q1.json",
+    "cleaning_partial": "Previously delivered user Wordstat message, five related phrases and five of nineteen associated phrases available in prior-chat context",
+    "method_details": "Original batch command card and preserved status file establish getTop, Russia 225, all devices, numPhrases 50, Manual, bridge v0.1.14"
+  },
+  "limitations": [
+    "No full verbatim original envelopes",
+    "Unknown unsaved nested rows must not be treated as empty",
+    "Cleaning: 14 of 19 reported association rows missing",
+    "PPE: all 20 reported association rows missing",
+    "Other source-related arrays not confirmed complete",
+    "No repeat paid Wordstat requests were executed",
+    "Related/association counts do not add to totalCount"
+  ],
+  "records": [
+    {
+      "query_id": "O22.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-7443b41f-d5b7-4efd-8a20-64dca55a6343",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 1087,
+      "command": {
+        "method": "getTop",
+        "phrase": "учет работ по озеленению",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "12"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O28.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-162a0f12-e0d1-45c1-8c53-52e85f13f6ec",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 1050,
+      "command": {
+        "method": "getTop",
+        "phrase": "учет спортивного инвентаря",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "398"
+      },
+      "related_known": {
+        "results": [
+          [
+            "журнал учета спортивного инвентаря",
+            37
+          ],
+          [
+            "спортивный инвентарь счет учета",
+            17
+          ]
+        ],
+        "associations": [
+          [
+            "спорт вокруг фигурное катание",
+            2378
+          ],
+          [
+            "спорт ру фигурное катание",
+            9164
+          ],
+          [
+            "спортинвентарь",
+            26217
+          ],
+          [
+            "sports ru фигурное катание",
+            4724
+          ],
+          [
+            "спортинвентарь как пишется",
+            917
+          ],
+          [
+            "спорт вокруг художественная гимнастика соревнования",
+            1300
+          ],
+          [
+            "газета ру спорт",
+            1255
+          ],
+          [
+            "спорт фигурное катание",
+            54535
+          ],
+          [
+            "спорт экспресс газета свежий",
+            22543
+          ],
+          [
+            "спорт школа рф",
+            1415
+          ],
+          [
+            "спорт вокруг фигурное катание соревнования 2026",
+            160
+          ],
+          [
+            "газета спорт",
+            67156
+          ],
+          [
+            "академия спорта фигурное катание",
+            1355
+          ],
+          [
+            "технология спорта конный магазин",
+            642
+          ],
+          [
+            "виды спорта с мячом",
+            12768
+          ]
+        ],
+        "results_status": "PRESERVED_GITHUB_FRAGMENT",
+        "associations_status": "PRESERVED_GITHUB_FRAGMENT"
+      },
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O29.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-ff1b60cb-a9d0-46ae-84c4-c464d4e21c9b",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 961,
+      "command": {
+        "method": "getTop",
+        "phrase": "бот свободные окна записи",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "11"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O30.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-f2ef70ca-ac8d-4b48-a37e-a78bd3cce419",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 1025,
+      "command": {
+        "method": "getTop",
+        "phrase": "калькулятор клининга",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "152"
+      },
+      "related_known": {
+        "results": [
+          [
+            "калькулятор клининга",
+            141
+          ],
+          [
+            "калькулятор клининга онлайн",
+            45
+          ],
+          [
+            "расчет клининга на м2 калькулятор",
+            8
+          ],
+          [
+            "калькулятор клининга сп",
+            7
+          ],
+          [
+            "клининг квартиры онлайн калькулятор",
+            7
+          ]
+        ],
+        "associations": [
+          [
+            "расчет утильсбора",
+            4638
+          ],
+          [
+            "калькуляция себестоимости",
+            4514
+          ],
+          [
+            "как рассчитать себестоимость",
+            3920
+          ],
+          [
+            "как посчитать наценку",
+            2010
+          ],
+          [
+            "сколько стоит помыть одно окно",
+            282
+          ]
+        ],
+        "results_status": "5_ROWS_RECOVERED",
+        "associations_status": "PARTIAL_5_OF_19",
+        "associations_total_reported": 19
+      },
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O31.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-82e4404c-8f63-41a4-969d-86b20702f1ed",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 333,
+      "command": {
+        "method": "getTop",
+        "phrase": "акт приема квартиры с фото",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "3"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O32.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e5b702f3-994d-4239-b021-db2b58fee35b",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 999,
+      "command": {
+        "method": "getTop",
+        "phrase": "учет обслуживания фильтров",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "14"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O33.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-3db96196-62a5-45cc-ba9e-fa0cb0462fc3",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 342,
+      "command": {
+        "method": "getTop",
+        "phrase": "программа весовая брутто тара нетто",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {},
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O34.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-c40acd90-b4ab-479f-a8f8-40460396c7fb",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 329,
+      "command": {
+        "method": "getTop",
+        "phrase": "обработка данных прибора csv",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {},
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O35.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-63273aa0-aade-4348-a1a3-7403b910abba",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 326,
+      "command": {
+        "method": "getTop",
+        "phrase": "контроль недостающей первички",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {},
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O36.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-71ac707d-1dd8-4852-8e48-a0742c0ae618",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 385,
+      "command": {
+        "method": "getTop",
+        "phrase": "учет выдачи спецодежды",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "946"
+      },
+      "related_known": {
+        "results": [
+          [
+            "учет выдачи спецодежды",
+            937
+          ],
+          [
+            "ведомость учета выдачи спецодежды",
+            373
+          ],
+          [
+            "карточка учета выдачи спецодежды",
+            219
+          ],
+          [
+            "мб 7 ведомость учета выдачи спецодежды",
+            194
+          ],
+          [
+            "личная карточка учета выдачи спецодежды",
+            90
+          ],
+          [
+            "журнал учета выдачи спецодежды",
+            65
+          ],
+          [
+            "карточка учета выдачи спецодежды бланк скачать",
+            46
+          ],
+          [
+            "журнал учета выдачи спецодежды образец скачать бесплатно",
+            33
+          ],
+          [
+            "microsoft access учет выдачи спецодежды",
+            19
+          ],
+          [
+            "учет выдачи спецодежды в 1с 8.3",
+            19
+          ],
+          [
+            "электронная карточка учета выдачи спецодежды и сиз",
+            16
+          ],
+          [
+            "учет и выдача спецодежды на предприятии",
+            15
+          ],
+          [
+            "журнал учета выдачи спецодежды и сиз",
+            14
+          ],
+          [
+            "кто должен вести карточки учета выдачи спецодежды",
+            11
+          ],
+          [
+            "форма мб7 ведомость учета выдачи спецодежды",
+            7
+          ]
+        ],
+        "associations": null,
+        "results_status": "15_ROWS_PRESERVED",
+        "associations_status": "ALL_20_ROWS_UNAVAILABLE",
+        "associations_total_reported": 20
+      },
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O37.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-b46d74c6-0dad-4d4a-a8ee-4e5674dc8029",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 977,
+      "command": {
+        "method": "getTop",
+        "phrase": "платежный календарь из счетов",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "3"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O38.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-a6a29929-7478-4a5e-8ab4-a299b930cc79",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 327,
+      "command": {
+        "method": "getTop",
+        "phrase": "сверка лидов и продаж",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {},
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O39.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-aee07e43-5c3d-4c79-b691-6f9b8c7ce0be",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 327,
+      "command": {
+        "method": "getTop",
+        "phrase": "собрать правки по таймкодам",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {},
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O40.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-5ac5aaf4-730c-49b9-8a77-68acb3adbe8f",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 973,
+      "command": {
+        "method": "getTop",
+        "phrase": "контроль срока ssl сертификата",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "6"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    },
+    {
+      "query_id": "O41.1-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-318c8512-c363-4650-89f7-efe0522a0a89",
+      "response_status": "OK",
+      "http_status": 200,
+      "request_executed": true,
+      "elapsed_ms": 319,
+      "command": {
+        "method": "getTop",
+        "phrase": "тайминг мероприятия программа",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "cost_estimate_rub": 0.02,
+      "result": {
+        "totalCount": "25"
+      },
+      "related_known": null,
+      "full_original_envelope_available": false
+    }
+  ]
+}
