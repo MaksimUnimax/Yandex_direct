@@ -1,0 +1,942 @@
+{
+  "evidence_type": "USER_PROVIDED_WORDSTAT_RESULT_V1_MANUAL_MULTI_COMMAND",
+  "wave": "F1-015",
+  "received_date": "2026-11-01",
+  "execution_date": "NOT_EXPLICIT_IN_RESPONSE",
+  "provenance": "User-delivered 15 Wordstat result envelopes transcribed field-wise. This file reproduces all delivered response fields but not the raw byte layout of the chat message.",
+  "command_source": "ПАРТИЯ_WORDSTAT_F1_015_2026-11-01.md",
+  "count": 15,
+  "numeric_totalCount": 6,
+  "missing_numeric_totalCount": 9,
+  "estimated_cost_rub": 0.3,
+  "actual_debit_verified": false,
+  "notes": [
+    "A successful result={} means numeric totalCount was not returned; it is not zero.",
+    "Related results are nested/search-overlapping phrases, not independent traffic to add.",
+    "Associations are neither additional relevant traffic nor a buyer-demand count.",
+    "O05.2-Q1 totalCount 4278 primarily concerns official registers of project-documentation expert opinions; it does not establish the need for document revision/transfer management software.",
+    "O40.3-Q2 totalCount 130 combines technical cable marking, connector labels and general informational intent; it is not validated demand for cable-journal label software.",
+    "The date the user delivered the report is known; exact provider request timestamps and trailing-window endpoints were not supplied.",
+    "No product CPC, first purchase conversion, validated product price or direct costs were measured."
+  ],
+  "records": [
+    {
+      "query_id": "O03.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-525f6649-570e-497e-a1d2-35303d5c8034",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет мест в зоогостинице",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1737,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O05.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-29601873-b6dd-4eba-b996-a2545900d75f",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "реестр проектной документации",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1028,
+      "result": {
+        "totalCount": "4278",
+        "results": [
+          {
+            "phrase": "реестр проектной документации",
+            "count": "4213"
+          },
+          {
+            "phrase": "реестр экспертиз проектной документации",
+            "count": "2967"
+          },
+          {
+            "phrase": "реестр заключений экспертизы проектной документации",
+            "count": "2023"
+          },
+          {
+            "phrase": "реестр государственных экспертиз проектной документации",
+            "count": "1422"
+          },
+          {
+            "phrase": "реестр заключений государственной экспертизы проектной документации",
+            "count": "1259"
+          },
+          {
+            "phrase": "единый реестр экспертизы проектной документации",
+            "count": "1081"
+          },
+          {
+            "phrase": "единый реестр заключений экспертизы проектной документации",
+            "count": "988"
+          },
+          {
+            "phrase": "единый государственный реестр экспертизы проектной документации",
+            "count": "924"
+          },
+          {
+            "phrase": "единый государственный реестр заключений экспертизы проектной документации",
+            "count": "902"
+          },
+          {
+            "phrase": "реестр заключений на проектную документацию",
+            "count": "414"
+          },
+          {
+            "phrase": "реестр положительных заключений экспертизы проектной документации",
+            "count": "260"
+          },
+          {
+            "phrase": "реестр санитарно эпидемиологических заключений на проектную документацию",
+            "count": "239"
+          },
+          {
+            "phrase": "реестр негосударственных экспертиз проектной документации",
+            "count": "161"
+          },
+          {
+            "phrase": "реестр экспертов проектной документации минстрой",
+            "count": "143"
+          },
+          {
+            "phrase": "реестр аттестованных экспертов проектной документации минстрой",
+            "count": "126"
+          },
+          {
+            "phrase": "реестр типовой проектной документации",
+            "count": "108"
+          },
+          {
+            "phrase": "реестр егрз заключений экспертизы проектной документации",
+            "count": "71"
+          },
+          {
+            "phrase": "реестр изменений проектной документации",
+            "count": "65"
+          },
+          {
+            "phrase": "реестр проектной документации роспотребнадзор",
+            "count": "56"
+          },
+          {
+            "phrase": "реестр требований к проектной документации",
+            "count": "39"
+          },
+          {
+            "phrase": "реестр выданных заключений экспертизы проектной документации",
+            "count": "35"
+          },
+          {
+            "phrase": "реестр типовой проектной документации минстрой",
+            "count": "33"
+          },
+          {
+            "phrase": "реестр гос экспертизы проектной документации",
+            "count": "30"
+          },
+          {
+            "phrase": "реестр изменений внесенных в проектную документацию",
+            "count": "25"
+          },
+          {
+            "phrase": "реестр выданных заключений государственной экспертизы проектной документации",
+            "count": "25"
+          },
+          {
+            "phrase": "реестр выданных сэз на проектную документацию",
+            "count": "22"
+          },
+          {
+            "phrase": "реестр санэпидзаключений на проектную документацию",
+            "count": "21"
+          },
+          {
+            "phrase": "реестр заключений негосударственной экспертизы проектной документации",
+            "count": "20"
+          },
+          {
+            "phrase": "реестр заключений госэкспертизы проектной документации",
+            "count": "20"
+          },
+          {
+            "phrase": "минстрой рф реестр проектной документации",
+            "count": "19"
+          },
+          {
+            "phrase": "реестр положительных заключений государственной экспертизы проектной документации",
+            "count": "18"
+          },
+          {
+            "phrase": "реестр экономически эффективной проектной документации повторного использования",
+            "count": "18"
+          },
+          {
+            "phrase": "реестр замечаний к проектной документации",
+            "count": "16"
+          },
+          {
+            "phrase": "реестр экспертных заключений проектной документации",
+            "count": "13"
+          },
+          {
+            "phrase": "реестр проектной документации прошедшей экспертизу",
+            "count": "13"
+          },
+          {
+            "phrase": "реестр передачи проектной документации образец",
+            "count": "11"
+          },
+          {
+            "phrase": "реестр экспертов по негосударственной экспертизе проектной документации",
+            "count": "7"
+          },
+          {
+            "phrase": "оценка реестра требований проектной документации",
+            "count": "7"
+          },
+          {
+            "phrase": "реестр госэкспертиз проектной документации",
+            "count": "6"
+          },
+          {
+            "phrase": "реестр санэпидзаключений роспотребнадзора на проектную документацию",
+            "count": "6"
+          },
+          {
+            "phrase": "реестр санэпидзаключений на проектную документацию прто бс",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "проэкт или проект",
+            "count": "7052"
+          },
+          {
+            "phrase": "титульный лист проекта",
+            "count": "36015"
+          },
+          {
+            "phrase": "как оформить титульный лист проекта",
+            "count": "2659"
+          },
+          {
+            "phrase": "как оформить проект",
+            "count": "20033"
+          },
+          {
+            "phrase": "в каком документе содержатся образцы заданий",
+            "count": "221"
+          },
+          {
+            "phrase": "образец титульного листа проекта",
+            "count": "3685"
+          },
+          {
+            "phrase": "проект титульный лист",
+            "count": "36015"
+          },
+          {
+            "phrase": "егрн что это за документ",
+            "count": "1556"
+          },
+          {
+            "phrase": "перечень типовых управленческих архивных документов",
+            "count": "3887"
+          },
+          {
+            "phrase": "как должен выглядеть титульный лист проекта",
+            "count": "453"
+          },
+          {
+            "phrase": "как делать титульный лист для проекта",
+            "count": "454"
+          },
+          {
+            "phrase": "как выглядит титульный лист проекта",
+            "count": "1082"
+          },
+          {
+            "phrase": "журнал регистрации входящих документов",
+            "count": "1292"
+          },
+          {
+            "phrase": "как писать проект",
+            "count": "10516"
+          },
+          {
+            "phrase": "что такое паспорт проекта",
+            "count": "806"
+          },
+          {
+            "phrase": "паспорт проекта это",
+            "count": "1811"
+          },
+          {
+            "phrase": "что такое титульный лист в проекте",
+            "count": "191"
+          },
+          {
+            "phrase": "титульник проекта",
+            "count": "2050"
+          },
+          {
+            "phrase": "справочник проектировщика",
+            "count": "2178"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O12.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-2aedf64e-57b8-4e09-9737-ba3aa734ac90",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "карта осмотра автомобиля программа",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 321,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O17.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-228b3096-32dd-4bfc-ba70-783df338a5b9",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет упаковки товаров",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 320,
+      "result": {
+        "totalCount": "550"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O26.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-8f54971b-3994-4a40-ba33-ffac7cb3c172",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет проката сапов",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 968,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O39.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-a6d705f3-8525-46f4-b87d-0ebeb7a50ebd",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "таблица правок видеомонтажа",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 322,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O36.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-b20c71c0-5726-4267-b0f5-1a0307b345a5",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка пересечений смен",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 349,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O43.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-d98e759d-7903-440c-ab7e-e0bd08673689",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "распределение волонтерских смен",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 333,
+      "result": {
+        "totalCount": "15"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O34.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-973fdfca-051a-4a91-8b55-a3b004715053",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "график поверки приборов",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 320,
+      "result": {
+        "totalCount": "72"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O42.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-6b9e5a2b-2876-4404-b92d-435f7d2df97b",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет экспонатов малого музея",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 322,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O28.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-622b4a22-a4c4-4426-b3b7-6f7beb4a033e",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "остаток занятий в студии",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 969,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O37.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e7db4113-924a-4216-bb5e-c3d370f34ea6",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "сверка выплат страховой компании",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 964,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O19.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-23756fef-ec7b-4b47-97cb-62f1f3c23bd8",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "где дешевле закупка excel",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 975,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O30.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-1cbff7f9-ba21-4b11-9c24-093c65f3f90e",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "печать бирок химчистки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 967,
+      "result": {
+        "totalCount": "1"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O40.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-21cde1a3-e1d0-40eb-ae6a-2669722c8940",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "маркировка сетевых кабелей",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 389,
+      "result": {
+        "totalCount": "130",
+        "results": [
+          {
+            "phrase": "сетевой кабель маркировка",
+            "count": "127"
+          },
+          {
+            "phrase": "какую маркировку имеет разъем для сетевого кабеля",
+            "count": "30"
+          },
+          {
+            "phrase": "цветовая маркировка сетевого кабеля",
+            "count": "14"
+          },
+          {
+            "phrase": "маркировка сетевого кабеля для интернета",
+            "count": "9"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "ethernet что это",
+            "count": "3412"
+          },
+          {
+            "phrase": "что означает термин кабельная линия электропередачи",
+            "count": "582"
+          },
+          {
+            "phrase": "электрокабель",
+            "count": "23214"
+          },
+          {
+            "phrase": "патчкорд что это",
+            "count": "475"
+          },
+          {
+            "phrase": "обозначение фазы и нуля в электрике",
+            "count": "997"
+          },
+          {
+            "phrase": "интернет провод",
+            "count": "75864"
+          },
+          {
+            "phrase": "джиттер сети что это",
+            "count": "891"
+          },
+          {
+            "phrase": "ethernet это",
+            "count": "5539"
+          },
+          {
+            "phrase": "ктпн расшифровка аббревиатуры в электрике",
+            "count": "295"
+          },
+          {
+            "phrase": "провод электрический",
+            "count": "73488"
+          },
+          {
+            "phrase": "кабельный интернет",
+            "count": "17123"
+          },
+          {
+            "phrase": "синий провод это фаза или ноль",
+            "count": "416"
+          },
+          {
+            "phrase": "жгут проводов",
+            "count": "43788"
+          },
+          {
+            "phrase": "iot сеть что это",
+            "count": "313"
+          },
+          {
+            "phrase": "провод для интернета от роутера к компьютеру",
+            "count": "1335"
+          },
+          {
+            "phrase": "проводной интернет это",
+            "count": "3146"
+          },
+          {
+            "phrase": "джитер сети что это",
+            "count": "530"
+          },
+          {
+            "phrase": "джитер сети в кс2 что это",
+            "count": "338"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  ]
+}
